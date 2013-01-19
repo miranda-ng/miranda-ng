@@ -22,7 +22,7 @@ tstring DBGetContactSettingStringPAN(HANDLE hContact, char const * szModule, cha
 {
 	DBVARIANT dbv;
 	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
-	if(DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
+	if(db_get_s(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_TCHAR == dbv.type )
 		errorValue = dbv.ptszVal;
@@ -34,7 +34,7 @@ std::string DBGetContactSettingStringPAN_A(HANDLE hContact, char const * szModul
 {
 	DBVARIANT dbv;
 	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
-	if(DBGetContactSettingString(hContact, szModule, szSetting, &dbv))
+	if(db_get_s(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_ASCIIZ == dbv.type )
 		errorValue = dbv.pszVal;
@@ -52,14 +52,13 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 	s = buf;
 	delete []buf;
 	return s;
-}					
+}
 
 std::string &GetProtoList()
 {
 	static std::string s;
 	return s = DBGetContactSettingStringPAN_A(NULL, pluginName, "protoList", "ICQ\r\n");
 }
-
 
 bool ProtoInList(std::string proto)
 {
@@ -89,23 +88,23 @@ void DeleteCListGroupsByName(TCHAR* szGroupName)
 	TCHAR szValue[96] = {0};
 	char szNumber[32] = {0};
 	strcpy(szNumber, "0");
-	BYTE ConfirmDelete=DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
-	if(ConfirmDelete) 
-		DBWriteContactSettingByte(NULL, "CList", "ConfirmDelete",0);
+	BYTE ConfirmDelete=db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
+	if(ConfirmDelete)
+		db_set_b(NULL, "CList", "ConfirmDelete", 0);
 	while(strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0)
 	{
 		wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
 		if(wcscmp(szGroupName, szValue + 1) == 0)
-			CallService(MS_CLIST_GROUPDELETE,(WPARAM)(HANDLE)GroupNumber+1,0); // bug or ??? @_@
+			CallService(MS_CLIST_GROUPDELETE, (WPARAM)(HANDLE)GroupNumber+1, 0); // bug or ??? @_@
 		GroupNumber++;
 #if defined(_MSC_VER) && _MSC_VER >= 1300
 		_itoa_s(GroupNumber, szNumber, sizeof(szNumber), 10);
 #else
 		_itoa(GroupNumber, szNumber, 10);
-#endif		
+#endif
 	};
-	if(ConfirmDelete) 
-		DBWriteContactSettingByte(NULL, "CList", "ConfirmDelete",ConfirmDelete);
+	if(ConfirmDelete)
+		db_set_b(NULL, "CList", "ConfirmDelete", ConfirmDelete);
 }
 
 /*
@@ -135,7 +134,7 @@ void RemoveExcludedUsers()
 			std::string proto=DBGetContactSettingStringPAN_A(plist->hContact,"Protocol","p","");
 			UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
 			
-			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){ 
+			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
 				LogSpamToFile(plist->hContact, _T("Mark for delete"));
 				DBWriteContactSettingByte(plist->hContact,"CList","Delete", 1);
 			}else{
@@ -161,7 +160,7 @@ void RemoveTemporaryUsers()
 	if(hContact)
 	{
 		do{
-			if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)|| 
+			if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)||
 				(_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T("")))
 			)
 			{
@@ -186,7 +185,7 @@ void RemoveTemporaryUsers()
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)plist->hContact, 0);
 			};
 
-			tmp = plist; 
+			tmp = plist;
 			plist = plist->next;
 			delete tmp;
 		}
@@ -224,7 +223,7 @@ tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 
 // case-insensitive _tcscmp
 //by nullbie as i remember...
-#define NEWTSTR_MALLOC(A) (A==NULL)?NULL:_tcscpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(A)+1)),A)
+#define NEWTSTR_MALLOC(A) (A==NULL) ? NULL : _tcscpy((TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(A)+1)),A)
 const int Stricmp(const TCHAR *str, const TCHAR *substr)
 {
 	int i = 0;
@@ -239,20 +238,20 @@ const int Stricmp(const TCHAR *str, const TCHAR *substr)
 
 	mir_free(str_up);
 	mir_free(substr_up);
-	
+
 	return i;
 }
 
 TCHAR* ReqGetText(DBEVENTINFO* dbei)
 {
-	if ( !dbei->pBlob ) 
+	if ( !dbei->pBlob )
 		return 0;
 
 	char * ptr=(char *)&dbei->pBlob[sizeof(DWORD)*2];
-	int len=dbei->cbBlob-sizeof(DWORD)*2; 
+	int len=dbei->cbBlob-sizeof(DWORD)*2;
 	int i=0;
-		
-	while(len&&(i<4))
+
+	while(len && (i<4))
 	{
 		if(!ptr[0]) i++;
 		ptr++;
@@ -272,7 +271,6 @@ TCHAR* ReqGetText(DBEVENTINFO* dbei)
 	return 0;
 }
 
-
 BOOL IsUrlContains(TCHAR * Str)
 {
 	const int CountUrl=11;
@@ -289,11 +287,11 @@ BOOL IsUrlContains(TCHAR * Str)
 		_T(".su"),
 		_T(".ua"),
 		_T(".tv")
-	}; 
+	};
 
-	if(Str&&_tcslen(Str)>0) {
+	if(Str && _tcslen(Str)>0) {
 		TCHAR *StrLower = NEWTSTR_MALLOC(Str);
-		CharLowerBuff(StrLower, lstrlen(StrLower)); 
+		CharLowerBuff(StrLower, lstrlen(StrLower));
 		for (int i=0; i<CountUrl; i++)
 			if(_tcsstr (StrLower, URL[i]))
 			{
@@ -332,7 +330,7 @@ tstring GetContactUid(HANDLE hContact, tstring Protocol)
 #else
 		_itoa(ci.dVal,aUid,10);
 		
-#endif	
+#endif
 				OemToChar(aUid, dUid);
 				Uid=dUid;
 			break;
@@ -340,21 +338,19 @@ tstring GetContactUid(HANDLE hContact, tstring Protocol)
 				 Uid=_T("");
 			break;
 		};
-	} 
+	}
 	mir_free(szProto);
 	return Uid;
 }
 
-
 void LogSpamToFile(HANDLE hContact, tstring message)
 {
-	
 	if (!gbLogToFile) return;
 
 	tstring LogStrW, LogTime, LogProtocol, LogContactId, LogContactName;
 	std::string filename;
 	std::fstream file;
-	
+
 	UINT cbName=255;
 	char* pszName = (char *)mir_alloc(cbName);
 	extern HANDLE hStopSpamLogDirH;
@@ -372,15 +368,15 @@ void LogSpamToFile(HANDLE hContact, tstring message)
 	tm   *TimeNow;
 	time(&time_now);
 	TimeNow = localtime(&time_now);
-    LogTime=_wasctime( TimeNow ); 
+    LogTime=_wasctime( TimeNow );
 	// Time Log line
-	
+
 	// Name, UID and Protocol Log line
 	LogProtocol=DBGetContactSettingStringPAN(hContact,"Protocol","p",_T(""));
 	LogContactName=(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
 	LogContactId=(LogProtocol==_T(""))?_T(""):GetContactUid(hContact,LogProtocol);
 	// Name, UID  and Protocol Log line
-	
+
 	LogStrW=_T("[")+LogTime.substr(0,LogTime.length()-1)+_T("] ")+
 		LogContactId+_T(" - ")+
 		LogContactName+_T(" (")+
@@ -392,7 +388,6 @@ void LogSpamToFile(HANDLE hContact, tstring message)
 	mir_free(buf);
 
 	file.close();
-
 }
 
 boost::mutex clean_mutex;
@@ -412,14 +407,14 @@ void CleanProtocolTmpThread(std::string proto)
 		char *proto_tmp = GetContactProto(hContact);
 		if(proto_tmp)
 			if(!strcmp(proto.c_str(), proto_tmp))
-				if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
+				if(db_get_b(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
 					contacts.push_back(hContact);
 	}
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
 	std::list<HANDLE>::iterator end = contacts.end();
 	for(std::list<HANDLE>::iterator i = contacts.begin(); i != end; ++i)
-	{		
+	{
 		LogSpamToFile(*i, _T("Deleted"));
 		HistoryLogFunc(*i, "Deleted");
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
@@ -432,7 +427,7 @@ void CleanProtocolExclThread(std::string proto)
 	while(true)
 	{
 		UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
-		if(status > ID_STATUS_OFFLINE) 
+		if(status > ID_STATUS_OFFLINE)
 			break;
 		boost::this_thread::sleep(boost::posix_time::seconds(2));
 	}
@@ -442,21 +437,20 @@ void CleanProtocolExclThread(std::string proto)
 		char *proto_tmp = GetContactProto(hContact);
 		if(proto_tmp)
 			if(!strcmp(proto.c_str(), proto_tmp))
-				if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingByte(hContact, pluginName, "Excluded", 0))
+				if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
 					contacts.push_back(hContact);
 	}
 	boost::this_thread::sleep(boost::posix_time::seconds(5));
 	clean_mutex.lock();
 	std::list<HANDLE>::iterator end = contacts.end();
 	for(std::list<HANDLE>::iterator i = contacts.begin(); i != end; ++i)
-	{		
+	{
 		LogSpamToFile(*i, _T("Deleted"));
 		HistoryLogFunc(*i, "Deleted");
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)*i, 0);
 	}
 	clean_mutex.unlock();
 }
-
 
 void CleanThread()
 {
@@ -478,6 +472,7 @@ void CleanThread()
 			boost::thread *thr = new boost::thread(boost::bind(&CleanProtocolExclThread, *i));
 	}
 }
+
 void HistoryLog(HANDLE hContact, char *data, int event_type, int flags)
 {
 	DBEVENTINFO Event = {0};
@@ -490,6 +485,7 @@ void HistoryLog(HANDLE hContact, char *data, int event_type, int flags)
 	Event.pBlob = (PBYTE)_strdup(data);
 	CallService(MS_DB_EVENT_ADD, (WPARAM)(HANDLE)hContact,(LPARAM)&Event);
 }
+
 void HistoryLogFunc(HANDLE hContact, std::string message)
 {
 	if(gbHistoryLog)
@@ -523,7 +519,6 @@ std::string toUTF8(std::string str)
 	return toUTF8(toUTF16(str));
 }
 
-
 std::wstring toUTF16(std::string str) //convert as much as possible
 {
 	std::wstring ustr;
@@ -545,7 +540,7 @@ std::string get_random_num(int length)
 	std::string data;
 	boost::random_device rng;
 	boost::variate_generator<boost::random_device&, boost::uniform_int<>> gen(rng, boost::uniform_int<>(0, chars.length()-1));
-	for(int i = 0; i < length; ++i) 
+	for(int i = 0; i < length; ++i)
 		data += chars[gen()];
 	return data;
 }

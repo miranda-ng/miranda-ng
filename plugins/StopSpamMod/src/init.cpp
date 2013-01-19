@@ -40,9 +40,9 @@ BOOL gbRegexMatch = 0;
 BOOL gbInvisDisable = 0;
 BOOL gbIgnoreURL = 1;
 BOOL gbLogToFile=0;
-BOOL gbAutoAuth=0; 
-BOOL gbAutoAddToServerList=0; 
-BOOL gbAutoReqAuth=1; 
+BOOL gbAutoAuth=0;
+BOOL gbAutoAddToServerList=0;
+BOOL gbAutoReqAuth=1;
 BOOL gbMathExpression = 0;
 
 HANDLE hStopSpamLogDirH=0;
@@ -75,7 +75,7 @@ PLUGININFOEX pluginInfoEx = {
 	"sss123next@list.ru",
 	"© 2004-2012 Roman Miklashevsky, A. Petkevich, Kosh&chka, sss, Elzor",
 	"http://sss.chaoslab.ru/tracker/mim_plugs/",
-	UNICODE_AWARE,	
+	UNICODE_AWARE,
 	MIID_STOPSPAM
 };
 
@@ -88,35 +88,35 @@ extern tstring DBGetContactSettingStringPAN(HANDLE hContact, char const * szModu
 
 void InitVars()
 {
-	gbDosServiceIntegration = DBGetContactSettingByte(NULL, pluginName, "DOSIntegration", 0);
+	gbDosServiceIntegration = db_get_b(NULL, pluginName, "DOSIntegration", 0);
 	gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("Spammers"));
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
-	gbInfTalkProtection = DBGetContactSettingByte(NULL, pluginName, "infTalkProtection", 0);
-	gbAddPermanent = DBGetContactSettingByte(NULL, pluginName, "addPermanent", 0);
-	gbMaxQuestCount = DBGetContactSettingDword(NULL, pluginName, "maxQuestCount", 5);
-	gbHandleAuthReq = DBGetContactSettingByte(NULL, pluginName, "handleAuthReq", 1);
+	gbInfTalkProtection = db_get_b(NULL, pluginName, "infTalkProtection", 0);
+	gbAddPermanent = db_get_b(NULL, pluginName, "addPermanent", 0);
+	gbMaxQuestCount = db_get_dw(NULL, pluginName, "maxQuestCount", 5);
+	gbHandleAuthReq = db_get_b(NULL, pluginName, "handleAuthReq", 1);
 	gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
 	gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
 	gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
 	gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", _T("StopSpam: send a message and reply to a anti-spam bot question."));
-	gbSpecialGroup = DBGetContactSettingByte(NULL, pluginName, "SpecialGroup", 0);
-	gbHideContacts = DBGetContactSettingByte(NULL, pluginName, "HideContacts", 0);
-	gbIgnoreContacts = DBGetContactSettingByte(NULL, pluginName, "IgnoreContacts", 0);
-	gbExclude = DBGetContactSettingByte(NULL, pluginName, "ExcludeContacts", 1);
-	gbDelExcluded = DBGetContactSettingByte(NULL, pluginName, "DelExcluded", 0);
-	gbDelAllTempory = DBGetContactSettingByte(NULL, pluginName, "DelAllTempory", 0);
-	gbCaseInsensitive = DBGetContactSettingByte(NULL, pluginName, "CaseInsensitive", 0);
-	gbRegexMatch = DBGetContactSettingByte(NULL, pluginName, "RegexMatch", 0);
-	gbInvisDisable = DBGetContactSettingByte(NULL, pluginName, "DisableInInvis", 0);
-	gbIgnoreURL = DBGetContactSettingByte(NULL, pluginName, "IgnoreURL", 0);
+	gbSpecialGroup = db_get_b(NULL, pluginName, "SpecialGroup", 0);
+	gbHideContacts = db_get_b(NULL, pluginName, "HideContacts", 0);
+	gbIgnoreContacts = db_get_b(NULL, pluginName, "IgnoreContacts", 0);
+	gbExclude = db_get_b(NULL, pluginName, "ExcludeContacts", 1);
+	gbDelExcluded = db_get_b(NULL, pluginName, "DelExcluded", 0);
+	gbDelAllTempory = db_get_b(NULL, pluginName, "DelAllTempory", 0);
+	gbCaseInsensitive = db_get_b(NULL, pluginName, "CaseInsensitive", 0);
+	gbRegexMatch = db_get_b(NULL, pluginName, "RegexMatch", 0);
+	gbInvisDisable = db_get_b(NULL, pluginName, "DisableInInvis", 0);
+	gbIgnoreURL = db_get_b(NULL, pluginName, "IgnoreURL", 0);
 	gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("Not Spammers"));
-	gbAutoAuth=DBGetContactSettingByte(NULL, pluginName, "AutoAuth", 0); 
-	gbAutoAddToServerList=DBGetContactSettingByte(NULL, pluginName, "AutoAddToServerList", 0); 
-	gbAutoReqAuth=DBGetContactSettingByte(NULL, pluginName, "AutoReqAuth", 0); 
-	gbLogToFile=DBGetContactSettingByte(NULL, pluginName, "LogSpamToFile", 0); 
-	gbHistoryLog = DBGetContactSettingByte(NULL, pluginName, "HistoryLog", 0); 
-	gbMathExpression = DBGetContactSettingByte(NULL, pluginName, "MathExpression", 0); 
+	gbAutoAuth = db_get_b(NULL, pluginName, "AutoAuth", 0);
+	gbAutoAddToServerList = db_get_b(NULL, pluginName, "AutoAddToServerList", 0);
+	gbAutoReqAuth = db_get_b(NULL, pluginName, "AutoReqAuth", 0);
+	gbLogToFile = db_get_b(NULL, pluginName, "LogSpamToFile", 0);
+	gbHistoryLog = db_get_b(NULL, pluginName, "HistoryLog", 0);
+	gbMathExpression = db_get_b(NULL, pluginName, "MathExpression", 0);
 
 }
 
@@ -133,8 +133,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// Folders plugin support
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
-		hStopSpamLogDirH = (HANDLE) FoldersRegisterCustomPath("StopSpam", "StopSpam Logs",
-			PROFILE_PATH "\\" CURRENT_PROFILE "\\StopSpamLog");
+		hStopSpamLogDirH = (HANDLE) FoldersRegisterCustomPath("StopSpam", "StopSpam Logs", PROFILE_PATH "\\" CURRENT_PROFILE "\\StopSpamLog");
 	}
 	return 0;
 }
@@ -174,7 +173,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.pszName="Remove Temporary Contacts";
+	mi.pszName=LPGEN("Remove Temporary Contacts");
 	mi.pszService="/RemoveTmp";
 
 	Menu_AddMainMenuItem(&mi);

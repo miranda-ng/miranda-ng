@@ -19,16 +19,15 @@
 #define MIRANDA_VER 0x0800
 #include "headers.h"
 
-char * pluginDescription = "No more spam! Robots can't go! Only human beings invited!\r\n\r\n"
+char * pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\n"
 "This plugin works pretty simple:\r\n"
 "While messages from users on your contact list go as there is no any anti-spam software, "
 "messages from unknown users are not delivered to you. "
 "But also they are not ignored, this plugin replies with a simple question, "
 "and if user gives the right answer plugin adds him to your contact list "
-"so that he can contact you.";
-TCHAR const * defQuestion = 
-_T("Spammers made me to install small anti-spam system you are now speaking with.\r\n")
-_T("Please reply \"nospam\" without quotes and spaces if you want to contact me.");
+"so that he can contact you.");
+TCHAR const * defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\n"
+"Please reply \"nospam\" without quotes and spaces if you want to contact me.");
 
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -69,20 +68,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 			case PSN_APPLY:
 				{
-					DBWriteContactSettingDword(NULL, pluginName, "maxQuestCount", gbMaxQuestCount =
-						GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE));
-					DBWriteContactSettingByte(NULL, pluginName, "infTalkProtection", gbInfTalkProtection =  
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "addPermanent", gbAddPermanent = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "HideContacts",  gbHideContacts = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_HIDECONTACTS, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "IgnoreContacts",  gbIgnoreContacts = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNORESPAMMERS, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "LogSpamToFile",  gbLogToFile = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_LOGSPAMTOFILE, BM_GETCHECK, 0, 0));
+					db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount =	GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE));
+					db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection =  BST_CHECKED == SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = BST_CHECKED == SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = BST_CHECKED == SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "HideContacts",  gbHideContacts = BST_CHECKED == SendDlgItemMessage(hwnd, ID_HIDECONTACTS, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "IgnoreContacts",  gbIgnoreContacts = BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNORESPAMMERS, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "LogSpamToFile",  gbLogToFile = BST_CHECKED == SendDlgItemMessage(hwnd, ID_LOGSPAMTOFILE, BM_GETCHECK, 0, 0));
 				}
 				return TRUE;
 			}
@@ -123,10 +115,10 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					break;
 				}
 			case ID_RESTOREDEFAULTS:
-				SetDlgItemText(hwnd, ID_QUESTION, TranslateTS(defQuestion));
-				SetDlgItemText(hwnd, ID_ANSWER,  TranslateTS(_T("nospam")));
-				SetDlgItemText(hwnd, ID_AUTHREPL, TranslateTS(_T("StopSpam: send a message and reply to a anti-spam bot question.")));
-				SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateTS(_T("Congratulations! You just passed human/robot test. Now you can write me a message.")));
+				SetDlgItemText(hwnd, ID_QUESTION, defQuestion);
+				SetDlgItemText(hwnd, ID_ANSWER,  TranslateT("nospam"));
+				SetDlgItemText(hwnd, ID_AUTHREPL, TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
+				SetDlgItemText(hwnd, ID_CONGRATULATION, TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				return TRUE;
 			case IDC_VARS:
@@ -143,30 +135,25 @@ INT_PTR CALLBACK MessagesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 			case PSN_APPLY:
 				{
-					DBWriteContactSettingTString(NULL, pluginName, "question", 
-						GetDlgItemString(hwnd, ID_QUESTION).c_str());
+					db_set_ws(NULL, pluginName, "question", GetDlgItemString(hwnd, ID_QUESTION).c_str());
 					gbQuestion = DBGetContactSettingStringPAN(NULL, pluginName, "question", defQuestion);
-					DBWriteContactSettingTString(NULL, pluginName, "answer",
-						GetDlgItemString(hwnd, ID_ANSWER).c_str());
-					gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", _T("nospam"));
-					DBWriteContactSettingTString(NULL, pluginName, "authrepl", 
-						GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
-					gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", _T("StopSpam: send a message and reply to a anti-spam bot question."));
-					DBWriteContactSettingTString(NULL, pluginName, "congratulation", 
-						GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
-					gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", _T("Congratulations! You just passed human/robot test. Now you can write me a message."));
+					db_set_ws(NULL, pluginName, "answer", GetDlgItemString(hwnd, ID_ANSWER).c_str());
+					gbAnswer = DBGetContactSettingStringPAN(NULL, pluginName, "answer", TranslateT("nospam"));
+					db_set_ws(NULL, pluginName, "authrepl", GetDlgItemString(hwnd, ID_AUTHREPL).c_str());
+					gbAuthRepl = DBGetContactSettingStringPAN(NULL, pluginName, "authrepl", TranslateT("StopSpam: send a message and reply to a anti-spam bot question."));
+					db_set_ws(NULL, pluginName, "congratulation", GetDlgItemString(hwnd, ID_CONGRATULATION).c_str());
+					gbCongratulation = DBGetContactSettingStringPAN(NULL, pluginName, "congratulation", TranslateT("Congratulations! You just passed human/robot test. Now you can write me a message."));
 				}
 				return TRUE;
 			}
 		}
-		break;			
+		break;
 	}
 	return FALSE;
 }
 
 INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
 	switch(msg)
 	{
 	case WM_INITDIALOG:
@@ -175,10 +162,8 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int n;
 			PROTOACCOUNT **pppd;
 			if(!ProtoEnumAccounts(&n, &pppd))
-				for(int i = 0; i < n; ++i)
-				{
-					SendDlgItemMessageA(hwnd, (ProtoInList(pppd[i]->szModuleName) ? ID_USEDPROTO : ID_ALLPROTO), 
-						LB_ADDSTRING, 0, (LPARAM)pppd[i]->szModuleName);
+				for (int i = 0; i < n; ++i) {
+					SendDlgItemMessageA(hwnd, (ProtoInList(pppd[i]->szModuleName) ? ID_USEDPROTO : ID_ALLPROTO), LB_ADDSTRING, 0, (LPARAM)pppd[i]->szModuleName);
 				}
 		}
 		return TRUE;
@@ -188,11 +173,9 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case ID_ADD:
 			{
 				WPARAM n = (WPARAM)SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETCURSEL, 0, 0);
-				if(LB_ERR != n)
-				{
+				if(LB_ERR != n) {
 					size_t len = SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXTLEN, n, 0);
-					if(LB_ERR != len)
-					{
+					if(LB_ERR != len) {
 						TCHAR * buf = new TCHAR[len + 1];
 						SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_GETTEXT, n, (LPARAM)buf);
 						SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
@@ -205,11 +188,9 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case ID_REMOVE:
 			{
 				WPARAM n = (WPARAM)SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETCURSEL, 0, 0);
-				if(LB_ERR != n)
-				{
+				if(LB_ERR != n) {
 					size_t len = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXTLEN, n, 0);
-					if(LB_ERR != len)
-					{
+					if(LB_ERR != len) {
 						TCHAR * buf = new TCHAR[len + 1];
 						SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETTEXT, n, (LPARAM)buf);
 						SendDlgItemMessage(hwnd, ID_ALLPROTO, LB_ADDSTRING, 0, (LPARAM)buf);
@@ -253,34 +234,30 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				{
 					LRESULT count = SendDlgItemMessage(hwnd, ID_USEDPROTO, LB_GETCOUNT, 0, 0);
 					std::ostringstream out;
-					for(int i = 0; i < count; ++i)
-					{
+					for(int i = 0; i < count; ++i) {
 						size_t len = SendDlgItemMessageA(hwnd, ID_USEDPROTO, LB_GETTEXTLEN, i, 0);
-						if(LB_ERR != len)
-						{
+						if(LB_ERR != len) {
 							char * buf = new char[len + 1];
 							SendDlgItemMessageA(hwnd, ID_USEDPROTO, LB_GETTEXT, i, (LPARAM)buf);
 							out << buf << "\r\n";
 							delete []buf;
 						}
 					}
-					DBWriteContactSettingString(NULL, pluginName, "protoList", out.str().c_str());
+					db_set_s(NULL, pluginName, "protoList", out.str().c_str());
 				}
 				return TRUE;
-			}			
+			}
 		}
-		break;			
+		break;
 	}
 	return FALSE;
 }
 
 INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
 	switch(msg)
 	{
-	case WM_INITDIALOG:
-		{
+	case WM_INITDIALOG:	{
 			TranslateDialogDefault(hwnd);
 			SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_SETCHECK, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_SETCHECK, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -302,12 +279,11 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SetDlgItemText(hwnd, IDC_AUTOADDGROUP, gbAutoAuthGroup.c_str());
 		}
 		return TRUE;
-	case WM_COMMAND:{
+	case WM_COMMAND: {
 		switch (LOWORD(wParam))
 		{
-		case IDC_MATH_DETAILS:
-			{
-				MessageBox(NULL, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces"), _T("Info"), MB_OK);
+		case IDC_MATH_DETAILS: {
+				MessageBox(NULL, TranslateT("If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces"), TranslateT("Info"), MB_OK);
 			}
 			break;
 		case IDC_INVIS_DISABLE: 
@@ -327,106 +303,82 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDC_HISTORY_LOG:
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
-
 		}
-					}
+	}
 		break;
-	case WM_NOTIFY:
-		{
+	case WM_NOTIFY:	{
 			NMHDR* nmhdr = (NMHDR*)lParam;
 			switch (nmhdr->code)
 			{
-			case PSN_APPLY:
-				{
-					DBWriteContactSettingByte(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "DisableInInvis", gbInvisDisable = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_GETCHECK, 0, 0));
+			case PSN_APPLY: {
+					db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = BST_CHECKED == SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_GETCHECK, 0, 0));
 					{
 						static tstring NewGroupName, CurrentGroupName;
 						NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
 						CurrentGroupName = gbSpammersGroup = DBGetContactSettingStringPAN(NULL, pluginName, "SpammersGroup", _T("0"));
-						if(wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0)
-						{
+						if (wcscmp(CurrentGroupName.c_str(), NewGroupName.c_str()) != 0) {
 							int GroupNumber = 0;
 							BYTE GroupExist = 0;
 							TCHAR szValue[96] = {0};
 							char szNumber[32] = {0};
 							extern int CreateCListGroup(TCHAR* szGroupName);
 							strcpy(szNumber, "0");
-							while(strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0)
-							{
+							while (strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0) {
 								_itoa(GroupNumber, szNumber, 10);
 								wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
-								if(wcscmp(NewGroupName.c_str(), szValue + 1) == 0)
-								{
+								if (wcscmp(NewGroupName.c_str(), szValue + 1) == 0) {
 									GroupExist = 1;
 									break;
 								}
 								GroupNumber++;
 							}
-							DBWriteContactSettingTString(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
+							db_set_ws(NULL,pluginName, "SpammersGroup", NewGroupName.c_str());
 							gbSpammersGroup = DBGetContactSettingStringPAN(NULL,pluginName,"SpammersGroup", _T("Spammers"));
 							if(!GroupExist && gbSpecialGroup)
 								CreateCListGroup((TCHAR*)gbSpammersGroup.c_str());
 						}
 					}
-					DBWriteContactSettingByte(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "ExcludeContacts",  gbExclude = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "DelExcluded",  gbDelExcluded = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = 
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =
-						BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = BST_CHECKED == SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "ExcludeContacts",  gbExclude = BST_CHECKED == SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "DelExcluded",  gbDelExcluded = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =	BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_GETCHECK, 0, 0));
 
-					DBWriteContactSettingByte(NULL, pluginName, "AutoAuth",  gbAutoAuth =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "RegexMatch",  gbRegexMatch =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REGEX, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "HistoryLog",  gbHistoryLog =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_GETCHECK, 0, 0));
-					DBWriteContactSettingByte(NULL, pluginName, "MathExpression",  gbMathExpression =
-						BST_CHECKED == SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "AutoAuth",  gbAutoAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "RegexMatch",  gbRegexMatch = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REGEX, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "HistoryLog",  gbHistoryLog = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "MathExpression",  gbMathExpression = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_GETCHECK, 0, 0));
 
 					{
 						static tstring NewAGroupName, CurrentAGroupName;
 						NewAGroupName = GetDlgItemString(hwnd, IDC_AUTOADDGROUP);
 						CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL, pluginName, "AutoAuthGroup", _T("0"));
-						if(wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0)
-						{
+						if (wcscmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
 							int GroupNumber = 0;
 							BYTE GroupExist = 0;
 							TCHAR szValue[96] = {0};
 							char szNumber[32] = {0};
 							extern int CreateCListGroup(TCHAR* szGroupName);
 							strcpy(szNumber, "0");
-							while(strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0)
-							{
+							while (strcmp(DBGetContactSettingStringPAN_A(NULL, "CListGroups", szNumber, "0").c_str(), "0") != 0) {
 								_itoa(GroupNumber, szNumber, 10);
 								wcscpy(szValue, DBGetContactSettingStringPAN(NULL, "CListGroups", szNumber, _T("0")).c_str());
-								if(wcscmp(NewAGroupName.c_str(), szValue + 1) == 0)
-								{
+								if (wcscmp(NewAGroupName.c_str(), szValue + 1) == 0) {
 									GroupExist = 1;
 									break;
 								}
 								GroupNumber++;
 							}
-							DBWriteContactSettingTString(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
+							db_set_ws(NULL,pluginName, "AutoAuthGroup", NewAGroupName.c_str());
 							gbAutoAuthGroup = DBGetContactSettingStringPAN(NULL,pluginName,"AutoAuthGroup", _T("Not Spammers"));
 							if(!GroupExist && gbAutoAddToServerList)
 								CreateCListGroup((TCHAR*)gbAutoAuthGroup.c_str());
 						}
 					}
-
 				}
 				return TRUE;
 			}
@@ -442,33 +394,32 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.ptszGroup = _T("Message Sessions");
-	odp.ptszTitle = _T(pluginName);
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_TCHAR;
 
-	odp.ptszTab = _T("Main");
+	odp.pszTab = LPGEN("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
 
 
-	odp.ptszTab = _T("Messages");
+	odp.pszTab = LPGEN("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.ptszTab = _T("Protocols");
+	odp.pszTab = LPGEN("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.ptszTab = _T("Advanced");
+	odp.pszTab = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
 	Options_AddPage(w, &odp);
 
 	return 0;
 }
-

@@ -1,13 +1,13 @@
 #include "headers.h"
 
-TCHAR * pluginDescription = _T("No more spam! Robots can't go! Only human beings invited!\r\n\r\n")
-_T("This plugin works pretty simple:\r\n")
-_T("While messages from users on your contact list go as there is no any anti-spam software, ")
-_T("messages from unknown users are not delivered to you. ")
-_T("But also they are not ignored, this plugin replies with a simple question, ")
-_T("and if user gives the right answer plugin adds him to your contact list ")
-_T("so that he can contact you.");
-TCHAR const * infTalkProtPrefix = _T("StopSpam automatic message:\r\n");
+TCHAR * pluginDescription = TranslateT("No more spam! Robots can't go! Only human beings invited!\r\n\r\n"
+"This plugin works pretty simple:\r\n"
+"While messages from users on your contact list go as there is no any anti-spam software, "
+"messages from unknown users are not delivered to you. "
+"But also they are not ignored, this plugin replies with a simple question, "
+"and if user gives the right answer plugin adds him to your contact list "
+"so that he can contact you.");
+TCHAR const * infTalkProtPrefix = TranslateT("StopSpam automatic message:\r\n");
 char const * answeredSetting = "Answered";
 char const * questCountSetting = "QuestionCount";
 

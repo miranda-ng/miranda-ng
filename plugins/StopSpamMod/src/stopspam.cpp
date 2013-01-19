@@ -33,7 +33,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	if(-1 == dbei.cbBlob) 
+	if(-1 == dbei.cbBlob)
 		return 0;
 	
 	dbei.pBlob = new BYTE[dbei.cbBlob];
@@ -53,17 +53,17 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 			HANDLE hcntct = DbGetAuthEventContact(&dbei);
 
 			// if request is from unknown or not marked Answered contact
-			int a = DBGetContactSettingByte(hcntct, "CList", "NotOnList", 0);
-			int b = !DBGetContactSettingByte(hcntct, pluginName, "Answered", 0);
+			int a = db_get_b(hcntct, "CList", "NotOnList", 0);
+			int b = !db_get_b(hcntct, pluginName, "Answered", 0);
 			
-			if(a && b)// 
+			if(a && b)//
 			{
 				// ...send message
 
 				if(gbHideContacts)
-					DBWriteContactSettingByte(hcntct, "CList", "Hidden", 1);
+					db_set_b(hcntct, "CList", "Hidden", 1);
 				if(gbSpecialGroup)
-					DBWriteContactSettingTString(hcntct, "CList", "Group", gbSpammersGroup.c_str());
+					db_set_ws(hcntct, "CList", "Group", gbSpammersGroup.c_str());
 				BYTE msg = 1;
 				if(gbIgnoreURL){
 					TCHAR* EventText = ReqGetText(&dbei); //else return NULL
@@ -74,8 +74,8 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 				{
 					if(CallProtoService(dbei.szModule, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE)
 						msg = 0;
-					else if(DBGetContactSettingWord(hContact,dbei.szModule,"ApparentMode",0) == ID_STATUS_OFFLINE)
-						msg = 0; //is it useful ? 
+					else if(db_get_w(hContact,dbei.szModule,"ApparentMode",0) == ID_STATUS_OFFLINE)
+						msg = 0; //is it useful ?
 				}
 				if(msg)
 				{
@@ -107,12 +107,12 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	}
 	//do not check excluded contact
 
-	if(DBGetContactSettingByte(hContact, pluginName, "Answered", 0))
+	if(db_get_b(hContact, pluginName, "Answered", 0))
 		return 0;
-	if(DBGetContactSettingByte(hContact, pluginName, "Excluded", 0))
+	if(db_get_b(hContact, pluginName, "Excluded", 0))
 	{
-		if(!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
-			DBDeleteContactSetting(hContact, pluginName, "Excluded");
+		if(!db_get_b(hContact, "CList", "NotOnList", 0))
+			db_unset(hContact, pluginName, "Excluded");
 		return 0;
 	}
 	//we want block not only messages, i seen many types other eventtype flood
@@ -120,14 +120,14 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		// ...let the event go its way
 		return 0;
 	//mark contact which we trying to contact for exclude from check
-	if((dbei->flags & DBEF_SENT) && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)
-		&& (!gbMaxQuestCount || DBGetContactSettingDword(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude)
+	if((dbei->flags & DBEF_SENT) && db_get_b(hContact, "CList", "NotOnList", 0)
+		&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount) && gbExclude)
 	{
-		DBWriteContactSettingByte(hContact, pluginName, "Excluded", 1);
+		db_set_b(hContact, pluginName, "Excluded", 1);
 		return 0;
 	}
 	// if message is from known or marked Answered contact
-	if(!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+	if(!db_get_b(hContact, "CList", "NotOnList", 0))
 		// ...let the event go its way
 		return 0;
 	// if message is corrupted or empty it cannot be an answer.
@@ -157,7 +157,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	{
 		if(CallProtoService(dbei->szModule, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE)
 			msg = 0;
-		else if(DBGetContactSettingWord(hContact,dbei->szModule,"ApparentMode",0) == ID_STATUS_OFFLINE)
+		else if(db_get_w(hContact,dbei->szModule,"ApparentMode",0) == ID_STATUS_OFFLINE)
 			msg = 0; //is it useful ?
 	}
 	bool answered = false;
@@ -189,20 +189,20 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			boost::regex expr(check);
 			answered = boost::regex_search(msg.begin(), msg.end(), expr);
 		}
-	}	
+	}
 	if(answered)
 	{
 		// unhide contact
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "Hidden");
 
-		DBDeleteContactSetting(hContact, pluginName, "MathAnswer");
+		db_unset(hContact, pluginName, "MathAnswer");
 
 		// mark contact as Answered
-		DBWriteContactSettingByte(hContact, pluginName, "Answered", 1);
+		db_set_b(hContact, pluginName, "Answered", 1);
 
 		//add contact permanently
 		if(gbAddPermanent) //do not use this )
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 
 		// send congratulation
 		if(msg)
@@ -211,13 +211,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			// for notICQ protocols or disable auto auth. reqwest
 			if((Stricmp(_T("ICQ"),prot.c_str()))||(!gbAutoReqAuth))
 			{
-#ifdef _UNICODE
 				char * buf=mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
 				CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 				mir_free(buf);
-#else
-				CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)GetCongratulation().c_str());
-#endif
 			};
 			// Note: For ANSI can be not work
 			if(!Stricmp(_T("ICQ"),prot.c_str())){
@@ -227,9 +223,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 					// add contact to server list and local group
 				if(gbAutoAddToServerList)
 				{
-					DBWriteContactSettingTString(hContact, "CList", "Group", gbAutoAuthGroup.c_str());
+					db_set_ws(hContact, "CList", "Group", gbAutoAuthGroup.c_str());
 					CallProtoService(dbei->szModule, "/AddServerContact", w, 0);
-					DBDeleteContactSetting(hContact, "CList", "NotOnList");
+					db_unset(hContact, "CList", "NotOnList");
 				};
 				// auto auth. reqwest with send congratulation
 				if(gbAutoReqAuth)
@@ -245,7 +241,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	if(msg)
 	{
 		if((!gbInfTalkProtection || tstring::npos==message.find(_T("StopSpam automatic message:\r\n")))
-			&& (!gbMaxQuestCount || DBGetContactSettingDword(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount))
+			&& (!gbMaxQuestCount || db_get_dw(hContact, pluginName, "QuestionCount", 0) < gbMaxQuestCount))
 		{
 			// send question
 			tstring q;
@@ -262,18 +258,12 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 				{
 					std::string arg;
 					p2 = p1;
-#ifdef UNICODE
 					for(p1 = gbQuestion.find(_T("X"), p1); (p1 < gbQuestion.length()) && (gbQuestion[p1] == L'X'); ++p1)
-#else
-					for(p1 = gbQuestion.find(_T("X"), p1); gbQuestion[p1] == 'X'; ++p1)
-#endif
 						arg += get_random_num(1);
-#ifdef UNICODE
+
 					tmp_question.replace(p2, arg.size(), toUTF16(arg));
-#else
-					tmp_question.replace(p2, arg.size(), arg);
-#endif
 					args.push_back(atoi(arg.c_str()));
+
 					if((p1 < gbQuestion.length()) && (p1 != tstring::npos) && (expr_acts.find(gbQuestion[p1]) != tstring::npos))
 						actions.push_back(gbQuestion[p1]);
 					++p1;
@@ -317,23 +307,19 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 					else
 						break;
 				}
-				DBWriteContactSettingDword(hContact, pluginName, "MathAnswer", math_answer);
+				db_set_dw(hContact, pluginName, "MathAnswer", math_answer);
 				q += variables_parse(tmp_question, hContact);
 			}
 			else
 				q += variables_parse(gbQuestion, hContact);
 
-#ifdef _UNICODE
 			char * buf=mir_utf8encodeW(q.c_str());
 			CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 			mir_free(buf);
-#else
-			CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)q.c_str());
-#endif
 
 			// increment question count
-			DWORD questCount = DBGetContactSettingDword(hContact, pluginName, "QuestionCount", 0);
-			DBWriteContactSettingDword(hContact, pluginName, "QuestionCount", questCount + 1);
+			DWORD questCount = db_get_dw(hContact, pluginName, "QuestionCount", 0);
+			db_set_dw(hContact, pluginName, "QuestionCount", questCount + 1);
 		}
 		else
 		{
@@ -348,18 +334,18 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 			} */
 			if(gbIgnoreContacts)
 			{
-				DBWriteContactSettingDword(hContact, "Ignore", "Mask1", 0x0000007F);
+				db_set_dw(hContact, "Ignore", "Mask1", 0x0000007F);
 			}
 		}
 	}
 	if(gbHideContacts)
-		DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+		db_set_b(hContact, "CList", "Hidden", 1);
 	if(gbSpecialGroup)
-		DBWriteContactSettingTString(hContact, "CList", "Group", gbSpammersGroup.c_str());
-	DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+		db_set_ws(hContact, "CList", "Group", gbSpammersGroup.c_str());
+	db_set_b(hContact, "CList", "NotOnList", 1);
 
 	// save first message from contact
-	if (DBGetContactSettingDword(hContact, pluginName, "QuestionCount", 0)<2){
+	if (db_get_dw(hContact, pluginName, "QuestionCount", 0)<2){
 		dbei->flags |= DBEF_READ;
 		CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)dbei);
 	};
@@ -367,7 +353,6 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	LogSpamToFile(hContact, message);
 	return 1;
 }
-
 
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 {
@@ -381,12 +366,9 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 		return 0;
 	if(!cws->value.type)
 	{
-		DBDeleteContactSetting(hContact, pluginName, "Answered");
-		DBDeleteContactSetting(hContact, pluginName, "QuestionCount");
+		db_unset(hContact, pluginName, "Answered");
+		db_unset(hContact, pluginName, "QuestionCount");
 	}
 
 	return 0;
 }
-
-
-

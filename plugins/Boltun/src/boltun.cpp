@@ -470,7 +470,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					if (!bTranslated)
 					{
 						TCHAR* message = new TCHAR[5000];
-						wsprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+						wsprintf(message, FAILED_TO_LOAD_BASE, line, c);
 						MessageBox(NULL, message, BOLTUN_ERROR, MB_ICONERROR|MB_TASKMODAL|MB_OK);
 						delete[] message;
 					}
