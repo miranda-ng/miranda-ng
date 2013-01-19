@@ -365,8 +365,8 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		case WM_CREATE:
 			{
 				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
-										20,	20,	hwnd, 0, (HINSTANCE) GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
-				SendMessage(hwndMute, BUTTONSETASFLATBTN,0,0);
+										20,	20,	hwnd, 0, (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
+				SendMessage(hwndMute, BUTTONSETASFLATBTN, 0, 0);
 				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
 					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
 					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
@@ -376,7 +376,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				}
 
 				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
-					hwnd, (HMENU)0, (HINSTANCE) GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
+					hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
 				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 				OldSliderWndProc = (WNDPROC)SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)SliderWndProc);
@@ -416,8 +416,8 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 			GetClientRect(hwnd, &rect);
 			if(hwndMute)
-				MoveWindow(hwndMute, 1, 1, 20, 20, FALSE);
-			SetWindowPos(hwndSlider, 0, rect.left+20+1, rect.top+1+ (20-18)/2, rect.right-rect.left-3-20, 18, SWP_NOZORDER);
+				MoveWindow(hwndMute, rect.right - 21, 1, 20, 20, FALSE);
+			SetWindowPos(hwndSlider, 0, 1, rect.top + 1 + (20-18)/2, rect.right - rect.left - 1 - 20, 18, SWP_NOZORDER);
 			InvalidateRect(hwnd, &rect, FALSE);
 			return 0;
 		}
@@ -458,9 +458,8 @@ int ReloadColors(WPARAM wParam, LPARAM lParam)
 {
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpy(colourid.group, _T(ModuleName));
-
-	lstrcpy(colourid.name, LPGENT("Frame Background"));
+	_tcscpy(colourid.group, _T(ModuleName));
+	_tcscpy(colourid.name, LPGENT("Frame Background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
 	if(hBkgBrush)
