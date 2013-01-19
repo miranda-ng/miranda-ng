@@ -1,6 +1,6 @@
 /*
 	BASS 2.4 C/C++ header file
-	Copyright (c) 1999-2010 Un4seen Developments Ltd.
+	Copyright (c) 1999-2012 Un4seen Developments Ltd.
 
 	See the BASS.CHM file for more detailed documentation
 */
@@ -114,24 +114,31 @@ typedef DWORD HPLUGIN;		// Plugin handle
 #define BASS_CONFIG_VERIFY			23
 #define BASS_CONFIG_UPDATETHREADS	24
 #define BASS_CONFIG_DEV_BUFFER		27
+#define BASS_CONFIG_VISTA_TRUEPOS	30
+#define BASS_CONFIG_IOS_MIXAUDIO	34
 #define BASS_CONFIG_DEV_DEFAULT		36
 #define BASS_CONFIG_NET_READTIMEOUT	37
+#define BASS_CONFIG_VISTA_SPEAKERS	38
+#define BASS_CONFIG_IOS_SPEAKER		39
+#define BASS_CONFIG_HANDLES			41
+#define BASS_CONFIG_UNICODE			42
+#define BASS_CONFIG_SRC				43
+#define BASS_CONFIG_SRC_SAMPLE		44
 
 // BASS_SetConfigPtr options
 #define BASS_CONFIG_NET_AGENT		16
 #define BASS_CONFIG_NET_PROXY		17
 
-// Initialization flags
-#define BASS_DEVICE_8BITS		1	// use 8 bit resolution, else 16 bit
-#define BASS_DEVICE_MONO		2	// use mono, else stereo
-#define BASS_DEVICE_3D			4	// enable 3D functionality
-#define BASS_DEVICE_LATENCY		256	// calculate device latency (BASS_INFO struct)
-#define BASS_DEVICE_CPSPEAKERS	1024 // detect speakers via Windows control panel
-#define BASS_DEVICE_SPEAKERS	2048 // force enabling of speaker assignment
-#define BASS_DEVICE_NOSPEAKER	4096 // ignore speaker arrangement
-#ifdef __linux__
-#define BASS_DEVICE_DMIX		8192 // use ALSA "dmix" plugin
-#endif
+// BASS_Init flags
+#define BASS_DEVICE_8BITS		1		// 8 bit resolution, else 16 bit
+#define BASS_DEVICE_MONO		2		// mono, else stereo
+#define BASS_DEVICE_3D			4		// enable 3D functionality
+#define BASS_DEVICE_LATENCY		0x100	// calculate device latency (BASS_INFO struct)
+#define BASS_DEVICE_CPSPEAKERS	0x400	// detect speakers via Windows control panel
+#define BASS_DEVICE_SPEAKERS	0x800	// force enabling of speaker assignment
+#define BASS_DEVICE_NOSPEAKER	0x1000	// ignore speaker arrangement
+#define BASS_DEVICE_DMIX		0x2000	// use ALSA "dmix" plugin
+#define BASS_DEVICE_FREQ		0x4000	// set device sample rate
 
 // DirectSound interfaces (for use with BASS_GetDSoundObject)
 #define BASS_OBJECT_DS		1	// IDirectSound
@@ -166,9 +173,9 @@ typedef struct {
 	DWORD minbuf;	// recommended minimum buffer length in ms (requires BASS_DEVICE_LATENCY)
 	DWORD dsver;	// DirectSound version
 	DWORD latency;	// delay (in ms) before start of playback (requires BASS_DEVICE_LATENCY)
-	DWORD initflags;// BASS_Init "flags" parameter
+	DWORD initflags; // BASS_Init "flags" parameter
 	DWORD speakers; // number of speakers available
-	DWORD freq;		// current output rate (Vista/OSX only)
+	DWORD freq;		// current output rate
 } BASS_INFO;
 
 // BASS_INFO flags (from DSOUND.H)
@@ -186,7 +193,7 @@ typedef struct {
 	DWORD formats;	// supported standard formats (WAVE_FORMAT_xxx flags)
 	DWORD inputs;	// number of inputs
 	BOOL singlein;	// TRUE = only 1 input can be set at a time
-	DWORD freq;		// current input rate (Vista/OSX only)
+	DWORD freq;		// current input rate
 } BASS_RECORDINFO;
 
 // BASS_RECORDINFO flags (from DSOUND.H)
@@ -323,6 +330,7 @@ typedef struct {
 #define BASS_CTYPE_STREAM_MP3	0x10005
 #define BASS_CTYPE_STREAM_AIFF	0x10006
 #define BASS_CTYPE_STREAM_CA	0x10007
+#define BASS_CTYPE_STREAM_MF	0x10008
 #define BASS_CTYPE_STREAM_WAV	0x40000 // WAVE flag, LOWORD=codec
 #define BASS_CTYPE_STREAM_WAV_PCM	0x50001
 #define BASS_CTYPE_STREAM_WAV_FLOAT	0x50003
@@ -542,6 +550,8 @@ RETURN : TRUE = continue recording, FALSE = stop */
 #define BASS_ATTRIB_PAN				3
 #define BASS_ATTRIB_EAXMIX			4
 #define BASS_ATTRIB_NOBUFFER		5
+#define BASS_ATTRIB_CPU				7
+#define BASS_ATTRIB_SRC				8
 #define BASS_ATTRIB_MUSIC_AMPLIFY	0x100
 #define BASS_ATTRIB_MUSIC_PANSEP	0x101
 #define BASS_ATTRIB_MUSIC_PSCALER	0x102
@@ -573,9 +583,12 @@ RETURN : TRUE = continue recording, FALSE = stop */
 #define BASS_TAG_ICY		4	// ICY headers : series of null-terminated ANSI strings
 #define BASS_TAG_META		5	// ICY metadata : ANSI string
 #define BASS_TAG_APE		6	// APE tags : series of null-terminated UTF-8 strings
+#define BASS_TAG_MP4 		7	// MP4/iTunes metadata : series of null-terminated UTF-8 strings
 #define BASS_TAG_VENDOR		9	// OGG encoder : UTF-8 string
 #define BASS_TAG_LYRICS3	10	// Lyric3v2 tag : ASCII string
 #define BASS_TAG_CA_CODEC	11	// CoreAudio codec info : TAG_CA_CODEC structure
+#define BASS_TAG_MF			13	// Media Foundation tags : series of null-terminated UTF-8 strings
+#define BASS_TAG_WAVEFORMAT	14	// WAVE format : WAVEFORMATEEX structure
 #define BASS_TAG_RIFF_INFO	0x100 // RIFF "INFO" tags : series of null-terminated ANSI strings
 #define BASS_TAG_RIFF_BEXT	0x101 // RIFF/BWF "bext" tags : TAG_BEXT structure
 #define BASS_TAG_RIFF_CART	0x102 // RIFF/BWF "cart" tags : TAG_CART structure
@@ -630,9 +643,6 @@ typedef struct {
 #endif
 } TAG_BEXT;
 #pragma pack(pop)
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
 // BWF "cart" tag structures
 typedef struct
@@ -670,6 +680,9 @@ typedef struct
 	char TagText[1];				// free form text for scripts or tags
 #endif
 } TAG_CART;
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 // CoreAudio codec info structure
 typedef struct {
@@ -677,6 +690,23 @@ typedef struct {
 	DWORD atype;					// audio format
 	const char *name;				// description
 } TAG_CA_CODEC;
+
+#ifndef _WAVEFORMATEX_
+#define _WAVEFORMATEX_
+#pragma pack(push,1)
+typedef struct tWAVEFORMATEX
+{
+	WORD wFormatTag;
+	WORD nChannels;
+	DWORD nSamplesPerSec;
+	DWORD nAvgBytesPerSec;
+	WORD nBlockAlign;
+	WORD wBitsPerSample;
+	WORD cbSize;
+} WAVEFORMATEX, *PWAVEFORMATEX, *LPWAVEFORMATEX;
+typedef const WAVEFORMATEX *LPCWAVEFORMATEX;
+#pragma pack(pop)
+#endif
 
 // BASS_ChannelGetLength/GetPosition/SetPosition modes
 #define BASS_POS_BYTE			0		// byte position
@@ -801,7 +831,7 @@ typedef struct {
 
 BOOL BASSDEF(BASS_SetConfig)(DWORD option, DWORD value);
 DWORD BASSDEF(BASS_GetConfig)(DWORD option);
-BOOL BASSDEF(BASS_SetConfigPtr)(DWORD option, void *value);
+BOOL BASSDEF(BASS_SetConfigPtr)(DWORD option, const void *value);
 void *BASSDEF(BASS_GetConfigPtr)(DWORD option);
 DWORD BASSDEF(BASS_GetVersion)();
 int BASSDEF(BASS_ErrorGetCode)();

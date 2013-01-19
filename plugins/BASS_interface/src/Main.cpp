@@ -364,7 +364,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		case WM_CREATE:
 			{
 				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
-										20,	20,	hwnd, 0, (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
+										20,	20,	hwnd, 0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 				SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
 					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
@@ -375,10 +375,10 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				}
 
 				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
-					hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
+					hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-				OldSliderWndProc = (WNDPROC)SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)SliderWndProc);
+				OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)SliderWndProc);
 				break;
 			}
 
@@ -444,7 +444,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 		case WM_DESTROY:
 			if(hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
-				SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)OldSliderWndProc);
+				SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)OldSliderWndProc);
 			break;
 
 		default:
