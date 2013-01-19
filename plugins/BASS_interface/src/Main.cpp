@@ -21,8 +21,6 @@ PLUGININFOEX pluginInfo = {
 	{0x2f07ea05, 0x05b5, 0x4ff0, {0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1}}
 };
 
-static HANDLE hService;
-static HANDLE hTBButton;
 static HINSTANCE hBass = NULL;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -51,6 +49,7 @@ static HWND ClistHWND;
 HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL, hwnd_plugin = NULL;
 COLORREF clBack = 0;
 HBRUSH hBkgBrush = 0;
+HANDLE frame_id = NULL;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
@@ -500,7 +499,7 @@ void CreateFrame()
 	Frame.align = alBottom;
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 22;
-	DWORD frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+	frame_id = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(ColourIDT);
@@ -589,6 +588,11 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 		FreeLibrary(hBass);
 	}
 
+	if(hBkgBrush)
+		DeleteObject(hBkgBrush);
+
+	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+
 	return 0;
 }
 
@@ -607,6 +611,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	DestroyServiceFunction(hService);
 	return 0;
 }
