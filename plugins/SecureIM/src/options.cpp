@@ -1782,8 +1782,8 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 
    ofn.lpstrFile = KeyPath;
-   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
-   ofn.lpstrTitle = _T("Open Key File");
+   ofn.lpstrFilter = TranslateT("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = TranslateT("Open Key File");
    if (!GetOpenFileName(&ofn)) return FALSE;
 
    return TRUE;
@@ -1851,8 +1851,8 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
    ofn.nMaxFile = MAX_PATH;
    ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
    ofn.lpstrFile = szFile;
-   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
-   ofn.lpstrTitle = (priv)?_T("Save Private Key File"):_T("Save Public Key File");
+   ofn.lpstrFilter = TranslateT("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = (priv)  ? TranslateT("Save Private Key File") : TranslateT("Save Public Key File");
    if (!GetSaveFileName(&ofn)) return FALSE;
 
    FILE *f=_tfopen(szFile,_T("wb"));
@@ -1875,8 +1875,8 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
    ofn.nMaxFile = MAX_PATH;
    ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
    ofn.lpstrFile = szFile;
-   ofn.lpstrFilter = _T("ASC files\0*.asc\0All files (*.*)\0*.*\0");
-   ofn.lpstrTitle = (priv)?_T("Load Private Key File"):_T("Load Public Key File");
+   ofn.lpstrFilter = TranslateT("ASC files\0*.asc\0All files (*.*)\0*.*\0");
+   ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
    if (!GetOpenFileName(&ofn)) return FALSE;
 
    FILE *f=_tfopen(szFile,_T("rb"));

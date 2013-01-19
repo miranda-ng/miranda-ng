@@ -1,4 +1,4 @@
-// Copyright © 2010-2012 sss
+// Copyright ï¿½ 2010-2012 sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -205,7 +205,7 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	if(metaIsProtoMetaContacts(hContact))
 	{
 		HANDLE hcnt = NULL;
-		if(MessageBox(0, _T("Do you want to toggle encryption for all subcontacts ?"), _T("Metacontact detected"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("Do you want to toggle encryption for all subcontacts ?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES)
 		{
 			int count = metaGetContactsNum(hContact);
 			for(int i = 0; i < count; i++)
@@ -339,7 +339,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 						file.erase(p1, _tcslen(_T(".gpg")));
 						if(_waccess(file.c_str(), 0) != -1)
 						{
-							if(MessageBox(0, _T("Target file exists, do you want to replace it ?"), _T("Warning"), MB_YESNO) == IDNO)
+							if(MessageBox(0, TranslateT("Target file exists, do you want to replace it ?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 								return 0;
 						}
 						DeleteFile(file.c_str());
@@ -549,7 +549,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
 	{
 		out.clear();
-		if(MessageBox(0, _T("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), _T("Warning"), MB_YESNO) == IDYES)
+		if(MessageBox(0, TranslateT("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			DBWriteContactSettingByte(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
 			cmd.insert(0, _T("--trust-model always "));
@@ -1810,7 +1810,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 						{
 							if(output.find("already in secret keyring") != string::npos)
 							{
-								MessageBox(0, _T("Key already in scret key ring."), _T("Info"), MB_OK);
+								MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
 								DeleteFile(tmp2);
 								break;
 							}

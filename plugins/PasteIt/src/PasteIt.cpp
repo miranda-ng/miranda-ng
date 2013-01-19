@@ -370,7 +370,7 @@ void InitMenuItems()
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
 	mi.position = 3000090005;
-	mi.ptszName = _T("Paste It");
+	mi.ptszName = LPGENT("Paste It");
 
 	hContactMenu = Menu_AddContactMenuItem(&mi);
 
@@ -380,15 +380,15 @@ void InitMenuItems()
 	mi.pszService = MS_PASTEIT_CONTACTMENU;
 	mi.hParentMenu = hContactMenu;
 	mi.popupPosition = FROM_CLIPBOARD;	
-	mi.ptszName = _T("Paste from clipboard");
+	mi.ptszName = LPGENT("Paste from clipboard");
 	Menu_AddContactMenuItem(&mi);
 
 	mi.popupPosition = FROM_FILE;
-	mi.ptszName = _T("Paste from file");
+	mi.ptszName = LPGENT("Paste from file");
 	Menu_AddContactMenuItem(&mi);
 
 	mi.popupPosition = DEF_PAGES_START - 1;
-	mi.ptszName = _T("Default web page");
+	mi.ptszName = LPGENT("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	
 	CLISTMENUITEM mi2 = { sizeof(mi2) };

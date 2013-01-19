@@ -30,8 +30,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "Check for pack updates";
-	hkd.ptszDescription = _T("Check for pack updates");
-	hkd.ptszSection = _T("Pack Updater");
+	hkd.ptszDescription = LPGENT("Check for pack updates");
+	hkd.ptszSection = LPGENT("Pack Updater");
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;

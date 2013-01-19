@@ -442,7 +442,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 
 	if (Lists_IsInList(LIST_FL, email))
 	{
-		MSN_ShowPopup(emailT, _T("Contact already in your contact list"), MSN_ALLOW_MSGBOX, NULL);
+		MSN_ShowPopup(emailT, TranslateT("Contact already in your contact list"), MSN_ALLOW_MSGBOX, NULL);
 		SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		mir_free(arg);
 		return;

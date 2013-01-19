@@ -1017,7 +1017,7 @@ void InitList() {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = 1000200001;
-		mi.ptszPopupName = LPGENT( "Ping" );
+		mi.ptszPopupName = LPGENT("Ping");
 		mi.position = 3000320001;
 		mi.hIcon = 0;//LoadIcon( hInst, 0);
 		mi.ptszName = LPGENT( "Show/Hide &Ping Window" );
@@ -1034,8 +1034,8 @@ void InitList() {
 		_tcsncpy(font_id.name, _T("List"), SIZEOF(font_id.name));
 		strncpy(font_id.dbSettingsGroup, "PING", sizeof(font_id.dbSettingsGroup));
 		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
-		_tcsncpy(font_id.backgroundGroup,_T("Ping"),SIZEOF(font_id.backgroundGroup));
-		_tcsncpy(font_id.backgroundName,_T("Background"),SIZEOF(font_id.backgroundName));
+		_tcsncpy(font_id.backgroundGroup, _T("Ping"), SIZEOF(font_id.backgroundGroup));
+		_tcsncpy(font_id.backgroundName ,_T("Background"), SIZEOF(font_id.backgroundName));
 		font_id.order = 0;
 
 		FontRegisterT(&font_id);

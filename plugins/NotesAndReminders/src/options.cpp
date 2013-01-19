@@ -477,7 +477,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				ofn.lStructSize = sizeof(ofn);
 #endif
 				ofn.hwndOwner = hdlg;
-				ofn.lpstrFilter = _T("Executable Files\0*.exe\0All Files\0*.*\0\0");
+				ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
 				ofn.lpstrFile = s;
 				ofn.nMaxFile = SIZEOF(s);
 				ofn.lpstrTitle = TranslateT("Select Executable");

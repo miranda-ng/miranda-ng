@@ -1002,10 +1002,10 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 {
 	int n, i;
-	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd,_T("ctrldata"));
+	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd, _T("ctrldata"));
 
 	HMENU hMenuLoad, FhMenu, hSub;
-	hMenuLoad = LoadMenu(hinstance,_T("MNU_NOTEPOPUP"));
+	hMenuLoad = LoadMenu(hinstance, _T("MNU_NOTEPOPUP"));
 	FhMenu = GetSubMenu(hMenuLoad,0);
 
 	if (SN->OnTop)
@@ -1371,11 +1371,11 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg,1,EM_GETSELTEXT,0,(LPARAM)Buff);
 				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
-					ShellExecute(hdlg,_T("open"),_T("iexplore"),Buff,_T(""),SW_SHOWNORMAL);
+					ShellExecute(hdlg, _T("open"), _T("iexplore"), Buff, _T("") ,SW_SHOWNORMAL);
 				else if (g_lpszAltBrowser && *g_lpszAltBrowser)
-					ShellExecute(hdlg,_T("open"),g_lpszAltBrowser,Buff,_T(""),SW_SHOWNORMAL);
+					ShellExecute(hdlg,_T("open"), g_lpszAltBrowser, Buff, _T("") ,SW_SHOWNORMAL);
 				else
-					ShellExecute(hdlg,_T("open"),Buff,_T(""),_T(""),SW_SHOWNORMAL);
+					ShellExecute(hdlg, _T("open"), Buff, _T(""), _T(""), SW_SHOWNORMAL);
 				SAFE_FREE((void**)&Buff);
 				return TRUE;
 			}
@@ -1467,7 +1467,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		break;
 	case WM_COMMAND:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg, _T("ctrldata"));
 
 			HWND H;
 			UINT id;
@@ -1963,11 +1963,11 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 			hIcon = Skin_GetIconByHandle(iconList[13].hIcolib, ICON_BIG);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 
-			SetWindowText(Dialog, _T("Notes"));
+			SetWindowText(Dialog, LPGENT("Notes"));
 
 			TranslateDialogDefault(Dialog);
 
-			SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
+			SetDlgItemText(Dialog,IDC_REMINDERDATA, _T(""));
 
 			H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;

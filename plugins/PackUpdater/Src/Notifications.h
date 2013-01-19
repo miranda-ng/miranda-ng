@@ -67,6 +67,6 @@ static struct {
 	TCHAR *Text;
 	int Action;
 } PopupActions[] = {
-	_T("Close popup"), PCA_CLOSEPOPUP,
-	_T("Do nothing"), PCA_DONOTHING
+	LPGENT("Close popup"), PCA_CLOSEPOPUP,
+	LPGENT("Do nothing"), PCA_DONOTHING
 };

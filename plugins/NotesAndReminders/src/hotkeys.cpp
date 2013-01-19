@@ -127,8 +127,8 @@ void CreateMsgWindow(void)
 		hParent = HWND_MESSAGE;
 	}
 
-  HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW,MSG_WND_CLASS,_T("StickyNotes"),0,0,0,0,0,hParent,NULL,hmiranda,NULL);
-  SetTimer(HKHwnd,1026,REMINDER_UPDATE_INTERVAL,0);
+  HKHwnd = CreateWindowEx(WS_EX_TOOLWINDOW, MSG_WND_CLASS, _T("StickyNotes"), 0, 0, 0, 0, 0, hParent, NULL, hmiranda, NULL);
+  SetTimer(HKHwnd, 1026, REMINDER_UPDATE_INTERVAL, 0);
 }
 
 void DestroyMsgWindow(void)

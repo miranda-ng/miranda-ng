@@ -101,7 +101,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				ofn.Flags = CC_FULLOPEN;
 				//ofn.lpstrFile[0] = '\0';
 				ofn.nMaxFile = sizeof(options.log_filename);
-				ofn.lpstrFilter = _T("All\0*.*\0Text\0*.TXT\0");
+				ofn.lpstrFilter = LPGENT("All\0*.*\0Text\0*.TXT\0");
 				ofn.nFilterIndex = 1;
 				ofn.lpstrFileTitle = NULL;
 				ofn.nMaxFileTitle = 0;
