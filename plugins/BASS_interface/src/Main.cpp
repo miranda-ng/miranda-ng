@@ -366,7 +366,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			{
 				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
 										20,	20,	hwnd, 0, (HINSTANCE)GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
-				SendMessage(hwndMute, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
 					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
 					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
