@@ -46,7 +46,7 @@ static BTNS[] =
 	{ "FindUser","Find User", "FindAdd/FindAddCommand", "Find User", NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS, "Use groups", "Disable Groups", 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
-	{ "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS, "Enable sounds", "Disable Sounds", 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS, "Enable sounds", "Disable sounds", 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
 	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
