@@ -496,7 +496,7 @@ INT_PTR ShowHideMenuFunc(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////
 
-int CreateFrame() 
+int CreateFrame()
 {
 	WNDCLASS wndclass;
 	wndclass.style         = 0;
