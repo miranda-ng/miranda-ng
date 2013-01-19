@@ -210,21 +210,21 @@ static BOOL CALLBACK LangAddCallback(CHAR * str) {
 	int i, count;
 	UINT cp;
 	static struct { UINT cpId; const TCHAR *cpName; } cpTable[] = {
-		{	874,	_T("Thai") }, //
-		{	932,	_T("Japanese") }, //
-		{	936,	_T("Simplified Chinese") }, //
-		{	949,	_T("Korean") }, //
-		{	950,	_T("Traditional Chinese") }, //
-		{	1250,	_T("Central European") }, //
-		{	1251,	_T("Cyrillic") }, //
-		{	1252,	_T("Latin I") }, //
-		{	1253,	_T("Greek") }, //
-		{	1254,	_T("Turkish") }, //
-		{	1255,	_T("Hebrew") }, //
-		{	1256,	_T("Arabic") }, //
-		{	1257,	_T("Baltic") }, //
-		{	1258,	_T("Vietnamese") }, //
-		{	1361,	_T("Korean (Johab)") }
+		{	874,	LPGENT("Thai") }, //
+		{	932,	LPGENT("Japanese") }, //
+		{	936,	LPGENT("Simplified Chinese") }, //
+		{	949,	LPGENT("Korean") }, //
+		{	950,	LPGENT("Traditional Chinese") }, //
+		{	1250,	LPGENT("Central European") }, //
+		{	1251,	LPGENT("Cyrillic") }, //
+		{	1252,	LPGENT("Latin I") }, //
+		{	1253,	LPGENT("Greek") }, //
+		{	1254,	LPGENT("Turkish") }, //
+		{	1255,	LPGENT("Hebrew") }, //
+		{	1256,	LPGENT("Arabic") }, //
+		{	1257,	LPGENT("Baltic") }, //
+		{	1258,	LPGENT("Vietnamese") }, //
+		{	1361,	LPGENT("Korean (Johab)") }
 	};
 	cp = atoi(str);
 	count = sizeof(cpTable)/sizeof(cpTable[0]);

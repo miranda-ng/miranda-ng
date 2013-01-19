@@ -159,46 +159,46 @@ void CSendEmail::SendThread() {
 
 			// No message was sent
 			case MAPI_E_AMBIGUOUS_RECIPIENT:
-				err = _T("A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set");
+				err = LPGENT("A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set");
 				break;
 			case MAPI_E_ATTACHMENT_NOT_FOUND:
-				err = _T("The specified attachment was not found");
+				err = LPGENT("The specified attachment was not found");
 				break;
 			case MAPI_E_ATTACHMENT_OPEN_FAILURE:
-				err = _T("The specified attachment could not be opened");
+				err = LPGENT("The specified attachment could not be opened");
 				break;
 			case MAPI_E_BAD_RECIPTYPE:
-				err = _T("The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC");
+				err = LPGENT("The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC");
 				break;
 			case MAPI_E_FAILURE:
-				err = _T("One or more unspecified errors occurred");
+				err = LPGENT("One or more unspecified errors occurred");
 				break;
 			case MAPI_E_INSUFFICIENT_MEMORY:
-				err = _T("There was insufficient memory to proceed");
+				err = LPGENT("There was insufficient memory to proceed");
 				break;
 			case MAPI_E_INVALID_RECIPS:
-				err = _T("One or more recipients were invalid or did not resolve to any address");
+				err = LPGENT("One or more recipients were invalid or did not resolve to any address");
 				break;
 			case MAPI_E_LOGIN_FAILURE:
-				err = _T("There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed");
+				err = LPGENT("There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed");
 				break;
 			case MAPI_E_TEXT_TOO_LARGE:
-				err = _T("The text in the message was too large");
+				err = LPGENT("The text in the message was too large");
 				break;
 			case MAPI_E_TOO_MANY_FILES:
-				err = _T("There were too many file attachments");
+				err = LPGENT("There were too many file attachments");
 				break;
 			case MAPI_E_TOO_MANY_RECIPIENTS:
-				err = _T("There were too many recipients");
+				err = LPGENT("There were too many recipients");
 				break;
 			case MAPI_E_UNKNOWN_RECIPIENT:
-				err = _T("A recipient did not appear in the address list");
+				err = LPGENT("A recipient did not appear in the address list");
 				break;
 			case MAPI_E_USER_ABORT:
-				err = _T("The user canceled one of the dialog boxes");
+				err = LPGENT("The user canceled one of the dialog boxes");
 				break;
 			default:
-				err = _T("Unknown Error");
+				err = LPGENT("Unknown Error");
 				break;
 		}
 		Error(SS_ERR_MAPI, res, err);

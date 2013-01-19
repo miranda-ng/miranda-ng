@@ -43,13 +43,13 @@ static void UpdateReadChars(HWND hwndDlg, struct SrmmWindowData * dat);
 
 static WNDPROC OldMessageEditProc, OldLogEditProc;
 static ToolbarButton toolbarButtons[] = {
-	{_T("Quote"), IDC_QUOTE, 0, 4, 24},
-	{_T("Smiley"), IDC_SMILEYS, 0, 10, 24},
-	{_T("Add Contact"), IDC_ADD, 0, 10, 24},
-	{_T("User Menu"), IDC_USERMENU, 1, 0, 24},
-	{_T("User Details"), IDC_DETAILS, 1, 0, 24},
-	{_T("History"), IDC_HISTORY, 1, 0, 24},
-	{_T("Send"), IDOK, 1, 0, 38}
+	{LPGENT("Quote"), IDC_QUOTE, 0, 4, 24},
+	{LPGENT("Smiley"), IDC_SMILEYS, 0, 10, 24},
+	{LPGENT("Add Contact"), IDC_ADD, 0, 10, 24},
+	{LPGENT("User Menu"), IDC_USERMENU, 1, 0, 24},
+	{LPGENT("User Details"), IDC_DETAILS, 1, 0, 24},
+	{LPGENT("History"), IDC_HISTORY, 1, 0, 24},
+	{LPGENT("Send"), IDOK, 1, 0, 38}
 };
 
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)

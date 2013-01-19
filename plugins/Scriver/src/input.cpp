@@ -293,9 +293,9 @@ void RegisterKeyBindings() {
 	HOTKEYDESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	desc.cbSize = sizeof(desc);
-	desc.pszSection = "Messaging";
+	desc.pszSection = LPGEN("Messaging");
 	desc.pszName = "Scriver/Nav/Previous Tab";
-	desc.pszDescription = "Navigate: Previous Tab";
+	desc.pszDescription = LPGEN("Navigate: Previous Tab");
 	desc.lParam = KB_PREV_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_TAB);
 	Hotkey_Register( &desc);
@@ -305,7 +305,7 @@ void RegisterKeyBindings() {
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Nav/Next Tab";
-	desc.pszDescription = "Navigate: Next Tab";
+	desc.pszDescription = LPGEN("Navigate: Next Tab");
 	desc.lParam = KB_NEXT_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_TAB);
 	Hotkey_Register( &desc);
@@ -317,50 +317,50 @@ void RegisterKeyBindings() {
 	desc.pszDescription = strDesc;
 	for (i = 0; i < 9; i++) {
 		mir_snprintf(strName, SIZEOF(strName), "Scriver/Nav/Tab %d", i + 1);
-		mir_snprintf(strDesc, SIZEOF(strDesc), "Navigate: Tab %d", i + 1);
+		mir_snprintf(strDesc, SIZEOF(strDesc), LPGEN("Navigate: Tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '1' + i);
 		Hotkey_Register( &desc);
 	}
 
 	desc.pszName = "Scriver/Wnd/Toggle Statusbar";
-	desc.pszDescription = "Window: Toggle Statusbar";
+	desc.pszDescription = LPGEN("Window: Toggle Statusbar");
 	desc.lParam = KB_SWITCHSTATUSBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Titlebar";
-	desc.pszDescription = "Window: Toggle Titlebar";
+	desc.pszDescription = LPGEN("Window: Toggle Titlebar");
 	desc.lParam = KB_SWITCHTITLEBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'M');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Toolbar";
-	desc.pszDescription = "Window: Toggle Toolbar";
+	desc.pszDescription = LPGEN("Window: Toggle Toolbar");
 	desc.lParam = KB_SWITCHTOOLBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Infobar";
-	desc.pszDescription = "Window: Toggle Infobar";
+	desc.pszDescription = LPGEN("Window: Toggle Infobar");
 	desc.lParam = KB_SWITCHINFOBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'N');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Clear Log";
-	desc.pszDescription = "Window: Clear Log";
+	desc.pszDescription = LPGEN("Window: Clear Log");
 	desc.lParam = KB_CLEAR_LOG;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'L');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Minimize";
-	desc.pszDescription = "Window: Minimize";
+	desc.pszDescription = LPGEN("Window: Minimize");
 	desc.lParam = KB_MINIMIZE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_ESCAPE);
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Close Tab";
-	desc.pszDescription = "Window: Close Tab";
+	desc.pszDescription = LPGEN("Window: Close Tab");
 	desc.lParam = KB_CLOSE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F4);
 	Hotkey_Register( &desc);
@@ -368,19 +368,19 @@ void RegisterKeyBindings() {
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/Quote";
-	desc.pszDescription = "Action: Quote";
+	desc.pszDescription = LPGEN("Action: Quote");
 	desc.lParam = KB_QUOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'Q');
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/Send All";
-	desc.pszDescription = "Action: Send to All";
+	desc.pszDescription = LPGEN("Action: Send to All");
 	desc.lParam = KB_SEND_ALL;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_RETURN);
 	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/PasteSend";
-	desc.pszDescription = "Action: Paste & Send";
+	desc.pszDescription = LPGEN("Action: Paste & Send");
 	desc.lParam = KB_PASTESEND;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_INSERT);
 	Hotkey_Register( &desc);

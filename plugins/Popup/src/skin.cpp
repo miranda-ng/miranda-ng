@@ -1,10 +1,10 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+Copyright	ï¿½ 2002 Luca Santarelli,
+			ï¿½ 2004-2007 Victor Pavlychko
+			ï¿½ 2010 MPK
+			ï¿½ 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1403,13 +1403,8 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 
 	if (!any->skin->isCompatible())
 		MessageBox(NULL,
-			TranslateTS(
-				_T("The skin you are trying to load is designed\r\n")
-				_T("for newer version of Popup Plus. And will not\r\n")
-				_T("display properly.\r\n")
-				_T("\r\n")
-				_T("Please choose another skin.")),
-			_T(MODULNAME_LONG), MB_ICONSTOP|MB_OK);
+			TranslateT("The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin."),
+			_T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 
 	return any->skin;
 }

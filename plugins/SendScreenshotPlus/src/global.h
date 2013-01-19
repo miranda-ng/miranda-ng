@@ -33,7 +33,7 @@ Last change by : $Author: ing.u.horn $
 #ifndef _GLOBAL_H_
 #define _GLOBAL_H_
 
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #define WINVER			0x0700
 #define _WIN32_WINNT	0x0700
 #define _WIN32_IE		0x0601
@@ -123,7 +123,7 @@ typedef struct _MGLOBAL {
 } MGLOBAL, *LPMGLOBAL;
 
 //---------------------------------------------------------------------------
-#define ERROR_TITLE		_T("SendScreenshot - Error")
+#define ERROR_TITLE		TranslateT("SendScreenshot - Error")
 
 // Miranda Database Key
 #define SZ_SENDSS		"SendSS"

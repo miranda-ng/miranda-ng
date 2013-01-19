@@ -142,10 +142,10 @@ DWORD isSeen(HANDLE hcontact, SYSTEMTIME *st)
 	return res;
 }
 
-TCHAR *weekdays[] = { _T("Sunday"), _T("Monday"), _T("Tuesday"), _T("Wednesday"), _T("Thursday"), _T("Friday"), _T("Saturday") };
-TCHAR *wdays_short[] = { _T("Sun."), _T("Mon."), _T("Tue."), _T("Wed."), _T("Thu."), _T("Fri."), _T("Sat.") };
-TCHAR *monthnames[] = { _T("January"), _T("February"), _T("March"), _T("April"), _T("May"), _T("June"), _T("July"), _T("August"), _T("September"), _T("October"), _T("November"), _T("December") };
-TCHAR *mnames_short[] = { _T("Jan."), _T("Feb."), _T("Mar."), _T("Apr."), _T("May"), _T("Jun."), _T("Jul."), _T("Aug."), _T("Sep."), _T("Oct."), _T("Nov."), _T("Dec.") };
+TCHAR *weekdays[] = { LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday") };
+TCHAR *wdays_short[] = { LPGENT("Sun."), LPGENT("Mon."), LPGENT("Tue."), LPGENT("Wed."), LPGENT("Thu."), LPGENT("Fri."), LPGENT("Sat.") };
+TCHAR *monthnames[] = { LPGENT("January"), LPGENT("February"), LPGENT("March"), LPGENT("April"), LPGENT("May"), LPGENT("June"), LPGENT("July"), LPGENT("August"), LPGENT("September"), LPGENT("October"), LPGENT("November"), LPGENT("December") };
+TCHAR *mnames_short[] = { LPGENT("Jan."), LPGENT("Feb."), LPGENT("Mar."), LPGENT("Apr."), LPGENT("May"), LPGENT("Jun."), LPGENT("Jul."), LPGENT("Aug."), LPGENT("Sep."), LPGENT("Oct."), LPGENT("Nov."), LPGENT("Dec.") };
 
 TCHAR *ParseString(TCHAR *szstring, HANDLE hcontact, BYTE isfile)
 {

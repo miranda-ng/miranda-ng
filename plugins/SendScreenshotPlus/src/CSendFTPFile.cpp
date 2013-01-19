@@ -38,7 +38,7 @@ Last change by : $Author: ing.u.horn $
 CSendFTPFile::CSendFTPFile(HWND Owner, HANDLE hContact, bool bFreeOnExit)
 : CSend(Owner, hContact, bFreeOnExit){
 	m_EnableItem		= NULL ; //SS_DLG_DESCRIPTION| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
-	m_pszSendTyp		= _T("FTPFile transfer");
+	m_pszSendTyp		= LPGENT("FTPFile transfer");
 	m_pszFileName		= NULL;
 	m_URL				= NULL;
 }
@@ -78,7 +78,7 @@ void CSendFTPFile::SendThread() {
 
 	ret = (int)CallService(MS_FTPFILE_SHAREFILE, (WPARAM)m_hContact, (LPARAM)m_pszFileName);
 	if (ret != 0) {
-		Error(_T("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(TranslateT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret);
 	}
 

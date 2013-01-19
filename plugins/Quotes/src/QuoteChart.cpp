@@ -230,8 +230,8 @@ namespace
 
 				::SetWindowLongPtr(hDlg,GWLP_USERDATA,reinterpret_cast<LONG_PTR>(hContact));
 
-				static LPCTSTR szSources[] = {_T("Log File"),_T("Miranda's History")};
-				static LPCTSTR szFilters[] = {_T("All"),_T("Last Day"),_T("Last Week"),_T("Last Month"),_T("Last Year"),_T("User-Defined")};
+				static LPCTSTR szSources[] = {LPGENT("Log File"), LPGENT("Miranda's History")};
+				static LPCTSTR szFilters[] = {LPGENT("All"), LPGENT("Last Day"), LPGENT("Last Week"), LPGENT("Last Month"), LPGENT("Last Year"), LPGENT("User-Defined")};
 
 				for(int i = 0;i < sizeof(szSources)/sizeof(szSources[0]);++i)
 				{

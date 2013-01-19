@@ -454,11 +454,7 @@ MIRAPI int Load(void)
 	LoadPopupThread();
 	if (!LoadPopupWnd2())
 	{
-		MessageBox(0, TranslateTS(
-			_T("Error: I could not register the PopUp Window class.\r\n")
-			_T("The plugin will not operate.")
-			),
-			_T(MODULNAME_LONG), MB_ICONSTOP|MB_OK);
+		MessageBox(0, TranslateT("Error: I could not register the PopUp Window class.\r\nThe plugin will not operate."), _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 		return 0; //We couldn't register our Window Class, don't hook any event: the plugin will act as if it was disabled.
 	}
 	RegisterOptPrevBox();

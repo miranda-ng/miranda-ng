@@ -58,7 +58,7 @@ CSendHTTPServer::~CSendHTTPServer(){
 void	CSendHTTPServer::Send() {
 
 	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, (WPARAM)true, 0) != 0) {
-		Error(NULL, _T("Could not start the HTTP Server plugin."));
+		Error(NULL, TranslateT("Could not start the HTTP Server plugin."));
 		return;
 	}
 
@@ -104,7 +104,7 @@ void CSendHTTPServer::SendThread() {
 	}
 
 	if (ret != 0) {
-		Error(_T("%s (%i):\nCould not add a share to the HTTP Server plugin."),TranslateTS(m_pszSendTyp),ret);
+		Error(TranslateT("%s (%i):\nCould not add a share to the HTTP Server plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret);
 	}
 

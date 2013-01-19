@@ -74,13 +74,13 @@ namespace
 	void InitMenu()
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.ptszName = _T("Quotes");
+		mi.ptszName = LPGENT("Quotes");
 		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenuRoot);
 
-		mi.ptszName = _T("Refresh All Quotes\\Rates");
+		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
 		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		//mi.position = 0x0FFFFFFF;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
@@ -91,7 +91,7 @@ namespace
 		HANDLE h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 		g_ahServices.push_back(h);
 
-		mi.ptszName = _T("Currency Converter...");
+		mi.ptszName = LPGENT("Currency Converter...");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		//mi.position = 0x0FFFFFFF;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
@@ -102,7 +102,7 @@ namespace
 		g_ahServices.push_back(h);
 
 #ifdef TEST_IMPORT_EXPORT
-		mi.ptszName = _T("Export All Quotes");
+		mi.ptszName = LPGENT("Export All Quotes");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
@@ -111,7 +111,7 @@ namespace
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 		g_ahServices.push_back(h);
 
-		mi.ptszName =_T("Import All Quotes");
+		mi.ptszName = LPGENT("Import All Quotes");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
@@ -149,7 +149,7 @@ namespace
 			mi.pszPopupName = (char*)hMenuRoot;
 		}
 
-		mi.ptszName = _T("Refresh");
+		mi.ptszName = LPGENT("Refresh");
 		mi.popupPosition = 0;
 		mi.flags |= CMIF_ICONFROMICOLIB;
 		mi.icolibItem =  Quotes_GetIconHandle(IDI_ICON_REFRESH);
@@ -160,7 +160,7 @@ namespace
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 		g_ahServices.push_back(h);
 
-		mi.ptszName = _T("Open Log File...");
+		mi.ptszName = LPGENT("Open Log File...");
 		mi.popupPosition = 1;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/OpenLogFile";
@@ -171,7 +171,7 @@ namespace
 		g_ahServices.push_back(h);
 
 #ifdef CHART_IMPLEMENT
-		mi.ptszName = _T("Chart...");
+		mi.ptszName = LPGENT("Chart...");
 		mi.popupPosition = 2;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/Chart";
@@ -182,7 +182,7 @@ namespace
 		g_ahServices.push_back(h);
 #endif
 
-		mi.ptszName = _T("Edit Settings...");
+		mi.ptszName = LPGENT("Edit Settings...");
 #ifdef CHART_IMPLEMENT
 		mi.popupPosition = 3;
 #else

@@ -1,10 +1,10 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+Copyright	ï¿½ 2002 Luca Santarelli,
+			ï¿½ 2004-2007 Victor Pavlychko
+			ï¿½ 2010 MPK
+			ï¿½ 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -63,16 +63,16 @@ int AddStatusMode (OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	lstrcpy(options[pos].pszOptionName, prefix);
 	switch (flag)
 	{
-		case PF2_IDLE:		lstrcat(options[pos].pszOptionName, _T("/Offline")); break;
-		case PF2_ONLINE:	lstrcat(options[pos].pszOptionName, _T("/Online")); break;
-		case PF2_INVISIBLE:	lstrcat(options[pos].pszOptionName, _T("/Invisible")); break;
-		case PF2_SHORTAWAY:	lstrcat(options[pos].pszOptionName, _T("/Away")); break;
-		case PF2_LONGAWAY:	lstrcat(options[pos].pszOptionName, _T("/NA")); break;
-		case PF2_LIGHTDND:	lstrcat(options[pos].pszOptionName, _T("/Occupied")); break;
-		case PF2_HEAVYDND:	lstrcat(options[pos].pszOptionName, _T("/DND")); break;
-		case PF2_FREECHAT:	lstrcat(options[pos].pszOptionName, _T("/Free for chat")); break;
-		case PF2_OUTTOLUNCH:lstrcat(options[pos].pszOptionName, _T("/Out to lunch")); break;
-		case PF2_ONTHEPHONE:lstrcat(options[pos].pszOptionName, _T("/On the phone")); break;
+		case PF2_IDLE:		lstrcat(options[pos].pszOptionName, LPGENT("/Offline")); break;
+		case PF2_ONLINE:	lstrcat(options[pos].pszOptionName, LPGENT("/Online")); break;
+		case PF2_INVISIBLE:	lstrcat(options[pos].pszOptionName, LPGENT("/Invisible")); break;
+		case PF2_SHORTAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("/Away")); break;
+		case PF2_LONGAWAY:	lstrcat(options[pos].pszOptionName, LPGENT("/NA")); break;
+		case PF2_LIGHTDND:	lstrcat(options[pos].pszOptionName, LPGENT("/Occupied")); break;
+		case PF2_HEAVYDND:	lstrcat(options[pos].pszOptionName, LPGENT("/DND")); break;
+		case PF2_FREECHAT:	lstrcat(options[pos].pszOptionName, LPGENT("/Free for chat")); break;
+		case PF2_OUTTOLUNCH:lstrcat(options[pos].pszOptionName, LPGENT("/Out to lunch")); break;
+		case PF2_ONTHEPHONE:lstrcat(options[pos].pszOptionName, LPGENT("/On the phone")); break;
 	}
 	return pos+1;
 }
@@ -158,7 +158,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			//Dynamic Resize
 			{
 			CheckDlgButton(hwnd, IDC_DYNAMICRESIZE, PopUpOptions.DynamicResize);
-			SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.DynamicResize ? _T("Maximum width"): _T("Width"));
+			SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.DynamicResize ? LPGENT("Maximum width"): LPGENT("Width"));
 			//Minimum Width
 			CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopUpOptions.UseMinimumWidth);
 			SendDlgItemMessage(hwnd, IDC_MINIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(
@@ -258,8 +258,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				mir_free(pszSettingName); pszSettingName = NULL;
 			}
 			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount,
-				DBGetContactSettingDword(NULL, MODULNAME, "Global Status", 0),
-				_T("Global Status"));
+				DBGetContactSettingDword(NULL, MODULNAME, "Global Status", 0), _T("Global Status"));
 			}
 			//Debug
 			{
@@ -636,14 +635,8 @@ void Check_ReorderPopUps(HWND hwnd) {
 	if (!PopUpOptions.ReorderPopUps && PopUpOptions.ReorderPopUpsWarning)
 	{
 		int res = MessageBox(hwnd,
-			TranslateTS(
-				_T("'Reorder Popups' option is currently diabled.\r\n")
-				_T("This may cause misaligned popups when used with\r\n")
-				_T("avatars and text replacement (mainly NewStatusNotify).\r\n")
-				_T("\r\n")
-				_T("Do you want to enable popup reordering now?\r\n")
-				),
-			TranslateT("Popup Plus Warning"), MB_ICONEXCLAMATION|MB_YESNOCANCEL);
+			TranslateT("'Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n"),
+			TranslateT("Popup Plus Warning"), MB_ICONEXCLAMATION | MB_YESNOCANCEL);
 
 		switch (res)
 		{

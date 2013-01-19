@@ -44,18 +44,18 @@ static WNDPROC OldFilterButtonProc;
 static WNDPROC OldLogProc;
 
 static ToolbarButton toolbarButtons[] = {
-	{_T("Bold"), IDC_CHAT_BOLD, 0, 4, 24},
-	{_T("Italic"), IDC_CHAT_ITALICS, 0, 0, 24},
-	{_T("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24},
-	{_T("Text color"), IDC_CHAT_COLOR, 0, 0, 24},
-	{_T("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24},
-//	{_T("Font size"), IDC_CHAT_FONTSIZE, 0, 0, 48},
-	{_T("Smiley"), IDC_CHAT_SMILEY, 0, 8, 24},
-	{_T("History"), IDC_CHAT_HISTORY, 1, 0, 24},
-	{_T("Filter"), IDC_CHAT_FILTER, 1, 0, 24},
-	{_T("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24},
-	{_T("Nick list"), IDC_CHAT_SHOWNICKLIST, 1, 0, 24},
-	{_T("Send"), IDOK, 1, 0, 38},
+	{LPGENT("Bold"), IDC_CHAT_BOLD, 0, 4, 24},
+	{LPGENT("Italic"), IDC_CHAT_ITALICS, 0, 0, 24},
+	{LPGENT("Underline"), IDC_CHAT_UNDERLINE, 0, 0, 24},
+	{LPGENT("Text color"), IDC_CHAT_COLOR, 0, 0, 24},
+	{LPGENT("Background color"), IDC_CHAT_BKGCOLOR, 0, 0, 24},
+//	{LPGENT("Font size"), IDC_CHAT_FONTSIZE, 0, 0, 48},
+	{LPGENT("Smiley"), IDC_CHAT_SMILEY, 0, 8, 24},
+	{LPGENT("History"), IDC_CHAT_HISTORY, 1, 0, 24},
+	{LPGENT("Filter"), IDC_CHAT_FILTER, 1, 0, 24},
+	{LPGENT("Manager"), IDC_CHAT_CHANMGR, 1, 0, 24},
+	{LPGENT("Nick list"), IDC_CHAT_SHOWNICKLIST, 1, 0, 24},
+	{LPGENT("Send"), IDOK, 1, 0, 38},
 };
 
 typedef struct

@@ -1,10 +1,10 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+Copyright	ï¿½ 2002 Luca Santarelli,
+			ï¿½ 2004-2007 Victor Pavlychko
+			ï¿½ 2010 MPK
+			ï¿½ 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -98,20 +98,11 @@ void LoadOptions() {
 void PopUpPreview()
 {
 	TCHAR *lptzTitle1Eng = TranslateT("The Jabberwocky");
-	TCHAR *lptzText1Eng  = TranslateTS(
-		_T("`Twas brillig, and the slithy toves\r\n")
-		_T("Did gyre and gimble in the wabe:\r\n")
-		_T("All mimsy were the borogoves,\r\n")
-		_T("And the mome raths outgrabe.\r\n")
-		_T("\t[b][i]Lewis Carroll, 1855[/i][/b]")
-		);
+	TCHAR *lptzText1Eng  = TranslateT("`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]");
 
 	TCHAR *lptzTitle2 = TranslateT("Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...");
 	TCHAR *lptzText2  = TranslateTS(
-		_T("This is a special test preview for the popup ")
-		_T("plugin settings. The text and title are quite ")
-		_T("long so you can tweak your skin and plugin ")
-		_T("settings to best fit your needs :)")
+		LPGENT("This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)")
 		);
 
 	POPUPDATA2 ppd = {0};

@@ -68,7 +68,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = icon.hIcolib;
-	mi.ptszName = _T("Restart");
+	mi.ptszName = LPGENT("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);

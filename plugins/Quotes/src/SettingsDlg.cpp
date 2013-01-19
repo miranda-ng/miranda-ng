@@ -97,7 +97,7 @@ namespace
 	std::vector<TCHAR> get_filter()
 	{
 		std::vector<TCHAR> aFilter;
-		LPCTSTR pszFilterParts[] = {_T("Log Files (*.txt,*.log)"),_T("*.txt;*.log"),_T("All files (*.*)"),_T("*.*")};
+		LPCTSTR pszFilterParts[] = {LPGENT("Log Files (*.txt,*.log)"), _T("*.txt;*.log"), LPGENT("All files (*.*)"), _T("*.*")};
 		for(int i = 0;i < sizeof(pszFilterParts)/sizeof(pszFilterParts[0]);++i)
 		{
 			tstring sPart = TranslateTS(pszFilterParts[i]);

@@ -40,7 +40,7 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wP
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), IcoLib_GetIcon(ICO_PLUG_SSTARGET));
-		SetDlgItemText(hDlg, ID_edtCaption, _T("Drag&&Drop the target on the desired window."));
+		SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&&Drop the target on the desired window."));
 		TranslateDialogDefault(hDlg);
 		break;
 	case WM_CTLCOLOREDIT:		//ctrl is NOT read-only or disabled 
@@ -974,14 +974,14 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 	//Generate a description according to the screenshot
 	TCHAR winText[1024];
-	mir_tcsadd(pszFileDesc, _T("Screenshot "));
+	mir_tcsadd(pszFileDesc, TranslateT("Screenshot "));
 	if (m_opt_tabCapture == 0 && m_opt_chkClientArea) {
-		mir_tcsadd(pszFileDesc, _T("for Client area "));
+		mir_tcsadd(pszFileDesc, TranslateT("for Client area "));
 	}
-	mir_tcsadd(pszFileDesc, _T("of \""));
+	mir_tcsadd(pszFileDesc, TranslateT("of \""));
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, 1024);
 	mir_tcsadd(pszFileDesc, winText);
-	mir_tcsadd(pszFileDesc, _T("\" Window"));
+	mir_tcsadd(pszFileDesc, TranslateT("\" Window"));
 
 	// convert to 32Bits (make shure it is 32bit)
 	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);

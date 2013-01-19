@@ -183,7 +183,7 @@ void SetMenuEntryProperties(HWND hdlg)
 				else
 					{
 					if (!bd->pszOpValue)
-						bd->pszOpValue=mir_tstrdup(_T("Enter Value"));
+						bd->pszOpValue=mir_tstrdup(LPGENT("Enter Value"));
 					}
 					if(TreeView_GetParent(hMenuTree, tvi.hItem))
 						bd->fEntryOpType|=QMF_EX_CHILD;
@@ -992,11 +992,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			int count=TreeView_GetCount(hButtonsList);
 			if (count>10) break;
 			if(g_iOPButtonsCount==99){
-				MessageBox(NULL,_T("Congratulation!\n\
-								   You have clicked this button 100 times!\n\
-								   There was access violation at this point...\n\
-								   And now function for freeing resources must be called...\n\
-								   But no! there's only break :D"),_T("You win!"),MB_OK);
+				MessageBox(NULL, TranslateT("Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D"), TranslateT("You win!"),MB_OK);
 				break;
 				}
 

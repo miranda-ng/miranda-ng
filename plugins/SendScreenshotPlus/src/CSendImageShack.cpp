@@ -224,7 +224,7 @@ void CSendImageShack::SendThread() {
 			}
 		}
 		else {
-				Error(NULL, _T("Upload server did not respond timely."));
+				Error(NULL, TranslateT("Upload server did not respond timely."));
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM) m_nlreply);
 		m_nlreply = NULL;

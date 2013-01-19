@@ -1,10 +1,10 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+Copyright	ï¿½ 2002 Luca Santarelli,
+			ï¿½ 2004-2007 Victor Pavlychko
+			ï¿½ 2010 MPK
+			ï¿½ 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -102,7 +102,7 @@ bool	LoadPopupWnd2()
 		err = GetLastError();
 		if (!g_wndClass.cPopupEditBox) {
 			TCHAR msg[2048];
-			wsprintf(msg, _T("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
+			wsprintf(msg, LPGENT("Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n"),
 				wclw.cbSize,		//UINT        cbSize;
 				wclw.style,			//UINT        style;
 				wclw.lpfnWndProc,	//WNDPROC     lpfnWndProc;

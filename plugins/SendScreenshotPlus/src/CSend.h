@@ -52,8 +52,8 @@ Last change by : $Author: ing.u.horn $
 #define GC_RESULT_ERROR				202
 #define GC_RESULT_NOSESSION			209
 
-#define SS_ERR_INIT					_T("Unable to initiate %s.")
-#define SS_ERR_MAPI					_T("MAPI error (%i):\n%s.")
+#define SS_ERR_INIT					LPGENT("Unable to initiate %s.")
+#define SS_ERR_MAPI					LPGENT("MAPI error (%i):\n%s.")
 
 //---------------------------------------------------------------------------
 class CSend {

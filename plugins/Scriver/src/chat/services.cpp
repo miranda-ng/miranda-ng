@@ -244,7 +244,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				si->bBGSet = TRUE;
 			}
 			if (si->iType == GCW_SERVER)
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("Server: %s"), si->ptszName);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), LPGENT("Server: %s"), si->ptszName);
 			else
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->windowData.hContact = CList_AddRoom( gcw->pszModule, ptszID, szTemp, si->iType);

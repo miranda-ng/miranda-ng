@@ -125,7 +125,7 @@ namespace
 	bool parse_html_node(const THTMLNodePtr& pNode,double& rdRate)
 	{
 		tstring sID = pNode->GetAttribute(_T("id"));
-		if ((false == sID.empty()) && (0 == quotes_stricmp(sID.c_str(),_T("currency_converter_result"))))
+		if ((false == sID.empty()) && (0 == quotes_stricmp(sID.c_str(), _T("currency_converter_result"))))
 		{
 			size_t cChild = pNode->GetChildCount();
 // 			assert(1 == cChild);

@@ -230,7 +230,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 			break;
 		case IDC_TEST:
-			debug( ParseString( _T("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact, 0));
+			debug( ParseString( LPGENT("Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r"), hContact, 0));
 			break;
 		}
 		break;
