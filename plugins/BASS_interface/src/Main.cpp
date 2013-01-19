@@ -48,7 +48,7 @@ static int device = -1;
 static int newBass = 0;
 static HWND ClistHWND;
 
-HWND hwndSlider = NULL, hwndMute = NULL;
+HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
@@ -119,6 +119,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
 
+				hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN,SLIDER_MAX));
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
@@ -189,7 +190,9 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (hBass != NULL)
 				if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
 				{
-					BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0) * 100);
+					Volume = SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
+					BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+					SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 					Preview = TRUE;
 					if (EnPreview) SkinPlaySound("AlertMsg");
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -375,16 +378,27 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					hwnd, (HMENU)0, (HINSTANCE) GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
 				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-				//SendMessage(hwndSlider, TBM_SETPAGESIZE, 0, 5);
+				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Click to toggle all sounds"), 0);
 				break;
 			}
+
+		case WM_COMMAND:
+			if((HWND)lParam == hwndMute) {
+				int useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
+				db_set_b(NULL, "Skin", "UseSound", useSound);
+				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? iconList[0].hIcolib : iconList[1].hIcolib));
+			}
+			break;
 
 		case WM_HSCROLL:
 			{
 				if (hBass != NULL)
 					if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
 					{
-						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, SendMessage(hwndSlider, TBM_GETPOS, 0, 0) * 100);
+						Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
+						db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
+						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+						SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
 					}
 				break;
 			}
