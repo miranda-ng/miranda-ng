@@ -63,7 +63,7 @@ struct FontOptionsList
 }
 
 static fontOptionsList[] = {
-	{ RGB(106, 106, 106), _T("Arial"),    0, -12},
+	{ RGB(106, 106, 106), L"Arial",    0, -12},
 };
 
 

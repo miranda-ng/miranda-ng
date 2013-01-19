@@ -100,8 +100,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
-		static const TCHAR errmsg[] = _T("Only one instance of SmileyAdd could be executed.\n")
-			_T("Remove duplicate instances from 'Plugins' directory");
+		static const TCHAR errmsg[] = L"Only one instance of SmileyAdd could be executed.\n"
+			L"Remove duplicate instances from 'Plugins' directory";
 		ReportError(TranslateTS(errmsg));
 
 		return 1;

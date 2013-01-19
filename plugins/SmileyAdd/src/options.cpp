@@ -529,7 +529,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 {
 	OPENFILENAME ofn = {0};
 
-	TCHAR filename[MAX_PATH] = _T("");
+	TCHAR filename[MAX_PATH] = L"";
 	ofn.lpstrFile = filename;
 	ofn.nMaxFile = SIZEOF(filename);
 
@@ -537,7 +537,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item); 
 	if (smc->GetFilename().empty())
 	{
-		pathToAbsolute(_T("Smileys"), inidir);
+		pathToAbsolute(L"Smileys", inidir);
 	}
 	else
 	{
@@ -551,21 +551,21 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 
 	TCHAR filter[512], *pfilter;
 	_tcscpy(filter, TranslateT("Smiley Packs"));
-	lstrcat(filter, _T(" (*.msl;*.asl;*.xep)"));
+	lstrcat(filter, L" (*.msl;*.asl;*.xep)");
 	pfilter = filter + _tcslen(filter) + 1;
-	_tcscpy(pfilter, _T("*.msl;*.asl;*.xep"));
+	_tcscpy(pfilter, L"*.msl;*.asl;*.xep");
 	pfilter = pfilter + _tcslen(pfilter) + 1;
 	_tcscpy(pfilter, TranslateT("All Files"));
-	lstrcat(pfilter, _T(" (*.*)"));
+	lstrcat(pfilter, L" (*.*)");
 	pfilter = pfilter + _tcslen(pfilter) + 1;
-	_tcscpy(pfilter, _T("*.*"));
+	_tcscpy(pfilter, L"*.*");
 	pfilter = pfilter + _tcslen(pfilter) + 1;
 	*pfilter = '\0';  
 	ofn.lpstrFilter = filter;
 
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_READONLY |
 		OFN_EXPLORER | OFN_LONGNAMES | OFN_NOCHANGEDIR;
-	ofn.lpstrDefExt = _T("msl");
+	ofn.lpstrDefExt = L"msl";
 
 	if (GetOpenFileName(&ofn)) 
 	{
@@ -663,7 +663,7 @@ void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name,
 	const bkstring& defaultFilename)
 {
 	DBVARIANT dbv;
-	bkstring settingKey = name + _T("-filename");
+	bkstring settingKey = name + L"-filename";
 
 	INT_PTR res = DBGetContactSettingTString(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), &dbv);
 	if (res == 0)
@@ -678,7 +678,7 @@ void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name,
 
 void OptionsType::WritePackFileName(const bkstring& filename, const bkstring& name)
 {
-	bkstring settingKey = name + _T("-filename");
+	bkstring settingKey = name + L"-filename";
 	DBWriteContactSettingTString(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), 
 		filename.c_str());
 }

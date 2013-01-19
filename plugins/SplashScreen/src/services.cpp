@@ -32,7 +32,7 @@ INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam)
 
 	pos = _tcsrchr(filename, _T(':'));
 	if (pos == NULL)
-		mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), _T("%s\\%s"), szMirDir, filename);
+		mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), L"%s\\%s", szMirDir, filename);
 	else
 		lstrcpy(szSplashFile, filename);
 
@@ -50,7 +50,7 @@ INT_PTR TestService(WPARAM wParam,LPARAM lParam)
 
 	OPENFILENAME ofn={0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	ofn.lpstrFilter = _T("PNG and BMP files\0*.png;*.bmp\0\0");
+	ofn.lpstrFilter = L"PNG and BMP files\0*.png;*.bmp\0\0";
 	ofn.hwndOwner=0;
 	ofn.lpstrFile = szTempPath;
 	ofn.nMaxFile = MAX_PATH;
@@ -58,7 +58,7 @@ INT_PTR TestService(WPARAM wParam,LPARAM lParam)
 	ofn.Flags = OFN_HIDEREADONLY;
 	ofn.lpstrInitialDir = szSplashFile;
 	*szTempPath = '\0';
-	ofn.lpstrDefExt = _T("");
+	ofn.lpstrDefExt = L"";
 
 	if (GetOpenFileName(&ofn))
 		CallService(MS_SHOWSPLASH,(WPARAM)szTempPath,0);

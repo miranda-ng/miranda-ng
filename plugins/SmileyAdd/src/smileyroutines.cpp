@@ -281,7 +281,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 		TCHAR classname[20];
 		GetClassName(hwnd, classname, SIZEOF(classname));
-		bool ishpp = (_tcsncmp(classname, _T("THppRichEdit"), 12) == 0) || fireView;
+		bool ishpp = (_tcsncmp(classname, L"THppRichEdit", 12) == 0) || fireView;
 
 		SetRichCallback(hwnd, NULL, false, true);
 
@@ -526,8 +526,8 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 	QueryPerformanceCounter(&end);
 	unsigned dif = (end.QuadPart - strt.QuadPart)/(freq.QuadPart/1000);
 	TCHAR mess[300];
-	wsprintf(mess, _T("Time elapsed: %u"), dif);
-	MessageBox(NULL, mess, _T(""), MB_OK);
+	wsprintf(mess, L"Time elapsed: %u", dif);
+	MessageBox(NULL, mess, L"", MB_OK);
 */
 }
 

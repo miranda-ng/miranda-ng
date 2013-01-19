@@ -127,17 +127,17 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER);
 
 		dictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
-		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, _T("."));
+		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, L".");
 
 		hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER);
 
 		customDictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
-		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, _T("."));
+		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, L".");
 		
 		hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER);
 
 		flagsDllFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
-		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, _T("."));
+		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, L".");
 	}
 	else {
 		dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
@@ -154,7 +154,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (opts.use_flags) {
 		// Load flags dll
 		TCHAR flag_file[MAX_PATH];
-		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
+		mir_sntprintf(flag_file, SIZEOF(flag_file), L"%s\\flags_icons.dll", flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
 		TCHAR path[MAX_PATH];
@@ -162,7 +162,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		SKINICONDESC sid = { sizeof(sid) };
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
-		sid.ptszSection = _T("Spell Checker/Flags");
+		sid.ptszSection = L"Spell Checker/Flags";
 
 		// Get language flags
 		for(int i = 0; i < languages.getCount(); i++) {
@@ -203,7 +203,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		Dictionary *dict = languages[j];
 
 		TCHAR filename[MAX_PATH];
-		mir_sntprintf(filename, MAX_PATH, _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
+		mir_sntprintf(filename, MAX_PATH, L"%s\\%s.ar", customDictionariesFolder, dict->language);
 		dict->autoReplace = new AutoReplaceMap(filename, dict);
 
 		if (lstrcmp(dict->language, opts.default_language) == 0)

@@ -158,27 +158,27 @@ public:
 	//identifies the message dialog
 	bool IsMessageSendDialog(HWND hwnd)
 	{
-		TCHAR szClassName[32] = _T("");
+		TCHAR szClassName[32] = L"";
 
 		GetClassName(hwnd, szClassName, SIZEOF(szClassName));
-		if (_tcscmp(szClassName, _T("#32770"))) return false;  
+		if (_tcscmp(szClassName, L"#32770")) return false;  
 
 		if ((REdit = GetDlgItem(hwnd, MI_IDC_LOG)) != NULL) 
 		{
 			GetClassName(REdit, szClassName, SIZEOF(szClassName));
-			if (_tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				_tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				_tcscmp(szClassName, _T("RICHEDIT50W")) != 0)  return false; 
+			if (_tcscmp(szClassName, L"RichEdit20A") != 0 && 
+				_tcscmp(szClassName, L"RichEdit20W") != 0 &&
+				_tcscmp(szClassName, L"RICHEDIT50W") != 0)  return false; 
 		}
 		else return false; 
 
 		if ((MEdit = GetDlgItem(hwnd, MI_IDC_MESSAGE)) != NULL) 
 		{
 			GetClassName(MEdit, szClassName, SIZEOF(szClassName));
-			if (_tcscmp(szClassName, _T("Edit")) != 0 &&  
-				_tcscmp(szClassName, _T("RichEdit20A")) != 0 && 
-				_tcscmp(szClassName, _T("RichEdit20W")) != 0 &&
-				_tcscmp(szClassName, _T("RICHEDIT50W")) != 0)  return false; 
+			if (_tcscmp(szClassName, L"Edit") != 0 &&  
+				_tcscmp(szClassName, L"RichEdit20A") != 0 && 
+				_tcscmp(szClassName, L"RichEdit20W") != 0 &&
+				_tcscmp(szClassName, L"RICHEDIT50W") != 0)  return false; 
 		}
 		else return false;
 
@@ -236,7 +236,7 @@ public:
 			hSmlButton = CreateWindowEx(
 				WS_EX_LEFT | WS_EX_NOPARENTNOTIFY | WS_EX_TOPMOST,
 				MIRANDABUTTONCLASS,
-				_T("S"),
+				L"S",
 				WS_CHILD|WS_VISIBLE|WS_TABSTOP, // window style
 				rect.left,                      // horizontal position of window
 				rect.top,                       // vertical position of window

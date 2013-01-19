@@ -29,7 +29,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		case WM_LOADED:
 		{
 			#ifdef _DEBUG
-				logMessage(_T("WM_LOADED"), _T("called"));
+				logMessage(L"WM_LOADED", L"called");
 			#endif
 
 			if (!MyUpdateLayeredWindow) ShowWindow(hwndSplash, SW_SHOWNORMAL);
@@ -46,10 +46,10 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 			#ifdef _DEBUG
 				TCHAR b [40];
-				mir_sntprintf(b, SIZEOF(b), _T("%d"), wParam);
-				logMessage(_T("Timer ID"), b);
-				mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
-				logMessage(_T("ShowTime value"), b);
+				mir_sntprintf(b, SIZEOF(b), L"%d", wParam);
+				logMessage(L"Timer ID", b);
+				mir_sntprintf(b, SIZEOF(b), L"%d", options.showtime);
+				logMessage(L"ShowTime value", b);
 			#endif
 
 			if (options.showtime > 0) //TimeToShow enabled
@@ -58,7 +58,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 				{
 					PostMessage(hwnd, WM_CLOSE, 0, 0);
 					#ifdef _DEBUG
-						logMessage(_T("Showtime timer"), _T("triggered"));
+						logMessage(L"Showtime timer"), L"triggered");
 					#endif
 				}
 			}
@@ -68,13 +68,13 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 				if (wParam == 7)
 				{
 					#ifdef _DEBUG
-						logMessage(_T("On Modules Loaded timer"), _T("triggered"));
+						logMessage(L"On Modules Loaded timer", L"triggered");
 					#endif
 				}
 				if (wParam == 8)
 				{
 					#ifdef _DEBUG
-						logMessage(_T("On Modules Loaded workaround"), _T("triggered"));
+						logMessage(L"On Modules Loaded workaround", L"triggered");
 					#endif
 				}
 			}
@@ -133,7 +133,7 @@ LRESULT CALLBACK SplashWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 		{
 			PostQuitMessage(0);
 			#ifdef _DEBUG
-				logMessage(_T("WM_DESTROY"), _T("called"));
+				logMessage(L"WM_DESTROY", L"called");
 			#endif
 			break;
 		}
@@ -262,11 +262,11 @@ int SplashThread(void *arg)
 
 			TCHAR verString[256] = {0};
 			TCHAR* mirandaVerString = mir_a2t(szVersion);
-			mir_sntprintf(verString, SIZEOF(verString), _T("%s%s"), szPrefix, mirandaVerString);
+			mir_sntprintf(verString, SIZEOF(verString), L"%s%s", szPrefix, mirandaVerString);
 			mir_free(mirandaVerString);
 			LOGFONT lf = {0};
 			lf.lfHeight = 14;
-			_tcscpy_s(lf.lfFaceName, _T("Verdana"));
+			_tcscpy_s(lf.lfFaceName, L"Verdana");
 			SelectObject(SplashBmp->getDC(), CreateFontIndirect(&lf));
 			if (!splashWithMarkers)
 			{
@@ -317,7 +317,7 @@ int SplashThread(void *arg)
 		if (SetTimer(hwndSplash, 6, DWORD(arg), 0))
 		{
 			#ifdef _DEBUG
-				logMessage(_T("Timer TimeToShow"), _T("set"));
+				logMessage(L"Timer TimeToShow", L"set");
 			#endif
 		}
 	}
@@ -327,7 +327,7 @@ int SplashThread(void *arg)
 			if (SetTimer(hwndSplash, 8, 2000, 0))
 			{
 				#ifdef _DEBUG
-					logMessage(_T("Timer Modules loaded"), _T("set"));
+					logMessage(L"Timer Modules loaded", L"set");
 				#endif
 			}
 		}
@@ -361,7 +361,7 @@ BOOL ShowSplash(BOOL bpreview)
 	SplashBmp = new MyBitmap;
 
 	#ifdef _DEBUG
-		logMessage(_T("Loading splash file"), szSplashFile);
+		logMessage(L"Loading splash file", szSplashFile);
 	#endif
 
 	SplashBmp->loadFromFile(szSplashFile, NULL);
@@ -369,7 +369,7 @@ BOOL ShowSplash(BOOL bpreview)
 	DWORD threadID;
 
 	#ifdef _DEBUG
-		logMessage(_T("Thread"), _T("start"));
+		logMessage(L"Thread", L"start");
 	#endif
 
 	if (bpreview)
@@ -379,7 +379,7 @@ BOOL ShowSplash(BOOL bpreview)
 
 		timeout = 2000;
 		#ifdef _DEBUG
-			logMessage(_T("Preview"), _T("yes"));
+			logMessage(L"Preview", L"yes");
 		#endif
 	}
 	else
@@ -387,15 +387,15 @@ BOOL ShowSplash(BOOL bpreview)
 		timeout = options.showtime;
 		#ifdef _DEBUG
 			TCHAR b [40];
-			mir_sntprintf(b, SIZEOF(b), _T("%d"), options.showtime);
-			logMessage(_T("Timeout"), b);
+			mir_sntprintf(b, SIZEOF(b), L"%d", options.showtime);
+			logMessage(L"Timeout", b);
 		#endif
 	}
 
 	hSplashThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)SplashThread, (LPVOID)timeout, 0, &threadID);
 
 	#ifdef _DEBUG
-		logMessage(_T("Thread"), _T("end"));
+		logMessage(L"Thread", L"end");
 	#endif
 
 	CloseHandle(hSplashThread);

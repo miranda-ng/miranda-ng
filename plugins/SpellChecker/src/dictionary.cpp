@@ -32,8 +32,8 @@ DWORD WINAPI LoadThread(LPVOID hd);
 
 // Additional languages that i could not find in Windows
 TCHAR *aditionalLanguages[] = {
-	_T("tl_PH"), _T("Tagalog (Philippines)"),
-	_T("de_frami_neu"), _T("German (Germany)")
+	LPGENT("tl_PH"), LPGENT("Tagalog (Philippines)"),
+	LPGENT("de_frami_neu"), LPGENT("German (Germany)")
 };
 
 
@@ -56,9 +56,9 @@ protected:
 	void loadCustomDict()
 	{
 		TCHAR filename[1024];
-		mir_sntprintf(filename, SIZEOF(filename), _T("%s\\%s.cdic"), userPath, language);
+		mir_sntprintf(filename, SIZEOF(filename), L"%s\\%s.cdic", userPath, language);
 
-		FILE *file = _tfopen(filename, _T("rb"));
+		FILE *file = _tfopen(filename, L"rb");
 		if (file != NULL) 
 		{
 			char tmp[1024];
@@ -91,9 +91,9 @@ protected:
 		CreateDirectoryTreeT(userPath);
 
 		TCHAR filename[1024];
-		mir_sntprintf(filename, SIZEOF(filename), _T("%s\\%s.cdic"), userPath, language);
+		mir_sntprintf(filename, SIZEOF(filename), L"%s\\%s.cdic", userPath, language);
 
-		FILE *file = _tfopen(filename, _T("ab"));
+		FILE *file = _tfopen(filename, L"ab");
 		if (file != NULL) 
 		{
 			char tmp[1024];
@@ -458,7 +458,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, SIZEOF(end));
 
 	TCHAR name[64];
-	mir_sntprintf(name, SIZEOF(name), _T("%s_%s"), ini, end);
+	mir_sntprintf(name, SIZEOF(name), L"%s_%s", ini, end);
 
 	for(int i = 0; i < tmp_dicts->getCount(); i++)
 	{
@@ -482,7 +482,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 
 				TCHAR name[1024];
 				if (country[0] != 0)
-					mir_sntprintf(name, SIZEOF(name), _T("%s (%s)"), dict->english_name, country);
+					mir_sntprintf(name, SIZEOF(name), L"%s (%s)", dict->english_name, country);
 				else
 					lstrcpyn(name, dict->english_name, SIZEOF(name));
 
@@ -491,7 +491,7 @@ BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
 
 			if (dict->localized_name[0] != 0)
 			{
-				mir_sntprintf(dict->full_name, SIZEOF(dict->full_name), _T("%s [%s]"), dict->localized_name, dict->language);
+				mir_sntprintf(dict->full_name, SIZEOF(dict->full_name), L"%s [%s]", dict->localized_name, dict->language);
 			}
 			break;
 		}
@@ -537,7 +537,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 
 			if (dict->localized_name[0] != _T('\0'))
 			{
-				mir_sntprintf(dict->full_name, SIZEOF(dict->full_name), _T("%s [%s]"), dict->localized_name, dict->language);
+				mir_sntprintf(dict->full_name, SIZEOF(dict->full_name), L"%s [%s]", dict->localized_name, dict->language);
 			}
 			else
 			{
@@ -552,7 +552,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 {
 	// Load the language files and create an array with then
 	TCHAR file[1024];
-	mir_sntprintf(file, SIZEOF(file), _T("%s\\*.dic"), path);
+	mir_sntprintf(file, SIZEOF(file), L"%s\\*.dic", path);
 
 	BOOL found = FALSE;
 
@@ -562,7 +562,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 	{
 		do
 		{
-			mir_sntprintf(file, SIZEOF(file), _T("%s\\%s"), path, ffd.cFileName);
+			mir_sntprintf(file, SIZEOF(file), L"%s\\%s", path, ffd.cFileName);
 
 			// Check .dic
 			DWORD attrib = GetFileAttributes(file);
@@ -570,7 +570,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 				continue;
 
 			// See if .aff exists too
-			lstrcpy(&file[lstrlen(file) - 4], _T(".aff"));
+			lstrcpy(&file[lstrlen(file) - 4], L".aff");
 			attrib = GetFileAttributes(file);
 			if (attrib == 0xFFFFFFFF || (attrib & FILE_ATTRIBUTE_DIRECTORY))
 				continue;
@@ -613,11 +613,11 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 
 	if (opts.use_other_apps_dicts)
 	{
-		TCHAR *otherHunspellApps[] = { _T("Thunderbird"), _T("thunderbird.exe"), 
-									   _T("Firefox"), _T("firefox.exe") };
+		TCHAR *otherHunspellApps[] = { L"Thunderbird", L"thunderbird.exe", 
+									   L"Firefox", L"firefox.exe" };
 
-#define APPPATH  _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\%s")
-#define MUICACHE _T("Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache")
+#define APPPATH  L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\%s"
+#define MUICACHE L"Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache"
 
 		// Get other apps dicts
 		for (int i = 0; i < SIZEOF(otherHunspellApps); i += 2)
@@ -630,7 +630,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 			if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, key, 0, KEY_QUERY_VALUE, &hKey))
 			{
 				DWORD size = SIZEOF(key);
-				lResult = RegQueryValueEx(hKey, _T("Path"), NULL, NULL, (LPBYTE)key, &size);
+				lResult = RegQueryValueEx(hKey, L"Path", NULL, NULL, (LPBYTE)key, &size);
 				RegCloseKey(hKey);
 			}
 			else 
@@ -668,7 +668,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 			if (ERROR_SUCCESS == lResult)
 			{
 				TCHAR folder[1024];
-				mir_sntprintf(folder, SIZEOF(folder), _T("%s\\Dictionaries"), key);
+				mir_sntprintf(folder, SIZEOF(folder), L"%s\\Dictionaries", key);
 
 				GetHunspellDictionariesFromFolder(languages, folder, user_path, otherHunspellApps[i]);
 			}       
