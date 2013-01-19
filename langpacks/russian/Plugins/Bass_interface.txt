@@ -35,9 +35,5 @@
 Нет звука
 [Play only if]
 Играть, если
-[Audio device is opened]
-Аудио устройство включено
-[Audio device is closed]
-Аудио устройство выключено
-[Open/close audio device]
-Вкл/выкл аудио устройство
+[Disable sounds]
+Выключить звуки
