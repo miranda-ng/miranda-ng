@@ -37,8 +37,6 @@
 [Message ID:]
 [Source:]
 [Network:]
-;file \plugins\SMS\src\SMSConstans.h
-[Arial]
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]
