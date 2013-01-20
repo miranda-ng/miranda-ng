@@ -532,7 +532,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 		//TODO: init IDC_ALIGNGROUPCOMBO from DBGetContactSettingByte(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
 		{
 			int item;
-			TCHAR *align[] = {_T("Left align group names"), _T("Center group names"), _T("Right align group names")};
+			TCHAR *align[] = {LPGENT("Left align group names"), LPGENT("Center group names"), LPGENT("Right align group names")};
 			for (int i=0; i < sizeof(align)/sizeof(char*); i++) 
 				item = SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_ADDSTRING,0,(LPARAM)TranslateTS(align[i]));
 			SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_SETCURSEL,db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT),0);

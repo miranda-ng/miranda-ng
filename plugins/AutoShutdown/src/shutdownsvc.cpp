@@ -440,15 +440,15 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			return TRUE;
 		case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{	TCHAR szText[256];
-			TCHAR *desc[]={_T("Miranda NG is going to be automatically closed in %u second(s)."),
-			               _T("All Miranda NG protocols are going to be set to offline in %u second(s)."),
-			               _T("You will be logged off automatically in %u second(s)."),
-			               _T("The computer will automatically be restarted in %u second(s)."),
-			               _T("The computer will automatically be set to standby mode in %u second(s)."),
-			               _T("The computer will automatically be set to hibernate mode in %u second(s)."),
-			               _T("The workstation will automatically get locked in %u second(s)."),
-			               _T("All dialup connections will be closed in %u second(s)."),
-			               _T("The computer will automatically be shut down in %u second(s).")};
+			TCHAR *desc[]={TranslateT("Miranda NG is going to be automatically closed in %u second(s)."),
+			               TranslateT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
+			               TranslateT("You will be logged off automatically in %u second(s)."),
+			               TranslateT("The computer will automatically be restarted in %u second(s)."),
+			               TranslateT("The computer will automatically be set to standby mode in %u second(s)."),
+			               TranslateT("The computer will automatically be set to hibernate mode in %u second(s)."),
+			               TranslateT("The workstation will automatically get locked in %u second(s)."),
+			               TranslateT("All dialup connections will be closed in %u second(s)."),
+			               TranslateT("The computer will automatically be shut down in %u second(s).")};
 			mir_sntprintf(szText,SIZEOF(szText),TranslateTS(desc[shutdownType-1]),lParam);
 			SetDlgItemText(hwndDlg,IDC_TEXT_HEADER,szText);
 			/* countdown finished */
@@ -517,20 +517,20 @@ INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR *pszDesc;
-	const TCHAR *apszShort[]={_T("Close Miranda NG"),_T("Set Miranda NG offline"),_T("Log off user"),
-	                          _T("Restart computer"),_T("Shutdown computer"),_T("Standby mode"),_T("Hibernate mode"),
-	                          _T("Lock workstation"),_T("Hang up dialup connections"),_T("Close Miranda NG"),
-	                          _T("Set Miranda NG offline"),_T("Log off user"),_T("Restart computer"),_T("Shutdown computer"),
-	                          _T("Standby mode"),_T("Hibernate mode"),_T("Lock workstation"),_T("Hang up dialup connections")};
-	const TCHAR *apszLong[]={_T("Sets all Miranda NG protocols to offline and closes Miranda NG."),
-	                         _T("Sets all Miranda NG protocols to offline."),
-	                         _T("Logs the current Windows user off so that another user can log in."),
-	                         _T("Shuts down Windows and then restarts Windows."),
-	                         _T("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
-	                         _T("Saves the current Windows session in memory and sets the system to suspend mode."),
-	                         _T("Saves the current Windows session on harddisc, so that the power can be turned off."),
-	                         _T("Locks the computer. To unlock the computer, you must log in."),
-			                 _T("Sets all protocols to offline and closes all RAS connections.")};
+	const TCHAR *apszShort[]={TranslateT("Close Miranda NG"),TranslateT("Set Miranda NG offline"),TranslateT("Log off user"),
+	                          TranslateT("Restart computer"),TranslateT("Shutdown computer"),TranslateT("Standby mode"),TranslateT("Hibernate mode"),
+	                          TranslateT("Lock workstation"),TranslateT("Hang up dialup connections"),TranslateT("Close Miranda NG"),
+	                          TranslateT("Set Miranda NG offline"),TranslateT("Log off user"),TranslateT("Restart computer"),TranslateT("Shutdown computer"),
+	                          TranslateT("Standby mode"),TranslateT("Hibernate mode"),TranslateT("Lock workstation"),TranslateT("Hang up dialup connections")};
+	const TCHAR *apszLong[]={TranslateT("Sets all Miranda NG protocols to offline and closes Miranda NG."),
+	                         TranslateT("Sets all Miranda NG protocols to offline."),
+	                         TranslateT("Logs the current Windows user off so that another user can log in."),
+	                         TranslateT("Shuts down Windows and then restarts Windows."),
+	                         TranslateT("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
+	                         TranslateT("Saves the current Windows session in memory and sets the system to suspend mode."),
+	                         TranslateT("Saves the current Windows session on harddisc, so that the power can be turned off."),
+	                         TranslateT("Locks the computer. To unlock the computer, you must log in."),
+			                 TranslateT("Sets all protocols to offline and closes all RAS connections.")};
 	/* shutdownType range check */
 	if(!wParam || (BYTE)wParam>SDSDT_MAX) return (int)NULL;
 	/* select description */

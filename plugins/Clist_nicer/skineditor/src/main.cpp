@@ -662,7 +662,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
             SendMessage(hwndDlg, WM_USER + 101, 0, 0);
 
             psd->hMenuItems = CreatePopupMenu();
-            AppendMenu(psd->hMenuItems, MF_STRING | MF_DISABLED, (UINT_PTR)0, _T("Copy from"));
+            AppendMenu(psd->hMenuItems, MF_STRING | MF_DISABLED, (UINT_PTR)0, LPGENT("Copy from"));
             AppendMenuA(psd->hMenuItems, MF_SEPARATOR, (UINT_PTR)0, NULL);
 
             {

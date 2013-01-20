@@ -1473,12 +1473,12 @@ skipbg:
 									SendMessage(item->hWnd, BM_SETCHECK, 0, 0);
 							}
 							if ( !contactOK)
-								MessageBox(0, _T("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat"), _T("Parameter mismatch"), MB_OK);
+								MessageBox(0, TranslateT("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat"), TranslateT("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
 								char szError[512];
 
-								mir_snprintf(szError, 512, "The service %s specified by the %s button definition was not found. You may need to install additional plugins", item->szService, item->szName);
-								MessageBoxA(0, szError, "Service failure", MB_OK);
+								mir_snprintf(szError, 512, Translate("The service %s specified by the %s button definition was not found. You may need to install additional plugins"), item->szService, item->szName);
+								MessageBoxA(0, szError, Translate("Service failure"), MB_OK);
 							}
 							break;
 						}

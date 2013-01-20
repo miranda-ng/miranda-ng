@@ -350,11 +350,11 @@ void CreateOldStyleShortcut(HANDLE hContact, TCHAR *history_filename)
 
 	if (!CreateShortcut(history_filename, shortcut))
 	{
-		ShowPopup(hContact, _T("Avatar History: Unable to create shortcut"), shortcut);
+		ShowPopup(hContact, TranslateT("Avatar History: Unable to create shortcut"), shortcut);
 	}
 	else
 	{
-		ShowDebugPopup(hContact, _T("AVH Debug: Shortcut created successfully"), shortcut);
+		ShowDebugPopup(hContact, TranslateT("AVH Debug: Shortcut created successfully"), shortcut);
 	}
 }
 
@@ -386,19 +386,19 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 
 	if (hContact == NULL)
 	{
-		ShowDebugPopup(NULL, _T("AVH Debug"), _T("Invalid contact/avatar... skipping"));
+		ShowDebugPopup(NULL, TranslateT("AVH Debug"), TranslateT("Invalid contact/avatar... skipping"));
 		return 0;
 	}
 
 	char *proto = GetContactProto((HANDLE)wParam);
 	if (proto == NULL)
 	{
-		ShowDebugPopup(hContact, _T("AVH Debug"), _T("Invalid protocol... skipping"));
+		ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Invalid protocol... skipping"));
 		return 0;
 	}
 	else if (metacontacts_proto != NULL && strcmp(metacontacts_proto, proto) == 0)
 	{
-		ShowDebugPopup(hContact, _T("AVH Debug"), _T("Ignoring metacontacts notification"));
+		ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Ignoring metacontacts notification"));
 		return 0;
 	}
 
@@ -411,7 +411,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		{
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
-			ShowDebugPopup(hContact, _T("AVH Debug"), _T("Removed avatar, no avatar before...skipping"));
+			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before...skipping"));
 			DBFreeVariant(&dbvOldHash);
 			return 0;
 		}
@@ -431,7 +431,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		if(ret && !_tcscmp(dbvOldHash.ptszVal, avatar->hash)) 
 		{
 			// same avatar hash, skipping
-			ShowDebugPopup(hContact, _T("AVH Debug"), _T("Hashes are the same... skipping"));
+			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Hashes are the same... skipping"));
 			DBFreeVariant(&dbvOldHash);
 			return 0;
 		}
@@ -448,9 +448,9 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 				{
 					GetOldStyleAvatarName(history_filename, hContact);
 					if (CopyImageFile(avatar->filename, history_filename))
-						ShowPopup(hContact, _T("Avatar History: Unable to save avatar"), history_filename);
+						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
 					else
-						ShowDebugPopup(hContact, _T("AVH Debug: File copied successfully"), history_filename);
+						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
 
 					if (ServiceExists(MS_MC_GETMETACONTACT)) 
 					{
@@ -462,9 +462,9 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 
 							GetOldStyleAvatarName(filename, hMetaContact);
 							if (CopyImageFile(avatar->filename, filename))
-								ShowPopup(hContact, _T("Avatar History: Unable to save avatar"), filename);
+								ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), filename);
 							else
-								ShowDebugPopup(hContact, _T("AVH Debug: File copied successfully"), filename);
+								ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), filename);
 						}
 					}
 				}
@@ -494,9 +494,9 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 							_T("%s\\%s"), history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
-						ShowPopup(hContact, _T("Avatar History: Unable to save avatar"), history_filename);
+						ShowPopup(hContact, TranslateT("Avatar History: Unable to save avatar"), history_filename);
 					else
-						ShowDebugPopup(hContact, _T("AVH Debug: File copied successfully"), history_filename);
+						ShowDebugPopup(hContact, TranslateT("AVH Debug: File copied successfully"), history_filename);
 				}
 
 				if (opts.log_per_contact_folders)
@@ -713,7 +713,7 @@ TCHAR * GetOldStyleAvatarName(TCHAR *fn, HANDLE hContact)
 		_T("%s\\%04d-%02d-%02d %02dh%02dm%02ds"), fn, 
 		curtime.wYear, curtime.wMonth, curtime.wDay, 
 		curtime.wHour, curtime.wMinute, curtime.wSecond);
-	ShowDebugPopup(hContact,_T("AVH Debug: GetOldStyleAvatarName"),fn);
+	ShowDebugPopup(hContact,TranslateT("AVH Debug: GetOldStyleAvatarName"),fn);
 	return fn;
 }
 

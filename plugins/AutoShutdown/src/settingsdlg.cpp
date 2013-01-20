@@ -111,8 +111,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				DWORD lastUnit;
 				int i,index;
 				const DWORD unitValues[]={1,60,60*60,60*60*24,60*60*24*7,60*60*24*31};
-				const TCHAR *unitNames[]={_T("Second(s)"),_T("Minute(s)"),_T("Hour(s)"),
-				                          _T("Day(s)"),_T("Week(s)"),_T("Month(s)")};
+				const TCHAR *unitNames[]={TranslateT("Second(s)"), TranslateT("Minute(s)"), TranslateT("Hour(s)"),
+											TranslateT("Day(s)"), TranslateT("Week(s)"), TranslateT("Month(s)")};
 				hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT);
 				lastUnit=DBGetContactSettingDword(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 				SendMessage(hwndCombo,CB_SETLOCALE,(WPARAM)locale,0); /* sort order */

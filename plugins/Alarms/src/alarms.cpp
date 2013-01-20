@@ -119,7 +119,7 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 		hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
 	}
-	else mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
+	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown command issued: \"%s\""), msg);
 
 	ShowPopup(pccsd->hContact, buff);
 

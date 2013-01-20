@@ -731,7 +731,7 @@ static int _GetNetVisibleProtoCount()
 	return netProtoCount;
 }
 
-TCHAR *sortby[] = {_T("Name"), _T("Name (use locale settings)") , _T("Status"), _T("Last message time"), _T("Account Name"), _T("Rate"), _T("-Nothing-")};
+TCHAR *sortby[] = {LPGENT("Name"), LPGENT("Name (use locale settings)") , LPGENT("Status"), LPGENT("Last message time"), LPGENT("Account Name"), LPGENT("Rate"), LPGENT("-Nothing-")};
 int sortbyValue[] = { SORTBY_NAME, SORTBY_NAME_LOCALE, SORTBY_STATUS, SORTBY_LASTMSG, SORTBY_PROTO ,SORTBY_RATE , SORTBY_NOTHING };
 static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
