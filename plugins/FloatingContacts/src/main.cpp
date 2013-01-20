@@ -1060,7 +1060,7 @@ static void LoadMenus()
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ));
-	mi.ptszName = _T("Remove thumb");
+	mi.ptszName = LPGENT("Remove thumb");
 	mi.pszService = sModule "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
@@ -1072,7 +1072,7 @@ static void LoadMenus()
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
-	mi.ptszName = fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
+	mi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
 	mi.pszService = sModule "/MainHideAllThumbs";
 	Menu_AddMainMenuItem(&mi);
 
@@ -1186,7 +1186,7 @@ static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
 	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
-	clmi.ptszName = fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
+	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
 	return 0;
 }

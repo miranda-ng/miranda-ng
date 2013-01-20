@@ -32,11 +32,11 @@ static char* s_rgszFontSizes[] = {"8","10","14","16","18","20","24","28"};
 
 static const TCHAR* s_rgszFontIdDescr[FLT_FONTIDS]  = 
 {
-	_T("Standard contacts"),
-	_T("Online contacts to whom you have a different visibility"),
-	_T("Offline contacts"),
-	_T("Offline contacts to whom you have a different visibility"),
-	_T("Contacts which are 'not on list'"),
+	LPGENT("Standard contacts"),
+	LPGENT("Online contacts to whom you have a different visibility"),
+	LPGENT("Offline contacts"),
+	LPGENT("Offline contacts to whom you have a different visibility"),
+	LPGENT("Contacts which are 'not on list'"),
 };
 
 static WORD s_rgwFontSameAsDefault[FLT_FONTIDS]  = 
