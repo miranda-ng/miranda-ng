@@ -73,7 +73,7 @@ char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0,0,0), RGB(0,0,0), RGB(0,0,0), RGB(150,150,150), RGB(150,150,150) };
 
-
+ColourIDT bg_colour, av_colour;
 int CreateFrame();
 void FixMainMenu();
 void RefreshFrame();
@@ -203,6 +203,15 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 		font_colour[i] = CallService(MS_FONT_GETT, (WPARAM)&font_id[i], (LPARAM)&log_font);
 		hFont[i] = CreateFontIndirect(&log_font);
 	}
+
+	RefreshFrame();
+	return 0;
+}
+
+int ReloadColour(WPARAM,LPARAM)
+{
+	opts.bkg_color = (COLORREF) CallService(MS_COLOUR_GETT,(WPARAM)&bg_colour,0);
+	opts.draw_avatar_border_color = (COLORREF) CallService(MS_COLOUR_GETT,(WPARAM)&av_colour,0);
 	
 	RefreshFrame();
 	return 0;
@@ -217,6 +226,27 @@ int SmileyAddOptionsChangedHook(WPARAM wParam,LPARAM lParam)
 int CreateFrame() 
 {
 	HDC hdc = GetDC(NULL);
+	
+	ZeroMemory(&bg_colour, sizeof(bg_colour));
+	bg_colour.cbSize = sizeof(ColourIDT);
+	_tcsncpy(bg_colour.name,LPGENT("Background"),SIZEOF(bg_colour.name));
+	_tcsncpy(bg_colour.group,LPGENT("My Details"),SIZEOF(bg_colour.group));
+	strncpy(bg_colour.dbSettingsGroup,MODULE_NAME,sizeof(bg_colour.dbSettingsGroup));
+	strncpy(bg_colour.setting,"BackgroundColor",sizeof(bg_colour.setting));
+	bg_colour.defcolour = GetSysColor(COLOR_BTNFACE);
+	ColourRegisterT(&bg_colour);
+	
+	ZeroMemory(&av_colour, sizeof(av_colour));
+	av_colour.cbSize = sizeof(ColourIDT);
+	_tcsncpy(av_colour.name,LPGENT("Avatar Border"),SIZEOF(av_colour.name));
+	_tcsncpy(av_colour.group,LPGENT("My Details"),SIZEOF(av_colour.group));
+	strncpy(av_colour.dbSettingsGroup,MODULE_NAME,sizeof(av_colour.dbSettingsGroup));
+	strncpy(av_colour.setting,"AvatarBorderColor",sizeof(av_colour.setting));
+	av_colour.defcolour = RGB(0,0,0);
+	ColourRegisterT(&av_colour);
+	ReloadColour(0,0);
+	HookEvent(ME_COLOUR_RELOAD,ReloadColour);
+
 
 	for (int i = 0 ; i < NUM_FONTS ; i++) {
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
@@ -225,6 +255,8 @@ int CreateFrame()
 		_tcsncpy(font_id[i].group, LPGENT("My Details"), SIZEOF(font_id[i].group));
 		_tcsncpy(font_id[i].name, font_names[i], SIZEOF(font_id[i].name));
 		strncpy(font_id[i].dbSettingsGroup, MODULE_NAME, SIZEOF(font_id[i].dbSettingsGroup));
+		_tcsncpy(font_id[i].backgroundName, LPGENT("Background"), SIZEOF(font_id[i].backgroundName));
+		_tcsncpy(font_id[i].backgroundGroup, LPGENT("My Details"), SIZEOF(font_id[i].backgroundGroup));
 
 		char tmp[128];
 		mir_snprintf(tmp, sizeof(tmp), "%sFont", font_names[i]);
@@ -375,7 +407,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_CLOSE:
-		DBWriteContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
+		db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 0);
 		ShowWindow(hwnd, SW_HIDE);
 		FixMainMenu();
 		return TRUE;
@@ -510,13 +542,11 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 
 HWND CreateTooltip(HWND hwnd, RECT &rect)
 {
-	// struct specifying control classes to register
-	INITCOMMONCONTROLSEX iccex; 
-	HWND hwndTT;                 // handle to the ToolTip control
 	// struct specifying info about tool in ToolTip control
-	TOOLINFO ti;
 	unsigned int uid = 0;       // for ti initialization
 
+	// struct specifying control classes to register
+	INITCOMMONCONTROLSEX iccex;
 	// Load the ToolTip class from the DLL.
 	iccex.dwSize = sizeof(iccex);
 	iccex.dwICC  = ICC_BAR_CLASSES;
@@ -525,7 +555,7 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 		return NULL;
 
 	/* CREATE A TOOLTIP WINDOW */
-	hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
 		TOOLTIPS_CLASS,
 		NULL,
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,		
@@ -537,9 +567,10 @@ HWND CreateTooltip(HWND hwnd, RECT &rect)
 		NULL,
 		hInst,
 		NULL
-		);
+		);                 // handle to the ToolTip control
 
 	/* INITIALIZE MEMBERS OF THE TOOLINFO STRUCTURE */
+	TOOLINFO ti;
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS;
 	ti.hwnd = hwnd;
@@ -1008,7 +1039,6 @@ HBITMAP CreateBitmap32(int cx, int cy)
 {
 	BITMAPINFO RGB32BitsBITMAPINFO; 
 	UINT * ptPixels;
-	HBITMAP DirectBitmap;
 
 	ZeroMemory(&RGB32BitsBITMAPINFO,sizeof(BITMAPINFO));
 	RGB32BitsBITMAPINFO.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
@@ -1017,8 +1047,8 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes=1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount=32;
 
-	DirectBitmap = CreateDIBSection(NULL, 
-		(BITMAPINFO *)&RGB32BitsBITMAPINFO, 
+	HBITMAP DirectBitmap = CreateDIBSection(NULL, 
+		&RGB32BitsBITMAPINFO, 
 		DIB_RGB_COLORS,
 		(void **)&ptPixels, 
 		NULL, 0);
@@ -1033,7 +1063,7 @@ void EraseBackground(HWND hwnd, HDC hdc, MyDetailsFrameData* data)
 	if ( isSkinEngineEnabled())
 		SkinDrawWindowBack(hwnd, hdc, &r, "Main,ID=Background");
 	else {
-		HBRUSH hB = CreateSolidBrush((COLORREF) DBGetContactSettingDword(NULL,"MyDetails","BackgroundColor",GetSysColor(COLOR_BTNFACE)));
+		HBRUSH hB = CreateSolidBrush(opts.bkg_color);
 		FillRect(hdc, &r, hB);
 		DeleteObject(hB);
 	}
@@ -1438,11 +1468,8 @@ void ShowGlobalStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, 
 {
 	HMENU submenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS,0,0);
 	
-	if (opts.draw_text_align_right)
-		p.x = data->status_rect.right;
-	else
-		p.x = data->status_rect.left;
-	p.y =  data->status_rect.bottom+1;
+	p.x = (opts.draw_text_align_right ? data->status_rect.right : data->status_rect.left);
+	p.y = data->status_rect.bottom+1;
 	ClientToScreen(hwnd, &p);
 	
 	int ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD
@@ -1494,10 +1521,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 
 	if (submenu != NULL)
 	{
-		if (opts.draw_text_align_right)
-			p.x = data->status_rect.right;
-		else
-			p.x = data->status_rect.left;
+		p.x = (opts.draw_text_align_right ? data->status_rect.right : data->status_rect.left);
 		p.y =  data->status_rect.bottom+1;
 		ClientToScreen(hwnd, &p);
 		
@@ -1521,7 +1545,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 
 		menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 		submenu = GetSubMenu(menu, 0);
-		CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+		TranslateMenu(submenu);
 
 		DWORD flags = CallProtoService(proto->name, PS_GETCAPS, PFLAGNUM_2,0);
 		for ( int i = GetMenuItemCount(submenu) -1  ; i >= 0 ; i-- )
@@ -1533,10 +1557,7 @@ void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto
 			}
 		}
 
-		if (opts.draw_text_align_right)
-			p.x = data->status_rect.right;
-		else
-			p.x = data->status_rect.left;
+		p.x = (opts.draw_text_align_right ? data->status_rect.right : data->status_rect.left);
 		p.y =  data->status_rect.bottom+1;
 		ClientToScreen(hwnd, &p);
 		
@@ -1554,7 +1575,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 {
 	HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 	HMENU submenu = GetSubMenu(menu, 5);
-	CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+	TranslateMenu(submenu);
 
 	// Add this proto to menu
 	TCHAR tmp[128];
@@ -1588,10 +1609,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 	SetMenuItemInfo(submenu, ID_LISTENINGTOPOPUP_SENDLISTENINGTO, FALSE, &mii);
 	
-	if (opts.draw_text_align_right)
-		p.x = data->listening_to_rect.right;
-	else
-		p.x = data->listening_to_rect.left;
+	p.x = (opts.draw_text_align_right ? data->listening_to_rect.right : data->listening_to_rect.left);
 	p.y =  data->listening_to_rect.bottom+1;
 	ClientToScreen(hwnd, &p);
 	
@@ -1849,7 +1867,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 4);
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+				TranslateMenu(submenu);
 
 				// Add this proto to menu
 				TCHAR tmp[128];
@@ -1895,7 +1913,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 2);
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+				TranslateMenu(submenu);
 
 				// Add this proto to menu
 				TCHAR tmp[128];
@@ -2034,7 +2052,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1));
 				HMENU submenu = GetSubMenu(menu, 1);
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+				TranslateMenu(submenu);
 
 				if (opts.cycle_through_protocols)
 					RemoveMenu(submenu, ID_CYCLE_THROUGH_PROTOS, MF_BYCOMMAND);
@@ -2428,7 +2446,7 @@ INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam)
 		else 
 		{
 			ShowWindow(hwnd_container, SW_SHOW);
-			DBWriteContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
+			db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
 		}
 
 		FixMainMenu();
@@ -2450,7 +2468,7 @@ INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 		if ( !MyDetailsFrameVisible())
 		{
 			ShowWindow(hwnd_container, SW_SHOW);
-			DBWriteContactSettingByte(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
+			db_set_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1);
 
 			FixMainMenu();
 		}
@@ -2484,12 +2502,12 @@ INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam)
 void FixMainMenu() 
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME;
+	mi.flags = CMIM_NAME | CMIF_TCHAR;
 
 	if (MyDetailsFrameVisible())
-		mi.pszName = Translate("Hide My Details");
+		mi.ptszName = LPGENT("Hide My Details");
 	else
-		mi.pszName = Translate("Show My Details");
+		mi.ptszName = LPGENT("Show My Details");
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuShowHideFrame, (LPARAM)&mi);
 }
@@ -2660,7 +2678,7 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 
 	if ((HANDLE)wParam == NULL)
 	{
-		Protocol *proto = protocols->Get((const char*)cws->szModule);
+		Protocol *proto = protocols->Get(cws->szModule);
 
 		if (!strcmp(cws->szSetting,"MyHandle")
 				|| !strcmp(cws->szSetting,"UIN") 
@@ -2708,19 +2726,35 @@ int ProtoAckHook(WPARAM wParam, LPARAM lParam)
 
 	ACKDATA *ack = (ACKDATA*)lParam;
 
-	if (ack->type == ACKTYPE_STATUS) 
+	if(ack->result == ACKRESULT_SUCCESS)
 	{
-		Protocol *proto = protocols->Get((const char *) ack->szModule);
+		switch (ack->type) 
+		{
+			case ACKTYPE_STATUS:
+			{
+				Protocol *proto = protocols->Get(ack->szModule);
 
-		if (proto != NULL)
-			PostMessage(hwnd_frame, MWM_STATUS_CHANGED, (WPARAM) proto->name, 0);
-	}
-	else if (ack->type == ACKTYPE_AWAYMSG)
-	{
-		Protocol *proto = protocols->Get((const char *) ack->szModule);
+				if (proto != NULL)
+					PostMessage(hwnd_frame, MWM_STATUS_CHANGED, (WPARAM) proto->name, 0);
+				break;
+			}
+			case ACKTYPE_AWAYMSG:
+			{
+				Protocol *proto = protocols->Get(ack->szModule);
 
-		if (proto != NULL)
-			PostMessage(hwnd_frame, MWM_STATUS_MSG_CHANGED, (WPARAM) proto->name, 0);
+				if (proto != NULL)
+					PostMessage(hwnd_frame, MWM_STATUS_MSG_CHANGED, (WPARAM) proto->name, 0);
+				break;
+			}
+			case ACKTYPE_AVATAR:
+			{
+				Protocol *proto = protocols->Get(ack->szModule);
+
+				if (proto != NULL)
+					PostMessage(hwnd_frame, MWM_AVATAR_CHANGED, (WPARAM) proto->name, 0);
+				break;
+			}
+		}
 	}
 
 	return 0;

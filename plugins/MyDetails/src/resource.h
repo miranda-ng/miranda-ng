@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\miranda-ng\plugins\MyDetails\res\resource.rc
 //
 #define IDD_SETNICKNAME                 101
 #define IDD_OPTS                        102

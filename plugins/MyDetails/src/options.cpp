@@ -45,7 +45,6 @@ static OptPageControl pageControls[] = {
 	{ &opts.draw_avatar_custom_size,            CONTROL_CHECKBOX,  IDC_AVATAR_CUSTOM_SIZE_CHK, "AvatarCustomSize", (BYTE) 0 },
 	{ &opts.draw_avatar_custom_size_pixels,     CONTROL_SPIN,      IDC_AVATAR_CUSTOM_SIZE, "AvatarCustomSizePixels", (WORD) 30, IDC_AVATAR_CUSTOM_SIZE_SPIN, (WORD) 1, (WORD) 255 },
 	{ &opts.draw_avatar_border,                 CONTROL_CHECKBOX,  IDC_AVATAR_DRAW_BORDER, "AvatarDrawBorders", (BYTE) 0 },
-	{ &opts.draw_avatar_border_color,           CONTROL_COLOR,     IDC_AVATAR_BORDER_COLOR, "AvatarBorderColor", (DWORD) RGB(0,0,0) },
 	{ &opts.draw_avatar_round_corner,           CONTROL_CHECKBOX,  IDC_AVATAR_ROUND_CORNERS, "AvatarRoundCorners", (BYTE) 1 },
 	{ &opts.draw_avatar_use_custom_corner_size, CONTROL_CHECKBOX,  IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, "AvatarUseCustomCornerSize", (BYTE) 0 },
 	{ &opts.draw_avatar_custom_corner_size,     CONTROL_SPIN,      IDC_AVATAR_CUSTOM_CORNER_SIZE, "AvatarCustomCornerSize", (WORD) 4, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, (WORD) 1, (WORD) 255 },
@@ -55,7 +54,6 @@ static OptPageControl pageControls[] = {
 	{ &opts.borders[LEFT],                      CONTROL_SPIN,      IDC_BORDER_LEFT, "BorderLeft", (WORD) 8, IDC_BORDER_LEFT_SPIN, (WORD) 0, (WORD) 255 },
 	{ &opts.borders[TOP],                       CONTROL_SPIN,      IDC_BORDER_TOP, "BorderTop", (WORD) 8, IDC_BORDER_TOP_SPIN, (WORD) 0, (WORD) 255 },
 	{ &opts.borders[BOTTOM],                    CONTROL_SPIN,      IDC_BORDER_BOTTOM, "BorderBottom", (WORD) 8, IDC_BORDER_BOTTOM_SPIN, (WORD) 0, (WORD) 255 },
-	{ &opts.bkg_color,                          CONTROL_COLOR,     IDC_AVATAR_BKG_COLOR, "BackgroundColor", (DWORD) GetSysColor(COLOR_BTNFACE) }
 };
 
 
@@ -65,8 +63,8 @@ void LoadOptions()
 	LoadOpts(pageControls, SIZEOF(pageControls), MODULE_NAME);
 
 	// This is created here to assert that this key always exists
-	opts.refresh_status_message_timer = DBGetContactSettingWord(NULL,"MyDetails","RefreshStatusMessageTimer",12);
-	DBWriteContactSettingWord(NULL,"MyDetails","RefreshStatusMessageTimer", opts.refresh_status_message_timer);
+	opts.refresh_status_message_timer = db_get_w(NULL,"MyDetails","RefreshStatusMessageTimer",12);
+	db_set_w(NULL,"MyDetails","RefreshStatusMessageTimer", opts.refresh_status_message_timer);
 
 	SetCycleTime();
 	RefreshFrameAndCalcRects();

@@ -708,7 +708,7 @@ static INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam,LPARAM lParam)
 {
-	DBWriteContactSettingByte(NULL,"MyDetails","CicleThroughtProtocols", (BYTE) wParam);
+	db_set_b(NULL,"MyDetails","CicleThroughtProtocols", (BYTE) wParam);
 
 	LoadOptions();
 
