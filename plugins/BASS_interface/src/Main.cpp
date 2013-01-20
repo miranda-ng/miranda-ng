@@ -53,12 +53,14 @@ HANDLE frame_id = NULL;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* ptszFile = (TCHAR*) lParam; SYSTEMTIME systime; WORD currtime, currstat; BOOL doPlay = TRUE;
+	TCHAR* ptszFile = (TCHAR*)lParam;
+	SYSTEMTIME systime;
+	BOOL doPlay = TRUE;
 
 	GetLocalTime(&systime);
-	currtime = MAKEWORD(systime.wMinute, systime.wHour);
+	WORD currtime = MAKEWORD(systime.wMinute, systime.wHour);
 
-	currstat = 1;
+	WORD currstat = 1;
 	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0))
 	{
 		case ID_STATUS_OUTTOLUNCH:   currstat <<= 1;
@@ -72,7 +74,8 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 		case ID_STATUS_ONLINE:       currstat <<= 1;
 	}
 
-	if ( !DBGetContactSettingByte(NULL,"Skin","UseSound",0)) doPlay = FALSE;
+	if ( !db_get_b(NULL, "Skin", "UseSound", 0))
+		doPlay = FALSE;
 
 	if (QuietTime)
 		if (
@@ -80,18 +83,21 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 			((TimeWrd2 < TimeWrd1) && (TimeWrd1 <= currtime || currtime < TimeWrd2))
 				) doPlay = FALSE;
 
-	if ( !(currstat & StatMask)) doPlay = FALSE;
+	if ( !(currstat & StatMask))
+		doPlay = FALSE;
 
-	if (Preview || (int)wParam==1) doPlay = TRUE;
+	if (Preview || (int)wParam == 1)
+		doPlay = TRUE;
 
-	if ( !ptszFile) doPlay = FALSE;
+	if ( !ptszFile)
+		doPlay = FALSE;
 
 	if (doPlay)
 	{
 		BASS_StreamFree(sndSSnd[sndNSnd]);
 		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_TCHAR | BASS_STREAM_AUTOFREE);
 		BASS_ChannelPlay(sndSSnd[sndNSnd], FALSE);
-		sndNSnd = (sndNSnd+1)%sndLimSnd;
+		sndNSnd = (sndNSnd + 1)%sndLimSnd;
 	}
 
 	Preview = FALSE;
@@ -108,12 +114,12 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 		case WM_INITDIALOG:
 			{
-				int i; SYSTEMTIME systime = {0};
+				SYSTEMTIME systime = {0};
 
 				TranslateDialogDefault(hwndDlg);
 
 				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
-				for(i=1; i<=MAXCHAN; i++)
+				for(int i = 1; i <= MAXCHAN; i++)
 					SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
 
 				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
@@ -121,7 +127,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
 
 				hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
-				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN,SLIDER_MAX));
+				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
 
@@ -139,16 +145,16 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
 
-				for(i = IDC_CHECKBOX1; i < IDC_CHECKBOX10+1; i++)
+				for(int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
 				{
-					if (StatMask & (1 << (i-IDC_CHECKBOX1)))
+					if (StatMask & (1 << (i - IDC_CHECKBOX1)))
 						CheckDlgButton(hwndDlg, i, BST_CHECKED);
 				}
 
 				if (QuietTime)
 				{
-					EnableWindow(GetDlgItem(hwndDlg,IDC_TIME1), TRUE);
-					EnableWindow(GetDlgItem(hwndDlg,IDC_TIME2), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), TRUE);
 					CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
 				}
 				if (hBass == NULL)
@@ -159,7 +165,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
 
-					for(i = IDC_CHECKBOX1; i < IDC_CHECKBOX10+1; i++)
+					for(int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
 					{
 						EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
 					}
@@ -174,11 +180,11 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
 					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));
 					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
-					DBGetContactSettingString(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
-					for (i=1; BASS_GetDeviceInfo(i+newBass, &info); i++)
+					db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
+					for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++)
 					{
-						SendDlgItemMessageA(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)info.name);
-						if (!lstrcmpA(dbv.pszVal, info.name))
+						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)(TCHAR*)_A2T(info.name));
+						if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
 							SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
 					}
 					DBFreeVariant(&dbv);
@@ -195,7 +201,8 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 					SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 					Preview = TRUE;
-					if (EnPreview) SkinPlaySound("AlertMsg");
+					if (EnPreview)
+						SkinPlaySound("AlertMsg");
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 			break;
@@ -206,41 +213,42 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				case PSN_APPLY:
 					if (hBass != NULL)
 					{
-						int i; SYSTEMTIME systime;
+						SYSTEMTIME systime = {0};
 
-						SendDlgItemMessageA(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, sizeof(tmp), (LPARAM)tmp);
-						DBWriteContactSettingString(NULL, ModuleName, OPT_OUTDEVICE, (char *)tmp);
+						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, SIZEOF(tmp), (LPARAM)tmp);
+						db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
 
 						Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
-						DBWriteContactSettingByte(NULL, ModuleName, OPT_VOLUME, Volume);
+						db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
 
 						sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
-						if ( sndLimSnd > MAXCHAN ) sndLimSnd = MAXCHAN;
-						DBWriteContactSettingByte(NULL, ModuleName, OPT_MAXCHAN, sndLimSnd);
+						if (sndLimSnd > MAXCHAN)
+							sndLimSnd = MAXCHAN;
+						db_set_b(NULL, ModuleName, OPT_MAXCHAN, sndLimSnd);
 
 						QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-						DBWriteContactSettingByte(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
+						db_set_b(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
 
 						SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 						TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
-						DBWriteContactSettingWord(NULL, ModuleName, OPT_TIME1, TimeWrd1);
+						db_set_w(NULL, ModuleName, OPT_TIME1, TimeWrd1);
 
 						SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 						TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
-						DBWriteContactSettingWord(NULL, ModuleName, OPT_TIME2, TimeWrd2);
+						db_set_w(NULL, ModuleName, OPT_TIME2, TimeWrd2);
 
 						EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
-						DBWriteContactSettingByte(NULL, ModuleName, OPT_PREVIEW, EnPreview);
+						db_set_b(NULL, ModuleName, OPT_PREVIEW, EnPreview);
 
 						StatMask = 0;
-						for(i = IDC_CHECKBOX10; i > IDC_CHECKBOX1-1; i--)
+						for(int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--)
 						{
 							StatMask <<= 1;
 							if(IsDlgButtonChecked(hwndDlg, i) == BST_CHECKED)
 								StatMask |= 1;
 						}
 
-						DBWriteContactSettingWord(NULL, ModuleName, OPT_STATUS, StatMask);
+						db_set_w(NULL, ModuleName, OPT_STATUS, StatMask);
 
 						device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
 						if (device == 0)
@@ -292,9 +300,6 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					break;
 			}
 			break;
-
-		//case WM_CLOSE:
-		//	EndDialog(hwndDlg, 0);
 	}
 	return 0;
 }
@@ -331,8 +336,8 @@ int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if(!strcmp(dbcws->szModule, "Skin")) {
-		if(!strcmp(dbcws->szSetting, "UseSound")) {
+	if( !strcmp(dbcws->szModule, "Skin")) {
+		if( !strcmp(dbcws->szSetting, "UseSound")) {
 			int useSound = dbcws->value.bVal;
 			if (useSound) {
 				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
@@ -355,7 +360,7 @@ static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case WM_ERASEBKGND:
 			return TRUE;
 	}
-	return(CallWindowProc(OldSliderWndProc, hwnd, msg, wParam, lParam));
+	return CallWindowProc(OldSliderWndProc, hwnd, msg, wParam, lParam);
 }
 static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -363,8 +368,8 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	{
 		case WM_CREATE:
 			{
-				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
-										20,	20,	hwnd, 0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+				hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
+					0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 				SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
 					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
@@ -437,7 +442,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 					HDC dc = (HDC)wParam;
 
 					SetBkColor(dc, clBack);
-					return((BOOL)hBkgBrush);
+					return (BOOL)hBkgBrush;
 				}
 				break;
 			}
@@ -493,7 +498,7 @@ void CreateFrame()
 	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"), 
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
 
-	CLISTFrame Frame = { sizeof(CLISTFrame) };
+	CLISTFrame Frame = {sizeof(CLISTFrame)};
 	Frame.tname = TranslateT("Bass Interface");
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
@@ -518,9 +523,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
 
-	if (DBGetContactSettingTString(NULL, ModuleName, OPT_BASSPATH, &dbv))
+	if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv))
 	{
-		DBWriteContactSettingTString(NULL, ModuleName, OPT_BASSPATH, _T("Plugins\\Bass\\Bass.dll"));
+		db_set_ts(NULL, ModuleName, OPT_BASSPATH, _T("Plugins\\Bass\\Bass.dll"));
 		lstrcpy(tmp, _T("Plugins\\Bass\\Bass.dll"));
 	}
 	else
@@ -540,31 +545,32 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			LOADBASSFUNCTION(BASS_GetVersion) != NULL && LOADBASSFUNCTION(BASS_StreamFree) != NULL &&
 			LOADBASSFUNCTION(BASS_GetDeviceInfo) != NULL && LOADBASSFUNCTION(BASS_Free))
 		{
-			int i; BASS_DEVICEINFO info;
+			BASS_DEVICEINFO info;
 
 			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
-			if (!DBGetContactSettingString(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
+			if ( !db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
 			{
-				for (i=1; BASS_GetDeviceInfo(i, &info); i++)
-					if (!lstrcmpA(dbv.pszVal, info.name))
+				for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
+					if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
 						device = i;
 			}
 			DBFreeVariant(&dbv);
 
-			sndLimSnd = DBGetContactSettingByte(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
-			if ( sndLimSnd > MAXCHAN ) sndLimSnd = MAXCHAN;
-			TimeWrd1 = DBGetContactSettingWord(NULL, ModuleName, OPT_TIME1, 0);
-			TimeWrd2 = DBGetContactSettingWord(NULL, ModuleName, OPT_TIME2, 0);
-			QuietTime = DBGetContactSettingByte(NULL, ModuleName, OPT_QUIETTIME, 0);
-			EnPreview = DBGetContactSettingByte(NULL, ModuleName, OPT_PREVIEW, 0);
+			sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
+			if (sndLimSnd > MAXCHAN)
+				sndLimSnd = MAXCHAN;
+			TimeWrd1 = db_get_w(NULL, ModuleName, OPT_TIME1, 0);
+			TimeWrd2 = db_get_w(NULL, ModuleName, OPT_TIME2, 0);
+			QuietTime = db_get_b(NULL, ModuleName, OPT_QUIETTIME, 0);
+			EnPreview = db_get_b(NULL, ModuleName, OPT_PREVIEW, 0);
 
-			StatMask = DBGetContactSettingWord(NULL, ModuleName, OPT_STATUS, 0x3ff);
+			StatMask = db_get_w(NULL, ModuleName, OPT_STATUS, 0x3ff);
 
 			ClistHWND = (HWND)CallService("CLUI/GetHwnd", 0, 0);
 			BASS_Init(device, 44100, 0, ClistHWND, NULL);
 
-			Volume = DBGetContactSettingByte(NULL, ModuleName, OPT_VOLUME, 33);
+			Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
 			HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 			CreateFrame();
