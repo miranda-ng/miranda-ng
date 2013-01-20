@@ -4,7 +4,7 @@
 //
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
-// Copyright © 2002-2004 Martin Цberg, Sam Kothari, Robert Rainwater
+// Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
 //
 // This program is free software; you can redistribute it and/or
