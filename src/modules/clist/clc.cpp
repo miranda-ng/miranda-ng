@@ -1231,7 +1231,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (!dat->filterSearch)
 				dat->szQuickSearch[0] = 0;
 
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			POINT pt = { (short) LOWORD(lParam), (short) HIWORD(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 				if (dat->selection != -1)
