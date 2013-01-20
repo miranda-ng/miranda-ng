@@ -22,7 +22,7 @@
 #include <windows.h>
 
 #define MODULE "Msg_Export"
-#define MSG_BOX_TITEL _T("Miranda (Msg_Export.dll)")
+#define MSG_BOX_TITEL TranslateT("Miranda NG (Message Export Plugin)")
 
 extern HINSTANCE hInstance;
 

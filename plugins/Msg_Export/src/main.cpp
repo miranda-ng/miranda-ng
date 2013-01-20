@@ -171,17 +171,17 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 
 	hDBEventAdded = HookEvent( ME_DB_EVENT_ADDED , nExportEvent );
 	if( !hDBEventAdded )
-		MessageBox( NULL , LPGENT("Failed to HookEvent ME_DB_EVENT_ADDED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to HookEvent ME_DB_EVENT_ADDED"), MSG_BOX_TITEL, MB_OK );
 
 
-	hDBContactDeleted = HookEvent( ME_DB_CONTACT_DELETED , nContactDeleted );
+	hDBContactDeleted = HookEvent(ME_DB_CONTACT_DELETED , nContactDeleted );
 	if( !hDBContactDeleted )
-		MessageBox( NULL , LPGENT("Failed to HookEvent ME_DB_CONTACT_DELETED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to HookEvent ME_DB_CONTACT_DELETED"), MSG_BOX_TITEL, MB_OK );
 	
 
-	hEventOptionsInitialize = HookEvent( ME_OPT_INITIALISE , OptionsInitialize );
+	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize );
 	if( !hEventOptionsInitialize )
-		MessageBox( NULL , LPGENT("Failed to HookEvent ME_OPT_INITIALISE") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK );
 
 
 
@@ -197,7 +197,7 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 		hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
 
 		if( !hOpenHistoryMenuItem )
-			MessageBox( NULL , LPGENT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)") , MSG_BOX_TITEL , MB_OK );
+			MessageBox(NULL, _T("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK );
 	}
 
 
@@ -205,7 +205,7 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 	hEventSystemShutdown = HookEvent( ME_SYSTEM_SHUTDOWN , nSystemShutdown );
 
 	if( !hEventSystemShutdown )
-		MessageBox( NULL , _T("Failed to HookEvent ME_SYSTEM_SHUTDOWN") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_SHUTDOWN"), MSG_BOX_TITEL, MB_OK );
 
 
 /*
@@ -307,7 +307,7 @@ int __declspec(dllexport)Load()
 
 	if( !hEventSystemInit )
 	{
-		MessageBox( NULL , LPGENT("Failed to HookEvent ME_SYSTEM_MODULESLOADED") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
@@ -332,7 +332,7 @@ int __declspec(dllexport)Load()
 	enDeleteAction = (ENDialogAction)db_get_b( NULL , MODULE , "DeleteAction" , enDeleteAction );;
 
 	// Plugin sweeper support
-	db_set_ts(NULL,"Uninstall","Message Export",_T(MODULE));
+	db_set_ts(NULL, "Uninstall", "Message Export", _T(MODULE));
 
 	if( bReplaceHistory )
 	{
@@ -351,18 +351,18 @@ int __declspec(dllexport)Load()
 			}
 		}*/
 
-		if( ! hServiceFunc ) 
-			MessageBox( NULL , LPGENT("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.") , MSG_BOX_TITEL , MB_OK );
+		if( !hServiceFunc ) 
+			MessageBox(NULL, TranslateT("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda."), MSG_BOX_TITEL, MB_OK);
 	}
 
-	if( ! hServiceFunc )
+	if( !hServiceFunc )
 	{
-		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY,ShowExportHistory);
+		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 	}
 
-	if( ! hServiceFunc )
+	if( !hServiceFunc )
 	{
-		MessageBox( NULL , LPGENT("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY") , MSG_BOX_TITEL , MB_OK );
+		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY"), MSG_BOX_TITEL, MB_OK);
 	}
 	
 	hInternalWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);

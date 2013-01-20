@@ -85,7 +85,7 @@ GenericPlayer::GenericPlayer()
 
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, _T("Miranda ListeningTo receiver"), 
+	hWnd = CreateWindow(MIRANDA_WINDOWCLASS, LPGENT("Miranda ListeningTo receiver"), 
 						0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 }
 
@@ -134,14 +134,14 @@ void GenericPlayer::ProcessReceived()
 	int pCount = 0;
 	WCHAR *p = received;
 	do {
-		*p1 = L'\0';
+		*p1 = _T('\0');
 		parts[pCount] = p;
 		pCount ++;
 		p = p1 + 2;
-		p1 = wcsstr(p, L"\\0");
+		p1 = wcsstr(p, _T("\\0"));
 	} while( p1 != NULL && pCount < 10 );
 	if (p1 != NULL)
-		*p1 = L'\0';
+		*p1 = _T('\0');
 	parts[pCount] = p;
 
 	if (pCount < 5)
@@ -186,7 +186,7 @@ void GenericPlayer::ProcessReceived()
 
 		li->cbSize = sizeof(listening_info);
 		li->dwFlags = LTI_TCHAR;
-		li->ptszType = U2TD(parts[2], L"Music");
+		li->ptszType = U2TD(parts[2], _T("Music"));
 		li->ptszTitle = U2T(parts[3]);
 		li->ptszArtist = U2T(parts[4]);
 		li->ptszAlbum = U2T(parts[5]);
@@ -255,7 +255,7 @@ void GenericPlayer::NewData(const WCHAR *data, size_t len)
 {
 //	m_log(_T("NewData"), _T("Processing"));
 
-	if (data[0] == L'\0')
+	if (data[0] == _T('\0'))
 	{
 //		m_log(_T("NewData"), _T("ERROR: Text is empty"));
 		return;

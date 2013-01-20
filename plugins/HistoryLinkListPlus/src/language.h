@@ -20,18 +20,19 @@
 #ifndef _LANGUAGE_H
 #define _LANGUAGE_H
 
-#define TXT_PLUGINNAME		"History Linklist"
-#define TXT_EMPTYHISTORY	"History is empty!"
-#define TXT_ERROR			"Error"
-#define TXT_INCOMING		"incoming"
-#define TXT_OUTGOING		"outgoing"
-#define TXT_FILTER			"Filter"
-#define TXT_NOFILTER		"no filter"
-#define TXT_URLSONLY		"Web addresses only"
-#define TXT_MAILSONLY		"Mail addresses only"
-#define TXT_SEARCH			"Search"
-#define TXT_SEARCHFILTER	"Search Filter"
-#define TXT_NOSETTING		"no settings"
-#define TXT_DATE			"Date"
+#define TXT_PLUGINNAME		TranslateT("History Linklist")
+#define TXT_EMPTYHISTORY	TranslateT("History is empty!")
+#define TXT_NOLINKINHISTORY TranslateT("There are no links in history!")
+#define TXT_ERROR			TranslateT("Error")
+#define TXT_INCOMING		TranslateT("incoming")
+#define TXT_OUTGOING		TranslateT("outgoing")
+#define TXT_FILTER			TranslateT("Filter")
+#define TXT_NOFILTER		TranslateT("no filter")
+#define TXT_URLSONLY		TranslateT("Web addresses only")
+#define TXT_MAILSONLY		TranslateT("Mail addresses only")
+#define TXT_SEARCH			TranslateT("Search")
+#define TXT_SEARCHFILTER	TranslateT("Search Filter")
+#define TXT_NOSETTING		TranslateT("no settings")
+#define TXT_DATE			TranslateT("Date")
 
 #endif // _LANGUAGE_H

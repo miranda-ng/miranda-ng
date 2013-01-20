@@ -130,7 +130,7 @@ void ShowDebugInfo()
 	sDebug += _T("\r\nGetFilePathFromUser( NULL ) :");
 	sDebug += GetFilePathFromUser( NULL );
 
-	MessageBox( NULL , sDebug.c_str() ,MSG_BOX_TITEL,MB_OK );
+	MessageBox(NULL, sDebug.c_str(), MSG_BOX_TITEL, MB_OK);
 }
 
 
@@ -244,10 +244,10 @@ void DisplayLastError(const _TCHAR * pszError)
 	DWORD error = GetLastError();
 
 	_TCHAR szTemp[50];
-	_sntprintf( szTemp , sizeof( szTemp ) , LPGENT("\r\nErrorCode : %d\r\n") , error );
+	_sntprintf(szTemp, sizeof(szTemp), _T("\r\nErrorCode: %d\r\n"), error);
 	sError += szTemp;
 	sError += sGetErrorString(error);
-	MessageBox( NULL , sError.c_str() ,MSG_BOX_TITEL ,MB_OK );
+	MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_OK);
 }
 
 
@@ -297,7 +297,7 @@ tstring _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting
 	{
 		if( dbv.type != DBVT_WCHAR)
 		{
-			MessageBox(NULL, LPGENT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL,MB_OK);
+			MessageBox(NULL, TranslateT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else
@@ -319,7 +319,7 @@ string _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting 
 	{
 		if( dbv.type != DBVT_ASCIIZ)
 		{
-			MessageBox(NULL, LPGENT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL,MB_OK);
+			MessageBox(NULL, TranslateT("DB: Attempt to get wrong type of value, string"), MSG_BOX_TITEL, MB_OK);
 			ret = pszError;
 		}
 		else
@@ -663,11 +663,11 @@ tstring GetFilePathFromUser( HANDLE hContact )
 					{
 						tstring sRemoteUser = NickFromHandle(hContact);
 						_sntprintf( szTemp , sizeof( szTemp ) , 
-							LPGENT("File name for the user \"%s\" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?"), 
+							TranslateT("File name for the user \"%s\" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?"), 
 							sRemoteUser.c_str(),
 							sPrevFileName.c_str(),
 							sFilePath.c_str() );
-						bTryRename = MessageBox( NULL , szTemp ,MSG_BOX_TITEL ,MB_YESNO ) == IDYES;
+						bTryRename = MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO ) == IDYES;
 					}
 					else
 						bTryRename = true;
@@ -684,12 +684,12 @@ tstring GetFilePathFromUser( HANDLE hContact )
 							while( ! MoveFile( sPrevFileName.c_str(), sFilePath.c_str() ) )
 							{
 								_sntprintf( szTemp , sizeof( szTemp ) , 
-									LPGENT("Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s"), 
+									TranslateT("Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s"), 
 									sPrevFileName.c_str(),
 									sFilePath.c_str() ,
 									sGetErrorString().c_str() );
 
-								if( MessageBox( NULL , szTemp ,MSG_BOX_TITEL,MB_RETRYCANCEL ) != IDRETRY )
+								if( MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_RETRYCANCEL) != IDRETRY)
 									break;
 							}
 						}
@@ -944,14 +944,13 @@ void UpdateFileToColWidth()
 
 void DisplayErrorDialog( const _TCHAR * pszError , tstring& sFilePath , DBEVENTINFO * dbei )
 {
-	tstring sError = TranslateTS( pszError );
+	tstring sError = TranslateTS(pszError);
 	sError += sFilePath;
-	sError += LPGENT("\nError :");
+	sError += TranslateT("\nError: ");
 	sError += sGetErrorString();
-	sError += _T("\n");
-	sError += LPGENT("Message has not been saved !\n");
-	sError += LPGENT("Do you wish to save debug information ?");
-	if( MessageBox( NULL , sError.c_str() ,MSG_BOX_TITEL,MB_YESNO ) == IDYES )
+	sError += TranslateT("\nMessage has not been saved!\n");
+	sError += TranslateT("Do you wish to save debug information?");
+	if( MessageBox(NULL, sError.c_str(), MSG_BOX_TITEL, MB_YESNO) == IDYES)
 	{
 		OPENFILENAME ofn;       // common dialog box structure
 		_TCHAR szFile[260];       // buffer for file name
@@ -963,7 +962,7 @@ void DisplayErrorDialog( const _TCHAR * pszError , tstring& sFilePath , DBEVENTI
 		//ofn.hwndOwner = NULL;
 		ofn.lpstrFile = szFile;
 		ofn.nMaxFile = sizeof(szFile);
-		ofn.lpstrFilter = _T("All\0*.*\0Text\0*.TXT\0\0");
+		ofn.lpstrFilter = TranslateT("All\0*.*\0Text\0*.TXT\0\0");
 		ofn.nFilterIndex = 1;
 		ofn.lpstrFileTitle = NULL;
 		ofn.nMaxFileTitle = 0;
@@ -1589,7 +1588,7 @@ SuperBreak:
 		if( pszPrev == pszSrc )
 		{
 			// this is an programming error we have not moved forward in string 
-			MessageBox( NULL , LPGENT("Programming error on line __LINE__ please report this")  ,MSG_BOX_TITEL,MB_OK );
+			MessageBox(NULL, _T("Programming error on line __LINE__ please report this"), MSG_BOX_TITEL, MB_OK);
 			break;
 		}
 	}
@@ -1652,10 +1651,10 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 		_TCHAR szTemp[500];
 		_sntprintf( szTemp , sizeof( szTemp ) , _T("%s\r\n%s") ,
-			LPGENT("User has been deleted do you want to delete the file ?"), sFilePath.c_str() );
+			TranslateT("User has been deleted do you want to delete the file?"), sFilePath.c_str());
 
 		if( enDeleteAction == eDAAutomatic ||
-			 MessageBox( NULL , szTemp ,MSG_BOX_TITEL,MB_YESNO ) == IDYES )
+			 MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_YESNO ) == IDYES )
 		{
 			if( ! DeleteFile( sFilePath.c_str() ) )
 			{

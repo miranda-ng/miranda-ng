@@ -225,23 +225,23 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 	if( !hMapUser || nContacts <= 0 )
 	{
-		MessageBox( hParent , LPGENT("No contacts found to export"),MSG_BOX_TITEL,MB_OK );
+		MessageBox(hParent, TranslateT("No contacts found to export"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
-	HWND hDlg = CreateDialog( hInstance, MAKEINTRESOURCE( IDD_EXPORT_ALL_DLG ) , hParent , DialogProc );
-	HWND hProg = GetDlgItem( hDlg , IDC_EXPORT_PROGRESS );
-	HWND hStatus = GetDlgItem( hDlg , IDC_EXP_ALL_STATUS );
+	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), hParent , DialogProc);
+	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS );
+	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS );
 
-	SendMessage( hProg , PBM_SETRANGE , 0 , MAKELPARAM( 0 , nContacts ) );
+	SendMessage(hProg, PBM_SETRANGE, 0, MAKELPARAM(0, nContacts));
 	
-	SetWindowText( hStatus , LPGENT("Reading database information ( Phase 1 of 2 )") );
+	SetWindowText(hStatus, TranslateT("Reading database information (Phase 1 of 2)"));
 
 	{ // position and show proigrassbar dialog 
 
 		RECT rParrent;
 		RECT rDlg;
-		if( GetWindowRect( hParent , &rParrent ) && GetWindowRect( hDlg , &rDlg ) )
+		if (GetWindowRect( hParent , &rParrent ) && GetWindowRect( hDlg , &rDlg ) )
 		{
 			int x = ( (rParrent.right + rParrent.left) / 2 ) - ( (rDlg.right - rDlg.left) / 2 );
 			int y = ( (rParrent.bottom + rParrent.top) / 2 ) - ( (rDlg.bottom - rDlg.top) / 2 );
@@ -267,9 +267,9 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 			}
 
 			sItem.iItem = nCur;
-			if( ! ListView_GetItem( hMapUser, &sItem ) )
+			if(!ListView_GetItem(hMapUser, &sItem))
 			{
-				MessageBox( hParent , LPGENT("Failed to export at least one contact"),MSG_BOX_TITEL,MB_OK );
+				MessageBox(hParent, TranslateT("Failed to export at least one contact"), MSG_BOX_TITEL, MB_OK);
 				continue;
 			}
 
@@ -404,11 +404,11 @@ BOOL bApplyChanges( HWND hwndDlg )
 	BOOL bRet = true;
 	_TCHAR szTemp[500];
 
-	int nTmp = GetDlgItemInt( hwndDlg , IDC_MAX_CLOUMN_WIDTH , &bTrans , TRUE );
-	if( !bTrans || nTmp < 5 )
+	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE );
+	if ( !bTrans || nTmp < 5 )
 	{
-		_sntprintf( szTemp , sizeof( szTemp ) ,LPGENT("Max line width must be at least %d"), 5 );
-		MessageBox( hwndDlg , szTemp ,MSG_BOX_TITEL,MB_OK );
+		_sntprintf(szTemp, sizeof(szTemp), _T("Max line width must be at least %d"), 5);
+		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}
 	else
@@ -434,7 +434,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	if( bReplaceHistory != bNewRp )
 	{
 		bReplaceHistory = bNewRp;
-		MessageBox( hwndDlg , LPGENT("You need to restart miranda to change the history function") ,MSG_BOX_TITEL,MB_OK );
+		MessageBox(hwndDlg, TranslateT("You need to restart miranda to change the history function"), MSG_BOX_TITEL, MB_OK );
 	}
 
 	bAppendNewLine = IsDlgButtonChecked( hwndDlg , IDC_APPEND_NEWLINE ) == BST_CHECKED;
@@ -649,7 +649,7 @@ void OpenHelp(HWND hwndDlg)
 		}
 	}
 
-	MessageBox( hwndDlg , LPGENT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self"),MSG_BOX_TITEL,MB_OK );
+	MessageBox(hwndDlg, TranslateT("Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self"), MSG_BOX_TITEL, MB_OK);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -739,7 +739,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 					sItem.iItem = nUser;
 					sItem.iSubItem = 0;
-					sItem.iImage = db_get_b(hContact,MODULE,"EnableLog",1);
+					sItem.iImage = db_get_b(hContact,MODULE, "EnableLog", 1);
 					sItem.lParam = (LPARAM) hContact;
 
 
@@ -850,7 +850,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				{
 					if( bUnaplyedChanges )
 					{
-						DWORD res = MessageBox( hwndDlg , LPGENT("You have unapplyed changes do you wish to apply these first ?"),MSG_BOX_TITEL,MB_YESNOCANCEL );
+						DWORD res = MessageBox(hwndDlg, TranslateT("You have unapplyed changes do you wish to apply these first ?"), MSG_BOX_TITEL, MB_YESNOCANCEL);
 						if( res == IDCANCEL )
 							return TRUE;
 						if( res == IDYES )
@@ -982,7 +982,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					// Get the shells allocator
 					if (FAILED(SHGetMalloc(&pMalloc))) // we need to use this to support old Windows versions 
 					{
-						MessageBox( hwndDlg , LPGENT("Failed to get the shells allocator !"),MSG_BOX_TITEL,MB_OK );
+						MessageBox(hwndDlg, _T("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
 						return TRUE; // TRUE because we have handled the message , sort of *S*
 					}
 
@@ -991,7 +991,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					if ( ! lpDestDir )
 					{
 						pMalloc->Release();
-						MessageBox( hwndDlg , LPGENT("Failed to Allocate buffer space"),MSG_BOX_TITEL,MB_OK );
+						MessageBox(hwndDlg , _T("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
 						return TRUE;
 					}
 

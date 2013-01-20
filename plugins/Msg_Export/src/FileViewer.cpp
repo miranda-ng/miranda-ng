@@ -234,7 +234,7 @@ int CLStreamRTFInfo::nWriteHeader( char * pszTarget , int nLen )
 
 	if( nSrcLen > nLen )
 	{
-		MessageBox( NULL , LPGENT("Failed to write to the RichEdit the buffer was to small."),MSG_BOX_TITEL,MB_OK );
+		MessageBox( NULL , TranslateT("Failed to write to the RichEdit the buffer was to small."), MSG_BOX_TITEL, MB_OK );
 		return 0; // target buffer to small
 	}
 
@@ -267,7 +267,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 	if( nOptimalReadLen < 500 )
 	{
-		MessageBox( NULL , LPGENT("Error: Optimal buffer size decrecied to a to low size !!"),MSG_BOX_TITEL,MB_OK );
+		MessageBox( NULL , TranslateT("Error: Optimal buffer size decrecied to a to low size !!"), MSG_BOX_TITEL, MB_OK );
 		return 0;
 	}
 
@@ -357,7 +357,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 					LONG lExtraRead = (n+1) - dwRead;
 					if( lExtraRead >= 0 )
-						MessageBox( NULL , LPGENT("Internal error !! (lExtraRead >= 0)"),MSG_BOX_TITEL,MB_OK );
+						MessageBox( NULL , TranslateT("Internal error !! (lExtraRead >= 0)"), MSG_BOX_TITEL, MB_OK );
 					SetFilePointer( hFile , lExtraRead , NULL , FILE_CURRENT );
 					bCheckFirstForNick = true;
 					return dwCurrent;
@@ -677,9 +677,9 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	DWORD dwStart = GetTickCount();
 
 	HWND hRichEdit = GetDlgItem( hwndDlg , IDC_RICHEDIT );
-	if( ! hRichEdit )
+	if( !hRichEdit )
 	{
-		MessageBox( hwndDlg , LPGENT("Failed to get handle to RichEdit!"),MSG_BOX_TITEL,MB_OK );
+		MessageBox( hwndDlg , TranslateT("Failed to get handle to RichEdit!"), MSG_BOX_TITEL, MB_OK );
 		return false;
 	}
 
@@ -770,7 +770,7 @@ bool bLoadFile( HWND hwndDlg , CLHistoryDlg * pclDlg )
 	//delete [] pabFileData;
 
 	_TCHAR szTmp[100];
-	mir_sntprintf( szTmp , 99, LPGENT("File open time %d\n") , GetTickCount() - dwStart );
+	mir_sntprintf( szTmp , 99, _T("File open time %d\n") , GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
 
 
@@ -944,7 +944,7 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				res = (int)SendMessage(hwnd, EM_FINDTEXTW, (WPARAM)fr->Flags,(LPARAM)&ft);
 				if(res == -1)
 				{
-					MessageBox( hwnd , LPGENT("Search string was not found !"),MSG_BOX_TITEL,MB_OK );
+					MessageBox( hwnd , TranslateT("Search string was not found !"), MSG_BOX_TITEL, MB_OK );
 					return 0;
 				}
 			}
@@ -1276,12 +1276,12 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				LRESULT nWriteOk = SendMessage(hRichEdit, EM_STREAMOUT, (WPARAM)SF_RTF , (LPARAM)&eds);
 				if( nWriteOk <= 0 || eds.dwError != 0 )
 				{
-					DisplayLastError( LPGENT("Failed to save file") );
+					DisplayLastError( TranslateT("Failed to save file") );
 					CloseHandle( hFile );
 					return TRUE;
 				}
 				CloseHandle( hFile );
-				tstring sReport = LPGENT("History was saved successfully in file\r\n");
+				tstring sReport = TranslateT("History was saved successfully in file\r\n");
 				sReport += sFile;
 				MessageBox( NULL , sReport.c_str() ,MSG_BOX_TITEL ,MB_OK );
 				return TRUE;

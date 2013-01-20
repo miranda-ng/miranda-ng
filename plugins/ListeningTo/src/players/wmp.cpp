@@ -37,7 +37,7 @@ WindowsMediaPlayer *singleton = NULL;
 WindowsMediaPlayer::WindowsMediaPlayer()
 {
 	name = _T("WindowsMediaPlayer");
-	received[0] = L'\0';
+	received[0] = _T('\0');
 	singleton = this;
 
 	WNDCLASS wc = {0};
@@ -47,7 +47,7 @@ WindowsMediaPlayer::WindowsMediaPlayer()
 
 	RegisterClass(&wc);
 
-	hWnd = CreateWindow(WMP_WINDOWCLASS, _T("Miranda ListeningTo WMP receiver"), 
+	hWnd = CreateWindow(WMP_WINDOWCLASS, LPGENT("Miranda ListeningTo WMP receiver"), 
 							0, 0, 0, 0, 0, NULL, NULL, hInst, NULL);
 }
 
@@ -152,7 +152,7 @@ void WindowsMediaPlayer::NewData(const WCHAR *data, size_t len)
 	if (wcsncmp(received, data, len) != 0)
 	{
 		wcsncpy(received, data, len);
-		received[len] = L'\0';
+		received[len] = _T('\0');
 
 /*
 		m_log(_T("ReceiverWndProc"), _T("WMP : New data: [%d] %s"), len, received);

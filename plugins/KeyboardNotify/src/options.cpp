@@ -118,7 +118,7 @@ extern PROCESS_LIST ProcessList;
 HWND hwndProto, hwndBasic, hwndEffect, hwndTheme, hwndIgnore, hwndCurrentTab;
 
 TCHAR *AttendedName[]={_T("Miranda"), _T("Windows")};
-TCHAR *OrderName[]={_T("left->right"), _T("right->left"), _T("left<->right")};
+TCHAR *OrderName[]={TranslateT("left->right"), TranslateT("right->left"), TranslateT("left<->right")};
 
 PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;
@@ -937,12 +937,12 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				_tcscpy(filter,_T("Keyboard Notify Theme"));
+				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
 				pfilter = filter + _tcslen(filter) + 1;
 				_tcscpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;
-				_tcscpy(pfilter, _T("All Files"));
+				_tcscpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;
 				_tcscpy(pfilter, _T("*.*"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;
@@ -965,12 +965,12 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				_tcscpy(filter, _T("Keyboard Notify Theme"));
+				_tcscpy(filter, TranslateT("Keyboard Notify Theme"));
 				wcscat(filter, _T(" (*.knt)"));
 				pfilter = filter + _tcslen(filter) + 1;
 				_tcscpy(pfilter, _T("*.knt"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;
-				_tcscpy(pfilter, _T("All Files"));
+				_tcscpy(pfilter, TranslateT("All Files"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;
 				_tcscpy(pfilter, _T("*.*"));
 				pfilter = pfilter + _tcslen(pfilter) + 1;

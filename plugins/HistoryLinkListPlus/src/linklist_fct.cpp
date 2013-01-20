@@ -601,7 +601,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 
 	if(options->showDate == 1)
-		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TranslateT(TXT_DATE));
+		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TXT_DATE);
 	
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM) _T("\n"));
 
@@ -728,17 +728,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming URLs
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_INCOMING), TranslateT(TXT_URLSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, TXT_URLSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing URLs
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_OUTGOING), TranslateT(TXT_URLSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, TXT_URLSONLY);
 		}
 		else
 		{
 			// both directions (URL)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), "", TranslateT(TXT_URLSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, "", TXT_URLSONLY);
 		}
 	}
 	else if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
@@ -746,17 +746,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming mail
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_INCOMING), TranslateT(TXT_MAILSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, TXT_MAILSONLY);
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing mail
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_OUTGOING), TranslateT(TXT_MAILSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, TXT_MAILSONLY);
 		}
 		else
 		{
 			// both directions (mail)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), "", TranslateT(TXT_MAILSONLY));
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, "", TXT_MAILSONLY);
 		}
 	}
 	else
@@ -764,17 +764,17 @@ void GetFilterText(HMENU listMenu, LPTSTR filter, size_t max_len)
 		if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//incoming (both)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_INCOMING), "");
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_INCOMING, "");
 		}
 		else if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
 		{
 			//outgoing (both)
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_OUTGOING), "");
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_OUTGOING, "");
 		}
 		else
 		{
 			// no filter
-			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TranslateT(TXT_FILTER), TranslateT(TXT_NOFILTER), "");
+			mir_sntprintf(filter, max_len, _T("%s: %s %s"), TXT_FILTER, TXT_NOFILTER, "");
 		}
 	}
 }

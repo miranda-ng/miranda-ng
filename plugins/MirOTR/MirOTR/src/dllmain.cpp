@@ -74,7 +74,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		MessageBox(0, TranslateT(LANG_OTR_SECUREIM_TEXT), TranslateT(LANG_OTR_SECUREIM_TITLE), 0x30);
 	}
 	if (!options.bHaveSRMMIcons) {
-		MessageBox(0, _T("OTR Info"), _T("Your SRMM plugin does not support status icons. Not all OTR-functions are available!"), 0x30);
+		MessageBox(NULL, TranslateT("OTR Info"), TranslateT("Your SRMM plugin does not support status icons. Not all OTR-functions are available!"), 0x30);
 	}
 
 	// HookEvent(ME_OPT_INITIALISE, OptInit);

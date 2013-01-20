@@ -164,7 +164,7 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 	hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
 	if ( hEvent == NULL )
 	{
-		MessageBox(NULL, TranslateT(TXT_EMPTYHISTORY), TranslateT(TXT_PLUGINNAME), MB_OK | MB_ICONINFORMATION );
+		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, MB_OK | MB_ICONINFORMATION );
 		return 0;
 	}
 
@@ -219,7 +219,7 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 	SendMessage(hWndProgress, WM_CLOSE, 0, 0);
 	if ( ListCount(listStart) <= 0 ) {	
 		RemoveList(listStart);
-		MessageBox(NULL, TranslateT("There are no links in history!"), TranslateT(TXT_PLUGINNAME), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, MB_OK | MB_ICONINFORMATION);
 		return 0;
 	}
 

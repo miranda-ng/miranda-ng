@@ -495,7 +495,7 @@ INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam 
 		{
 			TranslateDialogDefault(hDlg);
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)lParam);
-			SetWindowText(hDlg, TranslateT(TXT_SEARCH));
+			SetWindowText(hDlg, TXT_SEARCH);
 			SendDlgItemMessage(hDlg, IDC_DIR_ALL, BM_SETCHECK, BST_CHECKED, 0);
 			SendDlgItemMessage(hDlg, IDC_TYPE_ALL, BM_SETCHECK, BST_CHECKED, 0);
 			return TRUE;
@@ -545,7 +545,7 @@ INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam 
 					WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 					free(buffer);
 					
-					mir_sntprintf(filter, _countof(filter), _T("%s: %s"), TranslateT(TXT_FILTER), TranslateT(TXT_SEARCHFILTER));
+					mir_sntprintf(filter, _countof(filter), _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
 					SetDlgItemText(hWndMain, IDC_STATUS, filter);
 				}
 				break;
@@ -749,7 +749,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 					mCol = GetMirandaColour(&colourSet);
 					if(mCol == 1)
 					{
-						MessageBox(NULL, TranslateT(TXT_NOSETTING), TranslateT(TXT_ERROR), MB_OK | MB_ICONEXCLAMATION);
+						MessageBox(NULL, TXT_NOSETTING, TXT_ERROR, MB_OK | MB_ICONEXCLAMATION);
 						SendDlgItemMessage(hDlg, IDC_CHECK1, BM_SETCHECK, BST_UNCHECKED, 0);
 						break;
 					}
