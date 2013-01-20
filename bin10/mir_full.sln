@@ -363,6 +363,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartPosition", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMS", "..\plugins\SMS\sms_10.vcxproj", "{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPServer", "..\plugins\HTTPServer\HTTPServer_10.vcxproj", "{F7A70398-AFA0-4A58-B645-85268F9517DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1611,6 +1613,14 @@ Global
 		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|Win32.Build.0 = Release|Win32
 		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|x64.ActiveCfg = Release|x64
 		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|x64.Build.0 = Release|x64
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Debug|Win32.Build.0 = Debug|Win32
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Debug|x64.ActiveCfg = Debug|x64
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Debug|x64.Build.0 = Debug|x64
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Release|Win32.ActiveCfg = Release|Win32
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Release|Win32.Build.0 = Release|Win32
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Release|x64.ActiveCfg = Release|x64
+		{F7A70398-AFA0-4A58-B645-85268F9517DE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
