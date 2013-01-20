@@ -1,11 +1,11 @@
-// ---------------------------------------------------------------------------80
+ï»¿// ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
 //
-// Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
-// Copyright © 2001-2002 Jon Keating, Richard Hughes
-// Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
-// Copyright © 2004-2010 Joe Kucera
+// Copyright Â© 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
+// Copyright Â© 2001-2002 Jon Keating, Richard Hughes
+// Copyright Â© 2002-2004 Martin Ã–berg, Sam Kothari, Robert Rainwater
+// Copyright Â© 2004-2010 Joe Kucera
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -44,9 +44,9 @@ PLUGININFOEX pluginInfo = {
 	"IcqOscarJ Protocol",
 	__VERSION_DWORD,
 	"ICQ protocol support for Miranda NG.",
-	"Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc",
+	"Joe Kucera, Bio, Martin Ã–berg, Richard Hughes, Jon Keating, etc",
 	"jokusoftware@miranda-im.org",
-	"(C) 2000-2010 M.Öberg, R.Hughes, J.Keating, Bio, Angeli-Ka, G.Hazan, J.Kucera",
+	"(C) 2000-2010 M.Ã–berg, R.Hughes, J.Keating, Bio, Angeli-Ka, G.Hazan, J.Kucera",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,   //doesn't replace anything built-in
 	{0x73a9615c, 0x7d4e, 0x4555, {0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff}} // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
