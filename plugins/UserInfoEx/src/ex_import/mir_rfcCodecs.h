@@ -17,15 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-===============================================================================
-
-File name      : $HeadURL: https://userinfoex.googlecode.com/svn/trunk/ex_import/mir_rfcCodecs.h $
-Revision       : $Revision: 190 $
-Last change on : $Date: 2010-09-14 14:32:57 +0400 (Вт, 14 сен 2010) $
-Last change by : $Author: ing.u.horn $
-
-===============================================================================
 */
 
 #include <stdlib.h>

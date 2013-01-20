@@ -22,12 +22,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-File name      : $Source: /cvsroot/miranda/miranda/plugins/png2dib/png2dib.c,v $
-Revision       : $Revision: 5041 $
-Last change on : $Date: 2007-03-06 22:13:28 +0100 (Di, 06 Mär 2007) $
-Last change by : $Author: rainwater $
-
 */
 
 #include <m_stdhdr.h>

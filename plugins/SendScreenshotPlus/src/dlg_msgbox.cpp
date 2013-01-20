@@ -19,12 +19,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 aLONG with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
-
-File name      : $HeadURL: https://userinfoex.googlecode.com/svn/trunk/dlg_msgbox.cpp $
-Revision       : $Revision: 164 $
-Last change on : $Date: 2009-12-02 21:24:35 +0100 (Mi, 02. Dez 2009) $
-Last change by : $Author: ing.u.horn $
-
 */
 
 #include "dlg_msgbox.h"

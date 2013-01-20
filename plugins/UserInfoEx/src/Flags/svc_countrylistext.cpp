@@ -20,15 +20,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-===============================================================================
-
-File name      : $HeadURL: https://userinfoex.googlecode.com/svn/trunk/Flags/svc_countrylistext.cpp $
-Revision       : $Revision: 199 $
-Last change on : $Date: 2010-09-22 17:21:44 +0400 (Ср, 22 сен 2010) $
-Last change by : $Author: ing.u.horn $
-
-===============================================================================
 */
 
 #include "..\commonheaders.h"

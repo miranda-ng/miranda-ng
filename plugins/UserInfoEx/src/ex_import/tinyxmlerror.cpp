@@ -27,12 +27,6 @@ UserinfoEx plugin for Miranda IM
 
 Copyright:
 � 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
-
-File name      : $HeadURL: https://userinfoex.googlecode.com/svn/trunk/ex_import/tinyxmlerror.cpp $
-Revision       : $Revision: 187 $
-Last change on : $Date: 2010-09-08 16:05:54 +0400 (Ср, 08 сен 2010) $
-Last change by : $Author: ing.u.horn $
-
 ===============================================================================
 */
 

@@ -17,15 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-===============================================================================
-
-File name      : $HeadURL: https://userinfoex.googlecode.com/svn/trunk/ex_import/svc_ExImINI.cpp $
-Revision       : $Revision: 196 $
-Last change on : $Date: 2010-09-21 03:24:30 +0400 (Вт, 21 сен 2010) $
-Last change by : $Author: ing.u.horn $
-
-===============================================================================
 */
 
 /**
