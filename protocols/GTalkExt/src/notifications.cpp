@@ -27,7 +27,7 @@
 #include "inbox.h"
 
 static const LPTSTR TEMP_WINDOW_CLASS_NAME = _T("AntiShittyFullscreenDetectionWindowClass");
-static const LPTSTR _T(NUMBER_EMAILS_MESSAGE) = _T("You've received an e-mail\n%s unread threads");
+static const LPTSTR _T(NUMBER_EMAILS_MESSAGE) = LPGENT("You've received an e-mail\n%s unread threads");
 
 static const LPTSTR PLUGIN_DATA_PROP_NAME = _T("{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}");
 static const LPTSTR EVT_DELETED_HOOK_PROP_NAME = _T("{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}");

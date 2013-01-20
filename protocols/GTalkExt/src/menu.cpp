@@ -26,7 +26,7 @@
 #include "inbox.h"
 
 static const LPSTR MS_GTALKEXT_OPENMAILBOX = SHORT_PLUGIN_NAME "/OpenMailbox";
-static const LPTSTR _T(OPEN_MAILBOX_ITEM_CAPTION) = _T("Open mailbox");
+static const LPTSTR _T(OPEN_MAILBOX_ITEM_CAPTION) = LPGENT("Open mailbox");
 
 HANDLE hOpenMailboxService = 0;
 HANDLE hOpenMailboxMenuItem = 0;

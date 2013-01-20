@@ -156,7 +156,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszTitle = _T(SERVICE_TITLE);
-	odp.ptszGroup = _T("Plugins");
+	odp.ptszGroup = LPGENT("Plugins");
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);

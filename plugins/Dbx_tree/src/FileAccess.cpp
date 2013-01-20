@@ -275,14 +275,14 @@ void CFileAccess::InitJournal()
 		if (hfilebackup || hjrnfilebackup)
 		{
 			LOG(logWARNING,
-		      _T("Journal \"%s\" was found on start.\nBackup \"%s\"%s created and backup \"%s\"%s created.\nYou may delete these file(s) after successful start from \"%s\"."),
+		      TranslateT("Journal \"%s\" was found on start.\nBackup \"%s\"%s created and backup \"%s\"%s created.\nYou may delete these file(s) after successful start from \"%s\"."),
 			    fn?fn+1:m_Journal.FileName, 
-			    bfn?bfn+1:bckname, (hfilebackup!=INVALID_HANDLE_VALUE)?_T(" was successfully"):_T(" could not be"),
-			    jrn?jrn+1:bckjrnname, (hjrnfilebackup!=INVALID_HANDLE_VALUE)?_T(" was successfully"):_T(" could not be"),
+			    bfn?bfn+1:bckname, (hfilebackup!=INVALID_HANDLE_VALUE)?TranslateT(" was successfully"):TranslateT(" could not be"),
+			    jrn?jrn+1:bckjrnname, (hjrnfilebackup!=INVALID_HANDLE_VALUE)?TranslateT(" was successfully"):TranslateT(" could not be"),
 			    path);
 			} else {
 			LOG(logWARNING,
-					_T("Journal \"%s\" was found on start.\nBackups \"%s\"and \"%s\" could not be created in \"%s\"."),
+					TranslateT("Journal \"%s\" was found on start.\nBackups \"%s\"and \"%s\" could not be created in \"%s\"."),
 					fn?fn+1:m_Journal.FileName, 
 					bfn?bfn+1:bckname,
 					jrn?jrn+1:bckjrnname,

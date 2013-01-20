@@ -1259,10 +1259,10 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = hIcons[0];
-		mi.ptszPopupName = _T("&Help");
+		mi.ptszPopupName = LPGENT("&Help");
 		mi.popupPosition = 2000090000;
 		mi.position = 1000000000;
-		mi.ptszName = (IsWindowVisible(hwndConsole)) ? _T("Hide Console") : _T("Show Console");
+		mi.ptszName = (IsWindowVisible(hwndConsole)) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.pszService = MS_CONSOLE_SHOW_HIDE;
 		hMenu = Menu_AddMainMenuItem(&mi);
 

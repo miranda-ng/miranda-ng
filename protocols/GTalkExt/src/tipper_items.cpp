@@ -42,7 +42,7 @@ static LPSTR TipperItemProps[MAX_TIPPER_ITEM_PROP] = {
 static const LPSTR TIPPER_ITEMS_MOD_NAME = "Tipper_Items";
 static const LPSTR TIPPER_ITEM_COUNT_SETTING = "DINumValues";
 static const LPTSTR UNREAD_THREADS_RAW = _T("%raw:") _T(SHORT_PLUGIN_NAME) _T("/UnreadThreads%");
-static const LPTSTR UNREAD_THREADS_LABEL = _T("Unread threads:");
+static const LPTSTR UNREAD_THREADS_LABEL = LPGENT("Unread threads:");
 
 void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 {

@@ -256,10 +256,10 @@ void PackerJob::updateStats()
 		this->lastUpdateTick = dwNewTick;
 
 		double speed = ((double)this->uiReaded / 1024)/(time(NULL) - this->startTS);
-		mir_sntprintf(this->tab->stzSpeed, SIZEOF(this->tab->stzSpeed), _T("%0.1f kB/s"), speed);
+		mir_sntprintf(this->tab->stzSpeed, SIZEOF(this->tab->stzSpeed), TranslateT("%0.1f kB/s"), speed);
 
 		double perc = this->uiFileSize ? ((double)this->uiReaded / this->uiFileSize) * 100 : 0;
-		mir_sntprintf(this->tab->stzComplet, SIZEOF(this->tab->stzComplet), _T("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiReaded/1024, (int)this->uiFileSize/1024);
+		mir_sntprintf(this->tab->stzComplet, SIZEOF(this->tab->stzComplet), TranslateT("%0.1f%% (%d kB/%d kB)"), perc, (int)this->uiReaded/1024, (int)this->uiFileSize/1024);
 
 		TCHAR buff[256];
 		long s = (this->uiFileSize - this->uiReaded) / (long)(speed * 1024); 
@@ -270,7 +270,7 @@ void PackerJob::updateStats()
 
 		if (d > 0) mir_sntprintf(buff, SIZEOF(buff), _T("%dd %02d:%02d:%02d"), d, h, m, s);
 		else mir_sntprintf(buff, SIZEOF(buff), _T("%02d:%02d:%02d"), h, m, s);
-		mir_sntprintf(this->tab->stzRemain, SIZEOF(this->tab->stzRemain), _T("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiReaded)/1024, this->uiFileSize/1024);
+		mir_sntprintf(this->tab->stzRemain, SIZEOF(this->tab->stzRemain), TranslateT("%s (%d kB/%d kB)"), buff, (this->uiFileSize - this->uiReaded)/1024, this->uiFileSize/1024);
 
 		this->refreshTab(false);		
 	}

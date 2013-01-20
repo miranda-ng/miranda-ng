@@ -94,11 +94,8 @@ bool CoreCheck()
 		(g_mirandaVersion >= PLUGIN_MAKE_VERSION(1,0,0,0)))
 	{
 		MessageBoxA(0,
-			Translate(
-				"Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\n"
-				"For use with any other application, please contact author.\n"
-				),
-			"Favourite Contacts Error",
+			Translate("Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n"),
+			Translate("Favourite Contacts Error"),
 			MB_ICONSTOP|MB_OK);
 		return false;
 	}

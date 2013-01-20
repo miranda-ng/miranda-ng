@@ -23,9 +23,9 @@
 
 #include "resources.h"
 
-static const LPTSTR MAIL_NOTIFICATIONS = _T("GMail notifications");
-static const LPTSTR FULL_NOTIFICATION_FORMAT = _T("subject\n    %s\nfrom\n%s\n%s\n");
-static const LPTSTR SHORT_NOTIFICATION_FORMAT = _T("subject\n    %s\nfrom\n%s");
+static const LPTSTR MAIL_NOTIFICATIONS = LPGENT("GMail notifications");
+static const LPTSTR FULL_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s\n%s\n");
+static const LPTSTR SHORT_NOTIFICATION_FORMAT = LPGENT("subject\n    %s\nfrom\n%s");
 
 static const LPSTR PSEUDOCONTACT_LINK = "GTalkExtNotifyContact";
 static const LPSTR PSEUDOCONTACT_FLAG = "IsNotifyContact";

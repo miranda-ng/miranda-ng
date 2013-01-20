@@ -25,8 +25,8 @@
 static const LPTSTR ACCOUNT_PROP_NAME = _T("{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}");
 static const LPTSTR DIALOG_INITIALIZED_PROP_NAME = _T("{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}");
 
-static const LPTSTR POPUPS_OPTIONS_GROUP = _T("PopUps");
-static const LPTSTR NETWORK_OPTIONS_GROUP = _T("Network");
+static const LPTSTR POPUPS_OPTIONS_GROUP = LPGENT("PopUps");
+static const LPTSTR NETWORK_OPTIONS_GROUP = LPGENT("Network");
 
 static const LPSTR NOTIFY_SETTINGS_FROM_MOD_NAME = SHORT_PLUGIN_NAME ".NotifySettingsFromModName";
 
@@ -34,11 +34,11 @@ static const LPTSTR TEST_LETTER_SUBJECT = _T("Why C sucks");
 static const LPTSTR TEST_LETTER_INBOX = _T("brickstrace@gmail.com [1]");
 static const LPTSTR TEST_LETTER_SENDER = _T("    bems <bems@vingrad.ru>\n");
 static const LPTSTR TEST_LETTER_SNIP =
-	_T("* Primitive type system\n")
-	_T("* No overloading\n")
-	_T("* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n")
-	_T("* No metaprogramming except preprocessor macros\n")
-	_T("* No exceptions");
+	LPGENT("* Primitive type system\n")
+	LPGENT("* No overloading\n")
+	LPGENT("* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n")
+	LPGENT("* No metaprogramming except preprocessor macros\n")
+	LPGENT("* No exceptions");
 
 HANDLE hOptionsHook = 0;
 extern HINSTANCE hInst;

@@ -48,7 +48,7 @@ int GenericJob::openFileDialog()
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = 0;
-	ofn.lpstrFilter = _T("All Files (*.*)\0*.*\0");
+	ofn.lpstrFilter = TranslateT("All Files (*.*)\0*.*\0");
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = this->stzFilePath;
 	ofn.lpstrTitle = TranslateT("FTP File - Select files");
