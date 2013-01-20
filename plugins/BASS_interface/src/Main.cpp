@@ -356,7 +356,7 @@ static WNDPROC OldSliderWndProc = 0;
 
 static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)	{
+	switch(msg) {
 		case WM_ERASEBKGND:
 			return TRUE;
 	}
@@ -364,7 +364,7 @@ static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 }
 static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
+	switch(msg)
 	{
 		case WM_CREATE:
 			{
@@ -430,7 +430,6 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			{
 				HDC dc = (HDC)wParam;
 				RECT rc;
-
 				GetClientRect(hwnd, &rc);
 				FillRect(dc, &rc, hBkgBrush);
 				return TRUE;
@@ -438,9 +437,8 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 		case WM_CTLCOLORSTATIC:
 			{
-				if((HANDLE)lParam == hwndSlider) {
+				if ((HWND)lParam == hwndSlider) {
 					HDC dc = (HDC)wParam;
-
 					SetBkColor(dc, clBack);
 					return (BOOL)hBkgBrush;
 				}
@@ -448,7 +446,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			}
 
 		case WM_DESTROY:
-			if(hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
+			if (hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
 				SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)OldSliderWndProc);
 			break;
 
@@ -504,6 +502,7 @@ void CreateFrame()
 	Frame.align = alBottom;
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 22;
+	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	frame_id = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	ColourIDT colourid = {0};
