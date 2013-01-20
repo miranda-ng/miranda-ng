@@ -293,7 +293,7 @@ begin
     begin
       cbSize  :=SizeOf(Frame);
       hWnd    :=FrameWnd;
-      hIcon   :=0;
+      hIcon   :=CallService(MS_SKIN2_GETICON,0,tlparam(QS_QS));
       align   :=alTop;
       height  :=tr.bottom-tr.top+2;
       Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;
