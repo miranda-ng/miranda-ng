@@ -295,6 +295,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 		Frame.align = alTop;
 		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
 		Frame.height = g_ctrl->nLastHeight;
+		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	}
 
