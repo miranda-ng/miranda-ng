@@ -154,11 +154,11 @@ bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 void LogEvent(const char * pszTitle, const char * pszLog) {
 	HANDLE hFile = CreateFile(sLogFilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, _T("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
 		return;
 	}
 	if (SetFilePointer(hFile, 0, 0, FILE_END) == INVALID_SET_FILE_POINTER) {
-		MessageBox(NULL, _T("Failed to move to the end of the log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to move to the end of the log file"), MSG_BOX_TITEL, MB_OK);
 		CloseHandle(hFile);
 		return;
 	}
@@ -177,7 +177,7 @@ void LogEvent(const char * pszTitle, const char * pszLog) {
 	    !bWriteToFile(hFile, " : ") ||
 	    !bWriteToFile(hFile, pszLog, nLogLen) ||
 	    !bWriteToFile(hFile, "\r\n")) {
-		MessageBox(NULL, _T("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to write some part of the log file"), MSG_BOX_TITEL, MB_OK);
 	}
 	CloseHandle(hFile);
 }
@@ -644,7 +644,7 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/) {
 		hDirectBoundPort = (HANDLE) CallService(MS_NETLIB_BINDPORT, (WPARAM) hNetlibUser, (LPARAM) & nlb);
 		if (!hDirectBoundPort) {
 			char szTemp[200];
-			_snprintf(szTemp, sizeof(szTemp), _T("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
+			_snprintf(szTemp, sizeof(szTemp), TranslateT("Failed to bind to port %s\r\nThis is most likely because another program or service is using this port") ,
 			    nlb.wPort == 80 ? "80" : nus.szIncomingPorts);
 			MessageBox(NULL, szTemp, MSG_BOX_TITEL, MB_OK);
 			return 1001;

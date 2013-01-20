@@ -495,7 +495,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 					pstNewShare->pszRealPath[pstNewShare->dwMaxRealPath] = '\0';
 
 					if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-						MessageBox(NULL, _T("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(NULL, TranslateT("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 						return false;
 					}
 					pszFileNamePos++;
@@ -505,7 +505,7 @@ bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 
 	} else {
 		if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)pstNewShare)) {
-			MessageBox(NULL, _T("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+			MessageBox(NULL, TranslateT("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 			return false;
 		}
 	}
@@ -792,7 +792,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 					strncpy(&szServPath[1], fileName+1, MAX_PATH-2);
 
 				if (CallService(MS_HTTP_ADD_CHANGE_REMOVE, 0, (LPARAM)&stNewShare)) {
-					MessageBox(NULL, _T("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
+					MessageBox(NULL, TranslateT("Failed to share new file"), MSG_BOX_TITEL, MB_OK);
 					return false;
 				}			
 			}
@@ -900,18 +900,18 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 						if (ListView_GetItem(hShareList, &sItem)) {
 							string sLink = sCreateLink(sItem.pszText);
 							if (sLink.size() <= 0) {
-								MessageBox(hwndDlg, _T("Selected link size is 0"), MSG_BOX_TITEL, MB_OK);
+								MessageBox(hwndDlg, TranslateT("Selected link size is 0"), MSG_BOX_TITEL, MB_OK);
 								return TRUE;
 							}
 
 							if (LOWORD(wParam) == ID_SHARELIST_COPYLINK) {
 								if (!OpenClipboard(hwndDlg)) {
-									MessageBox(hwndDlg, _T("Failed to get access to clipboard"), MSG_BOX_TITEL, MB_OK);
+									MessageBox(hwndDlg, TranslateT("Failed to get access to clipboard"), MSG_BOX_TITEL, MB_OK);
 									return TRUE;
 								}
 
 								if (!EmptyClipboard()) {
-									MessageBox(hwndDlg, _T("Failed to get close the clipboard"), MSG_BOX_TITEL, MB_OK);
+									MessageBox(hwndDlg, TranslateT("Failed to get close the clipboard"), MSG_BOX_TITEL, MB_OK);
 									return TRUE;
 								}
 
@@ -925,17 +925,17 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 								HANDLE hMyData = SetClipboardData(CF_TEXT, hglbCopy);
 								if (! hMyData)
-									MessageBox(hwndDlg, _T("Failed to set clipboard data"), MSG_BOX_TITEL, MB_OK);
+									MessageBox(hwndDlg, TranslateT("Failed to set clipboard data"), MSG_BOX_TITEL, MB_OK);
 
 								CloseClipboard();
 							} else {
 								CallService(MS_UTILS_OPENURL, 0, (LPARAM)(const char*)sLink.c_str());
 							}
 						} else {
-							MessageBox(hwndDlg, "ListView_GetItem failed", MSG_BOX_TITEL, MB_OK);
+							MessageBox(hwndDlg, TranslateT("ListView_GetItem failed"), MSG_BOX_TITEL, MB_OK);
 						}
 					} else {
-						MessageBox(hwndDlg, Translate("No share selected"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(hwndDlg, TranslateT("No share selected"), MSG_BOX_TITEL, MB_OK);
 					}
 					return TRUE;
 				}
@@ -1485,13 +1485,13 @@ void InitGuiElements() {
 
 	hShareNewFileService = CreateServiceFunction(MS_SHARE_NEW_FILE, nShareNewFile);
 	if (! hShareNewFileService) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_SHARE_NEW_FILE"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHARE_NEW_FILE"), MSG_BOX_TITEL, MB_OK);
 		return;
 	}
 
 	hShowStatisticsViewService = CreateServiceFunction(MS_SHOW_STATISTICS_VIEW, nShowStatisticsView);
 	if (! hShowStatisticsViewService) {
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW"), MSG_BOX_TITEL, MB_OK);
 		return;
 	}
 
@@ -1507,7 +1507,7 @@ void InitGuiElements() {
 
 	hShareNewFileMenuItem = Menu_AddMainMenuItem(&mi);
 	if (!hShareNewFileMenuItem) {
-		MessageBox(NULL, _T("Failed to add contact menu item"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to add contact menu item"), MSG_BOX_TITEL, MB_OK);
 		return;
 	}
 
