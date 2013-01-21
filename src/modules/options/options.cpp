@@ -145,8 +145,8 @@ static HTREEITEM FindNamedTreeItemAtChildren(HWND hwndTree, HTREEITEM hItem, con
 static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 {
 	TCHAR szClass[64];
-
 	GetClassName(hwnd, szClass, SIZEOF(szClass));
+
 	if ( !lstrcmp(szClass, _T("Button")) && (GetWindowLongPtr(hwnd, GWL_STYLE)&0x0F) == BS_GROUPBOX)
 		SendMessage(hwnd, WM_SETFONT, lParam, 0);
 	return TRUE;

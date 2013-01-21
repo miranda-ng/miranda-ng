@@ -44,9 +44,9 @@ PLUGININFOEX pluginInfo = {
 	"IcqOscarJ Protocol",
 	__VERSION_DWORD,
 	"ICQ protocol support for Miranda NG.",
-	"Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc",
+	"Joe Kucera, Bio, Martin \xd6" "berg, Richard Hughes, Jon Keating, etc",
 	"jokusoftware@miranda-im.org",
-	"(C) 2000-2010 M.Öberg, R.Hughes, J.Keating, Bio, Angeli-Ka, G.Hazan, J.Kucera",
+	"(C) 2000-2010 M.\xd6" "berg, R.Hughes, J.Keating, Bio, Angeli-Ka, G.Hazan, J.Kucera",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,   //doesn't replace anything built-in
 	{0x73a9615c, 0x7d4e, 0x4555, {0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff}} // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}

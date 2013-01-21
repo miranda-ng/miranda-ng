@@ -235,6 +235,14 @@ static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM lParamSort)
 	return _tcscmp(p1->fileName, p2->fileName);
 }
 
+static TCHAR* latin2t(const char *p)
+{
+	if (p == NULL)
+		return mir_tstrdup( _T(""));
+
+	return mir_a2t_cp(p, 1250);
+}
+
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -354,14 +362,21 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_GetItemText(hwndList, hdr->iItem, 1, buf, SIZEOF(buf));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGININFOFRAME), sel ? buf : _T(""));
 
-						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), sel ? dat->author : "");
-						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), sel ? dat->authorEmail : "");
+						mir_ptr<TCHAR> tszAuthor( latin2t(sel ? dat->author : NULL));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINAUTHOR), tszAuthor);
+
+						mir_ptr<TCHAR> tszEmail( latin2t(sel ? dat->authorEmail : NULL));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), tszEmail);
 						
 						mir_ptr<TCHAR> p( Langpack_PcharToTchar(dat->description));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? (TCHAR*)p : _T(""));
 
-						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), sel ? dat->copyright : "");
-						SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINURL), sel ? dat->homepage : "");
+						mir_ptr<TCHAR> tszCopyright( latin2t(sel ? dat->copyright : NULL));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINCPYR), tszCopyright);
+
+						mir_ptr<TCHAR> tszUrl( latin2t(sel ? dat->homepage : NULL));
+						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINURL), tszUrl);
+
 						if (equalUUID(miid_last, dat->uuid))
 							SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? TranslateT("<none>") : _T(""));
 						else {
