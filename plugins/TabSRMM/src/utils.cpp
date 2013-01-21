@@ -47,8 +47,8 @@ HANDLE			CWarning::hWindowList = 0;
 static TCHAR *w_bbcodes_begin[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[color=") };
 static TCHAR *w_bbcodes_end[] = { _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]"), _T("[/color]") };
 
-static TCHAR *formatting_strings_begin[] = { _T("b1 "), _T("i1 "), _T("u1 "), _T("s1 "), _T("c1 ") };
-static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _T("s0 "), _T("c0 ") };
+static TCHAR *formatting_strings_begin[] = { _T("b1 "), _T("i1 "), _T("u1 "), _T("s1 "), _T("c1 ") };
+static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _T("s0 "), _T("c0 ") };
 
 #define NR_CODES 5
 
@@ -204,10 +204,10 @@ search_again:
 							closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
 							if (endmark != message.npos) {
 								message.erase(endmark, 4);
-								message.replace(endmark, 4, _T("c0 "));
+								message.replace(endmark, 4, _T("c0 "));
 							}
 							message.erase(beginmark, (closing - beginmark));
-							message.insert(beginmark, _T("cxxx "));
+							message.insert(beginmark, _T("cxxx "));
 							_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
 							message[beginmark + 3] = szTemp[0];
 							message[beginmark + 4] = szTemp[1];
