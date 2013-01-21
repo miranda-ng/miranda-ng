@@ -151,7 +151,7 @@ bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1) {
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void LogEvent(const char * pszTitle, const char * pszLog) {
+void LogEvent(const TCHAR * pszTitle, const char * pszLog) {
 	HANDLE hFile = CreateFile(sLogFilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
 		MessageBox(NULL, TranslateT("Failed to open or create log file"), MSG_BOX_TITEL, MB_OK);
@@ -331,17 +331,20 @@ bool bReadConfigurationFile() {
 bool bWriteConfigurationFile() {
 	CLFileShareListAccess clCritSection;
 	char szBuf[1000];
+	TCHAR * temp = "";
 	strcpy(szBuf, szPluginPath);
 	strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		MessageBox(NULL, _T("Failed to open or create file ") szConfigFile, MSG_BOX_TITEL, MB_OK);
+		mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to open or create file "), _T(szConfigFile));
+		MessageBox(NULL, temp , MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesWriten = 0;
 	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
-		MessageBox(NULL, _T("Failed to write xml header to file ") szConfigFile, MSG_BOX_TITEL, MB_OK);
+		mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml header to file "), _T(szConfigFile));
+		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	} else {
 		CLFileShareNode * pclCur = pclFirstNode;
 		while (pclCur) {
@@ -353,14 +356,16 @@ bool bWriteConfigurationFile() {
 			    SplitIpAddress(pclCur->st.dwAllowedMask));
 
 			if (! WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
-				MessageBox(NULL, _T("Failed to write xml data to file ") szConfigFile, MSG_BOX_TITEL, MB_OK);
+				mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml data to file "), _T(szConfigFile));
+				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
 			pclCur = pclCur->pclNext;
 		}
 
 		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
-			MessageBox(NULL, _T("Failed to write xml tail to file ") szConfigFile, MSG_BOX_TITEL, MB_OK);
+				mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
 	SetEndOfFile(hFile);

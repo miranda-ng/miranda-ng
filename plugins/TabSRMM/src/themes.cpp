@@ -120,10 +120,10 @@ AeroEffect* 	CSkin::m_pCurrentAeroEffect = 0;
 
 AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 	{
-		_T("No effect"), 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0
+		LPGENT("No effect"), 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0
 	},
 	{
-		_T("Milky Glass"),
+		LPGENT("Milky Glass"),
 		0xf5f5f5, 									/* base color */
 		0xaaaaaa,									/* gradient color */
 		70,											/* base alpha */
@@ -138,7 +138,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Milk						/* callback function to render the effect */
 	},
 	{
-		_T("Carbon"),
+		LPGENT("Carbon"),
 		0xf0f0f0,
 		0x000000,
 		75,
@@ -153,7 +153,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Carbon
 	},
 	{
-		_T("Semi transparent, custom colors"),
+		LPGENT("Semi transparent, custom colors"),
 		0xffffff,
 		0x444444,
 		60,
@@ -168,7 +168,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Solid
 	},
 	{
-		_T("Silver shadow"),
+		LPGENT("Silver shadow"),
 		0xffffff,
 		0xa0a0a0,
 		80,
@@ -183,7 +183,7 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		AeroEffectCallback_Solid
 	},
 	{
-		_T("Custom (use own gradient colors)"),
+		LPGENT("Custom (use own gradient colors)"),
 		0xffffff,
 		0xa0a0a0,
 		80,

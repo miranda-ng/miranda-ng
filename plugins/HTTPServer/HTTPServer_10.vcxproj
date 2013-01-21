@@ -197,10 +197,11 @@
     <ClCompile Include="src\HttpUser.cpp" />
     <ClCompile Include="src\IndexHTML.cpp" />
     <ClCompile Include="src\IndexXML.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\MimeHandling.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />

@@ -57,9 +57,9 @@ static struct {
 }
 tooltips[] =
 {
-	{ IDC_ADD, _T("Add this contact permanently to your contact list") },
-	{ IDC_CANCELADD, _T("Do not add this contact permanently") },
-	{ IDC_TOGGLESIDEBAR, _T("Expand or collapse the side bar") }
+	{ IDC_ADD, LPGENT("Add this contact permanently to your contact list") },
+	{ IDC_CANCELADD, LPGENT("Do not add this contact permanently") },
+	{ IDC_TOGGLESIDEBAR, LPGENT("Expand or collapse the side bar") }
 };
 
 static struct {
