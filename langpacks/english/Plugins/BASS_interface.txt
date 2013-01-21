@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BASS_interface.dll
 ;  Plugin: BASS interface
-;  Version: 0.0.0.13
+;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]

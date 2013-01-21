@@ -387,6 +387,8 @@
 [Set status modes]
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 [Parameter mismatch]
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+[Service failure]
 [EventAreaClass]
 [Frame titles]
 [Contact list local time]
