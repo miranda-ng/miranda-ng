@@ -204,10 +204,10 @@ search_again:
 							closing = beginmark + 7 + lstrlen(rtf_ctable[ii].szName);
 							if (endmark != message.npos) {
 								message.erase(endmark, 4);
-								message.replace(endmark, 4, _T("c0 "));
+								message.replace(endmark, 4, _T("c0 "));
 							}
 							message.erase(beginmark, (closing - beginmark));
-							message.insert(beginmark, _T("cxxx "));
+							message.insert(beginmark, _T("cxxx "));
 							_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
 							message[beginmark + 3] = szTemp[0];
 							message[beginmark + 4] = szTemp[1];
