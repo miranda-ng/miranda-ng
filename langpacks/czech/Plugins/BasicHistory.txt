@@ -130,7 +130,6 @@ Neplatná zpráva
 [%016llx]
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
-[*.%s]
 [Import]
 Importovat
 [Export]
@@ -181,7 +180,6 @@ Klávesové zkratky
 [Error]
 Chyba
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
-[\r\n]
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Zpráva
@@ -250,13 +248,11 @@ Odchozí události
 [Invalid file]
 [All Files (*.*)]
 Všechny soubory (*.*)
-[*.*]
 [Enter filter name]
 [Filter name exists]
 [Event already exists]
 [Browse WinSCP file]
 [Save WinSCP log file]
-[%d;%s]
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 [Invalid codepage]
 [Browse CSS file]
@@ -317,8 +313,6 @@ Interní historie
 [.mes#event1 { background-color: #EEEEEE; }\n]
 [.mes#event2 { background-color: #CCD9F4; }\n]
 [.mes#session { background-color: #FFFDD7; }\n]
-[) - ]
-[ - ]
 [)</h3>\n]
 [<h6>]
 [Filter:]
@@ -327,15 +321,12 @@ Filtr:
 Rozhovor začal %s
 [out]
 [inc]
-[>\n]
 [\n</div>\n]
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[&<>\t\r\n]
 [&amp;]
 [&lt;]
 [&gt;]
 [<br>]
-['" []<>\r\n]
 [<link rel="Stylesheet" href="]
 [\\history.css" type="text/css">\n]
 [<script type="text/javascript" src="]
@@ -356,6 +347,7 @@ Menu
 [.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
 [', this)"/></span>\n]
 [.ico" class=sessionimage width="16" height="16"/></div>\n]
+[" alt="]
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 [Contacts]
@@ -378,16 +370,17 @@ Neznámá chyba
 [Cannot compress file(s).]
 [Cannot send FTP file(s).]
 [<contact>]
-[%d-%02d-%02d %02d%02d]
 [Task finished]
 [Task '%s' execution failed]
 [Task '%s' finished successfully]
+["%s" /nointeractiveinput /log="%s" /script=script.sc]
 [Task '%s' execution failed:]
 ;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" nenalezeno
 [Search]
 Hledat
 [You have reached the end of the group.]
 [You have reached the end of the history.]
 Už jste na konci historie.
 ;file \plugins\BasicHistory\src\TxtExport.cpp
-[)\n]

@@ -153,6 +153,8 @@ Pokračovat odshora
 Pokračovat odspodu
 [Search: %s (F3 to find next)]
 Hledat: %s (F3 najde další)
+["%s" not found]
+"%s" nenalezeno
 [You have entered the wrong password]
 Zadali jste nesprávné heslo
 [%0.1n h]

@@ -18,7 +18,6 @@
 ;[(study_sent) ]
 ;[(widelyused_all) ]
 ;[(widelyused_sent) ]
-;[.?!]
 ;[>>Availabe:]
 ;[>>Result:]
 ;[BAD(2)]
@@ -55,4 +54,3 @@
 ;[Typing time depends on message length (in chars)]
 ;[Warn contacts Boltun is chatting]
 ;[Warning text]
-;[boltun.mindw]

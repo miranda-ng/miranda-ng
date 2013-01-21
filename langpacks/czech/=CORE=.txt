@@ -647,7 +647,7 @@ Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
 [Contact List]
-Kontakty
+Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
@@ -1157,9 +1157,6 @@ Nová událost
 Zobrazit osobní údaje
 [Add Contact Permanently to List]
 Přidat do seznamu natrvalo
-[%s %s]
-%s %s
-[ (%s)]
 [<Unknown>]
 <neznámý>
 [%s added you to the contact list\n%u (%s) on %s]
@@ -1208,8 +1205,6 @@ Právě telefonuji
 Mňam... jídlo
 [idleeeeeeee]
 Chrrrrrrrrrrrr
-[%time%]
-[%date%]
 [Status]
 Stavy
 ;file \src\core\stdchat\src\clist.cpp
@@ -1223,9 +1218,6 @@ Otevřít komunikační okno
 [Text colour]
 Barva textu
 ;file \src\core\stdchat\src\log.cpp
-[%s (%s)]
-%s (%s)
-[%s ]
 [%s has joined]
 Příchod: %s
 [You have joined %s]
@@ -1552,7 +1544,6 @@ Záznam diskuse
 Diskuse
 [Popups]
 Oznámení
-[%n:]
 [%miranda_logpath%\\Chat]
 [Message is highlighted]
 Zvýraznění zprávy
@@ -1573,7 +1564,6 @@ Změna tématu diskuse
 Při&jít
 [Server: %s]
 ;file \src\core\stdchat\src\tools.cpp
-[ - %s]
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
 [%s speaks in %s]
@@ -1605,13 +1595,7 @@ Poznámka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [at+]
-[%s * %s]
-[%s %c %s\n]
-%s %c %s\n
-[%s %s\n]
-%s %s\n
 [Look up '%s':]
-[\\/:*?"<>|]
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Vloží vybraný smajlík
@@ -1647,8 +1631,6 @@ Zavře vybranou záložku (CTRL+F4)
 [%s: Server]
 [AQGgl']
 [AQGg']
-[%s: %s\r\n%s: %s\r\n%s: %s]
-[%s: ]
 [open]
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Selected Text]
@@ -1697,15 +1679,10 @@ Poslat e-mail
 ;file \src\core\stdfile\file.cpp
 [File from %s]
 Soubor od: %s
-[%u%s%s]
 [bytes]
 bajtů
-[%.1lf%s]
 [ KB]
-[%u%s]
-[%.3f%s]
 [ GB]
-[%.2lf%s]
 [ MB]
 [&File]
 &Soubor
@@ -1726,36 +1703,40 @@ Soubor %s
 [\\DefaultIcon]
 [All Files]
 Všechny soubory
-[ (*)]
 ;file \src\core\stdfile\fileopts.cpp
 [Network Associates/McAfee VirusScan]
 [Scan32EXE]
+["%s" %%f /nosplash /comp /autoscan /autoexit /noboot]
 [Dr Solomon's VirusScan (Network Associates)]
 [szScannerExe]
+["%s" %%f /uinone /noboot /comp /prompt /autoexit]
 [Norton AntiVirus]
+["%s" %%f /b- /m- /s+ /noresults]
 [Computer Associates/Inoculate IT]
 [Software\\Antivirus]
 [ImageFilename]
+["%s" %%f /display = progress /exit]
 [Computer Associates eTrust]
 [VetPath]
 [Kaspersky Anti-Virus]
+["%s" /S /Q %%f]
 [KAV8]
+["%savp.exe" SCAN %%f]
 [KAV9]
 [AntiVir PersonalEdition Classic]
 [Path]
 Cesta
+["%savscan.exe" /GUIMODE = 2 /PATH = "%%f"]
 [ESET NOD32 Antivirus]
 [InstallDir]
+["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
 [Executable Files]
 Spustitelné soubory
-[ (*.exe)]
 [File Transfers]
 Přenos souborů
 [Events]
 Události
 ;file \src\core\stdfile\filerecvdlg.cpp
-[*?"<>|]
-[%%mydocuments%%\\%s\\%%userid%%]
 [My Received Files]
 Moje přijaté soubory
 [nick]
@@ -1763,7 +1744,6 @@ přezdívka
 [userid]
 [proto]
 protokol
-[%%mydocuments%%\\%s]
 [View User's History]
 Zobrazit historii
 [User Menu]
@@ -1772,7 +1752,6 @@ Uživatelské menu
 [Cancelled]
 Přerušeno
 ;file \src\core\stdfile\filesenddlg.cpp
-[%s, %s]
 [%d file]
 %d soubor
 [%d files]
@@ -1785,16 +1764,12 @@ Přerušeno
 Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
 [File Received]
 Soubor přijat
-[%s"%s"%s]
-[%s: %s (%d %s %d)]
-[%s: %s]
 [Request sent, waiting for acceptance...]
 Žádost odeslána, čekání na potvrzení...
 [Waiting for connection...]
 Čekání na spojení...
 [Unable to initiate transfer.]
 Chyba při inicializaci přenosu.
-[%s/%s  (%s %s)]
 [sec]
 sek.
 [remaining]
@@ -1818,8 +1793,6 @@ Soubor již existuje
 Posílání dat...
 [Receiving...]
 Příjem dat...
-[%u%%]
-[%s/%s]
 [File transfer denied]
 Přenos souboru odmítnut
 [File transfer failed]
@@ -1866,8 +1839,6 @@ Odchozí zpráva (10x10)
 Poslední zpráva přijata %s v %s.
 [Message Session]
 Rozhovor
-[%s - %s]
-[%s (%s): %s]
 [signed off (was %s)]
 (odhlášení, předchozí stav: %s)
 [signed on (%s)]
@@ -1939,7 +1910,6 @@ Neznámá chyba.
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
 Neplatná zpráva
-[\r\n]
 [Outgoing Message]
 Odchozí zpráva
 [Incoming Message]
@@ -1970,7 +1940,6 @@ Odkaz
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Odeslání odkazu:
-[%s %s (%s)]
 [Send timed out]
 Vypršel čas na odeslání
 ;file \src\core\stduserinfo\contactinfo.cpp
@@ -2020,15 +1989,11 @@ Poznámky
 [Owner]
 Něco o sobě
 [%.*s%s%.*s]
-[.........]
 [View/Change My &Details...]
 In&formace o sobě...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s je online
-;file \src\mir_core\cmdline.cpp
-[ \t=:]
-[ \t]
 ;file \src\mir_core\langpack.cpp
 [static]
 [hyperlink]
@@ -2043,8 +2008,6 @@ Mezi kontakty přidat: %s
 Přidat kontakt
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
-;file \src\modules\clist\clcfiledrop.cpp
-[\\*]
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
@@ -2062,8 +2025,8 @@ Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[ | ]
-[%-24.24s\n]
+[%s%s<b>%-12.12s</b>\t%s%s%-24.24s]
+[%s%s<b>%-12.12s</b>\t%s]
 [TaskbarCreated]
 [TaskbarButtonCreated]
 [&Main Menu]
@@ -2082,7 +2045,6 @@ Smazání kontaktu
 Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
-;file \src\modules\clist\cluiservices.cpp
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 Upravené jméno (nelze přesunout)
@@ -2117,7 +2079,6 @@ Vlastní úpravy
 ;file \src\modules\clist\groups.cpp
 [New Group]
 nová skupina
-[%s (%d)]
 [Are you sure you want to delete group '%s'?  This operation can not be undone.]
 Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
 [Delete Group]
@@ -2147,12 +2108,10 @@ Přesunout do s&kupiny
 [<Root Group>]
 <kořenová skupina>
 ;file \src\modules\database\database.cpp
-[%miranda_path%]
 [Database]
 Databáze
 [ProfileDir]
 [%miranda_path%\\Profiles]
-[.dat]
 [ShowProfileMgr]
 [never]
 [yes]
@@ -2232,7 +2191,6 @@ Použít
 [done_]
 [ask]
 ;file \src\modules\database\profilemanager.cpp
-[.?/\\#' ]
 [&Create]
 &Vytvořit
 [<In Use>]
@@ -2248,7 +2206,6 @@ Změněno
 [Run]
 Spustit
 [Check database]
-[%s: %s\n%s]
 [Miranda Profiles from]
 Umístění profilů
 [Select or create your Miranda NG user profile]
@@ -2257,8 +2214,6 @@ Výběr nebo vytvoření nového profilu
 Seznam profilů
 [New Profile]
 Nový profil
-;file \src\modules\extraicons\ExtraIconGroup.cpp
-[ / ]
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 Aktivita na chatu
@@ -2296,7 +2251,6 @@ Chyba při hledání
 Počet nalezených: %d, síť %s
 [%d users found (]
 Počet nalezených: %d (
-[%d %s]
 [No users found]
 Počet nalezených: 0
 ;file \src\modules\fonts\FontOptions.cpp
@@ -2319,7 +2273,6 @@ Tenká kontura
 [Contour heavy]
 Silná kontura
 [abc]
-[%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c]
 [Configuration Files]
 Konfigurační soubory
 [Text Files]
@@ -2354,14 +2307,9 @@ Odchozí časový údaj
 ;file \src\modules\icolib\skin2icons.cpp
 [*StaticIcon_%d]
 ;file \src\modules\icolib\skin2opts.cpp
-[%s,]
 [Icon Sets]
 Sada ikon
-[ (*.dll;*.icl;*.exe;*.ico)]
-[ (*.dll)]
 [dll]
-[%s,%d]
-[%s, %d]
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** všechny kontakty **
@@ -2430,11 +2378,11 @@ M&ožnosti...
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Fatal error]
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+[srmm_mod (no Unicode).dll]
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
-[\\%s\\%s]
 [Core]
 [Plugins]
 Doplňky
@@ -2447,7 +2395,7 @@ Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
 ;file \src\modules\plugins\pluginopts.cpp
-[%d.%d.%d.%d]
+[%s\\Plugins\\%s]
 [Plugin]
 Doplněk
 [Version]
@@ -2459,7 +2407,6 @@ Zřídit nový účet
 Upravit účet
 [Upgrading account]
 Aktualizace účtu
-[%s~]
 [Account is disabled. Please activate it to access options.]
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
@@ -2476,7 +2423,6 @@ Aktualizovat účet
 Protokol
 [Account ID]
 Identifikátor účtu
-[%s: %d]
 [<unknown>]
 <neznámý>
 [Protocol is not loaded.]
@@ -2585,16 +2531,13 @@ Tento člověk mě vždy uvidí
 Zamknuto
 [%s Icons]
 %s ikony
-[.dll]
+[%s\\Icons\\proto_]
+[%s\\Plugins\\]
 ;file \src\modules\skin\sounds.cpp
-[%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c]
 [Sound Files]
 Zvukové soubory
 [wav]
 ;file \src\modules\utils\bmpfilter.cpp
-[.bmp]
-[.rle]
-[.png]
 [You need an image services plugin to process PNG images.]
 Pro zpracování PNG obrázků je zapotřebí doplněk Image services
 [All Bitmaps]
@@ -2607,16 +2550,11 @@ obrázky typu JPEG
 obrázky typu GIF
 [PNG Bitmaps]
 obrázky typu PNG
-[ (*.bmp;*.jpg;*.gif;*.png)]
-[ (*.bmp;*.rle)]
-[ (*.jpg;*.jpeg)]
-[ (*.gif)]
-[ (*.png)]
 ;file \src\modules\utils\openurl.cpp
 [file:///%s]
 ;file \src\modules\utils\path.cpp
-;file \src\modules\utils\timeutils.cpp
-[%d-%02d-%02dT%02d:%02d:%02dZ]
+[%s\\%s\\AvatarCache]
+[%s\\%s\\Logs]
 ;file \src\modules\utils\timezones.cpp
 [UTC]
 [<unspecified>]
@@ -2627,4 +2565,6 @@ obrázky typu PNG
 Zobrazení
 [Std]
 [Dlt]
+;file \src\modules\utils\utils.cpp
+["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp

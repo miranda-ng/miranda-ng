@@ -1,8 +1,6 @@
 ﻿;[ could not be]
 ;[ was successfully]
 ;[.autobackup]
-;[.jrn]
-;[.pri]
 ;[< Prev]
 ;[Block-structure of file is corrupt!]
 ;[Cannot Merge with global settings!\nSource %d Dest %d]
@@ -27,3 +25,4 @@
 ;[Trying to write malformed UTF8 setting "%hs" in module "%hs"]
 ;[WriteFile failed]
 ;[Your database journal wasn't completely written to disk.]
+;[[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n]

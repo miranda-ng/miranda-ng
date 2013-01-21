@@ -54,12 +54,12 @@ Stáhnout překla&d
 [Plugins\\Language\\]
 [English (default)]
 Angličtina (standardní)
+[%s\\Plugins\\%s]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 [Docs\\]
 ;file \plugins\LangMan\src\options.cpp
 [UXTHEME]
-[%hs (%s)]
 [All installed plugins are included.]
 Všechny nainstalované doplňky jsou přeloženy.
 [(incompatible)]

@@ -116,12 +116,12 @@ Zobrazit historii avatarů
 Historie avatarů
 [Contact changed avatar]
 [Contact removed avatar]
+[%s\\Avatars History]
 [Avatars]
 Avatary
 [\\Avatars History]
 [Avatar History: Unable to create shortcut]
 [AVH Debug: Shortcut created successfully]
-[%s.%s]
 [CopyImageFile]
 [AVH Debug]
 [Invalid contact/avatar... skipping]
@@ -131,11 +131,6 @@ Avatary
 [Hashes are the same... skipping]
 [Avatar History: Unable to save avatar]
 [AVH Debug: File copied successfully]
-[.png]
-[.bmp]
-[.gif]
-[.jpg]
-[.jpeg]
 [Unknown UIN]
 neznámé UIN
 [GetHistoryFolder]

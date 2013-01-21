@@ -69,7 +69,6 @@ Miranda NG
 [Win + ]
 [Hide Miranda NG]
 Skrýt Mirandu
-[%s [%s]]
 [Hide]
 Skrýt
 [Hide/Show Miranda]

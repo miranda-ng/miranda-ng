@@ -245,7 +245,7 @@ Potvrdit smazání kontaktů
 [Dont move offline user to bottom]
 Kontakty offline nepřesouvat na konec
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Contact List Sorting]
 Řazení seznamu kontaktů
 [Place offline users out of groups]
@@ -645,9 +645,6 @@ Př&ejmenovat skupinu
 &Smazat skupinu
 ;file \plugins\Clist_modern\src\modern_aniavatars.cpp
 [MirandaModernAniAvatar]
-;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
-[%s: %s]
-[%s - %s]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 Kontakty/Překrytí avataru
@@ -676,8 +673,6 @@ Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 Změna metakontaktu (přesun)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 Chcete přidat kontakt '%s' do metakontaktu '%s'?
-;file \plugins\Clist_modern\src\modern_clcitems.cpp
-[%s|]
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
 Seznam kontaktů/Jména kontaktů
@@ -742,7 +737,6 @@ Za pravý okraj
 [Fonts]
 Písma
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[%s: %s (%s)]
 [EventArea]
 Oblast pro události
 [Event Area]
@@ -752,8 +746,6 @@ Oblast pro události
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 P&riorita kontaktu
-[%s (%s)]
-%s (%s)
 [Show even if offline]
 Zobrazit i když je offline
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
@@ -926,9 +918,9 @@ Rozměry obrázku jsou
 [Profile]
 Profil
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
 Skin seznamu kontaktů pro Mirandu
+[JID: fyr@jabber.ru]
 [%Default Skin%]
 %Výchozí skin%
 [%%Default Skin%%]

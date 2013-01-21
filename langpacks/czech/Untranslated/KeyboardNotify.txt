@@ -1,7 +1,5 @@
-﻿;[ (*.knt)]
-;[%s/ExitEvent]
+﻿;[%s/ExitEvent]
 ;[%s/FlashEvent]
-;[*.*]
 ;[Caps]
 ;[Consider event opened after]
 ;[Kbd%d]

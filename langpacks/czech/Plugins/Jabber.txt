@@ -353,7 +353,6 @@ Poznámky\nUložené poznámky budete mít pořád při ruce
 Poslat
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
-[%d.%d.%d.%d]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
@@ -393,8 +392,6 @@ od
 Spustit
 [Requesting command list. Please wait...]
 Zjišťování seznamu příkazů. Počkejte prosím...
-[%s %s]
-%s %s
 [Jabber Ad-Hoc commands at]
 [Sending Ad-Hoc command to]
 [prev]
@@ -533,8 +530,6 @@ Podporuje výměnu seznamů na serveru
 Podporuje důvěrný režim
 [feature]
 [var]
-[%s/%s]
-[%s#%s]
 [Bombus]
 [BombusMod]
 [neos]
@@ -695,8 +690,6 @@ Skut. &JID: %s
 [invite]
 [reason]
 [Send groupchat invitation.]
-[%s (%s)]
-%s (%s)
 [not on roster]
 [Member Info:]
 [Member Information]
@@ -715,7 +708,6 @@ přezdívka
 [moderator]
 [groupchat]
 [body]
-[%s: ]
 [Reason to kick]
 Důvod k vykopnutí
 [Reason to ban]
@@ -858,19 +850,13 @@ Zkopírovat informace o uzlu
 [subscription]
 ;file \protocols\JabberG\src\jabber_disco.h
 [Jid: %s\r\n]
-[%s: %s\r\n]
-[\r\n%s:\r\n]
 [Identities]
 Identity
-[ %c %s (%s: %s, %s: %s)\r\n]
-[ %c %s: %s, %s: %s\r\n]
 [Category]
 [Type]
 Typ
 [Supported features]
 Podporované funkce
-[ %c %s\r\n]
-[\r\n%s: %s\r\n]
 [Info request error]
 [Items request error]
 ;file \protocols\JabberG\src\jabber_events.cpp
@@ -887,7 +873,6 @@ Podporované funkce
 [fixed]
 [static]
 [edit]
-[\r\n]
 [option]
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [abuse-addresses]
@@ -1115,13 +1100,11 @@ Offline
 [no-valid-streams]
 [bad-profile]
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
-[%s@%s/%s]
 [history]
 [since]
 [Failed to retrieve room list from server.]
 [No rooms available on server.]
 [Room list request timed out.]
-[%s@%s (%s)]
 [<no nick>]
 [Loading...]
 Načítání...
@@ -1129,7 +1112,6 @@ Načítání...
 [Please specify groupchat directory first.]
 [Bookmarks...]
 Záložky...
-[%s <%s>]
 [available]
 [away]
 [dnd]
@@ -1163,7 +1145,6 @@ Záložky...
 [meinvz*]
 [Protocols/Jabber/Accounts]
 [Status Icons/%s/]
-[ %s]
 [transport]
 [Privacy Lists]
 Filtrování kontaktů
@@ -1264,7 +1245,6 @@ Zakázat žádosti
 [jabber:iq:auth]
 [digest]
 [resource]
-[%s %s.]
 [Authentication failed for]
 Chyba při ověřování:
 [Jabber Authentication]
@@ -1279,7 +1259,6 @@ Registrace proběhla úspěšně
 [EMAIL]
 E-MAIL
 [BDAY]
-[%d-%d-%d]
 [GENDER]
 POHLAVÍ
 [ADR]
@@ -1321,7 +1300,6 @@ Seznam zakázaných
 Seznam správců
 [Owner List]
 Seznam vlastníků
-[%s %s?]
 [Removing]
 Odebírání
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
@@ -1357,7 +1335,6 @@ Podle serveru
 Z&měnit na kontakt
 [&Convert to Chat Room]
 Z&měnit na místnost
-[%s [%s, %d]]
 [subscribed]
 [unsubscribed]
 [Options...]
@@ -1396,8 +1373,6 @@ Nejvyšší priorita (dle serveru)
 [Status Message]
 Stavová zpráva
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
-[%s:\n%s\n%s]
-[%s:\n%s]
 ;file \protocols\JabberG\src\jabber_message_manager.cpp
 [event]
 [normal]
@@ -1405,8 +1380,7 @@ Stavová zpráva
 [CHAT plugin is required for conferences. Install it before chatting]
 Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 [%%miranda_avatarcache%%\\Jabber]
-[%miranda_avatarcache%]
-[%s@]
+[%s\\Jabber]
 [ avatar.]
 [Miranda IM Jabber]
 [GTalk]
@@ -1418,7 +1392,6 @@ Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 [Miranda IM]
 [Miranda NG]
 Miranda NG
-[ [%s]]
 [From]
 Od
 [Both]
@@ -1447,7 +1420,6 @@ Příchozí poznámka: %s\n\n%s\nŠtítky: %s
 [offline]
 [Incoming note]
 ;file \protocols\JabberG\src\jabber_opt.cpp
-[%s %s@%S:%d?]
 [Afar]
 [Abkhazian]
 [Afrikaans]
@@ -1693,7 +1665,6 @@ jidiš
 jorubština
 [Zhuang; Chuang]
 [Zulu]
-[%s@%s]
 [Office]
 [These changes will take effect the next time you connect to the Jabber network.]
 Změny se projeví až při příštím připojení do sítě Jabber.
@@ -1799,7 +1770,6 @@ Autorizace
 Data->server...
 [Downloading...]
 Stahování...
-[%s (*.xml)%c*.xml%c%c]
 [XML for MS Excel (UTF-8 encoded)]
 [xml]
 [Workbook]
@@ -1843,7 +1813,6 @@ LiveJournal Talk
 [Some changes will take effect the next time you connect to the Jabber network.]
 Některé změny se projeví až při příštím přihlášení do vybrané sítě Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
-[%s %s@]
 [Set New Password for]
 Nové heslo pro
 [New password does not match.]
@@ -1926,7 +1895,6 @@ zpráv
 [presence-in]
 [presence-out]
 [queries]
-[%s %s %s]
 [allow]
 [List has no rules, empty lists will be deleted then changes applied]
 [allow ]
@@ -1975,14 +1943,13 @@ Editor...
 [add]
 [No compatible file transfer machanism exist]
 [Protocol is offline or no jid]
+[[This message is encrypted.]]
 [jabber:x:encrypted]
-[): ]
 [paused]
 [composing]
 ;file \protocols\JabberG\src\jabber_proxy.cpp
 [rid]
 ;file \protocols\JabberG\src\jabber_rc.cpp
-[%u%u]
 [bad-sessionid]
 [Command completed successfully]
 [info]
@@ -2091,7 +2058,6 @@ Mám telefon
 Jsem na obědě
 [Idle]
 Nečinnost
-[ | ]
 [Nick:]
 Přezdívka:
 [Status:]
@@ -2144,7 +2110,6 @@ Požadavek na instrukce k registraci...
 [failure]
 [stream:error]
 [item/tune[@xmlns=']
-[%02d:%02d:%02d]
 [received]
 [Subject: ]
 [Message redirected from: %s\r\n%s]
@@ -2169,7 +2134,6 @@ Požadavek na instrukce k registraci...
 [Sending registration information...]
 Odesílání registračních údajů...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
-[%s: %s]
 [Resource]
 Zdroj
 [<not specified>]
@@ -2220,10 +2184,8 @@ Zkopírovat jen hodnotu
 formát
 [GIF %s (*.gif)]
 [JPEG %s (*.jpg;*.jpeg)]
-[%s (*.*)]
 [Unknown format]
 neznámý formát
-[*.*]
 [<Photo not available while offline>]
 <foto není ve stavu offline>
 [<No photo>]
@@ -2231,8 +2193,6 @@ neznámý formát
 [Photo]
 Fotka
 ;file \protocols\JabberG\src\jabber_util.cpp
-[%%%02X]
-[%2x]
 [Redirect]
 [Bad request]
 [Unauthorized]
@@ -2253,14 +2213,10 @@ Prozatím nefunguje
 [Remote server timeout]
 [Unknown error]
 Neznámá chyba
-[%s -1: %s]
 [Error]
 Chyba
 [Unknown error message]
 Neznámé chybové hlášení
-[%s %d: %s\r\n%s]
-[%s %d: %s]
-[%d:%d:%d]
 [priority]
 [photo]
 [show]
@@ -2269,16 +2225,12 @@ Neznámé chybové hlášení
 Zadat náladu...
 [Set activity...]
 Zadat činnost...
-[%04d-%02d-%02dT%02d:%02d:%02dZ]
-[%04d-%02d-%02dT%02d:%02d:%02d.%dZ]
-[%s (%d)]
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [prodid]
 [Male]
 muž
 [Female]
 žena
-[.\\]
 [jab]
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 Povoleny jsou pouze obrázky typu JPG, GIF a BMP menší než 40 kB.
@@ -2312,8 +2264,6 @@ Poznámka
 ;file \protocols\JabberG\src\jabber_xml.h
 [Hello]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
-[%s [%s]]
-[...%s]
 [publish]
 [current]
 [<advanced status slot>]
@@ -2634,8 +2584,6 @@ umělec
 [source]
 [track]
 [uri]
-[%title% - %artist%]
-[%s - %s]
 [listening_to]
 [Listening To]
 Poslech hudby
@@ -2646,4 +2594,3 @@ Poslech hudby
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 Filtrovat...
-[%s [%s: %s]]

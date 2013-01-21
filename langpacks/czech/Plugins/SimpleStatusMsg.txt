@@ -159,7 +159,6 @@ Zkopírovat zprávu stavu
 [ - Winamp]
 [SimpleStatusMsg]
 [%rand(]
-[,)%%]
 [Change Status Message]
 Změnit zprávu stavu
 [Open Status Message Dialog]
@@ -203,7 +202,6 @@ Zobrazit vedle tlačítka Zrušit
 Moderní, vedle tlačítka Zrušit
 [Show in message list]
 Zobrazit v seznamu zpráv
-[%s *]
 [Are you sure you want to clear predefined status messages?]
 Určitě chcete smazat všechny předdefinované stavové zprávy?
 [Confirm clearing predefined]

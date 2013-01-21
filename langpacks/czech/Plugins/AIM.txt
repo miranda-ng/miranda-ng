@@ -119,14 +119,6 @@ O&dmítnout
 Zpráva
 [Room]
 Místnost
-;file \protocols\AimOscar\src\avatars.cpp
-[.gif]
-[.png]
-[.bmp]
-[.jpg]
-[%%miranda_avatarcache%%\\%s]
-[%miranda_avatarcache%]
-[\\%s]
 ;file \protocols\AimOscar\src\chat.cpp
 [Others]
 Ostatní
@@ -210,7 +202,6 @@ Zobrazit &historii
 [AIM Link Protocol]
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
-[ %s]
 [Open mail account?]
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
@@ -218,6 +209,8 @@ Zobrazit &historii
 [%s Client-to-client connection]
 %s - přímé spojení mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
+[[Auto-Response]:]
+Autom. odpověď: 
 [Contact tried to open an audio/video conference (currently not supported)]
 [No information has been provided by the server.]
 Server nedodal požadované informace.
@@ -232,7 +225,6 @@ Server nedodal požadované informace.
 [Successfully modified group.]
 [Item you want to modify not found in list.]
 [Unknown error when attempting to modify a group. Error code %#x]
-[%S@%S (%d)\r\n%s ]
 [You've got mail! Checked at]
 [Error uploading avatar. (Too small)]
 [Error uploading avatar. (Too big)]
@@ -324,6 +316,5 @@ Soukromí
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 [Please, enter a password in the options dialog.]
-[%miranda_userdata%]
 [Failed to open file: %s %s]
 [open]

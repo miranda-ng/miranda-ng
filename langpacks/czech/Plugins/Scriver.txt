@@ -408,10 +408,35 @@ pobaltský
 vietnamština
 [Korean (Johab)]
 korejština (Johab)
-;file \plugins\Scriver\src\infobar.cpp
-[%s (%s)]
-%s (%s)
 ;file \plugins\Scriver\src\input.cpp
+[Messaging]
+Rozhovor
+[Navigate: Previous Tab]
+Přejít na předchozí panel
+[Navigate: Next Tab]
+Přejít na další panel
+[Navigate: Tab %d]
+Přejít na panel č.%d
+[Window: Toggle Statusbar]
+Přepnout stavový řádek
+[Window: Toggle Titlebar]
+Přepnout záhlaví okna
+[Window: Toggle Toolbar]
+Přepnout nástrojovou lištu
+[Window: Toggle Infobar]
+Přepnout informační lištu
+[Window: Clear Log]
+Vymazat záznam
+[Window: Minimize]
+Minimalizovat okno
+[Window: Close Tab]
+Zavřít panel
+[Action: Quote]
+Vložit citaci
+[Action: Send to All]
+Poslat všem
+[Action: Paste & Send]
+Vložit text a poslat
 [mailto:]
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
@@ -428,7 +453,6 @@ Informace o uživateli
 Historie
 [Send]
 Poslat
-[\\*]
 [Look up '%s':]
 [Add Contact Permanently to List]
 Přidat do seznamu natrvalo
@@ -562,9 +586,6 @@ Seznam účastníků (online)
 Pozadí seznamu kontaktů
 [User list members (away)]
 Seznam účastníků (pryč)
-[Messaging]
-Rozhovor
-[%s/%s]
 [User list lines]
 Linky v seznamu kontaktů
 [User list background (selected)]
@@ -619,24 +640,16 @@ Odchozí
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.
-[%s - %s]
 [Send Error]
 Chyba při odesílání
 ;file \plugins\Scriver\src\msgwindow.cpp
-[%name%]
-[%status%]
-[%statusmsg%]
-[%account%]
 [Message Session]
 Rozhovor
-[%name% - ]
-[%name% (%status%) : ]
 [Always On Top]
 Vždy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
-;file \plugins\Scriver\src\utils.cpp
 ;file \plugins\Scriver\src\chat\clist.cpp
 [Chat rooms]
 Místnosti chatu
@@ -646,9 +659,6 @@ Přidat se do diskuse
 Otevřít komunikační okno
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
-[%%%c#%02X%02X%02X]
-[%%%c]
-[%s ]
 [%s has joined]
 Příchod: %s
 [You have joined %s]
@@ -790,68 +800,47 @@ Zobrazit oznámení při změně stavu
 Nastavení vzhledu a funkcí komunikačních oken
 [Icons to display in the tray]
 Možnosti zobrazení ikon v oznamovací oblasti
-[%s - %s\n%s - %s\n%s - %s\n\n]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
-[%nick%]
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
-[%proto%]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
-[%userid%]
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 UID stávajícího kontaktu (pokud je definováno). To je jako UIN pro ICQ, JID pro Jabber atd.
-[%miranda_path%]
 [path to root miranda folder]
 cesta ke kořenové složce Mirandy
-[%miranda_profile%]
 [path to current miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[%miranda_profilename%]
 [name of current miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
-[%miranda_userdata%]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
-[%appdata%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného uživatele Windows
-[%username%]
 [username for currently logged-on Windows user]
 jméno pro aktuálně přihlášeného uživatele Windows
-[%mydocuments%]
-[%desktop%]
-[%xxxxxxx%]
+["My Documents" folder for currently logged-on Windows user]
+složka "Dokumenty" pro aktuálně přihlášeného uživatele Windows
+["Desktop" folder for currently logged-on Windows user]
+složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
-[%d%]
 [day of month, 1-31]
 den měsíce, 1-31
-[%dd%]
 [day of month, 01-31]
 den měsíce, 01-31
-[%m%]
 [month number, 1-12]
 číslo měsíce, 1-12
-[%mm%]
 [month number, 01-12]
 číslo měsíce, 01-12
-[%mon%]
 [abbreviated month name]
 zkrácené jméno měsíce
-[%month%]
 [full month name]
 celé jméno mesíce
-[%yy%]
 [year without century, 01-  99]
-[%yyyy%]
 [year with century, 1901-9999]
 rok včetně století, 1901-9999
-[%wday%]
 [abbreviated weekday name]
 zkrácené jméno dne v týdnu
-[%weekday%]
 [full weekday name]
 plné jméno dne v týdnu
 [Variables]
@@ -863,7 +852,6 @@ Vzhled
 Vyberte požadovanou složku
 [PopUps]
 Oznámení
-[%n:]
 [Group chats]
 Skupinové rozhovory
 [Message is highlighted]
@@ -883,7 +871,6 @@ Změna tématu diskuse
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 ;file \plugins\Scriver\src\chat\tools.cpp
-[ - %s]
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
 [%s speaks in %s]
@@ -902,8 +889,6 @@ Informace (na %s)
 [%s disables '%s' status for %s in %s]
 [%s says: %s]
 %s píše: %s
-[%s %s]
-%s %s
 [%s has left (%s)]
 %s odešel (%s)
 [%s has disconnected (%s)]
@@ -915,9 +900,6 @@ Poznámka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [ab+]
-[%s * %s]
-[%s %c %s\r\n]
-[%s %s\r\n]
 [%#d]
 [%#m]
 [mon]
@@ -963,7 +945,6 @@ Zobrazí/skryje seznam účastníků (CTRL+N)
 Možnosti řízení kanálu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Aktivuje/deaktivuje filtrování událostí (CTRL+F)
-[%s: %s\r\n%s: %s\r\n%s: %s]
 [AQG_glo']
 [%s: Chat Room (%u user)]
 %s: kanál (účastníků: %u)
@@ -974,8 +955,5 @@ Aktivuje/deaktivuje filtrování událostí (CTRL+F)
 [%s: Message Session (%u users)]
 %s: rozhovor (účastníků: %u)
 [%s: Server]
-[%s : %s]
 [AQGgl']
 [AQGg']
-[%c%s]
-[%s: ]

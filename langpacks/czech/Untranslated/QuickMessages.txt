@@ -18,7 +18,7 @@
 ;[Auto-send on Right-Click]
 ;[Button Left-Click menu]
 ;[Button Right-Click value]
-;[Congratulation!\n\\r\n								   You have clicked this button 100 times!\n\\r\n								   There was access violation at this point...\n\\r\n								   And now function for freeing resources must be called...\n\\r\n								   But no! there's only break :D]
+;[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
 ;[Consider as ServiceName]
 ;[Enable QuickMenu]
 ;[Enter Value]

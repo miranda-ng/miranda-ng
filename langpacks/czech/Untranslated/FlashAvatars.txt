@@ -1,6 +1,4 @@
-﻿;[%miranda_avatarcache%]
-;[.xml]
-;[ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]
+﻿;[ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]
 ;[AtlAxWin]
 ;[Bugged Flash detected!]
 ;[Flash]

@@ -1,5 +1,4 @@
-﻿;[%02X]
-;[&Convert HTML (for Pidgin)]
+﻿;[&Convert HTML (for Pidgin)]
 ;[&Refresh OTR session]
 ;[&Start OTR session]
 ;[&Verify Fingerprint]
@@ -125,3 +124,4 @@
 ;[Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
 ;[Your contact '%s' wants to verify your identity with a question only you can answer.]
 ;[Your contact '%s' wants to verify your identity with a secret password you should know.]
+;[[OTR INFO] ]

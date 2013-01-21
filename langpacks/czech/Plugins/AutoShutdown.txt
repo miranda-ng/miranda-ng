@@ -94,8 +94,6 @@ Pauza
 &Pozastavit odpočítávání
 [&Cancel Countdown]
 &Zrušit odpočítávání
-[%s %s]
-%s %s
 [AutoShutdown]
 Automatické ukončení
 ;file \plugins\AutoShutdown\src\main.cpp
@@ -142,7 +140,6 @@ výchozí
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System]
 [DisableLockWorkstation]
 [RASAPI32]
-[.DLL]
 [Control Panel\\Desktop]
 [ScreenSaveActive]
 [ScreenSaverIsSecure]
@@ -212,7 +209,6 @@ Upozornění
 [Automatic Shutdown Countdown]
 Automatické ukončení (odpočítávání)
 ;file \plugins\AutoShutdown\src\utils.cpp
-[ \r\n\t]
 [Toggle Automatic Shutdown]
 Aktivovat automatické ukončení
 [Main]

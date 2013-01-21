@@ -66,8 +66,5 @@ Komunikace
 Oznámení
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
-[ \t\n\r]
 ;file \plugins\ChangeKeyboardLayout\src\options.cpp
 [Ghbdtn? rfr ltkf&]
-;file \plugins\ChangeKeyboardLayout\src\text_operations.cpp
-[\n\n]

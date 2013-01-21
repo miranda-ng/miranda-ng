@@ -59,15 +59,12 @@ Max. velikost vlastních smajlíků
 Zapnout kvalitní přepočet velikosti
 [Min smiley height]
 Min. velikost smajlíků
-;file \plugins\SmileyAdd\src\customsmiley.cpp
-[\\*.*]
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Edit]
 Upravit
 [Show Smiley Selection Window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
-[.*/(.*)]
 [\\SmileyCache]
 [%miranda_userdata%\\SmileyCache]
 [SmileyAdd HTTP connections]
@@ -109,11 +106,8 @@ Nahoře
 Dole
 [Smiley Packs]
 Sady smajlíků
-[ (*.msl;*.asl;*.xep)]
 [All Files]
 Všechny soubory
-[ (*.*)]
-[*.*]
 [msl]
 ;file \plugins\SmileyAdd\src\services.cpp
 [<None>]
@@ -127,22 +121,14 @@ Standardní
 Uplynulý čas: %u
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [hContact]
-[(.*)\\|(.*)\\|(.*)]
 [(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*]
-[\\d{1,2}:\\d{2}:\\d{2}|\\d{1,2}:\\d{2}]
-[\\s+]
-[%%_{1,2}%%]
-[%%''%%]
+[[\\s"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*]
 [Nothing loaded]
 Nic se nenačetlo
-[Smiley Pack %s not found.\n]
-Knihovna smajlíků %s nebyla nalezena.\n
-[Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Vyberte platnou knihovnu smajlíků v Možnosti | Vlastní úpravy | Smajlíky
-[.xep]
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti | Vlastní úpravy | Smajlíky.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
-[(.*\\\\)(.*)\\.|$]
 [^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
 [Name]
 Jméno
@@ -158,10 +144,7 @@ Verze
 Výběr
 [Window]
 Okno
-[(?:\\s*"(.*)\]
-[(?:[\\s,]+(\\-?\\d+))]
 [(?:[\\s,]+(R|S)?"(.*?)\]
-[(?:[\\s,]+"(.*?)\]
 [Smiley #%u in file %s for Smiley Pack %s not found.]
 Smajlík č.%u v souboru %s knihovny smajlíků %s nebyl nalezen.
 [&lt;]

@@ -89,57 +89,65 @@ Otevřít v novém okně
 Zkopírovat
 [Show Message]
 Zobrazit zprávu
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+Odkazy v historii
+[History is empty!]
+Historie vybraného kontaktu je prázdná!
+[There are no links in history!]
+Historie vybraného kontaktu neobsahuje odkazy!
+[Error]
+Chyba
+[incoming]
+příchozí
+[outgoing]
+odchozí
+[Filter]
+Filtr
+[no filter]
+[Search Filter]
+[no settings]
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [Unable to load the Rich Edit control!]
 Nelze načíst třídu Rich Edit!
-[Error]
-Chyba
 [&Create Linklist]
 &Vytvořit seznam odkazů
 [Progressbar]
 [History]
 Historie
-[History Linklist]
-Odkazy v historii
 [Processing history...]
 Zpracování historie...
 [Could not create window!]
 Nelze sestavit a otevřít okno!
 [Could not allocate memory!]
 Nelze alokovat požadovanou paměť!
-[There are no links in history!]
-Historie vybraného kontaktu neobsahuje odkazy!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[%s [%s]]
 [Linklist Plugin]
 Doplněk 'Linklist'
 [mailto:]
-[%s: %s]
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [www.]
 [icq#]
 [gopher://]
 [news://]
 [file://]
-[\\\\]
-[.com/]
-[.net/]
-[.org/]
-[.ru]
 [d-t]
 [Arial]
-[%s '%s': %d\n\n]
 [Matches for searchtext]
 Počet položek odpovídajících zadanému
 [Courier]
 [Processing list...]
 Zpracování seznamu...
-[\n\n]
+[[mail]]
+[[file]]
+[[UNK ]]
+[[in ]]
+[[out]]
 [No messages found!\nPlease change current filter options.]
 Hledaný řetězec nebyl nalezen!\nPodle potřeby změňte kritéria hledání.
 [\n[in ] ]
 [URL   ]
-[%s: %s %s]
+[[out] ]
 [RTF File\0*.rtf\0All Files\0*.*\0\0]
 [Save RTF File]
 Uložit soubor ve formátu RTF

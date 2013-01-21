@@ -1,5 +1,4 @@
-﻿;[ \t\n\r]
-;[+]
+﻿;[+]
 ;[Change active keyboard layout in system]
 ;[Changing Case]
 ;[Changing Layout]
@@ -21,5 +20,4 @@
 ;[Switch off]
 ;[Two-way changing layout (experimental)]
 ;[Windows colours]
-;[\n\n]
 ;[`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]

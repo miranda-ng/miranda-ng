@@ -92,7 +92,6 @@ Domácí stránka
 ;file \plugins\PasteIt\src\PasteIt.cpp
 [All Files (*.*)]
 Všechny soubory (*.*)
-[\0*.*\0]
 [Paste It - Select file]
 [Error]
 Chyba

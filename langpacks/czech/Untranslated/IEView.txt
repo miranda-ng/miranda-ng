@@ -1,6 +1,5 @@
 ﻿;[ requested authorisation]
 ;[ was added.]
-;[.xml]
 ;[All Images]
 ;[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 ;[Embed YouTube videos]

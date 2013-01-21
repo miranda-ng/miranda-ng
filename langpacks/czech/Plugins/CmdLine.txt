@@ -45,7 +45,6 @@
 [Could not find contact handle for contact '%s'.]
 [Setting '%s/%s' deleted.]
 [Wrote '%s:%s' to database entry '%s/%s'.]
-['%s/%s' - %s.]
 [Could not retrieve setting '%s/%s': %s.]
 [Setting '%s/%s' was not found.]
 ['%s' proxy was disabled.]
@@ -53,6 +52,7 @@
 [%s proxy server: %s %s:%d.]
 [%s proxy set to %s %s:%d.]
 [%s The port or the proxy type parameter is invalid.]
+[[me]]
 [No unread messages found.]
 [%s:%s - %d unread events.]
 [Contact '%s' has '%d' events in history.]
@@ -67,4 +67,3 @@ Chyba
 Oznámení
 [Warning]
 Upozornění
-[%ld]

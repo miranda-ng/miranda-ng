@@ -31,6 +31,3 @@ Změny nebyly uloženy
 Složky
 [Customize]
 Vlastní úpravy
-;file \plugins\Folders\src\services.cpp
-[\t \\]
-[%miranda_userdata%]

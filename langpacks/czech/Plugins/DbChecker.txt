@@ -109,16 +109,18 @@ Chyba
 Databáze
 [ProfileDir]
 [./Profiles]
-[.dat]
 [%.2lf MB]
-[\\*.*]
 [Total size]
 Celková velikost
 [Wasted]
 Balast
 [\\Profiles]
+[[ini]\\]
+[[prf]\\]
+[Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe]
 [Path]
 Cesta
+[[reg]\\]
 [Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
 [Miranda Databases (*.dat)]
 Databáze Mirandy (*.dat)
@@ -128,6 +130,10 @@ Všechny soubory
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 Byly nalezeny chyby, ale nebylo zvoleno vytvoření zálohy databáze. Je silně doporučeno používat tuto volbu pro případ, že by byly vynechány důležité data. Přejete si ponechat zálohu originální databáze?
+[%s\\Backup of %s]
+%s\\%s (zaloha)
+[%s\\Backup (%d) of %s]
+%s\\(%d) %s (zaloha)
 [Unable to rename original file]
 Původní soubor nelze přejmenovat.
 [Unable to delete original file]
@@ -138,6 +144,8 @@ Výstupní soubor nelze přejmenovat.
 Aktivace procesu pro práci s databází
 [<check only>]
 <pouze ke kontrole>
+[ (Output).dat]
+ (výstupní).dat
 [Can't create output file (%u)]
 Nelze vytvořit výstupní soubor (%u)
 [Processing aborted by user]

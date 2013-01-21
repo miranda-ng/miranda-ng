@@ -87,6 +87,7 @@ Ano
 [OTR encrypted session with '%s' could not be started]
 [OTR could not encrypt when sending message]
 [OTR Information]
+[[OTR INFO] ]
 [Authentication from %s]
 [Authenticae %s]
 [Unknown]
@@ -192,7 +193,6 @@ Služby
 [OTR - sending raw message]
 [OTR - receiving message]
 ;file \plugins\MirOTR\MirOTR\src\utils.cpp
-[%02X]
 [%s Message]
 %s zpráva
 [%s Warning]

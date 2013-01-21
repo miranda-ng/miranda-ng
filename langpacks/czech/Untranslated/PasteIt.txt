@@ -34,7 +34,6 @@
 ;[Web page to configure]
 ;[You can only paste 1 file]
 ;[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-;[\0*.*\0]
 ;[methodResponse]
 ;[params/param/value/array/data]
 ;[params/param/value/array/data/value/int]

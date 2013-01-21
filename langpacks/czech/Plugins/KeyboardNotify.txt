@@ -203,10 +203,8 @@ Vlastní sekvence
 Protokol
 [Keyboard Notify Theme]
 Sekvence blikání klávesnicí
-[ (*.knt)]
 [All Files]
 Všechny soubory
-[*.*]
 [knt]
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]

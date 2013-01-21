@@ -181,8 +181,6 @@ Připojit název protokolu
 ;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
 Smajlíky v tipech
-[...]
-...
 ;file \plugins\TipperYM\src\options.cpp
 [sys:status_msg]
 [Last message: (%sys:last_msg_reltime% ago)]
@@ -315,12 +313,8 @@ Zkopírovat všechny položky
 Zkopírovat avatar
 [<No Label>: ]
 [<No Value>]
-[\r\n]
-[(%d/%d)]
 [Fav. contacts]
 Oblíbené kontakty
-[%s (%s)]
-%s (%s)
 [Other]
 Ostatní
 [Miranda uptime:]
@@ -341,7 +335,6 @@ Klient:
 [%raw:/e-mail%]
 [Gender:]
 Pohlaví:
-[%gender%]
 [Homepage]
 Dom. stránka
 [Homepage:]
@@ -358,12 +351,10 @@ Nečinnost:
 [%idle% (%idle_diff% ago)]
 [IP:]
 IP:
-[%ip%]
 [IP internal]
 IP interní
 [IP internal:]
 IP interní:
-[%ip_internal%]
 [Last message]
 Poslední zpráva
 [%raw:/ListeningTo%]
@@ -380,7 +371,6 @@ Počet přijatých zpráv
 Počet odeslaných zpráv
 [Number of msg [OUT]:]
 [%sys:msg_count_out%]
-[%Status%]
 [Contact time]
 Čas
 [Time:]
@@ -390,60 +380,74 @@ Počet odeslaných zpráv
 Název rozšířeného stavu
 [XStatus title:]
 Název rozšířeného stavu:
-[%xsname%]
 [XStatus text]
 Zpráva rozšířeného stavu
 [XStatus text:]
 Zpráva rozšířeného stavu:
 [%raw:/XStatusMsg%]
+[[jabber.dll] Activity title]
 [Activity title:]
 Název aktivity:
 [%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%]
+[[jabber.dll] Activity text]
 [Activity text:]
 Zpráva aktivity:
 [%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%]
+[[menuex.dll] Logon time]
 [Logon time:]
-[%logon_date% @ %logon_time% (%logon_ago%)]
+[[menuex.dll] Logoff time]
 [Logoff time:]
-[%logoff_date% @ %logoff_time% (%logoff_ago%)]
+[[seenplugin.dll] Last seen time]
 [Last seen time:]
 Naposledy spatřen:
-[%lastseen_date% @ %lastseen_time%]
+[[seenplugin.dll] Last seen status]
 [Last seen status:]
 Naposledy spatřený stav:
 [%lastseen_status% (%lastseen_ago% ago)]
+[[weather.dll] Condition]
 [Condition:]
 Situace:
 [%raw:Current/Condition%]
+[[weather.dll] Humidity]
 [Humidity:]
 Vlhkost:
 [%raw:Current/Humidity%]
+[[weather.dll] Max/Min temperature]
 [Max/Min:]
 [%raw:Current/High%/%raw:Current/Low%]
+[[weather.dll] Moon]
 [Moon:]
 Měsíc:
 [%raw:Current/Moon%]
+[[weather.dll] Pressure]
 [Pressure:]
 Tlak:
 [%raw:Current/Pressure% (%raw:Current/Pressure Tendency%)]
+[[weather.dll] Sunrise]
 [Sunrise:]
 Východ slunce:
 [%raw:Current/Sunrise%]
+[[weather.dll] Sunset]
 [Sunset:]
 Západ slunce:
 [%raw:Current/Sunset%]
+[[weather.dll] Temperature]
 [Temperature:]
 Teplota:
 [%raw:Current/Temperature%]
+[[weather.dll] Update time]
 [Update time:]
 Čas aktualizace:
 [%raw:Current/Update%]
+[[weather.dll] UV Index]
 [UV Index:]
 UV Index:
 [%raw:Current/UV% - %raw:Current/UVI%]
+[[weather.dll] Visibility]
 [Visibility:]
 Viditelnost:
 [%raw:Current/Visibility%]
+[[weather.dll] Wind]
 [Wind:]
 Vítr:
 [%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%]
@@ -466,7 +470,6 @@ Vítr:
 [logoff_time]
 [logoff_ago]
 ;file \plugins\TipperYM\src\skin_parser.cpp
-[*.*]
 [author]
 [preview]
 [image]
@@ -498,6 +501,12 @@ titulek
 [opacity]
 [enable-coloring]
 [false]
+[[about]]
+[[other]]
+[[background]]
+[[sidebar]]
+[[fonts]]
+[[appearance]]
 ;file \plugins\TipperYM\src\subst.cpp
 [uid]
 [proto]
@@ -513,11 +522,6 @@ protokol
 [last_msg_time]
 [last_msg_date]
 [last_msg_reltime]
-[%dd %dh %dm]
-[%dh %dm]
-%d hod. %d min.
-[%dm]
-%d min.
 [msg_count_all]
 [msg_count_out]
 [msg_count_in]
@@ -539,16 +543,28 @@ Hodnoty
 [Tray title]
 Titulek oznam.oblasti
 ;file \plugins\TipperYM\src\translations.cpp
+[[No translation]]
+(bez překladu)
 [Yes]
 Ano
 [Female]
 žena
 [Male]
 muž
-[%u.%u.%u.%u]
-[%dy %dd %dh %dm]
-[%dd]
-%d dní
+[WORD to status description]
+popis stavu (WORD)
+[DWORD timestamp to time]
+časový údaj pro čas (DWORD)
+[DWORD timestamp to time difference]
+časový údaj pro časový rozdíl (DWORD)
+[BYTE to Yes/No]
+definice ano/ne (BYTE)
+[BYTE to Male/Female (ICQ)]
+rozlišení pohlaví v síti ICQ (BYTE)
+[WORD to country name]
+název země (WORD)
+[DWORD to ip address]
+IP adresa (DWORD)
 [<prefix>Day|Month|Year to date]
 <prefix>den|měsíc|rok pro datum
 [<prefix>Day|Month|Year to age]
@@ -559,10 +575,26 @@ muž
 <prefix>den|měsíc|rok|hodiny|minuty|sekundy pro časový rozdíl
 [<prefix>Day|Month to days to next birthday]
 <prefix>den|měsíc pro počet dnů do příštích narozenin
+[DWORD timestamp to time (no seconds)]
+časový údaj pro čas, bez sekund (DWORD)
 [<prefix>Hours|Minutes to time]
 <prefix>hodiny|minuty pro čas
+[DWORD timestamp to date (short)]
+časový údaj pro datum, zkrácený (DWORD)
+[DWORD timestamp to date (long)]
+časový údaj pro datum, dlouhý (DWORD)
 [xStatus: empty xStatus name to default name]
 xStatus: pouze název rozšířeného stavu
+[DWORD seconds to time difference]
+počet sekund pro časový rozdíl (DWORD)
+[BYTE timezone to time]
+časová zóna (BYTE)
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD na název dne (0..6, 0 je neděle)
+[WORD to name of a month (1..12, 1 is January)]
+WORD na název měsíce (1..12, 1 je leden)
+[BYTE to language (ICQ)]
+BYTE na jazyk (ICQ)
 ;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 afrikánština

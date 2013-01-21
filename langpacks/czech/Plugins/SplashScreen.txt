@@ -42,15 +42,11 @@ Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda NG 0.7 n
 [Preview...]
 Náhled...
 ;file \plugins\SplashScreen\src\bitmap_funcs.cpp
-[.png]
 [Loading splash file]
 [done]
 [MyBitmap::loadFromFile]
 [Bitmap load failed]
-;file \plugins\SplashScreen\src\debug.h
-[%s:\t\t%s\n]
 ;file \plugins\SplashScreen\src\main.cpp
-[%miranda_path%]
 [Miranda version]
 [Dll Name]
 [Advaimg path]
@@ -61,7 +57,6 @@ Chyba
 [SoundFilePath]
 [Found file]
 [Extention]
-[.bmp]
 [File has valid ext]
 [final file]
 [Skin]
@@ -86,10 +81,8 @@ Hodnota
 [Unload]
 [Job done]
 ;file \plugins\SplashScreen\src\options.cpp
-[%s (*.png, *.bmp)%c*.png;*.bmp%c%c]
 [Graphic files]
 [Set path]
-[%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c]
 [Sound Files]
 Zvukové soubory
 [Set sound path]

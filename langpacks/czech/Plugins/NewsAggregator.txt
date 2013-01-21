@@ -75,7 +75,6 @@ Chyba
 [Enter Feed URL]
 [Enter checking interval]
 [Enter message format]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [The title of the item.]
 [The item synopsis.]
 [The URL of the item.]
@@ -90,7 +89,6 @@ Opravdu chcete pokračovat?
 [Wait...]
 Počkejte...
 [Change Feed]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [Contact deleting]
 [Network]
 Sítě
@@ -98,21 +96,12 @@ Sítě
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-[.jpg]
-[.jpeg]
-[.png]
-[.gif]
-[.ico]
-[.bmp]
-[.swf]
-[.xml]
 [Cannot upload VersionInfo. Incorrect username or password]
 Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
 [Cannot upload VersionInfo. Unknown error]
 Informace o verzi: nelze nahrát na server\nNeznámá chyba
 [Feed]
 Zdroj
-[%3s, %d %3s %d %d:%d:%d %1s%02d%02d]
 [Jan]
 [Feb]
 [Mar]
@@ -126,15 +115,15 @@ květen
 [Oct]
 [Nov]
 [Dec]
-[%04d%02d%02dT%02d:%02d:%02d]
-[%d-%d-%d %d:%d:%d %1s%02d%02d]
-[%d:%d:%d]
 [rss]
 [rdf]
 [title]
 titulek
+[%s\nis a valid feed's address.]
+%s\nje platná adresa zdroje.
 [New Aggregator]
 [feed]
+[%s\nis a not valid feed's address.]
 [version]
 [RSS %s]
 [RSS 1.0]

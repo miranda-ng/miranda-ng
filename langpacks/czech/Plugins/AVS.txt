@@ -78,40 +78,25 @@ Pro každý protokol jiný avatar
 Jednotlivé protokoly mají definované různé avatary.
 ;file \plugins\AVS\src\main.cpp
 [AVS-HASH-%x]
-[%s@%s]
 [SHELLDLL_DefView]
 [Grow avatar to fit max allowed protocol size]
 Upravit rozměry na max. velikost danou protokolem
-[.png]
-[.jpg]
-[.ico]
-[.bmp]
-[.gif]
-[.swf]
-[.xml]
-[.jpeg]
-[.rle]
 [All Files]
 Všechny soubory
 [Windows Bitmaps]
 obrázky typu BMP
-[ (*.bmp;*.rle)]
 [JPEG Bitmaps]
 obrázky typu JPEG
-[ (*.jpg;*.jpeg)]
 [GIF Bitmaps]
 obrázky typu GIF
-[ (*.gif)]
 [PNG Bitmaps]
 obrázky typu PNG
-[ (*.png)]
 [Flash Animations]
 animace typu Flash
-[ (*.swf)]
 [XML Files]
 soubory typu XML
-[ (*.xml)]
 [GlobalAvatar]
+[%s\\my_global_avatar%s]
 [Set My Avatar]
 Nastavit avatar
 [Set My Avatar for %s]
@@ -134,11 +119,9 @@ Pro sebe
 [Avatar]
 Avatar
 [gdi32]
-[%miranda_userdata%]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
 ;file \plugins\AVS\src\options.cpp
-[%%miranda_path%%\\%s]
 [Set avatar options for %s]
 %s: avatar
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

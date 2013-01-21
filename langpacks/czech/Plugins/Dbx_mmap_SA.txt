@@ -90,7 +90,6 @@ Nastavit heslo
 Jméno
 [Version]
 Verze
-[%d.%d.%d.%d]
 [Please type in your password for]
 [Too many errors!]
 [Password is not correct!]

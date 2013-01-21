@@ -38,23 +38,8 @@ Hlavní
 Zprávy
 [Protocols]
 Protokoly
-;file \plugins\StopSpamPlus\src\headers.h
-[ \f\n\r\t\v]
 ;file \plugins\StopSpamPlus\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\n]
-Už žádný další spam! Roboti nemají šanci, lidé si povídají!\r\n\r\n
-[This plugin works pretty simple:\r\n]
-Tento doplněk pracuje na jednoduchém principu:\r\n
-[While messages from users on your contact list go as there is no any anti-spam software, ]
-Zatímco zprávy od lidí ze seznamu projdou vždy, tak jako předtím bez tohoto filtru,
-[messages from unknown users are not delivered to you. ]
-zprávy od neznámých kontaktů vám doručeny nebudou.
-[But also they are not ignored, this plugin replies with a simple question, ]
-Tyto zprávy ale nejsou ignorovány, jen je jejich autorům nejdříve automaticky
-[and if user gives the right answer plugin adds him to your contact list ]
-zaslána jednoduchá otázka. Teprve až na ni dotyčný/dotyčná správně odpoví,
-[so that he can contact you.]
-může vás kontaktovat.
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 [StopSpam automatic message:\r\n]
 ;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
@@ -65,9 +50,7 @@ Dokončeno
 [Please reply "nospam" without quotes and spaces if you want to contact me.\r\n]
 [Âíčěŕíčĺ! Ŕíňčńďŕě çŕůčňŕ. Îňâĺňüňĺ "nospam" áĺç ęŕâű÷ĺę č ďđîáĺëîâ, ĺńëč őîňčňĺ ńâ˙çŕňüń˙ ńî ěíîé.]
 [StopSpam: send a message and reply to a anti-spam bot question.\r\n]
-[Ŕíňčńďŕě: îňďđŕâüňĺ ńîîáůĺíčĺ č îňâĺňüňĺ íŕ âîďđîń ŕíňčńďŕě ńčńňĺěű.]
 [nospam]
 [Congratulations! You just passed human/robot test. Now you can write me a message.\r\n]
-[Ďîçäđŕâë˙ţ! Âű ďđîřëč ŕíňčńďŕě ďđîâĺđęó. Ňĺďĺđü âű ěîćĺňĺ ďčńŕňü ěíĺ.]
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]

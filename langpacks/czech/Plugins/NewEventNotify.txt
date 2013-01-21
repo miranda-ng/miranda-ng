@@ -70,10 +70,8 @@ Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
 Neoznamovat přečtené zprávy
 ;file \plugins\NewEventNotify\src\main.cpp
-[%s  (%s)]
 [TMsgWindow]
 [TfrmContainer]
-[%s (%s): %s]
 [Message Session]
 Rozhovor
 [Message Received]
@@ -97,10 +95,5 @@ Zkouška události Soubor :-D
 [This is a sample other event ;-D]
 [Plugin Test]
 Zkouška doplňku
-[\0\0]
 [Number of new message: ]
 Počet nových zpráv: 
-[%s...\n]
-[%Y.%m.%d]
-[ %H:%M]
-[%s[b][i]%s[/i][/b]\n]

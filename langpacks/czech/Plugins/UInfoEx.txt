@@ -363,8 +363,6 @@ Obnovit výchozí
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Button]
 Tlačítko
-[%s %d\\%s]
-[%s %d]
 [Creating unique name for a page failed with %d and error code %d]
 Nepodařilo se vytvořit unikátní název stránky %d (chyba %d)
 [Creating the label for a page failed with %d and error code %d]
@@ -376,7 +374,6 @@ Typ dialogových šablon již není podporován
 Přidat nové výročí
 [Delete an existing anniversary]
 Smazat existující výročí
-['%s']
 [Unspecified]
 <neuvedeno>
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
@@ -404,7 +401,6 @@ CHYBA: nelze upravit tento záznam!\nTo by se dít nemělo!
 Chcete opravdu smazat vybraný záznam?\n\t%s\n\t%s
 [Other]
 Ostatní
-[%s %d\0]
 [ SMS\0]
 [ SMS]
 ;file \plugins\UserInfoEx\src\ctrl_contact.h
@@ -446,7 +442,6 @@ Ano
 [Abord]
 [Ignore]
 Filtrování
-[%s - %s]
 [Error]
 Chyba
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
@@ -531,8 +526,6 @@ Aktualizovat detaily kontaktu
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]
-[%s %s]
-%s %s
 [Ex-/Import]
 Export/Import
 ;file \plugins\UserInfoEx\src\psp_about.cpp
@@ -548,8 +541,6 @@ Nebylo vybráno platné datum pro úpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[%s (%s)]
-%s (%s)
 [Address]
 Adresa
 [Home]
@@ -596,8 +587,6 @@ Extra
 Detaily
 [PopUps]
 Oznámení
-;file \plugins\UserInfoEx\src\psp_origin.cpp
-[ - ]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Minulost
@@ -979,6 +968,7 @@ Uživatel nemá uvedenou platnou domácí stránku
 [View Homepage]
 Zobrazit domovskou stránku
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
 Přerušit proces občerstvování detailů
 [Do you want to cancel the current refresh procedure?]
@@ -1000,8 +990,6 @@ On/ona
 [%d. %s today\0]
 [%d. %s tomorrow\0]
 [%d. %s in %d days\0]
-[\n...\0]
-[\n- \0]
 [%s has birthday today.]
 %s má dnes narozeniny!
 [%s has birthday tomorrow.]

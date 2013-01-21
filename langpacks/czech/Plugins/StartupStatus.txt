@@ -10,7 +10,6 @@
 <minulý>
 [<current>]
 <současný>
-[.\\%s]
 [Left]
 Vlevo
 [Right]

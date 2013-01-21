@@ -1,4 +1,4 @@
-﻿;[%hs (%s)]
+﻿;[%s\\Plugins\\%s]
 ;[(incompatible)]
 ;[Docs\\]
 ;[Plugins\\Language\\]

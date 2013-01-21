@@ -332,6 +332,5 @@ od
 [...Error...]
 [...Denied...]
 [DISPLAY]
-[...???...]
 [Default]
 Výchozí

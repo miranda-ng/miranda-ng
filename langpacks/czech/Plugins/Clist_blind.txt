@@ -62,7 +62,7 @@ Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
 [Contact List]
-Kontakty
+Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
@@ -222,7 +222,6 @@ Neviditelný
 Jsem na obědě
 [On the phone]
 Mám telefon
-[%name% [%status% %protocol%] %status_message%]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]
@@ -235,12 +234,6 @@ Globální
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
 neznámý protokol
-[%name%]
-[%count%]
-[%mode%]
 [Expanded]
 Rozbalený
 [Colapsed]
-[%status%]
-[%protocol%]
-[%status_message%]

@@ -1,5 +1,4 @@
-﻿;[%s - %s]
-;[&Save Session]
+﻿;[&Save Session]
 ;[Current session is empty!]
 ;[Enter session name:]
 ;[Favorite Session]

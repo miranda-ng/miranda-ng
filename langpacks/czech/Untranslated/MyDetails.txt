@@ -1,4 +1,3 @@
-﻿;[ ...]
-;[Frame Options]
+﻿;[Frame Options]
 ;[MyDetailsFrame]
 ;[MyDetailsFrameContainer]

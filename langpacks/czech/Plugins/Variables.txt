@@ -42,11 +42,7 @@ OK
 Poznámky
 [Variables...]
 Proměnné...
-;file \plugins\Variables\src\contact.cpp
-[<%s:%s>]
 ;file \plugins\Variables\src\help.cpp
-[%c%s%c]
-[%c%s%s]
 [Token]
 Token
 [unknown]
@@ -57,10 +53,6 @@ Tokeny
 Vstup
 [Cancel]
 Zrušit
-[%subject%]
-%subject%
-[%extratext%]
-%extratext%
 [Help]
 Nápověda
 [Variables Help]
@@ -78,21 +70,18 @@ Proměnné
 [ - Winamp]
 [Stopped]
 Zastaveno
+[[Stopped]]
+[[Paused]]
 [Paused]
 Pauza
 [Playing]
 Hraje
-;file \plugins\Variables\src\parse_metacontacts.cpp
 ;file \plugins\Variables\src\parse_miranda.cpp
-[%%%s%%]
 [appdata]
 [username]
 uživatelské jméno
 [mydocuments]
 [desktop]
-;file \plugins\Variables\src\parse_str.cpp
-[\r\n]
-[(...)]
 ;file \plugins\Variables\src\parse_system.cpp
 [\\Processor(_Total)\\% Processor Time]
 [\\Process(%s)\\%% Processor Time]

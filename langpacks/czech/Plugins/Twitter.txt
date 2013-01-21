@@ -110,10 +110,7 @@ Zadejte heslo.
 ;file \protocols\Twitter\src\contacts.cpp
 [***** Error adding friend: %s]
 [***** Error searching for contacts: %s]
-;file \protocols\Twitter\src\Debug.c
-[\r\n]
 ;file \protocols\Twitter\src\proto.cpp
-[%miranda_avatarcache%]
 [Send Tweet...]
 [Network]
 Sítě

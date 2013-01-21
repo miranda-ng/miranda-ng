@@ -1,5 +1,4 @@
-﻿;[%user%]
-;[&Default]
+﻿;[&Default]
 ;[Dear %user%, the owner left the following message:]
 ;[Disable Auto&reply]
 ;[Enable Auto Replier]

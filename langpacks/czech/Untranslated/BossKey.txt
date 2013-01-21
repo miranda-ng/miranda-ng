@@ -1,5 +1,4 @@
-﻿;[%s [%s]]
-;[Alt + ]
+﻿;[Alt + ]
 ;[Anti-Boss plugin.]
 ;[BossKey\tget the BossKey name]
 ;[Ctrl + ]

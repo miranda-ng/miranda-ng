@@ -46,7 +46,6 @@ Informace o verzi do souboru
 Zobrazit info. o verzi
 [Upload Version Information]
 Odeslat info. o verzi
-[%miranda_userdata%]
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
@@ -61,6 +60,8 @@ Zobrazit s DLL knihovnami
 -> server
 [Open crash report directory]
 Otevřít složku s výpisem chyb
+[Open miranda-vi.org]
+Jít na miranda-vi.org
 [Copy Version Info to clipboard]
 [Show Version Info]
 ;file \plugins\CrashDumper\src\dumper.cpp

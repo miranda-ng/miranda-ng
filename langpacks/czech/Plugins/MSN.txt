@@ -107,7 +107,6 @@ Identifikátor
 [Add]
 Přidat
 ;file \protocols\MSN\src\msn_chat.cpp
-[%s %s%s]
 [Chat #]
 Diskuse č.
 [Others]
@@ -127,7 +126,6 @@ MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítě MSN.
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
 Protokol MSN
-[%title% - %artist%]
 [MSN Alert]
 [Chat session established by my request]
 Spojení navázáno (vlastní žádost)
@@ -164,8 +162,6 @@ Zpráva od %s (%S)
 Zpráva od: %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
 Máte neprečtenou poštu. Příchozí: %d, ostatní: %d.
-[%s [%d]]
-[%s [%d][%d]]
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 Přečíst poštu &Hotmail
@@ -189,27 +185,20 @@ Za&blokovat
 Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp
 [%%miranda_userdata%%\\Avatars\\%s]
-[%miranda_userdata%]
-[\\%s.]
+[%s\\Avatars\\%s]
 [\\%s avatar.]
-[\\%s]
 [jpg]
 [bmp]
 [png]
 [gif]
 [unk]
-[.gif]
-[.bmp]
-[.png]
-[\\%s.%s]
+[%s\\%s\\CustomSmiley]
 [Miranda]
 Miranda
-[%s/%s]
 [Notify]
 Oznámení
 [Error]
 Chyba
-[%s:\n%s]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
@@ -288,7 +277,6 @@ Zpráva je příliš dlouhá. Protokol MSN umožňuje napsat max. 1202 znaků (v
 [Music]
 Hudba
 [No Title]
-[%s - %s]
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp

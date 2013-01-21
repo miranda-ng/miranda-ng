@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BASS_interface.dll
 ;  Plugin: BASS interface
-;  Version: 0.0.0.13
+;  Version: 0.0.0.14
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
@@ -20,10 +20,14 @@
 ;file \plugins\BASS_interface\src\Main.cpp
 [HH:mm]
 [un4seen's bass version: %d.%d.%d.%d]
-[Audio device is opened]
-[Audio device is closed]
+[Sounds enabled]
+[Sounds disabled]
 [Customize]
 Vlastní úpravy
-[Open/close audio device]
+[Disable sounds]
+[Enable sounds]
+Povolit zvuky
+[Frame Background]
+Barva pozadí rámečku
 [BassInterfaceFrame]
 [Bass Interface]

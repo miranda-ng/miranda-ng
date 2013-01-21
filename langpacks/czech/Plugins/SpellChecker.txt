@@ -73,16 +73,12 @@ Tagalog (Filipíny)
 [de_frami_neu]
 [German (Germany)]
 Němčina (Německo)
-[%s_%s]
-[%s (%s)]
-%s (%s)
-[%s [%s]]
-[.aff]
 [Thunderbird]
 [Firefox]
 [Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
 [Path]
 Cesta
+[%s\\Dictionaries]
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Komunikace

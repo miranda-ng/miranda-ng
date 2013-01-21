@@ -1,5 +1,4 @@
-﻿;[%s [%s]]
-;[Activity text]
+﻿;[Activity text]
 ;[Activity title]
 ;[Automatically refresh contact's details after they come online]
 ;[Copy to Account]
@@ -9,4 +8,3 @@
 ;[Open ignore settings]
 ;[Please authorize me to add you to my contact list.]
 ;[Show in list]
-;[\r\n]

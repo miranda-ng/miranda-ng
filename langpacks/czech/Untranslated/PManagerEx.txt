@@ -1,4 +1,5 @@
-﻿;[%miranda_profilename%]
+﻿;["%s" /restart:%d /profile=%s]
+;["%s" /restart:%d /svc:dbchecker]
 ;[Change profile]
 ;[Check Database]
 ;[Check database]

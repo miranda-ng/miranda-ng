@@ -53,6 +53,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/GG.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/GTalkExt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/historypp.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/HistorySweeperLight.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/HTTPServer.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/ICQ.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/IEView.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/IgnoreState.txt

@@ -1,5 +1,2 @@
-﻿;[ %s %s]
-;[%.0s%.0s%s]
-;[%d%%]
-;[MimTooltipNotify]
+﻿;[MimTooltipNotify]
 ;[Not Idle]

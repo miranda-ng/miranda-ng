@@ -1,7 +1,4 @@
-﻿;[%miranda_avatarcache%]
-;[%s %s %s]
-;[.jpg]
-;[Attachments:]
+﻿;[Attachments:]
 ;[Cancel friendship request]
 ;[Check Friends Requests]
 ;[Check Newsfeeds]

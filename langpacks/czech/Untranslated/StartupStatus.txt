@@ -1,5 +1,4 @@
-﻿;[.\\%s]
-;[Pressed toolbar icon]
+﻿;[Pressed toolbar icon]
 ;[Released toolbar icon]
 ;[loc: %d x %d]
 ;[size: %d x %d]

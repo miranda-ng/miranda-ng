@@ -156,37 +156,24 @@ typ
 [Xml File (*.xml)]
 [All files (*.*)]
 Všechny soubory (*.*)
-[*.*]
 [xml]
 [Group]
 Skupina
 ;file \plugins\Quotes\src\Locale.cpp
 [Control Panel\\International]
-[%d.%m.%y]
 [dd/MM/yy]
-[%d/%m/%y]
 [yyyy-MM-dd]
-[%y-%m-%d]
-[%H:%M:%S]
 [H:mm]
 [HH:mm]
-[%H:%M]
 [sShortDate]
 [sLongDate]
 [sShortTime]
 [sTimeFormat]
-;file \plugins\Quotes\src\Log.cpp
-[ ================================>\n]
-[\n\n]
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-;file \plugins\Quotes\src\OptionDukasCopy.cpp
-[ - ]
 ;file \plugins\Quotes\src\QuoteChart.cpp
 [DioksinChart]
-[%d/%m/%y %H:%M:%S]
-[%d.%m.%y %H:%M:%S]
 [Log File]
 Záznamový soubor
 [Miranda's History]
@@ -227,10 +214,7 @@ Neznámý
 Otevřít
 [snap-data]
 ;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
-[%r>%p]
-[%s %r]
 [\\nCurrent = %r\\nPrevious = %p]
-;file \plugins\Quotes\src\QuotesProviderVisitorFormater.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 [Quote Name]
@@ -245,11 +229,8 @@ Otevřít
 [Fetch Time]
 [Fetch Date]
 [Fetch Time and Date]
-[\\%]
 [Percentage Character (%)]
-[\\t]
 [Tabulation]
-[\\\\]
 [Left slash (\\)]
 [Open Price]
 [Percent Change to After Hours]
@@ -262,8 +243,6 @@ Změnit
 ;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
 [&f=snl1ohgpc1]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
-[%quotename%]
-[%miranda_userdata%]
 [Log Files (*.txt,*.log)]
 [log]
 [Enter integer value]
@@ -271,9 +250,6 @@ Změnit
 [Enter log file format.]
 [Enter history format.]
 [Enter popup window format.]
-[.log]
-;file \plugins\Quotes\src\WinCtrlHelper.cpp
-[\r\n]
 ;file \plugins\Quotes\src\XMLEngineMI.cpp
 [version]
 [encoding]

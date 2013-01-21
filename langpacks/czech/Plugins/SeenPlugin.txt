@@ -72,7 +72,6 @@ Zmeškali jste tyto kontakty:
 [Alert when user status changes]
 Upozornit při změně stavu
 ;file \plugins\SeenPlugin\src\history.cpp
-[%s: %s]
 [last seen history]
 Historie změn stavu
 [View User's Details]
@@ -97,8 +96,6 @@ Naposledy spatřen
 <neznámý>
 [<none>]
 <žádný>
-;file \plugins\SeenPlugin\src\missed.cpp
-[ [%i]]
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 Last Seen - seznam proměnných
@@ -247,8 +244,6 @@ lis
 [Dec.]
 pro
 [<never seen>]
-[%04i]
-[%02i]
 [Idle]
 Nečinnost
 [ProtoUnknown]

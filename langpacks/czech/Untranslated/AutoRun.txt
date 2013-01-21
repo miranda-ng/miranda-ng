@@ -1,2 +1,3 @@
-﻿;[MirandaNG]
+﻿;["%s" "/profile:%s"]
+;[MirandaNG]
 ;[Software\\Microsoft\\Windows\\CurrentVersion\\Run]

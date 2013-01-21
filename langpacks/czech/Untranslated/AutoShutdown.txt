@@ -1,6 +1,4 @@
-﻿;[ \r\n\t]
-;[(current: 0%)]
-;[.DLL]
+﻿;[(current: 0%)]
 ;[AutoShutdownCountdown]
 ;[Control Panel\\Desktop]
 ;[Disable Performance Counters]

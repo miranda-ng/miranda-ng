@@ -1,7 +1,6 @@
 ﻿;[%s SOCKS connection]
 ;[%s Web Messages]
 ;[%s mail]
-;[...???...]
 ;[...Connecting...]
 ;[...Denied...]
 ;[...Error...]

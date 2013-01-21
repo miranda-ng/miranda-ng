@@ -50,7 +50,6 @@ Velikost (v×š):
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Unable to initiate transfer.]
 Chyba při inicializaci přenosu.
-[\r\n]
 [Initialising...]
 Inicializace...
 [Connecting...]
@@ -72,7 +71,6 @@ Další soubor...
 [%s (%i):\nContact has no open GC session.]
 [An unknown error has occured.]
 Neznámá chyba.
-[%s - %s]
 [Error]
 Chyba
 ;file \plugins\SendScreenshotPlus\src\CSend.h
@@ -144,7 +142,6 @@ Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se li
 Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto složek: 'customize\\icons', 'icons' or 'plugins'!
 [Plugins\\]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
-[\r\n\r\n]
 [Credits]
 [< Copyright]
 [Copyright]
@@ -157,7 +154,6 @@ Okno
 [Desktop]
 Plocha
 [<entire desktop>]
-[%i. %s%s]
 [Monitor]
 [ (primary)]
 [PNG]
@@ -178,8 +174,6 @@ Soubory přes FTP
 Informace
 [Open Folder]
 Otevřít složku
-[...]
-...
 [Fill description textbox.]
 [Delete after send]
 [Capture]
@@ -190,9 +184,8 @@ Vyberte prosím požadované okno.
 [Screenshot ]
 [for Client area ]
 [of "]
+[" Window]
 [png]
 [jpg]
 [bmp]
-[.tif]
 [gif]
-[.gif]

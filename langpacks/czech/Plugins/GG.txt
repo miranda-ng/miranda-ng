@@ -139,12 +139,10 @@ Otevřít
 [Sign out all sessions]
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[%miranda_avatarcache%]
 [Can not create avatars cache directory. ERROR: %d: %s\n%s]
 [jpg]
 [gif]
 [png]
-[\\%s.%s]
 [\\%s avatar.%s]
 [Can not create avatar file. ERROR: %d: %s\n%s]
 [Can not open avatar file. ERROR: %d: %s\n%s]
@@ -175,8 +173,6 @@ Adresa externího hostitele pro připojení (%s) je neplatná. Přeposílání p
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Název serveru (%s) je neplatný. Použit výchozí server zjištěný ze sítě Gadu-Gadu.
 [Connection cannot be established. errno=%d: %s]
-[, %s %s]
-[, %s %d]
 [Age:]
 Věk:
 [List import successful.]
@@ -189,8 +185,6 @@ Seznam byl úspěšně vyexportován.
 neznámý klient
 [You have logged in at another location]
 [You are logged in at another location]
-[%s (%s)]
-%s (%s)
 [Incoming image]
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
@@ -253,6 +247,7 @@ Filtrování
 [HTTP failed reading]
 [HTTP failed writing]
 [Unknown HTTP error]
+[%s\\*.(null)]
 [&Unblock]
 Od&blokovat
 [&Block]
@@ -262,10 +257,9 @@ Seznam kontaktů
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 %s - spojení se serverem
-[%miranda_userdata%]
+[%s\\%s\\ImageCache]
 [Gadu-Gadu Number]
 Identifikátor
-[%d %d]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Založit novou konferen&ci...
@@ -332,19 +326,13 @@ Obrázek nelze uložit na disk.
 Obrázek od %s
 [Image for %s]
 Obrázek pro %s
-[%s (%d / %d)]
 [Select picture to send]
 Vybrat obrázek k odeslání
 [bmp]
 [jpeg]
 [Can not create image cache directory. ERROR: %d: %s\n%s]
-[\\%s]
 [%.*s (%u)%s]
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-[.bmp]
-[.gif]
-[.jpg]
-[.png]
 [Can not open image file. ERROR: %d: %s\n%s]
 [Image exceeds maximum allowed size of 255 KB.]
 ;file \protocols\Gadu-Gadu\src\import.cpp
@@ -354,14 +342,11 @@ Aktualizovat seznam kontaktů na serveru lze pouze po připojení k síti Gadu-G
 [List cannot be removeed because of error: %s (Error: %d)]
 [Text files]
 Textové soubory
-[ (*.txt)]
 [All Files]
 Všechny soubory
-[ (*)]
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [contacts]
 kontakty
-[.txt]
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
 [List cannot be exported because of error:\n\t%s (Error: %d)]
 [Import List From &Server]
@@ -381,17 +366,11 @@ E&xportovat seznam do souboru...
 [Password was sent to your e-mail.]
 Heslo bylo odesláno na Váš e-mail.
 ;file \protocols\Gadu-Gadu\src\popups.cpp
-[%s/%s]
 [Notify]
 Oznámení
 [Error]
 Chyba
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[.jpeg]
-[.ico]
-[.rle]
-[.swf]
-[.xml]
 [Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
 [Can not remove old avatar file. ERROR: %d: %s\n%s]
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]

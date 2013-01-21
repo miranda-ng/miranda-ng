@@ -187,7 +187,6 @@ Heslo
 [(null)]
 [debug- WriteAccount...]
 ;file \plugins\YAMN\src\main.cpp
-[%miranda_userdata%]
 [Check mail]
 Vybrat poštu
 [Launch application]
@@ -213,8 +212,6 @@ Hlavička
 [Copy Selected]
 [Copy All]
 Kopírovat vše
-[%s:\t%s\r\n]
-[\t%s\r\n]
 [Do you really want to delete %d selected mails?]
 Počet vybraných zpráv: %d. Opravdu je chcete smazat?
 [Delete confirmation]
@@ -298,7 +295,6 @@ Není vybraný účet
 [Time left to next check [s]: %d]
 Další vybírání pošty za (sek.): %d
 [New Account]
-[%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c]
 [Executables]
 [All Files]
 Všechny soubory

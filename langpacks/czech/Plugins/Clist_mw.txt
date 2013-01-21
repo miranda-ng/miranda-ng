@@ -93,7 +93,7 @@ Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
 [Contact List]
-Kontakty
+Seznam kontaktů
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]

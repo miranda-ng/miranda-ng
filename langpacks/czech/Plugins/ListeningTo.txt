@@ -135,10 +135,8 @@ Začít
 [Is equals]
 [Is different]
 ;file \plugins\ListeningTo\src\options.cpp
-[%artist% - %title%]
 [<Unknown>]
 <neznámý>
-[%listening%]
 [<Nothing is playing now>]
 [Status]
 Stavy
@@ -161,8 +159,6 @@ Přehrávače
 [ERROR: Too little pieces]
 [END: Stoped playing]
 [ERROR: not enought info]
-[%d:%02d:%02d]
-[%d:%02d]
 [END: Success]
 [SendTimerProc]
 [It's time to process]

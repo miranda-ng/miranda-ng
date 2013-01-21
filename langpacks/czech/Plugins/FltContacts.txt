@@ -107,7 +107,7 @@ Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 Kontakty, které "nejsou v seznamu"
 [Floating Contacts]
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Main Features]
 Hlavní vlastnosti
 [Appearance]

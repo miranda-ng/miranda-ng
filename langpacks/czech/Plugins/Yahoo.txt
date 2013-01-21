@@ -79,13 +79,10 @@ Přidat
 [Yahoo Error]
 Chyba Yahoo
 [Avatar upload failed!?!]
-[%%miranda_avatarcache%%\\]
-[%miranda_avatarcache%]
-[\\%lX]
 [ avatar]
-[.swf]
-[.png]
 ;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
+Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
 [Others]
 Ostatní
@@ -191,6 +188,9 @@ Sezn&am kontaktů
 A&ktualizovat
 [&Show Profile]
 &Zobrazit profil
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
+Přišla žádost o video rozhovor (v současnosti není podporováno).
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Připomínka
@@ -199,7 +199,6 @@ Připomínka
 [Invalid Contact]
 [The id you tried to add is invalid.]
 [Unknown Error??.]
-[%s: %s]
 [New Mail]
 Nová pošta
 [You Have %i unread msgs]

@@ -1,5 +1,4 @@
-﻿;[*.*]
-;[Miranda NG configuration center]
+﻿;[Miranda NG configuration center]
 ;[Page 1]
 ;[Page 2]
 ;[Page 3]

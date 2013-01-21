@@ -71,8 +71,6 @@ Skrýt
 [NeverHide]
 [Hiding %s (%S)]
 [%d days since last message]
-[%s %s]
-%s %s
 [Disable Miss You]
 [You awaited this contact!]
 [has gone online for the first time.]

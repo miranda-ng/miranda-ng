@@ -1,5 +1,4 @@
-﻿;[%miranda_userdata%]
-;[Copy Version Info to clipboard]
+﻿;[Copy Version Info to clipboard]
 ;[Create reports in subfolders naming as current date]
 ;[Not ]
 ;[Show Version Info]

@@ -85,14 +85,13 @@ Zvýraznění klíčových slov
 [UTF8]
 UTF8
 [ANSI]
-[.rtf]
 [Failed to create file]
 Chyba při vytváření souboru
 [Failed to save file]
 [History was saved successfully in file\r\n]
 [Failed to create history dialog]
 ;file \plugins\Msg_Export\src\Glob.h
-[Miranda (Msg_Export.dll)]
+[Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\main.cpp
 [Failed to HookEvent ME_DB_EVENT_ADDED]
 [Failed to HookEvent ME_DB_CONTACT_DELETED]
@@ -109,8 +108,7 @@ Funkci Historie Mirandy nelze nahradit.\r\nDůvodem jsou pravděpodobně intern�
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 Nenalezeny žádné kontakty
-[Reading database information ( Phase 1 of 2 )]
-Načítání informací z databáze (fáze č.1)
+[Reading database information (Phase 1 of 2)]
 [Failed to export at least one contact]
 [Sorting and writing database information ( Phase 2 of 2 )]
 Třídění a zápis do databáze (fáze č.2)
@@ -131,12 +129,10 @@ UIN
 [C:\\Backup\\MsgExport\\]
 [%dbpath%\\MsgExport\\%group% - ]
 [%dbpath%\\MsgExport\\%group%\\]
-[D s]
-[D m :]
 [You have unapplyed changes do you wish to apply these first ?]
 Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
 [Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
-[Failed to get the shells allocator !]
+[Failed to get the shells allocator!]
 [Failed to Allocate buffer space]
 [Select Destination Directory]
 Vyberte cílovou složku
@@ -150,40 +146,23 @@ Export zpráv 2
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]
-[%FirstName%]
-[%LastName%]
 [%e-mail%]
-[%Nick%]
-[%City%]
-[%State%]
-[%Phone%]
-[%Homepage%]
-[%About%]
 [Debug information\r\nsDBPath :]
 [\r\nsMirandaPath :]
 [\r\nsDefaultFile :]
 [\r\nGetFilePathFromUser( NULL ) :]
 [The language pack you are using has an error in the transalation of\r\n]
 [\r\n---------------      It was translated to      ---------------\r\n]
-[\r\nErrorCode : %d\r\n]
+[\r\nErrorCode: %d\r\n]
 [DB: Attempt to get wrong type of value, string]
-[%dbpath%]
-[%nick%]
 [(Unknown Contact)]
 (neznámý kontakt)
-[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Chyba při přejmenování souboru.\n\nPůvodní název:\t%s\nNový název:\t%s\n\nPopis chyby: %s
-[%UIN%]
-[%protocol%]
-[%identifier%]
-[%group%]
-[%year%]
-[%month%]
-[%day%]
-[\nError :]
-[Message has not been saved !\n]
-[Do you wish to save debug information ?]
+[\nError: ]
+[\nMessage has not been saved!\n]
+[Do you wish to save debug information?]
 [All\0*.*\0Text\0*.TXT\0\0]
 [TXT]
 [Failed to open or create file :\n]
@@ -205,10 +184,6 @@ Chyba při přesunu na konec souboru\n
 [State     : %State%\r\n]
 [Phone     : %Phone%\r\n]
 [Homepage  : %Homepage%\r\n]
-[%User%]
-[%Proto%]
-[%Age%]
-[%Gender%]
 [Failed to write user details to file :\n]
 [%-*s]
 [Failed to write timestamp and username to file :\n]
@@ -254,7 +229,6 @@ Chyba při zápisu položky SMS do souboru:\n
 [Failed to write Unknown event to the file :\n]
 [Programming error writing UTF8 string to ansi file]
 [Programming error on line __LINE__ please report this]
-[User has been deleted do you want to delete the file ?]
-Jeden z uživatelů byl odebrán ze seznamu.\nChcete smazat příslušný soubor?
+[User has been deleted do you want to delete the file?]
 [Failed to delete the file]
 Chyba při mazání souboru

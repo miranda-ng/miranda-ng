@@ -35,6 +35,7 @@
 ;[If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 ;[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
 ;[Join &Game ...]
+;[Last game: %s playtime: %.2d:%.2d:%.2d]
 ;[Launcher exe (optional):]
 ;[Login failed.]
 ;[No Loginname is set!]

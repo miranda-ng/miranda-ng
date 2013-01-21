@@ -922,7 +922,6 @@ Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
 [TSStatusBarClass]
-[%%%d.%ds...]
 [Message Session]
 Rozhovor
 [Default container]
@@ -931,7 +930,6 @@ Výchozí kontejner
 Připojit k
 [Meta Contact]
 Meta kontakt
-[%s: %s [%s] %s]
 [(Forced)]
 (Vynucený)
 [Autoselect]
@@ -1026,21 +1024,16 @@ Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprá
 Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
 [Incoming file]
 Příchozí soubor
-[%s: %s (%s)]
 [No description given]
 Bez popisu
 [Incoming file (invalid format]
 Příchozí soubor (neplatný formát
 [Unknown event]
 Neznámá událost
-[%s %d\n]
 [New messages: ]
 Nové zprávy: 
-[%Y.%m.%d %H:%M]
-[\n\n%s\n]
 [Unknown module or contact]
 Neznámý modul nebo uživatel
-[%s: %s (%s) [%d]]
 [(undef)]
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
@@ -1060,8 +1053,6 @@ Poslední zpráva přijata %s v %s
 %s napsal text zprávy.
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pro zapnutí)
-[%s (%s)]
-%s (%s)
 [Forward]
 Další
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
@@ -1071,7 +1062,6 @@ UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detail�
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
 ;file \plugins\TabSRMM\src\globals.cpp
-[%n (%s)]
 [TabSRMM runtime error]
 [Instant messages]
 Rozhovor
@@ -1185,11 +1175,9 @@ Kopírovat do schránky
 \\tab \\ul\\b Zpráva stavu:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
 \\par\\par\\tab \\ul\\b Zpráva rozšířeného stavu:\\ul0\\b0 \\par
-[ / ]
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
-[\r\n]
 [\\line ]
 [tabSRMM Information]
 tabSRMM informace
@@ -1222,6 +1210,8 @@ Nezobrazovat nikdy
 ;file \plugins\TabSRMM\src\mim.cpp
 [%stabSRMM]
 [%sLogs\\]
+[%s\\skins\\]
+[%s\\Saved Contact Pictures]
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
@@ -1270,13 +1260,11 @@ Upozornění: vybrali jste offline protokol pro odeslání následujících zpr�
 Kontakt je offline a tento protokol nepodporuje posílání souborů offline uživatelům
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [SHELLDLL_DefView]
-[%04u %02u %02u_%02u%02u]
 [Error creating destination directory]
 Chyba při vytváření cílového adresáře
 [Save contact picture]
 Uložit obrázek kontaktu
 [My Avatar_%s]
-[%s_%s]
 [png]
 [Image files]
 Soubory obrázků
@@ -1284,7 +1272,6 @@ Soubory obrázků
 Soubor existuje. Chcete jej přepsat?
 [Set Your Avatar...]
 Nastavit svůj avatar...
-[ | ]
 [\\pard]
 [\\cf]
 [\\highlight]
@@ -1297,13 +1284,9 @@ Nastavit svůj avatar...
 [\\rdblquote]
 [\\lquote]
 [\\rquote]
-[\\b]
-[\\i]
 [\\strike]
 [\\ul]
 [\\tab]
-[ !$%()#*"']
-[ !§$%&()#*]
 [MIME\\Database\\Rfc1766]
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 Funkce 'vložit a poslat' je vypnutá. Můžete ji zapnout v nabídce Možnosti -> Komunikace -> Obecné.
@@ -1393,8 +1376,6 @@ Včera
 [Use default codepage]
 Výchozí kódování
 ;file \plugins\TabSRMM\src\msgoptions.cpp
-[%s*.*]
-[.tsk]
 [Name]
 Jméno
 [None]
@@ -1470,8 +1451,6 @@ Vyberte stavy
 [TabSRMM fatal error]
 [Warning: trying to create duplicate window]
 Upozornění: pokus o vytvoření totožného okna
-[%s (%s)  ]
-[%s   ]
 [Image tag]
 Tag obrázku
 [Quote text]
@@ -1548,10 +1527,8 @@ Tento název již byl použit
 Zpožděné odesílání proběhlo úspěšně.\nPůvodní zpráva: %s
 [A send later job failed to complete.\nThe original message: %s]
 Zpožděné odesílání selhalo.\nPůvodní zpráva: %s
-[%Y.%m.%d - %H:%M]
 [<All contacts>]
 <Všechny kontakty>
-[%s [%s]]
 [Removed]
 Odstraněno
 [Failed]
@@ -1645,11 +1622,7 @@ Okno serveru
 %s v síti %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
 [%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M]
-[%S %T%|%M]
 [%I %S %&D, %&T, %N %M%! ]
-[%I%S %D, %T, %e%l%M]
-[%I %S %N  %D%n%S %T%|%M]
-[%I%S %D, %T, %N %M%! ]
 [Template Set Editor]
 Editor sady šablon
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
@@ -1660,6 +1633,7 @@ Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a ot
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM Theme]
 [Cookie]
+[%s%c*.tabsrmm%c%c]
 [tabSRMM themes]
 tabSRMM témata
 [tabsrmm]
@@ -1714,7 +1688,6 @@ Dole
 [TabTextUnread]
 [TabTextHottrack]
 [Glyph]
-[%d,%d,%d,%d]
 [Image]
 [Alpha]
 Průhlednost
@@ -1996,11 +1969,7 @@ Nastavení komunikace pro kontakt %s
 Záznam komunikace
 ;file \plugins\TabSRMM\src\utils.cpp
 [\xAA]
-[%02d]
 [*/_]
-[%%%]
-[%s...]
-[%06x]
 [\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];]
 [\\colortbl]
 [\\red]
@@ -2037,9 +2006,6 @@ Barva textu
 [Background color]
 Barva pozadí
 ;file \plugins\TabSRMM\src\chat\log.cpp
-[%%%c#%02X%02X%02X]
-[%%%c]
-[%s ]
 [%s has joined]
 Příchod: %s
 [You have joined %s]
@@ -2351,69 +2317,48 @@ Zvýraznění inkrementálního vyhledávání
 Pozadí polí
 [Userlist background]
 Pozadí seznamu kontaktů
-[%s - %s\n%s - %s\n%s - %s\n\n]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n]
-[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
-[%nick%]
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
-[%proto%]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
-[%userid%]
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
 UID stávajícího kontaktu (pokud je definováno). To je jako UIN pro ICQ, JID pro Jabber atd.
-[%miranda_path%]
 [path to root miranda folder]
 cesta ke kořenové složce Mirandy
-[%miranda_profile%]
 [path to current miranda profile]
 cesta k aktuálnímu profilu Mirandy
-[%miranda_profilename%]
 [name of current miranda profile (filename, without extension)]
 jméno aktuálního profilu Mirandy (jméno souboru bez přípony)
-[%miranda_userdata%]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
 navrátí řetězec %miranda_profile%\\Profiles\\%miranda_profilename%
-[%appdata%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného uživatele Windows
-[%username%]
 [username for currently logged-on Windows user]
 jméno pro aktuálně přihlášeného uživatele Windows
-[%mydocuments%]
-[%desktop%]
-[%xxxxxxx%]
+["My Documents" folder for currently logged-on Windows user]
+složka "Dokumenty" pro aktuálně přihlášeného uživatele Windows
+["Desktop" folder for currently logged-on Windows user]
+složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
-[%d%]
 [day of month, 1-31]
 den měsíce, 1-31
-[%dd%]
 [day of month, 01-31]
 den měsíce, 01-31
-[%m%]
 [month number, 1-12]
 číslo měsíce, 1-12
-[%mm%]
 [month number, 01-12]
 číslo měsíce, 01-12
-[%mon%]
 [abbreviated month name]
 zkrácené jméno měsíce
-[%month%]
 [full month name]
 celé jméno mesíce
-[%yy%]
 [year without century, 01-99]
 rok bez století, 01-99
-[%yyyy%]
 [year with century, 1901-9999]
 rok včetně století, 1901-9999
-[%wday%]
 [abbreviated weekday name]
 zkrácené jméno dne v týdnu
-[%weekday%]
 [full weekday name]
 plné jméno dne v týdnu
 [Variables]
@@ -2429,7 +2374,6 @@ Bez oddělovačů
 Zobrazit jako ikony
 [Show as text symbols]
 Zobrazit jako textové symboly
-[%n:]
 [AQGglo]
 [Message is highlighted]
 Zvýraznění zprávy
@@ -2454,7 +2398,6 @@ Ode&jít
 [Chat Rooms]
 Místnosti chatu
 ;file \plugins\TabSRMM\src\chat\tools.cpp
-[ - %s]
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
 [%s speaks in %s]
@@ -2471,8 +2414,8 @@ Změna tématu na %s
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
-[%s %s]
-%s %s
+[%s%s says:%s %s]
+%s%s říká:%s %s
 [%s has left (%s)]
 %s odešel (%s)
 [%s has disconnected (%s)]
@@ -2484,10 +2427,7 @@ Poznámka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [ab+]
-[%s: %s]
-[%s %c %s\r\n]
-[%s %s\r\n]
-[%Y%m%d-%H%M%S]
+[%s%sarchived\\]
 [Look up '%s':]
 [No word to look up]
 Není co vyhledat
@@ -2495,7 +2435,6 @@ Není co vyhledat
 Označit uživatele...
 [Edit Highlight List...]
 Upravit seznam označených uživatelů...
-[%a%d%m%Y]
 [%#d]
 [%#m]
 [mon]
@@ -2505,7 +2444,6 @@ měsíc
 [wday]
 [weekday]
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[%s: %s\r\n%s: %s\r\n%s: %s]
 [Nick name]
 Přezdívka
 [Unique Id]
@@ -2537,8 +2475,6 @@ min.
 Minuta
 [, %d %s idle]
 , %d %s nečinný
-[%s:]
-[%s: ]
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
 [Event filter error]
@@ -2565,4 +2501,3 @@ azurová
 černá
 [white]
 bílá
-[\\*]

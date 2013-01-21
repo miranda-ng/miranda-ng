@@ -47,8 +47,6 @@ Zobrazit nabídku kontaktu
 Zobrazit všechny kontakty
 [Quick Contacts...]
 Rychlé kontakty...
-[%s (%s)]
-%s (%s)
 [Ctrl+A]
 [Send message]
 Poslat zprávu

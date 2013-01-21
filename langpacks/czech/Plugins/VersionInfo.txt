@@ -65,10 +65,8 @@ Z&kopírovat
 [&Save to file]
 -> &soubor
 ;file \plugins\VersionInfo\src\CPlugin.cpp
-[%d.%d.%d.%d]
 [ v.]
 [unicode]
-[\r\n]
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [dd' 'MMM' 'yyyy]
 [HH':'mm':'ss]
@@ -78,7 +76,6 @@ Z&kopírovat
 [Yes]
 Ano
 [ (UTC) on ]
-[%d.%d.%d %s]
 [Hardware\\Description\\System\\CentralProcessor\\0]
 [Identifier]
 Identifikátor
@@ -108,11 +105,9 @@ Verze
 [ at FileOpen>]
 [(UI | Locale (User/System)) : ]
 [Control Panel\\Desktop\\ResourceLocale]
-[%lx]
 [Error at RegQueryValueEx()]
 [Error at RegOpenKeyEx()]
 [Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)]
-[ | ]
 [N/A]
 <neuvedeno>
 [<unknown>]
@@ -137,7 +132,6 @@ Verze
 [dd' 'MMMM' 'yyyy]
 [Report generated at: ]
 [ on ]
-[\r\n\r\n]
 [CPU: ]
 [ [DEP enabled]]
 [ [%d CPUs]]
@@ -165,12 +159,10 @@ Verze
 [\r\nEnd of report.\r\n]
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 V případě, že ohlásíte chybu pomocí tohoto formuláře, nezapomeňte se občas podívat na webovou stránku doplňku.\nJe velmi pravděpodobné, že programátoři vás budou žádat o upřesnění nebo jinou pomoc.\nV mnoha případech se bez vaší asistence chybu nepodaří opravit.
-[ (%u)]
 [Active Plugins]
 [<font size="-2" color="black">]
 [Inactive Plugins]
 [Unloadable Plugins]
-[%miranda_path%]
 [Information successfully written to file: "%s".]
 [Error during the creation of file "%s". Disk may be full or write protected.]
 [VersionInfo]
@@ -179,7 +171,6 @@ Chyba při práci se schránkou. Zkuste později.
 [Information successfully copied into clipboard.]
 Požadované informace byly zkopírovány do schránky.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
-[%s | %s]
 [Customize using folders plugin]
 Určit pomocí doplňku Folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
@@ -192,6 +183,7 @@ Služby
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+[%s\\Plugins\\%s]
 [Shell]
 [sys:]
 [boot]

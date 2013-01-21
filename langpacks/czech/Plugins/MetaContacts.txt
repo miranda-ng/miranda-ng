@@ -61,7 +61,7 @@ Zobrazit kontextovou nabídku kontaktu
 [Show user information]
 Zobrazit informace o uživateli
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Display subcontact nickname]
 Zobrazit přezdívku podkontaktu
 [Display subcontact display name]

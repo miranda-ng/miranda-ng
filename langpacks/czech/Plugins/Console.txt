@@ -33,7 +33,6 @@
 [*** Console paused ***]
 [*** Console resumed ***]
 [*** Console cleared ***]
-[%s - %s\\%s]
 [Miranda Console]
 [Services]
 Služby

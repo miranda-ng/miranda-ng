@@ -10,8 +10,7 @@
 E-mail:
 [Password:]
 Heslo:
-[Create a new account]
-Vytvořit nový účet
+[Create a new Mail.ru account]
 [Configuration]
 Nastavení
 [Login Server:]
@@ -137,19 +136,9 @@ Oznámení
 [Writed:]
 [0/500]
 ;file \protocols\MRA\src\MraAvatars.cpp
-[.dat]
-[.png]
-[.jpg]
-[.ico]
-[.bmp]
-[.gif]
-[.swf]
-[.xml]
 [Avatars]
 Avatary
 [plugin connections]
-[%%miranda_avatarcache%%\\%s]
-[%miranda_avatarcache%]
 ;file \protocols\MRA\src\MraChat.cpp
 [get]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
@@ -163,7 +152,6 @@ Oznámení
 %s - spojení se serverem
 [E-mail address]
 E-mail
-[%04ld.%02ld.%02ld %02ld:%02ld: ]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Sítě

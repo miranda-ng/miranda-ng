@@ -83,7 +83,6 @@ Změna stavu (ostatní)
 Změna stavu (psaní zprávy)
 [PopUps]
 Oznámení
-[%d%%]
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]
@@ -103,5 +102,3 @@ Neviditelný
 [Not Idle]
 [Unknown]
 Neznámý
-[%.0s%.0s%s]
-[ %s %s]

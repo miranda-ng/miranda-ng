@@ -70,6 +70,7 @@ Importovat
 [Strip all tags in outgoing messages]
 [Turn on presence signing (Jabber) (required by xep 0-27)]
 ;file \plugins\New_GPG\src\gpg_wrapper.cpp
+[" --homedir "]
 [LANGUAGE=en@quot\0LC_ALL=English\0]
 ;file \plugins\New_GPG\src\init.cpp
 [<GPGdec>]
@@ -105,6 +106,7 @@ Výchozí
 [Error]
 Chyba
 [Generating new random key, please wait]
+[\\GnuPG\\gnupg.nls\\en@quot.mo]
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
 [Warning]
 Upozornění
@@ -120,6 +122,7 @@ Info
 [\\GnuPG]
 [gpg]
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
+[Choose gpg.exe]
 [Set home diractory]
 [gpg binary does not exists.\nplease choose another location]
 [please choose gpg binary location]
@@ -144,6 +147,7 @@ Přijmout
 [Expiration date]
 [Failed to export public key.]
 [ --keyserver "]
+[" --recv-keys ]
 [access_test\n]
 [TEMP]
 [GPG binary is set and valid (this is good).\n]
@@ -172,9 +176,7 @@ Přijmout
 [\\tmp\\]
 [ -d -a "]
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
-[.asc]
 [GPG_Key_Auto_Exchange:0]
-[\r\n]
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 [Something wrong, gpg does not understand us, aborting encryption.]
@@ -218,9 +220,7 @@ Protokol
 [Where is no public or private key.]
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts ?]
-[%s: %s]
 [Send publick key]
-[.gpg]
 [ -o ]
 [Target file exists, do you want to replace it ?]
 [ -d "]
@@ -250,4 +250,3 @@ od
 [Keys export result]
 [Choose file to import keys from]
 [Keys import result]
-[\r\r]

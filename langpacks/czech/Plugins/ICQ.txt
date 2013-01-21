@@ -367,16 +367,7 @@ Potvrzení
 ** Tato zpráva byla zablokována serverem ICQ ** Co to vlastně děláte?
 [** Unknown missed message event.]
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[%%miranda_avatarcache%%\\]
-[%miranda_avatarcache%]
 [avatar]
-[.jpg]
-[.gif]
-[.png]
-[.bmp]
-[.xml]
-[.swf]
-[.dat]
 [Error uploading avatar to server, server temporarily unavailable.]
 [Error uploading avatar to server, server refused to accept the image.]
 ;file \protocols\IcqOscarJ\src\icq_constants.h

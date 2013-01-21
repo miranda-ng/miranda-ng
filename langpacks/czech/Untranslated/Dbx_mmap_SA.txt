@@ -1,5 +1,4 @@
-﻿;[%d.%d.%d.%d]
-;[Crypto modules not found]
+﻿;[Crypto modules not found]
 ;[DB is already secured!]
 ;[Database is Secured MMAP database]
 ;[Dll]

@@ -87,8 +87,6 @@ Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Please authorize me to add you to my contact list.]
-[%s [%s]]
-[\r\n]
 [Do you want to send authorization request\nto new contact?]
 [Miranda NG]
 Miranda NG

@@ -22,5 +22,5 @@ Vpravo
 [Opened]
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Start position]

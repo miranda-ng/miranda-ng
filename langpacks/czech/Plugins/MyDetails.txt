@@ -42,8 +42,6 @@ Dole:
 Vlevo:
 [Right:]
 Vpravo:
-[Background Color:]
-Barva pozadí:
 [Avatar]
 Avatar
 [Custom size:]
@@ -54,8 +52,6 @@ pix.
 Povolit zvětšování
 [Draw border on avatar]
 Orámovat avatary
-[Border Color:]
-Barva rámečku:
 [Round corners of avatars]
 Zaoblit rohy avatarů
 [Custom corner size:]
@@ -126,11 +122,14 @@ Stavy
 Stavová zpráva
 [Listening To]
 Poslech hudby
+[Background]
+Pozadí
 [My Details]
 Informace o sobě
+[Avatar Border]
+Rámeček avataru
 [Show My Details]
 Zobrazit informace o sobě
-[ ...]
 [Enable Listening To for %s]
 Povolit doplněk Listening To pro %s
 [Set My Avatar for %s...]
@@ -149,7 +148,7 @@ Předchozí protokol
 [Next protocol]
 Další protokol
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Set My Nickname for %s]
 Nastavit přezdívku pro %s
 [Set My Status Message for %s]

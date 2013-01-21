@@ -350,12 +350,6 @@ Stahování seznamu - %u kanálů
 Počet kanálů: %u
 [(probably truncated by server)]
 (pravděpodobně oříznuto serverem)
-[   - ]
-[ -  ( ]
-[%ud, %uh, %um, %us]
-[%uh, %um, %us]
-[%um, %us]
-[%us]
 [online since %s, idle %s]
 [is an identified user]
 [is a registered nick]
@@ -366,7 +360,6 @@ Změnit přezdívku
 [USERHOST]
 [IRC error]
 Chyba sítě IRC
-[%s %s %s %s ]
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživatele uvedené v seznamu kontaktů
 [Ignore]
@@ -380,7 +373,6 @@ Zadejte prosím důvod
 Zakázat a vykopnout
 [Jerk]
 [Try server %99[^ ,], port %19s]
-[\0035\002]
 [*Disconnected*]
 *Odpojen od serveru*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -388,8 +380,6 @@ Zakázat a vykopnout
 [IRC Error]
 Chyba sítě IRC
 ;file \protocols\IRCG\src\input.cpp
-[\r\n]
-[\r\r]
 [%question]
 [%mnick]
 [%anick]
@@ -397,7 +387,6 @@ Chyba sítě IRC
 [%module]
 [%name]
 [%network]
-[%me]
 [%color]
 [%bold]
 [%underline]
@@ -452,7 +441,6 @@ Zadejte prosím odpověď
 [Network log]
 ;file \protocols\IRCG\src\irclib.cpp
 [QUIT]
-[\0035%s \002%s\002 (]
 [Failed to connect to]
 [NICK %s\r\n]
 [Miranda]
@@ -603,7 +591,6 @@ Odpověď na žádost CTCP odeslána -> %s
 Odpověď na žádost CTCP odeslána -> %s: %s
 [Notice to %s: ]
 Poznámka -> %s: 
-[ : ]
 ;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 &Připojit rychle
@@ -635,16 +622,6 @@ Zadejte požadovaný kanál
 Změnit přezdívku
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
-[\002]
-[\026]
-[\037]
-[\003]
-[\00399,99]
-[\00399]
-[\003%u,]
-[\00399,]
-[\003%u,99]
-[ - ]
 [Please enter your authentification code]
 [Authentificate nick]
 [Are you sure you want to unregister your current nick?]
@@ -744,19 +721,15 @@ Poslat sou&bor
 Přidat mezi &ignorované
 [&Add User]
 Přid&at mezi kontakty
-[\0033%s \002%s\002 (]
 [Connecting to]
 Připojování k
 [Reconnecting to]
 Obnovování připojení k
 ;file \protocols\IRCG\src\tools.cpp
-[\r\n\r\n]
-[%02u]
 [Offline]
 Offline
 [Unknown]
 Neznámý
-[%s - %s]
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
@@ -795,5 +768,3 @@ Zadejte masku (přezdívka!uživ_jméno@hostitel)
 Úprava pozvánky
 [Edit exception?]
 Úprava výjimky
-[%s+%s]
-[%s %s %s]

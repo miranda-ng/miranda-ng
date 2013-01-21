@@ -82,7 +82,7 @@ Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact List]
-Kontakty
+Seznam kontaktů
 [Hide offline users]
 Skrýt uživatele offline
 [Hide empty groups]
@@ -624,8 +624,6 @@ Vybrat režim zobrazení
 Nastavení režimů zobrazení
 [Clear view mode]
 Zrušit režim zobrazení
-;file \plugins\Clist_nicer\src\clcitems.cpp
-[%s|]
 ;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Neaktivní
@@ -759,6 +757,8 @@ Menu
 Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+[Service failure]
 [EventAreaClass]
 [Frame titles]
 Záhlaví rámečku
@@ -786,7 +786,6 @@ Bez okraje
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 [Clist docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
-[*.clist]
 [*.clist\0]
 [Load and apply]
 Použití
