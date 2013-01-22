@@ -176,8 +176,7 @@ HANDLE NetlibInit(void) {
 	nlu.szSettingsModule = PLUGNAME;
 	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-	return hNetlibUser;
+	return hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }
 
 void NetlibClose(void) {
@@ -202,14 +201,15 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 	LPTSTR pszPath = GetCustomPath();
 	if(pszPath)
 	{
-		LPSTR  pszProto = GetContactProto((HANDLE)wParam);
-		bool bChatRoom = DBGetContactSettingByte((HANDLE)wParam, pszProto, "ChatRoom", 0) != 0;
+		HANDLE hContact = (HANDLE) wParam;
+		LPSTR  pszProto = GetContactProto(hContact);
+		bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 		frmMain->m_opt_chkTimed			= false;
 		frmMain->m_opt_tabCapture		= 1;
 		frmMain->m_opt_cboxDesktop		= 0;
 		frmMain->m_opt_chkEditor		= false;
 		frmMain->m_opt_cboxSendBy		= bChatRoom ? SS_IMAGESHACK:SS_FILESEND;
-		frmMain->Init(pszPath, (HANDLE)wParam);		// this method create the window hidden.
+		frmMain->Init(pszPath, hContact);		// this method create the window hidden.
 		frmMain->btnCaptureClick();					// this method will call Close()
 		mir_free(pszPath);
 	}
@@ -290,7 +290,7 @@ void AddMenuItems(void)
 {
 	// Common
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ROOTHANDLE | CMIF_UNICODE;
+	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = HGENMENU_ROOT;
 
 	// Add item to contact menu
@@ -351,7 +351,8 @@ LPTSTR GetCustomPath() {
 		MessageBox(NULL, _T("Can not retrieve Screenshot path."), _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
-	INT_PTR result = CallService(MS_UTILS_CREATEDIRTREET,0,(LPARAM) pszPath);
+
+	int result = CreateDirectoryTreeT(pszPath);
 	if(result != NULL)
 	{
 		TCHAR szError[MAX_PATH];

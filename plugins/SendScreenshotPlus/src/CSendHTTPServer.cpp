@@ -79,12 +79,12 @@ void	CSendHTTPServer::Send() {
 }
 
 void CSendHTTPServer::SendThread() {
-	int ret;
+	INT_PTR ret;
 	mir_freeAndNil(m_URL);
 
 	if (ServiceExists(MS_HTTP_GET_LINK)) {
 		//patched plugin version
-		ret = (int)CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
+		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 		if (!ret) {
 			m_URL = (LPSTR)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, NULL);
 		}
@@ -94,7 +94,7 @@ void CSendHTTPServer::SendThread() {
 		m_fsi.dwOptions  = OPT_SEND_LINK;
 
 		//send DATA and wait for reply
-		ret = (int)CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
+		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 	}
 
 	if (ret != 0) {

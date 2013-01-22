@@ -241,7 +241,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	itab.tcih.pszText	= TranslateT("Window");
 	itab.tcih.iImage	= 0;
-	itab.hwndTabPage	= CreateDialog(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd,(DLGPROC)DlgProc_CaptureWindow);
+	itab.hwndTabPage	= CreateDialog(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow), m_hWnd,DlgProc_CaptureWindow);
 	TabCtrl_InsertItem(m_hwndTab, 0, &itab);
 	MoveWindow(itab.hwndTabPage, (rcTab.left - rcClient.left)+2, (rcTab.top - rcClient.top), (rcTab.right - rcTab.left) - 2*5, (rcTab.bottom - rcTab.top) - 2*20, TRUE);
 	ShowWindow(itab.hwndTabPage, SW_HIDE);
@@ -256,7 +256,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	hCtrl = GetDlgItem(itab.hwndTabPage, ID_edtCaption);
 	ComboBox_ResetContent(hCtrl);
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<entire desktop>"))  ,(DWORD)0);
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("<entire desktop>"))  ,0);
 	ComboBox_SetCurSel (hCtrl,0);
 	if(m_MonitorCount >1) {
 		TCHAR	tszTemp[120];
@@ -266,7 +266,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 				TranslateT("Monitor"),
 				(m_Monitors[i].dwFlags & MONITORINFOF_PRIMARY) ? TranslateT(" (primary)") : _T("")
 				);
-			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, (LPCTSTR)tszTemp)  , i+1);
+			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, tszTemp)  , i+1);
 		}
 		ComboBox_SelectItemData (hCtrl, -1, m_opt_cboxDesktop);	//use Workaround for MS bug ComboBox_SelectItemData
 	}

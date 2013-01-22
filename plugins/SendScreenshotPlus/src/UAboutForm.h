@@ -49,7 +49,7 @@ class TfrmAbout{
 		UINT m_Page;
 		typedef std::map<HWND, TfrmAbout *> CHandleMapping;
 		static CHandleMapping _HandleMapping;
-		static LRESULT CALLBACK DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+		static INT_PTR CALLBACK DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 		LRESULT wmInitdialog(WPARAM wParam, LPARAM lParam);
 		LRESULT wmCommand(WPARAM wParam, LPARAM lParam);

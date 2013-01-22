@@ -68,7 +68,7 @@ void CSend::SetContact(HANDLE hContact) {
 
 //---------------------------------------------------------------------------
 bool	CSend::hasCap(unsigned int Flag) {
-	return (Flag & CallContactService(m_hContact, PS_GETCAPS, (WPARAM)PFLAGNUM_1, NULL)) == Flag;
+	return (Flag & CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_1, NULL)) == Flag;
 }
 
 //---------------------------------------------------------------------------
@@ -135,10 +135,7 @@ void	CSend::svcSendUrl(const char* url) {
 }
 
 void	CSend::svcSendChat() {
-	LPTSTR dirtyFix = NULL;
 	GC_INFO gci = {0};
-	GCDEST	gcd = {0};
-	GCEVENT gce = {0};
 	int res = GC_RESULT_NOSESSION;
 	int cnt = (int)CallService(MS_GC_GETSESSIONCOUNT, 0, (LPARAM)m_pszProto);
 
@@ -146,28 +143,24 @@ void	CSend::svcSendChat() {
 	gci.pszModule = m_pszProto;
 	for (int i = 0; i < cnt ; i++ ) {
 		gci.iItem = i;
-		gci.Flags = BYINDEX | HCONTACT | ID;		//need dirty fix
-		CallService(MS_GC_GETINFO, 0, (LPARAM)(GC_INFO *) &gci);
+		gci.Flags = BYINDEX | HCONTACT | ID;
+		CallService(MS_GC_GETINFO, 0, (LPARAM) &gci);
 		if (gci.hContact == m_hContact) {
+			GCDEST	gcd = {0};
 			gcd.pszModule = m_pszProto;
-			gcd.iType = GC_EVENT_SENDMESSAGE;		//GC_EVENT_MESSAGE ???;
-#ifdef _UNICODE
+			gcd.iType = GC_EVENT_SENDMESSAGE;
 			gcd.ptszID = gci.pszID;
-#else	//dirty fix coz MS_GC_GETINFO dont know if caller is ansi or unicode.
-		//result from MS_GC_GETINFO only depend on type of chat.dll and not of caller type
-			dirtyFix = mir_u2t((wchar_t*)gci.pszID);
-			gcd.ptszID = dirtyFix;			//fixed gci.pszID;
-#endif
-			gce.cbSize		= sizeof(GCEVENT);
-			gce.pDest		= &gcd;
-			gce.bIsMe		= TRUE;
-			gce.dwFlags		= GC_TCHAR|GCEF_ADDTOLOG;
-			gce.ptszText	= m_szEventMsgT;
-			gce.time		= time(NULL);
+
+			GCEVENT gce = {0};
+			gce.cbSize = sizeof(GCEVENT);
+			gce.pDest = &gcd;
+			gce.bIsMe = TRUE;
+			gce.dwFlags = GC_TCHAR|GCEF_ADDTOLOG;
+			gce.ptszText = m_szEventMsgT;
+			gce.time = time(NULL);
 
 			//* returns 0 on success or error code on failure
-			res = 200 + (int)CallService(MS_GC_EVENT, 0, (LPARAM)(GCEVENT *) &gce);
-			mir_freeAndNil(dirtyFix);
+			res = 200 + (int)CallService(MS_GC_EVENT, 0, (LPARAM) &gce);
 			break;
 		}
 	}
@@ -347,6 +340,7 @@ void	CSend::Exit(unsigned int Result) {
 			break;
 		case ACKRESULT_FAILED:
 		default:
+			err = false;
 			break;
 	}
 	if (err){

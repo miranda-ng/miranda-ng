@@ -67,10 +67,9 @@ void	CSendFTPFile::Send() {
 }
 
 void CSendFTPFile::SendThread() {
-	int ret;
 	mir_freeAndNil(m_URL);
 
-	ret = (int)CallService(MS_FTPFILE_SHAREFILE, (WPARAM)m_hContact, (LPARAM)m_pszFileName);
+	INT_PTR ret = CallService(MS_FTPFILE_SHAREFILE, (WPARAM)m_hContact, (LPARAM)m_pszFileName);
 	if (ret != 0) {
 		Error(TranslateT("%s (%i):\nCould not add a share to the FTP File plugin."),TranslateTS(m_pszSendTyp),ret);
 		Exit(ret);

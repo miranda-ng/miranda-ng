@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 TfrmAbout::CHandleMapping TfrmAbout::_HandleMapping;
 
-LRESULT CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CTLCOLOREDIT || msg == WM_CTLCOLORSTATIC) {
 		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
@@ -168,7 +168,7 @@ LRESULT TfrmAbout::wmClose(WPARAM wParam, LPARAM lParam) {
 TfrmAbout::TfrmAbout(HWND Owner) {
 	m_hWndOwner = Owner;
 	// create window
-	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UAboutForm),0, (DLGPROC)DlgTfrmAbout,(LPARAM)this);
+	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UAboutForm),0, DlgTfrmAbout,(LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 	//init page
