@@ -61,8 +61,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	WORD currtime = MAKEWORD(systime.wMinute, systime.wHour);
 
 	WORD currstat = 1;
-	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0))
-	{
+	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0)) {
 		case ID_STATUS_OUTTOLUNCH:   currstat <<= 1;
 		case ID_STATUS_ONTHEPHONE:   currstat <<= 1;
 		case ID_STATUS_INVISIBLE:    currstat <<= 1;
@@ -92,8 +91,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	if ( !ptszFile)
 		doPlay = FALSE;
 
-	if (doPlay)
-	{
+	if (doPlay) {
 		BASS_StreamFree(sndSSnd[sndNSnd]);
 		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_TCHAR | BASS_STREAM_AUTOFREE);
 		BASS_ChannelPlay(sndSSnd[sndNSnd], FALSE);
@@ -101,7 +99,6 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	}
 
 	Preview = FALSE;
-
 	return 1;
 }
 
@@ -110,204 +107,189 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_INITDIALOG:
-			{
-				SYSTEMTIME systime = {0};
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			SYSTEMTIME systime = {0};
 
-				TranslateDialogDefault(hwndDlg);
+			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
+			for(int i = 1; i <= MAXCHAN; i++)
+				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
 
-				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_RESETCONTENT, 0, 0);
-				for(int i = 1; i <= MAXCHAN; i++)
-					SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
+			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
 
-				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
 
-				SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
+			hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
+			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
+			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
+			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
 
-				hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
-				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
-				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPOS, TRUE, Volume);
-				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETPAGESIZE, 0, 5);
+			systime.wHour = HIBYTE(TimeWrd1);
+			systime.wMinute = LOBYTE(TimeWrd1);
+			systime.wYear = 2000;
+			systime.wMonth = 1;
+			systime.wDay = 1;
+			SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
+			SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
+			systime.wHour = HIBYTE(TimeWrd2);
+			systime.wMinute = LOBYTE(TimeWrd2);
+			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
+			SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
 
-				systime.wHour = HIBYTE(TimeWrd1);
-				systime.wMinute = LOBYTE(TimeWrd1);
-				systime.wYear = 2000;
-				systime.wMonth = 1;
-				systime.wDay = 1;
-				SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
-				SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
-				systime.wHour = HIBYTE(TimeWrd2);
-				systime.wMinute = LOBYTE(TimeWrd2);
-				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
-				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
+			CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
 
-				CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
+			for(int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
+				if (StatMask & (1 << (i - IDC_CHECKBOX1)))
+					CheckDlgButton(hwndDlg, i, BST_CHECKED);
+
+			if (QuietTime) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), TRUE);
+				CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
+			}
+
+			if (hBass == NULL) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_MAXCHANNEL), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_OUTDEVICE), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
 
 				for(int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
+					EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
+			}
+			else {
+				DBVARIANT dbv = {0}; BASS_DEVICEINFO info; DWORD bassver = BASS_GetVersion();
+
+				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
+				SendDlgItemMessage(hwndDlg, IDC_BASSVERSION, WM_SETTEXT, 0, (LPARAM)tmp);
+
+				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
+				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));
+				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
+				db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
+				for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++) {
+					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)(TCHAR*)_A2T(info.name));
+					if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
+						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
+				}
+				DBFreeVariant(&dbv);
+			}
+		}
+		return TRUE;
+
+	case WM_HSCROLL:
+		if (hBass != NULL)
+			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
+				Volume = SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
+				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
+				Preview = TRUE;
+				if (EnPreview)
+					SkinPlaySound("AlertMsg");
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+		break;
+
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->code) {
+		case PSN_APPLY:
+			if (hBass != NULL) {
+				SYSTEMTIME systime = {0};
+
+				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, SIZEOF(tmp), (LPARAM)tmp);
+				db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
+
+				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
+				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
+
+				sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
+				if (sndLimSnd > MAXCHAN)
+					sndLimSnd = MAXCHAN;
+				db_set_b(NULL, ModuleName, OPT_MAXCHAN, sndLimSnd);
+
+				QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
+				db_set_b(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
+
+				SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
+				TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
+				db_set_w(NULL, ModuleName, OPT_TIME1, TimeWrd1);
+
+				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
+				TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
+				db_set_w(NULL, ModuleName, OPT_TIME2, TimeWrd2);
+
+				EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
+				db_set_b(NULL, ModuleName, OPT_PREVIEW, EnPreview);
+
+				StatMask = 0;
+				for(int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--)
 				{
-					if (StatMask & (1 << (i - IDC_CHECKBOX1)))
-						CheckDlgButton(hwndDlg, i, BST_CHECKED);
+					StatMask <<= 1;
+					if (IsDlgButtonChecked(hwndDlg, i) == BST_CHECKED)
+						StatMask |= 1;
 				}
 
-				if (QuietTime)
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_TIME1), TRUE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_TIME2), TRUE);
-					CheckDlgButton(hwndDlg, IDC_QUIETTIME, BST_CHECKED);
-				}
-				if (hBass == NULL)
-				{
-					EnableWindow(GetDlgItem(hwndDlg, IDC_VOLUME), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_MAXCHANNEL), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_OUTDEVICE), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_QUIETTIME), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), FALSE);
+				db_set_w(NULL, ModuleName, OPT_STATUS, StatMask);
 
-					for(int i = IDC_CHECKBOX1; i < IDC_CHECKBOX10 + 1; i++)
-					{
-						EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
-					}
-				}
+				device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
+				if (device == 0)
+					device = -1;
 				else
-				{
-					DBVARIANT dbv = {0}; BASS_DEVICEINFO info; DWORD bassver = BASS_GetVersion();
-
-					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
-					SendDlgItemMessage(hwndDlg, IDC_BASSVERSION, WM_SETTEXT, 0, (LPARAM)tmp);
-
-					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
-					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));
-					SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, 0, 0);
-					db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv);
-					for (int i = 1; BASS_GetDeviceInfo(i + newBass, &info); i++)
-					{
-						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)(TCHAR*)_A2T(info.name));
-						if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
-							SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
-					}
-					DBFreeVariant(&dbv);
-				}
-
-				return 1;
+					device += newBass;
 			}
+			return 1;
 
-		case WM_HSCROLL:
+		case PSN_RESET:
 			if (hBass != NULL)
-				if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
-				{
-					Volume = SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
-					BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
-					SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-					Preview = TRUE;
-					if (EnPreview)
-						SkinPlaySound("AlertMsg");
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			break;
+				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+			return 1;
 
-		case WM_NOTIFY:
-			switch(((LPNMHDR)lParam)->code)
+		case DTN_DATETIMECHANGE:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return 1;
+		}
+		break;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDC_QUIETTIME:
 			{
-				case PSN_APPLY:
-					if (hBass != NULL)
-					{
-						SYSTEMTIME systime = {0};
-
-						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, SIZEOF(tmp), (LPARAM)tmp);
-						db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
-
-						Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
-						db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
-
-						sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
-						if (sndLimSnd > MAXCHAN)
-							sndLimSnd = MAXCHAN;
-						db_set_b(NULL, ModuleName, OPT_MAXCHAN, sndLimSnd);
-
-						QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-						db_set_b(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
-
-						SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
-						TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
-						db_set_w(NULL, ModuleName, OPT_TIME1, TimeWrd1);
-
-						SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
-						TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
-						db_set_w(NULL, ModuleName, OPT_TIME2, TimeWrd2);
-
-						EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
-						db_set_b(NULL, ModuleName, OPT_PREVIEW, EnPreview);
-
-						StatMask = 0;
-						for(int i = IDC_CHECKBOX10; i > IDC_CHECKBOX1 - 1; i--)
-						{
-							StatMask <<= 1;
-							if(IsDlgButtonChecked(hwndDlg, i) == BST_CHECKED)
-								StatMask |= 1;
-						}
-
-						db_set_w(NULL, ModuleName, OPT_STATUS, StatMask);
-
-						device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
-						if (device == 0)
-							device = -1;
-						else
-							device += newBass;
-					}
-					return 1;
-
-				case PSN_RESET:
-					if (hBass != NULL)
-					{
-						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
-					}
-					return 1;
-
-				case DTN_DATETIMECHANGE:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					return 1;
+				BOOL b = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
+				EnableWindow(GetDlgItem(hwndDlg,IDC_TIME1), b);
+				EnableWindow(GetDlgItem(hwndDlg,IDC_TIME2), b);
 			}
+		case IDC_MAXCHANNEL:
+		case IDC_OUTDEVICE:
+		case IDC_CHECKBOX1:
+		case IDC_CHECKBOX2:
+		case IDC_CHECKBOX3:
+		case IDC_CHECKBOX4:
+		case IDC_CHECKBOX5:
+		case IDC_CHECKBOX6:
+		case IDC_CHECKBOX7:
+		case IDC_CHECKBOX8:
+		case IDC_CHECKBOX9:
+		case IDC_CHECKBOX10:
+		case IDC_PREVIEW:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
-		case WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-				case IDC_QUIETTIME:
-					{
-						BOOL b = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
-						EnableWindow(GetDlgItem(hwndDlg,IDC_TIME1), b);
-						EnableWindow(GetDlgItem(hwndDlg,IDC_TIME2), b);
-					}
-				case IDC_MAXCHANNEL:
-				case IDC_OUTDEVICE:
-				case IDC_CHECKBOX1:
-				case IDC_CHECKBOX2:
-				case IDC_CHECKBOX3:
-				case IDC_CHECKBOX4:
-				case IDC_CHECKBOX5:
-				case IDC_CHECKBOX6:
-				case IDC_CHECKBOX7:
-				case IDC_CHECKBOX8:
-				case IDC_CHECKBOX9:
-				case IDC_CHECKBOX10:
-				case IDC_PREVIEW:
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				case IDC_GETBASS:
-					CallService(MS_UTILS_OPENURL , 1, (LPARAM)"http://www.un4seen.com/");
-					break;
-			}
+		case IDC_GETBASS:
+			CallService(MS_UTILS_OPENURL , 1, (LPARAM)"http://www.un4seen.com/");
 			break;
+		}
+		break;
 	}
 	return 0;
 }
 
 static IconItem iconList[] =
 {
-	{LPGEN("Sounds enabled"), "BASSSoundOn", IDI_BASSSoundOn},
-	{LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff}
+	{ LPGEN("Sounds enabled"),  "BASSSoundOn",  IDI_BASSSoundOn  },
+	{ LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff }
 };
 
 void InitIcons(void)
@@ -330,22 +312,28 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void EnableFrameIcon(bool bEnable)
+{
+	if (bEnable) {
+		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
+		SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
+	} else {
+		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
+		SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
+	}
+}
+
 int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if(wParam != 0 || lParam == NULL) 
+	if (wParam != 0 || lParam == NULL) 
 		return 0;
 
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if( !strcmp(dbcws->szModule, "Skin")) {
-		if( !strcmp(dbcws->szSetting, "UseSound")) {
-			int useSound = dbcws->value.bVal;
-			if (useSound) {
-				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
-				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
-			} else {
-				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
-				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
-			}
+	if ( !strcmp(dbcws->szModule, "Skin")) {
+		if ( !strcmp(dbcws->szSetting, "UseSound")) {
+			EnableFrameIcon(dbcws->value.bVal != 0);
 			return 0;
 		}
 	}
@@ -354,107 +342,97 @@ int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static WNDPROC OldSliderWndProc = 0;
 
+static void fnPainter(MButtonCtrl *btn, HDC hdc)
+{
+	DrawIconEx(hdc, 1, 1, btn->hIcon, 20, 20, 0, hBkgBrush, DI_NORMAL);
+}
+
 static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_ERASEBKGND:
-			return TRUE;
+	case WM_ERASEBKGND:
+		return TRUE;
 	}
 	return CallWindowProc(OldSliderWndProc, hwnd, msg, wParam, lParam);
 }
+
 static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_CREATE:
-			{
-				hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
-					0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
-				SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
-				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
-					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
-					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
-				} else {
-					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
-					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
-				}
+	switch(msg) {
+	case WM_CREATE:
+		{
+			hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
+				0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+			SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 
-				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
-					hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
-				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
-				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-				OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)SliderWndProc);
-				break;
-			}
+			MButtonCustomize tmp = { sizeof(MButtonCtrl), 0, &fnPainter };
+			SendMessage(hwndMute, BUTTONSETCUSTOM, 0, (LPARAM)&tmp);
 
-		case WM_COMMAND:
-			if((HWND)lParam == hwndMute) {
-				int useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
-				db_set_b(NULL, "Skin", "UseSound", useSound);
-				if (useSound) {
-					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
-					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
-				} else {
-					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
-					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
-				}
-			}
+			EnableFrameIcon( db_get_b(NULL, "Skin", "UseSound", 1) != 0);
+
+			hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
+				hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+			SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
+			SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
+			OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LPARAM)SliderWndProc);
 			break;
+		}
 
-		case WM_HSCROLL:
-			{
-				if (hBass != NULL)
-					if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
-					{
-						Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
-						db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
-						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
-						SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
-						Preview = TRUE;
-						if (EnPreview)
-							SkinPlaySound("AlertMsg");
-					}
-				break;
+	case WM_COMMAND:
+		if ((HWND)lParam == hwndMute) {
+			bool useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
+			db_set_b(NULL, "Skin", "UseSound", useSound);
+			EnableFrameIcon(useSound);
+		}
+		break;
+
+	case WM_HSCROLL:
+		if (hBass != NULL)
+			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
+				Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
+				db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
+				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
+				SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
+				Preview = TRUE;
+				if (EnPreview)
+					SkinPlaySound("AlertMsg");
 			}
+		break;
 
-		case WM_SIZE:
+	case WM_SIZE:
 		{
 			RECT rect;
-
 			GetClientRect(hwnd, &rect);
-			if(hwndMute)
+			if (hwndMute)
 				MoveWindow(hwndMute, rect.right - 21, 1, 20, 20, FALSE);
 			SetWindowPos(hwndSlider, 0, 1, rect.top + 1 + (20-18)/2, rect.right - rect.left - 1 - 20, 18, SWP_NOZORDER);
 			InvalidateRect(hwnd, &rect, FALSE);
 			return 0;
 		}
 
-		case WM_ERASEBKGND:
-			{
-				HDC dc = (HDC)wParam;
-				RECT rc;
-				GetClientRect(hwnd, &rc);
-				FillRect(dc, &rc, hBkgBrush);
-				return TRUE;
-			}
+	case WM_ERASEBKGND:
+		{
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			FillRect((HDC)wParam, &rc, hBkgBrush);
+			return TRUE;
+		}
 
-		case WM_CTLCOLORSTATIC:
-			{
-				if ((HWND)lParam == hwndSlider) {
-					HDC dc = (HDC)wParam;
-					SetBkColor(dc, clBack);
-					return (BOOL)hBkgBrush;
-				}
-				break;
-			}
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == hwndSlider) {
+			HDC dc = (HDC)wParam;
+			SetBkColor(dc, clBack);
+			return (BOOL)hBkgBrush;
+		}
+		break;
 
-		case WM_DESTROY:
-			if (hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
-				SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)OldSliderWndProc);
-			break;
+	case WM_DESTROY:
+		if (hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
+			SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)OldSliderWndProc);
+		break;
 
-		default:
-			return DefWindowProc(hwnd, msg, wParam, lParam);
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 	return TRUE;
 }
@@ -467,7 +445,7 @@ int ReloadColors(WPARAM wParam, LPARAM lParam)
 	_tcscpy(colourid.name, LPGENT("Frame Background"));
 	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
 
-	if(hBkgBrush)
+	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
 	hBkgBrush = CreateSolidBrush(clBack);
 	HWND hwnd = GetFocus();
@@ -530,18 +508,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		db_set_ts(NULL, ModuleName, OPT_BASSPATH, _T("Plugins\\Bass\\Bass.dll"));
 		lstrcpy(tmp, _T("Plugins\\Bass\\Bass.dll"));
 	}
-	else
-	{
-		lstrcpy(tmp, dbv.ptszVal);
-	}
+	else lstrcpy(tmp, dbv.ptszVal);
 
 	DBFreeVariant(&dbv);
 
 	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tmp, (LPARAM)CurrBassPath);
 	hBass = LoadLibrary(CurrBassPath);
-
-	if (hBass != NULL)
-	{
+	if (hBass != NULL) {
 		if (LOADBASSFUNCTION(BASS_Init) != NULL && LOADBASSFUNCTION(BASS_SetConfig) != NULL &&
 			LOADBASSFUNCTION(BASS_ChannelPlay) != NULL && LOADBASSFUNCTION(BASS_StreamCreateFile) != NULL &&
 			LOADBASSFUNCTION(BASS_GetVersion) != NULL && LOADBASSFUNCTION(BASS_StreamFree) != NULL &&
@@ -552,11 +525,10 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
 			if ( !db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
-			{
 				for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
 					if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
 						device = i;
-			}
+
 			DBFreeVariant(&dbv);
 
 			sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
@@ -577,8 +549,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 			CreateFrame();
 		}
-		else
-		{
+		else {
 			FreeLibrary(hBass);
 			hBass = NULL;
 		}
@@ -590,17 +561,15 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
-	if(hBass != NULL)
-	{
+	if (hBass != NULL) {
 		BASS_Free();
 		FreeLibrary(hBass);
 	}
 
-	if(hBkgBrush)
+	if (hBkgBrush)
 		DeleteObject(hBkgBrush);
 
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
-
 	return 0;
 }
 
