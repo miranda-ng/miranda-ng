@@ -95,7 +95,7 @@ void ReplaceAll(string &sSrc, const char * pszReplace, const char * pszNew) {
 string DBGetString(HANDLE hContact, const char *szModule, const char *szSetting, const char * pszError) {
 	string ret;
 	DBVARIANT dbv = {0};
-	if (! DBGetContactSetting(hContact, szModule, szSetting, &dbv)) {
+	if (! db_get(hContact, szModule, szSetting, &dbv)) {
 		if (dbv.type != DBVT_ASCIIZ) {
 			MessageBox(NULL, "DB: Attempt to get wrong type of value, string", MSG_BOX_TITEL, MB_OK);
 			ret = pszError;

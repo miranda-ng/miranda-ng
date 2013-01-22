@@ -331,19 +331,20 @@ bool bReadConfigurationFile() {
 bool bWriteConfigurationFile() {
 	CLFileShareListAccess clCritSection;
 	char szBuf[1000];
-	TCHAR * temp = "";
 	strcpy(szBuf, szPluginPath);
 	strcat(szBuf, szConfigFile);
 	HANDLE hFile = CreateFile(szBuf, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) {
-		mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to open or create file "), _T(szConfigFile));
+		TCHAR temp[200];
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to open or create file "), _T(szConfigFile));
 		MessageBox(NULL, temp , MSG_BOX_TITEL, MB_OK);
 		return false;
 	}
 
 	DWORD dwBytesWriten = 0;
 	if (! WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, NULL)) {
-		mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml header to file "), _T(szConfigFile));
+		TCHAR temp[200];
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml header to file "), _T(szConfigFile));
 		MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 	} else {
 		CLFileShareNode * pclCur = pclFirstNode;
@@ -356,7 +357,8 @@ bool bWriteConfigurationFile() {
 			    SplitIpAddress(pclCur->st.dwAllowedMask));
 
 			if (! WriteFile(hFile, szBuf, dwBytesToWrite, &dwBytesWriten, NULL)) {
-				mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml data to file "), _T(szConfigFile));
+				TCHAR temp[200];
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml data to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 				break;
 			}
@@ -364,7 +366,8 @@ bool bWriteConfigurationFile() {
 		}
 
 		if (! WriteFile(hFile, szXmlTail, sizeof(szXmlTail) - 1, &dwBytesWriten, NULL)) {
-				mir_sntprintf(temp, sizeof(temp), "%s%s", TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
+				TCHAR temp[200];
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s"), TranslateT("Failed to write xml tail to file "), _T(szConfigFile));
 				MessageBox(NULL, temp, MSG_BOX_TITEL, MB_OK);
 		}
 	}
@@ -911,13 +914,18 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 0;
 		}
 
-		szPluginPath[0] = 0;
-		if (GetModuleFileName(hInstance, szPluginPath, sizeof(szPluginPath))) {
-			char *str2 = strrchr(szPluginPath, '\\');
-			if (str2 != NULL) {
-				str2[1] = NULL;
-			}
+		if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
+		{
+			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
+			return 0;
 		}
+		_tcscat(szPluginPath,_T("\\HTTPServer\\"));
+		if(CreateDirectoryTree(szPluginPath))
+		{
+			MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
+			return 0;
+		}
+
 		nPluginPathLen = strlen(szPluginPath);
 
 		sLogFilePath = szPluginPath;

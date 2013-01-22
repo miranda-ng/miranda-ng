@@ -26,6 +26,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string>
+#include <win2k.h>
 using namespace std;
 
 #include <newpluginapi.h>
