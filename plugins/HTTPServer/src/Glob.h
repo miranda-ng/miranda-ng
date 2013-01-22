@@ -59,7 +59,7 @@ using namespace std;
 #define SD_BOTH         0x02
 
 #define MODULE "HTTPServer"
-#define MSG_BOX_TITEL TranslateT("Miranda NG HTTP-Server)")
+#define MSG_BOX_TITEL TranslateT("Miranda NG HTTP-Server")
 
 #define SplitIpAddress( p ) (BYTE)(p>>24),(BYTE)(p>>16),(BYTE)(p>>8),(BYTE)(p)
 
