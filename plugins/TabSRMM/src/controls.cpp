@@ -99,6 +99,7 @@ CMenuBar::~CMenuBar()
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_WNDPROC, (UINT_PTR)m_oldWndProc);
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, 0);
 	::DestroyWindow(m_hwndToolbar);
+	::UnhookEvent(m_hevHook);
 	releaseHook();
 	m_MimIconRefCount--;
 	if (m_MimIconRefCount == 0) {
@@ -552,68 +553,68 @@ void CMenuBar::autoShow(const int showcmd)
 
 void CMenuBar::checkButtons()
 {
-	if (m_buttonsInit)
-		return;
+	if (!m_buttonsInit) {
+		::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
 
-	::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
+		m_TbButtons[0].iBitmap = 0;//I_IMAGENONE;
+		m_TbButtons[0].iString = 0;//(INT_PTR)TranslateT("&Main");
+		m_TbButtons[0].fsState = TBSTATE_ENABLED;
+		m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[0].idCommand = 100;
+		m_TbButtons[0].dwData = 0;
 
-	m_TbButtons[0].iBitmap = 0;//I_IMAGENONE;
-	m_TbButtons[0].iString = 0;//(INT_PTR)TranslateT("&Main");
-	m_TbButtons[0].fsState = TBSTATE_ENABLED;
-	m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[0].idCommand = 100;
-	m_TbButtons[0].dwData = 0;
+		m_TbButtons[1].iBitmap = I_IMAGENONE;
+		m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
+		m_TbButtons[1].fsState = TBSTATE_ENABLED;
+		m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[1].idCommand = 101;
+		m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
 
-	m_TbButtons[1].iBitmap = I_IMAGENONE;
-	m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
-	m_TbButtons[1].fsState = TBSTATE_ENABLED;
-	m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[1].idCommand = 101;
-	m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
+		m_TbButtons[2].iBitmap = I_IMAGENONE;
+		m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
+		m_TbButtons[2].fsState = TBSTATE_ENABLED;
+		m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[2].idCommand = 102;
+		m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
 
-	m_TbButtons[2].iBitmap = I_IMAGENONE;
-	m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
-	m_TbButtons[2].fsState = TBSTATE_ENABLED;
-	m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[2].idCommand = 102;
-	m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
+		m_TbButtons[3].iBitmap = I_IMAGENONE;
+		m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
+		m_TbButtons[3].fsState = TBSTATE_ENABLED;
+		m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[3].idCommand = 103;
+		m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
 
-	m_TbButtons[3].iBitmap = I_IMAGENONE;
-	m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
-	m_TbButtons[3].fsState = TBSTATE_ENABLED;
-	m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[3].idCommand = 103;
-	m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
+		m_TbButtons[4].iBitmap = I_IMAGENONE;
+		m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
+		m_TbButtons[4].fsState = TBSTATE_ENABLED;
+		m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[4].idCommand = 104;
+		m_TbButtons[4].dwData = 0;
 
-	m_TbButtons[4].iBitmap = I_IMAGENONE;
-	m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
-	m_TbButtons[4].fsState = TBSTATE_ENABLED;
-	m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[4].idCommand = 104;
-	m_TbButtons[4].dwData = 0;
+		m_TbButtons[5].iBitmap = I_IMAGENONE;
+		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
+		m_TbButtons[5].fsState = TBSTATE_ENABLED;
+		m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[5].idCommand = 105;
+		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
 
-	m_TbButtons[5].iBitmap = I_IMAGENONE;
-	m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
-	m_TbButtons[5].fsState = TBSTATE_ENABLED;
-	m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[5].idCommand = 105;
-	m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
+		m_TbButtons[6].iBitmap = I_IMAGENONE;
+		m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
+		m_TbButtons[6].fsState = TBSTATE_ENABLED;
+		m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[6].idCommand = 106;
+		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
 
-	m_TbButtons[6].iBitmap = I_IMAGENONE;
-	m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
-	m_TbButtons[6].fsState = TBSTATE_ENABLED;
-	m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[6].idCommand = 106;
-	m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
+		m_TbButtons[7].iBitmap = I_IMAGENONE;
+		m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
+		m_TbButtons[7].fsState = TBSTATE_ENABLED;
+		m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[7].idCommand = 107;
+		m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
 
-	m_TbButtons[7].iBitmap = I_IMAGENONE;
-	m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
-	m_TbButtons[7].fsState = TBSTATE_ENABLED;
-	m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-	m_TbButtons[7].idCommand = 107;
-	m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
-
-	m_buttonsInit = true;
+		m_buttonsInit = true;
+	}
+	
 	::SendMessage(m_hwndToolbar, TB_ADDBUTTONS, SIZEOF(m_TbButtons), (LPARAM)m_TbButtons);
 
 	m_size_y = HIWORD(::SendMessage(m_hwndToolbar, TB_GETBUTTONSIZE, 0, 0));
@@ -646,62 +647,48 @@ void CMenuBar::resetLP()
  */
 LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	if (nCode < 0)
-        return(::CallNextHookEx(m_hHook, nCode,	wParam, lParam));
-
-	MSG 	*pMsg = reinterpret_cast<MSG *>(lParam);
-	bool	fCancel = false;
+	MSG *pMsg = reinterpret_cast<MSG *>(lParam);
+	bool fCancel = false;
+	POINT	pt;
 
 	if (nCode == MSGF_MENU) {
 		switch(pMsg->message) {
-			case WM_KEYDOWN:
-				switch(pMsg->wParam) {
-					case VK_ESCAPE: {
-						fCancel = true;
-						break;
-					}
-					default:
-						break;
-				}
+		case WM_KEYDOWN:
+			if (pMsg->wParam == VK_ESCAPE)
+				fCancel = true;
+			break;
+
+		case WM_SYSKEYUP:
+			if (pMsg->wParam == VK_MENU)
+				fCancel = true;
+			break;
+
+		case WM_LBUTTONDOWN:
+			::GetCursorPos(&pt);
+			if (::MenuItemFromPoint(0, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
 				break;
-
-			case WM_SYSKEYUP:
-				if (pMsg->wParam == VK_MENU)
-					fCancel = true;
+			if (m_Owner->m_activeSubMenu && ::MenuItemFromPoint(0, m_Owner->m_activeSubMenu, pt) >= 0)
 				break;
-
-			case WM_LBUTTONDOWN: {
-				POINT	pt;
-
-				::GetCursorPos(&pt);
-				if (::MenuItemFromPoint(0, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
-					break;
-				if (m_Owner->m_activeSubMenu && ::MenuItemFromPoint(0, m_Owner->m_activeSubMenu, pt) >= 0)
-					break;
-				else {																// anywhere else, cancel the menu
-					::CallNextHookEx(m_hHook, nCode, wParam, lParam);
-					m_Owner->Cancel();
-					return 0;
-				}
+			else {																// anywhere else, cancel the menu
+				::CallNextHookEx(m_hHook, nCode, wParam, lParam);
+				m_Owner->Cancel();
+				return 0;
 			}
-			/*
-			 * allow hottracking by the toolbar control
-			 */
-			case WM_MOUSEMOVE: {
-				POINT pt;
 
-				::GetCursorPos(&pt);
-				::ScreenToClient(m_Owner->m_hwndToolbar, &pt);
-				LPARAM newPos = MAKELONG(pt.x, pt.y);
-				::SendMessage(m_Owner->m_hwndToolbar, pMsg->message, pMsg->wParam, newPos);
-				break;
-			}
-			default:
-				break;
-		}
 		/*
-		 * some key event requested to cancel the menu
-		 */
+		* allow hottracking by the toolbar control
+		*/
+		case WM_MOUSEMOVE:
+			::GetCursorPos(&pt);
+			::ScreenToClient(m_Owner->m_hwndToolbar, &pt);
+			LPARAM newPos = MAKELONG(pt.x, pt.y);
+			::SendMessage(m_Owner->m_hwndToolbar, pMsg->message, pMsg->wParam, newPos);
+			break;
+		}
+
+		/*
+		* some key event requested to cancel the menu
+		*/
 		if (fCancel) {
 			int iIndex = m_Owner->idToIndex(m_Owner->m_activeID);
 			if (iIndex != -1)
@@ -712,7 +699,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 			m_Owner->m_fTracking = false;
 		}
 	}
-	return(::CallNextHookEx(m_hHook, nCode, wParam, lParam));
+	return ::CallNextHookEx(m_hHook, nCode, wParam, lParam);
 }
 
 /*
