@@ -265,7 +265,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.pszText = _T("");
-			col.cx = 40;
+			col.cx = 34;
 			ListView_InsertColumn(hwndList, 0, &col);
 
 			col.pszText = _T("On/Off");
