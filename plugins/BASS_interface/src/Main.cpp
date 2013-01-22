@@ -410,6 +410,9 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 						db_set_b(NULL, ModuleName, OPT_VOLUME, Volume);
 						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 						SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
+						Preview = TRUE;
+						if (EnPreview)
+							SkinPlaySound("AlertMsg");
 					}
 				break;
 			}
