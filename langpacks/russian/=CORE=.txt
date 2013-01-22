@@ -2132,7 +2132,7 @@ Miranda NG перезапускается.\nПожалуйста, подожди
 [Show contacts in groups]
 Показывать контакты в группах
 [Download more plugins]
-Скачать плагины
+Скачать модули
 [Re&ad Status Message]
 Читать статусное сообщение
 [Disable icons]
