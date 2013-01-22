@@ -102,6 +102,9 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Options
+
 #define SLIDER_MIN 0
 #define SLIDER_MAX 100
 
@@ -286,17 +289,6 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-static IconItem iconList[] =
-{
-	{ LPGEN("Sounds enabled"),  "BASSSoundOn",  IDI_BASSSoundOn  },
-	{ LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff }
-};
-
-void InitIcons(void)
-{
-	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
-}
-
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
@@ -313,6 +305,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Frame
 
 static void EnableFrameIcon(bool bEnable)
 {
@@ -323,21 +316,6 @@ static void EnableFrameIcon(bool bEnable)
 		SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
 		SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
 	}
-}
-
-int OnSettingChanged(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam != 0 || lParam == NULL) 
-		return 0;
-
-	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if ( !strcmp(dbcws->szModule, "Skin")) {
-		if ( !strcmp(dbcws->szSetting, "UseSound")) {
-			EnableFrameIcon(dbcws->value.bVal != 0);
-			return 0;
-		}
-	}
-	return 0;
 }
 
 static WNDPROC OldSliderWndProc = 0;
@@ -360,23 +338,21 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch(msg) {
 	case WM_CREATE:
+		hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
+			0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+		SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 		{
-			hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
-				0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
-			SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
-
 			MButtonCustomize tmp = { sizeof(MButtonCtrl), 0, &fnPainter };
 			SendMessage(hwndMute, BUTTONSETCUSTOM, 0, (LPARAM)&tmp);
-
-			EnableFrameIcon( db_get_b(NULL, "Skin", "UseSound", 1) != 0);
-
-			hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
-				hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
-			SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
-			SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-			OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LPARAM)SliderWndProc);
-			break;
 		}
+		EnableFrameIcon( db_get_b(NULL, "Skin", "UseSound", 1) != 0);
+
+		hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
+			hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
+		SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
+		SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
+		OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LPARAM)SliderWndProc);
+		break;
 
 	case WM_COMMAND:
 		if ((HWND)lParam == hwndMute) {
@@ -559,6 +535,21 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int OnSettingChanged(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam != 0 || lParam == NULL) 
+		return 0;
+
+	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
+	if ( !strcmp(dbcws->szModule, "Skin")) {
+		if ( !strcmp(dbcws->szSetting, "UseSound")) {
+			EnableFrameIcon(dbcws->value.bVal != 0);
+			return 0;
+		}
+	}
+	return 0;
+}
+
 int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	if (hBass != NULL) {
@@ -573,6 +564,12 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Sounds enabled"),  "BASSSoundOn",  IDI_BASSSoundOn  },
+	{ LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -581,8 +578,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
-	InitIcons();
-
+	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
 	return 0;
 }
 
