@@ -1505,7 +1505,7 @@ void InitGuiElements() {
 	mi.ptszName = LPGENT("HTTP Share new file");
 	mi.pszService = MS_SHARE_NEW_FILE;
 
-	hShareNewFileMenuItem = Menu_AddMainMenuItem(&mi);
+	hShareNewFileMenuItem = Menu_AddContactMenuItem(&mi);
 	if (!hShareNewFileMenuItem) {
 		MessageBox(NULL, TranslateT("Failed to add contact menu item"), MSG_BOX_TITEL, MB_OK);
 		return;

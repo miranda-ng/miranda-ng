@@ -1,0 +1,191 @@
+@charset "ISO-8859-1";
+
+/*
+ * simpleTheme for Miranda's HTTPServer Plugin by FREAK_THEMIGHTY
+ */
+
+
+/*
+		IDs:
+
+		table#listing
+			tr#header	: headline (first <TR>)
+			tr#stats	: footer (last <TR>)
+				a#uplink: Link in right bottom cell
+
+		CLASSes
+		tr.even	: at even position
+		tr.odd	: at odd position
+
+			td.folder	: folder (take care of colspan="4" attribute here!!!)
+
+		for ALL <td> and <th>
+			.file		: file name
+				a.{ext}	: extension of a file, lowercase (only XSLT template)
+			.size		: file size
+			.modified	: file modified-date
+			.created	: file created-date
+*/
+
+/*reset to default*/
+* {
+	margin:				0px;
+	padding:			0px,
+}
+
+
+
+body {
+	direction:			ltr;
+	color:				#86867B;
+	background-color:	#FFFFFF;
+}
+
+/* the table itsself */
+table#listing {
+	width:				90%;
+	margin:				auto;
+	text-align:			inherit;
+
+	empty-cells:		hide;
+	table-layout:		auto;
+
+	border-collapse:	separate;
+	border-spacing:		3px;
+	border-right:		#86867B 1px dotted;
+	border-top:			#86867B 0px solid;
+	border-left:		#86867B 1px dotted;
+	border-bottom:		#86867B 4px solid;
+
+	/*text-wrap:			normal;
+	word-wrap:			break-word;*/
+	font-family:				'Times New Roman' 
+}
+
+/* caption of the file listing */
+caption#tablecaption {
+	caption-side:		top;
+	color:				#000000;
+	background-color:	#E6E7D7;
+
+	font:				1.5em Times;
+	
+	padding-top:		0px;
+	padding-bottom:		3px;
+
+	border-right:		#86867B 1px outset;
+	border-top:			#86867B 2px outset;
+	border-left:		#86867B 1px outset;
+	border-bottom:		#86867B 2px outset;
+
+	margin-top:			9px;
+	margin-bottom:		5px;
+	margin-left:		0px;
+
+	vertical-align:		middle;
+	overflow:			auto;
+}
+
+tr#header>td {
+	font:				0.8em Times;
+}
+
+table#listing td {
+	font:				menu;
+	
+	border:				#86867B 1px solid;
+	margin-right:		0px;
+
+	padding-top:		0px;
+	padding-bottom:		8px;
+	padding-left:		6px;
+
+	vertical-align:		middle;
+	overflow:			hidden;
+}
+
+/* even elements */
+#listing .even  {
+	color:				inherit;
+	background-color:	#F5F5EA;
+}
+
+/* odd elements */
+#listing .odd {
+	color:				inherit;
+	background-color:	#CDCCCC;
+}
+
+/* hover effect */
+#listing td:hover {
+	color:				#000000;
+	/*background-color:	#F08080;*/
+	border-color: 		#000000;
+}
+
+#listing a:link {
+	text-decoration:	none;
+	color:				#CC0000;
+	font-weight:		800;
+	background-color:	transparent;
+}
+
+#listing a:visited {
+	text-decoration:	none;
+	color:				#555555;
+	background-color:	transparent;
+}
+
+#listing a:focus {
+	text-decoration:	none;
+	color:				inherit;
+	background-color:	transparent;
+}
+
+#listing a:hover {
+	text-decoration:	none;
+	color:				#000000;
+	background-color:	transparent;
+}
+
+#listing a:active {
+	text-decoration:	none;
+	color:				#555555;
+	background-color:	transparent;
+}
+
+#listing a#uplink {
+	text-decoration:	underline;
+	color:				inherit;
+	background-color:	transparent;
+}
+
+#listing img {
+	margin-top:			5px;
+	margin-right:		2px;
+	margin-left:		2px;
+	border:				none;
+	width:				16px;
+	height:				16px;
+}
+
+#stats {
+	font:				0.8em Times;
+}
+#stats>th {
+	height:				auto;
+	text-align:			center;
+	vertical-align:		middle;
+}
+
+td.file {
+	min-width:			70%;
+}
+
+td.size {
+	text-align:			right;
+}
+
+td.modified {
+	font-weight:		bold;
+}

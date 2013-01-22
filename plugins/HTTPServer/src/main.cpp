@@ -37,8 +37,7 @@ const char szXmlTail[] =	"</config>";
 const char* pszDefaultShares[] = {
 	"htdocs\\@settings\\favicon.ico",     "/favicon.ico",
 	"htdocs\\@settings\\index.xsl",       "/index.xsl",
-	"htdocs\\@settings\\placeholder.gif", "/placeholder.gif",
-	"htdocs\\@settings\\icons\\",         "/icons/",
+	"htdocs\\@settings\\theme\\",         "/theme/",
 	"htdocs\\",                           "/",
 	0, 0
 };
