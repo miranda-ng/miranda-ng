@@ -517,12 +517,19 @@ array.push(";============================================================");
 if (filename) array.push(";  File: "+filename[1]); else array.push(";  File: "+plugin+".dll");
 if (pluginname) array.push(";  Plugin: "+pluginname[1]); else array.push(";  Plugin: "+plugin);
 if (MAJOR_VERSION) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]); else array.push(";  Version: x.x.x.x");
-if (author) array.push(";  Authors: "+author[1]); else array.push(";  Authors: ");
+if (author) array.push(";  Authors: "+fixHexa(author[1])); else array.push(";  Authors: ");
 //add a header end mark
 array.push(";============================================================");
 if (description) array.push("["+description[1]+"]");
 //close file
 versionfile_stream.Close();
+}
+
+//Replaces \x?? hexa codes with their char representation
+function fixHexa(string) {
+  return string.replace(/\\x([a-fA-F0-9]{2})" "/g,function() {
+    return String.fromCharCode(parseInt(arguments[1],16));
+  });
 }
 
 //Removes duplicates, not mine, found at http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
