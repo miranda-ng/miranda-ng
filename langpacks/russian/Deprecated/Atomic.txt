@@ -18,7 +18,7 @@
 [Could not retrive date/time from any server]
 Невозможно получить дату и время ни с одного сервера (нет активного соединения с Internet?)
 [This plugin retrieves the exact time from a timeserver and sets the clock on your system]
-Этот модуль получает точное время с сервера времени и устанавливает часы Вашей системы
+Этот плагин получает точное время с сервера времени и устанавливает часы Вашей системы
 [The addressfield is empty!]
 Поле адреса пусто!
 [Failed to load Winsock!]

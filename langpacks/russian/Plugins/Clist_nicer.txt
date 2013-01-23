@@ -118,7 +118,7 @@
 [< Reload]
 < Перезагрузить
 [About CList Nicer+]
-О модуле Nicer+
+О плагине Nicer+
 [Always align icons and text for missing avatars]
 Всегда выравнивать значки и текст, если аватар отсутствует
 [Appear always offline (block contact)]
@@ -444,7 +444,7 @@ xСтатус
 [Contact display]
 Контакты
 [Contact list avatars require the avatar service plugins to be installed.]
-Сервисный модуль аватар позволит отображать их в списке контактов
+Сервисный плагин аватар позволит отображать их в списке контактов
 [Contact list avatars]
 Аватары в списке контактов
 [Contact list fonts]

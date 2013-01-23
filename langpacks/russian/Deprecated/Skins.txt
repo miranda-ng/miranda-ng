@@ -2,7 +2,7 @@
 ;  File: skins.dll, skinsW.dll
 ;  Module: skins
 ;  Versions: 0.0.0.2
-;  Description: Дополнительный сервисный модуль скинов (в данный момент используется модулем MyDetails.dll)
+;  Description: Дополнительный сервисный плагин скинов (в данный момент используется плагином MyDetails.dll)
 ;  URL: http://www.pescuma.org/miranda/skins/lang/en/
 ;============================================================
 [Skin:]

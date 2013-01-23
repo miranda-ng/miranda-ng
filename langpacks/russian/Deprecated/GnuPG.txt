@@ -7,9 +7,9 @@
 ;  Authors: Harald Treder, Zakhar V. Bardymov
 ;============================================================
 [Please verify your settings in M->Options->Plugins->GnuPG and GnuPG Advanced.]
-Проверьте настройки - Настройки/Модули/GnuPG и GnuP дополнительно.
+Проверьте настройки - Настройки/Плагины/GnuPG и GnuP дополнительно.
 [The GnuPG Plugin requires the GnuPG executable "gpg.exe".]
-Модуль GnuPG требует файл "gpg.exe".
+Плагин GnuPG требует файл "gpg.exe".
 [The export of your public key failed.]
 Экспорт открытых ключей не удался. 
 [The import of the key failed.]
@@ -21,7 +21,7 @@
 [Could not obtain the GnuPG user id.]
 Не могу получить GnuPG id.
 [GnuPG Plugin]
-Модуль GnuPG
+Плагин GnuPG
 [Select GnuPG Executable]
 Выбор GnuPG выполняемых
 [GnuPG Plugin - Warning]
@@ -49,7 +49,7 @@ GnuPG Дополнительно
 [Key received:]
 Ключ принят:
 [GnuPG Plugin - Passphrase]
-GnuPG Модуль - Пароль
+Плагин GnuPG - Пароль
 [Enter passphrase for the secret key of user:]
 Введите фразу для секретного ключа пользователя:
 [Your Key]

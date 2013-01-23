@@ -6,7 +6,7 @@
 [&Netmeeting call]
 Набрать номер в &Netmeeting
 [Call NetMeeting Plugin]
-Модуль "Набрать номер в NetMeeting"
+Плагин "Набрать номер в NetMeeting"
 [Error canґt get protocol!]
 Ошибка! Невозможно определить протокол 
 [Error canґt get user email!]

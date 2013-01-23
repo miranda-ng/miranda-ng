@@ -132,7 +132,7 @@
 [Reduce <<]
 Уменьшить <<
 [You can use variables from "variable" plugin (look miranda-im.org in Files/Services).]
-Вы можете использовать переменные из модуля "variables" (ищите на miranda-im.org)
+Вы можете использовать переменные из плагина "variables" (ищите на miranda-ng.org)
 [-- Recent --]
 --Последнее--
 [Show 5 more recent message in the list]

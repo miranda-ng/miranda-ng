@@ -180,7 +180,7 @@ SecureIM (выключен)
 [Status in Context Menu]
 Статус в контекст. меню
 [Disable encryption for game plugins]
-Откл. шифрование для game модулей
+Откл. шифрование для "игровых" плагинов
 [Contact List Icon]
 Значки списка контактов
 [Offline Key Timeout :]
@@ -190,7 +190,7 @@ SecureIM (выключен)
 [SecureIM]
 Шифрование
 [SecureIM plugin for Miranda NG.]
-Модуль шифрования SecureIM для Miranda NG.
+Плагин шифрования SecureIM для Miranda NG.
 [Incoming Secure Message]
 Входящее шифрованное сообщение
 [Outgoing Secure Message]
@@ -226,7 +226,7 @@ Keyrings не загружены!
 [Keyrings loaded.]
 Keyrings загружены.
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
-Модуль SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
+Плагин SecureIM не может быть загружен, потому что библиотека cryptopp.dll не найдена или неправильной версии!
 [Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
 Невозможно отправить шифрованное сообщение!\nВы хотите отправить его?\nОно будет отправлено незашифрованным!
 [Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
@@ -286,7 +286,7 @@ GPG в SecureIM
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
 SecureIM не может отправить шифрованное сообщение! Проверьте доверие к PGP/GPG ключу!
 [SecureIM not enabled !\nYou Must Enable SecureIM with this user...]
-Модуль SecureIM выключен !\nВы должны включить этот модуль для этого пользователя...
+Плагин SecureIM выключен !\nВы должны включить плагин для этого пользователя...
 [flag Enabled]
 флаг "Включено"
 [flag Disabled]
@@ -414,7 +414,7 @@ SecureIM не может отправить шифрованное сообще�
 [Save Private Key File]
 Сохранение приватного ключа
 [SecureIM plugin Passphrase of private key]
-Модуль SecureIM. Фраза-пароль для приватного ключа 
+Плагин SecureIM. Фраза-пароль для приватного ключа 
 [Enter passphrase for the secret key:]
 Введите фразу-пароль для секретного ключа:
 [Load Private Key File]

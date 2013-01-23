@@ -8,7 +8,7 @@
 ;  Authors: Cristian Libotean
 ;============================================================
 [Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
-Служебный модуль. Позволяет другим модулям сохранять свои данные в произвольных папках. Поддерживаются переменные.
+Служебный плагин. Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
 [Custom folders]
 Папки
 [Refresh preview]
@@ -34,7 +34,7 @@
 [\\ul\\b Environment variables\\par\n]
 \\ul\\b Переменные окружения\\par\n
 [\\ulnone\\b0 The plugin can also expand environment variables; the variables are specified like in any other\n]
-\\ulnone\\b0 Также модуль позволяет использовать переменные окружения. Они задаются также, как в любой\n
+\\ulnone\\b0 Также плагин позволяет использовать переменные окружения. Они задаются также, как в любой\n
 [program that can use environment variables, i.e. %<env variable>%.\n]
 программе, которая может их использовать. Например %<variable>%.\n
 [\\b Note\\b0 : Environment variables are expanded before any Miranda variables. So if you have, for\n]

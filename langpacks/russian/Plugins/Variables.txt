@@ -6,7 +6,7 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3822
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
-Поддержка динамических переменных для других модулей.
+Поддержка динамических переменных для других плагинов.
 [Parse]
 Анализ
 [Auto parse]
@@ -194,7 +194,7 @@ x строка по счёту в аргументах
 [get last seen date of contact x in format y (y is optional)]
 получить дату последнего появления контакта x, в формате y (y необязательно)
 [db setting z of module y of contact x]
-настройка базы z, модуля y, контакта x
+настройка базы z, плагина y, контакта x
 [converts x to lowercase]
 переводит x в прописные буквы
 [retrieves song name of the song currently playing in Winamp]
@@ -306,7 +306,7 @@ y, если длина строки w > x, в другом случае z
 [substring match number z found in subject y with pattern x]
 подстрока соответствует номеру z, найденному в subject y, по маске x
 [depends on calling plugin]
-зависит от модуля, который вызывает токен
+зависит от плагина, который вызывает токен
 [padds x to length y prepending character z (z is optional)]
 заполняет x по длине y символом z (z необязательно)
 [padds x to length y appending character z (z is optional)]
@@ -377,7 +377,7 @@ Y, если x ПРАВДА, иначе z
 [y if w = x, else z]
 y, если w = x, иначе z
 [db setting z of module y of contact x and return w if z isn't exist (w is optional)]
-получить настройку z модуля y контакта x или возвратить w, если z не существует (w не обязательно)
+получить настройку z плагина y контакта x или возвратить w, если z не существует (w не обязательно)
 [text from clipboard]
 текст из буфера обмена
 [Album name]

@@ -72,19 +72,19 @@
 [Players]
 Плееры
 [Get info from WATrack plugin]
-Получить информацию из модуля WATrack
+Получить информацию из плагина WATrack
 [Get info from these players:]
 Получать информацию из плееров:
 [Windows Media Player]
 Проигрыватель Windows Media
 [foobar2000 (need to install the plugin manually)]
-foobar2000 (установите модуль вручную)
+foobar2000 (установите плагин вручную)
 [Other players]
 Остальные плееры
 [Ask for new info every]
 Обновление раз в
 [Allow auto-loading plugins into players (affect players with *)]
-Автозагружать модули в плееры (только для помеченных *)
+Автозагружать плагины в плееры (только для помеченных *)
 [Toggle send to all protocols]
 Вкл./выкл. отправлять всем протоколам
 [Don't send to any protocols]

@@ -8,7 +8,7 @@
 ;  Authors: ProgAndy, CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG\r\n(using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-Модуль OTR (Off-the-Record) для Miranda NG\r\n(использованы код и идеи из SecureIM, Pidgin-OTR и старого модуля Miranda OTR (от SJE).
+Плагин OTR (Off-the-Record) для Miranda NG\r\n(использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE).
 [Also remove OTR system messages]
 Удалить системные сообщения OTR
 [OTR Authenticate: %s (%s)]
@@ -138,7 +138,7 @@ OTR: установлен SecureIM
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Вы используете SecureIM. MirOTR будет работать только с контактами с отключенным SecureIM.
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-Ваш модуль окна сообщений не поддерживает статусных иконок, не все функции OTR будут доступны.
+Ваш плагин окна сообщений не поддерживает статусных иконок, не все функции OTR будут доступны.
 [Private Data]
 Личные данные
 [&Refresh OTR session]

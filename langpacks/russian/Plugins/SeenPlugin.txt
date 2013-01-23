@@ -95,7 +95,7 @@
 [For watched protocols]
 Для просм. протоколов
 [Popup interoperability missing or disabled. You need Popups plugin]
-Всплывающие окна отсутствуют или отключены. Необходим модуль всплывающих окон
+Всплывающие окна отсутствуют или отключены. Необходим плагин всплывающих окон
 [LastSeen]
 Последнее появление
 [Reset colors]

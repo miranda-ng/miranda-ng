@@ -18,7 +18,7 @@
 [Service discovery mode:]
 Режим обзора служб:
 [Add to Hotkeys+]
-Добавить в модуль Hotkeys+
+Добавить в плагин Hotkeys+
 [Service '%s'does not exist ???]
 Служба '%s' не существует???
 [Available services:]

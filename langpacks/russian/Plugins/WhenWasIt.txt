@@ -82,11 +82,11 @@
 [afterwards]
  после
 [UserInfo module]
-Модуль UserInfo
+Плагин UserInfo
 [Protocol module]
-Модуль протокола
+Плагин протокола
 [mBirthday module]
-Модуль mBirthday
+Плагин mBirthday
 [Only notify once per day.]
 Напоминать раз в день
 [Upcoming age]
@@ -146,7 +146,7 @@
 [All contacts except hidden and ignored ones]
 Все, кроме скрытых и игнорируемых
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
-Выберите модуль хранения дней рождений.\r\n"UserInfo" по умолчанию.\r\nИcп. "Модуль протокола" чтобы видеть данные в данных контакта\n"mBirthday модуль" сохраняет также, как и модуль mBirthday
+Выберите плагин хранения дней рождений.\r\n"UserInfo" по умолчанию.\r\nИcп. "Плагин протокола" чтобы видеть данные в данных контакта\n"mBirthday плагин" сохраняет также, как и плагин mBirthday
 [days in advance.]
 дней.
 [%s had birthday yesterday.]

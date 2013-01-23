@@ -169,7 +169,7 @@ MetaId:
 [Could not write unique id of contact to MetaContact]
 Ошибка записи уникального id контакта в метаконтакт
 [Error - Database corruption.\nPlugin disabled.]
-Ошибка - база повреждена.\nМодуль отключён.
+Ошибка - база повреждена.\nПлагин отключён.
 [Free to Chat]
 Готов болтать
 [Meta ID]

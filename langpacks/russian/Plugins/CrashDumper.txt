@@ -7,7 +7,7 @@
 [Crash Dumper]
 Отчёт об ошибках
 [Crash Dumper for Miranda NG.]
-Модуль создания отчётов об ошибках в случае аварийного завершения работы программы. Поддержка www.miranda-vi.org.
+Плагин создания отчётов об ошибках в случае аварийного завершения работы программы. Поддержка www.miranda-vi.org.
 [Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
 Miranda NG была завершена аварийно. Необходим dbghelp.dll v6.8 для предоставления отчёта о критической ошибке
 [VersionInfo stored into file %s]
@@ -29,7 +29,7 @@ Miranda NG была завершена аварийно. Необходим dbgh
 [Crash Report write location is inaccesible]
 Путь для записи отчёта об ошибке недоступен
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Установлено более одного модуля отчётов об ошибках. Это ведет к невозможности создания отчётов
+Установлено более одного плагина отчётов об ошибках. Это ведет к невозможности создания отчётов
 [To Clipboard]
 В буфер обмена
 [To File]
@@ -41,7 +41,7 @@ Miranda NG была завершена аварийно. Необходим dbgh
 [Upload automatically when changed]
 Загружать автоматически при изменениях
 [VersionInfo upload successful,\n %d old plugins]
-Версии успешно загружены,\n%d старых модулей
+Версии успешно загружены,\n%d старых плагинов
 [Cannot upload VersionInfo. Incorrect username or password]
 Нельзя загрузить информацию о версиях. Неправильное имя пользователя или пароль
 [Cannot upload VersionInfo. User is banned]

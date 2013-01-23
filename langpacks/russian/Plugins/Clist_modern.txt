@@ -8,7 +8,7 @@
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 
-;  Описание модуля
+;  Описание плагина
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
 
@@ -200,7 +200,7 @@
 [Use improved search method in contactlist]
 Поиск по списку с фильтрацией результатов
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-Для дополнительных возможностей загрузите модуль MetaContacts.\nhttp://miranda-ng.org
+Для дополнительных возможностей загрузите плагин MetaContacts.\nhttp://miranda-ng.org
 [MetaContacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for Metacontacts]
@@ -427,12 +427,12 @@
 [Show offline contacts]
 Показать отключённых
 
-;Предупреждение обновления панели кнопок на модуль TopToolBar
+;Предупреждение обновления панели кнопок на плагин TopToolBar
 
 [Toolbar upgrade]
 Обновление панели кнопок
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-Для отображения панели кнопок в Clist Modern необходим модуль TopToolBar. Нажмите "Да", чтобы скачать модуль или "Нет", чтобы продолжить не скачивая
+Для отображения панели кнопок в Clist Modern необходим плагин TopToolBar. Нажмите "Да", чтобы скачать плагин или "Нет", чтобы продолжить не скачивая
 
 ;-СКИН СПИСКА-
 

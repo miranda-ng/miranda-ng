@@ -84,7 +84,7 @@
 [A newer version of SRMM Mod is out there.\n\rDo you want to visit the homepage?]
 Доступна новая версия SRMM Mod\n\rХотите посетить домашнюю страничку?
 [This is a beta version of SRMM Mod.\n\rPlease report bugs at me.]
-Это бета-версия модуля SRMM mod.\nПожалуйста, сообщайте мне об ошибках.
+Это бета-версия плагина SRMM mod.\nПожалуйста, сообщайте мне об ошибках.
 [Popup minimized and don't steal focus]
 Окно минимизировано и не перехватывает фокус
 [Send Message Typing Notification]

@@ -10,7 +10,7 @@
 [Wrong number of parameters for command '%s'.]
 Неверное количество параметров для команды '%s'
 [This plugin lets you control Miranda from the command line.]
-Модуль позволяет управлять Miranda через командную строку.
+Плагин позволяет управлять Miranda через командную строку.
 [Could not find contact handle for contact '%s'.]
 Невозможно найти обработчик для контакта '%s'.
 [No unread messages found.]
@@ -32,7 +32,7 @@
 ['%s' doesn't seem to be a valid protocol.]
 '%s' это не правильный протокол.
 [Issued check email command to YAMN plugin.]
-Отправлена команда проверки почты для модуля YAMN.
+Отправлена команда проверки почты для плагина YAMN.
 [Invalid parameter '%s' passed to CallService command.]
 Неправильный аргумент '%s' отправлен команде CallService.
 [Could not send message to '%s'.]
@@ -46,13 +46,13 @@
 [Contact '%s' has '%d' events in history.]
 Контакт '%s' имеет '%d' событий в истории.
 [YAMN plugin is not running.]
-Модуль YAMN не запущен.
+Плагин YAMN не запущен.
 [%s:%s - %d unread events.]
 %s:%s - %d непрочитанные сообщения.
 [Setting '%s/%s' deleted.]
 Настройка '%s/%s' удалена.
 [Exchange plugin is not running.]
-Модуль Exchange не запущен.
+Плагин Exchange не запущен.
 [Could not retrieve setting '%s/%s': %s.]
 Невозможно прочитать настройку '%s/%s': %s.
 [Miranda has been closed or an error has occured while waiting for the result, could not process request.]
@@ -80,7 +80,7 @@ Miranda была закрыта или произошла ошибка при о
 ['%s' proxy was enabled.]
 '%s' прокси включён.
 [Issued check email command to Exchange plugin.]
-Отправлена команда проверки почты для модуля Exchange.
+Отправлена команда проверки почты для плагина Exchange.
 [Changed '%s' status message to '%s' (status is '%s').]
 Изменено '%s' сообщение статуса на '%s' (статус '%s').
 [%s proxy server: %s %s:%d.]
@@ -99,6 +99,6 @@ Miranda была закрыта или произошла ошибка при о
 Нет помощи для '%s'.
 [Timed out while waiting for acknowledgement for contact '%s'.]
 [You can only run one instance of CmdLine plugin.]
-Вы можете запускать только одну копию модуля CmdLine.
+Вы можете запускать только одну копию плагина CmdLine.
 [Issued a quit command.]
 Выполнена команда "Выход".

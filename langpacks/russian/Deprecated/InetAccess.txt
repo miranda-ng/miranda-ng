@@ -4,7 +4,7 @@
 ;  Versions: 1.2.0.0
 ;============================================================
 [The InetAccess plugin cannot be loaded. It requires Miranda IM 0.4.0.1 or later.]
-Модуль InetAccess не может быть загружен. Необходимая версия Miranda IM 0.4.0.1 или выше.
+Плагин InetAccess не может быть загружен. Необходимая версия Miranda IM 0.4.0.1 или выше.
 [Cash]
 Деньги
 [Free internet]
@@ -154,4 +154,4 @@ InetAccess
 [(*) Turning this option off will lead to fast disconnect/exit from Miranda, but doesn't give a guaranties that you are logout from server immediately.]
 (*) Выключение этой опции приведет к быстрому отключению от сервера/выходу из программы, но не гарантирует мгновенный выход с сервера.
 [Probably, settings of the previous version of InetAccess plugin which you used, are incompatible with the current version. OK to clear settings?]
-Возможно, настройки предыдущей версии модуля InetAccess несовместимы с текущей версией. OK для очистки настроек?
+Возможно, настройки предыдущей версии плагина InetAccess несовместимы с текущей версией. OK для очистки настроек?

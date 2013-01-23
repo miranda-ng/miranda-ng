@@ -33,7 +33,7 @@
 [Use system &icons]
 Системные значки
 [(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Требуется Popup 1.0.1.9+, YAPP или совместимый модуль
+(*) Требуется Popup 1.0.1.9+, YAPP или совместимый плагин
 [Sample Note]
 Пример заметки
 [Sample Warning]
@@ -172,7 +172,7 @@
 [Only reply to status message request from visible contacts]
 Отвечать на запрос статусного сообщения только видимым контактам
 
-;-МОДУЛИ-
+;-ПЛАГИНЫ-
 
 [ICQ protocol support for Miranda NG.]
 Поддержка протокола ICQ в Miranda NG.

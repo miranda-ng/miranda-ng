@@ -104,7 +104,7 @@
 [Notify using Sounds]
 Уведомлять звуками
 [Notify using Speak plugin]
-Уведомлять модулем "Речь"
+Уведомлять плагином "Речь"
 [History Keeper]
 История событий
 [Ignore Client changes]

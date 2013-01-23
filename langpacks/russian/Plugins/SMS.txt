@@ -12,13 +12,13 @@
 [&SMS Message]
 Сообщение SMS
 [Can't load SMS Plugin, ICQ protocol must be loaded.]
-Невозможно загрузить модуль SMS. Должен быть запущен ICQ протокол.
+Невозможно загрузить плагин SMS. Должен быть запущен ICQ протокол.
 [SMS Plugin Error]
-Ошибка модуля SMS
+Ошибка плагина SMS
 [From %s on ICQ:\r\n\r\n]
 От %s в ICQ:\r\n\r\n
 [SMS Plugin]
-Модуль SMS
+Плагин SMS
 [Multiple >>]
 Нескольким>>
 [<< Single]

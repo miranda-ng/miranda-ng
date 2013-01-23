@@ -288,7 +288,7 @@ HistoryStats - Ошибка
 [HistoryStats - Filter words/messages]
 HistoryStats - Фильтр слов/сообщений
 [HistoryStats - Plugin/extension info]
-HistoryStats - Информация о модуле/расширении
+HistoryStats - Информация о плагине/расширении
 [HistoryStats - Warning]
 HistoryStats - Предупреждение
 [HistoryStats - Working...]
@@ -300,9 +300,9 @@ HistoryStats не может открыть файл для записи (#{file
 [HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
 Уже запущен процесс создания статистики. Пожалуйста подождите, пока он закончится, или отмените его, и попытайтесь снова.
 [HistoryStats supports several plugins/extensions. Click to hide info...]
-HistoryStats поддерживает несколько модулей/расширений. Клик, чтобы скрыть...
+HistoryStats поддерживает несколько плагинов/расширений. Клик, чтобы скрыть...
 [HistoryStats supports several plugins/extensions. Click to learn more...]
-HistoryStats поддерживает несколько модулей/расширений. Клик, чтобы изучить...
+HistoryStats поддерживает несколько плагинов/расширений. Клик, чтобы изучить...
 [HistoryStats]
 Статистика
 [Hours of day timeline]
@@ -388,7 +388,7 @@ HTML вывод невозможен.
 [Percentage in bar graph]
 Проценты в гистограмме
 [Plugin/extension name:]
-Имя модуля/расширения:
+Имя плагина/расширения:
 [PNG (partial)]
 PNG (частично)
 [PNG, ignoring some sttings]
@@ -496,7 +496,7 @@ URL (исходящие)
 [Use only subcontacts' histories (for one meta-contact)]
 Использовать только историю субконтактов (для одного метаконтакта)
 [Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
-Используйте этот модуль для автоматического уведомления о новой версии HistoryStats. Этот модуль автоматически установит обновлённую версию. Пожалуйста используйте последнюю версию этого модуля.
+Используйте этот плагин для автоматического уведомления о новой версии HistoryStats. Этот плагин автоматически установит обновлённую версию. Пожалуйста используйте последнюю версию этого плагина.
 [Weeks]
 Недель
 [Word count for each word (tooltip)]
@@ -534,7 +534,7 @@ URL (исходящие)
 [[#{start_date}-#{end_date}] #{in_amount} (in) / #{out_amount} (out) #{unit}]
 (#{start_date}-#{end_date}) #{in_amount} (вх) / #{out_amount} (исх) #{unit}
 [An error occured while trying to update/setup the configuration. Please report this error to the author of this plugin.]
-Произошла ошибка во время обновления конфигурации. Пожалуйста, сообщите об этой ошибке автору модуля.
+Произошла ошибка во время обновления конфигурации. Пожалуйста, сообщите об этой ошибке автору плагина.
 [Bar graph for in/out]
 Гистограмма для вход./исход.
 [Bar graph for total chat duration]
@@ -552,7 +552,7 @@ URL (исходящие)
 [Column holding in/out statistics for bytes, messages or chats. Allows textual or graphical representation.]
 Колонка содержит входящую/исходящую статистику для байт, сообщений, или чатов. Возможно текстовое или графическое представление.
 [Error while searching for meta-contact's subcontacts. Please contact the author of this plugin.]
-Ошибка поиска в суб-контакте мета-контакта. Пожалуйста свяжитесь с автором этого модуля.
+Ошибка поиска в суб-контакте мета-контакта. Пожалуйста свяжитесь с автором этого плагина.
 [Files (total)]
 Файлы (всего)
 [History filtering]
@@ -576,17 +576,17 @@ URL (исходящие)
 [Put in Miranda IM's main menu]
 Пункт в главном меню
 [Supported plugins/extensions (double-click to learn more):]
-Поддерживаемые модули/расширения (двойной клик, чтобы узнать больше):
+Поддерживаемые плагины/расширения (двойной клик, чтобы узнать больше):
 [Textual sum for in/out]
 Текстовая сумма для вход./исход.
 [This will update the configuration of this plugin and remove settings not longer used by this version. In general, this should be safe. However, please check your settings after successfully finishing this step!\n\nContinue the update/setup procedure?]
-Это обновит конфигурацию модуля и удалит настройки, более не нужные в этой версии. Обычно, это безопасно. Но в любом случае, пожалуйста, проверьте настройки после завершения этой процедуры.\n\nПродолжить?
+Это обновит конфигурацию плагина и удалит настройки, более не нужные в этой версии. Обычно, это безопасно. Но в любом случае, пожалуйста, проверьте настройки после завершения этой процедуры.\n\nПродолжить?
 [Update/Setup...]
 Обновить/Настроить...
 [URLs (total)]
 URL (всего)
 [Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options.]
-Используйте этот модуль для смены значков интерфейса HistoryStats. Используйте пожалуйста версию не ниже 0.0.1.0
+Используйте этот плагин для смены значков интерфейса HistoryStats. Пожалуйста, используйте версию не ниже 0.0.1.0
 [[First] | / [Last] |]
 (Первое) | / (Последнее) |
 [[Min] | / [Avg] | / [Max] |]
@@ -652,7 +652,7 @@ URL (все)
 [Updater|Updater (Unicode)]
 Updater|Updater (Юникод)
 [HistoryStats supports several plugins. Click to hide info...]
-HistoryStats поддерживает некоторые модули. Нажмите для скрытия информации...
+HistoryStats поддерживает некоторые плагины. Нажмите для скрытия информации...
 [Options tree]
 Дерево опций
 [Minimum time to assume when calculating average (days)]
@@ -744,7 +744,7 @@ wday2:Чт
 [Units per month (30 days)]
 Блоков в месяц (30 дней)
 [IMPORTANT NOTICE\r\n\r\nThis is the first time you use this version of the plugin. Please press the 'Update/Setup...' button to update/setup the configuration of the plugin. If you updated it is strongly recommended to check all settings for proper values. Things might have changed in this version.]
-ВАЖНОЕ ЗАМЕЧАНИЕ\r\n\r\nВы первый раз запустили эту версию модулю. Пожалуйста нажмите кнопку 'Обновить/Настроить...' чтобы обновить/настроить конфигурацию этого модуля. Если вы обновили этот модуль, рекомендуется проверить все настройки на правильность. Некоторые из них могли изменится в этой версии.
+ВАЖНОЕ ЗАМЕЧАНИЕ\r\n\r\nВы первый раз запустили эту версию плагина. Пожалуйста, нажмите кнопку 'Обновить/Настроить...' чтобы обновить/настроить конфигурацию этого плагина. Если вы обновили этот плагин, рекомендуется ещё раз проверить все настройки. Некоторые из них могли изменится в этой версии.
 [Messages (all)]
 Сообщения (все)
 [Messages (outgoing, absolute)]
@@ -768,7 +768,7 @@ wday2:Чт
 [wdayF:Sunday]
 wdayF:Воскресенье
 [Some of your settings can't be honored due to PNG output. The output may differ somewhat from what you configured. However, this is only a warning and can in general be ignored.\r\n\r\nFuture versions of this plugin will output more detailed information about this problem.]
-Некоторые из Ваших настроек не могут быть применены к выводу в PNG. Вывод может отличаться от того, что Вы настроили. В любом случае, это только предупреждение, на него можно не обращать внимания.\r\n\r\nБудущие версии этого модуля будут показывать подробную информацию об этой проблеме.
+Некоторые из Ваших настроек не могут быть применены к выводу в PNG. Вывод может отличаться от того, что Вы настроили. В любом случае, это только предупреждение, на него можно не обращать внимания.\r\n\r\nБудущие версии этого плагина будут показывать подробную информацию об этой проблеме.
 [Show countact count for omitted/totals (tooltip)]
 Показать счёт опущенных/всего (подсказка)
 [Characters (outgoing, average per week)]
@@ -792,7 +792,7 @@ wdayF:Суббота
 [Configure statistics...]
 Настроить статистику...
 [Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options. If you're running Miranda IM 0.7.0 alpha #3 or above you don't need a separate plugin for this.]
-Используйте этот модуль, чтобы настроить большинство значков интерфейса HistoryStats. Пожалуйста используйте версию 0.0.1.0 или старше. В другом случае HistoryStats не появится в настройках IcoLib. Если у вас Miranda IM версии 0.7.0 альфа 3 или старше, отдельный модуль IcoLib не требуется.
+Используйте этот плагин, чтобы настроить большинство значков интерфейса HistoryStats. Пожалуйста используйте версию 0.0.1.0 или старше. В другом случае HistoryStats не появится в настройках IcoLib. Если у вас Miranda IM версии 0.7.0 альфа 3 или старше, отдельный плагин IcoLib не требуется.
 [Criteria]
 Критерий
 [Chats (incoming, absolute)]
@@ -846,7 +846,7 @@ wday2:Сб
 [Characters]
 Символы
 [HistoryStats supports several plugins. Click to learn more...]
-HistoryStats поддерживает некоторые модули. Нажмите для информации...
+HistoryStats поддерживает некоторые плагины. Нажмите для информации...
 [Characters (all)]
 Символы (все)
 [wdayF:Wednesday]
@@ -866,13 +866,13 @@ wdayF:Пятница
 [wdayF:Tuesday]
 wdayF:Вторник
 [Supported plugins (double-click to learn more):]
-Поддерживаемые модули (двойной щелчок для информации):
+Поддерживаемые плагины (двойной щелчок для информации):
 [Messages (outgoing, average per week)]
 Сообщения (исходящие, среднее по недели)
 [Configure HistoryStats]
-Настроить модуль HistoryStats
+Настроить плагин HistoryStats
 [Created with #{plugin} #{version} on #{date} at #{time}]
-Создано модулем #{plugin} #{version} #{date} в #{time}
+Создано плагином #{plugin} #{version} #{date} в #{time}
 [Characters (in/out ratio)]
 Символы (вх/исх рейтинг)
 [ bytes]

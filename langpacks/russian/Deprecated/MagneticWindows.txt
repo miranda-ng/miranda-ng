@@ -13,4 +13,4 @@
 [Alternate behauvior of shift key: move windows together by default]
 Чередовать режим клавишей SHIFT: двигать окна вместе по умолчанию
 [For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)]
-Для модуля Scriver: автоматически удерживать CTRL пока перемещаете/калибруете. (удостоверьтесь, что вы используете Scriver!)
+Для плагина Scriver: автоматически удерживать CTRL пока перемещаете/калибруете. (удостоверьтесь, что вы используете Scriver!)

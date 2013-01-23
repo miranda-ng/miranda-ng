@@ -16,7 +16,7 @@
 [Approved]
 Разрешено
 [Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Вы уверены? Это удалит все настройки данного модуля в вашей БД и все ключи реестра, отвечающие за его интеграцию в Explorer.
+Вы уверены? Это удалит все настройки данного плагин в вашей БД и все ключи реестра, отвечающие за его интеграцию в Explorer.
 [Disable/Remove shlext]
 Отключить/Удалить shlext
 [Shell context menus]

@@ -25,6 +25,6 @@
 [Invalid e-mail or password]
 Не верное имя или пароль
 [IM-History Miranda plugin]
-Модуль IM-истории
+Плагин IM-истории
 [IM-History]
 IM-история

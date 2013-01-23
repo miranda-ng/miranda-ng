@@ -10,7 +10,7 @@
 [Docs]
 Документация
 [Country Flags Plugin]
-Модуль национальных флагов
+Плагин национальных флагов
 [Show country flag as &extra image on contact list]
 Показывать флаг, как доп. значок в контакт-листе
 [Use &IP-to-country database for country detection]

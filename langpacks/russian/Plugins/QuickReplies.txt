@@ -7,7 +7,7 @@
 [Quick Replies]
 Быстрые ответы
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
-Модуль для быстрой вставки (или отправки) определённых сообщений в окно отправки.
+Плагин для быстрой вставки (или отправки) определённых сообщений в окно отправки.
 [Hints:]
 Подсказки:
 [- Add your replies, one per line.]

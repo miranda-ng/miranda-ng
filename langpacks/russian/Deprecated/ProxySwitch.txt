@@ -24,7 +24,7 @@
 [Show my &IP Addresses]
 Показать мои IP адреса
 [This plugin requires modified version of Miranda IM.\nIt is not able to change proxy settings now!\nRead proxySwitch_readme.txt for more information.]
-Этот модуль требует специальной версии Miranda IM.\nНевозможно изменить настройки прокси!\nЧитайте подробности в proxySwitch_readme.txt
+Этот плагин требует специальной версии Miranda IM.\nНевозможно изменить настройки прокси!\nЧитайте подробности в proxySwitch_readme.txt
 [disconnected]
 отключено
 [proxySwitch]

@@ -115,7 +115,7 @@
 [Startup]
 Настройки запуска
 [ms  (this allows the Popups plugin to initialize)]
-мс  (позволяет инициализировать модуль вспл. окон)
+мс  (позволяет инициализировать плагин вспл. окон)
 [Startup delay:]
 Задержка:
 [The following defines the delay before displaying popups. Default is 1000 ms.]
@@ -169,7 +169,7 @@
 [Error creating/opening specified log file]
 Ошибка при создании/открытии указанного файла журнала
 [Popup plugin not found.\nPlease install and enable this plugin]
-Не найден модуль всплывающих окон.\nУстановите и включите этот модуль
+Не найден плагин всплывающих окон.\nУстановите и включите этот плагин
 [Select a folder for sharing]
 Выберите папку для открытия общего доступа
 [Shared resource '%s' could not be removed\nNetwork error code: %d]

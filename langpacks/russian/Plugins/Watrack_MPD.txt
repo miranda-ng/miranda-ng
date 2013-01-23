@@ -8,4 +8,4 @@
 ;  Authors: sss
 ;============================================================
 [Music Player Daemon support for Watrack.]
-Поддержка Music Player Daemon для модуля Watrack.
+Поддержка Music Player Daemon для плагина Watrack.

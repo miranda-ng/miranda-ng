@@ -8,7 +8,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
-Miranda не может загрузить модуль Chat, потому что отсутствует Microsoft Rich Edit версии 3.\nЕсли вы используете Windows 95/98/NT или WINE, обновите Rich Edit control.\n\nЗагрузить обновление?
+Miranda не может загрузить плагин Chat, потому что отсутствует Microsoft Rich Edit версии 3.\nЕсли вы используете Windows 95/98/NT или WINE, обновите Rich Edit control.\n\nЗагрузить обновление?
 [Options for using a tabbed interface]
 Настройки вкладок
 [Use a tabbed interface]
@@ -61,7 +61,7 @@ Miranda не может загрузить модуль Chat, потому чт�
 [Userlist Lines]
 Цвет линий списка
 [Chat Module]
-Модуль чата
+Плагин чата
 [Chat log]
 Журнал чата
 ;;;

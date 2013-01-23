@@ -11,7 +11,7 @@
 [Copy Info]
 Копирование данных
 [Note: plugin retrieving status message is needed]
-Нужен модуль поддержки статусных сообщений
+Нужен плагин поддержки статусных сообщений
 [Useful stuff]
 Разное
 [Show Last Online Time]

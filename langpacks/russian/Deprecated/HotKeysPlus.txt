@@ -10,9 +10,9 @@
 [Hotkey item #%d]
 Пункт #%d
 [For Win9x use other plugin version.]
-Для Win9x используйте другую версию модуля.
+Для Win9x используйте другую версию плагина.
 [Win9x plugin version can work incorrect on newer Windows versions!\nUse Win2k/XP version instead.]
-Версия модуля для Win9x может работать некорректно на более новых версиях Windows!\nВместо этого используйте версию модуля для Win2k/XP.
+Версия плагина для Win9x может работать некорректно на более новых версиях Windows!\nВместо этого используйте версию плагина для Win2k/XP.
 [2nd argument]
 2-ой аргумент
 [You should select any item!]

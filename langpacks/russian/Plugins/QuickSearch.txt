@@ -114,9 +114,9 @@ E-mail:
 [UNIQUEID]
 Идентификатор
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
-Модуль позволит вам быстро найти ник, имя, фамилию, e-mail, uin в вашем списке контактов. Теперь вы можете добавить любую строку, чтобы отображать, например, версии Miranda, группы или города.
+Плагин позволит вам быстро найти ник, имя, фамилию, e-mail, uin в вашем списке контактов. Теперь вы можете добавить любую настройку для отображения. Например версии Miranda, группы или города.
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
-Модуль позволит вам быстро найти прозвище, имя, фамилию, e-mail, uin в вашем списке контактов. Теперь вы можете добавить любую строку, чтобы отображать, например, версии Miranda, группы или города. Нажмите F3 для запуска.
+Плагин позволит вам быстро найти прозвище, имя, фамилию, e-mail, uin в вашем списке контактов. Теперь вы можете добавить любую настройку для отображения. Например версии Miranda, группы или города. Нажмите F3 для запуска.
 [New Column]
 Добавить
 [Save Column]

@@ -6,7 +6,7 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1688
 ;============================================================
 [Extended Idle System, an Auto Away & Idle module with some more options than the original.]
-Расширенная система отсутствия - модуль отсутствия и ожидания с расширенным набором функций.
+Расширенная система отсутствия - плагин отсутствия и ожидания с расширенным набором функций.
 [Extended Idle]
 Расширенное отсутствие
 [Set Away mode when screen saver engages]

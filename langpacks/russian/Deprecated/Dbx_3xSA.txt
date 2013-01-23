@@ -23,7 +23,7 @@
 [Start Watchdog]
 Запуск
 [db3xSA]
-Модуль db3xSA
+Плагин db3xSA
 [Advanced database support]
 Расширенная поддержка БД
 [add contact]

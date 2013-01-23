@@ -76,7 +76,7 @@
 [%clipboard%:  Text in clipboard (if available)]
 %clipboard%:  Текст в буфере обмена (если есть)
 [If AwaySys Plugin 0.2.7.8 or higher is installed; you can also use AwaySys variables.]
-Если установлен модуль AwaySys 0.2.7.8 или старше; Вы можете также использовать переменные AwaySys.
+Если установлен плагин AwaySys 0.2.7.8 или старше; Вы можете также использовать переменные AwaySys.
 [Fun LaunchInfo.txt variables]
 Интересные LaunchInfo.txt переменные
 [You can also use all the variables in your LaunchInfo.txt file, if you have one.]
@@ -92,7 +92,7 @@ LaunchInfo.txt создан Все-Видящим-Оком и Обозреват
 [and contains info about the game server the user is playing on at that moment.]
 и содержит информацию о игровом сервере, на котором сейчас играет пользователь.
 [GamerStatus Plugin]
-Модуль GamerStatus
+Плагин GamerStatus
 [(optional)]
 (необ.)
 [Process names]
@@ -100,7 +100,7 @@ LaunchInfo.txt создан Все-Видящим-Оком и Обозреват
 [Lose changes to this entry? (Click NO to cancel)]
 Запись не будет сохранена (Нажмите НЕТ для отмены)
 [%exename%\tProcess name that's running (bla.exe)\n%appname%\tUser-defined name of the running process\n%statdesc%\tDescription of the status that is set (NA, DND, etc.)\n%clipboard%\tContent of the clipboard (if available as text)\n%launchinfo%\tUser-defined string from the LaunchInfo-options (if available)\n\nIf AwaySys plugin v0.2.7.8+ is installed, you can also use its variables.]
-%exename%\tИмя запущенного процесса (bla.ехе)\n%appname%\tПользовательское имя процесса\n%statdesc%\tОписания установленного статуса\n%clipboard%\tСодежримое буфера обмена (если текст)\n%launchinfo%\tПользовательская строка из LaunchInfo (если есть)\n\nЕсли есть модуль AwaySys v0.2.7.8+, можно использовать его переменные.
+%exename%\tИмя запущенного процесса (bla.ехе)\n%appname%\tПользовательское имя процесса\n%statdesc%\tОписания установленного статуса\n%clipboard%\tСодежримое буфера обмена (если текст)\n%launchinfo%\tПользовательская строка из LaunchInfo (если есть)\n\nЕсли есть плагин AwaySys v0.2.7.8+, можно использовать его переменные.
 [[b]%s[/b] activated]
 %s активирован
 [[b]%s[/b] detected running, delay: %is]
@@ -138,7 +138,7 @@ LaunchInfo.txt создан Все-Видящим-Оком и Обозреват
 [editing: New process]
 изменение: Новый процесс
 [GamerStatus Plugin encountered a problem. Processlist stuff probably won't work.\nPlease contact the author at mistag@baze.de, if you want this problem to be fixed.\n\n(Error msg: enumProcs init failed! Return value: %i)]
-Модуль GamerStatus поврежден. Список процессов не работает.\nПожалуйста, сообщите автору mistag@baze.de, если хотите чтобы проблему исправили.\n\n(Ошибка: enumProcs init failed! Return value: %i)
+Плагин GamerStatus поврежден. Список процессов не работает.\nПожалуйста, сообщите автору mistag@baze.de, если хотите чтобы проблему исправили.\n\n(Ошибка: enumProcs init failed! Return value: %i)
 [gamerStatus settings are now structured in groups,\nwhich have the same settings and away-message for several games/processes.\nDo you want to import all games/processes into ONE group instead of several groups for each game/process?\n\nNOTE: All away-messages but one will be lost and you'll have to correct the settings in the options.]
 Настройки gamerStatus теперь структуризированны в группы,\nимеющие одинаковые настройки и сообщения для нескольких игр/процессов. Вы хотите импортировать все игры в ОДНУ группу вместо нескольких групп для каждой игры/процесса?\n\nВсе сообщения кроме одного будут потеряны.
 [GamerStatus variables]
@@ -170,7 +170,7 @@ LaunchInfo.txt не открывается
 [Statustext:]
 Текст:
 [The new gamerStatus plugin has found settings of a former version.\nThese settings are not compatible with the new version.\nDo you want to import these settings to further use them?]
-Новый модуль gamerStatus нашел настройки от старой версии.\nЭти настройки не совместимы с новой версией.\nХотите их импортировать настройки?
+Новый плагин gamerStatus нашел настройки от старой версии.\nЭти настройки не совместимы с новой версией.\nХотите их импортировать настройки?
 [Usage: Just use %launchinfo% in the status message of any process to get the text above (instead of %launchinfo%). Note: No linebrakes are added automatically]
 Использование: Поместите %launchinfo% в статусное сообщение любого процесса для получения текста (вместо %launchinfo%). Строки НЕ переносятся автоматически.
 [Ignored protocols]

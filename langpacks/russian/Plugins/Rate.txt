@@ -9,7 +9,7 @@
 [Shows rating of contact in contact list (if presents).]
 Показывает рейтинг контакта в списке контактов (если имеется).
 [Warning: your contact list plugin doesn`t have ability to sort contacts by rate.]
-Внимание, ваш модуль списка контактов не поддерживает сортировку контактов по рейтингу.
+Внимание, ваш плагин списка контактов не поддерживает сортировку контактов по рейтингу.
 [Contact rate]
 Рейтинг контакта
 [Rate high]

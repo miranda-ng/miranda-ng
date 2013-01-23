@@ -92,7 +92,7 @@
 [Close the Miranda's options window before doing any import operation.]
 Перед импортированием обязательно закройте окно настроек.
 [Adds import/export features to AutoReplacer plugin.]
-Модуль-спутник. Добавляет функции импорта/экспорта к модулю AutoReplacer.
+Плагин-спутник. Добавляет функции импорта/экспорта к плагину AutoReplacer.
 ;добавил из сырцов
 [Error exporting AutoCorrection entries.]
 Ошибка экспорта автокоррекции.

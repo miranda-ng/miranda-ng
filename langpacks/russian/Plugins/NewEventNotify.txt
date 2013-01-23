@@ -39,7 +39,7 @@
 [No popups for RSS contacts]
 Выключить для RSS новостей
 [Use OSD plugin instead of popups]
-Использовать модуль OSD вместо PopUp
+Использовать плагин OSD вместо PopUp
 [Hide Popup when sending new message]
 Скрывать при отправке нового сообщения
 [Last message display first]

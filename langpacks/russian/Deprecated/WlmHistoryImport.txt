@@ -13,7 +13,7 @@
 [Please notice that only history of existing contacts in Miranda IM will be imported.]
 Будет импортирована история только существующих контактов в Miranda IM.
 [Your MSN plugin is not loaded...]
-Модуль MSN не найден...
+Плагин MSN не найден...
 [This wizard will help you import message history from Windows Live Messenger.]
 Этот мастер поможет вам импортировать историю сообщения из Windows Live Messenger.
 [WLM History Import Wizard]

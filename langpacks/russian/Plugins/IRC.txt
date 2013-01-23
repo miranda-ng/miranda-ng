@@ -260,7 +260,7 @@ DCC-запрос на передачу файла послан %s [%s]
 [IRC Error]
 Ошибка IRC
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
-Этот протокол требует наличия модуля chat.\n\nЗагрузить его с сайта Miranda NG?
+Этот протокол требует наличия плагина chat.\n\nЗагрузить его с сайта Miranda NG?
 [Reconnecting to]
 Подключаюсь к
 [&Add to ignore list]
@@ -496,7 +496,7 @@ ID пользователя
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
 [IRC Protocol Plugin]
-Модуль протокола IRC
+Плагин протокола IRC
 [Cyrillic (KOI8R)]
 Кириллица KOI8-R
 [Cyrillic (Windows)]

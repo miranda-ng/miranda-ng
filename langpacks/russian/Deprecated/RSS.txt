@@ -65,7 +65,7 @@ RSSNews - Экспорт
 [There are no items to be exported.]
 Нет новостей для экспорта.
 [RSSNews plugin did not find any feed.]
-Модуль RSSNews не нашел каналов.
+Плагин RSSNews не нашел каналов.
 [Importing sucessfully completed.]
 Импорт выполнен успешно.
 [There are no items to be imported.]
@@ -89,7 +89,7 @@ RSSNews нашел новый адрес канала
 [Authorization will not help and the request should not be repeated.]
 Авторизация не поможет и запрос не будет повторен.
 [RSSNews plugin requires Miranda IM 0.4.0.0 or above. This plugin will be disabled.]
-Модуль RSSnews требует Miranda IM 0.4.0.0 или выше. Этот модуль будет отключён.
+Плагин RSSnews требует Miranda IM 0.4.0.0 или выше. Плагин будет отключён.
 [Feed sucessfully added.]
 Канал успешно добавлен.
 [RSSNews]
@@ -123,7 +123,7 @@ ID канала
 [RSSNews - Idle feed]
 RSSNews - Канал не обновляется
 [RSS/Atom reader.]
-Модуль для чтения RSS/Atom.
+Плагин для чтения RSS/Atom.
 [&Do not ask again for this feed]
 Не спрашивать снова для этого канала
 [Authentication]
@@ -155,7 +155,7 @@ URL :
 [Enter a value in Location field.]
 Заполните поле "Путь"
 [RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
-Модуль RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
+Плагин RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
 [RSS plugin is unable to resolve the name of the server %s.]
 RSS не смог найти IP-адрес, соответствующий имени сервера %s.
 [All item's tags are valid. Put them between #.]

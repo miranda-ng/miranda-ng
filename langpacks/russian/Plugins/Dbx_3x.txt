@@ -8,7 +8,7 @@
 ;  Authors: Miranda-IM project
 ;============================================================
 [db3x Plugin]
-Модуль db3x
+Плагин db3x
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
 [Backup periodically:]

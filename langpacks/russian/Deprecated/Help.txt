@@ -14,9 +14,9 @@
 [Help Plugin]
 Справка
 [The Help Plugin can not be loaded. It requires Miranda IM %s or later.]
-Модуль справки не может быть загружен. Для его работы нужна Miranda IM %s или старше.
+Плагин справки не может быть загружен. Для его работы нужна Miranda IM %s или старше.
 [This version of the Help Plugin is incompatible with your Miranda IM version. Install the ANSI version of the plugin instead.]
-Эта версия модуля справки несовместима с вашей версией Miranda IM. Установите ANSI вариант этого модуля.
+Эта версия плагина справки несовместима с вашей версией Miranda IM. Установите ANSI вариант этого плагина.
 [&What's This Dialog?]
 Что это за диалог?
 [&What's This?]
@@ -82,13 +82,13 @@ IP адрес
 [ScrollBar]
 Полоса прокрутки
 [Help Pack Update HTTP connection]
-Подключения модуля справки (HTTP)
+Подключения плагина справки (HTTP)
 [&Automatically show help when hovered]
 Автоматически показывать справку при наведении
 [Help Pack Update succeeded]
 Обновление справки завершено
 [The Help Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль справки не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
+Плагин справки не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
 [&What's this?]
 Справка
 [Note: This will download and install the newest help pack available for the selected language. There might be help packs from other authors available on the file listing.]

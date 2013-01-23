@@ -25,11 +25,11 @@
 [Set your status messages and idle reporting.]
 Установите статусные сообщения и сообщения отсутствия.
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Управление вашими дополнительными модулями.
+Управление вашими дополнительными плагинами.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас есть не сохранённые изменения.\n Хотите ли вы их применить перед переключением?
 [Addons]
-Модули
+Плагины
 [Window behaviour:]
 Поведение списка:
 [Status bar:]

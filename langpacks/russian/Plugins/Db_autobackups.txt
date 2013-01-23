@@ -8,7 +8,7 @@
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
 ;============================================================
 [DB Autobackuper plugin.]
-Модуль авторезервирования профиля.
+Плагин авторезервирования профиля.
 [Save Profile As...]
 Сохранить профиль как...
 [Database AutoBackups]

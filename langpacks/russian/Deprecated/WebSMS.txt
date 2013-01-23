@@ -56,7 +56,7 @@ SMS через Web
 [Warning: The specified Gateway %s has no correct versioning info. It is ignored. Please fix the RequiresVersion entry in the .ini file.]
 Внимание: Указанный шлюз %s не имеет верной версии и будет проигнорирован. Пожалуйста, исправьте вхождение RequiresVersion в .ini файле.
 [Warning: The specified Gateway %s is designed for a newer version of the plugin. It is ignored. Please download the newest plugin version from www.miranda-im.org ]
-Внимание: Указанный шлюз %s создан для новой версии модуля и будет проигнорирован. Пожалуйста, обновите версию модуля.
+Внимание: Указанный шлюз %s создан для новой версии плагина и будет проигнорирован. Пожалуйста, обновите версию плагина.
 [Write log to this file:]
 Писать в файл:
 [Your mobile cellphone number\nhas to be in the following format:\n(i.e.: 43650 1234567) (Space!)]

@@ -6,6 +6,6 @@
 [Adds Restart menu item.]
 Добавление пункта Рестарт в главное меню.
 [Restart Plugin]
-Модуль Рестарт
+Плагин Рестарт
 [Restart Miranda]
 Перезапустить программу

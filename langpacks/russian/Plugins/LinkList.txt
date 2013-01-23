@@ -29,7 +29,7 @@
 [Incoming only]
 Только входящие
 [Linklist Plugin]
-Linklist Модуль
+Плагин Linklist
 [Mail addresses only]
 Только e-mail адреса
 [Message &Direction]

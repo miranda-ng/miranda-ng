@@ -20,11 +20,11 @@
 [English (default)]
 Английский
 [Language pack manager]
-Модуль управления локализациями
+Плагин управления локализациями
 [Language Pack Manager Plugin]
-Модуль управления локализациями
+Плагин управления локализациями
 [Language Pack Update HTTP connection]
-Подключения модуля локализаций (HTTP)
+Подключения плагина локализаций (HTTP)
 [Installed Languages]
 Установленные локализации
 [built-in]
@@ -32,7 +32,7 @@
 [(incompatible)]
 (несовместим)
 [All installed plugins are included.]
-Все модули переведены.
+Все плагины переведены.
 [Check for new &versions of Language Packs periodically]
 Периодически проверять новые версии локализаций
 [&Download Language]

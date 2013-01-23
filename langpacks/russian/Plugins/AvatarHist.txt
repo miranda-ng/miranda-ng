@@ -8,7 +8,7 @@
 ;  Authors: Pescuma
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-Модуль сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
+Плагин сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
 [Avatar History]
 История аватаров
 [View Avatar History]
@@ -54,7 +54,7 @@
 [Store history in miranda history and all history avatars in same folder]
 Сохранять историю в истории Miranda и все аватары в одной папке
 [History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
-История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или модулем History++ 
+История сохраняется в БД Miranda. Она может быть отображена встроенным просмотрщиком или плагином History++ 
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Хэш Аватара>
 [Store history in miranda history and history avatars in per protocol folders]

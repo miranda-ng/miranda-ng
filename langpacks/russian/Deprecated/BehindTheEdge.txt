@@ -18,7 +18,7 @@
 [Dock down-right corner]
 В правый нижний угол
 [Miranda's AutoHide and AutoSize options is not working properly with BehindEdge\nTurn it off to enable BehindEdge]
-Miranda IM работает нестабильно, если включён модуль BehindEdge и выбраны опции 'Автоматически скрывать' и 'Автоматически изменять размер'.\nВыключите эти опции, чтобы включить BehindEdge
+Miranda работает нестабильно, если включён плагин BehindEdge и выбраны опции 'Автоматически скрывать' и 'Автоматически изменять размер'.\nВыключите эти опции, чтобы включить BehindEdge
 [Account or connection error!]
 Ошибка соединения!
 [Screen position]

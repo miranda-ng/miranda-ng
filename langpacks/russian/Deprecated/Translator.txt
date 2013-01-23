@@ -6,7 +6,7 @@
 [Ignore untranslated strings when building language pack]
 Игнорировать непереведённые строки
 [Tries to retrieve all translatable strings in Miranda.]
-Этот модуль пытается получить все строки, которые можно локализовать (перевести)
+Этот плагин пытается получить все строки, которые можно локализовать (перевести)
 [Export language pack]
 Экспортировать перевод
 [Flush to disk now]
@@ -20,7 +20,7 @@
 [Email(s):]
 Email
 [Plugins included:]
-Модули:
+Плагины:
 [Updater FLID:]
 Поле FLID:
 [Aditional comments]

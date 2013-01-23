@@ -22,7 +22,7 @@
 [Registered actions]
 Зарегистрированные действия
 [This plugin makes use of actions, serviced by Actions Manager plugin (ActMan, by Awkward)]
-Модуль позволяет использовать действия, создаваемые в сервисном модуле Менеджер действий (Actman от Awkward'a)
+Плагин позволяет использовать действия, создаваемые в сервисном плагине Менеджер действий (Actman от Awkward'a)
 [separated]
 разделитель
 [Root popup:]
@@ -30,6 +30,6 @@
 [Menu icons]
 Корень подменю
 [No actions manager (ActMan) plugin found.\n\rYou can't use UseActions plugin without ActMan.\n\rUseActions will not be loaded.]
-Модуль менеджера действий (ActMan) не найден.\n\rВы не можете использовать плагин UseActions без ActMan.\n\rUseActions не будет загружен.
+Плагин менеджера действий (ActMan) не найден.\n\rВы не можете использовать плагин UseActions без ActMan.\n\rUseActions не будет загружен.
 [Error loading actions]
 Ошибка загрузки действий

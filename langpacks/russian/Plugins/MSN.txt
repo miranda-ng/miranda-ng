@@ -7,7 +7,7 @@
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Поддержка протокола Microsoft Network (MSN) в Miranda NG.
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте ваш модуль сообщений.
+Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте ваш плагин сообщений.
 [Setup Live &Alerts]
 Настройки Live &Alerts
 [Run the following application when new Hotmail arrives]
@@ -67,7 +67,7 @@
 [file transfer is canceled by remote host]
 передача файла отменена удалённым пользователем
 [MSN plugin cannot add a new contact because the contact list is full]
-Модуль MSN не может добавить контакт в список, потому что список контактов полный
+Плагин MSN не может добавить контакт в список, потому что список контактов полный
 [MSN protocol does not allow you to communicate with others when you are invisible]
 Протокол MSN не позволяет разговаривать с другими пользователями, если вы невидимы.
 [MSN Services are temporarily unavailable, please try to connect later]
@@ -179,7 +179,7 @@ MSN Чат
 [Custom Smiley]
 Свои смайлики
 [MSN Protocol Plugin]
-Модуль MSN протокола
+Плагин MSN протокола
 [No Title]
 Нет заголовка
 [Server Lists]

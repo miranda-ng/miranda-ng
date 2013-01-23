@@ -106,13 +106,13 @@ Miranda IM будет автоматически закрыта через %i с
 [Shutdown: Standby mode]
 АвтоВыключение: Ввести в ждущий режим
 [&Harddrive overheats (HDD Info)]
-Перегрев жесткого диска (модуль HDD Info)
+Перегрев жесткого диска (плагин HDD Info)
 [Shutdown: Log off user]
 АвтоВыключение: Завершить сеанс пользователя
 [The shutdown process failed!\nReason: %s]
 Ошибка процесса АвтоВыключения!\nПричина: %s
 [AutoShutdown Plugin]
-Модуль АвтоВыключения
+Плагин АвтоВыключения
 [&Countdown starts at:]
 Отсчёт начинается на:
 [Shutdown]
@@ -132,7 +132,7 @@ Miranda IM будет автоматически закрыта через %i с
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 Игнорировать пустой или временный контакт, следя за отключёнными контактами
 [&Thunderstorm warning is issued  (Weather)]
-Грозовое предупреждение (модуль Weather)
+Грозовое предупреждение (плагин Weather)
 [Shutdown when Miranda IM becomes &idle]
 Выключить, когда Miranda IM простаивает
 [Day(s)]
@@ -144,7 +144,7 @@ Miranda IM будет автоматически закрыта через %i с
 [Shutdown when all contacts are &offline]
 Выключить, когда все контакты отключены
 [The AutoShutdown plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль АвтоВыключения не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
+Плагин АвтоВыключения не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
 [Shutdown a&t:]
 Выключить в:
 [Shutdown when &prozessor usage drops below:]
@@ -205,7 +205,7 @@ Miranda IM будет автоматически закрыта через %i с
 [Go to standby mode.]
 Перейти в ждущий режим.
 [This plugin is started and will use old settings to shut down this time. If you want to use these new settings now, go to Miranda main menu and restart this plugin for changes to take effect.]
-Модуль запущен со старыми настройками выключения. Если сейчас Вы хотите использовать новые настройки, зайдите в опции Miranda IM, и перезапустите этот модуль.
+Плагин запущен со старыми настройками выключения. Если сейчас Вы хотите использовать новые настройки, зайдите в опции Miranda IM, и перезапустите этот плагин.
 [Shut down the system and then restart the system.]
 Завершить работу системы и перезагрузить компьютер.
 [Shut down the system and turn off the power.]

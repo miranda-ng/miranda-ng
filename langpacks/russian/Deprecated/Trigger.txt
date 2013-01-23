@@ -133,7 +133,7 @@ Contact: Контакт меняющий статус\r\nStatus: На какой
 [Program to execute]
 Программа для запуска
 [The above string is parsed by the Variables plugin, if available]
-Строки вверху анализируются модулем Variables, если он есть
+Строки вверху анализируются плагином Variables, если он есть
 [Change status of the following protocols]
 Смена статуса следующих протоколов
 [Set status to]
@@ -173,7 +173,7 @@ Contact: Контакт, запрашивающий сообщение\r\nStatus
 [File to write to]
 Файл для записи
 [The above strings are parsed by the Variables plugin, if available]
-Строки вверху анализируются модулем Variables, если он установлен
+Строки вверху анализируются плагином Variables, если он установлен
 [Event name]
 Имя события
 [Process this parameter as]
@@ -227,7 +227,7 @@ Contact: Контакт, запрашивающий сообщение\r\nStatus
 [The contact for which a setting changes must be]
 Контакт меняющий настройку должен быть:
 [Module name (parsed by the Variables plugin, if available)]
-Имя модуля (анализируется модулем Variables, если есть)
+Имя модуля (анализируется плагином Variables, если есть)
 [Contact: The contact associated to the window\r\nStatus: The contact's status\r\nProtocol: The contact's protocol]
 Contact: Контакт, ассоциированный с окном\r\nStatus: Статус контакта\r\nProtocol: Протокол контакта
 [A message window must exist for one of the following contacts]

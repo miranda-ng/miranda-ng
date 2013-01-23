@@ -59,7 +59,7 @@
 [Process count]
 Кол-во процессов
 [Gamer Plugin]
-Модуль геймеров
+Плагин геймеров
 [Only message?]
 Только сообщения?
 [Don't change when]

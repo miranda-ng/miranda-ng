@@ -50,6 +50,6 @@
 [too big size]
 слишком большое
 [Well, I would talk to you if Miranda IM supported chat]
-Я б не прочь поговорить... если бы у меня был установлен модуль чата.
+Я б не прочь поговорить... если бы у меня был установлен плагин чата.
 [Zero is not acceptable value]
 Нуль не поддерживается

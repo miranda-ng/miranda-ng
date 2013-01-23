@@ -12,7 +12,7 @@
 [Unignore Contact]
 Вернуть контакт
 [Ignore Contact options]
-Настройка модуля
+Настройка плагина
 [Mark contact as ignored]
 Поместить контакт в игнор-лист
 [Deny existing authorization request]

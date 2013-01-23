@@ -8,9 +8,9 @@
 [Updates Found]
 Найдены обновления
 [Updater has detected updated versions\nof the following Miranda components:]
-Были найдены обновлённые версии следующих модулей:
+Были найдены обновлённые версии следующих плагинов:
 [Automatic Updater for Miranda]
-Автоматическое обновление модулей Miranda IM
+Автоматическое обновление плагинов Miranda
 [Temporary Files]
 Временные файлы
 [Saved Archives]
@@ -54,7 +54,7 @@
 [Progress - %d%%]
 Прогресс - %d%%
 [Scanning plugins folder]
-Проверка модулей
+Проверка плагинов
 [Scanning language packs]
 Проверка локализаций
 [Updating component file listing ids]
@@ -62,7 +62,7 @@
 [Checking for updates]
 Проверка обновлений
 [Checking plugin: %s]
-Проверка модуля: %s
+Проверка плагина: %s
 [Changelog]
 Изменения
 [Confirm Files]
@@ -84,7 +84,7 @@
 [Updates are available for the following components:]
 Доступны обновления следующих компонентов:
 [Downloading plugin: %s]
-Загрузка модуля: %s
+Загрузка плагина: %s
 [Downloading]
 Загрузка
 [Update on major version change.]
@@ -108,7 +108,7 @@
 [Progress]
 Прогресс
 [Updater connection]
-Подключения модуля обновлений
+Подключения плагина обновлений
 [Check for updates]
 Проверить обновления
 [Data:]
@@ -142,7 +142,7 @@ Miranda не готова к закрытию!
 [Select Updates Folder]
 Выбор папки обновлений
 [Skipping plugin: %s]
-Пропускаю модуль: %s
+Пропускаю плагин: %s
 [The folder you have chosen for temporary files is not empty.\nALL FILES in this folder will be REMOVED during the update process.]
 Папка для временных файлов, выбранная Вами, не пустая.\nВСЕ ФАЙЛЫ в этой папке будут УДАЛЕНЫ во время процесса обновления.
 [Updater Error]
@@ -204,7 +204,7 @@ BZ2 Распаковка, ошибка аргумента
 [Correct password required]
 Необходим правильный пароль
 [WARNING: Updater will move or delete everything in the 'Updates' folder when installing - so do not point it at anything important (e.g. your plugins folder) or put anything other than updates in there!]
-ВНИМАНИЕ: Модуль переместит или удалит всё в папке "Обновления", не указывайте важную папку (например, папку plugins) и не используйте её для хранения чего-либо!
+ВНИМАНИЕ: Плагин переместит или удалит всё в папке "Updates", не указывайте важную папку (например, папку plugins) и не используйте её для хранения чего-либо!
 
 ;UNtranslated strings
 [Caller: additions to the zip have already been ended]
@@ -239,8 +239,8 @@ BZ2 Распаковка, ошибка аргумента
 [Update, then shutdown]
 Обновить и закрыть
 [Updates are available for the following plugins:]
-Доступны обновления следующих модулей:
+Доступны обновления следующих плагинов:
 [Updates: [ **do NOT set this to be your plugins folder!]]
-Обновления: (**НЕ ставьте путь к папке с модулями!!!)
+Обновления: (**НЕ ставьте путь к папке с плагинами!!!)
 [Check for Plugin Updates]
-Проверить обновления модулей
+Проверить обновления плагинов

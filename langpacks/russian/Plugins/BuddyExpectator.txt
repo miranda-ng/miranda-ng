@@ -8,7 +8,7 @@
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
-Модуль уведомляет о возвращении контакта или его длительном отсутствии.
+Плагин уведомляет о возвращении контакта или его длительном отсутствии.
 [Buddy Expectator]
 Жду тебя
 [has gone online for the first time.]
@@ -102,7 +102,7 @@
 [On event action (double click):]
 По событию (двойной клик):
 [This plugin notifies you when any contact comes online after an absence of long period.]
-Модуль уведомляет вас, когда контакт выходит в сеть после долгого отсутствия.
+Плагин уведомляет вас, когда контакт выходит в сеть после долгого отсутствия.
 [BuddyExpectator: contact returned]
 Инспектор контактов: контакт возвратился
 [has returned after an absence of long period.]

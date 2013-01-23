@@ -8,7 +8,7 @@
 ;  Authors: sss 
 ;============================================================ 
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.] 
-Модуль шифрования GPG, основанный на исходных кодах старого GPG модуля и SecureIM.
+Плагин шифрования GPG, основанный на исходных кодах старого GPG плагина и SecureIM.
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версия GPG поддерживается. Языковые файлы найдены.\nGPG Должен работать нормально.\nНажмите ОК.
 [please choose gpg binary location]

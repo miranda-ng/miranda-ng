@@ -6,13 +6,13 @@
 ;  URL: http://www.miranda-im.org/download/details.php?action=viewfile&id=1971
 ;============================================================
 
-;  настройки - модули - описание
+;  настройки - плагины - описание
 [UserInfoEx]
 Личные данные
 [Gives extended ability to edit information about your contacts locally. It does not matter what information your contact gives about himself. If you know more you can add more.]
 Расширенное отображение информации пользователя. Заменяет отображение личной информации как для вас, так и для ваших контактов.
 
-;  настройки - модули - личные данные - общие
+;  настройки - плагины - личные данные - общие
 [AccountMenu]
 Меню уч. записей
 [Cascade:]
@@ -20,11 +20,11 @@
 [Ex-/Import items]
 Экспорт/Импорт
 [This options require a contact list which supports extra icons.]
-Нужен модуль контакт-листа с поддержкой дополнительных значков.
+Нужен плагин контакт-листа с поддержкой дополнительных значков.
 [Replace the following default icons:]
 Заменить следующие значки:
 
-;  настройки - модули - личные данные - дополнительно
+;  настройки - плагины - личные данные - дополнительно
 [Check file version of default IconPack to prevent wrong icon display]
 Проверять версию файла значков для правильного отображения
 [Display icons on each dialog button]
@@ -34,7 +34,7 @@
 [Enable extended 'GetContactInfo' module (*)]
 Включить расширенный 'GetContactInfo' модуль (*)
 [Enable extended 'send/receive email' service (*)]
-Включить расширенный модуль электронной почты (*)
+Включить расширенный сервис электронной почты (*)
 [Use Windows Timezone]
 Часовой пояс Windows
 [(*) Requires Miranda to be restarted.]
@@ -46,7 +46,7 @@
 [All settings are reset to default values now!]
 Все установки сейчас будут сброшены!
 
-;  настройки - модули - личные данные - диалоги
+;  настройки - плагины - личные данные - диалоги
 [Details Dialog]
 Диалоги
 [Enable colours to give information about information's status.]
@@ -74,7 +74,7 @@
 [Sort all tree items alphabetically.]
 Отсортировать все пункты в алфавитном порядке
 
-;  настройки - модули - личные данные - напоминание
+;  настройки - плагины - личные данные - напоминание
 [Reminder disabled]
 Напоминания отключены
 [Anniversaries only]

@@ -34,7 +34,7 @@ AAA: правила
 [Only set if current status is]
 Только если статус:
 [An Auto Away module with some more options than the original.]
-Модуль управления режимом ожидания с расширенным набором функций.
+Плагин управления режимом ожидания с расширенным набором функций.
 [Auto Away]
 Отсутствие
 [minutes of %s mode]

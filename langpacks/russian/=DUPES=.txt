@@ -224,7 +224,7 @@ xСтатус %s
 [C&lear]
 Очистить
 [Can't find a contact list plugin you need clist_classic or clist_mw.]
-Модуль списка контактов не найден. Вам нужен clist_*.dll
+Плагин списка контактов не найден. Вам нужен clist_*.dll
 [Cantonese]
 Катонезийский
 [Catalan; Valencian]
@@ -394,7 +394,7 @@ E-Mail
 [Enable popups]
 Всплывающие окна
 [Provides a common popup interface for different plugins.]
-Поддержка всплывающих сообщений для различных модулей.
+Поддержка всплывающих сообщений для различных плагинов.
 [Enable tracking for these protocols:]
 Отслеживать следующие протоколы:
 [Enable]
@@ -2002,7 +2002,7 @@ ID пользователя:
 [Set autoreply message]
 Установить сообщение автоответчика
 [Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
-Примечание: если вы не видите значки, поменяйте слот. Может быть он уже используется другим модулем.
+Примечание: если вы не видите значки, поменяйте слот. Может быть он уже используется другим плагином.
 [Number of backups to keep:]
 Количество резервных копий:
 [ Track ]
@@ -2638,7 +2638,7 @@ ID пользователя:
 [F]
 Ж
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://www.miranda-ng.org. Miranda will now shutdown.]
-Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью модуля DbChecker. Пожалуйста, загрузите его с http://www.miranda-ng.org. Miranda будет закрыта.
+Miranda нашла повреждения в Вашей базе. Они могут быть исправлены с помощью плагина DbChecker. Пожалуйста, загрузите его с http://www.miranda-ng.org. Miranda будет закрыта.
 [Database Panic]
 Проблема с базой
 [Please type in your new password]
@@ -3464,11 +3464,11 @@ Web Дизайн
 [Notify when a contact changes to one of these statuses]
 Сообщать, когда статус контакта изменяется на:
 [Plugin activation]
-Активизация модуля
+Активизация плагина
 [Temporarily disable NewStatusNotify (disables popups and sounds)]
 Временно запретить NewStatusNotify (выключить окна и звуки)
 [Put an item in the main menu to easily enable/disable the plugin]
-Пункт в главном меню для включения/отключения модуля
+Пункт в главном меню для включения/отключения плагина
 [Sound options]
 Параметры звука
 [Use Internal &Speaker]
@@ -3876,7 +3876,7 @@ xСтатусы
 [An error occured while writing the database backup!]
 Ошибка при попытке записи копии базы данных!
 [db3xSA Plugin]
-Модуль db3xSA
+Плагин db3xSA
 [Fatal error!]
 Фатальная ошибка!
 [The current version of encryption is no longer supported!\nYou need to convert your profile!]
@@ -3952,7 +3952,7 @@ xСтатусы
 [Show protocol icon]
 Значок протокола
 [Client (fingerprint required)]
-Клиент (нужен модуль fingerprint)
+Клиент (нужен плагин fingerprint)
 [Never]
 Никогда
 [Use &unknown flag if country can not be determined]

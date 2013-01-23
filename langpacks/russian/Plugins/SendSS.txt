@@ -71,7 +71,7 @@
 [Area]
 Область
 [Could not start the HTTP Server plugin.]
-Не могу запустить модуль HTTP Сервер.
+Не могу запустить плагин HTTP Сервер.
 [FTP File is not loaded!]
 FTP File не загружен!
 [HTTP Server is not loaded!]
@@ -141,9 +141,9 @@ Miranda NG выходит
 [Send screenshot to <unknown> - Capture Options]
 Послать снимок <unknown> - Настройки захвата
 [Could not add a share to the FTP File plugin.]
-Невозможно добавить ресурс в модуль FTP File.
+Невозможно добавить ресурс в плагин FTP File.
 [Could not add a share to the HTTP Server plugin.]
-Невозможно добавить ресурс в модуль HTTP Server.
+Невозможно добавить ресурс в плагин HTTP Server.
 [C&olor]
 Цвет
 [Selection Tool]

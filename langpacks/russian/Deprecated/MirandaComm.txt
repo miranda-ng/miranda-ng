@@ -18,7 +18,7 @@
 [Auto-Accept contact]
 Авто-прием контакт
 [Could not establish a connection: Timeout during Instant Message negotiation. Make sure the contact is online and has MirandaComm. Please try again.]
-Невозможно установить соединение: Вышло время ответа IM. Убедитесь пожалуйста, что контакт в сети и у него установлен модуль MirandaComm. Попытайтесь снова.
+Невозможно установить соединение: Вышло время ответа IM. Убедитесь пожалуйста, что контакт в сети и у него установлен плагин MirandaComm. Попытайтесь снова.
 [Could not establish a connection. Are both you and your peer firewalled or behind a NAT? See MirandaComm's FAQ for solutions.]
 Невозможно установить соединение. Вы и ваш собеседник используете Firewall или за NAT? Посмотрите MirandaComm FAQ для информации.
 [The connection with %s timed out.]

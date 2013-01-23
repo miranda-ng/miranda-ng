@@ -8,7 +8,7 @@
 [xStatus: empty xStatus name to default name]
 хСтатус: пустое имя в имя по умолчанию
 [Tool Tip notification windows.]
-Модуль всплывающих подсказок для списка контактов.
+Плагин всплывающих подсказок для списка контактов.
 [Min width:]
 Мин. ширина:
 [Min height:]
@@ -242,7 +242,7 @@ xСтатус
 [You must enter a label]
 Вы должны ввести метку
 [You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Вам нужен модуль advaimg.dll для поддержки скинов. Он есть в последних альфа сборках Miranda NG.
+Вам нужен плагин advaimg.dll для поддержки скинов. Он есть в последних альфа сборках Miranda NG.
 [Empty message]
 Пустое сообщение
 [Tooltips View]

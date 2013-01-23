@@ -52,7 +52,7 @@ Skype дополнительно
 [Use popup plugin for displaying messages ]
 Использовать всплывающие окна для сообщений
 [Use group chat interface for conversations (requires group chat module)]
-Использовать интерфейс для чата (требуется модуль с поддержкой чатов)
+Использовать интерфейс для чата (требуется плагин с поддержкой чатов)
 [Suppress all error messages (not recommended, but if it annoys you... ;)]
 Выключить все сообщения об ошибках. (Не рекомендуется.)
 [Suppress call summary chat message]

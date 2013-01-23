@@ -112,7 +112,7 @@ ID канала
 [&Delete this feed]
 Удалить этот канал
 [RSS/Atom reader.]
-Модуль для чтения RSS/Atom.
+Плагин для чтения RSS/Atom.
 [&Do not ask again for this feed]
 Не спрашивать снова для этого канала
 [Authentication]
@@ -144,7 +144,7 @@ URL :
 [Enter a value in Location field.]
 Заполните поле "Путь"
 [RSS plugin can't connect to the server %s, it may be temporarily down. Please try again later.]
-Модуль RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
+Плагин RSS не может соединиться с сервером %s, возможно, он отключён. Попробуйте позже.
 [RSS plugin is unable to resolve the name of the server %s.]
 RSS не смог найти IP-адрес, соответствующий имени сервера %s.
 [All item's tags are valid. Put them between #.]

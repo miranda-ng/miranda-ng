@@ -6,7 +6,7 @@
 [World Time]
 Мировое время
 [Display world times.]
-Показывает время выбранных часовых поясов. Желателен модуль Multiwindow или clist_mw.
+Показывает время выбранных часовых поясов. Желателен плагин Multiwindow или clist_mw.
 [Interface]
 Вид окна
 [Show/hide with contact list (*if set, show/hide menu item has no effect)]

@@ -59,7 +59,7 @@
 [Change Status Message]
 Изменить сообщение статуса
 [* These setting may not work with some plugins.]
-* Эти настройки могут не работать с другими модулями.
+* Эти настройки могут не работать с другими плагинами.
 [Clear Predefined]
 Очистить предуст.
 [Show icons in status list]

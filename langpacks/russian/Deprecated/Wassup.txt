@@ -5,13 +5,13 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=358
 ;============================================================
 [Plugins Updates]
-Обновление модулей
+Обновление плагинов
 [All Selections]
 Все категории
 [Some of your tracked plugins have updates]
-Модули, которые вы искали, обновились
+Плагины, которые вы искали, обновились
 [Looking up installed plugins...]
-Поиск установленных модулей...
+Поиск установленных плагинов...
 [Latest version]
 Последняя версия
 [Last checked version]
@@ -27,11 +27,11 @@
 [Get List from Server]
 Получить список с сервера
 [Plugins Selection]
-Секция модулей
+Секция плагинов
 [Only select active plugins]
-Только активные модули
+Только активные плагины
 [Select installed plugins]
-Установленные модули
+Установленные плагины
 [Select Updated]
 Выбрать новые
 [Updates since:]
@@ -85,7 +85,7 @@ Wassup Обновления
 [Protocols' changelog]
 Изменения протоколов
 [Plugins' changelog]
-Изменения модулей
+Изменения плагинов
 [Latest nightly build]
 Последняя сборка
 [Latest nightly build (Debug)]
@@ -121,7 +121,7 @@ Wassup Обновления
 [A new nightly version of Miranda IM]
 Новая сборка Miranda IM
 [Some plugins were updated]
-Модули обновились
+Плагины обновились
 [Updated customisation files]
 Скины и значки обновились
 [Updated localisation files]
@@ -180,7 +180,7 @@ Wassup Обновления
 [A new nightly is not available]
 Новая сборка недоступна
 [You have chosen to install one or more plugins, are you sure you would like to continue?]
-Вы точно уверены в том, что хотите установить выбранные вами модули?
+Вы точно уверены в том, что хотите установить выбранные вами плагины?
 [You have chosen to install the latest nightly, are you sure you would like to continue?]
 Вы точно уверены в том, что хотите установить самую последнюю сборку Miranda?
 [Documentation]
@@ -200,7 +200,7 @@ Wassup Обновления
 [A new nightly is available]
 Новая сборка доступна для загрузки!
 [One or more of your plugins was updated]
-Один или несколько модулей обновлены
+Один или несколько плагинов обновлены
 [Download file]
 Загрузка файла
 [Auto-Checkups]
@@ -210,7 +210,7 @@ Wassup Обновления
 [A new nightly]
 Сборку
 [Updated plugins]
-Модули
+Обновленные плагины
 [Every]
 Через
 [hour/s]
@@ -230,11 +230,11 @@ Wassup Обновления
 [Check for &Components Updates]
 Проверить обновления компонентов
 [Check for &Plugins Updates]
-Проверить обновления модулей
+Проверить обновления плагинов
 [Fetching Data...]
 Получение данных...
 [Before you can check for plugin updates, you will need to select what plugins you would like to track. Go to Options->Wassup->Plugins Updates.]
-Сначала выберите модули, обновление которых вы хотите отслеживать: Настройки->Обновления->Модули
+Сначала выберите плагины, обновление которых вы хотите отслеживать: Настройки->Обновления->Плагины
 [Web Info]
 Информация
 [Source Type (*.%s)]
@@ -242,13 +242,13 @@ Wassup Обновления
 [Save download to...]
 Сохранить в...
 [Retrieving Plugins list]
-Запрос списка модулей
+Запрос списка плагинов
 [List of Plugins]
-Список модулей
+Список плагинов
 [Last Update]
 Последнее обновление
 [Before selecting installed plugins, the current list of plugins will be retrieved from the server.]
-Перед выбором установленных модулей список всех модулей будет загружен с сервера
+Перед выбором установленных плагинов список всех плагинов будет загружен с сервера
 [Network settings]
 Настройки сети
 [Sending packets]
@@ -318,7 +318,7 @@ Wassup Обновления
 [Use HTTP Proxy Server]
 Использовать HTTP прокси-сервер
 [Wassup - Plugins Updates]
-Обновления - Обновления модулей
+Обновления - Обновления плагинов
 [Clear All]
 Очистить все
 [Components Updates - Wassup]
@@ -330,9 +330,9 @@ Wassup Обновления
 [Tools]
 Инструменты
 [Plugins Updates - Wassup]
-Обновления модулей
+Обновления плагинов
 [Check for Miranda IM updates]
-Модуль обновлений позволяет скачивать и устанавливать новые и обновлённые модули, значки, локализации и прочие компоненты Miranda IM.
+Плагин обновлений позволяет скачивать и устанавливать новые и обновлённые плагины, значки, локализации и прочие компоненты Miranda.
 [&Download]
 Загрузить
 [&Install]
@@ -360,23 +360,23 @@ Wassup Обновления
 [56 KB/s]
 56 Кб/с
 [Latest AIM plugin]
-Последний AIM модуль 
+Последний AIM плагин 
 [Latest ICQ plugin]
-Последний ICQ модуль
+Последний ICQ плагин
 [Latest Jabber plugin]
-Последний Jabber модуль
+Последний Jabber плагин
 [Latest Miranda build]
 Последняя сборка Miranda
 [Latest MSN plugin]
-Последний MSN модуль
+Последний MSN плагин
 [Latest SRMM plugin]
-Последний SRMM модуль
+Последний SRMM плагин
 [Latest Yahoo plugin]
-Последний Yahoo модуль
+Последний Yahoo плагин
 [Latest Classic Contact List]
-Последний Classic Contact модуль
+Последний Classic Contact плагин
 [Latest MultiWindow Contact List]
-Последний MultiWindow Contact  модуль
+Последний MultiWindow Contact  плагин
 [Latest]
 Последний
 [Install All...]

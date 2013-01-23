@@ -4,7 +4,7 @@
 ;  Versions: 0.0.2.1
 ;============================================================
 [Provides text render API for different plugins.]
-API прорисовки текста для различных модулей.
+API прорисовки текста для различных плагинов.
 [Text Display]
 Текст
 [Display technique]

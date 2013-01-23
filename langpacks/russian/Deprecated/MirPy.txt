@@ -7,7 +7,7 @@
 [Adding script folders to load path:]
 [Autoloaded scripts]
 [Error while adding module path and autoload path variables to module MirPy.]
-Ошибка при добавлении переменных пути модуля и пути автозагрузки к модулю MirPy.
+Ошибка при добавлении переменных пути плагина и пути автозагрузки к плагину MirPy.
 [Error while adding script and module folders to python's search path.]
 Ошибка при добавлении папки скриптов и модулей в путь поиска python'а
 [Error while trying to import module PyMir.]

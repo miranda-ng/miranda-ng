@@ -5,9 +5,9 @@
 ;  Versions: 2.10.0.1 & higher
 ;============================================================
 
-;  Описание на странице модулей
+;  Описание на странице плагинов
 [Scriver - send and receive instant messages.]
-Модуль личных и групповых чатов для Miranda NG.
+Плагин личных и групповых чатов для Miranda NG.
 
 ;  Беседы — общее
 [Automatically pop up the window when]

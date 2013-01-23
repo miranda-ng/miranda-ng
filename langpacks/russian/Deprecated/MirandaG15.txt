@@ -104,7 +104,7 @@
 [Hide it]
 Без заголовка
 [Show the plugin name]
-Показывать имя модуля
+Показывать имя плагина
 [Show a short event summary]
 Краткое содержание события
 [Size of the log]
@@ -228,4 +228,4 @@
 [Maximized replying]
 Ответ в режиме полного экрана
 [Provides an interface to use Miranda from the G15's LCD]
-Модуль добавляет возможность использования Miranda IM на ЖК-экране клавиатуры Logitech G15
+Плагин добавляет возможность использования Miranda IM на ЖК-экране клавиатуры Logitech G15

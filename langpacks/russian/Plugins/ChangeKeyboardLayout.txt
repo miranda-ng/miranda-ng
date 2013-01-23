@@ -8,9 +8,9 @@
 ;  Authors: yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
-Модуль управления сменой раскладки по горячим клавишам.
+Плагин управления сменой раскладки по горячим клавишам.
 [Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
-Установите конфигурационные строки для неизвестных раскладок(Модули->ChangeKeyboardLayout)!
+Установите конфигурационные строки для неизвестных раскладок(Плагины->ChangeKeyboardLayout)!
 [Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
 Конфигурационные строки известных раскладок заменены. Отредактируйте, пожалуйста, строки для неизвестных строк, если таковые имеются.
 [Options:]
@@ -34,7 +34,7 @@
 [HotKey for changing layout of text:]
 Горячая кнопка для смены:
 [Plugin for change keyboard layout of text (multilayout)]
-Модуль для смены раскладок текста.
+Плагин для смены раскладок текста.
 [Changing layout:]
 Смена раскладки:
 [Changing layout (alternative):]

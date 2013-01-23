@@ -65,7 +65,7 @@ Cистема блокирована (2K/XP)
 [Keep main status offline*]
 Хранить главный статус не в сети*
 [* Setting this option may confuse other plugins]
-* Может конфликтовать с другими модулями
+* Может конфликтовать с другими плагинами
 [-- Time Zone --]
 -- Часовой пояс --
 [total bias]
@@ -75,7 +75,7 @@ Cистема блокирована (2K/XP)
 [reconnect after]
 переподключиться через
 [Smart Auto Away Module]
-Модуль Расширенного ожидания
+Расширенный режим ожидания
 [%s cannot set status messages]
 %s не использует статусных сообщений
 [I am here]

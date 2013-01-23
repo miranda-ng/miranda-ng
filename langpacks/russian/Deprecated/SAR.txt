@@ -5,7 +5,7 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1609
 ;============================================================
 [Advanced autoreplier plugin which is capable to execute custom actions depending on incoming messages.]
-Передовой модуль автоответчик, способный выполнять различные действия в зависимости от входящих сообщений
+Передовой плагин-автоответчик, способный выполнять различные действия в зависимости от входящих сообщений
 [Smart Auto Replier]
 Умный автоответчик
 [Enable Smart Auto Replier]
@@ -25,7 +25,7 @@
 [Please, choose contact to apply rule to]
 Пожалуйста, выберите контакт которому применяется правило
 [Generated autoreply by SAR plugin:\n]
-Сгенерированный автоответ от SAR модуля:\n
+Сгенерированный автоответ от плагина SAR:\n
 [Smart Auto Replier script]
 Скрип автоответчика
 [Internal error]

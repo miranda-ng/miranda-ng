@@ -8,4 +8,4 @@
 [Copy &IP]
 Копировать &IP
 [This plugin allows you to copy a user's IP to the clipboard.]
-Этот модуль копирует внешний IP пользователя в буфер обмена.
+Этот плагин копирует внешний IP пользователя в буфер обмена.

@@ -52,7 +52,7 @@
 [Import completed]
 Импорт завершен
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-Если вам в будущем понадобится этот мастер, отметьте модуль import.dll в настройках (раздел "Модули").
+Если вам в будущем понадобится этот мастер, отметьте плагин import.dll в настройках (раздел "Плагины").
 [Miranda has found Mirabilis ICQ databases corresponding to the following ICQ numbers. Please select the one you wish to import, or click "Other Database" if your database is not listed.]
 Miranda нашла базы Mirabilis ICQ для следующих номеров ICQ. Выберите один из них, или нажмите "Другая база", если ваша база не указана в списке.
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
@@ -162,7 +162,7 @@ DEBUG: Настройка нулевой длинны удалена.
 [Group import was not completed.]
 Импорт групп не завершен.
 [ICQ plugin is not installed.]
-Не установлен модуль ICQ
+Не установлен плагин ICQ
 [Ignored event from/to self]
 Пропускаю событие от самого себя
 [Ignoring module: %s]

@@ -5,13 +5,13 @@
 ;  Versions: 	0.0.1.2
 ;============================================================
 [Plugin updater for Miranda NG.]
-Обновление модулей Miranda NG.
+Обновление плагинов Miranda NG.
 [Plugin Updater]
-Обновление модулей
+Обновление плагинов
 [Check for plugin updates]
-Проверить обновления модулей
+Проверить обновления плагинов
 [Downloading plugin updates...]
-Загрузка обновлённых модулей...
+Загрузка обновлённых плагинов...
 [No updates found.]
 Обновлений нет.
 [View info]
@@ -23,15 +23,15 @@
 [Downloading version info...]
 Загрузка информации о версиях...
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-Вы отказались от немедленной установки обновления модулей.\nВы можете установить это обновление вручную отсюда:\n\n%s
+Вы отказались от немедленной установки обновления плагинов.\nВы можете установить это обновление вручную отсюда:\n\n%s
 [No files for update.]
 Нет файлов для обновления.
 [Update checking already started!]
 Обновление уже запущено!
 [Automatically check for plugin updates]
-Автоматически проверять обновления модулей
+Автоматически проверять обновления плагинов
 [Plugin updates options]
-Настройки обновления модулей
+Настройки обновления плагинов
 [Remind about not installed plugin updates]
 Напоминать о неустановленных обновлениях
 [Message boxes (*)]
@@ -57,7 +57,7 @@ HTTP подключение Plugin Updater
 [Updates found!]
 Найдены обновления!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
-Были найдены обновлённые версии модулей Miranda NG. Нажмите на кнопку "Детали" для подробной информации.
+Были найдены обновлённые версии плагинов Miranda NG. Нажмите на кнопку "Детали" для подробной информации.
 ['Yes' Button]
 Кнопка 'Да'
 ['No' Button]

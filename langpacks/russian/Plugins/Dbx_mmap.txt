@@ -8,7 +8,7 @@
 ;  Authors: Miranda-IM project
 ;============================================================
 [db3x_mmap Plugin]
-Модуль db3x_mmap
+Плагин db3x_mmap
 [Disk is full. Miranda will now shutdown.]
 Диск полон. Miranda завершает работу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]

@@ -28,7 +28,7 @@
 [Don't remind me anymore]
 Больше не напоминать
 [Fingerprint plugin not found.]
-Модуль Fingerprint не найден.
+Плагин Fingerprint не найден.
 [Ignore these clients (separated by semicolons):]
 Игнорировать эти клиенты (через точку с запятой):
 [Notify also when just client version changes]
@@ -42,7 +42,7 @@
 [changed client to ]
 сменил клиент на 
 [Fingerprint plugin not found. Please make sure that you have the latest version installed. ClientChangeNotify requires it to work properly.]
-Модуль Fingerprint  не найден. Удостоверьтесь что вы установили самую последнюю версию, это необходимо для нормальной работы.
+Плагин Fingerprint  не найден. Удостоверьтесь что вы установили самую последнюю версию, это необходимо для нормальной работы.
 [ClientChangeNotify]
 Уведомление о смене клиента
 [Disable c&lient change notification]

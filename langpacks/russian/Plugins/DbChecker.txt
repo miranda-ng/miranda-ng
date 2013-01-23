@@ -237,6 +237,6 @@
 [Database encrypted with %s by %s]
 БД зашифрована с помощью алгоритма %s от %s
 [Miranda NG Database Checker.]
-Модуль проверки БД Miranda NG.
+Плагин проверки БД Miranda NG.
 [Database Checker cannot find a suitable database plugin to open '%s'.]
-Модуль проверки не может найти подходящего драйвера БД для открытия '%s'.
+Плагин проверки не может найти подходящего драйвера БД для открытия '%s'.

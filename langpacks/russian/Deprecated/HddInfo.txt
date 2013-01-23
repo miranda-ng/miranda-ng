@@ -56,7 +56,7 @@ HDD Температура
 [Time-out]
 Таймаут
 [Now plug-in is only for support of "HDD Info".]
-Сейчас модуль поддерживает только "HDD Info".
+Сейчас плагин поддерживает только "HDD Info".
 [Restore]
 Восстановить
 [hour(s)]
@@ -82,7 +82,7 @@ HDD Слежение за температурой
 [Formatted popup variables]
 Стандартные переменные
 [Popup view]
-PopUp модуль
+PopUp плагин
 [Restore custom]
 Сбросить изменения
 [Show custom formatted popup]
@@ -124,4 +124,4 @@ PopUp модуль
 [Time-out\n(in seconds)]
 Таймаут\n(в секундах)
 [You have to install plugin "Hotkeys+" for this feature!]
-Для использования этой возможности необходим модуль "Hotkeys+"
+Для использования этой возможности необходим плагин "Hotkeys+"

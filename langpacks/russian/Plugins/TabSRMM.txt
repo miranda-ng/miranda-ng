@@ -55,7 +55,7 @@
 [Prefer xStatus icons when available]
 Показывать значок хСтатуса, когда доступен (вместо статуса)
 [Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Показывать подсказку на вкладках (требуется модуль Tipper)
+Показывать подсказку на вкладках (требуется плагин Tipper)
 [How to create tabs and windows for incoming messages]
 Настройки создания вкладок и окон для входящих сообщений
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
@@ -159,7 +159,7 @@ RTL по умолчанию
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
 Обычные шаблоны (отключите для упрощённых шаблонов)
 [Support for external plugins]
-Поддержка внешних модулей
+Поддержка внешних плагинов
 [Show events at the new line (IEView Compatibility Mode)]
 Показывать события в новой строке (Режим совместимости с IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -195,9 +195,9 @@ RTL по умолчанию
 [Global message log display]
 Основной журнал сообщений
 [History++ plugin]
-Модуль History++
+Плагин History++
 [IEView plugin]
-Модуль IEView
+Плагин IEView
 [Template sets]
 Наборы шаблонов
 [Standard templates...]
@@ -241,7 +241,7 @@ RTL шаблоны
 [Define up to 5 colors which you can use with some variables]
 Выберите до 5 цветов, для использования с переменными
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Вы выбрали внешний модуль для отображения сообщений в журнале. Большинство настроек на этой странице для журнала по умолчанию и не будут иметь эффекта. Для изменения внешнего вида журнала сообщений Вы должны настроить IEView или History++.
+Вы выбрали внешний плагин для отображения сообщений в журнале. Большинство настроек на этой странице для журнала по умолчанию и не будут иметь эффекта. Для изменения внешнего вида журнала сообщений Вы должны настроить IEView или History++.
 
 ; Панель кнопок
 
@@ -301,9 +301,9 @@ RTL шаблоны
 [Message window tweaks]
 Настройки окна сообщений
 [Show client icon in status bar (fingerprint plugin required)]
-Показывать значок клиента в панели статуса (необходим модуль Fingerprint)
+Показывать значок клиента в панели статуса (необходим плагин Fingerprint)
 [Show skinnable tooltip in chat (tipper plugin required)]
-Использовать модуль tipper для отображения подсказок в чате
+Использовать плагин tipper для отображения подсказок в чате
 [Enable typing sounds]
 Включить звук набора текста
 [Disable animated GIF avatars (will not affect already open message windows)]
@@ -515,7 +515,7 @@ IRC-стиль(текстовый) индикаторов ролей в журн
 [Scale down icons to 10x10 pixels in the chat log]
 Менять разрешение значков на 10х10 в окне чата
 [Support the math module plugin]
-Поддержка математического модуля
+Поддержка математического плагина
 
 ;Формат журнала
 
@@ -627,10 +627,10 @@ ID текущего контакта (если определен). Наприм
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 Нельзя включить фильтр, т.к. не выбран ни один тип событий, как глобально так и для этого чата
 
-;-МОДУЛИ-
+;-ПЛАГИНЫ-
 
 [IM and group chat module for Miranda NG.]
-Модуль личных и групповых чатов для Miranda NG.
+Плагин личных и групповых чатов для Miranda NG.
 
 ;-ГОРЯЧИЕ КЛАВИШИ-
 
@@ -931,7 +931,7 @@ TABSRMM: Набирает
 [Save current Window Position as Default]
 Сохранить текущую позицию окна
 [About tabSRMM...]
-О модуле tabSRMM...
+О плагине tabSRMM...
 [&Room]
 Чат-комната
 [Save and close session]
@@ -1314,13 +1314,13 @@ ID пользователя в панели статуса
 [Force History++]
 Принудительно History++
 [Force History++ (plugin missing)]
-Принудительно History++ (модуль отсутствует)
+Принудительно History++ (плагин отсутствует)
 [Force IEView]
 Принудительно IEView
 [Force IEView (plugin missing)]
-Принудительно IEView (модуль отсутствует)
+Принудительно IEView (плагин отсутствует)
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Выберите, как отображать журнал. Не работает, если один из перечисленных модулей не установлен.
+Выберите, как отображать журнал. Не работает, если один из перечисленных плагинов не установлен.
 [Send text formatting method]
 Метод отправки форматирования
 [BBCode]
@@ -1463,7 +1463,7 @@ ID пользователя в панели статуса
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 Плагин всплывающих окон не найден. Уведомления недоступны.
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
-Проверка версии набора значков|Установленный набор значков устарел и может быть несовместим с модулем TabSRMM версии 3.\n\n \\b1 Отсутствующие или неуместные значки могут вызвать проблемы с установленным набором.\\b0
+Проверка версии набора значков|Установленный набор значков устарел и может быть несовместим с плагином TabSRMM версии 3.\n\n \\b1 Отсутствующие или неуместные значки могут вызвать проблемы с установленным набором.\\b0
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Не удалось передать сообщения после закрытия окна беседы. Возможно, вам нужно отправить его еще раз
 [A message delivery has failed.\nClick to open the message window.]
@@ -1503,7 +1503,7 @@ ID пользователя в панели статуса
 [Unknown module or contact]
 Неизвестный модуль или контакт
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-Либо модуль тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
+Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
 [tabSRMM Information]
 Информация tabSRMM
 

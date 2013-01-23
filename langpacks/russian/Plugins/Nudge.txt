@@ -7,7 +7,7 @@
 [Nudge for MetaContacts]
 Встряхнуть (метаконтакты)
 [Plugin to shake the clist and chat window.]
-Модуль тряски контакт листа и окна сообщений.
+Плагин тряски контакт листа и окна сообщений.
 [Send &Nudge]
 Встряхнуть
 [Nudge]
@@ -61,7 +61,7 @@
 [Auto resend nudge after]
 Повторять тряску каждые
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Это число нельзя изменять, оно забито в коде модуля.
+* Это число нельзя изменять, оно забито в коде плагина.
 [Number of moves]
 Кол-во движений
 [Shake the chat window]

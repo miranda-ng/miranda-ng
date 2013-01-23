@@ -16,7 +16,7 @@
 [Associations for Miranda NG]
 Ассоциации для Miranda NG
 [Miranda NG and its plugins are capable to handle the following\nfile types and website links:]
-Miranda NG и её модули могут обрабатывать следующие типы файлов, а также гиперссылок:
+Miranda NG и её плагины могут обрабатывать следующие типы файлов, а также гиперссылок:
 [&Enable]
 &Включить
 [&Disable]
@@ -82,7 +82,7 @@ Miranda NG не может открыть ссылку
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Произошла ошибка записи для модификации ассоциаций файлов/ссылок.\n\nПричина: %s
 [The File Association Manager Plugin can not be loaded. It requires Miranda NG %hs or later.]
-Модуль ассоциаций не может быть загружен. Требуется версия Miranda NG %hs или позже.
+Плагин ассоциаций не может быть загружен. Требуется версия Miranda NG %hs или позже.
 [%hs files]
 %hs файлы
 [Autostart Error]

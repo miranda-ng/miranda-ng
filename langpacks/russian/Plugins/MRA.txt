@@ -57,7 +57,7 @@
 [Phone/SMS only contact]
 Телефонный/SMS контакт
 [plugin connections]
-соединения модуля
+соединения плагина
 [From: %s\r\nSubject: %s\r\n%s]
 От: %s\r\nТема: %s\r\n%s
 [Unread mail is available: %lu/%lu messages]

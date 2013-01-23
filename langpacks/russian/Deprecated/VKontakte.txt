@@ -34,7 +34,7 @@ E-mail или логин:
 [VKontakte Protocol for Miranda IM]
 Протокол ВКонтакте для Miranda IM
 [VKontakte HTTP connections]
-Подключения модуля ВКонтакте
+Подключения плагина ВКонтакте
 [&Main page VKontakte...]
 &Страница ВКонтакте...
 [&Photos VKontakte...]

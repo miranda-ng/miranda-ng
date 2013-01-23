@@ -10,7 +10,7 @@
 [&When people go offline too]
 &И когда собеседники уходят
 [Put an item in the main menu to easily enable/disable the plugin (note: requires a restart of Miranda)]
-Поместить в главное меню пункт включения/выключения модуля (необходим рестарт Miranda)
+Поместить в главное меню пункт включения/выключения плагина (необходим рестарт Miranda)
 [Individual Sounds]
 Индивид. звуки
 [Instructions]

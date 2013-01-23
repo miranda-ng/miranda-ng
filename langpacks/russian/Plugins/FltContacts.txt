@@ -8,7 +8,7 @@
 ;  Authors: iavorv
 ;============================================================
 [Floating Contacts plugin for Miranda.]
-Модуль плавающих контактов для Miranda NG.
+Плагин плавающих контактов для Miranda NG.
 [Floating Contacts]
 Плавающие контакты
 [Remove thumb]
@@ -32,7 +32,7 @@
 [Use fixed width]
 Ширина
 [requires mToolTip or Tipper plugin]
-требуется модуль mToolTip или Tipper
+требуется плагин mToolTip или Tipper
 [Bring to front]
 На передний план
 [Bring to front every]

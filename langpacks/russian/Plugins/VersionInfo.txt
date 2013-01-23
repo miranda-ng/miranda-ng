@@ -7,9 +7,9 @@
 [VersionInfo]
 Версии
 [Customize using folders plugin]
-Настройка с помощью модуля folders
+Настройка с помощью плагина folders
 [Show plugin UUIDs]
-UUID модуля
+UUID плагина
 [Output folder]
 Папка сохранения
 [Ask every time]
@@ -25,7 +25,7 @@ UUID модуля
 [You will need to restart Miranda to add/remove the menu item.]
 Чтобы добавить или удалить пункт меню нужно перезапустить Miranda.
 [Show disabled plugins too]
-Показать отключённые модули
+Показать отключённые плагины
 [Do it now]
 Сделать
 [Enable debug messages]
@@ -39,19 +39,19 @@ UUID модуля
 [Highlight version number using]
 Выделить номер версии
 [Attempt to find unloadable plugins (doesn't work on Windows 98)]
-Найти модули, которые не загружаются (не работает в Windows 98)
+Найти плагины, которые не загружаются (не работает в Windows 98)
 [Ask everytime]
 Всегда спрашивать
 [Suppress header information]
 Не включать заголовок
 [Miranda Version Information]
-Версии модулей Miranda
+Версии плагинов Miranda
 [&Copy text]
 &Копировать
 [Select output:]
 Вывести в:
 [Collects and prints information related to Miranda, the plugins and the OS.]
-Собирает и выводит информацию о Miranda NG, модулях и операционной системе.
+Собирает и выводит информацию о Miranda NG, плагинах и операционной системе.
 [Upload to site]
 Закачать на сайт
 [Upload site settings]
@@ -65,11 +65,11 @@ UUID модуля
 [Information successfully copied into clipboard.]
 Информация успешно скопирована в буфер обмена.
 [Informations successfully copied into clipboard.]
-Информация о модулях успешно скопирована в буфер обмена
+Информация о плагинах успешно скопирована в буфер обмена
 [Informations successfully written on file: "%s".]
-Информация о модулях успешно записана в файл: "%s".
+Информация о плагинах успешно записана в файл: "%s".
 [Show plugin UUIDs ?]
-UUID модулей
+UUID плагинов
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Вы уверены, что хотите включить эту опцию?\nПожалуйста, используйте её, только если понимаете, для чего она или если кто-либо попросил вас включить её.
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\nIf you don't check your bug and give help, it will not be fixed!]
@@ -77,8 +77,8 @@ UUID модулей
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Ошибка создания файла %s. Возможно диск полон или защищен.
 [Version Informations]
-Версии модулей
+Версии плагинов
 [&Version Informations]
-&Версии модулей
+&Версии плагинов
 [Output Debug String]
 Вывод отладочных строк

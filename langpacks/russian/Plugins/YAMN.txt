@@ -44,7 +44,7 @@ YAMN: сбой подключения
 [TopToolBar button "Chack mail"]
 Показывать кнопку "Проверить почту"
 [Installed plugins]
-Установленные дополнительные модули
+Установленные дополнительные плагины
 [Use subject to detect spam]
 Использовать для определения спама
 [%s - %d new mails, %d total]
@@ -88,7 +88,7 @@ YAMN: сбой подключения
 [No new mail]
 Нет новых писем
 [Performs easy filtering. YAMN required (http://www.majvan.host.sk/Projekty/YAMN).]
-Дополнительный фильтр почты для модуля YAMN.
+Дополнительный фильтр почты для плагина YAMN.
 [Connect Fail]
 Обрыв соединения
 [TopToolBar UP]
@@ -218,7 +218,7 @@ YAMN: новое письмо
 [Delete account confirmation]
 Подтверждение удаления аккаунта
 [Do you also want to remove native YAMN plugins settings?]
-Удалить настройки YAMN модулей?
+Удалить настройки плагина YAMN?
 [Do you really want to delete this account?]
 Вы действительно хотите удалить этот аккаунт?
 [Error %d-%d-%d-%d:]
@@ -248,7 +248,7 @@ YAMN: новое письмо
 [YAMN (internal POP3) read error]
 YAMN (внутренний POP3) ошибка чтения
 [POP3 plugin- write file error]
-POP3 модуль - ошибка при записи в файл
+POP3 плагин - ошибка при записи в файл
 [Error %d-%d-%d:]
 Ошибка %d-%d-%d:
 [Cannot connect to POP3 server.]
