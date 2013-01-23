@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
+static bool bOldMode = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
@@ -344,7 +345,8 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
 					}	}
 
-					// ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE); // this here only in "ghazan mode"
+					if (bOldMode)
+						ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE); // this here only in "ghazan mode"
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				}
@@ -377,13 +379,13 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						mir_ptr<TCHAR> tszUrl( latin2t(sel ? dat->homepage : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINURL), tszUrl);
 
-						if (equalUUID(miid_last, dat->uuid))
-							SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? TranslateT("<none>") : _T(""));
-						else {
+						if ( !equalUUID(miid_last, dat->uuid)) {
 							char szUID[128];
 							uuidToString(dat->uuid, szUID, sizeof(szUID));
 							SetWindowTextA( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? szUID : "");
-			}	}	}	}
+						}
+						else SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINPID), sel ? TranslateT("<none>") : _T(""));
+			}	}	}
 
 			if (hdr->hdr.code == PSN_APPLY) {
 				bool needRestart = false;
@@ -396,36 +398,38 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					ListView_GetItemText(hwndList, iRow, 2, buf, SIZEOF(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
-					
-					LVITEM lvi = {0};
-					lvi.mask = LVIF_IMAGE | LVIF_PARAM;
-					lvi.stateMask = -1;
-					lvi.iItem = iRow;
-					lvi.iSubItem = 1;
-					if (ListView_GetItem(hwndList, &lvi)) {
-						lvi.mask = LVIF_IMAGE;
 
-						PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
-						if (iState & 0x2000) {
-							// enabling plugin
-							if (lvi.iImage == 3 || lvi.iImage == 5) {
-								if (lvi.iImage == 3 && LoadPluginDynamically(dat)) {
-									lvi.iImage = 2;
-									ListView_SetItem(hwndList, &lvi);
-								} else {
-									bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
-									needRestart = true;
+					if ( !bOldMode) {
+						LVITEM lvi = {0};
+						lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+						lvi.stateMask = -1;
+						lvi.iItem = iRow;
+						lvi.iSubItem = 1;
+						if (ListView_GetItem(hwndList, &lvi)) {
+							lvi.mask = LVIF_IMAGE;
+
+							PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
+							if (iState & 0x2000) {
+								// enabling plugin
+								if (lvi.iImage == 3 || lvi.iImage == 5) {
+									if (lvi.iImage == 3 && LoadPluginDynamically(dat)) {
+										lvi.iImage = 2;
+										ListView_SetItem(hwndList, &lvi);
+									} else {
+										bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+										needRestart = true;
+									}
 								}
-							}
-						} else {
-							// disabling plugin
-							if (lvi.iImage == 2 || lvi.iImage == 4) {
-								if (lvi.iImage == 2 && UnloadPluginDynamically(dat)) {
-									lvi.iImage = 3;
-									ListView_SetItem(hwndList, &lvi);
-								} else {
-									bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
-									needRestart = true;
+							} else {
+								// disabling plugin
+								if (lvi.iImage == 2 || lvi.iImage == 4) {
+									if (lvi.iImage == 2 && UnloadPluginDynamically(dat)) {
+										lvi.iImage = 3;
+										ListView_SetItem(hwndList, &lvi);
+									} else {
+										bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+										needRestart = true;
+									}
 								}
 							}
 						}
@@ -487,6 +491,7 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 
 void LoadPluginOptions()
 {
+	bOldMode = db_get_b(NULL, "Options", "OldPluginSettings", false) != 0;
 	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
 	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);
 }
