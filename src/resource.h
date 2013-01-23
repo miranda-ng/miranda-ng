@@ -63,6 +63,7 @@
 #define IDI_SENDEMAIL                   193
 #define IDD_FILERECV                    194
 #define IDD_PROFILEMANAGER              197
+#define IDI_MAINMENU                    198
 #define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
 #define IDD_FINDADD                     201

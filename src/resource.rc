@@ -981,12 +981,12 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
@@ -994,7 +994,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -1036,6 +1036,7 @@ IDI_FINDUSER            ICON                    "res/icon_find_user.ico"
 IDI_SEARCHALL           ICON                    "res/icon_search_all.ico"
 IDI_OPTIONS             ICON                    "res/icon_options.ico"
 IDI_ACCMGR              ICON                    "res/icon_accmgr.ico"
+IDI_MAINMENU            ICON                    "res/icon_mainmenu.ico"
 IDI_HELP                ICON                    "res/icon_help.ico"
 IDI_RECVMSG             ICON                    "res/icon_message.ico"
 IDI_FILE                ICON                    "res/icon_file.ico"
@@ -1189,4 +1190,3 @@ IDB_SORTCOLDOWN         BITMAP                  "res/arrow_sort_column_down.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

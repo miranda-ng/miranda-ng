@@ -72,7 +72,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_ACCMGR,          LPGEN("Accounts"),            -IDI_ACCMGR         }, 
 	{ SKINICON_OTHER_SHOWHIDE,        LPGEN("ShowHide"),            -IDI_SHOWHIDE       }, 
 	{ SKINICON_OTHER_EXIT,            LPGEN("Exit"),                -IDI_EXIT           }, 
-	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),           -IDI_MIRANDA        }, 
+	{ SKINICON_OTHER_MAINMENU,        LPGEN("Main Menu"),           -IDI_MAINMENU       }, 
 	{ SKINICON_OTHER_STATUS,          LPGEN("Status"),              -IDI_ONLINE         }, 
 	{ SKINICON_CHAT_JOIN,             LPGEN("Join chat"),           -IDI_JOINCHAT       }, 
 	{ SKINICON_CHAT_LEAVE,            LPGEN("Leave chat"),          -IDI_LEAVECHAT      }, 
