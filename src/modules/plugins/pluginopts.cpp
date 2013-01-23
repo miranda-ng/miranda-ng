@@ -265,11 +265,11 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
 			col.pszText = _T("");
-			col.cx = 34;
+			col.cx = 40;
 			ListView_InsertColumn(hwndList, 0, &col);
 
-			col.pszText = TranslateT("On/Off");
-			col.cx = 47;
+			col.pszText = _T("");
+			col.cx = 20;
 			ListView_InsertColumn(hwndList, 1, &col);
 
 			col.pszText = TranslateT("Plugin");
