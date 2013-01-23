@@ -2153,10 +2153,11 @@ Cвернуть
 Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
 [Switch to simple options]
 Упрощённый вид настроек
-[Miranda NG must be restarted to apply changes for these plugins:\n]
-Требуется перезапуск программы для следующих плагинов:\n
+[Miranda NG must be restarted to apply changes for these plugins:]
+Требуется перезапуск программы для следующих плагинов:
 [Do you want to restart it now?]
 Перезапустить программу сейчас?
+
 
 ;ПЛАГИН КЛИСТА
 [ms delay]
