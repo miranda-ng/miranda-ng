@@ -1669,8 +1669,10 @@ static BOOL FileExists(TCHAR * tszFilename)
 
 HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szDescription, TCHAR * tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource )
 {
+	if (hDefaultModuleInst == NULL)
+		return LoadSkinnedIconHandle(iDefaultResource);
+
 	TCHAR fileFull[MAX_PATH] = {0};
-	HANDLE hIcolibItem = NULL;
 
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.cx = sid.cy = 16;
@@ -1678,27 +1680,22 @@ HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szD
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_TCHAR;
 	sid.pszDescription = szDescription;
+	sid.ptszDefaultFile = fileFull;
 
-	if (tszDefaultFile)
-	{
-		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )tszDefaultFile, ( LPARAM )fileFull );
-		if ( !FileExists(fileFull)) fileFull[0] = _T('\0');
+	if (tszDefaultFile) {
+		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tszDefaultFile, (LPARAM)fileFull);
+		if ( !FileExists(fileFull))
+			fileFull[0] = _T('\0');
 	}
+	
 	if (fileFull[0] != _T('\0'))
-	{
-		sid.ptszDefaultFile = fileFull;
 		sid.iDefaultIndex = iDefaultIndex;
-		sid.hDefaultIcon = NULL;
+	else {
+		GetModuleFileName(hDefaultModuleInst, fileFull, SIZEOF(fileFull));
+		sid.iDefaultIndex = iDefaultResource;
 	}
-	else
-	{
-		sid.pszDefaultFile = NULL;
-		sid.iDefaultIndex = 0;
-		sid.hDefaultIcon = LoadSmallIcon( hDefaultModuleInst, MAKEINTRESOURCE(iDefaultResource));
-	}
-	hIcolibItem = Skin_AddIcon(&sid);
-	if ( sid.hDefaultIcon )	DestroyIcon(sid.hDefaultIcon);
-	return hIcolibItem;
+
+	return Skin_AddIcon(&sid);
 }
 
 // MAIN WINPROC MESSAGE HANDLERS

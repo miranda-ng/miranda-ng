@@ -26,9 +26,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 // Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.                  
-                    
-IDI_MAINMENU         ICON         "icon_mainmenu.ico"
+// remains consistent on all systems.
+
 IDI_STATUSMENU       ICON         "icon_statusmenu.ico"
 IDI_HIDEOFFLINE      ICON         "icon_hideoffline.ico"
 IDI_SHOWOFFLINE      ICON         "icon_showoffline.ico"
@@ -48,7 +47,7 @@ IDI_ACCMGR           ICON         "icon_accmgr.ico"
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
    IDS_IDENTIFY            "# Tool bar icons #"
 END
@@ -57,5 +56,3 @@ END
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
-
-

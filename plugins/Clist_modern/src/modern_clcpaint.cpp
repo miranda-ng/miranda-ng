@@ -1422,7 +1422,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 							adr.radius = round_radius;
 							adr.alpha = blendmode;
 
-							CallService( MS_AV_DRAWAVATAR, 0, ( LPARAM ) &adr );
+							CallService( MS_AV_DRAWAVATAR, 0, (LPARAM) &adr );
 							}
 							else
 							*/

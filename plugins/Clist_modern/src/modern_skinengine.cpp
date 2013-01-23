@@ -1973,7 +1973,7 @@ HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
 		param.pSource = ppMap;
 		param.cbSourceSize = cbFileSize;
 		param.pResult = &pDib;
-		if ( CallService( MS_PNG2DIB, 0, ( LPARAM )&param ))
+		if ( CallService( MS_PNG2DIB, 0, (LPARAM)&param ))
 			pDibBits = ( BYTE* )( pDib+1 );
 		else
 			cbFileSize = 0;

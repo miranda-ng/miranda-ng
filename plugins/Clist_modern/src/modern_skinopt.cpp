@@ -335,8 +335,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						sd = ( SkinListData* )nmtv->itemNew.lParam;
 						{
 							TCHAR buf[MAX_PATH];
-							CallService( MS_UTILS_PATHTORELATIVET, ( WPARAM )sd->File, ( LPARAM )buf );
-							SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, ( LPARAM )buf );
+							CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)sd->File, (LPARAM)buf );
+							SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
 						}
 						{
 							TCHAR prfn[MAX_PATH] = {0};
@@ -345,7 +345,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Preview" ), _T( "" ), imfn, SIZEOF( imfn ), sd->File );
 							IniParser::GetSkinFolder( sd->File, skinfolder );
 							_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
-							CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )prfn, ( LPARAM ) imfn );
+							CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );
 							char * imfn_ch = mir_t2a( imfn ); 
 							hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
 							mir_free( imfn_ch );
@@ -393,16 +393,16 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							}
 							ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 							ShowWindow( GetDlgItem( hwndDlg, IDC_STATIC_INFO ), SW_SHOW );
-							SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, ( LPARAM )text );
+							SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)text );
 						}					
 					}
 					else
 					{
 						//no selected
-						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Select skin from list" ));
+						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)TranslateT( "Select skin from list" ));
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), FALSE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), FALSE );
-						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Please select skin to apply" ));
+						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)TranslateT( "Please select skin to apply" ));
 						ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 					}
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );
@@ -477,7 +477,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder" );
 	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
-	CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )SkinsFolder, ( LPARAM )path );
+	CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)SkinsFolder, (LPARAM)path );
 	mir_free_and_nil( SkinsFolder );
 
 	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
@@ -490,7 +490,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 		skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
 		if ( skinfile )
 		{
-			CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
+			CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
 			res = AddSkinToListFullName( hwndDlg, skinfull );
 
 			mir_free( skinfile );
@@ -602,7 +602,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	TCHAR * ptr;
 	TCHAR * ptrE;
 	BOOL ext = FALSE;
-	CallService( MS_UTILS_PATHTORELATIVET, ( WPARAM )folder, ( LPARAM )path );
+	CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)folder, (LPARAM)path );
 	ptrE = path;
 	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
 	if ( *ptrE == _T('\\'))
@@ -631,7 +631,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 					tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
 					tvis.item.pszText = ptr;
 					{
-						tvis.item.lParam = ( LPARAM )NULL;
+						tvis.item.lParam = (LPARAM)NULL;
 					}
 					cItem = TreeView_InsertItem( hTree, &tvis );
 
@@ -651,7 +651,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 		tvis.hInsertAfter = TVI_SORT;
 		tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
 		tvis.item.pszText = itemName;
-		tvis.item.lParam = ( LPARAM )data;
+		tvis.item.lParam = (LPARAM)data;
 		return TreeView_InsertItem( hTree, &tvis );
 	}
 	else
@@ -668,7 +668,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 	TCHAR skinfull[MAX_PATH];
 	skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
 	if ( skinfile ) {
-		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )skinfile, ( LPARAM )skinfull );
+		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
 		mir_free(skinfile);
 		return (INT_PTR)mir_tstrdup(skinfull);
 	}
@@ -722,7 +722,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Preview" ), _T( "" ), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
-		CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )prfn, ( LPARAM ) imfn );
+		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );
 		char * imfn_ch = mir_t2a( imfn ); 
 		hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
 		mir_free( imfn_ch );
