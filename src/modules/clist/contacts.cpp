@@ -21,14 +21,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NAMEORDERCOUNT 8
 static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] = 
 {
-	_T("My custom name (not moveable)"), 
-	_T("Nick"), 
-	_T("FirstName"), 
-	_T("E-mail"), 
-	_T("LastName"), 
-	_T("Username"), 
-	_T("FirstName LastName"), 
-	_T("'(Unknown Contact)' (not moveable)")
+	LPGENT("My custom name (not moveable)"), 
+	LPGENT("Nick"), 
+	LPGENT("FirstName"), 
+	LPGENT("E-mail"), 
+	LPGENT("LastName"), 
+	LPGENT("Username"), 
+	LPGENT("FirstName LastName"), 
+	LPGENT("'(Unknown Contact)' (not moveable)")
 };
 
 BYTE nameOrder[NAMEORDERCOUNT];

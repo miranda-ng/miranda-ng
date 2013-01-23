@@ -205,9 +205,9 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
 			if (_taccess(path2, 0) == 0) {
 				const TCHAR tszMoveMsg[] = 
-					_T("Miranda is trying upgrade your profile structure.\n")
-					_T("It cannot move profile %s to the new location %s\n")
-					_T("Because profile with this name already exist. Please resolve the issue manually.");
+					LPGENT("Miranda is trying upgrade your profile structure.\n")
+					LPGENT("It cannot move profile %s to the new location %s\n")
+					LPGENT("Because profile with this name already exist. Please resolve the issue manually.");
 				TCHAR buf[512];
 
 				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
@@ -215,9 +215,9 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			}
 			else if (MoveFile(path, path2) == 0) {
 				const TCHAR tszMoveMsg[] = 
-					_T("Miranda is trying upgrade your profile structure.\n")
-					_T("It cannot move profile %s to the new location %s automatically\n")
-					_T("Most likely due to insufficient privileges. Please move profile manually.");
+					LPGENT("Miranda is trying upgrade your profile structure.\n")
+					LPGENT("It cannot move profile %s to the new location %s automatically\n")
+					LPGENT("Most likely due to insufficient privileges. Please move profile manually.");
 				TCHAR buf[512];
 
 				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
@@ -304,9 +304,9 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	getProfileDefault(szProfile, cch, g_profileDir);
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL, 
-			_T("Profile cannot be placed into Miranda root folder.\n")
-			_T("Please move Miranda profile to some other location."), 
-			_T("Miranda NG"), MB_ICONERROR | MB_OK);
+			LPGENT("Profile cannot be placed into Miranda root folder.\n")
+			LPGENT("Please move Miranda profile to some other location."), 
+			LPGENT("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
 
