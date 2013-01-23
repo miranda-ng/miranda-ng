@@ -115,7 +115,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		mir_sntprintf(name,bufsize/sizeof(TCHAR),_T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
 		mi.ptszName = name;            
 	}
-	mi.flags = CMIF_ROOTPOPUP|CMIF_TCHAR;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
 	if ( !hFavoriteContactMenu) 
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 	else

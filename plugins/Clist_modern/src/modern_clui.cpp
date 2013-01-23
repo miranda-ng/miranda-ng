@@ -1667,7 +1667,7 @@ static BOOL FileExists(TCHAR * tszFilename)
 	return TRUE;
 }
 
-HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szDescription, TCHAR * tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource )
+HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName,  char *szDescription, TCHAR *tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource )
 {
 	if (hDefaultModuleInst == NULL)
 		return LoadSkinnedIconHandle(iDefaultResource);
@@ -1689,10 +1689,10 @@ HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szD
 	}
 	
 	if (fileFull[0] != _T('\0'))
-		sid.iDefaultIndex = iDefaultIndex;
+		sid.iDefaultIndex = -iDefaultIndex;
 	else {
 		GetModuleFileName(hDefaultModuleInst, fileFull, SIZEOF(fileFull));
-		sid.iDefaultIndex = iDefaultResource;
+		sid.iDefaultIndex = -iDefaultResource;
 	}
 
 	return Skin_AddIcon(&sid);
