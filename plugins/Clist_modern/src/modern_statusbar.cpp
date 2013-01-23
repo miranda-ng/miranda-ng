@@ -627,7 +627,7 @@ static BOOL _ModernStatus_OnExtraIconClick(int protoIndex)
 		return TRUE;
 	} 
 	
-	if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "JABBER" )) {
+	if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "JABBER")) {
 		if ( ProtosData[protoIndex].ProtoStatus < ID_STATUS_ONLINE )
 			return FALSE;
 
@@ -857,7 +857,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 								memmove( pos, pos + len, strlen( pos + len ) + 1 );
 
 								if ( strlen( g_CluiData.protoFilter ) == 0 )
-									ApplyViewMode( "" );
+									ApplyViewMode("");
 								else
 									g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
 							}
@@ -937,7 +937,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 
 			GetClientRect(hwnd, &rc);
 			if ( PtInRect( &rc, pt ) && msg == WM_LBUTTONDOWN && g_CluiData.bFilterEffective == CLVM_FILTER_PROTOS) {
-				ApplyViewMode( "" );
+				ApplyViewMode("");
 				CLUI__cliInvalidateRect( hwnd, NULL, FALSE );
 				SetCapture( NULL );
 				return 0;

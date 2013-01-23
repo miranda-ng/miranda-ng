@@ -38,18 +38,17 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 	do
 	{	k = CallService(MS_SYSTEM_OKTOEXIT,0,0);
 	}
-	while (!k);
+		while (!k);
 
-	if ( k ) {
+	if (k)
 		DestroyWindow(pcli->hwndContactList);
-	}
 
 	return 0;
 }
 
 int InitCustomMenus(void)
 {
-	CreateServiceFunction( "CloseAction", CloseAction );
+	CreateServiceFunction("CloseAction", CloseAction );
 	LoadFavoriteContactMenu();
 	return 0;
 }
@@ -68,104 +67,91 @@ void UninitCustomMenus(void)
 #define CLUI_FAVSETRATE "CLUI/SetContactRate"  //LParam is rate, Wparam is contact handle
 #define CLUI_FAVTOGGLESHOWOFFLINE "CLUI/ToggleContactShowOffline" 
 
-static HANDLE hFavoriteContactMenu = NULL;
+static HGENMENU hFavoriteContactMenu = NULL;
 static HANDLE *hFavoriteContactMenuItems = NULL;
 static HANDLE hShowIfOflineItem = NULL;
 static HANDLE hOnContactMenuBuild_FAV = NULL;
 
+static TCHAR * FAVMENUROOTNAME  = _T("&Contact rate");
+
+static TCHAR *rates[] = {
+	_T("None"),
+	_T("Low"),
+	_T("Medium"),
+	_T("High") 
+};
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Contact rate None"),   "Rate1",  IDI_FAVORITE_0 },
+	{ LPGEN("Contact rate Low"),    "Rate2",  IDI_FAVORITE_1 },
+	{ LPGEN("Contact rate Medium"), "Rate3",  IDI_FAVORITE_2 },
+	{ LPGEN("Contact rate High"),   "Rate4",  IDI_FAVORITE_3 }
+};
+
 static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
-	BOOL NeedFree = FALSE;
 	BYTE bContactRate = db_get_b((HANDLE)wParam, "CList", "Rate",0);
-	//if (hFavoriteContactMenu)
-
-	static TCHAR * FAVMENUROOTNAME  = _T("&Contact rate");
-
-	TCHAR *rates[] = {
-		_T( "None" ),
-		_T( "Low" ),
-		_T( "Medium" ),
-		_T( "High" ) 
-	};
-
-	char* iconsName[] = {
-		LPGEN( "Contact rate None" ),
-		LPGEN( "Contact rate Low" ),
-		LPGEN( "Contact rate Medium" ),
-		LPGEN( "Contact rate High" )
-	};
-
-	if ( bContactRate >SIZEOF( rates ) - 1 )
-		 bContactRate = SIZEOF( rates ) - 1;
+	if ( bContactRate > SIZEOF(rates)-1)
+		bContactRate = SIZEOF(rates)-1;
 
 	BOOL bModifyMenu = FALSE;
-	int i;
-	TCHAR * name = NULL;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8,TRUE,TRUE,iconsName[bContactRate],"Contact List",Translate(iconsName[bContactRate]),-IDI_FAVORITE_0 - bContactRate, &NeedFree);
+	mi.icolibItem = iconList[bContactRate].hIcolib;
 	mi.pszPopupName = (char *)-1;
 	mi.position = 0;
 	if ( !bContactRate)
 		mi.ptszName = FAVMENUROOTNAME;
-	else
-	{
+	else {
 		int bufsize = (lstrlen(FAVMENUROOTNAME)+lstrlen(rates[bContactRate])+15)*sizeof(TCHAR);
-		name = (TCHAR*)_alloca(bufsize);
-		mir_sntprintf(name,bufsize/sizeof(TCHAR),_T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
+		TCHAR *name = (TCHAR*)_alloca(bufsize);
+		mir_sntprintf(name, bufsize/sizeof(TCHAR), _T("%s (%s)"),FAVMENUROOTNAME,rates[bContactRate]);
 		mi.ptszName = name;            
 	}
-	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	if ( !hFavoriteContactMenu) 
 		hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
-	else
-	{
-		mi.flags |= CMIM_FLAGS|CMIM_ICON|CMIM_NAME;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hFavoriteContactMenu, (LPARAM)&mi);				
+	else {
+		mi.flags |= CMIM_FLAGS | CMIM_NAME;
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hFavoriteContactMenu, (LPARAM)&mi);				
 		bModifyMenu = TRUE;
 	}
-	{
-		OptParam op;
-		op.Handle	 = hFavoriteContactMenu;
-		op.Setting	 = OPT_MENUITEMSETUNIQNAME;
-		op.Value	 = (INT_PTR)"ModernClistMenu_ContactRate";
-		CallService(MO_SETOPTIONSMENUITEM,0,(LPARAM)&op);
-	}
 
-	Skin_ReleaseIcon(mi.hIcon);
-	if (mi.hIcon && NeedFree)
-		DestroyIcon(mi.hIcon);
+	OptParam op;
+	op.Handle  = hFavoriteContactMenu;
+	op.Setting = OPT_MENUITEMSETUNIQNAME;
+	op.Value   = (INT_PTR)"ModernClistMenu_ContactRate";
+	CallService(MO_SETOPTIONSMENUITEM, 0, (LPARAM)&op);
 
-	mi.pszPopupName = (char*)hFavoriteContactMenu;
+	mi.hParentMenu = hFavoriteContactMenu;
 	if ( !hFavoriteContactMenuItems) {
 		hFavoriteContactMenuItems = (HANDLE*)malloc(sizeof(HANDLE)*SIZEOF(rates));
-		memset(hFavoriteContactMenuItems,0,sizeof(HANDLE)*SIZEOF(rates));
+		memset(hFavoriteContactMenuItems, 0, sizeof(HANDLE)*SIZEOF(rates));
 	}
 
+	int i;
 	for (i=0; i < SIZEOF(rates); i++) {
-		mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8+i,TRUE,TRUE,iconsName[i],"Contact List",Translate(iconsName[i]),-IDI_FAVORITE_0 - i, &NeedFree);
+		mi.icolibItem = iconList[i].hIcolib;
 		mi.ptszName = rates[i];
-		mi.flags = CMIF_CHILDPOPUP|CMIF_TCHAR|((bContactRate == i)?CMIF_CHECKED:0);
+		mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ((bContactRate == i)?CMIF_CHECKED:0) | CMIF_ICONFROMICOLIB;
 		mi.pszService = CLUI_FAVSETRATE;
 		mi.popupPosition = i;
 		if (bModifyMenu && hFavoriteContactMenuItems[i]) {
-			mi.flags |= CMIM_FLAGS|CMIM_ICON;
+			mi.flags |= CMIM_FLAGS | CMIM_ICON;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hFavoriteContactMenuItems[i], (LPARAM)&mi);
 		}
 		else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
-		Skin_ReleaseIcon(mi.hIcon);
-		if (mi.hIcon && NeedFree)
-			DestroyIcon(mi.hIcon);
 	}
-		
+
 	mi.hIcon = NULL;
 	mi.ptszName = LPGENT("Show even if offline");
-	mi.flags = CMIF_CHILDPOPUP|CMIF_TCHAR|(db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.popupPosition = i+100000000;
 	mi.position = -100000000;
 	if (bModifyMenu && hShowIfOflineItem) {
-		mi.flags |= CMIM_FLAGS|CMIM_ICON;
+		mi.flags |= CMIM_FLAGS | CMIM_ICON;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hShowIfOflineItem, (LPARAM)&mi);            
 	}
 	else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
@@ -176,27 +162,26 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 {
 	if (hContact)
-	{
 		db_set_b((HANDLE)hContact, "CList", "Rate",(BYTE)nRate);
-	}
+
 	return 0;
 }
 
 INT_PTR FAV_ToggleShowOffline(WPARAM hContact,LPARAM lParam)
 {
 	if (hContact)
-	{
-		db_set_b((HANDLE)hContact,"CList","noOffline",
-			db_get_b((HANDLE)hContact,"CList","noOffline",0)?0:1);
-	}
+		db_set_b((HANDLE)hContact,"CList","noOffline", !db_get_b((HANDLE)hContact, "CList", "noOffline", 0));
+
 	return 0;
 }
 
 int LoadFavoriteContactMenu()
 {
+	Icon_Register(g_hInst, "Contact List", iconList, SIZEOF(iconList));
+
 	CreateServiceFunction(CLUI_FAVSETRATE,FAV_SetRate);
 	CreateServiceFunction(CLUI_FAVTOGGLESHOWOFFLINE,FAV_ToggleShowOffline);
-	hOnContactMenuBuild_FAV = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,FAV_OnContactMenuBuild);
+	hOnContactMenuBuild_FAV = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, FAV_OnContactMenuBuild);
 	return 0;
 }
 

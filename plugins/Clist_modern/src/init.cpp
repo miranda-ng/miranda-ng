@@ -86,15 +86,15 @@ PLUGININTERFACE PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 
 PLUGININTERFACE int CListInitialise()
 {
-	HMODULE hKernel = GetModuleHandleA( "kernel32.dll" );
-	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection" );
+	HMODULE hKernel = GetModuleHandleA("kernel32.dll");
+	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection");
 
-	HMODULE hUser = GetModuleHandleA( "user32.dll" );
-	fnGetMenuBarInfo = ( pfnGetMenuBarInfo )GetProcAddress( hUser, "GetMenuBarInfo" );
-	fnGetScrollBarInfo = ( pfnGetScrollBarInfo )GetProcAddress( hUser, "GetScrollBarInfo" );
-	fnMsgWaitForMultipleObjectsEx = ( pfnMsgWaitForMultipleObjectsEx )GetProcAddress( hUser, "MsgWaitForMultipleObjectsEx" );
+	HMODULE hUser = GetModuleHandleA("user32.dll");
+	fnGetMenuBarInfo = ( pfnGetMenuBarInfo )GetProcAddress( hUser, "GetMenuBarInfo");
+	fnGetScrollBarInfo = ( pfnGetScrollBarInfo )GetProcAddress( hUser, "GetScrollBarInfo");
+	fnMsgWaitForMultipleObjectsEx = ( pfnMsgWaitForMultipleObjectsEx )GetProcAddress( hUser, "MsgWaitForMultipleObjectsEx");
 
-	if (( fnGetAncestor = ( pfnGetAncestor )GetProcAddress( hUser, "GetAncestor" )) == NULL )
+	if (( fnGetAncestor = ( pfnGetAncestor )GetProcAddress( hUser, "GetAncestor")) == NULL )
 		fnGetAncestor = MyGetAncestor;
 
 	g_dwMainThreadID = GetCurrentThreadId();
@@ -112,7 +112,7 @@ PLUGININTERFACE int CListInitialise()
 	CHECKRES ( ToolbarButtonLoadModule( )   );
 	CHECKRES ( ToolbarLoadModule()			);
 
-	TRACE( "CListInitialise Modern Contact List ... Done\r\n" );
+	TRACE("CListInitialise Modern Contact List ... Done\r\n");
 
 	return S_OK;
 }

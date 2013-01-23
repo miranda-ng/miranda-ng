@@ -435,7 +435,7 @@ int ParseToModernMask(MODERNMASK *mm, char * szText)
 		}
 		else //ParamName = 'Module'
 		{
-			param.szName = _strdup( "Module");
+			param.szName = _strdup("Module");
 			param.dwId = mod_CalcHash( param.szName );                    
 		}
 

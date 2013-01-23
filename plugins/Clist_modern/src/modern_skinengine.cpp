@@ -470,10 +470,10 @@ HRESULT SkinEngineLoadModule()
 			{
 				char* p = strrchr( tDllPath, '\\' );
 				if ( p != NULL )
-					strcpy( p+1, "ImgDecoder.dll" );
+					strcpy( p+1, "ImgDecoder.dll");
 				else
 				{
-					strcpy( tDllPath, "ImgDecoder.dll" );
+					strcpy( tDllPath, "ImgDecoder.dll");
 				}
 			}
 
@@ -1959,7 +1959,7 @@ HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
 	BYTE* pDibBits;
 
 	if ( !ServiceExists( MS_PNG2DIB )) {
-		MessageBox( NULL, TranslateT( "You need an image services plugin to process PNG images." ), TranslateT( "Error" ), MB_OK );
+		MessageBox( NULL, TranslateT("You need an image services plugin to process PNG images."), TranslateT("Error"), MB_OK );
 		return (HBITMAP)NULL;
 	}
 

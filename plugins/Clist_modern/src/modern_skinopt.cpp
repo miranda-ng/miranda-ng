@@ -61,16 +61,16 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKIN );
-		odp.pszGroup = LPGEN( "Skins" );
-		odp.pszTitle = LPGEN( "Contact List" );
+		odp.pszGroup = LPGEN("Skins");
+		odp.pszTitle = LPGEN("Contact List");
 		odp.flags = ODPF_BOLDGROUPS;
-		odp.pszTab = LPGEN( "Load/Save" );
+		odp.pszTab = LPGEN("Load/Save");
 		Options_AddPage(wParam, &odp);
 
 		if ( db_get_b( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
-			odp.pszTab = LPGEN( "Object Editor" );
+			odp.pszTab = LPGEN("Object Editor");
 			Options_AddPage(wParam, &odp);
 		}
 	}
@@ -143,24 +143,24 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					if ( !sd ) return 0;
 					if ( sd->File && !_tcschr( sd->File, _T('%')))
 					{
-						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
-						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
-						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Contact" ), 	_T( "" ), 						Contact, 	SIZEOF( Contact ), 	sd->File );
-						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Description" ), _T( "" ), 					Description, SIZEOF( Description ), sd->File );
-						_sntprintf( text, SIZEOF( text ), TranslateT( "%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s" ), 
+						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Author"), 	TranslateT("( unknown )"), 	Author, 		SIZEOF( Author ), 		sd->File );
+						GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
+						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
+						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
+						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"), 
 							sd->Name, Description, Author, Contact, URL, sd->File );
 					}
 					else
 					{
-						_sntprintf( text, SIZEOF( text ), TranslateT( "%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s" ), 
-							TranslateT( "reVista for Modern v0.5" ), 
-							TranslateT( "This is second default Modern Contact list skin in Vista Aero style" ), 
-							TranslateT( "Angeli-Ka (graphics), FYR (template)" ), 
-							_T( "JID: fyr@jabber.ru" ), 
+						_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s"), 
+							TranslateT("reVista for Modern v0.5"), 
+							TranslateT("This is second default Modern Contact list skin in Vista Aero style"), 
+							TranslateT("Angeli-Ka (graphics), FYR (template)"), 
+							_T("JID: fyr@jabber.ru"), 
 							_T("fyr.mirandaim.ru"), 
-							TranslateT( "Inside library" ));
+							TranslateT("Inside library"));
 					}
-					MessageBox( hwndDlg, text, TranslateT( "Skin Information" ), MB_OK|MB_ICONINFORMATION );
+					MessageBox( hwndDlg, text, TranslateT("Skin Information"), MB_OK|MB_ICONINFORMATION );
 				}
 				break;
 			case IDC_BUTTON_APPLY_SKIN:
@@ -181,9 +181,9 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					{
 						int res = 0;
 						if ( glSkinWasModified == 1 )
-							res = MessageBox( hwndDlg, TranslateT( "Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?" ), TranslateT( "Warning!" ), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
+							res = MessageBox( hwndDlg, TranslateT("Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?"), TranslateT("Warning!"), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
 						else
-							res = MessageBox( hwndDlg, TranslateT( "Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?" ), TranslateT( "Warning!" ), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
+							res = MessageBox( hwndDlg, TranslateT("Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?"), TranslateT("Warning!"), MB_OKCANCEL|MB_ICONWARNING|MB_DEFBUTTON2|MB_TOPMOST );
 						if ( res != IDOK ) return 0;
 					}
 					ske_LoadSkinFromIniFile( sd->File, FALSE );
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						ofn.Flags = isLoad?( OFN_FILEMUSTEXIST | OFN_HIDEREADONLY ) : ( OFN_OVERWRITEPROMPT|OFN_HIDEREADONLY ) | OFN_DONTADDTORECENT;
 						ofn.nMaxFile = sizeof( str );
 						ofn.nMaxFileTitle = MAX_PATH;
-						ofn.lpstrDefExt = _T( "msf" );
+						ofn.lpstrDefExt = _T("msf");
 
 						{
 							DWORD tick = GetTickCount( );
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							TCHAR prfn[MAX_PATH] = {0};
 							TCHAR imfn[MAX_PATH] = {0};
 							TCHAR skinfolder[MAX_PATH] = {0};
-							GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Preview" ), _T( "" ), imfn, SIZEOF( imfn ), sd->File );
+							GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
 							IniParser::GetSkinFolder( sd->File, skinfolder );
 							_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
 							CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );
@@ -375,19 +375,19 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 							if ( sd->File && !_tcschr( sd->File, _T('%')))
 							{
-								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
-								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
-								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Contact" ), 	_T( "" ), 						Contact, 	SIZEOF( Contact ), 	sd->File );
-								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Description" ), _T( "" ), 					Description, SIZEOF( Description ), sd->File );
-								_sntprintf( text, SIZEOF( text ), TranslateT( "Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s" ), 
+								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Author"), 	TranslateT("( unknown )"), 	Author, 		SIZEOF( Author ), 		sd->File );
+								GetPrivateProfileString( _T("Skin_Description_Section"), _T("URL"), 		_T(""), 						URL, 		SIZEOF( URL ), 		sd->File );
+								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Contact"), 	_T(""), 						Contact, 	SIZEOF( Contact ), 	sd->File );
+								GetPrivateProfileString( _T("Skin_Description_Section"), _T("Description"), _T(""), 					Description, SIZEOF( Description ), sd->File );
+								_sntprintf( text, SIZEOF( text ), TranslateT("Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s"), 
 									sd->Name, Description, Author, Contact, URL );
 							}
 							else
 							{
-								_sntprintf( text, SIZEOF( text ), TranslateT( "%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n" ), 
-									TranslateT( "reVista for Modern v0.5" ), 
-									TranslateT( "This is second default Modern Contact list skin in Vista Aero style" ), 
-									TranslateT( "graphics by Angeli-Ka\ntemplate by FYR" ), 
+								_sntprintf( text, SIZEOF( text ), TranslateT("%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n"), 
+									TranslateT("reVista for Modern v0.5"), 
+									TranslateT("This is second default Modern Contact list skin in Vista Aero style"), 
+									TranslateT("graphics by Angeli-Ka\ntemplate by FYR"), 
 									_T("JID: fyr@jabber.ru"), 
 									_T("fyr.mirandaim.ru"));
 							}
@@ -399,10 +399,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					else
 					{
 						//no selected
-						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)TranslateT( "Select skin from list" ));
+						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)TranslateT("Select skin from list"));
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), FALSE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), FALSE );
-						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)TranslateT( "Please select skin to apply" ));
+						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)TranslateT("Please select skin to apply"));
 						ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 					}
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );
@@ -474,20 +474,20 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	HTREEITEM res = (HTREEITEM)-1;
 	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
 	int attrib;
-	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder" );
+	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder");
 	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
 	CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)SkinsFolder, (LPARAM)path );
 	mir_free_and_nil( SkinsFolder );
 
-	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
+	AddSkinToList( hwndDlg, TranslateT("Default Skin"), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
 	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
 		SearchSkinFiles( hwndDlg, path );
 	{
 		TCHAR * skinfile;
 		TCHAR skinfull[MAX_PATH];
-		skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
+		skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
 		if ( skinfile )
 		{
 			CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
@@ -540,8 +540,8 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 		{
 			//sd->File = "%Default Skin%";
 			_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
-			_sntprintf( sd->Name, 100, TranslateT( "%Default Skin%" ));
-			return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), TranslateT( "Default Skin" ), sd->Name, sd );
+			_sntprintf( sd->Name, 100, TranslateT("%Default Skin%"));
+			return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), TranslateT("Default Skin"), sd->Name, sd );
 		}
 		else
 		{
@@ -666,7 +666,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *skinfile;
 	TCHAR skinfull[MAX_PATH];
-	skinfile = DBGetStringT( NULL, SKIN, "SkinFile" );
+	skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
 	if ( skinfile ) {
 		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
 		mir_free(skinfile);
@@ -719,7 +719,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR prfn[MAX_PATH] = {0};
 		TCHAR imfn[MAX_PATH] = {0};
 		TCHAR skinfolder[MAX_PATH] = {0};
-		GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Preview" ), _T( "" ), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
+		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
 		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );

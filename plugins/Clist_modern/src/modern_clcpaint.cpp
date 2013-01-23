@@ -449,12 +449,12 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT *free_rc, SIZE * text_size, TC
 			i=0;
 
 		// Get real height of the line
-		row_height = ske_DrawText( hdcMem, _T( "A" ), 1, &tmp_rc, DT_CALCRECT | uTextFormat );
+		row_height = ske_DrawText( hdcMem, _T("A"), 1, &tmp_rc, DT_CALCRECT | uTextFormat );
 
 		// Just draw ellipsis
 		if ( free_rc->right <= free_rc->left )
 		{
-			if ( gl_TrimText ) ske_DrawText( hdcMem, _T( "..." ), 3, free_rc, uTextFormat & ~DT_END_ELLIPSIS );
+			if ( gl_TrimText ) ske_DrawText( hdcMem, _T("..."), 3, free_rc, uTextFormat & ~DT_END_ELLIPSIS );
 		}
 		else
 		{
@@ -519,7 +519,7 @@ void  CLCPaint::_DrawTextSmiley( HDC hdcMem, RECT *free_rc, SIZE * text_size, TC
 						}
 						else
 						{
-							ske_DrawText( hdcMem, _T( "..." ), 3, &text_rc, uTextFormat );
+							ske_DrawText( hdcMem, _T("..."), 3, &text_rc, uTextFormat );
 						}
 
 						pos_x += fac_width;
@@ -599,7 +599,7 @@ MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask( ClcGroup *group, ClcConta
 			_AddParamShort( mpModernMask, hi_RootGroup, ( group && group->parent == NULL )?hi_True:hi_False );
 			switch( GetContactCachedStatus( Drawing->hContact ))
 			{
-				// case ID_STATUS_CONNECTING: AppendChar( buf, BUFSIZE, "CONNECTING" ); break;
+				// case ID_STATUS_CONNECTING: AppendChar( buf, BUFSIZE, "CONNECTING"); break;
 			case ID_STATUS_ONLINE:      _AddParamShort( mpModernMask, hi_Status, hi_ONLINE );    break;
 			case ID_STATUS_AWAY:        _AddParamShort( mpModernMask, hi_Status, hi_AWAY );      break;
 			case ID_STATUS_DND:         _AddParamShort( mpModernMask, hi_Status, hi_DND );       break;
@@ -853,7 +853,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 				{
 					// calc width and height
 					ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
-					ske_DrawText( hdcMem, _T( " " ), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX );
+					ske_DrawText( hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX );
 					count_size.cx = count_rc.right-count_rc.left;
 					space_width = count_size.cx;
 					count_rc.right = 0;
@@ -951,7 +951,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 					SIZE counts_size = {0};
 					// Get widths
 					counts_rc = fr_rc;
-					DrawText( hdcMem, _T( " " ), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX );
+					DrawText( hdcMem, _T(" "), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX );
 
 					space_size.cx = space_rc.right - space_rc.left;
 					space_size.cy = min( space_rc.bottom - space_rc.top, fr_rc.bottom-fr_rc.top );
@@ -1120,7 +1120,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 
 							// calc width and height
 							ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
-							ske_DrawText( hdcMem, _T( " " ), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX );
+							ske_DrawText( hdcMem, _T(" "), 1, &count_rc, DT_CALCRECT | DT_NOPREFIX );
 							count_size.cx = count_rc.right-count_rc.left;
 							space_width = count_size.cx;
 							count_rc.right = 0;
@@ -1860,7 +1860,7 @@ void CLCPaint::_DrawBackground( HWND hWnd, ClcData *dat, HDC hdc, int paintMode,
 		DeleteObject( hBrush );
 		ske_SetRectOpaque( pc.hdcMem, rcPaint );
 		if ( !( paintMode & DM_GREYALTERNATE))
-			SkinDrawGlyph( pc.hdcMem, &clRect, rcPaint, "CL,ID=Background,Type=Control" );
+			SkinDrawGlyph( pc.hdcMem, &clRect, rcPaint, "CL,ID=Background,Type=Control");
 	}
 	else if ( paintMode&DM_CLASSIC) {
 		if ( !_DrawNonEnginedBackground( hWnd, pc.hdcMem, rcPaint, clRect, dat )) {
@@ -1982,7 +1982,7 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 						FillRect( pc.hdcMem, &row_rc, pc.hBrushAlternateGrey );
 					}
 					else
-						SkinDrawGlyph( pc.hdcMem, &row_rc, rcPaint, "CL,ID=GreyAlternate" );
+						SkinDrawGlyph( pc.hdcMem, &row_rc, rcPaint, "CL,ID=GreyAlternate");
 				}
 				if ( ! (paintMode&(DM_CLASSIC|DM_CONTROL)))
 				{
@@ -2015,16 +2015,16 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 						if ( dat->HiLightMode == 1 ) // Full  or default
 						{
 							if ( selected )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection" );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection");
 							if ( hottrack )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking");
 						}
 						else if ( dat->HiLightMode == 2 ) // Less
 						{
 							if ( selected )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection" );      //instead of free_row_rc
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection");      //instead of free_row_rc
 							if ( hottrack )
-								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
+								SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking");
 						}
 					}
 
@@ -2102,8 +2102,8 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 				{
 					if ( mpRequest->pl_Params[1].szValue )
 						free( mpRequest->pl_Params[1].szValue );
-					mpRequest->pl_Params[1].szValue = strdupn( "Ovl", 3 );
-					mpRequest->pl_Params[1].dwValueHash = mod_CalcHash( "Ovl" );
+					mpRequest->pl_Params[1].szValue = strdupn("Ovl", 3 );
+					mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
 					{
 						RECT mrc = row_rc;
 						if ( Drawing->type == CLCIT_GROUP  && 
@@ -2551,7 +2551,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *D
 		SIZE third_line_text_size = {0};
 		SIZE space_size = {0};
 		SIZE counts_size = {0};
-		char *szCounts = NULL;//mir_tstrdup( _T( "" ));
+		char *szCounts = NULL;//mir_tstrdup( _T(""));
 		int free_width;
 		int free_height;
 		int max_bottom_selection_border = SELECTION_BORDER;
@@ -2599,7 +2599,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *D
 				free_height = free_row_rc.bottom - free_row_rc.top;
 
 				// Get widths
-				ske_DrawText( hdcMem, _T( " " ), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX );
+				ske_DrawText( hdcMem, _T(" "), 1, &space_rc, DT_CALCRECT | DT_NOPREFIX );
 				space_size.cx = space_rc.right - space_rc.left;
 				space_size.cy = min( space_rc.bottom - space_rc.top, free_height );
 
@@ -3208,9 +3208,9 @@ void CLCPaint::_DrawContactSelection( HDC hdcMem, ClcData *dat, ClcContact *Draw
 	// Selection background
 	if (( selected || hottrack ) && dat->HiLightMode == 0) {
 		if ( selected )
-			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/Selection" );
+			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/Selection");
 		else if ( hottrack )
-			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/HotTracking" );
+			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/HotTracking");
 	}
 }
 

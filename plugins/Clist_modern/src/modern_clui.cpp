@@ -1017,7 +1017,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
 	}
 
 	// third try global
-	mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn.dll" );
+	mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn.dll");
 	hIcon = CLUI_LoadIconFromExternalFile(szFullPath,b+1,FALSE,FALSE,NULL,NULL,NULL,0,&needFree);
 	if ( hIcon ) return hIcon;
 
@@ -2723,7 +2723,7 @@ LRESULT CLUI::OnMeasureItem( UINT msg, WPARAM wParam, LPARAM lParam )
 			HDC hdc;
 			SIZE textSize;
 			hdc = GetDC( m_hWnd );
-			GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate( "Status" )), &textSize );
+			GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate("Status")), &textSize );
 			pmis->itemWidth = textSize.cx;
 			pmis->itemHeight = 0;
 			ReleaseDC( m_hWnd, hdc );
