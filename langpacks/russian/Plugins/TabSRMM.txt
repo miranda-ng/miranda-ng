@@ -236,6 +236,8 @@ RTL шаблоны
 Сохранить шаблон
 [Forget]
 Отменить
+[Events]
+событий
 [Revert to Default]
 Вернуть по умолчанию
 [Define up to 5 colors which you can use with some variables]
