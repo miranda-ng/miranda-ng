@@ -322,7 +322,7 @@ static WNDPROC OldSliderWndProc = 0;
 
 static void fnPainter(MButtonCtrl *btn, HDC hdc)
 {
-	DrawIconEx(hdc, 1, 1, btn->hIcon, 20, 20, 0, hBkgBrush, DI_NORMAL);
+	DrawIconEx(hdc, 0, 0, btn->hIcon, 16, 16, 0, hBkgBrush, DI_NORMAL);
 }
 
 static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -338,7 +338,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch(msg) {
 	case WM_CREATE:
-		hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 20, 20, hwnd,
+		hwndMute = CreateWindow(MIRANDABUTTONCLASS, _T(""), WS_CHILD | WS_VISIBLE, 1, 1, 16, 16, hwnd,
 			0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 		SendMessage(hwndMute, BUTTONSETASFLATBTN, 1, 0);
 		{
@@ -380,7 +380,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			RECT rect;
 			GetClientRect(hwnd, &rect);
 			if (hwndMute)
-				MoveWindow(hwndMute, rect.right - 21, 1, 20, 20, FALSE);
+				MoveWindow(hwndMute, rect.right - 20, 2, 16, 16, FALSE);
 			SetWindowPos(hwndSlider, 0, 1, rect.top + 1 + (20-18)/2, rect.right - rect.left - 1 - 20, 18, SWP_NOZORDER);
 			InvalidateRect(hwnd, &rect, FALSE);
 			return 0;
