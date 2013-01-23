@@ -21,7 +21,7 @@ var TristateUseDefault=-2;
 var overwritefile=true;
 var unicode=false;
 //disabling log by default
-var log="no"
+var log=false;
 
 //Path variables
 var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
@@ -45,8 +45,8 @@ var crap=new Array;
 //                         Checking command line parameters                       *//
 //*********************************************************************************//
 
-// if console param /log: specified, put it to var log. To enable log, specify /log:"yes"
-if (WScript.Arguments.Named.Item("log")) log=WScript.Arguments.Named.Item("log").toLowerCase();
+// if console param /log: specified, set var log true. To enable log, specify /log:"yes"
+if (WScript.Arguments.Named.Item("log")) log=true;
 
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
@@ -102,13 +102,13 @@ sln_stream.Close();
 //FindFiles(protocols,"\\.dpr$",project_files);
 //FindFiles(plugins,"\\.dpr$",project_files);
 //push pascal project files directly
-project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
-project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
-project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
-project_files.push(trunk+"\\plugins\\QuickSearch\\quicksearch.dpr");
-project_files.push(trunk+"\\plugins\\ShlExt\\shlext.dpr");
-project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
-project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
+// project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
+// project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
+// project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
+// project_files.push(trunk+"\\plugins\\QuickSearch\\quicksearch.dpr");
+// project_files.push(trunk+"\\plugins\\ShlExt\\shlext.dpr");
+// project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
+// project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
 
 //create Enumerator with project files from sln and dpr file find results, sorted alphabetically
 files=new Enumerator(project_files.sort());
@@ -137,7 +137,7 @@ function GenerateCore() {
  core_src=new Array();
  core_rc=new Array();
  //if log parameter specified, output a log.
- if (log=="yes") WScript.Echo("Processing CORE...");
+ if (log) WScript.Echo("Processing CORE...");
  //first string is necessary for Miranda-NG to load langpack
  corestrings.push("Miranda Language Pack Version 1");
  //define core filename. File will be overwritten!
@@ -153,7 +153,7 @@ function GenerateCore() {
  //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
  nodupes=eliminateDuplicates(corestrings);
  //logging results
- if (log=="yes") WScript.Echo("Writing "+nodupes.length+" strings for CORE");
+ if (log) WScript.Echo("Writing "+nodupes.length+" strings for CORE");
  //finally, write "nodupes" array to file
  WriteToFile(nodupes,corefile);
 }
@@ -180,7 +180,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     //if we didn't find plugin name, return.
     if (!plugin) return;
     //if log parameter specified, output a log.
-    if (log=="yes") WScript.Echo("Processing...  "+plugin);
+    if (log) WScript.Echo("Processing...  "+plugin);
     //define langpack filename. File will be overwritten!
     langpack=langpackfilepath+"\\"+plugin+".txt";
     //get MUUID of plugin and put into array as a first string.
@@ -204,7 +204,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     ParseFiles(sourcefiles,foundstrings,ParseSourceFile);
     //Parsing all sources done and head are ready (if version.h exist and plugin are not Pascal). If we still have head with 7 strings (version.h parsed OK, gives us 6 stings + 1 first string always exist in head - MUUID) or head have only one string (version.h wasn't found and head have only MUUID) AND didn't find anything in *.RC and source files, so we didn't find any string and generating file is useless, return from function and out log
     if ((head.length==7 || head.length==1) && foundstrings.length==0) {
-        if (log=="yes") WScript.Echo("!!!Nothing to translate in "+plugin+"!!!");
+        if (log) WScript.Echo("!!!Nothing to translate in "+plugin+"!!!");
         return;
         };
     //Suppose that we parse Pascal plugin, thus head have only one string with MUUID, push a plugin name there
@@ -216,7 +216,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     //combine head and translated strings.
     plugintemplate=head.concat(nodupes);
     //logging results
-    if (log=="yes") WScript.Echo("Writing "+plugintemplate.length+" strings for "+plugin);
+    if (log) WScript.Echo("Writing "+plugintemplate.length+" strings for "+plugin);
     //finally, write "nodupes" array to file
     WriteToFile(plugintemplate,langpack);
 };  
@@ -344,7 +344,7 @@ function GetMUUID (folder,array) {
  //output result into array
  array.push(muuid)
  //log output
- if (log=="yes") WScript.Echo(muuid);
+ if (log) WScript.Echo(muuid);
 };
 
 //Parsing filelist into stringsarray by parsefunction (ParseSourceFile OR ParseRCFile)
@@ -454,7 +454,7 @@ var filter1=/^[^\:\-\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
-//filter from ÉàËèñ, different versinos.
+//filter from Kildor, different versinos.
 //var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|\.(\w{2,4}|travel|museum|xn--\w+)|\W|\s|\d+)+$/g;
 //var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
 //var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|color|)=\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
@@ -462,7 +462,7 @@ var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W+|\s+|\d+)+$/gi;
 //var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
 var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
-//filter from ÉàËèñ for remove filenames and pathes.
+//filter from Kildor for remove filenames and pathes.
 //var filter5=/^[\w-*]+\.\w+$/g;
 //var filter5=/^[\w_:%.\\*-]+\.\w+$/g;
 var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
