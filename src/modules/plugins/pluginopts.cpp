@@ -268,7 +268,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			col.cx = 34;
 			ListView_InsertColumn(hwndList, 0, &col);
 
-			col.pszText = _T("On/Off");
+			col.pszText = TranslateT("On/Off");
 			col.cx = 47;
 			ListView_InsertColumn(hwndList, 1, &col);
 
