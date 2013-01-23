@@ -86,7 +86,7 @@ INT_PTR CALLBACK MissedDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		SetWindowPos(htemp,NULL,0,0,rcinit.right-rcinit.left,mcs.count*(rcinit.bottom-rcinit.top)/2,SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
 		GetWindowRect(htemp, &rcresized);
 
-		htemp = GetDlgItem(hdlg,IDOK);
+		htemp = GetDlgItem(hdlg, IDOK);
 		GetWindowRect(htemp, &rcb);
 		pt.x = rcb.left;
 		pt.y = rcb.top;
@@ -94,7 +94,7 @@ INT_PTR CALLBACK MissedDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		ScreenToClient(hdlg, &pt);
 		MoveWindow(htemp,pt.x,pt.y+(rcresized.bottom-rcinit.bottom),(rcb.right-rcb.left),(rcb.bottom-rcb.top),FALSE);
 		GetWindowRect(hdlg, &rcd);
-		SetWindowPos(hdlg,NULL,0,0,rcd.right-rcd.left,rcd.bottom-rcd.top+(rcresized.bottom-rcinit.bottom),SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
+		SetWindowPos(hdlg, NULL,0,0,rcd.right-rcd.left,rcd.bottom-rcd.top+(rcresized.bottom-rcinit.bottom),SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
 
 		SetDlgItemText(hdlg, IDC_CONTACTS, (LPCTSTR)lparam);
 		ShowWindow(hdlg, SW_SHOWNOACTIVATE);

@@ -26,7 +26,7 @@ Last change by : $Author: y_b $
 #include "version.h"
 
 HINSTANCE hInstance;
-HANDLE ehdb = NULL, ehproto = NULL, ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL, hOptInit = NULL, hMainInit = NULL;
+HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
 
 int hLangpack;
 
@@ -60,7 +60,7 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	memset(&contactQueue[0], 0, contactQueueSize);
 	contactQueueSize = 16;
 	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
-	hOptInit = HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	
 	if ( db_get_b(NULL,S_MOD,"MenuItem",1))
 		InitMenuitem();
@@ -72,10 +72,10 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 		InitFileOutput();
 
 	if ( db_get_b(NULL,S_MOD,"MissedOnes",0))
-		ehmissed_proto=HookEvent(ME_PROTO_ACK,ModeChange_mo);
+		ehmissed_proto = HookEvent(ME_PROTO_ACK,ModeChange_mo);
 
-	ehdb = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
-	ehproto = HookEvent(ME_PROTO_ACK,ModeChange);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UpdateValues);
+	HookEvent(ME_PROTO_ACK,ModeChange);
 
 	SkinAddNewSoundExT("LastSeenTrackedStatusChange", LPGENT("LastSeen"), LPGENT("User status change"));
 	SkinAddNewSoundExT("LastSeenTrackedStatusOnline", LPGENT("LastSeen"), LPGENT("Changed to Online"));
@@ -88,11 +88,9 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	db_set_s(NULL,"Uninstall",Translate("Last seen"),S_MOD);
 
 
-	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION)) {
-		int i;
-		for (i=0; i < TRANSNUMBER; i++)
+	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION))
+		for (int i=0; i < TRANSNUMBER; i++)
 			CallService(MS_TIPPER_ADDTRANSLATION, 0, (LPARAM)&idleTr[i]);
-	}
 
 	return 0;
 }
@@ -104,15 +102,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(ehdb);
-	if (ehmissed) UnhookEvent(ehmissed);
-	UnhookEvent(ehproto);
-	if (ehmissed_proto) UnhookEvent(ehmissed_proto);
-	UnhookEvent(hOptInit);
-	UnhookEvent(hMainInit);
-	if (ehuserinfo) UnhookEvent(ehuserinfo);
+	if (ehmissed)
+		UnhookEvent(ehmissed);
+
 	UninitMenuitem();
-//	free(contactQueue);
 	return 0;
 }
 
@@ -131,6 +124,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	// I decided to hook all events after
 	// everything is loaded because it seems
 	// to be safer in my opinion
-	hMainInit = HookEvent(ME_SYSTEM_MODULESLOADED,MainInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED,MainInit);
 	return 0;
 }

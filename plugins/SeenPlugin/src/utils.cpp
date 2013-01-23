@@ -26,8 +26,6 @@ Last change by : $Author: y_b $
 
 void FileWrite(HANDLE);
 void HistoryWrite(HANDLE hcontact);
-//void SetOffline(void);
-void ShowHistory(HANDLE hContact, BYTE isAlert);
 
 char * courProtoName = 0;
 
@@ -132,7 +130,7 @@ DWORD isSeen(HANDLE hcontact, SYSTEMTIME *st)
 					//perform LOCALTOTIMESTAMP
 					res = (DWORD)ll - CallService(MS_DB_TIME_TIMESTAMPTOLOCAL,0,0);
 					//nevel look for Year/Month/Day/Hour/Minute/Second again
-					DBWriteContactSettingDword(hcontact,S_MOD,"seenTS",res);
+					db_set_dw(hcontact,S_MOD,"seenTS",res);
 				}
 	}	}	}
 
@@ -420,7 +418,7 @@ void DBWriteTimeTS(DWORD t, HANDLE hcontact){
 	ft.dwLowDateTime = (DWORD)ll;
 	ft.dwHighDateTime = (DWORD)(ll >> 32);
 	FileTimeToSystemTime(&ft, &st);
-	DBWriteContactSettingDword(hcontact,S_MOD,"seenTS",t);
+	db_set_dw(hcontact,S_MOD,"seenTS",t);
 	_DBWriteTime(&st, hcontact);
 }
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword){
@@ -704,7 +702,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 
 	char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
 	mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
-	DBDeleteContactSetting(NULL,S_MOD,str);
+	db_unset(NULL,S_MOD,str);
 	free(str);
 
 	free(infoParam);
@@ -748,7 +746,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			time_t t;
 			time(&t);
 			mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",ack->szModule);
-			DBWriteContactSettingDword(NULL,S_MOD,str,t);
+			db_set_dw(NULL,S_MOD,str,t);
 			free(str);
 	}	}
 	if (isetting==db_get_w(NULL,S_MOD,courProtoName,ID_STATUS_OFFLINE)) return 0;

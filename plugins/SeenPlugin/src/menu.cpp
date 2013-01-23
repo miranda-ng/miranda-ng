@@ -26,7 +26,6 @@ Last change by : $Author: y_b $
 
 HANDLE hmenuitem=NULL, hLSUserDet = NULL, hBuildMenu = NULL;
 
-void ShowHistory(HANDLE hContact, BYTE isAlert);
 void InitHistoryDialog(void);
 
 /*

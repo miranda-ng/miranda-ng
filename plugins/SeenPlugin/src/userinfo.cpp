@@ -51,7 +51,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	
 	switch(msg) {
 	case WM_INITDIALOG:
-		MainProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg,IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
+		MainProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg, IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
 		{
 			TCHAR *szout;
 			if ( !DBGetContactSettingTString(NULL, S_MOD, "UserStamp", &dbv)) {
@@ -62,7 +62,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			SetDlgItemText(hdlg, IDC_INFOTEXT, szout);
 			if ( !lstrcmp(szout, TranslateT("<unknown>")))
-				EnableWindow( GetDlgItem(hdlg,IDC_INFOTEXT), FALSE);
+				EnableWindow( GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
 		}
 		break;
 

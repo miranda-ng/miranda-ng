@@ -122,6 +122,7 @@ void SetOffline(void);
 int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
 void UninitMenuitem();
+void ShowHistory(HANDLE hContact, BYTE isAlert);
 
 extern BOOL includeIdle;
 typedef struct logthread_info {

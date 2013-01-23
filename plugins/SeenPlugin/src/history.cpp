@@ -24,7 +24,6 @@ Last change by : $Author: y_b $
 */
 #include "seen.h"
 
-
 extern HINSTANCE hInstance;
 
 static HANDLE hWindowList;
@@ -40,22 +39,24 @@ char* BuildSetting(int historyLast) {
 
 void HistoryWrite(HANDLE hContact)
 {
-	short historyFirst, historyLast, historyMax;
-	DBVARIANT dbv;
-
-	historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
-	if (historyMax < 0) historyMax=0; else if (historyMax > 99) historyMax = 99;
+	int historyMax = db_get_w(NULL, S_MOD, "HistoryMax", 10);
+	if (historyMax < 0)
+		historyMax=0;
+	else if (historyMax > 99)
+		historyMax = 99;
 	if (historyMax == 0)
 		return;
 
-	historyFirst = db_get_w(hContact, S_MOD, "HistoryFirst", 0);
+	int historyFirst = db_get_w(hContact, S_MOD, "HistoryFirst", 0);
 	if (historyFirst >=  historyMax)
 		historyFirst = 0;
-	historyLast = db_get_w(hContact, S_MOD, "HistoryLast", 0);
+
+	int historyLast = db_get_w(hContact, S_MOD, "HistoryLast", 0);
 	if (historyLast >= historyMax)
 		historyLast = historyMax-1;
 
 	TCHAR *ptszString;
+	DBVARIANT dbv;
 	if ( !DBGetContactSettingTString(NULL, S_MOD, "HistoryStamp", &dbv)) {
 		ptszString = ParseString(dbv.ptszVal, hContact, 0);
 		db_free(&dbv);
@@ -64,30 +65,34 @@ void HistoryWrite(HANDLE hContact)
 	db_set_ts(hContact, S_MOD, BuildSetting(historyLast), ptszString);
 
 	historyLast = (historyLast+1) % historyMax;
-	db_set_w(hContact,S_MOD,"HistoryLast",historyLast);
+	db_set_w(hContact, S_MOD, "HistoryLast", historyLast);
 	if (historyLast == historyFirst)
 		db_set_w(hContact, S_MOD, "HistoryFirst", (historyFirst+1) % historyMax);
 }
 
 void LoadHistoryList(HANDLE hContact, HWND hwnd, int nList)
 {
-	short historyFirst, historyLast, historyMax;
-	short i;
-	DBVARIANT dbv;
-
 	SendDlgItemMessage(hwnd, nList, LB_RESETCONTENT, 0, 0);
-	historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
-	if (historyMax < 0) historyMax = 0; else if (historyMax > 99) historyMax = 99;
-	if (historyMax == 0) return;
-	historyFirst = db_get_w(hContact,S_MOD,"HistoryFirst",0);
-	if (historyFirst >=  historyMax) historyFirst = 0;
-	historyLast = db_get_w(hContact,S_MOD,"HistoryLast",0);
-	if (historyLast >= historyMax) historyLast = historyMax-1;
+	int historyMax = db_get_w(NULL,S_MOD,"HistoryMax",10);
+	if (historyMax < 0)
+		historyMax = 0;
+	else if (historyMax > 99)
+		historyMax = 99;
+	if (historyMax == 0)
+		return;
 	
-	i = historyLast;
-	while (i != historyFirst) {
+	int historyFirst = db_get_w(hContact,S_MOD,"HistoryFirst",0);
+	if (historyFirst >= historyMax)
+		historyFirst = 0;
+	
+	int historyLast = db_get_w(hContact,S_MOD,"HistoryLast",0);
+	if (historyLast >= historyMax)
+		historyLast = historyMax-1;
+	
+	for (int i = historyLast; i != historyFirst; ) {
 		i = (i-1+historyMax) % historyMax;
 		
+		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, S_MOD, BuildSetting(i), &dbv)) {
 			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
@@ -147,6 +152,7 @@ HDWP MyHorizCenterWindow (HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 			SWP_NOZORDER);
 
 }
+
 void MyResizeGetOffset (HWND hwndDlg, HWND hwndControl, int nWidth, int nHeight, int* nDx, int* nDy)
 {
 	RECT rcinit;
@@ -280,30 +286,23 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 
 void ShowHistory(HANDLE hContact, BYTE isAlert)
 {
-	HWND hHistoryDlg;
-	
-	hHistoryDlg = WindowList_Find(hWindowList,hContact);
-	if (hHistoryDlg == NULL)
-	{
+	HWND hHistoryDlg = WindowList_Find(hWindowList,hContact);
+	if (hHistoryDlg == NULL) {
 		hHistoryDlg = CreateDialogParam(hInstance,MAKEINTRESOURCE(IDD_HISTORY),NULL,HistoryDlgProc,(LPARAM)hContact);
 		LoadHistoryList(hContact, hHistoryDlg, IDC_HISTORYLIST);
 		WindowList_Add(hWindowList,hHistoryDlg,hContact);
 	} 
-	else 
-	{
+	else {
 		SetForegroundWindow(hHistoryDlg);
 		LoadHistoryList(hContact, hHistoryDlg, IDC_HISTORYLIST);
 		SetFocus(hHistoryDlg);
 	}
 	
 	if (isAlert) 
-	{
 		SkinPlaySound("LastSeenTrackedStatusChange");
-	}
 }
-
 
 void InitHistoryDialog(void)
 {
-	hWindowList=(HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 }
