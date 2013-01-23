@@ -344,7 +344,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
 					}	}
 
-					ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE);
+					// ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE); // this here only in "ghazan mode"
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 				}
@@ -386,14 +386,61 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}	}	}	}
 
 			if (hdr->hdr.code == PSN_APPLY) {
-				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
+				bool needRestart = false;
+				TCHAR bufRestart[1024];
+				int bufLen = mir_sntprintf(bufRestart, SIZEOF(bufRestart), _T("%s"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:\n"));
+
+				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);				
 				TCHAR buf[1024];
 				for (int iRow = 0; iRow != -1;) {
 					ListView_GetItemText(hwndList, iRow, 2, buf, SIZEOF(buf));
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
+					
+					LVITEM lvi = {0};
+					lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+					lvi.stateMask = -1;
+					lvi.iItem = iRow;
+					lvi.iSubItem = 1;
+					if (ListView_GetItem(hwndList, &lvi)) {
+						lvi.mask = LVIF_IMAGE;
+
+						PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
+						if (iState & 0x2000) {
+							// enabling plugin
+							if (lvi.iImage == 3 || lvi.iImage == 5) {
+								if (lvi.iImage == 3 && LoadPluginDynamically(dat)) {
+									lvi.iImage = 2;
+									ListView_SetItem(hwndList, &lvi);
+								} else {
+									bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+									needRestart = true;
+								}
+							}
+						} else {
+							// disabling plugin
+							if (lvi.iImage == 2 || lvi.iImage == 4) {
+								if (lvi.iImage == 2 && UnloadPluginDynamically(dat)) {
+									lvi.iImage = 3;
+									ListView_SetItem(hwndList, &lvi);
+								} else {
+									bufLen += mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T(" - %s\n"), buf);
+									needRestart = true;
+								}
+							}
+						}
+					}
+					
 					iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
-		}	}	}
+				}
+				ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), needRestart);
+				if (needRestart) {
+					mir_sntprintf(bufRestart + bufLen, SIZEOF(bufRestart) - bufLen, _T("\n%s"), TranslateT("Do you want to restart it now?"));
+					if (MessageBox(NULL, bufRestart, _T("Miranda NG"), MB_ICONWARNING | MB_YESNO) == IDYES)
+						CallService(MS_SYSTEM_RESTART, 0, 0);
+				}
+			}
+		}
 		break;
 
 	case WM_COMMAND:
