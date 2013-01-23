@@ -56,9 +56,9 @@ bool hasMobileClient(HANDLE hContact, LPARAM lParam)
 	char *proto = GetContactProto(hContact);
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(hContact, proto, "MirVer", &dbv)) {
+	if (!db_get_ts(hContact, proto, "MirVer", &dbv)) {
 		TCHAR *client = _tcslwr(NEWTSTR_ALLOCA(dbv.ptszVal));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		for (size_t i=0; i<(sizeof(clients) / sizeof(TCHAR*)); i++)
 			if (_tcsstr(client, clients[i]))
