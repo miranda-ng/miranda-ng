@@ -7,6 +7,8 @@
 ;  Source: https://svn.asylum-studios.org/loki/trunk/plugins/CmdLine/ Login: guest Pass: guestpas
 ;  Authors: Cristian Libotean
 ;============================================================
+[Change account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is the name of the account. If it's not specified then the command will issue a global status change.]
+Смена статуса учётной записи или глобального статуса.\nИспользование: status <статус> [<учётная запись>].\nВозможные значения <статус>: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<учётная запись> - имя учётной записи. Если не указано - будет установлен глобальный статус.
 [Wrong number of parameters for command '%s'.]
 Неверное количество параметров для команды '%s'
 [This plugin lets you control Miranda from the command line.]
