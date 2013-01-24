@@ -50,6 +50,7 @@ HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL, hwnd_plugin = NUL
 COLORREF clBack = 0;
 HBRUSH hBkgBrush = 0;
 HANDLE frame_id = NULL;
+HANDLE hBASSFolder = NULL, hPlaySound = NULL;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
@@ -475,29 +476,16 @@ void CreateFrame()
 	ReloadColors(0, 0);
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+void DeleteFrame()
 {
-	DBVARIANT dbv = {0};
+	if (hBkgBrush)
+		DeleteObject(hBkgBrush);
 
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		HANDLE hBASSFolder = FoldersRegisterCustomPathT("Bass Interface", "Bass library", PLUGINS_PATHT _T("\\Bass"));
-		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
-		_tcscat(CurrBassPath, _T("\\bass.dll"));
-	}
-	else
-	{
-		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv))
-		{
-			TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_path%\\plugins\\Bass\\bass.dll"));
-			lstrcpyn(CurrBassPath, tszFolder, SIZEOF(CurrBassPath));
-			mir_free(tszFolder);
-			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
-		}
-		else lstrcpy(CurrBassPath, dbv.ptszVal);
-		DBFreeVariant(&dbv);
-	}
+	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+}
 
+void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
+{
 	hBass = LoadLibrary(CurrBassPath);
 	if (hBass != NULL) {
 		if (LOADBASSFUNCTION(BASS_Init) != NULL && LOADBASSFUNCTION(BASS_SetConfig) != NULL &&
@@ -508,6 +496,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			BASS_DEVICEINFO info;
 
 			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
+
+			DBVARIANT dbv = {0};
 
 			if ( !db_get_ts(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
 				for (int i = 1; BASS_GetDeviceInfo(i, &info); i++)
@@ -531,7 +521,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 			Volume = db_get_b(NULL, ModuleName, OPT_VOLUME, 33);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
-			HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
+			hPlaySound = HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
 			CreateFrame();
 		}
 		else {
@@ -539,8 +529,50 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			hBass = NULL;
 		}
 	}
+}
+
+int OnFoldersChanged(WPARAM, LPARAM)
+{
+	FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
+	_tcscat(CurrBassPath, _T("\\bass.dll"));
+
+	if (hBass != NULL) {
+		BASS_Free();
+		FreeLibrary(hBass);
+		UnhookEvent(hPlaySound);
+		DeleteFrame();
+	}
+	LoadBassLibrary(CurrBassPath);
+
+	return 0;
+}
+
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	{
+		hBASSFolder = FoldersRegisterCustomPathT("Bass Interface", "Bass library", PLUGINS_PATHT _T("\\Bass"));
+		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
+		_tcscat(CurrBassPath, _T("\\bass.dll"));
+	}
+	else
+	{
+		DBVARIANT dbv = {0};
+		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv))
+		{
+			TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_path%\\plugins\\Bass\\bass.dll"));
+			lstrcpyn(CurrBassPath, tszFolder, SIZEOF(CurrBassPath));
+			mir_free(tszFolder);
+			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
+		}
+		else lstrcpy(CurrBassPath, dbv.ptszVal);
+		DBFreeVariant(&dbv);
+	}
+
+	LoadBassLibrary(CurrBassPath);
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 	return 0;
 }
 
@@ -566,10 +598,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 		FreeLibrary(hBass);
 	}
 
-	if (hBkgBrush)
-		DeleteObject(hBkgBrush);
-
-	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+	DeleteFrame();
 	return 0;
 }
 
