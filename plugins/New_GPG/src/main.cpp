@@ -2304,6 +2304,26 @@ void InitCheck()
 				CallService(svc, 0, (LPARAM)&cap);
 		}
 	}
+	if(bFileTransfers)
+	{
+		int count = 0;
+		PROTOACCOUNT **accounts;
+		ProtoEnumAccounts(&count, &accounts);
+		ICQ_CUSTOMCAP cap;
+		cap.cbSize = sizeof(ICQ_CUSTOMCAP);
+		cap.hIcon = 0;
+		strcpy(cap.name, "GPG Encrypted FileTransfers");
+		strcpy(cap.caps, "GPG FileTransfer");
+
+		for(int i = 0; i < count; i++)
+		{
+			char svc[64];
+			strcpy(svc, accounts[i]->szProtoName);
+			strcat(svc, PS_ICQ_ADDCAPABILITY);
+			if(ServiceExists(svc))
+				CallService(svc, 0, (LPARAM)&cap);
+		}
+	}
 }
 
 void ImportKey()

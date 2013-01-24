@@ -578,6 +578,61 @@ int onSendFile(WPARAM w, LPARAM l)
 	CCSDATA *ccs=(CCSDATA*)l;
 	if(isContactSecured(ccs->hContact))
 	{
+		char *proto = GetContactProto(ccs->hContact);
+		DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
+		bool cap_found = false, supported_proto = false;
+		if(uin)
+		{
+			char svc[64];
+			strcpy(svc, proto);
+			strcat(svc, PS_ICQ_CHECKCAPABILITY);
+			if(ServiceExists(svc))
+			{
+				supported_proto = true;
+				ICQ_CUSTOMCAP cap = {0};
+				strcpy(cap.caps, "GPG FileTransfer");
+				if(CallService(svc, (WPARAM)ccs->hContact, (LPARAM)&cap))
+					cap_found = true;
+			}
+		}
+		else
+		{
+			TCHAR *jid = UniGetContactSettingUtf(ccs->hContact, proto, "jid", _T(""));
+			if(jid[0])
+			{
+				extern list <JabberAccount*> Accounts;
+				list<JabberAccount*>::iterator end = Accounts.end();
+				for(list<JabberAccount*>::iterator p = Accounts.begin(); p != end; p++)
+				{
+					TCHAR *caps = (*p)->getJabberInterface()->Net()->GetResourceFeatures(jid);
+					if(caps)
+					{
+						supported_proto = true;
+						wstring str;
+						for(int i=0;;i++)
+						{
+							str.push_back(caps[i]);
+							if(caps[i] == '\0')
+								if(caps[i+1] == '\0')
+									break;
+						}
+						mir_free(caps);
+						if(str.find(_T("GPG_Encrypted_FileTransfers:0")) != string::npos)
+							cap_found = true;
+					}
+				}
+			}
+		}
+		if(supported_proto && !cap_found)
+		{
+			if(MessageBox(0, TranslateT("Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+				return CallService(MS_PROTO_CHAINSEND, w, l);
+		}
+		if(!supported_proto)
+		{
+			if(MessageBox(0, TranslateT("Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("Filetransfer warning"), MB_YESNO) == IDNO)
+				return CallService(MS_PROTO_CHAINSEND, w, l);
+		}
 		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
 		DWORD flags = (DWORD)ccs->wParam; //check for PFTS_UNICODE here
 		int i;
