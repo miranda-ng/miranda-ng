@@ -230,7 +230,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.ptszName=LPGENT("Export GPG Public keys from all users");
+	mi.ptszName=LPGENT("Export GPG Public keys");
 	mi.pszService="/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
 
@@ -239,7 +239,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.ptszName=LPGENT("Import GPG Public keys from all users");
+	mi.ptszName=LPGENT("Import GPG Public keys");
 	mi.pszService="/ImportGPGKeys";
 	hImportGpgKeys = Menu_AddMainMenuItem(&mi);
 

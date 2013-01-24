@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\src\resource.h"
+#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -183,6 +183,20 @@ BEGIN
     CONTROL         "Remember choice",IDC_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,22,157,10
 END
 
+IDD_EXPORT_TYPE DIALOGEX 0, 0, 281, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Choose which  keys to export"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Статический",IDC_STATIC,7,7,267,63
+    PUSHBUTTON      "Ok",IDC_OK,7,71,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,224,71,50,14
+    CONTROL         "Export public keys (only set for contacts)",IDC_PUBLIC,
+                    "Button",BS_AUTORADIOBUTTON,15,23,248,10
+    CONTROL         "Export all private keys",IDC_PRIVATE,"Button",BS_AUTORADIOBUTTON,15,36,246,10
+    CONTROL         "Export public and private keys",IDC_ALL,"Button",BS_AUTORADIOBUTTON,15,50,248,10
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -265,6 +279,15 @@ BEGIN
         RIGHTMARGIN, 222
         TOPMARGIN, 7
         BOTTOMMARGIN, 56
+    END
+
+    IDD_EXPORT_TYPE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 274
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 85
+        HORZGUIDE, 70
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -385,12 +408,14 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,76,233,10
 END
 
-IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 32
+IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 50
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
     CONTROL         "Turn on presence signing (Jabber) (required by xep 0-27)",IDC_PRESCENSE_SUBSCRIPTION,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,9,268,10
+    PUSHBUTTON      "Export keys",IDC_EXPORT,12,26,60,14
+    PUSHBUTTON      "Import keys",IDC_IMPORT,82,26,68,14
 END
 
 
@@ -417,6 +442,7 @@ BEGIN
     IDD_OPT_GPG_ADVANCED, DIALOG
     BEGIN
         VERTGUIDE, 12
+        BOTTOMMARGIN, 40
     END
 END
 #endif    // APSTUDIO_INVOKED

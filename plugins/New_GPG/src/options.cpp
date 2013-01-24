@@ -720,6 +720,24 @@ static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
  
   case WM_COMMAND:
     {
+		switch (LOWORD(wParam))
+      {
+	  case IDC_EXPORT:
+		  {
+			  INT_PTR ExportGpGKeys(WPARAM w, LPARAM l);
+			  ExportGpGKeys(NULL, NULL);
+		  }
+		  break;
+	  case IDC_IMPORT:
+		  {
+			  INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
+			  ImportGpGKeys(NULL, NULL);
+		  }
+		  break;
+	  default:
+		break;
+      }
+
       SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
       break;
     }

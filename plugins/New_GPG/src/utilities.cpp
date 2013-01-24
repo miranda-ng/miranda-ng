@@ -1407,15 +1407,14 @@ bool isTabsrmmUsed()
 	return found;
 }
 
-
-INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
+void ExportGpGKeysFunc(int type)
 {
-	TCHAR *p = GetFilePath(_T("Choose file to export public keys"), _T("*"), _T("Any file"), true);
+		TCHAR *p = GetFilePath(_T("Choose file to export keys"), _T("*"), _T("Any file"), true);
 	if(!p || !p[0])
 	{
 		delete [] p;
 		//TODO: handle error
-		return 1;
+		return;
 	}
 	char *path = mir_t2a(p);
 	delete [] p;
@@ -1424,150 +1423,194 @@ INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
 	mir_free(path);
 	int exported_keys = 0;
 	if(!file.is_open())
-		return 1; //TODO: handle error
-	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		return; //TODO: handle error
+	if(!type || type == 2)
 	{
-		char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
-		if(!k[0])
+		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
+			char *k = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", "");
+			if(!k[0])
+			{
+				mir_free(k);
+				continue;
+			}
+			std::string key = k;
 			mir_free(k);
-			continue;
+			
+			const char* proto = (const char*)GetContactProto(hContact);
+			std::string id = "Comment: login ";
+			const char * uid = (const char*)CallProtoService(proto, PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
+			DBVARIANT dbv = {0};
+			DBCONTACTGETSETTING dbcgs = {0};
+			dbcgs.pValue = &dbv;
+			dbcgs.szModule = proto;
+			dbcgs.szSetting = uid;
+			CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs);
+			switch(dbcgs.pValue->type)
+			{
+			case DBVT_DELETED:
+				continue;
+				break;
+			case DBVT_BYTE:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+					id += _id;
+				}
+				break;
+			case DBVT_WORD:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+					id += _id;
+				}
+				break;
+			case DBVT_DWORD:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+					id += _id;
+				}
+				break;
+			case DBVT_ASCIIZ:
+				{
+					id += dbcgs.pValue->pszVal;
+					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				}
+				break;
+			case DBVT_UTF8:
+				{
+					char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+					if(tmp[0])
+						id += tmp;
+					mir_free(tmp);
+					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				}
+				break;
+			case DBVT_BLOB:
+				//TODO
+				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				break;
+			case DBVT_WCHAR:
+				//TODO
+				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				break;
+			}
+			id += " contact_id ";
+			ZeroMemory(&dbv, sizeof(dbv));
+			ZeroMemory(&dbcgs, sizeof(dbcgs));
+			dbcgs.pValue = &dbv;
+			dbcgs.szModule = proto;
+			dbcgs.szSetting = uid;
+			CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
+			switch(dbcgs.pValue->type)
+			{
+			case DBVT_DELETED:
+				continue;
+				break;
+			case DBVT_BYTE:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
+					id += _id;
+				}
+				break;
+			case DBVT_WORD:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
+					id += _id;
+				}
+				break;
+			case DBVT_DWORD:
+				{
+					char _id[64];
+					mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
+					id += _id;			
+				}
+				break;
+			case DBVT_ASCIIZ:
+				{
+					id += dbcgs.pValue->pszVal;
+					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				}
+				break;
+			case DBVT_UTF8:
+				{
+					char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
+					if(tmp[0])
+						id += tmp;
+					mir_free(tmp);
+					CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				}
+				break;
+			case DBVT_BLOB:
+				//TODO
+				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				break;
+			case DBVT_WCHAR:
+				//TODO
+				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
+				break;
+			}
+			std::string::size_type p1 = key.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			if(p1 == std::string::npos)
+				continue;
+			p1 += strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
+			p1 ++;
+			id += '\n';
+			key.insert(p1, id);
+			file<<key;
+			file<<std::endl;
+			exported_keys++;
 		}
-		std::string key = k;
-		mir_free(k);
-		
-		const char* proto = (const char*)GetContactProto(hContact);
-		std::string id = "Comment: login ";
-		const char * uid = (const char*)CallProtoService(proto, PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
-		DBVARIANT dbv = {0};
-		DBCONTACTGETSETTING dbcgs = {0};
-		dbcgs.pValue = &dbv;
-		dbcgs.szModule = proto;
-		dbcgs.szSetting = uid;
-		CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs);
-		switch(dbcgs.pValue->type)
+	}
+	if(type == 1 || type == 2)
+	{
+		string out;
+		DWORD code;
+		pxResult result;
+		gpg_execution_params params;
+		wstring cmd = _T("--batch --export-secret-keys -a");
+		params.cmd = &cmd;
+		params.useless = "";
+		params.out = &out;
+		params.code = &code;
+		params.result = &result;
+		boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+		if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
 		{
-		case DBVT_DELETED:
-			continue;
-			break;
-		case DBVT_BYTE:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
-				id += _id;
-			}
-			break;
-		case DBVT_WORD:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
-				id += _id;
-			}
-			break;
-		case DBVT_DWORD:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
-				id += _id;
-			}
-			break;
-		case DBVT_ASCIIZ:
-			{
-				id += dbcgs.pValue->pszVal;
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			}
-			break;
-		case DBVT_UTF8:
-			{
-				char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
-				if(tmp[0])
-					id += tmp;
-				mir_free(tmp);
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			}
-			break;
-		case DBVT_BLOB:
-			//TODO
-			CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			break;
-		case DBVT_WCHAR:
-			//TODO
-			CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			break;
+			gpg_thread.~thread();
+			TerminateProcess(params.hProcess, 1);
+			params.hProcess = NULL;
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+			//break;
 		}
-		id += " contact_id ";
-		ZeroMemory(&dbv, sizeof(dbv));
-		ZeroMemory(&dbcgs, sizeof(dbcgs));
-		dbcgs.pValue = &dbv;
-		dbcgs.szModule = proto;
-		dbcgs.szSetting = uid;
-		CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-		switch(dbcgs.pValue->type)
+		else if(result == pxNotFound)
+			;//break;
+		else
 		{
-		case DBVT_DELETED:
-			continue;
-			break;
-		case DBVT_BYTE:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->bVal);
-				id += _id;
-			}
-			break;
-		case DBVT_WORD:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->wVal);
-				id += _id;
-			}
-			break;
-		case DBVT_DWORD:
-			{
-				char _id[64];
-				mir_snprintf(_id, 63, "%d", dbcgs.pValue->dVal);
-				id += _id;
-			}
-			break;
-		case DBVT_ASCIIZ:
-			{
-				id += dbcgs.pValue->pszVal;
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			}
-			break;
-		case DBVT_UTF8:
-			{
-				char *tmp = mir_utf8decodeA(dbcgs.pValue->pszVal);
-				if(tmp[0])
-					id += tmp;
-				mir_free(tmp);
-				CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			}
-			break;
-		case DBVT_BLOB:
-			//TODO
-			CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			break;
-		case DBVT_WCHAR:
-			//TODO
-			CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
-			break;
+			file<<out;
+			file<<std::endl;
 		}
-		std::string::size_type p1 = key.find("-----BEGIN PGP PUBLIC KEY BLOCK-----");
-		if(p1 == std::string::npos)
-			continue;
-		p1 += strlen("-----BEGIN PGP PUBLIC KEY BLOCK-----");
-		p1 ++;
-		id += '\n';
-		key.insert(p1, id);
-		file<<key;
-		file<<std::endl;
-		exported_keys++;
 	}
 	if(file.is_open())
 		file.close();
 	char msg[512];
-	mir_snprintf(msg, 511, "we have succesfully exported %d keys", exported_keys);
+	if(type == 2)
+		mir_snprintf(msg, 511, "%s %d %s %s %s", Translate("we have succesfully exported"), exported_keys, Translate("public keys"), Translate("and"), Translate("all private keys"));
+	else if(type == 1)
+		mir_snprintf(msg, 511, "%s %s", Translate("we have succesfully exported"), Translate("all private keys"));
+	else if(!type)
+		mir_snprintf(msg, 511, "%s %d %s",Translate("we have succesfully exported"), exported_keys, Translate("public keys"));
 	MessageBoxA(NULL, msg, Translate("Keys export result"), MB_OK);
+}
+
+INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
+{
+	void ShowExportKeysDlg();
+	ShowExportKeysDlg();
 	return 0;
 }
 
@@ -1588,11 +1631,11 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 	if(!file.is_open())
 		return 1; //TODO: handle error
 	PROTOACCOUNT **accs;
-	int acc_count = 0, processed_keys = 0;
+	int acc_count = 0, processed_keys = 0, processed_private_keys = 0;
 	ProtoEnumAccounts(&acc_count, &accs);
 	char line[256];
 	file.getline(line, 255);
-	if(!strstr(line, "-----BEGIN PGP PUBLIC KEY BLOCK-----"))
+	if(!strstr(line, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && !strstr(line, "-----BEGIN PGP PRIVATE KEY BLOCK-----"))
 		return 1; //TODO: handle error
 	std::string key, login, contact_id;
 	key += line;
@@ -1603,7 +1646,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		key += line;
 		key += '\n';
 		if(strstr(line, "-----END PGP PUBLIC KEY BLOCK-----"))
-		{ //TODO: parse key
+		{
 			std::string::size_type p1 = 0, p2 = 0;
 			p1 = key.find("Comment: login ");
 			p1 += strlen("Comment: login ");
@@ -1817,7 +1860,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							char *tmp2;
 							string::size_type s = output.find("gpg: key ") + strlen("gpg: key ");
 							string::size_type s2 = output.find(":", s);
-							tmp2 = new char [output.substr(s,s2-s).length()+1];
+							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
 							strcpy(tmp2, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp2, 0);
 							DBWriteContactSettingString(hContact, szGPGModuleName, "KeyID", tmp2);
@@ -1836,7 +1879,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								s2 = output.find("<", s);
 							if(s2 != string::npos)
 							{
-								tmp2 = new char [output.substr(s,s2-s-1).length()+1];
+								tmp2 = (char*)mir_alloc((output.substr(s,s2-s-1).length()+1) * sizeof(char));
 								strcpy(tmp2, output.substr(s,s2-s-1).c_str());
 								mir_utf8decode(tmp2, 0);
 								if(hContact)
@@ -1851,7 +1894,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								s2++;
 								if(output[s] == ')')
 								{
-									tmp2 = new char [output.substr(s2,s-s2).length()+1];
+									tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1) * sizeof(char));
 									strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
@@ -1859,7 +1902,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 									mir_free(tmp2);
 									s+=3;
 									s2 = output.find(">", s);
-									tmp2 = new char [output.substr(s,s2-s).length()+1];
+									tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
 									strcpy(tmp2, output.substr(s,s2-s).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
@@ -1868,7 +1911,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								}
 								else
 								{
-									tmp2 = new char [output.substr(s2,s-s2).length()+1];
+									tmp2 = (char*)mir_alloc((output.substr(s2,s-s2).length()+1) * sizeof(char));
 									strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
@@ -1886,11 +1929,59 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 			}
 			key.clear();
 		}
+		if(strstr(line, "-----END PGP PRIVATE KEY BLOCK-----"))
+		{
+			wstring cmd;
+			TCHAR tmp2[MAX_PATH] = {0};
+			TCHAR *ptmp;
+			string output;
+			DWORD exitcode;
+			{
+				ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+				_tcscpy(tmp2, ptmp);
+				mir_free(ptmp);
+				_tcscat(tmp2, _T("\\"));
+				_tcscat(tmp2, _T("temporary_exported.asc"));
+				DeleteFile(tmp2);
+				wfstream f(tmp2, std::ios::out);
+				f<<toUTF16(key).c_str();
+				f.close();
+				cmd += _T(" --batch ");
+				cmd += _T(" --import \"");
+				cmd += tmp2;
+				cmd += _T("\"");
+			}
+			gpg_execution_params params;
+			pxResult result;
+			params.cmd = &cmd;
+			params.useless = "";
+			params.out = &output;
+			params.code = &exitcode;
+			params.result = &result;
+			boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+			if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+			{
+				gpg_thread.~thread();
+				TerminateProcess(params.hProcess, 1);
+				params.hProcess = NULL;
+				if(bDebugLog)
+					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				break;
+			}
+			if(result == pxNotFound)
+				break;
+			if(result == pxSuccess)
+				processed_private_keys++;
+			key.clear();
+		}
 	}
 	if(file.is_open())
 		file.close();
 	char msg[512];
-	mir_snprintf(msg, 511, "we have succesfully processed %d keys", processed_keys);
+	if(processed_private_keys)
+		mir_snprintf(msg, 511, "we have succesfully processed %d public keys and some private keys", processed_keys);
+	else
+		mir_snprintf(msg, 511, "we have succesfully processed %d public keys", processed_keys);
 	MessageBoxA(NULL, msg, Translate("Keys import result"), MB_OK);
 	return 0;
 }
@@ -1987,8 +2078,67 @@ static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARA
   return FALSE;
 }
 
+
 void ShowEncryptedFileMsgBox()
 {
 	extern HINSTANCE hInst;
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), NULL, DlgProcEncryptedFileMsgBox);
+}
+
+
+static INT_PTR CALLBACK DlgProcExportKeys(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		TranslateDialogDefault(hwndDlg);
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+      case IDC_OK:
+		  if(IsDlgButtonChecked(hwndDlg, IDC_PUBLIC))
+			  ExportGpGKeysFunc(0);
+		  else if(IsDlgButtonChecked(hwndDlg, IDC_PRIVATE))
+			  ExportGpGKeysFunc(1);
+		  else if(IsDlgButtonChecked(hwndDlg, IDC_ALL))
+			  ExportGpGKeysFunc(2);
+		  DestroyWindow(hwndDlg);
+		  break;
+
+	  case IDC_CANCEL:
+		  DestroyWindow(hwndDlg);
+		  break;
+
+	  default:
+		break;
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+	}
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+	  }
+	  break;
+  }
+  return FALSE;
+}
+
+void ShowExportKeysDlg()
+{
+	extern HINSTANCE hInst;
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), NULL, DlgProcExportKeys);
 }
