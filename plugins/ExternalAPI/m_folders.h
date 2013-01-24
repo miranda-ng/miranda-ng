@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PROFILE_PATHW    L"%profile_path%"
 #define CURRENT_PROFILEW L"%current_profile%"
 #define MIRANDA_PATHW    L"%miranda_path%"
+#define PLUGINS_PATHW L"%miranda_path%" L"\\plugins"
 #define MIRANDA_USERDATAW L"%miranda_userdata%"
 
 #ifdef _UNICODE
