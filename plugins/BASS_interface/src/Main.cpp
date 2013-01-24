@@ -479,16 +479,25 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
 
-	if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv))
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
-		db_set_ts(NULL, ModuleName, OPT_BASSPATH, _T("Plugins\\Bass\\Bass.dll"));
-		lstrcpy(tmp, _T("Plugins\\Bass\\Bass.dll"));
+		HANDLE hBASSFolder = FoldersRegisterCustomPathT("Bass Interface", "Bass library", PLUGINS_PATHT _T("\\Bass"));
+		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
+		_tcscat(CurrBassPath, _T("\\bass.dll"));
 	}
-	else lstrcpy(tmp, dbv.ptszVal);
+	else
+	{
+		if (db_get_ts(NULL, ModuleName, OPT_BASSPATH, &dbv))
+		{
+			TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_path%\\plugins\\Bass\\bass.dll"));
+			lstrcpyn(CurrBassPath, tszFolder, SIZEOF(CurrBassPath));
+			mir_free(tszFolder);
+			db_set_ts(NULL, ModuleName, OPT_BASSPATH, CurrBassPath);
+		}
+		else lstrcpy(CurrBassPath, dbv.ptszVal);
+		DBFreeVariant(&dbv);
+	}
 
-	DBFreeVariant(&dbv);
-
-	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tmp, (LPARAM)CurrBassPath);
 	hBass = LoadLibrary(CurrBassPath);
 	if (hBass != NULL) {
 		if (LOADBASSFUNCTION(BASS_Init) != NULL && LOADBASSFUNCTION(BASS_SetConfig) != NULL &&

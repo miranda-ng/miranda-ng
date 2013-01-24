@@ -21,6 +21,8 @@ Copyright (C) 2010, 2011 tico-tico
 #include <m_button_int.h>
 #include <m_icolib.h>
 
+#include <m_folders.h>
+
 #include "resource.h"
 #include "version.h"
 
