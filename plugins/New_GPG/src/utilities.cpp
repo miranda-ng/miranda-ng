@@ -1091,6 +1091,11 @@ void AddHandlers()
 			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Key_Auto_Exchange:0"), _T("Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
 			(*p)->getJabberInterface()->Net()->AddFeatures(_T("GPG_Key_Auto_Exchange:0\0\0"));
 		}
+		if(bFileTransfers)
+		{
+			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Encrypted_FileTransfers:0"), _T("Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
+			(*p)->getJabberInterface()->Net()->AddFeatures(_T("GPG_Encrypted_FileTransfers:0\0\0"));
+		}
 	}
 }
 
