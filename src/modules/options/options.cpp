@@ -982,11 +982,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (wParam != IDC_TAB) {
 					TVITEM tvi;
 					tvi.hItem = dat->hCurrentPage = TreeView_GetSelection(hwndTree);
-					if (tvi.hItem != NULL) {					
-						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-						TreeView_GetItem(hwndTree, &tvi);
-						dat->currentPage = tvi.lParam;
+					if (tvi.hItem == NULL) {
+						ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
+						break;
 					}
+					
+					tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+					TreeView_GetItem(hwndTree, &tvi);
+					dat->currentPage = tvi.lParam;
 					ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
 				} 
 				else {
