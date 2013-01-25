@@ -183,8 +183,9 @@ while ((string = find.exec(translatefiletext)) != null) {
     //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
     var key=string[1];
     var item=string[2];
-    //add key-item pair into dictionary
-    dictionary.Add(key,item)
+	//add key-item pair into dictionary, if not exists already
+	if (!dictionary.Exists(key))
+		dictionary.Add(key,item);
     }
 //close file
 translatefile.Close();
