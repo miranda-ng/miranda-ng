@@ -22,6 +22,10 @@ var overwritefile=true;
 var unicode=false;
 //disabling log by default
 var log=false;
+//stream - our variable for output UTF-8 files with BOM
+var stream= new ActiveXObject("ADODB.Stream");
+stream.Type = 2; // text mode
+stream.Charset = "utf-8";
 
 //Path variables
 var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
@@ -155,7 +159,7 @@ function GenerateCore() {
  //logging results
  if (log) WScript.Echo("Writing "+nodupes.length+" strings for CORE");
  //finally, write "nodupes" array to file
- WriteToFile(nodupes,corefile);
+ WriteToUnicodeFile(nodupes,corefile);
 }
 
 //Make a translation template for plugin in "pluginpath", put generated file into "langpackfilepath"
@@ -557,3 +561,11 @@ function WriteToFile (array,langpack) {
  //Close file
  langpackfile.Close();
 };
+
+//Write UTF-8 file
+function WriteToUnicodeFile(array,langpack) {
+stream.Open();
+for (i=0;i<=array.length-1;i++) stream.WriteText(array[i]+"\n");
+stream.SaveToFile(langpack, 2);
+stream.Close();
+}
