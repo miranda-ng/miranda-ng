@@ -186,6 +186,15 @@ while ((string = find.exec(translatefiletext)) != null) {
 	//add key-item pair into dictionary, if not exists already
 	if (!dictionary.Exists(key))
 		dictionary.Add(key,item);
+	//use also different variants of Miranda name for translations from old langpacks
+	key = key.replace("Miranda IM", "Miranda NG");
+	item = item.replace("Miranda IM", "Miranda NG");
+	if (!dictionary.Exists(key))
+		dictionary.Add(key,item);	
+	key = key.replace("Miranda NG", "Miranda");
+	item = item.replace("Miranda NG", "Miranda");
+	if (!dictionary.Exists(key))
+		dictionary.Add(key,item);
     }
 //close file
 translatefile.Close();
