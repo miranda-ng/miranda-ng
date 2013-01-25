@@ -389,16 +389,16 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
-int tryOpenDatabase(const TCHAR* tszProfile)
+int tryOpenDatabase(const TCHAR *tszProfile)
 {
 	for (int i=arDbPlugins.getCount()-1; i >= 0; i--) {
-		DATABASELINK* p = arDbPlugins[i];
+		DATABASELINK *p = arDbPlugins[i];
 
 		// liked the profile?
 		int err = p->grokHeader(tszProfile);
 		if (err == ERROR_SUCCESS) {
 			// added APIs?
-			MIDatabase* pDb = p->Load(tszProfile);
+			MIDatabase *pDb = p->Load(tszProfile);
 			if (pDb) {
 				fillProfileName(tszProfile);
 				currDblink = p;
@@ -434,8 +434,11 @@ static int tryCreateDatabase(const TCHAR* ptszProfile)
 
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
-			if ( !p->Load(tszProfile)) {
+			MIDatabase *pDb = p->Load(tszProfile);
+			if (pDb != NULL) {
 				fillProfileName(tszProfile);
+				currDblink = p;
+				db_setCurrent(currDb = pDb);
 				return 0;
 			}
 			return 1;
@@ -522,7 +525,8 @@ int LoadDatabaseModule(void)
 				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
 			}
 		}
-	} while (retry);
+	}
+		while (retry);
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();
