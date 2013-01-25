@@ -968,6 +968,9 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 			m_avatarsConnectionPending = TRUE;
 			NetLog_Server("Requesting Avatar family entry point.");
 		}
+
+		// Set last xstatus
+		updateServerCustomStatus(TRUE);
 	}
 	info->isMigrating = 0;
 

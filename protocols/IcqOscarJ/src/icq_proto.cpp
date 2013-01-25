@@ -2001,9 +2001,6 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 				// Read password from database
 				char *pszPwd = GetUserPassword(FALSE);
 
-				// Clear xstatus
-				setXStatusEx(0, 0);
-
 				if (pszPwd)
 					icq_login(pszPwd);
 				else
