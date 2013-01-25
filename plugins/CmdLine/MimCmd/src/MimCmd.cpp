@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 	if ((InitClient()) || (ConnectToMiranda()) || (GetKnownCommands()) || (LoadLangPackModule()))
 	{
-		lpprintf("Could not create connection with Miranda or could not retrieve list of known commands.\n");
+		lpprintf(Translate("Could not create connection with Miranda or could not retrieve list of known commands.\n"));
 		error = MIMRES_NOMIRANDA;
 	}
 	else{
