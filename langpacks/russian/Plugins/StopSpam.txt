@@ -76,7 +76,7 @@
 [Filtered accounts:]
 Защищённые аккаунты:
 [Disable protection for following accounts:]
-Отключить защиту для следующих учетных записей:
+Отключить защиту для следующих учётных записей:
 [Ignore URL in messages and auth requests]
 Игнорировать ссылки в сообщениях и запросах авторизации
 [After congratulation (ICQ only)]
