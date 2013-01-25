@@ -107,8 +107,8 @@ BEGIN
     DEFPUSHBUTTON   "Import key",ID_IMPORT,9,47,46,14
     PUSHBUTTON      "Accept and enable encryption",IDC_IMPORT_AND_USE,156,47,119,14
     PUSHBUTTON      "Ignore",IDC_IGNORE_KEY,368,47,52,14
-    CTEXT           "Статический",IDC_MESSAGE,18,25,392,8
-    CTEXT           "Статический",IDC_KEY_FROM,16,12,395,8
+    CTEXT           "Static",IDC_MESSAGE,18,25,392,8
+    CTEXT           "Static",IDC_KEY_FROM,16,12,395,8
 END
 
 IDD_KEY_GEN DIALOGEX 0, 0, 284, 169
@@ -188,7 +188,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPT
 CAPTION "Choose which  keys to export"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Статический",IDC_STATIC,7,7,267,63
+    GROUPBOX        "Static",IDC_STATIC,7,7,267,63
     PUSHBUTTON      "Ok",IDC_OK,7,71,50,14
     PUSHBUTTON      "Cancel",IDC_CANCEL,224,71,50,14
     CONTROL         "Export public keys (only set for contacts)",IDC_PUBLIC,
@@ -427,18 +427,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPT_GPG, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_GPG_BIN, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_GPG_MESSAGES, DIALOG
-    BEGIN
-    END
-
     IDD_OPT_GPG_ADVANCED, DIALOG
     BEGIN
         VERTGUIDE, 12
