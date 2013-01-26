@@ -5,7 +5,8 @@
 
 BOOL bChangeSortOrder = false;
 
-BOOL hasKey(pUinKey ptr) {
+BOOL hasKey(pUinKey ptr)
+{
 	BOOL ret = 0;
 	if ( ptr->mode==MODE_NATIVE ) {
 		LPSTR str = myDBGetString(ptr->hContact,szModuleName,"PSK");
@@ -23,7 +24,8 @@ BOOL hasKey(pUinKey ptr) {
 	return ret;
 }
 
-void TC_InsertItem(HWND hwnd, WPARAM wparam, TCITEM *tci) {
+void TC_InsertItem(HWND hwnd, WPARAM wparam, TCITEM *tci)
+{
 	if ( bCoreUnicode ) {
 		LPWSTR tmp = mir_a2u(tci->pszText);
 		tci->pszText = (LPSTR)TranslateW(tmp);
@@ -36,8 +38,8 @@ void TC_InsertItem(HWND hwnd, WPARAM wparam, TCITEM *tci) {
 	}
 }
 
-
-static void LV_InsertColumn(HWND hwnd, WPARAM wparam, LVCOLUMN *lvc) {
+static void LV_InsertColumn(HWND hwnd, WPARAM wparam, LVCOLUMN *lvc)
+{
 	if ( bCoreUnicode ) {
 		LPWSTR tmp = mir_a2u(lvc->pszText);
 		lvc->pszText = (LPSTR)TranslateW(tmp);
@@ -50,36 +52,36 @@ static void LV_InsertColumn(HWND hwnd, WPARAM wparam, LVCOLUMN *lvc) {
 	}
 }
 
-
-int LV_InsertItem(HWND hwnd, LVITEM *lvi) {
+int LV_InsertItem(HWND hwnd, LVITEM *lvi)
+{
 	return SNDMSG(hwnd, bCoreUnicode ? LVM_INSERTITEMW : LVM_INSERTITEMA, 0, (LPARAM)lvi);
 }
 
-
-int LV_InsertItemA(HWND hwnd, LVITEM *lvi) {
+int LV_InsertItemA(HWND hwnd, LVITEM *lvi)
+{
 	if ( bCoreUnicode ) lvi->pszText = (LPSTR) mir_a2u(lvi->pszText);
 	int ret = LV_InsertItem(hwnd, lvi);
 	if ( bCoreUnicode ) mir_free(lvi->pszText);
 	return ret;
 }
 
-
-void LV_SetItemText(HWND hwnd, WPARAM wparam, int subitem, LPSTR text) {
+void LV_SetItemText(HWND hwnd, WPARAM wparam, int subitem, LPSTR text)
+{
 	LV_ITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.iSubItem = subitem;
 	lvi.pszText = text;
 	SNDMSG(hwnd, bCoreUnicode ? LVM_SETITEMTEXTW : LVM_SETITEMTEXTA, wparam, (LPARAM)&lvi);
 }
 
-
-void LV_SetItemTextA(HWND hwnd, WPARAM wparam, int subitem, LPSTR text) {
+void LV_SetItemTextA(HWND hwnd, WPARAM wparam, int subitem, LPSTR text)
+{
 	if ( bCoreUnicode ) text = (LPSTR) mir_a2u(text);
 	LV_SetItemText(hwnd, wparam, subitem, text);
 	if ( bCoreUnicode ) mir_free(text);
 }
 
-
-void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cchTextMax) {
+void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cchTextMax)
+{
 	LV_ITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.iSubItem = iSubItem;
 	lvi.cchTextMax = cchTextMax;
@@ -926,28 +928,21 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
             case IDC_BROWSEEXECUTABLE_BTN: {
 				char gpgexe[256];
 				char filter[128];
-				OPENFILENAME ofn;
+				OPENFILENAME ofn = {0};
 
     			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, sizeof(gpgexe));
     			
-				char *txtexecutablefiles="Executable Files"; /*lang*/
-				char *txtselectexecutable="Select GnuPG Executable"; /*lang*/
-
     			// filter zusammensetzen
-    			memset(&filter,0,sizeof(filter));
-    			strcpy(filter, Translate(txtexecutablefiles));
-    			strcat(filter, " (*.exe)");
-    			strcpy(filter+strlen(filter)+1, "*.exe");
+				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
 
     			// OPENFILENAME initialisieren
-    			memset(&ofn,0,sizeof(ofn));
-    			ofn.lStructSize=sizeof(ofn);
-    			ofn.hwndOwner=hDlg;
-    			ofn.lpstrFilter=filter;
-    			ofn.lpstrFile=gpgexe;
-    			ofn.nMaxFile=sizeof(gpgexe);
-    			ofn.lpstrTitle=Translate(txtselectexecutable);
-    			ofn.Flags=OFN_FILEMUSTEXIST|OFN_LONGNAMES|OFN_HIDEREADONLY;
+    			ofn.lStructSize = sizeof(ofn);
+    			ofn.hwndOwner = hDlg;
+    			ofn.lpstrFilter = filter;
+    			ofn.lpstrFile = gpgexe;
+    			ofn.nMaxFile = sizeof(gpgexe);
+    			ofn.lpstrTitle = Translate("Select GnuPG Executable");
+    			ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
 
     			if (GetOpenFileName(&ofn))
     			{
@@ -1775,30 +1770,20 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort) {
 
 BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
 {
-   OPENFILENAME ofn; memset(&ofn, 0, sizeof(ofn));
-   ofn.lStructSize = sizeof(ofn);
-   ofn.hwndOwner = hParent;
-   ofn.nMaxFile = MAX_PATH;
-   ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
+	OPENFILENAME ofn = {0};
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hParent;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 
-   ofn.lpstrFile = KeyPath;
-   TCHAR temp[MAX_PATH+1] = _T("");
-   TCHAR *ftemp;
-   _tcscpy(temp, TranslateT("ASC files"));
-   strcat(temp, _T(" (*.asc)"));
-   ftemp = temp + _tcslen(temp) + 1;
-   _tcscpy(ftemp, _T("*.asc"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, TranslateT("All Files "));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, _T("*.*"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   *ftemp = _T('\0');
-   ofn.lpstrFilter = temp;
-   ofn.lpstrTitle = TranslateT("Open Key File");
-   if (!GetOpenFileName(&ofn)) return FALSE;
+	ofn.lpstrFile = KeyPath;
+	char temp[MAX_PATH];
+	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	ofn.lpstrFilter = temp;
+	ofn.lpstrTitle = TranslateT("Open Key File");
+	if (!GetOpenFileName(&ofn)) return FALSE;
 
-   return TRUE;
+	return TRUE;
 }
 
 
@@ -1851,84 +1836,72 @@ LPSTR LoadKeys(LPCSTR file,BOOL priv) {
 	return keys;
 }
 
-
 BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-   TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
-   if ( priv ) _tcscpy(szFile,_T("rsa_priv.asc"));
+	TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
+	if (priv)
+		_tcscpy(szFile, _T("rsa_priv.asc"));
 
-   OPENFILENAME ofn; memset(&ofn, 0, sizeof(ofn));
-   ofn.lStructSize = sizeof(ofn);
-   ofn.hwndOwner = hParent;
-   ofn.nMaxFile = MAX_PATH;
-   ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
-   ofn.lpstrFile = szFile;
+	OPENFILENAME ofn = {0};
+	ofn.lStructSize = sizeof(ofn);
+	char temp[MAX_PATH];
+	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	ofn.lpstrFilter = temp;
+	ofn.hwndOwner = hParent;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
+	ofn.lpstrFile = szFile;
 
-   TCHAR temp[MAX_PATH+1] = _T("");
-   TCHAR *ftemp;
-   _tcscpy(temp, TranslateT("ASC files"));
-   strcat(temp, _T(" (*.asc)"));
-   ftemp = temp + _tcslen(temp) + 1;
-   _tcscpy(ftemp, _T("*.asc"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, TranslateT("All Files "));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, _T("*.*"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   *ftemp = _T('\0');
-   ofn.lpstrFilter = temp;
-   ofn.lpstrTitle = (priv)  ? TranslateT("Save Private Key File") : TranslateT("Save Public Key File");
-   if (!GetSaveFileName(&ofn)) return FALSE;
+	ofn.lpstrTitle = (priv) ? TranslateT("Save Private Key File") : TranslateT("Save Public Key File");
+	if ( !GetSaveFileName(&ofn))
+		return FALSE;
 
-   FILE *f=_tfopen(szFile,_T("wb"));
-   if ( !f ) return FALSE;
-   fwrite(key,strlen(key),1,f);
-   fclose(f);
+	FILE *f = _tfopen(szFile, _T("wb"));
+	if ( !f)
+		return FALSE;
+	fwrite(key, strlen(key), 1, f);
+	fclose(f);
 
-   return TRUE;
+	return TRUE;
 }
 
 
 BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 {
-   TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
-   if ( priv ) _tcscpy(szFile,_T("rsa_priv.asc"));
+	TCHAR szFile[MAX_PATH] = _T("rsa_pub.asc"); 
+	if (priv)
+		_tcscpy(szFile, _T("rsa_priv.asc"));
 
-   OPENFILENAME ofn; memset(&ofn, 0, sizeof(ofn));
-   ofn.lStructSize = sizeof(ofn);
-   ofn.hwndOwner = hParent;
-   ofn.nMaxFile = MAX_PATH;
-   ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
-   ofn.lpstrFile = szFile;
-   TCHAR temp[MAX_PATH+1] = _T("");
-   TCHAR *ftemp;
-   _tcscpy(temp, TranslateT("ASC files"));
-   strcat(temp, _T(" (*.asc)"));
-   ftemp = temp + _tcslen(temp) + 1;
-   _tcscpy(ftemp, _T("*.asc"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, TranslateT("All Files "));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   _tcscpy(ftemp, _T("*.*"));
-   ftemp = ftemp + _tcslen(ftemp) + 1;
-   *ftemp = _T('\0');
-   ofn.lpstrFilter = temp;
-   ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
-   if (!GetOpenFileName(&ofn)) return FALSE;
+	OPENFILENAME ofn = {0};
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hParent;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_CREATEPROMPT | OFN_OVERWRITEPROMPT | OFN_NOREADONLYRETURN;
+	ofn.lpstrFile = szFile;
+	char temp[MAX_PATH];
+	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	ofn.lpstrFilter = temp;
+	ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
+	if ( !GetOpenFileName(&ofn))
+		return FALSE;
 
-   FILE *f=_tfopen(szFile,_T("rb"));
-   if ( !f ) return FALSE;
+	FILE *f = _tfopen(szFile, _T("rb"));
+	if ( !f)
+		return FALSE;
 
-   fseek(f,0,SEEK_END);
-   int flen = ftell(f); if (flen>RSASIZE) { fclose(f); return FALSE; }
-   fseek(f,0,SEEK_SET);
+	fseek(f, 0, SEEK_END);
+	int flen = ftell(f);
+	if (flen > RSASIZE) {
+		fclose(f);
+		return FALSE;
+	}
+	fseek(f, 0, SEEK_SET);
 
-   fread(key,flen,1,f);
-   fclose(f);
+	fread(key, flen, 1, f);
+	fclose(f);
 
-   return TRUE;
+	return TRUE;
 }
-
 
 int onRegisterOptions(WPARAM wParam, LPARAM)
 {
