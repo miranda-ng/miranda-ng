@@ -944,53 +944,19 @@ static HICON CLUI_ExtractIconFromPath(const char *path, BOOL * needFree)
 	return hIcon;
 }
 
-HICON CLUI_LoadIconFromExternalFile(char *filename,int i,BOOL UseLibrary,bool registerit,char *IconName,char *SectName,char *Description,int internalidx, BOOL * needFree)
+static HICON CLUI_LoadIconFromExternalFile(char *filename, int i, BOOL *needFree)
 {
-	char szPath[MAX_PATH],szMyPath[MAX_PATH], szFullPath[MAX_PATH],*str;
-	HICON hIcon = NULL;
-	BOOL has_proto_icon = FALSE;
-	if (needFree) *needFree = FALSE;
+	char szPath[MAX_PATH], szFullPath[MAX_PATH],*str;
+	if (needFree)
+		*needFree = FALSE;
+
 	GetModuleFileNameA(GetModuleHandle(NULL), szPath, MAX_PATH);
-	GetModuleFileNameA(g_hInst, szMyPath, MAX_PATH);
 	str = strrchr(szPath,'\\');
 	if (str != NULL) *str = 0;
-	if (UseLibrary&2)
-		mir_snprintf(szMyPath, SIZEOF(szMyPath), "%s\\Icons\\%s", szPath, filename);
 	mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	if (str != NULL) *str = '\\';
-	if (UseLibrary & 2) {
-		BOOL nf;
-		HICON hi = CLUI_ExtractIconFromPath(szFullPath,&nf);
-		if (hi) has_proto_icon = TRUE;
-		if (hi && nf) DestroyIcon(hi);
-	}
 
-	if ( !UseLibrary) {
-		hIcon = CLUI_ExtractIconFromPath(szFullPath,needFree);
-		if (hIcon) return hIcon;
-		if (UseLibrary) {
-			mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s,%d", szMyPath, internalidx);
-			hIcon = CLUI_ExtractIconFromPath(szFullPath,needFree);
-			if (hIcon) return hIcon;
-		}
-	}
-	else {
-		if (registerit && IconName != NULL && SectName != NULL)	{
-			SKINICONDESC sid = { sizeof(sid) };
-			sid.cx = sid.cy = 16;
-			sid.hDefaultIcon = (has_proto_icon || !(UseLibrary&2))?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,0,(LPARAM)(-internalidx));
-			sid.pszSection = SectName;
-			sid.pszName = IconName;
-			sid.pszDescription = Description;
-			sid.pszDefaultFile = internalidx < 0?szMyPath:szPath;
-
-			sid.iDefaultIndex = (UseLibrary&2)?i:(internalidx < 0)?internalidx:-internalidx;
-			Skin_AddIcon(&sid);
-		}
-		return Skin_GetIcon(IconName);
-	}
-
-	return (HICON)0;
+	return CLUI_ExtractIconFromPath(szFullPath, needFree);
 }
 
 static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
@@ -1002,7 +968,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
 
 	if (szAccoName) {
 		mir_snprintf(szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll",szAccoName);
-		hIcon = CLUI_LoadIconFromExternalFile(szFullPath,b+1,FALSE,FALSE,NULL,NULL,NULL,0,&needFree);
+		hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
 		if (hIcon) return hIcon;
 
 		if (szAccoName[0]) {
@@ -1010,7 +976,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
 			PROTOACCOUNT * acc = ProtoGetAccount( szAccoName );
 			if (acc && !acc->bOldProto) {
 				mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll", acc->szProtoName );
-				hIcon = CLUI_LoadIconFromExternalFile(szFullPath,b+1,FALSE,FALSE,NULL,NULL,NULL,0,&needFree);
+				hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
 				if ( hIcon ) return hIcon;
 			}
 		}
@@ -1018,7 +984,7 @@ static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
 
 	// third try global
 	mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn.dll");
-	hIcon = CLUI_LoadIconFromExternalFile(szFullPath,b+1,FALSE,FALSE,NULL,NULL,NULL,0,&needFree);
+	hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
 	if ( hIcon ) return hIcon;
 
 	hIcon = LoadSmallIcon(g_hInst,(TCHAR *)(IDI_ICQC1+b+1));
