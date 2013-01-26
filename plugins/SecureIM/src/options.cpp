@@ -98,133 +98,128 @@ void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cch
  * tabbed options dialog
  */
 
-INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 
-   static int iInit = TRUE;
-   TCITEM tci;
+	static int iInit = TRUE;
+	TCITEM tci;
 
-   switch(msg) {
-      case WM_INITDIALOG: {
-         RECT rcClient;
-         GetClientRect(hwnd, &rcClient);
+	switch(msg) {
+		case WM_INITDIALOG: {
+			RECT rcClient;
+			GetClientRect(hwnd, &rcClient);
 
-         iInit = TRUE;
-         tci.mask = TCIF_PARAM|TCIF_TEXT;
+			iInit = TRUE;
+			tci.mask = TCIF_PARAM|TCIF_TEXT;
 
-         tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GENERAL),hwnd,DlgProcOptionsGeneral);
-	 tci.pszText = (LPSTR)sim201;
-         TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 0, &tci);
-         MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GENERAL),hwnd,DlgProcOptionsGeneral);
+			tci.pszText = (LPSTR)sim201;
+			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 0, &tci);
+			MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
 
-         tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PROTO),hwnd,DlgProcOptionsProto);
-	 tci.pszText = (LPSTR)sim202;
-         TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 2, &tci);
-         MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
-         ShowWindow((HWND)tci.lParam, SW_HIDE);
+			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PROTO),hwnd,DlgProcOptionsProto);
+			tci.pszText = (LPSTR)sim202;
+			TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 2, &tci);
+			MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+			ShowWindow((HWND)tci.lParam, SW_HIDE);
 
-         if (bPGP && bPGPloaded) {
-         tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PGP),hwnd,DlgProcOptionsPGP);
-	 tci.pszText = (LPSTR)sim214;
-         TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
-         MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
-         ShowWindow((HWND)tci.lParam, SW_HIDE);
-         }
-
-         if (bGPG && bGPGloaded) {
-         tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GPG),hwnd,DlgProcOptionsGPG);
-	 tci.pszText = (LPSTR)sim226;
-         TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
-         MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
-         ShowWindow((HWND)tci.lParam, SW_HIDE);
-         }
-
-         // add more tabs here if needed
-         // activate the final tab
-         iInit = FALSE;
-	 return TRUE;
-      }
-	  break;
-
-      case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-         if (!iInit)
-		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-         break;
-
-	  case WM_COMMAND: {
-		  switch(LOWORD(wParam)) {
-		  	case ID_UPDATE_CLIST: {
-                tci.mask = TCIF_PARAM;
-                TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),0,&tci);
-                SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_CLIST,0);
+			if (bPGP && bPGPloaded) {
+				tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PGP),hwnd,DlgProcOptionsPGP);
+				tci.pszText = (LPSTR)sim214;
+				TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
+				MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+				ShowWindow((HWND)tci.lParam, SW_HIDE);
 			}
+
+			if (bGPG && bGPGloaded) {
+				tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GPG),hwnd,DlgProcOptionsGPG);
+				tci.pszText = (LPSTR)sim226;
+				TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
+				MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
+				ShowWindow((HWND)tci.lParam, SW_HIDE);
+			}
+
+			// add more tabs here if needed
+			// activate the final tab
+			iInit = FALSE;
+			return TRUE;
+		}
+		break;
+
+		case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
+			if (!iInit)
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
-/*		  	case ID_UPDATE_PROTO: {
-                tci.mask = TCIF_PARAM;
-                TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),1,&tci);
-                SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_PROTO,0);
+
+		case WM_COMMAND: {
+			switch(LOWORD(wParam)) {
+				case ID_UPDATE_CLIST: {
+					tci.mask = TCIF_PARAM;
+					TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),0,&tci);
+					SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_CLIST,0);
+				}
+				break;
+				case ID_UPDATE_PLIST: {
+					if ( !bPGP ) break;
+					tci.mask = TCIF_PARAM;
+					TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),2,&tci);
+					SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_CLIST,0);
+				}
+				break;
+				case ID_UPDATE_GLIST: {
+					if ( !bGPG ) break;
+					tci.mask = TCIF_PARAM;
+					TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),3,&tci);
+					SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_GLIST,0);
+				}
+				break;
 			}
-			break;*/
-		  	case ID_UPDATE_PLIST: {
-		  		if ( !bPGP ) break;
-                tci.mask = TCIF_PARAM;
-                TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),2,&tci);
-                SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_CLIST,0);
-			}
-			break;
-		  	case ID_UPDATE_GLIST: {
-		  		if ( !bGPG ) break;
-                tci.mask = TCIF_PARAM;
-                TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),3,&tci);
-                SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_GLIST,0);
-			}
-			break;
-		  }	
-	  }
-	  break;
-	  
-	  case WM_NOTIFY: {
-         switch(((LPNMHDR)lParam)->idFrom) {
-            case 0: {
-               switch (((LPNMHDR)lParam)->code) {
-                  case PSN_APPLY: {
-                        tci.mask = TCIF_PARAM;
-                        int cnt = TabCtrl_GetItemCount(GetDlgItem(hwnd,IDC_OPTIONSTAB));
-						for (int i=0;i<cnt;i++) {
-							TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),i,&tci);
-							SendMessage((HWND)tci.lParam,WM_NOTIFY,0,lParam);
+		}
+		break;
+
+		case WM_NOTIFY: {
+			switch(((LPNMHDR)lParam)->idFrom) {
+				case 0: {
+					switch (((LPNMHDR)lParam)->code) {
+						case PSN_APPLY: {
+							tci.mask = TCIF_PARAM;
+							int cnt = TabCtrl_GetItemCount(GetDlgItem(hwnd,IDC_OPTIONSTAB));
+							for (int i=0;i<cnt;i++) {
+								TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),i,&tci);
+								SendMessage((HWND)tci.lParam,WM_NOTIFY,0,lParam);
+							}
 						}
-                  }
-                  break;
-               }
-		    } // case 0
-            break;
+						break;
+					}
+				} // case 0
+				break;
 
-			case IDC_OPTIONSTAB: {
-               switch (((LPNMHDR)lParam)->code) {
-                  case TCN_SELCHANGING: {
-                        tci.mask = TCIF_PARAM;
-                        TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-                        ShowWindow((HWND)tci.lParam,SW_HIDE);
-                  }
-                  break;
-                  case TCN_SELCHANGE: {
-                        tci.mask = TCIF_PARAM;
-                        TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-                        ShowWindow((HWND)tci.lParam,SW_SHOW);
-                  }
-                  break;
-               }
-			} // case IDC_OPTIONSTAB
-            break;
-         }
-	  } // case WM_NOTIFY
-      break;
-   }
-   return FALSE;
+				case IDC_OPTIONSTAB: {
+					switch (((LPNMHDR)lParam)->code) {
+						case TCN_SELCHANGING: {
+							tci.mask = TCIF_PARAM;
+							TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
+							ShowWindow((HWND)tci.lParam,SW_HIDE);
+						}
+						break;
+						case TCN_SELCHANGE: {
+							tci.mask = TCIF_PARAM;
+							TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
+							ShowWindow((HWND)tci.lParam,SW_SHOW);
+						}
+						break;
+					}
+				} // case IDC_OPTIONSTAB
+				break;
+			}
+		} // case WM_NOTIFY
+		break;
+	}
+	return FALSE;
 }
 
-
-INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM lParam)
+{
 
 	static int iInit = TRUE;
 	static HIMAGELIST hLarge, hSmall;
@@ -234,50 +229,45 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 
 	switch (wMsg) {
 		case WM_INITDIALOG: {
-
-		  TranslateDialogDefault(hDlg);
+			TranslateDialogDefault(hDlg);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("DlgProcOptionsGeneral(WN_INITDIALOG)");
 #endif
-  		  iInit = TRUE;
-//		  SendMessage(hLV, WM_SETREDRAW, FALSE, 0);
-		  ListView_SetExtendedListViewStyle(hLV, ListView_GetExtendedListViewStyle(hLV) | LVS_EX_FULLROWSELECT);
+			iInit = TRUE;
+			ListView_SetExtendedListViewStyle(hLV, ListView_GetExtendedListViewStyle(hLV) | LVS_EX_FULLROWSELECT);
 
-		  hLarge = ImageList_Create(GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), iBmpDepth, 1, 1);
-		  hSmall = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), iBmpDepth, 1, 1);
-//		  COLORREF rgbTransparentColor;
-		  for (i = 0; i < ICO_CNT; i++) {
-//			  ImageList_AddMasked(himgl, hbmp, rgbTransparentColor);
-			  ImageList_AddIcon(hSmall, g_hICO[i]);
-			  ImageList_AddIcon(hLarge, g_hICO[i]);
-		  }
+			hLarge = ImageList_Create(GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), iBmpDepth, 1, 1);
+			hSmall = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), iBmpDepth, 1, 1);
+			for (i = 0; i < ICO_CNT; i++) {
+				ImageList_AddIcon(hSmall, g_hICO[i]);
+				ImageList_AddIcon(hLarge, g_hICO[i]);
+			}
 
-		  ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
-		  ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
+			ListView_SetImageList(hLV, hSmall, LVSIL_SMALL);
+			ListView_SetImageList(hLV, hLarge, LVSIL_NORMAL);
 
-		  static const char *szColHdr[] = { sim203, sim204, sim230, sim205, "", sim234, 0 };
-		  static int iColWidth[] = { 150, 110, 60, 55, 35, 330 };
-		  LVCOLUMN lvc;
-		  lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-		  lvc.fmt = LVCFMT_LEFT;
-		  for (i = 0; szColHdr[i]; i++) {
-			  lvc.iSubItem = i;
-			  lvc.pszText = (LPSTR)szColHdr[i];
-			  lvc.cx = iColWidth[i];
-			  LV_InsertColumn(hLV, i, &lvc);
-		  }
+			static const char *szColHdr[] = { sim203, sim204, sim230, sim205, "", sim234, 0 };
+			static int iColWidth[] = { 150, 110, 60, 55, 35, 330 };
+			LVCOLUMN lvc;
+			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
+			lvc.fmt = LVCFMT_LEFT;
+			for (i = 0; szColHdr[i]; i++) {
+				lvc.iSubItem = i;
+				lvc.pszText = (LPSTR)szColHdr[i];
+				lvc.cx = iColWidth[i];
+				LV_InsertColumn(hLV, i, &lvc);
+			}
 
-		  RefreshGeneralDlg(hDlg,TRUE);
-		  EnableWindow(hLV, true);
-//		  SendMessage(hLV, WM_SETREDRAW, TRUE, 0);
+			RefreshGeneralDlg(hDlg,TRUE);
+			EnableWindow(hLV, true);
 
-  		  iInit = FALSE;
-		  return TRUE;
+			iInit = FALSE;
+			return TRUE;
 		} // WM_INITDIALOG
 		break;
 
-	 	case WM_DESTROY: {
+		case WM_DESTROY: {
 			ImageList_Destroy(hSmall);
 			ImageList_Destroy(hLarge);
 		} // WM_DESTROY
@@ -290,12 +280,12 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		break;
 
 		case WM_COMMAND: {
-		  switch(LOWORD(wParam)) {
-		  	case ID_ALWAYS:
-		  	case ID_ENABLED:
-		  	case ID_DISABLED: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
+			switch(LOWORD(wParam)) {
+			case ID_ALWAYS:
+			case ID_ENABLED:
+			case ID_DISABLED: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
 				if (ptr) {
 					ptr->tstatus = LOWORD(wParam)-ID_DISABLED;
 					setListViewStatus(hLV,idx,ptr->tstatus);
@@ -304,13 +294,13 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			}
 			break;
 
-		  	case ID_SIM_NATIVE:
-		  	case ID_SIM_PGP:
-		  	case ID_SIM_GPG:
-		  	case ID_SIM_RSAAES:
-		  	case ID_SIM_RSA: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
+			case ID_SIM_NATIVE:
+			case ID_SIM_PGP:
+			case ID_SIM_GPG:
+			case ID_SIM_RSAAES:
+			case ID_SIM_RSA: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
 				if (ptr) {
 					ptr->tmode = LOWORD(wParam)-ID_SIM_NATIVE;
 					setListViewMode(hLV,idx,ptr->tmode);
@@ -319,69 +309,69 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			}
 			break;
 
-		  	case ID_SETPSK: {
+			case ID_SETPSK: {
 				idx = ListView_GetSelectionMark(hLV);
 				ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if (ptr) {
+				if (ptr) {
 					LPSTR buffer = (LPSTR)alloca(PSKSIZE+1);
 					getContactName(ptr->hContact, buffer);
 					int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PSK),NULL,DlgProcSetPSK,(LPARAM)buffer);
 					if (res == IDOK) {
-					    setListViewPSK(hLV,idx,1);
-					    DBWriteContactSettingString(ptr->hContact,szModuleName,"tPSK",buffer);
+						setListViewPSK(hLV,idx,1);
+						DBWriteContactSettingString(ptr->hContact,szModuleName,"tPSK",buffer);
 					}
 				}
 			}
 			break;
 
-		  	case ID_DELPSK: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if (ptr) {
+			case ID_DELPSK: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
+				if (ptr) {
 					setListViewPSK(hLV,idx,0);
 					DBDeleteContactSetting(ptr->hContact, szModuleName, "tPSK");
 				}
-		  	}
-		  	break;
+			}
+			break;
 
-		  	case ID_DELPUBL: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if (ptr) {
+			case ID_DELPUBL: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
+				if (ptr) {
 					setListViewPUB(hLV,idx,0);
 				}
-		  	}
-		  	break;
+			}
+			break;
 
-		  	case ID_EXPPUBL: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if (ptr) {
-		  			if ( !ptr->keyLoaded ) {
-		  				createRSAcntx(ptr);
-		  				loadRSAkey(ptr);
-		  			}
-		  			if ( ptr->keyLoaded ) {
-		  				LPSTR buffer = (LPSTR) alloca(RSASIZE);
-		  				exp->rsa_export_pubkey(ptr->cntx,buffer);
+			case ID_EXPPUBL: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
+				if (ptr) {
+					if ( !ptr->keyLoaded ) {
+						createRSAcntx(ptr);
+						loadRSAkey(ptr);
+					}
+					if ( ptr->keyLoaded ) {
+						LPSTR buffer = (LPSTR) alloca(RSASIZE);
+						exp->rsa_export_pubkey(ptr->cntx,buffer);
 						if ( !SaveExportRSAKeyDlg(hDlg,buffer,0))
 							msgbox(hDlg,sim114,szModuleName,MB_OK|MB_ICONEXCLAMATION);
-		  			}
+					}
 				}
 				return TRUE;
-		  	}
-		  	break;
+			}
+			break;
 
-		  	case ID_IMPPUBL: {
-		  		idx = ListView_GetSelectionMark(hLV);
-		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if (ptr) {
-		  			createRSAcntx(ptr);
-		  			LPSTR pub = (LPSTR) alloca(RSASIZE);
-		  			if ( !LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
-		  			if ( exp->rsa_import_pubkey(ptr->cntx,pub)) {
-		  				int len;
-		  				exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
+			case ID_IMPPUBL: {
+				idx = ListView_GetSelectionMark(hLV);
+				ptr = (pUinKey) getListViewParam(hLV,idx);
+				if (ptr) {
+					createRSAcntx(ptr);
+					LPSTR pub = (LPSTR) alloca(RSASIZE);
+					if ( !LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
+					if ( exp->rsa_import_pubkey(ptr->cntx,pub)) {
+						int len;
+						exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
 
 						DBCONTACTWRITESETTING cws;
 						cws.szModule = szModuleName;
@@ -392,15 +382,15 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)ptr->hContact, (LPARAM)&cws);
 
 						setListViewPUB(hLV,idx,1);
-		  			}
-		  			else
+					}
+					else
 						msgbox(hDlg,sim115,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 				}
 				return TRUE;
-		  	}
-		  	break;
+			}
+			break;
 
-		  	case ID_UPDATE_CLIST: {
+			case ID_UPDATE_CLIST: {
 //				iInit = TRUE;
 //				RefreshGeneralDlg(hDlg,FALSE);
 //				iInit = FALSE;
@@ -408,7 +398,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			}
 			break;
 
-		  	case IDC_RESET: {
+			case IDC_RESET: {
 				if (!iInit)
 					ResetGeneralDlg(hDlg);
 			}
@@ -423,30 +413,30 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			case IDC_ADV2:
 			case IDC_ADV1:
 			case IDC_ADV0:
-		  	case IDC_GPG:
-		  	case IDC_PGP:
-		  	case IDC_NO_PGP:
-		  	case IDC_NOL:
-		  	case IDC_AAK:
-		  	case IDC_MCM:
-		  	case IDC_AIP:
-		  	case IDC_SOM:
-		  	case IDC_SFT:
-		  	case IDC_ASI:
-		  	case IDC_MCD:
-		  	case IDC_KET:
-		  	case IDC_SCM:
-		  	case IDC_DGP:
-		  	case IDC_OKT:
+			case IDC_GPG:
+			case IDC_PGP:
+			case IDC_NO_PGP:
+			case IDC_NOL:
+			case IDC_AAK:
+			case IDC_MCM:
+			case IDC_AIP:
+			case IDC_SOM:
+			case IDC_SFT:
+			case IDC_ASI:
+			case IDC_MCD:
+			case IDC_KET:
+			case IDC_SCM:
+			case IDC_DGP:
+			case IDC_OKT:
 				break;
 
 			default:
 				return FALSE;
-		  }
-		  if (!iInit)
+			}
+			if (!iInit)
 			SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 		} // WM_COMMAND
-		break;	
+		break;
 
 		case WM_NOTIFY: {
 			switch(((LPNMHDR)lParam)->idFrom) {
@@ -455,8 +445,6 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						iInit = TRUE;
 						ApplyGeneralSettings(hDlg);
 						RefreshContactListIcons();
-//		                SendMessage(GetParent(hDlg),WM_COMMAND,ID_UPDATE_PLIST,0);
-//		                SendMessage(GetParent(hDlg),WM_COMMAND,ID_UPDATE_GLIST,0);
 						iInit = FALSE;
 					}
 				}
