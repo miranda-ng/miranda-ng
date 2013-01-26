@@ -223,7 +223,7 @@ void RebuildMenu()
 
 void RegisterProtocol(char *proto, TCHAR *account)
 {
-	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX))
+	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) && !ProtoServiceExists(proto, PS_SETAWAYMSGT) && !ProtoServiceExists(proto, PS_SETAWAYMSG))
 		return;
 
 	size_t id = proto_items.size();
