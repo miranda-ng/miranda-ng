@@ -33,6 +33,8 @@ lParam тип:
 Клиент
 [Quick Search]
 Поиск по списку
+[Quick search]
+Поиск по списку
 [Search on:]
 Искать в  
 [Quick Search:]
