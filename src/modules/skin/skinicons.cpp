@@ -81,6 +81,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_OFF,             LPGEN("Off"),                 -IDI_OFF            },
 	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"), -IDI_LOADED_GRAY    }, 
 	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"), -IDI_NOTLOADED_GRAY },
+	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),              -IDI_FRAME          },
 	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),      -IDI_ALWAYSVIS,     0, "Contact List" },
 	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),    -IDI_NEVERVIS,      0, "Contact List" },
 	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),       -IDI_STATUS_LOCKED, 0, "Status Icons" }, 
