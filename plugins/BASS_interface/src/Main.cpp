@@ -451,7 +451,7 @@ void CreateFrame()
 	wndclass.lpszClassName = _T("BassInterfaceFrame");
 	RegisterClass(&wndclass);
 
-	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"), 
+	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"),
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
 
 	CLISTFrame Frame = {sizeof(CLISTFrame)};
@@ -460,7 +460,7 @@ void CreateFrame()
 	Frame.align = alBottom;
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 22;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	frame_id = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	ColourIDT colourid = {0};
@@ -578,7 +578,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam != 0 || lParam == NULL) 
+	if (wParam != 0 || lParam == NULL)
 		return 0;
 
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;

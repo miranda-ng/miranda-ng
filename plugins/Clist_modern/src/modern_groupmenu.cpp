@@ -160,11 +160,10 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam)
 
 INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam,LPARAM lParam)
 {
-	lpGroupMenuExecParam mmep;
-	mmep = (lpGroupMenuExecParam)lParam;
-	if (mmep != NULL){
-		FreeAndNil((void **)&mmep->szServiceName);
-		FreeAndNil((void **)&mmep);
+	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)lParam;
+	if (mmep != NULL) {
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
 
 	return 0;
@@ -298,70 +297,44 @@ void GroupMenus_Init(void)
 	mi.pszName = LPGEN("E&xit");
 	mi.flags = CMIF_ICONFROMICOLIB;
 	AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 500;
 	mi.pszService = MS_CLIST_SHOWHIDE;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.pszName = LPGEN("&Hide/Show");
-	mi.flags = CMIF_ICONFROMICOLIB;
 	hHideShowMainMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 200000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
 	mi.pszName = LPGEN("&Find/Add Contacts...");
 	AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon);
 	
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 300000;
 	mi.pszService = "";
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszName = LPGEN("&Main Menu");
-	mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
 	hGroupMainMenuItemProxy = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon); // eternity #004
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 300100;
 	mi.pszService = "";
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS); // eternity #004
 	mi.pszName = LPGEN("&Status");
-	mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
 	hGroupStatusMenuItemProxy = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon); // eternity #004
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 400000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
 	mi.pszName = LPGEN("&Options...");
-	AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon);
+	AddGroupMenuItem(0, (LPARAM)&mi);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 500000;
-	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "Help/AboutCommand";
 	mi.pszName = LPGEN("&About");
-	AddGroupMenuItem(0,(LPARAM)&mi);
-	DestroyIcon_protect(mi.hIcon);
+	AddGroupMenuItem(0, (LPARAM)&mi);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	mi.flags = 0;
 	mi.position = 100000;
 	mi.hIcon = ske_ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
 	mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
@@ -369,40 +342,29 @@ void GroupMenus_Init(void)
 	hNewGroupMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 100001;
 	mi.hIcon = NULL;
 	mi.pszService = MS_CLIST_SETHIDEOFFLINE;
 	mi.pszName = LPGEN("&Hide Offline Users");	
 	gmp.lParam = 0;gmp.wParam = -1;
-	hHideOfflineUsersMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
+	hHideOfflineUsersMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)&gmp, (LPARAM)&mi);
 	
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 100002;
-	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/HideOfflineRootHelper";
 	mi.pszName = LPGEN("Hide &Offline Users out here");	
-	hHideOfflineUsersOutHereMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
+	hHideOfflineUsersOutHereMenuItem = (HANDLE)AddGroupMenuItem(0, (LPARAM)&mi);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 100003;
-	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/HideGroupsHelper";
 	mi.pszName = LPGEN("Hide &Empty Groups");	
-	hHideEmptyGroupsMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
+	hHideEmptyGroupsMenuItem = (HANDLE)AddGroupMenuItem(0, (LPARAM)&mi);
 
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.position = 100004;
-	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/UseGroupsHelper";
 	mi.pszName = LPGEN("Disable &Groups");	
-	hDisableGroupsMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
+	hDisableGroupsMenuItem = (HANDLE)AddGroupMenuItem(0, (LPARAM)&mi);
 	
-	HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibIconChanged);
 }
 
 //////////////////////////////END Group MENU/////////////////////////
@@ -558,8 +520,8 @@ INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam,LPARAM lParam)
 {
 	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)lParam;
 	if (mmep != NULL){
-		FreeAndNil((void **)&mmep->szServiceName);
-		FreeAndNil((void **)&mmep);
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
 
 	return 0;

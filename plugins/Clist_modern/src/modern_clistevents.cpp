@@ -429,7 +429,7 @@ int EventArea_Create(HWND hCluiWnd)
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = (db_get_b(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
 	Frame.height = h;
 	Frame.tname = _T("EventArea"); //do not translate

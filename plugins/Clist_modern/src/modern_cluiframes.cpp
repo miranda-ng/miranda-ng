@@ -1744,11 +1744,11 @@ static int CLUIFramesLoadMainMenu()
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
 	mi.position = 3000090000;
 	mi.pszName = LPGEN("Frames");
 	_hmiRoot = Menu_AddMainMenuItem(&mi);
-	DestroyIcon_protect(mi.hIcon);
+
 	// create frames menu
 	int separator = 3000200000;
 	for (int i=0; i < g_nFramesCount; i++) {

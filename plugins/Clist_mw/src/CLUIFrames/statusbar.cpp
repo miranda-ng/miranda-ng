@@ -457,7 +457,7 @@ HANDLE CreateStatusBarFrame()
 	Frame.cbSize = sizeof(CLISTFrame);
 	Frame.hWnd = helperhwnd;
 	Frame.align = alBottom;
-	Frame.hIcon = LoadSkinnedIcon (SKINICON_OTHER_MIRANDA);
+	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = ( db_get_b(NULL,"CLUI","ShowSBar",1)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_TCHAR;
 	Frame.height = (h == 0) ? 20 : h;
 	Frame.tname = _T("Status");

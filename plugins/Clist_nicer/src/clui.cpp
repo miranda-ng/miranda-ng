@@ -227,7 +227,7 @@ static int CreateCLC(HWND parent)
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = pcli->hwndContactTree;
 		Frame.align = alClient;
-		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 		Frame.Flags = F_VISIBLE | F_SHOWTB | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 		Frame.tname = _T("My Contacts");
 		Frame.TBtname = TranslateT("My Contacts");

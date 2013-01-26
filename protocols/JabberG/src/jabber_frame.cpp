@@ -89,8 +89,7 @@ CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
 	if ( !proto->m_options.DisableFrame && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		InitClass();
 
-		CLISTFrame frame = {0};
-		frame.cbSize = sizeof(frame);
+		CLISTFrame frame = { sizeof(frame) };
 		HWND hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 		frame.hWnd = CreateWindowEx(0, _T("JabberInfoFrameClass"), NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
 		frame.align = alBottom;

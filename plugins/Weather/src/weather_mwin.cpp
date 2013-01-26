@@ -36,23 +36,23 @@ typedef struct
 {
 	HANDLE hContact;
 	HWND hAvt;
-	BOOL haveAvatar; 
+	BOOL haveAvatar;
 } MWinDataType;
 
 #define WM_REDRAWWIN (WM_USER + 17369)
 
-static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) 
+static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MWinDataType *data = (MWinDataType*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	switch(msg) 
+	switch(msg)
 	{
 	case WM_CREATE:
 		data = (MWinDataType*)mir_calloc(sizeof(MWinDataType));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 		data->hContact = (HANDLE)((LPCREATESTRUCT)lParam)->lpCreateParams;
-		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD, 
+		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD,
 			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, NULL, hInst, 0);
 		if (data->hAvt) SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
 		break;
@@ -145,7 +145,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			RECT r, rc;
 
-			if (GetUpdateRect(hwnd, &r, FALSE)) 
+			if (GetUpdateRect(hwnd, &r, FALSE))
 			{
 				DBVARIANT dbv = {0};
 				PAINTSTRUCT ps;
@@ -161,7 +161,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 					picSize = GetSystemMetrics(SM_CXICON);
 					hIcon = LoadSkinnedProtoIconBig(WEATHERPROTONAME, statusIcon);
-					if ((INT_PTR)hIcon == CALLSERVICE_NOTFOUND) 
+					if ((INT_PTR)hIcon == CALLSERVICE_NOTFOUND)
 					{
 						picSize = GetSystemMetrics(SM_CXSMICON);
 						hIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, statusIcon);
@@ -227,7 +227,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				SelectObject(hdc, hfntold);
 				DeleteObject(hfnt);
 
-				if (dbv.pszVal) 
+				if (dbv.pszVal)
 				{
 					HFONT hfnt = CreateFontIndirect(&lfnt);
 					HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
@@ -251,7 +251,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return(TRUE);
 }
 
-static void addWindow(HANDLE hContact) 
+static void addWindow(HANDLE hContact)
 {
 	DBVARIANT dbv;
 	db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
@@ -260,7 +260,7 @@ static void addWindow(HANDLE hContact)
 	mir_sntprintf(winname, SIZEOF(winname), _T("Weather: %s"), dbv.ptszVal);
 	db_free(&dbv);
 
-	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE, 
+	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE,
 		0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
@@ -270,7 +270,7 @@ static void addWindow(HANDLE hContact)
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
-	Frame.Flags = F_VISIBLE|F_NOBORDER|F_TCHAR;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_TCHAR;
 	Frame.height = 32;
 	DWORD frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
@@ -278,7 +278,7 @@ static void addWindow(HANDLE hContact)
 	db_set_b(hContact, "CList", "Hidden", TRUE);
 }
 
-void removeWindow(HANDLE hContact) 
+void removeWindow(HANDLE hContact)
 {
 	DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
 
@@ -289,7 +289,7 @@ void removeWindow(HANDLE hContact)
 	db_unset(hContact, "CList", "Hidden");
 }
 
-void UpdateMwinData(HANDLE hContact) 
+void UpdateMwinData(HANDLE hContact)
 {
 	HWND hwnd = WindowList_Find(hMwinWindowList, hContact);
 	if (hwnd != NULL)
@@ -297,7 +297,7 @@ void UpdateMwinData(HANDLE hContact)
 }
 
 
-INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam) 
+INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 {
 	BOOL addwnd = WindowList_Find(hMwinWindowList, (HANDLE)wParam) == NULL;
 	if (addwnd)
@@ -308,10 +308,10 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 }
 
 
-int BuildContactMenu(WPARAM wparam,LPARAM lparam) 
+int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | 
+	mi.flags = CMIM_FLAGS |
 		(db_get_dw((HANDLE)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMwinMenu, (LPARAM)&mi);
 	return 0;
@@ -325,7 +325,7 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam)
 }
 
 
-void InitMwin(void) 
+void InitMwin(void)
 {
 	HMODULE hUser = GetModuleHandle(_T("user32.dll"));
 
@@ -386,10 +386,10 @@ void InitMwin(void)
 	}
 
 	HANDLE hContact = db_find_first();
-	while(hContact) 
+	while(hContact)
 	{
 		// see if the contact is a weather contact
-		if (IsMyContact(hContact)) 
+		if (IsMyContact(hContact))
 		{
 			if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
 				addWindow(hContact);
@@ -402,10 +402,10 @@ void InitMwin(void)
 void DestroyMwin(void)
 {
 	HANDLE hContact = db_find_first();
-	while(hContact) 
+	while(hContact)
 	{
 		// see if the contact is a weather contact
-		if (IsMyContact(hContact)) 
+		if (IsMyContact(hContact))
 		{
 			DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
 			if (frameId)

@@ -33,9 +33,9 @@ static HANDLE hHookModulesLoaded;
 #define FRAMEELEMENT_BAR     1
 #define FRAMEELEMENT_BKGRND  2
 #define FRAMEELEMENT_TEXT    3
-static COLORREF GetDefaultColor(BYTE id) 
-{ 
-	switch(id) { 
+static COLORREF GetDefaultColor(BYTE id)
+{
+	switch(id) {
 		case FRAMEELEMENT_BAR:
 			return RGB(250,0,0); /* same color as used on header icon */
 		case FRAMEELEMENT_BKGRND:
@@ -46,8 +46,8 @@ static COLORREF GetDefaultColor(BYTE id)
 	return 0; /* never happens */
 }
 
-static LOGFONT* GetDefaultFont(LOGFONT *lf) 
-{ 
+static LOGFONT* GetDefaultFont(LOGFONT *lf)
+{
 	NONCLIENTMETRICS ncm;
 	ZeroMemory(&ncm,sizeof(ncm));
 	ncm.cbSize=sizeof(ncm);
@@ -56,7 +56,7 @@ static LOGFONT* GetDefaultFont(LOGFONT *lf)
 		return lf;
 	}
 	return (LOGFONT*)NULL;
-} 
+}
 
 static HICON SetFrameTitleIcon(WORD hFrame,HICON hNewIcon)
 {
@@ -67,8 +67,8 @@ static HICON SetFrameTitleIcon(WORD hFrame,HICON hNewIcon)
 	return hPrevIcon;
 }
 
-static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARAM wParam,LPARAM lParam) 
-{ 
+static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARAM wParam,LPARAM lParam)
+{
 	switch(msg) {
 		case WM_ERASEBKGND:
 			return TRUE;
@@ -76,8 +76,8 @@ static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARA
 		case WM_LBUTTONDBLCLK:
 			return SendMessage(GetParent(hwndProgress),msg,wParam,lParam);
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwndProgress, GWLP_USERDATA), hwndProgress, msg, wParam, lParam); 
-} 
+	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwndProgress, GWLP_USERDATA), hwndProgress, msg, wParam, lParam);
+}
 
 /************************* Window Class *******************************/
 
@@ -118,7 +118,7 @@ struct CountdownFrameWndData {  /* sizeof=57, max cbClsExtra=40 on Win32 */
 static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	struct CountdownFrameWndData *dat=(struct CountdownFrameWndData*)GetWindowLongPtr(hwndFrame, GWLP_USERDATA);
-	
+
 	switch(msg) {
 		case WM_NCCREATE:  /* init window data */
 			dat=(struct CountdownFrameWndData*)mir_calloc(sizeof(*dat));
@@ -138,7 +138,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					GetSystemMetrics(SM_CYICON),
 					hwndFrame,
 					NULL,
-					params->hInstance, 
+					params->hInstance,
 					NULL);
 			dat->hwndProgress=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 					PROGRESS_CLASS,
@@ -149,7 +149,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					(GetSystemMetrics(SM_CXICON)/2)-5,
 					hwndFrame,
 					NULL,
-					params->hInstance, 
+					params->hInstance,
 					NULL);
 			if(dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			SendMessage(dat->hwndProgress,PBM_SETSTEP,(WPARAM)1,0);
@@ -164,7 +164,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					(GetSystemMetrics(SM_CXICON)/2),
 					hwndFrame,
 					NULL,
-					params->hInstance, 
+					params->hInstance,
 					NULL);
 			dat->hwndTime=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 					_T("Static"),
@@ -176,7 +176,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					(GetSystemMetrics(SM_CXICON)/2),
 					hwndFrame,
 					NULL,
-					params->hInstance, 
+					params->hInstance,
 					NULL);
 			if(dat->hwndTime==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			/* create tooltips */
@@ -185,7 +185,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 				dat->hwndToolTip=CreateWindowEx(WS_EX_TOPMOST,
 						TOOLTIPS_CLASS,
 						NULL,
-						WS_POPUP|TTS_ALWAYSTIP|TTS_NOPREFIX,		
+						WS_POPUP|TTS_ALWAYSTIP|TTS_NOPREFIX,
 						CW_USEDEFAULT, CW_USEDEFAULT,
 						CW_USEDEFAULT, CW_USEDEFAULT,
 						hwndFrame,
@@ -233,7 +233,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			UnhookEvent(dat->hHookFontsChanged);
 			UnhookEvent(dat->hHookIconsChanged);
 			/* other childs are destroyed automatically */
-			if(dat->hwndToolTip!=NULL) DestroyWindow(dat->hwndToolTip); 
+			if(dat->hwndToolTip!=NULL) DestroyWindow(dat->hwndToolTip);
 			hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
 			Skin_ReleaseIcon(hIcon); /* does NULL check */
 			break;
@@ -244,7 +244,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground);
 			mir_free(dat);
 			SetWindowLongPtr(hwndFrame, GWLP_USERDATA, (LONG)NULL);
-			break; 
+			break;
 		case WM_SIZE:
 		{	RECT rc;
 			LONG width,height;
@@ -272,7 +272,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 				clrBar=GetDefaultColor(FRAMEELEMENT_BAR);
 			if(FontService_GetColor(TranslateT("Automatic Shutdown"),TranslateT("Background"),&dat->clrBackground))
 				dat->clrBackground=GetDefaultColor(FRAMEELEMENT_BKGRND);
-			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground); 
+			if(dat->hbrBackground!=NULL) DeleteObject(dat->hbrBackground);
 			dat->hbrBackground=CreateSolidBrush(dat->clrBackground);
 			SendMessage(dat->hwndProgress,PBM_SETBARCOLOR,0,(LPARAM)clrBar);
 			SendMessage(dat->hwndProgress,PBM_SETBKCOLOR,0,(LPARAM)dat->clrBackground);
@@ -417,7 +417,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 				RECT rc;
 				/* position in middle above rect */
 				if(!GetWindowRect(hwndFrame, &rc)) return 0;
-				pt.x=rc.left+((int)(rc.right-rc.left)/2); 
+				pt.x=rc.left+((int)(rc.right-rc.left)/2);
 				pt.y=rc.top+((int)(rc.bottom-rc.top)/2);
 			}
 			hContextMenu=CreatePopupMenu();
@@ -513,7 +513,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 				}
 			break;
 	}
-	return DefWindowProc(hwndFrame,msg,wParam,lParam); 
+	return DefWindowProc(hwndFrame,msg,wParam,lParam);
 }
 
 /************************* Show Frame *********************************/
@@ -534,9 +534,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 	if(hwndCountdownFrame==NULL) return;
 
 	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		CLISTFrame clf;
-		ZeroMemory(&clf,sizeof(clf));
-		clf.cbSize=sizeof(clf);
+		CLISTFrame clf = { sizeof(clf) };
 		clf.hIcon=Skin_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
 		clf.align=alBottom;
 		clf.height=GetSystemMetrics(SM_CYICON);

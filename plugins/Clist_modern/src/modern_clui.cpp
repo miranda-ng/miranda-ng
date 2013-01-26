@@ -287,7 +287,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	CreateServiceFunction("CList/ShowContactAvatar",CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
-	mi.hIcon = LoadSmallIcon(g_hInst,MAKEINTRESOURCE(IDI_SHOW_AVATAR));
+	mi.hIcon = LoadSmallIcon(g_hInst, MAKEINTRESOURCE(IDI_SHOW_AVATAR));
 	mi.pszName = LPGEN("Show Contact &Avatar");
 	mi.pszService = "CList/ShowContactAvatar";
 	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
@@ -295,14 +295,13 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 	CreateServiceFunction("CList/HideContactAvatar",CLUI::Service_Menu_HideContactAvatar);
 	mi.position = 2000150001;
-	mi.hIcon = LoadSmallIcon(g_hInst,MAKEINTRESOURCE(IDI_HIDE_AVATAR));
+	mi.hIcon = LoadSmallIcon(g_hInst, MAKEINTRESOURCE(IDI_HIDE_AVATAR));
 	mi.pszName = LPGEN("Hide Contact &Avatar");
 	mi.pszService = "CList/HideContactAvatar";
 	hHideAvatarMenuItem = Menu_AddContactMenuItem(&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CLUI::OnEvent_ContactMenuPreBuild);
-
 	return S_OK;
 }
 
@@ -372,8 +371,8 @@ HRESULT CLUI::CreateCLC()
 
 	Frame.hWnd = ClcWnd();
 	Frame.align = alClient;
-	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	Frame.Flags = F_VISIBLE|/*F_SHOWTB|*/F_SHOWTBTIP|F_NO_SUBCONTAINER|F_TCHAR;
+	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
+	Frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NO_SUBCONTAINER | F_TCHAR;
 	Frame.tname = LPGENT("My Contacts");
 	Frame.TBtname = TranslateT("My Contacts");
 	hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);

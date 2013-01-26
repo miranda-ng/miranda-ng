@@ -255,8 +255,6 @@ HWND WINAPI MyGetAncestor( HWND, UINT );
 typedef BOOL (WINAPI *pfnGetMenuBarInfo)( HWND, LONG, LONG, PMENUBARINFO );
 extern pfnGetMenuBarInfo fnGetMenuBarInfo;
 
-void FreeAndNil( void **p );
-
 extern SortedList *clistCache;
 
 HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName);

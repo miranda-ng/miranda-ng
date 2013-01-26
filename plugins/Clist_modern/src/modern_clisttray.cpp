@@ -590,12 +590,10 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam) {
 
 INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
 {
-
-	lpTrayMenuExecParam mmep;
-	mmep = (lpTrayMenuExecParam)lParam;
-	if (mmep != NULL){
-		FreeAndNil((void**)&mmep->szServiceName);
-		FreeAndNil((void**)&mmep);
+	lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)lParam;
+	if (mmep != NULL) {
+		mir_free(mmep->szServiceName);
+		mir_free(mmep);
 	}
 
 	return 0;
@@ -603,9 +601,6 @@ INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
 
 void InitTrayMenus(void)
 {
-	TMenuParam tmp;
-	OptParam op;
-
 	CreateServiceFunction("CLISTMENUSTRAY/ExecService",TrayMenuExecService);
 	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
 	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService",TrayMenuonAddService);
@@ -614,16 +609,14 @@ void InitTrayMenus(void)
 	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM,RemoveTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY,BuildTrayMenu);
 
-
 	//Tray menu
-	memset(&tmp,0,sizeof(tmp));
-	tmp.cbSize = sizeof(tmp);
+	TMenuParam tmp = { sizeof(tmp) };
 	tmp.CheckService = NULL;
 	tmp.ExecService = "CLISTMENUSTRAY/ExecService";
 	tmp.name = "TrayMenu";
 	hTrayMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 
-
+	OptParam op;
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_USERDEFINEDITEMS;
 	op.Value = TRUE;
@@ -639,77 +632,50 @@ void InitTrayMenus(void)
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/TrayMenuonAddService";
 	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
-	{
-		//add  exit command to menu
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.position = 900000;
-		mi.pszService = "CloseAction";
-		mi.pszName = LPGEN("E&xit");
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
-		AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon);
+	//add  exit command to menu
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 900000;
+	mi.pszService = "CloseAction";
+	mi.pszName = LPGEN("E&xit");
+	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 100000;
-		mi.pszService = MS_CLIST_SHOWHIDE;
-		mi.pszName = LPGEN("&Hide/Show");
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
-		hTrayHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon);
+	mi.position = 100000;
+	mi.pszService = MS_CLIST_SHOWHIDE;
+	mi.pszName = LPGEN("&Hide/Show");
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
+	hTrayHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 200000;
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
-		mi.pszService = "FindAdd/FindAddCommand";
-		mi.pszName = LPGEN("&Find/Add Contacts...");
-		AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon);
+	mi.position = 200000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
+	mi.pszService = "FindAdd/FindAddCommand";
+	mi.pszName = LPGEN("&Find/Add Contacts...");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 300000;
-		mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
-		mi.pszService = "FakeService_1";
-		mi.pszName = LPGEN("&Main Menu");
-		hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon); // eternity #004
+	mi.position = 300000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
+	mi.pszService = "FakeService_1";
+	mi.pszName = LPGEN("&Main Menu");
+	hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 300100;
-		mi.pszService = "FakeService_2";
-		mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS); // eternity #004
-		mi.pszName = LPGEN("&Status");
-		hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon); // eternity #004
+	mi.position = 300100;
+	mi.pszService = "FakeService_2";
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS); // eternity #004
+	mi.pszName = LPGEN("&Status");
+	hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 400000;
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
-		mi.pszService = "Options/OptionsCommand";
-		mi.pszName = LPGEN("&Options...");
-		AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon);
+	mi.position = 400000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+	mi.pszService = "Options/OptionsCommand";
+	mi.pszName = LPGEN("&Options...");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
-		mi.position = 500000;
-		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
-		mi.pszService = "Help/AboutCommand";
-		mi.pszName = LPGEN("&About");
-		AddTrayMenuItem(0,(LPARAM)&mi);
-		DestroyIcon_protect(mi.hIcon);
-	}
+	mi.position = 500000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
+	mi.pszService = "Help/AboutCommand";
+	mi.pszName = LPGEN("&About");
+	AddTrayMenuItem(0,(LPARAM)&mi);
 
 	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
 	hStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);

@@ -6,7 +6,7 @@ int upCount, total = 0;
 int list_size = 0;
 
 HANDLE mainThread;
-HANDLE hWakeEvent = 0; 
+HANDLE hWakeEvent = 0;
 
 // thread protected variables
 CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
@@ -92,7 +92,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 {
 	clock_t start_t = clock(), end_t;
 	while(!get_thread_finished()) {
-	
+
 		end_t = clock();
 
 		int wait = (int)((options.ping_period - ((end_t - start_t) / (double)CLOCKS_PER_SEC)) * 1000);
@@ -114,7 +114,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 		set_list_changed(false);
 		int size = data_list.size();
 		Unlock(&data_list_cs);
-		
+
 		int index = 0;
 		for(; index < size; index++) {
 			Lock(&data_list_cs, "ping thread loop start");
@@ -133,7 +133,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 					pa.status = i.val().status;
 					break;
 				}
-					
+
 			}
 			Unlock(&data_list_cs);
 
@@ -152,7 +152,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 					InvalidateRect(list_hwnd, 0, FALSE);
 				}
 
-				CallService(PLUG "/Ping", 0, (LPARAM)&pa);	
+				CallService(PLUG "/Ping", 0, (LPARAM)&pa);
 
 				if(get_thread_finished()) break;
 				if(get_list_changed()) break;
@@ -191,11 +191,11 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 					}
 				}
 				Unlock(&data_list_cs);
-				
-				if(pa.responding) {	
+
+				if(pa.responding) {
 					count++;
 
-					if(pa.miss_count == -1 - options.retries || 
+					if(pa.miss_count == -1 - options.retries ||
 						(((-pa.miss_count) % (options.retries + 1)) == 0 && !options.block_reps))
 					{
 						reply = true;
@@ -211,7 +211,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
 				} else {
 
-					if(pa.miss_count == 1 + options.retries || 
+					if(pa.miss_count == 1 + options.retries ||
 						((pa.miss_count % (options.retries + 1)) == 0 && !options.block_reps))
 					{
 						timeout = true;
@@ -227,7 +227,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 				}
 
 				InvalidateRect(list_hwnd, 0, FALSE);
-			}			
+			}
 		}
 
 		if(timeout) SkinPlaySound("PingTimeout");
@@ -262,9 +262,9 @@ void stop_ping_thread() {
 }
 
 bool FrameIsFloating() {
-	if(frame_id == -1) 
+	if(frame_id == -1)
 		return true; // no frames, always floating
-	
+
 	return (CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0);
 }
 
@@ -278,7 +278,7 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 
 	SendMessage(list_hwnd, WM_SETREDRAW, (WPARAM)FALSE, 0);
 	Lock(&data_list_cs, "fill_list");
-	
+
 	data_list = pl;
 	SendMessage(list_hwnd, LB_RESETCONTENT, 0, 0);
 
@@ -327,7 +327,7 @@ void CALLBACK TimerProc(
 			wsprintf(TBcapt,"Ping (%d/%d)", upCount, total);
 		else
 			wsprintf(TBcapt,"Ping");
-		
+
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBNAME,frame_id),(LPARAM)TBcapt);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,frame_id),(LPARAM)TBcapt);
 		CallService(MS_CLIST_FRAMES_UPDATEFRAME,frame_id,FU_TBREDRAW);
@@ -353,7 +353,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	switch(msg)
 	{
-		
+
 	case WM_MEASUREITEM:
 		mis = (MEASUREITEMSTRUCT *)lParam;
 		mis->itemWidth = 100;
@@ -383,13 +383,13 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				GetClientRect(hwnd, &r);
 
-				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS) 
+				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS)
 					|| (context_point_valid && (x >= dis->rcItem.left && x <= dis->rcItem.right) && (y >= dis->rcItem.top && y <= dis->rcItem.bottom)))
 				{
 					tcol = DBGetContactSettingDword(NULL,"CLC","SelBkColour", GetSysColor(COLOR_HIGHLIGHT));
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
-					
+
 					tcol = DBGetContactSettingDword(NULL,"CLC","SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT));
 					SetTextColor(dis->hDC, tcol);
 				} else {
@@ -400,7 +400,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					tcol = DBGetContactSettingDword(NULL, PLUG, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
 					SetTextColor(dis->hDC, tcol);
 				}
-				
+
 				SetBkMode(dis->hDC, TRANSPARENT);
 				HICON hIcon = (itemData.status != PS_DISABLED ? (itemData.status == PS_TESTING ? hIconTesting : (itemData.status == PS_RESPONDING ? hIconResponding : hIconNotResponding)) : hIconDisabled);
 				dis->rcItem.left += options.indent;
@@ -421,7 +421,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						mir_snprintf(buf, 256, "[%d]", itemData.miss_count);
 						GetTextExtentPoint32(dis->hDC,buf,lstrlen(buf),&textSize);
 						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,lstrlen(buf));
-					} 
+					}
 				}
 				SetBkMode(dis->hDC, OPAQUE);
 			}
@@ -430,15 +430,15 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		//return DefWindowProc(hwnd, msg, wParam, lParam);
 		return TRUE;
-	
+
 	case WM_CTLCOLORLISTBOX:
 		{
 			if(tbrush) DeleteObject(tbrush);
 
 			return (BOOL)(tbrush = CreateSolidBrush(bk_col));
-		}	
-	
-	case WM_ERASEBKGND: 
+		}
+
+	case WM_ERASEBKGND:
 		{
 			RECT r;
 			GetClientRect(hwnd, &r);
@@ -463,7 +463,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 			bool found = false;
-			if(HIWORD(item) == 0) {				
+			if(HIWORD(item) == 0) {
 				int count = LOWORD(item);
 				Lock(&data_list_cs, "show graph");
 				if(count >= 0 && count < (int)data_list.size()) {
@@ -471,7 +471,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					found = true;
 				}
 				Unlock(&data_list_cs);
-				
+
 			}
 
 			if(found) {
@@ -501,7 +501,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			context_point_valid = false;
 			InvalidateRect(list_hwnd, 0, FALSE);
 		}
-		
+
 		return TRUE;
 
 	case WM_SYSCOLORCHANGE:
@@ -509,17 +509,17 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_CREATE:
-		list_hwnd = CreateWindow("LISTBOX", "", 
-			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY) 
-			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY) 
-			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);		
+		list_hwnd = CreateWindow("LISTBOX", "",
+			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY)
+			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY)
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);
 
 		if (DBGetContactSettingByte(NULL,"CList","Transparent",0))
 		{
 			if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 
 			} else {
-#ifdef WS_EX_LAYERED 
+#ifdef WS_EX_LAYERED
 				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
@@ -568,7 +568,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_TIMER:
 		if ((int)wParam==TM_AUTOALPHA)
 		{	int inwnd;
-			
+
 			if (GetForegroundWindow()==hwnd) {
 				KillTimer(hwnd,TM_AUTOALPHA);
 				inwnd=1;
@@ -642,26 +642,26 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	}
 
 	/*
-	case WM_PAINT:	
+	case WM_PAINT:
 				{
-				paintDC = BeginPaint(hwnd, &paintStruct); // 
+				paintDC = BeginPaint(hwnd, &paintStruct); //
 				//SelectObject(paintDC,TitleBarFont);
 				//SetBkMode(paintDC,TRANSPARENT);
 
 				//paintStruct.fErase=TRUE;
 				//color=RGB(1,1,1);
 				//brush=CreateSolidBrush(RGB(200,20,20));
-				
+
 				//GetClientRect(hwnd,&rect);
 				//FillRect(paintDC,&rect,brush);
 				//TextOut(paintDC,4,4,"cl1 Bottom window",sizeof("cl1 Bottom window")-1);
 				//DeleteObject(brush);
-				EndPaint(hwnd, &paintStruct); // 
-			  
+				EndPaint(hwnd, &paintStruct); //
+
 
 				};
 				return TRUE;
-	
+
 	*/
 	case WM_COMMAND:
 		//CreateServiceFunction("PingPlug/DisableAll", PingPlugDisableAll);
@@ -674,7 +674,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				RECT r;
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
-				if(HIWORD(item) == 0) {				
+				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					bool found = false;
 					Lock(&data_list_cs, "menu show graph");
@@ -695,7 +695,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				RECT r;
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
-				if(HIWORD(item) == 0) {				
+				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					bool found = false;
 					Lock(&data_list_cs, "menu toggle");
@@ -717,7 +717,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				PINGADDRESS *temp = 0;
-				if(HIWORD(item) == 0) {				
+				if(HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					Lock(&data_list_cs, "menu edit");
 					if(count >= 0 && count < (int)data_list.size()) {
@@ -774,7 +774,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 					if(pItemData) {
 						DWORD item_id = pItemData->item_id;
-						Unlock(&data_list_cs);					
+						Unlock(&data_list_cs);
 
 						int wake = CallService(PLUG "/DblClick", (WPARAM)item_id, 0);
 						InvalidateRect(list_hwnd, 0, FALSE);
@@ -787,22 +787,22 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						}
 
 					} else {
-						Unlock(&data_list_cs);					
+						Unlock(&data_list_cs);
 					}
 				}
 			}
 			return TRUE;
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
-	
+
 	case WM_MOVE:		// needed for docked frames in clist_mw (not needed in clist_modern)
-		if(FrameIsFloating()) 
+		if(FrameIsFloating())
 			break;
 	case WM_SIZE:
 		{
 		//PostMessage(label, WM_SIZE, wParam, lParam);
-		
-			GetClientRect(hwnd,&rect);	
+
+			GetClientRect(hwnd,&rect);
 		//SetWindowPos(list_hwnd, 0, rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, SWP_NOZORDER);
 		//InvalidateRect(list_hwnd, &rect, FALSE);
 			int winheight = rect.bottom - rect.top,
@@ -873,7 +873,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	};
-	
+
 	return(TRUE);
 };
 
@@ -918,15 +918,15 @@ void UpdateFrame() {
 	SetWindowPos(hpwnd, 0, r_clist.left, r_clist.top - height, (r_clist.right - r_clist.left), height, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
-WNDPROC wpOrigClistProc;  
+WNDPROC wpOrigClistProc;
 
-// Subclass procedure 
+// Subclass procedure
 LRESULT APIENTRY ClistSubclassProc(
-    HWND hwnd, 
-    UINT uMsg, 
-    WPARAM wParam, 
-    LPARAM lParam) 
-{ 
+    HWND hwnd,
+    UINT uMsg,
+    WPARAM wParam,
+    LPARAM lParam)
+{
 	if(uMsg == WM_SIZE || uMsg == WM_MOVE)
 		UpdateFrame();
 
@@ -943,9 +943,9 @@ LRESULT APIENTRY ClistSubclassProc(
 	if(uMsg == WM_SHOWWINDOW) {
 		ShowWindow(hpwnd, wParam);
 	}
-	
-    return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam); 
-} 
+
+    return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam);
+}
 
 void AttachToClist(bool attach) {
 	if(!hpwnd) return;
@@ -956,15 +956,15 @@ void AttachToClist(bool attach) {
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 
 		// subclass clist to trap move/size
-		wpOrigClistProc = (WNDPROC) SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) ClistSubclassProc); 
+		wpOrigClistProc = (WNDPROC) SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) ClistSubclassProc);
 
 		UpdateFrame();
 	} else {
 		SetWindowLong(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
 		SetWindowLong(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
-		
-		SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) wpOrigClistProc); 
+
+		SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) wpOrigClistProc);
 	}
 }
 
@@ -1000,10 +1000,10 @@ void InitList() {
 		frame.cbSize=sizeof(CLISTFrame);
 		frame.hWnd=hpwnd;
 		frame.align=alBottom;
-		frame.Flags=F_VISIBLE|F_SHOWTB|F_SHOWTBTIP;
+		frame.Flags=F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		frame.height=30;
 		frame.TBname=Translate("Ping");
-	
+
 		frame_id=CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
 	} else {
 		hpwnd=CreateWindowEx(WS_EX_TOOLWINDOW, _T(PLUG) _T("WindowClass"),_T("Ping"),
@@ -1013,7 +1013,7 @@ void InitList() {
 		Utils_RestoreWindowPosition(hpwnd, 0, PLUG, "main_window");
 
 		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
-		
+
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = 1000200001;

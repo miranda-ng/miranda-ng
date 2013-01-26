@@ -976,7 +976,7 @@ HWND StatusBar_Create(HWND parent)
 	Frame.cbSize = sizeof(CLISTFrame);
 	Frame.hWnd = hModernStatusBar;
 	Frame.align = alBottom;
-	Frame.hIcon = LoadSkinnedIcon (SKINICON_OTHER_MIRANDA);
+	Frame.hIcon = LoadSkinnedIcon (SKINICON_OTHER_FRAME);
 	Frame.Flags = (db_get_b(NULL,"CLUI","ShowSBar",SETTING_SHOWSBAR_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
 	Frame.height = h;
 	Frame.tname = _T("Status Bar");

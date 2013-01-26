@@ -1315,7 +1315,7 @@ void CreateViewModeFrame()
 	ZeroMemory(&frame, sizeof(frame));
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
-	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);/*0;*/
+	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	frame.height = 18;
 	frame.TBtname = TranslateT("View Modes");
 	frame.Flags = F_VISIBLE|F_SHOWTBTIP|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
