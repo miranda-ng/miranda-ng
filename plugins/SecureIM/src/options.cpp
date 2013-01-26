@@ -933,7 +933,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
     			GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, sizeof(gpgexe));
     			
     			// filter zusammensetzen
-				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
+				mir_snprintf(filter, SIZEOF(filter), _T("%s (*.exe)%c*.exe%c%c"), Translate("Executable Files"), 0, 0, 0);
 
     			// OPENFILENAME initialisieren
     			ofn.lStructSize = sizeof(ofn);
@@ -1778,7 +1778,7 @@ BOOL ShowSelectKeyDlg(HWND hParent, LPSTR KeyPath)
 
 	ofn.lpstrFile = KeyPath;
 	char temp[MAX_PATH];
-	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
+	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = TranslateT("Open Key File");
 	if (!GetOpenFileName(&ofn)) return FALSE;
