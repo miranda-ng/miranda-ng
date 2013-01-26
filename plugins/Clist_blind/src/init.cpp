@@ -395,24 +395,21 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_VKEYTOITEM:
 		{
 			int key = LOWORD(wParam);
-			if (key == VK_LEFT || key == VK_RIGHT || key == VK_RETURN || key == VK_DELETE || key == VK_F2) 
-			{
+			if (key == VK_LEFT || key == VK_RIGHT || key == VK_RETURN || key == VK_DELETE || key == VK_F2) {
 				pfnContactListControlWndProc(hwnd, WM_KEYDOWN, key, 0);
 				return dat->selection;
 			}
-			else 
-			{
-				NMKEY nmkey;
-				nmkey.hdr.hwndFrom = hwnd;
-				nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nmkey.hdr.code = NM_KEYDOWN;
-				nmkey.nVKey = key;
-				nmkey.uFlags = 0;
-				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nmkey))
-					return -2;
-			}
-			return -1;
+
+			NMKEY nmkey;
+			nmkey.hdr.hwndFrom = hwnd;
+			nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
+			nmkey.hdr.code = NM_KEYDOWN;
+			nmkey.nVKey = key;
+			nmkey.uFlags = 0;
+			if ( SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nmkey))
+				return -2;
 		}
+		return -1;
 
 	case WM_COMMAND:
 		if ((HANDLE) lParam != dat->hwnd_list || HIWORD(wParam) != LBN_SELCHANGE)
@@ -686,19 +683,19 @@ void SetGroupExpand(HWND hwnd, ClcData *tmp_dat, struct ClcGroup *group, int new
 	dat->need_rebuild = TRUE;
 }
 
-void ScrollTo( HWND hwnd, ClcData *dat, int desty, int noSmooth )
+void ScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 {
 }
 
-void RecalcScrollBar( HWND hwnd, ClcData *dat )
+void RecalcScrollBar(HWND hwnd, ClcData *dat)
 {
 }
 
-void LoadClcOptions( HWND hwnd, ClcData *tmp_dat )
+void LoadClcOptions(HWND hwnd, ClcData *dat)
 {
-	ClcData *dat = (ClcData*)tmp_dat;
+	pfnLoadClcOptions(hwnd, dat);
 
-	pfnLoadClcOptions(hwnd, tmp_dat);
+	dat->filterSearch = 0;
 	dat->rowHeight = SendMessage(dat->hwnd_list, LB_GETITEMHEIGHT, 0, 0);
 }
 
