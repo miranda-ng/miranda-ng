@@ -119,7 +119,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 		if (gl_RowTabAccess[i]->type != TC_SPACE) {
 			gl_RowTabAccess[i]->h = 0;
 			gl_RowTabAccess[i]->w = 0;
-			SetRect(&(gl_RowTabAccess[i]->r),0,0,0,0);
+			SetRect(&(gl_RowTabAccess[i]->r), 0, 0, 0, 0);
 			switch (gl_RowTabAccess[i]->type) {
 			case TC_TEXT1:
 				{
@@ -131,10 +131,10 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					{
 						//calculate text width here
 						SIZE size = {0};
-						RECT dummyRect = {0,0,1024,tmp};
+						RECT dummyRect = {0, 0, 1024,tmp};
 						HDC hdc = CreateCompatibleDC(NULL);
 						g_clcPainter.ChangeToFont(hdc,dat,g_clcPainter.GetBasicFontID(contact),NULL);
-						g_clcPainter.GetTextSize(&size,hdc,dummyRect,contact->szText,contact->ssText.plText,0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
+						g_clcPainter.GetTextSize(&size,hdc,dummyRect,contact->szText,contact->ssText.plText, 0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
 						if (contact->type == CLCIT_GROUP)
 						{
 							char * szCounts = pcli->pfnGetGroupCountsText(dat, contact);
@@ -175,10 +175,10 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							//calculate text width here
 
 							SIZE size = {0};
-							RECT dummyRect = {0,0,1024,tmp};
+							RECT dummyRect = {0, 0, 1024,tmp};
 							HDC hdc = CreateCompatibleDC(NULL);
 							g_clcPainter.ChangeToFont(hdc,dat,FONTID_SECONDLINE,NULL);
-							g_clcPainter.GetTextSize(&size,hdc,dummyRect,pdnce->szSecondLineText,pdnce->ssSecondLine.plText,0, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
+							g_clcPainter.GetTextSize(&size,hdc,dummyRect,pdnce->szSecondLineText,pdnce->ssSecondLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
 							gl_RowTabAccess[i]->w = size.cx;
 							SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
 							ske_ResetTextEffect(hdc);
@@ -200,10 +200,10 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 						if (item == -1) {
 							//calculate text width here
 							SIZE size = {0};
-							RECT dummyRect = {0,0,1024,tmp};
+							RECT dummyRect = {0, 0, 1024,tmp};
 							HDC hdc = CreateCompatibleDC(NULL);
 							g_clcPainter.ChangeToFont(hdc,dat,FONTID_THIRDLINE,NULL);
-							g_clcPainter.GetTextSize(&size,hdc,dummyRect,pdnce->szThirdLineText,pdnce->ssThirdLine.plText,0, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
+							g_clcPainter.GetTextSize(&size,hdc,dummyRect,pdnce->szThirdLineText,pdnce->ssThirdLine.plText, 0, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
 							gl_RowTabAccess[i]->w = size.cx;
 							SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
 							ske_ResetTextEffect(hdc);
@@ -375,7 +375,7 @@ BOOL RowHeights_Alloc(ClcData *dat, int size)
 				}
 
 				dat->row_heights = tmp;
-				memset(dat->row_heights+(dat->row_heights_allocated),0,sizeof(int) * (size_grow-dat->row_heights_allocated));
+				memset(dat->row_heights+(dat->row_heights_allocated), 0, sizeof(int) * (size_grow-dat->row_heights_allocated));
 			}
 			else {
 				dat->row_heights = (int *) malloc(sizeof(int) * size_grow);
@@ -384,7 +384,7 @@ BOOL RowHeights_Alloc(ClcData *dat, int size)
 					RowHeights_Free(dat);
 					return FALSE;
 				}
-				memset(dat->row_heights,0,sizeof(int) * size_grow);
+				memset(dat->row_heights, 0, sizeof(int) * size_grow);
 			}
 			dat->row_heights_allocated = size_grow;
 		}

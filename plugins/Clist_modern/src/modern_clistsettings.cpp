@@ -230,7 +230,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->m_cache_cszProto = GetProtoForContact(pdnce->hContact);
 		if (pdnce->m_cache_cszProto == NULL) 
 			pdnce->m_cache_bProtoNotExists = FALSE;
-		else if (CallService(MS_PROTO_ISPROTOCOLLOADED,0,(LPARAM)pdnce->m_cache_cszProto) == (int)NULL  && 0)
+		else if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pdnce->m_cache_cszProto) == (int)NULL  && 0)
 			pdnce->m_cache_bProtoNotExists = TRUE;
 		else if (pdnce->m_cache_cszProto && pdnce->tszName)
 			pdnce->freeName();
@@ -240,7 +240,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->getName();
 
 	else if (pdnce->isUnknown && pdnce->m_cache_cszProto && pdnce->m_cache_bProtoNotExists == TRUE && g_flag_bOnModulesLoadedCalled) {
-		if (CallService(MS_PROTO_ISPROTOCOLLOADED,0,(LPARAM)pdnce->m_cache_cszProto) == 0) {
+		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pdnce->m_cache_cszProto) == 0) {
 			pdnce->m_cache_bProtoNotExists = FALSE;						
 			pdnce->getName();
 		}
@@ -449,7 +449,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		InvalidateDNCEbyPointer(hContact, pdnce, cws->value.type);
 
 		if ( !strcmp(cws->szSetting,"IsSubcontact"))
-			PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0);
+			PostMessage(pcli->hwndContactTree,CLM_AUTOREBUILD, 0, 0);
 
 		if ( !mir_strcmp(cws->szSetting, "Status") || wildcmp((char*)cws->szSetting, (char*) "Status?",2)) {
 			if (g_szMetaModuleName && !mir_strcmp(cws->szModule,g_szMetaModuleName) && mir_strcmp(cws->szSetting, "Status")) {
@@ -502,11 +502,11 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				char *szProto = GetContactProto((HANDLE)wParam);
 				cli_ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,szProto,szProto == NULL?ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE)),1);  //by FYR
 			}
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
+			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		else if ( !strcmp(cws->szSetting,"noOffline")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);		
-			pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
+			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 	}
 	else if ( !strcmp(cws->szModule,"Protocol")) {
@@ -523,6 +523,6 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int PostAutoRebuidMessage(HWND hwnd)
 {
 	if ( !CLM_AUTOREBUILD_WAS_POSTED)
-		CLM_AUTOREBUILD_WAS_POSTED = PostMessage(hwnd,CLM_AUTOREBUILD,0,0);
+		CLM_AUTOREBUILD_WAS_POSTED = PostMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 	return CLM_AUTOREBUILD_WAS_POSTED;
 }

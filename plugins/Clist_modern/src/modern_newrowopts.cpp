@@ -56,11 +56,11 @@ NodeList * AddNode(NodeList * Parent)
 	if ( !Parent) 
 	{
 		res = (NodeList *)mir_alloc(sizeof(NodeList));
-		memset(res,0,sizeof(NodeList));
+		memset(res, 0, sizeof(NodeList));
 		return res;
 	}
 	Parent->childNodes = (NodeList*) mir_realloc(Parent->childNodes,sizeof(NodeList)*(Parent->AllocatedChilds+1));
-	memset(&(Parent->childNodes[Parent->AllocatedChilds]),0,sizeof(NodeList));
+	memset(&(Parent->childNodes[Parent->AllocatedChilds]), 0, sizeof(NodeList));
 	Parent->childNodes[Parent->AllocatedChilds].itemParent = Parent;
 	Parent->AllocatedChilds++;
 	return &(Parent->childNodes[Parent->AllocatedChilds-1]);

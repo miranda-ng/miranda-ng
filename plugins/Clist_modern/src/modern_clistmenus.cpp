@@ -36,7 +36,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 	int k;
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
 	do
-	{	k = CallService(MS_SYSTEM_OKTOEXIT,0,0);
+	{	k = CallService(MS_SYSTEM_OKTOEXIT, 0, 0);
 	}
 		while (!k);
 
@@ -146,7 +146,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 
 	mi.hIcon = NULL;
 	mi.ptszName = LPGENT("Show even if offline");
-	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | (db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | ( db_get_b((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
 	mi.pszService = CLUI_FAVTOGGLESHOWOFFLINE;
 	mi.popupPosition = i+100000000;
 	mi.position = -100000000;

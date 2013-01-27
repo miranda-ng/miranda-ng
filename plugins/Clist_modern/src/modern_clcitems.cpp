@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 {
 	ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(cont->hContact);
-	cont->SubExpanded = (db_get_b(cont->hContact,"CList","Expanded",0) && (db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)));
+	cont->SubExpanded = ( db_get_b(cont->hContact,"CList","Expanded",0) && ( db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)));
 	int subcount = (int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
 	if (subcount <= 0) {
 		cont->isSubcontact = 0;
@@ -48,7 +48,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		HANDLE hsub = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry = pcli->pfnGetCacheEntry(hsub);
 		WORD wStatus = pdnce___GetStatus(cacheEntry);
-		if (showOfflineHereGroup || (!(db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))
+		if (showOfflineHereGroup || (!( db_get_b(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))
 			|| wStatus != ID_STATUS_OFFLINE )) {
 			ClcContact& p = cont->subcontacts[i];
 			p.hContact = cacheEntry->hContact;
@@ -383,7 +383,7 @@ void cliRebuildEntireList(HWND hwnd,ClcData *dat)
 			if (lstrlen(cacheEntry->tszGroup) == 0)
 				group = &dat->list;
 			else
-				group = cli_AddGroup(hwnd,dat,cacheEntry->tszGroup,(DWORD)-1,0,0);
+				group = cli_AddGroup(hwnd,dat,cacheEntry->tszGroup,(DWORD)-1, 0, 0);
 
 			if (group != NULL) {
 				WORD wStatus = pdnce___GetStatus( cacheEntry );

@@ -169,7 +169,7 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 			if (nowTick >= startTick+dat->scrollTime) break;
 			dat->yScroll = oldy+(desty-oldy)*(int)(nowTick-startTick)/dat->scrollTime;
 			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL  && */FALSE)
-				ScrollWindowEx(hwnd,0,previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
+				ScrollWindowEx(hwnd, 0, previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 			else
 			{
 				CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0); 
@@ -183,7 +183,7 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 	}
 	dat->yScroll = desty;
 	if ((dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL) && FALSE)
-		ScrollWindowEx(hwnd,0,previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
+		ScrollWindowEx(hwnd, 0, previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 	else
 		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 	SetScrollPos(hwnd,SB_VERT,dat->yScroll,TRUE);
@@ -212,7 +212,7 @@ void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
 	nm.hdr.idFrom = 0;//GetDlgCtrlID(hwnd);
 	nm.pt.y = si.nMax;
 
-	SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);       //post
+	SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);       //post
 
 	GetClientRect(hwnd,&clRect);
 	si.cbSize = sizeof(si);
@@ -260,7 +260,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return DLGC_WANTMESSAGE;
 	case WM_KILLFOCUS:
 		pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
-		SendMessage(pcli->hwndContactTree,WM_SIZE,0,0);
+		SendMessage(pcli->hwndContactTree,WM_SIZE, 0, 0);
 		return 0;
 	}
 	return CallWindowProc(OldRenameEditWndProc,hwnd,msg,wParam,lParam);
@@ -338,7 +338,7 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 	OldRenameEditWndProc = (WNDPROC)SetWindowLongPtr(dat->hwndRenameEdit,GWLP_WNDPROC,(LONG_PTR)RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit,WM_SETFONT,(WPARAM)(contact->type == CLCIT_GROUP?dat->fontModernInfo[FONTID_OPENGROUPS].hFont:dat->fontModernInfo[FONTID_CONTACTS].hFont),0);
 	SendMessage(dat->hwndRenameEdit,EM_SETMARGINS,EC_LEFTMARGIN|EC_RIGHTMARGIN|EC_USEFONTINFO,0);
-	SendMessage(dat->hwndRenameEdit,EM_SETSEL,0,(LPARAM)(-1));
+	SendMessage(dat->hwndRenameEdit,EM_SETSEL, 0, (LPARAM)(-1));
 	// SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)hwnd);
 	r.top = 1;
 	r.bottom = h-1;
@@ -347,10 +347,10 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 
 	//ES_MULTILINE
 
-	SendMessage(dat->hwndRenameEdit,EM_SETRECT,0,(LPARAM)(&r));
+	SendMessage(dat->hwndRenameEdit,EM_SETRECT, 0, (LPARAM)(&r));
 
 	CLUI_ShowWindowMod(dat->hwndRenameEdit,SW_SHOW);
-	SetWindowPos(dat->hwndRenameEdit,HWND_TOP,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
+	SetWindowPos(dat->hwndRenameEdit,HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
 	SetFocus(dat->hwndRenameEdit);
 }
 
@@ -709,7 +709,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 	dat->showIdle = db_get_b(NULL,"CLC","ShowIdle",CLCDEFAULT_SHOWIDLE);
 	dat->noVScrollbar = db_get_b(NULL,"CLC","NoVScrollBar",CLCDEFAULT_NOVSCROLL);
 	dat->filterSearch = db_get_b(NULL, "CLC", "FilterSearch", 0);
-	SendMessage(hwnd,INTM_SCROLLBARCHANGED,0,0);
+	SendMessage(hwnd,INTM_SCROLLBARCHANGED, 0, 0);
 
 	if (dat->hBmpBackground) {DeleteObject(dat->hBmpBackground); dat->hBmpBackground = NULL;}
 	if (dat->hMenuBackground) {DeleteObject(dat->hMenuBackground); dat->hMenuBackground = NULL;}
@@ -723,11 +723,11 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		{
 			dat->bkColour = sttGetColor("CLC","BkColour",GetSysColor(COLOR_3DFACE));
 			{	
-				if (db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)) 
+				if ( db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)) 
 				{
 					if ( !DBGetContactSettingString(NULL,"CLC","BkBitmap",&dbv)) 
 					{
-						dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);				
+						dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);				
 						db_free(&dbv);						
 					}
 				}
@@ -740,9 +740,9 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		dat->MenuTextColor = sttGetColor("Menu","TextColour",CLCDEFAULT_TEXTCOLOUR);
 		dat->MenuTextHiColor = sttGetColor("Menu","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 		
-		if (db_get_b(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+		if ( db_get_b(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if ( !DBGetContactSettingString(NULL,"Menu","BkBitmap",&dbv)) {
-				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
+				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
@@ -784,9 +784,9 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		hdr.code = CLN_OPTIONSCHANGED;
 		hdr.hwndFrom = hwnd;
 		hdr.idFrom = 0;//GetDlgCtrlID(hwnd);
-		SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&hdr);
+		SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&hdr);
 	}
-	SendMessage(hwnd,WM_SIZE,0,0);
+	SendMessage(hwnd,WM_SIZE, 0, 0);
 
 }
 

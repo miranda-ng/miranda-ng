@@ -48,7 +48,7 @@ void cliCluiProtocolStatusChanged(int status,const char * proto)
 INT_PTR SortList(WPARAM wParam,LPARAM lParam)
 {
     pcli->pfnClcBroadcast( WM_TIMER,TIMERID_DELAYEDRESORTCLC,0);
-    pcli->pfnClcBroadcast( INTM_SCROLLBARCHANGED,0,0);
+    pcli->pfnClcBroadcast( INTM_SCROLLBARCHANGED, 0, 0);
 
 	return 0;
 }
@@ -120,22 +120,22 @@ static INT_PTR ListEndRebuild(WPARAM wParam, LPARAM lParam)
 {
 	int rebuild = 0;
 	//CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
-		if (db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
+	if (( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
+		if ( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
 		else
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 		rebuild = 1;
 	}
-	if ((db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
+	if (( db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
+		if ( db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
 		else
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 		rebuild = 1;
 	}
-	if ((db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
-		if (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+	if (( db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
+		if ( db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
 		else
 			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);

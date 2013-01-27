@@ -13,24 +13,22 @@ Library General Public License for more details.
 
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
-not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, 
 Boston, MA 02111-1307, USA.  
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_popup.h"
-
 
 BOOL EnablePopups = FALSE;
 
 static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
 
 // Show an error popup
 void ShowErrPopup(const char *title, const char *description)
 {
 	ShowPopup(title == NULL ? "Modern Contact List Error" : title, description, POPUP_TYPE_ERROR);
 }
-
 
 // Show an trace popup
 void ShowTracePopup(const char *text)
@@ -52,35 +50,27 @@ void ShowTracePopup(const char *text)
 // Show an popup
 void ShowPopup(const char *title, const char *description, int type)
 {
-	POPUPDATAEX ppd;
-	int ret;
-
 	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !EnablePopups) 
-	{
 		return;
-	}
 
 	// Make popup
-	ZeroMemory(&ppd, sizeof(ppd)); 
+	POPUPDATAEX ppd = { 0 };
 	ppd.lchContact = 0; 
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 
 	strncpy(ppd.lpzContactName, title == NULL ? "Modern Contact List" : title, SIZEOF(ppd.lpzContactName)-1);
 	ppd.lpzContactName[SIZEOF(ppd.lpzContactName)-1] = '\0';
 
-	if (description != NULL)
-	{
+	if (description != NULL) {
 		strncpy(ppd.lpzText, description, SIZEOF(ppd.lpzText)-1);
 		ppd.lpzText[SIZEOF(ppd.lpzText)-1] = '\0';
 	}
 
-	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
-	{
+	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
 		ppd.colorBack = 0;
 		ppd.colorText = 0;
 	}
-	else // if (type == POPUP_TYPE_ERROR)
-	{
+	else {
 		ppd.colorBack = -1;
 		ppd.colorText = RGB(255,255,255);
 	}
@@ -88,44 +78,29 @@ void ShowPopup(const char *title, const char *description, int type)
 	ppd.PluginWindowProc = DumbPopupDlgProc;
 	
 	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
-	{
 		ppd.iSeconds = 0;
-	}
-	else // if (type == POPUP_TYPE_ERROR)
-	{
+	else
 		ppd.iSeconds = 0;
-	}
 
 	// Now that every field has been filled, we want to see the popup.
-	ret = CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd,0);
-
-	ret++;
+	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
 }
-
-
 
 // Handle to popup events
 static LRESULT CALLBACK DumbPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
-		case WM_COMMAND:
-		{
-			PUDeletePopUp(hWnd);
-			return TRUE;
-		}
+	case WM_COMMAND:
+		PUDeletePopUp(hWnd);
+		return TRUE;
 
-		case WM_CONTEXTMENU: 
-		{
-			PUDeletePopUp(hWnd);
-			return TRUE;
-		}
+	case WM_CONTEXTMENU: 
+		PUDeletePopUp(hWnd);
+		return TRUE;
 
-		case UM_FREEPLUGINDATA: 
-		{
-			return TRUE;
-		}
+	case UM_FREEPLUGINDATA: 
+		return TRUE;
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
-

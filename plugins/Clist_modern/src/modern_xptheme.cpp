@@ -88,7 +88,7 @@ HRESULT XPThemesLoadModule()
 	 if (_xpt_ThemeSupport()) 
 	 {
 	     InitializeCriticalSection(&xptCS);
-		 xptObjectList = List_Create(0,1);
+		 xptObjectList = List_Create(0, 1);
 		 xptModuleLoaded = TRUE;
 	 }
 	 return S_OK;

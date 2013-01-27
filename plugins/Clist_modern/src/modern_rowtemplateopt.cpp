@@ -39,7 +39,7 @@ TCHAR *types[] = {
 	_T("extra9"), _T("time"),   _T("space"),  _T("fspace")
 };
 
-RECT da = {205,58,440,130}; // Draw area
+RECT da = {205,58,440, 130}; // Draw area
 
 void rowOptBuildTA(pROWCELL cell, pROWCELL* TA, int* i)
 {
@@ -70,8 +70,8 @@ void rowOptShowSettings(HWND hwnd)
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),0);
-		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,0);
-		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS, 0, 0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS, 0, 0);
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),0);
 		return;
 	}
@@ -86,16 +86,16 @@ void rowOptShowSettings(HWND hwnd)
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),0);
-		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,0);
-		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS, 0, 0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS, 0, 0);
 	}
 	else {
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,1);
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),1);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,1);
 		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),1);
-		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,MAKELONG(cell->w,0));
-		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,MAKELONG(cell->h,0));
+		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS, 0, MAKELONG(cell->w,0));
+		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS, 0, MAKELONG(cell->h,0));
 	}
 
 	SendDlgItemMessage(hwnd, IDC_CONTTYPE, CB_SETCURSEL, cell->type, 0);
@@ -355,30 +355,30 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			if ( !rowOptTmplStr)
 				rowOptTmplStr = mir_strdup("<TR />");
 
-			SendDlgItemMessage(hwndDlg,IDC_SPINCONTWIDTH, UDM_SETRANGE,0,MAKELONG(999,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPINCONTHEIGHT,UDM_SETRANGE,0,MAKELONG(999,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPINCONTWIDTH, UDM_SETRANGE, 0, MAKELONG(999,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPINCONTHEIGHT,UDM_SETRANGE, 0, MAKELONG(999,0));
 
 			int i, item;
 
 			for (i=0; i < SIZEOF(types); i++) {
-				item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
+				item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING, 0, (LPARAM)TranslateTS(types[i]));
 				SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,0);
 			}
-			SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL,0,0);
+			SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL, 0, 0);
 
 			TCHAR *h_alignment[] = {_T("left"), _T("hCenter"), _T("right")};
 			for (i=0; i < SIZEOF(h_alignment); i++) {
-				item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(h_alignment[i]));
+				item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING, 0, (LPARAM)TranslateTS(h_alignment[i]));
 				SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,0);
 			}
-			SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL,0,0);
+			SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL, 0, 0);
 
 			TCHAR *v_alignment[] = {_T("top"), _T("vCenter"), _T("bottom")};
 			for (i=0; i < SIZEOF(v_alignment); i++) {
-				item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(v_alignment[i]));
+				item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING, 0, (LPARAM)TranslateTS(v_alignment[i]));
 				SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,0);
 			}
-			SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL,0,0);
+			SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL, 0, 0);
 
 			rowDeleteTree(rowOptTmplRoot);
 			rowOptTmplRoot = NULL;

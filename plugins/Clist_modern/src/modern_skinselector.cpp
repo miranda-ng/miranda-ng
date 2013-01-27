@@ -454,7 +454,7 @@ int ParseToModernMask(MODERNMASK *mm, char * szText)
 		}
 		memmove(&(mm->pl_Params[curParam]),&param,sizeof(MASKPARAM));
 		curParam++;
-		memset(&param,0,sizeof(MASKPARAM));
+		memset(&param, 0, sizeof(MASKPARAM));
 	}
 	return 0;
 };
@@ -573,7 +573,7 @@ TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Del
 {
 	char *ansibuf = (char*)mir_alloc(buflen/sizeof(TCHAR));
 	GetParamN(string, ansibuf, buflen/sizeof(TCHAR), paramN, Delim, SkipSpaces);
-	MultiByteToWideChar(CP_UTF8,0,ansibuf,-1,buf,buflen);
+	MultiByteToWideChar(CP_UTF8, 0, ansibuf,-1,buf,buflen);
 	mir_free(ansibuf);
 	return buf;
 }
@@ -617,7 +617,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 {
 	char buf [255];
 	int res;
-	GetParamN(Params,buf, SIZEOF(buf),0,',',0);
+	GetParamN(Params,buf, SIZEOF(buf), 0, ',',0);
 	// if (boolstrcmpi("Push",buf)
 	{   //Push type
 		char buf2[20] = {0};
@@ -677,7 +677,7 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 		SKINOBJECTDESCRIPTOR obj = {0};
 		char buf[250];
 		obj.szObjectID = mir_strdup(ObjectName);
-		GetParamN(Params,buf, SIZEOF(buf),0,',',0);
+		GetParamN(Params,buf, SIZEOF(buf), 0, ',',0);
 		if (mir_bool_strcmpi(buf,"Glyph"))
 			obj.bType = OT_GLYPHOBJECT;
 		else if (mir_bool_strcmpi(buf,"Font"))
@@ -729,7 +729,7 @@ int RegisterObjectByParce(char * ObjectName, char * Params)
 
 					gl.dwLeft = atoi(GetParamN(Params,buf, SIZEOF(buf),8,',',0));
 					gl.dwTop = atoi(GetParamN(Params,buf, SIZEOF(buf),9,',',0));
-					gl.dwRight = atoi(GetParamN(Params,buf, SIZEOF(buf),10,',',0));
+					gl.dwRight = atoi(GetParamN(Params,buf, SIZEOF(buf),10, ',',0));
 					gl.dwBottom = atoi(GetParamN(Params,buf, SIZEOF(buf),11,',',0));
 					gl.dwAlpha  = atoi(GetParamN(Params,buf, SIZEOF(buf),12,',',0));
 					GetParamN(Params,buf, SIZEOF(buf),7,',',0);
@@ -775,7 +775,7 @@ int __inline SkinDrawWindowBack(HWND hwndIn, HDC hdc, RECT *rcClip, char * objec
 	POINT pt = {0};
 	RECT rc,r1;
 
-	HWND hwnd = (HWND)CallService(MS_CLUI_GETHWND,0,0);
+	HWND hwnd = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 	if ( !objectID) return 0;
 	GetWindowRect(hwndIn,&r1);
 	pt.x = r1.left;

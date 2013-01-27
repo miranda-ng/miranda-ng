@@ -206,7 +206,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 	if (dat->text_use_protocol_smileys) {
 		sp.Protocolname = pdnce->m_cache_cszProto;
 
-		if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0) {
+		if ( db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0) {
 			HANDLE hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->hContact, 0);
 			if (hContact != 0)
 				sp.Protocolname = GetContactProto(hContact);
@@ -774,16 +774,16 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 		HBITMAP oldBmp = (HBITMAP)SelectObject(hdc, hDrawBmp);
 		//need to draw avatar bitmap here
 		{
-			RECT real_rc = {0,0,width_clip, height_clip};
+			RECT real_rc = {0, 0, width_clip, height_clip};
 
 			int w = width_clip;
 			int h = height_clip;
 			if ( !g_CluiData.fGDIPlusFail) //Use gdi+ engine
-				DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic,0,0,ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
+				DrawAvatarImageWithGDIp(hdc, 0, 0, w, h,ace->hbmPic, 0, 0, ace->bmWidth,ace->bmHeight,ace->dwFlags,255);
 			else {
 				if ( !(ace->dwFlags & AVS_PREMULTIPLIED)) {
 					HDC hdcTmp = CreateCompatibleDC(hdc);
-					RECT r = {0,0,w,h};
+					RECT r = {0, 0, w,h};
 					HDC hdcTmp2 = CreateCompatibleDC(hdc);
 					HBITMAP bmo = (HBITMAP)SelectObject(hdcTmp,ace->hbmPic);
 					HBITMAP b2 = ske_CreateDIB32(w,h);
@@ -795,7 +795,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 						SRCCOPY);
 
 					ske_SetRectOpaque(hdcTmp2,&r);
-					BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2,0,0,SRCCOPY);
+					BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2, 0, 0, SRCCOPY);
 					SelectObject(hdcTmp2,bmo2);
 					SelectObject(hdcTmp,bmo);
 					DeleteDC(hdcTmp);
@@ -803,11 +803,11 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 					DeleteObject(b2);
 				}
 				else {
-					BLENDFUNCTION bf = {AC_SRC_OVER, 0,255, AC_SRC_ALPHA };
+					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 					HDC hdcTempAv = CreateCompatibleDC(hdc);
 					HBITMAP hbmTempAvOld;
 					hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
-					ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0,ace->bmWidth,ace->bmHeight, bf);
+					ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0, ace->bmWidth,ace->bmHeight, bf);
 					SelectObject(hdcTempAv, hbmTempAvOld);
 					DeleteDC(hdcTempAv);
 				}

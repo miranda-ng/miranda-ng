@@ -42,7 +42,7 @@ static HANDLE hBkgChangedHook = NULL;
 
 static int OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(hButtonWindowList, MBM_REFRESHICOLIBICON,0,0);
+	WindowList_BroadcastAsync(hButtonWindowList, MBM_REFRESHICOLIBICON, 0, 0);
 	return 0;
 }
 
@@ -136,7 +136,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 			ClientToScreen(hwndParent,&pt);
 			OffsetRect(&btnRect,-pt.x,-pt.y);
 			if (ret)
-				BitBlt(hdcMem,0,0,btnRect.right-btnRect.left,btnRect.bottom-btnRect.top,dc,btnRect.left,btnRect.top,SRCCOPY);					
+				BitBlt(hdcMem, 0, 0, btnRect.right-btnRect.left,btnRect.bottom-btnRect.top,dc,btnRect.left,btnRect.top,SRCCOPY);					
 			oldBM = (HBITMAP)SelectObject ( dc, oldBM );
 			DeleteObject(memBM);
 			DeleteDC(dc);
@@ -224,7 +224,7 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 		ske_ResetTextEffect(hdcMem);
 	}
 	if ( !pOffset)
-		BitBlt(hdcPaint,0,0,width,height,hdcMem,0,0,SRCCOPY);
+		BitBlt(hdcPaint, 0, 0, width,height,hdcMem, 0, 0, SRCCOPY);
 
 	// better to use try/finally but looks like last one is Microsoft specific
 	SelectObject(hdcMem,hOldFont);
@@ -488,7 +488,7 @@ int Buttons_ModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 {	
-	WindowList_BroadcastAsync(hButtonWindowList, MBM_UPDATETRANSPARENTFLAG,0,2);
+	WindowList_BroadcastAsync(hButtonWindowList, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 	return 0;
 }
 

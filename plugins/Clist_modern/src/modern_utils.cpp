@@ -90,7 +90,7 @@ DWORD exceptFunction(LPEXCEPTION_POINTERS EP)
 		EP->ExceptionRecord->ExceptionAddress);
 
 	TRACE(buf);
-	MessageBoxA(0,buf,"clist_mw Exception",0);
+	MessageBoxA(0, buf,"clist_mw Exception",0);
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
@@ -110,7 +110,7 @@ void TRACE_ERROR()
 		t,
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
-		0,
+		0, 
 		NULL ))
 	{
 		// Handle the error.

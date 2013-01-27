@@ -74,7 +74,7 @@ HBITMAP GDIPlus_LoadGlyphImage(char *szFileName)
   HBITMAP hbmp = NULL;
   if (clone)
   {
-    clone->GetHBITMAP(Color(0,0,0),&hbmp);
+    clone->GetHBITMAP(Color(0, 0, 0),&hbmp);
     delete clone;
   }
   return hbmp;
@@ -85,12 +85,12 @@ void TextOutWithGDIp(HDC hDestDC, int x, int y, LPCTSTR lpString, int nCount)
 //   HBITMAP hs;
 //   hs = (HBITMAP)GetCurrentObject(hDestDC,OBJ_BITMAP);
 //   Bitmap sb(hs,NULL);
-//   Bitmap *b = (sb.Clone(x,y,150,30,PixelFormat32bppARGB));
-//   Graphics g(b);//(100,100,PixelFormat32bppPARGB);
+//   Bitmap *b = (sb.Clone(x,y,150, 30, PixelFormat32bppARGB));
+//   Graphics g(b);//(100, 100, PixelFormat32bppPARGB);
 //   //g.DrawImage(sb);
 //  // s.SetCompositingMode(CompositingModeSourceCopy);
 //  // g.SetCompositingMode(CompositingModeSourceCopy);
-//   g.DrawImage(&sb,0,0,x,y,100,30,UnitPixel);
+//   g.DrawImage(&sb, 0, 0, x,y,100, 30, UnitPixel);
 //   //s.SetCompositingMode(CompositingModeSourceCopy);
 //   //g.SetCompositingMode(CompositingModeSourceCopy);
 //   // Create a string.
@@ -112,7 +112,7 @@ void TextOutWithGDIp(HDC hDestDC, int x, int y, LPCTSTR lpString, int nCount)
 //   //s.SetCompositingMode(CompositingModeSourceCopy);
 //   free(string);
 //   //HDC temp = g.GetHDC();
-//   //BitBlt(hDestDC,x,y,100,100,temp,0,0,SRCCOPY);
+//   //BitBlt(hDestDC,x,y,100, 100, temp, 0, 0, SRCCOPY);
 //   //g.ReleaseHDC(temp);
 //   s.DrawImage(b,origin2);
 //
@@ -276,7 +276,7 @@ void GDIPlus_ExtractAnimatedGIF (TCHAR * szName, int width, int height, HBITMAP 
 	graphics.SetInterpolationMode( InterpolationModeHighQualityBicubic );
 	graphics.SetPixelOffsetMode( PixelOffsetModeHalf );
 	int * delays = (int*)malloc(nFrameCount*sizeof(int));
-	memset(delays,0,nFrameCount*sizeof(int));
+	memset(delays, 0, nFrameCount*sizeof(int));
 
 	GUID   pageGuid = FrameDimensionTime;
 	/*
@@ -288,7 +288,7 @@ void GDIPlus_ExtractAnimatedGIF (TCHAR * szName, int width, int height, HBITMAP 
 	for (int i=0; i < nFrameCount; i++)
 	{
 		image.SelectActiveFrame( &pageGuid, i );
-		graphics.DrawImage( &image, Rect(i*clipWidth, 0,clipWidth,clipHeight ), 0, 0, imWidth, imHeight , UnitPixel, &attr);
+		graphics.DrawImage( &image, Rect(i*clipWidth, 0, clipWidth,clipHeight ), 0, 0, imWidth, imHeight , UnitPixel, &attr);
 		long lPause = ((long*) pPropertyItem->value)[i] * 10;
 		delays[i] = (int)lPause;
 	}

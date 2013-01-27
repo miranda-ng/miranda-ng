@@ -185,7 +185,7 @@ typedef struct tagClcContactTextPiece
 } ClcContactTextPiece;
 
 enum {
-	CIT_PAINT_END=0,  //next items are invalids
+	CIT_PAINT_END=0, //next items are invalids
 	CIT_AVATAR,		  //	1
 	CIT_ICON,		  //	2
 	CIT_TEXT,		  //	3  //the contact name or group name

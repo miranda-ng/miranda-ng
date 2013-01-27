@@ -70,7 +70,7 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	int i=0;
 	if ( !db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT)) return NULL;
 	tmplbuf = NULL;
-	if (db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
+	if ( db_get_b(NULL,"ModernData","UseAdvancedRowLayout",SETTING_ROW_ADVANCEDLAYOUT_DEFAULT) == 1)
 		tmplbuf = db_get_sa(NULL,"ModernData","RowTemplate");
 	if (tmplbuf) {
 		rowParse(RowRoot, RowRoot, tmplbuf, i, seq,tabAccess);
@@ -361,7 +361,7 @@ void rowResetEmptyRects(ROWCELL* cell)
 	if ( !cell) return;
 	if (cell->type == 0)
 	{
-		SetRect(&(cell->r),0,0,0,0);
+		SetRect(&(cell->r), 0, 0, 0, 0);
 		cell->full_width = 0;
 		cell->fixed_width = 0;
 	}
@@ -378,7 +378,7 @@ void rowResetEmptyRects(ROWCELL* cell)
 void rowCalculateMinSize(ROWCELL* cell)
 {
 	ROWCELL* curchild = NULL;
-	int w = 0,h = 0;
+	int w = 0, h = 0;
 	int wl = 0, hl = 0;
 	int fullWidth = 0;
 	if ( !cell) return;

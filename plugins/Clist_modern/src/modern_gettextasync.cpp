@@ -89,7 +89,7 @@ static int gtaThreadProc(void * lpParam)
 		do
 		{
 			if ( !MirandaExiting()) 
-				SleepEx(0,TRUE); //1000 contacts per second
+				SleepEx(0, TRUE); //1000 contacts per second
 			if (MirandaExiting()) 
 			{
 				g_dwGetTextAsyncThreadID = 0;
@@ -111,7 +111,7 @@ static int gtaThreadProc(void * lpParam)
 					ClcCacheEntry cacheEntry;
 					memset( &cacheEntry, 0, sizeof(cacheEntry));
 					cacheEntry.hContact = mpChain.hContact;
-					if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&cacheEntry))
+					if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry))
 					{
 						if ( !MirandaExiting()) 
 							Cache_GetSecondLineText(dat, &cacheEntry);
@@ -128,7 +128,7 @@ static int gtaThreadProc(void * lpParam)
 					return 0;
 				}
 				KillTimer(dat->hWnd,TIMERID_INVALIDATE_FULL);
-				CLUI_SafeSetTimer(dat->hWnd,TIMERID_INVALIDATE_FULL,500,NULL);
+				CLUI_SafeSetTimer(dat->hWnd,TIMERID_INVALIDATE_FULL,500, NULL);
 			}
 		}
 		while (!exit);

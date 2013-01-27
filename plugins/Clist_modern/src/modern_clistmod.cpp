@@ -81,7 +81,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 			if (status>ID_STATUS_OFFLINE)
 			{
 				// get xicon
-				hXIcon = (HICON)CallService(str,0,0);
+				hXIcon = (HICON)CallService(str, 0, 0);
 				if (hXIcon)
 				{
 					// check overlay mode
@@ -218,7 +218,7 @@ HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
 	g_CluiData.fOnDesktop = FALSE;
-	g_CluiData.dwKeyColor = RGB(255,0,255);
+	g_CluiData.dwKeyColor = RGB(255, 0, 255);
 	g_CluiData.bCurrentAlpha = 255;
 
 	//initialize firstly hooks
@@ -335,7 +335,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	{
 		RECT rc;
 		int i=0;
-		rgn = CreateRectRgn(0,0,1,1);
+		rgn = CreateRectRgn(0, 0, 1,1);
 		GetWindowRect(hWnd,&rc);
 		GetWindowRgn(hWnd,rgn);
 		OffsetRgn(rgn,rc.left,rc.top);
@@ -425,10 +425,10 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList,0,0);
+	int iVisibleState = GetWindowVisibleState(pcli->hwndContactList, 0, 0);
 	int method = db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);; //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && lParam != 1)
+		if ( db_get_b(NULL, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && lParam != 1)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
@@ -490,7 +490,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 		}
 		else {
-			if (db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT)) {
+			if ( db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT)) {
 				CLUI_ShowWindowMod(pcli->hwndContactList, SW_HIDE);
 				db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 			}

@@ -277,16 +277,16 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 	{
 		DBVARIANT dbv;
 		event_area.bkColour = sttGetColor("EventArea","BkColour",CLCDEFAULT_BKCOLOUR);
-		if (db_get_b(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+		if ( db_get_b(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if ( !DBGetContactSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
-				event_area.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
+				event_area.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
 		event_area.useWinColors = db_get_b(NULL, "EventArea", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		event_area.backgroundBmpUse = db_get_w(NULL, "EventArea", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}	
-	PostMessage(pcli->hwndContactList,WM_SIZE,0,0);
+	PostMessage(pcli->hwndContactList,WM_SIZE, 0, 0);
 	return 0;
 }
 
@@ -295,8 +295,8 @@ void EventArea_ConfigureEventArea()
 	int iCount = pcli->events.count;
 
 	g_CluiData.dwFlags &= ~(CLUI_FRAME_AUTOHIDENOTIFY|CLUI_FRAME_SHOWALWAYS);
-	if (db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
-	if (db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT) == 2) g_CluiData.dwFlags |= CLUI_FRAME_SHOWALWAYS;
+	if ( db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT) == 1) g_CluiData.dwFlags |= CLUI_FRAME_AUTOHIDENOTIFY;
+	if ( db_get_b(NULL,"CLUI","EventArea",SETTING_EVENTAREAMODE_DEFAULT) == 2) g_CluiData.dwFlags |= CLUI_FRAME_SHOWALWAYS;
 
 	if (g_CluiData.dwFlags & CLUI_FRAME_SHOWALWAYS)
 		g_CluiData.bNotifyActive = 1;
@@ -404,7 +404,7 @@ int EventArea_Create(HWND hCluiWnd)
 
 	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"Event Area Background/EventArea",0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhEventAreaBackgroundSettingsChanged); 
-	ehhEventAreaBackgroundSettingsChanged(0,0);
+	ehhEventAreaBackgroundSettingsChanged(0, 0);
 
 	WNDCLASS wndclass = {0};
 	TCHAR pluginname[] = _T("EventArea");
@@ -423,14 +423,14 @@ int EventArea_Create(HWND hCluiWnd)
 		RegisterClass(&wndclass);
 	}
 	g_CluiData.hwndEventFrame = CreateWindow(pluginname,pluginname,WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN,
-		0,0,0,h,hCluiWnd,NULL,g_hInst,NULL);
+		0, 0, 0, h,hCluiWnd,NULL,g_hInst,NULL);
 
 	// register frame
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
 	Frame.hWnd = g_CluiData.hwndEventFrame;
 	Frame.align = alBottom;
 	Frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
-	Frame.Flags = (db_get_b(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
+	Frame.Flags = ( db_get_b(NULL,"CLUI","ShowEventArea",SETTING_SHOWEVENTAREAFRAME_DEFAULT)?F_VISIBLE:0)|F_LOCKED|F_NOBORDER|F_NO_SUBCONTAINER|F_TCHAR;
 	Frame.height = h;
 	Frame.tname = _T("EventArea"); //do not translate
 	Frame.TBtname = TranslateT("Event Area");

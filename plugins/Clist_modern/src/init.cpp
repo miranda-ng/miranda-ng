@@ -120,7 +120,7 @@ PLUGININTERFACE int CListInitialise()
 // never called by a newer plugin loader.
 PLUGININTERFACE int Load(void)
 {
-	MessageBoxA(0,"You Running Old Miranda, use " MINIMAL_COREVERSION_STR " version!","Modern Clist",0);
+	MessageBoxA(0, "You Running Old Miranda, use " MINIMAL_COREVERSION_STR " version!","Modern Clist",0);
 	return 1;
 }
 

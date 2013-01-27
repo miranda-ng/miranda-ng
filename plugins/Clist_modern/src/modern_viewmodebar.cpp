@@ -109,7 +109,7 @@ void CLVM_EnumModes(pfnEnumCallback EnumCallback)
 	dbces.szModule = CLVM_MODULE;
 	dbces.ofsSettings = 0;
 	dbces.lParam = (LPARAM)EnumCallback;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 }
 
 int FillModes(char *szsetting)
@@ -744,11 +744,11 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)himlViewModes);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRACOLUMNS, ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE, 0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP)NULL);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS,0,0);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN,2,0);
-			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10,0);
+			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT,10, 0);
 			for (i=0;i <= FONTID_MAX;i++)
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 			
@@ -1009,7 +1009,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch(msg) {
 	case WM_CREATE:
 		{
-			RECT rcMargins = {12,0,2,0};
+			RECT rcMargins = {12, 0, 2,0};
 			hwndSelector = CreateWindow( MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
 				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
 			MakeButtonSkinned(hwndSelector);
@@ -1049,21 +1049,21 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			RECT rcCLVMFrame;
 			HDWP PosBatch = BeginDeferWindowPos(3);
 			GetClientRect(hwnd, &rcCLVMFrame);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0, 
 				rcCLVMFrame.right - 23, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0, 
 				rcCLVMFrame.right - 45, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0, 
 				1, 1, rcCLVMFrame.right - 46, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 			EndDeferWindowPos(PosBatch);
 		}
 		break;
 
 	case WM_USER + 100:
-		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
+		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0, 
 			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List",Translate("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW ));
 
-		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0,
+		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0, 
 			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List",Translate("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));			
 
 		{
@@ -1278,16 +1278,16 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 	{
 		DBVARIANT dbv;
 		view_mode.bkColour = sttGetColor("ViewMode","BkColour",CLCDEFAULT_BKCOLOUR);
-		if (db_get_b(NULL,"ViewMode","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+		if ( db_get_b(NULL,"ViewMode","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if ( !DBGetContactSettingString(NULL,"ViewMode","BkBitmap",&dbv)) {
-				view_mode.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
+				view_mode.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
 		}
 		view_mode.useWinColors = db_get_b(NULL, "ViewMode", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		view_mode.backgroundBmpUse = db_get_w(NULL, "ViewMode", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	PostMessage(pcli->hwndContactList,WM_SIZE,0,0);
+	PostMessage(pcli->hwndContactList,WM_SIZE, 0, 0);
 	return 0;
 }
 
@@ -1295,7 +1295,7 @@ void CreateViewModeFrame()
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER,(WPARAM)"View Mode Background/ViewMode",0);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED,ehhViewModeBackgroundSettingsChanged);
-	ehhViewModeBackgroundSettingsChanged(0,0);
+	ehhViewModeBackgroundSettingsChanged(0, 0);
 
 	CLISTFrame frame = {0};
 	WNDCLASS wndclass = {0};

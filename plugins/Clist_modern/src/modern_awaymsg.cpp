@@ -132,7 +132,7 @@ static int amThreadProc(HWND hwnd)
 			time = GetTickCount();
 			if ((time-amRequestTick) < AMASKPERIOD)
 			{
-				SleepEx(AMASKPERIOD-(time-amRequestTick)+10,TRUE);
+				SleepEx(AMASKPERIOD-(time-amRequestTick)+10, TRUE);
 				if (MirandaExiting())
 				{
 					g_dwAwayMsgThreadID = 0;
@@ -141,9 +141,9 @@ static int amThreadProc(HWND hwnd)
 			}
 			CListSettings_FreeCacheItemData(&dnce);
 			dnce.hContact = (HANDLE)hContact;
-			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0,(LPARAM)&dnce);            
+			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);            
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG,0,0);		
+				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);		
 			if ( !ACK)
 			{
 				ACKDATA ack;
@@ -165,7 +165,7 @@ static int amThreadProc(HWND hwnd)
 				do 
 				{
 					i++;
-					SleepEx(50,TRUE);
+					SleepEx(50, TRUE);
 				} while (i < AMASKPERIOD/50 && !MirandaExiting());
 			}
 			else break;

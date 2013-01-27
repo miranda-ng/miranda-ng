@@ -110,7 +110,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 		Skin_AddIcon(&sid);
 	}
 
-	clcHookIconsChanged(0,0);
+	clcHookIconsChanged(0, 0);
 
 	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
 
@@ -144,8 +144,8 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 static int clcHookSmileyAddOptionsChanged(WPARAM wParam,LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
-	pcli->pfnClcBroadcast( CLM_AUTOREBUILD,0,0);
-	pcli->pfnClcBroadcast( INTM_INVALIDATE,0,0);
+	pcli->pfnClcBroadcast( CLM_AUTOREBUILD, 0, 0);
+	pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0);
 	return 0;
 }
 
@@ -177,7 +177,7 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 
 	g_hListeningToIcon = Skin_GetIcon("LISTENING_TO_ICON");
 
-	pcli->pfnClcBroadcast( INTM_INVALIDATE,0,0);
+	pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0);
 	AniAva_UpdateOptions();
 	return 0;
 }
@@ -200,7 +200,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 		else if ( !strcmp(cws->szSetting,"XStatusId") || !strcmp(cws->szSetting,"XStatusName"))
 		{
-			CLUIServices_ProtocolStatusChanged(0,(LPARAM)cws->szModule);
+			CLUIServices_ProtocolStatusChanged(0, (LPARAM)cws->szModule);
 		}
 	}
 	else // (HANDLE)wParam != NULL
@@ -213,11 +213,11 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		{
 			if ( !strcmp(cws->szSetting,"Handle"))
 			{
-				pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED,0,0);
+				pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0);
 			}
 			else if ( !strcmp(cws->szSetting,"Default"))
 			{
-				pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED,0,0);
+				pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0);
 			}
 		}
 		else if ( !strcmp(cws->szModule,"UserInfo"))
@@ -392,7 +392,7 @@ static BOOL clcItemNotHiddenOffline(ClcData *dat, ClcGroup* group, ClcContact *c
 static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	dat = (ClcData*)mir_calloc(sizeof(ClcData));
-	SetWindowLongPtr(hwnd,0,(LONG_PTR)dat);
+	SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat);
 	dat->hCheckBoxTheme = xpt_AddThemeHandle(hwnd, L"BUTTON");
 	dat->m_paintCouter = 0;
 	dat->hWnd = hwnd;
@@ -472,7 +472,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 			return 0;
 		CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
 			MAKELPARAM(CLCItems_IsShowOfflineGroup(contact->group) ? 0 : GROUPF_SHOWOFFLINE, GROUPF_SHOWOFFLINE));
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
+		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		return 0;
 	case POPUP_GROUPHIDEOFFLINE:
 		if (contact->type != CLCIT_GROUP)
@@ -643,7 +643,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 			nmkey.nVKey = wParam;
 			nmkey.uFlags = HIWORD(lParam);
 
-			if (SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nmkey)) {
+			if (SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nmkey)) {
 				SetCapture(hwnd);
 				return 0;
 			}
@@ -749,7 +749,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 			dat->selection = pcli->pfnGetGroupContentsCount(&dat->list,1)-1;
 		if (dat->selection < 0) dat->selection = 0;
 		if (dat->bCompactMode)
-			SendMessage(hwnd,WM_SIZE,0,0);
+			SendMessage(hwnd,WM_SIZE, 0, 0);
 		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 		pcli->pfnEnsureVisible(hwnd,dat,dat->selection,0);
 		UpdateWindow(hwnd);
@@ -935,7 +935,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 				fMouseUpped = TRUE;
 				hitcontact = contact;
 				KillTimer(hwnd,TIMERID_SUBEXPAND);
-				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND,0,NULL);
+				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND, 0, NULL);
 			}
 		}
 		else hitcontact = NULL;
@@ -952,7 +952,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 			}
 
 			if (dat->bCompactMode)
-				SendMessage(hwnd,WM_SIZE,0,0);
+				SendMessage(hwnd,WM_SIZE, 0, 0);
 			else {
 				CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 				UpdateWindow(hwnd);
@@ -972,7 +972,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
 			nm.hItem = ContactToItemHandle(contact,&nm.flags);
-			SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+			SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
 		}
 
 		if ( !(hitFlags & (CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) {
@@ -985,7 +985,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 			else nm.hItem = ContactToItemHandle(contact,&nm.flags);
 			nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA?HIBYTE(HIWORD(hitFlags)):-1;
 			nm.pt = dat->ptDragStart;
-			SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+			SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
 		}
 
 		if (hitFlags & (CLCHT_ONITEMCHECK|CLCHT_ONITEMEXTRA))
@@ -1003,7 +1003,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		}
 
 		if (dat->bCompactMode)
-			SendMessage(hwnd,WM_SIZE,0,0);
+			SendMessage(hwnd,WM_SIZE, 0, 0);
 
 		if (dat->selection != -1)
 			pcli->pfnEnsureVisible(hwnd,dat,hit,0);
@@ -1065,7 +1065,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		if ( abs(HitPoint.x-x) > xm || abs(HitPoint.y-y) > ym) {
 			if (fMouseUpped) {
 				KillTimer(hwnd,TIMERID_SUBEXPAND);
-				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND,0,NULL);
+				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND, 0, NULL);
 				fMouseUpped = FALSE;
 			}
 			else {
@@ -1139,7 +1139,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 			nm.flags = 0;
 			nm.hItem = ContactToItemHandle(contact,&nm.flags);
-			SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+			SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
 			dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 		}
 
@@ -1221,7 +1221,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				nm.flags = 0;
 				nm.hItem = ContactToItemHandle(contact,&nm.flags);
 				nm.pt = pt;
-				if (SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm))
+				if (SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm))
 					return 0;
 			}
 			break;
@@ -1317,7 +1317,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 								if ( !handle)
 									return 0;
 
-								CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
+								CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 							}
 						}
@@ -1363,7 +1363,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 								if (res == 1) {
 									if ( !handle) return 0;
 
-									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
+									CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
 									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 								}
 							}
@@ -1401,7 +1401,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 							if (res == 1) {
 								if ( !handle) return 0;
 
-								CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
+								CallService(MS_MC_REMOVEFROMMETA, 0, (LPARAM)hcontact);
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 							}
 						}
@@ -1700,7 +1700,7 @@ static LRESULT clcOnIntmStatusMsgChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	{
 		Cache_GetText(dat,contact,1);
 		cliRecalcScrollBar(hwnd,dat);
-		PostMessage(hwnd,INTM_INVALIDATE,0,0);
+		PostMessage(hwnd,INTM_INVALIDATE, 0, 0);
 	}
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
@@ -1765,14 +1765,14 @@ static LRESULT clcOnIntmStatusChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 
 
 	}
-	if (db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))
+	if ( db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))
 	{
-		SendMessage(hwnd,CLM_AUTOREBUILD,0,0);
+		SendMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 	}
 	else
 	{
 		pcli->pfnSortContacts();
-		PostMessage(hwnd,INTM_INVALIDATE,0,0);
+		PostMessage(hwnd,INTM_INVALIDATE, 0, 0);
 	}
 	return ret;
 }
@@ -1794,7 +1794,7 @@ static LRESULT clcOnIntmReloadOptions(ClcData *dat, HWND hwnd, UINT msg, WPARAM 
 
 HRESULT ClcLoadModule()
 {
-	g_himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
+	g_himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, clcHookSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
@@ -1839,7 +1839,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		if (ack->result == ACKRESULT_SUCCESS && ack->lParam) {
 			{//Do not change DB if it is IRC protocol
 				if (ack->szModule != NULL)
-					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
+					if ( db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 
 			db_set_ws(ack->hContact,"CList","StatusMsg",(const TCHAR *)ack->lParam);
@@ -1851,7 +1851,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 			//char a = '\0';
 			{//Do not change DB if it is IRC protocol
 				if (ack->szModule != NULL)
-					if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
+					if ( db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 			if (ack->hContact)
 			{
@@ -1877,7 +1877,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		}
 	}
 	else if (ack->type == ACKTYPE_EMAIL) {
-		CLUIUnreadEmailCountChanged(0,0);
+		CLUIUnreadEmailCountChanged(0, 0);
 	}
 	return 0;
 }

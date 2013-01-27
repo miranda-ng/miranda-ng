@@ -145,14 +145,14 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		tbdat.mtb_bkColour = sttGetColor("ToolBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if ( db_get_b(NULL,"ToolBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 			if ( !db_get_s(NULL, "ToolBar", "BkBitmap", &dbv, DBVT_TCHAR)) {
-				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.ptszVal);
+				tbdat.mtb_hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}
 		tbdat.mtb_useWinColors = db_get_b(NULL, "ToolBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		tbdat.mtb_backgroundBmpUse = db_get_b(NULL, "ToolBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	PostMessage(pcli->hwndContactList,WM_SIZE,0,0);
+	PostMessage(pcli->hwndContactList,WM_SIZE, 0, 0);
 	return 0;
 }
 
@@ -356,7 +356,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 HRESULT ToolbarLoadModule()
 {
-	ehhToolBarBackgroundSettingsChanged(0,0);
+	ehhToolBarBackgroundSettingsChanged(0, 0);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
 }

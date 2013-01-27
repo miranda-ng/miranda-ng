@@ -115,9 +115,9 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 	switch(msg->message) {
 		case WM_CREATE:
 			//if (GetSystemMetrics(SM_CMONITORS)>1) return 0;
-			if (db_get_b(NULL,"CList","Docked",0) && db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT)) 
+			if ( db_get_b(NULL,"CList","Docked",0) && db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT)) 
 			{
-				PostMessage(msg->hwnd,WM_CREATEDOCKED,0,0);
+				PostMessage(msg->hwnd,WM_CREATEDOCKED, 0, 0);
 			}
 			draggingTitle = 0;
 			return 0;
@@ -206,11 +206,11 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 						dx = (rc->left < rcMonitor.left)?rc->left-rcMonitor.left:0;
 					OffsetRect(rc,-dx,0);
 					Docking_AdjustPosition(msg->hwnd,(LPRECT)&rcMonitor,(LPRECT)msg->lParam);
-					SendMessage(msg->hwnd,WM_SIZE,0,0);				
+					SendMessage(msg->hwnd,WM_SIZE, 0, 0);				
 					g_CluiData.mutexPreventDockMoving = 0;
 					Sync(CLUIFrames_OnMoving,msg->hwnd,(LPRECT)msg->lParam);
 					g_CluiData.mutexPreventDockMoving = 1;
-					mouse_event(MOUSEEVENTF_LEFTUP,0,0,0,0);
+					mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
 					db_set_b(NULL,"CList","Docked",(BYTE)g_CluiData.fDocked);
 					ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );
 					return TRUE;
@@ -227,7 +227,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				Docking_AdjustPosition(msg->hwnd,&rcMonitor,&rcWindow);
 				*((LRESULT*)lParam) = TRUE;
 				g_CluiData.mutexPreventDockMoving = 0;
-				SetWindowPos(msg->hwnd,0,rcWindow.left,rcWindow.top,0,0,SWP_NOSIZE|SWP_NOZORDER|SWP_NOREDRAW|SWP_NOSENDCHANGING);
+				SetWindowPos(msg->hwnd, 0, rcWindow.left,rcWindow.top, 0, 0, SWP_NOSIZE|SWP_NOZORDER|SWP_NOREDRAW|SWP_NOSENDCHANGING);
 				Sync(CLUIFrames_OnMoving,msg->hwnd,&rcWindow);
 				ModernSkinButton_ReposButtons( msg->hwnd, SBRF_DO_NOT_DRAW, NULL );// -= -=  -= 
 				g_CluiData.mutexPreventDockMoving = 1;		  
@@ -328,7 +328,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 					g_CluiData.fDocked = 0;
 					GetCursorPos(&pt);
 					PostMessage(msg->hwnd,WM_NCLBUTTONDOWN,HTCAPTION,MAKELPARAM(pt.x,pt.y));
-					SetWindowPos(msg->hwnd,0,pt.x-rc.right/2,pt.y-GetSystemMetrics(SM_CYFRAME)-GetSystemMetrics(SM_CYSMCAPTION)/2,db_get_dw(NULL,"CList","Width",0),db_get_dw(NULL,"CList","Height",0),SWP_NOZORDER);
+					SetWindowPos(msg->hwnd, 0, pt.x-rc.right/2,pt.y-GetSystemMetrics(SM_CYFRAME)-GetSystemMetrics(SM_CYSMCAPTION)/2,db_get_dw(NULL,"CList","Width",0),db_get_dw(NULL,"CList","Height",0),SWP_NOZORDER);
 					db_set_b(NULL,"CList","Docked",(BYTE)g_CluiData.fDocked);
 					// ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, NULL);
 				}

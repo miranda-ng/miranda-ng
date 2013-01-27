@@ -20,11 +20,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "hdr/modern_commonheaders.h"
 #include "m_clc.h"
 #include "hdr/modern_clc.h"
 #include "hdr/modern_commonprototypes.h"
-
 
 //processing of all the CLM_ messages incoming
 
@@ -69,7 +69,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wPara
 			else SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~CLS_HIDEEMPTYGROUPS);
 			newval = ((GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS) != 0);
 			if (newval != old)
-				SendMessage(hwnd,CLM_AUTOREBUILD,0,0);
+				SendMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 		}
 		return 0;
 

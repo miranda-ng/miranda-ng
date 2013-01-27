@@ -163,7 +163,7 @@ int FillObjectTree(HWND hwndDlg, int ObjectTreeID, char * wildmask)
 	dbces.pfnEnumProc = enumDB_SkinObjectsForEditorProc;
 	dbces.szModule = SKIN;
 	dbces.ofsSettings = 0;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 	return 0;
 }
 TCHAR *TYPES[] = {_T("- Empty - (do not draw this object)"),_T("Solid fill object"),_T("Image (draw image)"),_T("Fragment (draw portion of image)")};
@@ -256,9 +256,9 @@ void SetControls(HWND hwndDlg, char * str)
 			g = atoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
 			b = atoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
 			a = atoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR,0,(LPARAM)RGB(r,g,b));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR,0,(LPARAM)RGB(r,g,b));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS,0,MAKELONG(a,0));
+			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR, 0, (LPARAM)RGB(r,g,b));
+			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR, 0, (LPARAM)RGB(r,g,b));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
 		}
 		break;
 	 case 2:
@@ -275,14 +275,14 @@ void SetControls(HWND hwndDlg, char * str)
 			b = atoi(GetParamN(str,buf,SIZEOF(buf),7,',',TRUE));
 			a = atoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
 			
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS,0,MAKELONG(a,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS,0,MAKELONG(l,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS,0,MAKELONG(t,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETPOS,0,MAKELONG(r,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETPOS,0,MAKELONG(b,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS, 0, MAKELONG(t,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETPOS, 0, MAKELONG(r,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETPOS, 0, MAKELONG(b,0));
 			
 			GetParamN(str,buf,SIZEOF(buf),2,',',TRUE);
-			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT,0,(LPARAM)buf);
+			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)buf);
 			
 			GetParamN(str,buf,SIZEOF(buf),3,',',TRUE);
 			if (mir_bool_strcmpi(buf,"TileBoth")) fitmode = FM_TILE_BOTH;
@@ -310,23 +310,23 @@ void SetControls(HWND hwndDlg, char * str)
 
 			l = atoi(GetParamN(str,buf,SIZEOF(buf),8,',',TRUE));
 			t = atoi(GetParamN(str,buf,SIZEOF(buf),9,',',TRUE));
-			r = atoi(GetParamN(str,buf,SIZEOF(buf),10,',',TRUE));
+			r = atoi(GetParamN(str,buf,SIZEOF(buf),10, ',',TRUE));
 			b = atoi(GetParamN(str,buf,SIZEOF(buf),11,',',TRUE));
 			a = atoi(GetParamN(str,buf,SIZEOF(buf),12,',',TRUE));
 			
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS,0,MAKELONG(a,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS,0,MAKELONG(l,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS,0,MAKELONG(t,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETPOS,0,MAKELONG(r,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETPOS,0,MAKELONG(b,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(a,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETPOS, 0, MAKELONG(l,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETPOS, 0, MAKELONG(t,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETPOS, 0, MAKELONG(r,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETPOS, 0, MAKELONG(b,0));
 
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_SETPOS,0,MAKELONG(x,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETPOS,0,MAKELONG(y,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETPOS,0,MAKELONG(w,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETPOS,0,MAKELONG(h,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_SETPOS, 0, MAKELONG(x,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETPOS, 0, MAKELONG(y,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETPOS, 0, MAKELONG(w,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETPOS, 0, MAKELONG(h,0));
 			
 			GetParamN(str,buf,SIZEOF(buf),2,',',TRUE);
-			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT,0,(LPARAM)buf);
+			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)buf);
 			
 			GetParamN(str,buf,SIZEOF(buf),7,',',TRUE);
 			if (mir_bool_strcmpi(buf,"TileBoth")) fitmode = FM_TILE_BOTH;
@@ -348,7 +348,7 @@ int GetShortFileName(char * FullFile)
 	char * f = strrchr(FullFile,'\\');
 	char * file = f?mir_strdup(f+1):0;
 	if ( !file) return 0;
-	ske_GetFullFilename(buf,file,0,TRUE);
+	ske_GetFullFilename(buf,file, 0, TRUE);
 	if (mir_bool_strcmpi(buf,FullFile))
 	{
 		_snprintf(FullFile,MAX_PATH,"%s",file);
@@ -369,7 +369,7 @@ int GetShortFileName(char * FullFile)
 char * MadeString(HWND hwndDlg)
 {
 	char buf[MAX_PATH*2] = {0};
-	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,0,0);
+	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL, 0, 0);
 	switch (i)
 	{
 	case 0:
@@ -379,8 +379,8 @@ char * MadeString(HWND hwndDlg)
 		{
 			BYTE a;
 			DWORD col;
-			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
-			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR,0,0);
+			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS, 0, 0);
+			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR, 0, 0);
 			mir_snprintf(buf,SIZEOF(buf),"Glyph,Solid,%d,%d,%d,%d",GetRValue(col),GetGValue(col),GetBValue(col),a);
 		}
 		break;
@@ -390,13 +390,13 @@ char * MadeString(HWND hwndDlg)
 			WORD l,t,b,r;
 			char buf_name[MAX_PATH] = {0};
 			int i=0;
-			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
-			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS,0,0);
-			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS,0,0);
-			r = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_GETPOS,0,0);
-			b = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_GETPOS,0,0);
+			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS, 0, 0);
+			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS, 0, 0);
+			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS, 0, 0);
+			r = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_GETPOS, 0, 0);
+			b = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_GETPOS, 0, 0);
 			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_GETTEXT,(WPARAM)MAX_PATH,(LPARAM)buf_name);
-			i = SendDlgItemMessage(hwndDlg,IDC_FIT,CB_GETCURSEL,0,0);
+			i = SendDlgItemMessage(hwndDlg,IDC_FIT,CB_GETCURSEL, 0, 0);
 			mir_snprintf(buf,SIZEOF(buf),"Glyph,Image,%s,%s,%d,%d,%d,%d,%d",buf_name,
 				//fitmode
 				(i == FM_TILE_BOTH)?"TileBoth":
@@ -412,20 +412,20 @@ char * MadeString(HWND hwndDlg)
 			WORD x,y,w,h;
 			char buf_name[MAX_PATH] = {0};
 			int i=0;
-			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
-			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS,0,0);
-			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS,0,0);
-			r = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_GETPOS,0,0);
-			b = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_GETPOS,0,0);
+			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS, 0, 0);
+			l = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_GETPOS, 0, 0);
+			t = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_GETPOS, 0, 0);
+			r = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_GETPOS, 0, 0);
+			b = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_GETPOS, 0, 0);
 
-			x = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_GETPOS,0,0);
-			y = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_GETPOS,0,0);
+			x = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_GETPOS, 0, 0);
+			y = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_GETPOS, 0, 0);
 
-			w = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_GETPOS,0,0);
-			h = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_GETPOS,0,0);
+			w = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_GETPOS, 0, 0);
+			h = (WORD)SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_GETPOS, 0, 0);
 
 			SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_GETTEXT,(WPARAM)MAX_PATH,(LPARAM)buf_name);
-			i = SendDlgItemMessage(hwndDlg,IDC_FIT,CB_GETCURSEL,0,0);
+			i = SendDlgItemMessage(hwndDlg,IDC_FIT,CB_GETCURSEL, 0, 0);
 			mir_snprintf(buf,SIZEOF(buf),"Glyph,Fragment,%s,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d",buf_name,x,y,w,h,
 				//fitmode
 				(i == FM_TILE_BOTH)?"TileBoth":
@@ -443,10 +443,10 @@ void UpdateInfo(HWND hwndDlg)
 	char *b = MadeString(hwndDlg);
 	if ( !b) 
 	{
-		SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT,0,(LPARAM)"");
+		SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT, 0, (LPARAM)"");
 		return;
 	}
-	SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT,0,(LPARAM)b);
+	SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT, 0, (LPARAM)b);
 	{
 		OPT_OBJECT_DATA *sd = NULL;  
 		HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg,IDC_OBJECT_TREE));				
@@ -510,7 +510,7 @@ int GetFileSizes(HWND hwndDlg)
 	char buf[MAX_PATH];
 	SIZE sz = {0};
 	SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_GETTEXT,(WPARAM)MAX_PATH,(LPARAM)buf);
-	ske_GetFullFilename(buf,buf,0,TRUE);
+	ske_GetFullFilename(buf,buf, 0, TRUE);
 	{
 		HBITMAP hbmp = ske_LoadGlyphImage(buf);
 		if (hbmp)
@@ -523,7 +523,7 @@ int GetFileSizes(HWND hwndDlg)
 		}
 	}
 	_snprintf(buf, MAX_PATH, "%s %d x %d %s",Translate("Image size is"),sz.cx, sz.cy, Translate("pixels")); 
-	SendDlgItemMessageA(hwndDlg,IDC_S_SIZE,WM_SETTEXT,0,(LPARAM)buf);
+	SendDlgItemMessageA(hwndDlg,IDC_S_SIZE,WM_SETTEXT, 0, (LPARAM)buf);
 	return 0;
 }
 
@@ -552,27 +552,27 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{	//Fill types combo
 			int i=0;
 			for (i=0; i < SIZEOF(TYPES); i++)
-				SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(TYPES[i]));
+				SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_ADDSTRING, 0, (LPARAM)TranslateTS(TYPES[i]));
 		}
 		{	//Fill fit combo
 			int i=0;
 			for (i=0; i < SIZEOF(FITMODES); i++)
-				SendDlgItemMessage(hwndDlg,IDC_FIT,CB_ADDSTRING,0,(LPARAM)TranslateTS(FITMODES[i]));
+				SendDlgItemMessage(hwndDlg,IDC_FIT,CB_ADDSTRING, 0, (LPARAM)TranslateTS(FITMODES[i]));
 		}
 		//SPIN Ranges
 		{
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETRANGE,0,MAKELONG(255,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS,0,MAKELONG(255,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETRANGE, 0, MAKELONG(255,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS, 0, MAKELONG(255,0));
 
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETRANGE,0,MAKELONG(900,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETRANGE,0,MAKELONG(900,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETRANGE,0,MAKELONG(900,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETRANGE,0,MAKELONG(900,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_TOP,UDM_SETRANGE, 0, MAKELONG(900, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_LEFT,UDM_SETRANGE, 0, MAKELONG(900, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_BOTTOM,UDM_SETRANGE, 0, MAKELONG(900, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_RIGHT,UDM_SETRANGE, 0, MAKELONG(900, 0));
 
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_SETRANGE,0,MAKELONG(1000,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETRANGE,0,MAKELONG(1000,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETRANGE,0,MAKELONG(1000,0));
-			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETRANGE,0,MAKELONG(1000,0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSLEFT,UDM_SETRANGE, 0, MAKELONG(1000, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_POSTOP,UDM_SETRANGE, 0, MAKELONG(1000, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_WIDTH,UDM_SETRANGE, 0, MAKELONG(1000, 0));
+			SendDlgItemMessage(hwndDlg,IDC_SPIN_HEIGHT,UDM_SETRANGE, 0, MAKELONG(1000, 0));
 		}		
 		EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_GROUP_1),FALSE);
 		EnableGroup(hwndDlg,GetDlgItem(hwndDlg,IDC_ST_COLOUR),FALSE);
@@ -591,7 +591,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				if (HIWORD(wParam) == CBN_SELCHANGE)
 				{
-					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,0,0);
+					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL, 0, 0);
 					//if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_TYPE)))
 					SetAppropriateGroups(hwndDlg,i);
 					if (GetFocus() == GetDlgItem(hwndDlg,IDC_TYPE))
@@ -661,7 +661,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						}
 						else
 						{
-							ske_GetFullFilename(str,str,(char*)0,TRUE);
+							ske_GetFullFilename(str,str,(char*)0, TRUE);
 						}
 						ofn.lpstrFile = str;
 
@@ -671,7 +671,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						res = GetOpenFileNameA(&ofn);
 						if (res) {
 							GetShortFileName(ofn.lpstrFile);
-							SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT,0,(LPARAM)ofn.lpstrFile);
+							SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)ofn.lpstrFile);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 							UpdateInfo(hwndDlg);						
 						}
@@ -746,14 +746,14 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						char buf[255];
 
 						mir_snprintf(buf,SIZEOF(buf),"%s = %s",data->szName, data->szValue);						
-						SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT,0,(LPARAM)buf);					
+						SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT, 0, (LPARAM)buf);					
 						SetControls(hwndDlg,data->szValue);
 						EnableWindow(GetDlgItem(hwndDlg,IDC_COPY),TRUE);
 						EnableWindow(GetDlgItem(hwndDlg,IDC_PASTE),object_clipboard != NULL);
 					}
 					else
 					{
-						SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT,0,(LPARAM)"");
+						SendDlgItemMessageA(hwndDlg,IDC_EDIT1,WM_SETTEXT, 0, (LPARAM)"");
 						SetControls(hwndDlg,NULL);
 						EnableWindow(GetDlgItem(hwndDlg,IDC_COPY),FALSE);
 						EnableWindow(GetDlgItem(hwndDlg,IDC_PASTE),FALSE);
@@ -782,8 +782,8 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					StoreTreeToDB(GetDlgItem(hwndDlg,IDC_OBJECT_TREE),SKIN);
 					//ReloadSkin
 					ske_LoadSkinFromDB();	
-					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS,0,0);
-					Sync(CLUIFrames_OnClistResize_mod,0,0);
+					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0);
+					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 					ske_RedrawCompleteWindow();        
 					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 					{

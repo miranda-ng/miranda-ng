@@ -191,7 +191,7 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 	{
 		RECT r = {0};
 		GetClientRect(bct->hwnd,&r);
-		BitBlt(whdc,0,0,r.right,r.bottom,hdc,0,0,SRCCOPY);
+		BitBlt(whdc, 0, 0, r.right,r.bottom,hdc, 0, 0, SRCCOPY);
 	}
 	SelectObject(hdc,oldbmp);
 	DeleteObject(bmp);
@@ -467,7 +467,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 						SetCapture(bct->hwnd);
 						bct->hover = 1;
 						//KillTimer(bct->hwnd,1234);
-						//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
+						//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
 						ModernSkinButtonPaintWorker(bct->hwnd,0);
 						return 0;
 					}
@@ -487,7 +487,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 			case WM_LBUTTONDOWN:
 				{
 					//KillTimer(bct->hwnd,1234);
-					//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
+					//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
 					bct->down = 1;
 					SetForegroundWindow(GetParent(bct->hwnd));
 					ModernSkinButtonPaintWorker(bct->hwnd,0);
@@ -512,7 +512,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 				if (bct->down)
 				{
 					//KillTimer(bct->hwnd,1234);
-					//CLUI_SafeSetTimer(bct->hwnd,1234,100,NULL);
+					//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
 					ReleaseCapture();
 					bct->hover = 0;
 					bct->down = 0;
@@ -547,7 +547,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 			hwnd, NULL, GetModuleHandle(NULL),
 			NULL);
 
-		SetWindowPos(hwndToolTips, HWND_TOPMOST,0, 0, 0, 0,
+		SetWindowPos(hwndToolTips, HWND_TOPMOST, 0, 0, 0, 0, 
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	}
 
@@ -562,7 +562,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 	ti.uId = (UINT_PTR)hwnd;
 	ti.lpszText = (TCHAR*)tip;
-	SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
+	SendMessage(hwndToolTips,TTM_ADDTOOL, 0, (LPARAM)&ti);
 
 	LeaveCriticalSection(&csTips);
 	return hwndToolTips;
@@ -628,7 +628,7 @@ int ModernSkinButton_AddButton(HWND parent,
           ( sbFlags & SBF_ALIGN_BR_VCENTER ) ? ( _center_v( &rc ) + Bottom ) : 
           ( rc.top + Bottom );
 		bct = (ModernSkinButtonCtrl *)mir_alloc(sizeof(ModernSkinButtonCtrl));
-		memset(bct,0,sizeof(ModernSkinButtonCtrl));
+		memset(bct, 0, sizeof(ModernSkinButtonCtrl));
 		bct->Left = l;
 		bct->Right = r;
 		bct->Top = t;
