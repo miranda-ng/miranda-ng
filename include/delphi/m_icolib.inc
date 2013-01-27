@@ -42,8 +42,8 @@ const
 {
   Remove a icon from options UI
 
-  wParam = 0
-  lParam = pszName
+  wParam = (THandle)icon handle
+  lParam = (PChar)icon name, one of them must be specified
   WARNING: This will invalidate all HICONs retrieved for specified pszName
 }
   MS_SKIN2_REMOVEICON:PAnsiChar = 'Skin2/Icons/RemoveIcon';

@@ -575,20 +575,31 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IcoLib_RemoveIcon
 
-static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
+static int IcoLib_RemoveIcon_Internal(int i)
 {
+	IcolibItem *item = iconList[ i ];
+	IcoLib_FreeIcon(item);
+	iconList.remove(i);
+	SAFE_FREE((void**)&item);
+	return 0;
+}
+
+static INT_PTR IcoLib_RemoveIcon(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam) {
+		mir_cslock lck(csIconList);
+
+		int i = iconList.indexOf((IcolibItem*)wParam);
+		if (i != -1)
+			return IcoLib_RemoveIcon_Internal(i);
+	}
+
 	if (lParam) {
 		mir_cslock lck(csIconList);
 
-		int i;
-		if ((i = iconList.getIndex((IcolibItem*)&lParam)) != -1) {
-			IcolibItem *item = iconList[ i ];
-			IcoLib_FreeIcon(item);
-			iconList.remove(i);
-			SAFE_FREE((void**)&item);
-		}
-
-		return (i == -1) ? 1 : 0;
+		int i = iconList.getIndex((IcolibItem*)&lParam);
+		if (i != -1)
+			return IcoLib_RemoveIcon_Internal(i);
 	}
 	return 1; // Failed
 }

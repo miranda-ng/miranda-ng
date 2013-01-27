@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int hLangpack;
 
+///////////////////////////////////////////////////////////////////////////////
 // WARNING: do not use Translate(TS) for p(t)szSection or p(t)szDescription as they
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
@@ -69,7 +70,8 @@ typedef struct {
   #define SIDF_ALL_TCHAR  0
 #endif
 
-//  Add a icon into options UI
+///////////////////////////////////////////////////////////////////////////////
+//  Adds an icon into options UI
 //
 //  wParam = (WPARAM)0
 //  lParam = (LPARAM)(SKINICONDESC*)sid;
@@ -79,25 +81,30 @@ __forceinline HANDLE Skin_AddIcon(SKINICONDESC* si)
 {	return (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)si);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  Removes an icon from options UI
 //
-//  Remove a icon from options UI
-//
-//  wParam = (WPARAM)0
-//  lParam = (LPARAM)(char*)pszName
-//  WARNING: This will invalidate all HICONs retrieved for specified pszName
-//
+//  wParam = (WPARAM)(HANDLE)hIcolib (optional)
+//  lParam = (LPARAM)(char*)pszName (optional)
+//  at least one needs to be specified
+
 #define MS_SKIN2_REMOVEICON "Skin2/Icons/RemoveIcon"
 
 __forceinline void Skin_RemoveIcon(const char* szIconName)
 {	CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)szIconName);
 }
 
+__forceinline void Skin_RemoveIconHandle(HANDLE hIcolib)
+{	CallService(MS_SKIN2_REMOVEICON, (WPARAM)hIcolib, 0);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  Retrieves HICON with the name specified in lParam
 //
-//  Retrieve HICON with name specified in lParam
 //  wParam = (WPARAM)0 - small 1 - big
 //  lParam = (LPARAM)(char*)pszName
 //  Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
-//
+
 #define MS_SKIN2_GETICON "Skin2/Icons/GetIcon"
 
 #ifdef __cplusplus
@@ -108,23 +115,25 @@ __forceinline HICON Skin_GetIcon(const char* szIconName, int size)
 {	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  Retrieves an icolib handle by the icon's name specified in lParam
 //
-//  Retrieve an icolib handle for icon by name specified in lParam
 //  wParam = (WPARAM)0
 //  lParam = (LPARAM)(char*)pszName
-//
+
 #define MS_SKIN2_GETICONHANDLE "Skin2/Icons/GetIconHandle"
 
 __forceinline HANDLE Skin_GetIconHandle(const char* szIconName)
 {	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+//  Retrieves HICON with HANDLE specified in lParam
 //
-//  Retrieve HICON with HANDLE specified in lParam
 //  wParam = (WPARAM)0 - small 1 - big
 //  lParam = (LPARAM)(HANDLE)hIcoLibIcon
 //  Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
-//
+
 #define MS_SKIN2_GETICONBYHANDLE "Skin2/Icons/GetIconByHandle"
 
 #ifdef __cplusplus
@@ -135,20 +144,20 @@ __forceinline HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
 {	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, size, (LPARAM)hIcolibIcon);
 }
 
-//
-//  Add reference to HICON
+///////////////////////////////////////////////////////////////////////////////
+//  Adds a reference to HICON
 //
 //  wParam = (WPARAM)HICON
 //  lParam = 0 - small 1 - big
-//
+
 #define MS_SKIN2_ADDREFICON "Skin2/Icons/AddRef"
 
-//
-//  Retrieved HICON is not needed anymore (release reference; this helps optimize GDI usage)
+///////////////////////////////////////////////////////////////////////////////
+//  Retrieved HICON is not needed anymore (releases a reference; thus helps to optimize GDI usage)
 //
 //  wParam = (WPARAM)HICON (optional)
 //  lParam = (LPARAM)(char*)pszName (optional)  // at least one needs to be specified
-//
+
 #define MS_SKIN2_RELEASEICON "Skin2/Icons/ReleaseIcon"
 #define MS_SKIN2_RELEASEICONBIG "Skin2/Icons/ReleaseIconBig"
 
@@ -168,17 +177,17 @@ __forceinline void Skin_ReleaseIcon2(HICON hIcon)
 {	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
 }
 
-//
-//  Check whether HICON is managed by IcoLib
+///////////////////////////////////////////////////////////////////////////////
+//  Checks whether HICON is managed by IcoLib
 //
 //  wParam = (WPARAM)HICON
 //  lParam = 0
-//
+
 #define MS_SKIN2_ISMANAGEDICON "Skin2/Icons/IsManaged"
 
-//
-//  Icons change notification
-//
+///////////////////////////////////////////////////////////////////////////////
+//  Icons' change notification
+
 #define ME_SKIN2_ICONSCHANGED "Skin2/IconsChanged"
 
 #endif /* M_ICOLIB_H__ */

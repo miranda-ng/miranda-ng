@@ -220,6 +220,8 @@ CJabberProto::~CJabberProto()
 
 	delete m_pInfoFrame;
 
+	Skin_RemoveIconHandle(m_hProtoIcon);
+
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
