@@ -73,12 +73,6 @@ void KillModuleExtraIcons(int hLangpack)
 	}
 }
 
-int PreShutdown(WPARAM wParam, LPARAM lParam)
-{
-	DefaultExtraIcons_Unload();
-	return 0;
-}
-
 int GetNumberOfSlots()
 {
 	return clistSlotCount;
@@ -536,7 +530,6 @@ void LoadExtraIconsModule()
 
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, &ModulesLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, &PreShutdown);
 
 	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &ClistExtraListRebuild);
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &ClistExtraImageApply);

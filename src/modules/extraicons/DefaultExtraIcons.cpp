@@ -24,32 +24,7 @@
 #include "ExtraIcon.h"
 #include "extraicons.h"
 
-/*
- 0, // EXTRA_ICON_VISMODE
- 1, // EXTRA_ICON_EMAIL
- 2, // EXTRA_ICON_PROTO
- 3, // EXTRA_ICON_SMS
- 4, // EXTRA_ICON_ADV1
- 5, // EXTRA_ICON_ADV2
- 6, // EXTRA_ICON_WEB
- 7, // EXTRA_ICON_CLIENT
- 8, // EXTRA_ICON_ADV3
- 9, // EXTRA_ICON_ADV4
- */
-
-static void ProtocolInit();
-static void DBExtraIconsInit();
 ExtraIcon* GetExtraIcon(HANDLE id);
-
-void DefaultExtraIcons_Load()
-{
-	DBExtraIconsInit();
-	ProtocolInit();
-}
-
-void DefaultExtraIcons_Unload()
-{
-}
 
 // DB extra icons ///////////////////////////////////////////////////////////////////////
 
@@ -71,28 +46,27 @@ static void SetVisibility(HANDLE hContact, int apparentMode, bool clear)
 	if (apparentMode <= 0)
 		apparentMode = db_get_w(hContact, proto, "ApparentMode", 0);
 
-	const char *ico = NULL;
-	HANDLE hExtraIcon;
+	HANDLE hExtraIcon, hIcolib = NULL;
 
 	if ( db_get_b(hContact, proto, "ChatRoom", 0)) {
 		// Is chat
 		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
-			ico = "ChatActivity";
+			hIcolib = Skin_GetIconHandle("ChatActivity");
 	}
 	else {
 		// Not chat
 		hExtraIcon = hExtraVisibility;
 		if (apparentMode == ID_STATUS_OFFLINE)
-			ico = "core_main_47";
+			hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_INVISIBLE_ALL);
 		else if (apparentMode == ID_STATUS_ONLINE)
-			ico = "core_main_46";
+			hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_VISIBLE_ALL);
 	}
 
-	if (ico != NULL || clear) {
+	if (hIcolib != NULL || clear) {
 		ExtraIcon *extra = GetExtraIcon(hExtraIcon);
 		if (extra)
-			extra->setIconByName((int)hExtraIcon, hContact, ico);
+			extra->setIcon((int)hExtraIcon, hContact, hIcolib);
 	}
 }
 
@@ -133,21 +107,24 @@ struct Info
 {
 	const char *name;
 	const char *desc;
-	const char *icon;
+	int         iSkinIcon;
 	const char *db[8];
 	void (*SetIcon)(HANDLE hContact, Info *info, const char *text);
 	void (*OnClick)(Info *info, const char *text);
-	HANDLE hExtraIcon;
-} infos[] = {
-	{ "homepage", "Homepage", "core_main_2", { NULL, "Homepage",
-											"UserInfo", "Homepage" }, DefaultSetIcon, &HomepageOnClick, NULL },
-	{ "sms", "Phone/SMS", "core_main_17", { NULL, "Cellular",
-											"UserInfo", "Cellular",
-											"UserInfo", "Phone",
-											"UserInfo", "MyPhone0" }, DefaultSetIcon, NULL, NULL },
-	{ "email", "E-mail", "core_main_14", { NULL, "e-mail",
-											"UserInfo", "e-mail",
-											"UserInfo", "Mye-mail0" }, DefaultSetIcon, &EmailOnClick, NULL },
+	
+	HANDLE hIcolib, hExtraIcon;
+}
+static infos[] =
+{
+	{ "homepage", "Homepage", SKINICON_EVENT_URL, 
+		{ NULL, "Homepage", "UserInfo", "Homepage" },
+		DefaultSetIcon, &HomepageOnClick },
+	{ "sms", "Phone/SMS", SKINICON_OTHER_SMS,
+		{ NULL, "Cellular", "UserInfo", "Cellular", "UserInfo", "Phone", "UserInfo", "MyPhone0" },
+		DefaultSetIcon, NULL },
+	{ "email", "E-mail", SKINICON_OTHER_SENDEMAIL,
+		{ NULL, "e-mail", "UserInfo", "e-mail", "UserInfo", "Mye-mail0" },
+		DefaultSetIcon, &EmailOnClick },
 };
 
 static void EmailOnClick(Info *info, const char *text)
@@ -164,7 +141,7 @@ static void HomepageOnClick(Info *info, const char *text)
 
 static void DefaultSetIcon(HANDLE hContact, Info *info, const char *text)
 {
-	ExtraIcon_SetIcon(info->hExtraIcon, hContact, text ? info->icon : NULL);
+	ExtraIcon_SetIcon(info->hExtraIcon, hContact, text ? info->hIcolib : NULL);
 }
 
 static void SetExtraIcons(HANDLE hContact)
@@ -177,17 +154,17 @@ static void SetExtraIcons(HANDLE hContact)
 		return;
 
 	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
-		Info &info = infos[i];
+		Info &p = infos[i];
 
 		bool show = false;
-		for (unsigned int j = 0; !show && j < SIZEOF(info.db); j += 2) {
-			if (info.db[j + 1] == NULL)
+		for (unsigned int j = 0; !show && j < SIZEOF(p.db); j += 2) {
+			if (p.db[j + 1] == NULL)
 				break;
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(hContact, info.db[j] == NULL ? proto : info.db[j], info.db[j+1], &dbv)) {
+			if (!DBGetContactSettingString(hContact, p.db[j] == NULL ? proto : p.db[j], p.db[j+1], &dbv)) {
 				if (!IsEmpty(dbv.pszVal)) {
-					info.SetIcon(hContact, &info, dbv.pszVal);
+					p.SetIcon(hContact, &p, dbv.pszVal);
 					show = true;
 				}
 				db_free(&dbv);
@@ -219,21 +196,21 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
-		Info &info = infos[i];
+	for (int i = 0; i < SIZEOF(infos); i++) {
+		Info &p = infos[i];
 
-		for (unsigned int j = 0; j < SIZEOF(info.db); j += 2) {
-			if (info.db[j + 1] == NULL)
+		for (int j = 0; j < SIZEOF(p.db); j += 2) {
+			if (p.db[j + 1] == NULL)
 				break;
-			if (info.db[j] == NULL && !isProto)
+			if (p.db[j] == NULL && !isProto)
 				continue;
-			if (info.db[j] != NULL && strcmp(cws->szModule, info.db[j]))
+			if (p.db[j] != NULL && strcmp(cws->szModule, p.db[j]))
 				continue;
-			if (strcmp(cws->szSetting, info.db[j + 1]))
+			if (strcmp(cws->szSetting, p.db[j + 1]))
 				continue;
 
 			bool show = (cws->value.type != DBVT_DELETED && !IsEmpty(cws->value.pszVal));
-			info.SetIcon(hContact, &info, show ? cws->value.pszVal : NULL);
+			p.SetIcon(hContact, &p, show ? cws->value.pszVal : NULL);
 
 			break;
 		}
@@ -244,8 +221,8 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	Info *info = (Info*)param;
-	if (info == NULL)
+	Info *p = (Info*)param;
+	if (p == NULL)
 		return 0;
 
 	HANDLE hContact = (HANDLE)wParam;
@@ -257,14 +234,14 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 		return 0;
 
 	bool found = false;
-	for (unsigned int j = 0; !found && j < SIZEOF(info->db); j += 2) {
-		if (info->db[j + 1] == NULL)
+	for (int j = 0; !found && j < SIZEOF(p->db); j += 2) {
+		if (p->db[j + 1] == NULL)
 			break;
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, info->db[j] == NULL ? proto : info->db[j], info->db[j+1], &dbv)) {
+		if ( !DBGetContactSettingString(hContact, p->db[j] == NULL ? proto : p->db[j], p->db[j+1], &dbv)) {
 			if (!IsEmpty(dbv.pszVal)) {
-				info->OnClick(info, dbv.pszVal);
+				p->OnClick(p, dbv.pszVal);
 				found = true;
 			}
 
@@ -273,32 +250,6 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	}
 
 	return 0;
-}
-
-static void DBExtraIconsInit()
-{
-	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
-	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", "core_main_46");
-	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
-
-	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
-		Info &info = infos[i];
-		if (info.OnClick)
-			info.hExtraIcon = ExtraIcon_Register(info.name, info.desc, info.icon, DefaultOnClick, (LPARAM) &info);
-		else
-			info.hExtraIcon = ExtraIcon_Register(info.name, info.desc, info.icon);
-	}
-
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) {
-		SetExtraIcons(hContact);
-		SetVisibility(hContact, -1, false);
-		SetGender(hContact, -1, false);
-
-		hContact = db_find_next(hContact);
-	}
-
-	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 }
 
 // Protocol /////////////////////////////////////////////////////////////////////////////
@@ -311,7 +262,7 @@ struct ProtoInfo
 
 vector<ProtoInfo> protos;
 
-HANDLE hExtraProto = NULL;
+static HANDLE hExtraProto;
 
 static int ProtocolRebuildIcons(WPARAM wParam, LPARAM lParam)
 {
@@ -372,8 +323,31 @@ static int ProtocolOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	return 0;
 }
 
-static void ProtocolInit()
+void DefaultExtraIcons_Load()
 {
-	hExtraProto = ExtraIcon_Register("protocol", "Account", "core_main_34", &ProtocolRebuildIcons, &ProtocolApplyIcon,
-			&ProtocolOnClick);
+	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
+	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", LoadSkinnedIconName(SKINICON_OTHER_VISIBLE_ALL));
+	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
+	hExtraProto = ExtraIcon_Register("protocol", "Account", LoadSkinnedIconName(SKINICON_OTHER_ACCMGR),
+		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick);
+
+	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
+		Info &p = infos[i];
+		p.hIcolib = LoadSkinnedIconHandle(p.iSkinIcon);
+		if (p.OnClick)
+			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon), DefaultOnClick, (LPARAM) &p);
+		else
+			p.hExtraIcon = ExtraIcon_Register(p.name, p.desc, LoadSkinnedIconName(p.iSkinIcon));
+	}
+
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		SetExtraIcons(hContact);
+		SetVisibility(hContact, -1, false);
+		SetGender(hContact, -1, false);
+
+		hContact = db_find_next(hContact);
+	}
+
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 }

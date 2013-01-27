@@ -1171,7 +1171,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 void CJabberProto::GroupchatProcessMessage(HXML node)
 {
-	HXML n, xNode, m;
+	HXML n, m;
 	const TCHAR *from, *type, *p, *nick, *resource;
 	JABBER_LIST_ITEM *item;
 

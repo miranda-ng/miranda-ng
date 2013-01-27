@@ -8,13 +8,13 @@ enum IconIndex
 
 static IconItem iconList[] =
 {
-	{ LPGEN("History"),        "core_main_10", IDI_AVATARHIST    },
+	{ LPGEN("History"),        "",             IDI_AVATARHIST    },
 	{ LPGEN("Avatar Overlay"),	"avh_overlay",  IDI_AVATAROVERLAY }
 };
 
 static HICON LoadIconEx(IconIndex i)
 {
-	return Skin_GetIcon(iconList[(int)i].szName);
+	return Skin_GetIconByHandle(iconList[(int)i].hIcolib);
 }
 
 static void ReleaseIconEx(HICON hIcon)

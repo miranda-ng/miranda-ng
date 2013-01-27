@@ -1106,17 +1106,17 @@ static int TSAPI LoadFromIconLib()
 		}
 		n++;
 	}
-	PluginConfig.g_buttonBarIcons[0] = Skin_GetIcon("core_main_8");
-	PluginConfig.g_buttonBarIcons[1] = Skin_GetIcon("core_main_10");
-	PluginConfig.g_buttonBarIconHandles[0] = Skin_GetIconHandle("core_main_10");
-	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle("core_main_8");
-	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle("core_main_9");
+	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
+	PluginConfig.g_buttonBarIcons[1] = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+	PluginConfig.g_buttonBarIconHandles[0] = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	PluginConfig.g_buttonBarIconHandles[1] = LoadSkinnedIconHandle(SKINICON_OTHER_ADDCONTACT);
+	PluginConfig.g_buttonBarIconHandles[20] = LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS);
 
 	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = 
-		PluginConfig.g_buttonBarIcons[12] = Skin_GetIcon("core_main_23");
-	PluginConfig.g_IconChecked = Skin_GetIcon("core_main_19");
-	PluginConfig.g_IconUnchecked = Skin_GetIcon("core_main_20");
-	PluginConfig.g_IconFolder = Skin_GetIcon("core_main_5");
+		PluginConfig.g_buttonBarIcons[12] = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+	PluginConfig.g_IconChecked = LoadSkinnedIcon(SKINICON_OTHER_TICK);
+	PluginConfig.g_IconUnchecked = LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
+	PluginConfig.g_IconFolder = LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN);
 
 	PluginConfig.g_iconOverlayEnabled = Skin_GetIcon("tabSRMM_overlay_enabled");
 	PluginConfig.g_iconOverlayDisabled = Skin_GetIcon("tabSRMM_overlay_disabled");

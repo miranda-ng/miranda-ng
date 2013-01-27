@@ -1219,14 +1219,13 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 	TreeView_DeleteAllItems(hToolBarTree);
 
 	himgl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-	ImageList_AddIcon(himgl, Skin_GetIcon("core_main_24"));
-	HIMAGELIST himl = TreeView_GetImageList(hToolBarTree, TVSIL_NORMAL);
-	ImageList_Destroy(himl);
+	ImageList_AddIcon(himgl, LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT));
+	ImageList_Destroy( TreeView_GetImageList(hToolBarTree, TVSIL_NORMAL));
 	TreeView_SetImageList(hToolBarTree, himgl, TVSIL_NORMAL);
-
 
 	if ((RButtonsList->realCount + LButtonsList->realCount) == 0)
 		return FALSE;
+
 	EnterCriticalSection(&ToolBarCS);
 	qsort(LButtonsList->items, LButtonsList->realCount, sizeof(CustomButtonData *), sstSortButtons);
 

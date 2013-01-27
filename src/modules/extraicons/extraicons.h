@@ -43,7 +43,6 @@ int ConvertToClistSlot(int slot);
 int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage);
 
 void DefaultExtraIcons_Load();
-void DefaultExtraIcons_Unload();
 
 HANDLE ExtraIcon_Add(HICON hIcon);
 

@@ -113,54 +113,47 @@ void CDbxMmapSA::InitDialogs()
 	CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
 }
 
-int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, char* name)
-{
-	HICON hIcon = Skin_GetIcon(name);
-	int res = ImageList_AddIcon(hIml, hIcon);
-	return res;
-}
-
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_MODULES);
 	CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	LVCOLUMN col;
 	LVITEM item;
 	int i, iRow, iIndex;
 	NMLISTVIEW * hdr = (NMLISTVIEW *) lParam;
 	WORD uid;
-	HIMAGELIST hIml;
 
 	switch ( msg ) {
 	case WM_INITDIALOG:
-		hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
 		TranslateDialogDefault( hwndDlg );
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		p_Db = (CDbxMmapSA*)lParam;
+		{
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
+			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_LOADED));
+			ImageList_AddIcon(hIml, LoadSkinnedIcon(SKINICON_OTHER_NOTLOADED));
+			ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );
 
-		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_29" );
-		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_30" );
-		ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );
+			LVCOLUMN col;
+			col.pszText = NULL;
+			col.mask = LVCF_TEXT | LVCF_WIDTH;
+			col.fmt = LVCFMT_LEFT;
+			col.cx = 50;
+			ListView_InsertColumn(hwndList, 1, &col);
 
-		col.pszText = NULL;
-		col.mask = LVCF_TEXT | LVCF_WIDTH;
-		col.fmt = LVCFMT_LEFT;
-		col.cx = 50;
-		ListView_InsertColumn(hwndList, 1, &col);
+			col.pszText = TranslateT("Dll");
+			col.mask = LVCF_TEXT | LVCF_WIDTH;
+			col.fmt = LVCFMT_LEFT;
+			col.cx = 1000;
+			ListView_InsertColumn(hwndList, 2, &col);
 
-		col.pszText = TranslateT("Dll");
-		col.mask = LVCF_TEXT | LVCF_WIDTH;
-		col.fmt = LVCFMT_LEFT;
-		col.cx = 1000;
-		ListView_InsertColumn(hwndList, 2, &col);
+			col.pszText = TranslateT("Name");
+			col.cx = 1000;
+			ListView_InsertColumn(hwndList, 3, &col);
 
-		col.pszText = TranslateT("Name");
-		col.cx = 1000;
-		ListView_InsertColumn(hwndList, 3, &col);
-
-		col.pszText = TranslateT("Version");
-		col.cx = 1000;
-		ListView_InsertColumn(hwndList, 4, &col);
+			col.pszText = TranslateT("Version");
+			col.cx = 1000;
+			ListView_InsertColumn(hwndList, 4, &col);
+		}
 
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES);
 

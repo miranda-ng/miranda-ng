@@ -41,7 +41,7 @@ static IconItem icons[] =
 void InitIcons(void)
 {
 	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons)-1, "Facebook");
-	icons[ SIZEOF(icons)-1 ].hIcolib = Skin_GetIconHandle("core_main_2");
+	icons[ SIZEOF(icons)-1 ].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 }
 
 HANDLE GetIconHandle(const char* name)

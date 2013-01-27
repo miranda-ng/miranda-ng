@@ -33,9 +33,10 @@ extern int hLangpack;
 //returns NULL if id is invalid, but will always succeed for a valid id
 #define MS_SKIN_LOADICON     "Skin/Icons/Load"
 //nice function to wrap this:
-__forceinline HICON LoadSkinnedIcon(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 0);}
-__forceinline HANDLE LoadSkinnedIconHandle(int id) {return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1);}
-__forceinline HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 2);}
+__forceinline HICON  LoadSkinnedIcon(int id)       { return (HICON) CallService(MS_SKIN_LOADICON, id, 0); }
+__forceinline HANDLE LoadSkinnedIconHandle(int id) { return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1); }
+__forceinline HICON  LoadSkinnedIconBig(int id)    { return (HICON) CallService(MS_SKIN_LOADICON, id, 2); }
+__forceinline LPCSTR LoadSkinnedIconName(int id)   { return (LPCSTR)CallService(MS_SKIN_LOADICON, id, 3); }
 
 //event icons
 #define SKINICON_EVENT_MESSAGE       100

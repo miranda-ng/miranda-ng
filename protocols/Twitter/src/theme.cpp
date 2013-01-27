@@ -35,7 +35,7 @@ static HANDLE hIconLibItem[SIZEOF(icons)];
 void InitIcons(void)
 {
 	Icon_Register(g_hInstance, "Protocols/Twitter", icons, SIZEOF(icons), "Twitter");
-	icons[ SIZEOF(icons)-1 ].hIcolib = Skin_GetIconHandle("core_main_2");
+	icons[ SIZEOF(icons)-1 ].hIcolib = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 }
 
 HANDLE GetIconHandle(const char* name)
