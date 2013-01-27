@@ -182,7 +182,7 @@ static IconItem iconList[] =
 void CJabberProto::IconsInit(void)
 {
 	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * SIZEOF(TransportProtoTable));
-	for (int i = 0; i < SIZEOF(TransportProtoTable); ++i)
+	for (int i = 0; i < SIZEOF(TransportProtoTable); i++)
 		m_transportProtoTableStartIndex[i] = -1;
 
 	IconItemT protoIcon = { m_tszUserName, "main", IDI_JABBER };

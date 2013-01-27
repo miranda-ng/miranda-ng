@@ -396,7 +396,7 @@ static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 	// resources
 	if (item->resourceCount) {
-		for (int i = 0; i < item->resourceCount; ++i)
+		for (int i = 0; i < item->resourceCount; i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
 	} 
 	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE))
@@ -410,7 +410,7 @@ static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM 
 
 static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, UserInfoStringBuf *buf, int indent = 0)
 {
-	for (int i = 0; i < indent; ++i)
+	for (int i = 0; i < indent; i++)
 		buf->append(_T("\t"));
 
 	TVITEMEX tvi = {0};

@@ -693,7 +693,7 @@ protected:
 		TCLCInfo(): newJids(1, TJidData::cmp), bChanged(false), pList(0) {}
 		~TCLCInfo()
 		{
-			for (int i = 0; i < newJids.getCount(); ++i)
+			for (int i = 0; i < newJids.getCount(); i++)
 			{
 				mir_free(newJids[i]->jid);
 				mir_free(newJids[i]);
@@ -992,7 +992,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		};
 
 		int i, totalWidth = -5; // spacing for last item
-		for (i = 0; i < SIZEOF(items); ++i)
+		for (i = 0; i < SIZEOF(items); i++)
 		{
 			SIZE sz = {0};
 			items[i].text = TranslateTS(items[i].textEng);
@@ -1004,7 +1004,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		RECT rc = lpdis->rcItem;
 		rc.left = (rc.left + rc.right - totalWidth)/2;
 
-		for (i = 0; i < SIZEOF(items); ++i)
+		for (i = 0; i < SIZEOF(items); i++)
 		{
 			DrawIconEx(lpdis->hDC, rc.left, (rc.top+rc.bottom-16)/2, m_proto->LoadIconEx(items[i].icon),
 				16, 16, 0, NULL, DI_NORMAL);
@@ -1399,7 +1399,7 @@ HANDLE CJabberDlgPrivacyLists::CListFindGroupByName(TCHAR *name)
 
 	HANDLE hGroup = 0;
 
-	for (int i= 0; !hGroup; ++i)
+	for (int i= 0; !hGroup; i++)
 	{
 		_itoa(i, idstr, 10);
 
@@ -1417,7 +1417,7 @@ HANDLE CJabberDlgPrivacyLists::CListFindGroupByName(TCHAR *name)
 
 void CJabberDlgPrivacyLists::CListResetIcons(HWND, HANDLE hItem, bool hide)
 {
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 4; i++)
 		m_clcClist.SetExtraImage(hItem, i, hide ? EMPTY_EXTRA_ICON : 0);
 }
 
@@ -2230,7 +2230,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 	if (iList)
 	{
 		pList = m_privacyListManager.GetFirstList();
-		for (int i = 1; pList && (i < iList); ++i)
+		for (int i = 1; pList && (i < iList); i++)
 			pList = pList->GetNext();
 	}
 
@@ -2304,7 +2304,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
 
 	for (CPrivacyList *pList = m_privacyListManager.GetFirstList(); pList; pList = pList->GetNext()) {
-		++i;
+		i++;
 		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
 
 		if (i > m_privacyMenuServiceAllocated) {

@@ -117,14 +117,14 @@ void JabberFormSetInstruction(HWND hwndForm, const TCHAR *text)
 
 	int len = lstrlen(text);
 	int fixedLen = len;
-	for (int i = 1; i < len; ++i)
+	for (int i = 1; i < len; i++)
 		if ((text[i - 1] == _T('\n')) && (text[i] != _T('\r')))
 			++fixedLen;
 	TCHAR *fixedText = NULL;
 	if (fixedLen != len) {
 		fixedText = (TCHAR *)mir_alloc(sizeof(TCHAR) * (fixedLen+1));
 		TCHAR *p = fixedText;
-		for (int i = 0; i < len; ++i) {
+		for (int i = 0; i < len; i++) {
 			*p = text[i];
 			if (i && (text[i] == _T('\n')) && (text[i] != _T('\r'))) {
 				*p++ = _T('\r');
@@ -421,7 +421,7 @@ void JabberFormLayoutControls(HWND hwndStatic, TJabberFormLayoutInfo *layout_inf
 	TJabberFormControlList *controls = (TJabberFormControlList *)GetWindowLongPtr(hwndStatic, GWLP_USERDATA);
 	if ( !controls) return;
 
-	for (int i = 0; i < controls->getCount(); ++i)
+	for (int i = 0; i < controls->getCount(); i++)
 	{
 		if ((*controls)[i]->hLabel)
 			SetWindowPos((*controls)[i]->hLabel, 0,

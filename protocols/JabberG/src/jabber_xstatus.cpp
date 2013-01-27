@@ -235,7 +235,7 @@ void CJabberDlgPepSimple::OnInitDialog()
 	SetWindowText(m_hwnd, m_title);
 
 	m_txtDescription.Enable(false);
-	for (int i = 0; i < m_modes.getCount(); ++i) {
+	for (int i = 0; i < m_modes.getCount(); i++) {
 		int idx = m_cbModes.AddString(m_modes[i].m_title, i);
 		if ((m_modes[i].m_id == m_active) || !idx) {
 			m_prevSelected = idx;
@@ -691,7 +691,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 	if (szMood) {
 		char* p = mir_t2a(szMood);
 
-		for (int i = 1; i < SIZEOF(g_arrMoods); ++i)
+		for (int i = 1; i < SIZEOF(g_arrMoods); i++)
 			if ( !lstrcmpA(g_arrMoods[i].szTag, p)) {
 				mood = i;
 				break;
@@ -750,7 +750,7 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 {
 	if ( !bQuiet) {
 		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
-		for (int i = 1; i < SIZEOF(g_arrMoods); ++i)
+		for (int i = 1; i < SIZEOF(g_arrMoods); i++)
 			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
 
 		dlg.SetActiveStatus(m_mode, m_text);
@@ -1122,7 +1122,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 void CPepActivity::ShowSetDialog(BYTE bQuiet)
 {
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
-	for (int i = 0; i < SIZEOF(g_arrActivities); ++i)
+	for (int i = 0; i < SIZEOF(g_arrActivities); i++)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
 			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
 

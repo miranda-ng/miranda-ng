@@ -184,7 +184,7 @@ void ThreadData::xmpp_client_query(void)
 				dnsList.insert(&rec->Data.Srv);
 		}
 
-		for (int i = 0; i < dnsList.getCount(); ++i) {
+		for (int i = 0; i < dnsList.getCount(); i++) {
 			WORD dnsPort = port == 0 || port == 5222 ? dnsList[i]->wPort : port;
 			char* dnsHost = dnsList[i]->pNameTarget;
 
@@ -1403,7 +1403,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
 			TCHAR chkJID[JABBER_MAX_JID_LEN] = _T("@");
 			JabberStripJid(from, chkJID + 1, SIZEOF(chkJID) - 1);
-			for (int i = 1; ; ++i) {
+			for (int i = 1; ; i++) {
 				HXML iNode = xmlGetNthChild(xNode , _T("item"), i);
 				if (iNode == NULL) break;
 				const TCHAR *action = xmlGetAttrValue(iNode, _T("action"));

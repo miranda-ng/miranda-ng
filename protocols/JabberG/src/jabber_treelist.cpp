@@ -510,7 +510,7 @@ static void sttTreeList_ResetIndex(HTREELISTITEM hItem, LPARAM data)
 static void sttTreeList_FilterItems(HTREELISTITEM hItem, LPARAM data)
 {
 	int i = 0;
-	for (i = 0; i < hItem->text.getCount(); ++i)
+	for (i = 0; i < hItem->text.getCount(); i++)
 		if (JabberStrIStr(hItem->text[i], (TCHAR *)data))
 			break;
 

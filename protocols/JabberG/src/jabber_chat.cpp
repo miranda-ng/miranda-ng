@@ -127,8 +127,8 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 	GCEVENT gce = {0};
 
 	// translate string for menus (this can't be done in initializer)
-	for (i = 0; i < SIZEOF(sttAffiliationItems); ++i) sttAffiliationItems[i].translate();
-	for (i = 0; i < SIZEOF(sttRoleItems); ++i) sttRoleItems[i].translate();
+	for (i = 0; i < SIZEOF(sttAffiliationItems); i++) sttAffiliationItems[i].translate();
+	for (i = 0; i < SIZEOF(sttRoleItems); i++) sttRoleItems[i].translate();
 
 	TCHAR* szNick = JabberNickFromJID(item->jid);
 	gcw.cbSize = sizeof(GCSESSION);
@@ -411,7 +411,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 
 static struct gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
 {
-	for (int i = 0; i < items->nItems; ++i)
+	for (int i = 0; i < items->nItems; i++)
 		if (items->Item[i].dwID == id)
 			return items->Item + i;
 	return NULL;
@@ -419,14 +419,14 @@ static struct gc_item *sttFindGcMenuItem(GCMENUITEMS *items, DWORD id)
 
 static void sttSetupGcMenuItem(GCMENUITEMS *items, DWORD id, bool disabled)
 {
-	for (int i = 0; i < items->nItems; ++i)
+	for (int i = 0; i < items->nItems; i++)
 		if ( !id || (items->Item[i].dwID == id))
 			items->Item[i].bDisabled = disabled;
 }
 
 static void sttShowGcMenuItem(GCMENUITEMS *items, DWORD id, int type)
 {
-	for (int i = 0; i < items->nItems; ++i)
+	for (int i = 0; i < items->nItems; i++)
 		if ( !id || (items->Item[i].dwID == id))
 			items->Item[i].uType = type;
 }
@@ -622,13 +622,13 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			for (; idx <= IDM_LINK9; ++idx)
 				sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
-			for (i = 0; i < SIZEOF(sttAffiliationItems); ++i) {
+			for (i = 0; i < SIZEOF(sttAffiliationItems); i++) {
 				struct gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
 				item->uType = (him->affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
-			for (i = 0; i < SIZEOF(sttRoleItems); ++i) {
+			for (i = 0; i < SIZEOF(sttRoleItems); i++) {
 				struct gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
 				item->uType = (him->role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttRoleItems[i].check(me, him));
@@ -755,7 +755,7 @@ public:
 
 	~CGroupchatInviteDlg()
 	{
-		for (int i = 0; i < m_newJids.getCount(); ++i)
+		for (int i = 0; i < m_newJids.getCount(); i++)
 			mir_free(m_newJids[i]);
 		mir_free(m_room);
 	}
@@ -792,7 +792,7 @@ public:
 		}
 
 		int i;
-		for (i = 0; i < m_newJids.getCount(); ++i)
+		for (i = 0; i < m_newJids.getCount(); i++)
 			if ( !lstrcmp(m_newJids[i]->jid, buf))
 				break;
 		if (i != m_newJids.getCount())
@@ -840,7 +840,7 @@ public:
 		}
 
 		// invite others
-		for (int i = 0; i < m_newJids.getCount(); ++i)
+		for (int i = 0; i < m_newJids.getCount(); i++)
 			if (SendMessage(hwndList, CLM_GETCHECKMARK, (WPARAM)m_newJids[i]->hItem, 0))
 				InviteUser(m_newJids[i]->jid, text);
 
@@ -879,77 +879,78 @@ struct TUserInfoData
 static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	int value;
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		int i, idx;
-		TCHAR buf[256];
-
 		TranslateDialogDefault(hwndDlg);
-
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		dat = (TUserInfoData *)lParam;
-
-		WindowSetIcon(hwndDlg, dat->ppro, "group");
-
-		LOGFONT lf;
-		GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-		lf.lfWeight = FW_BOLD;
-		HFONT hfnt = CreateFontIndirect(&lf);
-		SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_SETFONT, (WPARAM)hfnt, TRUE);
-
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_FILE));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
-
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_FILE));
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
-
-		SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)LoadSkinnedProtoIcon(dat->ppro->m_szModuleName, dat->him->status), 0);
-
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), TranslateT("Member Info:"), dat->him->resourceName);
-		SetWindowText(hwndDlg, buf);
-
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s %s %s"), TranslateT("Member Information"), dat->him->resourceName, TranslateT("from"), dat->item->jid);
-		SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
-
-		SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->resourceName);
-		SetDlgItemText(hwndDlg, IDC_TXT_JID, dat->him->szRealJid ? dat->him->szRealJid : TranslateT("Real JID not available"));
-		SetDlgItemText(hwndDlg, IDC_TXT_STATUS, dat->him->statusMessage);
-
-		for (i = 0; i < SIZEOF(sttRoleItems); ++i)
 		{
-			if ((sttRoleItems[i].value == dat->him->role) || sttRoleItems[i].check(dat->me, dat->him))
-			{
-				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)sttRoleItems[i].title),
-					sttRoleItems[i].value);
-				if (sttRoleItems[i].value == dat->him->role)
-					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
-			}
-		}
-		for (i = 0; i < SIZEOF(sttAffiliationItems); ++i)
-		{
-			if ((sttAffiliationItems[i].value == dat->him->affiliation) || sttAffiliationItems[i].check(dat->me, dat->him))
-			{
-				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETITEMDATA,
-					idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)sttAffiliationItems[i].title),
-					sttAffiliationItems[i].value);
-				if (sttAffiliationItems[i].value == dat->him->affiliation)
-					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETCURSEL, idx, 0);
-			}
-		}
+			int i, idx;
+			TCHAR buf[256];
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_ROLE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_AFFILIATION), FALSE);
 
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			dat = (TUserInfoData *)lParam;
+
+			WindowSetIcon(hwndDlg, dat->ppro, "group");
+
+			LOGFONT lf;
+			GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+			lf.lfWeight = FW_BOLD;
+			HFONT hfnt = CreateFontIndirect(&lf);
+			SendDlgItemMessage(hwndDlg, IDC_TXT_NICK, WM_SETFONT, (WPARAM)hfnt, TRUE);
+
+			SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_FILE));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
+
+			SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinnedIcon(SKINICON_EVENT_FILE));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BUTTONADDTOOLTIP, (WPARAM)"Apply", 0);
+
+			SendDlgItemMessage(hwndDlg, IDC_ICO_STATUS, STM_SETICON, (WPARAM)LoadSkinnedProtoIcon(dat->ppro->m_szModuleName, dat->him->status), 0);
+
+			mir_sntprintf(buf, SIZEOF(buf), _T("%s %s"), TranslateT("Member Info:"), dat->him->resourceName);
+			SetWindowText(hwndDlg, buf);
+
+			mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s %s %s"), TranslateT("Member Information"), dat->him->resourceName, TranslateT("from"), dat->item->jid);
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, buf);
+
+			SetDlgItemText(hwndDlg, IDC_TXT_NICK, dat->him->resourceName);
+			SetDlgItemText(hwndDlg, IDC_TXT_JID, dat->him->szRealJid ? dat->him->szRealJid : TranslateT("Real JID not available"));
+			SetDlgItemText(hwndDlg, IDC_TXT_STATUS, dat->him->statusMessage);
+
+			for (i = 0; i < SIZEOF(sttRoleItems); i++)
+			{
+				if ((sttRoleItems[i].value == dat->him->role) || sttRoleItems[i].check(dat->me, dat->him))
+				{
+					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETITEMDATA,
+						idx = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_ADDSTRING, 0, (LPARAM)sttRoleItems[i].title),
+						sttRoleItems[i].value);
+					if (sttRoleItems[i].value == dat->him->role)
+						SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_SETCURSEL, idx, 0);
+				}
+			}
+			for (i = 0; i < SIZEOF(sttAffiliationItems); i++)
+			{
+				if ((sttAffiliationItems[i].value == dat->him->affiliation) || sttAffiliationItems[i].check(dat->me, dat->him))
+				{
+					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETITEMDATA,
+						idx = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_ADDSTRING, 0, (LPARAM)sttAffiliationItems[i].title),
+						sttAffiliationItems[i].value);
+					if (sttAffiliationItems[i].value == dat->him->affiliation)
+						SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_SETCURSEL, idx, 0);
+				}
+			}
+
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_ROLE), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_AFFILIATION), FALSE);
+		}
 		break;
-	}
 
 	case WM_COMMAND:
-		if ( !dat)break;
+		if ( !dat)
+			break;
 
 		switch (LOWORD(wParam)) {
 		case IDCANCEL:
@@ -957,80 +958,74 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case IDC_TXT_AFFILIATION:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				int value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETCURSEL, 0, 0), 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_AFFILIATION), dat->him->affiliation != value);
 			}
 			break;
 
 		case IDC_BTN_AFFILIATION:
-			{
-				int value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETCURSEL, 0, 0), 0);
-				if (dat->him->affiliation == value) break;
+			value = SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETITEMDATA,
+				SendDlgItemMessage(hwndDlg, IDC_TXT_AFFILIATION, CB_GETCURSEL, 0, 0), 0);
+			if (dat->him->affiliation == value)
+				break;
 
-				switch (value)
-				{
-					TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-					JabberStripJid(dat->him->szRealJid, szBareJid, SIZEOF(szBareJid));
-					case AFFILIATION_NONE:	
-						if (dat->him->szRealJid)
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("none"));
-						else
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("none"));
-						break;
-					case AFFILIATION_MEMBER:
-						if (dat->him->szRealJid)
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("member"));
-						else
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("member"));
-						break;
-					case AFFILIATION_ADMIN:
-						if (dat->him->szRealJid)
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("admin"));
-						else
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("admin"));
-						break;
-					case AFFILIATION_OWNER:
-						if (dat->him->szRealJid)
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("owner"));
-						else
-							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("owner"));
-						break;
-				}
+			TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
+			JabberStripJid(dat->him->szRealJid, szBareJid, SIZEOF(szBareJid));
+
+			switch (value) {
+			case AFFILIATION_NONE:	
+				if (dat->him->szRealJid)
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("none"));
+				else
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("none"));
+				break;
+			case AFFILIATION_MEMBER:
+				if (dat->him->szRealJid)
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("member"));
+				else
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("member"));
+				break;
+			case AFFILIATION_ADMIN:
+				if (dat->him->szRealJid)
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("admin"));
+				else
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("admin"));
+				break;
+			case AFFILIATION_OWNER:
+				if (dat->him->szRealJid)
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("owner"));
+				else
+					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("affiliation"), _T("owner"));
 			}
 			break;
 
 		case IDC_TXT_ROLE:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				int value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
 					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETCURSEL, 0, 0), 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_ROLE), dat->him->role != value);
 			}
 			break;
 
 		case IDC_BTN_ROLE:
-			{
-				int value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
-					SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETCURSEL, 0, 0), 0);
-				if (dat->him->role == value) break;
+			value = SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETITEMDATA,
+				SendDlgItemMessage(hwndDlg, IDC_TXT_ROLE, CB_GETCURSEL, 0, 0), 0);
+			if (dat->him->role == value)
+				break;
 
-				switch (value) {
-				case ROLE_VISITOR:
-					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("visitor"));
-					break;
-				case ROLE_PARTICIPANT:
-					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("participant"));
-					break;
-				case ROLE_MODERATOR:
-					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("moderator"));
-					break;
-				}
+			switch (value) {
+			case ROLE_VISITOR:
+				dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("visitor"));
+				break;
+			case ROLE_PARTICIPANT:
+				dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("participant"));
+				break;
+			case ROLE_MODERATOR:
+				dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("nick"), dat->him->resourceName, _T("role"), _T("moderator"));
+				break;
 			}
-			break;
 		}
 		break;
 
@@ -1039,16 +1034,14 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 
 	case WM_DESTROY:
-		{
-			WindowFreeIcon(hwndDlg);
-			g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
-			g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
-			TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if ( !dat)break;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			mir_free(dat);
-			break;
-		}
+		WindowFreeIcon(hwndDlg);
+		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_AFFILIATION, BM_SETIMAGE, IMAGE_ICON, 0));
+		g_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_BTN_ROLE, BM_SETIMAGE, IMAGE_ICON, 0));
+		TUserInfoData *dat = (TUserInfoData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		if ( !dat)break;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		mir_free(dat);
+		break;
 	}
 	return FALSE;
 }

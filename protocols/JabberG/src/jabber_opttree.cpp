@@ -35,7 +35,7 @@ CCtrlTreeOpts::CCtrlTreeOpts(CDlgBase* dlg, int ctrlId):
 
 CCtrlTreeOpts::~CCtrlTreeOpts()
 {
-	for (int i = 0; i < m_options.getCount(); ++i)
+	for (int i = 0; i < m_options.getCount(); i++)
 		delete m_options[i];
 	m_options.destroy();
 }
@@ -197,7 +197,7 @@ void CCtrlTreeOpts::OnApply()
 {
 	CCtrlTreeView::OnApply();
 
-	for (int i = 0; i < m_options.getCount(); ++i)
+	for (int i = 0; i < m_options.getCount(); i++)
 	{
 		TVITEMEX tvi;
 		GetItem(m_options[i]->m_hItem, &tvi);
@@ -231,7 +231,7 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		case IMG_NORCHECK:
 		{
 			int i;
-			for (i = 0; i < m_options.getCount(); ++i)
+			for (i = 0; i < m_options.getCount(); i++)
 			{
 				if (m_options[i]->m_groupId == m_options[tvi.lParam]->m_groupId)
 				{

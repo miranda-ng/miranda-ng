@@ -260,7 +260,7 @@ void CDlgBase::AddControl(CCtrlBase *ctrl)
 
 void CDlgBase::NotifyControls(void (CCtrlBase::*fn)())
 {
-	for (int i = 0; i < m_controls.getCount(); ++i)
+	for (int i = 0; i < m_controls.getCount(); i++)
 		(m_controls[i]->*fn)();
 }
 
@@ -1463,7 +1463,7 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 {
 	TCHAR buf[256];
 	int count = GetItemCount();
-	for (int i = 0; i < count; ++i)
+	for (int i = 0; i < count; i++)
 	{
 		bool found = false;
 
@@ -2229,7 +2229,7 @@ BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 void CCtrlPages::OnDestroy()
 {
 	int count = TabCtrl_GetItemCount(m_hwnd);
-	for (int i = 0; i < count ; ++i)
+	for (int i = 0; i < count ; i++)
 	{
 		TCITEM tci = {0};
 		tci.mask = TCIF_PARAM;

@@ -279,7 +279,7 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 
 	int i = 0;
 	bool found = false;
-	for (i = 0 ; i < 5; ++i)
+	for (i = 0 ; i < 5; i++)
 	{
 		if ( !info.loadRecent(i))
 			continue;
@@ -448,7 +448,7 @@ static void sttJoinDlgShowRecentItems(HWND hwndDlg, int newCount)
 
 	RECT rc;
 	int ctrls[] = { IDC_BOOKMARKS, IDOK, IDCANCEL };
-	for (int i = 0; i < SIZEOF(ctrls); ++i)
+	for (int i = 0; i < SIZEOF(ctrls); i++)
 	{
 		GetWindowRect(GetDlgItem(hwndDlg, ctrls[i]), &rc);
 		MapWindowPoints(NULL, hwndDlg, (LPPOINT)&rc, 2);
@@ -548,7 +548,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	m_proto->ComboLoadRecentStrings(m_hwnd, IDC_SERVER, "joinWnd_rcSvr");
 
 	int i = 0;
-	for (; i < 5; ++i)
+	for (; i < 5; i++)
 	{
 		TCHAR jid[JABBER_MAX_JID_LEN];
 		JabberGcRecentInfo info(m_proto);

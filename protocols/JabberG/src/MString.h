@@ -1176,7 +1176,7 @@ public:
 			  } else
 			  {
 				  XCHAR* p=pszBuffer;
-				  for (int i=0 ; i < nLength ;++i)
+				  for (int i=0 ; i < nLength ;i++)
 				  {
 					  for (int j=0 ; j < nBaseTypeCharLen ;++j)
 					  {	

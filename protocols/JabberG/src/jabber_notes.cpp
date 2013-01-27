@@ -148,7 +148,7 @@ void CNoteList::LoadXml(HXML hXml)
 	m_bIsModified = false;
 
 	int count = xmlGetChildCount(hXml);
-	for (int i = 0; i < count; ++i)
+	for (int i = 0; i < count; i++)
 	{
 		CNoteItem *pNote = new CNoteItem(xi.getChild(hXml, i));
 		if (pNote->IsNotEmpty())
@@ -163,7 +163,7 @@ void CNoteList::SaveXml(HXML hXmlParent)
 	m_bIsModified = false;
 	CNoteList &me = *this;
 
-	for (int i = 0; i < getCount(); ++i)
+	for (int i = 0; i < getCount(); i++)
 	{
 		HXML hXmlItem = hXmlParent << XCHILD(_T("note"));
 		hXmlItem << XATTR(_T("from"), me[i].GetFrom()) << XATTR(_T("tags"), me[i].GetTagsStr());
@@ -495,7 +495,7 @@ private:
 	void PopulateTags(HTREEITEM htiRoot, TCHAR *szActiveTag)
 	{
 		LIST<TCHAR> tagSet(5, _tcscmp);
-		for (int i = 0; i < m_proto->m_notes.getCount(); ++i)
+		for (int i = 0; i < m_proto->m_notes.getCount(); i++)
 		{
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
 			for (TCHAR *tag = tags; tag && *tag; tag = tag + lstrlen(tag) + 1)
@@ -550,7 +550,7 @@ private:
 	void ListItems(const TCHAR *tag)
 	{
 		m_lstNotes.ResetContent();
-		for (int i = 0; i < m_proto->m_notes.getCount(); ++i)
+		for (int i = 0; i < m_proto->m_notes.getCount(); i++)
 			if (m_proto->m_notes[i].HasTag(tag))
 				InsertItem(m_proto->m_notes[i]);
 		EnableControls();

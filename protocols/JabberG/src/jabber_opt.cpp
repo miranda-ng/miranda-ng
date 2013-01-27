@@ -460,7 +460,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i = 0; i < SIZEOF(szResources); ++i)
+		for (i = 0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -479,7 +479,7 @@ protected:
 		}
 		else m_cbResource.SetText(_T("Miranda"));
 
-		for (i = 0; g_LanguageCodes[i].szCode; ++i)
+		for (i = 0; g_LanguageCodes[i].szCode; i++)
 		{
 			int iItem = m_cbLocale.AddString(TranslateTS(g_LanguageCodes[i].szDescription), (LPARAM)g_LanguageCodes[i].szCode);
 			if ( !_tcscmp(m_proto->m_tszSelectedLang, g_LanguageCodes[i].szCode))
@@ -740,7 +740,7 @@ private:
 
 		m_cbServer.ResetContent();
 		if (node) {
-			for (int i = 0; ; ++i) {
+			for (int i = 0; ; i++) {
 				HXML n = xmlGetChild(node, i);
 				if ( !n)
 					break;
@@ -1708,7 +1708,7 @@ protected:
 
 		// fill predefined resources
 		TCHAR* szResources[] = { _T("Home"), _T("Work"), _T("Office"), _T("Miranda") };
-		for (i = 0; i < SIZEOF(szResources); ++i)
+		for (i = 0; i < SIZEOF(szResources); i++)
 			m_cbResource.AddString(szResources[i]);
 
 		// append computer name to the resource list
@@ -2227,7 +2227,7 @@ void CJabberDlgAccMgrUI::RefreshServers(HXML node)
 	m_cbServer.ResetContent();
 	if (node)
 	{
-		for (int i = 0; ; ++i) {
+		for (int i = 0; ; i++) {
 			HXML n = xmlGetChild(node, i);
 			if ( !n)
 				break;

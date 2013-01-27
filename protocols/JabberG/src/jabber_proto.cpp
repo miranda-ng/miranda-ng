@@ -864,7 +864,7 @@ HANDLE __cdecl CJabberProto::SearchBasic(const TCHAR *szJid)
 		const TCHAR *p = _tcsstr(szJid, szServer);
 		if (p == NULL) {
 			bool numericjid = true;
-			for (const TCHAR *i = szJid; *i && numericjid; ++i)
+			for (const TCHAR *i = szJid; *i && numericjid; i++)
 				numericjid = (*i >= '0') && (*i <= '9');
 
 			mir_free(szServer);
@@ -1021,7 +1021,7 @@ int __cdecl CJabberProto::SendContacts(HANDLE hContact, int flags, int nContacts
 //	m << XCHILD(_T("body"), msg);
 	HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_ROSTER_EXCHANGE));
 
-	for (int i = 0; i < nContacts; ++i) {
+	for (int i = 0; i < nContacts; i++) {
 		if ( !JGetStringT(hContactsList[i], "jid", &dbv)) {
 			x << XCHILD(_T("item")) << XATTR(_T("action"), _T("add")) <<
 				XATTR(_T("jid"), dbv.ptszVal);
