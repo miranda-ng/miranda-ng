@@ -186,7 +186,6 @@ int  ListBoxAddStringUtf(HWND hList, const char *szString);
 int  MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uType);
 
 void InitXStatusIcons();
-void UninitXStatusIcons();
 void setContactExtraIcon(HANDLE hContact, int xstatus);
 int  OnReloadIcons(WPARAM wParam, LPARAM lParam);
 

@@ -88,6 +88,7 @@
 #include <m_clistint.h>
 #include <m_cluiframes.h>
 #include <m_ignore.h>
+#include <m_icolib.h>
 #include <m_avatars.h>
 #include <m_xstatus.h>
 #include <win2k.h>
@@ -97,7 +98,6 @@
 
 // ICQ plugin includes
 #include "version.h"
-#include "iconlib.h"
 #include "globals.h"
 #include "i18n.h"
 #include "icq_db.h"

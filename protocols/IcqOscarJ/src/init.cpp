@@ -36,8 +36,7 @@ HINSTANCE hInst;
 int hLangpack;
 CLIST_INTERFACE *pcli;
 
-IcqIconHandle hStaticIcons[4];
-HANDLE hExtraXStatus;
+HANDLE   hExtraXStatus;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -81,6 +80,14 @@ static int icqProtoUninit( PROTO_INTERFACE* ppro )
 	return 0;
 }
 
+IconItem g_IconsList[4] =
+{
+	{ LPGEN("Request authorization"), "req_auth",      IDI_AUTH_ASK     },
+	{ LPGEN("Grant authorization"),   "grant_auth",    IDI_AUTH_GRANT   },
+	{ LPGEN("Revoke authorization"),  "revoke_auth",   IDI_AUTH_REVOKE  },
+	{ LPGEN("Add to server list"),    "add_to_server", IDI_SERVLIST_ADD }
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
@@ -105,15 +112,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE, icq_getEventTextMissedMessage);
 
 	// Define global icons
-	char szSectionName[MAX_PATH];
-	null_snprintf(szSectionName, sizeof(szSectionName), "Protocols/%s", ICQ_PROTOCOL_NAME);
-
-	TCHAR lib[MAX_PATH];
-	GetModuleFileName(hInst, lib, MAX_PATH);
-	hStaticIcons[ISI_AUTH_REQUEST] = IconLibDefine(LPGEN("Request authorization"), szSectionName, NULL, "req_auth", lib, -IDI_AUTH_ASK);
-	hStaticIcons[ISI_AUTH_GRANT] = IconLibDefine(LPGEN("Grant authorization"), szSectionName, NULL, "grant_auth", lib, -IDI_AUTH_GRANT);
-	hStaticIcons[ISI_AUTH_REVOKE] = IconLibDefine(LPGEN("Revoke authorization"), szSectionName, NULL, "revoke_auth", lib, -IDI_AUTH_REVOKE);
-	hStaticIcons[ISI_ADD_TO_SERVLIST] = IconLibDefine(LPGEN("Add to server list"), szSectionName, NULL, "add_to_server", lib, -IDI_SERVLIST_ADD);
+	Icon_Register(hInst, "Protocols", g_IconsList, SIZEOF(g_IconsList), ICQ_PROTOCOL_NAME);
 
 	// Init extra statuses
 	InitXStatusIcons();
@@ -128,14 +127,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	// Release static icon handles
-	for (int i = 0; i < SIZEOF(hStaticIcons); i++)
-		IconLibRemove(&hStaticIcons[i]);
-
 	// destroying contact menu
 	g_MenuUninit();
-
-	UninitXStatusIcons();
 
 	g_Instances.destroy();
 	return 0;

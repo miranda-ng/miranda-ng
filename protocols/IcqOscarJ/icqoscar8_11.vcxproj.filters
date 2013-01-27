@@ -47,9 +47,6 @@
     <ClInclude Include="src\i18n.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\iconlib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\icq_advsearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -250,7 +247,6 @@
     <ClCompile Include="src\cookies.cpp" />
     <ClCompile Include="src\directpackets.cpp" />
     <ClCompile Include="src\i18n.cpp" />
-    <ClCompile Include="src\iconlib.cpp" />
     <ClCompile Include="src\icq_avatar.cpp" />
     <ClCompile Include="src\icq_clients.cpp" />
     <ClCompile Include="src\icq_fieldnames.cpp" />

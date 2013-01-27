@@ -132,7 +132,7 @@ void g_MenuInit(void)
 	// "Request authorization"
 	mi.pszName = LPGEN("Request authorization");
 	mi.position = 1000030000;
-	mi.icolibItem = hStaticIcons[ISI_AUTH_REQUEST]->Handle();
+	mi.icolibItem = g_IconsList[ISI_AUTH_REQUEST].hIcolib;
 	strcpy(pszDest, MS_REQ_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_REQUEST] = CreateServiceFunction( str, IcqMenuHandleRequestAuth );
@@ -140,7 +140,7 @@ void g_MenuInit(void)
 	// "Grant authorization"
 	mi.pszName = LPGEN("Grant authorization");
 	mi.position = 1000029999;
-	mi.icolibItem = hStaticIcons[ISI_AUTH_GRANT]->Handle();
+	mi.icolibItem = g_IconsList[ISI_AUTH_GRANT].hIcolib;
 	strcpy(pszDest, MS_GRANT_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, IcqMenuHandleGrantAuth);
@@ -148,7 +148,7 @@ void g_MenuInit(void)
 	// "Revoke authorization"
 	mi.pszName = LPGEN("Revoke authorization");
 	mi.position = 1000029998;
-	mi.icolibItem = hStaticIcons[ISI_AUTH_REVOKE]->Handle();
+	mi.icolibItem = g_IconsList[ISI_AUTH_REVOKE].hIcolib;
 	strcpy(pszDest, MS_REVOKE_AUTH);
 	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, IcqMenuHandleRevokeAuth);
@@ -156,7 +156,7 @@ void g_MenuInit(void)
 	// "Add to server list"
 	mi.pszName = LPGEN("Add to server list");
 	mi.position = -2049999999;
-	mi.icolibItem = hStaticIcons[ISI_ADD_TO_SERVLIST]->Handle();
+	mi.icolibItem = g_IconsList[ISI_ADD_TO_SERVLIST].hIcolib;
 	strcpy(pszDest, MS_ICQ_ADDSERVCONTACT);
 	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_ADD_TO_SERVLIST] = CreateServiceFunction(mi.pszService, IcqMenuHandleAddServContact);

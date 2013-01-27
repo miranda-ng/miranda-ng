@@ -56,19 +56,18 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		ppro = (CIcqProto*)lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
-		{
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->m_hIconProtocol->GetIcon(true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->m_hIconProtocol->GetIcon());
 
-			SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hIconProtocol, true));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hIconProtocol));
 
-			accountLoadDetails(ppro, hwndDlg);
-		}
+		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
+
+		accountLoadDetails(ppro, hwndDlg);
 		return TRUE;
 
 	case WM_DESTROY:
-		ppro->m_hIconProtocol->ReleaseIcon(true);
-		ppro->m_hIconProtocol->ReleaseIcon();
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 		break;
 
 	case WM_CLOSE:

@@ -164,17 +164,10 @@ cheekySearchId( -1 )
 	// Custom caps
 	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
 	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
-	{
-		// Initialize IconLib icons
-		char szSectionName[MAX_PATH], *szAccountName = tchar_to_utf8(m_tszUserName);
-		null_snprintf(szSectionName, sizeof(szSectionName), "Protocols/%s/Accounts", ICQ_PROTOCOL_NAME);
 
-		TCHAR lib[MAX_PATH];
-		GetModuleFileName(hInst, lib, MAX_PATH);
-
-		m_hIconProtocol = IconLibDefine(szAccountName, szSectionName, m_szModuleName, "main", lib, -IDI_ICQ);
-		SAFE_FREE(&szAccountName);
-	}
+	IconItemT protoIcon = { m_tszUserName, "main", IDI_ICQ };
+	Icon_RegisterT(hInst, _T("Protocols/ICQ/Accounts"), &protoIcon, 1, m_szModuleName);
+	m_hIconProtocol = protoIcon.hIcolib;
 
 	// Reset a bunch of session specific settings
 	UpdateGlobalSettings();
@@ -281,7 +274,7 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE(&m_modeMsgs.szFfc);
 
 	// Remove account icons
-	IconLibRemove(&m_hIconProtocol);
+	Skin_RemoveIconHandle(m_hIconProtocol);
 
 	NetLog_Server("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);
 
@@ -804,18 +797,17 @@ HICON __cdecl CIcqProto::GetIcon( int iconIndex )
 	if (LOWORD(iconIndex) == PLI_PROTOCOL)
 	{
 		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)m_hIconProtocol->Handle();
+			return (HICON)m_hIconProtocol;
 
 		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = m_hIconProtocol->GetIcon(big);
+		HICON hIcon = Skin_GetIconByHandle(m_hIconProtocol, big);
 
 		if (iconIndex & PLIF_ICOLIB)
 			return hIcon;
 
-		hIcon = CopyIcon(hIcon);
-		m_hIconProtocol->ReleaseIcon(big);
-		return hIcon;
-
+		HICON hIconNew = CopyIcon(hIcon);
+		Skin_ReleaseIcon(hIcon);
+		return hIconNew;
 	}
 	return NULL;
 }

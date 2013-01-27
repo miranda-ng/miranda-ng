@@ -40,10 +40,10 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		ppro = (CIcqProto*)lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
-		{
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->m_hIconProtocol->GetIcon(true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->m_hIconProtocol->GetIcon());
 
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hIconProtocol, true));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hIconProtocol));
+		{
 			DWORD dwUin = ppro->getContactUin(NULL);
 
 			char pszUIN[MAX_PATH], str[MAX_PATH];
@@ -57,8 +57,8 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		ppro->m_hIconProtocol->ReleaseIcon(true);
-		ppro->m_hIconProtocol->ReleaseIcon();
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 		break;
 
 	case WM_CLOSE:
@@ -66,24 +66,22 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDOK:
-				ppro->m_bRememberPwd = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEPASS);
-				ppro->setSettingByte(NULL, "RememberPass", ppro->m_bRememberPwd);
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			ppro->m_bRememberPwd = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVEPASS);
+			ppro->setSettingByte(NULL, "RememberPass", ppro->m_bRememberPwd);
 
-				GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, sizeof(ppro->m_szPassword));
+			GetDlgItemTextA(hwndDlg, IDC_LOGINPW, ppro->m_szPassword, sizeof(ppro->m_szPassword));
 
-				ppro->icq_login(ppro->m_szPassword);
+			ppro->icq_login(ppro->m_szPassword);
 
-				EndDialog(hwndDlg, IDOK);
-				break;
+			EndDialog(hwndDlg, IDOK);
+			break;
 
-			case IDCANCEL:
-				ppro->SetCurrentStatus(ID_STATUS_OFFLINE);
-				EndDialog(hwndDlg, IDCANCEL);
-				break;
-			}
+		case IDCANCEL:
+			ppro->SetCurrentStatus(ID_STATUS_OFFLINE);
+			EndDialog(hwndDlg, IDCANCEL);
+			break;
 		}
 		break;
 	}

@@ -34,9 +34,9 @@
 
 void CListShowMenuItem(HANDLE hMenuItem, BYTE bShow);
 
-static IcqIconHandle hXStatusIcons[XSTATUS_COUNT];
-static int  hXStatusCListIcons[XSTATUS_COUNT];
-static BOOL bXStatusCListIconsValid[XSTATUS_COUNT];
+static HANDLE hXStatusIcons[XSTATUS_COUNT];
+static int    hXStatusCListIcons[XSTATUS_COUNT];
+static BOOL   bXStatusCListIconsValid[XSTATUS_COUNT];
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam)
 {
@@ -166,23 +166,14 @@ HICON CIcqProto::getXStatusIcon(int bStatus, UINT flags)
 	HICON icon = NULL;
 
 	if (bStatus > 0 && bStatus <= XSTATUS_COUNT)
-		icon = hXStatusIcons[bStatus - 1]->GetIcon((flags & LR_BIGICON) != 0);
+		icon = Skin_GetIconByHandle(hXStatusIcons[bStatus-1], (flags & LR_BIGICON) != 0);
 
 	return (flags & LR_SHARED || !icon) ? icon : CopyIcon(icon);
 }
 
-void releaseXStatusIcon(int bStatus, UINT flags)
-{
-	if (bStatus > 0 && bStatus <= XSTATUS_COUNT) {
-		IcqIconHandle p = hXStatusIcons[bStatus - 1];
-		if (p)
-			p->ReleaseIcon((flags & LR_BIGICON) != 0);
-	}
-}
-
 void setContactExtraIcon(HANDLE hContact, int xstatus)
 {
-	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus-1]->Handle() : NULL);
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus-1] : NULL);
 }
 
 #define NULLCAP {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
@@ -767,8 +758,8 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				SAFE_FREE(&szValue);
 
 				if (dat->bXStatus) {
-					releaseXStatusIcon(dat->bXStatus, LR_BIGICON);
-					releaseXStatusIcon(dat->bXStatus, 0);
+					Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+					Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 				}
 			}
 			dat->ppro->updateServerCustomStatus(TRUE);
@@ -891,7 +882,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 			CreateProtoServiceParam(srvFce+len, &CIcqProto::menuXStatus, i);
 
 		mi.flags = (i ? CMIF_ICONFROMICOLIB : 0) | (bXStatus == i?CMIF_CHECKED:0);
-		mi.icolibItem = i ? hXStatusIcons[i-1]->Handle() : NULL;
+		mi.icolibItem = i ? hXStatusIcons[i-1] : NULL;
 		mi.pszName = i ? (char*)nameXStatus[i-1] : (char *)LPGEN("None");
 		mi.pszService = srvFce;
 		mi.pszContactOwner = m_szModuleName;
@@ -906,32 +897,25 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 void InitXStatusIcons()
 {
 	TCHAR lib[2*MAX_PATH] = {0};
-	TCHAR *icon_lib = InitXStatusIconLibrary(lib, SIZEOF(lib));
 
-	char szSection[MAX_PATH + 64];
-	null_snprintf(szSection, sizeof(szSection), "Protocols/ICQ/Custom Status");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pszSection = "Protocols/" ICQ_PROTOCOL_NAME "/Custom Status";
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszDefaultFile = InitXStatusIconLibrary(lib, SIZEOF(lib));
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
-		char szTemp[64];
-
-		null_snprintf(szTemp, sizeof(szTemp), "xstatus%d", i);
-		hXStatusIcons[i] = IconLibDefine(nameXStatus[i], szSection, "icq", szTemp, icon_lib, -(IDI_XSTATUS1+i));
+		char szTemp[100];
+		null_snprintf(szTemp, sizeof(szTemp), "icq_xstatus%d", i);
+		sid.pszName = szTemp;
+		sid.pszDescription = (LPSTR)nameXStatus[i];
+		sid.iDefaultIndex = -(IDI_XSTATUS1+i);
+		hXStatusIcons[i] = Skin_AddIcon(&sid);
 	}
 
 	// initialize arrays for CList custom status icons
 	memset(bXStatusCListIconsValid, 0, sizeof(bXStatusCListIconsValid));
 	memset(hXStatusCListIcons, -1, sizeof(hXStatusCListIcons));
 }
-
-void UninitXStatusIcons()
-{
-	for (int i = 0; i < XSTATUS_COUNT; i++)
-		IconLibRemove(&hXStatusIcons[i]);
-
-	// clear clist icon state indicators
-	memset(bXStatusCListIconsValid, 0, sizeof(bXStatusCListIconsValid));
-}
-
 
 INT_PTR CIcqProto::ShowXStatusDetails(WPARAM wParam, LPARAM lParam)
 {
@@ -1149,7 +1133,7 @@ INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 				// mark icon index in the array as valid
 				bXStatusCListIconsValid[bXStatus-1] = TRUE;
 
-				releaseXStatusIcon(bXStatus, 0);
+				Skin_ReleaseIcon(hXStatusIcon);
 			}		
 		}
 

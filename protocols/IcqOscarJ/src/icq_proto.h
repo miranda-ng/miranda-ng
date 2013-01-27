@@ -153,7 +153,7 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	int  __cdecl OnPreBuildStatusMenu( WPARAM, LPARAM );
 
 	//====| Data |========================================================================
-	IcqIconHandle m_hIconProtocol;
+	HANDLE m_hIconProtocol;
 	HANDLE m_hServerNetlibUser, m_hDirectNetlibUser;
 
 	BYTE m_bGatewayMode;

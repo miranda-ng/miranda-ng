@@ -38,9 +38,8 @@ typedef char uid_str[MAX_PATH];
 extern HINSTANCE hInst;
 extern DWORD MIRANDA_VERSION;
 
-extern HANDLE hExtraXStatus;
-
-extern IcqIconHandle hStaticIcons[];
+extern HANDLE   hExtraXStatus;
+extern IconItem g_IconsList[];
 
 extern const int moodXStatus[];
 
