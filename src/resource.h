@@ -39,7 +39,6 @@
 #define IDD_MODERNOPT_STATUS            141
 #define IDD_MODERNOPT_IDLE              142
 #define IDD_MODERNOPT_IGNORE            143
-#define IDI_FRAME                       144
 #define IDI_DND                         158
 #define IDI_OCCUPIED                    159
 #define IDI_USERDETAILS                 160
@@ -147,6 +146,7 @@
 #define IDI_MOVETOGROUP                 319
 #define IDI_ON                          320
 #define IDI_OFF                         322
+#define IDI_FRAME                       323
 #define IDC_SAVE                        1001
 #define IDI_ONTHEPHONE                  1002
 #define IDC_MESSAGE                     1002
