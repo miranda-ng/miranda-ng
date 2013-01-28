@@ -98,6 +98,11 @@ case OVERLAYS_PLATFORM_CASE:
 		return _T("Client icons/Overlays/Platform");
 	break;
 
+case OVERLAYS_UNICODE_CASE:
+	if ( db_get_b(NULL, "Finger", "GroupOverlaysUnicode", 1))
+		return _T("Client icons/Overlays/Platform");
+	break;
+
 case OVERLAYS_PROTO_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupOverlaysProtos", 1))
 		return _T("Client icons/Overlays/Protocol");

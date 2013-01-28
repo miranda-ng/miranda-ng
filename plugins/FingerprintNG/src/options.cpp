@@ -51,6 +51,7 @@ static settings[] =
 
 	{IDC_GROUP_OVERLAYS_RESOURCE, "GroupOverlaysResource"},
 	{IDC_GROUP_OVERLAYS_PLATFORM, "GroupOverlaysPlatform"},
+	{IDC_GROUP_OVERLAYS_UNICODE, "GroupOverlaysUnicode"},
 	{IDC_GROUP_OVERLAYS_PROTO,    "GroupOverlaysProtos"},
 //	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOtherProtos"}
 };
@@ -79,7 +80,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 		{
 			for (int i = 0; i < SIZEOF(settings); i++) {
-				if (lstrcmpA(settings[i].szSetName,	"GroupMirandaVersion") == 0)
+				if (!lstrcmpA(settings[i].szSetName, "GroupMirandaVersion"))
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
 				else
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);
@@ -95,9 +96,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_MIRANDA:
 		case IDC_GROUP_MIRANDA_VERSION:
 		case IDC_GROUP_MIRANDA_PACKS:
-			//OptDlgChanged(hwndDlg, true);
-			//break;
-
 		case IDC_GROUP_MULTI:
 		case IDC_GROUP_AIM:
 		case IDC_GROUP_GG:
@@ -118,6 +116,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_OVERLAYS_RESOURCE:
 		case IDC_GROUP_OVERLAYS_PLATFORM:
 		case IDC_GROUP_OVERLAYS_PROTO:
+		case IDC_GROUP_OVERLAYS_UNICODE:
 //		case IDC_GROUP_OVERLAYS_SECURITY:
 			//OptDlgChanged(hwndDlg, false);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

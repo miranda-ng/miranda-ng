@@ -115,8 +115,16 @@ void RegisterIcons()
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-		Prepare(&def_kn_fp_overlays3_mask[i], true);
+	if ( db_get_b(NULL, "Finger", "GroupOverlaysUnicode", 1)) {
+		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
+			Prepare(&def_kn_fp_overlays3_mask[i], true);
+	}
+	else {
+		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_NO_UNICODE_COUNT; i++)
+			Prepare(&def_kn_fp_overlays3_mask[i], true);
+		for (; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
+			Prepare(&def_kn_fp_overlays3_mask[i], false);
+	}
 
 	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS4_COUNT; i++)
 		Prepare(&def_kn_fp_overlays4_mask[i], true);

@@ -119,6 +119,7 @@ typedef struct _foundInfo
 #define OVERLAYS_RESOURCE_CASE		3020	//	resource overlays
 #define OVERLAYS_PLATFORM_CASE		3021	//	platforms overlays
 #define OVERLAYS_PROTO_CASE			3022	//	protocols overlays
+#define OVERLAYS_UNICODE_CASE		3023	//	unicode overlay
 //#define OVERLAYS_SECURITY_CASE		3023	//	security overlays
 
 /*
@@ -183,3 +184,4 @@ extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP
 #define NOTFOUND_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 3)								// third from end
 // the last count is how many masks from 2nd layer is used as Miranda version overlays	(counting from the end)
 #define DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT (DEFAULT_KN_FP_OVERLAYS2_COUNT - 13)
+#define DEFAULT_KN_FP_OVERLAYS3_NO_UNICODE_COUNT (DEFAULT_KN_FP_OVERLAYS3_COUNT - 1)

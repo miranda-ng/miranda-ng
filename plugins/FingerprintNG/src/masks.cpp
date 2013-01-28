@@ -796,7 +796,7 @@ KN_FP_MASK def_kn_fp_overlays3_mask[] =
 	{"client_platform_x64",		_T("|*x64*|*64*bit*"),						_T("x64 overlay"),					IDI_PLATFORM_X64,		OVERLAYS_PLATFORM_CASE	},
 	{"client_platform_x32",		_T("|*x32*|*32*bit*|*x86*"),				_T("x32 overlay"),					IDI_PLATFORM_X32,		OVERLAYS_PLATFORM_CASE	},
 
-	{"client_Unicode",			_T("*unicode*"),							_T("Unicode overlay"),				IDI_UNICODE_CLIENT,		OVERLAYS_PLATFORM_CASE	},
+	{"client_Unicode",			_T("*unicode*"),							_T("Unicode overlay"),				IDI_UNICODE_CLIENT,		OVERLAYS_UNICODE_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
