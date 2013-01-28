@@ -9,6 +9,10 @@
 //* Usage:        "cscript /nologo lpgen.js /crap:"yes"" filtered srings in Crap.txt*//
 //* Usage:        Double click to choose folder for one plugin template generation  *//
 //* Requirements: for batch mode: create folder ..\..\langpacks\english\Plugins     *//
+//* Notes:        ;file path\to\file.ext is a SVN file, source of founded string.   *//
+//* Notes:        if double line ;file path\to\file.ext exist, everything from the  *//
+//* Notes:        first file was removed as duplicates. You can disable duplicates  *//
+//* Notes:        removal by specifying /dupes:"yes"                                *//
 //* Author:       BasiL                                                             *//
 //***********************************************************************************//
 
@@ -22,6 +26,8 @@ var overwritefile=true;
 var unicode=false;
 //disabling log by default
 var log=false;
+//remove dupes by default
+var dupes=false;
 //stream - our variable for output UTF-8 files with BOM
 var stream= new ActiveXObject("ADODB.Stream");
 stream.Type = 2; // text mode
@@ -52,6 +58,9 @@ var crap=new Array;
 // if console param /log: specified, set var log true. To enable log, specify /log:"yes"
 if (WScript.Arguments.Named.Item("log")) log=true;
 
+// if console param /dupes:"yes" specified, disable duplicated string removal. 
+if (WScript.Arguments.Named.Item("dupes")) dupes=true;
+
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
     //Create Shell app object
@@ -71,7 +80,7 @@ if (WScript.Arguments.Named.Item("path")) {
     //Call GeneratePluginTranslate for path specified in command line argument /path:"path/to/plugin", output result to "scriptpath"
     GeneratePluginTranslate(WScript.Arguments.Named.Item("path"),scriptpath);
     //Write gargage crap array into crap file
-	WriteToFile(crap,crapfile);
+    WriteToFile(crap,plugin+"_crap.txt");
     //We are done, quit.
     WScript.Quit();
 }
@@ -156,6 +165,8 @@ function GenerateCore() {
  ParseFiles(core_src,corestrings,ParseSourceFile);
  //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
  nodupes=eliminateDuplicates(corestrings);
+ //if dupes requred, make nodupes with du
+ if (dupes) nodupes=corestrings;
  //logging results
  if (log) WScript.Echo("Writing "+nodupes.length+" strings for CORE");
  //finally, write "nodupes" array to file
@@ -217,6 +228,8 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
         };
     //We have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
     nodupes=eliminateDuplicates(foundstrings);
+	 //if dupes requred, make nodupes with du
+    if (dupes) nodupes=foundstrings;
     //combine head and translated strings.
     plugintemplate=head.concat(nodupes);
     //logging results
@@ -441,10 +454,11 @@ function ParseSourceFile (SourceFile,array) {
     stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
     //if our string still exist, and length more than 2 symbol (nothing to translate if only two symbols, well, except No and OK, but they are in core. But dozens crap with variables are filtered)
     if (stringtolangpack.length>2) {
-		//brand new _T() crap filtering engine :)
-		clearstring=filter_T(stringtolangpack);
+        //brand new _T() crap filtering engine :)
+        clearstring=filter_T(stringtolangpack);
         //finally put string into array including cover []
-        if (clearstring) {array.push("["+clearstring+"]")}};
+        if (clearstring) {array.push("["+clearstring+"]")}
+        };
     }
  //close file, we've finish.
  sourcefile_stream.Close();
@@ -480,12 +494,12 @@ test5=filter5.test(string);
 
 //if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
 if (test1 && !test2 && !test3 && !test4 && !test5) {
-	return string;
-	} else {
-		//in other case, string is a garbage, put into crap array.
-		crap.push(string);
-		return;
-		}
+    return string;
+    } else {
+        //in other case, string is a garbage, put into crap array.
+        crap.push(string);
+        return;
+        }
 };
 
 //Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.
