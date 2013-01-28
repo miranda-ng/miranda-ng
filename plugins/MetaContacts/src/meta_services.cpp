@@ -1034,7 +1034,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// main menu item
 	mi.icolibItem = GetIconHandle(I_MENUOFF);
-	mi.pszName = "Toggle MetaContacts Off";
+	mi.pszName = LPGEN("Toggle MetaContacts Off");
 	mi.pszService = "MetaContacts/OnOff";
 	mi.position = 500010000;
 	hMenuOnOff = Menu_AddMainMenuItem(&mi);
@@ -1042,31 +1042,31 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// contact menu items
 	mi.icolibItem = GetIconHandle(I_CONVERT);
 	mi.position = -200010;
-	mi.pszName = "Convert to MetaContact";
+	mi.pszName = LPGEN("Convert to MetaContact");
 	mi.pszService = "MetaContacts/Convert";
 	hMenuConvert = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_ADD);
 	mi.position = -200009;
-	mi.pszName = "Add to existing MetaContact...";
+	mi.pszName = LPGEN("Add to existing MetaContact...");
 	mi.pszService = "MetaContacts/AddTo";
 	hMenuAdd = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_EDIT);
 	mi.position = -200010;
-	mi.pszName = "Edit MetaContact...";
+	mi.pszName = LPGEN("Edit MetaContact...");
 	mi.pszService = "MetaContacts/Edit";
 	hMenuEdit = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_SETDEFAULT);
 	mi.position = -200009;
-	mi.pszName = "Set as MetaContact default";
+	mi.pszName = LPGEN("Set as MetaContact default");
 	mi.pszService = "MetaContacts/Default";
 	hMenuDefault = Menu_AddContactMenuItem(&mi);
 
 	mi.icolibItem = GetIconHandle(I_REMOVE);
 	mi.position = -200008;
-	mi.pszName = "Delete MetaContact";
+	mi.pszName = LPGEN("Delete MetaContact");
 	mi.pszService = "MetaContacts/Delete";
 	hMenuDelete = Menu_AddContactMenuItem(&mi);
 
@@ -1108,7 +1108,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		// modify main menu item
 		mi.flags = CMIM_NAME | CMIM_ICON;
 		mi.icolibItem = GetIconHandle(I_MENU);
-		mi.pszName = "Toggle MetaContacts On";
+		mi.pszName = LPGEN("Toggle MetaContacts On");
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 
 		Meta_HideMetaContacts(TRUE);
@@ -1411,12 +1411,12 @@ INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 		db_set_b(0, META_PROTO, "Enabled", 0);
 		// modify main mi item
 		mi.icolibItem = GetIconHandle(I_MENU);
-		mi.pszName = "Toggle MetaContacts On";
+		mi.pszName = LPGEN("Toggle MetaContacts On");
 	} else {
 		db_set_b(0, META_PROTO, "Enabled", 1);
 		// modify main mi item
 		mi.icolibItem = GetIconHandle(I_MENUOFF);
-		mi.pszName = "Toggle MetaContacts Off";
+		mi.pszName = LPGEN("Toggle MetaContacts Off");
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 	return 0;
