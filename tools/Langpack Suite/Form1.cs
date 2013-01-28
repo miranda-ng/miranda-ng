@@ -20,12 +20,13 @@ namespace Langpack_Suite
         public FolderBrowserDialog LangpackFolder;
         public String[] arguments;
         public bool vitype, quiet = false, outfile = false;
-        public string output = ""; 
+        public string output = "", exepath = ""; 
         Searcher search;
         ToolTip tipper;
         public MainForm()
         {
             arguments = Environment.GetCommandLineArgs();
+            exepath = arguments[0];
             InitializeComponent();
             search = new Searcher(this);
             tipper = new ToolTip();
@@ -33,8 +34,8 @@ namespace Langpack_Suite
             tipper.InitialDelay = 1000;
             tipper.ReshowDelay = 500;
             tipper.ShowAlways = true;
- 
-            DirectoryInfo root = Directory.GetParent(Directory.GetCurrentDirectory());
+
+            DirectoryInfo root = Directory.GetParent(Directory.GetParent(exepath).ToString());
             string[] dirs = Directory.GetDirectories(root.ToString());
             foreach (string dir in dirs)
             {
@@ -56,6 +57,11 @@ namespace Langpack_Suite
                 if (key.Equals("\\n"))
                 {
                     LangpackNameEdit.Text = arguments[i].Substring(2);
+                    if (LangpackNameEdit.Text.Contains(":\\") || LangpackNameEdit.Text.Contains(".\\"))
+                    {
+                        output = arguments[i].Substring(2);
+                        outfile = true;
+                    }
                 }
                 if (key.Equals("\\o"))
                 {
@@ -63,7 +69,7 @@ namespace Langpack_Suite
                     if (fname.Contains("\\"))
                         OwnFileEdit.Text = fname;
                     else
-                        OwnFileEdit.Text = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text + "\\" + fname;
+                        OwnFileEdit.Text = Directory.GetParent(Directory.GetParent(exepath).ToString()).ToString() + "\\" + LangpacksComboBox.Text + "\\" + fname;
                     OwnFileCheckBox.Checked = true;
                     OwnFilesCheckBoxChange();
                 }
@@ -73,11 +79,6 @@ namespace Langpack_Suite
                     VIURLTextBox.Text = fname;
                     GetVICheckBox.Checked = true;
                     GetVICheckBoxChange();
-                }
-                if (key.Equals("\\l"))
-                {
-                    output = arguments[i].Substring(2);
-                    outfile = true;
                 }
                 if (key.Equals("\\p"))
                 {
@@ -197,9 +198,13 @@ namespace Langpack_Suite
 
             InfMessageLangBox.Text = LocaleText + "\r\n";
 
-            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
+            FolderName = Directory.GetParent(Directory.GetParent(exepath).ToString()).ToString() + "\\" + LangpacksComboBox.Text;
             if (!outfile)
-                output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
+                if (LangpackNameEdit.Text.Contains(":\\") || LangpackNameEdit.Text.Contains(".\\"))
+                    output = LangpackNameEdit.Text;
+                else
+                    output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
+                
             if (File.Exists(output))
                 File.Delete(output);
 
@@ -664,7 +669,7 @@ namespace Langpack_Suite
             SelectOwnFilesOpenFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             SelectOwnFilesOpenFileDialog.FilterIndex = 1;
             SelectOwnFilesOpenFileDialog.RestoreDirectory = true;
-            SelectOwnFilesOpenFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
+            SelectOwnFilesOpenFileDialog.InitialDirectory = Directory.GetParent(Directory.GetParent(exepath).ToString()).ToString() + "\\" + LangpacksComboBox.Text;
             if (SelectOwnFilesOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -698,7 +703,7 @@ namespace Langpack_Suite
             string LocaleText = rm.GetString("LinkListGen", culture);
             InfMessageLinkBox.Text = LocaleText + "\r\n";
 
-            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
+            FolderName = Directory.GetParent(Directory.GetParent(exepath).ToString()).ToString() + "\\" + LangpacksComboBox.Text;
             if (File.Exists(FolderName + "\\LinkList.txt"))
                 File.Delete(FolderName + "\\LinkList.txt");
 
@@ -769,7 +774,7 @@ namespace Langpack_Suite
             string FolderName = "";
             InfMessageFindBox.Text = "";
 
-            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
+            FolderName = Directory.GetParent(Directory.GetParent(exepath).ToString()).ToString() + "\\" + LangpacksComboBox.Text;
             DirectoryInfo RootDir = new DirectoryInfo(FolderName);
             ResourceManager rm = new ResourceManager("LangpackSuite.myRes", typeof(MainForm).Assembly);
             string LocaleText = rm.GetString("FindLang", culture);

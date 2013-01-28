@@ -300,11 +300,10 @@ from the version info file, if available).</value>
   </data>
   <data name="VarText" xml:space="preserve">
     <value>\q - silent generate
-\n - Langpack file name
+\n - Langpack file name or output Langpack path
 \o - Path for adding own File
 \u - link to VI from miranda-vi.org or full local path
-\l - Output Langpack path
-\p - Avaliable Langpack folder name
+\p - Available Langpack folder name
 
 Example, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
   </data>

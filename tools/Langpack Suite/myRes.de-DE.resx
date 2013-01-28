@@ -301,11 +301,11 @@ ausgelesen, falls verfügbar).</value>
   </data>
   <data name="VarText" xml:space="preserve">
     <value>\q - stille Erzeugung
-\n - Dateiname der Sprachdatei
+\n - Dateiname der Sprachdatei oder Sprachdatei Ausgabepfad
 \o - Pfad zu Hinzufügen eigener Datei
 \u - Link zu VI von miranda-vi.org oder voller lokaler Pfad
-\l - Sprachdatei Ausgabepfad
+\p - Verfügbare Langpack Ordnernamen
 
-Beispiel LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+Beispiel LangpackSuite.exe \q \pgerman \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
   </data>
 </root>

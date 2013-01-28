@@ -302,10 +302,9 @@
   </data>
   <data name="VarText" xml:space="preserve">
     <value>\q - ціхая генерацыя
-\n - імя файла пакета
+\n - імя файла пакета або шлях выходнага файла пакета
 \o - шлях да файла для ўключэння ў пакет
 \u - спасылка на VI з miranda-vi.org ці поўны лакальны шлях
-\l - шлях выходнага файла пакета
 \p - даступны моўнай пакет
 
 Прыклад, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>

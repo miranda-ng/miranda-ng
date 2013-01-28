@@ -296,10 +296,9 @@
   </data>
   <data name="VarText" xml:space="preserve">
     <value>\q - Tiché generování
-\n - Název souboru s překladem
+\n - Název souboru s překladem nebo cesta pro výstup překladu
 \o - Cesta pro přidání vlastního souboru
 \u - Odkaz na VI z miranda-vi.org nebo úplná cesta k souboru
-\l - Cesta pro výstup překladu
 \p - Název složky s dostupným překladem
 
 Např.: LangpackSuite.exe \q \nLang_Test \o"Moje řetězce.txt" \uD:\Miranda\VersionInfo.txt \pczech</value>
