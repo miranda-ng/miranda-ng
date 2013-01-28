@@ -402,7 +402,7 @@ function ParseRCFile(RC_File,array) {
       //read on line into rcline
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
-      regexpstring=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*\"([^\"]+(\"\")?[^\"]*(\"\")?[^\"]*)\"\,/);
+      regexpstring=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*\"([^\"]+(\"\")?[^\"]*(\"\")?[^\"]*)\"\,?/);
       
       // if exist regexpstring, do checks, double "" removal and add strings to array
           if (regexpstring) {
