@@ -712,16 +712,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						if(OpenClipboard(hwndDlg))
 						{
 							ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
-							/*TCHAR *name = new TCHAR [64];
-							ListView_GetItemText(hwndList, itemnum, 2, name, 64);
-							{
-								if(_tcschr(name, _T('(')))
-								{
-									wstring str = name;
-									wstring::size_type p = str.find(_T("("))-1;
-									_tcscpy(name, str.substr(0, p).c_str());
-								}
-							}*/
 							string out;
 							DWORD code;
 							wstring cmd = _T("--batch -a --export ");
@@ -776,6 +766,50 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					}
 					break;
 				case IDC_EXPORT_PRIVATE:
+					{
+						TCHAR *p = GetFilePath(_T("Choose file to export key"), _T("*"), _T("Any file"), true);
+						if(!p || !p[0])
+						{
+							delete [] p;
+							//TODO: handle error
+							break;
+						}
+						char *path = mir_t2a(p);
+						delete [] p;
+						std::ofstream file;
+						file.open(path, std::ios::trunc | std::ios::out);
+						mir_free(path);
+						if(!file.is_open())
+							break; //TODO: handle error
+						ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+						string out;
+						DWORD code;
+						wstring cmd = _T("--batch -a --export-secret-keys ");
+						cmd += fp;
+						gpg_execution_params params;
+						pxResult result;
+						params.cmd = &cmd;
+						params.useless = "";
+						params.out = &out;
+						params.code = &code;
+						params.result = &result;
+						boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+						if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+						{
+							gpg_thread.~thread();
+							TerminateProcess(params.hProcess, 1);
+							params.hProcess = NULL;
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+							break;
+						}
+						if(result == pxNotFound)
+							break;
+						boost::algorithm::erase_all(out, "\r");
+						file<<out;
+						if(file.is_open())
+							file.close();
+					}
 					break;
 
 	  }
