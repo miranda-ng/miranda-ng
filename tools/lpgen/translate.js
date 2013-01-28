@@ -1,21 +1,29 @@
-//*************************************************************************************//
-//* Name:      translate.js                                                           *//
-//* Language:  JScript                                                                *//
-//* Function:  Parse Miranda-NG translation templates and get translated strings      *//
-//* Author:       BasiL                                                               *//
-//* Usage:     cscript /nologo translate.js  to run generation in batches             *//
-//* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging      *//
-//* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template      *//
-//* Usage:     cscript /nologo translate.js /path:"path\folder" - translate folder    *//
-//* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file     *//
-//* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file  *//
-//* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder*//
-//* Example1:  cscript /nologo translate.js /core:"path\lang.txt" /path:"path/german" *//
-//* will translate english templates using plugins translation from path\german and if*//
-//* translation not found, try to find translation in path\lang.txt                   *//
-//* Example2:  cscript /nologo translate.js /plugin:"path\file" /core:"path\lang.txt" *//
-//* will translate path\file using translation from path\lang.txt                     *//
-//*************************************************************************************//
+//*****************************************************************************************//
+//* Name:      translate.js                                                               *//
+//* Language:  JScript                                                                    *//
+//* Function:  Parse Miranda-NG translation templates and get translated strings          *//
+//* Author:    BasiL                                                                      *//
+//* Usage:     cscript /nologo translate.js  to run generation in batches                 *//
+//* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging          *//
+//* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template          *//
+//* Usage:     cscript /nologo translate.js /path:"path\folder" - translate folder        *//
+//* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
+//* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
+//* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
+//* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
+//* Note:		script will use following sequense to find a translation for string:      *//
+//* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/   *//
+//* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
+//* if you specify a "path" - /path:"path\folder", so look in path\folder\TabSRMM.txt     *//
+//* 2) If not find in step 1), check a string in file DUPES, specified in /dupes parameter*//
+//* 3) If still not found, try to find trasnlation in /core file                          *//
+//* 4) Still no luck? Well, check a /langpack:"/path/lang.txt" as a last place.           *//
+//* Example1:  cscript /nologo translate.js /core:"path\lang.txt" /path:"path/german"     *//
+//* will translate english templates using plugins translation from path\german and if    *//
+//* translation not found, try to find translation in path\lang.txt                       *//
+//* Example2:  cscript /nologo translate.js /plugin:"path\file" /langpack:"path\lang.txt" *//
+//* will translate path\file using translation from path\lang.txt                         *//
+//*****************************************************************************************//
 
 //Init Variables
 //Create FileSystemObject FSO
@@ -36,6 +44,7 @@ var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpa
 //init translate dictionaries
 CoreTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 DupesTranslateDict=WScript.CreateObject("Scripting.Dictionary");
+LangpackTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -62,7 +71,7 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 if (WScript.Arguments.Named.Item("plugin")) {
     //First, generate DB of translations from Core and Dupes files
     checkparams();
-    DupesAndCoreTranslation();
+    GenerateDictionaries();
     //plugin from command line:
     var cmdline_file=new String(WScript.Arguments.Named.Item("plugin"));
     //init array for our file translation
@@ -86,8 +95,8 @@ if (WScript.Arguments.Named.Item("plugin")) {
 //first, check we have files with translated stirngs specified.
 checkparams();
 if (log) WScript.Echo("Translation begin");
-//Generate Translation DB as two-dimensional array of Dupes and Core translations.
-DupesAndCoreTranslation ();
+//Generate translation dictionaries from /core, /dupes and /langpack files.
+GenerateDictionaries ();
 
 //Array for translated core
 Translate_Core=new Array;
@@ -138,8 +147,8 @@ if (log) WScript.Echo("Translation end");
 
 //when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are uselessg
 function checkparams() { 
-if (!WScript.Arguments.Named.Item("core") && !WScript.Arguments.Named.Item("path"))  {
-    WScript.Echo("you didn't specify /core: or /path: parameter, there is no files with translated strings!");
+if (!WScript.Arguments.Named.Item("langpack") && !WScript.Arguments.Named.Item("path"))  {
+    WScript.Echo("you didn't specify /langpack: or /path: parameter, there is no files with translated strings!");
     WScript.Quit();
     };
 }
@@ -152,7 +161,7 @@ function CheckFileExist(file) {
 }
 
 //Generate DB with translations from Core and Dupes files
-function DupesAndCoreTranslation () {
+function GenerateDictionaries () {
 //path variables
 if (WScript.Arguments.Named.Item("core")) {
     CheckFileExist(WScript.Arguments.Named.Item("core"));
@@ -163,6 +172,11 @@ if (WScript.Arguments.Named.Item("dupes")) {
     CheckFileExist(WScript.Arguments.Named.Item("dupes"));
     //var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=DUPES=.txt");
     GenerateTransalteDict(WScript.Arguments.Named.Item("dupes"),DupesTranslateDict);
+    }
+if (WScript.Arguments.Named.Item("langpack")) {
+    CheckFileExist(WScript.Arguments.Named.Item("langpack"));
+    //var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=DUPES=.txt");
+    GenerateTransalteDict(WScript.Arguments.Named.Item("langpack"),LangpackTranslateDict);
     }
 }
 
@@ -175,7 +189,7 @@ var translatefile=FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefa
 //read file into var
 var translatefiletext=translatefile.ReadAll();
 //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
-var find=/(^\[.+?\])\r\n(.+?)(?=\r)/mg;
+var find=/(^\[.+?\])\r\n(.+?)(?=$)/mg;
 //While our "find" RegExp return a results, add strings into dictionary.
 while ((string = find.exec(translatefiletext)) != null) {
     //first, init empty var
@@ -240,8 +254,13 @@ function TranslateTemplateFile(Template_file,array) {
                     if (CoreTranslateDict.Exists(line)) {
                         array.push(CoreTranslateDict.Item(line));
                         } else {
-                            //no translation found, put empty line
-                            array.push("");
+							//Sill no luck? Check Langpack...
+						    if (LangpackTranslateDict.Exists(line)) {
+								array.push(LangpackTranslateDict.Item(line));
+								} else {
+									//no translation found, put empty line
+									array.push("");
+									}
                             }
                     }
                 }
@@ -291,3 +310,10 @@ function WriteToFile (array,file) {
  //Close file
  outfile.Close();
 };
+//Write UTF-8 file
+function WriteToUnicodeFile(array,langpack) {
+stream.Open();
+for (i=0;i<=array.length-1;i++) stream.WriteText(array[i]+"\n");
+stream.SaveToFile(langpack, 2);
+stream.Close();
+}
