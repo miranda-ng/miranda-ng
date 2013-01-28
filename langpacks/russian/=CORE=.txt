@@ -988,7 +988,9 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 [Problem with search]
 Проблема с поиском
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
-Проблема: Не найден ни один драйвер базы данных, вы не можете создать профиль, вам необходим файл dbx_3x.dll
+Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_3x.dll
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+Проблема: Не найден ни один драйвер базы данных, вы не можете создать новый профиль, вам необходим файл dbx_mmap.dll
 [Profile]
 Профиль
 [Protocol is not loaded.]
@@ -2432,3 +2434,5 @@ Miranda не смогла загрузить встроенную систему
 Мобильность
 [Always invisible]
 Всегда невидимый
+[\nStyles and effects are disabled for this font.]
+Для этого шрифта настройка стилей и эффектов отключена.

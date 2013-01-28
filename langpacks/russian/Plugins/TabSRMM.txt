@@ -768,8 +768,6 @@ TABSRMM: Набирает
 Беседы
 [* Message Input Area]
 Поле ввода сообщения
-[\nStyles and effects are disabled for this font.]
-Для этого шрифта настройка стилей и эффектов отключена.
 [Window caption (skinned mode)]
 Заголовок (режим скина)
 [Common colors]
