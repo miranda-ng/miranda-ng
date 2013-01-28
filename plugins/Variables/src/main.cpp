@@ -24,8 +24,6 @@ HINSTANCE hInst;
 DWORD g_mirandaVersion;
 int hLangpack = 0;
 
-// {59B0036E-5403-422e-883B-C9AAF425682B}
-#define MIID_VARIABLES { 0x59b0036e, 0x5403, 0x422e, { 0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b } }
 
 static HANDLE hExitHook, hModulesLoadedHook;
 
@@ -65,7 +63,7 @@ PLUGININFOEX pluginInfoEx = {
 	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	MIID_VARIABLES
+	{ 0x59b0036e, 0x5403, 0x422e, { 0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b } } // {59B0036E-5403-422e-883B-C9AAF425682B}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

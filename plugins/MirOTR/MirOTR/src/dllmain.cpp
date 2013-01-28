@@ -22,7 +22,7 @@ PLUGININFOEX pluginInfo={
 	LEGAL_COPYRIGHT_LONG,
 	HOMEPAGE,
 	UNICODE_AWARE,
-	MIID_OTRPLUGIN		// ANSI and Unicode have different IDs
+	{ 0x12d8faad, 0x78ab, 0x4e3c, { 0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f } }	// {12D8FAAD-78AB-4e3c-9854-320E9EA5CC9F}
 };
 
 BOOL APIENTRY DllMain( HMODULE hModule,

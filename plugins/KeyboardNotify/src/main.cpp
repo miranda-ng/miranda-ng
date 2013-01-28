@@ -275,7 +275,6 @@ BOOL bReminderDisabled = FALSE;
 char *szMetaProto = NULL;
 BYTE bMetaProtoEnabled = 0;
 
-#define MIID_KBDNOTIFY	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }}
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -287,7 +286,7 @@ PLUGININFOEX pluginInfo={
 	"© 2002-2003 M.Öberg, 2004 Std, 2005-2008 TioDuke",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
-	MIID_KBDNOTIFY //{119D7288-2050-448d-9900-D86AC70426BF}
+	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }} //{119D7288-2050-448d-9900-D86AC70426BF}
 };
 
 

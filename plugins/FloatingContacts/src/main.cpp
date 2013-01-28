@@ -143,8 +143,7 @@ static void InitOptions() {
 	fcOpt.bShowIdle				 =  TRUE;
 }
 
-// {53C715A8-EB01-4136-A73C-441868610074}
-#define MIID_FLTCONT  { 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } }
+
 
 PLUGININFOEX pluginInfoEx  = {
 	sizeof(PLUGININFOEX),
@@ -156,7 +155,7 @@ PLUGININFOEX pluginInfoEx  = {
 		__COPYRIGHT,
 		__AUTHORWEB,
 		UNICODE_AWARE,
-		MIID_FLTCONT
+		{ 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } } // {53C715A8-EB01-4136-A73C-441868610074}
 };
 
 _inline unsigned int MakeVer(int a, int b, int c, int d)

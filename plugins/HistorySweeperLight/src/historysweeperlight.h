@@ -47,10 +47,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Plugin name
 #define ModuleName "History Sweeper Light"
 
-// Plugin UUID for New plugin loader
-// req. 0.7.18+ core
-// {1D9BF74A-44A8-4b3f-A6E5-73069D3A8979}
-#define MIID_HISTORYSWEEPERLIGHT { 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } }
 
 // main.c
 extern HINSTANCE hInst;

@@ -39,7 +39,7 @@ static PLUGININFOEX pluginInfoEx =
 	"© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010, 2011 tico-tico",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	MIID_HISTORYSWEEPERLIGHT
+	{ 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } } // {1D9BF74A-44A8-4b3f-A6E5-73069D3A8979}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

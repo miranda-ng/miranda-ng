@@ -74,8 +74,7 @@ extern "C" {
 // modified manual policy - so that users set to 'opportunistic' will automatically start OTR with users set to 'manual'
 #define OTRL_POLICY_MANUAL_MOD		(OTRL_POLICY_MANUAL | OTRL_POLICY_WHITESPACE_START_AKE | OTRL_POLICY_ERROR_START_AKE)
 
-// {12D8FAAD-78AB-4e3c-9854-320E9EA5CC9F}
-static const MUUID MIID_OTRPLUGIN = { 0x12d8faad, 0x78ab, 0x4e3c, { 0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f } };
+
 
 #define MODULENAME "MirOTR"
 
