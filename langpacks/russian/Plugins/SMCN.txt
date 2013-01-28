@@ -13,7 +13,7 @@
 [View Status Message History]
 История статусных сообщений
 [List Contacts with Status Message]
-Статус.сообщения контактов
+Статусные сообщения контактов
 [Disable SMCN PopUps]
 Выкл. вспл. окна о смене статуса
 [Enable SMCN PopUps]
@@ -41,9 +41,9 @@ URL в статусном сообщении
 [Use OSD]
 Использовать OSD
 [Do not notify and log when status message is empty]
-Не уведомлять и не записывать пустые сообщения
+Не уведомлять и не записывать пустые статусные сообщения
 [Show status message changes in message window]
-Показывать изменения статусов в окне сообщений
+Показывать изменения статусных сообщений в окне сообщений
 [Message cleared]
 Сообщение удалено
 [Message changed]

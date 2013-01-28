@@ -21,7 +21,7 @@
 [Drop down arrow]
 Стрелка вниз
 [Status message changes]
-Смены статуса
+Смены статусного сообщения
 [&Pseudo-edit]
 Псевдо-редактирование
 [Pseudo-edit mode...]
