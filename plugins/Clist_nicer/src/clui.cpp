@@ -207,7 +207,7 @@ static int CreateCLC(HWND parent)
 		frame.cbSize = sizeof(frame);
 		frame.tname = _T("EventArea");
 		frame.TBtname = TranslateT("Event Area");
-		frame.hIcon = 0;
+		frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 		frame.height = 20;
 		frame.Flags = F_VISIBLE | F_SHOWTBTIP | F_NOBORDER | F_TCHAR;
 		frame.align = alBottom;

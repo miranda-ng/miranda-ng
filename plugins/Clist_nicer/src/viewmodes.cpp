@@ -1056,7 +1056,7 @@ void CreateViewModeFrame()
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
 	frame.TBtname = TranslateT("View Modes");
-	frame.hIcon = 0;
+	frame.hIcon = LoadSkinnedIcon(SKINICON_OTHER_FRAME);
 	frame.height = 22;
 	frame.Flags=F_VISIBLE|F_SHOWTBTIP|F_NOBORDER|F_TCHAR;
 	frame.align = alBottom;
