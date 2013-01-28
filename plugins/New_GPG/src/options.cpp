@@ -381,8 +381,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				  char *szKey = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 				  std::string str = szKey;;
 				  mir_free(szKey);
-				  for(std::string::size_type i = str.find("\n"); i != std::string::npos; i = str.find("\n", i+2))
-					  str.replace(i, 1, "\r\n"); 
+				  boost::algorithm::replace_all(str, "\n", "\r\n");
 				  HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, str.size() +1);
 				  if(!hMem)
 				  {

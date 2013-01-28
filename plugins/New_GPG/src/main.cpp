@@ -42,6 +42,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		SetWindowPos(hwndDlg, 0, firstrun_rect.left, firstrun_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
 		SetWindowText(hwndDlg, TranslateT("Set own key"));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_COPY_PUBKEY), 0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PRIVATE), 0);
 		col.pszText = _T("Key ID");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
@@ -321,10 +323,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			  if(result == pxNotFound)
 				  break;
 			  string::size_type s = 0;
-			  while((s = out.find("\r", s)) != string::npos)
-			  {
-				  out.erase(s, 1);
-			  }
+			  boost::algorithm::erase_all(out, "\r");
 			  {
 				  char buf[64];
 				  GetDlgItemTextA(hwndDlg, IDC_ACCOUNT, buf, 63);
@@ -708,6 +707,76 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				}
 			}
 			break;
+				case IDC_COPY_PUBKEY:
+					{
+						if(OpenClipboard(hwndDlg))
+						{
+							ListView_GetItemText(hwndList, itemnum, 0, fp, 16);
+							/*TCHAR *name = new TCHAR [64];
+							ListView_GetItemText(hwndList, itemnum, 2, name, 64);
+							{
+								if(_tcschr(name, _T('(')))
+								{
+									wstring str = name;
+									wstring::size_type p = str.find(_T("("))-1;
+									_tcscpy(name, str.substr(0, p).c_str());
+								}
+							}*/
+							string out;
+							DWORD code;
+							wstring cmd = _T("--batch -a --export ");
+							cmd += fp;
+							gpg_execution_params params;
+							pxResult result;
+							params.cmd = &cmd;
+							params.useless = "";
+							params.out = &out;
+							params.code = &code;
+							params.result = &result;
+							boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
+							if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+							{
+								gpg_thread.~thread();
+								TerminateProcess(params.hProcess, 1);
+								params.hProcess = NULL;
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+								break;
+							}
+							if(result == pxNotFound)
+								break;
+							boost::algorithm::erase_all(out, "\r");
+							HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, out.size() +1);
+							if(!hMem)
+							{
+								MessageBox(0, TranslateT("Failed to alocate memory"), TranslateT("Error"), MB_OK);
+								break;
+							}
+							char *szKey = (char*)GlobalLock(hMem);
+							if(!szKey)
+							{
+								char msg[64];
+								mir_snprintf(msg, 127, "Failed to lock memory with error %d", GetLastError());
+								MessageBoxA(0, msg, "Error", MB_OK);
+								GlobalFree(hMem);
+							}
+							memcpy(szKey, out.c_str(), out.size());
+							szKey[out.size()] = '\0';
+							EmptyClipboard();
+							GlobalUnlock(hMem);
+							if(!SetClipboardData(CF_OEMTEXT, hMem))
+							{
+								GlobalFree(hMem);
+								char msg[64];
+								mir_snprintf(msg, 127, "Failed write to clipboard with error %d", GetLastError());
+								MessageBoxA(0, msg, "Error", MB_OK);
+							}
+							CloseClipboard();
+						}
+					}
+					break;
+				case IDC_EXPORT_PRIVATE:
+					break;
 
 	  }
 	  break;
@@ -720,6 +789,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			if(hdr->hdr.code == NM_CLICK)
 			{				
 				EnableWindow(GetDlgItem(hwndDlg, ID_OK), 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY_PUBKEY), 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PRIVATE), 1);
 				itemnum = hdr->iItem;
 			}
 		}

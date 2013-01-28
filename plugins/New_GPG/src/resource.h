@@ -82,6 +82,7 @@
 #define IDC_AUT_EXCHANGE                1065
 #define IDC_BUTTON3                     1066
 #define IDC_COPY_KEY                    1066
+#define IDC_COPY_PUBKEY                 1066
 #define IDC_STRIP_TAGS                  1067
 #define IDC_CHECK1                      1068
 #define IDC_PRESCENSE_SUBSCRIPTION      1068
@@ -95,6 +96,7 @@
 #define IDC_PUBLIC                      1073
 #define IDC_PRIVATE                     1074
 #define IDC_ALL                         1075
+#define IDC_EXPORT_PRIVATE              1076
 
 // Next default values for new objects
 // 
@@ -102,7 +104,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1076
+#define _APS_NEXT_CONTROL_VALUE         1077
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
