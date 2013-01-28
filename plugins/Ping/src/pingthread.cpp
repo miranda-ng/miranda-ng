@@ -1003,6 +1003,7 @@ void InitList() {
 		frame.Flags=F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		frame.height=30;
 		frame.TBname=Translate("Ping");
+		frame.hIcon = hIconResponding;
 
 		frame_id=CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
 	} else {
