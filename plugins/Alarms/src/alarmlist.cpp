@@ -470,7 +470,7 @@ void suspend(unsigned short alarm_id) {
 	SaveAlarms();
 }
 
-static int CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 		case WM_COMMAND: // snooze
@@ -535,14 +535,14 @@ void ShowPopup(ALARM *alarm) {
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
 
-		lstrcpy(ppd.lptzContactName, data->szTitle);
-		lstrcpy(ppd.lptzText, data->szDesc);
-		ppd.PluginWindowProc = (WNDPROC)PopupAlarmDlgProc;
+		lstrcpyn(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
+		lstrcpy,(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
+		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
 
 		//Now that every field has been filled, we want to see the popup.
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+		PUAddPopUpT(&ppd);
 	}
 }
 

@@ -391,8 +391,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				OPENOPTIONSDIALOG oop;
 				oop.cbSize = sizeof(oop);
-				oop.pszGroup = Translate("Events");
-				oop.pszPage = Translate("Alarms");
+				oop.pszGroup = "Events";
+				oop.pszPage = "Alarms";
 				oop.pszTab = 0;
 				Options_Open(&oop);
 			}
@@ -522,6 +522,7 @@ int CreateFrame()
 		Frame.align = alBottom;
 		Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		Frame.height = 30;
+		Frame.hIcon = hIconMenuSet;
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 	}
 	else {

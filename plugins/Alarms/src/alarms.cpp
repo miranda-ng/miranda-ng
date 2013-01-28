@@ -71,14 +71,14 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 void ShowPopup(HANDLE hContact, const TCHAR *msg)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
-		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-		lstrcpy(ppd.lptzContactName, lpzContactName);
-		lstrcpy(ppd.lptzText, msg);
+		ppd.lchIcon = hIconList1;
+		lstrcpyn(ppd.lptzContactName, lpzContactName,MAX_CONTACTNAME);
+		lstrcpyn(ppd.lptzText, msg,  MAX_SECONDLINE);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = RGB(0,0,0);
 		ppd.PluginWindowProc = PopupDlgProc;
@@ -100,8 +100,6 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
-	TCHAR *savedMsg;
-	HWND hWnd;
 	TCHAR response[256];
 
 	TCHAR msg[1024], buff[1024];
@@ -109,21 +107,21 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	if (_tcsncmp(ppre->tszMessage, szGamePrefix, _tcslen(szGamePrefix)))
 		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
 
-	_tcscpy(msg, ppre->tszMessage + _tcslen(szGamePrefix));
+	_tcsncpy(msg, ppre->tszMessage + _tcslen(szGamePrefix),SIZEOF(msg));
 
-	savedMsg = ppre->tszMessage;
+	TCHAR *savedMsg = ppre->tszMessage;
 
 	if (!_tcscmp(msg, _T(" ffw"))) {
 		mir_sntprintf(buff, SIZEOF(buff), _T("%s"), _T("Fast forward!"));
 
-		hWnd = FindWindow(0, _T("Windows Media Player"));
+		HWND hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
 	}
 	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown command issued: \"%s\""), msg);
 
 	ShowPopup(pccsd->hContact, buff);
 
-	_tcscpy(response, buff);
+	_tcsncpy(response, buff,SIZEOF(response));
 	PluginSendMessage((WPARAM)pccsd->hContact, (LPARAM)response);
 
 	return 0;
@@ -131,32 +129,26 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 
 HBITMAP LoadBmpFromIcon(int IdRes)
 {
-	HBITMAP hBmp, hoBmp;
-	HDC hdc, hdcMem;
-	HBRUSH hBkgBrush;
-	HICON hIcon;
-
-	hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IdRes));
+	HICON hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IdRes));
 
 	RECT rc;
 	BITMAPINFOHEADER bih = {0};
-	int widthBytes;
 
-	hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
+	HBRUSH hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biPlanes = 1;
 	bih.biCompression = BI_RGB;
 	bih.biHeight = 16;
 	bih.biWidth = 20;
-	widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
+	int widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
 	rc.top = rc.left = 0;
 	rc.right = bih.biWidth;
 	rc.bottom = bih.biHeight;
-	hdc = GetDC(NULL);
-	hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
-	hdcMem = CreateCompatibleDC(hdc);
-	hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
+	HDC hdc = GetDC(NULL);
+	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
+	HDC hdcMem = CreateCompatibleDC(hdc);
+	HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 	FillRect(hdcMem, &rc, hBkgBrush);
 	DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 
