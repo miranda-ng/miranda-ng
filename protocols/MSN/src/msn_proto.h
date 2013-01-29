@@ -203,6 +203,9 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	char*       getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status);
 	bool        getMyAvatarFile(char *url, TCHAR *fname);
 
+	void        AvatarQueue_Init(void);
+	void        AvatarQueue_Uninit(void);
+
 	void        MSN_GoOffline(void);
 	void        MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
 	void        pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl);

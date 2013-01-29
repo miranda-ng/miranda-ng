@@ -19,6 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
+void CMsnProto::AvatarQueue_Init()
+{
+	::InitializeCriticalSection(&csAvatarQueue);
+}
+
+void CMsnProto::AvatarQueue_Uninit()
+{
+	::DeleteCriticalSection(&csAvatarQueue);
+}
+
 void CMsnProto::pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl)
 {
 	SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);

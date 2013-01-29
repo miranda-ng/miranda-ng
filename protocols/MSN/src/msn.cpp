@@ -73,8 +73,7 @@ OBJLIST<CMsnProto> g_Instances(1, sttCompareProtocols);
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason,LPVOID lpvReserved)
 {
-	if (fdwReason == DLL_PROCESS_ATTACH)
-	{
+	if (fdwReason == DLL_PROCESS_ATTACH) {
 		hInst = hinstDLL;
 		DisableThreadLibraryCalls(hinstDLL);
 	}
@@ -113,7 +112,6 @@ static int msnProtoUninit(CMsnProto* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

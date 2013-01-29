@@ -136,6 +136,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	MSN_InitThreads();
 	Lists_Init();
 	MsgQueue_Init();
+	AvatarQueue_Init();
 	P2pSessions_Init();
 	InitCustomFolders();
 
@@ -176,6 +177,7 @@ CMsnProto::~CMsnProto()
 	MSN_FreeGroups();
 	Threads_Uninit();
 	MsgQueue_Uninit();
+	AvatarQueue_Uninit();
 	Lists_Uninit();
 	P2pSessions_Uninit();
 	CachedMsg_Uninit();
