@@ -53,7 +53,7 @@ static settings[] =
 	{IDC_GROUP_OVERLAYS_PLATFORM, "GroupOverlaysPlatform"},
 	{IDC_GROUP_OVERLAYS_UNICODE, "GroupOverlaysUnicode"},
 	{IDC_GROUP_OVERLAYS_PROTO,    "GroupOverlaysProtos"},
-//	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOtherProtos"}
+	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOverlaysSecurity"}
 };
 
 /*static void OptDlgChanged(HWND hwndDlg, BOOL show)
@@ -117,8 +117,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_OVERLAYS_PLATFORM:
 		case IDC_GROUP_OVERLAYS_PROTO:
 		case IDC_GROUP_OVERLAYS_UNICODE:
-//		case IDC_GROUP_OVERLAYS_SECURITY:
-			//OptDlgChanged(hwndDlg, false);
+		case IDC_GROUP_OVERLAYS_SECURITY:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 

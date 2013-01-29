@@ -686,10 +686,6 @@
 
 //#define IDC_GROUP_OVERLAYS_RESOURCE_ALT	10048
 
-
-#define IDS_IDENTIFY					11001
-//#define IDC_OPTCHANGENOTE				11002
-
 //###############################################
 
 // Next default values for new objects

@@ -807,7 +807,7 @@ int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
 //#############################################################################################################################################################################
 KN_FP_MASK def_kn_fp_overlays4_mask[] =
 {//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),					IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
-	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_PLATFORM_CASE	},
+	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_SECURITY_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS4_COUNT = SIZEOF(def_kn_fp_overlays4_mask);

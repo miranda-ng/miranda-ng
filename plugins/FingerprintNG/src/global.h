@@ -120,7 +120,7 @@ typedef struct _foundInfo
 #define OVERLAYS_PLATFORM_CASE		3021	//	platforms overlays
 #define OVERLAYS_PROTO_CASE			3022	//	protocols overlays
 #define OVERLAYS_UNICODE_CASE		3023	//	unicode overlay
-//#define OVERLAYS_SECURITY_CASE		3023	//	security overlays
+#define OVERLAYS_SECURITY_CASE		3024	//	security overlays
 
 /*
 #define OVERLAYS_RESOURCE_ALT_CASE	24		//	alternative (old style) overlays

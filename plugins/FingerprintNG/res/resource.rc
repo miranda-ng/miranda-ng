@@ -26,16 +26,6 @@
 	IDI_UNDETECTED		ICON	"undetected.ico"
 	IDI_UNKNOWN			ICON	"unknown.ico"
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// String Table
-//
-
-STRINGTABLE 
-BEGIN
-	IDS_IDENTIFY			"# Finger Icons #"
-END
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -84,7 +74,7 @@ BEGIN
 	CONTROL			"Platform overlays",							IDC_GROUP_OVERLAYS_PLATFORM,	"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,40,120,10
 	CONTROL			"Protocols overlays",							IDC_GROUP_OVERLAYS_PROTO,		"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,50,120,10
 	CONTROL			"Unicode overlay",								IDC_GROUP_OVERLAYS_UNICODE,	"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,60,120,10
-//	CONTROL			"Secure overlays",								IDC_GROUP_OVERLAYS_SECURITY,	"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,70,120,10
+	CONTROL			"Secure overlays",								IDC_GROUP_OVERLAYS_SECURITY,	"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,50,140,10
 
 	GROUPBOX		"Select protocols",								IDC_STATIC,15,75,290,140
 
