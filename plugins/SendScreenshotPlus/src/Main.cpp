@@ -46,7 +46,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,		//doesn't replace anything built-in
-	MIID_PLUGIN
+	// {ED39AF7C-BECD-404e-9499-4D04F711B9CB}
+	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
 };
 
 //static char szSendSS[]=SZ_SENDSS;
@@ -86,7 +87,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PLUGIN, MIID_LAST };
 
 /*---------------------------------------------------------------------------
 * Initializes the services provided and the link to those needed

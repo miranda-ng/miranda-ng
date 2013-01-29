@@ -33,7 +33,6 @@ bool gpg_valid = false, gpg_keyexist = false;
 std::map<HANDLE, contact_data> hcontact_data;
 
 
-#define MIID_GPG { 0x4227c050, 0x8d97, 0x48d2, { 0x91, 0xec, 0x6a, 0x95, 0x2b, 0x3d, 0xab, 0x94 } }
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -44,8 +43,9 @@ PLUGININFOEX pluginInfo={
 	"sss123next@list.ru",
 	"© 2010-2012 sss",
 	"http://sss.chaoslab.ru/tracker/mim_plugs/",
-	1,		//unicode
-	MIID_GPG
+	UNICODE_AWARE,
+	// {4227c050-8d97-48d2-91ec-6a952b3dab94}
+	{ 0x4227c050, 0x8d97, 0x48d2, { 0x91, 0xec, 0x6a, 0x95, 0x2b, 0x3d, 0xab, 0x94 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -60,11 +60,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_GPG, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
 
 INT_PTR LoadKey(WPARAM w, LPARAM l);
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l);

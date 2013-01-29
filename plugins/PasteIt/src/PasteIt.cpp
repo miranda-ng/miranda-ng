@@ -23,8 +23,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "resource.h"
 #include "Options.h"
 
-// {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
-#define	MIID_PASTEIT { 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
 std::map<HANDLE, HWND>* contactWindows;
@@ -57,7 +55,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE, 
-	MIID_PASTEIT
+	// {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
+	{ 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 };
 
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
@@ -80,7 +79,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PASTEIT, MIID_LAST};
 
 std::wstring GetFile()
 {

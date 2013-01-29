@@ -63,8 +63,6 @@ extern int RemoveTmp(WPARAM,LPARAM);
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
 
-// {553811EE-DEB6-48b8-8902-A8A00C1FD679}
-#define MIID_STOPSPAM { 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -76,7 +74,8 @@ PLUGININFOEX pluginInfoEx = {
 	"© 2004-2012 Roman Miklashevsky, A. Petkevich, Kosh&chka, sss, Elzor",
 	"http://sss.chaoslab.ru/tracker/mim_plugs/",
 	UNICODE_AWARE,
-	MIID_STOPSPAM
+	// {553811EE-DEB6-48b8-8902-A8A00C1FD679}
+	{ 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
@@ -150,15 +149,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// returns plugin's interfaces information
-
-static const MUUID interfaces[] = { MIID_STOPSPAM, MIID_LAST };
-
-extern "C"  __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
 
 int hLangpack = 0;
 

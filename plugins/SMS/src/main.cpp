@@ -158,12 +158,11 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {70AC2AC9-85C6-4624-9B05-24733FEBB052}
-	SMS_GUID
+	// {CF97FD5D-B911-47a8-AF03-D21968B5B894}
+	{ 0xcf97fd5d, 0xb911, 0x47a8, { 0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94 } }
 };
 
 
-extern "C" __declspec(dllexport) const MUUID interfaces[] = {SMS_GUID,MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {

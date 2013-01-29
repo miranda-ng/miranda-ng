@@ -19,9 +19,6 @@
 #define __COPYRIGHT					"© 2010 Merlin, © 2004-2006 Sergio Vieira Rolanski"
 #define __AUTHORWEB					"http://miranda-ng.org/"
 
-#ifndef MIID_PLUGIN	// {ED39AF7C-BECD-404e-9499-4D04F711B9CB}
-#define MIID_PLUGIN	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
-#endif
 
 #define __PLUGIN_NAME				"Send Screenshot+"
 #define __FLVersionURL				"http://miranda-ng.org/"

@@ -10,8 +10,6 @@
 
 
 
-// {CF97FD5D-B911-47a8-AF03-D21968B5B894}
-#define  SMS_GUID  { 0xcf97fd5d, 0xb911, 0x47a8, { 0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94 } }
 
 
 #define MIN_MIR_VER_VERSION_DWORD			PLUGIN_MAKE_VERSION(0,8,0,0)
