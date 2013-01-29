@@ -233,7 +233,7 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 
 int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
 {
-//	MSN_CloseThreads();
+	SetEvent(hevAvatarQueue);
 	return 0;
 }
 

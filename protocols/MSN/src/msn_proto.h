@@ -149,7 +149,8 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	OBJLIST<MsgQueueEntry> lsMessageQueue;
 
 	CRITICAL_SECTION csAvatarQueue;
-	OBJLIST<AvatarQueueEntry> lsAvatarQueue;
+	LIST<AvatarQueueEntry> lsAvatarQueue;
+	HANDLE hevAvatarQueue;
 
 	LONG sttChatID;
 
@@ -167,18 +168,18 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	bool        usingGateway;
 
 	char*       msnExternalIP;
-	char*		msnPreviousUUX;
-	char*		msnLastStatusMsg;
+	char*       msnPreviousUUX;
+	char*       msnLastStatusMsg;
 
-	char*	    mailsoundname;
-	char*	    alertsoundname;
+	char*       mailsoundname;
+	char*       alertsoundname;
 
-	unsigned	langpref;
+	unsigned    langpref;
 	unsigned    emailEnabled;
 	unsigned    abchMigrated;
 	unsigned    myFlags;
 
-	unsigned	msnOtherContactsBlocked;
+	unsigned    msnOtherContactsBlocked;
 	int			mUnreadMessages;
 	int			mUnreadJunkEmails;
 	clock_t		mHttpsTS;
@@ -192,9 +193,9 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	HANDLE		hMSNAvatarsFolder;
 	HANDLE		hCustomSmileyFolder;
-	bool		InitCstFldRan;
-	bool		isConnectSuccess;
-	bool		isIdle;
+	bool        InitCstFldRan;
+	bool        isConnectSuccess;
+	bool        isIdle;
 
 	void        InitCustomFolders(void);
 
@@ -203,47 +204,41 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	char*       getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status);
 	bool        getMyAvatarFile(char *url, TCHAR *fname);
 
-	void        AvatarQueue_Init(void);
-	void        AvatarQueue_Uninit(void);
-
 	void        MSN_GoOffline(void);
-	void        MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
-	void        pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl);
-	int         MSN_SetMyAvatar(const TCHAR* szFname, void* pData, size_t cbLen);
 	void        MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int Type);
 
 	const char*	MirandaStatusToMSN(int status);
-	WORD		MSNStatusToMiranda(const char *status);
+	WORD        MSNStatusToMiranda(const char *status);
 	char**		GetStatusMsgLoc(int status);
 
 	void        MSN_SendStatusMessage(const char* msg);
 	void        MSN_SetServerStatus(int newStatus);
-	void		MSN_StartStopTyping(ThreadData* info, bool start);
-	void		MSN_SendTyping(ThreadData* info, const char* email, int netId );
+	void        MSN_StartStopTyping(ThreadData* info, bool start);
+	void        MSN_SendTyping(ThreadData* info, const char* email, int netId );
 
-	void		MSN_InitSB(ThreadData* info, const char* szEmail);
-	void		MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params);
+	void        MSN_InitSB(ThreadData* info, const char* szEmail);
+	void        MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* params);
 	int			MSN_HandleCommands(ThreadData* info, char* cmdString);
 	int			MSN_HandleErrors(ThreadData* info, char* cmdString);
-	void		sttProcessNotificationMessage(char* buf, unsigned len);
-	void		sttProcessStatusMessage(char* buf, unsigned len, const char* wlid);
-	void		sttProcessPage(char* buf, unsigned len);
-	void		sttProcessRemove(char* buf, size_t len);
-	void		sttProcessAdd(char* buf, size_t len);
-	void		sttProcessYFind(char* buf, size_t len);
-	void		sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
-	void		sttInviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
-	void		sttSetMirVer(HANDLE hContact, DWORD dwValue, bool always);
+	void        sttProcessNotificationMessage(char* buf, unsigned len);
+	void        sttProcessStatusMessage(char* buf, unsigned len, const char* wlid);
+	void        sttProcessPage(char* buf, unsigned len);
+	void        sttProcessRemove(char* buf, size_t len);
+	void        sttProcessAdd(char* buf, size_t len);
+	void        sttProcessYFind(char* buf, size_t len);
+	void        sttCustomSmiley(const char* msgBody, char* email, char* nick, int iSmileyType);
+	void        sttInviteMessage(ThreadData* info, char* msgBody, char* email, char* nick);
+	void        sttSetMirVer(HANDLE hContact, DWORD dwValue, bool always);
 
 	void        LoadOptions(void);
 
-	void		InitPopups(void);
-	void		MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, HANDLE hContact = NULL);
-	void		MSN_ShowPopup(const HANDLE hContact, const TCHAR* msg, int flags);
-	void		MSN_ShowError(const char* msgtext, ...);
+	void        InitPopups(void);
+	void        MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, HANDLE hContact = NULL);
+	void        MSN_ShowPopup(const HANDLE hContact, const TCHAR* msg, int flags);
+	void        MSN_ShowError(const char* msgtext, ...);
 
-	void		MSN_SetNicknameUtf(const char* nickname);
-	void		MSN_SendNicknameUtf(const char* nickname);
+	void        MSN_SetNicknameUtf(const char* nickname);
+	void        MSN_SendNicknameUtf(const char* nickname);
 
 	typedef struct { TCHAR *szName; const char *szMimeType; unsigned char *data; size_t dataSize; } StoreAvatarData;
 	void __cdecl msn_storeAvatarThread(void* arg);
@@ -303,7 +298,6 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	void         Threads_Uninit(void);
 	void         MSN_CloseConnections(void);
-	void         MSN_CloseThreads(void);
 	void         MSN_InitThreads(void);
 	int          MSN_GetChatThreads(ThreadData** parResult);
 	int          MSN_GetActiveThreads(ThreadData**);
@@ -490,10 +484,24 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Authentication
 
-	int   MSN_GetPassportAuth(void);
-	char*	GenerateLoginBlob(char* challenge);
-	char*	HotmailLogin(const char* url);
-	void	FreeAuthTokens(void);
+	int    MSN_GetPassportAuth(void);
+	char*	 GenerateLoginBlob(char* challenge);
+	char*	 HotmailLogin(const char* url);
+	void	 FreeAuthTokens(void);
+
+	/////////////////////////////////////////////////////////////////////////////////////////
+	//	MSN avatars support
+
+	void   AvatarQueue_Init(void);
+	void   AvatarQueue_Uninit(void);
+
+	void   MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
+	int    MSN_SetMyAvatar(const TCHAR* szFname, void* pData, size_t cbLen);
+
+	void   __cdecl MSN_AvatarsThread(void*);
+
+	void   pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl);
+	bool   loadHttpAvatar(AvatarQueueEntry *p);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Mail & Offline messaging support

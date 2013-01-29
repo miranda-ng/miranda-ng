@@ -339,36 +339,6 @@ void  CMsnProto::MSN_CloseConnections(void)
 		CallService(MS_NETLIB_SHUTDOWN, (WPARAM)hHttpsConnection, 0);
 }
 
-void  CMsnProto::MSN_CloseThreads(void)
-{
-	for (unsigned j=6; --j;)
-	{	
-		EnterCriticalSection(&sttLock);
-
-		bool opcon = false;
-		for (int i=0; i < sttThreads.getCount(); i++)
-			opcon |= (sttThreads[i].s != NULL);
-
-		LeaveCriticalSection(&sttLock);
-		
-		if (!opcon) break;
-		
-		Sleep(250);
-	}
-
-	EnterCriticalSection(&sttLock);
-
-	for (int i=0; i < sttThreads.getCount(); i++) 
-	{
-		ThreadData* T = &sttThreads[i];
-		
-		if (T->s != NULL)
-			CallService(MS_NETLIB_SHUTDOWN, (WPARAM)T->s, 0);
-	}
-
-	LeaveCriticalSection(&sttLock);
-}
-
 void CMsnProto::Threads_Uninit(void)
 {
 	EnterCriticalSection(&sttLock);
