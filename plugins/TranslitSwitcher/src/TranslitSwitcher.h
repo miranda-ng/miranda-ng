@@ -54,7 +54,5 @@ VOID TranslitLayout(BOOL);
 VOID InvertCase(BOOL);
 int OnButtonPressed(WPARAM wParam, LPARAM lParam);
 
-// {0286947D-3140-4222-B5AD-2C92315E1C1E}
-#define MIID_TS { 0x286947d, 0x3140, 0x4222, { 0xb5, 0xad, 0x2c, 0x92, 0x31, 0x5e, 0x1c, 0x1e } }
 
 #endif

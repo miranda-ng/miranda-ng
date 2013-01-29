@@ -45,8 +45,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
 
-// {A5BB1B7A-B7CD-4cbb-A7DB-CEB4EB71DA49}
-#define MIID_KEEPSTATUS { 0xa5bb1b7a, 0xb7cd, 0x4cbb, { 0xa7, 0xdb, 0xce, 0xb4, 0xeb, 0x71, 0xda, 0x49 } }
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
@@ -58,7 +56,7 @@ PLUGININFOEX pluginInfoEx={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_KEEPSTATUS
+	{ 0xa5bb1b7a, 0xb7cd, 0x4cbb, { 0xa7, 0xdb, 0xce, 0xb4, 0xeb, 0x71, 0xda, 0x49 } } // {A5BB1B7A-B7CD-4cbb-A7DB-CEB4EB71DA49}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

@@ -88,8 +88,6 @@ Boston, MA 02111-1307, USA.
 #include "m_variables.h"
 #include "m_smileyadd.h"
 
-// {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}
-#define MIID_TIPPER	{ 0x8392df1d, 0x9090, 0x4f8e, { 0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00 } }
 
 #define MODULE					"Tipper"
 #define MODULE_ITEMS			"Tipper_Items"

@@ -15,7 +15,8 @@ PLUGININFOEX pluginInfo={
 	"© 2009 Mikhail Yuriev",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	MIID_USERGUIDE
+	{0x297ec1e7, 0x41b7, 0x41f9, { 0xbb, 0x91, 0xef, 0xa9, 0x50, 0x28, 0xf1, 0x6c }} //297ec1e7-41b7-41f9-bb91-efa95028f16c
+
 };
 
 static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)

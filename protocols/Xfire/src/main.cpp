@@ -137,9 +137,8 @@ PLUGININFOEX pluginInfoEx={
 		"dufte@justmail.de",
 		"(c) 2012 Xfirelib by Herbert Poul, Xfire Miranda protocol plugin by dufte",
 		"http://miranda-ng.org",
-		0,
-		// {9B8E1735-970D-4ce0-930C-A561956BDCA2}
-		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } }
+		UNICODE_AWARE,
+		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } } // {9B8E1735-970D-4ce0-930C-A561956BDCA2}
 };
 
 static IconItem icon = { LPGEN("Protocol icon"), "XFIRE_main", IDI_TM };

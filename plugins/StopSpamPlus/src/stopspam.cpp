@@ -6,8 +6,6 @@ int hLangpack;
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's extended information
 
-// {553811EE-DEB6-48b8-8902-A8A00C1FD679}
-#define MIID_STOPSPAM { 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -19,7 +17,7 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_STOPSPAM
+	{ 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } } // {553811EE-DEB6-48b8-8902-A8A00C1FD679}
 };
 
 

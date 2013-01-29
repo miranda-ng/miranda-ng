@@ -6,9 +6,6 @@
 #include "version.h"
 #include "TooltipNotify.h"
 
-// {5906A545-F31A-4726-B48F-03A09F060318}
-static const MUUID MIID_TOOLTIPNOTIFY_UNICODE = 
-{ 0x5906a545, 0xf31a, 0x4726, { 0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18 } };
 
 // {03CD82B6-0BB5-4f26-8EB4-06CD8ECD36FF}
 static const MUUID MIID_TOOLTIPNOTIFY = 
@@ -77,7 +74,7 @@ static PLUGININFOEX sPluginInfo =
 	"© 2004-2008 Gneedah software",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,		//doesn't replace anything built-in
-	MIID_TOOLTIPNOTIFY_UNICODE
+	{ 0x5906a545, 0xf31a, 0x4726, { 0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18 } } // {5906A545-F31A-4726-B48F-03A09F060318}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

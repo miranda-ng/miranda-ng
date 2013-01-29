@@ -27,7 +27,7 @@ static PLUGININFOEX pluginInfo =
 	"(C) 2003,2005 Joe Kucera, Lubomir Ivanov",
 	"http://d00mer.freeshell.org/miranda/",
 	UNICODE_AWARE,
-	MIID_NNR
+	{0x842a6668, 0xf9da, 0x4968, {0xbf, 0xd7, 0xd2, 0xbd, 0x9d, 0xf8, 0x48, 0xee}} // {842A6668-F9DA-4968-BFD7-D2BD9DF848EE}
 };
 
 

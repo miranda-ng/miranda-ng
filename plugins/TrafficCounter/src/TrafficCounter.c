@@ -94,8 +94,6 @@ COLORREF KeyColor;
 // Внутренние функции модуля.
 void Traffic_AddMainMenuItem(void);
 
-// {82181510-5DFA-49d7-B469-33871E2AE8B5}
-#define MIID_TRAFFICCOUNTER {0x82181510, 0x5dfa, 0x49d7, { 0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}}
 
 PLUGININFOEX pluginInfoEx = 
 {
@@ -108,7 +106,7 @@ PLUGININFOEX pluginInfoEx =
 	"© 2002-2006 Ghost, © 2007-2012 Mironych",
 	"",
 	UNICODE_AWARE,
-	MIID_TRAFFICCOUNTER
+	{0x82181510, 0x5dfa, 0x49d7, { 0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}} // {82181510-5DFA-49d7-B469-33871E2AE8B5}
 };
 
 __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)

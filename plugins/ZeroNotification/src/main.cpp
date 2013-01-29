@@ -46,7 +46,7 @@ PLUGININFOEX pluginInfoEx = {
 	COPYRIGHT,
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	UID
+	{ 0x47d489d3, 0x310d, 0x4ef6, { 0xbd, 0x5, 0x69, 0x9f, 0xff, 0xd5, 0xa4, 0xaa } } // {47D489D3-310D-4ef6-BD05-699FFFD5A4AA}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)

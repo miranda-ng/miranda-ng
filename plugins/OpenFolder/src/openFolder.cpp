@@ -15,7 +15,7 @@ PLUGININFOEX pluginInfoEx =
 	"© 2008 jarvis, © 2004 Kreisquadratur",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,    //not transient
-	MIID_OPENFOLDER // {10896143-7249-4b36-A408-6501A6B6035A}
+	{ 0x10896143, 0x7249, 0x4b36, { 0xa4, 0x8, 0x65, 0x1, 0xa6, 0xb6, 0x3, 0x5a } }      // {10896143-7249-4b36-A408-6501A6B6035A}
 };
 
 static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };

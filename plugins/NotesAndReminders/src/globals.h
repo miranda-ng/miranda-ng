@@ -26,8 +26,7 @@
 #include "miscutils.h"
 #include "resource.h"
 
-// {842A6668-F9DA-4968-BFD7-D2BD9DF848EE}
-#define MIID_NNR {0x842a6668, 0xf9da, 0x4968, {0xbf, 0xd7, 0xd2, 0xbd, 0x9d, 0xf8, 0x48, 0xee}}
+
 
 #define MODULENAME	"StickyNotes"
 #define SECTIONNAME	"Notes & Reminders"

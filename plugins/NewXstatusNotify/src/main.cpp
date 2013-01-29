@@ -51,7 +51,7 @@ PLUGININFOEX pluginInfoEx = {
 	"© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	MIID_NXSN
+	{ 0xebf19652, 0xe434, 0x4d79, { 0x98, 0x97, 0x91, 0xa0, 0xff, 0x22, 0x6f, 0x51 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
