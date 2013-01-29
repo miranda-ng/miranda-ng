@@ -536,7 +536,7 @@ void ShowPopup(ALARM *alarm) {
 		ppd.lchIcon = hIconMenuSet;
 
 		lstrcpyn(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
-		lstrcpy,(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
+		lstrcpyn(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
