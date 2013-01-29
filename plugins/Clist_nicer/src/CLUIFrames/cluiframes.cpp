@@ -113,7 +113,7 @@ static HANDLE contMIVisible, contMITitle, contMITBVisible, contMILock, contMICol
 static HANDLE contMIAlignRoot;
 static HANDLE contMIAlignTop, contMIAlignClient, contMIAlignBottom;
 static HANDLE contMIBorder, contMISkinned;
-static HANDLE MainMIRoot = (HANDLE) - 1;
+static HGENMENU MainMIRoot = (HGENMENU) - 1;
 
 // others
 static int ContactListHeight;
@@ -649,7 +649,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&FrameTitle");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_GRAYED | CMIF_ICONFROMICOLIB;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMITitle = menuid;
 	else Frames[framepos].MenuHandles.MITitle = menuid;
@@ -662,7 +662,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.position = popuppos++;
 	mi.pszName = LPGEN("&Visible");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAME;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIVisible = menuid;
@@ -674,7 +674,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Show TitleBar");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SHFRAMETITLEBAR;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMITBVisible = menuid;
 	else Frames[framepos].MenuHandles.MITBVisible = menuid;
@@ -688,7 +688,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Locked");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_ULFRAME;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMILock = menuid;
 	else Frames[framepos].MenuHandles.MILock = menuid;
@@ -699,7 +699,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Collapsed");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_UCOLLFRAME;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIColl = menuid;
 	else Frames[framepos].MenuHandles.MIColl = menuid;
@@ -711,7 +711,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Floating Mode");
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszService = "Set_Floating";
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIFloating = menuid;
 	else Frames[framepos].MenuHandles.MIFloating = menuid;
@@ -725,7 +725,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Border");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETUNBORDER;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMIBorder = menuid;
 	else Frames[framepos].MenuHandles.MIBorder = menuid;
@@ -738,7 +738,7 @@ HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU
 	mi.pszName = LPGEN("&Skinned frame");
 	mi.flags = CMIF_CHILDPOPUP | CMIF_CHECKED;
 	mi.pszService = MS_CLIST_FRAMES_SETSKINNED;
-	mi.pszContactOwner = (char *)0;
+	mi.pszContactOwner = 0;
 	menuid = pfnAdd(&mi);
 	if (frameid == -1) contMISkinned = menuid;
 	else Frames[framepos].MenuHandles.MISkinned = menuid;
@@ -1593,14 +1593,14 @@ static int CLUIFramesLoadMainMenu()
 
 	if (MainMIRoot != (HANDLE) - 1) {
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)MainMIRoot, 0);
-		MainMIRoot = (HANDLE) - 1;
+		MainMIRoot = (HGENMENU) - 1;
 	}
 
 	// create root menu
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
-	mi.position = (int)3000090000;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FRAME);
+	mi.flags = CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB;
+	mi.position = 3000090000;
 	mi.pszPopupName = (char*) - 1;
 	mi.pszName = LPGEN("Frames");
 	mi.pszService = 0;
@@ -1610,9 +1610,9 @@ static int CLUIFramesLoadMainMenu()
 	int separator = (int)3000200000;
 	for (int i=0; i < nFramescount; i++) {
 		mi.hIcon = Frames[i].TitleBar.hicon;
-		mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP | CMIF_TCHAR;
+		mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.position = separator;
-		mi.pszPopupName = (char*)MainMIRoot;
+		mi.hParentMenu = MainMIRoot;
 		mi.ptszName = Frames[i].TitleBar.tbname ? Frames[i].TitleBar.tbname : Frames[i].name;
 		mi.pszService = 0;
 		Frames[i].MenuHandles.MainMenuItem = Menu_AddMainMenuItem(&mi);
@@ -1627,9 +1627,9 @@ static int CLUIFramesLoadMainMenu()
 
 	// create "show all frames" menu
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
-	mi.flags = CMIF_CHILDPOPUP;
+	mi.flags = CMIF_ROOTHANDLE;
 	mi.position = separator++;
-	mi.pszPopupName = (char*)MainMIRoot;
+	mi.hParentMenu = MainMIRoot;
 	mi.pszName = LPGEN("Show All Frames");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMES;
 	Menu_AddMainMenuItem(&mi);
@@ -1637,7 +1637,7 @@ static int CLUIFramesLoadMainMenu()
 	// create "show all titlebars" menu
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_HELP));
 	mi.position = separator++;
-	mi.pszPopupName = (char*)MainMIRoot;
+	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Show All Titlebars");
 	mi.pszService = MS_CLIST_FRAMES_SHOWALLFRAMESTB;
@@ -1646,7 +1646,7 @@ static int CLUIFramesLoadMainMenu()
 	// create "hide all titlebars" menu
 	mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_HELP));
 	mi.position = separator++;
-	mi.pszPopupName = (char*)MainMIRoot;
+	mi.hParentMenu = MainMIRoot;
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.pszName = LPGEN("Hide All Titlebars");
 	mi.pszService = MS_CLIST_FRAMES_HIDEALLFRAMESTB;
@@ -1658,31 +1658,26 @@ static int CLUIFramesLoadMainMenu()
 static HFONT CLUILoadTitleBarFont()
 {
 	char facename[] = "MS Shell Dlg";
-	HFONT hfont;
 	LOGFONT logfont;
 	memset(&logfont, 0, sizeof(logfont));
 	memcpy(logfont.lfFaceName, facename, sizeof(facename));
 	logfont.lfWeight = FW_NORMAL;
 	logfont.lfHeight = -10;
-	hfont = CreateFontIndirect(&logfont);
-	return hfont;
+	return CreateFontIndirect(&logfont);
 }
 
 static int UpdateTBToolTip(int framepos)
 {
-	{
-		TOOLINFO ti;
+	TOOLINFO ti;
 
-		ZeroMemory(&ti, sizeof(ti));
-		ti.cbSize = sizeof(ti);
-		ti.lpszText = Frames[framepos].TitleBar.tooltip;
-		ti.hinst = g_hInst;
-		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS ;
-		ti.uId = (UINT_PTR)Frames[framepos].TitleBar.hwnd;
+	ZeroMemory(&ti, sizeof(ti));
+	ti.cbSize = sizeof(ti);
+	ti.lpszText = Frames[framepos].TitleBar.tooltip;
+	ti.hinst = g_hInst;
+	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS ;
+	ti.uId = (UINT_PTR)Frames[framepos].TitleBar.hwnd;
 
-		return(SendMessage(Frames[framepos].TitleBar.hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti));
-	}
-
+	return SendMessage(Frames[framepos].TitleBar.hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
 };
 
 int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar)
