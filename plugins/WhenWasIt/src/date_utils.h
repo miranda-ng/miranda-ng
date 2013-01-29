@@ -37,8 +37,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SAVE_MODE_DELETEALL 100
 
 time_t Today();
-int IsLeapYear(int year);
-int IsDOBValid(int year, int month, int day);
+bool IsLeapYear(int year);
+bool IsDOBValid(int year, int month, int day);
 
 unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay);
 int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay);

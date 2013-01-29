@@ -29,7 +29,7 @@ time_t Today()
 	return mktime(date);
 }
 
-int IsDOBValid(int year, int month, int day)
+bool IsDOBValid(int year, int month, int day)
 {
 	return (year != 0 && month != 0 && day != 0);
 }
@@ -89,7 +89,7 @@ char GetContactGender(HANDLE hContact)
 	return gender;
 }
 
-int IsLeapYear(int year)
+bool IsLeapYear(int year)
 {
 	return ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0)));
 }

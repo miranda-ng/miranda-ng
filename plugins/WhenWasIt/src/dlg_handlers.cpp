@@ -400,7 +400,12 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, lParam);
-
+		
+		{
+			HANDLE hContact = (HANDLE) lParam;
+			WindowList_Add(hAddBirthdayWndsList, hWnd, hContact);
+			Utils_RestoreWindowPositionNoSize(hWnd,hContact,ModuleName,"BirthdayWnd");
+		}
 		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hAddBirthdayContact, 1));
 		{
 			for (int i = 0; i < cSaveModule; i++)
@@ -475,6 +480,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_DESTROY:
 		RefreshContactListIcons(hContact); //the birthday might be changed, refresh icon.
 		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		Utils_SaveWindowPosition(hWnd,hContact,ModuleName,"BirthdayWnd");
 		WindowList_Remove(hAddBirthdayWndsList, hWnd);
 		break;
 

@@ -56,61 +56,62 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 	
-	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday near"));
-	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday today"));
+	SkinAddNewSoundExT(BIRTHDAY_NEAR_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday near"));
+	SkinAddNewSoundExT(BIRTHDAY_TODAY_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday today"));
 	
 	UpdateTimers();
 
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 10000000;
-	cl.flags = CMIF_ICONFROMICOLIB;
-	cl.pszPopupName = "Birthdays (When Was It)";
+	cl.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
+	cl.ptszPopupName = LPGENT("Birthdays (When Was It)");
 
 	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	cl.icolibItem = hCheckMenu;
-	cl.pszName = "Check for birthdays";
+	cl.ptszName = LPGENT("Check for birthdays");
 	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_LIST_SHOW;
-	cl.pszName = "Birthday list";
+	cl.ptszName = LPGENT("Birthday list");
 	cl.icolibItem = hListMenu;
 	hmBirthdayList = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
-	cl.pszName = "Refresh user details";
+	cl.ptszName = LPGENT("Refresh user details");
 	cl.icolibItem = hRefreshUserDetails;
 	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
-	cl.pszName = "Import birthdays";
+	cl.ptszName = LPGENT("Import birthdays");
 	cl.icolibItem = hImportBirthdays;
 	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
-	cl.pszName = "Export birthdays";
+	cl.ptszName = LPGENT("Export birthdays");
 	cl.icolibItem = hExportBirthdays;
 	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
 	cl.icolibItem = hAddBirthdayContact;
-	cl.pszName = "Add/change user &birthday";
+	cl.ptszName = LPGENT("Add/change user &birthday");
 	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
 
 	// Register hotkeys
 	HOTKEYDESC hotkey = {0};
 	hotkey.cbSize = sizeof(hotkey);
-	hotkey.pszSection = LPGEN("Birthdays");
+	hotkey.ptszSection = LPGENT("Birthdays");
+	hotkey.dwFlags = HKD_TCHAR;
 
 	hotkey.pszName = "wwi_birthday_list";
-	hotkey.pszDescription = LPGEN("Birthday list");
+	hotkey.ptszDescription = LPGENT("Birthday list");
 	hotkey.pszService = MS_WWI_LIST_SHOW;
 	Hotkey_Register(&hotkey);
 		
 	hotkey.pszName = "wwi_check_birthdays";
-	hotkey.pszDescription = LPGEN("Check for birthdays");
+	hotkey.ptszDescription = LPGENT("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
 	
@@ -137,10 +138,10 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
-	odp.pszTitle = LPGEN("Birthdays");
-	odp.pszGroup = LPGEN("Contacts");
+	odp.ptszTitle = LPGENT("Birthdays");
+	odp.ptszGroup = LPGENT("Contacts");
 	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	
