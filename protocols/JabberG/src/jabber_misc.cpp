@@ -522,6 +522,12 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" (SecureIM)"));
 	}
 
+	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_MIROTR)) && !_tcsstr(buf, _T("(MirOTR)")))
+	{
+		int offset = lstrlen(buf);
+		mir_sntprintf(buf + offset, bufSize - offset, _T(" (MirOTR)"));
+	}
+
 	if (resource->resourceName && !_tcsstr(buf, resource->resourceName))
 	{
 		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)

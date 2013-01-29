@@ -47,7 +47,6 @@ int iqIdRegSetReg;
 #define JCPF_OUT     0x02UL
 #define JCPF_ERROR   0x04UL
 
-//extern int bSecureIM;
 static VOID CALLBACK JabberDummyApcFunc(DWORD_PTR)
 {
 	return;

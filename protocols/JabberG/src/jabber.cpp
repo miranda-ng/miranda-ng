@@ -78,7 +78,7 @@ HANDLE hExtraMood = NULL;
 
 void JabberUserInfoInit(void);
 
-int bSecureIM;
+int bSecureIM, bMirOTR;
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
@@ -150,6 +150,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	hModulesLoadedTB = HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
 	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
+	bMirOTR = (int)GetModuleHandle(_T("mirotr.dll"));
 
 	// file associations manager plugin support
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {

@@ -57,6 +57,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 	{	_T(JABBER_FEAT_USER_MOOD_NOTIFY),     JABBER_CAPS_USER_MOOD_NOTIFY,     _T("Receives information about user moods") },
 	{	_T(JABBER_FEAT_PUBSUB),               JABBER_CAPS_PUBSUB,               _T("Supports generic publish-subscribe functionality") },
 	{	_T(JABBER_FEAT_SECUREIM),             JABBER_CAPS_SECUREIM,             _T("Supports SecureIM plugin for Miranda NG") },
+	{	_T(JABBER_FEAT_MIROTR),               JABBER_CAPS_MIROTR,               _T("Supports MirOTR plugin for Miranda NG") },
 	{	_T(JABBER_FEAT_PRIVACY_LISTS),        JABBER_CAPS_PRIVACY_LISTS,        _T("Can block communications from particular other users using Privacy lists") },
 	{	_T(JABBER_FEAT_MESSAGE_RECEIPTS),     JABBER_CAPS_MESSAGE_RECEIPTS,     _T("Supports Message Receipts") },
 	{	_T(JABBER_FEAT_USER_TUNE),            JABBER_CAPS_USER_TUNE,            _T("Can report information about the music to which a user is listening") },
@@ -77,6 +78,7 @@ const JabberFeatCapPair g_JabberFeatCapPairs[] = {
 
 const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	_T(JABBER_EXT_SECUREIM),          JABBER_CAPS_SECUREIM             },
+	{	_T(JABBER_EXT_MIROTR),            JABBER_CAPS_MIROTR               },
 	{	_T(JABBER_EXT_COMMANDS),          JABBER_CAPS_COMMANDS             },
 	{	_T(JABBER_EXT_USER_MOOD),         JABBER_CAPS_USER_MOOD_NOTIFY     },
 	{	_T(JABBER_EXT_USER_TUNE),         JABBER_CAPS_USER_TUNE_NOTIFY     },

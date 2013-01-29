@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_iq.h"
 #include "jabber_rc.h"
 
-extern int bSecureIM;
-
 #ifndef VER_SUITE_WH_SERVER
 	#define VER_SUITE_WH_SERVER                     0x00008000
 #endif
