@@ -385,7 +385,8 @@ void CreateFromBitmaps(bool bServiceTip)
 		}
 	}
 
-	skin.bCached = true;
+	if (!bServiceTip)
+		skin.bCached = true;
 }
 
 void SolidColorFill(bool bServiceTip)
