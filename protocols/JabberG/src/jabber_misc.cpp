@@ -528,6 +528,12 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 		mir_sntprintf(buf + offset, bufSize - offset, _T(" (MirOTR)"));
 	}
 
+	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_NEWGPG)) && !_tcsstr(buf, _T("(New_GPG)")))
+	{
+		int offset = lstrlen(buf);
+		mir_sntprintf(buf + offset, bufSize - offset, _T(" (New_GPG)"));
+	}
+
 	if (resource->resourceName && !_tcsstr(buf, resource->resourceName))
 	{
 		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)

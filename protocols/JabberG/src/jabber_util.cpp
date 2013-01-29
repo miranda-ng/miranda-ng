@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern CRITICAL_SECTION mutex;
 
-extern int bSecureIM, bMirOTR;
+extern int bSecureIM, bMirOTR, bNewGPG;
 
 void CJabberProto::SerialInit(void)
 {
@@ -837,6 +837,12 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		if (szExtCaps[0])
 			_tcscat(szExtCaps, _T(" "));
 		_tcscat(szExtCaps, _T(JABBER_EXT_MIROTR));
+	}
+
+	if (bNewGPG) {
+		if (szExtCaps[0])
+			_tcscat(szExtCaps, _T(" "));
+		_tcscat(szExtCaps, _T(JABBER_EXT_NEWGPG));
 	}
 
 	if (m_options.EnableRemoteControl) {
