@@ -1019,9 +1019,9 @@ typedef struct {
 #define TABSRMM_HK_LISTTOGGLE	 30
 #define TABSRMM_HK_MUC_SHOWSERVER 31
 
-#define TABSRMM_HK_SECTION_IM "Message windows - IM"
-#define TABSRMM_HK_SECTION_GENERIC "Message windows - all"
-#define TABSRMM_HK_SECTION_GC "Message windows - groupchats"
+#define TABSRMM_HK_SECTION_IM LPGEN("Message windows - IM")
+#define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")
+#define TABSRMM_HK_SECTION_GC LPGEN("Message windows - groupchats")
 
 /*
  * encryption status bar indicator
