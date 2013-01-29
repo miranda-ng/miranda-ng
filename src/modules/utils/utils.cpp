@@ -420,14 +420,19 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-static INT_PTR RestartMiranda(WPARAM, LPARAM)
+static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 {
-	TCHAR mirandaPath[ MAX_PATH ], cmdLine[ 100 ];
+	TCHAR mirandaPath[MAX_PATH], cmdLine[100];
 	PROCESS_INFORMATION pi;
-	STARTUPINFO si = { 0 };
+	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
 	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
-	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+	if (wParam) {
+		TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+		mir_free(profilename);
+	} else
+		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
 	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	return 0;

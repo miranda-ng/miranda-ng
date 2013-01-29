@@ -159,8 +159,7 @@ VOID __stdcall ExitMe(void*)
 
 VOID __stdcall RestartMe(void*)
 {
-	CallService("CloseAction", 0, 0);
-	CallService(MS_SYSTEM_RESTART, 0, 0);
+	CallService(MS_SYSTEM_RESTART, 1, 0);
 }
 
 BOOL Exists(LPCTSTR strName)

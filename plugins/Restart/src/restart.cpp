@@ -40,16 +40,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR mirandaPath[MAX_PATH], cmdLine[100];
-	PROCESS_INFORMATION pi;
-	STARTUPINFO si = {0};
-	si.cb = sizeof(si);
-	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
-	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
-	CallService("CloseAction", 0, 0);
-	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-	mir_free(profilename);
+	CallService(MS_SYSTEM_RESTART, 1, 0);
 	return 0;
 }
 
