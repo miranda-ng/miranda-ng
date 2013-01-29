@@ -37,7 +37,8 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	sttThreads(10, PtrKeySortT),
 	sessionList(10, PtrKeySortT),
 	dcList(10, PtrKeySortT),
-	msgQueueList(1),
+	lsMessageQueue(1),
+	lsAvatarQueue(1),
 	msgCache(5, CompareId)
 {
 	char path[MAX_PATH];

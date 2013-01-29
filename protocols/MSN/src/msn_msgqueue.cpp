@@ -41,7 +41,7 @@ int  CMsnProto::MsgQueue_Add(const char* wlid, int msgType, const char* msg, int
 	EnterCriticalSection(&csMsgQueue);
 
 	MsgQueueEntry* E = new MsgQueueEntry;
-	msgQueueList.insert(E);
+	lsMessageQueue.insert(E);
 
 	int seq = msgQueueSeq++;
 
@@ -70,9 +70,9 @@ const char* CMsnProto::MsgQueue_CheckContact(const char* wlid, time_t tsc)
 
 	time_t ts = time(NULL);
 	const char* ret = NULL;
-	for (int i=0; i < msgQueueList.getCount(); i++)
+	for (int i=0; i < lsMessageQueue.getCount(); i++)
 	{
-		if (_stricmp(msgQueueList[i].wlid, wlid) == 0 && (tsc == 0 || (ts - msgQueueList[i].ts) < tsc))
+		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (tsc == 0 || (ts - lsMessageQueue[i].ts) < tsc))
 		{	
 			ret = wlid;
 			break;
@@ -89,17 +89,17 @@ const char* CMsnProto::MsgQueue_GetNextRecipient(void)
 	EnterCriticalSection(&csMsgQueue);
 
 	const char* ret = NULL;
-	for (int i=0; i < msgQueueList.getCount(); i++)
+	for (int i=0; i < lsMessageQueue.getCount(); i++)
 	{
-		MsgQueueEntry& E = msgQueueList[i];
+		MsgQueueEntry& E = lsMessageQueue[i];
 		if (!E.allocatedToThread)
 		{
 			E.allocatedToThread = 1;
 			ret = E.wlid;
 
-			while(++i < msgQueueList.getCount())
-				if (_stricmp(msgQueueList[i].wlid, ret) == 0)
-					msgQueueList[i].allocatedToThread = 1;
+			while(++i < lsMessageQueue.getCount())
+				if (_stricmp(lsMessageQueue[i].wlid, ret) == 0)
+					lsMessageQueue[i].allocatedToThread = 1;
 
 			break;
 		}	
@@ -115,15 +115,15 @@ bool  CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 	int i;
 
 	EnterCriticalSection(&csMsgQueue);
-	for(i=0; i < msgQueueList.getCount(); i++)
-		if (_stricmp(msgQueueList[i].wlid, wlid) == 0)
+	for(i=0; i < lsMessageQueue.getCount(); i++)
+		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0)
 			break;
 	
-	bool res = i != msgQueueList.getCount();
+	bool res = i != lsMessageQueue.getCount();
 	if (res)
 	{	
-		retVal = msgQueueList[i];
-		msgQueueList.remove(i);
+		retVal = lsMessageQueue[i];
+		lsMessageQueue.remove(i);
 	}
 	LeaveCriticalSection(&csMsgQueue);
 	return res;
@@ -134,8 +134,8 @@ int  CMsnProto::MsgQueue_NumMsg(const char* wlid)
 	int res = 0;
 	EnterCriticalSection(&csMsgQueue);
 
-	for(int i=0; i < msgQueueList.getCount(); i++)
-		res += (_stricmp(msgQueueList[i].wlid, wlid) == 0);
+	for(int i=0; i < lsMessageQueue.getCount(); i++)
+		res += (_stricmp(lsMessageQueue[i].wlid, wlid) == 0);
 	
 	LeaveCriticalSection(&csMsgQueue);
 	return res;
@@ -149,9 +149,9 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 	if (wlid == NULL)
 	{
 
-		for(i=0; i < msgQueueList.getCount(); i++)
+		for(i=0; i < lsMessageQueue.getCount(); i++)
 		{
-			const MsgQueueEntry& E = msgQueueList[i];
+			const MsgQueueEntry& E = lsMessageQueue[i];
 			if (E.msgSize == 0)
 			{
 				HANDLE hContact = MSN_HContactFromEmail(E.wlid);
@@ -162,17 +162,17 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 			mir_free(E.wlid);
 			if (E.cont) delete E.cont;
 		}
-		msgQueueList.destroy();
+		lsMessageQueue.destroy();
 
 		msgQueueSeq = 1;
 	}
 	else
 	{
-		for(i=0; i < msgQueueList.getCount(); i++)
+		for(i=0; i < lsMessageQueue.getCount(); i++)
 		{
 			time_t ts = time(NULL);
-			const MsgQueueEntry& E = msgQueueList[i];
-			if (_stricmp(msgQueueList[i].wlid, wlid) == 0 && (!msg || E.msgSize == 0))
+			const MsgQueueEntry& E = lsMessageQueue[i];
+			if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (!msg || E.msgSize == 0))
 			{
 				bool msgfnd = E.msgSize == 0 && E.ts < ts;
 				int seq = E.seq;
@@ -180,7 +180,7 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 				mir_free(E.message);
 				mir_free(E.wlid);
 				if (E.cont) delete E.cont;
-				msgQueueList.remove(i);
+				lsMessageQueue.remove(i);
 
 				if (msgfnd) 
 				{

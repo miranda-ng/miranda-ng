@@ -173,7 +173,7 @@ void     	UrlEncode(const char* src, char* dest, size_t cbDest);
 
 void		__cdecl MSN_ConnectionProc(HANDLE hNewConnection, DWORD dwRemoteIP, void*);
 
-char*		MSN_GetAvatarHash(char* szContext);
+char*		MSN_GetAvatarHash(char* szContext, char** pszUrl = NULL);
 int			MSN_GetImageFormat(void* buf, const TCHAR** ext);
 int			MSN_GetImageFormat(const TCHAR* file);
 bool		MSN_MsgWndExist(HANDLE hContact);
@@ -602,6 +602,23 @@ struct MsgQueueEntry
 	int            flags;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+//	Avatars' queue
+
+struct AvatarQueueEntry
+{
+	HANDLE  hContact;
+	char*   pszUrl;
+
+	__forceinline AvatarQueueEntry(HANDLE _contact, LPCSTR _url) :
+		hContact(_contact),
+		pszUrl( mir_strdup(_url))
+	{}
+
+	__forceinline ~AvatarQueueEntry()
+	{	mir_free(pszUrl);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //	User lists

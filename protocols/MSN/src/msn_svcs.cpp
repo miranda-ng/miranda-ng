@@ -65,8 +65,7 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 	TCHAR filename[MAX_PATH];
 	MsnContact *cont = NULL;
 
-	if (AI->hContact)
-	{
+	if (AI->hContact) {
 		cont = Lists_Get(AI->hContact);
 		if (cont == NULL) return GAIR_NOAVATAR;
 
@@ -74,43 +73,38 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 			return GAIR_NOAVATAR;
 	}
 
-	if (AI->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0)
-	{
+	if (AI->hContact == NULL || _stricmp(cont->email, MyOptions.szEmail) == 0) {
 		MSN_GetAvatarFileName(NULL, filename, SIZEOF(filename), NULL);
 		AI->format = MSN_GetImageFormat(filename);
-		if (AI->format != PA_FORMAT_UNKNOWN) _tcscpy(AI->filename, filename);
+		if (AI->format != PA_FORMAT_UNKNOWN)
+			_tcscpy(AI->filename, filename);
 		return AI->format == PA_FORMAT_UNKNOWN ? GAIR_NOAVATAR : GAIR_SUCCESS;
 	}
 
 	char *szContext;
 	DBVARIANT dbv;
-	if (getString(AI->hContact, AI->hContact ? "PictContext" : "PictObject", &dbv) == 0)
-	{
+	if ( getString(AI->hContact, AI->hContact ? "PictContext" : "PictObject", &dbv) == 0) {
 		szContext = (char*)NEWSTR_ALLOCA(dbv.pszVal);
 		MSN_FreeVariant(&dbv);
 	}
-	else
-		return GAIR_NOAVATAR;
+	else return GAIR_NOAVATAR;
 
 	MSN_GetAvatarFileName(AI->hContact, filename, SIZEOF(filename), NULL);
 	AI->format = MSN_GetImageFormat(filename);
 
-	if (AI->format != PA_FORMAT_UNKNOWN) 
-	{
+	if (AI->format != PA_FORMAT_UNKNOWN) {
 		bool needupdate = true;
-		if (getString(AI->hContact, "PictSavedContext", &dbv) == 0)
-		{
+		if (getString(AI->hContact, "PictSavedContext", &dbv) == 0) {
 			needupdate = strcmp(dbv.pszVal, szContext) != 0;
 			MSN_FreeVariant(&dbv);
 		}
-		if (needupdate)
-		{
+
+		if (needupdate) {
 			setString(AI->hContact, "PictSavedContext", szContext);
 
 			// Store also avatar hash
 			char* szAvatarHash = MSN_GetAvatarHash(szContext);
-			if (szAvatarHash != NULL)
-			{
+			if (szAvatarHash != NULL) {
 				setString(AI->hContact, "AvatarSavedHash", szAvatarHash);
 				mir_free(szAvatarHash);
 			}
@@ -119,33 +113,33 @@ INT_PTR CMsnProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 		return GAIR_SUCCESS;
 	}
 
-	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL)
-	{
+	if ((wParam & GAIF_FORCE) != 0 && AI->hContact != NULL) {
 		if (avsPresent < 0) avsPresent = ServiceExists(MS_AV_SETMYAVATAR) != 0;
-		if (!avsPresent) return GAIR_NOAVATAR;
+		if (!avsPresent)
+			return GAIR_NOAVATAR;
 
 		WORD wStatus = getWord(AI->hContact, "Status", ID_STATUS_OFFLINE);
-		if (wStatus == ID_STATUS_OFFLINE) 
-		{
+		if (wStatus == ID_STATUS_OFFLINE) {
 			deleteSetting(AI->hContact, "AvatarHash");
 			PROTO_AVATAR_INFORMATIONT* fakeAI = new PROTO_AVATAR_INFORMATIONT;
 			*fakeAI = *AI;
 			ForkThread(&CMsnProto::sttFakeAvatarAck, fakeAI);
 		}
-		else 
-		{
-			if (p2p_getAvatarSession(AI->hContact) == NULL)
-			{
-				filetransfer* ft = new filetransfer(this);
-				ft->std.hContact = AI->hContact;
-				ft->p2p_object = mir_strdup(szContext);
-
-				MSN_GetAvatarFileName(AI->hContact, filename, SIZEOF(filename), _T("unk"));
-				ft->std.tszCurrentFile = mir_tstrdup(filename);
-
-				p2p_invite(MSN_APPID_AVATAR, ft, NULL);
-			}
+		else if ( !getString(AI->hContact, "AvatarUrl", &dbv)) {
+			pushAvatarRequest(AI->hContact, dbv.pszVal);
+			db_free(&dbv);
 		}
+		else if (p2p_getAvatarSession(AI->hContact) == NULL) {
+			filetransfer* ft = new filetransfer(this);
+			ft->std.hContact = AI->hContact;
+			ft->p2p_object = mir_strdup(szContext);
+
+			MSN_GetAvatarFileName(AI->hContact, filename, SIZEOF(filename), _T("unk"));
+			ft->std.tszCurrentFile = mir_tstrdup(filename);
+
+			p2p_invite(MSN_APPID_AVATAR, ft, NULL);
+		}
+
 		return GAIR_WAITFOR;
 	}
 	return GAIR_NOAVATAR;

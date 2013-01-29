@@ -150,16 +150,15 @@ void CMsnProto::InitCustomFolders(void)
 }
 
 
-char* MSN_GetAvatarHash(char* szContext)
+char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 {
 	if (szContext == NULL) return NULL;
 
-	char* res  = NULL;
+	char *res  = NULL;
 
 	ezxml_t xmli = ezxml_parse_str(NEWSTR_ALLOCA(szContext), strlen(szContext));
-	const char* szAvatarHash = ezxml_attr(xmli, "SHA1D");
-	if (szAvatarHash != NULL)
-	{
+	const char *szAvatarHash = ezxml_attr(xmli, "SHA1D");
+	if (szAvatarHash != NULL) {
 		BYTE szActHash[MIR_SHA1_HASH_SIZE+2]  = {0};
 		const size_t len = strlen(szAvatarHash);
 
@@ -167,6 +166,25 @@ char* MSN_GetAvatarHash(char* szContext)
 		int decod = CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
 		if (decod != 0 && nlb.cbDecoded > 0)
 			res = arrayToHex(szActHash, nlb.cbDecoded);
+
+		if (pszUrl) {
+			const char *pszUrlAttr;
+			for (int i=0; ; i++) {
+				char szSetting[20];
+				if (i == 0)
+					strcpy(szSetting, "Url");
+				else
+					mir_snprintf(szSetting, sizeof(szSetting), "Url%d", i);
+				pszUrlAttr = ezxml_attr(xmli, "szSetting");
+				if (pszUrlAttr == NULL)
+					break;
+
+				if (pszUrlAttr[0] != 0) {
+					*pszUrl = mir_strdup(pszUrlAttr);
+					break;
+				}
+			}
+		}				
 	}
 	ezxml_free(xmli);
 
@@ -200,92 +218,74 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
 
 	size_t tPathLen2 = tPathLen;
-	if (hContact != NULL) 
-	{
+	if (hContact != NULL) {
 		DBVARIANT dbv;
-		if (getString(hContact, "PictContext", &dbv) == 0)
-		{
+		if (getString(hContact, "PictContext", &dbv) == 0) {
 			char* szAvatarHash = MSN_GetAvatarHash(dbv.pszVal);
-			if (szAvatarHash != NULL)
-			{
+			if (szAvatarHash != NULL) {
 				TCHAR *sztAvatarHash = mir_a2t(szAvatarHash);
 				tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s."), sztAvatarHash);
 				mir_free(sztAvatarHash);
 				mir_free(szAvatarHash);
 			}
-			else
-			{
+			else {
 				deleteSetting(hContact, "PictContext");
 				if (cbLen) pszDest[0] = 0;
 			}
 			MSN_FreeVariant(&dbv);
 		}
-		else
-		{
-			if (cbLen) pszDest[0] = 0;
-		}
+		else if (cbLen)
+			pszDest[0] = 0;
 	}
-	else
-	{
+	else {
 		TCHAR *sztModuleName = mir_a2t(m_szModuleName);
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar."), sztModuleName);
 		mir_free(sztModuleName);
 	}
 
-	if (ext == NULL)
-	{
+	if (ext == NULL) {
 		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("*"));
 
 		bool found = false;
 		_tfinddata_t c_file;
 		long hFile = _tfindfirst(pszDest, &c_file);
-		if (hFile > -1L)
-		{
+		if (hFile > -1L) {
 			do {
-				if (_tcsrchr(c_file.name, '.'))
-				{
+				if (_tcsrchr(c_file.name, '.')) {
 					mir_sntprintf(pszDest + tPathLen2, cbLen - tPathLen2, _T("\\%s"), c_file.name);
 					found = true;
 				}
-			} while(_tfindnext(hFile, &c_file) == 0);
+			}
+				while(_tfindnext(hFile, &c_file) == 0);
 			_findclose( hFile );
 		}
 
 		if (!found) pszDest[0] = 0;
 	}
-	else
-		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
+	else mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, ext);
 }
 
 int MSN_GetImageFormat(void* buf, const TCHAR** ext)
 {
-	int res;
-	if (*(unsigned short*)buf == 0xd8ff)
-	{
-		res =  PA_FORMAT_JPEG;
+	if (*(unsigned short*)buf == 0xd8ff) {
 		*ext = _T("jpg"); 
+		return PA_FORMAT_JPEG;
 	}
-	else if (*(unsigned short*)buf == 0x4d42)
-	{
-		res = PA_FORMAT_BMP;
+	if (*(unsigned short*)buf == 0x4d42) {
 		*ext = _T("bmp"); 
+		return PA_FORMAT_BMP;
 	}
-	else if (*(unsigned*)buf == 0x474e5089)
-	{
-		res = PA_FORMAT_PNG;
+	if (*(unsigned*)buf == 0x474e5089) {
 		*ext = _T("png"); 
+		return PA_FORMAT_PNG;
 	}
-	else if (*(unsigned*)buf == 0x38464947)
-	{
-		res = PA_FORMAT_GIF;
+	if (*(unsigned*)buf == 0x38464947) {
 		*ext = _T("gif"); 
+		return PA_FORMAT_GIF;
 	}
-	else 
-	{
-		res = PA_FORMAT_UNKNOWN;
-		*ext = _T("unk");
-	}
-	return res;
+
+	*ext = _T("unk");
+	return PA_FORMAT_UNKNOWN;
 }
 
 int MSN_GetImageFormat(const TCHAR* file)
@@ -377,8 +377,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 	MSN_GetAvatarFileName(NULL, szFileName, SIZEOF(szFileName), szExt);
 
 	int fileId = _topen(szFileName, _O_CREAT | _O_TRUNC | _O_WRONLY | O_BINARY, _S_IREAD | _S_IWRITE);
-	if (fileId >= 0) 
-	{
+	if (fileId >= 0) {
 		_write(fileId, pData, (unsigned)cbLen);
 		_close(fileId);
 
@@ -392,8 +391,7 @@ int  CMsnProto::MSN_SetMyAvatar(const TCHAR* sztFname, void* pData, size_t cbLen
 		}
 		mir_free(szAvatarHash);
 	}
-	else
-		MSN_ShowError("Cannot set avatar. File '%s' could not be created/overwritten", szFileName);
+	else MSN_ShowError("Cannot set avatar. File '%s' could not be created/overwritten", szFileName);
 
 	return fmt;
 }
@@ -408,16 +406,14 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 	InitCustomFolders();
 
 	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
-	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, _T(""))) 
-	{
+	if (hCustomSmileyFolder == NULL || FoldersGetCustomPathT(hCustomSmileyFolder, path, (int)cbLen, _T(""))) {
 		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
 		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s\\CustomSmiley"), tmpPath, tszModuleName);
 		mir_free(tszModuleName);
 		mir_free(tmpPath);
 	}
-	else 
-	{
+	else {
 		_tcscpy(pszDest, path);
 		tPathLen = _tcslen(pszDest);
 	}
@@ -435,8 +431,7 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	else
-	{
+	else {
 		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), tszModuleName);
 		mir_free(tszModuleName);
@@ -444,8 +439,7 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 
 	bool exist = _taccess(pszDest, 0) == 0;
 
-	if (type == 0)
-	{
+	if (type == 0) {
 		if (!exist) pszDest[0] = 0;
 		return;
 	}
@@ -482,20 +476,17 @@ void CMsnProto::MSN_GoOffline(void)
 	MsgQueue_Clear();
 	clearCachedMsg();
 
-	if (!Miranda_Terminated())
-	{
+	if (!Miranda_Terminated()) {
 		int msnOldStatus = m_iStatus; m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE; 
 		SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)msnOldStatus, ID_STATUS_OFFLINE);
 		isIdle = false;
 
 		int count = -1;
-		for (;;)
-		{
+		for (;;) {
 			MsnContact *msc = Lists_GetNext(count);
 			if (msc == NULL) break;
 
-			if (ID_STATUS_OFFLINE != getWord(msc->hContact, "Status", ID_STATUS_OFFLINE)) 
-			{
+			if (ID_STATUS_OFFLINE != getWord(msc->hContact, "Status", ID_STATUS_OFFLINE)) {
 				setWord(msc->hContact, "Status", ID_STATUS_OFFLINE);
 				setDword(msc->hContact, "IdleTS", 0);
 			}
@@ -513,20 +504,17 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 
 	off = mir_snprintf(buf, sizeof(buf), "MIME-Version: 1.0\r\n");
 
-	if ((parFlags & MSG_DISABLE_HDR) == 0)
-	{
+	if ((parFlags & MSG_DISABLE_HDR) == 0) {
 		char  tFontName[100], tFontStyle[3];
 		DWORD tFontColor;
 
 		strcpy(tFontName, "Arial");
 
-		if (proto->getByte("SendFontInfo", 1))
-		{
+		if (proto->getByte("SendFontInfo", 1)) {
 			char* p;
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(NULL, "SRMsg", "Font0", &dbv)) 
-			{
+			if (!DBGetContactSettingString(NULL, "SRMsg", "Font0", &dbv)) {
 				for (p = dbv.pszVal; *p; p++)
 					if (BYTE(*p) >= 128 || *p < 32)
 						break;
@@ -546,8 +534,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 
 			tFontColor = DBGetContactSettingDword(NULL, "SRMsg", "Font0Col", 0);
 		}
-		else 
-		{
+		else {
 			tFontColor = 0;
 			tFontStyle[0] = 0;
 		}
@@ -682,8 +669,7 @@ void  CMsnProto::MSN_SendStatusMessage(const char* msg)
 
 	size_t sz;
 	char  szMsg[2048];
-	if (msnCurrentMedia.cbSize == 0)
-	{
+	if (msnCurrentMedia.cbSize == 0) {
 		sz = mir_snprintf(szMsg, sizeof(szMsg), "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
 			"<DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme></Data>", 
 			msgEnc, MyOptions.szMachineGuid);
@@ -691,8 +677,7 @@ void  CMsnProto::MSN_SendStatusMessage(const char* msg)
 	else 
 	{
 		char *szFormatEnc;
-		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) 
-		{
+		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
 			LISTENINGTOINFO lti = {0};
 			lti.cbSize = sizeof(lti);
 			if (msnCurrentMedia.ptszTitle != NULL) lti.ptszTitle = _T("{0}");
@@ -746,8 +731,7 @@ void  CMsnProto::MSN_SendStatusMessage(const char* msg)
 	}
 	mir_free(msgEnc);
 
-	if (msnPreviousUUX == NULL || strcmp(msnPreviousUUX, szMsg))
-	{
+	if (msnPreviousUUX == NULL || strcmp(msnPreviousUUX, szMsg)) {
 		replaceStr(msnPreviousUUX, szMsg);
 		msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 		mStatusMsgTS = clock();
@@ -768,8 +752,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt,...)
 
 	if (fmt == NULL)
 		mir_snprintf(str, strsize, "%s", cmd);
-	else
-	{
+	else {
 		thisTrid = InterlockedIncrement(&mTrid);
 		if (fmt[0] == '\0')
 			mir_snprintf(str, strsize, "%s %d", cmd, thisTrid);

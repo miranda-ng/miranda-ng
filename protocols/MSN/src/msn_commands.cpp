@@ -1370,68 +1370,61 @@ LBL_InvalidCommand:
 				setDword(hContact, "IdleTS", newStatus != ID_STATUS_IDLE ? 0 : time(NULL));
 			}
 
-			if (tArgs > 3 && tArgs <= 5 && cont)
-			{
+			if (tArgs > 3 && tArgs <= 5 && cont) {
 				UrlDecode(data.cmdstring);
 
 				char* end = NULL;
 				cont->cap1 = strtoul(data.objid, &end, 10);
 				cont->cap2 = end && *end == ':' ? strtoul(end + 1, NULL, 10) : 0;
 
-				if (lastStatus == ID_STATUS_OFFLINE)
-				{
+				if (lastStatus == ID_STATUS_OFFLINE) {
 					DBVARIANT dbv;
 					bool always = getString(hContact, "MirVer", &dbv) != 0;
 					if (!always) MSN_FreeVariant(&dbv);
 					sttSetMirVer(hContact, cont->cap1, always);
 				}
 
-				if (/*(cont->cap1 & 0xf0000000) &&*/ data.cmdstring[0] && strcmp(data.cmdstring, "0"))
+				if (data.cmdstring[0] && strcmp(data.cmdstring, "0"))
 				{
-					char* szAvatarHash = MSN_GetAvatarHash(data.cmdstring);
-					if (szAvatarHash == NULL) goto remove;
+					char *pszUrl, *pszAvatarHash = MSN_GetAvatarHash(data.cmdstring, &pszUrl);
+					if (pszAvatarHash == NULL)
+						goto remove;
 
 					setString(hContact, "PictContext", data.cmdstring);
-					setString(hContact, "AvatarHash", szAvatarHash);
+					setString(hContact, "AvatarHash", pszAvatarHash);
+					if (pszUrl)
+						setString(hContact, "AvatarUrl", pszUrl);
+					else
+						deleteSetting(hContact, "AvatarUrl");
 
-					if (hContact != NULL)
-					{
+					if (hContact != NULL) {
 						char szSavedHash[64] = "";
 						getStaticString(hContact, "AvatarSavedHash", szSavedHash, sizeof(szSavedHash));
-						if (stricmp(szSavedHash, szAvatarHash))
-						{
-							SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
-						}
-						else
-						{
+						if (stricmp(szSavedHash, pszAvatarHash))
+							pushAvatarRequest(hContact, pszUrl);
+						else {
 							char szSavedContext[64];
 							int result = getStaticString(hContact, "PictSavedContext", szSavedContext, sizeof(szSavedContext));
 							if (result || strcmp(szSavedContext, data.cmdstring))
-								SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
+								pushAvatarRequest(hContact, pszUrl);
 						}
-						mir_free(szAvatarHash);
 					}
+					mir_free(pszAvatarHash);
+					mir_free(pszUrl);
 				}
-				else
-				{
+				else {
 remove:
 					deleteSetting(hContact, "AvatarHash");
 					deleteSetting(hContact, "AvatarSavedHash");
+					deleteSetting(hContact, "AvatarUrl");
 					deleteSetting(hContact, "PictContext");
 					deleteSetting(hContact, "PictSavedContext");
-
-//					char tFileName[MAX_PATH];
-//					MSN_GetAvatarFileName(hContact, tFileName, sizeof(tFileName));
-//					remove(tFileName);
 
 					SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 				}
 			}
-			else
-			{
-				if (lastStatus == ID_STATUS_OFFLINE)
-					deleteSetting(hContact, "MirVer");
-			}
+			else if (lastStatus == ID_STATUS_OFFLINE)
+				deleteSetting(hContact, "MirVer");
 
 			break;
 		}

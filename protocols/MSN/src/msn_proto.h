@@ -146,7 +146,10 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	CRITICAL_SECTION csMsgQueue;
 	int msgQueueSeq;
-	OBJLIST<MsgQueueEntry> msgQueueList;
+	OBJLIST<MsgQueueEntry> lsMessageQueue;
+
+	CRITICAL_SECTION csAvatarQueue;
+	OBJLIST<AvatarQueueEntry> lsAvatarQueue;
 
 	LONG sttChatID;
 
@@ -202,6 +205,7 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	void        MSN_GoOffline(void);
 	void        MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const TCHAR *ext);
+	void        pushAvatarRequest(HANDLE hContact, LPCSTR pszUrl);
 	int         MSN_SetMyAvatar(const TCHAR* szFname, void* pData, size_t cbLen);
 	void        MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen, const char* SmileyName, int Type);
 
