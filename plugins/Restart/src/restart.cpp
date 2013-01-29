@@ -19,12 +19,13 @@ PLUGININFOEX pluginInfo={
 	"Restart plugin",
 	PLUGIN_MAKE_VERSION(0,0,6,0),
 	"Adds Restart menu item.",
-	"(..нужное вписать..)",
+	"eugene.nv",
 	"ep@eugn.me",
-	"© 2008 - 2012 -=J-Scar=-",
+	"© 2008 - 2013 eugene.nv",
 	"http://miranda-ng.org",
 	UNICODE_AWARE,
-	{0x61bedf3a, 0xcc2, 0x41a3, { 0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35 }} // {61BEDF3A-0CC2-41a3-B980-BB9393368935}
+	// {61BEDF3A-0CC2-41a3-B980-BB9393368935}
+	{0x61bedf3a, 0xcc2, 0x41a3, {0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
