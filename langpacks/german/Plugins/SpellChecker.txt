@@ -1,0 +1,162 @@
+#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell Checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Rechtschreibprüfung für das Nachrichtenfenster. Benutzt Hunspell für die Überprüfung.
+;file \plugins\SpellChecker\res\resource.rc
+[Replacements]
+Ersetzungen
+[Enable auto-replacements]
+Automatische Ersetzungen einschalten
+[Language:]
+Sprache:
+[Add...]
+Hinzufügen...
+[Edit...]
+Bearbeiten...
+[Remove]
+Entfernen
+[Wrong word:]
+Falsches Wort:
+[No separators and all lowercase chars]
+Keine Leerzeichen und nur Kleinbuchstaben
+[Correction:]
+Korrektur:
+[Use variables in correction]
+Variabeln in Korrekturen benutzen
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Spell Checker]
+Rechtschreibprüfung
+[Default language:]
+Standardsprache:
+[Auto-replace words with dictionary suggestions]
+Wörter automatisch über Wörterbuch korrigieren
+[Ignore words with numbers]
+Wörter mit Nummern ignorieren
+[Ignore words in UPPER CASE]
+Wörter in Großbuchstaben ignorieren
+[Ask before sending a message with spelling errors]
+Vor dem Senden einer Nachricht mit Rechtschreibfehlern nachfragen
+[Download more dictionaries]
+Mehr Wörterbücher herunterladen
+[Advanced]
+Erweitert
+[Underline type:]
+Unterstreichungsart:
+[Show corrections in submenu]
+Korrekturen in Untermenü anzeigen
+[Show all corrections in context menu (takes more time to show)]
+Alle Korrekturen im Kontextmenü anzeigen (zeitaufwändig)
+[Show wrong word]
+Falsches Wort anzeigen
+[Use flags]
+Flaggen verwenden
+[Use input language to select dictionary]
+Eingabesprache verwenden, um Wörterbuch auszuwählen
+[Use dictionaries from other programs]
+Wörterbücher anderer Programme verwenden (z. B. Firefox)
+[Avoid removing underscores (slows down checking of long texts)]
+Entferne Unterstreichungen vermeiden (verlangsamt Prüfung längerer Texte)
+;file \plugins\SpellChecker\src\ardialog.cpp
+[The wrong word can't be empty!]
+Das falsche Wort darf nicht leer sein!
+[Wrong Correction]
+Falsche Korrektur
+[The correction can't be empty!]
+Die Korrektur darf nicht leer sein!
+[The correction can't be equal to the wrong word!]
+
+;file \plugins\SpellChecker\src\commons.h
+[%miranda_path%\\Icons]
+
+[%miranda_userdata%\\Dictionaries]
+
+[%miranda_path%\\Dictionaries]
+
+;file \plugins\SpellChecker\src\dictionary.cpp
+[tl_PH]
+
+[Tagalog (Philippines)]
+
+[de_frami_neu]
+
+[German (Germany)]
+
+[Thunderbird]
+
+[Firefox]
+
+[Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
+
+[Path]
+Pfad
+[%s\\Dictionaries]
+
+;file \plugins\SpellChecker\src\options.cpp
+[Message Sessions]
+Nachrichtensitzungen
+[Auto-replacements]
+Automatische Ersetzungen
+[Line]
+Zeile
+[Dotted]
+Gepunktet
+[Dash]
+Gestrichelt
+[Dash dot]
+Strich Punkt
+[Dash dot dot]
+Strich Punkt Punkt
+[Wave]
+Gewellt
+[Thick]
+Dick
+[Wrong word]
+Falsches Wort
+[Correction]
+Korrektur
+;file \plugins\SpellChecker\src\spellchecker.cpp
+[Dictionaries]
+Wörterbücher
+[Custom Dictionaries]
+Benutzerdefinierte Wörterbücher
+[Flags DLL]
+Speicherort der Flags.dll
+[Spell Checker/Flags]
+
+[Enable/disable spell checker]
+Akt-/deaktiviere Spell Checker
+[Enabled]
+Aktiviert
+[Disabled]
+Deaktiviert
+;file \plugins\SpellChecker\src\utils.cpp
+[There are %d spelling errors. Are you sure you want to send this message?]
+Es sind %d Rechtschreibfehler vorhanden. Möchten Sie dennoch die Nachricht senden?
+[Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+Ihr Nachrichtenfenster unterstützt keine Rechtschreibprüfung.\nWenn Sie SRMM, tabSRMM oder Scriver nutzen dann aktualisieren sie dieses bitte auf die neuste Version,\nanderenfalls fragen Sie den Autor Ihres Plugins nach Unterstützung für Rechtschreibprüfung.
+[Other...]
+Sonstige
+[Always replace with]
+Immer ersetzen durch
+[Ignore all]
+Alle ignorieren
+[Add to dictionary]
+In Wörterbuch aufnehmen
+[Corrections]
+Korrekturen
+[Wrong word: %s]
+Falsches Wort: %s
+[Language]
+Sprache
+[Enable spell checking]
+Rechtschreibprüfung aktivieren
+[Wrong words]
+Falsche Wörter

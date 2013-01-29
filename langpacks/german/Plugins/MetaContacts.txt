@@ -1,0 +1,262 @@
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+;file \plugins\MetaContacts\res\MetaContacts.rc
+[Please select a MetaContact:]
+Bitte einen Metakontakt wählen:
+[&Ok]
+&OK
+[&Cancel]
+Abbre&chen
+[Sort Alphabetically]
+Alphabetisch sortieren
+[&OK]
+
+[Name:]
+Name:
+[Information]
+Information
+[Contacts]
+Kontakte
+[&Apply]
+Übernehmen
+[&Remove]
+Entfe&rnen
+[&Set as Default]
+Al&s Standard setzen
+[Move &Up]
+Hoch
+[Move &Down]
+Runter
+[Force use of default for sending (even if offline)]
+Standard beim Senden verwenden (selbst wenn offline)
+[Send &Offline]
+&Offline senden
+[Set default contact on receipt of message]
+Setze Standardkontakt für den Empfang
+[Always send to default contact if not offline]
+Immer an Standardkontakt senden, wenn nicht offline
+[Options]
+Einstellungen
+[Suppress status notification for subcontacts]
+Statusmeldung für Unterkontakte unterdrücken
+[Context Menu]
+Kontextmenü
+[Use contact's unique id]
+Verwende ID des Kontakts
+[Use contact's display name]
+Verwende Kontaktanzeigename
+[Contact Labels]
+Kontaktbeschriftung
+[Function]
+Funktion
+[Set default and open message window]
+Setze Standard && öffne Nachr.fenster
+[Show subcontact context menu]
+Unterkontaktkontextmenü anzeigen
+[Show user information]
+Benutzerinformationen anzeigen
+[Contact List]
+Kontaktliste
+[Display subcontact nickname]
+Unterkontakt-Nicknamen anzeigen
+[Display subcontact display name]
+Unterkontakt-Anzeigenamen anzeigen
+[Use subcontact message windows]
+Unterkontakt-Nachrichtenfenster verwenden
+[Copy subcontact data]
+Unterkontaktdaten übernehmen
+[Lock name to first contact]
+Namen auf 1. Kontakt festlegen
+[but only for the current conversation]
+aber nur für aktuelle Nachrichtensitzung
+[Progress1]
+Fortschritt1
+[Please wait while the contact's history is copied.]
+Verlauf wird kopiert, bitte warten.
+[Please wait while the contact's history is removed.]
+Verlauf wird entfernt, bitte warten.
+[Subcontact Priorities]
+Prioritäten der Unterkontakte
+[Rank:]
+Rang:
+[Status:]
+Status:
+[Protocol:]
+Protokoll:
+[Reset All]
+Alle rückg.
+[Default]
+Standard
+[(Lower ranks are preferred)]
+(niedrigere Ränge werden bevorzugt)
+[Copy subcontact history to MetaContact when creating or adding]
+Kopiere Unterkontaktverlauf beim Erstellen/Hinzufügen
+[Number of days to copy (0=all):]
+Verlaufslänge in Tagen (0 = alle):
+[Keep MetaContact history synchronized with subcontacts]
+Synchronisiere Metakontaktverlauf mit Unterkontakt
+[Keep subcontact history synchronized with MetaContact]
+Synchronisiere Unterkontaktverlauf mit Metakontakt
+[History (** beware - change at your own risk **)]
+Verlauf (** Änderungen auf eigene Gefahr **)
+;file \plugins\MetaContacts\src\addto.cpp
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Dieser Kontakt ist ein Metakontakt.\nSie können keinen Metakontakt einem anderen Metakontakt hinzufügen.\n\nBitte einen anderen Kontakt wählen.
+[MetaContact Conflict]
+Metakontakt-Konflikt
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+Dieser Kontakt ist bereits einem Metakontakt zugeordnet.\nSie können keinen Kontakt mehreren Metakontakten hinzufügen.
+[Multiple MetaContacts]
+Mehrfache Metakontakte
+[No suitable MetaContact found]
+Kein entsprechender Metakontakt gefunden
+[a contact]
+ein Kontakt
+[Adding %s...]
+%s hinzufügen...
+[Please select a MetaContact]
+Bitte einen Metakontakt auswählen
+[No MetaContact selected]
+Kein Metakontakt ausgewählt
+[Assignment to the MetaContact failed.]
+Zuweisung zum Metakontakt fehlgeschlagen.
+[Assignment failure]
+Zuweisungsfehler
+;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(Unbekannter Kontakt)
+[Unknown]
+Unbekannt
+[Yes]
+Ja
+[Contact]
+Kontakt
+[Protocol]
+Protokoll
+[Send Offline]
+Offline senden
+[Delete MetaContact?]
+Metakontakt löschen?
+[None]
+Keine
+;file \plugins\MetaContacts\src\icons.cpp
+[Toggle Off]
+Ausschalten
+[Toggle On]
+Einschalten
+[Convert to MetaContact]
+In Metakontakt umwandeln
+[Add to Existing]
+Zu Metakontakt hinzufügen
+[Edit]
+Bearbeiten
+[Set to Default]
+Als Standard setzen
+[Remove]
+Entfernen
+;file \plugins\MetaContacts\src\meta_main.cpp
+[Error - Database corruption.\nPlugin disabled.]
+Fehler - Datenbankkorruption.\nPlugin deaktiviert.
+[MetaContacts]
+Metakontakte
+;file \plugins\MetaContacts\src\meta_menu.cpp
+[There was a problem in assigning the contact to the MetaContact]
+Bei der Zuweisung des Kontakts zum Metakontakt ist ein Fehler aufgetreten
+[Error]
+Fehler
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+Dies wird den Metakontakt für immer löschen.\n\nTrotzdem fortfahren?
+[Are you sure?]
+Sind Sie sich sicher?
+[Delete MetaContact]
+Metakontakt löschen
+[Remove from MetaContact]
+Aus Metakontakt entfernen
+;file \plugins\MetaContacts\src\meta_options.cpp
+[<default>]
+<Standard>
+;file \plugins\MetaContacts\src\meta_services.cpp
+[Meta ID]
+Meta-ID
+[No online contacts found.]
+
+[Message from %s]
+Nachricht von %s
+[Context]
+Kontext
+[General]
+Allgemein
+[Priorities]
+Prioritäten
+[History]
+Verlauf
+;file \plugins\MetaContacts\src\meta_utils.cpp
+[Sender]
+
+[Could not get MetaContact id]
+Konnte Metakontakt-ID nicht erhalten
+[Assignment Error]
+Zuweisungsfehler
+[Could not retreive MetaContact contact count]
+Konnte Metakontakt-Kontaktzahl nicht abrufen
+[Could not retreive contact protocol]
+Konnte Kontaktprotokoll nicht abrufen
+[Could not get unique id of contact]
+Konnte keine eindeutige ID vom Kontakt erhalten
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+Kontakt ist 'nicht in der Liste' - bitte den Kontakt vor der Zuweisung zur Liste hinzufügen.
+[MetaContact is full]
+Metakontakt ist voll
+[Could not write contact protocol to MetaContact]
+Konnte Kontaktprotokoll nicht in Metakontakt schreiben
+[Could not write unique id of contact to MetaContact]
+Konnte keine eindeutige ID in Metakontakt schreiben
+[Could not write nickname of contact to MetaContact]
+Konnte Nicknamen des Kontakts nicht in Metakontakt schreiben
+[meta_id: ]
+
+[, contact num: ]
+
+[Subcontact contact number < 0 - deleting MetaContact]
+
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+
+[Subcontact's MetaContact not found - deleting MetaContact data]
+
+[MetaContact number of contacts < 0 - deleting MetaContact]
+
+[MetaContact default contact number out of range - deleting MetaContact]
+
+[MetaId: ]
+Meta-ID:
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+Metakontakt defekt - die Zahl der Unterkontakte ist fehlerhaft.\n Lösche Metakontakt.
+[MetaContacts Warning]
+Metakontaktwarnung
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[DND]
+Bitte nicht stören
+[N/A]
+
+[Occupied]
+Beschäftigt
+[Free to Chat]
+
+[Invisible]
+Unsichtbar
+[On the Phone]
+
+[Out to Lunch]
+
+[IDLE]
+INAKTIV

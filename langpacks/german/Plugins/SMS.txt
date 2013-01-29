@@ -1,0 +1,130 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: sms.dll
+;  Plugin: SMS plugin
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+
+;file \plugins\SMS\res\resource.rc
+[&Reply]
+Antwo&rt
+[&Close]
+S&chließen
+[Read Next]
+Nächste
+[From:]
+Von:
+[Message received:]
+Nachricht erhalten:
+[Number:]
+Nummer:
+[To:]
+An:
+[Add number to list]
+Nummer zur Liste hinzufügen
+[&H]
+
+[Save number]
+Nummer speichern
+[Multiple >>]
+Mehr >>
+[Enter message:]
+Nachrichteingabe:
+[Chars:]
+Zeichen:
+[%d/160]
+
+[&Send]
+&Senden
+[&Try again]
+&Erneuert versuchen
+[&Cancel]
+Abbre&chen
+[The SMS message send timed out]
+Die SMS-Nachricht konnte nicht zugestellt werden.
+[SMS Plugin]
+
+[Begining]
+Anfang
+[End]
+Ende
+[Put signature at the:]
+Signatur setzen am:
+[Use Signature]
+
+[Show server notifications]
+
+[Auto popup on new message]
+
+[Save window position per contact]
+
+[&OK]
+
+[Message ID:]
+Nachricht-ID:
+[Source:]
+
+[Network:]
+Netzwerk:
+;file \plugins\SMS\src\options.cpp
+[From %s:\r\n\r\n]
+Von %s:\r\n\r\n
+;file \plugins\SMS\src\receive.cpp
+[SMS message didn't send by %S to %s because: %S]
+
+[SMS Message from %s]
+SMS-Nachricht von %s
+[SMS Confirmation from %s]
+SMS-Bestätigung von %s
+;file \plugins\SMS\src\recvdlg.cpp
+[Received SMS]
+Erhaltene SMS
+[Received SMS Confirmation]
+Erhaltene SMS-Bestätigung
+[Unknown event type]
+
+;file \plugins\SMS\src\senddlg.cpp
+[View User's History]
+Verlauf anzeigen
+[Add Number To The Multiple List]
+Nummer zu der Mehrfache Liste hinzufügen
+[Save Number To The User's Details Phonebook]
+Nummer zu den Benutzerdetails im Telefonbuch speichern
+[Show/Hide Multiple List]
+Mehrfache Liste aus/einblenden
+[Shows How Much Chars You've Typed]
+Anzahl der geschriebenen Zeichen anzeigen
+[The SMS message send to %s timed out.]
+Die SMS-Nachricht zu %s konnte nicht zugestellt werden.
+[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+
+[Invalid Phone Number]
+Ungültige Telefonnummer
+[Message is too long, press OK to continue.]
+Die Nachricht ist zu lang. Klicken Sie auf OK, um fortzufahren.
+[Error - Message too long]
+Fehler - Nachricht zu lang
+[There must be numbers in the list first.]
+
+[No Numbers]
+Keine Nummern
+[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+
+[Invalid phone number]
+
+[ SMS]
+
+[Send SMS]
+SMS-Nachricht
+[<< Single]
+<< Weniger
+;file \plugins\SMS\src\SMSConstans.h
+[Arial]
+
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+Eingehende SMS-Nachricht
+[Incoming SMS Confirmation]
+Eingehende SMS-Bestätigung

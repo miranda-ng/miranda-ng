@@ -1,0 +1,66 @@
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;langpack template for Cln_skinedit
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+Skinelemente
+[General]
+Allgemein
+[Gradient]
+Farbverlauf
+[Left to right]
+Links > Rechts
+[Right to left]
+Rechts > Links
+[Top to bottom]
+Oben > Unten
+[Bottom to top]
+Unten > Oben
+[Round corners]
+Runde Ecken
+[Top-Left]
+Oben links
+[Top-Right]
+Oben rechts
+[Bottom-Right]
+Unten rechts
+[Bottom-Left]
+Unten links
+[Item colors]
+Elementfarben
+[First color]
+1. Farbe
+[Textcolor]
+Textfarbe
+[Second color]
+2. Farbe
+[Transparent]
+
+[Alpha (percent)]
+Alpha (Prozent)
+[Item margins]
+Elementabstände
+[Item borders]
+Elementränder
+[Border style]
+Rahmenform
+[3D border (bright / dark)]
+3D-Rahmen (hell/dunkel)
+[Item ignored]
+Element ignorieren
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
+[<None>]
+<Keine>
+[Raised]
+
+[Sunken]
+Eingelassen
+[Bumped]
+Hervorstehen
+[Etched]
+
+[Image items]
+Bild-Elemente

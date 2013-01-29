@@ -1,0 +1,229 @@
+;#muuid not found, please specify manually!
+;langpack template for KeyboardNotify
+;file \plugins\KeyboardNotify\res\resources.rc
+[Protocols to check]
+Zu prüfende Protokolle
+[Events to react on]
+Auf folgende Ereignisse reagieren
+[Incoming messages]
+Eingehende Nachrichten
+[Incoming files]
+Eingehende Dateien
+[Incoming URLs]
+Eingehende URLs
+[Everything else]
+Der ganze Rest
+[Message-Event only]
+Nur Textnachrichten
+[Blink if message window is open]
+Blinken, wenn Fenster geöffnet
+[     ... and not in foreground]
+     ...und nicht im Vordergrund ist
+[Only if last is]
+Nur wenn letzte
+[sec. old]
+s alt ist
+[Flash until]
+Blinken bis
+[seconds:]
+
+[re-attending]
+
+[Events are opened]
+Ereignisse geöffnet werden
+[End of 'notify when' conditions]
+Blink-Bedingungen enden
+[Notify when]
+Blinken wenn
+[Full Screen mode]
+Vollbildmodus
+[Screen Saver is running]
+Bildschirmschoner läuft
+[Workstation is Locked (2000/XP)]
+Arbeitsplatz blockiert wird (2000/XP)
+[Defined programs are running]
+Bestimmte Programme laufen
+[...]
+
+[All other situations]
+Auch sonst immer
+[Only notify if status is]
+Nur benachrichtigen, wenn Status
+[Online]
+Online
+[Away]
+Abwesend
+[Occupied]
+Beschäftigt
+[NA]
+Außer Haus
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[On the phone]
+Am Telefon
+[Out to lunch]
+Zum Essen
+[Pending Events]
+Abhängige Ereignisse
+[Remind me every]
+Erinnern alle
+[minutes]
+Minuten
+[Offline]
+Offline
+[xStatuses]
+XStatus
+[Keys to flash]
+Folgende LEDs
+[Num Lock]
+
+[Caps Lock]
+
+[Scroll Lock]
+
+[Flashing effects]
+Blinkeffekte
+[All at the same time]
+Alle gleichzeitig
+[In turn]
+Abwechselnd
+[In sequence]
+In Reihe
+[Custom theme]
+Eigenes Schema
+[Accordingly to events' count]
+Nach Art der Ereignisse
+[Wait before starting flashing]
+Vor Blinken warten
+[seconds]
+Sekunden
+[Flash speed]
+Blinkgeschwindigkeit
+[Fast]
+Schnell
+[Slow]
+Langsam
+[&Preview]
+Vorschau
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+Tastendruck simulieren (diese Option bei Verwendung einer USB-Tastatur aktivieren)
+[Create/Edit Themes]
+Schemas erstellen/bearbeiten
+[Theme]
+Schema
+[Test]
+Testen
+[Add]
+Hinzufügen
+[Update]
+Aktualisieren
+[Delete]
+Löschen
+[Import/Export]
+Importieren/Exportieren
+[Export...]
+Exportieren
+[Import...]
+Importieren...
+[Override existing]
+Existierende überschreiben
+[Program]
+Programm
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Num]
+
+[Caps]
+
+[Scroll]
+
+[Message events]
+Nachrichten-Ereignisse
+[File events]
+Datei-Ereignisse
+[URL events]
+URL-Ereignisse
+[Other events]
+Sonstige Ereignisse
+[Consider event opened after]
+
+[Use custom theme]
+
+[The following events are being ignored:]
+Die folgenden Ereignisse werden ignoriert:
+[Ignore messages]
+Nachrichten ignorieren
+[Ignore URLs]
+URLs ignorieren
+[Ignore files]
+Dateien ignorieren
+[Ignore others]
+Anderes ignorieren
+[Ignore all]
+Alle ignorieren
+[Ignore none]
+Nichts ignorieren
+[Ignore]
+Ignorieren
+;file \plugins\KeyboardNotify\src\ignore.cpp
+[** All contacts **]
+** Alle Kontakte **
+[** Unknown contacts **]
+** Unbekannte Kontakte **
+;file \plugins\KeyboardNotify\src\keyboard.cpp
+[Kbd%d]
+
+[\\Device\\KeyboardClass%d]
+
+[\\\\.\\Kbd%d]
+
+;file \plugins\KeyboardNotify\src\main.cpp
+[screen-saver]
+
+[%s/FlashEvent]
+
+[%s/ExitEvent]
+
+;file \plugins\KeyboardNotify\src\options.cpp
+[Miranda]
+Miranda
+[Windows]
+Windows
+[left->right]
+links->rechts
+[right->left]
+rechts->links
+[left<->right]
+links<->rechts
+[Keyboard Flash]
+Tastaturblinken
+[Events]
+Ereignisse
+[Protocols]
+Protokolle
+[Rules]
+Regeln
+[Flashing]
+Blinken
+[Themes]
+Schemas
+[Protocol]
+Protokoll
+[Keyboard Notify Theme]
+Tastaturblinker-Schemas
+[All Files]
+Alle Dateien
+[knt]
+
+[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
+[\n; End of automatically generated Keyboard Notify Theme file\n]
+
+[None]
+Keine

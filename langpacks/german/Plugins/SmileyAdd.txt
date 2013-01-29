@@ -1,0 +1,200 @@
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\SmileyAdd\res\resource.rc
+[Smiley Categories]
+Smileykategorien
+[Specify Smiley Pack for each category]
+Für jede Kategorie separate Smileys setzen
+[...]
+
+[Name:]
+Name:
+[Author:]
+Autor:
+[Version:]
+
+[Preview]
+Vorschau
+[+]
+
+[-]
+
+[Display]
+Anzeige
+[Replace only smileys surrounded by spaces]
+Nur von Leerzeichen umgebene Smileys ersetzen
+[Scale smiley to textheight]
+Smileys an Texthöhe anpassen
+[Animate]
+Animieren
+[Disable custom smileys]
+'MSN Custom Smileys' deaktivieren
+[Smiley Selector]
+Smileyauswahl
+[Surround inserted smiley with spaces]
+Eingefügte Smileys mit Leerzeichen umgeben
+[Use first smiley for selection size]
+Auswahlgröße an ersten Smiley anpassen
+[IEView style window]
+IEView-Auswahlfenster
+[Input Area]
+Eingabebereich
+[Enable Smileys]
+Smileys aktivieren
+[Don't replace at cursor]
+Erst bei nächstem Zeichen anzeigen
+[Built-In Message Dialog Support]
+Nachrichtenfensterunterstützung
+[Disable]
+Deaktivieren
+[Smiley Button]
+Smileybutton
+[Max "Custom Smiley" height]
+Maximale 'Custom Smiley'-Höhe
+[High Quality smiley scaling]
+Hochwertige Skalierung von Smileys
+[Min smiley height]
+Minimale Smiley-Höhe
+;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
+[Edit]
+Bearbeiten
+[Show Smiley Selection Window]
+Smiley-Auswahlfenster anzeigen
+;file \plugins\SmileyAdd\src\download.cpp
+[\\SmileyCache]
+
+[%miranda_userdata%\\SmileyCache]
+
+[SmileyAdd HTTP connections]
+SmileyAdd-Plugin HTTP-Verbindungen
+;file \plugins\SmileyAdd\src\general.cpp
+[jpg]
+
+[bmp]
+
+[png]
+
+[gif]
+
+[GDI+ not installed.\nGDI+ can be downloaded here: http://www.microsoft.com/downloads]
+
+[Miranda SmileyAdd]
+
+;file \plugins\SmileyAdd\src\imagecache.cpp
+[dll]
+
+[ico]
+
+[icl]
+
+[tif]
+
+[tiff]
+
+;file \plugins\SmileyAdd\src\main.cpp
+[Button Smiley]
+Smiley-Button
+[Assign Smiley Category]
+Smileykategorie zuweisen
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
+;file \plugins\SmileyAdd\src\options.cpp
+[Smileys]
+
+[Customize]
+Customize
+[Off]
+Aus
+[Top]
+Oben
+[Bottom]
+Unten
+[Smiley Packs]
+Smileypacks
+[All Files]
+Alle Dateien
+[msl]
+
+;file \plugins\SmileyAdd\src\services.cpp
+[<None>]
+<Keine>
+[Standard]
+
+[Protocol specific]
+protokollspezifisch
+;file \plugins\SmileyAdd\src\smileyroutines.cpp
+[THppRichEdit]
+
+[Time elapsed: %u]
+
+;file \plugins\SmileyAdd\src\smileys.cpp
+[hContact]
+
+[(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*]
+
+[[\\s"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*]
+
+[Nothing loaded]
+Nichts geladen
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Smileypack %s nicht gefunden.\nKorrektes Smileypack in den Miranda-Einstellungen unter 'Customize -> Smileys' auswählen!
+[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+Das verwendete SmileyPack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog
+[^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
+
+[Name]
+Name
+[Author]
+Autor
+[Date]
+Datum
+[Version]
+Version
+[ButtonSmiley]
+
+[^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)]
+
+[Selection]
+
+[Window]
+Fenster
+[(?:[\\s,]+(R|S)?"(.*?)\]
+
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+
+[&lt;]
+
+[&gt;]
+
+[<DataBaseName>\\s*"(.*?)"\\s*</DataBaseName>]
+
+[<PackageAuthor>\\s*"(.*?)"\\s*</PackageAuthor>]
+
+[<settings>(.*?)</settings>]
+
+[<record.*?ImageIndex="(.*?)".*?>(?:\\s*"(.*?)\]
+
+[<Expression>\\s*"(.*?)"\\s*</Expression>]
+
+[<PasteText>\\s*"(.*?)"\\s*</PasteText>]
+
+[<images>(.*?)</images>]
+
+[<Image>(.*?)</Image>]
+
+[Test String]
+
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+
+[Regular Expression "%s" in smiley pack "%s" malformed.]
+
+;file \plugins\SmileyAdd\src\smltool.cpp
+[d'Oh!]
+Nein!
+[SmileyTool]
+

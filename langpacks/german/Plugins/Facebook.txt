@@ -1,0 +1,194 @@
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.0.9.2
+;  Authors: Michal Zelinka, Robert Posel
+;============================================================
+[Facebook protocol support for Miranda NG.]
+
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+E-Mail:
+[Password:]
+Passwort:
+[Create a new Facebook account]
+Ein neues Facebook-Konto erstellen...
+[420]
+
+[Share]
+Mitteilen
+[Cancel]
+Abbrechen
+[User Details]
+Kontaktprofil
+[Default group:]
+Standardgruppe:
+[Automatically set 'Ignore status change' flag]
+Automatisch 'Ignoriere Statusänderung Flag' setzen
+[Contacts Settings]
+Kontakte Einstellungen
+[Use bigger avatars]
+Größere Avatare nutzen
+[Load contacts with 'On the Mobile' status]
+Lade auch Kontakte mit 'Am Telefon' Status
+[Event notifications]
+Ereignisbenachrichtigungen
+[Colors]
+Farben
+[Back]
+Hgrd.
+[Text]
+Text
+[Notifications]
+Benachrichtigung
+[Default]
+Standard
+[News feeds]
+News-Feeds
+[Other events]
+Sonstige Ereignisse
+[Client notifications]
+Client-Benachrichtigungen
+[Timeout (sec.)]
+Timeout (Sek.)
+[(0 = default, -1 = infinite)]
+(0 = Standard, -1 = unendlich)
+[Preview]
+Vorschau
+[Use balloon notifications in system tray instead of popups]
+Ballonereignisse im Systemtray anstatt Popups verwenden
+[News Feed types to notify:]
+Newsfeed-Ereignisse melden:
+[Advanced Settings]
+Erweiterte Einstellungen
+[Force secure (HTTPS) connection]
+Sichere Verbindung (HTTPS) erzwingen
+[Post Miranda statuses to Wall]
+Miranda Status auf die Pinnwand setzen
+[Enable logging for debugging purposes]
+Debug-Loggen aktivieren
+[Use secure connection also for channel requests]
+Sichere Verbindung auch für Channel-Zugriffe verwenden
+[Also disconnect chat when going to offline]
+Chatverbindung im 'Offline' Status trennen
+[Map non-standard statuses to Invisible (instead of Online)]
+Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Unterstützung für Custom Smileys aktivieren  (EXPERIMENTELL + BUGGY!)
+;file \protocols\FacebookRM\src\chat.cpp
+[Admin]
+Administrator
+[Normal]
+
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: Some Facebook things are required.]
+
+[Your account requires HTTPS connection. Activating.]
+Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
+[Login error: Captcha code is required. Bad login credentials?]
+Login-Fehler: Ein Captcha-Code wird benötigt. Falsche Zugangsdaten?
+[Unknown login error]
+Unbekannter Login-Fehler
+[Login error: ]
+Loginfehler:
+[Login error, probably bad login credentials.]
+Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Irgendwas geschah mit Facebook. Vielleicht gab es ein großes Update, warten Sie auf ein Plugin-Update.
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+Eine Konfiguration zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖffnen Sie die Facebook-Seite und senden Sie die Nachricht zu den Kontakt erneut!
+[Timeout when sending message.]
+
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Bitte geben Sie einen Benutzernamen ein.
+[Please enter a password.]
+Bitte geben Sie das Kennwort ein.
+;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+
+[Error occured when removing contact from server.]
+
+[Request for friendship was sent.]
+
+[Error occured when requesting friendship.]
+
+[Request for friendship was canceled.]
+
+[Error occured when canceling friendship request.]
+
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+
+[Sample event]
+Beispiel Ereignis
+[Sample request]
+Beispiel Anfrage
+[Sample newsfeed]
+Beispiel Newsfeed
+[Sample notification]
+Beispiel Benachrichtigung
+;file \protocols\FacebookRM\src\json.cpp
+[Multichat]
+
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Nachrichten senden ist nicht möglich, wenn Sie offline sind.
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+
+[Contact is no longer on server-list.]
+
+[Attachments:]
+
+;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+%s Serververbindung
+[Unable to get Netlib connection for Facebook]
+Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
+[Network]
+Netzwerk
+[Account]
+Konto
+[Advanced]
+Erweitert
+[PopUps]
+Popups
+[Events]
+Ereignisse
+[Loading newsfeeds...]
+
+[Checking friend requests...]
+
+[Refreshing buddy list...]
+
+[Do you want to cancel your friendship with '%s'?]
+
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook Icon]
+
+[Mind]
+Pinnwand
+[Cancel friendship]
+
+[Cancel friendship request]
+
+[Request friendship]
+Freundschaftsanfrage
+[Approve friendship]
+
+[Visit Profile]
+Profil ansehen
+[Mind...]
+Was machst du gerade?
+[Services...]
+Spezielle Funktionen...
+[Refresh Buddy List]
+
+[Services]
+Dienste
+[Check Friends Requests]
+
+[Check Newsfeeds]
+

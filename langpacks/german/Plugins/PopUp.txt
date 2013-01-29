@@ -1,0 +1,388 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: PopUp.dll
+;  Plugin: PopUp
+;  Version: 2.1.1.6
+;  Authors: 
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+Inhalt && Stil
+[Go to Customize > Fonts && Colors for fonts and colors options]
+
+[Miscellaneous]
+Sonstiges
+[Effects]
+Effekte
+[Live Preview]
+Vorschau
+[Size && Position]
+Größe && Position
+[History]
+Verlauf
+[Enable popup history]
+Popup-Verlauf aktivieren
+[Store last]
+Speichere letzte
+[events]
+Ereignisse
+[Use History++ to render log]
+History++ als Verlauf verw.
+[Avatars]
+Avatare
+[Draw avatar borders]
+Rahmen um Avatare zeichnen
+[Draw borders for semitransparent avatars too]
+Rahmen auch um semi-transparente Avatare
+[Round corners by]
+Runde Ecken um
+[pixels]
+Pixel
+[Avatar size:]
+Avatargröße:
+[32]
+
+[Enable avatar updates]
+Avatar-Updates aktivieren
+[Multimonitor (98/ME/2000/XP)]
+
+[Start the popups in the monitor with]
+Popup auf dem Monitor zeigen, der
+[Miranda's window]
+das Miranda-Fenster enthält
+[the active window]
+das aktive Fenster enthält
+[Transparency]
+Transparenz
+[Enable Win 9x/Me transparency]
+
+[Use transparency (Windows 2000+)]
+Transparenz verwenden (Win2k+)
+[opacity:]
+Deckkraft:
+[100%]
+
+[Opaque popups under cursor]
+Max. Deckkraft bei Mauskontakt
+[Slide Popup]
+Popup gleitend einblenden
+[Effect:]
+Effekt:
+[Time (in):]
+Einblendzeit:
+[ms]
+
+[Time (out):]
+Ausblenzeit:
+[Limit window amount to:]
+Begrenze Popupanzahl auf:
+[Skins]
+
+[R]
+
+[* - built-in skins]
+* = Eingebaut
+[Skin options]
+Skin-Einstellungen
+[Preview]
+Vorschau
+[Download more skins]
+Weitere Skins herunterladen
+[Desktop]
+
+[Popup Area]
+Popupbereich
+[pixel(s)]
+Pixel
+[Distance between popups]
+Distanz zwischen Popups
+[Configure popup area]
+Popup-Bereiche konfigurieren
+[Close]
+Schließen
+[General]
+Allgemein
+[Enable popup actions]
+Popup-Aktionen aktivieren
+[Popup Actions are those tiny buttons below notification text.]
+Popup-Aktionen sind kleine Buttons unter der Textmeldung.
+[Common Actions]
+Allgemeine Aktionen
+[Please choose in what cases default actions should be added:]
+Bitte wähle, Sie, in welchen Fällen die Standardaktionen hinzugefügt werden sollen:
+[Add info && menu for IM contacts only]
+Info && Menü nur für IM-Kontakte
+[Add default actions for contacts only]
+Standardaktionen nur für Kontakte
+[Don't close popups on default actions]
+Nicht bei Standardaktionen schließen
+[Use large icons]
+Große Icons verwenden
+[Popup actions will be displayed as:]
+Popup-Aktionen werden angezeigt als:
+[Icons and labels below text]
+Icons und Bez. unter dem Text
+[Icons on the left]
+Icons links
+[Icons aligned to the right]
+Icons rechts ausgerichtet
+[Show Actions: (requires apply)]
+Zeige Aktionen: (Übernehmen nötig)
+[Mouse Actions Overwrite]
+Maus Aktionen überschreiben
+[LeftButton]
+Linksklick:
+[MiddleButton]
+Mittelklick:
+[RightButton]
+Rechtsklick:
+[Notifications]
+Benachrichtigung
+[General options]
+Allgemeine Einstellungen
+[Enable this notification]
+Diese Benachrichtigung aktivieren
+[Popup timeout:]
+Anzeigedauer:
+[Left click action:]
+Linksklick-Aktion:
+[Right click action:]
+Rechtsklick-Aktion:
+[Disable when global status is...]
+Deaktivieren, wenn globaler Status...
+[Disable when relevant protocol's status is...]
+Deaktivieren, wenn Protokollstatus...
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Farbkonfiguration unter 'Customize -> Schriftarten'
+[More...]
+Mehr...
+[Disable if message window is open]
+
+[Sec]
+Sek.
+[0 = Default]
+0 = Standard
+[-1 = Infinite]
+-1 = Unendlich
+[Per-contact settings]
+Einstellungen für einzelne Kontakte
+[Show always]
+Immer
+[Ignore fullscreen]
+Nicht bei Vollbild
+[Never show]
+Niemals
+[Show default]
+Standard
+[Default Timeout]
+Standard-Timeout
+[Infinite popup delay]
+Unendliche Anzeigedauer
+[Popup delay:]
+Anzeigedauer:
+[seconds]
+Sekunden
+[Do not close hovered popups]
+Bei Mausberührung nicht schließen
+[Dynamically resize the popups]
+Dynamische Popup-Größe
+[Minimum width]
+Minimale Breite
+[Maximum width]
+Maximale Breite
+[Position:]
+Position:
+[...]
+
+[Layout:]
+Ausricht.:
+[Reorder Popups]
+Popups neu anordnen
+[Disable when:]
+Deaktivieren, wenn:
+[Always (has priority)]
+Immer (hat Priorität)
+[Fullscreen mode]
+Vollbildschirm-Modus
+[Debug]
+
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+Nicht Überschreiben
+[Send message]
+Nachricht senden
+[Quick reply]
+Schnellantwort
+[User details]
+Kontaktprofil
+[Contact menu]
+Kontaktmenü
+[Dismiss popup]
+Popup schließen
+[Pin popup]
+Popup anheften
+[Copy to clipboard]
+In Zwischenablage kopieren
+[Action]
+Aktion
+;file \plugins\Popup\src\bitmap_funcs.cpp
+[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
+Das png2dib-Plugin 0.1.3.x oder höher wird benötigt, um PNG-Bilder anzuzeigen.
+;file \plugins\Popup\src\common.h
+[debug]
+
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+Der Zipferlake
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Verdaustig war's, und glaße Wieben\r\nrotterten gorkicht im Gemank.\r\nGar elump war der Pluckerwank,\r\nund die gabben Schweisel frieben.\r\n\t[b][i]Christian Enzensberger[/i][/b]
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Testvorschau für die Popup-Einstellungen. Die Zeile sollte lang genug sein, um nicht in eine Zeile zu passen...
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Dies ist eine spezielle Testvorschau für die Popup-Einstellungen. Der Text und der Titel sind recht lang, damit Sie die Skin- und Popup-Einstellungen optimal Ihrem Bedarf anpassen können :)
+[This is a notification message]
+Dies ist eine Benachrichtigung
+[This is a warning message]
+Dies ist eine Warnung
+[This is an error message]
+Dies ist eine Fehlermeldung
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+Markierte Aktion
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+
+[Popup History message]
+
+[Popup History]
+Popupverlauf
+;file \plugins\Popup\src\main.cpp
+[Classes]
+Kategorien
+[Actions]
+Aktionen
+[Contacts]
+Kontakte
+[Advanced]
+Erweitert
+[Toggle Popups]
+Popups ein-/ausschalten
+[Enable popups]
+Popups aktivieren
+[Disable popups]
+Popups deaktivieren
+[Enable &popup module]
+&Popup-Modul aktivieren
+[Disable &popup module]
+&Popup-Modul deaktivieren
+[dir]
+
+[Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
+Fehler: Das PopUp-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
+;file \plugins\Popup\src\opt_adv.cpp
+[No effect]
+Kein Effekt
+[Fade in/out]
+Ein-/Ausblenden
+;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+Plugin-Systeme
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+Popup-Fehler Benachrichtigung
+;file \plugins\Popup\src\opt_gen.cpp
+[Width]
+Breite
+[upper left corner]
+obere linke Ecke
+[lower left corner]
+untere linke Ecke
+[lower right corner]
+untere rechte Ecke
+[upper right corner]
+obere rechte Ecke
+[horizontal]
+Horizontal
+[vertical]
+Vertikal
+[Global Status]
+Globaler Status
+[Protocol Status/%hs]
+Protokollstatus/%hs
+[You cannot specify a value lower than %d and higher than %d.]
+Werte kleiner als %d und größer als %d sind nicht zulässig.
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+'Popups neu ordnen' ist momentan deaktiviert.\r\nDies kann Popups falsch darstellen, wenn Avatare\r\nund Textersetzungen verwendet werden (hauptsächlich NewStatusNotify).\r\nWollen Sie die Popup Neuanordnung jetzt aktivieren?
+[Popup Plus Warning]
+Popup Plus Warnung
+[Cancel]
+Abbrechen
+;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+Fehler beim Registrieren %s dieser Klasse.
+[PopupPlusDlgBox]
+
+[Skin preview]
+Skinvorschau
+[Just take a look at this skin... ;)]
+Werfen Sie einen Blick auf diesen Skin.
+[Show clock]
+Uhrzeit anzeigen
+[Drop shadow effect (Windows XP+)]
+Schatten werfen (WinXP+)
+[Drop shadow effect (Windows XP+)/non rectangular]
+
+[Enable Aero Glass (Vista+)]
+
+[Use Windows colours]
+Windowsfarben verwenden
+[Use advanced text render]
+Erweitertes Text-Rendern
+[Global settings]
+Allgemeine Einstellungen
+[Refresh List]
+Liste aktualisieren
+;file \plugins\Popup\src\popup_thread.cpp
+[PopupThreadManagerWnd]
+
+;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+
+[PopupMenuHostWnd]
+
+;file \plugins\Popup\src\services.cpp
+[WorkerW]
+
+[Error]
+Fehler
+[Warning]
+Warnung
+[Notify]
+Benachrichtigung
+;file \plugins\Popup\src\skin.cpp
+[res:]
+
+[Skin]
+Skin (Theme)
+[* Popup Classic]
+
+[\\skins\\popup]
+
+[The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+Popup-Modus: Auto
+[Popup Mode: Favourite]
+
+[Popup Mode: Ignore fullscreen]
+
+[Popup Mode: Block contact]
+Popup-Modus: Blockiere Kontakt
+[Auto]
+Auto
+[Favourite]
+Favorit
+[Block]
+Blockieren

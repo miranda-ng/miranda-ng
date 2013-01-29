@@ -1,0 +1,52 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
+[Protocol]
+Protokoll
+[<from trigger>]
+<vom Auslöser>
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[KeepStatus]
+
+[%s Connected from another location]
+%s Verbunden von einem anderen Ort
+[%s Login error, cancel reconnecting]
+%s Loginfehler, Wiederverbindungsabbruch
+[%s Login error (next retry (%d) in %ds)]
+%s Loginfehler (nächster Versuch (%d) in %ds)
+[%s Status error (next retry (%d) in %ds)]
+%s Statusfehler (nächster Versuch (%d) in %ds)
+[Status error (next retry (%d) in %ds)]
+Statusfehler (nächster Versuch (%d) in %ds)
+[%s\t(will be set to %s)\r\n]
+
+[will be set to]
+wird gesetzt zu
+[Resetting status... (last try (%d))%s]
+Status zurücksetzen... (letzer Versuch (%d))%s
+[Resetting status... (next retry (%d) in %ds)%s]
+Status zurücksetzen... (nächster Versuch (%d) in %ds)%s
+[No internet connection seems available... (last try (%d))]
+Keine Internetverbindung verfügbar... (letzer Versuch (%d))
+[No internet connection seems available... (next retry (%d) in %ds)]
+Keine Internetverbindung verfügbar... (nächster Versuch (%d) in %ds)
+[Status was set ok]
+Status setzen erfolgreich
+[Giving up]
+Kein Wiederverbinden möglich, Aufgabe!\nBitte Verbindungsdaten prüfen! n
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Basic]
+Allgemein
+[Advanced]
+Erweitert
+[You broke the Internet!]
+Internetverbindung verloren
+[Status]
+Status
+[PopUps]
+Popups

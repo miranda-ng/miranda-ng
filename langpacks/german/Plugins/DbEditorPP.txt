@@ -1,0 +1,357 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: Svc_dbepp.dll
+;  Plugin: Database Editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[Advanced Database Editor.]
+Erweiterte Datenbank-Editor.
+;file \plugins\DbEditorPP\res\resource.rc
+[Case Sensitive]
+Groß-/Kleinschreibung
+[Module Name]
+Modul Name
+[Exact Match]
+genaue Suche
+[Setting Name]
+Einstell. Name
+[Setting Value]
+Einstell. Werte
+[&Search]
+&Suchen
+[Found field]
+
+[&Replace]
+E&rsetzen
+[&Cancel]
+Abbre&chen
+[Search For]
+Suchen nach
+[Text:]
+
+[In:]
+
+[Replace With]
+Ersetzen durch
+[Entirely]
+Komplett
+[Restore last opened position]
+Zuletzt geöffnete Position wiederherstellen
+[Automatically expand "settings" when Database Editor ++ starts]
+Einstellungszweig beim Starten automatisch öffnen
+[Use known modules list]
+Liste bekannter Module verwenden
+[Warn when deleting modules]
+Beim Löschen von Modulen warnen
+[Use popups when watched settings change values]
+Popups verwenden, wenn beobachtete Einstellungen den Wert ändern
+[Modules to ALWAYS mark as known (e.g core modules)]
+Plugins, die IMMER als bekannt markiert werden, z. B. Core
+[Put a space or comma between each module name]
+Trennen Sie die einzelnen Einträge durch ein Leerzeichen oder Komma
+[Changes to this list will take effect next time miranda starts]
+Änderungen in dieser Liste werden erst beim nächsten Start von Miranda wirksam.
+[Popup timeout (0 for infinite)]
+Anzeigedauer (0 für endlos)
+[Background Colour]
+Hintergrundfarbe
+[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
+Wenn Modulname Leerzeichen enthält, vor das Leerzeichen ein \\ setzen, z. B. "aaa\\ bbb"
+[Add a module named]
+Name des Moduls
+[Add to all contacts (Includes Settings)]
+Modul zu allen Kontakten hinzufügen (inkl. Einstell.)
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Value Name:]
+Name:
+[Value Data:]
+Wert:
+[Base]
+Basis
+[Save Value as:]
+Wert speichern als:
+[Copy to all contacts (Includes Settings)]
+Zu allen Kontakten kopieren (inkl. Einstell.)
+[Contact to copy module and settings to]
+Modul und Einstellungen kopieren zu Kontakt:
+[Import]
+Importieren
+[Insert &CR/LF]
+Zeilenumbru&ch
+[Paste the Settings to import here.]
+Zu importierende Einstellungen hier einfügen.
+[&Refresh Modules]
+Module aktualisie&ren
+[Refresh &Settings]
+Einstellungen aktuali&sieren
+[E&xit]
+B&eenden
+[&Search and Replace]
+&Suchen und Ersetzen
+[&Delete Module]
+Mo&dul löschen
+[&View all]
+Alle anzeigen
+[&Delete all]
+Alle löschen
+[Entire &Database]
+Gesamte &Datenbank
+[All &Settings]
+Alle Ein&stellungen
+[All &Contacts]
+Alle Kontakte
+[From a &file]
+Von einer Datei
+[From pasted &text]
+Vom eingefügten &Text
+[&Sort by protocol]
+Nach Protokoll &sortieren
+[Show &All]
+&Alle anzeigen
+[Show only &Loaded]
+Nur ge&ladene anzeigen
+[Show only &Unloaded]
+Nur &ungeladene anzeigen
+[Edit &Bytes in Hex]
+&Bytes in Hex bearbeiten
+[Edit &Words in Hex]
+&Words in Hex bearbeiten
+[Edit &Dwords in Hex]
+&DWords in Hex bearbeiten
+[&Restore position]
+Position wiederhe&rstellen
+[&Open Options]
+
+[&Edit / Rename]
+B&earbeiten/Umbenennen
+[&Byte]
+
+[&Word]
+
+[&Dword]
+&DWord
+[&String]
+
+[&Unicode]
+
+[BL&OB]
+
+[View Decrypted String]
+Entschlüsselten String anzeigen
+[View Encrypted String]
+Verschlüsselten String anzeigen
+[Decrypt String]
+String entschlüsseln
+[Encrypt String]
+String verschlüsseln
+[&Watch]
+Beobachten
+[&Delete]
+Löschen
+[&Rename]
+Umbenennen
+[Copy To Contact]
+Zu Kontakt kopieren
+[Export Module]
+Modul exportieren
+[Add To Known Modules]
+Zu bekannten Modulen hinzufügen
+[&Clone]
+Kopie erstellen
+[Export Contact]
+Kontakt exportieren
+[From a file]
+Von einer Datei
+[From pasted text]
+Vom eingefügten Text
+[&Add Module]
+Modul hinzufügen
+[Export Settings]
+Einstellungen exportieren
+[Export Contacts]
+Kontakte exportieren
+[Export Module from all contacts]
+Modul von allen Kontakten exportieren
+[Reload Watch List]
+Beobachtungsliste aktualisieren
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+[Cannot Convert!]
+Kann nicht konvertieren!
+[New BYTE value]
+Neuer Byte-Wert
+[Edit BYTE value]
+Byte-Wert bearbeiten
+[New WORD value]
+Neuer Word-Wert
+[Edit WORD value]
+Word-Wert bearbeiten
+[New DWORD value]
+Neuer DWord-Wert
+[Edit DWORD value]
+DWord-Wert bearbeiten
+[New STRING value]
+Neuer String-Wert
+[Edit STRING value]
+String-Wert bearbeiten
+[New UNICODE value]
+Neuer Unicode-Wert
+[Edit UNICODE value]
+Unicode-Wert bearbeiten
+[New BLOB value]
+Neuer BLOB-Wert
+[Edit BLOB value]
+BLOB-Wert bearbeiten
+[Couldnt allocate enough memory!]
+Nicht genug freier Speicher!
+;file \plugins\DbEditorPP\src\copymodule.cpp
+[Settings]
+Einstellungen
+;file \plugins\DbEditorPP\src\deletemodule.cpp
+[Are you sure you want to delete module "%s"?]
+Soll Modul "%s" wirklich gelöscht werden?
+[Confirm Module Deletion]
+Modullöschung bestätigen
+[Delete module from Database]
+Modul aus der Datenbank löschen
+[Delete module from Database... Loading]
+Modul aus der Datenbank löschen... Lade
+;file \plugins\DbEditorPP\src\exportimport.cpp
+[INI Files]
+INI-Dateien
+[All Files]
+Alle Dateien
+[Export to file]
+Exportieren
+[Error Loading Module List]
+Fehler beim Laden der Modulliste
+[Couldn't open file for writing]
+Konnte nicht in Datei schreiben
+[Do you want to overwrite it "%s"?]
+Soll "%s" wirklich überschrieben werden?
+[Contact already exists]
+Kontakt existiert bereits
+[Import from files]
+
+;file \plugins\DbEditorPP\src\findwindow.cpp
+[Enter a string to search the DB for]
+Geben Sie einen Suchstring für die Datenbank ein
+[Stop]
+Stopp
+[Replaced with]
+
+[Deleted]
+Gelöscht
+[Found]
+Gefunden
+[%s Module "%s" in contact "%s"]
+%s Modul "%s" in Kontakt "%s"
+[%s Setting "%s" in module "%s" in contact "%s" - "%s"]
+%s Einstellung "%s" in Modul "%s" in Kontakt "%s" - "%s"
+[%s Setting "%s" in module "%s" in contact "%s"]
+
+[%s "%s" in Setting "%s" in module "%s" in contact "%s"]
+%s "%s" in Einstellung "%s" in Modul "%s" in Kontakt "%s"
+[Searching...]
+Suche...
+[Error Loading Setting List]
+Fehler beim Laden der Einstellungsliste
+[Finished. %d items were found, %d items were deleted.]
+Beendet. %d Einträge wurden gefunden, %d Einträge wurden gelöscht.
+[Finished. %d items were found, %d items were replaced.]
+
+[Finished. %d items were found.]
+Beendet. %d Einträge wurden gefunden.
+;file \plugins\DbEditorPP\src\icons.cpp
+[Closed Known Module]
+Geschlossenes bekanntes Modul
+[Open Known Module]
+Offenes bekanntes Modul
+[Closed Unknown Module]
+Geschlossenes unbekanntes Modul
+[Open Unknown Module]
+Offenes unbekanntes Modul
+[Contacts Group]
+Kontaktgruppe
+[Unknown Contact]
+Unbekannter Kontakt
+[Known Contact]
+Bekannter Kontakt
+;file \plugins\DbEditorPP\src\main.cpp
+[Database Editor++]
+Datenbank-Editor++
+[Open Database Editor]
+Öffne Datenbank-Editor++
+[Open user tree in DBE++]
+Benutzerzweig in DBE++ öffnen
+;file \plugins\DbEditorPP\src\main_window.cpp
+[Are you sure you want to delete contact "%s"?]
+Soll Kontakt "%s" wirklich gelöscht werden?
+[Confirm Contact Delete]
+Kontaktlöschung bestätigen
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
+[Loading contacts...]
+Lade Kontakte...
+[Loading modules...]
+Lade Module...
+[Module tree not found]
+
+[Contacts]
+Kontakte
+[HANDLE]
+
+[Add module to contact "%s"]
+Modul zum Kontakt "%s" hinzufügen
+;file \plugins\DbEditorPP\src\options.cpp
+[Database]
+Datenbank
+;file \plugins\DbEditorPP\src\settinglist.cpp
+[Name]
+Name
+[Data]
+Wert
+[Type]
+Typ
+[Size]
+Größe
+[BLOB]
+Blob
+[BYTE]
+Byte
+[WORD]
+Word
+[DWORD]
+DWord
+[STRING]
+String
+[UNICODE]
+Unicode
+[<unsupported>]
+<nicht unterstützt>
+[<unknown>]
+<unbekannt>
+[Decoded string..]
+
+[Encoded string..]
+
+;file \plugins\DbEditorPP\src\watchedvars.cpp
+[Contact]
+Kontakt
+[Module]
+Modul
+[Setting]
+Einstellung
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Byte) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Word) %d
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (DWord) 0x%X
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: "%s"
+[Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert (UTF8): "%s"

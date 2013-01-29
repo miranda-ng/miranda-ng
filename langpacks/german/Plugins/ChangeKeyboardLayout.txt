@@ -1,0 +1,93 @@
+#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change Keyboard Layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
+
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+[Hotkeys]
+Hotkeys
+[Changing layout:]
+Layout ändern:
+[Changing layout (alternative):]
+Layout ändern (alternativ):
+[Inverting lettercase:]
+Groß-/Kleinschreibung umkehren:
+[Options]
+Einstellungen
+[Two-way changing layout (experimental)]
+2-Wege-Layoutänderung (experimentell)
+[Log operations]
+Ergebnisbehandlung
+[Copy result to clipboard]
+Ergebnis in Zwischenablage kopieren
+[Show result in PopUp]
+Ergebnis als Popup zeigen
+[Strings for keyboard layouts]
+Zeichenketten für Tastaturlayout
+[EN]
+
+[Default]
+Standard
+[+]
+
+[Invert current state]
+Aktuellen Status umkehren
+[Switch off]
+Ausschalten
+[Leave as it is]
+Beibehalten
+[Set Caps Lock state when inverting lettercase:]
+Caps Lock Status bei Umkehrung der Groß-/Kleinschreibung ändern:
+[Change active keyboard layout in system]
+
+[Colours]
+Farben
+[PopUp colours]
+Popupfarben
+[Windows colours]
+Windowsfarben
+[Custom colours]
+Eigene Farben
+[Back]
+Hgrd.
+[Text]
+Text
+[Timeout]
+Timeout
+[From PopUp plugin]
+Vom Popup-Plugin
+[Permanent]
+Dauerhaft
+[Custom]
+Benutzerdef.
+[On left click]
+Bei Linksklick
+[Copy to clipboard]
+In Zwischenablage kopieren
+[Dismiss]
+Verwerfen
+[On right click]
+Bei Rechtsklick
+[Preview]
+Vorschau
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
+Popup
+[Changing Layout]
+
+[Changing Case]
+
+[Message Sessions]
+Nachrichtensitzungen
+[PopUps]
+Popups
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
+[`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
+
+;file \plugins\ChangeKeyboardLayout\src\options.cpp
+[Ghbdtn? rfr ltkf&]
+

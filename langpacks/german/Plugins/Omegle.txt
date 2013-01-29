@@ -1,0 +1,110 @@
+#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;langpack template for Omegle
+;file \protocols\Omegle\res\omegle.rc
+[Server:]
+
+[Visible name:]
+Sichtbarer Name:
+[Meet strangers with common interests (separated by commas):]
+Fremde mit gemeinsamen Interessen treffen (durch Komma trennen):
+[Automatically send this message to stranger after connection:]
+Automatisch diese Nachricht zu Fremden nach dem Verbinden senden:
+[This text will be sent when you use "/asl" message:]
+Dieser Text wird gesendet nachdem Sie "/asl" Nachrichten nutzen:
+[Last used question (Question mode):]
+Zuletzt genutzte Frage (Frage-Modus):
+[I want Omegle to reuse my questions if they are good enough (Question mode)]
+Omegle darf meine Fragen weiterverwenden, falls diese gut genug sind (Frage-Modus)
+[Don't clear chat before connecting to new stranger]
+Den Chat nicht löschen bevor sie zu einem neuen Fremden verbinden
+[Automatically connect to another stranger when current disconnects]
+Automatisch zu einem neuen Fremden verbinden falls aktuelle Verbindung verloren geht
+[Load count of users on actual server after connection]
+Aktuelle Benutzerzahl des Severs nach dem Verbinden laden
+[Enable logging for debugging purposes]
+Debug-Loggen aktivieren
+[Meet strangers with common interests]
+Treffe neue Fremde mit gemeinsamen Interessen
+[Your interests (separated by commas):]
+Ihre Interessen (durch Komma trennen)
+;file \protocols\Omegle\src\chat.cpp
+[Server]
+
+[Last question is empty.]
+
+[Your question is too short.]
+Ihre Frage ist zu kurz.
+[Your '/asl' setting is empty.]
+Ihre '/asl' Einstellungen sind leer.
+[There are three different modes of chatting:\\r\n\n1) Standard mode\t - You chat with random stranger privately\\r\n\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\\r\n\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\\r\n\n\nSend '/commands' for available commands.]
+
+[You can use different commands:\\r\n\n/help\t - show info about chat modes\\r\n\n/new\t - start standard mode\\r\n\n/ask <question> - start question mode with your question\\r\n\n/ask\t - start question mode with your last asked question\\r\n\n/spy\t - start spy mode\\r\n\n/quit\t - disconnect from stranger or stop connecting\\r\n\n/asl\t - send your predefined ASL message\\r\n\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+
+[Unknown command. Send '/commands' for list.]
+Unbekannter Befehl. Benutzen Sie '/commands' für eine Übersicht.
+[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
+Sie sind zu keinem Fremden verbunden. Senden Sie '/help' oder '/commands' für Hilfe oder Übersicht.
+[You can't send messages in question mode.]
+
+[Admin]
+Administrator
+[Normal]
+
+[Omegle is a great way of meeting new friends!]
+Das Omegle-Protokoll ist ein schöner Weg neue Freunde zu finden!
+[You]
+
+;file \protocols\Omegle\src\communication.cpp
+[Connection error.]
+
+[Chosing server: ]
+
+[Connected to server %s. There are %s users online now.]
+Verbinde zum Server %s. Es sind insgesamt %s Nutzer online.
+[Connected to server %s.]
+
+[On whole Omegle are %s strangers online now.]
+
+[Stranger 1]
+Fremder 1
+[Stranger 2]
+Fremder 2
+[Stranger]
+Unbekannter
+[You and the Stranger both like: ]
+Sie und der Fremde mögen beide:
+[%s disconnected.]
+
+[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
+
+[Error: ]
+
+[We are still waiting...]
+
+;file \protocols\Omegle\src\connection.cpp
+[Connecting canceled.]
+
+[Disconnecting...]
+
+[We are already waiting for new stranger...]
+
+[Connecting...]
+Verbinden...
+[Waiting for Stranger...]
+Warte auf Fremden...
+[We are disconnecting now, wait...]
+
+;file \protocols\Omegle\src\proto.cpp
+[%s server connection]
+%s Serververbindung
+[Unable to get Netlib connection for Omegle]
+
+[Visible name]
+Sichtbarer Name
+[Network]
+Netzwerk
+[Account]
+Konto
+;file \protocols\Omegle\src\theme.cpp
+[Omegle Icon]
+

@@ -1,0 +1,106 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: TooltipNotify
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\TooltipNotify\res\main.rc
+[OK]
+OK
+[Allow tooltip notifications for the following users:]
+Erlaube Tooltip-Benachrichtigungen für die folgenden Kontakte:
+[Cancel]
+Abbrechen
+[Notify upon the following events]
+Bei folgenden Ereignissen benachrichtigen
+[Online]
+Online
+[Offline]
+Offline
+[All other]
+Alles andere
+[Typing]
+Tippen
+[Protocols]
+Protokolle
+[Suppress notifications upon connection for]
+Unterdrücke Benachrichtigungen beim Verbinden für
+[sec]
+Sek.
+[Prefix proto name]
+Protok.-Namenspräfix
+[Duration]
+Dauer
+[Show tooltip for]
+Tooltip zeigen
+[ms]
+
+[Duration x2 upon online event]
+Doppelte Dauer bei Onlinehinweis
+[Double click on tooltip]
+Doppelklick auf Tooltip
+[Shows/Hides CList]
+Zeigt/Versteckt CList
+[Opens message dialog]
+Öffnet Nachricht
+[Behavior]
+
+[Misc]
+Diverses
+[Obey 'Suppress online notification' settings]
+Erzwinge die Einhaltung des Unterdrückens von Online-Benachrichtigungen
+[Auto positioning]
+Autom. Positionieren
+[Transparent input]
+Transparente Vorgabe
+[Preview]
+Vorschau
+[Translucency options (Windows 2000/XP only)]
+Transparenz (ab Windows 2000)
+[Transparent tooltip]
+Transparenter Tooltip
+[000%]
+
+[Contacts]
+Kontakte
+[Idle]
+Untätigkeit
+;file \plugins\TooltipNotify\src\Tooltip.cpp
+[MimTooltipNotify]
+
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Tooltip-Benachrichtigung
+[Other Status]
+Andere Status
+[Tooltip Notify: Online]
+
+[Tooltip Notify: Offline]
+
+[Tooltip Notify: Other]
+
+[Tooltip Notify: Typing]
+
+[PopUps]
+Popups
+[** New contacts **]
+** Neue Kontakte **
+[** Unknown contacts **]
+** Unbekannte Kontakte **
+[Away]
+Abwesend
+[N/A]
+
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Not Idle]
+
+[Unknown]
+Unbekannt

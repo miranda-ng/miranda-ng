@@ -1,0 +1,236 @@
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;langpack template for HTTPServer
+;file \plugins\HTTPServer\res\resource.rc
+[IPAddress1]
+
+[IPAddress2]
+
+[Max downloads]
+
+[Address]
+Adresse
+[Mask]
+Maske
+[Share name]
+Freigabename
+[Allowed IP]
+Erlaubte IP
+[Display hidden shares]
+Versteckte Freigaben anzeigen
+[New share]
+Neue Freigabe
+[Show HTTP server statistics]
+HTTP-Server-Statistik anzeigen
+[Set to default]
+Standard setzen
+[External server name]
+Externer Servername
+[This is the link pasted to the message window]
+Füge folgenden Link im Nachrichtenfenster ein
+[Write log file]
+Logdatei schreib.
+[Enable / Disable HTTP server]
+Server aktivieren / deaktivieren
+[Main menu items]
+Einträge im Hauptmenü
+[Open log]
+Log zeigen
+[Show popups]
+Popups anzeigen
+[Page keyword]
+Schlüsselwort
+[URL address]
+URL-Adresse
+[%ExternalIP% variable]
+%ExternalIP%-Variable
+[Test]
+Testen
+[Transfer limit (kb/sec)]
+Verbindungsrate (kb/sec)
+[No control when Away/NA]
+Keine Kontrolle, wenn abwesend
+[Connection control]
+Verbindungskontrolle
+[Index creation]
+Indexerstellung
+[Disable]
+Deaktivieren
+[Create HTML (compatibility)]
+HTML erstellen (Kompatibilität)
+[Create XML]
+XML erstellen
+[Notifications]
+Benachrichtigung
+[Total connection limit]
+max. Verbindungen gesamt
+[Connections per user limit]
+max. Verbindungen/Kontakt
+[Default download limit]
+Standard-DL-Begrenzung
+[&Edit share]
+Freigabe b&earbeiten
+[&Remove share]
+Freigabe entfe&rnen
+[&Open in Browser]
+In Br&owser öffnen
+[&Copy link]
+Link kopieren
+;file \plugins\HTTPServer\src\Glob.h
+[Miranda NG HTTP-Server]
+
+;file \plugins\HTTPServer\src\GuiElements.cpp
+[Share Current Directory]
+aktuelles Verzeichnis freigeben
+[All Files (*.*)\0*.*\0]
+
+[Specify a file to share]
+Datei für Freigabe auswählen
+[Failed to share new file]
+
+[Max Downloads]
+Max. Downloads
+[Allowed Mask]
+Erlaubte Maske
+[Real path]
+Lokaler Pfad
+[User]
+Benutzer
+[Agent]
+
+[Completed]
+Abgeschlossen
+[Speed]
+Geschwindigkeit
+[Selected link size is 0]
+
+[Failed to get access to clipboard]
+
+[Failed to get close the clipboard]
+
+[Failed to set clipboard data]
+
+[ListView_GetItem failed]
+
+[No share selected]
+
+[Current IP Address: ]
+
+[Current Address: ]
+
+[IP Adress: ]
+
+[You are browsing from]
+
+[<HTML><BODY>]
+
+[You external ip was detected as %d.%d.%d.%d\r\nby: %s]
+Deine externe IP wurde als %d.%d.%d.%d erkannt\r\nvon: %s
+[You need to restart miranda to change the main menu]
+Um die Änderungen zu übernehmen, ist ein Neustart von Miranda NG erforderlich
+[HTTP Server]
+HTTP-Server
+[Network]
+Netzwerk
+[Failed to CreateServiceFunction MS_SHARE_NEW_FILE]
+
+[Failed to CreateServiceFunction MS_SHOW_STATISTICS_VIEW]
+
+[HTTP Share new file]
+HTTP Datei freigeben
+[Failed to add contact menu item]
+
+[Failed to HookEvent ME_OPT_INITIALISE]
+
+;file \plugins\HTTPServer\src\HttpUser.cpp
+[Share removed]
+Freigabe entfernt
+;file \plugins\HTTPServer\src\IndexHTML.cpp
+[HTTPServerIndex.html not found in Plugin Path]
+
+[End]
+Ende
+[ForDirectoriesDo]
+
+[DirectoryUrl]
+
+[DirectoryName]
+
+[ForFilesDo]
+
+[FileUrl]
+
+[FileName]
+
+[FileSize]
+
+[FileCreated]
+
+[FileModified]
+
+[IsEven]
+
+[IsOdd]
+
+[IsFileType]
+
+;file \plugins\HTTPServer\src\IndexXML.cpp
+[&amp;]
+
+[  <dirname>%s</dirname>\r\n]
+
+[  <item name="%s" isdir="true"/>\r\n]
+
+[  <item name="%s" ext="%s" size="%i" ]
+
+[created="%i/%02i/%02i %i:%02i:%02i" ]
+
+[modified="%i/%02i/%02i %i:%02i:%02i" ]
+
+;file \plugins\HTTPServer\src\main.cpp
+[Failed to open or create log file]
+
+[Failed to move to the end of the log file]
+
+[Failed to write some part of the log file]
+
+[Failed to open or create file ]
+
+[Failed to write xml header to file ]
+
+[Failed to write xml data to file ]
+
+[Failed to write xml tail to file ]
+
+[Failed to get NETLIBUSERSETTINGS using MS_NETLIB_GETUSERSETTINGS]
+
+[Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
+
+[Disable HTTP server]
+HTTP-Server deaktivieren
+[Enable HTTP server]
+HTTP-Server aktivieren
+[Failed to register NetLib user]
+
+[Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS]
+
+[Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE]
+
+[Failed to CreateServiceFunction MS_HTTP_GET_SHARE]
+
+[Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES]
+
+[Failed to HookEvent ME_SYSTEM_MODULESLOADED]
+
+[Failed to HookEvent ME_SYSTEM_PRESHUTDOWN]
+
+[Failed to retrieve plugin path.]
+
+[\\HTTPServer\\]
+
+[Failed to create HTTPServer directory.]
+
+[Failed to read configuration file : ]
+
+;file \plugins\HTTPServer\src\MimeHandling.h
+[HTTPMimeTypes]
+

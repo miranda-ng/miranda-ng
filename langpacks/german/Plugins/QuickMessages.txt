@@ -1,0 +1,79 @@
+#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;langpack template for QuickMessages
+;file \plugins\QuickMessages\res\quickmessages.rc
+[+]
+
+[-]
+
+[Button Right-Click value]
+Schaltfläche Rechts-Klick Wert
+[Button Left-Click menu]
+Schaltfläche Links-Klick Menü
+[Buttons]
+Schaltflächen
+[Menu entry value:]
+Menüeintrag-Wert:
+[Misc.]
+Versch.
+[Auto-send on Left-Click]
+Autom. Senden bei Linksklick
+[Auto-send on Right-Click]
+Autom. Senden bei Rechtsklick
+[Add to QuickMenu]
+Zum QuickMenü hinzufügen
+[Enable QuickMenu]
+Quickmenü aktivieren
+[Consider as ServiceName]
+Behandeln als Servicename
+[You have changed the plugin settings via database.\nThis requires restart!]
+
+[?]
+
+[- Selected text]
+- Ausgewählter Text
+[List of variables:]
+Liste der Variablen
+[- Text from Clipboard]
+- Text aus Zwischenablage
+[- Contacts Protocol name (upper case)]
+- Kontaktprotokollname (Großschrift)
+[- Contact display name]
+- Kontakt-Anzeigename
+[%t]
+
+[%c]
+
+[%P]
+
+[%n]
+
+[Tips:]
+Tipps:
+[*Rename menu item into "---" to insert separator]
+*Benennen Sie Menüeintrag als "---" um Trennzeichen einzufügen
+[*Use drag'n'drop for arranging menu items]
+*Benutzen Sie drag'n'drop um Menüeinträge zu verwalten
+[- Contact first name]
+- Kontaktvorname
+[%F]
+
+[- Contact last name]
+
+[%L]
+
+;file \plugins\QuickMessages\src\main.cpp
+[Quick Messages]
+
+;file \plugins\QuickMessages\src\options.cpp
+[Enter Value]
+
+[Congratulation!\r\nYou have clicked this button 100 times!\r\nThere was access violation at this point...\r\nAnd now function for freeing resources must be called...\r\nBut no! there's only break :D]
+
+[You win!]
+
+[New Button]
+Neue Schaltfläche
+[New Menu Entry]
+Neuer Menüeintrag
+[Message Sessions]
+Nachrichtensitzungen

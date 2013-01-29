@@ -1,0 +1,159 @@
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin Updater
+;  Version: 0.1.0.2
+;  Authors: Mataes, George Hazan
+;============================================================
+[Plugin updater for Miranda NG.]
+
+;file \plugins\PluginUpdater\res\Resource.rc
+[PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
+PluginUpdater hat aktuallisierte Versionen einiger Miranda-\nKomponenten gefunden. Klicken Sie auf Details für weitere Informationen.
+[Update]
+Aktualisieren
+[Details >>]
+
+[Cancel]
+Abbrechen
+[Select &all]
+&Alle auswählen
+[Select &none]
+Kei&ns auswählen
+[Hotkey]
+
+[Go to Customize -> Hotkeys to change the hotkey]
+Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
+[Plugin updates options]
+Plugin-Update-Optionen
+[On startup]
+Beim Start
+[(but only once a day)]
+(aber nur einmal täglich)
+[Every]
+Alle
+[Update icons]
+Icons aktuallisieren
+[Files source]
+Quelle der Dateien
+[Stable version]
+Stabile Version
+[Development version (less stable)]
+Entwicklungs-Version (weniger stabil)
+[Custom version]
+Eigene Version
+[Notifications]
+Benachrichtigung
+[Message boxes (*)]
+Nachrichtenboxen (*)
+[Errors]
+Fehler
+[Info messages]
+Infonachrichten
+[Progress dialogs]
+Fortschrittsdialog
+[Back]
+Hgrd.
+[Text]
+Text
+[Colours]
+Farben
+[Use cus&tom colors]
+Eigene Farben verwenden
+[Use &Windows colours]
+&Windows-Farben verwenden
+[Use Pop&up colours]
+Pop&up-Farben verwenden
+[Preview]
+Vorschau
+[Click action]
+Aktion bei Klick
+[On left click]
+Bei Linksklick
+[On right click]
+Bei Rechtsklick
+[Timeout]
+Timeout
+[0 = Default]
+0 = Standard
+[-1 = Infinite]
+-1 = Unendlich
+[Sec]
+Sek.
+[* Needs popup actions to be enabled]
+(*) Popup-Aktionen müssen aktiviert sein
+[Not sets for "Message boxes"]
+Gilt nicht für "Message Boxes"
+[Boxes]
+Fenster
+[PopUps]
+Popups
+;file \plugins\PluginUpdater\src\Notifications.cpp
+[%s\\Backups]
+
+[%s\\Temp]
+
+[Skipped.]
+
+[Will be deleted!]
+
+[Downloading...]
+Laden...
+[Failed!]
+
+[Succeeded.]
+
+[Plugin Updater]
+
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
+[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+
+[Component Name]
+Komponentenname
+[State]
+Region
+[ /restart:%d /profile=%s]
+
+;file \plugins\PluginUpdater\src\Notifications.h
+[Close popup]
+Popup schließen
+[Do nothing]
+Nichts tun
+;file \plugins\PluginUpdater\src\Options.cpp
+[hours]
+Stunden
+[days]
+Tage
+[Test]
+Testen
+[Services]
+Dienste
+;file \plugins\PluginUpdater\src\PluginUpdater.cpp
+[%miranda_path%\"DEFAULT_UPDATES_FOLDER)));\r\n		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	}\r\n\r\n	LoadOptions();\r\n	InitPopupList();\r\n	NetlibInit();\r\n	IcoLibInit();\r\n\r\n	// Add cheking update menu item\r\n	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);\r\n\r\n	CLISTMENUITEM mi = { sizeof(mi) };\r\n	mi.position = -0x7FFFFFFF;\r\n	mi.flags = CMIF_ICONFROMICOLIB;\r\n	mi.icolibItem = Skin_GetIconHandle("check_update]
+
+[Check for plugin updates]
+Auf Plugin-Updates prüfen
+;file \plugins\PluginUpdater\src\Scanner.cpp
+[platform]
+Plattform
+[Downloading version info...]
+Lade Versionsinformationen ...
+[An error occured while downloading the update.]
+
+[No updates found.]
+Keine Updates gefunden.
+[Update checking already started!]
+Die Prüfung auf Aktualisierungen wurde bereits gestartet!
+;file \plugins\PluginUpdater\src\Utils.cpp
+['Yes' Button]
+
+['No' Button]
+
+[Plugin Updater HTTP connection]
+
+["%s" /restart:%d /profile=%s]
+
+;file \plugins\PluginUpdater\src\Minizip\ioapi.c
+[r+b]
+

@@ -1,0 +1,138 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating Contacts
+;  Version: x.x.x.x
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+Kontakte ausblenden
+[Hide offline contacts]
+Offline Kontakte ausblenden
+[Stick together]
+Zusammenheften
+[Use fixed width]
+Feste Breite
+[pixels]
+Pixel
+[Hide all contacts]
+Alle Kontakte ausblenden
+[Hide when a fulscreen app is active]
+Bei Vollbild-Anwendung ausblenden
+[Show tooltips]
+Tooltips zeigen
+[ms]
+
+[Tooltips]
+Tooltips
+[Miscellaneous]
+Sonstiges
+[0 = Default]
+0 = Standard
+[requires mToolTip or Tipper plugin]
+Benötigt mToolTip oder Tipper Plugin
+[Bring to front]
+In den Vordergrund
+[Bring to front every]
+In den Vordergrund alle
+[seconds]
+Sekunden
+[Hide when contact list is shown]
+Ausblenden, wenn Kontaktliste gezeigt wird
+[Single click interface]
+Kontaktliste mit Einfachklick öffnen
+[Dim idle contacts]
+Inaktive Kontakte abblenden
+[Fonts]
+Schriftarten
+[same]
+gleich in
+[Typeface]
+Schriftart
+[Size]
+Größe
+[Style]
+Stil
+[Colour]
+Farbe
+[as:]
+wie:
+[Bold]
+Fett
+[Italic]
+Kursiv
+[Underline]
+Unterstrichen
+[100 %]
+
+[Border]
+Rand
+[Draw border]
+Umrandung
+[Left-top edges color:]
+Schatten oben links:
+[Right-bottom eges color:]
+Schatten unten rechts:
+[Background]
+Hintergrund
+[Background colour:]
+Hintergrundfarbe:
+[Use background bitmap]
+Hintergrundbild verwenden
+[...]
+
+[Stretch to width]
+In Breite strecken
+[Stretch to height]
+In Höhe strecken
+[Tile horizontally]
+Horizontal kacheln
+[Tile vertically]
+Vertikal kacheln
+[Stretch proportionally]
+Proportional strecken
+[Opacity:]
+Deckkraft:
+;file \plugins\FloatingContacts\src\bitmap_funcs.cpp
+[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
+Das png2dib-Plugin 0.1.3.x oder höher wird benötigt, um PNG-Bilder anzuzeigen.
+[Error]
+Fehler
+;file \plugins\FloatingContacts\src\fltcont.h
+[MirandaThumbsWnd]
+
+;file \plugins\FloatingContacts\src\main.cpp
+[Remove thumb]
+Entferne Floater
+[Show all thumbs]
+Zeige alle Floater
+[Hide all thumbs]
+Verstecke alle Floater
+[Show/Hide all thumbs]
+Zeige/Verstecke alle Floater
+;file \plugins\FloatingContacts\src\options.cpp
+[Standard contacts]
+Standardkontakte
+[Online contacts to whom you have a different visibility]
+Online-Kontakte mit anderer Sichtbarkeit
+[Offline contacts]
+Offline-Kontakte
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
+[Contacts which are 'not on list']
+Temporäre Kontakte
+[Floating Contacts]
+
+[Contact List]
+Kontaktliste
+[Main Features]
+Funktionen
+[Appearance]
+Erscheinungsbild
+[Sample]
+Beispiel
+[<none>]
+<keine>
+[<Contact List Text>]
+<Kontakt Listen Text>

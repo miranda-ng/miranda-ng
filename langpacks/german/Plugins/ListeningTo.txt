@@ -1,0 +1,314 @@
+#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;langpack template for ListeningTo
+;file \plugins\ListeningTo\res\resource.rc
+[Listening to information]
+
+[Enable sending listening information to contacts:]
+Aktiviere das Senden folgender Medientypen:
+[Music]
+Musik
+[Radio]
+
+[Video]
+
+[Others]
+Sonstiges
+[You also have to enable it per protocol in the main menu]
+Diese Funktion muss für jedes Protokoll seperat im Hauptmenü aktiviert werden
+[XStatus]
+
+[For protocols that don't support listening to but support XStatus:]
+Für Protokolle ohne ListeningTo, aber mit xStatus:
+[Set XStatus to Music and show listening info]
+XStatus auf Musik setzen und Musikinfo als Nachricht setzen
+[If other XStatus is not set, set XStatus to Music and show listening info]
+Solange kein anderer XStatus gesetzt ist, XStatus auf 'Musik' und Musikinfo setzen
+[If XStatus is Music, show listening info]
+Musikinfo nur als Nachricht setzen, wenn XStatus 'Musik' bereits gesetzt
+[Do nothing]
+Nichts tun
+[Contacts]
+Kontakte
+[Apply template for info from contacts (overrides contacts template)]
+Vorlage anderer Kontakte durch eigene Vorlage überschreiben
+[Get info from WATrack plugin]
+Informationen vom WATrack-Plugin beziehen
+[Get info from these players:]
+Informationen folgender Player beziehen:
+[Winamp (*)]
+
+[Windows Media Player]
+
+[iTunes]
+
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (Plugin muss manuell installiert werden)
+[Other players]
+Andere Player
+[Ask for new info every]
+Frage nach neuen Infos
+[seconds]
+Sekunden
+[Allow auto-loading plugins into players (affect players with *)]
+Plugins automatisch in Player laden (betrifft Player mit *)
+[mRadio]
+
+[Listening to]
+Höre gerade
+[Template:]
+Vorlage:
+[Variables:]
+Variablen:
+[%artist% - Artist name]
+%artist% - Name des Interpreten
+[%album% - Album name]
+%album% - Name des Albums
+[%title% - Song title]
+%title% - Titel des Liedes
+[%track% - Track number]
+%track% - Liednummer
+[%year% - Song year]
+%year% - Jahr des Liedes
+[%genre% - Song genre]
+%genre% - Genre des Liedes
+[%length% - Song length]
+%length% - Länge des Liedes
+[%player% - Player name]
+%player% - Name des Players
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - Medientyp (Musik, Radio, Video etc.)
+[When variable not found, use:]
+Wenn Variable nicht gefunden:
+[Title:]
+Titel:
+[Message:]
+Nachricht:
+[Other Variables:]
+Andere Variablen:
+[%listening% - Listening to info (as set above)]
+%listening% - Info wie oben eingestellt
+[When nothing is playing, replace %listening% with:]
+Wenn nichts spielt, ersetze %listening% durch:
+;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\foo_sample.rc
+[Bogo setting 1:]
+
+[Bogo setting 2:]
+
+[This is a sample preferences page with meaningless settings.]
+
+[Pattern:]
+
+[State:]
+Region:
+[Context menu test area - right click me]
+
+[Play]
+Abspielen
+[Pause]
+Pause
+[Stop]
+Stopp
+[Prev]
+Zurück
+[Next]
+Weiter
+[Rand]
+
+[OK]
+OK
+[Cancel]
+Abbrechen
+[N dB]
+
+;file \plugins\ListeningTo\src\listeningto.cpp
+[Send to %s]
+In %s senden
+[Send ListeningTo]
+
+[Listening to (enabled)]
+
+[Listening to (disabled)]
+
+[Send to all protocols]
+In allen Protokollen senden
+[listening_info]
+
+[listening_type]
+
+[listening_artist]
+
+[listening_album]
+
+[listening_title]
+
+[listening_track]
+
+[listening_year]
+
+[listening_genre]
+
+[listening_length]
+
+[listening_player]
+
+[Don't send to any protocols]
+In keinem Protokoll senden
+[Toggle send to all protocols]
+In allen Protokollen, umschalten
+[Enable/Disable sending Listening To info (to all protocols)]
+Listening-To-Informationen aktivieren/deaktivieren (für alle Protokolle)
+[Disable ListeningTo (to all protocols)]
+
+[Enable ListeningTo (to all protocols)]
+
+[listening]
+
+[artist]
+Interpret
+[album]
+Album
+[title]
+
+[track]
+
+[year]
+
+[genre]
+Genre
+[length]
+
+[player]
+
+[type]
+
+[StartTimer]
+
+[To be sure that no one was left behind]
+
+;file \plugins\ListeningTo\src\music.cpp
+[ChangedListeningInfo]
+
+[Start]
+
+[Has : %s : %d]
+
+[Is equals]
+
+[Is different]
+
+;file \plugins\ListeningTo\src\options.cpp
+[<Unknown>]
+<Unbekannt>
+[<Nothing is playing now>]
+
+[Status]
+Status
+[Listening info]
+"Ich höre gerade"-Info
+[General]
+Allgemein
+[Format]
+
+[Players]
+Player
+;file \plugins\ListeningTo\src\players\foobar.cpp
+[foobar2000]
+
+;file \plugins\ListeningTo\src\players\generic.cpp
+[GenericPlayer]
+
+[Miranda ListeningTo receiver]
+
+[ProcessReceived]
+
+[ERROR: Empty text]
+
+[ERROR: No \\0 found]
+
+[ERROR: Too little pieces]
+
+[END: Stoped playing]
+
+[ERROR: not enought info]
+
+[END: Success]
+
+[SendTimerProc]
+
+[It's time to process]
+
+[NewData]
+
+[Processing]
+
+[ERROR: Text is empty]
+
+[Got new text, scheduling update]
+
+[Text: %s]
+
+[END: Text is the same as last time]
+
+[ReceiverWndProc]
+
+[START: Received message]
+
+[ERROR: COPYDATASTRUCT* is NULL]
+
+[ERROR: pData->dwData is incorrect]
+
+[ERROR: pData->cbData is 0]
+
+[ERROR: pData->lpData is NULL]
+
+[Going to process]
+
+;file \plugins\ListeningTo\src\players\itunes.cpp
+;file \plugins\ListeningTo\src\players\mradio.cpp
+;file \plugins\ListeningTo\src\players\player.cpp
+[Player]
+
+[ExternalPlayer]
+
+[CodeInjectionPlayer]
+
+;file \plugins\ListeningTo\src\players\watrack.cpp
+[WATrack]
+
+;file \plugins\ListeningTo\src\players\winamp.cpp
+[Winamp v1.x]
+
+[Winamp]
+
+[.Winamp]
+
+;file \plugins\ListeningTo\src\players\wmp.cpp
+[MsnMsgrUIManager]
+
+[WindowsMediaPlayer]
+
+[Miranda ListeningTo WMP receiver]
+
+[WMP : New data: [%d] %s]
+
+;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\ATLHelpers\misc.h
+[foobar2000:separator]
+
+;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\playback_state.cpp
+[%codec% | %bitrate% kbps | %samplerate% Hz | %channels% | %playback_time%[ / %length%]$if(%ispaused%, | paused,)]
+
+[Test command]
+
+[No items selected]
+
+;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\ui_element.cpp
+[This is a sample element.]
+
+;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
+[unexpected profiler failure\n]
+
+;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
+[Miranda ListeningTo Winamp Plugin]
+
+[Copyright (C) 2006 Ricardo Pescuma Domenecci]
+

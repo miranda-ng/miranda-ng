@@ -1,0 +1,18 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: CryptoPP
+;  Version: 1.0.4.4
+;  Authors: 
+;============================================================
+;file \plugins\CryptoPP\src\GPGw\resource.rc
+[Enter passphrase for the secret key of user:]
+Passwort des geheimen Schlüssels des Users eingeben:
+[User ID]
+Nutzer-ID
+[Ok]
+
+[Cancel]
+Abbrechen
+[Refresh]
+Aktualisieren

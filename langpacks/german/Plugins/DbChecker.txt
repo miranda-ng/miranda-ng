@@ -1,0 +1,173 @@
+#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+;============================================================
+;  File: dbchecker.dll
+;  Plugin: Database Checker
+;  Version: x.x.x.x
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
+
+;file \plugins\DbChecker\res\resource.rc
+[whiterect]
+
+[Welcome to the Miranda Database Wizard]
+Willkommen zum Miranda-Datenbankreparaturtool
+[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
+Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Datenbank auf mögliche Fehler und versucht diese zu beheben.
+[To continue, click Next.]
+Um fortzufahren, drücken Sie "Weiter".
+[This programme is licenced under the terms of the GNU General Public License.]
+Dieses Programm wurde unter der GNU General Public License lizenziert.
+[< &Back]
+< Zurück
+[&Next >]
+Weiter >
+[Cancel]
+Abbrechen
+[Select Miranda Profile]
+Miranda-Datenbank auswählen
+[You can choose the Miranda profile database to compact or repair.]
+Datenbank zum Komprimieren oder zur Fehlersuche auswählen
+[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
+&Datenbank aus unten stehender Liste auswählen, oder klicken Sie auf "Andere..." für einen anderen Ordner.
+[&File:]
+&Datei:
+[&Other...]
+&Andere...
+[Error Opening Database]
+Fehler beim Öffnen der Datenbank
+[There was an error opening the profile database given.]
+Es ist ein Fehler beim Öffnen der Datenbank aufgetreten
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Klicken Sie auf "Weiter", um es erneut zu versuchen, oder auf "Zurück", um eine andere Datei auszuwählen.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Evtl. wird das Profil im Moment von Miranda verwendet. Beenden Sie Miranda und klicken Sie auf "Weiter" für einen neuen Versuch.
+[File Access Options]
+Dateizugriffseinstellungen
+[You can select low level options to determine how the database is processed.]
+Hier können Sie die Einstellungen für die Arbeitsweise des Datenbanktools festlegen.
+[Create backup]
+Sicherheitskopie erstellen
+[Creates a backup copy of the database before any of the requested changes are made.]
+Erstellt eine Sicherheitskopie, bevor irgendwelche Änderungen vorgenommen werden.
+[Aggressively find corruption]
+Gründliche Fehlersuche
+[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
+Untersucht die Datenbank auf Einträge, auf die keine Verweise existieren. Diese Option ist nur erforderlich, wenn Sie den Verdacht haben, Ihr Profil könnte beschädigt sein.
+[Check consistency only]
+Nur Konsistenz prüfen
+[Just checks that the database is valid, without writing anything to the disk.]
+Schnelle Überprüfung der Datenbank, schreibt keine Daten auf die Festplatte.
+[Cleaning Options]
+Säuberungseinstellungen
+[You can choose to remove information from the database while it is being processed.]
+Sie können auswählen, welche evtl. überflüssigen Einträge entfernt werden.
+[Erase all histories]
+Verlauf löschen
+[Removes all the saved history for all contacts in the database.]
+Entfernt die Verläufe sämtlicher Kontakte aus der Datenbank.
+[Mark all events read]
+Alle Ereignisse als gelesen markieren
+[Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
+Markiert alle Ereignisse im Verlauf als gelesen. Dies behebt u. a. das Problem, dass alte Nachrichten im Nachrichtenverlauf angezeigt werden.
+[Convert old Unicode messages to UTF8]
+Alte Unicode-Nachrichten nach UTF8 konvertieren
+[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
+Konvertiert alte Nachrichten im ANSI-UCS2-Format aus Versionen vor 0.7 in das neue UTF-8-Format (ab Version 0.7). Wird dringend empfohlen!
+[Working...]
+Vorgang läuft...
+[Please wait while the requested operations are being performed.]
+Bitte warten Sie, bis die notwendigen Arbeitsgänge beendet wurden.
+[Progress1]
+Fortschritt1
+[Finished!]
+Ich bin fix und fertig!
+[All tasks have been completed.]
+Alle Arbeitsschritte wurden beendet.
+[Launch Miranda with this profile]
+Starte Miranda mit diesem Profil
+[Launches Miranda with the profile that was just worked on.]
+Starte Miranda mit der verarbeiteten Datenbank.
+[Backup:]
+Sicherheitskopie:
+[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
+Die Verarbeitung der Datenbank wurde beendet. Klicken Sie auf "Weiter", um das Tool mit einer anderen Datenbank neu zu starten, oder auf "Fertig", um das Datenbanktool zu beenden.
+;file \plugins\DbChecker\src\finished.cpp
+[&Finish]
+&Fertig
+;file \plugins\DbChecker\src\progress.cpp
+[Click Next to continue]
+Drücken Sie "Weiter" zum Fortfahren
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
+[Miranda Database Tool]
+Miranda-Datenbanktool
+[Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
+Die Verarbeitung wurde noch nicht beendet. Wenn Sie jetzt zurückgehen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie jetzt zurückgehen?
+;file \plugins\DbChecker\src\selectdb.cpp
+[Database Checker cannot find a suitable database plugin to open '%s'.]
+
+[Error]
+Fehler
+[Database driver '%s' doesn't support checking.]
+
+[Database]
+Datenbank
+[ProfileDir]
+
+[./Profiles]
+
+[%.2lf MB]
+
+[Total size]
+Gesamtgröße
+[Wasted]
+Überflüssig
+[\\Profiles]
+
+[[ini]\\]
+
+[[prf]\\]
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe]
+
+[Path]
+Pfad
+[[reg]\\]
+
+[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
+
+[Miranda Databases (*.dat)]
+
+[All Files]
+Alle Dateien
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+Es wurden Fehler gefunden, und Sie haben ausgewahlt, keine Sicherungskopie der Originaldatei zu machen. Diese Fehler konnen zu Datenverlust fuhren! Wollen Sie eine Sicherheitskopie der Originaldatei beibehalten?
+[%s\\Backup of %s]
+%s\\Sicherheitskopie von %s
+[%s\\Backup (%d) of %s]
+%s\\Sicherheitskopie (%d) von %s
+[Unable to rename original file]
+Originaldatei konnte nicht umbenannt werden
+[Unable to delete original file]
+Originaldatei konnte nicht gelöscht werden
+[Unable to rename output file]
+Ausgabedatei konnte nicht umbenannt werden
+[Database worker thread activated]
+Datenbankverarbeitungsfunktion gestartet
+[<check only>]
+<Nur prüfen>
+[ (Output).dat]
+
+[Can't create output file (%u)]
+Kann Ausgabedatei nicht erstellen (%u)
+[Processing aborted by user]
+Verarbeitung von Benutzer abgebrochen
+[Elapsed time: %d sec]
+Benötigte Zeit: %d Sekunden
+[All tasks completed but with errors (%d)]
+
+[All tasks completed successfully]
+Alle Arbeitsschritte erfolgreich beendet

@@ -1,0 +1,292 @@
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;langpack template for SimpleStatusMsg
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[&Cancel]
+Abbre&chen
+[Retrieving %s message...]
+Rufe '%s'-Nachricht ab...
+[Co&py to Clipboard]
+Nachricht kopieren
+[OK]
+OK
+[%time%]
+
+[%date%]
+
+[%winampsong%]
+
+[%rand(x,y)%]
+
+[%randmsg%]
+
+[%randdefmsg%]
+
+[%fortunemsg%]
+
+[%protofortunemsg%]
+
+[%statusfortunemsg%]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+
+[Fortune]
+
+[Variables]
+Variablen
+[Cut]
+Ausschneiden
+[Copy]
+Kopieren
+[Paste]
+Einfügen
+[Delete]
+Löschen
+[Select All]
+Alles markieren
+[Behaviour on status change]
+Verhalten beim Statuswechsel
+[Apply to all]
+Übern. für alle
+[Max length:]
+Max. Länge:
+[Pop up dialog box]
+Dialogfenster
+[Do not change status message]
+Statusnachricht nicht ändern
+[Always set the same message]
+Immer selbe Statusnachricht setzen
+[Do not set status message]
+Keine Statusnachricht setzen
+[Status Messages]
+Statusnachrichten
+[Pop up dialog asking for new message]
+Dialogfenster zur Eingabe neuer Nachrichten
+[Set an empty message]
+Leere Nachricht setzen
+[Use default message]
+Standardnachricht benutzen
+[Use last message]
+Letzte Nachricht benutzen
+[Use last message set for this status]
+Letzte Nachricht dieses Status benutzen
+[Set the following message:]
+Folgende Nachricht setzen:
+[Put default message in message list]
+Standardnachricht setzen
+[Update variables in status messages every]
+Aktualisiere Variablen in Statusnachricht alle
+[seconds]
+Sekunden
+[Do not update variables during idle]
+Variablen nicht erneuern, wenn untätig
+[Do not update variables on ICQ status message requests]
+Variablen nicht bei ICQ Statusnachrichtenanfragen erneuern
+[Leave last played track's title after exiting the player]
+Letzten abgespielten Track beibehalten, wenn Player beendet wird.
+[Enable status messages parsing by Variables plugin]
+Aktiviere Statusnachrichtenparsing vom Variables-Plugin
+[Exclude %date% token from parsing (restart required)]
+%date%-Variable nicht parsen (benötigt Neustart)
+[Layout]
+
+[Show status list]
+Zeige Statusliste
+[Show status profiles in status list]
+Zeige StartupStatus-Profile in Statusliste
+[Show icons in status list]
+Icons in Statusliste anzeigen
+[Buttons:]
+Schaltflächen
+[Show icons in message list]
+Icons in Nachrichtenliste anzeigen
+[Other]
+Sonstige
+[Store up to]
+Speich. letzte
+[recent messages (0 = disable)]
+verw. Nachrichten (0 = keine Speicherung)
+[Automatically close dialog window after]
+Schließe Dialogfenster automatisch nach
+[Remember last dialog window position]
+Letzte Dialogposition merken
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Entferne Absätze (CR = '\\r' = #0D) aus Statusnachrichten
+[Show 'Copy Away Message' item in contact menu]
+Menüpunkt 'Kopiere Statusnachricht' im Kontaktmenü anzeigen
+[Show 'Go to URL in Away Message' item in contact menu]
+Menüpunkt 'Gehe zu URL in Statusnachricht' im Kontaktmenü anzeigen
+[Show 'Status Message...' item in status menu]
+Menüpunkt 'Statusnachricht...' im Statusmenü anzeigen
+[Clear History]
+Verlauf leeren
+[Clear Predefined]
+Alles löschen
+[* This feature is available only when using StartupStatus plugin.]
+* Diese Funktion steht nur mit dem StartupStatus-Plugin zur Verfügung
+[Status on Startup]
+Status beim starten
+[Set status after]
+Setze Status nach:
+[miliseconds]
+Millisekunden
+[Protocol:]
+Protokoll:
+[Status:]
+Status:
+[Independent setting for each protocol]
+Unabhängige Einstellung für jedes Protokoll
+[Pop up dialog asking for status message]
+Popup-Dialog zur Nachfrage nach Statusnachricht
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+Fehler beim abrufen der %s Nachricht
+[&Close]
+S&chließen
+[Re&ad %s Message]
+'%s'-N&achricht lesen
+[Copy %s Message]
+%s Nachricht kopieren
+[&Go to URL in %s Message]
+&Gehe zu URL in %s-Nachricht
+[Re&ad Away Message]
+
+[Copy Away Message]
+Abwesenheitsnachricht kopieren
+[&Go to URL in Away Message]
+&Gehe zur URL in der Abwesenheitsnachricht
+;file \plugins\SimpleStatusMsg\src\main.cpp
+[STUDIO]
+
+[Winamp v1.x]
+
+[ - Winamp]
+
+[SimpleStatusMsg]
+
+[%rand(]
+
+[Change Status Message]
+Statusnachricht wechseln
+[Open Status Message Dialog]
+Öffnet Statusnachrichtenfenster
+[Status Message]
+Statusnachricht
+[Status Message...]
+Statusnachricht ...
+[%s (locked)]
+%s (gesperrt)
+[winampsong]
+
+[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
+[Miranda Related\tget the date (Simple Status Message compatible)]
+
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+
+[<current>]
+<aktueller>
+[Add to Predefined]
+Zu Vordefinierten hinzuf.
+[Delete Selected]
+Markierte löschen
+[OK (%d)]
+
+[Global]
+Global
+[%s Message (%s)]
+%s Nachricht (%s)
+[Closing in %d]
+In %d schließen
+[Are you sure you want to clear status message history?]
+
+[Confirm clearing history]
+
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Global status change]
+Globale Statusänderung
+[Open String Formatting Help]
+Stringformatierungshilfe öffnen
+[Hide]
+Verstecken
+[Show next to cancel button]
+Zeige neben Abbr.-Button
+[Flat, next to cancel button]
+Flach, neben Abbr.-Button
+[Show in message list]
+Zeige in Nachrichtenliste
+[Are you sure you want to clear predefined status messages?]
+
+[Confirm clearing predefined]
+
+[<Last status>]
+<Letzter Status>
+[Status]
+Status
+[General]
+Allgemein
+[Advanced]
+Erweitert
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent Message]
+Letzte Nachricht
+[Predefined Message]
+Vordefinierte Nachricht
+[Go to URL in Away Message]
+Gehe zu URL in Statusnachricht
+[I've been away since %time%.]
+Ich bin nicht da seit %time%.
+[Give it up, I'm not in!]
+Gib's auf! Ich bin nicht da!
+[Not right now.]
+Im Moment nicht!
+[Give a guy some peace, would ya?]
+Lass mich im Moment mal in Ruhe!
+[I'm a chatbot!]
+Laber mich voll!
+[Yep, I'm here.]
+Ja, ich bin da.
+[Nope, not here.]
+Nein, ich bin weg.
+[I'm hiding from the mafia.]
+Ich zieh mir ne Tarnkappe auf!
+[That'll be the phone.]
+Bin gerade am Telefon
+[Mmm...food.]
+Hmmh... lecker
+[idleeeeeeee]
+Langweilig

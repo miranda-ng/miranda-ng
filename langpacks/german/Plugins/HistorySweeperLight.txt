@@ -1,0 +1,28 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: HistorySweeperLight.dll
+;  Plugin: HistorySweeperLight
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
+[History Sweeper Light]
+
+[Sweep history for this contacts:]
+Verlauf der ausgewählten Kontakte löschen:
+[Action 1]
+Aktion 1
+[Action 2]
+Aktion 2
+;file \plugins\HistorySweeperLight\src\main.cpp
+[Keep all events]
+Alle Ereignisse behalten
+[Delete all events]
+Alle Ereignisse löschen
+;file \plugins\HistorySweeperLight\src\options.cpp
+[*** Defaut Action ***]
+
+[*** System History ***]
+
+[History]
+Verlauf

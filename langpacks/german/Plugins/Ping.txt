@@ -1,0 +1,171 @@
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;langpack template for Ping
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+Verzögerung zwischen den Pings (Sek):
+[Timeout]
+Timeout
+[Ping timeout (secs):]
+Ping timeout (Sek):
+[Logging]
+Speichern
+[Log to File]
+In Datei speichern
+[Log Filename:]
+Log Dateiname:
+[Network]
+Netzwerk
+[PopUps]
+Popups
+[Reply]
+Antworten
+[Block Repetitions]
+Wiederhol. blocken
+[View Log]
+Log anzeigen
+[Browse...]
+Durchsuchen...
+[Interface]
+
+[Do not change icon when testing]
+
+[Use the Customize/Fonts options to change text size and colour.]
+
+[Indent:]
+Einzug:
+[Row height:]
+Zeilenhöhe:
+[Spin3]
+
+[Repeats for success/failure:]
+Wiederholung bis Erfolg/Fehler:
+[Attach to contact list]
+
+[Use CSV format]
+
+[Add]
+Hinzufügen
+[Remove]
+Entfernen
+[Edit]
+Bearbeiten
+[Up]
+Auf
+[Down]
+Ab
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Address:]
+Adresse:
+[Label:]
+Titel:
+[TCP Connect]
+TCP Verbindung
+[Port:]
+Port:
+[Control Protocol:]
+Kontrollprotokoll:
+[Set my status to:]
+Wechsel meinen Status zu:
+[On success, if my status is:]
+Bei Erfolg, wenn mein Status ist:
+[Execute the following command on double-click:]
+
+[Contact]
+Kontakt
+[Protocols]
+Protokolle
+[(Optional) Command Parameters:]
+(Optional) Befehl Parameter:
+[Graph]
+Graph
+[Enable]
+Aktivieren
+[Disable all pings]
+
+[Enable all pings]
+
+[Options...]
+Einstellungen...
+[Hosts...]
+
+;file \plugins\Ping\src\log.cpp
+[edit]
+
+;file \plugins\Ping\src\menu.cpp
+[PING]
+
+[Enable All Pings]
+Alle Pings aktivieren
+[Disable All Pings]
+Alle Pings deaktivieren
+;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+
+[<none>]
+<keine>
+[<all>]
+
+[Settings]
+Einstellungen
+[Hosts]
+
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+
+[Failed to initialize. Plugin disabled.]
+
+[Local\\ThreadWaitEvent]
+
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+
+[Show stats]
+
+[%d ms]
+
+[AVG %.1lf ms]
+
+[MAX %hd ms]
+
+[MIN %hd ms]
+
+[GraphWindow]
+
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+
+[%s - reply, %d]
+
+[%s - timeout]
+
+[Disable]
+Deaktivieren
+[enabled]
+aktiviert
+[double clicked]
+
+[Ping]
+
+[List]
+Liste
+[Background]
+Hintergrund
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+
+[Unknown]
+Unbekannt
+[Responding]
+
+[Not Responding]
+
+[Testing]
+
+[Disabled]
+Deaktiviert

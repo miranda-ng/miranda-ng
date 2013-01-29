@@ -1,0 +1,51 @@
+#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
+
+;file \plugins\BASS_interface\res\Bass.rc
+[un4seen's bass interface]
+Un4seen's Bass Interface
+[bass.dll loading error]
+Fehler beim Laden der bass.dll
+[Current bass.dll path:]
+Aktuelles Verzeichnis der Bass.dll:
+[Maximum number of bass internal channels:]
+Maximum an internen aktivierten Lautsprechern
+[Output device:]
+Ausgabegerät:
+[Volume:]
+Lautstärke
+[-]
+
+[download bass library]
+Herunterladen der Bass-Bibliothek
+[Play only if]
+Spiele nur wenn:
+;file \plugins\BASS_interface\src\Main.cpp
+[HH:mm]
+
+[un4seen's bass version: %d.%d.%d.%d]
+Un4seen's Bass Version: %d.%d.%d.%d
+[Customize]
+Customize
+[Disable sounds]
+Klänge deaktivieren
+[Enable sounds]
+Klänge aktivieren
+[Frame Background]
+
+[BassInterfaceFrame]
+
+[Bass Interface]
+
+[\\Bass]
+
+[Sounds enabled]
+
+[Sounds disabled]
+

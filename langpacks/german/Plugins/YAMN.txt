@@ -1,0 +1,403 @@
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: YAMN
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[List4]
+
+[List5]
+
+[OK]
+OK
+[Installed plugins]
+Installierte Plugins
+[Version:]
+
+[Description:]
+Übersicht:
+[Copyright:]
+Copyright:
+[Contact:]
+Kontakt:
+[WWW:]
+
+[Check this account]
+Dieses Konto prüfen
+[Check interval [min]:]
+Prüfintervall (min):
+[Notifications]
+Benachrichtigung
+[Sound]
+Klanghinweis
+[Message]
+Nachricht
+[Tray Icon]
+Trayicon
+[Keyboard Flash]
+Tastaturblinken
+[Execute Application]
+Programm ausführen
+[...]
+
+[Use contact notification for this account]
+Kontaktlistenhinweis für dieses Konto
+[Replace nick name]
+Ersetze Nickname
+[Disable Events]
+Deak. Ereign.
+[Server:]
+
+[User Name:]
+Benutzer:
+[Password:]
+Passwort:
+[Codepage:]
+Zeichensatz:
+[Port:]
+Port:
+[SSL]
+
+[Disable STLS]
+STLS deaktivieren
+[Startup check]
+Prüfe beim Start
+[Auto retrieve body]
+Automatisch den E-Mail-Body abfragen
+[Check from menu]
+Prüfe vom Menü
+[Only check when ...]
+Nur prüfen, wenn...
+[Sound notification if failed]
+Tonhinweis bei Fehlern
+[Message notification if failed]
+Nachrichthinweis bei Fehlern
+[Tray icon notification if failed]
+Trayiconhinweis bei Fehlern
+[Reset counter]
+Zähler zurücksetzen
+[-]
+
+[Default]
+Standard
+[Status:]
+Status:
+[+]
+
+[Account]
+Konto
+[APOP]
+
+[Name:]
+Name:
+[Options]
+Einstellungen
+[New Mail]
+Neue E-Mail
+[Errors]
+Fehler
+[Cancel]
+Abbrechen
+[Choose modes]
+Wähle Modi
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[N/A]
+
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[On the phone]
+Am Telefon
+[Out to lunch]
+Zum Essen
+[YAMN General Options]
+Allgemeine YAMN-Einstellungen
+[TopToolBar button "Check mail"]
+TopToolbar-Button "E-Mails abrufen"
+[Enable YAMN Main Menu]
+
+[Show YAMN as a Protocol  (Require Restart)]
+Zeige YAMN als ein Protokoll (Neustart erforderlich)
+[MailBrowser Options]
+Einstellungen für E-Mail-Browser
+[Enable Close on Delete Button]
+Aktiviere "Schließen beim Löschen"
+[Show long localised date]
+Zeige langes Datumsformat
+[Don't show today's date]
+Heutiges Datum nicht zeigen
+[Date/Time Representation]
+Datums-/Zeitdarstellung
+[Don't show seconds]
+Sekunden nicht zeigen
+[Mail Notifications]
+E-Mail-Hinweis
+[Popup]
+Popup
+[Single popup]
+Einzelnes Popup anzeigen
+[Multi popup]
+Mehrere Popups anzeigen
+[Use custom colour]
+Benutzerdefinierte Farbe
+[No new mail notifications]
+Keine neue E-Mail - Hinweis
+[Popup if no mail]
+Popup anzeigen
+[Persistant message]
+Dauerhafte Mitteilung
+[Connection failure notifications]
+Verbindungsfehler - Hinweis
+[Popup notification if failed]
+Popup anzeigen
+[..s Popup duration]
+s Anzeigedauer
+[Preview]
+Vorschau
+[Background colour]
+Hintergrundfarbe
+[Text colour]
+Textfarbe
+;file \plugins\YAMN\src\account.cpp
+[%s: %s,length is %d, remaining %d chars]
+
+[debug]
+
+[NFlags: %04x, remaining %d chars]
+
+[PopUpB: %04x, remaining %d chars]
+
+[PopUpT: %04x, remaining %d chars]
+
+[PopUpTime: %04x, remaining %d chars]
+
+[going to read messages, if any...]
+
+[Name]
+Name
+[Value]
+Wert
+[Server]
+
+[Port: %d, remaining %d chars]
+
+[Login]
+Anmelden
+[Password]
+Passwort
+[Flags: %04x, remaining %d chars]
+
+[STFlags: %04x, remaining %d chars]
+
+[PFlags: %04x, remaining %d chars]
+
+[Interval: %d, remaining %d chars]
+
+[LastChecked: %04x, remaining %d chars]
+
+[LastSChecked: %04x, remaining %d chars]
+
+[LastSynchronised: %04x, remaining %d chars]
+
+[LastMail: %04x, remaining %d chars]
+
+[Browsing account %s]
+
+[(null)]
+
+[debug- WriteAccount...]
+
+;file \plugins\YAMN\src\main.cpp
+[Check mail]
+E-Mails abrufen
+[Launch application]
+Programm ausführen
+[Connect Fail]
+Verbindungsfehlschlag
+[dll]
+
+[\\Plugins\\YAMN\\]
+
+;file \plugins\YAMN\src\services.cpp
+[Nick]
+Nick
+[No new mail message]
+Keine neue E-Mail-Nachricht
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[Unknown error]
+Unbekannter Fehler
+[ - connection error]
+
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s : %d new mail message(s), %d total]
+%s : %d neue E-Mail(s), %d gesamt
+[%d new mail message(s), %d total]
+%d neue E-Mail(s), %d gesamt
+[No new mail message, %d spam(s)]
+Keine neue E-Mail, %d Spam-Mail(s)
+[Header]
+
+[Copy Selected]
+
+[Copy All]
+Alles kopieren
+[Do you really want to delete %d selected mails?]
+Möchten Sie %d markierte Mail(s) wirklich löschen?
+[Delete confirmation]
+Löschen bestätigen
+;file \plugins\YAMN\src\mails\mime.cpp
+[Translate header error]
+
+[Part]
+
+;file \plugins\YAMN\src\proto\netlib.cpp
+[%s connection]
+
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Verbindung getrennt
+[POP3 protocol (internal)]
+
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+E-Mail-Benachrichtigung und -Browser für Miranda NG über das POP3-Protokoll.
+[pop3]
+
+[Found new version of account book, not compatible with this version of YAMN.]
+Neuere Version einer Kontodatei gefunden, die nicht kompatibel mit dieser Version von YAMN ist.
+[YAMN (internal POP3) read error]
+YAMN (interner POP3)-Lesefehler
+[Error reading account file. Account file corrupted.]
+Fehler beim Lesen der Kontodatei. Kontodatei beschädigt.
+[Memory allocation error while data reading]
+Speicher-Zuordnungsfehler während des Lesens der Daten
+[Reading file error. File already in use?]
+Datei-Lesefehler. Datei bereits in Benutzung?
+[Error while copying data to disk occured. File in use?]
+Ein Fehler trat beim Kopieren der Datei auf. Datei in Benutzung?
+[POP3 plugin- write file error]
+POP3-Plugin - Datei-Schreibfehler
+[CodePage: %d, remaining %d chars]
+
+[Connecting to server]
+Verbinde zum Server
+[Entering POP3 account]
+Eingabe des POP3-Kontos
+[Searching for new mail message]
+Suche nach neuen E-Mail-Nachrichten
+[Reading body %s]
+
+[Reading new mail messages (%d%% done)]
+
+[Deleting requested mails]
+Lösche angeforderte E-Mail(s)
+[Deleting spam]
+
+[Memory allocation error.]
+Speicher-Zuordnungsfehler.
+[Account is about to be stopped.]
+Konto wird angehalten.
+[Cannot connect to POP3 server.]
+Kann nicht zum POP3-Server verbinden.
+[Cannot allocate memory for received data.]
+Kann keinen Speicher für empfangene Daten zuordnen.
+[Cannot login to POP3 server.]
+Kann nicht auf POP3-Server einloggen.
+[Bad user or password.]
+Benutzername oder Passwort falsch.
+[Server does not support APOP authorization.]
+Server unterstützt keine APOP-Autorisierung.
+[Error while executing POP3 command.]
+Fehler beim Ausführen eines POP3-Befehls.
+[Cannot connect to server with NetLib.]
+Kann nicht via NetLib zum Server verbinden.
+[Cannot send data.]
+Kann Daten nicht senden.
+[Cannot receive data.]
+Kann Daten nicht empfangen.
+[OpenSSL not loaded.]
+OpenSSL nicht geladen.
+[Windows socket 2.0 init failed.]
+Windows-Socket-2.0-Initialisierung fehlgeschlagen.
+[DNS lookup error.]
+DNS-Lookup-Fehler.
+[Error while creating base socket.]
+Fehler beim Erstellen des Grundsockets.
+[Error connecting to server with socket.]
+Fehler beim Verbinden zum Server via Socket.
+[Error while creating SSL structure.]
+Fehler beim Erstellen der SSL-Struktur.
+[Error connecting socket with SSL.]
+Fehler beim Verbinden zum Socket via SSL.
+[Server rejected connection with SSL.]
+Server hat die Verbindung via SSL zurückgesetzt.
+[Cannot write SSL data.]
+Kann SSL-Daten nicht schreiben.
+[Cannot read SSL data.]
+Kann SSL-Daten nicht lesen.
+[Error %d-%d-%d-%d:]
+Fehler %d-$d-%d-%d:
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+Netzwerk
+[YAMN]
+
+[Accounts]
+Konten
+[General]
+Allgemein
+[Plugins]
+Plugins
+[PopUps]
+Popups
+[No account selected]
+Kein Konto ausgewählt
+[Time left to next check [s]: %d]
+Zeit bis zur nächsten Abfrage [s]: %d
+[New Account]
+
+[Executables]
+
+[All Files]
+Alle Dateien
+[Select executable used for notification]
+Programm für Benachrichtigungen auswählen
+[Dialog box error]
+
+[Failed]
+Fehlgeschlagen
+[Do you really want to delete this account?]
+Möchten Sie dieses Konto wirklich löschen?
+[Delete account confirmation]
+Bestätigung der Kontolöschung
+[Please wait while no account is in use.]
+Bitte warten, während kein Konto verwendet wird.
+[This is not a valid number value]
+Dies ist kein gültiger Zahlenwert
+[Input error]
+Eingabefehler
+[Please select application to run]
+
+[Cannot allocate memory space for new account]
+Kein Speicher für neues Konto verfügbar
+[Memory error]
+Speicherfehler
+[Account Test]
+
+[Account Test (failed)]
+
+[You have N new mail messages]
+Sie haben N neue E-Mail(s)
+[Connection failed message]
+"Verbindung fehlgeschlagen"-Nachricht

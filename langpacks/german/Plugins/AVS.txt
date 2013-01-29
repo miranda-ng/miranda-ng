@@ -1,0 +1,153 @@
+#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Loads and manages contact pictures for other plugins.]
+
+;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+Die hier eingestellten Bilder werden als Standard-Avatare für Kontakte genutzt, die keinen eigenen Avatar gesetzt haben. Mit den entsprechenden Auswahlfeldern können diese für einzelne Protokolle ein- und ausgeschaltet werden.
+[Set default picture]
+Standardbild setzen
+[Delete default picture]
+Standardbild löschen
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+ACHTUNG: Bei diesen Bildern handelt es sich NICHT um die eigenen Avatare!\nDiese werden über das Hauptmenü unter 'Mein Profil ändern -> Avatar' festgelegt.
+[Try to draw avatar background transparent (for images without transparency)]
+Versuche Avatarhintergr. transparent darzust. (für Bilder ohne Transparenz)
+[Num of points to define bkg:]
+Anzahl der Punkte um Hg zu definieren:
+[Color difference allowed:]
+Erlaubter Farbunterschied:
+[Make transparency proportional to color diff]
+Transparenz proportional zum Farbunterschied machen
+[Draw avatars grayscale]
+Avatare grau färben
+[Show warning messages]
+Warnmeldungen anzeigen
+[When setting avatars, always make them square]
+Avatare beim Setzen immer quadratisch machen
+[Try to draw own avatar background transparent (for images without transparency)]
+Versuche Avatarhintergrund transparent darzustellen (für Bilder ohne Transparenz)
+[This uses the same additional options as in "Contact Avatars" tab]
+Diese Einstellung wird durch die Einstellungen im Tab "Kontaktavatare" ergänzt!
+[Protect the picture and prevent automatic avatars from overwriting it]
+Bild vor dem Überschreiben durch automatische Avatare schützen.
+[Make the avatar square]
+Avatar quadrieren
+[Resize the avatar to fit max allowed protocol size]
+
+[Dialog]
+
+[Contact picture]
+Kontaktbild
+[Change]
+Ändern
+[Delete]
+Löschen
+[Reset]
+Standard
+[Picture options]
+Bildeinstellungen
+[Protect the picture]
+Bild schreibschützen
+[Set as hidden]
+Als versteckt setzen
+[Try to make picture background transparent]
+Versuche Hintergrund transparent darzustellen
+[Use defaults]
+Standardwerte
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Options]
+Einstellungen
+[Background]
+Hintergrund
+[Transparent]
+
+[Points:]
+Punkte:
+[Color diff:]
+Farbdiff.:
+[Set]
+Setzen
+[Use per protocol avatars]
+Avatare je Protokoll setzen
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Protokolle haben unterschiedliche Avatare
+;file \plugins\AVS\src\main.cpp
+[AVS-HASH-%x]
+
+[SHELLDLL_DefView]
+
+[Grow avatar to fit max allowed protocol size]
+Avatargröße an maximale Protokollgröße anpassen
+[All Files]
+Alle Dateien
+[Windows Bitmaps]
+BMP-Bilder
+[JPEG Bitmaps]
+JPEG-/JPG-Bilder
+[GIF Bitmaps]
+GIF-Bilder
+[PNG Bitmaps]
+
+[Flash Animations]
+
+[XML Files]
+
+[GlobalAvatar]
+
+[%s\\my_global_avatar%s]
+
+[Set My Avatar]
+Meinen Avatar einstellen
+[Set My Avatar for %s]
+Setze Mein Avatar für %s
+[mir_av_]
+
+[Global avatar for %s accounts]
+Globaler Avatar für %s Konten
+[avs_loaderthread_%d]
+
+[\\Avatars]
+
+[Contacts]
+Kontakte
+[Avatars]
+Avatare
+[Protocols]
+Protokolle
+[Contact Avatars]
+Kontaktavatare
+[Own Avatars]
+Eigene Avatare
+[Avatar]
+Avatar
+[gdi32]
+
+[Fatal error, image services not found. Avatar services will be disabled.]
+Schwerwiegender Fehler, Image-Services-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
+[Avatar Service]
+
+;file \plugins\AVS\src\options.cpp
+[Set avatar options for %s]
+Avatar-Einstellungen für %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Alten Avatar von der Festplatte löschen? (u. U. notwendig, um neues Bild zu setzen)
+[Reset contact picture]
+Avatar zurücksetzen
+[Contact has no avatar]
+Kontakt hat kein Avatar
+[No avatar]
+Kein Avatar
+[Are you sure you want to remove your avatar?]
+Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
+[Global Avatar]
+Globaler Avatar

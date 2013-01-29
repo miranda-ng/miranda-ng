@@ -1,0 +1,191 @@
+#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+
+;file \plugins\Alarms\res\resource.rc
+[New]
+Neu
+[Delete]
+Löschen
+[Edit]
+Bearbeiten
+[Alarms]
+Alarm
+[Use popup plugin]
+Popup-Plugin benutzen
+[Default snooze:]
+erneut erinnern:
+[minutes]
+Minuten
+[Row Height:]
+Zeilenhöhe:
+[Indent:]
+Einzug:
+[Reminder Frame]
+Alarmliste
+[Auto hide/show]
+autom. ein/ausbl.
+[Loop sound]
+Ton wiederholen
+[Period (hours):]
+Periode (Stunden):
+[Hide/show with clist]
+Mit CList zeigen
+[Auto size vertically]
+automatische Breite
+[Transparency (%):]
+Transparenz (%):
+[Alert Window]
+Alarmfenster
+[Round corners]
+Runde Ecken
+[Don't steal focus unless idle]
+Fokus nur stehlen, wenn IDLE
+[Preview]
+Vorschau
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Title:]
+Titel:
+[Description:]
+Übersicht:
+[Actions]
+Aktionen
+[Popup window]
+Popupfenster
+[Sound:]
+Ton:
+[Run command:]
+Befehl ausführen:
+[Parameters:]
+Parameter:
+[Alert 1]
+Alarm 1
+[Alert 2]
+Alarm 2
+[Alert 3]
+Alarm 3
+[Speak]
+Sprechen
+[DateTimePicker1]
+
+[Occurrence]
+Ereignis
+[Once]
+einmal
+[Weekly]
+Wöchentlich
+[Daily]
+Täglich
+[Weekdays]
+Wochentags
+[Monthly]
+Monatlich
+[Yearly]
+Jährlich
+[i'm hiding]
+
+[Date and Time]
+Datum und Zeit
+[Disable next occurence]
+Nächstes Ereignis deaktivieren
+[Don't trigger on startup]
+Beim Start nicht auslösen
+[No reminder]
+Keine Erinnerung
+[Dismiss]
+Verwerfen
+[Snooze]
+
+[Static]
+Statisch
+[...]
+
+[&Suspend]
+
+[&Edit...]
+B&earbeiten...
+[&Delete]
+Löschen
+[&Options...]
+Einstellungen...
+[&New Alarm...]
+
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[ ffw]
+
+[Fast forward!]
+
+[Windows Media Player]
+
+[Unknown command issued: "%s"]
+
+[Set Alarm]
+Alarm stellen
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Beispielalarm
+[Some example text. Example, example, example.]
+Ein Beispieltext. Beispiel, Beispiel, Beispiel.
+[Title]
+Titel
+[Background]
+Hintergrund
+[Window]
+Fenster
+;file \plugins\Alarms\src\frame.cpp
+[Events]
+Ereignisse
+[Hide Reminders]
+Termine verstecken
+[Show Reminders]
+Termine zeigen
+[AlarmsFrame]
+
+[AlarmsFrameContainer]
+
+[Frames]
+Frames
+[Alarm Reminders]
+Alarm
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Menü: Alarm setzen
+[Reminder: Soon]
+Termin: bald
+[Reminder: Very Soon]
+Termin: nächste
+[Alarm: System Tray]
+Alarme: SystemTray
+[Menu: Show/Hide Reminders]
+Menü: Termin zeigen/verst.
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+Sonntag
+[Monday]
+Montag
+[Tuesday]
+Dienstag
+[Wednesday]
+Mittwoch
+[Thursday]
+Donnerstag
+[Friday]
+Freitag
+[Saturday]
+Samstag
+[Please enter a title for this alarm.]
+
+[Error]
+Fehler
+[The alarm time you have selected is in the past.]
+
+;file \plugins\Alarms\src\trigger.cpp

@@ -1,0 +1,106 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu Item Ext
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+&Senden
+[&Cancel]
+Abbre&chen
+[Shown menu items]
+Menueinträge anzeigen
+[Visibility]
+Sichtbarkeit
+[Show alpha icons]
+Alpha-Icons anzeigen
+[Hide from list]
+In Liste verstecken
+[Ignore]
+Ignorieren
+[Copy to Account (Ctrl+click for move to Account)]
+In Konto kopieren (Strg+Klick zum Verschieben)
+[Send 'You were added']
+'Sie wurden hinzugefügt' senden
+[Request Authorization]
+Autorisierung anfragen
+[Browse Received Files]
+Empfangene Dateien anzeigen
+[Copy IP]
+IP kopieren
+[Copy MirVer]
+MirVer kopieren
+[Copy Status Message]
+Statusnachricht kopieren
+[Add item name]
+Nachrichtentyp hinzufügen
+[Copy ID]
+ID kopieren
+[Add protocol name]
+Protokollname hinzufügen
+[Show ID in menu item]
+ID im Menüeintrag anzeigen
+[Trim too long ID]
+Zu lange ID kürzen
+[* Use Ctrl+click to see popup with the copied text]
+* Strg+Klick = Popup mit dem kopierten Text anzeigen
+[Hide contact on 'Ignore all']
+Kontakt bei 'Alles Ignorieren' ausblenden
+[Other options]
+Andere Einstellungen
+[Automatically refresh contact's details after they come online]
+Details eines Kontaktes automatisch aktualisieren, nachdem er Online geht
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+Statusnachricht
+[XStatus title]
+XStatustitel
+[XStatus message]
+
+[Listening to]
+Höre gerade
+[Activity title]
+
+[Activity text]
+
+[Show in list]
+In Liste anzeigen
+[Always visible]
+Immer sichtbar
+[Never visible]
+Niemals sichtbar
+[Request authorization]
+Autorisierung anfragen
+[Copy to Account]
+In Konto kopieren
+[Copy xStatus Message]
+
+[All]
+Alle
+[Messages]
+Nachrichten
+[URL]
+URL
+[Files]
+Dateien
+[User Online]
+
+[Authorization]
+Autorisierung
+[You Were Added]
+Sie wurden hinzugefügt
+[Typing Notify]
+Tippbenachrichtigungen
+[Please authorize me to add you to my contact list.]
+
+[Do you want to send authorization request\nto new contact?]
+Wollen Sie eine Autorisierungsanfrage an \neinen neuen Kontakt senden?
+[Miranda NG]
+Miranda NG
+[Open ignore settings]
+Ignorier-Einstellungen öffnen
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+Customize

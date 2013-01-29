@@ -1,0 +1,140 @@
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy Expectator+
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
+
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after ]
+Wenn ein Kontakt erscheint nach
+[Show a popup]
+Zeige Popup
+[Add an event (flashing icon) to the contact]
+Ein Ereignis (blinkendes Icon) zum Kontakt hinzufügen
+[On event action (double click) or popup click:]
+Bei Doppelklick auf Ereignis oder Popup:
+[Open User Details]
+Kontaktdetails öffnen
+[Open message window]
+Nachrichtenfenster öffnen
+[Return notification]
+Rückkehr-Benachrichtigung
+[When a contact is absent for]
+Falls Kontakt länger abwesend als
+[Long time no see]
+Lange Zeit nicht gesehen
+[or comes online for the first time]
+oder zum ersten Mal online geht
+[Enable "Miss you" feature]
+'Vermisst'-Funktion nutzen
+[Hide when no messages for]
+Verstecken bei keiner Nachr. seit
+[Colors]
+Farben
+[Background]
+Hintergrund
+[Text]
+Text
+[Use Popups colors]
+Popup-Farben verwenden
+[Use Windows colors]
+Windowsfarben verwenden
+[Delay]
+Verzögerung
+[Default]
+Standard
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[sec]
+Sek.
+[Preview]
+Vorschau
+[Last seen online:]
+Zuletzt online gesehen:
+[Last input message:]
+Letzte Nachricht:
+[Custom absence period:]
+Eig. Abwesenheitsperiode:
+[days]
+Tage
+[Never hide this contact]
+Diesen Kontakt niemals verstecken
+[Enable Miss You]
+Aktiviere 'Vermisst'-Funktion
+[Notify always]
+Immer benachrichtigen
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+
+[Enabled]
+Aktiviert
+[Disabled]
+Deaktiviert
+[Hide]
+Verstecken
+[NeverHide]
+
+[Hiding %s (%S)]
+
+[%d days since last message]
+
+[Disable Miss You]
+
+[You awaited this contact!]
+
+[has gone online for the first time.]
+ist zum ersten Mal online.
+[has returned after a long absence.]
+ist nach einer langen Zeit zurückgekehrt.
+[has returned after being absent since %#x]
+ist wiedergekommen nach einer Abwesenheit seit %#x
+[has not returned after a long absence.]
+ist nach einer langen Zeit noch immer nicht zurückgekehrt.
+[has not returned after being absent since %#x]
+ist nicht wiedergekommen nach einer Abwesenheit seit %#x
+[BuddyExpectator]
+
+[Contact returned]
+Kontakt ist zurückgekommen
+[Contact still absent]
+Kontakt weiterhin vermisst
+[Miss you event]
+'Vermisst'-Ereignis
+[Hide contact event]
+Ereignis eines versteckten Kontaktes
+[Hide contact]
+Verstecke Kontakt
+;file \plugins\BuddyExpectator\src\options.cpp
+[weeks]
+Wochen
+[months]
+Monate
+[years]
+Jahre
+[Do nothing]
+Nichts tun
+[Delete the contact]
+Kontakt löschen
+[Contact name]
+Kontaktname:
+[has returned after being absent since %d days]
+
+[Contacts]
+Kontakte
+[Buddy Expectator]
+
+[PopUps]
+Popups
+[not detected]
+nicht ermittelt
+[%#x]
+
+[not found]
+nicht gefunden
+[This contact has been absent for an extended period of time.]
+Dieser Kontakt war für eine sehr, sehr lange Zeit abwesend.

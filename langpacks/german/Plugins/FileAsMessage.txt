@@ -1,0 +1,83 @@
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;langpack template for FileAsMessage
+;file \plugins\FileAsMessage\res\resources.rc
+[Filename:]
+Dateiname:
+[Size:]
+Größe:
+[...]
+
+[Chunk size]
+
+[ms]
+
+[Delays between sends]
+
+[bytes]
+Bytes
+[Transfer settings]
+
+[Appearance]
+Erscheinungsbild
+[Unsent]
+
+[Sent]
+
+[To send]
+
+[Received]
+
+[Use only alphanumeric encoding on transfer]
+
+[Extra options: Events > File Transfers, "Receiving files" group]
+
+;file \plugins\FileAsMessage\src\dialog.cpp
+[File already exists. Overwrite?]
+
+[Couldn't open a file]
+
+[Size: %d bytes]
+
+[Request sent. Awaiting of acceptance..]
+
+[Sending...]
+Sende...
+[Received successfully]
+
+[Requesting of missing chunks]
+
+[Receiving...]
+Empfange...
+[Sent successfully]
+
+[Unknown command for "" SERVICE_TITLE "" was received]
+
+[Incoming file request. Do you want proceed?]
+
+[Cancelled by remote user]
+
+[New incoming file request. Do you want proceed?]
+
+[Paused, 'coz connection dropped]
+
+[Failed on file initialization]
+
+[Paused...]
+
+[Synchronizing...]
+
+[Select a file]
+
+[Save as]
+
+[Can't get a file size]
+
+[Cancelled by user]
+
+[Transfer is in progress. Do you really want to close?]
+
+;file \plugins\FileAsMessage\src\main.cpp
+[Plugins]
+Plugins
+[File As Message...]
+

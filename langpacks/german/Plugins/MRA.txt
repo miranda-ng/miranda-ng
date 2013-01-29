@@ -1,0 +1,219 @@
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[E-mail:]
+E-Mail:
+[Password:]
+Passwort:
+[Create a new Mail.ru account]
+
+[Configuration]
+Konfiguration
+[Login Server:]
+Loginserver:
+[Port:]
+Port:
+[(2042, 443, 110, 25)]
+
+[Default]
+Standard
+[Automatically request authorization on logon]
+
+[Automatically add contacts to server list on logon]
+
+[Automatically grant authorization to users in contact list]
+
+[Automatically grant authorization to new users]
+
+[Disable spam check]
+Spam-Überprüfung deaktivieren
+[Notify me when a message delivery has failed]
+Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
+[Notify about new mail if increment]
+Über neue E-Mails benachrichtigen, falls vorhanden
+[Notify about new mail tray icon]
+Über neue E-Mail im Tray-Icon benachrichtigen
+[Click to Inbox]
+Klicke hier, um zum Posteingang zu gelangen
+[Show received formatted text (receive RTF)]
+
+[Send formatted text (send RTF)]
+
+[Background colour]
+Hintergrundfarbe
+[Font]
+Schriftart
+[Summary]
+Zusammenfassung
+[Nickname:]
+Nick:
+[First name:]
+Vorname:
+[Last name:]
+Nachname:
+[@]
+
+[Gender:]
+Geschlecht:
+[Age:]
+Alter:
+[from:]
+
+[to:]
+bis:
+[Birthday:]
+Geburtstag:
+[Zodiak:]
+
+[Location]
+Ort
+[Country:]
+Land:
+[State:]
+Region:
+[Search online users only]
+Suche nur nach Onlinenutzern
+[City:]
+Stadt:
+[Remember]
+
+[Enable avatars support (loading)]
+Avatar-Unterstützung aktivieren (lädt)
+[Server:]
+
+[(80, 443, 2041)]
+
+[Updates check interval, min]
+Überprüfe Updates alle (in Min.)
+[Return absolute path]
+Absoluten Pfad eingeben
+[Delete avatar file with contact]
+Benutzerbild-Datei mit Kontakt löschen
+[Use keep-alive connections]
+Keep-Alive-Verbindungen verwenden (keep-alive)
+[Files exchange]
+Dateien austauschen
+[No out connection on send]
+Keine ausgehende Verbindung beim Senden
+[No out connection on receive]
+Keine ausgehende Verbindung beim Empfangen
+[Out connections: ignory additional ports (443, 2041)]
+Ausgehende Verbindungen: Zusätzliche Ports (443, 2041) ignorieren
+[Hide my IP addresses]
+Meine IP-Adresse verstecken
+[Add extra address]
+Extra-Adressen hinzufügen
+[Your host (or router):]
+Ihr Host (oder Router):
+[File send block size:]
+Block-Größe der gesendeten Datei:
+[512 - 65536 bytes]
+512 - 65536 Bytes
+[Enable direct connections]
+Direkte Verbindungen aktivieren
+[Enable MRIM proxy connections]
+MRIM-Proxyverbindungen aktivieren
+[Mail.ru Agent]
+Mail.ru Agent
+[Full e-mail:]
+Volle E-Mail:
+[Example: Petrov_Ivan@mail.ru]
+Beispiel: Petrov_Ivan@mail.ru
+[Create a new Mail.ru account using the Mail.ru website]
+Ein neues Mail.ru-Konto über die Mail.ru Website erstellen
+[Retrieve a lost password]
+Vergessenes Kennwort anfordern
+[Leave empty if you dont want change password]
+
+[PopUp type]
+Popup-Typ
+[Popup settings]
+Popup-Einstellungen
+[Enable]
+Aktivieren
+[&Use Windows colors]
+Windowsfarben verwenden
+[Back Color]
+Hgrd.farbe
+[Text Color]
+Textfarbe
+[Timeout]
+Timeout
+[Previe&w]
+Vorschau
+[Closing in %d]
+In %d schließen
+[Title:]
+Titel:
+[Message:]
+Nachricht:
+[Enable Anti Spam]
+Spamschutz aktivieren
+[Check temp contacts]
+Überprüfe auf Temporäre Kontakte
+[Delete spam bot contacts]
+Spambot-Kontakte löschen
+[Max. language changes in message (0 - disabled)]
+Max. Sprachänderungen in Nachrichten (0 - deaktiviert)
+[Show pop up]
+Popup anzeigen
+[Write to system history]
+In den Systemverlauf schreiben
+[Send spam report to server]
+Spam-Report zum Server senden
+[Bad words list]
+Zensurliste
+[Add]
+Hinzufügen
+[Remove]
+Entfernen
+[Ignory non AlphaNumeric characters]
+Ignoriere nicht Alphanumerische Zeichen
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Notify]
+Benachrichtigung
+[Writed:]
+
+[0/500]
+
+;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars]
+Avatare
+[plugin connections]
+Plugin-Verbindungen
+;file \protocols\MRA\src\MraChat.cpp
+[get]
+
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+[No description given]
+Keine Beschreibung vorhanden.
+;file \protocols\MRA\src\MraPopUp.cpp
+[PopUps]
+Popups
+;file \protocols\MRA\src\MraProto.cpp
+[%s connection]
+
+[E-mail address]
+E-Mail-Adresse
+;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+Netzwerk
+[Account]
+Konto
+[Connections]
+Verbindungen
+[Anti spam]
+Spamschutz
+[Files]
+Dateien
+;file \protocols\MRA\src\Mra_svcs.cpp
+[Are you sure?]
+Sind Sie sich sicher?

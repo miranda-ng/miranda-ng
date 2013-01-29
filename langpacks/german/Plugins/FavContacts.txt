@@ -1,0 +1,73 @@
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;langpack template for FavContacts
+;file \plugins\FavContacts\res\resource.rc
+[Customize]
+Customize
+[Show second line]
+Zweite Zeile anzeigen
+[Show avatars]
+Avatare anzeigen
+[Draw avatar border]
+
+[Round corners by]
+Runde Ecken um
+[px.]
+
+[Hide for transparent avatars]
+
+[Use system colors and fonts]
+
+[Hotkey shows menu centered on screen]
+
+[Menu item preview:]
+
+[Favourite Contacts]
+
+[Enable groups]
+
+[Multicolumn menu]
+
+[Configure fonts and colors...]
+
+[Align to the right]
+
+[Dim idle contact icons]
+
+[Show]
+Zeige
+[recent contacts]
+
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+
+;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+
+[Regular Contact]
+
+[Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n]
+
+[Favourite Contacts Error]
+
+[Contact name]
+Kontaktname:
+[Second line]
+Zweite Zeile
+[Selected contact name (color)]
+
+[Selected second line (color)]
+
+[Background]
+Hintergrund
+[Selected background]
+Markierter Hintergrund
+[Contacts]
+Kontakte
+[Favourites]
+Favoriten
+[FavContactsMenuHostWnd]
+
+[&Favourite Contacts...]
+
+[<No group>]
+

@@ -1,0 +1,134 @@
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
+Internet-Explorer-basierter Chatlog.
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+Kopieren
+[Copy Link]
+Link kopieren
+[Select All]
+Alles markieren
+[Save Image As...]
+Bild speichern unter...
+[Print]
+Drucken
+[Clear Log]
+Verlauf leeren
+[Show source]
+Quellcode anzeigen
+[Options]
+Einstellungen
+[Enable BBCodes]
+BBCodes aktivieren
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+Folgende BBCodes werden unterstützt: [b], [i], [u], [s], [img], [size], [color], [url]
+[Enable support for Flash files in smileys and BBCodes]
+Unterstützung für Flash-Dateien in Smileys und BBCodes
+[Enable workaround for PNG transparency]
+Abhilfe für PNG-Transparenz aktivieren
+[Enable MathModule support]
+MathModule-Unterstützung aktivieren
+[Replace smileys in user names]
+Smileys im Nick ersetzen
+[Hide window border]
+Fensterrand verstecken
+[Embed YouTube videos]
+Eingebettete YouTube Videos aktivieren
+[Size:]
+Größe:
+[Mode]
+Modus
+[Compatibility Mode]
+Kompatibilitätsmodus
+[Use External CSS]
+Externe CSS verwenden
+[Use Templates]
+Vorlage verwenden
+[Background image]
+Hintergrundbild
+[Scroll with text]
+Mit Text scrollen
+[...]
+
+[Template Options]
+Einstellungen der Vorlage
+[Use message grouping]
+Nachrichten gruppieren
+[Show nicknames]
+Nick anzeigen
+[Show time]
+Zeit anzeigen
+[Show seconds]
+Sekunden anzeigen
+[Show date]
+Datum anzeigen
+[Use long date format]
+Langes Datumsformat
+[Use relative timestamp]
+Nutze relativen Zeitstempel
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Ausgehende Dateiübertragung
+[Incoming File Transfer]
+Eingehende Dateiübertragung
+[URL sent]
+URL gesendet
+[URL received]
+URL empfangen
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(Unbekannter Kontakt)
+[ requested authorisation]
+
+[ was added.]
+
+;file \plugins\IEView\src\IEView.cpp
+[about:blank]
+
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+Fehler
+;file \plugins\IEView\src\Options.cpp
+[General]
+Allgemein
+[Message Log]
+Nachrichtenverlauf
+[Group Chats]
+Gruppenchats
+[History]
+Verlauf
+[Default]
+Standard
+[protocol]
+Protokoll
+[Message Sessions]
+Nachrichtensitzungen
+[IEView]
+
+[Skins]
+
+[Template]
+Vorlage
+[All Files]
+Alle Dateien
+[All Images]
+
+[Style Sheet]
+
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Heute
+[Yesterday]
+Gestern
+[File sent]
+Datei gesendet
+[File received]
+Datei empfangen
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

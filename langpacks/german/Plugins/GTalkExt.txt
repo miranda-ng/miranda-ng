@@ -1,0 +1,167 @@
+;#muuid not found, please specify manually!
+;langpack template for GTalkExt
+;file \protocols\GTalkExt\res\settings.rc
+[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+Hinweis:\n\nDieses Plugin funktioniert nur falls Ihr Jabber-Account GTalk unterstützt
+[Popup notifications (needs popup plugin)]
+Popup-Benachrichtigungen (benötigt ein Popup-Plugin)
+[Notify in fullscreen mode too]
+Benachrichtigung im Vollbildschirm
+[Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+Benutzen Sie dies falls Ihr Popup-Plugin keine Vollbildanwendungen erkennt. Es wird Ihren Tastaturfokus wegnehmen
+[Notify in contact list]
+Benachrichtigung in der Kontaktliste
+[Clear pseudocontact history before adding new events]
+Lösche Pseudokontakt Verlauf bevor neue Ereignisse hinzgf. werden
+[Supress foreign popups for pseudocontact]
+Unterdrückt fremde Popups für Pseudokontakte
+[Mark history event read when popup closed]
+Markiere Verlauf als gelesen wenn Popups geschlossen sind
+[Add message snip to notification]
+Füge Nachrichtenstück zur Benachrichtigung hinzu
+[Try to login before open mailbox]
+Versuche einzuloggen bevor die Mailbox geöffnet wird
+[This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
+Dies funktioniert nur falls das Passwort in der Datenbank ist und hat keinen Effekt auf Links im Nachrichtenverlauf von Pseudokontakten.
+[Choose GMail view you use in web interface]
+Wähle GMail-Ansicht über das Webinterface:
+[I don't know]
+Null Ahnung
+[Standard view]
+Standard
+[Basic HTML]
+HTML
+[Background color]
+Hintergrundfarbe
+[Text color]
+Textfarbe
+[Timeout]
+Timeout
+[If both colors set to the same value, default colors will be used]
+Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
+[0 means default timeout,\n-1 means no timeout]
+
+[Test]
+Testen
+;file \protocols\GTalkExt\src\avatar.cpp
+[PNG]
+
+;file \protocols\GTalkExt\src\handlers.cpp
+[mir_]
+
+[mir_%d]
+
+[google:mail:notify]
+
+[google:setting]
+
+[%s/#inbox/%x%08x]
+
+[%s/h/?v=c&th=%x%08x]
+
+[type]
+
+[from]
+von
+[url]
+
+[tid]
+
+[unread]
+
+[xmlns]
+
+[total-matched]
+
+[name]
+Name
+[address]
+
+[result-time]
+
+[newer-than-time]
+
+[newer-than-tid]
+
+[value]
+
+[var]
+
+[result]
+
+[set]
+
+[get]
+
+[mailbox]
+
+[query]
+
+[usersetting]
+
+[mailnotifications]
+
+[subject]
+
+[snippet]
+
+[senders]
+
+[feature]
+
+[new-mail]
+
+[true]
+
+;file \protocols\GTalkExt\src\inbox.cpp
+[mail]
+E-Mail
+;file \protocols\GTalkExt\src\menu.cpp
+[Open mailbox]
+
+;file \protocols\GTalkExt\src\notifications.cpp
+[AntiShittyFullscreenDetectionWindowClass]
+
+[You've received an e-mail\n%s unread threads]
+Sie haben eine E-Mail erhalten \n%s ungelesene Themen
+;file \protocols\GTalkExt\src\options.cpp
+[PopUps]
+Popups
+[Network]
+Netzwerk
+[Why C sucks]
+
+[brickstrace@gmail.com [1]]
+
+[    bems <bems@vingrad.ru>\n]
+
+[* Primitive type system\n]
+
+[* No overloading\n]
+
+[* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
+
+[* No metaprogramming except preprocessor macros\n]
+
+[* No exceptions]
+
+;file \protocols\GTalkExt\src\options.h
+[GMail notifications]
+GMail-Benachrichtigungen
+[subject\n    %s\nfrom\n%s\n%s\n]
+Subjekt\n     %s\nvon\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+
+;file \protocols\GTalkExt\src\popups.cpp
+[YAPPYAPPWindowClass]
+
+[YAPPWinClass]
+
+;file \protocols\GTalkExt\src\stdafx.h
+[ColourPicker]
+
+;file \protocols\GTalkExt\src\tipper_items.cpp
+[%raw:]
+
+[Unread threads:]
+Ungelesene Themen:

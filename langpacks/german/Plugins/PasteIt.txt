@@ -1,0 +1,165 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste It
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+Text zur Webseite hochladen und den Link zu einem Freund senden
+;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Einstellungen
+[Default web page]
+Stardard Webseite:
+[Default file encoding]
+Standard Dateikodierung
+[Auto-detect UTF-8]
+Auto UTF-8 Erkennung
+[Show confirmation dialog box]
+Zeige Bestätigungsdialog
+[Autosend download link to contact]
+Sende Downloadlink automatisch an Kontakt
+[Web page settings]
+Webseiten-Einstellungen
+[Web page to configure]
+Webseite konfigurieren:
+[Configure]
+Einstellungen
+[Default formatting]
+Standardformatierung
+[Auto-detect format from file extension]
+Automatisch Format des eingefügten Text erkennen.
+[Public paste]
+Öffentliches einfügen
+[Login as guest]
+Als Gast einloggen
+[User key]
+Benutzer-Schlüssel:
+[Get user key]
+Schlüssel anfordern
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Up]
+Auf
+[Down]
+Ab
+[Delete]
+Löschen
+[Restore defaults]
+Standard
+[Download more]
+Mehr herunterladen
+[User name]
+
+[Password]
+Passwort
+[Format]
+
+[Encoding]
+Codierung
+[Recode]
+
+;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+Standardkodierung verwenden
+[Thai]
+Thailändisch
+[Japanese]
+Japanisch
+[Simplified Chinese]
+Vereinfachtes Chinesisch
+[Korean]
+Koreanisch
+[Traditional Chinese]
+Traditionelles Chinesisch
+[Central European]
+Mitteleuropäisch
+[Cyrillic]
+Kyrillisch
+[Cyrillic KOI8-R]
+Kyrillisch KOI8-R
+[Latin I]
+Lateinisch
+[Greek]
+Griechisch
+[Turkish]
+Türkisch
+[Hebrew]
+Hebräisch
+[Arabic]
+Arabisch
+[Baltic]
+Baltisch
+[Vietnamese]
+Vietnamesisch
+[Korean (Johab)]
+Koreanisch, Johab
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Sie haben eine falsche Kodierung gewählt. Bitte wählen Sie aus dem Listenfeld die korrekte oder geben sie eine richtige Nummer ein.
+[Invalid codepage]
+Falsche Kodierung
+[Paste It]
+
+[Services]
+Dienste
+[Main]
+Allgemein
+[Web page]
+Webseite
+;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Alle Dateien (*.*)
+[Paste It - Select file]
+Paste It - Dateiauswahl
+[Error]
+Fehler
+[Paste from clipboard]
+Aus Zwischenablage einfugen
+[Paste from file]
+Aus Datei einfügen
+[Paste It HTTP connections]
+Paste It HTTP-Verbindungen
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+Sie können nur eine Datei einfügen.
+[Cannot get data from clipboard]
+Die Daten konnten nicht aus der Zwischenablage entnommen werden.
+[File size is %dKB, do you realy want to paste such large file?]
+Die Dateigröße %dKB ist sehr groß, wollen Sie so eine Große Datei einfügen?
+[Are You sure?]
+Sind Sie sicher?
+[Cannot read file '%s']
+Die Datei '%s' konnte nicht gelesen werden.
+[File size is larger then 10MB, cannot be send]
+Die Dateigröße von max. 10 MB wurde überschritten, es wurde nicht gesendet.
+[Cannot open file '%s']
+Die Datei '%s' konnte nicht geöffnet werden.
+[File '%s' is empty]
+Die Datei '%s' ist leer.
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[Error during sending text to web page: %s]
+Fehler beim übermitteln des Textes zur Webseite: %s schlug fehl.
+[Error during sending text to web page]
+Fehler beim übermitteln des Textes auf die Webseite.
+[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
+
+[Error during getting user key from web page: %s]
+Fehler beim Benutzer-Schlüssel holen auf der Webseite: %s.
+[Paste expire date]
+Ablaufdatum einfügen
+[Never]
+Niemals
+;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[methodResponse]
+
+[params/param/value/array/data/value/int]
+
+[params/param/value/array/data]
+
+[value]
+
+[string]
+

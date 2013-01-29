@@ -1,0 +1,87 @@
+#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: LangMan
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\LangMan\res\resource.rc
+[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
+
+[Language:]
+Sprache:
+[Current:]
+Aktuell:
+[New:]
+
+[&Install Now]
+
+[Close]
+Schließen
+[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Miranda NG ist in vielen Sprachen verfügbar.\nHier ist eine Liste alle verfügbaren Sprachen im File listing, bitte wählen Sie Ihre &Muttersprache:
+[Download &all languages]
+Alle &Sprachen runterladen
+[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
+Achtung: Dies wird die neueste Version der gewahlten Sprache runterladen und installieren. Vielleicht gibt es Sprachpakete von anderen Autoren im File listing.
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Author(s):]
+Autor(en):
+[E-mail:]
+E-Mail:
+[Last modified using:]
+Unter Verwendung von:
+[Date:]
+Datum:
+[Version:]
+
+[Locale:]
+Lokale:
+[Not included:]
+Nicht enthalten:
+[Download more Language Packs]
+Weitere Sprachdateien herunterladen
+[Please restart Miranda NG for your changes to take effect.]
+Sie müssen Miranda NG neu starten, bevor diese Änderungen wirksam werden.
+[Check for new &versions of Language Packs periodically]
+
+[&Download Language]
+Sprache herunterla&den
+;file \plugins\LangMan\src\langpack.cpp
+[Plugins\\Language\\]
+
+[English (default)]
+Englisch (Standard)
+[%s\\Plugins\\%s]
+
+;file \plugins\LangMan\src\main.cpp
+[Reload langpack]
+Sprachdatei neu laden
+[Docs\\]
+
+;file \plugins\LangMan\src\options.cpp
+[UXTHEME]
+
+[All installed plugins are included.]
+Alle installierten Plugins sind enthalten.
+[(incompatible)]
+
+[Unknown]
+Unbekannt
+[Current]
+derzeitig
+[Installed Languages]
+Installierte Sprachpakete
+[File]
+Datei
+[built-in]
+
+[&Remove...]
+&Entfernen...
+[Languages]
+Sprachen
+[Customize]
+Customize

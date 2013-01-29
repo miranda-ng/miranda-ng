@@ -1,0 +1,165 @@
+#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+;============================================================
+;  File: SplashScreen.dll
+;  Plugin: Splash Screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Shows a splash at Miranda startup.]
+Zeigt einen "Splash" während des Startvorgangs von Miranda NG.
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+Splash - Optionen
+[Show splash]
+Splash zeigen
+[Show random splash]
+Bild zufällig aussuchen
+[...]
+
+[Play sound]
+Sound abspielen
+[Loop sound]
+Ton wiederholen
+[Show Miranda Version]
+Zeige Mirandaversion
+[Enable]
+Aktivieren
+[Prefix:]
+Präfix:
+[Appearance]
+Erscheinungsbild
+[Display time:]
+Anzeigedauer
+[msec]
+mSek.
+[Fade in:]
+Einblenden
+[steps]
+Blendgeschwindigkeit
+[Fade out:]
+Ausblenden
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Advaimg.dll nicht gefunden. Bitte entnehmen Sie die Datei aus der aktuellen Stable-/Testing-Version.
+[Preview...]
+Vorschau...
+;file \plugins\SplashScreen\src\bitmap_funcs.cpp
+[Loading splash file]
+
+[done]
+
+[MyBitmap::loadFromFile]
+
+[Bitmap load failed]
+
+;file \plugins\SplashScreen\src\main.cpp
+[Miranda version]
+
+[Dll Name]
+
+[Advaimg path]
+
+[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+
+[Error]
+Fehler
+[Loading advaimg]
+
+[SoundFilePath]
+
+[Found file]
+
+[Extention]
+
+[File has valid ext]
+
+[final file]
+
+[Skin]
+Skin (Theme)
+[UseSound]
+
+[Sounds enabled.]
+
+[Sounds disabled.]
+
+[Module]
+Modul
+[Setting]
+Einstellung
+[Value]
+Wert
+[PluginDisable]
+
+[Disabled.]
+
+[Enabled.]
+
+[PlugDisableHook]
+
+[Triggered]
+
+[Posted WM_LOADED message]
+
+[Call Splash Service]
+
+[Loading modules]
+
+[Unload]
+
+[Job done]
+
+;file \plugins\SplashScreen\src\options.cpp
+[Graphic files]
+
+[Set path]
+
+[Sound Files]
+Klangdateien
+[Set sound path]
+
+[Skins]
+
+[Splash Screen]
+
+;file \plugins\SplashScreen\src\services.cpp
+[PNG and BMP files\0*.png;*.bmp\0\0]
+
+;file \plugins\SplashScreen\src\splash.cpp
+[WM_LOADED]
+
+[called]
+
+[Timer ID]
+
+[ShowTime value]
+
+[Showtime timer]
+
+[triggered]
+
+[On Modules Loaded timer]
+
+[On Modules Loaded workaround]
+
+[WM_DESTROY]
+
+[Verdana]
+
+[Timer TimeToShow]
+
+[set]
+
+[Timer Modules loaded]
+
+[Thread]
+
+[start]
+
+[Preview]
+Vorschau
+[yes]
+Ja
+[Timeout]
+Timeout
+[end]
+

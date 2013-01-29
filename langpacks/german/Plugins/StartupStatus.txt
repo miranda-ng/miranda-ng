@@ -1,0 +1,54 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.44
+;  Authors: P Boon
+;============================================================
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<last>]
+<letzter>
+[<current>]
+<aktueller>
+[Left]
+Links
+[Right]
+Rechts
+[None]
+Keine
+[size: %d x %d]
+Größe: %d x %d
+[loc: %d x %d]
+Position: %d x %d
+[Hidden]
+Versteckt
+[Minimized]
+Minimiert
+[Normal]
+
+[Create a status menu item]
+Statusmenüeintrag erstellen
+[default]
+Standard
+[unknown]
+Unbekannt
+[At least one profile must exist]
+Mindestens ein Profil muss angelegt sein
+[StartupStatus]
+
+[Your default profile will be changed]
+Ihre Profile wurden geändert
+[Status]
+Status
+[General]
+Allgemein
+[Status Profiles]
+Statusprofile
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+Das Maximum an Menüeinträge beträgt 6
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+[Pressed toolbar icon]
+Gedrücktes ToolBar Icon
+[Released toolbar icon]
+Veröffentlichtes ToolBar Icon

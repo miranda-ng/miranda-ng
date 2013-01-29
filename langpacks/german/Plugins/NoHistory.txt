@@ -1,0 +1,36 @@
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;langpack template for NoHistory
+;file \plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+Behalte Verlauf für diesen Kontakt
+[Disable history for this contact]
+Deaktiviere Verlauf für diesen Kontakt
+;file \plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
+[Clear History]
+Verlauf leeren
+[Enable History]
+Verlauf aktivieren
+[Disable History]
+Verlauf deaktivieren
+[History Enabled]
+Verlauf aktiviert
+[History Disabled]
+Verlauf deaktiviert
+;file \plugins\NoHistory\src\icons.cpp
+[Disable]
+Deaktivieren
+[Enable]
+Aktivieren
+[Clear]
+Löschen
+;file \plugins\NoHistory\src\options.cpp
+[** All contacts **]
+** Alle Kontakte **
+[No History]
+
+[History]
+Verlauf
+[Logging]
+Speichern

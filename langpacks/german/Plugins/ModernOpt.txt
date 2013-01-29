@@ -1,0 +1,84 @@
+#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;langpack template for ModernOpt
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+Besuchen Sie die offizielle Miranda NG Webseite
+[`]
+
+[Sample page]
+
+[Use arrow keys to choose category]
+
+[Miranda NG Options]
+Miranda NG Einstellungen
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Apply]
+Übernehmen
+[Switch to classic options]
+Klassische Ansicht der Einstellungen
+[Advanced]
+Erweitert
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Wohnort
+[Miranda NG configuration center]
+Miranda NG Einstellungen
+[Accounts]
+Konten
+[Setup your account information to start messaging.]
+Stellen Sie hier ihre Kontendaten ein, um mit anderen Kontakt aufzunehmen.
+[Style]
+Stil
+[Change the look of Miranda NG according to your taste.]
+Passen Sie hier das Aussehen von Miranda NG Ihren Wünschen an.
+[Contacts]
+Kontakte
+[Configure behaviour of your contact list.]
+Ändern Sie hier das Verhalten der Kontaktliste.
+[Chats]
+
+[Customize look&&feel of your chat windows here.]
+Andern Sie hier die Eigenschaften des Nachrichtenfensters.
+[Ignore]
+Ignorieren
+[Ban those users and events, you are annoyed with.]
+Ignorieren Sie hier unerwünschte Personen und Ereignisse.
+[Status]
+Status
+[Set your status messages and idle reporting.]
+Stellen Sie hier Ihre Statusnachrichten und Inaktivität ein.
+[Addons]
+Plugins
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+Hier können Sie einzelne Plugins ein- oder ausschalten.
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+Es wurden noch nicht alle Änderungen gespeichert.\nSollen diese nun übernommen werden, bevor in den erweiterten Modus gewechselt wird?
+[Miranda NG]
+Miranda NG
+[Page 1]
+
+[Page 2]
+
+[Page 3]
+
+[Files]
+Dateien
+[Messages]
+Nachrichten
+[URL events]
+URL-Ereignisse
+[Typing notifications]
+
+[Added notifications]
+Hinfzugefügte Benachrichtigungen
+[Auth requests]
+Auth. anfragen
+[Configure]
+Einstellungen
+[Update]
+Aktualisieren
+[Download]
+Herunterladen

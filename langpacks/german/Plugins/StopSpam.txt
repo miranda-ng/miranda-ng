@@ -1,0 +1,75 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: StopSpam.dll
+;  Plugin: StopSpam+
+;  Version: 0.0.1.4
+;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
+;============================================================
+;file \plugins\StopSpamPlus\res\stopspam.rc
+[Question: (Ctrl-Enter for carriage return)]
+Frage: (Strg+Eingabe fÃ¼r Zeilenvorschub)
+[Restore defaults]
+Standard
+[Answer (Use divider to separate answers):]
+Antwort: (Benutzen Sie Trennzeichen fÃ¼r separate Antworten):
+[Congratulation:]
+Gratulation:
+[Auth. request reply:]
+RÃ¼ckmeldung bei Authorisierungsanfragen:
+[Divider:]
+Trennung:
+[Vars]
+
+[Disable protection for following accounts:]
+
+[Do not send more than ]
+Sende nicht mehr als
+[ questions to one contact (0 - for no limit)]
+Fragen an den Kontakt (0 = Kein Limit)
+[Enable StopSpam-StopSpam infinite talk protection]
+Stop Spam 'infinite talk'-Schutz aktivieren
+[Add contact permanently]
+Kontakt dauerhaft hinzufÃ¼gen
+[Enable auth. requests blocking]
+Autorisierungsanfragen blockieren
+[Answer is not case sensitive]
+GroÃŸ-/Kleinschreibung der Antwort nicht beachten
+[Remove all tempory contacts after restart]
+Alle temporÃ¤ren Kontakte nach einem Neustart entfernen
+[Log Spammers to system history]
+Spammer in den Systemverlauf eintragen
+;file \plugins\StopSpamPlus\src\events.cpp
+[Message Sessions]
+Nachrichtensitzungen
+[Main]
+Allgemein
+[Messages]
+Nachrichten
+[Accounts]
+Konten
+;file \plugins\StopSpamPlus\src\options.cpp
+[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
+Nie wieder Spam! Spambots haben keine Chance! Nur Menschen sind eingeladen!\r\n\r\nDieses Plugin arbeitet sehr einfach:\r\nNachrichten von Ihren Kontakten werden behandelt, als gÃ¤be es kein Anti-Spam-System. Auf der anderen Seite werden Nachrichten von unbekannten Kontakten nicht direkt an Sie weitergeleitet. Sie werden aber auch nicht ignoriert, sondern dieses Plugin stellt eine einfache Frage. Wird diese richtig beantwortet, wird der Kontakt ihrer Kontaktliste hinzugefÃ¼gt und kann Sie nun kontaktieren.
+[StopSpam automatic message:\r\n]
+
+;file \plugins\StopSpamPlus\src\services.cpp
+[Not In List]
+
+[Complete]
+Fertig
+;file \plugins\StopSpamPlus\src\settings.h
+[Spammers made me to install small anti-spam system you are now speaking with. ]
+Spammer zwingen mich dazu ein Anti-Spam-System zu installieren, mit dem Sie gerade schreiben.
+[Please reply "nospam" without quotes and spaces if you want to contact me.\r\n]
+
+[Âíèìàíèå! Àíòèñïàì çàùèòà. Îòâåòüòå "nospam" áåç êàâû÷åê è ïğîáåëîâ, åñëè õîòèòå ñâÿçàòüñÿ ñî ìíîé.]
+
+[StopSpam: send a message and reply to a anti-spam bot question.\r\n]
+StopSpam: Sende Sie eine Nachricht und beantworten Sie die Anti-Spambot Frage.\r\n
+[nospam]
+
+[Congratulations! You just passed human/robot test. Now you can write me a message.\r\n]
+GlÃ¼ckwunsch! Sie haben den Mensch/Roboter Test bestanden. Sie kÃ¶nnen nun ihre Nachrichten schreiben.\r\n
+;file \plugins\StopSpamPlus\src\stopspam.cpp
+[Remove Temporary Contacts]
+TemporÃ¤re Kontakte entfernen

@@ -1,0 +1,163 @@
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: yapp.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.10
+;  Authors: Scott Ellis
+;============================================================
+;file \plugins\YAPP\res\yapp.rc
+[Close]
+Schließen
+[Case sensitive]
+Groß-/Kleinschreibung beachten
+[Default Timeout]
+Standard-Timeout
+[Never timeout]
+Kein Timeout
+[Set timeout:]
+Timeout setzen:
+[Width:]
+Breite:
+[Maximum height:]
+Maximale Höhe:
+[Options]
+Einstellungen
+[Opacity(%):]
+Deckkraft (%):
+[Border]
+Rand
+[Round corners (window)]
+Runde Ecken (Fenster)
+[Preview]
+Vorschau
+[Animate]
+Animieren
+[Transparent background]
+Transparenter Hintergrund
+[Layout]
+
+[Avatar size:]
+Avatargröße:
+[Disable when]
+Deaktivieren bei
+[Global hover]
+Alle Popups bei Mausb. nicht ausbl.
+[Sidebar width:]
+Seitenleiste Breite:
+[Text indent:]
+Texteinzug:
+[Padding:]
+Randabstand:
+[Round corners (avatar)]
+Runde Ecken (Avatar)
+[Text colour:]
+Textfarbe:
+[Background colour:]
+Hintergrundfarbe:
+[Set timeout]
+Anzeigedauer setzen
+[Timeout value (0 = default):]
+Anzeigedauer (0 = Standard):
+;file \plugins\YAPP\src\message_pump.cpp
+[default]
+Standard
+[Popup]
+Popup
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Beispiel
+[The quick brown fox jumped over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+[Example With a Long Title]
+Beispiel mit langem Titel
+[Thequickbrownfoxjumpedoverthelazydog.]
+FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
+[An avatar.]
+Ein Avatar.
+[Bottom right]
+Unten rechts
+[Bottom left]
+Unten links
+[Top right]
+Oben rechts
+[Top left]
+Oben links
+[Icon on left]
+Icon links
+[Icon on right]
+Icon rechts
+[No time]
+Keine Zeit
+[Time on left]
+Zeit links
+[Time on right]
+Zeit rechts
+[Time above avatar]
+Zeit über Avatar
+[No avatar]
+Kein Avatar
+[Left avatar]
+Avatar links
+[Right avatar]
+Avatar rechts
+[Status]
+Status
+[Full-screen app running]
+Vollbildanwendung aktiv
+[You cannot set a default timeout of 0.\nValue has been reset.]
+Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
+[Error]
+Fehler
+[PopUps]
+Popups
+[Settings]
+Einstellungen
+[Classes]
+Kategorien
+;file \plugins\YAPP\src\popwin.h
+[YAPPWindowClass]
+
+;file \plugins\YAPP\src\services.cpp
+[Disable Popups]
+Popups deaktivieren
+[Enable Popups]
+Popups aktivieren
+[Warning]
+Warnung
+[Notification]
+Benachrichtigung
+[Popup History]
+Popupverlauf
+;file \plugins\YAPP\src\yapp.cpp
+[Popups]
+
+[First line]
+Erste Zeile
+[Background]
+Hintergrund
+[Second line]
+Zweite Zeile
+[Time]
+Zeit
+[Sidebar]
+Seitenleiste
+[Title underline]
+Trennlinie unter Titel
+[neweventnotify]
+
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Title]
+Titel
+[Message]
+Nachricht
+[Timestamp]
+Zeitanzeige
+[Copy title to clipboard]
+Titel in Zwischenablage kopieren
+[Copy message to clipboard]
+Nachricht in Zwischenablage kopieren
+[Copy timestamp to clipboard]
+Zeitstempel in Zwischenablage kopieren

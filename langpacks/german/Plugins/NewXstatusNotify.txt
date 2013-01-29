@@ -1,0 +1,389 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: NewXstatusNotify
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\NewXstatusNotify\res\resource.rc
+[Notify when a contact changes to one of these statuses]
+Melden, wenn ein Kontakt den Status ändert in:
+[Online]
+Online
+[Offline]
+Offline
+[Invisible]
+Unsichtbar
+[Free for chat]
+Für Chat bereit
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Out to lunch]
+Zum Essen
+[On the phone]
+Am Telefon
+[Always when changing from offline]
+Immer, wenn er vorher offline war
+[Plugin activation]
+Plugin-Aktivierung
+[Automatically turn off Popups and Sounds on status change]
+Popups und Klänge bei Statusänderung automatisch deaktivieren
+[Configure]
+Einstellungen
+[Notify me for people not in my Contact List]
+Benachrichtigen bei Leuten, die nicht in meiner Kontaktliste sind
+[Blink icon in the system tray]
+Icon blinkt im Systemtray
+[Use status icon]
+Statusicon verwenden
+[Use individual sounds]
+Individuelle Klänge verwenden
+[Log to file]
+In Datei speichern
+[Enable]
+Aktivieren
+[Go to Customize -> Sound to select the sounds]
+Gehen Sie zu Customize -> Klänge und wählen Sie die Klänge aus
+[Extra status]
+XStatus
+[...]
+
+[Open]
+Öffnen
+[Status message]
+Statusnachricht
+[IndSndList]
+
+[Change]
+Ändern
+[Preview]
+Vorschau
+[Delete]
+Löschen
+[Enable sounds]
+Klänge aktivieren
+[Enable popups]
+Popups aktivieren
+[Status Notify]
+Status-Benachrichtigung
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Individuelle Klänge sind deaktiviert.\n\nUm diese einzuschalten, aktiviere unter Einstellungen -> Status -> Statusmeldungen die Option "Individuelle Klänge nutzen" und öffne anschließend diesen Dialog erneut.
+[Sounds]
+Klänge
+[Popups]
+
+[Extra status notify]
+Extrastatusbenachrichtigung
+[Extra status logging]
+Extrastatusaufzeichnung
+[Disable all]
+Alle deaktivieren
+[Enable all]
+Alle aktivieren
+[Background]
+Hintergrund
+[Text]
+Text
+[Colours]
+Farben
+[Use custom colours]
+Benutzerdefinierte Farben
+[Use Windows colours]
+Windowsfarben verwenden
+[Use Popup colours]
+Popup-Farben verwenden
+[Popup text]
+Popup-Text
+[Read status message]
+Statusnachricht lesen
+[Show previous status too]
+Vorherigen Status ebenfalls anzeigen
+[Timeout]
+Timeout
+[Popups on contact status change to:]
+Popup, wenn Kontakt Status ändert in:
+[Click action]
+Aktion bei Klick
+[Show contact group name]
+Kontaktgruppenname anzeigen
+[Use alternative descriptions]
+Alternative Beschreibung verwenden
+[0 = Default]
+0 = Standard
+[-1 = Infinite]
+-1 = Unendlich
+[Sec]
+Sek.
+[On left click]
+Bei Linksklick
+[On right click]
+Bei Rechtsklick
+[Show status description]
+Statusbeschreibung anzeigen
+[Notification]
+Benachrichtigung
+[Disable for extra status 'Music']
+Für den Extra Status 'Musik' deaktivieren
+[Truncate message length to:]
+Länge der Nachricht kürzen auf:
+[characters]
+Zeichen
+[Templates]
+Vorlagen
+[Title - text delimiter:]
+Titel-Text-Trennzeichen:
+[Remove:]
+Entfernen:
+[New message:]
+Neue Nachricht:
+[New status:]
+Neuer Status:
+[Variables]
+Variablen
+[Reset]
+Standard
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Disable globally]
+Global deaktivieren
+[Disable only if I change global status]
+Deaktiviere nur, falls ich den globalen Status ändere
+[Disable when my status is:]
+Deaktivieren, wenn mein Status:
+[Extra status log]
+Extra Status Verlauf
+[Enable logging extra status to message window]
+Extra Status-Aufzeichnung im Nachrichtenfenster aktivieren
+[Keep events in history]
+Ereignisse im Verlauf behalten
+[Prevent identical logs]
+Identische Aufzeichnungen verhindern
+[On opening ML:]
+Bei Log-Öffnung:
+[General]
+Allgemein
+[Show PopUps when I connect]
+Popups beim Verbinden
+[Ignore empty status messages]
+Leere Statusnachrichten ignorieren
+[Protocols]
+Protokolle
+[Enable/Disable protocols which you don't wish to be notified for:]
+Aktiviere/Deaktiviere Protokolle über die sie nicht benachrichtigt werden wollen:
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
+[Wave Files]
+
+[All Files]
+Alle Dateien
+[wav]
+
+[Status]
+Status
+[Sound for the status]
+Klang für den Status
+[From offline]
+Von offline
+[** All contacts **]
+** Alle Kontakte **
+;file \plugins\NewXstatusNotify\src\main.cpp
+[<no status message>]
+<keine Statusnachricht>
+[Contact]
+Kontakt
+[connecting]
+
+[aborting]
+
+[playing]
+
+[%s is now %s]
+%s ist nun %s
+[HH':'mm]
+
+[dd/MM/yyyy]
+
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+
+[(M) is back online!]
+Er ist wieder online!
+[(F) is back online!]
+Sie ist wieder online!
+[(U) is back online!]
+Kontakt ist wieder online!
+[User: Online]
+Kontakt: Online
+[(M) went offline! :(]
+Er ist offline! :(
+[(F) went offline! :(]
+Sie ist offline! :(
+[(U) went offline! :(]
+Kontakt ist offline! :(
+[User: Offline]
+Kontakt: Offline
+[(M) hides in shadows...]
+Er ist nun unsichtbar...
+[(F) hides in shadows...]
+Sie ist nun unsichtbar...
+[(U) hides in shadows...]
+Kontakt ist nun unsichtbar...
+[User: Invisible]
+Kontakt: Unsichtbar
+[(M) feels talkative!]
+Er fühlt sich gesprächig!
+[(F) feels talkative!]
+Sie fühlt sich gesprächig!
+[(U) feels talkative!]
+Kontakt fühlt sich gesprächig!
+[User: Free For Chat]
+Kontakt: Für Chat bereit
+[(M) went Away]
+Er ist abwesend.
+[(F) went Away]
+Sie ist abwesend.
+[(U) went Away]
+Kontakt ist abwesend.
+[User: Away]
+Kontakt: Abwesend
+[(M) isn't there anymore!]
+Er ist nicht da!
+[(F) isn't there anymore!]
+Sie ist nicht da!
+[(U) isn't there anymore!]
+Kontakt ist nicht da!
+[User: Not Available]
+Kontakt: Außer Haus
+[(M) has something else to do.]
+Er ist beschäftigt.
+[(F) has something else to do.]
+Sie ist beschäftigt.
+[(U) has something else to do.]
+Kontakt ist beschäftigt.
+[User: Occupied]
+Kontakt: Beschäftigt
+[(M) doesn't want to be disturbed!]
+Er möchte nicht gestört werden!
+[(F) doesn't want to be disturbed!]
+Sie möchte nicht gestört werden!
+[(U) doesn't want to be disturbed!]
+Kontakt möchte nicht gestört werden!
+[User: Do Not Disturb]
+Kontakt: Bitte nicht stören
+[(M) is eating something]
+Er isst gerade.
+[(F) is eating something]
+Sie isst gerade.
+[(U) is eating something]
+Kontakt isst gerade.
+[User: Out To Lunch]
+Kontakt: Zum Essen
+[(M) had to answer the phone]
+Er telefoniert gerade.
+[(F) had to answer the phone]
+Sie telefoniert gerade.
+[(U) had to answer the phone]
+Kontakt telefoniert gerade.
+[User: On The Phone]
+Kontakt: Am Telefon
+[Enable status notification]
+Statusbenachrichtigungen aktivieren
+[Disable status notification]
+Statusbenachrichtigung deaktivieren
+[PopUps]
+Popups
+[User: from offline (has priority!)]
+Kontakt: war offline (hat Priorität!)
+[Extra status changed]
+Extra Status wurde geändert
+[Extra status message changed]
+Extra Statusnachricht wurde geändert
+[Extra status removed]
+Extra Status wurde entfernt
+[Toggle status notification]
+Wechsel Statusbenachrichtigungen
+;file \plugins\NewXstatusNotify\src\options.cpp
+[%s_TSMChange]
+
+[Log]
+Verlauf
+[log]
+
+[This is status message]
+Dies ist eine Statusnachricht
+[Do you want to reset all templates to default?]
+Möchten Sie alle Vorlagen auf Standard zurücksetzen?
+[Reset templates]
+Vorlagen zurücksetzen
+[Show available variables]
+Zeige verfügbare Variablen
+[Reset all templates to default]
+Setze alle Vorlagen auf Standard zurück
+[Protocol]
+Protokoll
+[Filtering]
+Filtern
+[Message log]
+Nachrichtenverlauf
+;file \plugins\NewXstatusNotify\src\popup.h
+[(was %s)]
+(war %s)
+[Open message window]
+Nachrichtenfenster öffnen
+[Close popup]
+Popup schließen
+[Open contact details window]
+Kontaktprofil öffnen
+[Open contact menu]
+Kontaktmenü öffnen
+[Open contact history]
+Gesprächsverlauf öffnen
+[Do nothing]
+Nichts tun
+;file \plugins\NewXstatusNotify\src\utils.cpp
+[You cannot specify a value lower than %d and higher than %d.]
+Werte kleiner als %d und größer als %d sind nicht zulässig.
+[open]
+
+[Can't open the log file!]
+Log konnte nicht geöffnet werden!
+[NewXstatusNotify]
+
+[a+b, ccs=UTF-8]
+
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
+[Mood]
+Stimmung
+[Activity]
+Aktivität
+[Xstatus]
+
+[<unknown>]
+<unbekannt>
+[%s, %s. %s removed %s.\r\n]
+
+[%s, %s. %s changed %s to: %s.\r\n]
+
+;file \plugins\NewXstatusNotify\src\xstatus.h
+[changed %N to: %T%D%I]
+änderte %N in: %T%D%I
+[changed %N message to:%D%I]
+änderte %N-Nachricht in:%D%I
+[removed %N]
+entfernte %N
+[changed %N @ %T%D%I]
+änderte %N @ %T%D%I
+[changed %N message @ %I]
+änderte Nachricht für %N @ %I
+[has %N @ %T%D%I]
+hat %N @ %T%D%I
+[These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
+
+[These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
+

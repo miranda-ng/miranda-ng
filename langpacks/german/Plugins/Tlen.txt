@@ -1,0 +1,389 @@
+#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Username:]
+Benutzername:
+[Password:]
+Passwort:
+[Save password]
+Passwort speichern
+[Create new account]
+Neues Konto erstellen...
+[Tlen]
+
+[Options]
+Einstellungen
+[Automatically reconnect after unintentional disconnection]
+Automatisch wiederverbinden nach unbeabsichtigtem Abbruch der Verbindung.
+[Leave status message after disconnection]
+Statusnachricht nach Trennung belassen
+[Ignore advertisements]
+Werbung ignorieren
+[Automatically delete contacts not in my roster]
+Kontakte außerhalb meiner Kontaktliste automatisch löschen
+[Show offline users with status messages as invisible in contact list]
+Zeige Offline-Kontakte mit Statusnachrichten als Unsichtbar in der Kontaktliste
+[Enable avatars]
+Avatare aktivieren
+[Send and receive client version information]
+Sende und empfange Versionsinformationen
+[Alert policy]
+Alarm-Einstellung
+[Use Nudge plugin]
+Benutze Nudge-Plugin
+[Log alerts as messages]
+Alarme als Nachrichten speichern
+[Group chat policy]
+Gruppenchat-Einstell.
+[Image transfer policy]
+Bildtransfer-Einstell.
+[Voice Chats]
+
+[Voice chat policy]
+Voice-Chat Einstellung
+[Recording device:]
+Aufnahmegerät
+[Playback device:]
+Wiedergabegerät
+[Expert Options]
+Experten-Optionen
+[Login server:]
+Loginserver:
+[Connection Host:]
+Verbindungshost:
+[Port:]
+Port:
+[Keep connection alive]
+Verbindung aufrechterhalten
+[Enable encryption]
+Verschlüsselung aktivieren
+[Enable Always Visible and Never Visible]
+Aktiviere Immer sichtbar und Niemals sichtbar
+[P2P Connections]
+P2P-Verbindungen
+[Use proxy for incoming connections]
+Benutze Proxy für eingehende Nachrichten
+[Proxy type:]
+Proxytyp:
+[Proxy server:]
+Proxyserver:
+[Proxy requires authorization]
+Proxy benötigt Autorisierung
+[Mail Notification]
+eMail-Benachrichtigung
+[Enable incoming mail notification]
+Aktiviere Benachrichtigung bei eingehenden E-Mails
+[Colours]
+Farben
+[Background]
+Hintergrund
+[Text]
+Text
+[Delay]
+Verzögerung
+[&From PopUp plugin]
+Vom Popup-Plugin
+[&Custom]
+Benutzerdefiniert
+[P&ermanent]
+
+[Preview]
+Vorschau
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Nick name:]
+Nick:
+[First name:]
+Vorname:
+[Last name:]
+Nachname:
+[E-mail:]
+E-Mail:
+[Gender:]
+Geschlecht:
+[Year of birth:]
+Geburtsjahr:
+[City:]
+Stadt:
+[School:]
+Schule:
+[Occupation:]
+Beruf:
+[Looking for:]
+Interessen:
+[Voice chats]
+Sprachchats
+[Publicly visible status]
+
+[Save changes]
+Änderungen speichern
+[Avatar Options]
+Avatareinstellungen
+[Public avatar]
+
+[Tlen login:]
+
+[Subscription:]
+Beschreibung:
+[Software:]
+
+[Version:]
+
+[System:]
+
+[Personal Information]
+Persönliche Informationen
+[Nickname:]
+Nick:
+[Age:]
+Alter:
+[to]
+an
+[Extra Search Criterias]
+
+[Status:]
+Status:
+[Plan:]
+
+[Quality]
+
+[In]
+
+[Out]
+
+[Finish]
+Ende
+[&Accept]
+&Akzeptieren
+[From:]
+Von:
+[The following invitation to join a voice chat is received.]
+Die folgende Einladung, einem Chatraum beizutreten, ist eingegangen.
+;file \protocols\Tlen\src\jabber_iqid.cpp
+[Authentication failed for]
+Authentifizierung fehlgeschlagen für
+[Tlen Authentication]
+Tlen-Authentifizierung
+;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+Allgemein
+[Advanced]
+Erweitert
+[Notifications]
+Benachrichtigung
+[Network]
+Netzwerk
+[PopUps]
+Popups
+[These changes will take effect the next time you connect to the Tlen network.]
+Diese Änderungen werden erst nach erneuter Verbindung zum Tlen-Netzwerk aktiv.
+[Tlen Protocol Option]
+Tlen-Protokolloptionen
+[Accept all alerts]
+Alle Alarme akzeptieren
+[Ignore alerts from unauthorized contacts]
+Nur Alarme von autorisierten Kontakten akzeptieren
+[Ignore all alerts]
+Alle Alarme ignorieren
+[Always ask me]
+Immer fragen
+[Accept invitations from authorized contacts]
+Einladungen von autorisierten Kontakten akzeptieren
+[Accept all invitations]
+Alle Einladungen akzeptieren
+[Ignore invitations from unauthorized contacts]
+Nur Einladungen von autorisierten Kontakten akzeptieren
+[Ignore all invitation]
+Alle Einladungen ignorieren
+[Accept all images]
+Alle Bilder aktzeptieren
+[Ignore images from unauthorized contacts]
+Ignoriere Bilder von unautorisierten Kontakten
+[Ignore all images]
+Alle Bilder ignorieren
+[<Last message>]
+<Letzte Nachricht>
+[<Ask me>]
+<Frage mich>
+[Online]
+Online
+[Away]
+Abwesend
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Forwarding]
+Weiterleiten
+[SOCKS4]
+
+[SOCKS5]
+
+[%s mail]
+
+;file \protocols\Tlen\src\jabber_svc.cpp
+[Tlen login]
+Tlen-Anmeldung
+;file \protocols\Tlen\src\jabber_thread.cpp
+[Enter password for]
+Passwort eingeben für
+[Jabber Connection Error]
+Jabber-Verbindungsfehler
+[%s Web Messages]
+%s Web-Nachrichten
+[Web message]
+Web-Nachricht
+[From]
+Von
+[E-mail]
+E-Mail
+[An alert has been received.]
+Ein Alarm wurde empfangen.
+[Private conference]
+Private Konferenz
+[Subject]
+Betreff
+;file \protocols\Tlen\src\jabber_ws.cpp
+[%s connection]
+
+[%s SOCKS connection]
+
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+Protokollicon
+[Tlen inbox]
+
+[Group chats]
+Gruppenchats
+[Tlen chats]
+
+[Grant authorization]
+Autorisierung gewähren
+[Request authorization]
+Autorisierung anfragen
+[Voice chat]
+Sprachchat
+[Microphone]
+
+[Speaker]
+Lautsprecher
+[Send image]
+Sende Bild
+[Incoming mail]
+Eingehende E-Mail
+[Alert]
+Alarm
+;file \protocols\Tlen\src\tlen_file.cpp
+[%d Files]
+
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+Sie wurden gekickt. Grund: %s
+[You cannot join this chat room, because you are banned.]
+Sie können diesen Chatraum nicht betreten, da Sie gebannt wurden.
+[Chat room not found.]
+Chatraum nicht gefunden.
+[This is a private chat room and you are not one of the members.]
+Dies ist ein privater Chatraum und Sie sind keines der Mitglieder.
+[You cannot send any message unless you join this chat room.]
+Sie können keine Nachricht senden, bevor Sie nicht den Chatraum betreten haben.
+[Chat room with already created.]
+Chatraum wurde bereits erstellt.
+[Nickname '%s' is already registered.]
+Nick '%s' ist bereits registriert.
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+Der Nick wird bereits verwendet, bitte versuchen Sie einen anderen. Hinweis: '%s' ist frei.
+[You cannot register more than %s nicknames.]
+Sie können nicht mehr als %s Nicks registrieren.
+[You cannot create more than %s chat rooms.]
+Sie können nicht mehr als %s Chaträume erstellen.
+[You cannot join more than %s chat rooms.]
+Sie können nicht mehr als %s Chaträume betreten.
+[Anonymous nicknames are not allowed in this chat room.]
+Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
+[Unknown error code : %d]
+Unbekannter Fehlercode: %d
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+[Male]
+männlich
+[Female]
+weiblich
+[Somebody to talk]
+
+[Friendship]
+
+[Flirt/romance]
+
+[Love]
+Liebe
+[Nothing]
+Nichts
+[All]
+Alle
+[Available]
+
+[Student]
+
+[College student]
+
+[Farmer]
+
+[Manager]
+
+[Specialist]
+
+[Clerk]
+
+[Unemployed]
+
+[Pensioner]
+
+[Housekeeper]
+
+[Teacher]
+
+[Doctor]
+
+[Other]
+Sonstige
+[I'd like to go downtown]
+
+[I'd like to go to the cinema]
+
+[I'd like to take a walk]
+
+[I'd like to go to the disco]
+
+[I'd like to go on a blind date]
+
+[Waiting for suggestion]
+
+[Account]
+Konto
+[both]
+beide
+[from]
+von
+[none]
+Keine
+[not on roster]
+Nicht im Roster
+;file \protocols\Tlen\src\tlen_voice.cpp
+[...Connecting...]
+
+[...Waiting for connection...]
+
+[...Finished...]
+
+[...Error...]
+
+[...Denied...]
+
+[DISPLAY]
+
+[Default]
+Standard

@@ -1,0 +1,273 @@
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last Seen Mod
+;  Version: 5.0.4.7
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+Einstellungen
+[Last seen menuitem]
+Erzeuge Menüeintrag
+[Show icon]
+Icon anzeigen
+[Userinfo tab]
+In Kontaktprofil anzeigen
+[Log to file]
+In Datei speichern
+[Log to history]
+In Verlauf schreiben
+[Maximum size]
+Maximale Dateigröße
+[Variable list]
+Variablenliste
+[Enable Idle support]
+/Idle zu Kontakt hinzuf. bei Untätigkeit
+[Ignore contacts going offline]
+Ignorieren, wenn Kontakt offline geht
+[Enable 'Missed Ones' feature]
+"Verpasst"-Funktion aktivieren
+[Count times]
+Mitzählen
+[Protocols to watch:]
+Zu überwachende Protokolle:
+[Popup interoperability missing or disabled. You need Popups plugin]
+Popupfunktionalität fehlt oder ist deaktiviert. Sie benötigen ein Popup-Plugin.
+[Use popups]
+Popups nutzen
+[Title]
+Titel
+[Text]
+Text
+[PopUp Colors]
+Farben
+[Online]
+Online
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[On the phone]
+Am Telefon
+[Out to lunch]
+Zum Essen
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Offline]
+Offline
+[Reset colors]
+Stand. Farben
+[OK]
+OK
+[You missed following contacts:]
+Du hast folgende Kontakte verpasst:
+[Test\nTest]
+
+[Alert when user status changes]
+Melden, wenn Benutzerstatus sich ändert
+;file \plugins\SeenPlugin\src\history.cpp
+[last seen history]
+Zuletzt gesehen-Verlauf
+[View User's Details]
+Kontaktprofil anzeigen
+[User Menu]
+Kontaktmenü
+[Send Instant Message]
+Nachricht senden
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
+;file \plugins\SeenPlugin\src\main.cpp
+[Any to Idle/Not Idle/Unknown]
+Beliebiges zu Inaktiv/Nicht inaktiv/Unbekannt
+[Any to /Idle or empty]
+Beliebiges zu /Idle oder leer
+[LastSeen]
+Zuletzt gesehen
+[User status change]
+Statusänderung (beliebige)
+[Changed to Online]
+Statusänderung zu Online
+[User Logged Off]
+Kontakt hat sich abgemeldet
+[User Logged In]
+Kontakt hat sich angemeldet
+[Last seen]
+Zuletzt gesehen
+;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<unbekannt>
+[<none>]
+<keine>
+;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+
+[Contacts]
+Kontakte
+[PopUps]
+Popups
+;file \plugins\SeenPlugin\src\seen.h
+[Debug]
+
+[%n is %s (%u)]
+
+[%i(%r)%bWas %o]
+
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+Name:%t%N%bStatus:%t%s%bTag:%t%d.%m.%Y%bZeit:%t%H:%M:%S%bVorheriger Status:%t%o%b%b%P ID:%t%u%bExterne IP:%t%i%bInterne IP:%t%r%bClientID: %t%C%b%bStatusnachricht:%t%T
+[year (4 digits)]
+Jahr (vierstellig)
+[year (2 digits)]
+Jahr (zweistellig)
+[month]
+Monat
+[name of month]
+Monatsname
+[short name of month]
+Monatsname (abgekürzt)
+[day]
+Tag
+[weekday (full)]
+Wochentag (vollständig)
+[weekday (abbreviated)]
+Wochentag (abgekürzt)
+[hours (24)]
+Stunden (24)
+[hours (12)]
+Stunden (12)
+[AM/PM]
+
+[minutes]
+Minuten
+[seconds]
+Sekunden
+[username]
+Benutzername
+[nick]
+Nick
+[UIN/handle]
+UIN
+[Group]
+Gruppe
+[Status]
+Status
+[Status message]
+Statusnachricht
+[Old status]
+Alter Status
+[external IP]
+Externe IP
+[internal IP]
+Interne IP
+[Client info]
+Client
+[Protocol]
+Protokoll
+[tabulator]
+Tabulator
+[line break]
+Zeilenumbruch
+[Note:]
+Hinweis:
+[Use]
+Benutze
+[for empty string]
+für leeren String
+[instead of]
+anstatt
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+Sonntag
+[Monday]
+Montag
+[Tuesday]
+Dienstag
+[Wednesday]
+Mittwoch
+[Thursday]
+Donnerstag
+[Friday]
+Freitag
+[Saturday]
+Samstag
+[Sun.]
+Son.
+[Mon.]
+Mon.
+[Tue.]
+Die.
+[Wed.]
+Mit.
+[Thu.]
+Don.
+[Fri.]
+Fre.
+[Sat.]
+Sam.
+[January]
+Januar
+[February]
+Februar
+[March]
+März
+[April]
+April
+[May]
+Mai
+[June]
+Juni
+[July]
+Juli
+[August]
+August
+[September]
+September
+[October]
+Oktober
+[November]
+November
+[December]
+Dezember
+[Jan.]
+Jan
+[Feb.]
+Feb
+[Mar.]
+Mär.
+[Apr.]
+Apr.
+[Jun.]
+
+[Jul.]
+
+[Aug.]
+Aug.
+[Sep.]
+Sept
+[Oct.]
+Okt.
+[Nov.]
+Nov.
+[Dec.]
+Dez.
+[<never seen>]
+<Noch niemals gesehen>
+[Idle]
+Untätigkeit
+[ProtoUnknown]
+
+[\x0D\x0A]
+
+[Unknown]
+Unbekannt
+[Not Idle]
+

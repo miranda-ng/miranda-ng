@@ -1,0 +1,935 @@
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;langpack template for Clist_nicer
+;file \plugins\Clist_nicer\res\resource.rc
+[Copy to clipboard]
+In Zwischenablage kopieren
+[Continue]
+
+[Exit Miranda]
+
+[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
+
+[Floating contacts appearance]
+Aussehen 'schwebender' Kontakte
+[Simple layout]
+Einfaches Aussehen
+[Show avatars]
+Avatare anzeigen
+[Show second text line]
+2. Textzeile anzeigen
+[Show extra icons]
+Extraicons anzeigen
+[Behaviour]
+Verhalten
+[Synchronzie floater visibility with contact list]
+Sichtbarkeit mit Kontaktliste synchronisieren
+[Only show contact floaters when contact list is hidden or minimized]
+Nur zeigen, wenn Kontaktliste versteckt oder minimiert ist
+[Padding]
+Abstand
+[Enable floating contacts (required restart)]
+Schwebende Kontakte aktivieren (benötigt Neustart)
+[000%]
+
+[Opacity]
+Deckkraft
+[Width]
+Breite
+[Snap to edges (hold CTRL for snap between floaters)]
+An Rand einrasten (Strg gedrückt halten, um 2 Floater zu verbinden)
+[Inactive]
+Inaktiv
+[Active]
+Aktiv
+[Border]
+Rand
+[Rounded corners]
+Ecken abrunden
+[Colour]
+Farbe
+[Radius]
+
+[Fill with contact list background color]
+Mit Hintergrundfarbe der Kontaktliste auffüllen
+[Tooltips]
+Tooltips
+[Show tooltips]
+Tooltips zeigen
+[Hover time]
+Verzögerung
+[Use default]
+Standard verw.
+[ms]
+
+[OK]
+OK
+[Clist Nicer+]
+CList Nicer+
+[Copyright � 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
+[Version]
+Version
+[Support and latest version information]
+Support und Informationen zur neusten Version
+[No]
+Nein
+[Yes]
+Ja
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
+[Use Options->Ignore (expert mode) to unhide contacts.]
+Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
+[Are you sure you want to delete %s?]
+Soll Kontakt %s wirklich gelöscht werden ?
+[This will erase all history and settings for this contact!]
+Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
+[Contact List]
+Kontaktliste
+[Hide offline users]
+Offline-Kontakte ausblenden
+[Hide empty groups]
+Leere Gruppen ausblenden
+[Disable groups]
+Gruppenfunktion ausschalten
+[Ask before deleting contacts]
+Vor Löschen von Kontakten fragen
+[Disable icon blinking]
+Iconblinken deaktivieren
+[Apply last active view mode ]
+Zuletzt aktiven Kontaktfilter wiederherstellen
+[Contact list layout]
+Kontaktlistenaussehen
+[Show menu and status buttons]
+Menü- und Statusbutton anzeigen
+[Draw sunken edge]
+Versenkte Darstellung benutzen
+[System tray icon]
+Systemtray-Icon (unten, neben der Uhr)
+[Single click interface]
+Kontaktliste mit Einfachklick öffnen
+[Always show status in tooltip]
+Immer Status als Tooltip anzeigen
+[Event area]
+Ereignisbereich
+[Set base visiblity on the frames menu]
+Hauptmenü => Kontaktlisten-\nElemente 'Ereignisbereich' Sichtbar
+[Auto mode]
+Automatisch ausblenden
+[System tray icon when using multiple protocols]
+Systemtray-Icon bei Benutzung mehrerer Protokolle
+[Show]
+Zeige
+[icon when statuses differ]
+-Icon, wenn Status unterschiedlich
+[Cycle icons every]
+Icon durchwechseln alle
+[seconds, when statuses differ]
+Sekunden, wenn Status unterschiedlich
+[Show multiple icons]
+Mehrere Icons anzeigen
+[Only when statuses differ]
+Nur wenn Status unterschiedlich
+[Do not show system tray icon tooltips on mouse over]
+Keinen Tooltip beim Überfahren des Statusicons zeigen
+[Groups]
+Gruppen
+[Draw a line alongside group names]
+Linie neben den Gruppennamen
+[Show number of contacts in a group]
+Anzahl Kontakte in einer Gruppe anzeigen
+[Hide numbers when all offline]
+Anzahl ausblenden, wenn alle offline
+[Sort groups alphabetically]
+Gruppen alphabetisch sortieren
+[Quicksearch in open groups only]
+Schnellsuche nur in offenen Gruppen
+[No expand/collapse icon]
+Kein Gruppenicon
+[Center groupnames horizontally]
+Gruppennamen horizontal zentrieren
+[Alignment]
+Ausrichtung
+[Margins (left/right)]
+Abstand links/rechts
+[Row gap]
+Zeilenabstand
+[Minimum row height:]
+Minimale Zeilenhöhe:
+[Group row height]
+Gruppen-Zeilenhöhe
+[Indent groups by:]
+Gruppen einrücken:
+[Inner Row vertical padding]
+Innerer vertikaler Zeilenabstand
+[Margins and spacing]
+Abstände und Ränder
+[Contact List Sorting]
+Sortierung der Kontaktliste
+[First by]
+Zuerst nach
+[Then by]
+Danach nach
+[Finally by]
+Zuletzt nach
+[Move events to the top of list\nor group]
+Ereignisse in Liste oder Gruppe\nnach oben schieben
+[Do not separate offline contacts]
+Offlinekontakte nicht trennen
+[Hide as offline]
+Als 'offline' verstecken
+[Right align contacts]
+Kontakte rechtsbündig
+[Avatars]
+Avatare
+[Height]
+Höhe
+[Draw a border around avatars]
+Rand um Avatare zeichnen
+[Rounded avatars]
+Avatare abrunden
+[Always align icons and text for missing avatars]
+Icons und Text für fehlende Avatare ausrichten
+[Avatar alignment]
+Avataranordnung
+[Don't request avatars for offline contacts]
+Avatar von Offlinekontakten nicht anfordern
+[Second text line]
+Zweite Textzeile
+[Display status message when available]
+Statusnachricht anzeigen (falls verfügbar)
+[Show second text line:]
+2. Textzeile anzeigen:
+[Show contacts local time]
+Lokale Kontaktzeit anzeigen
+[Only when timezone differs]
+Nur bei anderer Zeitzone
+[Icons]
+Icons
+[Show status icons]
+Statusicons zeigen
+[Centered when possible]
+Zentriert, falls möglich
+[When possible, draw status icons in avatar space]
+Nach Möglichkeit die Statusicons im Avatarplatz anzeigen
+[Use metacontact protocol icons instead of subcontacts]
+Metakontakticons anstelle der Icons der Unterkontakte verwenden
+[Use Overlay icons on avatars]
+Überlagerungsicons über Avatare zeichnen
+[Dim idle contacts]
+Inaktive Kontakte abblenden
+[Replace status icons with xStatus]
+Ersetze Status- durch XStatusicons
+[Window]
+Fenster
+[Always on top]
+Immer im Vordergrund
+[Show menu bar]
+Menüleiste anzeigen
+[Easy move]
+Einfaches Bewegen
+[Rounded border]
+Gerundeter Rand
+[Title bar text:]
+Titelleistentext:
+[Pin to desktop]
+An den Desktop anheften
+[Show drop shadow (restart required)]
+Schatten werfen (erfordert Neustart)
+[Hide contact list after it has been idle for]
+Kontaktliste verstecken nach Inaktivität von
+[seconds]
+Sekunden
+[Automatically resize window to height of list]
+Höhe automatisch an Kontaktanzahl anpassen
+[maximum]
+Maximal
+[% of screen]
+% des Bildschirms
+[Size upwards]
+Größenanpassung nach oben
+[If window is partially covered, bring to front instead of hiding]
+Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
+[Always Hide On Taskbar]
+Taskleiste immer verstecken
+[Client margins]
+CL-Begrenzung
+[Embedded frames border]
+Rahmen eigener Elemente
+[Clip border by]
+Ränder kürzen um
+[Gap between frames]
+Abstand zw. Elementen
+[Translucency options (Windows 2000/XP only)]
+Transparenz (ab Windows 2000)
+[Transparent contact list]
+Transparente Kontaktliste
+[Inactive opacity:]
+Deckkraft inaktiv:
+[Active opacity:]
+Deckkraft aktiv:
+[Fade contact list in/out]
+Ein-/Ausblenden animieren
+[Fully transparent (like TweakUI)]
+Komplett transparent (wie TweakUI)
+[Items]
+Objekte
+[Show divider between online and offline contacts]
+Trennlinie zwischen Online-/Offline-Kontakten
+[Hot track items as mouse passes over]
+Kontakt bei Mausbewegung hervorheben
+[Disable drag and drop of items]
+Drag&&Drop von Objekten ausschalten
+[Disable rename of items by clicking twice]
+Umbenennen durch zwei Mausklicks ausschalten
+[Show selection even when list is not focused]
+Markierung immer anzeigen
+[Make selection highlight translucent]
+Transparente Markierung
+[Use full row for selection and hottracking]
+Volle Breite für Markierungen und Hervorhebungen
+[Double click on avatar opens userinfo]
+Doppelklick auf Avatar öffnet Kontaktprofil
+[Visual]
+Ansicht
+[Scroll list smoothly]
+Sanfter Bildlauf
+[Time:]
+Zeit:
+[milliseconds]
+Millisekunden
+[Hide vertical scroll bar]
+Vertikale Bildlaufleiste ausblenden
+[Grey out entire list when:]
+Liste grau färben, wenn:
+[Contact List Background]
+Hintergrund der Kontaktliste
+[Use Windows colours]
+Windowsfarben verwenden
+[Background colour]
+Hintergrundfarbe
+[Use background image]
+Hintergrundbild verwenden
+[...]
+
+[Stretch to width]
+In Breite strecken
+[Stretch to height]
+In Höhe strecken
+[Tile horizontally]
+Horizontal kacheln
+[Tile vertically]
+Vertikal kacheln
+[Scroll with text]
+Mit Text scrollen
+[Stretch proportionally]
+Proportional strecken
+[Use these settings to skin the entire background]
+Diese Einstellungen auf den gesamten Hintergrund anwenden
+[If you enable this, the background settings will affect the entire contact list frame.]
+Diese Option wendet diese Hintergrundeinstellungen auf die ganze Kontaktliste an.
+[Status Bar]
+Statusleiste
+[Show status bar]
+Statusleiste anzeigen
+[Show icons]
+Icons anzeigen
+[Show protocol names]
+Protokollnamen anzeigen
+[Show status text]
+Statustext anzeigen
+[Right click opens status menu]
+Rechtsklick öffnet Statusmenü
+[Right click opens Miranda NG menu]
+Rechtsklick öffnet Miranda-Hauptmenü
+[Make sections equal width]
+Alle Protokolle gleiche Breite
+[Show bevels on panels]
+Rahmen um Protokolle
+[Show resize grip indicator]
+Ecke zur Größenänderung anzeigen
+[Draw background skin]
+Skin im Hintergrund zeichnen
+[Show ICQ extended status icons]
+Erweiterte ICQ-Statusicons anzeigen
+[Mark protocols locked from global status changes]
+Vom globalen Status ausgenommene Protokolle markieren
+[Available view modes]
+Verfügbare Kontaktfilter
+[Include protocols]
+Protokolle auswählen
+[+]
+
+[-]
+
+[New]
+Neu
+[Include groups]
+Gruppen auswählen
+[Include status modes]
+Statusmodus auswählen
+[Ok]
+
+[Cancel]
+Abbrechen
+[Apply]
+Übernehmen
+[Sticky contacts]
+Wichtige Kontakte
+[Clear all]
+Alles löschen
+[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
+In der Kontaktliste auf der linken Seite können Sie Kontakte auswählen, die in diesem Kontaktfilter "fest" sind. Diese Kontakte werden die Standardfilterregeln ignorieren und nur den Statusfilter unten benutzen.
+[Protocol]
+Protokoll
+[Group]
+Gruppe
+[Status mode]
+Statusmodus
+[Automatically clear this view mode after]
+Diesen Kontaktfilter automatisch löschen nach
+[View mode options]
+Kontaktfiltereinstellungen
+[Editing view mode]
+Kontaktfilter bearbeiten
+[Last message ]
+Letzte Nachricht
+[Per contact skins:]
+kontaktabh. Skins:
+[< Reload]
+< neu laden
+[Contact list skin]
+Kontaktlistenskin
+[Load this skin on startup]
+Diesen Skin beim Start laden
+[Apply skin now]
+Skin jetzt laden
+[Unload skin]
+Skin entfernen
+[Make selection shape equal to selected item]
+Auswahlbreite an selektiertes Element anpassen
+[Blend selection with background]
+Hintergrund auf Markierung anwenden
+[Automatically fill background with wallpaper (tiled wallpaper only)]
+Hintergrund automatisch mit dem Windowshintergrundbild füllen
+[Apply group indent values to background drawing]
+Gruppeneinrückung auf den Hintergrund anwenden
+[Use per protocol/contact skinning]
+Skinning pro Protokoll/Kontakt aktivieren
+[Protocol skins override status text colors]
+Protokollskins überschreiben Statustextfarben
+[Set all buttons to skinned mode]
+Alle Schaltflächen skinnen
+[Use fast gradient drawing]
+Schnelles Gradientenzeichnen
+[Corner radius]
+Eckradius
+[Skin options]
+Skin-Einstellungen
+[Group top padding]
+Gruppenabstand oben
+[Frame titlebar height]
+Höhe der Titelzeilen
+[Ignore selection for groups]
+Markierungen für Gruppen ignorieren
+[Load from skin file]
+Aus Skindatei laden
+[Export to skin file]
+In Skindatei speichern
+[Ignore these events]
+folgende Ereignisse ignorieren
+[Messages]
+Nachrichten
+[Incoming file transfers]
+Eingehende Dateiübertragungen
+[URL events]
+URL-Ereignisse
+[Suppress auth requests]
+Autorisierungsanfragen
+[Suppress added notifications]
+"Sie wurden hinzugefügt"
+[Suppress online notifications]
+Statusbenachrichtigungen
+[Ignore all]
+Alle ignorieren
+[Ignore none]
+Nichts ignorieren
+[Visibility]
+Sichtbarkeit
+[Appear always online]
+Immer online erscheinen
+[Appear always offline (block contact)]
+Immer offline erscheinen bzw. Kontakt blockieren
+[Other]
+Sonstige
+[Hide this contact from the list]
+Kontakt nicht in der Kontaktliste anzeigen
+[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
+Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen-> Ereignisse-> Ignorieren einen Haken neben seinem Namen setzen.
+[Display options]
+Anzeigeoptionen
+[Show contact with priority]
+Kontakt hat Priorität
+[Show Avatar:]
+Avatar zeigen
+[Show 2nd line:]
+2. Textzeile anzeigen:
+[Draw overlay icon on avatar]
+Überlagerungsicons über Avatar
+[Show local time]
+Lokale Zeit anzeigen
+[E&xit]
+B&eenden
+[&Offline\tCtrl+0]
+
+[On&line\tCtrl+1]
+
+[&Away\tCtrl+2]
+
+[&NA\tCtrl+3]
+
+[Occ&upied\tCtrl+4]
+
+[&DND\tCtrl+5]
+
+[&Free for chat\tCtrl+6]
+
+[&Invisible\tCtrl+7]
+
+[On the &Phone\tCtrl+8]
+
+[Out to &Lunch\tCtrl+9]
+
+[&Hide/Show]
+Zeigen/Ausblenden
+[&New Group]
+&Neue Gruppe
+[&Hide Offline Users]
+Offline-Kontakte ausblenden
+[Hide &Offline Users out here]
+&Offline-Kontakte außerhalb ausblenden
+[Hide &Empty Groups]
+L&eere Gruppen ausblenden
+[Disable &Groups]
+&Gruppenfunktion ausschalten
+[Hide Miranda]
+Miranda NG ausblenden
+[&New Subgroup]
+&Neue Untergruppe
+[&Hide Offline Users in here]
+Offline-Kontakte &hier ausblenden
+[&Rename Group]
+G&ruppe umbenennen
+[&Delete Group]
+Gruppe löschen
+[Move marked Contacts to this Group]
+Markierte Kontakte in diese Gruppe verschieben
+[Show Status Icons]
+Statusicons zeigen
+[Show Metacontact proto Icons]
+Metakontaktprotokollicons zeigen
+[Show additional Buttons]
+Zusätzliche Buttons anzeigen
+[Draw sunken Frame]
+Eingefallene Ecken benutzen
+[Use Status Floater]
+Statusfloater aktivieren
+[Auto-Hide Status Floater]
+Statusfloater automatisch ausblenden
+[Show Event Area in Floater]
+Ereignisbereich im Floater anzeigen
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+Skinelemente
+[General]
+Allgemein
+[Gradient]
+Farbverlauf
+[Left to right]
+Links > Rechts
+[Right to left]
+Rechts > Links
+[Top to bottom]
+Oben > Unten
+[Bottom to top]
+Unten > Oben
+[Round corners]
+Runde Ecken
+[Top-Left]
+Oben links
+[Top-Right]
+Oben rechts
+[Bottom-Right]
+Unten rechts
+[Bottom-Left]
+Unten links
+[Item colors]
+Elementfarben
+[First color]
+1. Farbe
+[Textcolor]
+Textfarbe
+[Second color]
+2. Farbe
+[Transparent]
+
+[Alpha (percent)]
+Alpha (Prozent)
+[Item margins]
+Elementabstände
+[Item borders]
+Elementränder
+[Border style]
+Rahmenform
+[3D border (bright / dark)]
+3D-Rahmen (hell/dunkel)
+[Item ignored]
+Element ignorieren
+[Not yet supported]
+
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+
+[<None>]
+<Keine>
+[Raised]
+
+[Sunken]
+Eingelassen
+[Bumped]
+Hervorstehen
+[Etched]
+
+[Image items]
+Bild-Elemente
+;file \plugins\Clist_nicer\src\CLCButton.cpp
+[Show menu]
+Hauptmenü
+[Show / hide offline contacts]
+Offlinekontakte zeigen / ausblenden
+[Toggle group mode]
+Gruppenmodus an / aus
+[Find and add contacts]
+Kontakte suchen und hinzufügen
+[Accounts]
+Konten
+[Open preferences]
+Einstellungen
+[Toggle sounds]
+Klänge an / aus
+[Minimize contact list]
+Kontaktliste minimieren
+[Status menu]
+Statusmenü
+[tabSRMM session list]
+tabSRMM-Sitzungsliste
+[tabSRMM Menu]
+TabSRMM-Menü
+[Select view mode]
+Kontaktfilter auswählen
+[Setup view modes]
+Kontaktfilter einstellen
+[Clear view mode]
+Kontaktfilter aufheben
+;file \plugins\Clist_nicer\src\clcopts.cpp
+[Not focused]
+nicht fokussiert
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[Out to lunch]
+Zum Essen
+[On the phone]
+Am Telefon
+[Always Left]
+Immer links
+[Always Right]
+Immer rechts
+[Automatic (RTL)]
+Automatisch (RTL)
+[Nothing]
+Nichts
+[Name]
+Name
+[Status]
+Status
+[Last Message]
+Letzter Nachricht
+[Message Frequency]
+Nachrichtenhäufigkeit
+[Never]
+Niemals
+[Always]
+Immer
+[For RTL only]
+Nur für RTL
+[RTL TEXT only]
+Nur RTL-Text
+[When space allows it]
+Falls Abstand verfügbar ist
+[When needed]
+Bei Bedarf
+[With Nickname - left]
+Mit Nickname links
+[Far left]
+Ganz links
+[Far right]
+Ganz rechts
+[With Nickname - right]
+Mit Nickname rechts
+[List layout]
+Kontaktlistenaussehen
+[Background]
+Hintergrund
+[Contact rows]
+Kontaktzeilen
+[Contacts]
+Kontakte
+[Groups and layout]
+Gruppen und Aussehen
+[Advanced]
+Erweitert
+[Floating contacts]
+'Schwebende' Kontakte
+[Skins]
+
+[Contact list]
+Kontaktliste
+;file \plugins\Clist_nicer\src\clistmenus.cpp
+[FOO]
+
+[Add permanently]
+Dauerhaft hinzufügen
+[Revert to default]
+Standardeinstellungen
+[Default (global setting)]
+Standard (globale Einstellungen)
+[Show always when available]
+Immer anzeigen, wenn verfügbar
+[Hide always]
+Immer verstecken
+[When space is available]
+Falls Abstand verfügbar ist
+[When needed by status message]
+Wenn sie benötigt wird
+[Contact list display and ignore options for %s]
+Kontaktlistenanzeige- und Ignorieroptionen für %s
+[&Contact list settings...]
+Kontaktlisteneinstellungen
+;file \plugins\Clist_nicer\src\clistopts.cpp
+[Global]
+Global
+;file \plugins\Clist_nicer\src\clui.cpp
+[Toggle show online/offline]
+Offlinekontakte zeigen / ausblenden
+[Toggle groups]
+Gruppen ausblenden
+[Find contacts]
+Kontakt suchen
+[Show tabSRMM session list]
+Zeige TabSRMM-Sitzungsliste
+[Show tabSRMM menu]
+Zeige TabSRMM-Menü
+[Sounds are off]
+Klänge sind aus
+[Reset view mode]
+Kontaktfilter aufheben
+[Configure view modes]
+Kontaktfilter einrichten
+[Setup accounts]
+Konten
+[EventArea]
+Ereignisbereich
+[Event Area]
+Ereignisbereich
+[My Contacts]
+Meine Kontakte
+[%s Connecting]
+%s Verbindung
+[Menu]
+Menü
+[Open main menu]
+Hauptmenü öffnen
+[Set status modes]
+Status auswählen
+[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
+
+[Parameter mismatch]
+
+[The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+
+[Service failure]
+
+[EventAreaClass]
+
+[Frame titles]
+Fensternamen
+[Contact list local time]
+Lokale Kontaktzeit
+[Selected Text]
+Markierter Text
+[Hottrack Text]
+Hottracktext
+[Quicksearch Text]
+Schnellsuche-Text
+;file \plugins\Clist_nicer\src\cluiopts.cpp
+[Title bar]
+Titelleiste
+[Tool Window]
+Normaler Rahmen
+[Thin border]
+Dünner Rahmen
+[No border]
+Kein Rahmen
+;file \plugins\Clist_nicer\src\config.cpp
+[An application error has occured: %s]
+
+[TabSRMM runtime error]
+
+;file \plugins\Clist_nicer\src\Docking.cpp
+[The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
+[Clist docking]
+
+;file \plugins\Clist_nicer\src\extBackg.cpp
+[*.clist\0]
+
+[Load and apply]
+Skin laden
+;file \plugins\Clist_nicer\src\init.cpp
+[No events...]
+Keine Ereignisse
+;file \plugins\Clist_nicer\src\statusfloater.cpp
+[StatusFloaterClass]
+
+[ContactFloaterClass]
+
+[sfl]
+
+;file \plugins\Clist_nicer\src\viewmodes.cpp
+[Ungrouped contacts]
+Nicht gruppierte Kontakte
+[And]
+Und
+[Older than]
+Älter als
+[Newer than]
+Neuer als
+[Minutes]
+Minuten
+[Hours]
+Stunden
+[Days]
+Tage
+[Current view mode: %s]
+aktueller Kontaktfilter: %s
+[Filtering]
+Filtern
+[*** All contacts ***]
+*** Alle Kontakte ***
+[Really delete this view mode? This cannot be undone]
+Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
+[Delete a view mode]
+Kontaktfilter löschen
+[No view mode]
+Kein Kontaktfilter
+[A view mode with this name does alredy exist]
+
+[Duplicate name]
+
+[Setup View Modes...]
+Kontaktfilter einstellen
+[Clear current View Mode]
+Aktuellen Kontaktfilter aufheben
+[Select a view mode]
+Kontaktfilter auswählen
+[Clear view mode and return to default display]
+Lösche Ansicht und kehre zu Ausgangsanzeige zurück
+[View modes]
+Kontaktfilter
+[View Modes]
+Kontaktfilter
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+Elementtitel
+[&Visible]
+Sichtbar
+[&Show TitleBar]
+Titellei&ste anzeigen
+[&Locked]
+Gesperrt
+[&Collapsed]
+Zugeklappt
+[&Floating Mode]
+&Frei beweglicher Modus
+[&Border]
+Rand
+[&Skinned frame]
+Frame &skinnen
+[&Align]
+&Ausrichtung
+[&Top]
+Oben
+[&Client]
+Mitte, Kontakte
+[&Bottom]
+Unten
+[&Position]
+&Position
+[&Up]
+A&uf
+[&Down]
+Ab
+[Frames]
+Frames
+[Show All Frames]
+Alle Elemente anzeigen
+[Show All Titlebars]
+Alle Titelleisten anzeigen
+[Hide All Titlebars]
+Alle Titelleisten verstecken
+[Lock Frame]
+Keine Größenänderung
+[Visible]
+Sichtbar
+[Show TitleBar]
+Titelzeile anzeigen
+[Skinned frame]
+
+[Floating]
+Frei bewegend
+[mf_update_evt_%d]
+
+[FramesContainer]
+
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+[&Find/Add Contacts...]
+Kontakte suchen/hinzu&fügen...
+[&Main Menu]
+Haupt&menü
+[&Status]
+
+[Appearance]
+Erscheinungsbild
+[&Options...]
+Einstellungen...
+[&About the contact list...]
+Über die Kont&aktliste...
+[&New SubGroup]
+&Neue Untergruppe
+;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
+[&Floating Contact]
+
+;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
+[CoolSBSubclassPtr]
+

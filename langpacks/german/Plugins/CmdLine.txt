@@ -1,0 +1,120 @@
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: CmdLine
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
+;file \plugins\CmdLine\MimCmd\src\commands.cpp
+[No help for '%s'.]
+
+[Available commands: ]
+
+[Miranda has been closed or an error has occured while waiting for the result, could not process request.]
+
+;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
+[%s usage:\n]
+
+[%s <command> [<param> [, <param> ..]]\n]
+
+[This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
+
+[No command can have more than %d parameters\n]
+
+[%s version %s]
+
+[Unknown command '%s'.\n]
+
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
+[Command '%s' is not currently supported.]
+
+[Wrong number of parameters for command '%s'.]
+
+[Unknown parameter '%s' for command '%s'.]
+
+[Current global status: %s.%s]
+
+[Changed global status to '%s' (previous status was '%s]
+
+[Changed '%s' status to '%s' (previous status was '%s]
+
+['%s' doesn't seem to be a valid account.]
+
+[Failed to change status for account '%s' to '%s'.]
+
+[Failed to set '%S' status message to '%s' (status is '%s]
+
+[Successfully set '%S' status message to '%s' (status is '%s]
+
+[Account '%S' does not support away messages, skipping.]
+
+[Changed '%s' status message to '%s' (status is '%s]
+
+[Account '%s' does not support away messages, skipping.]
+
+[Failed to change status message for account '%s' to '%s' (status is '%s]
+
+[Issued check email command to Exchange plugin.]
+
+[Exchange plugin is not running.]
+
+[Issued check email command to YAMN plugin.]
+
+[YAMN plugin is not running.]
+
+[CallService call successful: service '%s' returned %p.]
+
+[Invalid parameter '%s' passed to CallService command.]
+
+[Service '%s' does not exist.]
+
+[Message sent to '%s'.]
+
+[Message to '%s' was marked as sent but the account seems to be offline]
+
+[Could not send message to '%s'.]
+
+[Timed out while waiting for acknowledgement for contact '%s'.]
+
+[Could not find contact handle for contact '%s'.]
+
+[Setting '%s/%s' deleted.]
+
+[Wrote '%s:%s' to database entry '%s/%s'.]
+
+[Could not retrieve setting '%s/%s': %s.]
+
+[Setting '%s/%s' was not found.]
+
+['%s' proxy was disabled.]
+
+['%s' proxy was enabled.]
+
+[%s proxy server: %s %s:%d.]
+
+[%s proxy set to %s %s:%d.]
+
+[%s The port or the proxy type parameter is invalid.]
+
+[[me]]
+
+[No unread messages found.]
+
+[%s:%s - %d unread events.]
+
+[Contact '%s' has '%d' events in history.]
+
+[Error setting nickname to '%s' for protocol '%s']
+
+;file \plugins\CmdLine\src\services.cpp
+[Could not create CommandLine listening server!]
+
+[You can only run one instance of CmdLine plugin.]
+
+[Error]
+Fehler
+;file \plugins\CmdLine\src\utils.cpp
+[Notify]
+Benachrichtigung
+[Warning]
+Warnung

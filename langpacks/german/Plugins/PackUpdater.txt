@@ -1,0 +1,188 @@
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack Updater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Simple updater for Miranda NG premodified packs.]
+
+;file \plugins\PackUpdater\Res\Resource.rc
+[Update]
+Aktualisieren
+[View info]
+Zeige Informationen
+[Cancel]
+Abbrechen
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+
+[Description]
+Übersicht
+[Downloading...]
+Laden...
+[Pack update options]
+
+[On startup]
+Beim Start
+[Remind about not installed pack update]
+
+[Hotkey]
+
+[Go to Customize -> Hotkeys to change the hotkey]
+Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
+[Notifications]
+Benachrichtigung
+[Message boxes]
+
+[Errors]
+Fehler
+[Info messages]
+Infonachrichten
+[Progress dialogs]
+Fortschrittsdialog
+[Every]
+Alle
+[(but only once a day)]
+(aber nur einmal täglich)
+[Message boxes (*)]
+Nachrichtenboxen (*)
+[Back]
+Hgrd.
+[Text]
+Text
+[Colours]
+Farben
+[Use cus&tom colors]
+Eigene Farben verwenden
+[Use &Windows colours]
+&Windows-Farben verwenden
+[Use Pop&up colours]
+Pop&up-Farben verwenden
+[Preview]
+Vorschau
+[Click action]
+Aktion bei Klick
+[On left click]
+Bei Linksklick
+[On right click]
+Bei Rechtsklick
+[Timeout]
+Timeout
+[0 = Default]
+0 = Standard
+[-1 = Infinite]
+-1 = Unendlich
+[Sec]
+Sek.
+[* Needs popup actions to be enabled]
+(*) Popup-Aktionen müssen aktiviert sein
+[Not sets for "Message boxes"]
+Gilt nicht für "Message Boxes"
+[Boxes]
+Fenster
+[PopUps]
+Popups
+;file \plugins\PackUpdater\Src\Events.cpp
+[Check for pack updates]
+
+[Pack Updater]
+Paket-Updater
+;file \plugins\PackUpdater\Src\Notifications.cpp
+[An error occured while downloading the update.]
+
+[Component Name]
+Komponentenname
+[Current Version]
+Aktuelle Version
+[New Version]
+Neue Version
+[%s\\Pack]
+
+[%s\\Plugins]
+
+[%s\\Icons]
+
+[%s\\Others]
+
+[%s\\Backups]
+
+[Downloading pack updates...]
+Lade nun Paket-Updates ...
+[Downloading update...]
+
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
+[%miranda_path%\\Plugins]
+
+[%s\\Backups\\%s]
+
+[%miranda_path%\\Icons]
+
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Sie haben sich entschieden das Paket nicht direkt zu installieren.\nSie können es später von diesem Pfad manuell installieren:\n\n%s
+;file \plugins\PackUpdater\Src\Notifications.h
+[Close popup]
+Popup schließen
+[Do nothing]
+Nichts tun
+;file \plugins\PackUpdater\Src\Options.cpp
+[hours]
+Stunden
+[days]
+Tage
+[Test]
+Testen
+[Services]
+Dienste
+;file \plugins\PackUpdater\Src\PackUpdater.cpp
+[%miranda_userdata%\"DEFAULT_UPDATES_FOLDER));\r\n	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))\r\n	{\r\n		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\]
+
+[Clear pack updates folder]
+
+;file \plugins\PackUpdater\Src\Utils.cpp
+['Yes' Button]
+
+['No' Button]
+
+[Pack Updater HTTP connection]
+
+[URL for checking updates not found.]
+URL für die zu prüfenden Updates wurden nicht gefunden.
+[Downloading version info...]
+Lade Versionsinformationen ...
+[FileInfo_%d]
+
+[FileVersion]
+
+[Message]
+Nachricht
+[DownloadURL]
+
+[AdvFolder]
+
+[Descr]
+
+[DiskFileName]
+
+[Name of Update's file is not supported.]
+Dateiformat der Update-Dateien wird nicht unterstützt.
+[InfoURL]
+
+[FileType]
+
+[Force]
+
+[Plugins\\%s]
+
+[Plugins\\%s\\%s]
+
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Das Update ist nicht möglich!\nSie haben keine Administratorrechte.\Bitte starten sie Miranda NG mit Adminrechten.
+[No updates found.]
+Keine Updates gefunden.
+[No files for update.]
+
+[Update checking already started!]
+Die Prüfung auf Aktualisierungen wurde bereits gestartet!

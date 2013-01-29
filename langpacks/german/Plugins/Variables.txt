@@ -1,0 +1,106 @@
+;#muuid not found, please specify manually!
+;langpack template for Variables
+;file \plugins\Variables\res\Variables.rc
+[Parse]
+Umwandeln
+[Auto parse]
+Automatisch umwandeln
+[Parse the following string at startup]
+Beim Start folgenden String umwandeln
+[Automatically strip "end of line" characters]
+Zeilenumbrüche automatisch entfernen
+[Automatically strip white space]
+Leerzeichen automatisch entfernen
+[Test area]
+Testbereich
+[Click on the help button to get more information]
+Klicken Sie auf den Hilfebutton, um weitere Informationen zu erhalten.
+[Parse options]
+Umwandlungseinstellungen
+[Automatically strip all non-parsing characters]
+Nicht umgewandelte Buchstaben automatisch entfernen
+[Trigger when the following string changes]
+Aktion, wenn die folgende Zeichenkette sich ändert
+[Please enter your input below]
+Bitte geben Sie ihre Eingabe unten ein
+[Don't set a contact]
+Keinen Kontakt auswählen
+[Set to the following contact]
+folgenden Kontakt auswählen
+[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+Die Variable %subject% wird - je nach der Situation, in der sie verwendet wird - in einen speziellen Kontakt umgewandelt. In diesem Dialog kann ein beliebiger Kontakt als %subject% verwendet werden. Ein Beispiel für seine Anwendung ist !cinfo(%subject%,display).
+[Description]
+Übersicht
+[Setting]
+Einstellung
+[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+Die Variable %extratext% wird - je nach der Situation, in der sie verwendet wird - in einen speziellen Text umgewandelt. In diesem Dialog kann ein beliebiger Text als %extratext% verwendet werden.
+[Close]
+Schließen
+[OK]
+OK
+[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+Das Variablen-Plugin übersetzt verschiedene Tokens in sichere Werte. Ein Beispiel: Sie benutzen Miranda NG %mirandaversion%. Der Substring %mirandaversion% wird übersetzt in die richtige Versionsnummer. Die folgende Liste zeigt alle verfügbare Tokens.
+[Notes]
+Notizen
+[Variables...]
+Variablen
+;file \plugins\Variables\src\help.cpp
+[Token]
+
+[unknown]
+Unbekannt
+[Tokens]
+
+[Input]
+Eingabe
+[Cancel]
+Abbrechen
+[Help]
+Hilfe
+[Variables Help]
+Hilfe zu Variablen
+[Open String Formatting Help]
+Stringformatierungshilfe öffnen
+;file \plugins\Variables\src\options.cpp
+[Services]
+Dienste
+[Variables]
+Variablen
+;file \plugins\Variables\src\parse_external.cpp
+[STUDIO]
+
+[Winamp v1.x]
+
+[ - Winamp]
+
+[Stopped]
+Gestoppt
+[[Stopped]]
+
+[[Paused]]
+
+[Paused]
+Pause
+[Playing]
+Spielen
+;file \plugins\Variables\src\parse_miranda.cpp
+[appdata]
+
+[username]
+Benutzername
+[mydocuments]
+
+[desktop]
+
+;file \plugins\Variables\src\parse_system.cpp
+[\\Processor(_Total)\\% Processor Time]
+
+[\\Process(%s)\\%% Processor Time]
+
+[\\System\\System Up Time]
+
+;file \plugins\Variables\src\tokenregister.cpp
+[alias]
+
+;file \plugins\Variables\src\variables.cpp

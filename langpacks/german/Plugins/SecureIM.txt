@@ -1,0 +1,207 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: 
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+Benutzerliste
+[Enable Secure Offline messages]
+Verschlüsselte Offline-Nachrichten
+[Enable Secure File Transfer]
+Verschlüsselter Dateiversand
+[Always show status icons in contact list]
+Status immer in der Kontaktliste anzeigen
+[Context Menu only for "Miranda" clients]
+Kontaktmenü nur für Miranda-Clients anz.
+[Status in Context Menu]
+Zeige Status im Kontaktmenü
+[Disable encryption for game plugins]
+Keine Verschl. für Spiele-Plugins
+[Always secured if possible]
+Immer verschlüsseln, falls möglich
+[Not secured for NotOnList]
+Unverschlüsselt für unbekannte Kontakte
+[Auto accept RSA key (NOT SECURED)]
+Autom. RSA-Schlüssel akzept. (UNSICHER!)
+[Mode in Context Menu]
+Zeige Modus im Kontaktmenü
+[Key Exchange Timeout :]
+Schlüsseltausch-Timeout:
+[sec]
+Sek.
+[Offline Key Timeout :]
+Offlineschl.-Timeout:
+[days]
+Tage
+[PGP]
+
+[GPG]
+
+[Reset All]
+Alle rückg.
+[Protocols]
+Protokolle
+[Split Messages]
+Trenne Nachrichten
+[Online:]
+
+[Offline:]
+
+[RSA Key]
+RSA-Schlüssel
+[SHA1:]
+
+[Public]
+Öffentlich
+[&Copy SHA1]
+SHA1 &kopieren
+[E&xport]
+
+[Private]
+Privat
+[&Export]
+&Exportieren
+[&Import]
+&Importieren
+[Set &keyrings...]
+
+[Disable keyrings use]
+Schlüsselringe deakt.
+[Load &Private key]
+
+[Basic]
+Allgemein
+[Executable:]
+GnuPG-Programm:
+[...]
+
+[Home Directory:]
+Benutzerverzeichnis:
+[Temp Dir:]
+
+[Key Assignment]
+Schlüsselzuordnung
+[Debug]
+
+[Log to File]
+In Datei speichern
+[Save Pass]
+
+[Back]
+Hgrd.
+[Text]
+Text
+[Key agreement colors]
+Schlüsselaustausch
+[Secure connection colors]
+Sichere Verbindung
+[Send/Receive encrypted colors]
+Sichere Nachrichten
+[SecureIM PopUp Colors]
+Farben der Popups
+[Preview]
+Vorschau
+[Events]
+Ereignisse
+[PopUp Timeout]
+Anzeigedauer
+[Time in Seconds]
+Zeit in Sekunden
+[0 = Default PopUp Timeout Value]
+0 = Standard
+[Show a popup on established connection]
+Popup beim Aufbau einer Verbindung zeigen
+[Show a popup on disabled connection]
+Popup beim Abbau einer Verbindung zeigen
+[Show a popup on key send]
+Popup beim Versand eines Schlüssels zeigen
+[Show a popup on key received]
+Popup beim Empfang eines Schlüssels zeigen
+[Show a popup on each secure send]
+Popup bei sicherem Nachrichtenversand zeigen
+[Show a popup on each secure receive]
+Popup bei sicherem Nachrichtenempfang zeigen
+[Username:]
+Benutzername:
+[Password:]
+Passwort:
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Enter passphrase for the secret key:]
+'Passphrase' für den geheimen Schlüssel eingeben:
+[Ok]
+
+[Native SecureIM]
+AES SecureIM (Nativ)
+[PGP SecureIM]
+
+[GPG SecureIM]
+
+[RSA/AES SecureIM]
+
+[RSA SecureIM]
+
+[Always Try to Establish Secure IM]
+SecureIM-Verbindung immer versuchen
+[Secure IM Enabled]
+SecureIM aktiviert
+[Secure IM Disabled]
+SecureIM deaktiviert
+[Set key]
+Schlüssel setzen
+[Delete key]
+Schlüssel löschen
+[Set pre-shared key]
+Pre-Shared Key setzen
+[Delete pre-shared key]
+Pre-Shared Key löschen
+[Export key]
+Schlüssel exportieren
+[Import key]
+Schlüssel importieren
+[Export public key]
+Öffentlichen Schlüssel exportieren
+[Import public key]
+Öffentlichen Schlüssel importieren
+[Delete public key]
+Öffentlichen Schlüssel löschen
+;file \plugins\SecureIM\src\main.cpp
+[Incoming Secure Message]
+Sichere Nachricht (eingehend)
+[Outgoing Secure Message]
+Sichere Nachricht (ausgehend)
+[SecureIM status]
+SecureIM-Status
+[SecureIM [Native]]
+
+[SecureIM [PGP]]
+
+[SecureIM [GPG]]
+
+[SecureIM [RSA/AES]]
+
+;file \plugins\SecureIM\src\options.cpp
+[ASC files]
+
+[All Files ]
+
+[Open Key File]
+
+[Save Private Key File]
+Privaten Schlüssel in Datei speichern
+[Save Public Key File]
+Öffentlichen Schlüssel in Datei speichern
+[Load Private Key File]
+Privaten Schlüssel aus Datei laden
+[Load Public Key File]
+
+[Services]
+Dienste
+;file \plugins\SecureIM\src\popupOptions.cpp
+[PopUps]
+Popups

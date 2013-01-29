@@ -1,0 +1,906 @@
+#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: x.x.x.x
+;  Authors: Miranda team
+;============================================================
+;file \protocols\IRCG\res\IRC.rc
+[&Add]
+Hinzufügen
+[&Edit]
+B&earbeiten
+[&Del]
+Löschen
+[Enable]
+Aktivieren
+[only while connecting]
+Nur beim Verbindungsaufbau
+[Force visible (-i)]
+Sichtbar setzen (-i)
+[Rejoin channel if kicked]
+Channel bei Kick neu betreten
+[Rejoin channels on reconnect]
+Channels bei Neuverb. neu betreten
+[Disable tray balloon on error]
+Keine Fehler im Systemtray melden
+[Show addresses]
+Adressen anzeigen
+[Use server window]
+Serverfenster verwenden
+[Show server window on startup]
+Serverfenster beim Start öffnen
+[Keep connection alive]
+Verbindung aufrechterhalten
+[Automatically join on invite]
+Channel bei Einladung automatisch betreten
+['Old style' mode changes]
+
+[Update online statuses for users]
+Status für Kontakte aktualisieren
+[Update statuses in channel nicklist]
+Status für Benutzerliste aktualisieren
+[Internet address]
+Internetadresse
+[Port range]
+Portbereich
+[Nick]
+Nick
+[User ID (Ident)]
+Nutzer-ID (Ident)
+[Full name (e-mail)]
+Voller Name (E-Mail)
+[Password]
+Passwort
+[Server name]
+Servername
+[->]
+
+[Alternative nick]
+Alternativer Nick
+[Ident]
+Ident
+[System]
+
+[Port]
+Port
+[Default network]
+Standardnetzwerk
+[User info - Required]
+Erforderliche Angaben
+[Other]
+Sonstige
+[Reconnect]
+wieder verbinden
+[Wait (s)]
+Warten (s)
+[Retry count]
+Neuversuche
+[Fear the monkeys!!!]
+Fürchte die Affen!!!
+[Check every (s):]
+Prüfe alle (s):
+[SSL]
+
+[Don't check if more than (users):]
+Nicht prüfen bei mehr als (Ben.):
+[Ping]
+
+[Version]
+Version
+[Time]
+Zeit
+[Userinfo]
+Nutzerinfo
+[&Refresh]
+Aktualisie&ren
+[&Query]
+
+[&Close]
+S&chließen
+[Name]
+Name
+[Address]
+Adresse
+[Channels]
+Channels
+[Auth]
+Auth
+[Server]
+
+[User]
+Benutzer
+[Away Info]
+Awayinfo
+[The server returned the following information. Please note that this information might be misleading and/or falsified]
+Der Server liefert die folgenden Informationen. Beachten Sie aber, dass diese verfälscht oder nicht richtig sein könnten.
+[CTCP information]
+CTCP-Informationen
+[-]
+
+[&OK]
+
+[&Cancel]
+Abbre&chen
+[Perform]
+Ausführen
+[&Set]
+&setzen
+[Alias]
+
+[Perform on event:]
+Aktionen bei Ereignis:
+[Scripting support]
+Scriptunterstützung
+[Quit message:]
+Quit-Nachricht:
+[Server code page:]
+Server-Codepage:
+[Enable UTF8 autodetection]
+Automatische UTF-8-Erkennung
+[On]
+Ein
+[Auto]
+Auto
+[Off]
+Aus
+[Host address]
+Host-Adresse
+[Server description]
+Server-Beschreibung
+[Network]
+Netzwerk
+[&Join]
+Betreten
+[Filter by]
+Filtern nach:
+[C&onnect]
+Verbinden
+[&Save]
+&Speichern
+[@]
+
+[Hostmask]
+Hostmaske
+[!]
+
+[&Clear all]
+Alles lös&chen
+[Online detection mode]
+Methode zur Statuserkennung für Kontakte in der Kontaktliste
+[Basic]
+Allgemein
+[Wildcard enabled network search]
+Netzwerksuche mit Platzhaltern
+[Bans]
+Banns
+[Invites]
+Einladungen
+[Excepts]
+Ausnahmen
+[Only Ops set topic]
+Nur Ops setzen Titel
+[No external messages]
+Keine externen Nachrichten
+[Invite only]
+Einladung nötig
+[Moderated]
+Moderiert
+[Key:]
+Passwort:
+[User limit:]
+Userlimit:
+[Private]
+Privat
+[Secret]
+Geheim
+[Topic]
+Titel
+[User modes]
+Benutzermodi
+[Channel modes]
+Channelmodi
+[Hidden]
+Versteckt
+[Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
+Moduseinstellungen für diesen Channel festlegen; normalerweise wird Op-Status oder höher dafür benötigt.
+[Strip colors]
+Farben entfernen
+[Normal]
+
+[Send-ahead]
+Voraussenden
+[Attempt reverse DCC (good if firewalled)]
+Reverse-Filetransfer bevorzugen (für Firewalls)
+[none]
+Keine
+[everyone on the contact list]
+Jedem von der Kontaktliste
+[everyone]
+Jedem
+[Disconnect DCC chats when disconnecting from server]
+DCC-Chats bei Trennung vom Server unterbrechen
+[Manually set external IP:]
+Externe IP manuell setzen:
+[Client-to-Client File Transfers]
+Client-to-Client-Dateiübertragung
+[User information]
+Benutzerinformation
+[Client-to-Client Protocol]
+Client-to-Client-Protokoll
+[Client-to-Client Chats]
+Client-to-Client-Chats
+[Send mode:]
+Sendemodus:
+[Packet size (b):]
+Paketgröße (b):
+[Get IP address from server]
+IP-Adresse vom Server beziehen
+[Auto-accept from:]
+Automatisch annehmen von:
+[Send notice]
+Private Nachricht senden
+[&Accept]
+&Akzeptieren
+[&Deny]
+Ablehnen
+[Enable (*)]
+Aktivieren (*)
+[Ignore channel messages by default]
+Channelnachrichten standardmäßig ignorieren
+[Ignore filetransfer requests]
+Dateiübertragungsanfragen ablehnen
+[Ignore DCC Chat requests]
+DCC-Chatanfragen ablehnen
+[Ignore DCC Chat requests from unknown contacts]
+DCC-Chatanfragen von unbekannten Kontakten ablehnen
+[Ignore users]
+Ignorierte Benutzer
+[(*) Queries from users on your contactlist are never ignored]
+(*) Querys von Kontakten auf der Kontaktliste werden niemals ignoriert
+[Queries]
+Querys
+[Messages]
+Nachrichten
+[Notices]
+Hinweise
+[CTCP]
+
+[DCC]
+
+[Ignore mask ( nick!user@host )]
+Ignoriermaske ( nick!user@host )
+[Network (*)]
+Netzwerk (*)
+[Ignore events]
+Zu ignorierende Ereignisse
+[(*) blank to set this mask for all networks]
+(*) frei lassen um diese Maske für alle Netzwerke zu setzen
+[Server:]
+
+[Password:]
+Passwort:
+[Alternate nick]
+Alternativer Nick
+;file \protocols\IRCG\src\clist.cpp
+[CTCP chat request from %s]
+CTCP-Chatanfrage von %s
+;file \protocols\IRCG\src\commandmonitor.cpp
+[PING %s]
+
+[PING %u]
+
+[PONG %s]
+
+[%s sets mode %s]
+%s setzt Modus %s
+[Your host is %99[^ \x5b,], running version %99s]
+Ihr Host ist %99[^ \x5b,], aktuelle Version %99s
+[PING]
+
+[%newl]
+
+[action]
+
+[dcc]
+
+[PRIVMSG]
+
+[finger]
+
+[CTCP FINGER requested by %s]
+CTCP-Fingeranfrage von %s
+[version]
+
+[%mirver]
+
+[%version]
+
+[ Unicode]
+
+[CTCP VERSION requested by %s]
+CTCP-Versionsanfrage von %s
+[source]
+
+[CTCP SOURCE requested by %s]
+CTCP-Sourceanfrage von %s
+[userinfo]
+
+[CTCP USERINFO requested by %s]
+CTCP-Userinfoanfrage von %s
+[ping]
+
+[CTCP PING requested by %s]
+CTCP-Pinganfrage von %s
+[time]
+
+[CTCP TIME requested by %s]
+CTCP-Zeitanfrage von %s
+[chat]
+
+[send]
+Senden
+[accept]
+
+[resume]
+
+[DCC: Chat request from %s denied]
+DCC: Chatanfrage von %s abgelehnt
+[DCC: File transfer request from %s denied]
+DCC: Anfrage Dateiübertragung von %s abgelehnt
+[DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Anfrage Reverse Dateitransfer von %s abgelehnt, keine lokale IP
+[DCC ERROR: Malformed CTCP request from %s [%s]]
+DCC-FEHLER: Fehlerhafte CTCP-Anfrage von %s [%s]
+[DCC: File transfer resume request from %s denied]
+DCC: Anfrage Dateiübertragungsbericht von %s abgelehnt
+[CTCP %s requested by %s]
+CTCP %s Anfrage von %s
+[NOTICE]
+
+[%u second]
+
+[%u seconds]
+
+[CTCP PING reply from %s: %u sec(s)]
+CTCP-PING-Antwort von %s: %u Sekunde(n)
+[CTCP %s reply from %s: %s]
+CTCP %s Antwort von %s: %s
+[Owner]
+Inhaber
+[Admin]
+Administrator
+[Halfop]
+
+[Voice]
+Stimme
+[system]
+
+[%#c]
+
+[Downloading list (%u%%) - %u channels]
+Laden der Liste (%u%%) - %u Channels
+[Downloading list - %u channels]
+Laden der Liste - %u Channels
+[Done: %u channels]
+Fertig: %u Channels
+[(probably truncated by server)]
+(wahrscheinlich vom Server unterbrochen)
+[online since %s, idle %s]
+Online seit %s, idle %s
+[is an identified user]
+ist ein identifizierter Benutzer
+[is a registered nick]
+ist ein registrierter Nick
+[Change nickname]
+Nickname ändern
+[NICK %s]
+
+[WHO]
+
+[USERHOST]
+
+[IRC error]
+IRC-Hinweis
+[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
+Bitte Hostmaske eingeben (nick!user@host)\nKontakte auf der Kontaktliste werden nie ignoriert
+[Ignore]
+Ignorieren
+[ +qnidcm]
+
+[ +qnidc]
+
+[ +b *!*@]
+
+[Please enter the reason]
+Bitte den Grund angeben
+[Ban'n Kick]
+Bann und Kick
+[Jerk]
+Sie sind hier nicht erwünscht!
+[Try server %99[^ ,], port %19s]
+Versuchen Sie den Server %99[^ ,] und den Port %19s
+[*Disconnected*]
+*Getrennt*
+[The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
+Die Benutzung von /AWAY in Ihrem 'Perform Buffer' ist limitiert.\n weil IRC dieses Kommando automatisch sendet.
+[IRC Error]
+IRC Fehler
+;file \protocols\IRCG\src\input.cpp
+[%question]
+%Fragen
+[%mnick]
+
+[%anick]
+
+[%awaymsg]
+
+[%module]
+
+[%name]
+
+[%network]
+
+[%color]
+
+[%bold]
+
+[%underline]
+
+[%italics]
+
+[The buddy check function is disabled]
+Prüfen der IRC-Kontakte ist deaktiviert
+[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
+Inkorrekte Parameter. Benutzung /sleep [ms], ms muss größer als 0 und kleiner als 4000 sein.
+[server]
+
+[Ignore system is enabled]
+Ignoriersystem ist aktiviert
+[Ignore system is disabled]
+Ignoriersystem ist deaktiviert
+[off]
+aus
+[qnidc]
+
+[%s on %s is now ignored (+%s)]
+%s in %s wird nun ignoriert (+%s)
+[%s is not ignored now]
+%s wird jetzt nicht mehr ignoriert
+[%s was not ignored]
+%s wurde nicht ignoriert
+[users: %u]
+
+[Outgoing commands are shown]
+Ausgehende Befehle werden angezeigt
+[Outgoing commands are not shown]
+Ausgehende Befehle werden nicht angezeigt
+[The buddy check function is enabled]
+Prüfen der IRC-Kontakte ist aktiviert
+[The time interval for the buddy check function is now at default setting]
+Zeitintervall zum Prüfen der IRC-Kontakte hat nun den Standardwert
+[The time interval for the buddy check function is now %u seconds]
+Zeitintervall zum Prüfen der IRC-Kontakte steht jetzt auf %u Sekunden
+[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
+Dieser Befehl sollte auf Netzwerken dieser Größe nicht verwendet werden!\r\nEr verursacht eine hohe CPU- und/oder Bandbreitenauslastung\r\nfür ca. %u bis %u Minuten.\r\n\r\nWollen Sie den Befehl wirklich ausführen?
+[IRC warning]
+IRC-Warnung
+[Aborted]
+Abgebrochen
+[CTCP %s request sent to %s]
+CTCP %s Anfrage gesendet an %s
+[DCC ERROR: Unable to automatically resolve external IP]
+DCC-FEHLER: Es ist nicht möglich, die externe IP aufzulösen.
+[DCC CHAT request sent to %s]
+DCC-Chatanfrage gesendet an %s
+[DCC ERROR: Unable to bind port]
+DCC-FEHLER: Verbinden mit Port nicht möglich
+[Input command]
+Eingehender Befehl
+[Please enter the reply]
+Bitte Antwort eingeben
+;file \protocols\IRCG\src\irc.h
+[Network log]
+
+;file \protocols\IRCG\src\irclib.cpp
+[QUIT]
+
+[Failed to connect to]
+
+[NICK %s\r\n]
+
+[Miranda]
+Miranda
+[host]
+
+[USER %s %s %s :%s\r\n]
+
+[QUIT :%s\r\n]
+
+[DCC ERROR: Unable to bind local port for passive filetransfer]
+DCC Fehler: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
+;file \protocols\IRCG\src\ircproto.cpp
+[%s server connection]
+%s Serververbindung
+[%s client-to-client connections]
+%s Client-to-Client-Verbindungen
+[The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
+
+[Information]
+Information
+[%%miranda_path%%\\Plugins\\]
+
+[Miranda%u]
+
+[Nickname]
+Nick
+[DCC ERROR: No valid files specified]
+DCC-FEHLER: Keine gültige Datei angegeben
+[DCC reversed file transfer request sent to %s [%s]]
+DCC-Anfrage für Reverse-Dateitransfer gesendet an %s (%s)
+[DCC file transfer request sent to %s [%s]]
+DCC-Anfrage für Dateitransfer gesendet an %s (%s)
+[DCC ERROR: Unable to bind local port]
+DCC-FEHLER: Verbinden mit lokalem Port nicht möglich.
+[The protocol is not online]
+Protokoll ist nicht online
+[The dcc chat connection is not active]
+Die DCC-Chatverbindung ist nicht aktiv
+[Please choose an IRC-network to go online. This network will be the default.]
+Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
+[WHOIS ]
+
+;file \protocols\IRCG\src\options.cpp
+[Main]
+Allgemein
+[Add]
+Hinzufügen
+[Apply]
+Übernehmen
+[Rename]
+Umbenennen
+[Edit]
+Bearbeiten
+[Cancel]
+Abbrechen
+[Channel list]
+Senderliste
+[Channel manager]
+Channelmanager
+[Quick connect]
+Schnellzugriff
+[Server window]
+Serverfenster
+[Show channel]
+Channel anzeigen
+[Question]
+Frage
+[WhoIs]
+
+[Incoming DCC Chat]
+Eingehender DCC-Chat
+[Logo (48x48)]
+
+[Thai]
+Thailändisch
+[Japanese]
+Japanisch
+[Simplified Chinese]
+Vereinfachtes Chinesisch
+[Korean]
+Koreanisch
+[Traditional Chinese]
+Traditionelles Chinesisch
+[Central European]
+Mitteleuropäisch
+[Cyrillic (Windows)]
+
+[Cyrillic (KOI8R)]
+
+[Latin I]
+Lateinisch
+[Greek]
+Griechisch
+[Turkish]
+Türkisch
+[Hebrew]
+Hebräisch
+[Arabic]
+Arabisch
+[Baltic]
+Baltisch
+[Vietnamese]
+Vietnamesisch
+[Korean (Johab)]
+Koreanisch, Johab
+[Please complete all fields]
+Bitte alle Felder ausfüllen
+[Add a new network]
+Netzwerk hinzufügen
+[Edit this network]
+Netzwerk bearbeiten
+[Delete this network]
+Netzwerk löschen
+[Do you want to delete\r\n%s]
+Wollen Sie %s löschen?
+[Delete server]
+Server löschen
+[<Resolved IP: ]
+<Aufgeloste IP:
+[Click to set commands that will be performed for this event]
+Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt werden.
+[Click to delete the commands for this event]
+Klicken Sie hier, um die Befehle für dieses Ereignis zu löschen.
+[Default ANSI codepage]
+ANSI-Codepage des installierten Betriebssystems
+[Add new ignore]
+Neu
+[Edit this ignore]
+Bearbeiten
+[Delete this ignore]
+Löschen
+[Ignore mask]
+Ignoriermaske
+[Flags]
+Flaggen
+[Edit ignore]
+
+[Account]
+Konto
+[DCC'n CTCP]
+DCC und CTCP
+[Advanced]
+Erweitert
+[UNIX]
+
+;file \protocols\IRCG\src\output.cpp
+[WALLOPS]
+
+[WallOps from %s: ]
+WallOps von %s:
+[INVITE]
+
+[%s invites you to %s]
+%s lädt dich nach Channel %s ein
+[%s is away]
+%s ist abwesend
+[These are online: ]
+Diese Personen sind online:
+[CTCP %s reply sent to %s]
+CTCP %s Antwort gesendet an %s
+[CTCP %s reply sent to %s: %s]
+CTCP %s Antwort gesendet an %s: %s
+[Notice to %s: ]
+Private Nachricht an %s:
+;file \protocols\IRCG\src\services.cpp
+[&Quick connect]
+Schnellzugriff
+[&Join channel]
+Channel betreten
+[&Change your nickname]
+Eigenen Nick ändern
+[Show the &list of available channels]
+&Liste verfügbarer Channels anzeigen
+[&Show the server window]
+&Serverfenster anzeigen
+[Channel &settings]
+Channelein&stellungen
+[&WhoIs info]
+&Whois-Info
+[Di&sconnect]
+Unterbrochen
+[&Add to ignore list]
+Benutzer ignorieren
+[%s (%s) is requesting a client-to-client chat connection.]
+%s (%s) bittet um eine Client-to-Client-Chatverbindung.
+[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
+Bitte geben Sie eine Hostmaske (nick!user@host) ein \nHinweis: Kontakte in Ihrer Kontaktliste werden niemals ignoriert!
+[Join channel]
+Channel betreten
+[Please enter a channel to join]
+Channelnamen zum Betreten eingeben
+[Change nick name]
+Nickname ändern
+[Please enter a unique nickname]
+Bitte eindeutigen Nick eingeben
+[Please enter your authentification code]
+Bitte geben Sie hier Ihren Authentifizierungscode ein
+[Authentificate nick]
+Nick authentifizieren
+[Are you sure you want to unregister your current nick?]
+Sind Sie sicher, dass Sie den aktuellen Nick entregistrieren möchten?
+[Delete nick]
+Nick löschen
+[Identify nick]
+Nick identifizieren
+[Please enter your password]
+Bitte geben Sie Ihr Passwort ein
+[Please enter your new password]
+Bitte geben Sie ein neues Passwort ein
+[Set new password]
+Neues Passwort setzen
+[Please enter desired languageID (numeric value, depends on server)]
+Bitte gewünschte Sprachkennung eingeben (nummerischer Wert, serverabhängig)
+[Change language of NickServ messages]
+Sprache von NickServ-Nachrichten ändern
+[Please enter URL that will be linked to your nick]
+Bitte die URL, die mit Ihrem Nick verknüpft werden soll, hier eingeben
+[Set URL, linked to nick]
+URL mit Nick verknüpfen
+[Please enter your e-mail, that will be linked to your nick]
+Bitte die E-Mail, die mit Ihrem Nick verknüpft werden soll, hier eingeben
+[Set e-mail, linked to nick]
+E-Mail mit Nick verknüpfen
+[Please enter some information about your nick]
+Hier können Sie Informationen zu Ihrem Nick angeben
+[Set information for nick]
+Informationen über Nick angeben
+[Please enter nick you want to link to your current nick]
+Geben Sie bitte den Nick ein, den Sie mit ihrem aktuellen Nick verknüpfen wollen.
+[Link another nick to current nick]
+Einen Nick verknüpfen
+[Please enter nick you want to unlink from your current nick]
+Geben Sie bitte den Nick ein, dessen Verknüpfung mit Ihrem aktuellen Nick Sie entfernen wollen.
+[Unlink another nick from current nick]
+Verknüpfung eines Nick aufheben
+[Please enter nick you want to set as your main nick]
+Geben Sie bitte den Nick ein, den Sie als Hauptnick verwenden wollen.
+[Set main nick]
+Hauptnick setzen
+[Kick]
+
+[Please enter the notice text]
+Bitte die private Mitteilung, welche Sie diesem Benutzer senden wollen, hier eingeben.
+[Please enter the channel name to invite to]
+Bitte den Namen des Channels, in welchen Sie diesen Benutzer einladen wollen, hier eingeben.
+[Invite to channel]
+In einen anderen Channel einladen
+[NickServ]
+
+[Register nick]
+Nick registrieren
+[Auth nick]
+Nick authentifizieren
+[Remind password ]
+Passwort zuschicken
+[Set language]
+Sprache setzen
+[Set homepage]
+Homepage setzen
+[Set e-mail]
+E-Mail setzen
+[Set info]
+Informationen setzen
+[Hide e-mail from info]
+E-Mail verbergen
+[Show e-mail in info]
+E-Mail anzeigen
+[Set security for nick]
+Sicherheitseinst. für Nick
+[Remove security for nick]
+Sicherheitseinst. entfernen
+[Link nick to current]
+Nick verknüpfen
+[Unlink nick from current]
+Verknüpfung aufheben
+[List all your nicks]
+Eigene Nicks auflisten
+[List your channels]
+Eigene Channels auflisten
+[Kill unauthorized: off]
+Entf. Unautorisierte: Aus
+[Kill unauthorized: on]
+Entf. Unautorisierte: An
+[Kill unauthorized: quick]
+Entf. Unautorisierte: Schnell
+[Hide nick from list]
+Nick in Liste verstecken
+[Show nick to list]
+Nick in Liste anzeigen
+[Show the server &window]
+Serverfenster &anzeigen
+[&Leave the channel]
+Channel ver&lassen
+[&Invite to channel]
+E&inladen in Channel
+[Send &notice]
+&Notice senden
+[&Slap]
+
+[Nickserv info]
+Nickserv-Info
+[Nickserv kill ghost]
+Nickserv: Ghost entfernen
+[&Control]
+&Kontrolle
+[Give Owner]
+Owner verleihen
+[Take Owner]
+Owner entziehen
+[Give Admin]
+Admin verleihen
+[Take Admin]
+Admin entziehen
+[Give &Op]
+&Op verleihen
+[Take O&p]
+O&p entziehen
+[Give &Halfop]
+&Halfop verleihen
+[Take H&alfop]
+&Halfop entziehen
+[Give &Voice]
+&Voice verleihen
+[Take V&oice]
+V&oice entziehen
+[&Kick]
+
+[Ki&ck (reason)]
+Ki&ck (Grund)
+[&Ban]
+&Bann
+[Ban'&n kick]
+Ban&n + Kick
+[Ban'n kick (&reason)]
+Bann + Kick (G&rund)
+[&Direct Connection]
+&Direktverbindung
+[Request &Chat]
+&Chatanfrage
+[Send &File]
+Datei senden
+[Add to &ignore list]
+Benutzer &ignorieren
+[&Add User]
+Benutzer hinzufügen
+[Connecting to]
+Verbindung zu
+[Reconnecting to]
+Wiederverbinden mit
+;file \protocols\IRCG\src\tools.cpp
+[Offline]
+Offline
+[Unknown]
+Unbekannt
+;file \protocols\IRCG\src\userinfo.cpp
+;file \protocols\IRCG\src\windows.cpp
+[Please wait...]
+Bitte warten...
+[Channel]
+
+[Mode]
+Modus
+[%s - Filtered - %d items]
+%S - gefilterte - %d Elemente
+[Type new server address here]
+Neue Serveradresse hier eingeben
+[Miranda IRC]
+
+[Add ban/invite/exception]
+Bann/Einladung/Ausnahme hinzufügen
+[Edit selected ban/invite/exception]
+Bann/Einladung/Ausnahme bearbeiten
+[Delete selected ban/invite/exception]
+Bann/Einladung/Ausnahme löschen
+[Set these modes for the channel]
+Modus für den Channel setzen
+[Set this topic for the channel]
+Thema für den Channel setzen
+[You have not applied all changes!\n\nApply before exiting?]
+Nicht alle Werte wurden übernommen!\n\nÜbernehmen vorm Beenden?
+[Topic%s%s]
+
+[Add ban]
+Bann hinzufügen
+[Add invite]
+Einladung hinzufügen
+[Add exception]
+Ausnahme hinzufügen
+[Please enter the hostmask (nick!user@host)]
+Bitte Hostmask eingeben (nick!user@host)
+[Edit ban]
+Bann bearbeiten
+[Edit invite?]
+Einladung bearbeiten?
+[Edit exception?]
+Ausnahme bearbeiten?

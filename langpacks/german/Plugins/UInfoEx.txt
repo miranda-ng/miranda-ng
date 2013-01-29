@@ -1,0 +1,1224 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: UInfoEx
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
+
+[Origin]
+Herkunft
+[&Update]
+Akt&ualisieren
+[Updating]
+Aktualisieren
+[Ok]
+
+[Cancel]
+Abbrechen
+[Apply]
+Übernehmen
+[Nick:]
+Nick:
+[Display Name:]
+Anzeigename:
+[Title:]
+Titel:
+[First name:]
+Vorname:
+[Second name:]
+Zweitname:
+[Last name:]
+Nachname:
+[Prefix:]
+Präfix:
+[Female]
+weiblich
+[Male]
+männlich
+[Marital status:]
+Familienstand:
+[Partner:]
+
+[Language skills]
+Sprachkenntnisse
+[1.:]
+
+[2.:]
+
+[3.:]
+
+[Street:]
+Straße:
+[Postal code:]
+Postleitzahl:
+[City:]
+Stadt:
+[County/State:]
+Bundesland:
+[Country:]
+Land:
+[Contact added to ContactList:]
+In Liste aufgenommen am:
+[Just from the beginning.]
+Von Anfang an.
+[Your contact's local time is:]
+Lokalzeit des Kontakts:
+[00:00]
+
+[Timezone:]
+Zeitzone
+[Company:]
+Firma:
+[Department:]
+Abteilung:
+[Office:]
+Büro:
+[Position:]
+Position:
+[Occupation:]
+Beruf:
+[Superior:]
+Vorgesetzte(r):
+[Assistant:]
+Assistent(in):
+[Enter your phone number\nand don't worry about formating.]
+Geben Sie eine Nummer ein,\n keine Sorge wegen der Formatierung.
+[Enter a category for this number:]
+Geben Sie eine Kategorie für die Nummer an:
+[Enter country, area code and phone number:]
+Landes-, Ortsvorwahl und Rufnummer:
+[Or enter a full international number:]
+oder internationale Rufnummer:
+[Phone can receive SMS text messages]
+Telefon kann SMS-Nachrichten empfangen
+[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+Geben Sie hier die volle eMail-Adresse ein.\n(z.B.:john.doe@provider.de)
+[Enter a representitive name for the e-mail address here.]
+Geben Sie einen Namen für die E-Mail-Adresse ein.
+[Enter the e-mail address here.]
+Geben Sie hier ihre E-Mail-Adresse ein
+[Show menu items]
+Menüeintrag zeigen
+[Remind me]
+Erinnere mich
+[days before.]
+Tage vorher.
+[Check every]
+Prüfe alle
+[hours]
+Stunden
+[Icon flashing on event]
+Icon blinkt am Jahrestag
+[Enabled]
+Aktiviert
+[Perform check on each startup]
+Bei jedem Start prüfen
+[Time of last check:]
+Letzte Überprüfung:
+[Birthday compatibility mode:]
+Birthday-Kompatibilitätsmodus:
+[Automatically backup and keep protocol based birthdays up to date]
+Automatische Sicherung und Aktualisierung protokollbasierender Geburtsdaten
+[Play sound]
+Sound abspielen
+[Use ignore list]
+Ignorierliste verwenden
+[Birthday popup colours]
+Farben für Erinnerung
+[r]
+
+[Background colour]
+Hintergrundfarbe
+[Text colour]
+Textfarbe
+[Use Windows colours]
+Windowsfarben verwenden
+[Use default colours]
+Standardfarben verwenden
+[Delay]
+Verzögerung
+[From PopUp plugin]
+Vom Popup-Plugin
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[Show reminder messages as popups (if reminder is enabled)]
+Zeige Erinnerungen als Popup (wenn Erinnerung aktiviert)
+[Anniversary popup colours]
+Farben für Jahrestage
+[Replace progress dialogs with popups]
+Ersetze Fortschrittsanzeige durch Popups
+[Replace message boxes with popups]
+Ersetze Hinweisfenster durch Popups
+[Preview]
+Vorschau
+[Homepage:]
+Homepage:
+[Add Affiliation]
+Mitgliedschaft hzfg.
+[Add Past]
+Vergangenheit hzfg.
+[Add Interest]
+Interesse hzfg.
+[Delete]
+Löschen
+[Anniversary Editor\nAdd/Edit your anniversary here.]
+Jahrestag-Editor\nHinzufügen/Editieren der Jahrestage
+[Enter a name for the anniversary here please:]
+Geben Sie hier den Namen des Jahrestages ein:
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+
+[Statistics:]
+Statistik:
+[with birthday:]
+mit Geburtsdatum:
+[0]
+
+[female:]
+Weiblich:
+[male:]
+Männlich:
+[number of contacts:]
+Anzahl aller Kontakte:
+[average age:]
+Durchschnittsalter:
+[View]
+Anzeigen
+[Show &during the next]
+
+[day(s)]
+Tag(e)
+[Reminder]
+Erinnerung
+[Popup this dialog on a contact's anniversary]
+Zeige diesen Dialog an Jahrestagen
+[Icons]
+Icons
+[Check file version of default IconPack to prevent wrong icon display]
+Version des Standardiconpacks überprüfen, um falsche Icons zu vermeiden
+[Display icons on each dialog button]
+Zeige Icons auf jedem Button
+[MetaContacts]
+Metakontakte
+[Scan SubContacts for missing information]
+Vervollständige Kontaktinformation aus Unterkontakten
+[Enable extended 'send/receive email' service (*)]
+Erweitertes "send/receive e-mail"-Modul aktivieren (*)
+[Use Windows Timezone]
+Zeitzone auf der Basis der jeweiligen Windows-Zeitzone setzen
+[(*) Requires Miranda to be restarted.]
+(*) Erfordert einen Neustart von Miranda.
+[Reset factory defaults]
+Urzustand wiederherstellen
+[Protocol's information]
+Protokollinformationen
+[Custom information]
+Angepasste Informationen
+[Overwritten information]
+Überschriebene Informationen
+[Changed information]
+Veränderte Informationen
+[Enable colours to give information about information's status.]
+Aktiviere farbige Informationsstatusanzeige
+[Make protocol based contact information readonly.]
+Schreibschutz für protokollbasierte Kontaktinformationen
+[Enable groups in details dialog's treeview.]
+Aktiviere Gruppen im Baum des Profildialogs
+[Sort all tree items alphabetically.]
+Baum alphabetisch sortieren
+[Info of a MetaContact's SubContact]
+Informationen des Unterkontaktes aus einem Metakontakt
+[Colours]
+Farben
+[Common]
+Allgemein
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Ändere mein ICQ-Profil mit UserInfoEx. (Nur aktiv, wenn von ICQ unterstützt)
+[TreeView]
+Baumansicht
+[Adapt propertysheet pages to aero mode.]
+Passe Benutzer-Informationsseite der Aero-Oberfläche an (ab Vista+)
+[Importing...\nPlease wait!]
+Importiere ...\nBitte warten Sie!
+[Setting/Event (20/100)]
+
+[Progress1]
+Fortschritt1
+[John Doe (1/10)]
+
+[OK]
+OK
+[All]
+Alle
+[None]
+Keine
+[Show Menu Item]
+
+[MainMenu]
+Hauptmenü
+[Cascade:]
+Kaskadieren:
+[Off]
+Aus
+[Ex-/Import items]
+Ex-/Importieren
+[ContactMenu]
+Kontaktmenü
+[GroupMenu]
+Kontaktlistenmenü
+[SubGroupMenu]
+Gruppenkontextmenü
+[AccountMenu]
+Kontomenü
+[Extra Icons]
+Extraicons
+[Gender:]
+Geschlecht:
+[Replace the following default icons:]
+
+[Homepage]
+Homepage
+[Phone]
+Telefon
+[E-Mail]
+E-Mail
+[Gender]
+Geschlecht
+[Misc]
+Diverses
+[Show 'Restart' menu item]
+Neustart-Menüeintrag anzeigen
+[Use Zodiac as default avatar]
+Benutze Tierkreiszeichen als Standard-Avatar
+[Country Flags]
+Länderflaggen
+[Use &unknown flag if country can not be determined]
+
+[Show country flag as &status icon on message window]
+Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
+[Birthday]
+Geburtstag
+[Age:]
+Alter:
+[Zodiac:]
+Sternz.:
+[not found]
+nicht gefunden
+[Use global reminder settings.]
+Verwende globale Einstellungen.
+[Don't remind me of this anniversary.]
+Erinnere mich nicht an diesen Jahrestag.
+[Preparing...]
+Vorbereiten ...
+[Hide]
+Verstecken
+[What do you want to export?]
+Was soll exportiert werden?
+[Contact Information]
+Kontaktinformationen
+[Contact History]
+Kontaktverlauf
+[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+Wählen Sie die Module in der Baumstruktur aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
+[Check all]
+Alle auswählen
+[Uncheck all]
+Keine auswählen
+[&Export]
+&Exportieren
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
+[Aries]
+Widder
+[Taurus]
+Stier
+[Gemini]
+Zwillinge
+[Cancer]
+Krebs
+[Leo]
+Löwe
+[Virgo]
+Jungfrau
+[Libra]
+Waage
+[Scorpio]
+Scorpion
+[Sagittarius]
+Schütze
+[Capricorn]
+Steinbock
+[Aquarius]
+Wassermann
+[Pisces]
+Fische
+[Unknown]
+Unbekannt
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s hat sein Geburtsdatum über das Protokoll aktualisiert.\nEs lautet jetzt: %s. (Das alte war: %s)\n\nSoll das neue Datum übernommen werden?
+[Update custom birthday]
+Geburtsdatum aktualisieren
+[Keeps your custom birthday up to date.]
+Hält Geburtsdaten auf dem neuesten Stand.
+;file \plugins\UserInfoEx\src\classPsTree.cpp
+[Due to a parameter error, one of the treeitems can't be added!]
+Wegen eines Parameterfehlers kann eins der Baumeinträge nicht hinzugefügt werden!
+[An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
+Beim Erstellen der Seite ist ein schwerer Fehler aufgetreten!
+[Rename Item]
+Umbenennen
+[Hide Item]
+Verstecken
+[Show Items:]
+Zeigen:
+[Reset to defaults]
+Zurücksetzen auf Standards
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
+[Button]
+Schaltfläche
+[Creating unique name for a page failed with %d and error code %d]
+Das Erstellen eines eindeutigen Namens für eine Seite fehlgeschlagen mit %d und dem Fehlercode %d
+[Creating the label for a page failed with %d and error code %d]
+Das Erstellen des Labels für eine Seite fehlgeschlagen mit %d und dem Fehlercode %d
+[The dialog template type is no longer supported]
+Das Dialog Template wird nicht langer unterstutzt.
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
+[Add a new anniversary]
+Füge einen neuen Jahrestag hinzu
+[Delete an existing anniversary]
+Lösche einen Jahrestag
+[Unspecified]
+unspezifiziert
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
+[Edit E-Mail]
+E-Mail bearbeiten
+[Edit Phone Number]
+Tel. bearbeiten
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Die Telefonnummer sollte mit + beginnen und nur aus\nNummern, Leerzeichen, Klammern und Bindestrichen bestehen.
+[none]
+Keine
+[Edit]
+Bearbeiten
+[Choose the item to display.]
+Wählen Sie einen Eintrag zum Anzeigen aus.
+[Edit the currently displayed item.]
+Bearbeiten des angezeigten Eintrags.
+[Add a new custom item.]
+Fügt einen neuen Eintrag hinzu.
+[Delete the selected item.]
+Löscht den ausgewählten Eintrag.
+[CRITICAL: Unable to edit current entry!\nThis should not happen!]
+Schwerer Fehler: Der gewählte Eintrag kann nicht bearbeitet werden!\nDas sollte nicht passieren!
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Soll der gewählte Eintrag wirklich gelöscht werden?\n\t%s\n\t%s
+[Other]
+Sonstige
+[ SMS\0]
+
+[ SMS]
+
+;file \plugins\UserInfoEx\src\ctrl_contact.h
+[UInfoComboExWndClass]
+
+;file \plugins\UserInfoEx\src\ctrl_edit.cpp
+[mailto:]
+
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+[<Unspecified>]
+unspezifiziert
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+[ETA]
+Ausstehende Tage
+[Contact]
+Kontakt
+[Proto]
+
+[Age/Nr.]
+Alter/Nr.
+[Anniversary]
+Jahrestag
+[Date]
+Datum
+[All contacts]
+Alle Kontakte
+[Birthdays only]
+Nur Geburtstage
+[Anniversaries only]
+Nur Jahrestage
+[Disabled reminder]
+Deaktivierte Erinnerung
+[Anniversary list]
+Liste der Jahrestage
+[Popup Anniversary list]
+Zeige Jahrestagsliste
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
+[Retry]
+Wiederholen
+[Yes]
+Ja
+[Abord]
+
+[Ignore]
+Ignorieren
+[Error]
+Fehler
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
+[Protocol '%s' is offline]
+Protokoll '%s' ist offline.
+[Upload Details]
+Profil hochladen
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
+[Uploading]
+Lade hoch
+[Creating the imagelist failed!]
+Das erstellen der Bildliste ist fehlgeschlagen!
+[Could not find contact's protocol. Maybe it is not active!]
+Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv!
+[No pages have been added. Canceling dialog creation!]
+Es wurden keine Seiten hinzugefügt.\nDer Dialog wird nicht angezeigt!
+[Details dialog failed to be created. Returning error is %d.]
+Der Kontaktinformationsdialog konnte nicht erstellt werden.\nFehler %d.
+[The Page to add has invalid size %d bytes!]
+
+[General]
+Allgemein
+[Contact (private)]
+Kontakt (Privat)
+[Anniversaries]
+Jahrestage
+[Work]
+Arbeit
+[Contact (Work)]
+Kontakt (Arbeit)
+[About]
+Über
+[Profile]
+Profil
+[Notes]
+Notizen
+[Export to file]
+Exportieren
+[Import from file]
+Importieren
+[Segoe UI]
+
+[Owner]
+Inhaber
+[Edit Contact Information]
+Kontakt bearbeiten
+[Upload ICQ Details]
+ICQ-Profil hochladen
+[Upload failed]
+Hochladen fehlgeschlagen
+[Your details were not uploaded successfully.\nThey were written to database only.]
+Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
+;file \plugins\UserInfoEx\src\init.cpp
+[miranda]
+
+[Fatal error, image services not found. Flags Module will be disabled.]
+
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInfoEx-Pakets, das hierfür erstellt wurde.\nEinige Icons werden eventuell nicht korrekt dargestellt.]
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
+[Ex-/Import contact]
+Kontakt ex-/importieren
+[User &Details]
+Kontaktprofil
+[&Export User Details]
+Benutzerinfo &exportieren
+[&Import]
+&Importieren
+[&Import User Details]
+Benutzerinfo &importieren
+[View/Change My &Details...]
+Mein Profil än&dern...
+[Export all contacts]
+Alle Kontakte exportieren
+[Import all contacts]
+Alle Kontakte importieren
+[Backup birthdays]
+Sichere Geburtstage
+[Check anniversaries]
+Suche nach Jahrestagen
+[Refresh Contact Details]
+Kontaktdaten aktualisieren
+[Ex-/Import Group]
+
+[&Export Group]
+Exportiere Gruppe
+[&Import Group]
+Importiere Gruppe
+[Ex-/Import]
+Ex-/Importieren
+;file \plugins\UserInfoEx\src\psp_about.cpp
+[My Notes:]
+Meine Notizen:
+[About:]
+Über mich:
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
+[Please enter a valid Description first!]
+Bitte geben Sie zuerst eine gültige Beschreibung ein!
+[No valid date selected for editing!]
+Es wurde kein gültiges Datum zum Bearbeiten gewählt
+[Do you really want to delete the %s?]
+Wollen Sie wirklich den %s löschen?
+;file \plugins\UserInfoEx\src\psp_contact.cpp
+[Address]
+Adresse
+[Home]
+Wohnort
+[Open in Browser]
+Im Web-Browser öffnen
+[Primary e-mail]
+Erste E-Mail
+[Secondary e-mail]
+Zweite E-Mail
+[Tertiary e-mail]
+Dritte E-Mail
+[Address & Contact]
+
+[Company]
+Unternehmen
+;file \plugins\UserInfoEx\src\psp_options.cpp
+[Question]
+Frage
+[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
+Dies löscht alle von Ihnen gemachte Einstellungen!\nAlle Baumansichtseinstellungen, Fensterpositionen und andere Einstellungen!\n\nFortsetzen: Sind Sie sich sicher?
+[Ready]
+Bereit
+[Everything is done!]
+
+[All settings are reset to default values now!]
+Alle Einstellungen wurden zurückgesetzt
+[Reminder disabled]
+Erinnerung deaktiviert
+[Bithdays only]
+Nur Geburtstage
+[everything]
+alles
+[mBirthday]
+
+[UserInfo (default)]
+UserInfo (Standard)
+[This is the reminder message]
+Dies ist eine Erinnerungsnachricht!
+[Contacts]
+Kontakte
+[Advanced]
+Erweitert
+[Details Dialog]
+Kontaktinfo-Dialog
+[PopUps]
+Popups
+;file \plugins\UserInfoEx\src\psp_profile.cpp
+[Past]
+Vergangenheit
+[Affiliation]
+Mitgliedschaften
+[Interest]
+Interessen
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Entschuldigung, aber es gibt ein Problem mit dem Erstellen des neuen Artikels vom Typ "%s"
+[<empty>]
+<leer>
+[Add Affliation]
+Mitgliedschaft hzfg.
+[Edit Category]
+Kategorie bearbeiten
+[Edit Value]
+Wert bearbeiten
+[Delete an entry]
+Einen Eintrag löschen
+[Do you really want to delete this entry?]
+Soll dieser Eintrag wirklich gelöscht werden?
+;file \plugins\UserInfoEx\src\svc_constants.cpp
+[Afrikaans]
+Afrikaans
+[Albanian]
+Albanisch
+[Arabic]
+Arabisch
+[Armenian]
+Armenisch
+[Azerbaijani]
+Aserbaidschanisch
+[Belorussian]
+Weissrussisch
+[Bhojpuri]
+
+[Bosnian]
+Bosnisch
+[Bulgarian]
+Bulgarisch
+[Burmese]
+Birmanisch
+[Cantonese]
+Kantonesisch
+[Catalan]
+Katalanisch
+[Chamorro]
+
+[Chinese]
+Chinesisch
+[Croatian]
+Kroatisch
+[Czech]
+Tschechisch
+[Danish]
+Dänisch
+[Dutch]
+Niederländisch
+[English]
+Englisch
+[Esperanto]
+Esperanto (Plansprache)
+[Estonian]
+Estnisch
+[Farsi]
+
+[Finnish]
+Finnisch
+[French]
+Französisch
+[Gaelic]
+Gälisch
+[German]
+Deutsch
+[Greek]
+Griechisch
+[Gujarati]
+
+[Hebrew]
+Hebräisch
+[Hindi]
+
+[Hungarian]
+Ungarisch
+[Icelandic]
+Isländisch
+[Indonesian]
+Indonesisch
+[Italian]
+Italienisch
+[Japanese]
+Japanisch
+[Khmer]
+
+[Korean]
+Koreanisch
+[Kurdish]
+Kurdisch
+[Lao]
+Laotisch
+[Latvian]
+Lettisch
+[Lithuanian]
+Litauisch
+[Macedonian]
+Mazedonisch
+[Malay]
+Malayisch
+[Mandarin]
+
+[Mongolian]
+Mongolisch
+[Norwegian]
+Norwegisch
+[Persian]
+Persisch
+[Polish]
+Polnisch
+[Portuguese]
+Portugiesisch
+[Punjabi]
+Panjabi
+[Romanian]
+Rumänisch
+[Russian]
+Russisch
+[Serbo-Croatian]
+Serbokroatisch
+[Sindhi]
+
+[Slovak]
+Slowakisch
+[Slovenian]
+Slowenisch
+[Somali]
+Somalisch
+[Spanish]
+Spanisch
+[Swahili]
+Suaheli
+[Swedish]
+Schwedisch
+[Tagalog]
+
+[Taiwanese]
+
+[Tamil]
+Tamilisch
+[Tatar]
+Tatarisch
+[Thai]
+Thailändisch
+[Turkish]
+Türkisch
+[Ukrainian]
+Ukrainisch
+[Urdu]
+
+[Vietnamese]
+Vietnamesisch
+[Welsh]
+Walisisch
+[Yiddish]
+Jiddisch
+[Yoruba]
+
+[Academic]
+Akademisch
+[Administrative]
+Verwaltung
+[Art/Entertainment]
+Kunst/Unterhaltung
+[College Student]
+Schüler
+[Computers]
+Computer
+[Community & Social]
+Gemeinde & Soziales
+[Education]
+Schule und Studium
+[Engineering]
+Ingenieurwesen
+[Financial Services]
+Finanzservice
+[Government]
+Politik
+[High School Student]
+Mittelschüler
+[ICQ - Providing Help]
+ICQ - Helfer
+[Law]
+Gesetz
+[Managerial]
+geschäftsführend
+[Manufacturing]
+Fertigung
+[Medical/Health]
+Medizin/Gesundheit
+[Military]
+Militär
+[Non-Government Organization]
+Nichtpolitische Organisation
+[Professional]
+Experte
+[Retail]
+Einzelhandel
+[Retired]
+pensioniert
+[Science & Research]
+Forschung & Entwicklung
+[Sports]
+Sportarten
+[Technical]
+technisch
+[University Student]
+Student (Universitär)
+[Web Building]
+
+[Other Services]
+
+[Art]
+Kunst
+[Cars]
+Autos
+[Celebrity Fans]
+Fans
+[Collections]
+Sammlungen
+[Culture & Literature]
+Kultur & Literatur
+[Fitness]
+
+[Games]
+Spiele
+[Hobbies]
+Hobbys
+[Internet]
+
+[Lifestyle]
+Lebensart
+[Movies/TV]
+Film/Fernsehen
+[Music]
+Musik
+[Outdoor Activities]
+Freiluftaktivitäten
+[Parenting]
+Elternschaft
+[Pets/Animals]
+Haustiere/Tiere
+[Religion]
+
+[Science/Technology]
+Wissen/Technik
+[Skills]
+Fähigkeiten
+[Web Design]
+Webdesign
+[Nature and Environment]
+Natur & Umwelt
+[News & Media]
+News & Medien
+[Business & Economy]
+Wirtschaft
+[Mystics]
+Mystik
+[Travel]
+Reisen
+[Astronomy]
+Astronomie
+[Space]
+Raumfahrt
+[Clothing]
+Kleidung
+[Parties]
+Partys
+[Women]
+Frauen
+[Social science]
+Sozialwissenschaft
+[Finance and corporate]
+
+[Entertainment]
+Unterhaltung
+[Consumer electronics]
+Unterhaltungselektronik
+[Retail stores]
+
+[Health and beauty]
+
+[Media]
+Medien
+[Household products]
+
+[Mail order catalog]
+
+[Business services]
+
+[Audio and visual]
+
+[Sporting and athletic]
+
+[Publishing]
+Verlagswesen
+[Home automation]
+
+[Alumni Org.]
+Studentenvereinigung
+[Charity Org.]
+Wohltätigkeitsverein
+[Club/Social Org.]
+Verein/Soziale Org.
+[Community Org.]
+Gemeine-Org.
+[Cultural Org.]
+Kulturelle Org.
+[Fan Clubs]
+
+[Fraternity/Sorority]
+Bruder-/Schwesternschaft
+[Hobbyists Org.]
+Hobby-Organisationen
+[International Org.]
+Internationale Org.
+[Nature and Environment Org.]
+Natur- & Umwelt-Organisationen
+[Professional Org.]
+
+[Scientific/Technical Org.]
+Wissenschaftliche/Technische Org.
+[Self Improvement Group]
+Selbsterfahrungsgruppen
+[Spiritual/Religious Org.]
+Spirituelle/Religiöse Org.
+[Sports Org.]
+Sportverein
+[Support Org.]
+Unterstützungs-Org.
+[Trade and Business Org.]
+Handels- & Geschäfts-Org.
+[Union]
+Gewerkschaft
+[Volunteer Org.]
+Freiwilligen-Org.
+[Elementary School]
+Grundschule
+[High School]
+Mittelschule
+[College]
+Gymnasium
+[University]
+Universität
+[TmplPast Work Place]
+
+[TmplPast Organization]
+
+[Single]
+
+[Close relationships]
+Feste Beziehung
+[Engaged]
+Verlobt
+[Married]
+Verheiratet
+[Divorced]
+Geschieden
+[Separated]
+Getrennt
+[Widowed]
+Verwitwet
+[jun.]
+
+[sen.]
+
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
+['(Unknown Contact)']
+(Unbekannter Kontakt)
+;file \plugins\UserInfoEx\src\svc_email.cpp
+[Send e-mail]
+E-Mail senden
+[Memory allocation error!]
+Speicher konnte nicht bereitgestellt werden!
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
+[User has no valid homepage]
+Der Kontakt hat keine gültige Homepage
+[View Homepage]
+Homepage ansehen
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\n%d verbleibende Kontakte
+[Abort Refreshing Contact Details]
+Kontaktinformationen-Aktualisieren abgebrochen
+[Do you want to cancel the current refresh procedure?]
+Möchten Sie die derzeitige Aktualisierung abbrechen?
+[Miranda must be online for refreshing contact information!]
+Miranda NG muss online sein um die Kontaktinformationen erneuern zu können!
+[The function caused an exception!]
+Die Funktion verursachte eine Ausnahme!
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
+[%s has %s today.]
+%s hat heute %s.
+[an anniversary]
+ein Jahrestag
+[She]
+Sie
+[He/She]
+Er/Sie
+[%s has the following anniversaries:\0]
+
+[%d. %s today\0]
+
+[%d. %s tomorrow\0]
+
+[%d. %s in %d days\0]
+
+[%s has birthday today.]
+%s hat heute Geburtstag.
+[%s has birthday tomorrow.]
+%s hat morgen Geburtstag.
+[%s has birthday in %d days.]
+%s hat in %d Tagen Geburtstag.
+[\n%s becomes %d years old.]
+\n%s wird %d Jahre alt.
+[No anniversaries to remind of]
+Es gibt keine Jahrestage in absehbarer Zeit.
+[Backing up and syncing all birthdays complete!]
+Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
+[Birthday reminder]
+Geburtstags-Erinnerung
+[Birthday reminder: it's coming]
+Kommende Geburtstage
+[Anniversary Reminder]
+Jahrestagserinnerung
+;file \plugins\UserInfoEx\src\svc_timezone_old.cpp
+[Display]
+Anzeige
+[TZI]
+
+[Index]
+
+[Dateline Standard Time]
+
+[Samoa Standard Time]
+
+[Hawaiian Standard Time]
+
+[Alaskan Standard Time]
+
+[Pacific Standard Time]
+
+[US Mountain Standard Time]
+
+[Central America Standard Time]
+
+[SA Pacific Standard Time]
+
+[Pacific SA Standard Time]
+
+[Newfoundland Standard Time]
+
+[SA Eastern Standard Time]
+
+[Mid-Atlantic Standard Time]
+
+[Azores Standard Time]
+
+[GMT Standard Time]
+
+[Romance Standard Time]
+
+[South Africa Standard Time]
+
+[Russian Standard Time]
+
+[Iran Standard Time]
+
+[Arabian Standard Time]
+
+[Afghanistan Standard Time]
+
+[West Asia Standard Time]
+
+[Sri Lanka Standard Time]
+
+[N. Central Asia Standard Time]
+
+[Myanmar Standard Time]
+
+[North Asia Standard Time]
+
+[China Standard Time]
+
+[Tokyo Standard Time]
+
+[AUS Central Standard Time]
+
+[Vladivostok Standard Time]
+
+[Central Pacific Standard Time]
+
+[New Zealand Standard Time]
+
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+[contact identificaion]
+
+[The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
+Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Liste hat denselben Alias und dasselbe Protokoll.\nSollen die Informationen für diesen Kontakt überschrieben werden?
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+[Importing a new contact was aborted!]
+
+[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
+
+[Sub Contact: %s (]
+
+[Importing a new meta subcontact failed!]
+
+[The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
+
+[Settings: %S]
+
+[Events: %S]
+
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+[All Contacts]
+Alle Kontakte
+[Required modules]
+Benötigte Module
+[Optional modules]
+Erweiterte Module
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+[Software\\Miranda NG\\PlacesBar]
+
+[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar]
+
+[Place0]
+
+[Place1]
+
+[Place2]
+
+[Miranda NG]
+Miranda NG
+[Shows Miranda's installation directory.]
+
+[Shows the directory with all your Miranda's profiles.]
+
+[The OpenFileDialog returned an error: %d!]
+
+[The SaveFileDialog returned an error: %d!]
+
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+[The ini-file "%s"\nfor saving contact information could not be opened.]
+Die .ini-Datei "%s"\nfür das Speichern der Kontaktinformationen konnte nicht geöffnet werden.
+[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
+Keiner der %d Kontakte in der .ini-Datei passt zu dem gewählten Kontakt!\nNichts wird importiert
+[Import complete]
+Import komplett
+[Some basic statistics]
+
+[Added %d of %d contacts stored in the ini-file.]
+%d von %d Kontakten in der .ini-Datei hinzugefügt.
+[The ini-file "%s"\nfor reading contact information could not be opened.]
+Die .ini-Datei "%s"\nfür das lesen der Kontaktinformationen konnte nicht geöffnet werden.
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+[all Contacts]
+alle Kontakte
+[Select a destination file...]
+Zieldatei auswählen...
+[Import User Details from VCard]
+Benutzerprofil aus vCard importieren
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+[Can't create xml file!\n%S]
+
+[Export took %f msec]
+
+[Contact: %s (%S)]
+
+[Importing %s caused error %d]
+
+[Loading contact %s from xml failed with error %d]
+
+[Importing Owner caused error %d]
+
+[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
+
+[The selected file is no valid XMLCard]
+Die gewählte Datei ist keine gültige XMLCard.
+[The version of the XMLCard is not supported by UserInfoEx]
+Die Version der XMLCard wird von UserInfoEx nicht unterstützt.
+[Complete]
+Fertig
+[Owner contact successfully imported.]
+Inhaber erfolgreich importiert.
+[Selected XMLCard does not contain an owner contact!]
+Die gewählte XMLCard enthält keinen Inhaber!
+[Import took %f msec]
+
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte Ereignisse: %u / %u\nDoppelte Ereignisse: %u
+[FATAL: An exception was thrown while importing contacts from xmlCard!]
+Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der xmlCard!
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
+[PNG]
+

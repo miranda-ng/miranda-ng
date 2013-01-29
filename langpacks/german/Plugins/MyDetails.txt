@@ -1,0 +1,159 @@
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;langpack template for MyDetails
+;file \plugins\MyDetails\res\resource.rc
+[Nickname:]
+Nick:
+[OK]
+OK
+[Cancel]
+Abbrechen
+[General]
+Allgemein
+[Cycle through protocols every:]
+Wechsel des Protokolls alle
+[seconds]
+Sekunden
+[Global on avatar]
+Avatar global setzen
+[RTL]
+
+[Align text to right]
+Text rechtsbündig
+[Global on nickname]
+Nicknamen global setzen
+[Auto-resize frame]
+Autom. Höhe anpassen
+[Use contact list smileys]
+Kontaktlistensmileys nutzen
+[Global on status]
+Status global setzen
+[Replace Smileys]
+Smileys ersetzen
+[Resize Smileys]
+Smileygröße anpassen
+[Global on status message]
+Statusnachr. global setzen
+[Frame Options]
+Frame-Einstellungen
+[Top:]
+Oben:
+[Bottom:]
+Unten:
+[Left:]
+Links:
+[Right:]
+Rechts:
+[Avatar]
+Avatar
+[Custom size:]
+Eigene Größe:
+[pixels]
+Pixel
+[Allow it to grow]
+Bei Bedarf vergrößern
+[Draw border on avatar]
+Rand um Avatar zeichnen
+[Round corners of avatars]
+Avatarecken abrunden
+[Custom corner size:]
+Radius:
+[Use free space (under avatar) to other texts]
+Freien Platz (unter Avataren) für andere Texte nutzen
+[Protocol]
+Protokoll
+[Show protocol name]
+Protokollnamen anzeigen
+[Show protocol cycle button]
+Protokollwechselbuttons anzeigen
+[Status Message:]
+Statusnachricht:
+[&Offline]
+
+[On&line]
+
+[&Away]
+&Abwesend
+[&NA]
+Außer Haus
+[Occ&upied]
+Beschäftigt
+[&DND]
+Bitte nicht stören
+[&Free for chat]
+&Für Chat bereit
+[&Invisible]
+Uns&ichtbar
+[On the &Phone]
+Am Telefon
+[Out to &Lunch]
+Zum Essen
+[Set My Avatar...]
+Mein Avatar setzen
+[Set My Nickname...]
+Mein Nicknamen setzen
+[Set My Status Message...]
+Meine Statusnachicht setzen
+[Enable Listening To]
+Musikinformationen senden
+[Show next protocol]
+Nächstes Protokoll anzeigen
+[Show previous protocol]
+Vorheriges Protokoll anzeigen
+[Cycle through protocols]
+Wechsel der Protokolle
+[Don't cycle through protocols]
+Kein Wechsel der Protokolle
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<kein Statusname>
+;file \plugins\MyDetails\src\frame.cpp
+[MyDetailsFrame]
+
+[MyDetailsFrameContainer]
+
+[<no nickname>]
+<kein Nickname>
+[<no status message>]
+<keine Statusnachricht>
+[<nothing playing>]
+<es spielt nichts>
+[Nickname]
+Nick
+[Status]
+Status
+[Status Message]
+Statusnachricht
+[Listening To]
+
+[Background]
+Hintergrund
+[My Details]
+Meine Details
+[Avatar Border]
+Avatar-Rahmen
+[Show My Details]
+Meine Details anzeigen
+[Enable Listening To for %s]
+Musikinformationen für %s senden
+[Set My Avatar for %s...]
+Avatar für %s setzen
+[Set My Nickname for %s...]
+Nickname für %s setzen
+[Set My Status Message for %s...]
+Statusnachricht für %s setzen
+[Hide My Details]
+Meine Details verstecken
+;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+Höre gerade
+[Previous protocol]
+Vorheriges Protokoll
+[Next protocol]
+Nächstes Protokoll
+[Contact List]
+Kontaktliste
+[Set My Nickname for %s]
+Nickname für %s setzen
+[Set My Status Message for %s]
+Statusnachricht für %s setzen
+;file \plugins\MyDetails\src\options.cpp

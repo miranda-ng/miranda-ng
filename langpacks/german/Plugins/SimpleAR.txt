@@ -1,0 +1,50 @@
+#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;============================================================
+;  File: SimpleAR.dll
+;  Plugin: SimpleAR
+;  Version: 2.0.2.6
+;  Authors: Stark Wong, Mataes, Mikel-Ard-Ri
+;============================================================
+[Simple Auto Replier.]
+
+;file \plugins\SimpleAR\res\Resource.rc
+[Enable Auto Replier]
+Aktiviere Autoantworten
+[Reply Message Heading:]
+Antwort-Nachrichtenkopf:
+[Reply Message when]
+Antwortnachr., wenn
+[No-repeat Interval:]
+Wiederholen nach:
+[mins]
+Minuten
+[&Default]
+Stan&dard
+;file \plugins\SimpleAR\src\Main.cpp
+[I am currently away. I will reply to you when I am back.]
+Ich bin aktuell abwesend. Ich werde antworten, sobald ich wieder da bin.
+[I am currently very busy and can't spare any time to talk with you. Sorry...]
+Ich bin aktuell sehr beschäftigt und habe keine Zeit, dir zu schreiben. Verzeihung...
+[I am not available right now.]
+Ich stehe nicht zur Verfügung.
+[I am now doing something, I will talk to you later.]
+Ich bin beschäftigt, ich werde dir später schreiben.
+[I am on the phone right now. I will get back to you very soon.]
+Ich bin am Telefon. Ich werde bald wiederkommen.
+[I am having meal right now. I will get back to you very soon.]
+Ich esse gerade. Ich werde bald wiederkommen.
+[Disable Auto&reply]
+Deaktiviere Autoantwo&rt
+[Enable Auto&reply]
+Aktiviere Autoantwo&rt
+[Turn off Autoanswer]
+Deaktiviere Autoantwort
+[Turn on Autoanswer]
+Autom. Antwort einschalten
+[Dear %user%, the owner left the following message:]
+Hallo, %user%, der Besitzer hat dir folgende Nachricht hinterlassen:
+;file \plugins\SimpleAR\src\Options.cpp
+[Simple Auto Replier]
+
+[Plugins]
+Plugins

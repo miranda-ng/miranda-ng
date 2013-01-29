@@ -1,0 +1,269 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send Screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
+;file \plugins\SendScreenshotPlus\res\resource.rc
+[OK]
+OK
+[All]
+Alle
+[None]
+Keine
+[Cancel]
+Abbrechen
+[Send screenshot to\n<unknown>]
+Sende Screenshot an\n unbekannt
+[Ti&med capture]
+Verzögerte Aufnahme
+[Time (secs) :]
+Zeit (Sek.) :
+[&Format :]
+&Format:
+[Send B&y :]
+Senden per:
+[?]
+
+[E&xplore]
+Öffnen
+[&Fill description textbox.]
+Beschreibungs Textbox ausfüllen
+[Delete &after send]
+N&ach dem Senden löschen
+[Open again]
+Erneut öffnen
+[&Capture]
+Starten
+[%s\nv%s]
+
+[Credits >]
+Dank an >
+[&Close]
+S&chließen
+[C&lient Area]
+Fensterinha&lt
+[Caption :]
+Fenstertitel:
+[Size (HxW) :]
+Größe (HxB):
+[Target Tool]
+Zielscheibe
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
+[Unable to initiate transfer.]
+Übertragung kann nicht gestartet werden.
+[Initialising...]
+Vorbereitung...
+[Connecting...]
+Verbinden...
+[Connecting to proxy...]
+Verbinde zum Proxy...
+[Waiting for connection...]
+Warte auf Verbindung...
+[Connected]
+Verbunden
+[Decision sent]
+Entscheidung gesendet
+[Moving to next file...]
+Nächste Datei...
+[%s (%i):\nFile transfer denied.]
+
+[%s (%i):\nYou appear to be using the wrong version of GC API]
+
+[GCHAT error]
+
+[%s (%i):\nAn internal GC error occurred.]
+
+[%s (%i):\nContact has no open GC session.]
+
+[An unknown error has occured.]
+Ein unbekannter Fehler ist aufgetreten.
+[Error]
+Fehler
+;file \plugins\SendScreenshotPlus\src\CSend.h
+[Unable to initiate %s.]
+
+[MAPI error (%i):\n%s.]
+
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
+[Email transfer]
+
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+
+[The specified attachment was not found]
+
+[The specified attachment could not be opened]
+
+[The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
+
+[One or more unspecified errors occurred]
+
+[There was insufficient memory to proceed]
+
+[One or more recipients were invalid or did not resolve to any address]
+
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+
+[The text in the message was too large]
+
+[There were too many file attachments]
+
+[There were too many recipients]
+
+[A recipient did not appear in the address list]
+
+[The user canceled one of the dialog boxes]
+
+[Unknown Error]
+
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
+[File transfer]
+Dateiübertragung
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+[FTPFile transfer]
+
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+[HTTPServer transfer]
+
+[Could not start the HTTP Server plugin.]
+Kann HTTP-Server-Plugin nicht starten.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+[Image upload]
+
+[Upload server did not respond timely.]
+
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+[Retry]
+Wiederholen
+[Yes]
+Ja
+[Abord]
+
+[Ignore]
+Ignorieren
+;file \plugins\SendScreenshotPlus\src\global.h
+[SendSS]
+
+[SendScreenshot - Error]
+
+[UInfoButtonClass]
+
+;file \plugins\SendScreenshotPlus\src\Main.cpp
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+
+[\\Screenshots]
+
+[SendSS HTTP connections]
+SendSS-Plugin-HTTPS-Verbindungen
+[Could not create main dialog.]
+Kann Hauptfenster nicht öffnen.
+[Send Screenshot]
+Screenshot senden
+[Send desktop screenshot]
+Desktop-Screenshot senden
+[Take a screenshot]
+Screenshot machen
+[Could not register miranda service.]
+Konnte Miranda NG Service nicht initialisieren.
+[MS_SENDSS_OPENDIALOG]
+
+[MS_SENDSS_SENDDESKTOP]
+
+[MS_SENDSS_EDITBITMAP]
+
+[MS_SENDSS_SEND2IMAGESHACK]
+
+[%miranda_userdata%\\Screenshots]
+
+[Can not retrieve Screenshot path.]
+
+[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInfoEx-Pakets, das hierfür erstellt wurde.\nEinige Icons werden eventuell nicht korrekt dargestellt.]
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
+[Plugins\\]
+
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
+[Credits]
+
+[< Copyright]
+< Copyright
+[Copyright]
+Copyright
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
+[Drag&&Drop the target on the desired window.]
+Quellfenster mit Drag&Drop auswählen
+[Send screenshot to\n]
+Sende Screenshot an\n
+[Window]
+Fenster
+[Desktop]
+
+[<entire desktop>]
+Gesamten Desktop
+[Monitor]
+
+[ (primary)]
+
+[PNG]
+
+[JPG]
+
+[BMP]
+
+[TIF]
+
+[GIF]
+
+[<Only save>]
+Nur speichern
+[File Transfer]
+Dateitransfer
+[E-mail]
+E-Mail
+[HTTP Server]
+HTTP-Server
+[FTP File]
+
+[ImageShack]
+
+[Information]
+Information
+[Open Folder]
+Ordner öffnen
+[Fill description textbox.]
+Fülle Beschreibungstextbox
+[Delete after send]
+Nach dem Senden löschen
+[Capture]
+Einfangen
+[Cant create a Screenshot]
+Konnte kein Screenshot erstellen.
+[Select a target window.]
+Bitte gewünschtes Fenster auswählen.
+[explore]
+
+[Screenshot ]
+
+[for Client area ]
+fur Client-Bereich
+[of "]
+
+[" Window]
+
+[png]
+
+[jpg]
+
+[bmp]
+
+[gif]
+

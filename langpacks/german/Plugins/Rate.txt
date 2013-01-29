@@ -1,0 +1,11 @@
+#muuid {45230488-977b-405b-856d-ea276d7083b7}
+;langpack template for Rate
+;file \plugins\Rate\src\main.cpp
+[Rate high]
+Kontaktpriorität: Hoch
+[Rate medium]
+Kontaktpriorität: Mittel
+[Rate low]
+Kontaktpriorität: Gering
+[Contact Rate]
+

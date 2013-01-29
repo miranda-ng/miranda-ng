@@ -1,0 +1,11 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: mTextControl.dll
+;  Plugin: mTextControl
+;  Version: 0.8.0.1
+;  Authors: 
+;============================================================
+;file \plugins\mTextControl\src\fancy_rtf.cpp
+[icon]
+
+;file \plugins\mTextControl\src\ImageDataObjectHlp.cpp

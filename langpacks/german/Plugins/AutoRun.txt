@@ -1,0 +1,26 @@
+#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================
+[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+Dieses Plugin ermöglicht ein automatisches Starten von Miranda NG beim Hochfahren des Systems.
+;file \plugins\AutoRun\res\autorun.rc
+[Autorun]
+
+[Launch Miranda NG at system startup]
+Miranda NG beim Systemstart starten
+[Note: At startup Miranda NG will use current profile]
+Hinweis: Miranda NG startet dann mit dem aktuellen Profil.
+;file \plugins\AutoRun\src\autorun.h
+[Software\\Microsoft\\Windows\\CurrentVersion\\Run]
+
+;file \plugins\AutoRun\src\main.cpp
+["%s" "/profile:%s"]
+
+[MirandaNG]
+
+[Services]
+Dienste

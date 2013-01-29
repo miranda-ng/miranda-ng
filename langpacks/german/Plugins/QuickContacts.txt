@@ -1,0 +1,51 @@
+#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;langpack template for QuickContacts
+;file \plugins\QuickContacts\res\resource.rc
+[Last Sent]
+Zuletzt gesendet
+[Enable last-sent-to]
+"Zuletzt gesendet" aktivieren
+[recognize all messages sent]
+Berücksichtige alle gesendeten Nachrichten
+[recognize messages sent with hotkey only]
+Berücksichtige nur mit Hotkey gesendete Nachrichten
+[Contacts]
+Kontakte
+[Show offline contacts on these protocols:]
+Zeige Offline-Kontakte von folgenden Protokollen an:
+[But hide them if protocol is offline]
+Aber blende sie aus, falls Protokoll offline
+[Append group name to contact name]
+Gruppennamen an Kontakt anhängen
+[But show it as a column ...]
+aber als Spalte anzeigen ...
+[... on left side of name]
+... auf der linken Seite des Namens
+[Hide subcontacts]
+Unterkontakte verstecken
+[But keep subcontacts of protocols in above list if meta is hidden]
+Aber Unterkont. des Prot. in Liste lassen, wenn Metakont. verst. ist
+[Show all contacts]
+Alle Kontakte zeigen
+[Send message]
+Nachricht senden
+[Make a voice call]
+Sprachanruf durchführen
+[Send file]
+Datei senden
+[Send URL]
+URL senden
+[Open userinfo]
+Benutzerprofil öffnen
+[Open history]
+Verlauf öffnen
+[Open contact menu]
+Kontaktmenü öffnen
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Schnellkontakte
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Dialog öffnen
+[Quick Contacts...]
+Schnellkontakte...

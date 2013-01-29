@@ -1,0 +1,294 @@
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;============================================================
+;  File: VersionInfo.dll
+;  Plugin: VersionInfo
+;  Version: 1.5.0.3
+;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
+;============================================================
+;file \plugins\VersionInfo\res\resource.rc
+[OK]
+OK
+[Cancel]
+Abbrechen
+[Text file]
+Textdatei
+[MessageBox]
+Meldung
+[DialogBox]
+Dialogfenster
+[Output Debug String]
+
+[Clipboard]
+Zwischenablage
+[Select output:]
+Ausgabeart auswählen:
+[Upload to site]
+Auf Seite hochladen
+[Forum style formatting]
+Forenformatierung
+[Aditional options:]
+zusätzliche Einstellungen:
+[Do it now]
+Starten...
+[Output to:]
+Ausgabe als:
+[Show window in taskbar]
+Fenster in Taskleiste anzeigen
+[Ask every time]
+Jedes Mal nachfragen
+[Also copy info to clipboard]
+Informationen ebenfalls in Zwischenablage kopieren
+[Upload site settings]
+Einstellungen Seite
+[Username]
+Benutzername
+[Password]
+Passwort
+[Highlight version number using]
+Versionsnummer hervorheben
+[Show disabled plugins too]
+Deaktivierte Plugins ebenfalls zeigen
+[Attempt to find unloadable plugins (doesn't work on Windows 98)]
+Versuche unladbare Plugins zu finden (funktioniert nicht unter Windows 98)
+[Suppress header information]
+Kopf- und Fußzeilen entfernen
+[Enable debug messages]
+
+[Show plugin UUIDs]
+Universally Unique Identifier (UUID) der Plugins zeigen
+[Show installed languages]
+Installierte Sprachen anzeigen
+[Close]
+Schließen
+[&Copy text]
+Text kopieren
+[Upload]
+Hochladen
+[&Save to file]
+&Speichern
+;file \plugins\VersionInfo\src\CPlugin.cpp
+[ v.]
+
+[unicode]
+
+;file \plugins\VersionInfo\src\CVersionInfo.cpp
+[dd' 'MMM' 'yyyy]
+
+[HH':'mm':'ss]
+
+[ at ]
+
+[UTC %+02d:%02d]
+
+[alpha]
+alpha
+[Yes]
+Ja
+[ (UTC) on ]
+
+[Hardware\\Description\\System\\CentralProcessor\\0]
+
+[Identifier]
+Nutzer-ID
+[RegQueryValueEx()]
+
+[<Error in RegQueryValueEx()>]
+
+[ProcessorNameString]
+
+[<name N/A>]
+
+[Software\\Microsoft\\Windows\\CurrentVersion]
+
+[Version]
+Version
+[Software\\Microsoft\\Windows NT\\CurrentVersion]
+
+[ProductName]
+
+[RegOpenKeyEx()]
+
+[<Error in RegOpenKeyEx()>]
+
+[Microsoft Windows 95]
+
+[Microsoft Windows 95 OSR2]
+
+[Microsoft Windows 98]
+
+[Microsoft Windows 98 SE]
+
+[Microsoft Windows ME]
+
+[Microsoft Windows NT]
+
+[Microsoft Windows 2000]
+
+[Microsoft Windows XP]
+
+[Microsoft Windows 2003 R2]
+
+[Microsoft Windows 2003]
+
+[%.2f KBytes]
+
+[<error ]
+
+[ at FileOpen>]
+
+[(UI | Locale (User/System)) : ]
+
+[Control Panel\\Desktop\\ResourceLocale]
+
+[Error at RegQueryValueEx()]
+
+[Error at RegOpenKeyEx()]
+
+[Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)]
+
+[N/A]
+
+[<unknown>]
+<unbekannt>
+[ v. ]
+
+[<error> Could not open file " + std::tstring(data.cFileName));\r\n			}\r\n			FindClose(hLangpack);\r\n		}\r\n		else lpzLangpackInfo = _T("No language pack installed]
+
+[\\Plugins\\]
+
+[dll]
+
+[    Error %ld - %s]
+
+[Invalid plugin]
+
+[Unicode aware]
+
+[    Plugin does not have an UUID and will not work with Miranda 0.8.\r\n]
+
+[Done with: %s]
+
+[    Plugin refuses to load. Miranda version too old.]
+
+[ at MapAndLoad()>\r\n]
+
+[ at ImageDirectoryEntryToDataEx()>\r\n]
+
+[    Plugin statically links to missing dll file: ]
+
+[Miranda NG - VersionInformation plugin by Hrk, modified by Eblis\r\n]
+
+[Miranda's homepage: http://miranda-ng.org/\r\n]
+
+[Miranda tools: http://miranda-ng.org/\r\n\r\n]
+
+[<blockquote>]
+
+[dd' 'MMMM' 'yyyy]
+
+[Report generated at: ]
+
+[ on ]
+
+[CPU: ]
+
+[ [DEP enabled]]
+
+[ [%d CPUs]]
+
+[Installed RAM: ]
+
+[ MBytes\r\n]
+
+[Operating System: ]
+
+[ [version: ]
+
+[Shell: ]
+
+[, Internet Explorer ]
+
+[Administrator privileges: ]
+
+[OS Languages: ]
+
+[Free disk space on Miranda partition: ]
+
+[Miranda path: ]
+
+[Miranda NG version: ]
+
+[ [running inside WOW64]]
+
+[ [service mode]]
+
+[\r\nBuild time: ]
+
+[Profile path: ]
+
+[Profile size: ]
+
+[Profile creation date: ]
+
+[Language pack: ]
+
+[, modified: ]
+
+[Nightly: ]
+
+[Unicode core: ]
+
+[\r\nEnd of report.\r\n]
+
+[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+Falls Sie diesen Report als Fehlerbericht verwenden, denken Sie daran, die Webseite für Fragen oder Hilfe der Entwickler zu besuchen.\r\nFalls Sie Ihren Fehlerbericht nicht mitteilen und keine Rückmeldung geben, wird der Fehler nicht behoben!
+[Active Plugins]
+
+[<font size="-2" color="black">]
+
+[Inactive Plugins]
+
+[Unloadable Plugins]
+
+[Information successfully written to file: "%s".]
+Informationen wurden erfolgreich in der Datei "%s" gespeichert.
+[Error during the creation of file "%s". Disk may be full or write protected.]
+Fehler beim Erstellen der Datei "%s". Festplatte voll oder schreibgeschützt?
+[VersionInfo]
+
+[The clipboard is not available, retry.]
+Zwischenablage ist nicht erreichbar, bitte wiederholen.
+[Information successfully copied into clipboard.]
+Informationen wurden erfolgreich in die Zwischenablage kopiert.
+;file \plugins\VersionInfo\src\dlgHandlers.cpp
+[Customize using folders plugin]
+Unter Customize => Ordner Pfad zum Ausgabeordner einstellen
+[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+Sind Sie sich sicher, dass Sie dies aktivieren wollen?\nBitte aktivieren Sie diese Einstellung nur,\nwenn Sie wirklich wissen, wofür diese gut ist,\noder wenn Sie dazu aufgefordert wurden!
+[Show plugin UUIDs ?]
+UUIDs der Plugins zeigen
+;file \plugins\VersionInfo\src\hooked_events.cpp
+[Version Information]
+Versionsinformation
+[Services]
+Dienste
+;file \plugins\VersionInfo\src\main.cpp
+;file \plugins\VersionInfo\src\utils.cpp
+[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+Etwas in den "%s"-Einstellungen ist falsch. Melde diesen Fehlerwert zurück: %d\nService: %X\nFehlercode:%X\nZeilennummer: %d]
+[%s\\Plugins\\%s]
+
+[Shell]
+
+[sys:]
+
+[boot]
+
+[shell]
+
+[<not installed>]
+
+[Build]
+
+[<unknown version>]
+

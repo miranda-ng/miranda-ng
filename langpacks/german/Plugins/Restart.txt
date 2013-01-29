@@ -1,0 +1,7 @@
+;#muuid not found, please specify manually!
+;langpack template for Restart
+;file \plugins\Restart\src\restart.cpp
+["%s" /restart:%d /profile=%s]
+
+[Restart]
+Neustart

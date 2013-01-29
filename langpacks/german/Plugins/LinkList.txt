@@ -1,0 +1,175 @@
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;langpack template for LinkList
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Close]
+Schließen
+[Search for:]
+Suchen nach:
+[Search]
+Suchen
+[Message direction]
+Nachrichtenrichtung
+[Message types]
+Nachrichtenarten
+[All directions]
+alle Richtungen
+[Incoming only]
+nur eingehende
+[Outgoing only]
+nur ausgehende
+[All types]
+alle Arten
+[Mail addresses only]
+nur Mailadressen
+[Web addresses only]
+nur Internetadressen
+[Deep search]
+Genaue Suche
+[Static]
+Statisch
+[Colour Select]
+Farbauswahl
+[Incoming messages]
+Eingehende Nachrichten
+[Plugin Default]
+Standard
+[Preview]
+Vorschau
+[Outgoing messages]
+Ausgehende Nachrichten
+[Backgroundcolour]
+Hintergrundfarbe
+[Use Miranda Settings]
+Miranda-Einstellungen verwenden
+[Textcolour]
+Textfarbe
+[General Settings]
+Allgemeine Einstellungen
+[Open links always in a new window]
+Links immer in neuem Fenster öffnen
+[Update list on new events]
+Liste automatisch aktualisieren
+[Show whole Message on 'mouse over' event]
+Ganze Nachricht bei Mauskontakt anzeigen
+[Save window position individually for each contact]
+Fensterposition individuell für jeden Kontakt speichern
+[Show...]
+Zeige...
+[Date]
+Datum
+[Parting line]
+Trennlinie
+[Timestamp]
+Zeitanzeige
+[Direction]
+Richtung
+[Type]
+Typ
+[&Save]
+&Speichern
+[&Close]
+S&chließen
+[&Outgoing Messages Only]
+Nur ausgehende Nachrichten
+[&Incoming Messages Only]
+Nur e&ingehende Nachrichten
+[&Webaddresses Only]
+Nur Internetadressen
+[&Mail-Addresses Only]
+Nur E-&Mail-Adressen
+[&Clear Search Results]
+Su&chergebnisse löschen
+[&Search]
+&Suchen
+[Open]
+Öffnen
+[Open in new Window]
+In neuem Fenster öffnen
+[Copy to Clipboard]
+In Zwischenablage kopieren
+[Show Message]
+Zeige Nachricht
+;file \plugins\HistoryLinkListPlus\src\language.h
+[History Linklist]
+
+[History is empty!]
+Keine Nachrichten im Verlauf!
+[There are no links in history!]
+Der Verlauf enthält keine Links!
+[Error]
+Fehler
+[incoming]
+eingehende
+[outgoing]
+ausgehende
+[Filter]
+
+[no filter]
+
+[Search Filter]
+
+[no settings]
+
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[Unable to load the Rich Edit control!]
+Rich-Edit-Element konnte nicht geladen werden!
+[&Create Linklist]
+Linkliste erstellen
+[Progressbar]
+
+[History]
+Verlauf
+[Processing history...]
+Verlauf wird verarbeitet...
+[Could not create window!]
+Fenster konnte nicht erzeugt werden!
+[Could not allocate memory!]
+Speicher konnte nicht belegt werden!
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[Linklist Plugin]
+Linklisten-Plugin
+[mailto:]
+
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[www.]
+
+[icq#]
+
+[gopher://]
+
+[news://]
+
+[file://]
+
+[d-t]
+
+[Arial]
+
+[Matches for searchtext]
+Treffer fur Suchtext
+[Courier]
+
+[Processing list...]
+Liste wird verarbeitet...
+[[mail]]
+
+[[file]]
+
+[[UNK ]]
+
+[[in ]]
+
+[[out]]
+
+[No messages found!\nPlease change current filter options.]
+Keine Nachrichten gefunden!\nBitte Filterregeln ändern.
+[\n[in ] ]
+
+[URL   ]
+
+[[out] ]
+
+[RTF File\0*.rtf\0All Files\0*.*\0\0]
+
+[Save RTF File]
+

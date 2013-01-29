@@ -1,0 +1,246 @@
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.0
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol support for Miranda NG.]
+
+;file \protocols\Twitter\res\twitter.rc
+[Server:]
+
+[Create a new Twitter account]
+Erstelle ein neues Twitter-Konto
+[Default group:]
+Standardgruppe:
+[Username:]
+Benutzername:
+[[Sign in to link your twitter account]]
+
+[Send]
+Senden
+[Cancel]
+Abbrechen
+[Misc. Options]
+Div. Einstellungen
+[Use group chat for Twitter feed]
+Nutze Gruppenchat für Twitter-Feed
+[Base URL:]
+Basis-URL:
+[Polling rate:]
+Abrufrate:
+[Once every]
+Einmal alle
+[sec]
+Sek.
+[Please cycle your connection for these changes to take effect]
+
+[Treat tweets as messages]
+Behandel Tweets als Nachrichten
+[Enable popup notifications for Tweets]
+Aktiviere Popupbenachrichtigungen
+[Colors]
+Farben
+[Use Windows colors]
+Windowsfarben verwenden
+[Use Popup colors]
+Standardfarben
+[Use custom colors]
+Benutzerdefiniert
+[Back]
+Hgrd.
+[Text]
+Text
+[Timeouts]
+Verzögerungen
+[Use default]
+Standard verw.
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[Preview]
+Vorschau
+[But not during sign-on]
+Aber nicht während der Anmeldung
+[OK]
+OK
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+
+;file \protocols\Twitter\src\chat.cpp
+[**Chat - Outgoing message: %s]
+
+[Normal]
+
+;file \protocols\Twitter\src\connection.cpp
+[***** Executing APC]
+
+[***** Beginning SignOn process]
+
+[***** Requesting MessageLoop to exit]
+
+[***** Waiting for old MessageLoop to exit]
+
+[***** SignOn complete]
+
+[***** Negotiating connection with Twitter]
+
+[**NegotiateConnection - Reset OAuth Keys]
+
+[**NegotiateConnection - Setting Consumer Keys...]
+
+[**NegotiateConnection - Requesting oauthTokens]
+
+[**NegotiateConnection - OAuth tokens not received, stopping before we open the web browser..]
+
+[**NegotiateConnection - Launching %s]
+
+[**NegotiateConnection - oauthAccesToken too small? this is.. weird.]
+
+[**NegotiateConnection - oauthAccessTokenSecret too small? weird]
+
+[**NegotiateConnection - either the accessToken or accessTokenSecret was not there..]
+
+[OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)]
+
+[**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline.]
+
+[**NegotiateConnection - Setting Consumer Keys and PIN...]
+
+[**NegotiateConnection - requesting access tokens...]
+
+[**NegotiateConnection - Failed to get Access Tokens, HTTP response code is: %d]
+
+[Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection.]
+
+[**NegotiateConnection - Successfully retrieved Access Tokens]
+
+[**NegotiateConnection - screen name is %s]
+
+[Please enter a password.]
+Bitte geben Sie das Kennwort ein.
+[**NegotiateConnection - Setting Consumer Keys and verifying creds...]
+
+[You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options]
+
+[**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have]
+
+[Something went wrong with authorisation, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor]
+
+[**NegotiateConnection - Verifying credentials failed!  No internet maybe?]
+
+[***** Entering Twitter::MessageLoop]
+
+[***** TwitterProto::MessageLoop going to sleep...]
+
+[***** TwitterProto::MessageLoop waking up...]
+
+[***** Exiting TwitterProto::MessageLoop]
+
+[***** Update avatar: Terminated for this contact, extension format unknown for %s]
+
+[***** Updating avatar: %s]
+
+[***** Terminating avatar update early: %s]
+
+[***** Done avatar: %s]
+
+[***** Avatar already up-to-date: %s]
+
+[***** Friends list updated]
+
+[***** UpdateFriends - Bad response from server, this has happened %d time(s)]
+
+[***** UpdateFriends - Too many bad responses from the server, signing off]
+
+[***** Error updating friends list: %s]
+
+[***** Status messages updated]
+
+[***** UpdateStatuses - Bad response from server, this has happened %d time(s)]
+
+[***** UpdateStatuses - Too many bad responses from the server, signing off]
+
+[***** Error updating status messages: %s]
+
+[***** Direct messages updated]
+
+[***** UpdateMessages - Bad response from server, this has happened %d time(s)]
+
+[***** UpdateMessages - Too many bad responses from the server, signing off]
+
+[***** Error updating direct messages: %s]
+
+;file \protocols\Twitter\src\contacts.cpp
+[***** Error adding friend: %s]
+
+[***** Error searching for contacts: %s]
+
+;file \protocols\Twitter\src\proto.cpp
+[Send Tweet...]
+Tweet senden...
+[Network]
+Netzwerk
+[Basic]
+Allgemein
+[PopUps]
+Popups
+[%s server connection]
+%s Serververbindung
+[Unable to get Netlib connection for Twitter]
+
+[Twitter]
+
+[%s avatar connection]
+%s Avatarverbindung
+[Unable to get avatar Netlib connection for Twitter]
+
+[%s Protocol]
+%s-Protokoll
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+
+[Tweet]
+
+[Reply to Tweet]
+
+[Visit Homepage]
+Homepage besuchen
+[Reply...]
+Antworten...
+;file \protocols\Twitter\src\ui.cpp
+[Send Tweet for %s]
+Sende Tweet für %s
+[Dorothy Parker]
+
+[If, with the literate, I am\n]
+
+[Impelled to try an epigram,\n]
+
+[I never seek to take the credit;\n]
+
+[We all assume that Oscar said it.]
+
+[Steve Ballmer]
+
+[I have never, honestly, thrown a chair in my life.]
+
+[James Joyce]
+
+[I think I would know Nora's fart anywhere. I think ]
+
+[I could pick hers out in a roomful of farting women.]
+
+[Brooke Shields]
+
+[Smoking kills. If you're killed, you've lost a very ]
+
+[important part of your life.]
+
+[Yogi Berra]
+
+[Always go to other peoples' funerals, otherwise ]
+
+[they won't go to yours.]
+
