@@ -170,7 +170,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 
 void __stdcall RestartMe(void*)
 {
-	CallService(MS_SYSTEM_RESTART, 1, 0);
+	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
