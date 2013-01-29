@@ -665,7 +665,9 @@
 	IDI_PLATFORM_X32		ICON	"overlays\\overlay_platform_x32.ico"
 	IDI_PLATFORM_X64		ICON	"overlays\\overlay_platform_x64.ico"
 
-	IDI_SECUREIM_OVERLAY	ICON	"overlays\\overlay_SecureIM.ico"
+	IDI_SECUREIM_OVERLAY	ICON	"overlays\\overlay_security_SecureIM.ico"
+	IDI_NEWGPG_OVERLAY		ICON	"overlays\\overlay_security_NewGPG.ico"
+	IDI_MIROTR_OVERLAY		ICON	"overlays\\overlay_security_MirOTR.ico"
 
 	IDI_UNICODE_CLIENT		ICON	"overlays\\overlay_Unicode.ico"
 

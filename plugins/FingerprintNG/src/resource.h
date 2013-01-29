@@ -84,8 +84,10 @@
 #define IDI_YAHOO_OVERLAY			86
 
 //###############################################
-//Secure overlays
+//Security overlays
 #define IDI_SECUREIM_OVERLAY		91
+#define IDI_NEWGPG_OVERLAY			92
+#define IDI_MIROTR_OVERLAY			93
 
 //###############################################
 //Miranda packs
