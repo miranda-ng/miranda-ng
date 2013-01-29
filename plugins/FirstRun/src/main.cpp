@@ -15,7 +15,8 @@ PLUGININFOEX pluginInfo={
 	"© 2008 Mikhail Yuriev",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	MIID_FIRSTRUN
+	//{49c2cf54-7898-44de-be3a-6d2e4ef90079}
+	{0x49c2cf54, 0x7898, 0x44de, { 0xbe, 0x3a, 0x6d, 0x2e, 0x4e, 0xf9, 0x0, 0x79 }} 
 };
 
 int ModulesLoaded(WPARAM wParam,LPARAM lParam)

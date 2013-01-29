@@ -91,7 +91,9 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHTS,
 	__WEB,
 	UNICODE_AWARE, 
-	MIID_MENUEX
+	// {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+	{0xb1902a52, 0x9114, 0x4d7e, { 0xac, 0x2e, 0xb3, 0xa5, 0x2e, 0x01, 0xd5, 0x74 }}
+
 };
 
 struct ModSetLinkLinkItem { // code from dbe++ plugin by Bio
@@ -1276,7 +1278,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_MENUEX, MIID_LAST};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
