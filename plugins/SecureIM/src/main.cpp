@@ -11,8 +11,6 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SECUREIM, MIID_LAST};
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;

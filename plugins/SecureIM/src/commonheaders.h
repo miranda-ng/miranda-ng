@@ -132,8 +132,6 @@ extern int  TEMP_SIZE;
 extern HINSTANCE g_hInst, g_hIconInst;
 extern PLUGININFOEX pluginInfoEx;
 
-#define MIID_SECUREIM	{0x1B2A39E5, 0xE2F6, 0x494D, { 0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5 }} //1B2A39E5-E2F6-494D-958D-1808FD110DD5
-
 #define PREF_METANODB	0x2000	//!< Flag to indicate message should not be added to db by filter when sending
 #define PREF_SIMNOMETA	0x4000	//!< Flag to indicate message should not be inspected by filter on metacontact
 

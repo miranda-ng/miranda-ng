@@ -34,8 +34,9 @@ PLUGININFOEX pluginInfoEx = {
 		"Johell@ifrance.com, baloo@bk.ru",
 		"© 2003 Johell, © 2005-09 Baloo",
 		"http://miranda-ng.org/",
-		0,
-		MIID_SECUREIM
+		UNICODE_AWARE,
+		//1B2A39E5-E2F6-494D-958D-1808FD110DD5
+		{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
 };
 
 LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting)
