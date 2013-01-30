@@ -30,10 +30,12 @@ var log=false;
 var dupes=false;
 //stream - our variable for output UTF-8 files with BOM
 var stream= new ActiveXObject("ADODB.Stream");
+//stream var tune
 stream.Type = 2; // text mode
 stream.Charset = "utf-8";
 
 //Path variables
+//lpgen.js script path
 var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 //crazy way to get path two layers upper "\tools\lpgen\"
 var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
@@ -41,16 +43,13 @@ var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpa
 var trunkPath=new String(trunk);
 //core path
 var core=FSO.BuildPath(trunk,"src");
-//protocols path
-var protocols=FSO.BuildPath(trunk,"Protocols");
-//plugins path
-var plugins=FSO.BuildPath(trunk,"Plugins");
 //langpack folder "\langpacks\english\" in trunk folder
 var langpack_en=FSO.BuildPath(trunk,"langpacks\\english");
 //Crap.txt will contain strings, which are removed by filtering engine as a garbage, in case if this string are not garbage :)
 var crapfile="Crap.txt"
-//crap array
+//Crap array
 var crap=new Array;
+
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
 //*********************************************************************************//
@@ -79,7 +78,7 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 if (WScript.Arguments.Named.Item("path")) {
     //Call GeneratePluginTranslate for path specified in command line argument /path:"path/to/plugin", output result to "scriptpath"
     GeneratePluginTranslate(WScript.Arguments.Named.Item("path"),scriptpath);
-    //Write gargage crap array into crap file
+    //Write garbage crap array into crap file
     WriteToFile(crap,plugin+"_crap.txt");
     //We are done, quit.
     WScript.Quit();
@@ -92,29 +91,35 @@ if (WScript.Arguments.Named.Item("path")) {
 //Generate =CORE=.txt
 GenerateCore();
 
-//generate plugins, listed in mir_full.sln
-//Init array with files
+//Generate plugins\protocols, listed in mir_full.sln
+
+//Init array with files path
 project_files=new Array;
 //open mir_full.sln
 sln_stream=FSO.GetFile(trunk+"\\bin10\\mir_full.sln").OpenAsTextStream(ForReading, TristateUseDefault);
 //Reading line-by-line
  while (!sln_stream.AtEndOfStream) {
-     //Init regexp array for getting only $1 from regexp search
-     regexpstring=new Array();
-     //read on line into rcline
+     //Init regexp array for our sln parse logic
+     sln_project_regexp=new Array();
+     //read one line into slnline
      slnline=sln_stream.ReadLine();
-     //find string to translate in rcline by regexp
-     regexpstring=slnline.match(/(?:Project\(\"\{.*?,\x20*?\"\.\.)(\\(:?plugins|protocols).*vcxproj)(?=",)/i);      
-     // if exist regexpstring, add to array, adding "trunk"
-     if (regexpstring) {project_files.push(trunk+regexpstring[1])};
+     //find a project defenition in sln file by RegExp
+     sln_project_regexp=slnline.match(/(?:Project\(\"\{[\w\d-]+\}\"\)\x20+\=\x20+\"(.+?)\",\x20*?\"\.\.)(\\(:?plugins|protocols).*vcxproj)(?=",)/i);      
+     // if exist sln_project_regexp, add to array, adding leading path to "trunk"
+     if (sln_project_regexp) {
+        //RegExp for unneeded modules, such as crypting library, mimcmd.exe, zlib.dll etc.
+        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|MimCmd|Dbx_tree_ARC4|Dbx_tree_Cast128|Dbx_tree_HC256)/i;
+        // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
+        if (!unneeded_modules.test(sln_project_regexp[1]))
+        //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
+        project_files.push(trunk+sln_project_regexp[2]);
+        };
     };
 //closing file
 sln_stream.Close();
-//ok, now we have all project files in array, let's add Pascal files to this array.
-//Check protocols folder, than plugins folder. Unfortunatelly, this works badly.
-//FindFiles(protocols,"\\.dpr$",project_files);
-//FindFiles(plugins,"\\.dpr$",project_files);
-//push pascal project files directly
+
+//ok, now we have all project files in array, let's add Pascal files to this array directly.
+// remove following lines commets to add Pascal plugins processing.
 // project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
 // project_files.push(trunk+"\\plugins\\HistoryPlusPlus\\historypp.dpr");
 // project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
@@ -132,12 +137,13 @@ while (!files.atEnd()) {
     plugfolder=FSO.GetParentFolderName(file);
     //call function for plugin folder, output to plugins folder.
     GeneratePluginTranslate(plugfolder,langpack_en+"\\Plugins",file);
-    //WScript.Echo(file);
     //next project file
     files.moveNext();
 };
 //Write Crap to file.
 if (WScript.Arguments.Named.Item("crap")) WriteToFile(crap,crapfile);
+//Finished
+if (log) WScript.Echo("Finish getting strings from source files.");
 
 //*********************************************************************************//
 //                                    Functions                                   *//
@@ -165,7 +171,7 @@ function GenerateCore() {
  ParseFiles(core_src,corestrings,ParseSourceFile);
  //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
  nodupes=eliminateDuplicates(corestrings);
- //if dupes requred, make nodupes with du
+ //if dupes requred, make nodupes with dupes :)
  if (dupes) nodupes=corestrings;
  //logging results
  if (log) WScript.Echo("Writing "+nodupes.length+" strings for CORE");
@@ -200,14 +206,10 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     langpack=langpackfilepath+"\\"+plugin+".txt";
     //get MUUID of plugin and put into array as a first string.
     GetMUUID(pluginpath,head);
-
-    //put a name of plugin into array as second string
-    //foundstrings.push(";langpack template for "+plugin);
-
     //Get info from version.h
     //First, locate a version.h file
     FindFiles(pluginpath,"^version.h$",versionfile);
-    //Parse version.h file
+    //Parse version.h file, put results into array "head"
     ParseVersion_h(versionfile,head);
     //find all *.rc files and list files in array
     FindFiles(pluginpath,"\\.rc$",resourcefiles);
@@ -217,7 +219,11 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     ParseFiles(resourcefiles,foundstrings,ParseRCFile);
     //Parse files "sourcefiles", put result into "foundstrings" using "ParseSourceFile" function
     ParseFiles(sourcefiles,foundstrings,ParseSourceFile);
-    //Parsing all sources done and head are ready (if version.h exist and plugin are not Pascal). If we still have head with 7 strings (version.h parsed OK, gives us 6 stings + 1 first string always exist in head - MUUID) or head have only one string (version.h wasn't found and head have only MUUID) AND didn't find anything in *.RC and source files, so we didn't find any string and generating file is useless, return from function and out log
+    //Parsing all sources done and head are ready (if version.h exist and plugin are not Pascal). If we still have head with 7 strings:
+    //(version.h parsed OK, gives us 6 stings + 1 first string always exist in head - MUUID)
+    //OR head have only one string (version.h wasn't found and head have only MUUID)
+    //AND didn't find anything in *.RC and source files, so:
+    //we didn't find any string and generating file is useless, return from function and out log
     if ((head.length==7 || head.length==1) && foundstrings.length==0) {
         if (log) WScript.Echo("!!!Nothing to translate in "+plugin+"!!!");
         return;
@@ -228,7 +234,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
         };
     //We have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
     nodupes=eliminateDuplicates(foundstrings);
-	 //if dupes requred, make nodupes with du
+     //if dupes requred, make nodupes with dupes :)
     if (dupes) nodupes=foundstrings;
     //combine head and translated strings.
     plugintemplate=head.concat(nodupes);
@@ -250,7 +256,7 @@ function FindFiles (path,name,filelistarray) {
  Folders=new Enumerator(Folder.SubFolders);
  //Create Enumerator with Folder files inside
  Files=new Enumerator(Folder.Files);
- //Cycle by files in Folder
+ //Cycle through files in Folder
  while (!Files.atEnd()) {
      //file is a next file
      file=Files.item();
@@ -261,7 +267,7 @@ function FindFiles (path,name,filelistarray) {
      //move to next file
      Files.moveNext();
     };
- //Cycle by subfolders
+ //Cycle through subfolders
  while (!Folders.atEnd()) {
     FindFiles(Folders.item().Path,name,filelistarray);
     //WScript.Echo(Folders.item().Path);
@@ -269,7 +275,7 @@ function FindFiles (path,name,filelistarray) {
     };
 };
 
-//Find a name for langpack file from source
+//Find a name for plugin translation template file from source
 function GetPluginName (folder_or_file) {
  //check our parameter file or folder?
  if (FSO.FileExists(folder_or_file)) {
@@ -357,7 +363,7 @@ function GetMUUID (folder,array) {
     filesenum.moveNext();
     };
  //if we didn't find muuid, put alarm into "muuid"
- if (!muuid) {muuid=";#muuid not found, please specify manually!"}
+ if (!muuid) {muuid=";#muuid for "+plugin+" not found, please specify manually!"}
  //output result into array
  array.push(muuid)
  //log output
@@ -372,6 +378,7 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
  while (!filesenum.atEnd()) {
      //record into current_strings current length of stringsarray
      var current_strings=stringsarray.length;
+     //record into crap_strings current length of crap array
      var crap_strings=crap.length;
      //curfile is our current file in files enumerator
      curfile=filesenum.item();
@@ -381,6 +388,7 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
      curfilepath=new String(curfile);
      //if after parsing file our stringsarray length greater then var "current_strings", so parsed file return some strings. Thus, we need add a comment with filename
      if (stringsarray.length>current_strings) stringsarray.splice(current_strings,0,";file "+curfilepath.substring(trunkPath.length));
+     //do the same for crap array, add a ;file +relative path to file with crap
      if (crap.length>crap_strings) crap.splice(crap_strings,0,";file "+curfilepath.substring(trunkPath.length));
      //move to next file
      filesenum.moveNext();
@@ -396,18 +404,17 @@ function ParseRCFile(RC_File,array) {
  //Reading line-by-line
  while (!RC_File_stream.AtEndOfStream) {
       //Init regexp array for getting only $1 from regexp search
-      regexpstring=new Array();
+      rc_regexp=new Array();
       //clear up variable
       stringtolangpack="";
       //read on line into rcline
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
-      regexpstring=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*\"([^\"]+(\"\")?[^\"]*(\"\")?[^\"]*)\"\,?/);
-      
-      // if exist regexpstring, do checks, double "" removal and add strings to array
-          if (regexpstring) {
+      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*\"([^\"]+(\"\")?[^\"]*(\"\")?[^\"]*)\"\,?/);
+      // if exist rc_regexp, do checks, double "" removal and add strings into array
+          if (rc_regexp) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-            switch (regexpstring[1]) {
+            switch (rc_regexp[1]) {
             case "List1": {break};
             case "List2": {break};
             case "Tab1":  {break};
@@ -423,7 +430,7 @@ function ParseRCFile(RC_File,array) {
             //default action is to wrote text inside quoted into array
             default:
             //if there is double "", replace with single one
-            stringtolangpack=regexpstring[1].replace(/\"{2}/g,"\"");
+            stringtolangpack=rc_regexp[1].replace(/\"{2}/g,"\"");
             //add string  to array
             array.push("["+stringtolangpack+"]");
             }
@@ -442,7 +449,10 @@ function ParseSourceFile (SourceFile,array) {
  //this is final great regexp ever /(?:LPGENT?|Translate[TW]?|_T)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["']\x20*?\))/mg
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " than \S\s - magic with multiline capture, ending with not stored ?= " or ', than none or few spaces \x20 followed by )/m=multiline g=global
  var find= /(?:LPGENT?|Translate[TW]?|_T)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["'],?\x20*?(?:tmp)?\))/mg;
-  //read file fully into var
+ //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
+ //var find= /(?:LPGENT?|Translate[TW]?)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["'],?\x20*?(?:tmp)?\))/mg;
+ 
+ //read file fully into var
  allstrings=sourcefile_stream.ReadAll();
  //now make a job, till end of matching regexp
  while ((string = find.exec(allstrings)) != null) {
@@ -456,7 +466,7 @@ function ParseSourceFile (SourceFile,array) {
     if (stringtolangpack.length>2) {
         //brand new _T() crap filtering engine :)
         clearstring=filter_T(stringtolangpack);
-        //finally put string into array including cover []
+        //finally put string into array including cover brackets []
         if (clearstring) {array.push("["+clearstring+"]")}
         };
     }
@@ -472,17 +482,9 @@ var filter1=/^[^\:\-\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
-//filter from Kildor, different versinos.
-//var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|\.(\w{2,4}|travel|museum|xn--\w+)|\W|\s|\d+)+$/g;
-//var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
-//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|color|)=\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
-//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
-//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W+|\s+|\d+)+$/gi;
-//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
+//filter from Kildor
 var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
 //filter from Kildor for remove filenames and pathes.
-//var filter5=/^[\w-*]+\.\w+$/g;
-//var filter5=/^[\w_:%.\\*-]+\.\w+$/g;
 var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
 
 //apply filters to our string
@@ -508,9 +510,9 @@ function ParseVersion_h (VersionFile,array) {
 if (!FSO.GetFileName(VersionFile)) return;
 //open file
 versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, TristateUseDefault);
-//read file fully into var
+//read file fully into var allstrings
 allstrings=versionfile_stream.ReadAll();
-//define RegExp for var defines.
+//define RegExp for defines.
 var filename=/(?:#define\s+__FILENAME\s+")(.+)(?=")/m;
 var pluginname=/(?:#define\s+__PLUGIN_NAME\s+")(.+)(?=")/i;
 var author=/(?:#define\s+__AUTHOR\s+")(.+)(?=")/i;
@@ -566,9 +568,9 @@ function eliminateDuplicates(arr) {
   return out;
 };
 
-//Put array of strings into file
+//Output array of strings into file
 function WriteToFile (array,langpack) {
- //Create file
+ //Create file, overwrite if exists
  langpackfile=FSO.CreateTextFile(langpack, overwritefile , unicode)
  //Finally, write strings from array to file
  for (i=0;i<=array.length-1;i++) langpackfile.WriteLine(array[i]);
