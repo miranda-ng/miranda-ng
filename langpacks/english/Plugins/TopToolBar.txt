@@ -5,6 +5,7 @@
 ;  Version: 0.8.0.1
 ;  Authors: 
 ;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
 [Button height]

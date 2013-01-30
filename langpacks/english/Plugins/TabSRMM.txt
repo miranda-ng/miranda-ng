@@ -782,6 +782,7 @@
 [<no skin>]
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 [Load theme]
+[Internal message log]
 [IEView plugin]
 [History++ plugin]
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
@@ -1178,6 +1179,7 @@
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 [Notice from %s: ]
+[<invalid>]
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [PERF text match: %d ticks = %f msec (%d words, %d patterns)]
 [Add user to highlight list]

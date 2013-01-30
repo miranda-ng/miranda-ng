@@ -686,6 +686,7 @@
 [ (set by %s)]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
+[<invalid>]
 ;file \src\core\stdchat\src\options.cpp
 [Terminal]
 [Others nicknames]

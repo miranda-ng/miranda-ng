@@ -91,6 +91,11 @@
 [Add/change user &birthday]
 [Birthdays]
 [Contacts]
+;file \plugins\WhenWasIt\src\icons.cpp
+[Check birthdays menu item]
+[List birthdays menu item]
+[Add/change birthday]
+[WhenWasIt birthday reminder]
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 [%s has birthday in %d days.]

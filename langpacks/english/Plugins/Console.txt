@@ -5,6 +5,7 @@
 ;  Version: x.x.x.x
 ;  Authors: 
 ;============================================================
+[Console log window for Miranda.]
 ;file \plugins\Console\res\resource.rc
 [Console                                    ]
 [Single window mode*]

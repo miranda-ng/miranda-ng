@@ -368,6 +368,7 @@
 [ (set by %s)]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
+[<invalid>]
 ;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 [&Leave]
