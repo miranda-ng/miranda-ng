@@ -15,6 +15,7 @@
 [Resource overlays]
 [Platform overlays]
 [Protocols overlays]
+[Unicode overlay]
 [Secure overlays]
 [Select protocols]
 [AIM clients]
@@ -32,7 +33,6 @@
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
-[Note: Miranda NG will have to be restarted for changes to take effect.]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons/Miranda clients]
 [Client icons/Miranda clients/Pack overlays]
@@ -53,6 +53,7 @@
 [Client icons/Other icons]
 [Client icons/Overlays/Resource]
 [Client icons/Overlays/Platform]
+[Client icons/Overlays/Security]
 [Client icons/Overlays/Protocol]
 [Client icons]
 ;file \plugins\FingerprintNG\src\masks.cpp
@@ -1059,7 +1060,10 @@
 [x64 overlay]
 [x32 overlay]
 [*unicode*]
-[Unicode overlay]
+[*New*GPG*]
+[NewGPG overlay]
+[*Mir*OTR*]
+[MirOTR overlay]
 [*Secure*IM*]
 [SecureIM overlay]
 ;file \plugins\FingerprintNG\src\options.cpp

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
 ;============================================================
 ;  File: mTextControl.dll
 ;  Plugin: mTextControl

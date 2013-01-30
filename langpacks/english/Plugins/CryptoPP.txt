@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: CryptoPP
@@ -6,8 +6,10 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
+[GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
 [User ID]
 [Ok]
 [Cancel]
+[GnuPG Plugin - Select public key]
 [Refresh]

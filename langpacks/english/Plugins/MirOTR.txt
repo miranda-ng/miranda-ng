@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
@@ -6,6 +6,7 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
 [Generating new private key - please wait.]
 [Default Policy]
 [Always]
@@ -30,11 +31,13 @@
 [Set verified]
 [Set unknown]
 [Forget]
+[MirOTR]
 [OTR status]
 [&Start OTR session]
 [&Refresh OTR session]
 [Sto&p OTR session]
 [&Verify Fingerprint]
+[Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
 [&OK]

@@ -1,10 +1,11 @@
-;#muuid not found, please specify manually!
+#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
+[No more spam! Robots can't go! Only human beings invited!]
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 [Restore defaults]
@@ -13,7 +14,7 @@
 [Auth. request reply:]
 [Divider:]
 [Vars]
-[Disable protection for following protocols:]
+[Disable protection for following accounts:]
 [Do not send more than ]
 [ questions to one contact (0 - for no limit)]
 [Enable StopSpam-StopSpam infinite talk protection]
@@ -26,7 +27,7 @@
 [Message Sessions]
 [Main]
 [Messages]
-[Protocols]
+[Accounts]
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 [StopSpam automatic message:\r\n]

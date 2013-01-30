@@ -5,7 +5,9 @@
 ;  Version: 0.5.0.10
 ;  Authors: Scott Ellis
 ;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 ;file \plugins\YAPP\res\yapp.rc
+[Popup history]
 [Close]
 [Case sensitive]
 [Default Timeout]

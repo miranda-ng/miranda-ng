@@ -13,6 +13,7 @@
 [... on left side of name]
 [Hide subcontacts]
 [But keep subcontacts of protocols in above list if meta is hidden]
+[Enter username:]
 [Show all contacts (Ctrl+A)]
 ;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]

@@ -1,11 +1,13 @@
-;#muuid not found, please specify manually!
+;#muuid for UInfoEx not found, please specify manually!
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Gives extended ability to edit information about your contacts locally. ]
 ;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Origin]
 [&Update]
@@ -45,11 +47,13 @@
 [Occupation:]
 [Superior:]
 [Assistant:]
+[Add Phone Number]
 [Enter your phone number\nand don't worry about formating.]
 [Enter a category for this number:]
 [Enter country, area code and phone number:]
 [Or enter a full international number:]
 [Phone can receive SMS text messages]
+[Add E-Mail]
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
 [Enter a representitive name for the e-mail address here.]
 [Enter the e-mail address here.]
@@ -86,8 +90,10 @@
 [Add Past]
 [Add Interest]
 [Delete]
+[Anniversary Editor]
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 [Enter a name for the anniversary here please:]
+[Anniversary list]
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Statistics:]
 [with birthday:]
@@ -124,10 +130,12 @@
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
 [TreeView]
 [Adapt propertysheet pages to aero mode.]
+[Import]
 [Importing...\nPlease wait!]
 [Setting/Event (20/100)]
 [Progress1]
 [John Doe (1/10)]
+[Dialog]
 [OK]
 [All]
 [None]
@@ -159,11 +167,13 @@
 [not found]
 [Use global reminder settings.]
 [Don't remind me of this anniversary.]
+[Refresh Contact Details]
 [Preparing...]
 [Hide]
 [What do you want to export?]
 [Contact Information]
 [Contact History]
+[Select Modules]
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
 [Check all]
 [Uncheck all]
@@ -233,7 +243,6 @@
 [Birthdays only]
 [Anniversaries only]
 [Disabled reminder]
-[Anniversary list]
 [Popup Anniversary list]
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -263,7 +272,6 @@
 [Import from file]
 [Segoe UI]
 [Owner]
-[Edit Contact Information]
 [Upload ICQ Details]
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
@@ -284,7 +292,6 @@
 [Import all contacts]
 [Backup birthdays]
 [Check anniversaries]
-[Refresh Contact Details]
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]

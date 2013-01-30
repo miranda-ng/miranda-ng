@@ -36,6 +36,7 @@
 [Invisible]
 [Offline]
 [Reset colors]
+[Last seen plugin]
 [OK]
 [You missed following contacts:]
 [Test\nTest]

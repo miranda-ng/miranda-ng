@@ -1,11 +1,13 @@
-;#muuid not found, please specify manually!
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
 ;  Version: x.x.x.x
 ;  Authors: 
 ;============================================================
+[Adds some useful options to a contacts menu.]
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
 [&Send]
 [&Cancel]
 [Shown menu items]

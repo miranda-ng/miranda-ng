@@ -5,6 +5,7 @@
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[This plugin lets you control Miranda from the command line.]
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 [Available commands: ]

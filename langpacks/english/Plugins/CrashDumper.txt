@@ -6,6 +6,7 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
 [Close]
 [Copy To Clipboard]
 [To File]
@@ -16,6 +17,7 @@
 [General]
 [Use classic dates]
 [Create reports in subfolders naming as current date]
+[View]
 [&Copy]
 [Co&py All]
 [Select &All]

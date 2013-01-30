@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
@@ -67,9 +67,12 @@
 [Userdetails]
 [dufte]
 [Copy]
+[Enter Password]
 [Join]
+[Set Nickname]
 [OK]
 [Cancel]
+[New xfire_games.ini]
 [There is a new XFire Gamelist online, do you want to update now?]
 [New supported Games:]
 [Update]
@@ -85,6 +88,7 @@
 [Send game id:]
 [Statusmessage for Xfire, if this game will be started:]
 [Parameter:]
+[Add a new game]
 [Searching games ...]
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp

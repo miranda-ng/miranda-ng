@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
@@ -77,6 +77,7 @@
 [New status:]
 [Variables]
 [Reset]
+[Disable notifications]
 [OK]
 [Cancel]
 [Disable globally]

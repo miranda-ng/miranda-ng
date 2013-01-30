@@ -1,10 +1,11 @@
-;#muuid not found, please specify manually!
+#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
+[An Auto Away module with some more options than the original.]
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status]
 [minutes of %s mode]

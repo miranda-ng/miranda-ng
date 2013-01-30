@@ -1,6 +1,7 @@
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
 [Nickname:]
 [OK]
 [Cancel]
@@ -33,7 +34,9 @@
 [Protocol]
 [Show protocol name]
 [Show protocol cycle button]
+[Set My Status Message for All Status]
 [Status Message:]
+[Status popup]
 [&Offline]
 [On&line]
 [&Away]
@@ -44,6 +47,7 @@
 [&Invisible]
 [On the &Phone]
 [Out to &Lunch]
+[Context popup]
 [Set My Avatar...]
 [Set My Nickname...]
 [Set My Status Message...]
@@ -52,6 +56,10 @@
 [Show previous protocol]
 [Cycle through protocols]
 [Don't cycle through protocols]
+[Nick popup]
+[Status message popup]
+[Avatar popup]
+[ListeningTo popup]
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 ;file \plugins\MyDetails\src\frame.cpp

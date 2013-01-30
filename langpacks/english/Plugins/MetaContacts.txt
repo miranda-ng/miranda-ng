@@ -5,11 +5,14 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
+[Merges contacts from the same or different protocols into one.]
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[Add to Existing MetaContact]
 [Please select a MetaContact:]
 [&Ok]
 [&Cancel]
 [Sort Alphabetically]
+[Editing]
 [&OK]
 [Name:]
 [Information]
@@ -40,8 +43,10 @@
 [Copy subcontact data]
 [Lock name to first contact]
 [but only for the current conversation]
+[History Copy]
 [Progress1]
 [Please wait while the contact's history is copied.]
+[History Remove]
 [Please wait while the contact's history is removed.]
 [Subcontact Priorities]
 [Rank:]
@@ -100,7 +105,12 @@
 [Meta ID]
 [No online contacts found.]
 [Message from %s]
+[Toggle MetaContacts Off]
+[Add to existing MetaContact...]
+[Edit MetaContact...]
+[Set as MetaContact default]
 [Context]
+[Toggle MetaContacts On]
 [General]
 [Priorities]
 [History]

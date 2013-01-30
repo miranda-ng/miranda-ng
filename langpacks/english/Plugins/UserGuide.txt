@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
 ;langpack template for UserGuide
 ;file \plugins\UserGuide\src\main.cpp
 [%miranda_path%\\Plugins]

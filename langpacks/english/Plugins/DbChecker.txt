@@ -12,6 +12,7 @@
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
 [This programme is licenced under the terms of the GNU General Public License.]
+[Miranda Database Tool]
 [< &Back]
 [&Next >]
 [Cancel]
@@ -54,7 +55,6 @@
 ;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-[Miranda Database Tool]
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]

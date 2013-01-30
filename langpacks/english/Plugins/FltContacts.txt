@@ -1,10 +1,11 @@
-;#muuid not found, please specify manually!
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating Contacts
 ;  Version: x.x.x.x
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 [Hide offline contacts]

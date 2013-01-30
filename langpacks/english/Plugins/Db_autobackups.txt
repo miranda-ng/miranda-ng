@@ -6,6 +6,7 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
 [Cancel]
 [Automatic Backups]
 [Number of backups to keep:]

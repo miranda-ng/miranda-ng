@@ -24,6 +24,7 @@
 [Border style]
 [3D border (bright / dark)]
 [Item ignored]
+[Dialog]
 [Not yet supported]
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]

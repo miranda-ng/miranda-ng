@@ -21,7 +21,7 @@
 [bombus]
 [colibry]
 [berry]
-[iphone]
+[phone]
 [ipad]
 [im+]
 [bayan]

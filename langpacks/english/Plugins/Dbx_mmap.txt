@@ -6,6 +6,7 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -13,6 +14,7 @@
 [No to all]
 [&View contents]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+[Database Setting Change]
 [Database settings are being imported from]
 [This file wishes to change the setting]
 [to the value]
@@ -21,6 +23,7 @@
 [&Yes]
 [&No]
 [Cancel Import]
+[Database Import Complete]
 [The import has completed from]
 [What do you want to do with the file now?]
 [&Recycle]

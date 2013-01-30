@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
@@ -6,6 +6,7 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\Console\res\resource.rc
+[Console                                    ]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]

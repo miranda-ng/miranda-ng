@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -31,6 +31,7 @@
 [ZIP support]
 [Enter archive name manually]
 [Compression level:]
+[Upload File Manager]
 [File:]
 [Completed:]
 [Speed:]
@@ -47,25 +48,28 @@
 [User info]
 [UPLOADING...]
 [Open in Browser]
+[FTP File Manager]
 [Select All]
 [Deselect All]
 [Delete from list]
 [Delete from FTP]
+[Enter file name]
 [OK]
 [Cancel]
+[File exists]
 [Rename]
 [Overwrite]
 [File with the same name already exists on the server.]
 [How to proceed?]
 [Copy URL]
 [Close dialog after upload finishes]
+[Automatically delete file after...]
 [Disabled]
 [Delete from List]
 [Copy Link]
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 [Copy Link to Clipboard]
-[FTP File Manager]
 [%d minutes]
 [%d hours]
 [%d days]
@@ -87,7 +91,7 @@
 [Upload canceled]
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 ;file \plugins\FTPFileYM\src\job_generic.cpp
-[All Files (*.*)\0*.*\0]
+[All Files (*.*)]
 [FTP File - Select files]
 [FTP File - Select a folder]
 [Folder not found!]

@@ -5,7 +5,9 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
 ;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
 [OK]
 [Cancel]
 [Text file]
@@ -18,7 +20,6 @@
 [Forum style formatting]
 [Aditional options:]
 [Do it now]
-[Output to:]
 [Show window in taskbar]
 [Ask every time]
 [Also copy info to clipboard]
@@ -32,6 +33,7 @@
 [Enable debug messages]
 [Show plugin UUIDs]
 [Show installed languages]
+[Miranda Version Information]
 [Close]
 [&Copy text]
 [Upload]

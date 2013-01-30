@@ -7,6 +7,7 @@
 ;============================================================
 [History viewer for Miranda NG.]
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
 [Settings]
 [Always show contact list]
 [Show groups in contact list]
@@ -51,6 +52,7 @@
 [Delete task]
 [Display errors using popups]
 [Save errors to system history]
+[Task]
 [Name]
 [Active]
 [Action type]

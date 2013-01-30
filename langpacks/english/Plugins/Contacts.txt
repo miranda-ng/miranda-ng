@@ -1,6 +1,7 @@
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
 [&A]
 [6]
 [&D]
@@ -9,10 +10,12 @@
 [&Send]
 [Cancel]
 [&Select All]
+[Received contacts]
 [Add to &group:]
 [&Add]
 [&Details]
 [Close]
+[Contacts send error]
 [An error has occured. The protocol reported the following error:]
 [Try again]
 [Popup]

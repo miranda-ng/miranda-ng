@@ -52,6 +52,7 @@
 [Options]
 [New Mail]
 [Errors]
+[Check while ...]
 [Cancel]
 [Choose modes]
 [Offline]

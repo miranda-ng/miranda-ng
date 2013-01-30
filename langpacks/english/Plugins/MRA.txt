@@ -76,6 +76,7 @@
 [Text Color]
 [Timeout]
 [Previe&w]
+[Custom Status "%s" Details]
 [Closing in %d]
 [Title:]
 [Message:]
@@ -95,6 +96,7 @@
 [Notify]
 [Writed:]
 [0/500]
+[Select e-mail]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 [plugin connections]

@@ -7,6 +7,7 @@
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
 [Update]
 [View info]
 [Cancel]

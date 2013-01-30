@@ -23,6 +23,7 @@
 [Protect the picture and prevent automatic avatars from overwriting it]
 [Make the avatar square]
 [Resize the avatar to fit max allowed protocol size]
+[Dialog]
 [Contact picture]
 [Change]
 [Delete]

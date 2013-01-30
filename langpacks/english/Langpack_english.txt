@@ -1,10 +1,11 @@
-Miranda Language Pack Version 1
+ï»¿Miranda Language Pack Version 1
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
 [Choose the protocol type]
 [Specify the internal account name (optional)]
 [OK]
 [Cancel]
+[Add %s]
 [&Add]
 [&Cancel]
 [Send "You were added"]
@@ -13,6 +14,7 @@ Miranda Language Pack Version 1
 [Group:]
 [Options]
 [Authorization Request]
+[Delete Contact]
 [&Yes]
 [&No]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -21,9 +23,11 @@ Miranda Language Pack Version 1
 [This will erase all history and settings for this contact!]
 [Contact Display Options]
 [Instead of displaying contacts by their nickname, drag to choose another order:]
+[Miranda NG Profile Manager]
 [&Run]
 [&Exit]
 [Start in Service Mode with]
+[Find/Add Contacts]
 [Search:]
 [E-mail address]
 [Name]
@@ -41,6 +45,7 @@ Miranda Language Pack Version 1
 [Apply]
 [Switch to simple options]
 [Please select a subentry from the list]
+[Install Database Settings]
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -48,18 +53,21 @@ Miranda Language Pack Version 1
 [No to all]
 [&View contents]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+[Database Setting Change]
 [Database settings are being imported from]
 [This file wishes to change the setting]
 [to the value]
 [Do you want to allow this change?]
 [&Allow all further changes to this section]
 [Cancel Import]
+[Database Import Complete]
 [The import has completed from]
 [What do you want to do with the file now?]
 [&Recycle]
 [&Delete]
 [&Move/Rename]
 [&Leave]
+[Netlib Log Options]
 [Show]
 [Received bytes]
 [Sent bytes]
@@ -105,6 +113,7 @@ Miranda Language Pack Version 1
 [Visibility]
 [You are visible to this person even when in invisible mode]
 [You are never visible to this person]
+[Icon Index]
 [Icon library:]
 [Drag icons to main list to assign them:]
 [Import multiple]
@@ -152,6 +161,7 @@ Miranda Language Pack Version 1
 [Text Effect]
 [Text Color]
 [Choose Font]
+[Font]
 [&Font:]
 [Font st&yle:]
 [\nStyles and effects are disabled for this font.]
@@ -186,6 +196,7 @@ Miranda Language Pack Version 1
 [Undo Changes]
 [Reset To Default]
 [Hotkeys]
+[Accounts]
 [Accounts\nConfigure your IM accounts]
 [Account information:]
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
@@ -197,8 +208,10 @@ Miranda Language Pack Version 1
 [&Options]
 [&Upgrade]
 [&Remove...]
+[Miranda NG]
 [Miranda NG is being restarted.\nPlease wait...]
 [Close]
+[Error Console]
 [Error notifications]
 [Headers:]
 [This font is used to display main section titles or text elements.]
@@ -209,6 +222,7 @@ Miranda Language Pack Version 1
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
 [Event icon legend:]
 [Choose events you wish to ingonre:]
+[Font Effect]
 [Effect:]
 [Base colour:]
 [opacity:]
@@ -216,32 +230,38 @@ Miranda Language Pack Version 1
 [Select the extra icons to be shown in the contact list:]
 [* only the first %d icons will be shown]
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[Tray]
 [&Hide/Show]
 [E&xit]
+[Nowhere]
 [&New Group]
 [&Hide Offline Users]
 [Hide &Offline Users out here]
 [Hide &Empty Groups]
 [Disable &Groups]
 [Hide Miranda]
+[Group]
 [&New Subgroup]
 [&Hide Offline Users in here]
 [&Rename Group]
 [&Delete Group]
+[IconOptions]
 [&Reset to default]
+[find/add]
 [&Add to List]
 [User &Details]
 [Send &Message]
+[Log]
 [&Copy]
 [Co&py All]
 [Select &All]
 [C&lear Log]
+[LogLink]
 [Open in &new window]
 [&Open in existing window]
 [&Copy link]
 [Cancel Change]
 [&Reset To Default]
-[Group]
 [Ungroup]
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
@@ -251,9 +271,11 @@ Miranda Language Pack Version 1
 [Reason:]
 [Denial Reason:]
 [Add to contact list if authorized]
+[You Were Added]
 [&Close]
 [&U]
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
 [Retrieving %s message...]
 [Status Messages]
 [Do not reply to requests for this message]
@@ -262,6 +284,7 @@ Miranda Language Pack Version 1
 [By default, use this message:]
 [Use %time% for the current time, %date% for the current date]
 [Status messages:]
+[Change %s Message]
 [Closing in %d]
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
@@ -298,14 +321,17 @@ Miranda Language Pack Version 1
 [Text]
 [Background]
 [(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+[List]
 [&Message]
 [Clear lo&g]
 [Co&py all]
 [Word lookup]
 [Google]
 [Wikipedia]
+[Link]
 [Open a &new browser window]
 [&Open in current browser window]
+[Message]
 [Undo  ]
 [Redo]
 [Copy]
@@ -313,6 +339,7 @@ Miranda Language Pack Version 1
 [Paste]
 [Select All]
 [Clear]
+[Tabs]
 [&Close tab]
 [C&lose other tabs]
 [&Open at this position]
@@ -413,6 +440,8 @@ Miranda Language Pack Version 1
 [If window is partially covered, bring iy to front]
 [Window:]
 [Contact list background:]
+[&Â¤]
+[&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
 [&Away\tCtrl+2]
@@ -424,6 +453,7 @@ Miranda Language Pack Version 1
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
 ;file \src\core\stdfile\resource.rc
+[Send File(s)]
 [To:]
 [File(s):]
 [&Choose Again...]
@@ -431,6 +461,7 @@ Miranda Language Pack Version 1
 [6]
 [&D]
 [&H]
+[Incoming File Transfer]
 [A&ccept]
 [&Decline]
 [From:]
@@ -443,6 +474,7 @@ Miranda Language Pack Version 1
 [Open folder]
 [Transfer completed, open file(s).]
 [No data transferred]
+[File Already Exists]
 [Resume]
 [Resume all]
 [Overwrite]
@@ -458,6 +490,7 @@ Miranda Language Pack Version 1
 [Open file]
 [File properties]
 [File being received]
+[File Transfers]
 [Clear completed]
 [Receiving files]
 [Received files folder:]
@@ -479,6 +512,7 @@ Miranda Language Pack Version 1
 [Rename (append " (1)", etc.)]
 [You will always be asked about files from people not on your contact list]
 ;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
 [Miranda NG\n%s]
 [Credits >]
 ;file \src\core\stdidle\resource.rc
@@ -520,9 +554,11 @@ Miranda Language Pack Version 1
 [Limit avatar height to ]
 [pixels.]
 [Max Number of Flashes]
+[Send Error]
 [An error has occured. The protocol reported the following error:]
 [while sending the following message:]
 [Try again]
+[Message Session]
 [Message Window Event Log]
 [Show names]
 [Show timestamp]
@@ -548,13 +584,18 @@ Miranda Language Pack Version 1
 [Paste && Send]
 [Delete]
 ;file \src\core\stduihist\resource.rc
+[Find]
 [&Find Next]
 [Find What:]
+[Message History]
 [&Find...]
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
 [Enter country, area code and phone number:]
 [Or enter a full international number:]
 [Phone can receive SMS text messages]
+[Add E-Mail Address]
+[%s: User Details]
 [%s\nView personal user details and more]
 [Update Now]
 [Updating]
@@ -867,7 +908,6 @@ Miranda Language Pack Version 1
 [Invisible]
 [Out to lunch]
 [On the phone]
-[List]
 [List Background]
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
@@ -921,7 +961,6 @@ Miranda Language Pack Version 1
 [InstallDir]
 ["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
 [Executable Files]
-[File Transfers]
 [Events]
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
@@ -982,7 +1021,6 @@ Miranda Language Pack Version 1
 [Outgoing message (10x10)]
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
-[Message Session]
 [signed off (was %s)]
 [signed on (%s)]
 [is now %s (was %s)]
@@ -1077,7 +1115,6 @@ Miranda Language Pack Version 1
 ;file \src\mir_core\miranda.cpp
 [ComboLBox]
 ;file \src\modules\addcontact\addcontact.cpp
-[Add %s]
 [Add Contact]
 [Please authorize my request and add me to your contact list.]
 ;file \src\modules\clist\clcitems.cpp
@@ -1096,10 +1133,8 @@ Miranda Language Pack Version 1
 [TaskbarCreated]
 [TaskbarButtonCreated]
 [&Main Menu]
-[&Status]
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
-[Delete Contact]
 [Miranda::ProcessProfile]
 [De&lete]
 [&Rename]
@@ -1121,7 +1156,6 @@ Miranda Language Pack Version 1
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 [Customize]
-[Accounts]
 ;file \src\modules\clist\groups.cpp
 [New Group]
 [Are you sure you want to delete group '%s'?  This operation can not be undone.]
@@ -1152,7 +1186,6 @@ Miranda Language Pack Version 1
 [Miranda is trying upgrade your profile structure.\n]
 [It cannot move profile %s to the new location %s\n]
 [Because profile with this name already exist. Please resolve the issue manually.]
-[Miranda NG]
 [It cannot move profile %s to the new location %s automatically\n]
 [Most likely due to insufficient privileges. Please move profile manually.]
 [Profile cannot be placed into Miranda root folder.\n]
@@ -1186,7 +1219,6 @@ Miranda Language Pack Version 1
 [This change is known to be potentially hazardous.]
 [This change is not known to be safe.]
 [Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-[Install Database Settings]
 [Use]
 [prompt]
 [Safe]
@@ -1334,6 +1366,8 @@ Miranda Language Pack Version 1
 [%s\\Plugins\\%s]
 [Plugin]
 [Version]
+[Miranda NG must be restarted to apply changes for these plugins:]
+[Do you want to restart it now?]
 ;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 [Editing account]
@@ -1372,7 +1406,6 @@ Miranda Language Pack Version 1
 [System scope]
 [Miranda scope]
 ;file \src\modules\skin\skinicons.cpp
-[Message]
 [User Online]
 [Group (Open)]
 [Group (Closed)]
@@ -1402,6 +1435,7 @@ Miranda Language Pack Version 1
 [Off]
 [Running core plugin]
 [Non-loadable plugin]
+[Frames]
 [Always visible]
 [Always invisible]
 [Locked status]
@@ -1432,84 +1466,9 @@ Miranda Language Pack Version 1
 [Std]
 [Dlt]
 ;file \src\modules\utils\utils.cpp
+["%s" /restart:%d /profile=%s]
 ["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp
-;#muuid not found, please specify manually!
-;langpack template for actman
-;file \plugins\Actman\options.rc
-[Delete]
-[&Change]
-[C&ancel]
-[Reload]
-[Export]
-[Import]
-[Reset]
-[Action]
-[Choose Contact]
-[Dropdown list format]
-[Apply]
-[You can use %name%, %uid%, %account% and %group% macros]
-[wParam type]
-[lParam type]
-[Service name]
-[Process time, ms]
-[V]
-[Program path]
-[Program args]
-[Text to insert]
-[Other Action groups]
-[Message title]
-[Yes to &All]
-;file \plugins\Actman\hooks\hooks.rc
-;file \plugins\Actman\tasks\tasks.rc
-[Date]
-[Days]
-[Time]
-[Repeat, times]
-[Interval]
-;file \plugins\Actman\ua\ua.rc
-[Action list]
-[Where to use]
-[Normal button tooltip]
-[Pressed button tooltip]
-[Root popup:]
-[Menu item name:]
-[Show only if variables return 1]
-;file \plugins\Actman\i_inoutxm.inc
-[Action "$" exists, do you want to rewrite it?]
-;file \plugins\Actman\i_options.inc
-[No Description]
-;file \plugins\Actman\i_opt_dlg.inc
-;file \plugins\Actman\i_opt_dlg2.inc
-[Help]
-[New]
-[Down]
-[Test]
-[Apply format]
-[Use Variables]
-[Select contact to open it''s window]
-[Contacts]
-[Text <last> replacing\r\nby last result\r\nText <param> replacing\r\nby parameter]
-[Text]
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-[You can select another group from combobox, \r\nthen it will be executed, after that current \r\naction group will be continued.]
-[Macros]
-[MessageBox]
-[Append data to file]
-;file \plugins\Actman\i_visual.inc
-[hContact]
-[parameter]
-[result]
-[structure]
-;file \plugins\Actman\hooks\i_opt_dlg.inc
-[hook sample]
-[Description]
-[Name]
-;file \plugins\Actman\tasks\i_opt_dlg.inc
-[Task sample]
-[Starting after]
-[Starting from]
-[Start immediately]
 #muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
@@ -1519,6 +1478,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact]
 [Add Contact\nAdd a contact to your contact list]
 [Account:]
 [Contact ID:]
@@ -1550,13 +1510,14 @@ Miranda Language Pack Version 1
 ;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
 [Generic image services for Miranda NG.]
-;#muuid not found, please specify manually!
+#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
+[An Auto Away module with some more options than the original.]
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status]
 [minutes of %s mode]
@@ -1600,6 +1561,7 @@ Miranda Language Pack Version 1
 [Force Single Client]
 [Save Profile]
 [Create a new AIM account]
+[AIM Instant Idler]
 [Number of Hours:]
 [Number of Minutes:]
 [Set Idle]
@@ -1614,6 +1576,7 @@ Miranda Language Pack Version 1
 [Remove]
 [Idle]
 [Allow contacts to be notified of:]
+[Join Chat Room]
 [Chat Room]
 [&Join]
 [&Cancel]
@@ -1628,8 +1591,10 @@ Miranda Language Pack Version 1
 [Confirm Account]
 [*Applied upon reconnect]
 [Save Changes]
+[Invite Buddy To Chat Room]
 [&Invite]
 [Invitation reason]
+[Chat Room Invitation Request]
 [&Deny]
 [Message]
 [Room]
@@ -1816,6 +1781,7 @@ Miranda Language Pack Version 1
 [Round corners]
 [Don't steal focus unless idle]
 [Preview]
+[Alarm]
 [OK]
 [Cancel]
 [Title:]
@@ -1846,6 +1812,7 @@ Miranda Language Pack Version 1
 [Snooze]
 [Static]
 [...]
+[Reminder Frame Context]
 [&Suspend]
 [&Edit...]
 [&Delete]
@@ -1865,7 +1832,6 @@ Miranda Language Pack Version 1
 [Background]
 [Window]
 ;file \plugins\Alarms\src\frame.cpp
-[Events]
 [Hide Reminders]
 [Show Reminders]
 [AlarmsFrame]
@@ -1889,6 +1855,7 @@ Miranda Language Pack Version 1
 [Please enter a title for this alarm.]
 [Error]
 [The alarm time you have selected is in the past.]
+[Events]
 ;file \plugins\Alarms\src\trigger.cpp
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
@@ -2155,9 +2122,11 @@ Miranda Language Pack Version 1
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
 [Save As...]
 [Delete this entry]
 [Delete this entry and the bitmap file]
+[Avatar History]
 [Static]
 [Open Folder]
 [<]
@@ -2186,6 +2155,7 @@ Miranda Language Pack Version 1
 [Avatar change:]
 [Avatar removal:]
 [Preview]
+[Avatar History: Select how to store history avatars]
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
 [Store history in miranda history and all history avatars in same folder]
 [Store history in miranda history and history avatars in per protocol folders]
@@ -2213,7 +2183,6 @@ Miranda Language Pack Version 1
 [Save Avatar for %s]
 [Save Avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Avatar History]
 [Contact changed avatar]
 [Contact removed avatar]
 [%s\\Avatars History]
@@ -2283,6 +2252,7 @@ Miranda Language Pack Version 1
 [Protect the picture and prevent automatic avatars from overwriting it]
 [Make the avatar square]
 [Resize the avatar to fit max allowed protocol size]
+[Dialog]
 [Contact picture]
 [Change]
 [Delete]
@@ -2348,6 +2318,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [History viewer for Miranda NG.]
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
 [Settings]
 [Always show contact list]
 [Show groups in contact list]
@@ -2392,6 +2363,7 @@ Miranda Language Pack Version 1
 [Delete task]
 [Display errors using popups]
 [Save errors to system history]
+[Task]
 [Name]
 [Active]
 [Action type]
@@ -2657,14 +2629,15 @@ Miranda Language Pack Version 1
 ;file \plugins\BASS_interface\src\Main.cpp
 [HH:mm]
 [un4seen's bass version: %d.%d.%d.%d]
-[Sounds enabled]
-[Sounds disabled]
 [Customize]
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
 [BassInterfaceFrame]
 [Bass Interface]
+[\\Bass]
+[Sounds enabled]
+[Sounds disabled]
 #muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
 ;  File: Boltun.dll
@@ -2750,6 +2723,7 @@ Miranda Language Pack Version 1
 [Trigger when Miranda is hiding]
 [Trigger when Miranda is showing]
 [Pre-conditions]
+[BossKey]
 [Go to Customize -> Hotkeys to change the hotkey]
 [When I press the hotkey:]
 [Change status to]
@@ -2799,7 +2773,6 @@ Miranda Language Pack Version 1
 [DND]
 [Free for chat]
 [Invisible]
-[BossKey]
 [Events]
 [Main]
 [Advanced]
@@ -2939,6 +2912,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [ClientChangeNotify plugin for Miranda NG.]
 ;file \plugins\ClientChangeNotify\res\Resources.rc
+[ClientChangeNotify error]
 [OK]
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
@@ -2998,6 +2972,7 @@ Miranda Language Pack Version 1
 #muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;langpack template for Clist_blind
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Yes]
@@ -3078,7 +3053,9 @@ Miranda Language Pack Version 1
 [Make sections equal width]
 [Show bevels on panels]
 [Show resize grip indicator]
+[&¤]
 [E&xit]
+[&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
 [&Away\tCtrl+2]
@@ -3089,13 +3066,16 @@ Miranda Language Pack Version 1
 [&Invisible\tCtrl+7]
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
+[Tray]
 [&Hide/Show]
+[Nowhere]
 [&New Group]
 [&Hide Offline Users]
 [Hide &Offline Users out here]
 [Hide &Empty Groups]
 [Disable &Groups]
 [Hide Miranda]
+[Group]
 [&New Subgroup]
 [&Hide Offline Users in here]
 [&Rename Group]
@@ -3240,6 +3220,7 @@ Miranda Language Pack Version 1
 [Right click opens Miranda menu]
 [Space on Left]
 [Space on right]
+[Delete Contact]
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -3430,7 +3411,9 @@ Miranda Language Pack Version 1
 [Move up]
 [Move down]
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+[&¤]
 [E&xit]
+[&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
 [&Away\tCtrl+2]
@@ -3441,7 +3424,9 @@ Miranda Language Pack Version 1
 [&Invisible\tCtrl+7]
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
+[Tray]
 [&Hide/Show]
+[Nowhere]
 [&New Group]
 [&Hide Offline Users]
 [Hide &Offline Users out here]
@@ -3476,8 +3461,38 @@ Miranda Language Pack Version 1
 [Contact List/Frame texts]
 [Contact List/Special colours]
 [Arial]
+[Standard contacts]
+[Away contacts]
+[DND contacts]
+[NA contacts]
+[Occupied contacts]
+[Free for chat contacts]
+[Invisible contacts]
+[On the phone contacts]
+[Out to lunch contacts]
+[Offline contacts]
+[Online contacts to whom you have a different visibility]
+[Offline contacts to whom you have a different visibility]
+[Contacts who are 'not on list']
+[Open groups]
+[Open group member counts]
+[Closed groups]
+[Closed group member counts]
+[Dividers]
+[Second line]
+[Third line]
+[Status bar text]
+[Event area text]
+[Current view mode text]
+[Background]
+[Hot text]
+[Selected text]
+[Quick search text]
+[Menu text]
+[Selected menu text]
+[Frame title text]
+[Statusbar text]
 [General]
-[Tray]
 [List]
 [Window]
 [Skins]
@@ -3509,6 +3524,14 @@ Miranda Language Pack Version 1
 [No Events]
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
+[None]
+[Low]
+[Medium]
+[High]
+[Contact rate None]
+[Contact rate Low]
+[Contact rate Medium]
+[Contact rate High]
 [Show even if offline]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
@@ -3529,7 +3552,6 @@ Miranda Language Pack Version 1
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
-[&Status]
 [&Options...]
 [&About]
 ;file \plugins\Clist_modern\src\modern_clui.cpp
@@ -3618,15 +3640,42 @@ Miranda Language Pack Version 1
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Skin_Description_Section]
 [SkinFolder]
+[You need an image services plugin to process PNG images.]
+[Error]
 [Profile]
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Miranda skin file]
+[Load/Save]
+[Object Editor]
+[Author]
+[( unknown )]
+[URL]
+[Contact]
+[Description]
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+[reVista for Modern v0.5]
+[This is second default Modern Contact list skin in Vista Aero style]
+[Angeli-Ka (graphics), FYR (template)]
 [JID: fyr@jabber.ru]
+[Inside library]
+[Skin Information]
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+[Warning!]
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+[Miranda skin file]
+[msf]
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+[graphics by Angeli-Ka\ntemplate by FYR]
+[Select skin from list]
+[Please select skin to apply]
+[Default Skin]
 [%Default Skin%]
 [%%Default Skin%%]
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 [ModernStatusBar]
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[ << Global>>]
 [Center]
 [Right]
 [Bottom]
@@ -3635,7 +3684,6 @@ Miranda Language Pack Version 1
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_utils.cpp
-[Error]
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 [And]
@@ -3693,6 +3741,7 @@ Miranda Language Pack Version 1
 [Name:]
 [Set]
 [Default]
+[Delete Contact]
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -3778,7 +3827,9 @@ Miranda Language Pack Version 1
 [MetaContacts supporting]
 [Ignore Empty Extra icons places (arrange to right).]
 [Hide offline subcontacts.]
+[&¤]
 [E&xit]
+[&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
 [&Away\tCtrl+2]
@@ -3789,13 +3840,16 @@ Miranda Language Pack Version 1
 [&Invisible\tCtrl+7]
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
+[Tray]
 [&Hide/Show]
+[Nowhere]
 [&New Group]
 [&Hide Offline Users]
 [Hide &Offline Users out here]
 [Hide &Empty Groups]
 [Disable &Groups]
 [Hide Miranda]
+[Group]
 [&New Subgroup]
 [&Hide Offline Users in here]
 [&Rename Group]
@@ -3843,7 +3897,6 @@ Miranda Language Pack Version 1
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
-[&Status]
 [&Options...]
 [&About]
 ;file \plugins\Clist_mw\src\clui.cpp
@@ -3870,7 +3923,6 @@ Miranda Language Pack Version 1
 [&Up]
 [&Down]
 [Frames]
-[New Menu System not Found...]
 [Show All Frames]
 [Show All Titlebars]
 [Hide All Titlebars]
@@ -3885,6 +3937,7 @@ Miranda Language Pack Version 1
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
 ;file \plugins\Clist_nicer\res\resource.rc
+[CList Nicer exception]
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]
@@ -3915,11 +3968,13 @@ Miranda Language Pack Version 1
 [Hover time]
 [Use default]
 [ms]
+[About CList Nicer+]
 [OK]
 [Clist Nicer+]
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Version]
 [Support and latest version information]
+[Delete Contact]
 [No]
 [Yes]
 [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -4102,6 +4157,7 @@ Miranda Language Pack Version 1
 [Ignore selection for groups]
 [Load from skin file]
 [Export to skin file]
+[Dialog]
 [Ignore these events]
 [Messages]
 [Incoming file transfers]
@@ -4123,7 +4179,9 @@ Miranda Language Pack Version 1
 [Show 2nd line:]
 [Draw overlay icon on avatar]
 [Show local time]
+[&¤]
 [E&xit]
+[&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
 [&Away\tCtrl+2]
@@ -4134,7 +4192,9 @@ Miranda Language Pack Version 1
 [&Invisible\tCtrl+7]
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
+[Tray]
 [&Hide/Show]
+[Nowhere]
 [&New Group]
 [&Hide Offline Users]
 [Hide &Offline Users out here]
@@ -4146,6 +4206,7 @@ Miranda Language Pack Version 1
 [&Rename Group]
 [&Delete Group]
 [Move marked Contacts to this Group]
+[Appearance]
 [Show Status Icons]
 [Show Metacontact proto Icons]
 [Show additional Buttons]
@@ -4351,8 +4412,6 @@ Miranda Language Pack Version 1
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
-[&Status]
-[Appearance]
 [&Options...]
 [&About the contact list...]
 [&New SubGroup]
@@ -4386,6 +4445,7 @@ Miranda Language Pack Version 1
 [Border style]
 [3D border (bright / dark)]
 [Item ignored]
+[Dialog]
 [Not yet supported]
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
@@ -4402,6 +4462,7 @@ Miranda Language Pack Version 1
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[This plugin lets you control Miranda from the command line.]
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 [Available commands: ]
@@ -4461,7 +4522,7 @@ Miranda Language Pack Version 1
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]
-;#muuid not found, please specify manually!
+#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
@@ -4469,6 +4530,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Console\res\resource.rc
+[Console                                    ]
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]
@@ -4510,6 +4572,7 @@ Miranda Language Pack Version 1
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
 [&A]
 [6]
 [&D]
@@ -4518,10 +4581,12 @@ Miranda Language Pack Version 1
 [&Send]
 [Cancel]
 [&Select All]
+[Received contacts]
 [Add to &group:]
 [&Add]
 [&Details]
 [Close]
+[Contacts send error]
 [An error has occured. The protocol reported the following error:]
 [Try again]
 [Popup]
@@ -4541,6 +4606,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
 [Close]
 [Copy To Clipboard]
 [To File]
@@ -4551,6 +4617,7 @@ Miranda Language Pack Version 1
 [General]
 [Use classic dates]
 [Create reports in subfolders naming as current date]
+[View]
 [&Copy]
 [Co&py All]
 [Select &All]
@@ -4589,7 +4656,7 @@ Miranda Language Pack Version 1
 [Crash Dumper HTTP connections]
 ;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-;#muuid not found, please specify manually!
+#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: CryptoPP
@@ -4597,10 +4664,12 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
+[GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
 [User ID]
 [Ok]
 [Cancel]
+[GnuPG Plugin - Select public key]
 [Refresh]
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
@@ -4611,6 +4680,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [This plugin offers simple management functions to keep your extra statuses on one place.]
 ;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
 [A]
 [M]
 [D]
@@ -4621,6 +4691,7 @@ Miranda Language Pack Version 1
 [C]
 [O]
 [No items available in the database.\nClick the Add button to define some.]
+[Add/Modify Custom Status]
 [Add/Modify]
 [Cancel]
 [List settings]
@@ -4630,7 +4701,6 @@ Miranda Language Pack Version 1
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
-[Custom Status List]
 [Add new item]
 [Add]
 [Modify item]
@@ -4684,6 +4754,7 @@ Miranda Language Pack Version 1
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
 [To continue, click Next.]
 [This programme is licenced under the terms of the GNU General Public License.]
+[Miranda Database Tool]
 [< &Back]
 [&Next >]
 [Cancel]
@@ -4726,7 +4797,6 @@ Miranda Language Pack Version 1
 ;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-[Miranda Database Tool]
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
@@ -4763,7 +4833,7 @@ Miranda Language Pack Version 1
 [Elapsed time: %d sec]
 [All tasks completed but with errors (%d)]
 [All tasks completed successfully]
-;#muuid not found, please specify manually!
+#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: Svc_dbepp.dll
 ;  Plugin: Database Editor++
@@ -4772,6 +4842,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [Advanced Database Editor.]
 ;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ Search and Replace]
 [Case Sensitive]
 [Module Name]
 [Exact Match]
@@ -4797,31 +4868,43 @@ Miranda Language Pack Version 1
 [Popup timeout (0 for infinite)]
 [Background Colour]
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
+[Add a module to contact]
 [Add a module named]
 [Add to all contacts (Includes Settings)]
 [OK]
 [Cancel]
+[Edit Setting]
 [Value Name:]
 [Value Data:]
 [Base]
 [Save Value as:]
+[Watched Database Variables]
+[Copy module to contact]
 [Copy to all contacts (Includes Settings)]
 [Contact to copy module and settings to]
+[Import Module/Settings]
 [Import]
 [Insert &CR/LF]
 [Paste the Settings to import here.]
+[DBEditor++]
+[&Main]
 [&Refresh Modules]
 [Refresh &Settings]
 [E&xit]
+[&Actions]
 [&Search and Replace]
 [&Delete Module]
+[&Watches]
 [&View all]
 [&Delete all]
+[&Export]
 [Entire &Database]
 [All &Settings]
 [All &Contacts]
+[&Import]
 [From a &file]
 [From pasted &text]
+[&Options]
 [&Sort by protocol]
 [Show &All]
 [Show only &Loaded]
@@ -4831,31 +4914,44 @@ Miranda Language Pack Version 1
 [Edit &Dwords in Hex]
 [&Restore position]
 [&Open Options]
+[Item context]
 [&Edit / Rename]
+[NEW]
 [&Byte]
 [&Word]
 [&Dword]
 [&String]
 [&Unicode]
 [BL&OB]
+[&Convert to]
+[Encyption]
 [View Decrypted String]
 [View Encrypted String]
 [Decrypt String]
 [Encrypt String]
 [&Watch]
 [&Delete]
+[Null Mod context]
 [&Rename]
 [Copy To Contact]
 [Export Module]
 [Add To Known Modules]
+[Contact menu]
 [&Clone]
 [Export Contact]
+[Import Settings]
 [From a file]
 [From pasted text]
 [&Add Module]
+[NULL contact menu]
 [Export Settings]
+[Contacts menu]
 [Export Contacts]
+[Import Contacts]
+[Contact Mod context]
 [Export Module from all contacts]
+[new item]
+[Watch Window]
 [Reload Watch List]
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
@@ -4960,6 +5056,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -4967,6 +5064,7 @@ Miranda Language Pack Version 1
 [No to all]
 [&View contents]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+[Database Setting Change]
 [Database settings are being imported from]
 [This file wishes to change the setting]
 [to the value]
@@ -4975,6 +5073,7 @@ Miranda Language Pack Version 1
 [&Yes]
 [&No]
 [Cancel Import]
+[Database Import Complete]
 [The import has completed from]
 [What do you want to do with the file now?]
 [&Recycle]
@@ -4995,6 +5094,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -5002,6 +5102,7 @@ Miranda Language Pack Version 1
 [No to all]
 [&View contents]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+[Database Setting Change]
 [Database settings are being imported from]
 [This file wishes to change the setting]
 [to the value]
@@ -5010,6 +5111,7 @@ Miranda Language Pack Version 1
 [&Yes]
 [&No]
 [Cancel Import]
+[Database Import Complete]
 [The import has completed from]
 [What do you want to do with the file now?]
 [&Recycle]
@@ -5090,13 +5192,16 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
 [EN]
 [OK]
 [Cancel]
+[New password]
+[Change password]
 [Change]
 [Remove]
-[New password]
 [Old password]
+[Install Database Settings]
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -5104,6 +5209,7 @@ Miranda Language Pack Version 1
 [No to all]
 [&View contents]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+[Database Setting Change]
 [Database settings are being imported from]
 [This file wishes to change the setting]
 [to the value]
@@ -5112,6 +5218,7 @@ Miranda Language Pack Version 1
 [&Yes]
 [&No]
 [Cancel Import]
+[Database Import Complete]
 [The import has completed from]
 [What do you want to do with the file now?]
 [&Recycle]
@@ -5133,7 +5240,6 @@ Miranda Language Pack Version 1
 [Database Features]
 [Database]
 [Change Password]
-[Change password]
 [Set password]
 [Dll]
 [Name]
@@ -5155,9 +5261,10 @@ Miranda Language Pack Version 1
 [DB is already secured!]
 [current database]
 [Set Password]
-;#muuid not found, please specify manually!
+#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
 ;langpack template for Dbx_tree
 ;file \plugins\Dbx_tree\res\dbConfig.rc
+[dbxTree Profile Wizard]
 [Cancel]
 [Next >]
 [< Prev]
@@ -5205,6 +5312,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
 [Cancel]
 [Automatic Backups]
 [Number of backups to keep:]
@@ -5247,9 +5355,10 @@ Miranda Language Pack Version 1
 [Select Backup Folder]
 [Error Creating Backup Folder]
 [Database AutoBackups]
-;#muuid not found, please specify manually!
+#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;langpack template for EmLanProto
 ;file \protocols\EmLanProto\res\amdproto.rc
+[EmLan protocol - donate author please]
 [OK]
 [This window is shown only once]
 [Select your IP address]
@@ -5273,6 +5382,7 @@ Miranda Language Pack Version 1
 [E-mail:]
 [Password:]
 [Create a new Facebook account]
+[What's on your mind?]
 [420]
 [Share]
 [Cancel]
@@ -5409,6 +5519,7 @@ Miranda Language Pack Version 1
 #muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
+[fileAsMessage]
 [Filename:]
 [Size:]
 [...]
@@ -5467,6 +5578,7 @@ Miranda Language Pack Version 1
 [Resource overlays]
 [Platform overlays]
 [Protocols overlays]
+[Unicode overlay]
 [Secure overlays]
 [Select protocols]
 [AIM clients]
@@ -5484,7 +5596,6 @@ Miranda Language Pack Version 1
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
-[Note: Miranda NG will have to be restarted for changes to take effect.]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons/Miranda clients]
 [Client icons/Miranda clients/Pack overlays]
@@ -5505,6 +5616,7 @@ Miranda Language Pack Version 1
 [Client icons/Other icons]
 [Client icons/Overlays/Resource]
 [Client icons/Overlays/Platform]
+[Client icons/Overlays/Security]
 [Client icons/Overlays/Protocol]
 [Client icons]
 ;file \plugins\FingerprintNG\src\masks.cpp
@@ -6511,7 +6623,10 @@ Miranda Language Pack Version 1
 [x64 overlay]
 [x32 overlay]
 [*unicode*]
-[Unicode overlay]
+[*New*GPG*]
+[NewGPG overlay]
+[*Mir*OTR*]
+[MirOTR overlay]
 [*Secure*IM*]
 [SecureIM overlay]
 ;file \plugins\FingerprintNG\src\options.cpp
@@ -6552,13 +6667,14 @@ Miranda Language Pack Version 1
 [Flash\\]
 ;file \plugins\FlashAvatars\src\TigerHash.h
 [ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]
-;#muuid not found, please specify manually!
+#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating Contacts
 ;  Version: x.x.x.x
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 [Hide offline contacts]
@@ -6634,12 +6750,15 @@ Miranda Language Pack Version 1
 ;  Version: 0.1.6.1
 ;  Authors: Cristian Libotean
 ;============================================================
+[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
 ;file \plugins\Folders\res\folders.rc
+[Dialog]
 [Custom folders]
 [Preview]
 [Edit]
 [Refresh preview]
 [Variables help]
+[Custom folders variables help]
 [Close]
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
@@ -6650,7 +6769,7 @@ Miranda Language Pack Version 1
 ;file \plugins\Folders\src\hooked_events.cpp
 [Folders]
 [Customize]
-;#muuid not found, please specify manually!
+#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -6683,6 +6802,7 @@ Miranda Language Pack Version 1
 [ZIP support]
 [Enter archive name manually]
 [Compression level:]
+[Upload File Manager]
 [File:]
 [Completed:]
 [Speed:]
@@ -6699,25 +6819,28 @@ Miranda Language Pack Version 1
 [User info]
 [UPLOADING...]
 [Open in Browser]
+[FTP File Manager]
 [Select All]
 [Deselect All]
 [Delete from list]
 [Delete from FTP]
+[Enter file name]
 [OK]
 [Cancel]
+[File exists]
 [Rename]
 [Overwrite]
 [File with the same name already exists on the server.]
 [How to proceed?]
 [Copy URL]
 [Close dialog after upload finishes]
+[Automatically delete file after...]
 [Disabled]
 [Delete from List]
 [Copy Link]
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 [Copy Link to Clipboard]
-[FTP File Manager]
 [%d minutes]
 [%d hours]
 [%d days]
@@ -6739,7 +6862,7 @@ Miranda Language Pack Version 1
 [Upload canceled]
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 ;file \plugins\FTPFileYM\src\job_generic.cpp
-[All Files (*.*)\0*.*\0]
+[All Files (*.*)]
 [FTP File - Select files]
 [FTP File - Select a folder]
 [Folder not found!]
@@ -6842,25 +6965,32 @@ Miranda Language Pack Version 1
 [Birth year:]
 [Description:]
 [&Save changes]
+[Enter token to continue]
 [OK]
 [Cancel]
+[Create Gadu-Gadu account]
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 [New password:]
 [Confirm password:]
 [New e-mail:]
 [&Create]
+[Remove Gadu-Gadu account]
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
 [Yes, I want to remove my account]
 [Remove]
+[Change Gadu-Gadu password]
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+[Change Gadu-Gadu e-mail]
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
 [Age from:]
 [to:]
 [Search online users only]
 [&Close]
 [&Send]
+[Open new conference]
 [Open new conference\nSelect conference participants]
 [Open]
+[Concurrent Sessions]
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 [Sign out all sessions]
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
@@ -6967,7 +7097,6 @@ Miranda Language Pack Version 1
 [Send image]
 [Save image]
 [Delete image]
-[Open new conference]
 [Clear ignored conferences]
 [Concurrent sessions]
 ;file \protocols\Gadu-Gadu\src\image.cpp
@@ -7041,7 +7170,7 @@ Miranda Language Pack Version 1
 [Your e-mail cannot be changed because of error:\n\t%s]
 [Bad old e-mail or password]
 [Your e-mail has been changed.]
-;#muuid not found, please specify manually!
+#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
@@ -7131,142 +7260,7 @@ Miranda Language Pack Version 1
 ;file \protocols\GTalkExt\src\tipper_items.cpp
 [%raw:]
 [Unread threads:]
-;#muuid not found, please specify manually!
-;langpack template for historypp
-;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
-[Appearance options]
-[Show event icons]
-[Use RTL by default]
-[Open event details by Enter]
-[Show events count in menu]
-[Show avatars]
-[Formatting options]
-[Enable BBCodes]
-[Enable SmileyAdd support]
-[Enable MathModule support]
-[Enable raw RTF support]
-[Display changed avatars]
-[Message log options]
-[Imitate IEView API]
-[Group messages]
-[Disable border]
-[Disable scroll bar]
-[History view options]
-[Recent events on top]
-[Visit Wiki page for more options]
-[Please restart Miranda NG for your changes to take effect.]
-;file \plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
-[New Filter #%d]
-[Incoming & Outgoing]
-[Events]
-;file \plugins\HistoryPlusPlus\CustomizeToolbar.pas
-[Event Filters]
-;file \plugins\HistoryPlusPlus\EmptyHistoryForm.pas
-[History of this contact is password protected]
-[Do you really want to delete ALL items for this contact?]
-[Note: It can take several minutes for large histories]
-;file \plugins\HistoryPlusPlus\GlobalSearch.pas
-[Search]
-[%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
-[All Results]
-[System History]
-[Searching "%s"...]
-[Stop]
-[Searching... Please wait.]
-[Preparing search...]
-[Searching... %.0n items in %d contacts found]
-[History is not protected, searching all contacts]
-[Searching unprotected contacts only]
-[Searching all contacts]
-[You have entered the wrong password.]
-[History++ Password Protection]
-[Wrong password]
-[Please wait while closing the window...]
-[Partial History [%s] - [%s]]
-[Remove &Bookmark]
-[Set &Bookmark]
-[Ready to search]
-[Click Search button to start]
-[From %s]
-[To %s]
-[HotSearch: %s (F3 to find next)]
-[You have reached the end of the history.]
-[Do you want to continue searching at the beginning?]
-[History++ Search]
-[Loading...]
-[Saving...]
-[Searching...]
-[Deleting...]
-[Do you really want to delete selected items (%.0f)?]
-[Delete Selected]
-[Do you really want to delete selected item?]
-[Delete]
-;file \plugins\HistoryPlusPlus\HistoryForm.pas
-[Unknown codepage %u]
-[%s - History++]
-[Error]
-[&Pseudo-edit]
-[&Open]
-[%.0n items in history]
-[Pseudo-edit mode...]
-[Full History [%s] - [%s]]
-[Phrase not found]
-[Continued from the top]
-[Continued from the bottom]
-[Search: %s (F3 to find next)]
-["%s" not found]
-[You have entered the wrong password]
-[%0.1n h]
-[%d min]
-[%d event]
-[%0.n events (%s)]
-;file \plugins\HistoryPlusPlus\HistoryGrid.pas
-[Remove Bookmark]
-[Set Bookmark]
-[Hide headers]
-[Show headers]
-[Running version of AniSmiley is not supported]
-[Running version of SmileyAdd is not supported]
-[Running version of Emoticons is not supported]
-;file \plugins\HistoryPlusPlus\historypp.dpr
-[History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.]
-;file \plugins\HistoryPlusPlus\hpp_contacts.pas
-[Server]
-[''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n    else\r\n    begin\r\n      ci.cbSize := SizeOf(ci);\r\n      ci.hContact := hContact;\r\n      ci.szProto := PAnsiChar(Proto);\r\n      ci.dwFlag := CNF_DISPLAY + CNF_UNICODE;\r\n      if CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(@ci)) = 0 then\r\n      begin\r\n        RetPWideChar := ci.retval.szVal.w;\r\n        UW := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } );\r\n        if WideCompareText(RetPWideChar, UW) = 0 then\r\n          Result := AnsiToWideString(GetContactID(hContact, Proto), CP_ACP)\r\n        else\r\n          Result := RetPWideChar;\r\n        mir_free(RetPWideChar);\r\n      end\r\n      else\r\n        Result := String(GetContactID(hContact, Proto));\r\n      if Result = '' then\r\n        Result := TranslateAnsiW(Proto { TRANSLATE-IGNORE } );\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;\r\nvar\r\n  uid: PAnsiChar;\r\n  dbv: TDBVARIANT;\r\n  cgs: TDBCONTACTGETSETTING;\r\n  tmp: String;\r\nbegin\r\n  Result := '';\r\n  if not((hContact = 0) and Contact) then\r\n  begin\r\n    if Proto = '' then\r\n      Proto := GetContactProto(hContact);\r\n    uid := PAnsiChar(CallProtoService(PAnsiChar(Proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));\r\n    if (uint_ptr(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then\r\n    begin\r\n      cgs.szModule := PAnsiChar(Proto);\r\n      cgs.szSetting := uid;\r\n      cgs.pValue := @dbv;\r\n      if CallService(MS_DB_CONTACT_GETSETTING, hContact, LPARAM(@cgs)) = 0 then\r\n      begin\r\n        case dbv._type of\r\n          DBVT_BYTE:\r\n            Result := AnsiString(intToStr(dbv.bVal));\r\n          DBVT_WORD:\r\n            Result := AnsiString(intToStr(dbv.wVal));\r\n          DBVT_DWORD:\r\n            Result := AnsiString(intToStr(dbv.dVal));\r\n          DBVT_ASCIIZ:\r\n            Result := AnsiString(dbv.szVal.a);\r\n          DBVT_UTF8:\r\n            begin\r\n              tmp := AnsiToWideString(dbv.szVal.a, CP_UTF8);\r\n              Result := WideToAnsiString(tmp, hppCodepage);\r\n            end;\r\n          DBVT_WCHAR:\r\n            Result := WideToAnsiString(dbv.szVal.w, hppCodepage);\r\n        end;\r\n        // free variant\r\n        DBFreeVariant(@dbv);\r\n      end;\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ']
-;file \plugins\HistoryPlusPlus\hpp_events.pas
-[URL: %s]
-[Authorisation request by %s (%s%d): %s]
-[You were added by %s (%s%d)]
-[Webpager message from %s (%s): %s]
-[Email express from %s (%s): %s]
-[Status change: %s]
-[''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n  else\r\n    Name := GetContactDisplayName(PDWord(PAnsiChar(EventInfo.pBlob) + BytePos + 4)^, '', true);\r\n  if Boolean(EventInfo.flags and DBEF_UTF) then\r\n    cp := CP_UTF8\r\n  else\r\n    cp := hppCodepage;\r\n  Result := Format(Template, [Name, uin, AnsiToWideString(#13#10 + Body, cp)]);\r\nend;\r\n\r\nprocedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);\r\nbegin\r\n  hi.Text := GetEventTextForICQSystem(EventInfo,\r\n    TranslateW('Authorization request granted by %s (%d): %s]
-[Authorization request denied by %s (%d): %s]
-[User %s (%d) removed himself from your contact list: %s]
-[Authorization future request by %s (%d): %s]
-[User %s (%d) changed icq client: %s]
-[Status request by %s (%d):%s]
-[Ignored status request by %s (%d):%s]
-[Broadcast message from %s (%s): %s]
-[closed chat session]
-[WATrack: information request]
-[Artist: %s\r\nTitle: %s\r\nAlbum: %s]
-[WATrack: %s]
-[WATrack: request denied]
-;file \plugins\HistoryPlusPlus\hpp_externalgrid.pas
-[Save History]
-[No such items]
-[No "%s" items]
-;file \plugins\HistoryPlusPlus\hpp_options.pas
-[Cannot load icon pack (%s) from:\r\n%s\r\nThis can cause no icons will be shown.]
-[You are using old icon pack from:\r\n%s\r\nThis can cause missing icons, so update the icon pack.]
-;file \plugins\HistoryPlusPlus\PassCheckForm.pas
-;file \plugins\HistoryPlusPlus\PassForm.pas
-[Password not set]
-[Password set]
-;file \plugins\HistoryPlusPlus\PassNewForm.pas
-[Password and Confirm fields should be similar]
-;#muuid not found, please specify manually!
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: HistorySweeperLight
@@ -7295,6 +7289,7 @@ Miranda Language Pack Version 1
 [Mask]
 [Share name]
 [Allowed IP]
+[HTTP Server statistics view]
 [Display hidden shares]
 [New share]
 [Show HTTP server statistics]
@@ -7321,12 +7316,13 @@ Miranda Language Pack Version 1
 [Total connection limit]
 [Connections per user limit]
 [Default download limit]
+[1]
 [&Edit share]
 [&Remove share]
 [&Open in Browser]
 [&Copy link]
 ;file \plugins\HTTPServer\src\Glob.h
-[Miranda (HTTPServer.dll)]
+[Miranda NG HTTP-Server]
 ;file \plugins\HTTPServer\src\GuiElements.cpp
 [Share Current Directory]
 [All Files (*.*)\0*.*\0]
@@ -7380,6 +7376,9 @@ Miranda Language Pack Version 1
 [Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES]
 [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
 [Failed to HookEvent ME_SYSTEM_PRESHUTDOWN]
+[Failed to retrieve plugin path.]
+[\\HTTPServer\\]
+[Failed to create HTTPServer directory.]
 #muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
@@ -7391,8 +7390,10 @@ Miranda Language Pack Version 1
 [ICQ Number:]
 [Password:]
 [Create a new ICQ account]
+[Enter an authorization request]
 [&Send]
 [&Cancel]
+[Enter ICQ Password]
 [Enter a password for UIN %d:]
 [Remember this session password]
 [OK]
@@ -7510,13 +7511,16 @@ Miranda Language Pack Version 1
 [Homepage]
 [Other]
 [Search online users only]
+[Manage ICQ Server Contacts]
 [Select contacts to store:]
 [Synchronize]
+[Custom Status "%s" Details]
 [Closing in %d]
 [Title:]
 [Message:]
 [Retrieving custom status details...]
 [&Save changes]
+[Confirm Password Change]
 [Please re-type your new password:]
 [Enter your current password:]
 ;file \protocols\IcqOscarJ\src\chan_04close.cpp
@@ -8081,6 +8085,7 @@ Miranda Language Pack Version 1
 [Sample Fatal]
 [Sample Spambot]
 ;file \protocols\IcqOscarJ\src\icq_proto.cpp
+[Protocols/ICQ/Accounts]
 [%s server connection]
 [%s client-to-client connections]
 [User ID]
@@ -8506,7 +8511,9 @@ Miranda Language Pack Version 1
 [Choose how you would like to import:]
 [From a Miranda NG database.]
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
+[Click "Next" to choose the information you wish to import, or click ]
 [It is recommended that you create a backup of your current Miranda profile before importing.]
+[If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click ]
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 [Do not load the import plugin at startup again]
 [Import completed]
@@ -8516,6 +8523,7 @@ Miranda Language Pack Version 1
 [&Filename:]
 [Now importing...]
 [Progress1]
+[Import Information Wizard]
 [&Next >]
 [Cancel]
 [< &Back]
@@ -8579,33 +8587,6 @@ Miranda Language Pack Version 1
 [Skipping duplicate group %s.]
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
-;#muuid not found, please specify manually!
-;langpack template for importtxt
-;file \plugins\ImportTXT\ImpTxtDlg.rc
-[Start]
-[Close]
-[Choose a file...]
-[...]
-;file \plugins\ImportTXT\ImpTxtWiz.rc
-[&Next >]
-[Cancel]
-[< &Back]
-[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-[It is recommended that you create a backup of your current Miranda profile before importing.]
-[Choose type of imported files:]
-[Select files or the whole directory for import:]
-[Files...]
-[Path:]
-[Files:]
-[Directory...]
-[All previous chosen files will try to import to this protocol.]
-[Select protocol or account:]
-[Now importing...]
-[Progress1]
-;file \plugins\ImportTXT\FileDlgs.pas
-[Select folder for import...]
-;file \plugins\ImportTXT\ImportTxtWiz.pas
-[Finish]
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
 ;============================================================
 ;  File: IRC.dll
@@ -8613,6 +8594,7 @@ Miranda Language Pack Version 1
 ;  Version: x.x.x.x
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 [&Edit]
@@ -8653,6 +8635,7 @@ Miranda Language Pack Version 1
 [Check every (s):]
 [SSL]
 [Don't check if more than (users):]
+[User information]
 [Ping]
 [Version]
 [Time]
@@ -8670,6 +8653,7 @@ Miranda Language Pack Version 1
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 [CTCP information]
 [-]
+[Question]
 [&OK]
 [&Cancel]
 [Perform]
@@ -8680,12 +8664,14 @@ Miranda Language Pack Version 1
 [Quit message:]
 [Server code page:]
 [Enable UTF8 autodetection]
+[Add server]
 [On]
 [Auto]
 [Off]
 [Host address]
 [Server description]
 [Network]
+[Channels on server]
 [&Join]
 [Filter by]
 [C&onnect]
@@ -8697,6 +8683,7 @@ Miranda Language Pack Version 1
 [Online detection mode]
 [Basic]
 [Wildcard enabled network search]
+[Channel manager]
 [Bans]
 [Invites]
 [Excepts]
@@ -8723,7 +8710,6 @@ Miranda Language Pack Version 1
 [Disconnect DCC chats when disconnecting from server]
 [Manually set external IP:]
 [Client-to-Client File Transfers]
-[User information]
 [Client-to-Client Protocol]
 [Client-to-Client Chats]
 [Send mode:]
@@ -8731,6 +8717,7 @@ Miranda Language Pack Version 1
 [Get IP address from server]
 [Auto-accept from:]
 [Send notice]
+[CTCP Chat Request]
 [&Accept]
 [&Deny]
 [Enable (*)]
@@ -8897,11 +8884,9 @@ Miranda Language Pack Version 1
 [Edit]
 [Cancel]
 [Channel list]
-[Channel manager]
 [Quick connect]
 [Server window]
 [Show channel]
-[Question]
 [WhoIs]
 [Incoming DCC Chat]
 [Logo (48x48)]
@@ -9077,6 +9062,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
+[Edit Note]
 [Tags:]
 [OK]
 [Cancel]
@@ -9092,6 +9078,7 @@ Miranda Language Pack Version 1
 [Use Domain Login]
 [Go]
 [Search service]
+[Roster Editor]
 [Roster editor\nView and modify your server-side contact list.]
 [Download]
 [Upload]
@@ -9121,7 +9108,9 @@ Miranda Language Pack Version 1
 [Miscellaneous]
 [Hint:]
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
+[Jabber Account Registration]
 [Progress1]
+[Jabber Agents]
 [Register/Search Jabber Agents]
 [Jabber server:]
 [Browse]
@@ -9134,13 +9123,16 @@ Miranda Language Pack Version 1
 [Register with a new service...]
 [Close]
 [Command]
+[Jabber Form]
 [Instruction:]
 [Submit]
 [Next]
 [Back]
 [Complete]
+[Jabber Password]
 [Remember password for this session]
 [Save password permanently]
+[Data form test]
 [Address1:]
 [Address2:]
 [City:]
@@ -9162,11 +9154,13 @@ Miranda Language Pack Version 1
 [Title:]
 [E-mail:]
 [Phone:]
+[Jabber vCard: Add Email Address]
 [Email address:]
 [Home]
 [Work]
 [Internet]
 [X400]
+[Jabber vCard: Add Phone Number]
 [Phone number:]
 [Voice]
 [Fax]
@@ -9182,32 +9176,41 @@ Miranda Language Pack Version 1
 [Save]
 [Delete]
 [Description:]
+[Change Password]
 [Current Password:]
 [New Password:]
 [Confirm New Password:]
+[Jabber Multi-User Conference]
 [Conference server:]
+[Create or Join Groupchat]
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 [Room:]
 [Recently visited chatrooms:]
 [Bookmarks]
+[JID List]
 [List4]
 [Apply Filter]
 [Reset Filter]
+[Jabber Agent Registration]
 [JID:]
 [Register]
+[Invite Users]
 [<room jid>\nSend groupchat invitation.]
 [Other JID:]
 [Add]
 [Invitation reason:]
 [&Invite]
+[Groupchat Invitation]
 [<room jid>\nIncoming groupchat invitation.]
 [You are invited to conference room by]
 [with following reason:]
 [Nickname:]
 [&Accept]
+[Jabber Bookmarks]
 [Server side bookmarks\nStore conference rooms and web links on server.]
 [Remove]
 [Edit]
+[Bookmark Details]
 [Bookmark Type]
 [Conference]
 [Transport]
@@ -9215,6 +9218,7 @@ Miranda Language Pack Version 1
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 [Room JID/ URL:]
 [Bookmark Name:]
+[Privacy Lists]
 [Privacy Lists\nFlexible way to configure visibility and more.]
 [Lists:]
 [Rules:]
@@ -9229,6 +9233,7 @@ Miranda Language Pack Version 1
 [Move rule up (Alt+Up)]
 [Move rule down (Alt+Down)]
 [Remove rule (Del)]
+[Privacy rule]
 [If:]
 [Then:]
 [following stanza types:]
@@ -9236,17 +9241,21 @@ Miranda Language Pack Version 1
 [Queries]
 [Incoming presence]
 [Outgoing presence]
+[New privacy list name:]
 [Enter the name of the new list:]
+[Service Discovery]
 [View as tree]
 [View as list]
 [Favourites]
 [Refresh]
 [Node:]
+[Change %s Message]
 [Closing in %d]
 [Account type:]
 [Login server:]
 [Register account now]
 [Jabber Account Information:]
+[Member Information]
 [Member Information\n<user id>]
 [Role:]
 [Set role]
@@ -9258,6 +9267,7 @@ Miranda Language Pack Version 1
 [Custom messages]
 [Quit:]
 [Slap:]
+[Authorization Request]
 [HTTP Authorization\nAccept or reject incoming request]
 [Someone (maybe you) has requested the following file:]
 [Request was sent from JID:]
@@ -9266,7 +9276,11 @@ Miranda Language Pack Version 1
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 [Authorize]
 [Deny]
+[Dialog]
+[Jabber Notebook]
 [Jabber notebook\nStore notes on server and access them from anywhere.]
+[Bots Challenge Test]
+[XML Console]
 [Reset log]
 [Send]
 ;file \protocols\JabberG\src\jabber.cpp
@@ -9307,7 +9321,6 @@ Miranda Language Pack Version 1
 [PopupMenuHost]
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
-[Jabber Agent Registration]
 [Please wait...]
 [instructions]
 [key]
@@ -9375,6 +9388,8 @@ Miranda Language Pack Version 1
 [Receives information about user moods]
 [Supports generic publish-subscribe functionality]
 [Supports SecureIM plugin for Miranda NG]
+[Supports MirOTR plugin for Miranda NG]
+[Supports New_GPG plugin for Miranda NG]
 [Can block communications from particular other users using Privacy lists]
 [Supports Message Receipts]
 [Can report information about the music to which a user is listening]
@@ -9496,7 +9511,6 @@ Miranda Language Pack Version 1
 [Send groupchat invitation.]
 [not on roster]
 [Member Info:]
-[Member Information]
 [Real JID not available]
 [affiliation]
 [none]
@@ -9913,7 +9927,6 @@ Miranda Language Pack Version 1
 [Protocols/Jabber/Accounts]
 [Status Icons/%s/]
 [transport]
-[Privacy Lists]
 [Notes]
 [Multi-User Conference]
 [Agents list]
@@ -9926,9 +9939,7 @@ Miranda Language Pack Version 1
 [Login/logout]
 [Resolve nicks]
 [Send note]
-[Service Discovery]
 [AdHoc Command]
-[XML Console]
 [OpenID Request]
 [Discovery succeeded]
 [Discovery failed]
@@ -9991,7 +10002,6 @@ Miranda Language Pack Version 1
 [given]
 [family]
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-[Change Password]
 [Password cannot be changed.]
 [mimetype]
 [vCard]
@@ -10001,7 +10011,6 @@ Miranda Language Pack Version 1
 [time[@xmlns='%s']/tz]
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Jabber Conference Room Configuration]
-[JID List]
 [%s, %d items (%s)]
 [Voice List]
 [Member List]
@@ -10066,8 +10075,16 @@ Miranda Language Pack Version 1
 [GMail]
 [GTalk Bot]
 [Android]
+[x86]
+[ x86]
+[x64]
+[ x64]
 [(SecureIM)]
 [ (SecureIM)]
+[(MirOTR)]
+[ (MirOTR)]
+[(New_GPG)]
+[ (New_GPG)]
 [Miranda IM]
 [Miranda NG]
 [From]
@@ -10870,13 +10887,14 @@ Miranda Language Pack Version 1
 [items]
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
-;#muuid not found, please specify manually!
+#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep Status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 ;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
 [Protocol]
 [<from trigger>]
@@ -10901,7 +10919,7 @@ Miranda Language Pack Version 1
 [You broke the Internet!]
 [Status]
 [PopUps]
-;#muuid not found, please specify manually!
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
@@ -10968,9 +10986,11 @@ Miranda Language Pack Version 1
 [Export...]
 [Import...]
 [Override existing]
+[Set program list]
 [Program]
 [OK]
 [Cancel]
+[Set LEDs for events]
 [Num]
 [Caps]
 [Scroll]
@@ -10988,6 +11008,7 @@ Miranda Language Pack Version 1
 [Ignore all]
 [Ignore none]
 [Ignore]
+[Set xStatus list]
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 [** Unknown contacts **]
@@ -11026,12 +11047,14 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
+[Language Pack Update Now Available]
 [A new version of a Language Pack is now available. Click the install button to download and install this new update.]
 [Language:]
 [Current:]
 [New:]
 [&Install Now]
 [Close]
+[Select your language]
 [Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
 [Download &all languages]
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
@@ -11075,9 +11098,9 @@ Miranda Language Pack Version 1
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
 [Close]
 [Search for:]
-[Search]
 [Message direction]
 [Message types]
 [All directions]
@@ -11107,14 +11130,19 @@ Miranda Language Pack Version 1
 [Timestamp]
 [Direction]
 [Type]
+[&File]
 [&Save]
 [&Close]
+[&Options]
+[Message &Direction]
 [&Outgoing Messages Only]
 [&Incoming Messages Only]
+[Message &Type]
 [&Webaddresses Only]
 [&Mail-Addresses Only]
 [&Clear Search Results]
 [&Search]
+[link]
 [Open]
 [Open in new Window]
 [Copy to Clipboard]
@@ -11305,14 +11333,16 @@ Miranda Language Pack Version 1
 ;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
 [Miranda ListeningTo Winamp Plugin]
 [Copyright (C) 2006 Ricardo Pescuma Domenecci]
-;#muuid not found, please specify manually!
+#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
 ;  Version: x.x.x.x
 ;  Authors: 
 ;============================================================
+[Adds some useful options to a contacts menu.]
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
 [&Send]
 [&Cancel]
 [Shown menu items]
@@ -11370,11 +11400,14 @@ Miranda Language Pack Version 1
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
+[Merges contacts from the same or different protocols into one.]
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[Add to Existing MetaContact]
 [Please select a MetaContact:]
 [&Ok]
 [&Cancel]
 [Sort Alphabetically]
+[Editing]
 [&OK]
 [Name:]
 [Information]
@@ -11405,8 +11438,10 @@ Miranda Language Pack Version 1
 [Copy subcontact data]
 [Lock name to first contact]
 [but only for the current conversation]
+[History Copy]
 [Progress1]
 [Please wait while the contact's history is copied.]
+[History Remove]
 [Please wait while the contact's history is removed.]
 [Subcontact Priorities]
 [Rank:]
@@ -11465,7 +11500,12 @@ Miranda Language Pack Version 1
 [Meta ID]
 [No online contacts found.]
 [Message from %s]
+[Toggle MetaContacts Off]
+[Add to existing MetaContact...]
+[Edit MetaContact...]
+[Set as MetaContact default]
 [Context]
+[Toggle MetaContacts On]
 [General]
 [Priorities]
 [History]
@@ -11515,7 +11555,7 @@ Miranda Language Pack Version 1
 [No command can have more than %d parameters\n]
 [%s version %s]
 [Unknown command '%s'.\n]
-;#muuid not found, please specify manually!
+#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
@@ -11523,6 +11563,7 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
 [Generating new private key - please wait.]
 [Default Policy]
 [Always]
@@ -11547,11 +11588,13 @@ Miranda Language Pack Version 1
 [Set verified]
 [Set unknown]
 [Forget]
+[MirOTR]
 [OTR status]
 [&Start OTR session]
 [&Refresh OTR session]
 [Sto&p OTR session]
 [&Verify Fingerprint]
+[Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
 [&OK]
@@ -11710,7 +11753,7 @@ Miranda Language Pack Version 1
 [bombus]
 [colibry]
 [berry]
-[iphone]
+[phone]
 [ipad]
 [im+]
 [bayan]
@@ -11722,8 +11765,8 @@ Miranda Language Pack Version 1
 [Visit official Miranda NG website]
 [`]
 [Sample page]
-[Use arrow keys to choose category]
 [Miranda NG Options]
+[Use arrow keys to choose category]
 [OK]
 [Cancel]
 [Apply]
@@ -11838,6 +11881,7 @@ Miranda Language Pack Version 1
 [Text Color]
 [Timeout]
 [Previe&w]
+[Custom Status "%s" Details]
 [Closing in %d]
 [Title:]
 [Message:]
@@ -11857,6 +11901,7 @@ Miranda Language Pack Version 1
 [Notify]
 [Writed:]
 [0/500]
+[Select e-mail]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 [plugin connections]
@@ -11877,58 +11922,6 @@ Miranda Language Pack Version 1
 [Files]
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
-;#muuid not found, please specify manually!
-;langpack template for mradio
-;file \plugins\mRadio\mradio.rc
-[Add Station]
-[Station Name]
-[Station URL (required)]
-[...]
-[Genre]
-[Bitrate]
-[Add station]
-[To list]
-[Record]
-[Record path]
-[Status Message]
-[V]
-[Status message template]
-[Import File]
-[Use EAX]
-[min]
-[max]
-[Volume]
-[Buffer, ms (5000)]
-[PreBuf, % (75%)]
-[Timeout, ms (5000)]
-[Tries to connect]
-[BASS library path (empty for default)]
-[OFF]
-[-15]
-[+]
-[-]
-[Equalizer presets]
-[Equalizer]
-[Station]
-[URL]
-[Custom INI file]
-[*]
-;file \plugins\mRadio\i_bass.inc
-[Sorry!]
-[Oops! BASS error]
-[BASS.DLL not found! Choose BASS.dll path manually]
-[Choose BASS.dll path]
-;file \plugins\mRadio\i_frameapi.inc
-[Mute]
-;file \plugins\mRadio\i_myservice.inc
-[Advanced]
-;file \plugins\mRadio\i_optdlg.inc
-[Add]
-[Delete]
-;file \plugins\mRadio\i_service.inc
-[Radio station URL]
-;file \plugins\mRadio\mradio.dpr
-[%s server connection]
 #muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
@@ -11948,7 +11941,9 @@ Miranda Language Pack Version 1
 [Export format]
 [Default file]
 [File viewer]
+[Exporting old messages]
 [Progress1]
+[History file for %s (%s format %s)]
 [&Find...]
 [&External]
 [&Close]
@@ -11959,9 +11954,11 @@ Miranda Language Pack Version 1
 [When user is deleted]
 [Delete file]
 [Debug]
+[UserList]
 [User &Details]
 [Export selected]
 [Set to default filename]
+[1]
 [Copy]
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
@@ -12135,6 +12132,7 @@ Miranda Language Pack Version 1
 [Enable 'Chat Session Established' popup]
 [Enable 'Contact left channel' popup]
 [Disable Contact List notifications]
+[Set Nickname]
 [OK]
 [Cancel]
 [Mobile Device (used for SMS)]
@@ -12146,8 +12144,10 @@ Miranda Language Pack Version 1
 [Birthday]
 [Nickname]
 [Place:]
+[MSN Delete Contact]
 [Remove from Hotmail Address book]
 [Block Contact]
+[Invite Contact To Chat]
 [Live ID]
 [&Invite]
 [&Cancel]
@@ -12262,7 +12262,7 @@ Miranda Language Pack Version 1
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
-;#muuid not found, please specify manually!
+#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
 ;============================================================
 ;  File: mTextControl.dll
 ;  Plugin: mTextControl
@@ -12275,6 +12275,7 @@ Miranda Language Pack Version 1
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
 [Nickname:]
 [OK]
 [Cancel]
@@ -12307,7 +12308,9 @@ Miranda Language Pack Version 1
 [Protocol]
 [Show protocol name]
 [Show protocol cycle button]
+[Set My Status Message for All Status]
 [Status Message:]
+[Status popup]
 [&Offline]
 [On&line]
 [&Away]
@@ -12318,6 +12321,7 @@ Miranda Language Pack Version 1
 [&Invisible]
 [On the &Phone]
 [Out to &Lunch]
+[Context popup]
 [Set My Avatar...]
 [Set My Nickname...]
 [Set My Status Message...]
@@ -12326,6 +12330,10 @@ Miranda Language Pack Version 1
 [Show previous protocol]
 [Cycle through protocols]
 [Don't cycle through protocols]
+[Nick popup]
+[Status message popup]
+[Avatar popup]
+[ListeningTo popup]
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 ;file \plugins\MyDetails\src\frame.cpp
@@ -12534,7 +12542,7 @@ Miranda Language Pack Version 1
 [summary]
 [content]
 [term]
-;#muuid not found, please specify manually!
+#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
@@ -12613,6 +12621,7 @@ Miranda Language Pack Version 1
 [New status:]
 [Variables]
 [Reset]
+[Disable notifications]
 [OK]
 [Cancel]
 [Disable globally]
@@ -12736,14 +12745,16 @@ Miranda Language Pack Version 1
 [has %N @ %T%D%I]
 [These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
 [These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
-;#muuid not found, please specify manually!
+#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
+[Load Public GPG key]
 [ÎÊ]
 [Load from file]
 [Select existing]
 [Turn on encryption]
 [Import key from keyserver]
+[Set own key]
 [Generate key]
 [Select key for use]
 [Key password:]
@@ -12752,15 +12763,20 @@ Miranda Language Pack Version 1
 [Generate and use random key]
 [Account:]
 [key id: ]
+[Copy public key]
+[Export private key]
+[Set GPG bin path and keyring home dir.]
 [Continue]
 [Home directory:]
 [GnuPG binary:]
 [Browse]
 [Turn on key autoexchange]
+[The new public key was recieved]
 [Import key]
 [Accept and enable encryption]
 [Ignore]
-[Ñòàòè÷åñêèé]
+[Static]
+[Key Generation dialog]
 [OK]
 [Cancel]
 [Key type:]
@@ -12773,14 +12789,22 @@ Miranda Language Pack Version 1
 [From 1024 to 4096]
 [It can take a long time, be patient]
 [0 - does not expire]
+[Select existing public key from list]
+[Enter password for your secret key]
 [Password:]
 [Save password to database]
 [Default password]
 [Import]
 [Select keyserver for key search:]
+[Recieved encrypted file]
 [Decrypt]
 [Recieved encrypted file form contact whith disabled encryption.]
 [Remember choice]
+[Choose which  keys to export]
+[Ok]
+[Export public keys (only set for contacts)]
+[Export all private keys]
+[Export public and private keys]
 [Userlist:]
 [Export PubKey]
 [Select own key]
@@ -12797,6 +12821,8 @@ Miranda Language Pack Version 1
 [Close:]
 [Strip all tags in outgoing messages]
 [Turn on presence signing (Jabber) (required by xep 0-27)]
+[Export keys]
+[Import keys]
 ;file \plugins\New_GPG\src\gpg_wrapper.cpp
 [" --homedir "]
 [LANGUAGE=en@quot\0LC_ALL=English\0]
@@ -12810,10 +12836,9 @@ Miranda Language Pack Version 1
 [Load GPG public key]
 [Toggle GPG encryption]
 [Send public key]
-[Export GPG Public keys from all users]
-[Import GPG Public keys from all users]
+[Export GPG Public keys]
+[Import GPG Public keys]
 ;file \plugins\New_GPG\src\main.cpp
-[Set own key]
 [Key ID]
 [Email]
 [Name]
@@ -12829,6 +12854,9 @@ Miranda Language Pack Version 1
 [Failed to open file]
 [Error]
 [Generating new random key, please wait]
+[Failed to alocate memory]
+[Choose file to export key]
+[Any file]
 [\\GnuPG\\gnupg.nls\\en@quot.mo]
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
 [Warning]
@@ -12853,7 +12881,6 @@ Miranda Language Pack Version 1
 [Replace]
 [Accept]
 [Received key from ]
-[Key Generation dialog]
 [RSA]
 [DSA]
 [You must set encryption algorythm first]
@@ -12916,7 +12943,6 @@ Miranda Language Pack Version 1
 [Do you want to remove key from entire metacontact (all subcontacts) ?]
 [Export public key]
 [.asc pubkey file]
-[Failed to alocate memory]
 [Set log file]
 [LOG files]
 [Load Public GPG Key for ]
@@ -12940,6 +12966,10 @@ Miranda Language Pack Version 1
 [ --trust-model always ]
 [ -o "]
 [ -e "]
+[GPG_Encrypted_FileTransfers:0]
+[Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
+[Filetransfer warning]
+[Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
 [encrypting file for transfer]
 [This message is encrypted.]
 [Version: ]
@@ -12955,8 +12985,13 @@ Miranda Language Pack Version 1
 [from]
 [Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
 [GPG_Key_Auto_Exchange:0\0\0]
-[Choose file to export public keys]
-[Any file]
+[Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
+[GPG_Encrypted_FileTransfers:0\0\0]
+[Choose file to export keys]
+[we have succesfully exported]
+[public keys]
+[and]
+[all private keys]
 [Keys export result]
 [Choose file to import keys from]
 [Keys import result]
@@ -12981,9 +13016,10 @@ Miranda Language Pack Version 1
 [No History]
 [History]
 [Logging]
-;#muuid not found, please specify manually!
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
+[Sticky Notes Options]
 [Default Note Size]
 [Width (Pixels)]
 [Height (Pixels)]
@@ -13007,6 +13043,7 @@ Miranda Language Pack Version 1
 [...]
 [Reset to defaults]
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
+[Add Reminder]
 [Trigger On Time && Date:]
 [Date]
 [DateTimePicker1]
@@ -13022,22 +13059,30 @@ Miranda Language Pack Version 1
 [&Close]
 [&View Reminders]
 [reftime]
+[Reminder]
 [After:]
 [On Time && Date:]
 [&Remind Again]
 [&Create Note]
 [&Dismiss]
+[Reminders]
 [Add New]
+[Context Menu Reminder ListView]
 [Edi&t Reminder]
 [New &Reminder]
 [&Delete Reminder]
 [D&elete All Reminders]
+[Context Menu Note Popup]
 [&Hide Note]
 [&Always On Top]
 [&New Note]
 [&Delete Note]
+[Appearance]
+[Background Color]
 [Custom...]
 [Reset]
+[Text Color]
+[Font]
 [Paste Title]
 [Reset Title]
 [Undo]
@@ -13047,6 +13092,7 @@ Miranda Language Pack Version 1
 [C&lear]
 [&View Notes]
 [&Bring All To Front]
+[Context Menu Note ListView]
 [Edi&t Note]
 [&Visible]
 [Always &On Top]
@@ -13110,9 +13156,6 @@ Miranda Language Pack Version 1
 [Are you sure you want to delete this note?]
 [ctrldata]
 [MNU_NOTEPOPUP]
-[Appearance]
-[Background Color]
-[Text Color]
 [open]
 [iexplore]
 [Notes]
@@ -13128,7 +13171,6 @@ Miranda Language Pack Version 1
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
 [Select Executable]
 ;file \plugins\NotesAndReminders\src\reminders.cpp
-[Reminder]
 [Minutes]
 [Hours]
 [Hour]
@@ -13264,7 +13306,7 @@ Miranda Language Pack Version 1
 [Account]
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-;#muuid not found, please specify manually!
+#muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;langpack template for OpenFolder
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
@@ -13280,6 +13322,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
 [Update]
 [View info]
 [Cancel]
@@ -13372,7 +13415,7 @@ Miranda Language Pack Version 1
 [No updates found.]
 [No files for update.]
 [Update checking already started!]
-;#muuid not found, please specify manually!
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste It
@@ -13396,6 +13439,7 @@ Miranda Language Pack Version 1
 [Login as guest]
 [User key]
 [Get user key]
+[Configure formatting]
 [OK]
 [Cancel]
 [Up]
@@ -13403,8 +13447,10 @@ Miranda Language Pack Version 1
 [Delete]
 [Restore defaults]
 [Download more]
+[Login to pastebin.com]
 [User name]
 [Password]
+[Paste It]
 [Format]
 [Encoding]
 [Recode]
@@ -13428,7 +13474,6 @@ Miranda Language Pack Version 1
 [Korean (Johab)]
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 [Invalid codepage]
-[Paste It]
 [Services]
 [Main]
 [Web page]
@@ -13490,6 +13535,7 @@ Miranda Language Pack Version 1
 [Edit]
 [Up]
 [Down]
+[Edit Host]
 [OK]
 [Cancel]
 [Address:]
@@ -13503,6 +13549,7 @@ Miranda Language Pack Version 1
 [Contact]
 [Protocols]
 [(Optional) Command Parameters:]
+[Menu]
 [Graph]
 [Enable]
 [Disable all pings]
@@ -13561,6 +13608,7 @@ Miranda Language Pack Version 1
 ;============================================================
 [Plugin updater for Miranda NG.]
 ;file \plugins\PluginUpdater\res\Resource.rc
+[Updates found!]
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
 [Update]
 [Details >>]
@@ -13636,7 +13684,6 @@ Miranda Language Pack Version 1
 ['Yes' Button]
 ['No' Button]
 [Plugin Updater HTTP connection]
-["%s" /restart:%d /profile=%s]
 ;file \plugins\PluginUpdater\src\Minizip\ioapi.c
 [r+b]
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -13646,13 +13693,12 @@ Miranda Language Pack Version 1
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 [Check Database]
 ["%s" /restart:%d /svc:dbchecker]
-["%s" /restart:%d /profile=%s]
 [Database]
 [Load profile]
 [Change profile]
 [Check database]
 [Restart]
-;#muuid not found, please specify manually!
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp
@@ -13701,6 +13747,7 @@ Miranda Language Pack Version 1
 [Skin options]
 [Preview]
 [Download more skins]
+[Popup History]
 [Desktop]
 [Popup Area]
 [pixel(s)]
@@ -13787,7 +13834,6 @@ Miranda Language Pack Version 1
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]
-[Popup History]
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 [Actions]
@@ -13873,6 +13919,7 @@ Miranda Language Pack Version 1
 [... on left side of name]
 [Hide subcontacts]
 [But keep subcontacts of protocols in above list if meta is hidden]
+[Enter username:]
 [Show all contacts (Ctrl+A)]
 ;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
@@ -13911,6 +13958,7 @@ Miranda Language Pack Version 1
 [Consider as ServiceName]
 [You have changed the plugin settings via database.\nThis requires restart!]
 [?]
+[Quick Messages Help]
 [- Selected text]
 [List of variables:]
 [- Text from Clipboard]
@@ -13957,81 +14005,6 @@ Miranda Language Pack Version 1
 ;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 [Quick Replies]
-;#muuid not found, please specify manually!
-;langpack template for quicksearch
-;file \plugins\QuickSearch\qs.rc
-[*]
-[<]
-[>]
-[C&ancel]
-[Default]
-[Settings]
-[Title:]
-[Type:]
-[InfoType:]
-[Script]
-[Service:]
-[wParam:]
-[Setting:]
-[wParam type:]
-[lParam:]
-[lParam type:]
-[Sort by Status]
-[Only Users in List]
-[Auto Close mode]
-[Draw Grid]
-[Show Client Icons]
-[Save search pattern]
-[Item in Main Menu]
-[Button on TopToolBar]
-[Tool Window Style]
-[Copy line to CSV]
-[CSV with headers]
-[Skip minimized columns]
-[Additional Options]
-[Refresh]
-[Show Offline contacts]
-[Colorize]
-[Search for:]
-;file \plugins\QuickSearch\sr_frame.pas
-[Previous item]
-[Next item]
-[Open main window]
-;file \plugins\QuickSearch\sr_optdialog.pas
-[Metacontact]
-[Service]
-[number value]
-[integer value]
-[ANSI string]
-[Unicode string]
-[current contact]
-[New]
-[Save Item]
-[Down]
-[Delete]
-[Reload]
-;file \plugins\QuickSearch\sr_window.pas
-[ users found (]
-[) Online: ]
-[Online]
-[deleted]
-[off]
-[active]
-[Do you really want to delete selected contacts?]
-[Warning]
-[Some of selected contacts in different metacontacts already]
-[One or more contacts in same Meta already. Try to convert anyway?]
-[Selected]
-[contacts]
-[&Delete]
-[&Copy]
-[C&onvert to Meta]
-[&Move to Group]
-[Male]
-[Female]
-[Unknown]
-[All]
-[Stay on Top]
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
@@ -14041,7 +14014,9 @@ Miranda Language Pack Version 1
 ;============================================================
 [Shows currency rates and economic quotes.]
 ;file \plugins\Quotes\res\Forex.rc
+[Variable List]
 [OK]
+[Edit Settings]
 [Use contact specific settings]
 [Log]
 [Use &Internal History]
@@ -14059,14 +14034,17 @@ Miranda Language Pack Version 1
 [Show Popup Window Only if Value &Changed]
 [Cancel]
 [Popup settings...]
+[Currency Converter]
 [&to:]
 [&Swap]
 [Convert]
 [Info provided by <a href="http://www.google.com">Google</a>]
 [Close]
+[Chart]
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
 [Get data from:]
 [Filter:]
+[Popup Window Settings]
 [Colours]
 [Use default colours]
 [Use user-defined colours]
@@ -14094,6 +14072,7 @@ Miranda Language Pack Version 1
 [&Watched currency rates:]
 [&Remove]
 [&Refresh Rates Every:]
+[Quote\\Rate Info]
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
@@ -14134,7 +14113,6 @@ Miranda Language Pack Version 1
 [Quote/Rate not changed]
 [Quote Section]
 [Quote]
-[Currency Converter]
 [Export]
 [Swap button]
 [Import]
@@ -14256,6 +14234,7 @@ Miranda Language Pack Version 1
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;langpack template for RecentContacts
 ;file \plugins\RecentContacts\res\resource.rc
+[Recent Contacts]
 [Plugin settings]
 [Number shown contacts:\n (0 to show all)]
 [Format of date and time\n(Look to readme for placeholders help)]
@@ -14268,10 +14247,9 @@ Miranda Language Pack Version 1
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
-;#muuid not found, please specify manually!
+#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
 ;langpack template for Restart
 ;file \plugins\Restart\src\restart.cpp
-["%s" /restart:%d /profile=%s]
 [Restart]
 #muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;langpack template for Scriver
@@ -14344,15 +14322,18 @@ Miranda Language Pack Version 1
 [Show typing notification when no message dialog is open]
 [Flash in the system tray and in the contact list]
 [Show balloon popup]
+[Send Error]
 [An error has occured. The protocol reported the following error:]
 [while sending the following message:]
 [Try again]
 [Cancel]
+[Message Session]
 [&U]
 [&D]
 [&E]
 [&H]
 [&Q]
+[Send To All Tabs]
 [You are about to send a message to all open tabs.\nAre you sure ?]
 [Remember my choice for this container]
 [Yes]
@@ -14396,6 +14377,7 @@ Miranda Language Pack Version 1
 [Timeout (s)]
 [(0 means default setting, -1 means indefinite time)]
 [OK]
+[Log]
 [&Copy]
 [Co&py All]
 [Select &All]
@@ -14408,8 +14390,10 @@ Miranda Language Pack Version 1
 [Yahoo]
 [Foodnetwork]
 [C&lear Log]
+[LogLink]
 [&Open link]
 [&Copy link]
+[Message]
 [Undo]
 [Redo]
 [Cut]
@@ -14420,6 +14404,7 @@ Miranda Language Pack Version 1
 [Clear]
 [Close Other Tabs]
 [Close Tab]
+[List]
 [&Message]
 [Clear lo&g]
 [Co&py all]
@@ -14613,9 +14598,7 @@ Miranda Language Pack Version 1
 [Outgoing]
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
-[Send Error]
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Message Session]
 [Always On Top]
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
@@ -14788,7 +14771,7 @@ Miranda Language Pack Version 1
 [%s: Server]
 [AQGgl']
 [AQGg']
-;#muuid not found, please specify manually!
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -14855,24 +14838,30 @@ Miranda Language Pack Version 1
 [Show a popup on key received]
 [Show a popup on each secure send]
 [Show a popup on each secure receive]
+[Please type in your password]
 [Username:]
 [Password:]
 [OK]
 [Cancel]
+[SecureIM plugin Passphrase of private key]
 [Enter passphrase for the secret key:]
 [Ok]
+[Mode]
 [Native SecureIM]
 [PGP SecureIM]
 [GPG SecureIM]
 [RSA/AES SecureIM]
 [RSA SecureIM]
+[Status]
 [Always Try to Establish Secure IM]
 [Secure IM Enabled]
 [Secure IM Disabled]
+[Pre-shared key]
 [Set key]
 [Delete key]
 [Set pre-shared key]
 [Delete pre-shared key]
+[Public key]
 [Export key]
 [Import key]
 [Export public key]
@@ -14887,7 +14876,10 @@ Miranda Language Pack Version 1
 [SecureIM [GPG]]
 [SecureIM [RSA/AES]]
 ;file \plugins\SecureIM\src\options.cpp
-[ASC files\0*.asc\0All files (*.*)\0*.*\0]
+[Executable Files]
+[Select GnuPG Executable]
+[ASC files]
+[All files]
 [Open Key File]
 [Save Private Key File]
 [Save Public Key File]
@@ -14934,6 +14926,7 @@ Miranda Language Pack Version 1
 [Invisible]
 [Offline]
 [Reset colors]
+[Last seen plugin]
 [OK]
 [You missed following contacts:]
 [Test\nTest]
@@ -15040,18 +15033,21 @@ Miranda Language Pack Version 1
 [\x0D\x0A]
 [Unknown]
 [Not Idle]
-;#muuid not found, please specify manually!
+#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send Screenshot+
 ;  Version: 0.8.0.0
 ;  Authors: Merlin
 ;============================================================
+[Take a screenshot and send it to a contact.]
 ;file \plugins\SendScreenshotPlus\res\resource.rc
+[Dialog]
 [OK]
 [All]
 [None]
 [Cancel]
+[Send screenshot]
 [Send screenshot to\n<unknown>]
 [Ti&med capture]
 [Time (secs) :]
@@ -15063,9 +15059,11 @@ Miranda Language Pack Version 1
 [Delete &after send]
 [Open again]
 [&Capture]
+[About]
 [%s\nv%s]
 [Credits >]
 [&Close]
+[Edit]
 [C&lient Area]
 [Caption :]
 [Size (HxW) :]
@@ -15215,14 +15213,17 @@ Miranda Language Pack Version 1
 [Warn, when some of LastSession contacts are hidden]
 [Show other warnings ("session already opened" etc...)]
 [Crash Recovery mode]
+[Restore Session]
 [&Restore Session]
 [&Cancel]
 [Choose session to restore from the list:]
 [Del]
+[Save Session]
 [&Save Session]
 [Enter session name:]
 [Save and Close]
 [adv.]
+[Sessions Manager]
 [OK]
 [Cancel]
 [Save your current session?]
@@ -15230,10 +15231,8 @@ Miranda Language Pack Version 1
 [Favorite Session]
 [Not favorite Session]
 [Load Session]
-[Save Session]
 [Load last Session]
 [Current session is empty!]
-[Sessions Manager]
 [Session name is empty, enter the name and try again]
 [No sessions to open]
 [Last Sessions is empty]
@@ -15253,27 +15252,6 @@ Miranda Language Pack Version 1
 [Message Sessions]
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
-;#muuid not found, please specify manually!
-;langpack template for shlext
-;file \plugins\ShlExt\shldlgs.rc
-[Display contacts in their assigned groups (if any)]
-[Only if/when the contact list is using them]
-[Display hidden, ignored or temporary contacts]
-[Menus]
-[Shell Status]
-[...]
-[Shell context menus]
-[Do not display the profile name in use]
-[Show contacts that you have set privacy rules for]
-[Remove]
-[Do not show status icons in menus]
-[Do not show contacts that are offline, even if my contact list does]
-;file \plugins\ShlExt\shlcom.pas
-[Miranda]
-[Recently]
-[Clear entries]
-;file \plugins\ShlExt\shlext.dpr
-[Disable/Remove shlext]
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
 ;  File: SimpleAR.dll
@@ -15307,19 +15285,24 @@ Miranda Language Pack Version 1
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
 [&Cancel]
 [Retrieving %s message...]
 [Co&py to Clipboard]
+[%s Message (%s)]
 [OK]
+[Retrieving status message for %s...]
 [%time%]
 [%date%]
 [%winampsong%]
 [%rand(x,y)%]
 [%randmsg%]
 [%randdefmsg%]
+[Fortune]
 [%fortunemsg%]
 [%protofortunemsg%]
 [%statusfortunemsg%]
+[Variables]
 [?cinfo(contact,property)]
 [?contact(string,property)]
 [?mstatus(protocol)]
@@ -15338,8 +15321,6 @@ Miranda Language Pack Version 1
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
 [More variables...]
-[Fortune]
-[Variables]
 [Cut]
 [Copy]
 [Paste]
@@ -15422,7 +15403,6 @@ Miranda Language Pack Version 1
 [Delete Selected]
 [OK (%d)]
 [Global]
-[%s Message (%s)]
 [Closing in %d]
 [Are you sure you want to clear status message history?]
 [Confirm clearing history]
@@ -15564,7 +15544,7 @@ Miranda Language Pack Version 1
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 [SmileyTool]
-;#muuid not found, please specify manually!
+#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: sms.dll
 ;  Plugin: SMS plugin
@@ -15573,12 +15553,14 @@ Miranda Language Pack Version 1
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 ;file \plugins\SMS\res\resource.rc
+[Received SMS]
 [&Reply]
 [&Close]
 [Read Next]
 [From:]
 [Message received:]
 [Number:]
+[Send SMS]
 [To:]
 [Add number to list]
 [&H]
@@ -15588,6 +15570,7 @@ Miranda Language Pack Version 1
 [Chars:]
 [%d/160]
 [&Send]
+[SMS Message Didn't Send]
 [&Try again]
 [&Cancel]
 [The SMS message send timed out]
@@ -15599,6 +15582,7 @@ Miranda Language Pack Version 1
 [Show server notifications]
 [Auto popup on new message]
 [Save window position per contact]
+[SMS Message Sent]
 [&OK]
 [Message ID:]
 [Source:]
@@ -15610,7 +15594,6 @@ Miranda Language Pack Version 1
 [SMS Message from %s]
 [SMS Confirmation from %s]
 ;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS]
 [Received SMS Confirmation]
 [Unknown event type]
 ;file \plugins\SMS\src\senddlg.cpp
@@ -15629,7 +15612,6 @@ Miranda Language Pack Version 1
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 [Invalid phone number]
 [ SMS]
-[Send SMS]
 [<< Single]
 ;file \plugins\SMS\src\SMSConstans.h
 [Arial]
@@ -15651,6 +15633,7 @@ Miranda Language Pack Version 1
 [Add...]
 [Edit...]
 [Remove]
+[Add auto-replace word]
 [Wrong word:]
 [No separators and all lowercase chars]
 [Correction:]
@@ -15835,13 +15818,14 @@ Miranda Language Pack Version 1
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 [Start position]
-;#muuid not found, please specify manually!
+#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
 ;  Version: 0.8.0.44
 ;  Authors: P Boon
 ;============================================================
+[StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 [<current>]
@@ -15867,13 +15851,14 @@ Miranda Language Pack Version 1
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 [Released toolbar icon]
-;#muuid not found, please specify manually!
+#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
+[No more spam! Robots can't go! Only human beings invited!]
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question: (Ctrl-Enter for carriage return)]
 [Restore defaults]
@@ -15882,7 +15867,7 @@ Miranda Language Pack Version 1
 [Auth. request reply:]
 [Divider:]
 [Vars]
-[Disable protection for following protocols:]
+[Disable protection for following accounts:]
 [Do not send more than ]
 [ questions to one contact (0 - for no limit)]
 [Enable StopSpam-StopSpam infinite talk protection]
@@ -15895,7 +15880,7 @@ Miranda Language Pack Version 1
 [Message Sessions]
 [Main]
 [Messages]
-[Protocols]
+[Accounts]
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 [StopSpam automatic message:\r\n]
@@ -15911,7 +15896,7 @@ Miranda Language Pack Version 1
 [Congratulations! You just passed human/robot test. Now you can write me a message.\r\n]
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
-;#muuid not found, please specify manually!
+#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpamMod
@@ -15974,7 +15959,7 @@ Miranda Language Pack Version 1
 [StopSpam]
 [Main]
 [Messages]
-[Protocols]
+[Accounts]
 [Advanced]
 ;file \plugins\StopSpamMod\src\stopspam.cpp
 [ICQ]
@@ -16041,15 +16026,19 @@ Miranda Language Pack Version 1
 [Enable highlighting for message text]
 [Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
 [Highlight messages containing my own nick name]
+[List]
 [&Message]
+[Log]
 [Clear lo&g]
 [Co&py all]
 [Word lookup]
 [Google]
 [Wikipedia]
+[Link]
 [Open a &new browser window]
 [&Open in current browser window]
 [&Copy link]
+[Message]
 [Undo  ]
 [Redo]
 [Copy]
@@ -16057,10 +16046,12 @@ Miranda Language Pack Version 1
 [Paste]
 [Select All]
 [Clear]
+[Tabs]
 [&Close tab]
 [C&lose other tabs]
 [&Open at this position]
 ;file \plugins\TabSRMM\res\resource.rc
+[TabSRMM exception]
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]
@@ -16093,7 +16084,6 @@ Miranda Language Pack Version 1
 [Text]
 [Background]
 [Timeout (seconds, 0 = default, -1 = no timeout)]
-[Message]
 [Default colors]
 [Others]
 [Preview]
@@ -16101,6 +16091,7 @@ Miranda Language Pack Version 1
 [Errors]
 [Use the message log color theme for group chat popups]
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
+[Dialog]
 [All modes]
 [Choose modes]
 [Message log view mode (does not affect open windows)]
@@ -16118,6 +16109,7 @@ Miranda Language Pack Version 1
 [Load only actual history]
 [Always trim message log to]
 [Events]
+[   ]
 [Only show tab bar when it's needed]
 [Container stays on top]
 [Vertical maximize]
@@ -16200,6 +16192,7 @@ Miranda Language Pack Version 1
 [Setup status modes for automatic tab creation...]
 [Limit nicknames on tabs to]
 [ESC key behavior]
+[Select container]
 [Available containers]
 [Delete]
 [Rename]
@@ -16260,6 +16253,7 @@ Miranda Language Pack Version 1
 [Bottom tabs vertical adjustment:]
 [NOTE: some settings will not affect open containers.]
 [Tab layout tweaks]
+[About tabSRMM]
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Support and latest version information]
 [Selected skin]
@@ -16303,13 +16297,16 @@ Miranda Language Pack Version 1
 [Select &All]
 [Clear Log]
 [Freeze Log]
+[LogLink]
 [Open in &new window]
 [&Open in existing window]
+[Editor]
 [Paste formatted Text]
 [Paste and Send immediately]
 [Copy all]
 [Select all]
 [Show Message Length Indicator]
+[Tabmenu]
 [Close Tab]
 [Leave Chat Room]
 [Save Tab Position]
@@ -16317,14 +16314,19 @@ Miranda Language Pack Version 1
 [Attach to Container...]
 [Container Options...]
 [Close Container]
+[Picmenu]
+[Show Contact Picture]
 [Default]
 [Hidden for this Contact]
 [Visible for this Contact]
 [Contact Picture Settings...]
 [Always keep the button bar at full width]
 [Save this Picture As...]
+[Logmenu]
+[&Message Log Settings]
 [&Global...]
 [&For this Contact...]
+[Sendmenu]
 [Send &Default]
 [Send to &multiple Users]
 [Send to &Container]
@@ -16332,12 +16334,18 @@ Miranda Language Pack Version 1
 [Force &ANSI]
 [Send unsafe (ignore Timeouts)]
 [Send Nudge]
+[Protomenu]
+[Splitter Position]
 [Global]
 [Private]
+[Send Text Formatting]
 [BBCode]
 [Off]
+[This Contact]
 [Global Setting]
 [Force Off]
+[Unread Menu]
+[Traycontext]
 [Recent Sessions]
 [Favorites]
 [Show the Tray Icon]
@@ -16347,6 +16355,7 @@ Miranda Language Pack Version 1
 [Restore all Message Containers]
 [Don't play Sounds]
 [Be "Super Quiet"]
+[Font]
 [Default Color]
 [Red]
 [Green]
@@ -16361,38 +16370,51 @@ Miranda Language Pack Version 1
 [No Message Sessions opened]
 [Add Contact to Favorites]
 [Remove Contact from Favorites]
+[Apparentmenu]
 [dummy]
+[Panelpicmenu]
+[Splitter context]
 [Set Position for this Session]
 [Set and Save for all Sessions]
 [Set and Save for this Contact only]
 [Revert to old Position]
+[Queue manager]
 [Mark Selected for Removal]
 [Reset Selected]
 [Hold Selected]
 [Resume Selected]
 [Cancel all Multisend Jobs]
 [Copy Message to Clipboard]
+[&File]
 [Save Message Log As...]
 [Close Message Session\tCtrl-W]
 [Close Container\tAlt-F4]
+[&View]
 [Show Menu Bar]
 [Show Status Bar]
 [Info Panel...]
+[Tool Bar]
 [Show Tool Bar]
 [Place ToolBar at bottom]
 [Title Bar]
 [Tabs at Bottom]
+[Window Flashing]
 [Use default Value]
 [Disable Flashing]
 [Show Multisend Contact List]
 [Stay on Top]
+[Message &Log]
+[&Container]
+[Event Popups]
 [Disable all Event Popups]
 [Show Popups if Window is minimized]
 [Show Popups if Window is unfocused]
 [Show Popups if Window is focused]
 [Show Popups for all inactive sessions]
 [Save current Window Position as Default]
+[Help]
 [About tabSRMM...]
+[Queued send jobs]
 [Queued jobs]
 [Filter by contact:]
 [Display popups for failed jobs]
@@ -16492,13 +16514,8 @@ Miranda Language Pack Version 1
 [Don't show them]
 ;file \plugins\TabSRMM\src\controls.cpp
 [&Main]
-[&File]
-[&View]
 [&User]
 [&Room]
-[Message &Log]
-[&Container]
-[Help]
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 [disabled]
 [enabled]
@@ -16549,6 +16566,27 @@ Miranda Language Pack Version 1
 [signed off.]
 [signed on and is now %s.]
 [changed status from %s to %s.]
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+[Most recent unread session]
+[Paste and send]
+[Contact's messaging prefs]
+[Send nudge]
+[Send a file]
+[Quote message]
+[Toggle send later]
+[Send message]
+[Smiley selector]
+[Show message history]
+[Show user menu]
+[Show user details]
+[Toggle tool bar]
+[Toggle info panel]
+[Toggle text direction]
+[Toggle multi send]
+[Clear message log]
+[Collapse side bar]
+[Toggle filter]
+[Show server window]
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [Angry]
 [Duck]
@@ -16751,7 +16789,6 @@ Miranda Language Pack Version 1
 [Image tag]
 [Quote text]
 [Save and close]
-[Send message]
 [Smiley button]
 [Format bold]
 [Format italic]
@@ -16802,7 +16839,6 @@ Miranda Language Pack Version 1
 [Status]
 [Last send info]
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-[Queue manager]
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [Send queue full]
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
@@ -17352,6 +17388,10 @@ Miranda Language Pack Version 1
 ;file \plugins\TabSRMM\src\include\contactcache.h
 [<account error>]
 [<proto error>]
+;file \plugins\TabSRMM\src\include\msgs.h
+[Message windows - IM]
+[Message windows - all]
+[Message windows - groupchats]
 ;file \plugins\TabSRMM\src\include\taskbar.h
 [TabSRMM_DWMProxy]
 ;file \plugins\TabSRMM\src\include\utils.h
@@ -17363,7 +17403,7 @@ Miranda Language Pack Version 1
 [cyan]
 [black]
 [white]
-;#muuid not found, please specify manually!
+#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
@@ -17396,6 +17436,7 @@ Miranda Language Pack Version 1
 [Title indent:]
 [Value indent:]
 [Inner avatar padding:]
+[Substitution]
 [Label:]
 [Contact protocol module]
 [Module:]
@@ -17403,6 +17444,7 @@ Miranda Language Pack Version 1
 [Translation:]
 [OK]
 [Cancel]
+[Item]
 [Value:]
 [Draw a line above]
 [Value on a new line]
@@ -17877,6 +17919,7 @@ Miranda Language Pack Version 1
 [&Custom]
 [P&ermanent]
 [Preview]
+[Jabber Password]
 [OK]
 [Cancel]
 [Nick name:]
@@ -17892,6 +17935,7 @@ Miranda Language Pack Version 1
 [Voice chats]
 [Publicly visible status]
 [Save changes]
+[Avatar]
 [Avatar Options]
 [Public avatar]
 [Tlen login:]
@@ -17906,10 +17950,12 @@ Miranda Language Pack Version 1
 [Extra Search Criterias]
 [Status:]
 [Plan:]
+[Tlen Voice Chat]
 [Quality]
 [In]
 [Out]
 [Finish]
+[Tlen Voice Chat Invitation]
 [&Accept]
 [From:]
 [The following invitation to join a voice chat is received.]
@@ -18031,7 +18077,7 @@ Miranda Language Pack Version 1
 [...Denied...]
 [DISPLAY]
 [Default]
-;#muuid not found, please specify manually!
+#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
@@ -18039,7 +18085,9 @@ Miranda Language Pack Version 1
 ;  Authors: 
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
 [OK]
+[Choose contacts...]
 [Allow tooltip notifications for the following users:]
 [Cancel]
 [Notify upon the following events]
@@ -18123,7 +18171,7 @@ Miranda Language Pack Version 1
 [Toolbar]
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
-;#muuid not found, please specify manually!
+#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
@@ -18218,7 +18266,7 @@ Miranda Language Pack Version 1
 [total]
 [tc_GetTraffic]
 [tc_GetTime]
-;#muuid not found, please specify manually!
+#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
 ;============================================================
 ;  File: TranslitSwitcher.dll
 ;  Plugin: Switch Layout or Transliterate
@@ -18255,6 +18303,7 @@ Miranda Language Pack Version 1
 [Default group:]
 [Username:]
 [[Sign in to link your twitter account]]
+[Send Tweet]
 [Send]
 [Cancel]
 [Misc. Options]
@@ -18278,6 +18327,7 @@ Miranda Language Pack Version 1
 [Permanent]
 [Preview]
 [But not during sign-on]
+[Enter Twitter PIN]
 [OK]
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
 ;file \protocols\Twitter\src\chat.cpp
@@ -18371,14 +18421,16 @@ Miranda Language Pack Version 1
 [Yogi Berra]
 [Always go to other peoples' funerals, otherwise ]
 [they won't go to yours.]
-;#muuid not found, please specify manually!
+;#muuid for UInfoEx not found, please specify manually!
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Gives extended ability to edit information about your contacts locally. ]
 ;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Origin]
 [&Update]
@@ -18418,11 +18470,13 @@ Miranda Language Pack Version 1
 [Occupation:]
 [Superior:]
 [Assistant:]
+[Add Phone Number]
 [Enter your phone number\nand don't worry about formating.]
 [Enter a category for this number:]
 [Enter country, area code and phone number:]
 [Or enter a full international number:]
 [Phone can receive SMS text messages]
+[Add E-Mail]
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
 [Enter a representitive name for the e-mail address here.]
 [Enter the e-mail address here.]
@@ -18459,8 +18513,10 @@ Miranda Language Pack Version 1
 [Add Past]
 [Add Interest]
 [Delete]
+[Anniversary Editor]
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 [Enter a name for the anniversary here please:]
+[Anniversary list]
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Statistics:]
 [with birthday:]
@@ -18497,10 +18553,12 @@ Miranda Language Pack Version 1
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
 [TreeView]
 [Adapt propertysheet pages to aero mode.]
+[Import]
 [Importing...\nPlease wait!]
 [Setting/Event (20/100)]
 [Progress1]
 [John Doe (1/10)]
+[Dialog]
 [OK]
 [All]
 [None]
@@ -18532,11 +18590,13 @@ Miranda Language Pack Version 1
 [not found]
 [Use global reminder settings.]
 [Don't remind me of this anniversary.]
+[Refresh Contact Details]
 [Preparing...]
 [Hide]
 [What do you want to export?]
 [Contact Information]
 [Contact History]
+[Select Modules]
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
 [Check all]
 [Uncheck all]
@@ -18606,7 +18666,6 @@ Miranda Language Pack Version 1
 [Birthdays only]
 [Anniversaries only]
 [Disabled reminder]
-[Anniversary list]
 [Popup Anniversary list]
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
@@ -18636,7 +18695,6 @@ Miranda Language Pack Version 1
 [Import from file]
 [Segoe UI]
 [Owner]
-[Edit Contact Information]
 [Upload ICQ Details]
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
@@ -18657,7 +18715,6 @@ Miranda Language Pack Version 1
 [Import all contacts]
 [Backup birthdays]
 [Check anniversaries]
-[Refresh Contact Details]
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]
@@ -19004,13 +19061,13 @@ Miranda Language Pack Version 1
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 [PNG]
-;#muuid not found, please specify manually!
+#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
 ;langpack template for UserGuide
 ;file \plugins\UserGuide\src\main.cpp
 [%miranda_path%\\Plugins]
 [open]
 [User Guide]
-;#muuid not found, please specify manually!
+#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
 ;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]
@@ -19075,7 +19132,9 @@ Miranda Language Pack Version 1
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
 ;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
 [OK]
 [Cancel]
 [Text file]
@@ -19088,7 +19147,6 @@ Miranda Language Pack Version 1
 [Forum style formatting]
 [Aditional options:]
 [Do it now]
-[Output to:]
 [Show window in taskbar]
 [Ask every time]
 [Also copy info to clipboard]
@@ -19102,6 +19160,7 @@ Miranda Language Pack Version 1
 [Enable debug messages]
 [Show plugin UUIDs]
 [Show installed languages]
+[Miranda Version Information]
 [Close]
 [&Copy text]
 [Upload]
@@ -19222,152 +19281,7 @@ Miranda Language Pack Version 1
 [<not installed>]
 [Build]
 [<unknown version>]
-;#muuid not found, please specify manually!
-;langpack template for watrack
-;file \plugins\Watrack\kolframe\frm.rc
-[Frame refresh time]
-[...]
-[Picture transform]
-[Cover padding]
-[Alpha]
-[Background color]
-[Choose font...]
-[Text effect]
-[Text movement]
-[Text rotation speed (1-20)]
-[Frame Text]
-;file \plugins\Watrack\lastfm\lastfm.rc
-[Password]
-[Attempts]
-[Content language]
-[Get Artist Info]
-[Artist]
-[Album]
-;file \plugins\Watrack\myshows\myshows.rc
-[Timeout, ms]
-[Scrobble at]
-[Get Series Info]
-[Show]
-[Episode]
-[Genres]
-[Kinopoisk info page]
-;file \plugins\Watrack\popup\popup.rc
-[Colors]
-[Background]
-[Actions]
-[Show player]
-[Left click]
-[Right click]
-[Delay]
-[sec]
-[Test]
-[M]
-[Popup Title / Text]
-;file \plugins\Watrack\proto\proto.rc
-[Save events in database]
-[Music Info Request]
-[User music info text]
-[(%artist%, %title%, %album% and %year% macros can be used only)]
-;file \plugins\Watrack\res\watrack.rc
-[Unicode to Ansi translation codepage:]
-[Refresh time, sec]
-[Formats]
-[Players list\n(F1 for note)]
-[Check]
-[None]
-[Cover filenames]
-[OK]
-[1]
-[2]
-[3]
-[4]
-[5]
-[6]
-[7]
-[8]
-[9]
-[10]
-[11]
-[12]
-[13]
-[14]
-[15]
-[16]
-[Switch ON these modules]
-;file \plugins\Watrack\stat\stat.rc
-[Delete]
-[Statistic log file]
-[Sort]
-[Autosort period, days]
-[Report file]
-[Report]
-[Template file]
-[Export default]
-[Show in report]
-[Sort log file]
-[Report Items]
-;file \plugins\Watrack\status\status.rc
-[Options]
-[Set XStatus when...]
-[Color]
-[Format]
-[Variables]
-[Protocols]
-[Statuses]
-[Reset]
-[Default]
-[Template]
-[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-[Chat Template]
-[[X]Status Title / Text]
-;file \plugins\Watrack\templates\templates.rc
-[File size]
-[Precision]
-[Postfix]
-[VBR macro]
-[Player name letters]
-[Export text template]
-[V]
-;file \plugins\Watrack\i_gui.inc
-[Disable Plugin]
-;file \plugins\Watrack\i_opt_1.inc
-[System default codepage]
-[All]
-;file \plugins\Watrack\kolframe\frm_dlg1.inc
-[All Bitmaps]
-;file \plugins\Watrack\lastfm\i_last_api.inc
-[Last.fm error: ]
-[Client is banned]
-[Bad Auth. Check login and password]
-[Bad TimeStamp]
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-[Similar artists]
-;file \plugins\Watrack\lastfm\i_last_opt.inc
-[Don''t forget to enter Login and Password to use Last.fm service]
-;file \plugins\Watrack\myshows\i_myshows_opt.inc
-[Don''t forget to enter Login and Password to use MyShows service]
-;file \plugins\Watrack\popup\pop_dlg.inc
-[popup test]
-[second line]
-;file \plugins\Watrack\proto\i_proto_dlg.inc
-[** All contacts **]
-;file \plugins\Watrack\proto\proto.pas
-[Music Info from ]
-[ answer you]
-[You Get Error]
-;file \plugins\Watrack\stat\statlog.pas
-[Music Statistic]
-;file \plugins\Watrack\status\i_opt_11.inc
-[Status]
-[XStatus]
-[Tunes]
-[Format text Info]
-;file \plugins\Watrack\status\i_opt_12.inc
-;file \plugins\Watrack\status\i_opt_3.inc
-[any XStatus is set]
-[''Music'' status is set]
-[XStatus is empty or ''Music'']
-;#muuid not found, please specify manually!
+#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
@@ -19436,6 +19350,7 @@ Miranda Language Pack Version 1
 [Do not display fractional values]
 [Frame]
 [Avatar size]
+[Edit Weather Station]
 [Weather Station]
 [City name]
 [ID]
@@ -19495,6 +19410,7 @@ Miranda Language Pack Version 1
 [Dewpoint]
 [Humidity]
 [More...]
+[Weather Protocol INI Setup]
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
 [Click here to download a weather ini file from Miranda file listing]
@@ -19505,6 +19421,7 @@ Miranda Language Pack Version 1
 [Total memory used]
 [Reload INI]
 [City:]
+[Menu]
 [Dismiss PopUp]
 [Open brief information]
 [Open complete forecast]
@@ -19749,7 +19666,9 @@ Miranda Language Pack Version 1
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
+[Notifies you of upcoming birthdays.]
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
+[`]
 [Notify of birthdays using:]
 [  ]
 [Popups]
@@ -19778,14 +19697,18 @@ Miranda Language Pack Version 1
 [Notify for]
 [afterwards]
 [In background]
+[Birthday list]
 [Close]
 [Show all contacts]
+[Set birthday:]
 [OK]
+[Manage anniversaries]
 [Title:]
 [Description:]
 [Date:]
 [Save]
 [Delete]
+[Upcoming birthdays]
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 [Current age]
@@ -19821,9 +19744,13 @@ Miranda Language Pack Version 1
 [WhenWasIt]
 [Birthday near]
 [Birthday today]
-[Birthdays]
-[Birthday list]
+[Birthdays (When Was It)]
 [Check for birthdays]
+[Refresh user details]
+[Import birthdays]
+[Export birthdays]
+[Add/change user &birthday]
+[Birthdays]
 [Contacts]
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
@@ -19860,6 +19787,7 @@ Miranda Language Pack Version 1
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
 [OK]
 [Popup delay settings]
 [PopUp Delay (seconds)]
@@ -19893,7 +19821,7 @@ Miranda Language Pack Version 1
 [Services]
 [PopUps]
 [WUMF: Show connections]
-;#muuid not found, please specify manually!
+#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
@@ -19962,9 +19890,12 @@ Miranda Language Pack Version 1
 [Userdetails]
 [dufte]
 [Copy]
+[Enter Password]
 [Join]
+[Set Nickname]
 [OK]
 [Cancel]
+[New xfire_games.ini]
 [There is a new XFire Gamelist online, do you want to update now?]
 [New supported Games:]
 [Update]
@@ -19980,6 +19911,7 @@ Miranda Language Pack Version 1
 [Send game id:]
 [Statusmessage for Xfire, if this game will be started:]
 [Parameter:]
+[Add a new game]
 [Searching games ...]
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
@@ -20118,16 +20050,19 @@ Miranda Language Pack Version 1
 [Ignore only the people below: ]
 [&Add]
 [&Remove]
+[Set Custom Status]
 [Show as busy]
 [OK]
 [Cancel]
 [Protocol:]
 [Client:]
+[Chat Room Invitation Request]
 [&Join]
 [&Deny]
 [Denial Message]
 [Invitation Message]
 [Host]
+[Invite Buddy To Chat Room]
 [Screen Name]
 [&Invite]
 [&Cancel]
@@ -20286,6 +20221,7 @@ Miranda Language Pack Version 1
 [Options]
 [New Mail]
 [Errors]
+[Check while ...]
 [Cancel]
 [Choose modes]
 [Offline]
@@ -20449,7 +20385,9 @@ Miranda Language Pack Version 1
 ;  Version: 0.5.0.10
 ;  Authors: Scott Ellis
 ;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
 ;file \plugins\YAPP\res\yapp.rc
+[Popup history]
 [Close]
 [Case sensitive]
 [Default Timeout]
@@ -20531,7 +20469,7 @@ Miranda Language Pack Version 1
 [Copy title to clipboard]
 [Copy message to clipboard]
 [Copy timestamp to clipboard]
-;#muuid not found, please specify manually!
+#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
 ;  File: ZeroNotify.dll
 ;  Plugin: ZeroNotify

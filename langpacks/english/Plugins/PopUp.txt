@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp
@@ -47,6 +47,7 @@
 [Skin options]
 [Preview]
 [Download more skins]
+[Popup History]
 [Desktop]
 [Popup Area]
 [pixel(s)]
@@ -133,7 +134,6 @@
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]
-[Popup History]
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 [Actions]

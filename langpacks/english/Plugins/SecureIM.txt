@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -65,24 +65,30 @@
 [Show a popup on key received]
 [Show a popup on each secure send]
 [Show a popup on each secure receive]
+[Please type in your password]
 [Username:]
 [Password:]
 [OK]
 [Cancel]
+[SecureIM plugin Passphrase of private key]
 [Enter passphrase for the secret key:]
 [Ok]
+[Mode]
 [Native SecureIM]
 [PGP SecureIM]
 [GPG SecureIM]
 [RSA/AES SecureIM]
 [RSA SecureIM]
+[Status]
 [Always Try to Establish Secure IM]
 [Secure IM Enabled]
 [Secure IM Disabled]
+[Pre-shared key]
 [Set key]
 [Delete key]
 [Set pre-shared key]
 [Delete pre-shared key]
+[Public key]
 [Export key]
 [Import key]
 [Export public key]
@@ -97,7 +103,10 @@
 [SecureIM [GPG]]
 [SecureIM [RSA/AES]]
 ;file \plugins\SecureIM\src\options.cpp
-[ASC files\0*.asc\0All files (*.*)\0*.*\0]
+[Executable Files]
+[Select GnuPG Executable]
+[ASC files]
+[All files]
 [Open Key File]
 [Save Private Key File]
 [Save Public Key File]

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste It
@@ -22,6 +22,7 @@
 [Login as guest]
 [User key]
 [Get user key]
+[Configure formatting]
 [OK]
 [Cancel]
 [Up]
@@ -29,8 +30,10 @@
 [Delete]
 [Restore defaults]
 [Download more]
+[Login to pastebin.com]
 [User name]
 [Password]
+[Paste It]
 [Format]
 [Encoding]
 [Recode]
@@ -54,7 +57,6 @@
 [Korean (Johab)]
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 [Invalid codepage]
-[Paste It]
 [Services]
 [Main]
 [Web page]

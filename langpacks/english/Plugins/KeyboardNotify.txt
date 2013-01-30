@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
@@ -65,9 +65,11 @@
 [Export...]
 [Import...]
 [Override existing]
+[Set program list]
 [Program]
 [OK]
 [Cancel]
+[Set LEDs for events]
 [Num]
 [Caps]
 [Scroll]
@@ -85,6 +87,7 @@
 [Ignore all]
 [Ignore none]
 [Ignore]
+[Set xStatus list]
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 [** Unknown contacts **]

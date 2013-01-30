@@ -13,6 +13,7 @@
 [Add...]
 [Edit...]
 [Remove]
+[Add auto-replace word]
 [Wrong word:]
 [No separators and all lowercase chars]
 [Correction:]

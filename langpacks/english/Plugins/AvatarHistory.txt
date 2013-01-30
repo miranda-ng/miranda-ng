@@ -7,9 +7,11 @@
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
 [Save As...]
 [Delete this entry]
 [Delete this entry and the bitmap file]
+[Avatar History]
 [Static]
 [Open Folder]
 [<]
@@ -38,6 +40,7 @@
 [Avatar change:]
 [Avatar removal:]
 [Preview]
+[Avatar History: Select how to store history avatars]
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
 [Store history in miranda history and all history avatars in same folder]
 [Store history in miranda history and history avatars in per protocol folders]
@@ -65,7 +68,6 @@
 [Save Avatar for %s]
 [Save Avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Avatar History]
 [Contact changed avatar]
 [Contact removed avatar]
 [%s\\Avatars History]

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: sms.dll
 ;  Plugin: SMS plugin
@@ -7,12 +7,14 @@
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
 ;file \plugins\SMS\res\resource.rc
+[Received SMS]
 [&Reply]
 [&Close]
 [Read Next]
 [From:]
 [Message received:]
 [Number:]
+[Send SMS]
 [To:]
 [Add number to list]
 [&H]
@@ -22,6 +24,7 @@
 [Chars:]
 [%d/160]
 [&Send]
+[SMS Message Didn't Send]
 [&Try again]
 [&Cancel]
 [The SMS message send timed out]
@@ -33,6 +36,7 @@
 [Show server notifications]
 [Auto popup on new message]
 [Save window position per contact]
+[SMS Message Sent]
 [&OK]
 [Message ID:]
 [Source:]
@@ -44,7 +48,6 @@
 [SMS Message from %s]
 [SMS Confirmation from %s]
 ;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS]
 [Received SMS Confirmation]
 [Unknown event type]
 ;file \plugins\SMS\src\senddlg.cpp
@@ -63,7 +66,6 @@
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 [Invalid phone number]
 [ SMS]
-[Send SMS]
 [<< Single]
 ;file \plugins\SMS\src\SMSConstans.h
 [Arial]
