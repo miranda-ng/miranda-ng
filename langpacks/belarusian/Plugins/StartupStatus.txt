@@ -49,6 +49,8 @@
 У падменю
 [Create Shortcut]
 Стварыць цэтлік
+[Show CMDL]
+Кам. радок
 [Profile name]
 Імя профіля
 [Set after]
@@ -57,6 +59,8 @@
 статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
 [Dial-up (experimental)]
 Dial-up (эксперыментальна)
+[Command Line]
+Камандны радок
 [Add new profile]
 Дадаць профіль
 [Default profile]

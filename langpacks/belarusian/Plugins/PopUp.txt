@@ -309,6 +309,8 @@ BBCode ([b]..[/b] - тоўсты)
 Дадаць кантакт увесь час
 [Pin Popup]
 Замацаваць
+[* Popup Classic]
+* Класічны
 [Pinned Popup]
 Замацаванае
 [Enable Aero Glass (Vista+)]
@@ -473,8 +475,6 @@ SmileyAdd пераважней з-за дэфектаў ва ўнутраным 
 Вось яны! :-) ;-) :-(
 [Quick reply]
 Хуткі адказ
-[Process Miranda IM tray notifications]
-Апрацоўваць апавяшчэнні ў трэі
 [Show clock]
 Паказваць гадзіны
 [Clock Button]
@@ -529,3 +529,7 @@ SmileyAdd пераважней з-за дэфектаў ва ўнутраным 
 Групы модуляў
 [Position:]
 Становішча:
+[Disable popups]
+Адключыць вокны
+[Enable popups]
+Уключыць вокны

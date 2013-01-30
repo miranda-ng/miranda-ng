@@ -1,6 +1,8 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;  File: sendss.dll
 ;  Module: Send ScreenShot
+[Take a screenshot and send it to a contact.]
+Стварэння здымкаў і адсылка кантакту.
 [SendSS]
 Адправіць скрыншот
 [Send using:]

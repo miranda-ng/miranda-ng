@@ -1,6 +1,6 @@
 ﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;  File: icq.dll
-;  Module: IcqOscarJ Protocol
+;  Module: IcqOscarJ Protocol, ICQ Plus Mod Protocol
 [Enable popup support]
 Уключыць усплывальныя вокны
 [Display popup when spambot is detected]
@@ -95,8 +95,8 @@
 Станавіцца бачным для кантакту, якому пасылаеце паведамленне
 [Notify me when a message delivery has failed (recommended)]
 Апавяшчаць пра няўдалую дастаўку паведамленняў (рэкамендуецца)
-[Use only server's acknowledgement (faster)]
-Толькі пацверджанне прыёму з сервера (хутчэй)
+[Never use legacy messaging (server acknowledgements)]
+Ігнараваць стары метад, выкарыстоўваць паведамленні сервера пра дастаўку
 [Peer-to-peer Messaging]
 Абмен паведамленнямі паміж карыстачамі
 [Enable peer-to-peer message connections]
@@ -143,8 +143,8 @@
 Адказваць на запыт статуснага паведамлення толькі карыстачам са спісу
 [Only reply to status message request from visible contacts]
 Адказваць на запыт статуснага паведамлення толькі бачным кантактам
-[Support for ICQ network, enhanced.]
-Падтрымка пратакола ICQ, пашырана.
+[ICQ protocol support for Miranda NG.]
+Падтрымка пратаколу ICQ.
 [ICQ XStatus]
 хстатус ICQ
 [Show custom status details]

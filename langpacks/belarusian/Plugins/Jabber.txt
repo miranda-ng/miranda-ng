@@ -1,8 +1,8 @@
 ﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;  File: jabber.dll
 ;  Module: Jabber protocol
-[Jabber protocol plugin for Miranda NG.]
-Модуль пратаколу Jabber (%s)
+[Jabber protocol support for Miranda NG.]
+Падтрымка пратакола Jabber.
 [Register new user]
 Рэгістрацыя
 [Jabber Account Registration]
@@ -133,6 +133,8 @@ Jabber Пароль
 Змена прыналежнасці
 [Role changes]
 Змена ролі
+[Filter history messages]
+Не загружаць прачытаныя паведамленні ў гісторыі
 [Custom messages]
 Свае паведамленні
 [Quit:]
@@ -431,8 +433,6 @@ Jabber Ad-Hoc каманды на
 Выдаленне
 [Real JID:]
 Дзейсны JID:
-
-;  абразкі
 [Send note]
 Адправіць нататку
 [Multi-User Conference]
@@ -445,8 +445,6 @@ Jabber Ad-Hoc каманды на
 Настроі
 [transport]
 транспарт
-
-;  пра кантакт
 [<No photo>]
 <Няма фота>
 [both]
@@ -491,7 +489,6 @@ BBS
 Нумар
 [PCS]
 PCS
-;  CAPs
 [Supports private XML Storage (for bookmakrs and other)]
 Захоўванне XML (для закладак і інш.)
 [Receives information about the music to which a user is listening]
@@ -604,8 +601,6 @@ Unicode зборка
 Прыём інфармацыі пра занятак карыстача
 [Tune]
 Мелодыя
-
-;  Меню пратакола
 [Services...]
 Службы...
 [Service Discovery]
@@ -854,8 +849,6 @@ XML Кансоль
 XML для MS Excel (кадзіроўка UTF-8)
 [Please wait for room list to download.]
 Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
-
-;  Заняткі
 [Doing chores]
 Гаспадару
 [buying groceries]
@@ -1000,8 +993,6 @@ XML для MS Excel (кадзіроўка UTF-8)
 рыбалка
 [smoking]
 куру
-
-;  Настроі
 [Sad]
 Сумны
 [Shy]
@@ -1282,8 +1273,6 @@ Jabber памылка
 Адправіць Ad-Hoc каманду
 [Requesting command list. Please wait...]
 Запыт спісу каманд. Пачакайце...
-
-;  пра статусы ў чатах
 [User %s changed status to %s]
 %s змяніў статус на %s.
 [User %s in now banned.]
@@ -1300,16 +1289,12 @@ Jabber памылка
 Чыннік выспятку
 [Reason to destroy]
 Чыннік знішчэння
-
-;  гутаркі
 [Last active]
 Апошні актыўны
 [Highest priority (server's choice)]
 Найвысокі прыярытэт (выбар сервера)
 [No activity yet, use server's choice]
 Актыўнага няма, выкарыстоўвайце выбар сервера
-
-; Пошук
 [Search service]
 Служба пошуку
 [Redirect]
@@ -1356,3 +1341,5 @@ Jabber памылка
 Абярыце/увядзіце URL службы пошуку і націсніце >>
 [You have to be connected to server]
 Трэба далучэнне да сервера
+
+; Пошук

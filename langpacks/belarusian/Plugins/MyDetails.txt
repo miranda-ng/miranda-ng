@@ -7,7 +7,6 @@
 Схаваць мае дэталі
 [Main Window/Backgrnd]
 Галоўнае акно/Фон
-;[MyDetails/Backgrnd]
 [Set My Avatar for %s...]
 Змяніць мой аватар для %s...
 [Set My Nickname for %s...]
@@ -20,13 +19,13 @@
 Змяніць мой нік для %s
 [Set My Status Message for %s]
 Усталяваць статус для %s
-[ Avatar ]
+[Avatar]
 Аватар
-[ Frame Options ]
-Опцыі акна
-[ General ]
-Агульныя
-[ Protocol ]
+[Frame Options]
+Налады вакна
+[General]
+Агульна
+[Protocol]
 Пратакол
 [&Offline]
 Адключаны
@@ -98,7 +97,6 @@
 Уключыць Цяпер слухаю для %s
 [Shows and allows you to edit your details for all protocols.]
 Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
-;0.0.1.10
 [Show protocol cycle button]
 Кнопка пераключэння пратаколу
 [Previous protocol]

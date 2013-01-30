@@ -1,4 +1,5 @@
-﻿;  Module: lot's of duplicated strings from different modules.
+﻿;============================================================
+;  Module: lot's of duplicated strings from different modules.
 [-1 = Infinite]
 -1=Бясконца
 [ Actions ]
@@ -2635,8 +2636,8 @@ ID карыстача:
 Працоўная:
 [F]
 Ж
-[Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://www.miranda-im.org. Miranda will now shutdown.]
-Miranda знайшла пашкоджанні ў Вашай базе. Яны могуць быць выпраўлены з дапамогай DBTool. Калі ласка, загрузіце яго з http://www.miranda-im.org. Miranda будзе зачынена.
+[Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://www.miranda-ng.org. Miranda will now shutdown.]
+Miranda вызначыла, што база пашкоджана. Пашкоджанні могуць быць выправўлены з дапамогай DbChecker. Падрабязней на сайце http://www.miranda-ng.org. 
 [Database Panic]
 Праблема з базай
 [Please type in your new password]

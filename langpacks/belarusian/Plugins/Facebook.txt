@@ -1,8 +1,8 @@
 ﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;  File: facebook.dll
 ;  Module: Facebook
-[Facebook protocol plugin for Miranda NG.]
-Падтрымка пратакола Facebook у Miranda NG.
+[Facebook protocol support for Miranda NG.]
+Падтрымка пратаколу  Facebook.
 [Default group for newly added contacts:]
 Дадаваць кантакты ў групу:
 [User-Agent:]

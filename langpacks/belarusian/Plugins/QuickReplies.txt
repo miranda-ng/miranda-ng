@@ -7,13 +7,17 @@
 Дадатак для хуткай ўстаўкі/адпраўкі паведамленняў.
 [Hints:]
 Падказкі:
+[- Add your replies, one per line.]
+- Дадайые адказы, па адному у радок.
 [- Add "---" for separator.]
 - Дадаць "---" падзельнік
 [- Press [v] button for variable's help.]
 Націсніце [v] для дапамогі па зменным
+[Send replies immediately]
+Адразу адсылаць
+[Button %x]
+Кнопка %x
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 Хуткія паведамленні\r\nЛевай кнопкай - меню\r\nПравай кнопкай - налады
 [Button]
 Кнопка
-
-

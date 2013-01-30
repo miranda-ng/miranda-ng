@@ -1,5 +1,6 @@
-﻿;  File: miranda32.exe
-;  Module: Miranda NG Core
+﻿;============================================================
+;  File: miranda32.exe
+;  Module: Miranda Core
 ['%s' is disabled, re-enable?]
 '%s' адключаны, далучыць?
 ['(Unknown Contact)' (not moveable)]
@@ -279,7 +280,7 @@ ID конту
 [All Networks]
 Усе пратаколы
 [ANSI plugin]
-ANSI модуль
+ANSI дадатак
 [Apply]
 Ужыць
 [Are you sure you want to delete %s?]
@@ -1040,7 +1041,7 @@ Miranda не можа адкрыць '%s'\nЁн недаступны ці зан
 Загрузка паведамлення "%s"...
 [Run now]
 Зап. цяпер
-[Run programm when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
 Запусціць праграму пры запуску (напрыклад, tail -f, dbgview, etc):
 [Running plugin]
 Запушчаны модуль
@@ -1198,8 +1199,8 @@ Cлужба:
 Імпарт завершаны з
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Тэлефон павінен пачынацца з + і складацца толькі з лічбаў, прабелаў, дужак і працяжнікаў.
-[The profile '%s' already exists. Do you want to move it to the ]
-Профіль '%s' ужо існуе. Жадаеце перамясціць яго ў
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Профіль '%s' ужо існуе. Жадаеце перамясціць яго ў карзіну?\n\nУвага: Профіль будзе выдалены, калі карзіна адключана\nУвага: Профіль можа трымаць асабістую інфармацыю і павінен быць правільна выдалены.
 [The profile already exists]
 Профіль ужо існуе
 [There are no results to display.]
@@ -1398,7 +1399,6 @@ URL ад %s
 Выдаліць
 [1 %s user found]
 Знойдзены 1 карыстач %s
-
 [of]
 з
 [Unknown]
@@ -1525,6 +1525,10 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Модуль ядра '%s' не можа быць загружаны ці адсутнічае. Праграма змушана завяршыць працу
 [Switch to simple options]
 Спрошчаны выгляд налад
+[Miranda NG must be restarted to apply changes for these plugins:]
+Для наступных дадаткаў патрабуецца перазапуск Miranda NG:
+[Do you want to restart it now?]
+Вы жадаеце перазагрузіць зараз?
 [ms delay]
 Затрымка (мс)
 [Global Status Icons]
@@ -1627,6 +1631,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Паскладаць каскадам
 [Save the size and position of chat rooms]
 Захоўваць памер і пазіцыю вокнаў пакояў
+[Unique id]
+Асабісты конт
 [Word lookup]
 Знайсці слова
 [Userlist Background (selected)]
@@ -1781,3 +1787,5 @@ Miranda не змагла загрузіць убудаваную сістэму
 Мабільнасць
 [Always invisible]
 Заўсёды нябачны
+[of]
+з

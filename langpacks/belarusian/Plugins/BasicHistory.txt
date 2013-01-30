@@ -1,6 +1,5 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
 [History viewer for Miranda NG.]
 Праглядчык гісторыі для Miranda NG.
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
@@ -179,4 +178,27 @@ FTP шлях павінен утрымоўваць '/' замест '\ \' і п�
 Праз час (гадзіны)
 [Task]
 Заданне
-
+[Download from FTP (WinSCP requred)]
+Спампаваць з FTP (патрабуецца WinSCP)
+[Import and Marge]
+Імпарт і зьліцьцё
+[Import from]
+Імпарт з:
+[Path to file**]
+Шлях да файла**
+[** Use <ext> to insert extension, <contact> to insert contact name]
+** Пішыце <ext> для ўстаўкі пашырэння, <contact> для ўстаўкі імя кантакту
+[Export imported messages]
+Экспарт імпарціраваных паведамленняў
+[Save errors to system history]
+Захоўваць памылкі ў сістэмнай гісторыі
+[Do not show Find control border]
+Не маляваць рамку для радка пошуку
+[History task]
+Гісторыя
+[Open History]
+Адчыніць гісторыю
+[Find window]
+Вакно пошуку
+[Contact list background]
+Фон спісу кантактаў

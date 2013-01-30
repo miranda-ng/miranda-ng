@@ -3,6 +3,8 @@
 ;  Module: mail.ru Agent
 [Mail.ru Agent (MRA) protocol support for Miranda NG.]
 Модуль пратаколу Mail.ru Агент (MRA).
+[Create a new Mail.ru account]
+Ставрыць новы конт Mail.ru
 [Display &Inbox]
 Адкрыць уваходныя
 [Display &Inbox status]
@@ -275,7 +277,6 @@ MraFilesQueueConnectionReceived: уваходнае далучэнне прын�
 Налады ўсплывальнага акна
 [NewMail]
 Новая пошта
-; X Statuses
 [Compass]
 Компас
 [Walking]

@@ -1,8 +1,8 @@
 ﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;  File: gg.dll
 ;  Module: Gadu-Gadu protocol
-[Provides support for Gadu-Gadu protocol.]
-Модуль пратаколу Gadu-Gadu
+[Gadu-Gadu protocol support for Miranda NG.]
+Падтрымка пратаколу Gadu-Gadu.
 [Public Info]
 Агульнае
 [Family name:]

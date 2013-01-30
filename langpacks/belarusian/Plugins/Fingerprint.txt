@@ -1,6 +1,6 @@
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
-;  File: fingerprint.dll
-;  Module: Fingerprint Plus, Fingerprint Mod+
+;  File: Fingerprint.dll
+;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
 [Show Miranda version]
 Паказваць версію Miranda
 [Pack overlays]
@@ -67,5 +67,17 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 Іншыя значкі
 [Other protocols]
 Іншыя пратаколы
+[debug overlay]
+debug
+[office overlay]
+праца
+[mobile overlay]
+мабільны
+[home overlay]
+дом
+[work overlay]
+праца
+[notebook overlay]
+ноутбук
 [Client not found]
 Нязнойдзены кліент

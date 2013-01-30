@@ -27,6 +27,8 @@
 Змена раскладкі
 [HotKey for changing layout of text:]
 Гарачая кнопка для змены:
+[Plugin for change keyboard layout of text (multilayout)]
+Убудова для змены раскладак тэксту.
 [Changing layout:]
 Змена раскладкі:
 [Changing layout (alternative):]

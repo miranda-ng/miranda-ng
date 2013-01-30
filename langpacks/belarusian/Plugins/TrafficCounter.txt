@@ -1,8 +1,8 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;  File: TrafficCounter.dll
 ;  Module: Traffic Counter
-[Adding traffic and time counters]
-Лічыльнік трафіку
+[Adding traffic and time counters.]
+Лічыльнік трафіка.
 [Traffic Counter]
 Лічыльнік трафіку
 [Show/Hide frame]

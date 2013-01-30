@@ -17,7 +17,7 @@
 Інвертаваць рэгістр апошняга слова / Вылучанага
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
 Дазваляе змяняць рскладку ці рэгістр тэксту ў вакне паведамленняў з падтрымкай SmileyAdd.
-[SwitchLayout and Send]
+[Switch Layout and Send]
 Змяніць раскладку і адправіць ізноў
 [Translit and Send]
 Транслітараваць і адправіць ізноў

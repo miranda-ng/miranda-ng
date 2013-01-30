@@ -215,6 +215,8 @@ RTL шаблоны
 Захаваць шаблон
 [Forget]
 Адмяніць
+[Events]
+з'яў
 [Revert to Default]
 Вярнуць па змаўчанні
 [Define up to 5 colors which you can use with some variables]
@@ -267,12 +269,16 @@ RTL шаблоны
 Хаваць, калі недастаткова месцы
 [Gap between buttons:]
 Прамежак кнопак:
+[Popup]
+Вакно
 [Advanced tweaks]
 Дадатковыя налады
 [Message window tweaks]
 Налады акна паведамленняў
 [Show client icon in status bar (fingerprint plugin required)]
 Паказваць значок кліента ў панэлі статусу (неабходзен модуль Fingerprint)
+[Show skinnable tooltip in chat (tipper plugin required)]
+Выкарыстоўваць убудову  tipper для падказак у чаце
 [Enable typing sounds]
 Уключыць гук набору тэксту
 [Disable animated GIF avatars (will not affect already open message windows)]
@@ -283,6 +289,8 @@ RTL шаблоны
 Аўтаматычная раскладка клавіятуры: не загружаць раскладку сістэмы па змаўчанні для новых кантактаў
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
+[Show client description in info panel]
+Паказваць у інфо-панэлі кліент кантакту
 [Error feedback]
 Памылкі дастаўкі паведамленняў
 [Disable error popups on sending failures]
@@ -357,6 +365,8 @@ RTL шаблоны
 Выкарыстоўваць колеру лога паведамленняў для успл. вокнаў чатаў
 [New messages: ]
 Новыя паведамленні: 
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behaviour, please review the Event Notifications settings page.]
+Адно з дзеянняў вакон наладжана на "Адмовіць з'яву".\nЭто может оказать нежеланный эфект, так как помечает событие прочитанным.\nКак следствие события не будут показаны "новыми". Калі вам гэта не трэба, праглядзіце налады ў раздзеле "Паведамленні".
 [Message window skin]
 Скін акна паведамленняў
 [Skin root folder]
@@ -903,8 +913,8 @@ UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інф�
 Дадаць кантакт да абраных
 [Remove Contact from Favorites]
 Выдаліць кантакт з абраных
-[Copyright © 2004-2010 by the Miranda IM project. More  \ndetailed copyright information can be found in the included README file.\n\nThis software is distributed and licensed under the terms of the GNU General Public License V2 or any later version.]
-Аўтарскія правы © 2004-2010 праект Miranda IM. Дэталёвая  \nінфармацыя знаходзіцца ў файле Readme.\n\nГэта праграмнае забеспячэнне падаецца пад ліцэнзіяй GNU General Public License V2 ці навей.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Аўтарскія правы 2004-2011 Miranda IM, 2012-2013 Miranda NG. Падрабязней ў файле Readme.
 [Click for contact menu\nClick dropdown for window settings]
 Меню кантакту\nСтрэлка ўніз - налады акна
 [Splitter Position]
@@ -1269,8 +1279,8 @@ ID карыстача ў панэлі статусу
 Інфармацыя пра апошнюю адпраўку
 [Mark Selected for Removal]
 Адзначыць абраныя для выдалення
-[Rest Selected]
-Скінуць абраныя
+[Reset Selected]
+Зьняць абраныя
 [Hold Selected]
 Затрымаць абраныя
 [Resume Selected]

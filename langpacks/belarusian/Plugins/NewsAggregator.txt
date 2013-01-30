@@ -183,6 +183,8 @@ RSS не змог знайсці IP-адрас, які адпавядае імя
 Тэкст навіны.
 [The URL of the item.]
 URL навіны.
+[URL]
+Ссылка
 [Email address of the author of the item.]
 E-mail аўтара навіны.
 [URL of a page for comments relating to the item.]

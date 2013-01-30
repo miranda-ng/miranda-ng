@@ -1,6 +1,5 @@
 ﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;  File: Bass_interface.dll
-;  Plugin: Bass interface
 [un4seen's BASS interface Miranda NG plugin.]
 Падтрымка бібліятэкі bass для Miranda NG.
 [un4seen's bass version: %d.%d.%d.%d]
@@ -29,9 +28,5 @@
 Няма гуку
 [Play only if]
 Граць, калі
-[Audio device is opened]
-Аўдыё прылада ўключана
-[Audio device is closed]
-Аўдыё прылада выключана
-[Open/close audio device]
-Вкл/выкл аўдыё прыладу
+[Disable sounds]
+Адключыць гукі

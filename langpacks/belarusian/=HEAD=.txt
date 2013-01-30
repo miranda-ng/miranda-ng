@@ -2,4 +2,4 @@
 Language: Belarusian (BY)
 Locale: 0423
 Last-Modified-Using: 0.93.5
-Authors: Jerbifor,Inha
+Authors: Jerbifor, Inha
