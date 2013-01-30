@@ -49,8 +49,9 @@ static PLUGININFOEX pluginInfoEx =
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,		
-	MIID_FTPFILE
+	UNICODE_AWARE,
+	// {9502E511-7E5D-49A1-8BA5-B1AEE70FA5BF}
+	{0x9502e511, 0x7e5d, 0x49a1, {0x8b, 0xa5, 0xb1, 0xae, 0xe7, 0xf, 0xa5, 0xbf}}
 };
 
 //------------ BASIC STAFF ------------//
@@ -65,8 +66,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfoEx;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_FTPFILE, MIID_LAST};
 
 //------------ INIT FUNCTIONS ------------//
 
