@@ -88,6 +88,8 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 	{	_T(JABBER_EXT_GTALK_PMUC),        JABBER_CAPS_GTALK_PMUC           },
 	{	_T(JABBER_EXT_MIR_NOTES),         JABBER_CAPS_MIRANDA_NOTES,       },
 	{	szCoreVersion,                    JABBER_CAPS_MIRANDA_PARTIAL      },
+	{	_T(JABBER_EXT_PLATFORMX86),       JABBER_CAPS_PLATFORMX86          },
+	{	_T(JABBER_EXT_PLATFORMX64),       JABBER_CAPS_PLATFORMX64          },
 	{	NULL,                             0                                }
 };
 

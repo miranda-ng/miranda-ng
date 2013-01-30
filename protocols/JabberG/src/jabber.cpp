@@ -78,7 +78,7 @@ HANDLE hExtraMood = NULL;
 
 void JabberUserInfoInit(void);
 
-int bSecureIM, bMirOTR, bNewGPG;
+int bSecureIM, bMirOTR, bNewGPG, bPlatform;
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
@@ -152,6 +152,11 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
 	bMirOTR = (int)GetModuleHandle(_T("mirotr.dll"));
 	bNewGPG = (int)GetModuleHandle(_T("new_gpg.dll"));
+	#ifdef WIN64
+		bPlatform = 1;
+	#else
+		bPlatform = 0;
+	#endif
 
 	// file associations manager plugin support
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {

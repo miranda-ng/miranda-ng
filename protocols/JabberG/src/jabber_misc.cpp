@@ -516,6 +516,18 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 	}
 
 	// attach additional info for fingerprint plguin
+	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_PLATFORMX86)) && !_tcsstr(buf, _T("x86")))
+	{
+		int offset = lstrlen(buf);
+		mir_sntprintf(buf + offset, bufSize - offset, _T(" x86"));
+	}
+
+	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_PLATFORMX64)) && !_tcsstr(buf, _T("x64")))
+	{
+		int offset = lstrlen(buf);
+		mir_sntprintf(buf + offset, bufSize - offset, _T(" x64"));
+	}
+
 	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
 	{
 		int offset = lstrlen(buf);
