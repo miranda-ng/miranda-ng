@@ -580,7 +580,8 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 TCHAR* MakeTimeStamp( TCHAR* pszStamp, time_t time)
 {
 	static TCHAR szTime[30];
-	_tcsftime(szTime, 29, pszStamp, localtime(&time));
+	if ( !_tcsftime(szTime, SIZEOF(szTime)-1, pszStamp, localtime(&time)))
+		_tcsncpy(szTime, TranslateT("<invalid>"), SIZEOF(szTime));
 	return szTime;
 }
 
@@ -973,7 +974,6 @@ void LoadMsgLogBitmaps(void)
 
 void FreeMsgLogBitmaps(void)
 {
-	int i;
-	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++)
+	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++)
 		mir_free(pLogIconBmpBits[i]);
 }

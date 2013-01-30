@@ -208,10 +208,19 @@ void CheckRestart()
 	}
 }
 
+static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
+{
+}
+
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
 	hInst = hInstance;
 	hMainThreadId = GetCurrentThreadId();
+
+	_set_invalid_parameter_handler(&crtErrorHandler);
+	#ifdef _DEBUG
+		 _CrtSetReportMode(_CRT_ASSERT, 0);
+	#endif
 
 	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");
