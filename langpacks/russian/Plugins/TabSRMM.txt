@@ -238,6 +238,8 @@ RTL шаблоны
 Отменить
 [Events]
 событий
+[Internal message log]
+Встроенный журнал
 [Revert to Default]
 Вернуть по умолчанию
 [Define up to 5 colors which you can use with some variables]
