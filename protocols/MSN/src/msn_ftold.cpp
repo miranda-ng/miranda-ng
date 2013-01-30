@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -54,7 +56,7 @@ void CMsnProto::msnftp_invite(filetransfer *ft)
 {
 	bool isOffline;
 	ThreadData* thread = MSN_StartSB(ft->p2p_dest, isOffline);
-	if (isOffline) return; 
+	if (isOffline) return;
 	if (thread != NULL) thread->mMsnFtp = ft;
 
 	TCHAR* pszFiles = _tcsrchr(ft->std.ptszFiles[0], '\\');
@@ -118,7 +120,7 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 
 			while (ft->std.currentFileProgress < ft->std.currentFileSize)
 			{
-				if (ft->bCanceled) 
+				if (ft->bCanceled)
                 {
 					sendpacket[0] = 0x01;
 					sendpacket[1] = 0x00;
@@ -179,7 +181,7 @@ LBL_InvalidCommand:
 				{
 					MSN_DebugLog("Another side requested the unknown protocol (%s), closing thread", params);
 					return 1;
-			    }	
+			    }
             }
 
 			if (info->mCaller == 0)  //receive
@@ -208,7 +210,7 @@ LBL_InvalidCommand:
 				}
 
 				BYTE* p = tBuf.surelyRead(3);
-				if (p == NULL) 
+				if (p == NULL)
                 {
 LBL_Error:
                     ft->close();
@@ -220,7 +222,7 @@ LBL_Error:
 				WORD dataLen = *p++;
 				dataLen |= (*p++ << 8);
 
-				if (tIsTransitionFinished) 
+				if (tIsTransitionFinished)
                 {
 LBL_Success:
 					static const char sttCommand[] = "BYE 16777989\r\n";
@@ -238,13 +240,13 @@ LBL_Success:
 
 				SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 
-				if (ft->std.currentFileProgress == ft->std.totalBytes) 
+				if (ft->std.currentFileProgress == ft->std.totalBytes)
                 {
 					ft->complete();
 					goto LBL_Success;
-	            }	
-            }	
-        }	
+	            }
+            }
+        }
     }
 
 	return 0;
@@ -259,7 +261,7 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 	MSN_DebugLog("Waiting for an incoming connection to '%s'...", info->mServer);
 
-	switch(WaitForSingleObject(info->hWaitEvent, 60000)) 
+	switch(WaitForSingleObject(info->hWaitEvent, 60000))
 	{
 	case WAIT_TIMEOUT:
 	case WAIT_FAILED:
@@ -269,7 +271,7 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 	info->mBytesInData = 0;
 
-	for (;;) 
+	for (;;)
     {
 		int recvResult = info->recv(info->mData+info->mBytesInData, 1000 - info->mBytesInData);
 		if (recvResult == SOCKET_ERROR || !recvResult)
@@ -278,14 +280,14 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 		info->mBytesInData += recvResult;
 
 		//pull off each line for parsing
-		if (info->mCaller == 3 && info->mType == SERVER_FILETRANS) 
+		if (info->mCaller == 3 && info->mType == SERVER_FILETRANS)
         {
 			if (MSN_HandleMSNFTP(info, info->mData))
 				break;
 		}
 		else   // info->mType!=SERVER_FILETRANS
         {
-			for (;;) 
+			for (;;)
             {
 				char* peol = strchr(info->mData,'\r');
 				if (peol == NULL)
@@ -306,7 +308,7 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 				MSN_DebugLog("RECV:%s", msg);
 
-				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3]!=' ')) 
+				if (!isalnum(msg[0]) || !isalnum(msg[1]) || !isalnum(msg[2]) || (msg[3] && msg[3]!=' '))
 				{
 					MSN_DebugLog("Invalid command name");
 					continue;
@@ -314,14 +316,14 @@ void __cdecl CMsnProto::msnftp_sendFileThread(void* arg)
 
 				if (MSN_HandleMSNFTP(info, msg))
 					break;
-		    }	
+		    }
         }
 
-		if (info->mBytesInData == sizeof(info->mData)) 
+		if (info->mBytesInData == sizeof(info->mData))
         {
 			MSN_DebugLog("sizeof(data) is too small: the longest line won't fit");
 			break;
-	    }	
+	    }
     }
 
 	MSN_DebugLog("Closing file transfer thread");
@@ -336,7 +338,7 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 	HANDLE sb = NULL;
 
 	filetransfer* ft = info->mMsnFtp; info->mMsnFtp = NULL;
-	if (ft != NULL && MyConnection.extIP) 
+	if (ft != NULL && MyConnection.extIP)
     {
 		nlb.cbSize = sizeof(nlb);
 		nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
@@ -372,13 +374,13 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 		"Launch-Application: FALSE\r\n"
 		"Request-Data: IP-Address:\r\n\r\n",
 		sb && MyConnection.extIP ? "ACCEPT" : "CANCEL",
-		Invcookie, MyConnection.GetMyExtIPStr(), hostname, 
+		Invcookie, MyConnection.GetMyExtIPStr(), hostname,
 		nlb.wExPort, nlb.wExPort ^ 0x3141, nlb.wPort ^ 0x3141,
 		MSN_GenRandom());
 
 	info->sendPacket("MSG", "N %d\r\n%s", nBytes, command);
 
-	if (sb) 
+	if (sb)
     {
 		ThreadData* newThread = new ThreadData;
 		newThread->mType = SERVER_FILETRANS;

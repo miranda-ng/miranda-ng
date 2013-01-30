@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -27,14 +29,14 @@ HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
 {
 	HANDLE result = hContact;
 	int type = getByte(hContact, "ChatRoom", 0);
-	if (type != 0) 
+	if (type != 0)
 	{
 		DBVARIANT dbv;
 		if (getString(hContact, "ChatRoomID", &dbv) == 0)
 		{
 			result = (HANDLE)(-atol(dbv.pszVal));
 			MSN_FreeVariant(&dbv);
-		}	
+		}
 	}
 	return result;
 }
@@ -45,7 +47,7 @@ int CMsnProto::MSN_ChatInit(ThreadData *info)
 	_ltot(sttChatID, info->mChatID, 10);
 
 	TCHAR szName[512];
-	mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%s"), 
+	mir_sntprintf(szName, SIZEOF(szName), _T("%s %s%s"),
 		m_tszUserName, TranslateT("Chat #"), info->mChatID);
 
 	GCSESSION gcw = {0};
@@ -107,7 +109,7 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 	gce.time = time(NULL);
 	gce.bIsMe = FALSE;
 
-	for (int j=0; j < info->mJoinedContactsWLID.getCount(); j++) 
+	for (int j=0; j < info->mJoinedContactsWLID.getCount(); j++)
 	{
 		HANDLE hContact = MSN_HContactFromEmail(info->mJoinedContactsWLID[j]);
 		TCHAR *wlid = mir_a2t(info->mJoinedContactsWLID[j]);
@@ -117,7 +119,7 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 		mir_free(wlid);
-	}	
+	}
 }
 
 void CMsnProto::MSN_KillChatSession(TCHAR* id)
@@ -132,13 +134,13 @@ void CMsnProto::MSN_KillChatSession(TCHAR* id)
 	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gce);
 }
 
-static void ChatInviteUser(ThreadData* info, const char* email) 
+static void ChatInviteUser(ThreadData* info, const char* email)
 {
 	if (info->mJoinedContactsWLID.getCount())
 	{
-		for (int j=0; j < info->mJoinedContactsWLID.getCount(); j++) 
+		for (int j=0; j < info->mJoinedContactsWLID.getCount(); j++)
 		{
-			if (_stricmp(info->mJoinedContactsWLID[j], email) == 0) 
+			if (_stricmp(info->mJoinedContactsWLID[j], email) == 0)
 				return;
 		}
 
@@ -152,7 +154,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 	if (hItem == NULL)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem) 
+	while (hItem)
 	{
 		if (IsHContactGroup(hItem))
 		{
@@ -171,7 +173,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 
 					if (buf[0]) str.insert(mir_t2a(buf));
 				}
-				else 
+				else
 				{
 					MsnContact *msc = ppro->Lists_Get(hItem);
 					if (msc) str.insertn(msc->email);
@@ -185,7 +187,7 @@ static void ChatInviteSend(HANDLE hItem, HWND hwndList, STRLIST &str, CMsnProto 
 
 static void ChatValidateContact(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
 {
-	if (!ppro->MSN_IsMyContact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || ppro->MSN_IsMeByContact(hItem)) 
+	if (!ppro->MSN_IsMyContact(hItem) || ppro->getByte(hItem, "ChatRoom", 0) || ppro->MSN_IsMeByContact(hItem))
 		SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 }
 
@@ -194,7 +196,7 @@ static void ChatPrepare(HANDLE hItem, HWND hwndList, CMsnProto* ppro)
 	if (hItem == NULL)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 
-	while (hItem) 
+	while (hItem)
 	{
 		HANDLE hItemN = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
 
@@ -214,7 +216,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 {
 	InviteChatParam* param = (InviteChatParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -239,17 +241,17 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
 		if (nmc->hdr.idFrom == IDC_CCLIST)
 		{
-			switch (nmc->hdr.code) 
+			switch (nmc->hdr.code)
 			{
 			case CLN_NEWCONTACT:
-				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
+				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 					ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, param->ppro);
 				break;
 
 			case CLN_LISTREBUILT:
-				if (param) 
+				if (param)
 					ChatPrepare(NULL, nmc->hdr.hwndFrom, param->ppro);
-				break; 
+				break;
 			}
 		}
 	}
@@ -257,7 +259,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 			case IDC_ADDSCR:
 				if (param->ppro->msnLoggedIn)
@@ -297,7 +299,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							ChatInviteUser(info, (*cont)[i]);
 						delete cont;
 					}
-					else 
+					else
 					{
 						if (tEmail[0]) cont->insertn(tEmail);
 						param->ppro->MsgQueue_Add("chat", 'X', NULL, 0, NULL, 0, cont);
@@ -319,7 +321,7 @@ INT_PTR CALLBACK DlgInviteToChat(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam) 
+int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*) lParam;
 	if (!gch)
@@ -327,18 +329,18 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 
 	if (_stricmp(gch->pDest->pszModule, m_szModuleName)) return 0;
 
-	switch (gch->pDest->iType) 
+	switch (gch->pDest->iType)
 	{
-		case GC_SESSION_TERMINATE: 
+		case GC_SESSION_TERMINATE:
 		{
  			ThreadData* thread = MSN_GetThreadByChatId(gch->pDest->ptszID);
-			if (thread != NULL) 
+			if (thread != NULL)
 				thread->sendTerminate();
 			break;
 		}
 
 		case GC_USER_MESSAGE:
-			if (gch->ptszText && gch->ptszText[0]) 
+			if (gch->ptszText && gch->ptszText[0])
 			{
 				ThreadData* thread = MSN_GetThreadByChatId(gch->pDest->ptszID);
 				if (thread)
@@ -371,12 +373,12 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			}
 			break;
 
-		case GC_USER_CHANMGR: 
-			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat, 
+		case GC_USER_CHANMGR:
+			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
 				LPARAM(new InviteChatParam(gch->pDest->ptszID, NULL, this)));
 			break;
 
-		case GC_USER_PRIVMESS: 
+		case GC_USER_PRIVMESS:
 		{
 			char *email = mir_t2a(gch->ptszUID);
 			HANDLE hContact = MSN_HContactFromEmail(email);
@@ -386,10 +388,10 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 		}
 
 		case GC_USER_LOGMENU:
-			switch(gch->dwData) 
+			switch(gch->dwData)
 			{
-			case 10: 
-				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat, 
+			case 10:
+				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
 					LPARAM(new InviteChatParam(gch->pDest->ptszID, NULL, this)));
 				break;
 
@@ -399,13 +401,13 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			}
 			break;
 
-		case GC_USER_NICKLISTMENU: 
+		case GC_USER_NICKLISTMENU:
 		{
 			char *email = mir_t2a(gch->ptszUID);
 			HANDLE hContact = MSN_HContactFromEmail(email);
 			mir_free(email);
 
-			switch(gch->dwData) 
+			switch(gch->dwData)
 			{
 			case 10:
 				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
@@ -422,11 +424,11 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 			break;
 		}
 /*	haven't implemented in chat.dll
-		case GC_USER_TYPNOTIFY: 
+		case GC_USER_TYPNOTIFY:
 		{
 			int chatID = atoi(p);
 			ThreadData* thread = MSN_GetThreadByContact((HANDLE)-chatID);
-			for (int j=0; j < thread->mJoinedCount; j++) 
+			for (int j=0; j < thread->mJoinedCount; j++)
 			{
 				if ((long)thread->mJoinedContacts[j] > 0)
 					CallService(MS_PROTO_SELFISTYPING, (WPARAM) thread->mJoinedContacts[j], (LPARAM) PROTOTYPE_SELFTYPING_ON);
@@ -439,15 +441,15 @@ int CMsnProto::MSN_GCEventHook(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam) 
+int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi= (GCMENUITEMS*) lParam;
 
 	if (gcmi == NULL || _stricmp(gcmi->pszModule, m_szModuleName)) return 0;
 
-	if (gcmi->Type == MENU_ON_LOG) 
+	if (gcmi->Type == MENU_ON_LOG)
 	{
-		static const struct gc_item Items[] = 
+		static const struct gc_item Items[] =
 		{
 			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
 			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
@@ -455,12 +457,12 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 		gcmi->nItems = SIZEOF(Items);
 		gcmi->Item = (gc_item*)Items;
 	}
-	else if (gcmi->Type == MENU_ON_NICKLIST) 
+	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
 		char* email = mir_t2a(gcmi->pszUID);
-		if (!_stricmp(MyOptions.szEmail, email)) 
+		if (!_stricmp(MyOptions.szEmail, email))
 		{
-			static const struct gc_item Items[] = 
+			static const struct gc_item Items[] =
 			{
 				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
 				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
@@ -470,9 +472,9 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
-		else 
+		else
 		{
-			static const struct gc_item Items[] = 
+			static const struct gc_item Items[] =
 			{
 				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
 				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE }

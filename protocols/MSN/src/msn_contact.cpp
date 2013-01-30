@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -60,7 +62,7 @@ void CMsnProto::MSN_SetContactDb(HANDLE hContact, const char *szEmail)
 			DBDeleteContactSetting(hContact, "CList", "Hidden");
 		}
 
-		if (listId & (LIST_BL | LIST_AL)) 
+		if (listId & (LIST_BL | LIST_AL))
 		{
 			WORD tApparentMode = getWord(hContact, "ApparentMode", 0);
 			if ((listId & LIST_BL) && tApparentMode == 0)
@@ -129,9 +131,9 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 
 
 	bool res = false;
-	if (flags == LIST_FL) 
+	if (flags == LIST_FL)
 	{
-		if (needRemove) 
+		if (needRemove)
 		{
 			if (hContact == NULL)
 			{
@@ -140,7 +142,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 			}
 
 			char id[MSN_GUID_LEN];
-			if (!getStaticString(hContact, "ID", id, sizeof(id))) 
+			if (!getStaticString(hContact, "ID", id, sizeof(id)))
 			{
 				int netId = Lists_GetNetId(email);
 				if (leaveHotmail)
@@ -154,7 +156,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 				MSN_RemoveEmptyGroups();
 			}
 		}
-		else 
+		else
 		{
 			DBVARIANT dbv = {0};
 			if (!strcmp(email, MyOptions.szEmail))
@@ -183,7 +185,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 			if (res)
 			{
 				DBVARIANT dbv;
-				if (!DBGetContactSettingStringUtf(hContact, "CList", "Group", &dbv)) 
+				if (!DBGetContactSettingStringUtf(hContact, "CList", "Group", &dbv))
 				{
 					MSN_MoveContactToGroup(hContact, dbv.pszVal);
 					MSN_FreeVariant(&dbv);
@@ -208,16 +210,16 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 	}
 	else if (flags == LIST_LL)
 	{
-		if (needRemove) 
+		if (needRemove)
 			Lists_Remove(LIST_LL, email);
 		else
 			Lists_Add(LIST_LL, NETID_MSN, email);
 	}
-	else 
+	else
 	{
 		if (netId == 0) netId = Lists_GetNetId(email);
 		res = MSN_SharingAddDelMember(email, flags, netId, needRemove ? "DeleteMember" : "AddMember");
-//		if (res || (flags & LIST_RL)) 
+//		if (res || (flags & LIST_RL))
 			AddDelUserContList(email, flags, netId, needRemove);
 		if ((flags & LIST_BL) && !needRemove)
 		{

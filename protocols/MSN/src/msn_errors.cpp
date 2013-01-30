@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -56,12 +58,12 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 	case ERR_LIST_UNAVAILABLE:
 			char* tWords[3];
 			if (sttDivideWords(cmdString, 3, tWords) == 3)
-				HReadBuffer(info, 0).surelyRead(atol(tWords[2])); 
+				HReadBuffer(info, 0).surelyRead(atol(tWords[2]));
 			return 0;
 
 	case ERR_NOT_ONLINE:
 		if (info->mInitialContactWLID)
-			SendBroadcast(MSN_HContactFromEmail(info->mInitialContactWLID), ACKTYPE_MESSAGE, ACKRESULT_FAILED, 
+			SendBroadcast(MSN_HContactFromEmail(info->mInitialContactWLID), ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 				(HANDLE)999999, (LPARAM)MSN_Translate("User not online"));
 		else
 			MSN_ShowError("User not online");
@@ -73,7 +75,7 @@ int CMsnProto::MSN_HandleErrors(ThreadData* info, char* cmdString)
 		return 0;
 
 	case ERR_AUTHENTICATION_FAILED:
-		if (info->mType != SERVER_SWITCHBOARD) 
+		if (info->mType != SERVER_SWITCHBOARD)
 		{
 			MSN_ShowError("Your username or password is incorrect");
 			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);

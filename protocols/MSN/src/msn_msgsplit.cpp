@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2007-2012 Boris Krasnovskiy.
 
 This program is free software; you can redistribute it and/or
@@ -24,7 +26,7 @@ chunkedmsg::chunkedmsg(const char* tid, const size_t totsz, const bool tbychunk)
 	: size(totsz), recvsz(0), bychunk(tbychunk)
 {
 	id = mir_strdup(tid);
-	msg = tbychunk ? NULL : (char*)mir_alloc(totsz + 1); 
+	msg = tbychunk ? NULL : (char*)mir_alloc(totsz + 1);
 }
 
 chunkedmsg::~chunkedmsg()
@@ -35,7 +37,7 @@ chunkedmsg::~chunkedmsg()
 
 void chunkedmsg::add(const char* tmsg, size_t offset, size_t portion)
 {
-	if (bychunk) 
+	if (bychunk)
 	{
 		size_t oldsz = recvsz;
 		recvsz += portion;
@@ -43,7 +45,7 @@ void chunkedmsg::add(const char* tmsg, size_t offset, size_t portion)
 		memcpy( msg + oldsz, tmsg, portion );
 		--size;
 	}
-	else 
+	else
 	{
 		size_t newsz = offset + portion;
 		if (newsz > size)
@@ -51,20 +53,20 @@ void chunkedmsg::add(const char* tmsg, size_t offset, size_t portion)
 			portion = size - offset;
 			newsz = size;
 		}
-		memcpy(msg + offset, tmsg, portion); 
-		if (newsz > recvsz) recvsz = newsz; 
+		memcpy(msg + offset, tmsg, portion);
+		if (newsz > recvsz) recvsz = newsz;
 	}
 }
 
 bool chunkedmsg::get(char*& tmsg, size_t& tsize)
 {
 	bool alldata = bychunk ? size == 0 : recvsz == size;
-	if (alldata) 
-	{ 
+	if (alldata)
+	{
 		msg[recvsz] = 0;
-		tmsg = msg; 
+		tmsg = msg;
 		tsize = recvsz;
-		msg = NULL; 
+		msg = NULL;
 	}
 
 	return alldata;
@@ -75,7 +77,7 @@ int CMsnProto::addCachedMsg(const char* id, const char* msg, const size_t offset
 				 const size_t portion, const size_t totsz, const bool bychunk)
 {
 	int idx = msgCache.getIndex((chunkedmsg*)&id);
-	if (idx == -1) 
+	if (idx == -1)
 	{
 		msgCache.insert(new chunkedmsg(id, totsz, bychunk));
 		idx = msgCache.getIndex((chunkedmsg*)&id);

@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -249,7 +251,7 @@ INT_PTR CMsnProto::SendNudge(WPARAM wParam, LPARAM lParam)
 	char tEmail[MSN_MAX_EMAIL_LEN];
 	if (MSN_IsMeByContact(hContact, tEmail)) return 0;
 
-	static const char nudgemsg[] = 
+	static const char nudgemsg[] =
 		"Content-Type: text/x-msnmsgr-datacast\r\n\r\n"
 		"ID: 1\r\n\r\n";
 
@@ -267,7 +269,7 @@ INT_PTR CMsnProto::SendNudge(WPARAM wParam, LPARAM lParam)
 			ThreadData* thread = MSN_StartSB(tEmail, isOffline);
 			if (thread == NULL)
 			{
-				if (isOffline) return 0; 
+				if (isOffline) return 0;
 				MsgQueue_Add(tEmail, 'N', nudgemsg, -1);
 			}
 			else
@@ -385,21 +387,21 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	int type = getByte(hContact, "ChatRoom", 0);
-	if (type != 0) 
+	if (type != 0)
 	{
 		DBVARIANT dbv;
 		if (!getTString(hContact, "ChatRoomID", &dbv)) {
 			MSN_KillChatSession(dbv.ptszVal);
 			MSN_FreeVariant(&dbv);
-		}	
+		}
 	}
 	else
 	{
 		char szEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(hContact, szEmail))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM) 1);
-		
-		if (szEmail[0]) 
+
+		if (szEmail[0])
 		{
 			MSN_DebugLog("Deleted Handler Email");
 
@@ -409,7 +411,7 @@ int CMsnProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), NULL, DlgDeleteContactUI, (LPARAM)&param);
 
 				MsnContact* msc = Lists_Get(szEmail);
-				if (msc) msc->hContact = NULL; 
+				if (msc) msc->hContact = NULL;
 			}
 			if (Lists_IsInList(LIST_LL, szEmail))
 			{
@@ -434,7 +436,7 @@ int CMsnProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 		if (grpchg->pszNewName == NULL && grpchg->pszOldName != NULL)
 		{
 			LPCSTR szId = MSN_GetGroupByName(UTF8(grpchg->pszOldName));
-			if (szId != NULL) MSN_DeleteServerGroup(szId);	
+			if (szId != NULL) MSN_DeleteServerGroup(szId);
 		}
 		else if (grpchg->pszNewName != NULL && grpchg->pszOldName != NULL)
 		{
@@ -466,47 +468,47 @@ int CMsnProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 	if (!msnLoggedIn)
 		return 0;
 
-	if (hContact == NULL) 
+	if (hContact == NULL)
 	{
 		if (MyOptions.SlowSend && strcmp(cws->szSetting, "MessageTimeout") == 0 &&
 		   (strcmp(cws->szModule, "SRMM") == 0 || strcmp(cws->szModule, "SRMsg") == 0))
-		{ 
+		{
 			if (cws->value.dVal < 60000)
-				MessageBox(NULL, TranslateT("MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value."), 
+				MessageBox(NULL, TranslateT("MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value."),
 					TranslateT("MSN Protocol"), MB_OK|MB_ICONINFORMATION);
 		}
 		return 0;
 	}
 
-	if (!strcmp(cws->szSetting, "ApparentMode")) 
+	if (!strcmp(cws->szSetting, "ApparentMode"))
 	{
 		char tEmail[MSN_MAX_EMAIL_LEN];
-		if (!getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail))) 
+		if (!getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail)))
 		{
 			bool isBlocked = Lists_IsInList(LIST_BL, tEmail);
 
-			if (isBlocked && (cws->value.type == DBVT_DELETED || cws->value.wVal == 0)) 
+			if (isBlocked && (cws->value.type == DBVT_DELETED || cws->value.wVal == 0))
 			{
 				MSN_AddUser(hContact, tEmail, 0, LIST_BL + LIST_REMOVE);
 				MSN_AddUser(hContact, tEmail, 0, LIST_AL);
-			}	
-			else if (!isBlocked && cws->value.wVal == ID_STATUS_OFFLINE) 
+			}
+			else if (!isBlocked && cws->value.wVal == ID_STATUS_OFFLINE)
 			{
 				MSN_AddUser(hContact, tEmail, 0, LIST_AL + LIST_REMOVE);
 				MSN_AddUser(hContact, tEmail, 0, LIST_BL);
 			}
-		}	
+		}
 	}
 
-	if (!strcmp(cws->szSetting, "MyHandle") && !strcmp(cws->szModule, "CList")) 
+	if (!strcmp(cws->szSetting, "MyHandle") && !strcmp(cws->szModule, "CList"))
 	{
 		bool isMe = MSN_IsMeByContact(hContact);
 		if (!isMe || !nickChg)
 		{
 			char szContactID[100];
-			if (!getStaticString(hContact, "ID", szContactID, sizeof(szContactID))) 
+			if (!getStaticString(hContact, "ID", szContactID, sizeof(szContactID)))
 			{
-				if (cws->value.type != DBVT_DELETED) 
+				if (cws->value.type != DBVT_DELETED)
 				{
 					if (cws->value.type == DBVT_UTF8)
 						MSN_ABUpdateNick(cws->value.pszVal, szContactID);
@@ -554,13 +556,13 @@ int CMsnProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData* msgEvData  = (MessageWindowEventData*)lParam;
 
-	if (msgEvData->uType == MSG_WINDOW_EVT_OPENING) 
+	if (msgEvData->uType == MSG_WINDOW_EVT_OPENING)
 	{
 		if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_INVISIBLE)
 			return 0;
 
 		if (!MSN_IsMyContact(msgEvData->hContact)) return 0;
-		
+
 		char tEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(msgEvData->hContact, tEmail)) return 0;
 
@@ -571,7 +573,7 @@ int CMsnProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 
 		bool isOffline;
 		ThreadData* thread = MSN_StartSB(tEmail, isOffline);
-		
+
 		if (thread == NULL && !isOffline)
 			MsgQueue_Add(tEmail, 'X', NULL, 0);
 	}
@@ -597,7 +599,7 @@ int CMsnProto::OnWindowPopup(WPARAM wParam, LPARAM lParam)
 	case MSG_WINDOWPOPUP_SELECTED:
 		if (mwpd->selection == 13465)
 		{
-			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat, 
+			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
 				LPARAM(new InviteChatParam(NULL, mwpd->hContact, this)));
 		}
 		break;
@@ -622,7 +624,7 @@ INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 INT_PTR CMsnProto::OnLeaveChat(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if (getByte(hContact, "ChatRoom", 0) != 0) 
+	if (getByte(hContact, "ChatRoom", 0) != 0)
 	{
 		DBVARIANT dbv;
 		if (getTString(hContact, "ChatRoomID", &dbv) == 0)

@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -108,13 +110,13 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 
 	T->sessionClosed |= isSessionClosed;
 	if (isSessionClosed && buf == NULL)
-	{	
+	{
 		*outBufLen = 0;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;
 	}
 	else if (buf == NULL && len == 0)
-	{	
+	{
 		*outBufLen = 1;
 		buf = (PBYTE)mir_alloc(1);
 		*buf = 0;

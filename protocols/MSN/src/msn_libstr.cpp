@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -56,13 +58,13 @@ char* arrayToHex(BYTE* data, size_t datasz)
 	}
 	*resptr = '\0';
 	return res;
-} 
+}
 
 bool txtParseParam (const char* szData, const char* presearch, const char* start, const char* finish, char* param, const int size)
 {
 	const char *cp, *cp1;
 	int len;
-	
+
 	if (szData == NULL) return false;
 
 	if (presearch != NULL)
@@ -92,7 +94,7 @@ bool txtParseParam (const char* szData, const char* presearch, const char* start
 	param[len] = 0;
 
 	return true;
-} 
+}
 
 void parseWLID(char* wlid, char** net, char** email, char** inst)
 {
@@ -140,19 +142,19 @@ template <class chartype> void UrlDecode(chartype* str)
 
 	while(*s)
 	{
-		if (*s == '%') 
+		if (*s == '%')
 		{
 			int digit1 = SingleHexToDecimal(s[1]);
-			if (digit1 != -1) 
+			if (digit1 != -1)
 			{
 				int digit2 = SingleHexToDecimal(s[2]);
-				if (digit2 != -1) 
+				if (digit2 != -1)
 				{
 					s += 3;
 					*d++ = (char)((digit1 << 4) | digit2);
 					continue;
-				}	
-			}	
+				}
+			}
 		}
 		*d++ = *s++;
 	}
@@ -167,9 +169,9 @@ void  HtmlDecode(char* str)
 	if (str == NULL)
 		return;
 
-	for (p=q=str; *p!='\0'; p++,q++) 
+	for (p=q=str; *p!='\0'; p++,q++)
 	{
-		if (*p == '&') 
+		if (*p == '&')
 		{
 			if (!strncmp(p, "&amp;", 5)) {	*q = '&'; p += 4; }
 			else if (!strncmp(p, "&apos;", 6)) { *q = '\''; p += 5; }
@@ -178,7 +180,7 @@ void  HtmlDecode(char* str)
 			else if (!strncmp(p, "&quot;", 6)) { *q = '"'; p += 5; }
 			else { *q = *p;	}
 		}
-		else 
+		else
 		{
 			*q = *p;
 		}
@@ -194,9 +196,9 @@ char*  HtmlEncode(const char* str)
 	if (str == NULL)
 		return NULL;
 
-	for (c=0,p=(char*)str; *p!='\0'; p++) 
+	for (c=0,p=(char*)str; *p!='\0'; p++)
 	{
-		switch (*p) 
+		switch (*p)
 		{
 		case '&': c += 5; break;
 		case '\'': c += 6; break;
@@ -206,11 +208,11 @@ char*  HtmlEncode(const char* str)
 		default: c++; break;
 		}
 	}
-	if ((s=(char*)mir_alloc(c+1)) != NULL) 
+	if ((s=(char*)mir_alloc(c+1)) != NULL)
 	{
-		for (p=(char*)str,q=s; *p!='\0'; p++) 
+		for (p=(char*)str,q=s; *p!='\0'; p++)
 		{
-			switch (*p) 
+			switch (*p)
 			{
 			case '&': strcpy(q, "&amp;"); q += 5; break;
 			case '\'': strcpy(q, "&apos;"); q += 6; break;
@@ -234,7 +236,7 @@ void  UrlEncode(const char* src, char* dest, size_t cbDest)
 	unsigned char* d = (unsigned char*)dest;
 	size_t   i = 0;
 
-	for (const unsigned char* s = (unsigned char*)src; *s; s++) 
+	for (const unsigned char* s = (unsigned char*)src; *s; s++)
 	{
 		if ((*s <= '/' && *s != '.' && *s != '-') ||
 			 (*s >= ':' && *s <= '?') ||
@@ -259,13 +261,13 @@ void  UrlEncode(const char* src, char* dest, size_t cbDest)
 
 void stripBBCode(char* src)
 {
-	bool tag = false; 
+	bool tag = false;
 	char* ps = src;
 	char* pd = src;
 
 	while (*ps != 0)
 	{
-		if (!tag && *ps == '[') 
+		if (!tag && *ps == '[')
 		{
 			char ch = ps[1];
 			if (ch  == '/') ch = ps[2];
@@ -387,4 +389,3 @@ char* getNewUuid(void)
 	RpcStringFreeA(&p);
 	return result;
 }
-

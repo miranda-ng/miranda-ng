@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2007-2012 Boris Krasnovskiy.
 
 This program is free software; you can redistribute it and/or
@@ -19,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-static const char storeReqHdr[] = 
+static const char storeReqHdr[] =
 	"SOAPAction: http://www.msn.com/webservices/storage/2008/%s\r\n";
 
 ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml_t& tbdy, char*& httphdr)
@@ -29,7 +31,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 	ezxml_set_attr(xmlp, "xmlns:xsi",  "http://www.w3.org/2001/XMLSchema-instance");
 	ezxml_set_attr(xmlp, "xmlns:xsd",  "http://www.w3.org/2001/XMLSchema");
 	ezxml_set_attr(xmlp, "xmlns:soapenc", "http://schemas.xmlsoap.org/soap/encoding/");
-	
+
 	ezxml_t hdr = ezxml_add_child(xmlp, "soap:Header", 0);
 
 	if (storageCacheKey)
@@ -55,7 +57,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 	if (authStorageToken) ezxml_set_txt(node, authStorageToken);
 
 	ezxml_t bdy = ezxml_add_child(xmlp, "soap:Body", 0);
-	
+
 	tbdy = ezxml_add_child(bdy, service, 0);
 	ezxml_set_attr(tbdy, "xmlns", "http://www.msn.com/webservices/storage/2008");
 
@@ -70,7 +72,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 char* CMsnProto::GetStoreHost(const char* service)
 {
 	char hostname[128];
-	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service); 
+	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
 	if (getStaticString(NULL, hostname, host, 256))
@@ -82,7 +84,7 @@ char* CMsnProto::GetStoreHost(const char* service)
 void CMsnProto::UpdateStoreHost(const char* service, const char* url)
 {
 	char hostname[128];
-	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service); 
+	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
 
 	setString(NULL, hostname, url);
 }
@@ -256,7 +258,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 	mir_free(reqHdr);
 	free(szData);
 
-	if (tResult != NULL) 
+	if (tResult != NULL)
 	{
 		if (status == 200)
 		{
@@ -278,12 +280,12 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 			{
 				const char* szNick = ezxml_txt(ezxml_child(expr, "DisplayName"));
 				setStringUtf(NULL, "Nick", (char*)szNick);
-				
+
 				const char* szStatus = ezxml_txt(ezxml_child(expr, "PersonalStatus"));
 				replaceStr(msnLastStatusMsg, szStatus);
 
 				mir_snprintf(expresid, sizeof(expresid), "%s", ezxml_txt(ezxml_child(expr, "ResourceID")));
-				
+
 				ezxml_t photo = ezxml_child(expr, "Photo");
 				mir_snprintf(photoid, sizeof(photoid), "%s", ezxml_txt(ezxml_child(photo, "ResourceID")));
 
@@ -566,7 +568,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 	node = ezxml_add_child(doc, "MimeType", 0);
 	ezxml_set_txt(node, szMimeType);
 	node = ezxml_add_child(doc, "Data", 0);
-	ezxml_set_txt(node, szPicData); 
+	ezxml_set_txt(node, szPicData);
 	node = ezxml_add_child(doc, "DataSize", 0);
 	ezxml_set_txt(node, "0");
 
@@ -640,7 +642,7 @@ bool CMsnProto::MSN_StoreUpdateDocument(const TCHAR *sztName, const char *szMime
 	doc = ezxml_add_child(doc, "DocumentStreams", 0);
 	doc = ezxml_add_child(doc, "DocumentStream", 0);
 	ezxml_set_attr(doc, "xsi:type", "PhotoStream");
-	
+
 	node = ezxml_add_child(doc, "MimeType", 0);
 	ezxml_set_txt(node, szMimeType);
 	node = ezxml_add_child(doc, "Data", 0);

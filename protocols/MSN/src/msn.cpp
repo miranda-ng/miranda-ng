@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -51,7 +53,7 @@ static const PLUGININFOEX pluginInfo =
 	"borkra@miranda-im.org",
 	"© 2001-2012 Richard Hughes, George Hazan, Boris Krasnovskiy",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,	
+	UNICODE_AWARE,
 	// {97724AF9-F3FB-47d3-A3BF-EAA935C74E6D}
 	{0x97724af9, 0xf3fb, 0x47d3, {0xa3, 0xbf, 0xea, 0xa9, 0x35, 0xc7, 0x4e, 0x6d}}
 };

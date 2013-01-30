@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2008-2012 Boris Krasnovskiy.
 
 This program is free software; you can redistribute it and/or
@@ -28,7 +30,7 @@ static HANDLE hServiceParseLink;
 static HANDLE GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 {
 	TCHAR* email = NULL;
-	do 
+	do
 	{
 		TCHAR *tok = _tcschr(arg, '&'); /* next token */
 		if (tok != NULL) *tok++ = '\0';
@@ -40,7 +42,7 @@ static HANDLE GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 			email = arg;
 		}
 		arg = tok;
-	} 
+	}
 	while(arg != NULL);
 
 	if (email == NULL || email[0] == '\0')
@@ -53,7 +55,7 @@ static HANDLE GetContact(TCHAR *arg, TCHAR **pemail, CMsnProto *proto)
 	return hContact;
 }
 
-/* 
+/*
 	add user:      msnim:add?contact=netpassport@emailaddress.com
 	send message:  msnim:chat?contact=netpassport@emailaddress.com
 	voice chat:    msnim:voice?contact=netpassport@emailaddress.com
@@ -89,8 +91,8 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 
 
 	/* add a contact to the list */
-	if(_tcsnicmp(arg, _T("add?"), 4) == 0) 
-	{ 
+	if(_tcsnicmp(arg, _T("add?"), 4) == 0)
+	{
 		arg += 4;
 
 		TCHAR *email;
@@ -98,7 +100,7 @@ static INT_PTR ServiceParseMsnimLink(WPARAM, LPARAM lParam)
 		if (email == NULL) return 1;
 
 		/* does not yet check if email is current user */
-		if (hContact == NULL) 
+		if (hContact == NULL)
 		{
 			ADDCONTACTSTRUCT acs = {0};
 			PROTOSEARCHRESULT psr = {0};

@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -21,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status) 
+char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char* hdrs, unsigned& status)
 {
 	mHttpsTS = clock();
 
@@ -60,7 +62,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 		{
 			char* fnd = strchr(hdrprs, ':');
 			if (fnd == NULL) break;
-			*fnd = 0; 
+			*fnd = 0;
 			fnd += 2;
 
 			nlhr.headers[nlhr.headersCount].szName  = hdrprs;
@@ -78,7 +80,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 		(WPARAM)hNetlibUserHttps,(LPARAM)&nlhr);
 
-	if (nlhrReply) 
+	if (nlhrReply)
 	{
 		hHttpsConnection = nlhrReply->nlc;
 		status = nlhrReply->resultCode;
@@ -94,7 +96,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 
 		nlhrReply->dataLength = 0;
 		nlhrReply->pData = NULL;
-		
+
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 	else
@@ -105,7 +107,7 @@ char* CMsnProto::getSslResult(char** parUrl, const char* parAuthInfo, const char
 	return result;
 }
 
-bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname) 
+bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
 	bool result = true;
@@ -125,7 +127,7 @@ bool CMsnProto::getMyAvatarFile(char *url, TCHAR *fname)
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 		(WPARAM)hNetlibUserHttps,(LPARAM)&nlhr);
 
-	if (nlhrReply) 
+	if (nlhrReply)
 	{
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength)
 			MSN_SetMyAvatar(fname, nlhrReply->pData, nlhrReply->dataLength);

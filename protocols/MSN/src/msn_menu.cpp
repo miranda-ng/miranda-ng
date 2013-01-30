@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -22,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 
 static HANDLE hPrebuildMenuHook;
-static HGENMENU 
-	hBlockMenuItem, 
-	hLiveSpaceMenuItem, 
-	hNetmeetingMenuItem, 
-	hChatInviteMenuItem, 
+static HGENMENU
+	hBlockMenuItem,
+	hLiveSpaceMenuItem,
+	hNetmeetingMenuItem,
+	hChatInviteMenuItem,
 	hOpenInboxMenuItem;
 HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 
@@ -35,7 +37,7 @@ HANDLE hNetMeeting, hBlockCom, hSendHotMail, hInviteChat, hViewProfile;
 
 INT_PTR CMsnProto::MsnBlockCommand(WPARAM wParam, LPARAM)
 {
-	if (msnLoggedIn) 
+	if (msnLoggedIn)
 	{
 		const HANDLE hContact = (HANDLE)wParam;
 
@@ -100,7 +102,7 @@ INT_PTR CMsnProto::MsnViewProfile(WPARAM wParam, LPARAM)
 
 	if (hContact == NULL)
 		cid = mycid;
-	else 
+	else
 	{
 		cid = buf;
 		if (getStaticString(hContact, "CID", buf, 30))
@@ -127,7 +129,7 @@ INT_PTR CMsnProto::MsnEditProfile(WPARAM, LPARAM)
 
 INT_PTR CMsnProto::MsnInviteCommand(WPARAM, LPARAM)
 {
-	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat, 
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL, DlgInviteToChat,
 		LPARAM(new InviteChatParam(NULL, NULL, this)));
 	return 0;
 }
@@ -146,7 +148,7 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	bool isMe = MSN_IsMeByContact(hContact, szEmail);
 	if (szEmail[0]) {
 		int listId = Lists_GetMask(szEmail);
-		
+
 		bool noChat = !(listId & LIST_FL) || isMe || getByte(hContact, "ChatRoom", 0);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
@@ -173,7 +175,7 @@ int CMsnProto::OnContactDoubleClicked(WPARAM wParam, LPARAM)
 {
 	const HANDLE hContact = (HANDLE)wParam;
 
-	if (emailEnabled && MSN_IsMeByContact(hContact)) 
+	if (emailEnabled && MSN_IsMeByContact(hContact))
 	{
 		MsnSendHotmail(wParam, 0);
 		return 1;
@@ -244,10 +246,10 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 		case WM_COMMAND:
 			switch(wParam)
 			{
-			case IDOK: 
+			case IDOK:
 				{
 					CMsnProto* proto = (CMsnProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					if (proto->msnLoggedIn) 
+					if (proto->msnLoggedIn)
 					{
 						TCHAR str[130];
 						GetDlgItemText(hwndDlg, IDC_NICKNAME, str, SIZEOF(str));
@@ -275,7 +277,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 INT_PTR CMsnProto::SetNicknameUI(WPARAM, LPARAM)
 {
-	HWND hwndSetNickname = CreateDialogParam (hInst, MAKEINTRESOURCE(IDD_SETNICKNAME), 
+	HWND hwndSetNickname = CreateDialogParam (hInst, MAKEINTRESOURCE(IDD_SETNICKNAME),
 		NULL, DlgProcSetNickname, (LPARAM)this);
 
 	SetForegroundWindow(hwndSetNickname);
@@ -353,7 +355,7 @@ void CMsnProto::MsnInitMainMenu(void)
 
 void CMsnProto::MsnRemoveMainMenus(void)
 {
-	if (mainMenuRoot) 
+	if (mainMenuRoot)
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)mainMenuRoot, 0);
 }
 

@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2006-2012 Boris Krasnovskiy.
 Copyright (c) 2003-2005 George Hazan.
 Copyright (c) 2002-2003 Richard Hughes (original version).
@@ -73,10 +75,10 @@ const char* CMsnProto::MsgQueue_CheckContact(const char* wlid, time_t tsc)
 	for (int i=0; i < lsMessageQueue.getCount(); i++)
 	{
 		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0 && (tsc == 0 || (ts - lsMessageQueue[i].ts) < tsc))
-		{	
+		{
 			ret = wlid;
 			break;
-		}	
+		}
 	}
 
 	LeaveCriticalSection(&csMsgQueue);
@@ -102,7 +104,7 @@ const char* CMsnProto::MsgQueue_GetNextRecipient(void)
 					lsMessageQueue[i].allocatedToThread = 1;
 
 			break;
-		}	
+		}
 	}
 
 	LeaveCriticalSection(&csMsgQueue);
@@ -118,10 +120,10 @@ bool  CMsnProto::MsgQueue_GetNext(const char* wlid, MsgQueueEntry& retVal)
 	for(i=0; i < lsMessageQueue.getCount(); i++)
 		if (_stricmp(lsMessageQueue[i].wlid, wlid) == 0)
 			break;
-	
+
 	bool res = i != lsMessageQueue.getCount();
 	if (res)
-	{	
+	{
 		retVal = lsMessageQueue[i];
 		lsMessageQueue.remove(i);
 	}
@@ -136,7 +138,7 @@ int  CMsnProto::MsgQueue_NumMsg(const char* wlid)
 
 	for(int i=0; i < lsMessageQueue.getCount(); i++)
 		res += (_stricmp(lsMessageQueue[i].wlid, wlid) == 0);
-	
+
 	LeaveCriticalSection(&csMsgQueue);
 	return res;
 }
@@ -155,7 +157,7 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 			if (E.msgSize == 0)
 			{
 				HANDLE hContact = MSN_HContactFromEmail(E.wlid);
-				SendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 
+				SendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 					(HANDLE)E.seq, (LPARAM)MSN_Translate("Message delivery failed"));
 			}
 			mir_free(E.message);
@@ -176,17 +178,17 @@ void  CMsnProto::MsgQueue_Clear(const char* wlid, bool msg)
 			{
 				bool msgfnd = E.msgSize == 0 && E.ts < ts;
 				int seq = E.seq;
-				
+
 				mir_free(E.message);
 				mir_free(E.wlid);
 				if (E.cont) delete E.cont;
 				lsMessageQueue.remove(i);
 
-				if (msgfnd) 
+				if (msgfnd)
 				{
 					LeaveCriticalSection(&csMsgQueue);
 					HANDLE hContact = MSN_HContactFromEmail(wlid);
-					SendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq, 
+					SendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)seq,
 						(LPARAM)MSN_Translate("Message delivery failed"));
 					i = 0;
 					EnterCriticalSection(&csMsgQueue);

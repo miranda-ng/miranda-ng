@@ -1,5 +1,7 @@
 /*
 Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
+
+Copyright (c) 2012-2013 Miranda NG Team
 Copyright (c) 2007-2012 Boris Krasnovskiy.
 
 This program is free software; you can redistribute it and/or
@@ -25,14 +27,14 @@ static const char defaultPassportUrl[] = "https://login.live.com/RST2.srf";
 static const char authPacket[] =
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 "<s:Envelope"
-		" xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\"" 
-		" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\"" 
-		" xmlns:saml=\"urn:oasis:names:tc:SAML:1.0:assertion\"" 
+		" xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\""
+		" xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\""
+		" xmlns:saml=\"urn:oasis:names:tc:SAML:1.0:assertion\""
 		" xmlns:wsp=\"http://schemas.xmlsoap.org/ws/2004/09/policy\""
-		" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\"" 
+		" xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\""
 		" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\""
-		" xmlns:wssc=\"http://schemas.xmlsoap.org/ws/2005/02/sc\"" 
-		" xmlns:wst=\"http://schemas.xmlsoap.org/ws/2005/02/trust\">" 
+		" xmlns:wssc=\"http://schemas.xmlsoap.org/ws/2005/02/sc\""
+		" xmlns:wst=\"http://schemas.xmlsoap.org/ws/2005/02/trust\">"
 	"<s:Header>"
 		"<wsa:Action s:mustUnderstand=\"1\">http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue</wsa:Action>"
 		"<wsa:To s:mustUnderstand=\"1\">HTTPS://login.live.com:443//RST2.srf</wsa:To>"
@@ -166,38 +168,38 @@ int CMsnProto::MSN_GetPassportAuth(void)
 		unsigned status;
 
 		tResult = getSslResult(&szPassportHost, szAuthInfo, NULL, status);
-		if (tResult == NULL) 
+		if (tResult == NULL)
 		{
-			if (defaultUrlAllow) 
+			if (defaultUrlAllow)
 			{
 				strcpy(szPassportHost, defaultPassportUrl);
 				defaultUrlAllow = false;
 				continue;
 			}
-			else 
+			else
 			{
 				retVal = 4;
 				break;
-			}	
+			}
 		}
 
 		switch (status)
 		{
-			case 200: 
+			case 200:
 			{
-				const char *errurl = NULL; 
+				const char *errurl = NULL;
 				ezxml_t xml = ezxml_parse_str(tResult, strlen(tResult));
 
-				ezxml_t tokr = ezxml_get(xml, "S:Body", 0, 
+				ezxml_t tokr = ezxml_get(xml, "S:Body", 0,
 					"wst:RequestSecurityTokenResponseCollection", 0,
 					"wst:RequestSecurityTokenResponse", -1);
-				
+
 				while (tokr != NULL)
 				{
-					ezxml_t toks = ezxml_get(tokr, "wst:RequestedSecurityToken", 0, 
+					ezxml_t toks = ezxml_get(tokr, "wst:RequestedSecurityToken", 0,
 						"wsse:BinarySecurityToken", -1);
-					
-					const char* addr = ezxml_txt(ezxml_get(tokr, "wsp:AppliesTo", 0, 
+
+					const char* addr = ezxml_txt(ezxml_get(tokr, "wsp:AppliesTo", 0,
 						"wsa:EndpointReference", 0, "wsa:Address", -1));
 
 					if (strcmp(addr, "http://Passport.NET/tb") == 0)
@@ -205,18 +207,18 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						ezxml_t node = ezxml_get(tokr, "wst:RequestedSecurityToken", 0, "EncryptedData", -1);
 						free(hotAuthToken);
 						hotAuthToken = ezxml_toxml(node, 0);
-						
+
 						node = ezxml_get(tokr, "wst:RequestedProofToken", 0, "wst:BinarySecret", -1);
 						replaceStr(hotSecretToken, ezxml_txt(node));
 					}
 					else if (strcmp(addr, "messengerclear.live.com") == 0)
 					{
-						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0, 
+						ezxml_t node = ezxml_get(tokr, "wst:RequestedProofToken", 0,
 							"wst:BinarySecret", -1);
 						if (toks)
 						{
 							replaceStr(authStrToken, ezxml_txt(toks));
-							replaceStr(authSecretToken, ezxml_txt(node)); 
+							replaceStr(authSecretToken, ezxml_txt(node));
 							retVal = 0;
 						}
 						else
@@ -246,7 +248,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 						replaceStr(authStorageToken, ezxml_txt(toks));
 					}
 
-					tokr = ezxml_next(tokr); 
+					tokr = ezxml_next(tokr);
 				}
 
 				if (retVal != 0)
@@ -287,18 +289,18 @@ int CMsnProto::MSN_GetPassportAuth(void)
 				break;
 			}
 			default:
-				if (defaultUrlAllow) 
+				if (defaultUrlAllow)
 				{
 					strcpy(szPassportHost, defaultPassportUrl);
 					defaultUrlAllow = false;
 				}
-				else 
+				else
 					retVal = 6;
 		}
 		mir_free(tResult);
 	}
 
-	if (retVal != 0) 
+	if (retVal != 0)
 	{
 		if (!Miranda_Terminated())
 		{
@@ -335,7 +337,7 @@ void hmac_sha1 (mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sh
 	unsigned char k_ipad[SHA_BLOCKSIZE], k_opad[SHA_BLOCKSIZE];
 	mir_sha1_ctx ctx;
 
-	if (keylen > SHA_BLOCKSIZE) 
+	if (keylen > SHA_BLOCKSIZE)
 	{
 		mir_sha1_init(&ctx);
 		mir_sha1_append(&ctx, key, (int)keylen);
@@ -349,7 +351,7 @@ void hmac_sha1 (mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sh
 	memset(k_ipad+keylen, 0x36, SHA_BLOCKSIZE - keylen);
 	memset(k_opad+keylen, 0x5c, SHA_BLOCKSIZE - keylen);
 
-	for (unsigned i = 0; i < keylen; i++) 
+	for (unsigned i = 0; i < keylen; i++)
 	{
 		k_ipad[i] ^= 0x36;
 		k_opad[i] ^= 0x5c;
@@ -403,8 +405,8 @@ typedef struct tag_MsgrUsrKeyHdr
 	unsigned long cipherLen;
 } MsgrUsrKeyHdr;
 
-static const MsgrUsrKeyHdr userKeyHdr = 
-{ 
+static const MsgrUsrKeyHdr userKeyHdr =
+{
 	sizeof(MsgrUsrKeyHdr),
 	1,			// CRYPT_MODE_CBC
 	0x6603,		// CALG_3DES
@@ -429,7 +431,7 @@ static unsigned char* PKCS5_Padding(char* in, size_t &len)
 }
 
 
-char* CMsnProto::GenerateLoginBlob(char* challenge) 
+char* CMsnProto::GenerateLoginBlob(char* challenge)
 {
 	const size_t keylen = strlen(authSecretToken);
 	size_t key1len = Netlib_GetBase64DecodedBufferSize(keylen);
@@ -437,7 +439,7 @@ char* CMsnProto::GenerateLoginBlob(char* challenge)
 
 	NETLIBBASE64 nlb = { authSecretToken, (int)keylen, key1, (int)key1len };
 	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
-	key1len = nlb.cbDecoded; 
+	key1len = nlb.cbDecoded;
 
 	mir_sha1_byte_t key2[MIR_SHA1_HASH_SIZE+4];
 	mir_sha1_byte_t key3[MIR_SHA1_HASH_SIZE+4];
@@ -500,7 +502,7 @@ char* CMsnProto::HotmailLogin(const char* url)
 
 	NETLIBBASE64 nlb = { hotSecretToken, (int)hotSecretlen, key1, (int)key1len };
 	CallService(MS_NETLIB_BASE64DECODE, 0, LPARAM(&nlb));
-	key1len = nlb.cbDecoded; 
+	key1len = nlb.cbDecoded;
 
 	static const unsigned char encdata[] = "WS-SecureConversation";
 	const size_t data1len = sizeof(nonce) + sizeof(encdata) - 1;
@@ -549,7 +551,7 @@ void CMsnProto::FreeAuthTokens(void)
 	mir_free(tAuthToken);
 	mir_free(oimSendToken);
 	mir_free(authStrToken);
-	mir_free(authSecretToken); 
+	mir_free(authSecretToken);
 	mir_free(authContactToken);
 	mir_free(authStorageToken);
 	mir_free(hotSecretToken);
