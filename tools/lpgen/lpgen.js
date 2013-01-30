@@ -520,7 +520,7 @@ var MAJOR_VERSION=/(?:#define\s+__MAJOR_VERSION\s+)(\d+)/i;
 var MINOR_VERSION=/(?:#define\s+__MINOR_VERSION\s+)(\d+)/i;
 var RELEASE_NUM=/(?:#define\s+__RELEASE_NUM\s+)(\d+)/i;
 var BUILD_NUM=/(?:#define\s+__BUILD_NUM\s+)(\d+)/i;
-var description=/(?:#define\s+__DESCRIPTION\s+")(.+)(?=")/i;
+var description=/(?:#define\s+__DESC(?:RIPTION)?\s+")(.+)(?=")/i;
 //exec RegExps
 filename=filename.exec(allstrings);
 pluginname=pluginname.exec(allstrings);
