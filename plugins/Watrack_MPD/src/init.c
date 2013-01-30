@@ -34,25 +34,20 @@ PLUGININFOEX pluginInfo={
 	"sss123next@list.ru",
 	"© 2009 sss, others...",
 	"http://sss.chaoslab.ru:81/tracker/mim_plugs/",
-	1,		//unicode
-	{ 0x692e87d0, 0x6c71, 0x4cdc, { 0x9e, 0x36, 0x2b, 0x2d, 0x69, 0xfb, 0xdc, 0x4c } }
+	UNICODE_AWARE,
+	// 692E87D0-6C71-4CDC-9E36-2B69FBDC4C
+	{0x692e87d0, 0x6c71, 0x4cdc, {0x9e, 0x36, 0x2b, 0x2d, 0x69, 0xfb, 0xdc, 0x4c}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-static const MUUID interfaces[] = {MIID_SERVICEMODE, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
 }
 
 int __declspec(dllexport) Load()
