@@ -11,7 +11,7 @@
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
 //* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
-//* Note:		script will use following sequense to find a translation for string:      *//
+//* Note:      script will use following sequense to find a translation for string:       *//
 //* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/   *//
 //* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
 //* if you specify a "path" - /path:"path\folder", so look in path\folder\TabSRMM.txt     *//
@@ -55,12 +55,12 @@ if (WScript.Arguments.Named.Item("log")) log=true;
 
 // if param /out specified, build a path and put it into var.
 if (WScript.Arguments.Named.Item("out")) {
-	var out=WScript.Arguments.Named.Item("out");
-	if (!FSO.FolderExists(out)) {
-		WScript.Echo("Output folder "+out+" does not exist!\nPlease, create it first!");
-		WScript.Quit();}
-	};
-	
+    var out=WScript.Arguments.Named.Item("out");
+    if (!FSO.FolderExists(out)) {
+        WScript.Echo("Output folder "+out+" does not exist!\nPlease, create it first!");
+        WScript.Quit();}
+    };
+    
 //If script run by double click, open choose folder dialog to choose plugin folder to parse. If Cancel pressed, quit script.
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
    WScript.Echo("Please run from command line!");
@@ -127,8 +127,8 @@ filesenum=new Enumerator(TemplateFilesArray);
      if (log) WScript.Echo("translating "+curfile);
      //path to result file
      traslatedtemplatefile=trunk+"\\langpacks\\english\\plugins\\translated_"+FSO.GetFileName(curfile);
-	 //if out key specified, output to this folder
-	 if (out) traslatedtemplatefile=out+"\\"+FSO.GetFileName(curfile);
+     //if out key specified, output to this folder
+     if (out) traslatedtemplatefile=out+"\\"+FSO.GetFileName(curfile);
      //now put strings from template and translations into array
      TranslateTemplateFile(curfile,TranslatedTemplate);
      //Write array into file;
@@ -164,18 +164,17 @@ function CheckFileExist(file) {
 function GenerateDictionaries () {
 //path variables
 if (WScript.Arguments.Named.Item("core")) {
+    //Check file /core:"path" exist or not
     CheckFileExist(WScript.Arguments.Named.Item("core"));
-    //var CoreTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=CORE=.txt");
+    //Generate dictionanry
     GenerateTransalteDict(WScript.Arguments.Named.Item("core"),CoreTranslateDict);
     }
 if (WScript.Arguments.Named.Item("dupes")) {
     CheckFileExist(WScript.Arguments.Named.Item("dupes"));
-    //var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=DUPES=.txt");
     GenerateTransalteDict(WScript.Arguments.Named.Item("dupes"),DupesTranslateDict);
     }
 if (WScript.Arguments.Named.Item("langpack")) {
     CheckFileExist(WScript.Arguments.Named.Item("langpack"));
-    //var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=DUPES=.txt");
     GenerateTransalteDict(WScript.Arguments.Named.Item("langpack"),LangpackTranslateDict);
     }
 }
@@ -197,18 +196,18 @@ while ((string = find.exec(translatefiletext)) != null) {
     //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
     var key=string[1];
     var item=string[2];
-	//add key-item pair into dictionary, if not exists already
-	if (!dictionary.Exists(key))
-		dictionary.Add(key,item);
-	//use also different variants of Miranda name for translations from old langpacks
-	key = key.replace("Miranda IM", "Miranda NG");
-	item = item.replace("Miranda IM", "Miranda NG");
-	if (!dictionary.Exists(key))
-		dictionary.Add(key,item);	
-	key = key.replace("Miranda NG", "Miranda");
-	item = item.replace("Miranda NG", "Miranda");
-	if (!dictionary.Exists(key))
-		dictionary.Add(key,item);
+    //add key-item pair into dictionary, if not exists already
+    if (!dictionary.Exists(key))
+        dictionary.Add(key,item);
+    //use also different variants of Miranda name for translations from old langpacks
+    key = key.replace("Miranda IM", "Miranda NG");
+    item = item.replace("Miranda IM", "Miranda NG");
+    if (!dictionary.Exists(key))
+        dictionary.Add(key,item);   
+    key = key.replace("Miranda NG", "Miranda");
+    item = item.replace("Miranda NG", "Miranda");
+    if (!dictionary.Exists(key))
+        dictionary.Add(key,item);
     }
 //close file
 translatefile.Close();
@@ -254,13 +253,13 @@ function TranslateTemplateFile(Template_file,array) {
                     if (CoreTranslateDict.Exists(line)) {
                         array.push(CoreTranslateDict.Item(line));
                         } else {
-							//Sill no luck? Check Langpack...
-						    if (LangpackTranslateDict.Exists(line)) {
-								array.push(LangpackTranslateDict.Item(line));
-								} else {
-									//no translation found, put empty line
-									array.push("");
-									}
+                            //Sill no luck? Check Langpack...
+                            if (LangpackTranslateDict.Exists(line)) {
+                                array.push(LangpackTranslateDict.Item(line));
+                                } else {
+                                    //no translation found, put empty line
+                                    array.push("");
+                                    }
                             }
                     }
                 }
