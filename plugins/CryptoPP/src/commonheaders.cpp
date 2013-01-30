@@ -23,8 +23,9 @@ PLUGININFOEX pluginInfoEx = {
 		"baloo@bk.ru",
 		"© 2006-09 Baloo",
 		"http://miranda-ng.org/",
-		0,
-		MIID_CRYPTOPP
+		UNICODE_AWARE,
+		//3613F2D9-C040-4361-A44F-DF7B5AAACF6E
+		{0x3613F2D9, 0xC040, 0x4361, {0xA4, 0x4F, 0xDF, 0x7B, 0x5A, 0xAA, 0xCF, 0x6E}}
 };
 
 
