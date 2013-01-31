@@ -105,10 +105,9 @@ Protocol::~Protocol()
 
 void Protocol::lcopystr(TCHAR *dest, TCHAR *src, size_t maxlen)
 {
-	if (lstrcmp(dest, src) != 0)
-	{
+	if (lstrcmp(dest, src) != 0) {
 		data_changed = true;
-		lstrcpyn(dest, src, maxlen);
+		lstrcpyn(dest, src, (DWORD)maxlen);
 	}
 }
 

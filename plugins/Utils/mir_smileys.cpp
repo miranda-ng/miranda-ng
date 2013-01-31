@@ -406,28 +406,20 @@ void DestroySmileyList( SortedList* p_list )
 // Generete the list of smileys / text to be drawn
 SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height)
 {
-	SMADD_BATCHPARSE2 sp = {0};
-	SMADD_BATCHPARSERES *spres;
-
 	*max_smiley_height = 0;
 
 	if (text[0] == '\0' || !ServiceExists(MS_SMILEYADD_BATCHPARSE))
-	{
 		return NULL;
-	}
 
 	// Parse it!
-	sp.cbSize = sizeof(sp);
+	SMADD_BATCHPARSE2 sp = { sizeof(sp) };
 	sp.Protocolname = protocol;
 	sp.str = (TCHAR*)text;
-	sp.oflag = SAFL_TCHAR;
-	spres = (SMADD_BATCHPARSERES *) CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
-
+	sp.flag = SAFL_TCHAR;
+	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *) CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	if (spres == NULL)
-	{
 		// Did not find a simley
 		return NULL;
-	}
 
 	// Lets add smileys
 	SortedList *plText = List_Create(0, 10);
@@ -435,16 +427,13 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	const TCHAR *next_text_pos = text;
 	const TCHAR *last_text_pos =  _tcsninc(text, text_size);
 
-	for (unsigned int i = 0; i < sp.numSmileys; i++)
-	{
+	for (unsigned int i = 0; i < sp.numSmileys; i++) {
 		TCHAR* start = _tcsninc(text, spres[i].startChar);
 		TCHAR* end = _tcsninc(start, spres[i].size);
 
-		if (spres[i].hIcon != NULL)	// For deffective smileypacks
-		{
+		if (spres[i].hIcon != NULL) { // For defective smileypacks
 			// Add text
-			if (start > next_text_pos)
-			{
+			if (start > next_text_pos) {
 				TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
 
 				piece->type = TEXT_PIECE_TYPE_TEXT;

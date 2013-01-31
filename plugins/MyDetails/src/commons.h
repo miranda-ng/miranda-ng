@@ -95,14 +95,13 @@ __inline static int ProtoServiceExists(const char *szModule,const char *szServic
 }
 
 // Helper
-static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, 
-					 SmileysParseInfo parseInfo)
+static __inline int DRAW_TEXT(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol)
 {
 	if (!opts.replace_smileys)
 		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
 		
 	return Smileys_DrawText(hDC, lpString, nCount, lpRect, uFormat | (opts.resize_smileys ? DT_RESIZE_SMILEYS : 0), 
-			opts.use_contact_list_smileys ? "clist" : protocol, parseInfo);
+			opts.use_contact_list_smileys ? "clist" : protocol, NULL);
 }
 
 #endif // __COMMONS_H__

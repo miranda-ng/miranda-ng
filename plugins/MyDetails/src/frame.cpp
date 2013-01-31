@@ -528,9 +528,9 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 	if (pos != NULL) pos[0] = '\0';
 
 	if (smileys)
-		DRAW_TEXT(hdc, tmp2, _tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name, NULL);
+		DRAW_TEXT(hdc, tmp2, (int)_tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name);
 	else
-		DrawText(hdc, tmp2, _tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT);
+		DrawText(hdc, tmp2, (int)_tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT);
 
 	free(tmp2);
 
@@ -851,8 +851,7 @@ void CalcRectangles(HWND hwnd)
 
 		// Text size
 		RECT r_tmp = r;
-		DrawText(hdc, proto->status_name, _tcslen(proto->status_name), &r_tmp,
-					DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+		DrawText(hdc, proto->status_name, (int)_tcslen(proto->status_name), &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 		SIZE s;
 		s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -947,8 +946,7 @@ void CalcRectangles(HWND hwnd)
 
 			// Text size
 			RECT r_tmp = r;
-			DrawText(hdc, proto->listening_to, _tcslen(proto->listening_to), &r_tmp,
-						DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+			DrawText(hdc, proto->listening_to, (int)_tcslen(proto->listening_to), &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 			SIZE s;
 			s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -1069,8 +1067,7 @@ void EraseBackground(HWND hwnd, HDC hdc, MyDetailsFrameData* data)
 	}
 }
 
-void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc, UINT uFormat,
-					  bool mouse_over, Protocol *proto, bool replace_smileys = true)
+void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc, UINT uFormat, bool mouse_over, Protocol *proto)
 {
 	const TCHAR *tmp;
 	if (text[0] == '\0')
@@ -1123,15 +1120,10 @@ void DrawTextWithRect(HDC hdc, const TCHAR *text, const TCHAR *def_text, RECT rc
 		}
 	}
 
-	if (replace_smileys)
-		DRAW_TEXT(hdc, tmp2, _tcslen(tmp2), &r, uFormat, proto->name, NULL);
-	else
-		DrawText(hdc, tmp2, _tcslen(tmp2), &r, uFormat);
+	DRAW_TEXT(hdc, tmp2, (int)_tcslen(tmp2), &r, uFormat, proto->name);
 
 	if (mouse_over)
-	{
 		DrawText(hdc, _T(" ..."), 4, &rc_tmp, uFormat);
-	}
 
 	SelectClipRgn(hdc, NULL);
 	DeleteObject(rgn);
@@ -1290,7 +1282,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_PROTO]);
 		SetTextColor(hdc, font_colour[FONT_PROTO]);
 
-		DrawText(hdc, proto->description, _tcslen(proto->description), &rr, uFormat);
+		DrawText(hdc, proto->description, (int)_tcslen(proto->description), &rr, uFormat);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, NULL);
@@ -1335,7 +1327,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_STATUS]);
 		SetTextColor(hdc, font_colour[FONT_STATUS]);
 
-		DrawText(hdc, proto->status_name, _tcslen(proto->status_name), &rc, uFormat);
+		DRAW_TEXT(hdc, proto->status_name, (int)_tcslen(proto->status_name), &rc, uFormat, proto->name);
 
 		SelectClipRgn(hdc, NULL);
 		DeleteObject(rgn);
@@ -1410,7 +1402,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawText(hdc, proto->listening_to, _tcslen(proto->listening_to), &rc, uFormat);
+			DrawText(hdc, proto->listening_to, (int)_tcslen(proto->listening_to), &rc, uFormat);
 
 			SelectClipRgn(hdc, NULL);
 			DeleteObject(rgn);
@@ -1587,7 +1579,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 	mii.fType = MFT_STRING;
 	mii.fState = proto->ListeningToEnabled() ? MFS_CHECKED : 0;
 	mii.dwTypeData = tmp;
-	mii.cch = _tcslen(tmp);
+	mii.cch = (int)_tcslen(tmp);
 	mii.wID = 1;
 
 	if ( !proto->CanSetListeningTo())
@@ -1806,7 +1798,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = protocols->Get(i)->description;
-					mii.cch = _tcslen(protocols->Get(i)->description);
+					mii.cch = (int)_tcslen(protocols->Get(i)->description);
 					mii.wID = i + 1;
 
 					if (i == data->protocol_number) {
@@ -1878,7 +1870,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 1;
 
 				if ( !proto->CanSetAvatar())
@@ -1924,7 +1916,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 1;
 
 				if ( !proto->CanSetNick())
@@ -1981,7 +1973,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = tmp;
-					mii.cch = _tcslen(tmp);
+					mii.cch = (int)_tcslen(tmp);
 					mii.wID = 1;
 
 					if ( !proto->CanSetStatusMsg()) {
@@ -2001,7 +1993,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 2;
 
 				if (proto->status == ID_STATUS_OFFLINE) {
@@ -2071,7 +2063,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fType = MFT_STRING;
 				mii.fState = proto->ListeningToEnabled() ? MFS_CHECKED : 0;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 5;
 
 				if ( !proto->CanSetListeningTo())
@@ -2090,7 +2082,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 4;
 
 				if (proto->status == ID_STATUS_OFFLINE) {
@@ -2110,7 +2102,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
 					mii.dwTypeData = tmp;
-					mii.cch = _tcslen(tmp);
+					mii.cch = (int)_tcslen(tmp);
 					mii.wID = 3;
 
 					if ( !proto->CanSetStatusMsg())
@@ -2129,7 +2121,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 2;
 
 				if ( !proto->CanSetNick())
@@ -2147,7 +2139,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
 				mii.dwTypeData = tmp;
-				mii.cch = _tcslen(tmp);
+				mii.cch = (int)_tcslen(tmp);
 				mii.wID = 1;
 
 				if ( !proto->CanSetAvatar())
