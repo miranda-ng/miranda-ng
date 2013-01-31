@@ -131,12 +131,17 @@ Miranda была закрыта или произошла ошибка при о
 [No command can have more than %d parameters\n]
 Команды не могут иметь больше %d аргументов\n
 [%s version %s]
+%s версия %s
 [Could not create CommandLine listening server!]
+Невозможно создать сервер CommandLine!
 [Failed to set '%s' status message to '%s' (status is '%s').]
+Не удалось установить сообщение статуса '%s' для '%s' (статус '%s').
 [Message to '%s' was marked as sent but the protocol seems to be offline]
+Сообщение для '%s' было отмечено, как отправленное, но возможно протокол не в сети.
 [No help for '%s'.]
 Нет помощи для '%s'.
 [Timed out while waiting for acknowledgement for contact '%s'.]
+Таймаут ожидания подтверждения от контакта '%s'.
 [You can only run one instance of CmdLine plugin.]
 Вы можете запускать только одну копию плагина CmdLine.
 [Issued a quit command.]
