@@ -87,7 +87,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.dwFlags = HKD_TCHAR;
 
 	hkd.pszName = "TranslitSwitcher/ConvertAllOrSelected";
-	hkd.ptszDescription = _T("Convert All / Selected");
+	hkd.ptszDescription = LPGENT("Convert All / Selected");
 	hkd.ptszSection = _T("TranslitSwitcher");
 	hkd.pszService = MS_TS_SWITCHLAYOUT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
@@ -96,14 +96,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/ConvertLastOrSelected";
-	hkd.ptszDescription = _T("Convert Last / Selected");
+	hkd.ptszDescription = LPGENT("Convert Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitAllOrSelected";
-	hkd.ptszDescription = _T("Translit All / Selected");
+	hkd.ptszDescription = LPGENT("Translit All / Selected");
 	hkd.pszService = MS_TS_TRANSLITLAYOUT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
@@ -111,14 +111,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitLastOrSelected";
-	hkd.ptszDescription = _T("Translit Last / Selected");
+	hkd.ptszDescription = LPGENT("Translit Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseAllOrSelected";
-	hkd.ptszDescription = _T("Invert Case All / Selected");
+	hkd.ptszDescription = LPGENT("Invert Case All / Selected");
 	hkd.pszService = MS_TS_INVERTCASE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
@@ -126,7 +126,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseLastOrSelected";
-	hkd.ptszDescription = _T("Invert Case Last / Selected");
+	hkd.ptszDescription = LPGENT("Invert Case Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
