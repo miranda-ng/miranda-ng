@@ -448,7 +448,7 @@ ANSI плагин
 [Decision sent]
 Решение отправлено
 [Default]
-Умолчания
+По умолчанию
 [Delete Contact]
 Удалить контакт
 [Delete Group]
