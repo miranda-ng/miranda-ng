@@ -433,7 +433,10 @@ UINT CALLBACK ShareNewFileDialogHook(
 bool bShowShareNewFileDlg(HWND hwndOwner, STFileShareInfo * pstNewShare) {
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.lpstrFilter = _T("All Files (*.*)\0*.*\0");
+
+	char temp[MAX_PATH];
+	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.*)%c*.*%c%c"), Translate("All files"), 0, 0, 0);
+	ofn.lpstrFilter = temp;
 
 	ofn.lpstrFile = pstNewShare->pszRealPath;
 	ofn.nMaxFile = pstNewShare->dwMaxRealPath;

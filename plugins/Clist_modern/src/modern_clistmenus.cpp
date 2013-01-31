@@ -72,13 +72,13 @@ static HANDLE *hFavoriteContactMenuItems = NULL;
 static HANDLE hShowIfOflineItem = NULL;
 static HANDLE hOnContactMenuBuild_FAV = NULL;
 
-static TCHAR * FAVMENUROOTNAME  = _T("&Contact rate");
+static TCHAR * FAVMENUROOTNAME  = LPGENT("&Contact rate");
 
 static TCHAR *rates[] = {
-	_T("None"),
-	_T("Low"),
-	_T("Medium"),
-	_T("High") 
+	LPGENT("None"),
+	LPGENT("Low"),
+	LPGENT("Medium"),
+	LPGENT("High") 
 };
 
 static IconItem iconList[] =
