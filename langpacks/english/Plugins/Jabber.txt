@@ -339,7 +339,7 @@
 [Can report information about the music to which a user is listening]
 [Receives information about the music to which a user is listening]
 [Supports private XML Storage (for bookmakrs and other)]
-[Supports attention requests ('nudge]
+[Supports attention requests ('nudge')]
 [Supports chat history retrieving]
 [Supports chat history management]
 [Can report information about user activity]

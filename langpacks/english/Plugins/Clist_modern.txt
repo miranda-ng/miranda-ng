@@ -342,7 +342,7 @@
 [Contact List smileys]
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 [Converting to MetaContact]
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s]
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
 [Converting to MetaContact (Moving)]
 [Do you want to contact '%s' be added to metacontact '%s'?]
 [Adding contact to MetaContact]
