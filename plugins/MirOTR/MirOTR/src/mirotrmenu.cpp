@@ -242,7 +242,7 @@ void InitMirOTRMenu(void)
 	mi.cbSize = sizeof(mi);
 
 	mi.flags = CMIF_DISABLED|CMIF_TCHAR|CMIF_ICONFROMICOLIB;
-	mi.ptszName = _T("OTR Status");
+	mi.ptszName = LPGENT("OTR Status");
 	mi.position = 0;
 	hStatusInfoItem = (HGENMENU) AddMirOTRMenuItem(0, (LPARAM) &mi);
 

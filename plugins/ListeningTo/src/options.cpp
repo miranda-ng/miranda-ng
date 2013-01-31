@@ -53,10 +53,10 @@ static OptPageControl optionsControls[] = {
 
 static OptPageControl formatControls[] = { 
 	{ &opts.templ,					CONTROL_TEXT,		IDC_TEMPLATE,			"Template", (DWORD) _T("%artist% - %title%") },
-	{ &opts.unknown,				CONTROL_TEXT,		IDC_UNKNOWN,			"Unknown", (DWORD) _T("<Unknown>"), 0, 0, 128 },
-	{ &opts.xstatus_name,			CONTROL_TEXT,		IDC_XSTATUS_NAME,		"XStatusName", (DWORD) _T("Listening to") },
+	{ &opts.unknown,				CONTROL_TEXT,		IDC_UNKNOWN,			"Unknown", (DWORD) LPGENT("<Unknown>"), 0, 0, 128 },
+	{ &opts.xstatus_name,			CONTROL_TEXT,		IDC_XSTATUS_NAME,		"XStatusName", (DWORD) LPGENT("Listening to") },
 	{ &opts.xstatus_message,		CONTROL_TEXT,		IDC_XSTATUS_MESSAGE,	"XStatusMessage", (DWORD) _T("%listening%") },
-	{ &opts.nothing,				CONTROL_TEXT,		IDC_NOTHING,			"Nothing", (DWORD) _T("<Nothing is playing now>"), 0, 0, 128 }
+	{ &opts.nothing,				CONTROL_TEXT,		IDC_NOTHING,			"Nothing", (DWORD) LPGENT("<Nothing is playing now>"), 0, 0, 128 }
 };
 
 static OptPageControl playersControls[] = { 
@@ -138,11 +138,11 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 
 
 	if (lti->dwFlags & LTI_UNICODE) {
-		if (lstrcmpi(lti->ptszType, _T("Music")) == 0)
+		if (lstrcmpi(lti->ptszType, LPGENT("Music")) == 0)
 			return opts.enable_music;
-		if (lstrcmpi(lti->ptszType, _T("Radio")) == 0)
+		if (lstrcmpi(lti->ptszType, LPGENT("Radio")) == 0)
 			return opts.enable_radio;
-		if (lstrcmpi(lti->ptszType, _T("Video")) == 0)
+		if (lstrcmpi(lti->ptszType, LPGENT("Video")) == 0)
 			return opts.enable_video;
 		return opts.enable_others;
 	}

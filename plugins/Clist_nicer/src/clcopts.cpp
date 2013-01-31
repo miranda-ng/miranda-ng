@@ -69,10 +69,10 @@ struct CheckBoxValues_t {
 };
 
 static const struct CheckBoxValues_t greyoutValues[] = {
-    {GREYF_UNFOCUS,_T("Not focused")}, {MODEF_OFFLINE,_T("Offline")}, {PF2_ONLINE,_T("Online")}, {PF2_SHORTAWAY,_T("Away")}, {PF2_LONGAWAY,_T("NA")}, {PF2_LIGHTDND,_T("Occupied")}, {PF2_HEAVYDND,_T("DND")}, {PF2_FREECHAT,_T("Free for chat")}, {PF2_INVISIBLE,_T("Invisible")}, {PF2_OUTTOLUNCH,_T("Out to lunch")}, {PF2_ONTHEPHONE,_T("On the phone")}
+    {GREYF_UNFOCUS,LPGENT("Not focused")}, {MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")}, {PF2_LONGAWAY,LPGENT("NA")}, {PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")}, {PF2_INVISIBLE,LPGENT("Invisible")}, {PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
 };
 static const struct CheckBoxValues_t offlineValues[] = {
-    {MODEF_OFFLINE,_T("Offline")}, {PF2_ONLINE,_T("Online")}, {PF2_SHORTAWAY,_T("Away")}, {PF2_LONGAWAY,_T("NA")}, {PF2_LIGHTDND,_T("Occupied")}, {PF2_HEAVYDND,_T("DND")}, {PF2_FREECHAT,_T("Free for chat")}, {PF2_INVISIBLE,_T("Invisible")}, {PF2_OUTTOLUNCH,_T("Out to lunch")}, {PF2_ONTHEPHONE,_T("On the phone")}
+    {MODEF_OFFLINE,LPGENT("Offline")}, {PF2_ONLINE,LPGENT("Online")}, {PF2_SHORTAWAY,LPGENT("Away")}, {PF2_LONGAWAY,LPGENT("NA")}, {PF2_LIGHTDND,LPGENT("Occupied")}, {PF2_HEAVYDND,LPGENT("DND")}, {PF2_FREECHAT,LPGENT("Free for chat")}, {PF2_INVISIBLE,LPGENT("Invisible")}, {PF2_OUTTOLUNCH,LPGENT("Out to lunch")}, {PF2_ONTHEPHONE,LPGENT("On the phone")}
 };
 
 static HIMAGELIST himlCheckBoxes = 0;

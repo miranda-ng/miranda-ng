@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszMessage[] = _T("\
+static TCHAR tszMessage[] = LPGENT("\
 Don\'t forget to click on Apply to save the changes. If you don\'t then the changes won\'t\r\n\
 be saved to the database, they will only be valid for this session.\r\n\r\n\
 Variable string\t\tWhat it expands to:\r\n\

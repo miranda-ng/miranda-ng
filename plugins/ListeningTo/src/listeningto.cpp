@@ -384,52 +384,52 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		tr.tszTokenString = _T("listening_info");
 		tr.parseFunctionT = VariablesParseInfo;
-		tr.szHelpText = "Listening info\tListening info as set in the options";
+		tr.szHelpText = LPGEN("Listening info\tListening info as set in the options");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_type");
 		tr.parseFunctionT = VariablesParseType;
-		tr.szHelpText = "Listening info\tMedia type: Music, Video, etc";
+		tr.szHelpText = LPGEN("Listening info\tMedia type: Music, Video, etc");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_artist");
 		tr.parseFunctionT = VariablesParseArtist;
-		tr.szHelpText = "Listening info\tArtist name";
+		tr.szHelpText = LPGEN("Listening info\tArtist name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_album");
 		tr.parseFunctionT = VariablesParseAlbum;
-		tr.szHelpText = "Listening info\tAlbum name";
+		tr.szHelpText = LPGEN("Listening info\tAlbum name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_title");
 		tr.parseFunctionT = VariablesParseTitle;
-		tr.szHelpText = "Listening info\tSong name";
+		tr.szHelpText = LPGEN("Listening info\tSong name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_track");
 		tr.parseFunctionT = VariablesParseTrack;
-		tr.szHelpText = "Listening info\tTrack number";
+		tr.szHelpText = LPGEN("Listening info\tTrack number");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_year");
 		tr.parseFunctionT = VariablesParseYear;
-		tr.szHelpText = "Listening info\tSong year";
+		tr.szHelpText = LPGEN("Listening info\tSong year");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_genre");
 		tr.parseFunctionT = VariablesParseGenre;
-		tr.szHelpText = "Listening info\tSong genre";
+		tr.szHelpText = LPGEN("Listening info\tSong genre");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_length");
 		tr.parseFunctionT = VariablesParseLength;
-		tr.szHelpText = "Listening info\tSong length";
+		tr.szHelpText = LPGEN("Listening info\tSong length");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_player");
 		tr.parseFunctionT = VariablesParsePlayer;
-		tr.szHelpText = "Listening info\tPlayer name";
+		tr.szHelpText = LPGEN("Listening info\tPlayer name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 	}
 
