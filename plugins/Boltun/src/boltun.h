@@ -38,7 +38,7 @@
 #define DB_CONTACT_WARNED "Warned"
 
 //Plugin group in settings
-#define BOLTUN_GROUP "Message sessions"
+#define BOLTUN_GROUP LPGEN("Message sessions")
 
 //Filename depends on UNICODE
 #define DEFAULT_MIND_FILE _T("boltun.mindw")
