@@ -512,9 +512,9 @@ versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, Tristat
 //read file fully into var allstrings
 allstrings=versionfile_stream.ReadAll();
 //define RegExp for defines.
-var filename=/(?:#define\s+__FILENAME\s+")(.+)(?=")/m;
-var pluginname=/(?:#define\s+__PLUGIN_NAME\s+")(.+)(?=")/i;
-var author=/(?:#define\s+__AUTHORS?\s+")(.+)(?=")/i;
+var filename=/(?:#define\s+_*?FILENAME\s+")(.+)(?=")/m;
+var pluginname=/(?:#define\s+_*?PLUGIN_NAME\s+")(.+)(?=")/i;
+var author=/(?:#define\s+_*?AUTHORS?\s+")(.+)(?=")/i;
 var MAJOR_VERSION=/(?:#define\s+_*?(?:MAJOR_VERSION|VER_MAJOR)\s+)(\d+)/i;
 var MINOR_VERSION=/(?:#define\s+_*?(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
 var RELEASE_NUM=/(?:#define\s+_*?(?:RELEASE_NUM|VER_REVISION|VER_RELEASE)\s+)(\d+)/i;
