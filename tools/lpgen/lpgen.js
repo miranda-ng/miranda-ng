@@ -515,12 +515,12 @@ allstrings=versionfile_stream.ReadAll();
 var filename=/(?:#define\s+__FILENAME\s+")(.+)(?=")/m;
 var pluginname=/(?:#define\s+__PLUGIN_NAME\s+")(.+)(?=")/i;
 var author=/(?:#define\s+__AUTHORS?\s+")(.+)(?=")/i;
-var MAJOR_VERSION=/(?:#define\s+_+(?:MAJOR_VERSION|VER_MAJOR)\s+)(\d+)/i;
-var MINOR_VERSION=/(?:#define\s+_+(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
-var RELEASE_NUM=/(?:#define\s+_+(?:RELEASE_NUM|VER_REVISION)\s+)(\d+)/i;
-var BUILD_NUM=/(?:#define\s+_+(?:BUILD_NUM|VER_BUILD)\s+)(\d+)/i;
-var VERSION_STRING=/(?:#define\s+_+VERSION_STRING\s+")([\d\.]+)\"/i;
-var description=/(?:#define\s+__(?:PLUGIN_)?DESC(?:RIPTION)?\s+")(.+)(?=")/i;
+var MAJOR_VERSION=/(?:#define\s+_*?(?:MAJOR_VERSION|VER_MAJOR)\s+)(\d+)/i;
+var MINOR_VERSION=/(?:#define\s+_*?(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
+var RELEASE_NUM=/(?:#define\s+_*?(?:RELEASE_NUM|VER_REVISION|VER_RELEASE)\s+)(\d+)/i;
+var BUILD_NUM=/(?:#define\s+_*?(?:BUILD_NUM|VER_BUILD)\s+)(\d+)/i;
+var VERSION_STRING=/(?:#define\s+_*?VERSION_STRING\s+")([\d\.]+)\"/i;
+var description=/(?:#define\s+_*?(?:PLUGIN_)?DESC(?:RIPTION)?\s+")(.+)(?=")/i;
 //exec RegExps
 filename=filename.exec(allstrings);
 pluginname=pluginname.exec(allstrings);
