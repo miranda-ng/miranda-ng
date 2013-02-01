@@ -310,7 +310,7 @@ void TSAPI WriteStatsOnClose(TWindowData *dat)
 
 	return;
 
-	if (dat->hContact != 0 &&(PluginConfig.m_LogStatusChanges != 0) && dat->dwFlags & MWF_LOG_STATUSCHANGES) {
+	if (dat->hContact != 0 &&(PluginConfig.m_LogStatusChanges != 0) && M->GetByte(dat->hContact, "logstatuschanges", 0)) {
 		mir_snprintf(buffer, sizeof(buffer), "Session close - active for: %d:%02d:%02d, Sent: %d (%d), Rcvd: %d (%d)", now / 3600, now / 60, now % 60, dat->stats.iSent, dat->stats.iSentBytes, dat->stats.iReceived, dat->stats.iReceivedBytes);
 		dbei.cbSize = sizeof(dbei);
 		dbei.pBlob = (PBYTE) buffer;
@@ -472,7 +472,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	} else if (menuId == MENU_LOGMENU) {
 		int iLocalTime = 0;
 		int iRtl = (PluginConfig.m_RTLDefault == 0 ? M->GetByte(dat->hContact, "RTL", 0) : M->GetByte(dat->hContact, "RTL", 1));
-		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && dat->dwFlags & MWF_LOG_STATUSCHANGES;
+		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && M->GetByte(dat->hContact, "logstatuschanges", 0);
 
 		DWORD dwOldFlags = dat->dwFlags;
 

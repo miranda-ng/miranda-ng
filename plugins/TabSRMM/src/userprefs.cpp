@@ -329,7 +329,6 @@ static struct _checkboxes {
 	IDC_UPREFS_GROUPING, MWF_LOG_GROUPMODE,
 	IDC_UPREFS_BBCODE, MWF_LOG_BBCODE,
 	IDC_UPREFS_RTL, MWF_LOG_RTL,
-	IDC_UPREFS_LOGSTATUS, MWF_LOG_STATUSCHANGES,
 	IDC_UPREFS_NORMALTEMPLATES, MWF_LOG_NORMALTEMPLATES,
 	0, 0
 };
@@ -406,6 +405,10 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 							CheckDlgButton(hwndDlg, checkboxes[i].uId, BST_INDETERMINATE);
 						i++;
 					}
+					if (M->GetByte("logstatuschanges", 0) == M->GetByte(hContact, "logstatuschanges", 0))
+						CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, BST_INDETERMINATE);
+					else
+						CheckDlgButton(hwndDlg, IDC_UPREFS_LOGSTATUS, M->GetByte(hContact, "logstatuschanges", 0) ? BST_CHECKED : BST_UNCHECKED);
 					break;
 				}
 				case WM_USER + 100: {
@@ -427,6 +430,10 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 							dwFlags = (state == BST_CHECKED) ? (dwFlags | maskval) : (dwFlags & ~maskval);
 						}
 						i++;
+					}
+					state = IsDlgButtonChecked(hwndDlg, IDC_UPREFS_LOGSTATUS);
+					if (state != BST_INDETERMINATE) {
+						M->WriteByte(hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
 					}
 					if (dwMask) {
 						M->WriteDword(hContact, SRMSGMOD_T, "mwmask", dwMask);

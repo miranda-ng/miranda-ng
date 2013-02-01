@@ -248,7 +248,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_CutContactNameTo = 				(int) DBGetContactSettingWord(NULL, SRMSGMOD_T, "cut_at", 15);
 	m_CutContactNameOnTabs = 			(int)M->GetByte("cuttitle", 0);
 	m_StatusOnTabs = 					(int)M->GetByte("tabstatus", 1);
-	m_LogStatusChanges = 				(int)dwFlags & MWF_LOG_STATUSCHANGES;
+	m_LogStatusChanges = 				(int)M->GetByte("logstatuschanges", 0);
 	m_UseDividers = 					(int)M->GetByte("usedividers", 0);
 	m_DividersUsePopupConfig = 			(int)M->GetByte("div_popupconfig", 0);
 	m_MsgTimeout = 						(int)M->GetDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
@@ -746,7 +746,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	DWORD	dwMask = M->GetDword(hContact, SRMSGMOD_T, "mwmask", 0);
 	DWORD	dwFlags = M->GetDword(hContact, SRMSGMOD_T, "mwflags", 0);
 
-	bool	fLocal = ((dwMask & MWF_LOG_STATUSCHANGES) ? (dwFlags & MWF_LOG_STATUSCHANGES ? true : false) : false);
+	bool	fLocal = M->GetByte(hContact, "logstatuschanges", 0);
 
 	if (fGlobal || fLocal) {
 		/*
