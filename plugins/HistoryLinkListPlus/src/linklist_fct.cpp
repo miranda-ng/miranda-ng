@@ -29,6 +29,7 @@
 #include <m_database.h>
 #include <m_utils.h>
 #include <m_langpack.h>
+#include <win2k.h>
 #pragma warning(default:4100)
 #pragma warning(default:4996)
 
@@ -1322,10 +1323,12 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);      
 	ofn.hwndOwner = hDlg;
-	ofn.lpstrFilter = _T("RTF File\0*.rtf\0All Files\0*.*\0\0");
+	TCHAR temp[MAX_PATH]; 
+	mir_sntprintf(temp, SIZEOF(temp), _T("%s (*.rtf)%c*.rtf%c%s (*.*)%c*.*%c%c"), TranslateT("RTF file"), 0, 0, TranslateT("All files"), 0, 0, 0);
+	ofn.lpstrFilter = temp;
 	ofn.lpstrFile = szFilename;
 	ofn.nMaxFile = _countof(szFilename);
-	ofn.lpstrTitle = _T("Save RTF File");
+	ofn.lpstrTitle = TranslateT("Save RTF File");
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 	// Get a filename or quit
 	if ( ! GetSaveFileName( &ofn ))                   
