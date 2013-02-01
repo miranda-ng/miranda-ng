@@ -410,7 +410,7 @@ function ParseRCFile(RC_File,array) {
       //read on line into rcline
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
-      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*\"([^\"]+(\"\")?[^\"]*(\"\")?[^\"]*)\"\,?/);
+      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"(,|$)/);
       // if exist rc_regexp, do checks, double "" removal and add strings into array
           if (rc_regexp) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
@@ -427,6 +427,7 @@ function ParseRCFile(RC_File,array) {
             case "Custom2": {break};
             case "Slider1": {break};
             case "Slider2": {break};
+            case "": {break};
             //default action is to wrote text inside quoted into array
             default:
             //if there is double "", replace with single one
@@ -513,14 +514,14 @@ versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, Tristat
 allstrings=versionfile_stream.ReadAll();
 //define RegExp for defines.
 var filename=/(?:#define\s+_*?FILENAME\s+")(.+)(?=")/m;
-var pluginname=/(?:#define\s+_*?PLUGIN_NAME\s+")(.+)(?=")/i;
-var author=/(?:#define\s+_*?AUTHORS?\s+")(.+)(?=")/i;
+var pluginname=/(?:#define\s+_*?PLUG(?:IN)?_?NAME\s+")(.+)(?=")/i;
+var author=/(?:#define\s+_*?(?:PLUGIN_?)?AUTHORS?\s+")(.+)(?=")/i;
 var MAJOR_VERSION=/(?:#define\s+_*?(?:MAJOR_VERSION|VER_MAJOR)\s+)(\d+)/i;
 var MINOR_VERSION=/(?:#define\s+_*?(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
 var RELEASE_NUM=/(?:#define\s+_*?(?:RELEASE_NUM|VER_REVISION|VER_RELEASE)\s+)(\d+)/i;
 var BUILD_NUM=/(?:#define\s+_*?(?:BUILD_NUM|VER_BUILD)\s+)(\d+)/i;
 var VERSION_STRING=/(?:#define\s+_*?VERSION_STRING\s+")([\d\.]+)\"/i;
-var description=/(?:#define\s+_*?(?:PLUGIN_)?DESC(?:RIPTION)?\s+")(.+)(?=")/i;
+var description=/(?:#define\s+_*?(?:PLUGIN_)?DESC(?:RIPTION|_STRING)?\s+")(.+)(?=")/i;
 //exec RegExps
 filename=filename.exec(allstrings);
 pluginname=pluginname.exec(allstrings);
