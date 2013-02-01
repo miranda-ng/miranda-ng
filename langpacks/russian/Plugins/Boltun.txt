@@ -57,3 +57,15 @@
 Болтун, чат-бот для русского языка.
 [Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
 Болтун, чат-бот для русского языка, используется движок SmartBot от ProVirus.
+[Message sessions]
+Беседы
+[Engine]
+Движок
+[Engine Settings]
+Настройки движка
+[Mind Files]
+Mind файлы
+[Boltun/Start Chatting]
+Болтун/Начать разговор
+[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
+Привет, я - Болтун! Я с тобой поговорю, пока хозяина нет. Пожалуйста, пиши без ошибок!

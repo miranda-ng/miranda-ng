@@ -42,15 +42,15 @@
 [Pop up dialog asking for new message]
 Диалог для новых сообщений
 [Set an empty message]
-Уст. пустое сообщение
+Пустое сообщение
 [Use default message]
-Исп. стандартное сообщение
+Стандартное сообщение
 [Use last message]
-Исп. последнее сообщение
+Последнее сообщение
 [Use last message set for this status]
-Исп. последнее сообщение для этого статуса
+Последнее сообщение для этого статуса
 [Set the following message:]
-Уст. следующее сообщение:
+Следующее сообщение:
 [Apply to all]
 Для всех
 [Put default message in message list]
@@ -62,13 +62,13 @@
 [Retrieving status message for %s...]
 Получение сообщения статуса для %s...
 [Show status list]
-Пок. список статусов
+Меню списка статусов
 [Show status profiles in status list]
 Показывать профили в статус листе
 [Show icons in status list]
-Пок. значки в списке статусов
+Значки в списке статусов
 [Show icons in message list]
-Пок. значки в списке сообщений
+Значки в списке сообщений
 [Show next to cancel button]
 Показать за кнопкой Отмена
 [Flat, next to cancel button]
@@ -98,7 +98,7 @@
 [Clear Predefined]
 Очистить
 [Add to Predefined]
-В Предустановленные
+В предустановленные
 [Status Message...]
 Сообщение статуса...
 [* This feature is available only when using StartupStatus plugin.]
@@ -129,3 +129,9 @@
 Сменить сообщение статуса
 [Go to URL in Away Message]
 Перейти по ссылки в сообщении отсутствия
+[%s Message (%s)]
+Сообщение "%s" (%s)
+[Are you sure you want to clear status message history?]
+Вы уверены, что хотите удалить историю сообщений статуса?
+[Confirm clearing history]
+Подтверждение удаления истории
