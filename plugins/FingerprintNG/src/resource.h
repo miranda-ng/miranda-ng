@@ -641,10 +641,11 @@
 #define IDI_TUUKLE_CHAT				1083
 #define IDI_UIM						1084
 #define IDI_UTALK					1085
-#define IDI_WIPPIEN					1086
-#define IDI_YAMIGO					1087
-#define IDI_YEIGO					1088
-#define IDI_YOONO					1089
+#define IDI_WINDOWS_PHONE			1086
+#define IDI_WIPPIEN					1087
+#define IDI_YAMIGO					1088
+#define IDI_YEIGO					1089
+#define IDI_YOONO					1090
 #define IDI_GNUGADU					1091
 
 //###############################################

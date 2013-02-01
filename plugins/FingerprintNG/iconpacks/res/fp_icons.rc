@@ -196,6 +196,7 @@
 	IDI_VIRTUS				ICON	"multi-protocol\\Virtus.ico"
 	IDI_VBUZZER				ICON	"multi-protocol\\vBuzzer.ico"
 	IDI_WEECHAT				ICON	"multi-protocol\\WeeChat.ico"
+	IDI_WINDOWS_PHONE		ICON	"multi-protocol\\Windows Phone.ico"
 	IDI_WIPPIEN				ICON	"multi-protocol\\Wippien.ico"
 	IDI_YAMIGO				ICON	"multi-protocol\\Yamigo.ico"
 	IDI_YEIGO				ICON	"multi-protocol\\Yeigo.ico"

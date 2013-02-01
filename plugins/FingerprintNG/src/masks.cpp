@@ -188,6 +188,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_WeeChat",			_T("*WeeChat*"),							_T("WeeChat"),						IDI_WEECHAT,				MULTI_CASE,		TRUE	},
 	{"client_Wippien",			_T("*Wippien*"),							_T("Wippien"),						IDI_WIPPIEN,				MULTI_CASE,		TRUE	},
 
+	{"client_WindowsPhone",		_T("*Windows*Phone*"),						_T("Windows Phone"),				IDI_WINDOWS_PHONE,			MULTI_CASE,		TRUE	},
+
 	{"client_YamiGo",			_T("YamiGo*"),								_T("YamiGo"),						IDI_YAMIGO,					MULTI_CASE,		TRUE	},
 	{"client_Yeigo",			_T("*Yeigo*"),								_T("Yeigo"),						IDI_YEIGO,					MULTI_CASE,		TRUE	},
 	{"client_Yoono",			_T("*Yoono*"),								_T("Yoono"),						IDI_YOONO,					MULTI_CASE,		TRUE	},
@@ -761,7 +763,8 @@ KN_FP_MASK def_kn_fp_overlays2_mask[] =
 	{"client_work_overlay",		_T("|*[*work*]*|*wrk*")
 								_T("|*[*работа*]*|*ворк*"),					_T("work overlay"),					IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 
-	{"client_note_overlay",		_T("|*[*note*]*|*[*laptop*]*|*ноут*")
+	{"client_note_overlay",		_T("|*[*note*]*|*[*laptop*]*")
+								_T("|*[*нетбу*]*|*[*ноут*]*|*[*ноте*]*")
 								_T("|*[*кирпич*]*|*[*portable*]*")
 								_T("|*[*flash*]*|*[*usb*]*"),				_T("notebook overlay"),				IDI_NOTEBOOK_OVERLAY,	OVERLAYS_RESOURCE_CASE	},
 
