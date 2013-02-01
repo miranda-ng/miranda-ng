@@ -78,8 +78,8 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 if (WScript.Arguments.Named.Item("path")) {
     //Call GeneratePluginTranslate for path specified in command line argument /path:"path/to/plugin", output result to "scriptpath"
     GeneratePluginTranslate(WScript.Arguments.Named.Item("path"),scriptpath);
-    //Write garbage crap array into crap file
-    WriteToFile(crap,plugin+"_crap.txt");
+    //Write garbage crap array into crap file, if crap exist
+    if (crap.length>0) WriteToFile(crap,plugin+"_crap.txt");
     //We are done, quit.
     WScript.Quit();
 }
@@ -447,9 +447,9 @@ function ParseSourceFile (SourceFile,array) {
  //open file
  sourcefile_stream=FSO.GetFile(SourceFile).OpenAsTextStream(ForReading, TristateUseDefault);
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
- var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
+ //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
- //var find= /(?:LPGENT?|Translate[TW]?)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["'],?\x20*?(?:tmp)?\))/mg;
+ var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  
  //read file fully into var
  allstrings=sourcefile_stream.ReadAll();
@@ -514,11 +514,12 @@ allstrings=versionfile_stream.ReadAll();
 //define RegExp for defines.
 var filename=/(?:#define\s+__FILENAME\s+")(.+)(?=")/m;
 var pluginname=/(?:#define\s+__PLUGIN_NAME\s+")(.+)(?=")/i;
-var author=/(?:#define\s+__AUTHOR\s+")(.+)(?=")/i;
-var MAJOR_VERSION=/(?:#define\s+__MAJOR_VERSION\s+)(\d+)/i;
-var MINOR_VERSION=/(?:#define\s+__MINOR_VERSION\s+)(\d+)/i;
-var RELEASE_NUM=/(?:#define\s+__RELEASE_NUM\s+)(\d+)/i;
-var BUILD_NUM=/(?:#define\s+__BUILD_NUM\s+)(\d+)/i;
+var author=/(?:#define\s+__AUTHORS?\s+")(.+)(?=")/i;
+var MAJOR_VERSION=/(?:#define\s+_+(?:MAJOR_VERSION|VER_MAJOR)\s+)(\d+)/i;
+var MINOR_VERSION=/(?:#define\s+_+(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
+var RELEASE_NUM=/(?:#define\s+_+(?:RELEASE_NUM|VER_REVISION)\s+)(\d+)/i;
+var BUILD_NUM=/(?:#define\s+_+(?:BUILD_NUM|VER_BUILD)\s+)(\d+)/i;
+var VERSION_STRING=/(?:#define\s+_+VERSION_STRING\s+")([\d\.]+)\"/i;
 var description=/(?:#define\s+__(?:PLUGIN_)?DESC(?:RIPTION)?\s+")(.+)(?=")/i;
 //exec RegExps
 filename=filename.exec(allstrings);
@@ -527,6 +528,7 @@ MAJOR_VERSION=MAJOR_VERSION.exec(allstrings);
 MINOR_VERSION=MINOR_VERSION.exec(allstrings);
 RELEASE_NUM=RELEASE_NUM.exec(allstrings);
 BUILD_NUM=BUILD_NUM.exec(allstrings);
+VERSION_STRING=VERSION_STRING.exec(allstrings);
 author=author.exec(allstrings);
 description=description.exec(allstrings);
 
@@ -535,7 +537,9 @@ array.push(";============================================================");
 //push results of regexp vars into array
 if (filename) array.push(";  File: "+filename[1]); else array.push(";  File: "+plugin+".dll");
 if (pluginname) array.push(";  Plugin: "+pluginname[1]); else array.push(";  Plugin: "+plugin);
-if (MAJOR_VERSION) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]); else array.push(";  Version: x.x.x.x");
+if (MAJOR_VERSION) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]);
+if (VERSION_STRING) array.push(";  Version: "+VERSION_STRING[1]);
+if (!MAJOR_VERSION && !VERSION_STRING) array.push(";  Version: x.x.x.x");
 if (author) array.push(";  Authors: "+fixHexa(author[1])); else array.push(";  Authors: ");
 //add a header end mark
 array.push(";============================================================");
