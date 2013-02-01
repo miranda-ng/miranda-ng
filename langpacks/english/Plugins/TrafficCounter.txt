@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
-;  Version: x.x.x.x
+;  Version: 0.1.1.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
@@ -28,7 +28,6 @@
 [Tooltip format string:]
 [Display traffic for current]
 ;file \plugins\TrafficCounter\src\statistics.c
-[ListBox]
 [Bytes]
 [Adaptive]
 [Hourly]
@@ -43,16 +42,10 @@
 [Online]
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 [Traffic counter]
-[m:ss]
-[h:mm:ss]
-[d hh:mm:ss]
-[%miranda_userdata%\\statistics]
 [Couldn't read statistics file]
 [Traffic Counter]
 ;file \plugins\TrafficCounter\src\TrafficCounter.c
-[TrafficCounterWnd]
 [Font]
-[Arial]
 [Hide traffic window]
 [Clear the current (Now:) value]
 [Display/]
@@ -69,7 +62,6 @@
 [Visible accounts/]
 [Summary traffic for visible accounts]
 [Overall traffic]
-[Visible accounts/%s]
 [Hide now]
 [Day]
 [Week]
@@ -83,13 +75,3 @@
 [Traffic counter notification]
 [%d kilobytes sent]
 [%d kilobytes received]
-;file \plugins\TrafficCounter\src\vars.c
-[overall]
-[summary]
-[now]
-[sent]
-[received]
-[both]
-[total]
-[tc_GetTraffic]
-[tc_GetTime]

@@ -24,8 +24,6 @@
 [Unknown command. Send '/commands' for list.]
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 [You can't send messages in question mode.]
-[Admin]
-[Normal]
 [Omegle is a great way of meeting new friends!]
 [You]
 ;file \protocols\Omegle\src\communication.cpp

@@ -32,10 +32,8 @@
 [Ignore these clients (separated by semicolons):]
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
-[static]
 [changed client to %s (was %s)]
 [changed client to %s]
-[Miranda NG ICQ 0.93.5.3007]
 [%s (was %s)]
 [) changed client to ]
 [Client change notifications:]
@@ -48,10 +46,8 @@
 [PopUps]
 [ClientChangeNotify: Client changed]
 [ClientChangeNotify]
-[ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
 ;file \plugins\ClientChangeNotify\src\Misc.h
-[open]
 [Error #%d]
 [Can't open log file ]
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
@@ -63,4 +59,3 @@
 [Open contact history]
 [Open log file]
 [Do nothing]
-[gmail;skype;/Miranda[0-9A-F]{8}/]

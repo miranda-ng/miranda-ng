@@ -119,8 +119,6 @@
 [Action]
 ;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-;file \plugins\Popup\src\common.h
-[debug]
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
@@ -129,8 +127,6 @@
 [This is a notification message]
 [This is a warning message]
 [This is an error message]
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]
@@ -144,13 +140,11 @@
 [Disable popups]
 [Enable &popup module]
 [Disable &popup module]
-[dir]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 [Fade in/out]
 ;file \plugins\Popup\src\opt_class.cpp
-[CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ;file \plugins\Popup\src\opt_gen.cpp
 [Width]
@@ -160,15 +154,11 @@
 [upper right corner]
 [horizontal]
 [vertical]
-[Global Status]
-[Protocol Status/%hs]
 [You cannot specify a value lower than %d and higher than %d.]
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 [Popup Plus Warning]
-[Cancel]
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-[PopupPlusDlgBox]
 [Skin preview]
 [Just take a look at this skin... ;)]
 [Show clock]
@@ -177,24 +167,16 @@
 [Enable Aero Glass (Vista+)]
 [Use Windows colours]
 [Use advanced text render]
-[Global settings]
 [Refresh List]
 ;file \plugins\Popup\src\popup_thread.cpp
-[PopupThreadManagerWnd]
 ;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-[PopupMenuHostWnd]
 ;file \plugins\Popup\src\services.cpp
-[WorkerW]
 [Error]
 [Warning]
 [Notify]
 ;file \plugins\Popup\src\skin.cpp
-[res:]
-[Skin]
-[* Popup Classic]
-[\\skins\\popup]
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]

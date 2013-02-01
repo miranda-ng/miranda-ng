@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.0.7.3
+;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
 ;file \plugins\Console\res\resource.rc
@@ -30,8 +30,6 @@
 [Pause logging in all tabs]
 [Close tab (Ctrl+W)]
 [*** Console started ***]
-[Data received]
-[Data sent]
 [*** Console paused ***]
 [*** Console resumed ***]
 [*** Console cleared ***]
@@ -39,8 +37,6 @@
 [Services]
 [Console]
 [Text]
-[Background]
-[Courier]
 [&Help]
 [Text Files (*.txt)]
 [All Files]

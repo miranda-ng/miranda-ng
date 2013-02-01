@@ -49,7 +49,6 @@
 [SMS Confirmation from %s]
 ;file \plugins\SMS\src\recvdlg.cpp
 [Received SMS Confirmation]
-[Unknown event type]
 ;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 [Add Number To The Multiple List]
@@ -65,10 +64,7 @@
 [No Numbers]
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
 [Invalid phone number]
-[ SMS]
 [<< Single]
-;file \plugins\SMS\src\SMSConstans.h
-[Arial]
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]

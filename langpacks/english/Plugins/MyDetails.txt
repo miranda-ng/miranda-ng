@@ -63,11 +63,6 @@
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 ;file \plugins\MyDetails\src\frame.cpp
-[MyDetailsFrame]
-[MyDetailsFrameContainer]
-[<no nickname>]
-[<no status message>]
-[<nothing playing>]
 [Nickname]
 [Status]
 [Status Message]

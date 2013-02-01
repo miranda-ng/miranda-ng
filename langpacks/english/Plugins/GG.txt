@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: x.x.x.x
+;  Version: 0.11.0.2
 ;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
@@ -84,10 +84,6 @@
 [Sign out all sessions]
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [Can not create avatars cache directory. ERROR: %d: %s\n%s]
-[jpg]
-[gif]
-[png]
-[\\%s avatar.%s]
 [Can not create avatar file. ERROR: %d: %s\n%s]
 [Can not open avatar file. ERROR: %d: %s\n%s]
 ;file \protocols\Gadu-Gadu\src\core.cpp
@@ -103,7 +99,6 @@
 [Gadu-Gadu servers are now down. Try again later.]
 [Unknown]
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
-[<none>]
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 [Connection cannot be established. errno=%d: %s]
 [Age:]
@@ -117,8 +112,6 @@
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 [Female]
-[GMT%+d:%02d]
-[GMT]
 [<not specified>]
 [Network]
 [General]
@@ -145,21 +138,17 @@
 [Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
 [Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
 ;file \protocols\Gadu-Gadu\src\gg.cpp
-[WinSock %u: Unknown error.]
-[WinSock %d: %s]
 [HTTP failed memory]
 [HTTP failed connecting]
 [HTTP failed resolving]
 [HTTP failed reading]
 [HTTP failed writing]
 [Unknown HTTP error]
-[%s\\*.(null)]
 [&Unblock]
 [&Block]
 [Contact list]
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
-[%s\\%s\\ImageCache]
 [Gadu-Gadu Number]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
@@ -191,17 +180,13 @@
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-[w+b]
 [Image cannot be written to disk.]
 [Delete image from the list]
 [Save image to disk]
 [Image from %s]
 [Image for %s]
 [Select picture to send]
-[bmp]
-[jpeg]
 [Can not create image cache directory. ERROR: %d: %s\n%s]
-[%.*s (%u)%s]
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 [Can not open image file. ERROR: %d: %s\n%s]
 [Image exceeds maximum allowed size of 255 KB.]

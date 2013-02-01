@@ -99,17 +99,11 @@
 [Copy Away Message]
 [&Go to URL in Away Message]
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[STUDIO]
-[Winamp v1.x]
-[ - Winamp]
-[SimpleStatusMsg]
-[%rand(]
 [Change Status Message]
 [Open Status Message Dialog]
 [Status Message]
 [Status Message...]
 [%s (locked)]
-[winampsong]
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 [Miranda Related\tget the date (Simple Status Message compatible)]
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp

@@ -2,9 +2,10 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
+[OTR (Off-the-Record) plugin for Miranda NG]
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 [Generating new private key - please wait.]
@@ -44,16 +45,9 @@
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
 [&Yes]
-;file \plugins\MirOTR\MirOTR\src\dialogs.cpp
-[SMP failed]
-[SMP successful]
-[Received an SMP update]
-[SMP requires user password (NOT IMPL YET)]
 ;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-[LOAD MIROTR]
-[UNLOAD MIROTR]
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 [Stop OTR]
@@ -139,37 +133,13 @@
 [OTR: SecureIM installed]
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-[MirOTRPopUpMenuProcessor]
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Services]
-[READ privkey]
 ;file \plugins\MirOTR\MirOTR\src\otr.cpp
-[OTR_GUI_POLICY]
-[OTR_GUI_CREATE_PRIVKEY]
 [Would you like to generate a new private key for this protocol?]
 [Generating new private key.]
 [Please wait.]
-[OTR_GUI_IS_LOGGED_IN]
-[OTR_GUI_INJECT_MESSAGE]
-[INJECT]
-[OTR_GUI_NOTIFY]
-[OTR_GUI_DISPLAY_OTR_MESSAGE]
-[OTR: Update Context List]
-[OTR_GUI_PROTOCOL_NAME]
-[OTR_GUI_NEW_FUNGERPRINT]
-[OTR_GUI_WRITE_FINGERPRINTS]
 [Would you like to save the current fingerprint list?]
-[OTR_GUI_GONE_SECURE]
-[OTR_GUI_GONE_INSECURE]
-[OTR_GUI_STILL_SECURE]
 [OTR Log Message]
 ;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp
-[SENDING]
-[OTR message without PREF_BYPASS_OTR]
-[OTR - sending raw message]
-[OTR - receiving message]
-;file \plugins\MirOTR\MirOTR\src\utils.cpp
-[%s Message]
-[%s Warning]
-[%s Error]

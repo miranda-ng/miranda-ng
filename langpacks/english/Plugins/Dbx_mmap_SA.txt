@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver
-;  Version: x.x.x.x
+;  Version: 0.7.5.4
 ;  Authors: 
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
@@ -65,10 +65,7 @@
 [Password is too short!]
 [Passwords do not match!]
 [Wrong password!]
-;file \plugins\Dbx_mmap_SA\src\init.cpp
-[db3x secure mmap database support]
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[cryptors\\%s]
 [Sorry, but your database encrypted with unknown module]
 [Error]
 [Crypto modules not found]

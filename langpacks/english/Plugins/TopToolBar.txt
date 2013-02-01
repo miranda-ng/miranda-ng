@@ -3,7 +3,7 @@
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
 ;  Version: 0.8.0.1
-;  Authors: 
+;  Authors: Bethoven
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 ;file \plugins\TopToolBar\res\main.rc
@@ -22,14 +22,10 @@
 [...]
 [Path:]
 [Set]
-;file \plugins\TopToolBar\src\common.h
-[TopToolbarButtonClass]
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
-[Execute Path]
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 [TopToolBar]
-;file \plugins\TopToolBar\src\toolbarwnd.cpp
-[Toolbar]
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
+[Toolbar]

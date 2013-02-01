@@ -365,7 +365,6 @@
 [Skins]
 [Contact list]
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
-[FOO]
 [Add permanently]
 [Revert to default]
 [Default (global setting)]
@@ -387,7 +386,6 @@
 [Reset view mode]
 [Configure view modes]
 [Setup accounts]
-[EventArea]
 [Event Area]
 [My Contacts]
 [%s Connecting]
@@ -398,7 +396,6 @@
 [Parameter mismatch]
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
 [Service failure]
-[EventAreaClass]
 [Frame titles]
 [Contact list local time]
 [Selected Text]
@@ -409,21 +406,13 @@
 [Tool Window]
 [Thin border]
 [No border]
-;file \plugins\Clist_nicer\src\config.cpp
-[An application error has occured: %s]
-[TabSRMM runtime error]
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 [Clist docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
-[*.clist\0]
 [Load and apply]
 ;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
-;file \plugins\Clist_nicer\src\statusfloater.cpp
-[StatusFloaterClass]
-[ContactFloaterClass]
-[sfl]
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 [And]
@@ -444,7 +433,6 @@
 [Clear current View Mode]
 [Select a view mode]
 [Clear view mode and return to default display]
-[View modes]
 [View Modes]
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
@@ -471,8 +459,6 @@
 [Show TitleBar]
 [Skinned frame]
 [Floating]
-[mf_update_evt_%d]
-[FramesContainer]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
@@ -481,5 +467,3 @@
 [&New SubGroup]
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
-;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
-[CoolSBSubclassPtr]

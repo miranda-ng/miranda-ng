@@ -78,13 +78,9 @@
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
-;file \plugins\Quotes\src\CreateFilePath.cpp
-[\\Quotes\\]
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
-[ <a href="]
 [Enter positive number.]
-[open]
 ;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 [Refresh All Quotes\\Rates]
@@ -97,7 +93,6 @@
 [Edit Settings...]
 [Network]
 ;file \plugins\Quotes\src\HTTPSession.cpp
-[Dioksin]
 [Quotes HTTP connections]
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
@@ -110,39 +105,12 @@
 [Swap button]
 [Import]
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Value]
-[Name]
-[Setting]
-[Module]
-[Contact]
-[Contacts]
-[type]
-[byte]
-[word]
-[dword]
-[asciiz]
-[wchar]
-[utf8]
-[blob]
 [Xml File (*.xml)]
 [All files (*.*)]
-[xml]
-[Group]
-;file \plugins\Quotes\src\Locale.cpp
-[Control Panel\\International]
-[dd/MM/yy]
-[yyyy-MM-dd]
-[H:mm]
-[HH:mm]
-[sShortDate]
-[sLongDate]
-[sShortTime]
-[sTimeFormat]
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
 ;file \plugins\Quotes\src\QuoteChart.cpp
-[DioksinChart]
 [Log File]
 [Miranda's History]
 [All]
@@ -152,34 +120,9 @@
 [Last Year]
 [User-Defined]
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Unknown]
-[symbol]
-[description]
-[section]
-[quote]
-[name]
-[Provider]
-[ref]
-[url]
-[Begin contacts refreshing]
-[End contacts refreshing]
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
-[sid]
-[stock]
-[oldPrice]
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[currency_converter_result]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
-;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
-[ref_]
-[setCompanyId(]
-[var _companyName = ]
-[Open]
-[snap-data]
-;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
-[\\nCurrent = %r\\nPrevious = %p]
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 [Quote Name]
@@ -204,16 +147,10 @@
 [Day's Low]
 [Previous Close]
 [Change]
-;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
-[&f=snl1ohgpc1]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
-[log]
 [Enter integer value]
 [Enter log file name.]
 [Enter log file format.]
 [Enter history format.]
 [Enter popup window format.]
-;file \plugins\Quotes\src\XMLEngineMI.cpp
-[version]
-[encoding]

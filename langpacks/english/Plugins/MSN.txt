@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN
-;  Version: x.x.x.x
+;  Version: 0.11.0.2
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
@@ -87,10 +87,6 @@
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 ;file \protocols\MSN\src\msn_links.cpp
-[add?]
-[chat?]
-[voice?]
-[video?]
 [MSN Link Protocol]
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
@@ -112,16 +108,6 @@
 [&Block]
 [&Start Netmeeting]
 ;file \protocols\MSN\src\msn_misc.cpp
-[%%miranda_userdata%%\\Avatars\\%s]
-[%s\\Avatars\\%s]
-[\\%s avatar.]
-[jpg]
-[bmp]
-[png]
-[gif]
-[unk]
-[%s\\%s\\CustomSmiley]
-[Miranda]
 [Notify]
 [Error]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
@@ -167,8 +153,6 @@
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 [Offline messaging is not allowed for LCS contacts]
 ;file \protocols\MSN\src\msn_svcs.cpp
-[Music]
-[No Title]
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp

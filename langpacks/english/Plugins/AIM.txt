@@ -143,9 +143,6 @@
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 ;file \protocols\AimOscar\src\links.cpp
-[addbuddy?]
-[goim?]
-[gochat?]
 [AIM Link Protocol]
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
@@ -224,4 +221,3 @@
 [Please, enter a username in the options dialog.]
 [Please, enter a password in the options dialog.]
 [Failed to open file: %s %s]
-[open]

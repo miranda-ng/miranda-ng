@@ -105,7 +105,6 @@
 [WAITING...]
 [UNKNOWN]
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[archive]
 [Error occured when zipping the file(s).]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]

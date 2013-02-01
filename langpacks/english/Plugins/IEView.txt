@@ -48,8 +48,6 @@
 [(Unknown Contact)]
 [ requested authorisation]
 [ was added.]
-;file \plugins\IEView\src\IEView.cpp
-[about:blank]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [Error]
 ;file \plugins\IEView\src\Options.cpp

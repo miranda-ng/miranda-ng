@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: dbchecker.dll
 ;  Plugin: Database Checker
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -61,18 +61,8 @@
 [Error]
 [Database driver '%s' doesn't support checking.]
 [Database]
-[ProfileDir]
-[./Profiles]
-[%.2lf MB]
 [Total size]
 [Wasted]
-[\\Profiles]
-[[ini]\\]
-[[prf]\\]
-[Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe]
-[Path]
-[[reg]\\]
-[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
 [Miranda Databases (*.dat)]
 [All Files]
 ;file \plugins\DbChecker\src\wizard.cpp

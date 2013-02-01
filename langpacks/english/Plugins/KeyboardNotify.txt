@@ -91,17 +91,7 @@
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 [** Unknown contacts **]
-;file \plugins\KeyboardNotify\src\keyboard.cpp
-[Kbd%d]
-[\\Device\\KeyboardClass%d]
-[\\\\.\\Kbd%d]
-;file \plugins\KeyboardNotify\src\main.cpp
-[screen-saver]
-[%s/FlashEvent]
-[%s/ExitEvent]
 ;file \plugins\KeyboardNotify\src\options.cpp
-[Miranda]
-[Windows]
 [left->right]
 [right->left]
 [left<->right]
@@ -114,7 +104,6 @@
 [Protocol]
 [Keyboard Notify Theme]
 [All Files]
-[knt]
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]
 [None]

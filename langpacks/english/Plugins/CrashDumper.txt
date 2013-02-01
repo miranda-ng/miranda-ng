@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: CrashDumper
-;  Version: x.x.x.x
+;  Version: 0.0.4.22
 ;  Authors: 
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
@@ -39,8 +39,6 @@
 [Open miranda-vi.org]
 [Copy Version Info to clipboard]
 [Show Version Info]
-;file \plugins\CrashDumper\src\dumper.cpp
-[Not ]
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]

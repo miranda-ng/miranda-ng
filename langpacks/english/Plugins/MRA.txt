@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: x.x.x.x
+;  Version: 2.0.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -100,8 +100,6 @@
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 [plugin connections]
-;file \protocols\MRA\src\MraChat.cpp
-[get]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 ;file \protocols\MRA\src\MraPopUp.cpp

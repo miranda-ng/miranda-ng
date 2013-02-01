@@ -66,9 +66,6 @@
 [&New Alarm...]
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[ ffw]
-[Fast forward!]
-[Windows Media Player]
 [Unknown command issued: "%s"]
 [Set Alarm]
 ;file \plugins\Alarms\src\alarm_win.cpp
@@ -80,8 +77,6 @@
 ;file \plugins\Alarms\src\frame.cpp
 [Hide Reminders]
 [Show Reminders]
-[AlarmsFrame]
-[AlarmsFrameContainer]
 [Frames]
 [Alarm Reminders]
 ;file \plugins\Alarms\src\icons.cpp

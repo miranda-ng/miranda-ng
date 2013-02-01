@@ -48,8 +48,6 @@
 [Send Instant Message]
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 ;file \plugins\SeenPlugin\src\main.cpp
-[Any to Idle/Not Idle/Unknown]
-[Any to /Idle or empty]
 [LastSeen]
 [User status change]
 [Changed to Online]
@@ -64,7 +62,6 @@
 [Contacts]
 [PopUps]
 ;file \plugins\SeenPlugin\src\seen.h
-[Debug]
 [%n is %s (%u)]
 [%i(%r)%bWas %o]
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
@@ -139,7 +136,5 @@
 [Dec.]
 [<never seen>]
 [Idle]
-[ProtoUnknown]
-[\x0D\x0A]
 [Unknown]
 [Not Idle]

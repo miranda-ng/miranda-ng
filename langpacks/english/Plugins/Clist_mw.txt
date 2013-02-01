@@ -210,7 +210,4 @@
 [Visible]
 [Show TitleBar]
 [Floating]
-[FramesContainer]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
-[Statushelper]
-[Status]

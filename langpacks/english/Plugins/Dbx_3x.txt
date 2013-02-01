@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_3x.dll
 ;  Plugin: Dbx_3x
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x\res\resource.rc
@@ -30,9 +30,3 @@
 [&Delete]
 [&Move/Rename]
 [&Leave]
-;file \plugins\Db3x\src\dbcache3x.cpp
-[%s (Write error)]
-;file \plugins\Db3x\src\dbintf3x.cpp
-[Invalid database module]
-;file \plugins\Db3x\src\init.cpp
-[db3x database support]

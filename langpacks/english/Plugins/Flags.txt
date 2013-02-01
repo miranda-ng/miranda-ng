@@ -14,8 +14,3 @@
 [Use &IP-to-country database for country detection]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
-;file \plugins\CountryFlags\src\ip2country.cpp
-[BIN]
-[Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]
-[Bin Converter]
-[Done!\n'ip-to-country.bin' has been created in current directory.]

@@ -79,13 +79,7 @@
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
 [Error during sending text to web page]
-[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
 [Error during getting user key from web page: %s]
 [Paste expire date]
 [Never]
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
-[methodResponse]
-[params/param/value/array/data/value/int]
-[params/param/value/array/data]
-[value]
-[string]

@@ -9,6 +9,7 @@
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 [Changing layout:]
+["Current word" mode]
 [Changing layout (alternative):]
 [Inverting lettercase:]
 [Options]
@@ -46,7 +47,3 @@
 [Changing Case]
 [Message Sessions]
 [PopUps]
-;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
-;file \plugins\ChangeKeyboardLayout\src\options.cpp
-[Ghbdtn? rfr ltkf&]

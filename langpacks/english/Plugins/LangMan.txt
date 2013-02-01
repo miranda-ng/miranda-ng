@@ -30,15 +30,9 @@
 [Please restart Miranda NG for your changes to take effect.]
 [Check for new &versions of Language Packs periodically]
 [&Download Language]
-;file \plugins\LangMan\src\langpack.cpp
-[Plugins\\Language\\]
-[English (default)]
-[%s\\Plugins\\%s]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
-[Docs\\]
 ;file \plugins\LangMan\src\options.cpp
-[UXTHEME]
 [All installed plugins are included.]
 [(incompatible)]
 [Unknown]

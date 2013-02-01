@@ -36,8 +36,6 @@
 [No popups for RSS contacts]
 [No popups for read messages]
 ;file \plugins\NewEventNotify\src\main.cpp
-[TMsgWindow]
-[TfrmContainer]
 [Message Session]
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp

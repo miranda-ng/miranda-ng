@@ -54,8 +54,6 @@
 ;file \plugins\FloatingContacts\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 [Error]
-;file \plugins\FloatingContacts\src\fltcont.h
-[MirandaThumbsWnd]
 ;file \plugins\FloatingContacts\src\main.cpp
 [Remove thumb]
 [Show all thumbs]

@@ -48,8 +48,6 @@
 [Enable all pings]
 [Options...]
 [Hosts...]
-;file \plugins\Ping\src\log.cpp
-[edit]
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 [Enable All Pings]
@@ -63,7 +61,6 @@
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
 [Failed to initialize. Plugin disabled.]
-[Local\\ThreadWaitEvent]
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 [Show stats]
@@ -71,7 +68,6 @@
 [AVG %.1lf ms]
 [MAX %hd ms]
 [MIN %hd ms]
-[GraphWindow]
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
 [%s - reply, %d]
@@ -80,8 +76,6 @@
 [enabled]
 [double clicked]
 [Ping]
-[List]
-[Background]
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 ;file \plugins\Ping\src\utils.cpp

@@ -26,6 +26,7 @@
 [Automatically expand "settings" when Database Editor ++ starts]
 [Use known modules list]
 [Warn when deleting modules]
+["Open user tree in DBE++" menu item]
 [Use popups when watched settings change values]
 [Modules to ALWAYS mark as known (e.g core modules)]
 [Put a space or comma between each module name]

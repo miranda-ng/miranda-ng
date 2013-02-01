@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Dbx_mmap
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
@@ -36,15 +36,6 @@
 [Database Error]
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
 [Database Panic]
-;file \plugins\Db3x_mmap\src\dbcache.cpp
-[%s (MapViewOfFile failed. Code: %d)]
-[%s (CreateFileMapping failed. Code: %d)]
-[%s (Too large increment)]
-;file \plugins\Db3x_mmap\src\dbmodulechain.cpp
-[%s (Module Name not unique)]
-[%s (Module Offset not unique)]
-;file \plugins\Db3x_mmap\src\init.cpp
-[db3x mmap database support]
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 [Aggressive: random junk at %08X: skipping]

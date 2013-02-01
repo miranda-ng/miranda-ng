@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: HistorySweeperLight
-;  Version: x.x.x.x
+;  Version: 0.0.0.7
 ;  Authors: 
 ;============================================================
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc

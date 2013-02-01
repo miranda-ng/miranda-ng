@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
@@ -49,7 +49,6 @@
 ;file \protocols\Yahoo\src\avatar.cpp
 [Yahoo Error]
 [Avatar upload failed!?!]
-[ avatar]
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
@@ -72,9 +71,6 @@
 [The message send timed out.]
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 ;file \protocols\Yahoo\src\links.cpp
-[addfriend?]
-[sendim?]
-[chat?]
 [YAHOO Link Protocol]
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
@@ -98,11 +94,6 @@
 [Please enter your yahoo id in Options/Network/Yahoo]
 [Please enter your yahoo password in Options/Network/Yahoo]
 [Yahoo Login Error]
-;file \protocols\Yahoo\src\search.cpp
-[<Yahoo >]
-[<Lotus Sametime>]
-[<LCS>]
-[<Windows Live (MSN)>]
 ;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 [You need to be connected to refresh your buddy list]

@@ -25,7 +25,6 @@
 [Variables...]
 ;file \plugins\Variables\src\help.cpp
 [Token]
-[unknown]
 [Tokens]
 [Input]
 [Cancel]
@@ -36,23 +35,6 @@
 [Services]
 [Variables]
 ;file \plugins\Variables\src\parse_external.cpp
-[STUDIO]
-[Winamp v1.x]
-[ - Winamp]
 [Stopped]
-[[Stopped]]
-[[Paused]]
 [Paused]
-[Playing]
-;file \plugins\Variables\src\parse_miranda.cpp
-[appdata]
-[username]
-[mydocuments]
-[desktop]
-;file \plugins\Variables\src\parse_system.cpp
-[\\Processor(_Total)\\% Processor Time]
-[\\Process(%s)\\%% Processor Time]
-[\\System\\System Up Time]
-;file \plugins\Variables\src\tokenregister.cpp
-[alias]
 ;file \plugins\Variables\src\variables.cpp
