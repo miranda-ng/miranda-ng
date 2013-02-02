@@ -338,7 +338,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		mi.hotKey = 0;
 		mi.position = -0x7FFFFFFF;
-		mi.pszName = LPGEN("Call Splash Service");
+		mi.ptszName = LPGENT("Call Splash Service");
 		mi.pszService = "Splash/Test";
 		Menu_AddMainMenuItem(&mi);
 	#endif

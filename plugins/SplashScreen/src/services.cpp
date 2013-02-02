@@ -50,7 +50,9 @@ INT_PTR TestService(WPARAM wParam,LPARAM lParam)
 
 	OPENFILENAME ofn={0};
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-	ofn.lpstrFilter = _T("PNG and BMP files\0*.png;*.bmp\0\0");
+	TCHAR tmp[MAX_PATH];
+	mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.png, *.bmp)%c*.png;*.bmp%c%c"), TranslateT("Graphic files"), 0, 0, 0);
+	ofn.lpstrFilter = tmp;
 	ofn.hwndOwner=0;
 	ofn.lpstrFile = szTempPath;
 	ofn.nMaxFile = MAX_PATH;
