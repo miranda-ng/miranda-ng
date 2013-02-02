@@ -919,7 +919,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 			return 1;
 		}
 		_tcsncat(szPluginPath,_T("\\HTTPServer\\"), MAX_PATH);
-		int err = CreateDirectoryTree(szPluginPath)
+		int err = CreateDirectoryTree(szPluginPath);
 		if((err != 0) && (err != ERROR_ALREADY_EXISTS))
 		{
 			MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
