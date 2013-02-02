@@ -6,26 +6,26 @@
 ;  Authors: egoDust
 ;============================================================
 [Problem, registration missing/deleted.]
-Fehler, Registrierung fehlgeschlagen/gelˆscht.
+Fehler, Registrierung fehlgeschlagen/gel√∂scht.
 [Successfully created shell registration.]
 Erfolgreich im Explorer integriert.
 [Not Approved]
-Nicht best‰tigt
+Nicht best√§tigt
 [Approved]
-Best‰tigt
+Best√§tigt
 [Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Bist du dir sicher? Alle Einstellungen im Profil sowie alle Registrierungseintr‰ge, die Miranda in den Explorer einbinden, werden gelˆscht
+Bist du dir sicher? Alle Einstellungen im Profil sowie alle Registrierungseintr√§ge, die Miranda in den Explorer einbinden, werden gel√∂scht
 [Disable/Remove shlext]
 ShlExt deaktivieren/entfernen
 [Shell context menus]
-Kontextmen¸s (Explorer)
+Kontextmen√ºs (Explorer)
 ;IDD_SHLOPTS
 [Display contacts in their assigned groups (if any)]
 Zeige Kontakte in ihren zugewiesenen Gruppen
 [Only if/when the contact list is using them]
 Nur, wenn Kontaktliste Gruppen anzeigt
 [Display hidden, ignored or temporary contacts]
-Versteckte, ignorierte oder tempor‰re Kontakte anzeigen
+Versteckte, ignorierte oder tempor√§re Kontakte anzeigen
 [Shell Status]
 Status der Einbindung
 [Do not display the profile name in use]
@@ -33,12 +33,12 @@ Namen des benutzten Profils nicht anzeigen
 [Contact Status]
 Kontaktstatus
 [Show contacts that you have set privacy rules for]
-Kontakte anzeigen, f¸r die andere Privatsph‰renregeln gelten
+Kontakte anzeigen, f√ºr die andere Privatsph√§renregeln gelten
 [Do not show status icons in menus]
-Kein Statusicon in den Men¸s anzeigen
+Kein Statusicon in den Men√ºs anzeigen
 [Do not show contacts that are offline, even if my contact list does]
-Keine Offlinekontakte anzeigen, unabh‰ngig von Einstellungen der Kontaktliste
+Keine Offlinekontakte anzeigen, unabh√§ngig von Einstellungen der Kontaktliste
 [Clear entries]
-Eintr‰ge lˆschen
+Eintr√§ge l√∂schen
 [Recently]
 Zuletzt

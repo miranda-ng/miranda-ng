@@ -15,9 +15,9 @@ Last.FM
 Bitte vergessen Sie nicht, Ihren Last.fm-Nutzernamen und Passwort anzugeben!
 
 [Timeout (msec) for separate thread handles checking.]
-Timeout (in msec) für separate Thread Verarbeitungsprüfung.
+Timeout (in msec) fÃ¼r separate Thread VerarbeitungsprÃ¼fung.
 [Players list\n(F1 for note)]
-Liste der Player\n(F1 für Hilfe drücken)
+Liste der Player\n(F1 fÃ¼r Hilfe drÃ¼cken)
 [Formats]
 Formate
 [Unicode to Ansi translation codepage:]
@@ -25,40 +25,40 @@ Unicode- nach ANSI-Kodierung:
 [Refresh time, sec]
 Erneuerungszeit (Sek.)
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-Erneuerungszeit (Sek.) ist die Zeit, um Musikinfo, Statistik und Statusnachrichten zu aktualisieren. 0 deaktiviert das automatische Aktualisieren. Zahlen über 499 werden als Millisekunden gewertet.
+Erneuerungszeit (Sek.) ist die Zeit, um Musikinfo, Statistik und Statusnachrichten zu aktualisieren. 0 deaktiviert das automatische Aktualisieren. Zahlen Ã¼ber 499 werden als Millisekunden gewertet.
 [Check file time]
-Dateizeit prüfen
+Dateizeit prÃ¼fen
 [Check file date and time to tag updates while playing.]
-Überprüft Datum und Zeit der Datei auf Tag-Anderungen während der Wiedergabe.
+ÃœberprÃ¼ft Datum und Zeit der Datei auf Tag-Anderungen wÃ¤hrend der Wiedergabe.
 [Use process implantation]
 Prozess-Implantation nutzen
 [Use this option if WATrack freeze while player running. Slower processing.]
-Verwenden Sie diese Option, wenn WATrack während der Wiedergabe häufig einfriert. (Langsamere Verarbeitung!)
+Verwenden Sie diese Option, wenn WATrack wÃ¤hrend der Wiedergabe hÃ¤ufig einfriert. (Langsamere Verarbeitung!)
 [Other thread handle check]
 Alternativer Dateicheck bei Wiedergabe
 [Use this option if WATrack freeze while player running. Slower processing.]
-Verwenden Sie diese Option, wenn WATrack während der Wiedergabe häufig einfriert. (Langsamere Verarbeitung!)
+Verwenden Sie diese Option, wenn WATrack wÃ¤hrend der Wiedergabe hÃ¤ufig einfriert. (Langsamere Verarbeitung!)
 [Keep old file]
 Alte Datei beibehalten
 [Keep opened file as active, not newly founded.]
-Betrachte geöffnete Datei als aktiv, wenn keine neuere gefunden wird.
+Betrachte geÃ¶ffnete Datei als aktiv, wenn keine neuere gefunden wird.
 [Emulate Multimedia keys]
 Emuliere Multimedia-Tasten
 [Emulate multimedia keys presses to control palyer]
 Simuliert den Druck von Multimedia-Tasten, um einen Player aus dem WATrack-Frame heraus zu steuern.
 [Check all players]
-Prüfe alle Player
+PrÃ¼fe alle Player
 [Check all marked players for active (started and playing) or stop at first founded]
-Überprüft alle markierten Player darauf, ob sie gestartet sind und wiedergeben, oder stoppt bei dem ersten, der gefunden wird.
+ÃœberprÃ¼ft alle markierten Player darauf, ob sie gestartet sind und wiedergeben, oder stoppt bei dem ersten, der gefunden wird.
 [Cover filenames]
 Cover-Dateinamen
 [No any special notes for this player]
-Keine speziellen Hinweise zu diesem Player verfügbar!
+Keine speziellen Hinweise zu diesem Player verfÃ¼gbar!
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
 Benutze Player-Prozess-Injektion, um Informationen einfacher zu erhalten. Kann Antivirus- oder Firewall-Warnungen verursachen.
 
 [For more full info WinampSpam or foo_comserver (more powerful) components needs to be installed.]
-Für vollständige Informationen müssen das WinampSpam- oder das foo_comserver-Plugin installiert sein.
+FÃ¼r vollstÃ¤ndige Informationen mÃ¼ssen das WinampSpam- oder das foo_comserver-Plugin installiert sein.
 [Winamp API used to get more info]
 Bitte Winamp-API benutzen, um mehr Infos zu bekommen. 
 [All "unknown" players using Winamp API]
@@ -68,11 +68,11 @@ Alle "unbekannten" Player benutzen das Winamp-API.
 [Replace underlines with spaces]
 Unterstriche durch Leerzeichen ersetzen
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-Unterstriche "_" werden durch Leerzeichen ersetzt, manchmal ganz nützlich
+Unterstriche "_" werden durch Leerzeichen ersetzt, manchmal ganz nÃ¼tzlich
 
-;Maßeinheit
+;MaÃŸeinheit
 [File size]
-Maßeinheit
+MaÃŸeinheit
 [Precision]
 Genauigkeit
 
@@ -88,9 +88,9 @@ VBR oder CBR
 [Player name letters]
 Playernamen-Buchstaben
 [All uppercase]
-Alle groß schreiben
+Alle groÃŸ schreiben
 [Do not change]
-Nicht verändern
+Nicht verÃ¤ndern
 [All lowercase]
 Alle klein schreiben
 [lowercase %type%]
@@ -105,43 +105,43 @@ Status (Allgemein)
 [Simple Template mode]
 Vereinfachter Vorlagenmodus
 [If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-Wenn diese Einstellung aktiv ist, muss lediglich eine Vorlage für alle Protokolle, Protokoll- und Playerstatus definiert werden.
+Wenn diese Einstellung aktiv ist, muss lediglich eine Vorlage fÃ¼r alle Protokolle, Protokoll- und Playerstatus definiert werden.
 [Insert in messages]
-In Nachrichten einfügen
+In Nachrichten einfÃ¼gen
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Wenn diese Einstellung aktiv ist, werden die Musikinfos durch das Drücken eines Hotkeys in das Nachrichtenfenster eingefügt.
+Wenn diese Einstellung aktiv ist, werden die Musikinfos durch das DrÃ¼cken eines Hotkeys in das Nachrichtenfenster eingefÃ¼gt.
 [Use status messages]
 Statusnachrichten verwenden
 [If this option is "ON", status text will be replaced by music info.]
 Wenn diese Einstellung aktiv ist, wird die Statusnachricht durch Musikinfos ersetzt.
 [Use listening info]
-"Ich höre gerade"-Info verwenden
+"Ich hÃ¶re gerade"-Info verwenden
 [If this option is "ON", "Listening To" protocol property will be filled by music info.]
-Wenn diese Einstellung aktiv ist, wird das "Was ich gerade höre"-Feld (z.B. in MSN oder Jabber) mit Musikinfos gefüllt.
+Wenn diese Einstellung aktiv ist, wird das "Was ich gerade hÃ¶re"-Feld (z.B. in MSN oder Jabber) mit Musikinfos gefÃ¼llt.
 [Use XStatus]
 'XStatus Musik' verwenden
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus zu "Musik", und Musikinfos werden in die XStatus-Nachricht eingefügt.
+Wenn diese Einstellung aktiv ist, Ã¤ndert sich der XStatus zu "Musik", und Musikinfos werden in die XStatus-Nachricht eingefÃ¼gt.
 [Independed XStatus]
-Unabhängiger XStatus
+UnabhÃ¤ngiger XStatus
 [If this option is "ON", XStatus doesn't depend of protocol status.]
-Wenn diese Einstellung aktiv ist, wird der XStatus "Musik" immer und unabhängig vom normalen Status des Protokolls gesetzt.
+Wenn diese Einstellung aktiv ist, wird der XStatus "Musik" immer und unabhÃ¤ngig vom normalen Status des Protokolls gesetzt.
 [Clear xStatus before set new one]
-XStatus zurücksetzen, bevor ein neuer gesetzt wird.
+XStatus zurÃ¼cksetzen, bevor ein neuer gesetzt wird.
 [xStatus will cleared before text changing and restored with new text later.]
-Der XStatus wird kurzzeitig zurückgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die XStatus-Nachricht erneut auszulesen.
+Der XStatus wird kurzzeitig zurÃ¼ckgesetzt, um bestimmte ICQ-Clients dazu zu zwingen, die XStatus-Nachricht erneut auszulesen.
 [Use existing XStatus]
 Vorhandenen XStatus verwenden
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Wenn diese Einstellung aktiv ist, wird ein bereits gesetzter XStatus nicht geändert, sondern nur dessen Nachricht von WATrack durch Musikinfos ersetzt.
+Wenn diese Einstellung aktiv ist, wird ein bereits gesetzter XStatus nicht geÃ¤ndert, sondern nur dessen Nachricht von WATrack durch Musikinfos ersetzt.
 [Only if 'Music' status was set]
 Nur bei 'XStatus Musik' aktiv werden
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus nur, wenn manuell der XStatus "Musik" gesetzt ist.
+Wenn diese Einstellung aktiv ist, Ã¤ndert sich der XStatus nur, wenn manuell der XStatus "Musik" gesetzt ist.
 [Keep 'Music' XStatus]
 'XStatus Musik' beibehalten
 [If this option is "ON", XStatus not changed when player shutdowned.]
-Wenn diese Einstellung aktiv ist, ändert sich der XStatus nach dem Beenden des Players nicht.
+Wenn diese Einstellung aktiv ist, Ã¤ndert sich der XStatus nach dem Beenden des Players nicht.
 [Set XStatus when...]
 Setze XStatus wenn...
 [any XStatus is set]
@@ -159,7 +159,7 @@ Plugin deaktiviert
 [Create Report]
 Bericht erstellen
 
-;Frame Controls (für Player-Kontrolle FFW usw.)
+;Frame Controls (fÃ¼r Player-Kontrolle FFW usw.)
 
 ; [Prev Hovered]
 
@@ -195,13 +195,13 @@ Bericht erstellen
 
 
 ; hab nichts passendes gefunden?! .... 
-; für Vorschläge dankbar ... @ CK
+; fÃ¼r VorschlÃ¤ge dankbar ... @ CK
 
 [Status (templates)]
 Status (Vorlagen)
 
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-Dies ist der vereinfachte Modus des Vorlageneditors. Die hier definierten Vorlagen werden für alle Protokolle, Protokoll- und Playerstatus übernommen.
+Dies ist der vereinfachte Modus des Vorlageneditors. Die hier definierten Vorlagen werden fÃ¼r alle Protokolle, Protokoll- und Playerstatus Ã¼bernommen.
 [Template]
 Vorlage
 [Chat Template]
@@ -224,7 +224,7 @@ Statusnachricht setzen
 [Enable XStatus message]
 XStatus-Nachricht setzen
 [Enable Tunes message]
-"Ich höre gerade"-Nachricht setzen
+"Ich hÃ¶re gerade"-Nachricht setzen
 
 [Save events in database]
 Ereignisse in Profildatei speichern
@@ -241,7 +241,7 @@ Auf ignorierte Anfragen antworten
 [User music info text]
 Musikinfo-Text des Nutzers
 [(%artist%, %title%, %album% and %year% macros can be used only)]
-(Nur die Variablen "%artist%, %title%, %album%, %year%" können benutzt werden!)
+(Nur die Variablen "%artist%, %title%, %album%, %year%" kÃ¶nnen benutzt werden!)
 
 [Frame (main)]
 Rahmen (Allgemein)
@@ -250,7 +250,7 @@ Info im Frame anzeigen
 [Show controls in the frame]
 Kontrollen im Frame anzeigen
 [Show volume controls]
-Lautstärkenregler anzeigen
+LautstÃ¤rkenregler anzeigen
 [Use Picture]
 Bild verwenden
 [Use cover instead of picture]
@@ -268,11 +268,11 @@ Schieberegler stylen
 [Show trackbar]
 Schieberegler zeigen
 [Cover padding]
-Cover Abstände
+Cover AbstÃ¤nde
 [Frame refresh time]
 Frame-Aktualisierungsrate
 [Use buttons gap]
-Abstand zwischen Knöpfen einfügen
+Abstand zwischen KnÃ¶pfen einfÃ¼gen
 [Hide frame when no music played]
 Frame ausblenden, wenn keine Musik gespielt wird
 [Hide frame when player not found]
@@ -303,7 +303,7 @@ Minimales Scrollende
 [Text effect]
 Texteffekte
 [Wrap]
-Zeilenübergang
+ZeilenÃ¼bergang
 [Roll]
 Rolleffekt
 [PingPong]
@@ -328,17 +328,17 @@ Einstellung exp.
 [Show in report]
 Im Report anzeigen
 [Freq. songs]
-Häufige Lieder
+HÃ¤ufige Lieder
 [Freq. artists]
-Häufige Interpreten
+HÃ¤ufige Interpreten
 [Freq. album]
-Häufige Alben
+HÃ¤ufige Alben
 [Freq. paths]
-Häufige Pfade
+HÃ¤ufige Pfade
 [Last played songs]
 Zuletzt gespielte Lieder
 [Song time]
-Liedlänge
+LiedlÃ¤nge
 [Sort log file]
 Logdatei sortieren
 [by Title]
@@ -346,19 +346,19 @@ nach Titel
 [by Date]
 nach Datum
 [by Count]
-nach Häufigkeit
+nach HÃ¤ufigkeit
 [by Path]
 nach Pfad
 [by Length]
-nach Länge
+nach LÃ¤nge
 [Reverse order]
 Reihenfolge umdrehen
 [Open report]
-Report öffnen
+Report Ã¶ffnen
 [Add report file ext.]
-Reportdateiendung anhängen
+Reportdateiendung anhÃ¤ngen
 [Report Items]
-Reporteinträge
+ReporteintrÃ¤ge
 
 [Attempts]
 Versuche
@@ -367,7 +367,7 @@ Sprache des Inhalts:
 [no language]
 Keine Sprache
 [Get Artist Info]
-Künstler-Infos holen
+KÃ¼nstler-Infos holen
 [Get Album Info]
 Album-Infos holen
 [Get Track Info]
@@ -375,9 +375,9 @@ Track-Infos holen
 [Disable scrobbling]
 Deaktiviere Scrobbling
 [Similar artists]
-Ähnliche Künstler
+Ã„hnliche KÃ¼nstler
 
-;Hauptmenü:
+;HauptmenÃ¼:
 [Disable Plugin]
 Plugin deaktivieren
 [Enable Plugin]
@@ -415,17 +415,17 @@ Testpopup
 [second line]
 Zweite Zeile
 [Use popup action buttons]
-Benutze Popup-Aktionen Schaltfläche
+Benutze Popup-Aktionen SchaltflÃ¤che
 
 [Global WATrack hotkey]
-Globaler Hotkey für WATrack
+Globaler Hotkey fÃ¼r WATrack
 [WATrack data insert hotkey]
-WATrack Musikinfo einfügen
+WATrack Musikinfo einfÃ¼gen
 [WATrack popup hotkey]
 WATrack Popups de-/aktivieren
 
 [WATrack Macro Info]
-WATrack - Variablen-Übersicht
+WATrack - Variablen-Ãœbersicht
 [player window title]
 Fenstertitel des Players
 [artist]
@@ -443,7 +443,7 @@ Bitrate
 [track number]
 Titelnummer
 [number of channels]
-Anzahl Kanäle
+Anzahl KanÃ¤le
 [samplerate]
 Samplerrate
 [total song length (sec)]
@@ -453,7 +453,7 @@ Aufnahmejahr
 [current song position (sec)]
 Bereits gespielte Zeit des Liedes in Sekunden
 [time/length * 100%]
-Zeit/Länge * 100%
+Zeit/LÃ¤nge * 100%
 [comment from tag]
 Kommentar aus Tag
 [player name]
@@ -461,7 +461,7 @@ Name des Players
 [player version]
 Version des Players
 [media file size]
-Dateigröße
+DateigrÃ¶ÃŸe
 [media file type]
 Dateiformat
 [VBR or not (empty)]
@@ -475,7 +475,7 @@ Codec, nur bei Videos
 [width, video only]
 Breite, nur bei Videos
 [height, video only]
-Höhe, nur bei Videos
+HÃ¶he, nur bei Videos
 [player version in text format]
 Playerversion in Text-Format
 [Lyric from ID3v2 tag]
@@ -483,14 +483,14 @@ Songtext aus dem ID3v2-Tag
 [Cover file path]
 Dateipfad zum Cover
 [Player volume (0-15)]
-Lautstärke des Players (0-15)
+LautstÃ¤rke des Players (0-15)
 [Player homepage URL]
 URL der Player-Homepage
 [player status (not translated)]
-Playerstatus (nicht übersetzt)
+Playerstatus (nicht Ã¼bersetzt)
 
 [FileSize text format]
-Dateigröße Textformat
+DateigrÃ¶ÃŸe Textformat
 
 [Popup Title / Text]
 Popuptitel/-Text
@@ -500,7 +500,7 @@ WATrack-Frametext
 [Share music list]
 Musikliste teilen
 [Text insertion to other Apps]
-Text in andere Anwendungen einfügen
+Text in andere Anwendungen einfÃ¼gen
 
 [Use frame]
 Frame verwenden
@@ -508,7 +508,7 @@ Frame verwenden
 [Use "Variables" plugin]
 "Variablen"-Modul verwenden
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-"Variables"-Plugin verwenden oder nicht. Mit diesem Plugin können erweiterte Funktionen verwendet werden, ohne dieses Plugin arbeitet WATrack schneller.
+"Variables"-Plugin verwenden oder nicht. Mit diesem Plugin kÃ¶nnen erweiterte Funktionen verwendet werden, ohne dieses Plugin arbeitet WATrack schneller.
 [Get Info from player]
 Infos vom Player beziehen
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
@@ -520,7 +520,7 @@ Einige Fehler melden.
 [Try to use OLE interface]
 Versuche OLE-Interface zu verwenden
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Versuche weitere Informationen von den Playern über das OLE-Interface zu beziehen. Wenn diese Einstellung deaktiviert ist, arbeitet das Plugin etwas schneller.
+Versuche weitere Informationen von den Playern Ã¼ber das OLE-Interface zu beziehen. Wenn diese Einstellung deaktiviert ist, arbeitet das Plugin etwas schneller.
 [Save settings in INI-file]
 Speichern der Einstellungen in einer INI-Datei
 [If this option is "ON", all plugin settings saved in ini-file.]
@@ -529,11 +529,11 @@ Wenn diese Einstellung aktiv ist, werden alle Plugin-Einstellungen in einer sepa
 [No-music text]
 "Keine Musik"-Text
 [I am listening "%title%"]
-Ich höre "%title%"
+Ich hÃ¶re "%title%"
 [IRC Template]
 IRC-Vorlage
 [/me listening "%title%"]
-/me hört "%title%"
+/me hÃ¶rt "%title%"
 [XStatus Title]
 XStatus-Titel
 [Status Template]
@@ -545,11 +545,11 @@ Liste der Protokolle
 [Use Status:]
 Verwende Status:
 [Next track]
-Nächst. Track
+NÃ¤chst. Track
 [Listening now]
-Gerade läuft
+Gerade lÃ¤uft
 [Paste played music info into message window or status text]
-Fügt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
+FÃ¼gt die abgespielte Musikinfos zum Nachrichtenfenster oder im Statustext ein.
 
 [Sorry, but you have no permission to obtain this info!]
 Entschuldigung, aber Sie haben keine Erlaubnis die Info zu erhalten!
@@ -579,9 +579,9 @@ Farbe
 Farbtabelle
 
 [Method '%s' not supported by automation object]
-Methode '%s' wird nicht vom gewählten Objekt unterstützt.
+Methode '%s' wird nicht vom gewÃ¤hlten Objekt unterstÃ¼tzt.
 [Variant does not reference an automation object]
 Diese Variante referenziert kein Automatisierungsobjekt.
 
 [Don't forget to enter Login and Password to use MyShows service]
-Bitte vergessen sie nicht ihr Login und Passwort für den MyShows Dienst einzutragen.
+Bitte vergessen sie nicht ihr Login und Passwort fÃ¼r den MyShows Dienst einzutragen.

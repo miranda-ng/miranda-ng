@@ -10,9 +10,9 @@ Aktionsliste
 [Where to use]
 Wo anzuwenden?
 [Menu item name:]
-Menüpunkt Name:
+MenÃ¼punkt Name:
 [Show only if variables return 1]
-Zeige nur falls Variable 1 zurückgibt
+Zeige nur falls Variable 1 zurÃ¼ckgibt
 [2 state button]
 2. Standtaste
 [2 state button/item]
@@ -20,9 +20,9 @@ Zeige nur falls Variable 1 zurückgibt
 [Save button/item state]
 Speicherstaste/Knopf
 [Normal button tooltip]
-Normale Tooltip Schaltfläche
+Normale Tooltip SchaltflÃ¤che
 [Pressed button tooltip]
-Gedrückter Schaltflächen Tooltip
+GedrÃ¼ckter SchaltflÃ¤chen Tooltip
 
 [Starting from]
 Ausgehend von
@@ -46,7 +46,7 @@ Ereignis nur einmalig senden
 Starte sofort
 
 [Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
+Plugin zum Verwalten von Hotkeys, EinfÃ¼gen von Texten sowie AusfÃ¼hren von Programmen und Diensten
 
 [Action manager]
 Aktionsmanager
@@ -54,23 +54,23 @@ Aktionsmanager
 [No Description]
 Keine Beschreibung
 [Text insert]
-Text einfügen
+Text einfÃ¼gen
 [Contact window]
 Kontaktfenster
 
 [Open contact window]
-Kontaktfenster öffnen
+Kontaktfenster Ã¶ffnen
 [Choose Contact]
-Kontakt auswählen
+Kontakt auswÃ¤hlen
 
 [Open File Folder]
-Öffne Dateiordner
+Ã–ffne Dateiordner
 [Open Profile Folder]
-Öffne Profilesordner
+Ã–ffne Profilesordner
 [Open Miranda Folder]
-Öffne Miranda IM Ordner
+Ã–ffne Miranda IM Ordner
 [Call service]
-Dienst ausführen
+Dienst ausfÃ¼hren
 [Result action]
 Ergebnisaktion
 [Do not show]
@@ -80,7 +80,7 @@ Popup zeigen
 [Show in messagebox]
 Zeige in Nachrichtenfenster
 [Insert into message]
-In Nachricht einfügen
+In Nachricht einfÃ¼gen
 [Result as Int]
 Ergebnis als Int
 [Result as Hex]
@@ -89,7 +89,7 @@ Ergebnis als Hex
 Ergebnis als String
 
 [Execute program]
-Programm ausführen
+Programm ausfÃ¼hren
 [Process options]
 Prozesseinstellungen
 [Continued]
@@ -110,7 +110,7 @@ Minimiert starten
 Maximiert starten
 
 [Insert text]
-Text einfügen
+Text einfÃ¼gen
 [Program path]
 Programmpfad
 [Program args]
@@ -118,9 +118,9 @@ Programmargumente
 [Copy to]
 Kopieren nach
 [Paste from as]
-Einfügen als
+EinfÃ¼gen als
 [Text to insert]
-Text, der eingefügt werden soll:
+Text, der eingefÃ¼gt werden soll:
 [Use Variables]
 Variablen benutzen
 
@@ -157,9 +157,9 @@ Sprung
 [BREAK]
 Abbruch
 [BACK]
-Zurück
+ZurÃ¼ck
 [SKIP]
-Überspringen
+Ãœberspringen
 [Variables script]
 Variablen Skript
 [vars]
@@ -179,9 +179,9 @@ Letztes Ergebnis speichern
 [Message title]
 Nachrichtentitel
 [Paste from]
-Einfügen von
+EinfÃ¼gen von
 [Return]
-Rückgabewert
+RÃ¼ckgabewert
 [Service result]
 Ergebnistyp des Dienstes
 [Structure]
@@ -206,13 +206,13 @@ Format akzeptieren
 Dropdownliste formatieren
 
 [Link to action]
-Verknüpfung zu Aktion
+VerknÃ¼pfung zu Aktion
 [Other Action groups]
 Andere Aktionsgruppen
 [Contact list format]
 Kontaklistenformat
 [You can use %name%, %uid%, %account% and %group% macros]
-Sie können %name%, %uid%, %account% und %group% Makros benutzen.
+Sie kÃ¶nnen %name%, %uid%, %account% und %group% Makros benutzen.
 
 [Read]
 Lesen
@@ -226,13 +226,13 @@ Eigene Einstellungen
 Hilfe - Dienstdetails
 
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext (z. B. UseActions) ersetzt
+'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhÃ¤ngig vom Kontext (z. B. UseActions) ersetzt
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - Ausgewählter (und ersetzter) Teil\r\n^e - Durch leeren String ersetzen\r\n^v - Text aus Zwischenablage einfügen\r\n^t - Durch Tab ersetzen\r\n^l - Durch letztes Ergebnis ersetzen (Unicode)\r\n^h - Durch letztes Ergebnis ersetzen (Hex)\r\n^a - Am Ende: Automatisch senden\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n     Klammerinhalte müssen ohne Leerzeichen sein
+^s - AusgewÃ¤hlter (und ersetzter) Teil\r\n^e - Durch leeren String ersetzen\r\n^v - Text aus Zwischenablage einfÃ¼gen\r\n^t - Durch Tab ersetzen\r\n^l - Durch letztes Ergebnis ersetzen (Unicode)\r\n^h - Durch letztes Ergebnis ersetzen (Hex)\r\n^a - Am Ende: Automatisch senden\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfÃ¼gen.\r\n     Klammerinhalte mÃ¼ssen ohne Leerzeichen sein
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRÃ¼ckgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchlieÃŸen\t\t= 8
 [To use ANSI string parameter, use Byte array/pointer.\r\nSequence $## replacing to byte with hex value ##\r\n\r\nTo use Unicode string parameter, use Word array/pointer.\r\nSequence $## replacing to byte with hex value ##\r\nSequence $#### replacing to word with hex value ####]
 Um ANSI-String-Parameter zu nutzen, bitte Byte-Array/Pointer nutzen.\r\nSequenz $## durch Byte mit Hex-Wert ## ersetzen\r\n\r\nUm Unicode-String-Parameter zu nutzen, nutze WORD-Array/Pointer.\r\nSequenz $## durch Byte mit Hex-Wert ## ersetzen\r\nSequenz $#### durch WORD mit Hex-Wert #### ersetzen
 

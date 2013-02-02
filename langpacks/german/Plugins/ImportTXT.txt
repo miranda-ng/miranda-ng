@@ -6,10 +6,10 @@
 ;  Authors: Abyss
 ;============================================================
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
-Dieses Plugin hilft Ihnen, Verl‰ufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
+Dieses Plugin hilft Ihnen, Verl√§ufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
 
 [Choose type of imported files:]
-W‰hlen Sie den Typ der zu importierenden Dateien aus:
+W√§hlen Sie den Typ der zu importierenden Dateien aus:
 [D[i]Chat import pattern]
 D[i]Chat-Importvorlage
 [History++ pattern]
@@ -42,31 +42,31 @@ Smaper (mit Nickname)-Importvorlage
 Smaper(vmICQ)-Importvorlage
 
 [Select files or the whole directory for import:]
-W‰hlen Sie Dateien oder ein ganzes Verzeichnis f¸r den Import aus:
+W√§hlen Sie Dateien oder ein ganzes Verzeichnis f√ºr den Import aus:
 [Directory...]
 Verzeichnis...
 [Files...]
 Dateien...
 [Select folder for import...]
-W‰hlen Sie einen Ordner f¸r den Import aus...
+W√§hlen Sie einen Ordner f√ºr den Import aus...
 
 [Check messages for duplicates]
-Pr¸fe Nachrichten auf doppelte Eintr‰ge
+Pr√ºfe Nachrichten auf doppelte Eintr√§ge
 [Show duplicates]
-Zeige doppelte Eintr‰ge
+Zeige doppelte Eintr√§ge
 [All previous chosen files will try to import to this protocol.]
-Alle bisher ausgew‰hlten Dateien werden versucht in dieses Protokoll zu importieren.
+Alle bisher ausgew√§hlten Dateien werden versucht in dieses Protokoll zu importieren.
 [Select protocol or account:]
-W‰hlen Sie ein Protokoll oder Konto aus:
+W√§hlen Sie ein Protokoll oder Konto aus:
 [Click "Next" to start Import or "Cancel" to Abort.]
 Klicken Sie auf "Weiter", um fortzufahren, oder auf "Abbrechen", um abzubrechen.
 
 [Header not found]
 Kopfinformationen nicht gefunden
 [Choose a file...]
-Datei ausw‰hlen...
+Datei ausw√§hlen...
 [Check for duplicates]
-Nach Duplikaten pr¸fen
+Nach Duplikaten pr√ºfen
 [Import history to ]
 Verlaufen importieren zu 
 
