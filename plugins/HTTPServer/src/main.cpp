@@ -879,50 +879,51 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 		hHttpAcceptConnectionsService = CreateServiceFunction(MS_HTTP_ACCEPT_CONNECTIONS, nToggelAcceptConnections);
 		if (! hHttpAcceptConnectionsService) {
 			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ACCEPT_CONNECTIONS"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		hHttpAddChangeRemoveService = CreateServiceFunction(MS_HTTP_ADD_CHANGE_REMOVE, nAddChangeRemoveShare);
 		if (! hHttpAddChangeRemoveService) {
 			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_ADD_CHANGE_REMOVE"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		hHttpGetShareService = CreateServiceFunction(MS_HTTP_GET_SHARE, nGetShare);
 		if (! hHttpGetShareService) {
 			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_SHARE"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		hHttpGetAllShares = CreateServiceFunction(MS_HTTP_GET_ALL_SHARES, nHttpGetAllShares);
 		if (! hHttpGetAllShares) {
 			MessageBox(NULL, _T("Failed to CreateServiceFunction MS_HTTP_GET_ALL_SHARES"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 
 		hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 		if (!hEventSystemInit) {
 			MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 		if (!hPreShutdown) {
 			MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_PRESHUTDOWN"), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		if(CallService(MS_DB_GETPROFILEPATH,MAX_PATH,(LPARAM)szPluginPath))
 		{
 			MessageBox(NULL, _T("Failed to retrieve plugin path."), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
-		_tcscat(szPluginPath,_T("\\HTTPServer\\"));
-		if(CreateDirectoryTree(szPluginPath))
+		_tcsncat(szPluginPath,_T("\\HTTPServer\\"), MAX_PATH);
+		int err = CreateDirectoryTree(szPluginPath)
+		if((err != 0) && (err != ERROR_ALREADY_EXISTS))
 		{
 			MessageBox(NULL, _T("Failed to create HTTPServer directory."), MSG_BOX_TITEL, MB_OK);
-			return 0;
+			return 1;
 		}
 
 		nPluginPathLen = strlen(szPluginPath);
