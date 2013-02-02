@@ -239,40 +239,43 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static TCHAR tszMessage[] = LPGENT("\
-Don\'t forget to click on Apply to save the changes. If you don\'t then the changes won\'t\r\n\
-be saved to the database, they will only be valid for this session.\r\n\r\n\
-Variable string\t\tWhat it expands to:\r\n\
-%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda ng).\r\n\
-%profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\
-\t\t\tProfileDir section (usually inside miranda\'s folder).\r\n\
-%current_profile%\tExpands to your current profile name without the extenstion.\r\n\
-\t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\
-Environment variables\r\n\
-The plugin can also expand environment variables; the variables are specified like in any other\r\n\
-program that can use environment variables, i.e. %<env variable>%.\r\n\
-Note: Environment variables are expanded before any Miranda variables. So if you have, for\r\n\
-example, %profile_path% defined as a system variable then it will be expanded to that value\r\n\
-instead of expanding to Miranda’s profile path.\r\n\r\n\
-Examples:\r\n\
-If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is \'.\\profiles\\', current\r\n\
-profile is \'default.dat\' and miranda\'s path is \'c:\\program files\\miranda ng\\' then:\r\n\
-%miranda_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\'\r\n\
-%profile_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\profiles\\'\r\n\
-%current_profile%\t\t\twill expand to \'default\'\r\n\
-%temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\
-%profile_path%\\%current_profile%\twill expand to \'c:\\program files\\miranda ng\\profiles\\default\\'\r\n\
-%miranda_path%\\plugins\\config\twill expand to \'c:\\program files\\miranda ng\\plugins\\config\\'\r\n\
-%miranda_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\'\r\n\r\n\
-Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.");
-
 INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+	{
+		TCHAR tszMessage[2048];
+		mir_sntprintf(tszMessage, SIZEOF(tszMessage), _T("%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n\'   %%miranda_path%%\\\\\\\\     \'\t\t%s\r\n\r\n%s"),
+			TranslateT("Don\'t forget to click on Apply to save the changes. If you don\'t then the changes won\'t"),
+			TranslateT("be saved to the database, they will only be valid for this session."),
+			TranslateT("Variable string"),
+			TranslateT("What it expands to:"),
+			TranslateT("Expands to your miranda path (e.g: c:\\program files\\miranda ng)."),
+			TranslateT("Expands to your profile path - the value found in mirandaboot.ini,"),
+			TranslateT("ProfileDir section (usually inside miranda\'s folder)."),
+			TranslateT("Expands to your current profile name without the extenstion."),
+			TranslateT("(e.g.default if your your profile is default.dat)."),
+			TranslateT("Environment variables"),
+			TranslateT("The plugin can also expand environment variables; the variables are specified like in any other"),
+			TranslateT("program that can use environment variables, i.e. %<env variable>%."),
+			TranslateT("Note: Environment variables are expanded before any Miranda variables. So if you have, for"),
+			TranslateT("example, %profile_path% defined as a system variable then it will be expanded to that value"),
+			TranslateT("instead of expanding to Miranda\'s profile path."),
+			TranslateT("Examples:"),
+			TranslateT("If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is \'.\\profiles\\', current"),
+			TranslateT("profile is \'default.dat\' and miranda\'s path is \'c:\\program files\\miranda ng\\' then:"),
+			TranslateT("will expand to \'c:\\program files\\miranda ng\'"),
+			TranslateT("will expand to \'c:\\program files\\miranda ng\\profiles\'"),
+			TranslateT("will expand to \'default\'"),
+			TranslateT("will expand to the temp folder of the current user."),
+			TranslateT("will expand to \'c:\\program files\\miranda ng\\profiles\\default\'"),
+			TranslateT("will expand to \'c:\\program files\\miranda ng\\plugins\\config\'"),
+			TranslateT("will expand to \'c:\\program files\\miranda ng\'"),
+			TranslateT("Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last."));
 		SetDlgItemText(hWnd, IDC_HELP_RICHEDIT, tszMessage);
 		TranslateDialogDefault(hWnd);
-		break;
+	}
+	break;
 
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
