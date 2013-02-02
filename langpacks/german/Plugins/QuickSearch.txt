@@ -1,0 +1,198 @@
+#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: quicksearch.dll
+;  Plugin: QuickSearch Mod
+;  Version: 1.4.0.18
+;  Authors: Awkward, based on Bethoven sources
+;============================================================
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
+Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
+
+[QuickSearch]
+Schnellsuche
+
+[Previous item]
+Vorheriger Gegenstand
+[Next item]
+Nächster Gegenstand
+[Open main window]
+Öffne Hauptfenster
+[Quick Search]
+Schnellsuche
+[Quick search]
+Schnellsuche
+[New Column]
+Neue Spalte
+[New column]
+Neue Spalte
+[Save Column]
+Spalte speichern
+[Column Up]
+Spalte auf bewegen
+[Column Down]
+Spalte ab bewegen
+[Delete Column]
+Spalte löschen
+
+[Local QuickSearch hotkey]
+Lokale Schnellsuche
+[Global QuickSearch hotkey]
+Globale Schnellsuche
+[QuickSearch window hotkey]
+Schnellsuche-Fenster
+
+[Can't register global hotkey]
+Globaler Hotkey konnte nicht registriert werden.
+[QuickSearch error]
+Schnellsuche-Fehler
+
+[Not selected]
+Nicht ausgewählt
+[Not Selected]
+Nicht ausgewählt
+[FIRSTNAME]
+Vorname
+[LASTNAME]
+Nachname
+[CUSTOMNICK]
+Eigener Nickname
+[EMAIL]
+E-Mail
+[CITY]
+Stadt
+[STATE]
+Bundesland
+[COUNTRY]
+Land
+[PHONE]
+Telefon
+[HOMEPAGE]
+Homepage
+[ABOUT]
+Über
+[GENDER]
+Geschlecht
+[AGE]
+Alter
+[FIRSTLAST]
+Vor- und Nachname
+[UNIQUEID]
+UID
+[integer value]
+Integerwert
+[ANSI string]
+ANSI-String
+[Unicode string]
+Unicodestring
+[current contact]
+Aktueller Kontakt
+[Save Item]
+Eintrag speichern
+
+[contacts]
+Kontakte
+[C&onvert to Meta]
+In Metak&ontakt umwandeln
+[One or more contacts in same Meta already. Try to convert anyway?]
+Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
+[Quick Search error]
+Schnellsuche-Fehler
+[Some of selected contacts in different metacontacts already]
+Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
+
+[InfoType:]
+Infotyp:
+[Module:]
+Modul:
+; [wParam:]
+[Setting:]
+Einstellung:
+[wParam type:]
+wParam-Typ:
+; [lParam:]
+[lParam type:]
+lParam-Typ:
+[Sort by Status]
+Nach Status sortieren
+[Copy line to CSV]
+Zeile in CSV kopieren
+[CSV with headers]
+CSV mit Header
+[Only Users in List]
+Nur Kontakte in Liste zeigen
+[Auto Close mode]
+Automatisch schließen
+[Draw Grid]
+Gitter zeichnen
+[Show Client Icons]
+Clienticons anzeigen
+[Save search pattern]
+Letzten Suchbegriff speichern
+[Item in Main Menu]
+Hauptmenüeintrag anzeigen
+[Button on TopToolBar]
+Top-Toolbar-Button eintragen
+[Tool Window Style]
+Werkzeugfensterstil nutzen
+[Skip minimized columns]
+Minim. Spalten auslassen 
+[Additional Options]
+Zusätzliche Einstellungen
+[HotKeys]
+Hotkeys
+[Global scope hotkey]
+Globaler Hotkey
+[Miranda scope hotkey]
+Miranda-Hotkey
+
+[Colorize]
+Einfärben
+[Show Offline contacts]
+Offlinekontakte anzeigen
+[%u users found (%u) Online: %u]
+%u Nutzer gefunden (Gesamt: %u | Online: %u)
+
+[E-mail Address:]
+E-Mail-Adresse:
+[ClientID]
+Client-ID
+[Ext IP]
+Externe IP
+[Last Event]
+Letztes Ereignis
+[Online Since]
+Online seit
+[LastSeen]
+Zuletzt gesehen
+[UserID]
+Benutzer-ID
+
+[Frame background]
+Rahmenhintergrund
+[Normal foreground]
+Normaler Vordergrund
+[Odd background]
+Alternativer Hintergrund
+[Odd foreground]
+Alternativer Vordergrund
+[Disabled account background]
+Hintergrund deaktivierter Konten
+[Disabled account foreground]
+Vordergrund deaktivierter Konten
+[Deleted account background]
+Hintergrund gelöschter Konten
+[Deleted account foreground]
+Vordergrund gelöschter Konten
+[Hidden contact background]
+Hintergrund versteckter Kontakte
+[Hidden contact foreground]
+Vordergrund versteckter Kontakte
+[Metacontact background]
+Metakontakt-Hintergrund
+[Metacontact foreground]
+Metakontakt-Vordergrund
+[SubMetacontact background]
+Sub-Metakontakt-Hintergrund
+[SubMetacontact foreground]
+Sub-Metakontakt-Vordergrund
+ 

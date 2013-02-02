@@ -1,0 +1,79 @@
+#muuid {6F376B33-D3F4-4c4f-A96B-77DA08043B06}
+;============================================================
+;  File: importtxt.dll
+;  Plugin: ImportTXT
+;  Version: 0.0.1.10
+;  Authors: Abyss
+;============================================================
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+Dieses Plugin hilft Ihnen, Verläufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
+
+[Choose type of imported files:]
+Wählen Sie den Typ der zu importierenden Dateien aus:
+[D[i]Chat import pattern]
+D[i]Chat-Importvorlage
+[History++ pattern]
+History++-Vorlage
+[ICQ5 xml files import]
+ICQ5-XML-Dateien importieren
+[ICQ6 database]
+ICQ6-Datenbank
+[Jimm import pattern(without seconds)]
+Jimm-Importvorlage (ohne Sekunden)
+[Jimm import pattern]
+Jimm-Importvorlage
+[mContact import pattern]
+mContact-Importvorlage
+[Message export import pattern]
+Message-export-Importvorlage
+[Jimm midp-rms Nokia]
+Jimm midp-rms Nokia
+[Pigeon import pattern]
+Pigeon-Importvorlage
+[QHF files  import pattern (QIP PDA and Infinum)]
+QHF-Dateien-Importvorlage (QIP PDA und Infium)
+[QIP import pattern]
+QIP-Importvorlage
+[Jimm midp-rms SonyEricsson]
+Jimm midp-rms SonyEricsson
+[Smaper (with Nick) import pattern]
+Smaper (mit Nickname)-Importvorlage
+[Smaper(vmICQ) import pattern]
+Smaper(vmICQ)-Importvorlage
+
+[Select files or the whole directory for import:]
+Wählen Sie Dateien oder ein ganzes Verzeichnis für den Import aus:
+[Directory...]
+Verzeichnis...
+[Files...]
+Dateien...
+[Select folder for import...]
+Wählen Sie einen Ordner für den Import aus...
+
+[Check messages for duplicates]
+Prüfe Nachrichten auf doppelte Einträge
+[Show duplicates]
+Zeige doppelte Einträge
+[All previous chosen files will try to import to this protocol.]
+Alle bisher ausgewählten Dateien werden versucht in dieses Protokoll zu importieren.
+[Select protocol or account:]
+Wählen Sie ein Protokoll oder Konto aus:
+[Click "Next" to start Import or "Cancel" to Abort.]
+Klicken Sie auf "Weiter", um fortzufahren, oder auf "Abbrechen", um abzubrechen.
+
+[Header not found]
+Kopfinformationen nicht gefunden
+[Choose a file...]
+Datei auswählen...
+[Check for duplicates]
+Nach Duplikaten prüfen
+[Import history to ]
+Verlaufen importieren zu 
+
+[Import Text Files Wizard]
+Textdateien importieren
+[Import history]
+Verlauf importieren
+[Imports history saved in TXT files from other clients]
+Importiert Nachrichten aus Textdateien von anderen Clients.
+ 

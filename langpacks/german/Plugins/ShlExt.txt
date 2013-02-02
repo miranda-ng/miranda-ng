@@ -1,0 +1,44 @@
+#muuid {00000000-3a26-7201-4ca9-d6118540a5e6}
+;============================================================
+;  File: shlext.dll
+;  Plugin: Shell context menus for transffers
+;  Version: 2.0.1.2
+;  Authors: egoDust
+;============================================================
+[Problem, registration missing/deleted.]
+Fehler, Registrierung fehlgeschlagen/gelöscht.
+[Successfully created shell registration.]
+Erfolgreich im Explorer integriert.
+[Not Approved]
+Nicht bestätigt
+[Approved]
+Bestätigt
+[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+Bist du dir sicher? Alle Einstellungen im Profil sowie alle Registrierungseinträge, die Miranda in den Explorer einbinden, werden gelöscht
+[Disable/Remove shlext]
+ShlExt deaktivieren/entfernen
+[Shell context menus]
+Kontextmenüs (Explorer)
+;IDD_SHLOPTS
+[Display contacts in their assigned groups (if any)]
+Zeige Kontakte in ihren zugewiesenen Gruppen
+[Only if/when the contact list is using them]
+Nur, wenn Kontaktliste Gruppen anzeigt
+[Display hidden, ignored or temporary contacts]
+Versteckte, ignorierte oder temporäre Kontakte anzeigen
+[Shell Status]
+Status der Einbindung
+[Do not display the profile name in use]
+Namen des benutzten Profils nicht anzeigen
+[Contact Status]
+Kontaktstatus
+[Show contacts that you have set privacy rules for]
+Kontakte anzeigen, für die andere Privatsphärenregeln gelten
+[Do not show status icons in menus]
+Kein Statusicon in den Menüs anzeigen
+[Do not show contacts that are offline, even if my contact list does]
+Keine Offlinekontakte anzeigen, unabhängig von Einstellungen der Kontaktliste
+[Clear entries]
+Einträge löschen
+[Recently]
+Zuletzt
