@@ -6,7 +6,7 @@
 ;  Authors: Awkward, based on Bethoven sources
 ;============================================================
 [This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
-Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
+Dieses Plugin ermÃ¶glicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
 
 [QuickSearch]
 Schnellsuche
@@ -14,9 +14,9 @@ Schnellsuche
 [Previous item]
 Vorheriger Gegenstand
 [Next item]
-Nächster Gegenstand
+NÃ¤chster Gegenstand
 [Open main window]
-Öffne Hauptfenster
+Ã–ffne Hauptfenster
 [Quick Search]
 Schnellsuche
 [Quick search]
@@ -32,7 +32,7 @@ Spalte auf bewegen
 [Column Down]
 Spalte ab bewegen
 [Delete Column]
-Spalte löschen
+Spalte lÃ¶schen
 
 [Local QuickSearch hotkey]
 Lokale Schnellsuche
@@ -47,9 +47,9 @@ Globaler Hotkey konnte nicht registriert werden.
 Schnellsuche-Fehler
 
 [Not selected]
-Nicht ausgewählt
+Nicht ausgewÃ¤hlt
 [Not Selected]
-Nicht ausgewählt
+Nicht ausgewÃ¤hlt
 [FIRSTNAME]
 Vorname
 [LASTNAME]
@@ -69,7 +69,7 @@ Telefon
 [HOMEPAGE]
 Homepage
 [ABOUT]
-Über
+Ãœber
 [GENDER]
 Geschlecht
 [AGE]
@@ -94,11 +94,11 @@ Kontakte
 [C&onvert to Meta]
 In Metak&ontakt umwandeln
 [One or more contacts in same Meta already. Try to convert anyway?]
-Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
+Ein oder mehrere Kontakte gehÃ¶ren bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
 [Quick Search error]
 Schnellsuche-Fehler
 [Some of selected contacts in different metacontacts already]
-Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
+Einige der ausgewÃ¤hlten Kontakte gehÃ¶ren bereits zu anderen Metakontakten
 
 [InfoType:]
 Infotyp:
@@ -121,7 +121,7 @@ CSV mit Header
 [Only Users in List]
 Nur Kontakte in Liste zeigen
 [Auto Close mode]
-Automatisch schließen
+Automatisch schlieÃŸen
 [Draw Grid]
 Gitter zeichnen
 [Show Client Icons]
@@ -129,7 +129,7 @@ Clienticons anzeigen
 [Save search pattern]
 Letzten Suchbegriff speichern
 [Item in Main Menu]
-Hauptmenüeintrag anzeigen
+HauptmenÃ¼eintrag anzeigen
 [Button on TopToolBar]
 Top-Toolbar-Button eintragen
 [Tool Window Style]
@@ -137,7 +137,7 @@ Werkzeugfensterstil nutzen
 [Skip minimized columns]
 Minim. Spalten auslassen 
 [Additional Options]
-Zusätzliche Einstellungen
+ZusÃ¤tzliche Einstellungen
 [HotKeys]
 Hotkeys
 [Global scope hotkey]
@@ -146,7 +146,7 @@ Globaler Hotkey
 Miranda-Hotkey
 
 [Colorize]
-Einfärben
+EinfÃ¤rben
 [Show Offline contacts]
 Offlinekontakte anzeigen
 [%u users found (%u) Online: %u]
@@ -180,9 +180,9 @@ Hintergrund deaktivierter Konten
 [Disabled account foreground]
 Vordergrund deaktivierter Konten
 [Deleted account background]
-Hintergrund gelöschter Konten
+Hintergrund gelÃ¶schter Konten
 [Deleted account foreground]
-Vordergrund gelöschter Konten
+Vordergrund gelÃ¶schter Konten
 [Hidden contact background]
 Hintergrund versteckter Kontakte
 [Hidden contact foreground]
