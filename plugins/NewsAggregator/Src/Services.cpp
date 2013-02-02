@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
-HANDLE hTBButton = NULL;
+HANDLE hTBButton = NULL, hNewsAggregatorFolder = NULL;
 
 void SetContactStatus(HANDLE hContact, int nNewStatus)
 {
@@ -43,8 +43,26 @@ static void __cdecl WorkingThread(void* param)
 	}
 }
 
+int OnFoldersChanged(WPARAM, LPARAM)
+{
+	FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
+	return 0;
+}
+
 int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 {
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	{
+		hNewsAggregatorFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
+		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
+	}
+	else
+	{
+		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"_T(DEFAULT_AVATARS_FOLDER)));
+		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
+		mir_free(tszFolder);
+	}
+
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
@@ -61,9 +79,10 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	InitMenu();
 
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
+	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 10000, timerProc2);  // first update is 10 sec after load
+	timerId = SetTimer(NULL, 0, 10000, timerProc2); // first update is 10 sec after load
 
 	return 0;
 }

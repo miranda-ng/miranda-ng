@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 HINSTANCE hInst = NULL;
 
 int hLangpack;
-HANDLE hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
+HANDLE hPrebuildMenuHook = NULL;
 HANDLE hProtoService[8];
 HWND hAddFeedDlg;
 HANDLE hChangeFeedDlgList = NULL;
@@ -57,25 +57,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {{0x29517be5, 0x779a, 0x48e5, {0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72}}, MIID_LAST};
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 
 	mir_getLP(&pluginInfoEx);
 	mir_getXI(&xi);
-
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		hPackUpdaterFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
-		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, _T(""));
-	}
-	else
-	{
-		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"_T(DEFAULT_AVATARS_FOLDER)));
-		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
-		mir_free(tszFolder);
-	}
 
 	// Add options hook
 	HookEvent(ME_OPT_INITIALISE, OptInit);
