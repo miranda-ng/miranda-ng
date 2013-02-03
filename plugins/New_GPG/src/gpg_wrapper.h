@@ -32,7 +32,8 @@ typedef enum {
 }
 pxResult;
 
-pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD aexitcode, pxResult *result);
+pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD aexitcode, pxResult *result, HANDLE hProcess, PROCESS_INFORMATION *pr);
+pxResult pxExecute_passwd_change(std::vector<std::string> &aargv, char *ainput, string *aoutput, LPDWORD aexitcode, pxResult *result, HANDLE hProcess, PROCESS_INFORMATION *pr, string &old_pass, string &new_pass);
 
 struct gpg_execution_params
 {
@@ -45,6 +46,22 @@ struct gpg_execution_params
 	PROCESS_INFORMATION *proc;
 };
 
+struct gpg_execution_params_pass
+{
+	std::vector<std::wstring> &args;
+	string &old_pass, &new_pass;
+	char *useless;
+	string *out;
+	LPDWORD code;
+	pxResult *result;
+	HANDLE hProcess;
+	PROCESS_INFORMATION *proc;
+	gpg_execution_params_pass(std::vector<std::wstring> &a, std::string &o, std::string &n): args(a), old_pass(o), new_pass(n)
+	{}
+};
+
+
 void pxEexcute_thread(void *param);
+void pxEexcute_passwd_change_thread(void *param);
 
 #endif

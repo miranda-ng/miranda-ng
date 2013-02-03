@@ -52,10 +52,14 @@ using std::fstream;
 #include <boost/random/variate_generator.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <boost/date_time.hpp>
+#include <boost/iostreams/stream.hpp>
+//boost process
+#include <boost/process.hpp>
 
 
 //utf8cpp
 #include <utf8.h>
+
 
 //miranda
 #include <newpluginapi.h>

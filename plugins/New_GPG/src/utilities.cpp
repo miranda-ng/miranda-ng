@@ -2202,3 +2202,126 @@ void ShowExportKeysDlg()
 	extern HINSTANCE hInst;
 	DialogBox(hInst, MAKEINTRESOURCE(IDD_EXPORT_TYPE), NULL, DlgProcExportKeys);
 }
+
+static INT_PTR CALLBACK DlgProcChangePasswd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		TranslateDialogDefault(hwndDlg);
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+      case IDC_OK:
+		  //TODO: show some prgress
+		  {
+			  std::string old_pass, new_pass;
+			  extern TCHAR key_id_global[17];
+			  TCHAR buf[256] = {0};
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD1, buf, 255);
+			  new_pass = toUTF8(buf);
+			  GetDlgItemText(hwndDlg, IDC_NEW_PASSWD2, buf, 255);
+			  if(new_pass != toUTF8(buf))
+			  {
+				  MessageBox(hwndDlg, TranslateT("New passwords not match"), TranslateT("Error"), MB_OK);
+				  //key_id_global[0] = 0;
+				  break;
+			  }
+			  GetDlgItemText(hwndDlg, IDC_OLD_PASSWD, buf, 255);
+			  old_pass = toUTF8(buf);
+			  bool old_pass_match = false;
+			  TCHAR *pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+			  if(!_tcscmp(pass,buf))
+				  old_pass_match = true;
+			  mir_free(pass);
+			  if(!old_pass_match)
+			  {
+				  if(key_id_global[0])
+				  {
+					  string dbsetting = "szKey_";
+					  dbsetting += toUTF8(key_id_global);
+					  dbsetting += "_Password";
+					  pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
+					  if(!_tcscmp(pass,buf))
+						  old_pass_match = true;
+					  mir_free(pass);
+				  }
+			  }
+			  if(!old_pass_match)
+			  {
+				  if(MessageBox(hwndDlg, TranslateT("Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?"), TranslateT("Error"), MB_YESNO) == IDNO)
+				  {
+					  //key_id_global[0] = 0;
+					  break;
+				  }
+			  }
+			  std::vector<std::wstring> cmd;
+			  TCHAR tmp2[MAX_PATH] = {0};
+			  string output;
+			  DWORD exitcode;
+			  cmd.push_back(L"--edit-key");
+			  cmd.push_back(key_id_global);
+			  cmd.push_back(L"passwd");
+			  gpg_execution_params_pass params(cmd, old_pass, new_pass);
+			  pxResult result;
+			  params.useless = "";
+			  params.out = &output;
+			  params.code = &exitcode;
+			  params.result = &result;
+			  boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
+			  if(!gpg_thread.timed_join(boost::posix_time::seconds(100)))
+			  {
+				  gpg_thread.~thread();
+				  TerminateProcess(params.hProcess, 1);
+				  params.hProcess = NULL;
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  DestroyWindow(hwndDlg);
+				  break;
+			  }
+			  if(result == pxNotFound)
+				  break;
+			  //if(result == pxSuccess)
+			  //TODO: save to db
+
+
+		  }
+		  DestroyWindow(hwndDlg);
+		  break;
+	  default:
+		break;
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+	}
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+		  extern TCHAR key_id_global[17];
+		  key_id_global[0] = 0;
+	  }
+	  break;
+  }
+  return FALSE;
+}
+
+void ShowChangePasswdDlg()
+{
+	extern HINSTANCE hInst;
+	HWND hwndPaaswdDlg = NULL;
+	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), NULL, DlgProcChangePasswd);
+	SetForegroundWindow(hwndPaaswdDlg);
+}

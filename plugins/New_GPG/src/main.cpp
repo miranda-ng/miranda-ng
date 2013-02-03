@@ -27,6 +27,8 @@ int itemnum = 0;
 HWND hwndList_g = NULL;
 BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting);
 
+TCHAR key_id_global[17] = {0};
+
 static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	HWND hwndList=GetDlgItem(hwndDlg, IDC_KEY_LIST);
@@ -44,6 +46,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		SetWindowText(hwndDlg, TranslateT("Set own key"));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_COPY_PUBKEY), 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PRIVATE), 0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PASSWD), 0);
 		col.pszText = _T("Key ID");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
@@ -178,8 +181,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							if(expired)
 							{
 								mir_free(key_len);
-								mir_free(expire_date);
 								mir_free(creation_date);
+								mir_free(expire_date);
 								//mimic normal behaviour
 								p = out.find("uid  ", p);
 								p2 = out.find_first_not_of(" ", p+5);
@@ -187,15 +190,18 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 								p++;
 								p2 = out.find(">", p);
 								//
-								continue;
+								continue; //does not add to key list
 							}
 						}
 					}
 					iRow = ListView_InsertItem(hwndList, &item);
 					ListView_SetItemText(hwndList, iRow, 3, creation_date);
 					mir_free(creation_date);
-					ListView_SetItemText(hwndList, iRow, 4, expire_date);
-					mir_free(expire_date);
+					if(expire_date)
+					{
+						ListView_SetItemText(hwndList, iRow, 4, expire_date);
+						mir_free(expire_date);
+					}
 					ListView_SetItemText(hwndList, iRow, 5, key_len);
 					mir_free(key_len);
 					ListView_SetItemText(hwndList, iRow, 0, (TCHAR*)key_id.c_str());
@@ -811,7 +817,40 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							file.close();
 					}
 					break;
-
+				case IDC_CHANGE_PASSWD:
+					ListView_GetItemText(hwndList, itemnum, 0, key_id_global, 16);
+//					extern void ShowChangePasswdDlg();
+//					ShowChangePasswdDlg();
+					//temporary code follows
+					std::vector<std::wstring> cmd;
+					std::string old_pass, new_pass;
+					TCHAR tmp2[MAX_PATH] = {0};
+					string output;
+					DWORD exitcode;
+					cmd.push_back(L"--edit-key");
+					cmd.push_back(key_id_global);
+					cmd.push_back(L"passwd");
+					gpg_execution_params_pass params(cmd, old_pass, new_pass);
+					pxResult result;
+					params.useless = "";
+					params.out = &output;
+					params.code = &exitcode;
+					params.result = &result;
+					boost::thread gpg_thread(boost::bind(&pxEexcute_passwd_change_thread, &params));
+					if(!gpg_thread.timed_join(boost::posix_time::minutes(10)))
+					{
+						gpg_thread.~thread();
+						TerminateProcess(params.hProcess, 1);
+						params.hProcess = NULL;
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						DestroyWindow(hwndDlg);
+						break;
+					}
+					if(result == pxNotFound)
+						break;
+					//
+					break;
 	  }
 	  break;
 	}
@@ -825,6 +864,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				EnableWindow(GetDlgItem(hwndDlg, ID_OK), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY_PUBKEY), 1);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EXPORT_PRIVATE), 1);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE_PASSWD), 1);
 				itemnum = hdr->iItem;
 			}
 		}

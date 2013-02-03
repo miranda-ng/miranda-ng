@@ -18,6 +18,7 @@
 #define IDD_OPT_GPG_ADVANCED            113
 #define IDD_ENCRYPTED_FILE_MSG_BOX      114
 #define IDD_EXPORT_TYPE                 115
+#define IDD_CHANGE_PASSWD                 116
 #define IDC_SET_BIN_PATH                1016
 #define IDC_SET_HOME_DIR                1017
 #define IDC_BIN_PATH                    1018
@@ -97,14 +98,19 @@
 #define IDC_PRIVATE                     1074
 #define IDC_ALL                         1075
 #define IDC_EXPORT_PRIVATE              1076
+#define IDC_CHANGE_PASSWD				1077
+#define IDC_OLD_PASSWD					1078
+#define IDC_NEW_PASSWD1					1079
+#define	IDC_NEW_PASSWD2					1080
+
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_RESOURCE_VALUE        117
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1077
+#define _APS_NEXT_CONTROL_VALUE         1081
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
