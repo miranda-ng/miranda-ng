@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+﻿;#muuid not found, please specify manually!
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]

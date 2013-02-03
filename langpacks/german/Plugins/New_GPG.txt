@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Œ ]

@@ -1,4 +1,4 @@
-#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
 ;  Plugin: Change Keyboard Layout

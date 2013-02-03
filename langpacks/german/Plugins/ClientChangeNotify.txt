@@ -1,4 +1,4 @@
-#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
 ;  Plugin: Client Change Notify

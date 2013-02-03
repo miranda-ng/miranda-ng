@@ -1,4 +1,4 @@
-#muuid {53e095a3-2695-490a-9dad-d20479093831}
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;langpack template for Clist_blind
 ;file \plugins\Clist_blind\res\resource.rc
 [Are you sure you want to delete %s?]

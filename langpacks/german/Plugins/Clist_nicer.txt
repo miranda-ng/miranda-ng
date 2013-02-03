@@ -1,4 +1,4 @@
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
 ;file \plugins\Clist_nicer\res\resource.rc
 [Copy to clipboard]

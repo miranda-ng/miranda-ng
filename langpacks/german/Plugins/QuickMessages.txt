@@ -1,4 +1,4 @@
-#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [+]

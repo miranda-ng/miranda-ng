@@ -1,4 +1,4 @@
-#muuid {488c5c84-56da-434f-96f1-b18900def760}
+ï»¿#muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
 ;  File: Boltun.dll
 ;  Plugin: Boltun
@@ -92,7 +92,7 @@ Alle Dateien
 [ <REPEAT>]
 
 ;file \plugins\Boltun\src\Engine\TalkEngine.cpp
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—\1]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}â€”\1]
 
 [(study_all) ]
 
@@ -130,5 +130,5 @@ Alle Dateien
 
 [>>Result:]
 
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}â€”]
 

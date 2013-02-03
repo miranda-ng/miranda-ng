@@ -1,4 +1,4 @@
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;============================================================
 ;  File: MetaContacts.dll
 ;  Plugin: MetaContacts

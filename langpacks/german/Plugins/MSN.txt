@@ -1,4 +1,4 @@
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN
