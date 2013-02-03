@@ -1,4 +1,4 @@
-#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
 ;  File: yapp.dll
 ;  Plugin: YAPP

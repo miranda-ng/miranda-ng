@@ -1,4 +1,4 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+﻿#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
 ;============================================================
 ;  File: quicksearch.dll
 ;  Plugin: QuickSearch Mod

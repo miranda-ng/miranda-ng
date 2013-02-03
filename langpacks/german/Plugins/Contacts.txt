@@ -1,4 +1,4 @@
-#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
 ;file \plugins\ContactsPlus\res\contacts.rc
 [&A]

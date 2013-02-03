@@ -1,4 +1,4 @@
-#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
 ;  File: BuddyExpectator.dll
 ;  Plugin: Buddy Expectator+

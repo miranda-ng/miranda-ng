@@ -1,4 +1,4 @@
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
 ;file \plugins\Clist_nicer\res\resource.rc
 [Copy to clipboard]
@@ -28,7 +28,7 @@ Nur zeigen, wenn Kontaktliste versteckt oder minimiert ist
 [Padding]
 Abstand
 [Enable floating contacts (required restart)]
-Schwebende Kontakte aktivieren (benötigt Neustart)
+Schwebende Kontakte aktivieren (benГ¶tigt Neustart)
 [000%]
 
 [Opacity]
@@ -36,7 +36,7 @@ Deckkraft
 [Width]
 Breite
 [Snap to edges (hold CTRL for snap between floaters)]
-An Rand einrasten (Strg gedrückt halten, um 2 Floater zu verbinden)
+An Rand einrasten (Strg gedrГјckt halten, um 2 Floater zu verbinden)
 [Inactive]
 Inaktiv
 [Active]
@@ -50,13 +50,13 @@ Farbe
 [Radius]
 
 [Fill with contact list background color]
-Mit Hintergrundfarbe der Kontaktliste auffüllen
+Mit Hintergrundfarbe der Kontaktliste auffГјllen
 [Tooltips]
 Tooltips
 [Show tooltips]
 Tooltips zeigen
 [Hover time]
-Verzögerung
+VerzГ¶gerung
 [Use default]
 Standard verw.
 [ms]
@@ -65,7 +65,7 @@ Standard verw.
 OK
 [Clist Nicer+]
 CList Nicer+
-[Copyright � 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Version]
 Version
@@ -80,9 +80,9 @@ Nur in der Kontaktliste ausblenden. Verlauf und Einstellungen bleiben erhalten.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 Unter Einstellungen->Ereignisse->Ignorierliste Kontakt wieder einblenden.
 [Are you sure you want to delete %s?]
-Soll Kontakt %s wirklich gelöscht werden ?
+Soll Kontakt %s wirklich gelГ¶scht werden ?
 [This will erase all history and settings for this contact!]
-Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
+Damit werden der Verlauf und die Einstellungen des Kontakts gelГ¶scht!
 [Contact List]
 Kontaktliste
 [Hide offline users]
@@ -92,7 +92,7 @@ Leere Gruppen ausblenden
 [Disable groups]
 Gruppenfunktion ausschalten
 [Ask before deleting contacts]
-Vor Löschen von Kontakten fragen
+Vor LГ¶schen von Kontakten fragen
 [Disable icon blinking]
 Iconblinken deaktivieren
 [Apply last active view mode ]
@@ -100,19 +100,19 @@ Zuletzt aktiven Kontaktfilter wiederherstellen
 [Contact list layout]
 Kontaktlistenaussehen
 [Show menu and status buttons]
-Menü- und Statusbutton anzeigen
+MenГј- und Statusbutton anzeigen
 [Draw sunken edge]
 Versenkte Darstellung benutzen
 [System tray icon]
 Systemtray-Icon (unten, neben der Uhr)
 [Single click interface]
-Kontaktliste mit Einfachklick öffnen
+Kontaktliste mit Einfachklick Г¶ffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
 [Event area]
 Ereignisbereich
 [Set base visiblity on the frames menu]
-Hauptmenü => Kontaktlisten-\nElemente 'Ereignisbereich' Sichtbar
+HauptmenГј => Kontaktlisten-\nElemente 'Ereignisbereich' Sichtbar
 [Auto mode]
 Automatisch ausblenden
 [System tray icon when using multiple protocols]
@@ -130,7 +130,7 @@ Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur wenn Status unterschiedlich
 [Do not show system tray icon tooltips on mouse over]
-Keinen Tooltip beim Überfahren des Statusicons zeigen
+Keinen Tooltip beim Гњberfahren des Statusicons zeigen
 [Groups]
 Gruppen
 [Draw a line alongside group names]
@@ -154,15 +154,15 @@ Abstand links/rechts
 [Row gap]
 Zeilenabstand
 [Minimum row height:]
-Minimale Zeilenhöhe:
+Minimale ZeilenhГ¶he:
 [Group row height]
-Gruppen-Zeilenhöhe
+Gruppen-ZeilenhГ¶he
 [Indent groups by:]
-Gruppen einrücken:
+Gruppen einrГјcken:
 [Inner Row vertical padding]
 Innerer vertikaler Zeilenabstand
 [Margins and spacing]
-Abstände und Ränder
+AbstГ¤nde und RГ¤nder
 [Contact List Sorting]
 Sortierung der Kontaktliste
 [First by]
@@ -178,17 +178,17 @@ Offlinekontakte nicht trennen
 [Hide as offline]
 Als 'offline' verstecken
 [Right align contacts]
-Kontakte rechtsbündig
+Kontakte rechtsbГјndig
 [Avatars]
 Avatare
 [Height]
-Höhe
+HГ¶he
 [Draw a border around avatars]
 Rand um Avatare zeichnen
 [Rounded avatars]
 Avatare abrunden
 [Always align icons and text for missing avatars]
-Icons und Text für fehlende Avatare ausrichten
+Icons und Text fГјr fehlende Avatare ausrichten
 [Avatar alignment]
 Avataranordnung
 [Don't request avatars for offline contacts]
@@ -196,7 +196,7 @@ Avatar von Offlinekontakten nicht anfordern
 [Second text line]
 Zweite Textzeile
 [Display status message when available]
-Statusnachricht anzeigen (falls verfügbar)
+Statusnachricht anzeigen (falls verfГјgbar)
 [Show second text line:]
 2. Textzeile anzeigen:
 [Show contacts local time]
@@ -208,13 +208,13 @@ Icons
 [Show status icons]
 Statusicons zeigen
 [Centered when possible]
-Zentriert, falls möglich
+Zentriert, falls mГ¶glich
 [When possible, draw status icons in avatar space]
-Nach Möglichkeit die Statusicons im Avatarplatz anzeigen
+Nach MГ¶glichkeit die Statusicons im Avatarplatz anzeigen
 [Use metacontact protocol icons instead of subcontacts]
 Metakontakticons anstelle der Icons der Unterkontakte verwenden
 [Use Overlay icons on avatars]
-Überlagerungsicons über Avatare zeichnen
+Гњberlagerungsicons Гјber Avatare zeichnen
 [Dim idle contacts]
 Inaktive Kontakte abblenden
 [Replace status icons with xStatus]
@@ -224,7 +224,7 @@ Fenster
 [Always on top]
 Immer im Vordergrund
 [Show menu bar]
-Menüleiste anzeigen
+MenГјleiste anzeigen
 [Easy move]
 Einfaches Bewegen
 [Rounded border]
@@ -236,17 +236,17 @@ An den Desktop anheften
 [Show drop shadow (restart required)]
 Schatten werfen (erfordert Neustart)
 [Hide contact list after it has been idle for]
-Kontaktliste verstecken nach Inaktivität von
+Kontaktliste verstecken nach InaktivitГ¤t von
 [seconds]
 Sekunden
 [Automatically resize window to height of list]
-Höhe automatisch an Kontaktanzahl anpassen
+HГ¶he automatisch an Kontaktanzahl anpassen
 [maximum]
 Maximal
 [% of screen]
 % des Bildschirms
 [Size upwards]
-Größenanpassung nach oben
+GrГ¶Гџenanpassung nach oben
 [If window is partially covered, bring to front instead of hiding]
 Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
 [Always Hide On Taskbar]
@@ -256,7 +256,7 @@ CL-Begrenzung
 [Embedded frames border]
 Rahmen eigener Elemente
 [Clip border by]
-Ränder kürzen um
+RГ¤nder kГјrzen um
 [Gap between frames]
 Abstand zw. Elementen
 [Translucency options (Windows 2000/XP only)]
@@ -286,9 +286,9 @@ Markierung immer anzeigen
 [Make selection highlight translucent]
 Transparente Markierung
 [Use full row for selection and hottracking]
-Volle Breite für Markierungen und Hervorhebungen
+Volle Breite fГјr Markierungen und Hervorhebungen
 [Double click on avatar opens userinfo]
-Doppelklick auf Avatar öffnet Kontaktprofil
+Doppelklick auf Avatar Г¶ffnet Kontaktprofil
 [Visual]
 Ansicht
 [Scroll list smoothly]
@@ -300,7 +300,7 @@ Millisekunden
 [Hide vertical scroll bar]
 Vertikale Bildlaufleiste ausblenden
 [Grey out entire list when:]
-Liste grau färben, wenn:
+Liste grau fГ¤rben, wenn:
 [Contact List Background]
 Hintergrund der Kontaktliste
 [Use Windows colours]
@@ -314,7 +314,7 @@ Hintergrundbild verwenden
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
-In Höhe strecken
+In HГ¶he strecken
 [Tile horizontally]
 Horizontal kacheln
 [Tile vertically]
@@ -338,15 +338,15 @@ Protokollnamen anzeigen
 [Show status text]
 Statustext anzeigen
 [Right click opens status menu]
-Rechtsklick öffnet Statusmenü
+Rechtsklick Г¶ffnet StatusmenГј
 [Right click opens Miranda NG menu]
-Rechtsklick öffnet Miranda-Hauptmenü
+Rechtsklick Г¶ffnet Miranda-HauptmenГј
 [Make sections equal width]
 Alle Protokolle gleiche Breite
 [Show bevels on panels]
 Rahmen um Protokolle
 [Show resize grip indicator]
-Ecke zur Größenänderung anzeigen
+Ecke zur GrГ¶ГџenГ¤nderung anzeigen
 [Draw background skin]
 Skin im Hintergrund zeichnen
 [Show ICQ extended status icons]
@@ -354,9 +354,9 @@ Erweiterte ICQ-Statusicons anzeigen
 [Mark protocols locked from global status changes]
 Vom globalen Status ausgenommene Protokolle markieren
 [Available view modes]
-Verfügbare Kontaktfilter
+VerfГјgbare Kontaktfilter
 [Include protocols]
-Protokolle auswählen
+Protokolle auswГ¤hlen
 [+]
 
 [-]
@@ -364,21 +364,21 @@ Protokolle auswählen
 [New]
 Neu
 [Include groups]
-Gruppen auswählen
+Gruppen auswГ¤hlen
 [Include status modes]
-Statusmodus auswählen
+Statusmodus auswГ¤hlen
 [Ok]
 
 [Cancel]
 Abbrechen
 [Apply]
-Übernehmen
+Гњbernehmen
 [Sticky contacts]
 Wichtige Kontakte
 [Clear all]
-Alles löschen
+Alles lГ¶schen
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-In der Kontaktliste auf der linken Seite können Sie Kontakte auswählen, die in diesem Kontaktfilter "fest" sind. Diese Kontakte werden die Standardfilterregeln ignorieren und nur den Statusfilter unten benutzen.
+In der Kontaktliste auf der linken Seite kГ¶nnen Sie Kontakte auswГ¤hlen, die in diesem Kontaktfilter "fest" sind. Diese Kontakte werden die Standardfilterregeln ignorieren und nur den Statusfilter unten benutzen.
 [Protocol]
 Protokoll
 [Group]
@@ -386,7 +386,7 @@ Gruppe
 [Status mode]
 Statusmodus
 [Automatically clear this view mode after]
-Diesen Kontaktfilter automatisch löschen nach
+Diesen Kontaktfilter automatisch lГ¶schen nach
 [View mode options]
 Kontaktfiltereinstellungen
 [Editing view mode]
@@ -410,15 +410,15 @@ Auswahlbreite an selektiertes Element anpassen
 [Blend selection with background]
 Hintergrund auf Markierung anwenden
 [Automatically fill background with wallpaper (tiled wallpaper only)]
-Hintergrund automatisch mit dem Windowshintergrundbild füllen
+Hintergrund automatisch mit dem Windowshintergrundbild fГјllen
 [Apply group indent values to background drawing]
-Gruppeneinrückung auf den Hintergrund anwenden
+GruppeneinrГјckung auf den Hintergrund anwenden
 [Use per protocol/contact skinning]
 Skinning pro Protokoll/Kontakt aktivieren
 [Protocol skins override status text colors]
-Protokollskins überschreiben Statustextfarben
+Protokollskins Гјberschreiben Statustextfarben
 [Set all buttons to skinned mode]
-Alle Schaltflächen skinnen
+Alle SchaltflГ¤chen skinnen
 [Use fast gradient drawing]
 Schnelles Gradientenzeichnen
 [Corner radius]
@@ -428,9 +428,9 @@ Skin-Einstellungen
 [Group top padding]
 Gruppenabstand oben
 [Frame titlebar height]
-Höhe der Titelzeilen
+HГ¶he der Titelzeilen
 [Ignore selection for groups]
-Markierungen für Gruppen ignorieren
+Markierungen fГјr Gruppen ignorieren
 [Load from skin file]
 Aus Skindatei laden
 [Export to skin file]
@@ -440,13 +440,13 @@ folgende Ereignisse ignorieren
 [Messages]
 Nachrichten
 [Incoming file transfers]
-Eingehende Dateiübertragungen
+Eingehende DateiГјbertragungen
 [URL events]
 URL-Ereignisse
 [Suppress auth requests]
 Autorisierungsanfragen
 [Suppress added notifications]
-"Sie wurden hinzugefügt"
+"Sie wurden hinzugefГјgt"
 [Suppress online notifications]
 Statusbenachrichtigungen
 [Ignore all]
@@ -468,13 +468,13 @@ Um einen bereits versteckten Kontakt wieder einzublenden, unter Einstellungen-> 
 [Display options]
 Anzeigeoptionen
 [Show contact with priority]
-Kontakt hat Priorität
+Kontakt hat PrioritГ¤t
 [Show Avatar:]
 Avatar zeigen
 [Show 2nd line:]
 2. Textzeile anzeigen:
 [Draw overlay icon on avatar]
-Überlagerungsicons über Avatar
+Гњberlagerungsicons Гјber Avatar
 [Show local time]
 Lokale Zeit anzeigen
 [E&xit]
@@ -506,7 +506,7 @@ Zeigen/Ausblenden
 [&Hide Offline Users]
 Offline-Kontakte ausblenden
 [Hide &Offline Users out here]
-&Offline-Kontakte außerhalb ausblenden
+&Offline-Kontakte auГџerhalb ausblenden
 [Hide &Empty Groups]
 L&eere Gruppen ausblenden
 [Disable &Groups]
@@ -520,7 +520,7 @@ Offline-Kontakte &hier ausblenden
 [&Rename Group]
 G&ruppe umbenennen
 [&Delete Group]
-Gruppe löschen
+Gruppe lГ¶schen
 [Move marked Contacts to this Group]
 Markierte Kontakte in diese Gruppe verschieben
 [Show Status Icons]
@@ -528,7 +528,7 @@ Statusicons zeigen
 [Show Metacontact proto Icons]
 Metakontaktprotokollicons zeigen
 [Show additional Buttons]
-Zusätzliche Buttons anzeigen
+ZusГ¤tzliche Buttons anzeigen
 [Draw sunken Frame]
 Eingefallene Ecken benutzen
 [Use Status Floater]
@@ -575,9 +575,9 @@ Textfarbe
 [Alpha (percent)]
 Alpha (Prozent)
 [Item margins]
-Elementabstände
+ElementabstГ¤nde
 [Item borders]
-Elementränder
+ElementrГ¤nder
 [Border style]
 Rahmenform
 [3D border (bright / dark)]
@@ -603,29 +603,29 @@ Hervorstehen
 Bild-Elemente
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
-Hauptmenü
+HauptmenГј
 [Show / hide offline contacts]
 Offlinekontakte zeigen / ausblenden
 [Toggle group mode]
 Gruppenmodus an / aus
 [Find and add contacts]
-Kontakte suchen und hinzufügen
+Kontakte suchen und hinzufГјgen
 [Accounts]
 Konten
 [Open preferences]
 Einstellungen
 [Toggle sounds]
-Klänge an / aus
+KlГ¤nge an / aus
 [Minimize contact list]
 Kontaktliste minimieren
 [Status menu]
-Statusmenü
+StatusmenГј
 [tabSRMM session list]
 tabSRMM-Sitzungsliste
 [tabSRMM Menu]
-TabSRMM-Menü
+TabSRMM-MenГј
 [Select view mode]
-Kontaktfilter auswählen
+Kontaktfilter auswГ¤hlen
 [Setup view modes]
 Kontaktfilter einstellen
 [Clear view mode]
@@ -640,11 +640,11 @@ Online
 [Away]
 Abwesend
 [Occupied]
-Beschäftigt
+BeschГ¤ftigt
 [DND]
-Bitte nicht stören
+Bitte nicht stГ¶ren
 [Free for chat]
-Für Chat bereit
+FГјr Chat bereit
 [Invisible]
 Unsichtbar
 [Out to lunch]
@@ -666,17 +666,17 @@ Status
 [Last Message]
 Letzter Nachricht
 [Message Frequency]
-Nachrichtenhäufigkeit
+NachrichtenhГ¤ufigkeit
 [Never]
 Niemals
 [Always]
 Immer
 [For RTL only]
-Nur für RTL
+Nur fГјr RTL
 [RTL TEXT only]
 Nur RTL-Text
 [When space allows it]
-Falls Abstand verfügbar ist
+Falls Abstand verfГјgbar ist
 [When needed]
 Bei Bedarf
 [With Nickname - left]
@@ -709,21 +709,21 @@ Kontaktliste
 [FOO]
 
 [Add permanently]
-Dauerhaft hinzufügen
+Dauerhaft hinzufГјgen
 [Revert to default]
 Standardeinstellungen
 [Default (global setting)]
 Standard (globale Einstellungen)
 [Show always when available]
-Immer anzeigen, wenn verfügbar
+Immer anzeigen, wenn verfГјgbar
 [Hide always]
 Immer verstecken
 [When space is available]
-Falls Abstand verfügbar ist
+Falls Abstand verfГјgbar ist
 [When needed by status message]
-Wenn sie benötigt wird
+Wenn sie benГ¶tigt wird
 [Contact list display and ignore options for %s]
-Kontaktlistenanzeige- und Ignorieroptionen für %s
+Kontaktlistenanzeige- und Ignorieroptionen fГјr %s
 [&Contact list settings...]
 Kontaktlisteneinstellungen
 ;file \plugins\Clist_nicer\src\clistopts.cpp
@@ -739,9 +739,9 @@ Kontakt suchen
 [Show tabSRMM session list]
 Zeige TabSRMM-Sitzungsliste
 [Show tabSRMM menu]
-Zeige TabSRMM-Menü
+Zeige TabSRMM-MenГј
 [Sounds are off]
-Klänge sind aus
+KlГ¤nge sind aus
 [Reset view mode]
 Kontaktfilter aufheben
 [Configure view modes]
@@ -757,11 +757,11 @@ Meine Kontakte
 [%s Connecting]
 %s Verbindung
 [Menu]
-Menü
+MenГј
 [Open main menu]
-Hauptmenü öffnen
+HauptmenГј Г¶ffnen
 [Set status modes]
-Status auswählen
+Status auswГ¤hlen
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 
 [Parameter mismatch]
@@ -788,7 +788,7 @@ Titelleiste
 [Tool Window]
 Normaler Rahmen
 [Thin border]
-Dünner Rahmen
+DГјnner Rahmen
 [No border]
 Kein Rahmen
 ;file \plugins\Clist_nicer\src\config.cpp
@@ -822,7 +822,7 @@ Nicht gruppierte Kontakte
 [And]
 Und
 [Older than]
-Älter als
+Г„lter als
 [Newer than]
 Neuer als
 [Minutes]
@@ -838,9 +838,9 @@ Filtern
 [*** All contacts ***]
 *** Alle Kontakte ***
 [Really delete this view mode? This cannot be undone]
-Wirklich diesen Kontaktfilter löschen? Dies kann nicht rückgängig gemacht werden.
+Wirklich diesen Kontaktfilter lГ¶schen? Dies kann nicht rГјckgГ¤ngig gemacht werden.
 [Delete a view mode]
-Kontaktfilter löschen
+Kontaktfilter lГ¶schen
 [No view mode]
 Kein Kontaktfilter
 [A view mode with this name does alredy exist]
@@ -852,9 +852,9 @@ Kontaktfilter einstellen
 [Clear current View Mode]
 Aktuellen Kontaktfilter aufheben
 [Select a view mode]
-Kontaktfilter auswählen
+Kontaktfilter auswГ¤hlen
 [Clear view mode and return to default display]
-Lösche Ansicht und kehre zu Ausgangsanzeige zurück
+LГ¶sche Ansicht und kehre zu Ausgangsanzeige zurГјck
 [View modes]
 Kontaktfilter
 [View Modes]
@@ -899,7 +899,7 @@ Alle Titelleisten anzeigen
 [Hide All Titlebars]
 Alle Titelleisten verstecken
 [Lock Frame]
-Keine Größenänderung
+Keine GrГ¶ГџenГ¤nderung
 [Visible]
 Sichtbar
 [Show TitleBar]
@@ -914,9 +914,9 @@ Frei bewegend
 
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
-Kontakte suchen/hinzu&fügen...
+Kontakte suchen/hinzu&fГјgen...
 [&Main Menu]
-Haupt&menü
+Haupt&menГј
 [&Status]
 
 [Appearance]
@@ -924,7 +924,7 @@ Erscheinungsbild
 [&Options...]
 Einstellungen...
 [&About the contact list...]
-Über die Kont&aktliste...
+Гњber die Kont&aktliste...
 [&New SubGroup]
 &Neue Untergruppe
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp

@@ -1,28 +1,28 @@
-;#muuid not found, please specify manually!
+﻿;#muuid not found, please specify manually!
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
-[��]
+[ОК]
 
 [Load from file]
 
 [Select existing]
-Wähle existierenden
+WГ¤hle existierenden
 [Turn on encryption]
-Verschlüsselung aktivieren
+VerschlГјsselung aktivieren
 [Import key from keyserver]
-Importiere Schlüssel vom Schlüsselserver
+Importiere SchlГјssel vom SchlГјsselserver
 [Generate key]
-Generiere Schlüssel
+Generiere SchlГјssel
 [Select key for use]
-Wählen Sie den zu verwendenden Schlüssel aus:
+WГ¤hlen Sie den zu verwendenden SchlГјssel aus:
 [Key password:]
-Schlüsselpasswort:
+SchlГјsselpasswort:
 [Load other]
 Lade anderen
 [Delete key]
-Schlüssel löschen
+SchlГјssel lГ¶schen
 [Generate and use random key]
-Generiere zufälligen Schlüssel
+Generiere zufГ¤lligen SchlГјssel
 [Account:]
 Konto:
 [key id: ]
@@ -36,11 +36,11 @@ GnuPG-Verzeichnis:
 [Browse]
 Durchsuchen
 [Turn on key autoexchange]
-Automatischer Schlüsselaustausch aktivieren
+Automatischer SchlГјsselaustausch aktivieren
 [Import key]
-Schlüssel importieren
+SchlГјssel importieren
 [Accept and enable encryption]
-Aktzeptiere und aktiv. Verschlüsselung
+Aktzeptiere und aktiv. VerschlГјsselung
 [Ignore]
 Ignorieren
 [Static]
@@ -50,9 +50,9 @@ OK
 [Cancel]
 Abbrechen
 [Key type:]
-Schlüsseltyp:
+SchlГјsseltyp:
 [Key length:]
-Schlüssellänge:
+SchlГјssellГ¤nge:
 [Real name:]
 Richtiger Name:
 [Email:]
@@ -68,7 +68,7 @@ Von 1024 bis 4096
 [It can take a long time, be patient]
 Die Generierung kann eine Weile dauern, bitte warten Sie
 [0 - does not expire]
-0 - verfällt nicht
+0 - verfГ¤llt nicht
 [Password:]
 Passwort:
 [Save password to database]
@@ -78,7 +78,7 @@ Standardpasswort
 [Import]
 Importieren
 [Select keyserver for key search:]
-Wählen Sie den Keyserver für die Schlüsselsuche aus:
+WГ¤hlen Sie den Keyserver fГјr die SchlГјsselsuche aus:
 [Decrypt]
 
 [Recieved encrypted file form contact whith disabled encryption.]
@@ -96,9 +96,9 @@ Wählen Sie den Keyserver für die Schlüsselsuche aus:
 [Userlist:]
 Benutzerliste:
 [Export PubKey]
-Exportiere Schlüssel
+Exportiere SchlГјssel
 [Select own key]
-Wähle eigenen Schlüssel
+WГ¤hle eigenen SchlГјssel
 [Turn on debug log]
 Schalte Debug-Log ein
 [Use jabber api on Miranda NG (recomended)]
@@ -106,13 +106,13 @@ Schalte Debug-Log ein
 [Default key]
 
 [Encrypt file transfers]
-Dateitransfer verschlüsseln
+Dateitransfer verschlГјsseln
 [Automatic key exchange]
-Auto Schlüsselaustausch
+Auto SchlГјsselaustausch
 [Copy own key]
-Kopiere eig. Schlüssel
+Kopiere eig. SchlГјssel
 [Add tags to encoded and decoded messages]
-Füge Tags zu ver- und entschlüsselten Nachrichten hinzu
+FГјge Tags zu ver- und entschlГјsselten Nachrichten hinzu
 [Incomming message tags:]
 Eingehende Nachrichten-Tags:
 [Outgoing message tags:]
@@ -136,9 +136,9 @@ Zu:
 Sprache=en@quot\0LC_Alle=Englisch\0
 ;file \plugins\New_GPG\src\init.cpp
 [<GPGdec>]
-<GPG geöffnet>
+<GPG geГ¶ffnet>
 [<GPGenc>]
-<GPG geöffnet>
+<GPG geГ¶ffnet>
 [Arial]
 
 [GPG Turn off encryption]
@@ -146,22 +146,22 @@ Sprache=en@quot\0LC_Alle=Englisch\0
 [GPG Turn on encryption]
 
 [GPG encryption status]
-GPG-Verschlüsselungsstatus
+GPG-VerschlГјsselungsstatus
 [Load GPG public key]
 
 [Toggle GPG encryption]
-GPG-Verschlüsselung umschalten
+GPG-VerschlГјsselung umschalten
 [Send public key]
-Sende öffentl. Schlüssel
+Sende Г¶ffentl. SchlГјssel
 [Export GPG Public keys]
 
 [Import GPG Public keys]
 
 ;file \plugins\New_GPG\src\main.cpp
 [Set own key]
-Setze eigenen Schlüssel
+Setze eigenen SchlГјssel
 [Key ID]
-Schlüssel-ID
+SchlГјssel-ID
 [Email]
 E-Mail
 [Name]
@@ -171,7 +171,7 @@ Erstelldatum
 [Expire date]
 
 [Key length]
-Schlüssellänge
+SchlГјssellГ¤nge
 [Accounts]
 Konten
 [Default]
@@ -183,9 +183,9 @@ nicht gesetzt
 [Default private key id]
 
 [\\new_key]
-\\neuer Schlüssel
+\\neuer SchlГјssel
 [Failed to open file]
-Konnte die Datei nicht öffnen
+Konnte die Datei nicht Г¶ffnen
 [Error]
 Fehler
 [Generating new random key, please wait]
@@ -201,11 +201,11 @@ Warnung
 [gpgProgram]
 
 [wrong gpg binary location found in system.\nplease choose another location]
-Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wählen Sie ein anderes Verzeichnis aus.
+Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wГ¤hlen Sie ein anderes Verzeichnis aus.
 [This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
 Dies ist kein GnuPG Verzeichnis!\nEs wird empfohlen GnuPG v1.x.x mit diesem Plugin zu verwenden.
 [Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn.]
-Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf eigenes Risiko!\nEs wird empfohlen, GnuPG v1.x.x mit diesem Plugin zu benutzen.
+Eine nicht unterstГјtzte GnuPG-Version wurde gefunden, benutzen Sie diese auf eigenes Risiko!\nEs wird empfohlen, GnuPG v1.x.x mit diesem Plugin zu benutzen.
 [found "gpg" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set.]
 
 [Info]
@@ -219,19 +219,19 @@ Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf ei
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
 [Choose gpg.exe]
-Wählen sie den Pfad zur gpg.exe aus
+WГ¤hlen sie den Pfad zur gpg.exe aus
 [Set home diractory]
 Setze Heimverzeichnis
 [gpg binary does not exists.\nplease choose another location]
-GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
+GPG-Verzeichnis existiert nicht.\nBitte wГ¤hlen Sie ein anderes Verzeichnis aus.
 [please choose gpg binary location]
-bitte wählen Sie das GPG-Hauptverzeichnis aus
+bitte wГ¤hlen Sie das GPG-Hauptverzeichnis aus
 [please set keyring's home directory]
-bitte setzen Sie den Hauptordner für die Schlüssel
+bitte setzen Sie den Hauptordner fГјr die SchlГјssel
 [There is existing key for contact, would you like to replace with new key ?]
-Für diesen Kontakt existiert bereits ein Schlüssel, wollen Sie ihn durch einen neuen Schlüssel ersetzen?
+FГјr diesen Kontakt existiert bereits ein SchlГјssel, wollen Sie ihn durch einen neuen SchlГјssel ersetzen?
 [New public key was received, do you want to import it?]
-Ein neuer Schlüssel wurde empfangen, wollen Sie ihn importieren?
+Ein neuer SchlГјssel wurde empfangen, wollen Sie ihn importieren?
 [Replace]
 Ersetze
 [Accept]
@@ -239,23 +239,23 @@ Akzeptieren
 [Received key from ]
 Schlussel wurde empfangen von
 [Key Generation dialog]
-Schlüsselgenerierungsdialog
+SchlГјsselgenerierungsdialog
 [RSA]
 
 [DSA]
 
 [You must set encryption algorythm first]
-Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
+Sie mГјssen als Erstes einen VerschlГјsselungsalgorithmus setzen
 [Key length must be of length from 1024 to 4096 bits]
-Schlüssellänge muss zwischen 1024 und 4096 Bit betragen.
+SchlГјssellГ¤nge muss zwischen 1024 und 4096 Bit betragen.
 [Invalid date]
-Ungültiges Datum
+UngГјltiges Datum
 [Name must contain at least 5 characters]
 Der Name muss mind. 5 Zeichen beinhalten.
 [Name cannot contain '(' or ]
 
 [Invalid Email]
-Ungültige E-Mail-Adresse
+UngГјltige E-Mail-Adresse
 [Generating new key, please wait...]
 
 [Expiration date]
@@ -289,11 +289,11 @@ Ungültige E-Mail-Adresse
 [\\tmp]
 
 [Your secret key whith id: ]
-Ihr geheimer Schlüssel mit ID:
+Ihr geheimer SchlГјssel mit ID:
 [ for account ]
 
 [ deleted from gpg secret keyring\nDo you want to set another key ?]
- gelöscht vom GPG-Schlüsselring\nWollen Sie einen anderen Schlüssel setzen?
+ gelГ¶scht vom GPG-SchlГјsselring\nWollen Sie einen anderen SchlГјssel setzen?
 [Own secret key warning]
 
 [ expired and will not work\nDo you want to set another key ?]
@@ -303,7 +303,7 @@ Ihr geheimer Schlüssel mit ID:
 [Own private key warning]
 
 [Do you want load key for all subcontacts ?]
-Wollen Sie alle Schlüssel für den Unterkontakt laden?
+Wollen Sie alle SchlГјssel fГјr den Unterkontakt laden?
 [Metacontact detected]
 Metakontakt entdeckt
 [ --batch ]
@@ -312,9 +312,9 @@ Metakontakt entdeckt
 
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
-Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
+Sie haben eine verschlГјsselte Nachricht von einem Kontakt empfangen der die VerschlГјsselung deaktiviert hat.\nWollen Sie die VerschlГјsselung fГјr diesen Kontakt deaktivieren?
 [Do you want try to decrypt encrypted message ?]
-Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
+Wollen Sie versuchen, die verschlГјsselte Nachricht zu entschlГјsseln?
 [\\tmp\\]
 
 [ -d -a "]
@@ -322,9 +322,9 @@ Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
 [GPG_Key_Auto_Exchange:0]
-GPG_Schlüssel_Auto_Austausch:0
+GPG_SchlГјssel_Auto_Austausch:0
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
-Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
+Sie versuchen, mit nicht vertrauenswГјrdigem SchlГјssel zu verschlГјsseln, wollen Sie diesem SchlГјssel dauerhaft vertrauen?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
 
 [Something wrong, gpg does not understand us, aborting encryption.]
@@ -345,21 +345,21 @@ Kontakt
 [Protocol]
 Protokoll
 [This key not used by any contact, do you want to remove it from public keyring ?]
-Dieser Schlüssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
+Dieser SchlГјssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
 [Key info]
-Schlüssel-Info
+SchlГјssel-Info
 [ --batch --yes --delete-key ]
 
 [we have secret key for this public key, do not removing from GPG keyring]
-Sie haben einen geheimen Schlüssel, entfernen Sie ihn nicht aus dem GPG-Schlüsselbund!
+Sie haben einen geheimen SchlГјssel, entfernen Sie ihn nicht aus dem GPG-SchlГјsselbund!
 [info]
 
 [Key removed from GPG keyring]
-Schlüssel aus dem GPG-Schlüsselbund entfernt
+SchlГјssel aus dem GPG-SchlГјsselbund entfernt
 [Do you want to remove key from entire metacontact (all subcontacts) ?]
-Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) löschen?
+Wollen Sie den SchlГјssel fГјr den gesamten Metakontakt (und Unterkontakte) lГ¶schen?
 [Export public key]
-Öffentlichen Schlüssel exportieren
+Г–ffentlichen SchlГјssel exportieren
 [.asc pubkey file]
 .asc-Pubkey-Datei
 [Failed to alocate memory]
@@ -371,30 +371,30 @@ Logdateien
 [Load Public GPG Key for ]
 Lade offentlichen GPG-Schlussel fur
 [Turn off encryption]
-Verschlüsselung deaktivieren
+VerschlГјsselung deaktivieren
 [ --export -a ]
 
 [ found in prescense, and exists in keyring.)]
- gegenwärtig gefunden, er existiert im Hauptverzeichnis.)
+ gegenwГ¤rtig gefunden, er existiert im Hauptverzeichnis.)
 [Load Public GPG Key (Key ID: ]
 Lade offentlichen GPG-Schlussel (Schlussel-ID:
 [ found in prescense.)]
-gegenwärtig gefunden.
+gegenwГ¤rtig gefunden.
 [This is not public or private key]
-Dies ist kein öffentlicher oder privater Schlüssel
+Dies ist kein Г¶ffentlicher oder privater SchlГјssel
 [INFO]
 Information
 [Key already in scret key ring.]
-Der Schlüssel ist bereits im geheimen Hauptverzeichnis.
+Der SchlГјssel ist bereits im geheimen Hauptverzeichnis.
 [Set file containing GPG public key]
-Setzen Sie die Datei, die den GPG-Schlüssel enthält
+Setzen Sie die Datei, die den GPG-SchlГјssel enthГ¤lt
 [GPG public key file]
 
 [Where is no public or private key.]
-Wo ist der öffentliche oder private Schlüssel?
+Wo ist der Г¶ffentliche oder private SchlГјssel?
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts ?]
-Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
+Wollen Sie die VerschlГјsselung fГјr alle Unterkontakte wechseln?
 [Send publick key]
 
 [ -o ]
@@ -446,7 +446,7 @@ von
 [Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
 
 [GPG_Key_Auto_Exchange:0\0\0]
-GPG_Schlüssel_Auto_Austausch:0\0\0
+GPG_SchlГјssel_Auto_Austausch:0\0\0
 [Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
 
 [GPG_Encrypted_FileTransfers:0\0\0]

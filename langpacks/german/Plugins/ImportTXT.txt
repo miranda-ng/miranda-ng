@@ -1,4 +1,4 @@
-#muuid {6F376B33-D3F4-4c4f-A96B-77DA08043B06}
+﻿#muuid {6F376B33-D3F4-4c4f-A96B-77DA08043B06}
 ;============================================================
 ;  File: importtxt.dll
 ;  Plugin: ImportTXT

@@ -1,4 +1,4 @@
-#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: WhenWasIt

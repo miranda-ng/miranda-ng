@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+﻿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
