@@ -204,23 +204,17 @@ static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 			CreateDirectoryTreeT(path2);
 			mir_sntprintf(path2, SIZEOF(path2), _T("%s\\%s\\%s"), profiledir, profile, ffd.cFileName);
 			if (_taccess(path2, 0) == 0) {
-				const TCHAR tszMoveMsg[] = 
-					LPGENT("Miranda is trying upgrade your profile structure.\n")
-					LPGENT("It cannot move profile %s to the new location %s\n")
-					LPGENT("Because profile with this name already exist. Please resolve the issue manually.");
 				TCHAR buf[512];
-
-				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
+				mir_sntprintf(buf, SIZEOF(buf),
+					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually."),
+					path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 			}
 			else if (MoveFile(path, path2) == 0) {
-				const TCHAR tszMoveMsg[] = 
-					LPGENT("Miranda is trying upgrade your profile structure.\n")
-					LPGENT("It cannot move profile %s to the new location %s automatically\n")
-					LPGENT("Most likely due to insufficient privileges. Please move profile manually.");
 				TCHAR buf[512];
-
-				mir_sntprintf(buf, SIZEOF(buf), TranslateTS(tszMoveMsg), path, path2);
+				mir_sntprintf(buf, SIZEOF(buf),
+					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually."),
+					path, path2);
 				MessageBox(NULL, buf, _T("Miranda NG"), MB_ICONERROR | MB_OK);
 				break;
 			}
@@ -304,8 +298,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	getProfileDefault(szProfile, cch, g_profileDir);
 	if (IsInsideRootDir(g_profileDir, true)) {
 		MessageBox(NULL, 
-			LPGENT("Profile cannot be placed into Miranda root folder.\n")
-			LPGENT("Please move Miranda profile to some other location."), 
+			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."), 
 			LPGENT("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
@@ -357,9 +350,9 @@ int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
 	if (file) file++;
 	if (_taccess(profile, 0) == 0) {
 		// file already exists!
-		mir_sntprintf(buf, SIZEOF(buf), TranslateTS(_T("The profile '%s' already exists. Do you want to move it to the ")
-			_T("Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\n")
-			_T("WARNING: A profile may contain confidential information and should be properly deleted.")), file);
+		mir_sntprintf(buf, SIZEOF(buf),
+			TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
+			file);
 		if (MessageBox(hwndDlg, buf, TranslateT("The profile already exists"), MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2) != IDYES)
 			return 0;
 
@@ -515,7 +508,7 @@ int LoadDatabaseModule(void)
 				// file isn't locked, just no driver could open it.
 				TCHAR buf[256];
 				TCHAR* p = _tcsrchr(szProfile, '\\');
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed."), p ? ++p : szProfile);
 				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if ( !FindMirandaForProfile(szProfile)) {
