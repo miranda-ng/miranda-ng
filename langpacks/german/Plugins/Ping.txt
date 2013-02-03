@@ -1,4 +1,4 @@
-﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;langpack template for Ping
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]

@@ -1,4 +1,4 @@
-﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin Updater

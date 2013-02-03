@@ -1,4 +1,4 @@
-﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
 ;langpack template for NoHistory
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]

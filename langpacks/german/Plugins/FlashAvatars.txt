@@ -1,4 +1,4 @@
-﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
+#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;langpack template for FlashAvatars
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash]

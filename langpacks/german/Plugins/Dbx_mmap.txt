@@ -1,4 +1,4 @@
-﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Dbx_mmap

@@ -1,4 +1,4 @@
-﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;langpack template for Omegle
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]

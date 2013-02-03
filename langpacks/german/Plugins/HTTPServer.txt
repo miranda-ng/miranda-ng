@@ -1,4 +1,4 @@
-﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
 ;langpack template for HTTPServer
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]

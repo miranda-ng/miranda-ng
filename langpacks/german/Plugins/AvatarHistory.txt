@@ -1,4 +1,4 @@
-﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar History

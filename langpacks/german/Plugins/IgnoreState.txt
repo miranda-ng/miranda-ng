@@ -1,4 +1,4 @@
-﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;============================================================
 ;  File: IgnoreState.dll
 ;  Plugin: Ignore State

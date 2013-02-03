@@ -1,4 +1,4 @@
-﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Clist_modern

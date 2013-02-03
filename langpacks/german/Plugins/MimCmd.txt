@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+;#muuid not found, please specify manually!
 ;langpack template for MimCmd
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]

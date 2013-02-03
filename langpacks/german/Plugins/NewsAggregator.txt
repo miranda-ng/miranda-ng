@@ -1,4 +1,4 @@
-﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator

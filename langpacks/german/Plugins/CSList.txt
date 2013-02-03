@@ -1,4 +1,4 @@
-﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
 ;  Plugin: Custom Status List mod

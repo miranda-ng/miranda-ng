@@ -1,4 +1,4 @@
-﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather

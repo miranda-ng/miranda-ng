@@ -1,4 +1,4 @@
-﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;langpack template for FavContacts
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]

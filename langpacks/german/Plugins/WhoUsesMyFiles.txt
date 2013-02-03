@@ -1,4 +1,4 @@
-﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]

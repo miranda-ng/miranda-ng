@@ -1,4 +1,4 @@
-﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]

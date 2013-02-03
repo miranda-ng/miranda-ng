@@ -1,4 +1,4 @@
-﻿#muuid {00000000-3a26-7201-4ca9-d6118540a5e6}
+#muuid {00000000-3a26-7201-4ca9-d6118540a5e6}
 ;============================================================
 ;  File: shlext.dll
 ;  Plugin: Shell context menus for transffers

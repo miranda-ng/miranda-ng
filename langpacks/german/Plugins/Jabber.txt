@@ -1,4 +1,4 @@
-﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber

@@ -1,9 +1,9 @@
-﻿#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
 ;  Plugin: Mobile State
 ;  Version: 0.0.1.1
-;  Authors: Robert Pцsel
+;  Authors: Robert P�sel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 
