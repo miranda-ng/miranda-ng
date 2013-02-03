@@ -3,15 +3,15 @@
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Biaіek
+;  Authors: Bartosz 'Dezeath' Bia³ek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add Contact]
-Kontakt hinzufГјgen
+Kontakt hinzufÃ¼gen
 [Add Contact\nAdd a contact to your contact list]
-Kontakt hinzufГјgen\nFГјgt einen Kontakt in ihre Liste hinzu
+Kontakt hinzufÃ¼gen\nFÃ¼gt einen Kontakt in ihre Liste hinzu
 [Account:]
 Konto:
 [Contact ID:]
@@ -23,7 +23,7 @@ Gruppe:
 [Options]
 Einstellungen
 [Add temporarily]
-VorГјbergehend hinzufГјgen
+VorÃ¼bergehend hinzufÃ¼gen
 [Send "You were added"]
 Kontakt benachrichtigen
 [Send authorization request]
@@ -31,23 +31,23 @@ Autorisierungsanfrage senden
 [Authorization Request]
 Autorisierungsanfrage
 [&Add]
-HinzufГјgen
+HinzufÃ¼gen
 [&Cancel]
 Abbre&chen
 ;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
-Bitte autorisieren Sie mich und fГјgen Sie mich Ihrer Kontaktliste hinzu.
+Bitte autorisieren Sie mich und fÃ¼gen Sie mich Ihrer Kontaktliste hinzu.
 [None]
 Keine
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 
 [Add contact]
-Kontakt hinzufГјgen
+Kontakt hinzufÃ¼gen
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
-&Kontakt hinzufГјgen...
+&Kontakt hinzufÃ¼gen...
 [Open add contact dialog]
 
 [Main]
