@@ -141,7 +141,7 @@ static void RecreateWindows()
 	}
 
 	if (g_ctrl->hWnd)
-		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

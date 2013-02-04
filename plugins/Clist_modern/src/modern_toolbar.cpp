@@ -291,8 +291,7 @@ void CustomizeToolbar(HWND hwnd)
 
 	ModernToolbarCtrl* pMTBInfo = (ModernToolbarCtrl*)GetWindowLongPtr(hwnd, 0);
 
-	CLISTFrame Frame = { 0 };
-	Frame.cbSize = sizeof(Frame);
+	CLISTFrame Frame = { sizeof(Frame) };
 	Frame.tname = _T("Toolbar");
 	Frame.hWnd = hwnd;
 	Frame.align = alTop;

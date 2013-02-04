@@ -124,7 +124,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	switch(msg) {
 	case WM_CREATE:
 		g_ctrl->hWnd = hwnd;
-		PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 1, 0);
+		PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 		return FALSE;
 
 	case WM_DESTROY:
@@ -154,7 +154,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				GetClientRect(g_ctrl->hWnd, &rcClient);
 				if (rcClient.bottom - rcClient.top != iHeight && iHeight) {
 					supressRepos = true;
-					PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, -1, 0);
+					PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 				}
 			}
 			return 0;
@@ -208,12 +208,10 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case TTB_UPDATEFRAMEVISIBILITY:
 		{
-			BOOL vis=(BOOL)wParam;
-			BOOL curvis = IsWindowVisible(hwnd);
 			bool bResize = false;
-			int Height = ArrangeButtons();
 
 			if (g_ctrl->bAutoSize) {
+				int Height = ArrangeButtons();
 				INT_PTR frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), 0);
 				if (Height != frameopt) {
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, g_ctrl->hFrame), Height);
@@ -224,12 +222,8 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if (g_ctrl->bOrderChanged)
 				bResize = TRUE, g_ctrl->bOrderChanged = FALSE;
 
-			if ((curvis != vis || bResize) && vis != -1) {
-				INT_PTR frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, g_ctrl->hFrame), 0);
-				frameopt &= ~F_VISIBLE;
-				frameopt |= vis ? F_VISIBLE : 0;
-				CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, g_ctrl->hFrame), frameopt);
-			}
+			if (bResize)
+				CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)g_ctrl->hFrame, FU_FMPOS);
 		}
 		break;
 
@@ -288,8 +282,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 
 	// if there's no customized frames, create our own
 	if (g_ctrl->hFrame == NULL) {
-		CLISTFrame Frame = { 0 };
-		Frame.cbSize = sizeof(Frame);
+		CLISTFrame Frame = { sizeof(Frame) };
 		Frame.tname = _T("Toolbar");
 		Frame.hWnd = g_ctrl->hWnd;
 		Frame.align = alTop;

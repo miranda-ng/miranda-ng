@@ -538,7 +538,7 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 
 	if (g_ctrl->hWnd) {
 		g_ctrl->bOrderChanged = true;
-		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 	}
 
 	return 0;
@@ -564,7 +564,7 @@ int OnPluginLoad(WPARAM wParam, LPARAM lParam)
 {
 	CallPluginEventHook((HINSTANCE)lParam, hTTBModuleLoaded, 0, 0);
 	if (g_ctrl->hWnd && g_ctrl->bOrderChanged)
-		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 	return 0;
 }
 
@@ -587,7 +587,7 @@ int OnPluginUnload(WPARAM wParam, LPARAM lParam)
 		if (bNeedUpdate) {
 			ArrangeButtons();
 			if (g_ctrl->hWnd)
-				PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, TRUE, 0);
+				PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 		}
 	}
 	return 0;
