@@ -152,7 +152,7 @@ static void Icon2button(TTBButton* but, HANDLE& hIcoLib, HICON& hIcon, bool bIsU
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, (bIsUp) ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
 		SKINICONDESC sid = { sizeof(sid) };
-		sid.pszSection = "Toolbar";				
+		sid.pszSection = "Toolbar";
 		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;
 		sid.pszDescription = but->name;
@@ -278,7 +278,7 @@ int ArrangeButtons()
 		if (g_ctrl->bSingleLine)
 			break;
 	}
-		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));		
+		while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
 	for (i=iLastButtonId; i < Buttons.getCount(); i++)
 		hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
@@ -314,7 +314,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		delete b;
 		return -1;
 	}
-	{	
+	{
 		mir_cslock lck(csButtonsHook);
 		Buttons.insert(b);
 	}
@@ -335,7 +335,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	TopButtonInt* b = idtopos(wParam, &idx);
 	if (b == NULL)
 		return -1;
-	
+
 	RemoveFromOptions(b->id);
 
 	Buttons.remove(idx);
@@ -347,7 +347,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 }
 
 // wparam = hTTBButton
-// lparam = state 
+// lparam = state
 INT_PTR TTBSetState(WPARAM wParam, LPARAM lParam)
 {
 	mir_cslock lck(csButtonsHook);
@@ -401,7 +401,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			lpTTBButton lpTTB = (lpTTBButton)lParam;
 			if (lpTTB->cbSize != sizeof(TTBButton))
 				break;
-				
+
 			lpTTB->dwFlags = b->dwFlags & (~TTBBF_PUSHED);
 			if (b->bPushed)
 				lpTTB->dwFlags |= TTBBF_PUSHED;
@@ -427,7 +427,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 		retval = -1;
 		break;
 	}
-	
+
 	return retval;
 }
 
@@ -446,14 +446,14 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			break;
 
 		retval = b->CheckFlags(lParam);
-		
+
 		if (retval & TTBBF_PUSHED)
 			b->SetBitmap();
 		if (retval & TTBBF_VISIBLE) {
 			ArrangeButtons();
 			b->SaveSettings(0,0);
 		}
-				
+
 		retval = 1;
 		break;
 
@@ -493,7 +493,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 			if (b->dwFlags & TTBBF_ISLBUTTON)
 				replaceStrT(b->ptszProgram, lpTTB->program);
-			else 
+			else
 				replaceStr(b->pszService, lpTTB->pszService);
 
 			b->lParamUp = lpTTB->lParamUp;
@@ -509,7 +509,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		retval = -1;
 		break;
 	}
-	
+
 	return retval;
 }
 
@@ -605,12 +605,12 @@ static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	HANDLE hEvent = CreateEvent(NULL, TRUE, TRUE, NULL);//anonymous event
 	if (hEvent != 0)
 		CallService(MS_SYSTEM_WAITONHANDLE, (WPARAM)hEvent, (LPARAM)"TTB_ONSTARTUPFIRE");
-	
+
 	if ( HookEvent(ME_BACKGROUNDCONFIG_CHANGED, OnBGChange)) {
 		char buf[256];
 		sprintf(buf, "TopToolBar Background/%s", TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
-	}	
+	}
 	return 0;
 }
 
