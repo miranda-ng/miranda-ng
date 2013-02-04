@@ -172,7 +172,7 @@ VOID SvcHomepageRebuildMenu()
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000010000;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
-		mi.pszName = "&Homepage";
+		mi.pszName = LPGEN("&Homepage");
 		mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
 		ghMenuItem = Menu_AddContactMenuItem(&mi);
 	}

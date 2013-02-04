@@ -343,7 +343,7 @@ static void initMenuItems(TlenProtocol *proto)
 	{
 		sprintf(text, "%s/MainMenuChats", proto->m_szModuleName);
 		CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleChats);
-		mi.pszName = "Tlen Chats";
+		mi.pszName = LPGEN("Tlen Chats");
 		mi.position = 2000050001;
 		mi.icolibItem = GetIconHandle(IDI_CHATS);
 		mi.pszService = text;
@@ -354,7 +354,7 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Multi-User Conference"
 	sprintf(text, "%s/MainMenuMUC", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMUCMenuHandleMUC);
-	mi.pszName = "Multi-User Conference";
+	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = 2000050002;
 	mi.icolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
@@ -363,7 +363,7 @@ static void initMenuItems(TlenProtocol *proto)
 
 	sprintf(text, "%s/MainMenuInbox", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMenuHandleInbox);
-	mi.pszName = "Tlen Mail";
+	mi.pszName = LPGEN("Tlen Mail");
 	mi.position = 2000050003;
 	mi.icolibItem = GetIconHandle(IDI_MAIL);
 	mi.pszService = text;
@@ -375,7 +375,7 @@ static void initMenuItems(TlenProtocol *proto)
 	sprintf(text, "%s/SendPicture", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleSendPicture);
 	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.pszName = "Send picture";
+	mi.pszName = LPGEN("Send picture");
 	mi.position = -2000019030;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);
 	mi.pszService = text;
@@ -384,7 +384,7 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Invite to MUC"
 	sprintf(text, "%s/ContactMenuMUC", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenMUCContactMenuHandleMUC);
-	mi.pszName = "Multi-User Conference";
+	mi.pszName = LPGEN("Multi-User Conference");
 	mi.position = -2000019020;
 	mi.icolibItem = GetIconHandle(IDI_MUC);
 	mi.pszService = text;
@@ -393,7 +393,7 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Invite to voice chat"
 	sprintf(text, "%s/ContactMenuVoice", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenVoiceContactMenuHandleVoice);
-	mi.pszName = "Voice Chat";
+	mi.pszName = LPGEN("Voice Chat");
 	mi.position = -2000019010;
 	mi.icolibItem = GetIconHandle(IDI_VOICE);
 	mi.pszService = text;
@@ -402,7 +402,7 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Request authorization"
 	sprintf(text, "%s/RequestAuth", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleRequestAuth);
-	mi.pszName = "Request authorization";
+	mi.pszName = LPGEN("Request authorization");
 	mi.position = -2000001001;
 	mi.icolibItem = GetIconHandle(IDI_REQUEST);
 	mi.pszService = text;
@@ -411,7 +411,7 @@ static void initMenuItems(TlenProtocol *proto)
 	// "Grant authorization"
 	sprintf(text, "%s/GrantAuth", proto->m_szModuleName);
 	CreateServiceFunction_Ex(text, proto, TlenContactMenuHandleGrantAuth);
-	mi.pszName = "Grant authorization";
+	mi.pszName = LPGEN("Grant authorization");
 	mi.position = -2000001000;
 	mi.icolibItem = GetIconHandle(IDI_GRANT);
 	mi.pszService = text;

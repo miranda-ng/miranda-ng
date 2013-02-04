@@ -75,7 +75,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.position = 2000070050;
 	mi.icolibItem = icon.hIcolib;
 	mi.pszPopupName = (char*)-1;
-	mi.pszName = "Assign Smiley Category";
+	mi.pszName = LPGEN("Assign Smiley Category");
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	DownloadInit();
