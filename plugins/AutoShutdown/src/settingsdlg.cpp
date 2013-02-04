@@ -428,7 +428,7 @@ void SetShutdownToolbarButton(BOOL fActive)
 {
 	if(hToolbarButton) {
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton,fActive?TTBST_PUSHED:TTBST_RELEASED);
-		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hToolbarButton),(LPARAM)(fActive?Translate("Sdop automatic shutdown"):Translate("Start automatic shutdown")));
+		CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hToolbarButton),(LPARAM)(fActive?Translate("Stop automatic shutdown"):Translate("Start automatic shutdown")));
 	}
 }
 
