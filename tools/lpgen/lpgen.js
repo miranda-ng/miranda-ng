@@ -241,7 +241,7 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     //logging results
     if (log) WScript.Echo("Writing "+plugintemplate.length+" strings for "+plugin);
     //finally, write "nodupes" array to file
-    WriteToFile(plugintemplate,langpack);
+    WriteToUnicodeFile(plugintemplate,langpack);
 };  
 
 //Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
