@@ -133,7 +133,7 @@
 [New Note]
 Новая заметка
 [Toggle Notes Visibility]
-
+Переключить видимость заметок
 [Bring All Notes to Front]
 Переместить заметки на передний план
 [New Reminder]
