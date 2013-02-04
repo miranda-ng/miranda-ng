@@ -42,13 +42,13 @@ inline std::wstring search_path(const std::wstring &filename,
     {
         boost::filesystem::path p = *it;
         p /= filename;
-        boost::array<std::wstring, 4> extensions =
-            { L"", L".exe", L".com", L".bat" };
-        for (boost::array<std::wstring, 4>::iterator it2 = extensions.begin();
+        boost::array<std::string, 4> extensions =
+            { "", ".exe", ".com", ".bat" };
+        for (boost::array<std::string, 4>::iterator it2 = extensions.begin();
             it2 != extensions.end(); ++it2)
         {
             boost::filesystem::path p2 = p;
-            p2 += *it2;
+            p2 /= (std::string)*it2;
             boost::system::error_code ec;
             bool file = boost::filesystem::is_regular_file(p2, ec);
             if (!ec && file &&
