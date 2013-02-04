@@ -1,4 +1,4 @@
-#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter

@@ -1,4 +1,4 @@
-;#muuid for UInfoEx not found, please specify manually!
+﻿;#muuid for UInfoEx not found, please specify manually!
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
@@ -513,6 +513,7 @@
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 [View Homepage]
+[&Homepage]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]

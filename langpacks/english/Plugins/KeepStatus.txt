@@ -1,4 +1,4 @@
-#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep Status

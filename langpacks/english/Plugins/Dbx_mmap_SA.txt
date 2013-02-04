@@ -1,4 +1,4 @@
-#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver

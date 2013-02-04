@@ -1,4 +1,4 @@
-#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
 ;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]

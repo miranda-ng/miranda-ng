@@ -1,4 +1,4 @@
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter

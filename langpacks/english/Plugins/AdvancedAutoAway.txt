@@ -1,4 +1,4 @@
-#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away

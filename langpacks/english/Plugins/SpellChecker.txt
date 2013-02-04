@@ -1,4 +1,4 @@
-#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell Checker

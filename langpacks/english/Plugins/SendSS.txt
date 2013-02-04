@@ -1,4 +1,4 @@
-#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send Screenshot+

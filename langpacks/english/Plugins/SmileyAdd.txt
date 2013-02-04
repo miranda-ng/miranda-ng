@@ -1,4 +1,4 @@
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
@@ -39,6 +39,7 @@
 [SmileyAdd HTTP connections]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
+[Assign Smiley Category]
 [Only one instance of SmileyAdd could be executed.\n]
 [Remove duplicate instances from 'Plugins' directory]
 ;file \plugins\SmileyAdd\src\options.cpp

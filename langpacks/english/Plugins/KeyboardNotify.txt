@@ -1,4 +1,4 @@
-#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]

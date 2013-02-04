@@ -1,4 +1,4 @@
-#muuid {748f8934-781a-528d-5208-001265404ab3}
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
@@ -146,6 +146,11 @@
 [Send image]
 [Incoming mail]
 [Alert]
+[Tlen Chats]
+[Multi-User Conference]
+[Tlen Mail]
+[Send picture]
+[Voice Chat]
 ;file \protocols\Tlen\src\tlen_file.cpp
 [%d Files]
 ;file \protocols\Tlen\src\tlen_muc.cpp

@@ -1,4 +1,4 @@
-#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;langpack template for Clist_mw
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
@@ -107,7 +107,7 @@
 [MetaContacts supporting]
 [Ignore Empty Extra icons places (arrange to right).]
 [Hide offline subcontacts.]
-[&�]
+[&¤]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]

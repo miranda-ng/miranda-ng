@@ -1,4 +1,4 @@
-#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]

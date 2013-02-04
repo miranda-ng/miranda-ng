@@ -1,4 +1,4 @@
-#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
 ;============================================================
 ;  File: SplashScreen.dll
 ;  Plugin: Splash Screen
@@ -33,3 +33,4 @@
 [Sound Files]
 [Skins]
 [Splash Screen]
+;file \plugins\SplashScreen\src\services.cpp

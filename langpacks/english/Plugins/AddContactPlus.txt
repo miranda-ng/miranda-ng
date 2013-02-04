@@ -1,9 +1,9 @@
-#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Bia�ek
+;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc

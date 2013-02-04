@@ -1,4 +1,4 @@
-#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]

@@ -1,4 +1,4 @@
-#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;langpack template for ListeningTo
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]

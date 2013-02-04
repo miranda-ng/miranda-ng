@@ -1,4 +1,4 @@
-#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR

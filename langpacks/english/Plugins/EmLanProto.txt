@@ -1,4 +1,4 @@
-#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;langpack template for EmLanProto
 ;file \protocols\EmLanProto\res\amdproto.rc
 [EmLan protocol - donate author please]

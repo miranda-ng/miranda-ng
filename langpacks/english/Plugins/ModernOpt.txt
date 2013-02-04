@@ -1,4 +1,4 @@
-#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]

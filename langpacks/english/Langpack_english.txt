@@ -1095,13 +1095,10 @@
 [&Move to Group]
 [<Root Group>]
 ;file \src\modules\database\database.cpp
-[Miranda is trying upgrade your profile structure.\n]
-[It cannot move profile %s to the new location %s\n]
-[Because profile with this name already exist. Please resolve the issue manually.]
-[It cannot move profile %s to the new location %s automatically\n]
-[Most likely due to insufficient privileges. Please move profile manually.]
-[Profile cannot be placed into Miranda root folder.\n]
-[Please move Miranda profile to some other location.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 [The profile already exists]
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
 [Problem moving profile]
@@ -1109,7 +1106,7 @@
 [Problem creating profile]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 [No profile support installed!]
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
 [Miranda can't understand that profile]
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 [Miranda can't open that profile]
@@ -1278,12 +1275,12 @@
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 ;file \src\modules\visibility\visibility.cpp
-#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
 ;  Version: 0.9.9.1
-;  Authors: Bartosz 'Dezeath' Bia�ek
+;  Authors: Bartosz 'Dezeath' Biaіek
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
@@ -1311,7 +1308,7 @@
 [Open add contact dialog]
 [Main]
 [AddContact+]
-#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
+﻿#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
 ;============================================================
 ;  File: AdvaImg.dll
 ;  Plugin: Miranda Image services
@@ -1319,7 +1316,7 @@
 ;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
 [Generic image services for Miranda NG.]
-#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
@@ -1334,7 +1331,7 @@
 [Rules]
 [Status Messages]
 [Auto Away]
-#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
 ;  File: AIM.dll
 ;  Plugin: AIM protocol
@@ -1557,7 +1554,7 @@
 [Please, enter a username in the options dialog.]
 [Please, enter a password in the options dialog.]
 [Failed to open file: %s %s]
-#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;============================================================
 ;  File: Alarms.dll
 ;  Plugin: Alarms
@@ -1657,7 +1654,7 @@
 [The alarm time you have selected is in the past.]
 [Events]
 ;file \plugins\Alarms\src\trigger.cpp
-#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
 ;  Plugin: File Association Manager
@@ -1703,7 +1700,7 @@
 [Testing Service]
 [Miranda Installer Package (demo purpose)]
 [&Install]
-#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
@@ -1726,7 +1723,7 @@
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
 [Auth State]
-#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
 ;  File: AutoRun.dll
 ;  Plugin: AutoRun
@@ -1740,7 +1737,7 @@
 [Note: At startup Miranda NG will use current profile]
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
-#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;============================================================
 ;  File: AutoShutdown.dll
 ;  Plugin: Auto shutdown
@@ -1847,7 +1844,7 @@
 ;file \plugins\AutoShutdown\src\utils.cpp
 [Toggle Automatic Shutdown]
 [Main]
-#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar History
@@ -1947,7 +1944,7 @@
 [Show contact history]
 [Test Contact]
 [Test description]
-#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
@@ -2021,7 +2018,7 @@
 [No avatar]
 [Are you sure you want to remove your avatar?]
 [Global Avatar]
-#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
 ;  Plugin: Basic History
@@ -2271,7 +2268,7 @@
 [You have reached the end of the group.]
 [You have reached the end of the history.]
 ;file \plugins\BasicHistory\src\TxtExport.cpp
-#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: BASS_interface.dll
 ;  Plugin: BASS interface
@@ -2298,7 +2295,7 @@
 [Bass Interface]
 [Sounds enabled]
 [Sounds disabled]
-#muuid {488c5c84-56da-434f-96f1-b18900def760}
+﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
 ;  File: Boltun.dll
 ;  Plugin: Boltun
@@ -2340,7 +2337,7 @@
 [Failed to save base of remarks to %s]
 [General Settings]
 [Engine Settings]
-#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
@@ -2390,7 +2387,7 @@
 [Events]
 [Main]
 [Advanced]
-#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
 ;  File: BuddyExpectator.dll
 ;  Plugin: Buddy Expectator+
@@ -2464,7 +2461,7 @@
 [not detected]
 [not found]
 [This contact has been absent for an extended period of time.]
-#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
 ;  Plugin: Change Keyboard Layout
@@ -2513,7 +2510,7 @@
 [Changing Case]
 [Message Sessions]
 [PopUps]
-#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
 ;  Plugin: Client Change Notify
@@ -2574,7 +2571,7 @@
 [Open contact history]
 [Open log file]
 [Do nothing]
-#muuid {53e095a3-2695-490a-9dad-d20479093831}
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;langpack template for Clist_blind
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
@@ -2658,7 +2655,7 @@
 [Make sections equal width]
 [Show bevels on panels]
 [Show resize grip indicator]
-[&�]
+[&¤]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]
@@ -2707,7 +2704,7 @@
 [Unknown Protocol]
 [Expanded]
 [Colapsed]
-#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Clist_modern
@@ -3016,7 +3013,7 @@
 [Move up]
 [Move down]
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-[&�]
+[&¤]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]
@@ -3251,7 +3248,7 @@
 [Reset view mode]
 [View Modes]
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h
-#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;langpack template for Clist_mw
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
@@ -3360,7 +3357,7 @@
 [MetaContacts supporting]
 [Ignore Empty Extra icons places (arrange to right).]
 [Hide offline subcontacts.]
-[&�]
+[&¤]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]
@@ -3464,7 +3461,7 @@
 [Show TitleBar]
 [Floating]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
@@ -3501,7 +3498,7 @@
 [About CList Nicer+]
 [OK]
 [Clist Nicer+]
-[Copyright � 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Version]
 [Support and latest version information]
 [Delete Contact]
@@ -3709,7 +3706,7 @@
 [Show 2nd line:]
 [Draw overlay icon on avatar]
 [Show local time]
-[&�]
+[&¤]
 [E&xit]
 [&Status]
 [&Offline\tCtrl+0]
@@ -3933,7 +3930,7 @@
 [&New SubGroup]
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
-#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;langpack template for Cln_skinedit
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -3969,7 +3966,7 @@
 [Bumped]
 [Etched]
 [Image items]
-#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: CmdLine
@@ -4056,7 +4053,7 @@
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]
-#muuid {23d4f302-d513-45b7-9027-445f29557311}
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
@@ -4100,7 +4097,7 @@
 [All Files]
 [Save selection to file]
 [Save log to file]
-#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
@@ -4129,7 +4126,7 @@
 [Contacts]
 [Incoming Contacts]
 [Outgoing Contacts]
-#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: CrashDumper
@@ -4185,7 +4182,7 @@
 [Crash Dumper HTTP connections]
 ;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
+﻿#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: CryptoPP
@@ -4200,7 +4197,7 @@
 [Cancel]
 [GnuPG Plugin - Select public key]
 [Refresh]
-#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
 ;  Plugin: Custom Status List mod
@@ -4261,7 +4258,7 @@
 [Clear]
 [Set custom status to selected one and close]
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+﻿#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 ;============================================================
 ;  File: CyrTranslit.dll
 ;  Plugin: CyrTranslit
@@ -4269,7 +4266,7 @@
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the ]
-#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: dbchecker.dll
 ;  Plugin: Database Checker
@@ -4352,7 +4349,7 @@
 [Elapsed time: %d sec]
 [All tasks completed but with errors (%d)]
 [All tasks completed successfully]
-#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: Svc_dbepp.dll
 ;  Plugin: Database Editor++
@@ -4568,7 +4565,7 @@
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
 ;============================================================
 ;  File: Dbx_3x.dll
 ;  Plugin: Dbx_3x
@@ -4600,7 +4597,7 @@
 [&Delete]
 [&Move/Rename]
 [&Leave]
-#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Dbx_mmap
@@ -4689,7 +4686,7 @@
 [Processing user data]
 [User corrupted, this could cause major problems]
 [More than one user contact: keeping only first]
-#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver
@@ -4763,7 +4760,7 @@
 [DB is already secured!]
 [current database]
 [Set Password]
-#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
+﻿#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
 ;langpack template for Dbx_tree
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
@@ -4775,7 +4772,7 @@
 [ was successfully]
 [ could not be]
 [Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
-#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db_autobackups
@@ -4826,7 +4823,7 @@
 [Select Backup Folder]
 [Error Creating Backup Folder]
 [Database AutoBackups]
-#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
+﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
 ;langpack template for EmLanProto
 ;file \protocols\EmLanProto\res\amdproto.rc
 [EmLan protocol - donate author please]
@@ -4841,7 +4838,7 @@
 [User name or '*']
 [E-mage LAN protocol]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
@@ -4945,7 +4942,7 @@
 [Services]
 [Check Friends Requests]
 [Check Newsfeeds]
-#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;langpack template for FavContacts
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
@@ -4977,7 +4974,7 @@
 [Favourites]
 [&Favourite Contacts...]
 [<No group>]
-#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
@@ -5022,7 +5019,7 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 [File As Message...]
-#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
@@ -5060,7 +5057,7 @@
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 [Fingerprint]
-#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
 ;  Plugin: Flags
@@ -5076,7 +5073,7 @@
 [Use &IP-to-country database for country detection]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
-#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
+﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;langpack template for FlashAvatars
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
@@ -5084,7 +5081,7 @@
 [Bugged Flash detected!]
 [You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 [Flash Avatars]
-#muuid {53c715a8-eb01-4136-a73c-441868610074}
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating Contacts
@@ -5158,7 +5155,7 @@
 [Sample]
 [<none>]
 [<Contact List Text>]
-#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Folders
@@ -5178,11 +5175,35 @@
 ;file \plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 [Changes not saved]
-[\\r\nDon't forget to click on Apply to save the changes. If you don't then the changes won't\r\n\\r\nbe saved to the database, they will only be valid for this session.\r\n\r\n\\r\nVariable string\t\tWhat it expands to:\r\n\\r\n%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda ng).\r\n\\r\n%profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\\r\n\t\t\tProfileDir section (usually inside miranda's folder).\r\n\\r\n%current_profile%\tExpands to your current profile name without the extenstion.\r\n\\r\n\t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\\r\nEnvironment variables\r\n\\r\nThe plugin can also expand environment variables; the variables are specified like in any other\r\n\\r\nprogram that can use environment variables, i.e. %<env variable>%.\r\n\\r\nNote: Environment variables are expanded before any Miranda variables. So if you have, for\r\n\\r\nexample, %profile_path% defined as a system variable then it will be expanded to that value\r\n\\r\ninstead of expanding to Miranda�s profile path.\r\n\r\n\\r\nExamples:\r\n\\r\nIf the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current\r\n\\r\nprofile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:\r\n\\r\n%miranda_path%\t\t\twill expand to 'c:\\program files\\miranda ng\'\r\n\\r\n%profile_path%\t\t\twill expand to 'c:\\program files\\miranda ng\\profiles\'\r\n\\r\n%current_profile%\t\t\twill expand to 'default'\r\n\\r\n%temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\\r\n%profile_path%\\%current_profile%\twill expand to 'c:\\program files\\miranda ng\\profiles\\default\'\r\n\\r\n%miranda_path%\\plugins\\config\twill expand to 'c:\\program files\\miranda ng\\plugins\\config\'\r\n\\r\n%miranda_path%\t\t\twill expand to 'c:\\program files\\miranda ng\'\r\n\r\n\\r\nNotice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
+[Don't forget to click on Apply to save the changes. If you don't then the changes won't]
+[be saved to the database, they will only be valid for this session.]
+[Variable string]
+[What it expands to:]
+[Expands to your miranda path (e.g: c:\\program files\\miranda ng).]
+[Expands to your profile path - the value found in mirandaboot.ini,]
+[ProfileDir section (usually inside miranda's folder).]
+[Expands to your current profile name without the extenstion.]
+[(e.g.default if your your profile is default.dat).]
+[Environment variables]
+[The plugin can also expand environment variables; the variables are specified like in any other]
+[program that can use environment variables, i.e. %<env variable>%.]
+[Note: Environment variables are expanded before any Miranda variables. So if you have, for]
+[example, %profile_path% defined as a system variable then it will be expanded to that value]
+[instead of expanding to Miranda's profile path.]
+[Examples:]
+[If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current]
+[profile is 'default.dat' and miranda's path is 'c:\\program files\\miranda ng\' then:]
+[will expand to 'c:\\program files\\miranda ng']
+[will expand to 'c:\\program files\\miranda ng\\profiles']
+[will expand to 'default']
+[will expand to the temp folder of the current user.]
+[will expand to 'c:\\program files\\miranda ng\\profiles\\default']
+[will expand to 'c:\\program files\\miranda ng\\plugins\\config']
+[Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 ;file \plugins\Folders\src\hooked_events.cpp
 [Folders]
 [Customize]
-#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -5321,7 +5342,7 @@
 [Advanced]
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
@@ -5567,7 +5588,7 @@
 [Your e-mail cannot be changed because of error:\n\t%s]
 [Bad old e-mail or password]
 [Your e-mail has been changed.]
-#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
@@ -5609,7 +5630,7 @@
 [subject\n    %s\nfrom\n%s]
 ;file \protocols\GTalkExt\src\tipper_items.cpp
 [Unread threads:]
-#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: HistorySweeperLight
@@ -5628,7 +5649,7 @@
 [*** Defaut Action ***]
 [*** System History ***]
 [History]
-#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
 ;langpack template for HTTPServer
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
@@ -5715,7 +5736,7 @@
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]
 [Disable HTTP server]
 [Enable HTTP server]
-#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ
@@ -6730,7 +6751,7 @@
 [<not specified>]
 [Member since:]
 [%s Details]
-#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
@@ -6803,7 +6824,7 @@
 [File received]
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
-#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;============================================================
 ;  File: IgnoreState.dll
 ;  Plugin: Ignore State
@@ -6829,7 +6850,7 @@
 [Message Ignore]
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import
@@ -6915,7 +6936,7 @@
 [Skipping duplicate group %s.]
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
-#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
@@ -7309,7 +7330,7 @@
 [Edit ban]
 [Edit invite?]
 [Edit exception?]
-#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber
@@ -8184,7 +8205,7 @@
 [Listening To]
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
-#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep Status
@@ -8216,7 +8237,7 @@
 [You broke the Internet!]
 [Status]
 [PopUps]
-#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
@@ -8325,7 +8346,7 @@
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]
 [None]
-#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+﻿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: LangMan
@@ -8370,7 +8391,7 @@
 [&Remove...]
 [Languages]
 [Customize]
-#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
@@ -8448,7 +8469,7 @@
 [RTF file]
 [All files]
 [Save RTF File]
-#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;langpack template for ListeningTo
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
@@ -8527,7 +8548,7 @@
 [Miranda ListeningTo receiver]
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
@@ -8587,7 +8608,7 @@
 [Open ignore settings]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;============================================================
 ;  File: MetaContacts.dll
 ;  Plugin: MetaContacts
@@ -8733,7 +8754,7 @@
 [Out to Lunch]
 [IDLE]
 [Unknown]
-#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
@@ -8878,17 +8899,17 @@
 [Would you like to save the current fingerprint list?]
 [OTR Log Message]
 ;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+﻿#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
 ;  File: MobileState.dll
 ;  Plugin: Mobile State
 ;  Version: 0.0.1.1
-;  Authors: Robert P�sel
+;  Authors: Robert Pцsel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 ;file \plugins\MobileState\src\main.cpp
 [Mobile State]
-#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
@@ -8911,7 +8932,7 @@
 [Set your status messages and idle reporting.]
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
@@ -9028,7 +9049,7 @@
 [Files]
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
-#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
@@ -9163,7 +9184,7 @@
 [Failed to write Unknown event to the file :\n]
 [User has been deleted do you want to delete the file?]
 [Failed to delete the file]
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN
@@ -9322,17 +9343,7 @@
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
-#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
-;============================================================
-;  File: mTextControl.dll
-;  Plugin: mTextControl
-;  Version: 0.8.0.1
-;  Authors: 
-;============================================================
-;file \plugins\mTextControl\src\fancy_rtf.cpp
-[icon]
-;file \plugins\mTextControl\src\ImageDataObjectHlp.cpp
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
@@ -9418,7 +9429,7 @@
 [Set My Nickname for %s]
 [Set My Status Message for %s]
 ;file \plugins\MyDetails\src\options.cpp
-#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 ;langpack template for NewEventNotify
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
@@ -9472,7 +9483,7 @@
 [This is a sample other event ;-D]
 [Plugin Test]
 [Number of new message: ]
-#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
@@ -9548,7 +9559,7 @@
 [New Aggregator]
 [%s\nis a not valid feed's address.]
 [empty]
-#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
@@ -9743,11 +9754,11 @@
 [has %N @ %T%D%I]
 [These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
 [These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
-#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
-[��]
+[ОК]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -9763,6 +9774,7 @@
 [key id: ]
 [Copy public key]
 [Export private key]
+[Change password]
 [Set GPG bin path and keyring home dir.]
 [Continue]
 [Home directory:]
@@ -9803,6 +9815,9 @@
 [Export public keys (only set for contacts)]
 [Export all private keys]
 [Export public and private keys]
+[Change private key password]
+[Current password:]
+[New password twice:]
 [Userlist:]
 [Export PubKey]
 [Select own key]
@@ -9938,7 +9953,9 @@
 [all private keys]
 [Keys export result]
 [Keys import result]
-#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+[New passwords not match]
+[Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?]
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
 ;langpack template for NoHistory
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
@@ -9959,7 +9976,7 @@
 [No History]
 [History]
 [Logging]
-#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
@@ -10122,7 +10139,7 @@
 [Reminder text]
 [Date of activation]
 [Are you sure you want to delete this reminder?]
-#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;langpack template for Nudge
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
@@ -10178,7 +10195,7 @@
 ;file \plugins\Nudge\src\options.cpp
 [Events]
 [Window Shaking]
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;langpack template for Omegle
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
@@ -10235,12 +10252,12 @@
 [Account]
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-#muuid {10896143-7249-4b36-a408-6501a6b6035a}
+﻿#muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;langpack template for OpenFolder
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Plugin: Pack Updater
@@ -10321,7 +10338,7 @@
 [No updates found.]
 [No files for update.]
 [Update checking already started!]
-#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste It
@@ -10406,7 +10423,7 @@
 [Paste expire date]
 [Never]
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
-#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;langpack template for Ping
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
@@ -10493,7 +10510,7 @@
 [Not Responding]
 [Testing]
 [Disabled]
-#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin Updater
@@ -10570,7 +10587,7 @@
 ['Yes' Button]
 ['No' Button]
 [Plugin Updater HTTP connection]
-#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;langpack template for PManagerEx
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
@@ -10580,7 +10597,7 @@
 [Change profile]
 [Check database]
 [Restart]
-#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp
@@ -10768,7 +10785,7 @@
 [Auto]
 [Favourite]
 [Block]
-#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;langpack template for QuickContacts
 ;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
@@ -10805,7 +10822,7 @@
 [Ctrl+I]
 [Ctrl+H]
 [Ctrl+M]
-#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [+]
@@ -10848,7 +10865,7 @@
 [New Button]
 [New Menu Entry]
 [Message Sessions]
-#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: quickreplies.dll
 ;  Plugin: Quick Replies
@@ -10869,7 +10886,7 @@
 ;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 [Quick Replies]
-#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -11025,14 +11042,14 @@
 [Enter log file format.]
 [Enter history format.]
 [Enter popup window format.]
-#muuid {45230488-977b-405b-856d-ea276d7083b7}
+﻿#muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;langpack template for Rate
 ;file \plugins\Rate\src\main.cpp
 [Rate high]
 [Rate medium]
 [Rate low]
 [Contact Rate]
-#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;langpack template for RecentContacts
 ;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
@@ -11048,11 +11065,11 @@
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
-#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
+﻿#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
 ;langpack template for Restart
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
-#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;langpack template for Scriver
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
@@ -11555,7 +11572,7 @@
 [%s: Chat Room (%u users)]
 [%s: Message Session]
 [%s: Message Session (%u users)]
-#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -11672,7 +11689,7 @@
 [Services]
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [PopUps]
-#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last Seen Mod
@@ -11812,7 +11829,7 @@
 [Idle]
 [Unknown]
 [Not Idle]
-#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send Screenshot+
@@ -11932,7 +11949,7 @@
 [for Client area ]
 [of "]
 [" Window]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
+﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
@@ -12001,7 +12018,7 @@
 [Message Sessions]
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
-#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
 ;  File: SimpleAR.dll
 ;  Plugin: SimpleAR
@@ -12031,7 +12048,7 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
@@ -12177,7 +12194,7 @@
 [That'll be the phone.]
 [Mmm...food.]
 [idleeeeeeee]
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
@@ -12218,6 +12235,7 @@
 [SmileyAdd HTTP connections]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
+[Assign Smiley Category]
 [Only one instance of SmileyAdd could be executed.\n]
 [Remove duplicate instances from 'Plugins' directory]
 ;file \plugins\SmileyAdd\src\options.cpp
@@ -12239,7 +12257,7 @@
 [Regular Expression "%s" in smiley pack "%s" malformed.]
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
-#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: sms.dll
 ;  Plugin: SMS plugin
@@ -12309,7 +12327,7 @@
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 [Incoming SMS Confirmation]
-#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell Checker
@@ -12388,7 +12406,7 @@
 [Language]
 [Enable spell checking]
 [Wrong words]
-#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
 ;============================================================
 ;  File: SplashScreen.dll
 ;  Plugin: Splash Screen
@@ -12423,7 +12441,8 @@
 [Sound Files]
 [Skins]
 [Splash Screen]
-#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;file \plugins\SplashScreen\src\services.cpp
+﻿#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
 ;============================================================
 ;  File: StartPosition.dll
 ;  Plugin: Start Position
@@ -12445,7 +12464,7 @@
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
 [Start position]
-#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
+﻿#muuid {4b733944-5a70-4b52-ab2d-68b1ef38ffe8}
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
@@ -12478,7 +12497,7 @@
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 [Released toolbar icon]
-#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
@@ -12518,7 +12537,7 @@
 [nospam]
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
-#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpamMod.dll
 ;  Plugin: StopSpamMod
@@ -12578,7 +12597,7 @@
 [Messages]
 [Accounts]
 [Advanced]
-#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
@@ -13746,7 +13765,7 @@
 [Message windows - IM]
 [Message windows - all]
 [Message windows - groupchats]
-#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
@@ -14084,7 +14103,7 @@
 [October]
 [November]
 [December]
-#muuid {748f8934-781a-528d-5208-001265404ab3}
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
@@ -14232,6 +14251,11 @@
 [Send image]
 [Incoming mail]
 [Alert]
+[Tlen Chats]
+[Multi-User Conference]
+[Tlen Mail]
+[Send picture]
+[Voice Chat]
 ;file \protocols\Tlen\src\tlen_file.cpp
 [%d Files]
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -14261,7 +14285,7 @@
 [...Error...]
 [...Denied...]
 [Default]
-#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
@@ -14318,7 +14342,7 @@
 [Invisible]
 [Not Idle]
 [Unknown]
-#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;============================================================
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
@@ -14349,7 +14373,7 @@
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
 [Toolbar]
-#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
@@ -14426,7 +14450,7 @@
 [Traffic counter notification]
 [%d kilobytes sent]
 [%d kilobytes received]
-#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
+﻿#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
 ;============================================================
 ;  File: TranslitSwitcher.dll
 ;  Plugin: Switch Layout or Transliterate
@@ -14446,7 +14470,7 @@
 [Translit Last / Selected]
 [Invert Case All / Selected]
 [Invert Case Last / Selected]
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter
@@ -14510,7 +14534,7 @@
 [Reply to Tweet]
 [Visit Homepage]
 [Reply...]
-;#muuid for UInfoEx not found, please specify manually!
+﻿;#muuid for UInfoEx not found, please specify manually!
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
@@ -15025,6 +15049,7 @@
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 [View Homepage]
+[&Homepage]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
@@ -15097,11 +15122,11 @@
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
-#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
+﻿#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
 ;langpack template for UserGuide
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]
-#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
 ;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]
@@ -15141,7 +15166,7 @@
 [Stopped]
 [Paused]
 ;file \plugins\Variables\src\variables.cpp
-#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+﻿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;============================================================
 ;  File: VersionInfo.dll
 ;  Plugin: VersionInfo
@@ -15197,7 +15222,7 @@
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
@@ -15207,7 +15232,7 @@
 [Winamp Track]
 [Plugins]
 [Watrack MPD]
-#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
@@ -15477,7 +15502,7 @@
 [Retrieving new data, please wait...]
 [More Info]
 [No information available.\r\nPlease update weather condition first.]
-#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: WhenWasIt
@@ -15592,7 +15617,7 @@
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
 [Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
-#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
@@ -15629,7 +15654,7 @@
 [Services]
 [PopUps]
 [WUMF: Show connections]
-#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
@@ -15820,7 +15845,7 @@
 [Start game]
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait ...]
-#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo
@@ -15958,7 +15983,7 @@
 [System Error: %s]
 [Server Connection Error: %s]
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: YAMN
@@ -16050,8 +16075,10 @@
 [Background colour]
 [Text colour]
 ;file \plugins\YAMN\src\main.cpp
-[Check mail]
+[Check &mail (All Account)]
+[Check &mail (This Account)]
 [Launch application]
+[Check mail]
 [Connect Fail]
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
@@ -16141,7 +16168,7 @@
 [Account Test (failed)]
 [You have N new mail messages]
 [Connection failed message]
-#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
 ;  File: yapp.dll
 ;  Plugin: YAPP
@@ -16221,7 +16248,7 @@
 [Copy title to clipboard]
 [Copy message to clipboard]
 [Copy timestamp to clipboard]
-#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
 ;  File: ZeroNotify.dll
 ;  Plugin: Zero Notifications

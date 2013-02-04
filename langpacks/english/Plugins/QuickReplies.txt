@@ -1,4 +1,4 @@
-#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: quickreplies.dll
 ;  Plugin: Quick Replies
