@@ -357,10 +357,10 @@ static INT_PTR PluginCommand_SetMyNicknameUI(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 {
-	char * proto = (char *)wParam;
+	char *proto = (char*)wParam;
 	if (proto != NULL) {
 		for (int i = 0 ; i < protocols->GetSize() ; i++) {
-			if (_stricmp(protocols->Get(i)->name, proto) == 0) {
+			if ( _stricmp(protocols->Get(i)->name, proto) == 0) {
 				if ( !protocols->Get(i)->CanSetNick())
 					return -2;
 
@@ -378,12 +378,11 @@ static INT_PTR PluginCommand_SetMyNickname(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR PluginCommand_GetMyNickname(WPARAM wParam,LPARAM lParam)
 {
-	TCHAR* ret = (TCHAR*)lParam;
-	char * proto = (char *)wParam;
-
+	TCHAR *ret = (TCHAR*)lParam;
 	if (ret == NULL)
 		return -1;
 
+	char *proto = (char*)wParam;
 	if (proto == NULL) {
 		if (protocols->default_nick != NULL)
 			lstrcpyn(ret, protocols->default_nick, MS_MYDETAILS_GETMYNICKNAME_BUFFER_SIZE);

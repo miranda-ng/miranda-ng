@@ -635,14 +635,15 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CIcqProto::SetNickName(WPARAM wParam, LPARAM lParam)
 {
-	if (icqOnline())
-	{
+	if (!icqOnline())
+		return 0; // failure
+
+	if (wParam & SMNN_UNICODE)
+		setSettingStringW(NULL, "Nick", (WCHAR*)lParam);
+	else
 		setSettingString(NULL, "Nick", (char*)lParam);
 
-		return ChangeInfoEx(CIXT_BASIC, 0);
-	}
-
-	return 0; // Failure
+	return ChangeInfoEx(CIXT_BASIC, 0);
 }
 
 INT_PTR CIcqProto::SetPassword(WPARAM wParam, LPARAM lParam)
