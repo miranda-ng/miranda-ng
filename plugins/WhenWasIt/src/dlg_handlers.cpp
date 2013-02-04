@@ -31,16 +31,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static WNDPROC OldBirthdaysListProc = NULL;
 
-const TCHAR *szShowAgeMode[] = {_T("Upcoming age"), _T("Current age")};
+const TCHAR *szShowAgeMode[] = { LPGENT("Upcoming age"), LPGENT("Current age")};
 const int cShowAgeMode = sizeof(szShowAgeMode) / sizeof(szShowAgeMode[0]);
 
-const TCHAR *szSaveModule[] = {_T("UserInfo module"), _T("Protocol module"), _T("mBirthday module")};
+const TCHAR *szSaveModule[] = { LPGENT("UserInfo module"), LPGENT("Protocol module"), LPGENT("mBirthday module")};
 const int cSaveModule = sizeof(szSaveModule) / sizeof(szSaveModule[0]);
 
-const TCHAR *szPopupClick[] = {_T("Nothing"), _T("Dismiss"), _T("Message window")};
+const TCHAR *szPopupClick[] = { LPGENT("Nothing"), LPGENT("Dismiss"), LPGENT("Message window")};
 const int cPopupClick = sizeof(szPopupClick) / sizeof(szPopupClick[0]);
 
-const TCHAR *szNotifyFor[] = {_T("All contacts"), _T("All contacts except hidden ones"), _T("All contacts except ignored ones"), _T("All contacts except hidden and ignored ones")};
+const TCHAR *szNotifyFor[] = { LPGENT("All contacts"), LPGENT("All contacts except hidden ones"), LPGENT("All contacts except ignored ones"), LPGENT("All contacts except hidden and ignored ones")};
 const int cNotifyFor = sizeof(szNotifyFor) / sizeof(szNotifyFor[0]);
 
 #define MIN_BIRTHDAYS_WIDTH 200
