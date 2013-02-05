@@ -1158,6 +1158,7 @@
 [Could not start a search on '%s', there was a problem - is %s connected?]
 [Could not search on any of the protocols, are you online?]
 [Problem with search]
+[1 %s user found]
 [%d %s users found]
 [%d users found (]
 [No users found]

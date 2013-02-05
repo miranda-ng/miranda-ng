@@ -387,6 +387,7 @@
 [Channel]
 [Mode]
 [%s - Filtered - %d items]
+[---- Not listed server ----]
 [Type new server address here]
 [Add ban/invite/exception]
 [Edit selected ban/invite/exception]

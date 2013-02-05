@@ -82,4 +82,8 @@
 [Error during getting user key from web page: %s]
 [Paste expire date]
 [Never]
+[10 minutes]
+[1 hour]
+[1 day]
+[1 month]
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp

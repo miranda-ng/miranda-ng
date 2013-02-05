@@ -233,6 +233,8 @@
 [Visibility:]
 [[weather.dll] Wind]
 [Wind:]
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 [Dividers]

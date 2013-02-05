@@ -183,6 +183,7 @@
 ;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
 [(Unknown Contact)]
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]

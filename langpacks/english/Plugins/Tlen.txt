@@ -160,6 +160,7 @@
 [Send picture]
 [Voice Chat]
 ;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
 [%d Files]
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
@@ -187,4 +188,8 @@
 [...Finished...]
 [...Error...]
 [...Denied...]
+[8000 Hz / 13.8 kbps]
+[11025 Hz / 19.1 kbps]
+[22050 Hz / 36.8 kbps]
+[44100 Hz / 72 kbps]
 [Default]

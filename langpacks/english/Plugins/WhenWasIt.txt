@@ -91,6 +91,7 @@
 [Check birthdays menu item]
 [List birthdays menu item]
 [Add/change birthday]
+[1 day to birthday]
 [WhenWasIt birthday reminder]
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]

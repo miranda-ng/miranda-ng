@@ -231,6 +231,7 @@
 [Jabber Link Protocol]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
+[/me slaps %s around a bit with a large trout]
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 [Select Command]

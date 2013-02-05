@@ -102,6 +102,7 @@
 [Unknown error]
 [ - connection error]
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
 [No new mail message, %d spam(s)]

@@ -18,6 +18,7 @@
 [Play only if]
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
+[--default device--]
 [Customize]
 [Disable sounds]
 [Enable sounds]
