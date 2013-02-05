@@ -73,7 +73,10 @@ char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0,0,0), RGB(0,0,0), RGB(0,0,0), RGB(150,150,150), RGB(150,150,150) };
 
-ColourIDT bg_colour, av_colour;
+static ColourID
+	bg_colour = { sizeof(bg_colour), LPGEN("My Details"), LPGEN("Background"), MODULE_NAME, "BackgroundColor", 0, GetSysColor(COLOR_BTNFACE) },
+	av_colour = { sizeof(av_colour), LPGEN("My Details"), LPGEN("Avatar Border"), MODULE_NAME, "AvatarBorderColor", 0, RGB(0,0,0) };
+
 int CreateFrame();
 void FixMainMenu();
 void RefreshFrame();
@@ -207,8 +210,8 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 int ReloadColour(WPARAM,LPARAM)
 {
-	opts.bkg_color = (COLORREF) CallService(MS_COLOUR_GETT,(WPARAM)&bg_colour,0);
-	opts.draw_avatar_border_color = (COLORREF) CallService(MS_COLOUR_GETT,(WPARAM)&av_colour,0);
+	opts.bkg_color = (COLORREF)CallService(MS_COLOUR_GET,(WPARAM)&bg_colour,0);
+	opts.draw_avatar_border_color = (COLORREF)CallService(MS_COLOUR_GET,(WPARAM)&av_colour,0);
 
 	RefreshFrame();
 	return 0;
@@ -224,25 +227,10 @@ int CreateFrame()
 {
 	HDC hdc = GetDC(NULL);
 
-	ZeroMemory(&bg_colour, sizeof(bg_colour));
-	bg_colour.cbSize = sizeof(ColourIDT);
-	_tcsncpy(bg_colour.name,LPGENT("Background"),SIZEOF(bg_colour.name));
-	_tcsncpy(bg_colour.group,LPGENT("My Details"),SIZEOF(bg_colour.group));
-	strncpy(bg_colour.dbSettingsGroup,MODULE_NAME,sizeof(bg_colour.dbSettingsGroup));
-	strncpy(bg_colour.setting,"BackgroundColor",sizeof(bg_colour.setting));
-	bg_colour.defcolour = GetSysColor(COLOR_BTNFACE);
-	ColourRegisterT(&bg_colour);
-
-	ZeroMemory(&av_colour, sizeof(av_colour));
-	av_colour.cbSize = sizeof(ColourIDT);
-	_tcsncpy(av_colour.name,LPGENT("Avatar Border"),SIZEOF(av_colour.name));
-	_tcsncpy(av_colour.group,LPGENT("My Details"),SIZEOF(av_colour.group));
-	strncpy(av_colour.dbSettingsGroup,MODULE_NAME,sizeof(av_colour.dbSettingsGroup));
-	strncpy(av_colour.setting,"AvatarBorderColor",sizeof(av_colour.setting));
-	av_colour.defcolour = RGB(0,0,0);
-	ColourRegisterT(&av_colour);
+	ColourRegister(&bg_colour);
+	ColourRegister(&av_colour);
 	ReloadColour(0,0);
-	HookEvent(ME_COLOUR_RELOAD,ReloadColour);
+	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
 	for (int i = 0 ; i < NUM_FONTS ; i++) {
 		ZeroMemory(&font_id[i], sizeof(font_id[i]));
