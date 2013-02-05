@@ -478,10 +478,10 @@ function ParseSourceFile (SourceFile,array) {
 
 //filter _T() function results
 function filter_T(string) {
-//filter not begin with symbols :.-]?;#~{!/_+$
-var filter1=/^[^\:\-\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
+//filter not begin with symbols :.]?;#~{!/_+$
+//var filter1=/^[^\:\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 //filter string starting from following words
-var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
+var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
 var filter3=/^.+(001|\/value|\*!\*|=)$/g;
 //filter from Kildor
@@ -490,14 +490,15 @@ var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\
 var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
 
 //apply filters to our string
-test1=filter1.test(string);
+//test1=filter1.test(string);
 test2=filter2.test(string);
 test3=filter3.test(string);
 test4=filter4.test(string);
 test5=filter5.test(string);
 
 //if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
-if (test1 && !test2 && !test3 && !test4 && !test5) {
+//if (test1 && !test2 && !test3 && !test4 && !test5) {
+if (!test2 && !test3 && !test4 && !test5) {
     return string;
     } else {
         //in other case, string is a garbage, put into crap array.
