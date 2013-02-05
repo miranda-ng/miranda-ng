@@ -985,7 +985,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  mir_free(ptmp);
 					  _tcscat(tmp2, _T("\\"));
 					  _tcscat(tmp2, _T("temporary_exported.asc"));
-					  DeleteFile(tmp2);
+					  boost::filesystem::remove(tmp2);
 					  wfstream f(tmp2, std::ios::out);
 					  ptmp = UniGetContactSettingUtf(hcnt, szGPGModuleName, "GPGPubKey", _T(""));
 					  wstring str = ptmp;
@@ -1049,7 +1049,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  if(output.find("already in secret keyring") != string::npos)
 					  {
 						  MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
-						  DeleteFile(tmp2);
+						  boost::filesystem::remove(tmp2);
 						  break;
 					  }
 					  char *tmp2;
@@ -1280,7 +1280,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				  tmp = mir_wstrdup(toUTF16(output).c_str());
 				  MessageBox(0, tmp, _T(""), MB_OK);
 				  mir_free(tmp);
-				  DeleteFile(tmp2);
+				  boost::filesystem::remove(tmp2);
 			  }
 			  key_buf.clear();
 			  if(IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ENCRYPTION))

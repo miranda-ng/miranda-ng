@@ -178,6 +178,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE, (MIRANDASERVICE)onSendFile);
 	CreateProtoServiceFunction(szGPGModuleName, PSS_FILE"W", (MIRANDASERVICE)onSendFile);
+	clean_temp_dir();
 	return 0;
 }
 
@@ -250,7 +251,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	{
 		for(list<wstring>::iterator p = transfers.begin(); p != transfers.end(); p++)
 			if(!(*p).empty())
-				DeleteFile((*p).c_str());
+				boost::filesystem::remove((*p));
 	}
 	mir_free(inopentag);
 	mir_free(inclosetag);
@@ -258,5 +259,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	mir_free(outclosetag);
 	if(password)
 		mir_free(password);
+	clean_temp_dir();
 	return 0;
 }

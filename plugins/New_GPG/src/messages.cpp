@@ -86,7 +86,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 			wstring decfile = toUTF16(get_random(10));
 			path.append(_T("\\tmp\\"));
 			path.append(encfile);
-			DeleteFile(path.c_str());
+			boost::filesystem::remove(path);
 			fstream f(path.c_str(), std::ios::out);
 			while(!f.is_open())
 				f.open(path.c_str(), std::ios::out);
@@ -140,7 +140,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					wstring path = tmp2;
 					path += _T("\\tmp\\");
 					path += decfile;
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 				}
 				cmd += _T("--output \"");
 				cmd += tmp2;
@@ -165,7 +165,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					params.hProcess = NULL;
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 					DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -176,13 +176,13 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 				}
 				if(result == pxNotFound)
 				{
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					return;
 				}
 				if(result == pxSuccessExitCodeInvalid)
 				{
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					HistoryLog(hContact, db_event(Translate("failed to decrypt message, GPG returned error, turn on debug log for more details"), timestamp, 0, 0));
 					return;
@@ -240,7 +240,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						params.hProcess = NULL;
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-						DeleteFile(path.c_str());
+						boost::filesystem::remove(path);
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 						DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -251,7 +251,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					}
 					if(result == pxNotFound)
 					{
-						DeleteFile(path.c_str());
+						boost::filesystem::remove(path);
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						return;
 					}
@@ -265,7 +265,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					params.hProcess = NULL;
 					if(bDebugLog)
 						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 					DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -276,38 +276,35 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 				}
 				if(result == pxNotFound)
 				{
-					DeleteFile(path.c_str());
+					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 				}
 				{
 					wstring tmp = tmp2;
 					tmp += _T("\\tmp\\");
 					tmp += encfile;
-					DeleteFile(tmp.c_str());
+					boost::filesystem::remove(tmp);
 				}
 				{
 					wstring tmp = tmp2;
 					tmp += _T("\\tmp\\");
 					tmp += decfile;
-					if(_waccess(tmp.c_str(), 0) == -1)
+					if(!boost::filesystem::exists(tmp))
 					{
-						if(errno == ENOENT)
-						{
-							string str = msg;
-							str.insert(0, "Received unencrypted message:\n");
-							if(bDebugLog)
-								debuglog<<std::string(time_str()+": info: Failed to decrypt GPG encrypted message.");
-							char *tmp = new char [str.length()+1];
-							strcpy(tmp, str.c_str());
-							HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
-							BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
-							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
-							CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
-							HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
-							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
-							mir_free(tmp);
-							return;
-						}
+						string str = msg;
+						str.insert(0, "Received unencrypted message:\n");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": info: Failed to decrypt GPG encrypted message.");
+						char *tmp = new char [str.length()+1];
+						strcpy(tmp, str.c_str());
+						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
+						BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+						DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+						CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)"Unable to decrypt PGP encrypted message");
+						HistoryLog(hContact, db_event("Error message sent", 0, 0, DBEF_SENT));
+						DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
+						mir_free(tmp);
+						return;
 					}
 				}
 				str.clear();
@@ -328,7 +325,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						str.append(toUTF16(tmp));
 						delete [] tmp;
 						f.close();
-						DeleteFile(path.c_str());
+						boost::filesystem::remove(path);
 					}
 					if(str.empty())
 					{
@@ -439,7 +436,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					_tcscat(tmp2, _T(".asc"));
 					mir_free(tmp3);
 					//_tcscat(tmp2, _T("temporary_exported.asc"));
-					DeleteFile(tmp2);
+					boost::filesystem::remove(tmp2);
 					wfstream f(tmp2, std::ios::out);
 					while(!f.is_open())
 						f.open(tmp2, std::ios::out);
@@ -470,7 +467,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					return 1;
 				}
-				DeleteFile(tmp2);
+				boost::filesystem::remove(tmp2);
 				if(result == pxNotFound)
 					return 1;
 				if(result == pxSuccessExitCodeInvalid)
@@ -652,12 +649,11 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 
 void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 {
-	wstring str;
 	bool isansi = false;
 	DWORD dbflags = 0;
 	if((flags & PREF_UTF) == PREF_UTF)
 		dbflags |= DBEF_UTF;
-	str = toUTF16(msg);
+	wstring str = toUTF16(msg);
 	if(bStripTags && bAppendTags)
 	{
 		if(bDebugLog)
@@ -668,9 +664,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		str.replace(i, 2, _T("\n")); */
 	string out;
 	DWORD code;
-	wstring cmd;
-	wstring file = toUTF16(get_random(10));
-	wstring path;
+	wstring file = toUTF16(get_random(10)), path, cmd;
 	extern bool bJabberAPI, bIsMiranda09;
 	char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
 	if(!tmp[0])
@@ -693,12 +687,12 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	mir_free(tmp2);
 	cmd += _T(" \"");
 	tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-	path.append(tmp2);
+	path = tmp2;
 	cmd += tmp2;
 	mir_free(tmp2);
 	cmd += _T("\\tmp\\");
 	cmd += file;
-	path.append(_T("\\tmp\\"));
+	path += L"\\tmp\\";
 	path += file;
 	cmd += _T("\"");
 	{
@@ -781,7 +775,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	{
 		mir_free(msg);
 		HistoryLog(hContact, db_event(Translate("failed o encrypt message, GPG returned error, turn on debug log for more details"), 0,0, DBEF_SENT));
-		DeleteFile(path.c_str());
+		boost::filesystem::remove(path);
 		return;
 	}
 	if(out.find("usage: ") != string::npos)
@@ -789,9 +783,10 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		MessageBox(0, TranslateT("Something wrong, gpg does not understand us, aborting encryption."), TranslateT("Warning"), MB_OK);
 		mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
-		DeleteFile(path.c_str());
+		boost::filesystem::remove(path);
 		return;
 	}
+	boost::filesystem::remove(path);
 	path.append(_T(".asc"));
 	wfstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 	while(!f.is_open())
@@ -810,7 +805,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		str.append(tmp);
 		delete [] tmp;
 		f.close();
-		DeleteFile(path.c_str());
+		boost::filesystem::remove(path);
 	}
 	if(str.empty())
 	{

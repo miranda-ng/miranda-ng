@@ -75,16 +75,13 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	TCHAR *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
 	{
-		if(_waccess(bin_path, 0) == -1)
+		if(!boost::filesystem::exists(bin_path))
 		{
-			if(errno == ENOENT)
-			{
-				mir_free(bin_path);
-				if(bDebugLog)
-					debuglog<<std::string(time_str()+": GPG executable not found");
-				*result = pxNotFound;
-				return pxNotFound;
-			}
+			mir_free(bin_path);
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": GPG executable not found");
+			*result = pxNotFound;
+			return pxNotFound;
 		}
 	}
 	TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
@@ -185,16 +182,13 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, char *ainput,
 
 	TCHAR *bin_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
 	{
-		if(_waccess(bin_path, 0) == -1)
+		if(!boost::filesystem::exists(bin_path))
 		{
-			if(errno == ENOENT)
-			{
-				mir_free(bin_path);
-				if(bDebugLog)
-					debuglog<<std::string(time_str()+": GPG executable not found");
-				*result = pxNotFound;
-				return pxNotFound;
-			}
+			mir_free(bin_path);
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": GPG executable not found");
+			*result = pxNotFound;
+			return pxNotFound;
 		}
 	}
 

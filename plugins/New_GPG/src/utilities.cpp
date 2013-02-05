@@ -325,11 +325,8 @@ int onProtoAck(WPARAM w, LPARAM l)
 						if(file_msg_state < 1)
 							return 0;
 						HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
-						if(_waccess(f->tszCurrentFile, 0) == -1)
-						{
-							if(errno == ENOENT)
-								return 0;
-						}
+						if(!boost::filesystem::exists(f->tszCurrentFile))
+							return 0;
 						string out;
 						DWORD code;
 						pxResult result;
@@ -337,12 +334,12 @@ int onProtoAck(WPARAM w, LPARAM l)
 						wstring file = filename;
 						wstring::size_type p1 = file.rfind(_T(".gpg"));
 						file.erase(p1, _tcslen(_T(".gpg")));
-						if(_waccess(file.c_str(), 0) != -1)
+						if(boost::filesystem::exists(file))
 						{
 							if(MessageBox(0, TranslateT("Target file exists, do you want to replace it ?"), TranslateT("Warning"), MB_YESNO) == IDNO)
 								return 0;
 						}
-						DeleteFile(file.c_str());
+						boost::filesystem::remove(file);
 						file.insert(0, _T("\""));
 						file.insert(file.length(), _T("\" "));
 						cmd += file;
@@ -452,17 +449,17 @@ int onProtoAck(WPARAM w, LPARAM l)
 								params.hProcess = NULL;
 								if(bDebugLog)
 									debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-								//DeleteFile(filename);
+								//boost::filesystem::remove(filename);
 								return 0;
 							}
 							if(result == pxNotFound)
 							{
-								//DeleteFile(filename);
+								//boost::filesystem::remove(filename);
 								return 0;
 							}
 						}
 						if(result == pxSuccess)
-							DeleteFile(filename);
+							boost::filesystem::remove(filename);
 						mir_free(filename);
 				}
 			}
@@ -524,7 +521,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	wstring path_out = temp;
 	path_out += _T("\\");
 	path_out += file_out;
-	DeleteFile(path_out.c_str());
+	boost::filesystem::remove(path_out);
 	cmd += _T("\" ");
 	cmd += _T(" -e \"");
 	cmd += filename;
@@ -642,9 +639,8 @@ int onSendFile(WPARAM w, LPARAM l)
 			TCHAR **file=(TCHAR **)ccs->lParam;
 			for(i = 0; file[i]; i++)
 			{
-				if(_waccess(file[i], 0) == -1)
-					if(errno == ENOENT)
-						return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
+				if(!boost::filesystem::exists(file[i]))
+					return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
 				if (_tcsstr(file[i],_T(".gpg")))
 					continue;
 				std::wstring path_out = encrypt_file(ccs->hContact, file[i]);
@@ -658,9 +654,8 @@ int onSendFile(WPARAM w, LPARAM l)
 			char **file = (char**) ccs->lParam;
 			for(i = 0; file[i]; i++)
 			{
-				if(_access(file[i], 0) == -1)
-					if(errno == ENOENT)
-						return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
+				if(!boost::filesystem::exists(file[i]))
+					return 0; //we do not want to send file unencrypted (sometimes ack have wrong info)
 				if (strstr(file[i],".gpg"))
 					continue;
 				TCHAR *tmp = mir_utf8decodeT(file[i]);
@@ -823,18 +818,15 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 				mir_free(path_c);
 				path_out += _T("\\tmp\\");
 				path_out += file;
-				DeleteFile(path_out.c_str());
+				boost::filesystem::remove(path_out);
 				wfstream f(path_out.c_str(), std::ios::out);
 				f<<toUTF8(str).c_str();
 				f.close();
-				if(_waccess(path_out.c_str(), 0) == -1)
+				if(!boost::filesystem::exists(path_out))
 				{
-					if(errno == ENOENT)
-					{
-						if(bDebugLog)
-							debuglog<<std::string(time_str()+": info: Failed to write prescense in file");
-						return FALSE;
-					}
+					if(bDebugLog)
+						debuglog<<std::string(time_str()+": info: Failed to write prescense in file");
+					return FALSE;
 				}
 				{
 					extern TCHAR *password;
@@ -915,7 +907,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
 					}
-					DeleteFile(path_out.c_str());
+					boost::filesystem::remove(path_out);
 					path_out += _T(".asc");
 					f.open(path_out.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 					wstring data;
@@ -929,7 +921,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						data.append(tmp);
 						delete [] tmp;
 						f.close();
-						DeleteFile(path_out.c_str());
+						boost::filesystem::remove(path_out);
 					}
 					if(data.empty())
 					{
@@ -1032,8 +1024,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 						status_file_out += status_file;
 						status_file_out += L".status";
 //						sign_file_mutex.lock();
-						DeleteFile(path_out.c_str());
-						DeleteFile(status_file_out.c_str());
+						boost::filesystem::remove(path_out);
+						boost::filesystem::remove(status_file_out);
 						wfstream f(path_out.c_str(), std::ios::out);
 						while(!f.is_open())
 							f.open(path_out.c_str(), std::ios::out);
@@ -1044,15 +1036,12 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 							f.open(status_file_out.c_str(), std::ios::out);
 						f<<toUTF8(status_str).c_str();
 						f.close();
-						if(_waccess(path_out.c_str(), 0) == -1)
+						if(!boost::filesystem::exists(path_out))
 						{
-							if(errno == ENOENT)
-							{
 //								sign_file_mutex.unlock();
-								if(bDebugLog)
-									debuglog<<std::string(time_str()+": info: Failed to write sign in file");
-								return FALSE;
-							}
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": info: Failed to write sign in file");
+							return FALSE;
 						}
 						{ //gpg
 							string out;
@@ -1084,8 +1073,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 							{
 								return FALSE;
 							}
-							DeleteFile(path_out.c_str());
-							DeleteFile(status_file_out.c_str());
+							boost::filesystem::remove(path_out);
+							boost::filesystem::remove(status_file_out);
 							if(out.find("key ID ") != string::npos)
 							{
 								//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
@@ -1880,7 +1869,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							mir_free(ptmp);
 							_tcscat(tmp2, _T("\\"));
 							_tcscat(tmp2, _T("temporary_exported.asc"));
-							DeleteFile(tmp2);
+							boost::filesystem::remove(tmp2);
 							wfstream f(tmp2, std::ios::out);
 							f<<toUTF16(key).c_str();
 							f.close();
@@ -1914,7 +1903,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							if(output.find("already in secret keyring") != string::npos)
 							{
 								MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
-								DeleteFile(tmp2);
+								boost::filesystem::remove(tmp2);
 								break;
 							}
 							char *tmp2;
@@ -1982,7 +1971,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
 							DBWriteContactSettingTString(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
 						}
-						DeleteFile(tmp2);
+						boost::filesystem::remove(tmp2);
 						break;
 					}
 				}
@@ -2002,7 +1991,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 				mir_free(ptmp);
 				_tcscat(tmp2, _T("\\"));
 				_tcscat(tmp2, _T("temporary_exported.asc"));
-				DeleteFile(tmp2);
+				boost::filesystem::remove(tmp2);
 				wfstream f(tmp2, std::ios::out);
 				f<<toUTF16(key).c_str();
 				f.close();
@@ -2324,4 +2313,32 @@ void ShowChangePasswdDlg()
 	HWND hwndPaaswdDlg = NULL;
 	hwndPaaswdDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CHANGE_PASSWD), NULL, DlgProcChangePasswd);
 	SetForegroundWindow(hwndPaaswdDlg);
+}
+
+
+void clean_temp_dir()
+{
+	using namespace boost::filesystem;
+	char *mir_path = new char [MAX_PATH];
+	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+	wstring path  = toUTF16(mir_path);
+	SetCurrentDirectoryA(mir_path);
+	delete [] mir_path;
+	TCHAR *tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+	path += tmp;
+	mir_free(tmp);
+	path += L"\\tmp";
+	if(exists(path) && is_directory(path))
+	{
+		boost::filesystem::path p(path);
+		for(directory_iterator i = directory_iterator(p), end = directory_iterator(); i != end; ++i)
+		{
+			if(boost::filesystem::is_regular_file(i->path()))
+			{
+				if((i->path().filename().generic_string().length() == 10 && (i->path().filename().generic_string().find(".") == std::string::npos)) ||
+					i->path().extension() == ".sig" || i->path().extension() == ".asc" || i->path().extension() == ".status")
+					boost::filesystem::remove(i->path());
+			}
+		}
+	}
 }

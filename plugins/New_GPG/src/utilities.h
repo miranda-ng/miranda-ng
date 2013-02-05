@@ -105,5 +105,6 @@ void fix_line_term(std::wstring &s);
 void strip_line_term(std::wstring &s);
 void strip_line_term(std::string &s);
 void strip_tags(std::wstring &s);
+void clean_temp_dir();
 
 #endif

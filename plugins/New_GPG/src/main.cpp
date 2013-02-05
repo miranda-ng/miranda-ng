@@ -626,7 +626,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  if(result == pxNotFound)
 					  break;
 
-				  DeleteFile(path.c_str());
+				  boost::filesystem::remove(path);
 				  string::size_type p1 = 0;
 				  if((p1 = out.find("key ")) != string::npos)
 					  path = toUTF16(out.substr(p1+4, 8));
@@ -922,12 +922,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			_tcscpy(gpg_lang_path, tmp);
 			_tcscat(gpg_lang_path, _T("\\GnuPG\\gnupg.nls\\en@quot.mo"));
 			mir_free(tmp);
-			if(_waccess(gpg_path, 0) != -1)
+			if(boost::filesystem::exists(gpg_path))
 			{
 				gpg_exists = true;
 				_tcscpy(path, _T("GnuPG\\gpg.exe"));
 			}
-			if(_waccess(gpg_lang_path, 0) != -1)
+			if(boost::filesystem::exists(gpg_lang_path))
 				lang_exists = true;
 			if(gpg_exists && !lang_exists)
 				MessageBox(0, TranslateT("gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned."), TranslateT("Warning"), MB_OK);
@@ -940,10 +940,9 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
 			if(tmp[0])
 			{
-				if(_waccess(tmp, 0) == -1)
+				if(!boost::filesystem::exists(tmp))
 				{
-					if(errno == ENOENT)
-						MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+					MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
 				}
 /*				char *mir_path = (char*)mir_alloc(MAX_PATH);
 				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
@@ -1079,13 +1078,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
 			  SetCurrentDirectoryA(mir_path);
 			  delete [] mir_path;
-			  if(_waccess(tmp, 0) == -1)
+			  if(!boost::filesystem::exists(tmp))
 			  {
-				  if(errno == ENOENT)
-				  {
-					  MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
-					  break;
-				  }
+				  MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+				  break;
 			  }
 		  }
 		  else
@@ -1169,13 +1165,10 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
 				SetCurrentDirectoryA(mir_path);
 				delete [] mir_path;
-				if(_waccess(tmp, 0) == -1)
+				if(!boost::filesystem::exists(tmp))
 				{
-					if(errno == ENOENT)
-					{
-						MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
-						break;
-					}
+					MessageBox(0, TranslateT("gpg binary does not exists.\nplease choose another location"), TranslateT("Warning"), MB_OK);
+					break;
 				}
 			}
 			else
@@ -1304,7 +1297,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  gpg_valid = false;
 				  if(result == pxNotFound)
 					  break;
-				  DeleteFile(path.c_str());
+				  boost::filesystem::remove(path);
 				  string::size_type p1 = 0;
 				  if((p1 = out.find("key ")) != string::npos)
 					  path = toUTF16(out.substr(p1+4, 8));
@@ -1673,7 +1666,7 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  if(result == pxNotFound)
 					  break;
 			  }
-			  DeleteFile(path.c_str());
+			  boost::filesystem::remove(path);
 			  DestroyWindow(hwndDlg);
 			{//parse gpg output
 				LVITEM item = {0};
@@ -2218,7 +2211,7 @@ void InitCheck()
 			if(test_file.good())
 				home_dir_access = true;
 			test_file.close();
-			DeleteFile(test_path.c_str());
+			boost::filesystem::remove(test_path);
 		}
 		home_dir = _tgetenv(_T("TEMP"));
 		test_path = home_dir;
@@ -2231,7 +2224,7 @@ void InitCheck()
 			if(test_file.good())
 				temp_access = true;
 			test_file.close();
-			DeleteFile(test_path.c_str());
+			boost::filesystem::remove(test_path);
 		}
 		if(!home_dir_access || !temp_access || !gpg_valid)
 		{
@@ -2513,7 +2506,7 @@ void ImportKey()
 			mir_free(ptmp);
 			_tcscat(tmp2, _T("\\"));
 			_tcscat(tmp2, _T("temporary_exported.asc"));
-			DeleteFile(tmp2);
+			boost::filesystem::remove(tmp2);
 			wfstream f(tmp2, std::ios::out);
 			if(metaIsProtoMetaContacts(hContact))
 				ptmp = UniGetContactSettingUtf(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", _T(""));
@@ -2772,6 +2765,6 @@ void ImportKey()
 		ptmp = mir_wstrdup(toUTF16(output).c_str());
 		MessageBox(0, ptmp, _T(""), MB_OK);
 		mir_free(ptmp);
-		DeleteFile(tmp2);
+		boost::filesystem::remove(tmp2);
 	}
 }
