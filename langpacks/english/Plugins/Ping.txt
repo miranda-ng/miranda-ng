@@ -18,7 +18,6 @@
 [Use the Customize/Fonts options to change text size and colour.]
 [Indent:]
 [Row height:]
-[Spin3]
 [Repeats for success/failure:]
 [Attach to contact list]
 [Use CSV format]
@@ -76,6 +75,7 @@
 [enabled]
 [double clicked]
 [Ping]
+[Show/Hide &Ping Window]
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 ;file \plugins\Ping\src\utils.cpp

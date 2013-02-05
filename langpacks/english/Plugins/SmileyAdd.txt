@@ -40,8 +40,7 @@
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
 [Assign Smiley Category]
-[Only one instance of SmileyAdd could be executed.\n]
-[Remove duplicate instances from 'Plugins' directory]
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 [Customize]

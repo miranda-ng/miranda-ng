@@ -48,6 +48,7 @@
 [Send Nudge]
 [Show Nudge]
 [Nudge for %s]
+[Send &Nudge]
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 [You sent a nudge]

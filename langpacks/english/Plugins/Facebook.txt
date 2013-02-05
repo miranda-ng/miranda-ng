@@ -79,6 +79,9 @@
 ;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
+[Notification]
+[News Feed]
+[Other Event]
 [Network]
 [Account]
 [Advanced]

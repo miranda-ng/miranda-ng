@@ -65,7 +65,6 @@
 [Start/Stop automatic shutdown]
 [Stop automatic shutdown]
 [Start automatic shutdown]
-[Sdop automatic shutdown]
 [Stop automatic &shutdown]
 [Automatic &shutdown...]
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
