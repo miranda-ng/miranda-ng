@@ -809,35 +809,35 @@ IDR_MENUBAR MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Save Message Log As...",      40109
+        MENUITEM "Save Message Log As...",      ID_FILE_SAVEMESSAGELOGAS
         MENUITEM SEPARATOR
-        MENUITEM "Close Message Session\tCtrl-W", 40086
-        MENUITEM "Close Container\tAlt-F4",     40085
+        MENUITEM "Close Message Session\tCtrl-W", ID_FILE_CLOSEMESSAGESESSION
+        MENUITEM "Close Container\tAlt-F4",     ID_FILE_CLOSE
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "Show Menu Bar",               40076
-        MENUITEM "Show Status Bar",             40077
-        MENUITEM "Info Panel...",               40208
+        MENUITEM "Show Menu Bar",               ID_VIEW_SHOWMENUBAR
+        MENUITEM "Show Status Bar",             ID_VIEW_SHOWSTATUSBAR
+        MENUITEM "Info Panel...",               ID_VIEW_INFOPANEL
         POPUP "Tool Bar"
         BEGIN
-            MENUITEM "Show Tool Bar",               40078
-            MENUITEM "Place ToolBar at bottom",     40171
+            MENUITEM "Show Tool Bar",               ID_VIEW_SHOWTOOLBAR
+            MENUITEM "Place ToolBar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
-        MENUITEM "Title Bar",                   40083
-        MENUITEM "Tabs at Bottom",              40093
-        MENUITEM "Vertical maximize",           40143
+        MENUITEM "Title Bar",                   ID_VIEW_SHOWTITLEBAR
+        MENUITEM "Tabs at Bottom",              ID_VIEW_TABSATBOTTOM
+        MENUITEM "Vertical maximize",           ID_VIEW_VERTICALMAXIMIZE
         MENUITEM SEPARATOR
         POPUP "Window Flashing"
         BEGIN
-            MENUITEM "Use default Value",           40106
-            MENUITEM "Flash until focused",         40107
-            MENUITEM "Disable Flashing",            40108
+            MENUITEM "Use default Value",           ID_WINDOWFLASHING_USEDEFAULTVALUES
+            MENUITEM "Flash until focused",         ID_WINDOWFLASHING_FLASHUNTILFOCUSED
+            MENUITEM "Disable Flashing",            ID_WINDOWFLASHING_DISABLEFLASHING
         END
         MENUITEM SEPARATOR
-        MENUITEM "Show Multisend Contact List", 40087
+        MENUITEM "Show Multisend Contact List", ID_VIEW_SHOWMULTISENDCONTACTLIST
         MENUITEM SEPARATOR
-        MENUITEM "Stay on Top",                 40095
+        MENUITEM "Stay on Top",                 ID_VIEW_STAYONTOP
     END
     POPUP "Message &Log"
     BEGIN
@@ -849,19 +849,19 @@ BEGIN
     END
     POPUP "&Container"
     BEGIN
-        MENUITEM "Container Options...",        40114
+        MENUITEM "Container Options...",        ID_CONTAINER_CONTAINEROPTIONS
         MENUITEM SEPARATOR
         POPUP "Event Popups"
         BEGIN
-            MENUITEM "Disable all Event Popups",    40098
+            MENUITEM "Disable all Event Popups",    ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS
             MENUITEM SEPARATOR
-            MENUITEM "Show Popups if Window is minimized", 40110
-            MENUITEM "Show Popups if Window is unfocused", 40111
-            MENUITEM "Show Popups if Window is focused", 40120
-            MENUITEM "Show Popups for all inactive sessions", 40112
+            MENUITEM "Show Popups if Window is minimized", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED
+            MENUITEM "Show Popups if Window is unfocused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED
+            MENUITEM "Show Popups if Window is focused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED
+            MENUITEM "Show Popups for all inactive sessions", ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS
         END
         MENUITEM SEPARATOR
-        MENUITEM "Save current Window Position as Default", 40113
+        MENUITEM "Save current Window Position as Default", ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT
     END
     POPUP "Help"
     BEGIN
