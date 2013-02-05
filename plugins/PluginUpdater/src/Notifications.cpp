@@ -19,17 +19,17 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+HANDLE hPipe = NULL;
 HWND hwndDialog = NULL;
 static bool bShowDetails;
 
 void PopupAction(HWND hWnd, BYTE action)
 {
-	switch (action)
-	{
-		case PCA_CLOSEPOPUP:
-			break;
-		case PCA_DONOTHING:
-			return;
+	switch (action) {
+	case PCA_CLOSEPOPUP:
+		break;
+	case PCA_DONOTHING:
+		return;
 	}
 	PUDeletePopUp(hWnd);
 }
@@ -205,8 +205,62 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-void DlgDownloadProc(FILEURL *pFileUrl, PopupDataText temp)
+bool PrepareEscalation()
 {
+	// First try to create a file near Miranda32.exe
+	wchar_t szPath[MAX_PATH];
+	GetModuleFileName(NULL, szPath, SIZEOF(szPath));
+	TCHAR *ext = _tcsrchr(szPath, '.');
+	if (ext != NULL)
+		*ext = '\0';
+	_tcscat(szPath, _T(".test"));
+	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile != INVALID_HANDLE_VALUE) {
+		// we are admins or UAC is disable, cool
+		CloseHandle(hFile);
+		DeleteFile(szPath);
+		return true;
+	}
+
+	// Check the current process's "run as administrator" status.
+	if ( IsRunAsAdmin())
+		return true;
+
+	// Elevate the process. Create a pipe for a stub first
+	TCHAR tszPipeName[MAX_PATH];
+	_stprintf_s(tszPipeName, MAX_PATH, _T("\\\\.\\pipe\\Miranda_Pu_%d"), GetCurrentProcessId());
+	hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
+	if (hPipe == INVALID_HANDLE_VALUE) {
+		hPipe = NULL;
+		return false;
+	}
+
+	wchar_t cmdLine[100], *p;
+	GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
+	if ((p = wcsrchr(szPath, '\\')) != 0)
+		wcscpy(p+1, L"pu_stub.exe");
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), L"%d", GetCurrentProcessId());
+
+	// Launch a stub
+	SHELLEXECUTEINFO sei = { sizeof(sei) };
+	sei.lpVerb = L"runas";
+	sei.lpFile = szPath;
+	sei.lpParameters = cmdLine;
+	sei.hwnd = NULL;
+	sei.nShow = SW_NORMAL;
+	if (ShellExecuteEx(&sei)) {
+		if (hPipe != NULL)
+			ConnectNamedPipe(hPipe, NULL);
+		return true;
+	}
+
+	DWORD dwError = GetLastError();
+	if (dwError == ERROR_CANCELLED)
+	{
+		// The user refused to allow privileges elevation.
+		// Do nothing ...
+	}
+	return false;
 }
 
 void SelectAll(HWND hDlg, bool bEnable)
@@ -228,15 +282,27 @@ static void SetStringText(HWND hWnd, size_t i, TCHAR *ptszText)
 static void ApplyUpdates(void *param)
 {
 	HWND hDlg = (HWND)param;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// if we need to escalate priviledges, launch a atub
+
+	if ( !PrepareEscalation()) {
+		DestroyWindow(hDlg);
+		return;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// ok, let's unpack all zips
+
 	HWND hwndList = GetDlgItem(hDlg, IDC_LIST_UPDATES);
 	OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	TCHAR tszBuff[2048], tszFileTemp[MAX_PATH], tszFileBack[MAX_PATH];
 
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
-	CreateDirectory(tszFileBack, NULL);
+	SafeCreateDirectory(tszFileBack);
 
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
-	CreateDirectory(tszFileTemp, NULL);
+	SafeCreateDirectory(tszFileTemp);
 
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
@@ -260,6 +326,9 @@ static void ApplyUpdates(void *param)
 	}
 
 	if (todo.getCount() == 0) {
+LBL_Exit:
+		if (hPipe)
+			CloseHandle(hPipe);
 		DestroyWindow(hDlg);
 		return;
 	}
@@ -272,8 +341,7 @@ static void ApplyUpdates(void *param)
 	if (rc != IDYES) {
 		mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s"), tszFileTemp);
 		ShowPopup(0, LPGENT("Plugin Updater"), tszBuff, 2, 0);
-		DestroyWindow(hDlg);
-		return;
+		goto LBL_Exit;
 	}
 
 	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
@@ -301,12 +369,12 @@ static void ApplyUpdates(void *param)
 		}
 
 		if ( unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack))
-			DeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
+			SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 	}
 
 	DBWriteContactSettingByte(NULL, MODNAME, "RestartCount", 2);
-	DestroyWindow(hDlg);
 	CallFunctionAsync(RestartMe, 0);
+	goto LBL_Exit;
 }
 
 static void ResizeVert(HWND hDlg, int yy)
@@ -315,164 +383,6 @@ static void ResizeVert(HWND hDlg, int yy)
 	MapDialogRect(hDlg, &r);
 	r.bottom += GetSystemMetrics(SM_CYSMCAPTION);
 	SetWindowPos(hDlg, 0, 0, 0, r.right, r.bottom, SWP_NOMOVE | SWP_NOZORDER);
-}
-
-//
-//   FUNCTION: IsRunAsAdmin()
-//
-//   PURPOSE: The function checks whether the current process is run as 
-//   administrator. In other words, it dictates whether the primary access 
-//   token of the process belongs to user account that is a member of the 
-//   local Administrators group and it is elevated.
-//
-//   RETURN VALUE: Returns TRUE if the primary access token of the process 
-//   belongs to user account that is a member of the local Administrators 
-//   group and it is elevated. Returns FALSE if the token does not.
-//
-//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which 
-//   contains the Win32 error code of the failure.
-//
-//   EXAMPLE CALL:
-//     try 
-//     {
-//         if (IsRunAsAdmin())
-//             wprintf (L"Process is run as administrator\n");
-//         else
-//             wprintf (L"Process is not run as administrator\n");
-//     }
-//     catch (DWORD dwError)
-//     {
-//         wprintf(L"IsRunAsAdmin failed w/err %lu\n", dwError);
-//     }
-//
-BOOL IsRunAsAdmin()
-{
-	BOOL fIsRunAsAdmin = FALSE;
-	DWORD dwError = ERROR_SUCCESS;
-	PSID pAdministratorsGroup = NULL;
-
-	// Allocate and initialize a SID of the administrators group.
-	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
-	if (!AllocateAndInitializeSid(
-		&NtAuthority, 
-		2, 
-		SECURITY_BUILTIN_DOMAIN_RID, 
-		DOMAIN_ALIAS_RID_ADMINS, 
-		0, 0, 0, 0, 0, 0, 
-		&pAdministratorsGroup))
-	{
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	// Determine whether the SID of administrators group is bEnabled in 
-	// the primary access token of the process.
-	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
-	{
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-Cleanup:
-	// Centralized cleanup for all allocated resources.
-	if (pAdministratorsGroup)
-	{
-		FreeSid(pAdministratorsGroup);
-		pAdministratorsGroup = NULL;
-	}
-
-	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError)
-	{
-		throw dwError;
-	}
-
-	return fIsRunAsAdmin;
-}
-
-//
-//   FUNCTION: IsProcessElevated()
-//
-//   PURPOSE: The function gets the elevation information of the current 
-//   process. It dictates whether the process is elevated or not. Token 
-//   elevation is only available on Windows Vista and newer operating 
-//   systems, thus IsProcessElevated throws a C++ exception if it is called 
-//   on systems prior to Windows Vista. It is not appropriate to use this 
-//   function to determine whether a process is run as administartor.
-//
-//   RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if 
-//   it is not.
-//
-//   EXCEPTION: If this function fails, it throws a C++ DWORD exception 
-//   which contains the Win32 error code of the failure. For example, if 
-//   IsProcessElevated is called on systems prior to Windows Vista, the error 
-//   code will be ERROR_INVALID_PARAMETER.
-//
-//   NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the 
-//   elevation type (TokenElevationTypeDefault / TokenElevationTypeLimited /
-//   TokenElevationTypeFull) of the process. It is different from 
-//   TokenElevation in that, when UAC is turned off, elevation type always 
-//   returns TokenElevationTypeDefault even though the process is elevated 
-//   (Integrity Level == High). In other words, it is not safe to say if the 
-//   process is elevated based on elevation type. Instead, we should use 
-//   TokenElevation.
-//
-//   EXAMPLE CALL:
-//     try 
-//     {
-//         if (IsProcessElevated())
-//             wprintf (L"Process is elevated\n");
-//         else
-//             wprintf (L"Process is not elevated\n");
-//     }
-//     catch (DWORD dwError)
-//     {
-//         wprintf(L"IsProcessElevated failed w/err %lu\n", dwError);
-//     }
-//
-BOOL IsProcessElevated()
-{
-	BOOL fIsElevated = FALSE;
-	DWORD dwError = ERROR_SUCCESS;
-	HANDLE hToken = NULL;
-
-	// Open the primary access token of the process with TOKEN_QUERY.
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
-	{
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	// Retrieve token elevation information.
-	TOKEN_ELEVATION elevation;
-	DWORD dwSize;
-	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize))
-	{
-		// When the process is run on operating systems prior to Windows 
-		// Vista, GetTokenInformation returns FALSE with the 
-		// ERROR_INVALID_PARAMETER error code because TokenElevation is 
-		// not supported on those operating systems.
-		dwError = GetLastError();
-		goto Cleanup;
-	}
-
-	fIsElevated = elevation.TokenIsElevated;
-
-Cleanup:
-	// Centralized cleanup for all allocated resources.
-	if (hToken)
-	{
-		CloseHandle(hToken);
-		hToken = NULL;
-	}
-
-	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError)
-	{
-		throw dwError;
-	}
-
-	return fIsElevated;
 }
 
 INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -596,61 +506,12 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 		if (HIWORD( wParam ) == BN_CLICKED) {
 			switch(LOWORD(wParam)) {
 			case IDOK:
-			{
 				EnableWindow( GetDlgItem(hDlg, IDOK), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELALL), FALSE);
 				EnableWindow( GetDlgItem(hDlg, IDC_SELNONE), FALSE);
 
-				wchar_t szPath[MAX_PATH];
-				GetModuleFileName(NULL, szPath, SIZEOF(szPath));
-				TCHAR *ext = _tcsrchr(szPath, '.');
-				if (ext != NULL)
-					*ext = '\0';
-				_tcscat(szPath, _T(".test"));
-				HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-				if (hFile == INVALID_HANDLE_VALUE)
-				{
-					// Check the current process's "run as administrator" status.
-					// Elevate the process if it is not run as administrator.
-					if (!IsRunAsAdmin())
-					{
-						wchar_t cmdLine[100];
-						GetModuleFileName(NULL, szPath, ARRAYSIZE(szPath));
-						TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-						mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T(" /restart:%d /profile=%s"), GetCurrentProcessId(), profilename);
-						// Launch itself as administrator.
-						SHELLEXECUTEINFO sei = { sizeof(sei) };
-						sei.lpVerb = L"runas";
-						sei.lpFile = szPath;
-						sei.lpParameters = cmdLine;
-						sei.hwnd = hDlg;
-						sei.nShow = SW_NORMAL;
-
-						if (!ShellExecuteEx(&sei))
-						{
-							DWORD dwError = GetLastError();
-							if (dwError == ERROR_CANCELLED)
-							{
-								// The user refused to allow privileges elevation.
-								// Do nothing ...
-							}
-						}
-						else
-						{
-							DestroyWindow(hDlg);  // Quit itself
-							CallService("CloseAction", 0, 0);
-							break;
-						}
-					}
-				}
-				else
-				{
-					CloseHandle(hFile);
-					DeleteFile(szPath);
-				}
 				mir_forkthread(ApplyUpdates, hDlg);
 				return TRUE;
-			}
 
 			case IDC_DETAILS:
 				bShowDetails = !bShowDetails;

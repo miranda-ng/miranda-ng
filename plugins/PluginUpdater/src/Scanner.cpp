@@ -259,9 +259,11 @@ static void CheckUpdates(void *)
 {
 	char szKey[64] = {0};
 	DBVARIANT dbVar = {0};
-
-	if (!Exists(tszRoot))
-		CreateDirectoryTreeT(tszRoot);
+	
+	TCHAR tszTempPath[MAX_PATH];
+	DWORD dwLen = GetTempPath(SIZEOF(tszTempPath), tszTempPath);
+	if (tszTempPath[dwLen-1] == '\\')
+		tszTempPath[dwLen-1] = 0;
 
 	// Load files info
 	if (DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
@@ -289,21 +291,23 @@ static void CheckUpdates(void *)
 
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
-	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszRoot);
+	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
 	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath)) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
 		CheckThread = NULL;
 		return;
 	}
 
-	unzip(pFileUrl.tszDiskPath, tszRoot, tszRoot);
+	unzip(pFileUrl.tszDiskPath, tszTempPath, NULL);
 	DeleteFile(pFileUrl.tszDiskPath);
 
 	TCHAR tszTmpIni[MAX_PATH] = {0};
-	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszRoot);
+	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
 	FILE *fp = _tfopen(tszTmpIni, _T("r"));
-	if (!fp)
+	if (!fp) {
+		CheckThread = NULL;
 		return;
+	}
 
 	SERVLIST hashes(50, CompareHashes);
 	char str[200];

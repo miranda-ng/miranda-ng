@@ -124,7 +124,6 @@ void LoadOptions()
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	HANDLE hFile = NULL;
 	DWORD dwBytes;
 
 	NETLIBHTTPREQUEST nlhr = {0};
@@ -152,9 +151,25 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 	if (pReply) {
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-			hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
-			ret = true;
+			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+			if (hFile != INVALID_HANDLE_VALUE) {
+				// write the downloaded file firectly
+				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+				CloseHandle(hFile);
+				ret = true;
+			}
+			else {
+				// try to write it via PU stub
+				TCHAR tszTempFile[MAX_PATH];
+				mir_sntprintf(tszTempFile, SIZEOF(tszTempFile), _T("%s\\pulocal.tmp"), tszTempPath);
+				hFile = CreateFile(tszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+				if (hFile != INVALID_HANDLE_VALUE) {
+					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
+					CloseHandle(hFile);
+					SafeMoveFile(tszTempFile, tszLocal);
+					ret = true;
+				}
+			}
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)pReply);
 	}
@@ -162,8 +177,6 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	mir_free(szUrl);
 	mir_free(nlhr.headers);
 
-	if (hFile)
-		CloseHandle(hFile);
 	DlgDld = ret;
 	return ret;
 }
@@ -253,15 +266,237 @@ char* rtrim(char *str)
 	}
 	return str;
 }
-
-void CreatePathToFileT(TCHAR *szFilePath)
-{
-	TCHAR *pszLastBackslash = _tcsrchr(szFilePath, '\\');
-	if (pszLastBackslash == NULL)
-		return;
-
-	*pszLastBackslash = '\0';
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szFilePath);
-	*pszLastBackslash = '\\';
-}
 #endif
+
+//   FUNCTION: IsRunAsAdmin()
+//
+//   PURPOSE: The function checks whether the current process is run as 
+//   administrator. In other words, it dictates whether the primary access 
+//   token of the process belongs to user account that is a member of the 
+//   local Administrators group and it is elevated.
+//
+//   RETURN VALUE: Returns TRUE if the primary access token of the process 
+//   belongs to user account that is a member of the local Administrators 
+//   group and it is elevated. Returns FALSE if the token does not.
+//
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception which 
+//   contains the Win32 error code of the failure.
+//
+//   EXAMPLE CALL:
+//     try 
+//     {
+//         if (IsRunAsAdmin())
+//             wprintf (L"Process is run as administrator\n");
+//         else
+//             wprintf (L"Process is not run as administrator\n");
+//     }
+//     catch (DWORD dwError)
+//     {
+//         wprintf(L"IsRunAsAdmin failed w/err %lu\n", dwError);
+//     }
+//
+BOOL IsRunAsAdmin()
+{
+	BOOL fIsRunAsAdmin = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	PSID pAdministratorsGroup = NULL;
+
+	// Allocate and initialize a SID of the administrators group.
+	SID_IDENTIFIER_AUTHORITY NtAuthority = SECURITY_NT_AUTHORITY;
+	if (!AllocateAndInitializeSid(
+		&NtAuthority, 
+		2, 
+		SECURITY_BUILTIN_DOMAIN_RID, 
+		DOMAIN_ALIAS_RID_ADMINS, 
+		0, 0, 0, 0, 0, 0, 
+		&pAdministratorsGroup))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Determine whether the SID of administrators group is bEnabled in 
+	// the primary access token of the process.
+	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (pAdministratorsGroup)
+	{
+		FreeSid(pAdministratorsGroup);
+		pAdministratorsGroup = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsRunAsAdmin;
+}
+
+//
+//   FUNCTION: IsProcessElevated()
+//
+//   PURPOSE: The function gets the elevation information of the current 
+//   process. It dictates whether the process is elevated or not. Token 
+//   elevation is only available on Windows Vista and newer operating 
+//   systems, thus IsProcessElevated throws a C++ exception if it is called 
+//   on systems prior to Windows Vista. It is not appropriate to use this 
+//   function to determine whether a process is run as administartor.
+//
+//   RETURN VALUE: Returns TRUE if the process is elevated. Returns FALSE if 
+//   it is not.
+//
+//   EXCEPTION: If this function fails, it throws a C++ DWORD exception 
+//   which contains the Win32 error code of the failure. For example, if 
+//   IsProcessElevated is called on systems prior to Windows Vista, the error 
+//   code will be ERROR_INVALID_PARAMETER.
+//
+//   NOTE: TOKEN_INFORMATION_CLASS provides TokenElevationType to check the 
+//   elevation type (TokenElevationTypeDefault / TokenElevationTypeLimited /
+//   TokenElevationTypeFull) of the process. It is different from 
+//   TokenElevation in that, when UAC is turned off, elevation type always 
+//   returns TokenElevationTypeDefault even though the process is elevated 
+//   (Integrity Level == High). In other words, it is not safe to say if the 
+//   process is elevated based on elevation type. Instead, we should use 
+//   TokenElevation.
+//
+//   EXAMPLE CALL:
+//     try 
+//     {
+//         if (IsProcessElevated())
+//             wprintf (L"Process is elevated\n");
+//         else
+//             wprintf (L"Process is not elevated\n");
+//     }
+//     catch (DWORD dwError)
+//     {
+//         wprintf(L"IsProcessElevated failed w/err %lu\n", dwError);
+//     }
+//
+BOOL IsProcessElevated()
+{
+	BOOL fIsElevated = FALSE;
+	DWORD dwError = ERROR_SUCCESS;
+	HANDLE hToken = NULL;
+
+	// Open the primary access token of the process with TOKEN_QUERY.
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
+	{
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	// Retrieve token elevation information.
+	TOKEN_ELEVATION elevation;
+	DWORD dwSize;
+	if (!GetTokenInformation(hToken, TokenElevation, &elevation, sizeof(elevation), &dwSize))
+	{
+		// When the process is run on operating systems prior to Windows 
+		// Vista, GetTokenInformation returns FALSE with the 
+		// ERROR_INVALID_PARAMETER error code because TokenElevation is 
+		// not supported on those operating systems.
+		dwError = GetLastError();
+		goto Cleanup;
+	}
+
+	fIsElevated = elevation.TokenIsElevated;
+
+Cleanup:
+	// Centralized cleanup for all allocated resources.
+	if (hToken)
+	{
+		CloseHandle(hToken);
+		hToken = NULL;
+	}
+
+	// Throw the error if something failed in the function.
+	if (ERROR_SUCCESS != dwError)
+	{
+		throw dwError;
+	}
+
+	return fIsElevated;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int TransactPipe(int opcode, const TCHAR *p1, const TCHAR *p2)
+{
+	BYTE buf[1024];
+	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
+	if (l1 > MAX_PATH || l2 > MAX_PATH)
+		return 0;
+
+	*(DWORD*)buf = opcode;
+	TCHAR *dst = (TCHAR*)&buf[sizeof(DWORD)];
+	lstrcpy(dst, p1);
+	dst += l1+1;
+	if (p2) {
+		lstrcpy(dst, p2);
+		dst += l2+1;
+	}
+	else *dst++ = 0;
+
+	DWORD dwBytes = 0, dwError;
+	if ( WriteFile(hPipe, buf, (DWORD)((BYTE*)dst - buf), &dwBytes, NULL) == 0) 
+		return 0;
+
+	dwError = 0;
+	if ( ReadFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, NULL) == 0) return 0;
+	if (dwBytes != sizeof(DWORD)) return 0;
+
+	return dwError == ERROR_SUCCESS;
+}
+
+int SafeCopyFile(const TCHAR *pSrc, const TCHAR *pDst)
+{
+	if (hPipe == NULL)
+		return CopyFile(pSrc, pDst, FALSE);
+
+	return TransactPipe(1, pSrc, pDst);
+}
+
+int SafeMoveFile(const TCHAR *pSrc, const TCHAR *pDst)
+{
+	if (hPipe == NULL) {
+		DeleteFile(pDst);
+		if ( MoveFile(pSrc, pDst) == 0) // use copy on error
+			CopyFile(pSrc, pDst, FALSE);
+		DeleteFile(pSrc);
+	}
+
+	return TransactPipe(2, pSrc, pDst);
+}
+
+int SafeDeleteFile(const TCHAR *pFile)
+{
+	if (hPipe == NULL)
+		return DeleteFile(pFile);
+
+	return TransactPipe(3, pFile, NULL);
+}
+
+int SafeCreateDirectory(const TCHAR *pFolder)
+{
+	if (hPipe == NULL)
+		return CreateDirectoryTreeT(pFolder);
+
+	return TransactPipe(4, pFolder, NULL);
+}
+
+int SafeCreateFilePath(TCHAR *pFolder)
+{
+	if (hPipe == NULL) {
+		CreatePathToFileT(pFolder);
+		return 0;
+	}
+
+	return TransactPipe(5, pFolder, NULL);
+}

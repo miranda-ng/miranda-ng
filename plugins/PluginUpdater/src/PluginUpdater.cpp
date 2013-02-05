@@ -31,7 +31,7 @@ Boston, MA 02111-1307, USA.
 
 HANDLE hPluginUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL;
 HINSTANCE hInst = NULL;
-TCHAR tszRoot[MAX_PATH] = {0};
+TCHAR tszRoot[MAX_PATH] = {0}, tszTempPath[MAX_PATH];
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -94,6 +94,10 @@ extern "C" __declspec(dllexport) int Load(void)
 		mir_ptr<TCHAR> tszFolder( Utils_ReplaceVarsT(_T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)));
 		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 	}
+
+	DWORD dwLen = GetTempPath( SIZEOF(tszTempPath), tszTempPath);
+	if (tszTempPath[dwLen-1] == '\\')
+		tszTempPath[dwLen-1] = 0;
 
 	LoadOptions();
 	InitPopupList();

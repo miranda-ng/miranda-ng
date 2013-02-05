@@ -116,13 +116,13 @@ using namespace std;
 
 extern HINSTANCE hInst;
 
-extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
+extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048], tszTempPath[MAX_PATH];
 extern FILEINFO *pFileInfo;
 extern HANDLE CheckThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];
-extern HANDLE Timer;
+extern HANDLE Timer, hPipe;
 extern HWND hwndDialog;
 
 void InitPopupList();
@@ -153,6 +153,17 @@ INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 bool unzip(const TCHAR *ptszZipFile, TCHAR *ptszDestPath, TCHAR *ptszBackPath);
 void strdel(TCHAR *parBuffer, int len);
+
+//////////////////////////////////////////////////////////
+
+BOOL IsRunAsAdmin();
+BOOL IsProcessElevated();
+
+int SafeCreateDirectory(const TCHAR *ptszDirName);
+int SafeCopyFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
+int SafeMoveFile(const TCHAR *ptszSrc, const TCHAR *ptszDst);
+int SafeDeleteFile(const TCHAR *ptszSrc);
+int SafeCreateFilePath(TCHAR *pFolder);
 
 #if MIRANDA_VER < 0x0A00
 
@@ -212,7 +223,6 @@ __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 }
 
 char *rtrim(char *str);
-void CreatePathToFileT(TCHAR *szFilePath);
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 
