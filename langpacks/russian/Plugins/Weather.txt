@@ -509,3 +509,5 @@ URL полного прогноза погоды не установлен. Вы
 м
 [Enable/disable auto update]
 Вкл/Выкл автообновление
+[Weather Protocol INI Setup]
+Настройка INI файла плагина "Погода"

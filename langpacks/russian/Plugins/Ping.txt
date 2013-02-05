@@ -138,6 +138,8 @@ TCP соединение
 двойное нажатие
 [Ping]
 Пинг
+[Show/Hide &Ping Window]
+Показать/скрыть окно
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Хост %s требует уменьшить количество посылаемого вами трафика.
