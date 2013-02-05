@@ -1016,6 +1016,9 @@ panel_found:
 							else
 								SendMessage(hwndDlg, DM_CLOSETABATMOUSE, 0, (LPARAM)&pt1);
 							break;
+            case ID_TABMENU_CLOSEOTHERTABS:
+                CloseOtherTabs(hwndTab, *dat);
+              break;                
 						case ID_TABMENU_SAVETABPOSITION:
 							M->WriteDword(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
 							break;
@@ -2225,6 +2228,41 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 	return -1;
 }
 
+
+/*
+ * search the list of tabs and return the tab (by index) which "belongs" to the given
+ * hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
+ * the dialog handle is stored in the TCITEM.lParam field, because we need
+ * to know the owner of the tab.
+ *
+ * hwndTab: handle of the tab control itself.
+ * hwnd: handle of a message dialog.
+ *
+ * returns the tab index (zero based), -1 if no tab is found (which SHOULD not
+ * really happen, but who knows... ;))
+ */
+
+HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
+{
+	TCITEM item;
+	int i = 0;
+	int iItems;
+
+	iItems = TabCtrl_GetItemCount(hwndTab);
+
+	ZeroMemory((void*)&item, sizeof(item));
+	item.mask = TCIF_PARAM;
+
+	for (i=0; i < iItems; i++)
+  {
+		TabCtrl_GetItem(hwndTab, i, &item);
+    if (i == idx)
+		  return (HWND)item.lParam;
+	}
+	return NULL;
+}
+
+
 /*
  * activates the tab belonging to the given client HWND (handle of the actual
  * message window.
@@ -2259,6 +2297,22 @@ int TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt)
 	tch.pt = *pt;
 	tch.flags = 0;
 	return TabCtrl_HitTest(hwndTab, &tch);
+}
+
+
+/*enumerates tabs and closes all of them, but the one in dat */
+void  TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
+{
+  for (int idxt = 0; idxt < dat.pContainer->iChilds; )
+  {
+    HWND otherTab = GetHWNDFromTabIndex(hwndTab, idxt);
+    if (otherTab != NULL && otherTab != dat.hwnd)
+    {
+      SendMessage(otherTab, WM_CLOSE, 1, 0);
+    }
+    else
+      ++idxt;
+  }
 }
 
 /*

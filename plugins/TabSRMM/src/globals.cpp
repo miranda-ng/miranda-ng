@@ -746,7 +746,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	DWORD	dwMask = M->GetDword(hContact, SRMSGMOD_T, "mwmask", 0);
 	DWORD	dwFlags = M->GetDword(hContact, SRMSGMOD_T, "mwflags", 0);
 
-	bool	fLocal = M->GetByte(hContact, "logstatuschanges", 0);
+	BYTE	fLocal = M->GetByte(hContact, "logstatuschanges", 0);
 
 	if (fGlobal || fLocal) {
 		/*

@@ -664,6 +664,8 @@ BEGIN
     POPUP "Tabmenu"
     BEGIN
         MENUITEM "Close Tab",                   ID_TABMENU_CLOSETAB
+        MENUITEM "Close Other Tabs",            ID_TABMENU_CLOSEOTHERTABS
+        MENUITEM SEPARATOR
         MENUITEM "Leave Chat Room",             ID_TABMENU_LEAVECHATROOM
         MENUITEM SEPARATOR
         MENUITEM "Save Tab Position",           ID_TABMENU_SAVETABPOSITION

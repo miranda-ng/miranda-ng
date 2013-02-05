@@ -1016,6 +1016,7 @@ typedef struct {
 #define TABSRMM_HK_FILTERTOGGLE  29
 #define TABSRMM_HK_LISTTOGGLE	 30
 #define TABSRMM_HK_MUC_SHOWSERVER 31
+#define TABSRMM_HK_CLOSE_OTHER 32
 
 #define TABSRMM_HK_SECTION_IM LPGEN("Message windows - IM")
 #define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")

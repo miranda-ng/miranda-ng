@@ -200,6 +200,9 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 			if (dat->pContainer->SideBar->isActive())
 				SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 			return 1;
+    case TABSRMM_HK_CLOSE_OTHER:
+        CloseOtherTabs(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), *dat);
+      return 1;
 		default:
 			break;
 	}
