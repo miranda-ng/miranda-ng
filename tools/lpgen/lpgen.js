@@ -588,7 +588,7 @@ function WriteToFile (array,langpack) {
 //Write UTF-8 file
 function WriteToUnicodeFile(array,langpack) {
 stream.Open();
-for (i=0;i<=array.length-1;i++) stream.WriteText(array[i]+"\n");
+for (i=0;i<=array.length-1;i++) stream.WriteText(array[i]+"\r\n");
 stream.SaveToFile(langpack, 2);
 stream.Close();
 }
