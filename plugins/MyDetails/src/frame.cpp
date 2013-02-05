@@ -53,6 +53,7 @@ HWND hwnd_frame = NULL;
 HWND hwnd_container = NULL;
 
 int frame_id = -1;
+bool g_bFramesExist = false;
 
 HANDLE hMenuShowHideFrame = 0;
 
@@ -155,7 +156,6 @@ struct MyDetailsFrameData
 	int protocol_number;
 
 	bool showing_menu;
-	bool skinning;
 	bool recalc_rectangles;
 
 	bool get_status_messages;
@@ -179,7 +179,7 @@ void InitFrames()
 
 void DeInitFrames()
 {
-	if (ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1)
+	if (g_bFramesExist && frame_id != -1)
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
 
 	for (int i = 0 ; i < NUM_FONTS ; i++ )
@@ -274,7 +274,7 @@ int CreateFrame()
 	wndclass.lpszClassName = WINDOW_CLASS_NAME;
 	RegisterClass(&wndclass);
 
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (g_bFramesExist) {
 		hwnd_frame = CreateWindow(WINDOW_CLASS_NAME, TranslateT("My Details"),
 				WS_CHILD | WS_VISIBLE,
 				0,0,10,10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
@@ -626,7 +626,7 @@ void CalcRectangles(HWND hwnd)
 
 	DeleteTooltipWindows(data);
 
-	if (ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1) {
+	if (g_bFramesExist && frame_id != -1) {
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 		if (flags & F_UNCOLLAPSED) {
 			RECT rf;
@@ -642,10 +642,8 @@ void CalcRectangles(HWND hwnd)
 						GetClientRect(parent, &rp_client);
 						GetWindowRect(parent, &rp_window);
 						GetWindowRect(hwnd, &r_window);
-						int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top);
-						if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-							diff += (r_window.top - rp_window.top);
 
+						int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top) + r_window.top - rp_window.top;
 						SetWindowPos(parent, 0, 0, 0, rp_window.right - rp_window.left, size + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 					}
 				}
@@ -972,7 +970,7 @@ void CalcRectangles(HWND hwnd)
 
 	r.bottom = max(next_top - SPACE_TEXT_TEXT, avatar_bottom);
 
-	if (opts.resize_frame && ServiceExists(MS_CLIST_FRAMES_SETFRAMEOPTIONS) && frame_id != -1) {
+	if (opts.resize_frame && g_bFramesExist && frame_id != -1) {
 		RECT rf;
 		GetClientRect(hwnd, &rf);
 
@@ -987,14 +985,12 @@ void CalcRectangles(HWND hwnd)
 					GetClientRect(parent, &rp_client);
 					GetWindowRect(parent, &rp_window);
 					GetWindowRect(hwnd, &r_window);
-					int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top);
-					if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-						diff += (r_window.top - rp_window.top);
 
+					int diff = (rp_window.bottom - rp_window.top) - (rp_client.bottom - rp_client.top) + r_window.top - rp_window.top;
 					SetWindowPos(parent, 0, 0, 0, rp_window.right - rp_window.left, size + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 				}
 			}
-			else if (IsWindowVisible(hwnd) && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+			else if ( IsWindowVisible(hwnd)) {
 				int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 				if (flags & F_VISIBLE) {
 					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, frame_id), (LPARAM)(size));
@@ -1030,12 +1026,12 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	return DirectBitmap;
 }
 
-void EraseBackground(HWND hwnd, HDC hdc, MyDetailsFrameData* data)
+void EraseBackground(HWND hwnd, HDC hdc)
 {
 	RECT r;
 	GetClientRect(hwnd, &r);
 
-	if ( isSkinEngineEnabled())
+	if ( opts.use_skinning && isSkinEngineEnabled() && !FrameIsFloating())
 		SkinDrawWindowBack(hwnd, hdc, &r, "Main,ID=Background");
 	else {
 		HBRUSH hB = CreateSolidBrush(opts.bkg_color);
@@ -1115,7 +1111,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 	Protocol *proto = protocols->Get(data->protocol_number);
 
 	if (proto == NULL) {
-		EraseBackground(hwnd, hdc_orig, data);
+		EraseBackground(hwnd, hdc_orig);
 		return;
 	}
 
@@ -1127,7 +1123,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 	RECT r = r_full;
 
 	HDC hdc = CreateCompatibleDC(hdc_orig);
-	HBITMAP hBmp = CreateBitmap32(r.right,r.bottom);//,1,GetDeviceCaps(hdc,BITSPIXEL),NULL);
+	HBITMAP hBmp = CreateBitmap32(r.right,r.bottom);
 	SelectObject(hdc, hBmp);
 
 	int old_bk_mode = SetBkMode(hdc, TRANSPARENT);
@@ -1136,7 +1132,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 	SetStretchBltMode(hdc, HALFTONE);
 
 	// Erase
-	EraseBackground(hwnd, hdc, data);
+	EraseBackground(hwnd, hdc);
 
 	r.left += min(opts.borders[LEFT], r.right);
 	r.right = max(r.right - opts.borders[RIGHT], r.left);
@@ -1563,7 +1559,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			data->recalc_rectangles = true;
 			data->get_status_messages = false;
 			data->showing_menu = false;
-			data->skinning = ServiceExists(MS_SKIN_DRAWGLYPH) != 0;
 
 			data->protocol_number = DBGetContactSettingWord(NULL,"MyDetails","ProtocolNumber",0);
 			if (data->protocol_number >= protocols->GetSize())
@@ -1628,6 +1623,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			PostMessage(hwnd, MWM_STATUS_MSG_CHANGED, 0, 0);
 		}
 
+		return TRUE;
+
+	case WM_ERASEBKGND:
 		return TRUE;
 
 	case WM_LBUTTONUP:
@@ -2221,7 +2219,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam)
 {
-	if ( ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+	if (g_bFramesExist)
 		CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
 	else {
 		if (MyDetailsFrameVisible())
@@ -2238,7 +2236,7 @@ INT_PTR ShowHideFrameFunc(WPARAM wParam, LPARAM lParam)
 
 INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 {
-	if ( ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (g_bFramesExist) {
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 		if (!(flags & F_VISIBLE))
 			CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);
@@ -2257,7 +2255,7 @@ INT_PTR ShowFrameFunc(WPARAM wParam, LPARAM lParam)
 
 INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (g_bFramesExist) {
 		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
 		if (flags & F_VISIBLE)
 			CallService(MS_CLIST_FRAMES_SHFRAME, frame_id, 0);

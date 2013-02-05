@@ -73,6 +73,8 @@ extern HINSTANCE hInst;
 extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
 
+extern bool g_bFramesExist;
+
 #include "m_mydetails.h"
 #include "data.h"
 #include "options.h"

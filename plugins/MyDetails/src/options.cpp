@@ -50,6 +50,7 @@ static OptPageControl pageControls[] = {
 	{ &opts.draw_avatar_custom_corner_size,     CONTROL_SPIN,      IDC_AVATAR_CUSTOM_CORNER_SIZE, "AvatarCustomCornerSize", (WORD) 4, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, (WORD) 1, (WORD) 255 },
 	{ &opts.use_avatar_space_to_draw_text,      CONTROL_CHECKBOX,  IDC_AVATAR_USE_FREE_SPACE, "AvatarUseFreeSpaceToDrawText", (BYTE) 1 },
 	{ &opts.resize_frame,                       CONTROL_CHECKBOX,  IDC_RESIZE_FRAME, "ResizeFrame", (BYTE) 0 },
+	{ &opts.use_skinning,                       CONTROL_CHECKBOX,  IDC_USE_SKINNING, "UseSkinning", (BYTE) 0 },
 	{ &opts.borders[RIGHT],                     CONTROL_SPIN,      IDC_BORDER_RIGHT, "BorderRight", (WORD) 8, IDC_BORDER_RIGHT_SPIN, (WORD) 0, (WORD) 255 },
 	{ &opts.borders[LEFT],                      CONTROL_SPIN,      IDC_BORDER_LEFT, "BorderLeft", (WORD) 8, IDC_BORDER_LEFT_SPIN, (WORD) 0, (WORD) 255 },
 	{ &opts.borders[TOP],                       CONTROL_SPIN,      IDC_BORDER_TOP, "BorderTop", (WORD) 8, IDC_BORDER_TOP_SPIN, (WORD) 0, (WORD) 255 },

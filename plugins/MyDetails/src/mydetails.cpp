@@ -648,6 +648,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	nickname_dialog_open = 0;
 	status_msg_dialog_open = 0;
+	g_bFramesExist = ServiceExists(MS_CLIST_FRAMES_ADDFRAME) != 0;
 
 	// Options
 	InitOptions();

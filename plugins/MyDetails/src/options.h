@@ -48,7 +48,7 @@ struct Options
 
 	bool draw_avatar_custom_size;
 	bool draw_avatar_allow_to_grow;
-	int draw_avatar_custom_size_pixels;
+	int  draw_avatar_custom_size_pixels;
 	bool draw_avatar_border;
 	COLORREF draw_avatar_border_color;
 	bool draw_avatar_round_corner;
@@ -61,6 +61,7 @@ struct Options
 	bool use_avatar_space_to_draw_text;
 
 	bool resize_frame;
+	bool use_skinning;
 
 	int refresh_status_message_timer;
 };
