@@ -1,0 +1,156 @@
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;langpack template for Ping
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+Задержка между пингами (сек):
+[Timeout]
+Таймаут
+[Ping timeout (secs):]
+Таймаут пингов (сек):
+[Logging]
+История
+[Log to File]
+Лог файл
+[Log Filename:]
+Имя лог файла:
+[Network]
+Сеть
+[PopUps]
+Всплывающие окна
+[Reply]
+Ответ
+[Block Repetitions]
+Без повторов
+[View Log]
+Журнал
+[Browse...]
+Открыть...
+[Interface]
+Интерфейс
+[Do not change icon when testing]
+Не менять значок при тестировании
+[Use the Customize/Fonts options to change text size and colour.]
+Настройка шрифтов в "Тонкая настройка->Шрифты и цвета"
+[Indent:]
+Отступ:
+[Row height:]
+Высота строки:
+[Repeats for success/failure:]
+Повторять до результата:
+[Attach to contact list]
+Добавить в список
+[Use CSV format]
+Формат CSV
+[Add]
+Добавить
+[Remove]
+Удалить
+[Edit]
+Изменить
+[Up]
+Вверх
+[Down]
+Вниз
+[Edit Host]
+Править хост
+[Address:]
+Адрес:
+[Label:]
+Метка:
+[TCP Connect]
+TCP соединение
+[Port:]
+Порт:
+[Control Protocol:]
+Протокол:
+[Set my status to:]
+Установить мой статус в:
+[On success, if my status is:]
+При успехе, если мой статус:
+[Execute the following command on double-click:]
+Выполнить следующую команду по двойному клику:
+[Contact]
+Контакт
+[Protocols]
+Протоколы
+[(Optional) Command Parameters:]
+Параметры команды (дополнительно):
+[Menu]
+Меню
+[Graph]
+Граф
+[Enable]
+Включено
+[Disable all pings]
+Выключить все пинги
+[Enable all pings]
+Включить все пинги
+[Options...]
+Настройки...
+[Hosts...]
+Хосты...
+;file \plugins\Ping\src\menu.cpp
+[PING]
+Пинг
+[Enable All Pings]
+Включить все пинги
+[Disable All Pings]
+Выключить все пинги
+;file \plugins\Ping\src\options.cpp
+[<none>]
+<нет>
+[<all>]
+<все>
+[Settings]
+Настройки
+[Hosts]
+Хосты
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+Плагин пинг
+[Failed to initialize. Plugin disabled.]
+Ошибка инициализации. Плагин отключён.
+;file \plugins\Ping\src\pinggraph.cpp
+[Show grid lines]
+Показывать линии
+[Show stats]
+Статистика
+[%d ms]
+%d мс
+[AVG %.1lf ms]
+СРДН %.1lf мс
+[MAX %hd ms]
+МАКС %hd мс
+[MIN %hd ms]
+МИН %hd мс
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+%d - установка статуса протокола '%s' (%d)
+[%s - reply, %d]
+%s - ответ, %d
+[%s - timeout]
+%s - таймаут
+[Disable]
+Выключить
+[enabled]
+включён
+[double clicked]
+двойное нажатие
+[Ping]
+Пинг
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+Хост %s требует уменьшить количество посылаемого вами трафика.
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+Неизвестный адрес
+[Unknown]
+Неизвестно
+[Responding]
+Отвечает
+[Not Responding]
+Не отвечает
+[Testing]
+Тестирование
+[Disabled]
+Выключен
