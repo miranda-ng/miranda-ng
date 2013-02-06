@@ -1111,6 +1111,7 @@ uses
   hpp_global;
 
 type
+  PClass = ^TClass;
   EOleError = class(Exception);
 
 const
@@ -1758,28 +1759,15 @@ begin
   inherited;
 end;
 
-type
-  InheritedWMRButtonUp = procedure(var Message: TWMRButtonUp) of object;
-
 procedure THppRichedit.WMRButtonUp(var Message: TWMRButtonUp);
-
-  function GetDynamicMethod(AClass: TClass; Index: Integer): Pointer;
-  asm call System.@FindDynaClass end;
-
 var
-  Method: TMethod;
+  ClassOld: TClass;
 begin
-  Method.Code := GetDynamicMethod(TCustomMemo,WM_RBUTTONUP);
-  Method.Data := Self;
-  InheritedWMRButtonUp(Method)(Message);
-  // RichEdit does not pass the WM_RBUTTONUP message to defwndproc,
-  // so we get no WM_CONTEXTMENU message.
-  // Simulate message here, after EN_LINK defwndproc's notyfy message
-{!!
-  if Assigned(FRichEditOleCallback) or (Win32MajorVersion < 5) then
-    Perform(WM_CONTEXTMENU, Handle, LParam(PointToSmallPoint(
-      ClientToScreen(SmallPointToPoint(TWMMouse(Message).Pos)))));
-}
+  ClassOld := PClass(Self)^;
+  PClass(Self)^ := TCustomMemo;
+  with TMessage(Message) do
+    Perform(WM_RBUTTONUP, WParam, LParam);
+  PClass(Self)^ := ClassOld;
 end;
 
 procedure THppRichedit.WMSetFocus(var Message: TWMSetFocus);
