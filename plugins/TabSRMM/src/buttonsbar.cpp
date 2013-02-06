@@ -936,7 +936,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 10;
 	bbd.hIcon = LoadSkinnedIconHandle(SKINICON_OTHER_CONNECTING);
 	bbd.pszModuleName = "Tabsrmm";
-	bbd.ptszTooltip = _T("Protocol Button");
+	bbd.ptszTooltip = LPGENT("Protocol Button");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -945,7 +945,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_NAME;
 	bbd.dwDefPos = 20;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[20];
-	bbd.ptszTooltip = _T("Info button");
+	bbd.ptszTooltip = LPGENT("Info button");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -955,7 +955,7 @@ void CB_InitDefaultButtons()
 		bbd.iButtonWidth = 0;
 		bbd.dwDefPos = 30;
 		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[9];
-		bbd.ptszTooltip = _T("Insert Emoticon");
+		bbd.ptszTooltip = LPGENT("Insert Emoticon");
 		CB_AddButton(0, (LPARAM)&bbd);
 	}
 
@@ -963,7 +963,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTBOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[10];
-	bbd.ptszTooltip = _T("Bold text");
+	bbd.ptszTooltip = LPGENT("Bold text");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -971,7 +971,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTITALIC;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[11];
-	bbd.ptszTooltip = _T("Italic text");
+	bbd.ptszTooltip = LPGENT("Italic text");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -979,7 +979,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTUNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[12];
-	bbd.ptszTooltip = _T("Underlined text");
+	bbd.ptszTooltip = LPGENT("Underlined text");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -987,7 +987,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTSTRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[15];
-	bbd.ptszTooltip = _T("Strike-through text");
+	bbd.ptszTooltip = LPGENT("Strike-through text");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -995,7 +995,7 @@ void CB_InitDefaultButtons()
 	bbd.dwButtonID = IDC_FONTFACE;
 	bbd.dwDefPos = 80;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[14];
-	bbd.ptszTooltip = _T("Select font color");
+	bbd.ptszTooltip = LPGENT("Select font color");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1005,7 +1005,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 10;
 	bbd.iButtonWidth = 51;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[6];
-	bbd.ptszTooltip = _T("Send message\nClick dropdown arrow for sending options");
+	bbd.ptszTooltip = LPGENT("Send message\nClick dropdown arrow for sending options");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1014,7 +1014,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 20;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[8];
-	bbd.ptszTooltip = _T("Close session");
+	bbd.ptszTooltip = LPGENT("Close session");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1023,7 +1023,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 30;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[4];
-	bbd.ptszTooltip = _T("Quote last message OR selected text");
+	bbd.ptszTooltip = LPGENT("Quote last message OR selected text");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1032,7 +1032,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 40;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
-	bbd.ptszTooltip = _T("Message Log Options");
+	bbd.ptszTooltip = LPGENT("Message Log Options");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1041,7 +1041,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 50;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
-	bbd.ptszTooltip = _T("View User's History");
+	bbd.ptszTooltip = LPGENT("View User's History");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1050,7 +1050,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 60;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[7];
-	bbd.ptszTooltip = _T("Edit user notes");
+	bbd.ptszTooltip = LPGENT("Edit user notes");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1091,7 +1091,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 81;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[16];
-	bbd.ptszTooltip = _T("Change background color");
+	bbd.ptszTooltip = LPGENT("Change background color");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 	//
@@ -1101,7 +1101,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 22;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[19];
-	bbd.ptszTooltip = _T("Toggle nick list");
+	bbd.ptszTooltip = LPGENT("Toggle nick list");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1110,7 +1110,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 24;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[18];
-	bbd.ptszTooltip = _T("Event filter - right click to setup, left click to activate/deactivate");
+	bbd.ptszTooltip = LPGENT("Event filter - right click to setup, left click to activate/deactivate");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1119,7 +1119,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 33;
 	bbd.iButtonWidth = 22;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[17];
-	bbd.ptszTooltip = _T("Channel manager");
+	bbd.ptszTooltip = LPGENT("Channel manager");
 
 	CB_AddButton(0, (LPARAM)&bbd);
 
@@ -1234,7 +1234,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 		tvis.item.lParam  = (LPARAM)cbd;
 
 		if (cbd->bDummy) {
-			tvis.item.pszText = TranslateTS(_T("<Separator>"));
+			tvis.item.pszText = TranslateT("<Separator>");
 			tvis.item.iImage  = tvis.item.iSelectedImage = 0;
 		} else {
 			tvis.item.pszText = TranslateTS(cbd->ptszTooltip);
@@ -1264,7 +1264,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 		tvis.item.lParam  = (LPARAM)cbd;
 
 		if (cbd->bDummy) {
-			tvis.item.pszText = TranslateTS(_T("<Separator>"));
+			tvis.item.pszText = TranslateT("<Separator>");
 			tvis.item.iImage  = tvis.item.iSelectedImage = -1;
 		} else {
 			tvis.item.pszText = TranslateTS(cbd->ptszTooltip);
@@ -1424,7 +1424,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					tvis.hInsertAfter = hti;
 					tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
-					tvis.item.pszText = TranslateTS(_T("<Separator>"));
+					tvis.item.pszText = TranslateT("<Separator>");
 					tvis.item.iImage  = tvis.item.iSelectedImage = -1;
 					tvis.item.lParam  = (LPARAM)cbd;
 
