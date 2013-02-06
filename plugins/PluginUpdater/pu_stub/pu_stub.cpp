@@ -16,15 +16,17 @@ HINSTANCE hInst;								// current instance
 
 void log(const TCHAR *tszFormat, ...)
 {
-	FILE *out = fopen("c:\\temp\\pu.log", "a");
-	if (out) {
-		va_list params;
-		va_start(params, &tszFormat);
-		_vftprintf(out, tszFormat, params);
-		va_end(params);
-		fputc('\n', out);
-		fclose(out);
-	}
+	#if defined(_DEBUG)
+		FILE *out = fopen("c:\\temp\\pu.log", "a");
+		if (out) {
+			va_list params;
+			va_start(params, tszFormat);
+			_vftprintf(out, tszFormat, params);
+			va_end(params);
+			fputc('\n', out);
+			fclose(out);
+		}
+	#endif
 }
 
 int CreateDirectoryTreeW(const WCHAR* szDir)
