@@ -126,32 +126,34 @@ char* GetWinErrorDescription(DWORD dwLastError)
 BOOL SystemTimeToTimeStamp(SYSTEMTIME *st,time_t *timestamp)
 {
 	struct tm ts;
-	ts.tm_isdst=-1;             /* daylight saving time (-1=compute) */
-	ts.tm_sec=st->wSecond;      /* 0-59 */
-	ts.tm_min=st->wMinute;      /* 0-59 */
-	ts.tm_hour=st->wHour;       /* 0-23 */
-	ts.tm_mday=st->wDay;        /* 1-31 */
-	ts.tm_wday=st->wDayOfWeek;  /* 0-6 (Sun-Sat) */
-	ts.tm_mon=st->wMonth-1;     /* 0-11 (Jan-Dec) */
-	ts.tm_year=st->wYear-1900;  /* current year minus 1900 */
+	ts.tm_isdst = -1;             /* daylight saving time (-1=compute) */
+	ts.tm_sec = st->wSecond;      /* 0-59 */
+	ts.tm_min = st->wMinute;      /* 0-59 */
+	ts.tm_hour = st->wHour;       /* 0-23 */
+	ts.tm_mday = st->wDay;        /* 1-31 */
+	ts.tm_wday = st->wDayOfWeek;  /* 0-6 (Sun-Sat) */
+	ts.tm_mon = st->wMonth-1;     /* 0-11 (Jan-Dec) */
+	ts.tm_year = st->wYear-1900;  /* current year minus 1900 */
 	ts.tm_yday=0;               /* 0-365 (Jan1=0) */
-	*timestamp=mktime(&ts);
+	*timestamp = mktime(&ts);
 	return (*timestamp!=-1);
 }
 
 BOOL TimeStampToSystemTime(time_t timestamp,SYSTEMTIME *st)
 {
-	struct tm *ts = {0};
-	localtime_s(ts, &timestamp);  /* statically alloced, local time correction */
-	if(ts==NULL) return FALSE;
-	st->wMilliseconds=0;                 /* 0-999 (not given in tm) */
-	st->wSecond=(WORD)ts->tm_sec;       /* 0-59 */
-	st->wMinute=(WORD)ts->tm_min;       /* 0-59 */
-	st->wHour=(WORD)ts->tm_hour;        /* 0-23 */
-	st->wDay=(WORD)ts->tm_mday;         /* 1-31 */
-	st->wDayOfWeek=(WORD)ts->tm_wday;   /* 0-6 (Sun-Sat) */
-	st->wMonth=(WORD)(ts->tm_mon+1);    /* 1-12 (Jan-Dec) */
-	st->wYear=(WORD)(ts->tm_year+1900); /* 1601-30827 */
+	struct tm ts = {0};
+	errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
+	if (err != 0)
+		return FALSE;
+
+	st->wMilliseconds = 0;                 /* 0-999 (not given in tm) */
+	st->wSecond = (WORD)ts.tm_sec;       /* 0-59 */
+	st->wMinute = (WORD)ts.tm_min;       /* 0-59 */
+	st->wHour = (WORD)ts.tm_hour;        /* 0-23 */
+	st->wDay = (WORD)ts.tm_mday;         /* 1-31 */
+	st->wDayOfWeek = (WORD)ts.tm_wday;   /* 0-6 (Sun-Sat) */
+	st->wMonth = (WORD)(ts.tm_mon+1);    /* 1-12 (Jan-Dec) */
+	st->wYear = (WORD)(ts.tm_year+1900); /* 1601-30827 */
 	return TRUE;
 }
 
