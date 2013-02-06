@@ -18,7 +18,7 @@
 
 struct contact_data
 {
-	list<string>  msgs_to_send, msgs_to_pass;
+	list<string>  msgs_to_send;// msgs_to_pass;
 	string key_in_prescense;
 };
 

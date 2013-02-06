@@ -1314,11 +1314,11 @@ int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARA
 	ACKDATA ack;
 	memset(&ack,0,sizeof(ack));
 	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = szGPGModuleName;//	GetContactProto(hContact);
+	ack.szModule = GetContactProto(hContact);//szGPGModuleName;
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;
-	ack.hProcess = hProcess;
+	ack.hProcess = (HANDLE)777;//hProcess;
 	ack.lParam = lParam;
 	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
 }
@@ -1857,25 +1857,26 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 					}
 					if(found)
 					{
-						wstring cmd;
-						TCHAR tmp2[MAX_PATH] = {0};
+						wstring cmd, path;
 						TCHAR *ptmp;
 						string output;
 						DWORD exitcode;
 						{
 							HANDLE hcnt = hContact;
 							ptmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-							_tcscpy(tmp2, ptmp);
+							path = ptmp;
 							mir_free(ptmp);
-							_tcscat(tmp2, _T("\\"));
-							_tcscat(tmp2, _T("temporary_exported.asc"));
-							boost::filesystem::remove(tmp2);
-							wfstream f(tmp2, std::ios::out);
+							mir_free(ptmp);
+							wstring rand = toUTF16(get_random(10));
+							path += L"\\";
+							path += rand;
+							boost::filesystem::remove(path);
+							wfstream f(path, std::ios::out);
 							f<<toUTF16(key).c_str();
 							f.close();
 							cmd += _T(" --batch ");
 							cmd += _T(" --import \"");
-							cmd += tmp2;
+							cmd += path;
 							cmd += _T("\"");
 						}
 						gpg_execution_params params;
@@ -1903,7 +1904,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							if(output.find("already in secret keyring") != string::npos)
 							{
 								MessageBox(0, TranslateT("Key already in scret key ring."), TranslateT("Info"), MB_OK);
-								boost::filesystem::remove(tmp2);
+								boost::filesystem::remove(path);
 								break;
 							}
 							char *tmp2;
@@ -1971,7 +1972,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
 							DBWriteContactSettingTString(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
 						}
-						boost::filesystem::remove(tmp2);
+						boost::filesystem::remove(path);
 						break;
 					}
 				}
