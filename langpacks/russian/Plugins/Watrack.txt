@@ -511,6 +511,8 @@ VBR или нет
 Включить плагин
 [Don't forget to enter Login and Password to use Last.fm service]
 Не забудьте ввести логин и пароль, что бы пользоваться сервисом Last.fm
+[Don't forget to enter Login and Password to use MyShows service]
+Не забудьте ввести логин и пароль, что бы пользоваться сервисом MyShows
 [Attempts]
 попыток
 [Disable scrobbling]

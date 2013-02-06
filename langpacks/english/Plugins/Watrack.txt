@@ -258,6 +258,7 @@
 [Disable Plugin]
 [Enable Plugin]
 [Don't forget to enter Login and Password to use Last.fm service]
+[Don't forget to enter Login and Password to use MyShows service]
 [Attempts]
 [Disable scrobbling]
 [Enable scrobbling]

@@ -92,3 +92,4 @@
 [Mute with Miranda]
 [Advanced]
 [Stop]
+[Play]
