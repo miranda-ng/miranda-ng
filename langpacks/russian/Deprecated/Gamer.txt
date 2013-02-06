@@ -24,7 +24,7 @@
 Использовать настройки протокола?
 [You can use different settings for every protocol.]
 Вы можете использовать различные настройки для разных протоколов.
-[The status of \"pushed-down\" protocols won't be changed]
+[The status of "pushed-down" protocols won't be changed]
 Зажатый статус запрещает изменения протокола
 [Popups should ... while process is running]
 Параметры вспл. окон когда запущен процесс

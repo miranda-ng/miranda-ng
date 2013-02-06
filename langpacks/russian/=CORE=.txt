@@ -2069,8 +2069,8 @@ URL от %s
 %s добавлен(а) в Ваш список контактов\n%u в %s
 [%s added you to the contact list\n%s on %s]
 %s добавлен(а) в Ваш список контактов\n%s в %s
-[Are you sure you want to remove profile \"%s\"?]
-Вы уверены, что хотите удалить профиль \"%s\"?
+[Are you sure you want to remove profile "%s"?]
+Вы уверены, что хотите удалить профиль "%s"?
 [Modified]
 Изменён
 [Feature is not supported by protocol]
@@ -2440,3 +2440,24 @@ Miranda не смогла загрузить встроенную систему
 Для этого шрифта настройка стилей и эффектов отключена.
 [Max Number of Flashes]
 Максимально миганий
+
+[&Offline\tCtrl+0]
+Не в с&ети\tCtrl+0
+[On&line\tCtrl+1]
+В &сети\tCtrl+1
+[&Away\tCtrl+2]
+&Отсутствую\tCtrl+2
+[&NA\tCtrl+3]
+Не&доступен\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Занят\tCtrl+4
+[&DND\tCtrl+5]
+Не &беспокоить\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Готов болтать\tCtrl+7
+[&Invisible\tCtrl+7]
+&Невидимый\tCtrl+7
+[On the &Phone\tCtrl+8]
+На &телефоне\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Обед&аю\tCtrl+9

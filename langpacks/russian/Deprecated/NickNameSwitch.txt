@@ -15,8 +15,8 @@
 Восстановить все присвоенные имена
 [Restore all Custom Name]
 Восстановить имена
-[Are you sure you want to replace the original backup copy of custom nickname \"%s\" and change it to \"%s\"?\n\nIf select \"No\", the current custom nickname will be lost!]
-Вы действительно хотите заменить данную копию присвоенного имени \"%s\" и заменить её на \"%s\"?\n\nЕсли выберете \"Нет\", то потеряете настоящее присвоенное имя!
+[Are you sure you want to replace the original backup copy of custom nickname "%s" and change it to "%s"?\n\nIf select "No", the current custom nickname will be lost!]
+Вы действительно хотите заменить данную копию присвоенного имени "%s" и заменить её на "%s"?\n\nЕсли выберете "Нет", то потеряете настоящее присвоенное имя!
 [Nickname Switch]
 Переключатель имен
 [Hot Keys]

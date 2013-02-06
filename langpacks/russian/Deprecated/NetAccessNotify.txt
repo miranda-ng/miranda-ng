@@ -192,12 +192,12 @@
 Одно окно на соединение,\nпри наличии активности
 [Disable popups for\nthis connection only]
 Отключить уведомление \nдля этого соединения
-[Add \"Network connections\" icon to system tray]
-Добавить в трей значок \"Сетевые соединения\"
-[Add \"Network connections\" item to main menu]
-Добавить пункт \"Сетевые соединения\" в главное меню
-[\"Network connections\" window is always on top]
-Окно \"Сетевые соединения\" поверх всех окон
+[Add "Network connections" icon to system tray]
+Добавить в трей значок "Сетевые соединения"
+[Add "Network connections" item to main menu]
+Добавить пункт "Сетевые соединения" в главное меню
+["Network connections" window is always on top]
+Окно "Сетевые соединения" поверх всех окон
 [ms  (Warning: this can be CPU-intensive)]
 милисек (Грузит процессор!)
 [Use NTFS auditing capabilities (should be configured for all shared files && folders)]

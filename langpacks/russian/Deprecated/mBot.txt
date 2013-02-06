@@ -20,10 +20,10 @@
 Переносить строки в консоли
 [Disable scheduler]
 Отключить планировщик
-[Script tag (default: \"?>\")]
-Тег скрипта (стандартно: \"?>\")
-[Command tag (default: \"m>\")]
-Тег команды (стандартно: \"m>\")
+[Script tag (default: "?>")]
+Тег скрипта (стандартно: "?>")
+[Command tag (default: "m>")]
+Тег команды (стандартно: "m>")
 [Enable WWW Server]
 Включить WWW сервер
 [Registered Handlers]

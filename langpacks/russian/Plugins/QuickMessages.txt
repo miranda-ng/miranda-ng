@@ -41,8 +41,8 @@
 - Фамилия контакта
 [Tips:]
 Подсказки:
-[*Rename menu item into \"---\" to insert separator]
-Чтобы вставить разделитель, переименуйте пункт меню в \"---\"
+[*Rename menu item into "---" to insert separator]
+Чтобы вставить разделитель, переименуйте пункт меню в "---"
 [*Use drag'n'drop for arranging menu items]
 Перетаскивайте мышкой пункты меню для сортировки
 [Add to QuickMenu]

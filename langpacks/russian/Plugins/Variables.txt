@@ -13,8 +13,6 @@
 Автоанализ
 [Parse the following string at startup]
 Анализ строки при загрузке
-[Automatically strip \"end of line\" characters]
-Обрезать символ \"конец строки\"
 [Automatically strip "end of line" characters]
 Обрезать символ "конец строки"
 [Help...]
@@ -331,8 +329,8 @@ y, если длина строки w > x, в другом случае z
 положение первого совпадения строки y в x
 [z if y equals x, multple y and z arguments allowed]
 z, если y равняется x, множественные аргументы y,z разрешены
-[z{2,4} matches \"zz\", \"zzz\" or \"zzzz\"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
-z{2,4} равно \"zz\", \"zzz\" или \"zzzz\"\r\n* эквивалентно {0,}\r\n+ эквивалентно {1,}\r\n? эквивалентно {0,1}
+[z{2,4} matches "zz", "zzz" or "zzzz"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
+z{2,4} равно "zz", "zzz" или "zzzz"\r\n* эквивалентно {0,}\r\n+ эквивалентно {1,}\r\n? эквивалентно {0,1}
 [words (seperated by white spaces) number y to z from string x (z is optional)]
 слова (разделённые пробелами) число y от z от строки x (z необязательно)
 [(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]

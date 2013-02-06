@@ -20,10 +20,10 @@
 Также искать следующие "плохие" слова
 [Add bad word]
 Добавить "плохое" слово
-[The entered bad word \"%s\" already exists in the list.\n\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same word are not neccessary\nand would decrease the filter quality.]
-Слово \"%s\" уже есть в списке. \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет.
-[The entered bad word \"%s\" already exists in the default bad words list.\n\nAllowing the same bad words in the customized bad words list would\npull down the filter quality.\n\nShould the bad word be added anyway?]
-Слово \"%s\" уже есть в предопределённом списке "плохих слов". \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет. Всё равно добавить слово?
+[The entered bad word "%s" already exists in the list.\n\nThe filter doesn't differentiate between lower and upper case.\nTwo entries with the same word are not neccessary\nand would decrease the filter quality.]
+Слово "%s" уже есть в списке. \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет.
+[The entered bad word "%s" already exists in the default bad words list.\n\nAllowing the same bad words in the customized bad words list would\npull down the filter quality.\n\nShould the bad word be added anyway?]
+Слово "%s" уже есть в предопределённом списке "плохих слов". \n\nФильтр не различает регистр букв (большие или маленькие).\nНеобходимости в двух записях с одним словом нет. Всё равно добавить слово?
 [Delete bad word]
 Удалить "плохое" слово
 [You haven't selected a bad word to delete.\nPlease select one first.]

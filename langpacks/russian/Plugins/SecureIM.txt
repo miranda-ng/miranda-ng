@@ -361,13 +361,13 @@ SecureIM не может отправить шифрованное сообще�
 Шифрование (PGP)
 [SecureIM mode (GPG)]
 Шифрование (GPG)
-[SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\n\nDo you Accept this Key ?]
-Получен публичный ключ RSA от \"%s\"\n\nSHA1: %s\n\nПринять?
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+Получен публичный ключ RSA от "%s"\n\nSHA1: %s\n\nПринять?
 [SecureIM auto accepted RSA Public key from: %s uin: %s]
 Автоматически принят публичный ключ RSA от: %s UID: %s
 [Can't change mode! Secure connection established!]
 Не могу изменить режим! Защищённое соединение установлено!
-[Session closed by other side when status \"disabled\"]
+[Session closed by other side when status "disabled"]
 Сессия закрыта другой стороной, статус "отключён"
 [Session closed by receiving incorrect message type]
 Сессия закрыта, получен неправильный тип сообщения
@@ -391,8 +391,8 @@ SecureIM не может отправить шифрованное сообще�
 Автоматически принят публичный ключ RSA от: %s UID: %s SHA1: %s
 [Context Menu only for "Miranda" clients]
 Пункт в меню только для Miranda
-[SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
-Получен публичный ключ RSA от \"%s\"\n\nНовый SHA1: %s\n\Старый SHA1: %s\n\nЗаменить ключ?
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+Получен публичный ключ RSA от "%s"\n\nНовый SHA1: %s\n\Старый SHA1: %s\n\nЗаменить ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Автоматически принят публичный ключ RSA от: %s uin: %s Новый SHA1: %s Старый SHA1: %s
 [Can't export RSA private key!]

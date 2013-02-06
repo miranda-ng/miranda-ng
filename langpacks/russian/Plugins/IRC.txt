@@ -281,10 +281,10 @@ DCC-запрос на передачу файла послан %s [%s]
 Чат-комната
 [Topic]
 Тема
-[The \"Nick\" field must contain at least four characters, and also match the default nickname (incl. wildcards) for this contact.\n\nThe \"Nick\" field is not case-sensitive but \"User\" and \"Address\" are.\r\n\r\nThe default nickname for this contact is]
-Чтобы соответствовать правилам, поле \"Псевдоним\" должно содержать как минимум четыре знака, и совпадать с псевдонимом по умолчанию (включая маски) для этого контакта. \n\nПоле \"Псевдоним\" не чувствительно к регистру, а "Пользователь" и "Адрес" чувствительны.\r\n\r\nПсевдонимом по умолчанию, для этого контакта, является
-[Settings could not be saved!\n\nThe \"Nick\" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Настройки не сохранены.\n\nПоле \"Псевдоним\" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
+[The "Nick" field must contain at least four characters, and also match the default nickname (incl. wildcards) for this contact.\n\nThe "Nick" field is not case-sensitive but "User" and "Address" are.\r\n\r\nThe default nickname for this contact is]
+Чтобы соответствовать правилам, поле "Псевдоним" должно содержать как минимум четыре знака, и совпадать с псевдонимом по умолчанию (включая маски) для этого контакта. \n\nПоле "Псевдоним" не чувствительно к регистру, а "Пользователь" и "Адрес" чувствительны.\r\n\r\nПсевдонимом по умолчанию, для этого контакта, является
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
 [Add ban/invite/exception]
 Добавить бан/приглашение/исключение
 [Edit selected ban/invite/exception]

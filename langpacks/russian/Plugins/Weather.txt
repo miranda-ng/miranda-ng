@@ -159,8 +159,8 @@ URL доп. информации
 Делать контакт наклонным при получении обновления
 [Display warning if INI file is not found at startup]
 Показывать предупреждение, если файл INI не найден 
-[Invalid ID format, missing \"/\" (10)]
-Неправильный формат ID, нет \"/\" (10)
+[Invalid ID format, missing "/" (10)]
+Неправильный формат ID, нет "/" (10)
 [Invalid service (11)]
 Неправильный сервис (11)
 [Invalid station (12)]

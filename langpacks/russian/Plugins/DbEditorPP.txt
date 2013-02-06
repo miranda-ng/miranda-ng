@@ -172,7 +172,7 @@ BL&OB
 Полностью
 [Restore last opened position]
 Восстановить последнее положение
-[Automatically expand \"settings\" when Database Editor ++ starts]
+[Automatically expand "settings" when Database Editor ++ starts]
 Автоматически раскрывать "настройки" при запуске
 [Automatically expand "settings" when Database Editor ++ starts]
 Открывать ветку "настройки" при запуске
@@ -294,8 +294,8 @@ BL&OB
 Редактор базы (режим ANSI)
 [Open user tree in DBE++]
 Открыть в редакторе базы
-[If the module name has a space in it, put a \\ before the space. eg \"aaa\\ bbb\"]
-Если имя модуля содержит пробел, вставьте \\ перед пробелом. напр \"ааа\\ ббб\"
+[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
+Если имя модуля содержит пробел, вставьте \\ перед пробелом. напр "ааа\\ ббб"
 [If the module name has a space in it, put a \ before the space. eg "aaa\ bbb"]
 Если в имени модуля есть пробел, поместите \ перед ним, напр. "aaa\ bbb"
 [Loading contacts...]

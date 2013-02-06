@@ -43,7 +43,7 @@
 Предустановленные сообщения
 [Recent messages]
 Последние сообщения
-[When this checkbox is ticked, NewAwaySys counts \"send times\" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, \"send times\" are counted from last status mode change (i.e. disabled state is more restrictive).]
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
 Когда эта галочка установлена, плагин NAS считает количество отправок начиная с последнего изменения сообщения статуса, даже если статус не менялся.\nКогда не установлена, количество отправок считается с последнего изменения статуса (выключенное состояние более ограничено).
 [You can put your frequently used and favorite messages in this category.]
 Вы можете разместить часто используемые и любимые сообщения в этой категории.
@@ -59,8 +59,8 @@
 Включить автоответчик когда вы %s
 [Ignore status message requests from this contact and don't send an autoreply]
 Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик
-[Ignore status message requests from this contact and don't send an autoreply.\r\n\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.]
-Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\n\"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно\" если включено, эта настройка будет для каждого контакта и для каждого статуса своя.
+[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+Игнорировать запросы сообщений статуса от этого контакта, и выключить автоответчик.\r\n"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" если включено, эта настройка будет для каждого контакта и для каждого статуса своя.
 [New Away System plugin requires Miranda version 0.6.0.0 or above.]
 Плагину системы сообщений NAS нужна Miranda версии 0.6.0.0 или выше.
 [New Away System: Status message request notifications]
@@ -91,8 +91,8 @@ NewAwaySys: Входящий запрос статусного сообщени�
 Установить статусное сообщение
 [Use the default setting]
 Использовать по умолчанию
-[\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.]
-\"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно\" включено, так что эта настройка действует для контакта и для статуса.
+["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+"Хранить настройки автоответчика/игнора контакта для кажд. статуса отдельно" включено, так что эта настройка действует для контакта и для статуса.
 [?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%extratext%]
 ?cinfo(%subject%,display) (?cinfo(%subject%,id)) читает Ваше %nas_statdesc% сообщение:\r\n%extratext%
 [Miranda IM autoreply >\r\n%extratext%]

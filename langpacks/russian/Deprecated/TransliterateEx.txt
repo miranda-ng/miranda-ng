@@ -15,5 +15,5 @@
 Всё в транслит
 [Transliterate none]
 Без транслита
-[Auto detect \"Input Language\"]
+[Auto detect "Input Language"]
 Автораспознавание языка

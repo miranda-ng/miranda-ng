@@ -33,16 +33,16 @@ xСтатус
 <нет недавних событий>
 [Aggressive filtering level. Filters more, sacrificing some of the most suspicious usual notifications that may turn out to be not a flood.]
 Агрессивный уровень фильтра. Фильтрует больше, несмотря на некоторые обычные уведомления, которые могут быть не флудом.
-[Normal filtering level. It's the recommended setting. It tries to leave most of usual xstatus notifications and at the same time it offers reasonable level of flood filtering, leaving only first \"Listening to\" notification for a contact and filtering any subsequent ones.]
-Нормальный уровень фильтрации. Рекомендованная настройка. Попытка уведомлять об обычных сменах хСтатусов, и в то же время предлагая достаточный уровень фильтрации флуда, оставляя только первые \"Сейчас играет\" уведомления для контакта, и фильтруя все последующие.
+[Normal filtering level. It's the recommended setting. It tries to leave most of usual xstatus notifications and at the same time it offers reasonable level of flood filtering, leaving only first "Listening to" notification for a contact and filtering any subsequent ones.]
+Нормальный уровень фильтрации. Рекомендованная настройка. Попытка уведомлять об обычных сменах хСтатусов, и в то же время предлагая достаточный уровень фильтрации флуда, оставляя только первые "Сейчас играет" уведомления для контакта, и фильтруя все последующие.
 [Technical info (log of filtered notifications)]
 Техническая информация (журнал отфильтрованных уведомлений)
 [This log shows results of heuristic analysis of recent xstatus change events. Notifications\r\nare filtered out if their Warning value is more than filtering threshold. Using this info, you\r\ncan tune filtering threshold to suit your preferences.]
 Этот журнал отображает результаты эвристического анализа недавних событий изменения хСтатусов. Уведомления фильтруются, если уровень предупреждения более, чем заданный порог. Используя эту информацию, вы можете подстроить порог фильтра для Ваших условий.
-[Very aggressive filtering level. You won't ever see \"Listening to\" popups (perhaps with very rare exceptions), but the plugin will also filter a lot of usual xstatus notifications.]
-Очень агрессивный уровень фильтрации. Вы даже не увидите \"Сейчас играет\" уведомлений (может быть с редкими исключениями), но плагин будет также фильтровать много обычных уведомлений хСтатуса.
-[Very weak filtering level. Usually still sufficient to filter a lot of flooding notifications, but fails to filter them if their \"flood\" features are indistinct.]
-Очень слабый уровень фильтрации. Обычно его достаточно чтобы отфильтровать множественные уведомления, но он не может отфильтровать \"не ясный\" флуд уведомления.
+[Very aggressive filtering level. You won't ever see "Listening to" popups (perhaps with very rare exceptions), but the plugin will also filter a lot of usual xstatus notifications.]
+Очень агрессивный уровень фильтрации. Вы даже не увидите "Сейчас играет" уведомлений (может быть с редкими исключениями), но плагин будет также фильтровать много обычных уведомлений хСтатуса.
+[Very weak filtering level. Usually still sufficient to filter a lot of flooding notifications, but fails to filter them if their "flood" features are indistinct.]
+Очень слабый уровень фильтрации. Обычно его достаточно чтобы отфильтровать множественные уведомления, но он не может отфильтровать "не ясный" флуд уведомления.
 [Weak filtering level. Leaves more notifications, so it may accidentally skip some flood. Advantage of this setting is that the plugin will be more tolerant to cases when contact changes his xstatus message several times but leaves the same icon.]
 Слабый уровень фильтрации. Оставляет большинство уведомлений, и может пропустить немного флуда. Преимущество данной настройке в том, что плагин будет более терпимым в случае определения когда контакт меняет сообщение хСтатуса несколько раз, но оставляет тот же самый значок.
 [You have to enable heuristic filtering for popups and/or for message log to see results here.]

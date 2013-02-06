@@ -68,8 +68,8 @@
 Нажатие клавиши
 [Add hotkey]
 Назначить клавишу
-[Single hotkey can be associated with more than one function.\nPrevious hotkey for this item - [%s] - was bound with %d items except this.\n\nPress \"Yes\" to change hotkeys also for other items that have [%s] as hotkey.\nPress \"No\" to change hotkey only for current item.]
-Одна горячая клавиша может быть связана более чем с одной функцией.\nПредыдущая горячая клавиша для этого объекта - [%s] - была связана с  %d объектами, кроме данного.\n\nНажмите \"Да\", чтобы изменить горячие клавиши также для других объектов, у которых горячая клавиша [%s].\nНажмите \"Нет\", чтобы  горячую клавишу только для текущего объекта.
+[Single hotkey can be associated with more than one function.\nPrevious hotkey for this item - [%s] - was bound with %d items except this.\n\nPress "Yes" to change hotkeys also for other items that have [%s] as hotkey.\nPress "No" to change hotkey only for current item.]
+Одна горячая клавиша может быть связана более чем с одной функцией.\nПредыдущая горячая клавиша для этого объекта - [%s] - была связана с  %d объектами, кроме данного.\n\nНажмите "Да", чтобы изменить горячие клавиши также для других объектов, у которых горячая клавиша [%s].\nНажмите "Нет", чтобы  горячую клавишу только для текущего объекта.
 [This hotkey already in use!\nChoose any other one.]
 Эта горячая клавиша уже используется!\nВыберите другую.
 [Fill the service line!]
