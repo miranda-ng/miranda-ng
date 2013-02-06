@@ -393,7 +393,7 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.hInstance = hInst;
 	odp.flags = ODPF_TCHAR;
 
-	odp.ptszTab = LPGENT("Main");
+	odp.ptszTab = LPGENT("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
