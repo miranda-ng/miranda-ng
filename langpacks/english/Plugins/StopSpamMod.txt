@@ -54,7 +54,7 @@
 [Info]
 [Message Sessions]
 [StopSpam]
-[Main]
+[General]
 [Messages]
 [Accounts]
 [Advanced]

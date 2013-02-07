@@ -67,8 +67,8 @@
 [Status]
 [Status Message]
 [Listening To]
-[Background]
 [My Details]
+[Background]
 [Avatar Border]
 [Show My Details]
 [Enable Listening To for %s]
@@ -80,7 +80,7 @@
 [Listening to]
 [Previous protocol]
 [Next protocol]
-[Contact List]
 [Set My Nickname for %s]
 [Set My Status Message for %s]
+[Contact List]
 ;file \plugins\MyDetails\src\options.cpp
