@@ -36,9 +36,9 @@ PLUGININFOEX pluginInfo = {
 	"Omegle Protocol",
 	__VERSION_DWORD,
 	"Omegle protocol support for Miranda NG.",
-	"Robert Posel",
+	"Robert P\xf6" "sel",
 	"robyer@seznam.cz",
-	"(c) 2011-12 Robert Posel",
+	"(c) 2011-12 Robert P\xf6" "sel",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {9E1D9244-606C-4ef4-99A0-1D7D23CB7601}
