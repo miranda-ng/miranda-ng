@@ -128,7 +128,7 @@ sln_stream.Close();
 // project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
 // project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
 
-//create Enumerator with project files from sln and dpr file find results, sorted alphabetically
+//create Enumerator with project files from sln and dpr files, sorted alphabetically
 files=new Enumerator(project_files.sort());
 while (!files.atEnd()) {
     //get file name
@@ -215,6 +215,8 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     FindFiles(pluginpath,"\\.rc$",resourcefiles);
     //find all source files and list files in array
     FindFiles(pluginpath,"\\.h$|\\.cpp$|\\.c$|\\.pas$|\\.dpr$|\\.inc$",sourcefiles);
+    //Check for "Status plugins". They have few common resource files to translate, which located one layer upper, than plugin folder.
+    CheckStatusPlugins(plugin);
     //Parse files "resourcefiles", put result into "foundstrings" using "ParseRCFile" function
     ParseFiles(resourcefiles,foundstrings,ParseRCFile);
     //Parse files "sourcefiles", put result into "foundstrings" using "ParseSourceFile" function
@@ -370,6 +372,15 @@ function GetMUUID (folder,array) {
  if (log) WScript.Echo(muuid);
 };
 
+//For status plugins, namely KeepStatus, StartupStatus and AdvancedAutoAway we need add for all of them common source files to parsing array, because they exist one layer upper of pluginfolder
+function CheckStatusPlugins (plug) {
+if (plug.match(/(KeepStatus|StartupStatus|AdvancedAutoAway)/)) {
+    resourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\resource.rc");
+    sourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\commonstatus.cpp");
+    sourcefiles.push(trunk+"\\Plugins\\StatusPlugins\\confirmdialog.cpp");
+    }
+}
+
 //Parsing filelist into stringsarray by parsefunction (ParseSourceFile OR ParseRCFile)
 function ParseFiles (filelist,stringsarray, parsefunction) {
  //create enumerator filesenum from filelist
@@ -400,7 +411,7 @@ function ParseRCFile(RC_File,array) {
  //If file zero size, return;
  if (FSO.GetFile(RC_File).Size==0) return;  
  //reading current file
- RC_File_stream=RC_File.OpenAsTextStream(ForReading, TristateUseDefault);
+ RC_File_stream=FSO.GetFile(RC_File).OpenAsTextStream(ForReading, TristateUseDefault);
  //Reading line-by-line
  while (!RC_File_stream.AtEndOfStream) {
       //Init regexp array for getting only $1 from regexp search
@@ -410,7 +421,7 @@ function ParseRCFile(RC_File,array) {
       //read on line into rcline
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
-      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"(,|$)/);
+      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"(,|$)/);
       // if exist rc_regexp, do checks, double "" removal and add strings into array
           if (rc_regexp) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
@@ -460,8 +471,8 @@ function ParseSourceFile (SourceFile,array) {
  while ((string = find.exec(allstrings)) != null) {
     //first, init empty var
     var string;
-    //replace newlines with \r\n in second [1] subregexp ([\S\s]*?), Delphi newlines "'#13#10+" also replace 
-    onestring=string[2].replace(/'?(\#13\#10)*?\+?\r\n(\x20*?\')?/g,"\\r\\n");
+    //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
+    onestring=string[2].replace(/'?(\#13\#10)*?\+?\r\n(\x20*?\')?/g,"");
     //remove escape slashes before ' and "
     stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
     //if our string still exist, and length more than 2 symbol (nothing to translate if only two symbols, well, except No and OK, but they are in core. But dozens crap with variables are filtered)
