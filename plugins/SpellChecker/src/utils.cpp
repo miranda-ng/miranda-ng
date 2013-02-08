@@ -1135,7 +1135,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + suggestions.count, TranslateT("Other..."));
 	if (suggestions.count > 0) {
 		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		for (int i = suggestions.count-1; i >= 0; i--)
+		for (int i = (int)suggestions.count-1; i >= 0; i--)
 			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
 	}
 
@@ -1155,7 +1155,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 			hSubMenu = hMenu;
 		}
 
-		for (int i = suggestions.count - 1; i >= 0; i--)
+		for (int i = (int)suggestions.count - 1; i >= 0; i--)
 			InsertMenu(hSubMenu, 0, MF_BYPOSITION, base + i, suggestions.words[i]);
 	}
 

@@ -150,7 +150,7 @@ int RichEdit::GetLineCount() const
 
 void RichEdit::GetLine(int line, TCHAR *text, size_t text_len) const
 {
-	*((WORD*)text) = text_len - 1;
+	*((WORD*)text) = WORD(text_len - 1);
 	unsigned size = (unsigned) SendMessage(EM_GETLINE, (WPARAM) line, (LPARAM) text);
 	// Sometimes it likes to return size = lineLen+1, adding an \n at the end, so we remove it here
 	// to make both implementations return same size

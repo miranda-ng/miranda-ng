@@ -116,19 +116,15 @@ protected:
 
 	void toHunspell(char *hunspellWord, const TCHAR *word, size_t hunspellWordLen)
 	{
-
-		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, hunspellWordLen, NULL, NULL);
-
+		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, (int)hunspellWordLen, NULL, NULL);
 	}
 
 	TCHAR * fromHunspell(const char *hunspellWord)
 	{
-
 		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, NULL, 0);
 		WCHAR *ret = (WCHAR *) malloc((len + 1) * sizeof(WCHAR));
 		MultiByteToWideChar(codePage, 0, hunspellWord, -1, ret, len + 1);
 		return ret;
-
 	}
 
 	TCHAR * fromHunspellAndFree(char *hunspellWord)

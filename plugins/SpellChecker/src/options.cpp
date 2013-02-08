@@ -312,7 +312,7 @@ static void LoadReplacements(HWND hwndDlg)
 		item.iItem = i;
 		item.iSubItem = 0;
 		item.pszText = (TCHAR *) it->first.c_str();
-		item.cchTextMax = it->first.length();
+		item.cchTextMax = (int)it->first.length();
 		item.lParam = i;
 		
 		ListView_InsertItem(hList, &item);

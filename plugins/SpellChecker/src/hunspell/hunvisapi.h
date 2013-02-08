@@ -1,6 +1,8 @@
 #ifndef _HUNSPELL_VISIBILITY_H_
 #define _HUNSPELL_VISIBILITY_H_
 
+#pragma warning(disable:4267)
+
 #if defined(HUNSPELL_STATIC)
 #  define LIBHUNSPELL_DLL_EXPORTED
 #elif defined(_MSC_VER)
