@@ -3,7 +3,7 @@
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
 ;  Version: 1.3.0.9
-;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Posel
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
 ;file \plugins\MenuItemEx\res\resource.rc

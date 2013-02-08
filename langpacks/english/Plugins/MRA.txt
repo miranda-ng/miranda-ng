@@ -97,9 +97,24 @@
 [Writed:]
 [0/500]
 [Select e-mail]
+;file \protocols\MRA\src\MraAntiSpam.cpp
+[Spam bot blocked]
+[Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 [plugin connections]
+[Avatars: server return HTTP code: %lu]
+[Avatars: cant open file %s, error]
+;file \protocols\MRA\src\MraChat.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+[invite sender]
+[invite new members]
+;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: cant allocate disk space for file, size %lu bytes, error]
+[Receive files: cant open file %s, error]
+[Receive files: request for file %s not sended, error]
+[Send files: cant open file %s, error]
+[Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -107,11 +122,34 @@
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [E-mail address]
+;file \protocols\MRA\src\Mra_functions.cpp
+[Unread mail is available: %lu/%lu messages]
+[From: %s\r\nSubject: %s\r\n%s]
+[No unread mail is available\r\nTotal messages: %lu]
+[Closing in]
+[Reply to %s blog status]
+[Set my blog status]
+[Writed]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
 [Connections]
 [Anti spam]
 [Files]
+;file \protocols\MRA\src\Mra_proto.cpp
+[Please, setup e-mail in options]
+[Please, setup password in options]
+[Logon error: invalid login/password]
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+[Server error: cant get MPOP key for web authorize]
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+[invisible status changed]
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+[MRIM_ANKETA_INFO: not found in queue]
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+[MRIM_CS_SMS_ACK: not found in queue]
+[Mail.ru System notify]
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]

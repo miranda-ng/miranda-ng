@@ -1,5 +1,11 @@
 ﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
-;langpack template for Msg_Export
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or File you receive to a text file.]
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 [Use internal viewer]
@@ -58,8 +64,15 @@
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\main.cpp
+[Failed to HookEvent ME_DB_EVENT_ADDED]
+[Failed to HookEvent ME_DB_CONTACT_DELETED]
+[Failed to HookEvent ME_OPT_INITIALISE]
 [Open E&xported History]
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+[Failed to HookEvent ME_SYSTEM_SHUTDOWN]
+[Failed to HookEvent ME_SYSTEM_MODULESLOADED]
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+[Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY]
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 [Reading database information (Phase 1 of 2)]
@@ -72,12 +85,16 @@
 [Proto]
 [UIN]
 [You have unapplyed changes do you wish to apply these first ?]
-[Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
+[Executable files]
+[All files]
+[Failed to get the shells allocator!]
+[Failed to Allocate buffer space]
 [Select Destination Directory]
 [Export Protocols]
 [Message export]
 [History]
-[Message export2]
+[General]
+[Additional]
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]

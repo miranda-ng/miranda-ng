@@ -214,6 +214,7 @@
 [Edit E-Mail]
 [Edit Phone Number]
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+[Syntax Error]
 [Choose the item to display.]
 [Edit the currently displayed item.]
 [Add a new custom item.]

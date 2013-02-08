@@ -1966,6 +1966,8 @@
 [%hs files]
 [Type]
 [Description]
+[URLs on Websites]
+[File Types]
 [File Association Error]
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 [Unknown]
@@ -2578,9 +2580,21 @@
 [Maximum number of bass internal channels:]
 [Output device:]
 [Volume:]
+[Quiet time:]
 [-]
 [download bass library]
 [Play only if]
+[Offline]
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[On the phone]
+[Out to lunch]
+[Preview]
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
@@ -5159,7 +5173,7 @@
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
 ;  Version: 0.0.9.2
-;  Authors: Michal Zelinka, Robert Posel
+;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 ;file \protocols\FacebookRM\res\facebook.rc
@@ -6343,10 +6357,27 @@
 [Sweep history for this contacts:]
 [Action 1]
 [Action 2]
+[Sweep on closing message window]
+[Clicking on the icon in the status bar will change settings]
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 ;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
 [Delete all events]
 ;file \plugins\HistorySweeperLight\src\options.cpp
+[Delete older than 1 day]
+[Delete older than 3 days]
+[Delete older than 7 days]
+[Delete older than 2 weeks (14 days)]
+[Delete older than 1 month (30 days)]
+[Delete older than 3 months (90 days)]
+[Delete older than 6 months (180 days)]
+[Delete older than 1 year (365 days)]
+[Keep 1 last event]
+[Keep 2 last events]
+[Keep 5 last events]
+[Keep 10 last events]
+[Keep 20 last events]
+[Keep 50 last events]
 [*** Defaut Action ***]
 [*** System History ***]
 [History]
@@ -7504,6 +7535,7 @@
 [URL sent]
 [URL received]
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+['(Unknown Contact)']
 [(Unknown Contact)]
 [ requested authorisation]
 [ was added.]
@@ -9483,7 +9515,7 @@
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
 ;  Version: 1.3.0.9
-;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Posel
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
 [Adds some useful options to a contacts menu.]
 ;file \plugins\MenuItemEx\res\resource.rc
@@ -9834,7 +9866,7 @@
 ;  File: MobileState.dll
 ;  Plugin: Mobile State
 ;  Version: 0.0.1.1
-;  Authors: Robert Pцsel
+;  Authors: Robert Pösel
 ;============================================================
 [Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 ;file \plugins\MobileState\src\main.cpp
@@ -9961,9 +9993,24 @@
 [Writed:]
 [0/500]
 [Select e-mail]
+;file \protocols\MRA\src\MraAntiSpam.cpp
+[Spam bot blocked]
+[Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 [plugin connections]
+[Avatars: server return HTTP code: %lu]
+[Avatars: cant open file %s, error]
+;file \protocols\MRA\src\MraChat.cpp
+[CHAT plugin is required for conferences. Install it before chatting]
+[invite sender]
+[invite new members]
+;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: cant allocate disk space for file, size %lu bytes, error]
+[Receive files: cant open file %s, error]
+[Receive files: request for file %s not sended, error]
+[Send files: cant open file %s, error]
+[Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -9971,12 +10018,35 @@
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [E-mail address]
+;file \protocols\MRA\src\Mra_functions.cpp
+[Unread mail is available: %lu/%lu messages]
+[From: %s\r\nSubject: %s\r\n%s]
+[No unread mail is available\r\nTotal messages: %lu]
+[Closing in]
+[Reply to %s blog status]
+[Set my blog status]
+[Writed]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
 [Connections]
 [Anti spam]
 [Files]
+;file \protocols\MRA\src\Mra_proto.cpp
+[Please, setup e-mail in options]
+[Please, setup password in options]
+[Logon error: invalid login/password]
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+[Server error: cant get MPOP key for web authorize]
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+[invisible status changed]
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+[MRIM_ANKETA_INFO: not found in queue]
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+[MRIM_CS_SMS_ACK: not found in queue]
+[Mail.ru System notify]
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
 ﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
@@ -10074,7 +10144,13 @@
 [Advanced]
 [Stop]
 [Play]﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
-;langpack template for Msg_Export
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or File you receive to a text file.]
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 [Use internal viewer]
@@ -10133,8 +10209,15 @@
 ;file \plugins\Msg_Export\src\Glob.h
 [Miranda NG (Message Export Plugin)]
 ;file \plugins\Msg_Export\src\main.cpp
+[Failed to HookEvent ME_DB_EVENT_ADDED]
+[Failed to HookEvent ME_DB_CONTACT_DELETED]
+[Failed to HookEvent ME_OPT_INITIALISE]
 [Open E&xported History]
+[Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+[Failed to HookEvent ME_SYSTEM_SHUTDOWN]
+[Failed to HookEvent ME_SYSTEM_MODULESLOADED]
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+[Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY]
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
 [Reading database information (Phase 1 of 2)]
@@ -10147,12 +10230,16 @@
 [Proto]
 [UIN]
 [You have unapplyed changes do you wish to apply these first ?]
-[Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
+[Executable files]
+[All files]
+[Failed to get the shells allocator!]
+[Failed to Allocate buffer space]
 [Select Destination Directory]
 [Export Protocols]
 [Message export]
 [History]
-[Message export2]
+[General]
+[Additional]
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]
@@ -16183,6 +16270,7 @@
 [Edit E-Mail]
 [Edit Phone Number]
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+[Syntax Error]
 [Choose the item to display.]
 [Edit the currently displayed item.]
 [Add a new custom item.]
@@ -16957,7 +17045,36 @@
 [Custom colors]
 [artist]
 [album]
-[genre]﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+[genre]
+[Picture transform]
+[Kilobytes]
+[Megabytes]
+[Precision]
+[none]
+[kb]
+[Kb]
+[KB]
+[Color]
+[Output]
+[Check]
+[Choose font...]
+[Genres]
+[[X]Status Title / Text]
+;file \plugins\Watrack\myshows\myshows.rc
+[Scrobble at]
+[Timeout, ms]
+[Get Series Info]
+[Episode]
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+[Client is banned]
+[Bad Auth. Check login and password]
+[Bad TimeStamp]
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+[You Get Error]﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
@@ -17564,6 +17681,35 @@
 [Block this user from ever contacting you again?]
 [Block Confirmation]
 ;file \protocols\Xfire\src\options.cpp
+[Avatars]
+[Disable avatars]
+[Dont download avatars of clan members]
+[Use alternate way for Avatar download]
+[General]
+[Use UTF8 for messaging and nick's (beta)]
+[Automatically reconnect on protocol version changes]
+[No Ip/Port in StatusMsg]
+[Use Online status for unsupported global statuses]
+[Dont move friends to clan groups]
+[GameServerQuery support]
+[No custom away message]
+[Remove friend of friend buddies from database]
+[Hide yourself in buddylist]
+[Dont display game search results]
+[Dont display game search status window]
+[Display popup, if someone start a game]
+[Dont automatically create clan groups]
+[Enable MBot support]
+[Gamedetection]
+[Disable game detection]
+[Use TSRemote.dll to get teamspeak server info]
+[Disable popups when ingame]
+[Disable sound events when ingame]
+[Automatically update xfire_games.ini (pro-laming.de)]
+[Automatically update icons.dll (pro-laming.de)]
+[Download missing game icons from Xfire website]
+[No backup on update]
+[Background updating]
 [The username must be lowercase, so it will be lowercased saved.]
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 [Hidden]
@@ -17838,10 +17984,18 @@
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
 [No new mail message, %d spam(s)]
+[Invalid]
 [Header]
 [Value]
 [Copy Selected]
 [Copy All]
+[Run application]
+[Delete selected]
+[Select All]
+[From]
+[Subject]
+[Size]
+[Date]
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]
 ;file \plugins\YAMN\src\mails\mime.cpp
