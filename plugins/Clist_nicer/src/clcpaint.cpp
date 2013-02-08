@@ -70,20 +70,21 @@ HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHei
 static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 {
 	if (dat->gammaCorrection) {
-		COLORREF oldCol, newCol;
-		int oldLum, newLum;
+		COLORREF newCol;
 
-		oldCol = GetTextColor(hdc);
-		oldLum = (GetRValue(oldCol) * 30 + GetGValue(oldCol) * 59 + GetBValue(oldCol) * 11) / 100;
-		newLum = (GetRValue(dat->hotTextColour) * 30 + GetGValue(dat->hotTextColour) * 59 + GetBValue(dat->hotTextColour) * 11) / 100;
+		COLORREF oldCol = GetTextColor(hdc);
+		int oldLum = (GetRValue(oldCol) * 30 + GetGValue(oldCol) * 59 + GetBValue(oldCol) * 11) / 100;
+		int newLum = (GetRValue(dat->hotTextColour) * 30 + GetGValue(dat->hotTextColour) * 59 + GetBValue(dat->hotTextColour) * 11) / 100;
 		if (newLum == 0) {
 			SetTextColor(hdc, dat->hotTextColour);
 			return;
 		}
+
 		if (newLum >= oldLum + 20) {
 			oldLum += 20;
 			newCol = RGB(GetRValue(dat->hotTextColour) * oldLum / newLum, GetGValue(dat->hotTextColour) * oldLum / newLum, GetBValue(dat->hotTextColour) * oldLum / newLum);
-		} else if (newLum <= oldLum) {
+		}
+		else if (newLum <= oldLum) {
 			int r, g, b;
 			r = GetRValue(dat->hotTextColour) * oldLum / newLum;
 			g = GetGValue(dat->hotTextColour) * oldLum / newLum;
@@ -110,11 +111,11 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 				b = 255;
 			}
 			newCol = RGB(r, g, b);
-		} else
-			newCol = dat->hotTextColour;
+		}
+		else newCol = dat->hotTextColour;
 		SetTextColor(hdc, newCol);
-	} else
-		SetTextColor(hdc, dat->hotTextColour);
+	}
+	else SetTextColor(hdc, dat->hotTextColour);
 }
 
 int __fastcall GetStatusOnlineness(int status)
@@ -147,16 +148,14 @@ int __fastcall GetStatusOnlineness(int status)
 
 static int __fastcall GetGeneralisedStatus(void)
 {
-	int i, status, thisStatus, statusOnlineness, thisOnlineness;
+	int status = ID_STATUS_OFFLINE, statusOnlineness = 0;
 
-	status = ID_STATUS_OFFLINE;
-	statusOnlineness = 0;
-
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
-		thisStatus = pcli->clcProto[i].dwStatus;
+	for (int i = 0; i < pcli->hClcProtoCount; i++) {
+		int thisStatus = pcli->clcProto[i].dwStatus;
 		if (thisStatus == ID_STATUS_INVISIBLE)
 			return ID_STATUS_INVISIBLE;
-		thisOnlineness = GetStatusOnlineness(thisStatus);
+
+		int thisOnlineness = GetStatusOnlineness(thisStatus);
 		if (thisOnlineness > statusOnlineness) {
 			status = thisStatus;
 			statusOnlineness = thisOnlineness;
@@ -167,15 +166,14 @@ static int __fastcall GetGeneralisedStatus(void)
 
 static int __fastcall GetRealStatus(ClcContact *contact, int status)
 {
-	int i;
 	char *szProto = contact->proto;
 	if ( !szProto)
 		return status;
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
-		if ( !lstrcmpA(pcli->clcProto[i].szProto, szProto)) {
+
+	for (int i = 0; i < pcli->hClcProtoCount; i++)
+		if ( !lstrcmpA(pcli->clcProto[i].szProto, szProto))
 			return pcli->clcProto[i].dwStatus;
-		}
-	}
+
 	return status;
 }
 
@@ -194,9 +192,11 @@ int GetBasicFontID(ClcContact * contact)
 	case CLCIT_CONTACT:
 		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
-		else if ((contact->flags&CONTACTF_INVISTO && GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
+
+		if ((contact->flags&CONTACTF_INVISTO && GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
 			|| (contact->flags&CONTACTF_VISTO && GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))
 			return contact->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS;
+
 		return contact->flags & CONTACTF_ONLINE ? FONTID_CONTACTS : FONTID_OFFLINE;
 	}
 	return FONTID_CONTACTS;
@@ -221,16 +221,13 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 	}
 	else if (iCount > 0) {
 		MENUITEMINFO mii = {0};
-		struct NotifyMenuItemExData *nmi;
-		TCHAR *szName;
-		int iIcon;
-
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo(cfg::dat.hMenuNotify, iCount - 1, TRUE, &mii);
-		nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-		szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
-		iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) nmi->hContact, 0);
+
+		NotifyMenuItemExData *nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
+		TCHAR *szName = pcli->pfnGetContactDisplayName(nmi->hContact, 0);
+		int iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) nmi->hContact, 0);
 		ImageList_DrawEx(hCListImages, iIcon, hDC, rc->left, (rc->bottom + rc->top - g_cysmIcon) / 2, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		rc->left += 18;
 		ImageList_DrawEx(hCListImages, nmi->iIcon, hDC, 4, (rc->bottom + rc->top) / 2 - 8, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -397,8 +394,8 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 			SelectObject(hdcTemp, hbmOld);
 			DeleteObject(hbmTemp);
 			DeleteDC(hdcTemp);
-		} else
-			DrawAlpha(hdcMem, &rcFrame, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
+		}
+		else DrawAlpha(hdcMem, &rcFrame, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
 			item->CORNER, item->BORDERSTYLE, item->imageItem);
 		g_inCLCpaint = inClCPaint_save;
 	}
@@ -422,20 +419,15 @@ int  g_padding_y = 0;
 void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
 {
 	RECT rc;
-	int iImage = -1;
-	int selected;
 	SIZE textSize, countsSize, spaceSize;
-	int width, checkboxWidth;
+	int width;
 	char *szCounts;
 	int fontHeight;
 	BOOL twoRows = FALSE;
-	WORD cstatus;
 	DWORD leftOffset = 0, rightOffset = 0;
 	int iconXSpace = dat->iconXSpace;
 	//BOOL xStatusValid = 0;
 	HFONT hPreviousFont = 0;
-	BYTE type;
-	BYTE flags;
 	COLORREF oldGroupColor = -1;
 	DWORD qLeft = 0;
 	int leftX = dat->leftMargin + indent * dat->groupIndent;
@@ -443,10 +435,8 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	int bg_indent_l = 0;
 	int rightIcons = 0;
 	DWORD dt_nickflags = 0, dt_2ndrowflags = 0;
-	struct TExtraCache *cEntry = NULL;
 	DWORD dwFlags = cfg::dat.dwFlags;
-	int scanIndex;
-	BOOL check_selected, av_local_wanted, fLocalTime;
+	BOOL check_selected, fLocalTime;
 
 	rowHeight -= cfg::dat.bRowSpacing;
 	savedCORNER = -1;
@@ -455,13 +445,15 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 		return;
 
 	g_RTL = FALSE;
-	scanIndex = group->scanIndex;
-	av_local_wanted = (g_list_avatars > 0);
+	int scanIndex = group->scanIndex;
+	BOOL av_local_wanted = (g_list_avatars > 0);
 
-	type = contact->type;
-	flags = contact->flags;
-	selected = index == dat->selection && (dat->showSelAlways || dat->exStyle &CLS_EX_SHOWSELALWAYS || g_focusWnd == hwnd) && type != CLCIT_DIVIDER;
+	BYTE type = contact->type;
+	BYTE flags = contact->flags;
+	int  selected = index == dat->selection && (dat->showSelAlways || dat->exStyle &CLS_EX_SHOWSELALWAYS || g_focusWnd == hwnd) && type != CLCIT_DIVIDER;
 	avatar_done = FALSE;
+
+	TExtraCache *cEntry;
 	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)
 		cEntry = &cfg::eCache[contact->extraCacheEntry];
 	else
@@ -516,7 +508,8 @@ set_bg_l:
 		// the contact is in the always visible list and the proto is invisible
 		// the contact is in the always invisible and the proto is in any other mode
 		ChangeToFont(hdcMem, dat, flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
-	} else if (type == CLCIT_CONTACT && !(flags & CONTACTF_ONLINE))
+	}
+	else if (type == CLCIT_CONTACT && !(flags & CONTACTF_ONLINE))
 		ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 	else
 		ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
@@ -532,13 +525,15 @@ set_bg_l:
 			width += spaceSize.cx + countsSize.cx;
 		}
 	}
+
+	int checkboxWidth;
 	if ((style & CLS_CHECKBOXES && type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && type == CLCIT_GROUP) || (type == CLCIT_INFO && flags & CLCIIF_CHECKBOX))
 		checkboxWidth = dat->checkboxSize + 2;
 	else
 		checkboxWidth = 0;
 
 	rc.left = 0;
-	cstatus = contact->wStatus;
+	WORD cstatus = contact->wStatus;
 
 	/***** BACKGROUND DRAWING *****/
 	// contacts
@@ -617,7 +612,8 @@ set_bg_l:
 				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, sevencontact_pos->imageItem);
-				} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, soddcontact_pos->imageItem);
 				}
@@ -629,7 +625,8 @@ set_bg_l:
 				}
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, ssingleitem->COLOR, ssingleitem->ALPHA, ssingleitem->COLOR2, ssingleitem->COLOR2_TRANSPARENT, ssingleitem->GRADIENT, ssingleitem->CORNER, ssingleitem->BORDERSTYLE, ssingleitem->imageItem);
-			} else if (scanIndex == 0 && group->cl.count > 1 && !sfirstitem->IGNORED && group->parent != NULL) {
+			}
+			else if (scanIndex == 0 && group->cl.count > 1 && !sfirstitem->IGNORED && group->parent != NULL) {
 				rc.left = sfirstitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + sfirstitem->MARGIN_TOP;
 				rc.right = clRect->right - sfirstitem->MARGIN_RIGHT - bg_indent_r;
@@ -639,7 +636,8 @@ set_bg_l:
 				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sfirstitem->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-				} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sfirstitem->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
 				}
@@ -651,7 +649,8 @@ set_bg_l:
 				}
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, sfirstitem->COLOR, sfirstitem->ALPHA, sfirstitem->COLOR2, sfirstitem->COLOR2_TRANSPARENT, sfirstitem->GRADIENT, sfirstitem->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
-			} else if (scanIndex == group->cl.count - 1 && !slastitem->IGNORED && group->parent != NULL) {
+			}
+			else if (scanIndex == group->cl.count - 1 && !slastitem->IGNORED && group->parent != NULL) {
 				// last item of group
 				rc.left = slastitem->MARGIN_LEFT + bg_indent_l;
 				rc.top = y + slastitem->MARGIN_TOP;
@@ -663,7 +662,8 @@ set_bg_l:
 				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, slastitem->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-				} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
 					if (check_selected)
 						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, slastitem->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
 				}
@@ -675,101 +675,105 @@ set_bg_l:
 				}
 				if (check_selected)
 					DrawAlpha(hdcMem, &rc, slastitem->COLOR, slastitem->ALPHA, slastitem->COLOR2, slastitem->COLOR2_TRANSPARENT, slastitem->GRADIENT, slastitem->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
-			} else
-				// - - - Non-grouped items - - -
-				if (type != CLCIT_GROUP // not a group
-					&& group->parent == NULL // not grouped
-					&& !sfirstitem_NG->IGNORED && scanIndex != group->cl.count - 1 && !(*bFirstNGdrawn)) {
-						// first NON-grouped
-						*bFirstNGdrawn = TRUE;
-						rc.left = sfirstitem_NG->MARGIN_LEFT + bg_indent_l;
-						rc.top = y + sfirstitem_NG->MARGIN_TOP;
-						rc.right = clRect->right - sfirstitem_NG->MARGIN_RIGHT - bg_indent_r;
-						rc.bottom = y + rowHeight - sfirstitem_NG->MARGIN_BOTTOM;
+			}
+			// --- Non-grouped items ---
+			else if (type != CLCIT_GROUP && group->parent == NULL && !sfirstitem_NG->IGNORED && scanIndex != group->cl.count - 1 && !(*bFirstNGdrawn)) {
+				// first NON-grouped
+				*bFirstNGdrawn = TRUE;
+				rc.left = sfirstitem_NG->MARGIN_LEFT + bg_indent_l;
+				rc.top = y + sfirstitem_NG->MARGIN_TOP;
+				rc.right = clRect->right - sfirstitem_NG->MARGIN_RIGHT - bg_indent_r;
+				rc.bottom = y + rowHeight - sfirstitem_NG->MARGIN_BOTTOM;
 
-						// draw odd/even contact underlay
-						if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sfirstitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-						} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sfirstitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
-						}
-
-						if ( !sitem->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, sfirstitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
-							savedCORNER = sfirstitem_NG->CORNER;
-						}
-						if (check_selected)
-							DrawAlpha(hdcMem, &rc, sfirstitem_NG->COLOR, sfirstitem_NG->ALPHA, sfirstitem_NG->COLOR2, sfirstitem_NG->COLOR2_TRANSPARENT, sfirstitem_NG->GRADIENT, sfirstitem_NG->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
-				} else if (type != CLCIT_GROUP // not a group
-					&& group->parent == NULL && !slastitem_NG->IGNORED && scanIndex == group->cl.count - 1 && (*bFirstNGdrawn)) {
-						// last item of list (NON-group)
-						// last NON-grouped
-						rc.left = slastitem_NG->MARGIN_LEFT + bg_indent_l;
-						rc.top = y + slastitem_NG->MARGIN_TOP;
-						rc.right = clRect->right - slastitem_NG->MARGIN_RIGHT - bg_indent_r;
-						rc.bottom = y + rowHeight - slastitem_NG->MARGIN_BOTTOM;
-
-						// draw odd/even contact underlay
-						if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, slastitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-						} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, slastitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
-						}
-
-						if ( !sitem->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, slastitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
-							savedCORNER = slastitem_NG->CORNER;
-						}
-						if (check_selected)
-							DrawAlpha(hdcMem, &rc, slastitem_NG->COLOR, slastitem_NG->ALPHA, slastitem_NG->COLOR2, slastitem_NG->COLOR2_TRANSPARENT, slastitem_NG->GRADIENT, slastitem_NG->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
-				} else if (type != CLCIT_GROUP // not a group
-					&& group->parent == NULL && !slastitem_NG->IGNORED && !(*bFirstNGdrawn)) {
-						// single item of NON-group
-						// single NON-grouped
-						rc.left = ssingleitem_NG->MARGIN_LEFT + bg_indent_l;
-						rc.top = y + ssingleitem_NG->MARGIN_TOP;
-						rc.right = clRect->right - ssingleitem_NG->MARGIN_RIGHT - bg_indent_r;
-						rc.bottom = y + rowHeight - ssingleitem_NG->MARGIN_BOTTOM;
-
-						// draw odd/even contact underlay
-						if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, ssingleitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-						} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, ssingleitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
-						}
-
-						if ( !sitem->IGNORED) {
-							if (check_selected)
-								DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, ssingleitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
-							savedCORNER = ssingleitem_NG->CORNER;
-						}
-						if (check_selected)
-							DrawAlpha(hdcMem, &rc, ssingleitem_NG->COLOR, ssingleitem_NG->ALPHA, ssingleitem_NG->COLOR2, ssingleitem_NG->COLOR2_TRANSPARENT, ssingleitem_NG->GRADIENT, ssingleitem_NG->CORNER, ssingleitem->BORDERSTYLE, ssingleitem->imageItem);
-				} else if ( !sitem->IGNORED) {
-					// draw default grouped
-					// draw odd/even contact underlay
-					if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
-						if (check_selected)
-							DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sitem->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
-					} else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
-						if (check_selected)
-							DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sitem->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
-					}
-
+				// draw odd/even contact underlay
+				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
 					if (check_selected)
-						DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, sitem->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
-					savedCORNER = sitem->CORNER;
+						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sfirstitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
 				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sfirstitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
+				}
+
+				if ( !sitem->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, sfirstitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
+					savedCORNER = sfirstitem_NG->CORNER;
+				}
+				if (check_selected)
+					DrawAlpha(hdcMem, &rc, sfirstitem_NG->COLOR, sfirstitem_NG->ALPHA, sfirstitem_NG->COLOR2, sfirstitem_NG->COLOR2_TRANSPARENT, sfirstitem_NG->GRADIENT, sfirstitem_NG->CORNER, sfirstitem->BORDERSTYLE, sfirstitem->imageItem);
+			}
+			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && scanIndex == group->cl.count - 1 && (*bFirstNGdrawn)) {
+				// last item of list (NON-group)
+				// last NON-grouped
+				rc.left = slastitem_NG->MARGIN_LEFT + bg_indent_l;
+				rc.top = y + slastitem_NG->MARGIN_TOP;
+				rc.right = clRect->right - slastitem_NG->MARGIN_RIGHT - bg_indent_r;
+				rc.bottom = y + rowHeight - slastitem_NG->MARGIN_BOTTOM;
+
+				// draw odd/even contact underlay
+				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, slastitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, slastitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
+				}
+
+				if ( !sitem->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, slastitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
+					savedCORNER = slastitem_NG->CORNER;
+				}
+				if (check_selected)
+					DrawAlpha(hdcMem, &rc, slastitem_NG->COLOR, slastitem_NG->ALPHA, slastitem_NG->COLOR2, slastitem_NG->COLOR2_TRANSPARENT, slastitem_NG->GRADIENT, slastitem_NG->CORNER, slastitem->BORDERSTYLE, slastitem->imageItem);
+			}
+			else if (type != CLCIT_GROUP && group->parent == NULL && !slastitem_NG->IGNORED && !(*bFirstNGdrawn)) {
+				// single item of NON-group
+				// single NON-grouped
+				rc.left = ssingleitem_NG->MARGIN_LEFT + bg_indent_l;
+				rc.top = y + ssingleitem_NG->MARGIN_TOP;
+				rc.right = clRect->right - ssingleitem_NG->MARGIN_RIGHT - bg_indent_r;
+				rc.bottom = y + rowHeight - ssingleitem_NG->MARGIN_BOTTOM;
+
+				// draw odd/even contact underlay
+				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, ssingleitem_NG->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, ssingleitem_NG->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
+				}
+
+				if ( !sitem->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, ssingleitem_NG->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
+					savedCORNER = ssingleitem_NG->CORNER;
+				}
+				if (check_selected)
+					DrawAlpha(hdcMem, &rc, ssingleitem_NG->COLOR, ssingleitem_NG->ALPHA, ssingleitem_NG->COLOR2, ssingleitem_NG->COLOR2_TRANSPARENT, ssingleitem_NG->GRADIENT, ssingleitem_NG->CORNER, ssingleitem->BORDERSTYLE, ssingleitem->imageItem);
+			}
+			else if ( !sitem->IGNORED) {
+				// draw default grouped
+				// draw odd/even contact underlay
+				if ((scanIndex == 0 || scanIndex % 2 == 0) && !sevencontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, sevencontact_pos->COLOR, sevencontact_pos->ALPHA, sevencontact_pos->COLOR2, sevencontact_pos->COLOR2_TRANSPARENT, sevencontact_pos->GRADIENT, sitem->CORNER, sevencontact_pos->BORDERSTYLE, sevencontact_pos->imageItem);
+				}
+				else if (scanIndex % 2 != 0 && !soddcontact_pos->IGNORED) {
+					if (check_selected)
+						DrawAlpha(hdcMem, &rc, soddcontact_pos->COLOR, soddcontact_pos->ALPHA, soddcontact_pos->COLOR2, soddcontact_pos->COLOR2_TRANSPARENT, soddcontact_pos->GRADIENT, sitem->CORNER, soddcontact_pos->BORDERSTYLE, soddcontact_pos->imageItem);
+				}
+
+				if (check_selected)
+					DrawAlpha(hdcMem, &rc, sitem->COLOR, sitem->ALPHA, sitem->COLOR2, sitem->COLOR2_TRANSPARENT, sitem->GRADIENT, sitem->CORNER, sitem->BORDERSTYLE, sitem->imageItem);
+				savedCORNER = sitem->CORNER;
+			}
 		}
 	}
+
 	if (type == CLCIT_GROUP) {
 		StatusItems_t *sempty = &StatusItems[ID_EXTBKEMPTYGROUPS - ID_STATUS_OFFLINE];
 		StatusItems_t *sexpanded = &StatusItems[ID_EXTBKEXPANDEDGROUP - ID_STATUS_OFFLINE];
@@ -798,17 +802,15 @@ set_bg_l:
 				oldGroupColor = SetTextColor(hdcMem, sexpanded->TEXTCOLOR);
 			}
 		}
-		else {
-			if ( !scollapsed->IGNORED) {
-				// collapsed but not empty
-				rc.left = scollapsed->MARGIN_LEFT + bg_indent_l;
-				rc.top = y + scollapsed->MARGIN_TOP;
-				rc.right = clRect->right - scollapsed->MARGIN_RIGHT - bg_indent_r;
-				rc.bottom = y + rowHeight - scollapsed->MARGIN_BOTTOM;
-				DrawAlpha(hdcMem, &rc, scollapsed->COLOR, scollapsed->ALPHA, scollapsed->COLOR2, scollapsed->COLOR2_TRANSPARENT, scollapsed->GRADIENT, scollapsed->CORNER, scollapsed->BORDERSTYLE, scollapsed->imageItem);
-				savedCORNER = scollapsed->CORNER;
-				oldGroupColor = SetTextColor(hdcMem, scollapsed->TEXTCOLOR);
-			}
+		else if ( !scollapsed->IGNORED) {
+			// collapsed but not empty
+			rc.left = scollapsed->MARGIN_LEFT + bg_indent_l;
+			rc.top = y + scollapsed->MARGIN_TOP;
+			rc.right = clRect->right - scollapsed->MARGIN_RIGHT - bg_indent_r;
+			rc.bottom = y + rowHeight - scollapsed->MARGIN_BOTTOM;
+			DrawAlpha(hdcMem, &rc, scollapsed->COLOR, scollapsed->ALPHA, scollapsed->COLOR2, scollapsed->COLOR2_TRANSPARENT, scollapsed->GRADIENT, scollapsed->CORNER, scollapsed->BORDERSTYLE, scollapsed->imageItem);
+			savedCORNER = scollapsed->CORNER;
+			oldGroupColor = SetTextColor(hdcMem, scollapsed->TEXTCOLOR);
 		}
 	}
 	if (selected) {
@@ -820,11 +822,11 @@ set_bg_l:
 				rc.top = y + sselected->MARGIN_TOP;
 				rc.right = clRect->right - sselected->MARGIN_RIGHT - bg_indent_r;
 				rc.bottom = y + rowHeight - sselected->MARGIN_BOTTOM;
-				if (cfg::getByte("CLCExt", "EXBK_EqualSelection", 0) == 1 && savedCORNER != -1) {
+				if (cfg::getByte("CLCExt", "EXBK_EqualSelection", 0) == 1 && savedCORNER != -1)
 					DrawAlpha(hdcMem, &rc, sselected->COLOR, sselected->ALPHA, sselected->COLOR2, sselected->COLOR2_TRANSPARENT, sselected->GRADIENT, savedCORNER, sselected->BORDERSTYLE, sselected->imageItem);
-				} else {
+				else
 					DrawAlpha(hdcMem, &rc, sselected->COLOR, sselected->ALPHA, sselected->COLOR2, sselected->COLOR2_TRANSPARENT, sselected->GRADIENT, sselected->CORNER, sselected->BORDERSTYLE, sselected->imageItem);
-				}
+
 				SetTextColor(hdcMem, sselected->TEXTCOLOR);
 			}
 			else {
@@ -840,9 +842,10 @@ set_bg_l:
 	else if (g_hottrack) {
 		StatusItems_t *ht = &StatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
 
-		SetHotTrackColour(hdcMem,dat);
+		SetHotTrackColour(hdcMem, dat);
 		if (ht->IGNORED == 0)
 			SetTextColor(hdcMem, ht->TEXTCOLOR);
+
 		if ( !g_hottrack_done)
 			if (ht->IGNORED == 0)
 				DrawAlpha(hdcMem, &rc, ht->COLOR, ht->ALPHA, ht->COLOR2, ht->COLOR2_TRANSPARENT, ht->GRADIENT,
@@ -883,10 +886,13 @@ bgskipped:
 		leftX += checkboxWidth;
 	}
 
+	int iImage;
 	if (type == CLCIT_GROUP)
 		iImage = (contact->group->expanded) ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 	else if (type == CLCIT_CONTACT)
 		iImage = contact->iImage;
+	else
+		iImage = -1;
 
 	if (pi_avatar && (av_left || av_right)) {
 		RECT rc;
@@ -917,11 +923,9 @@ bgskipped:
 	// icon
 	// skip icon for groups if the option is enabled...
 
-	if (type == CLCIT_GROUP && dwFlags & CLUI_FRAME_NOGROUPICON) {
+	if (type == CLCIT_GROUP && dwFlags & CLUI_FRAME_NOGROUPICON)
 		iconXSpace = 0;
-		goto text;
-	}
-	if (iImage != -1) {
+	else if (iImage != -1) {
 		// this doesnt use CLS_CONTACTLIST since the colour prolly wont match anyway
 		COLORREF colourFg = dat->selBkColour;
 		//int clientId = contact->clientId;
@@ -954,26 +958,24 @@ bgskipped:
 			}
 		}
 		else iconXSpace = 0;
-
-		if (type == CLCIT_CONTACT) {
-			contact->extraIconRightBegin = 0;
-			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
-				if (contact->iExtraImage[i] == EMPTY_EXTRA_ICON)
-					continue;
-
-				if (contact->extraIconRightBegin == 0)
-					contact->extraIconRightBegin = rcContent.right;
-
-				rightIcons++;
-				ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, 
-					rcContent.right - dat->extraColumnSpacing * rightIcons, 
-					y + (rowHeight - g_cysmIcon)/2,
-					0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-			}
-		}
 	}
+
+	contact->extraIconRightBegin = 0;
+	for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
+		if (contact->iExtraImage[i] == EMPTY_EXTRA_ICON)
+			continue;
+
+		if (contact->extraIconRightBegin == 0)
+			contact->extraIconRightBegin = rcContent.right;
+
+		rightIcons++;
+		ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem,
+			rcContent.right - dat->extraColumnSpacing * rightIcons,
+			y + (rowHeight - g_cysmIcon)/2,
+			0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+	}
+
 	//text
-text:
 	if (type == CLCIT_DIVIDER) {
 		RECT rc;
 		rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
@@ -1015,7 +1017,6 @@ text:
 			if (g_center)
 				offset = ((rc.right - rc.left) - labelWidth) / 2;
 
-
 			TextOutA(hdcMem, rc.left + offset + textSize.cx + spaceSize.cx, rc.top + groupCountsFontTopShift, szCounts, lstrlenA(szCounts));
 			rightLineStart = rc.left + offset + textSize.cx + spaceSize.cx + countsSize.cx + 2;
 
@@ -1030,22 +1031,22 @@ text:
 			leftLineEnd = rc.left - 2;
 			qLeft = rc.left;
 			DrawText(hdcMem, contact->szText, -1, &rc, DT_VCENTER | DT_NOPREFIX | DT_SINGLELINE | DT_WORD_ELLIPSIS);
-		} else if (g_center && !szCounts[0]) {
-			int offset;
-
+		}
+		else if (g_center && !szCounts[0]) {
 			rc.left = rcContent.left;
 			rc.right = clRect->right - dat->rightMargin;
 			if (textSize.cx >= rc.right - rc.left)
 				textSize.cx = rc.right - rc.left;
 
-			offset = ((rc.right - rc.left) - textSize.cx) / 2;
+			int offset = ((rc.right - rc.left) - textSize.cx) / 2;
 			rc.left += offset;
 			rc.right = rc.left + textSize.cx;
 			leftLineEnd = rc.left - 2;
 			rightLineStart = rc.right + 2;
 			DrawText(hdcMem, contact->szText, -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE);
 			qLeft = rc.left;
-		} else {
+		}
+		else {
 			qLeft = rcContent.left + (indent == 0 && iconXSpace == 0 ? 2 : 0);;
 			rc.left = qLeft;
 			rc.right = min(rc.left + textSize.cx, clRect->right - dat->rightMargin);;
@@ -1057,7 +1058,7 @@ text:
 			if ( !g_center) {
 				rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
 				rc.left = rightLineStart;
-				rc.right = clRect->right - 1 - dat->rightMargin;
+				rc.right = clRect->right - 1 - rightIcons*dat->extraColumnSpacing - dat->rightMargin;
 				if (rc.right - rc.left > 1)
 					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 			}
@@ -1090,8 +1091,7 @@ text:
 					DrawAvatar(hdcMem, &rcAvatar, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 					rcContent.right -= (cfg::dat.avatarSize + 2);
 				}
-				else
-					rcContent.left += DrawAvatar(hdcMem, &rcContent, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+				else rcContent.left += DrawAvatar(hdcMem, &rcContent, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			}
 			else if (dwFlags & CLUI_FRAME_ALWAYSALIGNNICK && !avatar_done && av_local_wanted)
 				rcContent.left += (dwFlags & (CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK) ? 0 : cfg::dat.avatarSize + 2);
@@ -1114,19 +1114,17 @@ text:
 				fLocalTime = cEntry->dwDFlags & ECF_FORCELOCALTIME ? 1 : 0;
 
 			if (cEntry->hTimeZone && fLocalTime) {
-				int  idOldFont;
 				DWORD now = cfg::dat.t_now;
 				SIZE szTime;
 				RECT rc = rcContent;
-				COLORREF oldColor;
 				int fHeight = 0;
 
 				TCHAR szResult[80];
 				if (tmi.printDateTime(cEntry->hTimeZone, _T("t"), szResult, SIZEOF(szResult), 0))
 					goto nodisplay;
 
-				oldColor = GetTextColor(hdcMem);
-				idOldFont = dat->currentFontID;
+				COLORREF oldColor = GetTextColor(hdcMem);
+				int idOldFont = dat->currentFontID;
 				ChangeToFont(hdcMem, dat, FONTID_TIMESTAMP, &fHeight);
 				GetTextExtentPoint32(hdcMem, szResult, lstrlen(szResult), &szTime);
 				verticalfit = (rowHeight - fHeight >= g_cysmIcon+1);
@@ -1225,7 +1223,8 @@ nodisplay:
 							DrawTextEx(hdcMem, &szText[textCounter], -1, &rcContent, i_dtFlags, &dtp);
 							rcContent.top += statusFontHeight;
 							textCounter += dtp.uiLengthDrawn;
-						} while (textCounter <= ulLen && dtp.uiLengthDrawn && rcContent.top + statusFontHeight <= old_bottom);
+						}
+							while (textCounter <= ulLen && dtp.uiLengthDrawn && rcContent.top + statusFontHeight <= old_bottom);
 					}
 				}
 			}
@@ -1276,18 +1275,12 @@ void SkinDrawBg(HWND hwnd, HDC hdc)
 
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 {
-	HDC hdcMem;
 	RECT clRect;
-	int y,indent,index,fontHeight;
-	ClcGroup *group;
-	HBITMAP hBmpOsb, hOldBitmap;
-	HFONT hOldFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	int grey = 0,groupCountsFontTopShift;
+	int grey = 0;
 	BOOL bFirstNGdrawn = FALSE;
 	int line_num = -1;
 	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->useWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;
-	DWORD done, now = GetTickCount();
 	selBlend = cfg::getByte("CLCExt", "EXBK_SelBlend", 1);
 	g_inCLCpaint = TRUE;
 	g_focusWnd = GetFocus();
@@ -1337,103 +1330,107 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 		DeleteDC(hdcAV);
 		return;
 	}
-	y = -dat->yScroll;
-	hdcMem = CreateCompatibleDC(hdc);
-	hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
+	
+	int y = -dat->yScroll;
+	HDC hdcMem = CreateCompatibleDC(hdc);
+	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
 
-	hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hBmpOsb));
-	{
-		TEXTMETRIC tm;
-		hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont));
-		GetTextMetrics(hdcMem, &tm);
-		groupCountsFontTopShift = tm.tmAscent;
-		SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
-		GetTextMetrics(hdcMem, &tm);
-		groupCountsFontTopShift -= tm.tmAscent;
-	}
+	HBITMAP hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hdcMem, hBmpOsb));
+	
+	TEXTMETRIC tm;
+	HFONT hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont));
+	GetTextMetrics(hdcMem, &tm);
+	int groupCountsFontTopShift = tm.tmAscent;
+	SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);
+	GetTextMetrics(hdcMem, &tm);
+	groupCountsFontTopShift -= tm.tmAscent;
+	
+	int fontHeight;
 	ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
 
-	SetBkMode(hdcMem, TRANSPARENT); {
-		HBRUSH hBrush, hoBrush;
+	SetBkMode(hdcMem, TRANSPARENT);
 
-		hBrush = CreateSolidBrush(tmpbkcolour);
-		hoBrush = (HBRUSH) SelectObject(hdcMem, hBrush);
-		FillRect(hdcMem, rcPaint, hBrush);
+	HBRUSH hBrush = CreateSolidBrush(tmpbkcolour);
+	HBRUSH hoBrush = (HBRUSH) SelectObject(hdcMem, hBrush);
+	FillRect(hdcMem, rcPaint, hBrush);
 
-		SelectObject(hdcMem, hoBrush);
-		DeleteObject(hBrush);
+	SelectObject(hdcMem, hoBrush);
+	DeleteObject(hBrush);
 
-		if (1) {
-			if (cfg::dat.bWallpaperMode && !dat->bisEmbedded) {
-				SkinDrawBg(hwnd, hdcMem);
-				goto bgdone;
-			}
-			if (dat->hBmpBackground) {
-				int destw, desth;
-				// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
-				SetStretchBltMode(hdcMem, HALFTONE);
-
-				BITMAP bmp;
-				GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
-				HDC hdcBmp = CreateCompatibleDC(hdcMem);
-				SelectObject(hdcBmp, dat->hBmpBackground);
-				int y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
-				int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-				int maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
-				switch (dat->backgroundBmpUse & CLBM_TYPE) {
-				case CLB_STRETCH:
-					if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
-						if (clRect.right * bmp.bmHeight < clRect.bottom * bmp.bmWidth) {
-							desth = clRect.bottom;
-							destw = desth * bmp.bmWidth / bmp.bmHeight;
-						} else {
-							destw = clRect.right;
-							desth = destw * bmp.bmHeight / bmp.bmWidth;
-						}
-					} else {
-						destw = clRect.right;
-						desth = clRect.bottom;
-					}
-					break;
-				case CLB_STRETCHH:
-					if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
-						destw = clRect.right;
-						desth = destw * bmp.bmHeight / bmp.bmWidth;
-					} else {
-						destw = clRect.right;
-						desth = bmp.bmHeight;
-					}
-					break;
-				case CLB_STRETCHV:
-					if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
-						desth = clRect.bottom;
-						destw = desth * bmp.bmWidth / bmp.bmHeight;
-					} else {
-						destw = bmp.bmWidth;
-						desth = clRect.bottom;
-					}
-					break;
-				default:
-					//clb_topleft
-					destw = bmp.bmWidth;
-					desth = bmp.bmHeight;
-					break;
-				}
-
-				int bitx = 0, bity = 0;
-
-				for (; y < maxy; y += desth) {
-					if (y < rcPaint->top - desth)
-						continue;
-					for (int x = 0; x < maxx; x += destw)
-						StretchBlt(hdcMem, x, y, destw, desth, cfg::dat.hdcPic, bitx, bity, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
-				}
-				DeleteDC(hdcBmp);
-			}
-		}
+	if (cfg::dat.bWallpaperMode && !dat->bisEmbedded) {
+		SkinDrawBg(hwnd, hdcMem);
+		goto bgdone;
 	}
+
+	if (dat->hBmpBackground) {
+		int destw, desth;
+		// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
+		SetStretchBltMode(hdcMem, HALFTONE);
+
+		BITMAP bmp;
+		GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
+		HDC hdcBmp = CreateCompatibleDC(hdcMem);
+		SelectObject(hdcBmp, dat->hBmpBackground);
+		int y = dat->backgroundBmpUse & CLBF_SCROLL ? -dat->yScroll : 0;
+		int maxx = dat->backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
+		int maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
+		switch (dat->backgroundBmpUse & CLBM_TYPE) {
+		case CLB_STRETCH:
+			if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
+				if (clRect.right * bmp.bmHeight < clRect.bottom * bmp.bmWidth) {
+					desth = clRect.bottom;
+					destw = desth * bmp.bmWidth / bmp.bmHeight;
+				}
+				else {
+					destw = clRect.right;
+					desth = destw * bmp.bmHeight / bmp.bmWidth;
+				}
+			}
+			else {
+				destw = clRect.right;
+				desth = clRect.bottom;
+			}
+			break;
+		case CLB_STRETCHH:
+			if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
+				destw = clRect.right;
+				desth = destw * bmp.bmHeight / bmp.bmWidth;
+			}
+			else {
+				destw = clRect.right;
+				desth = bmp.bmHeight;
+			}
+			break;
+		case CLB_STRETCHV:
+			if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
+				desth = clRect.bottom;
+				destw = desth * bmp.bmWidth / bmp.bmHeight;
+			}
+			else {
+				destw = bmp.bmWidth;
+				desth = clRect.bottom;
+			}
+			break;
+		default:
+			//clb_topleft
+			destw = bmp.bmWidth;
+			desth = bmp.bmHeight;
+			break;
+		}
+
+		int bitx = 0, bity = 0;
+
+		for (; y < maxy; y += desth) {
+			if (y < rcPaint->top - desth)
+				continue;
+			for (int x = 0; x < maxx; x += destw)
+				StretchBlt(hdcMem, x, y, destw, desth, cfg::dat.hdcPic, bitx, bity, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
+		}
+		DeleteDC(hdcBmp);
+	}
+	
 bgdone:
-	group = &dat->list;
+	ClcGroup *group = &dat->list;
 	group->scanIndex = 0;
 
 	if ( dat->row_heights == NULL )
@@ -1465,9 +1462,9 @@ bgdone:
 
 	group = &dat->list;
 	group->scanIndex = 0;
-	indent = 0;
+	int indent = 0;
 
-	for (index = 0; y< rcPaint->bottom;) {
+	for (int index = 0; y< rcPaint->bottom;) {
 		if (group->scanIndex == group->cl.count) {
 			group = group->parent;
 			indent--;
@@ -1507,11 +1504,8 @@ bgdone:
 
 	if (dat->iInsertionMark != -1) {
 		//insertion mark
-		HBRUSH hBrush, hoBrush;
 		POINT pts[8];
-		HRGN hRgn;
-
-		pts[0].x=dat->leftMargin;     pts[0].y = RowHeight::getItemTopY(dat, dat->iInsertionMark) - dat->yScroll - 4;
+		pts[0].x = dat->leftMargin;   pts[0].y = RowHeight::getItemTopY(dat, dat->iInsertionMark) - dat->yScroll - 4;
 		pts[1].x = pts[0].x + 2;      pts[1].y = pts[0].y + 3;
 		pts[2].x = clRect.right - 4;  pts[2].y = pts[1].y;
 		pts[3].x = clRect.right - 1;  pts[3].y = pts[0].y - 1;
@@ -1519,9 +1513,9 @@ bgdone:
 		pts[5].x = pts[2].x + 1;      pts[5].y = pts[1].y + 2;
 		pts[6].x = pts[1].x;          pts[6].y = pts[5].y;
 		pts[7].x = pts[0].x;          pts[7].y = pts[4].y;
-		hRgn = CreatePolygonRgn(pts, sizeof(pts) / sizeof(pts[0]), ALTERNATE);
-		hBrush = CreateSolidBrush(dat->fontInfo[FONTID_CONTACTS].colour);
-		hoBrush = (HBRUSH) SelectObject(hdcMem, hBrush);
+		HRGN hRgn = CreatePolygonRgn(pts, SIZEOF(pts), ALTERNATE);
+		HBRUSH hBrush = CreateSolidBrush(dat->fontInfo[FONTID_CONTACTS].colour);
+		HBRUSH hoBrush = (HBRUSH) SelectObject(hdcMem, hBrush);
 		FillRgn(hdcMem, hRgn, hBrush);
 		SelectObject(hdcMem, hoBrush);
 		DeleteObject(hBrush);
@@ -1553,9 +1547,8 @@ bgdone:
 		greyGreen = GetGValue(greyColour) * 2;
 		greyBlue = GetBValue(greyColour) * 2;
 		if (divide3[0] == 255) {
-			for (i = 0; i < sizeof(divide3) / sizeof(divide3[0]); i++) {
+			for (i = 0; i < sizeof(divide3) / sizeof(divide3[0]); i++)
 				divide3[i] = (i + 1) / 3;
-			}
 		}
 		for (i = 4 * clRect.right *clRect.bottom - 4; i >= 0; i -= 4) {
 			bits[i] = divide3[bits[i] + greyBlue];
@@ -1567,5 +1560,4 @@ bgdone:
 	}
 	DeleteObject(hBmpOsb);
 	g_inCLCpaint = FALSE;
-	done = GetTickCount();
 }
