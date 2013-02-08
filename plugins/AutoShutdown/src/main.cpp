@@ -93,10 +93,6 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD m
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[]={MIID_SHUTDOWN,MIID_LAST};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);

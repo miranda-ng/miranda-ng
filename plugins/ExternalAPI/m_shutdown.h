@@ -23,19 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SHUTDOWN_H__
 #define M_SHUTDOWN_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
-   #pragma once
-#endif
-
-/*
- AutoShutdown v1.4.0.2
-*/
-
-/* interface id */
-#if !defined(MIID_SHUTDOWN)
- #define MIID_SHUTDOWN  {0x142982a8,0x88cf,0x4c65,{0x87,0x21,0x6d,0xe2,0x7d,0x5c,0xe7,0xb5}}
-#endif
-
 /******************************************************************/
 /************************* SERVICES *******************************/
 /******************************************************************/
