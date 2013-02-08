@@ -20,19 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FLAGS_H__
 #define M_FLAGS_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
- #pragma once
-#endif
-
-/*
- Country Flags Plugin v0.1.0.3
-*/
-
-/* interface id */
-#if !defined(MIID_FLAGS)
- #define MIID_FLAGS  {0x88a3b66e,0xc438,0x4381,{0xbc,0x17,0x71,0xd9,0x9d,0x22,0x5f,0x9c}}
-#endif
-
 /* Load a country flag icon from the skin library.   v0.1.0.0+
 The retrieved icon should be released using MS_SKIN2_RELEASEICON after use.
 The country numbers can be retrieved using MS_UTILS_GETCOUNTRYLIST.

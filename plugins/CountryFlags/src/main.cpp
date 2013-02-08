@@ -39,8 +39,6 @@ static PLUGININFOEX pluginInfo={
 	{0x68c36842,0x3d95,0x4f4a,{0xab,0x81,0x1,0x4d,0x65,0x93,0x86,0x3b}}
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[]={MIID_FLAGS,MIID_LAST};
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
