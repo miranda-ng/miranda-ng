@@ -24,24 +24,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Time Stamps strings
 const char* time_stamp_strings[] =
 {
-	"Delete older than 1 day",
-	"Delete older than 3 days",
-	"Delete older than 7 days",
-	"Delete older than 2 weeks (14 days)",
-	"Delete older than 1 month (30 days)",
-	"Delete older than 3 months (90 days)",
-	"Delete older than 6 months (180 days)",
-	"Delete older than 1 year (365 days)"
+	LPGEN("Delete older than 1 day"),
+	LPGEN("Delete older than 3 days"),
+	LPGEN("Delete older than 7 days"),
+	LPGEN("Delete older than 2 weeks (14 days)"),
+	LPGEN("Delete older than 1 month (30 days)"),
+	LPGEN("Delete older than 3 months (90 days)"),
+	LPGEN("Delete older than 6 months (180 days)"),
+	LPGEN("Delete older than 1 year (365 days)")
 };
 
 const char* keep_strings[] =
 {
-	"Keep 1 last event",
-	"Keep 2 last events",
-	"Keep 5 last events",
-	"Keep 10 last events",
-	"Keep 20 last events",
-	"Keep 50 last events"
+	LPGEN("Keep 1 last event"),
+	LPGEN("Keep 2 last events"),
+	LPGEN("Keep 5 last events"),
+	LPGEN("Keep 10 last events"),
+	LPGEN("Keep 20 last events"),
+	LPGEN("Keep 50 last events")
 };
 
 static IconItem iconList[] =
