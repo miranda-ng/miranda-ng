@@ -307,7 +307,24 @@
 [KB]
 [Color]
 [Output]
-[Scrobble at]
 [Check]
-[Timeout, ms]
 [Choose font...]
+[Genres]
+[[X]Status Title / Text]
+;file \plugins\Watrack\myshows\myshows.rc
+[Scrobble at]
+[Timeout, ms]
+[Get Series Info]
+[Episode]
+[Kinopoisk info page]
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+[Client is banned]
+[Bad Auth. Check login and password]
+[Bad TimeStamp]
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+[ answer you]
+[You Get Error]
