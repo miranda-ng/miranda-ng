@@ -45,7 +45,6 @@
 #define ID_EDIT_COPY                    40003
 #define ID_SET_TO_DEFAULT               40004
 #define ID_USERLIST_USERDETAILS         40005
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

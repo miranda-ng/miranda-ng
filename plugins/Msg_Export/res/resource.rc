@@ -12,14 +12,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-//
-// String Table
-//
+// Russian (Russia) resources
 
-STRINGTABLE
-BEGIN
-    ID_EDIT_COPY            "Copies the selection and puts it on the Clipboard\nCopy"
-END
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -44,6 +41,7 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -212,6 +210,22 @@ BEGIN
         MENUITEM "Copy",                        ID_EDIT_COPY
     END
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_COPY            "Copies the selection and puts it on the Clipboard\nCopy"
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
