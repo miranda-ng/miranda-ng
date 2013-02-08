@@ -316,7 +316,6 @@
 [Timeout, ms]
 [Get Series Info]
 [Episode]
-[Kinopoisk info page]
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 [Client is banned]
@@ -326,5 +325,4 @@
 [Similar artists]
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
-[ answer you]
 [You Get Error]

@@ -575,3 +575,39 @@ VBR или нет
 Использовать кнопки действий
 [Picture transform]
 Трансформация изображения
+[none]
+нет
+[kb]
+кб
+[KB]
+Кб
+[Genres]
+Жанры
+[[X]Status Title / Text]
+Заголовок/текст статусов
+[Scrobble at]
+Скробблить с
+[Timeout, ms]
+Таймаут, мс
+[Get Series Info]
+Информация о серии
+[Episode]
+Эпизод
+[Kinopoisk info page]
+Информация с Кинопоиска
+[Last.fm error: ]
+Ошибка Last.fm:
+[Client is banned]
+Клиент заблокирован
+[Bad Auth. Check login and password]
+Неверная авторизация. Проверьте логин и пароль
+[Bad TimeStamp]
+Неправильное время
+[Similar artists]
+Похожие исполнители
+[Music Info from ]
+Информация о музыке от
+[ answer you]
+ ответил
+[You Get Error]
+У Вас ошибка
