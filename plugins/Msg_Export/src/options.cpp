@@ -939,7 +939,9 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					ofn.hwndOwner = hwndDlg;
 					ofn.lpstrFile = szFile;
 					ofn.nMaxFile = sizeof(szFile);
-					ofn.lpstrFilter = LPGENT("Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0");
+					TCHAR buf[MAX_PATH];
+					mir_sntprintf(buf, SIZEOF(buf), _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
+					ofn.lpstrFilter = buf;
 					ofn.nFilterIndex = 1;
 					//ofn.lpstrFileTitle = NULL;
 					//ofn.nMaxFileTitle = 0;
@@ -966,7 +968,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					// Get the shells allocator
 					if (FAILED(SHGetMalloc(&pMalloc))) // we need to use this to support old Windows versions 
 					{
-						MessageBox(hwndDlg, _T("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(hwndDlg, TranslateT("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
 						return TRUE; // TRUE because we have handled the message , sort of *S*
 					}
 
@@ -975,7 +977,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					if ( ! lpDestDir )
 					{
 						pMalloc->Release();
-						MessageBox(hwndDlg , _T("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(hwndDlg , TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
 						return TRUE;
 					}
 
@@ -1310,7 +1312,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 				LVCOLUMN cCol = { 0 };
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
-				cCol.pszText = LPGENT("Export Protocols");
+				cCol.pszText = TranslateT("Export Protocols");
 				ListView_InsertColumn( hMapUser , 0 , &cCol );
 			}
 
@@ -1333,7 +1335,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 
 				for( int i=0 ; i < nCount ; i++) 
 				{
-					_snprintf(szTemp , sizeof( szTemp ) , "DisableProt_%s" , proto[i]->szModuleName);
+					mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", proto[i]->szModuleName);
 					sItem.pszText = proto[i]->szModuleName;
 					sItem.iImage = db_get_b(NULL,MODULE,szTemp,1);
 					::SendMessage( hMapUser , LVM_INSERTITEMA , 0 ,(LPARAM)&sItem );
@@ -1439,11 +1441,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 
 int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 {
-	OPTIONSDIALOGPAGE odp;
+	OPTIONSDIALOGPAGE odp = {0};
 
 	bUnaplyedChanges = FALSE;
 
-	ZeroMemory(&odp,sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
@@ -1451,15 +1452,15 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.ptszTitle = LPGENT("Message export");
 	odp.ptszGroup = LPGENT("History");
+	odp.ptszTab = LPGENT("General");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
-	Options_AddPage(wParam,&odp);
-
+	Options_AddPage(wParam, &odp);
 	
 	odp.position = 100000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT2);
-	odp.ptszTitle = LPGENT("Message export2");
+	odp.ptszTab = LPGENT("Additional");
 	odp.pfnDlgProc = DlgProcMsgExportOpts2;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }

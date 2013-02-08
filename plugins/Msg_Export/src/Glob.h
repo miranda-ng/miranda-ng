@@ -37,6 +37,7 @@ using namespace std;
 #include <m_userinfo.h>
 #include <m_protosvc.h>
 #include <m_icq.h>
+#include <win2k.h>
 
 #include "utils.h"
 #include "options.h"
