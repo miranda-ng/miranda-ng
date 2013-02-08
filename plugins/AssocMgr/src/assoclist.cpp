@@ -743,12 +743,12 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				lvg.cbSize = sizeof(lvg);
 				lvg.mask = LVGF_HEADER|LVGF_GROUPID;
 				lvg.iGroupId = 2;
-				lvg.pszHeader = (WCHAR*)TranslateW(L"URLs on Websites");
+				lvg.pszHeader = TranslateT("URLs on Websites");
 				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
 				if(lvi.iItem!= -1) {
 					ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
 					lvg.iGroupId = 1;
-					lvg.pszHeader = (WCHAR*)TranslateW(L"File Types");
+					lvg.pszHeader = TranslateT("File Types");
 					iItem = lvi.iItem = ListView_InsertItem(hwndList, &lvi);
 					if(lvi.iItem!= -1)
 						ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
