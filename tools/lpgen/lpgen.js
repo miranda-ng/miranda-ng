@@ -421,7 +421,7 @@ function ParseRCFile(RC_File,array) {
       //read on line into rcline
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
-      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"(,|$)/);
+      rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$)/);
       // if exist rc_regexp, do checks, double "" removal and add strings into array
           if (rc_regexp) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
