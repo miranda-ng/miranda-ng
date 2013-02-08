@@ -19,10 +19,37 @@
 #ifndef MSG_EXP_GLOB_H
 #define MSG_EXP_GLOB_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
+#include <Richedit.h>
+using namespace std;
+#include <Shlobj.h>
+#include <list>
+#include <string>
+#include <map>
+
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_options.h>
+#include <m_history.h>
+#include <m_userinfo.h>
+#include <m_protosvc.h>
+#include <m_icq.h>
+
+#include "utils.h"
+#include "options.h"
+#include "FileViewer.h"
+#include "resource.h"
+#include "version.h"
 
 #define MODULE "Msg_Export"
 #define MSG_BOX_TITEL TranslateT("Miranda NG (Message Export Plugin)")
+#define MS_SHOW_EXPORT_HISTORY "History/ShowExportHistory"
+#define szFileViewDB "FileV_"
+#define WM_RELOAD_FILE (WM_USER+10)
 
 extern HINSTANCE hInstance;
 

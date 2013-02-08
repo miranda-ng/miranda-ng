@@ -20,40 +20,7 @@
 #ifndef MSG_EXP_UTILS_H
 #define MSG_EXP_UTILS_H
 
-#include <windows.h>
-
-#if defined ( _MSC_VER ) // A Microsoft C Compiler
-   #ifdef _DEBUG // The _ASSERT macro contains a constant expression
-   #pragma warning( disable : 4786 )
-   #endif
-#endif // defined ( _MSC_VER )
-
-#pragma warning (push, 3 )
-
-#include "stdio.h"
-
-#include <newpluginapi.h>
-#include <m_database.h>
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#include <m_system.h>
-#include <m_history.h>
-#include <m_userinfo.h>
-#include <m_utils.h>
-#include <m_protocols.h>
-
 #define EVENTTYPE_STATUSCHANGE 25368
-
-#include <list>
-#include <string>
-#include <map>
-
-#pragma warning (pop)
-
-using namespace std;
-
 
 #define tstring wstring
 #define _DBGetString _DBGetStringW

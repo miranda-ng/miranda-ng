@@ -16,21 +16,7 @@
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
-#include <windows.h>
-#include <commctrl.h>
-#include "Shlobj.h"
-
-
-#include "Utils.h"
 #include "Glob.h"
-#include "FileViewer.h"
-
-#include "resource.h"
-
-#include <stdio.h>
-#include <list>
-//#include <algorithm>
 
 #define STRINGIZE(x) #x
 #define EVAL_STRINGIZE(x) STRINGIZE(x)
@@ -55,8 +41,6 @@
 
 You need to change this in the file <list> function sort() and sort(_Pr3 _Pr)
 */
-
-using namespace std;
 
 
 // width in pixels of the UIN column in the List Ctrl
@@ -565,7 +549,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 				size_t nLen = _tcslen( szSubCur );
 				if( _tcsncicmp( szSubCur , szSearch , nLen ) == 0 )
 				{
-					if( nLen < nShortestMatch )
+					if( nLen < (size_t)nShortestMatch )
 					{
 						nShortestMatch = nLen;
 						nStortestIndex = nSubCur;
@@ -703,17 +687,17 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				LVCOLUMN cCol = { 0 };
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
-				cCol.pszText = LPGENT("File");
+				cCol.pszText = TranslateT("File");
 				ListView_InsertColumn( hMapUser , 0 , &cCol );
-				cCol.pszText = LPGENT("Nick");
+				cCol.pszText = TranslateT("Nick");
 				ListView_InsertColumn( hMapUser , 1 , &cCol );
 				cCol.cx = nProtoColWitdh;
-				cCol.pszText = LPGENT("Proto");
+				cCol.pszText = TranslateT("Proto");
 				ListView_InsertColumn( hMapUser , 2 , &cCol );
 				cCol.cx = nUINColWitdh;
 				cCol.mask |= LVCF_FMT;
 				cCol.fmt = LVCFMT_RIGHT;
-				cCol.pszText = LPGENT("UIN");
+				cCol.pszText = TranslateT("UIN");
 
 				ListView_InsertColumn( hMapUser , 3 , &cCol );
 

@@ -19,8 +19,6 @@
 #ifndef MSG_EXP_FILE_VIEWER
 #define MSG_EXP_FILE_VIEWER
 
-#include <windows.h>
-
 void Initilize();
 void Uninitilize();
 

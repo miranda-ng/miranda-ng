@@ -16,20 +16,7 @@
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-#include <windows.h>
-#include <Shellapi.h>
-
-//#include "../Miranda-IM/resource.h"
-
-#include "utils.h"
-#include "options.h"
-#include "FileViewer.h"
 #include "Glob.h"
-
-#include "resource.h"
-
-
-#define MS_SHOW_EXPORT_HISTORY "History/ShowExportHistory"
 
 HINSTANCE hInstance = NULL;
 int hLangpack = 0;
@@ -53,16 +40,16 @@ HANDLE hInternalWindowList = NULL;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Message export (mod by ring0)",
-	PLUGIN_MAKE_VERSION(3,1,0,3),
-	"Exports every message, URL or File you receive to a text file.\r\n"
-	"Messages are exported to one file per user, users may be set to use the same file.",
-	"Kennet Nielsen, mod by ring0",
-	"Kennet_N@ofir.dk",
-	"© 2002 Kennet Nielsen",
-	"http://sourceforge.net/projects/msg-export/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x46102b07, 0xc215, 0x4162, { 0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc } } // {46102B07-C215-4162-9C83-D377881DA7CC}
+	// {46102B07-C215-4162-9C83-D377881DA7CC}
+	{0x46102b07, 0xc215, 0x4162, {0x9c, 0x83, 0xd3, 0x77, 0x88, 0x1d, 0xa7, 0xcc}}
 };
 
 
@@ -80,14 +67,14 @@ PLUGININFOEX pluginInfo = {
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR ShowExportHistory(WPARAM wParam,LPARAM /*lParam*/)
+static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 {
-	if( bUseInternalViewer() )
+	if (bUseInternalViewer())
 	{
-		bShowFileViewer( (HANDLE)wParam );
+		bShowFileViewer((HANDLE)wParam);
 		return 0;
 	}
-	bOpenExternaly( (HANDLE)wParam );
+	bOpenExternaly((HANDLE)wParam);
 	return 0;
 }
 
@@ -105,41 +92,41 @@ static INT_PTR ShowExportHistory(WPARAM wParam,LPARAM /*lParam*/)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-int nSystemShutdown(WPARAM /*wparam*/,LPARAM /*lparam*/)
+int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
-	WindowList_Broadcast(hInternalWindowList,WM_CLOSE,0,0);
+	WindowList_Broadcast(hInternalWindowList, WM_CLOSE, 0, 0);
 
-	if( hEventOptionsInitialize )
+	if (hEventOptionsInitialize)
 	{
 		UnhookEvent(hEventOptionsInitialize);
 		hEventOptionsInitialize = 0;
 	}
 
-	if( hDBEventAdded )
+	if (hDBEventAdded)
 	{
 		UnhookEvent(hDBEventAdded);
 		hDBEventAdded = 0;
 	}
 
-	if( hDBContactDeleted )
+	if (hDBContactDeleted)
 	{
 		UnhookEvent(hDBContactDeleted);
 		hDBContactDeleted = 0;
 	}
 
-	if( hServiceFunc )
+	if (hServiceFunc)
 	{
-		DestroyServiceFunction( hServiceFunc );
+		DestroyServiceFunction(hServiceFunc);
 		hServiceFunc = 0;
 	}
 
-	if( hEventSystemInit )
+	if (hEventSystemInit)
 	{
 		UnhookEvent(hEventSystemInit);
 		hEventSystemInit = 0;
 	}
 
-	if( hEventSystemShutdown )
+	if (hEventSystemShutdown)
 	{
 		UnhookEvent(hEventSystemShutdown); // here we unhook the fun we are in, might not bee good
 		hEventSystemShutdown = 0;
@@ -161,7 +148,7 @@ int nSystemShutdown(WPARAM /*wparam*/,LPARAM /*lparam*/)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
+int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
 
 	Initilize();
@@ -169,68 +156,38 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 	bReadMirandaDirAndPath();
 	UpdateFileToColWidth();
 
-	hDBEventAdded = HookEvent( ME_DB_EVENT_ADDED , nExportEvent );
-	if( !hDBEventAdded )
-		MessageBox(NULL, _T("Failed to HookEvent ME_DB_EVENT_ADDED"), MSG_BOX_TITEL, MB_OK );
+	hDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
+	if ( !hDBEventAdded)
+		MessageBox(NULL, TranslateT("Failed to HookEvent ME_DB_EVENT_ADDED"), MSG_BOX_TITEL, MB_OK);
 
+	hDBContactDeleted = HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
+	if ( !hDBContactDeleted)
+		MessageBox(NULL, TranslateT("Failed to HookEvent ME_DB_CONTACT_DELETED"), MSG_BOX_TITEL, MB_OK);
 
-	hDBContactDeleted = HookEvent(ME_DB_CONTACT_DELETED , nContactDeleted );
-	if( !hDBContactDeleted )
-		MessageBox(NULL, _T("Failed to HookEvent ME_DB_CONTACT_DELETED"), MSG_BOX_TITEL, MB_OK );
-	
+	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	if ( !hEventOptionsInitialize)
+		MessageBox(NULL, TranslateT("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK);
 
-	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize );
-	if( !hEventOptionsInitialize )
-		MessageBox(NULL, _T("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK );
-
-
-
-	if( !bReplaceHistory )
+	if ( !bReplaceHistory)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags=0;
-		mi.pszContactOwner=NULL;    //all contacts
-		mi.hIcon=LoadIcon(hInstance,MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
+		mi.flags = 0;
+		mi.pszContactOwner = NULL;    //all contacts
+		mi.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
-		mi.pszName=LPGEN("Open E&xported History");
-		mi.pszService=MS_SHOW_EXPORT_HISTORY;
-		hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
+		mi.pszName = LPGEN("Open E&xported History");
+		mi.pszService = MS_SHOW_EXPORT_HISTORY;
+		hOpenHistoryMenuItem = Menu_AddContactMenuItem(&mi);
 
-		if( !hOpenHistoryMenuItem )
-			MessageBox(NULL, _T("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK );
+		if ( !hOpenHistoryMenuItem)
+			MessageBox(NULL, TranslateT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK);
 	}
 
+	hEventSystemShutdown = HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
 
+	if ( !hEventSystemShutdown)
+		MessageBox(NULL, TranslateT("Failed to HookEvent ME_SYSTEM_SHUTDOWN"), MSG_BOX_TITEL, MB_OK);
 
-	hEventSystemShutdown = HookEvent( ME_SYSTEM_SHUTDOWN , nSystemShutdown );
-
-	if( !hEventSystemShutdown )
-		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_SHUTDOWN"), MSG_BOX_TITEL, MB_OK );
-
-
-/*
-	_TCHAR szBuf[ 10000 ];
-	for( int n = 0 ; n < 1000 ; n++ )
-	{
-		for( int y = 0 ; y < n ; y++ )
-		{
-			szBuf[ y ] = '0' + y%10;//((n + y) % 8 ) ? ('0' + ((n + y) % 10))  : ' ' ;
-		}
-		szBuf[ y ] = 0;
-
-		HANDLE hFile = CreateFile( "C:\\test.txt" , GENERIC_WRITE , FILE_SHARE_READ , 0 ,OPEN_ALWAYS , FILE_ATTRIBUTE_NORMAL , NULL );
-		SetFilePointer( hFile , 0 , 0 , FILE_END );
-
-		bWriteNewLine( hFile , 10 );
-		bWriteNewLine( hFile , 0 );
-		bWriteNewLine( hFile , 120 );
-
-		DWORD dwBytesWritten;
-		WriteFile( hFile , "\r\n\r\n" , 4 , &dwBytesWritten , NULL );
-
-		CloseHandle( hFile );
-	//}*/
-	
 	return 0;
 }
 
@@ -251,16 +208,11 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD /*fdwReason*/,LPVOID /*lpvReserved*/)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/)
 {
-	hInstance=hinst;
+	hInstance = hinst;
 	return 1;
 }
-
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 /////////////////////////////////////////////////////////////////////
@@ -276,15 +228,9 @@ extern "C" {
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /*mirandaVersion*/)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-static const MUUID interfaces[] = { MIID_HISTORYEXPORT, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -300,72 +246,59 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-int __declspec(dllexport)Load()
+extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
-	hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED,MainInit);
+	hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
-	if( !hEventSystemInit )
+	if ( !hEventSystemInit)
 	{
-		MessageBox(NULL, _T("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
-	nMaxLineWidth = db_get_w( NULL , MODULE , "MaxLineWidth" , nMaxLineWidth );
-	if( nMaxLineWidth < 5 )
+	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);
+	if(nMaxLineWidth < 5)
 		nMaxLineWidth = 5;
 
-	sExportDir  = _DBGetString( NULL , MODULE , "ExportDir" , _T("%dbpath%\\MsgExport\\") );
-	sDefaultFile = _DBGetString( NULL , MODULE , "DefaultFile" , _T("%nick%.txt") );
+	sExportDir  = _DBGetString(NULL, MODULE, "ExportDir", _T("%dbpath%\\MsgExport\\"));
+	sDefaultFile = _DBGetString(NULL, MODULE, "DefaultFile", _T("%nick%.txt"));
 
-	sTimeFormat = _DBGetString( NULL , MODULE , "TimeFormat" , _T("d s") );
+	sTimeFormat = _DBGetString(NULL, MODULE, "TimeFormat", _T("d s"));
 
-	sFileViewerPrg = _DBGetString( NULL , MODULE , "FileViewerPrg" , _T("") );
-	bUseInternalViewer( db_get_b( NULL , MODULE , "UseInternalViewer" , bUseInternalViewer() ) != 0 );
+	sFileViewerPrg = _DBGetString(NULL, MODULE, "FileViewerPrg", _T(""));
+	bUseInternalViewer(db_get_b(NULL, MODULE, "UseInternalViewer", bUseInternalViewer()) != 0);
 
-	bReplaceHistory = db_get_b( NULL , MODULE , "ReplaceHistory" , bReplaceHistory ) != 0;
-	bAppendNewLine = db_get_b( NULL , MODULE , "AppendNewLine" , bAppendNewLine ) != 0;
-	bUseUtf8InNewFiles = db_get_b( NULL , MODULE , "UseUtf8InNewFiles" , bUseUtf8InNewFiles ) != 0;
-	bUseLessAndGreaterInExport = db_get_b( NULL , MODULE , "UseLessAndGreaterInExport" , bUseLessAndGreaterInExport ) != 0;
+	bReplaceHistory = db_get_b(NULL, MODULE, "ReplaceHistory", bReplaceHistory) != 0;
+	bAppendNewLine = db_get_b(NULL, MODULE, "AppendNewLine", bAppendNewLine) != 0;
+	bUseUtf8InNewFiles = db_get_b(NULL, MODULE, "UseUtf8InNewFiles", bUseUtf8InNewFiles) != 0;
+	bUseLessAndGreaterInExport = db_get_b(NULL, MODULE, "UseLessAndGreaterInExport", bUseLessAndGreaterInExport) != 0;
 
-	enRenameAction = (ENDialogAction)db_get_b( NULL , MODULE , "RenameAction" , enRenameAction );
-	enDeleteAction = (ENDialogAction)db_get_b( NULL , MODULE , "DeleteAction" , enDeleteAction );;
+	enRenameAction = (ENDialogAction)db_get_b(NULL, MODULE, "RenameAction", enRenameAction);
+	enDeleteAction = (ENDialogAction)db_get_b(NULL, MODULE, "DeleteAction", enDeleteAction);
 
 	// Plugin sweeper support
 	db_set_ts(NULL, "Uninstall", "Message Export", _T(MODULE));
 
-	if( bReplaceHistory )
+	if (bReplaceHistory)
 	{
-		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,ShowExportHistory); //this need new code
-/*		if( hServiceFunc )
-		{
-			int *disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
-			if( disableDefaultModule )
-			{
-				disableDefaultModule[DEFMOD_UIHISTORY] = TRUE;
-			}
-			else
-			{
-				DestroyServiceFunction( hServiceFunc );
-				hServiceFunc = 0;
-			}
-		}*/
+		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
-		if( !hServiceFunc ) 
+		if ( !hServiceFunc) 
 			MessageBox(NULL, TranslateT("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda."), MSG_BOX_TITEL, MB_OK);
 	}
 
-	if( !hServiceFunc )
+	if ( !hServiceFunc)
 	{
 		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 	}
 
-	if( !hServiceFunc )
+	if ( !hServiceFunc)
 	{
-		MessageBox(NULL, _T("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY"), MSG_BOX_TITEL, MB_OK);
+		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY"), MSG_BOX_TITEL, MB_OK);
 	}
 	
-	hInternalWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
+	hInternalWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	return 0;
 }
@@ -383,13 +316,9 @@ int __declspec(dllexport)Load()
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-__declspec(dllexport)int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	Uninitilize();
-	bUseInternalViewer( false );
+	bUseInternalViewer(false);
 	return 0;
 }
-
-#ifdef __cplusplus
-}
-#endif

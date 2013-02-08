@@ -16,16 +16,7 @@
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
-
-#include <stdio.h>
-
 #include "Glob.h"
-#include "Utils.h"
-#include "FileViewer.h"
-
-#include <m_protosvc.h>
-#include <m_icq.h>
 
 // Default error string used upon errors 
 const _TCHAR *pszNickError   = LPGENT("No_Nick");

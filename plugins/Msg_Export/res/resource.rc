@@ -7,67 +7,9 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
-#include <richedit.h>
+#include <winres.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
-
-/////////////////////////////////////////////////////////////////////////////
-// Neutral (Default) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,1,0,3
- PRODUCTVERSION 3,1,0,3
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Message export plugin for Miranda NG (mod by ring0)"
-            VALUE "CompanyName", "Tip Top Tools"
-            VALUE "FileDescription", "Message export"
-            VALUE "FileVersion", "3, 1, 0, 3"
-            VALUE "InternalName", "Msg_export"
-            VALUE "LegalCopyright", "© 2002 Kennet Nielsen, mod by ring0"
-            VALUE "OriginalFilename", "Msg_Export"
-            VALUE "ProductName", "Message export (mod by ring0)"
-            VALUE "ProductVersion", "3, 1, 0, 3"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // Neutral (Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Danish (Denmark) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
-LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
-#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -79,17 +21,6 @@ BEGIN
     ID_EDIT_COPY            "Copies the selection and puts it on the Clipboard\nCopy"
 END
 
-#endif    // Danish (Denmark) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -98,13 +29,12 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
-    "#include <richedit.h>\0"
+    "#include <winres.h>\0"
 END
 
 3 TEXTINCLUDE 
@@ -114,17 +44,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-#endif    // German (Germany) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -265,6 +184,8 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_EXPORT_MESSAGE      ICON                    "export_m.ico"
+IDI_TICK                ICON                    "tick.ico"
+IDI_NOTICK              ICON                    "notick.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -291,31 +212,6 @@ BEGIN
         MENUITEM "Copy",                        ID_EDIT_COPY
     END
 END
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United Kingdom) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_TICK                ICON                    "tick.ico"
-IDI_NOTICK              ICON                    "notick.ico"
-#endif    // English (United Kingdom) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

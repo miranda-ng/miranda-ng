@@ -16,32 +16,7 @@
 //along with this program; if not, write to the Free Software
 //Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
-#include <windows.h>
-#include <Richedit.h>
-
-#include <iostream>
-#include <fstream>
-
-using namespace std;
-
-
-#include "Utils.h"
 #include "Glob.h"
-#include "FileViewer.h"
-
-#include "resource.h"
-
-#include <stdio.h>
-#include <basetsd.h>
-
-//#include <map>
-
-#define szFileViewDB "FileV_"
-
-#define WM_RELOAD_FILE (WM_USER+10)
-
-using namespace std;
 
 static UINT UM_FIND_CMD = RegisterWindowMessage( FINDMSGSTRING );
 
