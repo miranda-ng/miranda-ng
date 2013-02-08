@@ -23,31 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ASSOCMGR_H__
 #define M_ASSOCMGR_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
-   #pragma once
-#endif
-
-#if !defined(_TCHAR_DEFINED)
-   #include <tchar.h>
-#endif
-
-#if defined(_MSC_VER)
-#pragma warning(push)          /* save warning settings */
-#pragma warning(disable:4201)  /* nonstandard extension used : nameless struct/union */
-#endif
-
-/*
- File Association Manager v0.1.1.0
-*/
-
-/* interface id */
-#if !defined(MIID_ASSOCMGR)
- #define MIID_ASSOCMGR  {0xa05b56c0,0xcf7b,0x4389,{0xa1,0xe9,0xf1,0x3d,0xb9,0x36,0xe,0xf1}}
-#endif
-#if !defined(MIID_AUTORUN)
- #define MIID_AUTORUN  {0xeb0465e2,0xceee,0x11db,{0x83,0xef,0xc1,0xbf,0x55,0xd8,0x95,0x93}}
-#endif
-
 /* Add a new file type   v0.1.0.0+
 Add a new file type to be registered with Windows.
 You probably want to call this event when
