@@ -569,7 +569,7 @@ void FacebookProto::ProcessFriendRequests( void* )
 	}
 	
 	// Parse it
-	std::string reqs = utils::text::source_get_value(&resp.data, 2, "<div class=\"mRequestItem", "al aps\">");
+	std::string reqs = utils::text::source_get_value(&resp.data, 2, "class=\"mRequestItem", "al aps\">");
 
 	std::string::size_type pos = 0;
 	std::string::size_type pos2 = 0;
@@ -577,9 +577,9 @@ void FacebookProto::ProcessFriendRequests( void* )
 
 	while (!last && !reqs.empty()) {
 		std::string req;
-		if ((pos2 = reqs.find("<div class=\"mRequestItem", pos)) != std::string::npos) {
+		if ((pos2 = reqs.find("class=\"mRequestItem", pos)) != std::string::npos) {
 			req = reqs.substr(pos, pos2 - pos);
-			pos = pos2 + 24;
+			pos = pos2 + 19;
 		} else {
 			req = reqs.substr(pos);
 			last = true;
