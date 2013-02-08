@@ -33,25 +33,23 @@ PLUGININFOEX pluginInfo = {
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE, //unicode aware
-	{0x2f1a117c, 0x3c1b, 0x4c01, {0x89, 0xea, 0x6d, 0x8f, 0xd8, 0x5a, 0x9b, 0x4c}} //{2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
-}; //not used
+	UNICODE_AWARE,
+	// {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+	{0x2f1a117c, 0x3c1b, 0x4c01, {0x89, 0xea, 0x6d, 0x8f, 0xd8, 0x5a, 0x9b, 0x4c}}
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CMDLINE, MIID_LAST};
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 	
-//	InitServices();
 	if (InitServer())
 	{
-		MessageBox(0, "Could not initialize CmdLine plugin property", "Error", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(0, TranslateT("Could not initialize CmdLine plugin property"), TranslateT("Error"), MB_ICONEXCLAMATION | MB_OK);
 	}
 	
 	HookEvents();
@@ -73,10 +71,5 @@ extern "C" int __declspec(dllexport) Unload()
 bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		{
-			DisableThreadLibraryCalls(hinstDLL);
-		}
-		
 	return TRUE;
 }

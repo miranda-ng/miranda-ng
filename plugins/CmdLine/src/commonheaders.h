@@ -21,10 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CMDLINE_COMMONHEADERS_H
 #define M_CMDLINE_COMMONHEADERS_H
 
-#define MIRANDA_VER 0x0A00
 #define _CRT_SECURE_NO_WARNINGS
-
-#define MIID_CMDLINE        {0xcf8d9633, 0x7744, 0x4a5c, {0xb4, 0x8c, 0x2b, 0xd6, 0x36, 0xa4, 0x6c, 0xde}}
 
 #include <stdio.h>
 #include <stdlib.h>
