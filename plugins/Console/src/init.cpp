@@ -37,11 +37,11 @@ PLUGININFOEX pluginInfoEx={
 	__PLUGIN_RIGHTS,
 	__PLUGIN_URL,
 	UNICODE_AWARE,
-	{ 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 }} // {23D4F302-D513-45b7-9027-445F29557311}
-
+	// {23D4F302-D513-45b7-9027-445F29557311}
+	{0x23d4f302, 0xd513, 0x45b7, {0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -51,9 +51,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfoEx;
 }
-
-// we implement service mode interface
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_LOGWINDOW, MIID_LAST};
 
 extern "C" __declspec(dllexport) int Load(void)
 {

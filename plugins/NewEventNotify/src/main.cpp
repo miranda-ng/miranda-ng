@@ -46,7 +46,8 @@ PLUGININFOEX pluginInfo = {
 	"GNU GPL",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2 } } // {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+	// {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2}}
 };
 
 //---------------------------
@@ -75,15 +76,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 	//get DBEVENTINFO without pBlob
 	dbe.cbSize = sizeof(dbe);
 	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbe);
-
-	// Nightwish (no popups for RSS contacts at all...)
-	if (pluginOptions.bNoRSS) 
-	{						
-		if (dbe.szModule != NULL) {
-			if (!strncmp(dbe.szModule, "RSS", 3))
-				return 0;
-		}
-	}
 
 	//do not show popups for sub-contacts
 	if (hContact && ServiceExists(MS_MC_GETMETACONTACT) && CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))
@@ -172,8 +164,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_EVENTNOTIFY, MIID_LAST};
-
 extern "C" __declspec(dllexport) int Load(void)
 {
 	hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
@@ -200,7 +190,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 

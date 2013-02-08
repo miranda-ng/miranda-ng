@@ -149,14 +149,13 @@ begin
 end;
 
 var
-  PluginInterfaces: array[0..2] of TGUID;
+  PluginInterfaces: array[0..1] of TGUID;
 
 // tell Miranda about supported interfaces
 function MirandaPluginInterfaces:PMUUID; cdecl;
 begin
   PluginInterfaces[0]:=MIID_UIHISTORY;
-  PluginInterfaces[1]:=MIID_LOGWINDOW;
-  PluginInterfaces[2]:=MIID_LAST;
+  PluginInterfaces[1]:=MIID_LAST;
   Result := @PluginInterfaces;
 end;
 

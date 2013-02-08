@@ -48,18 +48,18 @@ HANDLE hContactMenuItem = NULL;
 int g_UnicodeCore;
 
 PLUGININFOEX pluginInfo = {
-  sizeof(PLUGININFOEX),
-  "Send/Receive Contacts+",
-   PLUGIN_MAKE_VERSION(1,5,2,0),
-  "Allows you to send and receive contacts.",
-  "Joe Kucera, Todor Totev",
-  "jokusoftware@miranda-im.org",
-  "(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",
-  "http://miranda-ng.org/",
-  UNICODE_AWARE,
-  {0x0324785E, 0x74CE, 0x4600,  {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } } // {0324785E-74CE-4600-B781-851773B3EFC5}
+	sizeof(PLUGININFOEX),
+	"Send/Receive Contacts+",
+	PLUGIN_MAKE_VERSION(1,5,2,0),
+	"Allows you to send and receive contacts.",
+	"Joe Kucera, Todor Totev",
+	"jokusoftware@miranda-im.org",
+	"(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",
+	"http://miranda-ng.org/",
+	UNICODE_AWARE,
+	// {0324785E-74CE-4600-B781-851773B3EFC5}
+	{0x0324785E, 0x74CE, 0x4600, {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5}}
 };
-
 
 static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 {
@@ -101,7 +101,6 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
   return 0; //continue processing by other hooks
 }
 
-
 static void ProcessUnreadEvents(void)
 {
 	DBEVENTINFO dbei = {0};
@@ -127,7 +126,6 @@ static void ProcessUnreadEvents(void)
 	}
 }
 
-
 static bool CheckContactsServiceSupport(const char* szProto)
 {
 	// there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)
@@ -136,7 +134,6 @@ static bool CheckContactsServiceSupport(const char* szProto)
 	else
 		return false;
 }
-
 
 static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
@@ -161,7 +158,6 @@ static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
 	return 0;
 }
-
 
 static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -190,7 +186,6 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
   DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
@@ -203,7 +198,6 @@ static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
   return 0;
 }
-
 
 static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
 {  // if our contact gets deleted close his window
@@ -220,7 +214,6 @@ static int HookContactDeleted(WPARAM wParam, LPARAM lParam)
   }
   return 0;
 }
-
 
 static INT_PTR ServiceSendCommand(WPARAM wParam, LPARAM lParam)
 {
@@ -251,8 +244,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRCONTACTS, MIID_LAST};
 
 extern "C" __declspec(dllexport) int Load(void)
 {
