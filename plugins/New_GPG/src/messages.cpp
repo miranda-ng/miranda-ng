@@ -97,8 +97,8 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 				extern TCHAR *password;
 				string out;
 				DWORD code;
-				wstring cmd;
-				cmd += _T("--batch ");
+				std::vector<wstring> cmd;
+				cmd.push_back(L"--batch");
 				{
 					char *inkeyid = UniGetContactSettingUtf(metaIsProtoMetaContacts(hContact)?metaGetMostOnline(hContact):hContact, szGPGModuleName, "InKeyID", "");
 					TCHAR *pass = NULL;
@@ -119,17 +119,15 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					}
 					if(pass && pass[0])
 					{
-						cmd += _T("--passphrase \"");
-						cmd += pass;
-						cmd += _T("\" ");
+						cmd.push_back(L"--passphrase");
+						cmd.push_back(pass);
 					}
 					else if(password && password[0])
 					{
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with password");
-						cmd += _T("--passphrase \"");
-						cmd += password;
-						cmd += _T("\" ");
+						cmd.push_back(L"--passphrase");
+						cmd.push_back(password);
 					}
 					else if (bDebugLog)
 						debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR))+" with out password");
@@ -142,29 +140,18 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					path += decfile;
 					boost::filesystem::remove(path);
 				}
-				cmd += _T("--output \"");
-				cmd += tmp2;
-				cmd += _T("\\tmp\\");
-				cmd += decfile;
-				cmd += _T("\"");
-				cmd += _T(" -d -a \"");
-				cmd += path;
-				cmd += _T("\"");
-				gpg_execution_params params;
+				cmd.push_back(L"--output");
+				cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + decfile);
+				cmd.push_back(L"-d");
+				cmd.push_back(L"-a");
+				cmd.push_back(path);
+				gpg_execution_params params(cmd);
 				pxResult result;
-				params.cmd = &cmd;
-				params.useless = "";
 				params.out = &out;
 				params.code = &code;
 				params.result = &result;
-				boost::thread *gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
-				if(!gpg_thread->timed_join(boost::posix_time::seconds(10)))
+				if(!gpg_launcher(params))
 				{
-					delete gpg_thread;
-					TerminateProcess(params.hProcess, 1);
-					params.hProcess = NULL;
-					if(bDebugLog)
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -214,32 +201,24 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					new_key_hcnt_mutex.lock();
 					new_key_hcnt = hContact;
 					ShowLoadKeyPasswordWindow();
-					wstring cmd2 = cmd;
+					std::vector<wstring> cmd2 = cmd;
 					if(password)
 					{
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
-						wstring tmp = _T("--passphrase \"");
-						tmp += password;
-						tmp += _T("\" ");
-						cmd2.insert(0, tmp);
+						std::vector<wstring> tmp;
+						tmp.push_back(L"--passphrase");
+						tmp.push_back(password);
+						cmd2.insert(cmd2.begin(), tmp.begin(), tmp.end());
 					}
 					out.clear();
-					gpg_execution_params params;
+					gpg_execution_params params(cmd2);
 					pxResult result;
-					params.cmd = &cmd2;
-					params.useless = "";
 					params.out = &out;
 					params.code = &code;
 					params.result = &result;
-					gpg_thread = gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
-					if(!gpg_thread->timed_join(boost::posix_time::seconds(10)))
+					if(!gpg_launcher(params))
 					{
-						delete gpg_thread;
-						TerminateProcess(params.hProcess, 1);
-						params.hProcess = NULL;
-						if(bDebugLog)
-							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						boost::filesystem::remove(path);
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -257,14 +236,8 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					}
 				}
 				out.clear();
-				gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
-				if(!gpg_thread->timed_join(boost::posix_time::seconds(10)))
+				if(!gpg_launcher(params))
 				{
-					delete gpg_thread;
-					TerminateProcess(params.hProcess, 1);
-					params.hProcess = NULL;
-					if(bDebugLog)
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					boost::filesystem::remove(path);
 					HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 					BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -421,7 +394,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 			s2 += _tcslen(_T("-----END PGP PUBLIC KEY BLOCK-----"));
 			DBWriteContactSettingTString(ccs->hContact, szGPGModuleName, "GPGPubKey", str.substr(s1,s2-s1).c_str());
 			{ //gpg execute block
-				wstring cmd;
+				std::vector<wstring> cmd;
 				TCHAR tmp2[MAX_PATH] = {0};
 				TCHAR *ptmp;
 				string output;
@@ -445,28 +418,17 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					mir_free(ptmp);
 					f<<new_key.c_str();
 					f.close();
-					cmd += _T(" --batch ");
-					cmd += _T(" --import \"");
-					cmd += tmp2;
-					cmd += _T("\"");
+					cmd.push_back(L"--batch");
+					cmd.push_back(L"--import");
+					cmd.push_back(tmp2);
 				}
-				gpg_execution_params params;
+				gpg_execution_params params(cmd);
 				pxResult result;
-				params.cmd = &cmd;
-				params.useless = "";
 				params.out = &output;
 				params.code = &exitcode;
 				params.result = &result;
-				boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-				if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-				{
-					gpg_thread.~thread();
-					TerminateProcess(params.hProcess, 1);
-					params.hProcess = NULL;
-					if(bDebugLog)
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				if(!gpg_launcher(params))
 					return 1;
-				}
 				boost::filesystem::remove(tmp2);
 				if(result == pxNotFound)
 					return 1;
@@ -664,7 +626,8 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		str.replace(i, 2, _T("\n")); */
 	string out;
 	DWORD code;
-	wstring file = toUTF16(get_random(10)), path, cmd;
+	wstring file = toUTF16(get_random(10)), path;
+	std::vector<std::wstring> cmd;
 	extern bool bJabberAPI, bIsMiranda09;
 	char *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");
 	if(!tmp[0])
@@ -677,24 +640,29 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		return;
 	}
 	if(!bJabberAPI || !bIsMiranda09) //force jabber to handle encrypted message by itself
-		cmd += _T("--comment \"\" --no-version ");
+	{
+		cmd.push_back(L"--comment");
+		cmd.push_back(L"\"\"");
+		cmd.push_back(L"--no-version");
+	}
 	if(DBGetContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 0))
-		cmd += _T("--trust-model always ");
-	cmd += _T("--batch --yes -e -a -t -r ");
+	{
+		cmd.push_back(L"--trust-model");
+		cmd.push_back(L"always");
+	}
+	cmd.push_back(L"--batch");
+	cmd.push_back(L"--yes");
+	cmd.push_back(L"-eatr");
 	TCHAR *tmp2 = mir_a2t(tmp);
 	mir_free(tmp);
-	cmd += tmp2;
+	cmd.push_back(tmp2);
 	mir_free(tmp2);
-	cmd += _T(" \"");
 	tmp2 = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
 	path = tmp2;
-	cmd += tmp2;
+	cmd.push_back(std::wstring(tmp2) + L"\\tmp\\" + file);
 	mir_free(tmp2);
-	cmd += _T("\\tmp\\");
-	cmd += file;
 	path += L"\\tmp\\";
 	path += file;
-	cmd += _T("\"");
 	{
 		fstream f(path.c_str(), std::ios::out);
 		while(!f.is_open())
@@ -706,21 +674,13 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		f.write(tmp.c_str(), tmp.size());
 		f.close();
 	}
-	gpg_execution_params params;
+	gpg_execution_params params(cmd);
 	pxResult result;
-	params.cmd = &cmd;
-	params.useless = "";
 	params.out = &out;
 	params.code = &code;
 	params.result = &result;
-	boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-	if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+	if(!gpg_launcher(params))
 	{
-		gpg_thread.~thread();
-		TerminateProcess(params.hProcess, 1);
-		params.hProcess = NULL;
-		if(bDebugLog)
-			debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 		//mir_free(msg);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
 		return;
@@ -737,22 +697,17 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 		if(MessageBox(0, TranslateT("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
 			DBWriteContactSettingByte(hContact, szGPGModuleName, "bAlwaysTrust", 1);
-			cmd.insert(0, _T("--trust-model always "));
-			gpg_execution_params params;
+			std::vector<std::wstring> tmp;
+			tmp.push_back(L"--trust-model");
+			tmp.push_back(L"always");
+			cmd.insert(cmd.begin(), tmp.begin(), tmp.end());
+			gpg_execution_params params(cmd);
 			pxResult result;
-			params.cmd = &cmd;
-			params.useless = "";
 			params.out = &out;
 			params.code = &code;
 			params.result = &result;
-			boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-			if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+			if(!gpg_launcher(params))
 			{
-				gpg_thread.~thread();
-				TerminateProcess(params.hProcess, 1);
-				params.hProcess = NULL;
-				if(bDebugLog)
-					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				//mir_free(msg);
 				CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)msg);
 				return;

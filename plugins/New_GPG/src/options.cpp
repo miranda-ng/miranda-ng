@@ -258,28 +258,22 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			  if(!keep)
 				  if(MessageBox(0, TranslateT("This key not used by any contact, do you want to remove it from public keyring ?"), TranslateT("Key info"), MB_YESNO) == IDYES)
 				  {
-					  wstring cmd;
+					  std::vector<wstring> cmd;
 					  string output;
 					  DWORD exitcode;
-					  cmd += _T(" --batch --yes --delete-key ");
+					  cmd.push_back(L"--batch");
+					  cmd.push_back(L"--yes");
+					  cmd.push_back(L"--delete-key");
 					  ptmp = mir_a2t(tmp);
-					  cmd += ptmp;
+					  cmd.push_back(ptmp);
 					  mir_free(ptmp);
-					  gpg_execution_params params;
+					  gpg_execution_params params(cmd);
 					  pxResult result;
-					  params.cmd = &cmd;
-					  params.useless = "";
 					  params.out = &output;
 					  params.code = &exitcode;
 					  params.result = &result;
-					  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-					  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
+					  if(!gpg_launcher(params))
 					  {
-						  gpg_thread.~thread();
-						  TerminateProcess(params.hProcess, 1);
-						  params.hProcess = NULL;
-						  if(bDebugLog)
-							  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						  mir_free(tmp);
 						  break;
 					  }
@@ -525,21 +519,14 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					  string out;
 					  DWORD code;
-					  wstring cmd = _T("--version");
-					  gpg_execution_params params;
+					  std::vector<wstring> cmd;
+					  cmd.push_back(L"--version");
+					  gpg_execution_params params(cmd);
 					  pxResult result;
-					  params.cmd = &cmd;
-					  params.useless = "";
 					  params.out = &out;
 					  params.code = &code;
 					  params.result = &result;
-					  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-					  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-					  {
-						  gpg_thread.~thread();
-						  TerminateProcess(params.hProcess, 1);
-						  params.hProcess = NULL;
-					  }
+					  gpg_launcher(params);
 					  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
 					  mir_free(tmp_path);
 					  string::size_type p1 = out.find("(GnuPG) ");
@@ -844,26 +831,16 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 				{
 					string out;
 					DWORD code;
-					wstring cmd = _T(" --export -a ");
-//					TCHAR *tmp3 = mir_a2t(tmp);
-					cmd += toUTF16(hcontact_data[hcnt].key_in_prescense);
-//					mir_free(tmp3);
-					gpg_execution_params params;
+					std::vector<wstring> cmd;
+					cmd.push_back(L"--export");
+					cmd.push_back(L"-a");
+					cmd.push_back(toUTF16(hcontact_data[hcnt].key_in_prescense));
+					gpg_execution_params params(cmd);
 					pxResult result;
-					params.cmd = &cmd;
-					params.useless = "";
 					params.out = &out;
 					params.code = &code;
 					params.result = &result;
-					boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-					if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-					{
-						gpg_thread.~thread();
-						TerminateProcess(params.hProcess, 1);
-						params.hProcess = NULL;
-						if(bDebugLog)
-							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
-					}
+					gpg_launcher(params); //TODO: handle errors
 					if((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos))
 					{
 						string::size_type p = 0, stop = 0;
@@ -971,7 +948,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  tmp = (TCHAR*)mir_alloc(sizeof( TCHAR) * (key_buf.length()+1));
 			  _tcscpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
 			  { //gpg execute block
-				  wstring cmd;
+				  std::vector<wstring> cmd;
 				  TCHAR tmp2[MAX_PATH] = {0};
 				  TCHAR *ptmp;
 				  string output;
@@ -997,28 +974,17 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  }
 					  f<<str.c_str();
 					  f.close();
-					  cmd += _T(" --batch ");
-					  cmd += _T(" --import \"");
-					  cmd += tmp2;
-					  cmd += _T("\"");
+					  cmd.push_back(L"--batch");
+					  cmd.push_back(L"--import");
+					  cmd.push_back(tmp2);
 				  }
-				  gpg_execution_params params;
+				  gpg_execution_params params(cmd);
 				  pxResult result;
-				  params.cmd = &cmd;
-				  params.useless = "";
 				  params.out = &output;
 				  params.code = &exitcode;
 				  params.result = &result;
-				  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-				  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-				  {
-					  gpg_thread.~thread();
-					  TerminateProcess(params.hProcess, 1);
-					  params.hProcess = NULL;
-					  if(bDebugLog)
-						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(!gpg_launcher(params))
 					  break;
-				  }
 				  if(result == pxNotFound)
 					  break;
 				  mir_free(begin);
@@ -1247,26 +1213,19 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  {
 						  string out;
 						  DWORD code;
-						  wstring cmd = _T("--batch -a --export ");
-						  cmd += fp;
+						  std::vector<wstring> cmd;
+						  cmd.push_back(L"--batch");
+						  cmd.push_back(L"-a");
+						  cmd.push_back(L"--export");
+						  cmd.push_back(fp);
 						  mir_free(fp);
-						  gpg_execution_params params;
+						  gpg_execution_params params(cmd);
 						  pxResult result;
-						  params.cmd = &cmd;
-						  params.useless = "";
 						  params.out = &out;
 						  params.code = &code;
 						  params.result = &result;
-						  boost::thread gpg_thread(boost::bind(&pxEexcute_thread, &params));
-						  if(!gpg_thread.timed_join(boost::posix_time::seconds(10)))
-						  {
-							  gpg_thread.~thread();
-							  TerminateProcess(params.hProcess, 1);
-							  params.hProcess = NULL;
-							  if(bDebugLog)
-								  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						  if(!gpg_launcher(params))
 							  break;
-						  }
 						  if(result == pxNotFound)
 							  break;
 						  string::size_type s = 0;
