@@ -69,9 +69,9 @@ if (WScript.Arguments.Named.Item("noref")) noref=true;
 
 // if console pararm /outpfile:"\path\filename.txt" given, put it to var outfile.
 if (WScript.Arguments.Named.Item("outfile")) {
-	outfile=true;
-	full_langpack_file=WScript.Arguments.Named.Item("outfile");
-	}
+    outfile=true;
+    full_langpack_file=WScript.Arguments.Named.Item("outfile");
+    }
 // if param /out specified, build a path and put it into var.
 if (WScript.Arguments.Named.Item("out")) {
     var out=WScript.Arguments.Named.Item("out");
@@ -157,17 +157,17 @@ filesenum=new Enumerator(TemplateFilesArray);
      TranslateTemplateFile(curfile,TranslatedTemplate);
      //Write array into file, if outfile not specified
      if (!outfile) WriteToFile(TranslatedTemplate,traslatedtemplatefile);
-	 //if we will output one file only, concatenate array
-	 if (outfile) full_langpack=full_langpack.concat(TranslatedTemplate);
+     //if we will output one file only, concatenate array
+     if (outfile) full_langpack=full_langpack.concat(TranslatedTemplate);
      //Log output to console
      if (log & !outfile) WScript.Echo("Output to: "+traslatedtemplatefile);
      //move to next file
      filesenum.moveNext();
     };
-//if output to one langpack file, write a finall array Translate_Core into UTF-8 file with BOM
+//if output to one langpack file, write a final array Translate_Core into UTF-8 file with BOM
 if (outfile) {
-	WriteToUnicodeFile(full_langpack,full_langpack_file);
-	WScript.Echo("Langpack file in "+full_langpack_file);
+    WriteToUnicodeFile(full_langpack,full_langpack_file);
+    WScript.Echo("Langpack file in "+full_langpack_file);
 }
 if (log) WScript.Echo("Translation end");
 
@@ -267,13 +267,13 @@ function TranslateTemplateFile(Template_file,array) {
      var line=stream.ReadText(-2);
      //Push line int array, we need all lines from template
      //array.push(line);
-	 //If we need refference to "; file source\file\path" in template or langpack, put into array every line 
+     //If we need refference to "; file source\file\path" in template or langpack, put into array every line 
      if (!noref) array.push(line);
-	 if (noref) {
-		reffline=line.match(/^;file.+/);
-		if (!reffline) array.push(line);
-		}
-	 //find string covered by[] using regexp
+     if (noref) {
+        reffline=line.match(/^;file.+/);
+        if (!reffline) array.push(line);
+        }
+     //find string covered by[] using regexp
      englishstring=line.match(/\[.+\]/);
      //If current line is english string covered by [], try to find translation in global db
      if (englishstring) {
