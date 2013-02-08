@@ -463,7 +463,7 @@ function ParseSourceFile (SourceFile,array) {
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
  //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
- var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
+ var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  
  //read file fully into var
  allstrings=sourcefile_stream.ReadAll();
