@@ -55,11 +55,10 @@ static const PLUGININFOEX pluginInfoEx =
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {F62C1D7A-FFA4-4065-A251-4C9DD9101CC8}
-	{ 0xf62c1d7a, 0xffa4, 0x4065, { 0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8 } }
+	{0xf62c1d7a, 0xffa4, 0x4065, {0xa2, 0x51, 0x4c, 0x9d, 0xd9, 0x10, 0x1c, 0xc8}}
 };
 
 const PLUGININFOEX* GetPluginInfoEx(void) { return &pluginInfoEx; }
-
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
@@ -67,10 +66,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVers
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
 
-#define MIID_CRASHDUMP  { 0x36a31a50, 0xcb55, 0x46d0, { 0xab, 0x9c, 0x1e, 0xac, 0xfb, 0x24, 0x0, 0x2a } }
-
 // MirandaInterfaces - returns the protocol interface to the core
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_CRASHDUMP, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICEMODE, MIID_LAST};
 
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
