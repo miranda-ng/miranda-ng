@@ -26,7 +26,7 @@
 Открыть историю (Ctrl+H)
 [Open contact menu (Ctrl+M)]
 Открыть меню контакта (Ctrl+M)
-[ Last Sent ]
+[Last Sent]
 Последнее отправленное событие
 [Show offline contacts on these protocols:]
 Показывать откл.контакты для этих протоколов:
