@@ -43,8 +43,8 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-  {0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}}
-	//{2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+	// {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+	{0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
@@ -52,9 +52,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_FOLDERS, MIID_LAST};
-
-extern "C" int __declspec(dllexport) Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	
@@ -64,20 +62,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload()
+extern "C" __declspec(dllexport) int Unload()
 {
-//	DestroyServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY);
 	DestroyServices();
 	DestroyEvents();
 	UnhookEvents();
 	return 0;
 }
 
-bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		DisableThreadLibraryCalls(hinstDLL);
-
 	return TRUE;
 }

@@ -376,9 +376,9 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 //=== DllMain =====
 //DLL entry point, Required to store the instance handle
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -392,9 +392,6 @@ MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 
 	return &pluginInfoEx;
 }
-
-//Miranda PluginInterfaces
-MIRAPI const MUUID MirandaInterfaces[] = { MIID_POPUPS, MIID_LAST };
 
 //ME_SYSTEM_OKTOEXIT event
 //called before the app goes into shutdown routine to make sure everyone is happy to exit

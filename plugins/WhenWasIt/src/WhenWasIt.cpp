@@ -39,7 +39,7 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+	// {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}}
 };
 
@@ -47,10 +47,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_BIRTHDAYNOTIFY, MIID_LAST};
-
-#include <commctrl.h>
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -103,11 +99,8 @@ extern "C" int __declspec(dllexport) Unload()
 	return 0;
 }
 
-bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH)
-		DisableThreadLibraryCalls(hinstDLL);
-
 	return TRUE;
 }

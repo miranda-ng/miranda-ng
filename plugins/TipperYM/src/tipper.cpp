@@ -57,14 +57,14 @@ PLUGININFOEX pluginInfoEx =
 	"yaho@miranda-easy.net",
 	"© 2005-2007 Scott Ellis, 2007-2011 Jan Holub",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,					//doesn't replace anything built-in
-	{ 0x8392df1d, 0x9090, 0x4f8e, { 0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00 } } // {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}
+	UNICODE_AWARE,
+	// {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}
+	{0x8392df1d, 0x9090, 0x4f8e, {0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00}}
 };
 
 extern "C" bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
-	DisableThreadLibraryCalls(hInst);
     return TRUE;
 }
 
@@ -72,8 +72,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfoEx;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_TOOLTIPS, MIID_LAST};
 
 int ReloadFont(WPARAM wParam, LPARAM lParam)
 {

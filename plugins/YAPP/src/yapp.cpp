@@ -2,7 +2,6 @@
 //
 
 #include "common.h"
-#include "yapp.h"
 #include "version.h"
 #include "message_pump.h"
 #include "options.h"
@@ -37,22 +36,20 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0xefd15f16, 0x7ae4, 0x40d7, { 0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 } } // {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
+	// {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
+	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 }}
 };
 
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	hInst = hModule;
-	DisableThreadLibraryCalls(hInst);
 	return TRUE;
 }
 
-extern "C" YAPP_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_POPUPS, MIID_LAST};
 
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {
@@ -172,7 +169,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int YAPP_API Load(void) {
+extern "C" int __declspec(dllexport) Load(void) {
 
 	mir_getLP(&pluginInfo);
 
@@ -186,7 +183,7 @@ extern "C" int YAPP_API Load(void) {
 	return 0;
 }
 
-extern "C" int YAPP_API Unload()
+extern "C" int __declspec(dllexport) Unload()
 {
 	DeinitNotify();
 	DeleteObject(hFontFirstLine);

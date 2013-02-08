@@ -59,13 +59,11 @@ PLUGININFOEX pluginInfo={
 	{0x2f174488, 0x489c, 0x4fe1, {0x94, 0x0d, 0x59, 0x6c, 0xf0, 0xf3, 0x5e, 0x65}}
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_VERSIONINFO, MIID_SERVICEMODE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICEMODE, MIID_LAST};
 
-bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
-	if (fdwReason == DLL_PROCESS_ATTACH) DisableThreadLibraryCalls(hinstDLL);
-	EnglishLocale = MAKELCID(MAKELANGID(0x09, 0x01), SORT_DEFAULT);	//create our english locale and use it everywhere it's needed
+	hInst = hinstDLL;
 	return TRUE;
 }
 
