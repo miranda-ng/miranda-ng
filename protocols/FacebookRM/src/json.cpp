@@ -268,8 +268,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 
 		std::string last_msg = "";
 
-		for (Array::const_iterator itMessage(messagesArray.Begin());
-			itMessage != messagesArray.End(); ++itMessage)
+		for (Array::const_iterator itMessage(messagesArray.Begin()); itMessage != messagesArray.End(); ++itMessage)
 		{
 			const Object& objMember = *itMessage;
 
@@ -432,29 +431,32 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 				mir_free(szTitle);
 				mir_free(szText);
 			}
-			else if ( type.Value( ) == "app_msg" ) // event notification
+			else if ( type.Value() == "notification_json" ) // event notification
 			{
 				if (!DBGetContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
 					continue;
-				
-				const String& text = objMember["response"]["payload"]["title"];
-				const String& link = objMember["response"]["payload"]["link"];
-				// TODO RM: include additional text of notification if exits? (e.g. comment text)
-				//const String& text2 = objMember["response"]["payload"]["alert"]["text"];
 
-				const Number& time_sent = objMember["response"]["payload"]["alert"]["time_sent"];        
-				if (time_sent.Value() > proto->facy.last_notification_time_) // Check agains duplicit notifications
+				const Array& notificationsArray = objMember["nodes"];
+
+				for (Array::const_iterator itNotification(notificationsArray.Begin()); itNotification != notificationsArray.End(); ++itNotification)
 				{
-					proto->facy.last_notification_time_ = time_sent.Value();
+					const Object& objNotification = *itNotification;
 
-					facebook_notification* notification = new facebook_notification( );
-					notification->text = utils::text::remove_html(
-  						utils::text::special_expressions_decode(
-							utils::text::slashu_to_utf8( text.Value( )) ));
+					//const String& text = objNotification["title"]["text"];
+					const String& text = objNotification["unaggregatedTitle"]["text"];
+					const String& link = objNotification["url"];
 
-  					notification->link = utils::text::special_expressions_decode( link.Value( ));
+					const Number& time_sent = objNotification["timestamp"]["time"];        
+					if (time_sent.Value() > proto->facy.last_notification_time_) // Check agains duplicit notifications
+					{
+						proto->facy.last_notification_time_ = time_sent.Value();
 
-					notifications->push_back( notification );
+						facebook_notification* notification = new facebook_notification();
+						notification->text = utils::text::slashu_to_utf8(text.Value());
+  						notification->link = utils::text::special_expressions_decode(link.Value());
+
+						notifications->push_back(notification);
+					}
 				}
 			}
 			else if ( type.Value( ) == "typ" ) // chat typing notification
