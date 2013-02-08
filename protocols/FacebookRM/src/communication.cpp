@@ -315,6 +315,7 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 	case FACEBOOK_REQUEST_SEARCH:
+	case FACEBOOK_REQUEST_STATUS_SET:
 		return FACEBOOK_SERVER_MOBILE;
 
 //	case FACEBOOK_REQUEST_LOGOUT:
@@ -323,7 +324,6 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 //	case FACEBOOK_REQUEST_FEEDS:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS:
 //	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND2:
 //	case FACEBOOK_REQUEST_THREAD_INFO:
@@ -439,7 +439,7 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 	}
 
 	case FACEBOOK_REQUEST_STATUS_SET:
-		return "/ajax/updatestatus.php?__a=1";
+		return "/a/home.php";
 
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
 		return "/ajax/mercury/send_messages.php?__a=1";
@@ -1188,13 +1188,21 @@ bool facebook_client::set_status(const std::string &status_text)
 	handle_entry( "set_status" );
 
 	std::string data = "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
-	data += "&target_id=" + this->self_.user_id;
+	//data += "&target_id=" + this->self_.user_id;
 
 	if ( status_text.length( ))
 	{
-		data += "&action=PROFILE_UPDATE&app_id=&hey_kid_im_a_composer=true&display_context=profile&_log_display_context=profile&ajax_log=1";
+		/*
+		TODO: privacy options
+		status=v%C5%A1ichni          &update=P%C5%99idat+p%C5%99%C3%ADsp%C4%9Bvek&users_with=&at=&privacy=%7B%22value%22%3A80%2C%22row_updated_time%22%3A1360357575%2C%22_pr_%22%3A1360357575%7D
+		status=p%C5%99%C3%A1tel%C3%A9&update=P%C5%99idat+p%C5%99%C3%ADsp%C4%9Bvek&users_with=&at=&privacy=%7B%22value%22%3A40%2C%22row_updated_time%22%3A1360357601%2C%22_pr_%22%3A1360357601%7D
+		status=jen+j%C3%A1+          &update=P%C5%99idat+p%C5%99%C3%ADsp%C4%9Bvek&users_with=&at=&privacy=%7B%22value%22%3A10%2C%22row_updated_time%22%3A1360357610%2C%22_pr_%22%3A1360357610%7D
+		status=aaa+ro                &update=P%C5%99idat+p%C5%99%C3%ADsp%C4%9Bvek&users_with=1438384745&at=&privacy=%7B%22value%22%3A10%2C%22row_updated_time%22%3A1360357631%2C%22_pr_%22%3A1360357631%7D&tagged_friends%5B%5D=1438384745
+		*/
+
+		data += "&charset_test=%E2%82%AC%2C%C2%B4%2C%E2%82%AC%2C%C2%B4%2C%E6%B0%B4%2C%D0%94%2C%D0%84&update=&target=";
 		data += "&status=" + utils::url::encode( status_text );
-		data += "&profile_id=" + this->self_.user_id;
+		//data += "&profile_id=" + this->self_.user_id;
 	}
 
 	http::response resp = flap( FACEBOOK_REQUEST_STATUS_SET, &data );
