@@ -31,7 +31,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define __AUTHOREMAIL             "faith_healer@miranda.im"
 #define __AUTHORWEB               "http://miranda-ng.org/"
 #define __COPYRIGHT               "©2006-12 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."
-
-// Fingerprint interface ID. Should be the same for ALL fingerprint plugins.
-// {FFF4B77A-CE40-11DB-A5CD-06A755D89593}
-#define MIID_FINGERPRINT	{0xFFF4B77A, 0xCE40, 0x11DB, { 0xA5, 0xCD, 0x06, 0xA7, 0x55, 0xD8, 0x95, 0x93}}

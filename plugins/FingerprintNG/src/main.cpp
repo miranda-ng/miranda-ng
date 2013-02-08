@@ -50,8 +50,8 @@ PLUGININFOEX pluginInfoEx = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{687364AF-58B0-4AF2-A4EE-20F40A8D9AFB}
-	{0x687364af, 0x58b0, 0x4af2, { 0xa4, 0xee, 0x20, 0xf4, 0xa, 0x8d, 0x9a, 0xfb}}
+	// {687364AF-58B0-4AF2-A4EE-20F40A8D9AFB}
+	{0x687364af, 0x58b0, 0x4af2, {0xa4, 0xee, 0x20, 0xf4, 0xa, 0x8d, 0x9a, 0xfb}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -64,10 +64,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfoEx;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_FINGERPRINT, MIID_LAST };
-
-///////////////////////////////////////////////////////////////////////////////
 
 static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
