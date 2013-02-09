@@ -32,7 +32,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {36753AE3-840B-4797-94A5-FD9F5852B942}
-	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 } } 
+	{0x36753ae3, 0x840b, 0x4797, {0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42}} 
 };
 
 HINSTANCE hInst;
@@ -68,10 +68,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SPELLCHECKER, MIID_LAST };
-
-////////////////////////////////////////////////////////////////////////////////////////
 
 static int IconsChanged(WPARAM wParam, LPARAM lParam) 
 {

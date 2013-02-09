@@ -21,11 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __M_SPELLCHECKER_H__
 # define __M_SPELLCHECKER_H__
 
-
-#define MIID_SPELLCHECKER { 0x26eed12a, 0x7016, 0x4d0f, { 0x9b, 0x4a, 0xc, 0xaa, 0x7e, 0x22, 0x29, 0xf3 } }
-
-
-
 typedef struct {
 	int cbSize;
 	HANDLE hContact;	// The contact to get the settings from, or NULL
