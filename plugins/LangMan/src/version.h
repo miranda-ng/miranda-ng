@@ -19,17 +19,9 @@ along with this program (LangMan-License.txt); if not, write to the Free Softwar
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define NEEDED_MIRANDA_VERSION      PLUGIN_MAKE_VERSION(0, 6, 0, 0)
-#define NEEDED_MIRANDA_VERSION_STR  "0.6"
 #define PLUGIN_VERSION              PLUGIN_MAKE_VERSION(1, 0, 2, 3)
 #define FILE_VERSION                1, 0, 2, 3
 
-#if defined(_DEBUG)
- #define FILE_VERSION_STR           "1.0.2.3 alpha"
- #define USERAGENT_VERSION          "1.0.2.3 (alpha)"
-#else
- #define FILE_VERSION_STR           "1.0.2.3"
- #define USERAGENT_VERSION          "1.0.2.3"
-#endif
+#define FILE_VERSION_STR           "1.0.2.3"
+#define USERAGENT_VERSION          "1.0.2.3"
 
- #define PLUGIN_WEBSITE            "http://miranda-ng.org/"

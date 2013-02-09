@@ -31,11 +31,11 @@ static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
 	"Language Pack Manager", 
 	PLUGIN_VERSION, 
-	"Helps you manage Language Packs of different languages.", /* autotranslated */
+	"Helps you manage Language Packs of different languages.",
 	"H. Herkenrath", 
 	"hrathh@users.sourceforge.net",
 	"© 2005-2007 H. Herkenrath", 
-	PLUGIN_WEBSITE, 
+	"http://miranda-ng.org/",
 	UNICODE_AWARE, 
 	// {D4BDD1EB-56F1-4a87-A187-67246EE919A2}
 	{0xd4bdd1eb, 0x56f1, 0x4a87, {0xa1, 0x87, 0x67, 0x24, 0x6e, 0xe9, 0x19, 0xa2}}, 
@@ -45,9 +45,7 @@ static PLUGININFOEX pluginInfo = {
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, void*)
 {
-	if (fdwReason  ==  DLL_PROCESS_ATTACH)
-		hInst = hinstDLL;
-
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -82,20 +80,12 @@ static void InstallFile(const TCHAR *pszFileName, const TCHAR *pszDestSubDir)
 	}
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif 
-
 ///////////////////////////////////////////////////////////////////////////////
 
-__declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_LANGMAN, MIID_LAST};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +96,7 @@ static int LangManModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-__declspec(dllexport) int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 
 	mir_getLP( &pluginInfo );
@@ -141,13 +131,9 @@ __declspec(dllexport) int Load(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-__declspec(dllexport) int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	UninitOptions();
 	UnhookEvent(hHookModulesLoaded);
 	return 0;
 }
-
-#ifdef __cplusplus
-}
-#endif

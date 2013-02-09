@@ -23,21 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_LANGMAN_H__
 #define M_LANGMAN_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
- #pragma once
-#endif
-
-/*
- Language Pack Manager v1.0.2.2
- If you have any question or extension whishes please let me know:
- hrathh at users.sourceforge.net
-*/
-
-/* interface id */
-#if !defined(MIID_LANGMAN)
- #define MIID_LANGMAN  {0xd80370d5,0x4b1e,0x46a8,{0xac,0xa4,0x1f,0xaa,0xd7,0x9b,0x7d,0x1e}}
-#endif
-
 /* Show the download language dialog.   v1.0.2.0+
  wParam=lParam=0
 The dialog can't have a parent due to it's asynchronous nature.
