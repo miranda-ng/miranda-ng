@@ -30,9 +30,6 @@
 
 #include <m_toptoolbar.h>
 
-/* dc90285a-9985-4b7a-baad-e70ae1dfc1d9 */
-#define MIID_RECENTCONTACTS { 0xdc90285a, 0x9985, 0x4b7a, {0xba, 0xad, 0xe7, 0x0a, 0xe1, 0xdf, 0xc1, 0xd9}}
-
 #define V_RECENTCONTACTS_TOGGLE_IGNORE "RecentContacts/ToggleIgnore"
 
 using namespace std;

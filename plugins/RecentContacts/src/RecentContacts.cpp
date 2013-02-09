@@ -37,15 +37,14 @@ PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	"Recent Contacts",
 	PLUGIN_MAKE_VERSION(0,0,2,0),
-	"Adds a menu item in main menu, which open the window with list of last used contacts names,"
-		" sorted in order from most recent to least.",
+	"Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.",
 	"ValeraVi, Kildor",
 	"kostia@ngs.ru",
 	"© 2005 ValeraVi, © 2009 Kildor",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,  	//doesn't replace anything built-in
-	{ 0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
-	/* 0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3 */
+	UNICODE_AWARE,
+	// 0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3
+	{0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
 };
 
 static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
@@ -54,10 +53,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_RECENTCONTACTS, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
