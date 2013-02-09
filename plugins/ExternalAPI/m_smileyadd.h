@@ -180,11 +180,6 @@ typedef struct
 //lParam = (LPARAM) Pointer to protocol name or NULL for all;
 #define MS_SMILEYADD_RELOAD "SmileyAdd/Reload"
 
-#ifndef MIID_SMILEY
-// {E03C71B2-6DEE-467e-A4F0-DD516745876A}
-#define MIID_SMILEY	{ 0xe03c71b2, 0x6dee, 0x467e, { 0xa4, 0xf0, 0xdd, 0x51, 0x67, 0x45, 0x87, 0x6a } }
-#endif
-
 /**
 	NM_FIREVIEWCHANGE is WM_NOTIFY Message for notify parent of host window about smiley are going to be repaint
 

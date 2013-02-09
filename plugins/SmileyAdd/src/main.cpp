@@ -47,18 +47,13 @@ static const PLUGININFOEX pluginInfoEx =
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {BD542BB4-5AE4-4d0e-A435-BA8DBE39607F}
-	{ 0xbd542bb4, 0x5ae4, 0x4d0e, { 0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f } }
+	{0xbd542bb4, 0x5ae4, 0x4d0e, {0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mirandaVersion */)
 {
 	return (PLUGININFOEX*)&pluginInfoEx;
 }
-
-// MirandaInterfaces - returns the protocol interface to the core
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SMILEY, MIID_LAST};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 static IconItem icon = { LPGEN("Button Smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
 
