@@ -19,29 +19,21 @@ PLUGININFOEX pluginInfo={
 	"mail@scottellis.com.au",
 	"© 2005 Scott Ellis",
 	"http://www.scottellis.com.au/",
-	UNICODE_AWARE,		//not transient
-	{ 0x760ea901, 0xc0c2, 0x446c, { 0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e } } // {760EA901-C0C2-446c-8029-94C3BC47C45E}
+	UNICODE_AWARE,
+	// {760EA901-C0C2-446c-8029-94C3BC47C45E}
+	{0x760ea901, 0xc0c2, 0x446c, {0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
-	DisableThreadLibraryCalls(hInst);
+	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" PING_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
-
-static const MUUID interfaces[] = {MIID_PING, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-
 
 void CreatePluginServices() {
 	// general
@@ -128,7 +120,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-extern "C" PING_API int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	//if(init_raw_ping()) {
 		//MessageBox(0, Translate("Failed to initialize. Plugin disabled."), Translate("Ping Plugin"), MB_OK | MB_ICONERROR);
@@ -162,7 +154,7 @@ extern "C" PING_API int Load(void)
 	return 0;
 }
 
-extern "C" PING_API int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	SavePingList(0, 0);
 
