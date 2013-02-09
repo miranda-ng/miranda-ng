@@ -25,9 +25,6 @@ HINSTANCE g_hInst;
 
 int hLangpack;
 
-// {AC8B66B3-AFE1-4475-BABA-49783BA39A66}
-#define MIID_FAVCONTACTS { 0xac8b66b3, 0xafe1, 0x4475, { 0xba, 0xba, 0x49, 0x78, 0x3b, 0xa3, 0x9a, 0x66 } }
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Favourite Contacts",
@@ -37,9 +34,9 @@ PLUGININFOEX pluginInfo = {
 	"nullbie@gmail.com",
 	"Copyright 2007-2009 Victor Pavlychko",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,	           // replace internal version (if any)
+	UNICODE_AWARE,
 	// {CE2C0401-F9E0-40d7-8E95-1A4197D7AB04}
-	{ 0xce2c0401, 0xf9e0, 0x40d7, { 0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4 } }
+	{0xce2c0401, 0xf9e0, 0x40d7, {0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4}}
 };
 
 static IconItem iconList[] = 
@@ -82,33 +79,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-bool CoreCheck()
-{
-	char version[1024], exepath[1024];
-	GetModuleFileNameA(GetModuleHandle(NULL), exepath, sizeof(exepath));
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(version), (LPARAM)version);
-	_strlwr(exepath); _strlwr(version);
-	if (!strstr(strrchr(exepath, '\\'), "miranda") ||
-		strstr(version, "coffee") ||
-		(*version && (!strncmp(version, "1.", 2) || strstr(version, " 1."))) ||
-		(g_mirandaVersion >= PLUGIN_MAKE_VERSION(1,0,0,0)))
-	{
-		MessageBoxA(0,
-			Translate("Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n"),
-			Translate("Favourite Contacts Error"),
-			MB_ICONSTOP|MB_OK);
-		return false;
-	}
-	return true;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	g_mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_FAVCONTACTS, MIID_LAST };
 
 static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 {
@@ -288,7 +262,6 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	if (!CoreCheck()) return 1;
 	mir_getLP(&pluginInfo);
 
 	g_contactCache = new CContactCache;
