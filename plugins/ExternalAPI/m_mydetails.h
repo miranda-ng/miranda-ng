@@ -21,11 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __M_MYDETAILS_H__
 # define __M_MYDETAILS_H__
 
-
-#define MIID_MDETAILS { 0xdba18dbc, 0x5be6, 0x4504, { 0xa7, 0x99, 0x29, 0xec, 0x6c, 0xca, 0x0, 0x65 } }
-
-
-
 /*
 MyDetails/SetMyNickname service
 Set the nickname for all possible protocols

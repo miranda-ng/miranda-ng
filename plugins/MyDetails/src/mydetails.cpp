@@ -36,7 +36,7 @@ PLUGININFOEX pluginInfo={
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
-	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } }
+	{0xa82baeb3, 0xa33c, 0x4036, {0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab}}
 };
 
 static IconItem iconList[] = 
@@ -58,7 +58,7 @@ HWND hwndSetStatusMsg;
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -68,8 +68,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID interfaces[] = { MIID_MDETAILS, MIID_LAST };
 
 // Set nickname ///////////////////////////////////////////////////////////////////////////////////
 
