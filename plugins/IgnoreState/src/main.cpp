@@ -72,8 +72,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IGNORESRATE, MIID_LAST};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 inline BOOL checkState(int type)
