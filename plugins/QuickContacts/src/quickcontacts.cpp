@@ -35,7 +35,8 @@ PLUGININFOEX pluginInfo={
 	"© 2007-2009 Ricardo Pescuma Domenecci",
 	"http://pescuma.org/miranda/quickcontacts",
 	UNICODE_AWARE,
-	{ 0xf93ba59c, 0x4f48, 0x4f2e, { 0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3 } } // {F93BA59C-4F48-4F2E-8A91-77A2801527A3}
+	// {F93BA59C-4F48-4F2E-8A91-77A2801527A3}
+	{0xf93ba59c, 0x4f48, 0x4f2e, {0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3}}
 };
 
 
@@ -70,7 +71,7 @@ char *metacontacts_proto = NULL;
 // Functions ////////////////////////////////////////////////////////////////////////////
 
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -81,14 +82,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-
-static const MUUID interfaces[] = { MIID_QUICKCONTACTS, MIID_LAST };
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 
 extern "C" __declspec(dllexport) int Load() 
 {
