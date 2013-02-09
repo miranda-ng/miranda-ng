@@ -61,7 +61,7 @@ namespace
 		__AUTHORWEB,
 		UNICODE_AWARE,
 		// {E882056D-0D1D-4131-9A98-404CBAEA6A9C}
-		{0xe882056d, 0xd1d, 0x4131, { 0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c } }
+		{0xe882056d, 0xd1d, 0x4131, {0x9a, 0x98, 0x40, 0x4c, 0xba, 0xea, 0x6a, 0x9c}}
 	};
 
 	INT_PTR QuotesMenu_RefreshAll(WPARAM wp,LPARAM lp)
@@ -383,7 +383,7 @@ namespace
 
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInstance = hinstDLL;
 	return TRUE;
@@ -396,20 +396,11 @@ extern "C"
 		return &Global_pluginInfo;
 	}
 
-
-	#define MIID_QUOTES	{0x723243c2, 0x8d4b, 0x4c29, { 0x8a, 0x37, 0xc0, 0x11, 0x48, 0x65, 0xb0, 0x80}}
-
-	__declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL,MIID_QUOTES,MIID_LAST};
-
 	int __declspec(dllexport) Load(void)
 	{
 
 		mir_getLP(&Global_pluginInfo);
-// 		if ((mirandaVersion >= 0x0800) && (1 == mir_getXI(&xi)))
-// 		{
-// 			CModuleInfo::SetXMLEnginePtr(CModuleInfo::TXMLEnginePtr(new CXMLEngineMI));
-// 		}
-
+ 
 		if(false == CModuleInfo::Verify())
 		{
 			return 1;
