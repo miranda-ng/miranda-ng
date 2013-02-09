@@ -159,6 +159,7 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	BYTE m_bGatewayMode;
 	BYTE m_bSecureLogin;
 	BYTE m_bSecureConnection;
+	BYTE m_bLegacyFix;
 	BYTE m_bAimEnabled;
 	BYTE m_bUtfEnabled;
 	WORD m_wAnsiCodepage;

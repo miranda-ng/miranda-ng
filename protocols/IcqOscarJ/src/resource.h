@@ -53,6 +53,7 @@
 #define IDC_MD5LOGIN                    1009
 #define IDC_UTFENABLE                   1010
 #define IDC_XTITLE                      1010
+#define IDC_LEGACY                      1010
 #define IDC_KEEPALIVE                   1011
 #define IDC_XMSG                        1011
 #define IDC_UTFALL                      1012

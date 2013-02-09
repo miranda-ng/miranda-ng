@@ -89,6 +89,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			LoadDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection", DEFAULT_SECURE_CONNECTION);
 			LoadDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin", DEFAULT_SECURE_LOGIN);
+			LoadDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix", DEFAULT_LEGACY_FIX);
 
 			char szServer[MAX_PATH];
 			if (!ppro->getSettingStringStatic(NULL, "OscarServer", szServer, MAX_PATH))
@@ -185,6 +186,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					StoreDBCheckState(ppro, hwndDlg, IDC_KEEPALIVE, "KeepAlive");
 					StoreDBCheckState(ppro, hwndDlg, IDC_SSL, "SecureConnection");
 					StoreDBCheckState(ppro, hwndDlg, IDC_MD5LOGIN, "SecureLogin");
+					StoreDBCheckState(ppro, hwndDlg, IDC_LEGACY, "LegacyFix");
 					StoreDBCheckState(ppro, hwndDlg, IDC_NOERRMULTI, "IgnoreMultiErrorBox");
 					ppro->setSettingByte(NULL, "ShowLogLevel", (BYTE)(4-SendDlgItemMessage(hwndDlg, IDC_LOGLEVEL, TBM_GETPOS, 0, 0)));
 

@@ -289,6 +289,18 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, WORD wPacketLen, WORD
 				NetLog_Server("Error: Directory request failed, code %u", bResultCode);
 			break;
 
+		case META_BASIC_USERINFO:
+		case META_WORK_USERINFO:
+		case META_MORE_USERINFO:
+		case META_NOTES_USERINFO:
+		case META_EMAIL_USERINFO:
+		case META_INTERESTS_USERINFO:
+		case META_AFFILATIONS_USERINFO:
+		case META_SHORT_USERINFO:
+		case META_HPAGECAT_USERINFO:
+			NetLog_Server("Warning: Ignored 15/03 (legacy user info) replysubtype x%x", wReplySubtype);
+			break;
+
 		default:
 			NetLog_Server("Warning: Ignored 15/03 replysubtype x%x", wReplySubtype);
 			//      _ASSERTE(0);

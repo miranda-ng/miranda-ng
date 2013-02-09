@@ -135,9 +135,9 @@ static void file_sendNextFile(CIcqProto* ppro, directconnect* dc)
 
 	char *szThisFileNameAnsi = NULL, *szThisSubDirAnsi = NULL;
 	if (!utf8_decode(pszThisFileName, &szThisFileNameAnsi))
-		szThisFileNameAnsi = NULL;
+		szThisFileNameAnsi = _strdup(pszThisFileName);	// Legacy fix
 	if (!utf8_decode(szThisSubDir, &szThisSubDirAnsi))
-		szThisSubDirAnsi = NULL;
+		szThisSubDirAnsi = _strdup(szThisSubDir);		// Legacy fix
 	WORD wThisFileNameLen = strlennull(szThisFileNameAnsi);
 	WORD wThisSubDirLen = strlennull(szThisSubDirAnsi);
 

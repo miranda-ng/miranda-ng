@@ -63,6 +63,7 @@
 
 #define DEFAULT_SECURE_LOGIN        1
 #define DEFAULT_SECURE_CONNECTION   1
+#define DEFAULT_LEGACY_FIX          0
 #define DEFAULT_KEEPALIVE_ENABLED   1
 #define DEFAULT_AIM_ENABLED         1
 #define DEFAULT_UTF_ENABLED         2 // everything unicode is default

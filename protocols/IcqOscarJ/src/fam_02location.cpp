@@ -89,7 +89,8 @@ static char* AimApplyEncoding(char* pszStr, const char* pszEncoding)
 			char *szRes = NULL;
 
 			SAFE_FREE((void**)&pszStr);
-			utf8_decode(szStr, &szRes);
+			if (!utf8_decode(szStr, &szRes))
+				szRes = _strdup(szStr);		// Legacy fix
 			SAFE_FREE((void**)&szStr);
 
 			return szRes;

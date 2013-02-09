@@ -129,7 +129,7 @@ WORD rates::getGroupFromSNAC(WORD wFamily, WORD wCommand)
 				}
 			}
 		}
-		_ASSERTE(0);
+		// Legacy ICQ server
 	}
 
 	return 0; // Failure

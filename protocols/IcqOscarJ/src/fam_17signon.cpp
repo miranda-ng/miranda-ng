@@ -82,7 +82,7 @@ void CIcqProto::sendClientAuth(const char *szKey, WORD wKeyLen, BOOL bSecure)
 
 	wUinLen = strlennull(strUID(m_dwLocalUIN, szUin));
 
-	packet.wLen = 70 + sizeof(CLIENT_ID_STRING) + wUinLen + wKeyLen + (m_bSecureConnection ? 4 : 0);
+	packet.wLen = (m_bLegacyFix ? 65 : 70) + sizeof(CLIENT_ID_STRING) + wUinLen + wKeyLen + (m_bSecureConnection ? 4 : 0);
 
 	if (bSecure)
 	{
@@ -119,7 +119,8 @@ void CIcqProto::sendClientAuth(const char *szKey, WORD wKeyLen, BOOL bSecure)
 	packTLVDWord(&packet, 0x0014, CLIENT_DISTRIBUTION);
 	packTLV(&packet, 0x000f, 0x0002, (LPBYTE)CLIENT_LANGUAGE);
 	packTLV(&packet, 0x000e, 0x0002, (LPBYTE)CLIENT_COUNTRY);
-	packTLV(&packet, 0x0094, 0x0001, &m_bConnectionLost); // CLIENT_RECONNECT flag
+	if (!m_bLegacyFix)
+		packTLV(&packet, 0x0094, 0x0001, &m_bConnectionLost); // CLIENT_RECONNECT flag
 	if (m_bSecureConnection)
 		packDWord(&packet, 0x008C0000); // empty TLV(0x8C): use SSL
 

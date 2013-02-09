@@ -93,15 +93,17 @@ BEGIN
     LTEXT           "Port:",IDC_STATIC,182,108,25,8
     EDITTEXT        IDC_ICQPORT,208,106,29,12,ES_AUTOHSCROLL
     PUSHBUTTON      "Default",IDC_RESETSERVER,244,106,50,12
-    LTEXT           "Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.",IDC_STATIC,12,123,286,19
-    CONTROL         "Secure Connection (SSL)",IDC_SSL,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,143,286,10
-    CONTROL         "Secure (MD5) login",IDC_MD5LOGIN,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,154,286,10
+    LTEXT           "Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.",IDC_STATIC,12,120,286,18
+    CONTROL         "Secure Connection (SSL)",IDC_SSL,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,138,290,10
+    CONTROL         "Secure (MD5) login",IDC_MD5LOGIN,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,150,290,10
+    CONTROL         "Legacy fix (for ICQ Groupware or IServerD only)",IDC_LEGACY,
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,162,290,10
     CONTROL         "Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)",IDC_KEEPALIVE,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,12,166,286,18
-    CONTROL         "Ignore concurrent error messages",IDC_NOERRMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,286,10
-    LTEXT           "Show connection error messages:",IDC_STATIC,12,204,238,8
-    CONTROL         "Slider1",IDC_LOGLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,18,214,52,10
-    LTEXT           "",IDC_LEVELDESCR,72,214,226,8,SS_NOPREFIX
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,12,174,290,18
+    CONTROL         "Ignore concurrent error messages",IDC_NOERRMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,192,290,10
+    LTEXT           "Show connection error messages:",IDC_STATIC,12,204,290,8
+    CONTROL         "Slider1",IDC_LOGLEVEL,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,12,216,58,10
+    LTEXT           "",IDC_LEVELDESCR,72,216,230,10,SS_NOPREFIX
 END
 
 IDD_OPT_ICQCONTACTS DIALOGEX 0, 0, 310, 234

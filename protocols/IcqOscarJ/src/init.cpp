@@ -188,6 +188,7 @@ void CIcqProto::UpdateGlobalSettings()
 	}
 
 	m_bSecureLogin = getSettingByte(NULL, "SecureLogin", DEFAULT_SECURE_LOGIN);
+	m_bLegacyFix = getSettingByte(NULL, "LegacyFix", DEFAULT_LEGACY_FIX);
 	m_bAimEnabled = getSettingByte(NULL, "AimEnabled", DEFAULT_AIM_ENABLED);
 	m_bUtfEnabled = getSettingByte(NULL, "UtfEnabled", DEFAULT_UTF_ENABLED);
 	m_wAnsiCodepage = getSettingWord(NULL, "AnsiCodePage", DEFAULT_ANSI_CODEPAGE);

@@ -570,6 +570,22 @@ DWORD CIcqProto::icq_sendGetInfoServ(HANDLE hContact, DWORD dwUin, int bManual)
 	}
 
 	cookie_directory_data *pCookieData = (cookie_directory_data*)SAFE_MALLOC(sizeof(cookie_directory_data));
+
+	if (m_bLegacyFix)
+	{
+		pCookieData->bRequestType = REQUESTTYPE_USERDETAILED;
+
+		dwCookie = AllocateCookie(CKT_FAMILYSPECIAL, 0, hContact, (void*)pCookieData);
+
+		packServIcqExtensionHeader(&packet, this, 6, CLI_META_INFO_REQ, (WORD)dwCookie);
+		packLEWord(&packet, META_REQUEST_FULL_INFO);
+		packLEDWord(&packet, dwUin);
+
+		sendServPacket(&packet);
+
+		return dwCookie;
+	}
+
 	pCookieData->bRequestType = DIRECTORYREQUEST_INFOUSER;
 
 	dwCookie = AllocateCookie(CKT_DIRECTORY_QUERY, 0, hContact, (void*)pCookieData);
@@ -745,14 +761,13 @@ void CIcqProto::icq_sendFileSendServv7(filetransfer* ft, const char *szFiles)
 	char *szFilesAnsi = NULL, *szDescrAnsi = NULL;
 
 	if (!utf8_decode(szFiles, &szFilesAnsi))
-		szFilesAnsi = NULL;
-	else
-		wFilesLen = strlennull(szFilesAnsi);
+		szFilesAnsi = _strdup(szFiles);				// Legacy fix
 
 	if (!utf8_decode(ft->szDescription, &szDescrAnsi))
-		szDescrAnsi = NULL;
-	else
-		wDescrLen = strlennull(szDescrAnsi);
+		szDescrAnsi = _strdup(ft->szDescription);	// Legacy fix
+
+	wFilesLen = strlennull(szFilesAnsi);
+	wDescrLen = strlennull(szDescrAnsi);
 
 	packServChannel2Header(&packet, this, ft->dwUin, (WORD)(18 + wDescrLen + wFilesLen), ft->pMessage.dwMsgID1, ft->pMessage.dwMsgID2, ft->dwCookie, ICQ_VERSION, MTYPE_FILEREQ, 0, 1, 0, 1, 1);
 
@@ -778,14 +793,13 @@ void CIcqProto::icq_sendFileSendServv8(filetransfer* ft, const char *szFiles, in
 	char *szFilesAnsi = NULL, *szDescrAnsi = NULL;
 
 	if (!utf8_decode(szFiles, &szFilesAnsi))
-		szFilesAnsi = NULL;
-	else
-		wFilesLen = strlennull(szFilesAnsi);
+		szFilesAnsi = _strdup(szFiles);				// Legacy fix
 
 	if (!utf8_decode(ft->szDescription, &szDescrAnsi))
-		szDescrAnsi = NULL;
-	else
-		wDescrLen = strlennull(szDescrAnsi);
+		szDescrAnsi = _strdup(ft->szDescription);	// Legacy fix
+
+	wFilesLen = strlennull(szFilesAnsi);
+	wDescrLen = strlennull(szDescrAnsi);
 
 	// 202 + UIN len + file description (no null) + file name (null included)
 	// Packet size = Flap length + 4
@@ -839,10 +853,10 @@ void CIcqProto::icq_sendFileAcceptServv8(DWORD dwUin, DWORD TS1, DWORD TS2, DWOR
 	if (!accepted) szFiles = "";
 
 	if (!utf8_decode(szFiles, &szFilesAnsi))
-		szFilesAnsi = NULL;
+		szFilesAnsi = _strdup(szFiles);	// Legacy fix
 
 	if (!utf8_decode(szDescr, &szDescrAnsi))
-		szDescrAnsi = NULL;
+		szDescrAnsi = _strdup(szDescr);	// Legacy fix
 
 	wDescrLen = strlennull(szDescrAnsi);
 	wFilesLen = strlennull(szFilesAnsi);
@@ -900,10 +914,10 @@ void CIcqProto::icq_sendFileAcceptServv7(DWORD dwUin, DWORD TS1, DWORD TS2, DWOR
 	if (!accepted) szFiles = "";
 
 	if (!utf8_decode(szFiles, &szFilesAnsi))
-		szFilesAnsi = NULL;
+		szFilesAnsi = _strdup(szFiles);	// Legacy fix
 
 	if (!utf8_decode(szDescr, &szDescrAnsi))
-		szDescrAnsi = NULL;
+		szDescrAnsi = _strdup(szDescr);	// Legacy fix
 
 	wDescrLen = strlennull(szDescrAnsi);
 	wFilesLen = strlennull(szFilesAnsi);
@@ -1120,6 +1134,24 @@ DWORD CIcqProto::SearchByUin(DWORD dwUin)
 	WORD wInfoLen;
 	icq_packet pBuffer; // I reuse the ICQ packet type as a generic buffer
                        // I should be ashamed! ;)
+	if (m_bLegacyFix)
+	{
+		// Calculate data size
+		wInfoLen = 8;
+
+		// Initialize our handy data buffer
+		pBuffer.wPlace = 0;
+		pBuffer.pData = (BYTE *)_alloca(wInfoLen);
+		pBuffer.wLen = wInfoLen;
+
+		// Initialize our handy data buffer
+		packLEWord(&pBuffer, TLV_UIN);
+		packLEWord(&pBuffer, 0x0004);
+		packLEDWord(&pBuffer, dwUin);
+
+		// Send it off for further packing
+		return sendTLVSearchPacket(SEARCHTYPE_UID, (char*)pBuffer.pData, META_SEARCH_UIN, wInfoLen, FALSE);
+	}
 
 	// Calculate data size
 	wInfoLen = 4 + getUINLen(dwUin);
@@ -1143,6 +1175,66 @@ DWORD CIcqProto::SearchByNames(const char *pszNick, const char *pszFirstName, co
 	WORD wNickLen,wFirstLen,wLastLen;
 	icq_packet pBuffer; // I reuse the ICQ packet type as a generic buffer
                        // I should be ashamed! ;)
+	if (m_bLegacyFix)
+	{
+		// Legacy protocol uses ANSI-string searches
+
+		char* pszNickAnsi = NULL;
+		if (!utf8_decode(pszNick, &pszNickAnsi))
+			pszNickAnsi = _strdup(pszNick);
+
+		char* pszFirstNameAnsi = NULL;
+		if (!utf8_decode(pszFirstName, &pszFirstNameAnsi))
+			pszFirstNameAnsi = _strdup(pszFirstName);
+
+		char* pszLastNameAnsi = NULL;
+		if (!utf8_decode(pszLastName, &pszLastNameAnsi))
+			pszLastNameAnsi = _strdup(pszLastName);
+
+		wNickLen = strlennull(pszNickAnsi);
+		wFirstLen = strlennull(pszFirstNameAnsi);
+		wLastLen = strlennull(pszLastNameAnsi);
+
+		_ASSERTE(wFirstLen || wLastLen || wNickLen);
+
+		// Calculate data size
+		if (wFirstLen > 0)
+			wInfoLen = wFirstLen + 7;
+		if (wLastLen > 0)
+			wInfoLen += wLastLen + 7;
+		if (wNickLen > 0)
+			wInfoLen += wNickLen + 7;
+
+		// Initialize our handy data buffer
+		pBuffer.wPlace = 0;
+		pBuffer.pData = (BYTE *)_alloca(wInfoLen);
+		pBuffer.wLen = wInfoLen;
+
+		int pBufferPos = 0;
+
+		// Pack the search details
+		if (wFirstLen > 0)
+		{
+			packLETLVLNTS(&pBuffer.pData, &pBufferPos, pszFirstNameAnsi, TLV_FIRSTNAME);
+		}
+
+		if (wLastLen > 0)
+		{
+			packLETLVLNTS(&pBuffer.pData, &pBufferPos, pszLastNameAnsi, TLV_LASTNAME);
+		}
+
+		if (wNickLen > 0)
+		{
+			packLETLVLNTS(&pBuffer.pData, &pBufferPos, pszNickAnsi, TLV_NICKNAME);
+		}
+
+		SAFE_FREE(&pszFirstNameAnsi);
+		SAFE_FREE(&pszLastNameAnsi);
+		SAFE_FREE(&pszNickAnsi);
+
+		// Send it off for further packing
+		return sendTLVSearchPacket(SEARCHTYPE_NAMES, (char*)pBuffer.pData, META_SEARCH_GENERIC, wInfoLen, FALSE);
+	}
 
 	wNickLen = strlennull(pszNick);
 	wFirstLen = strlennull(pszFirstName);

@@ -210,14 +210,19 @@ void CIcqProto::SafeReleaseFileTransfer(void **ft)
 			SAFE_FREE(&ift->szFilename);
 			SAFE_FREE(&ift->szDescription);
 			SAFE_FREE(&ift->szSavePath);
-			SAFE_FREE(&ift->szThisFile);
 			SAFE_FREE(&ift->szThisSubdir);
 			if (ift->pszFiles)
 			{
 				for (int i = 0; i < (int)ift->dwFileCount; i++)
+				{
+					// szThisFile can be a duplicate of pszFiles[i]
+					if (ift->szThisFile == ift->pszFiles[i])
+						ift->szThisFile = NULL;
 					SAFE_FREE(&ift->pszFiles[i]);
+				}
 				SAFE_FREE((void**)&ift->pszFiles);
 			}
+			SAFE_FREE(&ift->szThisFile);
 			// Invalidate transfer
 			ReleaseFileTransfer(ift);
 #ifdef _DEBUG

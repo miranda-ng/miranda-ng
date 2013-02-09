@@ -151,9 +151,8 @@ void CIcqProto::icq_sendFileDenyDirect(HANDLE hContact, filetransfer *ft, const 
   char *szReasonAnsi = NULL;
   int cbReasonAnsi = 0;
 
-  if (!utf8_decode(szReason, &szReasonAnsi))
-    szReasonAnsi = NULL;
-  else
+	if (!utf8_decode(szReason, &szReasonAnsi))
+		szReasonAnsi = _strdup(szReason);		// Legacy fix
     cbReasonAnsi = strlennull(szReasonAnsi);
 
 	packDirectMsgHeader(&packet, (WORD)(18 + cbReasonAnsi), DIRECT_ACK, ft->dwCookie, MTYPE_FILEREQ, 0, 1, 0);
@@ -181,9 +180,8 @@ int CIcqProto::icq_sendFileSendDirectv7(filetransfer *ft, const char *pszFiles)
 	char *szFilesAnsi = NULL;
 	WORD wDescrLen = strlennull(ft->szDescription), wFilesLen = 0;
 
-  if (!utf8_decode(pszFiles, &szFilesAnsi))
-    szFilesAnsi = NULL;
-  else
+	if (!utf8_decode(pszFiles, &szFilesAnsi))
+		szFilesAnsi = _strdup(pszFiles);		// Legacy fix
     wFilesLen = strlennull(szFilesAnsi);
 
 	packDirectMsgHeader(&packet, (WORD)(18 + wDescrLen + wFilesLen), DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_FILEREQ, 0, 0, 0);
@@ -209,9 +207,8 @@ int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 	char *szFilesAnsi = NULL;
 	WORD wDescrLen = strlennull(ft->szDescription), wFilesLen = 0;
 
-  if (!utf8_decode(pszFiles, &szFilesAnsi))
-    szFilesAnsi = NULL;
-  else
+	if (!utf8_decode(pszFiles, &szFilesAnsi))
+		szFilesAnsi = _strdup(pszFiles);		// Legacy fix
     wFilesLen = strlennull(szFilesAnsi);
 
 	packDirectMsgHeader(&packet, (WORD)(0x2E + 22 + wDescrLen + wFilesLen + 1), DIRECT_MESSAGE, (WORD)ft->dwCookie, MTYPE_PLUGIN, 0, 0, 0);
