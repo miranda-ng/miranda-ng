@@ -44,7 +44,7 @@ BOOL g_bIncompletedSave;
 HWND g_hDlg;
 HWND g_hSDlg;
 BOOL DONT = FALSE;
-BOOL StartUp,isLastTRUE = FALSE,g_mode,bSC = FALSE;
+BOOL StartUp, isLastTRUE = FALSE, g_mode,bSC = FALSE;
 
 DWORD session_list[255] = {0};
 DWORD user_session_list[255] = {0};
@@ -53,10 +53,9 @@ DWORD session_list_recovered[255];
 int count = 0;
 unsigned int ses_count = 0;
 
-
 int hLangpack;
 
-int OptionsInit(WPARAM,LPARAM);
+int OptionsInit(WPARAM, LPARAM);
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -69,7 +68,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {60558872-2AAB-45aa-888D-097691C9B683}
-		{ 0x60558872, 0x2aab, 0x45aa, { 0x88, 0x8d, 0x9, 0x76, 0x91, 0xc9, 0xb6, 0x83 } }
+	{0x60558872, 0x2aab, 0x45aa, {0x88, 0x8d, 0x9, 0x76, 0x91, 0xc9, 0xb6, 0x83}}
 };
 
 IconItem iconList[] = 
@@ -997,9 +996,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-// {28EE6FE2-B005-4073-BA90-148203C807D0}
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {{ 0x28ee6fe2, 0xb005, 0x4073, { 0xba, 0x90, 0x14, 0x82, 0x3, 0xc8, 0x7, 0xd0 } }, MIID_LAST};
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
@@ -1010,9 +1006,9 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hinstance=hinst;
+	hinstance = hinst;
 	return 1;
 }
 
@@ -1020,8 +1016,8 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
-	HookEvent(ME_SYSTEM_OKTOEXIT,OkToExit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN,SessionPreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, SessionPreShutdown);
 	return 0;
 }
