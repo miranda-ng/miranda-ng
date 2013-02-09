@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_METACONTACTS_H__
 #define M_METACONTACTS_H__ 1
 
-#ifndef MIID_METACONTACTS
-#define MIID_METACONTACTS	{0xc0325019, 0xc1a7, 0x40f5, { 0x83, 0x65, 0x4f, 0x46, 0xbe, 0x21, 0x86, 0x3e}}
-#endif
-
 //get the handle for a contact's parent metacontact
 //wParam=(HANDLE)hSubContact
 //lParam=0

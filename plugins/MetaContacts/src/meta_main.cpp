@@ -102,7 +102,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x4c4a27cf, 0x5e64, 0x4242, { 0xa3, 0x32, 0xb9, 0x8b, 0x8, 0x24, 0x3e, 0x89 } } // {4C4A27CF-5E64-4242-A332-B98B08243E89}
+	// {4C4A27CF-5E64-4242-A332-B98B08243E89}
+	{0x4c4a27cf, 0x5e64, 0x4242, {0xa3, 0x32, 0xb9, 0x8b, 0x8, 0x24, 0x3e, 0x89} }
 };
 
 HINSTANCE hInstance;	//!< Global reference to the application
@@ -116,7 +117,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 /** DLL entry point
 * Required to store the instance handle
