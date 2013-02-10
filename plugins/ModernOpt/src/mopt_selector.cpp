@@ -183,9 +183,6 @@ static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 	sd->hbmpPreview = CreateCompatibleBitmap(lps->hDC, lps->rcItem.right - lps->rcItem.left, lps->rcItem.bottom - lps->rcItem.top);
 	SelectObject(hdc, sd->hbmpPreview);
 
-	RECT rc;
-	HBRUSH hbr;
-
 	BITMAPINFO bi = {0};
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = 8;
@@ -197,7 +194,8 @@ static void CreatePreview(TSelectorData *sd, TCHAR *fn, LPDRAWITEMSTRUCT lps)
 	HBITMAP hBmpBrush = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, 0, 0, 0);
 	HDC dcBmp = CreateCompatibleDC(0);
 	HBITMAP hBmpSave = (HBITMAP)SelectObject(dcBmp, hBmpBrush);
-	hbr = CreateSolidBrush(RGB(0xcc, 0xcc, 0xcc));
+	HBRUSH hbr = CreateSolidBrush(RGB(0xcc, 0xcc, 0xcc));
+	RECT rc;
 	SetRect(&rc, 0, 0, 8, 8);
 	FillRect(dcBmp, &rc, hbr);
 	DeleteObject(hbr);

@@ -26,7 +26,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns an information about a plugin
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -34,7 +34,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // Performs a primary set of actions upon plugin loading
 
-int LoadModernOptsModule();
+void LoadModernOptsModule();
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -48,7 +48,10 @@ extern "C" int __declspec(dllexport) Load(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload a plugin
 
+void UnloadModernOptsModule();
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	UnloadModernOptsModule();
 	return 0;
 }

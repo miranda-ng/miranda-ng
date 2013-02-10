@@ -54,7 +54,7 @@ static void SetAllContactIcons(HWND hwndList, int count)
 		DWORD hItem = SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
 		for (int i = 0; i < count; ++i)
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,hItem,MAKELPARAM(i, i+1));
-		if (!DBGetContactSettingByte(hContact,"CList","Hidden",0))
+		if (!db_get_b(hContact,"CList","Hidden",0))
 			SendMessage(hwndList,CLM_SETCHECKMARK,hItem,1);
 	}
 		while(hContact=db_find_next(hContact));

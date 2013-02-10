@@ -63,12 +63,6 @@ struct ModernOptionsData : public MZeroedObject
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forwards
-static INT_PTR svcModernOpt_Show(WPARAM wParam, LPARAM lParam);
-static INT_PTR svcModernOpt_Restore(WPARAM wParam, LPARAM lParam);
-static INT_PTR svcModernOpt_SelectPage(WPARAM wParam, LPARAM lParam);
-static INT_PTR svcModernOpt_AddObject(WPARAM wParam, LPARAM lParam);
-static int hookModernOpt_Initialize(WPARAM wParam, LPARAM lParam);
-
 static void ModernOptUI_ShowPage(HWND hwndDlg, struct ModernOptionsData *dat, int iPage);
 static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *dat, int iSection);
 
@@ -117,8 +111,8 @@ static void ModernOptionsObject_Dtor(void *ptr)
 
 static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const ModernOptionsObject *ptr2)
 {
-#define obj1	((struct ModernOptionsObject *)ptr1)
-#define obj2	((struct ModernOptionsObject *)ptr2)
+	struct ModernOptionsObject *obj1 = ((struct ModernOptionsObject *)ptr1);
+	struct ModernOptionsObject *obj2 = ((struct ModernOptionsObject *)ptr2);
 
 	if (obj1->optObject.iSection < obj2->optObject.iSection) return -1;
 	if (obj1->optObject.iSection > obj2->optObject.iSection) return +1;
@@ -135,31 +129,14 @@ static int ModernOptionsObject_Comparator(const ModernOptionsObject *ptr1, const
 	if (obj1->dwIdx < obj2->dwIdx) return -1;
 	if (obj1->dwIdx > obj2->dwIdx) return +1;
 	return 0;
-
-#undef obj1
-#undef obj2
 }
 
 void li_List_Destruct(LIST<ModernOptionsObject> &pList, ItemDestuctor pItemDestructor)
 {
-	int i=0;
-	for (i=0; i<pList.getCount(); i++)	pItemDestructor(pList[i]);
+	for (int i=0; i<pList.getCount(); i++)
+		pItemDestructor(pList[i]);
 	pList.destroy();
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// Load module
-int LoadModernOptsModule()
-{
-	CreateServiceFunction(MS_MODERNOPT_SHOW, svcModernOpt_Show);
-	CreateServiceFunction(MS_MODERNOPT_RESTORE, svcModernOpt_Restore);
-	CreateServiceFunction(MS_MODERNOPT_SELECTPAGE, svcModernOpt_SelectPage);
-	CreateServiceFunction(MS_MODERNOPT_ADDOBJECT, svcModernOpt_AddObject);
-	hevtModernOpt_Initialize = CreateHookableEvent(ME_MODERNOPT_INITIALIZE);
-	HookEvent(ME_MODERNOPT_INITIALIZE, hookModernOpt_Initialize);
-	return 0;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // Main dlgproc
 static void sttNotifyPages(struct ModernOptionsData *dat, int code)
@@ -189,7 +166,6 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 	case WM_INITDIALOG:
 	{
 		TranslateDialogDefault(hwndDlg);
-		HIMAGELIST himl = 0;
 
 		dat = (struct ModernOptionsData *)lParam;
 		dat->iPage = -1;
@@ -201,7 +177,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 		dat->hfntBold = CreateFontIndirect(&lf);
 
 		hwndCtrl = GetDlgItem(hwndDlg, IDC_TV_SUBSECTIONS);
-		himl = ImageList_Create(16, 16, ILC_MASK + ( IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16 ), 2, 1);
+		HIMAGELIST himl = ImageList_Create(16, 16, ILC_MASK + ( IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16 ), 2, 1);
 		TreeView_SetImageList(hwndCtrl, himl, TVSIL_NORMAL);
 
 		for (i = 0; i < dat->pObjectList.getCount(); ++i) {
@@ -222,7 +198,6 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			}
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		hwndModernOpt = hwndDlg;
 
 		if (g_iSectionRestore)
 			CallService(MS_MODERNOPT_SELECTPAGE, g_iSectionRestore, 0);
@@ -257,7 +232,7 @@ static INT_PTR CALLBACK ModernOptDlgProc(HWND hwndDlg, UINT  msg, WPARAM wParam,
 			{
 				struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[dat->iPage];
 				if (obj->optObject.lpzHelpUrl)
-					ShellExecuteA(hwndDlg, "open", obj->optObject.lpzHelpUrl, "", "", SW_SHOW);
+					CallService(MS_UTILS_OPENURL,0,(LPARAM)obj->optObject.lpzHelpUrl);
 			}
 			break;
 
@@ -432,7 +407,6 @@ static void ModernOptUI_ShowPage(HWND hwndDlg, struct ModernOptionsData *dat, in
 
 static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *dat, int iSection)
 {
-	int i;
 	int iPageType = -1;
 
 	HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_SUBSECTIONS);
@@ -440,7 +414,7 @@ static void ModernOptUI_SelectSection(HWND hwndDlg, struct ModernOptionsData *da
 
 	SendMessage(hwndTree, WM_SETREDRAW, FALSE, 0);
 	TreeView_DeleteAllItems(hwndTree);
-	for (i = 0; i < dat->pObjectList.getCount(); ++i) {
+	for (int i = 0; i < dat->pObjectList.getCount(); ++i) {
 		struct ModernOptionsObject *obj = (struct ModernOptionsObject *)dat->pObjectList[i];
 		if (obj->optObject.iSection != iSection) continue;
 
@@ -510,14 +484,12 @@ static INT_PTR svcModernOpt_Restore(WPARAM wParam, LPARAM lParam)
 	return svcModernOpt_Impl(wParam, lParam);
 }
 
-static INT_PTR svcModernOpt_SelectPage(WPARAM wParam, LPARAM lParam)
+static INT_PTR svcModernOpt_SelectPage(WPARAM wParam, LPARAM)
 {
-	struct ModernOptionsData *dat;
-
 	if (!hwndModernOpt)
 		return 0;
 
-	dat = (struct ModernOptionsData *)GetWindowLongPtr(hwndModernOpt, GWLP_USERDATA);
+	struct ModernOptionsData *dat = (struct ModernOptionsData *)GetWindowLongPtr(hwndModernOpt, GWLP_USERDATA);
 	if (!dat)
 		return 0;
 
@@ -602,7 +574,7 @@ static INT_PTR svcModernOpt_AddObject(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int hookModernOpt_Initialize(WPARAM wParam, LPARAM lParam)
+static int hookModernOpt_Initialize(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{
@@ -700,3 +672,27 @@ static int hookModernOpt_Initialize(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Load module
+void LoadModernOptsModule()
+{
+	CreateServiceFunction(MS_MODERNOPT_SHOW, svcModernOpt_Show);
+	CreateServiceFunction(MS_MODERNOPT_RESTORE, svcModernOpt_Restore);
+	CreateServiceFunction(MS_MODERNOPT_SELECTPAGE, svcModernOpt_SelectPage);
+	CreateServiceFunction(MS_MODERNOPT_ADDOBJECT, svcModernOpt_AddObject);
+	hevtModernOpt_Initialize = CreateHookableEvent(ME_MODERNOPT_INITIALIZE);
+	HookEvent(ME_MODERNOPT_INITIALIZE, hookModernOpt_Initialize);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Unload module
+void UnloadModernOptsModule()
+{
+	if(hwndModernOpt)
+	{
+		DestroyWindow(hwndModernOpt);
+		hwndModernOpt = 0;
+	}
+}
+
