@@ -45,17 +45,15 @@ HANDLE hHookPreBuildContactMenu = NULL;
 
 HANDLE hContactMenuItem = NULL;
 
-int g_UnicodeCore;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Send/Receive Contacts+",
-	PLUGIN_MAKE_VERSION(1,5,2,0),
-	"Allows you to send and receive contacts.",
-	"Joe Kucera, Todor Totev",
-	"jokusoftware@miranda-im.org",
-	"(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {0324785E-74CE-4600-B781-851773B3EFC5}
 	{0x0324785E, 0x74CE, 0x4600, {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5}}
@@ -94,8 +92,7 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
     _snprintfT(caToolTip, 64, "%s %s", SRCTranslateT("Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));
 
     cle.ptszTooltip = caToolTip;
-    if (g_UnicodeCore)
-      cle.flags |= CLEF_UNICODE;
+    cle.flags |= CLEF_UNICODE;
     CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
   }
   return 0; //continue processing by other hooks
@@ -171,8 +168,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.ptszName = SRCTranslateT("Contacts", tmp);
 	mi.position = -2000009990;  //position in menu
 	mi.flags = CMIF_KEEPUNTRANSLATED;
-	if (g_UnicodeCore)
-		mi.flags |= CMIF_UNICODE;
+	mi.flags |= CMIF_UNICODE;
 	mi.pszService = MS_CONTACTS_SEND;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
@@ -251,9 +247,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitCommonControls();
   	InitI18N();
 
-   g_UnicodeCore = true;
-
-  //init hooks
+   //init hooks
   hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
   hHookDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, HookDBEventAdded);
   hHookContactDeleted = HookEvent(ME_DB_CONTACT_DELETED, HookContactDeleted);

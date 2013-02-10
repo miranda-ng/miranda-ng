@@ -63,7 +63,7 @@ void __fastcall SAFE_FREE(void** p)
 
 TCHAR *GetContactDisplayNameT(HANDLE hContact)
 {
-  return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, g_UnicodeCore ? GCDNF_UNICODE : 0);
+  return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_UNICODE);
 }
 
 char *GetContactUID(HANDLE hContact, int bTchar)
@@ -112,7 +112,7 @@ char *GetContactUID(HANDLE hContact, int bTchar)
 
 TCHAR* MirandaStatusToStringT(int mirandaStatus)
 {
-  return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, g_UnicodeCore ? GSMDF_UNICODE : 0);
+  return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, GSMDF_UNICODE);
 }
 
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv)
@@ -126,39 +126,21 @@ int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSe
 
 TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule, const char* szSetting, TCHAR* szDef)
 {
-  DBVARIANT dbv = {DBVT_DELETED};
-  TCHAR* szRes;
+	DBVARIANT dbv = {DBVT_DELETED};
+	TCHAR* szRes;
 
-  if (g_UnicodeCore)
-  {
-    if (DBGetContactSettingWString(hContact, szModule, szSetting, &dbv))
-      return strdupT(szDef);
+	if (DBGetContactSettingWString(hContact, szModule, szSetting, &dbv))
+		return strdupT(szDef);
 
-    szRes = strdupT(dbv.ptszVal);
-    DBFreeVariant(&dbv);
-  }
-  else
-  {
-    if (DBGetContactSettingT(hContact, szModule, szSetting, &dbv))
-      return strdupT(szDef);
+	szRes = strdupT(dbv.ptszVal);
+	DBFreeVariant(&dbv);
 
-    if (dbv.type == DBVT_ASCIIZ)
-      szRes = ansi_to_tchar(dbv.pszVal);
-    else if (dbv.type == DBVT_UTF8)
-      szRes = utf8_to_tchar((unsigned char*)dbv.pszVal);
-    else
-      szRes = strdupT(szDef);
-    DBFreeVariant(&dbv);
-  }
-  return szRes;
+	return szRes;
 }
 
 int DBWriteContactSettingStringT(HANDLE hContact, const char *szModule, const char* szSetting, TCHAR* szValue)
 {
-  if (g_UnicodeCore)
-    return DBWriteContactSettingWString(hContact, szModule, szSetting, (WCHAR*)szValue);
-  else
-    return DBWriteContactSettingString(hContact, szModule, szSetting, (char*)szValue);
+	return DBWriteContactSettingWString(hContact, szModule, szSetting, (WCHAR*)szValue);
 }
 
 
@@ -270,42 +252,23 @@ void EnableDlgItem(HWND hwndDlg, UINT control, int state)
 
 LRESULT SendMessageT(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-  if (g_UnicodeCore)
-    return SendMessageW(hWnd, Msg, wParam, lParam);
-  else
-    return SendMessageA(hWnd, Msg, wParam, lParam);
+	return SendMessageW(hWnd, Msg, wParam, lParam);
 }
 
 TCHAR* GetWindowTextT(HWND hWnd)
 {
-  if (g_UnicodeCore)
-  {
-    int len = GetWindowTextLengthW(hWnd) + 1;
-    WCHAR* txt = (WCHAR*)malloc(len * sizeof(WCHAR));
-    if (txt) {
-      txt[0] = 0;
-      GetWindowTextW(hWnd, txt, len);
-    }
-    return (TCHAR*)txt;
-  }
-  else
-  {
-    int len = GetWindowTextLengthA(hWnd) + 1;
-    char* txt = (char*)malloc(len * sizeof(char));
-    if (txt) {
-      txt[0] = 0;
-      GetWindowTextA(hWnd, txt, len);
-    }
-    return (TCHAR*)txt;
-  }
+	int len = GetWindowTextLengthW(hWnd) + 1;
+	WCHAR* txt = (WCHAR*)malloc(len * sizeof(WCHAR));
+	if (txt) {
+		txt[0] = 0;
+		GetWindowTextW(hWnd, txt, len);
+	}
+	return (TCHAR*)txt;
 }
 
 BOOL SetWindowTextT(HWND hWnd, TCHAR* lpString)
 {
-  if (g_UnicodeCore)
-    return SetWindowTextW(hWnd, (WCHAR*)lpString);
-  else
-    return SetWindowTextA(hWnd, lpString);
+	return SetWindowTextW(hWnd, (WCHAR*)lpString);
 }
 
 TCHAR* GetDlgItemTextT(HWND hDlg, int nIDDlgItem)
@@ -320,15 +283,12 @@ BOOL SetDlgItemTextT(HWND hDlg, int nIDDlgItem, TCHAR* lpString)
 
 HWND CreateDialogParamT(HINSTANCE hInstance, const char* szTemplate, HWND hWndParent, DLGPROC lpDialogFunc, LPARAM dwInitParam)
 {
-  if (g_UnicodeCore)
-    return CreateDialogParamW(hInstance, (LPCWSTR)szTemplate, hWndParent, lpDialogFunc, dwInitParam);
-  else
-    return CreateDialogParamA(hInstance, szTemplate, hWndParent, lpDialogFunc, dwInitParam);
+	return CreateDialogParamW(hInstance, (LPCWSTR)szTemplate, hWndParent, lpDialogFunc, dwInitParam);
 }
 
 int ListView_InsertColumnT(HWND hwnd, int iCol, const LPLVCOLUMN pcol)
 {
-  return SendMessageT(hwnd, g_UnicodeCore ? LVM_INSERTCOLUMNW : LVM_INSERTCOLUMNA, (WPARAM)iCol, (LPARAM)pcol);
+	return SendMessageT(hwnd, LVM_INSERTCOLUMNW, (WPARAM)iCol, (LPARAM)pcol);
 }
 
 void ListView_SetItemTextT(HWND hwnd, int i, int iSubItem, TCHAR* pszText)
@@ -337,102 +297,67 @@ void ListView_SetItemTextT(HWND hwnd, int i, int iSubItem, TCHAR* pszText)
 
   lvi.iSubItem = iSubItem;
   lvi.pszText = pszText;
-  SendMessageT(hwnd, g_UnicodeCore ? LVM_SETITEMTEXTW : LVM_SETITEMTEXTA, (WPARAM)i, (LPARAM)&lvi);
+  SendMessageT(hwnd, LVM_SETITEMTEXTW, (WPARAM)i, (LPARAM)&lvi);
 }
 
 
 
 size_t __fastcall strlenT(const TCHAR *string)
 {
-  if (string)
-  {
-    if (g_UnicodeCore)
-      return wcslen((WCHAR*)string);
-    else
-      return strlen((char*)string);
-  }
-  return 0;
+	if (string)
+		return wcslen((WCHAR*)string);
+	return 0;
 }
 
 TCHAR* __fastcall strdupT(const TCHAR *string)
 {
-  if (string)
-  {
-    if (g_UnicodeCore)
-      return (TCHAR*)wcsdup((WCHAR*)string);
-    else
-      return (TCHAR*)strdup((char*)string);
-  }
-  return NULL;
+	if (string)
+		return (TCHAR*)wcsdup((WCHAR*)string);
+	return NULL;
 }
 
 int __fastcall strcmpT(const TCHAR *string1, const TCHAR *string2)
 {
-  if (!string1 || !string2) return 1;
+	if (!string1 || !string2) return 1;
 
-  if (g_UnicodeCore)
-    return wcscmp((WCHAR*)string1, (WCHAR*)string2);
-  else
-    return strcmp((char*)string1, (char*)string2);
+	return wcscmp((WCHAR*)string1, (WCHAR*)string2);
 }
 
 TCHAR* __fastcall strcpyT(TCHAR* dest, const TCHAR* src)
 {
-  if (src)
-  {
-    if (g_UnicodeCore)
-      return (TCHAR*)wcscpy((WCHAR*)dest, (WCHAR*)src);
-    else
-      return (TCHAR*)strcpy((char*)dest, (char*)src);
-  }
-  return dest;
+	if (src)
+		return (TCHAR*)wcscpy((WCHAR*)dest, (WCHAR*)src);
+	return dest;
 }
 
 TCHAR* __fastcall strncpyT(TCHAR* dest, const TCHAR* src, size_t len)
 {
-  if (src)
-  {
-    if (g_UnicodeCore)
-      return (TCHAR*)wcsncpy((WCHAR*)dest, (WCHAR*)src, len);
-    else
-      return (TCHAR*)strncpy((char*)dest, (char*)src, len);
-  }
-  return dest;
+	if (src)
+		return (TCHAR*)wcsncpy((WCHAR*)dest, (WCHAR*)src, len);
+	return dest;
 }
 
 TCHAR* __fastcall strcatT(TCHAR* dest, const TCHAR* src)
 {
-  if (src)
-  {
-    if (g_UnicodeCore)
-      return (TCHAR*)wcscat((WCHAR*)dest, (WCHAR*)src);
-    else
-      return (TCHAR*)strcat((char*)dest, (char*)src);
-  }
-  return dest;
+	if (src)
+		return (TCHAR*)wcscat((WCHAR*)dest, (WCHAR*)src);
+	return dest;
 }
 
 int _snprintfT(TCHAR *buffer, size_t count, const char* fmt, ...)
 {
-  va_list va;
-  int len;
+	va_list va;
+	int len;
 
-  va_start(va, fmt);
-  if (g_UnicodeCore)
-  {
-    TCHAR* wfmt = ansi_to_tchar(fmt);
+	va_start(va, fmt);
+	TCHAR* wfmt = ansi_to_tchar(fmt);
 
-    len = _vsnwprintf((WCHAR*)buffer, count-1, (WCHAR*)wfmt, va);
-    ((WCHAR*)buffer)[count-1] = 0;
-    SAFE_FREE((void**)&wfmt);
-  }
-  else
-  {
-    len = _vsnprintf((char*)buffer, count-1, fmt, va);
-    ((char*)buffer)[count-1] = 0;
-  }
-  va_end(va);
-  return len;
+	len = _vsnwprintf((WCHAR*)buffer, count-1, (WCHAR*)wfmt, va);
+	((WCHAR*)buffer)[count-1] = 0;
+	SAFE_FREE((void**)&wfmt);
+
+	va_end(va);
+	return len;
 }
 
 TCHAR* __fastcall SRCTranslateT(const char* src, const WCHAR* unibuf)
@@ -444,8 +369,6 @@ TCHAR* __fastcall SRCTranslateT(const char* src, const WCHAR* unibuf)
     return "";
   }
 
-  if (g_UnicodeCore)
-  { // we give WCHAR
     WCHAR *unicode;
     int wchars, err;
 
@@ -465,9 +388,6 @@ TCHAR* __fastcall SRCTranslateT(const char* src, const WCHAR* unibuf)
     if (err != wchars) return NULL; // Failure
 
     return (TCHAR*)TranslateW(unicode);
-  }
-  else
-    return (TCHAR*)Translate(src);
 }
 
 static BOOL bHasCP_UTF8 = FALSE;
@@ -746,8 +666,6 @@ static int utf8_decode(const unsigned char *from, char **to)
 
 TCHAR* ansi_to_tchar(const char* src, int codepage)
 {
-  if (g_UnicodeCore)
-  {
     WCHAR *unicode;
     int wchars, err;
 
@@ -766,15 +684,10 @@ TCHAR* ansi_to_tchar(const char* src, int codepage)
     }
 
     return (TCHAR*)unicode;
-  }
-  else
-    return strdupT((TCHAR*)src);
 }
 
 char* tchar_to_ansi(const TCHAR* src)
 {
-  if (g_UnicodeCore)
-  {
     char *ansi;
     int chars;
     int err;
@@ -793,22 +706,9 @@ char* tchar_to_ansi(const TCHAR* src)
       return NULL;
     }
     return ansi;
-  }
-  else
-    return (char*)strdupT(src);
 }
 
 TCHAR* utf8_to_tchar(const unsigned char* utf)
 {
-  if (g_UnicodeCore)
     return (TCHAR*)make_unicode_string(utf);
-  else
-  {
-    char* szAnsi = NULL;
-
-    if (utf8_decode(utf, &szAnsi))
-      return (TCHAR*)szAnsi;
-    else
-      return NULL; // Failure
-  }
 }

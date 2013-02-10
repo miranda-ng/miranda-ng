@@ -115,7 +115,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
     {
       itoa(groupId, caGroupId, 10);
       TCHAR* szGroup = DBGetContactSettingStringT(NULL, "CListGroups", caGroupId, NULL);
-      int nPrefix = g_UnicodeCore ? sizeof(WCHAR) : sizeof(char);
+      int nPrefix = sizeof(WCHAR);
       if (!szGroup) break;
       int nIndex = SendMessageT(hGroupsCombo, CB_ADDSTRING, 0, (LPARAM)szGroup + nPrefix);
       SendMessageT(hGroupsCombo, CB_SETITEMDATA, nIndex, groupId+1);
