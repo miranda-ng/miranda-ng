@@ -146,5 +146,4 @@ struct CExportedServices
 //returns zero if failed, nonzero if succeed
 #define MS_YAMN_BADCONNECTION		"YAMN/Service/BadConnection"
 
-#define MUUID_YAMN_FORCECHECK  { 0x7d15e716, 0x6045, 0x40e3, { 0xa2, 0xb5, 0x5f, 0xb, 0xa4, 0x2b, 0xc7, 0x77 } } 
 #endif

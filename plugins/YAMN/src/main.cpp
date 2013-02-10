@@ -45,9 +45,10 @@ PLUGININFOEX pluginInfo = {
 	"y_b tweety (majvan)",
 	"francois.mean@skynet.be",
 	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community",
-	"http://miranda-ng.org/", //"http://www.majvan.host.sk/Projekty/YAMN?fm = soft",
+	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	{ 0xb047a7e5, 0x27a, 0x4cfc, { 0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90 } } // {B047A7E5-027A-4cfc-8B18-EDA8345D2790}
+	// {B047A7E5-027A-4cfc-8B18-EDA8345D2790}
+	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
 };
 
 HANDLE hNewMailHook;
@@ -153,10 +154,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MUUID_YAMN_FORCECHECK, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
