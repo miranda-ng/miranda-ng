@@ -30,10 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAXMODULELABELLENGTH 64
 
 #if defined(_UNICODE)
-	#define UNICODE_AWARE 1
+	#define UNICODE_AWARE 0x0001
 #else
-	#define UNICODE_AWARE 0
+	#define UNICODE_AWARE 0x0000
 #endif
+
+#define STATIC_PLUGIN    0x0002
 
 /* The UUID structure below is used to for plugin UUID's and module type definitions */
 typedef struct _MUUID {

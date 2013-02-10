@@ -35,7 +35,7 @@ static PLUGININFOEX pluginInfo =
 	"ghazan@miranda.im",
 	"Copyright 2012 Miranda NG project",
 	"",
-	UNICODE_AWARE,
+	UNICODE_AWARE | STATIC_PLUGIN,
     {0x1394a3ab, 0x2585, 0x4196, { 0x8f, 0x72, 0xe, 0xae, 0xc2, 0x45, 0xe, 0x11 }} //{1394A3AB-2585-4196-8F72-0EAEC2450E11}
 };
 
@@ -51,7 +51,7 @@ static int makeDatabase(const TCHAR *profile)
 	std::auto_ptr<CDb3x> db(new CDb3x(profile));
 	if (db->Create() != ERROR_SUCCESS)
 		return EMKPRF_CREATEFAILED;
-	
+
 	return db->CreateDbHeaders(dbSignature);
 }
 

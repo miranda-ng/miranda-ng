@@ -35,7 +35,7 @@ static PLUGININFOEX pluginInfo =
 	"bio@msx.ru; ghazan@miranda.im",
 	"Copyright 2012 Miranda NG project",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,
+	UNICODE_AWARE | STATIC_PLUGIN,
     {0xf7a6b27c, 0x9d9c, 0x4a42, { 0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61 }} //{F7A6B27C-9D9C-4a42-BE86-A448AE109161}
 };
 

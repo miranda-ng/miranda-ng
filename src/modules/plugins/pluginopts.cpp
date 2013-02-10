@@ -59,11 +59,9 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	if (checkAPI(buf, &pi, MIRANDA_VERSION_CORE, CHECKAPI_NONE) == 0)
 		return TRUE;
 
-	int isdb = hasMuuid(pi, miid_database);
-
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
-	dat->flags = 0;
+	dat->flags = pi.pluginInfo->flags;
 
 	CharLower(fd->cFileName);
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
@@ -72,13 +70,12 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 	LVITEM it = { 0 };
 	it.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-	it.iImage = (pi.pluginInfo->flags & 1) ? 0 : 1;
+	it.iImage = (dat->flags & UNICODE_AWARE) ? 0 : 1;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
 
-	bool bNoCheckbox = isdb || !_tcscmp(dat->fileName, _T("advaimg.dll")) || !_tcscmp(dat->fileName, _T("dbchecker.dll"));
-	if (bNoCheckbox)
-		dat->flags |= IS_STATIC;
+	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
+		//hasMuuid(pi, miid_database) || !_tcscmp(dat->fileName, _T("advaimg.dll")) || !_tcscmp(dat->fileName, _T("dbchecker.dll"));
 
 	if (isPluginOnWhiteList(fd->cFileName))
 		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
@@ -88,7 +85,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		it.iItem = iRow;
 		it.iSubItem = 1;
 		it.iImage = (hInst != NULL) ? 2 : 3;
-		if (isdb || hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
+		if (bNoCheckbox|| hasMuuid(pi, miid_clist) || hasMuuid(pi, miid_protocol))
 			it.iImage += 2;
 		ListView_SetItem(hwndList, &it);
 

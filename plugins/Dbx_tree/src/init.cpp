@@ -38,7 +38,7 @@ static PLUGININFOEX gPluginInfoEx = {
 	gAutorEmail,
 	gCopyright,
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,
+	UNICODE_AWARE | STATIC_PLUGIN,
 	{ 0x28f45248, 0x8c9c, 0x4bee, { 0x93, 0x07, 0x7b, 0xcf, 0x3e, 0x12, 0xbf, 0x99 } } // {28F45248-8C9C-4bee-9307-7BCF3E12BF99}
 };
 

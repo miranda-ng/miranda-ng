@@ -67,7 +67,7 @@ type
   // delphi 64 must have these types anyway
   int_ptr   = integer;
   uint_ptr  = cardinal;
-  
+
   {$ENDIF}
   long      = longint;
   plong     = ^long;
@@ -106,6 +106,7 @@ type
 {-- start newpluginapi --}
 const
   UNICODE_AWARE = 1;
+  STATIC_PLUGIN = 2;
 
 // The UUID structure below is used to for plugin UUID's and module type definitions
 type
@@ -160,7 +161,7 @@ const
   ME_SYSTEM_MODULEUNLOAD:pAnsiChar = 'Miranda/System/UnloadModule';
 
 {
-  Each service mode plugin must implement MS_SERVICEMODE_LAUNCH 
+  Each service mode plugin must implement MS_SERVICEMODE_LAUNCH
    This service might return one of the following values:
 	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
 	SERVICE_ONLYDB - load database and then execute service plugin only
