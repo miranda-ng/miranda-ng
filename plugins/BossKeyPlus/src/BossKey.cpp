@@ -65,7 +65,7 @@ static PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//4fac353d-0a36-44a4-9064-6759c53ae782
+	// 4fac353d-0a36-44a4-9064-6759c53ae782
 	{0x4fac353d, 0x0a36, 0x44a4, {0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82}}
 };
 
