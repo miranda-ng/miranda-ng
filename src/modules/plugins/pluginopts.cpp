@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "plugins.h"
 
-#define IS_DATABASE (1 << 14)
+#define IS_STATIC   0x001
 
 extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
@@ -63,6 +63,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
+	dat->flags = 0;
 
 	CharLower(fd->cFileName);
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
@@ -74,10 +75,14 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	it.iImage = (pi.pluginInfo->flags & 1) ? 0 : 1;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
-	if (isPluginOnWhiteList(fd->cFileName)) {
-		bool bNoCheckbox = isdb || !_tcscmp(dat->fileName, _T("advaimg.dll")) || !_tcscmp(dat->fileName, _T("dbchecker.dll"));
+
+	bool bNoCheckbox = isdb || !_tcscmp(dat->fileName, _T("advaimg.dll")) || !_tcscmp(dat->fileName, _T("dbchecker.dll"));
+	if (bNoCheckbox)
+		dat->flags |= IS_STATIC;
+
+	if (isPluginOnWhiteList(fd->cFileName))
 		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
-	}
+
 	if (iRow != -1) {
 		it.mask = LVIF_IMAGE;
 		it.iItem = iRow;
@@ -88,16 +93,6 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		ListView_SetItem(hwndList, &it);
 
 		ListView_SetItemText(hwndList, iRow, 2, fd->cFileName);
-
-		dat->flags = 0;
-		if (pi.Interfaces) {
-			MUUID *piface = pi.Interfaces;
-			for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
-				int idx = getDefaultPluginIdx( piface[i] );
-				if (idx != -1 ) {
-					dat->flags |= (1 << idx);
-					break;
-		}	}	}
 
 		dat->author = mir_strdup(pi.pluginInfo->author);
 		dat->authorEmail = mir_strdup(pi.pluginInfo->authorEmail);
@@ -323,7 +318,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						break;
 
 					PluginListItemData *dat = (PluginListItemData*)it.lParam;
-					if (dat->flags & IS_DATABASE) {
+					if (dat->flags & IS_STATIC) {
 						ListView_SetItemState(hwndList, hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 						return FALSE;
 					}
