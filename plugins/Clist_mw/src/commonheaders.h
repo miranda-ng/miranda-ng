@@ -24,53 +24,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _COMMON_HEADERS_H_
 #define _COMMON_HEADERS_H_ 1
 
-#define MIRANDA_VER 0x0A00
-
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
-#include "m_stdhdr.h"
-
 #include <windows.h>
-#include <commctrl.h>
 #include <vssym32.h>
-#include <stdio.h>
 #include <time.h>
 #include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
-#include "resource.h"
-#include <win2k.h>
 
+#include <m_stdhdr.h>
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <m_clist.h>
 #include <m_clistint.h>
 #include <m_skin.h>
-#include <m_contacts.h>
 #include <m_extraicons.h>
-#include "m_genmenu.h"
-#include "m_clui.h"
+#include <m_clui.h>
+#include <win2k.h>
+#include <m_icolib.h>
+#include <m_cluiframes.h>
+#include <m_fontservice.h>
 
+#include <m_metacontacts.h>
+
+#include "resource.h"
+#include "Version.h"
 #include "clc.h"
 #include "clist.h"
-#include "m_icolib.h"
-#include <m_userinfo.h>
 #include "CLUIFrames/cluiframes.h"
-#include "m_cluiframes.h"
-#include "m_metacontacts.h"
 #include "BkgrCfg.h"
-#include <m_file.h>
-#include <m_addcontact.h>
-#include "m_fontservice.h"
 
 // shared vars
 extern HINSTANCE g_hInst;

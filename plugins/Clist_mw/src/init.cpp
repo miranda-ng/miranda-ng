@@ -77,16 +77,16 @@ extern int BGModuleUnload();
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"MultiWindow Contact List",
-	PLUGIN_MAKE_VERSION(0,9,0,0),
-	"Displays contacts, event notifications, protocol status with MW modifications.",
-	"",
-	"bethoven@mailgate.ru" ,
-	"Copyright 2000-2010 Miranda IM project, 2012 Miranda NG project.",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{2A417AB9-16F2-472d-9AE3-415103C78A64}
-	{0x2a417ab9, 0x16f2, 0x472d, { 0x9a, 0xe3, 0x41, 0x51, 0x3, 0xc7, 0x8a, 0x64 }}
+	// {2A417AB9-16F2-472D-9AE3-415103C78A64}
+	{0x2a417ab9, 0x16f2, 0x472d, {0x9a, 0xe3, 0x41, 0x51, 0x3, 0xc7, 0x8a, 0x64}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
@@ -209,7 +209,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 extern "C" int __declspec(dllexport) Load(void)
 {
 	OutputDebugStringA("Load ClistMW\r\n");
-	MessageBoxA(0,"You Running Old Miranda, use >30-10-2004 version!","MultiWindow Clist",0);
 	CListInitialise();
 	return 1;
 }

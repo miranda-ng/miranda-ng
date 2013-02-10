@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется d:\MNG_orig\plugins\Clist_mw\res\resource.rc
 //
 #define IDC_AUTHICON                    1
 #define IDC_NOTOALL                     3
