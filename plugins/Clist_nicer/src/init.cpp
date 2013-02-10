@@ -103,16 +103,16 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	"CList Nicer+", 
-	PLUGIN_MAKE_VERSION(0, 9, 2, 1),
-	"Displays contacts, event notifications, protocol status.",
-	"Pixel, egoDust, cyreve, Nightwish",
-	"", 
-	"Copyright 2000-2010 Miranda-IM project", 
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {8F79B4EE-EB48-4a03-873E-27BE6B7E9A25}
-	{0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 }}
+	// {8F79B4EE-EB48-4A03-873E-27BE6B7E9A25}
+	{0x8f79b4ee, 0xeb48, 0x4a03, {0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25}}
 };
 
 

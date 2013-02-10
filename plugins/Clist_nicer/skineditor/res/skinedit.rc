@@ -7,19 +7,17 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
 #include <winres.h>
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Русский (Россия) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
-#endif //_WIN32
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -81,61 +79,6 @@ BEGIN
 END
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-#ifndef APSTUDIO_INVOKED
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,0,1
- PRODUCTVERSION 0,0,0,1
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    
-    BEGIN
-        BLOCK "0c0704b0"
-        BEGIN
-            VALUE "FileDescription", "Skin Editor"
-            VALUE "FileVersion", "0, 0, 0, 2"
-            VALUE "InternalName", "CLN SkinEdit"
-            VALUE "LegalCopyright", "Copyright (C) 2006"
-            VALUE "LegalTrademarks", "GPL"
-            VALUE "OriginalFilename", "cln_skinedit.dll"
-            VALUE "ProductName", "Clist Nicer+ skin editor"
-            VALUE "ProductVersion", "0, 0, 0, 2"
-        END
-    END
-  
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0xc07, 1200
-    END
-END
-#endif
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -144,23 +87,24 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\src\skineditres.h\0"
+    "..\\src\\skineditres.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
-    "#include <winres.h>\0"
+    "#include <winres.h>\r\n"
+    "\0"
 END
 
 3 TEXTINCLUDE 
 BEGIN
     "\r\n"
+    "\0"
 END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

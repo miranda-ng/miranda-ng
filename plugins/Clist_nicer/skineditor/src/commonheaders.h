@@ -24,37 +24,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CRT_SECURE_NO_WARNINGS
 #define _WIN32_WINNT 0x0501
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <commctrl.h>
-#include <stdio.h>
 #include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
-#include <math.h>
-#include <win2k.h>
+
 #include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_clc.h>
-#include <m_clui.h>
-#include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
-#include <m_options.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
-#include <m_skin.h>
-#include <m_contacts.h>
-#include <m_file.h>
-#include <m_addcontact.h>
-#include <m_png.h>
 
 #include "../../src/include/m_cln_skinedit.h"
-
-// shared vars
-extern HINSTANCE g_hInst;
+#include "Version.h"
+#include "skineditres.h"

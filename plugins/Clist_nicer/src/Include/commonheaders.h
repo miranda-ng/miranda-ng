@@ -30,8 +30,6 @@
  *
  */
 
-#define MIRANDA_VER 0x0A00
-
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
@@ -42,31 +40,17 @@
 #define TSAPI __stdcall
 #define FASTCALL __fastcall
 
-#include <m_stdhdr.h>
 #include <windows.h>
-#include <commctrl.h>
 #include <uxtheme.h>
 #include <vssym32.h>
-#include <stdio.h>
 #include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
-#include <math.h>
 #include <shlwapi.h>
 #include <Richedit.h>
 
-#include "resource.h"
-
+#include <m_stdhdr.h>
 #include <newpluginapi.h>
 #include <win2k.h>
-#include <m_clist.h>
 #include <m_clistint.h>
-#include <m_clui.h>
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_avatars.h>
@@ -74,27 +58,23 @@
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
-#include <m_contacts.h>
-#include <m_file.h>
 #include <m_addcontact.h>
-#include <m_message.h>
 #include <m_timezones.h>
-#include <m_genmenu.h>
 #include <m_cluiframes.h>
 #include <m_clui.h>
 #include <m_icolib.h>
-#include <m_popup.h>
 #include <m_fontservice.h>
-#include <m_metacontacts.h>
-#include <m_cln_skinedit.h>
 #include <m_xstatus.h>
 #include <m_extraicons.h>
 
+#include <m_metacontacts.h>
+
+#include "m_cln_skinedit.h"
+#include "resource.h"
+#include "Version.h"
 #include "extbackg.h"
 #include "clc.h"
-#include <config.h>
-
-
+#include "config.h"
 #include "clist.h"
 #include "alphablend.h"
 #include "rowheight_funcs.h"

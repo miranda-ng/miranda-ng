@@ -19,9 +19,6 @@
       <UniqueIdentifier>{e5c38f32-abf7-49dc-8c7c-6cb39d9ad5ff}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{a424f08e-0bd2-48ef-8834-f4a72c0071b6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\alphablend.cpp">
@@ -176,6 +173,9 @@
     <ClInclude Include="src\Include\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Include\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -184,100 +184,5 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\notick.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\notick1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\rename.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\options_clvm.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\arrow-down.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\blank.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\offline.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\online.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\away.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\dnd.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\na.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\occupied.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\invisible.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\phone.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\overlay\lunch.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\online.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\groups.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\sounds_on.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\find.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\options.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\minimize.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\sounds_off.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\slist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\tabsrmm_menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\connecting.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\menu.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\accounts.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\DRAGCOPY.CUR">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
