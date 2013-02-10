@@ -148,7 +148,6 @@
 #define POPUP_NEWGROUP                  40050
 #define POPUP_RENAMEGROUP               40052
 #define POPUP_DELETEGROUP               40053
-#define IDC_STATIC						-1
 
 // Next default values for new objects
 // 

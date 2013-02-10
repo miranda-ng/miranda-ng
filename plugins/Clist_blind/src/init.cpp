@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include <m_icolib.h>
 
 int hLangpack;
 HINSTANCE g_hInst = 0;
@@ -77,17 +76,17 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 // returns the plugin information
 
 PLUGININFOEX pluginInfo = {
-	sizeof(pluginInfo ),
-	"BClist",
-	PLUGIN_MAKE_VERSION(0, 8, 0, 1),
-	"A contact list for blind folks.",
-	"Ricardo Pescuma Domenecci, based on previous work from Miranda IM project",
-	"",
-	"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013 Miranda NG project, George Hazan",
-	"http://pescuma.org/miranda/bclist",
+	sizeof(pluginInfo),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {53E095A3-2695-490a-9DAD-D20479093831}
-	{ 0x53e095a3, 0x2695, 0x490a, { 0x9d, 0xad, 0xd2, 0x4, 0x79, 0x9, 0x38, 0x31 } }
+	// {53E095A3-2695-490A-9DAD-D20479093831}
+	{0x53e095a3, 0x2695, 0x490a, {0x9d, 0xad, 0xd2, 0x4, 0x79, 0x9, 0x38, 0x31}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
