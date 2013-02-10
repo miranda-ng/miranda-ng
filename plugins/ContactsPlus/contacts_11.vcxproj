@@ -201,9 +201,6 @@
     <ResourceCompile Include="res\contacts.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\SendContacts.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
