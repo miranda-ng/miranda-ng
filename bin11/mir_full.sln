@@ -367,6 +367,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HTTPServer", "..\plugins\HT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pu_stub", "..\plugins\PluginUpdater\pu_stub\pu_stub_11.vcxproj", "{121D2EA6-9D3C-43F6-AC5C-44BDBF93E3E0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything_11.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1631,6 +1633,14 @@ Global
 		{121D2EA6-9D3C-43F6-AC5C-44BDBF93E3E0}.Release|Win32.Build.0 = Release|Win32
 		{121D2EA6-9D3C-43F6-AC5C-44BDBF93E3E0}.Release|x64.ActiveCfg = Release|x64
 		{121D2EA6-9D3C-43F6-AC5C-44BDBF93E3E0}.Release|x64.Build.0 = Release|x64
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Debug|Win32.Build.0 = Debug|Win32
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Debug|x64.ActiveCfg = Debug|x64
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Debug|x64.Build.0 = Debug|x64
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|Win32.ActiveCfg = Release|Win32
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|Win32.Build.0 = Release|Win32
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|x64.ActiveCfg = Release|x64
+		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,34 @@
+BODY
+{
+	font-size: 11pt;
+	color: #000000;
+	font-family: Tahoma;
+	background-color: #ffffff;
+	text-align: justify;
+}
+TD
+{
+	font-size: 11pt;
+	font-family: Tahoma;
+	vertical-align: top;
+}
+PRE
+{
+	color: #002277;
+	text-align: left;
+	margin-bottom: 3pt;
+}
+TABLE
+{
+	border: thin;
+}
+.crow
+{
+	background-color: #f7f7f7;
+}
+.popup
+{
+	font-size: 12px;
+	padding-left: 5px;
+	border: solid 1px #000000;
+}

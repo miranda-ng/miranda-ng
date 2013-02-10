@@ -1,0 +1,167 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    NA_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 229
+        VERTGUIDE, 13
+        VERTGUIDE, 55
+        VERTGUIDE, 61
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+NA_OPTIONS DIALOGEX 0, 0, 236, 191
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_NOFAILCREATE | WS_CHILD | WS_CAPTION
+CAPTION "Property Page"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Security",IDC_STATIC,7,7,222,77
+    CONTROL         "Only listen to localhost",NA_LOCAL_CHECK,"Button",BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,13,19,209,10
+    GROUPBOX        "Sound",IDC_STATIC,7,91,222,43
+    CONTROL         "Play sounds",NA_SOUND_CHECK,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,13,102,114,10
+    CONTROL         "Use internal speaker",NA_PCSPEAKER_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,118,127,10
+    GROUPBOX        "Debug",IDC_STATIC,7,142,222,42
+    CONTROL         "Log to file",NA_LOG_CHECK,"Button",BS_AUTO3STATE | WS_GROUP | WS_TABSTOP,13,152,98,10
+    CONTROL         "Message debugging",NA_DEBUG_MSG_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,152,102,10
+    EDITTEXT        NA_PORT,49,31,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Port:",IDC_STATIC,13,33,17,8
+    LTEXT           "(Default is 12001)",IDC_STATIC,95,33,89,8
+    CONTROL         "Allow actions to execute programs",NA_ALLOW_EXECUTE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,66,207,10
+    EDITTEXT        NA_PASSWORD,49,48,77,14,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,13,51,34,8
+    EDITTEXT        NA_LOG_FILENAME,13,165,187,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",NA_LOG_BROWSE,206,165,17,13
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Swedish resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
+#ifdef _WIN32
+LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,2,8
+ PRODUCTVERSION 0,0,2,8
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Receives popup descriptions from external sources and forward them to the PopUp plugin."
+            VALUE "CompanyName", "Daniel Wesslen"
+            VALUE "FileDescription", "NotifyAnything Miranda IM plugin"
+            VALUE "FileVersion", "0, 0, 2, 8"
+            VALUE "InternalName", "NotifyAnything"
+            VALUE "LegalCopyright", "Placed in public domain 2003"
+            VALUE "OriginalFilename", "NotifyAnything.dll"
+            VALUE "ProductName", "NotifyAnything Miranda plugin"
+            VALUE "ProductVersion", "0, 0, 2, 8"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // Swedish resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

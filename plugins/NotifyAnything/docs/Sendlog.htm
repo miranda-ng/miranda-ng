@@ -1,0 +1,122 @@
+<HTML>
+	<HEAD>
+		<TITLE>Sendlog Documentation</TITLE>
+		<LINK href="NA.css" type="text/css" rel="stylesheet">
+			<META content="Microsoft Visual Studio 7.0" name="GENERATOR"></HEAD>
+	<BODY>
+		<H1>Sendlog</H1>
+		<P>Version 0.0.1.5<BR>
+			by <A href="mailto:wesslen@users.sourceforge.net">Daniel Wesslén</A></P>
+		<H2>Frequently Asked Questions</H2>
+		<P>
+			<TABLE border="0">
+				<TR>
+					<TD><STRONG>Q</STRONG></TD>
+					<TD width="5"></TD>
+					<TD>What does this program do anyway?</TD>
+				</TR>
+				<TR>
+					<TD><STRONG>A</STRONG></TD>
+					<TD></TD>
+					<TD>
+						Sendlog sends the arguments you give it as a message to NotifyAnything, which 
+						will forward them to the PopUp plugin, which will display a nice little window.</TD>
+				</TR>
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+				<TR>
+					<TD><STRONG>Q</STRONG></TD>
+					<TD></TD>
+					<TD>How should the messages be formatted?</TD>
+				</TR>
+				<TR>
+					<TD><STRONG>A</STRONG></TD>
+					<TD></TD>
+					<TD>
+						<P>Read the Protocol Reference section in the NotifyAnything documentation.</P>
+					</TD>
+				</TR>
+			</TABLE>
+		</P>
+		<H2>
+			Requirements</H2>
+		<P><A href="http://miranda-icq.sourceforge.net">Miranda IM</A> with the <A href="http://www.nortiq.com/miranda/index.php?action=viewfile&amp;id=299">
+				PopUp</A>&nbsp;and <A href="http://www.nortiq.com/miranda/index.php?action=viewfile&amp;id=431">
+				NotifyAnything</A> plugins.</P>
+		<H2>Usage</H2>
+		<P>Simply run sendlog.exe or sendlog32.exe, giving the message as an argument.</P>
+		<PRE>c:\&gt; sendlog Hello<BR>c:\&gt; sendlog32 Hello</PRE>
+		<P>If -T is specified, the message is sent through TCP/IP, otherwise it is sent as 
+			a single UDP message.</P>
+		<P>If you start sendlog without any arguments it will accept input and send each 
+			line as a separate message. (Not applicable to sendlog32.)</P>
+		<PRE>c:\&gt; sendlog<BR>Hello</PRE>
+		<P>A prefix may be prepended to every line.</P>
+		<PRE>c:\&gt; sendlog -p Bob#<BR>Hello</PRE>
+		<P>It is possible to send messages to a port different from the default (12001) by 
+			providing it with -P, or to a different computer using -H.</P>
+		<PRE>c:\&gt; sendlog -P 12345 Hello<BR>c:\&gt; sendlog -H my.computer.com Hi there!</PRE>
+		<H2>Version History</H2>
+		<P>
+			<TABLE border="0" ID="Table7" bgcolor='#ffffff'>
+				<TR>
+					<TD>0.0.1.5</TD>
+					<TD>
+						<UL>
+							<LI>
+								Can now send messages through TCP as well as UDP.</LI></UL>
+					</TD>
+				</TR>
+				<TR>
+					<TD>0.0.1.4</TD>
+					<TD>
+						<UL>
+							<LI>
+								Can now send messages to other computers.</LI></UL>
+					</TD>
+				</TR>
+				<TR>
+					<TD>0.0.1.3</TD>
+					<TD>
+						<UL>
+							<LI>
+								Fixed problem with -P argument without message arguments.</LI></UL>
+					</TD>
+				</TR>
+				<TR>
+					<TD>0.0.1.2</TD>
+					<TD>
+						<UL>
+							<LI>
+								Can now send messages to any port.</LI></UL>
+					</TD>
+				</TR>
+				<TR>
+					<TD>0.0.1.1</TD>
+					<TD>
+						<UL>
+							<LI>
+							Option to prepend a prefix to every&nbsp;message.&nbsp;
+							<LI>
+							Separated Sendlog from the NotifyAnything package.
+							<LI>
+								Package now includes Sendlog32, a Win32 application, usable when Sendlog causes 
+								a console window to appear and rapidly disappear.</LI>
+						</UL>
+					</TD>
+				</TR>
+				<TR>
+					<TD>0.0.1.0</TD>
+					<TD>
+						<UL>
+							<LI>
+								Initial release.</LI></UL>
+					</TD>
+				</TR>
+			</TABLE>
+		</P>
+		<H2>Known Bugs</H2>
+		<P>None.</P>
+	</BODY>
+</HTML>

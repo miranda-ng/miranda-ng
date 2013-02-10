@@ -363,7 +363,7 @@ void RegisterToDbeditorpp(void)
         CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"Nudge", 0);
 }
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Nudge as Default"), "Nudge_Default", IDI_NUDGE }
 };
@@ -465,7 +465,6 @@ int AccListChanged(WPARAM wParam,LPARAM lParam)
 HANDLE hShakeClist=NULL,hShakeChat=NULL,hNudgeSend=NULL,hNudgeShowMenu=NULL;
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	g_hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
