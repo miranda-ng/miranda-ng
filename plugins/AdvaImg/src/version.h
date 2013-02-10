@@ -5,7 +5,7 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"Miranda Image services"
+#define __PLUGIN_NAME				"Miranda image services"
 #define __FILENAME					"AdvaImg.dll"
 #define __DESCRIPTION 				"Generic image services for Miranda NG."
 #define __AUTHOR					"Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)"
