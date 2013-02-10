@@ -52,22 +52,18 @@ static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
 int EventArea_UnloadModule();
 
-__forceinline int MakeVer(int a, int b, int c, int d)
-{	return PLUGIN_MAKE_VERSION(a,b,c,d);
-}
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Modern Contact List",
-	MakeVer(PRODUCT_VERSION),
-	"Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.",
-	"Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven",
-	"ashpynov@gmail.com" ,
-	"Copyright 2000-2010 Miranda-IM project",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{043909B6-AAD8-4d82-8EB5-9F64CFE867CD}
-	{0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd }}
+	// {043909B6-AAD8-4D82-8EB5-9F64CFE867CD}
+	{0x43909b6, 0xaad8, 0x4d82, {0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd}}
 };
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
@@ -79,12 +75,12 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	return TRUE;
 }
 
-PLUGININTERFACE PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-PLUGININTERFACE int CListInitialise()
+extern "C" __declspec(dllexport) int CListInitialise()
 {
 	HMODULE hKernel = GetModuleHandleA("kernel32.dll");
 	fnTryEnterCriticalSection = ( pfnTryEnterCriticalSection )GetProcAddress( hKernel, "TryEnterCriticalSection");
@@ -118,13 +114,12 @@ PLUGININTERFACE int CListInitialise()
 }
 
 // never called by a newer plugin loader.
-PLUGININTERFACE int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	MessageBoxA(0, "You Running Old Miranda, use " MINIMAL_COREVERSION_STR " version!","Modern Clist",0);
 	return 1;
 }
 
-PLUGININTERFACE int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	TRACE("Unloading Clist Modern\r\n");
 

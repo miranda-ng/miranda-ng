@@ -7,18 +7,18 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <winresrc.h>
-#include "..\src\hdr\modern_statusmodes.h"
+#include <winres.h>
+#include <statusmodes.h>
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Русский (Россия) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -836,18 +836,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_MODERNOPTS, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_CLIST_LISTBKG, DIALOG
-    BEGIN
-    END
-
-    IDD_OPT_SKIN, DIALOG
-    BEGIN
-    END
-
     IDD_OPT_SKINEDITOR, DIALOG
     BEGIN
         TOPMARGIN, 1
@@ -859,10 +847,6 @@ BEGIN
         HORZGUIDE, 172
         HORZGUIDE, 201
         HORZGUIDE, 207
-    END
-
-    IDD_OPT_ITEMS, DIALOG
-    BEGIN
     END
 
     IDD_SKIN_TAB, DIALOG
@@ -1159,19 +1143,6 @@ BEGIN
 END
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog Info
-//
-
-IDD_OPT_CLUI_2 DLGINIT
-BEGIN
-    IDC_HIDEMETHOD, 0x403, 9, 0
-0x6f63, 0x706d, 0x656c, 0x6574, "\000" 
-    0
-END
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1185,8 +1156,8 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <winresrc.h>\r\n"
-    "#include ""..\\src\\hdr\\modern_statusmodes.h""\r\n"
+    "#include <winres.h>\r\n"
+    "#include <statusmodes.h>\r\n"
     "\0"
 END
 
@@ -1198,7 +1169,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

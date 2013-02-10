@@ -1,15 +1,14 @@
-#define BUILD_NUM 11
-#define BUILD_NUM_STR  "11"
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				9
+#define __RELEASE_NUM				0
+#define __BUILD_NUM					11
 
-#define COREVERSION_NUM 0, 9, 0, 
-#define COREVERSION_NUM_STR  "0, 9, 0 "
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define MINIMAL_COREVERSION_NUM PLUGIN_MAKE_VERSION(0, 9, 0, 0)
-#define MINIMAL_COREVERSION 0, 9, 0, 0
-#define MINIMAL_COREVERSION_STR "0, 9, 0, 0 "
-
-#define FILE_VERSION	COREVERSION_NUM BUILD_NUM
-#define FILE_VERSION_STR COREVERSION_NUM_STR " build " BUILD_NUM_STR	" " 
-
-#define PRODUCT_VERSION	FILE_VERSION
-#define PRODUCT_VERSION_STR	FILE_VERSION_STR
+#define __PLUGIN_NAME				"Modern contact list"
+#define __FILENAME					"Clist_modern.dll"
+#define __DESCRIPTION 				"Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation."
+#define __AUTHOR					"Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven"
+#define __AUTHOREMAIL				"ashpynov@gmail.com"
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"Copyright 2000-2010 Miranda-IM project"

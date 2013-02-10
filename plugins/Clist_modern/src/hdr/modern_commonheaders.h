@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #pragma once
-#define MIRANDA_VER 0x0A00
-
 #define _WIN32_WINNT 0x0501
 
 #ifndef _WIN32_IE
@@ -67,74 +65,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EVENTHOOK(eventhookproc)     static int eventhookproc(WPARAM wParam,LPARAM lParam)
 #define CLINTERFACE                  static
 
-#define PLUGININTERFACE extern "C" __declspec( dllexport )
-#define UPDATER_PATH "http://miranda-ng.org/"
-
-#include "m_stdhdr.h"
-
 #include <windows.h>
 #include <Shlwapi.h>
-#include <commctrl.h>
-#include <uxtheme.h>
 #include <vssym32.h>
-#include <stdio.h>
 #include <time.h>
 #include <stddef.h>
-//#include <process.h>
 #include <io.h>
 #include <math.h>
-#include <string.h>
-#include <direct.h>
-#include <win2k.h>
 
-#include "modern_global_structure.h"
-
+#include <m_stdhdr.h>
 #include <newpluginapi.h>
-#include <m_system.h>
 #include <m_system_cpp.h>
-#include <m_utils.h>
-
+#include <win2k.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <m_clist.h>
 #include <m_clistint.h>
 #include <m_skin.h>
 #include <m_contacts.h>
 #include <m_avatars.h>
-#include <m_genmenu.h>
-#include <m_clui.h>
 #include <m_icolib.h>
-#include <m_userinfo.h>
-#include <m_addcontact.h>
 #include <m_fontservice.h>
-#include <m_file.h>
 #include <m_timezones.h>
-#include <m_toptoolbar.h>
 #include <m_extraicons.h>
 #include <m_xstatus.h>
+#include <m_cluiframes.h>
 
+#include <m_toptoolbar.h>
+#include <m_metacontacts.h>
+#include <m_variables.h>
+#include <m_smileyadd.h>
+
+#include "modern_global_structure.h"
 #include "modern_clc.h"
 #include "modern_clist.h"
 #include "modern_cluiframes.h"
-#include "m_cluiframes.h"
-#include "m_metacontacts.h"
-#include "../m_api/m_skin_eng.h"
-
 #include "modern_rowheight_funcs.h"
 #include "modern_cache_funcs.h"
 #include "modern_log.h"
-
-#include "richedit.h"
-#include "m_variables.h"
-
-#include "m_smileyadd.h"
-
-#include "../m_api/m_xpTheme.h"
 #include "../resource.h"
-
 #include "modern_layered_window_engine.h"
 
 // module name of MetaContacts plugin

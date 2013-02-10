@@ -3,7 +3,7 @@
 #ifndef __LOG_H__
 # define __LOG_H__
 
-#ifdef _DEBUG_LOG
+#ifdef _DEBUG
 
 void Log(const char *file,int line,const char *fmt,...);
 #define logg()  Log(__FILE__,__LINE__,"")
