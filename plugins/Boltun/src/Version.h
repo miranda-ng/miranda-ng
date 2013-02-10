@@ -4,14 +4,8 @@
 #define __BUILD_NUM					0
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
 #define __PLUGIN_NAME				"Boltun"
-#define __INTERNAL_NAME				"Boltun"
 #define __FILENAME					"Boltun.dll"
 #define __DESCRIPTION 				"Boltun, the chat bot in the russian language."
 #define __AUTHOR					"Alexander S. Kiselev, Valentin Pavlyuchenko"

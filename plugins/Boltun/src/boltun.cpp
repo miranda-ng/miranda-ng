@@ -18,8 +18,6 @@
 //
 //***********************************************************
 
-#define MIRANDA_VER 0x0A00
-
 #include "Engine/TalkEngine.h"
 
 #include <windows.h>
