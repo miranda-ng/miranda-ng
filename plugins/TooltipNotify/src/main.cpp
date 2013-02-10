@@ -6,11 +6,6 @@
 #include "version.h"
 #include "TooltipNotify.h"
 
-
-// {03CD82B6-0BB5-4f26-8EB4-06CD8ECD36FF}
-static const MUUID MIID_TOOLTIPNOTIFY = 
-{ 0x3cd82b6, 0xbb5, 0x4f26, { 0x8e, 0xb4, 0x6, 0xcd, 0x8e, 0xcd, 0x36, 0xff } };
-
 static int InitializeOptions(WPARAM wParam,LPARAM lParam);
 static int ModulesLoaded(WPARAM wParam,LPARAM lParam);
 static int ContactSettingChanged(WPARAM wParam,LPARAM lParam);
@@ -61,8 +56,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_TOOLTIPNOTIFY, MIID_LAST};
-
 static PLUGININFOEX sPluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -73,8 +66,9 @@ static PLUGININFOEX sPluginInfo =
 	"perf@mail333.com",
 	"© 2004-2008 Gneedah software",
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,		//doesn't replace anything built-in
-	{ 0x5906a545, 0xf31a, 0x4726, { 0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18 } } // {5906A545-F31A-4726-B48F-03A09F060318}
+	UNICODE_AWARE,
+	// {5906A545-F31A-4726-B48F-03A09F060318}
+	{0x5906a545, 0xf31a, 0x4726, {0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
