@@ -23,24 +23,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <windows.h>
 #include <time.h>
 
 #include "newpluginapi.h"
 #include "m_database.h"
-#include "m_system.h"
 #include "m_clist.h"
 #include "m_clui.h"
 #include "m_contacts.h"
 #include "m_langpack.h"
-#include "m_options.h"
 #include "m_protosvc.h"
-#include "m_protocols.h"
 #include "m_popup.h"
-#include "m_utils.h"
 #include "m_message.h"
 #include "m_ignore.h"
 
@@ -59,8 +52,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;
-
-//extern PLUGINLINK *pluginLink;
 
 extern int bUseANSIStrings;
 

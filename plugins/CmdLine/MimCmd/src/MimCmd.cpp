@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "..\..\src\utils.h"
-#include "..\..\src\version.h"
 
 int hLangpack = 0;
 
@@ -71,7 +69,7 @@ void ShowVersion()
 	char name[128];
 	char message[1024];
 	GetProgramName(name, sizeof(name));
-	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __VERSION_STRING);
+	mir_snprintf(message, sizeof(message), Translate("%s version %s"), name, __FILEVERSION_STRING);
 
 	lpprintf("%s\n", message);
 }
