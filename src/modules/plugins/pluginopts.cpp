@@ -74,8 +74,10 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	it.iImage = (pi.pluginInfo->flags & 1) ? 0 : 1;
 	it.lParam = (LPARAM)dat;
 	int iRow = ListView_InsertItem(hwndList, &it);
-	if (isPluginOnWhiteList(fd->cFileName))
-		ListView_SetItemState(hwndList, iRow, !isdb ? 0x2000 : 0x3000, LVIS_STATEIMAGEMASK);
+	if (isPluginOnWhiteList(fd->cFileName)) {
+		bool bNoCheckbox = isdb || !_tcscmp(dat->fileName, _T("advaimg.dll"));
+		ListView_SetItemState(hwndList, iRow, bNoCheckbox ? 0x3000 : 0x2000, LVIS_STATEIMAGEMASK);
+	}
 	if (iRow != -1) {
 		it.mask = LVIF_IMAGE;
 		it.iItem = iRow;
