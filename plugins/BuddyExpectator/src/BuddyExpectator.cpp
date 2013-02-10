@@ -17,11 +17,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-	File name      : $URL: http://svn.miranda.im/mainrepo/buddyexpectator/trunk/BuddyExpectator.cpp $
-	Revision       : $Rev: 1392 $
-	Last change on : $Date: 2009-04-22 17:46:08 +0300 (Ср, 22 апр 2009) $
-	Last change by : $Author: Thief $
 */
 
 #include "common.h"
@@ -66,7 +61,7 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
+	// {DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
 	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}}
 };
 

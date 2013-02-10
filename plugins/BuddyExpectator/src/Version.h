@@ -4,14 +4,8 @@
 #define __BUILD_NUM					3
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
-
-#define __PLUGIN_NAME				"Buddy Expectator+"
-#define __INTERNAL_NAME				"Buddy Expectator+"
+#define __PLUGIN_NAME				"Buddy expectator"
 #define __FILENAME					"BuddyExpectator.dll"
 #define __DESCRIPTION 				"Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions."
 #define __AUTHOR					"Anar Ibragimoff, sje, Thief"

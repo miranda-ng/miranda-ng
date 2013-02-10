@@ -17,11 +17,6 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-	File name      : $URL: http://svn.miranda.im/mainrepo/buddyexpectator/trunk/options.cpp $
-	Revision       : $Rev: 1003 $
-	Last change on : $Date: 2008-01-12 17:15:47 +0200 (Сб, 12 янв 2008) $
-	Last change by : $Author: Thief $
 */
 
 #include "common.h"
