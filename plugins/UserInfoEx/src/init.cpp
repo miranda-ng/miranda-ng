@@ -53,7 +53,8 @@ static PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_UIUSERINFOEX
+	// {9C23A24B-E6AA-43c6-B0B8-D6C36D2F7B57}
+	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
 
 static HANDLE ghModulesLoadedHook		= NULL;
@@ -151,21 +152,6 @@ static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static BOOL CoreCheck()
-{
-	BOOL	bOk = TRUE;
-
-	TCHAR	tszExePath[1024];
-	GetModuleFileName(GetModuleHandle(NULL), tszExePath, SIZEOF(tszExePath));
-	_tcslwr(tszExePath);
-
-	bOk *= (GetVersion() & 0x80000000) == 0;
-
-	bOk *= _tcsstr(_tcsrchr(tszExePath, '\\'), _T("miranda")) != 0;
-	bOk *= myGlobals.mirandaVersion < PLUGIN_MAKE_VERSION(1,0,0,0);
-	return bOk;
-}
-
 /*
 ============================================================================================
 	plugin interface & DllEntrypoint
@@ -190,10 +176,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
  **/
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {
-	MIID_UIUSERINFOEX,		// this is just me
 	MIID_UIUSERINFO,		// replace the default userinfo module
-	MIID_CONTACTINFO,		// indicate, that MS_CONTACT_GETCONTACTINFO service is provided
-	MIID_REMINDER,			// indicate an Reminder of being provided
 	MIID_SREMAIL,			// Send/Receive E-Mail service is provided
 	MIID_LAST
 };
@@ -216,8 +199,6 @@ extern "C" INT __declspec(dllexport) Unload(VOID)
 extern "C" INT __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
-	if ( !CoreCheck())
-		return 1;
 
 	// init common controls
 	INITCOMMONCONTROLSEX ccEx;

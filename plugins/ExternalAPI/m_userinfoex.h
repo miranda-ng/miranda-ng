@@ -22,18 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 #ifndef _M_USERINFOEX_H_
 #define _M_USERINFOEX_H_
 /*************************************************************
- * Interfaces Module
- */
-
-// {9C23A24B-E6AA-43c6-B0B8-D6C36D2F7B57}
-#define MIID_UIUSERINFOEX	{ 0x9c23a24b, 0xe6aa, 0x43c6, { 0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57 } }
-// {17DBD7C9-450E-4000-BFB4-908A7EF4CE72}
-#define MIID_CONTACTINFO	{ 0x17dbd7c9, 0x450e, 0x4000, { 0xbf, 0xb4, 0x90, 0x8a, 0x7e, 0xf4, 0xce, 0x72 } }
-// {02E890BD-278D-4890-918D-AB2CF5DC50BD}
-#define MIID_REMINDER		{ 0x2e890bd,  0x278d, 0x4890, { 0x91, 0x8d, 0xab, 0x2c, 0xf5, 0xdc, 0x50, 0xbd } }
-
-
-/*************************************************************
  * PropertySheetPage Module
  */
 
