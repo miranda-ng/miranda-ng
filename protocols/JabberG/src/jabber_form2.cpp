@@ -1,10 +1,11 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007-09  Maxim Mluhov
-Copyright ( C ) 2007-09  Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007-09  Maxim Mluhov
+Copyright (C) 2007-09  Victor Pavlychko
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -240,7 +241,7 @@ namespace NSJabberRegistry
 		{ _T("urn:xmpp:receipts"),						JDFT_BOOLEAN,		_T("Whether to enable Message Receipts per XEP-0184") },
 	};
 
-	TJabberDataFormRegisry_Form form_types[] = 
+	TJabberDataFormRegisry_Form form_types[] =
 	{
 	/*0157*/	{ _T("http://jabber.org/network/serverinfo"),						form_type_serverinfo,			SIZEOF(form_type_serverinfo) },
 	/*0133*/	{ _T("http://jabber.org/protocol/admin"),							form_type_admin,				SIZEOF(form_type_admin) },
@@ -534,7 +535,7 @@ int CFormCtrlBase::Layout(HDWP hdwp, int x, int y, int w)
 		h = GetHeight(w);
 		DeferWindowPos(hdwp, m_hwnd, NULL, x, y, w, h, SWP_NOZORDER|SWP_SHOWWINDOW);
 	}
-	
+
 	return h;
 }
 

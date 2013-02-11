@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -72,7 +73,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 {
 	if (jid == NULL)
 		return (HANDLE)NULL;
-	
+
 	HANDLE hContactMatched = NULL;
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
@@ -81,7 +82,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 			DBVARIANT dbv;
 			int result = JGetStringT(hContact, "ChatRoomID", &dbv);
 			if (result)
-				result = JGetStringT(hContact, "jid", &dbv);	
+				result = JGetStringT(hContact, "jid", &dbv);
 
 			if ( !result) {
 				int result;
@@ -328,8 +329,8 @@ char* __stdcall JabberUrlEncode(const char* str)
 						*q = '?';
 					}
 				}
-				else *q = *p; 
-				q++; 
+				else *q = *p;
+				q++;
 				break;
 			}
 		}
@@ -361,9 +362,9 @@ void __stdcall JabberUtfToTchar(const char* pszValue, size_t cbLen, LPTSTR& dest
 
 	JabberUrlDecode(pszCopy);
 
-	
+
 	mir_utf8decode(pszCopy, &dest);
-	
+
 
 	if (bNeedsFree)
 		free(pszCopy);
@@ -819,7 +820,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		xmlAddChild(p, extra);
 
 	// XEP-0115:Entity Capabilities
-	HXML c = p << XCHILDNS(_T("c"), _T(JABBER_FEAT_ENTITY_CAPS)) << XATTR(_T("node"), _T(JABBER_CAPS_MIRANDA_NODE)) 
+	HXML c = p << XCHILDNS(_T("c"), _T(JABBER_FEAT_ENTITY_CAPS)) << XATTR(_T("node"), _T(JABBER_CAPS_MIRANDA_NODE))
 		<< XATTR(_T("ver"), szCoreVersion);
 
 	TCHAR szExtCaps[ 512 ] = _T("");
@@ -940,7 +941,7 @@ void CJabberProto::SendPresenceTo(int status, TCHAR* to, HXML extra, const TCHAR
 		// Should not reach here
 		break;
 	}
-	
+
 	if (msg)
 		p << XCHILD(_T("status"), msg);
 
@@ -978,8 +979,8 @@ void CJabberProto::OnIqResultGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInf
 BOOL CJabberProto::OnIqSetGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo) {
 	if (JABBER_IQ_TYPE_SET != pInfo->GetIqType()) return FALSE;
 	if (m_bGoogleSharedStatusLock) return TRUE;
-	
-	int status;	
+
+	int status;
 	HXML query = xmlGetChild(iqNode, _T("query"));
 	HXML node = xmlGetChild(query, _T("invisible"));
 	if (0 == _tcsicmp(_T("true"), xmlGetAttrValue(node, _T("value"))))
@@ -993,9 +994,9 @@ BOOL CJabberProto::OnIqSetGoogleSharedStatus(HXML iqNode, CJabberIqInfo* pInfo) 
 		else
 			status = m_iStatus;
 	}
-	
+
 	if (status != m_iStatus) SetStatus(status);
-	
+
 	return TRUE;
 }
 
@@ -1084,7 +1085,7 @@ TCHAR* CJabberProto::GetClientJID(const TCHAR *jid, TCHAR* dest, size_t destLen)
 	if (LI && LI->resourceCount == 1 && LI->resource[ 0 ].szCapsNode &&
 		_tcsicmp(LI->resource[ 0 ].szCapsNode, _T("http://talk.google.com/xmpp/bot/caps")) == 0)
 	{
-		if (p) *p = 0; 
+		if (p) *p = 0;
 		return dest;
 	}
 
@@ -1292,7 +1293,7 @@ void CJabberProto::RebuildInfoFrame()
 TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen)
 {
 	struct tm* T = localtime(&_time);
-	mir_sntprintf(buf, bufLen, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
+	mir_sntprintf(buf, bufLen, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"),
 		T->tm_year+1900, T->tm_mon+1, T->tm_mday, T->tm_hour, T->tm_min, T->tm_sec);
 	return buf;
 }

@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -798,9 +799,9 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}
-		
+
 		return NULL;
-		
+
 	case WM_MOUSEWHEEL:
 		{
 			int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);

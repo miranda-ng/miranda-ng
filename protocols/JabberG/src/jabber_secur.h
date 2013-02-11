@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -71,7 +72,7 @@ class TMD5Auth : public TJabberAuth
 	typedef TJabberAuth CSuper;
 
 				int iCallCount;
-public:		
+public:
 				TMD5Auth(ThreadData*);
 	virtual ~TMD5Auth();
 
@@ -83,14 +84,14 @@ class TScramAuth : public TJabberAuth
 	typedef TJabberAuth CSuper;
 
 				char *cnonce, *msg1, *serverSignature;
-public:		
+public:
 				TScramAuth(ThreadData*);
 	virtual ~TScramAuth();
 
 	virtual	char* getInitialRequest();
 	virtual	char* getChallenge(const TCHAR *challenge);
 	virtual bool validateLogin(const TCHAR *challenge);
-	
+
 	void Hi(mir_sha1_byte_t* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind);
 };
 
@@ -102,7 +103,7 @@ class TNtlmAuth : public TJabberAuth
 
 				HANDLE hProvider;
 				const TCHAR *szHostName;
-public:		
+public:
 				TNtlmAuth(ThreadData*, const char* mechanism, const TCHAR *hostname = NULL);
 	virtual ~TNtlmAuth();
 

@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -193,7 +194,7 @@ void JabberFileServerConnection(JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/,
 {
 	CJabberProto* ppro = (CJabberProto*)extra;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
 
 	TCHAR szPort[10];
@@ -406,7 +407,7 @@ int CJabberProto::FileSendParse(JABBER_SOCKET s, filetransfer *ft, char* buffer,
 				num += 2;
 
 				currentFile = ft->std.currentFileNumber;
-				TCHAR* t = _tcsrchr(ft->std.ptszFiles[ currentFile ], '\\'); 
+				TCHAR* t = _tcsrchr(ft->std.ptszFiles[ currentFile ], '\\');
 				if (t != NULL)
 					t++;
 				else

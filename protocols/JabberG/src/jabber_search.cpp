@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Artem Shpynov
+Copyright (C) 2012-13  Miranda NG Project
 
 Module implements a search according to XEP-0055: Jabber Search
 http://www.xmpp.org/extensions/xep-0055.html
@@ -257,10 +258,10 @@ void CJabberProto::SearchReturnResults(HANDLE  id, void * pvUsersInfo, U_TCHAR_M
 		   TCHAR* value = pmUserData->operator [](var);
 		   Results.pszFields[j] = value ? value : (TCHAR *)_T(" ");
 		   if ( !_tcsicmp(var,_T("jid")) && value)
-			   _tcsncpy(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));	   
+			   _tcsncpy(Results.jsr.jid, value, SIZEOF(Results.jsr.jid));
 	   }
 	   {
-		   TCHAR * nickfields[]={ _T("nick"),		_T("nickname"), 
+		   TCHAR * nickfields[]={ _T("nick"),		_T("nickname"),
 								  _T("fullname"),	_T("name"),
 								  _T("given"),		_T("first"),
 								  _T("jid"), NULL };
@@ -343,7 +344,7 @@ void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode)
 			int i=1;
 			while (HXML itemNode = xmlGetNthChild(queryNode, _T("item"), i++)) {
 				U_TCHAR_MAP *pUserColumn=new U_TCHAR_MAP(10);
-				
+
 				TCHAR *jid = (TCHAR*)xmlGetAttrValue(itemNode, _T("jid"));
 				TCHAR* keyReturned;
 				mColumnsNames.insertCopyKey(_T("jid"),_T("jid"),&keyReturned, CopyKey, DestroyKey);
@@ -417,7 +418,7 @@ static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat)
 		free(dat->pJSInf);
 		dat->pJSInf=NULL;
 	}
-	else EnumChildWindows(GetDlgItem(hwndDlg,IDC_FRAME),DeleteChildWindowsProc,0);			
+	else EnumChildWindows(GetDlgItem(hwndDlg,IDC_FRAME),DeleteChildWindowsProc,0);
 
 	if (dat->xNode)
 		xi.destroyNode(dat->xNode);
@@ -629,11 +630,11 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 				mir_free(MyDat->defValue);
 				free(MyDat);
 			}
-			else 
+			else
 			{
 				JabberSearchRefreshFrameScroll(hwndDlg,dat);
 				ScrollWindow(GetDlgItem(hwndDlg, IDC_FRAME), 0, dat->curPos - 0, NULL,  &(dat->frameRect));
-				SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);				
+				SetScrollPos(GetDlgItem(hwndDlg, IDC_VSCROLL), SB_CTL, 0, FALSE);
 				dat->curPos=0;
 			}
 			return TRUE;
@@ -735,7 +736,7 @@ HWND __cdecl CJabberProto::SearchAdvanced(HWND hwndDlg)
 	int iqId = SerialNext();
 	XmlNodeIq iq(_T("set"), iqId, szServerName);
 	HXML query = iq << XQUERY(_T("jabber:iq:search"));
-	
+
 	if (m_tszSelectedLang)
 		iq << XATTR(_T("xml:lang"), m_tszSelectedLang); // i'm sure :)
 

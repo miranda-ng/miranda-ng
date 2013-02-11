@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -59,7 +60,7 @@ BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo* pInfo)
 			m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo));
 		else
 			m_ThreadInfo->send(
-				XmlNodeIq(_T("error"), pInfo) 
+				XmlNodeIq(_T("error"), pInfo)
 					<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
 						<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 	}
@@ -87,7 +88,7 @@ void CJabberProto::OnIbbCloseResult(HXML, CJabberIqInfo* pInfo)
 void CJabberProto::IbbSendThread(JABBER_IBB_TRANSFER *jibb)
 {
 	Log("Thread started: type=ibb_send");
-	
+
 	jibb->hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	jibb->bStreamInitialized = FALSE;
 	jibb->bStreamClosed = FALSE;

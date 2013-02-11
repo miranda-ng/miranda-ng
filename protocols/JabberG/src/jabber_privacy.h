@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -215,7 +216,7 @@ public:
 	{
 		if ( !m_pRules)
 			return FALSE;
-		
+
 		if (m_pRules == pRuleToRemove) {
 			m_pRules = m_pRules->GetNext();
 			pRuleToRemove->SetNext(NULL);
@@ -252,7 +253,7 @@ public:
 			dwCount++;
 			pRule = pRule->GetNext();
 		}
-		
+
 		// create pointer array for sort procedure
 		CPrivacyListRule **pRules = (CPrivacyListRule **)mir_alloc(dwCount * sizeof(CPrivacyListRule *));
 		if ( !pRules)
@@ -263,7 +264,7 @@ public:
 			pRules[dwPos++] = pRule;
 			pRule = pRule->GetNext();
 		}
-		
+
 		// sort array of pointers, slow, but working :)
 		DWORD i, j;
 		CPrivacyListRule *pTmp;

@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -112,7 +113,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define PRODUCT_CORE                              0x00000065
 	#define PRODUCT_PROFESSIONAL_WMC                  0x00000067
 	#define PRODUCT_UNLICENSED                        0xABCDABCD
-#endif	
+#endif
 
 typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
@@ -128,7 +129,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 	SYSTEM_INFO si;
 	PGNSI pGNSI;
 	PGPI pGPI;
-	
+
 	DWORD dwType;
 
 	ZeroMemory(&si, sizeof(SYSTEM_INFO));
@@ -140,7 +141,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 	if ( !bOsVersionInfoEx)
 	{
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if ( !GetVersionEx((OSVERSIONINFO*)&osvi)) 
+		if ( !GetVersionEx((OSVERSIONINFO*)&osvi))
 			return FALSE;
 	}
 
@@ -165,21 +166,21 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 			case 0:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Vista "));
-				else 
+				else
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 "));
 				break;
 
 			case 1:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows 7 "));
-				else 
+				else
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 R2 "));
 				break;
 
 			case 2:
 				if (osvi.wProductType == VER_NT_WORKSTATION)
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows 8 "));
-				else 
+				else
 					StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2012 "));
 				break;
 			}
@@ -320,7 +321,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 			{
 				StringCchCat(pszOS, BUFSIZE, TEXT("Professional"));
 			}
-			else 
+			else
 			{
 				if (osvi.wSuiteMask & VER_SUITE_DATACENTER)
 					StringCchCat(pszOS, BUFSIZE, TEXT("Datacenter Server"));
@@ -343,10 +344,10 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 		StringCchPrintf(buf, 80, TEXT(" (build %d)"), osvi.dwBuildNumber);
 		StringCchCat(pszOS, BUFSIZE, buf);
 
-		return TRUE; 
+		return TRUE;
 	}
 	else
-	{  
+	{
 		return FALSE;
 	}
 }
@@ -519,7 +520,7 @@ BOOL CJabberProto::OnSiRequest(HXML node, CJabberIqInfo *pInfo)
 		XmlNodeIq iq(_T("error"), pInfo);
 		HXML error = iq << XCHILD(_T("error")) << XATTRI(_T("code"), 400) << XATTR(_T("type"), _T("cancel"));
 		error << XCHILDNS(_T("bad-request"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"));
-		error << XCHILD(_T("bad-profile")); 
+		error << XCHILD(_T("bad-profile"));
 		m_ThreadInfo->send(iq);
 	}
 	return TRUE;
@@ -618,7 +619,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 							JabberContactListCreateGroup(item->group);
 							db_set_ts(hContact, "CList", "Group", item->group);
 						}
-						else 
+						else
 							db_unset(hContact, "CList", "Group");
 					}
 				}
@@ -669,7 +670,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 
 	TCHAR text[ 1024 ];
 	TCHAR *str, *p, *q;
-	
+
 	str = (TCHAR*)xmlGetText(n);	// URL of the file to get
 	filetransfer *ft = new filetransfer(this);
 	ft->std.totalFiles = 1;
@@ -720,7 +721,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		pre.ptszFiles = &str2;
 		pre.fileCount = 1;
 		pre.lParam = (LPARAM)ft;
-		ProtoChainRecvFile(ft->std.hContact, &pre);		
+		ProtoChainRecvFile(ft->std.hContact, &pre);
 		mir_free(str2);
 	}
 	else {
@@ -772,7 +773,7 @@ BOOL CJabberProto::OnHandleDiscoItemsRequest(HXML iqNode, CJabberIqInfo* pInfo)
 		xmlAddAttr(resultQuery, _T("node"), szNode);
 
 	if ( !szNode && m_options.EnableRemoteControl)
-		resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), m_ThreadInfo->fullJID) 
+		resultQuery << XCHILD(_T("item")) << XATTR(_T("jid"), m_ThreadInfo->fullJID)
 			<< XATTR(_T("node"), _T(JABBER_FEAT_COMMANDS)) << XATTR(_T("name"), _T("Ad-hoc commands"));
 
 	m_ThreadInfo->send(iq);
@@ -792,7 +793,7 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 	cle.pszService = szService;
 	cle.ptszTooltip = TranslateT("Http authentication request received");
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-	
+
 	return TRUE;
 }
 

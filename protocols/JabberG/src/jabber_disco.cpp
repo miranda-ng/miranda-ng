@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -291,7 +292,7 @@ void CJabberProto::OnIqResultServiceDiscoveryRootItems(HXML iqNode, CJabberIqInf
 				CJabberIqInfo* pNewInfo = m_iqManager.AddHandler(&CJabberProto::OnIqResultServiceDiscoveryRootInfo, JABBER_IQ_TYPE_GET, szJid);
 				pNewInfo->m_pUserData = pInfo->m_pUserData;
 				pNewInfo->SetTimeout(30000);
-				
+
 				XmlNodeIq iq(pNewInfo);
 				iq << XQUERY(_T(JABBER_FEAT_DISCO_INFO)) << XATTR(_T("node"), szNode);
 				xmlAddChild(packet, iq);
@@ -387,7 +388,7 @@ void CJabberProto::PerformBrowse(HWND hwndDlg)
 		szJid[ 0 ] = 0;
 	if ( !GetDlgItemText(hwndDlg, IDC_COMBO_NODE, szNode, SIZEOF(szNode)))
 		szNode[ 0 ] = 0;
-	
+
 	ComboAddRecentString(hwndDlg, IDC_COMBO_JID, "discoWnd_rcJid", szJid);
 	ComboAddRecentString(hwndDlg, IDC_COMBO_NODE, "discoWnd_rcNode", szNode);
 
@@ -870,7 +871,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 			mir_snprintf(setting, sizeof(setting), "discoWnd_favNode_%d", res);
 			if ( !m_proto->JGetStringT(NULL, setting, &dbv)) SetDlgItemText(m_hwnd, IDC_COMBO_NODE, dbv.ptszVal);
 			db_free(&dbv);
-			
+
 			PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 		}
 	} else
@@ -973,8 +974,8 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (GetTickCount() - m_proto->m_dwSDLastRefresh < REFRESH_TIMEOUT) {
 			SetTimer(m_hwnd, REFRESH_TIMER, REFRESH_TIMEOUT, NULL);
 			return TRUE;
-		} 
-		
+		}
+
 		wParam = REFRESH_TIMER;
 		// fall through
 
@@ -1098,7 +1099,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				XmlNode packet(NULL);
 				CJabberSDNode* pNode;
 				pNode = (CJabberSDNode*)TreeList_GetData(hItem);
-				if (pNode) 
+				if (pNode)
 				{
 					m_proto->SendBothRequests(pNode, packet);
 					TreeList_MakeFakeParent(hItem, FALSE);
@@ -1312,7 +1313,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			m_SDManager.Lock();
 			XmlNode packet(NULL);
-			if (pNode) 
+			if (pNode)
 			{
 				TreeList_ResetItem(GetDlgItem(m_pDlgServiceDiscovery->GetHwnd(), IDC_TREE_DISCO), hItem);
 				pNode->ResetInfo();
@@ -1442,7 +1443,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		{
 			TCHAR * jid = pNode->GetJid();
 			HANDLE hContact = HContactFromJID(pNode->GetJid());
-			if ( !hContact) {	
+			if ( !hContact) {
 				JABBER_SEARCH_RESULT jsr={0};
 				mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s"), jid);
 				jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
@@ -1474,8 +1475,8 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 
 		case SD_ACT_UNREGISTER:
 			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), pNode->GetJid()) << XQUERY(_T(JABBER_FEAT_REGISTER)) << XCHILD(_T("remove")));
-			
-			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(_T(JABBER_FEAT_IQ_ROSTER)) 
+
+			m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext()) << XQUERY(_T(JABBER_FEAT_IQ_ROSTER))
 				<< XCHILD(_T("item")) << XATTR(_T("jid"), pNode->GetJid()) << XATTR(_T("subscription"), _T("remove")));
 			break;
 

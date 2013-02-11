@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TAG_MAX_LEN 128
 #define ATTR_MAX_LEN 8192
 
-#define T2UTF(A) A 
+#define T2UTF(A) A
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
@@ -97,7 +98,7 @@ XmlNode::XmlNode(const XmlNode& n)
 }
 
 XmlNode& XmlNode::operator =(const XmlNode& n)
-{	
+{
 	if (m_hXml)
 		xi.destroyNode(m_hXml);
 	m_hXml = xi.copyNode(n);

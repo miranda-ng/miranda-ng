@@ -2,6 +2,7 @@
 
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2007  Michael Stepura, George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -272,7 +273,7 @@ void CJabberDlgBookmarks::UpdateData()
 
 	int iqId = m_proto->SerialNext();
 	m_proto->IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
-	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE)) 
+	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE))
 		<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 }
 

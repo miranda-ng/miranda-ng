@@ -53,7 +53,7 @@ LPWSTR __cdecl utf8decode(LPCSTR str) {
 
 	len = strlen(str)+1;
 
-        SAFE_FREE(wszOut);
+	SAFE_FREE(wszOut);
 	if ((wszOut = (LPWSTR) malloc(len*sizeof(WCHAR))) == NULL)
 		return NULL;
 	p = (LPSTR)str;

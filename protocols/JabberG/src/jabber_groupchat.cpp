@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -202,7 +203,7 @@ private:
 JABBER_RESOURCE_STATUS* CJabberProto::GcFindResource(JABBER_LIST_ITEM *item, const TCHAR *resource)
 {
 	JABBER_RESOURCE_STATUS *res = NULL;
-	
+
 	EnterCriticalSection(&m_csLists);
 	JABBER_RESOURCE_STATUS *r = item->resource;
 	for (int i=0; i<item->resourceCount; i++) {
@@ -1049,7 +1050,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 				if (str = xmlGetAttrValue(itemNode, _T("jid")))
 					replaceStrT(r->szRealJid, str);
-			} 
+			}
 		}
 
 		if (sttGetStatusCode(xNode) == 201)
@@ -1091,7 +1092,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 
 		mir_free(room);
 	}
-	
+
 	// leaving room
 	else if ( !_tcscmp(type, _T("unavailable"))) {
 		const TCHAR *str = 0;
@@ -1136,7 +1137,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 		if (hContact != NULL)
 			JSetWord(hContact, "Status", ID_STATUS_OFFLINE);
 	}
-	
+
 	// processing room errors
 	else if ( !_tcscmp(type, _T("error"))) {
 		int errorCode = 0;
@@ -1191,7 +1192,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	resource = _tcschr(from, '/');
 	if (resource != NULL && *++resource == '\0')
 		resource = NULL;
-	
+
 	if ((n = xmlGetChild(node , "subject")) != NULL) {
 		msgText = xmlGetText(n);
 
@@ -1204,7 +1205,7 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 			const TCHAR *tmpnick = xmlGetText(m);
 			if (tmpnick == NULL || *tmpnick == 0)
 				return;
-					
+
 			const TCHAR *tmptr = _tcsstr(tmpnick, _T("has set the subject to:")); //ejabberd
 			if (tmptr == NULL)
 				tmptr = _tcsstr(tmpnick, TranslateT("has set the subject to:")); //ejabberd

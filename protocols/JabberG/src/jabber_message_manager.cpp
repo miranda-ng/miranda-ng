@@ -5,6 +5,7 @@ Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-08  George Hazan
 Copyright (C) 2007     Maxim Mluhov
 Copyright (C) 2008-09  Dmitriy Chervov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -68,7 +69,7 @@ BOOL CJabberMessageManager::HandleMessagePermanent(HXML node, ThreadData *pThrea
 			for (i = xmlGetChildCount(node) - 1; i >= 0; i--) {
 			// enumerate all children and see whether this node suits handler criteria
 				HXML child = xmlGetChild(node, i);
-				
+
 				LPCTSTR szTagName = xmlGetName(child);
 				LPCTSTR szXmlns = xmlGetAttrValue(child, _T("xmlns"));
 

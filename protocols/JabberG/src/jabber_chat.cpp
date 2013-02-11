@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -254,7 +255,7 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_
 				case ROLE_PARTICIPANT:	name = TranslateT("Participant"); break;
 				case ROLE_MODERATOR:    name = TranslateT("Moderator"); break;
 			}
-			
+
 			if (name)
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Role of %s was changed to '%s'."), user->resourceName, name);
 		}
@@ -400,7 +401,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 		mir_sntprintf(szPresenceTo, SIZEOF(szPresenceTo), _T("%s/%s"), item->jid, item->nick);
 
 		m_ThreadInfo->send(
-			XmlNode(_T("presence")) << XATTR(_T("to"), szPresenceTo) << XATTR(_T("type"), _T("unavailable")) 
+			XmlNode(_T("presence")) << XATTR(_T("to"), szPresenceTo) << XATTR(_T("type"), _T("unavailable"))
 				<< XCHILD(_T("status"), szMessage));
 
 		ListRemove(LIST_CHATROOM, item->jid);
@@ -443,7 +444,7 @@ static void sttShowGcMenuItems(GCMENUITEMS *items, DWORD *ids, int type)
 		sttShowGcMenuItem(items, *ids, type);
 }
 
-static gc_item sttLogListItems[] = 
+static gc_item sttLogListItems[] =
 {
 	{ LPGENT("Change &nickname"),     IDM_NICK,               MENU_ITEM           },
    { LPGENT("&Invite a user"),       IDM_INVITE,             MENU_ITEM           },
@@ -569,7 +570,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		static DWORD sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
 		static DWORD sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
 		static DWORD sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
-		
+
 		sttSetupGcMenuItem(gcmi, 0, FALSE);
 
 		int idx = IDM_LINK0;
@@ -598,7 +599,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
 				sttSetupGcMenuItem(gcmi, IDM_BOOKMARKS, FALSE);
 		}
-	} 
+	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
 		gcmi->nItems = SIZEOF(sttListItems);
 		gcmi->Item = sttListItems;
@@ -642,14 +643,14 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 					gcmi->Item[3].uType = MENU_HMENU;
 					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
-				} 
+				}
 				else {
 					gcmi->Item[3].uType = MENU_NEWPOPUP;
 					sttShowGcMenuItems(gcmi, sttRJidItems, MENU_POPUPITEM);
 				}
 
 				sttSetupGcMenuItem(gcmi, IDM_CPY_RJID, FALSE);
-			} 
+			}
 			else {
 				gcmi->Item[3].uType = 0;
 				sttShowGcMenuItems(gcmi, sttRJidItems, 0);
@@ -665,7 +666,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 					(me->affiliation == AFFILIATION_ADMIN) && (me->affiliation <= him->affiliation))
 					sttSetupGcMenuItem(gcmi, IDM_SET_BAN, TRUE);
 			}
-		} 
+		}
 		else {
 			sttSetupGcMenuItem(gcmi, 0, TRUE);
 			gcmi->Item[2].uType = 0;
@@ -709,7 +710,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					m_clc.DeleteItem(hItem);
 	}	}
-	 
+
 	void ResetListOptions(CCtrlClc *)
 	{
 		m_clc.SetBkBitmap(0, NULL);
@@ -975,7 +976,7 @@ static INT_PTR CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			JabberStripJid(dat->him->szRealJid, szBareJid, SIZEOF(szBareJid));
 
 			switch (value) {
-			case AFFILIATION_NONE:	
+			case AFFILIATION_NONE:
 				if (dat->him->szRealJid)
 					dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("none"));
 				else
@@ -1086,7 +1087,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 			if (TCHAR *p = _tcsstr(szMessage, _T("%s"))) {
 				*p = 0;
 				mir_sntprintf(buf, SIZEOF(buf), _T("%s%s%s"), szMessage, him->resourceName, p+2);
-			} 
+			}
 			else lstrcpyn(buf, szMessage, SIZEOF(buf));
 			UnEscapeChatTags(buf);
 
@@ -1105,7 +1106,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 		JABBER_SEARCH_RESULT jsr = {0};
 		mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s/%s"), item->jid, him->resourceName);
 		jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
-		
+
 		JABBER_LIST_ITEM* item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 		item->bUseResource = TRUE;
 		ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->status, him->statusMessage, him->priority);
@@ -1289,7 +1290,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 			mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s"), him->szRealJid);
 			if (TCHAR *tmp = _tcschr(jsr.jid, _T('/'))) *tmp = 0;
-			
+
 			JABBER_LIST_ITEM* item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 			item->bUseResource = TRUE;
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->status, him->statusMessage, him->priority);
@@ -1392,7 +1393,7 @@ static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* g
 	{
 		CGroupchatInviteDlg *dlg = new CGroupchatInviteDlg(ppro, gch->pDest->ptszID);
 		dlg->Show();
-		break;	
+		break;
 	}
 
 	case IDM_CONFIG:
@@ -1550,7 +1551,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str , TCHAR* rsn)
-{		
+{
 	const TCHAR *field = (jidListInfo->type == MUC_BANLIST || _tcschr(str,'@')) ? _T("jid") : _T("nick");
 	TCHAR* roomJid = jidListInfo->roomJid;
 	if (jidListInfo->type == MUC_BANLIST) {

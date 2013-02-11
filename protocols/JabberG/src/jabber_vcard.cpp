@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -1057,7 +1058,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 
 	for (i=0;;i++) {
 		wsprintfA(idstr, "e-mail%d", i);
-		if ( DBGetContactSettingTString(NULL, m_szModuleName, idstr, &dbv)) 
+		if ( DBGetContactSettingTString(NULL, m_szModuleName, idstr, &dbv))
 			break;
 
 		HXML e = v << XCHILD(_T("EMAIL"), dbv.ptszVal);
@@ -1097,7 +1098,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 	n = v << XCHILD(_T("ORG"));
 	AppendVcardFromDB(n, "ORGNAME", "Company");
 	AppendVcardFromDB(n, "ORGUNIT", "CompanyDepartment");
-	
+
 	AppendVcardFromDB(v, "TITLE", "CompanyPosition");
 	AppendVcardFromDB(v, "ROLE", "Role");
 	AppendVcardFromDB(v, "URL", "Homepage");
@@ -1180,7 +1181,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 							for (int j=0; j<MIR_SHA1_HASH_SIZE; j++)
 								sprintf(buf+(j<<1), "%02x", digest[j]);
 
-							m_options.AvatarType = JabberGetPictureType(buffer);	
+							m_options.AvatarType = JabberGetPictureType(buffer);
 
 							if (bPhotoChanged) {
 								DeleteFile(szAvatarName);

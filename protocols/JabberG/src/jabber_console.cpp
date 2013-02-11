@@ -5,6 +5,7 @@ Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
 Copyright (C) 2007     Victor Pavlychko
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -403,7 +404,7 @@ void CJabberDlgConsole::OnInitDialog()
 		{IDC_BTN_FILTER,         "Filter mode",  "sd_filter_apply", true,  FALSE},
 		{IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
 	};
-	
+
 	int i;
 	for (i = 0; i < SIZEOF(buttons); i++) {
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
@@ -419,7 +420,7 @@ void CJabberDlgConsole::OnInitDialog()
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
 			break;
 		}
-	
+
 	EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
 	EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTER_REFRESH), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
 

@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -105,18 +106,18 @@ void CJabberProto::FtInitiate(TCHAR* jid, filetransfer *ft)
 	mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), jid, rs);
 
 	XmlNodeIq iq(m_iqManager.AddHandler(&CJabberProto::OnFtSiResult, JABBER_IQ_TYPE_SET, tszJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO, -1, ft));
-	HXML si = iq << XCHILDNS(_T("si"), _T(JABBER_FEAT_SI)) << XATTR(_T("id"), sid) 
+	HXML si = iq << XCHILDNS(_T("si"), _T(JABBER_FEAT_SI)) << XATTR(_T("id"), sid)
 						<< XATTR(_T("mime-type"), _T("binary/octet-stream")) << XATTR(_T("profile"), _T(JABBER_FEAT_SI_FT));
-	si << XCHILDNS(_T("file"), _T(JABBER_FEAT_SI_FT)) << XATTR(_T("name"), filename) 
+	si << XCHILDNS(_T("file"), _T(JABBER_FEAT_SI_FT)) << XATTR(_T("name"), filename)
 		<< XATTRI64(_T("size"), ft->fileSize[ ft->std.currentFileNumber ]) << XCHILD(_T("desc"), ft->szDescription);
-	
+
 	HXML field = si << XCHILDNS(_T("feature"), _T(JABBER_FEAT_FEATURE_NEG))
 							<< XCHILDNS(_T("x"), _T(JABBER_FEAT_DATA_FORMS)) << XATTR(_T("type"), _T("form"))
 							<< XCHILD(_T("field")) << XATTR(_T("var"), _T("stream-method")) << XATTR(_T("type"), _T("list-single"));
 
 	BOOL bDirect = m_options.BsDirect;
 	BOOL bProxy = m_options.BsProxyManual;
-	
+
 	// bytestreams support?
 	if (bDirect || bProxy)
 		field << XCHILD(_T("option")) << XCHILD(_T("value"), _T(JABBER_FEAT_BYTESTREAMS));
@@ -327,7 +328,7 @@ void CJabberProto::FtHandleSiRequest(HXML iqNode)
 					optionNode = xmlGetChild(fieldNode ,i);
 					if ( !optionNode)
 						break;
-	
+
 					if ( !lstrcmp(xmlGetName(optionNode), _T("option"))) {
 						if ((n = xmlGetChild(optionNode , "value")) != NULL && xmlGetText(n)) {
 							if ( !_tcscmp(xmlGetText(n), _T(JABBER_FEAT_BYTESTREAMS))) {
@@ -501,7 +502,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 					<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 		return FALSE;
 	}
-	
+
 	// close event && stream already open
 	if (item->jibb && item->jibb->hEvent) {
 		item->jibb->bStreamClosed = TRUE;

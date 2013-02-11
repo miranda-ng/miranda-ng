@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -54,7 +55,7 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 		JabberListFreeResourceInternal(r);
 
 	JabberListFreeResourceInternal(&item->itemResource);
-	
+
 	if (item->photoFileName) {
 		if (item->list == LIST_VCARD_TEMP)
 			DeleteFile(item->photoFileName);
@@ -101,11 +102,11 @@ int CJabberProto::ListExist(JABBER_LIST list, const TCHAR *jid)
 	{
 		tmp.list = LIST_CHATROOM;
 		int id = m_lstRoster.getIndex(&tmp);
-		if (id != -1) 
+		if (id != -1)
 			tmp.bUseResource = TRUE;
 		tmp.list = list;
 	}
-	
+
 	int idx = m_lstRoster.getIndex(&tmp);
 
 	if (idx == -1) {
@@ -131,7 +132,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	TCHAR *q = NULL;
 	// strip resource name if any
 	//fyr
-	if ( !((list== LIST_ROSTER)  && ListExist(LIST_CHATROOM, jid))) { // but only if it is not chat room contact	
+	if ( !((list== LIST_ROSTER)  && ListExist(LIST_CHATROOM, jid))) { // but only if it is not chat room contact
 		if (list != LIST_VCARD_TEMP) {
 			TCHAR *p;
 			if ((p = _tcschr(s, '@')) != NULL)
@@ -141,7 +142,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 	} else {
 		bUseResource=TRUE;
 	}
-	
+
 	if ( !bUseResource && list== LIST_ROSTER)
 	{
 		//if it is a chat room keep resource and made it resource sensitive
@@ -151,7 +152,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 			bUseResource=TRUE;
 		}
 	}
-	
+
 	item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
 	item->list = list;
 	item->jid = s;

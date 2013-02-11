@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -89,7 +90,7 @@ void JabberByteSendConnection(HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra)
 	char* buffer;
 	int datalen;
 
-	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) };
 	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConn, (LPARAM)&connInfo);
 
 	mir_sntprintf(szPort, SIZEOF(szPort), _T("%u"), connInfo.wPort);
@@ -187,7 +188,7 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 				jbt->ft = NULL;
 				delete jbt;
 				return;
-			}	
+			}
 	}	}
 
 	pInfo = m_iqManager.AddHandler(&CJabberProto::ByteInitiateResult, JABBER_IQ_TYPE_SET, jbt->dstJID, 0, -1, jbt);
@@ -585,7 +586,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 
 			ListRemove(LIST_FTIQID, listJid);
 
-			if (jbt->bStreamActivated) 
+			if (jbt->bStreamActivated)
 				jbt->state = (this->*jbt->pfnSend)(hConn, jbt->ft) ? JBT_DONE : JBT_ERROR;
 			else
 				jbt->state = JBT_ERROR;

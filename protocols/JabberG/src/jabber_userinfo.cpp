@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -197,7 +198,7 @@ static HTREEITEM sttFillInfoLine(HWND hwndTree, HTREEITEM htiRoot, HICON hIcon, 
 		tvis.itemex.mask |= TVIF_HANDLE;
 		tvis.itemex.hItem = hti;
 		TreeView_SetItem(hwndTree, &tvis.itemex);
-	} 
+	}
 	else {
 		tvis.itemex.mask |= TVIF_STATE;
 		tvis.itemex.stateMask = TVIS_EXPANDED;
@@ -215,7 +216,7 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 	JABBER_RESOURCE_STATUS *res = resource ? &item->resource[resource-1] : &item->itemResource;
 
 	if (res->resourceName && *res->resourceName)
-		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status), 
+		htiResource = sttFillInfoLine(hwndTree, htiRoot, LoadSkinnedProtoIcon(ppro->m_szModuleName, res->status),
 			TranslateT("Resource"), res->resourceName, sttInfoLineId(resource, INFOLINE_NAME), true);
 
 	// StatusMsg
@@ -258,7 +259,7 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 		lstrcpyn(buf, _tctime(&res->idleStartTime), SIZEOF(buf));
 		int len = lstrlen(buf);
 		if (len > 0) buf[len-1] = 0;
-	} 
+	}
 	else if ( !res->idleStartTime)
 		lstrcpyn(buf, TranslateT("unknown"), SIZEOF(buf));
 	else
@@ -273,7 +274,7 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 	if ( !(jcb & JABBER_RESOURCE_CAPS_ERROR)) {
 		HTREEITEM htiCaps = sttFillInfoLine(hwndTree, htiResource, ppro->LoadIconEx("main"), NULL, TranslateT("Client capabilities"), sttInfoLineId(resource, INFOLINE_CAPS));
 		int i;
-		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++) 
+		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++)
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				TCHAR szDescription[ 1024 ];
 				if (g_JabberFeatCapPairs[i].tszDescription)
@@ -398,7 +399,7 @@ static void sttFillUserInfo(CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	if (item->resourceCount) {
 		for (int i = 0; i < item->resourceCount; i++)
 			sttFillResourceInfo(ppro, hwndTree, htiRoot, item, i+1);
-	} 
+	}
 	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE))
 		sttFillResourceInfo(ppro, hwndTree, htiRoot, item, 0);
 
@@ -454,7 +455,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			dat->hContact = NULL;
 			dat->item = (JABBER_LIST_ITEM *)lParam;
 		}
-		
+
 		{
 			RECT rc; GetClientRect(hwndDlg, &rc);
 			MoveWindow(GetDlgItem(hwndDlg, IDC_TV_INFO), 5, 5, rc.right-10, rc.bottom-10, TRUE);
@@ -484,7 +485,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
 				TreeView_DeleteAllItems(hwndTree);
 				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, NULL, dat->ppro->LoadIconEx("main"), _T("JID"), dbv.ptszVal, sttInfoLineId(0, INFOLINE_NAME), true);
-				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), NULL, 
+				sttFillInfoLine(hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), NULL,
 					TranslateT("Please switch online to see more details."));
 
 				db_free(&dbv);
@@ -570,7 +571,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					DBVARIANT dbv = {0};
 					if (dat->ppro->JGetStringT(dat->hContact, "jid", &dbv))
 						break;
-					
+
 					if ( !(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, dbv.ptszVal)))
 						dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
 					db_free(&dbv);
@@ -585,7 +586,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case WM_DESTROY:
 		WindowList_Remove(hUserInfoList, hwndDlg);
-		if (dat) { 
+		if (dat) {
 			mir_free(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		}
@@ -803,7 +804,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			if (JabberIsThemeActive && JabberDrawThemeParentBackground && JabberIsThemeActive()) {
 				RECT rc; GetClientRect(hwndCanvas, &rc);
 				JabberDrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);
-			} 
+			}
 			else {
 				RECT rc; GetClientRect(hwndCanvas, &rc);
 				FillRect(hdcCanvas, &rc, (HBRUSH)GetSysColorBrush(COLOR_BTNFACE));
@@ -846,7 +847,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	HANDLE hContact = (HANDLE)lParam;
-	if (hContact == NULL) { 
+	if (hContact == NULL) {
 		// Show our vcard
 		OnUserInfoInit_VCard(wParam, lParam);
 		return 0;

@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Victor Pavlychko
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -315,7 +316,7 @@ void TreeList_Update(HWND hwnd)
 				for (int j = 1; j < ptli->text.getCount(); ++j)
 					ListView_SetItemText(hwnd, i, j, ptli->text[j]);
 			}
-		} 
+		}
 		else ListView_DeleteItem(hwnd, i);
 	}
 	if (data->mode == TLM_TREE)
@@ -357,7 +358,7 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = lpnmia->iItem;
 				ListView_GetItem(lpnmia->hdr.hwndFrom, &lvi);
-				
+
 				HTREELISTITEM hItem = (lvi.iItem < 0) ? data-> root : (HTREELISTITEM)lvi.lParam;
 				if ( !hItem->subItems.getCount() && !(hItem->flags & TLIF_FAKEPARENT)) break;
 				data->hItemSelected = hItem;
@@ -396,7 +397,7 @@ BOOL TreeList_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, UINT id
 						hItem->flags &= ~TLIF_EXPANDED;
 						hItem->flags |= TLIF_MODIFIED;
 						TreeList_Update(lpnmlvk->hdr.hwndFrom);
-					} 
+					}
 					else if (hItem->indent && (lpnmlvk->wVKey != VK_SUBTRACT)) {
 						for (int i = lvi.iItem; i--;) {
 							lvi.mask = LVIF_INDENT;
@@ -572,7 +573,7 @@ static void sttTreeList_CreateItems_List(HTREELISTITEM hItem, LPARAM data)
 
 static int CALLBACK sttTreeList_SortFunc(LPARAM lParam1, LPARAM lParam2, LPARAM)
 {
-	HTREELISTITEM p1 = (HTREELISTITEM)lParam1, p2 = (HTREELISTITEM)lParam2; 
+	HTREELISTITEM p1 = (HTREELISTITEM)lParam1, p2 = (HTREELISTITEM)lParam2;
 	if (p1->sortIndex < p2->sortIndex)
 		return -1;
 

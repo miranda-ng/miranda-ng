@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -125,7 +126,7 @@ BOOL CJabberIqManager::FillPermanentHandlers()
 {
 	// Google Shared Status (http://code.google.com/apis/talk/jep_extensions/shared_status.html)
 	AddPermanentHandler(&CJabberProto::OnIqSetGoogleSharedStatus, JABBER_IQ_TYPE_SET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO | JABBER_IQ_PARSE_ID_STR, _T("google:shared-status"), FALSE, _T("query"));
-	
+
 	// version requests (XEP-0092)
 	AddPermanentHandler(&CJabberProto::OnIqRequestVersion, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR, _T(JABBER_FEAT_VERSION), FALSE, _T("query"));
 
@@ -173,7 +174,7 @@ BOOL CJabberIqManager::FillPermanentHandlers()
 
 	// http auth (XEP-0070)
 	AddPermanentHandler(&CJabberProto::OnIqHttpAuth, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_ID_STR | JABBER_IQ_PARSE_CHILD_TAG_NODE, _T(JABBER_FEAT_HTTP_AUTH), FALSE, _T("confirm"));
-	
+
 	return TRUE;
 }
 
@@ -225,7 +226,7 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo* pInfo, void*)
 {
 	if ( !pInfo)
 		return;
-	
+
 	if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_FROM)
 		pInfo->m_szFrom = pInfo->m_szReceiver;
 	if ((pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_HCONTACT) && (pInfo->m_szFrom))
@@ -286,7 +287,7 @@ BOOL CJabberIqManager::HandleIq(int nIqId, HXML pNode)
 		if (nIqType == JABBER_IQ_TYPE_RESULT) {
 			if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NODE)
 				pInfo->m_pChildNode = xmlGetChild(pNode , 0);
-			
+
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_NAME))
 				pInfo->m_szChildTagName = (TCHAR*)xmlGetName(pInfo->m_pChildNode);
 			if (pInfo->m_pChildNode && (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_CHILD_TAG_XMLNS))
@@ -321,7 +322,7 @@ BOOL CJabberIqManager::HandleIqPermanent(HXML pNode)
 		const TCHAR *szType = xmlGetAttrValue(pNode, _T("type"));
 		if ( !szType)
 			break;
-		
+
 		CJabberIqInfo iqInfo;
 
 		iqInfo.m_nIqType = JABBER_IQ_TYPE_FAIL;
@@ -337,7 +338,7 @@ BOOL CJabberIqManager::HandleIqPermanent(HXML pNode)
 			HXML pFirstChild = xmlGetChild(pNode , 0);
 			if ( !pFirstChild || !xmlGetName(pFirstChild))
 				break;
-			
+
 			const TCHAR *szTagName = xmlGetName(pFirstChild);
 			const TCHAR *szXmlns = xmlGetAttrValue(pFirstChild, _T("xmlns"));
 

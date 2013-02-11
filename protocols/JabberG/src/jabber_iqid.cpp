@@ -4,6 +4,7 @@ Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -55,8 +56,8 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 				RebuildInfoFrame();
 			}
 			else if (identityCategory && identityType && identityName &&
-				!_tcscmp(identityCategory, _T("server")) && 
-				!_tcscmp(identityType, _T("im")) && 
+				!_tcscmp(identityCategory, _T("server")) &&
+				!_tcscmp(identityType, _T("im")) &&
 				!_tcscmp(identityName, _T("Google Talk"))) {
 					m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 					m_bGoogleTalk = true;
@@ -79,7 +80,7 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 					if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
 						m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
 						break;
-					}	
+					}
 			}
 		}
 
@@ -495,7 +496,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		{
 			UpdateSubscriptionInfo(hContact, item);
 		}
-		
+
 		if ( !m_options.IgnoreRosterGroups) {
 			if (item->group != NULL) {
 				JabberContactListCreateGroup(item->group);
@@ -509,7 +510,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 				}
 				else db_set_ts(hContact, "CList", "Group", item->group);
 			}
-			else 
+			else
 				db_unset(hContact, "CList", "Group");
 		}
 
@@ -677,7 +678,7 @@ LBL_Ret:
 		const TCHAR *tszType = xmlGetText(m);
 		if ( !_tcscmp(tszType, _T("image/jpeg")) ||
 		     !_tcscmp(tszType, _T("image/png"))  ||
-		     !_tcscmp(tszType, _T("image/gif"))  || 
+		     !_tcscmp(tszType, _T("image/gif"))  ||
 		     !_tcscmp(tszType, _T("image/bmp")))
 			szPicType = tszType;
 		else
@@ -1085,7 +1086,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				else if ( !lstrcmp(xmlGetName(n), _T("PHOTO")))
 					OnIqResultGetVcardPhoto(jid, n, hContact, hasPhoto);
 		}	}
-		
+
 		if (hasFn && !hasNick) {
 			TCHAR *name = JGetStringT(hContact, "FullName");
 			TCHAR *nick = JGetStringT(hContact, "Nick");
@@ -1406,7 +1407,7 @@ void CJabberProto::OnIqResultGetVCardAvatar(HXML iqNode)
 	const TCHAR *mimeType = NULL;
 	if (typeNode != NULL) mimeType = xmlGetText(typeNode);
 	HXML n = xmlGetChild(vCard , "BINVAL");
-	if (n == NULL) 
+	if (n == NULL)
 		return;
 
 	JSetByte(hContact, "AvatarXVcard", 1);
@@ -1509,7 +1510,7 @@ void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode)
 }
 
 
-void CJabberProto::OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mimeType) 
+void CJabberProto::OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mimeType)
 {
 	int resultLen = 0;
 	char* body = JabberBase64DecodeT(xmlGetText(n), &resultLen);
@@ -1740,7 +1741,7 @@ void CJabberProto::OnIqResultEntityTime(HXML pIqNode, CJabberIqInfo* pInfo)
 		if (JGetWord(pInfo->m_hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			return;
 	}
-			
+
 	JDeleteSetting(pInfo->m_hContact, "Timezone");
 	JDeleteSetting(pInfo->m_hContact, "TzName");
 }

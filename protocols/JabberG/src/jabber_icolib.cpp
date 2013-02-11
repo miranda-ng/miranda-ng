@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 Idea & portions of code by Artem Shpynov
 
@@ -60,7 +61,7 @@ static CTransportProtoTableItem TransportProtoTable[] =
 	{ _T("tv*"),             "TV" },
 	{ _T("dict*"),           "Dictionary" },
 	{ _T("weather*"),        "Weather" },
-	{ _T("skype*"),          "Skype" }, 
+	{ _T("skype*"),          "Skype" },
 	{ _T("sms*"),            "SMS" },
 	{ _T("smtp*"),           "SMTP" },
 	//j2j

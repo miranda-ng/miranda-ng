@@ -5,6 +5,7 @@ Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007-09  Maxim Mluhov
 Copyright (C) 2007-09  Victor Pavlychko
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,7 +35,7 @@ static TCHAR *StrTrimCopy(TCHAR *str)
 	if ( !str) return 0;
 	while (*str && _istspace(*str)) ++str;
 	if ( !*str) return mir_tstrdup(str);
-	
+
 	TCHAR *res = mir_tstrdup(str);
 	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p)
 	{
@@ -49,18 +50,18 @@ static TCHAR *StrTrimCopy(TCHAR *str)
 
 CNoteItem::CNoteItem()
 {
-	m_szTitle = 
-	m_szFrom = 
-	m_szText = 
+	m_szTitle =
+	m_szFrom =
+	m_szText =
 	m_szTags =
 	m_szTagsStr = NULL;
 }
 
 CNoteItem::CNoteItem(HXML hXml, TCHAR *szFrom)
 {
-	m_szTitle = 
-	m_szFrom = 
-	m_szText = 
+	m_szTitle =
+	m_szFrom =
+	m_szText =
 	m_szTags =
 	m_szTagsStr = NULL;
 
@@ -103,7 +104,7 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 		if (*szTags == _T(','))
 		{
 			*q++ = _T(',');
-			*p++ = 0; 
+			*p++ = 0;
 			continue;
 		}
 
@@ -531,11 +532,11 @@ private:
 		tvis.hParent = NULL;
 		tvis.hInsertAfter = TVI_LAST;
 		tvis.itemex.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
-		tvis.itemex.stateMask = 
+		tvis.itemex.stateMask =
 		tvis.itemex.state = TVIS_BOLD|TVIS_EXPANDED;
 		tvis.itemex.pszText = TranslateT("All tags");
 		tvis.itemex.lParam = NULL;
-		
+
 
 		PopulateTags(m_tvFilter.InsertItem(&tvis), szActiveTag);
 		mir_free(szActiveTag);
@@ -762,7 +763,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	}
 
 	TCHAR buf[1024];
-	mir_sntprintf(buf, SIZEOF(buf), _T("Incoming note: %s\n\n%s\nTags: %s"), 
+	mir_sntprintf(buf, SIZEOF(buf), _T("Incoming note: %s\n\n%s\nTags: %s"),
 		pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
 
 	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), TRUE);
@@ -824,7 +825,7 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 	cle.pszService = szService;
 	cle.ptszTooltip = TranslateT("Incoming note");
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-	
+
 	return true;
 }
 

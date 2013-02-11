@@ -5,6 +5,7 @@ XEP-0138 (Stream Compression) implementation
 
 Copyright (C) 2005-12  George Hazan
 Copyright (C) 2007     Kostya Chukavin, Taras Zackrepa
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -120,7 +121,7 @@ retry:
 		proto->Log("(ZLIB) Data received\n%s\n===IN: %d(%d) bytes", szLogBuffer, len, zRecvDatalen);
 	}
 
-	if (len == 0) 
+	if (len == 0)
 		goto retry;
 
 	zRecvReady = (zStreamIn.avail_out != 0);

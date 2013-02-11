@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -72,7 +73,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 	if ( !hDll)
 		return false;
 
-	GetUserNameExType myGetUserNameEx = 
+	GetUserNameExType myGetUserNameEx =
 		(GetUserNameExType)GetProcAddress(hDll, "GetUserNameExW");
 
 	if ( !myGetUserNameEx) return false;
@@ -80,14 +81,14 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 	TCHAR szFullUserName[128] = _T("");
 	ULONG szFullUserNameLen = SIZEOF(szFullUserName);
 	if ( !myGetUserNameEx(12, szFullUserName, &szFullUserNameLen)) {
-		szFullUserName[ 0 ] = 0; 
+		szFullUserName[ 0 ] = 0;
 		szFullUserNameLen = SIZEOF(szFullUserName);
 		myGetUserNameEx(2, szFullUserName, &szFullUserNameLen);
 	}
 
 	TCHAR* name = _tcsrchr(szFullUserName, '\\');
 	if (name) *name = 0;
-	else return false; 
+	else return false;
 
 	if (szHostName && szHostName[0]) {
 		TCHAR *szFullUserNameU = _tcsupr(mir_tstrdup(szFullUserName));
@@ -100,7 +101,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		// Convert host name to FQDN
 //		PHOSTENT host = (ip == INADDR_NONE) ? gethostbyname(szHost) : gethostbyaddr((char*)&ip, 4, AF_INET);
 		PHOSTENT host = (ip == INADDR_NONE) ? NULL : gethostbyaddr((char*)&ip, 4, AF_INET);
-		if (host && host->h_name) 
+		if (host && host->h_name)
 			connectHost = host->h_name;
 
 		TCHAR *connectHostT = mir_a2t(connectHost);
@@ -123,7 +124,7 @@ char* TNtlmAuth::getInitialRequest()
 	char* result;
 	if (info->password[0] != 0)
 		result = Netlib_NtlmCreateResponse2(hProvider, "", info->username, info->password, &complete);
-	else 
+	else
 		result = Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
 
 	return result;
@@ -137,9 +138,9 @@ char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 	char *text = (!lstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge), *result;
 	if (info->password[0] != 0)
 		result = Netlib_NtlmCreateResponse2(hProvider, text, info->username, info->password, &complete);
-	else 
+	else
 		result = Netlib_NtlmCreateResponse2(hProvider, text, NULL, NULL, &complete);
-	
+
 	mir_free(text);
 	return result;
 }
@@ -178,8 +179,8 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	CallService(MS_UTILS_GETRANDOM, sizeof(digest), (LPARAM)digest);
 	sprintf(cnonce, "%08x%08x%08x%08x", htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-	char *uname = mir_utf8encodeT(info->username), 
-		 *passw = mir_utf8encodeT(info->password), 
+	char *uname = mir_utf8encodeT(info->username),
+		 *passw = mir_utf8encodeT(info->password),
 		 *serv  = mir_utf8encode(info->server);
 
 	mir_md5_init(&ctx);
@@ -197,7 +198,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_append(&ctx, (BYTE*)":",    1);
 	mir_md5_append(&ctx, (BYTE*)cnonce, (int)strlen(cnonce));
 	mir_md5_finish(&ctx, (BYTE*)hash1);
-	
+
 	mir_md5_init(&ctx);
 	mir_md5_append(&ctx, (BYTE*)"AUTHENTICATE:xmpp/", 18);
 	mir_md5_append(&ctx, (BYTE*)serv,   (int)strlen(serv));
@@ -217,7 +218,7 @@ char* TMD5Auth::getChallenge(const TCHAR *challenge)
 	mir_md5_finish(&ctx, (BYTE*)digest);
 
 	char* buf = (char*)alloca(8000);
-	int cbLen = mir_snprintf(buf, 8000, 
+	int cbLen = mir_snprintf(buf, 8000,
 		"username=\"%s\",realm=\"%s\",nonce=\"%s\",cnonce=\"%s\",nc=%08d,"
 		"qop=auth,digest-uri=\"xmpp/%s\",charset=utf-8,response=%08x%08x%08x%08x",
 		uname, realm, nonce, cnonce, iCallCount, serv,
@@ -243,7 +244,7 @@ void hmac_sha1(mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sha
 	unsigned char k_ipad[SHA_BLOCKSIZE], k_opad[SHA_BLOCKSIZE];
 	mir_sha1_ctx ctx;
 
-	if (keylen > SHA_BLOCKSIZE) 
+	if (keylen > SHA_BLOCKSIZE)
 	{
 		mir_sha1_init(&ctx);
 		mir_sha1_append(&ctx, key, (int)keylen);
@@ -257,7 +258,7 @@ void hmac_sha1(mir_sha1_byte_t *md, mir_sha1_byte_t *key, size_t keylen, mir_sha
 	memset(k_ipad+keylen, 0x36, SHA_BLOCKSIZE - keylen);
 	memset(k_opad+keylen, 0x5c, SHA_BLOCKSIZE - keylen);
 
-	for (unsigned i = 0; i < keylen; i++) 
+	for (unsigned i = 0; i < keylen; i++)
 	{
 		k_ipad[i] ^= 0x36;
 		k_opad[i] ^= 0x5c;
@@ -310,7 +311,7 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 	char *chl = JabberBase64DecodeT(challenge, &chlLen);
 
 	char *r = strstr(chl, "r="); if ( !r) { mir_free(chl); return NULL; }
-	char *e = strchr(r, ','); if (e) *e = 0; 
+	char *e = strchr(r, ','); if (e) *e = 0;
 	char *snonce = mir_strdup(r + 2);
 	if (e) *e = ',';
 
@@ -337,10 +338,10 @@ char* TScramAuth::getChallenge(const TCHAR *challenge)
 
 	char *passw = mir_utf8encodeT(info->password);
 	size_t passwLen = strlen(passw);
-	
+
 	mir_sha1_byte_t saltedPassw[ MIR_SHA1_HASH_SIZE ];
 	Hi(saltedPassw, passw, passwLen, salt,  saltLen, ind);
- 
+
 	mir_free(salt);
 	mir_free(passw);
 
@@ -428,8 +429,8 @@ TPlainAuth::~TPlainAuth()
 
 char* TPlainAuth::getInitialRequest()
 {
-	char *uname = mir_utf8encodeT(info->username), 
-		 *passw = mir_utf8encodeT(info->password); 
+	char *uname = mir_utf8encodeT(info->username),
+		 *passw = mir_utf8encodeT(info->password);
 
 	size_t size = 2 * strlen(uname) + strlen(passw) + strlen(info->server) + 4;
 	char *toEncode = (char*)alloca(size);
@@ -437,7 +438,7 @@ char* TPlainAuth::getInitialRequest()
 		size = mir_snprintf(toEncode, size, "%s@%s%c%s%c%s", uname, info->server, 0, uname, 0, passw);
 	else
 		size = mir_snprintf(toEncode, size, "%c%s%c%s", 0, uname, 0, passw);
-	
+
 	mir_free(uname);
 	mir_free(passw);
 
@@ -472,4 +473,3 @@ bool TJabberAuth::validateLogin(const TCHAR*)
 {
 	return true;
 }
-

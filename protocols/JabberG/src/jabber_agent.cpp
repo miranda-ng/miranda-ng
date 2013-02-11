@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -31,7 +32,7 @@ class CAgentRegProgressDlg : public CJabberDlgBase
 {
 	CCtrlButton m_ok;
 
-public:  
+public:
 	CAgentRegProgressDlg(CJabberProto* _ppro, HWND _owner) :
 		CJabberDlgBase(_ppro, IDD_OPT_REGISTER, _owner, false),
 		m_ok(this, IDOK)
@@ -141,7 +142,7 @@ public:
 				if ((queryNode = xmlGetChild(m_agentRegIqNode , "query")) == NULL) return TRUE;
 
 				RECT rect;
-				
+
 				m_curPos = 0;
 				GetClientRect(GetDlgItem(m_hwnd, IDC_FRAME), &(m_frameRect));
 				GetClientRect(GetDlgItem(m_hwnd, IDC_VSCROLL), &rect);

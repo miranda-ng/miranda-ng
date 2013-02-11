@@ -3,6 +3,7 @@
 Jabber Protocol Plugin for Miranda IM
 Copyright (C) 2002-04  Santithorn Bunchua
 Copyright (C) 2005-12  George Hazan
+Copyright (C) 2012-13  Miranda NG Project
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -103,7 +104,7 @@ int JabberHttpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRAN
 	TCHAR sid[25] = _T("");
 	unsigned __int64 rid = 0;
 
-	XmlNode hPayLoad(strb); 
+	XmlNode hPayLoad(strb);
 	XmlNode body(_T("body"));
 	HXML hBody = body << XATTRI64(_T("rid"), rid++) << XATTR(_T("sid"), sid) <<
 		XATTR(_T("xmlns"), _T("http://jabber.org/protocol/httpbind"));
