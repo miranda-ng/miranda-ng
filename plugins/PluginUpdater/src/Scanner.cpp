@@ -35,7 +35,7 @@ static bool Exists(LPCTSTR strName)
 
 struct ServListEntry
 {
-	ServListEntry(const char* _name, const char* _hash, DWORD _crc) :
+	ServListEntry(const char* _name, const char* _hash, int _crc) :
 		m_name( mir_a2t(_name)),
 		m_bNeedFree(true),
 		m_crc(_crc)
@@ -58,7 +58,7 @@ struct ServListEntry
 	TCHAR *m_name;
 	char   m_szHash[32+1];
 	bool   m_bNeedFree;
-	DWORD  m_crc;
+	int  m_crc;
 };
 
 static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
@@ -187,6 +187,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 		bool bHasNewVersion = false;
 		TCHAR *ptszUrl;
+		int MyCRC = 0;
 		mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 		// this file is not marked for deletion
@@ -211,6 +212,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			char szMyHash[33];
 			CalculateModuleHash(tszBuf, szMyHash);
 
+			MyCRC = item->m_crc;
 			bHasNewVersion = strcmp(szMyHash, item->m_szHash) != 0;
 		}
 		else { // file was marked for deletion, add it to the list anyway
@@ -242,6 +244,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
 			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
 				*p++ = '/';
+			FileInfo->File.CRCsum = MyCRC;
 			UpdateFiles->insert(FileInfo);
 		} // end compare versions
 	}
@@ -292,7 +295,7 @@ static void CheckUpdates(void *)
 	FILEURL pFileUrl;
 	mir_sntprintf(pFileUrl.tszDownloadURL, SIZEOF(pFileUrl.tszDownloadURL), _T("%s/hashes.zip"), (TCHAR*)tszBaseUrl);
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
-	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath)) {
+	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
 		CheckThread = NULL;
 		return;
@@ -323,7 +326,7 @@ static void CheckUpdates(void *)
 
 		_strlwr(p);
 
-		DWORD dwCrc32;
+		int dwCrc32;
 		char *p1 = strchr(p, ' ');
 		if (p1 == NULL)
 			dwCrc32 = 0;

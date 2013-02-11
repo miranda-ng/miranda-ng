@@ -72,6 +72,7 @@ struct FILEURL
 {
 	TCHAR tszDownloadURL[2048];
 	TCHAR tszDiskPath[MAX_PATH];
+	int CRCsum;
 };
 
 struct FILEINFO
@@ -139,7 +140,7 @@ int  OptInit(WPARAM, LPARAM);
 void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
 void DoCheck(int iFlag);
-BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
+BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum);
 void ShowPopup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType);
 void __stdcall RestartMe(void*);
 BOOL AllowUpdateOnStartup();

@@ -319,7 +319,7 @@ static void ApplyUpdates(void *param)
 		SetStringText(hwndList, i, TranslateT("Downloading..."));
 
 		FILEURL *pFileUrl = &todo[i].File;
-		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath))
+		if ( !DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath, pFileUrl->CRCsum))
 			SetStringText(hwndList, i, TranslateT("Failed!"));
 		else
 			SetStringText(hwndList, i, TranslateT("Succeeded."));
