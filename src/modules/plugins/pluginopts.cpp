@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "plugins.h"
 
-#define IS_STATIC   0x001
-
 extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
 static bool bOldMode = false;
@@ -39,7 +37,7 @@ static bool bOldMode = false;
 typedef struct
 {
 	HINSTANCE hInst;
-	int   flags;
+	int   flags, stdPlugin;
 	char* author;
 	char* authorEmail;
 	char* description;
@@ -63,6 +61,16 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
 	dat->flags = pi.pluginInfo->flags;
+
+	dat->stdPlugin = 0;
+	if (pi.Interfaces) {
+		MUUID *piface = pi.Interfaces;
+		for (int i=0; !equalUUID(miid_last, piface[i]); i++) {
+			int idx = getDefaultPluginIdx( piface[i] );
+			if (idx != -1 ) {
+				dat->stdPlugin |= (1 << idx);
+				break;
+	}	}	}
 
 	CharLower(fd->cFileName);
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
@@ -316,12 +324,12 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						break;
 
 					PluginListItemData *dat = (PluginListItemData*)it.lParam;
-					if (dat->flags & IS_STATIC) {
+					if (dat->flags & STATIC_PLUGIN) {
 						ListView_SetItemState(hwndList, hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 						return FALSE;
 					}
 					// if enabling and replaces, find all other replaces and toggle off
-					if ((hdr->uNewState & 0x2000) && dat->flags != 0)  {
+					if ((hdr->uNewState & 0x2000) && dat->stdPlugin != 0)  {
 						for (int iRow = 0; iRow != -1;) {
 							if (iRow != hdr->iItem) {
 								LVITEM dt;
@@ -329,12 +337,12 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 								dt.iItem = iRow;
 								if (ListView_GetItem(hwndList, &dt)) {
 									PluginListItemData* dat2 = (PluginListItemData*)dt.lParam;
-									if (dat2->flags & dat->flags) {
+									if (dat2->stdPlugin & dat->stdPlugin) {
 										// the lParam is unset, so when the check is unset the clist block doesnt trigger
-										int lParam = dat2->flags;
-										dat2->flags = 0;
+										int lParam = dat2->stdPlugin;
+										dat2->stdPlugin = 0;
 										ListView_SetItemState(hwndList, iRow, 0x1000, LVIS_STATEIMAGEMASK);
-										dat2->flags = lParam;
+										dat2->stdPlugin = lParam;
 							}	}	}
 
 							iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
