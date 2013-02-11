@@ -17,10 +17,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -37,7 +35,7 @@ BEGIN
     CONTROL         "Specify Smiley Pack for each category",IDC_USESTDPACK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,124,11,165,11
     EDITTEXT        IDC_FILENAME,124,25,185,12,ES_AUTOHSCROLL,WS_EX_ACCEPTFILES
-    PUSHBUTTON      "...",IDC_BROWSE,296,15,13,11
+    PUSHBUTTON      "...",IDC_BROWSE,296,11,13,11
     LTEXT           "Name:",IDC_STATIC,125,42,30,8
     LTEXT           "",IDC_LIBNAME,159,41,150,11,SS_SUNKEN | SS_PATHELLIPSIS
     LTEXT           "Author:",IDC_STATIC,125,56,30,8
@@ -53,8 +51,15 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,16,115,198,12,WS_EX_RTLREADING
     CONTROL         "Scale smiley to textheight",IDC_SCALETOTEXTHEIGHT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,128,147,10
-    CONTROL         "Animate",IDC_ANIMATEDLG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,116,98,10
     CONTROL         "Disable custom smileys",IDC_DISABLECUSTOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,138,147,10
+    CONTROL         "High Quality smiley scaling",IDC_HQSCALING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,148,148,10
+    CONTROL         "Animate",IDC_ANIMATEDLG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,116,91,10
+    EDITTEXT        IDC_MAXCUSTSMSZ,165,128,30,15,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    CONTROL         "",IDC_MAXCUSTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,182,129,11,12
+    LTEXT           "Max ""Custom Smiley"" height",IDC_STATIC,198,132,109,8
+    EDITTEXT        IDC_MINSMSZ,165,144,30,15,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    CONTROL         "",IDC_MINSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,182,145,11,12
+    LTEXT           "Min smiley height",IDC_STATIC,198,148,110,8
     GROUPBOX        "Smiley Selector",IDC_STATIC,6,160,310,46
     CONTROL         "Surround inserted smiley with spaces",IDC_APPENDSPACES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,171,235,10
@@ -62,7 +67,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,182,209,10
     CONTROL         "IEView style window",IDC_IEVIEWSTYLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,193,198,10
     CONTROL         "",IDC_SELCLR,"ColourPicker",WS_TABSTOP,260,170,50,11
-    CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,193,98,10
+    CONTROL         "Animate",IDC_ANIMATESEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,218,193,91,10
     GROUPBOX        "Input Area",IDC_STATIC,6,208,145,42
     CONTROL         "Enable Smileys",IDC_INPUTSMILEYS,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,219,130,12
     CONTROL         "Don't replace at cursor",IDC_DCURSORSMILEY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,15,231,130,12
@@ -70,13 +75,6 @@ BEGIN
     CONTROL         "Disable",IDC_PLUGENABLED,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,240,217,69,12
     COMBOBOX        IDC_SMLBUT,159,230,55,35,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Smiley Button",IDC_STATIC,161,219,72,8
-    EDITTEXT        IDC_MAXCUSTSMSZ,165,128,30,15,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    CONTROL         "",IDC_MAXCUSTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,182,129,11,12
-    LTEXT           "Max ""Custom Smiley"" height",IDC_STATIC,198,132,118,8
-    CONTROL         "High Quality smiley scaling",IDC_HQSCALING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,148,148,10
-    EDITTEXT        IDC_MINSMSZ,165,144,30,15,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    CONTROL         "",IDC_MINSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,182,145,11,12
-    LTEXT           "Min smiley height",IDC_STATIC,198,148,118,8
 END
 
 
@@ -86,7 +84,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_SMILEYS, DIALOG
     BEGIN
@@ -103,13 +101,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -158,18 +154,16 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SMILINGICON         ICON                    "smiley.ICO"
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -197,7 +191,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.K.) resources
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

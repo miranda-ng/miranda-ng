@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -137,7 +135,7 @@ BEGIN
     PUSHBUTTON      "Unset Idle",IDCANCEL,129,50,39,14
 END
 
-IDD_PRIVACY DIALOGEX 0, 0, 301, 249
+IDD_PRIVACY DIALOGEX 0, 0, 301, 220
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -235,7 +233,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_AIM, DIALOG
     BEGIN
@@ -260,7 +258,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 294
         TOPMARGIN, 7
-        BOTTOMMARGIN, 242
+        BOTTOMMARGIN, 213
     END
 
     IDD_CHAT, DIALOG
@@ -325,7 +323,7 @@ IDI_NORMALSCRIPT        ICON                    "normalscript.ico"
 IDI_SUBSCRIPT           ICON                    "subscript.ico"
 IDI_SUPERSCRIPT         ICON                    "superscript.ico"
 IDI_BLOCK               ICON                    "block.ico"
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
