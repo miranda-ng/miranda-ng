@@ -108,7 +108,7 @@ sln_stream=FSO.GetFile(trunk+"\\bin10\\mir_full.sln").OpenAsTextStream(ForReadin
      // if exist sln_project_regexp, add to array, adding leading path to "trunk"
      if (sln_project_regexp) {
         //RegExp for unneeded modules, such as crypting library, mimcmd.exe, zlib.dll etc.
-        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|MimCmd|Dbx_tree_ARC4|Dbx_tree_Cast128|Dbx_tree_HC256)/i;
+        var unneeded_modules=/(Zlib|RC4|EkHtml|Libgcrypt|Libotr|Cryptlib|MimCmd|Dbx_tree_ARC4|Dbx_tree_Cast128|Dbx_tree_HC256|pu_stub)/i;
         // Now check for unneeded modules NOT passed (module name are in sln_project_regexp[1]
         if (!unneeded_modules.test(sln_project_regexp[1]))
         //no, this is not unneeded module, put path to array. Trunk path + path to file in sln_project_regexp[2]
@@ -117,7 +117,6 @@ sln_stream=FSO.GetFile(trunk+"\\bin10\\mir_full.sln").OpenAsTextStream(ForReadin
     };
 //closing file
 sln_stream.Close();
-
 //ok, now we have all project files in array, let's add Pascal files to this array directly.
 // remove following lines commets to add Pascal plugins processing.
 // project_files.push(trunk+"\\plugins\\Actman\\actman.dpr");
@@ -206,11 +205,8 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     langpack=langpackfilepath+"\\"+plugin+".txt";
     //get MUUID of plugin and put into array as a first string.
     GetMUUID(pluginpath,head);
-    //Get info from version.h
-    //First, locate a version.h file
-    FindFiles(pluginpath,"^version.h$",versionfile);
     //Parse version.h file, put results into array "head"
-    ParseVersion_h(versionfile,head);
+    ParseVersion_h(pluginpath,head);
     //find all *.rc files and list files in array
     FindFiles(pluginpath,"\\.rc$",resourcefiles);
     //find all source files and list files in array
@@ -326,7 +322,7 @@ function GetMUUID (folder,array) {
         //open file as text stream
         file_stream=FSO.GetFile(curfile).OpenAsTextStream(ForReading, TristateUseDefault);
         //this is a regexp to search UNICODE_AWARE
-        var find=/(?:UNICODE_AWARE,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
+        var find=/(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
         //read file fully into var "allstrings"
         allstrings=file_stream.ReadAll();
         //search regexp in "allstrings" and put results into var "string"
@@ -519,9 +515,18 @@ if (!test2 && !test3 && !test4 && !test5) {
 };
 
 //Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.
-function ParseVersion_h (VersionFile,array) {
-//If file zero size, return;
-if (!FSO.GetFileName(VersionFile)) return;
+function ParseVersion_h (pluginfolder,array) {
+//cleanup var
+var VersionFile;
+//Let's try default locations of version.h file;
+//Check pluginfolder root.
+if (FSO.FileExists(FSO.BuildPath(pluginfolder,"version.h"))) VersionFile=FSO.BuildPath(pluginfolder,"version.h");
+//Check src\include subfolder of plugin root folder
+if (FSO.FileExists(FSO.BuildPath(pluginfolder,"src\\include\\version.h"))) VersionFile=FSO.BuildPath(pluginfolder,"src\\include\\version.h");
+//Check .\src subfolder
+if (FSO.FileExists(FSO.BuildPath(pluginfolder,"src\\version.h"))) VersionFile=FSO.BuildPath(pluginfolder,"src\\version.h");
+//If we still not found version.h, return
+if (!VersionFile) return;
 //open file
 versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, TristateUseDefault);
 //read file fully into var allstrings
@@ -535,7 +540,7 @@ var MINOR_VERSION=/(?:#define\s+_*?(?:MINOR_VERSION|VER_MINOR)\s+)(\d+)/i;
 var RELEASE_NUM=/(?:#define\s+_*?(?:RELEASE_NUM|VER_REVISION|VER_RELEASE)\s+)(\d+)/i;
 var BUILD_NUM=/(?:#define\s+_*?(?:BUILD_NUM|VER_BUILD)\s+)(\d+)/i;
 var VERSION_STRING=/(?:#define\s+_*?VERSION_STRING\s+")([\d\.]+)\"/i;
-var description=/(?:#define\s+_*?(?:PLUGIN_)?DESC(?:RIPTION|_STRING)?\s+")(.+)(?=")/i;
+var description=/(?:#define\s+_*?(?:PLUGIN_|MTEXT_)?DESC(?:RIPTION|_STRING)?\s+")(.+)(?=")/i;
 //exec RegExps
 filename=filename.exec(allstrings);
 pluginname=pluginname.exec(allstrings);
