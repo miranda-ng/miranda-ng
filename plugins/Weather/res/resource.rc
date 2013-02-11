@@ -13,6 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
@@ -38,15 +45,15 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,3,0,299,70,WS_GROUP
     CONTROL         "Update weather information on startup",IDC_STARTUPUPD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,219,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,286,8
     CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,23,206,8
-    EDITTEXT        IDC_UPDATETIME,231,21,25,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    EDITTEXT        IDC_UPDATETIME,223,21,33,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
     LTEXT           "minutes",IDC_STATIC,260,23,39,8
     CONTROL         "Consider weather info updated only when condition and temperature are changed",IDC_UPDCONDCHG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,282,8
-    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,282,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,286,8
+    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,286,8
     CONTROL         "Make the contact italic when weather alert is issued",IDC_MAKEI,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,282,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,286,8
     GROUPBOX        "Modes",IDC_STATIC,3,70,300,37
     CONTROL         "Use weather condition as protocol status",IDC_PROTOCOND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8
@@ -78,11 +85,11 @@ BEGIN
     CONTROL         "ft",IDC_E1,"Button",BS_AUTORADIOBUTTON,65,163,34,8
     CONTROL         "m",IDC_E2,"Button",BS_AUTORADIOBUTTON,120,163,34,8
     CONTROL         "Do not append units to values",IDC_DONOTAPPUNITS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,174,144,8
-    CONTROL         "Do not display fractional values",IDC_NOFRAC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,174,146,8
+    CONTROL         "Do not display fractional values",IDC_NOFRAC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,174,139,8
     GROUPBOX        "Frame",IDC_STATIC,3,187,300,29
-    EDITTEXT        IDC_AVATARSIZE,11,197,29,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    CONTROL         "",IDC_AVATARSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,28,197,11,14
-    LTEXT           "Avatar size",IDC_STATIC,42,200,85,9
+    EDITTEXT        IDC_AVATARSIZE,8,195,36,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    CONTROL         "",IDC_AVATARSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,43,195,11,14
+    LTEXT           "Avatar size",IDC_STATIC,60,200,95,9
 END
 
 IDD_EDIT DIALOGEX 0, 0, 241, 226
@@ -282,7 +289,8 @@ BEGIN
 
     IDD_OPTIONS, DIALOG
     BEGIN
-        VERTGUIDE, 12
+        VERTGUIDE, 8
+        VERTGUIDE, 294
         BOTTOMMARGIN, 209
     END
 
@@ -400,3 +408,19 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
