@@ -273,10 +273,10 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Канал
 [Topic]
 Тэма
-[The \"Nick\" field must contain at least four characters, and also match the default nickname (incl. wildcards) for this contact.\n\nThe \"Nick\" field is not case-sensitive but \"User\" and \"Address\" are.\r\n\r\nThe default nickname for this contact is]
-Каб адпавядаць правілам, поле \"Псеўданім\" павінна ўтрымоўваць прынамсі чатыры знака, і супадаць з псеўданімам па змаўчанні (уключаючы маскі) для гэтага кантакту. \n\n Поле \"Псеўданім\" не адчувальна да рэгістра, а "Карыстач" і "Адрас" адчувальныя.\r\n\r\n Псеўданімам па змаўчанні, для гэтага кантакту, з'яўляецца
-[Settings could not be saved!\n\nThe \"Nick\" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-Налады не захаваны.\n\n Поле \"Псеўданім\" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
+[The "Nick" field must contain at least four characters, and also match the default nickname (incl. wildcards) for this contact.\n\nThe "Nick" field is not case-sensitive but "User" and "Address" are.\r\n\r\nThe default nickname for this contact is]
+Каб адпавядаць правілам, поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака, і супадаць з псеўданімам па змаўчанні (уключаючы маскі) для гэтага кантакту. \n\nПоле "Псеўданім" не адчувальна да рэгістра, а "Карыстач" і "Адрас" адчувальныя.\r\n\r\nПсеўданімам па змаўчанні, для гэтага кантакту, з'яўляецца
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 [Add ban/invite/exception]
 Дадаць бан/запрашэнне/выключэнне
 [Edit selected ban/invite/exception]
@@ -489,7 +489,6 @@ ID карыстача
 Памылка DCC: Немагчыма адкрыць лакальны порт для пасіўнай перадачы файлаў
 [IRC Protocol Plugin]
 Модуль пратаколу IRC
-
 [Cyrillic (KOI8R)]
 Кірыліца KOI8-R
 [Cyrillic (Windows)]

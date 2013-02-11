@@ -3419,11 +3419,11 @@ Web Дызайн
 [(U) hides in shadows...]
 схаваўся ў цені...
 [(M) feels talkative!]
-гатовы балбатаць!
+вольны!
 [(F) feels talkative!]
-гатовая балбатаць!
+вольная!
 [(U) feels talkative!]
-гатовы(а) балбатаць!
+вольны(ая)!
 [(M) went Away]
 адышоў
 [(F) went Away]
@@ -3589,7 +3589,7 @@ xСтатусы
 [XStatus Logging]
 Запіс хстатусаў
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
-Схаваць "вкл/выкл гук" у галоўным меню (патрабуецца перазапуск)
+Схаваць "укл/выкл гук" у галоўным меню (патрабуецца перазапуск)
 [Popup duration]
 Працягласць
 [Cannot send message]

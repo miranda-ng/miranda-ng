@@ -1453,7 +1453,7 @@
 ﻿#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
 ;============================================================
 ;  File: AdvaImg.dll
-;  Plugin: Miranda Image services
+;  Plugin: Miranda image services
 ;  Version: 0.11.0.1
 ;  Authors: Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)
 ;============================================================
@@ -1952,7 +1952,7 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
-;  Plugin: File Association Manager
+;  Plugin: File association manager
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
@@ -2317,7 +2317,7 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
+;  Plugin: Basic history
 ;  Version: 1.0.1.9
 ;  Authors: Krzysztof Kral
 ;============================================================
@@ -2700,7 +2700,7 @@
 ﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
 ;  File: BuddyExpectator.dll
-;  Plugin: Buddy Expectator+
+;  Plugin: Buddy expectator
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
@@ -2774,7 +2774,7 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Plugin: Change Keyboard Layout
+;  Plugin: Change keyboard layout
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
@@ -2823,11 +2823,11 @@
 ﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
-;  Plugin: Client Change Notify
+;  Plugin: Client change notify
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-[ClientChangeNotify plugin for Miranda NG.]
+[Shows a notification when someone in your contact list changes his client.]
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 [OK]
@@ -2882,7 +2882,13 @@
 [Open log file]
 [Do nothing]
 ﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
-;langpack template for Clist_blind
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[A contact list for blind folks.]
 ;file \plugins\Clist_blind\res\resource.rc
 [Delete Contact]
 [Are you sure you want to delete %s?]
@@ -3017,10 +3023,11 @@
 ﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
-;  Plugin: Clist_modern
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 [Window behaviour:]
@@ -3561,7 +3568,13 @@
 [View Modes]
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h
 ﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
-;langpack template for Clist_mw
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 [Background colour:]
@@ -3669,6 +3682,19 @@
 [MetaContacts supporting]
 [Ignore Empty Extra icons places (arrange to right).]
 [Hide offline subcontacts.]
+[Status Bar]
+[Show status bar]
+[Show icons]
+[Show protocol names]
+[Show status text]
+[Right click opens status menu]
+[Right click opens Miranda menu]
+[Make sections equal width]
+[-]
+[Show size grip]
+[Show bevel effect on panels]
+[Use connecting Icon]
+[Use New Drawer for StatusBar]
 [&¤]
 [E&xit]
 [&Status]
@@ -3696,19 +3722,6 @@
 [&Hide Offline Users in here]
 [&Rename Group]
 [&Delete Group]
-[Status Bar]
-[Show status bar]
-[Show icons]
-[Show protocol names]
-[Show status text]
-[Right click opens status menu]
-[Right click opens Miranda menu]
-[Make sections equal width]
-[-]
-[Show size grip]
-[Show bevel effect on panels]
-[Use connecting Icon]
-[Use New Drawer for StatusBar]
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 [Backgrounds]
@@ -3785,7 +3798,13 @@
 [Floating]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 ﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
-;langpack template for Clist_nicer
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
 [Copy to clipboard]
@@ -4261,7 +4280,13 @@
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
 ﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
-;langpack template for Cln_skinedit
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[Allows inline skin item editing for clist nicer.]
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 [General]
@@ -4299,7 +4324,7 @@
 ﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;============================================================
 ;  File: CmdLine.dll
-;  Plugin: CmdLine
+;  Plugin: Command line
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
@@ -4315,6 +4340,9 @@
 [No command can have more than %d parameters\n]
 [%s version %s]
 [Unknown command '%s'.\n]
+;file \plugins\CmdLine\src\CmdLine.cpp
+[Could not initialize CmdLine plugin property]
+[Error]
 ;file \plugins\CmdLine\src\mimcmd_data.h
 [Change account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is the name of the account. If it's not specified then the command will issue a global status change.]
 [Change away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
@@ -4379,7 +4407,6 @@
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 [You can only run one instance of CmdLine plugin.]
-[Error]
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]
@@ -4428,7 +4455,13 @@
 [Save selection to file]
 [Save log to file]
 ﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
-;langpack template for Contacts
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 [&A]
@@ -5172,7 +5205,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.2
+;  Version: 0.0.9.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -5301,8 +5334,6 @@
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
 [Regular Contact]
-[Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n]
-[Favourite Contacts Error]
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]
@@ -6499,6 +6530,7 @@
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 [Secure Connection (SSL)]
 [Secure (MD5) login]
+[Legacy fix (for ICQ Groupware or IServerD only)]
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 [Ignore concurrent error messages]
 [Show connection error messages:]
@@ -10455,6 +10487,14 @@
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
+﻿#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
+;============================================================
+;  File: mTextControl.dll
+;  Plugin: mTextControl
+;  Version: 0.8.0.1
+;  Authors: 
+;============================================================
+[Provides text render API for different plugins.]
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
@@ -11251,6 +11291,45 @@
 [Reminder text]
 [Date of activation]
 [Are you sure you want to delete this reminder?]
+﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;langpack template for NotifyAnything
+;file \plugins\NotifyAnything\res\NotifyAnything.rc
+[Property Page]
+[Security]
+[Only listen to localhost]
+[Sound]
+[Play sounds]
+[Use internal speaker]
+[Debug]
+[Log to file]
+[Message debugging]
+[Port:]
+[(Default is 12001)]
+[Allow actions to execute programs]
+[Password:]
+[...]
+;file \plugins\NotifyAnything\src\main.cpp
+[No resource name given.]
+[Icon indices start at 1.]
+[Could not find the requested icon.]
+[Application launching is disabled.]
+[Unterminated option.]
+[No argument given to msg option.]
+[Id is required for replacement.]
+[Invalid argument for replace option: ]
+[Empty message ignored.]
+[Failed to write to log file.]
+[Failed to open log file.]
+[N/A: Failed to format error message]
+[N/A: FormatMessage failed, error code was 0x]
+[Error]
+;file \plugins\NotifyAnything\src\options.cpp
+[Services]
+[LogService]
+[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
+[Invalid port number]
+[NotifyAnything]
+[Plugins]
 ﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;langpack template for Nudge
 ;file \plugins\Nudge\res\resource.rc
@@ -16054,7 +16133,7 @@
 [Reply to Tweet]
 [Visit Homepage]
 [Reply...]
-﻿;#muuid for UInfoEx not found, please specify manually!
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx

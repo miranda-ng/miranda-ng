@@ -35,6 +35,8 @@
 Файл ужо існуе. Перазапісаць?
 [Request sent. Awaiting of acceptance..]
 Запрос адпраулены. Чакаем...
+[If you see this "garbage", probably you have no "fileAsMessage" plugin installed, see http://miranda-im.org/download/details.php?action=viewfile&id=1811 for more information and download.]
+Калі вы бачаце гэты "бруд", у вас адсутнічае дадатак "fileAsMessage", з дапамогай якога карыстач дасылае вам файл. 
 [Size: %d bytes]
 Памер: %d байт
 [Couldn't open a file]

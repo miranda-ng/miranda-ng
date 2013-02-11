@@ -3,3 +3,83 @@
 ;  Plugin: Adds the possibility to shutdown the computer when a specified event occurs
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Дадае магчымасць кіравання камп'ютара праз Miranda NG.
+[Shutdown]
+Выключэнне
+[seconds]
+секунд(ы)
+[Configure]
+Наладзіць
+[(current: 0%)]
+(зараз 0%)
+[&Action:]
+Дзеянне:
+[Cancel]
+Скасаваць
+[&Now!]
+Зараз!
+[Time left:]
+Засталося часу:
+[Header]
+Загаловак
+[Events]
+З'явы
+[(current: %u%%)]
+(бягучае %u%%)
+[Second(s)]
+Секунд(ы)
+[Minute(s)]
+Хвілін(ы)
+[Hour(s)]
+Гадзін(ы)
+[Day(s)]
+Дня(і)
+[Week(s)]
+Тыдні(яў)
+[Month(s)]
+Месяц(аў)
+[All dialup connections will be closed in %u second(s).]
+Усе далучэнні разарвуцца праз %u секунд(ы).
+[The computer will automatically be shut down in %u second(s).]
+Кампутар выключыцца праз %u секунд(ы).
+[Inititiating the shutdown process failed!\nReason: %s]
+Памылка запуску працэса выключэння!\nЧыннік: %s
+[Close Miranda NG]
+Зачыніць Miranda NG
+[Set Miranda NG offline]
+Адключыць усе пратаколы
+[Log off user]
+Выйсце з сістэмы
+[Restart computer]
+Перазагрузка кампутара
+[Shutdown computer]
+Выключэнне кампутара
+[Standby mode]
+Рэжым чакання
+[Hibernate mode]
+Рэжым гібернацыі
+[Lock workstation]
+Заблакаваць кампутар
+[Hang up dialup connections]
+Адключыць тэлефонныя злучэнні
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Адключыць усе пратаколы і зачыніць Miranda NG.
+[Sets all Miranda NG protocols to offline.]
+Адключыць усе пратаколы Miranda NG.
+[Logs the current Windows user off so that another user can log in.]
+Выйсці з уліковага запісу Windows, каб іншы карыстач змог увайсці.
+[Shuts down Windows and then restarts Windows.]
+Адключыць і затым перазапусціць Windows.
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Зачыніць усе запушчаныя праграмы і завяршыць працу Windows, каб можна было адключыць сілкаванне.
+[Saves the current Windows session on harddisc, so that the power can be turned off.]
+Захаваць бягучы стан Windows на цвёрдым дыску, так што сілкаванне можна выключыць.
+[Locks the computer. To unlock the computer, you must log in.]
+Заблакаваць кампутар. Для разблакоўкі неабходна ўвайсці ў сістэму.
+[Sets all protocols to offline and closes all RAS connections.]
+Адключыць усе пратаколы і разарваць усе тэлефонныя злучэнні.
+[Alerts]
+Паведамленні
+[Automatic Shutdown Countdown]
+Зваротны адлік аўтавыключэння
+[Toggle Automatic Shutdown]
+Пераключыць аўтавыключэнне

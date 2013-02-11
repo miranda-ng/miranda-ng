@@ -73,6 +73,8 @@
 справа знізу
 [upper right corner]
 справа зверху
+[The Jabberwocky :)]
+Балбатун :)
 [Drop shadow effect]
 Эфект ценю
 [* - built-in skins]
@@ -169,6 +171,20 @@ History++ для гісторыі вокнаў
 Адключыць, калі статус адпавядае пратаколу...
 [Colors can be configured in Customize > Fonts section.]
 Колеры наладжваюцца ў Тонкая налада > Шрыфты і колеры.
+[1 second]
+1 секунда
+[2 seconds]
+2 секунды
+[3 seconds]
+3 секунды
+[5 seconds]
+5 секунд
+[7 seconds]
+7 секунд
+[10 seconds]
+10 секунд
+[15 seconds]
+15 секунд
 [Infinite]
 Бясконца
 [Per-contact settings]
@@ -277,6 +293,26 @@ BBCode ([b]..[/b] - тоўсты)
 Вокны выключаны
 [Image not available (bbCode)]
 Малюнак недаступна (BBCode)
+[Timestamp digit '0']
+Лічба "0"
+[Timestamp digit '1']
+Лічба "1"
+[Timestamp digit '2']
+Лічба "2"
+[Timestamp digit '3']
+Лічба "3"
+[Timestamp digit '4']
+Лічба "4"
+[Timestamp digit '5']
+Лічба "5"
+[Timestamp digit '6']
+Лічба "6"
+[Timestamp digit '7']
+Лічба "7"
+[Timestamp digit '8']
+Лічба "8"
+[Timestamp digit '9']
+Лічба "9"
 [Left edge of timestamp]
 Левы бок часу
 [Right edge of timestamp]

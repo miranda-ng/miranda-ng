@@ -13,8 +13,8 @@
 Адпраўка паведамленняў
 [Send on SHIFT - Enter]
 Пасылаць па "Shift+Enter"
-[Enable \"Paste and send\" feature]
-Уключыць функцыю \"уставіць і адправіць\"
+[Enable "Paste and send" feature]
+Уключыць функцыю "ўставіць і адправіць"
 [Allow BBCode formatting in outgoing messages]
 Дазволіць BB-коды для выходных паведамленняў
 [Other options]
@@ -217,6 +217,8 @@ RTL шаблоны
 Адмяніць
 [Events]
 з'яў
+[Internal message log]
+Убудаваны журнал
 [Revert to Default]
 Вярнуць па змаўчанні
 [Define up to 5 colors which you can use with some variables]
@@ -271,6 +273,8 @@ RTL шаблоны
 Прамежак кнопак:
 [Popup]
 Вакно
+[Close Other Tabs]
+Зачыніць іншыя ўкладкі
 [Advanced tweaks]
 Дадатковыя налады
 [Message window tweaks]
@@ -365,8 +369,8 @@ RTL шаблоны
 Выкарыстоўваць колеру лога паведамленняў для успл. вокнаў чатаў
 [New messages: ]
 Новыя паведамленні: 
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as \"new\". If you don't want this behaviour, please review the Event Notifications settings page.]
-Адно з дзеянняў вакон наладжана на "Адмовіць з'яву".\nЭто может оказать нежеланный эфект, так как помечает событие прочитанным.\nКак следствие события не будут показаны "новыми". Калі вам гэта не трэба, праглядзіце налады ў раздзеле "Паведамленні".
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
+Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
 [Message window skin]
 Скін акна паведамленняў
 [Skin root folder]
@@ -693,8 +697,6 @@ TABSRMM: Набірае
 Гутаркі
 [* Message Input Area]
 Поле ўводу паведамлення
-[\nStyles and effects are disabled for this font.]
-Для гэтага шрыфта налада стыляў і эфектаў адключана.
 [Window caption (skinned mode)]
 Загаловак (рэжым скіна)
 [Common colors]

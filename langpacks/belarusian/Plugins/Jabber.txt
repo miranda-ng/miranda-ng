@@ -73,6 +73,10 @@ Jabber Пароль
 Імя хаста ў якасці рэсурсу
 [List of public servers]
 Публічныя серверы
+[Use SSL]
+SSL
+[Use TLS]
+TLS
 [Manually specify connection host]
 Паказаць хост для далучэння
 [Automatically delete contacts not in my roster]
@@ -685,6 +689,8 @@ Unicode зборка
 спіс бачных
 [Flexible way to configure visibility and more.]
 Зручны спосаб наладзіць бачнасць і не толькі
+[ (act., def.)]
+(акціўна, змаўч.)
 [Lists:]
 Спісы:
 [Rules:]

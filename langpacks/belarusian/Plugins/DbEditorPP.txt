@@ -113,6 +113,14 @@ BL&OB
 Ва ўсе кантакты (уключаючы налады)
 [Edit Setting]
 Рэдагаваць наладу
+[Dword]
+Падвойнае
+[String]
+Радок
+[Hexadecimal]
+Шаснаццатковая
+[Decimal]
+Дзесятковая
 [Value Name:]
 Імя:
 [Value Data:]
@@ -141,6 +149,8 @@ BL&OB
 Улік рэгістра
 [Module Name]
 Модуль
+[Exact Match]
+Дакладна
 [Setting Name]
 Імя налады
 [Setting Value]
@@ -159,8 +169,8 @@ BL&OB
 Цалкам
 [Restore last opened position]
 Аднавіць апошняе становішча
-[Automatically expand \"settings\" when Database Editor ++ starts]
-Аўтаматычна расчыняць "налады" пры запуску
+[Automatically expand "settings" when Database Editor ++ starts]
+Адкрываць галінку "налады" пры запуску
 [Automatically expand "settings" when Database Editor ++ starts]
 Адкрываць галінку "налады" пры запуску
 [Use known modules list]
@@ -281,8 +291,8 @@ BL&OB
 Рэдактар базы (рэжым ANSI)
 [Open user tree in DBE++]
 Адкрыць у рэдактары базы
-[If the module name has a space in it, put a \\ before the space. eg \"aaa\\ bbb\"]
-Калі імя модуля ўтрымоўвае прабел, устаўце \\ перад прабелам. напр \"ааа\\ ббб\"
+[If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
+Калі ў імі модуля ёсць прабел, змесціце \\ перад ім, напр. "aaa\\ bbb"
 [If the module name has a space in it, put a \ before the space. eg "aaa\ bbb"]
 Калі ў імі модуля ёсць прабел, змесціце \ перад ім, напр. "aaa\ bbb"
 [Loading contacts...]

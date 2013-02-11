@@ -37,8 +37,8 @@
 - Прозвішча кантакту
 [Tips:]
 Падказкі:
-[*Rename menu item into \"---\" to insert separator]
-Каб уставіць падзельнік, пераназавіце пункт меню ў \"---\"
+[*Rename menu item into "---" to insert separator]
+Каб ўставіць падзельнік, пераназавіце пункт меню ў "---"
 [*Use drag'n'drop for arranging menu items]
 Перацягвайце мышкай пункты меню для сартавання
 [Add to QuickMenu]
@@ -49,3 +49,7 @@
 - Імя кантакту (Загалоўныя літары)
 [Enter Value]
 Увядзіце значэнне
+[New Button]
+Новая кнопка
+[New Menu Entry]
+Новы пункт меню

@@ -11,6 +11,8 @@
 Асноўныя налады
 [Enable YAMN Main Menu (Require Restart)]
 Пункт YAMN у галоўным меню (патрэбен перазапуск)
+[Enable YAMN Main Menu]
+Пункт YAMN ў галоўным меню
 [MailBrowser Options]
 Налады прагляду лістоў
 [Enable Close on Delete Button]

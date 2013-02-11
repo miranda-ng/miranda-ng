@@ -155,8 +155,8 @@ URL дап. інфармацыі
 Рабіць кантакт нахільным пры атрыманні абнаўлення
 [Display warning if INI file is not found at startup]
 Паказваць папярэджанне, калі файл INI не знойдзены 
-[Invalid ID format, missing \"/\" (10)]
-Няправільны фармат ID, не \"/\" (10)
+[Invalid ID format, missing "/" (10)]
+Няправільны фармат ID, не "/" (10)
 [Invalid service (11)]
 Няправільны сэрвіс (11)
 [Invalid station (12)]

@@ -91,7 +91,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/OpenFolder.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PackUpdater.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PasteIt.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PluginUpdater.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PManager.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PManagerEx.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/PopUp.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/QuickContacts.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/QuickMessages.txt
@@ -133,7 +133,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/watrack.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/Watrack_MPD.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/Weather.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/WhenWasIt.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/WhoUsesMyFiles.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/WUMF.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/Xfire.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/Yahoo.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/belarusian/Plugins/YAMN.txt

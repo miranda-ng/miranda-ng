@@ -387,6 +387,8 @@ ICQ-дапамога
  (DC усталявана)
 [ScreenName:]
 Імя AIM:
+[Keywords:]
+Тэгі:
 [Organisation:]
 Арганізацыя:
 [Language:]

@@ -29,6 +29,8 @@ lParam тып:
 Кліент
 [Quick Search]
 Пошук па спісе
+[Quick search]
+Пошук па спісе
 [Search on:]
 Шукаць у  
 [Quick Search:]

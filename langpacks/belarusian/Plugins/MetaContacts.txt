@@ -214,11 +214,11 @@ Meta ID
 Скід
 [Subcontact's MetaContact not found - deleting MetaContact data]
 Субкантакты ў метакантакце не знойдзены - выдаленне дадзеных метакантакта
-[MetaContact number of contacts <0 - deleting MetaContact]
-Колькасць кантактаў у метакантакте <0 - выдаленне метакантакта
+[MetaContact number of contacts < 0 - deleting MetaContact]
+Колькасць кантактаў у метакантакце < 0 - метакантакт будзе выдалены
 [MetaContact default contact number out of range - deleting MetaContact]
 Нумар кантакту па змаўчанні за межамі метакантакта - метакантакт будзе выдалены
-[Subcontact contact number (% d)> meta num contacts (% d) - deleting MetaContact]
-Нумар субкантакта (% d)> нумара ў метаконтакте (% d) - выдаленна метакантакта
-[Subcontact contact number <0 - deleting MetaContact]
-Нумар субкантакта <0 - выдаленне метакантакта
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+Нумар субкантакту (%d) > нумары ў метакантакце (%d) - метакантакт будзе выдалены
+[Subcontact contact number < 0 - deleting MetaContact]
+Нумар субкантакту < 0 - метакантакт будзе выдалены

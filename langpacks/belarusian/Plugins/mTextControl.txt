@@ -20,6 +20,8 @@ API прамалёўкі тэксту для іншых дадаткаў.
 Аб'екты
 [SmileyAdd Smilies]
 Смайлікі
+[BBCodes]
+BBCode
 [MathModule Formulas]
 Формулы MathModule
 [Text Controls]

@@ -618,7 +618,7 @@ URL:
 [for]
 на працягу
 [Free for chat]
-Гатовы балбатаць
+Вольны
 [From:]
 Ад:
 [Gender:]
@@ -987,6 +987,8 @@ Miranda не можа адкрыць '%s'\nЁн недаступны ці зан
 Праблема з пошукам
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
 Праблема: Не знойдзены ніводны драйвер базы дадзеных, вы не можаце стварыць профіль, вам неабходзен файл dbx_3x.dll
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+Не знойдзены ніводны рухавік базы дадзеных, вы не можаце стварыць новы профіль. Вам неабходны файл bx_mmap.dll
 [Profile]
 Профіль
 [Protocol is not loaded.]
@@ -1401,6 +1403,420 @@ URL ад %s
 Знойдзены 1 карыстач %s
 [of]
 з
+[Afghanistan]
+Афганістан
+[Albania]
+Албанія
+[Algeria]
+Алжыр
+[Andorra]
+Андора
+[Angola]
+Ангола
+[Anguilla]
+Ангілья
+[Antigua and Barbuda]
+Антыгуа і Барбуда
+[Argentina]
+Аргенціна
+[Armenia]
+Арменія
+[Aruba]
+Аруба
+[Australia]
+Аўстралія
+[Australia, Antarctic Territory]
+Аўстралія (антаркціка)
+[Australia, Christmas Island]
+Востраў Раства
+[Australia, Cocos (Keeling) Islands]
+Какосавыя выспы
+[Australia, Norfolk Island]
+Востраў Норфолк
+[Austria]
+Аўстрыя
+[Azerbaijan]
+Азербайджан
+[Bahamas]
+Багамы
+[Bahrain]
+Бахрэйн
+[Bangladesh]
+Бангладэш
+[Barbados]
+Барбадас
+[Belarus]
+Беларусь
+[Belgium]
+Бельгія
+[Belize]
+Беліз
+[Benin]
+Бенін
+[Bermuda]
+Бярмуды
+[Bhutan]
+Бутан
+[Bolivia]
+Балівія
+[Bosnia and Herzegovina]
+Боснія і Герцагавіна
+[Botswana]
+Батсвана
+[Brazil]
+Бразілія
+[British Virgin Islands]
+Брытанскія Віргінскія выспы
+[Brunei]
+Бруней
+[Bulgaria]
+Балгарыя
+[Burkina Faso]
+Буркіна-Фасо
+[Burundi]
+Бурундзі
+[Cambodia]
+Камбоджа
+[Cameroon]
+Камерун
+[Canada]
+Канада
+[Canary Islands]
+Канарскія выспы
+[Cayman Islands]
+Кайманавы астравы
+[Central African Republic]
+ЦАР
+[Chad]
+Чад
+[Chile, Republic of]
+Чылі
+[China]
+КНР
+[Colombia]
+Калумбія
+[Comoros]
+Каморы
+[Congo, Democratic Republic of (Zaire)]
+ДР Конга - ДРК і Конга (Кіншасы)
+[Congo, Republic of the]
+Конга (Бразавіль)
+[Cook Islands]
+Выспы Кука
+[Costa Rica]
+Коста-Рыка
+[Cote d'Ivoire (Ivory Coast)]
+Кот-д'Івуар
+[Croatia]
+Харватыя
+[Cuba]
+Куба
+[Greek, Republic of South Cyprus]
+Кіпр
+[Czech Republic]
+Чэхія
+[Denmark]
+Данія
+[Djibouti]
+Джыбуці
+[Dominica]
+Дамініка
+[Dominican Republic]
+Дамініканская Рэспубліка
+[Ecuador]
+Эквадор
+[Egypt]
+Егіпет
+[El Salvador]
+Сальвадор
+[Equatorial Guinea]
+Экватарыяльная Гвінея
+[Eritrea]
+Эрытрэя
+[Estonia]
+Эстонія
+[Ethiopia]
+Эфіопія
+[Europe]
+Еўропа
+[Falkland Islands]
+Фолклендскія выспы
+[Fiji]
+Фіджы
+[Finland]
+Фінляндыя
+[France]
+Францыя
+[French Polynesia]
+Французская Палінезія
+[Gabon]
+Габон
+[Gambia]
+Гамбія
+[Georgia]
+Грузія
+[Germany]
+Германія
+[Ghana]
+Гана
+[Gibraltar]
+Гібралтар
+[Greece]
+Грэцыя
+[Greenland]
+Грэнландыя
+[Grenada]
+Грэнада
+[Guadeloupe]
+Гвадэлупа
+[Guam, US Territory of]
+Гуам (ЗША)
+[Guatemala]
+Гватэмала
+[Guinea]
+Гвінея
+[Guinea-Bissau]
+Гвінея-Бісау
+[Guyana]
+Гаяна
+[Haiti]
+Гаіці
+[Honduras]
+Гандурас
+[Hong Kong]
+Ганконг
+[Hungary]
+Венгрыя
+[Iceland]
+Ісландыя
+[India]
+Індыя
+[Indonesia]
+Інданезія
+[Iran (Islamic Republic of)]
+Іран
+[Iraq]
+Ірак
+[Ireland]
+Ірландыя
+[Israel]
+Ізраіль
+[Italy]
+Італія
+[Jamaica]
+Ямайка
+[Japan]
+Японія
+[Jordan]
+Іарданія
+[Kazakhstan]
+Казахстан
+[Kenya]
+Кенія
+[Kiribati]
+Кірыбаці
+[Korea, North]
+КНДР
+[Korea, South]
+Рэспубліка Карэя
+[Kuwait]
+Кувейт
+[Kyrgyzstan]
+Кіргізія
+[Laos]
+Лаос
+[Latvia]
+Латвія
+[Lebanon]
+Ліван
+[Lesotho]
+Лесота
+[Liberia]
+Ліберыя
+[Libyan Arab Jamahiriya]
+Ливія
+[Liechtenstein]
+Ліхтэнштэйн
+[Lithuania]
+Літва
+[Luxembourg]
+Люксембург
+[Macau]
+Макао (Аомынь)
+[Macedonia, Republic of]
+Македонія
+[Madagascar]
+Мадагаскар
+[Malawi]
+Малаві
+[Malaysia]
+Малайзія
+[Maldives]
+Мальдывы
+[Mali]
+Малі
+[Malta]
+Мальта
+[Marshall Islands]
+Маршалавы выспы
+[Martinique]
+Марцініка
+[Mauritania]
+Маўрытанія
+[Mauritius]
+Маўрыкій
+[Mayotte Island]
+Майотта
+[Mexico]
+Мексіка
+[Micronesia, Federated States of]
+Мікранезія
+[Moldova, Republic of]
+Малдова
+[Monaco]
+Манака
+[Mongolia]
+Манголія
+[Montserrat]
+Монтсеррат
+[Morocco]
+Марока
+[Mozambique]
+Мазамбік
+[Myanmar]
+М'янма
+[Namibia]
+Намібія
+[Nauru]
+Науру
+[Nepal]
+Непал
+[Netherlands]
+Нідэрланды
+[Curacao]
+Кюрасао
+[New Caledonia]
+Новая Каледонія
+[New Zealand]
+Новая Зеландыя
+[Nicaragua]
+Нікарагуа
+[Niger]
+Нігер
+[Nigeria]
+Нігерыя
+[Niue]
+Ніуэ
+[Northern Mariana Islands, US Territory of]
+Паўночныя Марыянскія выспы (ЗША)
+[Norway]
+Нарвегія
+[Oman]
+Аман
+[Pakistan]
+Пакістан
+[Palau]
+Палау
+[Panama]
+Панама
+[Papua New Guinea]
+Папуа - Новая Гвінея
+[Paraguay]
+Парагвай
+[Peru]
+Перу
+[Philippines]
+ФіліпіныФилиппины
+[Poland]
+Польшча
+[Portugal]
+Партугалія
+[Puerto Rico]
+Пуэрта-Рыка
+[Qatar]
+Катар
+[Reunion Island]
+Рэюньён
+[Romania]
+Румынія
+[Russia]
+Расія
+[Rwanda]
+Руанда
+[Saint Kitts and Nevis]
+Сэнт-Кітс і Нэвіс
+[Saint Lucia]
+Сэнт-Люсія
+[Saint Pierre and Miquelon]
+Сен-П'ер і Микелон
+[Saint Vincent and the Grenadines]
+Сэнт-Вінсэнт і Грэнадыны
+[San Marino]
+Сан-Марына
+[Sao Tome and Principe]
+Сан-Томе і Прынсэп
+[Saudi Arabia]
+Саудаўская Аравія
+[Taiwan]
+Тайвань
+[Tanzania]
+Танзанія
+[Thailand]
+Тайланд
+[Tunisia]
+Туніс
+[Turkey]
+Турцыя
+[Uganda]
+Уганда
+[Ukraine]
+Украіна
+[United Arab Emirates]
+ААЭ
+[USA]
+ЗША
+[Chile]
+Чили
+[Congo]
+Конго
+[Cyprus]
+Кіпр
+[Montenegro]
+Чарнагорыя
+[Saint Helena, Ascension and Tristan da Cunha]
+Выспы Сьвятой Алены, Узнясення і Трыстан-ды-Кунья
+[Saint Martin (French part)]
+Сен-Мартэн
+[Samoa]
+Самоа
+[Serbia]
+Сербія
+[Sint Maarten (Dutch part)]
+ 
+[South Sudan]
+Паўднёвы Судан
+[Svalbard and Jan Mayen]
+Шпіцбэрген
+[Taiwan, Province of China]
+Тайвань
+[Tanzania, United Republic of]
+Танзанія
+[Timor-Leste]
+Усходні Тымор
+[United States]
+ЗША
+[Venezuela, Bolivarian Republic of]
+Венесуэла
+[Viet Nam]
+В'етнам
+[Virgin Islands, British]
+Брытанскія Віргінскія выспы
+[Virgin Islands, U.S.]
+ЗША Віргінскія выспы
+[Wallis and Futuna]
+Уоліс і Футуна
+[Western Sahara]
+Сахарская Арабская Дэмакратычная Рэспубліка
 [Unknown]
 Невядома
 [Menu Objects]
@@ -1439,8 +1855,8 @@ URL ад %s
 %s дададзены(а) у Ваш спіс кантактаў\n%u у %s
 [%s added you to the contact list\n%s on %s]
 %s дададзены(а) у Ваш спіс кантактаў\n%s у %s
-[Are you sure you want to remove profile \"%s\"?]
-Вы ўпэўнены, што жадаеце выдаліць профіль \"%s\"?
+[Are you sure you want to remove profile "%s"?]
+Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
 [Modified]
 Зменены
 [Feature is not supported by protocol]
@@ -1631,6 +2047,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Паскладаць каскадам
 [Save the size and position of chat rooms]
 Захоўваць памер і пазіцыю вокнаў пакояў
+[Custom2]
+Набор 2
 [Unique id]
 Асабісты конт
 [Word lookup]
@@ -1650,11 +2068,11 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 [Show the history]
 Гісторыя
 [Show/hide the nicklist]
-Вкл/адкл спіс нікаў
+Укл/адкл спіс нікаў
 [Control this room]
 Кіраванне каналам
 [Enable/disable the event filter]
-Вкл/выкл фільтр
+Укл/адкл фільтр
 [Save the size and position of chat rooms individually]
 Захоўваць памер і пазіцыю кожнага акна
 [Chat: Incoming message]
@@ -1690,7 +2108,7 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 [Event: DND]
 Падзея: Не турбаваць
 [Event: Free for chat]
-Падзея: Гатовы балбатаць
+Падзея: Вольны
 [Event: N/A]
 Падзея: Недаступны
 [Event: Occupied]
@@ -1787,5 +2205,27 @@ Miranda не змагла загрузіць убудаваную сістэму
 Мабільнасць
 [Always invisible]
 Заўсёды нябачны
-[of]
-з
+[\nStyles and effects are disabled for this font.]
+Для гэтага шрыфта налады стыляў і эфектаў адключаны.
+[Max Number of Flashes]
+Мігцець не больш
+[&Offline\tCtrl+0]
+Адключаны
+[On&line\tCtrl+1]
+Далучаны
+[&Away\tCtrl+2]
+Адышоў
+[&NA\tCtrl+3]
+Недасяжны
+[Occ&upied\tCtrl+4]
+Заняты
+[&DND\tCtrl+5]
+Не турбаваць
+[&Free for chat\tCtrl+6]
+Вольны
+[&Invisible\tCtrl+7]
+Нябачны
+[On the &Phone\tCtrl+8]
+Тэлефон
+[Out to &Lunch\tCtrl+9]
+За ежай

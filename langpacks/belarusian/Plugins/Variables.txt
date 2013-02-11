@@ -9,8 +9,6 @@
 Аўтапрагляд
 [Parse the following string at startup]
 Аналіз радка пры загрузцы
-[Automatically strip \"end of line\" characters]
-Абразаць знак \"канец радка\"
 [Automatically strip "end of line" characters]
 Абразаць знак "канец радка"
 [Help...]
@@ -327,8 +325,8 @@ y, калі даўжыня радка w > x, у іншым выпадку z
 становішча першага супадзення радка y у x
 [z if y equals x, multple y and z arguments allowed]
 z, калі y ураўноўваецца x, множныя аргументы y,z дазволены
-[z{2,4} matches \"zz\", \"zzz\" or \"zzzz\"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
-z{2,4} роўна \"zz\", \"zzz\" ці \"zzzz\"\r\n* эквівалентна {0,}\r\n+ эквівалентна {1,}\r\n? эквівалентна {0,1}
+[z{2,4} matches "zz", "zzz" or "zzzz"\r\n* is equivalent to {0,}\r\n+ is equivalent to {1,}\r\n? is equivalent to {0,1}]
+Z {2,4} роўна "ZZ", "ZZZ" або "ZZZZ" \ г \ п * эквівалентна {0,} \ г \ п + эквівалентна {1} \ г \ п? эквівалентна {0,1}
 [words (seperated by white spaces) number y to z from string x (z is optional)]
 словы (падзеленыя прабеламі) лік y ад z ад радка x (z неабавязкова)
 [(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]

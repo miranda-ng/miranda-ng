@@ -2,7 +2,7 @@
 ;  File: New_GPG.dll
 ;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM
 [New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
-Модуль шыфравання GPG, заснаваны на зыходных кодах старога GPG модуля і SecureIM.
+Убудова для шыфравання GPG.
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 Ваша версія GPG падтрымліваецца. Моўныя файлы знойдзеныя.\nGPG Павінен працаваць нармальна.\nНацісьніце ОК.
 [please choose gpg binary location]

@@ -1,5 +1,11 @@
 ﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
-;langpack template for Contacts
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 [&A]

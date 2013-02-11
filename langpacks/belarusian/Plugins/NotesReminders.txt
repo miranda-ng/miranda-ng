@@ -130,7 +130,7 @@
 [New Note]
 Новая нататка
 [Toggle Notes Visibility]
-
+Пераключыць бачнасць нататак
 [Bring All Notes to Front]
 Перамясціць нататкі на пярэдні план
 [New Reminder]
@@ -212,7 +212,7 @@
 [The specified time is invalid.]
 Паказаны час несапраўдна
 [The specified time offset is invalid.]
-
+Указанае змяшчэнне часу з'яўляецца несапраўдным.
 [&Update Reminder]
 &Абнавіць напамінак
 [Every]

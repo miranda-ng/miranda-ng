@@ -1,7 +1,7 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
+;  Plugin: Basic history
 ;  Version: 1.0.1.9
 ;  Authors: Krzysztof Kral
 ;============================================================

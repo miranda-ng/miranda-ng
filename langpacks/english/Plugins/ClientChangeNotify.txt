@@ -1,11 +1,11 @@
 ﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
-;  Plugin: Client Change Notify
+;  Plugin: Client change notify
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-[ClientChangeNotify plugin for Miranda NG.]
+[Shows a notification when someone in your contact list changes his client.]
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [ClientChangeNotify error]
 [OK]

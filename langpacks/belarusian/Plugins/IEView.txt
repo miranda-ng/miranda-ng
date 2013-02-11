@@ -31,6 +31,8 @@
 Групоўка
 [Show nicknames]
 Паказваць нікі
+[RTL]
+RTL
 [Copy Link]
 Капіяваць спасылку
 [Save Image As...]

@@ -245,6 +245,16 @@
 Радыус
 [Replace status icons with xStatus]
 Замяніць значкі статусу хстатусам
+[Reserved]
+Запасное
+[Reserved2]
+Запасное2
+[Reserved3]
+Запасное3
+[Reserved4]
+Запасное4
+[Reserved5]
+Запасное5
 [Right align contacts]
 Выраўноўваць па правым краі
 [Rounded avatars]

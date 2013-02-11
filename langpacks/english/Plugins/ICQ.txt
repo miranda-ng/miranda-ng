@@ -29,6 +29,7 @@
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 [Secure Connection (SSL)]
 [Secure (MD5) login]
+[Legacy fix (for ICQ Groupware or IServerD only)]
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 [Ignore concurrent error messages]
 [Show connection error messages:]

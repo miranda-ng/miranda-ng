@@ -24,8 +24,6 @@
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
 [Regular Contact]
-[Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n]
-[Favourite Contacts Error]
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]

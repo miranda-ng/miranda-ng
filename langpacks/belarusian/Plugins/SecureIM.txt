@@ -357,14 +357,14 @@ SecureIM не можа адправіць шыфраванае паведамл�
 Шыфраванне (PGP)
 [SecureIM mode (GPG)]
 Шыфраванне (GPG)
-[SecureIM received RSA Public Key from \"%s\"\n\nSHA1: %s\n\nDo you Accept this Key ?]
-Атрыманы публічны ключ RSA ад \"%s\"\n\nSHA1: %s\n\n Прыняць?
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+Атрыманы публічны ключ RSA ад"%s"\n\nSHA1: %s\n\nПрыняць?
 [SecureIM auto accepted RSA Public key from: %s uin: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s UID: %s
 [Can't change mode! Secure connection established!]
 Не магу змяніць рэжым! Абароненае злучэнне ўсталявана!
-[Session closed by other side when status \"disabled\"]
-Сесія зачынена іншым бокам, статус "адключаны"
+[Session closed by other side when status "disabled"]
+Сесія зачынена другім бокам, статус "адключаны"
 [Session closed by receiving incorrect message type]
 Сесія зачынена, атрыманы няправільны тып паведамлення
 [Session closed by other side on error]
@@ -387,8 +387,8 @@ SecureIM не можа адправіць шыфраванае паведамл�
 Аўтаматычна прыняты публічны ключ RSA ад: %s UID: %s SHA1: %s
 [Context Menu only for "Miranda" clients]
 Пункт у меню толькі для Miranda
-[SecureIM received NEW RSA Public Key from \"%s\"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
-Атрыманы публічны ключ RSA ад \"%s\"\n\n Новы SHA1: %s\n\Стары SHA1: %s\n\n Замяніць ключ?
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+Атрыманы публічны ключ RSA ад"%s"\n\nНовы SHA1: %s\n\Стары SHA1: %s\n\nЗамяніць ключ?
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 Аўтаматычна прыняты публічны ключ RSA ад: %s uin: %s Новы SHA1: %s Стары SHA1: %s
 [Can't export RSA private key!]

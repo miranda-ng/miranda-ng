@@ -1,12 +1,13 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
-;  Module: actman.dll
-;  Plugin: ActionManager
+;  File: actman.dll
 [Contact window]
 Вакно кантакту
 [Text insert]
 Устаўка тэксту
 [vars]
 змен.
+[DWord]
+Двойкавы
 [Result action]
 Вынік дзеяння
 [Window option]

@@ -67,6 +67,58 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 Іншыя значкі
 [Other protocols]
 Іншыя пратаколы
+[Overlays]
+Аверлэі
+[Windows overlay]
+Windows
+[iOS overlay (iPhone/iPad)]
+iOS
+[MacOS overlay]
+MacOS
+[Linux overlay]
+Linux
+[Flash overlay]
+Flash
+[Java overlay]
+Java
+[Symbian overlay]
+Symbian
+[Amiga overlay]
+Amiga
+[Android overlay]
+Android
+[SecureIM overlay]
+SecureIM
+[x64 overlay]
+x64
+[x32 overlay]
+x32
+[Unicode overlay]
+Unicode
+[AIM overlay]
+AIM
+[ICQJ Plus Mod overlay]
+ICQJ Plus Mod
+[ICQJ overlay]
+ICQJ
+[IRC overlay]
+IRC
+[JGmail overlay]
+JGmail
+[JGTalk overlay]
+JGTalk
+[Jabber overlay]
+Jabber
+[MSN overlay]
+MSN
+[QQ overlay]
+QQ
+[Tlen.pl overlay]
+Tlen.pl
+[Yahoo overlay]
+Yahoo
+[Mail.Ru Agent overlay]
+Mail.Ru Agent
 [debug overlay]
 debug
 [office overlay]

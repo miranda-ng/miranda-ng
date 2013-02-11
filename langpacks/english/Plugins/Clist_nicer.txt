@@ -1,5 +1,11 @@
 ﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
-;langpack template for Clist_nicer
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
 ;file \plugins\Clist_nicer\res\resource.rc
 [CList Nicer exception]
 [Copy to clipboard]

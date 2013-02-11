@@ -1,13 +1,14 @@
 ﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
 ;  File: PasteIt.dll
 ;  Module: Paste It
+[Paste It]
+Paste It
 [Uploads the text to web page and sends the URL to your friends.]
 Загружае тэкст на вэб-старонку і адпраўляе URL сябрам.
 [Paste It - Select file]
 Paste It - Абраць файл
 [Paste It HTTP connections]
 HTTP далучэнне Paste It
-
 [You can only paste 1 file]
 Вы можаце змесцаваць толькі 1 файл
 [Cannot get data from clipboard]
@@ -72,3 +73,4 @@ Web-старонка для налады
 10 хвілін
 [1 month]
 1 месяц
+

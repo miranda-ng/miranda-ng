@@ -1,12 +1,28 @@
 ﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;  File: simplestatusmsg.dll
 ;  Module: Provides a simple way to set status and away messages
-[Provides a simple way to set status and away messages]
-Хуткая змена статусаў і прадусталяваных паведамленняў статусу
+[Provides a simple way to set status and away messages.]
+Хуткая зьмена статусаў і статусных паведамленьняў.
+[Simple Status Message]
+Статуснае паведамленне
+[Behaviour on status change]
+Паводзіны пры змяненні статуса
+[Global status change]
+Глабальны статус
 [Do not change status message]
 Не змяняць паведамленне статусу
+[Do not set status message]
+Не усталёўваць статуснае паведамленне
 [Update variables in status messages every]
 Абнаўляць зменныя ў паведамленнях кожныя
+[Do not update variables during idle]
+Не абнаўляць зьменныя ў рэжыме чакання
+[Do not update variables on ICQ status message requests]
+Не абнаўляць зьменныя пры змене статуснага певедамлення ICQ
+[Enable status messages parsing by Variables plugin]
+Дазволіць апрацоўку статуснага паведамлення плагінам Variables
+[Exclude %date% token from parsing (restart required)]
+Выключыць маркер  %date% з апрацоўкі (патрабуецца перазапуск)
 [Show 'Go to URL in Away Message' item in contact menu]
 Паказваць 'Адкрыць спасылку' у меню кантакту
 [&Go to URL in Away Message]
@@ -81,3 +97,35 @@
 Паведамленне статусу...
 [* This feature is available only when using StartupStatus plugin.]
 * Гэта магчымасць даступная толькі пры выкарыстанні дадатку StartupStatus
+[Buttons:]
+Кнопкі:
+[Status on Startup]
+Пачатковы стан
+[Set status after]
+Усталяваць праз
+[miliseconds]
+мс
+[Independent setting for each protocol]
+Незалежна для кожнага пратакола
+[Pop up dialog asking for status message]
+Паказваць дыялог запытання смены статуса
+[<Last status>]
+<Апошні>
+[Open Status Message Dialog]
+Адчыніць дыялог статуснага паведамлення
+[Delete Selected]
+Удаліць абранае
+[Recent Message]
+Апошняе паведамленне
+[Predefined Message]
+Прадусталяванае паведамленне
+[Change Status Message]
+Змяніць паведамленне статуса
+[Go to URL in Away Message]
+Перайсці па ссылцы ў паведамленні адсутнасці
+[%s Message (%s)]
+Паведамленне "%s" (%s)
+[Are you sure you want to clear status message history?]
+Вы ўпэўнены, што хочаце удаліць гісторыю статусных паведамленняў?
+[Confirm clearing history]
+Пацьвярджэнне выданення гісторыі

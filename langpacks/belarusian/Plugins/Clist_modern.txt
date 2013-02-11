@@ -132,7 +132,7 @@
 [Hold [Shift] to inverse [Right Click] behaviour]
 [Shift]+[Правы клік] - Галоўнае меню
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
-[Ctrl]+[Левы клік] вкл. фільтр па пратаколе, клік па пустым месцы адкл.
+[Ctrl]+[Левы клік] уключыць фільтр па пратаколу, клік па пустым месцы адключыць.
 [Set options per account]
 Паакаўнтная налада
 [<<Global>>]
@@ -324,9 +324,9 @@
 [Show/Hide offline contacts]
 Паказаць/схаваць адключаных
 [Enable/Disable sounds]
-Вкл/Выкл гукі
+Уключыць/Выключыць гукі
 [Use/Disable groups]
-Вкл/Выкл групы
+Укл/Выкл групы
 [Minimize]
 Згарнуць
 [Status Menu]
@@ -345,6 +345,8 @@
 Рэдактар базы
 [Database Editor]
 Рэдактар базы
+[Disable sounds]
+Адключыць гукі
 [Main menu]
 Галоўнае меню
 [Accounts...]

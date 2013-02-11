@@ -1,4 +1,4 @@
-﻿;#muuid for UInfoEx not found, please specify manually!
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx

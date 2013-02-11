@@ -313,6 +313,18 @@ EMail Express
 Пошук угару (Ctrl+угару)
 [Search Down (Ctrl+Down)]
 Пошук уніз (Ctrl+уніз)
+[HTML file (*.html; *.htm)|*.html;*.htm]
+HTML (*.html; *.htm)|*.html;*.htm
+[XML file (*.xml)|*.xml]
+XML (*.xml)|*.xml
+[RTF file (*.rtf)|*.rtf]
+RTF (*.rtf)|*.rtf
+[Unicode text file (*.txt)|*.txt]
+Unicode (*.txt)|*.txt
+[Text file (*.txt)|*.txt]
+Тэкставы (*.txt)|*.txt
+[All files (*.*)|*.*]
+Усе файлы (*.*)|*.*
 [Conversation started at %s]
 Гутарка пачата ў %s
 [Remove bookmark]
@@ -503,6 +515,10 @@ Enter для падрабязнасцяў падзеі
 Гісторыя
 [Unicode text file]
 Тэкст у юнікодзе
+[RTF file]
+RTF файл
+[XML file]
+XML файл
 [Appearance options]
 Вонкавы выгляд
 [Message log options]
@@ -619,6 +635,10 @@ HTML файл
 Налады History++
 [History++ [%s]]
 Гісторыя
+[HTML file (*.htm)|*.htm;*.html|All files (*.*)|*.*]
+HTML (*.htm)|*.htm;*.html|Усе файлы (*.*)|*.*
+[HTML file (*.htm; *.html)|*.htm;*.html]
+HTML (*.htm; *.html)|*.htm;*.htm
 [Incoming File Transfer Sample]
 Гэта ўваходны файл
 [Incoming File Transfer:]

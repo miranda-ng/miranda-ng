@@ -1,10 +1,11 @@
 ﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
-;  Plugin: Clist_modern
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 [Window behaviour:]

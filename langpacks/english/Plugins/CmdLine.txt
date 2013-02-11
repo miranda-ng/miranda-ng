@@ -1,7 +1,7 @@
 ﻿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;============================================================
 ;  File: CmdLine.dll
-;  Plugin: CmdLine
+;  Plugin: Command line
 ;  Version: 0.0.4.1
 ;  Authors: Cristian Libotean
 ;============================================================
@@ -17,6 +17,9 @@
 [No command can have more than %d parameters\n]
 [%s version %s]
 [Unknown command '%s'.\n]
+;file \plugins\CmdLine\src\CmdLine.cpp
+[Could not initialize CmdLine plugin property]
+[Error]
 ;file \plugins\CmdLine\src\mimcmd_data.h
 [Change account status either globally or per account.\nUsage: status <status> [<account>].\nPossible values for <status> are: offline, online, away, dnd, na, occupied, freechat, invisible, onthephone, outtolunch.\n<Account> is the name of the account. If it's not specified then the command will issue a global status change.]
 [Change away message either globally or per account.\nUsage: awaymsg <message> [<account>].\n<Message> is the new away message.\n<Account> is an optional parameter specifying the account to set the away message for. If not specified then the away message will be set globally.]
@@ -81,7 +84,6 @@
 ;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 [You can only run one instance of CmdLine plugin.]
-[Error]
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]

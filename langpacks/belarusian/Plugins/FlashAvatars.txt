@@ -3,7 +3,7 @@
 ;  Module: Flash avatars service
 [Load and manage flash avatars]
 Загружае і паказвае Flash аватары
-[Load and display flash avatars]
-Загружае і паказвае Flash аватары
+[Loads and displays flash avatars.]
+Запампоўвае і адлюстроўвае флэш аватары.
 [Flash Avatars]
 Далучэнне Flash Avatars

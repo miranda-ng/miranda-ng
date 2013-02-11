@@ -1,7 +1,7 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Plugin: Change Keyboard Layout
+;  Plugin: Change keyboard layout
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================

@@ -87,3 +87,7 @@ foobar2000 (усталюйце модуль уручную)
 Слухаю (укл.)
 [Listening to (disabled)]
 Слухаю (адкл.)
+[<Unknown>]
+Невядома
+[<Nothing is playing now>]
+<Нічога не грае>
