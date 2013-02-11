@@ -5,8 +5,8 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"CList nicer"
-#define __FILENAME					"ClientChangeNotify.dll"
+#define __PLUGIN_NAME				"Clist nicer"
+#define __FILENAME					"Clist_nicer.dll"
 #define __DESCRIPTION 				"Displays contacts, event notifications, protocol status."
 #define __AUTHOR					"Pixel, egoDust, cyreve, Nightwish"
 #define __AUTHOREMAIL				""
