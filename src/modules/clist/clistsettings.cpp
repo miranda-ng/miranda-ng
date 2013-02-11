@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -45,7 +46,7 @@ void FreeDisplayNameCache(void)
 			mir_free(clistCache->items[i]);
 		}
 
-		List_Destroy(clistCache); 
+		List_Destroy(clistCache);
 		mir_free(clistCache);
 		clistCache = NULL;
 	}
@@ -89,7 +90,7 @@ ClcCacheEntry* fnGetCacheEntry(HANDLE hContact)
 {
 	ClcCacheEntry *p;
 	int idx;
-	if ( !List_GetIndex(clistCache, &hContact, &idx)) {	
+	if ( !List_GetIndex(clistCache, &hContact, &idx)) {
 		if ((p = cli.pfnCreateCacheItem(hContact)) != NULL) {
 			List_Insert(clistCache, p, idx);
 			cli.pfnInvalidateDisplayNameCacheEntry(p);
@@ -195,7 +196,7 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 			_ltoa(ci.dVal, retVal, 10);
 			if (cacheEntry == NULL)
 				return (INT_PTR)mir_strdup(retVal);
-				
+
 			cacheEntry->tszName = mir_a2u(retVal);
 			return (INT_PTR)retVal;
 		}
@@ -286,9 +287,9 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				szProto = NULL;
 			else
 				szProto = cws->value.pszVal;
-			cli.pfnChangeContactIcon(hContact, 
-				cli.pfnIconFromStatusMode(szProto, 
-					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", 
+			cli.pfnChangeContactIcon(hContact,
+				cli.pfnIconFromStatusMode(szProto,
+					szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status",
 					ID_STATUS_OFFLINE), hContact), 0);
 		}
 	}

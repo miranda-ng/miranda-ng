@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 #define SUMMARY     0
@@ -140,7 +141,7 @@ typedef struct {
 static void FillHistoryThread(void* param)
 {
 	Thread_SetName("HistoryWindow::FillHistoryThread");
-	
+
 	TCHAR str[200], eventText[256], strdatetime[64];
 	HANDLE hDbEvent;
 	DBEVENTINFO dbei;
@@ -346,7 +347,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 						break;
 			}	}	}
-			
+
 			mir_free(dbei.pBlob);
 			break;
 		}
@@ -365,7 +366,7 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 			case IDOK://find Next
-			{	
+			{
 				TCHAR str[128];
 				HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, SIZEOF(str));

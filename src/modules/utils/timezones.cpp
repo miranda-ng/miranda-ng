@@ -1,7 +1,7 @@
 /*
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2010 Miranda ICQ/IM project, 
+Copyright 2010-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -10,7 +10,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -353,10 +353,10 @@ typedef struct
 	UINT addStr, getSel, setSel, getData, setData;
 } ListMessages;
 
-static const ListMessages lbMessages = 
+static const ListMessages lbMessages =
 { LB_ADDSTRING, LB_GETCURSEL, LB_SETCURSEL, LB_GETITEMDATA, LB_SETITEMDATA };
 
-static const ListMessages cbMessages = 
+static const ListMessages cbMessages =
 { CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA };
 
 static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
@@ -557,7 +557,7 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 
 		if ( !found)
 		{
-			if ( !wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  || 
+			if ( !wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  ||
 				!wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName))
 			{
 				_tcscpy(myInfo.myTZ.tszName, tz.tszName);

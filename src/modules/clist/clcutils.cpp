@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -85,7 +86,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 
 		POINT pt1 = pt;
 		ScreenToClient(hwndParent, &pt1);
-		HWND h = ChildWindowFromPointEx(hwndParent ? hwndParent : GetDesktopWindow(), 
+		HWND h = ChildWindowFromPointEx(hwndParent ? hwndParent : GetDesktopWindow(),
 			pt1, CWP_SKIPINVISIBLE | CWP_SKIPTRANSPARENT);
 		if (h != hwndTemp)
 		{
@@ -416,7 +417,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
-						mir_sntprintf(szFullName, SIZEOF(szFullName), _T("%s\\%s"), 
+						mir_sntprintf(szFullName, SIZEOF(szFullName), _T("%s\\%s"),
 							cli.pfnGetGroupName(contact->group->parent->groupId, NULL), text);
 						cli.pfnRenameGroup(contact->groupId, szFullName);
 					}

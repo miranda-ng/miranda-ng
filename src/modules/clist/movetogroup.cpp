@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 HANDLE hOnCntMenuBuild;
@@ -84,7 +85,7 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
 	int i;
-	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);	
+	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
 
 	if ( !hMoveToGroupItem) {
 		CLISTMENUITEM mi = { sizeof(mi) };
@@ -108,7 +109,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	pos += 100000; // Separator
 
-	for (i=0; ; i++) 
+	for (i=0; ; i++)
 	{
 		char intname[20];
 		_itoa(i, intname, 10);
@@ -125,7 +126,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 
 	for (i=0; i < groups.getCount(); i++)
 	{
-		bool checked = szContactGroup && !_tcscmp(szContactGroup, groups[i].name);		
+		bool checked = szContactGroup && !_tcscmp(szContactGroup, groups[i].name);
 		AddGroupItem(hMoveToGroupItem, groups[i].name, ++pos, groups[i].position, checked);
 	}
 

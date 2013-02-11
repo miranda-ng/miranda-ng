@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 #include <m_button_int.h>
@@ -66,7 +67,7 @@ static void LoadTheme(MButtonCtrl *ctl)
 	}
 }
 
-static void SetHwndPropInt(MButtonCtrl* bct, DWORD idObject, DWORD idChild, MSAAPROPID idProp, int val) 
+static void SetHwndPropInt(MButtonCtrl* bct, DWORD idObject, DWORD idChild, MSAAPROPID idProp, int val)
 {
 	if (bct->pAccPropServices == NULL) return;
 	VARIANT var;
@@ -496,7 +497,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
 			if (bct->pAccPropServices) {
 				wchar_t *tmpstr = mir_t2u(ti.lpszText);
-				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, 
+				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT,
 					CHILDID_SELF, PROPID_ACC_DESCRIPTION, tmpstr);
 				mir_free(tmpstr);
 			}

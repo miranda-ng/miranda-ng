@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
@@ -39,7 +40,7 @@ DWORD DnsLookup(struct NetlibUser *nlu, const char *szHost)
 	if (ip != INADDR_NONE)
 		return ip;
 
-	__try 
+	__try
 	{
 		host = gethostbyname(szHost);
 		if (host)
@@ -96,7 +97,7 @@ bool RecvUntilTimeout(struct NetlibConnection *nlc, char *buf, int len, int flag
 	DWORD dwTimeNow, dwCompleteTime = GetTickCount() + dwTimeout;
 
 	while ((dwTimeNow = GetTickCount()) < dwCompleteTime) {
-		if (WaitUntilReadable(nlc->s, dwCompleteTime - dwTimeNow) <= 0) return false; 
+		if (WaitUntilReadable(nlc->s, dwCompleteTime - dwTimeNow) <= 0) return false;
 		nReceived = NLRecv(nlc, buf, len, flags);
 		if (nReceived <= 0) return false;
 
@@ -125,9 +126,9 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	if (nUserLen <= 1) pInit[8] = 0;
 	else memcpy(&pInit[8], nlu->settings.szProxyAuthUser, nUserLen);
 
-	//if cannot resolve host, try resolving through proxy (requires SOCKS4a)  
+	//if cannot resolve host, try resolving through proxy (requires SOCKS4a)
 	DWORD ip = DnsLookup(nlu, nloc->szHost);
-	*(PDWORD)&pInit[4] = ip ? ip : 0x01000000; 	
+	*(PDWORD)&pInit[4] = ip ? ip : 0x01000000;
 	if ( !ip) {
 		memcpy(&pInit[len], nloc->szHost, nHostLen);
 		len += nHostLen;
@@ -252,7 +253,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 	}
 
 	if (buf[0] != 5 || buf[1]) {
-		const char* err = "Unknown response"; 
+		const char* err = "Unknown response";
 		if (buf[0] != 5)
 			SetLastError(ERROR_BAD_FORMAT);
 		else {
@@ -290,7 +291,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 	if ( !RecvUntilTimeout(nlc, (char*)buf, nRecvSize, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 		return 0;
-	}	
+	}
 
 	//connected
 	return 1;
@@ -305,7 +306,7 @@ static bool NetlibInitHttpsConnection(struct NetlibConnection *nlc, struct Netli
 	nlhrSend.cbSize = sizeof(nlhrSend);
 	nlhrSend.requestType = REQUEST_CONNECT;
 	nlhrSend.flags = NLHRF_GENERATEHOST | NLHRF_DUMPPROXY | NLHRF_SMARTAUTHHEADER | NLHRF_HTTP11 | NLHRF_NOPROXY | NLHRF_REDIRECT;
-	if (nlc->dnsThroughProxy) 
+	if (nlc->dnsThroughProxy)
 		mir_snprintf(szUrl, SIZEOF(szUrl), "%s:%u", nloc->szHost, nloc->wPort);
 	else {
 		DWORD ip = DnsLookup(nlu, nloc->szHost);
@@ -363,8 +364,8 @@ static void FreePartiallyInitedConnection(struct NetlibConnection *nlc)
 static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 {
 	int rc = 0, retrycnt = 0;
-	u_long notblocking = 1;	
-	DWORD lasterr = 0;	
+	u_long notblocking = 1;
+	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 
 	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
@@ -425,7 +426,7 @@ retry:
 		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) {
 			if ( !BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlc->nlu->inportnum))
 				NetlibLogf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
-		} 
+		}
 
 		// try a connect
 		if (connect(nlc->s, (LPSOCKADDR)&sin, sizeof(sin)) == 0) {
@@ -447,7 +448,7 @@ retry:
 			FD_SET(nlc->s, &r);
 			FD_SET(nlc->s, &w);
 			FD_SET(nlc->s, &e);
-			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR) 
+			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR)
 				break;
 
 			if (rc > 0) {
@@ -471,12 +472,12 @@ retry:
 					}
 				}
 				break;
-			} 
+			}
 			else if (Miranda_Terminated()) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
-			} 
+			}
 			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
@@ -504,8 +505,8 @@ retry:
 static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 {
 	int rc = SOCKET_ERROR, retrycnt = 0;
-	u_long notblocking = 1;	
-	DWORD lasterr = 0;	
+	u_long notblocking = 1;
+	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 
 	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
@@ -601,7 +602,7 @@ retry:
 			continue;
 		}
 
-		while (true) { // timeout loop 
+		while (true) { // timeout loop
 			fd_set r, w, e;
 			FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
 			FD_SET(nlc->s, &r);
@@ -788,7 +789,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 bool NetlibReconnect(NetlibConnection *nlc)
 {
 	char buf[4];
-	bool opened = nlc->s != INVALID_SOCKET;  
+	bool opened = nlc->s != INVALID_SOCKET;
 	if (opened) {
 		switch (WaitUntilReadable(nlc->s, 0, true)) {
 		case SOCKET_ERROR:

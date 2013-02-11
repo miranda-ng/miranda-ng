@@ -1,6 +1,7 @@
 /*
-Copyright 2000-2012 Miranda /IM project, 
-all portions of this codebase are copyrighted to the people 
+
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -17,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 struct GlobalMessageData *g_dat;
@@ -26,7 +28,7 @@ static int dbaddedevent(WPARAM wParam, LPARAM lParam);
 static int ackevent(WPARAM wParam, LPARAM lParam);
 static int AvatarChanged(WPARAM wParam, LPARAM lParam);
 
-IconItem iconList[] = 
+IconItem iconList[] =
 {
 	{ LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10 },
 	{ LPGEN("Outgoing message (10x10)"), "OUTGOING", IDI_OUTGOING, 10 },
@@ -42,7 +44,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-	
+
 	return 0;
 }
 
@@ -64,7 +66,7 @@ void FreeGlobals()
 	int i;
 	mir_free(g_dat);
 
-	for (i=0; i < SIZEOF(g_hooks); ++i) 
+	for (i=0; i < SIZEOF(g_hooks); ++i)
 		if (g_hooks[i])
 			UnhookEvent(g_hooks[i]);
 }
@@ -100,9 +102,9 @@ void ReloadGlobals()
 		g_dat->flags |= SMF_HIDENAMES;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_CHARCOUNT, SRMSGDEFSET_CHARCOUNT))
 		g_dat->flags |= SMF_SHOWREADCHAR;
-	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER)) 
+	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
 		g_dat->flags |= SMF_SENDONENTER;
-	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) 
+	if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
 		g_dat->flags |= SMF_SENDONDBLENTER;
 	if (db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE))
 		g_dat->flags |= SMF_AUTOCLOSE;
@@ -125,7 +127,7 @@ void ReloadGlobals()
 static int dbaddedevent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	if (hContact) 
+	if (hContact)
 	{
 		HWND h = WindowList_Find(g_dat->hMessageWindowList, hContact);
 		if (h) SendMessage(h, HM_DBEVENTADDED, (WPARAM)hContact, lParam);
@@ -136,13 +138,13 @@ static int dbaddedevent(WPARAM wParam, LPARAM lParam)
 static int ackevent(WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
-	
+
 	if (!pAck) return 0;
-	if (pAck->type == ACKTYPE_MESSAGE) 
+	if (pAck->type == ACKTYPE_MESSAGE)
 	{
 		msgQueue_processack(pAck->hContact, pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
-		if (pAck->result == ACKRESULT_SUCCESS) 
+		if (pAck->result == ACKRESULT_SUCCESS)
 			SkinPlaySound("SendMsg");
 	}
 	return 0;
@@ -155,4 +157,3 @@ int AvatarChanged(WPARAM wParam, LPARAM lParam)
 	if (h) SendMessage(h, HM_AVATARACK, wParam, lParam);
 	return 0;
 }
-

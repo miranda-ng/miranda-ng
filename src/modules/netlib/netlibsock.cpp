@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
@@ -88,7 +89,7 @@ INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
 			recvResult = recv(nlc->s, nlb->buf, nlb->len, nlb->flags & 0xFFFF);
 	}
 	NetlibLeaveNestedCS(&nlc->ncsRecv);
-	if (recvResult <= 0) 
+	if (recvResult <= 0)
 		return recvResult;
 
 	NetlibDumpData(nlc, (PBYTE)nlb->buf, recvResult, 0, nlb->flags);
@@ -184,7 +185,7 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 	This happens for read/write/except */
 	NetlibConnection *conn = NULL;
 	int j;
-	for (j = 0; j < FD_SETSIZE; j++) 
+	for (j = 0; j < FD_SETSIZE; j++)
 	{
 		conn = (NetlibConnection*)nls->hReadConns[j];
 		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
@@ -228,7 +229,7 @@ bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 
 		addr->Ipv4.sin_addr.s_addr = iaddr;
 		addr->Ipv4.sin_family = AF_INET;
-		return true; 
+		return true;
 	}
 }
 
@@ -250,7 +251,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 			mir_snprintf(saddr, sizeof(saddr), "%s:%d", szIp, htons(addr->Ipv4.sin_port));
 			return mir_strdup(saddr);
 		}
-		else 
+		else
 			return mir_strdup(szIp);
 	}
 	return NULL;
@@ -284,7 +285,7 @@ inline bool IsAddrGlobal(const IN6_ADDR *a)
 static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 {
 	addrinfo *air = NULL, *ai, hints = {0};
-	const char *szMyHost = ""; 
+	const char *szMyHost = "";
 
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_flags = AI_PASSIVE;
@@ -296,8 +297,8 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	for (ai = air; ai; ai = ai->ai_next)
 	{
 		SOCKADDR_INET_M* iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET  || 
-			(ai->ai_family == AF_INET6 && 
+		if (ai->ai_family == AF_INET  ||
+			(ai->ai_family == AF_INET6 &&
 			( !(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
 			++n;
 	}
@@ -309,8 +310,8 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	for (ai = air; ai; ai = ai->ai_next)
 	{
 		SOCKADDR_INET_M* iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET  || 
-			(ai->ai_family == AF_INET6 && 
+		if (ai->ai_family == AF_INET  ||
+			(ai->ai_family == AF_INET6 &&
 			( !(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
 		{
 
@@ -336,7 +337,7 @@ static NETLIBIPLIST* GetMyIpv4(void)
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
 
-	for (unsigned i=0; i < n; i++) 
+	for (unsigned i=0; i < n; i++)
 		strcpy(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]));
 
 	return addr;

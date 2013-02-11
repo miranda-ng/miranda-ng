@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
@@ -41,9 +42,9 @@ int InitCrypt(void);
 static BOOL bModuleInitialized = FALSE;
 
 static CountryListEntry countries[] = {
-	{0, "Unspecified", ""}, 
-	{9999, "Other", ""}, 
-	{0xFFFF, "Unknown", ""}, 
+	{0, "Unspecified", ""},
+	{9999, "Other", ""},
+	{0xFFFF, "Unknown", ""},
 	{93, "Afghanistan", "AF"},
 	{358, "Aland Islands", "AX"},
 	{355, "Albania", "AL"},
@@ -351,7 +352,7 @@ static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
 	RECT rcScreen;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen, FALSE);
 
-	if (MyMonitorFromWindow) 
+	if (MyMonitorFromWindow)
 	{
 		if (MyMonitorFromRect(rc, MONITOR_DEFAULTTONULL))
 			return 0;
@@ -362,7 +363,7 @@ static INT_PTR AssertInsideScreen(WPARAM wParam, LPARAM lParam)
 		if (MyGetMonitorInfo(hMonitor, &mi))
 			rcScreen = mi.rcWork;
 	}
-	else 
+	else
 	{
 		RECT rcDest;
 		if (IntersectRect(&rcDest, &rcScreen, rc))

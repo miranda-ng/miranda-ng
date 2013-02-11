@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "plugins.h"
 
@@ -30,7 +31,7 @@ static IMAGE_SECTION_HEADER *getSectionByRVA(IMAGE_SECTION_HEADER *pISH, int nSe
 			return pISH;
 
 	return NULL;
-}	
+}
 
 MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 {
@@ -78,14 +79,14 @@ MUUID* GetPluginInterfaces(const TCHAR* ptszFileName, bool& bIsPlugin)
 
 			INT_PTR base;
 			PIMAGE_DATA_DIRECTORY pIDD;
-			if ( pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_I386 && 
+			if ( pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_I386 &&
 				  pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32) &&
 				  pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)
 			{
 				pIDD = (PIMAGE_DATA_DIRECTORY)( (PBYTE)pINTH + offsetof( IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory ));
 				base = *(DWORD*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
-			} 
-			else if ( pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64 && 
+			}
+			else if ( pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64 &&
 						 pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64) &&
 						 pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC)
 			{

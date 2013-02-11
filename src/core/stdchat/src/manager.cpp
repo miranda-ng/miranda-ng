@@ -1,8 +1,8 @@
 /*
 Chat module plugin for Miranda IM
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "chat.h"
 
 extern TCHAR* pszActiveWndID ;
@@ -138,7 +139,7 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 				DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule, "Topic", "");
 				DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 				DBDeleteContactSetting(pTemp->hContact, "CList", "StatusMsg");
-				
+
 				if (removeContact)
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)pTemp->hContact, 0);
 			}
@@ -150,7 +151,7 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 			mir_free( pTemp->ptszTopic );
 			mir_free( pTemp->pszID );
 			mir_free( pTemp->pszName );
-			
+
 			// delete commands
 			pCurComm = pTemp->lpCommands;
 			while (pCurComm != NULL)
@@ -790,7 +791,7 @@ BOOL SM_RemoveAll (void)
 		mir_free( m_WndList->ptszTopic );
 		mir_free( m_WndList->pszID );
 		mir_free( m_WndList->pszName );
-		
+
 		while (m_WndList->lpCommands != NULL) {
 			COMMAND_INFO *pNext = m_WndList->lpCommands->next;
 			mir_free(m_WndList->lpCommands->lpCommand);

@@ -3,8 +3,7 @@
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project, 
-
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -13,7 +12,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -75,7 +74,7 @@ int LoadDescButtonModule()
 	wc.cbWndExtra = sizeof(MDescButtonCtrl *);
 	wc.hbrBackground = 0; //GetStockObject(WHITE_BRUSH);
 	wc.style = CS_GLOBALCLASS|CS_SAVEBITS;
-	RegisterClassEx(&wc);	
+	RegisterClassEx(&wc);
 	return 0;
 }
 
@@ -130,8 +129,8 @@ static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int heigh
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
 	for (int i = y+height; --i >= y;) {
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
+			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
+			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
 			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
@@ -161,20 +160,20 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 	temprc.left = 0;
 	temprc.right = dat->width;
 	temprc.top = 0;
-	
+
 	//Draw background
 	if (dat->bMouseInside || (GetFocus() == hwndDlg)) {
 		MDescButton_FillRect(tempDC, 0, 0, dat->width, dat->height, dat->clSelBorder);
 		MDescButton_DrawGradient(tempDC, 1, 1, dat->width-2, dat->height-2, &dat->rgbSelTop, &dat->rgbSelBottom);
 		SetTextColor(tempDC, dat->clSelText);
-	} 
+	}
 	else {
 		MDescButton_FillRect(tempDC, 0, 0, dat->width, dat->height, dat->clBackground);
 		SetTextColor(tempDC, dat->clText);
 	}
 
 	if (dat->hIcon)
-		DrawIcon(tempDC, DBC_BORDER_SIZE, DBC_BORDER_SIZE, dat->hIcon);	  
+		DrawIcon(tempDC, DBC_BORDER_SIZE, DBC_BORDER_SIZE, dat->hIcon);
 
 	hfntSave = (HFONT)SelectObject(tempDC, dat->hFont);
 	SetBkMode(tempDC, TRANSPARENT);
@@ -309,7 +308,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		if (wParam & MDBCF_SHAREDICON) {
 			dat->bSharedIcon = TRUE;
 			dat->hIcon = (HICON)lParam;
-		} 
+		}
 		else {
 			dat->bSharedIcon = FALSE;
 			dat->hIcon = CopyIcon((HICON)lParam);
@@ -326,7 +325,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 			DestroyIcon(dat->hIcon);
 		mir_free(dat);
 		return TRUE;
-	}	
+	}
 
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }

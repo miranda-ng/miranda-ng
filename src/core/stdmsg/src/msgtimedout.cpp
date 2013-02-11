@@ -1,6 +1,7 @@
 /*
-Copyright 2000-2010 Miranda IM project, 
-all portions of this codebase are copyrighted to the people 
+
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -33,7 +34,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	TMsgQueue *item = (TMsgQueue*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
@@ -47,7 +48,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			if (!param->szMsg || !param->szMsg[0])
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, TranslateT("An unknown error has occured."));
-			else 
+			else
 			{
 				TCHAR* ptszError = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)param->szMsg);
 				SetDlgItemText(hwndDlg, IDC_ERRORTEXT, ptszError);
@@ -58,8 +59,8 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			GetWindowRect(hwndDlg, &rc);
 			GetWindowRect(GetParent(hwndDlg), &rcParent);
-			SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2, 
-				(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2, 
+			SetWindowPos(hwndDlg, 0, (rcParent.left + rcParent.right - (rc.right - rc.left)) / 2,
+				(rcParent.top + rcParent.bottom - (rc.bottom - rc.top)) / 2,
 				0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		return TRUE;
@@ -91,7 +92,7 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	ErrorDlgParam param = { err, item };
 
 	CallService(MS_DB_EVENT_DELETE, (WPARAM)item->hContact, (LPARAM)item->hDbEvent);
-	
+
 	hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE)item->hContact);
 	if (hwnd == NULL)
 	{
@@ -104,4 +105,3 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	SkinPlaySound("SendError");
 	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM) &param);
 }
-

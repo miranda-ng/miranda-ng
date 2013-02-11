@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _CHAT_H_
 #define _CHAT_H_
 
-#define MIRANDA_VER 0x0A00
-
-//#pragma warning( disable : 4786 ) // limitation in MSVC's debugger.
-//#pragma warning( disable : 4996 ) // limitation in MSVC's debugger.
-
 #define WIN32_LEAN_AND_MEAN
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
@@ -263,7 +258,7 @@ typedef struct SESSION_INFO_TYPE
 	// I hate m3x, Unicode, IRC, chats etc...
 	char*    pszID;		// ugly fix for returning static ANSI strings in GC_INFO
 	char*    pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
-	
+
 	int         iType;
 	int         iFG;
 	int         iBG;
@@ -322,20 +317,20 @@ struct CREOleCallback : public IRichEditOleCallback
 	IStorage *pictStg;
 	int nextStgId;
 
- 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR * lplpObj); 
-	STDMETHOD_(ULONG,AddRef) (THIS); 
-	STDMETHOD_(ULONG,Release) (THIS); 
+ 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR * lplpObj);
+	STDMETHOD_(ULONG,AddRef) (THIS);
+	STDMETHOD_(ULONG,Release) (THIS);
 
-	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode); 
-	STDMETHOD(GetNewStorage) (LPSTORAGE FAR * lplpstg); 
-	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo); 
-	STDMETHOD(ShowContainerUI) (BOOL fShow); 
-	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp); 
-	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj); 
-	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict); 
-	STDMETHOD(GetClipboardData) (CHARRANGE FAR * lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj); 
-	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect); 
-	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ; 
+	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode);
+	STDMETHOD(GetNewStorage) (LPSTORAGE FAR * lplpstg);
+	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
+	STDMETHOD(ShowContainerUI) (BOOL fShow);
+	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
+	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj);
+	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
+	STDMETHOD(GetClipboardData) (CHARRANGE FAR * lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj);
+	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
+	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ;
 };
 
 struct GlobalLogSettings_t {

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 #include <m_version.h>
@@ -133,7 +134,7 @@ static int uuidToString(const MUUID uuid, char *szStr, int cbLen)
 	if (cbLen < 1 || !szStr)
 		return 0;
 
-	mir_snprintf(szStr, cbLen, "{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}", 
+	mir_snprintf(szStr, cbLen, "{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}",
 		uuid.a, uuid.b, uuid.c, uuid.d[0], uuid.d[1], uuid.d[2], uuid.d[3], uuid.d[4], uuid.d[5], uuid.d[6], uuid.d[7]);
 	return 1;
 }
@@ -226,7 +227,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM lParamSort)
 {
-	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2; 
+	PluginListItemData *p1 = (PluginListItemData*)i1, *p2 = (PluginListItemData*)i2;
 	return _tcscmp(p1->fileName, p2->fileName);
 }
 
@@ -363,7 +364,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 						mir_ptr<TCHAR> tszEmail( latin2t(sel ? dat->authorEmail : NULL));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINEMAIL), tszEmail);
-						
+
 						mir_ptr<TCHAR> p( Langpack_PcharToTchar(dat->description));
 						SetWindowText( GetDlgItem(hwndDlg, IDC_PLUGINLONGINFO), sel ? (TCHAR*)p : _T(""));
 
@@ -386,7 +387,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR bufRestart[1024];
 				int bufLen = mir_sntprintf(bufRestart, SIZEOF(bufRestart), _T("%s\n"), TranslateT("Miranda NG must be restarted to apply changes for these plugins:"));
 
-				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);				
+				HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 				TCHAR buf[1024];
 				for (int iRow = 0; iRow != -1;) {
 					ListView_GetItemText(hwndList, iRow, 2, buf, SIZEOF(buf));
@@ -428,7 +429,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							}
 						}
 					}
-					
+
 					iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
 				}
 				ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), needRestart);

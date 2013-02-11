@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -288,9 +289,9 @@ int fnTrayIconInit(HWND hwnd)
 					PROTOACCOUNT* pa = accounts[j];
 					if (cli.pfnGetProtocolVisibility(pa->szModuleName))
 						cli.pfnTrayIconAdd(hwnd, pa->szModuleName, NULL, CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0));
-				}	
+				}
 			}
-		}	
+		}
 		else {
 			cli.pfnTrayIconAdd(hwnd, NULL, NULL, averageMode);
 
@@ -303,7 +304,7 @@ int fnTrayIconInit(HWND hwnd)
 		cli.pfnTrayIconAdd(hwnd, NULL, NULL, CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 	}
 
-	ulock; 
+	ulock;
 	return 0;
 }
 
@@ -330,7 +331,7 @@ int fnTrayIconDestroy(HWND hwnd)
 	cli.trayIcon = NULL;
 	cli.trayIconCount = 0;
 
-	ulock; 
+	ulock;
 	return 0;
 }
 
@@ -346,7 +347,7 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	int i;
 	if (RefreshTimerId) {
-		KillTimer(NULL, RefreshTimerId); 
+		KillTimer(NULL, RefreshTimerId);
 		RefreshTimerId = 0;
 	}
 	for (i=0; i < accounts.getCount(); i++) {
@@ -483,7 +484,7 @@ VOID CALLBACK fnTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 	if (i) {
 		DestroyIcon(cli.trayIcon[0].hBaseIcon);
-		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, accounts[cycleStep]->szModuleName, 
+		cli.trayIcon[0].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, accounts[cycleStep]->szModuleName,
 			CallProtoServiceInt(NULL,accounts[cycleStep]->szModuleName, PS_GETSTATUS, 0, 0));
 		if (cli.trayIcon[0].isBase)
 			cli.pfnTrayIconUpdate(cli.trayIcon[0].hBaseIcon, NULL, NULL, 1);
@@ -539,8 +540,8 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 						szProto = NULL;
 					else
 						szProto = dbv.pszVal;
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ? 
-						CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : 
+					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ?
+						CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) :
 						CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
 					db_free(&dbv);
 				}
@@ -548,9 +549,9 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 
 			case SETTING_TRAYICON_CYCLE:
 				cli.cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
-				changed = 
+				changed =
 					cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon
-					(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL), 
+					(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL),
 					ILD_NORMAL), NULL);
 				break;
 
@@ -741,7 +742,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 						for (int j = 0; j < accounts.getCount(); j++)
 						{
 							int k = cli.pfnGetAccountIndexByPos(j);
-							if (k >= 0) 
+							if (k >= 0)
 							{
 								if ( !strcmp(cli.trayIcon[i].szProto, accounts[k]->szModuleName))
 								{
@@ -752,7 +753,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 								if (cli.pfnGetProtocolVisibility(accounts[k]->szModuleName))
 									++ind;
-							}	
+							}
 						}
 						break;
 					}
@@ -821,7 +822,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			*((LRESULT *) lParam) = 0;
 			return TRUE;
 		}
-		else if (msg->message == WM_TASKBARBUTTONCREATED) { 
+		else if (msg->message == WM_TASKBARBUTTONCREATED) {
 			SetTaskBarIcon(lastTaskBarIcon, NULL);
 			*((LRESULT *) lParam) = 0;
 			return TRUE;

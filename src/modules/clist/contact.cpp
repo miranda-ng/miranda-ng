@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -32,15 +33,15 @@ int sortByProto;
 static const struct {
 	int status, order;
 } statusModeOrder[] = {
-	{ID_STATUS_OFFLINE, 500}, 
-	{ID_STATUS_ONLINE, 10}, 
-	{ID_STATUS_AWAY, 200}, 
-	{ID_STATUS_DND, 110}, 
-	{ID_STATUS_NA, 450}, 
-	{ID_STATUS_OCCUPIED, 100}, 
-	{ID_STATUS_FREECHAT, 0}, 
-	{ID_STATUS_INVISIBLE, 20}, 
-	{ID_STATUS_ONTHEPHONE, 150}, 
+	{ID_STATUS_OFFLINE, 500},
+	{ID_STATUS_ONLINE, 10},
+	{ID_STATUS_AWAY, 200},
+	{ID_STATUS_DND, 110},
+	{ID_STATUS_NA, 450},
+	{ID_STATUS_OCCUPIED, 100},
+	{ID_STATUS_FREECHAT, 0},
+	{ID_STATUS_INVISIBLE, 20},
+	{ID_STATUS_ONTHEPHONE, 150},
 	{ID_STATUS_OUTTOLUNCH, 425}};
 
 static int GetContactStatus(HANDLE hContact)
@@ -167,7 +168,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
 		db_set_ts((HANDLE)wParam, "CList", "Group", grpChg.pszNewName);
 	}
-	CallService(MS_CLUI_CONTACTADDED, wParam, 
+	CallService(MS_CLUI_CONTACTADDED, wParam,
 		cli.pfnIconFromStatusMode(GetContactProto((HANDLE)wParam), GetContactStatus((HANDLE)wParam), (HANDLE)wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);

@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 extern BOOL(WINAPI * MySetLayeredWindowAttributes) (HWND, COLORREF, BYTE, DWORD);
@@ -85,7 +86,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENT), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DROPSHADOW), FALSE);
 		}
-		else 
+		else
 			CheckDlgButton(hwndDlg, IDC_TRANSPARENT,
 				DBGetContactSettingByte(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -185,10 +186,10 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			pcli->pfnLoadCluiGlobalOpts();
-			SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 
+			SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST,
 				0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND)) 
+			if (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
 			{
 				// Window must be hidden to dynamically remove the taskbar button.
 				// See http://msdn.microsoft.com/library/en-us/shellcc/platform/shell/programmersguide/shell_int/shell_int_programming/taskbar.asp
@@ -200,21 +201,21 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_APPWINDOW | WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
 				SetWindowPlacement(pcli->hwndContactList, &p);
 			}
-			else 
+			else
 				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) 
+			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP))
 			{
 				HWND hProgMan = FindWindow(_T("Progman"), NULL);
 				if (hProgMan)
 					SetParent(pcli->hwndContactList, hProgMan);
 			}
-			else 
+			else
 				SetParent(pcli->hwndContactList, NULL);
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) 
+			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION))
 			{
-				int style = GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX; 
+				int style = GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;
 				SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, style);
 			}
 			else
@@ -233,7 +234,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			if (IsIconic(pcli->hwndContactList) && !IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
 				ShowWindow(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY) ? SW_HIDE : SW_SHOW);
-			if (IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) 
+			if (IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT))
 			{
 				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 				if (MySetLayeredWindowAttributes)
@@ -241,7 +242,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					(BYTE) DBGetContactSettingByte(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT),
 					LWA_ALPHA);
 			}
-			else 
+			else
 				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 
 			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);        //forces it to send a cln_listsizechanged

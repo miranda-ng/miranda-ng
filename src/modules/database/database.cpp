@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "profilemanager.h"
 
@@ -146,7 +147,7 @@ static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cc
 		_tcscat(profileName, _T(".dat"));
 
 	_tcscpy(profileName, p);
-	p = _tcsrchr(profileName, '.'); if (p) *p = 0; 
+	p = _tcsrchr(profileName, '.'); if (p) *p = 0;
 
 	mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), profiledir, profileName);
 	PathToAbsoluteT(buf, szProfile, newProfileDir);
@@ -297,8 +298,8 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 	getProfileCmdLine(szProfile, cch, g_profileDir);
 	getProfileDefault(szProfile, cch, g_profileDir);
 	if (IsInsideRootDir(g_profileDir, true)) {
-		MessageBox(NULL, 
-			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."), 
+		MessageBox(NULL,
+			TranslateT("Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location."),
 			LPGENT("Miranda NG"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
@@ -492,7 +493,7 @@ int LoadDatabaseModule(void)
 		MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 	}
 
-	// find a driver to support the given profile	
+	// find a driver to support the given profile
 	bool retry;
 	int rc;
 	do {
@@ -525,6 +526,6 @@ int LoadDatabaseModule(void)
 		InitIni();
 		return 0;
 	}
-	
+
 	return rc;
 }

@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 static int uniqueEventId = 0;
@@ -34,16 +35,16 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam == NULL || strcmp(cws->szSetting, "Status"))
 		return 0;
-	
+
 	int newStatus = cws->value.wVal;
 	int oldStatus = DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 	DBWriteContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
 	if (DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
     if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
-       // Remove the event from the queue if it exists since they are now offline     
+       // Remove the event from the queue if it exists since they are now offline
        int lastEvent = (int)DBGetContactSettingDword((HANDLE)wParam, "UserOnline", "LastEvent", 0);
-       
+
        if (lastEvent) {
            CallService(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)lastEvent);
            DBWriteContactSettingDword((HANDLE)wParam, "UserOnline", "LastEvent", 0);
@@ -54,7 +55,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 		{
 			DWORD ticked = db_get_dw(NULL, "UserOnline", cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
-			if (GetTickCount() - ticked > (1000*10)) { 
+			if (GetTickCount() - ticked > (1000*10)) {
 				CLISTEVENT cle;
 				TCHAR tooltip[256];
 

@@ -1,7 +1,7 @@
 /*
 SRMM
 
-Copyright 2000-2005 Miranda ICQ/IM project, 
+Copyright 2000-2005 Miranda IM project, 
 all portions of this codebase are copyrighted to the people 
 listed in contributors.txt.
 

@@ -1,5 +1,6 @@
 /*
-Copyright 2000-2012 Miranda IM project,
+
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -17,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "statusicon.h"
 
@@ -62,7 +64,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 	/* does a window for the contact exist? */
 	hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam);
-	if (hwnd) 
+	if (hwnd)
 	{
 		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS))
 		{
@@ -75,7 +77,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		{
 			if (GetForegroundWindow() == hwnd)
 				SkinPlaySound("RecvMsgActive");
-			else 
+			else
 				SkinPlaySound("RecvMsgInactive");
 		}
 		return 0;
@@ -120,9 +122,9 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 	if (!szProto || (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
-	if (hwnd = WindowList_Find(g_dat->hMessageWindowList, hContact)) 
+	if (hwnd = WindowList_Find(g_dat->hMessageWindowList, hContact))
 	{
-		if (msg) 
+		if (msg)
 		{
 			HWND hEdit;
 			hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
@@ -136,7 +138,7 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 		SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetForegroundWindow(hwnd);
 	}
-	else 
+	else
 	{
 		struct NewMessageWindowLParam newData = { 0 };
 		newData.hContact = hContact;
@@ -259,22 +261,22 @@ static void RestoreUnreadMessageAlerts(void)
 	cle.ptszTooltip = toolTip;
 
 	hContact = db_find_first();
-	while (hContact) 
+	while (hContact)
 	{
 		hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
-		while (hDbEvent) 
+		while (hDbEvent)
 		{
 			autoPopup = 0;
 			dbei.cbBlob = 0;
 			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) 
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 			{
 				windowAlreadyExists = WindowList_Find(g_dat->hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
 				{
 					char *szProto = GetContactProto(hContact);
-					if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) 
+					if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 					{
 						autoPopup = 1;
 					}
@@ -286,7 +288,7 @@ static void RestoreUnreadMessageAlerts(void)
 					newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
 				}
-				else 
+				else
 				{
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
@@ -341,8 +343,8 @@ int SplitmsgShutdown(void)
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurHyperlinkHand);
 	DestroyCursor(hCurSplitWE);
-	
-	for (i=0; i < SIZEOF(hHooks); ++i) 
+
+	for (i=0; i < SIZEOF(hHooks); ++i)
 		if (hHooks[i])
 			UnhookEvent(hHooks[i]);
 
@@ -424,7 +426,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 int LoadSendRecvMessageModule(void)
 {
 	if (LoadLibraryA("riched20.dll") == NULL) {
-		if (IDYES  != 
+		if (IDYES  !=
 			MessageBox(0,
 			TranslateT
 			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
@@ -457,13 +459,13 @@ int LoadSendRecvMessageModule(void)
 
 	hHookWinEvt   = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	
+
 	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
 	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
 	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
-	
+
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);

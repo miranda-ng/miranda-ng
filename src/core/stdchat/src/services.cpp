@@ -1,8 +1,8 @@
 /*
 Chat module plugin for Miranda IM
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -19,6 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "chat.h"
 
 #include "m_fontservice.h"
@@ -56,7 +57,7 @@ static HANDLE
    hEventJoinChat = NULL,
    hEventLeaveChat = NULL;
 
-#ifdef _WIN64 
+#ifdef _WIN64
 
 #define SIZEOF_STRUCT_GCREGISTER_V1 40
 #define SIZEOF_STRUCT_GCWINDOW_V1	48
@@ -297,7 +298,7 @@ static INT_PTR Service_GetInfo(WPARAM wParam,LPARAM lParam)
 			if ( gci->Flags & ID )    gci->pszID = ( TCHAR* )si->pszID;
 			if ( gci->Flags & NAME )  gci->pszName = ( TCHAR* )si->pszName;
 		}
-		
+
 		LeaveCriticalSection(&cs);
 		return 0;
 	}
@@ -397,7 +398,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				si->pszID = mir_strdup( gcw->pszID );
 				si->pszName = mir_strdup( gcw->pszName );
 			}
-			
+
 			if ( mi->bColor ) {
 				si->iFG = 4;
 				si->bFGSet = TRUE;

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #define GetNetlibHandleType(h)  (h?*(int*)h:NLH_INVALID)
 #define NLH_INVALID      0
 #define NLH_USER         'USER'
@@ -27,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NLH_BOUNDPORT    'BIND'
 #define NLH_PACKETRECVER 'PCKT'
 
-struct NetlibUser 
+struct NetlibUser
 {
 	int handleType;
 	NETLIBUSER user;
@@ -45,7 +46,7 @@ struct NetlibNestedCriticalSection
 	int lockCount;
 };
 
-struct NetlibHTTPProxyPacketQueue 
+struct NetlibHTTPProxyPacketQueue
 {
 	struct NetlibHTTPProxyPacketQueue *next;
 	PBYTE dataBuffer;
@@ -55,10 +56,10 @@ struct NetlibHTTPProxyPacketQueue
 typedef union _SOCKADDR_INET_M {
 	SOCKADDR_IN Ipv4;
 	SOCKADDR_IN6 Ipv6;
-	USHORT si_family;    
+	USHORT si_family;
 } SOCKADDR_INET_M, *PSOCKADDR_INET_M;
 
-struct NetlibConnection 
+struct NetlibConnection
 {
 	int handleType;
 	SOCKET s, s2;
@@ -192,7 +193,7 @@ void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo);
 NETLIBIPLIST* GetMyIp(unsigned flags);
 
 //netlibupnp.c
-bool NetlibUPnPAddPortMapping(WORD intport, char *proto, 
+bool NetlibUPnPAddPortMapping(WORD intport, char *proto,
 							  WORD *extport, DWORD *extip, bool search);
 void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
 void NetlibUPnPCleanup(void*);
@@ -205,7 +206,7 @@ void   NetlibSecurityDestroy(void);
 void   NetlibDestroySecurityProvider(HANDLE hSecurity);
 HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrincipal);
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal);
-char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, 
+char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw,
 									   bool http, unsigned& complete);
 
 static __inline INT_PTR NLSend(struct NetlibConnection *nlc, const char *buf, int len, int flags) {

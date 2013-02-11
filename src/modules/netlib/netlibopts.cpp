@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,10 +20,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
-struct NetlibTempSettings 
+struct NetlibTempSettings
 {
 	DWORD flags;
 	char *szSettingsModule;
@@ -32,37 +33,37 @@ struct NetlibTempSettings
 
 static LIST <NetlibTempSettings> tempSettings(5);
 
-static const UINT outgoingConnectionsControls[] = 
+static const UINT outgoingConnectionsControls[] =
 {
-	IDC_STATIC12, 
-	IDC_USEPROXY, 
-	IDC_STATIC21, IDC_PROXYTYPE, 
-	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT, 
-	IDC_PROXYAUTH, 
-	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
-	IDC_PROXYDNS, 
-	IDC_SPECIFYPORTSO, 
-	IDC_PORTSRANGEO, 
-	IDC_STATIC54, 
+	IDC_STATIC12,
+	IDC_USEPROXY,
+	IDC_STATIC21, IDC_PROXYTYPE,
+	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT,
+	IDC_PROXYAUTH,
+	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS,
+	IDC_PROXYDNS,
+	IDC_SPECIFYPORTSO,
+	IDC_PORTSRANGEO,
+	IDC_STATIC54,
 	IDC_VALIDATESSL};
 static const UINT useProxyControls[] = {
-	IDC_STATIC21, IDC_PROXYTYPE, 
-	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT, 
-	IDC_PROXYAUTH, 
-	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
+	IDC_STATIC21, IDC_PROXYTYPE,
+	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT,
+	IDC_PROXYAUTH,
+	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS,
 	IDC_PROXYDNS};
 static const UINT specifyOPortsControls[] = {
-	IDC_PORTSRANGEO, 
+	IDC_PORTSRANGEO,
 	IDC_STATIC54
 };
 static const UINT incomingConnectionsControls[] = {
-	IDC_STATIC43, 
-	IDC_SPECIFYPORTS, 
-	IDC_PORTSRANGE, 
-	IDC_STATIC52, 
+	IDC_STATIC43,
+	IDC_SPECIFYPORTS,
+	IDC_PORTSRANGE,
+	IDC_STATIC52,
 	IDC_ENABLEUPNP};
 static const UINT specifyPortsControls[] = {
-	IDC_PORTSRANGE, 
+	IDC_PORTSRANGE,
 	IDC_STATIC52};
 
 static const TCHAR* szProxyTypes[] = {_T("<mixed>"), _T("SOCKS4"), _T("SOCKS5"), _T("HTTP"), _T("HTTPS"), _T("Internet Explorer")};
@@ -345,7 +346,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EnableMultipleControls(hwndDlg, useProxyControls, SIZEOF(useProxyControls), TRUE);
 				if (selectedProxyType == 0) {
 					for (int i=0; i < tempSettings.getCount(); i++) {
-						if ( !tempSettings[i]->settings.useProxy  || 
+						if ( !tempSettings[i]->settings.useProxy  ||
 							tempSettings[i]->flags & NUF_NOOPTIONS || !(tempSettings[i]->flags & NUF_OUTGOING))
 							continue;
 
@@ -478,7 +479,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				for (iUser = 0; iUser < tempSettings.getCount(); iUser++)
-					NetlibSaveUserSettingsStruct(tempSettings[iUser]->szSettingsModule, 
+					NetlibSaveUserSettingsStruct(tempSettings[iUser]->szSettingsModule,
 						&tempSettings[iUser]->settings);
 				return TRUE;
 			}

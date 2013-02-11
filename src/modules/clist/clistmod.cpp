@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -140,7 +141,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA *) lParam;
 	if (ack->type != ACKTYPE_STATUS)
 		return 0;
-	
+
 	CallService(MS_CLUI_PROTOCOLSTATUSCHANGED, ack->lParam, (LPARAM) ack->szModule);
 
 	if ((int)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
@@ -190,7 +191,7 @@ static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 	char *szProto = GetContactProto((HANDLE)wParam);
 	HANDLE hContact = (HANDLE)wParam;
 
-	return cli.pfnIconFromStatusMode(szProto, 
+	return cli.pfnIconFromStatusMode(szProto,
 		szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
@@ -208,7 +209,7 @@ static void AddProtoIconIndex(PROTOACCOUNT* pa)
 
 static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
 {
-	for (int i=0; i < protoIconIndex.getCount(); i++) 
+	for (int i=0; i < protoIconIndex.getCount(); i++)
 		if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
 			protoIconIndex.remove(i);
 			break;
@@ -237,7 +238,7 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 
 static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
-	switch (eventCode) { 
+	switch (eventCode) {
 	case PRAC_ADDED:
 		AddProtoIconIndex((PROTOACCOUNT*)lParam);
 		break;
@@ -364,7 +365,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 	if (iNotCoveredDots == 0)  //They're all covered!
 		return GWVS_COVERED;
-		
+
 	//There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
 	return GWVS_PARTIALLY_COVERED;
 }
@@ -407,12 +408,12 @@ int fnShowHide(WPARAM, LPARAM)
 		//this forces the window onto the visible screen
 		GetWindowRect(cli.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
-			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top, 
+			MoveWindow(cli.hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}
 	else {                      //It needs to be hidden
-		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) || 
+		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
 			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
 			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);

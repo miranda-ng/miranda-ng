@@ -1,7 +1,7 @@
 /*
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2010 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -10,7 +10,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -47,11 +47,11 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 	TCHAR *pDest = szDest;
 	int destCharsLeft = cbDest - 1;
 
-	for (const TCHAR* pFormat = szFormat; *pFormat; ++pFormat) 
+	for (const TCHAR* pFormat = szFormat; *pFormat; ++pFormat)
 	{
 		DWORD fmt;
 		bool date, iso = false;
-		switch (*pFormat) 
+		switch (*pFormat)
 		{
 		case 't':
 			fmt = TIME_NOSECONDS;
@@ -83,26 +83,26 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 			break;
 
 		default:
-			if (destCharsLeft--) 
+			if (destCharsLeft--)
 				*pDest++=*pFormat;
 			continue;
 		}
-		
+
 		TCHAR dateTimeStr[64];
 		int dateTimeStrLen;
 
 		if (iso)
 		{
-			dateTimeStrLen = mir_sntprintf(dateTimeStr, SIZEOF(dateTimeStr), 
-				_T("%d-%02d-%02dT%02d:%02d:%02dZ"), 
-				st->wYear, st->wMonth, st->wDay, 
+			dateTimeStrLen = mir_sntprintf(dateTimeStr, SIZEOF(dateTimeStr),
+				_T("%d-%02d-%02dT%02d:%02d:%02dZ"),
+				st->wYear, st->wMonth, st->wDay,
 				st->wHour, st->wMinute, st->wSecond) + 1;
 		}
-		else if (date) 
-			dateTimeStrLen = GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, 
+		else if (date)
+			dateTimeStrLen = GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
 				dateTimeStr, SIZEOF(dateTimeStr));
 		else
-			dateTimeStrLen = GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, 
+			dateTimeStrLen = GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
 				dateTimeStr, SIZEOF(dateTimeStr));
 
 		if (dateTimeStrLen) --dateTimeStrLen;

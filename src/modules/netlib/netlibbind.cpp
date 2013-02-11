@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
@@ -77,7 +78,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 
 					if (s == INVALID_SOCKET) continue;
 					if ( !before && portnum <= *portn) continue;
-					if (before  && portnum >= *portn) 
+					if (before  && portnum >= *portn)
 						return false;
 
 					sin.sin_port = htons((WORD)port);
@@ -299,10 +300,10 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		}
 
 		DWORD extIP;
-		if (nlu->settings.enableUPnP && 
+		if (nlu->settings.enableUPnP &&
 			NetlibUPnPAddPortMapping(nlb->wPort, "TCP", &nlbp->wExPort, &extIP, nlb->cbSize > NETLIBBIND_SIZEOF_V2))
 		{
-			NetlibLogf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", 
+			NetlibLogf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n",
 				nlb->wPort, nlbp->wExPort);
 			if (nlb->cbSize > NETLIBBIND_SIZEOF_V2)
 			{

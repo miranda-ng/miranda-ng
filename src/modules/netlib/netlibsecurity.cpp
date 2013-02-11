@@ -1,7 +1,8 @@
 /*
+
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -10,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -67,7 +68,7 @@ static HANDLE hSecMutex;
 static void ReportSecError(SECURITY_STATUS scRet, int line)
 {
 	char szMsgBuf[256];
-	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
+	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
 
 	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
@@ -123,7 +124,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	WaitForSingleObject(hSecMutex, INFINITE);
 
-	if (secCnt == 0) 
+	if (secCnt == 0)
 	{
 		LoadSecurityLibrary();
 		secCnt += g_hSecurity != NULL;
@@ -193,17 +194,17 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 	unsigned char inDataBuffer[1024];
 
-	SecBuffer inBuffers[2] = 
+	SecBuffer inBuffers[2] =
 	{
-		{ sizeof(inDataBuffer), SECBUFFER_DATA, inDataBuffer }, 
-		{ chlsz, SECBUFFER_STREAM, szChallenge }, 
+		{ sizeof(inDataBuffer), SECBUFFER_DATA, inDataBuffer },
+		{ chlsz, SECBUFFER_STREAM, szChallenge },
 	};
 
 	SecBufferDesc inBuffersDesc = { SECBUFFER_VERSION, 2, inBuffers };
 
 	unsigned long qop = 0;
 	SECURITY_STATUS sc = g_pSSPI->DecryptMessage(&hNtlm->hClientContext, &inBuffersDesc, 0, &qop);
-	if (sc != SEC_E_OK) 
+	if (sc != SEC_E_OK)
 	{
 		ReportSecError(sc, __LINE__);
 		return NULL;
@@ -225,10 +226,10 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 	unsigned char outDataBuffer[4] = { 1, 0, 16, 0 };
 
-	SecBuffer outBuffers[3] = 
+	SecBuffer outBuffers[3] =
 	{
-		{ sizes.cbSecurityTrailer, SECBUFFER_TOKEN, tokenBuffer }, 
-		{ sizeof(outDataBuffer), SECBUFFER_DATA, outDataBuffer }, 
+		{ sizes.cbSecurityTrailer, SECBUFFER_TOKEN, tokenBuffer },
+		{ sizeof(outDataBuffer), SECBUFFER_DATA, outDataBuffer },
 		{ sizes.cbBlockSize, SECBUFFER_PADDING, paddingBuffer }
 	};
 	SecBufferDesc outBuffersDesc = { SECBUFFER_VERSION, 3, outBuffers };
@@ -245,7 +246,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 		ressz += outBuffersDesc.pBuffers[i].cbBuffer;
 
 	unsigned char *response = (unsigned char*)alloca(ressz), *p = response;
-	for (i=0; i < outBuffersDesc.cBuffers; i++) 
+	for (i=0; i < outBuffersDesc.cBuffers; i++)
 	{
 		memcpy(p, outBuffersDesc.pBuffers[i].pvBuffer, outBuffersDesc.pBuffers[i].cbBuffer);
 		p += outBuffersDesc.pBuffers[i].cbBuffer;
@@ -259,7 +260,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	if ( !NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
 
 	return mir_strdup(nlb64.pszEncoded);
-} 
+}
 
 char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, bool http, unsigned& complete)
 {
@@ -333,14 +334,14 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				}
 			}
 		}
-		else 
+		else
 		{
 			if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
 			if (SecIsValidHandle(&hNtlm->hClientCredential)) g_pSSPI->FreeCredentialsHandle(&hNtlm->hClientCredential);
 
 			SEC_WINNT_AUTH_IDENTITY auth;
 
-			if (login != NULL && login[0] != '\0') 
+			if (login != NULL && login[0] != '\0')
 			{
 				memset(&auth, 0, sizeof(auth));
 
@@ -357,7 +358,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					domainLen = domainName - login;
 					domainName = login;
 				}
-				else if ((domainName = _tcschr(login, '@')) != NULL) 
+				else if ((domainName = _tcschr(login, '@')) != NULL)
 				{
 					loginName = login;
 					loginLen = domainName - login;
@@ -375,8 +376,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
-			sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider, 
-				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL, 
+			sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider,
+				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL,
 				&hNtlm->hClientCredential, &tokenExpiration);
 			if (sc != SEC_E_OK)
 			{
@@ -392,10 +393,10 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		outputSecurityToken.cbBuffer = hNtlm->cbMaxToken;
 		outputSecurityToken.pvBuffer = alloca(outputSecurityToken.cbBuffer);
 
-		sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential, 
-			hasChallenge ? &hNtlm->hClientContext : NULL, 
-			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP, 
-			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext, 
+		sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential,
+			hasChallenge ? &hNtlm->hClientContext : NULL,
+			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
+			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext,
 			&outputBufferDescriptor, &contextAttributes, &tokenExpiration);
 
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
@@ -486,7 +487,7 @@ static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
 	NETLIBNTLMREQUEST* req = (NETLIBNTLMREQUEST*)lParam;
 	unsigned complete;
 
-	char* response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+	char* response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
 		StrConvT(req->userName), StrConvT(req->password), false, complete);
 
 	return (INT_PTR)response;
@@ -501,14 +502,14 @@ static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 
 	if (req->flags & NNR_UNICODE)
 	{
-		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
 			req->szUserName, req->szPassword, false, req->complete);
 	}
 	else
 	{
 		TCHAR *szLogin = mir_a2t((char*)req->szUserName);
 		TCHAR *szPassw = mir_a2t((char*)req->szPassword);
-		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
 			szLogin, szPassw, false, req->complete);
 		mir_free(szLogin);
 		mir_free(szPassw);

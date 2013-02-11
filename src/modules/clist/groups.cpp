@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -183,14 +184,14 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
-	for (hContact = db_find_first(); 
-		hContact; 
+	for (hContact = db_find_first();
+		hContact;
 		hContact = db_find_next(hContact))
 	{
 		if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 			continue;
 
-		if (_tcscmp(dbv.ptszVal, name)) 
+		if (_tcscmp(dbv.ptszVal, name))
 		{
 			db_free(&dbv);
 			continue;
@@ -208,7 +209,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 			grpChg.pszNewName = NULL;
 		}
 		NotifyEventHooks(hGroupChangeEvent, (WPARAM)hContact, (LPARAM)&grpChg);
-	} 
+	}
 	//shuffle list of groups up to fill gap
 	for (i = wParam - 1;; i++) {
 		_itoa(i + 1, str, 10);
@@ -540,7 +541,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 int InitGroupServices(void)
 {
-	for (int i=0;; i++) 
+	for (int i=0;; i++)
 	{
 		char str[32];
 		_itoa(i, str, 10);

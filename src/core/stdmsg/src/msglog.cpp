@@ -1,6 +1,7 @@
 /*
-Copyright 2000-2010 Miranda IM project, 
-all portions of this codebase are copyrighted to the people 
+
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -17,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 extern IconItem iconList[];
@@ -76,7 +78,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 		return 0;
 
 	lineLen = (int)_tcslen(line) * 9 + 8;
-	if (*cbBufferEnd + lineLen > *cbBufferAlloced) 
+	if (*cbBufferEnd + lineLen > *cbBufferAlloced)
 	{
 		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
 		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
@@ -86,9 +88,9 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 	strcpy(d, "{\\uc1 ");
 	d += 6;
 
-	for (; *line; line++, textCharsCount++) 
+	for (; *line; line++, textCharsCount++)
 	{
-		if (*line == '\r' && line[1] == '\n') 
+		if (*line == '\r' && line[1] == '\n')
 		{
 			memcpy(d, "\\par ", 5);
 			line++;
@@ -98,12 +100,12 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 			memcpy(d, "\\par ", 5);
 			d += 5;
 		}
-		else if (*line == '\t') 
+		else if (*line == '\t')
 		{
 			memcpy(d, "\\tab ", 5);
 			d += 5;
 		}
-		else if (*line == '\\' || *line == '{' || *line == '}') 
+		else if (*line == '\\' || *line == '{' || *line == '}')
 		{
 			*d++ = '\\';
 			*d++ = (char) *line;
@@ -342,12 +344,12 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		CopyMemory(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
 		bufferEnd += logIconBmpSize[i];
 	}
-	if (g_dat->flags & SMF_SHOWTIME) 
+	if (g_dat->flags & SMF_SHOWTIME)
 	{
-		const TCHAR* szFormat; 
+		const TCHAR* szFormat;
 		TCHAR str[64];
-		
-		if (g_dat->flags & SMF_SHOWSECS) 
+
+		if (g_dat->flags & SMF_SHOWSECS)
 			szFormat = g_dat->flags & SMF_SHOWDATE ? _T("d s") : _T("s");
 		else
 			szFormat = g_dat->flags & SMF_SHOWDATE ? _T("d t") : _T("t");
@@ -386,7 +388,7 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 	switch (dbei.eventType) {
 		default:
 		case EVENTTYPE_MESSAGE:
-		{	
+		{
 			TCHAR* msg = DbGetEventTextT( &dbei, CP_ACP );
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
 			AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, msg);
@@ -460,10 +462,10 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 {
 	struct LogStreamData *dat = (struct LogStreamData *) dwCookie;
 
-	if (dat->buffer == NULL) 
+	if (dat->buffer == NULL)
 	{
 		dat->bufferOffset = 0;
-		switch (dat->stage) 
+		switch (dat->stage)
 		{
 			case STREAMSTAGE_HEADER:
 				dat->buffer = CreateRTFHeader(dat->dlgDat);
@@ -471,9 +473,9 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 				break;
 
 			case STREAMSTAGE_EVENTS:
-				if (dat->eventsToInsert) 
+				if (dat->eventsToInsert)
 				{
-					do 
+					do
 					{
 						dat->buffer = CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
 						if (dat->buffer)
@@ -482,7 +484,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 						if (--dat->eventsToInsert == 0)
 							break;
 					} while (dat->buffer == NULL && dat->hDbEvent);
-					if (dat->buffer) 
+					if (dat->buffer)
 					{
 						dat->isEmpty = 0;
 						break;
@@ -503,7 +505,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset == dat->bufferLen) 
+	if (dat->bufferOffset == dat->bufferLen)
 	{
 		mir_free(dat->buffer);
 		dat->buffer = NULL;
@@ -546,7 +548,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		if (!bottomScroll)
 			SendMessage(hwndLog, EM_GETSCROLLPOS, 0, (LPARAM) & scrollPos);
 	}
-	if (fAppend) 
+	if (fAppend)
 	{
 		sel.cpMin = sel.cpMax = -1;
 		SendMessage(hwndLog, EM_EXSETSEL, 0, (LPARAM) & sel);

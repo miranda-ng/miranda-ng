@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 #ifdef _ASSERT
@@ -73,7 +74,7 @@ void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 	if (pPE->FileHeader.SizeOfOptionalHeader < 2)
 		return NULL;
 
-	// The DataDirectory is an array of 16 structures. 
+	// The DataDirectory is an array of 16 structures.
 	// Each array entry has a predefined meaning for what it refers to.
 
 	switch (pPE->OptionalHeader.Magic)
@@ -108,7 +109,7 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void* prt, int resType, int* p
 
 	if (i == count) return NULL;
 
-	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + 
+	pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt +
 		(pRes[i].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 
 	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
@@ -147,7 +148,7 @@ void* _FindResource(IMAGE_DOS_HEADER* pDosHeader, void* prt, int resIndex, int r
 		IMAGE_RESOURCE_DIRECTORY* pDir;
 		pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + (pRes[index].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 		pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
-		index = 0;  
+		index = 0;
 	}
 
 	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
@@ -268,7 +269,7 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 			res = _ExtractFromICO(lpszFile, iconIndex, cxIcon, cyIcon, phicon, flags);
 		break;
 
-	case MAGIC_ICON:    
+	case MAGIC_ICON:
 		if ((magic[1] == MAGIC_ICO1 || magic[1] == MAGIC_CUR) && magic[2] >= 1)
 			res = _ExtractFromICO(lpszFile, iconIndex, cxIcon, cyIcon, phicon, flags);
 

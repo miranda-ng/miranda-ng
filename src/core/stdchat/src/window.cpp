@@ -1,8 +1,8 @@
 /*
 Chat module plugin for Miranda IM
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -399,7 +399,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					gt.cb = iLen+99;
 					gt.flags = GT_DEFAULT;
 					gt.codepage = 1200;
-					
+
 					SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
 					while ( start >0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
 						start--;
@@ -1171,7 +1171,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 	SESSION_INFO* si;
 
 	si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	
+
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
@@ -1899,7 +1899,7 @@ END_REMOVETAB:
 					TextOut(dis->hDC, dis->rcItem.left+x_offset, dis->rcItem.top, ui->pszNick, lstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 
-					if (si->pAccPropServicesForNickList) 
+					if (si->pAccPropServicesForNickList)
 					{
 						wchar_t *nick = mir_t2u(ui->pszNick);
 						si->pAccPropServicesForNickList->SetHwndPropStr(GetDlgItem(hwndDlg,IDC_LIST), OBJID_CLIENT, dis->itemID+1, PROPID_ACC_NAME, nick);

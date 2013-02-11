@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 
 #include "plugins.h"
@@ -86,7 +87,7 @@ bool hasMuuid(const BASIC_PLUGIN_INFO& bpi, const MUUID& uuid)
 /////////////////////////////////////////////////////////////////////////////////////////
 // banned plugins
 
-static const MUUID pluginBannedList[] = 
+static const MUUID pluginBannedList[] =
 {
 	{0x9d6c3213, 0x02b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe2, 0x4f, 0x8d, 0x65 }},  // old chat
 	{0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }},  // old clist
@@ -106,7 +107,7 @@ static bool isPluginBanned(const MUUID& u1)
 /////////////////////////////////////////////////////////////////////////////////////////
 // default plugins
 
-static MuuidReplacement pluginDefault[] = 
+static MuuidReplacement pluginDefault[] =
 {
 	{	MIID_UIUSERINFO,      _T("stduserinfo"),   NULL },  // 0
 	{	MIID_SRURL,           _T("stdurl"),        NULL },  // 1
@@ -158,7 +159,7 @@ int LoadStdPlugins()
 
 char* GetPluginNameByInstance(HINSTANCE hInstance)
 {
-	if (pluginList.getCount() == 0) 
+	if (pluginList.getCount() == 0)
 		return NULL;
 
 	for (int i=0; i < pluginList.getCount(); i++) {
@@ -171,7 +172,7 @@ char* GetPluginNameByInstance(HINSTANCE hInstance)
 
 int GetPluginLangByInstance(HINSTANCE hInstance)
 {
-	if (pluginList.getCount() == 0) 
+	if (pluginList.getCount() == 0)
 		return NULL;
 
 	for (int i=0; i < pluginList.getCount(); i++) {
@@ -192,7 +193,7 @@ int GetPluginFakeId(const MUUID &uuid, int hLangpack)
 		if ( equalUUID(p->bpi.pluginInfo->uuid, uuid))
 			return p->hLangpack = (hLangpack) ? hLangpack : --sttFakeID;
 	}
-			
+
 	return 0;
 }
 
@@ -220,14 +221,14 @@ static bool validInterfaceList(MUUID *piface)
  * storage
  */
 
-static const TCHAR* modulesToSkip[] = 
+static const TCHAR* modulesToSkip[] =
 {
 	_T("autoloadavatars.dll"), _T("multiwindow.dll"), _T("fontservice.dll"),
 	_T("icolib.dll"), _T("historyeditor.dll")
 };
 
 // The following plugins will be checked for a valid MUUID or they will not be loaded
-static const TCHAR* expiredModulesToSkip[] = 
+static const TCHAR* expiredModulesToSkip[] =
 {
 	_T("scriver.dll"), _T("nconvers.dll"), _T("tabsrmm.dll"), _T("nhistory.dll"),
 	_T("historypp.dll"), _T("help.dll"), _T("loadavatars.dll"), _T("tabsrmm_unicode.dll"),
@@ -453,7 +454,7 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 		clistPlugins.insert(p);
 		p->pclass |= PCLASS_CLIST;
 	}
-	// plugin declared that it's a service mode plugin. 
+	// plugin declared that it's a service mode plugin.
 	// load it for a profile manager's window
 	else if ( hasMuuid(pIds, miid_servicemode)) {
 		BASIC_PLUGIN_INFO bpi;
@@ -518,7 +519,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				p->pclass |= PCLASS_FAILED;
 				return false;
 			}
-		
+
 			p->bpi = bpi;
 			p->pclass |= PCLASS_OK | PCLASS_BASICAPI;
 		}

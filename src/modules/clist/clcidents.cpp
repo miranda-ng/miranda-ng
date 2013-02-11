@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -98,7 +99,7 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contac
 			&& ((unsigned) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) || (IsHContactContact(hItem)
 			&& group->cl.items[group->scanIndex]->type == CLCIT_CONTACT
 			&& group->cl.items[group->scanIndex]->hContact == hItem) || (IsHContactInfo(hItem)
-			&& group->cl.items[group->scanIndex]->type == CLCIT_INFO 
+			&& group->cl.items[group->scanIndex]->type == CLCIT_INFO
 			&& group->cl.items[group->scanIndex]->hContact == (HANDLE) ((UINT_PTR)hItem & ~HCONTACT_ISINFO)))
 		{
 			if (isVisible) {
@@ -144,9 +145,9 @@ int fnGetRowByIndex(struct ClcData *dat, int testindex, ClcContact **contact, Cl
 	int index = 0;
 	ClcGroup *group = &dat->list;
 
-	if (testindex<0) 
+	if (testindex<0)
 		return (-1);
-		
+
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {

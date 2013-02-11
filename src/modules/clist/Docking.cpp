@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -35,13 +36,13 @@ static POINT dockPos;
 
 static void Docking_GetMonitorRectFromPoint(LPPOINT pt, LPRECT rc)
 {
-	if (MyMonitorFromPoint) 
+	if (MyMonitorFromPoint)
 	{
 		MONITORINFO monitorInfo;
 		HMONITOR hMonitor = MyMonitorFromPoint(*pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
 		monitorInfo.cbSize = sizeof(monitorInfo);
 
-		if (MyGetMonitorInfo(hMonitor, &monitorInfo)) 
+		if (MyGetMonitorInfo(hMonitor, &monitorInfo))
 		{
 			*rc = monitorInfo.rcMonitor;
 			return;
@@ -57,9 +58,9 @@ static void Docking_GetMonitorRectFromPoint(LPPOINT pt, LPRECT rc)
 
 static void Docking_RectToDock(LPRECT rc)
 {
-	rc->right += dockPos.x - rc->left; 
+	rc->right += dockPos.x - rc->left;
 	rc->left = dockPos.x;
-	rc->bottom += dockPos.y - rc->top; 
+	rc->bottom += dockPos.y - rc->top;
 	rc->top = dockPos.y;
 }
 
@@ -91,7 +92,7 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 
 	rc->top = rcDisplay->top;
 	rc->bottom = rcDisplay->bottom;
-	if (docked == DOCKED_LEFT) 
+	if (docked == DOCKED_LEFT)
 	{
 		rc->right = rcDisplay->left + (rc->right - rc->left);
 		rc->left = rcDisplay->left;
@@ -108,7 +109,7 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 	else
 		rc->left = rc->right - cx;
 
-	if ( !query) 
+	if ( !query)
 	{
 		Docking_PosCommand(hwnd, rc, false);
 		dockPos = *(LPPOINT)rc;
@@ -116,7 +117,7 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 
 	if (move)
 	{
-		MoveWindow(hwnd, rc->left, rc->top, rc->right - rc->left, 
+		MoveWindow(hwnd, rc->left, rc->top, rc->right - rc->left,
 			rc->bottom - rc->top, TRUE);
 	}
 }
@@ -145,7 +146,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	static int draggingTitle;
 	MSG *msg = (MSG *) wParam;
 
-	if (msg->message == WM_DESTROY) 
+	if (msg->message == WM_DESTROY)
 	{
 		if (docked)
 		{
@@ -168,7 +169,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE:
 		draggingTitle = 0;
-		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ? 
+		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ?
 			(char) db_get_b(NULL, "CList", "Docked", 0) : 0;
 		dockPos.x = (int)db_get_dw(NULL, "CList", "DockX", 0);
 		dockPos.y = (int)db_get_dw(NULL, "CList", "DockY", 0);
@@ -282,7 +283,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			ptCursor.y = GET_Y_LPARAM(pos);
 			Docking_GetMonitorRectFromPoint(&ptCursor, &rcMonitor);
 
-			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || 
+			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ||
 				(ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) &&
 				db_get_b(NULL, "CLUI", "DockToSides", 1))
 			{
@@ -340,18 +341,18 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd, &rc);
-			if ((docked == DOCKED_LEFT && (short) LOWORD(msg->lParam) > rc.right)  || 
-				(docked == DOCKED_RIGHT && (short) LOWORD(msg->lParam) < 0)) 
+			if ((docked == DOCKED_LEFT && (short) LOWORD(msg->lParam) > rc.right)  ||
+				(docked == DOCKED_RIGHT && (short) LOWORD(msg->lParam) < 0))
 			{
 				ReleaseCapture();
 				draggingTitle = 0;
 				docked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
-				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2, 
-					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, 
-					db_get_dw(NULL, "CList", "Width", 0), 
-					db_get_dw(NULL, "CList", "Height", 0), 
+				SetWindowPos(msg->hwnd, 0, pt.x - rc.right / 2,
+					pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2,
+					db_get_dw(NULL, "CList", "Width", 0),
+					db_get_dw(NULL, "CList", "Height", 0),
 					SWP_NOZORDER);
 				Docking_Command(msg->hwnd, ABM_REMOVE);
 			}

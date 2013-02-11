@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 #include "file.h"
 
@@ -45,13 +46,13 @@ static void GetLowestExistingDirName(const TCHAR *szTestDir, TCHAR *szExistingDi
 	if (szExistingDir[0] == '\0') GetCurrentDirectory(cchExistingDir, szExistingDir);
 }
 
-static const TCHAR InvalidFilenameChars[] = _T("\\/:*?\"<>|"); 
+static const TCHAR InvalidFilenameChars[] = _T("\\/:*?\"<>|");
 void RemoveInvalidFilenameChars(TCHAR *tszString)
 {
 	size_t i;
 	if (tszString) {
 		for (i = _tcscspn(tszString, InvalidFilenameChars); tszString[i]; i+=_tcscspn(tszString+i+1, InvalidFilenameChars)+1)
-			if (tszString[i] >= 0) 
+			if (tszString[i] >= 0)
 				tszString[i] = _T('_');
 	}
 }
@@ -62,7 +63,7 @@ void RemoveInvalidPathChars(TCHAR *tszString)
 	size_t i;
 	if (tszString) {
 		for (i = _tcscspn(tszString, InvalidPathChars); tszString[i]; i+=_tcscspn(tszString+i+1, InvalidPathChars)+1)
-			if (tszString[i] >= 0) 
+			if (tszString[i] >= 0)
 				tszString[i] = _T('_');
 	}
 }
@@ -103,11 +104,11 @@ int BrowseForFolder(HWND hwnd, TCHAR *szPath)
 	return pidlResult != NULL;
 }
 
-static REPLACEVARSARRAY sttVarsToReplace[] = 
+static REPLACEVARSARRAY sttVarsToReplace[] =
 {
-	{ (TCHAR*)"///", (TCHAR*)"//" }, 
-	{ (TCHAR*)"//", (TCHAR*)"/" }, 
-	{ (TCHAR*)"()", (TCHAR*)"" }, 
+	{ (TCHAR*)"///", (TCHAR*)"//" },
+	{ (TCHAR*)"//", (TCHAR*)"/" },
+	{ (TCHAR*)"()", (TCHAR*)"" },
 	{ NULL, NULL }
 };
 

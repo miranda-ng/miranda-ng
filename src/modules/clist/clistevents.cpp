@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 
@@ -90,14 +91,14 @@ static void ShowEventsInTray()
 	char ** pTrayProtos;
 	char nTrayProtoCnt;
 	int nTrayCnt = cli.trayIconCount;
-	if ( !cli.events.count || !nTrayCnt)  return; 
-	if (cli.events.count == 1 || nTrayCnt == 1) 
+	if ( !cli.events.count || !nTrayCnt)  return;
+	if (cli.events.count == 1 || nTrayCnt == 1)
 	{
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
 		return;
 	}
 
-	// in case if we have several icons in tray and several events with different protocols 
+	// in case if we have several icons in tray and several events with different protocols
 	// lets use several icon to show events from protocols in different icons
 	cli.pfnLockTray();
 	pTrayProtos = (char**)_alloca(sizeof(char*)*cli.trayIconCount);
@@ -215,8 +216,8 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 
 	// Update contact's icon
 	szProto = GetContactProto(hContact);
-	cli.pfnChangeContactIcon(cli.events.items[i]->cle.hContact, 
-		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->cle.hContact, 1), 
+	cli.pfnChangeContactIcon(cli.events.items[i]->cle.hContact,
+		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->cle.hContact, 1),
 		0);
 
 	// Free any memory allocated to the event
@@ -229,9 +230,9 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 		{
 			if (cli.events.items[i]->cle.hContact)
 				szEventProto = GetContactProto((cli.events.items[i]->cle.hContact));
-			else if (cli.events.items[i]->cle.flags&CLEF_PROTOCOLGLOBAL) 
+			else if (cli.events.items[i]->cle.flags&CLEF_PROTOCOLGLOBAL)
 				szEventProto = (char *) cli.events.items[i]->cle.lpszProtocol;
-			else 
+			else
 				szEventProto = NULL;
 			if (szEventProto && szProto && !lstrcmpA(szEventProto, szProto))
 				nSameProto++;
@@ -303,7 +304,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 			if (szProto) {
 				for (i=0; i<cli.events.count; i++) {
 					char * eventProto = NULL;
-					if (cli.events.items[i]->cle.hContact) 
+					if (cli.events.items[i]->cle.hContact)
 						eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
 					if ( !eventProto)
 						eventProto = cli.events.items[i]->cle.lpszProtocol;
@@ -320,7 +321,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 					if (click_in_first_icon)
 						for (i=0; i<cli.events.count; i++) {
 							char * eventProto = NULL;
-							if (cli.events.items[i]->cle.hContact) 
+							if (cli.events.items[i]->cle.hContact)
 								eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
 							if ( !eventProto)
 								eventProto = cli.events.items[i]->cle.lpszProtocol;
@@ -335,7 +336,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 								}
 							}
 						}
-					if (i == cli.events.count) { //not found 
+					if (i == cli.events.count) { //not found
 						cli.pfnUnlockTray();
 						return 1;	//continue processing to show contact list
 					}

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,10 +20,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
-static const char search_request_msg[] = 
+static const char search_request_msg[] =
 	"M-SEARCH * HTTP/1.1\r\n"
 	"HOST: 239.255.255.250:1900\r\n"
 	"MAN: \"ssdp:discover\"\r\n"
@@ -31,12 +32,12 @@ static const char search_request_msg[] =
 	"ST: urn:schemas-upnp-org:service:%s\r\n"
 	"\r\n";
 
-static const char xml_get_hdr[] = 
+static const char xml_get_hdr[] =
 	"GET %s HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"ACCEPT-LANGUAGE: *\r\n\r\n";
 
-static const char soap_post_hdr[] = 
+static const char soap_post_hdr[] =
 	"POST %s HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"CONTENT-LENGTH: %u\r\n"
@@ -44,7 +45,7 @@ static const char soap_post_hdr[] =
 	"SOAPACTION: \"%s#%s\"\r\n\r\n"
 	"%s";
 
-static const char soap_post_hdr_m[] = 
+static const char soap_post_hdr_m[] =
 	"M-POST %s URL HTTP/1.1\r\n"
 	"HOST: %s:%u\r\n"
 	"CONTENT-LENGTH: %u\r\n"
@@ -53,10 +54,10 @@ static const char soap_post_hdr_m[] =
 	"01-SOAPACTION: \"%s#%s\"\r\n\r\n"
 	"%s";
 
-static const char search_device[] = 
+static const char search_device[] =
 	"<serviceType>%s</serviceType>";
 
-static const char soap_action[] = 
+static const char soap_action[] =
 	"<?xml version = \"1.0\"?>\r\n"
 	"<s:Envelope\r\n"
 	"    xmlns:s = \"http://schemas.xmlsoap.org/soap/envelope/\"\r\n"
@@ -68,10 +69,10 @@ static const char soap_action[] =
 	"  </s:Body>\r\n"
 	"</s:Envelope>\r\n";
 
-static const char soap_query[] = 
+static const char soap_query[] =
 	"<s:Envelope\r\n"
-	"    xmlns:s = \"http://schemas.xmlsoap.org/soap/envelope/\"\r\n" 
-	"    s:encodingStyle = \"http://schemas.xmlsoap.org/soap/encoding/\">\r\n" 
+	"    xmlns:s = \"http://schemas.xmlsoap.org/soap/envelope/\"\r\n"
+	"    s:encodingStyle = \"http://schemas.xmlsoap.org/soap/encoding/\">\r\n"
 	"  <s:Body>\r\n"
 	"    <u:QueryStateVariable xmlns:u = \"urn:schemas-upnp-org:control-1-0\">\r\n"
 	"      <u:varName>%s</u:varName>\r\n"
@@ -79,7 +80,7 @@ static const char soap_query[] =
 	"  </s:Body>\r\n"
 	"</s:Envelope>\r\n";
 
-static const char add_port_mapping[] = 
+static const char add_port_mapping[] =
 	"      <NewRemoteHost></NewRemoteHost>\r\n"
 	"      <NewExternalPort>%i</NewExternalPort>\r\n"
 	"      <NewProtocol>%s</NewProtocol>\r\n"
@@ -89,12 +90,12 @@ static const char add_port_mapping[] =
 	"      <NewPortMappingDescription>Miranda</NewPortMappingDescription>\r\n"
 	"      <NewLeaseDuration>0</NewLeaseDuration>\r\n";
 
-static const char delete_port_mapping[] = 
+static const char delete_port_mapping[] =
 	"     <NewRemoteHost></NewRemoteHost>\r\n"
 	"     <NewExternalPort>%i</NewExternalPort>\r\n"
 	"     <NewProtocol>%s</NewProtocol>\r\n";
 
-static const char get_port_mapping[] = 
+static const char get_port_mapping[] =
 	"     <NewPortMappingIndex>%i</NewPortMappingIndex>\r\n";
 
 static bool gatewayFound;
@@ -115,12 +116,12 @@ static char szCtlUrl[256], szDev[256];
 
 typedef enum
 {
-	DeviceGetReq, 
-	ControlAction, 
+	DeviceGetReq,
+	ControlAction,
 	ControlQuery
 } ReqType;
 
-static bool txtParseParam(char* szData, char* presearch, 
+static bool txtParseParam(char* szData, char* presearch,
 	char* start, char* finish, char* param, size_t size)
 {
 	char *cp, *cp1;
@@ -271,11 +272,11 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 				char szData1[1024];
 
 				szReq = mir_strdup(szResult);
-				sz = mir_snprintf (szData1, sizeof(szData1), 
+				sz = mir_snprintf (szData1, sizeof(szData1),
 					soap_action, szActionName, szDev, szReq, szActionName);
 
-				sz = mir_snprintf (szData, 4096, 
-					szPostHdr, szPath, szHost, sPort, 
+				sz = mir_snprintf (szData, 4096,
+					szPostHdr, szPath, szHost, sPort,
 					sz, szDev, szActionName, szData1);
 			}
 			break;
@@ -284,11 +285,11 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 			{
 				char szData1[1024];
 
-				sz = mir_snprintf (szData1, sizeof(szData1), 
+				sz = mir_snprintf (szData1, sizeof(szData1),
 					soap_query, szActionName);
 
-				sz = mir_snprintf (szData, 4096, 
-					szPostHdr, szPath, szHost, sPort, 
+				sz = mir_snprintf (szData, 4096,
+					szPostHdr, szPath, szHost, sPort,
 					sz, "urn:schemas-upnp-org:control-1-0", "QueryStateVariable", szData1);
 			}
 			break;
@@ -438,7 +439,7 @@ retrycon:
 						if (hdrend != NULL)
 						{
 							// Get packet size if provided
-							if (txtParseParam(szResult, NULL, "Content-Length:", "\n", szRes, sizeof(szRes))  || 
+							if (txtParseParam(szResult, NULL, "Content-Length:", "\n", szRes, sizeof(szRes))  ||
 								txtParseParam(szResult, NULL, "CONTENT-LENGTH:", "\n", szRes, sizeof(szRes)))
 							{
 								// Add size of HTTP header to the packet size to compute full transmission size
@@ -659,7 +660,7 @@ static void discoverUPnP(void)
 				buf[buflen] = 0;
 				LongLog(buf);
 
-				if (txtParseParam(buf, NULL, "LOCATION:", "\n", szUrl, sizeof(szUrl))  || 
+				if (txtParseParam(buf, NULL, "LOCATION:", "\n", szUrl, sizeof(szUrl))  ||
 					txtParseParam(buf, NULL, "Location:", "\n", szUrl, sizeof(szUrl)))
 				{
 					char age[30];
@@ -739,7 +740,7 @@ bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *e
 		do
 		{
 			++*extport;
-			mir_snprintf(szData, 4096, add_port_mapping, 
+			mir_snprintf(szData, 4096, add_port_mapping,
 				*extport, proto, intport, inet_ntoa(locIP.sin_addr));
 			res = httpTransact(szCtlUrl, szData, 4096, "AddPortMapping", ControlAction);
 			txtParseParam(szData, NULL, "<errorCode>", "</errorCode>", szExtIP, sizeof(szExtIP));
@@ -752,7 +753,7 @@ bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *e
 		if (res == 200)
 		{
 			unsigned ip = getExtIP();
-			if (ip) *extip = ip; 
+			if (ip) *extip = ip;
 
 			if (numports >= numportsAlloc)
 				mir_realloc(portList, sizeof(WORD)*(numportsAlloc += 10));
@@ -845,7 +846,7 @@ void NetlibUPnPCleanup(void*)
 			{
 				WORD mport = (WORD)atol(buf);
 
-				if (j >= SIZEOF(ports)) 
+				if (j >= SIZEOF(ports))
 					break;
 
 				for (k = 0; k<numports; ++k)

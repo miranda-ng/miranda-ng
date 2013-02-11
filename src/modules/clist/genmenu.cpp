@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-12 Miranda IM, 2012-13 Miranda NG project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "..\..\core\commonheaders.h"
 #include "genmenu.h"
 
@@ -349,7 +350,7 @@ int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmi)
 }
 
 //wparam MenuItemHandle
-//return ownerdata useful to free ownerdata before delete menu item, 
+//return ownerdata useful to free ownerdata before delete menu item,
 //NULL on error.
 INT_PTR MO_MenuItemGetOwnerData(WPARAM wParam, LPARAM)
 {
@@ -510,7 +511,7 @@ INT_PTR MO_CreateNewMenuObject(WPARAM, LPARAM lParam)
 	p->Name = mir_strdup(pmp->name);
 	p->CheckService = mir_strdup(pmp->CheckService);
 	p->ExecService = mir_strdup(pmp->ExecService);
-	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 
+	p->m_hMenuIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
 		(IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, 15, 100);
 	g_menus.insert(p);
 	return p->id;
@@ -1054,7 +1055,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 {
-	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName), 
+	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName),
 		*descr = GetMenuItemText(pmi);
 
 	if ( !uname && !descr)
