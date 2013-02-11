@@ -660,18 +660,24 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Internal message log"));
 			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 0, 0);
-
-			if (have_ieview) {
-				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("IEView plugin"));
-				if (M->GetByte("default_ieview", 0))
-					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
+			if (have_ieview || have_hpp)
+			{
+				if (have_ieview) {
+					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("IEView plugin"));
+					if (M->GetByte("default_ieview", 0))
+						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
+				}
+				if (have_hpp) {
+					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("History++ plugin"));
+					if (M->GetByte("default_ieview", 0))
+						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
+					else if (M->GetByte("default_hpp", 0))
+						SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, have_ieview ? 2 : 1, 0);
+				}
 			}
-			if (have_hpp) {
-				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("History++ plugin"));
-				if (M->GetByte("default_ieview", 0))
-					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
-				else if (M->GetByte("default_hpp", 0))
-					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, have_ieview ? 2 : 1, 0);
+			else
+			{
+				EnableWindow(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY),FALSE);
 			}
 			SetDlgItemText(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
 			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
@@ -684,12 +690,11 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		 * party plugin.
 		 */
 		case WM_USER + 100: {
-			int i;
-
 			LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-			for (i=0; i < safe_sizeof(__ctrls); i++)
+			Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY),r == 0 ? FALSE : TRUE);
+			for (int i=0; i < safe_sizeof(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 			return 0;
 		}
