@@ -283,7 +283,7 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 	{ // window text update 
 
-		SetWindowText( hStatus , LPGENT("Sorting and writing database information ( Phase 2 of 2 )") );
+		SetWindowText( hStatus , TranslateT("Sorting and writing database information ( Phase 2 of 2 )") );
 		SendMessage( hProg , PBM_SETRANGE , 0 , MAKELPARAM( 0 , AllEvents.size() ) );
 		SendMessage( hProg , PBM_SETPOS , 0 , 0);
 	}
@@ -391,7 +391,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE );
 	if ( !bTrans || nTmp < 5 )
 	{
-		_sntprintf(szTemp, sizeof(szTemp), _T("Max line width must be at least %d"), 5);
+		_sntprintf(szTemp, sizeof(szTemp), TranslateT("Max line width must be at least %d"), 5);
 		MessageBox(hwndDlg, szTemp, MSG_BOX_TITEL, MB_OK);
 		bRet = false;
 	}
