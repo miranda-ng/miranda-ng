@@ -15,8 +15,8 @@
 
 
 #include "version.h"
-#define YAMN_NEWMAILSNDDESC		"YAMN: new mail message"
-#define YAMN_CONNECTFAILSNDDESC	"YAMN: connect failed"
+#define YAMN_NEWMAILSNDDESC		LPGEN("YAMN: new mail message")
+#define YAMN_CONNECTFAILSNDDESC	LPGEN("YAMN: connect failed")
 #define	YAMN_CONNECTFAILSOUND	"YAMN/Sound/ConnectFail"
 #define	YAMN_NEWMAILSOUND		"YAMN/Sound/NewMail"
 
