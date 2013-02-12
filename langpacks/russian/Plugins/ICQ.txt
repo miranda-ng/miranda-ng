@@ -57,12 +57,16 @@
 Создать учётную запись на сайте ICQ
 [Login Server:]
 Сервер:
+[Default]
+По умолчанию
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Для подключения к случайному порту укажите порт 0. Пробуйте порты 443 или 80, если у вас проблемы с подключением через прокси.
 [Secure Connection (SSL)]
 Безопасное соединение (SSL)
 [Secure (MD5) login]
 Безопасный вход (MD5)
+[Legacy fix (for ICQ Groupware or IServerD only)]
+Альтернативные сервера (только ICQ Groupware и IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Поддерживать подключение (если вы используете прокси-сервер и часто разъединяетесь)
 [Ignore concurrent error messages]
