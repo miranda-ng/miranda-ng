@@ -2078,6 +2078,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			break;
 		}
 
+	case WM_NCMOUSELEAVE:
 	case WM_MOUSELEAVE:
 		{
 			TRACKMOUSEEVENT tme;
@@ -2108,10 +2109,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_MOUSEMOVE:
 		proto = protocols->Get(data->protocol_number);
 		if (proto != NULL) {
-			POINT p;
-			p.x = LOWORD(lParam);
-			p.y = HIWORD(lParam);
-
+			POINT p = { LOWORD(lParam), HIWORD(lParam) };
 			MakeHover(hwnd, data->draw_img, &data->mouse_over_img, &p, &data->img_rect);
 			MakeHover(hwnd, data->draw_nick, &data->mouse_over_nick, &p, &data->nick_rect);
 			MakeHover(hwnd, data->draw_proto, &data->mouse_over_proto, &p, &data->proto_rect);

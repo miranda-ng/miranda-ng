@@ -55,7 +55,6 @@ public:
 
 	bool data_changed;
 
-
 	// Methods ///////////////
 
 	Protocol(const char *name, const TCHAR *descr);

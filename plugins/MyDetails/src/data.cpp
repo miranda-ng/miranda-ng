@@ -118,56 +118,43 @@ bool Protocol::IsValid()
 
 int Protocol::GetStatus()
 {
-	int old_status = status;
 	INT_PTR iStatus = CallProtoService(name, PS_GETSTATUS, 0, 0);
 	if (iStatus == CALLSERVICE_NOTFOUND)
 		return status = ID_STATUS_OFFLINE;
 
-	status = (int)iStatus;
-
-	if (old_status != status)
+	if (iStatus != status)
 		data_changed = true;
+
+	status = (int)iStatus;
 
 	// check if protocol supports custom status
 	CUSTOM_STATUS css = { sizeof(css) };
+	TCHAR tszXStatusName[256], tszXStatusMessage[1024];
 	if ( ProtoServiceExists(name, PS_GETCUSTOMSTATUSEX)) {
 		// check if custom status is set
 		css.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_DEFAULT_NAME;
 		css.status = &custom_status;
-		css.ptszName = status_name;
-		css.ptszMessage = status_message;
+		css.ptszName = tszXStatusName;
+		css.ptszMessage = tszXStatusMessage;
 		if ( CallProtoService(name, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&css) != 0)
-			status_message[0] = status_name[0] = 0, custom_status = 0;
+			tszXStatusMessage[0] = tszXStatusName[0] = 0, custom_status = 0;
 	}
 	else custom_status = 0;
 
 	// if protocol supports custom status, but it is not set (custom_status will be -1), show normal status
-	if (custom_status < 0) custom_status = 0;
+	if (custom_status < 0)
+		custom_status = 0;
 
 	if (custom_status == 0) {
-		TCHAR *tmp = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
+		TCHAR *tmp = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 		lcopystr(status_name, tmp, SIZEOF(status_name));
 	}
 	else {
-		TCHAR tmp[256]; tmp[0] = 0;
-
-		if (status_name[0] != '\0')
-			lstrcpyn(tmp, status_name, SIZEOF(tmp));
+		TCHAR *p = (tszXStatusName[0] != 0) ? tszXStatusName : TranslateT("<no status name>");
+		if (tszXStatusMessage[0])
+			mir_sntprintf(status_name, SIZEOF(status_name), _T("%s: %s"), p, tszXStatusMessage);
 		else
-			lstrcpyn(tmp, TranslateT("<no status name>"), SIZEOF(tmp));
-
-		if (status_message[0] != '\0') {
-			int len = lstrlen(tmp);
-			if (len < SIZEOF(tmp))
-				lstrcpyn(&tmp[len], _T(": "), SIZEOF(tmp) - len);
-
-			len += 2;
-
-			if (len < SIZEOF(tmp))
-				lstrcpyn(&tmp[len], status_message, SIZEOF(tmp) - len);
-		}
-
-		lcopystr(status_name, tmp, SIZEOF(status_name));
+			lcopystr(status_name, p, SIZEOF(status_name));
 	}
 
 	return status;
