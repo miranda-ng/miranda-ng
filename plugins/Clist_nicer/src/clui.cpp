@@ -1757,7 +1757,8 @@ buttons_done:
 						char szBuffer[128];
 						mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
 						hIcon = Skin_GetIcon(szBuffer);
-					} else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
+					}
+					else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
 						CUSTOM_STATUS cst = {0};
 						char szServiceName[128];
 						int xStatus;
@@ -1766,12 +1767,12 @@ buttons_done:
 						cst.cbSize = sizeof(CUSTOM_STATUS);
 						cst.flags = CSSF_MASK_STATUS;
 						cst.status = &xStatus;
-						if (ServiceExists(szServiceName) && !CallService(szServiceName, 0, (LPARAM)&cst) && xStatus > 0) {
+						if (ServiceExists(szServiceName) && !CallService(szServiceName, 0, (LPARAM)&cst) && xStatus > 0)
 							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED);	// get OWN xStatus icon (if set)
-						} else
+						else
 							hIcon = LoadSkinnedProtoIcon(szProto, status);
-					} else
-						hIcon = LoadSkinnedProtoIcon(szProto, status);
+					}
+					else hIcon = LoadSkinnedProtoIcon(szProto, status);
 
 					if ( !(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;

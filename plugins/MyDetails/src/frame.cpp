@@ -1265,13 +1265,13 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 		HICON status_icon;
 		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_GETCUSTOMSTATUSICON))
-			status_icon = (HICON) CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, 0);
+			status_icon = (HICON)CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, LR_SHARED);
 		else
 			status_icon = LoadSkinnedProtoIcon(proto->name, proto->status);
 
 		if (status_icon != NULL) {
 			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
-			DeleteObject(status_icon);
+			Skin_ReleaseIcon(status_icon);
 		}
 
 		SelectClipRgn(hdc, NULL);
