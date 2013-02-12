@@ -150,7 +150,7 @@ int Protocol::GetStatus()
 		lcopystr(status_name, tmp, SIZEOF(status_name));
 	}
 	else {
-		TCHAR *p = (tszXStatusName[0] != 0) ? tszXStatusName : TranslateT("<no status name>");
+		TCHAR *p = (tszXStatusName[0] != 0) ? TranslateTS(tszXStatusName) : TranslateT("<no status name>");
 		if (tszXStatusMessage[0])
 			mir_sntprintf(status_name, SIZEOF(status_name), _T("%s: %s"), p, tszXStatusMessage);
 		else

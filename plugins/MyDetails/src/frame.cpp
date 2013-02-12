@@ -194,12 +194,11 @@ void DeInitFrames()
 
 int ReloadFont(WPARAM wParam, LPARAM lParam)
 {
-	LOGFONT log_font;
-
 	for (int i = 0 ; i < NUM_FONTS ; i++ ) {
 		if (hFont[i] != 0)
 			DeleteObject(hFont[i]);
 
+		LOGFONT log_font;
 		font_colour[i] = CallService(MS_FONT_GETT, (WPARAM)&font_id[i], (LPARAM)&log_font);
 		hFont[i] = CreateFontIndirect(&log_font);
 	}
