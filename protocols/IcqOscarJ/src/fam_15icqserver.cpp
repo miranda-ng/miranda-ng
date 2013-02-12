@@ -534,7 +534,7 @@ void CIcqProto::parseUserInfoUpdateAck(unsigned char *databuf, WORD wPacketLen, 
 
 
 UserInfoRecordItem rEmail[] = {
-	{0x64, DBVT_ASCIIZ, "e-mail%u"}
+	{0x64, DBVT_UTF8, "e-mail%u"}
 };
 
 UserInfoRecordItem rAddress[] = {
@@ -556,7 +556,7 @@ UserInfoRecordItem rCompany[] = {
 	{0x64, DBVT_UTF8, "CompanyPosition"},
 	{0x6E, DBVT_UTF8, "Company"},
 	{0x7D, DBVT_UTF8, "CompanyDepartment"},
-	{0x78, DBVT_ASCIIZ, "CompanyHomepage"},
+	{0x78, DBVT_UTF8, "CompanyHomepage"},
 	{0x82, DBVT_WORD, "CompanyIndustry"},
 	{0xAA, DBVT_UTF8, "CompanyStreet"},
 	{0xB4, DBVT_UTF8, "CompanyCity"},
