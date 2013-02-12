@@ -7,8 +7,8 @@
 ;  Source: 
 ;  Authors: Deathdemon
 ;============================================================
-[ClientChangeNotify plugin for Miranda NG.]
-Уведомление о смене IM клиента.
+[Shows a notification when someone in your contact list changes his client.]
+Оповещает, если кто-то из вашего списка контактов сменил свой клиент.
 [%s (was %s)]
 %s (был %s)
 [) changed client to ]

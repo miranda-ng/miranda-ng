@@ -14,7 +14,7 @@
 [You can only change your nick, if you are connected to Xfire.]
 Вы можете изменить ник, только если Xfire подключён.
 [Create a new Xfire account on website]
-Создать новый аккаунт через веб-сайт
+Создать новый аккаунт на сайте
 [Proxy settings]
 Настройки прокси
 [Proxy:]
@@ -24,7 +24,7 @@
 [Enter your HTTP Proxy here. SOCKS4/5 are currently not supported.]
 Введите здесь ваш HTTP прокси. SOCKS4/5 на данный момент не поддерживается.
 [Current Protocolversion:]
-Текущая версия протокола:
+Текущая версия протокола
 [Gamedetection]
 Обнаружение игры
 [Disable game detection]

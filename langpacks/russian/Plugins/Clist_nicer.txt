@@ -529,3 +529,5 @@ xСтатус
 Показывать "слушаю" когда доступно (имеет приоритет)
 [Contact rows]
 Строки контактов
+[Allows inline skin item editing for clist nicer.]
+Редактор скинов для плагина Clist nicer.
