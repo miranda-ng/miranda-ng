@@ -291,32 +291,6 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 	return Skin_AddIcon(&sid);
 }
 
-int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const char *pszDesc,const char *pszSubDir,const char *pszDefaultFile)
-{
-	SKINSOUNDDESCEX ssd;
-	char szFile[MAX_PATH],*p;
-	HANDLE hFile;
-
-	ssd.cbSize=sizeof(ssd);
-	ssd.pszName=pszDbName;
-	ssd.pszSection=pszSection;
-	ssd.pszDescription=pszDesc;
-	ssd.pszDefaultFile=NULL;
-	if(GetModuleFileNameA(NULL,szFile,SIZEOF(szFile)-lstrlenA(pszSubDir)-lstrlenA(pszDefaultFile))) {
-		p=strrchr(szFile,'\\');
-		if(p!=NULL) *(++p)=0;
-		lstrcatA(lstrcatA(szFile,pszSubDir),pszDefaultFile); /* buffer safe */
-		/* check if sound file exist */
-		hFile=CreateFileA(szFile,0,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
-		if(hFile!=INVALID_HANDLE_VALUE) {
-			ssd.pszDefaultFile=szFile; /* MS_UTILS_PATHTORELATIVET called automatically */
-			CloseHandle(hFile);
-		}
-	}
-	Skin_AddSound(&ssd);
-	return 0;
-}
-
 void AddHotkey()
 {
 	HOTKEYDESC hkd = {0};

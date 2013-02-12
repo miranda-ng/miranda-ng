@@ -51,35 +51,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, VOID *pReserved)
 	return TRUE;
 }
 
-static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
-{
-	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1],*p;
-	HANDLE hFile;
-
-	if(!GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
-		return;
-	p=_tcsrchr(szFileFrom,_T('\\'));
-	if(p!=NULL) *(++p)=0;
-	lstrcat(szFileFrom,pszFileName); /* buffer safe */
-
-	hFile=CreateFile(szFileFrom,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
-	if(hFile==INVALID_HANDLE_VALUE) return;
-	CloseHandle(hFile);
-
-	if(!GetModuleFileName(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
-		return;
-	p=_tcsrchr(szFileTo,_T('\\'));
-	if(p!=NULL) *(++p)=0;
-	lstrcat(szFileTo,pszDestSubDir); /* buffer safe */
-	CreateDirectory(szFileTo,NULL);
-	lstrcat(szFileTo,pszFileName);  /* buffer safe */
-
-	if(!MoveFile(szFileFrom,szFileTo) && GetLastError()==ERROR_ALREADY_EXISTS) {
-		DeleteFile(szFileTo);
-		MoveFile(szFileFrom,szFileTo);
-	}
-}
-
 static int ShutdownModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	if(ServiceExists("DBEditorpp/RegisterSingleModule"))

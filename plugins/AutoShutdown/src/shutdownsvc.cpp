@@ -554,7 +554,7 @@ void InitShutdownSvc(void)
 {
 	/* Shutdown Dialog */
 	hwndShutdownDlg=NULL;
-	SkinAddNewSoundBundled("AutoShutdown_Countdown",Translate("Alerts"),Translate("Automatic Shutdown Countdown"),"Sounds\\","countdown.wav");
+	SkinAddNewSoundExT("AutoShutdown_Countdown",LPGENT("Alerts"),LPGENT("Automatic Shutdown Countdown"));
 	/* Services */
 	hEventOkToShutdown=CreateHookableEvent(ME_AUTOSHUTDOWN_OKTOSHUTDOWN);
 	hEventShutdown=CreateHookableEvent(ME_AUTOSHUTDOWN_SHUTDOWN);
