@@ -57,15 +57,15 @@ BEGIN
     GROUPBOX        "Notify of birthdays:",IDC_STATIC,4,3,291,237
     GROUPBOX        "  ",IDC_POPUPS_STATIC,12,36,276,90
     CONTROL         "Popups",IDC_USE_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,36,8
-    LTEXT           "Popup timeout:",IDC_STATIC,18,76,93,8
-    EDITTEXT        IDC_POPUP_TIMEOUT,112,72,34,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Preview",IDC_PREVIEW,25,90,131,14
-    CONTROL         "Custom1",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,95,107,52,14
-    CONTROL         "Custom1",IDC_FOREGROUND,"ColourPicker",WS_TABSTOP,35,107,51,14
+    LTEXT           "Popup timeout:",IDC_STATIC,18,90,101,8
+    EDITTEXT        IDC_POPUP_TIMEOUT,124,87,34,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Preview",IDC_PREVIEW,25,106,78,14
+    CONTROL         "Custom1",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,136,107,23,14
+    CONTROL         "Custom1",IDC_FOREGROUND,"ColourPicker",WS_TABSTOP,108,107,23,14
     CONTROL         "Don't show popups for subcontacts",IDC_IGNORE_SUBCONTACTS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,48,140,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,52,140,10
     CONTROL         "Show popup when no birthdays are near",IDC_NOBIRTHDAYS_POPUP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,59,149,10
+                    "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,18,63,146,21
     GROUPBOX        "Popup mouse click",IDC_STATIC,166,41,117,79
     CTEXT           "Left",IDC_STATIC,174,54,102,8
     COMBOBOX        IDC_LEFT_CLICK,174,69,104,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
