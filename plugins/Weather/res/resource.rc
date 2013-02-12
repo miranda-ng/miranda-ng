@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
+// Немецкий (Германия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
@@ -30,7 +30,7 @@ EXSTYLE WS_EX_WINDOWEDGE | WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,245,25
-    CONTROL         "",IDC_MTEXT,"RichEdit20W",ES_MULTILINE | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
+    CONTROL         "",IDC_MTEXT,"RichEdit20W",NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP | 0x804,0,25,244,180,WS_EX_STATICEDGE
     CONTROL         "List1",IDC_DATALIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
     PUSHBUTTON      "Update",IDC_MUPDATE,10,213,48,13
     PUSHBUTTON      "Brief Info",IDC_MTOGGLE,79,213,48,13
@@ -130,12 +130,12 @@ BEGIN
     CONTROL         "",IDC_GETNAME,"MButtonClass",WS_TABSTOP,217,19,13,12,WS_EX_NOACTIVATE | 0x10000000L
 END
 
-IDD_POPUP DIALOGEX 0, 0, 312, 182
+IDD_POPUP DIALOGEX 0, 0, 312, 236
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "PopUp Options",IDC_STATIC,6,5,156,54
+    GROUPBOX        "PopUp Options",IDC_STATIC,4,5,158,54
     CONTROL         "Enable popups",IDC_E,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,15,143,9
     CONTROL         "Popup only when condition changes",IDC_CH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,44,140,10
     GROUPBOX        "Colours",IDC_STATIC,168,5,139,54
@@ -144,10 +144,10 @@ BEGIN
     CONTROL         "",IDC_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,177,30,39,11
     LTEXT           "Text colour",IDC_STATIC,223,31,80,8,SS_CENTERIMAGE
     CONTROL         "Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,177,43,125,13
-    GROUPBOX        "Popup Actions",IDC_STATIC,6,63,155,46
-    LTEXT           "Left Click",IDC_STATIC,15,77,40,8
+    GROUPBOX        "Popup Actions",IDC_STATIC,4,63,157,46
+    LTEXT           "Left Click",IDC_STATIC,13,77,42,8
     CONTROL         "",IDC_LeftClick,"MButtonClass",WS_TABSTOP,59,76,95,9,WS_EX_NOACTIVATE | 0x10000000L
-    LTEXT           "Right Click",IDC_STATIC,15,93,42,8
+    LTEXT           "Right Click",IDC_STATIC,13,93,42,8
     CONTROL         "",IDC_RightClick,"MButtonClass",WS_TABSTOP,59,92,95,9,WS_EX_NOACTIVATE | 0x10000000L
     GROUPBOX        "Popup Delay",IDC_STATIC,167,63,141,46
     CONTROL         "Delay",IDC_PD3,"Button",BS_AUTORADIOBUTTON,177,74,53,8
@@ -155,14 +155,14 @@ BEGIN
     LTEXT           "seconds",IDC_STATIC,272,73,34,10
     CONTROL         "From PopUp plugin",IDC_PD1,"Button",BS_AUTORADIOBUTTON,177,85,110,8
     CONTROL         "Permanent",IDC_PD2,"Button",BS_AUTORADIOBUTTON,177,96,110,8
-    GROUPBOX        "Popup Text",IDC_STATIC,6,112,302,66
-    LTEXT           "Popup Title",IDC_STATIC,15,127,56,9
-    EDITTEXT        IDC_PTitle,74,124,163,12,ES_AUTOHSCROLL
-    LTEXT           "Popup Text",IDC_STATIC,15,142,55,9
-    EDITTEXT        IDC_PText,73,140,164,31,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
-    CONTROL         "Variables",IDC_VAR3,"MButtonClass",WS_TABSTOP,244,124,47,12,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Default",IDC_PDEF,"MButtonClass",WS_TABSTOP,244,141,47,12,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,244,158,47,12,WS_EX_NOACTIVATE | 0x10000000L
+    GROUPBOX        "Popup Text",IDC_STATIC,3,112,305,121
+    LTEXT           "Popup Title",IDC_STATIC,15,124,56,9
+    EDITTEXT        IDC_PTitle,72,121,231,12,ES_AUTOHSCROLL
+    LTEXT           "Popup Text",IDC_STATIC,15,138,55,9
+    EDITTEXT        IDC_PText,72,136,231,92,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "Variables",IDC_VAR3,"MButtonClass",WS_TABSTOP,7,153,62,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Default",IDC_PDEF,"MButtonClass",WS_TABSTOP,7,175,62,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,7,197,61,12,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Updates",IDC_POP1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,24,64,9
     CONTROL         "Alerts",IDC_POP2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,34,64,9
     CONTROL         "Errors",IDC_W,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,97,24,54,9
@@ -297,11 +297,16 @@ BEGIN
     IDD_POPUP, DIALOG
     BEGIN
         RIGHTMARGIN, 306
+        BOTTOMMARGIN, 233
     END
 
     IDD_TEXTOPT, DIALOG
     BEGIN
         RIGHTMARGIN, 308
+    END
+
+    IDD_USERINFO, DIALOG
+    BEGIN
     END
 
     IDD_SETUP, DIALOG
@@ -409,7 +414,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // German (Germany) resources
+#endif    // Немецкий (Германия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
