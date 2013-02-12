@@ -110,7 +110,6 @@ const SettingItem setting[]={
   {LPGEN("Nickname"),       LI_STRING,     DBVT_UTF8,   "Nick"},
   {LPGEN("First name"),     LI_STRING,     DBVT_UTF8,   "FirstName"},
   {LPGEN("Last name"),      LI_STRING,     DBVT_UTF8,   "LastName"},
-//  {LPGEN("Age"),            LI_NUMBER,     DBVT_WORD,   "Age",              ageRange},
   {LPGEN("Gender"),         LI_LIST,       DBVT_BYTE,   "Gender",           genderField},
   {LPGEN("About"),          LI_LONGSTRING, DBVT_UTF8,   "About"},
   //password
@@ -127,9 +126,9 @@ const SettingItem setting[]={
   {LPGEN("State"),          LI_STRING,     DBVT_UTF8,   "State"},
   {LPGEN("ZIP/postcode"),   LI_STRING,     DBVT_UTF8,   "ZIP"},
   {LPGEN("Country"),        LI_LIST,       DBVT_WORD,   "Country",          countryField},
-  {LPGEN("Phone number"),   LI_STRING,     DBVT_ASCIIZ, "Phone"},
-  {LPGEN("Fax number"),     LI_STRING,     DBVT_ASCIIZ, "Fax"},
-  {LPGEN("Cellular number"),LI_STRING,     DBVT_ASCIIZ, "Cellular"},
+  {LPGEN("Phone number"),   LI_STRING,     DBVT_UTF8,   "Phone"},
+  {LPGEN("Fax number"),     LI_STRING,     DBVT_UTF8,   "Fax"},
+  {LPGEN("Cellular number"),LI_STRING,     DBVT_UTF8,   "Cellular"},
   //more
   {LPGEN("Personal Detail"),LI_DIVIDER},
   {LPGEN("Timezone"),       LI_LIST|LIF_ZEROISVALID|LIF_SIGNED,DBVT_BYTE,   "Timezone", timezones},

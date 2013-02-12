@@ -1373,23 +1373,6 @@ void CIcqProto::writeDbInfoSettingTLVStringUtf(HANDLE hContact, const char *szSe
 }
 
 
-void CIcqProto::writeDbInfoSettingTLVString(HANDLE hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
-{
-	oscar_tlv *pTLV = chain->getTLV(wTlv, 1);
-
-	if (pTLV && pTLV->wLen > 0)
-	{
-		char *str = (char*)_alloca(pTLV->wLen + 1); 
-
-		memcpy(str, pTLV->pData, pTLV->wLen);
-		str[pTLV->wLen] = '\0';
-		setSettingString(hContact, szSetting, str);
-	}
-	else
-		deleteSetting(hContact, szSetting);
-}
-
-
 void CIcqProto::writeDbInfoSettingTLVWord(HANDLE hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	int num = chain->getNumber(wTlv, 1);

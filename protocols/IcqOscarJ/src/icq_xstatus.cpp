@@ -1016,14 +1016,12 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 				SAFE_FREE(&wstr);
 			}
 			else {
-				DBVARIANT dbv = {0};
-
-				if (!getSettingString(hContact, DBSETTING_XSTATUS_NAME, &dbv) && dbv.pszVal)
+				DBVARIANT dbv;
+				if ( !getSettingString(hContact, DBSETTING_XSTATUS_NAME, &dbv) && dbv.pszVal) {
 					strcpy(pData->pszName, dbv.pszVal);
-				else 
-					strcpy(pData->pszName, "");
-
-				db_free(&dbv);
+					db_free(&dbv);
+				}
+				else strcpy(pData->pszName, "");
 			}
 		}
 	}

@@ -582,29 +582,21 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 {
 	int nRecords = 0;
 
-	if (pData && pData->wLen >= 2)
-	{
+	if (pData && pData->wLen >= 2) {
 		BYTE *pRecords = pData->pData;
 		WORD wRecordCount;
 		unpackWord(&pRecords, &wRecordCount);
 		oscar_tlv_record_list *cData = readIntoTLVRecordList(&pRecords, pData->wLen - 2, nMaxRecords > wRecordCount ? wRecordCount : nMaxRecords);
 		oscar_tlv_record_list *cDataItem = cData;
-		while (cDataItem)
-		{
+		while (cDataItem) {
 			oscar_tlv_chain *cItem = cDataItem->item;
 
-			for (int i = 0; i < nRecordDef; i++)
-			{
+			for (int i = 0; i < nRecordDef; i++) {
 				char szItemKey[MAX_PATH];
 
 				null_snprintf(szItemKey, MAX_PATH, pRecordDef[i].szDbSetting, nRecords);
 
-				switch (pRecordDef[i].dbType)
-				{
-				case DBVT_ASCIIZ:
-					writeDbInfoSettingTLVString(hContact, szItemKey, cItem, pRecordDef[i].wTLV);
-					break;
-
+				switch (pRecordDef[i].dbType) {
 				case DBVT_UTF8:
 					writeDbInfoSettingTLVStringUtf(hContact, szItemKey, cItem, pRecordDef[i].wTLV);
 					break;
@@ -621,15 +613,13 @@ int CIcqProto::parseUserInfoRecord(HANDLE hContact, oscar_tlv *pData, UserInfoRe
 		// release memory
 		disposeRecordList(&cData);
 	}
+
 	// remove old data from database
 	if (!nRecords || nMaxRecords > 1)
 		for (int i = nRecords; i <= nMaxRecords; i++)
-			for (int j = 0; j < nRecordDef; j++)
-			{
+			for (int j = 0; j < nRecordDef; j++) {
 				char szItemKey[MAX_PATH];
-
 				null_snprintf(szItemKey, MAX_PATH, pRecordDef[j].szDbSetting, i);
-
 				deleteSetting(hContact, szItemKey);
 			}
 
@@ -899,9 +889,9 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 
 	pTLV = cDetails->getTLV(0x50, 1);
 	if (pTLV && pTLV->wLen > 0)
-		writeDbInfoSettingTLVString(hContact, "e-mail",  cDetails, 0x50); // Verified e-mail
+		writeDbInfoSettingTLVStringUtf(hContact, "e-mail",  cDetails, 0x50); // Verified e-mail
 	else
-		writeDbInfoSettingTLVString(hContact, "e-mail",  cDetails, 0x55); // Pending e-mail
+		writeDbInfoSettingTLVStringUtf(hContact, "e-mail",  cDetails, 0x55); // Pending e-mail
 
 	writeDbInfoSettingTLVStringUtf(hContact, "FirstName", cDetails, 0x64);
 	writeDbInfoSettingTLVStringUtf(hContact, "LastName",  cDetails, 0x6E);
@@ -921,15 +911,15 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		{
 			oscar_tlv_chain *cPhone;
 			cPhone = cPhones->getRecordByTLV(0x6E, 1);
-			writeDbInfoSettingTLVString(hContact, "Phone", cPhone, 0x64);
+			writeDbInfoSettingTLVStringUtf(hContact, "Phone", cPhone, 0x64);
 			cPhone = cPhones->getRecordByTLV(0x6E, 2);
-			writeDbInfoSettingTLVString(hContact, "CompanyPhone", cPhone, 0x64);
+			writeDbInfoSettingTLVStringUtf(hContact, "CompanyPhone", cPhone, 0x64);
 			cPhone = cPhones->getRecordByTLV(0x6E, 3);
-			writeDbInfoSettingTLVString(hContact, "Cellular", cPhone, 0x64);
+			writeDbInfoSettingTLVStringUtf(hContact, "Cellular", cPhone, 0x64);
 			cPhone = cPhones->getRecordByTLV(0x6E, 4);
-			writeDbInfoSettingTLVString(hContact, "Fax", cPhone, 0x64);
+			writeDbInfoSettingTLVStringUtf(hContact, "Fax", cPhone, 0x64);
 			cPhone = cPhones->getRecordByTLV(0x6E, 5);
-			writeDbInfoSettingTLVString(hContact, "CompanyFax", cPhone, 0x64);
+			writeDbInfoSettingTLVStringUtf(hContact, "CompanyFax", cPhone, 0x64);
 
 			disposeRecordList(&cPhones);
 		}
@@ -971,7 +961,7 @@ void CIcqProto::parseDirectoryUserDetailsData(HANDLE hContact, oscar_tlv_chain *
 		deleteSetting(hContact, "Gender");
 	}
 
-	writeDbInfoSettingTLVString(hContact, "Homepage", cDetails, 0xFA);
+	writeDbInfoSettingTLVStringUtf(hContact, "Homepage", cDetails, 0xFA);
 	writeDbInfoSettingTLVDate(hContact, "BirthYear", "BirthMonth", "BirthDay", cDetails, 0x1A4);
 
 	writeDbInfoSettingTLVByte(hContact, "Language1", cDetails, 0xAA);
