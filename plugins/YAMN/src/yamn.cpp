@@ -117,12 +117,12 @@ void CALLBACK TimerProc(HWND, UINT, UINT, DWORD)
 		Status=CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
 	EnterCriticalSection(&PluginRegCS);
-	for (ActualPlugin=FirstProtoPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
+	for (ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
 	{
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read wait\n");
 #endif
-		if (WAIT_OBJECT_0!=SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, 0))			//we want to access accounts immiadtelly
+		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, 0))			//we want to access accounts immiadtelly
 		{
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read enter failed\n");
@@ -133,14 +133,14 @@ void CALLBACK TimerProc(HWND, UINT, UINT, DWORD)
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read enter\n");
 #endif
-		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=ActualAccount->Next)
+		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=ActualAccount->Next)
 		{
 			if (ActualAccount->Plugin==NULL || ActualAccount->Plugin->Fcn==NULL)		//account not inited
 				continue;
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read wait\n");
 #endif
-			if (WAIT_OBJECT_0!=SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0))
+			if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0))
 			{
 #ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read wait failed\n");
@@ -239,7 +239,7 @@ ChangeIsCountingStatusLabel:
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read done\n");
 #endif
-			if (((ActualAccount->isCounting)!=0)!=isAccountCounting) {
+			if (((ActualAccount->isCounting) != 0) != isAccountCounting) {
 				ActualAccount->isCounting=isAccountCounting;
 				WORD cStatus = DBGetContactSettingWord(ActualAccount->hContact, YAMN_DBMODULE, "Status", 0);
 				switch (cStatus) {
@@ -275,7 +275,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV, 0))
 		return 0;
 	EnterCriticalSection(&PluginRegCS);
-	for (ActualPlugin=FirstProtoPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
+	for (ActualPlugin=FirstProtoPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
 	{
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read wait\n");
@@ -284,14 +284,14 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read enter\n");
 		#endif
-		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=ActualAccount->Next)
+		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=ActualAccount->Next)
 		{
 			if (ActualAccount->Plugin->Fcn==NULL)		//account not inited
 				continue;
 			#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
 			#endif
-			if (WAIT_OBJECT_0!=WaitToReadFcn(ActualAccount->AccountAccessSO))
+			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 			{
 				#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");

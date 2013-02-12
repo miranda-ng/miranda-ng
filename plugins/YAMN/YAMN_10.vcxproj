@@ -191,7 +191,6 @@
     <ClCompile Include="src\mails\decode.cpp" />
     <ClCompile Include="src\mails\mails.cpp" />
     <ClCompile Include="src\mails\mime.cpp" />
-    <ClCompile Include="src\proto\md5.c" />
     <ClCompile Include="src\proto\netlib.cpp" />
     <ClCompile Include="src\proto\pop3\pop3.cpp" />
     <ClCompile Include="src\proto\pop3\pop3comm.cpp" />

@@ -282,7 +282,7 @@ static void LoadPlugins()
 
 	hDllPlugins = NULL;
 
-	if (INVALID_HANDLE_VALUE!=(hFind = FindFirstFile(szSearchPath, &fd))) {
+	if (INVALID_HANDLE_VALUE != (hFind = FindFirstFile(szSearchPath, &fd))) {
 		do {
 			//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
 			TCHAR *dot = _tcsrchr(fd.cFileName, '.');
@@ -294,7 +294,7 @@ static void LoadPlugins()
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 
-			if ((safe!=3) || (lstrcmpi(dot+1, _T("dll"))!=0)) //not bound, however the "dll" string should mean only 3 chars are compared
+			if ((safe != 3) || (lstrcmpi(dot+1, _T("dll")) != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
 
 			HINSTANCE hDll;
@@ -340,7 +340,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	else {
 		GetModuleFileName(GetModuleHandle(NULL), szMirandaDir, MAX_PATH);
 		TCHAR* str2 = _tcsrchr(szMirandaDir, '\\');
-		if (str2!=NULL) *str2 = 0;
+		if (str2 != NULL) *str2 = 0;
 	}
 
 	// retrieve the current profile name

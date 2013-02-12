@@ -62,9 +62,6 @@
     <ClCompile Include="src\mails\mime.cpp">
       <Filter>Source Files\Mails</Filter>
     </ClCompile>
-    <ClCompile Include="src\proto\md5.c">
-      <Filter>Source Files\POP3 plugin</Filter>
-    </ClCompile>
     <ClCompile Include="src\proto\netlib.cpp">
       <Filter>Source Files\POP3 plugin</Filter>
     </ClCompile>

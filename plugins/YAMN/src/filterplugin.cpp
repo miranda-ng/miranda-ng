@@ -50,7 +50,7 @@ INT_PTR RegisterFilterPluginSvc(WPARAM wParam,LPARAM lParam)
 	PYAMN_FILTERREGISTRATION Registration=(PYAMN_FILTERREGISTRATION)wParam;
 	HYAMNFILTERPLUGIN Plugin;
 
-	if (lParam!=YAMN_FILTERREGISTRATIONVERSION)
+	if (lParam != YAMN_FILTERREGISTRATIONVERSION)
 		return 0;
 	if ((Registration->Name==NULL) || (Registration->Ver==NULL))
 		return NULL;
@@ -78,8 +78,8 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 	}
 	else
 	{
-		for (Parser=FirstFilterPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
-		if (Parser->Next!=NULL)
+		for (Parser=FirstFilterPlugin;(Parser->Next != NULL) && (Plugin != Parser->Next->Plugin);Parser=Parser->Next);
+		if (Parser->Next != NULL)
 		{
 			Found=Parser->Next;
 			Parser->Next=Parser->Next->Next;
@@ -87,9 +87,9 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 		else
 			Found=NULL;
 	}
-	if (Found!=NULL)
+	if (Found != NULL)
 	{
-		if (Plugin->FilterFcn->UnLoadFcn!=NULL)
+		if (Plugin->FilterFcn->UnLoadFcn != NULL)
 			Plugin->FilterFcn->UnLoadFcn((void *)0);
 		
 		delete Found->Plugin;
@@ -117,7 +117,7 @@ INT_PTR UnregisterFilterPlugins()
 {
 	EnterCriticalSection(&PluginRegCS);
 //We remove protocols from the protocol list
-	while(FirstFilterPlugin!=NULL)
+	while(FirstFilterPlugin != NULL)
 		UnregisterFilterPlugin(FirstFilterPlugin->Plugin);
 	LeaveCriticalSection(&PluginRegCS);
 	return 1;
@@ -127,7 +127,7 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 {
 	PYAMN_FILTERPLUGINQUEUE Parser,Previous;
 
-	if (YAMNFilterFcnVer!=YAMN_FILTERIMPORTFCNVERSION)
+	if (YAMNFilterFcnVer != YAMN_FILTERIMPORTFCNVERSION)
 		return 0;
 	if (YAMNFilterFcn==NULL)
 		return 0;
@@ -140,7 +140,7 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 
 	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
-	for (Previous=NULL,Parser=FirstFilterPlugin;Parser!=NULL && Parser->Next!=NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
+	for (Previous=NULL,Parser=FirstFilterPlugin;Parser != NULL && Parser->Next != NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
 	if (Previous==NULL)	//insert to the beginnig of queue
 	{
 		FirstFilterPlugin=new YAMN_FILTERPLUGINQUEUE;
@@ -173,9 +173,9 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write enter\n");
 #endif
-	for (ActualPlugin=FirstFilterPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
+	for (ActualPlugin=FirstFilterPlugin;ActualPlugin != NULL;ActualPlugin=ActualPlugin->Next)
 	{
-		if (ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr!=NULL)
+		if (ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr != NULL)
 		{
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"\tFiltering Mail, running plugin %0x to filter mail\n",ActualPlugin->Plugin);

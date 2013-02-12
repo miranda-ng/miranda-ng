@@ -88,13 +88,13 @@ void WINAPI SWMRGDelete(PSWMRG pSWMRG)
 {
 // Destroys any synchronization objects that were 
 // successfully created.
-	if (NULL!=pSWMRG->hEventNoWriter)
+	if (NULL != pSWMRG->hEventNoWriter)
 		CloseHandle(pSWMRG->hEventNoWriter);
-	if (NULL!=pSWMRG->hEventNoReaders)
+	if (NULL != pSWMRG->hEventNoReaders)
 		CloseHandle(pSWMRG->hEventNoReaders);
-	if (NULL!=pSWMRG->hSemNumReaders)
+	if (NULL != pSWMRG->hSemNumReaders)
 		CloseHandle(pSWMRG->hSemNumReaders);
-	if (NULL!=pSWMRG->hFinishEV)
+	if (NULL != pSWMRG->hFinishEV)
 		CloseHandle(pSWMRG->hFinishEV);
 }
 
@@ -108,25 +108,25 @@ BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,TCHAR *Name)
 // Creates the automatic-reset event that is signalled when 
 // no writer threads are writing.
 // Initially no reader threads are reading.
-	if (Name!=NULL)
+	if (Name != NULL)
 		Name[0]=(TCHAR)'W';
 	pSWMRG->hEventNoWriter=CreateEvent(NULL,FALSE,TRUE,Name);
 
 // Creates the manual-reset event that is signalled when 
 // no reader threads are reading.
 // Initially no reader threads are reading.
-	if (Name!=NULL)
+	if (Name != NULL)
 		Name[0]=(TCHAR)'R';
 	pSWMRG->hEventNoReaders=CreateEvent(NULL,TRUE,TRUE,Name);
 
 // Initializes the variable that indicates the number of 
 // reader threads that are reading.
 // Initially no reader threads are reading.
-	if (Name!=NULL)
+	if (Name != NULL)
 		Name[0]=(TCHAR)'C';
 	pSWMRG->hSemNumReaders=CreateSemaphore(NULL,0,0x7FFFFFFF,Name);
 
-	if (Name!=NULL)
+	if (Name != NULL)
 		Name[0]=(TCHAR)'F';
 	pSWMRG->hFinishEV=CreateEvent(NULL,TRUE,FALSE,Name);
 
@@ -157,7 +157,7 @@ DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout)
 		return dw;
 	dw=WaitForMultipleObjects(2,aHandles,TRUE,dwTimeout);
 // if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if ((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
+	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
 	{
 		SetEvent(pSWMRG->hEventNoWriter);
 		return WAIT_FINISH;
@@ -196,7 +196,7 @@ DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout)
 		return dw;
 	dw=WaitForSingleObject(pSWMRG->hEventNoWriter, dwTimeout);
 // if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if ((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
+	if ((dw != WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
 	{
 		SetEvent(pSWMRG->hEventNoWriter);
 		return WAIT_FINISH;
@@ -261,7 +261,7 @@ DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter)
 	DebugLog(SynchroFile,"\tSO WaitToWrite: %x\n",SObject);
 #endif
 	if (WAIT_OBJECT_0==(EnterCode=SWMRGWaitToWrite(SObject,INFINITE)))
-		if (SCounter!=NULL)
+		if (SCounter != NULL)
 			SCIncFcn(SCounter);
 	return EnterCode;
 }
@@ -272,7 +272,7 @@ void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter)
 	DebugLog(SynchroFile,"\tSO WriteDone: %x\n",SObject);
 #endif
 	SWMRGDoneWriting(SObject);
-	if (SCounter!=NULL)
+	if (SCounter != NULL)
 		SCDecFcn(SCounter);
 }
 

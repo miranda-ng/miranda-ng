@@ -96,7 +96,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam
 						break;
 					id=SendMessage(hCombo,CB_GETITEMDATA,(WPARAM)index,0);
 					EnterCriticalSection(&PluginRegCS);
-					for (PParser=FirstProtoPlugin;PParser!=NULL;PParser=PParser->Next)
+					for (PParser=FirstProtoPlugin;PParser != NULL;PParser=PParser->Next)
 						if (id==(INT_PTR)PParser->Plugin)
 						{
 							SetDlgItemTextA(hDlg,IDC_STVER,PParser->Plugin->PluginInfo->Ver);
@@ -106,7 +106,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam
 							SetDlgItemTextA(hDlg,IDC_STWWW,PParser->Plugin->PluginInfo->WWW == NULL ? "" : PParser->Plugin->PluginInfo->WWW);
 							break;
 						}
-					for (FParser=FirstFilterPlugin;FParser!=NULL;FParser=FParser->Next)
+					for (FParser=FirstFilterPlugin;FParser != NULL;FParser=FParser->Next)
 						if (id==(INT_PTR)FParser->Plugin)
 						{
 							SetDlgItemTextA(hDlg,IDC_STVER,FParser->Plugin->PluginInfo->Ver);
@@ -677,7 +677,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 				DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read enter\n");
 			#endif
 
-			for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+			for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
 				if (ActualAccount->Name != NULL)
 					SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 
@@ -762,7 +762,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					break;
 
 				case CBN_SELCHANGE:
-					if (CB_ERR!=(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
+					if (CB_ERR != (Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
 						SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_GETLBTEXT,(WPARAM)Result,(LPARAM)DlgInput);
 							
 					if ((Result==CB_ERR) || (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput)))) {
@@ -834,7 +834,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 			case IDC_CPFT:
 			case IDC_CPNB:
 			case IDC_CPNT:
-				if (HIWORD(wParam)!=CPN_COLOURCHANGED)
+				if (HIWORD(wParam) != CPN_COLOURCHANGED)
 					break;
 
 			case IDC_CHECKKBN:
@@ -902,7 +902,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					|| (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
 					return TRUE;
 
-				if (IDOK!=MessageBox(hDlg,TranslateT("Do you really want to delete this account?"),TranslateT("Delete account confirmation"),MB_OKCANCEL | MB_ICONWARNING))
+				if (IDOK != MessageBox(hDlg,TranslateT("Do you really want to delete this account?"),TranslateT("Delete account confirmation"),MB_OKCANCEL | MB_ICONWARNING))
 					return TRUE;
 
 				DlgSetItemTextT(hDlg, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
@@ -1025,7 +1025,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					#ifdef DEBUG_SYNCHRO
 						DebugLog(SynchroFile,"Options:APPLY:ActualAccountSO-write wait\n");
 					#endif
-					if (WAIT_OBJECT_0!=WaitToWrite(ActualAccount))
+					if (WAIT_OBJECT_0 != WaitToWrite(ActualAccount))
 					{
 						#ifdef DEBUG_SYNCHRO
 							DebugLog(SynchroFile,"Options:APPLY:ActualAccountSO-write wait failed\n");
@@ -1049,31 +1049,31 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					strcpy(ActualAccount->Name,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITSERVER,Text,sizeof(Text));
-					if (NULL!=ActualAccount->Server->Name)
+					if (NULL != ActualAccount->Server->Name)
 						delete[] ActualAccount->Server->Name;
 					ActualAccount->Server->Name=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Name,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITLOGIN,Text,sizeof(Text));
-					if (NULL!=ActualAccount->Server->Login)
+					if (NULL != ActualAccount->Server->Login)
 						delete[] ActualAccount->Server->Login;
 					ActualAccount->Server->Login=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Login,Text);
 				        
 					GetDlgItemTextA(hDlg,IDC_EDITPASS,Text,sizeof(Text));
-					if (NULL!=ActualAccount->Server->Passwd)
+					if (NULL != ActualAccount->Server->Passwd)
 						delete[] ActualAccount->Server->Passwd;
 					ActualAccount->Server->Passwd=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Passwd,Text);
 				        
 					GetDlgItemTextW(hDlg,IDC_EDITAPP,TextW,SIZEOF(TextW));
-					if (NULL!=ActualAccount->NewMailN.App)
+					if (NULL != ActualAccount->NewMailN.App)
 						delete[] ActualAccount->NewMailN.App;
 					ActualAccount->NewMailN.App=new WCHAR[wcslen(TextW)+1];
 					wcscpy(ActualAccount->NewMailN.App,TextW);
 				        
 					GetDlgItemTextW(hDlg,IDC_EDITAPPPARAM,TextW,SIZEOF(TextW));
-					if (NULL!=ActualAccount->NewMailN.AppParam)
+					if (NULL != ActualAccount->NewMailN.AppParam)
 						delete[] ActualAccount->NewMailN.AppParam;
 					ActualAccount->NewMailN.AppParam=new WCHAR[wcslen(TextW)+1];
 					wcscpy(ActualAccount->NewMailN.AppParam,TextW);
@@ -1156,9 +1156,9 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					HPOP3ACCOUNT temp = ActualAccount;
 								
 					SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_RESETCONTENT,0,0);
-					if (POP3Plugin->FirstAccount!=NULL)
-						for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
-							if (ActualAccount->Name!=NULL)
+					if (POP3Plugin->FirstAccount != NULL)
+						for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+							if (ActualAccount->Name != NULL)
 								SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 
 					ActualAccount = temp;
@@ -1198,9 +1198,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read enter\n");
 			#endif
-			if (POP3Plugin->FirstAccount!=NULL)
-				for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
-					if (ActualAccount->Name!=NULL)
+			if (POP3Plugin->FirstAccount != NULL)
+				for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+					if (ActualAccount->Name != NULL)
 						SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 			#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read done\n");
@@ -1228,9 +1228,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 				HPOP3ACCOUNT temp = ActualAccount;
 				SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_RESETCONTENT,0,0);
 
-				if (POP3Plugin->FirstAccount!=NULL)
-					for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
-						if (ActualAccount->Name!=NULL)
+				if (POP3Plugin->FirstAccount != NULL)
+					for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount != NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+						if (ActualAccount->Name != NULL)
 							SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 				
 				ActualAccount = temp;
@@ -1279,7 +1279,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							}
 							break;
 						case CBN_SELCHANGE:
-							if (CB_ERR!=(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
+							if (CB_ERR != (Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
 								SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_GETLBTEXT,(WPARAM)Result,(LPARAM)DlgInput);
 							if ((Result==CB_ERR) || (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
 							{
@@ -1310,7 +1310,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 				case IDC_CPFT:
 				case IDC_CPNB:
 				case IDC_CPNT:
-					if (HIWORD(wParam)!=CPN_COLOURCHANGED)
+					if (HIWORD(wParam) != CPN_COLOURCHANGED)
 						break;
 				case IDC_CHECKCOL:
 				case IDC_CHECKFCOL:

@@ -28,10 +28,6 @@
 #include "..\..\yamn.h"
 #include "pop3.h"
 
-extern "C" {
-#include "../md5.h"
-}
-
 extern void __stdcall	SSL_DebugLog( const char *fmt, ... );
 
 //--------------------------------------------------------------------------------------------------
@@ -47,7 +43,7 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 	if (Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
-	if (NetClient!=NULL)
+	if (NetClient != NULL)
 		delete NetClient;
 	SSL=UseSSL;
 	NetClient=new CNLClient;
@@ -114,7 +110,7 @@ char* CPop3Client::RecvRest(char* prev,int mode,int size)
 	{		//if not found
 		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		{
-			if (PrevString!=NULL)
+			if (PrevString != NULL)
 				free(PrevString);
 			throw POP3Error=(DWORD)EPOP3_STOPPED;
 		}
@@ -252,13 +248,13 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 
 	if (timestamp==NULL)
 		throw POP3Error=(DWORD)EPOP3_APOP;
-	MD5Context ctx;
-	MD5Init(&ctx);
-	MD5Update(&ctx,(const unsigned char *)timestamp,(unsigned int)strlen(timestamp));
-	MD5Update(&ctx,(const unsigned char *)pw,(unsigned int)strlen(pw));
-	MD5Final(digest,&ctx);
+	mir_md5_state_s ctx;
+	mir_md5_init(&ctx);
+	mir_md5_append(&ctx,(const unsigned char *)timestamp,(unsigned int)strlen(timestamp));
+	mir_md5_append(&ctx,(const unsigned char *)pw,(unsigned int)strlen(pw));
+	mir_md5_finish(&ctx, digest);
 	hexdigest[0]='\0';
-	for (int i=0; i<16; i++) {
+	for (int i=0; i < 16; i++) {
 		char tmp[4];
 		sprintf(tmp, "%02x", digest[i]);
 		strcat(hexdigest, tmp);

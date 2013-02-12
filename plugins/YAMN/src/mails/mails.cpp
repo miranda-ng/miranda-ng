@@ -124,12 +124,12 @@ INT_PTR CreateAccountMailSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL NewMail;
 
 //test if we are going to initialize members of suitable structure (structures of plugin and YAMN must match)
-	if (MailVersion!=YAMN_MAILVERSION)
+	if (MailVersion != YAMN_MAILVERSION)
 		return NULL;
 
-	if (Account->Plugin!=NULL)
+	if (Account->Plugin != NULL)
 	{
-		if (Account->Plugin->MailFcn->NewMailFcnPtr!=NULL)
+		if (Account->Plugin->MailFcn->NewMailFcnPtr != NULL)
 		{
 //Let plugin create its own structure, which can be derived from CAccount structure
 			if (NULL==(NewMail=Account->Plugin->MailFcn->NewMailFcnPtr(Account,YAMN_MAILVERSION)))
@@ -155,29 +155,29 @@ INT_PTR DeleteAccountMailSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL OldMail=(HYAMNMAIL)lParam;
 	struct CMimeItem *TH;
 
-	if (Plugin->MailFcn!=NULL) {
-		if (Plugin->MailFcn->DeleteMailFcnPtr!=NULL) {
+	if (Plugin->MailFcn != NULL) {
+		if (Plugin->MailFcn->DeleteMailFcnPtr != NULL) {
 			//Let plugin delete its own CMimeMsgQueue derived structure
 			Plugin->MailFcn->DeleteMailFcnPtr(OldMail);
 			return 1;
 		}
 	}
-	if (OldMail->MailData!=NULL) {
-		if (OldMail->MailData->Body!=NULL)
+	if (OldMail->MailData != NULL) {
+		if (OldMail->MailData->Body != NULL)
 			delete[] OldMail->MailData->Body;
-		if ((TH=OldMail->MailData->TranslatedHeader)!=NULL)
-			for (;OldMail->MailData->TranslatedHeader!=NULL;) {
+		if ((TH=OldMail->MailData->TranslatedHeader) != NULL)
+			for (;OldMail->MailData->TranslatedHeader != NULL;) {
 				TH=TH->Next;
-				if (OldMail->MailData->TranslatedHeader->name!=NULL)
+				if (OldMail->MailData->TranslatedHeader->name != NULL)
 					delete[] OldMail->MailData->TranslatedHeader->name;
-				if (OldMail->MailData->TranslatedHeader->value!=NULL)
+				if (OldMail->MailData->TranslatedHeader->value != NULL)
 					delete[] OldMail->MailData->TranslatedHeader->value;
 				delete OldMail->MailData->TranslatedHeader;
 				OldMail->MailData->TranslatedHeader=TH;
 			}
 		delete OldMail->MailData;
 	}
-	if (OldMail->ID!=NULL)
+	if (OldMail->ID != NULL)
 		delete[] OldMail->ID;
 
 	delete OldMail;				//consider mail as standard HYAMNMAIL, not initialized before and use its own destructor
@@ -188,7 +188,7 @@ INT_PTR DeleteAccountMailSvc(WPARAM wParam,LPARAM lParam)
 void WINAPI AppendQueueFcn(HYAMNMAIL first,HYAMNMAIL second)
 {
 	HYAMNMAIL Finder=first;
-	while(Finder->Next!=NULL) Finder=Finder->Next;
+	while(Finder->Next != NULL) Finder=Finder->Next;
 	Finder->Next=second;
 }
 
@@ -197,7 +197,7 @@ INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL Mail=(HYAMNMAIL)wParam;
 	DWORD MailVersion=(DWORD)lParam;
 
-	if (MailVersion!=YAMN_MAILDATAVERSION)
+	if (MailVersion != YAMN_MAILDATAVERSION)
 		return NULL;
 
 //now we have all data to memory persisting, so no loading is needed
@@ -217,7 +217,7 @@ INT_PTR SaveMailDataSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL Mail=(HYAMNMAIL)wParam;
 	DWORD MailVersion=(DWORD)lParam;
 
-	if (MailVersion!=YAMN_MAILDATAVERSION)
+	if (MailVersion != YAMN_MAILDATAVERSION)
 		return (INT_PTR)-1;
 
 //now we have all data to memory persisting, so no saving is needed
@@ -234,10 +234,10 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 	HYAMNMAIL Parser,ParserPrev;
 	HYAMNMAIL RemovedOldParser =NULL;
 	HYAMNMAIL RemovedNewParser =NULL;
-	if (RemovedOld!=NULL) *RemovedOld=NULL;
-	if (RemovedNew!=NULL) *RemovedNew=NULL;
+	if (RemovedOld != NULL) *RemovedOld=NULL;
+	if (RemovedNew != NULL) *RemovedNew=NULL;
 
-	for (FinderPrev=NULL,Finder=*OldQueue;Finder!=NULL;)
+	for (FinderPrev=NULL,Finder=*OldQueue;Finder != NULL;)
 	{
 		if (Finder->Flags & YAMN_MSG_DELETED)			//if old queue contains deleted mail
 		{
@@ -245,7 +245,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 			Finder=Finder->Next;						//get next message in old queue for testing
 			continue;
 		}
-		for (ParserPrev=NULL,Parser=*NewQueue;Parser!=NULL;ParserPrev=Parser,Parser=Parser->Next)
+		for (ParserPrev=NULL,Parser=*NewQueue;Parser != NULL;ParserPrev=Parser,Parser=Parser->Next)
 		{
 			if (Parser->Flags & YAMN_MSG_DELETED)
 				continue;
@@ -256,7 +256,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 			if (0==strcmp(Parser->ID,Finder->ID))		//search for equal message in new queue
 				break;
 		}
-		if (Parser!=NULL)								//found equal message in new queue
+		if (Parser != NULL)								//found equal message in new queue
 		{
 			if (Parser==*NewQueue)
 				*NewQueue=(*NewQueue)->Next;
@@ -319,7 +319,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 void WINAPI DeleteMessagesToEndFcn(HACCOUNT Account,HYAMNMAIL From)
 {
 	HYAMNMAIL Temp;
-	while(From!=NULL)
+	while(From != NULL)
 	{
 		Temp=From;
 		From=From->Next;
@@ -339,14 +339,14 @@ void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From,HYAMNMAIL Which,int mode=0
 	}
 	else 
 	{
-		for (Parser=*From;Which!=Parser->Next;Parser=Parser->Next)
+		for (Parser=*From;Which != Parser->Next;Parser=Parser->Next)
 			if (mode && (Parser->Number>Number)) Parser->Number--;
 		if (mode && (Parser->Number>Number)) Parser->Number--;
 		Parser->Next=Parser->Next->Next;
 		Parser=Which->Next;
 	}	
 	if (mode)
-		for (;Parser!=NULL;Parser=Parser->Next)
+		for (;Parser != NULL;Parser=Parser->Next)
 			if (Parser->Number>Number) Parser->Number--;
 }
 
@@ -354,7 +354,7 @@ void DeleteMessagesFromQueue(HYAMNMAIL *From,HYAMNMAIL Which,int mode=0)
 {
 	HYAMNMAIL Parser;
 
-	for (Parser=Which;Parser!=NULL;Parser=Parser->Next)
+	for (Parser=Which;Parser != NULL;Parser=Parser->Next)
 		DeleteMessageFromQueueFcn(From,Parser,mode);
 }
 
@@ -362,7 +362,7 @@ HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From,char *ID)
 {
 	HYAMNMAIL Browser;
 
-	for (Browser=From;Browser!=NULL;Browser=Browser->Next)
+	for (Browser=From;Browser != NULL;Browser=Browser->Next)
 		if (0==lstrcmpA(Browser->ID,ID))
 			break;
 	return Browser;
@@ -386,7 +386,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 
 			prev1=finder;
 
-			while(*finder!=':' && !EOS(finder)) finder++;
+			while(*finder != ':' && !EOS(finder)) finder++;
 			if (!EOS(finder))
 				prev2=finder++;
 			else
@@ -404,7 +404,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 				while(!ENDLINE(finder) && !EOS(finder)) finder++;
 			}while(ENDLINEWS(finder));
 
-			if (Item!=NULL)
+			if (Item != NULL)
 			{
 				if (NULL==(Item->Next=new struct CMimeItem))
 					break;
@@ -458,7 +458,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 {
 	HYAMNMAIL FirstMail,Browser;
 
-	for (FirstMail=NULL;From!=NULL;From=From->Next)
+	for (FirstMail=NULL;From != NULL;From=From->Next)
 	{
 		if ((From->Flags & (YAMN_MSG_USERDELETE | YAMN_MSG_AUTODELETE)) && !(From->Flags & YAMN_MSG_DELETED))
 		{
@@ -486,7 +486,7 @@ void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,DWORD FlagsSet,DWORD FlagsNo
 {
 	HYAMNMAIL msgq;
 
-	for (msgq=(HYAMNMAIL)From;msgq!=NULL;msgq=msgq->Next)
+	for (msgq=(HYAMNMAIL)From;msgq != NULL;msgq=msgq->Next)
 	{
 		if ((FlagsSet==(msgq->Flags & FlagsSet)) && (0==(msgq->Flags & FlagsNotSet)))
 		{

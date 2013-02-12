@@ -51,7 +51,7 @@ INT_PTR RegisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
 	PYAMN_PROTOREGISTRATION Registration=(PYAMN_PROTOREGISTRATION)wParam;
 	HYAMNPROTOPLUGIN Plugin;
 
-	if (lParam!=YAMN_PROTOREGISTRATIONVERSION)
+	if (lParam != YAMN_PROTOREGISTRATIONVERSION)
 		return 0;
 	if ((Registration->Name==NULL) || (Registration->Ver==NULL))
 		return (INT_PTR)NULL;
@@ -78,9 +78,9 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 {
 	PYAMN_PROTOPLUGINQUEUE Parser;
 
-	if (YAMNFcnVer!=YAMN_PROTOIMPORTFCNVERSION)
+	if (YAMNFcnVer != YAMN_PROTOIMPORTFCNVERSION)
 		return 0;
-	if (YAMNMailFcnVer!=YAMN_MAILIMPORTFCNVERSION)
+	if (YAMNMailFcnVer != YAMN_MAILIMPORTFCNVERSION)
 		return 0;
 	if (YAMNFcn==NULL)
 		return 0;
@@ -95,7 +95,7 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 
 	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
-	for (Parser=FirstProtoPlugin;Parser!=NULL && Parser->Next!=NULL;Parser=Parser->Next);
+	for (Parser=FirstProtoPlugin;Parser != NULL && Parser->Next != NULL;Parser=Parser->Next);
 	if (Parser==NULL)
 	{
 		FirstProtoPlugin=new YAMN_PROTOPLUGINQUEUE;
@@ -128,8 +128,8 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 	}
 	else
 	{
-		for (Parser=FirstProtoPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
-		if (Parser->Next!=NULL)
+		for (Parser=FirstProtoPlugin;(Parser->Next != NULL) && (Plugin != Parser->Next->Plugin);Parser=Parser->Next);
+		if (Parser->Next != NULL)
 		{
 			Found=Parser->Next;
 			Parser->Next=Parser->Next->Next;
@@ -137,11 +137,11 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 		else
 			Found=NULL;
 	}
-	if (Found!=NULL)
+	if (Found != NULL)
 	{
 		StopAccounts(Plugin);
 		DeleteAccounts(Plugin);
-		if (Plugin->Fcn->UnLoadFcn!=NULL)
+		if (Plugin->Fcn->UnLoadFcn != NULL)
 			Plugin->Fcn->UnLoadFcn((void *)0);
 		
 		delete Found->Plugin->AccountBrowserSO;
@@ -172,7 +172,7 @@ INT_PTR UnregisterProtoPlugins()
 {
 	EnterCriticalSection(&PluginRegCS);
 //We remove protocols from the protocol list
-	while(FirstProtoPlugin!=NULL)
+	while(FirstProtoPlugin != NULL)
 		UnregisterProtocolPlugin(FirstProtoPlugin->Plugin);
 	LeaveCriticalSection(&PluginRegCS);
 	return 1;

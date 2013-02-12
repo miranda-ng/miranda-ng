@@ -151,7 +151,7 @@ void CNLClient::Send(const char *query) throw(DWORD)
 #endif
 	try
 	{
-		if ((SOCKET_ERROR==(Sent=LocalNetlib_Send(hConnection,query,(int)strlen(query),MSG_DUMPASTEXT))) || Sent!=(unsigned int)strlen(query))
+		if ((SOCKET_ERROR==(Sent=LocalNetlib_Send(hConnection,query,(int)strlen(query),MSG_DUMPASTEXT))) || Sent != (unsigned int)strlen(query))
 		{
 			SystemError=WSAGetLastError();
 			throw NetworkError=(DWORD)ENL_SEND;

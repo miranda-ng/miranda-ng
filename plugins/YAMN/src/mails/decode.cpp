@@ -211,7 +211,7 @@ int GetCharsetFromString(char *input,size_t size)
 
 	if ((size<1) || (parser=pout=new char[size+1])==NULL)
 		return -1;
-	while((*pin!=0) && (pin-input< (INT_PTR)size))
+	while((*pin != 0) && (pin-input< (INT_PTR)size))
 	{
 		if ((*pin>='a') && (*pin<='z'))
 			*parser++=*(pin++)-('a'-'A'); // make it capital
@@ -300,7 +300,7 @@ int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ)
 	char *DstTemp=Dst;
 	DebugLog(DecodeFile,"<Decode Quoted><Input>%s</Input>",Src);
 #endif
-	for (int Counter=0;((char)*Src!=0) && DstLen && (Counter++<DstLen);Src++,Dst++)
+	for (int Counter=0;((char)*Src != 0) && DstLen && (Counter++<DstLen);Src++,Dst++)
 		if (*Src=='=')
 		{
 			if (!isQ) {
@@ -352,7 +352,7 @@ int DecodeBase64(char *Src,char *Dst,int DstLen)
 	char *DstTemp=Dst;
 	DebugLog(DecodeFile,"<Decode Base64><Input>\n%s\n</Input>\n",Src);
 #endif
-	while(*Src!=0 && DstLen && Dst!=End)
+	while(*Src != 0 && DstLen && Dst != End)
 	{
 		if ((*Src==0x0D)||(*Src==0x0A))	{
 			Src++; 
@@ -392,7 +392,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 	//codepages, which require to have set 0 in dwFlags parameter when calling MultiByteToWideChar
 	DWORD CodePagesZeroFlags[]={50220,50221,50222,50225,50227,50229,52936,54936,57002,57003,57004,57005,57006,57007,57008,57009,57010,57011,65000,65001};
 
-	if ((cp!=CP_ACP) && (cp!=CP_OEMCP) && (cp!=CP_MACCP) && (cp!=CP_THREAD_ACP) && (cp!=CP_SYMBOL) && (cp!=CP_UTF7) && (cp!=CP_UTF8) && !GetCPInfo(cp,&CPInfo))
+	if ((cp != CP_ACP) && (cp != CP_OEMCP) && (cp != CP_MACCP) && (cp != CP_THREAD_ACP) && (cp != CP_SYMBOL) && (cp != CP_UTF7) && (cp != CP_UTF8) && !GetCPInfo(cp,&CPInfo))
 		cp=CP_ACP;
 #ifdef DEBUG_DECODECODEPAGE
 	DebugLog(DecodeFile,"<CodePage #>%d</CodePage #>",cp);
@@ -409,15 +409,15 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 	else
 		streamlen=MultiByteToWideChar(cp,MB_USEGLYPHCHARS,stream,-1,NULL,0);
 
-	if (*out!=NULL)
+	if (*out != NULL)
 		outlen=wcslen(*out);
 	else
 		outlen=0;
 	temp=new WCHAR[streamlen+outlen+1];
 
-	if (*out!=NULL)
+	if (*out != NULL)
 	{
-		for (dest=temp;*src!=(WCHAR)0;src++,dest++)				//copy old string from *out to temp
+		for (dest=temp;*src != (WCHAR)0;src++,dest++)				//copy old string from *out to temp
 			*dest=*src;
 //		*dest++=L' ';								//add space?
 		delete[] *out;
@@ -455,7 +455,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 	size_t tempstoreLength = wcslen(tempstore);
 	
 	size_t outind = 0;
-	while(*start!=0) {
+	while(*start != 0) {
 		if (CODES(start)) {
 			finder=start+2;finderend=finder;
 			while(!CODED(finderend) && !EOS(finderend)) finderend++;
@@ -475,7 +475,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 				}
 				if (-1==(cp=(DWORD)GetCharsetFromString(finder,finderend-finder)))
 					cp=CP_ACP;
-				if (Encoding!=0)
+				if (Encoding != 0)
 				{
 					int size,codeend;
 					char *pcodeend;
@@ -509,7 +509,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 							size=finderend-finder+1+1;
 							break;
 					}
-					if (DecodedResult!=NULL)
+					if (DecodedResult != NULL)
 						delete[] DecodedResult;
 					DecodedResult=new char[size+1];
 					switch(Encoding)

@@ -35,20 +35,20 @@ LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 #ifdef DEBUG_SYNCHRO
 					DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter\n");
 #endif
-					if (ActualAccount->BadConnectN.App!=NULL)
+					if (ActualAccount->BadConnectN.App != NULL)
 					{
 						WCHAR *Command;
-						if (ActualAccount->BadConnectN.AppParam!=NULL)
+						if (ActualAccount->BadConnectN.AppParam != NULL)
 							Command=new WCHAR[wcslen(ActualAccount->BadConnectN.App)+wcslen(ActualAccount->BadConnectN.AppParam)+6];
 						else
 							Command=new WCHAR[wcslen(ActualAccount->BadConnectN.App)+6];
 	
-						if (Command!=NULL)
+						if (Command != NULL)
 						{
 							lstrcpyW(Command,L"\"");
 							lstrcatW(Command,ActualAccount->BadConnectN.App);
 							lstrcatW(Command,L"\" ");
-							if (ActualAccount->BadConnectN.AppParam!=NULL)
+							if (ActualAccount->BadConnectN.AppParam != NULL)
 								lstrcatW(Command,ActualAccount->BadConnectN.AppParam);
 							CreateProcessW(NULL,Command,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 							delete[] Command;
@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");
 #endif
-			if (WAIT_OBJECT_0!=WaitToReadFcn(ActualAccount->AccountAccessSO))
+			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 			{
 #ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait failed\n");
@@ -138,7 +138,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 				lstrcpyn(BadConnectPopUp.lptzContactName,_A2T(ActualAccount->Name),SIZEOF(BadConnectPopUp.lptzContactName));
 			}
 
-			if (ActualAccount->Plugin->Fcn!=NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr!=NULL)
+			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL)
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
@@ -146,7 +146,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 				if (ShowPopUp)
 					PUAddPopUpT(&BadConnectPopUp);
 			}
-			else if (ActualAccount->Plugin->Fcn!=NULL && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr!=NULL)
+			else if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringAFcnPtr != NULL)
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
@@ -172,11 +172,11 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 
 			SetWindowTextA(hDlg, TitleStrA);
 			delete[] TitleStrA;
-			if (Message1A!=NULL)
+			if (Message1A != NULL)
 				delete[] Message1A;
-			if (ActualAccount->Plugin->Fcn!=NULL && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr!=NULL && Message1A!=NULL)
+			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != NULL && Message1A != NULL)
 				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1A);
-			if (ActualAccount->Plugin->Fcn!=NULL && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr!=NULL && Message1W!=NULL)
+			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr != NULL && Message1W != NULL)
 				ActualAccount->Plugin->Fcn->DeleteErrorStringFcnPtr(Message1W);
 			return 0;
 		}
@@ -270,7 +270,7 @@ DWORD WINAPI BadConnection(LPVOID Param)
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait\n");
 #endif
-		if (WAIT_OBJECT_0!=WaitToReadFcn(ActualAccount->AccountAccessSO))
+		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 		{
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read wait failed\n");
@@ -280,8 +280,8 @@ DWORD WINAPI BadConnection(LPVOID Param)
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"BadConnect:ActualAccountSO-read enter\n");
 #endif
-		for (src=ActualAccount->Name,dest=nid.szTip,i=0;(*src!=(TCHAR)0) && (i+1<sizeof(nid.szTip));*dest++=*src++);
-		for (src=NotIconText;(*src!=(TCHAR)0) && (i+1<sizeof(nid.szTip));*dest++=*src++);
+		for (src=ActualAccount->Name,dest=nid.szTip,i=0;(*src != (TCHAR)0) && (i+1<sizeof(nid.szTip));*dest++=*src++);
+		for (src=NotIconText;(*src != (TCHAR)0) && (i+1<sizeof(nid.szTip));*dest++=*src++);
 		*dest=(TCHAR)0;
 
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
@@ -303,7 +303,7 @@ DWORD WINAPI BadConnection(LPVOID Param)
 		}
 
 //	now, write to file. Why? Because we want to write when was new mail last checked
-		if ((ActualAccount->Plugin->Fcn!=NULL) && (ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr!=NULL) && ActualAccount->AbleToWork)
+		if ((ActualAccount->Plugin->Fcn != NULL) && (ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr != NULL) && ActualAccount->AbleToWork)
 			ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr();
 	}
 	__finally
@@ -324,15 +324,15 @@ INT_PTR RunBadConnectionSvc(WPARAM wParam,LPARAM lParam)
 	HANDLE ThreadRunningEV;
 	PYAMN_BADCONNECTIONPARAM Param=(PYAMN_BADCONNECTIONPARAM)wParam;
 
-	if ((DWORD)lParam!=YAMN_BADCONNECTIONVERSION)
+	if ((DWORD)lParam != YAMN_BADCONNECTIONVERSION)
 		return 0;
 
-	if (NULL!=(ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
+	if (NULL != (ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
 	{
 		HANDLE NewThread;
 
 		Param->ThreadRunningEV=ThreadRunningEV;
-		if (NULL!=(NewThread=CreateThread(NULL,0,BadConnection,Param,0,&tid)))
+		if (NULL != (NewThread=CreateThread(NULL,0,BadConnection,Param,0,&tid)))
 		{
 			WaitForSingleObject(ThreadRunningEV,INFINITE);
 			CloseHandle(NewThread);
