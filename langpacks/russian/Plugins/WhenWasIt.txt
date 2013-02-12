@@ -51,7 +51,7 @@
 Дни рождения
 [When Was It]
 Дни рождения
-[Notify of birthdays using:]
+[Notify of birthdays:]
 Сообщать о днях рождения:
 [Don't show popups for subcontacts]
 Не показывать для подконтактов
