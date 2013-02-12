@@ -98,3 +98,13 @@
 Учесть настройки игнора (смены статусов)
 [Show Nudge]
 Тряска
+[Nudge for %s]
+Встряска для %s
+[Shake the contact list]
+Встряхнуть список котактов
+[Default Nudge]
+Встряска по-умолчанию
+[Nudge : Shake contact list/chat window]
+Встряска: Потрясти списком\окном сообщения
+[Nudge : Send a nudge]
+Встряска: Послать встряску

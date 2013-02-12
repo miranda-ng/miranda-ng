@@ -125,3 +125,7 @@
 Вспл. окно при смене аватара
 [Use default colours for popups]
 Стандартные цвета для окон
+[Contact changed avatar]
+Контакт сменил аватар
+[Contact removed avatar]
+Контакт удалил аватар

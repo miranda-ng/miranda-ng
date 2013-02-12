@@ -135,3 +135,7 @@
 Вы уверены, что хотите удалить историю сообщений статуса?
 [Confirm clearing history]
 Подтверждение удаления истории
+[Are you sure you want to clear predefined status messages?]
+Вы уверены, что хотите удалить насроенные сообщения статуса?
+[Confirm clearing predefined]
+Подтверждение удаления настроенных сообщений
