@@ -184,8 +184,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						mir_free(swzAdvTitle);
 						// get advanced status icon
 						if (pwd->bIsIconVisible[1]) {
-							pwd->extraIcons[1].hIcon = (HICON)CallProtoService(pwd->clcit.szProto, PS_GETCUSTOMSTATUSICON, 0, 0);
-							pwd->extraIcons[1].bDestroy = true;
+							pwd->extraIcons[1].hIcon = (HICON)CallProtoService(pwd->clcit.szProto, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED);
+							pwd->extraIcons[1].bDestroy = false;
 						}
 					}
 
@@ -406,8 +406,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					// fingerprint icon
 					if (pwd->bIsIconVisible[5]) {
-						if (ServiceExists(MS_FP_GETCLIENTICONT)) {
-							for (i = 0; opt.exIconsOrder[i] != 5; i++);
+						for (i = 0; opt.exIconsOrder[i] != 5; i++);
+						if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
 							if (!DBGetContactSettingTString(pwd->hContact, szProto, "MirVer", &dbv)) {
 								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)dbv.ptszVal, 0);
 								pwd->extraIcons[i].bDestroy = true;
@@ -415,7 +415,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 						}
 						else if (ServiceExists(MS_FP_GETCLIENTICON)) {
-							for (i = 0; opt.exIconsOrder[i] != 5; i++);
 							if (!DBGetContactSettingString(pwd->hContact, szProto, "MirVer", &dbv)) {
 								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)dbv.pszVal, 0);
 								pwd->extraIcons[i].bDestroy = true;
@@ -952,9 +951,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			pwd->rows = NULL;
 
 			// destroy icons
-			for (i = 0; i < EXICONS_COUNT; i++)
+			for (i = 0; i < EXICONS_COUNT; i++) {
+				if (pwd->extraIcons[i].hIcon == NULL)
+					continue;
+
 				if (pwd->extraIcons[i].bDestroy)
 					DestroyIcon(pwd->extraIcons[i].hIcon);
+				else
+					Skin_ReleaseIcon(pwd->extraIcons[i].hIcon);
+			}
 
 			if (pwd->clcit.swzText) {
 				mir_free(pwd->clcit.swzText);
