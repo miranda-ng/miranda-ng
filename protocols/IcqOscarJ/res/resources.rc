@@ -92,7 +92,7 @@ BEGIN
     EDITTEXT        IDC_ICQSERVER,68,106,106,12,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC,182,108,25,8
     EDITTEXT        IDC_ICQPORT,208,106,29,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "Default",IDC_RESETSERVER,244,106,50,12
+    PUSHBUTTON      "Default",IDC_RESETSERVER,241,106,56,12
     LTEXT           "Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.",IDC_STATIC,12,120,286,18
     CONTROL         "Secure Connection (SSL)",IDC_SSL,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,138,290,10
     CONTROL         "Secure (MD5) login",IDC_MD5LOGIN,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,12,150,290,10
