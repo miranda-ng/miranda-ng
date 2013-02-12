@@ -137,6 +137,10 @@ WebPager от:
 Переименовать файл
 [Delete file]
 Удалить файл
+[Executable files]
+Исполняемые файлы
+[All files]
+Все файлы
 [Export Protocols]
 Экспорт протоколов
 [Use UTF8 in new files]
