@@ -80,7 +80,7 @@ BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType) //
 		}
 
 		if (!Result)
-			msg("Cannot Convert!", modFullname);
+			msg(Translate("Cannot Convert!"), modFullname);
 
 		DBFreeVariant(&dbv);
 	}
@@ -335,7 +335,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 						if (!setting || !value)
 						{
-							msg("Couldnt allocate enough memory!", modFullname);
+							msg(Translate("Couldnt allocate enough memory!"), modFullname);
 							DestroyWindow(hwnd);
 							break;
 						}

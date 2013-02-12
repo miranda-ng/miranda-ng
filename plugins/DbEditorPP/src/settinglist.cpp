@@ -125,7 +125,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 			{
 				int j;
 				if (!(data = (char*)mir_realloc(data, 3*(dbv.cpbVal+1)+10)))
-					{msg("Couldnt allocate enough memory!", modFullname); return;}
+					{msg(Translate("Couldnt allocate enough memory!"), modFullname); return;}
 				data[0] = '\0';
 				for (j=0; j<dbv.cpbVal; j++)
 				{
@@ -136,7 +136,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				lvi.iImage = 0;
 				ListView_SetItem(hwnd2Settings,&lvi);
 				ListView_SetItemText(hwnd2Settings,index,1,data);
-				ListView_SetItemText(hwnd2Settings,index,2,"BLOB");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("BLOB"));
 				mir_snprintf(data, 3*(dbv.cpbVal+1)+10, "0x%04X (%d)", dbv.cpbVal,dbv.cpbVal);
 				ListView_SetItemText(hwnd2Settings,index,3,data);
 			}
@@ -148,7 +148,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				ListView_SetItem(hwnd2Settings,&lvi);
 				mir_snprintf(data, 16, "0x%02X (%d)", dbv.bVal, dbv.bVal);
 				ListView_SetItemText(hwnd2Settings,index,1,data);
-				ListView_SetItemText(hwnd2Settings,index,2,"BYTE");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("BYTE"));
 				ListView_SetItemText(hwnd2Settings,index,3,"0x0001 (1)");
 			break;
 			case DBVT_WORD:
@@ -159,7 +159,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				ListView_SetItem(hwnd2Settings,&lvi);
 				mir_snprintf(data, 16, "0x%04X (%ld)", dbv.wVal,dbv.wVal);
 				ListView_SetItemText(hwnd2Settings,index,1,data);
-				ListView_SetItemText(hwnd2Settings,index,2,"WORD");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("WORD"));
 				ListView_SetItemText(hwnd2Settings,index,3,"0x0002 (2)");
 			break;
 			case DBVT_DWORD:
@@ -170,7 +170,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				ListView_SetItem(hwnd2Settings,&lvi);
 				mir_snprintf(data, 32, "0x%08X (%ld)", dbv.dVal, dbv.dVal);
 				ListView_SetItemText(hwnd2Settings,index,1,data);
-				ListView_SetItemText(hwnd2Settings,index,2,"DWORD");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("DWORD"));
 				ListView_SetItemText(hwnd2Settings,index,3,"0x0004 (4)");
 			break;
 			case DBVT_ASCIIZ:
@@ -182,7 +182,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				lvi.iImage = 4;
 				ListView_SetItem(hwnd2Settings,&lvi);
 				ListView_SetItemText(hwnd2Settings,index,1,dbv.pszVal);
-				ListView_SetItemText(hwnd2Settings,index,2,"STRING");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("STRING"));
 				mir_snprintf(data, 512, "0x%04X (%d)", length,length);
 				ListView_SetItemText(hwnd2Settings,index,3,data);
 			}
@@ -201,7 +201,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, length);
 				ListView_SetItemTextW(hwnd2Settings,index,1,wc);
 
-				ListView_SetItemText(hwnd2Settings,index,2,"UNICODE");
+				ListView_SetItemText(hwnd2Settings,index,2,Translate("UNICODE"));
 				mir_snprintf(data, 512, "0x%04X (%d)", length,length);
 				ListView_SetItemText(hwnd2Settings,index,3,data);
 			}
@@ -217,9 +217,9 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 	{
 		lvi.iImage = 5;
 		ListView_SetItem(hwnd2Settings,&lvi);
-		ListView_SetItemText(hwnd2Settings,index,1,"<unsupported>");
-		ListView_SetItemText(hwnd2Settings,index,2,"UNICODE");
-		ListView_SetItemText(hwnd2Settings,index,3,"<unknown>");
+		ListView_SetItemText(hwnd2Settings,index,1,Translate("<unsupported>"));
+		ListView_SetItemText(hwnd2Settings,index,2,Translate("UNICODE"));
+		ListView_SetItemText(hwnd2Settings,index,3,Translate("<unknown>"));
 	}
 	else
 		ListView_DeleteItem(hwnd2Settings,index);
@@ -235,7 +235,7 @@ void PopulateSettings(HWND hwnd2Settings, HANDLE hContact, char* module)
 
 	struct ModSetLinkLinkItem *setting;
 	ModuleSettingLL setlist;
-	if (!EnumSettings(hContact,module,&setlist)) { msg("Error Loading Setting List",modFullname); mir_free(info); return;}
+	if (!EnumSettings(hContact,module,&setlist)) { msg(Translate("Error Loading Setting List"),modFullname); mir_free(info); return;}
 
 	// clear any settings that may be there...
 	ClearListview(hwnd2Settings);
@@ -691,7 +691,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 			char tmp[16];
 			char *data = (char*)_alloca(3*(dbv.cpbVal+1)+10);
 
-			if (!data) {msg("Couldnt allocate enough memory!", modFullname); return;}
+			if (!data) {msg(Translate("Couldnt allocate enough memory!"), modFullname); return;}
 			data[0] = '\0';
 
 			for(j=0; j<dbv.cpbVal; j++)
