@@ -405,7 +405,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	hRestore = NULL;
 
-	if (!hwnd2Tree) { msg(Translate("Module tree not found"),modFullname); return;}
+	if (!hwnd2Tree) { msg("Module tree not found",modFullname); return;}
 
 	Select = 0;
 
@@ -449,7 +449,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 	if ((int)di != 4) { // do not rebuild on just going to another setting
 		if (!EnumModules(&modlist)) {
-			msg(Translate("Error Loading Module List"),modFullname);
+			msg("Error Loading Module List",modFullname);
 			return;
 		}
 
@@ -607,7 +607,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 
 				mtis->type = CONTACT;
 
-				if (!EnumModules(&modlist)) { msg(Translate("Error Loading Module List"),modFullname); break;}
+				if (!EnumModules(&modlist)) { msg("Error Loading Module List",modFullname); break;}
 
 				module = modlist.first;
 				while(module && hwnd2mainWindow)

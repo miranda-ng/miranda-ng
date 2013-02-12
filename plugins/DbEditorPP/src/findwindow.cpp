@@ -547,7 +547,7 @@ void __cdecl FindSettings(LPVOID di)
 	freeItems(hwnd);
 	if (!text) return;
 
-	if (!EnumModules(&ModuleList)) { msg(Translate("Error Loading Module List"),modFullname); mir_free(di); return;}
+	if (!EnumModules(&ModuleList)) { msg("Error Loading Module List",modFullname); mir_free(di); return;}
 
 	SendMessage(GetDlgItem(GetParent(hwnd),IDC_SBAR),SB_SETTEXT,0,(LPARAM)Translate("Searching..."));
 
@@ -579,7 +579,7 @@ void __cdecl FindSettings(LPVOID di)
 
 			if (!EnumSettings(hContact,module->name,&SettingList))
 			{
-				msg(Translate("Error Loading Setting List"),modFullname);
+				msg("Error Loading Setting List",modFullname);
 				mir_free(text);
 				mir_free(di);
 				FreeModuleSettingLL(&ModuleList);
