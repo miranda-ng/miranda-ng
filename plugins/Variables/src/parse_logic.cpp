@@ -393,22 +393,22 @@ static TCHAR *parseXor(ARGUMENTSINFO *ai) {
 
 int registerLogicTokens() {
 
-	registerIntToken(_T(AND), parseAnd, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y, ...)\tperforms logical AND (x && y && ...)");
-	registerIntToken(_T(STR_FALSE), parseFalse, TRF_FIELD, "Logical Expressions\tBoolean FALSE");
-	registerIntToken(_T(FOR), parseFor, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(w,x,y,z)\tperforms w, then shows z and performs y while x is TRUE");
-	registerIntToken(_T(IF), parseIf, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y,z)\tshows y if x is TRUE, otherwise it shows z");
-	registerIntToken(_T(IF2), parseIf2, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y)\tshows x if x is TRUE, otherwise it shows y (if(x,x,y))");
-	registerIntToken(_T(IF3), parseIf3, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y, ...)\tthe first argument parsed successfully");
-	registerIntToken(_T(IFEQUAL), parseIfequal,	TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(w,x,y,z)\ty if w = x, else z");
-	registerIntToken(_T(IFGREATER), parseIfgreater,	TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(w,x,y,z)\ty if w > x, else z");
-	registerIntToken(_T(IFLONGER), parseIflonger, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(w,x,y,z)\ty if string length of w > x, else z");
-	registerIntToken(_T(EQUAL), parseEqual,	TRF_FUNCTION, "Logical Expressions\t(x,y)\tTRUE if x = y");
-	registerIntToken(_T(GREATER), parseGreater,	TRF_FUNCTION, "Logical Expressions\t(x,y)\tTRUE if x > y");
-	registerIntToken(_T(LONGER), parseLonger, TRF_FUNCTION, "Logical Expressions\t(x,y)\tTRUE if x is longer than y");
-	registerIntToken(_T(NOT), parseNot, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x)\tperforms logical NOT (!x)");
-	registerIntToken(_T(OR), parseOr, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y,...)\tperforms logical OR (x || y || ...)");
-	registerIntToken(_T(STR_TRUE), parseTrue, TRF_FIELD, "Logical Expressions\tBoolean TRUE");
-	registerIntToken(_T(XOR), parseXor, TRF_UNPARSEDARGS|TRF_FUNCTION, "Logical Expressions\t(x,y)\tperforms logical XOR (x ^ y)");
+	registerIntToken(_T(AND), parseAnd, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y, ...)\tperforms logical AND (x && y && ...)"));
+	registerIntToken(_T(STR_FALSE), parseFalse, TRF_FIELD, Translate("Logical Expressions\tBoolean FALSE"));
+	registerIntToken(_T(FOR), parseFor, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(w,x,y,z)\tperforms w, then shows z and performs y while x is TRUE"));
+	registerIntToken(_T(IF), parseIf, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y,z)\tshows y if x is TRUE, otherwise it shows z"));
+	registerIntToken(_T(IF2), parseIf2, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y)\tshows x if x is TRUE, otherwise it shows y (if(x,x,y))"));
+	registerIntToken(_T(IF3), parseIf3, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y, ...)\tthe first argument parsed successfully"));
+	registerIntToken(_T(IFEQUAL), parseIfequal,	TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(w,x,y,z)\ty if w = x, else z"));
+	registerIntToken(_T(IFGREATER), parseIfgreater,	TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(w,x,y,z)\ty if w > x, else z"));
+	registerIntToken(_T(IFLONGER), parseIflonger, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(w,x,y,z)\ty if string length of w > x, else z"));
+	registerIntToken(_T(EQUAL), parseEqual,	TRF_FUNCTION, Translate("Logical Expressions\t(x,y)\tTRUE if x = y"));
+	registerIntToken(_T(GREATER), parseGreater,	TRF_FUNCTION, Translate("Logical Expressions\t(x,y)\tTRUE if x > y"));
+	registerIntToken(_T(LONGER), parseLonger, TRF_FUNCTION, Translate("Logical Expressions\t(x,y)\tTRUE if x is longer than y"));
+	registerIntToken(_T(NOT), parseNot, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x)\tperforms logical NOT (!x)"));
+	registerIntToken(_T(OR), parseOr, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y,...)\tperforms logical OR (x || y || ...)"));
+	registerIntToken(_T(STR_TRUE), parseTrue, TRF_FIELD, Translate("Logical Expressions\tBoolean TRUE"));
+	registerIntToken(_T(XOR), parseXor, TRF_UNPARSEDARGS|TRF_FUNCTION, Translate("Logical Expressions\t(x,y)\tperforms logical XOR (x ^ y)"));
 	
 	return 0;
 }

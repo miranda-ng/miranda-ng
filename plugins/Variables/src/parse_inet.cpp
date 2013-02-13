@@ -134,10 +134,10 @@ static TCHAR *parseHToA(ARGUMENTSINFO *ai) {
 
 int registerInetTokens() {
 
-	registerIntToken(_T(URLENC), parseUrlEnc, TRF_FUNCTION, "Internet Related\t(x)\tconverts each non-html character into hex format");
-	registerIntToken(_T(URLDEC), parseUrlDec, TRF_FUNCTION, "Internet Related\t(x)\tconverts each hex value into non-html character");
-	registerIntToken(_T(NTOA), parseNToA, TRF_FUNCTION, "Internet Related\t(x)\tconverts a 32-bit number to IPv4 dotted notation");
-	registerIntToken(_T(HTOA), parseHToA, TRF_FUNCTION, "Internet Related\t(x)\tconverts a 32-bit number (in host byte order) to IPv4 dotted notation");
+	registerIntToken(_T(URLENC), parseUrlEnc, TRF_FUNCTION, Translate("Internet Related\t(x)\tconverts each non-html character into hex format"));
+	registerIntToken(_T(URLDEC), parseUrlDec, TRF_FUNCTION, Translate("Internet Related\t(x)\tconverts each hex value into non-html character"));
+	registerIntToken(_T(NTOA), parseNToA, TRF_FUNCTION, Translate("Internet Related\t(x)\tconverts a 32-bit number to IPv4 dotted notation"));
+	registerIntToken(_T(HTOA), parseHToA, TRF_FUNCTION, Translate("Internet Related\t(x)\tconverts a 32-bit number (in host byte order) to IPv4 dotted notation"));
 
 	return 0;
 }

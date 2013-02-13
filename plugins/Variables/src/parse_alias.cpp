@@ -194,14 +194,14 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 
 		szHelp = ( char* )mir_alloc(32 + strlen(szArgsA));
 		memset(szHelp, '\0', 32 + strlen(szArgsA));
-		sprintf(szHelp, "Alias\t(%s)\tuser defined", szArgsA);
+		sprintf(szHelp, Translate("Alias\t(%s)\tuser defined"), szArgsA);
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FUNCTION|TRF_UNPARSEDARGS, szHelp);
 		mir_free(szArgsA);
 	}
 	else {
 		szHelp = ( char* )mir_alloc(32);
 		memset(szHelp, '\0', 32);
-		sprintf(szHelp, "Alias\t\tuser defined");
+		sprintf(szHelp, Translate("Alias\t\tuser defined"));
 		res = registerIntToken(alias, parseTranslateAlias, TRF_FIELD|TRF_UNPARSEDARGS, szHelp);
 	}
 	mir_free(szArgs);
@@ -212,7 +212,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 
 int registerAliasTokens()
 {
-	registerIntToken(_T(ADDALIAS), parseAddAlias, TRF_FUNCTION|TRF_UNPARSEDARGS, "Variables\t(x,y)\tstores y as alias named x");//TRF_UNPARSEDARGS);
+	registerIntToken(_T(ADDALIAS), parseAddAlias, TRF_FUNCTION|TRF_UNPARSEDARGS, Translate("Variables\t(x,y)\tstores y as alias named x"));//TRF_UNPARSEDARGS);
 	InitializeCriticalSection(&csAliasRegister);
 	return 0;
 }

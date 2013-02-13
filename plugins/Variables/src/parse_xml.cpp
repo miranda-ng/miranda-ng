@@ -276,8 +276,8 @@ int registerXsltTokens() {
 		return -1;
 	}
 
-	registerIntToken(_T(XSLTF), parseXsltf, TRF_FUNCTION, "XML\t(x,y)\tapply stylesheet file x to document file y");
-	registerIntToken(_T(XSLTS), parseXslts, TRF_FUNCTION, "XML\t(x,y)\tapply stylesheet x to document y");
+	registerIntToken(_T(XSLTF), parseXsltf, TRF_FUNCTION, Translate("XML\t(x,y)\tapply stylesheet file x to document file y"));
+	registerIntToken(_T(XSLTS), parseXslts, TRF_FUNCTION, Translate("XML\t(x,y)\tapply stylesheet x to document y"));
 
 	return 0;
 }

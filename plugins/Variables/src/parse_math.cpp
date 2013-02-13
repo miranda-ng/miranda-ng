@@ -208,17 +208,17 @@ static TCHAR *parseSub(ARGUMENTSINFO *ai) {
 
 int registerMathTokens() {
 
-	registerIntToken(_T(ADD), parseAdd, TRF_FUNCTION, "Mathematical Functions\t(x,y ,...)\tx + y + ...");
-	registerIntToken(_T(DIV), parseDiv,	TRF_FUNCTION, "Mathematical Functions\t(x,y)\tx divided by y");
-	registerIntToken(_T(HEX), parseHex,	TRF_FUNCTION, "Mathematical Functions\t(x,y)\tconverts decimal value x to hex value and padds to length y");
-	registerIntToken(_T(MOD), parseMod, TRF_FUNCTION, "Mathematical Functions\t(x,y)\tx modulo y (remainder of x divided by y)");
-	registerIntToken(_T(MUL), parseMul,	TRF_FUNCTION, "Mathematical Functions\t(x,y)\tx times y");
-	registerIntToken(_T(MULDIV), parseMuldiv, TRF_FUNCTION, "Mathematical Functions\t(x,y,z)\tx times y divided by z");
-	registerIntToken(_T(MIN), parseMin,	TRF_FUNCTION, "Mathematical Functions\t(x,y,...)\tminimum value of (decimal) arguments");
-	registerIntToken(_T(MAX), parseMax,	TRF_FUNCTION, "Mathematical Functions\t(x,y,...)\tmaximum value of (decimal) arguments");
-	registerIntToken(_T(NUM), parseNum,	TRF_FUNCTION, "Mathematical Functions\t(x,y)\tpads decimal value x to length y with zeros");
-	registerIntToken(_T(RAND), parseRand, TRF_FUNCTION, "Mathematical Functions\t()\trandom number");
-	registerIntToken(_T(SUB), parseSub, TRF_FUNCTION, "Mathematical Functions\t(x,y,...)\tx - y - ...");
+	registerIntToken(_T(ADD), parseAdd, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y ,...)\tx + y + ..."));
+	registerIntToken(_T(DIV), parseDiv,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx divided by y"));
+	registerIntToken(_T(HEX), parseHex,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tconverts decimal value x to hex value and padds to length y"));
+	registerIntToken(_T(MOD), parseMod, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx modulo y (remainder of x divided by y)"));
+	registerIntToken(_T(MUL), parseMul,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx times y"));
+	registerIntToken(_T(MULDIV), parseMuldiv, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,z)\tx times y divided by z"));
+	registerIntToken(_T(MIN), parseMin,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tminimum value of (decimal) arguments"));
+	registerIntToken(_T(MAX), parseMax,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tmaximum value of (decimal) arguments"));
+	registerIntToken(_T(NUM), parseNum,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tpads decimal value x to length y with zeros"));
+	registerIntToken(_T(RAND), parseRand, TRF_FUNCTION, Translate("Mathematical Functions\t()\trandom number"));
+	registerIntToken(_T(SUB), parseSub, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tx - y - ..."));
 	srand((unsigned int)GetTickCount());
 
 	return 0;

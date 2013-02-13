@@ -207,9 +207,9 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 int registerMetaContactsTokens() 
 {
 	if (ServiceExists( MS_MC_GETPROTOCOLNAME )) {
-		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, "MetaContacts\t(x)\tget parent metacontact of contact x");
-		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, "MetaContacts\t(x)\tget default subcontact x");
-		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, "MetaContacts\t(x)\tget the 'most online' subcontact x");
+		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget parent metacontact of contact x"));
+		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget default subcontact x"));
+		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget the 'most online' subcontact x"));
 	}
 
 	return 0;

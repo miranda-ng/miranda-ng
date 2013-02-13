@@ -235,11 +235,11 @@ static int initAMIP() {
 
 int registerExternalTokens() {
 
-	registerIntToken(_T(WINAMPSONG), parseWinampSong, TRF_FIELD, "External Applications\tretrieves song name of the song currently playing in Winamp");
-	registerIntToken(_T(WINAMPSTATE), parseWinampState, TRF_FIELD, "External Applications\tretrieves current Winamp state (Playing/Paused/Stopped)");
+	registerIntToken(_T(WINAMPSONG), parseWinampSong, TRF_FIELD, Translate("External Applications\tretrieves song name of the song currently playing in Winamp"));
+	registerIntToken(_T(WINAMPSTATE), parseWinampState, TRF_FIELD, Translate("External Applications\tretrieves current Winamp state (Playing/Paused/Stopped)"));
 	if (!initAMIP()) {
-		registerIntToken(_T(AMIPEVAL), parseAMIPEval, TRF_FUNCTION, "External Applications\t(x)\tretrieves info from AMIP (x is var_<variable> with any AMIP variable)");
-		registerIntToken(_T(AMIPFORMAT), parseAMIPFormat, TRF_FUNCTION|TRF_UNPARSEDARGS, "External Applications\t(x)\tretrieves info from AMIP (x is AMIP format string)");
+		registerIntToken(_T(AMIPEVAL), parseAMIPEval, TRF_FUNCTION, Translate("External Applications\t(x)\tretrieves info from AMIP (x is var_<variable> with any AMIP variable)"));
+		registerIntToken(_T(AMIPFORMAT), parseAMIPFormat, TRF_FUNCTION|TRF_UNPARSEDARGS, Translate("External Applications\t(x)\tretrieves info from AMIP (x is AMIP format string)"));
 	}
 	else {
 		log_infoA("Variables: ac.dll for AMIP not found");

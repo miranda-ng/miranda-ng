@@ -791,39 +791,39 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 int registerMirandaTokens() {
 	if (ServiceExists(MS_UTILS_REPLACEVARS)) {
 		// global vars
-		registerIntToken(_T("miranda_path"),		parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\tpath to root miranda folder");
-		registerIntToken(_T("miranda_profile"),		parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\tpath to current miranda profile");
-		registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\tname of current miranda profile (filename, without extension)");
-		registerIntToken(_T("miranda_userdata"),	parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%");
-		registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache");
-		registerIntToken(_T("miranda_logpath"),		parseMirandaCoreVar	, TRF_FIELD, "Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs");
+		registerIntToken(_T("miranda_path"),		parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\tpath to root miranda folder"));
+		registerIntToken(_T("miranda_profile"),		parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\tpath to current miranda profile"));
+		registerIntToken(_T("miranda_profilename"), parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\tname of current miranda profile (filename, without extension)"));
+		registerIntToken(_T("miranda_userdata"),	parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"));
+		registerIntToken(_T("miranda_avatarcache"), parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache"));
+		registerIntToken(_T("miranda_logpath"),		parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core Global\twill return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs"));
 
 		// OS vars
-		registerIntToken(_T("appdata"),				parseMirandaCoreVar	, TRF_FIELD, "Miranda Core OS\tsame as environment variable %APPDATA% for currently logged-on Windows user");
-		registerIntToken(_T("username"),			parseMirandaCoreVar	, TRF_FIELD, "Miranda Core OS\tusername for currently logged-on Windows user");
-		registerIntToken(_T("mydocuments"),			parseMirandaCoreVar	, TRF_FIELD, "Miranda Core OS\t\"My Documents\" folder for currently logged-on Windows user");
-		registerIntToken(_T("desktop"),				parseMirandaCoreVar	, TRF_FIELD, "Miranda Core OS\t\"Desktop\" folder for currently logged-on Windows user");
+		registerIntToken(_T("appdata"),				parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core OS\tsame as environment variable %APPDATA% for currently logged-on Windows user"));
+		registerIntToken(_T("username"),			parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core OS\tusername for currently logged-on Windows user"));
+		registerIntToken(_T("mydocuments"),			parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core OS\t\"My Documents\" folder for currently logged-on Windows user"));
+		registerIntToken(_T("desktop"),				parseMirandaCoreVar	, TRF_FIELD, Translate("Miranda Core OS\t\"Desktop\" folder for currently logged-on Windows user"));
 	}
-	registerIntToken(_T(CODETOSTATUS), parseCodeToStatus, TRF_FUNCTION, "Miranda Related\t(x)\ttranslates status code x into a status description");
-	registerIntToken(_T(CONTACT), parseContact, TRF_FUNCTION, "Miranda Related\t(x,y,z)\tzth contact with property y described by x, example: (unregistered,nick) (z is optional)");
-	registerIntToken(_T(CONTACTCOUNT), parseContactCount, TRF_FUNCTION, "Miranda Related\t(x,y)\tnumber of contacts with property y described by x, example: (unregistered,nick)");
-	registerIntToken(_T(CONTACTINFO), parseContactInfo, TRF_FUNCTION, "Miranda Related\t(x,y)\tinfo property y of contact x");
-	registerIntToken(_T(DBPROFILENAME), parseDBProfileName, TRF_FIELD, "Miranda Related\tdb profile name");
-	registerIntToken(_T(DBPROFILEPATH), parseDBProfilePath, TRF_FIELD, "Miranda Related\tdb profile path");
-	registerIntToken(_T(DBSETTING), parseDBSetting, TRF_FUNCTION, "Miranda Related\t(x,y,z,w)\tdb setting z of module y of contact x and return w if z isn't exist (w is optional)");
-	registerIntToken(_T(DBEVENT), parseDbEvent, TRF_FUNCTION, "Miranda Related\t(x,y,z,w)\tget event for contact x (optional), according to y,z,w, see documentation");
-	registerIntToken(_T(LSTIME), parseLastSeenTime, TRF_FUNCTION, "Miranda Related\t(x,y)\tget last seen time of contact x in format y (y is optional)");
-	registerIntToken(_T(LSDATE), parseLastSeenDate, TRF_FUNCTION, "Miranda Related\t(x,y)\tget last seen date of contact x in format y (y is optional)");
-	registerIntToken(_T(LSSTATUS), parseLastSeenStatus, TRF_FUNCTION, "Miranda Related\t(x)\tget last seen status of contact x");
-	registerIntToken(_T(MIRANDAPATH), parseMirandaPath, TRF_FIELD, "Miranda Related\tpath to the Miranda-IM executable");
-	registerIntToken(_T(MYSTATUS), parseMyStatus, TRF_FUNCTION, "Miranda Related\t(x)\tcurrent status description of protocol x (without x, the global status is retrieved)");
-	registerIntToken(_T(PROTOINFO), parseProtoInfo, TRF_FUNCTION, "Miranda Related\t(x,y)\tinfo property y of protocol id x");
-	registerIntToken(_T(SUBJECT), parseSpecialContact, TRF_FIELD, "Miranda Related\tretrieves the subject, depending on situation");
-	registerIntToken(_T(TRANSLATE), parseTranslate, TRF_FUNCTION, "Miranda Related\t(x)\ttranslates x");
-	registerIntToken(_T(VERSIONSTRING), parseVersionString, TRF_FIELD, "Miranda Related\tget the version of Miranda");
-	registerIntToken(_T(CONTACT_NAME), parseContactNameString, TRF_FIELD, "Miranda Related\tget the contact display name");
-	registerIntToken(_T(MIR_DATE), parseMirDateString, TRF_FIELD, "Miranda Related\tget the date and time (using Miranda format)");
-	registerIntToken(_T(SRVEXISTS), parseMirSrvExists,	TRF_FUNCTION, "Miranda Related\t(x)\tTRUE if service function is exists");
+	registerIntToken(_T(CODETOSTATUS), parseCodeToStatus, TRF_FUNCTION, Translate("Miranda Related\t(x)\ttranslates status code x into a status description"));
+	registerIntToken(_T(CONTACT), parseContact, TRF_FUNCTION, Translate("Miranda Related\t(x,y,z)\tzth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
+	registerIntToken(_T(CONTACTCOUNT), parseContactCount, TRF_FUNCTION, Translate("Miranda Related\t(x,y)\tnumber of contacts with property y described by x, example: (unregistered,nick)"));
+	registerIntToken(_T(CONTACTINFO), parseContactInfo, TRF_FUNCTION, Translate("Miranda Related\t(x,y)\tinfo property y of contact x"));
+	registerIntToken(_T(DBPROFILENAME), parseDBProfileName, TRF_FIELD, Translate("Miranda Related\tdb profile name"));
+	registerIntToken(_T(DBPROFILEPATH), parseDBProfilePath, TRF_FIELD, Translate("Miranda Related\tdb profile path"));
+	registerIntToken(_T(DBSETTING), parseDBSetting, TRF_FUNCTION, Translate("Miranda Related\t(x,y,z,w)\tdb setting z of module y of contact x and return w if z isn't exist (w is optional)"));
+	registerIntToken(_T(DBEVENT), parseDbEvent, TRF_FUNCTION, Translate("Miranda Related\t(x,y,z,w)\tget event for contact x (optional), according to y,z,w, see documentation"));
+	registerIntToken(_T(LSTIME), parseLastSeenTime, TRF_FUNCTION, Translate("Miranda Related\t(x,y)\tget last seen time of contact x in format y (y is optional)"));
+	registerIntToken(_T(LSDATE), parseLastSeenDate, TRF_FUNCTION, Translate("Miranda Related\t(x,y)\tget last seen date of contact x in format y (y is optional)"));
+	registerIntToken(_T(LSSTATUS), parseLastSeenStatus, TRF_FUNCTION, Translate("Miranda Related\t(x)\tget last seen status of contact x"));
+	registerIntToken(_T(MIRANDAPATH), parseMirandaPath, TRF_FIELD, Translate("Miranda Related\tpath to the Miranda-IM executable"));
+	registerIntToken(_T(MYSTATUS), parseMyStatus, TRF_FUNCTION, Translate("Miranda Related\t(x)\tcurrent status description of protocol x (without x, the global status is retrieved)"));
+	registerIntToken(_T(PROTOINFO), parseProtoInfo, TRF_FUNCTION, Translate("Miranda Related\t(x,y)\tinfo property y of protocol id x"));
+	registerIntToken(_T(SUBJECT), parseSpecialContact, TRF_FIELD, Translate("Miranda Related\tretrieves the subject, depending on situation"));
+	registerIntToken(_T(TRANSLATE), parseTranslate, TRF_FUNCTION, Translate("Miranda Related\t(x)\ttranslates x"));
+	registerIntToken(_T(VERSIONSTRING), parseVersionString, TRF_FIELD, Translate("Miranda Related\tget the version of Miranda"));
+	registerIntToken(_T(CONTACT_NAME), parseContactNameString, TRF_FIELD, Translate("Miranda Related\tget the contact display name"));
+	registerIntToken(_T(MIR_DATE), parseMirDateString, TRF_FIELD, Translate("Miranda Related\tget the date and time (using Miranda format)"));
+	registerIntToken(_T(SRVEXISTS), parseMirSrvExists,	TRF_FUNCTION, Translate("Miranda Related\t(x)\tTRUE if service function is exists"));
 
 	return 0;
 }
