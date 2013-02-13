@@ -328,25 +328,28 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						ListView_SetItemState(hwndList, hdr->iItem, 0x3000, LVIS_STATEIMAGEMASK);
 						return FALSE;
 					}
-					// if enabling and replaces, find all other replaces and toggle off
-					if ((hdr->uNewState & 0x2000) && dat->stdPlugin != 0)  {
-						for (int iRow = 0; iRow != -1;) {
-							if (iRow != hdr->iItem) {
-								LVITEM dt;
-								dt.mask = LVIF_PARAM;
-								dt.iItem = iRow;
-								if (ListView_GetItem(hwndList, &dt)) {
-									PluginListItemData* dat2 = (PluginListItemData*)dt.lParam;
-									if (dat2->stdPlugin & dat->stdPlugin) {
-										// the lParam is unset, so when the check is unset the clist block doesnt trigger
-										int lParam = dat2->stdPlugin;
-										dat2->stdPlugin = 0;
-										ListView_SetItemState(hwndList, iRow, 0x1000, LVIS_STATEIMAGEMASK);
-										dat2->stdPlugin = lParam;
-							}	}	}
+					// find all another standard plugins by mask and disable them
+					if ((hdr->uNewState == 0x2000) && dat->stdPlugin != 0) 
+					for (int iRow = 0; iRow != -1; iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL)) {
+						if (iRow == hdr->iItem) // skip the plugin we're standing on
+							continue;
 
-							iRow = ListView_GetNextItem(hwndList, iRow, LVNI_ALL);
-					}	}
+						LVITEM dt;
+						dt.mask = LVIF_PARAM;
+						dt.iItem = iRow;
+						if ( !ListView_GetItem(hwndList, &dt))
+							continue;
+
+						PluginListItemData* dat2 = (PluginListItemData*)dt.lParam;
+						if ( !(dat2->stdPlugin & dat->stdPlugin)) // mask differs
+							continue;
+
+						// the lParam is unset, so when the check is unset the clist block doesnt trigger
+						int lParam = dat2->stdPlugin;
+						dat2->stdPlugin = 0;
+						ListView_SetItemState(hwndList, iRow, 0x1000, LVIS_STATEIMAGEMASK);
+						dat2->stdPlugin = lParam;
+					}
 
 					if (bOldMode)
 						ShowWindow( GetDlgItem(hwndDlg, IDC_RESTART), TRUE); // this here only in "ghazan mode"
@@ -402,7 +405,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					int iState = ListView_GetItemState(hwndList, iRow, LVIS_STATEIMAGEMASK);
 					SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
 
-					if ( !bOldMode) {
+					if (!bOldMode && iState != 0x3000) {
 						LVITEM lvi = {0};
 						lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 						lvi.stateMask = -1;
@@ -412,7 +415,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 							lvi.mask = LVIF_IMAGE;
 
 							PluginListItemData* dat = (PluginListItemData*)lvi.lParam;
-							if (iState & 0x2000) {
+							if (iState == 0x2000) {
 								// enabling plugin
 								if (lvi.iImage == 3 || lvi.iImage == 5) {
 									if (lvi.iImage == 3 && LoadPluginDynamically(dat)) {
