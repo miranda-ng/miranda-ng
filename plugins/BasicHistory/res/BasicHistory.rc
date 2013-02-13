@@ -11,10 +11,8 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 #include <winres.h>
-#include <windows.h>
-#include <richedit.h>
 #include <commctrl.h>
-#include <tchar.h>
+#include <richedit.h>
 #include <m_clc.h>
 
 /////////////////////////////////////////////////////////////////////////////
@@ -262,4 +260,3 @@ IDI_MINUSEX				ICON					"mnode.ico"
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
-

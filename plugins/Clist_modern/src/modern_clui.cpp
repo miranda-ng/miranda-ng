@@ -106,7 +106,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist,cls,SIZEOF(cls));
-	hwndClist = (!lstrcmp(CLISTCONTROL_CLASS,cls))?hwndClist:pcli->hwndContactList;
+	hwndClist = (!lstrcmp( _T(CLISTCONTROL_CLASS), cls))?hwndClist:pcli->hwndContactList;
 	hItem = (HANDLE)SendMessage(hwndClist,CLM_GETSELECTION, 0, 0);
 	if ( !hItem)
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
@@ -307,7 +307,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
-	ClcWnd() = CreateWindow(CLISTCONTROL_CLASS,_T(""),
+	ClcWnd() = CreateWindow( _T(CLISTCONTROL_CLASS),_T(""),
 		WS_CHILD|WS_CLIPCHILDREN|CLS_CONTACTLIST
 		|( db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
 		|( db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)

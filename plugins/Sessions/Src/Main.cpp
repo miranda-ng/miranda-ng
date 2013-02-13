@@ -182,7 +182,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						dy=20;
 						dx=150;
 						dd=5;
-						hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE,CLISTCONTROL_CLASS, _T(""),
+						hClistControl = CreateWindowEx(WS_EX_CLIENTEDGE, _T(CLISTCONTROL_CLASS), _T(""),
 						WS_TABSTOP |WS_VISIBLE | WS_CHILD ,
 						x, y, dx, dy, hdlg, (HMENU)IDC_CLIST, hinstance, 0);
 

@@ -147,7 +147,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, SIZEOF(szWindowClass));
-	if ( !lstrcmp(szWindowClass, CLISTCONTROL_CLASS)) {
+	if ( !lstrcmp(szWindowClass, _T(CLISTCONTROL_CLASS))) {
 		struct ClcData *dat;
 		hwndCurrentDrag = hwnd;
 		dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);

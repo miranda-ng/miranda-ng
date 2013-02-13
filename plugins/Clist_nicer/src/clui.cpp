@@ -179,7 +179,7 @@ static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
 
 static HWND PreCreateCLC(HWND parent)
 {
-	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASS, _T(""),
+	pcli->hwndContactTree = CreateWindow( _T(CLISTCONTROL_CLASS), _T(""),
 										 WS_CHILD | CLS_CONTACTLIST
 										 | (cfg::getByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 										 | CLS_HIDEOFFLINE

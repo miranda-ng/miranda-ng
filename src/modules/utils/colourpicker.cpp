@@ -97,7 +97,7 @@ int InitColourPicker(void)
 	wcl.cbWndExtra = sizeof(COLORREF)*2;
 	wcl.hInstance = hInst;
 	wcl.hCursor = NULL;
-	wcl.lpszClassName = WNDCLASS_COLOURPICKER;
+	wcl.lpszClassName = _T(WNDCLASS_COLOURPICKER);
 	wcl.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);
 	wcl.hIcon = NULL;
 	wcl.lpszMenuName = NULL;

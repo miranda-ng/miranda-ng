@@ -367,7 +367,7 @@ int OnSettingChanging(WPARAM wParam,LPARAM lParam)
 
 HWND PreCreateCLC(HWND parent)
 {
-	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASS,_T(""),
+	pcli->hwndContactTree = CreateWindow( _T(CLISTCONTROL_CLASS),_T(""),
 		WS_CHILD|WS_CLIPCHILDREN|CLS_CONTACTLIST
 		|( db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
 		| CLS_HIDEOFFLINE

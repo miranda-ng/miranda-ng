@@ -41,7 +41,7 @@ void UnloadDbgHlp(void)
 int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 {
 	if (code ==	VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND) ||
-		code == VcppException(ERROR_SEVERITY_ERROR, ERROR_PROC_NOT_FOUND))
+		 code == VcppException(ERROR_SEVERITY_ERROR, ERROR_PROC_NOT_FOUND))
 	{
 		PDelayLoadInfo dlld = (PDelayLoadInfo)ep->ExceptionRecord->ExceptionInformation[0];
 

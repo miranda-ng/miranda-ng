@@ -277,7 +277,7 @@ __forceinline INT_PTR Utils_AssertInsideScreen(RECT *rc) {
 
 /************************ Colour Picker Control (0.1.2.1+) **********************/
 
-#define WNDCLASS_COLOURPICKER  _T("ColourPicker")
+#define WNDCLASS_COLOURPICKER  "ColourPicker"
 
 #define CPM_SETCOLOUR		   0x1000	  //lParam = new colour
 #define CPM_GETCOLOUR		   0x1001	  //returns colour

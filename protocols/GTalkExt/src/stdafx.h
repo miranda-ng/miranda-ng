@@ -67,5 +67,3 @@
 	#define _tstoi64 _ttoi
 	#define _tcstoui64(A,B,C) _ttoi(A)
 #endif
-
-#define WNDCLASS_COLOURPICKER _T("ColourPicker")

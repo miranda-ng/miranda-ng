@@ -96,7 +96,7 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist, cls, SIZEOF(cls));
-	hwndClist = ( !lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = ( !lstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if ( !hItem)
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
@@ -111,7 +111,7 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	// worst case scenario, the rename is sent to the main contact list
-	hwndClist = ( !lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = ( !lstrcmp( _T(CLISTCONTROL_CLASS), cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if (hItem) {
 		SetFocus(hwndClist);
@@ -287,7 +287,7 @@ int LoadCLUIModule(void)
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = NULL;
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = CLISTCONTROL_CLASS;
+	wndclass.lpszClassName = _T(CLISTCONTROL_CLASS);
 	wndclass.hIconSm = NULL;
 	RegisterClassEx(&wndclass);
 
@@ -510,7 +510,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case M_CREATECLC:
-		cli.hwndContactTree = CreateWindow(CLISTCONTROL_CLASS, _T(""),
+		cli.hwndContactTree = CreateWindow( _T(CLISTCONTROL_CLASS), _T(""),
 			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 			| CLS_CONTACTLIST
 			| (db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
