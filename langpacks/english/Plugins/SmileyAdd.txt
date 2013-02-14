@@ -18,8 +18,11 @@
 [Display]
 [Replace only smileys surrounded by spaces]
 [Scale smiley to textheight]
-[Animate]
 [Disable custom smileys]
+[High Quality smiley scaling]
+[Animate]
+[Max "Custom Smiley" height]
+[Min smiley height]
 [Smiley Selector]
 [Surround inserted smiley with spaces]
 [Use first smiley for selection size]
@@ -30,9 +33,6 @@
 [Built-In Message Dialog Support]
 [Disable]
 [Smiley Button]
-[Max "Custom Smiley" height]
-[High Quality smiley scaling]
-[Min smiley height]
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show Smiley Selection Window]
 ;file \plugins\SmileyAdd\src\download.cpp

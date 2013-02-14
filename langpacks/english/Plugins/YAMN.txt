@@ -95,6 +95,9 @@
 [Launch application]
 [Check mail]
 [Connect Fail]
+;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+[YAMN: connect failed]
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 [No new mail message]

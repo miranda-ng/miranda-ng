@@ -7,6 +7,7 @@
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 ;file \plugins\QuickReplies\res\resources.rc
+[QuickReplies]
 [Send replies immediately]
 [- Add your replies, one per line.]
 [Variables]
