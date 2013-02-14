@@ -75,6 +75,7 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
 BOOL    ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam);
+INT_PTR EnableListeningTo(char  *proto = NULL,BOOL enabled = FALSE);
 INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam);
 TCHAR*	GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
@@ -82,7 +83,7 @@ INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam);
 INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam);
 void    SetExtraIcon(HANDLE hContact, BOOL set);
-void    SetListeningInfos(LISTENINGTOINFO *lti);
+void    SetListeningInfos(LISTENINGTOINFO *lti = NULL);
 INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam);
 INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam);
 INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam);
@@ -384,52 +385,52 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		tr.tszTokenString = _T("listening_info");
 		tr.parseFunctionT = VariablesParseInfo;
-		tr.szHelpText = LPGEN("Listening info\tListening info as set in the options");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Listening info as set in the options");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_type");
 		tr.parseFunctionT = VariablesParseType;
-		tr.szHelpText = LPGEN("Listening info\tMedia type: Music, Video, etc");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Media type: Music, Video, etc");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_artist");
 		tr.parseFunctionT = VariablesParseArtist;
-		tr.szHelpText = LPGEN("Listening info\tArtist name");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Artist name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_album");
 		tr.parseFunctionT = VariablesParseAlbum;
-		tr.szHelpText = LPGEN("Listening info\tAlbum name");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Album name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_title");
 		tr.parseFunctionT = VariablesParseTitle;
-		tr.szHelpText = LPGEN("Listening info\tSong name");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Song name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_track");
 		tr.parseFunctionT = VariablesParseTrack;
-		tr.szHelpText = LPGEN("Listening info\tTrack number");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Track number");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_year");
 		tr.parseFunctionT = VariablesParseYear;
-		tr.szHelpText = LPGEN("Listening info\tSong year");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Song year");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_genre");
 		tr.parseFunctionT = VariablesParseGenre;
-		tr.szHelpText = LPGEN("Listening info\tSong genre");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Song genre");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_length");
 		tr.parseFunctionT = VariablesParseLength;
-		tr.szHelpText = LPGEN("Listening info\tSong length");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Song length");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("listening_player");
 		tr.parseFunctionT = VariablesParsePlayer;
-		tr.szHelpText = LPGEN("Listening info\tPlayer name");
+		tr.szHelpText = LPGEN("Listening info")"\t"LPGEN("Player name");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 	}
 
@@ -454,7 +455,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	//
-	SetListeningInfos(NULL);
+	SetListeningInfos();
 	StartTimer();
 
 	loaded = TRUE;
@@ -518,7 +519,7 @@ INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam)
 	if (pos >= proto_items.size() || pos < 0)
 		return 0;
 
-	EnableListeningTo((WPARAM) proto_items[pos].proto, (LPARAM) !ListeningToEnabled(proto_items[pos].proto, TRUE));
+	EnableListeningTo(proto_items[pos].proto, !ListeningToEnabled(proto_items[pos].proto, TRUE));
 	return 0;
 }
 
@@ -564,7 +565,7 @@ ProtocolInfo *GetProtoInfo(char *proto)
 	return NULL;
 }
 
-void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
+void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 {
 	if (proto == NULL)
 		return;
@@ -745,19 +746,17 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 	}
 }
 
-INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
+INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 {
 	if (!loaded)
 		return -1;
-
-	char *proto = (char *)wParam;
 
 	if (proto == NULL || proto[0] == 0)
 	{
 		// For all protocols
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
 		{
-			EnableListeningTo((WPARAM) proto_items[i].proto, lParam);
+			EnableListeningTo(proto_items[i].proto, enabled);
 		}
 	}
 	else
@@ -770,7 +769,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 
 		char setting[256];
 		mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
-		db_set_b(NULL, MODULE_NAME, setting, (BOOL) lParam);
+		db_set_b(NULL, MODULE_NAME, setting, enabled);
 
 		// Modify menu info
 		ProtocolInfo *info = GetProtoInfo(proto);
@@ -778,11 +777,11 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 		{
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_FLAGS
-					| (lParam ? CMIF_CHECKED : 0)
+					| (enabled ? CMIF_CHECKED : 0)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
 
-			SetListeningInfo(proto,(opts.enable_sending && lParam) ? GetListeningInfo() : NULL);
+			SetListeningInfo(proto,(opts.enable_sending && enabled) ? GetListeningInfo() : NULL);
 		}
 
 		// Set all protos info
@@ -791,9 +790,14 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 
 	StartTimer();
 
-	NotifyEventHooks(hEnableStateChangedEvent, wParam, lParam);
+	NotifyEventHooks(hEnableStateChangedEvent, (WPARAM) proto, (LPARAM) enabled);
 
 	return 0;
+}
+
+INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
+{
+	return EnableListeningTo((char*)wParam,(BOOL)lParam);
 }
 
 INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam)
@@ -894,14 +898,14 @@ static void CALLBACK GetInfoTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD 
 	lastInfoSetTime = GetTickCount(); // TODO Move this to inside the if that really sets
 
 	if (!opts.enable_sending) {
-		SetListeningInfos(NULL);
+		SetListeningInfos();
 		return;
 	}
 
 	// Set it
 	int changed = ChangedListeningInfo();
 	if (changed < 0)
-		SetListeningInfos(NULL);
+		SetListeningInfos();
 	else if (changed > 0)
 		SetListeningInfos(GetListeningInfo());
 
@@ -958,7 +962,7 @@ void StartTimer()
 
 			// To be sure that no one was left behind
 //			m_log(_T("StartTimer"), _T("To be sure that no one was left behind"));
-			SetListeningInfos(NULL);
+			SetListeningInfos();
 		}
 	}
 }
