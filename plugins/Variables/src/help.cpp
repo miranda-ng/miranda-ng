@@ -832,8 +832,8 @@ static INT_PTR CALLBACK helpInfoDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 {
 	switch(msg) {
 	case WM_INITDIALOG:
-		SetDlgItemTextA(hwndDlg, IDC_HELPDESC, \
-"--- Special characters ---\r\n\r\n\
+		SetDlgItemText(hwndDlg, IDC_HELPDESC, \
+LPGENT("--- Special characters ---\r\n\r\n\
 The following characters have a special meaning in a formatting string:\r\n\r\n\
 ?<function>(<arguments>)\r\n\
 This will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n\
@@ -853,7 +853,7 @@ Whenever a functions requires a contact as an argument, you can specify it in tw
 A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\
 first, last, nick, email, id or display\r\n\r\n\
 For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\
-");
+"));
 		TranslateDialogDefault(hwndDlg);
 		break;
 

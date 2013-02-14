@@ -17,12 +17,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
-#define MIRANDA_VER 0x0A00
-
-#define _CRT_SECURE_NO_WARNINGS
-#define _CRT_NON_CONFORMING_SWPRINTFS
-
 #include <tchar.h> 
 #include <malloc.h>
 
