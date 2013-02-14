@@ -28,11 +28,55 @@ void trimW(wchar_t *str) {
 		if (str[pos] == L'\t') str[pos] = L' ';
 }
 
-void SetStartValues(void) 
-{
+struct HWNDStackNode {
+	HWND hwnd;
+	struct HWNDStackNode *next;
+};
+
+HWNDStackNode *hwnd_stack_top = 0;
+int stack_size = 0;
+
+void RepositionWindows() {
+	HWNDStackNode *current;	
+	int x = pop_start_x, y = pop_start_y;
+	int height;
+
+	if (options.animate == ANIMATE_HORZ)
+	{
+		if (options.location == PL_BOTTOMRIGHT ||options.location == PL_TOPRIGHT)
+			x -= options.win_width + 1;
+		if (options.location == PL_BOTTOMLEFT ||options.location == PL_TOPLEFT)
+			x += options.win_width + 1;
+	}
+
+	current = hwnd_stack_top;
+	while(current) {
+		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height + 1;
+		if (options.animate == ANIMATE_VERT)
+			if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
+
+		SendMessage(current->hwnd, PUM_MOVE, (WPARAM)x, (LPARAM)y);
+		if (options.animate != ANIMATE_VERT)
+			if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
+
+		current = current->next;
+	}
+}
+
+void AddWindowToStack(HWND hwnd) {
+
+	HWNDStackNode *new_node = (HWNDStackNode *)mir_alloc(sizeof(HWNDStackNode));
+	new_node->hwnd = hwnd;
+	new_node->next = hwnd_stack_top;
+	hwnd_stack_top = new_node;
+
+	int height;
+	SendMessage(hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
+
 	RECT wa_rect;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &wa_rect, 0);
-	if (options.use_mim_monitor && MyMonitorFromRect && MyGetMonitorInfo) 
+	if (options.use_mim_monitor && MyMonitorFromRect && MyGetMonitorInfo)
 	{
 		RECT clr;
 		GetWindowRect((HWND)CallService(MS_CLUI_GETHWND, 0, 0), &clr);
@@ -46,70 +90,44 @@ void SetStartValues(void)
 		}
 	}
 
-	if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
-		pop_start_x = wa_rect.right - options.win_width - 1;
-	else
-		pop_start_x = wa_rect.left + 1;
+	switch (options.animate)
+	{
+		case ANIMATE_NO:
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+				pop_start_x = wa_rect.right - options.win_width - 1;
+			else
+				pop_start_x = wa_rect.left + 1;
 
-	if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
-		pop_start_y = wa_rect.bottom - 1;
-	else
-		pop_start_y = wa_rect.top + 1;
-}
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+				pop_start_y = wa_rect.bottom;
+			else
+				pop_start_y = wa_rect.top + 1;
+			break;
+		case ANIMATE_HORZ:
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+				pop_start_x = wa_rect.right;
+			else
+				pop_start_x = wa_rect.left - options.win_width;
 
-struct HWNDStackNode {
-	HWND hwnd;
-	struct HWNDStackNode *next;
-};
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+				pop_start_y = wa_rect.bottom;
+			else
+				pop_start_y = wa_rect.top + 1;
+			break;
+		case ANIMATE_VERT:
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
+				pop_start_x = wa_rect.right - options.win_width - 1;
+			else
+				pop_start_x = wa_rect.left + 1;
 
-HWNDStackNode *hwnd_stack_top = 0;
-int stack_size = 0;
-
-void RepositionWindows() {
-	HWNDStackNode *current;	
-	int x = pop_start_x, y = pop_start_y;
-	int height;//, total_height = 0;
-
-	/*
-	current = hwnd_stack_top;
-	while(current) {
-		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
-		total_height += height;
-		current = current->next;
+			if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT)
+				pop_start_y = wa_rect.bottom;
+			else
+				pop_start_y = wa_rect.top - height + 1;
+			break;
 	}
-	*/
 
-	current = hwnd_stack_top;
-	while(current) {
-		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
-		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height + 1;
-		SendMessage(current->hwnd, PUM_MOVE, (WPARAM)x, (LPARAM)y);		
-		if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
-
-		current = current->next;
-	}
-}
-
-void AddWindowToStack(HWND hwnd) {
-	SetStartValues();
-
-	HWNDStackNode *new_node = (HWNDStackNode *)mir_alloc(sizeof(HWNDStackNode));
-	new_node->hwnd = hwnd;
-	new_node->next = hwnd_stack_top;
-	hwnd_stack_top = new_node;
-
-	int height;
-	SendMessage(hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
-
-	int x = pop_start_x, y = pop_start_y;
-	if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
-		x += options.win_width;
-	else
-		x -= options.win_width;
-
-	if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height;
-	SetWindowPos(hwnd, 0, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
-	if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height;
+	SetWindowPos(hwnd, 0, pop_start_x, pop_start_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 	stack_size++;
 

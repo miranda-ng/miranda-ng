@@ -15,6 +15,10 @@
 #define PUM_KILLNOTIFY       (WM_USER + 0x031)
 #define PUM_UPDATENOTIFY     (WM_USER + 0x032)
 
+#define ANIMATE_NO			0
+#define ANIMATE_HORZ		1
+#define ANIMATE_VERT		2
+
 void InitWindowStack();
 void DeinitWindowStack();
 

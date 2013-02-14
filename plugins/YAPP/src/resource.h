@@ -33,7 +33,7 @@
 #define IDC_CHK_BORDER                  1018
 #define IDC_CHK_ROUNDCORNERS            1019
 #define IDC_BTN_PREVIEW                 1020
-#define IDC_CHK_ANIMATE                 1021
+#define IDC_CMB_ANIMATE                 1021
 #define IDC_CHK_TRANSBG                 1022
 #define IDC_RAD_RIGHTICON               1023
 #define IDC_SPIN_INDENT2                1023

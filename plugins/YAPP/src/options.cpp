@@ -29,7 +29,7 @@ void LoadOptions()
 	options.border          = db_get_b(0, MODULE, "Border", 1) == 1;
 	options.round           = db_get_b(0, MODULE, "RoundCorners", 1) == 1;
 	options.av_round        = db_get_b(0, MODULE, "AvatarRoundCorners", 1) == 1;
-	options.animate         = db_get_b(0, MODULE, "Animate", 1) == 1;
+	options.animate         = db_get_b(0, MODULE, "Animate", 0);
 	options.trans_bg        = db_get_b(0, MODULE, "TransparentBg", 0) == 1;
 	options.use_mim_monitor = db_get_b(0, MODULE, "UseMimMonitor", 1) == 1;
 	options.right_icon      = db_get_b(0, MODULE, "RightIcon", 0) == 1;
@@ -62,7 +62,7 @@ void SaveOptions()
 	db_set_b(0, MODULE, "Border", (options.border ? 1 : 0));
 	db_set_b(0, MODULE, "RoundCorners", (options.round ? 1 : 0));
 	db_set_b(0, MODULE, "AvatarRoundCorners", (options.av_round ? 1 : 0));
-	db_set_b(0, MODULE, "Animate", (options.animate ? 1 : 0));
+	db_set_b(0, MODULE, "Animate", options.animate);
 	db_set_b(0, MODULE, "TransparentBg", (options.trans_bg ? 1 : 0));
 	db_set_b(0, MODULE, "UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
 	db_set_b(0, MODULE, "RightIcon", (options.right_icon ? 1 : 0));
@@ -253,7 +253,11 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, options.round);
 		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, options.av_round);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_ANIMATE, options.animate);
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("No animate"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Horizontal animate"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Vertical animate"));
+		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_SETCURSEL, options.animate, 0);
+
 		CheckDlgButton(hwndDlg, IDC_CHK_TRANSBG, options.trans_bg);
 		return FALSE;
 
@@ -328,7 +332,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			options.border = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_BORDER)) ? true : false;
 			options.round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS))  ? true : false;
 			options.av_round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV))  ? true : false;
-			options.animate = IsDlgButtonChecked(hwndDlg, IDC_CHK_ANIMATE) ? true : false;
+			options.animate = SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_GETCURSEL, 0, 0);
 			options.trans_bg = IsDlgButtonChecked(hwndDlg, IDC_CHK_TRANSBG) ? true : false;
 			options.global_hover = IsDlgButtonChecked(hwndDlg, IDC_CHK_GLOBALHOVER) ? true : false;
 

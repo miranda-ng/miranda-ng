@@ -11,7 +11,7 @@ typedef struct {
 	int opacity;
 	bool border;
 	bool round, av_round;
-	bool animate;
+	int animate;
 	bool trans_bg;
 	bool use_mim_monitor;
 	bool right_icon;
