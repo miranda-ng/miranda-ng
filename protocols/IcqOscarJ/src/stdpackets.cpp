@@ -511,18 +511,31 @@ void CIcqProto::sendOwnerInfoRequest(void)
 {
 	icq_packet packet;
 
-	cookie_directory_data *pCookieData = (cookie_directory_data*)SAFE_MALLOC(sizeof(cookie_directory_data));
-	pCookieData->bRequestType = DIRECTORYREQUEST_INFOOWNER;
+	if (m_bLegacyFix)
+	{
+		cookie_fam15_data *pCookieData = (cookie_fam15_data*)SAFE_MALLOC(sizeof(cookie_fam15_data));
+		pCookieData->bRequestType = REQUESTTYPE_OWNER;
+		DWORD dwCookie = AllocateCookie(CKT_FAMILYSPECIAL, 0, NULL, (void*)pCookieData);
 
-	DWORD dwCookie = AllocateCookie(CKT_DIRECTORY_QUERY, 0, NULL, (void*)pCookieData);
-	WORD wDataLen = getUINLen(m_dwLocalUIN) + 4;
+		packServIcqExtensionHeader(&packet, this, 6, 0x07D0, (WORD)dwCookie);
+		packLEWord(&packet, META_REQUEST_SELF_INFO);
+		packLEDWord(&packet, m_dwLocalUIN);
+	}
+	else
+	{
+		cookie_directory_data *pCookieData = (cookie_directory_data*)SAFE_MALLOC(sizeof(cookie_directory_data));
+		pCookieData->bRequestType = DIRECTORYREQUEST_INFOOWNER;
 
-	packServIcqDirectoryHeader(&packet, this, wDataLen + 8, META_DIRECTORY_QUERY, DIRECTORY_QUERY_INFO, (WORD)dwCookie);
-	packWord(&packet, 0x03); // with interests (ICQ6 uses 2 at login)
-	packDWord(&packet, 0x01);
-	packWord(&packet, wDataLen);
+		DWORD dwCookie = AllocateCookie(CKT_DIRECTORY_QUERY, 0, NULL, (void*)pCookieData);
+		WORD wDataLen = getUINLen(m_dwLocalUIN) + 4;
 
-	packTLVUID(&packet, 0x32, m_dwLocalUIN, NULL);
+		packServIcqDirectoryHeader(&packet, this, wDataLen + 8, META_DIRECTORY_QUERY, DIRECTORY_QUERY_INFO, (WORD)dwCookie);
+		packWord(&packet, 0x03); // with interests (ICQ6 uses 2 at login)
+		packDWord(&packet, 0x01);
+		packWord(&packet, wDataLen);
+
+		packTLVUID(&packet, 0x32, m_dwLocalUIN, NULL);
+	}
 
 	sendServPacket(&packet);
 }
