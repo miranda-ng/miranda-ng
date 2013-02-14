@@ -427,22 +427,18 @@ int getContactFromString( CONTACTSINFO* ci )
 /* keep cache consistent */
 static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	DBCONTACTWRITESETTING *dbw;
-	char *szProto, *uid;
-
-	uid = NULL;
+	DBCONTACTWRITESETTING *dbw = (DBCONTACTWRITESETTING*)lParam;
+	HANDLE hContact = (HANDLE) wParam;
 	EnterCriticalSection(&csContactCache);
-	for (i=0;i<cacheSize;i++) {
-		if ((HANDLE)wParam != cce[i].hContact && (cce[i].flags & CI_CNFINFO) == 0 )
+	for (int i=0;i<cacheSize;i++) {
+		if (hContact != cce[i].hContact && (cce[i].flags & CI_CNFINFO) == 0 )
 			continue;
 
-		dbw = (DBCONTACTWRITESETTING*)lParam;
-		szProto = GetContactProto((HANDLE)wParam);
+		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			continue;
 
-		uid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
+		char *uid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
 		if (((!strcmp(dbw->szSetting, "Nick")) && (cce[i].flags&CI_NICK)) ||
 			 ((!strcmp(dbw->szSetting, "FirstName")) && (cce[i].flags&CI_FIRSTNAME)) ||
 			 ((!strcmp(dbw->szSetting, "LastName")) && (cce[i].flags&CI_LASTNAME)) ||
@@ -495,21 +491,19 @@ int deinitContactModule()
 // result must be freed
 TCHAR *encodeContactToString(HANDLE hContact)
 {
-	char *szProto;
-	TCHAR *tszUniqueId, *tszResult, *tszProto;
 	DBVARIANT dbv;
 
 	ZeroMemory(&dbv, sizeof(DBVARIANT));
-	szProto = GetContactProto(hContact);
-	tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
+	char *szProto = GetContactProto(hContact);
+	TCHAR *tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;
 
-	tszResult = (TCHAR*)mir_calloc((_tcslen(tszUniqueId) + strlen(szProto) + 4) * sizeof(TCHAR));
+	TCHAR *tszResult = (TCHAR*)mir_calloc((_tcslen(tszUniqueId) + strlen(szProto) + 4) * sizeof(TCHAR));
 	if (tszResult == NULL)
 		return NULL;
 
-	tszProto = mir_a2t(szProto);
+	TCHAR *tszProto = mir_a2t(szProto);
 	
 	if (tszProto == NULL)
 		return NULL;
@@ -525,16 +519,13 @@ TCHAR *encodeContactToString(HANDLE hContact)
 // returns INVALID_HANDLE_VALUE in case of an error.
 HANDLE *decodeContactFromString(TCHAR *tszContact)
 {
-	int count;
-	HANDLE hContact;
+	HANDLE hContact = INVALID_HANDLE_VALUE;
 	CONTACTSINFO ci;
-
-	hContact = INVALID_HANDLE_VALUE;
 	ZeroMemory(&ci, sizeof(CONTACTSINFO));
 	ci.cbSize = sizeof(CONTACTSINFO);
 	ci.tszContact = tszContact;
 	ci.flags = CI_PROTOID|CI_TCHAR;
-	count = getContactFromString( &ci );
+	int count = getContactFromString( &ci );
 	if (count != 1) {
 		if (ci.hContacts != NULL)
 			mir_free(ci.hContacts);

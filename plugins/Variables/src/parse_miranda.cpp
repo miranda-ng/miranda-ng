@@ -474,7 +474,6 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 		return NULL;
 
 	ai->flags |= AIF_DONTPARSE;
-	TCHAR *res = NULL;
 	TCHAR *szUniqueID = NULL;
 	char *szProto = GetContactProto(ai->fi->hContact);
 	if (szProto != NULL)
@@ -488,7 +487,7 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;

@@ -31,32 +31,32 @@ STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg"
 BEGIN
-    EDITTEXT        IDC_FORMATTEXT,31,101,250,52,ES_MULTILINE | 
-                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
-                    WS_VSCROLL | WS_HSCROLL
-    PUSHBUTTON      "Parse",IDC_PARSE,231,157,50,14
-    CONTROL         "Auto parse",IDC_AUTOPARSE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,31,161,161,10
-    EDITTEXT        IDC_RESULT,31,172,250,52,ES_MULTILINE | ES_AUTOVSCROLL | 
-                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
-                    WS_VSCROLL | WS_HSCROLL
-    CONTROL         "Parse the following string at startup",
-                    IDC_PARSEATSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    31,90,161,10
+    GROUPBOX        "Parse options",IDC_STATIC,23,7,272,51
     CONTROL         "Automatically strip ""end of line"" characters",
                     IDC_STRIPCRLF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,
                     20,253,10
     CONTROL         "Automatically strip white space",IDC_STRIPWS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,31,32,253,10
-    GROUPBOX        "Test area",IDC_STATIC,23,62,272,168
-    LTEXT           "Click on the help button to get more information",
-                    IDC_STATIC,31,73,249,8
-    GROUPBOX        "Parse options",IDC_STATIC,23,7,272,51
     CONTROL         "Automatically strip all non-parsing characters",
                     IDC_STRIPALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,44,
                     253,10
+    GROUPBOX        "Test area",IDC_STATIC,23,62,272,168
+    LTEXT           "Click on the help button to get more information",
+                    IDC_STATIC,31,73,249,8
     CONTROL         "",IDC_SHOWHELP,"MButtonClass",WS_TABSTOP,265,87,16,14,
                     0x18000000L
+    CONTROL         "Parse the following string at startup",
+                    IDC_PARSEATSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    31,90,161,10
+    EDITTEXT        IDC_FORMATTEXT,31,101,250,52,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    CONTROL         "Auto parse",IDC_AUTOPARSE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,31,161,161,10
+    PUSHBUTTON      "Parse",IDC_PARSE,231,157,50,14
+    EDITTEXT        IDC_RESULT,31,172,250,52,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
 END
 
 IDD_TRG_STRINGCHANGE DIALOGEX 0, 0, 314, 240

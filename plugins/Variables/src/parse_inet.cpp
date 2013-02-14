@@ -32,7 +32,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 	if (res == NULL) {
 		return NULL;
 	}
-	unsigned int cur = 0;
+	size_t cur = 0;
 	while (cur < strlen(res)) {
 		if (( (*(res+cur) >= '0') && (*(res+cur) <= '9')) || ( (*(res+cur) >= 'a') && (*(res+cur) <= 'z')) || ( (*(res+cur) >= 'A') && (*(res+cur) <= 'Z')) ) {
 			cur++;

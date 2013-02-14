@@ -161,8 +161,8 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		**argv, // arguments (dyn alloc)
 		**pargv, //  dyn alloc
 		*token; // variable name (pnt only)
- 	int argc, i, parsedTokenLen, initStrLen, tokenLen, scurPos, curPos, tmpVarPos;
-	unsigned int pos;
+ 	int argc = 0, i, tokenLen = 0, scurPos, curPos, tmpVarPos;
+	size_t pos;
 	FORMATINFO afi;
 	TOKENREGISTEREX *tr;
 	ARGUMENTSINFO ai = { 0 };
@@ -171,7 +171,6 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 	if (string == NULL)
 		return NULL;
 
-	argc = parsedTokenLen = initStrLen = tokenLen = 0;
 	cur = tcur = scur = token = parsedToken = NULL;
 	pargv = argv = NULL;
 	//fi->pCount = 0;
@@ -190,7 +189,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		if (argv != NULL)
 			mir_free(argv);
 
-		argc = parsedTokenLen = initStrLen = tokenLen = 0;
+		argc = tokenLen = 0;
 		tcur = scur = token = parsedToken = NULL;
 		pargv = argv = NULL;
 		// new round
@@ -359,8 +358,8 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			}
 		}*/
 
-		parsedTokenLen = _tcslen(parsedToken);
-		initStrLen = _tcslen(string);
+		size_t parsedTokenLen = _tcslen(parsedToken);
+		size_t initStrLen = _tcslen(string);
 		tokenLen = cur-scur;
 		scurPos = scur-string;
 		curPos = cur-string;

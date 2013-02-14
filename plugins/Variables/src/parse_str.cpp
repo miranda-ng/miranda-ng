@@ -133,7 +133,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR *res = mir_tstrdup(ai->targv[1]);
-	for (unsigned int pos=0; pos < _tcslen(res); pos++ ) {
+	for (size_t pos=0; pos < _tcslen(res); pos++ ) {
 		TCHAR *cur = res+pos;
 		TCHAR *szEol = NULL;
 		if (!_tcsncmp(cur, _T("\r\n"), _tcslen(_T("\r\n"))))
@@ -393,16 +393,14 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai)
 }
 
 static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
-
-	TCHAR *res, *cur;
-	unsigned int i, pos;
-
 	if ((ai->argc < 4) || (ai->argc%2 != 0)) {
 		return NULL;
 	}
-	pos = 0;
-	res = mir_tstrdup(ai->targv[1]);
-	for (i=2;i<ai->argc;i+=2) {
+	TCHAR *cur;
+
+	size_t pos = 0;
+	TCHAR *res = mir_tstrdup(ai->targv[1]);
+	for (size_t i=2;i<ai->argc;i+=2) {
 		if ( _tcslen(ai->targv[i]) == 0) {
 			continue;
 		}
@@ -861,7 +859,7 @@ int registerStrTokens() {
 	registerIntToken(_T(PAD), parsePad, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z (z is optional)"));
 	registerIntToken(_T(PADRIGHT), parsePadright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z (z is optional)"));
 	registerIntToken(_T(PADCUT), parsePadcut, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z, or cut if x is longer (z is optional)"));
-	registerIntToken(_T(PADCUTRIGHT), parsePadcutright, TRF_FUNCTION, LPGEN("String Functions")"\t"LPGEN("(x,y,z)\tpads x to length y appending character z, or cut if x is longer (z is optional)"));
+	registerIntToken(_T(PADCUTRIGHT), parsePadcutright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z, or cut if x is longer (z is optional)"));
 	registerIntToken(_T(REPEAT), parseRepeat, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("repeats x y times"));
 	registerIntToken(_T(REPLACE), parseReplace, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z,...)\t"LPGEN("replace all occurrences of y in x with z, multiple y and z arguments allowed"));
 	registerIntToken(_T(RIGHT), parseRight, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("trims x to length y, keeping last y characters"));

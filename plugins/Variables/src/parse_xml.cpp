@@ -52,8 +52,7 @@ void (*pXsltCleanupGlobals)(void);
 	pattern, subject
 */
 static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
-	TCHAR *tszRes;
-	xmlDocPtr doc, res, sdoc;
+	xmlDocPtr res;
 	xmlChar *xmlChRes = NULL;
 	int resLen;
 	
@@ -66,9 +65,8 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 
 
 	log_debugA("calling xsltParseMemory");
-	sdoc = pXmlParseMemory(szStyleSheet, strlen(szStyleSheet));
+	xmlDocPtr sdoc = pXmlParseMemory(szStyleSheet, strlen(szStyleSheet));
 	if (sdoc == NULL) {
-		
 		return NULL;
 	}
 	
@@ -82,7 +80,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	}
 	
 	log_debugA("calling xsltParseMemory");
-	doc = pXmlParseMemory(szDoc, strlen(szDoc));
+	xmlDocPtr doc = pXmlParseMemory(szDoc, strlen(szDoc));
 	if (doc == NULL) {
 		log_debugA("calling xsltFreeDoc");
 		pXmlFreeDoc(sdoc);
@@ -118,7 +116,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	log_debugA("calling mir_free");
 	mir_free(szDoc);
 
-	tszRes = mir_a2t((char *)xmlChRes);
+	TCHAR *tszRes = mir_a2t((char *)xmlChRes);
 
 	log_debugA("calling xmlFree");
 	pXmlFree(xmlChRes);

@@ -306,23 +306,21 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 
 static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 {
-	int len;
-	char *args, *helpText, *cur, *first, *second;
-	TCHAR *desc, *tArgs;
+	char *args, *first, *second;
 
 	if (tr == NULL)
 		return NULL;
 
 	args = NULL;
-	tArgs = NULL;
+	TCHAR *tArgs = NULL;
 	if (tr->szHelpText == NULL)
 		return mir_tstrdup(tr->tszTokenString);
 
-	helpText = mir_strdup(tr->szHelpText);
+	char *helpText = mir_strdup(tr->szHelpText);
 	if (helpText == NULL)
 		return NULL;
 
-	cur = helpText;
+	char *cur = helpText;
 	first = second = NULL;
 	while (*cur != _T('\0')) {
 		if (*cur == _T('\t')) {
@@ -340,8 +338,8 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 	}
 	else args = NULL;
 
-	len = _tcslen(tr->tszTokenString) + (args!=NULL?strlen(args):0) + 3;
-	desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
+	size_t len = _tcslen(tr->tszTokenString) + (args!=NULL?strlen(args):0) + 3;
+	TCHAR *desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
 	if (desc == NULL)
 		return NULL;
 
@@ -349,7 +347,6 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 		mir_sntprintf(desc, len, _T("%c%s%c"), _T(FIELD_CHAR), tr->szTokenString, _T(FIELD_CHAR));
 	else {
 		if (args != NULL)
-
 			tArgs = mir_a2t(args);
 
 		mir_sntprintf(desc, len, _T("%c%s%s"), _T(FUNC_CHAR), tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
@@ -521,18 +518,14 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 
 	case WM_NOTIFY:
 		if ((((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
-			HWND hList, hwndInputDlg;
-			LVITEM lvItem;
-			int len, item;
-			TCHAR *tokenString;
-			TOKENREGISTER *tr;
-
-			hwndInputDlg = (HWND)SendMessage(GetParent(hwndDlg), VARM_GETDIALOG, (WPARAM)VHF_INPUT, 0);
+			HWND hwndInputDlg = (HWND)SendMessage(GetParent(hwndDlg), VARM_GETDIALOG, (WPARAM)VHF_INPUT, 0);
 			if (hwndInputDlg == NULL) {
 				break;
 			}
-			hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
-			item = ListView_GetNextItem(hList, -1, LVNI_SELECTED|LVNI_FOCUSED);
+			HWND hList = GetDlgItem(hwndDlg, IDC_TOKENLIST);
+			int item = ListView_GetNextItem(hList, -1, LVNI_SELECTED|LVNI_FOCUSED);
+
+			LVITEM lvItem;
 			ZeroMemory(&lvItem, sizeof(lvItem));
 			lvItem.mask = LVIF_PARAM;
 			lvItem.iSubItem = 0;
@@ -540,15 +533,15 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			if (ListView_GetItem(hList, &lvItem) == FALSE) {
 				break;
 			}
-			tr = (TOKENREGISTER *)lvItem.lParam;
+			TOKENREGISTER *tr = (TOKENREGISTER *)lvItem.lParam;
 			if (tr == NULL) {
 				break;
 			}
-			len = _tcslen(tr->tszTokenString) + 2;
+			size_t len = _tcslen(tr->tszTokenString) + 2;
 			if (len < 0) {
 				break;
 			}
-			tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+			TCHAR *tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 			if (tokenString == NULL) {
 				break;
 			}
