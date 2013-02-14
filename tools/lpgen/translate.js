@@ -146,9 +146,9 @@ if (out) {
     }
 //output traslated core into file, if outfile not specified
 if (!outfile) {
-    WriteToFile(Translated_Core_Array,Translated_Core_File);
+    WriteToUnicodeFile(Translated_Core_Array,Translated_Core_File);
     //if untranslated=true, output to file
-    if (untranslated) WriteToFile(UnTranslated_Core_Array,UnTranslated_Core_File);
+    if (untranslated) WriteToUnicodeFile(UnTranslated_Core_Array,UnTranslated_Core_File);
     }
 //loggin output
 if (log & !outfile) WScript.Echo("Output to:\r\n"+Translated_Core_File+"\r\n"+UnTranslated_Core_File);
@@ -182,9 +182,9 @@ filesenum=new Enumerator(TemplateFilesArray);
      TranslateTemplateFile(curfile,TranslatedTemplate,UnTranslatedStrings);
      //Write array into file, if outfile not specified
      if (!outfile) {
-        WriteToFile(TranslatedTemplate,traslatedtemplatefile);
+        WriteToUnicodeFile(TranslatedTemplate,traslatedtemplatefile);
         //Write untranslated array into file, if /untranslated specified and there is something in array
-        if (untranslated & UnTranslatedStrings.length>0) WriteToFile(UnTranslatedStrings,untranslatedfile);
+        if (untranslated & UnTranslatedStrings.length>0) WriteToUnicodeFile(UnTranslatedStrings,untranslatedfile);
         }
      //if we will output one file only, concatenate array
      if (outfile) full_langpack_array=full_langpack_array.concat(TranslatedTemplate);
@@ -371,15 +371,6 @@ function FindFiles (path,name,filelistarray) {
     };
 };
 
-//Put array of strings into file
-function WriteToFile (array,file) {
- //Create file
- out_file=FSO.CreateTextFile(file, overwritefile , unicode)
- //Finally, write strings from array to file
- for (i=0;i<=array.length-1;i++) out_file.WriteLine(array[i]);
- //Close file
- out_file.Close();
-};
 //Write UTF-8 file
 function WriteToUnicodeFile(array,langpack) {
 stream.Open();
