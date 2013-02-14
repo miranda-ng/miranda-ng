@@ -27,12 +27,9 @@
 static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 
 	const char *err;
-	int erroffset, nmat;
-	pcre_extra *extra;
-	pcre *ppat;
+	int erroffset;
 	char szVal[34], *arg1, *arg2;
 	int offsets[99];
-	TCHAR *res;
 
 	if (ai->argc != 3) {
 		return NULL;
@@ -42,21 +39,21 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 	arg1 = mir_t2a(ai->targv[1]);
 	arg2 = mir_t2a(ai->targv[2]);
 
-	ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
+	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
 		mir_free(arg1);
 		mir_free(arg2);
 		return NULL;
 	}
-	extra = pcre_study(ppat, 0, &err);
-	nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	pcre_extra *extra = pcre_study(ppat, 0, &err);
+	int nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
 	mir_free(arg1);
 	mir_free(arg2);
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
 
-		res = mir_a2t(szVal);
+		TCHAR *res = mir_a2t(szVal);
 
 		return res;
 	}
@@ -71,9 +68,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 
 	const char *err, *substring;
 	char *res, *arg1, *arg2, *arg3;
-	int erroffset, nmat, number;
-	pcre_extra *extra;
-	pcre *ppat;
+	int erroffset, number;
 	int offsets[99];
 	TCHAR *tres;
 
@@ -93,15 +88,15 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	ai->flags = AIF_FALSE;	
-	ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
+	pcre *ppat = pcre_compile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
 		mir_free(arg1);
 		mir_free(arg2);
 		mir_free(arg3);
 		return NULL;
 	}
-	extra = pcre_study(ppat, 0, &err);
-	nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	pcre_extra *extra = pcre_study(ppat, 0, &err);
+	int nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
 	if (nmat >= 0) {
 		ai->flags &= ~AIF_FALSE;
 	}
@@ -131,8 +126,8 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 
 int registerRegExpTokens() {
 
-	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, Translate("Regular Expressions\t(x,y)\t(ANSI input only) the number of substring matches found in y with pattern x"));
-	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, Translate("Regular Expressions\t(x,y,z)\t(ANSI input only) substring match number z found in subject y with pattern x"));
+	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y)\t"LPGEN("(ANSI input only) the number of substring matches found in y with pattern x"));
+	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, LPGEN("Regular Expressions")"\t(x,y,z)\t"LPGEN("(ANSI input only) substring match number z found in subject y with pattern x"));
 
 
 	return 0;

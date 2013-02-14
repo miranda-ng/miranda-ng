@@ -52,10 +52,7 @@ void (*pXsltCleanupGlobals)(void);
 	pattern, subject
 */
 static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
-
-	char *szStyleSheet, *szDoc;
 	TCHAR *tszRes;
-	xsltStylesheetPtr cur = NULL;
 	xmlDocPtr doc, res, sdoc;
 	xmlChar *xmlChRes = NULL;
 	int resLen;
@@ -64,8 +61,8 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	szStyleSheet = mir_t2a(ai->targv[1]);
-	szDoc = mir_t2a(ai->targv[2]);
+	char *szStyleSheet = mir_t2a(ai->targv[1]);
+	char *szDoc = mir_t2a(ai->targv[2]);
 
 
 	log_debugA("calling xsltParseMemory");
@@ -76,7 +73,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	}
 	
 	log_debugA("calling xsltParseStylesheetDoc");
-	cur = pXsltParseStylesheetDoc(sdoc);
+	xsltStylesheetPtr cur = pXsltParseStylesheetDoc(sdoc);
 	if (cur == NULL) {
 		log_debugA("calling xsltFreeDoc");
 		pXmlFreeDoc(sdoc);
@@ -133,10 +130,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	files
 */
 static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
-
-	char *szStyleSheet, *szDoc;
 	TCHAR *tszRes;
-	xsltStylesheetPtr cur = NULL;
 	xmlDocPtr doc, res;
 	xmlChar *xmlChRes = NULL;
 	int resLen;
@@ -145,14 +139,14 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 
-	szStyleSheet = mir_t2a(ai->targv[1]);
-	szDoc = mir_t2a(ai->targv[2]);
+	char *szStyleSheet = mir_t2a(ai->targv[1]);
+	char *szDoc = mir_t2a(ai->targv[2]);
 
 
 	log_debugA("xslt with %s and %s", szStyleSheet, szDoc);
 
 	log_debugA("calling xsltParseStylesheetFile");
-	cur = pXsltParseStylesheetFile((const xmlChar *)szStyleSheet);
+	xsltStylesheetPtr cur = pXsltParseStylesheetFile((const xmlChar *)szStyleSheet);
 	if (cur == NULL) {
 	
 		return NULL;
@@ -208,21 +202,16 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 }
 
 int initXslt() {
-
-	HMODULE hModule;
-	
-	hModule = LoadLibraryA("libxml2.dll");
+	HMODULE hModule = LoadLibrary(_T("libxml2.dll"));
 	if (hModule == NULL) {
-		char path[MAX_PATH];
-		char *cur;
-
-		GetModuleFileNameA(NULL, path, sizeof(path));
-		cur = strrchr(path, '\\');
+		TCHAR path[MAX_PATH];
+		GetModuleFileName(NULL, path, MAX_PATH);
+		TCHAR *cur = _tcsrchr(path, '\\');
 		if (cur != NULL)
-			strcpy(cur+1, "libxml2.dll");
+			_tcscpy(cur+1, _T("libxml2.dll"));
 		else
-			strcpy(path, "libxml2.dll");
-		hModule = LoadLibraryA(path);
+			_tcscpy(path, _T("libxml2.dll"));
+		hModule = LoadLibrary(path);
 	}
 	if (hModule == NULL) {
 		return -1;
@@ -276,8 +265,8 @@ int registerXsltTokens() {
 		return -1;
 	}
 
-	registerIntToken(_T(XSLTF), parseXsltf, TRF_FUNCTION, Translate("XML\t(x,y)\tapply stylesheet file x to document file y"));
-	registerIntToken(_T(XSLTS), parseXslts, TRF_FUNCTION, Translate("XML\t(x,y)\tapply stylesheet x to document y"));
+	registerIntToken(_T(XSLTF), parseXsltf, TRF_FUNCTION, LPGEN("XML")"\t(x,y)\t"LPGEN("apply stylesheet file x to document file y"));
+	registerIntToken(_T(XSLTS), parseXslts, TRF_FUNCTION, LPGEN("XML")"\t(x,y)\t"LPGEN("apply stylesheet x to document y"));
 
 	return 0;
 }

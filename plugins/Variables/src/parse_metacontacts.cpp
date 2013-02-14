@@ -49,7 +49,6 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
@@ -64,17 +63,13 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
 	}
 
-	TCHAR* tszProto;
-	
-		tszProto = mir_a2t(szProto);
-	
-
+	TCHAR *tszProto = mir_a2t(szProto);
 	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
@@ -110,7 +105,6 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
@@ -124,17 +118,13 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	TCHAR* res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
 	}
 
-	TCHAR* tszProto;
-
-		tszProto = mir_a2t(szProto);
-	
-
+	TCHAR *tszProto = mir_a2t(szProto);
 	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
@@ -170,7 +160,6 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	if (hContact == NULL)
 		return NULL;
 
-	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
 	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
@@ -184,17 +173,13 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 			return NULL;
 	}
 
-	res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((strlen(szProto) + _tcslen(szUniqueID) + 4)*sizeof(TCHAR));
 	if (res == NULL) {
 		mir_free(szUniqueID);
 		return NULL;
 	}
 
-	TCHAR* tszProto;
-	
-		tszProto = mir_a2t(szProto);
-	
-
+	TCHAR *tszProto = mir_a2t(szProto);
 	if (tszProto != NULL && szUniqueID != NULL) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
 		mir_free(szUniqueID);
@@ -207,9 +192,9 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 int registerMetaContactsTokens() 
 {
 	if (ServiceExists( MS_MC_GETPROTOCOLNAME )) {
-		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget parent metacontact of contact x"));
-		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget default subcontact x"));
-		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, Translate("MetaContacts\t(x)\tget the 'most online' subcontact x"));
+		registerIntToken( _T(MC_GETPARENT), parseGetParent, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get parent metacontact of contact x"));
+		registerIntToken( _T(MC_GETDEFAULT), parseGetDefault, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get default subcontact x"));
+		registerIntToken( _T(MC_GETMOSTONLINE), parseGetMostOnline, TRF_FUNCTION, LPGEN("MetaContacts")"\t(x)\t"LPGEN("get the 'most online' subcontact x"));
 	}
 
 	return 0;

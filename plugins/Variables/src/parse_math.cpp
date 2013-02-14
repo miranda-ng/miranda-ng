@@ -20,30 +20,23 @@
 #include "parse_math.h"
 
 static TCHAR *parseAdd(ARGUMENTSINFO *ai) {
-
-	unsigned int i;
-	int result;
-
 	if (ai->argc < 3) {
 		return NULL;
 	}
-	result = 0;
-	for (i=1;i<ai->argc;i++) {
+	int result = 0;
+	for (unsigned int i=1;i<ai->argc;i++) {
 		result += ttoi(ai->targv[i]);
 	}
 	return itot(result);
 }
 
 static TCHAR *parseDiv(ARGUMENTSINFO *ai) {
-
-	int val1, val2;
-
 	if (ai->argc != 3) {
 		return NULL;
 	}
 
-	val1 = ttoi(ai->targv[1]);
-	val2 = ttoi(ai->targv[2]);
+	int val1 = ttoi(ai->targv[1]);
+	int val2 = ttoi(ai->targv[2]);
 	if (val2 == 0) {
 		return NULL;
 	}
@@ -51,20 +44,17 @@ static TCHAR *parseDiv(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseHex(ARGUMENTSINFO *ai) {
-
-	int val;
-	unsigned int i, zeros;
-	int padding;
-	TCHAR *res, szVal[34];
+	unsigned int i;
+	TCHAR szVal[34];
 
 	if (ai->argc != 3)
 		return NULL;
 
-	val = ttoi(ai->targv[1]);
-	padding = ttoi(ai->targv[2]);
+	int val = ttoi(ai->targv[1]);
+	int padding = ttoi(ai->targv[2]);
 	mir_sntprintf(szVal, SIZEOF(szVal), _T("%x"), val);
-	zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
+	unsigned int zeros = max(padding - (signed int)_tcslen(szVal), 0);
+	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
@@ -78,14 +68,11 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseMod(ARGUMENTSINFO *ai) {
-
-	int val1, val2;
-
 	if (ai->argc != 3) {
 		return NULL;
 	}
-	val1 = ttoi(ai->targv[1]);
-	val2 = ttoi(ai->targv[2]);
+	int val1 = ttoi(ai->targv[1]);
+	int val2 = ttoi(ai->targv[2]);
 	if (val2 == 0) {
 		return NULL;
 	}
@@ -94,14 +81,12 @@ static TCHAR *parseMod(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseMul(ARGUMENTSINFO *ai) {
-
 	unsigned int i;
-	int result;
 
 	if (ai->argc < 3) {
 		return NULL;
 	}
-	result = ttoi(ai->targv[1]);
+	int result = ttoi(ai->targv[1]);
 	for (i=2;i<ai->argc;i++) {
 		result *= ttoi(ai->targv[i]);
 	}
@@ -122,14 +107,12 @@ static TCHAR *parseMuldiv(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseMin(ARGUMENTSINFO *ai) {
-
 	unsigned int i;
-	int minVal;
 
 	if (ai->argc < 2) {
 		return NULL;
 	}
-	minVal = ttoi(ai->targv[1]);
+	int minVal = ttoi(ai->targv[1]);
 	for (i=2;i<ai->argc;i++) {
 		minVal = min(ttoi(ai->targv[i]), minVal);
 	}
@@ -138,14 +121,12 @@ static TCHAR *parseMin(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseMax(ARGUMENTSINFO *ai) {
-
 	unsigned int i;
-	int maxVal;
 
 	if (ai->argc < 2) {
 		return NULL;
 	}
-	maxVal = ttoi(ai->targv[1]);
+	int maxVal = ttoi(ai->targv[1]);
 	for (i=2;i<ai->argc;i++) {
 		maxVal = max(ttoi(ai->targv[i]), maxVal);
 	}
@@ -154,28 +135,24 @@ static TCHAR *parseMax(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseNum(ARGUMENTSINFO *ai) {
-
-	int val;
 	unsigned int zeros, i;
-	int padding;
-	TCHAR *res, *szVal, *cur;
 
 	if (ai->argc != 3)
 		return NULL;
 
-	val = ttoi(ai->targv[1]);
-	padding = ttoi(ai->targv[2]);
-	szVal = itot(val);
+	int val = ttoi(ai->targv[1]);
+	int padding = ttoi(ai->targv[2]);
+	TCHAR *szVal = itot(val);
 	if (szVal == NULL)
 		return NULL;
 
 	zeros = max(padding - (signed int)_tcslen(szVal), 0);
-	res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
 	if (res == NULL)
 		return NULL;
 
 	ZeroMemory(res, (zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
-	cur = res;
+	TCHAR *cur = res;
 	for (i=0;i<zeros;i++)
 		*cur++ = _T('0');
 
@@ -191,14 +168,12 @@ static TCHAR *parseRand(ARGUMENTSINFO *ai) {
 }
 
 static TCHAR *parseSub(ARGUMENTSINFO *ai) {
-
 	unsigned int i;
-	int result;
 
 	if (ai->argc < 3) {
 		return NULL;
 	}
-	result = ttoi(ai->targv[1]);
+	int result = ttoi(ai->targv[1]);
 	for (i=2;i<ai->argc;i++) {
 		result -= ttoi(ai->targv[i]);
 	}
@@ -208,17 +183,17 @@ static TCHAR *parseSub(ARGUMENTSINFO *ai) {
 
 int registerMathTokens() {
 
-	registerIntToken(_T(ADD), parseAdd, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y ,...)\tx + y + ..."));
-	registerIntToken(_T(DIV), parseDiv,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx divided by y"));
-	registerIntToken(_T(HEX), parseHex,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tconverts decimal value x to hex value and padds to length y"));
-	registerIntToken(_T(MOD), parseMod, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx modulo y (remainder of x divided by y)"));
-	registerIntToken(_T(MUL), parseMul,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tx times y"));
-	registerIntToken(_T(MULDIV), parseMuldiv, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,z)\tx times y divided by z"));
-	registerIntToken(_T(MIN), parseMin,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tminimum value of (decimal) arguments"));
-	registerIntToken(_T(MAX), parseMax,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tmaximum value of (decimal) arguments"));
-	registerIntToken(_T(NUM), parseNum,	TRF_FUNCTION, Translate("Mathematical Functions\t(x,y)\tpads decimal value x to length y with zeros"));
-	registerIntToken(_T(RAND), parseRand, TRF_FUNCTION, Translate("Mathematical Functions\t()\trandom number"));
-	registerIntToken(_T(SUB), parseSub, TRF_FUNCTION, Translate("Mathematical Functions\t(x,y,...)\tx - y - ..."));
+	registerIntToken(_T(ADD), parseAdd, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y ,...)\t"LPGEN("x + y + ..."));
+	registerIntToken(_T(DIV), parseDiv,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x divided by y"));
+	registerIntToken(_T(HEX), parseHex,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("converts decimal value x to hex value and padds to length y"));
+	registerIntToken(_T(MOD), parseMod, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x modulo y (remainder of x divided by y)"));
+	registerIntToken(_T(MUL), parseMul,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("x times y"));
+	registerIntToken(_T(MULDIV), parseMuldiv, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,z)\t"LPGEN("x times y divided by z"));
+	registerIntToken(_T(MIN), parseMin,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("minimum value of (decimal) arguments"));
+	registerIntToken(_T(MAX), parseMax,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("maximum value of (decimal) arguments"));
+	registerIntToken(_T(NUM), parseNum,	TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y)\t"LPGEN("pads decimal value x to length y with zeros"));
+	registerIntToken(_T(RAND), parseRand, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t()\t"LPGEN("random number"));
+	registerIntToken(_T(SUB), parseSub, TRF_FUNCTION, LPGEN("Mathematical Functions")"\t(x,y,...)\t"LPGEN("x - y - ..."));
 	srand((unsigned int)GetTickCount());
 
 	return 0;

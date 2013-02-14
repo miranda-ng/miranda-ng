@@ -964,39 +964,39 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai) {
 
 int registerSystemTokens() {
 
-	registerIntToken(_T(COMPUTERNAME), parseComputerName, TRF_FIELD, Translate("System Functions\tcomputer name"));
+	registerIntToken(_T(COMPUTERNAME), parseComputerName, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("computer name"));
 #if _WIN32_WINNT>=0x0500
-	registerIntToken(_T(CPULOAD), parseCpuLoad, TRF_FUNCTION, Translate("System Functions\t(x)\tcpu load of process x (without extension) (x is optional)"));
+	registerIntToken(_T(CPULOAD), parseCpuLoad, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("cpu load of process x (without extension) (x is optional)"));
 #endif
-	registerIntToken(_T(CDATE), parseCurrentDate, TRF_FUNCTION, Translate("System Functions\t(x)\tcurrent date in format y (y is optional)"));
-	registerIntToken(_T(CTIME), parseCurrentTime, TRF_FUNCTION, Translate("System Functions\t(x)\tcurrent time in format y (y is optional)"));
-	registerIntToken(_T(DIRECTORY), parseDirectory, TRF_FUNCTION, Translate("System Functions\t(x,y)\tthe directory y directories above x"));
-	registerIntToken(_T(DIRECTORY2), parseDirectory2, TRF_FUNCTION, Translate("System Functions\t(x,y)\tstrips y directories from x"));
-	registerIntToken(_T(DIFFTIME), parseDiffTime, TRF_FUNCTION, Translate("System Functions\t(x,y)\tnumber of seconds between date x and y (x and y in format: M/d/yy H:m:s)"));
-	registerIntToken(_T(DIREXISTS), parseDirExists, TRF_FUNCTION, Translate("System Functions\t(x)\tTRUE if directory x exists"));
-	registerIntToken(_T(FILEEXISTS), parseFileExists, TRF_FUNCTION, Translate("System Functions\t(x)\tTRUE if file x exists"));
-	registerIntToken(_T(FINDWINDOW), parseFindWindow, TRF_FUNCTION, Translate("System Functions\t(x)\twindow title of first window of class x"));
-	registerIntToken(_T(LISTDIR), parseListDir, TRF_FUNCTION, Translate("System Functions\t(x,y,z)\tshows files and directories of directory z, with filter y, separated by z (y and z optional)"));
+	registerIntToken(_T(CDATE), parseCurrentDate, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("current date in format y (y is optional)"));
+	registerIntToken(_T(CTIME), parseCurrentTime, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("current time in format y (y is optional)"));
+	registerIntToken(_T(DIRECTORY), parseDirectory, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("the directory y directories above x"));
+	registerIntToken(_T(DIRECTORY2), parseDirectory2, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("strips y directories from x"));
+	registerIntToken(_T(DIFFTIME), parseDiffTime, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("number of seconds between date x and y (x and y in format: M/d/yy H:m:s)"));
+	registerIntToken(_T(DIREXISTS), parseDirExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if directory x exists"));
+	registerIntToken(_T(FILEEXISTS), parseFileExists, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if file x exists"));
+	registerIntToken(_T(FINDWINDOW), parseFindWindow, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("window title of first window of class x"));
+	registerIntToken(_T(LISTDIR), parseListDir, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y,z)\t"LPGEN("shows files and directories of directory z, with filter y, separated by z (y and z optional)"));
 #ifndef WINE
-	registerIntToken(_T(PROCESSRUNNING), parseProcessRunning, TRF_FUNCTION, Translate("System Functions\t(x)\tTRUE if process x is running"));
+	registerIntToken(_T(PROCESSRUNNING), parseProcessRunning, TRF_FUNCTION, LPGEN("System Functions")"\t(x)\t"LPGEN("TRUE if process x is running"));
 #endif
-	registerIntToken(_T(REGISTRYVALUE), parseRegistryValue, TRF_FUNCTION, Translate("System Functions\t(x,y)\tvalue y from registry key x (REG_SZ (string) values only)"));
-	registerIntToken(_T(TIMESTAMP2DATE), parseTimestamp2Date, TRF_FUNCTION, Translate("System Functions\t(x,y)\tformats timestamp x (seconds since 1/1/1970) in date format y"));
-	registerIntToken(_T(TIMESTAMP2TIME), parseTimestamp2Time, TRF_FUNCTION, Translate("System Functions\t(x,y)\tformats timestamp x (seconds since 1/1/1970) in time format y"));
-	registerIntToken(_T(TXTFILE), parseTextFile, TRF_FUNCTION, Translate("System Functions\t(x,y)\ty > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
+	registerIntToken(_T(REGISTRYVALUE), parseRegistryValue, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("value y from registry key x (REG_SZ (string) values only)"));
+	registerIntToken(_T(TIMESTAMP2DATE), parseTimestamp2Date, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in date format y"));
+	registerIntToken(_T(TIMESTAMP2TIME), parseTimestamp2Time, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("formats timestamp x (seconds since 1/1/1970) in time format y"));
+	registerIntToken(_T(TXTFILE), parseTextFile, TRF_FUNCTION, LPGEN("System Functions")"\t(x,y)\t"LPGEN("y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line"));
 #if _WIN32_WINNT>=0x0500
-	registerIntToken(_T(UPTIME), parseUpTime, TRF_FIELD, Translate("System Functions\tuptime in seconds"));
+	registerIntToken(_T(UPTIME), parseUpTime, TRF_FIELD, LPGEN("System Functions")"\t"LPGEN("uptime in seconds"));
 #endif
 	if (!ServiceExists( MS_UTILS_REPLACEVARS ))
-		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, Translate("Miranda Core OS\t(%xxxxxxx%)\tany environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
+		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, LPGEN("Miranda Core OS")"\t(%xxxxxxx%)\t"LPGEN("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"));
 	else {
-		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, Translate("System Functions\t(x)\texpand environment variable x"));
-		registerIntToken(_T(USERNAME), parseUserName, TRF_FIELD								, Translate("System Functions\tuser name"));
+		registerIntToken(_T(ENVIRONMENTVARIABLE), parseEnvironmentVariable, TRF_FUNCTION	, LPGEN("System Functions")"\t(x)\t"LPGEN("expand environment variable x"));
+		registerIntToken(_T(USERNAME), parseUserName, TRF_FIELD								, LPGEN("System Functions")"\t"LPGEN("user name"));
 	}
 
 	srand((unsigned int)GetTickCount());
 
-	registerIntToken(_T(CLIPBOARD), parseClipboard, TRF_FIELD, Translate("System Functions\ttext from clipboard"));
+	registerIntToken(_T(CLIPBOARD), parseClipboard, TRF_FIELD, LPGEN("System Functions\ttext from clipboard"));
 
 	return 0;
 }
