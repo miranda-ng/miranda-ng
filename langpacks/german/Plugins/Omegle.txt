@@ -36,19 +36,15 @@ Ihre Interessen (durch Komma trennen)
 Ihre Frage ist zu kurz.
 [Your '/asl' setting is empty.]
 Ihre '/asl' Einstellungen sind leer.
-[There are three different modes of chatting:\\r\n\n1) Standard mode\t - You chat with random stranger privately\\r\n\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\\r\n\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\\r\n\n\nSend '/commands' for available commands.]
-
-[You can use different commands:\\r\n\n/help\t - show info about chat modes\\r\n\n/new\t - start standard mode\\r\n\n/ask <question> - start question mode with your question\\r\n\n/ask\t - start question mode with your last asked question\\r\n\n/spy\t - start spy mode\\r\n\n/quit\t - disconnect from stranger or stop connecting\\r\n\n/asl\t - send your predefined ASL message\\r\n\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
-
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+Es gibt drei verschiedene Chat-Modus:\n1) Standard-Modus\t- Sie chatten privat mit einem zufällig ausgewählten Fremden\n2) Frage-Modus\t- Sie können zwei Fremden eine Frage stellen und deren Diskussion beobachten (Sie können selbst nichts schreiben, nur zusehen)\n3) Spion-Modus\t- Sie können mit einem Fremden über eine Frage eines dritten Fremden diskutieren (er kann nichts schreiben, nur zusehen)
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+Sie können verschiedene Befehle verwenden:\n/help\t- Informationen über die verfügbaren Chat-Modus anzeigen\n/new\t- Standard-Modus starten\n/ask <Frage>\t- Frage-Modus mit Ihrer Frage starten\n/ask\t\t- Frage-Modus mit Ihrer letzten Frage starten\n/spy\t\t- Spion-Modus starten\n/quit\t- Vom aktuellen Fremden trennen, bzw die Verbindung abbrechen\n/asl\t\t- Senden Sie Ihre vordefinierte ASL-Nachricht\n\nHinweis: Sie können sich mit einem neuen Fremden verbinden ohne sich vom aktuellen zu trennen.
 [Unknown command. Send '/commands' for list.]
 Unbekannter Befehl. Benutzen Sie '/commands' für eine Übersicht.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 Sie sind zu keinem Fremden verbunden. Senden Sie '/help' oder '/commands' für Hilfe oder Übersicht.
 [You can't send messages in question mode.]
-
-[Admin]
-Administrator
-[Normal]
 
 [Omegle is a great way of meeting new friends!]
 Das Omegle-Protokoll ist ein schöner Weg neue Freunde zu finden!
@@ -98,6 +94,12 @@ Warte auf Fremden...
 [%s server connection]
 %s Serververbindung
 [Unable to get Netlib connection for Omegle]
+
+[Stranger typing]
+
+[Stranger stopped typing]
+
+[Changing stranger]
 
 [Visible name]
 Sichtbarer Name

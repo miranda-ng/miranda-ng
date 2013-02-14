@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
@@ -6,8 +6,12 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+Protokoll Auswahl
 [OK]
 OK
+[Choose contacts...]
+Wähle Kontakte...
 [Allow tooltip notifications for the following users:]
 Erlaube Tooltip-Benachrichtigungen für die folgenden Kontakte:
 [Cancel]
@@ -61,19 +65,12 @@ Transparenz (ab Windows 2000)
 [Transparent tooltip]
 Transparenter Tooltip
 [000%]
-
+
 [Contacts]
 Kontakte
 [Idle]
 Untätigkeit
-;file \plugins\TooltipNotify\src\Tooltip.cpp
-[MimTooltipNotify]
-
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
-[Tooltip Notify]
-Tooltip-Benachrichtigung
-[Other Status]
-Andere Status
 [Tooltip Notify: Online]
 
 [Tooltip Notify: Offline]
@@ -82,6 +79,8 @@ Andere Status
 
 [Tooltip Notify: Typing]
 
+[Tooltip Notify]
+Tooltip-Benachrichtigung
 [PopUps]
 Popups
 [** New contacts **]

@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Hinzufügen
@@ -61,7 +63,7 @@ Alternativer Nick
 [Ident]
 Ident
 [System]
-
+
 [Port]
 Port
 [Default network]
@@ -84,6 +86,8 @@ Prüfe alle (s):
 
 [Don't check if more than (users):]
 Nicht prüfen bei mehr als (Ben.):
+[User information]
+Benutzerinformation
 [Ping]
 
 [Version]
@@ -118,6 +122,8 @@ Der Server liefert die folgenden Informationen. Beachten Sie aber, dass diese ve
 CTCP-Informationen
 [-]
 
+[Question]
+Frage
 [&OK]
 
 [&Cancel]
@@ -138,6 +144,8 @@ Quit-Nachricht:
 Server-Codepage:
 [Enable UTF8 autodetection]
 Automatische UTF-8-Erkennung
+[Add server]
+Server hinzufügen
 [On]
 Ein
 [Auto]
@@ -150,6 +158,8 @@ Host-Adresse
 Server-Beschreibung
 [Network]
 Netzwerk
+[Channels on server]
+Channels auf dem Server
 [&Join]
 Betreten
 [Filter by]
@@ -172,6 +182,8 @@ Methode zur Statuserkennung für Kontakte in der Kontaktliste
 Allgemein
 [Wildcard enabled network search]
 Netzwerksuche mit Platzhaltern
+[Channel manager]
+Channelmanager
 [Bans]
 Banns
 [Invites]
@@ -224,8 +236,6 @@ DCC-Chats bei Trennung vom Server unterbrechen
 Externe IP manuell setzen:
 [Client-to-Client File Transfers]
 Client-to-Client-Dateiübertragung
-[User information]
-Benutzerinformation
 [Client-to-Client Protocol]
 Client-to-Client-Protokoll
 [Client-to-Client Chats]
@@ -240,6 +250,8 @@ IP-Adresse vom Server beziehen
 Automatisch annehmen von:
 [Send notice]
 Private Nachricht senden
+[CTCP Chat Request]
+CTCP-Chatanfrage
 [&Accept]
 &Akzeptieren
 [&Deny]
@@ -286,64 +298,24 @@ Alternativer Nick
 [CTCP chat request from %s]
 CTCP-Chatanfrage von %s
 ;file \protocols\IRCG\src\commandmonitor.cpp
-[PING %s]
-
-[PING %u]
-
-[PONG %s]
-
 [%s sets mode %s]
 %s setzt Modus %s
-[Your host is %99[^ \x5b,], running version %99s]
-Ihr Host ist %99[^ \x5b,], aktuelle Version %99s
-[PING]
-
-[%newl]
-
-[action]
-
-[dcc]
-
-[PRIVMSG]
-
-[finger]
-
+[%s sets mode %s%s]
+%s setzt Modus %s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+CTCP-FEHLER: Ungültige CTCP-Anfrage von %s!%s@%s registriert. Möglicher Versuch, Kontrolle über Ihr IRC-Programm zu übernehmen
 [CTCP FINGER requested by %s]
 CTCP-Fingeranfrage von %s
-[version]
-
-[%mirver]
-
-[%version]
-
-[ Unicode]
-
 [CTCP VERSION requested by %s]
 CTCP-Versionsanfrage von %s
-[source]
-
 [CTCP SOURCE requested by %s]
 CTCP-Sourceanfrage von %s
-[userinfo]
-
 [CTCP USERINFO requested by %s]
 CTCP-Userinfoanfrage von %s
-[ping]
-
 [CTCP PING requested by %s]
 CTCP-Pinganfrage von %s
-[time]
-
 [CTCP TIME requested by %s]
 CTCP-Zeitanfrage von %s
-[chat]
-
-[send]
-Senden
-[accept]
-
-[resume]
-
 [DCC: Chat request from %s denied]
 DCC: Chatanfrage von %s abgelehnt
 [DCC: File transfer request from %s denied]
@@ -356,28 +328,10 @@ DCC-FEHLER: Fehlerhafte CTCP-Anfrage von %s [%s]
 DCC: Anfrage Dateiübertragungsbericht von %s abgelehnt
 [CTCP %s requested by %s]
 CTCP %s Anfrage von %s
-[NOTICE]
-
-[%u second]
-
-[%u seconds]
-
 [CTCP PING reply from %s: %u sec(s)]
 CTCP-PING-Antwort von %s: %u Sekunde(n)
 [CTCP %s reply from %s: %s]
 CTCP %s Antwort von %s: %s
-[Owner]
-Inhaber
-[Admin]
-Administrator
-[Halfop]
-
-[Voice]
-Stimme
-[system]
-
-[%#c]
-
 [Downloading list (%u%%) - %u channels]
 Laden der Liste (%u%%) - %u Channels
 [Downloading list - %u channels]
@@ -386,40 +340,22 @@ Laden der Liste - %u Channels
 Fertig: %u Channels
 [(probably truncated by server)]
 (wahrscheinlich vom Server unterbrochen)
-[online since %s, idle %s]
-Online seit %s, idle %s
-[is an identified user]
-ist ein identifizierter Benutzer
-[is a registered nick]
-ist ein registrierter Nick
 [Change nickname]
 Nickname ändern
-[NICK %s]
-
-[WHO]
-
-[USERHOST]
-
 [IRC error]
 IRC-Hinweis
+[Unknown]
+Unbekannt
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Bitte Hostmaske eingeben (nick!user@host)\nKontakte auf der Kontaktliste werden nie ignoriert
 [Ignore]
 Ignorieren
-[ +qnidcm]
-
-[ +qnidc]
-
-[ +b *!*@]
-
 [Please enter the reason]
 Bitte den Grund angeben
 [Ban'n Kick]
 Bann und Kick
 [Jerk]
 Sie sind hier nicht erwünscht!
-[Try server %99[^ ,], port %19s]
-Versuchen Sie den Server %99[^ ,] und den Port %19s
 [*Disconnected*]
 *Getrennt*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -427,56 +363,26 @@ Die Benutzung von /AWAY in Ihrem 'Perform Buffer' ist limitiert.\n weil IRC dies
 [IRC Error]
 IRC Fehler
 ;file \protocols\IRCG\src\input.cpp
-[%question]
-%Fragen
-[%mnick]
-
-[%anick]
-
-[%awaymsg]
-
-[%module]
-
-[%name]
-
-[%network]
-
-[%color]
-
-[%bold]
-
-[%underline]
-
-[%italics]
-
+[The buddy check function is enabled]
+Prüfen der IRC-Kontakte ist aktiviert
 [The buddy check function is disabled]
 Prüfen der IRC-Kontakte ist deaktiviert
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
 Inkorrekte Parameter. Benutzung /sleep [ms], ms muss größer als 0 und kleiner als 4000 sein.
-[server]
-
 [Ignore system is enabled]
 Ignoriersystem ist aktiviert
 [Ignore system is disabled]
 Ignoriersystem ist deaktiviert
-[off]
-aus
-[qnidc]
-
 [%s on %s is now ignored (+%s)]
 %s in %s wird nun ignoriert (+%s)
 [%s is not ignored now]
 %s wird jetzt nicht mehr ignoriert
 [%s was not ignored]
 %s wurde nicht ignoriert
-[users: %u]
-
 [Outgoing commands are shown]
 Ausgehende Befehle werden angezeigt
 [Outgoing commands are not shown]
 Ausgehende Befehle werden nicht angezeigt
-[The buddy check function is enabled]
-Prüfen der IRC-Kontakte ist aktiviert
 [The time interval for the buddy check function is now at default setting]
 Zeitintervall zum Prüfen der IRC-Kontakte hat nun den Standardwert
 [The time interval for the buddy check function is now %u seconds]
@@ -499,23 +405,8 @@ DCC-FEHLER: Verbinden mit Port nicht möglich
 Eingehender Befehl
 [Please enter the reply]
 Bitte Antwort eingeben
-;file \protocols\IRCG\src\irc.h
-[Network log]
-
 ;file \protocols\IRCG\src\irclib.cpp
-[QUIT]
-
 [Failed to connect to]
-
-[NICK %s\r\n]
-
-[Miranda]
-Miranda
-[host]
-
-[USER %s %s %s :%s\r\n]
-
-[QUIT :%s\r\n]
 
 [DCC ERROR: Unable to bind local port for passive filetransfer]
 DCC Fehler: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
@@ -528,10 +419,6 @@ DCC Fehler: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
 
 [Information]
 Information
-[%%miranda_path%%\\Plugins\\]
-
-[Miranda%u]
-
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]
@@ -548,8 +435,8 @@ Protokoll ist nicht online
 Die DCC-Chatverbindung ist nicht aktiv
 [Please choose an IRC-network to go online. This network will be the default.]
 Bitte ein IRC-Netzwerk zum Verbinden auswählen. Dieses wird dann das Standardnetzwerk.
-[WHOIS ]
-
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+Verbindung kann nicht hergestellt werden. Es wurden nicht alle erforderlichen Felder (Nickname, ID und Name) ausgefüllt.
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Allgemein
@@ -565,16 +452,12 @@ Bearbeiten
 Abbrechen
 [Channel list]
 Senderliste
-[Channel manager]
-Channelmanager
 [Quick connect]
 Schnellzugriff
 [Server window]
 Serverfenster
 [Show channel]
 Channel anzeigen
-[Question]
-Frage
 [WhoIs]
 
 [Incoming DCC Chat]
@@ -625,8 +508,14 @@ Netzwerk löschen
 Wollen Sie %s löschen?
 [Delete server]
 Server löschen
+[Edit server]
+Server bearbeiten
 [<Resolved IP: ]
 <Aufgeloste IP:
+[<Automatic>]
+<Automatisch>
+[<Local IP: ]
+<lokale IP:
 [Click to set commands that will be performed for this event]
 Klicken Sie hier, um die Befehle zu setzen, die bei diesem Ereignis ausgeführt werden.
 [Click to delete the commands for this event]
@@ -643,6 +532,8 @@ Löschen
 Ignoriermaske
 [Flags]
 Flaggen
+[Add ignore]
+
 [Edit ignore]
 
 [Account]
@@ -651,15 +542,9 @@ Konto
 DCC und CTCP
 [Advanced]
 Erweitert
-[UNIX]
-
 ;file \protocols\IRCG\src\output.cpp
-[WALLOPS]
-
 [WallOps from %s: ]
 WallOps von %s:
-[INVITE]
-
 [%s invites you to %s]
 %s lädt dich nach Channel %s ein
 [%s is away]
@@ -699,6 +584,8 @@ Bitte geben Sie eine Hostmaske (nick!user@host) ein \nHinweis: Kontakte in Ihrer
 Channel betreten
 [Please enter a channel to join]
 Channelnamen zum Betreten eingeben
+[Please select IRC network and enter the password if needed]
+Bitte IRC-Netzwerk auswählen und gegebenenfalls Passwort eingeben
 [Change nick name]
 Nickname ändern
 [Please enter a unique nickname]
@@ -860,8 +747,6 @@ Wiederverbinden mit
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline
-[Unknown]
-Unbekannt
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
@@ -872,10 +757,10 @@ Bitte warten...
 Modus
 [%s - Filtered - %d items]
 %S - gefilterte - %d Elemente
+[---- Not listed server ----]
+--- nicht aufgeführter Server ---
 [Type new server address here]
 Neue Serveradresse hier eingeben
-[Miranda IRC]
-
 [Add ban/invite/exception]
 Bann/Einladung/Ausnahme hinzufügen
 [Edit selected ban/invite/exception]
@@ -888,8 +773,6 @@ Modus für den Channel setzen
 Thema für den Channel setzen
 [You have not applied all changes!\n\nApply before exiting?]
 Nicht alle Werte wurden übernommen!\n\nÜbernehmen vorm Beenden?
-[Topic%s%s]
-
 [Add ban]
 Bann hinzufügen
 [Add invite]
@@ -904,3 +787,9 @@ Bann bearbeiten
 Einladung bearbeiten?
 [Edit exception?]
 Ausnahme bearbeiten?
+[Remove ban?]
+Bann aufheben?
+[Remove invite?]
+Einladung aufheben?
+[Remove exception?]
+Ausnahme aufheben?

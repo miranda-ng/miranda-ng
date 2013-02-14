@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Import\res\resource.rc
@@ -12,8 +12,12 @@ Art des Imports auswählen
 Eine Miranda NG-Datenbank.
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Dieser Assistent soll helfen Kontakte und Nachrichten aus anderen Miranda-Profilen oder aus externen Programmen zu importieren.
+[Click "Next" to choose the information you wish to import, or click "Cancel" to exit the wizard and continue using Miranda.]
+Klicken Sie auf "Weiter", um die gewünschten Informationen zu importieren, oder klicken Sie auf "Abbrechen", um die Importfunktion zu beenden.
 [It is recommended that you create a backup of your current Miranda profile before importing.]
 Es wird empfohlen das aktuelle Miranda-Profil vor dem Importieren zu sichern.
+[If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
+Wenn Sie weitere Informationen importieren wollen, so klicken Sie bitte auf "Weiter", um an den Anfang dieses Assistenten zu gelangen, anderenfalls klicken Sie auf "Ende", um Miranda zu nutzen.
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 Wahrscheinlich wird dieses Programm kein weiteres Mal benötigt, daher wird es beim nächsten Start nicht wieder geladen.
 [Do not load the import plugin at startup again]
@@ -32,6 +36,8 @@ Anderes &Profil
 Importiere...
 [Progress1]
 Fortschritt1
+[Import Information Wizard]
+Import-Informations-Plugin
 [&Next >]
 Weiter >
 [Cancel]
@@ -65,7 +71,7 @@ Nur seit:
 [Messages]
 Nachrichten
 [URLs]
-
+
 [File Transfers]
 Dateiübertragungen
 [Other]
@@ -137,8 +143,6 @@ Importieren...
 [&Import...]
 &Importieren...
 ;file \plugins\Import\src\miranda.cpp
-[%miranda_path%\\Profiles]
-
 [The given file does not exist. Please check that you have entered the name correctly.]
 Die angegebene Datei existiert nicht. Bitte eingegebenen Dateinamen überprüfen.
 [Miranda Import]

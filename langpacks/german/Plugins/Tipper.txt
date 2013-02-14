@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: x.x.x.x
+;  Version: 2.1.0.4
 ;  Authors: 
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
@@ -56,6 +56,8 @@ Titeleinzug:
 Werteinzug:
 [Inner avatar padding:]
 Avatarabstand innen:
+[Substitution]
+Ersetzung
 [Label:]
 Titel:
 [Contact protocol module]
@@ -70,6 +72,8 @@ Einstellung/Präfix:
 OK
 [Cancel]
 Abbrechen
+[Item]
+Objekt
 [Value:]
 Wert:
 [Draw a line above]
@@ -186,16 +190,6 @@ Protokollnamen anhängen
 [Tipper smileys]
 Smileys in Tooltips
 ;file \plugins\TipperYM\src\options.cpp
-[sys:status_msg]
-
-[Last message: (%sys:last_msg_reltime% ago)]
-Letzte Nachricht: (vor %sys:last_msg_reltime%)
-[%sys:last_msg%]
-
-[Status message:]
-Statusnachricht:
-[%sys:status_msg%]
-
 [You must enter a label]
 Sie müssen einen Titel eingeben!
 [Invalid Substitution]
@@ -292,8 +286,6 @@ Länderflagge
 [Client]
 Client
 ;file \plugins\TipperYM\src\popwin.cpp
-[Tipper]
-
 [%s (locked)]
 %s (gesperrt)
 [ ago]
@@ -306,6 +298,8 @@ Anmeldung ist
 Ungelesene E-Mails:
 [Status:]
 Status:
+[Status message:]
+Statusnachricht:
 [Mood:]
 Stimmung:
 [XStatus:]
@@ -330,9 +324,6 @@ Avatar kopieren
 Sonstige
 [Miranda uptime:]
 Miranda-Laufzeit:
-;file \plugins\TipperYM\src\popwin.h
-[MimTTClass]
-
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Birthday]
 Geburtstag
@@ -378,32 +369,24 @@ IP intern
 IP intern:
 [Last message]
 Letzte Nachricht
-[%raw:/ListeningTo%]
-
+[Last message: (%sys:last_msg_reltime% ago)]
+Letzte Nachricht: (vor %sys:last_msg_reltime%)
 [Name]
 Name
 [Name:]
 Name:
-[%raw:/FirstName|% %raw:/LastName%]
-
 [Number of received messages]
 Anzahl empfangener Nachrichten
 [Number of msg [IN]:]
 Anzahl eingehender Nachrichten:
-[%sys:msg_count_in%]
-
 [Number of sended messages]
 Anzahl gesendeter Nachrichten
 [Number of msg [OUT]:]
 Anzahl ausgehender Nachrichten:
-[%sys:msg_count_out%]
-
 [Contact time]
 Kontaktzeit
 [Time:]
 Zeit:
-[%sys:time%]
-
 [XStatus title]
 XStatustitel
 [XStatus title:]
@@ -412,20 +395,14 @@ XStatustitel:
 XStatusnachricht
 [XStatus text:]
 XStatusnachricht:
-[%raw:/XStatusMsg%]
-
 [[jabber.dll] Activity title]
 
 [Activity title:]
 Aktivitätstitel:
-[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%]
-
 [[jabber.dll] Activity text]
 
 [Activity text:]
 Aktivitätsnachricht:
-[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%]
-
 [[menuex.dll] Logon time]
 
 [Logon time:]
@@ -442,226 +419,57 @@ Zuletzt gesehen:
 
 [Last seen status:]
 Letzter Status:
-[%lastseen_status% (%lastseen_ago% ago)]
-
 [[weather.dll] Condition]
 
 [Condition:]
 Wetterlage:
-[%raw:Current/Condition%]
-
 [[weather.dll] Humidity]
 
 [Humidity:]
 Luftfeuchtigkeit:
-[%raw:Current/Humidity%]
-
 [[weather.dll] Max/Min temperature]
 
 [Max/Min:]
 Max./min.:
-[%raw:Current/High%/%raw:Current/Low%]
-
 [[weather.dll] Moon]
 
 [Moon:]
 Mond:
-[%raw:Current/Moon%]
-
 [[weather.dll] Pressure]
 
 [Pressure:]
 Luftdruck:
-[%raw:Current/Pressure% (%raw:Current/Pressure Tendency%)]
-
 [[weather.dll] Sunrise]
 
 [Sunrise:]
 Sonnenaufgang:
-[%raw:Current/Sunrise%]
-
 [[weather.dll] Sunset]
 
 [Sunset:]
 Sonnenuntergang:
-[%raw:Current/Sunset%]
-
 [[weather.dll] Temperature]
 
 [Temperature:]
 Temperatur:
-[%raw:Current/Temperature%]
-
 [[weather.dll] Update time]
 
 [Update time:]
 Aktualisierungszeitpunkt:
-[%raw:Current/Update%]
-
 [[weather.dll] UV Index]
 
 [UV Index:]
 UV-Index:
-[%raw:Current/UV% - %raw:Current/UVI%]
-
 [[weather.dll] Visibility]
 
 [Visibility:]
 Sichtweite:
-[%raw:Current/Visibility%]
-
 [[weather.dll] Wind]
 
 [Wind:]
 Wind:
-[%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%]
-
-[gender]
-
-[ip_internal]
-
-[idle]
-
-[idle_diff]
-
-[xsname]
-
-[lastseen_date]
-
-[lastseen_time]
-
-[lastseen_status]
-
-[lastseen_ago]
-
-[birthday_date]
-
-[birthday_age]
-
-[birthday_next]
-
-[logon_date]
-
-[logon_time]
-
-[logon_ago]
-
-[logoff_date]
-
-[logoff_time]
-
-[logoff_ago]
-
 ;file \plugins\TipperYM\src\skin_parser.cpp
-[author]
-
-[preview]
-
-[image]
-
-[left]
-links
-[top]
-größtes Element
-[right]
-rechts
-[bottom]
-
-[traytitle]
-
-[title]
-
-[label]
-
-[value]
-
-[divider]
-
-[face]
-
-[color]
-
-[size]
-
-[effect]
-
-[font_bold]
-
-[font_italic]
-
-[font_underline]
-
-[general-padding]
-
-[title-indent]
-
-[text-indent]
-
-[value-indent]
-
-[text-padding]
-
-[outer-avatar-padding]
-
-[inner-avatar-padding]
-
-[sidebar-width]
-
-[opacity]
-
-[enable-coloring]
-
-[false]
-
-[[about]]
-
-[[other]]
-
-[[background]]
-
-[[sidebar]]
-
-[[fonts]]
-
-[[appearance]]
-
-;file \plugins\TipperYM\src\subst.cpp
-[uid]
-
-[proto]
-
-[account]
-
-[time]
-
-[uidname]
-
-[status_msg]
-
-[last_msg]
-
-[meta_subname]
-
-[meta_subuid]
-
-[meta_subproto]
-
-[last_msg_time]
-
-[last_msg_date]
-
-[last_msg_reltime]
-
-[msg_count_all]
-
-[msg_count_out]
-
-[msg_count_in]
-
-[raw:]
-
-[sys:]
-
+[# Solid color fill]
+# Farbfüllung
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Hintergrund
@@ -678,14 +486,12 @@ Werte
 [Tray title]
 Traytitel
 ;file \plugins\TipperYM\src\translations.cpp
-[[No translation]]
-<Keine Umwandung>
-[Yes]
-Ja
 [Female]
 weiblich
 [Male]
 männlich
+[[No translation]]
+<Keine Umwandung>
 [WORD to status description]
 WORD in Statusbeschreibung
 [DWORD timestamp to time]

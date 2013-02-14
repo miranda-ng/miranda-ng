@@ -1,24 +1,24 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
 ;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
-[Parse]
-Umwandeln
-[Auto parse]
-Automatisch umwandeln
-[Parse the following string at startup]
-Beim Start folgenden String umwandeln
+[Parse options]
+Umwandlungseinstellungen
 [Automatically strip "end of line" characters]
 Zeilenumbrüche automatisch entfernen
 [Automatically strip white space]
 Leerzeichen automatisch entfernen
+[Automatically strip all non-parsing characters]
+Nicht umgewandelte Buchstaben automatisch entfernen
 [Test area]
 Testbereich
 [Click on the help button to get more information]
 Klicken Sie auf den Hilfebutton, um weitere Informationen zu erhalten.
-[Parse options]
-Umwandlungseinstellungen
-[Automatically strip all non-parsing characters]
-Nicht umgewandelte Buchstaben automatisch entfernen
+[Parse the following string at startup]
+Beim Start folgenden String umwandeln
+[Auto parse]
+Automatisch umwandeln
+[Parse]
+Umwandeln
 [Trigger when the following string changes]
 Aktion, wenn die folgende Zeichenkette sich ändert
 [Please enter your input below]
@@ -48,8 +48,8 @@ Variablen
 ;file \plugins\Variables\src\help.cpp
 [Token]
 
-[unknown]
-Unbekannt
+[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, id or display\r\n\r\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
+---Besondere Zeichen---\r\n\r\nDie folgenden Zeichen haben eine besondere Bedeutung:\r\n\r\n?<funktion>(<parameter>)\r\nDies wandelt die Funktion anhand der gegebenen Parameter um, das Ergebnis wird erneut umgewandelt.\r\nBeispiel: Heute ist ?cdate(yyyy/MM/dd).\r\n\r\n!<funktion>(<parameter>)\r\nDies wandelt die Funktion anhand der gegebenen Parameter um, das Ergebnis wird NICHT erneut umgewandelt.\r\nBeispiel: Nachricht wartet: !message(,first,rcvd,unread).\r\n\r\n%<variable>%\r\nDies wandelt die entsprechende Variable um.\r\nBeispiel: Mein Miranda befindet sich unter %mirandapath%.\r\n\r\n`<string>`\r\nDer betreffende String wird NICHT umgewandelt\r\nDas ist KEIN einstrichiges Anführungszeichen, sondern ein Akut (die Tastenkombination Shift+Taste neben dem ß)!\r\nBeispiel: Verwende die Variable `%mirandapath%` um den Installationspfad anzuzeigen\r\n\r\n#<Kommentar>\r\nDies fügt einen Kommentar hinzu, diese Zeile wird bei der Ausgabe entfernt\r\nBeispiel: %dbprofile% #dies ist ein nutzloser Kommentar.\r\n\r\n\r\n---Kontakte---\r\n\r\nWenn eine Funktion einen Kontakt als Parameter verlangt, kann dieser auf 2 verschiedene Arten angegeben werden:\r\n\r\n(1)Verwendung einer eindeutigen ID (UIN in ICQ, E-Mail in MSN...) oder der Protokoll-ID, gefolgt von einer eindeutigen ID der Form <PROTOID:UNIQUEID>, beispielsweise <MSN:miranda@hotmail.com> oder <ICQ:123456789>.\r\n\r\n(2) Verwendung der ?contact(x,y)-Funktion: Ein Kontakt, der die Eigenschaft x für Kriterium y hat, wird gesucht, y kann einen der folgenden Werte haben:\r\nfirst, last, nick, email, id oder display\r\n\r\nBeispiel: ?contact(miranda@hotmail.com,email) oder ?contact(Miranda,nick).\r\n\r\nDiese Funktion gibt entweder eine eindeutige ID zurück falls es GENAU EINEN Kontakt gibt, auf den dieses Kriterium zutrifft, andernfalls (falls es mehrere oder gar keine Kontakte gibt) gibt sie gar nichts zurück.
 [Tokens]
 
 [Input]
@@ -67,40 +67,316 @@ Stringformatierungshilfe öffnen
 Dienste
 [Variables]
 Variablen
+;file \plugins\Variables\src\parse_alias.cpp
+[Alias]
+
+[user defined]
+
+[stores y as alias named x]
+Speichert y als Alias x
 ;file \plugins\Variables\src\parse_external.cpp
-[STUDIO]
-
-[Winamp v1.x]
-
-[ - Winamp]
-
 [Stopped]
 Gestoppt
-[[Stopped]]
-
-[[Paused]]
-
 [Paused]
 Pause
-[Playing]
-Spielen
+[External Applications]
+Externe Anwendungen
+[retrieves song name of the song currently playing in Winamp]
+Empfängt den Titel des aktuell in Winamp abgespielten Liedes
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+Empfängt den Status von Winamp (Spielt/Pausiert/Gestoppt)
+[retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
+
+[retrieves info from AMIP (x is AMIP format string)]
+
+;file \plugins\Variables\src\parse_inet.cpp
+[Internet Related]
+Internet-bezogen
+[converts each non-html character into hex format]
+Konvertiert jedes Nicht-HTML-Zeichen ins Hexadezimalformat
+[converts each hex value into non-html character]
+Konvertiert jeden Hexadezimalwert in ein Nicht-HTML-Zeichen
+[converts a 32-bit number to IPv4 dotted notation]
+Konvertiert eine 32-Bit-Zahl in IPv4-gepunktete Schreibweise
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+Konvertiert eine 32-Bit-Zahl (in Host-Byte-Reihenfolge) in IPv4-gepunktete Schreibweise
+;file \plugins\Variables\src\parse_logic.cpp
+[Logical Expressions]
+Logische Ausdrücke
+[performs logical AND (x && y && ...)]
+Ausführen von logischem UND (x && y && ...)
+[Boolean FALSE]
+Boolesches FALSCH
+[performs w, then shows z and performs y while x is TRUE]
+Ausführen von w, dann zeigt es z an und führt y aus, während x WAHR ist
+[shows y if x is TRUE, otherwise it shows z]
+Zeigt y, wenn x WAHR ist, sonst z
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+Zeigt x, wenn x WAHR ist, sonst y (if(x,x,y))
+[the first argument parsed successfully]
+Der erste Ausdruck, der erfolgreich umgewandelt wurde
+[y if w = x, else z]
+y wenn w = x, sonst z
+[y if w > x, else z]
+y wenn w > x, sonst z
+[y if string length of w > x, else z]
+y wenn Zeichenkette von w > x, sonst z
+[TRUE if x = y]
+WAHR wenn x = y
+[TRUE if x > y]
+WAHR wenn x > y
+[TRUE if x is longer than y]
+WAHR wenn x länger als y ist
+[performs logical NOT (!x)]
+Ausführen von logischem NICHT (!x)
+[performs logical OR (x || y || ...)]
+Ausführen von logischem ODER (x || y || ...)
+[Boolean TRUE]
+Boolesches WAHR
+[performs logical XOR (x ^ y)]
+Ausführen von logischem XOR (x ^ y)
+;file \plugins\Variables\src\parse_math.cpp
+[Mathematical Functions]
+Mathematische Funktionen
+[x + y + ...]
+
+[x divided by y]
+x geteilt durch y
+[converts decimal value x to hex value and padds to length y]
+Konvertiert dezimalen Wert x in Hexadezimalwert und passt an Länge y an
+[x modulo y (remainder of x divided by y)]
+x modulo y (Rest von x geteilt durch y)
+[x times y]
+x mal y
+[x times y divided by z]
+x mal y geteilt durch z
+[minimum value of (decimal) arguments]
+Minimaler Wert von (dezimalen) Argumenten
+[maximum value of (decimal) arguments]
+Maximaler Wert von (dezimalen) Argumenten
+[pads decimal value x to length y with zeros]
+Füllt dezimalen Wert x mit Nullen bis zu Länge y
+[random number]
+Zufallszahl
+[x - y - ...]
+
+;file \plugins\Variables\src\parse_metacontacts.cpp
+[MetaContacts]
+Metakontakte
+[get parent metacontact of contact x]
+Hauptkontakt von Kontakt x
+[get default subcontact x]
+Standard-Unterkontakt von x
+[get the 'most online' subcontact x]
+'Meist online'-Unterkontakt von x
 ;file \plugins\Variables\src\parse_miranda.cpp
-[appdata]
+[Miranda Core Global]
+Miranda Core Global
+[path to root miranda folder]
+Pfad zum Miranda-Hauptverzeichnis
+[path to current miranda profile]
+Pfad zum aktuellen Miranda-Profil
+[name of current miranda profile (filename, without extension)]
+Name des aktuellen Miranda-Profils (Dateiname, ohne Endung)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+Gibt umgewandelten String %miranda_profile%\\Profiles\\%miranda_profilename% zurück
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
+Gibt einen String nach %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache zurück.
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
+Gibt einen String nach %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs zurück.
+[Miranda Core OS]
+Miranda Core Betriebssystem
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
+[username for currently logged-on Windows user]
+Benutzername für den aktuell angemeldeten Windows-Benutzer.
+["My Documents" folder for currently logged-on Windows user]
 
-[username]
-Benutzername
-[mydocuments]
+["Desktop" folder for currently logged-on Windows user]
 
-[desktop]
+[Miranda Related]
+Miranda-Bezogen
+[translates status code x into a status description]
+Übersetzt Statuscode x in eine Statusbeschreibung
+[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+z-ter Kontakt mit Eigenschaft y, beschrieben von x; Beispiel: (unregistered,nick) (z ist optional)
+[number of contacts with property y described by x, example: (unregistered,nick)]
+Anzahl der Kontakte mit Eigenschaft y, beschrieben von x; Beispiel: (unregistered,nick)
+[info property y of contact x]
+Eigenschaft Information y von Kontakt x
+[db profile name]
+DB-Profilname
+[db profile path]
+DB-Profilpfad
+[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+DB-Einstellung z von Modul y von Kontakt x und gibt w zurück, wenn z nicht existiert (w ist optional)
+[get event for contact x (optional), according to y,z,w, see documentation]
+Abruf von Ereignis für Kontakt x (optional), gemäß y,z,w; siehe Dokumentation
+[get last seen time of contact x in format y (y is optional)]
+Abruf der "Zuletzt-gesehen"-Zeit eines Kontakts im Format y (y ist optional)
+[get last seen date of contact x in format y (y is optional)]
+Abruf des "Zuletzt-gesehen"-Datums eines Kontakts x im Format y (y ist optional)
+[get last seen status of contact x]
+Abruf des "Zuletzt-gesehen"-Status von Kontakt x
+[path to the Miranda NG executable]
+Pfad zu der Miranda NG Anwendung
+[current status description of protocol x (without x, the global status is retrieved)]
+Aktuelle Statusbeschreibung von Protokoll x (ohne x wird der globale Status abgerufen)
+[info property y of protocol id x]
+Eigenschaft y der Protokoll-ID x
+[retrieves the subject, depending on situation]
+Abruf des Kontaktes, situationsabhängig
+[translates x]
+Übersetzt x
+[get the version of Miranda]
+Abruf der Miranda-Version
+[get the contact display name]
+Abruf des Anzeigenamens des Kontakts
+[get the date and time (using Miranda format)]
+Abruf von Datum und Zeit (verwende Miranda-Format)
+[TRUE if service function exists]
 
+;file \plugins\Variables\src\parse_regexp.cpp
+[Regular Expressions]
+Reguläre Ausdrücke
+[(ANSI input only) the number of substring matches found in y with pattern x]
+(nur ANSI-Eingaben) Die Anzahl gefundener Teilzeichenketten in y mit Muster x
+[(ANSI input only) substring match number z found in subject y with pattern x]
+(nur ANSI-Eingaben) Teilzeichenkettenanzahl entspricht z, gefunden in Thema y mit Muster x
+;file \plugins\Variables\src\parse_str.cpp
+[String Functions]
+Zeichenketten-Funktionen
+[converts each first letter of a word to uppercase, all others to lowercase]
+Konvertiert jeden ersten Buchstaben eines Wortes in Großschrift, alle anderen in Kleinschrift
+[converts each first letter of a word to uppercase]
+Konvertiert jeden ersten Buchstaben eines Wortes in Großschrift
+[inserts 'end of line' character]
+Fügt ein Zeilenumbruchzeichen ein
+[depends on calling plugin]
+Hängt vom aufrufenden Plugin ab
+[Replace all occurrences of \\n (Unix) by \\r\\n (Windows)]
+Ersetzt jedes Vorkommen von \\n (Unix) durch \\r\\n (Windows)
+[cuts x after the first line and appends y (y is optional)]
+Schneidet x nach der ersten Zeile ab und fügt y an (y ist optional)
+[replaces all end of line characters by y (y is optional)]
+Ersetzt alle Zeilenumbrüche durch y (y ist optional)
+[inserts string y at position z in string x]
+Fügt Zeichenkette y an Position z in Zeichenkette x ein
+[trims x to length y, keeping first y characters]
+Kürzt x zu Länge y, behält erste y Zeichen bei
+[length of x]
+Länge von x
+[the number of lines in string x]
+Die Anzahl der Zeilen in Zeichenkette x
+[the longest string of the arguments]
+Die längste Zeichenkette der Argumente
+[converts x to lowercase]
+Konvertiert x in Kleinschrift
+[no operation, x as given]
+Keine Änderung, x wie angegeben
+[pads x to length y prepending character z (z is optional)]
+Füllt x auf Länge y auf und stellt Zeichen z voran (z ist optional)
+[pads x to length y appending character z (z is optional)]
+Füllt x auf Länge y auf und hängt Zeichen z an (z ist optional)
+[pads x to length y prepending character z, or cut if x is longer (z is optional)]
+Füllt x auf Länge y auf und stellt Zeichen z voran oder schneidet ab, wenn x länger ist (z ist optional)
+[pads x to length y appending character z, or cut if x is longer (z is optional)]
+Füllt x auf Länge y auf und hängt Zeichen z an oder schneidet ab, wenn x länger ist (z ist optional)
+[repeats x y times]
+Wiederholt x y-mal
+[replace all occurrences of y in x with z, multiple y and z arguments allowed]
+Ersetzt jedes Vorkommen von y in x mit z, mehrfache y- und z-Argumente sind erlaubt
+[trims x to length y, keeping last y characters]
+Kürzt x auf Länge y, behält letzte y Zeichen bei
+[moves string x, z characters to the left and trims it to y characters]
+Verschiebt String x um z Zeichen nach links und kürzt es auf y Zeichen
+[TRUE if x equals y]
+WAHR, wenn x y entspricht
+[TRUE if x equals any of the following arguments]
+WAHR, wenn x einem der folgenden Ausdrücke entspricht
+[TRUE if the first z characters of x equal y]
+WAHR, wenn die ersten z Zeichen von x y entsprechen
+[TRUE if x equals y, ignoring case]
+WAHR, wenn x y entspricht, ignoriert Groß-/Kleinschreibung
+[TRUE if the first z characters of x equal y, ignoring case]
+WAHR, wenn die ersten z Zeichen von x y entsprechen, ignoriert Groß-/Kleinschreibung
+[the shortest string of the arguments]
+Die kürzeste Zeichenkette der Ausdrücke
+[location of first occurrence of character y in string x]
+Position des ersten Vorkommens von Zeichen y in Zeichenkette x
+[location of last occurrence of character y in string x]
+Position des letzten Vorkommens von Zeichen y in Zeichenkette x
+[location of first occurrence of string y in x]
+Position des ersten Vorkommens von Zeichenkette y in x
+[substring of x starting from position y to z]
+Teilzeichenkette von x beginnend von Position y zu z
+[the xth string of the arguments]
+Die x-te Zeichenkette der Argumente
+[z if y equals x, multiple y and z arguments allowed]
+z, wenn y x entspricht, mehrfache y- und z-Argumente sind erlaubt
+[removes white spaces in before and after x]
+Entfernt Leerzeichen in, vor und nach x
+[inserts x tab characters (x is optional)]
+Fügt x Tabzeichen ein (x ist optional)
+[converts x to upper case]
+Konvertiert x in Großschrift
+[words (separated by white spaces) number y to z from string x (z is optional)]
+Wörter (getrennt durch Leerzeichen) Nummer y bis z von Zeichen x (z ist optional)
 ;file \plugins\Variables\src\parse_system.cpp
-[\\Processor(_Total)\\% Processor Time]
+[System Functions]
+System-Funktionen
+[computer name]
+Computername
+[cpu load of process x (without extension) (x is optional)]
+CPU-Auslastung von Prozess x (ohne Dateiendung) (x ist optional)
+[current date in format y (y is optional)]
+Aktuelles Datum im Format y (y ist optional)
+[current time in format y (y is optional)]
+Aktuelle Zeit im Format y (y ist optional)
+[the directory y directories above x]
+Das Verzeichnis y Verzeichnisse über x
+[strips y directories from x]
+Löst y Verzeichnisse aus x
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+Anzahl der Sekunden zwischen Datum x und y (x und y im Format: M/d/yy H:m:s)
+[TRUE if directory x exists]
+WAHR, wenn Verzeichnis x existiert
+[TRUE if file x exists]
+WAHR, wenn Datei x existiert
+[window title of first window of class x]
+Fenstertitel des ersten Fensters der Klasse x
+[shows files and directories of directory z, with filter y, separated by z (y and z optional)]
+Zeigt Dateien und Unterordner des Verzeichnisses x mit Filter y an, getrennt durch z (y und z optional)
+[TRUE if process x is running]
+WAHR, wenn Prozess x läuft
+[value y from registry key x (REG_SZ (string) values only)]
+Wert y aus Registryschlüssel x (nur REG_SZ (String) Werte)
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+Formatiert Zeitstempel x (Sekunden seit 1.1.1970) in Datumsformat y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+Formatiert Zeitstempel x (Sekunden seit 1.1.1970) in Zeitformat y
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: Zeile y aus Datei x, y = 0: komplette Datei, y < 0: Zeile y (von unten) aus Datei x, y = r: Zufallszeile
+[uptime in seconds]
+Laufzeit in Sekunden
+[expand environment variable x]
+Liest Umgebungsvariable x aus
+[user name]
+Benutzername
+[text from clipboard]
+Text aus Zwischenablage
+;file \plugins\Variables\src\parse_variables.cpp
+[variable set by put(s) with name x]
+Variable des Namens x, gesetzt von put(s)
+[x, and stores y as variable named x]
+x, und speichert y als Variable x
+[only stores y as variables x]
+Speichert nur Variable y als x
+;file \plugins\Variables\src\parse_xml.cpp
+[XML]
 
-[\\Process(%s)\\%% Processor Time]
+[apply stylesheet file x to document file y]
 
-[\\System\\System Up Time]
-
-;file \plugins\Variables\src\tokenregister.cpp
-[alias]
+[apply stylesheet x to document y]
 
 ;file \plugins\Variables\src\variables.cpp

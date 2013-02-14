@@ -1,6 +1,15 @@
 ﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
-;langpack template for Clist_nicer
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
+
 ;file \plugins\Clist_nicer\res\resource.rc
+[CList Nicer exception]
+
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -30,7 +39,7 @@ Abstand
 [Enable floating contacts (required restart)]
 Schwebende Kontakte aktivieren (benötigt Neustart)
 [000%]
-
+
 [Opacity]
 Deckkraft
 [Width]
@@ -61,16 +70,20 @@ Verzögerung
 Standard verw.
 [ms]
 
+[About CList Nicer+]
+Über CList Nicer+
 [OK]
 OK
 [Clist Nicer+]
 CList Nicer+
-[Copyright � 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Version]
 Version
 [Support and latest version information]
 Support und Informationen zur neusten Version
+[Delete Contact]
+Kontakt löschen
 [No]
 Nein
 [Yes]
@@ -104,7 +117,7 @@ Menü- und Statusbutton anzeigen
 [Draw sunken edge]
 Versenkte Darstellung benutzen
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [Single click interface]
 Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
@@ -310,7 +323,7 @@ Hintergrundfarbe
 [Use background image]
 Hintergrundbild verwenden
 [...]
-
+
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -368,7 +381,7 @@ Gruppen auswählen
 [Include status modes]
 Statusmodus auswählen
 [Ok]
-
+
 [Cancel]
 Abbrechen
 [Apply]
@@ -435,6 +448,8 @@ Markierungen für Gruppen ignorieren
 Aus Skindatei laden
 [Export to skin file]
 In Skindatei speichern
+[Dialog]
+
 [Ignore these events]
 folgende Ereignisse ignorieren
 [Messages]
@@ -477,30 +492,38 @@ Avatar zeigen
 Überlagerungsicons über Avatar
 [Show local time]
 Lokale Zeit anzeigen
+[&¤]
+
 [E&xit]
 B&eenden
+[&Status]
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
+[Tray]
+
 [&Hide/Show]
 Zeigen/Ausblenden
+[Nowhere]
+Nirgends
 [&New Group]
 &Neue Gruppe
 [&Hide Offline Users]
@@ -523,6 +546,8 @@ G&ruppe umbenennen
 Gruppe löschen
 [Move marked Contacts to this Group]
 Markierte Kontakte in diese Gruppe verschieben
+[Appearance]
+Erscheinungsbild
 [Show Status Icons]
 Statusicons zeigen
 [Show Metacontact proto Icons]
@@ -706,8 +731,6 @@ Erweitert
 [Contact list]
 Kontaktliste
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
-[FOO]
-
 [Add permanently]
 Dauerhaft hinzufügen
 [Revert to default]
@@ -748,8 +771,6 @@ Kontaktfilter aufheben
 Kontaktfilter einrichten
 [Setup accounts]
 Konten
-[EventArea]
-Ereignisbereich
 [Event Area]
 Ereignisbereich
 [My Contacts]
@@ -770,8 +791,20 @@ Status auswählen
 
 [Service failure]
 
-[EventAreaClass]
-
+[Standard contacts]
+Standardkontakte
+[Online contacts to whom you have a different visibility]
+Online-Kontakte mit anderer Sichtbarkeit
+[Offline contacts]
+Offline-Kontakte
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
+[Contacts which are 'not on list']
+Temporäre Kontakte
+[Group member counts]
+Kontaktzähler einer Gruppe
+[Dividers]
+Trennlinien
 [Frame titles]
 Fensternamen
 [Contact list local time]
@@ -791,31 +824,17 @@ Normaler Rahmen
 Dünner Rahmen
 [No border]
 Kein Rahmen
-;file \plugins\Clist_nicer\src\config.cpp
-[An application error has occured: %s]
-
-[TabSRMM runtime error]
-
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 CList Nicer kann nicht andocken wenn Sie die Standard Titelleiste und Umrandung benutzen. Benutzen Sie ein Bearbeitungsfenster anstatt ein randlosen Stil.
 [Clist docking]
 
 ;file \plugins\Clist_nicer\src\extBackg.cpp
-[*.clist\0]
-
 [Load and apply]
 Skin laden
 ;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
 Keine Ereignisse
-;file \plugins\Clist_nicer\src\statusfloater.cpp
-[StatusFloaterClass]
-
-[ContactFloaterClass]
-
-[sfl]
-
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Nicht gruppierte Kontakte
@@ -855,8 +874,6 @@ Aktuellen Kontaktfilter aufheben
 Kontaktfilter auswählen
 [Clear view mode and return to default display]
 Lösche Ansicht und kehre zu Ausgangsanzeige zurück
-[View modes]
-Kontaktfilter
 [View Modes]
 Kontaktfilter
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
@@ -908,19 +925,11 @@ Titelzeile anzeigen
 
 [Floating]
 Frei bewegend
-[mf_update_evt_%d]
-
-[FramesContainer]
-
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 Kontakte suchen/hinzu&fügen...
 [&Main Menu]
 Haupt&menü
-[&Status]
-
-[Appearance]
-Erscheinungsbild
 [&Options...]
 Einstellungen...
 [&About the contact list...]
@@ -929,7 +938,4 @@ Einstellungen...
 &Neue Untergruppe
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
-
-;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
-[CoolSBSubclassPtr]
 

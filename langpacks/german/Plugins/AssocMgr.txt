@@ -1,7 +1,7 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
-;  Plugin: File Association Manager
+;  Plugin: File association manager
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
@@ -23,8 +23,10 @@ Verknüpfungen sind nur aktiv wenn Miranda NG ausgefüh&rt wird.
 Typ
 [Description]
 Übersicht
-[MirandaNG]
-
+[URLs on Websites]
+URLs auf Webseiten
+[File Types]
+Dateitypen
 [File Association Error]
 Verknüpfungsproblem
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
@@ -54,96 +56,11 @@ Miranda NG-Datenbank
 
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThe given URL is invalid and can not be parsed.]
 
-[MirandaDdeMsgWindow]
-
-[file]
-
-[url]
-
-;file \plugins\AssocMgr\src\dde.h
-[Miranda]
-Miranda
-[OpenAssoc]
-
-[url,"%l"]
-
-[file,"%1"]
-
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 
 [Registry Warning]
 Registrierungswarnung
-["%s" "/profile:%s"]
-
-[rundll32.exe %s,WaitForDDE "/profile:%s"]
-
-[Path]
-Pfad
-[System]
-
-[Multi User]
-
-[%APPDATA%\\Opera]
-
-[Trusted Protocols]
-
-[File Types Section Info]
-
-[Version]
-Version
-[File Types]
-Dateitypen
-[File Types Extension]
-
-[Software\\Classes]
-
-[URL:]
-URL:
-[DefaultIcon]
-
-[URL Protocol]
-
-[EditFlags]
-
-[shell]
-
-[open]
-
-[FriendlyAppName]
-
-[command]
-
-[ddeexec]
-
-[application]
-
-[topic]
-
-[ifexec]
-
-[DropTarget]
-
-[NoOpen]
-
-[OpenWithProgids]
-
-[PerceivedType]
-
-[text]
-
-[MIME\\Database\\Content Type]
-
-[Extension]
-
-[Applications]
-Anwendungen
-[NoOpenWith]
-
-[SupportedTypes]
-
-[Software\\Microsoft\\Windows\\CurrentVersion\\Run]
-
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 AIM-Link-Protokoll

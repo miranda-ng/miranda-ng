@@ -41,7 +41,7 @@ Tastaturblinken
 [Execute Application]
 Programm ausführen
 [...]
-
+
 [Use contact notification for this account]
 Kontaktlistenhinweis für dieses Konto
 [Replace nick name]
@@ -98,6 +98,8 @@ Einstellungen
 Neue E-Mail
 [Errors]
 Fehler
+[Check while ...]
+Prüfe während
 [Cancel]
 Abbrechen
 [Choose modes]
@@ -170,66 +172,22 @@ Vorschau
 Hintergrundfarbe
 [Text colour]
 Textfarbe
-;file \plugins\YAMN\src\account.cpp
-[%s: %s,length is %d, remaining %d chars]
-
-[debug]
-
-[NFlags: %04x, remaining %d chars]
-
-[PopUpB: %04x, remaining %d chars]
-
-[PopUpT: %04x, remaining %d chars]
-
-[PopUpTime: %04x, remaining %d chars]
-
-[going to read messages, if any...]
-
-[Name]
-Name
-[Value]
-Wert
-[Server]
-
-[Port: %d, remaining %d chars]
-
-[Login]
-Anmelden
-[Password]
-Passwort
-[Flags: %04x, remaining %d chars]
-
-[STFlags: %04x, remaining %d chars]
-
-[PFlags: %04x, remaining %d chars]
-
-[Interval: %d, remaining %d chars]
-
-[LastChecked: %04x, remaining %d chars]
-
-[LastSChecked: %04x, remaining %d chars]
-
-[LastSynchronised: %04x, remaining %d chars]
-
-[LastMail: %04x, remaining %d chars]
-
-[Browsing account %s]
-
-[(null)]
-
-[debug- WriteAccount...]
-
 ;file \plugins\YAMN\src\main.cpp
-[Check mail]
-E-Mails abrufen
+[Check &mail (All Account)]
+E-&Mails von allen Konten abrufen
+[Check &mail (This Account)]
+E-&Mails von diesem Konto abrufen
 [Launch application]
 Programm ausführen
+[Check mail]
+E-Mails abrufen
 [Connect Fail]
 Verbindungsfehlschlag
-[dll]
-
-[\\Plugins\\YAMN\\]
-
+;file \plugins\YAMN\src\main.h
+[YAMN: new mail message]
+YAMN: Neue E-Mail-Nachricht
+[YAMN: connect failed]
+YAMN: Verbindung fehlgeschlagen
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Nick
@@ -241,18 +199,38 @@ Unbekannter Fehler
 [ - connection error]
 
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[- new mail message(s)]
+- neue E-Mail(s)
 [%s : %d new mail message(s), %d total]
 %s : %d neue E-Mail(s), %d gesamt
 [%d new mail message(s), %d total]
 %d neue E-Mail(s), %d gesamt
 [No new mail message, %d spam(s)]
 Keine neue E-Mail, %d Spam-Mail(s)
+[Invalid]
+
 [Header]
 
+[Value]
+Wert
 [Copy Selected]
 
 [Copy All]
 Alles kopieren
+[Run application]
+Programm ausführen
+[Delete selected]
+Markierte E-Mail(s) löschen
+[Select All]
+Alles markieren
+[From]
+Von
+[Subject]
+Betreff
+[Size]
+Größe
+[Date]
+Datum
 [Do you really want to delete %d selected mails?]
 Möchten Sie %d markierte Mail(s) wirklich löschen?
 [Delete confirmation]
@@ -272,8 +250,6 @@ Verbindung getrennt
 
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 E-Mail-Benachrichtigung und -Browser für Miranda NG über das POP3-Protokoll.
-[pop3]
-
 [Found new version of account book, not compatible with this version of YAMN.]
 Neuere Version einer Kontodatei gefunden, die nicht kompatibel mit dieser Version von YAMN ist.
 [YAMN (internal POP3) read error]
@@ -288,8 +264,6 @@ Datei-Lesefehler. Datei bereits in Benutzung?
 Ein Fehler trat beim Kopieren der Datei auf. Datei in Benutzung?
 [POP3 plugin- write file error]
 POP3-Plugin - Datei-Schreibfehler
-[CodePage: %d, remaining %d chars]
-
 [Connecting to server]
 Verbinde zum Server
 [Entering POP3 account]

@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Dbx_mmap
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
+Datenbankeinstellungen installieren
 [Yes]
 Ja
 [No]
@@ -20,6 +22,8 @@ Nein für alle
 Inhalt zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
+[Database Setting Change]
+Änderung Profileinstellungen
 [Database settings are being imported from]
 Datenbankeinstellungen werden importiert von
 [This file wishes to change the setting]
@@ -36,6 +40,8 @@ Ja
 &Nein
 [Cancel Import]
 Importierung abbrechen
+[Database Import Complete]
+Datenbank-Import abgeschlossen
 [The import has completed from]
 Der Import wurde abgeschlossen von
 [What do you want to do with the file now?]
@@ -59,21 +65,6 @@ Ver&lassen
 Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
 Datenbankprobleme
-;file \plugins\Db3x_mmap\src\dbcache.cpp
-[%s (MapViewOfFile failed. Code: %d)]
-
-[%s (CreateFileMapping failed. Code: %d)]
-
-[%s (Too large increment)]
-
-;file \plugins\Db3x_mmap\src\dbmodulechain.cpp
-[%s (Module Name not unique)]
-
-[%s (Module Offset not unique)]
-
-;file \plugins\Db3x_mmap\src\init.cpp
-[db3x mmap database support]
-
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Ausführen: Gründliche Fehlersuche

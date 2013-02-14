@@ -1,10 +1,285 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep Status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
+[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
+Überprüft die Verbindung zur Benutzung mit (oder ohne) StartupStatus und/oder AdvancedAutoAway.
+;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Verbindung prüfen
+[Max. retries]
+Max. Versuche
+[Account Connection]
+
+[Delay between retries (secs)]
+Verzögerung der Versuche (Sek.)
+[Show popups]
+Popups anzeigen
+[General]
+Allgemein
+[Accounts to check]
+
+[Dial-Up]
+Internetverbindung
+[Don't reconnect if no internet connection seems available]
+Nicht wiederverbinden, wenn keine Internetverbindung
+[Continuously check for internet connection]
+Fortlaufend Internetverbindung prüfen
+[Do so by pinging host]
+Ping senden an Host:
+[Confirm Status]
+Status bestätigen
+[Close]
+Schließen
+[Cancel]
+Abbrechen
+[Profile]
+Profil
+[Message]
+Nachricht
+[after]
+nach
+[minutes of inactivity]
+Minuten der Inaktivität
+[minutes of level 1 mode]
+
+[Confirm resetting status]
+Zurücksetzen des Status bestätigen
+[Account]
+Konto
+[Only set if current status is]
+Nur setzen bei akt. Status
+[Monitor Miranda's activity only]
+Nur Mirandas Aktivität überwachen
+[Reset status on return]
+Status nach Rückkehr zurücksetzen
+[when screen saver engages]
+wenn der Bildschirmschoner startet
+[Set]
+Setzen
+[only set when inactive]
+Nur bei Untätigkeit setzen
+[when workstation is locked]
+wenn der Computer gesperrt wird
+[Command Line]
+Befehlszeile
+[OK]
+OK
+[Copy to Clipboard]
+In Zwischenablage kopieren
+[Command Line:]
+Befehlszeile:
+[Create Shortcut]
+Verknüpfung erstellen
+[Add new profile]
+Neues Profil hinzufügen
+[Profile name]
+Profilname
+[Set window state]
+Fensteranzeige
+[Show dialog]
+Dialog anzeigen
+[Set status to offline before exit]
+Vor Beenden Offlinemodus setzen
+[Show CMDL]
+Befehlszeile
+[Activate status profile]
+Aktiviere Statusprofil
+[Set docked]
+Andocken
+[Other]
+Sonstige
+[Status on startup]
+Status beim Start
+[ms]
+
+[Set after]
+nach
+[Timeout]
+Timeout
+[s]
+
+[Set window location]
+Fensterposition
+[,]
+
+[Set window size]
+Fenstergröße
+[x]
+
+[Allow override]
+Aufheben möglich
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Hinweis: Statusprofile können im 'Statusprofile'-Dialog erstellt werden.
+[Window on startup]
+Kontaktliste beim Start
+[Automatically dial on startup]
+Verbindung beim Start herstellen
+[Automatically hang up on exit]
+Verbindung beim Beenden trennen
+[Dial-up (experimental)]
+Verbindungsaufbau/-abbau (experimentell)
+[Background colour]
+Hintergrundfarbe
+[Text colour]
+Textfarbe
+[Use Windows colours]
+Windowsfarben verwenden
+[Use default colours]
+Standardfarben verwenden
+[Delay]
+Verzögerung
+[On left click]
+Bei Linksklick
+[On right click]
+Bei Rechtsklick
+[Do nothing]
+Nichts tun
+[Close popup]
+Popup schließen
+[Cancel reconnecting]
+Wiederverb. stoppen
+[Colours]
+Farben
+[Preview]
+Vorschau
+[Events]
+Ereignisse
+[Show when connection is lost]
+Wenn Verbindung verloren
+[Show when a connection attempt is made]
+Bei Versuch des Neuverbindens
+[Show when reconnection has finished]
+Wenn Wiederverbinden beendet
+[Show other messages]
+Andere Meldungen anzeigen
+[From PopUp plugin]
+Vom Popup-Plugin
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[Show additional information in popups]
+Erweiterte Informationen in Popups anzeigen
+[Use Miranda's message setting]
+Statusnachricht von Miranda beziehen
+[Use this message:]
+Statusnachricht:
+[Use %time% for the current time, %date% for the current date]
+%time%, %date% für die aktuelle Uhrzeit oder Datum
+[Variables...]
+Variablen
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Feststell-, Nummernblock- und Rollentaste ignorieren
+[Check interval (secs)]
+Prüfintervall (s)
+[Confirm dialog timeout (secs)]
+Dialogfenster autom. schließen (s)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+
+[Monitor keyboard activity]
+Tastaturaktivität überwachen
+[Monitor mouse activity]
+Mausaktivität überwachen
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Strg-, Alt-, Shift-, Tab-, Esc- und Windowstaste ignorieren
+[Ignore any key combination with above keys]
+Beliebige Kombinationen mit obigen Tasten ignorieren
+[Accounts]
+Konten
+[Enable checking]
+Prüfung aktivieren
+[Disable checking]
+Prüfung deaktivieren
+[Set status message]
+Statusnachricht setzen
+[Trigger when connection loss is detected]
+
+[Trigger when reconnection attempt is made]
+
+[Trigger when successfull reconnected]
+
+[Trigger when giving up reconnecting]
+
+[Trigger when reconnected from another location]
+
+[Pre-conditions]
+Vorbedingungen
+[Trigger when a login error occurs]
+
+[Status]
+Status
+[Add...]
+Hinzufügen...
+[Delete]
+Löschen
+[Create a TopToolBar button]
+TopToolbar-Button erstellen
+[Show confirm dialog when loading]
+Bestätigungsdialog beim Profilaufruf
+[Create a main menu item]
+Erzeuge einen Hauptmenüeintrag
+[Status Profiles]
+Statusprofile
+[HotKey1]
+
+[Hotkey]
+
+[In submenu]
+In Untermenü
+[Max. delay (secs)]
+Max. Verzögerung (Sek.)
+[Increase delay exponential]
+Verzögerung exponentiell erhöhen
+[Cancel all if a account connects from another location]
+
+[Reconnect on APM resume]
+Wiederverbinden nach Energiesparmodus (APM)
+[Stop trying to reconnect]
+Wiederverbinden abbrechen
+[Set delay to]
+Verzögerung
+[React on login errors]
+Reaktion bei Einwahlfehlern:
+[seconds]
+Sekunden
+[Set account offline before a connection attempt]
+
+[Max. account connecting time (secs)]
+
+[Timers]
+Zeitplan
+[Reconnecting]
+Wiederverbindung
+[Ignore locked status of accounts]
+Gesperrten Status des Konten ignorieren
+[Consider connection lost after]
+Verbindung ist verloren nach
+[failed pings]
+fehlgeschlagenen Pings
+[Continuously check interval (secs)]
+Prüfintervall(e) (in Sek.)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
 ;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
 [Protocol]
 Protokoll
@@ -46,7 +321,39 @@ Allgemein
 Erweitert
 [You broke the Internet!]
 Internetverbindung verloren
-[Status]
-Status
 [PopUps]
 Popups
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Ich bin nicht da seit %time%.
+[Give it up, I'm not in!]
+Gib's auf! Ich bin nicht da!
+[Not right now.]
+Im Moment nicht!
+[Give a guy some peace, would ya?]
+Lass mich im Moment mal in Ruhe!
+[I'm a chatbot!]
+Laber mich voll!
+[Yep, I'm here.]
+Ja, ich bin da.
+[Nope, not here.]
+Nein, ich bin weg.
+[I'm hiding from the mafia.]
+Ich zieh mir ne Tarnkappe auf!
+[That'll be the phone.]
+Bin gerade am Telefon
+[Mmm...food.]
+Hmmh... lecker
+[idleeeeeeee]
+Langweilig
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+Setze %s Nachricht für %s.
+[<last>]
+<letzter>
+[<current>]
+<aktueller>
+[<n/a>]
+
+[Closing in %d]
+In %d schließen

@@ -15,7 +15,7 @@ Kontakt hinzufügen\nFügt einen Kontakt in ihre Liste hinzu
 [Account:]
 Konto:
 [Contact ID:]
-
+Kontakt ID:
 [Custom name:]
 Name:
 [Group:]

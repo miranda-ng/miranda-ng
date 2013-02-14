@@ -8,6 +8,8 @@
 [This plugin offers simple management functions to keep your extra statuses on one place.]
 Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche Sie alle XStatus in einem Platz verwalten lassen.
 ;file \plugins\CSList\res\cslist.rc
+[Custom Status List]
+Custom-Status-Liste
 [A]
 
 [M]
@@ -28,6 +30,8 @@ Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche
 
 [No items available in the database.\nClick the Add button to define some.]
 Keine Einträge in der Datenbank.\nKlicken Sie auf das Pluszeichen, um welche hinzuzufügen.
+[Add/Modify Custom Status]
+
 [Add/Modify]
 
 [Cancel]
@@ -45,8 +49,6 @@ Hinweis: Menüpunkte sind nur sichtbar, wenn mindestens ein Account richtig eing
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 Status
-[Custom Status List]
-Custom-Status-Liste
 [Add new item]
 Hinzufügen
 [Add]

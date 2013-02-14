@@ -2,24 +2,30 @@
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver
-;  Version: x.x.x.x
+;  Version: 0.7.5.4
 ;  Authors: 
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+Einloggen bei Miranda NG
 [EN]
 
 [OK]
 OK
 [Cancel]
 Abbrechen
+[New password]
+Neues Passwort
+[Change password]
+Passwort ändern
 [Change]
 Ändern
 [Remove]
 Entfernen
-[New password]
-Neues Passwort
 [Old password]
 Altes Passwort
+[Install Database Settings]
+Datenbankeinstellungen installieren
 [Yes]
 Ja
 [No]
@@ -34,6 +40,8 @@ Nein für alle
 Inhalt zeigen
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Sicherheitssystem, um arglistige Änderungen zu erkennen, ist angeschaltet, und Sie werden gewarnt, bevor Änderungen, die nicht als sicher bekannt sind, durchgeführt werden.
+[Database Setting Change]
+Änderung Profileinstellungen
 [Database settings are being imported from]
 Datenbankeinstellungen werden importiert von
 [This file wishes to change the setting]
@@ -50,6 +58,8 @@ Ja
 &Nein
 [Cancel Import]
 Importierung abbrechen
+[Database Import Complete]
+Datenbank-Import abgeschlossen
 [The import has completed from]
 Der Import wurde abgeschlossen von
 [What do you want to do with the file now?]
@@ -73,7 +83,7 @@ Webseite:
 [Email:]
 E-Mail:
 [Unique ID:]
-
+
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 
@@ -89,8 +99,6 @@ Datenbank-Funktionen
 [Database]
 Datenbank
 [Change Password]
-Passwort ändern
-[Change password]
 Passwort ändern
 [Set password]
 Passwort setzen
@@ -114,12 +122,7 @@ Passwort ist zu kurz!
 Passwörter stimmen nicht überein!
 [Wrong password!]
 Passwort ist inkorrekt!
-;file \plugins\Dbx_mmap_SA\src\init.cpp
-[db3x secure mmap database support]
-
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[cryptors\\%s]
-
 [Sorry, but your database encrypted with unknown module]
 Entschuldigung, aber Ihre Datenbankverschlüsselung ist ungültig
 [Error]

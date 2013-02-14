@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
-[Protocols to check]
-Zu prüfende Protokolle
+[Accounts to check]
+
 [Events to react on]
 Auf folgende Ereignisse reagieren
 [Incoming messages]
@@ -25,10 +25,10 @@ Nur wenn letzte
 s alt ist
 [Flash until]
 Blinken bis
-[seconds:]
-
-[re-attending]
-
+[seconds]
+Sekunden
+[is re-attended]
+reaktiviert wird
 [Events are opened]
 Ereignisse geöffnet werden
 [End of 'notify when' conditions]
@@ -44,7 +44,7 @@ Arbeitsplatz blockiert wird (2000/XP)
 [Defined programs are running]
 Bestimmte Programme laufen
 [...]
-
+
 [All other situations]
 Auch sonst immer
 [Only notify if status is]
@@ -99,8 +99,6 @@ Eigenes Schema
 Nach Art der Ereignisse
 [Wait before starting flashing]
 Vor Blinken warten
-[seconds]
-Sekunden
 [Flash speed]
 Blinkgeschwindigkeit
 [Fast]
@@ -131,12 +129,16 @@ Exportieren
 Importieren...
 [Override existing]
 Existierende überschreiben
+[Set program list]
+Programmliste festlegen
 [Program]
 Programm
 [OK]
 OK
 [Cancel]
 Abbrechen
+[Set LEDs for events]
+LEDs für Ereignisse auswählen
 [Num]
 
 [Caps]
@@ -171,30 +173,14 @@ Alle ignorieren
 Nichts ignorieren
 [Ignore]
 Ignorieren
+[Set xStatus list]
+Stelle XStatus Liste ein
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Alle Kontakte **
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
-;file \plugins\KeyboardNotify\src\keyboard.cpp
-[Kbd%d]
-
-[\\Device\\KeyboardClass%d]
-
-[\\\\.\\Kbd%d]
-
-;file \plugins\KeyboardNotify\src\main.cpp
-[screen-saver]
-
-[%s/FlashEvent]
-
-[%s/ExitEvent]
-
 ;file \plugins\KeyboardNotify\src\options.cpp
-[Miranda]
-Miranda
-[Windows]
-Windows
 [left->right]
 links->rechts
 [right->left]
@@ -219,8 +205,6 @@ Protokoll
 Tastaturblinker-Schemas
 [All Files]
 Alle Dateien
-[knt]
-
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 
 [\n; End of automatically generated Keyboard Notify Theme file\n]

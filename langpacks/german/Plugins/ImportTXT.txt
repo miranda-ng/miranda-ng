@@ -1,79 +1,99 @@
-﻿#muuid {6F376B33-D3F4-4c4f-A96B-77DA08043B06}
+﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
 ;============================================================
 ;  File: importtxt.dll
-;  Plugin: ImportTXT
-;  Version: 0.0.1.10
+;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
 ;  Authors: Abyss
 ;============================================================
+[Imports history saved in TXT files from other clients.]
+
+[Import history to ]
+Verlaufen importieren zu
+[Import history]
+Verlauf importieren
+[Choose a file...]
+Datei auswählen...
+[Choose a pattern...]
+
+[Choose a file for import...]
+
+[Text files (*.txt)]
+
+[All files (*.*)]
+Alle Dateien (*.*)
+[Error in cfg file: ]
+
+[No Files Patterns Found]
+
+[No messages in this file]
+
+[Import started...]
+
+[Added: %d messages]
+
+[Duplicates: %d messages]
+
+[In: %d:%d:%d]
+
+[Import not finished. Do you realy want close?]
+
+[Error adding message to DB]
+
+[Error opening file]
+
+[Error mapping file]
+
+[Error mapping]
+
+[Header not found]
+Kopfinformationen nicht gefunden
+[Import Text Files Wizard]
+Textdateien importieren
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
 Dieses Plugin hilft Ihnen, Verläufe anderer Clients oder Miranda-Plugins in Miranda zu importieren.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
 
 [Choose type of imported files:]
 Wählen Sie den Typ der zu importierenden Dateien aus:
-[D[i]Chat import pattern]
-D[i]Chat-Importvorlage
-[History++ pattern]
-History++-Vorlage
-[ICQ5 xml files import]
-ICQ5-XML-Dateien importieren
-[ICQ6 database]
-ICQ6-Datenbank
-[Jimm import pattern(without seconds)]
-Jimm-Importvorlage (ohne Sekunden)
-[Jimm import pattern]
-Jimm-Importvorlage
-[mContact import pattern]
-mContact-Importvorlage
-[Message export import pattern]
-Message-export-Importvorlage
-[Jimm midp-rms Nokia]
-Jimm midp-rms Nokia
-[Pigeon import pattern]
-Pigeon-Importvorlage
-[QHF files  import pattern (QIP PDA and Infinum)]
-QHF-Dateien-Importvorlage (QIP PDA und Infium)
-[QIP import pattern]
-QIP-Importvorlage
-[Jimm midp-rms SonyEricsson]
-Jimm midp-rms SonyEricsson
-[Smaper (with Nick) import pattern]
-Smaper (mit Nickname)-Importvorlage
-[Smaper(vmICQ) import pattern]
-Smaper(vmICQ)-Importvorlage
-
 [Select files or the whole directory for import:]
 Wählen Sie Dateien oder ein ganzes Verzeichnis für den Import aus:
-[Directory...]
-Verzeichnis...
 [Files...]
 Dateien...
-[Select folder for import...]
-Wählen Sie einen Ordner für den Import aus...
-
-[Check messages for duplicates]
-Prüfe Nachrichten auf doppelte Einträge
-[Show duplicates]
-Zeige doppelte Einträge
+[Directory...]
+Verzeichnis...
 [All previous chosen files will try to import to this protocol.]
 Alle bisher ausgewählten Dateien werden versucht in dieses Protokoll zu importieren.
 [Select protocol or account:]
 Wählen Sie ein Protokoll oder Konto aus:
 [Click "Next" to start Import or "Cancel" to Abort.]
 Klicken Sie auf "Weiter", um fortzufahren, oder auf "Abbrechen", um abzubrechen.
+[Select folder for import...]
+Wählen Sie einen Ordner für den Import aus...
+[File: %s]
 
-[Header not found]
-Kopfinformationen nicht gefunden
-[Choose a file...]
-Datei auswählen...
+[To: %s]
+
+[Can''t determine destination contact]
+
+[Default extension]
+
+[Its not %s file]
+
+[Duplicate:]
+
+[Your version of Miranda don't support XML parsing]
+
 [Check for duplicates]
 Nach Duplikaten prüfen
-[Import history to ]
-Verlaufen importieren zu 
+[Check messages for duplicates]
+Prüfe Nachrichten auf doppelte Einträge
+[Show duplicates]
+Zeige doppelte Einträge
+[Error at initialization XML parser]
 
-[Import Text Files Wizard]
-Textdateien importieren
-[Import history]
-Verlauf importieren
-[Imports history saved in TXT files from other clients]
-Importiert Nachrichten aus Textdateien von anderen Clients.
- 
+[Import history to %s (%s)]
+
+[Can't determine destination contact]
+

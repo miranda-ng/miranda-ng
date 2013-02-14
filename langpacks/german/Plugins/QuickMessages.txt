@@ -29,6 +29,8 @@ Behandeln als Servicename
 
 [?]
 
+[Quick Messages Help]
+Quick Messages Hilfe
 [- Selected text]
 - Ausgewählter Text
 [List of variables:]

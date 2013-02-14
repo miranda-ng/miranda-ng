@@ -48,6 +48,8 @@ Runde Ecken
 Fokus nur stehlen, wenn IDLE
 [Preview]
 Vorschau
+[Alarm]
+
 [OK]
 OK
 [Cancel]
@@ -107,6 +109,8 @@ Verwerfen
 [Static]
 Statisch
 [...]
+
+[Reminder Frame Context]
 
 [&Suspend]
 
@@ -120,12 +124,6 @@ Einstellungen...
 
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
-[ ffw]
-
-[Fast forward!]
-
-[Windows Media Player]
-
 [Unknown command issued: "%s"]
 
 [Set Alarm]
@@ -142,16 +140,10 @@ Hintergrund
 [Window]
 Fenster
 ;file \plugins\Alarms\src\frame.cpp
-[Events]
-Ereignisse
 [Hide Reminders]
 Termine verstecken
 [Show Reminders]
 Termine zeigen
-[AlarmsFrame]
-
-[AlarmsFrameContainer]
-
 [Frames]
 Frames
 [Alarm Reminders]
@@ -188,4 +180,6 @@ Samstag
 Fehler
 [The alarm time you have selected is in the past.]
 
+[Events]
+Ereignisse
 ;file \plugins\Alarms\src\trigger.cpp

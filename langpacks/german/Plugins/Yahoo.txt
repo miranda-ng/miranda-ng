@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
@@ -50,6 +50,8 @@ Ignoriere nur folgende Nutzer:
 Hinzufügen
 [&Remove]
 Entfe&rnen
+[Set Custom Status]
+Setze benutzerdef. Status
 [Show as busy]
 Zeige als beschäftigt
 [OK]
@@ -60,6 +62,8 @@ Abbrechen
 Protokoll:
 [Client:]
 
+[Chat Room Invitation Request]
+Einladung in einen Chatraum
 [&Join]
 Betreten
 [&Deny]
@@ -70,6 +74,8 @@ Ablehnen
 
 [Host]
 
+[Invite Buddy To Chat Room]
+Kontakt in Chatraum einladen
 [Screen Name]
 Benutzername
 [&Invite]
@@ -84,8 +90,6 @@ Hinzufügen
 [Yahoo Error]
 Yahoo-Fehler
 [Avatar upload failed!?!]
-
-[ avatar]
 
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
@@ -127,12 +131,6 @@ Timeout beim Nachrichtenversand
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Nachricht zu lang: Bitte auf max. 800 Zeichen (UTF8) kürzen
 ;file \protocols\Yahoo\src\links.cpp
-[addfriend?]
-
-[sendim?]
-
-[chat?]
-
 [YAHOO Link Protocol]
 
 ;file \protocols\Yahoo\src\main.cpp
@@ -176,15 +174,6 @@ Bitte die Yahoo-ID unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
 Bitte das Yahoo-Passwort unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
 [Yahoo Login Error]
 Yahoo-Anmeldefehler
-;file \protocols\Yahoo\src\search.cpp
-[<Yahoo >]
-
-[<Lotus Sametime>]
-
-[<LCS>]
-
-[<Windows Live (MSN)>]
-
 ;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Sie müssen zum Setzen der ben.-def. Nachricht verbunden sein

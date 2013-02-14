@@ -96,6 +96,8 @@ Wenn nichts spielt, ersetze %listening% durch:
 
 [This is a sample preferences page with meaningless settings.]
 
+[Playback State Demo]
+
 [Pattern:]
 
 [State:]
@@ -114,6 +116,8 @@ Zurück
 Weiter
 [Rand]
 
+[Sample DSP Configuration]
+
 [OK]
 OK
 [Cancel]
@@ -123,33 +127,33 @@ Abbrechen
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 In %s senden
-[Send ListeningTo]
-
 [Listening to (enabled)]
 
 [Listening to (disabled)]
 
 [Send to all protocols]
 In allen Protokollen senden
-[listening_info]
+[Listening info]
+"Ich höre gerade"-Info
+[Listening info as set in the options]
+Info wie unter Status=>"Ich höre gerade" : Formate eingestellt
+[Media type: Music, Video, etc]
 
-[listening_type]
+[Artist name]
+Name des Interpreten
+[Album name]
+Name des Albums
+[Song name]
+Name des Liedes
+[Track number]
 
-[listening_artist]
+[Song year]
 
-[listening_album]
+[Song genre]
 
-[listening_title]
-
-[listening_track]
-
-[listening_year]
-
-[listening_genre]
-
-[listening_length]
-
-[listening_player]
+[Song length]
+Länge des Liedes
+[Player name]
 
 [Don't send to any protocols]
 In keinem Protokoll senden
@@ -161,41 +165,6 @@ Listening-To-Informationen aktivieren/deaktivieren (für alle Protokolle)
 
 [Enable ListeningTo (to all protocols)]
 
-[listening]
-
-[artist]
-Interpret
-[album]
-Album
-[title]
-
-[track]
-
-[year]
-
-[genre]
-Genre
-[length]
-
-[player]
-
-[type]
-
-[StartTimer]
-
-[To be sure that no one was left behind]
-
-;file \plugins\ListeningTo\src\music.cpp
-[ChangedListeningInfo]
-
-[Start]
-
-[Has : %s : %d]
-
-[Is equals]
-
-[Is different]
-
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Unbekannt>
@@ -203,112 +172,15 @@ Genre
 
 [Status]
 Status
-[Listening info]
-"Ich höre gerade"-Info
 [General]
 Allgemein
 [Format]
 
 [Players]
 Player
-;file \plugins\ListeningTo\src\players\foobar.cpp
-[foobar2000]
-
 ;file \plugins\ListeningTo\src\players\generic.cpp
-[GenericPlayer]
-
 [Miranda ListeningTo receiver]
 
-[ProcessReceived]
-
-[ERROR: Empty text]
-
-[ERROR: No \\0 found]
-
-[ERROR: Too little pieces]
-
-[END: Stoped playing]
-
-[ERROR: not enought info]
-
-[END: Success]
-
-[SendTimerProc]
-
-[It's time to process]
-
-[NewData]
-
-[Processing]
-
-[ERROR: Text is empty]
-
-[Got new text, scheduling update]
-
-[Text: %s]
-
-[END: Text is the same as last time]
-
-[ReceiverWndProc]
-
-[START: Received message]
-
-[ERROR: COPYDATASTRUCT* is NULL]
-
-[ERROR: pData->dwData is incorrect]
-
-[ERROR: pData->cbData is 0]
-
-[ERROR: pData->lpData is NULL]
-
-[Going to process]
-
-;file \plugins\ListeningTo\src\players\itunes.cpp
-;file \plugins\ListeningTo\src\players\mradio.cpp
-;file \plugins\ListeningTo\src\players\player.cpp
-[Player]
-
-[ExternalPlayer]
-
-[CodeInjectionPlayer]
-
-;file \plugins\ListeningTo\src\players\watrack.cpp
-[WATrack]
-
-;file \plugins\ListeningTo\src\players\winamp.cpp
-[Winamp v1.x]
-
-[Winamp]
-
-[.Winamp]
-
 ;file \plugins\ListeningTo\src\players\wmp.cpp
-[MsnMsgrUIManager]
-
-[WindowsMediaPlayer]
-
 [Miranda ListeningTo WMP receiver]
-
-[WMP : New data: [%d] %s]
-
-;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\ATLHelpers\misc.h
-[foobar2000:separator]
-
-;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\playback_state.cpp
-[%codec% | %bitrate% kbps | %samplerate% Hz | %channels% | %playback_time%[ / %length%]$if(%ispaused%, | paused,)]
-
-[Test command]
-
-[No items selected]
-
-;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\ui_element.cpp
-[This is a sample element.]
-
-;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
-[unexpected profiler failure\n]
-
-;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
-[Miranda ListeningTo Winamp Plugin]
-
-[Copyright (C) 2006 Ricardo Pescuma Domenecci]
 

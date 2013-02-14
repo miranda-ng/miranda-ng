@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
@@ -43,85 +43,10 @@ Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
 
 [Test]
 Testen
-;file \protocols\GTalkExt\src\avatar.cpp
-[PNG]
-
-;file \protocols\GTalkExt\src\handlers.cpp
-[mir_]
-
-[mir_%d]
-
-[google:mail:notify]
-
-[google:setting]
-
-[%s/#inbox/%x%08x]
-
-[%s/h/?v=c&th=%x%08x]
-
-[type]
-
-[from]
-von
-[url]
-
-[tid]
-
-[unread]
-
-[xmlns]
-
-[total-matched]
-
-[name]
-Name
-[address]
-
-[result-time]
-
-[newer-than-time]
-
-[newer-than-tid]
-
-[value]
-
-[var]
-
-[result]
-
-[set]
-
-[get]
-
-[mailbox]
-
-[query]
-
-[usersetting]
-
-[mailnotifications]
-
-[subject]
-
-[snippet]
-
-[senders]
-
-[feature]
-
-[new-mail]
-
-[true]
-
-;file \protocols\GTalkExt\src\inbox.cpp
-[mail]
-E-Mail
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 
 ;file \protocols\GTalkExt\src\notifications.cpp
-[AntiShittyFullscreenDetectionWindowClass]
-
 [You've received an e-mail\n%s unread threads]
 Sie haben eine E-Mail erhalten \n%s ungelesene Themen
 ;file \protocols\GTalkExt\src\options.cpp
@@ -129,12 +54,6 @@ Sie haben eine E-Mail erhalten \n%s ungelesene Themen
 Popups
 [Network]
 Netzwerk
-[Why C sucks]
-
-[brickstrace@gmail.com [1]]
-
-[    bems <bems@vingrad.ru>\n]
-
 [* Primitive type system\n]
 
 [* No overloading\n]
@@ -152,16 +71,6 @@ GMail-Benachrichtigungen
 Subjekt\n     %s\nvon\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 
-;file \protocols\GTalkExt\src\popups.cpp
-[YAPPYAPPWindowClass]
-
-[YAPPWinClass]
-
-;file \protocols\GTalkExt\src\stdafx.h
-[ColourPicker]
-
 ;file \protocols\GTalkExt\src\tipper_items.cpp
-[%raw:]
-
 [Unread threads:]
 Ungelesene Themen:

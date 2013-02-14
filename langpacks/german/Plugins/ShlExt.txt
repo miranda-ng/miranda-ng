@@ -1,10 +1,12 @@
-﻿#muuid {00000000-3a26-7201-4ca9-d6118540a5e6}
+﻿#muuid {72013a26-a94c-11d6-8540-a5e62932711d}
 ;============================================================
 ;  File: shlext.dll
-;  Plugin: Shell context menus for transffers
-;  Version: 2.0.1.2
-;  Authors: egoDust
+;  Module: shlext - Shell context menus for transfers
+;  Versions: 1.0.0.6-1.0.6.6
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
 ;============================================================
+[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+
 [Problem, registration missing/deleted.]
 Fehler, Registrierung fehlgeschlagen/gelöscht.
 [Successfully created shell registration.]
@@ -19,7 +21,6 @@ Bist du dir sicher? Alle Einstellungen im Profil sowie alle Registrierungseintr�
 ShlExt deaktivieren/entfernen
 [Shell context menus]
 Kontextmenüs (Explorer)
-;IDD_SHLOPTS
 [Display contacts in their assigned groups (if any)]
 Zeige Kontakte in ihren zugewiesenen Gruppen
 [Only if/when the contact list is using them]
@@ -38,7 +39,5 @@ Kontakte anzeigen, für die andere Privatsphärenregeln gelten
 Kein Statusicon in den Menüs anzeigen
 [Do not show contacts that are offline, even if my contact list does]
 Keine Offlinekontakte anzeigen, unabhängig von Einstellungen der Kontaktliste
-[Clear entries]
-Einträge löschen
-[Recently]
-Zuletzt
+[Shell context menus for transfers]
+

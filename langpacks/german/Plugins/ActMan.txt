@@ -1,241 +1,104 @@
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
 ;  File: actman.dll
-;  Plugin: ActMan
-;  Version: 0.9.0.0
+;  Plugin: Action Manager
+;  Versions: 0.2.0.1
+;  URL: 
+;  Source: http://delphi-miranda-plugins.googlecode.com/svn/trunk/actman/
 ;  Authors: Awkward
 ;============================================================
-[Action list]
-Aktionsliste
-[Where to use]
-Wo anzuwenden?
-[Menu item name:]
-Menüpunkt Name:
-[Show only if variables return 1]
-Zeige nur falls Variable 1 zurückgibt
-[2 state button]
-2. Standtaste
-[2 state button/item]
-2. Standtaste/Knopf
-[Save button/item state]
-Speicherstaste/Knopf
-[Normal button tooltip]
-Normale Tooltip Schaltfläche
-[Pressed button tooltip]
-Gedrückter Schaltflächen Tooltip
-
-[Starting from]
-Ausgehend von
-[Starting after]
-Starte nach
-[Repeat, times]
-Wiederh. Zeiten
-[Break on non-zero result]
-Nicht-Null-Ergebnis umbrechen
-[Since/after]
-Seit/danach
-[Interval]
-Intervall
-[Task sample]
-Aufgabenbeispiel
-[Send event on start time]
-Sende Ereignis an die Startzeit
-[Send event just once]
-Ereignis nur einmalig senden
-[Start immediately]
-Starte sofort
-
-[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
-Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
-
-[Action manager]
-Aktionsmanager
-
-[No Description]
-Keine Beschreibung
-[Text insert]
-Text einfügen
 [Contact window]
 Kontaktfenster
-
-[Open contact window]
-Kontaktfenster öffnen
-[Choose Contact]
-Kontakt auswählen
-
-[Open File Folder]
-Öffne Dateiordner
-[Open Profile Folder]
-Öffne Profilesordner
-[Open Miranda Folder]
-Öffne Miranda IM Ordner
-[Call service]
-Dienst ausführen
-[Result action]
-Ergebnisaktion
-[Do not show]
-Nicht zeigen
-[Show in popup]
-Popup zeigen
-[Show in messagebox]
-Zeige in Nachrichtenfenster
-[Insert into message]
-In Nachricht einfügen
-[Result as Int]
-Ergebnis als Int
-[Result as Hex]
-Ergebnis als Hex
-[Result as string]
-Ergebnis als String
-
-[Execute program]
-Programm ausführen
-[Process options]
-Prozesseinstellungen
-[Continued]
-Kontinuierlich
-[Process time, ms]
-Prozesszeit, ms
-[Current path]
-Momentaner Pfad
-[Window option]
-Fenstereinstellungen
-[Start normal]
-Normal starten
-[Start hidden]
-Versteckt starten
-[Start minimized]
-Minimiert starten
-[Start maximized]
-Maximiert starten
-
-[Insert text]
+[Text insert]
 Text einfügen
-[Program path]
-Programmpfad
-[Program args]
-Programmargumente
-[Copy to]
-Kopieren nach
-[Paste from as]
-Einfügen als
-[Text to insert]
-Text, der eingefügt werden soll:
-[Use Variables]
-Variablen benutzen
-
-[Condition]
-Bedingung
-[NOT]
-Nicht
-[Math]
-Mathe
-[! not]
-! nicht
-[+ add]
-+ addieren
-[- sub]
-- subtrahiert
-[* mul]
-* multiplizieren
-[/ div]
-/ dividieren
-[% mod]
-% mod
-[& and]
-& und
-[| or]
-| oder
-[^ xor]
-^ exkl. ODER
-[= set]
-= setzen
-[Variables (below)]
-Variablen (unten)
-[JUMP]
-Sprung
-[BREAK]
-Abbruch
-[BACK]
-Zurück
-[SKIP]
-Überspringen
-[Variables script]
-Variablen Skript
 [vars]
 Variablen
-[Result as integer]
-Ergebnis als Integer
-[Append]
-Anheften
-[Don't use Variables]
-Variablen nicht benutzen
-[Free memory]
-Speicher freimachen
-[Keep handle only]
-Nur Handle speichern
-[Keep Last Result]
-Letztes Ergebnis speichern
-[Message title]
-Nachrichtentitel
-[Paste from]
-Einfügen von
-[Return]
-Rückgabewert
-[Service result]
-Ergebnistyp des Dienstes
-[Structure]
-Struktur
-[structure]
-Struktur
-[Signed value]
-Positive und negative Werte
+[DWord]
+
+[You can use %name%, %uid%, %account% and %group% macros]
+
 [wParam type]
 wParam-Typ
 [lParam type]
 lParam-Typ
-[last result]
-Letzes Ergebnis
+[Service name]
+Dienstname
+[wParam]
+
+[lParam]
+
+[Structure]
+Struktur
+[Result action]
+Ergebnisaktion
+[Window option]
+Fenstereinstellungen
+[Show in popup]
+Popup zeigen
+[Start hidden]
+Versteckt starten
+[Show in messagebox]
+Zeige in Nachrichtenfenster
+[Start maximized]
+Maximiert starten
+[Continued]
+Kontinuierlich
+[Parallel]
+
+[Condition]
+Bedingung
+[Insert into message]
+In Nachricht einfügen
 [parameter]
 Parameter
-[Active accounts only]
-Nur aktive Konten
-[Apply format]
-Format akzeptieren
-[Dropdown list format]
-Dropdownliste formatieren
-
+[Process time, ms]
+Prozesszeit, ms
+[No Description]
+Keine Beschreibung
+[Signed value]
+Positive und negative Werte
+[Process options]
+Prozesseinstellungen
+[Do not show]
+Nicht zeigen
+[Current path]
+Momentaner Pfad
+[Start normal]
+Normal starten
+[last result]
+Letzes Ergebnis
+[structure]
+Struktur
+[Structure]
+Struktur
 [Link to action]
 Verknüpfung zu Aktion
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+Plugin zum Verwalten von Hotkeys, Einfügen von Texten sowie Ausführen von Programmen und Diensten
+[Action manager]
+Aktionsmanager
+[Copy to]
+Kopieren nach
+[Paste from as]
+Einfügen als
+[Math]
+Mathe
+[Variables (below)]
+Variablen (unten)
+[Variables script]
+Variablen Skript
 [Other Action groups]
 Andere Aktionsgruppen
-[Contact list format]
-Kontaklistenformat
-[You can use %name%, %uid%, %account% and %group% macros]
-Sie können %name%, %uid%, %account% und %group% Makros benutzen.
+[Operation]
 
-[Read]
-Lesen
-[Write]
-Schreiben
 [Last result]
 Letzter Wert
 [Own settings]
 Eigene Einstellungen
-[Service help]
-Hilfe - Dienstdetails
+[Array]
 
-['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
-'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext (z. B. UseActions) ersetzt
-[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - Ausgewählter (und ersetzter) Teil\r\n^e - Durch leeren String ersetzen\r\n^v - Text aus Zwischenablage einfügen\r\n^t - Durch Tab ersetzen\r\n^l - Durch letztes Ergebnis ersetzen (Unicode)\r\n^h - Durch letztes Ergebnis ersetzen (Hex)\r\n^a - Am Ende: Automatisch senden\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n     Klammerinhalte müssen ohne Leerzeichen sein
-[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
-Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
-[To use ANSI string parameter, use Byte array/pointer.\r\nSequence $## replacing to byte with hex value ##\r\n\r\nTo use Unicode string parameter, use Word array/pointer.\r\nSequence $## replacing to byte with hex value ##\r\nSequence $#### replacing to word with hex value ####]
-Um ANSI-String-Parameter zu nutzen, bitte Byte-Array/Pointer nutzen.\r\nSequenz $## durch Byte mit Hex-Wert ## ersetzen\r\n\r\nUm Unicode-String-Parameter zu nutzen, nutze WORD-Array/Pointer.\r\nSequenz $## durch Byte mit Hex-Wert ## ersetzen\r\nSequenz $#### durch WORD mit Hex-Wert #### ersetzen
-
+[Message title]
+Nachrichtentitel
 [OK, Cancel]
 OK, Abbrechen
 [Abort, Retry, Ignore]
@@ -246,4 +109,163 @@ Ja, Nein, Abbrechen
 Ja, Nein
 [Retry, Cancel]
 Wiederholen, Abbrechen
- 
+[not defined]
+Nicht definiert
+[Result as integer]
+Ergebnis als Integer
+[Keep Last Result]
+Letztes Ergebnis speichern
+[Keep handle only]
+Nur Handle speichern
+[Variables mark]
+
+[C&ancel]
+
+[Structure Editor]
+
+[Result as structure]
+
+[Byte Array]
+
+[Word Array]
+
+[Pointer to bytes]
+
+[Pointer to words]
+
+[Data length]
+
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' im Dienstnamen wird durch den Namen des aktuellen Protokolls eines Kontakts abhängig vom Kontext (z. B. UseActions) ersetzt
+[Paste from]
+Einfügen von
+[Service result]
+Ergebnistyp des Dienstes
+[Free memory]
+Speicher freimachen
+[Integer]
+
+[Append]
+Anheften
+[Append data to file]
+Daten zu Datei hinzufügen
+[Choose action]
+
+[A&ppend]
+
+[Action "$" exists, do you want to rewrite it?]
+
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nText <param> wird\r\ndurch Parameter ersetzt
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Text <last> wird durch\r\nletztes Ergebnis ersetzt\r\n\r\nRückgabewerte:\r\n--------\r\nOK\t\t= 1\r\nAbbrechen\t= 2\r\nAbbruch\t\t= 3\r\nWiederholen\t= 4\r\nIgnorieren\t= 5\r\nJa\t\t= 6\r\nNein\t\t= 7\r\nSchließen\t\t= 8
+[Don't use Variables]
+Variablen nicht benutzen
+[Contact list format]
+Kontaklistenformat
+[Active accounts only]
+
+[Dropdown list format]
+
+[Apply format]
+
+[You can use %name%, %uid%, %account% and %group% macros]
+
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+
+[New]
+Neu
+[Hooks]
+
+[Event]
+
+[hook sample]
+
+[QWord]
+
+[Packed structure]
+
+[NativeInt]
+
+[Starting from]
+Ausgehend von
+[Starting after]
+Starte nach
+[Start immediately]
+Starte sofort
+[Since/after]
+Seit/danach
+[Repeat, times]
+Wiederh. Zeiten
+[Interval]
+Intervall
+[Break on non-zero result]
+Nicht-Null-Ergebnis umbrechen
+[Task sample]
+Aufgabenbeispiel
+[Send event on start time]
+Sende Ereignis an die Startzeit
+[Send event just once]
+Ereignis nur einmalig senden
+[Use Actions]
+
+[Action list]
+Aktionsliste
+[Where to use]
+Wo anzuwenden?
+[CList Modern toolbar]
+
+[TabSRMM toolbar]
+
+[Core Hotkey]
+Core-Hotkey
+[Tray menu]
+
+[2 state button/item]
+2. Standtaste/Knopf
+[Save button/item state]
+Speicherstaste/Knopf
+[Normal button tooltip]
+Normale Tooltip Schaltfläche
+[Pressed button tooltip]
+Gedrückter Schaltflächen Tooltip
+[Separated]
+Getrennt
+[Root popup:]
+Unterpunkt:
+[Menu item name:]
+Menüpunkt Name:
+[Show only if variables return 1]
+Zeige nur falls Variable 1 zurückgibt
+[Contact related]
+
+[Registered actions]
+Eingetragene Aktionen
+[Menu icons]
+Menüicons
+[Data align]
+
+[Native]
+Nativ
+[Packed]
+
+[2 bytes]
+
+[4 bytes]
+
+[8 bytes]
+
+[alias]
+
+[type]
+
+[length]
+
+[data]
+
+[Structure help]
+
+[Descr]
+

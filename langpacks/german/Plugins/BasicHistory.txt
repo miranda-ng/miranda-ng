@@ -1,13 +1,15 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
+;  Plugin: Basic history
 ;  Version: 1.0.1.9
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
 
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Nachrichtenverlauf
 [Settings]
 Einstellungen
 [Always show contact list]
@@ -29,7 +31,7 @@ Ereignis hinzufg.
 [Delete event]
 Ereignis löschen
 [...]
-
+
 [WinSCP path]
 WinSCP-Pfad
 [WinSCP log path]
@@ -96,6 +98,8 @@ Task löschen
 Fehler durch Popups anzeigen
 [Save errors to system history]
 Fehler im Systemverlauf speichern
+[Task]
+
 [Name]
 Name
 [Active]
@@ -167,9 +171,6 @@ Finde vorherige
 
 [History]
 Verlauf
-;file \plugins\BasicHistory\src\BinaryExport.h
-[bin]
-
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Alle Ereignisse
@@ -178,13 +179,11 @@ Standard Verlaufsereignisse
 [History for %s]
 Verlauf von %s
 [System]
-
+
 [Invalid Message]
-
+Ungültige Nachricht
 [Authorisation request by %s (%s%d): %s]
 Autorisierungsanfrage von %s (%s%d): %s
-[%016llx]
-
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 
@@ -192,8 +191,6 @@ Autorisierungsanfrage von %s (%s%d): %s
 Importieren
 [Export]
 Exportieren
-[<ext>]
-
 [File do not contain selected contact]
 
 [File is corrupted]
@@ -259,7 +256,7 @@ Nachricht
 [File transfer]
 Dateiübertragung
 [Link]
-
+
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [You were added]
@@ -396,8 +393,6 @@ Freitag
 Samstag
 [Sunday]
 Sonntag
-[HH%cmm]
-
 [Invalid '%s' value.]
 Ungültiger '%s'-Wert.
 [Events older than]
@@ -418,100 +413,20 @@ Importiere aus
 ** Verwende Sie <date> für Datum, <ext> für Erweiterung, <contact> für Kontaktname
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-[<title>]
-
 [History Log]
 Logverlauf
-[<style type="text/css"><!--\n]
-
-[.mes { border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px;border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-
-[.text { clear: both; }\n]
-
-[.nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-
-[.date { float: right; clear: right; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-
-[.url { color: #0000FF; }\n]
-
-[.nick#inc { color: #C83F6B; }\n]
-
-[.nick#out { color: #0860BD; }\n]
-
-[.date#inc { color: #000000; }\n]
-
-[.date#out { color: #000000; }\n]
-
-[.mes#event0 { background-color: #DBDBDB; }\n]
-
-[.mes#event1 { background-color: #EEEEEE; }\n]
-
-[.mes#event2 { background-color: #CCD9F4; }\n]
-
-[.mes#session { background-color: #FFFDD7; }\n]
-
-[)</h3>\n]
-
-[<h6>]
-
 [Filter:]
 
 [Conversation started at %s]
 Unterhaltung begonnen am %s
-[out]
-
-[inc]
-
-[\n</div>\n]
-
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[&amp;]
-
-[&lt;]
-
-[&gt;]
-
-[<br>]
-
-[<link rel="Stylesheet" href="]
-
-[\\history.css" type="text/css">\n]
-
-[<script type="text/javascript" src="]
-
-[\\history.js"></script>\n]
+[_files]
 
 [Menu]
 Menü
 [Open all]
 
 [Close all]
-
-[<script language="JavaScript">\n]
-
-[var menu = document.getElementById("menubar\]
-
-[if(menu != null)\n]
-
-[  menu.style.visibility = "visible";\n]
-
-[<h4>]
-
-[><img src="]
-
-[\\pnode.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
-
-[', this)"/>]
-
-[\\event]
-
-[.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
-
-[', this)"/></span>\n]
-
-[.ico" class=sessionimage width="16" height="16"/></div>\n]
-
-[" alt="]
 
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
@@ -529,8 +444,6 @@ Mit FTP hochladen
 [Path to file]
 
 [FTP path must contains '/' instead '\' and starts from '/'.]
-
-[<date>]
 
 [FTP path cannot contain <date> in import task.]
 
@@ -550,15 +463,11 @@ Unbekannter Fehler
 
 [Cannot send FTP file(s).]
 
-[<contact>]
-
 [Task finished]
 
 [Task '%s' execution failed]
 
 [Task '%s' finished successfully]
-
-["%s" /nointeractiveinput /log="%s" /script=script.sc]
 
 [Task '%s' execution failed:]
 

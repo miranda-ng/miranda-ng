@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -56,6 +56,8 @@ Datei automatisch vom FTP-Server löschen nach: (experimentell)
 Archivnamen manuell setzen
 [Compression level:]
 Kompressionsstufe:
+[Upload File Manager]
+
 [File:]
 Datei:
 [Completed:]
@@ -88,6 +90,8 @@ Pause
 
 [Open in Browser]
 Im Web-Browser öffnen
+[FTP File Manager]
+
 [Select All]
 Alles markieren
 [Deselect All]
@@ -96,10 +100,14 @@ Alles markieren
 Aus Liste löschen
 [Delete from FTP]
 Vom FTP löschen
+[Enter file name]
+
 [OK]
 OK
 [Cancel]
 Abbrechen
+[File exists]
+
 [Rename]
 Umbenennen
 [Overwrite]
@@ -112,6 +120,8 @@ Umbenennen
 
 [Close dialog after upload finishes]
 Schließe Dialog, wenn Dateiupload fertig ist
+[Automatically delete file after...]
+
 [Disabled]
 Deaktiviert
 [Delete from List]
@@ -122,8 +132,6 @@ Link kopieren
 [User Info]
 
 [Copy Link to Clipboard]
-
-[FTP File Manager]
 
 [%d minutes]
 %d Minuten
@@ -158,12 +166,12 @@ Zeige FTP-File-Dialog
 Sie müssen erst die FTP-Server einstellungen vornehmen, bevor Sie eine Datei uploaden können.
 [Error has occurred while trying to create a dialog!]
 Es ist ein Fehler aufgetreten, weil Sie versucht haben, einen Dialog zu erstellen.
+[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
+FTP File YM konnte nicht geladen werden, da die libcurl.dll fehlt, im falschen Verzeichnis liegt oder in der falschen Version vorliegt.
 [File upload complete]
 Dateiupload abgeschlossen
 [Upload canceled]
 Upload abgebrochen
-[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
-FTP File YM konnte nicht geladen werden, da die libcurl.dll fehlt, im falschen Verzeichnis liegt oder in der falschen Version vorliegt.
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Alle Dateien (*.*)
@@ -192,8 +200,6 @@ Alle Dateien (*.*)
 [UNKNOWN]
 
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[archive]
-
 [Error occured when zipping the file(s).]
 
 [%0.1f kB/s]

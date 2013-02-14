@@ -5,13 +5,15 @@
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
+[Notifies you of upcoming birthdays.]
+Erinnert Sie an kommende Geburtstage.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
-[Notify of birthdays using:]
-Benachrichtige über Geburtstage mittels:
+[Notify of birthdays:]
+
 [  ]
 
 [Popups]
-
+Popups
 [Popup timeout:]
 Anzeigedauer:
 [Preview]
@@ -62,12 +64,18 @@ Benachrichtige für
 danach
 [In background]
 im Hintergrund
+[Birthday list]
+Geburtstagsliste
 [Close]
 Schließen
 [Show all contacts]
 Alle Kontakte zeigen
+[Set birthday:]
+
 [OK]
 OK
+[Manage anniversaries]
+
 [Title:]
 Titel:
 [Description:]
@@ -78,6 +86,8 @@ Datum:
 Speichern
 [Delete]
 Löschen
+[Upcoming birthdays]
+Kommende Geburtstage
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 Kommendes Alter
@@ -109,16 +119,8 @@ Popupverzögerung bei Geburtstagserinnerungen einstellen.\nFormat: Standardverz�
 
 [Set birthday for %s:]
 Setze Geburtstag für %s:
-[mBirthday]
-
 [%S protocol]
 %S Protokoll
-[Birthday Reminder]
-
-[UserInfo]
-
-[mICQBirthday]
-
 [N/A]
 
 [Birthday list (%d)]
@@ -146,14 +148,33 @@ In %d Sekunde schließen
 Geburtstag nahe
 [Birthday today]
 Geburtstag heute
-[Birthdays]
-Geburtstage
-[Birthday list]
-Geburtstagsliste
+[Birthdays (When Was It)]
+Geburtstage (When Was It)
 [Check for birthdays]
 Prüfe Geburtstage
+[Refresh user details]
+Details aktualisieren
+[Import birthdays]
+Geburtstage importieren
+[Export birthdays]
+Geburtstage exportieren
+[Add/change user &birthday]
+Ge&burtstag ändern/hinzufügen
+[Birthdays]
+Geburtstage
 [Contacts]
 Kontakte
+;file \plugins\WhenWasIt\src\icons.cpp
+[Check birthdays menu item]
+Prüfe Geburtstage
+[List birthdays menu item]
+Geburtstagsliste
+[Add/change birthday]
+Geburtstag ändern/hinzufügen
+[1 day to birthday]
+1 Tag bis zum Geburtstag
+[WhenWasIt birthday reminder]
+
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Keine kommenden Geburtstage.

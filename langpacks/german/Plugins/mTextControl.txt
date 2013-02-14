@@ -1,11 +1,9 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
 ;============================================================
 ;  File: mTextControl.dll
 ;  Plugin: mTextControl
 ;  Version: 0.8.0.1
 ;  Authors: 
 ;============================================================
-;file \plugins\mTextControl\src\fancy_rtf.cpp
-[icon]
-
-;file \plugins\mTextControl\src\ImageDataObjectHlp.cpp
+[Provides text render API for different plugins.]
+Stellt ein Textdarstellungs-API für andere Plugins zur Verfügung.

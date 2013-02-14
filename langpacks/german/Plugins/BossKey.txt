@@ -14,6 +14,8 @@
 
 [Pre-conditions]
 Vorbedingungen
+[BossKey]
+
 [Go to Customize -> Hotkeys to change the hotkey]
 Unter 'Customize -> Hotkeys' können Sie den Hotkey ändern
 [When I press the hotkey:]
@@ -69,48 +71,17 @@ Verstecke Miranda NG bei Neustart nach einem Fehler
 
 [Password is not correct!\nPlease, enter correct password.]
 
-[Miranda NG]
-Miranda NG
-[Ctrl + ]
-
-[Shift + ]
-
-[Alt + ]
-
-[Win + ]
-
 [Hide Miranda NG]
 
 [Hide]
 Verstecken
 [Hide/Show Miranda]
 Verstecke/zeige Miranda NG
-[bosskeyname]
-
 [BossKey\tget the BossKey name]
-
-;file \plugins\BossKeyPlus\src\BossKey.h
-[MY6BossKey_Param]
 
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 Stringformatierungshilfe öffnen
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Abwesend
-[Occupied]
-Beschäftigt
-[DND]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
-[BossKey]
-
 [Events]
 Ereignisse
 [Main]

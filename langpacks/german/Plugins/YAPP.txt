@@ -5,7 +5,11 @@
 ;  Version: 0.5.0.10
 ;  Authors: Scott Ellis
 ;============================================================
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+
 ;file \plugins\YAPP\res\yapp.rc
+[Popup history]
+Popupverlauf
 [Close]
 Schließen
 [Case sensitive]
@@ -30,8 +34,6 @@ Rand
 Runde Ecken (Fenster)
 [Preview]
 Vorschau
-[Animate]
-Animieren
 [Transparent background]
 Transparenter Hintergrund
 [Layout]
@@ -58,11 +60,6 @@ Hintergrundfarbe:
 Anzeigedauer setzen
 [Timeout value (0 = default):]
 Anzeigedauer (0 = Standard):
-;file \plugins\YAPP\src\message_pump.cpp
-[default]
-Standard
-[Popup]
-Popup
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 
@@ -107,6 +104,12 @@ Avatar rechts
 Status
 [Full-screen app running]
 Vollbildanwendung aktiv
+[No animate]
+
+[Horizontal animate]
+
+[Vertical animate]
+
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
 [Error]
@@ -117,44 +120,29 @@ Popups
 Einstellungen
 [Classes]
 Kategorien
-;file \plugins\YAPP\src\popwin.h
-[YAPPWindowClass]
-
 ;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 Popups deaktivieren
 [Enable Popups]
 Popups aktivieren
-[Warning]
-Warnung
-[Notification]
-Benachrichtigung
 [Popup History]
 Popupverlauf
 ;file \plugins\YAPP\src\yapp.cpp
 [Popups]
-
+Popups
 [First line]
 Erste Zeile
-[Background]
-Hintergrund
 [Second line]
 Zweite Zeile
 [Time]
 Zeit
+[Background]
+Hintergrund
 [Sidebar]
 Seitenleiste
 [Title underline]
 Trennlinie unter Titel
-[neweventnotify]
-
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
-[Title]
-Titel
-[Message]
-Nachricht
-[Timestamp]
-Zeitanzeige
 [Copy title to clipboard]
 Titel in Zwischenablage kopieren
 [Copy message to clipboard]

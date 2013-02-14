@@ -69,6 +69,11 @@ Bearbeiten
 Keine Popups für RSS-Feeds
 [No popups for read messages]
 Keine Popups für gelesene Nachrichten
+;file \plugins\NewEventNotify\src\main.cpp
+[Message Session]
+Nachrichtensitzung
+[Message Received]
+
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
 Popups

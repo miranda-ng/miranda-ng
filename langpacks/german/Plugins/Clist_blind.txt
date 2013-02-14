@@ -1,6 +1,15 @@
 ﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
-;langpack template for Clist_blind
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[A contact list for blind folks.]
+
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Kontakt löschen
 [Are you sure you want to delete %s?]
 Soll Kontakt %s wirklich gelöscht werden ?
 [This will erase all history and settings for this contact!]
@@ -66,7 +75,7 @@ Nur wenn Status unterschiedlich
 [Contact List]
 Kontaktliste
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [System tray icon when using multiple protocols]
 Systemtray-Icon bei Benutzung mehrerer Protokolle
 [Contact List Sorting]
@@ -104,7 +113,7 @@ Deckkraft inaktiv:
 [Active opacity:]
 Deckkraft aktiv:
 [000%]
-
+
 [Show menu bar]
 Menüleiste anzeigen
 [Easy move]
@@ -161,30 +170,38 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
+[&¤]
+
 [E&xit]
 B&eenden
+[&Status]
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
+[Tray]
+
 [&Hide/Show]
 Zeigen/Ausblenden
+[Nowhere]
+Nirgends
 [&New Group]
 &Neue Gruppe
 [&Hide Offline Users]
@@ -197,6 +214,8 @@ L&eere Gruppen ausblenden
 &Gruppenfunktion ausschalten
 [Hide Miranda]
 Miranda NG ausblenden
+[Group]
+Gruppe
 [&New Subgroup]
 &Neue Untergruppe
 [&Hide Offline Users in here]

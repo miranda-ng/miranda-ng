@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp
@@ -88,6 +88,8 @@ Skin-Einstellungen
 Vorschau
 [Download more skins]
 Weitere Skins herunterladen
+[Popup History]
+Popupverlauf
 [Desktop]
 
 [Popup Area]
@@ -193,7 +195,7 @@ Maximale Breite
 [Position:]
 Position:
 [...]
-
+
 [Layout:]
 Ausricht.:
 [Reorder Popups]
@@ -228,9 +230,6 @@ Aktion
 ;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 Das png2dib-Plugin 0.1.3.x oder höher wird benötigt, um PNG-Bilder anzuzeigen.
-;file \plugins\Popup\src\common.h
-[debug]
-
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Der Zipferlake
@@ -246,16 +245,59 @@ Dies ist eine Benachrichtigung
 Dies ist eine Warnung
 [This is an error message]
 Dies ist eine Fehlermeldung
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
-Markierte Aktion
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 
 [Popup History message]
 
-[Popup History]
-Popupverlauf
+;file \plugins\Popup\src\icons.cpp
+[Popups are enabled]
+Popups aktiviert
+[Popups are disabled]
+Popups deaktiviert
+[With "favourite" overlay]
+Mit "bevorzugter" Überlagerung
+[With "fullscreen" overlay]
+Mit "Vollbild"-Überlagerung
+[Refresh skin list]
+Skin-Liste aktualisieren
+[Popup Placement]
+Popup-Platzierung
+[Cancel]
+Abbrechen
+[Popup Group]
+Popupgruppe
+[Favorite Contact]
+Beliebter oder bevorzugter Kontakt
+[Show in Fullscreen]
+Im Vollbild anzeigen
+[Blocked Contact]
+Blockierter Kontakt
+[Quick Reply]
+Schnelles Antworten
+[Pin Popup]
+Popup anheften
+[Pinned Popup]
+Angeheftetes Popup
+[Send Message]
+Nachricht senden
+[User Details]
+Kontaktprofil
+[Contact Menu]
+Kontaktmenü
+[Add Contact Permanently]
+Kontakt hinzufügen
+[Dismiss Popup]
+Popup schließen
+;file \plugins\Popup\src\icons.h
+[Toolbar]
+Toolbar
+[/Actions]
+
+[/Options]
+
+[/Misc]
+
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Kategorien
@@ -275,8 +317,6 @@ Popups deaktivieren
 &Popup-Modul aktivieren
 [Disable &popup module]
 &Popup-Modul deaktivieren
-[dir]
-
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 Fehler: Das PopUp-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -285,11 +325,29 @@ Kein Effekt
 [Fade in/out]
 Ein-/Ausblenden
 ;file \plugins\Popup\src\opt_class.cpp
-[CLASS Plugins]
-Plugin-Systeme
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 Popup-Fehler Benachrichtigung
 ;file \plugins\Popup\src\opt_gen.cpp
+[/Offline]
+
+[/Online]
+
+[/Invisible]
+
+[/Away]
+
+[/NA]
+
+[/Occupied]
+
+[/DND]
+
+[/Free for chat]
+
+[/Out to lunch]
+
+[/On the phone]
+
 [Width]
 Breite
 [upper left corner]
@@ -304,23 +362,15 @@ obere rechte Ecke
 Horizontal
 [vertical]
 Vertikal
-[Global Status]
-Globaler Status
-[Protocol Status/%hs]
-Protokollstatus/%hs
 [You cannot specify a value lower than %d and higher than %d.]
 Werte kleiner als %d und größer als %d sind nicht zulässig.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 'Popups neu ordnen' ist momentan deaktiviert.\r\nDies kann Popups falsch darstellen, wenn Avatare\r\nund Textersetzungen verwendet werden (hauptsächlich NewStatusNotify).\r\nWollen Sie die Popup Neuanordnung jetzt aktivieren?
 [Popup Plus Warning]
 Popup Plus Warnung
-[Cancel]
-Abbrechen
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 Fehler beim Registrieren %s dieser Klasse.
-[PopupPlusDlgBox]
-
 [Skin preview]
 Skinvorschau
 [Just take a look at this skin... ;)]
@@ -337,23 +387,15 @@ Schatten werfen (WinXP+)
 Windowsfarben verwenden
 [Use advanced text render]
 Erweitertes Text-Rendern
-[Global settings]
-Allgemeine Einstellungen
 [Refresh List]
 Liste aktualisieren
 ;file \plugins\Popup\src\popup_thread.cpp
-[PopupThreadManagerWnd]
-
 ;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 
-[PopupMenuHostWnd]
-
 ;file \plugins\Popup\src\services.cpp
-[WorkerW]
-
 [Error]
 Fehler
 [Warning]
@@ -361,14 +403,6 @@ Warnung
 [Notify]
 Benachrichtigung
 ;file \plugins\Popup\src\skin.cpp
-[res:]
-
-[Skin]
-Skin (Theme)
-[* Popup Classic]
-
-[\\skins\\popup]
-
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
 
 ;file \plugins\Popup\src\srmm_menu.cpp
@@ -386,3 +420,6 @@ Auto
 Favorit
 [Block]
 Blockieren
+;file \plugins\Popup\src\version.h
+[PopUps]
+Popups

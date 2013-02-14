@@ -1,6 +1,8 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Mein Nicknamen setzen
 [Nickname:]
 Nick:
 [OK]
@@ -65,8 +67,12 @@ Protokoll
 Protokollnamen anzeigen
 [Show protocol cycle button]
 Protokollwechselbuttons anzeigen
+[Set My Status Message for All Status]
+Meine Statusnachricht für jeden Status setzen
 [Status Message:]
 Statusnachricht:
+[Status popup]
+Statuspopup
 [&Offline]
 
 [On&line]
@@ -87,6 +93,8 @@ Uns&ichtbar
 Am Telefon
 [Out to &Lunch]
 Zum Essen
+[Context popup]
+Kontextpopup
 [Set My Avatar...]
 Mein Avatar setzen
 [Set My Nickname...]
@@ -103,20 +111,18 @@ Vorheriges Protokoll anzeigen
 Wechsel der Protokolle
 [Don't cycle through protocols]
 Kein Wechsel der Protokolle
+[Nick popup]
+Nickpopup
+[Status message popup]
+Statusnachrichtenpopup
+[Avatar popup]
+Avatarpopup
+[ListeningTo popup]
+
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <kein Statusname>
 ;file \plugins\MyDetails\src\frame.cpp
-[MyDetailsFrame]
-
-[MyDetailsFrameContainer]
-
-[<no nickname>]
-<kein Nickname>
-[<no status message>]
-<keine Statusnachricht>
-[<nothing playing>]
-<es spielt nichts>
 [Nickname]
 Nick
 [Status]
@@ -125,10 +131,10 @@ Status
 Statusnachricht
 [Listening To]
 
-[Background]
-Hintergrund
 [My Details]
 Meine Details
+[Background]
+Hintergrund
 [Avatar Border]
 Avatar-Rahmen
 [Show My Details]
@@ -150,10 +156,10 @@ Höre gerade
 Vorheriges Protokoll
 [Next protocol]
 Nächstes Protokoll
-[Contact List]
-Kontaktliste
 [Set My Nickname for %s]
 Nickname für %s setzen
 [Set My Status Message for %s]
 Statusnachricht für %s setzen
+[Contact List]
+Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

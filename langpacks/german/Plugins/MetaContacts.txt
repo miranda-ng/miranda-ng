@@ -5,7 +5,11 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
+[Merges contacts from the same or different protocols into one.]
+
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[Add to Existing MetaContact]
+Zu Metakontakt hinzufügen
 [Please select a MetaContact:]
 Bitte einen Metakontakt wählen:
 [&Ok]
@@ -14,6 +18,8 @@ Bitte einen Metakontakt wählen:
 Abbre&chen
 [Sort Alphabetically]
 Alphabetisch sortieren
+[Editing]
+Bearbeiten
 [&OK]
 
 [Name:]
@@ -74,10 +80,14 @@ Unterkontaktdaten übernehmen
 Namen auf 1. Kontakt festlegen
 [but only for the current conversation]
 aber nur für aktuelle Nachrichtensitzung
+[History Copy]
+Verlauf kopieren
 [Progress1]
 Fortschritt1
 [Please wait while the contact's history is copied.]
 Verlauf wird kopiert, bitte warten.
+[History Remove]
+Verlauf entfernen
 [Please wait while the contact's history is removed.]
 Verlauf wird entfernt, bitte warten.
 [Subcontact Priorities]
@@ -130,8 +140,6 @@ Zuweisungsfehler
 ;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (Unbekannter Kontakt)
-[Unknown]
-Unbekannt
 [Yes]
 Ja
 [Contact]
@@ -142,8 +150,6 @@ Protokoll
 Offline senden
 [Delete MetaContact?]
 Metakontakt löschen?
-[None]
-Keine
 ;file \plugins\MetaContacts\src\icons.cpp
 [Toggle Off]
 Ausschalten
@@ -187,8 +193,18 @@ Meta-ID
 
 [Message from %s]
 Nachricht von %s
+[Toggle MetaContacts Off]
+Metakontakte deaktivieren
+[Add to existing MetaContact...]
+Zu Metakontakt hinzufügen
+[Edit MetaContact...]
+Metakontakt bearbeiten
+[Set as MetaContact default]
+Als Standardmetakontakt setzen
 [Context]
 Kontext
+[Toggle MetaContacts On]
+Metakontakte aktivieren
 [General]
 Allgemein
 [Priorities]
@@ -218,10 +234,6 @@ Konnte Kontaktprotokoll nicht in Metakontakt schreiben
 Konnte keine eindeutige ID in Metakontakt schreiben
 [Could not write nickname of contact to MetaContact]
 Konnte Nicknamen des Kontakts nicht in Metakontakt schreiben
-[meta_id: ]
-
-[, contact num: ]
-
 [Subcontact contact number < 0 - deleting MetaContact]
 
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
@@ -260,3 +272,5 @@ Unsichtbar
 
 [IDLE]
 INAKTIV
+[Unknown]
+Unbekannt

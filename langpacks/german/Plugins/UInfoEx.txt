@@ -1,11 +1,15 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
+[Gives extended ability to edit information about your contacts locally. ]
+
 ;file \plugins\UserInfoEx\res\resource.rc
+[Edit Contact Information]
+Kontakt bearbeiten
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 
 [Origin]
@@ -15,7 +19,7 @@ Akt&ualisieren
 [Updating]
 Aktualisieren
 [Ok]
-
+
 [Cancel]
 Abbrechen
 [Apply]
@@ -84,6 +88,8 @@ Beruf:
 Vorgesetzte(r):
 [Assistant:]
 Assistent(in):
+[Add Phone Number]
+Telefonnummer hinzufügen
 [Enter your phone number\nand don't worry about formating.]
 Geben Sie eine Nummer ein,\n keine Sorge wegen der Formatierung.
 [Enter a category for this number:]
@@ -94,6 +100,8 @@ Landes-, Ortsvorwahl und Rufnummer:
 oder internationale Rufnummer:
 [Phone can receive SMS text messages]
 Telefon kann SMS-Nachrichten empfangen
+[Add E-Mail]
+E-Mail hinzufügen
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
 Geben Sie hier die volle eMail-Adresse ein.\n(z.B.:john.doe@provider.de)
 [Enter a representitive name for the e-mail address here.]
@@ -166,10 +174,14 @@ Vergangenheit hzfg.
 Interesse hzfg.
 [Delete]
 Löschen
+[Anniversary Editor]
+Jahrestag-Editor
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 Jahrestag-Editor\nHinzufügen/Editieren der Jahrestage
 [Enter a name for the anniversary here please:]
 Geben Sie hier den Namen des Jahrestages ein:
+[Anniversary list]
+Liste der Jahrestage
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 
 [Statistics:]
@@ -242,6 +254,8 @@ Allgemein
 Baumansicht
 [Adapt propertysheet pages to aero mode.]
 Passe Benutzer-Informationsseite der Aero-Oberfläche an (ab Vista+)
+[Import]
+Importieren
 [Importing...\nPlease wait!]
 Importiere ...\nBitte warten Sie!
 [Setting/Event (20/100)]
@@ -249,6 +263,8 @@ Importiere ...\nBitte warten Sie!
 [Progress1]
 Fortschritt1
 [John Doe (1/10)]
+
+[Dialog]
 
 [OK]
 OK
@@ -312,6 +328,8 @@ nicht gefunden
 Verwende globale Einstellungen.
 [Don't remind me of this anniversary.]
 Erinnere mich nicht an diesen Jahrestag.
+[Refresh Contact Details]
+Kontaktdaten aktualisieren
 [Preparing...]
 Vorbereiten ...
 [Hide]
@@ -322,6 +340,8 @@ Was soll exportiert werden?
 Kontaktinformationen
 [Contact History]
 Kontaktverlauf
+[Select Modules]
+Module auswählen
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
 Wählen Sie die Module in der Baumstruktur aus, die Sie von dem Kontakt exportieren möchten. Um eine Datei in der Listenansicht einzufügen, müssen Sie mindestens ein Protokoll-Modul exportieren.
 [Check all]
@@ -377,8 +397,6 @@ Zeigen:
 [Reset to defaults]
 Zurücksetzen auf Standards
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-[Button]
-Schaltfläche
 [Creating unique name for a page failed with %d and error code %d]
 Das Erstellen eines eindeutigen Namens für eine Seite fehlgeschlagen mit %d und dem Fehlercode %d
 [Creating the label for a page failed with %d and error code %d]
@@ -399,10 +417,8 @@ E-Mail bearbeiten
 Tel. bearbeiten
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Die Telefonnummer sollte mit + beginnen und nur aus\nNummern, Leerzeichen, Klammern und Bindestrichen bestehen.
-[none]
-Keine
-[Edit]
-Bearbeiten
+[Syntax Error]
+
 [Choose the item to display.]
 Wählen Sie einen Eintrag zum Anzeigen aus.
 [Edit the currently displayed item.]
@@ -417,16 +433,6 @@ Schwerer Fehler: Der gewählte Eintrag kann nicht bearbeitet werden!\nDas sollte
 Soll der gewählte Eintrag wirklich gelöscht werden?\n\t%s\n\t%s
 [Other]
 Sonstige
-[ SMS\0]
-
-[ SMS]
-
-;file \plugins\UserInfoEx\src\ctrl_contact.h
-[UInfoComboExWndClass]
-
-;file \plugins\UserInfoEx\src\ctrl_edit.cpp
-[mailto:]
-
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 unspezifiziert
@@ -451,8 +457,6 @@ Nur Geburtstage
 Nur Jahrestage
 [Disabled reminder]
 Deaktivierte Erinnerung
-[Anniversary list]
-Liste der Jahrestage
 [Popup Anniversary list]
 Zeige Jahrestagsliste
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
@@ -505,12 +509,8 @@ Notizen
 Exportieren
 [Import from file]
 Importieren
-[Segoe UI]
-
 [Owner]
 Inhaber
-[Edit Contact Information]
-Kontakt bearbeiten
 [Upload ICQ Details]
 ICQ-Profil hochladen
 [Upload failed]
@@ -518,8 +518,6 @@ Hochladen fehlgeschlagen
 [Your details were not uploaded successfully.\nThey were written to database only.]
 Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 ;file \plugins\UserInfoEx\src\init.cpp
-[miranda]
-
 [Fatal error, image services not found. Flags Module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
@@ -548,8 +546,6 @@ Alle Kontakte importieren
 Sichere Geburtstage
 [Check anniversaries]
 Suche nach Jahrestagen
-[Refresh Contact Details]
-Kontaktdaten aktualisieren
 [Ex-/Import Group]
 
 [&Export Group]
@@ -898,6 +894,14 @@ Partys
 Frauen
 [Social science]
 Sozialwissenschaft
+[60's]
+60er Jahre
+[70's]
+70er Jahre
+[80's]
+80er Jahre
+[50's]
+50er Jahre
 [Finance and corporate]
 
 [Entertainment]
@@ -1005,6 +1009,8 @@ Speicher konnte nicht bereitgestellt werden!
 Der Kontakt hat keine gültige Homepage
 [View Homepage]
 Homepage ansehen
+[&Homepage]
+
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [b]%s (%S)...[/b]\n%d verbleibende Kontakte
@@ -1051,75 +1057,6 @@ Geburtstags-Erinnerung
 Kommende Geburtstage
 [Anniversary Reminder]
 Jahrestagserinnerung
-;file \plugins\UserInfoEx\src\svc_timezone_old.cpp
-[Display]
-Anzeige
-[TZI]
-
-[Index]
-
-[Dateline Standard Time]
-
-[Samoa Standard Time]
-
-[Hawaiian Standard Time]
-
-[Alaskan Standard Time]
-
-[Pacific Standard Time]
-
-[US Mountain Standard Time]
-
-[Central America Standard Time]
-
-[SA Pacific Standard Time]
-
-[Pacific SA Standard Time]
-
-[Newfoundland Standard Time]
-
-[SA Eastern Standard Time]
-
-[Mid-Atlantic Standard Time]
-
-[Azores Standard Time]
-
-[GMT Standard Time]
-
-[Romance Standard Time]
-
-[South Africa Standard Time]
-
-[Russian Standard Time]
-
-[Iran Standard Time]
-
-[Arabian Standard Time]
-
-[Afghanistan Standard Time]
-
-[West Asia Standard Time]
-
-[Sri Lanka Standard Time]
-
-[N. Central Asia Standard Time]
-
-[Myanmar Standard Time]
-
-[North Asia Standard Time]
-
-[China Standard Time]
-
-[Tokyo Standard Time]
-
-[AUS Central Standard Time]
-
-[Vladivostok Standard Time]
-
-[Central Pacific Standard Time]
-
-[New Zealand Standard Time]
-
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 
@@ -1129,8 +1066,6 @@ Der Kontakt %s(%s) besitzt keine ID in der vCard,\naber ein Kontakt in deiner Li
 [Importing a new contact was aborted!]
 
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
-[Sub Contact: %s (]
 
 [Importing a new meta subcontact failed!]
 
@@ -1148,16 +1083,6 @@ Benötigte Module
 [Optional modules]
 Erweiterte Module
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Software\\Miranda NG\\PlacesBar]
-
-[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar]
-
-[Place0]
-
-[Place1]
-
-[Place2]
-
 [Miranda NG]
 Miranda NG
 [Shows Miranda's installation directory.]
@@ -1220,5 +1145,3 @@ Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte E
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der xmlCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
-[PNG]
-

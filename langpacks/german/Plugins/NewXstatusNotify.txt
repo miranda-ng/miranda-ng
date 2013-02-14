@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
-;  Version: x.x.x.x
+;  Version: 1.4.0.9
 ;  Authors: 
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
@@ -53,7 +53,7 @@ Gehen Sie zu Customize -> Klänge und wählen Sie die Klänge aus
 [Extra status]
 XStatus
 [...]
-
+
 [Open]
 Öffnen
 [Status message]
@@ -77,7 +77,7 @@ Individuelle Klänge sind deaktiviert.\n\nUm diese einzuschalten, aktiviere unte
 [Sounds]
 Klänge
 [Popups]
-
+Popups
 [Extra status notify]
 Extrastatusbenachrichtigung
 [Extra status logging]
@@ -148,6 +148,8 @@ Neuer Status:
 Variablen
 [Reset]
 Standard
+[Disable notifications]
+Deaktiviere Benachrichtigungen
 [OK]
 OK
 [Cancel]
@@ -183,8 +185,6 @@ Aktiviere/Deaktiviere Protokolle über die sie nicht benachrichtigt werden wolle
 
 [All Files]
 Alle Dateien
-[wav]
-
 [Status]
 Status
 [Sound for the status]
@@ -206,10 +206,6 @@ Kontakt
 
 [%s is now %s]
 %s ist nun %s
-[HH':'mm]
-
-[dd/MM/yyyy]
-
 [%s, %s. %s changed to: %s (was: %s).\r\n]
 
 [(M) is back online!]
@@ -296,8 +292,6 @@ Kontakt: Am Telefon
 Statusbenachrichtigungen aktivieren
 [Disable status notification]
 Statusbenachrichtigung deaktivieren
-[PopUps]
-Popups
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Extra status changed]
@@ -309,12 +303,8 @@ Extra Status wurde entfernt
 [Toggle status notification]
 Wechsel Statusbenachrichtigungen
 ;file \plugins\NewXstatusNotify\src\options.cpp
-[%s_TSMChange]
-
 [Log]
 Verlauf
-[log]
-
 [This is status message]
 Dies ist eine Statusnachricht
 [Do you want to reset all templates to default?]
@@ -331,9 +321,9 @@ Protokoll
 Filtern
 [Message log]
 Nachrichtenverlauf
+[PopUps]
+Popups
 ;file \plugins\NewXstatusNotify\src\popup.h
-[(was %s)]
-(war %s)
 [Open message window]
 Nachrichtenfenster öffnen
 [Close popup]
@@ -349,13 +339,9 @@ Nichts tun
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
 Werte kleiner als %d und größer als %d sind nicht zulässig.
-[open]
-
 [Can't open the log file!]
 Log konnte nicht geöffnet werden!
 [NewXstatusNotify]
-
-[a+b, ccs=UTF-8]
 
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
@@ -383,7 +369,7 @@ entfernte %N
 änderte Nachricht für %N @ %I
 [has %N @ %T%D%I]
 hat %N @ %T%D%I
-[These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
 
-[These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
-
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Diese Variablen sind verfügbar:\r\n\r\n\ %n\tNeue Statusnachricht\r\n\ %o\tAlte Statusnachricht\r\n\ %c\tBenutzerdef. Nickname\r\n\ \\n\tZeilenumbruch\r\n\ \\t\tTabstopp

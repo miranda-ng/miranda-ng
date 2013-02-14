@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: dbchecker.dll
 ;  Plugin: Database Checker
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -18,6 +18,8 @@ Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrau
 Um fortzufahren, drücken Sie "Weiter".
 [This programme is licenced under the terms of the GNU General Public License.]
 Dieses Programm wurde unter der GNU General Public License lizenziert.
+[Miranda Database Tool]
+Miranda-Datenbanktool
 [< &Back]
 < Zurück
 [&Next >]
@@ -100,8 +102,6 @@ Die Verarbeitung der Datenbank wurde beendet. Klicken Sie auf "Weiter", um das T
 Drücken Sie "Weiter" zum Fortfahren
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie den Vorgang abbrechen?
-[Miranda Database Tool]
-Miranda-Datenbanktool
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie jetzt zurückgehen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie jetzt zurückgehen?
 ;file \plugins\DbChecker\src\selectdb.cpp
@@ -113,30 +113,10 @@ Fehler
 
 [Database]
 Datenbank
-[ProfileDir]
-
-[./Profiles]
-
-[%.2lf MB]
-
 [Total size]
 Gesamtgröße
 [Wasted]
 Überflüssig
-[\\Profiles]
-
-[[ini]\\]
-
-[[prf]\\]
-
-[Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe]
-
-[Path]
-Pfad
-[[reg]\\]
-
-[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
-
 [Miranda Databases (*.dat)]
 
 [All Files]

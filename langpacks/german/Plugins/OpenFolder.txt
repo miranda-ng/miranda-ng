@@ -1,11 +1,7 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {10896143-7249-4b36-a408-6501a6b6035a}
 ;langpack template for OpenFolder
 ;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Ordner öffnen
-[explore]
-
-[open]
-
 [Main]
 Allgemein

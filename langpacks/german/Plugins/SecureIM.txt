@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -77,7 +77,7 @@ Allgemein
 [Executable:]
 GnuPG-Programm:
 [...]
-
+
 [Home Directory:]
 Benutzerverzeichnis:
 [Temp Dir:]
@@ -124,6 +124,8 @@ Popup beim Empfang eines Schlüssels zeigen
 Popup bei sicherem Nachrichtenversand zeigen
 [Show a popup on each secure receive]
 Popup bei sicherem Nachrichtenempfang zeigen
+[Please type in your password]
+Bitte vergeben Sie ein Passwort!
 [Username:]
 Benutzername:
 [Password:]
@@ -132,10 +134,14 @@ Passwort:
 OK
 [Cancel]
 Abbrechen
+[SecureIM plugin Passphrase of private key]
+SecureIM: Passphrase des privaten Schlüssels
 [Enter passphrase for the secret key:]
 'Passphrase' für den geheimen Schlüssel eingeben:
 [Ok]
-
+
+[Mode]
+Modus
 [Native SecureIM]
 AES SecureIM (Nativ)
 [PGP SecureIM]
@@ -146,12 +152,16 @@ AES SecureIM (Nativ)
 
 [RSA SecureIM]
 
+[Status]
+Status
 [Always Try to Establish Secure IM]
 SecureIM-Verbindung immer versuchen
 [Secure IM Enabled]
 SecureIM aktiviert
 [Secure IM Disabled]
 SecureIM deaktiviert
+[Pre-shared key]
+Pre-Shared Key
 [Set key]
 Schlüssel setzen
 [Delete key]
@@ -160,6 +170,8 @@ Schlüssel löschen
 Pre-Shared Key setzen
 [Delete pre-shared key]
 Pre-Shared Key löschen
+[Public key]
+Öffentl. Schlüssel (PUB)
 [Export key]
 Schlüssel exportieren
 [Import key]
@@ -186,10 +198,14 @@ SecureIM-Status
 [SecureIM [RSA/AES]]
 
 ;file \plugins\SecureIM\src\options.cpp
+[Executable Files]
+Ausführbare Dateien
+[Select GnuPG Executable]
+GnuPG-Programm wählen
 [ASC files]
 
-[All Files ]
-
+[All files]
+Alle Dateien
 [Open Key File]
 
 [Save Private Key File]

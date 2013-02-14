@@ -1,14 +1,23 @@
 ﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
-;langpack template for Contacts
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+Über das Kontextmenü der Kontakte können Kontakte versendet und empfangen werden.
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+
 [&A]
-
+
 [6]
-
+
 [&D]
-
+
 [&H]
-
+
 [Choose contacts to be send:]
 Kontakte zum Senden auswählen:
 [&Send]
@@ -17,6 +26,8 @@ Kontakte zum Senden auswählen:
 Abbrechen
 [&Select All]
 Alles au&swählen
+[Received contacts]
+
 [Add to &group:]
 Zur &Gruppe hinzufü&gen
 [&Add]
@@ -25,6 +36,8 @@ Hinzufügen
 
 [Close]
 Schließen
+[Contacts send error]
+
 [An error has occured. The protocol reported the following error:]
 Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 [Try again]
@@ -38,18 +51,11 @@ Kontaktprofil
 [Send Message]
 Nachricht senden
 ;file \plugins\ContactsPlus\src\main.cpp
-[Contacts received from %s]
-Kontakte empfangen von %s
+[Contacts received from]
+
 [Contacts]
 Kontakte
 [Incoming Contacts]
 Eingehende Kontakte
 [Outgoing Contacts]
 Ausgehende Kontakte
-;file \plugins\ContactsPlus\src\send.cpp
-[Contacts transfer failed!]
-Kontakte-Transfer fehlgeschlagen!
-[The selected contact does not support receiving contacts.]
-
-[The contacts send timed out.]
-Zeitüberschr. beim Senden der Kontakte.

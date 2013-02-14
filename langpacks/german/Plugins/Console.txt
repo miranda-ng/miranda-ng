@@ -1,11 +1,15 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.0.7.3
+;  Authors: Bio
 ;============================================================
+[Console log window for Miranda.]
+
 ;file \plugins\Console\res\resource.rc
+[Console                                    ]
+
 [Single window mode*]
 
 [Show icons in log*]
@@ -49,10 +53,6 @@ Zeige Konsole
 
 [*** Console started ***]
 
-[Data received]
-
-[Data sent]
-
 [*** Console paused ***]
 
 [*** Console resumed ***]
@@ -67,10 +67,6 @@ Dienste
 Konsole
 [Text]
 Text
-[Background]
-Hintergrund
-[Courier]
-
 [&Help]
 &Hilfe
 [Text Files (*.txt)]

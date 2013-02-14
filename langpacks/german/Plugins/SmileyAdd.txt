@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: x.x.x.x
+;  Version: 0.2.3.17
 ;  Authors: 
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
@@ -11,7 +11,7 @@ Smileykategorien
 [Specify Smiley Pack for each category]
 Für jede Kategorie separate Smileys setzen
 [...]
-
+
 [Name:]
 Name:
 [Author:]
@@ -30,10 +30,16 @@ Anzeige
 Nur von Leerzeichen umgebene Smileys ersetzen
 [Scale smiley to textheight]
 Smileys an Texthöhe anpassen
-[Animate]
-Animieren
 [Disable custom smileys]
 'MSN Custom Smileys' deaktivieren
+[High Quality smiley scaling]
+Hochwertige Skalierung von Smileys
+[Animate]
+Animieren
+[Max "Custom Smiley" height]
+Maximale 'Custom Smiley'-Höhe
+[Min smiley height]
+Minimale Smiley-Höhe
 [Smiley Selector]
 Smileyauswahl
 [Surround inserted smiley with spaces]
@@ -54,47 +60,16 @@ Nachrichtenfensterunterstützung
 Deaktivieren
 [Smiley Button]
 Smileybutton
-[Max "Custom Smiley" height]
-Maximale 'Custom Smiley'-Höhe
-[High Quality smiley scaling]
-Hochwertige Skalierung von Smileys
-[Min smiley height]
-Minimale Smiley-Höhe
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Edit]
-Bearbeiten
 [Show Smiley Selection Window]
 Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
-[\\SmileyCache]
-
-[%miranda_userdata%\\SmileyCache]
-
 [SmileyAdd HTTP connections]
 SmileyAdd-Plugin HTTP-Verbindungen
 ;file \plugins\SmileyAdd\src\general.cpp
-[jpg]
-
-[bmp]
-
-[png]
-
-[gif]
-
 [GDI+ not installed.\nGDI+ can be downloaded here: http://www.microsoft.com/downloads]
 
 [Miranda SmileyAdd]
-
-;file \plugins\SmileyAdd\src\imagecache.cpp
-[dll]
-
-[ico]
-
-[icl]
-
-[tif]
-
-[tiff]
 
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
@@ -118,76 +93,17 @@ Unten
 Smileypacks
 [All Files]
 Alle Dateien
-[msl]
-
 ;file \plugins\SmileyAdd\src\services.cpp
-[<None>]
-<Keine>
-[Standard]
-
 [Protocol specific]
 protokollspezifisch
-;file \plugins\SmileyAdd\src\smileyroutines.cpp
-[THppRichEdit]
-
-[Time elapsed: %u]
-
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[hContact]
-
-[(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*]
-
-[[\\s"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*]
-
-[Nothing loaded]
-Nichts geladen
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Smileypack %s nicht gefunden.\nKorrektes Smileypack in den Miranda-Einstellungen unter 'Customize -> Smileys' auswählen!
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Das verwendete SmileyPack ist fehlerhaft und muss korrigiert werden.\nDetails finden sich im Netzwerklog
-[^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
-
-[Name]
-Name
-[Author]
-Autor
-[Date]
-Datum
-[Version]
-Version
-[ButtonSmiley]
-
-[^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)]
-
-[Selection]
-
-[Window]
-Fenster
-[(?:[\\s,]+(R|S)?"(.*?)\]
-
 [Smiley #%u in file %s for Smiley Pack %s not found.]
 
-[&lt;]
-
-[&gt;]
-
-[<DataBaseName>\\s*"(.*?)"\\s*</DataBaseName>]
-
-[<PackageAuthor>\\s*"(.*?)"\\s*</PackageAuthor>]
-
-[<settings>(.*?)</settings>]
-
-[<record.*?ImageIndex="(.*?)".*?>(?:\\s*"(.*?)\]
-
-[<Expression>\\s*"(.*?)"\\s*</Expression>]
-
-[<PasteText>\\s*"(.*?)"\\s*</PasteText>]
-
-[<images>(.*?)</images>]
-
-[<Image>(.*?)</Image>]
-
-[Test String]
+[Standard]
 
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
 
@@ -196,5 +112,3 @@ Fenster
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 Nein!
-[SmileyTool]
-

@@ -55,7 +55,7 @@ Hintergrundbild
 [Scroll with text]
 Mit Text scrollen
 [...]
-
+
 [Template Options]
 Einstellungen der Vorlage
 [Use message grouping]
@@ -82,14 +82,13 @@ URL gesendet
 [URL received]
 URL empfangen
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+['(Unknown Contact)']
+(Unbekannter Kontakt)
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 [ requested authorisation]
 
 [ was added.]
-
-;file \plugins\IEView\src\IEView.cpp
-[about:blank]
 
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [Error]
@@ -112,6 +111,14 @@ Nachrichtensitzungen
 [IEView]
 
 [Skins]
+
+[320 x 205]
+
+[480 x 385]
+
+[560 x 349]
+
+[640 x 390]
 
 [Template]
 Vorlage

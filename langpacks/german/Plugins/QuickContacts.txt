@@ -25,6 +25,8 @@ aber als Spalte anzeigen ...
 Unterkontakte verstecken
 [But keep subcontacts of protocols in above list if meta is hidden]
 Aber Unterkont. des Prot. in Liste lassen, wenn Metakont. verst. ist
+[Enter username:]
+Namen eingeben:
 [Show all contacts]
 Alle Kontakte zeigen
 [Send message]

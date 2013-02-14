@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
-;  Version: x.x.x.x
+;  Version: 0.1.1.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
@@ -49,8 +49,6 @@ Tooltip Formatierung:
 [Display traffic for current]
 Zeige Traffic für aktuellen
 ;file \plugins\TrafficCounter\src\statistics.c
-[ListBox]
-
 [Bytes]
 
 [Adaptive]
@@ -79,25 +77,13 @@ Online
 Der aktuelle Traffic für den ausgewählten Account wird gelöscht.\nWeitermachen?
 [Traffic counter]
 Traffic Counter
-[m:ss]
-
-[h:mm:ss]
-
-[d hh:mm:ss]
-
-[%miranda_userdata%\\statistics]
-
 [Couldn't read statistics file]
 Konnte die Statistikdatei nicht lesen
 [Traffic Counter]
 
 ;file \plugins\TrafficCounter\src\TrafficCounter.c
-[TrafficCounterWnd]
-
 [Font]
 Schriftart
-[Arial]
-
 [Hide traffic window]
 verstecke Trafficfenster
 [Clear the current (Now:) value]
@@ -130,8 +116,6 @@ Sichtbare Konten
 Zusammenfassung für den Verkehr für sichtbar Konten
 [Overall traffic]
 Gesamter Verkehr
-[Visible accounts/%s]
-Sichtbare Konten/%s
 [Hide now]
 Jetzt verstecken
 [Day]
@@ -158,22 +142,3 @@ Traffic Counter Benachrichtigungen
 %d Kilobytes gesendet
 [%d kilobytes received]
 %d Kilobytes empfangen
-;file \plugins\TrafficCounter\src\vars.c
-[overall]
-
-[summary]
-
-[now]
-
-[sent]
-
-[received]
-
-[both]
-beide
-[total]
-
-[tc_GetTraffic]
-
-[tc_GetTime]
-

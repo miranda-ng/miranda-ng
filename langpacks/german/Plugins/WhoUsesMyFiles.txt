@@ -1,6 +1,8 @@
 ﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
+[WUMF: Current connections]
+
 [OK]
 OK
 [Popup delay settings]
@@ -32,7 +34,7 @@ Farben wählen
 [Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher]
 
 [...]
-
+
 [Log into text file]
 Textdatei speichern
 [Log folders access]

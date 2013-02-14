@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN
-;  Version: x.x.x.x
+;  Version: 0.11.0.2
 ;  Authors: 
 ;============================================================
 ;file \protocols\MSN\res\msn.rc
@@ -24,12 +24,12 @@ Farbe und Größe der Nachrichtenschrift senden
 Alle Kontakte deaktivieren, die nicht in meiner Kontaktliste sind
 [Manage server groups]
 Serverseitige Gruppen verwalten
+[Allow people on my contact list send messages to mobile device]
+Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
 [Run the following application when new Hotmail arrives]
 Führe folgendes Programm aus, sobald eine neue Hotmail eintrifft:
 [...]
-
-[Allow people on my contact list send messages to mobile device]
-Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
+
 [Connection settings]
 Verbindungseinstellungen
 [Direct:]
@@ -80,6 +80,8 @@ Popup 'Chatsitzung eingeleitet' aktivieren
 Popup 'Benutzer hat Channel verlassen' aktivieren
 [Disable Contact List notifications]
 Kontaktlisten-Benachrichtigungen deaktivieren
+[Set Nickname]
+Nickname setzen
 [OK]
 OK
 [Cancel]
@@ -102,10 +104,14 @@ Geburtstag
 Nick
 [Place:]
 Ort:
+[MSN Delete Contact]
+MSN-Kontakt löschen
 [Remove from Hotmail Address book]
 Aus Hotmail-Adressbuch entfernen
 [Block Contact]
 Kontakt blockieren
+[Invite Contact To Chat]
+
 [Live ID]
 
 [&Invite]
@@ -158,14 +164,6 @@ Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum norma
 [User not online]
 
 ;file \protocols\MSN\src\msn_links.cpp
-[add?]
-
-[chat?]
-
-[voice?]
-
-[video?]
-
 [MSN Link Protocol]
 
 ;file \protocols\MSN\src\msn_lists.cpp
@@ -204,26 +202,6 @@ Live &Alerts einstellen
 [&Start Netmeeting]
 NetMeeting &starten
 ;file \protocols\MSN\src\msn_misc.cpp
-[%%miranda_userdata%%\\Avatars\\%s]
-
-[%s\\Avatars\\%s]
-
-[\\%s avatar.]
-
-[jpg]
-
-[bmp]
-
-[png]
-
-[gif]
-
-[unk]
-
-[%s\\%s\\CustomSmiley]
-
-[Miranda]
-Miranda
 [Notify]
 Benachrichtigung
 [Error]
@@ -309,10 +287,6 @@ Nachricht ist zu lang: MSN-Nachrichten dürfen maximal 1202 UTF8-Zeichen lang se
 [Offline messaging is not allowed for LCS contacts]
 Offline-Nachrichten sind nicht für LCS-Kontakte erlaubt!
 ;file \protocols\MSN\src\msn_svcs.cpp
-[Music]
-Musik
-[No Title]
-
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 
 [Convert to Chat]

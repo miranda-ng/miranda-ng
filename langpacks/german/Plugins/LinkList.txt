@@ -1,12 +1,12 @@
 ﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Suchen
 [Close]
 Schließen
 [Search for:]
 Suchen nach:
-[Search]
-Suchen
 [Message direction]
 Nachrichtenrichtung
 [Message types]
@@ -65,14 +65,22 @@ Zeitanzeige
 Richtung
 [Type]
 Typ
+[&File]
+Datei
 [&Save]
 &Speichern
 [&Close]
 S&chließen
+[&Options]
+Einstellungen
+[Message &Direction]
+Nachrichtenrichtung
 [&Outgoing Messages Only]
 Nur ausgehende Nachrichten
 [&Incoming Messages Only]
 Nur e&ingehende Nachrichten
+[Message &Type]
+Nachrich&tenart
 [&Webaddresses Only]
 Nur Internetadressen
 [&Mail-Addresses Only]
@@ -81,6 +89,8 @@ Nur E-&Mail-Adressen
 Su&chergebnisse löschen
 [&Search]
 &Suchen
+[link]
+
 [Open]
 Öffnen
 [Open in new Window]
@@ -111,12 +121,8 @@ ausgehende
 [no settings]
 
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[Unable to load the Rich Edit control!]
-Rich-Edit-Element konnte nicht geladen werden!
 [&Create Linklist]
 Linkliste erstellen
-[Progressbar]
-
 [History]
 Verlauf
 [Processing history...]
@@ -128,48 +134,16 @@ Speicher konnte nicht belegt werden!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
 Linklisten-Plugin
-[mailto:]
-
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
-[www.]
-
-[icq#]
-
-[gopher://]
-
-[news://]
-
-[file://]
-
-[d-t]
-
-[Arial]
-
 [Matches for searchtext]
 Treffer fur Suchtext
-[Courier]
-
 [Processing list...]
 Liste wird verarbeitet...
-[[mail]]
-
-[[file]]
-
-[[UNK ]]
-
-[[in ]]
-
-[[out]]
-
 [No messages found!\nPlease change current filter options.]
 Keine Nachrichten gefunden!\nBitte Filterregeln ändern.
-[\n[in ] ]
+[RTF file]
 
-[URL   ]
-
-[[out] ]
-
-[RTF File\0*.rtf\0All Files\0*.*\0\0]
-
+[All files]
+Alle Dateien
 [Save RTF File]
 

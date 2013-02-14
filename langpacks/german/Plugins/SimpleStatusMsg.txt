@@ -1,14 +1,20 @@
 ﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+'%s'-Nachricht von %s
 [&Cancel]
 Abbre&chen
 [Retrieving %s message...]
 Rufe '%s'-Nachricht ab...
 [Co&py to Clipboard]
 Nachricht kopieren
+[%s Message (%s)]
+%s Nachricht (%s)
 [OK]
 OK
+[Retrieving status message for %s...]
+Statusnachricht für %s ermitteln...
 [%time%]
 
 [%date%]
@@ -21,12 +27,16 @@ OK
 
 [%randdefmsg%]
 
+[Fortune]
+
 [%fortunemsg%]
 
 [%protofortunemsg%]
 
 [%statusfortunemsg%]
 
+[Variables]
+Variablen
 [?cinfo(contact,property)]
 
 [?contact(string,property)]
@@ -63,10 +73,6 @@ OK
 
 [More variables...]
 
-[Fortune]
-
-[Variables]
-Variablen
 [Cut]
 Ausschneiden
 [Copy]
@@ -189,16 +195,6 @@ Abwesenheitsnachricht kopieren
 [&Go to URL in Away Message]
 &Gehe zur URL in der Abwesenheitsnachricht
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[STUDIO]
-
-[Winamp v1.x]
-
-[ - Winamp]
-
-[SimpleStatusMsg]
-
-[%rand(]
-
 [Change Status Message]
 Statusnachricht wechseln
 [Open Status Message Dialog]
@@ -209,8 +205,6 @@ Statusnachricht
 Statusnachricht ...
 [%s (locked)]
 %s (gesperrt)
-[winampsong]
-
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 
 [Miranda Related\tget the date (Simple Status Message compatible)]
@@ -228,8 +222,6 @@ Markierte löschen
 
 [Global]
 Global
-[%s Message (%s)]
-%s Nachricht (%s)
 [Closing in %d]
 In %d schließen
 [Are you sure you want to clear status message history?]

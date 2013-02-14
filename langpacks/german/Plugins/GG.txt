@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: GG.dll
 ;  Plugin: GG
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.11.0.2
+;  Authors: Bartosz Białek, Adam Strzelecki
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
@@ -22,8 +22,6 @@ Konto entfernen
 Passwort ändern
 [Retrieve password]
 Passwort anfordern
-[Change e-mail]
-
 [Options]
 Einstellungen
 [Friends only]
@@ -32,8 +30,6 @@ Nur Freunde
 Offlinenutzer mit Statusnachricht in Kontaktliste als unsichtbar anzeigen
 [After disconnection leave away message of status:]
 Nach Trennung folgende Statusnachricht nutzen:
-[Ignore incoming conference messages]
-
 [Receive image and after image is received use:]
 Datei empfangen und nach Empfang folgendes benutzen:
 [Show links from unknown contacts]
@@ -62,10 +58,6 @@ Automatisch wiederverbinden nach unbeabsichtigtem Abbruch der Verbindung.
 Nachrichten langsamer, aber mit voller Bestätigung senden
 [Manually specify connection servers' hosts]
 Manuell Server/Hosts eintragen
-[Host:]
-
-[Port:]
-Port:
 [* new line is separator\n** hostname:port format]
 * Zeilenumbruch ist Trenner\n ** hostname:port-Format
 [Use SSL secure connection]
@@ -74,12 +66,14 @@ Sichere SSL-Verbindung benutzen
 Dateitransfer
 [Use direct connections]
 Direkte Verbindung benutzen
+[Port:]
+Port:
 [Use forwarding]
 'Forwarding' verwenden
+[Host:]
+Host:
 [Number:]
 Nummer:
-[Version:]
-
 [Internal IP:]
 Interne IP:
 [First name:]
@@ -102,10 +96,14 @@ Geburtsjahr:
 Übersicht:
 [&Save changes]
 Änderungen &speichern
+[Enter token to continue]
+
 [OK]
 OK
 [Cancel]
 Abbrechen
+[Create Gadu-Gadu account]
+Gadu-Gadu-Konto erstellen
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 Gadu-Gadu Account erstellen\nDies wird einen neuen Gadu-Gadu Account erstellen.
 [New password:]
@@ -116,16 +114,22 @@ Passwort bestätigen:
 Neue E-Mail:
 [&Create]
 Erstellen
+[Remove Gadu-Gadu account]
+Gadu-Gadu_Konto löschen
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
 Gadu-Gadu Account entfernen\nDies wird Ihren Gadu-Gadu Account entfernen
 [Yes, I want to remove my account]
 Ja, ich möchte meinen Account entfernen
 [Remove]
 Entfernen
+[Change Gadu-Gadu password]
+Gadu-Gadu-Passwort ändern
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
 Gadu-Gadu Passwort ändern\nÄndert das Passwort des aktuellen Gadu-Gadu Nutzers
+[Change Gadu-Gadu e-mail]
+Gadu-Gadu-E-Mail ändern
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-
+Gadu-Gadu-E-Mail ändern\nÄndern Sie hier Ihre Gadu-Gadu-E-Mail
 [Age from:]
 Alter von:
 [to:]
@@ -136,24 +140,20 @@ Suche nur nach Onlinenutzern
 S&chließen
 [&Send]
 &Senden
+[Open new conference]
+Öffne neue Konferenz
 [Open new conference\nSelect conference participants]
 Neue Konferenz öffnen\nTeilnehmer der Konferenz auswählen
 [Open]
 Öffnen
+[Concurrent Sessions]
+
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 Gleichzeitige %s login Sitzungen\nInformationen zu aktiven gleichzeitigen Sitzungen anzeigen
 [Sign out all sessions]
 Alle Sitzungen abmelden
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [Can not create avatars cache directory. ERROR: %d: %s\n%s]
-
-[jpg]
-
-[gif]
-
-[png]
-
-[\\%s avatar.%s]
 
 [Can not create avatar file. ERROR: %d: %s\n%s]
 
@@ -184,8 +184,6 @@ Der Verbindungsversuch zum Server wurde vorzeitig abgebrochen. Es könnte die lo
 Unbekannt
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Externe Direktverbindung vom Hostname %s ist falsch. Deaktivieren Sie bitte die externe Host-Weiterleitung.
-[<none>]
-<keine>
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Serverhostname %s ist falsch. Benutzen Sie bitte den vorausgesetzten Standard Hostname aus ihrem Netzwerk.
 [Connection cannot be established. errno=%d: %s]
@@ -211,10 +209,6 @@ Unbekannter Client
 männlich
 [Female]
 weiblich
-[GMT%+d:%02d]
-
-[GMT]
-
 [<not specified>]
 <nicht angegeben>
 [Network]
@@ -238,7 +232,7 @@ Für Chat bereit
 [Invisible]
 Unsichtbar
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [Popup window]
 Popupfenster
 [Message with [img] BBCode]
@@ -265,10 +259,6 @@ Sie müssen sich einloggen bevor sie ihre Details ändern können.
 [Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
 
 ;file \protocols\Gadu-Gadu\src\gg.cpp
-[WinSock %u: Unknown error.]
-
-[WinSock %d: %s]
-
 [HTTP failed memory]
 
 [HTTP failed connecting]
@@ -281,8 +271,6 @@ Sie müssen sich einloggen bevor sie ihre Details ändern können.
 
 [Unknown HTTP error]
 
-[%s\\*.(null)]
-
 [&Unblock]
 Blockieren a&ufheben
 [&Block]
@@ -291,8 +279,6 @@ Blockieren a&ufheben
 Kontaktliste
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
-
-[%s\\%s\\ImageCache]
 
 [Gadu-Gadu Number]
 
@@ -344,8 +330,6 @@ Sende Bild
 Speicher Bild
 [Delete image]
 Lösche Bild
-[Open new conference]
-Öffne neue Konferenz
 [Clear ignored conferences]
 Ignorierte Konferenzen löschen
 [Concurrent sessions]
@@ -354,8 +338,6 @@ Ignorierte Konferenzen löschen
 [&Image]
 
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-
-[w+b]
 
 [Image cannot be written to disk.]
 Das Bild konnte nicht auf die Festplatte geschrieben werden.
@@ -369,13 +351,7 @@ Bild von %s
 Bild für %s
 [Select picture to send]
 Wählen Sie ein Bild zum übersenden
-[bmp]
-
-[jpeg]
-
 [Can not create image cache directory. ERROR: %d: %s\n%s]
-
-[%.*s (%u)%s]
 
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 
@@ -448,7 +424,7 @@ Es gibt keine aktiven gleichzeitigen Sitzungen für diesen Account.
 [You have to be logged in to view concurrent sessions.]
 Sie müssen angemeldet sein um die gleichzeitig aktiven Sitzungen zu sehen.
 [Copy Text]
-
+Text kopieren
 [Whois]
 
 [Concurrent &sessions]
@@ -476,10 +452,10 @@ Ihr Passwort konnte nicht geändert werden, Fehler:\n\t%s
 [Invalid data entered]
 Falsche Daten eingegeben?
 [Your password has been changed.]
-
+Ihr Passwort wurde geändert
 [Your e-mail cannot be changed because of error:\n\t%s]
 Ihre eMail-Adresse konnte nicht geändert werden, Fehler:\n\t%s
 [Bad old e-mail or password]
 Falsche eMail-Adresse oder Passwort.
 [Your e-mail has been changed.]
-
+Ihre E-Mail wurde geändert.

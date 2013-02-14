@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: Svc_dbepp.dll
 ;  Plugin: Database Editor++
@@ -8,6 +8,8 @@
 [Advanced Database Editor.]
 Erweiterte Datenbank-Editor.
 ;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ Search and Replace]
+Datenbank-Editor++ Suchen und Ersetzen
 [Case Sensitive]
 Groß-/Kleinschreibung
 [Module Name]
@@ -44,6 +46,8 @@ Einstellungszweig beim Starten automatisch öffnen
 Liste bekannter Module verwenden
 [Warn when deleting modules]
 Beim Löschen von Modulen warnen
+["Open user tree in DBE++" menu item]
+"Benutzerzweig in DBE++ öffnen"-Eintrag im Kontaktmenü
 [Use popups when watched settings change values]
 Popups verwenden, wenn beobachtete Einstellungen den Wert ändern
 [Modules to ALWAYS mark as known (e.g core modules)]
@@ -58,6 +62,8 @@ Anzeigedauer (0 für endlos)
 Hintergrundfarbe
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 Wenn Modulname Leerzeichen enthält, vor das Leerzeichen ein \\ setzen, z. B. "aaa\\ bbb"
+[Add a module to contact]
+Modul zum Kontakt hinzufügen
 [Add a module named]
 Name des Moduls
 [Add to all contacts (Includes Settings)]
@@ -66,6 +72,8 @@ Modul zu allen Kontakten hinzufügen (inkl. Einstell.)
 OK
 [Cancel]
 Abbrechen
+[Edit Setting]
+Einstellung ändern
 [Value Name:]
 Name:
 [Value Data:]
@@ -74,40 +82,60 @@ Wert:
 Basis
 [Save Value as:]
 Wert speichern als:
+[Watched Database Variables]
+Beobachtete Datenbank-Variablen
+[Copy module to contact]
+Modul zu Kontakt kopieren
 [Copy to all contacts (Includes Settings)]
 Zu allen Kontakten kopieren (inkl. Einstell.)
 [Contact to copy module and settings to]
 Modul und Einstellungen kopieren zu Kontakt:
+[Import Module/Settings]
+Module/Einstellungen importieren
 [Import]
 Importieren
 [Insert &CR/LF]
 Zeilenumbru&ch
 [Paste the Settings to import here.]
 Zu importierende Einstellungen hier einfügen.
+[DBEditor++]
+
+[&Main]
+Allge&mein
 [&Refresh Modules]
 Module aktualisie&ren
 [Refresh &Settings]
 Einstellungen aktuali&sieren
 [E&xit]
 B&eenden
+[&Actions]
+&Aktionen
 [&Search and Replace]
 &Suchen und Ersetzen
 [&Delete Module]
 Mo&dul löschen
+[&Watches]
+Beobachten
 [&View all]
 Alle anzeigen
 [&Delete all]
 Alle löschen
+[&Export]
+&Exportieren
 [Entire &Database]
 Gesamte &Datenbank
 [All &Settings]
 Alle Ein&stellungen
 [All &Contacts]
 Alle Kontakte
+[&Import]
+&Importieren
 [From a &file]
 Von einer Datei
 [From pasted &text]
 Vom eingefügten &Text
+[&Options]
+Einstellungen
 [&Sort by protocol]
 Nach Protokoll &sortieren
 [Show &All]
@@ -126,8 +154,12 @@ Nur &ungeladene anzeigen
 Position wiederhe&rstellen
 [&Open Options]
 
+[Item context]
+Eintragkontext
 [&Edit / Rename]
 B&earbeiten/Umbenennen
+[NEW]
+Neu
 [&Byte]
 
 [&Word]
@@ -140,6 +172,10 @@ B&earbeiten/Umbenennen
 
 [BL&OB]
 
+[&Convert to]
+Umwandeln zu
+[Encyption]
+Verschlüsselung
 [View Decrypted String]
 Entschlüsselten String anzeigen
 [View Encrypted String]
@@ -152,6 +188,8 @@ String verschlüsseln
 Beobachten
 [&Delete]
 Löschen
+[Null Mod context]
+Null Mod Kontext
 [&Rename]
 Umbenennen
 [Copy To Contact]
@@ -160,22 +198,38 @@ Zu Kontakt kopieren
 Modul exportieren
 [Add To Known Modules]
 Zu bekannten Modulen hinzufügen
+[Contact menu]
+Kontaktmenü
 [&Clone]
 Kopie erstellen
 [Export Contact]
 Kontakt exportieren
+[Import Settings]
+Einstellungen importieren
 [From a file]
 Von einer Datei
 [From pasted text]
 Vom eingefügten Text
 [&Add Module]
 Modul hinzufügen
+[NULL contact menu]
+NULL-Kontaktmenü
 [Export Settings]
 Einstellungen exportieren
+[Contacts menu]
+Kontaktmenü
 [Export Contacts]
 Kontakte exportieren
+[Import Contacts]
+Kontakte importieren
+[Contact Mod context]
+Kontaktmod Kontext
 [Export Module from all contacts]
 Modul von allen Kontakten exportieren
+[new item]
+Neuer Eintrag
+[Watch Window]
+Beobachtungsliste
 [Reload Watch List]
 Beobachtungsliste aktualisieren
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp

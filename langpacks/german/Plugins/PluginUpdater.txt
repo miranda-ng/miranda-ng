@@ -8,6 +8,8 @@
 [Plugin updater for Miranda NG.]
 
 ;file \plugins\PluginUpdater\res\Resource.rc
+[Updates found!]
+Updates gefunden!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information]
 PluginUpdater hat aktuallisierte Versionen einiger Miranda-\nKomponenten gefunden. Klicken Sie auf Details für weitere Informationen.
 [Update]
@@ -89,10 +91,6 @@ Fenster
 [PopUps]
 Popups
 ;file \plugins\PluginUpdater\src\Notifications.cpp
-[%s\\Backups]
-
-[%s\\Temp]
-
 [Skipped.]
 
 [Will be deleted!]
@@ -113,13 +111,6 @@ Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und M
 Komponentenname
 [State]
 Region
-[ /restart:%d /profile=%s]
-
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-Popup schließen
-[Do nothing]
-Nichts tun
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 Stunden
@@ -130,13 +121,9 @@ Testen
 [Services]
 Dienste
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
-[%miranda_path%\"DEFAULT_UPDATES_FOLDER)));\r\n		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	}\r\n\r\n	LoadOptions();\r\n	InitPopupList();\r\n	NetlibInit();\r\n	IcoLibInit();\r\n\r\n	// Add cheking update menu item\r\n	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);\r\n\r\n	CLISTMENUITEM mi = { sizeof(mi) };\r\n	mi.position = -0x7FFFFFFF;\r\n	mi.flags = CMIF_ICONFROMICOLIB;\r\n	mi.icolibItem = Skin_GetIconHandle("check_update]
-
 [Check for plugin updates]
 Auf Plugin-Updates prüfen
 ;file \plugins\PluginUpdater\src\Scanner.cpp
-[platform]
-Plattform
 [Downloading version info...]
 Lade Versionsinformationen ...
 [An error occured while downloading the update.]
@@ -151,9 +138,4 @@ Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 ['No' Button]
 
 [Plugin Updater HTTP connection]
-
-["%s" /restart:%d /profile=%s]
-
-;file \plugins\PluginUpdater\src\Minizip\ioapi.c
-[r+b]
 

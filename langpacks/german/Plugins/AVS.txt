@@ -81,11 +81,10 @@ Avatare je Protokoll setzen
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokolle haben unterschiedliche Avatare
+;file \plugins\AVS\src\commonheaders.h
+[Global avatar]
+Globaler Avatar
 ;file \plugins\AVS\src\main.cpp
-[AVS-HASH-%x]
-
-[SHELLDLL_DefView]
-
 [Grow avatar to fit max allowed protocol size]
 Avatargröße an maximale Protokollgröße anpassen
 [All Files]
@@ -97,31 +96,25 @@ JPEG-/JPG-Bilder
 [GIF Bitmaps]
 GIF-Bilder
 [PNG Bitmaps]
-
+
 [Flash Animations]
 
 [XML Files]
-
-[GlobalAvatar]
-
-[%s\\my_global_avatar%s]
 
 [Set My Avatar]
 Meinen Avatar einstellen
 [Set My Avatar for %s]
 Setze Mein Avatar für %s
-[mir_av_]
-
 [Global avatar for %s accounts]
 Globaler Avatar für %s Konten
-[avs_loaderthread_%d]
-
-[\\Avatars]
-
-[Contacts]
-Kontakte
 [Avatars]
 Avatare
+[My Avatars]
+Meine Avatare
+[My Global Avatar Cache]
+Mein globaler Avatar-Cache
+[Contacts]
+Kontakte
 [Protocols]
 Protokolle
 [Contact Avatars]
@@ -130,8 +123,6 @@ Kontaktavatare
 Eigene Avatare
 [Avatar]
 Avatar
-[gdi32]
-
 [Fatal error, image services not found. Avatar services will be disabled.]
 Schwerwiegender Fehler, Image-Services-Plugin wurde nicht gefunden. Der Dienst wird nun deaktiviert.
 [Avatar Service]
@@ -150,4 +141,4 @@ Kein Avatar
 [Are you sure you want to remove your avatar?]
 Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
 [Global Avatar]
-Globaler Avatar
+

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: x.x.x.x
+;  Version: 3.1.99.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
@@ -39,7 +39,7 @@ Hinweise
 [Popup]
 Popup
 [Tray]
-
+
 [Options]
 Einstellungen
 [Add new rooms to group:]
@@ -53,7 +53,7 @@ Logdatei aktivieren
 [Log directory]
 Verzeichnis für Logdateien
 [...]
-
+
 [Maximum size for log files (in kB)]
 Maximale Größe der Logdateien (in kB)
 [Group chat log formatting]
@@ -106,26 +106,34 @@ Hervorhebungen für Nachrichtentexte aktivieren
 Wörter, die hervorgehoben werden sollen; Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen. Lassen Sie es leer, wenn Sie nur Ihren eigenen Nicknamen hervorheben wollen.
 [Highlight messages containing my own nick name]
 Nachrichten, die meinen eigenen Nicknamen enthalten, hervorheben
+[List]
+Liste
 [&Message]
 Nachricht
+[Log]
+Verlauf
 [Clear lo&g]
 Verlauf löschen
 [Co&py all]
 Alles ko&pieren
 [Word lookup]
-
+
 [Google]
-
+
 [Wikipedia]
-
+
+[Link]
+
 [Open a &new browser window]
 In &neuem Browserfenster öffnen
 [&Open in current browser window]
 In aktuellem Br&owserfenster öffnen
 [&Copy link]
 Link kopieren
+[Message]
+Nachricht
 [Undo  ]
-
+
 [Redo]
 Wiederherstellen
 [Copy]
@@ -138,13 +146,17 @@ Einfügen
 Alles markieren
 [Clear]
 Löschen
+[Tabs]
+
 [&Close tab]
-
+Tab s&chließen
 [C&lose other tabs]
-
+Andere Tabs sch&ließen
 [&Open at this position]
-
+An dieser Position öffnen
 ;file \plugins\TabSRMM\res\resource.rc
+[TabSRMM exception]
+
 [Copy to clipboard]
 In Zwischenablage kopieren
 [Continue]
@@ -209,8 +221,6 @@ Text
 Hintergrund
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Zeitlimit (Sekunden, 0 = Standard, -1 = Kein Limit)
-[Message]
-Nachricht
 [Default colors]
 Standardfarben
 [Others]
@@ -225,6 +235,8 @@ Fehler
 Benutze das Farbschema des Nachrichtenverlaufs für Gruppenchat-Popups
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
 Kein kompatibles Popup-Plugin wurde gefunden. Das Ereignis-Benachrichtigungssystem ist dadurch nicht verfügbar.
+[Dialog]
+
 [All modes]
 Alle Modi
 [Choose modes]
@@ -259,6 +271,8 @@ Lade nur aktuellen Nachrichtenverlauf
 Neue Nachrichten begrenzen auf
 [Events]
 Ereignisse
+[   ]
+
 [Only show tab bar when it's needed]
 Tableiste nur zeigen, wenn sie benötigt wird
 [Container stays on top]
@@ -423,6 +437,8 @@ Statusmodus für automatische Tab-/Fenstererzeugung
 Begrenze Nicks im Tab auf
 [ESC key behavior]
 Verhalten der ESC-Taste
+[Select container]
+Container auswählen
 [Available containers]
 Verfügbare Container
 [Delete]
@@ -543,6 +559,8 @@ Vertikale Ausrichtung unterer Tabs:
 HINWEIS: Einige Einstellungen haben keine Wirkung auf bereits offene Fenster.
 [Tab layout tweaks]
 Tab-Anordnung
+[About tabSRMM]
+Über TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
@@ -576,7 +594,7 @@ Exportiere in eine Datei ...
 [Import from a file...]
 Importiere aus einer Datei ...
 [Ok]
-
+
 [Icons]
 Icons
 [Event type icons in the message log]
@@ -629,10 +647,14 @@ Alles ko&pieren
 Verlauf leeren
 [Freeze Log]
 Verlauf einfrieren
+[LogLink]
+
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
 In bestehendem Fenster öffnen
+[Editor]
+
 [Paste formatted Text]
 Formatierten Text einfügen
 [Paste and Send immediately]
@@ -643,8 +665,12 @@ Alles kopieren
 Alles markieren
 [Show Message Length Indicator]
 Nachrichtenlänge grafisch anzeigen
+[Tabmenu]
+
 [Close Tab]
 Tab schließen
+[Close Other Tabs]
+andere Tabs schließen
 [Leave Chat Room]
 Chatraum verlassen
 [Save Tab Position]
@@ -657,6 +683,10 @@ Zu Container zuordnen...
 Containereinstellungen...
 [Close Container]
 Container schließen
+[Picmenu]
+
+[Show Contact Picture]
+Kontaktbild zeigen
 [Default]
 Standard
 [Hidden for this Contact]
@@ -669,10 +699,16 @@ Kontaktbild-Einstellungen...
 
 [Save this Picture As...]
 Bild speichern unter...
+[Logmenu]
+
+[&Message Log Settings]
+Nachrichtenverlaufseinstellungen
 [&Global...]
 &Global...
 [&For this Contact...]
 &Für diesen Kontakt...
+[Sendmenu]
+
 [Send &Default]
 Stan&dard
 [Send to &multiple Users]
@@ -687,18 +723,30 @@ Später senden
 Unsicher senden, Zeitüberschreitungen ignorieren
 [Send Nudge]
 Nudge senden
+[Protomenu]
+
+[Splitter Position]
+
 [Global]
 Global
 [Private]
 Privat
+[Send Text Formatting]
+Textformatierung senden
 [BBCode]
 
 [Off]
 Aus
+[This Contact]
+Für diesen Kontakt
 [Global Setting]
 Globale Einstellung
 [Force Off]
 Niemals senden
+[Unread Menu]
+
+[Traycontext]
+
 [Recent Sessions]
 Zuletzt geöffnet
 [Favorites]
@@ -717,6 +765,8 @@ Verborgene Nachrichtenfenster zeigen
 Keine Sounds abspielen
 [Be "Super Quiet"]
 Alles unterdrücken
+[Font]
+Schriftart
 [Default Color]
 Standardfarbe
 [Red]
@@ -745,7 +795,13 @@ Keine offenen Nachrichtenfenster
 Kontakt zu Favoriten hinzufügen
 [Remove Contact from Favorites]
 Kontakt aus Favoriten entfernen
+[Apparentmenu]
+
 [dummy]
+
+[Panelpicmenu]
+
+[Splitter context]
 
 [Set Position for this Session]
 Position für diese Sitzung speichern
@@ -755,6 +811,8 @@ Position für alle Sitzungen setzen und speichern
 Position nur für diesen Kontakt setzen und speichern
 [Revert to old Position]
 Auf alte Position zurücksetzen
+[Queue manager]
+Queue-Manager
 [Mark Selected for Removal]
 Ausgewähltes entfernen
 [Reset Selected]
@@ -767,18 +825,24 @@ Ausgewähltes fortsetzen
 Alle Mehrfach-Senden-Liste Aufgaben abbrechen
 [Copy Message to Clipboard]
 Kopiere Nachrichten in Zwischenablage
+[&File]
+Datei
 [Save Message Log As...]
 Verlauf speichern als...
 [Close Message Session\tCtrl-W]
 Sitzung schließen\tStrg-W
 [Close Container\tAlt-F4]
 Container schließen\tAlt-F4
+[&View]
+&Ansicht
 [Show Menu Bar]
 Menüleiste anzeigen
 [Show Status Bar]
 Statusleiste anzeigen
 [Info Panel...]
 Infobereich...
+[Tool Bar]
+Toolbar
 [Show Tool Bar]
 Toolbar anzeigen
 [Place ToolBar at bottom]
@@ -787,6 +851,8 @@ Toolbar unten platzieren
 Titelleiste
 [Tabs at Bottom]
 Tabs am unteren Rand
+[Window Flashing]
+Fensterblinken
 [Use default Value]
 Standardwert verwenden
 [Disable Flashing]
@@ -795,6 +861,12 @@ Blinken deaktivieren
 Kontaktliste einbetten
 [Stay on Top]
 Immer im Vordergrund
+[Message &Log]
+Nachrichten&verlauf
+[&Container]
+&Container
+[Event Popups]
+Ereignis-Popups
 [Disable all Event Popups]
 Alle Ereignis-Popups deaktivieren
 [Show Popups if Window is minimized]
@@ -807,8 +879,12 @@ Popups anzeigen, wenn Fenster aktiv
 Popups für alle inaktiven Sitzungen
 [Save current Window Position as Default]
 Aktuelle Fensterposition als Standard
+[Help]
+Hilfe
 [About tabSRMM...]
 Über TabSRMM...
+[Queued send jobs]
+Gespeicherte Sendenaufgaben
 [Queued jobs]
 Gespeicherte Aufgaben
 [Filter by contact:]
@@ -870,8 +946,6 @@ Sonstige Ereignisse
 [Send message on Ctrl+Enter (always enabled)]
 Strg+Enter sendet Nachricht (immer aktiviert)
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[TSButtonClass]
-
 [Protocol Button]
 Protokoll-Schaltfläche
 [Info button]
@@ -908,32 +982,15 @@ Nickliste ein-/ausblenden
 Ereignisfilter - Rechtsklick zum Einrichten, Linksklick zum Aktivieren/Deaktivieren
 [Channel manager]
 Channelmanager
-[>-------M-------<]
-
 [<Separator>]
 <Trennlinie>
-;file \plugins\TabSRMM\src\contactcache.cpp
-[<undef>]
-
 ;file \plugins\TabSRMM\src\container.cpp
-[default]
-Standard
-[**free**]
-
 [Hide titlebar]
 Titelleiste verstecken
 [Container options...]
 Containereinstellungen...
 [Message Session...]
 Nachrichtensitzung ...
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-
-[Parameter mismatch]
-
-[TSStatusBarClass]
-
-[Message Session]
-Nachrichtensitzung
 [Default container]
 Standardcontainer
 [Attach to]
@@ -1002,20 +1059,10 @@ Nicht anzeigen
 ;file \plugins\TabSRMM\src\controls.cpp
 [&Main]
 Allge&mein
-[&File]
-Datei
-[&View]
-&Ansicht
 [&User]
 Ben&utzer
 [&Room]
 &Raum
-[Message &Log]
-Nachrichten&verlauf
-[&Container]
-&Container
-[Help]
-Hilfe
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Klänge sind %s. Klick schaltet Status um, Shift-Klick überträgt Status auf alle Container
 [disabled]
@@ -1029,8 +1076,6 @@ Sitzungsliste:\nKlicke links für eine Liste der offenen Sitzungen.\Klick rechts
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Bytes, Nachrichtenlänge begrenzt auf: %d Bytes\n\n%d Nachrichten werden für den späteren Versand in die Zwischenablage kopiert.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[found stale popup %s]
-
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 
 [Incoming file]
@@ -1045,14 +1090,8 @@ Eingehende Datei (falsches Format)
 Neue Nachrichten:
 [Unknown module or contact]
 Unbekanntes Modul oder Kontakt
-[(undef)]
-
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [Rich Edit file]
-
-[\\Saved message logs]
-\\Gespeicherte Nachrichtenmeldungen
-[rtf]
 
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 
@@ -1060,16 +1099,12 @@ Unbekanntes Modul oder Kontakt
 Sie können keine Benutzernachrichten editieren, wenn ungesendete Nachrichten ausstehen.
 [%s is typing a message.]
 %s tippt eine Nachricht.
-[UID: %s]
-
 [Last received: %s at %s]
 Letzte Nachricht am %s um %s empfangen
 [%s has entered text.]
 %s hat einen Text eingegeben.
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
-[Forward]
-Später
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Shift + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
 [No UID]
@@ -1077,8 +1112,6 @@ Keine UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
 ;file \plugins\TabSRMM\src\globals.cpp
-[TabSRMM runtime error]
-
 [Instant messages]
 Sofortnachrichten
 [Incoming (Focused Window)]
@@ -1097,14 +1130,10 @@ Keine Statusnachricht
 Sonstige
 [TABSRMM: Typing]
 
-[TSHK]
-
 [&Messaging settings...]
 Nachrichteneinstellungen...
 [&Send later job list...]
 &Später-senden-Aufgabenliste...
-[SideBarClass]
-
 [Message from %s]
 Nachricht von %s
 [signed off.]
@@ -1113,63 +1142,48 @@ ist nun offline.
 meldet sich an und ist nun %s.
 [changed status from %s to %s.]
 ändert den Status von %s zu %s.
+;file \plugins\TabSRMM\src\hotkeyhandler.cpp
+[Most recent unread session]
+Die letzten ungelesenen Sitzung
+[Paste and send]
+Einfügen und senden
+[Contact's messaging prefs]
+Kontakt Nachrichten Präferenz
+[Send nudge]
+Sende eine Nudge
+[Send a file]
+Eine Datei senden
+[Quote message]
+Zitiere Nachrichten
+[Toggle send later]
+Später senden
+[Send message]
+Nachricht senden
+[Smiley selector]
+Smiley-Auswahlfenster
+[Show message history]
+Zeige Nachrichtenverlauf
+[Show user menu]
+Benutzermenü anzeigen
+[Show user details]
+Kontaktdetails anzeigen
+[Toggle tool bar]
+Wechsel Werkzeugleiste
+[Toggle info panel]
+Wechsel Infoleiste
+[Toggle text direction]
+Wechsel Textausrichtung
+[Toggle multi send]
+Nachrichten an mehrere Personen senden
+[Clear message log]
+Lösche Nachrichtenverlauf
+[Collapse side bar]
+Schließe Sidebar
+[Toggle filter]
+Wechsel Filter
+[Show server window]
+Zeige Serverfenster
 ;file \plugins\TabSRMM\src\infopanel.cpp
-[Angry]
-Wütend
-[Duck]
-
-[Tired]
-Müde
-[Party]
-
-[Beer]
-
-[Thinking]
-Denken
-[Eating]
-Essen
-[Friends]
-Freunde
-[Coffee]
-Kaffee
-[Music]
-Musik
-[Business]
-Geschäft
-[Camera]
-
-[Funny]
-
-[Phone]
-Telefon
-[Games]
-Spiele
-[College]
-Gymnasium
-[Shopping]
-Einkaufsbummel
-[Sick]
-Krank
-[Sleeping]
-Schlafen
-[Surfing]
-Sport
-[@Internet]
-
-[Engineering]
-Ingenieurwesen
-[Typing]
-Tippen
-[Eating... yummy]
-
-[Having fun]
-Spaß haben
-[Chit chatting]
-
-[Crashing]
-
-[Going to toilet]
-
 [%s    Idle: %dh,%02dm]
 
 [  Client: %s]
@@ -1200,8 +1214,6 @@ In Zwischenablage kopieren
 \\par\\par\\tab \\ul\\b Hört gerade:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 
-[\\line ]
-
 [tabSRMM Information]
 TabSRMM-Informationen
 [Set panel visibility for this %s]
@@ -1231,14 +1243,6 @@ Immer anzeigen (falls vorhanden)
 [Never show it at all]
 Niemals anzeigen
 ;file \plugins\TabSRMM\src\mim.cpp
-[%stabSRMM]
-
-[%sLogs\\]
-
-[%s\\skins\\]
-
-[%s\\Saved Contact Pictures]
-
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]
@@ -1271,8 +1275,6 @@ Wiederholen
 Später senden
 [Selection copied to clipboard]
 Auswahl in die Zwischenablage kopiert
-[mailto:]
-
 [Delivery failure: %s]
 Zustellungsfehler: %s
 [The message send timed out]
@@ -1288,54 +1290,16 @@ Achtung: Sie haben ein Unterprotokoll für die Zusendung der folgenden Meldungen
 [Contact is offline and this protocol does not support sending files to offline users.]
 Kontakt ist offline, und das Protokoll unterstützt keine Datenübertragung zu Leuten, die offline sind.
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
-[SHELLDLL_DefView]
-
 [Error creating destination directory]
 Fehler beim Erstellen des Zielverzeichnisses
 [Save contact picture]
 Kontaktbild speichern
-[My Avatar_%s]
-
-[png]
-
 [Image files]
 Bilddateien
 [The file exists. Do you want to overwrite it?]
 Diese Datei existiert bereits. Wollen Sie diese überschreiben?
 [Set Your Avatar...]
 Setzen Sie Ihr Avatar...
-[\\pard]
-
-[\\cf]
-
-[\\highlight]
-
-[\\par]
-
-[\\line]
-
-[\\endash]
-
-[\\emdash]
-
-[\\bullet]
-
-[\\ldblquote]
-
-[\\rdblquote]
-
-[\\lquote]
-
-[\\rquote]
-
-[\\strike]
-
-[\\ul]
-
-[\\tab]
-
-[MIME\\Database\\Rfc1766]
-
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 Die 'einfügen und senden'-Funktion ist deaktiviert. Sie können diese unter 'Allgemein' auf der Optionsseite 'Nachrichtenversand'-Sektion aktivieren.
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
@@ -1343,8 +1307,6 @@ Entweder das Nudge-Plugin ist nicht installiert oder das Kontakt-Protokoll unter
 ['(Unknown Contact)']
 (Unbekannter Kontakt)
 [JPEG-compressed images]
-
-[jpg]
 
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
@@ -1421,20 +1383,16 @@ Dezember
 Heute
 [Yesterday]
 Gestern
-[WMA]
-
 [Use default codepage]
 Standardkodierung verwenden
 ;file \plugins\TabSRMM\src\msgoptions.cpp
-[Name]
-Name
-[None]
-Keine
 [<no skin>]
 Kein Skin
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Wollen Sie bereits gelesene Nachrichten-Vorlagen aus dem Theme laden?\nAchtung: Dies wird das gespeicherte Template-Set, das das Aussehen Ihres Meldungsfenster beeinflusst erheblich beeinträchtigen und könnte überschrieben werden.\nWählen Sie Abbrechen, um nichts zu laden.
 [Load theme]
+
+[Internal message log]
 
 [IEView plugin]
 IEView-Plugin
@@ -1501,16 +1459,12 @@ Wähle Statusmodi
 
 [TabSRMM fatal error]
 
-[Warning: trying to create duplicate window]
-
 [Image tag]
 Bild Tagschaltfläche
 [Quote text]
 Text zitieren
 [Save and close]
 Speichern und schließen
-[Send message]
-Nachricht senden
 [Smiley button]
 Smileybutton
 [Format bold]
@@ -1593,10 +1547,6 @@ Hinausgeschoben
 Ausstehend
 [Pending]
 Bevorstehend
-[X/%s[%c] (%d)]
-
-[Never]
-Niemals
 [Contact]
 Kontakt
 [Original timestamp]
@@ -1609,11 +1559,7 @@ Status
 Letzte gesendete Info
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Sie sind dabei, den Zustand eines oder mehrerer Elemente in der Sendewarteschlange\zu ändern. Die angeforderte Aktion(en) werden bei der nächsten geplanten Queue-Verarbeitung ausgeführt werden.\n\nDie Aktion kann nicht rückgängig gemacht werden.
-[Queue manager]
-Queue-Manager
 ;file \plugins\TabSRMM\src\sendqueue.cpp
-[Send queue full]
-
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Die Nachricht kann nicht verzögert gesendet werden oder an mehrere Kontakte weitergeleitet werden, denn sie überschreitet die maximale Länge der Nachricht, es sind nur %d Byte erlaubt.
 [A message delivery has failed.\nClick to open the message window.]
@@ -1630,8 +1576,6 @@ Nachricht erfolgreich in der Warteschlange für spätere Übertragung gesichert.
 Die Nachrichten-später-senden-Funktion steht für dieses Protokoll nicht zur Verfügung.
 [\n(Sent delayed. Original timestamp %s)]
 \n(Verzögert gesendet. Der Original-Zeitstempel war %s)
-[M%d|]
-
 ;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
 Wie Tabs, vertikale Textausrichtung
@@ -1641,44 +1585,15 @@ Kompaktes Layout, horizontale Schaltflächen
 Erweitertes Layout mit Avataren
 [Advanced with avatars, vertical orientation]
 Erweitert mit Avataren, vertikale Ausrichtung
-[TS_SideBarClass]
-
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
 
-[tabSRMM]
-
 [tabSRMM Message (%s)]
 TabSRMM-Nachricht (%s)
-[TabSRMM\n%s %d.%d.%d.%d (Unicode) %s]
-
-[Version]
-Version
-;file \plugins\TabSRMM\src\tabctrl.cpp
-[msctls_updown32]
-
 ;file \plugins\TabSRMM\src\taskbar.cpp
-[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced]
-
-[TaskbarSmallIcons]
-
-[TaskbarGlomLevel]
-
-[create proxy object for: %s]
-
-[destroy proxy object for: %s]
-
 [Previews not availble when using History++ plugin for message log display.]
 
-[create proxy WINDOW for: %s]
-
-[destroy proxy WINDOW for: %s]
-
-[refresh base (background) with %d, %d]
-
 [%d Unread]
-
-[destroy CThumbBase]
 
 [Chat room %s]
 Chatraum %s
@@ -1689,29 +1604,15 @@ Serverfenster
 [%s on %s%s]
 %s  in %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
-[%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M]
-
-[%I %S %&D, %&T, %N %M%! ]
-
 [Template Set Editor]
 Bearbeiten des Nachrichtenverlaufs
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Dies wird alle Vorlagen auf die standardmäßig enthaltenen Vorlagen zurücksetzen, sind Sie sich sicher, dass Sie das tun wollen?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Alle Vorlagen wurden erfolgreich zurückgesetzt, bitte schließen Sie alle offenen Nachrichtenfenster und öffnen Sie sie erneut. Dieser Dialog wird nun geschlossen.
-[My Nickname]
-
 ;file \plugins\TabSRMM\src\themeio.cpp
-[TabSRMM Theme]
-
-[Cookie]
-
-[%s%c*.tabsrmm%c%c]
-
 [tabSRMM themes]
 tabSRMM Theme
-[tabsrmm]
-
 ;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Kein Effekt
@@ -1725,214 +1626,10 @@ Halbtransparent, benutzerdefinierte Farben
 Silberner Schatten
 [Custom (use own gradient colors)]
 Benutzerdefiniert (benutze eigenen Farbverl.)
-[Container]
-
-[Toolbar]
-Toolbar
-[Buttonnotpressed]
-
-[Buttonmouseover]
-
-[Infopanelfield]
-
-[Titlebutton]
-
-[Titlebuttonmouseover]
-
-[Titlebuttonpressed]
-
-[Tabpage]
-
-[Tabitem]
-
-[Tabitem_active]
-
-[Tabitem_bottom]
-
-[Tabitem_active_bottom]
-
-[Frame]
-Rahmen
-[MessageLog]
-
-[InputArea]
-
-[FrameInactive]
-
-[Tabitem_hottrack]
-
-[Tabitem_hottrack_bottom]
-
-[Statusbarpanel]
-
-[Statusbar]
-
-[Userlist]
-Benutzerliste
-[InfoPanelBackground]
-
-[Sidebar Background]
-
-[SbarHeight]
-
-[ClientArea]
-
-[Left]
-Links
-[Right]
-Rechts
-[Top]
-Oben
-[Bottom]
-Unten
-[Inner]
-
-[TabTextNormal]
-
-[TabTextActive]
-
-[TabTextUnread]
-
-[TabTextHottrack]
-
-[Glyph]
-
-[Image]
-Bild
-[Alpha]
-Alpha
-[Fillcolor]
-
-[Colorkey]
-
-[Stretch]
-
-[Perpixel]
-
 [All message containers need to close before the skin can be changed\nProceed?]
 Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert werden kann.\nFortsetzen?
 [Change skin]
 Skin ändern
-[none]
-Keine
-[Color1]
-
-[Color2]
-
-[COLOR2_TRANSPARENT]
-
-[Corner]
-
-[Gradient]
-Farbverlauf
-[left]
-links
-[right]
-rechts
-[down]
-runter
-[Radius]
-
-[Textcolor]
-Textfarbe
-[ffffffff]
-
-[Item%d]
-
-[Width]
-Breite
-[xoff]
-
-[yoff]
-
-[toggle]
-
-[Pressed]
-
-[Normal]
-
-[Hover]
-
-[Action]
-Aktion
-[service]
-
-[protoservice]
-
-[PassContact]
-
-[Tip]
-
-[Label]
-
-[NormalGlyph]
-
-[PressedGlyph]
-
-[HoverGlyph]
-
-[Signature]
-
-[Avatars]
-Avatare
-[BorderColor]
-
-[SideBarBG]
-
-[BorderType]
-
-[CloseGlyph]
-
-[MaximizeGlyph]
-
-[MinimizeGlyph]
-
-[framelessmode]
-
-[NoScrollbars]
-
-[WindowFrame]
-
-[Caption]
-
-[bottom]
-
-[CaptionOffset]
-
-[CaptionPadding]
-
-[SidebarTop]
-
-[SidebarBottom]
-
-[ClipFrame]
-
-[RadiusTL]
-
-[RadiusTR]
-
-[RadiusBL]
-
-[RadiusBR]
-
-[Theme]
-Schema
-[File]
-Datei
-[MenuBarBG]
-
-[LightShadow]
-
-[DarkShadow]
-
-[FontColor]
-
-[ButtonArea]
-
-[top]
-größtes Element
-[SKIN_GLYPH]
-
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Nachrichtenfenster-Tweaks
@@ -1989,7 +1686,7 @@ Entferne Popups für einen Kontakt, wenn ich eine Antwort sende
 [Disable notifications]
 Deaktiviere Benachrichtigungen
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [Left click actions (popups only)]
 Linksklick-Aktionen (nur für Popups)
 [Right click actions (popups only)]
@@ -2022,6 +1719,10 @@ Temporäre Kontakte beim Schließen löschen
 BBCode-Formatierung in ausgehenden Nachrichten erlauben
 [Automatically split long messages (experimental, use with care)]
 Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
+[Log status changes]
+Statuswechsel aufzeichnen
+[Automatically copy selected text]
+Markierten Text automatisch kopieren
 [Message log appearance]
 Verlaufseinstellungen
 [Support for external plugins]
@@ -2062,10 +1763,6 @@ Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
 Zeitstempel/Nicknamen unterstreichen (IEView-Kompatibilitätsmodus)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Zeitstempel nach Nicknamen anzeigen (IEView-Kompatibilitätsmodus)
-[Log status changes]
-Statuswechsel aufzeichnen
-[Automatically copy selected text]
-Markierten Text automatisch kopieren
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
 Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
 [How to create tabs and windows for incoming messages]
@@ -2095,15 +1792,6 @@ Tab-Taste im Eingabefeld erlauben (dies deakiviert Fokus-Auswahl durch Tab-Taste
 [Add offline contacts to multisend list]
 Offline-Kontakte zur Mehrfach-Senden-Liste hinzufügen
 ;file \plugins\TabSRMM\src\trayicon.cpp
-[tsr_evt_%d]
-
-[TrayNotifyWnd]
-
-[TrayClockWClass]
-
-[Shell_TrayWnd]
-
-;file \plugins\TabSRMM\src\TSButton.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 &Tipphinweis deaktivieren
@@ -2137,16 +1825,6 @@ Nachrichteneinstellungen für %s
 [Message Log]
 Nachrichtenverlauf
 ;file \plugins\TabSRMM\src\utils.cpp
-[\xAA]
-
-[*/_]
-
-[\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];]
-
-[\\colortbl]
-
-[\\red]
-
 [Important release notes|A test warning message]
 Wichtige Release Informationen|Eine Testnachricht
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
@@ -2172,8 +1850,6 @@ Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins 
 [TabSRMM warning message]
 TabSRMM-Warnmeldung
 ;file \plugins\TabSRMM\src\chat\clist.cpp
-[Chat rooms]
-
 [Join chat]
 Chat betreten
 [Open chat window]
@@ -2201,20 +1877,20 @@ Ihr Name ist nun %s
 [Notice from %s]
 Private Nachricht von %s
 [The topic is '%s%s']
-
+
 [ (set by %s on %s)]
-
+
 [ (set by %s)]
  (gesetzt von %s)
 [%s enables '%s' status for %s]
-
+
 [%s disables '%s' status for %s]
-
+
 [Notice from %s: ]
-
+
+[<invalid>]
+
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
-[PERF text match: %d ticks = %f msec (%d words, %d patterns)]
-
 [Add user to highlight list]
 Füge Benutzer zur "Highlight"-Liste hinzu
 [Edit user highlight list]
@@ -2360,8 +2036,6 @@ Benutzerliste (abwesend)
 * Fehler und Warnungen
 [* Symbols (incoming)]
 * Symbole (eingehend)
-[Webdings]
-
 [* Symbols (outgoing)]
 * Symbole (ausgehend)
 [Nickname]
@@ -2423,7 +2097,7 @@ Starte private Unterhaltung bei Doppelklick in Nickliste (fügt sonst Nick ein)
 [Strip colors from messages in the log]
 Farben aus der Verlaufsanzeige entfernen
 [Enable the 'event filter' for new rooms]
-
+'Ereignis-Filter' für neue Nachrichten aktivieren
 [Use IRC style status indicators in the log]
 IRC-ähnliche Statusanzeigen im Verlauf verwenden
 [Allow clickable user names in the message log]
@@ -2439,17 +2113,17 @@ Fenstericon
 [Icon overlay]
 Neue Nachricht Tab
 [Status 1 (10x10)]
-
+Status 1 (10x10)
 [Status 2 (10x10)]
-
+Status 2 (10x10)
 [Status 3 (10x10)]
-
+Status 3 (10x10)
 [Status 4 (10x10)]
-
+Status 4 (10x10)
 [Status 5 (10x10)]
-
+Status 5 (10x10)
 [Status 6 (10x10)]
-
+Status 6 (10x10)
 [Message in (10x10)]
 Eingehende Nachricht (10x10)
 [Message out (10x10)]
@@ -2467,17 +2141,17 @@ Verlassen (10x10)
 [Quit (10x10)]
 Beenden (10x10)
 [Kick (10x10)]
-
+Kick (10x10)
 [Notice (10x10)]
 Hinweis (10x10)
 [Nickchange (10x10)]
 Nick ändern (10x10)
 [Topic (10x10)]
-
+Thema (10x10)
 [Highlight (10x10)]
-
+Hervorhebung (10x10)
 [Information (10x10)]
-
+Information (10x10)
 [Appearance and functionality of chat room windows]
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
@@ -2498,10 +2172,6 @@ Markierter Hintergrund
 Markierter Text
 [Incremental search highlight]
 Inkrementelle Suche
-[Fields background]
-
-[Userlist background]
-Hintergrund Benutzerliste
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
@@ -2550,8 +2220,6 @@ voller Wochentag
 Variablen
 [All Files]
 Alle Dateien
-[log]
-
 [Select Folder]
 Ordner wählen
 [No markers]
@@ -2560,8 +2228,6 @@ Keine Markierungen
 Zeige als Icons
 [Show as text symbols]
 Zeige als Textsymbole
-[AQGglo]
-
 [Message is highlighted]
 Nachricht ist hervorgehoben
 [User has performed an action]
@@ -2581,10 +2247,6 @@ Das Thema wurde geändert
 Betreten
 [&Leave]
 Ver&lassen
-[Server: %s]
-
-[Chat Rooms]
-
 ;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s benötigt Ihre Aufmerksamkeit in %s
@@ -2601,9 +2263,9 @@ Themenänderung in %s
 [Information in %s]
 Informationen in %s
 [%s enables '%s' status for %s in %s]
-
+%s aktiviert '%s' Status für %s in %s
 [%s disables '%s' status for %s in %s]
-
+%s deaktiviert '%s' Status für %s in %s
 [%s%s says:%s %s]
 %s%s sagt:%s %s
 [%s has left (%s)]
@@ -2615,35 +2277,17 @@ Informationen in %s
 [Notice from %s: %s]
 Private Nachricht von %s: %s
 [The topic is '%s']
-
+Das Thema ist '%s'
 [The topic is '%s' (set by %s)]
-
-[ab+]
-
-[%s%sarchived\\]
-
+Das Thema ist '%s' (gesetzt von %s)
 [Look up '%s':]
-
+Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
 [Highlight User...]
 "Highlighte" Benutzer ...
 [Edit Highlight List...]
 Editiere "Highlight" Liste ...
-[%#d]
-
-[%#m]
-
-[mon]
-
-[month]
-Monat
-[yyyy]
-
-[wday]
-
-[weekday]
-
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Nick name]
 Nick
@@ -2652,7 +2296,7 @@ Nick
 [Nick]
 Nick
 [Unique id]
-
+
 [%s: Chat Room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: Chat Room (%u users%s)]
@@ -2663,8 +2307,6 @@ Nick
 %s: Nachrichtensitzung
 [%s: Message Session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)
-[%s: Server]
-
 [, %d %s, %d %s idle]
 , %d %s, %d %s untätig
 [hours]
@@ -2681,28 +2323,10 @@ Minuten
 Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
 [Event filter error]
 Ereignisfilter-Fehler
-;file \plugins\TabSRMM\src\include\contactcache.h
-[<account error>]
-
-[<proto error>]
-
-;file \plugins\TabSRMM\src\include\taskbar.h
-[TabSRMM_DWMProxy]
-
-;file \plugins\TabSRMM\src\include\utils.h
-[red]
-
-[blue]
-
-[green]
-
-[magenta]
-
-[yellow]
-
-[cyan]
-
-[black]
-
-[white]
-
+;file \plugins\TabSRMM\src\include\msgs.h
+[Message windows - IM]
+Nachrichtenfenster - Instant Messaging
+[Message windows - all]
+Nachrichtenfenster - Alle
+[Message windows - groupchats]
+Nachrichtenfenster - Gruppenchats

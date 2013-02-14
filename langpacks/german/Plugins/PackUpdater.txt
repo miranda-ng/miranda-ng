@@ -8,6 +8,8 @@
 [Simple updater for Miranda NG premodified packs.]
 
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+Updates gefunden!
 [Update]
 Aktualisieren
 [View info]
@@ -96,16 +98,6 @@ Komponentenname
 Aktuelle Version
 [New Version]
 Neue Version
-[%s\\Pack]
-
-[%s\\Plugins]
-
-[%s\\Icons]
-
-[%s\\Others]
-
-[%s\\Backups]
-
 [Downloading pack updates...]
 Lade nun Paket-Updates ...
 [Downloading update...]
@@ -114,12 +106,6 @@ Lade nun Paket-Updates ...
 
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
-[%miranda_path%\\Plugins]
-
-[%s\\Backups\\%s]
-
-[%miranda_path%\\Icons]
-
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Sie haben sich entschieden das Paket nicht direkt zu installieren.\nSie können es später von diesem Pfad manuell installieren:\n\n%s
 ;file \plugins\PackUpdater\Src\Notifications.h
@@ -137,8 +123,6 @@ Testen
 [Services]
 Dienste
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
-[%miranda_userdata%\"DEFAULT_UPDATES_FOLDER));\r\n	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))\r\n	{\r\n		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\]
-
 [Clear pack updates folder]
 
 ;file \plugins\PackUpdater\Src\Utils.cpp
@@ -152,32 +136,8 @@ Dienste
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]
 Lade Versionsinformationen ...
-[FileInfo_%d]
-
-[FileVersion]
-
-[Message]
-Nachricht
-[DownloadURL]
-
-[AdvFolder]
-
-[Descr]
-
-[DiskFileName]
-
 [Name of Update's file is not supported.]
 Dateiformat der Update-Dateien wird nicht unterstützt.
-[InfoURL]
-
-[FileType]
-
-[Force]
-
-[Plugins\\%s]
-
-[Plugins\\%s\\%s]
-
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
 Das Update ist nicht möglich!\nSie haben keine Administratorrechte.\Bitte starten sie Miranda NG mit Adminrechten.
 [No updates found.]

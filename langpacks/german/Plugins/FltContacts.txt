@@ -1,10 +1,12 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating Contacts
 ;  Version: x.x.x.x
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
+[Floating Contacts plugin for Miranda.]
+
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Kontakte ausblenden
@@ -81,7 +83,7 @@ Hintergrundfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
 [...]
-
+
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -99,9 +101,6 @@ Deckkraft:
 Das png2dib-Plugin 0.1.3.x oder höher wird benötigt, um PNG-Bilder anzuzeigen.
 [Error]
 Fehler
-;file \plugins\FloatingContacts\src\fltcont.h
-[MirandaThumbsWnd]
-
 ;file \plugins\FloatingContacts\src\main.cpp
 [Remove thumb]
 Entferne Floater

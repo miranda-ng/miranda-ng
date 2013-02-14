@@ -50,6 +50,8 @@ Warnung, wenn einige Kontakte der letzten Sitzung versteckt sind
 Zeige Warnungen ("Sitzung bereits geöffnet" etc.)
 [Crash Recovery mode]
 Wiederherstellung nach Absturz
+[Restore Session]
+Sitzung wiederherstellen
 [&Restore Session]
 Wiede&rherstellen
 [&Cancel]
@@ -58,6 +60,8 @@ Abbre&chen
 Wiederherzustellende Sitzung auswählen
 [Del]
 Entf.
+[Save Session]
+Sitzung speichern
 [&Save Session]
 &Speichern
 [Enter session name:]
@@ -66,6 +70,8 @@ Sitzungsnamen eingeben:
 Speichern und schließen
 [adv.]
 Erw.
+[Sessions Manager]
+Sitzungsmanager
 [OK]
 OK
 [Cancel]
@@ -79,14 +85,10 @@ Sitzungsfavorit
 Kein Sitzungsfavorit
 [Load Session]
 Lade Sitzung
-[Save Session]
-Sitzung speichern
 [Load last Session]
 Lade letzte Sitzung
 [Current session is empty!]
 
-[Sessions Manager]
-Sitzungsmanager
 [Session name is empty, enter the name and try again]
 
 [No sessions to open]

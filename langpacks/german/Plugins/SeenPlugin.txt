@@ -66,6 +66,8 @@ Unsichtbar
 Offline
 [Reset colors]
 Stand. Farben
+[Last seen plugin]
+
 [OK]
 OK
 [You missed following contacts:]
@@ -86,10 +88,6 @@ Nachricht senden
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 
 ;file \plugins\SeenPlugin\src\main.cpp
-[Any to Idle/Not Idle/Unknown]
-Beliebiges zu Inaktiv/Nicht inaktiv/Unbekannt
-[Any to /Idle or empty]
-Beliebiges zu /Idle oder leer
 [LastSeen]
 Zuletzt gesehen
 [User status change]
@@ -115,14 +113,14 @@ Kontakte
 [PopUps]
 Popups
 ;file \plugins\SeenPlugin\src\seen.h
-[Debug]
-
 [%n is %s (%u)]
 
 [%i(%r)%bWas %o]
 
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
 Name:%t%N%bStatus:%t%s%bTag:%t%d.%m.%Y%bZeit:%t%H:%M:%S%bVorheriger Status:%t%o%b%b%P ID:%t%u%bExterne IP:%t%i%bInterne IP:%t%r%bClientID: %t%C%b%bStatusnachricht:%t%T
+[-- Date --]
+-- Datum --
 [year (4 digits)]
 Jahr (vierstellig)
 [year (2 digits)]
@@ -139,6 +137,8 @@ Tag
 Wochentag (vollständig)
 [weekday (abbreviated)]
 Wochentag (abgekürzt)
+[-- Time --]
+-- Zeit --
 [hours (24)]
 Stunden (24)
 [hours (12)]
@@ -149,6 +149,8 @@ Stunden (12)
 Minuten
 [seconds]
 Sekunden
+[-- User --]
+-- Kontakt --
 [username]
 Benutzername
 [nick]
@@ -171,6 +173,8 @@ Interne IP
 Client
 [Protocol]
 Protokoll
+[-- Format --]
+-- Formatierung --
 [tabulator]
 Tabulator
 [line break]
@@ -263,10 +267,6 @@ Dez.
 <Noch niemals gesehen>
 [Idle]
 Untätigkeit
-[ProtoUnknown]
-
-[\x0D\x0A]
-
 [Unknown]
 Unbekannt
 [Not Idle]

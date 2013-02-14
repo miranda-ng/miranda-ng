@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
@@ -12,10 +12,14 @@ ICQ-Nummer:
 Passwort:
 [Create a new ICQ account]
 Ein neues ICQ-Konto erstellen ...
+[Enter an authorization request]
+Autorisierungsanfrage eingeben
 [&Send]
 &Senden
 [&Cancel]
 Abbre&chen
+[Enter ICQ Password]
+ICQ-Passwort eingeben
 [Enter a password for UIN %d:]
 Bitte Passwort für UIN %d eingeben:
 [Remember this session password]
@@ -25,7 +29,7 @@ OK
 [Cancel]
 Abbrechen
 [ICQ]
-
+ICQ
 [ICQ number:]
 ICQ-Nummer:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
@@ -48,6 +52,8 @@ Tipp: Benutzen Sie Port 0 für eine zufällige Portwahl. Benutzen Sie Port 80 od
 Sichere Verbindung (SSL)
 [Secure (MD5) login]
 Sichere Anmeldung (MD5)
+[Legacy fix (for ICQ Groupware or IServerD only)]
+Kompatibilitäts-Fix (nur für ICQ Groupware oder IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Verbindung aufrecht erhalten (aktivieren Sie dies, wenn Sie einen Proxyserver benutzen und häufig getrennt werden)
 [Ignore concurrent error messages]
@@ -67,7 +73,7 @@ Aktualisiere Kontaktdetails vom Server (*)
 [Update contacts' details on the server's list when I change them in mine]
 Aktualisiere Kontaktdetails der Serverliste, wenn ich diese in meiner ändere
 [ICQ avatars]
-Avatare
+ICQ Avatare
 [Enable avatar support]
 Avatarunterstützung aktivieren
 [Check avatar validity before saving *]
@@ -75,7 +81,7 @@ Avatare vor dem Speichern auf Gültigkeit prüfen (*)
 [Load avatars automatically (like ICQ Lite)]
 Avatare automatisch laden (wie ICQ Lite)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-
+Sie müssen Sich erneut mit dem Netzwerk verbinden
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
 Aktivieren/Deaktivieren der Serverkontaktliste nur möglich, wenn keine ICQ-Netzwerkverbindung besteht. Bitte zuerst offline gehen!
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
@@ -250,10 +256,14 @@ Homepage
 Sonstige
 [Search online users only]
 Suche nur nach Onlinenutzern
+[Manage ICQ Server Contacts]
+ICQ-Kontakte auf Server verwalten
 [Select contacts to store:]
 Kontakte für Upload wählen:
 [Synchronize]
 Synchronisiere
+[Custom Status "%s" Details]
+Custom-Status "%s" Details
 [Closing in %d]
 In %d schließen
 [Title:]
@@ -264,6 +274,8 @@ Nachricht:
 Empfange Custom-Status-Details ...
 [&Save changes]
 Änderungen &speichern
+[Confirm Password Change]
+Passwortänderung bestätigen
 [Please re-type your new password:]
 Bitte neues Passwort hier eingeben:
 [Enter your current password:]
@@ -386,8 +398,6 @@ Bestätigung
 [** Unknown missed message event.]
 
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
-[avatar]
-
 [Error uploading avatar to server, server temporarily unavailable.]
 Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
 [Error uploading avatar to server, server refused to accept the image.]
@@ -395,17 +405,17 @@ Fehler beim Avatarupload zum Server, der Server akzeptiert das Bild nicht.
 ;file \protocols\IcqOscarJ\src\icq_constants.h
 ;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
-
+Afghanistan
 [Albania]
 Albanien
 [Algeria]
 Algerien
 [Andorra]
-
+Andorra
 [Angola]
-
+Angola
 [Anguilla]
-
+Anguilla
 [Antigua and Barbuda]
 Antigua und Barbuda
 [Antilles]
@@ -415,63 +425,63 @@ Argentinien
 [Armenia]
 Armenien
 [Aruba]
-
+Aruba
 [Ascension Island]
 Ascension Inseln
 [Australia]
 Australien
 [Australia, Antarctic Territory]
-
+Australien, Antarktisches Territorium
 [Australia, Christmas Island]
-
+Australien, Weihnachtsinsel
 [Australia, Cocos (Keeling) Islands]
-
+Australien, Kokos (Keeling) Inseln
 [Australia, Norfolk Island]
-
+Australien, Norfolk-Insen
 [Austria]
 Österreich
 [Azerbaijan]
 Aserbaidschan
 [Bahamas]
-
+Bahamas
 [Bahrain]
-
+Bahrain
 [Bangladesh]
-
+Bangladesch
 [Barbados]
-
+Barbados
 [Barbuda]
-
+Barbuda
 [Belarus]
 Weissrussland
 [Belgium]
 Belgien
 [Belize]
-
+Belize
 [Benin]
-
+Benin
 [Bermuda]
-
+Bermuda
 [Bhutan]
-
+Bhutan
 [Bolivia]
 Bolivien
 [Bosnia and Herzegovina]
 Bosnien-Herzegowina
 [Botswana]
-
+Botswana
 [Brazil]
 Brasilien
 [British Virgin Islands]
 Britische Jungfraueninseln
 [Brunei]
-
+Brunei
 [Bulgaria]
 Bulgarien
 [Burkina Faso]
-
+Burkina Faso
 [Burundi]
-
+Burundi
 [Cambodia]
 Kambodscha
 [Cameroon]
@@ -505,7 +515,7 @@ Republik Kongo
 [Cook Islands]
 Cook-Inseln
 [Costa Rica]
-
+Costa Rica
 [Cote d'Ivoire (Ivory Coast)]
 Elfenbeinküste
 [Croatia]
@@ -513,17 +523,17 @@ Kroatien
 [Cuba]
 Kuba
 [Greek, Republic of South Cyprus]
-
+Griechenland, Republik Südzypern
 [Czech Republic]
 Tschechische Republik
 [Denmark]
 Dänemark
 [Diego Garcia]
-
+Diego Garcia
 [Djibouti]
 Dschibuti
 [Dominica]
-
+Dominica
 [Dominican Republic]
 Dominikanische Republik
 [Ecuador]
@@ -531,17 +541,17 @@ Ekuador
 [Egypt]
 Ägypten
 [El Salvador]
-
+El Salvador
 [Equatorial Guinea]
 Äquatorialguinea
 [Eritrea]
-
+Eritrea
 [Estonia]
 Estland
 [Ethiopia]
 Äthiopien
 [Europe]
-
+Europa
 [Faeroe Islands]
 Färöer Inseln
 [Falkland Islands]
@@ -561,39 +571,39 @@ Französisch-Polynesien
 [Gabon]
 Gabun
 [Gambia]
-
+Gambia
 [Georgia]
 Georgien
 [Germany]
 Deutschland
 [Ghana]
-
+Ghana
 [Gibraltar]
-
+Gibraltar
 [Greece]
 Griechenland
 [Greenland]
 Grönland
 [Grenada]
-
+Grenada
 [Guadeloupe]
-
+Guadeloupe
 [Guam, US Territory of]
 Guam, US Territorium
 [Guatemala]
-
+Guatemala
 [Guinea]
-
+Guinea
 [Guinea-Bissau]
-
+Guinea-Bissau
 [Guyana]
-
+Guyana
 [Haiti]
-
+Haiti
 [Honduras]
-
+Honduras
 [Hong Kong]
-
+Hong Kong
 [Hungary]
 Ungarn
 [Iceland]
@@ -603,19 +613,19 @@ Indien
 [Indonesia]
 Indonesien
 [Iran (Islamic Republic of)]
-Islamische Republik Iran
+Iran (Islamische Republik)
 [Iraq]
 Irak
 [Ireland]
 Irland
 [Israel]
-
+Israel
 [Italy]
 Italien
 [Jamaica]
 Jamaika
 [Japan]
-
+Japan
 [Jordan]
 Jordanien
 [Kazakhstan]
@@ -629,23 +639,23 @@ Korea, Nordkorea
 [Korea, South]
 Republik Korea, Südkorea
 [Kuwait]
-
+Kuwait
 [Kyrgyzstan]
 Kirgisien
 [Laos]
-
+Laos
 [Latvia]
 Lettland
 [Lebanon]
 Libanon
 [Lesotho]
-
+Lesotho
 [Liberia]
-
+Liberia
 [Libyan Arab Jamahiriya]
 Libyen
 [Liechtenstein]
-
+Liechtenstein
 [Lithuania]
 Litauen
 [Luxembourg]
@@ -653,27 +663,27 @@ Luxemburg
 [Macau]
 Macao
 [Macedonia, Republic of]
-
+Mazedonien, Republik
 [Madagascar]
 Madagaskar
 [Malawi]
-
+Malawi
 [Malaysia]
-
+Malaysia
 [Maldives]
 Malediven
 [Mali]
-
+Mali
 [Malta]
-
+Malta
 [Marshall Islands]
 Marshall Inseln
 [Martinique]
-
+Martinique
 [Mauritania]
 Mauretanien
 [Mauritius]
-
+Mauritius
 [Mayotte Island]
 Mayotte Inseln
 [Mexico]
@@ -681,51 +691,51 @@ Mexiko
 [Micronesia, Federated States of]
 Föderierte Staaten von Mikronesien
 [Moldova, Republic of]
-Moldawien
+Moldawien, Republik
 [Monaco]
-
+Monaco
 [Mongolia]
 Mongolei
 [Montserrat]
-
+Montserrat
 [Morocco]
 Marokko
 [Mozambique]
 Mosambik
 [Myanmar]
-
+Myanmar
 [Namibia]
-
+Namibia
 [Nauru]
 Nauruisch
 [Nepal]
-
+Nepal
 [Netherlands]
 Niederlande
 [Netherlands Antilles]
 Niederländische Antillen
 [St. Maarten]
-
+St. Maarten
 [Curacao]
-
+Curacao
 [Netherlands (Bonaire Island)]
-
+Niederlande (Bonaire  Insel)
 [Netherlands (Saba Island)]
-
+Niederlande (Saba Insel)
 [Netherlands (St. Eustatius Island)]
-
+Niederlande (St. Eustatius Insel)
 [Nevis]
-
+Nevis
 [New Caledonia]
 Neu Kaledonien
 [New Zealand]
 Neuseeland
 [Nicaragua]
-
+Nicaragua
 [Niger]
-
+Niger
 [Nigeria]
-
+Nigeria
 [Niue]
 
 [Northern Mariana Islands, US Territory of]
@@ -743,17 +753,17 @@ Norwegen
 [Papua New Guinea]
 Papua Neuguinea
 [Paraguay]
-
+Paraguay
 [Peru]
-
+Peru
 [Philippines]
 Philippinen
 [Poland]
 Polen
 [Portugal]
-
+Portugal
 [Puerto Rico]
-
+Puerto Rico
 [Qatar]
 Katar
 [Reunion Island]
@@ -767,9 +777,9 @@ Russland
 [Rwanda]
 Ruanda
 [Samoa (USA)]
-
+Samoa (USA)
 [Samoa, Western]
-
+Samoa, Westen
 [Saint Helena]
 St. Helena
 [Saint Kitts]
@@ -783,9 +793,9 @@ St. Pierre und Miquelon
 [Saint Vincent and the Grenadines]
 St. Vincent und Grenadinen
 [Saipan Island]
-Saipan
+Saipan Insel
 [San Marino]
-
+San Marino
 [Sao Tome and Principe]
 Sao Tome und Principe
 [Saudi Arabia]
@@ -793,11 +803,11 @@ Saudi Arabien
 [Scotland]
 Schottland
 [Senegal]
-
+Senegal
 [Seychelles]
 Seychellen
 [Sierra Leone]
-
+Sierra Leone
 [Singapore]
 Singapur
 [Slovakia]
@@ -807,21 +817,21 @@ Slowenien
 [Solomon Islands]
 Solomon-Inseln
 [Somalia]
-
+Somalia
 [South Africa]
 Südafrika
 [Spain]
 Spanien
 [Spain, Canary Islands]
-
+Spanien, Kanarische inseln
 [Sri Lanka]
-
+Sri Lanka
 [Sudan]
-
+Sudan
 [Suriname]
 Surinam
 [Swaziland]
-
+Swaziland
 [Sweden]
 Schweden
 [Switzerland]
@@ -829,19 +839,19 @@ Schweiz
 [Syrian Arab Republic]
 Arabische Republik Syrien
 [Taiwan]
-
+Taiwan
 [Tajikistan]
 Tadschikistan
 [Tanzania]
 Tansania
 [Thailand]
-
+Thailand
 [Tinian Island]
 Tinian Inseln
 [Timor, East]
-
+Timor, Ost
 [Togo]
-
+Togo
 [Tokelau]
 
 [Tonga]
@@ -853,41 +863,41 @@ Tunesien
 [Turkey]
 Türkei
 [Turkey, Republic of Northern Cyprus]
-
+Türkei, Republik Nordzypern
 [Turkmenistan]
-
+Turkmenistan
 [Turks and Caicos Islands]
 Turks und Caicos Inseln
 [Tuvalu]
-
+Tuvalu
 [Uganda]
-
+Uganda
 [Ukraine]
-
+Ukraine
 [United Arab Emirates]
 Vereinigte Arabische Emirate
 [United Kingdom]
 Großbritannien
 [Uruguay]
-
+Uruguay
 [USA]
-
+USA
 [Uzbekistan]
 Usbekistan
 [Vanuatu]
-
+Vanuatu
 [Vatican City]
 Vatikanstadt
 [Venezuela]
-
+Venezuela
 [Vietnam]
-
+Vietnam
 [Virgin Islands (UK)]
-
+Jungferninseln (UK)
 [Virgin Islands (USA)]
-Amerikanische Jungferninseln
+Jungferninseln (USA)
 [Wales]
-
+Wales
 [Wallis and Futuna Islands]
 Wallis und Futuna Inseln
 [Yemen]
@@ -895,15 +905,23 @@ Jemen
 [Yugoslavia]
 Jugoslawien
 [Serbia, Republic of]
-
+Serbien, Rerpublik
 [Kosovo, Republic of]
-
+Kosovo, Republik
 [Montenegro, Republic of]
-
+Montenegro, Republik
 [Zambia]
 Sambia
 [Zimbabwe]
 Simbabwe
+[50's]
+50er Jahre
+[60's]
+60er Jahre
+[70's]
+70er Jahre
+[80's]
+80er Jahre
 [Art]
 Kunst
 [Astronomy]
@@ -933,7 +951,7 @@ Unterhaltung
 [Finance and Corporate]
 Finanzen & Firmen
 [Fitness]
-
+Fitness
 [Health and Beauty]
 Gesundheit & Schönheit
 [Hobbies]
@@ -949,7 +967,7 @@ Politik
 [ICQ - Help]
 ICQ - Hilfe
 [Internet]
-
+Internet
 [Lifestyle]
 Lebensart
 [Mail Order Catalog]
@@ -1067,7 +1085,7 @@ Italienisch
 [Japanese]
 Japanisch
 [Khmer]
-
+Khmer
 [Korean]
 Koreanisch
 [Kurdish]
@@ -1083,7 +1101,7 @@ Mazedonisch
 [Malay]
 Malayisch
 [Mandarin]
-
+Mandarin
 [Mongolian]
 Mongolisch
 [Norwegian]
@@ -1119,7 +1137,7 @@ Schwedisch
 [Tagalog]
 
 [Taiwanese]
-
+Taiwanesisch
 [Tamil]
 Tamilisch
 [Tatar]
@@ -1286,6 +1304,8 @@ Handels- & Geschäfts-Org.
 Gewerkschaft
 [Volunteer Org.]
 Freiwilligen-Org.
+[60-above]
+60 und älter
 [Single]
 
 [Close relationships]
@@ -1450,10 +1470,6 @@ Sie müssen für das Synchronisieren der Serverliste online sein!
 [** All contacts **]
 ** Alle Kontakte **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
-[\\Icons]
-
-[\\Plugins]
-
 [Angry]
 Wütend
 [Taking a bath]
@@ -1676,9 +1692,7 @@ Datenübertragung aus unbekannten Gründen fehlgeschlagen.
 
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
-
-[KERNEL32]
-
+
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Internationale Datumsgrenze (Westen)
@@ -1810,8 +1824,6 @@ Nick
 Vorname
 [Last name]
 Nachname
-[Age]
-Alter
 [Gender]
 Geschlecht
 [About]
@@ -1894,8 +1906,6 @@ Abteilung
 Position
 [Company industry]
 Geschäftszweig
-[Company occupation]
-Berufsverkehr
 [Personal Interests]
 Persönliche Interessen
 [Interest category 1]
@@ -1914,34 +1924,6 @@ Interessen Text 4
 Interessengebiete 4
 [Interest areas 4]
 Interessen Text 4
-[Past Background]
-Vergangenheit
-[Category 1]
-Kategorie 1
-[Past Background 1]
-Vergangenheit 1
-[Category 2]
-Kategorie 2
-[Past Background 2]
-Vergangenheit 2
-[Category 3]
-Kategorie 3
-[Past Background 3]
-Vergangenheit 3
-[Affiliations]
-Mitgliedschaften, Organisationen, Verbände
-[Affiliation category 1]
-Mitgliedschaft Kategorie 1
-[Affiliation 1]
-Mitgliedschaft Text 1
-[Affiliation category 2]
-Mitgliedschaft Kategorie 2
-[Affiliation 2]
-Mitgliedschaft Text 2
-[Affiliation category 3]
-Mitgliedschaft Kategorie 3
-[Affiliation 3]
-Mitgliedschaft Text 3
 ;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 Passwort stimmt nicht mit Ihrem aktuellen überein. Ist die Feststelltaste aktiviert?

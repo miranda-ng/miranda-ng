@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db_autobackups
-;  Version: x.x.x.x
+;  Version: 0.0.0.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+Fortschritt der Sicherung
 [Cancel]
 Abbrechen
 [Automatic Backups]

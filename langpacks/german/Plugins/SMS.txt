@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: sms.dll
 ;  Plugin: SMS plugin
@@ -8,6 +8,8 @@
 [Send SMS text messages to mobile phones through the IM networks.]
 
 ;file \plugins\SMS\res\resource.rc
+[Received SMS]
+Erhaltene SMS
 [&Reply]
 Antwo&rt
 [&Close]
@@ -20,12 +22,14 @@ Von:
 Nachricht erhalten:
 [Number:]
 Nummer:
+[Send SMS]
+SMS-Nachricht
 [To:]
 An:
 [Add number to list]
 Nummer zur Liste hinzufügen
 [&H]
-
+
 [Save number]
 Nummer speichern
 [Multiple >>]
@@ -38,6 +42,8 @@ Zeichen:
 
 [&Send]
 &Senden
+[SMS Message Didn't Send]
+SMS-Nachricht wurde nicht gesendet
 [&Try again]
 &Erneuert versuchen
 [&Cancel]
@@ -60,6 +66,8 @@ Signatur setzen am:
 
 [Save window position per contact]
 
+[SMS Message Sent]
+
 [&OK]
 
 [Message ID:]
@@ -79,12 +87,8 @@ SMS-Nachricht von %s
 [SMS Confirmation from %s]
 SMS-Bestätigung von %s
 ;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS]
-Erhaltene SMS
 [Received SMS Confirmation]
 Erhaltene SMS-Bestätigung
-[Unknown event type]
-
 ;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Verlauf anzeigen
@@ -114,15 +118,8 @@ Keine Nummern
 
 [Invalid phone number]
 
-[ SMS]
-
-[Send SMS]
-SMS-Nachricht
 [<< Single]
 << Weniger
-;file \plugins\SMS\src\SMSConstans.h
-[Arial]
-
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Eingehende SMS-Nachricht

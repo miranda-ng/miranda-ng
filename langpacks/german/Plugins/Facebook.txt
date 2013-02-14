@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.2
-;  Authors: Michal Zelinka, Robert Posel
+;  Version: 0.0.9.3
+;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 
@@ -14,6 +14,8 @@ E-Mail:
 Passwort:
 [Create a new Facebook account]
 Ein neues Facebook-Konto erstellen...
+[What's on your mind?]
+Was machst du gerade?
 [420]
 
 [Share]
@@ -76,11 +78,6 @@ Chatverbindung im 'Offline' Status trennen
 Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 Unterstützung für Custom Smileys aktivieren  (EXPERIMENTELL + BUGGY!)
-;file \protocols\FacebookRM\src\chat.cpp
-[Admin]
-Administrator
-[Normal]
-
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
 
@@ -147,6 +144,12 @@ Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 %s Serververbindung
 [Unable to get Netlib connection for Facebook]
 Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
+[Notification]
+Benachrichtigung
+[News Feed]
+
+[Other Event]
+
 [Network]
 Netzwerk
 [Account]

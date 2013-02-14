@@ -94,6 +94,8 @@ Keine Nachkommastellen anzeigen
 Rahmen
 [Avatar size]
 Avatargröße
+[Edit Weather Station]
+Wetterstation bearbeiten
 [Weather Station]
 Wetterstation
 [City name]
@@ -111,7 +113,7 @@ Bei Aktualis. Datei überschreib.
 [Path:]
 Pfad:
 [6]
-
+
 [Link Settings]
 Link-Einstellungen
 [More Info URL]
@@ -212,6 +214,8 @@ Taupunkt
 Luftfeuchtigkeit
 [More...]
 Mehr...
+[Weather Protocol INI Setup]
+
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Wetter-Protokoll-INI-Einrichtung\nInstallieren und laden Sie hier die Wetter-INI-Dateien
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
@@ -232,6 +236,8 @@ Gesamte Speichernutzung
 INI neu laden
 [City:]
 Stadt:
+[Menu]
+Menü
 [Dismiss PopUp]
 Popup schließen
 [Open brief information]
@@ -263,10 +269,6 @@ Autom. Aktualisierung deaktiviert
 Wetterlage hat sich geändert
 [Weather Alert Issued]
 Wetteralarm zugeteilt
-[%s__PopupWindow]
-
-[static]
-
 ;file \plugins\Weather\src\weather.h
 [N/A]
 
@@ -347,11 +349,7 @@ Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
 <Stations-Name hier eintragen>
 [<Enter station ID here>]
 <Stations-ID hier eintragen>
-[NAME]
-
 ;file \plugins\Weather\src\weather_contacts.cpp
-[open]
-
 [Weather condition was not logged.]
 Wetterlage wurde nicht aufgezeichnet.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -373,98 +371,6 @@ Textdateien
 [All Files]
 Alle Dateien
 ;file \plugins\Weather\src\weather_conv.cpp
-[KPA]
-
-[HPA]
-
-[TORR]
-
-["\r\nvoid GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str) \r\n{\r\n	// unit can be km/h, mph, m/s, knots\r\n	double tempunit;\r\n	TCHAR tstr[20];\r\n\r\n	str[0] = 0;\r\n\r\n	// convert the string into an integer (always positive)\r\n	// if the result is 0, then the string is not a number, return _T(""\r\n	tempunit = _ttof(tempchar);\r\n	if (tempunit == 0 && tempchar[0] != '0]
-
-[KM/H]
-
-[M/S]
-
-[MPH]
-
-[KNOTS]
-
-[MILES]
-
-[Lightning]
-
-[Fog]
-
-[Snow Shower]
-
-[Snow]
-
-[Rain Shower]
-
-[Rain]
-
-[Partly Cloudy]
-
-[Cloudy]
-
-[Sunny]
-
-[mainy sunny]
-
-[mainy clear]
-
-[partly cloudy]
-
-[mostly]
-
-[clouds]
-
-[sunny]
-
-[clear]
-
-[fair]
-
-[thunder]
-
-[t-storm]
-
-[cloud]
-
-[overcast]
-
-[fog]
-
-[mist]
-
-[smoke]
-
-[sand]
-
-[dust]
-
-[haze]
-
-[shower]
-
-[snow]
-
-[flurries]
-
-[rain shower]
-
-[ice]
-
-[freezing]
-
-[wintry]
-
-[drizzle]
-
-[rain]
-
-[%20"\r\n// dis = original string\r\n// return value = the modified string with space -> _T("%20"\r\nchar *GetSearchStr(char *dis) \r\n{\r\n	char *pstr = dis;\r\n	size_t len = strlen(dis);\r\n	while (*pstr != 0)\r\n	{\r\n		if (*pstr == ' ]
-
 [<unknown time>]
 <unbekannte Zeit>
 [<Error>]
@@ -474,31 +380,9 @@ HTTP-Fehler %i
 ;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Stadt-Name hier eingeben>
-[High]
-Hoch
-[Low]
-Gering
-[Feel]
-gefühlt
-[Wind Speed]
-Windgeschwindigkeit
-[COND]
-
-[DEG]
-
-[DAY]
-
-[MONTH]
-
-[Ignore]
-Ignorieren
 [Error when obtaining data: %s]
 Fehler beim Datenerhalt: %s
 ;file \plugins\Weather\src\weather_http.cpp
-[Error occured! HTTP Error: %i\n]
-
-[NetLib error occurred!!]
-
 [Weather HTTP connections]
 Weather-HTTP-Verbindungen
 ;file \plugins\Weather\src\weather_icons.cpp
@@ -523,20 +407,6 @@ Kein Popup
 [Edit Settings]
 Einstellungen bearbeiten
 ;file \plugins\Weather\src\weather_info.cpp
-[Name]
-Name
-[Author]
-Autor
-[File Version]
-Datei-Version
-[INI Version]
-
-[Items]
-Objekte
-[Display Name]
-Angezeigter Name
-[File Name]
-Dateiname
 [The corresponding INI file for "%s" is not found.]
 Die dazugehörige INI-Datei für "%s" wurde nicht gefunden.
 [Weather INI information for "%s":]
@@ -564,22 +434,10 @@ Bytes
 [Here is a list of custom variables that are currently available]
 Hier ist eine Liste von Variablen, die momentan verfügbar sind
 ;file \plugins\Weather\src\weather_ini.cpp
-[ID Search - Station Name]
-
 [No update data file is found.  Please check your Plugins\\Weather directory.]
 Keine Aktualisierungs-Datei gefunden. Prüfen Sie bitte Ihr "plugins\\weather" Verzeichnis.
 [Invalid ini format for: %s]
 Falsches INI-Format für: %s
-[Name Search Single Result - Station Name]
-
-[Name Search Single Result - Station ID]
-
-[Name Search Multiple Result - Station Name]
-
-[Name Search Multiple Result - Station ID]
-
-[\\Plugins\\weather\\]
-
 [All update data has been reloaded.]
 Alle aktualisierten Daten wurden geladen.
 ;file \plugins\Weather\src\weather_mwin.cpp
@@ -587,13 +445,7 @@ Alle aktualisierten Daten wurden geladen.
 Text des Kontaktlistenelements
 [Frame Title Font]
 Titel des Kontaktlistenelements
-[Weather: %s]
-
-[WeatherFrame]
-
 [Frame Background]
-
-[Verdana]
 
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
@@ -620,14 +472,6 @@ Hier ist eine kurze Wetterbeschreibung
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 Stations-ID
-[Light]
-
-[SShower]
-
-[RShower]
-
-[PCloudy]
-
 [Disable &weather notification]
 &Wetter-Hinweis deaktivieren
 [Enable &weather notification]
@@ -653,28 +497,8 @@ Wetter-Hinweis
 [Display in a frame]
 Als Frame anzeigen
 ;file \plugins\Weather\src\weather_update.cpp
-[<-- Start update for station -->]
-
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.
-[Error! Update cannot continue... Start to free memory]
-
-[<-- Error occurs while updating station: %s -->]
-
-[Alert for %s%c%s]
-Hinweis für %s%c%s
-[Update Completed - Start to free memory]
-
-[<-- Update successful for station -->]
-
-[Document Not Found]
-
-[Condition]
-Bedingung
-[Cond]
-
-[Alert]
-Alarm
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Momentane Lage für %n

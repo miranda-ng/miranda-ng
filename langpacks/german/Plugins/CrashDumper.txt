@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: CrashDumper
-;  Version: x.x.x.x
+;  Version: 0.0.4.22
 ;  Authors: 
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Miranda-Versionsinfo anzeigen
 [Close]
 Schließen
 [Copy To Clipboard]
@@ -26,6 +28,8 @@ Allgemein
 Klassische Datumsanzeige verwenden
 [Create reports in subfolders naming as current date]
 Erstelle Crashdatei in Unterordner mit Zeitanzeige
+[View]
+Anzeigen
 [&Copy]
 Kopieren
 [Co&py All]
@@ -67,9 +71,6 @@ Miranda-vi.org aufrufen
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
 Version-Info anzeigen
-;file \plugins\CrashDumper\src\dumper.cpp
-[Not ]
-
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Pfad zur Erstellung des Crash Reports ist nicht verfügbar!

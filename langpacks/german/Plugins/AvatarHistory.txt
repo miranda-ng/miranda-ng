@@ -1,19 +1,23 @@
 ﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;============================================================
 ;  File: AvatarHistory.dll
-;  Plugin: Avatar History
+;  Plugin: Avatar history
 ;  Version: 0.0.3.3
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
 
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
+
 [Save As...]
 Speichern unter..
 [Delete this entry]
 Diesen Eintrag löschen
 [Delete this entry and the bitmap file]
 Diesen Eintrag inklusive Avatar löschen
+[Avatar History]
+Avatarverlauf
 [Static]
 Statisch
 [Open Folder]
@@ -70,6 +74,8 @@ Avataränderung:
 Avatarentfernung:
 [Preview]
 Vorschau
+[Avatar History: Select how to store history avatars]
+Wie sollen Avatare im Verlauf und auf der Festplatte gespeichert werden?
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
 Bitte sorgfältig auswählen, wie der Avatar-Verlauf gespeichert werden soll. Diese Einstellung kann in Zukunft NICHT ohne den Verlust des Verlaufes geändert werden.
 [Store history in miranda history and all history avatars in same folder]
@@ -109,10 +115,6 @@ Soll dieses Avatar wirklich gelöscht werden?\nDies löscht den Verlaufseintrag 
 Avatar löschen?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Soll dieses Avatar wirklich gelöscht werden?\nDies löscht die Verknüpfung und die Bilddatei.\nWARNUNG: Dies kann sich auf mehr als einen Verlaufseintrag auswirken!
-[explore]
-
-[open]
-
 [avatar path is null.]
 
 [View Avatar History]
@@ -122,23 +124,15 @@ Avatarverlauf
 [Save Avatar]
 
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Avatar History]
-Avatarverlauf
 [Contact changed avatar]
 
 [Contact removed avatar]
 
-[%s\\Avatars History]
-
 [Avatars]
 Avatare
-[\\Avatars History]
-
 [Avatar History: Unable to create shortcut]
 
 [AVH Debug: Shortcut created successfully]
-
-[CopyImageFile]
 
 [AVH Debug]
 
@@ -158,21 +152,9 @@ Avatare
 
 [Unknown UIN]
 
-[GetHistoryFolder]
-
 [Unknown Protocol]
 
-[CreateDirectory]
-
-[Path: %s\nProto: ]
-
-[\nUIN: %s]
-
-[AVH Debug: GetContactFolder]
-
 [AVH Debug: GetOldStyleAvatarName]
-
-[CreateShortcut]
 
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
@@ -203,8 +185,3 @@ Gesprächsverlauf zeigen
 Test-Kontakt
 [Test description]
 Test-Beschreibung
-;file \plugins\AvatarHistory\src\popup.cpp
-[static]
-
-[ Error]
-

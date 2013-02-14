@@ -20,6 +20,8 @@ Hinzufügen...
 Bearbeiten...
 [Remove]
 Entfernen
+[Add auto-replace word]
+Wort automatisch ersetzen
 [Wrong word:]
 Falsches Wort:
 [No separators and all lowercase chars]
@@ -73,13 +75,6 @@ Falsche Korrektur
 Die Korrektur darf nicht leer sein!
 [The correction can't be equal to the wrong word!]
 
-;file \plugins\SpellChecker\src\commons.h
-[%miranda_path%\\Icons]
-
-[%miranda_userdata%\\Dictionaries]
-
-[%miranda_path%\\Dictionaries]
-
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
 
@@ -88,16 +83,6 @@ Die Korrektur darf nicht leer sein!
 [de_frami_neu]
 
 [German (Germany)]
-
-[Thunderbird]
-
-[Firefox]
-
-[Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
-
-[Path]
-Pfad
-[%s\\Dictionaries]
 
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
@@ -129,8 +114,6 @@ Wörterbücher
 Benutzerdefinierte Wörterbücher
 [Flags DLL]
 Speicherort der Flags.dll
-[Spell Checker/Flags]
-
 [Enable/disable spell checker]
 Akt-/deaktiviere Spell Checker
 [Enabled]

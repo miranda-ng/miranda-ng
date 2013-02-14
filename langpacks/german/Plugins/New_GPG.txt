@@ -1,7 +1,9 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
-[��]
+[Load Public GPG key]
+
+[ÎÊ]
 
 [Load from file]
 
@@ -11,6 +13,8 @@ Wähle existierenden
 Verschlüsselung aktivieren
 [Import key from keyserver]
 Importiere Schlüssel vom Schlüsselserver
+[Set own key]
+Setze eigenen Schlüssel
 [Generate key]
 Generiere Schlüssel
 [Select key for use]
@@ -27,6 +31,14 @@ Generiere zufälligen Schlüssel
 Konto:
 [key id: ]
 
+[Copy public key]
+
+[Export private key]
+
+[Change password]
+Passwort ändern
+[Set GPG bin path and keyring home dir.]
+Setze GPG-Heimverzeichnis und -Schlüsselverzeichnis
 [Continue]
 
 [Home directory:]
@@ -37,6 +49,8 @@ GnuPG-Verzeichnis:
 Durchsuchen
 [Turn on key autoexchange]
 Automatischer Schlüsselaustausch aktivieren
+[The new public key was recieved]
+Der neue öffentl. Schlüssel wurde empfangen
 [Import key]
 Schlüssel importieren
 [Accept and enable encryption]
@@ -45,6 +59,8 @@ Aktzeptiere und aktiv. Verschlüsselung
 Ignorieren
 [Static]
 Statisch
+[Key Generation dialog]
+Schlüsselgenerierungsdialog
 [OK]
 OK
 [Cancel]
@@ -69,6 +85,10 @@ Von 1024 bis 4096
 Die Generierung kann eine Weile dauern, bitte warten Sie
 [0 - does not expire]
 0 - verfällt nicht
+[Select existing public key from list]
+
+[Enter password for your secret key]
+
 [Password:]
 Passwort:
 [Save password to database]
@@ -79,19 +99,29 @@ Standardpasswort
 Importieren
 [Select keyserver for key search:]
 Wählen Sie den Keyserver für die Schlüsselsuche aus:
+[Recieved encrypted file]
+
 [Decrypt]
 
 [Recieved encrypted file form contact whith disabled encryption.]
 
 [Remember choice]
 
-[Ok]
+[Choose which  keys to export]
 
+[Ok]
+
 [Export public keys (only set for contacts)]
 
 [Export all private keys]
 
 [Export public and private keys]
+
+[Change private key password]
+
+[Current password:]
+
+[New password twice:]
 
 [Userlist:]
 Benutzerliste:
@@ -129,18 +159,7 @@ Zu:
 
 [Import keys]
 
-;file \plugins\New_GPG\src\gpg_wrapper.cpp
-[" --homedir "]
-
-[LANGUAGE=en@quot\0LC_ALL=English\0]
-Sprache=en@quot\0LC_Alle=Englisch\0
 ;file \plugins\New_GPG\src\init.cpp
-[<GPGdec>]
-<GPG geöffnet>
-[<GPGenc>]
-<GPG geöffnet>
-[Arial]
-
 [GPG Turn off encryption]
 
 [GPG Turn on encryption]
@@ -158,10 +177,6 @@ Sende öffentl. Schlüssel
 [Import GPG Public keys]
 
 ;file \plugins\New_GPG\src\main.cpp
-[Set own key]
-Setze eigenen Schlüssel
-[Key ID]
-Schlüssel-ID
 [Email]
 E-Mail
 [Name]
@@ -182,24 +197,18 @@ Standard
 nicht gesetzt
 [Default private key id]
 
-[\\new_key]
-\\neuer Schlüssel
 [Failed to open file]
 Konnte die Datei nicht öffnen
 [Error]
 Fehler
 [Generating new random key, please wait]
 
-[\\GnuPG\\gnupg.nls\\en@quot.mo]
+[Failed to alocate memory]
 
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
 Das GPG-Verzeichnis wurde gefunden, allerdings der Englische Ort davon existiert nicht.\nEs ist sehr wichtig die \\gnupg.nls\\en@quot.mo im GnuPG-Ordner im Miranda NG Verzeichnis zu legen.\nOhne diese Datei haben Sie viele Probleme mit der GPG-Ausgabe auf englischen Systemen.\nEs kann evtl. nicht richtig funktionieren.\nSeien Sie gewarnt!
 [Warning]
 Warnung
-[Software\\GNU\\GnuPG]
-
-[gpgProgram]
-
 [wrong gpg binary location found in system.\nplease choose another location]
 Ein falsches GPG-Verzeichnis wurde im System gefunden.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]
@@ -210,18 +219,8 @@ Eine nicht unterstützte GnuPG-Version wurde gefunden, benutzen Sie diese auf ei
 
 [Info]
 
-[APPDATA]
-
-[\\GnuPG]
-
-[gpg]
-
 [Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue.]
 
-[Choose gpg.exe]
-Wählen sie den Pfad zur gpg.exe aus
-[Set home diractory]
-Setze Heimverzeichnis
 [gpg binary does not exists.\nplease choose another location]
 GPG-Verzeichnis existiert nicht.\nBitte wählen Sie ein anderes Verzeichnis aus.
 [please choose gpg binary location]
@@ -238,12 +237,6 @@ Ersetze
 Akzeptieren
 [Received key from ]
 Schlussel wurde empfangen von
-[Key Generation dialog]
-Schlüsselgenerierungsdialog
-[RSA]
-
-[DSA]
-
 [You must set encryption algorythm first]
 Sie müssen als Erstes einen Verschlüsselungsalgorithmus setzen
 [Key length must be of length from 1024 to 4096 bits]
@@ -252,23 +245,13 @@ Schlüssellänge muss zwischen 1024 und 4096 Bit betragen.
 Ungültiges Datum
 [Name must contain at least 5 characters]
 Der Name muss mind. 5 Zeichen beinhalten.
-[Name cannot contain '(' or ]
-
+[Name cannot contain '(' or ')']
+Der Name darf kein '(' oder ')' beinhalten
 [Invalid Email]
 Ungültige E-Mail-Adresse
 [Generating new key, please wait...]
 
-[Expiration date]
-
 [Failed to export public key.]
-
-[ --keyserver "]
-
-[" --recv-keys ]
-
-[access_test\n]
-
-[TEMP]
 
 [GPG binary is set and valid (this is good).\n]
 
@@ -285,8 +268,6 @@ Ungültige E-Mail-Adresse
 [\nGPG will be disabled until you solve this problems]
 
 [GPG plugin problems]
-
-[\\tmp]
 
 [Your secret key whith id: ]
 Ihr geheimer Schlüssel mit ID:
@@ -306,23 +287,13 @@ Ihr geheimer Schlüssel mit ID:
 Wollen Sie alle Schlüssel für den Unterkontakt laden?
 [Metacontact detected]
 Metakontakt entdeckt
-[ --batch ]
-
-[ --import "]
-
 ;file \plugins\New_GPG\src\messages.cpp
 [We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
 Sie haben eine verschlüsselte Nachricht von einem Kontakt empfangen der die Verschlüsselung deaktiviert hat.\nWollen Sie die Verschlüsselung für diesen Kontakt deaktivieren?
 [Do you want try to decrypt encrypted message ?]
 Wollen Sie versuchen, die verschlüsselte Nachricht zu entschlüsseln?
-[\\tmp\\]
-
-[ -d -a "]
-
 [failed to decrypt message, GPG returned error, turn on debug log for more details]
 
-[GPG_Key_Auto_Exchange:0]
-GPG_Schlüssel_Auto_Austausch:0
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
 Sie versuchen, mit nicht vertrauenswürdigem Schlüssel zu verschlüsseln, wollen Sie diesem Schlüssel dauerhaft vertrauen?
 [failed o encrypt message, GPG returned error, turn on debug log for more details]
@@ -342,14 +313,14 @@ Nachrichten
 Erweitert
 [Contact]
 Kontakt
+[Key ID]
+Schlüssel-ID
 [Protocol]
 Protokoll
 [This key not used by any contact, do you want to remove it from public keyring ?]
 Dieser Schlüssel wird von keinem Kontakt verwendet, wollen Sie ihn entfernen?
 [Key info]
 Schlüssel-Info
-[ --batch --yes --delete-key ]
-
 [we have secret key for this public key, do not removing from GPG keyring]
 Sie haben einen geheimen Schlüssel, entfernen Sie ihn nicht aus dem GPG-Schlüsselbund!
 [info]
@@ -362,18 +333,18 @@ Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) lös
 Öffentlichen Schlüssel exportieren
 [.asc pubkey file]
 .asc-Pubkey-Datei
-[Failed to alocate memory]
-
 [Set log file]
 Setze Logdatei
 [LOG files]
 Logdateien
+[Choose gpg.exe]
+Wählen sie den Pfad zur gpg.exe aus
+[Set home diractory]
+Setze Heimverzeichnis
 [Load Public GPG Key for ]
 Lade offentlichen GPG-Schlussel fur
 [Turn off encryption]
 Verschlüsselung deaktivieren
-[ --export -a ]
-
 [ found in prescense, and exists in keyring.)]
  gegenwärtig gefunden, er existiert im Hauptverzeichnis.)
 [Load Public GPG Key (Key ID: ]
@@ -382,8 +353,6 @@ Lade offentlichen GPG-Schlussel (Schlussel-ID:
 gegenwärtig gefunden.
 [This is not public or private key]
 Dies ist kein öffentlicher oder privater Schlüssel
-[INFO]
-Information
 [Key already in scret key ring.]
 Der Schlüssel ist bereits im geheimen Hauptverzeichnis.
 [Set file containing GPG public key]
@@ -397,20 +366,8 @@ Wo ist der öffentliche oder private Schlüssel?
 Wollen Sie die Verschlüsselung für alle Unterkontakte wechseln?
 [Send publick key]
 
-[ -o ]
-
 [Target file exists, do you want to replace it ?]
 Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
-[ -d "]
-
-[ --trust-model always ]
-
-[ -o "]
-
-[ -e "]
-
-[GPG_Encrypted_FileTransfers:0]
-
 [Capability to decrypt file not found on other side\nRecipient may be unable to decrypt file(s)\nDo you want to encrypt file(s) anyway?]
 
 [Filetransfer warning]
@@ -418,42 +375,6 @@ Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 [Unable to check encryption support on other side\nRecipient may be unable to decrypt file(s)\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with new_gpg used on other side.\nDo you want to encrypt file(s) anyway?]
 
 [encrypting file for transfer]
-
-[This message is encrypted.]
-
-[Version: ]
-
-[Comment: ]
-
-[Encoding: ]
-
-[xmlns]
-
-[jabber:x:encrypted]
-
-[status]
-Status
-[ --default-key ]
-
-[ --batch --yes -a -b -s "]
-
-[jabber:x:signed]
-
-[\n-----END PGP SIGNATURE-----\n]
-
-[from]
-von
-[Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
-
-[GPG_Key_Auto_Exchange:0\0\0]
-GPG_Schlüssel_Auto_Austausch:0\0\0
-[Indicates that gpg installed and configured to encrypt files (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)]
-
-[GPG_Encrypted_FileTransfers:0\0\0]
-
-[Choose file to export keys]
-
-[Any file]
 
 [we have succesfully exported]
 
@@ -465,7 +386,9 @@ GPG_Schlüssel_Auto_Austausch:0\0\0
 
 [Keys export result]
 
-[Choose file to import keys from]
-
 [Keys import result]
+
+[New passwords not match]
+
+[Old password not match, you can continue, but gpg will reject wrong password.\nDo you want to continue?]
 

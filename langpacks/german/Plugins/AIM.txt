@@ -62,6 +62,8 @@ Kein mehrfaches Einloggen erlauben
 Profil speichern
 [Create a new AIM account]
 Ein neues AIM-Konto erstellen...
+[AIM Instant Idler]
+AIM: Untätigkeit einstellen
 [Number of Hours:]
 Anzahl Stunden:
 [Number of Minutes:]
@@ -90,6 +92,8 @@ Entfernen
 Untätigkeit
 [Allow contacts to be notified of:]
 Kontakte dürfen informiert werden über:
+[Join Chat Room]
+Chatraum betreten
 [Chat Room]
 Chatraum
 [&Join]
@@ -118,10 +122,14 @@ Account bestätigen
 *Bei Neuverb. gespeich.
 [Save Changes]
 Speichern
+[Invite Buddy To Chat Room]
+Kontakt in Chatraum einladen
 [&Invite]
 E&inladen
 [Invitation reason]
 Grund der Einlad.
+[Chat Room Invitation Request]
+Einladung in einen Chatraum
 [&Deny]
 Ablehnen
 [Message]
@@ -268,12 +276,6 @@ Benutzer vorübergehend nicht verfügbar.
 [Failed to open file: %s : %s]
 Konnte die Datei nicht öffnen: %s : %s
 ;file \protocols\AimOscar\src\links.cpp
-[addbuddy?]
-
-[goim?]
-
-[gochat?]
-Chatten?
 [AIM Link Protocol]
 AIM-Link-Protokoll
 ;file \protocols\AimOscar\src\popup.cpp
@@ -423,6 +425,4 @@ Bitte einen Benutzernamen in den Einstellungen angeben.
 [Please, enter a password in the options dialog.]
 
 [Failed to open file: %s %s]
-
-[open]
 

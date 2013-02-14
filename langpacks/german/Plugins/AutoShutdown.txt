@@ -68,20 +68,7 @@ Ungespeicherte Daten in geöffneten Anwendungen außer Miranda NG könnten verlo
 Bitte auf "Abbrechen" klicken, wenn der Vorgang nicht durchgefuhrt werden soll.
 [&Now!]
 &Sofort!
-;file \plugins\AutoShutdown\src\cpuusage.cpp
-[System\\CurrentControlSet\\Services]
-
-[Performance]
-
-[Disable Performance Counters]
-
-[PerfOS]
-
 ;file \plugins\AutoShutdown\src\frame.cpp
-[AutoShutdownCountdown]
-
-[Static]
-Statisch
 [Shutdown at:]
 Beenden um:
 [Time left:]
@@ -133,31 +120,11 @@ Automatisches Beenden (de-)aktivieren
 Automatisches Beenden deaktivieren
 [Start automatic shutdown]
 Automatisches Beenden aktivieren
-[Sdop automatic shutdown]
-
 [Stop automatic &shutdown]
 Automatisches &Beenden abbrechen
 [Automatic &shutdown...]
 Automatisches &Beenden
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[default]
-Standard
-[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer]
-
-[NoLogOff]
-
-[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System]
-
-[DisableLockWorkstation]
-
-[RASAPI32]
-
-[Control Panel\\Desktop]
-
-[ScreenSaveActive]
-
-[ScreenSaverIsSecure]
-
 [Automatic Shutdown Error]
 AutoBeenden-Fehler
 [The shutdown process failed!\nReason: %s]

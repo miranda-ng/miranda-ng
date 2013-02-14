@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
@@ -133,12 +133,18 @@ Port:
 
 [Copy]
 Kopieren
+[Enter Password]
+
 [Join]
 Betreten
+[Set Nickname]
+Nickname setzen
 [OK]
 OK
 [Cancel]
 Abbrechen
+[New xfire_games.ini]
+Neue xfire_games.ini
 [There is a new XFire Gamelist online, do you want to update now?]
 Es ist eine neue Version der XFire-Spielliste verfügbar, möchten Sie jetzt aktualisieren?
 [New supported Games:]
@@ -168,6 +174,8 @@ Sende Spiel-ID:
 [Statusmessage for Xfire, if this game will be started:]
 Statusnachricht für XFire, wenn dieses Spiel läuft:
 [Parameter:]
+
+[Add a new game]
 
 [Searching games ...]
 Spiele werden gesucht ...
@@ -246,22 +254,6 @@ Möchten Sie wirklich %s zu Ihrer Freundesliste hinzufügen?
 Füge mich zu Ihrer Freundesliste hinzu.
 [XFire is not connected.]
 
-[xfiregame]
-
-[myxfiregame]
-
-[xfireserverip]
-
-[myxfireserverip]
-
-[xfirevoice]
-
-[myxfirevoice]
-
-[xfirevoiceip]
-
-[myxfirevoiceip]
-
 [Xfire Link Protocol]
 XFire-Link-Protokoll
 [xfirebstartgame]
@@ -323,6 +315,64 @@ Wollen Sie diesen Benutzer komplett blockieren?
 [Block Confirmation]
 Blockierung bestätigen
 ;file \protocols\Xfire\src\options.cpp
+[Avatars]
+Avatare
+[Disable avatars]
+Avatare deaktivieren
+[Dont download avatars of clan members]
+Avatare von Clan-Mitgliedern nicht herunterladen
+[Use alternate way for Avatar download]
+Alternative Avatar-Download-Variante verwenden
+[General]
+Allgemein
+[Use UTF8 for messaging and nick's (beta)]
+UTF-8 für Nachrichten und Benutzernamen verwenden (Beta)
+[Automatically reconnect on protocol version changes]
+Automatisch nach Protokoll-Versionsänderungen neu verbinden
+[No Ip/Port in StatusMsg]
+Keine Server-IP- und Portanzeige bei der Statusmeldung
+[Use Online status for unsupported global statuses]
+Wechsle auf Online statt Abwesend bei nicht unterstütztem Status
+[Dont move friends to clan groups]
+Meinen Freunden keine Clangruppen zuordnen
+[GameServerQuery support]
+GameServerQuery-Unterstützung
+[No custom away message]
+Eigene "Away"-Nachricht abschalten
+[Remove friend of friend buddies from database]
+Entferne die Freunde meiner Freunde von der Datenbank
+[Hide yourself in buddylist]
+Sich selbst nicht in der Server-Kontaktliste anzeigen
+[Dont display game search results]
+Ergebnis der Spielesuche nicht anzeigen
+[Dont display game search status window]
+Statusfenster der Spielesuche nicht anzeigen
+[Display popup, if someone start a game]
+Popup anzeigen, wenn jemand ein Spiel startet
+[Dont automatically create clan groups]
+Clangruppen nicht automatisch erstellen
+[Enable MBot support]
+MBot-Unterstützung aktivieren
+[Gamedetection]
+Spielerkennung
+[Disable game detection]
+Spielerkennung abschalten
+[Use TSRemote.dll to get teamspeak server info]
+TSRemote.dll für Teamspeakinfos verwenden
+[Disable popups when ingame]
+Popups im Spiel deaktivieren
+[Disable sound events when ingame]
+Akustische Hinweise im Spiel deaktivieren
+[Automatically update xfire_games.ini (pro-laming.de)]
+Automatisch xfire_games.ini aktual. (von pro-laming.de)
+[Automatically update icons.dll (pro-laming.de)]
+Automatisch icons.dll aktual. (von pro-laming.de)
+[Download missing game icons from Xfire website]
+Lade fehlende Spielicons von der XFire-Homepage
+[No backup on update]
+Keine Sicherung beim Update (games.ini, icons.dll)
+[Background updating]
+Hintergrund-Aktualisierung
 [The username must be lowercase, so it will be lowercased saved.]
 Der Benutzername muss in Kleinbuchstaben geschrieben sein, damit es in Kleinbuchstaben gespeichert wird.
 [The changes you have made require you to reconnect to the XFire network before they take effect]
@@ -351,6 +401,8 @@ Wird nicht unterstützt
 Einstellungen gespeichert!
 [Game not found?!]
 Spiel nicht gefunden?!
+[Network]
+Netzwerk
 [Account]
 Konto
 [Features]
@@ -359,8 +411,6 @@ Funktionen
 Ignorieren / Spiele
 [StatusMsg]
 Statusnachricht
-[Network]
-Netzwerk
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 Daten werden geschrieben ...

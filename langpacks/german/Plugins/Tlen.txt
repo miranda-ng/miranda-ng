@@ -89,6 +89,8 @@ Benutzerdefiniert
 
 [Preview]
 Vorschau
+[Jabber Password]
+Jabber-Passwort
 [OK]
 OK
 [Cancel]
@@ -119,6 +121,8 @@ Sprachchats
 
 [Save changes]
 Änderungen speichern
+[Avatar]
+Avatar
 [Avatar Options]
 Avatareinstellungen
 [Public avatar]
@@ -147,6 +151,8 @@ an
 Status:
 [Plan:]
 
+[Tlen Voice Chat]
+
 [Quality]
 
 [In]
@@ -155,6 +161,8 @@ Status:
 
 [Finish]
 Ende
+[Tlen Voice Chat Invitation]
+
 [&Accept]
 &Akzeptieren
 [From:]
@@ -220,9 +228,9 @@ Unsichtbar
 [Forwarding]
 Weiterleiten
 [SOCKS4]
-
+
 [SOCKS5]
-
+
 [%s mail]
 
 ;file \protocols\Tlen\src\jabber_svc.cpp
@@ -233,6 +241,22 @@ Tlen-Anmeldung
 Passwort eingeben für
 [Jabber Connection Error]
 Jabber-Verbindungsfehler
+[Windows Server 2003]
+
+[Windows XP]
+
+[Windows 2000]
+
+[Windows NT]
+
+[Windows 95]
+
+[Windows 98]
+
+[Windows ME]
+
+[Windows]
+Windows
 [%s Web Messages]
 %s Web-Nachrichten
 [Web message]
@@ -277,7 +301,19 @@ Sende Bild
 Eingehende E-Mail
 [Alert]
 Alarm
+[Tlen Chats]
+
+[Multi-User Conference]
+Gruppenkonferenz
+[Tlen Mail]
+
+[Send picture]
+
+[Voice Chat]
+Sprachchat
 ;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+
 [%d Files]
 
 ;file \protocols\Tlen\src\tlen_muc.cpp
@@ -308,60 +344,6 @@ Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
 [Unknown error code : %d]
 Unbekannter Fehlercode: %d
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
-[Male]
-männlich
-[Female]
-weiblich
-[Somebody to talk]
-
-[Friendship]
-
-[Flirt/romance]
-
-[Love]
-Liebe
-[Nothing]
-Nichts
-[All]
-Alle
-[Available]
-
-[Student]
-
-[College student]
-
-[Farmer]
-
-[Manager]
-
-[Specialist]
-
-[Clerk]
-
-[Unemployed]
-
-[Pensioner]
-
-[Housekeeper]
-
-[Teacher]
-
-[Doctor]
-
-[Other]
-Sonstige
-[I'd like to go downtown]
-
-[I'd like to go to the cinema]
-
-[I'd like to take a walk]
-
-[I'd like to go to the disco]
-
-[I'd like to go on a blind date]
-
-[Waiting for suggestion]
-
 [Account]
 Konto
 [both]
@@ -383,7 +365,13 @@ Nicht im Roster
 
 [...Denied...]
 
-[DISPLAY]
+[8000 Hz / 13.8 kbps]
+
+[11025 Hz / 19.1 kbps]
+
+[22050 Hz / 36.8 kbps]
+
+[44100 Hz / 72 kbps]
 
 [Default]
 Standard

@@ -35,8 +35,6 @@ Durchsuchen...
 Einzug:
 [Row height:]
 Zeilenhöhe:
-[Spin3]
-
 [Repeats for success/failure:]
 Wiederholung bis Erfolg/Fehler:
 [Attach to contact list]
@@ -53,6 +51,8 @@ Bearbeiten
 Auf
 [Down]
 Ab
+[Edit Host]
+
 [OK]
 OK
 [Cancel]
@@ -79,6 +79,8 @@ Kontakt
 Protokolle
 [(Optional) Command Parameters:]
 (Optional) Befehl Parameter:
+[Menu]
+Menü
 [Graph]
 Graph
 [Enable]
@@ -90,9 +92,6 @@ Aktivieren
 [Options...]
 Einstellungen...
 [Hosts...]
-
-;file \plugins\Ping\src\log.cpp
-[edit]
 
 ;file \plugins\Ping\src\menu.cpp
 [PING]
@@ -117,8 +116,6 @@ Einstellungen
 
 [Failed to initialize. Plugin disabled.]
 
-[Local\\ThreadWaitEvent]
-
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 
@@ -131,8 +128,6 @@ Einstellungen
 [MAX %hd ms]
 
 [MIN %hd ms]
-
-[GraphWindow]
 
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
@@ -149,10 +144,8 @@ aktiviert
 
 [Ping]
 
-[List]
-Liste
-[Background]
-Hintergrund
+[Show/Hide &Ping Window]
+
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 

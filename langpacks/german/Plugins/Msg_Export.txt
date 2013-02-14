@@ -1,5 +1,12 @@
 ﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
-;langpack template for Msg_Export
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Exports every message, URL or File you receive to a text file.]
+
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Durchsuchen
@@ -13,6 +20,14 @@ Benutze UTF8 in neuen Dateien
 Füge neue Extralinie an
 [Use << and >>]
 Verw. << und >>
+[Auto filename]
+Auto Dateiname
+[Clear all]
+Alles löschen
+[Help]
+Hilfe
+[Export all history]
+Exportiere alles
 [Export directory]
 Export-Verzeichniss
 [Max column width]
@@ -25,16 +40,12 @@ Exportformat
 Dateiname
 [File viewer]
 Dateibetrachter
-[Auto filename]
-Auto Dateiname
-[Clear all]
-Alles löschen
-[Help]
-Hilfe
-[Export all history]
-Exportiere alles
+[Exporting old messages]
+Exportiere alte Nachrichten
 [Progress1]
 Fortschritt1
+[History file for %s (%s format %s)]
+
 [&Find...]
 Suchen
 [&External]
@@ -55,12 +66,16 @@ Wenn User gelöscht wird
 Lösche Datei
 [Debug]
 
+[UserList]
+
 [User &Details]
 Kontaktprofil
 [Export selected]
 Auswahl expotieren
 [Set to default filename]
 Setze Standard-Dateiname
+[1]
+
 [Copy]
 Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
@@ -80,14 +95,10 @@ Kopieren
 
 [Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events]
 
-[File open time %d\n]
-
 [With scroll to bottom %d\n]
 
 [Search string was not found !]
 Suchpfad wurde nicht gefunden!
-[Courier New]
-
 [Save as RTF]
 
 [Color...]
@@ -96,12 +107,8 @@ Farbe...
 Schrift...
 [Syntax highlight]
 Syntaxhöhepunkt
-[UTF8]
-
-[ANSI]
-
 [Failed to create file]
-
+
 [Failed to save file]
 
 [History was saved successfully in file\r\n]
@@ -125,8 +132,6 @@ Syntaxhöhepunkt
 [Failed to HookEvent ME_SYSTEM_SHUTDOWN]
 
 [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
-
-[%dbpath%\\MsgExport\\]
 
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
 Miranda-History konnte nicht gelöscht werden.\r\nVermutlich aufgrund von Änderungen in Miranda
@@ -155,16 +160,12 @@ Nick
 
 [UIN]
 
-[C:\\Backup\\MsgExport\\]
-
-[%dbpath%\\MsgExport\\%group% - ]
-
-[%dbpath%\\MsgExport\\%group%\\]
-
 [You have unapplyed changes do you wish to apply these first ?]
 Es liegen ungespeicherte Änderungen vor. Sollen diese jetzt gespeichert werden?
-[Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
+[Executable files]
 
+[All files]
+Alle Dateien
 [Failed to get the shells allocator!]
 
 [Failed to Allocate buffer space]
@@ -177,28 +178,14 @@ Exportiere Protokolle
 Message Export
 [History]
 Verlauf
-[Message export2]
+[General]
+Allgemein
+[Additional]
 
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 
 [No_Group]
-
-[%e-mail%]
-
-[Debug information\r\nsDBPath :]
-
-[\r\nsMirandaPath :]
-
-[\r\nsDefaultFile :]
-
-[\r\nGetFilePathFromUser( NULL ) :]
-
-[The language pack you are using has an error in the transalation of\r\n]
-
-[\r\n---------------      It was translated to      ---------------\r\n]
-
-[\r\nErrorCode: %d\r\n]
 
 [DB: Attempt to get wrong type of value, string]
 
@@ -215,8 +202,6 @@ Umbenennen der Datei\n\nvon:\t%s\nzu:\t%s\n\nmit folgendem Fehler: %s fehlgeschl
 [Do you wish to save debug information?]
 
 [All\0*.*\0Text\0*.TXT\0\0]
-
-[TXT]
 
 [Failed to open or create file :\n]
 Konnte Datei nicht öffnen bzw. anlegen :\n
@@ -252,9 +237,9 @@ Konnte nicht an das Ende der Datei schreiben :\n
 
 [Homepage  : %Homepage%\r\n]
 
-[Failed to write user details to file :\n]
+[- About -\r\n%About%\r\n]
 
-[%-*s]
+[Failed to write user details to file :\n]
 
 [Failed to write timestamp and username to file :\n]
 
@@ -303,10 +288,6 @@ SMS konnte nicht in die Datei geschrieben werden :\n
 [Unknown event type %d, size %d]
 
 [Failed to write Unknown event to the file :\n]
-
-[Programming error writing UTF8 string to ansi file]
-
-[Programming error on line __LINE__ please report this]
 
 [User has been deleted do you want to delete the file?]
 

@@ -1,7 +1,7 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Plugin: Change Keyboard Layout
+;  Plugin: Change keyboard layout
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
@@ -12,6 +12,8 @@
 Hotkeys
 [Changing layout:]
 Layout ändern:
+["Current word" mode]
+nur aktuelles Wort
 [Changing layout (alternative):]
 Layout ändern (alternativ):
 [Inverting lettercase:]
@@ -85,9 +87,3 @@ Popup
 Nachrichtensitzungen
 [PopUps]
 Popups
-;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
-
-;file \plugins\ChangeKeyboardLayout\src\options.cpp
-[Ghbdtn? rfr ltkf&]
-

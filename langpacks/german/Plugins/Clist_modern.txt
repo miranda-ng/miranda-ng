@@ -1,10 +1,12 @@
 ﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
-;  Plugin: Clist_modern
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparent:
@@ -39,7 +41,7 @@ Transparente Kontaktliste
 [Inactive opacity:]
 Deckkraft inaktiv:
 [000%]
-
+
 [Active opacity:]
 Deckkraft aktiv:
 [Show Avatars]
@@ -63,7 +65,7 @@ Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
 [...]
-
+
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -151,7 +153,7 @@ Kontakte gruppiert anzeigen
 [Include status modes]
 Statusmodus auswählen
 [Ok]
-
+
 [Cancel]
 Abbrechen
 [Sticky contacts]
@@ -226,6 +228,8 @@ Rechtsklick öffnet Miranda-Hauptmenü
 Abstand links
 [Space on right]
 Abstand rechts
+[Delete Contact]
+Kontakt löschen
 [No]
 Nein
 [Yes]
@@ -371,7 +375,7 @@ Mehrere Icons anzeigen
 [Only when statuses differ]
 Nur wenn Status unterschiedlich
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [System tray icon mode]
 Trayicon-Modus
 [Use xStatus icon]
@@ -606,30 +610,38 @@ Hoch
 Runter
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 EINSTELLUNGSSEITE IST IM BAU!
+[&¤]
+
 [E&xit]
 B&eenden
+[&Status]
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
+[Tray]
+
 [&Hide/Show]
 Zeigen/Ausblenden
+[Nowhere]
+Nirgends
 [&New Group]
 &Neue Gruppe
 [&Hide Offline Users]
@@ -652,9 +664,6 @@ Offline-Kontakte hier anzeigen
 G&ruppe umbenennen
 [&Delete Group]
 Gruppe löschen
-;file \plugins\Clist_modern\src\modern_aniavatars.cpp
-[MirandaModernAniAvatar]
-
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 
@@ -666,8 +675,8 @@ Smileys in Kontaktliste
 Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden?
 [Converting to MetaContact]
 Konvertierung in Metakontakt
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s]
-
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+Soll Kontakt '%s' in Metakontakt konvertiert und '%s' hinzugefügt werden (wird von '%s' entfernt)?
 [Converting to MetaContact (Moving)]
 Konvertierung in Metakontakt (Verschiebe)
 [Do you want to contact '%s' be added to metacontact '%s'?]
@@ -692,8 +701,6 @@ Soll Kontakt '%s' vom Metakontakt '%s' hinzugefügt werden?
 [Contact List/Frame texts]
 
 [Contact List/Special colours]
-
-[Arial]
 
 [Standard contacts]
 Standardkontakte
@@ -757,10 +764,10 @@ Markierter Menütext
 Titelzeilentext
 [Statusbar text]
 Statuszeilentext
+[3rd party frames transparent back colour]
+Transparente Hintergrundfarbe Kontaktl.-Elem.
 [General]
 Allgemein
-[Tray]
-
 [List]
 Liste
 [Window]
@@ -799,6 +806,8 @@ Zeitpunkt der letzten Nachricht
 Kontoname
 [Rate]
 Priorität
+[-Nothing-]
+-Nichts-
 [Global]
 Global
 [Hide to tray]
@@ -807,13 +816,7 @@ In Systemtray
 Hinter linken Rand
 [Behind right edge]
 Hinter rechten Rand
-[Progman]
-
-[Fonts]
-Schriftarten
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[EventArea]
-Ereignisbereich
 [Event Area]
 Ereignisbereich
 [No Events]
@@ -874,8 +877,6 @@ Inhalte Kontaktanzeige
 Kontakte suchen/hinzu&fügen...
 [&Main Menu]
 Haupt&menü
-[&Status]
-
 [&Options...]
 Einstellungen...
 [&About]
@@ -887,8 +888,6 @@ Kontakt&avatar anzeigen
 Kontakt&avatar verstecken
 [My Contacts]
 Meine Kontakte
-[Miranda::GetProfile]
-
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 [&Visible]
 Sichtbar
@@ -926,12 +925,6 @@ Alle Titelleisten verstecken
 Keine Größenänderung
 [Show TitleBar]
 Titelzeile anzeigen
-[SubContainerWindow]
-
-[FramesContainer]
-
-[Shell_TrayWnd]
-
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 Kontaktlistenmenü
@@ -948,54 +941,7 @@ Allgemein
 Letzten Status wiederherstellen
 [Show/Hide Offline Users]
 Zeige/Verstecke Offline-Kontakte
-;file \plugins\Clist_modern\src\modern_newrowopts.cpp
-[Init NewRow Dialog]
-
-[Notify]
-Benachrichtigung
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[none]
-Keine
-[text1]
-
-[text2]
-
-[text3]
-
-[status]
-Status
-[avatar]
-
-[extra]
-
-[extra1]
-
-[extra2]
-
-[extra3]
-
-[extra4]
-
-[extra5]
-
-[extra6]
-
-[extra7]
-
-[extra8]
-
-[extra9]
-
-[time]
-
-[space]
-
-[fspace]
-
-[Line]
-Zeile
-[Column]
-
 [Empty %s cell]
 Leere %s Zelle
 [column]
@@ -1010,61 +956,21 @@ Linien
 %s, enthält %s
 [ layered]
 
-[left]
-links
-[hCenter]
-
-[right]
-rechts
-[top]
-größtes Element
-[vCenter]
-
-[bottom]
-
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[Solid fill object]
-
-[Image (draw image)]
-Bild (zeige Bild)
-[Fragment (draw portion of image)]
-Fragment (zeige Teil des Bildes)
-[Stretch Both directions]
-Beide Richtungen strecken
-[Stretch Vertical, Tile Horizontal]
-Vertikal strecken, horizontal kacheln
-[Tile Vertical, Stretch Horizontal]
-Vertikal kacheln, horizontal strecken
-[Tile Both directions]
-Beide Richtungen kacheln
 [Image size is]
 Bildgröße ist
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[Skin_Description_Section]
-
-[SkinFolder]
-
 [You need an image services plugin to process PNG images.]
-
+
 [Error]
 Fehler
-[Profile]
-Profil
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [Load/Save]
 Laden/Speichern
 [Object Editor]
 Objekteditor
-[Author]
-Autor
 [( unknown )]
 
-[URL]
-URL
-[Contact]
-Kontakt
-[Description]
-Übersicht
 [%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
 %s\n\n%s\n\nAutor(en):\t %s\nKontakt:\t %s\nWeb:\t %s\n\nDatei:\t %s
 [%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
@@ -1075,8 +981,6 @@ Kontakt
 
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (Grafiken), FYR (Vorlage)
-[JID: fyr@jabber.ru]
-
 [Inside library]
 Intern (in der DLL)
 [Skin Information]
@@ -1089,8 +993,6 @@ Warnung!
 Aktueller Skin wurde nicht als Datei gespeichert.\n\Alle Änderungen gehen verloren.\n\n Soll der neue Skin geladen werden?
 [Miranda skin file]
 Miranda-Skindatei
-[msf]
-
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Vorschau nicht verfügbar\n\n%s\n----------------------\n\n%s\n\nAUTOR(EN):\n%s\n\nKONTAKT:\n%s\n\nHOMEPAGE:\n%s
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
@@ -1105,28 +1007,15 @@ Bitte einen Skin zum Übernehmen wählen
 Standardskin
 [%Default Skin%]
 Standardskin
-[%%Default Skin%%]
-
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
-[ModernStatusBar]
-
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-[ << Global>>]
+[<<Global>>]
 
-[Center]
-Mitte
-[Right]
-Rechts
-[Bottom]
-Unten
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Toolbar]
-Toolbar
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 
 [Toolbar upgrade]
 
-;file \plugins\Clist_modern\src\modern_utils.cpp
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nicht gruppierte Kontakte
@@ -1172,23 +1061,6 @@ Kontaktfilter einstellen
 Lösche Ansicht und kehre zu Ausgangsanzeige zurück
 [Reset view mode]
 Kontaktfilter aufheben
-[View modes]
-Kontaktfilter
 [View Modes]
 Kontaktfilter
-;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
-[Shadow at left]
-Schatten nach links
-[Shadow at right]
-Schatten nach rechts
-[Outline]
-Umriss
-[Outline smooth]
-Umriss glatt
-[Smooth bump]
-Wellig
-[Contour thin]
-Dünne Kontur
-[Contour heavy]
-Deutliche Kontur
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

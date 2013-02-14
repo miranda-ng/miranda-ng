@@ -20,17 +20,41 @@ Maximum an internen aktivierten Lautsprechern
 Ausgabegerät:
 [Volume:]
 Lautstärke
+[Quiet time:]
+Ruhezeit:
 [-]
 
 [download bass library]
 Herunterladen der Bass-Bibliothek
 [Play only if]
 Spiele nur wenn:
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free for chat]
+Für Chat bereit
+[Invisible]
+Unsichtbar
+[On the phone]
+Am Telefon
+[Out to lunch]
+Zum Essen
+[Preview]
+Vorschau
 ;file \plugins\BASS_interface\src\Main.cpp
-[HH:mm]
-
 [un4seen's bass version: %d.%d.%d.%d]
 Un4seen's Bass Version: %d.%d.%d.%d
+[--default device--]
+Standard-Ausgabegerät
 [Customize]
 Customize
 [Disable sounds]
@@ -39,11 +63,7 @@ Klänge deaktivieren
 Klänge aktivieren
 [Frame Background]
 
-[BassInterfaceFrame]
-
 [Bass Interface]
-
-[\\Bass]
 
 [Sounds enabled]
 

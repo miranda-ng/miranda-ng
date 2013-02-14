@@ -1,5 +1,12 @@
 ﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
-;langpack template for Clist_mw
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Einstellungen
@@ -10,7 +17,7 @@ Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
 [...]
-
+
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -41,6 +48,8 @@ Name:
 Setzen
 [Default]
 Standard
+[Delete Contact]
+Kontakt löschen
 [No]
 Nein
 [Yes]
@@ -96,7 +105,7 @@ Nur wenn Status unterschiedlich
 [Contact List]
 Kontaktliste
 [System tray icon]
-Systemtray-Icon (unten, neben der Uhr)
+Systemtray-Icon
 [System tray icon when using multiple protocols]
 Systemtray-Icon bei Benutzung mehrerer Protokolle
 [Contact List Sorting]
@@ -140,7 +149,7 @@ Deckkraft inaktiv:
 [Active opacity:]
 Deckkraft aktiv:
 [000%]
-
+
 [Show menu bar]
 Menüleiste anzeigen
 [Easy move]
@@ -211,50 +220,6 @@ Metakontaktunterstützung
 Leere Extraicons ignorieren (rechts anordnen)
 [Hide offline subcontacts.]
 Offlineunterkontakte ausblenden
-[E&xit]
-B&eenden
-[&Offline\tCtrl+0]
-
-[On&line\tCtrl+1]
-
-[&Away\tCtrl+2]
-
-[&NA\tCtrl+3]
-
-[Occ&upied\tCtrl+4]
-
-[&DND\tCtrl+5]
-
-[&Free for chat\tCtrl+6]
-
-[&Invisible\tCtrl+7]
-
-[On the &Phone\tCtrl+8]
-
-[Out to &Lunch\tCtrl+9]
-
-[&Hide/Show]
-Zeigen/Ausblenden
-[&New Group]
-&Neue Gruppe
-[&Hide Offline Users]
-Offline-Kontakte ausblenden
-[Hide &Offline Users out here]
-&Offline-Kontakte außerhalb ausblenden
-[Hide &Empty Groups]
-L&eere Gruppen ausblenden
-[Disable &Groups]
-&Gruppenfunktion ausschalten
-[Hide Miranda]
-Miranda NG ausblenden
-[&New Subgroup]
-&Neue Untergruppe
-[&Hide Offline Users in here]
-Offline-Kontakte &hier ausblenden
-[&Rename Group]
-G&ruppe umbenennen
-[&Delete Group]
-Gruppe löschen
 [Status Bar]
 Statusleiste
 [Show status bar]
@@ -281,12 +246,86 @@ Zeige Abschrägungseffekt auf Tafeln
 Benutze Verbindungsicon
 [Use New Drawer for StatusBar]
 Benutze neue Zeichnung für die Statusbar
+[&¤]
+
+[E&xit]
+B&eenden
+[&Status]
+
+[&Offline\tCtrl+0]
+
+[On&line\tCtrl+1]
+
+[&Away\tCtrl+2]
+
+[&NA\tCtrl+3]
+
+[Occ&upied\tCtrl+4]
+
+[&DND\tCtrl+5]
+
+[&Free for chat\tCtrl+6]
+
+[&Invisible\tCtrl+7]
+
+[On the &Phone\tCtrl+8]
+
+[Out to &Lunch\tCtrl+9]
+
+[Tray]
+
+[&Hide/Show]
+Zeigen/Ausblenden
+[Nowhere]
+Nirgends
+[&New Group]
+&Neue Gruppe
+[&Hide Offline Users]
+Offline-Kontakte ausblenden
+[Hide &Offline Users out here]
+&Offline-Kontakte außerhalb ausblenden
+[Hide &Empty Groups]
+L&eere Gruppen ausblenden
+[Disable &Groups]
+&Gruppenfunktion ausschalten
+[Hide Miranda]
+Miranda NG ausblenden
+[Group]
+Gruppe
+[&New Subgroup]
+&Neue Untergruppe
+[&Hide Offline Users in here]
+Offline-Kontakte &hier ausblenden
+[&Rename Group]
+G&ruppe umbenennen
+[&Delete Group]
+Gruppe löschen
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Customize
 [Backgrounds]
 Hintergründe
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Standardkontakte
+[Online contacts to whom you have a different visibility]
+Online-Kontakte mit anderer Sichtbarkeit
+[Offline contacts]
+Offline-Kontakte
+[Contacts which are 'not on list']
+Temporäre Kontakte
+[Group member counts]
+Kontaktzähler einer Gruppe
+[Dividers]
+Trennlinien
+[Offline contacts to whom you have a different visibility]
+Offline-Kontakte mit anderer Sichtbarkeit
+[Status messages]
+Statusnachrichten
+[Group Closed]
+Gruppe geschlossen
+[Hover Contacts]
+Schwebende Kontakte
 [Background]
 Hintergrund
 [Selected Text]
@@ -328,6 +367,8 @@ Am Telefon
 [Global]
 Global
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
@@ -335,8 +376,6 @@ Global
 Kontakte suchen/hinzu&fügen...
 [&Main Menu]
 Haupt&menü
-[&Status]
-
 [&Options...]
 Einstellungen...
 [&About]
@@ -384,8 +423,6 @@ A&uf
 Ab
 [Frames]
 Frames
-[New Menu System not Found...]
-Neues Menüsystem nicht gefunden
 [Show All Frames]
 Alle Elemente anzeigen
 [Show All Titlebars]
@@ -400,10 +437,4 @@ Sichtbar
 Titelzeile anzeigen
 [Floating]
 Frei bewegend
-[FramesContainer]
-
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
-[Statushelper]
-
-[Status]
-Status

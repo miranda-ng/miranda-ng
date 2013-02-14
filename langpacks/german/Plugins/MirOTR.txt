@@ -1,11 +1,15 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.11.0.4
+;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
+[OTR (Off-the-Record) plugin for Miranda NG]
+OTR-(Off-the-Record-)Plugin für Miranda NG
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
+[OTR Generating Private Key]
+OTR generiert privaten Schlüssel
 [Generating new private key - please wait.]
 Generiere neuen privaten Schlüssel - bitte warten.
 [Default Policy]
@@ -54,6 +58,8 @@ Setze geprüft
 Setze ungeprüft
 [Forget]
 Verwerfen
+[MirOTR]
+
 [OTR status]
 OTR-Status
 [&Start OTR session]
@@ -64,6 +70,8 @@ E&rneuere OTR-Sitzung
 Sto&ppe OTR-Sitzung
 [&Verify Fingerprint]
 &Verifiziere Fingerabdruck
+[Socialist Millionaires Protocol]
+Socialist Millionaire Protocol
 [Socialist Millionaires Protocol\r\nVerification progress]
 Socialist Millionaire Protocol\r\nVerifizierung läuft
 [&Cancel]
@@ -76,23 +84,10 @@ Socialist Millionaire Protocol\r\nVerifizierung
 &Nein
 [&Yes]
 Ja
-;file \plugins\MirOTR\MirOTR\src\dialogs.cpp
-[SMP failed]
-
-[SMP successful]
-
-[Received an SMP update]
-
-[SMP requires user password (NOT IMPL YET)]
-
 ;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
-
-[LOAD MIROTR]
-
-[UNLOAD MIROTR]
 
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
@@ -262,67 +257,20 @@ OTR: SecureIM ist installiert
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
-[MirOTRPopUpMenuProcessor]
-
 [OTR Status]
 
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Services]
 Dienste
-[READ privkey]
-
 ;file \plugins\MirOTR\MirOTR\src\otr.cpp
-[OTR_GUI_POLICY]
-
-[OTR_GUI_CREATE_PRIVKEY]
-
 [Would you like to generate a new private key for this protocol?]
 Möchten Sie einen neuen privaten Schlüssel für dieses Protokoll generieren?
 [Generating new private key.]
 Generiere neuen privaten Schlüssel
 [Please wait.]
 Bitte warten.
-[OTR_GUI_IS_LOGGED_IN]
-
-[OTR_GUI_INJECT_MESSAGE]
-
-[INJECT]
-
-[OTR_GUI_NOTIFY]
-
-[OTR_GUI_DISPLAY_OTR_MESSAGE]
-
-[OTR: Update Context List]
-
-[OTR_GUI_PROTOCOL_NAME]
-
-[OTR_GUI_NEW_FUNGERPRINT]
-
-[OTR_GUI_WRITE_FINGERPRINTS]
-
 [Would you like to save the current fingerprint list?]
 Möchten Sie die aktuelle Fingerprintliste speichern?
-[OTR_GUI_GONE_SECURE]
-
-[OTR_GUI_GONE_INSECURE]
-
-[OTR_GUI_STILL_SECURE]
-
 [OTR Log Message]
 OTR-Nachrichtenlog
 ;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp
-[SENDING]
-
-[OTR message without PREF_BYPASS_OTR]
-
-[OTR - sending raw message]
-
-[OTR - receiving message]
-
-;file \plugins\MirOTR\MirOTR\src\utils.cpp
-[%s Message]
-
-[%s Warning]
-
-[%s Error]
-

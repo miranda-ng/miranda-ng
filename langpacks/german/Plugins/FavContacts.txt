@@ -45,28 +45,10 @@ Zeige
 
 [Regular Contact]
 
-[Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n]
-
-[Favourite Contacts Error]
-
-[Contact name]
-Kontaktname:
-[Second line]
-Zweite Zeile
-[Selected contact name (color)]
-
-[Selected second line (color)]
-
-[Background]
-Hintergrund
-[Selected background]
-Markierter Hintergrund
 [Contacts]
 Kontakte
 [Favourites]
 Favoriten
-[FavContactsMenuHostWnd]
-
 [&Favourite Contacts...]
 
 [<No group>]

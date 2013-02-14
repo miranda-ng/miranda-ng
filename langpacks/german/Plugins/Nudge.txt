@@ -94,6 +94,8 @@ Nudge senden
 Zeige Nudge
 [Nudge for %s]
 
+[Send &Nudge]
+&Nudge senden
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 Sie bekommen ein Nudge
