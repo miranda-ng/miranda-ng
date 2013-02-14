@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// нейтральный resources
+// NEUTRAL resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 #ifdef _WIN32
@@ -26,17 +26,18 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_OPTIONS_PAGE DIALOGEX 0, 0, 300, 230
+IDD_OPTIONS_PAGE DIALOGEX 0, 0, 300, 241
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Send replies immediately",IDC_IMMEDIATELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,48,177,182,13
-    EDITTEXT        IDC_REPLIES,48,79,204,94,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
-    LTEXT           "- Add your replies, one per line.",IDC_STATIC,54,44,198,10
-    CONTROL         "Variables",IDC_VARIABLES,"MButtonClass",WS_TABSTOP,236,176,16,14
-    LTEXT           "Hints:",IDC_STATIC,48,35,204,8
-    LTEXT           "- Add ""---"" for separator.",IDC_STATIC,54,55,198,10
-    LTEXT           "- Press [v] button for variable's help.",IDC_VARIABLES_HINT,54,66,198,10
+    GROUPBOX        "QuickReplies",IDC_STATIC,7,7,286,227
+    CONTROL         "Send replies immediately",IDC_IMMEDIATELY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,28,210,196,13
+    EDITTEXT        IDC_REPLIES,28,60,245,147,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "- Add your replies, one per line.",IDC_STATIC,40,26,223,10
+    CONTROL         "Variables",IDC_VARIABLES,"MButtonClass",WS_TABSTOP,257,209,17,14
+    LTEXT           "Hints:",IDC_STATIC,28,17,235,8
+    LTEXT           "- Add ""---"" for separator.",IDC_STATIC,40,37,223,10
+    LTEXT           "- Press [v] button for variable's help.",IDC_VARIABLES_HINT,40,48,223,10
 END
 
 
@@ -46,21 +47,21 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS_PAGE, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 293
-        VERTGUIDE, 48
-        VERTGUIDE, 54
+        VERTGUIDE, 34
+        VERTGUIDE, 46
         VERTGUIDE, 230
-        VERTGUIDE, 236
         VERTGUIDE, 252
+        VERTGUIDE, 276
         TOPMARGIN, 7
-        BOTTOMMARGIN, 223
+        BOTTOMMARGIN, 234
         HORZGUIDE, 44
-        HORZGUIDE, 190
+        HORZGUIDE, 216
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -112,7 +113,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // русский resources
+#endif    // NEUTRAL resources
 /////////////////////////////////////////////////////////////////////////////
 
 
