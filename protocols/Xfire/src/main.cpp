@@ -514,7 +514,7 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				for(uint i = 0 ; i < ((FriendsBuddyListNamesPacket*)content)->userids->size() ; i++) {
 					BuddyListEntry *entry = client->getBuddyList()->getBuddyById( ((FriendsBuddyListNamesPacket*)content)->userids->at(i) );
 					if(entry) {
-						char fofname[128]="Friends of Friends Playing";
+						char fofname[128]=LPGEN("Friends of Friends Playing");
 						DBVARIANT dbv;
 						//gruppennamen überladen
 						if(!DBGetContactSetting(NULL,protocolname,"overload_fofgroupname",&dbv))

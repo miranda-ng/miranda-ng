@@ -33,7 +33,7 @@ typedef struct {
 static void LogPictureMessage(TlenProtocol *proto, const char *jid, const char *filename, BOOL isSent)
 {
 	char message[1024];
-	const char *msg = isSent ? "Image sent file://%s" : "Image received file://%s";
+	const char *msg = isSent ? LPGEN("Image sent file://%s") : LPGEN("Image received file://%s");
 	_snprintf(message, sizeof(message), Translate(msg), filename);
 	TlenLogMessage(proto, JabberHContactFromJID(proto, jid), isSent ? DBEF_SENT : 0, message);
 }
