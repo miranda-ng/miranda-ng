@@ -98,9 +98,9 @@ static void UpdateMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (DBGetContactSettingByte(NULL, "Skin", "UseSound", 1))
-		mi.ptszName = TranslateT(DISABLE_SOUND);
+		mi.ptszName = DISABLE_SOUND;
 	else
-		mi.ptszName = TranslateT(ENABLE_SOUND);
+		mi.ptszName = ENABLE_SOUND;
 	mi.flags |= CMIM_NAME | CMIF_TCHAR;
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
 }

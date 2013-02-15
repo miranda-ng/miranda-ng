@@ -35,10 +35,10 @@ struct UserDetailsDlgProcParam
 	HANDLE hContact;
 };
 
-#define STR_BASIC "Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed."
-#define STR_ADVANCED "Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the \"Nick\" field. Wildcards (? and *) are allowed."
-#define STR_ERROR "Settings could not be saved!\n\nThe \"Nick\" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact."
-#define STR_ERROR2 "Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work."
+#define STR_BASIC LPGEN("Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.")
+#define STR_ADVANCED LPGEN("Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the \"Nick\" field. Wildcards (? and *) are allowed.")
+#define STR_ERROR LPGEN("Settings could not be saved!\n\nThe \"Nick\" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.")
+#define STR_ERROR2 LPGEN("Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.")
 
 INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
