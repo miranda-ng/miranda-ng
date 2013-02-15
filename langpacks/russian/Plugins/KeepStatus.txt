@@ -90,7 +90,7 @@
 [Set protocol offline before a connection attempt]
 Отключать протокол перед подключением
 [Ignore locked status of accounts]
-Игнорировать блокированные учетные записи
+Игнорировать блокированные учётные записи
 [Max. retries]
 Макс. попыток
 [Delay between retries (secs)]
@@ -102,7 +102,7 @@
 [Consider connection lost after]
 Связь потеряна после
 [failed pings]
-неуд. пинг.
+неудачных пингов
 [Continuously check interval (secs)]
 Интервал проверки (сек)
 [Dial-Up]
@@ -185,3 +185,13 @@ Dial-Up (прочтите keepstatus.txt)
 (будет "%s")
 [will be set to]
 будет
+[Account Connection]
+Подключение учётной записи
+[Accounts to check]
+Проверять следующие
+[Max. account connecting time (secs)]
+Макс. время подключения (сек)
+[Set account offline before a connection attempt]
+Отключать учётную запись перед подключением
+[Cancel all if a account connects from another location]
+Отменить, если учётная запись подключёна из другого места

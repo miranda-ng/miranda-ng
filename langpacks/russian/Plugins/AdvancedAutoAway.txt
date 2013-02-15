@@ -63,9 +63,9 @@ AAA: статусные сообщения
 только при неактивности
 [Reset status]
 Сброс статуса
-[Specify settings for each protocol]
-Настройки для каждого протокола
-[Use same settings for all protocols]
-Общие настройки для всех протоколов
+[Specify settings for each account]
+Настройки для каждой учётной записи
+[Use same settings for all accounts]
+Общие настройки для всех учётных записей
 [after]
 через
