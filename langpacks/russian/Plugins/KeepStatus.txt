@@ -194,4 +194,4 @@ Dial-Up (прочтите keepstatus.txt)
 [Set account offline before a connection attempt]
 Отключать учётную запись перед подключением
 [Cancel all if a account connects from another location]
-Отменить, если учётная запись подключёна из другого места
+Отменить, если учётная запись подключена из другого места
