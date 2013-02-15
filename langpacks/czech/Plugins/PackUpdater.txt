@@ -6,20 +6,28 @@
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
 [Simple updater for Miranda NG premodified packs.]
+
 ;file \plugins\PackUpdater\Res\Resource.rc
+[Updates found!]
+
 [Update]
 Aktualizovat
 [View info]
+
 [Cancel]
 Zrušit
 [PackUpdater has detected updated versions\nof the following Miranda components:]
+
 [Description]
 Popis
 [Downloading...]
 Stahování...
 [Pack update options]
+
 [On startup]
+
 [Remind about not installed pack update]
+
 [Hotkey]
 Klávesy
 [Go to Customize -> Hotkeys to change the hotkey]
@@ -27,14 +35,19 @@ Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [Notifications]
 Upozornění
 [Message boxes]
+
 [Errors]
 Chyby
 [Info messages]
+
 [Progress dialogs]
+
 [Every]
 každých
 [(but only once a day)]
+
 [Message boxes (*)]
+
 [Back]
 Pozadí
 [Text]
@@ -64,34 +77,37 @@ Doba zobrazení
 [Sec]
 sek.
 [* Needs popup actions to be enabled]
+
 [Not sets for "Message boxes"]
+
 [Boxes]
+
 [PopUps]
 Oznámení
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
+
 [Pack Updater]
+
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
+
 [Component Name]
 Název doplňku
 [Current Version]
 Současná verze
 [New Version]
 Nová verze
-[%s\\Pack]
-[%s\\Plugins]
-[%s\\Icons]
-[%s\\Others]
-[%s\\Backups]
 [Downloading pack updates...]
+
 [Downloading update...]
+
 [Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-[%miranda_path%\\Plugins]
-[%s\\Backups\\%s]
-[%miranda_path%\\Icons]
+
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Zavřít oznámení
@@ -107,29 +123,26 @@ Ověřit
 [Services]
 Služby
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
-[%miranda_userdata%\"DEFAULT_UPDATES_FOLDER));\r\n	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))\r\n	{\r\n		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\]
 [Clear pack updates folder]
+
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
+
 ['No' Button]
+
 [Pack Updater HTTP connection]
+
 [URL for checking updates not found.]
+
 [Downloading version info...]
-[FileInfo_%d]
-[FileVersion]
-[Message]
-Zpráva
-[DownloadURL]
-[AdvFolder]
-[Descr]
-[DiskFileName]
+
 [Name of Update's file is not supported.]
-[InfoURL]
-[FileType]
-[Force]
-[Plugins\\%s]
-[Plugins\\%s\\%s]
+
 [Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+
 [No updates found.]
+
 [No files for update.]
+
 [Update checking already started!]
+

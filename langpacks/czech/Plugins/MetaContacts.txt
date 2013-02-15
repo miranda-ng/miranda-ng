@@ -5,7 +5,11 @@
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
+[Merges contacts from the same or different protocols into one.]
+
 ;file \plugins\MetaContacts\res\MetaContacts.rc
+[Add to Existing MetaContact]
+Přidat k existujícímu metakontaktu
 [Please select a MetaContact:]
 Prosím vyberte metakontakt:
 [&Ok]
@@ -14,6 +18,8 @@ Prosím vyberte metakontakt:
 &Zrušit
 [Sort Alphabetically]
 Seřadit abecedně
+[Editing]
+Úprava
 [&OK]
 &OK
 [Name:]
@@ -74,13 +80,20 @@ Kopírovat data podkontaktu
 Použít jméno prvního kontaktu
 [but only for the current conversation]
 avšak pouze pro aktuální rozhovor
+[History Copy]
+Kopírování historie
 [Progress1]
+
 [Please wait while the contact's history is copied.]
 Prosím čekejte, historie kontaktu se kopíruje.
+[History Remove]
+Mazání historie
 [Please wait while the contact's history is removed.]
 Prosím čekejte, historie kontaktu se maže.
 [Subcontact Priorities]
+
 [Rank:]
+
 [Status:]
 Stav:
 [Protocol:]
@@ -90,6 +103,7 @@ Vše resetovat
 [Default]
 Výchozí
 [(Lower ranks are preferred)]
+
 [Copy subcontact history to MetaContact when creating or adding]
 Kopírovat historii podkontaktu do metakontaktu při vytváření či přidávání
 [Number of days to copy (0=all):]
@@ -123,11 +137,11 @@ Nebyl vybrán žádný metakontakt
 Přiřazení k metakontaktu se nezdařilo.
 [Assignment failure]
 Chyba přiřazování
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+Buď v databázi není definovaný ani jeden metakontakt,\nnebo žádný z existujících ten vybraný neakceptuje.\n\nChcete zkonvertovat vybraný kontakt na metakontakt?
 ;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
-[Unknown]
-Neznámý
 [Yes]
 Ano
 [Contact]
@@ -138,17 +152,21 @@ Protokol
 Poslat offline
 [Delete MetaContact?]
 Smazat metakontakt?
-[None]
----
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+Chystáte se smazat metakontakt, což kromě této položky smaže\ni všechny kontakty asociované s daným metakontaktem.\nUrčitě chcete pokračovat a smazat metakontakt?
 ;file \plugins\MetaContacts\src\icons.cpp
 [Toggle Off]
+
 [Toggle On]
+
 [Convert to MetaContact]
 Zkonvertovat na metakontakt
 [Add to Existing]
+
 [Edit]
 Upravit
 [Set to Default]
+
 [Remove]
 Odebrat
 ;file \plugins\MetaContacts\src\meta_main.cpp
@@ -171,17 +189,30 @@ Smazat metakontakt
 Odstranit z metakontaktu
 ;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
+
 ;file \plugins\MetaContacts\src\meta_services.cpp
 [Meta ID]
+
 [No online contacts found.]
 Nebyly nalezeny žádné online kontakty
 [Message from %s]
 Zpráva od: %s
+[Toggle MetaContacts Off]
+Vypnout metakontakty
+[Add to existing MetaContact...]
+Přidat k existujícímu metakontaktu...
+[Edit MetaContact...]
+Upravit metakontakt...
+[Set as MetaContact default]
+Nastavit jako výchozí
 [Context]
 Kontext
+[Toggle MetaContacts On]
+Zapnout metakontakty
 [General]
 Obecné
 [Priorities]
+
 [History]
 Historie
 ;file \plugins\MetaContacts\src\meta_utils.cpp
@@ -207,13 +238,16 @@ Nelze zapsat protokol kontaktu do metakontaktu
 Nelze zapsat identifikátor kontaktu do metakontaktu
 [Could not write nickname of contact to MetaContact]
 Nelze zapsat přezdívku kontaktu do metakontaktu
-[meta_id: ]
-[, contact num: ]
 [Subcontact contact number < 0 - deleting MetaContact]
+
 [Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+
 [Subcontact's MetaContact not found - deleting MetaContact data]
+
 [MetaContact number of contacts < 0 - deleting MetaContact]
+
 [MetaContact default contact number out of range - deleting MetaContact]
+
 [MetaId: ]
 MetaId: 
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
@@ -242,3 +276,7 @@ Mám telefon
 Jsem na obědě
 [IDLE]
 Nečinný
+[Unknown]
+neznámý
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
+

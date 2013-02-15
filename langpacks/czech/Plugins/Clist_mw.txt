@@ -1,5 +1,12 @@
 ﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
-;langpack template for Clist_mw
+;============================================================
+;  File: Clist_mw.dll
+;  Plugin: MultiWindow contact list
+;  Version: 0.9.0.0
+;  Authors: 
+;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 Nastavení
@@ -41,11 +48,14 @@ Název:
 Nastavit
 [Default]
 Výchozí
+[Delete Contact]
+Smazání kontaktu
 [No]
 Ne
 [Yes]
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 (Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
@@ -133,7 +143,7 @@ Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
-Nastavit průhlednost seznamu kontaktů
+Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
 [Active opacity:]
@@ -210,8 +220,38 @@ Podpora doplňku Metakontakty
 Ignorovat prázdná místa po extra ikonách (posunout >>)
 [Hide offline subcontacts.]
 Skrýt podkontakty offline
+[Status Bar]
+Stavová lišta
+[Show status bar]
+Zobrazit stavovou lištu
+[Show icons]
+Zobrazit ikony
+[Show protocol names]
+Zobrazit názvy protokolů
+[Show status text]
+Zobrazit stav
+[Right click opens status menu]
+Pravým tlačítkem seznam stavů
+[Right click opens Miranda menu]
+Pravým tlačítkem nabídku Mirandy
+[Make sections equal width]
+Shodná šířka všech položek
+[-]
+-
+[Show size grip]
+Zobrazit oddělovač
+[Show bevel effect on panels]
+Zobrazit efekt zkosení panelů
+[Use connecting Icon]
+Zobrazit průběh připojování
+[Use New Drawer for StatusBar]
+Použít nový systém stav. lišty
+[&¤]
+
 [E&xit]
 U&končit
+[&Status]
+&Stav
 [&Offline\tCtrl+0]
 &Offline\tCtrl+0
 [On&line\tCtrl+1]
@@ -232,8 +272,12 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
+[Tray]
+Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
+[Nowhere]
+
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -246,6 +290,8 @@ S&krýt prázdné skupiny
 Vypnout zobrazení s&kupin
 [Hide Miranda]
 Skrýt okno
+[Group]
+Skupina
 [&New Subgroup]
 &Nová podskupina
 [&Hide Offline Users in here]
@@ -254,38 +300,32 @@ Skrýt uživatele o&ffline
 Př&ejmenovat skupinu
 [&Delete Group]
 &Smazat skupinu
-[Status Bar]
-Stavová lišta
-[Show status bar]
-Zobrazit stavovou lištu
-[Show icons]
-Zobrazit ikony
-[Show protocol names]
-Zobrazit názvy protokolů
-[Show status text]
-Zobrazit stav
-[Right click opens status menu]
-Pravým tlačítkem seznam stavů
-[Right click opens Miranda menu]
-Pravým tlačítkem nabídku Mirandy
-[Make sections equal width]
-Shodná šířka všech položek
-[-]
--
-[Show size grip]
-Zobrazit oddělovač
-[Show bevel effect on panels]
-Zobrazit efekt zkosení panelů
-[Use connecting Icon]
-Zobrazit průběh připojování
-[Use New Drawer for StatusBar]
-Použít nový systém stav. lišty
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 Vlastní úpravy
 [Backgrounds]
 Pozadí
 ;file \plugins\Clist_mw\src\clcfonts.cpp
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Group member counts]
+Počet členů ve skupině
+[Dividers]
+Oddělovače
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Status messages]
+Stavové zprávy
+[Group Closed]
+Zavřená skupina
+[Hover Contacts]
+Kontakty po najetí myši
 [Background]
 Pozadí
 [Selected Text]
@@ -327,6 +367,8 @@ Mám telefon
 [Global]
 Globální
 ;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+_žádný-protokol_
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
@@ -334,8 +376,6 @@ Globální
 &Vyhledat kontakty...
 [&Main Menu]
 Hlavní &menu
-[&Status]
-&Stav
 [&Options...]
 M&ožnosti...
 [&About]
@@ -383,8 +423,6 @@ Nahor&u
 &Dolů
 [Frames]
 Rámečky
-[New Menu System not Found...]
-Nový systém menu nenalezen...
 [Show All Frames]
 Zobrazit všechny rámečky
 [Show All Titlebars]
@@ -399,8 +437,4 @@ Viditelné
 Zobrazit záhlaví rámečku
 [Floating]
 Plovoucí
-[FramesContainer]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
-[Statushelper]
-[Status]
-Stavy

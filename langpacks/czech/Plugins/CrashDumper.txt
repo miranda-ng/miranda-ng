@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: CrashDumper
-;  Version: x.x.x.x
+;  Version: 0.0.4.22
 ;  Authors: 
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
+[View Version Information]
+Informace o verzi
 [Close]
 Zavřít
 [Copy To Clipboard]
@@ -15,7 +17,7 @@ Do souboru
 [Support for miranda-vi.org]
 Nastavení pro miranda-vi.org
 [Username]
-Uživatelské jméno
+Uživatel
 [Password]
 Heslo
 [Upload automatically when changed]
@@ -25,6 +27,9 @@ Obecné
 [Use classic dates]
 Použít klasický formát data
 [Create reports in subfolders naming as current date]
+
+[View]
+Zobrazit
 [&Copy]
 Z&kopírovat
 [Co&py All]
@@ -43,13 +48,13 @@ Informace o verzi do schránky
 [Version Information To File]
 Informace o verzi do souboru
 [Show Version Information]
-Zobrazit info. o verzi
+Zobrazit Informace o verzi
 [Upload Version Information]
-Odeslat info. o verzi
+Informace o verzi nahrát na server
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
-Kopírovat do schránky
+Zkopírovat do schránky
 [Store to file]
 Uložit do souboru
 [Show]
@@ -57,15 +62,15 @@ Zobrazit
 [Show with DLLs]
 Zobrazit s DLL knihovnami
 [Upload]
--> server
+Nahrát na server
 [Open crash report directory]
 Otevřít složku s výpisem chyb
 [Open miranda-vi.org]
 Jít na miranda-vi.org
 [Copy Version Info to clipboard]
+
 [Show Version Info]
-;file \plugins\CrashDumper\src\dumper.cpp
-[Not ]
+
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Crash report: nedostupná lokace zápisu
@@ -73,6 +78,7 @@ Crash report: nedostupná lokace zápisu
 Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit i do schránky?
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
+
 ;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 Informace o verzi: úspěšně nahráno\n%d starých pluginů

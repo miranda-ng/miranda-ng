@@ -1,103 +1,84 @@
 ﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
-;  Plugin: File Association Manager
+;  Plugin: File association manager
 ;  Version: 0.1.1.0
 ;  Authors: H. Herkenrath
 ;============================================================
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
+
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
+
 [Miscellaneous]
 Ostatní
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
+
 [Only associate with Miranda NG while it is &running]
+
 ;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs files]
+
 [Type]
 Typ
 [Description]
 Popis
-[MirandaNG]
+[URLs on Websites]
+
+[File Types]
+
 [File Association Error]
+
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+
 [Unknown]
-Neznámý
+neznámý
 [Autostart Error]
+
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+
 [Services]
 Služby
 [Associations]
+
 [Miranda NG Database]
+
 ;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
+
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThere is no registered handler for this file type.]
+
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThe file could not be processed.]
+
 [Miranda NG could not open URL]
+
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThere is no registered handler for this URL type.]
+
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThe given URL is invalid and can not be parsed.]
-[MirandaDdeMsgWindow]
-[file]
-[url]
-;file \plugins\AssocMgr\src\dde.h
-[Miranda]
-Miranda
-[OpenAssoc]
-[url,"%l"]
-[file,"%1"]
-;file \plugins\AssocMgr\src\main.cpp
-[Docs\\]
+
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
+
 [Registry Warning]
-["%s" "/profile:%s"]
-[rundll32.exe %s,WaitForDDE "/profile:%s"]
-[Path]
-Cesta
-[System]
-Systém
-[Multi User]
-[%APPDATA%\\Opera]
-[Trusted Protocols]
-[File Types Section Info]
-[Version]
-Verze
-[File Types]
-[File Types Extension]
-[Software\\Classes]
-[URL:]
-Odkaz:
-[DefaultIcon]
-[URL Protocol]
-[EditFlags]
-[shell]
-[open]
-[FriendlyAppName]
-[command]
-[ddeexec]
-[application]
-[topic]
-[ifexec]
-[DropTarget]
-[NoOpen]
-[OpenWithProgids]
-[PerceivedType]
-[text]
-[MIME\\Database\\Content Type]
-[Extension]
-[Applications]
-[NoOpenWith]
-[SupportedTypes]
-[Software\\Microsoft\\Windows\\CurrentVersion\\Run]
+
 ;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
+
 [ICQ Link Shortcut]
+
 [&Add to Contact List...]
+
 [Yahoo Link Protocol]
+
 [MSN Link Protocol]
+
 [Gadu-Gadu Link Protocol]
+
 [Jabber Link Protocol]
+
 [Testing Service]
+
 [Miranda Installer Package (demo purpose)]
+
 [&Install]
 Na&instalovat

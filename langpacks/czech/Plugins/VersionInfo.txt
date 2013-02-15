@@ -5,7 +5,11 @@
 ;  Version: 1.5.0.3
 ;  Authors: Luca Santarelli, Cristian Libotean, George Hazan
 ;============================================================
+[Collects and prints information related to Miranda, the plugins and the OS.]
+Souhrn podrobných informací o programu Miranda, doplňcích a operačním systému.
 ;file \plugins\VersionInfo\res\resource.rc
+[Output to:]
+Výstup do:
 [OK]
 OK
 [Cancel]
@@ -13,9 +17,11 @@ Zrušit
 [Text file]
 Textový soubor
 [MessageBox]
+
 [DialogBox]
 Dialogové okno
 [Output Debug String]
+
 [Clipboard]
 Schránka
 [Select output:]
@@ -28,8 +34,6 @@ Zformátovat výstup pomocí BBCode
 Ostatní možnosti
 [Do it now]
 Provést nyní
-[Output to:]
-Výstup do:
 [Show window in taskbar]
 Zobrazit na hlavním panelu
 [Ask every time]
@@ -39,7 +43,7 @@ Zároveň zkopírovat do schránky
 [Upload site settings]
 Úložiště dat
 [Username]
-Uživatelské jméno
+Uživatel
 [Password]
 Heslo
 [Highlight version number using]
@@ -56,116 +60,23 @@ Povolit ladicí informace
 Vypsat identifikátory doplňků
 [Show installed languages]
 Zobrazit nainstalované překlady
+[Miranda Version Information]
+Informace o Mirandě
 [Close]
 Zavřít
 [&Copy text]
 Z&kopírovat
 [Upload]
--> server
+Nahrát na server
 [&Save to file]
 -> &soubor
-;file \plugins\VersionInfo\src\CPlugin.cpp
-[ v.]
-[unicode]
 ;file \plugins\VersionInfo\src\CVersionInfo.cpp
-[dd' 'MMM' 'yyyy]
-[HH':'mm':'ss]
-[ at ]
-[UTC %+02d:%02d]
-[alpha]
-[Yes]
-Ano
-[ (UTC) on ]
-[Hardware\\Description\\System\\CentralProcessor\\0]
-[Identifier]
-Identifikátor
-[RegQueryValueEx()]
-[<Error in RegQueryValueEx()>]
-[ProcessorNameString]
-[<name N/A>]
-[Software\\Microsoft\\Windows\\CurrentVersion]
-[Version]
-Verze
-[Software\\Microsoft\\Windows NT\\CurrentVersion]
-[ProductName]
-[RegOpenKeyEx()]
-[<Error in RegOpenKeyEx()>]
-[Microsoft Windows 95]
-[Microsoft Windows 95 OSR2]
-[Microsoft Windows 98]
-[Microsoft Windows 98 SE]
-[Microsoft Windows ME]
-[Microsoft Windows NT]
-[Microsoft Windows 2000]
-[Microsoft Windows XP]
-[Microsoft Windows 2003 R2]
-[Microsoft Windows 2003]
-[%.2f KBytes]
-[<error ]
-[ at FileOpen>]
-[(UI | Locale (User/System)) : ]
-[Control Panel\\Desktop\\ResourceLocale]
-[Error at RegQueryValueEx()]
-[Error at RegOpenKeyEx()]
-[Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)]
-[N/A]
-<neuvedeno>
-[<unknown>]
-<neznámý>
-[ v. ]
-[<error> Could not open file " + std::tstring(data.cFileName));\r\n			}\r\n			FindClose(hLangpack);\r\n		}\r\n		else lpzLangpackInfo = _T("No language pack installed]
-[\\Plugins\\]
-[dll]
-[    Error %ld - %s]
-[Invalid plugin]
-[Unicode aware]
-[    Plugin does not have an UUID and will not work with Miranda 0.8.\r\n]
-[Done with: %s]
-[    Plugin refuses to load. Miranda version too old.]
-[ at MapAndLoad()>\r\n]
-[ at ImageDirectoryEntryToDataEx()>\r\n]
-[    Plugin statically links to missing dll file: ]
-[Miranda NG - VersionInformation plugin by Hrk, modified by Eblis\r\n]
-[Miranda's homepage: http://miranda-ng.org/\r\n]
-[Miranda tools: http://miranda-ng.org/\r\n\r\n]
-[<blockquote>]
-[dd' 'MMMM' 'yyyy]
-[Report generated at: ]
-[ on ]
-[CPU: ]
-[ [DEP enabled]]
-[ [%d CPUs]]
-[Installed RAM: ]
-[ MBytes\r\n]
-[Operating System: ]
-[ [version: ]
-[Shell: ]
-[, Internet Explorer ]
-[Administrator privileges: ]
-[OS Languages: ]
-[Free disk space on Miranda partition: ]
-[Miranda path: ]
-[Miranda NG version: ]
-[ [running inside WOW64]]
-[ [service mode]]
-[\r\nBuild time: ]
-[Profile path: ]
-[Profile size: ]
-[Profile creation date: ]
-[Language pack: ]
-[, modified: ]
-[Nightly: ]
-[Unicode core: ]
-[\r\nEnd of report.\r\n]
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
 V případě, že ohlásíte chybu pomocí tohoto formuláře, nezapomeňte se občas podívat na webovou stránku doplňku.\nJe velmi pravděpodobné, že programátoři vás budou žádat o upřesnění nebo jinou pomoc.\nV mnoha případech se bez vaší asistence chybu nepodaří opravit.
-[Active Plugins]
-[<font size="-2" color="black">]
-[Inactive Plugins]
-[Unloadable Plugins]
 [Information successfully written to file: "%s".]
+
 [Error during the creation of file "%s". Disk may be full or write protected.]
-[VersionInfo]
+
 [The clipboard is not available, retry.]
 Chyba při práci se schránkou. Zkuste později.
 [Information successfully copied into clipboard.]
@@ -174,7 +85,9 @@ Požadované informace byly zkopírovány do schránky.
 [Customize using folders plugin]
 Určit pomocí doplňku Folders
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+
 [Show plugin UUIDs ?]
+
 ;file \plugins\VersionInfo\src\hooked_events.cpp
 [Version Information]
 Informace o verzi
@@ -183,12 +96,4 @@ Služby
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-[%s\\Plugins\\%s]
-[Shell]
-[sys:]
-[boot]
-[shell]
-[<not installed>]
-[Build]
-Build
-[<unknown version>]
+

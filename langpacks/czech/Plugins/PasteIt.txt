@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {1aac15e8-dcec-4050-b66f-2aa0e6120c22}
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste It
@@ -6,25 +6,40 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [Uploads the text to web page and sends the URL to your friends.]
+
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
 Nastavení
 [Default web page]
+
 [Default file encoding]
+
 [Auto-detect UTF-8]
+
 [Show confirmation dialog box]
+
 [Autosend download link to contact]
 Automaticky poslat odkaz na soubor
 [Web page settings]
+
 [Web page to configure]
+
 [Configure]
 Nastavit...
 [Default formatting]
+
 [Auto-detect format from file extension]
+
 [Public paste]
+
 [Login as guest]
+
 [User key]
+
 [Get user key]
+
+[Configure formatting]
+
 [OK]
 OK
 [Cancel]
@@ -38,13 +53,21 @@ Smazat
 [Restore defaults]
 Obnovit původní
 [Download more]
+
+[Login to pastebin.com]
+
 [User name]
+
 [Password]
 Heslo
+[Paste It]
+
 [Format]
 Formát
 [Encoding]
+
 [Recode]
+
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
 Výchozí kódování
@@ -81,8 +104,9 @@ vietnamština
 [Korean (Johab)]
 korejština (Johab)
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+
 [Invalid codepage]
-[Paste It]
+
 [Services]
 Služby
 [Main]
@@ -93,32 +117,49 @@ Domácí stránka
 [All Files (*.*)]
 Všechny soubory (*.*)
 [Paste It - Select file]
+
 [Error]
 Chyba
 [Paste from clipboard]
+
 [Paste from file]
+
 [Paste It HTTP connections]
+
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
+
 [Cannot get data from clipboard]
+
 [File size is %dKB, do you realy want to paste such large file?]
+
 [Are You sure?]
 Opravdu chcete pokračovat?
 [Cannot read file '%s']
+
 [File size is larger then 10MB, cannot be send]
+
 [Cannot open file '%s']
+
 [File '%s' is empty]
+
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
 [Error during sending text to web page: %s]
+
 [Error during sending text to web page]
-[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
+
 [Error during getting user key from web page: %s]
+
 [Paste expire date]
+
 [Never]
 Nikdy
+[10 minutes]
+
+[1 hour]
+
+[1 day]
+
+[1 month]
+
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
-[methodResponse]
-[params/param/value/array/data/value/int]
-[params/param/value/array/data]
-[value]
-[string]

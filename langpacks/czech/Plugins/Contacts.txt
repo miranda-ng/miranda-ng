@@ -1,10 +1,23 @@
 ﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
-;langpack template for Contacts
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.5.2.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[Allows you to send and receive contacts.]
+
 ;file \plugins\ContactsPlus\res\contacts.rc
+[Send contacts]
+Poslat kontakty
 [&A]
+
 [6]
+
 [&D]
+
 [&H]
+
 [Choose contacts to be send:]
 Vyberte kontakty k odeslání:
 [&Send]
@@ -13,6 +26,8 @@ Po&slat
 Zrušit
 [&Select All]
 &Vybrat vše
+[Received contacts]
+Přijaté kontakty
 [Add to &group:]
 Přidat do &skupiny:
 [&Add]
@@ -21,6 +36,8 @@ Přid&at
 Po&drobnosti
 [Close]
 Zavřít
+[Contacts send error]
+Chyba při odesílání kontaktů
 [An error has occured. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [Try again]

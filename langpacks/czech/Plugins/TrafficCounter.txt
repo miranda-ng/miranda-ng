@@ -1,18 +1,21 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
-;  Version: x.x.x.x
+;  Version: 0.1.1.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
+
 [Accounts]
 Účty
 [Units]
 Jednotky
 [0]
+
 [Clear statistics]
+
 [Notification]
 Oznámení
 [Notify me on every]
@@ -40,14 +43,18 @@ Zobrazit okno
 [Space between lines:]
 Odstup mezi řádky:
 [Counters format string:]
+
 [Tooltip format string:]
+
 [Display traffic for current]
+
 ;file \plugins\TrafficCounter\src\statistics.c
-[ListBox]
 [Bytes]
 bajtů
 [Adaptive]
+
 [Hourly]
+
 [Daily]
 Každý den
 [Weekly]
@@ -57,46 +64,58 @@ Co měsíc
 [Yearly]
 Co rok
 [Period]
+
 [Incoming]
 Příchozí
 [Outgoing]
 Odchozí
 [Sum]
+
 [Online]
 Online
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
+
 [Traffic counter]
 Počitadlo dat
-[m:ss]
-[h:mm:ss]
-[d hh:mm:ss]
-[%miranda_userdata%\\statistics]
 [Couldn't read statistics file]
+
 [Traffic Counter]
+
 ;file \plugins\TrafficCounter\src\TrafficCounter.c
-[TrafficCounterWnd]
 [Font]
 Písmo
-[Arial]
 [Hide traffic window]
+
 [Clear the current (Now:) value]
+
 [Display/]
+
 [Icon]
 Ikona
 [Account name]
 Název účtu
 [Current traffic]
+
 [Total traffic]
+
 [Current online]
+
 [Total online]
+
 [General/]
+
 [Draw frame as skin element]
+
 [Show tooltip in traffic window]
+
 ["Toggle traffic counter" in main menu]
+
 [Visible accounts/]
+
 [Summary traffic for visible accounts]
+
 [Overall traffic]
-[Visible accounts/%s]
+
 [Hide now]
 Skrýt okno
 [Day]
@@ -116,17 +135,10 @@ Statistika
 [PopUps]
 Oznámení
 [Toggle traffic counter]
+
 [Traffic counter notification]
+
 [%d kilobytes sent]
+
 [%d kilobytes received]
-;file \plugins\TrafficCounter\src\vars.c
-[overall]
-[summary]
-[now]
-[sent]
-[received]
-[both]
-oboje
-[total]
-[tc_GetTraffic]
-[tc_GetTime]
+

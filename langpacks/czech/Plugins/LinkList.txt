@@ -1,12 +1,12 @@
 ﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Search]
+Hledat
 [Close]
 Zavřít
 [Search for:]
 Hledat:
-[Search]
-Hledat
 [Message direction]
 Směr posílaných zpráv
 [Message types]
@@ -65,14 +65,22 @@ Dělicí linka
 Směr
 [Type]
 Typ
+[&File]
+&Soubor
 [&Save]
 &Uložit
 [&Close]
 &Zavřít
+[&Options]
+M&ožnosti
+[Message &Direction]
+&Směr posílaných zpráv
 [&Outgoing Messages Only]
 Pouze &odchozí zprávy
 [&Incoming Messages Only]
 Pouze &příchozí zprávy
+[Message &Type]
+&Druh zpráv
 [&Webaddresses Only]
 Pouze &odkazy na stránky
 [&Mail-Addresses Only]
@@ -81,6 +89,8 @@ Pouze e-&mailové adresy
 &Vymazat seznam nalezených
 [&Search]
 &Hledat
+[link]
+
 [Open]
 Otevřít
 [Open in new Window]
@@ -105,14 +115,14 @@ odchozí
 [Filter]
 Filtr
 [no filter]
+
 [Search Filter]
+
 [no settings]
+
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[Unable to load the Rich Edit control!]
-Nelze načíst třídu Rich Edit!
 [&Create Linklist]
 &Vytvořit seznam odkazů
-[Progressbar]
 [History]
 Historie
 [Processing history...]
@@ -124,30 +134,16 @@ Nelze alokovat požadovanou paměť!
 ;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [Linklist Plugin]
 Doplněk 'Linklist'
-[mailto:]
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
-[www.]
-[icq#]
-[gopher://]
-[news://]
-[file://]
-[d-t]
-[Arial]
 [Matches for searchtext]
 Počet položek odpovídajících zadanému
-[Courier]
 [Processing list...]
 Zpracování seznamu...
-[[mail]]
-[[file]]
-[[UNK ]]
-[[in ]]
-[[out]]
 [No messages found!\nPlease change current filter options.]
 Hledaný řetězec nebyl nalezen!\nPodle potřeby změňte kritéria hledání.
-[\n[in ] ]
-[URL   ]
-[[out] ]
-[RTF File\0*.rtf\0All Files\0*.*\0\0]
+[RTF file]
+RTF soubor
+[All files]
+Soubory celkově
 [Save RTF File]
 Uložit soubor ve formátu RTF

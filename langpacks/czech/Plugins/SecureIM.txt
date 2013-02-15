@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -15,6 +15,7 @@ Seznam uživatelů
 [Always show status icons in contact list]
 Ukázat stavovou ikonu v kontaktech
 [Context Menu only for "Miranda" clients]
+
 [Status in Context Menu]
 Stav v kontextovém menu
 [Disable encryption for game plugins]
@@ -22,8 +23,11 @@ Vypnout šifrování pro herní doplňky
 [Always secured if possible]
 Pokud lze, šifrovat vždy
 [Not secured for NotOnList]
+
 [Auto accept RSA key (NOT SECURED)]
+
 [Mode in Context Menu]
+
 [Key Exchange Timeout :]
 Doba pro výměnu klíče:
 [sec]
@@ -35,6 +39,7 @@ dnů
 [PGP]
 PGP 
 [GPG]
+
 [Reset All]
 Vše resetovat
 [Protocols]
@@ -48,9 +53,13 @@ Offline:
 [RSA Key]
 RSA klíč
 [SHA1:]
+
 [Public]
+
 [&Copy SHA1]
+
 [E&xport]
+
 [Private]
 Soukromý
 [&Export]
@@ -72,6 +81,7 @@ Program gpg.exe:
 [Home Directory:]
 Dom. adresář:
 [Temp Dir:]
+
 [Key Assignment]
 Přiřazení klíčů
 [Debug]
@@ -114,6 +124,8 @@ Indikovat příjem klíče
 Indikovat odesílání šifrované zprávy
 [Show a popup on each secure receive]
 Indikovat příjem šifrované zprávy
+[Please type in your password]
+Zadejte prosím své heslo
 [Username:]
 Uživatel:
 [Password:]
@@ -122,47 +134,88 @@ Heslo:
 OK
 [Cancel]
 Zrušit
+[SecureIM plugin Passphrase of private key]
+
 [Enter passphrase for the secret key:]
+
 [Ok]
 OK
+[Mode]
+Mód
 [Native SecureIM]
 Nativní SecureIM
 [PGP SecureIM]
+
 [GPG SecureIM]
+
 [RSA/AES SecureIM]
+
 [RSA SecureIM]
+
+[Status]
+Stavy
 [Always Try to Establish Secure IM]
 Vždy se pokusit použít SecureIM
 [Secure IM Enabled]
 Povolit SecureIM
 [Secure IM Disabled]
 Zakázat SecureIM
+[Pre-shared key]
+Předsdílený klíč (PSK)
 [Set key]
 Nastavit klíč
 [Delete key]
 Smazat klíč
 [Set pre-shared key]
+
 [Delete pre-shared key]
+
+[Public key]
+
 [Export key]
+
 [Import key]
+
 [Export public key]
+
 [Import public key]
+
 [Delete public key]
+
 ;file \plugins\SecureIM\src\main.cpp
 [Incoming Secure Message]
+
 [Outgoing Secure Message]
+
 [SecureIM status]
+
 [SecureIM [Native]]
+
 [SecureIM [PGP]]
+
 [SecureIM [GPG]]
+
 [SecureIM [RSA/AES]]
+
 ;file \plugins\SecureIM\src\options.cpp
-[ASC files\0*.asc\0All files (*.*)\0*.*\0]
+[Executable Files]
+Spustitelné soubory
+[Select GnuPG Executable]
+Vyberte gpg.exe
+[ASC files]
+
+[All files]
+Soubory celkově
 [Open Key File]
+
 [Save Private Key File]
+
 [Save Public Key File]
+
 [Load Private Key File]
+
 [Load Public Key File]
+
 [Services]
 Služby
 ;file \plugins\SecureIM\src\popupOptions.cpp

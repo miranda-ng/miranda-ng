@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
@@ -56,7 +56,9 @@ Hlavní skupina pro přátele přátel:
 [Files]
 Soubory
 [xfire_games.ini]
+
 [icons.dll]
+
 [Blocked User List]
 Seznam blokovaných uživatelů
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
@@ -84,6 +86,7 @@ Změnit stav na 'Nemám čas' nebo 'Nerušit'
 [The status message and status will be reset, if you close the game.]
 Stav a stavová zpráva budou zresetovány pokud zavřete hru.
 [Prefer dnd when it is available]
+
 [Games]
 Hry
 [Game:]
@@ -95,36 +98,53 @@ Použít
 [Dont set status message for other protocols]
 Nenastavovat zprávu stavu pro ostatní protokoly
 [Add new game]
+
 [Remove]
 Odebrat
 [Dont show in start menu]
+
 [(manual added)]
+
 [Extra Command Line Parameters:]
+
 [Edit ...]
+
 [Username:]
 Uživatel:
 [Game]
 Hra
 [Voicechat]
+
 [Name:]
 Název:
 [Unreal Tournament 2004]
+
 [IP:]
 IP:
 [255.255.255.255]
+
 [Port:]
 Port:
 [27770]
+
 [Userdetails]
+
 [dufte]
+
 [Copy]
 Zkopírovat
+[Enter Password]
+
 [Join]
 Připojit
+[Set Nickname]
+Nastavit přezdívku
 [OK]
 OK
 [Cancel]
 Zrušit
+[New xfire_games.ini]
+Nový xfire_games.ini
 [There is a new XFire Gamelist online, do you want to update now?]
 Byla nalezena nová verze seznamu podporovaných her. Chcete ho zaktualizovat?
 [New supported Games:]
@@ -136,36 +156,57 @@ Přidat
 [Search:]
 Prohledat:
 [Custom ...]
+
 [Game name:]
+
 [Game exe:]
+
 [Browse ...]
 Procházet ...
 [Launcher exe (optional):]
+
 [Game id:]
+
 [?]
-?
+?
 [Send game id:]
+
 [Statusmessage for Xfire, if this game will be started:]
+
 [Parameter:]
+
+[Add a new game]
+Přidat novou hru
 [Searching games ...]
+
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 Všechny soubory
 [Please wait, gameini will be currently parsed ...]
+
 [XFire Options]
 Možnosti XFire
 [Please choose one game in the list!]
 Vyberte ze seznamu požadovanou hru.
 [If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
+
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
+
 [Please enter a game name.]
+
 [Please enter a game id.]
+
 [Please enter a game id above 1.]
+
 [This game id is already in use.]
+
 [Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
+
 [Supported Games]
+
 [Custom game]
+
 ;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 Jasně, jsem tu.
@@ -178,6 +219,7 @@ Teď ne, prosím.
 [Give a guy some peace, would ya?]
 Nechte mě prosím chvíli o samotě, ano?
 [Well, I would talk to you if Miranda ICQ supported chat]
+
 [That'll be the phone.]
 Právě telefonuji
 [Mmm...food.]
@@ -186,67 +228,155 @@ Mňam... jídlo
 [The xfire_games.ini was updated.]
 Soubor xfire_games.ini byl aktualizován.
 [Error during xfire_games Update.]
+
 [There is a new Icons.dll online, do you want to update now?]
+
 [The Icons.dll was updated.]
+
 [Error during Icons.dll Update.]
+
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 Ikona protokolu
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+
 [Login failed.]
+
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
+
 [The protocol version is too old. Cannot detect a new version number.]
+
 [Someone loged in with your account.disconnect.]
+
 [Do you really want to add %s to your friend list?]
+
 [Add me to your friends list.]
+
 [XFire is not connected.]
-[xfiregame]
-[myxfiregame]
-[xfireserverip]
-[myxfireserverip]
-[xfirevoice]
-[myxfirevoice]
-[xfirevoiceip]
-[myxfirevoiceip]
+
 [Xfire Link Protocol]
+
 [xfirebstartgame]
+
 [Buddy start a game]
 Přítel spustil hru
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
+
 [&XFire Online Profile]
+
 [XFire &Clan Site]
+
 [C&opy Server Address and Port]
+
 [Cop&y Voice Server Address and Port]
+
 [Join &Game ...]
+
 [Play this Game ...]
+
 [Remove F&riend ...]
+
 [Block U&ser ...]
+
 [&My XFire Online Profile]
+
 [&Activity Report]
+
 [&Rescan my Games ...]
+
 [Set &Nickname]
 &Nastavit přezdívku...
 [Protocols/XFire]
+
 [XFire does not support offline messaging!]
 XFire nepodporuje odesílání zpráv ve stavu offline!
 [Username]
-Uživatelské jméno
+Uživatel
 [Unable to connect to XFire.]
 Nemohu se připojit k XFire.
 [No Loginname is set!]
+
 [No Password is set!]
+
 [Last game: %s playtime: %.2d:%.2d:%.2d]
+
 [%s is playing %s.]
+
 [%s is playing %s on server %d.%d.%d.%d:%d.]
+
 [Playing]
 Hraje
 [Do you really want delete your friend %s?]
+
 [Confirm Delete]
+
 [Block this user from ever contacting you again?]
+
 [Block Confirmation]
+
 ;file \protocols\Xfire\src\options.cpp
+[Avatars]
+Avatary
+[Disable avatars]
+Vypnout avatary
+[Dont download avatars of clan members]
+
+[Use alternate way for Avatar download]
+Použít alternativní způsob stahování avatarů
+[General]
+Obecné
+[Use UTF8 for messaging and nick's (beta)]
+
+[Automatically reconnect on protocol version changes]
+Automaticky připojit při změně verze protokolu
+[No Ip/Port in StatusMsg]
+Žádná IP/Port ve zprávě stavu
+[Use Online status for unsupported global statuses]
+Použít stav Online při nepodporovaných globálních stavech
+[Dont move friends to clan groups]
+
+[GameServerQuery support]
+Podpora GameServerQuery
+[No custom away message]
+Neurčovat zprávu u Na chvíli pryč
+[Remove friend of friend buddies from database]
+Smazat přátele přátel z databáze
+[Hide yourself in buddylist]
+Skrýt sebe v seznamu kontaktů
+[Dont display game search results]
+Nezobrazovat výsledek hledání her
+[Dont display game search status window]
+Nezobrazovat okno s výsledkem hledání her
+[Display popup, if someone start a game]
+Zobrazit oznámení pokud někdo spustí hru
+[Dont automatically create clan groups]
+
+[Enable MBot support]
+
+[Gamedetection]
+
+[Disable game detection]
+Vypnout detekci hry
+[Use TSRemote.dll to get teamspeak server info]
+Použít TSRemote.dll pro zjištění informací o teamspeak serveru
+[Disable popups when ingame]
+Vypnout oznámení pokud je spuštěna hra
+[Disable sound events when ingame]
+Vypnout zvuky pokud je spuštěna hra
+[Automatically update xfire_games.ini (pro-laming.de)]
+Automaticky aktualizovat xfire_games.ini (pro-laming.de)
+[Automatically update icons.dll (pro-laming.de)]
+Automaticky aktualizovat icons.dll (pro-laming.de)
+[Download missing game icons from Xfire website]
+Stahovat chybějící ikony her z webu Xfire
+[No backup on update]
+Neprovádět zálohu při aktualizaci
+[Background updating]
+Aktualizace na pozadí
 [The username must be lowercase, so it will be lowercased saved.]
+
 [The changes you have made require you to reconnect to the XFire network before they take effect]
+
 [Hidden]
 Skrytý
 [Messagebox]
@@ -260,12 +390,17 @@ Každý den
 [<Root Group>]
 <kořenová skupina>
 [Are you sure you want to remove this game?]
+
 [Please select a game.]
+
 [Error unknown game id.]
+
 [Not supported]
 Není podporováno
 [Configuration saved!]
+
 [Game not found?!]
+
 [Account]
 Účet
 [Features]
@@ -273,10 +408,12 @@ Možnosti
 [Blocklist / Games]
 Seznam blokovaných / Hry
 [StatusMsg]
+
 [Network]
 Sítě
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
+
 [Games found:%s%s]
 Her nalezeno:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp

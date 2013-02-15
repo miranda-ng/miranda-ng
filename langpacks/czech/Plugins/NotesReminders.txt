@@ -1,6 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
+[Sticky Notes Options]
+
 [Default Note Size]
 Velikost poznámky
 [Width (Pixels)]
@@ -8,38 +10,53 @@ Velikost poznámky
 [Height (Pixels)]
 Výška (v pixelech)
 [Notes Appearance]
+
 [Show Scrollbars]
 Zobrazit posuvníky
 [Show Buttons]
 Zobrazit tlačítka
 [Title Date]
+
 [Title Time]
+
 [Startup options]
 Možnosti při spuštění
 [Hide notes at startup]
+
 [Add Contact list menu items]
 Přidat položky menu do seznamu kontaktů
 [(Requires Miranda restart)]
+
 [Reminder options]
+
 [Add Reminder closes dialog]
+
 [Use MCI to play alert sounds]
+
 [Note Transparency (Minimum Win 2k/XP)]
+
 [0%]
+
 [100%]
 100 %
 [Send Reminders through E-mail / SMS :]
 Odeslat přípomínky e-mailem nebo sms:
 [Open links with this program instead:]
+
 [...]
 ...
 [Reset to defaults]
 Obnovit výchozí
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
+
+[Add Reminder]
+Přidat připomínku
 [Trigger On Time && Date:]
 Da&tum a čas vyvolání
 [Date]
 Datum
 [DateTimePicker1]
+
 [Time]
 Čas
 [Reminder Note:]
@@ -53,7 +70,9 @@ Co týden
 [Monthly]
 Co měsíc
 [Repeat Alert Sound]
+
 [Use Sound]
+
 [&Add Reminder]
 Přid&at připomínku
 [&Close]
@@ -61,28 +80,59 @@ Přid&at připomínku
 [&View Reminders]
 Zobrazit připomínk&y...
 [reftime]
+
+[Reminder]
+Připomínka
 [After:]
+
 [On Time && Date:]
+
 [&Remind Again]
+
 [&Create Note]
+
 [&Dismiss]
 &Splněno
+[Reminders]
+
 [Add New]
 Přidat novou
+[Context Menu Reminder ListView]
+
 [Edi&t Reminder]
+
 [New &Reminder]
+
 [&Delete Reminder]
+
 [D&elete All Reminders]
+
+[Context Menu Note Popup]
+
 [&Hide Note]
+
 [&Always On Top]
+
 [&New Note]
 &Nová poznámka...
 [&Delete Note]
+
+[Appearance]
+Vzhled
+[Background Color]
+Barva pozadí
 [Custom...]
+
 [Reset]
 Reset
+[Text Color]
+Barva textu
+[Font]
+Písmo
 [Paste Title]
+
 [Reset Title]
+
 [Undo]
 Zpět
 [&Copy]
@@ -94,37 +144,59 @@ Vyjmou&t
 [C&lear]
 &Odstranit
 [&View Notes]
+
 [&Bring All To Front]
+
+[Context Menu Note ListView]
+
 [Edi&t Note]
+
 [&Visible]
 &Viditelný
 [Always &On Top]
+
 [Delete &All Notes]
+
 [&Show / Hide Notes]
 Zobrazit/skrýt poznám&ky
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
-[MIM_SNMsgWindow]
 [New Note]
+
 [Toggle Notes Visibility]
+
 [Bring All Notes to Front]
+
 [New Reminder]
-[StickyNotes]
+
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
+
 [Are you sure you want to delete all reminders?]
+
 [Delete All Notes]
+
 [Show/Hide Notes]
+
 [On Top Caption Icon]
+
 [Delete All Reminders]
 Smazat všechny
 [View Reminders]
+
 [Not on Top Caption Icon]
+
 [Hide Note Icon]
+
 [Remove Note Icon]
+
 [Reminder Icon]
+
 [Bring All to Front]
+
 [Play Sound Icon]
+
 [View Notes]
+
 [Plugins]
 Doplňky
 [Add New Note]
@@ -134,75 +206,86 @@ Přidat novou připomínku
 [Alerts]
 Upozornění
 [Reminder triggered]
+
 [Reminder triggered (Alternative 1)]
+
 [Reminder triggered (Alternative 2)]
+
 [Notes && Reminders]
 Poznámky &a připomínky
 [New &Note]
+
 [Vie&w Notes]
+
 [&Delete All Notes]
 S&mazat všechny poznámky
 [&Bring All to Front]
+
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+
+[Notes & Reminders]
+Poznámky a připomínky
 ;file \plugins\NotesAndReminders\src\notes.cpp
-[MIM_StickyNote]
 [Black]
 Černá
 [Maroon]
+
 [Green]
 Zelená
 [Olive]
+
 [Navy]
+
 [Purple]
+
 [Teal]
+
 [Gray]
+
 [Silver]
+
 [Red]
 Červená
 [Orange]
+
 [Lime]
+
 [Yellow]
 Žlutá
 [Blue]
 Modrá
 [Fuchsia]
+
 [Aqua]
+
 [White]
 Bílá
-[StickyNote]
 [Are you sure you want to delete this note?]
-[ctrldata]
-[MNU_NOTEPOPUP]
-[Appearance]
-Vzhled
-[Background Color]
-Barva pozadí
-[Text Color]
-Barva textu
-[open]
-[iexplore]
+
 [Notes]
 Poznámky
 [Note text]
+
 [Date/Title]
+
 ;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
-[Small Fonts]
+
 [Sticky Note Background Color]
-[Terminal]
+
 [Sticky Note Body]
-[System]
-Systém
+
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
+
 [Select Executable]
+
 ;file \plugins\NotesAndReminders\src\reminders.cpp
-[Reminder]
-Připomínka
 [Minutes]
 min.
 [Hours]
 hod.
 [Hour]
+
 [Day]
 den
 [Days]
@@ -210,9 +293,13 @@ Dnů
 [Week]
 týden
 [The specified time is invalid due to begin of daylight saving (summer time).]
+
 [The specified time is invalid.]
+
 [The specified time offset is invalid.]
+
 [&Update Reminder]
+
 [Every]
 každých
 [Seconds]
@@ -222,10 +309,12 @@ Nikdy
 [Default]
 Výchozí
 [Alternative 1]
+
 [Alternative 2]
-[MNU_REMINDERPOPUP]
+
 [Reminder text]
 Obsah připomínky
 [Date of activation]
 Datum vyvolání
 [Are you sure you want to delete this reminder?]
+

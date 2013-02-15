@@ -1,3 +1,1 @@
-﻿;[%miranda_path%\\Plugins]
-;[User Guide]
-;[open]
+﻿[User Guide]

@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
@@ -6,8 +6,12 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
+[Select protocols]
+Vybrat protokoly
 [OK]
 OK
+[Choose contacts...]
+Vyberte kontakty...
 [Allow tooltip notifications for the following users:]
 U vybraných kontaktů povolit upozornění na změnu stavu:
 [Cancel]
@@ -66,13 +70,7 @@ Míra průhlednosti
 Kontakty
 [Idle]
 Nečinnost
-;file \plugins\TooltipNotify\src\Tooltip.cpp
-[MimTooltipNotify]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
-[Tooltip Notify]
-Změna stavu
-[Other Status]
-Ostatní stavy
 [Tooltip Notify: Online]
 Změna stavu (přechod online)
 [Tooltip Notify: Offline]
@@ -81,6 +79,8 @@ Změna stavu (přechod offline)
 Změna stavu (ostatní)
 [Tooltip Notify: Typing]
 Změna stavu (psaní zprávy)
+[Tooltip Notify]
+Změna stavu
 [PopUps]
 Oznámení
 [** New contacts **]
@@ -100,5 +100,6 @@ Mám volno
 [Invisible]
 Neviditelný
 [Not Idle]
+
 [Unknown]
-Neznámý
+neznámý

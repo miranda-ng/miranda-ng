@@ -6,44 +6,76 @@
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates and economic quotes.]
+
 ;file \plugins\Quotes\res\Forex.rc
+[Variable List]
+Seznam proměnných
 [OK]
 OK
+[Edit Settings]
+Upravit nastavení...
 [Use contact specific settings]
+
 [Log]
 Záznam
 [Use &Internal History]
+
 [&Format:]
+
 [&Variables...]
+
 [&Add to History only if Value Changed]
+
 [Use &External File]
+
 [&Select File:]
+
 [&Browse...]
+
 [Variables Allowed: %miranda_userdata%,%quotename%]
+
 [F&ormat:]
+
 [V&ariables...]
+
 [Add to &Log only if Value Changed]
+
 [Show &Popup Window]
+
 [Show Popup Window Only if Value &Changed]
+
 [Cancel]
 Zrušit
 [Popup settings...]
+
+[Currency Converter]
+
 [&to:]
+
 [&Swap]
+
 [Convert]
 Nahradit
 [Info provided by <a href="http://www.google.com">Google</a>]
+
 [Close]
 Zavřít
+[Chart]
+
 [Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+
 [Get data from:]
+
 [Filter:]
 Filtr:
+[Popup Window Settings]
+
 [Colours]
 Barvy
 [Use default colours]
 Použít výchozí barvy
 [Use user-defined colours]
+
 [Background colour]
 Barva pozadí
 [Text colour]
@@ -57,32 +89,52 @@ Vlastní
 [Permanent]
 Trvale
 [Do not add to popup's history]
+
 [Preview]
 Náhled
 [&Choose Quotes to watch in contact list:]
+
 [&Refresh Quotes Every:]
+
 [&Display in Contact List as:]
+
 [&Status Message:]
+
 [&Tendency:]
+
 [&Advanced Settings...]
+
 [Static]
 Statický
 [<a>SysLink1</a>]
+
 [Current Rate:]
+
 [Rate Fetch Time:]
+
 [Previous Rate:]
+
 [&Convert:]
+
 [&Add]
 Přid&at
 [&Watched currency rates:]
+
 [&Remove]
 Odst&ranit
 [&Refresh Rates Every:]
+
+[Quote\\Rate Info]
+
 [Type &Stock Name or Symbol:]
+
 [&Watched Quotes:]
+
 [Status &Message:]
+
 ;file \plugins\Quotes\src\Chart.h
 [There is no to show]
+
 ;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 sek.
@@ -91,165 +143,149 @@ min.
 [Hours]
 hod.
 [Enter integer value between 1 and 60.]
+
 [Enter integer value between 1 and 24.]
+
 [Enter text to display in contact list.]
-;file \plugins\Quotes\src\CreateFilePath.cpp
-[\\Quotes\\]
+
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
-[ <a href="]
+
 [Enter positive number.]
-[open]
+
 ;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
+
 [Refresh All Quotes\\Rates]
+
 [Currency Converter...]
+
 [Export All Quotes]
+
 [Import All Quotes]
+
 [Refresh]
 Aktualizovat
 [Open Log File...]
+
 [Chart...]
+
 [Edit Settings...]
+
 [Network]
 Sítě
 ;file \plugins\Quotes\src\HTTPSession.cpp
-[Dioksin]
 [Quotes HTTP connections]
+
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 Ikona protokolu
 [Quote/Rate up]
+
 [Quote/Rate down]
+
 [Quote/Rate not changed]
+
 [Quote Section]
+
 [Quote]
 Citovat
-[Currency Converter]
 [Export]
 Exportovat
 [Swap button]
+
 [Import]
 Importovat
 ;file \plugins\Quotes\src\ImportExport.cpp
-[Value]
-Hodnota
-[Name]
-Jméno
-[Setting]
-Nastavení
-[Module]
-Modul
-[Contact]
-Kontakt
-[Contacts]
-Kontakty
-[type]
-typ
-[byte]
-[word]
-[dword]
-[asciiz]
-[wchar]
-[utf8]
-[blob]
 [Xml File (*.xml)]
+
 [All files (*.*)]
 Všechny soubory (*.*)
-[xml]
-[Group]
-Skupina
-;file \plugins\Quotes\src\Locale.cpp
-[Control Panel\\International]
-[dd/MM/yy]
-[yyyy-MM-dd]
-[H:mm]
-[HH:mm]
-[sShortDate]
-[sLongDate]
-[sShortTime]
-[sTimeFormat]
 ;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
+
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
+
 ;file \plugins\Quotes\src\QuoteChart.cpp
-[DioksinChart]
 [Log File]
 Záznamový soubor
 [Miranda's History]
+
 [All]
 všechno
 [Last Day]
+
 [Last Week]
+
 [Last Month]
+
 [Last Year]
+
 [User-Defined]
+
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
-;file \plugins\Quotes\src\QuotesProviderBase.cpp
-[Unknown]
-Neznámý
-[symbol]
-[description]
-[section]
-[quote]
-[name]
-[Provider]
-[ref]
-[url]
-[Begin contacts refreshing]
-[End contacts refreshing]
-;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
-[sid]
-[stock]
-[oldPrice]
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[currency_converter_result]
 [Error occurred during html parsing.]
+
 [Error occurred during site access.]
-;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
-[ref_]
-[setCompanyId(]
-[var _companyName = ]
-[Open]
-Otevřít
-[snap-data]
-;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
-[\\nCurrent = %r\\nPrevious = %p]
+
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
+
 [Quote Name]
+
 [From Currency Full Name]
+
 [From Currency Short Name]
+
 [Into Currency Full Name]
+
 [Into Currency Short Name]
+
 [Short notation for "%f/%i"]
+
 [Source of Information]
+
 [Rate Value]
+
 [Previous Rate Value]
+
 [Fetch Time]
+
 [Fetch Date]
+
 [Fetch Time and Date]
+
 [Percentage Character (%)]
+
 [Tabulation]
+
 [Left slash (\\)]
+
 [Open Price]
+
 [Percent Change to After Hours]
+
 [Percent Change to Yesterday Close]
+
 [Day's High]
+
 [Day's Low]
+
 [Previous Close]
+
 [Change]
 Změnit
-;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
-[&f=snl1ohgpc1]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
-[log]
+
 [Enter integer value]
+
 [Enter log file name.]
+
 [Enter log file format.]
+
 [Enter history format.]
+
 [Enter popup window format.]
-;file \plugins\Quotes\src\XMLEngineMI.cpp
-[version]
-[encoding]
+

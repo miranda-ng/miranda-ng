@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: x.x.x.x
+;  Version: 2.1.0.4
 ;  Authors: 
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
@@ -56,6 +56,8 @@ Odsazení titulku:
 Odsazení obsahu:
 [Inner avatar padding:]
 Vnitřní okraj avataru:
+[Substitution]
+Substituce
 [Label:]
 Popis:
 [Contact protocol module]
@@ -70,6 +72,8 @@ Překlad:
 OK
 [Cancel]
 Zrušit
+[Item]
+Položka
 [Value:]
 Hodnota:
 [Draw a line above]
@@ -81,6 +85,7 @@ Předdefinované položky:
 [Variables]
 Proměnné
 [Parse Tipper variables first]
+
 [Items]
 Položky
 [Substitutions]
@@ -114,6 +119,7 @@ Použít smajlíky protokolu
 [Replace only isolated smileys]
 Nahradit jen oddělené smajlíky
 [Retrieve new status message]
+
 [Show tooltip after all content is ready (avatar && status message)]
 Zobrazit tip až po načtení celého obsahu (avatar && zpráva stavu)
 [Status bar and tray tooltip]
@@ -123,6 +129,7 @@ Omezit délku zprávy stavu v tipech stavového řádku a oznamovací oblasti na
 [characters]
 znaků
 [Disable in invisible status]
+
 [Skins]
 Skiny
 [Opacity(%):]
@@ -138,6 +145,7 @@ Stín
 [Round corners (window)]
 Zaoblit rohy oken
 [Aero Glass (Vista+)]
+
 [Animation speed:]
 Rychlost animace:
 [Preview]
@@ -182,13 +190,6 @@ Připojit název protokolu
 [Tipper smileys]
 Smajlíky v tipech
 ;file \plugins\TipperYM\src\options.cpp
-[sys:status_msg]
-[Last message: (%sys:last_msg_reltime% ago)]
-Poslední zpráva: (před %sys:last_msg_reltime%)
-[%sys:last_msg%]
-[Status message:]
-Zpráva stavu:
-[%sys:status_msg%]
 [You must enter a label]
 Musíte zadat titulek
 [Invalid Substitution]
@@ -285,18 +286,20 @@ Vlajka státu
 [Client]
 Klient
 ;file \plugins\TipperYM\src\popwin.cpp
-[Tipper]
-Tipy
 [%s (locked)]
 %s (uzamčený)
 [ ago]
+ 
 [Log on:]
 Přihlášení:
 [Log off:]
+
 [Unread emails:]
 Nepřečtené e-maily:
 [Status:]
 Stav:
+[Status message:]
+Zpráva stavu:
 [Mood:]
 Nálada:
 [XStatus:]
@@ -312,43 +315,40 @@ Zkopírovat všechny položky
 [Copy avatar]
 Zkopírovat avatar
 [<No Label>: ]
+
 [<No Value>]
+
 [Fav. contacts]
 Oblíbené kontakty
 [Other]
 Ostatní
 [Miranda uptime:]
 Doba běhu Mirandy:
-;file \plugins\TipperYM\src\popwin.h
-[MimTTClass]
 ;file \plugins\TipperYM\src\preset_items.cpp
 [Birthday]
 Narozeniny
 [Birthday:]
 Narozeniny:
-[%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
 [Client:]
 Klient:
-[%raw:/MirVer%]
 [Email]
+
 [Email:]
-[%raw:/e-mail%]
+
 [Gender:]
 Pohlaví:
 [Homepage]
 Dom. stránka
 [Homepage:]
 WWW:
-[%raw:/Homepage%]
 [Identifier]
 Identifikátor
 [%sys:uidname|UID^!MetaContacts%:]
-[%sys:uid%]
+
 [Idle]
 Nečinnost
 [Idle:]
 Nečinnost:
-[%idle% (%idle_diff% ago)]
 [IP:]
 IP:
 [IP internal]
@@ -357,25 +357,24 @@ IP interní
 IP interní:
 [Last message]
 Poslední zpráva
-[%raw:/ListeningTo%]
+[Last message: (%sys:last_msg_reltime% ago)]
+Poslední zpráva: (před %sys:last_msg_reltime%)
 [Name]
 Jméno
 [Name:]
 Název:
-[%raw:/FirstName|% %raw:/LastName%]
 [Number of received messages]
 Počet přijatých zpráv
 [Number of msg [IN]:]
-[%sys:msg_count_in%]
+Počet zpráv [přijatých]:
 [Number of sended messages]
 Počet odeslaných zpráv
 [Number of msg [OUT]:]
-[%sys:msg_count_out%]
+Počet zpráv [odeslaných]:
 [Contact time]
 Čas
 [Time:]
 Čas:
-[%sys:time%]
 [XStatus title]
 Název rozšířeného stavu
 [XStatus title:]
@@ -384,149 +383,81 @@ Název rozšířeného stavu:
 Zpráva rozšířeného stavu
 [XStatus text:]
 Zpráva rozšířeného stavu:
-[%raw:/XStatusMsg%]
 [[jabber.dll] Activity title]
+
 [Activity title:]
 Název aktivity:
-[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%]
 [[jabber.dll] Activity text]
+
 [Activity text:]
 Zpráva aktivity:
-[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%]
 [[menuex.dll] Logon time]
+
 [Logon time:]
+
 [[menuex.dll] Logoff time]
+
 [Logoff time:]
+
 [[seenplugin.dll] Last seen time]
+
 [Last seen time:]
 Naposledy spatřen:
 [[seenplugin.dll] Last seen status]
+
 [Last seen status:]
 Naposledy spatřený stav:
-[%lastseen_status% (%lastseen_ago% ago)]
 [[weather.dll] Condition]
+
 [Condition:]
 Situace:
-[%raw:Current/Condition%]
 [[weather.dll] Humidity]
+
 [Humidity:]
 Vlhkost:
-[%raw:Current/Humidity%]
 [[weather.dll] Max/Min temperature]
+
 [Max/Min:]
-[%raw:Current/High%/%raw:Current/Low%]
+
 [[weather.dll] Moon]
+
 [Moon:]
 Měsíc:
-[%raw:Current/Moon%]
 [[weather.dll] Pressure]
+
 [Pressure:]
 Tlak:
-[%raw:Current/Pressure% (%raw:Current/Pressure Tendency%)]
 [[weather.dll] Sunrise]
+
 [Sunrise:]
 Východ slunce:
-[%raw:Current/Sunrise%]
 [[weather.dll] Sunset]
+
 [Sunset:]
 Západ slunce:
-[%raw:Current/Sunset%]
 [[weather.dll] Temperature]
+
 [Temperature:]
 Teplota:
-[%raw:Current/Temperature%]
 [[weather.dll] Update time]
+
 [Update time:]
 Čas aktualizace:
-[%raw:Current/Update%]
 [[weather.dll] UV Index]
+
 [UV Index:]
 UV Index:
-[%raw:Current/UV% - %raw:Current/UVI%]
 [[weather.dll] Visibility]
+
 [Visibility:]
 Viditelnost:
-[%raw:Current/Visibility%]
 [[weather.dll] Wind]
+
 [Wind:]
 Vítr:
-[%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%]
-[gender]
-[ip_internal]
-[idle]
-[idle_diff]
-[xsname]
-[lastseen_date]
-[lastseen_time]
-[lastseen_status]
-[lastseen_ago]
-[birthday_date]
-[birthday_age]
-[birthday_next]
-[logon_date]
-[logon_time]
-[logon_ago]
-[logoff_date]
-[logoff_time]
-[logoff_ago]
 ;file \plugins\TipperYM\src\skin_parser.cpp
-[author]
-[preview]
-[image]
-[left]
-[top]
-[right]
-[bottom]
-[traytitle]
-[title]
-titulek
-[label]
-[value]
-[divider]
-[face]
-[color]
-[size]
-[effect]
-[font_bold]
-[font_italic]
-[font_underline]
-[general-padding]
-[title-indent]
-[text-indent]
-[value-indent]
-[text-padding]
-[outer-avatar-padding]
-[inner-avatar-padding]
-[sidebar-width]
-[opacity]
-[enable-coloring]
-[false]
-[[about]]
-[[other]]
-[[background]]
-[[sidebar]]
-[[fonts]]
-[[appearance]]
-;file \plugins\TipperYM\src\subst.cpp
-[uid]
-[proto]
-protokol
-[account]
-[time]
-[uidname]
-[status_msg]
-[last_msg]
-[meta_subname]
-[meta_subuid]
-[meta_subproto]
-[last_msg_time]
-[last_msg_date]
-[last_msg_reltime]
-[msg_count_all]
-[msg_count_out]
-[msg_count_in]
-[raw:]
-[sys:]
+[# Solid color fill]
+# Celkové Vyplnění barvou
 ;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Pozadí
@@ -543,14 +474,12 @@ Hodnoty
 [Tray title]
 Titulek oznam.oblasti
 ;file \plugins\TipperYM\src\translations.cpp
-[[No translation]]
-(bez překladu)
-[Yes]
-Ano
 [Female]
 žena
 [Male]
 muž
+[[No translation]]
+(bez překladu)
 [WORD to status description]
 popis stavu (WORD)
 [DWORD timestamp to time]
@@ -639,6 +568,7 @@ esperanto
 [Estonian]
 estonština
 [Farsi]
+
 [Finnish]
 finština
 [French]
@@ -718,6 +648,7 @@ svahilština
 [Tagalog]
 tagalština
 [Taiwanese]
+
 [Tamil]
 tamilština
 [Tatar]

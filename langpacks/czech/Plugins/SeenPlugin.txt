@@ -6,6 +6,7 @@
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
+
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 Nastavení
@@ -34,6 +35,7 @@ Zaznamenat počet
 [Protocols to watch:]
 Sledovat protokoly:
 [Popup interoperability missing or disabled. You need Popups plugin]
+
 [Use popups]
 Použít oznámení
 [Title]
@@ -64,11 +66,14 @@ Neviditelný
 Offline
 [Reset colors]
 Výchozí barvy
+[Last seen plugin]
+Sledování změny stavu
 [OK]
 OK
 [You missed following contacts:]
 Zmeškali jste tyto kontakty:
 [Test\nTest]
+
 [Alert when user status changes]
 Upozornit při změně stavu
 ;file \plugins\SeenPlugin\src\history.cpp
@@ -81,14 +86,18 @@ Uživatelské menu
 [Send Instant Message]
 Odeslat zprávu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+
 ;file \plugins\SeenPlugin\src\main.cpp
-[Any to Idle/Not Idle/Unknown]
-[Any to /Idle or empty]
 [LastSeen]
+
 [User status change]
+
 [Changed to Online]
+
 [User Logged Off]
+
 [User Logged In]
+
 [Last seen]
 Naposledy spatřen
 ;file \plugins\SeenPlugin\src\menu.cpp
@@ -104,11 +113,14 @@ Kontakty
 [PopUps]
 Oznámení
 ;file \plugins\SeenPlugin\src\seen.h
-[Debug]
-Debug
 [%n is %s (%u)]
+
 [%i(%r)%bWas %o]
+
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+
+[-- Date --]
+-- Datum --
 [year (4 digits)]
 rok (4 číslice)
 [year (2 digits)]
@@ -125,6 +137,8 @@ den
 název dne (celý)
 [weekday (abbreviated)]
 název dne (zkrácený)
+[-- Time --]
+-- Čas --
 [hours (24)]
 hodiny (24)
 [hours (12)]
@@ -135,6 +149,8 @@ dop./odp.
 min.
 [seconds]
 sek.
+[-- User --]
+-- Uživatel --
 [username]
 uživatelské jméno
 [nick]
@@ -157,6 +173,8 @@ interní IP
 klient
 [Protocol]
 Protokol
+[-- Format --]
+-- Formátování --
 [tabulator]
 tabulátor
 [line break]
@@ -166,7 +184,9 @@ Pozn.:
 [Use]
 Použít
 [for empty string]
+
 [instead of]
+
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
@@ -244,10 +264,10 @@ lis
 [Dec.]
 pro
 [<never seen>]
+
 [Idle]
 Nečinnost
-[ProtoUnknown]
-[\x0D\x0A]
 [Unknown]
-Neznámý
+neznámý
 [Not Idle]
+

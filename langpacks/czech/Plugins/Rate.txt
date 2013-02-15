@@ -2,6 +2,10 @@
 ;langpack template for Rate
 ;file \plugins\Rate\src\main.cpp
 [Rate high]
+
 [Rate medium]
+
 [Rate low]
+
 [Contact Rate]
+

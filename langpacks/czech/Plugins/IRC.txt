@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 Přid&at
@@ -59,6 +61,7 @@ Název serveru
 [Alternative nick]
 Alt. přezdívka
 [Ident]
+
 [System]
 Systém
 [Port]
@@ -76,13 +79,17 @@ Znovu po (s)
 [Retry count]
 Počet pokusů
 [Fear the monkeys!!!]
+
 [Check every (s):]
 Zjišťovat stav každých (s):
 [SSL]
 SSL
 [Don't check if more than (users):]
 Nezjišťovat, překročí-li počet:
+[User information]
+Informace o uživateli
 [Ping]
+
 [Version]
 Verze
 [Time]
@@ -114,7 +121,9 @@ Přehled informací získaný ze serveru. Vezměte na vědomí, že nic z toho n
 [CTCP information]
 Informace CTCP
 [-]
--
+-
+[Question]
+Otázka
 [&OK]
 &OK
 [&Cancel]
@@ -135,6 +144,8 @@ Při ukončení:
 Kódování serveru:
 [Enable UTF8 autodetection]
 Zapnout detekci UTF-8
+[Add server]
+Přidat server
 [On]
 Zap
 [Auto]
@@ -142,20 +153,27 @@ Auto
 [Off]
 Vyp
 [Host address]
+
 [Server description]
+
 [Network]
 Sítě
+[Channels on server]
+Seznam kanálů na serveru
 [&Join]
 Při&jít
 [Filter by]
+
 [C&onnect]
 Přip&ojit
 [&Save]
 &Uložit
 [@]
+
 [Hostmask]
 Maska hostitele
 [!]
+
 [&Clear all]
 V&ymazat vše
 [Online detection mode]
@@ -164,6 +182,8 @@ Detekce stavu online
 Obecné
 [Wildcard enabled network search]
 Při hledání v sítích použít masku
+[Channel manager]
+Správa kanálů
 [Bans]
 Zákazy
 [Invites]
@@ -216,8 +236,6 @@ Ukončit privátní diskusi při odpojení od serveru
 Ručně nastavit externí IP:
 [Client-to-Client File Transfers]
 Přenos souborů (DCC Send/Receive)
-[User information]
-Informace o uživateli
 [Client-to-Client Protocol]
 Ostatní možnosti CTCP
 [Client-to-Client Chats]
@@ -232,6 +250,8 @@ Zjistit IP adresu ze serveru
 Automaticky přijímat od:
 [Send notice]
 Poslat oznámení
+[CTCP Chat Request]
+Žádost CTCP Chat
 [&Accept]
 &Přijmout
 [&Deny]
@@ -278,70 +298,40 @@ Alt. přezdívka
 [CTCP chat request from %s]
 Žádost CTCP Chat od %s
 ;file \protocols\IRCG\src\commandmonitor.cpp
-[PING %s]
-[PING %u]
-[PONG %s]
 [%s sets mode %s]
 %s nastavil(a) mód %s
-[Your host is %99[^ \x5b,], running version %99s]
-[PING]
-Ping
-[%newl]
-[action]
-[dcc]
-[PRIVMSG]
-[finger]
+[%s sets mode %s%s]
+%s nastavil(a) mód %s%s
+[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
+Chyba CTCP: Od %s!%s@%s byl obdržen podvodný příkaz CTCP. Teoreticky může jít záměrný útok na klienta sítě IRC.
 [CTCP FINGER requested by %s]
 Žádost CTCP FINGER od %s
-[version]
-[%mirver]
-[%version]
-[ Unicode]
 [CTCP VERSION requested by %s]
 Žádost CTCP VERSION od %s
-[source]
 [CTCP SOURCE requested by %s]
 Žádost CTCP SOURCE od %s
-[userinfo]
 [CTCP USERINFO requested by %s]
 Žádost CTCP USERINFO od %s
-[ping]
 [CTCP PING requested by %s]
 Žádost CTCP PING od %s
-[time]
 [CTCP TIME requested by %s]
 Žádost CTCP TIME od %s
-[chat]
-Kecám
-[send]
-[accept]
-[resume]
 [DCC: Chat request from %s denied]
 DCC: Žádost o chat od %s odmítnuta
 [DCC: File transfer request from %s denied]
 DCC: Žádost o přenos souborů od %s odmítnuta
 [DCC: Reverse file transfer request from %s denied [No local IP]]
+DCC: Žádost o reverzní přenos souborů od %s odmítnuta [není lokální IP]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
+Chyba DCC: Poškozená žádost CTCP od %s [%s]
 [DCC: File transfer resume request from %s denied]
 DCC: Žádost o navázání přenosu souborů od %s odmítnuta
 [CTCP %s requested by %s]
 Žádost CTCP %s od %s
-[NOTICE]
-[%u second]
-[%u seconds]
 [CTCP PING reply from %s: %u sec(s)]
 Odpověď na žádost CTCP PING od %s: %u sek.
 [CTCP %s reply from %s: %s]
 Odpověď na žádost CTCP %s: %s
-[Owner]
-Něco o sobě
-[Admin]
-Správce
-[Halfop]
-[Voice]
-Hlas
-[system]
-[%#c]
 [Downloading list (%u%%) - %u channels]
 Stahování seznamu (%u %%) - %u kanálů
 [Downloading list - %u channels]
@@ -350,29 +340,22 @@ Stahování seznamu - %u kanálů
 Počet kanálů: %u
 [(probably truncated by server)]
 (pravděpodobně oříznuto serverem)
-[online since %s, idle %s]
-[is an identified user]
-[is a registered nick]
 [Change nickname]
 Změnit přezdívku
-[NICK %s]
-[WHO]
-[USERHOST]
 [IRC error]
 Chyba sítě IRC
+[Unknown]
+neznámý
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
 Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživatele uvedené v seznamu kontaktů
 [Ignore]
 Filtrování
-[ +qnidcm]
-[ +qnidc]
-[ +b *!*@]
 [Please enter the reason]
 Zadejte prosím důvod
 [Ban'n Kick]
 Zakázat a vykopnout
 [Jerk]
-[Try server %99[^ ,], port %19s]
+
 [*Disconnected*]
 *Odpojen od serveru*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
@@ -380,41 +363,26 @@ Zakázat a vykopnout
 [IRC Error]
 Chyba sítě IRC
 ;file \protocols\IRCG\src\input.cpp
-[%question]
-[%mnick]
-[%anick]
-[%awaymsg]
-[%module]
-[%name]
-[%network]
-[%color]
-[%bold]
-[%underline]
-[%italics]
+[The buddy check function is enabled]
+Upozornění na uživatele online zapnuto
 [The buddy check function is disabled]
 Upozornění na uživatele online vypnuto
 [Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-[server]
+
 [Ignore system is enabled]
 Systém ignorování aktivován
 [Ignore system is disabled]
 Systém ignorování deaktivován
-[off]
-vyp
-[qnidc]
 [%s on %s is now ignored (+%s)]
 %s (na %s), aktivováno ignorování (+%s)
 [%s is not ignored now]
 %s, zrušeno ignorování
 [%s was not ignored]
 %s nebyl ignorován
-[users: %u]
 [Outgoing commands are shown]
 Zadané příkazy budou zobrazovány
 [Outgoing commands are not shown]
 Zadané příkazy nebudou zobrazovány
-[The buddy check function is enabled]
-Upozornění na uživatele online zapnuto
 [The time interval for the buddy check function is now at default setting]
 Časový interval sledování uživatelů online je nastaven na výchozí hodnotu
 [The time interval for the buddy check function is now %u seconds]
@@ -437,34 +405,28 @@ Chyba DCC: Nelze navázat spojení na požadovaném portu
 Vstupní příkaz
 [Please enter the reply]
 Zadejte prosím odpověď
-;file \protocols\IRCG\src\irc.h
-[Network log]
 ;file \protocols\IRCG\src\irclib.cpp
-[QUIT]
 [Failed to connect to]
-[NICK %s\r\n]
-[Miranda]
-Miranda
-[host]
-[USER %s %s %s :%s\r\n]
-[QUIT :%s\r\n]
+
 [DCC ERROR: Unable to bind local port for passive filetransfer]
+
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 %s - spojení se serverem
 [%s client-to-client connections]
 %s - přímé spojení mezi klienty
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
+
 [Information]
 Informace
-[%%miranda_path%%\\Plugins\\]
-[Miranda%u]
 [Nickname]
 Přezdívka
 [DCC ERROR: No valid files specified]
 Chyba DCC: Vybrali jste neplatné soubory
 [DCC reversed file transfer request sent to %s [%s]]
+Odeslána žádost o reverzní přenos souborů pomocí DCC -> %s [%s]
 [DCC file transfer request sent to %s [%s]]
+Odeslána žádost o přenos souborů pomocí DCC -> %s [%s]
 [DCC ERROR: Unable to bind local port]
 Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
 [The protocol is not online]
@@ -473,7 +435,8 @@ Protokol není ve stavu online
 Privátní diskuse není aktivní
 [Please choose an IRC-network to go online. This network will be the default.]
 Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nastavena jako výchozí.
-[WHOIS ]
+[Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
+
 ;file \protocols\IRCG\src\options.cpp
 [Main]
 Hlavní
@@ -489,17 +452,14 @@ Upravit
 Zrušit
 [Channel list]
 Seznam kanálů
-[Channel manager]
-Správa kanálů
 [Quick connect]
 Připojit rychle
 [Server window]
 Okno serveru
 [Show channel]
 Zobrazit kanál
-[Question]
-Otázka
 [WhoIs]
+
 [Incoming DCC Chat]
 Žádost o DCC Chat
 [Logo (48x48)]
@@ -548,8 +508,14 @@ Odebere vybranýo server
 Opravdu chcete smazat %s?
 [Delete server]
 Smazat server
+[Edit server]
+Upravit server
 [<Resolved IP: ]
 <zjištěná IP: 
+[<Automatic>]
+<automaticky>
+[<Local IP: ]
+<lokální IP: 
 [Click to set commands that will be performed for this event]
 Přidá příkazy k vybrané události
 [Click to delete the commands for this event]
@@ -566,19 +532,19 @@ Odebere vybranou položku
 Maska
 [Flags]
 Příznaky
+[Add ignore]
+
 [Edit ignore]
+
 [Account]
 Účet
 [DCC'n CTCP]
 DCC a CTCP
 [Advanced]
 Extra
-[UNIX]
 ;file \protocols\IRCG\src\output.cpp
-[WALLOPS]
 [WallOps from %s: ]
 WallOps od %s: 
-[INVITE]
 [%s invites you to %s]
 %s tě zve na kanál %s
 [%s is away]
@@ -618,77 +584,130 @@ Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživat
 Přijít na kanál
 [Please enter a channel to join]
 Zadejte požadovaný kanál
+[Please select IRC network and enter the password if needed]
+Vyberte síť serverů IRC a pokud je to nutné, zadejte heslo.
 [Change nick name]
 Změnit přezdívku
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
 [Please enter your authentification code]
+
 [Authentificate nick]
+
 [Are you sure you want to unregister your current nick?]
+
 [Delete nick]
+
 [Identify nick]
+
 [Please enter your password]
+
 [Please enter your new password]
 Prosím zadejte nové heslo
 [Set new password]
+
 [Please enter desired languageID (numeric value, depends on server)]
+
 [Change language of NickServ messages]
+
 [Please enter URL that will be linked to your nick]
+
 [Set URL, linked to nick]
+
 [Please enter your e-mail, that will be linked to your nick]
+
 [Set e-mail, linked to nick]
+
 [Please enter some information about your nick]
+
 [Set information for nick]
+
 [Please enter nick you want to link to your current nick]
+
 [Link another nick to current nick]
+
 [Please enter nick you want to unlink from your current nick]
+
 [Unlink another nick from current nick]
+
 [Please enter nick you want to set as your main nick]
+
 [Set main nick]
+
 [Kick]
 Vykopnout
 [Please enter the notice text]
+
 [Please enter the channel name to invite to]
+
 [Invite to channel]
 Pozvat na &kanál
 [NickServ]
+
 [Register nick]
+
 [Auth nick]
+
 [Remind password ]
+
 [Set language]
+
 [Set homepage]
+
 [Set e-mail]
+
 [Set info]
+
 [Hide e-mail from info]
+
 [Show e-mail in info]
+
 [Set security for nick]
+
 [Remove security for nick]
+
 [Link nick to current]
+
 [Unlink nick from current]
+
 [List all your nicks]
+
 [List your channels]
+
 [Kill unauthorized: off]
+
 [Kill unauthorized: on]
+
 [Kill unauthorized: quick]
+
 [Hide nick from list]
+
 [Show nick to list]
+
 [Show the server &window]
 Zo&brazit okno serveru
 [&Leave the channel]
 Odejít z kaná&lu
 [&Invite to channel]
+
 [Send &notice]
 Poslat poz&námku
 [&Slap]
 Pohlavek
 [Nickserv info]
+
 [Nickserv kill ghost]
+
 [&Control]
 Říz&ení
 [Give Owner]
+
 [Take Owner]
+
 [Give Admin]
+
 [Take Admin]
+
 [Give &Op]
 Dát &operátora
 [Take O&p]
@@ -728,9 +747,13 @@ Obnovování připojení k
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Offline
-[Unknown]
-Neznámý
 ;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the \]
+
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Počkejte prosím...
@@ -739,8 +762,11 @@ Kanál
 [Mode]
 Mód
 [%s - Filtered - %d items]
+
+[---- Not listed server ----]
+
 [Type new server address here]
-[Miranda IRC]
+
 [Add ban/invite/exception]
 Přidání zákazu/pozvání/výjimky
 [Edit selected ban/invite/exception]
@@ -753,7 +779,6 @@ Nastaví vybrané módy kanálu
 Nastaví téma kanálu
 [You have not applied all changes!\n\nApply before exiting?]
 Nejsou uloženy všechny provedené změny!\n\nNechcete je před zavřením okna uložit?
-[Topic%s%s]
 [Add ban]
 Přidání zákazu
 [Add invite]
@@ -768,3 +793,9 @@ Zadejte masku (přezdívka!uživ_jméno@hostitel)
 Úprava pozvánky
 [Edit exception?]
 Úprava výjimky
+[Remove ban?]
+Odstranění zákazu
+[Remove invite?]
+Odstranění pozvánky
+[Remove exception?]
+Odstranění výjimky

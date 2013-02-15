@@ -6,10 +6,16 @@
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin.]
+
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [Trigger when Miranda is hiding]
+
 [Trigger when Miranda is showing]
+
 [Pre-conditions]
+
+[BossKey]
+BossKey
 [Go to Customize -> Hotkeys to change the hotkey]
 Zkratky změníte v sekci Vlastní úpravy -> Klávesové zkratky
 [When I press the hotkey:]
@@ -39,6 +45,7 @@ OK
 [Cancel]
 Zrušit
 [EN]
+
 [Workstation is Locked (2000/XP+)]
 Pracovní stanice je uzamčena (2000/XP+)
 [Screen Saver is running]
@@ -50,6 +57,7 @@ Skrýt Mirandu při:
 [Miranda is inactive]
 Miranda je neaktivní
 [min]
+
 [Miranda is started]
 Spuštění Mirandy
 [Others]
@@ -60,41 +68,23 @@ Přidat položku do hlavní nabídky
 Obnovit skrývání při startu po chybě
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
+
 [Password is not correct!\nPlease, enter correct password.]
-[Miranda NG]
-Miranda NG
-[Ctrl + ]
-[Shift + ]
-[Alt + ]
-[Win + ]
+
 [Hide Miranda NG]
 Skrýt Mirandu
 [Hide]
 Skrýt
 [Hide/Show Miranda]
-[bosskeyname]
+
 [BossKey\tget the BossKey name]
-;file \plugins\BossKeyPlus\src\BossKey.h
-[MY6BossKey_Param]
+
+;file \plugins\BossKeyPlus\src\BossKeyTriggers.cpp
+[BossKey: Key pressed]
+
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných
-[Offline]
-Offline
-[Online]
-Online
-[Away]
-Na chvíli pryč
-[Occupied]
-Nemám čas
-[DND]
-Nerušit!
-[Free for chat]
-Mám volno
-[Invisible]
-Neviditelný
-[BossKey]
-BossKey
 [Events]
 Události
 [Main]

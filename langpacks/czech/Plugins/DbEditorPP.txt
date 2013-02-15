@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
 ;  File: Svc_dbepp.dll
 ;  Plugin: Database Editor++
@@ -6,7 +6,10 @@
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
+
 ;file \plugins\DbEditorPP\res\resource.rc
+[Database Editor++ Search and Replace]
+Editor databáze :: Hledání a nahrazení
 [Case Sensitive]
 Rozlišit malá/VELKÁ
 [Module Name]
@@ -43,6 +46,8 @@ Při spuštění automaticky rozbalit větev 'Nastavení'
 Použít seznam známých modulů
 [Warn when deleting modules]
 Upozornit před smazáním modulu
+["Open user tree in DBE++" menu item]
+Přidat do menu 'Upravit položky v DBE++'
 [Use popups when watched settings change values]
 Oznámit změnu sledované hodnoty
 [Modules to ALWAYS mark as known (e.g core modules)]
@@ -57,6 +62,8 @@ Doba zobrazení (0 = stále)
 Barva pozadí
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
 - je-li v názvu modulu mezera, před mezeru zadejte znak '\\' (např. 'aaa\\ bbb')
+[Add a module to contact]
+Přidat modul ke kontaktu
 [Add a module named]
 Název nového modulu
 [Add to all contacts (Includes Settings)]
@@ -65,6 +72,8 @@ Přidat všem kontaktům (včetně nastavení)
 OK
 [Cancel]
 Zrušit
+[Edit Setting]
+Upravit nastavení
 [Value Name:]
 Název hodnoty:
 [Value Data:]
@@ -73,39 +82,60 @@ Obsah hodnoty:
 Číselná soustava
 [Save Value as:]
 Definice hodnoty
+[Watched Database Variables]
+Sledované proměnné v databázi
+[Copy module to contact]
+Zkopírovat modul do kontaktu
 [Copy to all contacts (Includes Settings)]
 Zkopírovat všem kontaktům (včetně nastavení)
 [Contact to copy module and settings to]
+
+[Import Module/Settings]
+Importovat modul/nastavení
 [Import]
 Importovat
 [Insert &CR/LF]
 Vložit &CR/LF
 [Paste the Settings to import here.]
 Zde vložte požadovaný text:
+[DBEditor++]
+DBEditor++
+[&Main]
+&Soubor
 [&Refresh Modules]
 &Aktualizovat moduly
 [Refresh &Settings]
 Aktualizovat na&stavení
 [E&xit]
 U&končit
+[&Actions]
+&Akce
 [&Search and Replace]
 Najít a nah&radit...
 [&Delete Module]
 &Smazat modul...
+[&Watches]
+S&ledovače
 [&View all]
 Zobrazit &vše
 [&Delete all]
 &Smazat vše
+[&Export]
+&Exportovat
 [Entire &Database]
 Celá &databáze...
 [All &Settings]
 Všechna na&stavení...
 [All &Contacts]
 Vše&chny kontakty...
+[&Import]
+&Importovat
 [From a &file]
 Ze sou&boru...
 [From pasted &text]
 Ze sc&hránky...
+[&Options]
+M&ožnosti
 [&Sort by protocol]
 &Seřadit dle protokolu
 [Show &All]
@@ -123,8 +153,13 @@ Upravovat &Dwords v hexa
 [&Restore position]
 &Obnovit pozici
 [&Open Options]
+
+[Item context]
+
 [&Edit / Rename]
 &Upravit...
+[NEW]
+Nový
 [&Byte]
 &Byte
 [&Word]
@@ -137,6 +172,10 @@ Upravovat &Dwords v hexa
 &Unicode
 [BL&OB]
 BL&OB
+[&Convert to]
+&Konvertovat na
+[Encyption]
+Šifrování
 [View Decrypted String]
 Zobrazit dešifrovaný řetězec
 [View Encrypted String]
@@ -149,6 +188,8 @@ Zašifrovat řetězec
 Sl&edovat
 [&Delete]
 &Smazat
+[Null Mod context]
+
 [&Rename]
 Př&ejmenovat
 [Copy To Contact]
@@ -157,37 +198,57 @@ Př&ejmenovat
 &Exportovat modul...
 [Add To Known Modules]
 Přidat mezi známé moduly
+[Contact menu]
+Menu kontaktu
 [&Clone]
 Dup&likovat
 [Export Contact]
 &Exportovat kontakt
+[Import Settings]
+&Importovat nastavení
 [From a file]
 &Ze souboru...
 [From pasted text]
 Z&e schránky...
 [&Add Module]
 Přid&at modul...
+[NULL contact menu]
+
 [Export Settings]
 &Exportovat nastavení
+[Contacts menu]
+Menu kontaktů
 [Export Contacts]
 &Exportovat kontakty
+[Import Contacts]
+&Importovat kontakty
+[Contact Mod context]
+
 [Export Module from all contacts]
 &Exportovat modul ze všech kontaktů...
+[new item]
+nová položka
+[Watch Window]
+Sledování
 [Reload Watch List]
 Aktualizovat seznam sledovaných
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
 Vybranou položku nelze zkonvertovat.
 [New BYTE value]
+
 [Edit BYTE value]
 Změnit hodnotu typu BYTE
 [New WORD value]
+
 [Edit WORD value]
 Změnit hodnotu typu WORD
 [New DWORD value]
+
 [Edit DWORD value]
 Změnit hodnotu typu DWORD
 [New STRING value]
+
 [Edit STRING value]
 Změnit hodnotu typu STRING
 [New UNICODE value]
@@ -199,6 +260,7 @@ Nová hodnota BLOB
 [Edit BLOB value]
 Upravit hodnotu BLOB
 [Couldnt allocate enough memory!]
+
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
 Nastavení
@@ -219,6 +281,7 @@ Všechny soubory
 [Export to file]
 Exportovat...
 [Error Loading Module List]
+
 [Couldn't open file for writing]
 Nelze otevřít soubor pro zápis
 [Do you want to overwrite it "%s"?]
@@ -275,6 +338,7 @@ Známý kontakt
 [Database Editor++]
 Editor databáze ++
 [Open Database Editor]
+
 [Open user tree in DBE++]
 Upravit položky v DBE++
 ;file \plugins\DbEditorPP\src\main_window.cpp
@@ -289,6 +353,7 @@ Načítání seznamu kontaktů...
 [Loading modules...]
 Načítání modulů...
 [Module tree not found]
+
 [Contacts]
 Kontakty
 [HANDLE]

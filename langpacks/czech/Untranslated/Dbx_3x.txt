@@ -1,4 +1,0 @@
-﻿;[%s (Write error)]
-;[Invalid database module]
-;[The import has completed from]
-;[db3x database support]

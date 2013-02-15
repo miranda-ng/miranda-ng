@@ -70,19 +70,23 @@ Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
 Neoznamovat přečtené zprávy
 ;file \plugins\NewEventNotify\src\main.cpp
-[TMsgWindow]
-[TfrmContainer]
 [Message Session]
 Rozhovor
 [Message Received]
+
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
 Oznámení
+[Disable new event notification]
+Vypnout oznámení nové události
+[Enable new event notification]
+Zapnout oznámení nové události
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Oznámení události
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
+
 [ added you to the contact list]
  si vás přidal do seznamu kontaktů
 [ requested authorization]
@@ -90,9 +94,11 @@ Oznámení události
 [This is a sample message event :-)]
 Zkouška události Zpráva :-)
 [This is a sample URL event ;-)]
+Zkouška události Odkaz ;-)
 [This is a sample file event :-D]
 Zkouška události Soubor :-D
 [This is a sample other event ;-D]
+Zkouška  jiné události ;-D
 [Plugin Test]
 Zkouška doplňku
 [Number of new message: ]

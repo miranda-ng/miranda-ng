@@ -6,3 +6,4 @@
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the ]
+

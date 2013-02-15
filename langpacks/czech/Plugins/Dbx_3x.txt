@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Dbx_3x.dll
 ;  Plugin: Dbx_3x
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x\res\resource.rc
+[Install Database Settings]
+Konfigurace databáze
 [Yes]
 Ano
 [No]
@@ -20,6 +22,8 @@ Ne všem
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
 [Database settings are being imported from]
 Importovaný konfigurační soubor
 [This file wishes to change the setting]
@@ -36,7 +40,10 @@ Chcete povolit úpravu této položky?
 &Ne
 [Cancel Import]
 Zrušit import
+[Database Import Complete]
+Import databáze dokončen
 [The import has completed from]
+Import nastavení dokončen; z
 [What do you want to do with the file now?]
 Co chcete udělat s tímto souborem?
 [&Recycle]
@@ -47,9 +54,3 @@ Př&esunout do koše
 Přesunout/Přej&menovat
 [&Leave]
 Ode&jít
-;file \plugins\Db3x\src\dbcache3x.cpp
-[%s (Write error)]
-;file \plugins\Db3x\src\dbintf3x.cpp
-[Invalid database module]
-;file \plugins\Db3x\src\init.cpp
-[db3x database support]

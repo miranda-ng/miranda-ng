@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\Yahoo\res\Yahoo.rc
@@ -17,6 +17,7 @@ Přezdívka:
 [Create a new Yahoo account using the Yahoo website]
 Zřídit nový účet prostřednictvím domovské stránky Yahoo
 [Expert]
+
 [Use Yahoo Address Book (YAB)]
 Použít adresář Yahoo (YAB)
 [Show Avatars]
@@ -49,6 +50,8 @@ Ignorovat pouze níže uvedené uživatele:
 Přid&at
 [&Remove]
 Odst&ranit
+[Set Custom Status]
+Změnit stavovou zprávu
 [Show as busy]
 Zobrazit jako 'Nemám čas'
 [OK]
@@ -59,13 +62,20 @@ Zrušit
 Protokol:
 [Client:]
 Klient:
+[Chat Room Invitation Request]
+
 [&Join]
 Při&jít
 [&Deny]
 O&dmítnout
 [Denial Message]
+
 [Invitation Message]
+
 [Host]
+
+[Invite Buddy To Chat Room]
+
 [Screen Name]
 Identifikátor
 [&Invite]
@@ -73,17 +83,19 @@ Identifikátor
 [&Cancel]
 &Zrušit
 [Invitation reason]
+
 [Add]
 Přidat
 ;file \protocols\Yahoo\src\avatar.cpp
 [Yahoo Error]
 Chyba Yahoo
 [Avatar upload failed!?!]
-[ avatar]
+
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
+
 [Others]
 Ostatní
 [&Invite user...]
@@ -95,7 +107,9 @@ Pozvat k d&iskusi...
 [User &history]
 Zobrazit &historii
 [Join My Conference...]
+
 [No, thank you...]
+
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Hlavní
@@ -117,10 +131,8 @@ Překročen časový limit odeslání zprávy.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Zpráva je příliš dlouhá. Protokol Yahoo umožňuje napsat max. 800 znaků (v kódování UTF8).
 ;file \protocols\Yahoo\src\links.cpp
-[addfriend?]
-[sendim?]
-[chat?]
 [YAHOO Link Protocol]
+
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 Yahoo - spojení pomocí protokolu HTTP
@@ -138,6 +150,7 @@ Yahoo :: Seznam filtrovaných
 [Please enter a valid buddy name to ignore.]
 Zadejte prosím platnou přezdívku.
 [The buddy is already on your ignore list. ]
+
 [You need to be connected to Yahoo to remove from the Ignore List.]
 Položku ze seznamu lze odebrat až po připojení do sítě Yahoo.
 [Please select a buddy on the ignore list to remove.]
@@ -161,11 +174,6 @@ Zadejte prosím svůj identifikátor v nastavení protokolu.
 Zadejte prosím své heslo v nastavení protokolu.
 [Yahoo Login Error]
 Chyba přihlášení na Yahoo
-;file \protocols\Yahoo\src\search.cpp
-[<Yahoo >]
-[<Lotus Sametime>]
-[<LCS>]
-[<Windows Live (MSN)>]
 ;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Stav lze změnit pouze po připojení k síti.
@@ -184,6 +192,7 @@ Sezn&am kontaktů
 [&Calendar]
 &Kalendář
 [Create Conference]
+
 [&Refresh]
 A&ktualizovat
 [&Show Profile]
@@ -197,8 +206,11 @@ Připomínka
 [%s has rejected your request and sent the following message:]
 %s odmítl/odmítla žádost. Text zprávy:
 [Invalid Contact]
+
 [The id you tried to add is invalid.]
+
 [Unknown Error??.]
+
 [New Mail]
 Nová pošta
 [You Have %i unread msgs]
@@ -208,10 +220,13 @@ Nová pošta (zpráv: %i)
 [From: %s\nSubject: %s]
 Od: %s\nPředmět: %s
 [Yahoo System Message]
+
 [Yahoo Ping Error]
 Chyba spojení s Yahoo
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Chyba při přihlašování do sítě Yahoo; neznámé uživatelské jméno. Zkontrolujte prosím, je-li jméno zadáno správně.
 [Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Chyba při přihlašování do sítě Yahoo; neplatné heslo. Zkontrolujte prosím, jsou-li jméno a heslo zadány správně.
 [Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
 Chyba při přihlašování do sítě Yahoo. Váš účet je zamknutý.\nPřejděte na %s, kde ho můžete znovu aktivovat.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]

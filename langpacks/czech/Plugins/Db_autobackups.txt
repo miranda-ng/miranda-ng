@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db_autobackups
-;  Version: x.x.x.x
+;  Version: 0.0.0.8
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
+[Backup progress]
+Průběh zálohování
 [Cancel]
 Zrušit
 [Automatic Backups]
@@ -27,12 +29,14 @@ Složka pro zálohování profilů:
 [Browse...]
 Procházet...
 [Go to the "Customize -> Folders" to change settings]
+
 [Disable progress bar]
 Vypnout ukazatel průběhu
 [Disable Popups]
 Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda Databases]
+
 [All Files]
 Všechny soubory
 [Backup in Progress]
@@ -47,9 +51,11 @@ Databáze zálohována
 [Backup Profile]
 Zazálohovat profil
 [Save Profile As...]
+
 [Database]
 Databáze
 [Database/Database Backups]
+
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to root miranda folder]
 cesta ke kořenové složce Mirandy

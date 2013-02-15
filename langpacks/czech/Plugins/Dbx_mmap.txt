@@ -2,10 +2,12 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Dbx_mmap
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
+[Install Database Settings]
+Konfigurace databáze
 [Yes]
 Ano
 [No]
@@ -20,6 +22,8 @@ Ne všem
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
 [Database settings are being imported from]
 Importovaný konfigurační soubor
 [This file wishes to change the setting]
@@ -36,7 +40,10 @@ Chcete povolit úpravu této položky?
 &Ne
 [Cancel Import]
 Zrušit import
+[Database Import Complete]
+Import databáze dokončen
 [The import has completed from]
+Import nastavení dokončen; z
 [What do you want to do with the file now?]
 Co chcete udělat s tímto souborem?
 [&Recycle]
@@ -49,44 +56,47 @@ Přesunout/Přej&menovat
 Ode&jít
 ;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
+
 [Database failure. Miranda will now shutdown.]
+
 [Database Error]
+
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
+
 [Database Panic]
 Poškození databáze
-;file \plugins\Db3x_mmap\src\dbcache.cpp
-[%s (MapViewOfFile failed. Code: %d)]
-[%s (CreateFileMapping failed. Code: %d)]
-[%s (Too large increment)]
-;file \plugins\Db3x_mmap\src\dbmodulechain.cpp
-[%s (Module Name not unique)]
-[%s (Module Offset not unique)]
-;file \plugins\Db3x_mmap\src\init.cpp
-[db3x mmap database support]
 ;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 Důkladný průchod databází
 [Aggressive: random junk at %08X: skipping]
+Důkladně; náhodná data na pozici %08X: vynecháno
 [Aggressive: unlinked data at %08X: can't automatically place]
+Důkladně; nepropojená data na pozici %08X: nelze automaticky umístit
 ;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
 [Processing contact chain]
 Procházení seznamem kontaktů
 [Contact count marked wrongly: correcting]
 Neplatný počet kontaktů: opraveno
 [Contact chain corrupted, further entries ignored]
+Seznam kontaktů je poškozen; ignorování dalších položek
 ;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
 Nalezen neplatný offset (nekompletní databáze?)
 [Invalid offset found]
 Nalezen neplatný offset
 [Error reading, database truncated? (%u)]
+Chyba při čtení databáze; nekompletní soubor? (%u)
 [Can't write to working file, aggressive mode may be too aggressive now]
+Nelze zapsat do pracovní kopie databáze; důkladný režim až příliš důkladný?
 [Can't write to output file - disk full? (%u)]
+Nelze zapsat do výstupního souboru; nedostatek místa na disku? (%u)
 ;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 Neplatný počet událostí: opraveno
 [Event chain corrupted, trying to recover...]
+Seznam událostí je poškozen; pokus o opravu...
 [Event chain corrupted, further entries ignored]
+Seznam událostí je poškozen; ignorování dalších položek
 [First event not marked as such: correcting]
 První událost nebyla označena jako první: opraveno
 [Event marked as first which is not: correcting]
@@ -112,6 +122,7 @@ Neplatná pozice v seznamu událostí: nelze opravit
 Dokončení závěrečných úloh
 ;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
+Podpis databáze je poškozen; automatickou opravu nelze provést
 [Database is marked as belonging to an unknown version of Miranda]
 Vybraná databáze není kompatibilní s vaší verzí Mirandy
 [Database is newly created and has no data to process]
@@ -126,12 +137,16 @@ Nelze vytvořit mapa přehledu souboru (%u)
 [Processing module name chain]
 Procházení seznamu modulů
 [Module chain corrupted, further entries ignored]
+Seznam modulů je poškozen; ignorování dalších položek
 [Unreasonably long module name, skipping]
+Příliš dlouhý název modulu; vynecháno
 [Module name '%s' is not unique: %d duplicates found)]
 Název modulu '%s' není jedinečný. Počet duplicit: %d
 [Invalid module name offset, skipping data]
+Neplatný offset názvu modulu; vynechání příslušných dat
 ;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
+Seznam nastavení je poškozen; ignorování dalších položek
 [Infeasibly large settings blob: skipping]
 Příliš velký slot pro nastavení: vynecháno
 [Empty settings group at %08X: skipping]
@@ -140,5 +155,6 @@ Prázdná skupina nastavení (pozice: %08X): vynecháno
 [Processing user data]
 Procházení uživatelských dat
 [User corrupted, this could cause major problems]
+Data jednoho z kontaktů jsou poškozena; může jít o závažný problém
 [More than one user contact: keeping only first]
 Více kontaktů téhož jména: ponechán první výskyt

@@ -2,19 +2,26 @@
 ;============================================================
 ;  File: TopToolBar.dll
 ;  Plugin: TopToolBar
-;  Version: 0.8.0.1
-;  Authors: 
+;  Version: 0.8.0.2
+;  Authors: Bethoven
 ;============================================================
+[ToptoolBar adds buttons in top frame for fast access.]
+
 ;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
 Pořadí tlačítek a jejich viditelnost
 [Button height]
+
 [Button width]
 Šířka tlačítka
 [Interval between buttons]
+
 [Use flat mode]
+
 [Auto resize]
+
 [Single line]
+
 [Buttons order:]
 Pořadí tlačítek:
 [Add Separator]
@@ -22,6 +29,7 @@ Pořadí tlačítek:
 [Add Launch]
 + tlačítko spuštění
 [Del Sep/Launch Button]
+
 [Name: ]
 Název
 [...]
@@ -30,18 +38,15 @@ Název
 Cesta:
 [Set]
 Nastavit
-;file \plugins\TopToolBar\src\common.h
-[TopToolbarButtonClass]
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Výchozí
-[Execute Path]
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
+
 [TopToolBar]
 Horní lišta
-;file \plugins\TopToolBar\src\toolbarwnd.cpp
-[Toolbar]
-Lišta tlačítek
 ;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact List]
 Seznam kontaktů
+[Toolbar]
+Lišta tlačítek

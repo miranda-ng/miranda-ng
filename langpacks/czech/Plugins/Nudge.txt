@@ -18,7 +18,7 @@ Zobrazit jako změnu stavu
 [Auto resend nudge after]
 Automaticky znovu drcnout po
 [s]
-s
+s
 [Enable popup notification]
 Povolit oznámení
 [Respect ignore settings (status changes)]
@@ -72,6 +72,7 @@ Statický
 [Shaking Message Window Options]
 Možnosti komunikačního okna
 [Shake the contact list]
+
 [Shake the chat window]
 Zatřást komunikačním oknem
 ;file \plugins\Nudge\src\main.cpp
@@ -82,7 +83,9 @@ Drcnutí
 [Default Nudge]
 Výchozí drcnutí
 [Nudge : Shake contact list/chat window]
+
 [Nudge : Send a nudge]
+
 [Nudge as Default]
 Drcnutí jako výchozí
 [Send Nudge]
@@ -91,6 +94,8 @@ Drc-drc
 Drcnutí
 [Nudge for %s]
 Drcnutí v síti %s
+[Send &Nudge]
+&Drc-drc
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
 No tak, probuď se!

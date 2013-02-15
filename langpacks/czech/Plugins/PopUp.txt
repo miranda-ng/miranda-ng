@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp
@@ -9,6 +9,7 @@
 [Content && Style]
 Chování a vzhled
 [Go to Customize > Fonts && Colors for fonts and colors options]
+
 [Miscellaneous]
 Ostatní
 [Effects]
@@ -40,6 +41,7 @@ pix.
 [Avatar size:]
 Velikost avataru:
 [32]
+
 [Enable avatar updates]
 Povolit aktualizaci avatarů
 [Multimonitor (98/ME/2000/XP)]
@@ -77,6 +79,7 @@ Omezit počet oznámení na
 [Skins]
 Skiny
 [R]
+
 [* - built-in skins]
 * - interní
 [Skin options]
@@ -85,6 +88,8 @@ Možnosti skinu
 Náhled
 [Download more skins]
 Stáhnout další skiny
+[Popup History]
+Historie oznámení
 [Desktop]
 Plocha
 [Popup Area]
@@ -142,9 +147,9 @@ Povolit tento druh oznámení
 [Popup timeout:]
 Doba zobrazení:
 [Left click action:]
-Akce na levé tlačítko:
+Levým tlačítkem:
 [Right click action:]
-Akce na pravé tlačítko:
+Pravým tlačítkem:
 [Disable when global status is...]
 Zakázat, je-li globální stav 
 [Disable when relevant protocol's status is...]
@@ -154,6 +159,7 @@ Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
 [More...]
 Více...
 [Disable if message window is open]
+
 [Sec]
 sek.
 [0 = Default]
@@ -218,18 +224,17 @@ Zavřít oznámení
 [Pin popup]
 Zobrazit trvale
 [Copy to clipboard]
-Kopírovat do schránky
+Zkopírovat do schránky
 [Action]
 Akce
 ;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 Obrázky ve formátu PNG vyžadují doplněk png2dib 0.1.3.x nebo novější.
-;file \plugins\Popup\src\common.h
-[debug]
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Žvahlav
 [`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Bylo smažno, lepě svihlí tlové\r\n se batoumali v dálnici,\r\n chrudošní byli borolové,\r\n na mamné krsy žárnící.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
 [Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
 Testovací náhled doplňku oznámení. Tento text je snad dost dlouhý na to, aby se nevešel na jeden řádek...
 [This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
@@ -240,14 +245,11 @@ Toto je oznámení :-)
 Toto je varovné hlášení :-o
 [This is an error message]
 Toto je chybové hlášení :-(
-;file \plugins\Popup\src\font.cpp
-[Hovered Action]
-Po najetí myši
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
+
 [Popup History message]
-[Popup History]
-Historie oznámení
+
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Třídy
@@ -262,22 +264,46 @@ Zapnout/vypnout oznámení
 [Enable popups]
 Povolit oznámení
 [Disable popups]
+
 [Enable &popup module]
 Zapnout oznámení (&globálně)
 [Disable &popup module]
 Vypnout oznámení (&globálně)
-[dir]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
+
+[PopUps]
+Oznámení
+[PopUp]
+
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 Bez efektu
 [Fade in/out]
 Plynulé přechody
 ;file \plugins\Popup\src\opt_class.cpp
-[CLASS Plugins]
-Doplňky
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+
 ;file \plugins\Popup\src\opt_gen.cpp
+[/Offline]
+
+[/Online]
+
+[/Invisible]
+
+[/Away]
+
+[/NA]
+
+[/Occupied]
+
+[/DND]
+
+[/Free for chat]
+
+[/Out to lunch]
+
+[/On the phone]
+
 [Width]
 Šířka
 [upper left corner]
@@ -292,20 +318,15 @@ Pravý horní roh
 vodorovné
 [vertical]
 svislé
-[Global Status]
-Globální stav
-[Protocol Status/%hs]
 [You cannot specify a value lower than %d and higher than %d.]
 Nelze zadat hodnotu nižší než %d a vyšší než %d.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 Upozorňujeme, že volba 'Obrátit pořadí' není zapnutá.\r\nTento fakt může způsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveň s doplňkem NewStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení pořadí?\r\n
 [Popup Plus Warning]
 Varování doplňku Oznámení plus
-[Cancel]
-Zrušit
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-[PopupPlusDlgBox]
+
 [Skin preview]
 Náhled skinu
 [Just take a look at this skin... ;)]
@@ -315,24 +336,22 @@ Zobrazit čas
 [Drop shadow effect (Windows XP+)]
 Zobrazit stín (XP+)
 [Drop shadow effect (Windows XP+)/non rectangular]
+
 [Enable Aero Glass (Vista+)]
 Povolit Aero Glass (Vista+)
 [Use Windows colours]
 Použít barvy Windows
 [Use advanced text render]
 Použít pokročilé vykreslování textu
-[Global settings]
-Globální nastavení
 [Refresh List]
 Aktualizovat seznam
 ;file \plugins\Popup\src\popup_thread.cpp
-[PopupThreadManagerWnd]
 ;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
+
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
-[PopupMenuHostWnd]
+
 ;file \plugins\Popup\src\services.cpp
-[WorkerW]
 [Error]
 Chyba
 [Warning]
@@ -340,17 +359,17 @@ Upozornění
 [Notify]
 Oznámení
 ;file \plugins\Popup\src\skin.cpp
-[res:]
-[Skin]
-Vzhled
-[* Popup Classic]
-[\\skins\\popup]
 [The skin you are trying to load is designed\r\nfor newer version of Popup Plus. And will not\r\ndisplay properly.\r\n\r\nPlease choose another skin.]
+
 ;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
+
 [Popup Mode: Favourite]
+
 [Popup Mode: Ignore fullscreen]
+
 [Popup Mode: Block contact]
+
 [Auto]
 Auto
 [Favourite]

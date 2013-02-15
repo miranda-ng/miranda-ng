@@ -1,6 +1,2 @@
-﻿;[Message Received]
-;[Received %d contacts.]
-;[TMsgWindow]
-;[TfrmContainer]
-;[This is a sample URL event ;-)]
-;[This is a sample other event ;-D]
+﻿[Message Received]
+[Received %d contacts.]

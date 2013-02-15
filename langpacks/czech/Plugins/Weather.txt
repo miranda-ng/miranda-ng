@@ -6,6 +6,7 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
+
 ;file \plugins\Weather\res\resource.rc
 [Update]
 Aktualizovat
@@ -80,8 +81,11 @@ beze změny
 [3 chars]
 3 znaky
 [Elevation]
+
 [ft]
+
 [m]
+
 [Do not append units to values]
 Nezobrazovat jednotky
 [Do not display fractional values]
@@ -90,6 +94,8 @@ Nezobrazovat zlomkové hodnoty
 Okno
 [Avatar size]
 Velikost avatarů
+[Edit Weather Station]
+Možnosti stanice
 [Weather Station]
 Meteorologická stanice
 [City name]
@@ -107,6 +113,7 @@ Při aktualizaci přepsat soubor
 [Path:]
 Cesta:
 [6]
+
 [Link Settings]
 Odkazy
 [More Info URL]
@@ -207,7 +214,10 @@ Rosný bod
 Vlhkost
 [More...]
 Více...
+[Weather Protocol INI Setup]
+Nastavení konfiguračního souboru pro počasí
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
+
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
 Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
 [Click here to download a weather ini file from Miranda file listing]
@@ -219,10 +229,15 @@ Načíst data nového konfiguračního souboru
 [Add new weather station and close this dialog]
 Přidat novou meteorologickou stanici a zavřít dialog
 [Total INI files]
+
 [Total memory used]
+
 [Reload INI]
+
 [City:]
 Město:
+[Menu]
+Menu
 [Dismiss PopUp]
 Zavřít oznámení
 [Open brief information]
@@ -245,6 +260,7 @@ Předchozí nastavení
 Výchozí nastavení
 ;file \plugins\Weather\src\weather.cpp
 [Enable/disable auto update]
+
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
@@ -253,12 +269,11 @@ Aktivovat automatickou aktualizaci
 Počasí (změna počasí)
 [Weather Alert Issued]
 Počasí (varování)
-[%s__PopupWindow]
-[static]
 ;file \plugins\Weather\src\weather.h
 [N/A]
 <neuvedeno>
 [Invalid ID format, missing "/" (10)]
+
 [Invalid service (11)]
 Neplatná služba (č.11)
 [Invalid station (12)]
@@ -276,23 +291,41 @@ Dokument neobsahuje data o počasí (č.43)
 [Unknown error (99)]
 Neznámá chyba (č.99)
 [HTTP Error: No content (204)]
+
 [HTTP Error: Data moved (301)]
+
 [HTTP Error: Use proxy (305)]
+
 [HTTP Error: Temporary redirect (307)]
+
 [HTTP Error: Bad request (400)]
+
 [HTTP Error: Unauthorized (401)]
+
 [HTTP Error: Payment required (402)]
+
 [HTTP Error: Forbidden (403)]
+
 [HTTP Error: Not found (404)]
+
 [HTTP Error: Method not allowed (405)]
+
 [HTTP Error: Proxy authentication required (407)]
+
 [HTTP Error: Gone (410)]
+
 [HTTP Error: Internal server error (500)]
+
 [HTTP Error: Bad gateway (502)]
+
 [HTTP Error: Service unavailable (503)]
+
 [HTTP Error: Gateway timeout (504)]
+
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nTeplota: %t\nSubj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosný bod: %e\nViditelnost: %v\n\nVýchod slunce: %r\nZápad slunce: %y\n\nPředpověď na 5 dnů:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Subj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosný bod: %e\nViditelnost: %v\n\nVýchod slunce: %r\nZápad slunce: %y\n\nPředpověď na 5 dnů:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
 Aktuální situace: %n, %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -302,6 +335,7 @@ Aktuální situace: %n, %u
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nDnes:  Max. %h, min. %l
 [Temperature: %[Temperature]]
+
 ;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.
@@ -315,9 +349,7 @@ Prosím zkuste znovu po aktualizaci předpovědi počasí.
 <zde zadejte název stanice>
 [<Enter station ID here>]
 <zde zadejte identifikátor stanice>
-[NAME]
 ;file \plugins\Weather\src\weather_contacts.cpp
-[open]
 [Weather condition was not logged.]
 Předpověď počasí nebyla zaznamenána.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -339,87 +371,18 @@ Textové soubory
 [All Files]
 Všechny soubory
 ;file \plugins\Weather\src\weather_conv.cpp
-[KPA]
-[HPA]
-[TORR]
-["\r\nvoid GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str) \r\n{\r\n	// unit can be km/h, mph, m/s, knots\r\n	double tempunit;\r\n	TCHAR tstr[20];\r\n\r\n	str[0] = 0;\r\n\r\n	// convert the string into an integer (always positive)\r\n	// if the result is 0, then the string is not a number, return _T(""\r\n	tempunit = _ttof(tempchar);\r\n	if (tempunit == 0 && tempchar[0] != '0]
-[KM/H]
-[M/S]
-[MPH]
-[KNOTS]
-[MILES]
-[Lightning]
-[Fog]
-hustá mlha
-[Snow Shower]
-sněhová přeháňka
-[Snow]
-sněžení
-[Rain Shower]
-dešťová přeháňka
-[Rain]
-déšť
-[Partly Cloudy]
-částečně oblačno
-[Cloudy]
-oblačno
-[Sunny]
-slunečno
-[mainy sunny]
-[mainy clear]
-[partly cloudy]
-[mostly]
-[clouds]
-[sunny]
-[clear]
-[fair]
-[thunder]
-[t-storm]
-[cloud]
-[overcast]
-[fog]
-[mist]
-[smoke]
-[sand]
-[dust]
-[haze]
-[shower]
-[snow]
-[flurries]
-[rain shower]
-[ice]
-[freezing]
-[wintry]
-[drizzle]
-[rain]
-[%20"\r\n// dis = original string\r\n// return value = the modified string with space -> _T("%20"\r\nchar *GetSearchStr(char *dis) \r\n{\r\n	char *pstr = dis;\r\n	size_t len = strlen(dis);\r\n	while (*pstr != 0)\r\n	{\r\n		if (*pstr == ' ]
 [<unknown time>]
 <neznámý čas>
 [<Error>]
 <chyba>
 [HTTP Error %i]
+
 ;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <zde zadejte město>
-[High]
-Max.
-[Low]
-Min.
-[Feel]
-Subj.
-[Wind Speed]
-Rychlost větru
-[COND]
-[DEG]
-[DAY]
-[MONTH]
-[Ignore]
-Filtrování
 [Error when obtaining data: %s]
 Chyba při stahování dat: %s
 ;file \plugins\Weather\src\weather_http.cpp
-[Error occured! HTTP Error: %i\n]
-[NetLib error occurred!!]
 [Weather HTTP connections]
 Weather - spojení pomocí protokolu HTTP
 ;file \plugins\Weather\src\weather_icons.cpp
@@ -444,18 +407,10 @@ Oznámení vypnuto
 [Edit Settings]
 Upravit nastavení...
 ;file \plugins\Weather\src\weather_info.cpp
-[Name]
-Jméno
-[Author]
-Autor
-[File Version]
-[INI Version]
-[Items]
-Položky
-[Display Name]
-[File Name]
 [The corresponding INI file for "%s" is not found.]
+
 [Weather INI information for "%s":]
+
 [Name:]
 Název:
 [Internal Name:]
@@ -479,16 +434,10 @@ Popis:
 [Here is a list of custom variables that are currently available]
 Seznam ostatních proměnných, které jsou k dispozici:
 ;file \plugins\Weather\src\weather_ini.cpp
-[ID Search - Station Name]
 [No update data file is found.  Please check your Plugins\\Weather directory.]
 Nelze najít konfigurační soubor. Podívejte se do složky Plugins\\Weather.
 [Invalid ini format for: %s]
 Neplatný formát souboru ini: %s
-[Name Search Single Result - Station Name]
-[Name Search Single Result - Station ID]
-[Name Search Multiple Result - Station Name]
-[Name Search Multiple Result - Station ID]
-[\\Plugins\\weather\\]
 [All update data has been reloaded.]
 Aktualizovaná data byla znovu načtena.
 ;file \plugins\Weather\src\weather_mwin.cpp
@@ -496,11 +445,8 @@ Aktualizovaná data byla znovu načtena.
 Písmo v rámečku
 [Frame Title Font]
 Písmo v záhlaví rámečku
-[Weather: %s]
-[WeatherFrame]
 [Frame Background]
 Barva pozadí rámečku
-[Verdana]
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Sítě
@@ -520,14 +466,12 @@ Jméno města
 [Here is a short weather description]
 Krátký popis počasí
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+
 [%[..]\tcustom variables]
+%[..]\tspeciální proměnné
 ;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifikátor
-[Light]
-[SShower]
-[RShower]
-[PCloudy]
 [Disable &weather notification]
 Vypnout oznámení &počasí
 [Enable &weather notification]
@@ -553,20 +497,8 @@ Předpověď počasí
 [Display in a frame]
 Zobrazit v rámečku
 ;file \plugins\Weather\src\weather_update.cpp
-[<-- Start update for station -->]
 [Unable to retrieve weather information for %s]
 Nelze stáhnout předpověď počasí pro %s
-[Error! Update cannot continue... Start to free memory]
-[<-- Error occurs while updating station: %s -->]
-[Alert for %s%c%s]
-[Update Completed - Start to free memory]
-[<-- Update successful for station -->]
-[Document Not Found]
-[Condition]
-Situace
-[Cond]
-[Alert]
-Upozornění
 ;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 Aktuální předpověď pro %n
@@ -581,3 +513,4 @@ Aktualizace dat, počkejte prosím...
 [More Info]
 Informace
 [No information available.\r\nPlease update weather condition first.]
+

@@ -6,6 +6,7 @@
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
+
 ;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 Akce při spuštění
@@ -49,6 +50,8 @@ Varovat když jsou některé kontakty z poslední relace skryty
 Zobrazovat ostatní varování ("relace je již otevřena", atd...)
 [Crash Recovery mode]
 Mód obnovení po pádu
+[Restore Session]
+Obnovit relaci
 [&Restore Session]
 Obnovit &relaci
 [&Cancel]
@@ -57,35 +60,55 @@ Obnovit &relaci
 Zvolit relaci pro obnovení ze seznamu:
 [Del]
 Smazat
+[Save Session]
+
 [&Save Session]
+
 [Enter session name:]
+
 [Save and Close]
+
 [adv.]
+
+[Sessions Manager]
+Správce relací
 [OK]
 OK
 [Cancel]
 Zrušit
 [Save your current session?]
+
 ;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]
+
 [Not favorite Session]
+
 [Load Session]
-[Save Session]
+
 [Load last Session]
+
 [Current session is empty!]
-[Sessions Manager]
-Správce relací
+
 [Session name is empty, enter the name and try again]
+
 [No sessions to open]
+
 [Last Sessions is empty]
+
 [No contacts to open]
+
 [This Session already opened]
+
 [This Session already opened(but probably hidden)\nDo you want to show hidden contacts?]
+
 [Open Sessions Manager]
+
 [Show Favorite Sessions Menu]
+
 [Restore last Session]
+
 [Close Session]
-Zavřít rozhovor
+Zavřít relaci
 [Save session...]
 Uložit relaci...
 [Load session...]
@@ -101,3 +124,4 @@ Zobrazit
 Komunikace
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
+

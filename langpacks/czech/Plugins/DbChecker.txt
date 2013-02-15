@@ -2,12 +2,14 @@
 ;============================================================
 ;  File: dbchecker.dll
 ;  Plugin: Database Checker
-;  Version: x.x.x.x
+;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
+
 ;file \plugins\DbChecker\res\resource.rc
 [whiterect]
+
 [Welcome to the Miranda Database Wizard]
 Vítá vás průvodce správou databáze Mirandy!
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -16,6 +18,8 @@ Tento průvodce vám jednak umožní pročistit databázi od balastu, který se 
 Pokračujte kliknutím na tlačítko 'Další'.
 [This programme is licenced under the terms of the GNU General Public License.]
 Tento program je šířen v souladu s podmínkami licence GNU General Public License.
+[Miranda Database Tool]
+Nástroj pro správu databáze Mirandy
 [< &Back]
 < &Zpět
 [&Next >]
@@ -71,11 +75,13 @@ Označí všechny události historie jako přečtené. To by mělo pomoci v př�
 [Convert old Unicode messages to UTF8]
 Zkonvertovat zprávy do kódování UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
+Převede všechny zprávy v historii z původní kombinace kódování ANSI+UCS2 do UTF8 (doporučujeme; platí pro Mirandu řady 0.7.x). Ve většině případů dojde ke zmenšení velikosti databáze.
 [Working...]
 Probíhá údržba...
 [Please wait while the requested operations are being performed.]
 Počkejte prosím, správce provádí požadovanou údržbu databáze.
 [Progress1]
+
 [Finished!]
 Dokončeno!
 [All tasks have been completed.]
@@ -96,32 +102,21 @@ Kontrola databáze byla dokončena. Chcete-li průvodce spustit znovu, klikněte
 Pokračujte kliknutím na tlačítko 'Další'
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 Zpracování ještě nebylo dokončeno. Pokud jej nyní zrušíte, změny, které byly aktuálně provedeny, budou vráceny zpět a originální databáze bude obnovena. Opravdu si přejete zpracování zrušit?
-[Miranda Database Tool]
-Nástroj pro správu databáze Mirandy
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
 Zpracování ještě nebylo dokončeno. Pokud se nyní vrátíte zpět, změny, které byly aktuálně provedeny, budou vráceny zpět a originální databáze bude obnovena. Opravdu si přejete vrátit se zpět?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
+
 [Error]
 Chyba
 [Database driver '%s' doesn't support checking.]
+
 [Database]
 Databáze
-[ProfileDir]
-[./Profiles]
-[%.2lf MB]
 [Total size]
 Celková velikost
 [Wasted]
 Balast
-[\\Profiles]
-[[ini]\\]
-[[prf]\\]
-[Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe]
-[Path]
-Cesta
-[[reg]\\]
-[Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
 [Miranda Databases (*.dat)]
 Databáze Mirandy (*.dat)
 [All Files]
@@ -153,5 +148,6 @@ Procházení přerušeno uživatelem
 [Elapsed time: %d sec]
 Délka kontroly: %d sek.
 [All tasks completed but with errors (%d)]
+Všechny úlohy byly dokončeny; počet chyb: %d
 [All tasks completed successfully]
 Všechny úlohy byly úspěšně dokončeny

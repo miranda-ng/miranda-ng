@@ -2,21 +2,30 @@
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver
-;  Version: x.x.x.x
+;  Version: 0.7.5.4
 ;  Authors: 
 ;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[Login to Miranda NG]
+
 [EN]
+
 [OK]
 OK
 [Cancel]
 Zrušit
+[New password]
+
+[Change password]
+Změnit heslo
 [Change]
 Změnit
 [Remove]
 Odebrat
-[New password]
 [Old password]
+
+[Install Database Settings]
+Konfigurace databáze
 [Yes]
 Ano
 [No]
@@ -31,6 +40,8 @@ Ne všem
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
 [Database settings are being imported from]
 Importovaný konfigurační soubor
 [This file wishes to change the setting]
@@ -47,7 +58,10 @@ Chcete povolit úpravu této položky?
 &Ne
 [Cancel Import]
 Zrušit import
+[Database Import Complete]
+Import databáze dokončen
 [The import has completed from]
+Import nastavení dokončen; z
 [What do you want to do with the file now?]
 Co chcete udělat s tímto souborem?
 [&Recycle]
@@ -61,17 +75,22 @@ Ode&jít
 [Database encryption]
 Šifrování databáze
 [Info:]
+
 [Author:]
 Autor:
 [Site:]
 Stránka:
 [Email:]
+
 [Unique ID:]
 ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
+
 [You are not authorized for access to Database]
+
 [Secured MMAP: authorization successful]
+
 [Database is marked as belonging to an unknown version of Miranda]
 Vybraná databáze není kompatibilní s vaší verzí Mirandy
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
@@ -81,17 +100,18 @@ Funkce databáze
 Databáze
 [Change Password]
 Změnit heslo
-[Change password]
-Změnit heslo
 [Set password]
 Nastavit heslo
 [Dll]
+
 [Name]
 Jméno
 [Version]
 Verze
 [Please type in your password for]
+
 [Too many errors!]
+
 [Password is not correct!]
 Zadané heslo není správné!
 [Please enter your new password]
@@ -101,14 +121,17 @@ Heslo je příliš krátké!
 [Passwords do not match!]
 Zadaná hesla se neshodují!
 [Wrong password!]
-;file \plugins\Dbx_mmap_SA\src\init.cpp
-[db3x secure mmap database support]
+
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[cryptors\\%s]
 [Sorry, but your database encrypted with unknown module]
+
 [Error]
 Chyba
 [Crypto modules not found]
+
 [DB is already secured!]
+
 [current database]
+
 [Set Password]
+

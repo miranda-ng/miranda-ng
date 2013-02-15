@@ -1,17 +1,23 @@
 ﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;============================================================
 ;  File: ClientChangeNotify.dll
-;  Plugin: Client Change Notify
+;  Plugin: Client change notify
 ;  Version: 0.1.1.3
 ;  Authors: Deathdemon
 ;============================================================
-[ClientChangeNotify plugin for Miranda NG.]
+[Shows a notification when someone in your contact list changes his client.]
+
 ;file \plugins\ClientChangeNotify\res\Resources.rc
+[ClientChangeNotify error]
+ClientChangeNotify :: chyba
 [OK]
 OK
 [Fingerprint plugin not found.]
+
 [ClientChangeNotify requires it to work properly.]
+
 [Don't remind me anymore]
+
 [Enable notification]
 Povolit oznámení
 [Show previous client name]
@@ -51,21 +57,24 @@ Ignorovat tyto klienty (oddělené středníkem):
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 (potřebujete mít pcre.dll nebo pcre3.dll pro použití regulérních výrazů)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
-[static]
 [changed client to %s (was %s)]
 změnil klienta na %s (předtím %s)
 [changed client to %s]
 změnil klienta na %s
-[Miranda NG ICQ 0.93.5.3007]
 [%s (was %s)]
 %s (předtím %s)
 [) changed client to ]
 ) změna klienta na 
 [Client change notifications:]
+
 [Never, ignore client changes for this contact]
+
 [Always except when client change notifications are disabled globally]
+
 [Always, even when client change notifications are disabled globally]
+
 [Use global settings (default)]
+
 [Disable c&lient change notification]
 Vypnout oznámení o změně klienta
 [Enable c&lient change notification]
@@ -76,16 +85,16 @@ Oznámení
 Změna klienta
 [ClientChangeNotify]
 Změna klienta
-[ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) změnil klienta na %extratext%
 ;file \plugins\ClientChangeNotify\src\Misc.h
-[open]
 [Error #%d]
 Chyba č.%d
 [Can't open log file ]
 Nepodařilo se otevřít soubor záznamu
 ;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
+
 [Open message window]
 Otevřít komunikační okno
 [Close popup]
@@ -100,4 +109,3 @@ Zobrazit historii kontaktu
 Zobrazit záznam
 [Do nothing]
 Nedělat nic
-[gmail;skype;/Miranda[0-9A-F]{8}/]

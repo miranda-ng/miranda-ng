@@ -1,43 +1,99 @@
-﻿;#muuid not found, please specify manually!
-;langpack template for importtxt
-;file \plugins\ImportTXT\ImpTxtDlg.rc
-[Start]
-Začít
-[Close]
-Zavřít
+﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;============================================================
+;  File: importtxt.dll
+;  Module: Imports history saved in TXT files from other clients
+;  Versions: 0.0.1.10
+;  URL: 
+;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
+;  Authors: Abyss
+;============================================================
+[Imports history saved in TXT files from other clients.]
+
+[Import history to ]
+
+[Import history]
+
 [Choose a file...]
-[...]
-...
-;file \plugins\ImportTXT\ImpTxtWiz.rc
-[&Next >]
-&Další >
-[Cancel]
-Zrušit
-[< &Back]
-< &Zpět
+
+[Choose a pattern...]
+
+[Choose a file for import...]
+Vyberte soubor k importu...
+[Text files (*.txt)]
+
+[All files (*.*)]
+Všechny soubory (*.*)
+[Error in cfg file: ]
+
+[No Files Patterns Found]
+
+[No messages in this file]
+
+[Import started...]
+
+[Added: %d messages]
+
+[Duplicates: %d messages]
+
+[In: %d:%d:%d]
+
+[Import not finished. Do you realy want close?]
+
+[Error adding message to DB]
+
+[Error opening file]
+
+[Error mapping file]
+
+[Error mapping]
+
+[Header not found]
+
+[Import Text Files Wizard]
+Průvodce importem textových souborů
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
 Tento průvodce vám pomůže naimportovat historii ostatních klientů a doplňků Mirandy, uloženou v textových souborech.
-[It is recommended that you create a backup of your current Miranda profile before importing.]
-Předtím než budete pokračovat, doporučujeme vám zazálohovat stávající profil.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
+
 [Choose type of imported files:]
 Vyberte typ importovaných souborů:
 [Select files or the whole directory for import:]
 Vyberte soubory nebo celou složku pro import:
 [Files...]
 Soubory...
-[Path:]
-Cesta:
-[Files:]
-Soubory:
 [Directory...]
 Složka...
 [All previous chosen files will try to import to this protocol.]
+
 [Select protocol or account:]
-[Now importing...]
-Import dat...
-[Progress1]
-;file \plugins\ImportTXT\FileDlgs.pas
+
+[Click "Next" to start Import or "Cancel" to Abort.]
+
 [Select folder for import...]
-;file \plugins\ImportTXT\ImportTxtWiz.pas
-[Finish]
-Dokončit
+
+[File: %s]
+
+[To: %s]
+
+[Can''t determine destination contact]
+
+[Default extension]
+Výchozí přípona
+[Its not %s file]
+
+[Duplicate:]
+
+[Your version of Miranda don't support XML parsing]
+
+[Check for duplicates]
+
+[Check messages for duplicates]
+
+[Show duplicates]
+
+[Error at initialization XML parser]
+
+[Import history to %s (%s)]
+
+[Can't determine destination contact]
+

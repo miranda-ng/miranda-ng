@@ -137,6 +137,8 @@ Zobrazit upozornění i v případě, že není otevřeno okno
 Blikat v oblasti oznámení a okně s kontakty
 [Show balloon popup]
 Oznámit pomocí bubliny
+[Send Error]
+Chyba při odesílání
 [An error has occured. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [while sending the following message:]
@@ -145,18 +147,30 @@ během odesílání následující zprávy:
 Opakovat
 [Cancel]
 Zrušit
+[Message Session]
+Rozhovor
 [&U]
+
 [&D]
+
 [&E]
+
 [&H]
+
 [&Q]
+
+[Send To All Tabs]
+
 [You are about to send a message to all open tabs.\nAre you sure ?]
+
 [Remember my choice for this container]
+
 [Yes]
 Ano
 [No]
 Ne
 [Show these events only:]
+
 [Actions]
 Akce
 [Messages]
@@ -164,9 +178,9 @@ Zprávy
 [Nick changes]
 Změny přezdívky
 [Users joining]
-Přícházející uživatele
+Příchody uživatelů
 [Users leaving]
-Odcházející uživatele
+Odchody uživatelů
 [Topic changes]
 Změny tématu
 [Status changes]
@@ -176,7 +190,7 @@ Informace
 [Disconnects]
 Odpojení
 [User kicks]
-Vykopnutí uživatele
+Vykopnutí
 [Notices]
 Poznámky
 [Options]
@@ -214,6 +228,7 @@ Umístění
 [Trim to]
 Max.
 [kB]
+
 [Group Chat]
 Skupinový rozhovor
 [Use same style as in the message log]
@@ -232,6 +247,8 @@ Prodleva (s)
 (0 = výchozí nastavení, -1 = vypnutí prodlevy)
 [OK]
 OK
+[Log]
+Záznam
 [&Copy]
 Z&kopírovat
 [Co&py All]
@@ -241,19 +258,29 @@ Vybr&at vše
 [Word lookup]
 Vyhledávání slova
 [Google]
+
 [Bing]
+
 [Wikipedia (en)]
+
 [Google Maps]
+
 [Google Translate]
+
 [Yahoo]
 Yahoo
 [Foodnetwork]
+
 [C&lear Log]
 Vy&mazat záznam
+[LogLink]
+
 [&Open link]
 &Otevřít odkaz
 [&Copy link]
 Z&kopírovat odkaz
+[Message]
+Zpráva
 [Undo]
 Zpět
 [Redo]
@@ -274,6 +301,8 @@ Vymazat
 Zavřít ostatní panely
 [Close Tab]
 Zavřít panel
+[List]
+Seznam
 [&Message]
 &Zpráva
 [Clear lo&g]
@@ -340,6 +369,7 @@ Zobrazit seznam účastníků
 [Status 1 (10x10)]
 Stav č.1 (10x10)
 [Status 2 (10x10]
+
 [Status 3 (10x10)]
 Stav č.3 (10x10)
 [Status 4 (10x10)]
@@ -437,7 +467,6 @@ Vložit citaci
 Poslat všem
 [Action: Paste & Send]
 Vložit text a poslat
-[mailto:]
 ;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 Citovat
@@ -454,6 +483,9 @@ Historie
 [Send]
 Poslat
 [Look up '%s':]
+
+[No word to look up]
+Není co vyhledat
 [Add Contact Permanently to List]
 Přidat do seznamu natrvalo
 [View User's Details]
@@ -475,20 +507,24 @@ Uživatelské menu - %s
 [is now %s (was %s)]
 (současný stav: %s, předchozí stav: %s)
 [Sending in progress: %d message(s) left...]
+Odesílání; počet zpráv k odeslání: %d
 [%s is typing a message...]
 %s píše zprávu...
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
 ;file \plugins\Scriver\src\msglog.cpp
-['(Unknown Contact)']
-'(neznámý kontakt)'
 [Unknown Contact]
 Neznámý kontakt
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
+
 [to tiny bits, in Thy mercy]
+
 [My Contact]
+
 [Lorem ipsum dolor sit amet,]
+
 [consectetur adipisicing elit]
+
 [Today]
 Dnes
 [Yesterday]
@@ -510,7 +546,6 @@ Záznam událostí
 Záznam rozhovorů
 [Outgoing messages]
 Odchozí zprávy
-[Arial]
 [Outgoing background]
 Pozadí odchozích zpráv
 [Incoming messages]
@@ -521,7 +556,6 @@ Pozadí příchozích zpráv
 Odchozí jméno
 [Outgoing time]
 Odchozí čas
-[Terminal]
 [Outgoing colon]
 Odchozí dvojtečka
 [Incoming name]
@@ -541,11 +575,11 @@ Příchozí odkaz
 [Infobar contact name]
 Jméno v informační liště
 [Infobar background]
+
 [Infobar status message]
 Stav v informační liště
 [Others nicknames]
 Ostatní přezdívky
-[Verdana]
 [Your nickname]
 Vaše přezdívka
 [User has joined]
@@ -628,7 +662,7 @@ Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
 [Instant messages]
-Rozhovor
+Zprávy
 [Incoming (Focused Window)]
 Příchozí (aktivní okno)
 [Incoming (Unfocused Window)]
@@ -640,19 +674,13 @@ Odchozí
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.
-[Send Error]
-Chyba při odesílání
 ;file \plugins\Scriver\src\msgwindow.cpp
-[Message Session]
-Rozhovor
 [Always On Top]
 Vždy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
 ;file \plugins\Scriver\src\chat\clist.cpp
-[Chat rooms]
-Místnosti chatu
 [Join chat]
 Přidat se do diskuse
 [Open chat window]
@@ -676,12 +704,17 @@ Vykopnutí: %s -> %s
 [Notice from %s]
 Poznámka (napsal: %s)
 [The topic is '%s%s']
+
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
 [%s enables '%s' status for %s]
+
 [%s disables '%s' status for %s]
+
+[<invalid>]
+<neplatný>
 ;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 Při&jít
@@ -709,6 +742,7 @@ Zobrazit stav účastníků (je-li to podporováno)
 [Display contact status icon before role icon]
 Zobrazit ikonu stavu kontaktu před ikonou jeho role
 [Add ':' to auto-completed names]
+
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
 [Only prefix with timestamp if it has changed]
@@ -722,6 +756,7 @@ Omezit délku jmen v záznamu na 20 znaků
 [Strip colors from messages]
 Záznam ukládat bez kódů definující barvy
 [Enable 'event filter' for new rooms]
+
 [Show topic changes]
 Zobrazit informaci o změně tématu
 [Show users joining]
@@ -837,6 +872,7 @@ zkrácené jméno měsíce
 [full month name]
 celé jméno mesíce
 [year without century, 01-  99]
+
 [year with century, 1901-9999]
 rok včetně století, 1901-9999
 [abbreviated weekday name]
@@ -848,6 +884,7 @@ Proměnné
 [Appearance]
 Vzhled
 [Default events to show in new chat rooms if the 'event filter' is enabled]
+
 [Select Folder]
 Vyberte požadovanou složku
 [PopUps]
@@ -870,6 +907,7 @@ Odeslání poznámky
 Změna tématu diskuse
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
+
 ;file \plugins\Scriver\src\chat\tools.cpp
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
@@ -886,7 +924,9 @@ Změna tématu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
+
 [%s disables '%s' status for %s in %s]
+
 [%s says: %s]
 %s píše: %s
 [%s has left (%s)]
@@ -898,16 +938,9 @@ Informace (na %s)
 [Notice from %s: %s]
 Poznámka od %s: %s
 [The topic is '%s']
+
 [The topic is '%s' (set by %s)]
-[ab+]
-[%#d]
-[%#m]
-[mon]
-[month]
-měsíc
-[yyyy]
-[wday]
-[weekday]
+
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 Kurzíva
@@ -945,7 +978,12 @@ Zobrazí/skryje seznam účastníků (CTRL+N)
 Možnosti řízení kanálu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Aktivuje/deaktivuje filtrování událostí (CTRL+F)
-[AQG_glo']
+[Nick name]
+Přezdívka
+[Unique id]
+Identifikátor
+[Status]
+Stavy
 [%s: Chat Room (%u user)]
 %s: kanál (účastníků: %u)
 [%s: Chat Room (%u users)]
@@ -954,6 +992,3 @@ Aktivuje/deaktivuje filtrování událostí (CTRL+F)
 %s: rozhovor
 [%s: Message Session (%u users)]
 %s: rozhovor (účastníků: %u)
-[%s: Server]
-[AQGgl']
-[AQGg']

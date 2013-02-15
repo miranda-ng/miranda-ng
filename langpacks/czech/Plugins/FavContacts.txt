@@ -12,6 +12,7 @@ Orámovat avatary
 [Round corners by]
 Zaoblit rohy o
 [px.]
+
 [Hide for transparent avatars]
 Skrýt pro průhledné avatary
 [Use system colors and fonts]
@@ -38,24 +39,17 @@ Zobrazit
 posledních kontaktů
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
+
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
+
 [Regular Contact]
-[Favourite Contacts plugin was designed to be used with Miranda IM and Miranda NG only.\nFor use with any other application, please contact author.\n]
-[Favourite Contacts Error]
-[Contact name]
-[Second line]
-Druhý řádek
-[Selected contact name (color)]
-[Selected second line (color)]
-[Background]
-Pozadí
-[Selected background]
-Vybrané pozadí
+
 [Contacts]
 Kontakty
 [Favourites]
 Oblíbené
-[FavContactsMenuHostWnd]
 [&Favourite Contacts...]
+
 [<No group>]
+

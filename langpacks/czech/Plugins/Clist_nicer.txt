@@ -1,8 +1,17 @@
 ﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
-;langpack template for Clist_nicer
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.1
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Displays contacts, event notifications, protocol status.]
+
 ;file \plugins\Clist_nicer\res\resource.rc
+[CList Nicer exception]
+
 [Copy to clipboard]
-Kopírovat do schránky
+Zkopírovat do schránky
 [Continue]
 Pokračovat
 [Exit Miranda]
@@ -61,20 +70,26 @@ Prodleva
 Výchozí
 [ms]
 ms
+[About CList Nicer+]
+O doplňku CList Nicer+
 [OK]
 OK
 [Clist Nicer+]
 Clist Nicer+
 [Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+
 [Version]
 Verze
 [Support and latest version information]
 Podpora, hlášení chyb a informace o nových verzích
+[Delete Contact]
+Smazání kontaktu
 [No]
 Ne
 [Yes]
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 (Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
@@ -260,7 +275,7 @@ Mezera mezi rámečky
 [Translucency options (Windows 2000/XP only)]
 Průhlednost (pouze Windows 2000 a XP)
 [Transparent contact list]
-Nastavit průhlednost seznamu kontaktů
+Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
 [Active opacity:]
@@ -356,8 +371,9 @@ Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
 [+]
+
 [-]
--
+-
 [New]
 Nový
 [Include groups]
@@ -432,6 +448,8 @@ Ignorovat výběr skupiny
 Importovat skin
 [Export to skin file]
 Exportovat skin
+[Dialog]
+Dialog
 [Ignore these events]
 Filtrování událostí
 [Messages]
@@ -474,8 +492,12 @@ Zobrazit druhý řádek:
 Použít překryvné ikony (na avatar)
 [Show local time]
 Zobrazit místní čas
+[&¤]
+
 [E&xit]
 U&končit
+[&Status]
+&Stav
 [&Offline\tCtrl+0]
 &Offline\tCtrl+0
 [On&line\tCtrl+1]
@@ -496,8 +518,12 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
+[Tray]
+Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
+[Nowhere]
+
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -520,6 +546,8 @@ Př&ejmenovat skupinu
 &Smazat skupinu
 [Move marked Contacts to this Group]
 Přesunout vybrané kontakty do této skupiny
+[Appearance]
+Vzhled
 [Show Status Icons]
 Zobrazit stavové ikony
 [Show Metacontact proto Icons]
@@ -585,6 +613,7 @@ Ignorovat položku
 <zatím mimo provoz>
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
+
 [<None>]
 Není
 [Raised]
@@ -617,7 +646,9 @@ Minimalizovat seznam
 [Status menu]
 Nabídka stavů
 [tabSRMM session list]
+
 [tabSRMM Menu]
+
 [Select view mode]
 Vybrat režim zobrazení
 [Setup view modes]
@@ -700,7 +731,6 @@ Skiny
 [Contact list]
 Seznam kontaktů
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
-[FOO]
 [Add permanently]
 Přidat natrvalo
 [Revert to default]
@@ -741,8 +771,6 @@ Výchozí režim zobrazení
 Konfigurace režimu zobrazení
 [Setup accounts]
 Konfigurace účtů
-[EventArea]
-Oblast pro události
 [Event Area]
 Oblast pro události
 [My Contacts]
@@ -752,14 +780,31 @@ Připojování %s
 [Menu]
 Menu
 [Open main menu]
+
 [Set status modes]
+
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
 Požadovanou operaci lze provést až po výběru osoby ze seznamu kontaktů.
 [Parameter mismatch]
 Parametry nesouhlasí
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins]
+
 [Service failure]
-[EventAreaClass]
+
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Group member counts]
+Počet členů ve skupině
+[Dividers]
+Oddělovače
 [Frame titles]
 Záhlaví rámečku
 [Contact list local time]
@@ -779,23 +824,17 @@ S tenkým záhlavím
 Tenký okraj
 [No border]
 Bez okraje
-;file \plugins\Clist_nicer\src\config.cpp
-[An application error has occured: %s]
-[TabSRMM runtime error]
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
+
 [Clist docking]
+
 ;file \plugins\Clist_nicer\src\extBackg.cpp
-[*.clist\0]
 [Load and apply]
 Použití
 ;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
 <žádné události>
-;file \plugins\Clist_nicer\src\statusfloater.cpp
-[StatusFloaterClass]
-[ContactFloaterClass]
-[sfl]
 ;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Nesdružené kontakty
@@ -835,8 +874,6 @@ Obnovit výchozí režim
 Výběr režim zobrazení
 [Clear view mode and return to default display]
 Vrátí zpět výchozí režim zobrazení
-[View modes]
-Režimy zobrazení
 [View Modes]
 Pohledy
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
@@ -888,17 +925,11 @@ Zobrazit záhlaví rámečku
 Skin na rámeček
 [Floating]
 Plovoucí
-[mf_update_evt_%d]
-[FramesContainer]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Main Menu]
 Hlavní &menu
-[&Status]
-&Stav
-[Appearance]
-Vzhled
 [&Options...]
 M&ožnosti...
 [&About the contact list...]
@@ -908,5 +939,3 @@ O sezn&amu kontaktů...
 ;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
 P&lovoucí kontakt
-;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
-[CoolSBSubclassPtr]

@@ -28,15 +28,19 @@ Procházet...
 [Interface]
 Rozhraní
 [Do not change icon when testing]
+
 [Use the Customize/Fonts options to change text size and colour.]
+
 [Indent:]
 Odstup:
 [Row height:]
 Výška řádku:
-[Spin3]
 [Repeats for success/failure:]
+
 [Attach to contact list]
+
 [Use CSV format]
+
 [Add]
 Přidat
 [Remove]
@@ -47,6 +51,8 @@ Upravit
 Nahoru
 [Down]
 Dolů
+[Edit Host]
+
 [OK]
 OK
 [Cancel]
@@ -73,6 +79,8 @@ Kontakt
 Protokoly
 [(Optional) Command Parameters:]
 Argumenty příkazu:
+[Menu]
+Menu
 [Graph]
 Graf
 [Enable]
@@ -84,8 +92,7 @@ Deaktivovat všechny pingy
 [Options...]
 Možnosti...
 [Hosts...]
-;file \plugins\Ping\src\log.cpp
-[edit]
+
 ;file \plugins\Ping\src\menu.cpp
 [PING]
 Ping
@@ -95,47 +102,63 @@ Aktivovat všechny pingy
 Deaktivovat všechny pingy
 ;file \plugins\Ping\src\options.cpp
 [All\0*.*\0Text\0*.TXT\0]
+
 [<none>]
 <žádný>
 [<all>]
+
 [Settings]
 Nastavení
 [Hosts]
+
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
+
 [Failed to initialize. Plugin disabled.]
-[Local\\ThreadWaitEvent]
+Chyba při inicializaci; doplněk byl vypnut.
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
+
 [Show stats]
+
 [%d ms]
+
 [AVG %.1lf ms]
+
 [MAX %hd ms]
+
 [MIN %hd ms]
-[GraphWindow]
+
 ;file \plugins\Ping\src\pingthread.cpp
 [%s - setting status of protocol '%s' (%d)]
+
 [%s - reply, %d]
+
 [%s - timeout]
+
 [Disable]
 Vypnout
 [enabled]
 zapnuto
 [double clicked]
+
 [Ping]
-[List]
-Seznam
-[Background]
-Pozadí
+
+[Show/Hide &Ping Window]
+
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
 Upozornění! Zahlcujete hostitele %s\npříliš velkým množstvím dat. Zvyšte dobu mezi\njednotlivými dotazy (=pingy).
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
+
 [Unknown]
-Neznámý
+neznámý
 [Responding]
+
 [Not Responding]
+
 [Testing]
+
 [Disabled]
 Vypnuto

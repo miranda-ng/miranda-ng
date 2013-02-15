@@ -6,6 +6,7 @@
 ;  Authors: nullbie, Thief
 ;============================================================
 [Shows a splash at Miranda startup.]
+
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Logo při spuštění
@@ -38,79 +39,23 @@ kroků
 [Fade out:]
 Doběh:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda NG 0.7 nebo novější.
+Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda IM 0.7 nebo novější.
 [Preview...]
 Náhled...
-;file \plugins\SplashScreen\src\bitmap_funcs.cpp
-[Loading splash file]
-[done]
-[MyBitmap::loadFromFile]
-[Bitmap load failed]
 ;file \plugins\SplashScreen\src\main.cpp
-[Miranda version]
-[Dll Name]
-[Advaimg path]
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+
 [Error]
 Chyba
-[Loading advaimg]
-[SoundFilePath]
-[Found file]
-[Extention]
-[File has valid ext]
-[final file]
-[Skin]
-Vzhled
-[UseSound]
-[Sounds enabled.]
-[Sounds disabled.]
-[Module]
-Modul
-[Setting]
-Nastavení
-[Value]
-Hodnota
-[PluginDisable]
-[Disabled.]
-[Enabled.]
-[PlugDisableHook]
-[Triggered]
-[Posted WM_LOADED message]
 [Call Splash Service]
-[Loading modules]
-[Unload]
-[Job done]
+
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
-[Set path]
+
 [Sound Files]
 Zvukové soubory
-[Set sound path]
 [Skins]
 Skiny
 [Splash Screen]
 Logo při spuštění
 ;file \plugins\SplashScreen\src\services.cpp
-[PNG and BMP files\0*.png;*.bmp\0\0]
-;file \plugins\SplashScreen\src\splash.cpp
-[WM_LOADED]
-[called]
-[Timer ID]
-[ShowTime value]
-[Showtime timer]
-[triggered]
-[On Modules Loaded timer]
-[On Modules Loaded workaround]
-[WM_DESTROY]
-[Verdana]
-[Timer TimeToShow]
-[set]
-[Timer Modules loaded]
-[Thread]
-[start]
-[Preview]
-Náhled
-[yes]
-[Timeout]
-Doba zobrazení
-[end]

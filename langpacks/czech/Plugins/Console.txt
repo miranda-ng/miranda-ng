@@ -1,47 +1,72 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 0.0.7.3
+;  Authors: Bio
 ;============================================================
+[Console log window for Miranda.]
+
 ;file \plugins\Console\res\resource.rc
+[Console                                    ]
+
 [Single window mode*]
+
 [Show icons in log*]
+
 [New lines between events*]
+
 [Always show at start]
+
 [Lines wrap length [25-255]]
+
 [Log size limit [1 000 - 1 000 000 lines]]
+
 [* Restart needed]
+
 [Save settings and restart console]
+
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
+
 [Hide Console]
+
 [Show Console]
+
 [Scrolling (Ctrl+Q)]
+
 [Pause logging(Ctrl+P)]
+
 [Save log to file (Ctrl+S)]
+
 [Copy selected log (Ctrl+C)]
+
 [Delete selected (Del)]
+
 [Log options (Ctrl+O)]
+
 [Start logging in all tabs]
+
 [Pause logging in all tabs]
+
 [Close tab (Ctrl+W)]
+
 [*** Console started ***]
-[Data received]
-[Data sent]
+
 [*** Console paused ***]
+
 [*** Console resumed ***]
+
 [*** Console cleared ***]
+
 [Miranda Console]
+
 [Services]
 Služby
 [Console]
+
 [Text]
 Text
-[Background]
-Pozadí
-[Courier]
 [&Help]
 &Nápověda
 [Text Files (*.txt)]
@@ -49,4 +74,6 @@ Textové soubory (*.txt)
 [All Files]
 Všechny soubory
 [Save selection to file]
+
 [Save log to file]
+

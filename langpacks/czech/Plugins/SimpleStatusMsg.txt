@@ -1,45 +1,78 @@
 ﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
+[%s Message for %s]
+Stav: '%s', uživatel: %s
 [&Cancel]
 &Zrušit
 [Retrieving %s message...]
-Zjištění stavové zprávy ve stavu '%s'...
+Zjištění automatické odpovědi ve stavu '%s'...
 [Co&py to Clipboard]
 Zko&pírovat
+[%s Message (%s)]
+
 [OK]
 OK
+[Retrieving status message for %s...]
+Zjišťování stavové zprávy pro '%s'...
 [%time%]
+
 [%date%]
+
 [%winampsong%]
+
 [%rand(x,y)%]
+
 [%randmsg%]
+
 [%randdefmsg%]
-[%fortunemsg%]
-[%protofortunemsg%]
-[%statusfortunemsg%]
-[?cinfo(contact,property)]
-[?contact(string,property)]
-[?mstatus(protocol)]
-[?lsdate(contact,format)]
-[?lsstatus(contact)]
-[?lstime(contact,format)]
-[?dbsetting(contact,module,setting)]
-[?txtfile(file,line)]
-[?if(condition,true,false)]
-[?strcmp(string1,string2)]
-[?stricmp(string1,string2)]
-[?cdate(format)]
-[?ctime(format)]
-[?replace(sub,string1,string2)]
-[?lower(string)]
-[?upper(string)]
-[?scroll(string,numchars,numchars)]
-[More variables...]
-Více proměnných...
+
 [Fortune]
+
+[%fortunemsg%]
+
+[%protofortunemsg%]
+
+[%statusfortunemsg%]
+
 [Variables]
 Proměnné
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+Více proměnných...
 [Cut]
 Vyjmout
 [Copy]
@@ -51,6 +84,7 @@ Smazat
 [Select All]
 Vybrat vše
 [Behaviour on status change]
+
 [Apply to all]
 Použít u všech
 [Max length:]
@@ -84,11 +118,15 @@ Aktualizovat proměnné ve zprávě stavu každých
 [seconds]
 sek.
 [Do not update variables during idle]
+
 [Do not update variables on ICQ status message requests]
+
 [Leave last played track's title after exiting the player]
 Ponechat název poslední skladby po vypnutí přehrávače
 [Enable status messages parsing by Variables plugin]
+
 [Exclude %date% token from parsing (restart required)]
+
 [Layout]
 Rozvržení
 [Show status list]
@@ -138,8 +176,10 @@ Stav:
 [Independent setting for each protocol]
 Nastavení pro každý protokol zvlášť
 [Pop up dialog asking for status message]
+
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
+
 [&Close]
 &Zavřít
 [Re&ad %s Message]
@@ -153,26 +193,25 @@ Přečíst &autom. odpověď
 [Copy Away Message]
 Zkopírovat zprávu stavu
 [&Go to URL in Away Message]
+
 ;file \plugins\SimpleStatusMsg\src\main.cpp
-[STUDIO]
-[Winamp v1.x]
-[ - Winamp]
-[SimpleStatusMsg]
-[%rand(]
 [Change Status Message]
 Změnit zprávu stavu
 [Open Status Message Dialog]
+
 [Status Message]
 Stavová zpráva
 [Status Message...]
 Zpráva stavu...
 [%s (locked)]
 %s (uzamčený)
-[winampsong]
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+
 [Miranda Related\tget the date (Simple Status Message compatible)]
+
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
+
 [<current>]
 <současný>
 [Add to Predefined]
@@ -183,7 +222,6 @@ Smazat vybrané
 OK (%d)
 [Global]
 Globální
-[%s Message (%s)]
 [Closing in %d]
 Zavře se za %d sek.
 [Are you sure you want to clear status message history?]
@@ -192,6 +230,7 @@ Určitě chcete smazat celou historii stavových zpráv?
 Potvrdit smazání historie
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
+
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných
 [Hide]
@@ -220,6 +259,7 @@ Poslední zpráva
 [Predefined Message]
 Předdefinovaná zpráva
 [Go to URL in Away Message]
+
 [I've been away since %time%.]
 Jsem pryč od %time%
 [Give it up, I'm not in!]

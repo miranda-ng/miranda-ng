@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
 ;  File: sms.dll
 ;  Plugin: SMS plugin
@@ -6,7 +6,10 @@
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
 [Send SMS text messages to mobile phones through the IM networks.]
+
 ;file \plugins\SMS\res\resource.rc
+[Received SMS]
+Přijatá SMS
 [&Reply]
 &Odpovědět
 [&Close]
@@ -19,11 +22,14 @@ Od:
 Zpráva přijata:
 [Number:]
 Číslo:
+[Send SMS]
+Poslat SMS
 [To:]
 Pro:
 [Add number to list]
 Přidat číslo do seznamu
 [&H]
+
 [Save number]
 Uložit číslo
 [Multiple >>]
@@ -36,11 +42,14 @@ Znaků:
 %d/160
 [&Send]
 Po&slat
+[SMS Message Didn't Send]
+
 [&Try again]
 Zkusi&t znovu
 [&Cancel]
 &Zrušit
 [The SMS message send timed out]
+
 [SMS Plugin]
 SMS
 [Begining]
@@ -54,7 +63,11 @@ Přidat podpis
 [Show server notifications]
 Zobrazovat oznámení serveru
 [Auto popup on new message]
+
 [Save window position per contact]
+
+[SMS Message Sent]
+Zpráva SMS odeslána
 [&OK]
 &OK
 [Message ID:]
@@ -65,18 +78,17 @@ Zdroj:
 Sítě:
 ;file \plugins\SMS\src\options.cpp
 [From %s:\r\n\r\n]
+
 ;file \plugins\SMS\src\receive.cpp
 [SMS message didn't send by %S to %s because: %S]
+
 [SMS Message from %s]
 Zpráva SMS od %s
 [SMS Confirmation from %s]
 Potvrzení SMS od %s
 ;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS]
-Přijatá SMS
 [Received SMS Confirmation]
 Přijaté potvrzení SMS
-[Unknown event type]
 ;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Zobrazit historii
@@ -106,13 +118,8 @@ V seznamu musí být nejprve čísla.
 Správný tvar celého čísla je '+(kód země)(telefonní číslo)'. Zápis samotného telefonního čísla se liší podle zemí, ale často se udává bez počáteční nuly.
 [Invalid phone number]
 Neplatné telefonní číslo
-[ SMS]
-[Send SMS]
-Poslat SMS
 [<< Single]
 << Jednotlivě
-;file \plugins\SMS\src\SMSConstans.h
-[Arial]
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
 Příchozí SMS

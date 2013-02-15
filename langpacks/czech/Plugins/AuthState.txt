@@ -6,6 +6,7 @@
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
+
 ;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 Zobrazit ikonu

@@ -1,20 +1,327 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
 ;  Version: 0.8.0.42
 ;  Authors: P Boon
 ;============================================================
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
-[Status]
-Stavy
-[minutes of %s mode]
-min. ve stavu '%s'
+[An Auto Away module with some more options than the original.]
+
+;file \Plugins\StatusPlugins\resource.rc
+[Check connection]
+Zajistit spojení
+[Max. retries]
+Max. opak.
+[Account Connection]
+
+[Delay between retries (secs)]
+Prodleva mezi obnovením (sek.)
+[Show popups]
+Zobrazovat oznámení
 [General]
 Obecné
+[Accounts to check]
+
+[Dial-Up]
+Vytáčené spojení
+[Don't reconnect if no internet connection seems available]
+Neobnovovat stav při odpojení od internetu
+[Continuously check for internet connection]
+Periodicky ověřovat připojení k internetu
+[Do so by pinging host]
+Pomocí příkazu ping
+[Confirm Status]
+Potvrzení stavu
+[Close]
+Zavřít
+[Cancel]
+Zrušit
+[Profile]
+Profil
+[Message]
+Zpráva
+[after]
+po
+[minutes of inactivity]
+min. nečinnosti
+[minutes of level 1 mode]
+min. v módu Level 1
+[Confirm resetting status]
+Potvrdit návrat do původního stavu
+[Account]
+Účet
+[Only set if current status is]
+Nastavit pouze tehdy, je-li stav
+[Monitor Miranda's activity only]
+Monitorovat pouze program Miranda
+[Reset status on return]
+Po návratu obnovit původní stav
+[when screen saver engages]
+při aktivaci spořiče obrazovky
+[Set]
+Nastavit
+[only set when inactive]
+pouze tehdy, je-li neaktivní
+[when workstation is locked]
+při zamknutí počítače
+[Command Line]
+Příkazový řádek
+[OK]
+OK
+[Copy to Clipboard]
+Zkopírovat
+[Command Line:]
+Příkazový řádek:
+[Create Shortcut]
+Vytvořit zástupce
+[Add new profile]
+Přidat nový profil
+[Profile name]
+Název profilu
+[Set window state]
+Stav okna
+[Show dialog]
+Zobrazit dialog
+[Set status to offline before exit]
+Před ukončením přejít do 'Offline'
+[Show CMDL]
+Příkazový ř.
+[Activate status profile]
+Aktivovat profil
+[Set docked]
+Zadokovat
+[Other]
+Ostatní
+[Status on startup]
+Stav po spuštění
+[ms]
+ms
+[Set after]
+Zpozdit o
+[Timeout]
+Doba zobrazení
+[s]
+s
+[Set window location]
+Umístit na souřadnice
+[,]
+
+[Set window size]
+Velikost okna
+[x]
+
+[Allow override]
+Povolit potlačení
+[Note: status profiles can be created in the 'Status Profiles' options screen]
+Pozn.: Profily lze vytvořit v sekci Startovní profily.
+[Window on startup]
+Okno po startu
+[Automatically dial on startup]
+Automaticky vytáčet po spuštění
+[Automatically hang up on exit]
+Automaticky zavěsit po ukončení
+[Dial-up (experimental)]
+Vytáčené spojení (experimentální)
+[Background colour]
+Barva pozadí
+[Text colour]
+Barva textu
+[Use Windows colours]
+Použít barvy Windows
+[Use default colours]
+Použít výchozí barvy
+[Delay]
+Prodleva
+[On left click]
+Levé tlačítko
+[On right click]
+Pravé tlačítko
+[Do nothing]
+Nedělat nic
+[Close popup]
+Zavřít oznámení
+[Cancel reconnecting]
+Přerušit připojování
+[Colours]
+Barvy
+[Preview]
+Náhled
+[Events]
+Události
+[Show when connection is lost]
+Zobrazit při odpojení od sítě
+[Show when a connection attempt is made]
+Zobrazit při pokusu o navázání spojení
+[Show when reconnection has finished]
+Zobrazit po úspěšném navázání spojení
+[Show other messages]
+Zobrazit ostatní zprávy
+[From PopUp plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Show additional information in popups]
+Zobrazit i další, podrobnější informace 
+[Use Miranda's message setting]
+Použít výchozí nastavení Mirandy
+[Use this message:]
+Použít následující zprávu:
+[Use %time% for the current time, %date% for the current date]
+%time% = aktuální čas, %date% = aktuální datum
+[Variables...]
+Proměnné...
+[Specify settings for each account]
+
+[Use same settings for all accounts]
+
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ignorovat klávesy CAPS-, NUM- a SCROLL-LOCK
+[Check interval (secs)]
+Interval zjišťování stavu (v sek.)
+[Confirm dialog timeout (secs)]
+Dialog zavřít po (v sek.)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Po aktivaci možnosti 'Změnit můj stav na' na stránce 'Nečinnost' je nastavení doplňku AdvancedAutoAway ignorováno.
+[Monitor keyboard activity]
+Monitorovat psaní na klávesnici
+[Monitor mouse activity]
+Monitorovat pohyb myši
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ignorovat klávesy CRTL, ALT, SHIFT, TAB, ESC a WIN
+[Ignore any key combination with above keys]
+Ignorovat kombinace s výše uvedenými klávesami
+[Accounts]
+Účty
+[Enable checking]
+Zapnout kontrolu
+[Disable checking]
+Vypnout kontrolu
+[Set status message]
+Nastavit stavové zprávy
+[Trigger when connection loss is detected]
+
+[Trigger when reconnection attempt is made]
+
+[Trigger when successfull reconnected]
+
+[Trigger when giving up reconnecting]
+
+[Trigger when reconnected from another location]
+
+[Pre-conditions]
+
+[Trigger when a login error occurs]
+
+[Status]
+Stavy
+[Add...]
+Přidat
+[Delete]
+Smazat
+[Create a TopToolBar button]
+Přidat tlačítko do horní lišty
+[Show confirm dialog when loading]
+Po spuštění potvrzovat stav
+[Create a main menu item]
+Přidat položku do hlavní nabídky
+[Status Profiles]
+Startovní profily
+[HotKey1]
+
+[Hotkey]
+Klávesy
+[In submenu]
+V podmenu
+[Max. delay (secs)]
+Max. prodleva (sek.)
+[Increase delay exponential]
+Prodlevu postupně zvyšovat
+[Cancel all if a account connects from another location]
+
+[Reconnect on APM resume]
+Obnovit připojení po návratu z úsporného režimu
+[Stop trying to reconnect]
+Přestat obnovovat připojení
+[Set delay to]
+Změnit prodlevu na
+[React on login errors]
+Po chybě při přihlášení
+[seconds]
+sek.
+[Set account offline before a connection attempt]
+
+[Max. account connecting time (secs)]
+
+[Timers]
+Časovače
+[Reconnecting]
+Obnovení připojení
+[Ignore locked status of accounts]
+
+[Consider connection lost after]
+Považovat za odpojeno po
+[failed pings]
+ztrac. pak.
+[Continuously check interval (secs)]
+Interval ověřování připojení (sek.)
+[Entering first auto-away status]
+
+[Entering second auto-away status]
+
+[Leaving first auto-away status]
+
+[Leaving second auto-away status]
+
+[Becoming active without status change]
+
+[TriggerData]
+
+[Status: The status the account will change to\r\nAccount: The account changing state]
+
+;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[minutes of %s mode]
+min. ve stavu '%s'
 [Rules]
 Pravidla
 [Status Messages]
 Stavové zprávy
 [Auto Away]
 Automatické stavy
+;file \Plugins\StatusPlugins\commonstatus.cpp
+[I've been away since %time%.]
+Jsem pryč od %time%
+[Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
+[Not right now.]
+Teď ne, prosím.
+[Give a guy some peace, would ya?]
+Nechte mě prosím chvíli o samotě, ano?
+[I'm a chatbot!]
+Kecám, až se mi od klávesnice práší!
+[Yep, I'm here.]
+Jasně, jsem tu.
+[Nope, not here.]
+Ne, nejsem tady
+[I'm hiding from the mafia.]
+Skrývám se před mafií.
+[That'll be the phone.]
+Právě telefonuji
+[Mmm...food.]
+Mňam... jídlo
+[idleeeeeeee]
+Chrrrrrrrrrrrr
+;file \Plugins\StatusPlugins\confirmdialog.cpp
+[Set %s message for %s.]
+
+[<last>]
+<minulý>
+[<current>]
+<současný>
+[<n/a>]
+<neuvedeno>
+[Protocol]
+Protokol
+[Closing in %d]
+Zavře se za %d sek.

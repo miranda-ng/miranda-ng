@@ -1,6 +1,2 @@
-﻿;[%s\\Plugins\\%s]
-;[(incompatible)]
-;[Docs\\]
-;[Plugins\\Language\\]
-;[Reload langpack]
-;[UXTHEME]
+﻿[Reload langpack]
+[(incompatible)]

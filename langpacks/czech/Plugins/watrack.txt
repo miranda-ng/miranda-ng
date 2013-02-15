@@ -1,212 +1,645 @@
-﻿;#muuid not found, please specify manually!
-;langpack template for watrack
-;file \plugins\Watrack\kolframe\frm.rc
-[Frame refresh time]
-Obnovování okna
-[...]
-...
-[Picture transform]
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: watrack.dll
+;  Module: Winamp Track |Unicode aware|
+;  Versions: 0.0.2.4 - 0.0.6.12
+;  Url: http://addons.miranda-im.org/details.php?action=viewfile&id=2345
+;============================================================
+[Clear xStatus before set new one]
+Před nastavením rozšířeného stavu nastavit prázdný
+[Emulate Multimedia keys]
+Emulovat multimediální klávesy
+[xStatus will cleared before text changing and restored with new text later.]
+Rozšířený stav bude na chvilku změněn na běžný a poté se zpět změní na "Poslouchám hudbu". Donutíte tak některé klienty přečíst si váš rozšířený stav, ale způsobuje záplavy.
+[Paste played music info into message window or status text]
+
+[Use XStatus]
+Použít rozšířený stav
+[If this option is "ON", XStatus doesn't depend of protocol status.]
+Jestliže je tato možnost zapnuta, nezávisí rozšířený stav na stavu protokolu.
+[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+Jestliže je tato možnost zapnuta, je možné používat transformační, datové a matematické funkce. Je-li podpora neaktivní, bude pracovat WATrack rychleji.
+[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
+Nahrazuje "_" podtržítka ve vkládaném textu či zprávě stavu, někdy se může hodit.
+[Check file date and time to tag updates while playing.]
+Zjišťuje datum a čas souboru, snáze pak aktualizuje čas při přehrávání.
+[Report on some errors.]
+Hlásí určité chyby.
+[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
+Pokusí se použít OLE rozhraní pro získání více informací z přehrávače. Je-li možnost vypnuta, bude WATrack fungovat rychleji.
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
+Rychlost aktualizace (sekundy) je doba, po které se zaktualizují informace o hudbě, statistiky a zprávy stavu. Je-li nataveno na nulu, je auktualizace vypnuta. Je-li hodnota vyšší než 499, pak jsou časovými jednotkami milisekundy.
+[Text insertion to other Apps]
+Vkládání textu do dalších aplikací
+[Share music list]
+Sdílet seznam hudby
+[Save events in database]
+Ukládat události do databáze
+[Music Info Request]
+Požadavky na info o hudbě
+[Request Error]
+Chyby požadavků
+[Save ignored requests]
+Ukládat ignorované požadavky
+[Answer to ignored requests]
+Odpovídat na ignorované požadavky
+[Use frame]
+Použít okno
+[Show info in the frame]
+Zobrazit v okně informace
+[Show controls in the frame]
+Zobrazit v okně ovl.prvky
+[Show volume controls]
+Zobrazit v okně hlasitost
+[Use Picture]
+Vložit obrázek
+[Use cover instead of picture]
+Namísto obrázku vkládat obal
+[Show trackbar]
+Zobrazit posuvník přehrávání
 [Cover padding]
 Okraje obalu
-[Alpha]
-Průhlednost
-[Background color]
-Barva pozadí
-[Choose font...]
-Vybrat písmo...
+[Frame refresh time]
+Obnovování okna
+[Hide frame when no music played]
+Skrýt okno, když nic nehraje
+[Center horizontally]
+Centrovat vodorovně
+[Center vertically]
+Centrovat svisle
+[Use styled trackbar]
+Stylovat posuvník přehrávání
+[Use buttons gap]
+Rozestoupit ovládací prvky
+[Frame template]
+
 [Text effect]
 Efekt textu
 [Text movement]
 Pohyb textu
 [Text rotation speed (1-20)]
 Rychlost rotace textu (1-20)
-[Frame Text]
-Text v okně
-;file \plugins\Watrack\lastfm\lastfm.rc
-[Password]
-Heslo
-[Attempts]
-[Content language]
-[Get Artist Info]
-[Artist]
-[Album]
-;file \plugins\Watrack\myshows\myshows.rc
-[Timeout, ms]
-Prodleva (ms)
-[Scrobble at]
-[Get Series Info]
-[Show]
-Zobrazit
-[Episode]
-[Genres]
-[Kinopoisk info page]
-;file \plugins\Watrack\popup\popup.rc
-[Colors]
-Barvy
-[Background]
-Pozadí
-[Actions]
-Akce
-[Show player]
-Zobrazit přehrávač
-[Left click]
-Levé tlač.
-[Right click]
-Pravé tlač.
-[Delay]
+[Scroll step]
+Krokování
+[Scroll gap]
 Prodleva
-[sec]
-sek.
-[Test]
-Ověřit
-[M]
-[Popup Title / Text]
-Záhlaví a text oznámení
-;file \plugins\Watrack\proto\proto.rc
-[Save events in database]
-Ukládat události do databáze
-[Music Info Request]
-Požadavky na info o hudbě
-[User music info text]
-[(%artist%, %title%, %album% and %year% macros can be used only)]
-;file \plugins\Watrack\res\watrack.rc
-[Unicode to Ansi translation codepage:]
-Kódování jazyka, definice skriptu:
-[Refresh time, sec]
-Aktualizace (v sek.)
+[Minimum scroll tail]
+Minimální přesah pro rolování
+[Wrap]
+Zalomit
+[Roll]
+Rolovat
+[PingPong]
+Ping pong
+[Hide frame when player not found]
+Skrýt okno, pokud není přehrávač nalezen
+[Pause Hovered]
+Pozastavit (myš)
+[Prev Hovered]
+Předchozí (myš)
+[Play Hovered]
+Přehrát (myš)
+[Stop Hovered]
+Zastavit (myš)
+[Next Hovered]
+Další (myš)
+[Prev Pushed]
+Předchozí (stisknuto)
+[Play Pushed]
+Přehrát (stisknuto)
+[Stop Pushed]
+Zastavit (stisknuto)
+[Next Pushed]
+Další (stisknuto)
+[Volume Down]
+Hlasitost -
+[Volume Up]
+Hlasitost +
+[Volume Down Hovered]
+Hlasitost - (myš)
+[Volume Up Hovered]
+Hlasitost + (myš)
+[Volume Down Pushed]
+Hlasitost - (stisknuto)
+[Volume Up Pushed]
+Hlasitost + (stisknuto)
+[song year (date)]
+rok písně (datum)
+[player window title]
+záhlaví okna přehrávače
+[width, video only]
+šířka, pouze pro video
+[player version]
+verze přehrávače
+[VBR or not (empty)]
+VBR (pokud je, jinak nic)
+[player version in text format]
+verze přehrávače v textovém formátu
+[player status (stopped,playing,paused)]
+stav přehrávače (zastaveno, přehrávání, pozastaveno)
+[player name]
+název přehrávače
+[time/length * 100%]
+čas/délka * 100%
+["mono"/"stereo"]
+
+[height, video only]
+výška, pouze pro video
+[FPS (frames per second), video only]
+FPS (snímků za sekundu), pouze pro video
+[media file name]
+název souboru
+[codec, video only]
+kodek, pouze pro video
+[Color codes]
+
+[File size]
+Vel. souboru
+[FileSize text format]
+Zobrazení velikosti souboru
 [Formats]
 Formáty
-[Players list\n(F1 for note)]
-[Check]
-Kontrola
-[None]
----
-[Cover filenames]
-Názvy obalů
-[OK]
-OK
-[1]
-[2]
-[3]
-[4]
-[5]
-[6]
-[7]
-[8]
-[9]
-[10]
-[11]
-[12]
-[13]
-[14]
-[15]
-[16]
-[Switch ON these modules]
-;file \plugins\Watrack\stat\stat.rc
-[Delete]
-Smazat
-[Statistic log file]
-Soubor se statistickými údaji
-[Sort]
-Seřadit
-[Autosort period, days]
-Perioda autom. třídění (dny)
-[Report file]
-Soubor se zápisem
+[Player name letters]
+Název přehrávače
+[Players list]
+Seznam přehrávačů
+[Popup Title / Text]
+Záhlaví a text oznámení
+[Frame Text]
+Text v okně
+[Export Text]
+Text k exportu
+[Postfix]
+Přípona
+[Refresh time, sec]
+Aktualizace (v sek.)
 [Report]
 Zápis
+[Report Items]
+Počet položek
+[Report file]
+Soubor se zápisem
+[Report format]
+
+[Show in report]
+Zobrazit v zápisu
+[Sort]
+Seřadit
+[Sort log file]
+Seřadit záznam dle
+[Statistic log file]
+Soubor se statistickými údaji
+[Autosort period, days]
+Perioda autom. třídění (dny)
 [Template file]
 Soubor šablony
 [Export default]
 Exportovat
-[Show in report]
-Zobrazit v zápisu
-[Sort log file]
-Seřadit záznam dle
-[Report Items]
-Počet položek
-;file \plugins\Watrack\status\status.rc
-[Options]
-Možnosti
-[Set XStatus when...]
-[Color]
-Barva
-[Format]
-Formát
-[Variables]
-Proměnné
-[Protocols]
-Protokoly
-[Statuses]
-Stavy
-[Reset]
-Reset
-[Default]
-Výchozí
-[Template]
-Šablona
-[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-Toto je zjednodušená verze editoru. Tyto šablony budou použity na všechny protokoly, stavy a přehrávače.
-[Chat Template]
-Šablona chatu
-[[X]Status Title / Text]
-Záhlaví a text rozšířeného stavu
-;file \plugins\Watrack\templates\templates.rc
-[File size]
-Vel. souboru
-[Precision]
-Přesnost
-[Postfix]
-Přípona
+[Freq. album]
+Počet opakování alba
+[by Length]
+délky
+[Unicode to Ansi translation codepage:]
+Kódování jazyka, definice skriptu:
 [VBR macro]
-[Player name letters]
-Název přehrávače
+
+[\[X\]Status Title / Text]
+
+[Insert in messages]
+Vložit do zprávy
+[Use status messages]
+Použít zprávu stavu
+[Independed XStatus]
+Nezávislý rozšířený stav
+[Use process implantation]
+Implantovat proces
+[Simple Template mode]
+Režim zjednodušených šablon
+[Use existing XStatus]
+Použít existující rozš. stav
+[Only if 'Music' status was set]
+Pouze pro rozšířený stav 'Hudba'
+[Keep 'Music' status]
+
+[Replace underlines with spaces]
+Nahradit podtržítka mezerami
+[Check file time]
+Zjišťovat čas ze souboru
+[Other thread handle check]
+Zjištění handle v jiném vlákně
+[Keep old file]
+Ponechat starý soubor
+[No Music]
+Žádná hudba
+[No player]
+
+[User message]
+Zpráva uživateli
+[Channel message]
+Zpráva na kanál
+[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+Jestliže je tato možnost zapnuta, nezmění se typ rozšířeného stavu, ale jen zpráva daná šablonou.
+[Keep 'Music' XStatus]
+Ponechat rozšířený stav 'Hudba' i po vypnutí přehrávače
+[No-music text]
+
+[No-player text]
+
+[Protocol list]
+
+[Use Status:]
+
+[Text+Graph]
+
+[Use external style]
+
+[Add report file ext.]
+Přidat externí zápis
+[Freq. artists]
+Počet opakování interpretů
+[Freq. paths]
+Počet opakování adresářů
+[Freq. songs]
+Počet opakování písní
+[Last played songs]
+Naposledy hrané písně
+[Song time]
+Čas písně
+[VBR or CBR]
+VBR nebo CBR
+[VBR or empty]
+VBR nebo prázdné
+[Show file name in info]
+Zobrazit v oznámení název souboru
+[Global hotkey]
+Globální klávesová zkratka
+[Only if messages not used]
+
+[Don't use]
+
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
+
+[All uppercase]
+Vše velkými písmeny
+[Do not change]
+Neměnit
+[All lowercase]
+Vše malými písmeny
+[lowercase %type%]
+%type% malými písmeny
+[If this option is "ON", you can paste music info to your message window pressing hotkey.]
+Jestliže je tato možnost zapnuta, můžete vložit informaci o hudbě do zprávy pomocí klávesové zkratky
+[If this option is "ON", status text will be replaced by music info.]
+Jestliže je tato možnost zapnuta, bude hláška stavu nahrazena informací o hudbě
+[If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
+
+[If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
+Jestliže je tato možnost zapnuta, pokusí se doplněk získat informace o neznámém hudebním formátu z přehrávače (ne všechny přehrávače fungují!)
+[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" pouze tehdy, byl-li takto změněn už předtím ručně.
+[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+
+[If this option is "ON", XStatus not changed when player shutdowned.]
+Jestliže je tato možnost zapnuta, bude rozšířený stav ponechán i po vypnutí přehrávače
+[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" a hláška stavu bude nahrazena informací o hudbě
+[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+Jestliže je tato možnost zapnuta, bude použita na všechny protokoly, přehrávače a stavy jedna šablona. Záložka se šablonami se změní po restartu.
+[Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
+Umožňuje infiltraci do procesu přehrávače, díky čemuž lze získávat snáze informace, ale nemusí se líbit vašemu antiviru či osobnímu firewallu.
+[Keep opened file as active, not newly founded.]
+Ponechat otevřený soubor jako aktivní, ne nově vytvořený.
+[Use this option if WATrack freeze while player running. Slower processing.]
+Použijte tuto volbu, pokud Sledování hudby zmrzne zatímco přehrávač běží. Pomalejší zpracování.
+[Use "Variables" plugin]
+
+[Sorry, but i don't use WATrack right now!]
+
+[Next track]
+Další stopa
+[Show player]
+Zobrazit přehrávač
+[bitrate]
+
+[by Count]
+počtu
+[by Date]
+data
+[by Path]
+adresáře
+[by Title]
+názvu
+[comment from tag]
+komentář z tagu
+[current song position (sec)]
+aktuální pozice (sek.)
+[Disable Log]
+Vypnout záznam
+[Error report]
+
+[Get Info from player]
+
+[media file size]
+velikost souboru
+[media file type]
+typ souboru
+[media file]
+
+[No Player]
+Žádný přehrávač
+[number of channels]
+počet kanálů
+[Open report]
+Otevřít zápis
+[Reverse order]
+Obrátit pořadí
+[samplerate]
+vzorkovací frekvence
+[song title]
+název písně
+[song year]
+
+[total song length (sec)]
+celková délka (sek.)
+[track number]
+číslo stopy
+[Try to use OLE interface]
+
+[player status (stopped, playing, paused)]
+
+[player]
+
+[Independed Xstatus]
+
+["Variables" ANSI output]
+
+[FPS (Frames per second)]
+
+[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
+
+[Save settings in INI-file]
+
+[VBR or not]
+
+[video codec]
+
+[video height]
+
+[video width]
+
+[Show by request only]
+Zobrazit jen na vyžádání
+[second line]
+
+[Cover filenames]
+Názvy obalů
+[Music Info]
+Informace o hudbě
+[Align text to center]
+Centrovat text
+[Create WATrack report]
+
+[Get user's Music Info]
+Zjistit zde informace o hudbě
+[WATrack Macro Info]
+Informace o makru WATrack 
+[Lyric from ID3v2 tag]
+slova z ID3v2 tagu
+[Cover file path]
+cesta k souboru obalu
+[Player volume (0-15)]
+hlasitost přehrávače (0-15)
+[Player homepage URL]
+domovská stránka přehrávače
+[player status (not translated)]
+stav přehrávače (nepřekládán)
+[Format text Info]
+
+[Controls]
+Tlačítka
+[Frame Controls]
+Ovládací prvky
+[Plugin Enabled]
+Doplněk povolen
+[Plugin Disabled]
+Doplněk zakázán
+[Create Report]
+Vytvořit zápis
+[Context menu]
+
+[/me listening "%title%"]
+
+[Report file name not defined]
+
+[Status Template]
+
+[XStatus Title]
+
+['mono' / 'stereo']
+
+[- "mono" / "stereo"]
+
+[- artist]
+
+[- bitrate]
+
+[- current song position (sec)]
+
+[- player version]
+
+[- player]
+
+[- song title]
+
+[- total song length (sec)]
+
+[- track number]
+
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+
+["Variables" module use]
+
+[Acoustic]
+
+[Use ICQ XStatus]
+
+[Winamp Track]
+Sledování hudby
+[Pause Pushed]
+Pozastasvit  (stisknuto)
+[-default-]
+
+[Global WATrack hotkey]
+
+[WATrack data insert hotkey]
+
+[WATrack popup hotkey]
+
+[Switch ON these modules]
+
+[Modules]
+
+[Statistic]
+
 [Export text template]
-[V]
-;file \plugins\Watrack\i_gui.inc
+
+[Use listening info]
+
+[If this option is "ON", "Listening To" protocol property will be filled by music info.]
+
+[Enable Status message]
+
+[Enable XStatus message]
+
+[Enable Tunes message]
+
+[Tunes]
+
+[Check all marked players for active (started and playing) or stop at first founded]
+
+[Check all players]
+
+[Emulate multimedia keys presses to control palyer]
+
+[User music info text]
+
+[(%artist%, %title%, %album% and %year% macros can be used only)]
+
 [Disable Plugin]
 Zakázat doplněk
-;file \plugins\Watrack\i_opt_1.inc
-[System default codepage]
-Výchozí kódování systému
-[All]
-všechno
-;file \plugins\Watrack\kolframe\frm_dlg1.inc
-[All Bitmaps]
-Všechny bitmapy
-;file \plugins\Watrack\lastfm\i_last_api.inc
-[Last.fm error: ]
-[Client is banned]
-[Bad Auth. Check login and password]
-[Bad TimeStamp]
-;file \plugins\Watrack\lastfm\i_last_dlg.inc
-[Similar artists]
-;file \plugins\Watrack\lastfm\i_last_opt.inc
-[Don''t forget to enter Login and Password to use Last.fm service]
-;file \plugins\Watrack\myshows\i_myshows_opt.inc
-[Don''t forget to enter Login and Password to use MyShows service]
-;file \plugins\Watrack\popup\pop_dlg.inc
-[popup test]
-[second line]
-;file \plugins\Watrack\proto\i_proto_dlg.inc
-[** All contacts **]
-** všechny kontakty **
-;file \plugins\Watrack\proto\proto.pas
-[Music Info from ]
-[ answer you]
-[You Get Error]
-;file \plugins\Watrack\stat\statlog.pas
+[Enable Plugin]
+Povolit doplněk
+[Don't forget to enter Login and Password to use Last.fm service]
+
+[Don't forget to enter Login and Password to use MyShows service]
+
+[Attempts]
+
+[Disable scrobbling]
+
+[Enable scrobbling]
+
+[no language]
+
+[Content language]
+
+[Artist]
+
+[Album]
+
+[Track]
+
+[Get Artist Info]
+
+[Get Track Info]
+
+[Get Album Info]
+
 [Music Statistic]
 Hudební statistiky
-;file \plugins\Watrack\status\i_opt_11.inc
-[Status]
-Stavy
-[XStatus]
-Rozšířený stav
-[Tunes]
-[Format text Info]
-;file \plugins\Watrack\status\i_opt_12.inc
-;file \plugins\Watrack\status\i_opt_3.inc
+[Status (common)]
+
+[Status (templates)]
+
+[Set XStatus when...]
+
+[XStatus is empty or 'Music']
+
+['Music' status is set]
+
 [any XStatus is set]
-[''Music'' status is set]
-[XStatus is empty or ''Music'']
+
+[Players list\n(F1 for note)]
+
+[Chat Template]
+Šablona chatu
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Toto je zjednodušená verze editoru. Tyto šablony budou použity na všechny protokoly, stavy a přehrávače.
+[No any special notes for this player]
+
+[popup test]
+
+[Frame (main)]
+
+[Frame (text)]
+
+[Manual element placement]
+
+[Alpha]
+Průhlednost
+[Hide when no player]
+
+[Hide when no music]
+
+[Use popup action buttons]
+
+[Left click]
+Levé tlač.
+[Right click]
+Pravé tlač.
+[Default colors]
+Výchozí barvy
+[Windows colors]
+Barvy Windows
+[Custom colors]
+Vlastní barvy
+[artist]
+umělec
+[album]
+album
+[genre]
+žánr
+[Picture transform]
+
+[Kilobytes]
+kilobajtů
+[Megabytes]
+megabajtů
+[Precision]
+Přesnost
+[none]
+---
+[kb]
+
+[Kb]
+
+[KB]
+
+[Color]
+Barva
+[Output]
+Výstup
+[Check]
+Kontrola
+[Choose font...]
+Vybrat písmo...
+[Genres]
+
+[[X]Status Title / Text]
+Záhlaví a text rozšířeného stavu
+;file \plugins\Watrack\myshows\myshows.rc
+[Scrobble at]
+
+[Timeout, ms]
+Prodleva (ms)
+[Get Series Info]
+
+[Episode]
+
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+
+[Client is banned]
+
+[Bad Auth. Check login and password]
+
+[Bad TimeStamp]
+
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+
+[You Get Error]
+

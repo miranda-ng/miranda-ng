@@ -1,11 +1,15 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
-;  Version: x.x.x.x
-;  Authors: 
+;  Version: 1.3.0.9
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
+[Adds some useful options to a contacts menu.]
+
 ;file \plugins\MenuItemEx\res\resource.rc
+[Enter an authorization request]
+Napište žádost o autorizaci
 [&Send]
 Po&slat
 [&Cancel]
@@ -47,9 +51,11 @@ Zkrátit příliš dlouhé ID
 [* Use Ctrl+click to see popup with the copied text]
 * Použít Ctrl+klik pro zobrazení oznámení se zkopírovaným textem
 [Hide contact on 'Ignore all']
+
 [Other options]
 Ostatní možnosti
 [Automatically refresh contact's details after they come online]
+
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 Zpráva stavu
@@ -60,8 +66,11 @@ Zpráva rozš.stavu
 [Listening to]
 Poslech hudby
 [Activity title]
+
 [Activity text]
+
 [Show in list]
+
 [Always visible]
 Tento člověk mě vždy uvidí
 [Never visible]
@@ -69,7 +78,9 @@ Tento člověk mě nikdy neuvidí
 [Request authorization]
 Požádat o autorizaci
 [Copy to Account]
+
 [Copy xStatus Message]
+
 [All]
 všechno
 [Messages]
@@ -87,10 +98,13 @@ Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Please authorize me to add you to my contact list.]
+
 [Do you want to send authorization request\nto new contact?]
+
 [Miranda NG]
 Miranda NG
 [Open ignore settings]
+
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Vlastní úpravy

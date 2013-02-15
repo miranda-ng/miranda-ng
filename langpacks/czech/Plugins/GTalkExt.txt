@@ -1,21 +1,36 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 ;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+
 [Popup notifications (needs popup plugin)]
+
 [Notify in fullscreen mode too]
+
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+
 [Notify in contact list]
+
 [Clear pseudocontact history before adding new events]
+
 [Supress foreign popups for pseudocontact]
+
 [Mark history event read when popup closed]
+
 [Add message snip to notification]
+
 [Try to login before open mailbox]
+
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
+
 [Choose GMail view you use in web interface]
+
 [I don't know]
+
 [Standard view]
+
 [Basic HTML]
+
 [Background color]
 Barva pozadí
 [Text color]
@@ -23,79 +38,39 @@ Barva textu
 [Timeout]
 Doba zobrazení
 [If both colors set to the same value, default colors will be used]
+
 [0 means default timeout,\n-1 means no timeout]
+
 [Test]
 Ověřit
-;file \protocols\GTalkExt\src\avatar.cpp
-[PNG]
-;file \protocols\GTalkExt\src\handlers.cpp
-[mir_]
-[mir_%d]
-[google:mail:notify]
-[google:setting]
-[%s/#inbox/%x%08x]
-[%s/h/?v=c&th=%x%08x]
-[type]
-typ
-[from]
-od
-[url]
-[tid]
-[unread]
-[xmlns]
-XMLNS
-[total-matched]
-[name]
-[address]
-[result-time]
-[newer-than-time]
-[newer-than-tid]
-[value]
-[var]
-[result]
-[set]
-[get]
-[mailbox]
-[query]
-[usersetting]
-[mailnotifications]
-[subject]
-[snippet]
-[senders]
-[feature]
-[new-mail]
-[true]
-;file \protocols\GTalkExt\src\inbox.cpp
-[mail]
-pošta
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Přečíst poštu
 ;file \protocols\GTalkExt\src\notifications.cpp
-[AntiShittyFullscreenDetectionWindowClass]
 [You've received an e-mail\n%s unread threads]
+
 ;file \protocols\GTalkExt\src\options.cpp
 [PopUps]
 Oznámení
 [Network]
 Sítě
-[Why C sucks]
-[brickstrace@gmail.com [1]]
-[    bems <bems@vingrad.ru>\n]
 [* Primitive type system\n]
+
 [* No overloading\n]
+
 [* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
+
 [* No metaprogramming except preprocessor macros\n]
+
 [* No exceptions]
+
 ;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
+
 [subject\n    %s\nfrom\n%s\n%s\n]
+
 [subject\n    %s\nfrom\n%s]
-;file \protocols\GTalkExt\src\popups.cpp
-[YAPPYAPPWindowClass]
-[YAPPWinClass]
-;file \protocols\GTalkExt\src\stdafx.h
-[ColourPicker]
+
 ;file \protocols\GTalkExt\src\tipper_items.cpp
-[%raw:]
 [Unread threads:]
+

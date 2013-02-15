@@ -2,6 +2,7 @@
 ;langpack template for QuickContacts
 ;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
+
 [Enable last-sent-to]
 Povolit funkci 'Poslední odeslané'
 [recognize all messages sent]
@@ -24,7 +25,10 @@ Zobrazit jako samostatný sloupec ...
 Skrýt podkontakty
 [But keep subcontacts of protocols in above list if meta is hidden]
 Je-li Meta skryto, ponechat podkontakty vybraných protokolů
+[Enter username:]
+Zadejte uživatele:
 [Show all contacts (Ctrl+A)]
+
 ;file \plugins\QuickContacts\src\options.cpp
 [Quick Contacts]
 Rychlé kontakty
@@ -48,11 +52,18 @@ Zobrazit všechny kontakty
 [Quick Contacts...]
 Rychlé kontakty...
 [Ctrl+A]
+
 [Send message]
 Poslat zprávu
 [Ctrl+V]
+
 [Ctrl+F]
+
 [Ctrl+U]
+
 [Ctrl+I]
+
 [Ctrl+H]
+
 [Ctrl+M]
+

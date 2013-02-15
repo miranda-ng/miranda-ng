@@ -1,80 +1,183 @@
-﻿;#muuid not found, please specify manually!
-;langpack template for mradio
-;file \plugins\mRadio\mradio.rc
-[Add Station]
-Přidat stanici
-[Station Name]
-Název stanice
-[Station URL (required)]
-Adresa stanice (povinné)
-[...]
-...
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.2.1
+;  URL:http://awkward.mirandaim.ru
+;============================================================
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+
+[mRadio Mod]
+
+[REC]
+
+[Cave]
+Jeskyně
+[Arena]
+Aréna
 [Genre]
 Žánr
-[Bitrate]
-Datový tok
-[Add station]
-Přidat stanici
-[To list]
-Do CL
-[Record]
-Nahrávat
-[Record path]
-Nahrávat do:
-[Status Message]
-Stavová zpráva
-[V]
-[Status message template]
-Šablona stavové zprávy
-[Import File]
-[Use EAX]
-Použít EAX
-[min]
-[max]
-[Volume]
-Hlasitost
-[Buffer, ms (5000)]
-Vyrovnávací paměť, ms (5000)
-[PreBuf, % (75%)]
-Naplnění paměti, % (75%)
+[Plain]
+Pláň
+[Alley]
+Alej
+[Dizzy]
+Trpící závratěmi
+[Generic]
+Obecný
+[Bathroom]
+Koupelna
+[Parking Lot]
+Parkovací místo
+[Stone Corridor]
+Kamenná chodba
+[Sewer Pipe]
+Odpadová roura
+[Auditorium]
+Posluchárna
+[Carpeted Hallway]
+Hala s koberci
+[Play from first]
+Hrát od první písničky
+[Shuffle playlist]
+Písničky v playlistu náhodně
+[Loop single media]
+Přehrávat samostatné média ve smyčce 
+[Station Name]
+Název stanice
 [Timeout, ms (5000)]
 Časový limit, ms (5000)
-[Tries to connect]
-[BASS library path (empty for default)]
-[OFF]
-[-15]
-[+]
-[-]
--
-[Equalizer presets]
-Předvolby ekvalizéru
-[Equalizer]
-Ekvalizér
+[PreBuf, % (75%)]
+Naplnění paměti, % (75%)
+[Hallway]
+Hala
+[Mountains]
+Hory
+[Use EAX]
+Použít EAX
+[Under Water]
+Pod vodou
+[Station URL (required)]
+Adresa stanice (povinné)
+[To INI]
+Do INI
+[Buffer, ms (5000)]
+Vyrovnávací paměť, ms (5000)
+[Add station]
+Přidat stanici
+[Add Station]
+Přidat stanici
+[Bitrate]
+Datový tok
+[Stone Room]
+Kamenná místnost
+[Living Room]
+Obývací pokoj
+[Drugged]
+Zdrogovaný
+[Record path]
+Nahrávat do:
+[Padded Cell]
+Buňka s výplní
+[Autoconnect last station]
+Automaticky spustit poslední stanici
+[Concert Hall]
+Koncertní hala
+[Psychotic]
+Psychotický
+[Forrest]
+Les
+[To list]
+Do CL
+[Hangar]
+Hangár
+[Offline station as Offline]
+Vypnutá stanice jako offline (jinak neviditelná)
+[Protocol depending status]
+
+[Continuous record]
+Nepřetržité nahrávání
+[Quarry]
+Kamenolom
+[Sorry!]
+
+[BASS.DLL not found!]
+Nelze najít knihovnu BASS.DLL!
 [Station]
 Stanice
-[URL]
-Odkaz
 [Custom INI file]
 Vlastní INI
-[*]
-;file \plugins\mRadio\i_bass.inc
-[Sorry!]
-[Oops! BASS error]
-[BASS.DLL not found! Choose BASS.dll path manually]
-[Choose BASS.dll path]
-;file \plugins\mRadio\i_frameapi.inc
+[Radio station URL]
+
+[Start record]
+Spustit nahrávání
+[Stop record]
+Ukončit nahrávání
+[Currently played URL]
+
+[Current stream title]
+
+[Station/playlist URL]
+
+[Currently used decoder]
+
+[connecting]
+
+[aborting]
+
+[Can't initialize device]
+
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+
+[Start broadcasting]
+
+[Stop broadcasting]
+
+[Start/Stop broadcasting]
+
+[Start/Stop Record]
+
+[Record]
+Nahrávat
+[Status message template]
+Šablona stavové zprávy
+[Equalizer presets]
+Předvolby ekvalizéru
+[Export All]
+Exportovat vše
+[Current status]
+
+[Broadcast ON]
+
+[Broadcast OFF]
+
+[Add EQ preset]
+
+[Delete EQ preset]
+
+[BASS library path (empty for default)]
+
+[Tries to connect]
+
 [Mute]
 Ztišit
-;file \plugins\mRadio\i_myservice.inc
+[mRadio volume control]
+
+[Import File]
+
+[Play Station]
+
+[Forced Mono]
+
+[Play/Pause]
+
+[Oops! BASS error]
+
+[Mute with Miranda]
+
 [Advanced]
 Extra
-;file \plugins\mRadio\i_optdlg.inc
-[Add]
-Přidat
-[Delete]
-Smazat
-;file \plugins\mRadio\i_service.inc
-[Radio station URL]
-;file \plugins\mRadio\mradio.dpr
-[%s server connection]
-%s - spojení se serverem
+[Stop]
+Zastavit
+[Play]
+Přehrát

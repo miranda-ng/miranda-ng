@@ -6,9 +6,12 @@
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
+
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
+
 [Enable auto-replacements]
+
 [Language:]
 Jazyk:
 [Add...]
@@ -17,12 +20,16 @@ Přidat
 Upravit...
 [Remove]
 Odebrat
+[Add auto-replace word]
+Přidat slovo automatické náhrady
 [Wrong word:]
 Chybné slovo:
 [No separators and all lowercase chars]
+
 [Correction:]
 Oprava:
 [Use variables in correction]
+
 [OK]
 OK
 [Cancel]
@@ -34,9 +41,11 @@ Výchozí jazyk:
 [Auto-replace words with dictionary suggestions]
 Automaticky nahrazovat slova navrženými výskyty ze slovníku
 [Ignore words with numbers]
+
 [Ignore words in UPPER CASE]
 Ignorovat slova KAPITÁLKAMI
 [Ask before sending a message with spelling errors]
+
 [Download more dictionaries]
 Stáhnout další slovníky
 [Advanced]
@@ -56,33 +65,30 @@ Určit jazyk slovníku dle zvolené klávesnice
 [Use dictionaries from other programs]
 Použít slovníky jiných programů
 [Avoid removing underscores (slows down checking of long texts)]
+
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
+
 [Wrong Correction]
 Špatná oprava
 [The correction can't be empty!]
+
 [The correction can't be equal to the wrong word!]
-;file \plugins\SpellChecker\src\commons.h
-[%miranda_path%\\Icons]
-[%miranda_userdata%\\Dictionaries]
-[%miranda_path%\\Dictionaries]
+
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
+
 [Tagalog (Philippines)]
 Tagalog (Filipíny)
 [de_frami_neu]
+
 [German (Germany)]
 Němčina (Německo)
-[Thunderbird]
-[Firefox]
-[Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
-[Path]
-Cesta
-[%s\\Dictionaries]
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Komunikace
 [Auto-replacements]
+
 [Line]
 Řádek
 [Dotted]
@@ -98,7 +104,9 @@ Vlnka
 [Thick]
 Tučně
 [Wrong word]
+
 [Correction]
+
 ;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Slovníky
@@ -106,15 +114,17 @@ Slovníky
 Vlastní slovníky
 [Flags DLL]
 Knihovna vlajek
-[Spell Checker/Flags]
 [Enable/disable spell checker]
+
 [Enabled]
 Zapnuto
 [Disabled]
 Vypnuto
 ;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
+
 [Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
+
 [Other...]
 Jiné...
 [Always replace with]

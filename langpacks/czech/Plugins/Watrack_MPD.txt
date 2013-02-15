@@ -1,21 +1,16 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
+
 [Port]
 Port
 [Password]
 Heslo
-;file \plugins\Watrack_MPD\src\main.c
-[mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.]
-[Unknown track]
-[Unknown artist]
-[Unknown genre]
-[Unknown album]
-[Unknown year]
 ;file \plugins\Watrack_MPD\src\options.c
 [Winamp Track]
 Sledování hudby
 [Plugins]
 Doplňky
 [Watrack MPD]
+

@@ -6,6 +6,7 @@
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
+
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 Zkopírovat
@@ -26,6 +27,7 @@ Možnosti
 [Enable BBCodes]
 Povolit BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+K dispozici jsou tyto BBCode značky: [b][i][u][s][img][size][color][url]
 [Enable support for Flash files in smileys and BBCodes]
 Povolit smajlíky ve Flashi a formátování pomocí BBCode
 [Enable workaround for PNG transparency]
@@ -37,6 +39,7 @@ Nahrazovat i smajlíky ve jménech
 [Hide window border]
 Skrýt okraj okna
 [Embed YouTube videos]
+
 [Size:]
 Velikost:
 [Mode]
@@ -79,12 +82,14 @@ Odeslaný odkaz
 [URL received]
 Přijatý odkaz
 ;file \plugins\IEView\src\HTMLBuilder.cpp
+['(Unknown Contact)']
+'(neznámý kontakt)'
 [(Unknown Contact)]
 (neznámý kontakt)
 [ requested authorisation]
+
 [ was added.]
-;file \plugins\IEView\src\IEView.cpp
-[about:blank]
+
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [Error]
 Chyba
@@ -104,14 +109,25 @@ protokol
 [Message Sessions]
 Komunikace
 [IEView]
+
 [Skins]
 Skiny
+[320 x 205]
+
+[480 x 385]
+
+[560 x 349]
+
+[640 x 390]
+
 [Template]
 Šablona
 [All Files]
 Všechny soubory
 [All Images]
+
 [Style Sheet]
+
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Dnes

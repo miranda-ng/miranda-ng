@@ -1,4 +1,4 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -6,6 +6,7 @@
 ;  Authors: yaho
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 FTP účet
@@ -30,9 +31,11 @@ Název účtu
 [Protocol]
 Protokol
 [Default FTP server]
+
 [File download link]
 Odkaz na soubor
 [Close dialog after upload is completed]
+
 [Copy download link to message log]
 Zkopírovat odkaz na soubor do historie
 [Autosend download link to contact]
@@ -48,13 +51,21 @@ Ostatní
 [Automatically delete file from FTP server after (experimental):]
 Automaticky smazat soubor z FTP po (experimentální):
 [ZIP support]
+
 [Enter archive name manually]
+
 [Compression level:]
+
+[Upload File Manager]
+
 [File:]
+
 [Completed:]
+
 [Speed:]
 Rychlost:
 [Remaining:]
+
 [Summary]
 Souhrn
 [To:]
@@ -70,109 +81,170 @@ Možnosti
 [Pause]
 Pozastavit
 [File Manager]
+
 [Server:]
 Server:
 [User info]
+
 [UPLOADING...]
+
 [Open in Browser]
 Otevřít v prohlížeči
+[FTP File Manager]
+
 [Select All]
 Vybrat vše
 [Deselect All]
+
 [Delete from list]
+
 [Delete from FTP]
+
+[Enter file name]
+
 [OK]
 OK
 [Cancel]
 Zrušit
+[File exists]
+
 [Rename]
 Přejmenovat
 [Overwrite]
 Přepsat
 [File with the same name already exists on the server.]
+
 [How to proceed?]
+
 [Copy URL]
+
 [Close dialog after upload finishes]
 Po ukončení přenosu dat zavřít okno
+[Automatically delete file after...]
+
 [Disabled]
 Vypnuto
 [Delete from List]
+
 [Copy Link]
 Zkopírovat adresu odkazu
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Informace o uživateli
 [Copy Link to Clipboard]
-[FTP File Manager]
+
 [%d minutes]
 %d min.
 [%d hours]
 %d hod.
 [%d days]
+
 [Do you really want to cancel all running jobs?]
+
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP File]
 Soubory přes FTP
 [FTP Server %d]
+
 [Upload file(s)]
+
 [Zip and upload file(s)]
+
 [Zip and upload folder]
+
 [FTP File manager]
+
 [Show FTPFile manager]
+
 [FTP_ShowManager]
+
 [Upload file]
+
 [Zip and upload file]
+
 [You have to fill FTP server setting before upload a file.]
+
 [Error has occurred while trying to create a dialog!]
+
 [File upload complete]
 Upload souboru dokončen
 [Upload canceled]
 Upload přerušen
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
+
 ;file \plugins\FTPFileYM\src\job_generic.cpp
-[All Files (*.*)\0*.*\0]
+[All Files (*.*)]
+Všechny soubory (*.*)
 [FTP File - Select files]
 Soubory přes FTP - vyberte soubory
 [FTP File - Select a folder]
+
 [Folder not found!]
+
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+
 [CANCELED]
+
 [COMPLETED]
+
 [CONNECTING...]
+
 [CREATED]
+
 [PACKING...]
+
 [PAUSED]
+
 [WAITING...]
+
 [UNKNOWN]
+
 ;file \plugins\FTPFileYM\src\job_packer.cpp
-[archive]
 [Error occured when zipping the file(s).]
+
 [%0.1f kB/s]
+
 [%0.1f%% (%d kB/%d kB)]
+
 [%s (%d kB/%d kB)]
+
 [Do you really want to cancel this upload?]
+
 [Status: %s\r\nFile: %s\r\nServer: %s]
+
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [Resume]
 Navázat
 [File exists - %s]
+
 [Error occurred when opening local file.\nAborting file upload...]
+
 [Error occurred when initializing libcurl.\nAborting file upload...]
+
 [FTP error occurred.\n%s]
+
 [WAITTING...]
+
 [Download link:]
+
 [Do you really want to cancel running upload?]
+
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
+
 [Clear All]
 Zrušit výběr
 ;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
 FTP (Standardní)
 [FTP+SSL (Explicit)]
+
 [FTP+SSL (Implicit)]
+
 [SFTP (Secure FTP over SSH)]
+
 [minutes]
 min.
 [hours]

@@ -1,4 +1,4 @@
-﻿;[Database/Database Backups]
-;[Go to the "Customize -> Folders" to change settings]
-;[Miranda Databases]
-;[Save Profile As...]
+﻿[Go to the "Customize -> Folders" to change settings]
+[Miranda Databases]
+[Save Profile As...]
+[Database/Database Backups]

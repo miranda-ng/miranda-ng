@@ -1,6 +1,8 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
+[Set My Nickname]
+Nastavit přezdívku
 [Nickname:]
 Přezdívka:
 [OK]
@@ -34,6 +36,7 @@ Měnit velikost smajlíků
 [Global on status message]
 Globální pro zprávu stavu
 [Frame Options]
+
 [Top:]
 Nahoře:
 [Bottom:]
@@ -64,8 +67,12 @@ Protokol
 Zobrazit název protokolu
 [Show protocol cycle button]
 Umožnit přepnutí mezi protokoly
+[Set My Status Message for All Status]
+Nastavit zprávu pro všechny stavy
 [Status Message:]
 Stavová zpráva:
+[Status popup]
+Nabídka stavů
 [&Offline]
 &Offline
 [On&line]
@@ -86,6 +93,8 @@ Nev&iditelný
 Na &telefonu
 [Out to &Lunch]
 Na &obědě
+[Context popup]
+Kontextová nabídka
 [Set My Avatar...]
 Nastavit avatar...
 [Set My Nickname...]
@@ -102,18 +111,18 @@ Zobrazit předchozí protokol
 Měnit pravidelně protokoly
 [Don't cycle through protocols]
 Neměnit protokoly
+[Nick popup]
+Nabídka přezdívky
+[Status message popup]
+Nabídka stavové zprávy
+[Avatar popup]
+Nabídka avataru
+[ListeningTo popup]
+
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <stav není zadaný>
 ;file \plugins\MyDetails\src\frame.cpp
-[MyDetailsFrame]
-[MyDetailsFrameContainer]
-[<no nickname>]
-<bez přezdívky>
-[<no status message>]
-<zpráva není zadaná>
-[<nothing playing>]
-<hudba nehraje>
 [Nickname]
 Přezdívka
 [Status]
@@ -122,10 +131,10 @@ Stavy
 Stavová zpráva
 [Listening To]
 Poslech hudby
-[Background]
-Pozadí
 [My Details]
 Informace o sobě
+[Background]
+Pozadí
 [Avatar Border]
 Rámeček avataru
 [Show My Details]
@@ -147,10 +156,10 @@ Poslech hudby
 Předchozí protokol
 [Next protocol]
 Další protokol
-[Contact List]
-Seznam kontaktů
 [Set My Nickname for %s]
 Nastavit přezdívku pro %s
 [Set My Status Message for %s]
 Zadat stavovou zprávu pro %s
+[Contact List]
+Seznam kontaktů
 ;file \plugins\MyDetails\src\options.cpp

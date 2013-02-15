@@ -10,6 +10,7 @@ Uložit heslo
 [Create new account]
 Zřídit nový účet
 [Tlen]
+
 [Options]
 Možnosti
 [Automatically reconnect after unintentional disconnection]
@@ -65,6 +66,7 @@ Pro příchozí spojení použít proxy
 [Proxy type:]
 Druh proxy:
 [Proxy server:]
+
 [Proxy requires authorization]
 Proxy vyžaduje autorizaci
 [Mail Notification]
@@ -87,6 +89,8 @@ G&lobální nastavení
 Trval&e
 [Preview]
 Náhled
+[Jabber Password]
+Jabber :: Heslo
 [OK]
 OK
 [Cancel]
@@ -112,12 +116,17 @@ Povolání:
 [Looking for:]
 Hledá:
 [Voice chats]
+
 [Publicly visible status]
+
 [Save changes]
 Uložit změny
+[Avatar]
+Avatar
 [Avatar Options]
 Nastavení avataru
 [Public avatar]
+
 [Tlen login:]
 Tlen login:
 [Subscription:]
@@ -129,6 +138,7 @@ Verze:
 [System:]
 Systém:
 [Personal Information]
+
 [Nickname:]
 Přezdívka:
 [Age:]
@@ -141,12 +151,18 @@ Extra kritéria pro hledání
 Stav:
 [Plan:]
 Plan:
+[Tlen Voice Chat]
+
 [Quality]
+
 [In]
-V
+V
 [Out]
+
 [Finish]
 Dokončit
+[Tlen Voice Chat Invitation]
+Pozvánka k hovoru
 [&Accept]
 &Přijmout
 [From:]
@@ -157,6 +173,7 @@ Přišla vám pozvánka k hovoru.
 [Authentication failed for]
 Chyba při ověřování:
 [Tlen Authentication]
+
 ;file \protocols\Tlen\src\jabber_opt.cpp
 [General]
 Obecné
@@ -169,7 +186,9 @@ Sítě
 [PopUps]
 Oznámení
 [These changes will take effect the next time you connect to the Tlen network.]
+
 [Tlen Protocol Option]
+
 [Accept all alerts]
 Přijmout všechna upozornění
 [Ignore alerts from unauthorized contacts]
@@ -195,6 +214,7 @@ Ignorovat všechny obrázky
 [<Last message>]
 <poslední zpráva>
 [<Ask me>]
+
 [Online]
 Online
 [Away]
@@ -208,36 +228,63 @@ Neviditelný
 [Forwarding]
 Přeposílání
 [SOCKS4]
+
 [SOCKS5]
+
 [%s mail]
+
 ;file \protocols\Tlen\src\jabber_svc.cpp
 [Tlen login]
+
 ;file \protocols\Tlen\src\jabber_thread.cpp
 [Enter password for]
 Zadejte heslo pro
 [Jabber Connection Error]
 Jabber :: Chyba spojení
+[Windows Server 2003]
+Windows Server 2003
+[Windows XP]
+Windows XP
+[Windows 2000]
+Windows 2000
+[Windows NT]
+Windows NT
+[Windows 95]
+Windows 95
+[Windows 98]
+Windows 98
+[Windows ME]
+Windows ME
+[Windows]
+Windows
 [%s Web Messages]
+
 [Web message]
+
 [From]
 Od
 [E-mail]
 E-mail
 [An alert has been received.]
+
 [Private conference]
+
 [Subject]
 Předmět
 ;file \protocols\Tlen\src\jabber_ws.cpp
 [%s connection]
 %s - spojení se serverem
 [%s SOCKS connection]
+
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 Ikona protokolu
 [Tlen inbox]
+
 [Group chats]
 Skupinové rozhovory
 [Tlen chats]
+
 [Grant authorization]
 Udělit autorizaci
 [Request authorization]
@@ -245,77 +292,58 @@ Požádat o autorizaci
 [Voice chat]
 Telefonní hovor
 [Microphone]
+
 [Speaker]
+
 [Send image]
 Poslat
 [Incoming mail]
 Nová pošta
 [Alert]
 Upozornění
+[Tlen Chats]
+Diskuse
+[Multi-User Conference]
+Diskusní skupina
+[Tlen Mail]
+Pošta Tlen
+[Send picture]
+
+[Voice Chat]
+Hovor
 ;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+
 [%d Files]
 %d soubory
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
+
 [You cannot join this chat room, because you are banned.]
+
 [Chat room not found.]
+
 [This is a private chat room and you are not one of the members.]
+
 [You cannot send any message unless you join this chat room.]
+
 [Chat room with already created.]
+
 [Nickname '%s' is already registered.]
+
 [Nickname already in use, please try another one. Hint: '%s' is free.]
+
 [You cannot register more than %s nicknames.]
+
 [You cannot create more than %s chat rooms.]
+
 [You cannot join more than %s chat rooms.]
+
 [Anonymous nicknames are not allowed in this chat room.]
+
 [Unknown error code : %d]
+
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
-[Male]
-muž
-[Female]
-žena
-[Somebody to talk]
-Pokec
-[Friendship]
-Přátelství
-[Flirt/romance]
-Flirt/romantika
-[Love]
-Láska
-[Nothing]
-Nic
-[All]
-všechno
-[Available]
-[Student]
-Student
-[College student]
-[Farmer]
-Farmář
-[Manager]
-Manager
-[Specialist]
-Specialista
-[Clerk]
-Úředník
-[Unemployed]
-nezaměstnaný
-[Pensioner]
-Penzista
-[Housekeeper]
-V domácnosti
-[Teacher]
-Učitel
-[Doctor]
-Doktor
-[Other]
-Ostatní
-[I'd like to go downtown]
-[I'd like to go to the cinema]
-[I'd like to take a walk]
-[I'd like to go to the disco]
-[I'd like to go on a blind date]
-[Waiting for suggestion]
 [Account]
 Účet
 [both]
@@ -325,12 +353,25 @@ od
 [none]
 ---
 [not on roster]
+
 ;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
+
 [...Waiting for connection...]
+
 [...Finished...]
+
 [...Error...]
+
 [...Denied...]
-[DISPLAY]
+
+[8000 Hz / 13.8 kbps]
+
+[11025 Hz / 19.1 kbps]
+
+[22050 Hz / 36.8 kbps]
+
+[44100 Hz / 72 kbps]
+
 [Default]
 Výchozí

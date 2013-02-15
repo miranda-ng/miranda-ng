@@ -6,6 +6,7 @@
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
+
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Přidat
@@ -18,6 +19,7 @@ Importovat
 [Export]
 Exportovat
 [Retrieve news at startup]
+
 [OK]
 OK
 [Cancel]
@@ -33,7 +35,9 @@ Projít každých
 [minutes]
 min.
 [Check Feed]
+
 [Authentication]
+
 [Use &authentication]
 Použít &autorizaci
 [Login]
@@ -49,109 +53,87 @@ Značky je třeba umístit mezi #. Příklad: #<autor>#
 [Reset]
 Reset
 [?]
-?
+?
 [0 - check manually]
+
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Ikona protokolu
 [Check All Feeds]
+
 [Add Feed]
+
 [Import Feeds]
+
 [Export Feeds]
+
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
 [News Aggregator]
+
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
+
 [Change feed]
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-[\\Avatars\\]
+
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
+
 [Error]
 Chyba
 [Enter Feed URL]
+
 [Enter checking interval]
+
 [Enter message format]
+
 [The title of the item.]
+
 [The item synopsis.]
+
 [The URL of the item.]
+
 [Email address of the author of the item.]
+
 [URL of a page for comments relating to the item.]
+
 [A string that uniquely identifies the item.]
+
 [Specify one or more categories that the item belongs to.]
+
 [Feed Tag Help]
+
 [Are you sure?]
 Opravdu chcete pokračovat?
 [Tags Mask Reset]
+
 [Wait...]
 Počkejte...
 [Change Feed]
+
 [Contact deleting]
+
 [Network]
 Sítě
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Enable/disable auto update]
+
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
+
 [Cannot upload VersionInfo. Incorrect username or password]
 Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
 [Cannot upload VersionInfo. Unknown error]
 Informace o verzi: nelze nahrát na server\nNeznámá chyba
 [Feed]
 Zdroj
-[Jan]
-[Feb]
-[Mar]
-[Apr]
-[May]
-květen
-[Jun]
-[Jul]
-[Aug]
-[Sep]
-[Oct]
-[Nov]
-[Dec]
-[rss]
-[rdf]
-[title]
-titulek
 [%s\nis a valid feed's address.]
 %s\nje platná adresa zdroje.
 [New Aggregator]
-[feed]
+
 [%s\nis a not valid feed's address.]
-[version]
-[RSS %s]
-[RSS 1.0]
-[link]
-[description]
-[language]
-[managingEditor]
-[category]
-kategorie
-[image]
-[url]
-[lastBuildDate]
-[item]
-[pubDate]
-[dc:date]
-[author]
-[comments]
-[guid]
+
 [empty]
-[Atom 3]
-[rel]
-[self]
-[href]
-[subtitle]
-[name]
-[icon]
-[updated]
-[entry]
-[summary]
-[content]
-[term]
+

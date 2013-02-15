@@ -1,1 +1,1 @@
-﻿;[icon]
+﻿[Provides text render API for different plugins.]

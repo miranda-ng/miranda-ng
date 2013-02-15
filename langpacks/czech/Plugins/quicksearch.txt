@@ -1,130 +1,225 @@
-﻿;#muuid not found, please specify manually!
-;langpack template for quicksearch
-;file \plugins\QuickSearch\qs.rc
-[*]
-[<]
-[>]
-[C&ancel]
-[Default]
-Výchozí
-[Settings]
-Nastavení
-[Title:]
-Název:
-[Type:]
-Typ:
-[InfoType:]
-Typ inf.:
-[Script]
-[Service:]
-Služba:
-[wParam:]
-[Setting:]
-Nastavení:
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search, Quick Search Mod
+;  Versions: 1.4.0.4 - 1.4.0.18
+;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
+;============================================================
+[Global QuickSearch hotkey]
+
+[Local QuickSearch hotkey]
+
+[Show Offline contacts]
+Zobrazit offline kontakty
+[New column]
+
+[Set Item]
+
 [wParam type:]
 wParam typ:
-[lParam:]
 [lParam type:]
 lParam typ:
 [Sort by Status]
 Seřadit podle stavu
-[Only Users in List]
-Pouze kontakty v seznamu
-[Auto Close mode]
-Automaticky zavřít
+[Don't Use Tool Window Style]
+
 [Draw Grid]
 Vykreslit mřížku
+[integer value]
+integer hodnota
+[Save Item]
+Uložit položku
+[ClientID]
+
+[Quick Search]
+Rychlé hledání
+[Quick search]
+
+[Search on:]
+Vyhledat:
+[Quick Search:]
+
+[UID:]
+
+[E-mail Address:]
+E-mail:
+[MirandaV]
+
+[Ext IP]
+
+[Last Event]
+
+[Online Since]
+
+[Quick Search Options]
+Možnosti rychlého hledání
+[&New]
+&Nový
+[D&n]
+\\&/
+[Setting:]
+Nastavení:
+[De&fault]
+&Výchozí
+[&Set Item]
+Nas&tavit
+[At Start Sort by Status]
+Při spuštění seřadit dle stavu
+[Global scope hotkey:]
+Klávesová zkratka (globální):
+[Miranda scope hotkey:]
+Klávesová zkratka (Miranda):
+[Add Item to Main Menu]
+Přidat položku do menu
+[Show Only Users in List]
+Zobrazit pouze uživ. v seznamu
+[Add Button to TopToolBar]
+Přidat tlačítko do horní lišty
+[Additional Options]
+Ostatní možnosti
+[Columns && Data]
+Definice sloupců
+[Auto Close mode]
+Automaticky zavřít
+[InfoType:]
+Typ inf.:
+[Module/InfoType]
+Modul/Typ inf.
+[Not Selected]
+Nevybráno
+[FIRSTNAME]
+JMÉNO
+[LASTNAME]
+PŘÍJMENÍ
+[CUSTOMNICK]
+VLASTNÍ PŘEZDÍVKA
+[EMAIL]
+E-MAIL
+[CITY]
+MĚSTO
+[STATE]
+STÁT
+[COUNTRY]
+ZEMĚ
+[PHONE]
+TELEFON
+[HOMEPAGE]
+DOM. STRÁNKA
+[ABOUT]
+INFORMACE
+[GENDER]
+POHLAVÍ
+[AGE]
+VĚK
+[FIRSTLAST]
+JMÉNO PŘÍJMENÍ
+[UNIQUEID]
+IDENTIFIKÁTOR
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
+
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
+
+[New Column]
+Nový sloupec
+[Save Column]
+Uložit sloupec
+[Column Up]
+Posunout nahoru
+[Column Down]
+Posunout dolů
+[Delete Column]
+Smazat sloupec
+[Only Users in List]
+Pouze kontakty v seznamu
 [Show Client Icons]
 Zobrazit ikony klientů
-[Save search pattern]
-Zapamatovat hledaný řetězec
 [Item in Main Menu]
 Přidat položku do menu
 [Button on TopToolBar]
 Tlačítko do horní lišty
 [Tool Window Style]
 Tool styl okna
-[Copy line to CSV]
-Zkopírovat řádek do CSV
+[Global scope hotkey]
+Klávesová zkratka (globální):
+[Miranda scope hotkey]
+Klávesová zkratka (Miranda):
 [CSV with headers]
 CSV s hlavičkou
 [Skip minimized columns]
 Ignorovat skryté sloupce
-[Additional Options]
-Ostatní možnosti
-[Refresh]
-Aktualizovat
-[Show Offline contacts]
-Zobrazit offline kontakty
+[Copy line to CSV]
+Zkopírovat řádek do CSV
+[Save search pattern]
+Zapamatovat hledaný řetězec
+[QuickSearch error]
+
+[Quick Search Mod]
+
+[Script]
+
+[Int]
+
+[ContactInfo]
+
+[LastEvent]
+
+[TimeStamp]
+
+[Script Editor]
+
+[Normal foreground]
+
+[Odd background]
+
+[Odd foreground]
+
+[Disabled account background]
+
+[Disabled account foreground]
+
+[Deleted account background]
+
+[Deleted account foreground]
+
+[Not-in-list contact background]
+
+[Not-in-list contact foreground]
+
+[C&onvert to Meta]
+
+[Some of selected contacts in different metacontacts already]
+
+[Do you really want to delete selected contacts?]
+
+[One or more contacts in same Meta already. Try to convert anyway?]
+
+[Metacontact background]
+
+[Metacontact foreground]
+
+[SubMetacontact background]
+
+[SubMetacontact foreground]
+
+[%u users found (%u) Online: %u]
+%u kontaktů nalezeno (%u) Online: %u
+[ users found (]
+
+[) Online: ]
+
 [Colorize]
 Obarvit
-[Search for:]
-Hledat:
-;file \plugins\QuickSearch\sr_frame.pas
+[Metacontact]
+
+[Hidden contact background]
+
+[Hidden contact foreground]
+
+[QuickSearch window hotkey]
+
 [Previous item]
 Předchozí položka
 [Next item]
 Další položka
 [Open main window]
 Otevřít hlavní okno
-;file \plugins\QuickSearch\sr_optdialog.pas
-[Metacontact]
-[Service]
-Služba
-[number value]
-číselná hodnota
-[integer value]
-integer hodnota
-[ANSI string]
-ANSI řetězec
-[Unicode string]
-Unicode řetězec
-[current contact]
-současný kontakt
-[New]
-Nový
-[Save Item]
-Uložit položku
-[Down]
-Dolů
-[Delete]
-Smazat
-[Reload]
-Načíst znovu
-;file \plugins\QuickSearch\sr_window.pas
-[ users found (]
-[) Online: ]
-[Online]
-Online
-[deleted]
-smazáno
-[off]
-vyp
-[active]
-Aktivní
-[Do you really want to delete selected contacts?]
-[Warning]
-Upozornění
-[Some of selected contacts in different metacontacts already]
-[One or more contacts in same Meta already. Try to convert anyway?]
-[Selected]
-Vybráno
-[contacts]
-kontakty
-[&Delete]
-&Smazat
-[&Copy]
-Z&kopírovat
-[C&onvert to Meta]
-[&Move to Group]
-Přesunout do s&kupiny
-[Male]
-muž
-[Female]
-žena
-[Unknown]
-Neznámý
-[All]
-všechno
-[Stay on Top]
-Vždy navrchu

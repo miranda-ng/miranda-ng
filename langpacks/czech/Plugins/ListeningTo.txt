@@ -2,6 +2,7 @@
 ;langpack template for ListeningTo
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
+
 [Enable sending listening information to contacts:]
 Povolit posílání informací o poslechu hudby kontaktům
 [Music]
@@ -35,8 +36,11 @@ Převzít informace z doplňku WATrack
 [Get info from these players:]
 Převzít informace z těchto přehrávačů:
 [Winamp (*)]
+
 [Windows Media Player]
+
 [iTunes]
+
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (vyžaduje ruční instalaci)
 [Other players]
@@ -89,19 +93,33 @@ Pokud nehraje hudba, namísto %listening% použít:
 [Send to %s]
 Poslat %s
 [Listening to (enabled)]
+
 [Listening to (disabled)]
+
 [Send to all protocols]
 Poslat všem protokolům
-[listening_info]
-[listening_type]
-[listening_artist]
-[listening_album]
-[listening_title]
-[listening_track]
-[listening_year]
-[listening_genre]
-[listening_length]
-[listening_player]
+[Listening info]
+Poslech hudby
+[Listening info as set in the options]
+
+[Media type: Music, Video, etc]
+
+[Artist name]
+
+[Album name]
+
+[Song name]
+
+[Track number]
+
+[Song year]
+
+[Song genre]
+
+[Song length]
+
+[Player name]
+
 [Don't send to any protocols]
 Neposílat žádnému protokolu
 [Toggle send to all protocols]
@@ -109,91 +127,25 @@ Přepnout stav posílání protokolům
 [Enable/Disable sending Listening To info (to all protocols)]
 Zapnout/vypnout posílání informací o poslechu hudby (všem protokolům)
 [Disable ListeningTo (to all protocols)]
+
 [Enable ListeningTo (to all protocols)]
-[listening]
-[artist]
-umělec
-[album]
-album
-[title]
-titulek
-[track]
-[year]
-[genre]
-žánr
-[length]
-[player]
-[type]
-typ
-[StartTimer]
-[To be sure that no one was left behind]
-;file \plugins\ListeningTo\src\music.cpp
-[ChangedListeningInfo]
-[Start]
-Začít
-[Has : %s : %d]
-[Is equals]
-[Is different]
+
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <neznámý>
 [<Nothing is playing now>]
+
 [Status]
 Stavy
-[Listening info]
-Poslech hudby
 [General]
 Obecné
 [Format]
 Formát
 [Players]
 Přehrávače
-;file \plugins\ListeningTo\src\players\foobar.cpp
-[foobar2000]
 ;file \plugins\ListeningTo\src\players\generic.cpp
-[GenericPlayer]
 [Miranda ListeningTo receiver]
-[ProcessReceived]
-[ERROR: Empty text]
-[ERROR: No \\0 found]
-[ERROR: Too little pieces]
-[END: Stoped playing]
-[ERROR: not enought info]
-[END: Success]
-[SendTimerProc]
-[It's time to process]
-[NewData]
-[Processing]
-[ERROR: Text is empty]
-[Got new text, scheduling update]
-[Text: %s]
-[END: Text is the same as last time]
-[ReceiverWndProc]
-[START: Received message]
-[ERROR: COPYDATASTRUCT* is NULL]
-[ERROR: pData->dwData is incorrect]
-[ERROR: pData->cbData is 0]
-[ERROR: pData->lpData is NULL]
-[Going to process]
-;file \plugins\ListeningTo\src\players\itunes.cpp
-;file \plugins\ListeningTo\src\players\mradio.cpp
-;file \plugins\ListeningTo\src\players\player.cpp
-[Player]
-[ExternalPlayer]
-[CodeInjectionPlayer]
-;file \plugins\ListeningTo\src\players\watrack.cpp
-[WATrack]
-;file \plugins\ListeningTo\src\players\winamp.cpp
-[Winamp v1.x]
-[Winamp]
-[.Winamp]
+
 ;file \plugins\ListeningTo\src\players\wmp.cpp
-[MsnMsgrUIManager]
-[WindowsMediaPlayer]
 [Miranda ListeningTo WMP receiver]
-[WMP : New data: [%d] %s]
-;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
-[unexpected profiler failure\n]
-;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
-[Miranda ListeningTo Winamp Plugin]
-[Copyright (C) 2006 Ricardo Pescuma Domenecci]
+

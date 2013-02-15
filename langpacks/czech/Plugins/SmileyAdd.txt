@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: x.x.x.x
+;  Version: 0.2.3.17
 ;  Authors: 
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
@@ -21,18 +21,25 @@ Verze:
 [Preview]
 Náhled
 [+]
+
 [-]
--
+-
 [Display]
 Zobrazení
 [Replace only smileys surrounded by spaces]
 Nahradit pouze smajlíky ohraničené mezerami
 [Scale smiley to textheight]
 Sjednotit velikost smajlíků s textem
-[Animate]
-Animovat
 [Disable custom smileys]
 Zakázat vlastní sady smajlíků
+[High Quality smiley scaling]
+Zapnout kvalitní přepočet velikosti
+[Animate]
+Animovat
+[Max "Custom Smiley" height]
+Max. velikost vlastních smajlíků
+[Min smiley height]
+Min. velikost smajlíků
 [Smiley Selector]
 Použití smajlíku
 [Surround inserted smiley with spaces]
@@ -53,46 +60,19 @@ Vestavěná podpora
 Vypnout
 [Smiley Button]
 Tlačítko se smajlíky
-[Max "Custom Smiley" height]
-Max. velikost vlastních smajlíků
-[High Quality smiley scaling]
-Zapnout kvalitní přepočet velikosti
-[Min smiley height]
-Min. velikost smajlíků
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[Edit]
-Upravit
 [Show Smiley Selection Window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
-[\\SmileyCache]
-[%miranda_userdata%\\SmileyCache]
 [SmileyAdd HTTP connections]
 SmileyAdd - spojení pomocí protokolu HTTP
-;file \plugins\SmileyAdd\src\general.cpp
-[jpg]
-[bmp]
-[png]
-[gif]
-[GDI+ not installed.\n]
-GDI+ není nainstalované.\n
-[GDI+ can be downloaded here: http://www.microsoft.com/downloads]
-GDI+ lze stáhnout na adrese http://www.microsoft.com/downloads
-[Miranda SmileyAdd]
-Smajlíky
-;file \plugins\SmileyAdd\src\imagecache.cpp
-[dll]
-[ico]
-[icl]
-[tif]
-[tiff]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
 Tlačítko smajlíků
-[Only one instance of SmileyAdd could be executed.\n]
-Spustit lze jen jednu instanci doplňku Smajlíky.\n
-[Remove duplicate instances from 'Plugins' directory]
-Odstraňte duplicitní kopie tohoto doplňku ze složky 'Plugins'.
+[Assign Smiley Category]
+Přiřazení kategorie smajlíků
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory]
+
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
 Smajlíky
@@ -108,57 +88,18 @@ Dole
 Sady smajlíků
 [All Files]
 Všechny soubory
-[msl]
 ;file \plugins\SmileyAdd\src\services.cpp
-[<None>]
-Není
-[Standard]
-Standardní
 [Protocol specific]
-;file \plugins\SmileyAdd\src\smileyroutines.cpp
-[THppRichEdit]
-[Time elapsed: %u]
-Uplynulý čas: %u
+
 ;file \plugins\SmileyAdd\src\smileys.cpp
-[hContact]
-[(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*]
-[[\\s"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*]
-[Nothing loaded]
-Nic se nenačetlo
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
 Knihovna smajlíků %s nebyla nalezena.\nVyberte platnou knihovnu smajlíků v Možnosti | Vlastní úpravy | Smajlíky.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
 Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace naleznete v záznamu komunikace po síti.
-[^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
-[Name]
-Jméno
-[Author]
-Autor
-[Date]
-Datum
-[Version]
-Verze
-[ButtonSmiley]
-[^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)]
-[Selection]
-Výběr
-[Window]
-Okno
-[(?:[\\s,]+(R|S)?"(.*?)\]
 [Smiley #%u in file %s for Smiley Pack %s not found.]
 Smajlík č.%u v souboru %s knihovny smajlíků %s nebyl nalezen.
-[&lt;]
-[&gt;]
-[<DataBaseName>\\s*"(.*?)"\\s*</DataBaseName>]
-[<PackageAuthor>\\s*"(.*?)"\\s*</PackageAuthor>]
-[<settings>(.*?)</settings>]
-[<record.*?ImageIndex="(.*?)".*?>(?:\\s*"(.*?)\]
-[<Expression>\\s*"(.*?)"\\s*</Expression>]
-[<PasteText>\\s*"(.*?)"\\s*</PasteText>]
-[<images>(.*?)</images>]
-[<Image>(.*?)</Image>]
-[Test String]
-Testovací řetězec
+[Standard]
+Standardní
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
 Regulární výraz "%s" v knihovně smajlíků "%s" může vracet "prázdné výsledky".
 [Regular Expression "%s" in smiley pack "%s" malformed.]
@@ -166,4 +107,3 @@ Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 A sakra!
-[SmileyTool]

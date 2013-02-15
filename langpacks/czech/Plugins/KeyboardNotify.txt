@@ -1,8 +1,8 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
-[Protocols to check]
-Vybrané protokoly
+[Accounts to check]
+
 [Events to react on]
 Reagovat při událostech
 [Incoming messages]
@@ -129,14 +129,22 @@ Exportovat...
 Importovat...
 [Override existing]
 Přepsat existující
+[Set program list]
+Seznam vybraných programů
 [Program]
+
 [OK]
 OK
 [Cancel]
 Zrušit
+[Set LEDs for events]
+Zvolit LEDky pro události
 [Num]
+
 [Caps]
+
 [Scroll]
+
 [Message events]
 Zprávy
 [File events]
@@ -146,7 +154,9 @@ Příchozí odkazy
 [Other events]
 Jiné události
 [Consider event opened after]
+
 [Use custom theme]
+
 [The following events are being ignored:]
 Následující události budou ignorovány:
 [Ignore messages]
@@ -163,24 +173,14 @@ Ignorovat vše
 Neignorovat
 [Ignore]
 Filtrování
+[Set xStatus list]
+Nastavit rozšířené stavy
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** všechny kontakty **
 [** Unknown contacts **]
 ** neznámé kontakty **
-;file \plugins\KeyboardNotify\src\keyboard.cpp
-[Kbd%d]
-[\\Device\\KeyboardClass%d]
-[\\\\.\\Kbd%d]
-;file \plugins\KeyboardNotify\src\main.cpp
-[screen-saver]
-[%s/FlashEvent]
-[%s/ExitEvent]
 ;file \plugins\KeyboardNotify\src\options.cpp
-[Miranda]
-Miranda
-[Windows]
-Windows
 [left->right]
 zleva doprava
 [right->left]
@@ -205,8 +205,9 @@ Protokol
 Sekvence blikání klávesnicí
 [All Files]
 Všechny soubory
-[knt]
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
+
 [\n; End of automatically generated Keyboard Notify Theme file\n]
+
 [None]
 ---

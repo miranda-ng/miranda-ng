@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
-;  Version: x.x.x.x
+;  Version: 2.0.0.1
 ;  Authors: 
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
@@ -11,6 +11,7 @@ E-mail:
 [Password:]
 Heslo:
 [Create a new Mail.ru account]
+
 [Configuration]
 Nastavení
 [Login Server:]
@@ -18,20 +19,31 @@ Server:
 [Port:]
 Port:
 [(2042, 443, 110, 25)]
+
 [Default]
 Výchozí
 [Automatically request authorization on logon]
+
 [Automatically add contacts to server list on logon]
+
 [Automatically grant authorization to users in contact list]
+
 [Automatically grant authorization to new users]
+
 [Disable spam check]
+
 [Notify me when a message delivery has failed]
 Upozornit při nedoručení odeslané zprávy
 [Notify about new mail if increment]
+
 [Notify about new mail tray icon]
+
 [Click to Inbox]
+
 [Show received formatted text (receive RTF)]
+
 [Send formatted text (send RTF)]
+
 [Background colour]
 Barva pozadí
 [Font]
@@ -45,16 +57,19 @@ Jméno:
 [Last name:]
 Příjmení:
 [@]
+
 [Gender:]
 Pohlaví:
 [Age:]
 Věk:
 [from:]
+
 [to:]
 do:
 [Birthday:]
 Narozeniny:
 [Zodiak:]
+
 [Location]
 Umístění
 [Country:]
@@ -66,36 +81,59 @@ Hledat pouze mezi uživateli online
 [City:]
 Město:
 [Remember]
+
 [Enable avatars support (loading)]
+
 [Server:]
 Server:
 [(80, 443, 2041)]
+
 [Updates check interval, min]
+
 [Return absolute path]
+
 [Delete avatar file with contact]
+
 [Use keep-alive connections]
+
 [Files exchange]
+
 [No out connection on send]
+
 [No out connection on receive]
+
 [Out connections: ignory additional ports (443, 2041)]
+
 [Hide my IP addresses]
+
 [Add extra address]
+
 [Your host (or router):]
 Počítač (nebo brána):
 [File send block size:]
+
 [512 - 65536 bytes]
+
 [Enable direct connections]
+
 [Enable MRIM proxy connections]
+
 [Mail.ru Agent]
 Mail.ru (agent)
 [Full e-mail:]
 E-mail:
 [Example: Petrov_Ivan@mail.ru]
+
 [Create a new Mail.ru account using the Mail.ru website]
+
 [Retrieve a lost password]
+
 [Leave empty if you dont want change password]
+
 [PopUp type]
+
 [Popup settings]
+
 [Enable]
 Aktivovat
 [&Use Windows colors]
@@ -108,6 +146,8 @@ Barva textu
 Doba zobrazení
 [Previe&w]
 &Náhled
+[Custom Status "%s" Details]
+Rozš. stav '%s'
 [Closing in %d]
 Zavře se za %d sek.
 [Title:]
@@ -115,18 +155,27 @@ Název:
 [Message:]
 Zpráva:
 [Enable Anti Spam]
+
 [Check temp contacts]
+
 [Delete spam bot contacts]
+
 [Max. language changes in message (0 - disabled)]
+
 [Show pop up]
+
 [Write to system history]
+
 [Send spam report to server]
+
 [Bad words list]
+
 [Add]
 Přidat
 [Remove]
 Odebrat
 [Ignory non AlphaNumeric characters]
+
 [OK]
 OK
 [Cancel]
@@ -134,13 +183,108 @@ Zrušit
 [Notify]
 Oznámení
 [Writed:]
+
 [0/500]
+
+[Select e-mail]
+
+;file \protocols\MRA\src\MraAntiSpam.cpp
+[Spam bot blocked]
+
+[Spam bot contact deleted]
+
 ;file \protocols\MRA\src\MraAvatars.cpp
 [Avatars]
 Avatary
 [plugin connections]
+
+[Avatars: server return HTTP code: %lu]
+
+[Avatars: cant open file %s, error]
+
 ;file \protocols\MRA\src\MraChat.cpp
-[get]
+[CHAT plugin is required for conferences. Install it before chatting]
+Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
+[invite sender]
+
+[invite new members]
+
+;file \protocols\MRA\src\MraConstans.h
+[Your contact wakes you]
+
+[Display &Inbox]
+
+[Display &Inbox status]
+
+[Edit &Profile]
+
+[My Album]
+
+[My Blog]
+
+[My Blog Status]
+
+[My Video]
+
+[My Answers]
+
+[My World]
+
+[Zhuki]
+
+[Web search]
+
+[Update all users info]
+
+[Check updates users avatars]
+
+[Request authorization for all]
+
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[&Send postcard]
+
+[&View Album]
+
+[&Read Blog]
+
+[Reply Blog Status]
+
+[View Video]
+
+[Answers]
+
+[World]
+
+[Send &Nudge]
+&Drc-drc
+[Mail box deleted]
+
+[Contact not on server]
+
+[Not authorized]
+
+[Phone/SMS only contact]
+
+[Blog status message]
+
+[New E-mail available in Inbox]
+Nová pošta
+[Please authorize me]
+
+;file \protocols\MRA\src\MraFilesQueue.cpp
+[Receive files: cant allocate disk space for file, size %lu bytes, error]
+
+[Receive files: cant open file %s, error]
+
+[Receive files: request for file %s not sended, error]
+
+[Send files: cant open file %s, error]
+
+[Send files: requested file: %S - not found in send files list.]
+
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 Bez popisu
@@ -152,6 +296,21 @@ Oznámení
 %s - spojení se serverem
 [E-mail address]
 E-mail
+;file \protocols\MRA\src\Mra_functions.cpp
+[Unread mail is available: %lu/%lu messages]
+
+[From: %s\r\nSubject: %s\r\n%s]
+
+[No unread mail is available\r\nTotal messages: %lu]
+
+[Closing in]
+
+[Reply to %s blog status]
+
+[Set my blog status]
+
+[Writed]
+
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Sítě
@@ -160,8 +319,38 @@ Sítě
 [Connections]
 Spojení
 [Anti spam]
+
 [Files]
 Soubory
+;file \protocols\MRA\src\Mra_proto.cpp
+[Please, setup e-mail in options]
+
+[Please, setup password in options]
+
+[Logon error: invalid login/password]
+
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+
+[Server error: cant get MPOP key for web authorize]
+
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+
+[invisible status changed]
+
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+
+[MRIM_ANKETA_INFO: not found in queue]
+
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+
+[MRIM_CS_SMS_ACK: not found in queue]
+
+[Mail.ru System notify]
+
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
 Opravdu chcete pokračovat?

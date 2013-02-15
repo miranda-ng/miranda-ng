@@ -1,24 +1,31 @@
 ﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;============================================================
 ;  File: AvatarHistory.dll
-;  Plugin: Avatar History
+;  Plugin: Avatar history
 ;  Version: 0.0.3.3
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+
 ;file \plugins\AvatarHistory\res\AvatarHistory.rc
+[Avatar List Popup]
+
 [Save As...]
 Uložit jako...
 [Delete this entry]
 Odstranit vybraný záznam
 [Delete this entry and the bitmap file]
 Odstranit vybraný záznam i s obrázkem
+[Avatar History]
+Historie avatarů
 [Static]
 Statický
 [Open Folder]
 Otevřít složku
 [<]
+
 [>]
+
 [Store this user's old avatars in disk]
 Ukládat avatary kontaktu na disk
 [Log this user's avatars changes to history]
@@ -60,12 +67,15 @@ Pravé tlačítko
 [On left click:]
 Levé tlačítko
 [Track]
+
 [Avatar change:]
 Změna avataru:
 [Avatar removal:]
 Odstranění avataru:
 [Preview]
 Náhled
+[Avatar History: Select how to store history avatars]
+Historie avatarů: Vyberte způsob ukládání historie avatarů
 [Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
 Prosím vyberte způsob ukládání historie avatarů. Toto nastavení NELZE v budoucnu měnit, protože by to způsobilo ztrátu celé historie avatarů.
 [Store history in miranda history and all history avatars in same folder]
@@ -92,6 +102,7 @@ Uloží historii avatarů pouze na disk. Zobrazíte ji interním prohlížečem.
 Umístění na disku: <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<čas> (stejný obrázek může být uložen víckrát!)
 ;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
+
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 Opravdu chcete odstranit vybraný záznam v historii?\nTímto odstraníte pouze položku v historii, obrázek zůstane na disku!
 [Delete avatar log?]
@@ -104,44 +115,47 @@ Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte záznam z historie
 Odstranit avatar?
 [Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
 Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte zástupce i s obrázkem.\nVAROVÁNÍ: Tato operace může ovlivnit více zástupců!
-[explore]
-[open]
 [avatar path is null.]
+
 [View Avatar History]
 Zobrazit historii avatarů
 [Save Avatar for %s]
+
 [Save Avatar]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Avatar History]
-Historie avatarů
 [Contact changed avatar]
+
 [Contact removed avatar]
-[%s\\Avatars History]
+
 [Avatars]
 Avatary
-[\\Avatars History]
 [Avatar History: Unable to create shortcut]
+
 [AVH Debug: Shortcut created successfully]
-[CopyImageFile]
+
 [AVH Debug]
+
 [Invalid contact/avatar... skipping]
+
 [Invalid protocol... skipping]
+
 [Ignoring metacontacts notification]
+
 [Removed avatar, no avatar before...skipping]
+
 [Hashes are the same... skipping]
+
 [Avatar History: Unable to save avatar]
+
 [AVH Debug: File copied successfully]
+
 [Unknown UIN]
 neznámé UIN
-[GetHistoryFolder]
 [Unknown Protocol]
 neznámý protokol
-[CreateDirectory]
-[Path: %s\nProto: ]
-[\nUIN: %s]
-[AVH Debug: GetContactFolder]
 [AVH Debug: GetOldStyleAvatarName]
-[CreateShortcut]
+
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 odstranil(a) svůj avatar
@@ -171,6 +185,3 @@ Zobrazit historii kontaktu
 Testovací kontakt
 [Test description]
 Testovací popis
-;file \plugins\AvatarHistory\src\popup.cpp
-[static]
-[ Error]

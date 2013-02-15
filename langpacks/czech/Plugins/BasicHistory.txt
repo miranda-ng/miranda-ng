@@ -1,29 +1,43 @@
 ﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
-;  Plugin: Basic History
+;  Plugin: Basic history
 ;  Version: 1.0.1.9
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
+
 ;file \plugins\BasicHistory\res\BasicHistory.rc
+[Message History]
+Historie zpráv
 [Settings]
 Nastavení
 [Always show contact list]
+
 [Show groups in contact list]
+
 [Do not show Find control border]
+
 [Default Event Filter]
 Výchozí filtr událostí
 [Custom filters]
+
 [Add filter]
+
 [Delete filter]
+
 [Add event]
+
 [Delete event]
+
 [...]
 ...
 [WinSCP path]
+
 [WinSCP log path]
+
 [New messages on top]
+
 [Show event icons]
 Zobrazit ikony událostí
 [Show timestamps]
@@ -33,10 +47,13 @@ Zobrazit jména
 [Show messages]
 Zobrazit zprávy
 [Truncate message length to:]
+
 [Delta time to group messages:]
+
 [hours]
 hod.
 [Limit messages to:]
+
 [Show date in timestamps]
 Zobrazit datum v časovém údaji
 [Show seconds in timestamps]
@@ -44,61 +61,96 @@ Zobrazit sekundy v časovém údaji
 [Enable Smileys]
 Povolit smajlíky
 [Search forward in list group]
+
 [Search forward in message window]
+
 [Match Case]
+
 [Match Whole Word]
+
 [Only Incomming Messages]
+
 [Only Outgoing Messages]
+
 [Only Selected Group]
+
 [All Contacts]
 Všechny kontakty
 [Export To Txt]
+
 [File encoding*]
+
 [Export To Plain Html]
+
 [Export To Rich Html]
+
 [External CSS file]
+
 [* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+
 [Add task]
+
 [Edit task]
+
 [Delete task]
+
 [Display errors using popups]
 Zobrazit chybová hlášení jako oznámení
 [Save errors to system history]
+
+[Task]
+
 [Name]
 Jméno
 [Active]
 Aktivní
 [Action type]
+
 [Filter]
 Filtr
 [Events older than*]
+
 [Triger type]
+
 [Time]
 Čas
 [Delta time]
+
 [Day of week]
+
 [Day]
 den
 [Export to]
+
 [Compress output files]
+
 [Password]
 Heslo
 [Upload to FTP (WinSCP requred)]
+
 [Session name]
+
 [Path to file**]
+
 [Export imported messages]
+
 [* Use negative values to filter younger events]
+
 [Execute task for specified contacts]
+
 [OK]
 OK
 [Cancel]
 Zrušit
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
+
 [View &History]
 Zobrazit &historii
 [Delete All User History]
+
 [Execute history task]
+
 [Incoming message]
 Příchozí zpráva
 [Outgoing message]
@@ -106,19 +158,24 @@ Odchozí zpráva
 [Status change]
 Změna stavu
 [Show Contacts]
+
 [Hide Contacts]
+
 [Find Next]
+
 [Find Previous]
+
 [Plus in export]
+
 [Minus in export]
+
 [History]
 Historie
-;file \plugins\BasicHistory\src\BinaryExport.h
-[bin]
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 Všechny položky
 [Default history events]
+
 [History for %s]
 Historie pro %s
 [System]
@@ -127,21 +184,24 @@ Systém
 Neplatná zpráva
 [Authorisation request by %s (%s%d): %s]
 Žádost o autorizaci od %s (%s%d): %s
-[%016llx]
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
+
 [Import]
 Importovat
 [Export]
 Exportovat
-[<ext>]
 [File do not contain selected contact]
+
 [File is corrupted]
+
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+
 [Are You sure?]
 Opravdu chcete pokračovat?
 [Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -169,17 +229,27 @@ Ikony
 [Hotkeys]
 Klávesové zkratky
 [Rich Html]
+
 [Plain Html]
+
 [Txt]
+
 [Binary]
+
 [Dat (mContacts)]
+
 [Save window position as default]
+
 [Save window position for all contacts]
+
 [Do you want save imported messages to local profile?]
+
 [File contain history for different contact. Do you want to change contact and import?]
+
 [Error]
 Chyba
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
+
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Zpráva
@@ -190,12 +260,15 @@ Adresa
 [Authorization request]
 Žádost o autorizaci
 [You were added]
+
 [Contacts recieved]
+
 [SMTP Simple Email]
 Zpráva SMTP
 [SMS message]
 Zpráva SMS
 [Group list]
+
 [Messages]
 Zprávy
 [Searching]
@@ -205,11 +278,11 @@ Plánovač
 [Advanced]
 Extra
 [>> Outgoing timestamp]
->> Odchozí čas
+>> Odchozí časový údaj
 [Outgoing background]
 Pozadí odchozích zpráv
 [<< Incoming timestamp]
-<< Příchozí čas
+<< Příchozí časový údaj
 [Incoming background]
 Pozadí příchozích zpráv
 [>> Outgoing name]
@@ -221,47 +294,81 @@ Pozadí příchozích zpráv
 [<< Incoming messages]
 << Příchozí zprávy
 [Group list background]
+
 [Find window]
+
 [Find window background]
+
 [Window background]
+
 [Contact list background]
+
 [Open global history]
+
 [Find]
 Najít
 [Switch Match Case]
+
 [Switch Match Whole Word]
+
 [Show/Hide Contacts]
+
 [Switch Only Incomming Messages]
+
 [Switch Only Outgoing Messages]
+
 [Switch Only Selected Group]
+
 [Switch All Contacts]
+
 [Export To Binary]
+
 [Import From Binary]
+
 [Export To Dat (mContacts)]
+
 [Import From Dat (mContacts)]
+
 [Invalid event number]
+
 [Incoming events]
 Příchozí události
 [Outgoing events]
 Odchozí události
 [File do not exist. Enter correct file path.]
+
 [Invalid file]
+
 [All Files (*.*)]
 Všechny soubory (*.*)
 [Enter filter name]
+
 [Filter name exists]
+
 [Event already exists]
+
 [Browse WinSCP file]
+
 [Save WinSCP log file]
+
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+
 [Invalid codepage]
+
 [Browse CSS file]
+
 [Export and Delete]
+
 [Import and Marge]
+
 [Minute]
+
 [Hour]
+
 [At Start]
+
 [At Finish]
+
 [Daily]
 Každý den
 [Weekly]
@@ -269,7 +376,9 @@ Co týden
 [Monthly]
 Co měsíc
 [Delta time (minutes)]
+
 [Delta time (hours)]
+
 [Monday]
 pondělí
 [Tuesday]
@@ -284,103 +393,91 @@ pátek
 sobota
 [Sunday]
 neděle
-[HH%cmm]
 [Invalid '%s' value.]
+
 [Events older than]
+
 [Some value is invalid]
+
 [Invalid '%s' value.\n%s]
+
 [** Use <ext> to insert extension, <contact> to insert contact name]
+
 [Input files are compressed]
+
 [Download from FTP (WinSCP requred)]
+
 [Import from]
+
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+
 ;file \plugins\BasicHistory\src\Options.h
 ;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
-[<title>]
 [History Log]
 Interní historie
-[<style type="text/css"><!--\n]
-[.mes { border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px;border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-[.text { clear: both; }\n]
-[.nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-[.date { float: right; clear: right; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
-[.url { color: #0000FF; }\n]
-[.nick#inc { color: #C83F6B; }\n]
-[.nick#out { color: #0860BD; }\n]
-[.date#inc { color: #000000; }\n]
-[.date#out { color: #000000; }\n]
-[.mes#event0 { background-color: #DBDBDB; }\n]
-[.mes#event1 { background-color: #EEEEEE; }\n]
-[.mes#event2 { background-color: #CCD9F4; }\n]
-[.mes#session { background-color: #FFFDD7; }\n]
-[)</h3>\n]
-[<h6>]
 [Filter:]
 Filtr:
 [Conversation started at %s]
 Rozhovor začal %s
-[out]
-[inc]
-[\n</div>\n]
 ;file \plugins\BasicHistory\src\RichHtmlExport.cpp
-[&amp;]
-[&lt;]
-[&gt;]
-[<br>]
-[<link rel="Stylesheet" href="]
-[\\history.css" type="text/css">\n]
-[<script type="text/javascript" src="]
-[\\history.js"></script>\n]
+[_files]
+
 [Menu]
 Menu
 [Open all]
+
 [Close all]
-[<script language="JavaScript">\n]
-[var menu = document.getElementById("menubar\]
-[if(menu != null)\n]
-[  menu.style.visibility = "visible";\n]
-[<h4>]
-[><img src="]
-[\\pnode.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
-[', this)"/>]
-[\\event]
-[.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
-[', this)"/></span>\n]
-[.ico" class=sessionimage width="16" height="16"/></div>\n]
-[" alt="]
+
 ;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
+
 [Contacts]
 Kontakty
 [At least one contact should be selected.]
+
 [Upload to FTP]
+
 [Path to output file]
+
 [To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+
 [Path to file]
+
 [FTP path must contains '/' instead '\' and starts from '/'.]
-[<date>]
+
 [FTP path cannot contain <date> in import task.]
+
 [Unknown error]
 Neznámá chyba
 [Cannot get FTP file(s).]
+
 [Cannot unzip file(s).]
+
 [Incorrect file format: %s.]
+
 [Unknown contact in file: %s.]
+
 [Cannot export history for contact: %s.]
+
 [Cannot compress file(s).]
+
 [Cannot send FTP file(s).]
-[<contact>]
+
 [Task finished]
+
 [Task '%s' execution failed]
+
 [Task '%s' finished successfully]
-["%s" /nointeractiveinput /log="%s" /script=script.sc]
+
 [Task '%s' execution failed:]
+
 ;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 "%s" nenalezeno
 [Search]
 Hledat
 [You have reached the end of the group.]
+
 [You have reached the end of the history.]
 Už jste na konci historie.
 ;file \plugins\BasicHistory\src\TxtExport.cpp

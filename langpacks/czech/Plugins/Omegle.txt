@@ -4,66 +4,109 @@
 [Server:]
 Server:
 [Visible name:]
+
 [Meet strangers with common interests (separated by commas):]
+
 [Automatically send this message to stranger after connection:]
+
 [This text will be sent when you use "/asl" message:]
+
 [Last used question (Question mode):]
+
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
+
 [Don't clear chat before connecting to new stranger]
+
 [Automatically connect to another stranger when current disconnects]
+
 [Load count of users on actual server after connection]
+
 [Enable logging for debugging purposes]
 Povolit záznam pro účely ladění
 [Meet strangers with common interests]
+
 [Your interests (separated by commas):]
+
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Server
 [Last question is empty.]
+
 [Your question is too short.]
+
 [Your '/asl' setting is empty.]
-[There are three different modes of chatting:\\r\n\n1) Standard mode\t - You chat with random stranger privately\\r\n\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\\r\n\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\\r\n\n\nSend '/commands' for available commands.]
-[You can use different commands:\\r\n\n/help\t - show info about chat modes\\r\n\n/new\t - start standard mode\\r\n\n/ask <question> - start question mode with your question\\r\n\n/ask\t - start question mode with your last asked question\\r\n\n/spy\t - start spy mode\\r\n\n/quit\t - disconnect from stranger or stop connecting\\r\n\n/asl\t - send your predefined ASL message\\r\n\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+
+[There are three different modes of chatting:\n1) Standard mode\t - You chat with random stranger privately\n2) Question mode\t - You ask two strangers a question and see how they discuss it (you can't join their conversation, only watch)\n3) Spy mode\t - You and stranger got a question to discuss from third stranger (he can't join your conversation, only watch)\n\nSend '/commands' for available commands.]
+
+[You can use different commands:\n/help\t - show info about chat modes\n/new\t - start standard mode\n/ask <question> - start question mode with your question\n/ask\t - start question mode with your last asked question\n/spy\t - start spy mode\n/quit\t - disconnect from stranger or stop connecting\n/asl\t - send your predefined ASL message\n\nNote: You can reconnect to different stranger without disconnecting from current one.]
+
 [Unknown command. Send '/commands' for list.]
+
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
+
 [You can't send messages in question mode.]
-[Admin]
-Správce
-[Normal]
-Normální
+
 [Omegle is a great way of meeting new friends!]
+
 [You]
+
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
+
 [Chosing server: ]
+
 [Connected to server %s. There are %s users online now.]
+
 [Connected to server %s.]
+
 [On whole Omegle are %s strangers online now.]
+
 [Stranger 1]
+
 [Stranger 2]
+
 [Stranger]
 Cizinec
 [You and the Stranger both like: ]
+
 [%s disconnected.]
+
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
+
 [Error: ]
+
 [We are still waiting...]
+
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
+
 [Disconnecting...]
+
 [We are already waiting for new stranger...]
+
 [Connecting...]
 Navazování spojení...
 [Waiting for Stranger...]
+
 [We are disconnecting now, wait...]
+
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
 [Unable to get Netlib connection for Omegle]
+
+[Stranger typing]
+
+[Stranger stopped typing]
+
+[Changing stranger]
+
 [Visible name]
+
 [Network]
 Sítě
 [Account]
 Účet
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
+

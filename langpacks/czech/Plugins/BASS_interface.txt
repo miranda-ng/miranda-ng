@@ -6,28 +6,66 @@
 ;  Authors: tico-tico
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
+
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
+
 [bass.dll loading error]
+
 [Current bass.dll path:]
+
 [Maximum number of bass internal channels:]
+
 [Output device:]
+
 [Volume:]
+
+[Quiet time:]
+
 [-]
--
+-
 [download bass library]
+
 [Play only if]
+
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryč
+[NA]
+Nejsem tady
+[Occupied]
+Nemám čas
+[DND]
+Nerušit!
+[Free for chat]
+Mám volno
+[Invisible]
+Neviditelný
+[On the phone]
+Mám telefon
+[Out to lunch]
+Jsem na obědě
+[Preview]
+Náhled
 ;file \plugins\BASS_interface\src\Main.cpp
-[HH:mm]
 [un4seen's bass version: %d.%d.%d.%d]
-[Sounds enabled]
-[Sounds disabled]
+
+[--default device--]
+
 [Customize]
 Vlastní úpravy
 [Disable sounds]
+
 [Enable sounds]
 Povolit zvuky
 [Frame Background]
 Barva pozadí rámečku
-[BassInterfaceFrame]
 [Bass Interface]
+
+[Sounds enabled]
+
+[Sounds disabled]
+

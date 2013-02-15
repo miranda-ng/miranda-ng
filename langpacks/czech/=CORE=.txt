@@ -9,6 +9,8 @@ Zadejte interní název účtu (nepovinné)
 OK
 [Cancel]
 Zrušit
+[Add %s]
+Mezi kontakty přidat: %s
 [&Add]
 Přid&at
 [&Cancel]
@@ -25,11 +27,14 @@ Skupina:
 Možnosti
 [Authorization Request]
 Žádost o autorizaci
+[Delete Contact]
+Smazání kontaktu
 [&Yes]
 &Ano
 [&No]
 &Ne
 [Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 (Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
@@ -40,12 +45,16 @@ Tímto odstraníte celou historii a nastavení kontaktu!
 Možnosti zobrazení seznamu
 [Instead of displaying contacts by their nickname, drag to choose another order:]
 Chcete-li mít v seznamu namísto přezdívek něco jiného, přetáhnutím položek změňte pořadí:
+[Miranda NG Profile Manager]
+Miranda NG - správce profilů
 [&Run]
 &Spustit
 [&Exit]
 U&končit
 [Start in Service Mode with]
 Nouzový režim s doplňkem
+[Find/Add Contacts]
+Vyhledání kontaktů
 [Search:]
 Prohledat:
 [E-mail address]
@@ -73,11 +82,15 @@ Vlastní
 [Find/Add Contacts\nHere you can add contacts to your contact list]
 Vyhledání kontaktů\nUmožní vyhledat a přidat nalezené do seznamu kontaktů
 [Options\nConfigure your Miranda NG options]
+
 [Apply]
 Použít
 [Switch to simple options]
+
 [Please select a subentry from the list]
 Vyberte prosím ze seznamu jednu z dalších položek.
+[Install Database Settings]
+Konfigurace databáze
 [Yes]
 Ano
 [No]
@@ -92,6 +105,8 @@ Ne všem
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
 Upozornění: Potvrzením se předpokládá, že znáte rozsah úprav obsahu své databáze a jste si vědomi všech možných následků.
+[Database Setting Change]
+Změna konfigurace databáze
 [Database settings are being imported from]
 Importovaný konfigurační soubor
 [This file wishes to change the setting]
@@ -104,7 +119,10 @@ Chcete povolit úpravu této položky?
 &Povolit všechny další úpravy v této sekci
 [Cancel Import]
 Zrušit import
+[Database Import Complete]
+Import databáze dokončen
 [The import has completed from]
+Import nastavení dokončen; z
 [What do you want to do with the file now?]
 Co chcete udělat s tímto souborem?
 [&Recycle]
@@ -115,6 +133,8 @@ Př&esunout do koše
 Přesunout/Přej&menovat
 [&Leave]
 Ode&jít
+[Netlib Log Options]
+Záznam síťové komunikace
 [Show]
 Zobrazit
 [Received bytes]
@@ -138,6 +158,7 @@ Soubor
 [...]
 ...
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+
 [Run now]
 Spustit
 [Show this dialog box when Miranda NG starts]
@@ -204,6 +225,8 @@ Viditelnost
 Vůči dané osobě viditelný i ve stavu 'Neviditelný'
 [You are never visible to this person]
 Vůči dané osobě neviditelný za všech okolností
+[Icon Index]
+Přehled ikon
 [Icon library:]
 Soubor s ikonami:
 [Drag icons to main list to assign them:]
@@ -265,6 +288,7 @@ pro databázi Mirandy
 [Driver]
 Ovladač
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+
 [Download more plugins]
 Stáhnout další doplňky
 [Description:]
@@ -297,6 +321,8 @@ Textový efekt
 Barva textu
 [Choose Font]
 Vybrat písmo
+[Font]
+Písmo
 [&Font:]
 &Písmo:
 [Font st&yle:]
@@ -316,6 +342,7 @@ Pod&tržené
 [Sample]
 Příkladový text
 [AaBbYyZz]
+
 [Sc&ript:]
 Sk&ript:
 [&Apply]
@@ -364,11 +391,14 @@ Vrátit změny
 Obnovit výchozí
 [Hotkeys]
 Klávesové zkratky
+[Accounts]
+Účty
 [Accounts\nConfigure your IM accounts]
 Účty\nKonfigurace nebo založení účtu
 [Account information:]
 Informace o účtu:
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+
 [Additional:]
 Další možnosti:
 [Configure network...]
@@ -385,10 +415,14 @@ M&ožnosti
 Aktualizovat
 [&Remove...]
 Odst&ranit...
+[Miranda NG]
+Miranda NG
 [Miranda NG is being restarted.\nPlease wait...]
 Restart programu Miranda.\nPočkejte prosím...
 [Close]
 Zavřít
+[Error Console]
+Chybová konzole
 [Error notifications]
 Chybové oznámení
 [Headers:]
@@ -404,10 +438,13 @@ Poznámky:
 [This font is used to display various addtional notes.]
 Používá se k zobrazení dodatkových textů a poznámek.
 [Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+
 [Event icon legend:]
 Legenda k vybraným ikonám:
 [Choose events you wish to ingonre:]
 Vyberte události, které chcete filtrovat:
+[Font Effect]
+Efekt
 [Effect:]
 Efekt:
 [Base colour:]
@@ -421,10 +458,15 @@ Zvolte doplňkové ikony které budou zobrazeny v seznamu kontaktů:
 [* only the first %d icons will be shown]
 * bude zobrazeno pouze prvních %d ikon
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+
+[Tray]
+Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
 U&končit
+[Nowhere]
+
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -437,6 +479,8 @@ S&krýt prázdné skupiny
 Vypnout zobrazení s&kupin
 [Hide Miranda]
 Skrýt okno
+[Group]
+Skupina
 [&New Subgroup]
 &Nová podskupina
 [&Hide Offline Users in here]
@@ -445,14 +489,20 @@ Skrýt uživatele o&ffline
 Př&ejmenovat skupinu
 [&Delete Group]
 &Smazat skupinu
+[IconOptions]
+
 [&Reset to default]
 O&bnovit výchozí
+[find/add]
+
 [&Add to List]
 Přid&at do seznamu
 [User &Details]
 In&formace o kontaktu
 [Send &Message]
 Poslat zp&rávu
+[Log]
+Záznam
 [&Copy]
 Z&kopírovat
 [Co&py All]
@@ -461,6 +511,8 @@ Zko&pírovat vše
 Vybr&at vše
 [C&lear Log]
 Vy&mazat záznam
+[LogLink]
+
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -471,9 +523,8 @@ Z&kopírovat odkaz
 &Obnovit předchozí
 [&Reset To Default]
 O&bnovit výchozí
-[Group]
-Skupina
 [Ungroup]
+
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizovat
@@ -482,18 +533,24 @@ O&dmítnout
 [Decide &Later]
 &Později
 [&I]
+
 [Reason:]
 Důvod:
 [Denial Reason:]
 Důvod odmítnutí:
 [Add to contact list if authorized]
 Je-li autorizován, přidat mezi kontakty
+[You Were Added]
+Zpráva o zařazení mezi kontakty
 [&Close]
 &Zavřít
 [&U]
+
 ;file \src\core\stdaway\resource.rc
+[%s Message for %s]
+Stav: '%s', uživatel: %s
 [Retrieving %s message...]
-Zjištění stavové zprávy ve stavu '%s'...
+Zjištění automatické odpovědi ve stavu '%s'...
 [Status Messages]
 Stavové zprávy
 [Do not reply to requests for this message]
@@ -508,20 +565,23 @@ Jako odpověď použít následující zprávu:
 %time% = aktuální čas, %date% = aktuální datum
 [Status messages:]
 Stavové zprávy:
+[Change %s Message]
+Odpověď pro stav '%s'
 [Closing in %d]
 Zavře se za %d sek.
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
 Po&slat
 [Show these events only:]
+
 [Actions]
 Akce
 [Nick changes]
 Změny přezdívky
 [Users joining]
-Přícházející uživatele
+Příchody uživatelů
 [Users leaving]
-Odcházející uživatele
+Odchody uživatelů
 [Topic changes]
 Změny tématu
 [Status changes]
@@ -531,7 +591,7 @@ Informace
 [Disconnects]
 Odpojení
 [User kicks]
-Vykopnutí uživatele
+Vykopnutí
 [Notices]
 Poznámky
 [Log Options]
@@ -578,6 +638,8 @@ Text
 Pozadí
 [(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
 (*) Tato funkce vyžaduje doplněk typu Popup (0 = výchozí nastavení, -1 = vypnutí prodlevy)
+[List]
+Seznam
 [&Message]
 &Zpráva
 [Clear lo&g]
@@ -587,12 +649,17 @@ Zko&pírovat vše
 [Word lookup]
 Vyhledávání slova
 [Google]
+
 [Wikipedia]
 Wikipedie
+[Link]
+Adresa
 [Open a &new browser window]
 Otevřít v &novém okně
 [&Open in current browser window]
 &Otevřít v aktuálním okně
+[Message]
+Zpráva
 [Undo  ]
 Zpět 
 [Redo]
@@ -607,10 +674,12 @@ Vložit
 Vybrat vše
 [Clear]
 Vymazat
+[Tabs]
+Panely
 [&Close tab]
-&Zavřít panel
+&Zavřít záložku
 [C&lose other tabs]
-Zavřít ostatní pane&ly
+Zavřít ostatní zá&ložky
 [&Open at this position]
 &Otevřít na stejném místě
 ;file \src\core\stdclist\res\resource.rc
@@ -689,12 +758,13 @@ Zvětšovat okno směrem nahoru
 [If window is partially covered, bring to front instead of hiding]
 Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable docking]
+
 [Translucency options (Windows 2000/XP only)]
 Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
-Nastavit průhlednost seznamu kontaktů
+Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
 [000%]
@@ -805,6 +875,10 @@ Je-li okno částečně zakryto, zobrazit na popředí
 Okno
 [Contact list background:]
 Pozadí seznamu kontaktů
+[&¤]
+
+[&Status]
+&Stav
 [&Offline\tCtrl+0]
 &Offline\tCtrl+0
 [On&line\tCtrl+1]
@@ -826,6 +900,8 @@ Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 ;file \src\core\stdfile\resource.rc
+[Send File(s)]
+Poslat soubory
 [To:]
 Pro:
 [File(s):]
@@ -835,8 +911,13 @@ Vyberte &další...
 [Total size:]
 Celková velikost:
 [6]
+
 [&D]
+
 [&H]
+
+[Incoming File Transfer]
+Žádost o přenos souboru
 [A&ccept]
 &Přijmout
 [&Decline]
@@ -850,6 +931,7 @@ Soubory:
 [Save to:]
 Uložit do:
 [&A]
+
 [Contact menu]
 Menu kontaktu
 [Open...]
@@ -860,6 +942,8 @@ Otevřít složku
 Přenos dat dokončen, otevřít soubor(y).
 [No data transferred]
 Přenos ještě nezačal.
+[File Already Exists]
+Soubor již existuje
 [Resume]
 Navázat
 [Resume all]
@@ -890,6 +974,8 @@ Otevřít soubor
 Vlastnosti souboru
 [File being received]
 Přijímaný soubor
+[File Transfers]
+Přenos souborů
 [Clear completed]
 Vymazat dokončené
 [Receiving files]
@@ -931,7 +1017,10 @@ Přejmenovat (přidá " (1)" atd.)
 [You will always be asked about files from people not on your contact list]
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
 ;file \src\core\stdhelp\resource.rc
+[About Miranda NG]
+O programu Miranda NG
 [Miranda NG\n%s]
+
 [Credits >]
 Poděkování >
 ;file \src\core\stdidle\resource.rc
@@ -962,6 +1051,7 @@ Možnosti při nečinnosti
 [Become idle if application full screen]
 Přejít do stavu nečinnosti v celoobrazovkovém režimu
 [Disable sounds on idle]
+
 [Become idle if computer is left unattended for:]
 Přejít do stavu nečinnosti pokud se nic neděje:
 [Idle (auto-away):]
@@ -1009,12 +1099,16 @@ Max. výška obrázku avataru
 pixelů
 [Max Number of Flashes]
 Max. počet bliknutí
+[Send Error]
+Chyba při odesílání
 [An error has occured. The protocol reported the following error:]
 Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [while sending the following message:]
 během odesílání následující zprávy:
 [Try again]
 Opakovat
+[Message Session]
+Rozhovor
 [Message Window Event Log]
 Záznam událostí
 [Show names]
@@ -1064,19 +1158,29 @@ Vložit a poslat
 [Delete]
 Smazat
 ;file \src\core\stduihist\resource.rc
+[Find]
+Najít
 [&Find Next]
 &Najít další
 [Find What:]
 Najít:
+[Message History]
+Historie zpráv
 [&Find...]
 &Najít...
 ;file \src\core\stduserinfo\resource.rc
+[Add Phone Number]
+Přidat telefonní číslo
 [Enter country, area code and phone number:]
 Zadejte kód země, oblasti a samotné číslo:
 [Or enter a full international number:]
 Nebo číslo zadejte v mezinárodním formátu:
 [Phone can receive SMS text messages]
 Telefon umožňuje příjem textovek (SMS)
+[Add E-Mail Address]
+Přidat e-mail
+[%s: User Details]
+%s: informace
 [%s\nView personal user details and more]
 %s\nPřehled informací o vybrané osobě
 [Update Now]
@@ -1135,17 +1239,15 @@ Oddělení:
 Postavení:
 [Website:]
 WWW:
-;file \src\core\miranda.cpp
-[restart]
-[memdebug]
-[\\StringFileInfo\\000004b0\\ProductVersion]
 ;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 %s žádá o autorizaci
 [%u requests authorization]
+
 [%s added you to their contact list]
 %s si vás přidal mezi své kontakty
 [%u added you to their contact list]
+
 [Alerts]
 Upozornění
 [Authorization request]
@@ -1208,8 +1310,6 @@ Chrrrrrrrrrrrr
 [Status]
 Stavy
 ;file \src\core\stdchat\src\clist.cpp
-[Chat rooms]
-Místnosti chatu
 [Join chat]
 Přidat se do diskuse
 [Open chat window]
@@ -1235,17 +1335,20 @@ Vykopnutí: %s -> %s
 [Notice from %s: ]
 Poznámka od %s:
 [The topic is '%s%s']
+
 [ (set by %s on %s)]
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
 [%s enables '%s' status for %s]
+
 [%s disables '%s' status for %s]
+
+[<invalid>]
+<neplatný>
 ;file \src\core\stdchat\src\options.cpp
-[Terminal]
 [Others nicknames]
 Ostatní přezdívky
-[Verdana]
 [Your nickname]
 Vaše přezdívka
 [User has joined]
@@ -1335,9 +1438,11 @@ Odsadit druhý řádek dlouhé zprávy
 [Limit user names in the message log to 20 characters]
 Omezit délku jmen v záznamu na 20 znaků
 [Add ':' to auto-completed user names]
+
 [Strip colors from messages in the log]
 Záznam ukládat bez kódů definující barvy
 [Enable the 'event filter' for new rooms]
+
 [Show topic changes]
 Zobrazit informaci o změně tématu
 [Show users joining]
@@ -1523,6 +1628,7 @@ Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
 Nastavení vzhledu záznamu komunikace
 [Default events to show in new chat rooms if the 'event filter' is enabled]
+
 [Icons to display in the message log]
 Možnosti zobrazení ikon v záznamu komunikace
 [Icons to display in the tray]
@@ -1531,7 +1637,6 @@ Možnosti zobrazení ikon v oznamovací oblasti
 Možnosti zobrazení oken s oznámením
 [Select Folder]
 Vyberte požadovanou složku
-[Logs\\]
 [Message Sessions]
 Komunikace
 [Group chats]
@@ -1544,7 +1649,6 @@ Záznam diskuse
 Diskuse
 [Popups]
 Oznámení
-[%miranda_logpath%\\Chat]
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -1562,7 +1666,6 @@ Změna tématu diskuse
 ;file \src\core\stdchat\src\services.cpp
 [&Join]
 Při&jít
-[Server: %s]
 ;file \src\core\stdchat\src\tools.cpp
 [%s wants your attention in %s]
 %s žádá o pozornost na kanále %s
@@ -1581,7 +1684,9 @@ Změna tématu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
+
 [%s disables '%s' status for %s in %s]
+
 [%s says: %s]
 %s píše: %s
 [%s has left (%s)]
@@ -1593,9 +1698,13 @@ Informace (na %s)
 [Notice from %s: %s]
 Poznámka od %s: %s
 [The topic is '%s']
+
 [The topic is '%s' (set by %s)]
-[at+]
+
 [Look up '%s':]
+
+[No word to look up]
+Není co vyhledat
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Vloží vybraný smajlík
@@ -1619,7 +1728,6 @@ Možnosti řízení kanálu (CTRL+O)
 Aktivuje/deaktivuje filtrování událostí (CTRL+F)
 [Close current tab (CTRL+F4)]
 Zavře vybranou záložku (CTRL+F4)
-[AQGglo]
 [%s: Chat Room (%u user)]
 %s: kanál (účastníků: %u)
 [%s: Chat Room (%u users)]
@@ -1628,11 +1736,25 @@ Zavře vybranou záložku (CTRL+F4)
 %s: rozhovor
 [%s: Message Session (%u users)]
 %s: rozhovor (účastníků: %u)
-[%s: Server]
-[AQGgl']
-[AQGg']
-[open]
+[Nick name]
+Přezdívka
+[Unique id]
+Identifikátor
 ;file \src\core\stdclist\src\clcfonts.cpp
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Group member counts]
+Počet členů ve skupině
+[Dividers]
+Oddělovače
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
 [Selected Text]
 Vybraný text
 [Hottrack Text]
@@ -1660,15 +1782,12 @@ Neviditelný
 Jsem na obědě
 [On the phone]
 Mám telefon
-[List]
-Seznam
 [List Background]
 Pozadí seznamu
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Globální
 ;file \src\core\stdclist\src\cluiopts.cpp
-[Progman]
 ;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 Uživatel nemá zaregistrovanou e-mailovou adresu
@@ -1681,9 +1800,6 @@ Poslat e-mail
 Soubor od: %s
 [bytes]
 bajtů
-[ KB]
-[ GB]
-[ MB]
 [&File]
 &Soubor
 [File &Transfers...]
@@ -1699,64 +1815,25 @@ Odmítnuto
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 Soubor %s
-[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
-[\\DefaultIcon]
 [All Files]
 Všechny soubory
 ;file \src\core\stdfile\fileopts.cpp
-[Network Associates/McAfee VirusScan]
-[Scan32EXE]
-["%s" %%f /nosplash /comp /autoscan /autoexit /noboot]
-[Dr Solomon's VirusScan (Network Associates)]
-[szScannerExe]
-["%s" %%f /uinone /noboot /comp /prompt /autoexit]
-[Norton AntiVirus]
-["%s" %%f /b- /m- /s+ /noresults]
-[Computer Associates/Inoculate IT]
-[Software\\Antivirus]
-[ImageFilename]
-["%s" %%f /display = progress /exit]
-[Computer Associates eTrust]
-[VetPath]
-[Kaspersky Anti-Virus]
-["%s" /S /Q %%f]
-[KAV8]
-["%savp.exe" SCAN %%f]
-[KAV9]
-[AntiVir PersonalEdition Classic]
-[Path]
-Cesta
-["%savscan.exe" /GUIMODE = 2 /PATH = "%%f"]
-[ESET NOD32 Antivirus]
-[InstallDir]
-["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
 [Executable Files]
 Spustitelné soubory
-[File Transfers]
-Přenos souborů
 [Events]
 Události
 ;file \src\core\stdfile\filerecvdlg.cpp
 [My Received Files]
 Moje přijaté soubory
-[nick]
-přezdívka
-[userid]
-[proto]
-protokol
 [View User's History]
 Zobrazit historii
 [User Menu]
 Uživatelské menu
-[t d]
 [Cancelled]
 Přerušeno
 ;file \src\core\stdfile\filesenddlg.cpp
-[%d file]
-%d soubor
 [%d files]
 %d souborů
-[%d directory]
 [%d directories]
 %d složek
 ;file \src\core\stdfile\filexferdlg.cpp
@@ -1774,7 +1851,6 @@ Chyba při inicializaci přenosu.
 sek.
 [remaining]
 zbývá
-[%.*s (%u)%s]
 [Decision sent]
 Potvrzení odesláno
 [Connecting...]
@@ -1806,13 +1882,13 @@ Přenos dat dokončen, otevření složky.
 [Scanning for viruses...]
 Kontrola antivirovým programem...
 [Transfer and virus scan complete]
-Přenos i kontrola dat antivirem dokončena
+Přenos a kontrola antivirem dokončena
 ;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
 Odchozí
 ;file \src\core\stdhelp\about.cpp
-[\\StringFileInfo\\000004b0\\LegalCopyright]
 [< Copyright]
+
 ;file \src\core\stdhelp\help.cpp
 [&About...]
 O progr&amu...
@@ -1823,7 +1899,6 @@ Do&movská stránka
 [&Report Bug]
 &Nahlásit chybu
 ;file \src\core\stdidle\idle.cpp
-[WorkerW]
 [Idle]
 Nečinnost
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1837,8 +1912,6 @@ Odchozí zpráva (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
-[Message Session]
-Rozhovor
 [signed off (was %s)]
 (odhlášení, předchozí stav: %s)
 [signed on (%s)]
@@ -1847,7 +1920,6 @@ Rozhovor
 (současný stav: %s, předchozí stav: %s)
 [%s is typing a message...]
 %s píše zprávu...
-[mailto:]
 ;file \src\core\stdmsg\src\msglog.cpp
 [File sent]
 Odeslaný soubor
@@ -1856,7 +1928,6 @@ Přijatý soubor
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Odchozí zprávy
-[Arial]
 [Incoming messages]
 Příchozí zprávy
 [Outgoing name]
@@ -1895,7 +1966,7 @@ Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
 [Instant messages]
-Rozhovor
+Zprávy
 [Incoming (Focused Window)]
 Příchozí (aktivní okno)
 [Incoming (Unfocused Window)]
@@ -1903,7 +1974,7 @@ Příchozí (neaktivní okno)
 [Incoming (New Session)]
 Příchozí (nová konverzace)
 [Message send error]
-Chyba odeslání zprávy
+Chyba při odesílání
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
 Neznámá chyba.
@@ -1963,8 +2034,6 @@ Mobil
 Telefon (práce)
 [Work Fax]
 Fax (práce)
-[ SMS]
-[mailto:%s]
 ;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 muž
@@ -1972,7 +2041,6 @@ muž
 žena
 [<not specified>]
 <neurčeno>
-[Courier New]
 [Summary]
 Souhrn
 [Contact]
@@ -1988,22 +2056,12 @@ Poznámky
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 Něco o sobě
-[%.*s%s%.*s]
 [View/Change My &Details...]
 In&formace o sobě...
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
 %s je online
-;file \src\mir_core\langpack.cpp
-[static]
-[hyperlink]
-[button]
-[edit]
-;file \src\mir_core\miranda.cpp
-[ComboLBox]
 ;file \src\modules\addcontact\addcontact.cpp
-[Add %s]
-Mezi kontakty přidat: %s
 [Add Contact]
 Přidat kontakt
 [Please authorize my request and add me to your contact list.]
@@ -2015,30 +2073,17 @@ Rozšířený stav
 [%s (locked)]
 %s (uzamčený)
 ;file \src\modules\clist\clistmod.cpp
-[Connecting]
-Připojování
-[Connecting (attempt %d)]
-Připojování (pokus č.%d)
 [This plugin requires db3x plugin version 0.5.1.0 or later]
 Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \src\modules\clist\clisttray.cpp
-[%s%s<b>%-12.12s</b>\t%s%s%-24.24s]
-[%s%s<b>%-12.12s</b>\t%s]
-[TaskbarCreated]
-[TaskbarButtonCreated]
 [&Main Menu]
 Hlavní &menu
-[&Status]
-&Stav
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
-[Delete Contact]
-Smazání kontaktu
-[Miranda::ProcessProfile]
 [De&lete]
 &Smazat
 [&Rename]
@@ -2057,7 +2102,7 @@ E-mail
 [LastName]
 Příjmení
 [Username]
-Uživatelské jméno
+Uživatel
 [FirstName LastName]
 Jméno Příjmení
 ['(Unknown Contact)' (not moveable)]
@@ -2066,16 +2111,11 @@ Jméno Příjmení
 '(neznámý kontakt)'
 [Contact names]
 Jména kontaktů
-;file \src\modules\clist\genmenu.cpp
-[%s (%d, id %x)]
-[Menu Icons/%s]
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Nabídky
 [Customize]
 Vlastní úpravy
-[Accounts]
-Účty
 ;file \src\modules\clist\groups.cpp
 [New Group]
 nová skupina
@@ -2092,8 +2132,6 @@ Tato skupina
 ;file \src\modules\clist\keyboard.cpp
 [Show Hide Contact List]
 Zobrazit nebo skrýt kontakty
-[Main]
-Hlavní
 [Read Message]
 Přečíst zprávu
 [Open Options Page]
@@ -2108,29 +2146,14 @@ Přesunout do s&kupiny
 [<Root Group>]
 <kořenová skupina>
 ;file \src\modules\database\database.cpp
-[Database]
-Databáze
-[ProfileDir]
-[%miranda_path%\\Profiles]
-[ShowProfileMgr]
-[never]
-[yes]
-[AutoCreate]
-[DefaultProfile]
-[profile]
-[Miranda is trying upgrade your profile structure.\n]
-[It cannot move profile %s to the new location %s\n]
-[Because profile with this name already exist. Please resolve the issue manually.]
-[Miranda NG]
-Miranda NG
-[It cannot move profile %s to the new location %s automatically\n]
-[Most likely due to insufficient privileges. Please move profile manually.]
-[Profile cannot be placed into Miranda root folder.\n]
-[Please move Miranda profile to some other location.]
-[ForceShowPM]
-[The profile '%s' already exists. Do you want to move it to the ]
-[Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\n]
-[WARNING: A profile may contain confidential information and should be properly deleted.]
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exist. Please resolve the issue manually.]
+
+[Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
+
+[Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
+
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+
 [The profile already exists]
 Profil s tímto názvem již existuje
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
@@ -2145,8 +2168,8 @@ Chyba při vytváření profilu
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nPoužijte dbx_3x.dll (pro staré profily) nebo jiný.
 [No profile support installed!]
 Není nainstalovaná podpora pro profily!
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
-Profil '%s' nelze otevřít. Jedním z možných\nproblémů je neznámý datový formát. Druhou pak poškození\nprofilu. Zkuste použít program DBTool.
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
+
 [Miranda can't understand that profile]
 Tento profil není ve formátu Miranda-IM
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
@@ -2154,42 +2177,20 @@ Profil '%s' nelze otevřít. Zkontrolujte,\nzda máte oprávnění ke čtení da
 [Miranda can't open that profile]
 Vybraný profil nelze otevřít
 ;file \src\modules\database\dbini.cpp
-[AutoExec]
-[Warn]
-[notsafe]
-[all]
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
-[onlyunsafe]
+
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
-[none]
----
+
 [Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+
 [This change is known to be safe.]
 Tato úprava se obecně považuje za bezpečnou.
 [This change is known to be potentially hazardous.]
 Tato úprava se považuje za potenciálně nebezpečnou.
 [This change is not known to be safe.]
+Neznámý druh úpravy; nelze považovat za bezpečné.
 [Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Neplatný typ nastavení. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
-[Install Database Settings]
-Konfigurace databáze
-[Use]
-Použít
-[prompt]
-[Safe]
-[CLC Icons CLUI CList SkinSounds]
-[Unsafe]
-[ICQ MSN]
-[OverrideSecurityFilename]
-[OnCreateFilename]
-[Glob]
-[OnCompletion]
-[recycle]
-[delete]
-[rename]
-[RenamePrefix]
-[done_]
-[ask]
+Neplatný typ nastavení. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
 ;file \src\modules\database\profilemanager.cpp
 [&Create]
 &Vytvořit
@@ -2206,6 +2207,7 @@ Změněno
 [Run]
 Spustit
 [Check database]
+
 [Miranda Profiles from]
 Umístění profilů
 [Select or create your Miranda NG user profile]
@@ -2234,19 +2236,18 @@ Hledám
 [All Networks]
 Všechny sítě
 [Handle]
+
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 ;file \src\modules\findadd\searchresults.cpp
-[First Name]
-Jméno
-[Last Name]
-Příjmení
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 [Could not search on any of the protocols, are you online?]
 Nelze vyhledávat ani v jednom z protokolů. Jste připojeni?
 [Problem with search]
 Chyba při hledání
+[1 %s user found]
+Počet nalezených: 1, síť %s
 [%d %s users found]
 Počet nalezených: %d, síť %s
 [%d users found (]
@@ -2256,28 +2257,10 @@ Počet nalezených: 0
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 Chyba při vytváření souboru
-[<none>]
-<žádný>
-[Shadow at left]
-Stín nalevo
-[Shadow at right]
-Stín napravo
-[Outline]
-Orámovat
-[Outline smooth]
-Orámovat jemně
-[Smooth bump]
-Jemný úkos
-[Contour thin]
-Tenká kontura
-[Contour heavy]
-Silná kontura
-[abc]
 [Configuration Files]
 Konfigurační soubory
 [Text Files]
 Textové soubory
-[ini]
 [Error writing file]
 Chyba při zapisování do souboru
 [Fonts & Colors]
@@ -2288,46 +2271,15 @@ Ukázka textu
 Písma
 [Installed Plugins]
 Instalované doplňky
-;file \src\modules\fonts\FontService.cpp
-[Headers]
-Záhlaví
-[Generic text]
-Běžný text
-[Small text]
-Poznámky
-;file \src\modules\fonts\FontService.h
-[Incoming nick]
-Příchozí přezdívka
-[Outgoing nick]
-Odchozí přezdívka
-[Incoming timestamp]
-Příchozí časový údaj
-[Outgoing timestamp]
-Odchozí časový údaj
-;file \src\modules\icolib\skin2icons.cpp
-[*StaticIcon_%d]
 ;file \src\modules\icolib\skin2opts.cpp
 [Icon Sets]
 Sada ikon
-[dll]
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** všechny kontakty **
 [Contacts]
 Kontakty
-;file \src\modules\netlib\netlibhttp.cpp
-[(no user)]
-[(exist)]
-[(no psw)]
 ;file \src\modules\netlib\netliblog.cpp
-[No times]
-Bez časového údaje
-[Standard hh:mm:ss times]
-Standardní hh:mm:ss
-[Times in milliseconds]
-V milisekundách
-[Times in microseconds]
-V mikrosekundách
 [(Miranda Core Logging)]
 Záznam jádra Mirandy
 [Select where log file will be created]
@@ -2335,37 +2287,16 @@ Zadejte požadovaný soubor pro záznam
 [Select program to be run]
 Vyberte požadovaný program
 ;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-[SOCKS4]
-[SOCKS5]
-[HTTP]
-[HTTPS]
-[Internet Explorer]
 [<All connections>]
 <všechna spojení>
 [Network]
 Sítě
-;file \src\modules\netlib\netlibsecurity.cpp
-[Basic]
-Obecné
-[GSSAPI]
-[Kerberos]
 ;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
 [Host we are connecting to is not the one certificate was issued for]
 Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
-[SSL connection failure (%x %u): %s]
-;file \src\modules\options\filter.cpp
-[SysTreeView32]
-[SysListView32]
 ;file \src\modules\options\options.cpp
-[<all modules>]
-1) všechny moduly
-[<core modules>]
-2) jádro Mirandy
-[Button]
-Tlačítko
 [Loading... %d%%]
 Načítání... %d%%
 [%s options]
@@ -2376,30 +2307,34 @@ Miranda - možnosti nastavení
 M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
 [Fatal error]
+
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-[srmm_mod (no Unicode).dll]
+
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
-[Core]
-[Plugins]
-Doplňky
-[\\Plugins\\%s]
 [Unable to load plugin in Service Mode!]
 Nelze načíst doplněk v nouzovém režimu
-[svc]
-[PluginLoader]
-[AskAboutIgnoredPlugins]
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+
 ;file \src\modules\plugins\pluginopts.cpp
-[%s\\Plugins\\%s]
 [Plugin]
 Doplněk
 [Version]
 Verze
+[<none>]
+<žádný>
+[Miranda NG must be restarted to apply changes for these plugins:]
+
+[Do you want to restart it now?]
+
+[Plugins]
+Doplňky
 ;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Zřídit nový účet
@@ -2432,6 +2367,7 @@ Přejmenovat
 [Configure]
 Nastavit...
 [Upgrade]
+
 [Account is online. Disable account?]
 Účet je připojen. Deaktivovat účet?
 [Account %s is being deleted]
@@ -2440,13 +2376,7 @@ Odstranění účtu %s
 Pro smazání tohoto účtu musíte deaktivovat doplněk
 [&Accounts...]
 Účt&y...
-;file \src\modules\skin\hotkeys.cpp
-[MirandaHotkeyHostWnd]
 ;file \src\modules\skin\hotkey_opts.cpp
-[Ctrl + ]
-[Alt + ]
-[Shift + ]
-[Win + ]
 [Remove shortcut]
 Odstranit zkratku
 [Add another shortcut]
@@ -2466,14 +2396,14 @@ Platnost v systému
 [Miranda scope]
 Platnost v Mirandě
 ;file \src\modules\skin\skinicons.cpp
-[Message]
-Zpráva
 [User Online]
 Uživatel online
 [Group (Open)]
 Skupina (otevřená)
 [Group (Closed)]
 Skupina (zavřená)
+[Connecting]
+Připojování
 [User Details]
 Informace o uživateli
 [History]
@@ -2523,20 +2453,22 @@ Přesunout do skupiny
 [Off]
 Vyp
 [Running core plugin]
+
 [Non-loadable plugin]
+
+[Frames]
+Rámečky
 [Always visible]
 Tento člověk mě vždy uvidí
 [Always invisible]
+
 [Locked status]
 Zamknuto
 [%s Icons]
 %s ikony
-[%s\\Icons\\proto_]
-[%s\\Plugins\\]
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
 Zvukové soubory
-[wav]
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Pro zpracování PNG obrázků je zapotřebí doplněk Image services
@@ -2550,21 +2482,7 @@ obrázky typu JPEG
 obrázky typu GIF
 [PNG Bitmaps]
 obrázky typu PNG
-;file \src\modules\utils\openurl.cpp
-[file:///%s]
-;file \src\modules\utils\path.cpp
-[%s\\%s\\AvatarCache]
-[%s\\%s\\Logs]
 ;file \src\modules\utils\timezones.cpp
-[UTC]
 [<unspecified>]
 <neurčeno>
-[MUI_%s]
-[TZI]
-[Display]
-Zobrazení
-[Std]
-[Dlt]
-;file \src\modules\utils\utils.cpp
-["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp

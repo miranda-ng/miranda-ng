@@ -1,10 +1,12 @@
 ﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
-;  Plugin: Clist_modern
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Modern contact list
+;  Version: 0.9.0.11
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
+
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Průhlednost:
@@ -35,7 +37,7 @@ sek.
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
-Nastavit průhlednost seznamu kontaktů
+Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
 [000%]
@@ -139,8 +141,9 @@ Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
 [+]
+
 [-]
--
+-
 [New]
 Nový
 [Include groups]
@@ -192,7 +195,9 @@ Víceřádková stavová lišta
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Stavový řádek zvýšíte takto:\nHl.nabídka: Rámečky->Stavová lišta->Zobrazit záhlaví a roztáhněte zobrazenou lištu myší.
 [Hold [Shift] to inverse [Right Click] behaviour]
+Pomocí [Shift] obrátíte funkci [pravého tlačítka].
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
+
 [Set options per account]
 Nastavit pro každý účet zvlášť
 [Enable custom account settings]
@@ -223,11 +228,14 @@ Pravým tlačítkem nabídku Mirandy
 Mezera vlevo
 [Space on right]
 Mezera vpravo
+[Delete Contact]
+Smazání kontaktu
 [No]
 Ne
 [Yes]
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 (Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
@@ -391,6 +399,7 @@ Další možnosti metakontaktů
 [Additional stuff]
 Další možnosti
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+
 [Allow internal requesting of away message text]
 Povolit interní žádosti o automatickou odpověď
 [Subcontacts indent:]
@@ -398,6 +407,7 @@ Odsazení podkontaktů:
 [Remove away message if contact became offline]
 Po odchodu kontaktu odstranit autom. odpověď
 [Use improved search method in contactlist]
+
 [Show time only if it is different from current time]
 Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
@@ -423,6 +433,7 @@ Zjednodušené záhlaví okna
 [Minimize to tray]
 Minimalizovat na panel
 [Translucency options (Windows 2000/XP+)]
+
 [Enable drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Frames]
@@ -464,6 +475,7 @@ Levý okraj:
 [Right margin:]
 Pravý okraj:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
+
 [Draw border on avatar]
 Orámovat avatary
 [Draw overlay icons]
@@ -597,8 +609,13 @@ Přesunout nahoru
 [Move down]
 Přesunout dolů
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
+
+[&¤]
+
 [E&xit]
 U&končit
+[&Status]
+&Stav
 [&Offline\tCtrl+0]
 &Offline\tCtrl+0
 [On&line\tCtrl+1]
@@ -619,8 +636,12 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
+[Tray]
+Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
+[Nowhere]
+
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -643,8 +664,6 @@ Zobrazit &uživatele offline
 Př&ejmenovat skupinu
 [&Delete Group]
 &Smazat skupinu
-;file \plugins\Clist_modern\src\modern_aniavatars.cpp
-[MirandaModernAniAvatar]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 Kontakty/Překrytí avataru
@@ -656,7 +675,8 @@ Smajlíky pro kontakty
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
 [Converting to MetaContact]
 Konverze na metakontakt
-[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s]
+[Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?]
+Chcete zkonvertovat kontakt '%s' na metakontakt, '%s' k němu přidat a odstranit jej z '%s'?
 [Converting to MetaContact (Moving)]
 Konverze na metakontakt (přesun)
 [Do you want to contact '%s' be added to metacontact '%s'?]
@@ -682,11 +702,72 @@ Seznam kontaktů/Položky řádků
 Seznam kontaktů/Texty rámečků
 [Contact List/Special colours]
 Seznam kontaktů/Speciální barvy
-[Arial]
+[Standard contacts]
+Standardní kontakty
+[Away contacts]
+Kontakty ve stavu 'Na chvíli pryč'
+[DND contacts]
+Kontakty ve stavu 'Nerušit'
+[NA contacts]
+Kontakty ve stavu 'Nejsem tady'
+[Occupied contacts]
+Kontakty ve stavu 'Nemám čas'
+[Free for chat contacts]
+Kontakty ve stavu 'Mám volno'
+[Invisible contacts]
+Kontakty ve stavu 'Neviditelný'
+[On the phone contacts]
+Kontakty ve stavu 'Mám telefon'
+[Out to lunch contacts]
+Kontakty ve stavu 'Jsem na obědě'
+[Offline contacts]
+Kontakty offline
+[Online contacts to whom you have a different visibility]
+Kontakty online, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vůči kterým máte nastavenou výjimku v (ne)viditelnosti
+[Contacts who are 'not on list']
+Kontakty, které nejsou 'na seznamu'
+[Open groups]
+Otevřené skupiny
+[Open group member counts]
+Počet kontaktů v otevřené skupině
+[Closed groups]
+Zavřené skupiny
+[Closed group member counts]
+Počet kontaktů v otevřené skupině
+[Dividers]
+Oddělovače
+[Second line]
+Druhý řádek
+[Third line]
+Třetí řádek
+[Status bar text]
+Text stavové lišty
+[Event area text]
+Text oblasti oznámení
+[Current view mode text]
+Text vybraného režimu zobrazení
+[Background]
+Pozadí
+[Hot text]
+Text po najetí myší
+[Selected text]
+Vybraný text
+[Quick search text]
+Text rychlého hledání
+[Menu text]
+Text položky v nabídce
+[Selected menu text]
+Text vybrané položky v nabídce
+[Frame title text]
+Text záhlaví rámečku
+[Statusbar text]
+Text ve stavové liště
+[3rd party frames transparent back colour]
+Klíčovací barva pozadí externích rámečků
 [General]
 Obecné
-[Tray]
-Lišta
 [List]
 Seznam
 [Window]
@@ -725,6 +806,8 @@ Jméno (použít místní nastavení)
 Název účtu
 [Rate]
 Priorita
+[-Nothing-]
+---
 [Global]
 Globální
 [Hide to tray]
@@ -733,12 +816,7 @@ Do oznam. oblasti
 Za levý okraj
 [Behind right edge]
 Za pravý okraj
-[Progman]
-[Fonts]
-Písma
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[EventArea]
-Oblast pro události
 [Event Area]
 Oblast pro události
 [No Events]
@@ -746,6 +824,22 @@ Oblast pro události
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 P&riorita kontaktu
+[None]
+---
+[Low]
+Nízká
+[Medium]
+Střední
+[High]
+Vysoká
+[Contact rate None]
+Priorita kontaktu žádná
+[Contact rate Low]
+Priorita kontaktu nízká
+[Contact rate Medium]
+Priorita kontaktu střední
+[Contact rate High]
+Priorita kontaktu vysoká
 [Show even if offline]
 Zobrazit i když je offline
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
@@ -783,8 +877,6 @@ Třetí řádek
 &Vyhledat kontakty...
 [&Main Menu]
 Hlavní &menu
-[&Status]
-&Stav
 [&Options...]
 M&ožnosti...
 [&About]
@@ -796,14 +888,15 @@ Zobrazit a&vatara
 Skrýt a&vatara
 [My Contacts]
 Seznam kontaktů
-[Miranda::GetProfile]
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 [&Visible]
 &Viditelný
 [&Show title]
+
 [&Locked]
 Zamkn&utý
 [&Expanded]
+
 [&Floating Mode]
 &Plovoucí
 [&Border]
@@ -832,9 +925,6 @@ Skrýt záhlaví rámečků
 Zamknout rámeček
 [Show TitleBar]
 Zobrazit záhlaví rámečku
-[SubContainerWindow]
-[FramesContainer]
-[Shell_TrayWnd]
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 Nabídka skupiny
@@ -850,98 +940,82 @@ Hlavní
 [Restore last status]
 Obnovit předchozí stav
 [Show/Hide Offline Users]
-;file \plugins\Clist_modern\src\modern_newrowopts.cpp
-[Init NewRow Dialog]
-[Notify]
-Oznámení
+
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[none]
----
-[text1]
-[text2]
-[text3]
-[status]
-stav
-[avatar]
-[extra]
-[extra1]
-[extra2]
-[extra3]
-[extra4]
-[extra5]
-[extra6]
-[extra7]
-[extra8]
-[extra9]
-[time]
-[space]
-[fspace]
-[Line]
-Řádek
-[Column]
 [Empty %s cell]
+
 [column]
+
 [line]
 řádek
 [columns]
+
 [lines]
 řádky
 [%s, contain %s]
+
 [ layered]
  moderní
-[left]
-[hCenter]
-[right]
-[top]
-[vCenter]
-[bottom]
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[Solid fill object]
-Vyplnit barvou
-[Image (draw image)]
-Obrázek (vykreslit obr.)
-[Fragment (draw portion of image)]
-Fragment (vykreslit část obrázku)
-[Stretch Both directions]
-Roztáhnout oběma směry
-[Stretch Vertical, Tile Horizontal]
-Roztáhnout svisle, opakovat vodorovně
-[Tile Vertical, Stretch Horizontal]
-Opakovat svisle, roztáhnout vodorovně
-[Tile Both directions]
-Opakovat oběma směry
 [Image size is]
 Rozměry obrázku jsou
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[Skin_Description_Section]
-[SkinFolder]
-[Profile]
-Profil
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[Miranda skin file]
-Skin seznamu kontaktů pro Mirandu
-[JID: fyr@jabber.ru]
-[%Default Skin%]
-%Výchozí skin%
-[%%Default Skin%%]
-%%Výchozí skin%%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-[ModernStatusBar]
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-[Center]
-Na střed
-[Right]
-Vpravo
-[Bottom]
-Dole
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Toolbar]
-Lišta tlačítek
-[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-[Toolbar upgrade]
-;file \plugins\Clist_modern\src\modern_utils.cpp
+[You need an image services plugin to process PNG images.]
+Pro zpracování PNG obrázků je zapotřebí doplněk Image services
 [Error]
 Chyba
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
+[Load/Save]
+Nahrát/Uložit
+[Object Editor]
+Editor objektů
+[( unknown )]
+(neznámý)
+[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nAutor:\t %s\nKontakt:\t %s\nWeb:\t %s\n\nSoubor:\t %s
+[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
+%s\n\n%s\n\nAutor: %s\nKontakt:\t %s\nWeb:\t %s\n\nSoubor:\t %s
+[reVista for Modern v0.5]
+reVista 0.5 pro clist_modern
+[This is second default Modern Contact list skin in Vista Aero style]
+Jedná se o skin ve stylu systému Vista Aero.
+[Angeli-Ka (graphics), FYR (template)]
+Angeli-Ka (grafika), FYR (šablony)
+[Inside library]
+Vše v knihovně
+[Skin Information]
+Informace o skinu
+[Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Editor obsahuje neuložené změny.\n\nVšechny změny budou ztraceny.\n\nNahrát nový skin?
+[Warning!]
+Upozornění!
+[Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
+Současný skin nebyl uložen do souboru.\n\nVšechny změny budou ztraceny.\n\nNahrát nový skin?
+[Miranda skin file]
+Skin seznamu kontaktů pro Mirandu
+[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
+Náhled není k dispozici\n\n%s\n----------------------\n\n%s\n\nAUTOR:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s
+[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
+%s\n\n%s\n\nAUTOR:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s\n\n\n
+[graphics by Angeli-Ka\ntemplate by FYR]
+grafika: Angeli-Ka\nšablona: FYR
+[Select skin from list]
+Vyberte skin ze seznamu
+[Please select skin to apply]
+Prosím vyberte skin
+[Default Skin]
+Výchozí skin
+[%Default Skin%]
+%Výchozí skin%
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
+[<<Global>>]
+<<Globální>>
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+
+[Toolbar upgrade]
+
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nesdružené kontakty
@@ -987,23 +1061,6 @@ Nastavení režimů zobrazení
 Vrátí zpět výchozí režim zobrazení
 [Reset view mode]
 Výchozí režim zobrazení
-[View modes]
-Režimy zobrazení
 [View Modes]
 Pohledy
-;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
-[Shadow at left]
-Stín nalevo
-[Shadow at right]
-Stín napravo
-[Outline]
-Orámovat
-[Outline smooth]
-Orámovat jemně
-[Smooth bump]
-Jemný úkos
-[Contour thin]
-Tenká kontura
-[Contour heavy]
-Silná kontura
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

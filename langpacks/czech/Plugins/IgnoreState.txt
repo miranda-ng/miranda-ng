@@ -6,11 +6,14 @@
 ;  Authors: Kildor
 ;============================================================
 [Shows ignore state of contact in contacts list.]
+
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 Nastavení doplňku
 [Filtered events:]
+
 [Use Miranda ignore settings for All Contacts]
+
 ;file \plugins\IgnoreState\src\main.cpp
 [All]
 všechno
@@ -29,8 +32,11 @@ Zpráva o zařazení mezi kontakty
 [Typing Notify]
 Psaní zprávy
 [Full Ignore]
+
 [Partial Ignore]
+
 [Message Ignore]
+
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Ikony

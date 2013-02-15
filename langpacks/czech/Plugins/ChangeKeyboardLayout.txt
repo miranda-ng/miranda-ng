@@ -1,38 +1,59 @@
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
-;  Plugin: Change Keyboard Layout
+;  Plugin: Change keyboard layout
 ;  Version: 0.0.1.5
 ;  Authors: Yasnovidyashii
 ;============================================================
 [Plugin for changing keyboard layout of text (multilayout).]
+
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Klávesové zkratky
 [Changing layout:]
+
+["Current word" mode]
+
 [Changing layout (alternative):]
+
 [Inverting lettercase:]
+
 [Options]
 Možnosti
 [Two-way changing layout (experimental)]
+
 [Log operations]
+
 [Copy result to clipboard]
+
 [Show result in PopUp]
+
 [Strings for keyboard layouts]
+
 [EN]
+
 [Default]
 Výchozí
 [+]
+
 [Invert current state]
+
 [Switch off]
+
 [Leave as it is]
+
 [Set Caps Lock state when inverting lettercase:]
+
 [Change active keyboard layout in system]
+
 [Colours]
 Barvy
 [PopUp colours]
+
 [Windows colours]
+
 [Custom colours]
+
 [Back]
 Pozadí
 [Text]
@@ -48,7 +69,7 @@ Vlastní
 [On left click]
 Levé tlačítko
 [Copy to clipboard]
-Kopírovat do schránky
+Zkopírovat do schránky
 [Dismiss]
 Vyřízeno
 [On right click]
@@ -59,12 +80,14 @@ Náhled
 [Popup]
 Oznámení
 [Changing Layout]
+
 [Changing Case]
+
 [Message Sessions]
 Komunikace
 [PopUps]
 Oznámení
-;file \plugins\ChangeKeyboardLayout\src\main.cpp
-[`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
 ;file \plugins\ChangeKeyboardLayout\src\options.cpp
-[Ghbdtn? rfr ltkf&]
+[ChangeKeyboardLayout]
+
+;file \plugins\ChangeKeyboardLayout\src\text_operations.cpp

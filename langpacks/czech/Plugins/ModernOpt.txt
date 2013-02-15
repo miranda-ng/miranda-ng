@@ -4,11 +4,13 @@
 [Visit official Miranda NG website]
 Přejít na domovskou stránku projektu
 [`]
+
 [Sample page]
-[Use arrow keys to choose category]
-Požadovanou kategorii vyberete pomocí šipek
+
 [Miranda NG Options]
 Miranda - možnosti nastavení
+[Use arrow keys to choose category]
+Požadovanou kategorii vyberete pomocí šipek
 [OK]
 OK
 [Cancel]
@@ -20,58 +22,21 @@ Přepnout do původního způsobu konfigurace
 [Advanced]
 Extra
 ;file \plugins\ModernOpt\src\modernopt.cpp
-[Home]
-Domov
 [Miranda NG configuration center]
-[Accounts]
-Účty
+
 [Setup your account information to start messaging.]
 Zadání a správa informací k účtům jednotlivých sítí.
-[Style]
-Vzhled
 [Change the look of Miranda NG according to your taste.]
 V této sekci lze změnit vzhled Mirandy.
-[Contacts]
-Kontakty
 [Configure behaviour of your contact list.]
 Konfigurace funkcí seznamu kontaktů.
-[Chats]
-Diskuse
 [Customize look&&feel of your chat windows here.]
 Úprava vzhledu a chování komunikačních oken.
-[Ignore]
-Filtrování
 [Ban those users and events, you are annoyed with.]
 Obtěžuje vás někdo nebo něco při komunikaci? Vyzkoušejte náš filtr.
-[Status]
-Stavy
 [Set your status messages and idle reporting.]
 Definice stavových zpráv, nálady, automatických odpovědí apod.
-[Addons]
-Doplňky
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 Miranda NG je postavena na možnosti vše měnit a rozšiřovat pomocí doplňků.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 Některé ze změn nejsou uloženy.\nChcete je uložit?
-[Miranda NG]
-Miranda NG
-[Page 1]
-[Page 2]
-[Page 3]
-[Files]
-Soubory
-[Messages]
-Zprávy
-[URL events]
-Příchozí odkazy
-[Typing notifications]
-[Added notifications]
-Oznámení o přidání
-[Auth requests]
-Žádost o autorizaci
-[Configure]
-Nastavit...
-[Update]
-Aktualizovat
-[Download]
-Stáhnout

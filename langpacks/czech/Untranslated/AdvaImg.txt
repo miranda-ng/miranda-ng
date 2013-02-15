@@ -1,1 +1,1 @@
-﻿;[Generic image services for Miranda NG.]
+﻿[Generic image services for Miranda NG.]

@@ -1,6 +1,15 @@
 ﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
-;langpack template for Clist_blind
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.0.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[A contact list for blind folks.]
+
 ;file \plugins\Clist_blind\res\resource.rc
+[Delete Contact]
+Smazání kontaktu
 [Are you sure you want to delete %s?]
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
@@ -10,6 +19,7 @@ Ano
 [No]
 Ne
 [Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 [Use Options->Ignore (expert mode) to unhide contacts.]
 (Skrytí kontaktů zrušíte v nastavení programu.)
 [Hotkeys]
@@ -17,6 +27,7 @@ Klávesové zkratky
 [Show/Hide:]
 Zobrazit/Skrýt:
 [HotKey1]
+
 [Read Message:]
 Přečíst zprávu:
 [Web Search:]
@@ -96,7 +107,7 @@ Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
 Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
-Nastavit průhlednost seznamu kontaktů
+Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
 [Active opacity:]
@@ -136,7 +147,9 @@ Kontakt:
 [Group:]
 Skupina:
 [Divider:]
+
 [Info:]
+
 [Status Bar]
 Stavová lišta
 [Show status bar]
@@ -157,8 +170,12 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
+[&¤]
+
 [E&xit]
 U&končit
+[&Status]
+&Stav
 [&Offline\tCtrl+0]
 &Offline\tCtrl+0
 [On&line\tCtrl+1]
@@ -179,8 +196,12 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
+[Tray]
+Oznámení
 [&Hide/Show]
 Skrýt/Zo&brazit
+[Nowhere]
+
 [&New Group]
 &Nová skupina
 [&Hide Offline Users]
@@ -193,6 +214,8 @@ S&krýt prázdné skupiny
 Vypnout zobrazení s&kupin
 [Hide Miranda]
 Skrýt okno
+[Group]
+Skupina
 [&New Subgroup]
 &Nová podskupina
 [&Hide Offline Users in here]
@@ -223,8 +246,11 @@ Jsem na obědě
 [On the phone]
 Mám telefon
 [Group: %name% %count% [%mode%]]
+
 [Divider: %s]
+
 [Info: %s]
+
 [List]
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp
@@ -237,3 +263,4 @@ neznámý protokol
 [Expanded]
 Rozbalený
 [Colapsed]
+

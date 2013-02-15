@@ -49,8 +49,9 @@ Nastavit...
 [Shutdown when &prozessor usage drops below:]
 Ukončit pokud vytížení &procesoru klesne pod:
 [%]
-%
+%
 [(current: 0%)]
+
 [Shutdown when all contacts are &offline]
 Ukončit po přechodu všech kontaktů &offline
 [Shutdown when all &file transfers are finished]
@@ -67,15 +68,7 @@ Všechna neuložená data mimo program Miranda NG budou ztracena.
 Chcete-li přerušit spuštěnou akci, klikněte na tlačítko "Zrušit".
 [&Now!]
 H&ned!
-;file \plugins\AutoShutdown\src\cpuusage.cpp
-[System\\CurrentControlSet\\Services]
-[Performance]
-[Disable Performance Counters]
-[PerfOS]
 ;file \plugins\AutoShutdown\src\frame.cpp
-[AutoShutdownCountdown]
-[Static]
-Statický
 [Shutdown at:]
 Ukončit v:
 [Time left:]
@@ -127,28 +120,17 @@ Spustí nebo zastaví automatické vypnutí
 Deaktivuje automatické ukončení
 [Start automatic shutdown]
 Aktivuje automatické ukončení
-[Sdop automatic shutdown]
 [Stop automatic &shutdown]
 Zrušit automatické &ukončení
 [Automatic &shutdown...]
 Automatické &ukončení...
 ;file \plugins\AutoShutdown\src\shutdownsvc.cpp
-[default]
-výchozí
-[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer]
-[NoLogOff]
-[Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System]
-[DisableLockWorkstation]
-[RASAPI32]
-[Control Panel\\Desktop]
-[ScreenSaveActive]
-[ScreenSaverIsSecure]
 [Automatic Shutdown Error]
 Chyba při automatickém ukončení
 [The shutdown process failed!\nReason: %s]
 Chyba při pokusu o automatické ukončení!\nDůvod: %s
 [Unknown]
-Neznámý
+neznámý
 [Miranda NG is going to be automatically closed in %u second(s).]
 Program Miranda NG bude za %u sek. automaticky ukončen.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
@@ -168,6 +150,7 @@ Všechna modemová připojení budou za %u sek. automaticky ukončena.
 [The computer will automatically be shut down in %u second(s).]
 Tento počítač bude za %u sek. automaticky vypnut.
 [Inititiating the shutdown process failed!\nReason: %s]
+
 [Close Miranda NG]
 Ukončit program Miranda NG
 [Set Miranda NG offline]
@@ -187,7 +170,7 @@ Zamknout počítač
 [Hang up dialup connections]
 Odpojit modem od sítě
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
-Přepne všechny protokoly do stavu offline a ukončí program Miranda NG.
+
 [Sets all Miranda NG protocols to offline.]
 Přepne všechny protokoly do stavu offline.
 [Logs the current Windows user off so that another user can log in.]
