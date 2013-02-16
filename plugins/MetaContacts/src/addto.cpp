@@ -114,9 +114,9 @@ int BuildList(HWND list, BOOL sort)
 * @return			\c TRUE if the dialog processed the message, \c FALSE if it did not.
 */
 
-#define szConvMsg "Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n\
+#define szConvMsg LPGEN("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n\
 or there is none that can host this contact.\n\
-Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?"
+Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?")
 
 INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

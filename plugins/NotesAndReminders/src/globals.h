@@ -29,7 +29,7 @@
 
 
 #define MODULENAME	"StickyNotes"
-#define SECTIONNAME	"Notes & Reminders"
+#define SECTIONNAME	LPGEN("Notes & Reminders")
 
 // normal timer interval for reminder update processing
 #define REMINDER_UPDATE_INTERVAL		10000

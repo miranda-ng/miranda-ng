@@ -136,20 +136,20 @@
 //---------------------------
 //---Translateable Strings
 
-#define POPUP_COMMENT_MESSAGE "Message"
-#define POPUP_COMMENT_URL "URL"
-#define POPUP_COMMENT_FILE "File"
-#define POPUP_COMMENT_CONTACTS "Contacts"
-#define POPUP_COMMENT_ADDED "You were added!"
-#define POPUP_COMMENT_AUTH "Requests your authorisation"
-#define POPUP_COMMENT_WEBPAGER "ICQ Web pager"
-#define POPUP_COMMENT_EMAILEXP "ICQ Email express"
-#define POPUP_COMMENT_OTHER "Unknown Event"
+#define POPUP_COMMENT_MESSAGE LPGEN("Message")
+#define POPUP_COMMENT_URL LPGEN("URL")
+#define POPUP_COMMENT_FILE LPGEN("File")
+#define POPUP_COMMENT_CONTACTS LPGEN("Contacts")
+#define POPUP_COMMENT_ADDED LPGEN("You were added!")
+#define POPUP_COMMENT_AUTH LPGEN("Requests your authorisation")
+#define POPUP_COMMENT_WEBPAGER LPGEN("ICQ Web pager")
+#define POPUP_COMMENT_EMAILEXP LPGEN("ICQ Email express")
+#define POPUP_COMMENT_OTHER LPGEN("Unknown Event")
 
-#define MENUITEM_NAME "Notify of new events"
+#define MENUITEM_NAME LPGEN("Notify of new events")
 
-#define MENUITEM_ENABLE "Enable new event notification"
-#define MENUITEM_DISABLE "Disable new event notification"
+#define MENUITEM_ENABLE LPGEN("Enable new event notification")
+#define MENUITEM_DISABLE LPGEN("Disable new event notification")
 
 //---------------------------
 //---Structures

@@ -233,6 +233,6 @@ extern BOOL meta_group_hack_disabled;
 #ifndef MS_CLUI_GETVERSION
 #define MS_CLUI_GETVERSION      "CLUI/GetVersion"
 
-#define szDelMsg "You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"
+#define szDelMsg LPGEN("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?")
 
 #endif

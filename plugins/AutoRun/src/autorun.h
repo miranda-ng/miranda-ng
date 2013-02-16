@@ -12,6 +12,6 @@
 #include "Version.h"
 
 #define SUB_KEY _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-#define ModuleName "Autorun"
+#define ModuleName LPGEN("Autorun")
 
 HKEY ROOT_KEY = HKEY_CURRENT_USER;

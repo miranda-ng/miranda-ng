@@ -32,7 +32,7 @@
 
 #define STATUS_COLUMN			110
 
-#define DEFAULT_SOUND			"(default sound)"
+#define DEFAULT_SOUND			LPGEN("(default sound)")
 
 int UserInfoInitialise(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcFiltering(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam); 

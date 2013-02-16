@@ -290,12 +290,12 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		mmi.cch = ( UINT )_tcslen(mmi.dwTypeData);	\
 		InsertMenuItem(hMenu, mmi.wID, FALSE, &mmi);
 
-					AddItem("5 mins");
-					AddItem("15 mins");
-					AddItem("30 mins");
-					AddItem("1 hour");
-					AddItem("1 day");
-					AddItem("1 week");
+					AddItem(LPGEN("5 mins"));
+					AddItem(LPGEN("15 mins"));
+					AddItem(LPGEN("30 mins"));
+					AddItem(LPGEN("1 hour"));
+					AddItem(LPGEN("1 day"));
+					AddItem(LPGEN("1 week"));
 
 					TPMPARAMS tpmp = {0};
 					tpmp.cbSize	= sizeof(tpmp);

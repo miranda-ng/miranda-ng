@@ -117,7 +117,7 @@ int RegisterTrigger() {
 	ZeroMemory(&tr, sizeof(TRIGGERREGISTER));
 	tr.cbSize = sizeof(TRIGGERREGISTER);
 	tr.dFlags = DF_TCHAR;
-	tr.pszName = Translate(TRIGGERNAME);
+	tr.pszName = TRIGGERNAME;
 	tr.hInstance = g_hInstance;
 	tr.pfnDlgProc = DlgProcOptsBossKeyTrigger;
 	tr.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TRIGGER);

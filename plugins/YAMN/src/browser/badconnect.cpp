@@ -7,8 +7,8 @@
 #include "../yamn.h"
 #include "../main.h"
 
-#define BADCONNECTTITLE "%s - connection error"
-#define BADCONNECTMSG "An error occured. Error code: %d"
+#define BADCONNECTTITLE LPGEN("%s - connection error")
+#define BADCONNECTMSG LPGEN("An error occured. Error code: %d")//is in use?
 
 //--------------------------------------------------------------------------------------------------
 

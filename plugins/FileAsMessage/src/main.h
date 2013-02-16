@@ -31,15 +31,15 @@
 #include "resource.h"
 
 #define MAXBUFSIZE 4096
-#define SERVICE_TITLE "File As Message"
+#define SERVICE_TITLE LPGEN("File As Message")
 #define SERVICE_NAME "FileAsMessage"
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
 
 #define PLUGIN_URL "http://miranda-ng.org/"
-#define NOPLUGIN_MESSAGE "\nIf you see this \"garbage\", probably you "\
+#define NOPLUGIN_MESSAGE LPGEN("\nIf you see this \"garbage\", probably you "\
                          "have no \"fileAsMessage\" plugin installed, see "\
-						 PLUGIN_URL " for more information and download."
+						 PLUGIN_URL " for more information and download.")
 extern char *szServiceTitle;
 extern char *szServicePrefix;
 extern const ulong INITCRC;

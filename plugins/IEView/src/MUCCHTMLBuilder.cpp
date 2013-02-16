@@ -240,17 +240,17 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 			if (eventData->iType == IEED_MUCC_EVENT_JOINED) {
 				className = "userJoined";
 				divName = "divUserJoined";
-				eventText = "%s has joined.";
+				eventText = LPGEN("%s has joined.");
 				szText = encodeUTF8(NULL, event->pszProto, eventData->pszNick, ENF_NONE, isSent);
 			} else if (eventData->iType == IEED_MUCC_EVENT_LEFT) {
 				className = "userLeft";
 				divName = "divUserJoined";
-				eventText = "%s has left.";
+				eventText = LPGEN("%s has left.");
 				szText = encodeUTF8(NULL, event->pszProto, eventData->pszNick, ENF_NONE, isSent);
 			} else {
 				className = "topicChange";
 				divName = "divTopicChange";
-				eventText = "The topic is %s.";
+				eventText = LPGEN("The topic is %s.");
 				szText = encodeUTF8(NULL, event->pszProto, eventData->pszText, ENF_ALL, isSent);
 			}
 			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", divName);

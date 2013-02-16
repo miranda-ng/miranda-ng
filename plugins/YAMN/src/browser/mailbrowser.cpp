@@ -321,7 +321,7 @@ void IncrementMailCounters(HYAMNMAIL msgq,struct CMailNumbers *MN)
 
 int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 {
-#define MAILBROWSERTITLE "%s - %d new mail messages, %d total"
+#define MAILBROWSERTITLE LPGEN("%s - %d new mail messages, %d total")
 
 	struct CMailWinUserInfo *mwui;
 	struct CMailNumbers MN;

@@ -305,8 +305,8 @@ Returns: handle of registered notification or sero on failure
 
 #define PNAF_CALLBACK			0x01
 
-#define POPUP_ACTION_NOTHING	"Do nothing"
-#define POPUP_ACTION_DISMISS	"Dismiss popup"
+#define POPUP_ACTION_NOTHING	LPGEN("Do nothing")
+#define POPUP_ACTION_DISMISS	LPGEN("Dismiss popup")
 
 typedef struct
 {

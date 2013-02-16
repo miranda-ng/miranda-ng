@@ -229,7 +229,7 @@ HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip)
 
   SendMessageT(hButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
   SendMessageT(hButton, BUTTONSETASFLATBTN, TRUE, 0);
-  SendMessageT(hButton, BUTTONADDTOOLTIP, (WPARAM)Translate(szTip), 0);
+  SendMessageT(hButton, BUTTONADDTOOLTIP, (WPARAM)szTip, 0);
 
   return hIcon;
 }

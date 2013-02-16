@@ -33,7 +33,7 @@ Copyright (C) 2010, 2011 tico-tico
 
 #define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
 
-#define ModuleName "Bass Interface"
+#define ModuleName LPGEN("Bass Interface")
 
 #define OPT_VOLUME		"Volume"
 #define OPT_BASSPATH	"PathToDll"

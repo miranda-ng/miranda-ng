@@ -31,7 +31,7 @@
 #include "version.h"
 
 #define MaxTextSize 64000
-#define ModuleName "ChangeKeyboardLayout"
+#define ModuleName LPGEN("ChangeKeyboardLayout")
 
 // History++ API
 #define MS_HPP_EG_WINDOW			"History++/ExtGrid/NewWindow"

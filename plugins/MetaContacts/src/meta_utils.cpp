@@ -885,13 +885,13 @@ int Meta_SetHandles(void)
 * and ensure metafilter in place
 */
 
-#define szMsg "The 'MetaContacts Hidden Group' has been added to your contact list.\n\
+#define szMsg LPGEN("The 'MetaContacts Hidden Group' has been added to your contact list.\n\
 This is most likely due to server-side contact information. To fix this, so that\n\
 MetaContacts continues to function correctly, you should:\n\
    - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n\
    - move all contacts out of this group\n\
    - synchronize your contacts with the server\n\
-   - re-enable MetaContacts"
+   - re-enable MetaContacts")
 
 int Meta_HideLinkedContacts(void) {
 	DBVARIANT dbv, dbv2;

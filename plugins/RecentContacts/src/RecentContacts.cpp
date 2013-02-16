@@ -449,7 +449,7 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 	ttbb.hIconHandleUp = icon.hIcolib;
 	ttbb.pszService = msLastUC_ShowList;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = ttbb.pszTooltipUp = LPGEN(msLastUC_ShowListName);
+	ttbb.name = ttbb.pszTooltipUp = msLastUC_ShowListName;
 	hTopToolbarButtonShowList = TopToolbar_AddButton(&ttbb);
 	return 0;
 }

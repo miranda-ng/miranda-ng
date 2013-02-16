@@ -80,7 +80,7 @@
 #include "resource.h"
 #include "version.h"
 
-#define MODULENAME	       "Custom Status List"
+#define MODULENAME	       LPGEN("Custom Status List")
 
 // ====[ LIMITS ]=============================================================
 

@@ -37,7 +37,7 @@ using namespace std;
 void wSetData(char **Data, const char *Value);
 void wfree(char **Data);
 
-static char msLastUC_ShowListName[] =           "Recent Contacts";
+static char msLastUC_ShowListName[] =           LPGEN("Recent Contacts");
 
 static char dbLastUC_ModuleName[] =             "RecentContacts";
 static char dbLastUC_LastUsedTimeLo[] =         "LastUsedTimeLo";

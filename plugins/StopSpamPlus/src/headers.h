@@ -33,7 +33,7 @@
 
 #include "m_variables.h"
 
-#define pluginName "StopSpam"
+#define pluginName LPGEN("StopSpam")
 
 extern TCHAR * pluginDescription;
 extern TCHAR const * infTalkProtPrefix;

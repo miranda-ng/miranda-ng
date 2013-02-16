@@ -58,4 +58,4 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 extern std::string g_mirandaDir;
 extern bool IsLogService;
-#define LOG_ID "NotifyAnything"
+#define LOG_ID LPGEN("NotifyAnything")
