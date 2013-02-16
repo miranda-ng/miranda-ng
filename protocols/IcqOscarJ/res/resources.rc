@@ -210,7 +210,7 @@ BEGIN
     GROUPBOX        "Look && Feel",IDC_STATIC,4,80,305,160
     LTEXT           "Back Color",IDC_STATIC,80,93,42,8
     LTEXT           "Text Color",IDC_STATIC,130,93,40,8
-    LTEXT           "Timeout (*)",IDC_STATIC,182,93,60,8
+    LTEXT           "Timeout",IDC_STATIC,182,93,60,8
     LTEXT           "Note",IDC_STATIC,12,105,60,8
     CONTROL         "",IDC_POPUP_LOG0_BACKCOLOR,"ColourPicker",WS_TABSTOP,80,104,39,10
     CONTROL         "",IDC_POPUP_LOG0_TEXTCOLOR,"ColourPicker",WS_TABSTOP,130,104,39,10
@@ -234,7 +234,6 @@ BEGIN
     CONTROL         "&Use Windows colors",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,183,220,8
     CONTROL         "Use system &icons",IDC_USESYSICONS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,12,211,220,8
     DEFPUSHBUTTON   "Previe&w",IDC_PREVIEW,247,192,52,12
-    LTEXT           "(*) Timeouts require Popup v. 1.0.1.9 or later",IDC_STATIC,12,225,232,8
     CONTROL         "Use default colours",IDC_USEDEFCOLORS,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,196,221,10
 END
 

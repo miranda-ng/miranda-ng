@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\tabsrmm\trunk\miranda\plugins\tabsrmm\resource.rc
+// Used by ..\..\res\resource.rc
 //
 #define IDD_TEMPLATEEDIT                1
 #define IDD_USERPREFS                   2
@@ -787,7 +787,7 @@
 #define ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD 40261
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        17

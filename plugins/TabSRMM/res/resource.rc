@@ -10,15 +10,13 @@
 #include <windows.h>
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
-
-
-
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Нейтральный resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
@@ -434,38 +432,39 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,185,284,11
 END
 
-IDD_OPT_TYPINGNOTIFYPOPUP DIALOGEX 0, 0, 318, 174
+IDD_OPT_TYPINGNOTIFYPOPUP DIALOGEX 0, 0, 314, 250
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "PopUps",IDC_STATIC,0,6,164,127
-    CONTROL         "...is &typing",IDC_START,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,22,80,13
-    CONTROL         "...stopped t&yping",IDC_STOP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,36,80,13
-    CTEXT           "Back",IDC_STATIC,108,13,24,8
-    CTEXT           "Text",IDC_STATIC,134,13,24,8
-    CONTROL         "",IDC_TYPEON_BG,"ColourPicker",WS_TABSTOP,108,22,24,12
-    CONTROL         "",IDC_TYPEON_TX,"ColourPicker",WS_TABSTOP,134,22,24,12
-    CONTROL         "",IDC_TYPEOFF_BG,"ColourPicker",WS_TABSTOP,108,36,24,12
-    CONTROL         "",IDC_TYPEOFF_TX,"ColourPicker",WS_TABSTOP,134,36,24,12
-    CONTROL         "U&se Popup colours",IDC_USEPOPUPCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,52,154,13
-    CONTROL         "&Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,66,133,13
-    CONTROL         "Only &one popup for each contact",IDC_ONEPOPUP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,96,156,13
-    CONTROL         "Show &entry in the main menu",IDC_SHOWMENU,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,6,110,155,13
-    GROUPBOX        "PopUp timeout (is typing)",IDC_STATIC,165,6,148,58,WS_GROUP
-    CONTROL         "From PopUp plugin",IDC_TIMEOUT_POPUP,"Button",BS_AUTORADIOBUTTON,177,16,130,10
-    CONTROL         "From protocol",IDC_TIMEOUT_PROTO,"Button",BS_AUTORADIOBUTTON,177,27,130,10
-    CONTROL         "Permanent",IDC_TIMEOUT_PERMANENT,"Button",BS_AUTORADIOBUTTON,177,38,130,10
-    CONTROL         "Custom",IDC_TIMEOUT_CUSTOM,"Button",BS_AUTORADIOBUTTON,177,49,95,10
-    EDITTEXT        IDC_TIMEOUT_VALUE,282,48,21,12,ES_AUTOHSCROLL | ES_NUMBER
-    GROUPBOX        "PopUp timeout (stopped typing)",IDC_STATIC,165,68,148,47,WS_GROUP
-    CONTROL         "From PopUp plugin",IDC_TIMEOUT_POPUP2,"Button",BS_AUTORADIOBUTTON,177,78,130,10
-    CONTROL         "Permanent",IDC_TIMEOUT_PERMANENT2,"Button",BS_AUTORADIOBUTTON,177,89,130,10
-    CONTROL         "Custom",IDC_TIMEOUT_CUSTOM2,"Button",BS_AUTORADIOBUTTON,177,100,95,10
-    EDITTEXT        IDC_TIMEOUT_VALUE2,286,99,21,12,ES_AUTOHSCROLL | ES_NUMBER
-    PUSHBUTTON      "Preview",IDC_PREVIEW,244,120,68,14
-    LTEXT           "",IDC_INFO,6,157,290,10
-    LTEXT           "",IDC_INFO2,6,143,290,10
+    GROUPBOX        "PopUps",IDC_STATIC,4,9,307,129
+    CONTROL         "...is &typing",IDC_START,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,20,80,13
+    CONTROL         "...stopped t&yping",IDC_STOP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,46,80,13
+    CTEXT           "Back",IDC_STATIC,23,61,31,8
+    CTEXT           "Text",IDC_STATIC,89,62,29,8
+    CONTROL         "",IDC_TYPEON_TX,"ColourPicker",WS_TABSTOP,120,33,24,12
+    CONTROL         "",IDC_TYPEOFF_BG,"ColourPicker",WS_TABSTOP,58,59,24,12
+    CONTROL         "",IDC_TYPEOFF_TX,"ColourPicker",WS_TABSTOP,120,59,24,12
+    CONTROL         "U&se Popup colours",IDC_USEPOPUPCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,71,235,13
+    CONTROL         "&Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,84,242,13
+    CONTROL         "Only &one popup for each contact",IDC_ONEPOPUP,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,109,250,13
+    CONTROL         "Show &entry in the main menu",IDC_SHOWMENU,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,11,122,247,13
+    GROUPBOX        "...is typing",IDC_STATIC,8,151,148,58,WS_GROUP
+    CONTROL         "From PopUp plugin",IDC_TIMEOUT_POPUP,"Button",BS_AUTORADIOBUTTON,16,161,130,10
+    CONTROL         "From protocol",IDC_TIMEOUT_PROTO,"Button",BS_AUTORADIOBUTTON,16,172,130,10
+    CONTROL         "Permanent",IDC_TIMEOUT_PERMANENT,"Button",BS_AUTORADIOBUTTON,16,183,130,10
+    CONTROL         "Custom",IDC_TIMEOUT_CUSTOM,"Button",BS_AUTORADIOBUTTON,16,194,95,10
+    EDITTEXT        IDC_TIMEOUT_VALUE,125,193,25,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "...stopped typing",IDC_STATIC,158,151,148,58,WS_GROUP
+    CONTROL         "From PopUp plugin",IDC_TIMEOUT_POPUP2,"Button",BS_AUTORADIOBUTTON,166,161,130,10
+    CONTROL         "Permanent",IDC_TIMEOUT_PERMANENT2,"Button",BS_AUTORADIOBUTTON,166,172,130,10
+    CONTROL         "Custom",IDC_TIMEOUT_CUSTOM2,"Button",BS_AUTORADIOBUTTON,166,193,95,10
+    EDITTEXT        IDC_TIMEOUT_VALUE2,275,192,25,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Preview",IDC_PREVIEW,62,220,194,16
+    GROUPBOX        "PopUps timeout",IDC_STATIC,3,140,308,75
+    CTEXT           "Back",IDC_STATIC,22,35,33,8
+    CONTROL         "",IDC_TYPEON_BG,"ColourPicker",WS_TABSTOP,58,33,24,12
+    CTEXT           "Text",IDC_STATIC,89,35,29,8
 END
 
 IDD_TEMPLATEEDIT DIALOGEX 0, 0, 368, 231
@@ -884,12 +883,27 @@ IDI_ENABLED             ICON                    "res_TN\\popup.ico"
 IDI_DISABLED            ICON                    "res_TN\\popup_no.ico"
 IDI_FEATURE_ENABLED     ICON                    "overlay_enabled.ico"
 
-#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_TYPINGNOTIFYPOPUP, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 191
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Нейтральный resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
+// Немецкий (Германия) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
@@ -962,12 +976,12 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // German (Germany) resources
+#endif    // Немецкий (Германия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
+// Английский (США) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -1087,7 +1101,7 @@ IDR_SKIN_AERO           SKIN_GLYPH              "SKIN\\tabskin_aero.png"
 IDR_SKIN_AERO_GLOW      SKIN_GLYPH              "SKIN\\tabskin_aero_glow.png"
 IDR_SKIN_AERO_SWITCHBAR SKIN_GLYPH              "SKIN\\tabskin_aero_button.png"
 IDR_SKIN_LOGO           SKIN_GLYPH              "SKIN\\unknown.png"
-#endif    // English (United States) resources
+#endif    // Английский (США) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
