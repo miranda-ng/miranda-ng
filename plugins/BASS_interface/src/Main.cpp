@@ -296,7 +296,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = LPGEN(ModuleName);
+	odp.pszTitle = ModuleName;
 	odp.pfnDlgProc = OptionsProc;
 	odp.pszGroup = LPGEN("Customize");
 	odp.flags = ODPF_BOLDGROUPS;
