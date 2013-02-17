@@ -43,3 +43,6 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 [File As Message...]
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]

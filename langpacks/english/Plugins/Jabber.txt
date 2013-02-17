@@ -539,6 +539,7 @@
 [New password does not match.]
 [Current password is incorrect.]
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
 [Warning: privacy lists were changed on server.]
 [Error occurred while applying changes]
 [Privacy lists successfully saved]

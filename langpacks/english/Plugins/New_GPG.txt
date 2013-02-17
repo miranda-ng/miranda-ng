@@ -2,7 +2,7 @@
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
-[ОК]
+[OK]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -31,7 +31,6 @@
 [Ignore]
 [Static]
 [Key Generation dialog]
-[OK]
 [Cancel]
 [Key type:]
 [Key length:]

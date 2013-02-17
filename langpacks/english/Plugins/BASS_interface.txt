@@ -28,6 +28,8 @@
 [On the phone]
 [Out to lunch]
 [Preview]
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
@@ -35,6 +37,5 @@
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
-[Bass Interface]
 [Sounds enabled]
 [Sounds disabled]

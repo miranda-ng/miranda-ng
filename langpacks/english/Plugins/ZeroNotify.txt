@@ -11,6 +11,9 @@
 [No sounds when:]
 [No SysTray blink when:]
 [No CLIST blink when:]
+;file \plugins\ZeroNotification\src\common.h
+[Disable &Sounds]
+[Enable &Sounds]
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 [Plugins]

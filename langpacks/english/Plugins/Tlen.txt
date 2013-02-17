@@ -176,6 +176,9 @@
 [You cannot join more than %s chat rooms.]
 [Anonymous nicknames are not allowed in this chat room.]
 [Unknown error code : %d]
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+[Image received file://%s]
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 [both]

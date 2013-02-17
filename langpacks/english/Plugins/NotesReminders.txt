@@ -80,6 +80,8 @@
 [Always &On Top]
 [Delete &All Notes]
 [&Show / Hide Notes]
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 [Toggle Notes Visibility]

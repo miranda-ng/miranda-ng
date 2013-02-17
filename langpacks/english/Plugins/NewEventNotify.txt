@@ -40,6 +40,16 @@
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+[You were added!]
+[Requests your authorisation]
+[ICQ Web pager]
+[ICQ Email express]
+[Unknown Event]
+[Notify of new events]
+[Enable new event notification]
+[Disable new event notification]
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 ;file \plugins\NewEventNotify\src\popup.cpp

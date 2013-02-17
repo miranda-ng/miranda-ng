@@ -33,3 +33,9 @@
 [Contacts]
 [Incoming Contacts]
 [Outgoing Contacts]
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+[View User's Details]
+[View User's History]
+[User Menu]
+;file \plugins\ContactsPlus\src\send.cpp

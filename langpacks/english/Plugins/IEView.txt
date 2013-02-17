@@ -50,6 +50,9 @@
 [ requested authorisation]
 [ was added.]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+[%s has left.]
+[The topic is %s.]
 [Error]
 ;file \plugins\IEView\src\Options.cpp
 [General]

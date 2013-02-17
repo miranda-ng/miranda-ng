@@ -71,6 +71,12 @@
 ;file \plugins\Alarms\src\alarm_win.cpp
 [Example Alarm]
 [Some example text. Example, example, example.]
+[5 mins]
+[15 mins]
+[30 mins]
+[1 hour]
+[1 day]
+[1 week]
 [Title]
 [Background]
 [Window]

@@ -1931,6 +1931,12 @@
 ;file \plugins\Alarms\src\alarm_win.cpp
 [Example Alarm]
 [Some example text. Example, example, example.]
+[5 mins]
+[15 mins]
+[30 mins]
+[1 hour]
+[1 day]
+[1 week]
 [Title]
 [Background]
 [Window]
@@ -2041,6 +2047,7 @@
 [Autorun]
 [Launch Miranda NG at system startup]
 [Note: At startup Miranda NG will use current profile]
+;file \plugins\AutoRun\src\autorun.h
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
 ﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
@@ -2315,6 +2322,7 @@
 [Avatar]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
+[Global avatar]
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
@@ -2604,6 +2612,8 @@
 [On the phone]
 [Out to lunch]
 [Preview]
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]
@@ -2611,7 +2621,6 @@
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
-[Bass Interface]
 [Sounds enabled]
 [Sounds disabled]
 ﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
@@ -2823,6 +2832,8 @@
 [Dismiss]
 [On right click]
 [Preview]
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 [Changing Layout]
@@ -4498,6 +4509,12 @@
 [Contacts]
 [Incoming Contacts]
 [Outgoing Contacts]
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+[View User's Details]
+[View User's History]
+[User Menu]
+;file \plugins\ContactsPlus\src\send.cpp
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
@@ -5392,6 +5409,9 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 [File As Message...]
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
@@ -6594,7 +6614,7 @@
 [Look && Feel]
 [Back Color]
 [Text Color]
-[Timeout (*)]
+[Timeout]
 [Note]
 [Warning]
 [Error]
@@ -6603,7 +6623,6 @@
 [&Use Windows colors]
 [Use system &icons]
 [Previe&w]
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
 [Use default colours]
 [UIN:]
 [External IP:]
@@ -7565,6 +7584,9 @@
 [ requested authorisation]
 [ was added.]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+[%s has left.]
+[The topic is %s.]
 [Error]
 ;file \plugins\IEView\src\Options.cpp
 [General]
@@ -8140,6 +8162,10 @@
 ;file \protocols\IRCG\src\tools.cpp
 [Offline]
 ;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 [Channel]
@@ -8704,6 +8730,7 @@
 [New password does not match.]
 [Current password is incorrect.]
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
 [Warning: privacy lists were changed on server.]
 [Error occurred while applying changes]
 [Privacy lists successfully saved]
@@ -9659,6 +9686,7 @@
 [Keep subcontact history synchronized with MetaContact]
 [History (** beware - change at your own risk **)]
 ;file \plugins\MetaContacts\src\addto.cpp
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
 [MetaContact Conflict]
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
@@ -9685,6 +9713,8 @@
 [Edit]
 [Set to Default]
 [Remove]
+;file \plugins\MetaContacts\src\metacontacts.h
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 ;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 [MetaContacts]
@@ -9729,6 +9759,7 @@
 [MetaContact default contact number out of range - deleting MetaContact]
 [MetaId: ]
 [MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+[The 'MetaContacts Hidden Group' has been added to your contact list.\nThis is most likely due to server-side contact information. To fix this, so that\nMetaContacts continues to function correctly, you should:\n   - disable MetaContacts using the 'Toggle MetaContacts Off' main menu item\n   - move all contacts out of this group\n   - synchronize your contacts with the server\n   - re-enable MetaContacts]
 [MetaContacts Warning]
 [Offline]
 [Online]
@@ -10651,6 +10682,16 @@
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+[You were added!]
+[Requests your authorisation]
+[ICQ Web pager]
+[ICQ Email express]
+[Unknown Event]
+[Notify of new events]
+[Enable new event notification]
+[Disable new event notification]
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 ;file \plugins\NewEventNotify\src\popup.cpp
@@ -10841,6 +10882,8 @@
 [Sound for the status]
 [From offline]
 [** All contacts **]
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 [Contact]
@@ -10929,6 +10972,7 @@
 [changed %N to: %T%D%I]
 [changed %N message to:%D%I]
 [removed %N]
+[changed his/her status message to %n]
 [changed %N @ %T%D%I]
 [changed %N message @ %I]
 [has %N @ %T%D%I]
@@ -10938,7 +10982,7 @@
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
-[ОК]
+[OK]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -10967,7 +11011,6 @@
 [Ignore]
 [Static]
 [Key Generation dialog]
-[OK]
 [Cancel]
 [Key type:]
 [Key length:]
@@ -11238,6 +11281,8 @@
 [Always &On Top]
 [Delete &All Notes]
 [&Show / Hide Notes]
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 [Toggle Notes Visibility]
@@ -11336,6 +11381,8 @@
 [Allow actions to execute programs]
 [Password:]
 [...]
+;file \plugins\NotifyAnything\src\common.h
+[NotifyAnything]
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 [Icon indices start at 1.]
@@ -11356,7 +11403,6 @@
 [LogService]
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 [Invalid port number]
-[NotifyAnything]
 [Plugins]
 ﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;langpack template for Nudge
@@ -11967,6 +12013,8 @@
 [Enable &popup module]
 [Disable &popup module]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
+[PopUps]
+[PopUp]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 [Fade in/out]
@@ -12418,6 +12466,7 @@
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
+;file \plugins\RecentContacts\src\RecentContacts.h
 ﻿#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
 ;langpack template for Restart
 ;file \plugins\Restart\src\restart.cpp
@@ -13025,6 +13074,83 @@
 [Export public key]
 [Import public key]
 [Delete public key]
+;file \plugins\SecureIM\src\language.cpp
+[SecureIM established...]
+[Key exchange failed...]
+[Key from disabled...]
+[Sended back message received...]
+[Sending back secure message...]
+[SecureIM disabled...]
+[Sending Key...]
+[Key Received...]
+[Sending Message...]
+[Message Received...]
+[Encrypting File:]
+[Decrypting File:]
+[Bad key received...]
+[SecureIM: Error while decrypting the message.]
+[SecureIM: Error while decrypting the message, bad message length.]
+[SecureIM: Error while decrypting the message, bad message CRC.]
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+[SecureIM not enabled! You Must Enable SecureIM with this user...]
+[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+[Can't change mode! Secure connection established!]
+[Can't export RSA private key!]
+[Can't import RSA private key!]
+[Can't export RSA public key!]
+[Can't import RSA public key!]
+[General]
+[Nickname]
+[Name]
+[Password is too short!]
+[Off]
+[Keyrings loaded.]
+[Keyrings not loaded!]
+[PGP SDK v%i.%i.%i found.]
+[PGP SDK not found!]
+[This version not supported!]
+[(none)]
+[Private key loaded.]
+[Private key not loaded!]
+[The new settings will become valid when you restart MirandaNG!]
+[Keyrings disabled!]
+[Native]
+[Disabled]
+[Enabled]
+[Always try]
+[Create SecureIM connection]
+[Disable SecureIM connection]
+[Load PGP Key]
+[Unload PGP Key]
+[Load GPG Key]
+[Unload GPG Key]
+[Delete RSA Key]
+[SecureIM mode (Native)]
+[SecureIM mode (PGP)]
+[SecureIM mode (GPG)]
+[SecureIM mode (RSA/AES)]
+[SecureIM mode (RSA)]
+[SecureIM status (disabled)]
+[SecureIM status (enabled)]
+[SecureIM status (always try)]
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+[SecureIM received unencrypted message:\n]
+[SecureIM received encrypted message:\n]
+[Session closed by receiving incorrect message type]
+[Session closed by other side on error]
+[Error while decoding AES message]
+[Error while decoding RSA message]
+[Session closed on timeout]
+[Session closed by other side when status "disabled"]
+[Session closed on error: %02x]
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 ;file \plugins\SecureIM\src\main.cpp
 [Incoming Secure Message]
 [Outgoing Secure Message]
@@ -14101,6 +14227,8 @@
 [General]
 [Messages]
 [Accounts]
+;file \plugins\StopSpamPlus\src\headers.h
+[StopSpam]
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 [StopSpam automatic message:\r\n]
@@ -14430,12 +14558,13 @@
 [&Use Windows colours]
 [Only &one popup for each contact]
 [Show &entry in the main menu]
-[PopUp timeout (is typing)]
+[...is typing]
 [From PopUp plugin]
 [From protocol]
 [Permanent]
 [Custom]
-[PopUp timeout (stopped typing)]
+[...stopped typing]
+[PopUps timeout]
 [Templates]
 [Edit template]
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
@@ -15897,6 +16026,9 @@
 [You cannot join more than %s chat rooms.]
 [Anonymous nicknames are not allowed in this chat room.]
 [Unknown error code : %d]
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+[Image received file://%s]
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 [both]
@@ -16371,6 +16503,7 @@
 [Creating unique name for a page failed with %d and error code %d]
 [Creating the label for a page failed with %d and error code %d]
 [The dialog template type is no longer supported]
+[UserInfoEx/TreeView]
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 [Delete an existing anniversary]
@@ -16451,6 +16584,7 @@
 [&Export Group]
 [&Import Group]
 [Ex-/Import]
+[Extended UserInfo]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 [About:]
@@ -16467,6 +16601,8 @@
 [Tertiary e-mail]
 [Address & Contact]
 [Company]
+[Fax]
+[Cellular]
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
@@ -17750,6 +17886,8 @@
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
 [Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
+;file \plugins\WhenWasIt\src\services.h
+[Could not find UID '%s [%S]' in current database, skipping]
 ﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
@@ -17912,6 +18050,7 @@
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+[Friends of Friends Playing]
 [Login failed.]
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 [The protocol version is too old. Cannot detect a new version number.]
@@ -18249,9 +18388,12 @@
 [Nick]
 [No new mail message]
 ;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+[An error occured. Error code: %d]
 [Unknown error]
 [ - connection error]
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
 [- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
@@ -18437,6 +18579,9 @@
 [No sounds when:]
 [No SysTray blink when:]
 [No CLIST blink when:]
+;file \plugins\ZeroNotification\src\common.h
+[Disable &Sounds]
+[Enable &Sounds]
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 [Plugins]

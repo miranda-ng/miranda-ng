@@ -123,6 +123,7 @@
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+[Friends of Friends Playing]
 [Login failed.]
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 [The protocol version is too old. Cannot detect a new version number.]

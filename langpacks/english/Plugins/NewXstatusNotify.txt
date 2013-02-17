@@ -100,6 +100,8 @@
 [Sound for the status]
 [From offline]
 [** All contacts **]
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 [Contact]
@@ -188,6 +190,7 @@
 [changed %N to: %T%D%I]
 [changed %N message to:%D%I]
 [removed %N]
+[changed his/her status message to %n]
 [changed %N @ %T%D%I]
 [changed %N message @ %I]
 [has %N @ %T%D%I]

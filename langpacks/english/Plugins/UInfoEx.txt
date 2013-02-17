@@ -206,6 +206,7 @@
 [Creating unique name for a page failed with %d and error code %d]
 [Creating the label for a page failed with %d and error code %d]
 [The dialog template type is no longer supported]
+[UserInfoEx/TreeView]
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 [Delete an existing anniversary]
@@ -286,6 +287,7 @@
 [&Export Group]
 [&Import Group]
 [Ex-/Import]
+[Extended UserInfo]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 [About:]
@@ -302,6 +304,8 @@
 [Tertiary e-mail]
 [Address & Contact]
 [Company]
+[Fax]
+[Cellular]
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]

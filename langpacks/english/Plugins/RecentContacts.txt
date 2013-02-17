@@ -14,3 +14,4 @@
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
+;file \plugins\RecentContacts\src\RecentContacts.h

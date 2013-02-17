@@ -102,9 +102,12 @@
 [Nick]
 [No new mail message]
 ;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+[An error occured. Error code: %d]
 [Unknown error]
 [ - connection error]
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
 [- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
