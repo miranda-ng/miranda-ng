@@ -606,7 +606,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
 	Options_AddPage(wParam, &odp);
 
-	if (bPopUpService) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;

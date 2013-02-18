@@ -490,7 +490,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	if (PluginConfig.g_PopupAvail) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.position = 100000000;

@@ -1325,11 +1325,13 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
-	odp.pszTitle    = LPGEN("Event notifications");
-	odp.pszGroup    = LPGEN("PopUps");
-	odp.pfnDlgProc  = DlgProcPopupOpts;
-	Options_AddPage(wParam, &odp);
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
+		odp.pszTitle    = LPGEN("Event notifications");
+		odp.pszGroup    = LPGEN("PopUps");
+		odp.pfnDlgProc  = DlgProcPopupOpts;
+		Options_AddPage(wParam, &odp);
+	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.pszTitle    = LPGEN("Message window");
