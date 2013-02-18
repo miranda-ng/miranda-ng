@@ -52,6 +52,7 @@
 [Start OTR]
 [Stop OTR]
 [Yes]
+[No]
 [OTR status (Click for more options)]
 [OTR Encryption: Disabled]
 [OTR Encryption: UNVERIFIED]

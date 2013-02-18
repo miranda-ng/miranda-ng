@@ -2,7 +2,6 @@
 ;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
-[`]
 [Sample page]
 [Miranda NG Options]
 [Use arrow keys to choose category]

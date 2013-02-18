@@ -9,7 +9,6 @@
 [Selected totals]
 [Accounts]
 [Units]
-[0]
 [Clear statistics]
 [Notification]
 [Notify me on every]
@@ -29,6 +28,8 @@
 [Display traffic for current]
 ;file \plugins\TrafficCounter\src\statistics.c
 [Bytes]
+[KB]
+[MB]
 [Adaptive]
 [Hourly]
 [Daily]

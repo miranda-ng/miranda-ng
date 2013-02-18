@@ -31,7 +31,6 @@
 [Nickname:]
 [First name:]
 [Last name:]
-[@]
 [Gender:]
 [Age:]
 [from:]

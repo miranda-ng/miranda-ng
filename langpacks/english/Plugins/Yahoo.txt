@@ -52,6 +52,7 @@
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
+[Me]
 [Others]
 [&Invite user...]
 [&Leave chat session]
@@ -91,6 +92,7 @@
 ;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
 [%s plugin connections]
+[ID]
 [Please enter your yahoo id in Options/Network/Yahoo]
 [Please enter your yahoo password in Options/Network/Yahoo]
 [Yahoo Login Error]

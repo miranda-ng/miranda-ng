@@ -13,8 +13,6 @@
 [Author:]
 [Version:]
 [Preview]
-[+]
-[-]
 [Display]
 [Replace only smileys surrounded by spaces]
 [Scale smiley to textheight]

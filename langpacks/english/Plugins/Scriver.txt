@@ -260,6 +260,7 @@
 [Last message received on %s at %s.]
 ;file \plugins\Scriver\src\msglog.cpp
 [Unknown Contact]
+[Me]
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
 [to tiny bits, in Thy mercy]
 [My Contact]
@@ -318,6 +319,7 @@
 [Offline]
 [Online]
 [Away]
+[NA]
 [Occupied]
 [DND]
 [Free for chat]

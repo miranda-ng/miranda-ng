@@ -180,6 +180,7 @@
 [%sys:uidname|UID^!MetaContacts%:]
 [Idle]
 [Idle:]
+[IP]
 [IP:]
 [IP internal]
 [IP internal:]

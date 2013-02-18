@@ -101,6 +101,7 @@
 [%s had birthday yesterday.]
 [%s has birthday today (Should not happen, please report).]
 [Birthday - %s]
+[He]
 [She]
 [He/She]
 [%s\n%s will be %d years old.]

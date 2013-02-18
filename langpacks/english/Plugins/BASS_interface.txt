@@ -14,7 +14,6 @@
 [Output device:]
 [Volume:]
 [Quiet time:]
-[-]
 [download bass library]
 [Play only if]
 [Offline]

@@ -20,7 +20,6 @@
 [Strings for keyboard layouts]
 [EN]
 [Default]
-[+]
 [Invert current state]
 [Switch off]
 [Leave as it is]

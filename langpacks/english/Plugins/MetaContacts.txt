@@ -76,7 +76,9 @@
 ;file \plugins\MetaContacts\src\edit.cpp
 [(Unknown Contact)]
 [Yes]
+[No]
 [Contact]
+[Id]
 [Protocol]
 [Send Offline]
 [Delete MetaContact?]

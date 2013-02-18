@@ -94,6 +94,7 @@
 [Default history events]
 [History for %s]
 [System]
+[Me]
 [Invalid Message]
 [Authorisation request by %s (%s%d): %s]
 ;file \plugins\BasicHistory\src\ExportManager.cpp

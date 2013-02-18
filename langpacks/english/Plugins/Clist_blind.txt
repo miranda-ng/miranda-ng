@@ -120,6 +120,7 @@
 [Offline]
 [Online]
 [Away]
+[NA]
 [Occupied]
 [DND]
 [Free for chat]

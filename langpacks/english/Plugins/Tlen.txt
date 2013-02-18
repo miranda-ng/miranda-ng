@@ -111,6 +111,7 @@
 [<Ask me>]
 [Online]
 [Away]
+[NA]
 [DND]
 [Free for chat]
 [Invisible]

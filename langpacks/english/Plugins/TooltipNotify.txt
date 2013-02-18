@@ -55,3 +55,4 @@
 [Invisible]
 [Not Idle]
 [Unknown]
+[is]

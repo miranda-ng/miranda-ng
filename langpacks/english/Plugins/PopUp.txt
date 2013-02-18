@@ -42,7 +42,6 @@
 [Time (out):]
 [Limit window amount to:]
 [Skins]
-[R]
 [* - built-in skins]
 [Skin options]
 [Preview]
@@ -141,8 +140,6 @@
 [Enable &popup module]
 [Disable &popup module]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
-[PopUps]
-[PopUp]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
 [Fade in/out]

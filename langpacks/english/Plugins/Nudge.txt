@@ -9,7 +9,6 @@
 [Enable message window shaking]
 [Show as status change]
 [Auto resend nudge after]
-[s]
 [Enable popup notification]
 [Respect ignore settings (status changes)]
 [Sending text]

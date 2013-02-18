@@ -65,6 +65,7 @@
 [Add]
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
+[Me]
 [Others]
 [&Invite user...]
 [&Leave chat session]

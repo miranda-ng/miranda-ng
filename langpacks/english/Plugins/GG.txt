@@ -105,6 +105,7 @@
 [List import successful.]
 [List remove successful.]
 [List export successful.]
+[Me]
 [Unknown client]
 [You have logged in at another location]
 [You are logged in at another location]

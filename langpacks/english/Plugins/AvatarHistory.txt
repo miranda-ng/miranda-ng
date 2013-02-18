@@ -14,8 +14,6 @@
 [Avatar History]
 [Static]
 [Open Folder]
-[<]
-[>]
 [Store this user's old avatars in disk]
 [Log this user's avatars changes to history]
 [Show popups for this user]

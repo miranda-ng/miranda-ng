@@ -27,7 +27,6 @@
 [Shutdown when Miranda NG becomes &idle]
 [Configure]
 [Shutdown when &prozessor usage drops below:]
-[%]
 [(current: 0%)]
 [Shutdown when all contacts are &offline]
 [Shutdown when all &file transfers are finished]

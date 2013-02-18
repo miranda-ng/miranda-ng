@@ -40,7 +40,6 @@
 [User &Details]
 [Export selected]
 [Set to default filename]
-[1]
 [Copy]
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]

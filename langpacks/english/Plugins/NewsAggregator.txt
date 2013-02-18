@@ -29,7 +29,6 @@
 [Display news using the following format:]
 [All item's tags are valid. Put them between #. Example: #<author>#]
 [Reset]
-[?]
 [0 - check manually]
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
