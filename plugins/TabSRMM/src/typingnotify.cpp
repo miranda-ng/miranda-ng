@@ -163,8 +163,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 				SetDlgItemText(hwndDlg, IDC_INFO, TranslateT("Warning: Popup plugin not found."));
-			else if (!PopupService)
-				SetDlgItemText(hwndDlg, IDC_INFO, TranslateT("Warning: Current Popup plugin version is not supported."));
 			if (ColorMode == COLOR_WINDOWS) {
 				CheckDlgButton(hwndDlg, IDC_USEWINCOLORS, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, FALSE);
