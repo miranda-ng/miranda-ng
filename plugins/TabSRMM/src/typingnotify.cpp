@@ -161,8 +161,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_INITDIALOG: {
 			TranslateDialogDefault(hwndDlg);
 
-			if (!ServiceExists(MS_POPUP_ADDPOPUPT))
-				SetDlgItemText(hwndDlg, IDC_INFO, TranslateT("Warning: Popup plugin not found."));
 			if (ColorMode == COLOR_WINDOWS) {
 				CheckDlgButton(hwndDlg, IDC_USEWINCOLORS, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, FALSE);
