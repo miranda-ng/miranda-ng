@@ -152,7 +152,7 @@ if (log) WScript.Echo("Finish getting strings from source files.");
 function GenerateCore() {
  //init arrays
  corestrings=new Array();
- sourcefiles=new Array();
+ core_src=new Array();
  core_rc=new Array();
  //if log parameter specified, output a log.
  if (log) WScript.Echo("Processing CORE...");
@@ -163,11 +163,11 @@ function GenerateCore() {
  //find all *.rc files and list files in array
  FindFiles(core,"\\.rc$",core_rc);
  //find all source files and list files in array
- FindFiles(core,"\\.h$|\\.cpp$|\\.c$",sourcefiles);
+ FindFiles(core,"\\.h$|\\.cpp$|\\.c$",core_src);
  //Parse files "core_rc", put result into "corestrings" using "ParseRCFile" function
  ParseFiles(core_rc,corestrings,ParseRCFile);
- //Parse files "sourcefiles", put result into "corestrings" using "ParseSourceFile" function
- ParseFiles(sourcefiles,corestrings,ParseSourceFile);
+ //Parse files "core_src", put result into "corestrings" using "ParseSourceFile" function
+ ParseFiles(core_src,corestrings,ParseSourceFile);
  //Now we have all strings in "corestrings", next we remove duplicate strings from array and put results into "nodupes"
  nodupes=eliminateDuplicates(corestrings);
  //if dupes requred, make nodupes with dupes :)
@@ -460,7 +460,7 @@ function ParseSourceFile (SourceFile,array) {
  //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
  var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
- var find_defines=/(?:LPGENT?|Translate[TW]?)(?:\s*?\()(\w+?)(?=\))/mg;
+ 
  //read file fully into var
  allstrings=sourcefile_stream.ReadAll();
  //now make a job, till end of matching regexp
@@ -479,51 +479,9 @@ function ParseSourceFile (SourceFile,array) {
         if (clearstring) {array.push("["+clearstring+"]")}
         };
     }
-  while ((define_name_regexp_check = find_defines.exec(allstrings)) != null) {
-	define_name=define_name_regexp_check[1]
-	//WScript.Echo(define);
-	define_regexp_str="#define\\s+"+define_name+"\\s+\"([\\S\\s]*?)(?=\")";
-	//WScript.Echo(define_regexp_str);
-	var define_name_regexp=new RegExp(define_regexp_str,"mg");
-	define_string=define_name_regexp.exec(allstrings);
-	//WScript.Echo(string1[1]);
-	if (define_string) {
-		onestring=define_string[1].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
-		stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
-		//WScript.Echo(stringtolangpack);
-		array.push("["+stringtolangpack+"]");
-		} else {WScript.Echo("can't find define "+define_name);
-				FindDefineText(define_name,sourcefiles,array);
-				}
-	}
  //close file, we've finish.
  sourcefile_stream.Close();
 };
-
-function FindDefineText(define_name1,filelist1,array1) {
-define_regexp_str1="#define\\s+"+define_name1+"\\s+\"([\\S\\s]*?)(?=\")";
-filesenum1=new Enumerator(filelist1);
- //cycle through file list
- while (!filesenum1.atEnd()) {
-	curfile1=filesenum1.item();
-	//WScript.Echo(curfile1);
-	if (FSO.GetFile(curfile1).Size==0) return;
-    //open file
-    sourcefile_stream1=FSO.GetFile(curfile1).OpenAsTextStream(ForReading, TristateUseDefault);
-	allstrings1=sourcefile_stream1.ReadAll();
-	var define_name_regexp1=new RegExp(define_regexp_str,"mg");
-	define_string1=define_name_regexp1.exec(allstrings1);
-	if (define_string1) {
-		//WScript.Echo(define_string1);
-		onestring1=define_string1[1].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
-		stringtolangpack1=onestring1.replace(/\\(['"])/g,"$1");
-		//WScript.Echo(stringtolangpack);
-		array1.push("["+stringtolangpack1+"]");		
-		}
-	sourcefile_stream1.Close();
-	filesenum1.moveNext();
-	}
-}
 
 //filter _T() function results
 function filter_T(string) {
