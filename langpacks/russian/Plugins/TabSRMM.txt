@@ -1510,7 +1510,8 @@ ID пользователя в панели статуса
 Либо плагин тряски не установлен, либо протокол контакта не поддерживает отправку события тряски.
 [tabSRMM Information]
 Информация tabSRMM
-
+[U&se Popup colours]
+Цвета плагина PopUp
 ;Уведомления
 
 [Contact not on list. You may add it...]
@@ -1595,3 +1596,45 @@ ID пользователя в панели статуса
 Метаконтакт
 [Autoselect]
 Автовыбор
+;missed strings, got by lpgen.js
+[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+Добавьте пользователя по его имени или по id. Рекомендуется использовать маски.
+[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
+[TabSRMM exception]
+Ошибка TabSRMM
+[Exit Miranda]
+Выход из Miranda
+[You have chosen to disable all event notifications for open message windows.]
+Вы отлкючли все оповещения о событиях, которые открывают окно сообщений.
+[Select container]
+Выбор контейнера
+[...is typing]
+...набирает текст
+[...stopped typing]
+...закончил набирать текст
+[PopUps timeout]
+Таймаут плагина PopUp
+[About tabSRMM]
+о TabSRMM
+[No Message Sessions opened]
+Нет открытых окон сообщений
+[Queue manager]
+Менеджер очереди
+[Incoming file (invalid format]
+Входящий файл (неверный формат)
+[Unknown event]
+Неизвестное событие
+[You cannot edit user notes when there are unsent messages]
+Вы не можете править заметки, если есть неотправленные сообщения
+[No UID]
+нет UID
+[%s    Idle: %dh,%02dm]
+%s    Ожидание: %dh,%02dm
+[Expand or collapse the side bar]
+Развернуть или свернуть боковую панель
+[ (set by %s on %s)]
+ (установлено %s %s)
+[Only &one popup for each contact]
+Только одно всплывающее окно на контакт
+[Custom]
+Указать
