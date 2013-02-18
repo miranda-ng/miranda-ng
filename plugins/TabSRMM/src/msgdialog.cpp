@@ -2232,7 +2232,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXGETSEL, 0, (LPARAM)&cr);
 							if (cr.cpMax != cr.cpMin) {
 								cr.cpMin = cr.cpMax;
-								if (isCtrl && M->GetByte("autocopy", 0)) {
+								if (isCtrl && M->GetByte("autocopy", 1)) {
 									SETTEXTEX stx = {ST_KEEPUNDO | ST_SELECTION, CP_UTF8};
 									char *streamOut = NULL;
 									if (isAlt)
@@ -2245,7 +2245,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 										free(streamOut);
 									}
 									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-								} else if (M->GetByte("autocopy", 0) && !isShift) {
+								} else if (M->GetByte("autocopy", 1) && !isShift) {
 									SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_COPY, 0, 0);
 									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 									if (m_pContainer->hwndStatus)
