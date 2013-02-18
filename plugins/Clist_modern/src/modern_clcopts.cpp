@@ -53,10 +53,10 @@ struct FontOptionsList
 	char     size;
 };
 
-#define CLCGROUP			LPGENT("Contact List/Contact names")
-#define CLCLINESGROUP		LPGENT("Contact List/Row Items")
-#define CLCFRAMESGROUP		LPGENT("Contact List/Frame texts")
-#define CLCCOLOURSGROUP     LPGENT("Contact List/Special colours")
+#define CLCGROUP			LPGENT("Contact List")_T("/")LPGENT("Contact names")
+#define CLCLINESGROUP		LPGENT("Contact List")_T("/")LPGENT("Row Items")
+#define CLCFRAMESGROUP		LPGENT("Contact List")_T("/")LPGENT("Frame texts")
+#define CLCCOLOURSGROUP     LPGENT("Contact List")_T("/")LPGENT("Special colours")
 
 #define DEFAULT_COLOUR		RGB(0, 0, 0)
 #define DEFAULT_GREYCOLOUR	RGB(128, 128, 128)
@@ -133,7 +133,7 @@ void RegisterCLUIFonts( void )
 	FontIDT fontid = {0};
 	EffectIDT effectid = {0};
 	char idstr[10];
-	int i, index = 0;
+	int index = 0;
 
 	fontid.cbSize = sizeof(fontid);
 	strncpy(fontid.dbSettingsGroup, "CLC", SIZEOF(fontid.dbSettingsGroup));
@@ -141,7 +141,7 @@ void RegisterCLUIFonts( void )
 	effectid.cbSize = sizeof(effectid);
 	strncpy(effectid.dbSettingsGroup, "CLC", SIZEOF(effectid.dbSettingsGroup));
 
-	for ( i=0; i < SIZEOF(fontOptionsList); i++, index++ ) {
+	for (int i=0; i < SIZEOF(fontOptionsList); i++, index++ ) {
 		fontid.flags = FIDF_DEFAULTVALID | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_ALLOWREREGISTER | FIDF_NOAS;
 		fontid.flags |= fontOptionsList[i].dwFlags;
 
@@ -175,7 +175,7 @@ void RegisterCLUIFonts( void )
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
 
-	for ( i=0; i < SIZEOF( colourOptionsList); i++ ) {
+	for (int i=0; i < SIZEOF( colourOptionsList); i++ ) {
 		_tcsncpy(colourid.group,          colourOptionsList[i].szGroup, SIZEOF(colourid.group));
 		_tcsncpy(colourid.name,           colourOptionsList[i].szDescr, SIZEOF(colourid.group));
 		strncpy(colourid.setting,         colourOptionsList[i].chName,  SIZEOF(colourid.setting));
