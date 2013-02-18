@@ -1599,13 +1599,12 @@ ID пользователя в панели статуса
 ;missed strings, got by lpgen.js
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Добавьте пользователя по его имени или по id. Рекомендуется использовать маски.
-[Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
 [TabSRMM exception]
 Ошибка TabSRMM
 [Exit Miranda]
 Выход из Miranda
 [You have chosen to disable all event notifications for open message windows.]
-Вы отлкючли все оповещения о событиях, которые открывают окно сообщений.
+Вы отключли все оповещения о событиях, которые открывают окно сообщений.
 [Select container]
 Выбор контейнера
 [...is typing]
