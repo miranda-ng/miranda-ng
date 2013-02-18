@@ -60,7 +60,7 @@ int     Chat_PreShutdown(WPARAM wParam, LPARAM lParam);
  * fired event when user changes IEView plugin options. Apply them to all open tabs
  */
 
-int IEViewOptionsChanged(WPARAM wParam, LPARAM lParam)
+int IEViewOptionsChanged(WPARAM,LPARAM)
 {
 	M->BroadcastMessage(DM_IEVIEWOPTIONSCHANGED, 0, 0);
 	return 0;
@@ -70,7 +70,7 @@ int IEViewOptionsChanged(WPARAM wParam, LPARAM lParam)
  * fired event when user changes smileyadd options. Notify all open tabs about the changes
  */
 
-int SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam)
+int SmileyAddOptionsChanged(WPARAM,LPARAM)
 {
 	M->BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
 	if (PluginConfig.m_chat_enabled)
@@ -102,8 +102,6 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
 	MessageWindowOutputData *mwod = (MessageWindowOutputData*)lParam;
-	HWND hwnd;
-	SESSION_INFO *si = NULL;
 
 	if (mwid == NULL || mwod == NULL)
 		return 1;
@@ -113,7 +111,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		return 1;
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
 		return 1;
-	hwnd = M->FindWindow(mwid->hContact);
+	HWND hwnd = M->FindWindow(mwid->hContact);
 	if (hwnd) {
 		mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwod->hwndWindow = hwnd;
@@ -122,19 +120,23 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		mwod->uState = (int)GetWindowLongPtr(hwnd, DWLP_MSGRESULT);
 		return 0;
 	}
-	else if ((si = SM_FindSessionByHCONTACT(mwid->hContact)) != NULL && si->hWnd != 0) {
-		mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-		mwod->hwndWindow = si->hWnd;
-		mwod->local = GetParent(GetParent(si->hWnd));
-		SendMessage(si->hWnd, DM_GETWINDOWSTATE, 0, 0);
-		mwod->uState = (int)GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
-		return 0;
-	}
-	else {
-		mwod->uState = 0;
-		mwod->hContact = 0;
-		mwod->hwndWindow = 0;
-		mwod->uFlags = 0;
+	else
+	{
+		SESSION_INFO *si = SM_FindSessionByHCONTACT(mwid->hContact);
+		if (si != NULL && si->hWnd != 0) {
+			mwod->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
+			mwod->hwndWindow = si->hWnd;
+			mwod->local = GetParent(GetParent(si->hWnd));
+			SendMessage(si->hWnd, DM_GETWINDOWSTATE, 0, 0);
+			mwod->uState = (int)GetWindowLongPtr(si->hWnd, DWLP_MSGRESULT);
+			return 0;
+		}
+		else {
+			mwod->uState = 0;
+			mwod->hContact = 0;
+			mwod->hwndWindow = 0;
+			mwod->uFlags = 0;
+		}
 	}
 	return 1;
 }
@@ -143,7 +145,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
  * service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
  */
 
-static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM lParam)
+static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 {
 	HWND hWnd = WindowList_Find(PluginConfig.hUserPrefsWindowList, (HANDLE)wParam);
 	if (hWnd) {
@@ -192,7 +194,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
  * return the version of the window api supported
  */
 
-static INT_PTR GetWindowAPI(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowAPI(WPARAM,LPARAM)
 {
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
 }
@@ -220,7 +222,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	else if (lParam)
 		hwnd = (HWND) lParam;
 	else
-		hwnd = NULL;
+		return NULL;
 
 	if (!hwnd)
 		return 0;
@@ -251,10 +253,9 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
  * message (clicking on a popup, clicking the flashing tray icon and so on).
  */
 
-static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	HANDLE hContact = ((CLISTEVENT *) lParam)->hContact;
-	struct TContainerData *pContainer = 0;
 
 	HWND hwndExisting = M->FindWindow(hContact);
 	if (hwndExisting != 0)
@@ -262,7 +263,7 @@ static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 	else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-		pContainer = FindContainerByName(szName);
+		struct TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		CreateNewTabForContact(pContainer, hContact, 0, NULL, TRUE, TRUE, FALSE, 0);
@@ -278,12 +279,10 @@ static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-	char *szProto;
+	HANDLE hContact = (HANDLE) wParam;
 	struct TNewWindowData newData = {
 		0
 	};
-	struct TContainerData *pContainer = 0;
 	int isSplit = 1;
 
 	/*
@@ -302,7 +301,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 			return 0;
@@ -310,11 +309,11 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 		/* unknown contact */
 		return 0;
 	}
-
-	if (hwnd = M->FindWindow((HANDLE) wParam)) {
+	
+	HWND hwnd = M->FindWindow(hContact);
+	if (hwnd) {
 		if (lParam) {
-			HWND hEdit;
-			hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
+			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
 			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR *) lParam);
 		}
@@ -322,11 +321,11 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 
-		GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
-		pContainer = FindContainerByName(szName);
+		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
+		struct TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
-			pContainer = CreateContainer(szName, FALSE, (HANDLE)wParam);
-		CreateNewTabForContact(pContainer, (HANDLE) wParam, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
+			pContainer = CreateContainer(szName, FALSE, hContact);
+		CreateNewTabForContact(pContainer, hContact, 1, (const char *)lParam, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
@@ -340,12 +339,10 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 
 INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-	char *szProto;
+	HANDLE hContact = (HANDLE) wParam;
 	struct TNewWindowData newData = {
 		0
 	};
-	struct TContainerData *pContainer = 0;
 	int isSplit = 1;
 
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
@@ -361,7 +358,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = GetContactProto((HANDLE)wParam);
+	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 			return 0;
@@ -369,8 +366,9 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 		/* unknown contact */
 		return 0;
 	}
-
-	if (hwnd = M->FindWindow((HANDLE) wParam)) {
+	
+	HWND hwnd = M->FindWindow(hContact);
+	if (hwnd) {
 		if (lParam) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
@@ -380,10 +378,10 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact((HANDLE) wParam, szName, CONTAINER_NAMELEN);
-		pContainer = FindContainerByName(szName);
+		struct TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer == NULL)
-			pContainer = CreateContainer(szName, FALSE, (HANDLE)wParam);
-		CreateNewTabForContact(pContainer, (HANDLE) wParam, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
+			pContainer = CreateContainer(szName, FALSE, hContact);
+		CreateNewTabForContact(pContainer, hContact, 0, (const char *) lParam, TRUE, TRUE, FALSE, 0);
 	}
 	return 0;
 }
@@ -450,10 +448,10 @@ int SplitmsgShutdown(void)
 
 int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 {
-	struct TContainerData *pContainer = pFirstContainer;
-
 	if (wParam == 0 || IsBadReadPtr((void*)wParam, 4))
 		return 0;
+
+	struct TContainerData *pContainer = pFirstContainer;
 
 	while (pContainer) {
 		BroadCastContainer(pContainer, DM_MYAVATARCHANGED, wParam, lParam);
@@ -623,10 +621,9 @@ STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 
 int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 {
-	struct TWindowData *dat = 0;
 	NMHDR nmhdr;
 
-	dat = (struct TWindowData *) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
+	struct TWindowData *dat = (struct TWindowData *) GetWindowLongPtr(hwndChild, GWLP_USERDATA);	// needed to obtain the hContact for the message window
 	if (dat && pContainer) {
 		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 		nmhdr.code = TCN_SELCHANGE;
@@ -677,13 +674,8 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
 {
-	TCHAR 	*contactName = NULL, newcontactname[128], *szStatus, tabtitle[128];
-	char 	*szProto = NULL;
-	WORD 	wStatus;
+	TCHAR  newcontactname[128], tabtitle[128];
 	int		newItem;
-	HWND 	hwndNew = 0;
-	HWND 	hwndTab;
-	struct 	TNewWindowData newData = {0};
 	DBVARIANT dbv = {0};
 
 	if (M->FindWindow(hContact) != 0) {
@@ -700,15 +692,16 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 		}
 	}
 
+	struct 	TNewWindowData newData = {0};
 	newData.hContact = hContact;
 	newData.isWchar = isSend;
 	newData.szInitialText = pszInitialText;
-	szProto = GetContactProto(newData.hContact);
+	char *szProto = GetContactProto(newData.hContact);
 
 	ZeroMemory((void*)&newData.item, sizeof(newData.item));
 
 	// obtain various status information about the contact
-	contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) newData.hContact, GCDNF_TCHAR);
+	TCHAR *contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) newData.hContact, GCDNF_TCHAR);
 
 	/*
 	 * cut nickname if larger than x chars...
@@ -726,8 +719,8 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	} else
 		lstrcpyn(newcontactname, _T("_U_"), safe_sizeof(newcontactname));
 
-	wStatus = szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord((HANDLE) newData.hContact, szProto, "Status", ID_STATUS_OFFLINE);
-	szStatus = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord((HANDLE)newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
+	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
+	TCHAR *szStatus = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 
 	if (M->GetByte("tabstatus", 1))
 		mir_sntprintf(tabtitle, safe_sizeof(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
@@ -739,7 +732,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	newData.item.iImage = 0;
 	newData.item.cchTextMax = 255;
 
-	hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
+	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 	// hide the active tab
 	if (pContainer->hwndActive && bActivateTab)
 		ShowWindow(pContainer->hwndActive, SW_HIDE);
@@ -748,8 +741,6 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 		int iTabIndex_wanted = M->GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 		int iCount = TabCtrl_GetItemCount(hwndTab);
 		TCITEM item = {0};
-		HWND hwnd;
-		struct TWindowData *dat;
 		int relPos;
 		int i;
 
@@ -758,8 +749,8 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 			for (i = iCount - 1; i >= 0; i--) {
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwndTab, i, &item);
-				hwnd = (HWND)item.lParam;
-				dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+				HWND hwnd = (HWND)item.lParam;
+				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (dat) {
 					relPos = M->GetDword(dat->hContact, "tabindex", i * 100);
 					if (iTabIndex_wanted <= relPos)
@@ -779,7 +770,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
-	hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM) & newData);
+	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM) & newData);
 	/*
 	 * switchbar support
 	 */
@@ -995,12 +986,12 @@ static struct _iconblocks {
 	char *szSection;
 	TIconDesc *idesc;
 } ICONBLOCKS[] = {
-	"TabSRMM/Default", _deficons,
-	"TabSRMM/Toolbar", _toolbaricons,
-	"TabSRMM/Toolbar", _exttoolbaricons,
-	"TabSRMM/Toolbar", _chattoolbaricons,
-	"TabSRMM/Message Log", _logicons,
-	"TabSRMM/Animated Tray", _trayIcon,
+	LPGEN("Message Sessions")"/"LPGEN("Default"), _deficons,
+	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _toolbaricons,
+	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _exttoolbaricons,
+	LPGEN("Message Sessions")"/"LPGEN("Toolbar"), _chattoolbaricons,
+	LPGEN("Message Sessions")"/"LPGEN("Message Log"), _logicons,
+	LPGEN("Message Sessions")"/"LPGEN("Animated Tray"), _trayIcon,
 	NULL, 0
 };
 
@@ -1072,21 +1063,21 @@ static int TSAPI SetupIconLibConfig()
 		n++;
 	}
 
-	sid.pszSection = "TabSRMM/Default";
+	sid.pszSection = LPGEN("Message Sessions")"/"LPGEN("Default");
 	sid.pszName = "tabSRMM_clock_symbol";
-	sid.pszDescription = "Clock symbol (for the info panel clock)";
+	sid.pszDescription = LPGEN("Clock symbol (for the info panel clock)");
 	sid.iDefaultIndex = -IDI_CLOCK;
 	Skin_AddIcon(&sid);
 
 	_tcsncpy(szFilename, _T("plugins\\tabsrmm.dll"), MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
-	sid.pszDescription = "Feature disabled (used as overlay)";
+	sid.pszDescription = LPGEN("Feature disabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
 	Skin_AddIcon(&sid);
 
 	sid.pszName = "tabSRMM_overlay_enabled";
-	sid.pszDescription = "Feature enabled (used as overlay)";
+	sid.pszDescription = LPGEN("Feature enabled (used as overlay)");
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
 	Skin_AddIcon(&sid);
 	return 1;
@@ -1096,15 +1087,10 @@ static int TSAPI SetupIconLibConfig()
 
 static int TSAPI LoadFromIconLib()
 {
-	int i = 0, n = 0;
-
-	while (ICONBLOCKS[n].szSection) {
-		i = 0;
-		while (ICONBLOCKS[n].idesc[i].szDesc) {
+	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
+		for (int i = 0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
 			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
-			i++;
 		}
-		n++;
 	}
 	PluginConfig.g_buttonBarIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIcons[1] = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
@@ -1145,22 +1131,17 @@ void TSAPI LoadIconTheme()
 
 static void UnloadIcons()
 {
-	int i = 0, n = 0;
-
-	while (ICONBLOCKS[n].szSection) {
-		i = 0;
-		while (ICONBLOCKS[n].idesc[i].szDesc) {
+	for (int n = 0;ICONBLOCKS[n].szSection;n++) {
+		for (int i = 0;ICONBLOCKS[n].idesc[i].szDesc;i++) {
 			if (*(ICONBLOCKS[n].idesc[i].phIcon) != 0) {
 				DestroyIcon(*(ICONBLOCKS[n].idesc[i].phIcon));
 				*(ICONBLOCKS[n].idesc[i].phIcon) = 0;
 			}
-			i++;
 		}
-		n++;
 	}
 	if (PluginConfig.g_hbmUnknown)
 		DeleteObject(PluginConfig.g_hbmUnknown);
-	for (i=0; i < 4; i++) {
+	for (int i=0; i < 4; i++) {
 		if (PluginConfig.m_AnimTrayIcons[i])
 			DestroyIcon(PluginConfig.m_AnimTrayIcons[i]);
 	}

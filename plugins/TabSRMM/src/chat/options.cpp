@@ -37,9 +37,6 @@
  */
 
 #include "..\commonheaders.h"
-#undef Translate
-
-#define TranslateA(s)   ((char*)CallService(MS_LANGPACK_TRANSLATESTRING,0,(LPARAM)(s)))
 
 extern HBRUSH 			hListBkgBrush;
 extern HICON			hIcons[30];
@@ -79,35 +76,35 @@ struct ColorOptionsList {
  * (GetSysColor(default_color & 0x00ffffff)), not a rgb value.
  */
 static ColorOptionsList _clrs[] = {
-	0, LPGENT("TabSRMM/Group Chats"), LPGENT("Group chat log background"), SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR,
-	1, LPGENT("TabSRMM"), LPGENT("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR,
-	2, LPGENT("TabSRMM"), LPGENT("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR,
-	0, LPGENT("TabSRMM/Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR,
-	1, LPGENT("TabSRMM/Single Messaging"), LPGENT("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR,
-	2, LPGENT("TabSRMM/Single Messaging"), LPGENT("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR,
-	3, LPGENT("TabSRMM/Single Messaging"), LPGENT("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR,
-	4, LPGENT("TabSRMM/Single Messaging"), LPGENT("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR,
-	5, LPGENT("TabSRMM/Single Messaging"), LPGENT("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224),
-	0, LPGENT("TabSRMM/Info Panel"), LPGENT("Panel background low"), "ipfieldsbg", 0x62caff,
-	1, LPGENT("TabSRMM/Info Panel"), LPGENT("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0,
-	0, LPGENT("TabSRMM/Common colors"), LPGENT("Toolbar background high"), "tbBgHigh", 0,
-	1, LPGENT("TabSRMM/Common colors"), LPGENT("Toolbar background low"), "tbBgLow", 0,
-	2, LPGENT("TabSRMM/Common colors"), LPGENT("Window fill color"), "fillColor", 0,
-	3, LPGENT("TabSRMM/Common colors"), LPGENT("Text area borders"), "cRichBorders", 0,
-	4, LPGENT("TabSRMM/Common colors"), LPGENT("Aero glow effect"), "aeroGlow", RGB(40, 40, 255),
-	4, LPGENT("TabSRMM/Common colors"), LPGENT("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT,
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), LPGENT("Group chat log background"), SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR,
+	1, LPGENT("Message Sessions"), LPGENT("Input area background"), "inputbg", SRMSGDEFSET_BKGCOLOUR,
+	2, LPGENT("Message Sessions"), LPGENT("Log background"), SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR,
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Outgoing background"), "outbg", SRMSGDEFSET_BKGOUTCOLOUR,
+	1, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Incoming background"), "inbg", SRMSGDEFSET_BKGINCOLOUR,
+	2, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Status background"), "statbg", SRMSGDEFSET_BKGCOLOUR,
+	3, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Incoming background(old)"), "oldinbg", SRMSGDEFSET_BKGINCOLOUR,
+	4, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Outgoing background(old)"), "oldoutbg", SRMSGDEFSET_BKGOUTCOLOUR,
+	5, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), LPGENT("Horizontal Grid Lines"), "hgrid", RGB(224, 224, 224),
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), LPGENT("Panel background low"), "ipfieldsbg", 0x62caff,
+	1, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), LPGENT("Panel background high"), "ipfieldsbgHigh", 0xf0f0f0,
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Toolbar background high"), "tbBgHigh", 0,
+	1, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Toolbar background low"), "tbBgLow", 0,
+	2, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Window fill color"), "fillColor", 0,
+	3, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Text area borders"), "cRichBorders", 0,
+	4, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Aero glow effect"), "aeroGlow", RGB(40, 40, 255),
+	4, LPGENT("Message Sessions")_T("/")LPGENT("Common colors"), LPGENT("Generic text color (only when fill color is set)"), "genericTxtClr", 0xff000000 | COLOR_BTNTEXT,
 };
 
 static ColorOptionsList _tabclrs[] = {
-	0, LPGENT("TabSRMM/Tabs"), LPGENT("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT,
-	1, LPGENT("TabSRMM/Tabs"), LPGENT("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT,
-	2, LPGENT("TabSRMM/Tabs"), LPGENT("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT,
-	3, LPGENT("TabSRMM/Tabs"), LPGENT("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT,
+	0, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Normal text"), "tab_txt_normal", 0xff000000 | COLOR_BTNTEXT,
+	1, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Active text"), "tab_txt_active", 0xff000000 | COLOR_BTNTEXT,
+	2, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Hovered text"), "tab_txt_hottrack", 0xff000000 | COLOR_HOTLIGHT,
+	3, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Unread text"), "tab_txt_unread", 0xff000000 | COLOR_HOTLIGHT,
 
-	4, LPGENT("TabSRMM/Tabs"), LPGENT("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE,
-	5, LPGENT("TabSRMM/Tabs"), LPGENT("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE,
-	6, LPGENT("TabSRMM/Tabs"), LPGENT("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE,
-	7, LPGENT("TabSRMM/Tabs"), LPGENT("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE
+	4, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Normal background"), "tab_bg_normal", 0xff000000 | COLOR_3DFACE,
+	5, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Active background"), "tab_bg_active", 0xff000000 | COLOR_3DFACE,
+	6, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Hovered background"), "tab_bg_hottrack", 0xff000000 | COLOR_3DFACE,
+	7, LPGENT("Message Sessions")_T("/")LPGENT("Tabs"), LPGENT("Unread background"), "tab_bg_unread", 0xff000000 | COLOR_3DFACE
 };
 
 extern LOGFONT lfDefault;
@@ -284,7 +281,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 				lstrcpy(lf->lfFaceName, fol[j].szDefFace);
 			} else {
 				lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -305,17 +302,16 @@ static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
 
 static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch, int nValues, DWORD defaultval)
 {
-	TVINSERTSTRUCT tvis;
-	int i;
-	int iState;
-
 	if (hParent == 0)
 		return;
+
+	TVINSERTSTRUCT tvis;
+	int iState;
 
 	tvis.hParent = hParent;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
-	for (i=0;i < nValues;i++) {
+	for (int i=0;i < nValues;i++) {
 		tvis.item.pszText = TranslateTS(branch[i].szDescr);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (branch[i].iMode)
@@ -331,11 +327,10 @@ static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
 {
 	TVITEM tvi;
 	BYTE bChecked;
-	int i;
 	int iState = 0;
 
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
-	for (i=0;i < nValues;i++) {
+	for (int i=0;i < nValues;i++) {
 		tvi.hItem = branch[i].hItem;
 		TreeView_GetItem(hwndTree, &tvi);
 		bChecked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2) ? 0 : 1;
@@ -351,12 +346,12 @@ static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
 
 static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 {
-	BOOL bChecked = TRUE;
-	TVITEM tvi;
-
 	if (hHeading == 0)
 		return;
 
+	BOOL bChecked = TRUE;
+
+	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	tvi.hItem = TreeView_GetNextItem(hwndTree, hHeading, TVGN_CHILD);
 	while (tvi.hItem && bChecked) {
@@ -375,12 +370,12 @@ static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 
 static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
 {
-	BOOL bChecked = TRUE;
-	TVITEM tvi;
-
 	if (hHeading == 0)
 		return;
 
+	BOOL bChecked = TRUE;
+
+	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	tvi.hItem = hHeading;
 	TreeView_GetItem(hwndTree, &tvi);
@@ -418,9 +413,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 static void LoadLogFonts(void)
 {
-	int i;
-
-	for (i=0; i < OPTIONS_FONTCOUNT; i++)
+	for (int i=0; i < OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(FONTSECTION_CHAT, i, &aFonts[i].lf, &aFonts[i].color, CHAT_FONTMODULE);
 }
 
@@ -458,8 +451,8 @@ static IconItem _logicons[] =
 // add icons to the skinning module
 void Chat_AddIcons(void)
 {
-	Icon_Register(g_hIconDLL, "TabSRMM/Group chat windows", _icons, SIZEOF(_icons));
-	Icon_Register(g_hIconDLL, "TabSRMM/Group chat log", _logicons, SIZEOF(_logicons));
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat windows"), _icons, SIZEOF(_icons));
+	Icon_Register(g_hIconDLL, LPGEN("Message Sessions")"/"LPGEN("Group chat log"), _logicons, SIZEOF(_logicons));
 }
 
 /*
@@ -478,7 +471,7 @@ static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
 	DBVARIANT dbv;
 	if (!M->GetTString(NULL, "Chat", pszSetting, &dbv)) {
 		replaceStr(ppPointer, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		replaceStr(ppPointer, pszDefault);
 }
@@ -489,9 +482,7 @@ static UINT _o1controls[] = {IDC_CHECKBOXES, IDC_GROUP, IDC_STATIC_ADD, 0};
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 {
-	TOOLINFO ti = { 0 };
-	HWND hwndTT;
-	hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
 		TOOLTIPS_CLASS, NULL,
 		WS_POPUP | TTS_NOPREFIX,
 		CW_USEDEFAULT, CW_USEDEFAULT,
@@ -501,6 +492,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
 		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
+	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
 	ti.hwnd = hwndParent;
@@ -523,11 +515,9 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 			if (PluginConfig.m_chat_enabled) {
-				HIMAGELIST himlOptions;
-
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
-				himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CHECKBOXES, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
+				HIMAGELIST himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CHECKBOXES, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 				ImageList_Destroy(himlOptions);
 
 				hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance and functionality of chat room windows"), TRUE);
@@ -665,7 +655,6 @@ static TCHAR* chatcolorsnames[] ={
 	};
 
 void RegisterFontServiceFonts() {
-	int i;
 	char szTemp[100];
 	LOGFONT lf;
 	FontIDT fid = {0};
@@ -676,7 +665,7 @@ void RegisterFontServiceFonts() {
 
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (i=0; i < SIZEOF(IM_fontOptionsList); i++) {
+	for (int i = 0; i < SIZEOF(IM_fontOptionsList); i++) {
 		fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 		LoadMsgDlgFont(FONTSECTION_IM, i , &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
@@ -689,47 +678,47 @@ void RegisterFontServiceFonts() {
 		fid.deffontsettings.charset = lf.lfCharSet;
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, _T("TabSRMM/Single Messaging"), SIZEOF(fid.backgroundGroup));
-		_tcsncpy(fid.group, _T("TabSRMM/Single Messaging"), SIZEOF(fid.group));
+		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.backgroundGroup));
+		_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Single Messaging"), SIZEOF(fid.group));
 		switch (i) {
 			case MSGFONTID_MYMSG:
 			case 1:
 			case MSGFONTID_MYNAME:
 			case MSGFONTID_MYTIME:
 			case 21:
-				_tcsncpy(fid.backgroundName, _T("Outgoing background"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundName, LPGENT("Outgoing background"), SIZEOF(fid.backgroundName));
 				break;
 			case 8:
 			case 9:
 			case 12:
 			case 13:
-				_tcsncpy(fid.backgroundName, _T("Outgoing background(old)"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundName, LPGENT("Outgoing background(old)"), SIZEOF(fid.backgroundName));
 				break;
 			case 10:
 			case 11:
 			case 14:
 			case 15:
-				_tcsncpy(fid.backgroundName, _T("Incoming background(old)"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundName, LPGENT("Incoming background(old)"), SIZEOF(fid.backgroundName));
 				break;
 			case MSGFONTID_MESSAGEAREA:
-				_tcsncpy(fid.group, _T("TabSRMM"), SIZEOF(fid.group));
-				_tcsncpy(fid.backgroundGroup, _T("TabSRMM"), SIZEOF(fid.backgroundGroup));
-				_tcsncpy(fid.backgroundName, _T("Input area background"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
+				_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
+				_tcsncpy(fid.backgroundName, LPGENT("Input area background"), SIZEOF(fid.backgroundName));
 				fid.flags |= FIDF_DISABLESTYLES;
 				fid.flags &= ~FIDF_ALLOWEFFECTS;
 				break;
 			case 17:
-				_tcsncpy(fid.backgroundName, _T("Status background"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundName, LPGENT("Status background"), SIZEOF(fid.backgroundName));
 				break;
 			case 18:
-				_tcsncpy(fid.backgroundGroup, _T("TabSRMM"), SIZEOF(fid.backgroundGroup));
-				_tcsncpy(fid.backgroundName, _T("Log background"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions"), SIZEOF(fid.backgroundGroup));
+				_tcsncpy(fid.backgroundName, LPGENT("Log background"), SIZEOF(fid.backgroundName));
 				break;
  			case 19:
  				_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
  				break;
 			default:
-				_tcsncpy(fid.backgroundName, _T("Incoming background"), SIZEOF(fid.backgroundName));
+				_tcsncpy(fid.backgroundName, LPGENT("Incoming background"), SIZEOF(fid.backgroundName));
 				break;
 			}
 			FontRegisterT(&fid);
@@ -738,10 +727,10 @@ void RegisterFontServiceFonts() {
 	fontOptionsList = IP_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 	//fid.flags|=FIDF_SAVEPOINTSIZE;
-	_tcsncpy(fid.group, _T("TabSRMM/Info Panel"), SIZEOF(fid.group));
-	_tcsncpy(fid.backgroundGroup, _T("TabSRMM/Info Panel"), SIZEOF(fid.backgroundGroup));
-	_tcsncpy(fid.backgroundName, _T("Fields background"), SIZEOF(fid.backgroundName));
-	for (i =0; i < IPFONTCOUNT; i++) {
+	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.group));
+	_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Info Panel"), SIZEOF(fid.backgroundGroup));
+	_tcsncpy(fid.backgroundName, LPGENT("Fields background"), SIZEOF(fid.backgroundName));
+	for (int i = 0; i < IPFONTCOUNT; i++) {
 		LoadMsgDlgFont(FONTSECTION_IP, i + 100 , &lf, &fontOptionsList[i].colour, FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i + 100);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
@@ -757,7 +746,7 @@ void RegisterFontServiceFonts() {
 		if (i==IPFONTCOUNT-1){
 			_tcsncpy(fid.backgroundGroup, _T(""), SIZEOF(fid.backgroundGroup));
 			_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
-			_tcsncpy(fid.group, _T("TabSRMM"), SIZEOF(fid.group));
+			_tcsncpy(fid.group, LPGENT("Message Sessions"), SIZEOF(fid.group));
 		}
 		FontRegisterT(&fid);
 	}
@@ -765,9 +754,9 @@ void RegisterFontServiceFonts() {
 	fontOptionsList = CHAT_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
 	fid.flags&=~FIDF_SAVEPOINTSIZE;
-	_tcsncpy(fid.group, _T("TabSRMM/Group Chats"), SIZEOF(fid.group));
+	_tcsncpy(fid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, CHAT_FONTMODULE, SIZEOF(fid.dbSettingsGroup));
-	for (i=0; i < msgDlgFontCount; i++) {
+	for (int i = 0; i < msgDlgFontCount; i++) {
 		LoadMsgDlgFont(FONTSECTION_CHAT, i , &lf, &fontOptionsList[i].colour, CHAT_FONTMODULE);
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
 		strncpy(fid.prefix, szTemp, SIZEOF(fid.prefix));
@@ -779,16 +768,16 @@ void RegisterFontServiceFonts() {
 		fid.flags = fid.flags & ~FIDF_CLASSMASK | (fid.deffontsettings.style&FONTF_BOLD ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL);
 		fid.deffontsettings.charset = lf.lfCharSet;
 		_tcsncpy(fid.deffontsettings.szFace, lf.lfFaceName, LF_FACESIZE);
-		_tcsncpy(fid.backgroundGroup, _T("TabSRMM/Group Chats"), SIZEOF(fid.backgroundGroup));
-		_tcsncpy(fid.backgroundName, _T("Group chat log background"), SIZEOF(fid.backgroundName));
+		_tcsncpy(fid.backgroundGroup, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(fid.backgroundGroup));
+		_tcsncpy(fid.backgroundName, LPGENT("Group chat log background"), SIZEOF(fid.backgroundName));
 		if (i == 18 || i == 19)
-			_tcsncpy(fid.backgroundName, _T("Userlist background"), SIZEOF(fid.backgroundName));
+			_tcsncpy(fid.backgroundName, LPGENT("Userlist background"), SIZEOF(fid.backgroundName));
 		FontRegisterT(&fid);
 	}
 
-	_tcsncpy(cid.group, _T("TabSRMM/Group Chats"), SIZEOF(cid.group));
+	_tcsncpy(cid.group, LPGENT("Message Sessions")_T("/")LPGENT("Group Chats"), SIZEOF(cid.group));
 	strncpy(cid.dbSettingsGroup, "Chat", SIZEOF(cid.dbSettingsGroup));
-	for (i=0; i <= 7; i++) {
+	for (int i=0; i <= 7; i++) {
 		mir_snprintf(szTemp, SIZEOF(szTemp), "NickColor%d", i);
 		_tcsncpy(cid.name, chatcolorsnames[i], SIZEOF(cid.name));
 		cid.order=i+1;
@@ -807,7 +796,7 @@ void RegisterFontServiceFonts() {
 		ColourRegisterT(&cid);
 	}
 	cid.order=8;
-	_tcsncpy(cid.name, _T("Userlist background"), SIZEOF(cid.name));
+	_tcsncpy(cid.name, LPGENT("Userlist background"), SIZEOF(cid.name));
 	strncpy(cid.setting, "ColorNicklistBG", SIZEOF(cid.setting));
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	ColourRegisterT(&cid);
@@ -818,7 +807,7 @@ void RegisterFontServiceFonts() {
 	strncpy(fid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 	strncpy(cid.dbSettingsGroup, FONTMODULE, SIZEOF(fid.dbSettingsGroup));
 
-	for (i=0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
+	for (int i=0; i < (sizeof(_clrs) / sizeof(_clrs[0])); i++) {
 		cid.order = _clrs[i].order;
 		_tcsncpy(cid.group, _clrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _clrs[i].tszName, SIZEOF(cid.name));
@@ -835,7 +824,7 @@ void RegisterFontServiceFonts() {
 	/*
 	 * text and background colors for tabs
 	 */
-	for (i=0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
+	for (int i=0; i < (sizeof(_tabclrs) / sizeof(_tabclrs[0])); i++) {
 		cid.order = _tabclrs[i].order;
 		_tcsncpy(cid.group, _tabclrs[i].tszGroup, SIZEOF(fid.group));
 	 	_tcsncpy(cid.name, _tabclrs[i].tszName, SIZEOF(cid.name));
@@ -849,20 +838,18 @@ void RegisterFontServiceFonts() {
 	}
 }
 
-int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
+int FontServiceFontsChanged(WPARAM,LPARAM)
 {
 	if (PluginConfig.m_chat_enabled) {
 		LOGFONT lf;
-		HFONT hFont;
-		int iText;
 
 		LoadLogFonts();
 		FreeMsgLogBitmaps();
 		LoadMsgLogBitmaps();
 
 		LoadMsgDlgFont(FONTSECTION_CHAT, 0, &lf, NULL, CHAT_FONTMODULE);
-		hFont = CreateFontIndirect(&lf);
-		iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, TRUE);
+		HFONT hFont = CreateFontIndirect(&lf);
+		int iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, TRUE);
 		DeleteObject(hFont);
 		g_Settings.LogTextIndent = iText;
 		g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
@@ -902,7 +889,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if (PluginConfig.m_chat_enabled) {
 
 				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETRANGE, 0, MAKELONG(5000, 0));
-				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(DBGetContactSettingWord(NULL, "Chat", "LogLimit", 100), 0));
+				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "Chat", "LogLimit", 100), 0));
 				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_SETRANGE, 0, MAKELONG(255, 10));
 				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_SETPOS, 0, MAKELONG(M->GetByte("Chat", "NicklistRowDist", 12), 0));
 				SetDlgItemText(hwndDlg, IDC_LOGTIMESTAMP, g_Settings.pszTimeStampLog);
@@ -914,7 +901,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, g_Settings.LoggingEnabled ? TRUE : FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_FONTCHOOSE, g_Settings.LoggingEnabled ? TRUE : FALSE);
 				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETRANGE, 0, MAKELONG(10000, 0));
-				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(DBGetContactSettingWord(NULL, "Chat", "LoggingLimit", 100), 0));
+				SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_SETPOS, 0, MAKELONG(db_get_w(NULL, "Chat", "LoggingLimit", 100), 0));
 				Utils::enableDlgControl(hwndDlg, IDC_LIMIT, g_Settings.LoggingEnabled ? TRUE : FALSE);
 
 				if (ServiceExists(MS_UTILS_REPLACEVARS)) {
@@ -1292,17 +1279,16 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 void LoadGlobalSettings(void)
 {
 	LOGFONT lf;
-	int i;
 	char szBuf[40];
 
 	g_Settings.LogLimitNames = M->GetByte("Chat", "LogLimitNames", 1);
 	g_Settings.ShowTime = M->GetByte("Chat", "ShowTimeStamp", 1);
 	g_Settings.ShowTimeIfChanged = (BOOL)M->GetByte("Chat", "ShowTimeStampIfChanged", 0);
 	g_Settings.TimeStampEventColour = (BOOL)M->GetByte("Chat", "TimeStampEventColour", 0);
-	g_Settings.iEventLimit = DBGetContactSettingWord(NULL, "Chat", "LogLimit", 100);
-	g_Settings.iEventLimitThreshold = DBGetContactSettingWord(NULL, "Chat", "LogLimitThreshold", 20);
+	g_Settings.iEventLimit = db_get_w(NULL, "Chat", "LogLimit", 100);
+	g_Settings.iEventLimitThreshold = db_get_w(NULL, "Chat", "LogLimitThreshold", 20);
 	g_Settings.dwIconFlags = M->GetDword("Chat", "IconFlags", 0x0000);
-	g_Settings.LoggingLimit = (size_t)DBGetContactSettingWord(NULL, "Chat", "LoggingLimit", 100);
+	g_Settings.LoggingLimit = (size_t)db_get_w(NULL, "Chat", "LoggingLimit", 100);
 	g_Settings.LoggingEnabled = (BOOL)M->GetByte("Chat", "LoggingEnabled", 0);
 	g_Settings.OpenInDefault = (BOOL)M->GetByte("Chat", "DefaultContainer", 1);
 	g_Settings.FlashWindow = (BOOL)M->GetByte("Chat", "FlashWindow", 0);
@@ -1316,7 +1302,7 @@ void LoadGlobalSettings(void)
 	g_Settings.BBCodeInPopups = (BOOL)M->GetByte("Chat", "BBCodeInPopups", 0);
 	g_Settings.AddColonToAutoComplete = (BOOL)M->GetByte("Chat", "AddColonToAutoComplete", 1);
 	g_Settings.iPopupStyle = M->GetByte("Chat", "PopupStyle", 1);
-	g_Settings.iPopupTimeout = DBGetContactSettingWord(NULL, "Chat", "PopupTimeout", 3);
+	g_Settings.iPopupTimeout = db_get_w(NULL, "Chat", "PopupTimeout", 3);
 	g_Settings.crPUBkgColour = M->GetDword("Chat", "PopupColorBG", GetSysColor(COLOR_WINDOW));
 	g_Settings.crPUTextColour = M->GetDword("Chat", "PopupColorText", 0);
 	g_Settings.ClassicIndicators = M->GetByte("Chat", "ClassicIndicators", 0);
@@ -1353,7 +1339,7 @@ void LoadGlobalSettings(void)
 
 	if (!M->GetTString(NULL, "Chat", "LogDirectory", &dbv)) {
 		lstrcpyn(g_Settings.pszLogDir, dbv.ptszVal, MAX_PATH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		lstrcpyn(g_Settings.pszLogDir, DEFLOGFILENAME, MAX_PATH);
 
@@ -1382,7 +1368,7 @@ void LoadGlobalSettings(void)
 	ih2 = GetTextPixelSize(_T("AQGglo"), g_Settings.UserListHeadingsFont, FALSE);
 	g_Settings.iNickListFontHeight = max(M->GetByte("Chat", "NicklistRowDist", 12), (ih > ih2 ? ih : ih2));
 
-	for (i=0; i < 7; i++) {
+	for (int i=0; i < 7; i++) {
 		mir_snprintf(szBuf, 20, "NickColor%d", i);
 		g_Settings.nickColors[i] = M->GetDword("Chat", szBuf, g_Settings.crUserListColor);
 	}
@@ -1412,8 +1398,6 @@ static void FreeGlobalSettings(void)
 int OptionsInit(void)
 {
 	LOGFONT lf;
-	HFONT hFont;
-	int iText;
 
 	LoadLogFonts();
 	LoadMsgDlgFont(FONTSECTION_CHAT, 17, &lf, NULL, CHAT_FONTMODULE);
@@ -1423,10 +1407,10 @@ int OptionsInit(void)
 	lf.lfWeight = FW_BOLD;
 	ZeroMemory(&g_Settings, sizeof(TMUCSettings));
 	g_Settings.NameFont = CreateFontIndirect(&lf);
-	g_Settings.iSplitterX = DBGetContactSettingWord(NULL, "Chat", "SplitterX", 105);
+	g_Settings.iSplitterX = db_get_w(NULL, "Chat", "SplitterX", 105);
 	if (g_Settings.iSplitterX <= 50)
 		g_Settings.iSplitterX = 105;
-	g_Settings.iSplitterY = DBGetContactSettingWord(NULL, "Chat", "splitY", 50);
+	g_Settings.iSplitterY = db_get_w(NULL, "Chat", "splitY", 50);
 	if (g_Settings.iSplitterY <= 20)
 		g_Settings.iSplitterY = 50;
 	g_Settings.hGroup = 0;
@@ -1447,8 +1431,8 @@ int OptionsInit(void)
 	SkinAddNewSoundEx("ChatTopic",     LPGEN("Group chats"), LPGEN("The topic has been changed"));
 
 	LoadMsgDlgFont(FONTSECTION_CHAT, 0, &lf, NULL, CHAT_FONTMODULE);
-	hFont = CreateFontIndirect(&lf);
-	iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, TRUE);
+	HFONT hFont = CreateFontIndirect(&lf);
+	int iText = GetTextPixelSize(MakeTimeStamp(g_Settings.pszTimeStamp, time(NULL)), hFont, TRUE);
 	DeleteObject(hFont);
 	g_Settings.LogTextIndent = iText;
 	g_Settings.LogTextIndent = g_Settings.LogTextIndent * 12 / 10;
