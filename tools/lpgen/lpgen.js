@@ -418,8 +418,8 @@ function ParseRCFile(RC_File,array) {
       rcline=RC_File_stream.ReadLine();
       //find string to translate in rcline by regexp
       rc_regexp=rcline.match(/\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/);
-      // if exist rc_regexp, do checks, double "" removal and add strings into array
-          if (rc_regexp) {
+      // if exist rc_regexp, and our string length longer, than one symbol (indeed, translate only one simbol?) do checks, double "" removal and add strings into array
+          if (rc_regexp && rc_regexp[1].length>1) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
             switch (rc_regexp[1]) {
             case "List1": {break};
@@ -436,7 +436,6 @@ function ParseRCFile(RC_File,array) {
             case "Custom2": {break};
             case "Slider1": {break};
             case "Slider2": {break};
-            case "": {break};
             //default action is to wrote text inside quoted into array
             default:
             //if there is double "", replace with single one
@@ -471,8 +470,8 @@ function ParseSourceFile (SourceFile,array) {
     onestring=string[2].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
     //remove escape slashes before ' and "
     stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
-    //if our string still exist, and length more than 2 symbol (nothing to translate if only two symbols, well, except No and OK, but they are in core. But dozens crap with variables are filtered)
-    if (stringtolangpack.length>2) {
+    //if our string still exist, and length more than 1 symbol (nothing to translate if only one symbol)
+    if (stringtolangpack.length>1) {
         //brand new _T() crap filtering engine :)
         clearstring=filter_T(stringtolangpack);
         //finally put string into array including cover brackets []
