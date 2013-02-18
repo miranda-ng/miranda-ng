@@ -32,8 +32,6 @@
 &Цвета Windows
 [Use system &icons]
 Системные значки
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Требуется Popup 1.0.1.9+, YAPP или совместимый плагин
 [Sample Note]
 Пример заметки
 [Sample Warning]
