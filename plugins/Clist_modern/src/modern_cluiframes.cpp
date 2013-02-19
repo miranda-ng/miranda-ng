@@ -69,20 +69,9 @@ static int				_iNextFrameId					 = 100;
 static HFONT			_hTitleBarFont					 = NULL;
 
 // menus
-static HGENMENU _hmiVisible		 = (HGENMENU)-1;
-static HGENMENU _hmiTBVisible		 = (HGENMENU)-1;
-static HGENMENU _hmiLock			 = (HGENMENU)-1;
-static HGENMENU _hmiColl			 = (HGENMENU)-1;
-static HGENMENU _hmiFloating		 = (HGENMENU)-1;
-static HGENMENU _hmiAlignRoot		 = (HGENMENU)-1;
-static HGENMENU _hmiAlignTop		 = (HGENMENU)-1;
-static HGENMENU _hmiAlignClient	 = (HGENMENU)-1;
-static HGENMENU _hmiAlignBottom	 = (HGENMENU)-1;
-static HGENMENU _hmiPosRoot		 = (HGENMENU)-1;
-static HGENMENU _hmiPosUp			 = (HGENMENU)-1;
-static HGENMENU _hmiPosDown		 = (HGENMENU)-1;
-static HGENMENU _hmiBorder       = (HGENMENU)-1;
-static HGENMENU _hmiRoot			 = (HGENMENU)-1;
+static HGENMENU _hmiVisible, _hmiTBVisible, _hmiLock, _hmiColl;
+static HGENMENU _hmiFloating, _hmiAlignRoot, _hmiAlignTop, _hmiAlignClient, _hmiAlignBottom;
+static HGENMENU _hmiPosRoot, _hmiPosUp, _hmiPosDown, _hmiBorder, _hmiRoot;
 
 // others
 static int _nContactListHeight	 = 0;
@@ -3913,7 +3902,6 @@ static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam)
 		return 0;
 }
 
-
 int CLUIFrameOnModulesLoad(WPARAM wParam,LPARAM lParam)
 {
 	/* HOOK */
@@ -3921,11 +3909,14 @@ int CLUIFrameOnModulesLoad(WPARAM wParam,LPARAM lParam)
 	CLUIFramesCreateMenuForFrame(-1,-1,000010000, Menu_AddContextFrameMenuItem);
 	return 0;
 }
+
 int CLUIFrameOnModulesUnload(WPARAM wParam,LPARAM lParam)
 {
-	//
-	//if (MirandaExiting()) return 0;
-	if ( !_hmiVisible) return 0;
+	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;
+
+	if ( !_hmiVisible)
+		return 0;
+
 	CallService( MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiVisible, 1 );
 	CallService( MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiTBVisible, 1 );
 	CallService( MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)_hmiLock, 1 );

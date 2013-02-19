@@ -189,10 +189,8 @@ static int amThreadProc(HWND hwnd)
 
 BOOL amWakeThread()
 {
-	if (hamProcessEvent && g_dwAwayMsgThreadID)
-	{
+	if (hamProcessEvent && g_dwAwayMsgThreadID) {
 		SetEvent(hamProcessEvent);
-
 		return TRUE;
 	}
 
@@ -224,9 +222,10 @@ void InitAwayMsgModule()
 void UninitAwayMsgModule()
 {
 	SetEvent(hamProcessEvent);
+
+	while (g_dwAwayMsgThreadID)
+		SleepEx(50, TRUE);
+
 	CloseHandle(hamProcessEvent);
-	amlock;
-	while (amGetCurrentChain());
-	amunlock;
 	DeleteCriticalSection(&amLockChain);
 }

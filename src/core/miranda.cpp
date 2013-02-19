@@ -301,6 +301,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 
 	int result = 0;
 	if ( LoadDefaultModules()) {
+		SetEvent(hMirandaShutdown);
+		NotifyEventHooks(hPreShutdownEvent, 0, 0);
 		NotifyEventHooks(hShutdownEvent, 0, 0);
 		UnloadDefaultModules();
 

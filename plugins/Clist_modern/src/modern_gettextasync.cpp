@@ -78,62 +78,50 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 
 static int gtaThreadProc(void * lpParam)
 {
-	BOOL exit = FALSE;
 	HWND hwnd = pcli->hwndContactList;
 	struct SHORTDATA data = {0};
-	struct SHORTDATA * dat;
 
-	while (!MirandaExiting())
-	{
+	while (!MirandaExiting()) {
 		Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);       
-		do
-		{
-			if ( !MirandaExiting()) 
-				SleepEx(0, TRUE); //1000 contacts per second
-			if (MirandaExiting()) 
-			{
+		while (true) {
+			if (MirandaExiting()) {
 				g_dwGetTextAsyncThreadID = 0;
 				return 0;
 			}
-			else
-			{
-				GTACHAINITEM mpChain = {0};
-				struct SHORTDATA dat2 = {0};
-				if ( !gtaGetItem(&mpChain)) break;
-				if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))	dat = &data;
-				else
-				{        
-					Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
-					dat = &dat2;
-				}
-				if ( !MirandaExiting())
-				{
-					ClcCacheEntry cacheEntry;
-					memset( &cacheEntry, 0, sizeof(cacheEntry));
-					cacheEntry.hContact = mpChain.hContact;
-					if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry))
-					{
-						if ( !MirandaExiting()) 
-							Cache_GetSecondLineText(dat, &cacheEntry);
-						if ( !MirandaExiting()) 
-							Cache_GetThirdLineText(dat, &cacheEntry);
-						if ( !MirandaExiting()) 
-							Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);  
-						CListSettings_FreeCacheItemData(&cacheEntry);
-					}
-				}
-				else
-				{	
-					g_dwGetTextAsyncThreadID = 0;
-					return 0;
-				}
-				KillTimer(dat->hWnd,TIMERID_INVALIDATE_FULL);
-				CLUI_SafeSetTimer(dat->hWnd,TIMERID_INVALIDATE_FULL,500, NULL);
-			}
-		}
-		while (!exit);
+			SleepEx(0, TRUE); //1000 contacts per second
 
-		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, FALSE );
+			GTACHAINITEM mpChain = {0};
+			struct SHORTDATA dat2 = {0};
+			if ( !gtaGetItem(&mpChain))
+				break;
+
+			SHORTDATA *dat;
+			if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat,sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))
+				dat = &data;
+			else {        
+				Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
+				dat = &dat2;
+			}
+			if ( MirandaExiting()) {
+				g_dwGetTextAsyncThreadID = 0;
+				return 0;
+			}
+
+			ClcCacheEntry cacheEntry;
+			memset(&cacheEntry, 0, sizeof(cacheEntry));
+			cacheEntry.hContact = mpChain.hContact;
+			if ( !Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&cacheEntry)) {
+				Cache_GetSecondLineText(dat, &cacheEntry);
+				Cache_GetThirdLineText(dat, &cacheEntry);
+				Sync(CLUI_SyncSetPDNCE, (WPARAM) CCI_LINES,(LPARAM)&cacheEntry);  
+				CListSettings_FreeCacheItemData(&cacheEntry);
+			}
+
+			KillTimer(dat->hWnd,TIMERID_INVALIDATE_FULL);
+			CLUI_SafeSetTimer(dat->hWnd,TIMERID_INVALIDATE_FULL,500, NULL);
+		}
+
+		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, TRUE);
 		ResetEvent(hgtaWakeupEvent);
 	}
 	g_dwGetTextAsyncThreadID = 0;
@@ -142,10 +130,8 @@ static int gtaThreadProc(void * lpParam)
 
 BOOL gtaWakeThread()
 {
-	if (hgtaWakeupEvent && g_dwGetTextAsyncThreadID)
-	{
+	if (hgtaWakeupEvent && g_dwGetTextAsyncThreadID) {
 		SetEvent(hgtaWakeupEvent);
-
 		return TRUE;
 	}
 
@@ -176,15 +162,18 @@ int gtaAddRequest(ClcData *dat,ClcContact *contact,HANDLE hContact)
 	gtaunlock;
 	return FALSE;
 }
+
 void gtaRenewText(HANDLE hContact)
 {
 	gtaAddRequest(NULL,NULL, hContact);
 }
+
 int gtaOnModulesUnload(WPARAM wParam,LPARAM lParam)
 {
 	SetEvent(hgtaWakeupEvent);
 	return 0;
 }
+
 void InitCacheAsync()
 {
 	InitializeCriticalSection(&gtaCS);
@@ -195,11 +184,10 @@ void InitCacheAsync()
 
 void UninitCacheAsync()
 {
-	GTACHAINITEM mpChain;
 	SetEvent(hgtaWakeupEvent);
+	while(g_dwGetTextAsyncThreadID)
+		SleepEx(50, TRUE);
+
 	CloseHandle(hgtaWakeupEvent);
-	gtalock;
-	while(gtaGetItem(&mpChain));
-	gtaunlock;
 	DeleteCriticalSection(&gtaCS);
 }
