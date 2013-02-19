@@ -38,8 +38,6 @@ Plovoucí kontakty zobrazovat pouze po skrytí hlavního seznamu
 Vyplnění
 [Enable floating contacts (required restart)]
 Zapnout plovoucí kontakty (vyžaduje restart)
-[000%]
-000 %
 [Opacity]
 Průhlednost
 [Width]
@@ -322,8 +320,6 @@ Použít barvy Windows
 Barva pozadí
 [Use background image]
 Použít na pozadí obrázek
-[...]
-...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -370,10 +366,6 @@ Označit protokoly se zamknutým stavem
 Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
-[+]
-
-[-]
--
 [New]
 Nový
 [Include groups]
@@ -492,8 +484,6 @@ Zobrazit druhý řádek:
 Použít překryvné ikony (na avatar)
 [Show local time]
 Zobrazit místní čas
-[&¤]
-
 [E&xit]
 U&končit
 [&Status]
@@ -664,6 +654,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]
@@ -840,6 +832,8 @@ Použití
 Nesdružené kontakty
 [And]
 AND
+[Or]
+OR
 [Older than]
 starší než
 [Newer than]

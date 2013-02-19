@@ -16,12 +16,13 @@ Skrýt položku menu "Přepnout zvuk" (vyžaduje restart Mirandy)
 
 [No CLIST blink when:]
 
+;file \plugins\ZeroNotification\src\common.h
+[Disable &Sounds]
+
+[Enable &Sounds]
+
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 
 [Plugins]
 Doplňky
-[Disable &Sounds]
-
-[Enable &Sounds]
-

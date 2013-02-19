@@ -1,8 +1,6 @@
 ﻿[Auth. request reply:]
 [Vars]
 [Available accounts:]
-[>>>>]
-[<<<<]
 [Filtered accounts:]
 [Enable auth. requests blocking]
 [Hide unanswered contacts and spammers from contact list]

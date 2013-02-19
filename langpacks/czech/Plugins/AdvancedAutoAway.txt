@@ -104,8 +104,6 @@ Doba zobrazení
 s
 [Set window location]
 Umístit na souřadnice
-[,]
-
 [Set window size]
 Velikost okna
 [x]

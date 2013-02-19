@@ -8,4 +8,3 @@
 [Password is not correct!\nPlease, enter correct password.]
 [Hide/Show Miranda]
 [BossKey\tget the BossKey name]
-[BossKey: Key pressed]

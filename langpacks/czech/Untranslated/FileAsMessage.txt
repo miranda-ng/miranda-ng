@@ -3,3 +3,4 @@
 [File already exists. Overwrite?]
 [Unknown command for "" SERVICE_TITLE "" was received]
 [File As Message]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]

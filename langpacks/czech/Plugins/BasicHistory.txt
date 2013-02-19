@@ -30,8 +30,6 @@ Výchozí filtr událostí
 
 [Delete event]
 
-[...]
-...
 [WinSCP path]
 
 [WinSCP log path]
@@ -180,6 +178,8 @@ Všechny položky
 Historie pro %s
 [System]
 Systém
+[Me]
+Já
 [Invalid Message]
 Neplatná zpráva
 [Authorisation request by %s (%s%d): %s]

@@ -16,8 +16,6 @@ Barva pozadí:
 Barva výběru:
 [Use background bitmap]
 Použít na pozadí obrázek
-[...]
-...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -148,8 +146,6 @@ Povolit průhlednost seznamu kontaktů
 Neaktivní okno:
 [Active opacity:]
 Aktivní okno:
-[000%]
-000 %
 [Show menu bar]
 Zobrazit menu
 [Easy move]
@@ -236,8 +232,6 @@ Pravým tlačítkem seznam stavů
 Pravým tlačítkem nabídku Mirandy
 [Make sections equal width]
 Shodná šířka všech položek
-[-]
--
 [Show size grip]
 Zobrazit oddělovač
 [Show bevel effect on panels]
@@ -246,8 +240,6 @@ Zobrazit efekt zkosení panelů
 Zobrazit průběh připojování
 [Use New Drawer for StatusBar]
 Použít nový systém stav. lišty
-[&¤]
-
 [E&xit]
 U&končit
 [&Status]
@@ -351,6 +343,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]

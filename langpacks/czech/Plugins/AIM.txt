@@ -137,6 +137,8 @@ Zpráva
 [Room]
 Místnost
 ;file \protocols\AimOscar\src\chat.cpp
+[Me]
+Já
 [Others]
 Ostatní
 [&Invite user...]

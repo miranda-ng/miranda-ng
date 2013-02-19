@@ -43,8 +43,6 @@ Běžící spořič obrazovky
 Uzamčená stanice (2000/XP)
 [Defined programs are running]
 Běží vybrané programy
-[...]
-...
 [All other situations]
 Všechny ostatní situace
 [Only notify if status is]

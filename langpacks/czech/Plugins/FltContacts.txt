@@ -66,8 +66,6 @@ Tučné
 Kurzíva
 [Underline]
 Podtržené
-[100 %]
-
 [Border]
 Okraj
 [Draw border]
@@ -82,8 +80,6 @@ Pozadí
 Barva pozadí:
 [Use background bitmap]
 Použít na pozadí obrázek
-[...]
-...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]

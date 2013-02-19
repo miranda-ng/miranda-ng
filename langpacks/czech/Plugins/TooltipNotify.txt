@@ -64,8 +64,6 @@ Náhled
 Průhlednost (pouze Windows 2000 a XP)
 [Transparent tooltip]
 Míra průhlednosti
-[000%]
-000 %
 [Contacts]
 Kontakty
 [Idle]
@@ -103,3 +101,5 @@ Neviditelný
 
 [Unknown]
 neznámý
+[is]
+

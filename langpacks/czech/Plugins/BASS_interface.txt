@@ -22,8 +22,6 @@
 
 [Quiet time:]
 
-[-]
--
 [download bass library]
 
 [Play only if]
@@ -50,6 +48,9 @@ Mám telefon
 Jsem na obědě
 [Preview]
 Náhled
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 
@@ -63,8 +64,6 @@ Vlastní úpravy
 Povolit zvuky
 [Frame Background]
 Barva pozadí rámečku
-[Bass Interface]
-
 [Sounds enabled]
 
 [Sounds disabled]

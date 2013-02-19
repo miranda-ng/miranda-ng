@@ -112,8 +112,6 @@ Použít externí soubor
 Při aktualizaci přepsat soubor
 [Path:]
 Cesta:
-[6]
-
 [Link Settings]
 Odkazy
 [More Info URL]
@@ -371,6 +369,12 @@ Textové soubory
 [All Files]
 Všechny soubory
 ;file \plugins\Weather\src\weather_conv.cpp
+[mb]
+mb
+[in]
+in
+[mm]
+mm
 [<unknown time>]
 <neznámý čas>
 [<Error>]

@@ -79,9 +79,6 @@ Skrýt
 
 [BossKey\tget the BossKey name]
 
-;file \plugins\BossKeyPlus\src\BossKeyTriggers.cpp
-[BossKey: Key pressed]
-
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných

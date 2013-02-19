@@ -1,10 +1,6 @@
 ﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
 ;file \plugins\QuickMessages\res\quickmessages.rc
-[+]
-
-[-]
--
 [Button Right-Click value]
 
 [Button Left-Click menu]
@@ -27,8 +23,6 @@ Tlačítka
 
 [You have changed the plugin settings via database.\nThis requires restart!]
 
-[?]
-?
 [Quick Messages Help]
 
 [- Selected text]

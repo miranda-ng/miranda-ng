@@ -1,5 +1,4 @@
 ﻿[Allows you to send and receive contacts.]
 [&A]
-[6]
 [&D]
 [&H]

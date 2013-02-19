@@ -14,6 +14,7 @@ Automatické spuštění
 Spustit Mirandu při startu Windows
 [Note: At startup Miranda NG will use current profile]
 Poznámka: Při spuštění Miranda použije aktuální profil.
+;file \plugins\AutoRun\src\autorun.h
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
 Služby

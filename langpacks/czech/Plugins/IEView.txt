@@ -54,8 +54,6 @@ Použít šablony
 Obrázek na pozadí
 [Scroll with text]
 Rolovat s textem
-[...]
-...
 [Template Options]
 Možnosti šablon
 [Use message grouping]
@@ -91,6 +89,12 @@ Přijatý odkaz
 [ was added.]
 
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+Příchod: %s
+[%s has left.]
+Odchod: %s
+[The topic is %s.]
+Téma: %s
 [Error]
 Chyba
 ;file \plugins\IEView\src\Options.cpp

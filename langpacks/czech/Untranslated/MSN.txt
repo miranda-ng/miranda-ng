@@ -1,6 +1,4 @@
 ﻿[Expert]
-[ 1863]
-[ 80]
 [Mobile Device (used for SMS)]
 [Spouse/Partner]
 [Middle Name]

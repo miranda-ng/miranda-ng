@@ -112,8 +112,6 @@ Povolit průhlednost seznamu kontaktů
 Neaktivní okno:
 [Active opacity:]
 Aktivní okno:
-[000%]
-000 %
 [Show menu bar]
 Zobrazit menu
 [Easy move]
@@ -170,8 +168,6 @@ Shodná šířka všech položek
 Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
 Zobrazit tlač. změny velik.
-[&¤]
-
 [E&xit]
 U&končit
 [&Status]
@@ -233,6 +229,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]

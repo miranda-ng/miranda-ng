@@ -1,5 +1,4 @@
 ﻿[Facebook protocol support for Miranda NG.]
-[420]
 [Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 [Login error: Some Facebook things are required.]
 [Login error: Captcha code is required. Bad login credentials?]

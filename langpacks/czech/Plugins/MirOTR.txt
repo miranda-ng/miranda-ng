@@ -96,6 +96,8 @@ Zapomenout
 Zrušit šifrování (OTR)
 [Yes]
 Ano
+[No]
+Ne
 [OTR status (Click for more options)]
 
 [OTR Encryption: Disabled]

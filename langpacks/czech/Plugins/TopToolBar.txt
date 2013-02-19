@@ -32,8 +32,6 @@ Pořadí tlačítek:
 
 [Name: ]
 Název
-[...]
-...
 [Path:]
 Cesta:
 [Set]

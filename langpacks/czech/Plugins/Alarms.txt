@@ -108,8 +108,6 @@ Vyřízeno
 Odložit
 [Static]
 Statický
-[...]
-...
 [Reminder Frame Context]
 
 [&Suspend]
@@ -133,6 +131,18 @@ Nová připomínka
 Ukázka připomínky
 [Some example text. Example, example, example.]
 Žluťoučký kůň úpěl ďábelské ódy.
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+
+[1 day]
+
+[1 week]
+
 [Title]
 Název
 [Background]

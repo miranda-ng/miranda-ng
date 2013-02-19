@@ -48,12 +48,6 @@ Rodinný stav:
 Partner:
 [Language skills]
 Jazykové dovednosti
-[1.:]
-
-[2.:]
-
-[3.:]
-
 [Street:]
 Ulice:
 [Postal code:]
@@ -70,8 +64,6 @@ Kontakt přidaný do seznamu:
 Od začátku.
 [Your contact's local time is:]
 Čas u uživatele je:
-[00:00]
-00:00
 [Timezone:]
 Časové pásmo:
 [Company:]
@@ -188,8 +180,6 @@ Seznam výročí
 Statistiky:
 [with birthday:]
 s narozeninami:
-[0]
-
 [female:]
 ženy:
 [male:]
@@ -403,8 +393,6 @@ Nepodařilo se vytvořit unikátní název stránky %d (chyba %d)
 Nepodařilo se vytvořit unikátní popisek stránky %d (chyba %d)
 [The dialog template type is no longer supported]
 Typ dialogových šablon již není podporován
-[UserInfoEx/TreeView]
-
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Přidat nové výročí
@@ -466,6 +454,8 @@ Zobrazit seznam výročí
 Znovu
 [Yes]
 Ano
+[No]
+Ne
 [Abord]
 
 [Ignore]
@@ -556,8 +546,6 @@ Zkontrolovat výročí
 
 [Ex-/Import]
 Export/Import
-[Extended UserInfo]
-Detaily uživatele
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Poznámky:
@@ -587,10 +575,6 @@ Třetí e-mail
 Adresa & kontakt
 [Company]
 Společnost:
-[Fax]
-Fax
-[Cellular]
-Mobil
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Otázka
@@ -1035,6 +1019,8 @@ Tato akce způsobila výjimku!
 %s má dnes %s.
 [an anniversary]
 výročí
+[He]
+On
 [She]
 Ona
 [He/She]

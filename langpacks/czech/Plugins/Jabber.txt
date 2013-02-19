@@ -30,8 +30,6 @@ Prostředek:
 Zřídit nový účet
 [Use custom connection host and port:]
 Určit hostitele (a port) pro připojení:
-[:]
-
 [Use Domain Login]
 Použít doménové jméno
 [Go]
@@ -572,6 +570,8 @@ Zkopírovat téma místnosti
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [DND]
 Nerušit!
 [Free for chat]
@@ -881,6 +881,8 @@ Stavová zpráva
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
+[To]
+Do
 [From]
 Od
 [Both]
@@ -1049,6 +1051,8 @@ Zadaná hesla si neodpovídají.
 [Current password is incorrect.]
 Zadané heslo je neplatné.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
+
 [Warning: privacy lists were changed on server.]
 
 [Error occurred while applying changes]
@@ -1151,8 +1155,6 @@ Uložit seznam
 
 [List Editor...]
 Editor...
-[Sending request, please wait...]
-
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer machanism exist]
 
@@ -1303,6 +1305,8 @@ Možnosti klientského softwaru
 
 [Yes]
 Ano
+[No]
+Ne
 [Alpha build]
 
 [Debug build]
@@ -1315,6 +1319,8 @@ Nálada
 Hudba
 [both]
 oboje
+[to]
+do
 [none]
 ---
 [Last logoff time]

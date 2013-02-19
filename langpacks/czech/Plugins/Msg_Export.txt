@@ -74,8 +74,6 @@ In&formace o kontaktu
 Exportovat vybrané
 [Set to default filename]
 Výchozí název souboru
-[1]
-
 [Copy]
 Zkopírovat
 ;file \plugins\Msg_Export\src\FileViewer.cpp

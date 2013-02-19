@@ -76,8 +76,6 @@ Nahrát &Soukromý klíč
 Obecné
 [Executable:]
 Program gpg.exe:
-[...]
-...
 [Home Directory:]
 Dom. adresář:
 [Temp Dir:]
@@ -181,6 +179,161 @@ Smazat klíč
 [Import public key]
 
 [Delete public key]
+
+;file \plugins\SecureIM\src\language.cpp
+[SecureIM established...]
+Šifrované spojení navázáno...
+[Key exchange failed...]
+Chyba při výměně klíčů...
+[Key from disabled...]
+Deaktivován cizí klíč...
+[Sended back message received...]
+Přijata odpověď...
+[Sending back secure message...]
+Odesílání šifrované odpovědi...
+[SecureIM disabled...]
+Šifrování vypnuto...
+[Sending Key...]
+Odesílání klíče...
+[Key Received...]
+Klíč přijat...
+[Sending Message...]
+Odesílání zprávy...
+[Message Received...]
+Přijata zpráva...
+[Encrypting File:]
+Šifrování souboru:
+[Decrypting File:]
+Dešifrování souboru:
+[Bad key received...]
+Obdržen špatný klíč...
+[SecureIM: Error while decrypting the message.]
+Chyba při dešifrování zprávy.
+[SecureIM: Error while decrypting the message, bad message length.]
+Chyba při dešifrování zprávy, špatná délka.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+Chyba při dešifrování zprávy, chyba CRC.
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+Uživatel neodpovídá na výměnu klíčů!\r\nChcete zprávu odeslat nešifrovanou?
+[SecureIM not enabled! You Must Enable SecureIM with this user...]
+SecureIM není povoleno! S tímto uživatelem musíte SecureIM povolit!
+[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+Nemohu poslat šifrovanou zprávu!\nUživatel je ve stavu offline a platnost klíče vypršela.\nChcete poslat zprávu bez šifrování?
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM nemůže načíst PGP/GPG klíč! Zkontrolujte PGP/GPG nastavení!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM nemůež zašifrovat zprávu! Zkontrolujte důvěryhodnost PGP/GPG klíče!
+[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+Nelze poslat šifrovanou zprávu!\nChcete poslat vaší zpráv nešifrovanou?
+[Can't change mode! Secure connection established!]
+
+[Can't export RSA private key!]
+
+[Can't import RSA private key!]
+
+[Can't export RSA public key!]
+
+[Can't import RSA public key!]
+
+[General]
+Obecné
+[Nickname]
+Přezdívka
+[Name]
+Jméno
+[Password is too short!]
+Heslo je příliš krátké!
+[ON]
+
+[Off]
+Vyp
+[Keyrings loaded.]
+Klíčenka načtena.
+[Keyrings not loaded!]
+Klíčenka nebyla načtena!
+[PGP SDK v%i.%i.%i found.]
+Nalezen PGP SDK v.%i.%i.%i
+[PGP SDK not found!]
+PGP SDK nenalezen!
+[This version not supported!]
+Tato verze není podporována!
+[(none)]
+(není)
+[Private key loaded.]
+Osobní klíče nahrány.
+[Private key not loaded!]
+Osobní klíče nenahrány!
+[The new settings will become valid when you restart MirandaNG!]
+
+[Keyrings disabled!]
+Klíčenka vypnuta!
+[Native]
+Nativní
+[Disabled]
+Vypnuto
+[Enabled]
+Zapnuto
+[Always try]
+
+[Create SecureIM connection]
+Navázat šifrované spojení
+[Disable SecureIM connection]
+Zrušit šifrované spojení
+[Load PGP Key]
+Načíst PGP klíč
+[Unload PGP Key]
+Odstranit PGP klíč
+[Load GPG Key]
+Nahrát GPG klíč
+[Unload GPG Key]
+Opustit GPG klíč
+[Delete RSA Key]
+Smazat RSA klíč
+[SecureIM mode (Native)]
+
+[SecureIM mode (PGP)]
+
+[SecureIM mode (GPG)]
+
+[SecureIM mode (RSA/AES)]
+
+[SecureIM mode (RSA)]
+
+[SecureIM status (disabled)]
+Stav SecureIM (vypnuto)
+[SecureIM status (enabled)]
+Stav SecureIM (zapnuto)
+[SecureIM status (always try)]
+Stav SecureIM (zkus vždy)
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
+[SecureIM received unencrypted message:\n]
+
+[SecureIM received encrypted message:\n]
+
+[Session closed by receiving incorrect message type]
+
+[Session closed by other side on error]
+
+[Error while decoding AES message]
+
+[Error while decoding RSA message]
+
+[Session closed on timeout]
+
+[Session closed by other side when status "disabled"]
+
+[Session closed on error: %02x]
+
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+SecureIM přijal RSA veřejný klíčod "%s"\n\nSHA1: %s\n\nChcete přijmout tento klíč??
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
+
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 
 ;file \plugins\SecureIM\src\main.cpp
 [Incoming Secure Message]

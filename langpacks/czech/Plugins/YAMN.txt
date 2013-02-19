@@ -40,8 +40,6 @@ Zpráva
 Blikání klávesnicí
 [Execute Application]
 
-[...]
-...
 [Use contact notification for this account]
 Použít nastavení z filtrování kontaktů
 [Replace nick name]
@@ -78,14 +76,10 @@ Upozornit zprávou
 Zobrazit ikonu v oblasti oznámení
 [Reset counter]
 Vynulovat čítač
-[-]
--
 [Default]
 Výchozí
 [Status:]
 Stav:
-[+]
-
 [Account]
 Účet
 [APOP]
@@ -194,13 +188,17 @@ Přezdívka
 [No new mail message]
 
 ;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+
+[An error occured. Error code: %d]
+
 [Unknown error]
 Neznámá chyba
 [ - connection error]
  - chyba připojení
-[%s - connection error]
-
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+
 [- new mail message(s)]
 
 [%s : %d new mail message(s), %d total]
@@ -237,8 +235,6 @@ Datum
 Počet vybraných zpráv: %d. Opravdu je chcete smazat?
 [Delete confirmation]
 Potvrzení smazání
-[%s - %d new mail messages, %d total]
-
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 

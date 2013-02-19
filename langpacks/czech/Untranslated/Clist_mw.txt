@@ -1,3 +1,2 @@
 ﻿[Displays contacts, event notifications, protocol status with MW modifications.]
-[&¤]
 [Nowhere]

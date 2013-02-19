@@ -52,8 +52,6 @@ Soubory záznamů
 Aktivovat záznam
 [Log directory]
 Složka pro záznam
-[...]
-...
 [Maximum size for log files (in kB)]
 Maximální velikost souboru záznamu (v kB)
 [Group chat log formatting]
@@ -271,8 +269,6 @@ Načíst pouze aktuální historii
 Max. počet událostí v záznamu
 [Events]
 Události
-[   ]
-
 [Only show tab bar when it's needed]
 Skrýt lištu s panely, je-li jen jeden
 [Container stays on top]
@@ -507,8 +503,8 @@ Po&užít barvy Windows
 Pouze jedn&o oznámení na kontakt
 [Show &entry in the main menu]
 Zobrazit položku v hlavním m&enu
-[PopUp timeout (is typing)]
-Doba zobrazení (při psaní)
+[...is typing]
+
 [From PopUp plugin]
 Globální nastavení
 [From protocol]
@@ -517,8 +513,10 @@ Dle protokolu
 Trvale
 [Custom]
 Vlastní
-[PopUp timeout (stopped typing)]
-Doba zobrazení (po dopsání)
+[...stopped typing]
+
+[PopUps timeout]
+
 [Templates]
 Šablony
 [Edit template]
@@ -1519,6 +1517,18 @@ Okno 2
 Okno 3
 [Frame 4]
 Okno 4
+[Toolbar]
+Lišta tlačítek
+[Message Log]
+Záznam komunikace
+[Animated Tray]
+
+[Clock symbol (for the info panel clock)]
+Symbol hodin (pro hodiny informačního panelu)
+[Feature disabled (used as overlay)]
+Funkce zakázána (použito jako překrytí)
+[Feature enabled (used as overlay)]
+Funkce povolena (použito jako překrytí)
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Vyberte kontejner pro %s
@@ -1790,10 +1800,6 @@ Přidávat offline kontakty do seznamu více příjemců
 Vypnout &upozornění na psaní
 [Enable &typing notification]
 Zapnout &upozornění na psaní
-[Warning: Popup plugin not found.]
-Varování: Popup plugin nenalezen.
-[Warning: Current Popup plugin version is not supported.]
-Varování: Stávající verze Popup pluginu není podporována.
 [...is typing a message.]
 ... píše zprávu.
 [...has stopped typing.]
@@ -1815,8 +1821,6 @@ Vždy použít History++
 Vždy použít IEView
 [Set messaging options for %s]
 Nastavení komunikace pro kontakt %s
-[Message Log]
-Záznam komunikace
 ;file \plugins\TabSRMM\src\utils.cpp
 [Important release notes|A test warning message]
 Důležitá poznámka|Testovací varovná zpráva
@@ -1889,18 +1893,14 @@ Přidat uživatele do do seznamu označených
 [Edit user highlight list]
 Upravit seznam označených uživatelů
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[TabSRMM/Group Chats]
-TabSRMM/Skupinové rozhovory
 [Group chat log background]
 Pozadí skupinového rozhovoru
-[TabSRMM]
-
 [Input area background]
 Pozadí psaní zprávy
 [Log background]
 Pozadí záznamu
-[TabSRMM/Single Messaging]
-TabSRMM/Psaní zprávy
+[Single Messaging]
+Běžný rozhovor
 [Outgoing background]
 Pozadí odchozích zpráv
 [Incoming background]
@@ -1913,14 +1913,14 @@ Pozadí příchozích zpráv (starých)
 Pozadí odchozích zpráv (starých)
 [Horizontal Grid Lines]
 Vodorovné linky mřížky
-[TabSRMM/Info Panel]
-TabSRMM/Informační panel
+[Info Panel]
+Informační panel
 [Panel background low]
 Pozadí panelu (dolní)
 [Panel background high]
 Pozadí panelu (horní)
-[TabSRMM/Common colors]
-TabSRMM/Obecné barvy
+[Common colors]
+Obecné barvy
 [Toolbar background high]
 Pozadí tlačítkové lišty (horní)
 [Toolbar background low]
@@ -1933,8 +1933,6 @@ Okraje textových polí
 Aero efekt
 [Generic text color (only when fill color is set)]
 Obecná barva textu (pouze je-li nastavena výplň)
-[TabSRMM/Tabs]
-TabSRMM/Panely
 [Normal text]
 Běžný text
 [Active text]
@@ -2145,6 +2143,10 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
+[Group chat windows]
+
+[Group chat log]
+
 [Appearance and functionality of chat room windows]
 Nastavení vzhledu a funkcí komunikačních oken
 [Appearance of the message log]
@@ -2165,6 +2167,10 @@ Pozadí výběru
 Vybraný text
 [Incremental search highlight]
 Zvýraznění při vyhledávání
+[Fields background]
+Pozadí polí
+[Userlist background]
+Pozadí seznamu kontaktů
 [nick of current contact (if defined)]
 přezdívka stávajícího kontaktu (pokud je definováno)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]

@@ -8,6 +8,7 @@
 [Email]
 [Email:]
 [%sys:uidname|UID^!MetaContacts%:]
+[IP]
 [[jabber.dll] Activity title]
 [[jabber.dll] Activity text]
 [[menuex.dll] Logon time]

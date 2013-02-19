@@ -10,8 +10,6 @@
 Knihovny smajlíků
 [Specify Smiley Pack for each category]
 Pro každý protokol definovat jinou sadu
-[...]
-...
 [Name:]
 Název:
 [Author:]
@@ -20,10 +18,6 @@ Autor:
 Verze:
 [Preview]
 Náhled
-[+]
-
-[-]
--
 [Display]
 Zobrazení
 [Replace only smileys surrounded by spaces]

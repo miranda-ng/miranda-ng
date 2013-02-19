@@ -1,5 +1,4 @@
-﻿[+]
-[Button Right-Click value]
+﻿[Button Right-Click value]
 [Button Left-Click menu]
 [Menu entry value:]
 [Misc.]

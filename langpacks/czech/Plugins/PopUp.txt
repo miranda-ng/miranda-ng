@@ -40,8 +40,6 @@ Zaoblit rohy o
 pix.
 [Avatar size:]
 Velikost avataru:
-[32]
-
 [Enable avatar updates]
 Povolit aktualizaci avatarů
 [Multimonitor (98/ME/2000/XP)]
@@ -60,8 +58,6 @@ Povolit průhlednost ve Win 9x/Me
 Průhlednost (pouze 2000/XP)
 [opacity:]
 průhlednost:
-[100%]
-100 %
 [Opaque popups under cursor]
 Zvýraznit oznámení pod kurzorem
 [Slide Popup]
@@ -78,8 +74,6 @@ Doba doběhu:
 Omezit počet oznámení na
 [Skins]
 Skiny
-[R]
-
 [* - built-in skins]
 * - interní
 [Skin options]
@@ -194,8 +188,6 @@ Minimální šířka
 Maximální šířka
 [Position:]
 Postavení:
-[...]
-...
 [Layout:]
 Rozložení:
 [Reorder Popups]
@@ -270,10 +262,6 @@ Zapnout oznámení (&globálně)
 [Disable &popup module]
 Vypnout oznámení (&globálně)
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
-
-[PopUps]
-Oznámení
-[PopUp]
 
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]

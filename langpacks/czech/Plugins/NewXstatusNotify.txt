@@ -52,8 +52,6 @@ Aktivovat
 
 [Extra status]
 Rozšířený stav
-[...]
-...
 [Open]
 Otevřít
 [Status message]
@@ -193,6 +191,7 @@ Zvuky
 Ze stavu offline
 [** All contacts **]
 ** všechny kontakty **
+;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (výchozí zvuk)
 ;file \plugins\NewXstatusNotify\src\main.cpp
@@ -304,8 +303,6 @@ Uživatel: z offline (má prioritu!)
 
 [Toggle status notification]
 
-[changed his/her status message to %n]
-
 ;file \plugins\NewXstatusNotify\src\options.cpp
 [Log]
 Záznam
@@ -366,6 +363,8 @@ Nálada
 [changed %N message to:%D%I]
 
 [removed %N]
+
+[changed his/her status message to %n]
 
 [changed %N @ %T%D%I]
 

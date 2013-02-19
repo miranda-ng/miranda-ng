@@ -7,8 +7,6 @@
 Název souboru:
 [Size:]
 Velikost:
-[...]
-...
 [Chunk size]
 Velikost bloku
 [ms]
@@ -78,10 +76,13 @@ Nelze zjistit velikost souboru
 Přerušeno uživatelem
 [Transfer is in progress. Do you really want to close?]
 Přenos dat ještě nebyl dokončen. Opravdu ho chcete přerušit?
-[File As Message]
-
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 Doplňky
 [File As Message...]
 Soubor jako zpráva...
+;file \plugins\FileAsMessage\src\main.h
+[File As Message]
+
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]
+

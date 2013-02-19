@@ -3,8 +3,8 @@
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 
-[ОК]
-
+[OK]
+OK
 [Load from file]
 
 [Select existing]
@@ -61,8 +61,6 @@ Filtrování
 Statický
 [Key Generation dialog]
 
-[OK]
-OK
 [Cancel]
 Zrušit
 [Key type:]

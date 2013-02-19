@@ -14,8 +14,6 @@ Logo při spuštění
 Zobrazit logo
 [Show random splash]
 Zobrazit náhodné logo
-[...]
-...
 [Play sound]
 Přehrát zvuk
 [Loop sound]

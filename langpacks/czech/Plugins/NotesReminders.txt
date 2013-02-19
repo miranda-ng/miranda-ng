@@ -35,16 +35,10 @@ Přidat položky menu do seznamu kontaktů
 
 [Note Transparency (Minimum Win 2k/XP)]
 
-[0%]
-
-[100%]
-100 %
 [Send Reminders through E-mail / SMS :]
 Odeslat přípomínky e-mailem nebo sms:
 [Open links with this program instead:]
 
-[...]
-...
 [Reset to defaults]
 Obnovit výchozí
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
@@ -159,6 +153,9 @@ Vyjmou&t
 
 [&Show / Hide Notes]
 Zobrazit/skrýt poznám&ky
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+Poznámky a připomínky
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
 
@@ -223,8 +220,6 @@ S&mazat všechny poznámky
 
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 
-[Notes & Reminders]
-Poznámky a připomínky
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Černá

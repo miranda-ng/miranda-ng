@@ -120,8 +120,6 @@ Avatar
 
 [Avatar Service]
 
-[Global avatar]
-Globální avatar
 ;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 %s: avatar

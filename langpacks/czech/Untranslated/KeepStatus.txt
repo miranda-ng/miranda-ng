@@ -1,7 +1,6 @@
 ﻿[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
 [Account Connection]
 [Accounts to check]
-[,]
 [x]
 [Specify settings for each account]
 [Use same settings for all accounts]

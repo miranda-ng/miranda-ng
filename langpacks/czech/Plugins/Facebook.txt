@@ -16,8 +16,6 @@ Heslo:
 Zřídit nový účet na Facebooku
 [What's on your mind?]
 Co se vám honí hlavou?
-[420]
-
 [Share]
 Sdílet
 [Cancel]

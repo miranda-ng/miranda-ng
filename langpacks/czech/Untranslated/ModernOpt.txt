@@ -1,3 +1,2 @@
-﻿[`]
-[Sample page]
+﻿[Sample page]
 [Miranda NG configuration center]

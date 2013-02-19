@@ -162,8 +162,8 @@ Vzhled
 Barva pozadí
 [Text Color]
 Barva textu
-[Timeout (*)]
-Prodleva (*)
+[Timeout]
+Doba zobrazení
 [Note]
 Poznámka
 [Warning]
@@ -180,8 +180,6 @@ Po&užít barvy Windows
 Použít &ikony systému
 [Previe&w]
 &Náhled
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Tato funkce vyžaduje doplněk typu Popup
 [Use default colours]
 Použít výchozí barvy
 [UIN:]

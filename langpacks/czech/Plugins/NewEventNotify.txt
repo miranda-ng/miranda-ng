@@ -77,10 +77,25 @@ Rozhovor
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
 Oznámení
-[Disable new event notification]
-Vypnout oznámení nové události
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Kontakty
+[You were added!]
+Byl jste přidán
+[Requests your authorisation]
+Žádost o autorizaci
+[ICQ Web pager]
+ICQ WebPager
+[ICQ Email express]
+ICQ EmailExpress
+[Unknown Event]
+Neznámá událost
+[Notify of new events]
+Informovat o událostech
 [Enable new event notification]
 Zapnout oznámení nové události
+[Disable new event notification]
+Vypnout oznámení nové události
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Oznámení události

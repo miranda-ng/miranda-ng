@@ -20,14 +20,6 @@ Po úspěšné odpovědi:
 
 [Available accounts:]
 
-[>>>>]
-
-[>>]
->>
-[<<]
-<<
-[<<<<]
-
 [Filtered accounts:]
 
 [Do not send more than ]

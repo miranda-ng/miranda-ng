@@ -30,8 +30,6 @@ Zpoždění (sec.):
 &Formát:
 [Send B&y :]
 &Metoda:
-[?]
-?
 [E&xplore]
 &Procházet
 [&Fill description textbox.]
@@ -135,6 +133,8 @@ Nelze spustit doplněk HTTP Server.
 Znovu
 [Yes]
 Ano
+[No]
+Ne
 [Abord]
 
 [Ignore]

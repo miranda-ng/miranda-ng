@@ -3,7 +3,6 @@
 [Progress1]
 [History file for %s (%s format %s)]
 [UserList]
-[1]
 [Failed to write to the RichEdit the buffer was to small.]
 [Error: Optimal buffer size decrecied to a to low size !!]
 [Internal error !! (lExtraRead >= 0)]

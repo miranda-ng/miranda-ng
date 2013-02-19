@@ -40,8 +40,6 @@ Plynule přejít mezi zobrazením a skrytím
 Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
-[000%]
-000 %
 [Active opacity:]
 Aktivní okno:
 [Show Avatars]
@@ -64,8 +62,6 @@ Barva pozadí:
 Barva výběru:
 [Use background bitmap]
 Použít na pozadí obrázek
-[...]
-...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -140,10 +136,6 @@ Výška
 Přehled režimů zobrazení
 [Include protocols]
 Včetně protokolů
-[+]
-
-[-]
--
 [New]
 Nový
 [Include groups]
@@ -610,8 +602,6 @@ Přesunout nahoru
 Přesunout dolů
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 
-[&¤]
-
 [E&xit]
 U&končit
 [&Status]
@@ -694,14 +684,14 @@ Změna metakontaktu (přesun)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 Chcete přidat kontakt '%s' do metakontaktu '%s'?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
-[Contact List/Contact names]
-Seznam kontaktů/Jména kontaktů
-[Contact List/Row Items]
-Seznam kontaktů/Položky řádků
-[Contact List/Frame texts]
-Seznam kontaktů/Texty rámečků
-[Contact List/Special colours]
-Seznam kontaktů/Speciální barvy
+[Contact names]
+Jména kontaktů
+[Row Items]
+Položky řádků
+[Frame texts]
+Texty rámečků
+[Special colours]
+Speciální barvy
 [Standard contacts]
 Standardní kontakty
 [Away contacts]
@@ -784,6 +774,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]
@@ -1021,6 +1013,8 @@ Výchozí skin
 Nesdružené kontakty
 [And]
 AND
+[Or]
+OR
 [Older than]
 starší než
 [Newer than]

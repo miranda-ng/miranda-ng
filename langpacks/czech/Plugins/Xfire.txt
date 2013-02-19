@@ -121,12 +121,8 @@ Název:
 
 [IP:]
 IP:
-[255.255.255.255]
-
 [Port:]
 Port:
-[27770]
-
 [Userdetails]
 
 [dufte]
@@ -167,8 +163,6 @@ Procházet ...
 
 [Game id:]
 
-[?]
-?
 [Send game id:]
 
 [Statusmessage for Xfire, if this game will be started:]
@@ -239,6 +233,8 @@ Soubor xfire_games.ini byl aktualizován.
 [Protocol icon]
 Ikona protokolu
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+
+[Friends of Friends Playing]
 
 [Login failed.]
 
@@ -383,6 +379,8 @@ Skrytý
 Informační okno
 [Popup]
 Oznámení
+[No]
+Ne
 [On every start]
 Při každém startu
 [Daily]

@@ -12,8 +12,6 @@
 Účty
 [Units]
 Jednotky
-[0]
-
 [Clear statistics]
 
 [Notification]
@@ -51,6 +49,10 @@ Odstup mezi řádky:
 ;file \plugins\TrafficCounter\src\statistics.c
 [Bytes]
 bajtů
+[KB]
+
+[MB]
+
 [Adaptive]
 
 [Hourly]

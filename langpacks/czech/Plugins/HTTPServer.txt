@@ -69,8 +69,6 @@ Upozornění
 
 [Default download limit]
 
-[1]
-
 [&Edit share]
 
 [&Remove share]

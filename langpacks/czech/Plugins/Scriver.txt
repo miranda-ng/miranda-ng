@@ -69,8 +69,6 @@ Zobrazit indikátor průběhu přenosu
 Povolit průhlednost
 [active]
 Aktivní
-[100%]
-100 %
 [inactive]
 Neakt.
 [Min input area size]
@@ -223,8 +221,6 @@ Zvýrazněná slova (masky jsou povoleny)
 Uložit do souboru
 [Location]
 Umístění
-[...]
-...
 [Trim to]
 Max.
 [kB]
@@ -515,6 +511,8 @@ Poslední zpráva přijata %s v %s.
 ;file \plugins\Scriver\src\msglog.cpp
 [Unknown Contact]
 Neznámý kontakt
+[Me]
+Já
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
 
 [to tiny bits, in Thy mercy]
@@ -630,6 +628,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]

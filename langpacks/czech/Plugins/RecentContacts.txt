@@ -25,3 +25,4 @@ Ignorovat kontakt
 
 [Show Recent Contacts]
 
+;file \plugins\RecentContacts\src\RecentContacts.h

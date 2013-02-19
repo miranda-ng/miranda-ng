@@ -1,5 +1,4 @@
 ﻿[Notify of birthdays:]
-[  ]
 [days in advance and]
 [Notify for]
 [afterwards]

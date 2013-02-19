@@ -96,6 +96,8 @@ Chyba Yahoo
 Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
 
+[Me]
+Já
 [Others]
 Ostatní
 [&Invite user...]
@@ -168,6 +170,8 @@ Filtrování
 Nová pošta
 [%s plugin connections]
 %s - spojení se serverem
+[ID]
+ID
 [Please enter your yahoo id in Options/Network/Yahoo]
 Zadejte prosím svůj identifikátor v nastavení protokolu.
 [Please enter your yahoo password in Options/Network/Yahoo]

@@ -22,10 +22,6 @@ Historie avatarů
 Statický
 [Open Folder]
 Otevřít složku
-[<]
-
-[>]
-
 [Store this user's old avatars in disk]
 Ukládat avatary kontaktu na disk
 [Log this user's avatars changes to history]

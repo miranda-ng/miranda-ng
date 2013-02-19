@@ -2,7 +2,6 @@
 [HotKey1]
 [Divider:]
 [Info:]
-[&¤]
 [Nowhere]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]

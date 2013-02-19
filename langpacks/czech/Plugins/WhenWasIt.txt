@@ -10,8 +10,6 @@ Přidává možnost upozornění na narozeniny.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
 
-[  ]
-
 [Popups]
 Oznámení
 [Popup timeout:]
@@ -192,6 +190,8 @@ Přezdívka: %s, zbývá dnů: %d
 
 [Birthday - %s]
 Narozeniny: %s
+[He]
+On
 [She]
 Ona
 [He/She]
@@ -237,5 +237,6 @@ Upozornění
 
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 
+;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 

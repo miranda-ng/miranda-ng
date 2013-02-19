@@ -12,8 +12,6 @@
 Poslat kontakty
 [&A]
 
-[6]
-
 [&D]
 
 [&H]
@@ -59,3 +57,13 @@ Kontakty
 Kontakty (příchozí)
 [Outgoing Contacts]
 Kontakty (odchozí)
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Přidat do seznamu natrvalo
+[View User's Details]
+Zobrazit osobní údaje
+[View User's History]
+Zobrazit historii
+[User Menu]
+Uživatelské menu
+;file \plugins\ContactsPlus\src\send.cpp

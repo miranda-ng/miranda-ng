@@ -52,8 +52,6 @@ Zprávy zobrazit v následujícím formátu:
 Značky je třeba umístit mezi #. Příklad: #<autor>#
 [Reset]
 Reset
-[?]
-?
 [0 - check manually]
 
 ;file \plugins\NewsAggregator\Src\Icons.cpp

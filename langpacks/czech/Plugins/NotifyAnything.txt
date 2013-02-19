@@ -27,8 +27,9 @@ Port:
 
 [Password:]
 Heslo:
-[...]
-...
+;file \plugins\NotifyAnything\src\common.h
+[NotifyAnything]
+
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
 
@@ -58,8 +59,6 @@ Heslo:
 
 [Error]
 Chyba
-[NotifyAnything]
-
 ;file \plugins\NotifyAnything\src\options.cpp
 [Services]
 Služby

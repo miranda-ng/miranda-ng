@@ -155,8 +155,6 @@ Soubor
 Funkce OutputDebugString()
 [File]
 Soubor
-[...]
-...
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
 
 [Run now]
@@ -397,8 +395,6 @@ Klávesové zkratky
 Účty\nKonfigurace nebo založení účtu
 [Account information:]
 Informace o účtu:
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-
 [Additional:]
 Další možnosti:
 [Configure network...]
@@ -767,8 +763,6 @@ Plynule přejít mezi zobrazením a skrytím
 Povolit průhlednost seznamu kontaktů
 [Inactive opacity:]
 Neaktivní okno:
-[000%]
-000 %
 [Active opacity:]
 Aktivní okno:
 [Items]
@@ -875,8 +869,6 @@ Je-li okno částečně zakryto, zobrazit na popředí
 Okno
 [Contact list background:]
 Pozadí seznamu kontaktů
-[&¤]
-
 [&Status]
 &Stav
 [&Offline\tCtrl+0]
@@ -910,8 +902,6 @@ Soubory:
 Vyberte &další...
 [Total size:]
 Celková velikost:
-[6]
-
 [&D]
 
 [&H]
@@ -1770,6 +1760,8 @@ Offline
 Online
 [Away]
 Na chvíli pryč
+[NA]
+Nejsem tady
 [Occupied]
 Nemám čas
 [DND]
@@ -1841,6 +1833,8 @@ Přerušeno
 Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
 [File Received]
 Soubor přijat
+[of]
+z
 [Request sent, waiting for acceptance...]
 Žádost odeslána, čekání na potvrzení...
 [Waiting for connection...]
@@ -2111,6 +2105,9 @@ Jméno Příjmení
 '(neznámý kontakt)'
 [Contact names]
 Jména kontaktů
+;file \src\modules\clist\genmenu.cpp
+[Menu Icons]
+Nabídky
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Nabídky
@@ -2336,6 +2333,14 @@ Verze
 [Plugins]
 Doplňky
 ;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+POZOR!!! Vybraný účet bude smazán. V důsledku to znamená, že bude odstraněn seznam kontaktů daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybraný účet?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Vybraný účet byl úspěšně zaktualizován a nyní ho už zbývá jen aktivovat, což vyžaduje restart Mirandy.\n\nPomocí tlačítka 'Ano' provedete restart, kliknutím na tlačítko 'Ne' lze aktualizovat další účet.
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+Tento účet používá starší generaci doplňku pro podporu daného protokolu. Konfigurovat ho můžete jen v okně s nastavením pro celou Mirandu.
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nový účet ve vybrané síti, upravit stávající nebo naopak některý smazat.\n\nChcete-li založit nový účet, klikněte na tlačítko \"plus\" v levém dolním rohu okna. Pokud si přejete upravit stávající účet, vyberte požadovaný ze seznamu.
 [Create new account]
 Zřídit nový účet
 [Editing account]
@@ -2450,6 +2455,8 @@ Hlavní nabídka
 Opustit diskusi
 [Move to Group]
 Přesunout do skupiny
+[On]
+Zap
 [Off]
 Vyp
 [Running core plugin]

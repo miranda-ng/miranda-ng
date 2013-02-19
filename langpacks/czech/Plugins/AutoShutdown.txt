@@ -48,8 +48,6 @@ Ukončit po přechodu do neč&innosti
 Nastavit...
 [Shutdown when &prozessor usage drops below:]
 Ukončit pokud vytížení &procesoru klesne pod:
-[%]
-%
 [(current: 0%)]
 
 [Shutdown when all contacts are &offline]

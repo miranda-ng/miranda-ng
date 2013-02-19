@@ -36,8 +36,6 @@ sek.
 
 [Engine]
 Rozhraní
-[...]
-...
 [Base of remarks]
 
 [Reload]

@@ -34,8 +34,6 @@ Možnosti
 
 [Default]
 Výchozí
-[+]
-
 [Invert current state]
 
 [Switch off]
@@ -76,6 +74,9 @@ Vyřízeno
 Pravé tlačítko
 [Preview]
 Náhled
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Oznámení
@@ -87,7 +88,3 @@ Oznámení
 Komunikace
 [PopUps]
 Oznámení
-;file \plugins\ChangeKeyboardLayout\src\options.cpp
-[ChangeKeyboardLayout]
-
-;file \plugins\ChangeKeyboardLayout\src\text_operations.cpp

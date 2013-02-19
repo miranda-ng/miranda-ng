@@ -10,24 +10,6 @@
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Seznam rozš. stavů
-[A]
-
-[M]
-
-[D]
-
-[F]
-
-[U]
-
-[I]
-
-[N]
-S
-[C]
-
-[O]
-
 [No items available in the database.\nClick the Add button to define some.]
 Žádné položky nenalezeny.\nKlikněte na tlačítko Přidat pro vytvoření nové.
 [Add/Modify Custom Status]

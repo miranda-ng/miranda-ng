@@ -7,7 +7,6 @@
 [Bring to front]
 [Bring to front every]
 [Hide when contact list is shown]
-[100 %]
 [Draw border]
 [Left-top edges color:]
 [Right-bottom eges color:]

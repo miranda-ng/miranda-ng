@@ -1,6 +1,5 @@
 ﻿[Account Connection]
 [Accounts to check]
-[,]
 [x]
 [Specify settings for each account]
 [Use same settings for all accounts]

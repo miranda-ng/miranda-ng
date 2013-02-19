@@ -2,6 +2,6 @@
 [No sounds when:]
 [No SysTray blink when:]
 [No CLIST blink when:]
-[Zero Notifications]
 [Disable &Sounds]
 [Enable &Sounds]
+[Zero Notifications]

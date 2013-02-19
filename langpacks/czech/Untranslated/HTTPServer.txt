@@ -26,7 +26,6 @@
 [Total connection limit]
 [Connections per user limit]
 [Default download limit]
-[1]
 [&Edit share]
 [&Remove share]
 [&Open in Browser]
