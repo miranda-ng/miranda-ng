@@ -172,16 +172,18 @@ INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE optDi = {0};
-	optDi.cbSize = sizeof(optDi);
-	optDi.position = 920000000;
-	optDi.ptszTitle = LPGENT("ClientChangeNotify");
-	optDi.pfnDlgProc = PopupOptDlg;
-	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
-	optDi.hInstance = g_hInstance;
-	optDi.ptszGroup = LPGENT("PopUps");
-	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	Options_AddPage(wParam, &optDi);
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		OPTIONSDIALOGPAGE optDi = {0};
+		optDi.cbSize = sizeof(optDi);
+		optDi.position = 920000000;
+		optDi.ptszTitle = LPGENT("ClientChangeNotify");
+		optDi.pfnDlgProc = PopupOptDlg;
+		optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
+		optDi.hInstance = g_hInstance;
+		optDi.ptszGroup = LPGENT("PopUps");
+		optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		Options_AddPage(wParam, &optDi);
+	}
 	return 0;
 }
 

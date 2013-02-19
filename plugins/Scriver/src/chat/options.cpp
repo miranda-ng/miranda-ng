@@ -759,7 +759,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 
 static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	if (g_dat->popupInstalled) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		OPTIONSDIALOGPAGE odp = {0};
 		odp.cbSize = sizeof(odp);
 		odp.position = 910000002;

@@ -225,14 +225,16 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 
 int onRegisterPopOptions(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
-	odp.pszTitle = (char*)szModuleName;
-	odp.pszGroup = LPGEN("PopUps");
-	odp.pfnDlgProc = PopOptionsDlgProc;
-	Options_AddPage(wParam, &odp);
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		OPTIONSDIALOGPAGE odp = {0};
+		odp.cbSize = sizeof(odp);
+		odp.hInstance = g_hInst;
+		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
+		odp.pszTitle = (char*)szModuleName;
+		odp.pszGroup = LPGEN("PopUps");
+		odp.pfnDlgProc = PopOptionsDlgProc;
+		Options_AddPage(wParam, &odp);
+	}
 	return 0;
 }
 
