@@ -468,7 +468,7 @@ int LoadSkinIcons(void)
 	//
 	for (i=0; i < SIZEOF(mainIcons); i++) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
-		sid.pszSection = mainIcons[i].section == NULL ? "Main Icons" : (char*)mainIcons[i].section;
+		sid.pszSection = mainIcons[i].section == NULL ? LPGEN("Main Icons") : (char*)mainIcons[i].section;
 		sid.pszDescription = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
 		mainIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
