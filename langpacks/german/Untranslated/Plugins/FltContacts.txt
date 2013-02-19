@@ -1,0 +1,5 @@
+﻿[Floating Contacts plugin for Miranda.]
+[ms]
+[100 %]
+[...]
+[Floating Contacts]

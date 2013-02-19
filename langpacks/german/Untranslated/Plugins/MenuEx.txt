@@ -1,0 +1,7 @@
+﻿[Enter an authorization request]
+[XStatus message]
+[Activity title]
+[Activity text]
+[Copy xStatus Message]
+[User Online]
+[Please authorize me to add you to my contact list.]

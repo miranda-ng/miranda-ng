@@ -1,0 +1,6 @@
+﻿[Fingerprint overlays icons]
+[Use alternative (old style) overlays]
+[Unicode overlay]
+[Secure overlays]
+[Multi-protocol clients]
+[Fingerprint]

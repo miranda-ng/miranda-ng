@@ -1,0 +1,8 @@
+﻿[EmLan protocol - donate author please]
+[This window is shown only once]
+[Select your IP address]
+[LAN Settings]
+[Use computer name]
+[Select your name]
+[User name or '*']
+[E-mage LAN protocol]

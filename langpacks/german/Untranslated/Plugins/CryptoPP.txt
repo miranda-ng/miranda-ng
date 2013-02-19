@@ -1,0 +1,3 @@
+﻿[GnuPG Plugin - Passphrase]
+[Ok]
+[GnuPG Plugin - Select public key]

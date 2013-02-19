@@ -1,0 +1,8 @@
+﻿[Shows a notification when someone in your contact list changes his client.]
+[Client change notifications:]
+[Never, ignore client changes for this contact]
+[Always except when client change notifications are disabled globally]
+[Always, even when client change notifications are disabled globally]
+[Use global settings (default)]
+[ClientChangeNotify]
+[Can't open log file ]

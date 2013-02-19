@@ -1,0 +1,7 @@
+﻿[Go to the "Customize -> Folders" to change settings]
+[Miranda Databases]
+[Database/Database Backups]
+["My Documents" folder for currently logged-on Windows user]
+["Desktop" folder for currently logged-on Windows user]
+[Select Backup Folder]
+[Error Creating Backup Folder]

@@ -1,0 +1,5 @@
+﻿[un4seen's BASS interface Miranda NG plugin.]
+[Bass Interface]
+[Frame Background]
+[Sounds enabled]
+[Sounds disabled]

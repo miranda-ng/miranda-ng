@@ -1,0 +1,7 @@
+﻿[No more spam! Robots can't go! Only human beings invited!]
+[Vars]
+[Disable protection for following accounts:]
+[StopSpam]
+[StopSpam automatic message:\r\n]
+[Not In List]
+[nospam]
