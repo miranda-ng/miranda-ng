@@ -13,7 +13,7 @@
 //* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
 //* Usage:     cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"  *//
-//* Usage:     cscript /nologo translate.js /untranslated:"yes" output untranslated_ files*//
+//* Usage:     cscript /nologo translate.js /untranslated:"yes|path"  untranslated strings*//
 //* Note:      script will use following sequense to find a translation for string:       *//
 //* 1) Try to get translation from a same file name. Example: /langpack/english/plugin/   *//
 //* /TabSRMM.txt strings will be checked in file named TabSRMM.txt in folder from /path:  *//
@@ -70,8 +70,16 @@ if (WScript.Arguments.Named.Item("log")) log=true;
 // if console param /noref: specified, put it to var noref. To remove reff's to files, specifry /noref:"yes"
 if (WScript.Arguments.Named.Item("noref")) noref=true;
 
-// if console param /untranslated: specified, put it to var untranslated. To output untranslated_*  files, specifry /untranslated:"yes"
-if (WScript.Arguments.Named.Item("untranslated")) untranslated=true;
+// if console param /untranslated: specified, put it to var untranslated. To output untranslated_*  files, specifry /untranslated:"yes", or specify a path to output untranslated files folder
+if (WScript.Arguments.Named.Item("untranslated")) {
+    untranslated=true;
+    UnTranslatedPath=WScript.Arguments.Named.Item("untranslated")
+    if (WScript.Arguments.Named.Item("untranslated").toLowerCase()!="yes") {
+        if (!FSO.FolderExists(UnTranslatedPath)) {
+        WScript.Echo("Output folder "+UnTranslatedPath+" does not exist!\nPlease, create it first!");
+        WScript.Quit();}
+        }
+    };
 
 // if console pararm /outpfile:"\path\filename.txt" given, put it to var outfile.
 if (WScript.Arguments.Named.Item("outfile")) {
@@ -136,25 +144,8 @@ full_langpack_array=new Array;
 if (log) WScript.Echo("Translating Core");
 //Call function for translate core template
 TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Translated_Core_Array,UnTranslated_Core_Array);
-//var with translated and untranslated core template file path
-Translated_Core_File=trunk+"\\langpacks\\english\\translated_=CORE=.txt";
-UnTranslated_Core_File=trunk+"\\langpacks\\english\\untranslated_=CORE=.txt";
-//if "out" specified, redefine output to this path
-if (out) {
-    Translated_Core_File=out+"\\=CORE=.txt";
-    UnTranslated_Core_File=out+"\\untranslated_=CORE=.txt";
-    }
-//output traslated core into file, if outfile not specified
-if (!outfile) {
-    WriteToUnicodeFile(Translated_Core_Array,Translated_Core_File);
-    //if untranslated=true, output to file
-    if (untranslated) WriteToUnicodeFile(UnTranslated_Core_Array,UnTranslated_Core_File);
-    }
-//loggin output
-if (log & !outfile) WScript.Echo("Output to:\r\n"+Translated_Core_File+"\r\n"+UnTranslated_Core_File);
-//if output to full langpack, concatenate arrays;
-if (outfile) full_langpack_array=full_langpack_array.concat(Translated_Core_Array);
-
+//output core file, if needed.
+OutputFiles(Translated_Core_Array,UnTranslated_Core_Array,"=CORE=.txt")
 //Init array of template files
 TemplateFilesArray=new Array;
 //Find all template files and put them to array
@@ -169,28 +160,11 @@ filesenum=new Enumerator(TemplateFilesArray);
      //curfile is our current file in files enumerator
      curfile=filesenum.item();
      //Log output to console
-     if (log) WScript.Echo("translating "+curfile);
-     //path to result files, trunslated and untranslatd
-     traslatedtemplatefile=trunk+"\\langpacks\\english\\plugins\\translated_"+FSO.GetFileName(curfile);
-     untranslatedfile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FSO.GetFileName(curfile);
-     //if out key specified, output to this folder
-     if (out) {
-        traslatedtemplatefile=out+"\\"+FSO.GetFileName(curfile);
-        untranslatedfile=out+"\\untranslated_"+FSO.GetFileName(curfile);
-        }
+     if (log) WScript.Echo("translating:     "+curfile);
      //now put strings from template and translations into array
      TranslateTemplateFile(curfile,TranslatedTemplate,UnTranslatedStrings);
-     //Write array into file, if outfile not specified
-     if (!outfile) {
-        WriteToUnicodeFile(TranslatedTemplate,traslatedtemplatefile);
-        //Write untranslated array into file, if /untranslated specified and there is something in array
-        if (untranslated & UnTranslatedStrings.length>0) WriteToUnicodeFile(UnTranslatedStrings,untranslatedfile);
-        }
-     //if we will output one file only, concatenate array
-     if (outfile) full_langpack_array=full_langpack_array.concat(TranslatedTemplate);
-     //Log output to console
-     if (log & !outfile & !untranslated) WScript.Echo("Output to: "+traslatedtemplatefile);
-     if (log & !outfile & untranslated) WScript.Echo("Output to:\r\n"+traslatedtemplatefile+"\r\n"+untranslatedfile);
+     //output files, if need
+     OutputFiles(TranslatedTemplate,UnTranslatedStrings,FSO.GetFileName(curfile))
      //move to next file
      filesenum.moveNext();
     };
@@ -205,6 +179,42 @@ if (log) WScript.Echo("Translation end");
 //*********************************************************************************//
 //                                    Functions                                   *//
 //*********************************************************************************//
+
+//output to files. Checking params, and output file(s).
+function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
+    //define default path to files in "langpacks\english\plugins"
+    TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
+    UnTranslatedFile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FileName
+    
+    //redefine path to files, if FileName is a =CORE=.txt
+    if (FileName=="=CORE=.txt") {
+        TraslatedTemplateFile=trunk+"\\langpacks\\english\\translated_"+FileName;
+        UnTranslatedFile=trunk+"\\langpacks\\english\\untranslated_"+FileName;
+        }
+    
+    //redefine path to files, if /out specified
+    if (out) {
+        TraslatedTemplateFile=out+"\\"+FileName;
+        UnTranslatedFile=out+"\\untranslated_"+FileName;
+        }
+    
+    // output translated file if /out and /outfile ommited, or if /out specified
+    if ((!out && !outfile) || out) {
+        if (log) WScript.Echo("Output to file:  "+TraslatedTemplateFile);
+        WriteToUnicodeFile(TranslatedArray,TraslatedTemplateFile);
+        }
+    
+    //Write untranslated array into file, if /untranslated specified and there is something in array
+    if (untranslated & UntranslatedArray.length>0) {
+        if (UnTranslatedPath!="yes") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
+        if (log) WScript.Echo("Untranslated in: "+UnTranslatedFile);
+        WriteToUnicodeFile(UntranslatedArray,UnTranslatedFile);
+        }
+    
+    //if we will output one file only, concatenate array
+    if (outfile) full_langpack_array=full_langpack_array.concat(TranslatedArray);
+     
+}
 
 //when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are uselessg
 function checkparams() { 
