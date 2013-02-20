@@ -2,7 +2,7 @@
 ;  File: buddyexpectator.dll
 ;  Module: Buddyexpectator plugin
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
-Дадатак апавяшчае пра вяртанне кантакту ці яго працяглай адсутнасці
+Убудова апавяшчае пра вяртанне кантакту ці яго працяглай адсутнасці.
 [Buddy Expectator]
 Чакаю цябе
 [has gone online for the first time.]

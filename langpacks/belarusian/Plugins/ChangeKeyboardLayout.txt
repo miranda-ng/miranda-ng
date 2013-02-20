@@ -2,9 +2,9 @@
 ;  File: ChangeKeyboardLayout.dll
 ;  Module: Change Keyboard Layout
 [Plugin for changing keyboard layout of text (multilayout).]
-Дадатак для змены раскладак тэксту
+Убудова для змены раскладак тэксту.
 [Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
-Усталюеце канфігурацыйныя радкі для невядомых раскладак(Дадаткі->Змена раскладак)!
+Усталюйце канфігурацыйныя радкі для невядомых раскладак(Дадаткі->Змена раскладак)!
 [Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
 Канфігурацыйныя радкі вядомых раскладак заменены. Адрэдагуйце, калі ласка, радкі для невядомых радкоў, калі такія маюцца.
 [Options:]

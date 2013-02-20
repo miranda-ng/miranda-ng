@@ -1,6 +1,5 @@
 ﻿#muuid {f0fdf73a-753d-499d-8dba-336db79cdd41}
 ;  File: AdvancedAutoAway.dll
-;  Plugin: Advanced Auto Away
 [Auto Away General]
 AAA: налады
 [Ignore caps-lock, num-lock and scroll-lock keys]
@@ -28,7 +27,7 @@ AAA: кіравала
 [Only set if current status is]
 Толькі калі статут:
 [An Auto Away module with some more options than the original.]
-AdvancedAutoAway - модуль з пашыраным наборам функцый.
+AutoAway - убудова з пашыраным наборам функцый.
 [Auto Away]
 Адсутнасць
 [minutes of %s mode]
@@ -57,9 +56,9 @@ AAA: статутныя паведамленні
 толькі пры неактыўнасці
 [Reset status]
 Скід статуту
-[Specify settings for each protocol]
-Налады для кожнага пратаколу
-[Use same settings for all protocols]
-Агульныя налады для ўсіх пратаколаў
+[Specify settings for each account]
+Асабіста для кожнага конту
+[Use same settings for all accounts]
+Агульна для ўсіх контаў
 [after]
 праз

@@ -10,7 +10,7 @@
 [%s\n%s just turned %d.]
 %s\n%s выканалася %d
 [DTB]
-Дзён да ІНШ
+Дзён да ДН
 [Set birthday for %s:]
 Дзень нараджэння %s
 [WhenWasIt]
@@ -47,8 +47,8 @@
 Дні нараджэння
 [When Was It]
 Дні нараджэння
-[Notify of birthdays using:]
-Паведамляць пра дні нараджэння:
+[Notify of birthdays:]
+Паведаміць пра дзень нараджэння:
 [Don't show popups for subcontacts]
 Не паказваць для sub-кантактаў
 [Show popup when no birthdays are near]

@@ -8,4 +8,4 @@
 [Note: At startup Miranda NG will use current profile]
 Нататка: Пры запуску будзе скарыстаны бягучы профіль
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
-Гэты модуль дазваляе ўключыць/адключыць загрузку Miranda NG пры старце сістэмы.
+Гэтая ўбудова дазваляе ўключыць/адключыць загрузку Miranda NG пры старце сістэмы.

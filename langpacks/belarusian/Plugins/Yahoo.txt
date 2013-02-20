@@ -2,7 +2,7 @@
 ;  File: yahoo.dll
 ;  Module: Yahoo Protocol
 [Yahoo Protocol support for Miranda NG.]
-Падтрымка пратакола Yahoo.
+Убудова аадтрымкі пратакола Yahoo.
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Змены ўступяць пры наступным уваходзе ў сетку Yahoo.
 [New Mail (99 msgs)]

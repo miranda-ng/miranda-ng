@@ -1,49 +1,49 @@
-#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+п»ї#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;  File: wumf.dll
 ;  Module: Who Uses My Files
 [Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!]
-Скануе сетку ў пошуках карыстачоў, якія выкарыстоўваюць вашы файлы, адкрытыя для доступу па сетцы і апавяшчае ўсплывальнымі вокнамі.
+РЎРєР°РЅСѓРµ СЃРµС‚РєСѓ Сћ РїРѕС€СѓРєР°С… РєР°СЂС‹СЃС‚Р°С‡РѕСћ, СЏРєС–СЏ РІС‹РєР°СЂС‹СЃС‚РѕСћРІР°СЋС†СЊ РІР°С€С‹ С„Р°Р№Р»С‹, Р°РґРєСЂС‹С‚С‹СЏ РґР»СЏ РґРѕСЃС‚СѓРїСѓ РїР° СЃРµС‚С†С‹ С– Р°РїР°РІСЏС€С‡Р°Рµ СћСЃРїР»С‹РІР°Р»СЊРЅС‹РјС– РІРѕРєРЅР°РјС–.
 [WUMF: Who Use My Files?]
-Хто выкарыстоўвае мае файлы?
+РҐС‚Рѕ РІС‹РєР°СЂС‹СЃС‚РѕСћРІР°Рµ РјР°Рµ С„Р°Р№Р»С‹?
 [WUMF: Show connections]
-WUMF: Паказаць падлучэнні
+WUMF: РџР°РєР°Р·Р°С†СЊ РїР°РґР»СѓС‡СЌРЅРЅС–
 [Disable WUMF popups]
-Выключыць WUMF вокны
+Р’С‹РєР»СЋС‡С‹С†СЊ WUMF РІРѕРєРЅС‹
 [Enable WUMF popups]
-Уключыць WUMF вокны
+РЈРєР»СЋС‡С‹С†СЊ WUMF РІРѕРєРЅС‹
 [Popup color settings]
-Налады колеру PopUp
+РќР°Р»Р°РґС‹ РєРѕР»РµСЂСѓ PopUp
 [Choose colors]
-Абраць колер
+РђР±СЂР°С†СЊ РєРѕР»РµСЂ
 [Use default PopUp colors]
-Колеры PopUp
+РљРѕР»РµСЂС‹ PopUp
 [Popup delay settings]
-Налады паказу PopUp
+РќР°Р»Р°РґС‹ РїР°РєР°Р·Сѓ PopUp
 [Choose delay time]
-Наладзіць самому
+РќР°Р»Р°РґР·С–С†СЊ СЃР°РјРѕРјСѓ
 [Show infinitely]
-Увесь час
+РЈРІРµСЃСЊ С‡Р°СЃ
 [Default PopUp delay]
-Як у PopUp
+РЇРє Сѓ PopUp
 [File access filter && logging settings]
-Налады фільтраў часопіса
+РќР°Р»Р°РґС‹ С„С–Р»СЊС‚СЂР°Сћ С‡Р°СЃРѕРїС–СЃР°
 [Log into text file]
-Пісаць у файл
+РџС–СЃР°С†СЊ Сѓ С„Р°Р№Р»
 [Log folders access]
-Доступ да тэчак
+Р”РѕСЃС‚СѓРї РґР° С‚СЌС‡Р°Рє
 [Disabled options will be available in the next version]
-Будуць даступныя ў наступнай версіі
+Р‘СѓРґСѓС†СЊ РґР°СЃС‚СѓРїРЅС‹СЏ Сћ РЅР°СЃС‚СѓРїРЅР°Р№ РІРµСЂСЃС–С–
 [Alerts on folders access]
-Доступ да тэчак
+Р”РѕСЃС‚СѓРї РґР° С‚СЌС‡Р°Рє
 [Show current connections]
-Паказаць злучэнні
+РџР°РєР°Р·Р°С†СЊ Р·Р»СѓС‡СЌРЅРЅС–
 [Alert computer name with username]
-Паказваць імёны кампутараў разам з імёнамі карыстачоў
+РџР°РєР°Р·РІР°С†СЊ С–РјС‘РЅС‹ РєР°РјРїСѓС‚Р°СЂР°Сћ СЂР°Р·Р°Рј Р· С–РјС‘РЅР°РјС– РєР°СЂС‹СЃС‚Р°С‡РѕСћ
 [Alert files && folders in UNC format]
-Паказваць тэчкі і файлы ў UNC фармаце
+РџР°РєР°Р·РІР°С†СЊ С‚СЌС‡РєС– С– С„Р°Р№Р»С‹ Сћ UNC С„Р°СЂРјР°С†Рµ
 [Log computer name with username]
-Імёны кампутараў разам з імёнамі карыстачоў
+Р†РјС‘РЅС‹ РєР°РјРїСѓС‚Р°СЂР°Сћ СЂР°Р·Р°Рј Р· С–РјС‘РЅР°РјС– РєР°СЂС‹СЃС‚Р°С‡РѕСћ
 [Log files and folders in UNC format]
-Тэчкі і файлы ў UNC фармаце
+РўСЌС‡РєС– С– С„Р°Р№Р»С‹ Сћ UNC С„Р°СЂРјР°С†Рµ
 [WUMF: Current connections]
-WUMF: Бягучыя злучэнні
+WUMF: Р‘СЏРіСѓС‡С‹СЏ Р·Р»СѓС‡СЌРЅРЅС–

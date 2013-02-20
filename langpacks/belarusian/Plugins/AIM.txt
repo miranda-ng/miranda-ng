@@ -6,13 +6,13 @@
 [*Aim must be reconnected  for some option to take effect.]
 *AIM павінен быць перадалучаны, каб змены набылі моц.
 [AOL Instant Messenger (AIM) protocol support for Miranda NG.]
-Модуль пратаколу AOL Instant Messenger (AIM).
+Убудова пратаколу AOL Instant Messenger (AIM).
 [AIM Account Setup]
 Налады конта AIM
 [AIM Instant Idler]
 AIM Усталяваць Instant Idle
 [AIM Options]
-AIM Опцыі
+Налады AIM
 [Aim Profile Editing Dialog]
 Дыялог рэдагавання профіля AIM
 [Check Mail on Login]

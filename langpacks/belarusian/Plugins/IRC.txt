@@ -2,7 +2,7 @@
 ;  File: irc.dll
 ;  Module: IRC Protocol
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Падтрымка пратаколу Internet Relay Chat (IRC).
+Убудова падтрымкі пратаколу IRC.
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]

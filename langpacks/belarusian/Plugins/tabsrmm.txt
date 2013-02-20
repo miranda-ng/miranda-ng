@@ -1369,6 +1369,8 @@ ID карыстача ў панэлі статусу
 Або модуль узварушэння не ўсталяваны, або пратакол кантакту не падтрымлівае адпраўку падзеі ўзварушэння.
 [tabSRMM Information]
 Інфармацыя tabSRMM
+[U&se Popup colours]
+Колер плагіна PopUp
 [Contact not on list. You may add it...]
 Кантакт не ў спісе. Вы можаце дадаць яго...
 [\n\nClient: ]
@@ -1435,3 +1437,43 @@ ID карыстача ў панэлі статусу
 Метакантакт
 [Autoselect]
 Автўвыбар
+[You can add the user by user name or his id. Wildcards are allowed and recommended.]
+Дадайце карыстача па яго імені ці id. Можна выкарыстоўваць маскі.
+[TabSRMM exception]
+Памылка TabSRMM
+[Exit Miranda]
+Выйсці з Міранды
+[You have chosen to disable all event notifications for open message windows.]
+Вы адключылі ўсе паведамленні пра з'явы, якія адчыняюць гутарку.
+[Select container]
+Выбар кантэйнера
+[...is typing]
+...піша
+[...stopped typing]
+...скончыў пісаць
+[PopUps timeout]
+Паўза для вакна PopUp
+[About tabSRMM]
+Пра TabSRMM
+[No Message Sessions opened]
+Намя адчыненых гутарак
+[Queue manager]
+Кіраўнік чаргі
+[Incoming file (invalid format]
+Уваходны файл (няслушны фармат)
+[Unknown event]
+Невядомая з'ява
+[You cannot edit user notes when there are unsent messages]
+Вы не можаце правіць нататкі, калі ёсць не адпраўненныя паведамленні
+[No UID]
+няма UID
+[%s    Idle: %dh,%02dm]
+%s    Чаканне: %dh,%02dm
+[Expand or collapse the side bar]
+Разгарнуць і згарнуць бакавую панэль
+[ (set by %s on %s)]
+ (усталявана %s %s)
+[Only &one popup for each contact]
+Толькі адно вакно на кантакт
+[Custom]
+Указаць

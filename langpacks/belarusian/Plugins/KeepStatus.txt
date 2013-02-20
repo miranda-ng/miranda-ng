@@ -179,3 +179,13 @@ Dial-Up (прачытайце keepstatus.txt)
 (будзе "%s")
 [will be set to]
 будзе
+[Account Connection]
+Далучэнне конту
+[Accounts to check]
+Правяраць наступныя:
+[Max. account connecting time (secs)]
+Спрабаваць далучацца (сек):
+[Set account offline before a connection attempt]
+Адключыць конт перад далучэннем
+[Cancel all if a account connects from another location]
+Адмяніць, калі конт далучаны з другога месца

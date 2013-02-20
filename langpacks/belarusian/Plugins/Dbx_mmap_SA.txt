@@ -2,7 +2,7 @@
 ;  File: dbx_mmap_sa.dll
 ;  Module: Miranda SecuredMMAP database driver
 [Disk is full. Miranda will now shutdown.]
-Дыск перапоўнены. Miranda IM будзе зачынена.
+Дыск перапоўнены. Miranda будзе зачынена.
 [Database Features]
 Магчымасці БД
 [Set password]
@@ -12,7 +12,7 @@
 [Login to Miranda NG]
 Уваход у Miranda NG
 [Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
-Падтрымка базы дадзеных Miranda IM. Пашыраная мадыфікацыя з падтрымкай шыфравання.
+Падтрымка базы дадзеных. Пашыраная мадыфікацыя з магчымасцю шыфравання.
 [DB is already secured!]
 Профіль ужо зашыфраваны!
 [Please enter password for]
@@ -23,10 +23,6 @@
 Стары пароль
 [New password]
 Новы пароль
-[Crypto module hasn't been chosen, using first one found]
-Модуль шыфравання не абраны, выкарыстоўваецца першы знойдзены
-[Secure alghoritm developed in russian universities]
-Алгарытм шыфравання дадзеных, распрацаваны ў Расіі
 [Dll]
 Алгарытм
 [Notice]

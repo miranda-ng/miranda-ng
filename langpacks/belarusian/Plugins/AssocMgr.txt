@@ -76,7 +76,7 @@ Miranda NG не можа адкрыць спасылку
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
 [The File Association Manager Plugin can not be loaded. It requires Miranda NG %hs or later.]
-Модуль асацыяцый не можа быць загружаны. Патрабуецца версія Miranda NG %hs ці пазней.
+Убудова асацыяцый не можа быць загружаны. Патрабуецца версія Miranda NG %hs ці пазней.
 [%hs files]
 %hs файлы
 [Autostart Error]

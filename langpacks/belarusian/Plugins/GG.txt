@@ -2,7 +2,7 @@
 ;  File: gg.dll
 ;  Module: Gadu-Gadu protocol
 [Gadu-Gadu protocol support for Miranda NG.]
-Падтрымка пратаколу Gadu-Gadu.
+Убудова падтрымкі пратаколу Gadu-Gadu.
 [Public Info]
 Агульнае
 [Family name:]

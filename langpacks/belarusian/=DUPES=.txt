@@ -223,7 +223,7 @@ xСтатус %s
 [C&lear]
 Ачысціць
 [Can't find a contact list plugin you need clist_classic or clist_mw.]
-Модуль спісу кантактаў не знойдзены. Вам патрэбен clist_*.dll
+Убудова спісу кантактаў не знойдзена. Вам патрэбен clist_*.dll
 [Cantonese]
 Катанезійскі
 [Catalan; Valencian]
@@ -1891,7 +1891,7 @@ GMT-09:00 Аляска
 [Choose Contact]
 Абраць кантакт
 [Module]
-Модуль
+Ўбудова
 [wParam type]
 Тып wParam
 [lParam type]
@@ -2655,9 +2655,9 @@ Miranda вызначыла, што база пашкоджана. Пашкодж
 [%s (Too large increment)]
 %s (Занадта вялікае прырашчэнне)
 [%s (Module Name not unique)]
-%s (Імя модуля не ўнікальна)
+%s (Імя ўбудовы не ўнікальна)
 [%s (Module Offset not unique)]
-%s (Зрушэнне модуля не ўнікальна)
+%s (Зрушэнне ўбудовы не ўнікальна)
 [Copying database file...]
 Капіяванне файла базы...
 [Backups]
@@ -3951,7 +3951,7 @@ xСтатусы
 [Show protocol icon]
 Абразок пратаколу
 [Client (fingerprint required)]
-Кліент (патрэбен модуль fingerprint)
+Кліент (патрэбна ўбудова fingerprint)
 [Never]
 Ніколі
 [Use &unknown flag if country can not be determined]

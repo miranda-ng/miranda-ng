@@ -2,7 +2,7 @@
 ;  File: mra.dll
 ;  Module: mail.ru Agent
 [Mail.ru Agent (MRA) protocol support for Miranda NG.]
-Модуль пратаколу Mail.ru Агент (MRA).
+Убудова падтрымкі пратаколу Mail.ru Агент (MRA).
 [Create a new Mail.ru account]
 Ставрыць новы конт Mail.ru
 [Display &Inbox]

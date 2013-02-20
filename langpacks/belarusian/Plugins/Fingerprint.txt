@@ -14,7 +14,7 @@
 [Platform]
 Аперацыйная сістэма
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Fingerprint NG адлюстроўвае значкі кліентаў, выкарыстоўваных вашымі суразмоўцамі.
+Fingerprint NG адлюстроўвае значкі кліентаў, выкарыстованых вашымі суразмоўцамі.
 [Fingerprint overlays icons]
 Аверлэі значкоў кліентаў
 [Client icons]

@@ -1,6 +1,5 @@
-﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
-;  File: msg_export.dll
-;  Module: Message Export
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;  File: Msg_Export.dll
 [Exports every message, URL or File you receive to a text file.\r\nMessages are exported to one file per user, users may be set to use the same file.]
 Экспарт паведамленняў, спасылак ці прынятых файлаў у тэкставы файл.\r\n Паведамленні могуць экспартавацца як пакантактна, так і ў адзін агульны файл.
 [Open E&xported History]
@@ -133,6 +132,10 @@ WebPager ад:
 Пераназваць файл
 [Delete file]
 Выдаліць файл
+[Executable files]
+Прыкладанні
+[All files]
+Усе файлы
 [Export Protocols]
 Экспарт пратаколаў
 [Use UTF8 in new files]
@@ -143,3 +146,7 @@ UTF8 у новых файлах
 Экспарт паведамленняў 2
 [Message export (mod by ring0)]
 Экспарт паведамленняў (мод ад ring0)
+[History file for %s (%s format %s)]
+Файл гісторыі для  %s (%s фармат %s)
+[Additional]
+Дадаткова

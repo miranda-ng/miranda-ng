@@ -2,4 +2,4 @@
 ;  File: Omegle.dll
 ;  Plugin: Provides basic support for Omegle Chat protocol
 [Omegle protocol support for Miranda NG.]
-Падтрымка пратакола Omegle ў Miranda NG.
+Убудова падтрымкі пратакола Omegle ў Miranda NG.

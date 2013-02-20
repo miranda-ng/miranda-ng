@@ -2,7 +2,7 @@
 ;  File: msn.dll
 ;  Module: MSN Protocol
 [Microsoft Network (MSN) protocol support for Miranda NG.]
-Падтрымка пратакола Microsoft Network (MSN)
+Убудова падтрымкі пратакола Microsoft Network (MSN).
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
 [Setup Live &Alerts]

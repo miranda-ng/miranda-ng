@@ -16,17 +16,17 @@
 [Configure behaviour of your contact list.]
 Наладзьце паводзіны вашага спісу кантактаў.
 [Customize look&&feel of your chat windows here.]
-Наладзьце вонкавы выгляд вашага акна гутаркі.
+Наладзьце вонкавы выгляд вашага вакна гутаркі.
 [Ban those users and events, you are annoyed with.]
-Заблакуйце карыстачоў і падзеі, якія вам не падабаюцца.
+Заблакуйце карыстачоў і падзеі, якія вам не патрэбны.
 [Set your status messages and idle reporting.]
 Усталюйце статусныя паведамленні і паведамленні адсутнасці.
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
-Кіраванне вашымі дадатковымі модулямі.
+Кіраванне ўбудовамі Miranda NG.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас ёсць не захаваныя змены.\n Ці жадаеце вы іх ужыць перад пераключэннем?
 [Addons]
-Модулі
+Убудовы
 [Window behaviour:]
 Паводзіны спісу:
 [Status bar:]
@@ -40,7 +40,7 @@
 [List sorting:]
 Сартаванне спісу:
 [Window:]
-Акно паведамленняў:
+Вакно паведамленняў:
 [Esc closes sessions (minimizes window, if disabled)]
 Esc зачыняе сесію (інакш - згортвае)
 [Always pop up and activate new windows]

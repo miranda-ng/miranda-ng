@@ -1,8 +1,7 @@
 ﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
-;  File: avatarhist.dll
-;  Plugin: Avatar History
+;  File: avatarhist.dll, avatarhistW.dll
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
-Модуль захоўвае гісторыю змены аватараў кантактаў і паказвае ўсплывальныя вокны
+Ўбудова захоўвае гісторыю змены аватараў кантактаў і паказвае ўсплывальныя вокны.
 [Avatar History]
 Гісторыя аватараў
 [View Avatar History]
@@ -48,7 +47,7 @@
 [Store history in miranda history and all history avatars in same folder]
 Захоўваць гісторыю ў гісторыі Miranda і ўсе аватары ў адной тэчцы
 [History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
-Гісторыя захоўваецца ў БД Miranda. Яна можа быць адлюстравана ўбудаваным прагляднікам ці модулем History++ 
+Гісторыя захоўваецца ў БД Miranda. Яна можа быць адлюстравана ўбудаваным прагляднікам ці ўбудовай History++ 
 [All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Хэш Аватара>
 [Store history in miranda history and history avatars in per protocol folders]
@@ -119,3 +118,7 @@
 Успл. акно пры змене аватара
 [Use default colours for popups]
 Стандартныя колеры для вокнаў
+[Contact changed avatar]
+Кантакт змяніў выяву
+[Contact removed avatar]
+Кантакт выдаліў выяву

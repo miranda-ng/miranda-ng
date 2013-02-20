@@ -2,7 +2,7 @@
 ;  File: jabber.dll
 ;  Module: Jabber protocol
 [Jabber protocol support for Miranda NG.]
-Падтрымка пратакола Jabber.
+Убудова падтрымкі пратакола Jabber.
 [Register new user]
 Рэгістрацыя
 [Jabber Account Registration]
@@ -1347,5 +1347,15 @@ Jabber памылка
 Абярыце/увядзіце URL службы пошуку і націсніце >>
 [You have to be connected to server]
 Трэба далучэнне да сервера
-
-; Пошук
+[Please save list before activating]
+Перад акцівацыяй захавайце спіс
+[First, save the list]
+Спачатку захавайце спіс
+[Please save list before you make it the default list]
+Захавайце спіс перад тым, як зрабіць яго спісам па змаўчанні.
+[Unable to save list because you are currently offline.]
+Немагчыма захаваць спіс, спачатку далучыцеся.
+[No compatible file transfer machanism exist]
+Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
+[Protocol is offline or no jid]
+Конт не далучаны ці няма JID.

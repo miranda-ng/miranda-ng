@@ -1,6 +1,6 @@
 ﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;  File: watrack.dll
-;  Module: Winamp Track
+;  Module: Winamp Track |Unicode aware|
 [Clear xStatus before set new one]
 Чысціць хстатус перад усталёўкай новага
 [Emulate Multimedia keys]

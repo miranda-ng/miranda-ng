@@ -1,8 +1,8 @@
 ﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;  File: tlen.dll
 ;  Module: Tlen Protocol
-[Tlen protocol plugin for Miranda NG.]
-Падтрымка пратакола Tlen ў Miranda NG.
+[Tlen protocol support for Miranda NG.]
+Падтрымка пратаколу Tlen.
 [%s Web Messages]
 %s Web паведамленняў
 [...Connecting...]

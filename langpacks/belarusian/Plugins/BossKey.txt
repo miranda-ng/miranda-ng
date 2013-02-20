@@ -2,7 +2,7 @@
 ;  File: bosskey.dll
 ;  Module: Boss Key
 [Hide/Show Miranda]
-Схаваць/Паказаць Miranda IM
+Схаваць/Паказаць Miranda
 [Hide Miranda when:]
 Схаваць праграму калі:
 [Workstation is Locked (2000/XP+)]
@@ -12,7 +12,7 @@ Windows не актыўны
 [Miranda is inactive]
 Праграма неактыўная
 [Anti-Boss plugin.]
-Дазваляе па націску "гарачай клавішы" хаваць Miranda NG ад старонніх вачэй
+Дазваляе па націску "гарачай клавішы" хаваць Міранду ад старонніх вачэй.
 [BossKey]
 АнтыБос
 [(Previous Status)]
@@ -28,7 +28,7 @@ Windows не актыўны
 [When I press the hotkey, change status to:]
 Пры націску клавішы змяніць статус на:
 [(Current Status)]
-(Бягучы)
+(Цяперашні)
 [Be back soon!]
 Хутка вярнуся!
 [Go to Customize -> Hotkeys to change the hotkey]

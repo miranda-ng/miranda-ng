@@ -1,7 +1,7 @@
 ﻿;  File: XFire.dll
 ;  Module: XFire protocol
 [Xfire protocol support for Miranda NG.]
-Падтрымка пратакола XFire.
+Убудова падтрымкі пратакола XFire.
 [XFire Protocol]
 Пратакол XFire
 [Loginname:]

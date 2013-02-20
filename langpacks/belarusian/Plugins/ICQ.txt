@@ -17,8 +17,6 @@
 &Колеры Windows
 [Use system &icons]
 Сістэмныя значкі
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Патрабуецца Popup 1.0.1.9+, YAPP ці сумяшчальны модуль
 [Sample Note]
 Прыклад нататкі
 [Sample Warning]
@@ -37,12 +35,16 @@
 Стварыць конт на сайце ICQ
 [Login Server:]
 Сервер:
+[Default]
+Змаўчанні
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Для далучэння да выпадковага порта пакажыце порт 0. Спрабуйце порты 443 ці 80, калі ў вас праблемы з далучэннем праз проксі.
 [Secure Connection (SSL)]
 Бяспечнае злучэнне (SSL)
 [Secure (MD5) login]
 Бяспечны ўваход (MD5)
+[Legacy fix (for ICQ Groupware or IServerD only)]
+Альтэрнатыўныя серверы (толькі  ICQ Groupware і IServerD)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Падтрымліваць далучэнне (калі вы выкарыстоўваеце проксі-сервер і часта раз'ядноўваецеся)
 [Ignore concurrent error messages]
@@ -144,7 +146,7 @@
 [Only reply to status message request from visible contacts]
 Адказваць на запыт статуснага паведамлення толькі бачным кантактам
 [ICQ protocol support for Miranda NG.]
-Падтрымка пратаколу ICQ.
+Убудова падтрымкі пратаколу ICQ.
 [ICQ XStatus]
 хстатус ICQ
 [Show custom status details]
