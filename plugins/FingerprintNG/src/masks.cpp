@@ -56,7 +56,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 								_T("|Miranda*NG*0.93.3.2110*")
 								_T("|Miranda*NG*0.93.4.2450*")
 								_T("|Miranda*NG*0.93.5.3007*")
-								_T("|Miranda*NG*stable*"), 					_T("MirandaNG stable"),				IDI_MIRANDA_NG_STABLE,		MIRANDA_CASE			},
+								_T("|Miranda*NG*stable*"), 					LPGENT("MirandaNG stable"),				IDI_MIRANDA_NG_STABLE,		MIRANDA_CASE			},
 
 	{"client_Miranda_NG",		_T("|*nightly.miranda.im*")                                                                             	                                                                                                                                		
 								_T("|*Miranda*NG*"),						_T("MirandaNG"),					IDI_MIRANDA_NG,				MIRANDA_CASE			},
@@ -73,9 +73,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Miranda_05XX",		_T("*Miranda*0.5*"),						_T("MirandaIM v0.5.x.x"),			IDI_MIRANDA_05XX,			MIRANDA_CASE			},
 	{"client_Miranda_04XX",		_T("*Miranda*0.4*"),						_T("MirandaIM v0.4.x.x"),			IDI_MIRANDA_04XX,			MIRANDA_CASE			},
 
-	{"client_Miranda_old",		_T("*Miranda*0.?*"),						_T("MirandaIM (old versions)"),		IDI_MIRANDA_OLD,			MIRANDA_CASE			},
+	{"client_Miranda_old",		_T("*Miranda*0.?*"),						LPGENT("MirandaIM (old versions)"),		IDI_MIRANDA_OLD,			MIRANDA_CASE			},
 
-	{"client_Miranda_Unknown",	_T("*Miranda*"),							_T("Miranda (unknown)"),			IDI_MIRANDA_UNKNOWN,		MIRANDA_CASE			},
+	{"client_Miranda_Unknown",	_T("*Miranda*"),							LPGENT("Miranda (unknown)"),			IDI_MIRANDA_UNKNOWN,		MIRANDA_CASE			},
 
 //#############################################################################################################################################################################
 //#################################		MULTI-PROTOCOL	#######################################################################################################################
@@ -208,7 +208,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_SmartICQ",			_T("Smart*ICQ*"),							_T("SmartICQ"),						IDI_SMARTICQ,		  		ICQ_CASE,		TRUE	},
 	{"client_StrICQ",			_T("StrICQ*"),								_T("StrICQ"),						IDI_STRICQ,			  		ICQ_CASE,		TRUE	},
                                                                                                                                       	
-	{"client_spam",				_T("*spam*"),								_T("spam client"),					IDI_SPAM,			  		ICQ_CASE,		TRUE	},
+	{"client_spam",				_T("*spam*"),								LPGENT("spam client"),					IDI_SPAM,			  		ICQ_CASE,		TRUE	},
 	{"client_libicq2k",			_T("libicq*"),								_T("LibICQ/JIT"),					IDI_LIBICQ2000,		  		ICQ_CASE,		TRUE	},
 	{"client_TICQClient",		_T("*TICQ*Client*"),						_T("TICQClient (Delphi lib)"),		IDI_TICQ,			  		ICQ_CASE,		TRUE	},
                                                                                                                                       	
@@ -405,7 +405,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_mobber",			_T("*mobber*"),								_T("mobber"),						IDI_MOBBER,			 		JABBER_CASE,   		TRUE	},
 	{"client_myJabber",			_T("*myJabber*"),							_T("myJabber"),						IDI_MYJABBER,		 		JABBER_CASE,   		TRUE	},
 	{"client_orkut",			_T("*orkut*"),								_T("orkut"),						IDI_ORKUT,			 		JABBER_CASE,   		TRUE	},
-	{"client_pjc",				_T("|*PJC*|*pjc.googlecode.com*"),			_T("PHP Jabber Client"),			IDI_PJC,			 		JABBER_CASE,   		TRUE	},
+	{"client_pjc",				_T("|*PJC*|*pjc.googlecode.com*"),			LPGENT("PHP Jabber Client"),			IDI_PJC,			 		JABBER_CASE,   		TRUE	},
 	{"client_saje",				_T("*saje*"),								_T("saje"),							IDI_SAJE,			 		JABBER_CASE,   		TRUE	},
 	{"client_schuelervz",		_T("*schuelervz*"),							_T("SchulerVZ"),					IDI_SCHULERVZ,		 		JABBER_CASE,   		TRUE	},
 	{"client_studivz",			_T("*studivz*"),							_T("StudiVZ"),						IDI_STUDIVZ,		 		JABBER_CASE,   		TRUE	},
@@ -439,7 +439,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_KVIrc",			_T("*KVIrc*"),								_T("KVIrc"),						IDI_KVIRC,			  		IRC_CASE,	 		TRUE	},
 	{"client_Klient",			_T("*Klient*"),								_T("Klient"),						IDI_KLIENT,			  		IRC_CASE,	 		TRUE	},
 	{"client_Konversation",		_T("*Konversation*"),						_T("Konversation"),					IDI_KONVERSATION,	  		IRC_CASE,	 		TRUE	},
-	{"client_MP3Script",		_T("*MP3*Script*"),							_T("MP3 Script for mIRC"),			IDI_MP3_SCRIPT,		  		IRC_CASE,	 		TRUE	},
+	{"client_MP3Script",		_T("*MP3*Script*"),							LPGENT("MP3 Script for mIRC"),			IDI_MP3_SCRIPT,		  		IRC_CASE,	 		TRUE	},
 	{"client_NeoRaTrion",		_T("*NeoRa*Trion*"),						_T("NeoRa Trion"),					IDI_NEORATRION,		  		IRC_CASE,	 		TRUE	},
 	{"client_Nettalk",			_T("*Nettalk*"),							_T("Nettalk"),						IDI_NETTALK,		  		IRC_CASE,	 		TRUE	},
 	{"client_NoNameScript",		_T("*NoName*Script*"),						_T("NoNameScript"),					IDI_NONAME_SCRIPT,	  		IRC_CASE,	 		TRUE	},
@@ -522,12 +522,12 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#############################################################################################################################################################################
 	{"client_MRA_official",		_T("|magent*|Mail.ru Agent*official*")
 								_T("|Mail.ru Agent*PC*")
-								_T("|*agent.mail.ru*"),						_T("Mail.Ru Agent (official)"),		IDI_MAIL_RU_OFFICIAL, 		MRA_CASE,			TRUE	},
+								_T("|*agent.mail.ru*"),						LPGENT("Mail.Ru Agent (official)"),		IDI_MAIL_RU_OFFICIAL, 		MRA_CASE,			TRUE	},
 	{"client_MRA_Mobile",		_T("|wmagent*|MobileAgent*")
 								_T("|sagent*|Mail.ru Agent*Symbian*")
 								_T("|jagent*"),								_T("Mail.Ru Mobile Agent"),			IDI_MAIL_RU_MOBILE,	  		MRA_CASE,			TRUE	},
 	{"client_MRA_web",			_T("Web Agent*"),							_T("Mail.Ru Web Agent"),			IDI_MAIL_RU_WEBAGENT, 		MRA_CASE,			TRUE	},
-	{"client_MRA_unknown",		_T("Mail.ru Agent*"),						_T("Mail.Ru (unknown client)"),		IDI_MAIL_RU_UNKNOWN,  		MRA_CASE,			TRUE	},
+	{"client_MRA_unknown",		_T("Mail.ru Agent*"),						LPGENT("Mail.Ru (unknown client)"),		IDI_MAIL_RU_UNKNOWN,  		MRA_CASE,			TRUE	},
 
 //#############################################################################################################################################################################
 //#################################		YAHOO	###############################################################################################################################
@@ -571,7 +571,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_QQConcept",		_T("QQ*Concept*"),							_T("QQ Concept"),					IDI_QQCONCEPT,				QQ_CASE,			TRUE	},
 	{"client_QQCRM",			_T("QQ*CRM*"),								_T("QQ CRM"),						IDI_QQCRM,					QQ_CASE,			TRUE	},
 	{"client_QQSilver",			_T("QQ*Silverlight*"),						_T("QQ Silverlight"),				IDI_QQSILVER,				QQ_CASE,			TRUE	},
-	{"client_TM2008",			_T("|TM2008*|TM2009*|TM2010*"),				_T("TM 2008 and >"),				IDI_TM2008,					QQ_CASE						},
+	{"client_TM2008",			_T("|TM2008*|TM2009*|TM2010*"),				LPGENT("TM 2008 and >"),				IDI_TM2008,					QQ_CASE						},
 	{"client_TM",				_T("TM*"),									_T("TM"),							IDI_TM,						QQ_CASE						},
 	{"client_QQInt",			_T("QQ*International*"),					_T("QQ International"),				IDI_QQINT,					QQ_CASE						},
 	{"client_YamQQ",			_T("YamQQ*"),								_T("Yam QQ"),						IDI_YAMQQ,					QQ_CASE						},
@@ -581,12 +581,12 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#############################################################################################################################################################################
 //#################################		GADU-GADU 	###########################################################################################################################
 //#############################################################################################################################################################################
-	{"client_GG",				_T("|Gadu-Gadu*|GG*"),						_T("Gadu-Gadu client"),				IDI_GG,						GG_CASE						},
+	{"client_GG",				_T("|Gadu-Gadu*|GG*"),						LPGENT("Gadu-Gadu client"),				IDI_GG,						GG_CASE						},
 
 //#############################################################################################################################################################################
 //#################################		TLEN	###############################################################################################################################
 //#############################################################################################################################################################################
-	{"client_Tlen",				_T("*Tlen*"),								_T("Tlen.pl client"),				IDI_TLEN,					TLEN_CASE					},
+	{"client_Tlen",				_T("*Tlen*"),								LPGENT("Tlen.pl client"),				IDI_TLEN,					TLEN_CASE					},
 
 //#############################################################################################################################################################################
 //#################################		OTHER CLIENTS	#######################################################################################################################
@@ -597,11 +597,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_Pidgin",			_T("|*Pidgin*|*libpurple*|Purple*"),		_T("Pidgin (libpurple)"),			IDI_PIDGIN,			   		MULTI_CASE					},
 
-	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*"),				_T("Python-based clients"),			IDI_PYTHON,			   		MULTI_CASE					},
+	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*"),				LPGENT("Python-based clients"),			IDI_PYTHON,			   		MULTI_CASE					},
 
-	{"client_Jabber",			_T("*Jabber*client*"),						_T("Jabber client"),				IDI_JABBER,			   		JABBER_CASE,		TRUE	},
+	{"client_Jabber",			_T("*Jabber*client*"),						LPGENT("Jabber client"),				IDI_JABBER,			   		JABBER_CASE,		TRUE	},
 
-	{"client_XMPP",				_T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),		_T("XMPP client"),					IDI_XMPP,			   		JABBER_CASE					},
+	{"client_XMPP",				_T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),		LPGENT("XMPP client"),					IDI_XMPP,			   		JABBER_CASE					},
 
 	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),						IDI_TWITTER,		   		OTHER_PROTOS_CASE,	TRUE	},
 
@@ -615,9 +615,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#################################		UNDEFINED CLIENTS	###################################################################################################################
 //#############################################################################################################################################################################
 
-	{"client_Notfound",			_T("Notfound"),								_T("Client not found"),				IDI_NOTFOUND,		 		OTHERS_CASE, 		TRUE	},
-	{"client_Unknown",			_T("|*Unknown*|..."),						_T("Unknown client"),				IDI_UNKNOWN,		 		OTHERS_CASE, 		TRUE	},
-	{"client_Undetected",		_T("?*"),									_T("Undetected client"),			IDI_UNDETECTED,		 		OTHERS_CASE, 		TRUE	},
+	{"client_Notfound",			_T("Notfound"),								LPGENT("Client not found"),				IDI_NOTFOUND,		 		OTHERS_CASE, 		TRUE	},
+	{"client_Unknown",			_T("|*Unknown*|..."),						LPGENT("Unknown client"),				IDI_UNKNOWN,		 		OTHERS_CASE, 		TRUE	},
+	{"client_Undetected",		_T("?*"),									LPGENT("Undetected client"),			IDI_UNDETECTED,		 		OTHERS_CASE, 		TRUE	},
 
 };
 
@@ -677,71 +677,71 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //#############################################################################################################################################################################
 //#################################		PROTO OVERLAYS		###################################################################################################################
 //#############################################################################################################################################################################
-	{"client_AIM_overlay",		_T("|^AIM*|*AIM*"),							_T("AIM overlay"),					IDI_AIM_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_ICQJ_Plus_over",	_T("|^ICQ|^ICQ*|*ICQ*Plus*"),				_T("ICQJ Plus Mod overlay"),		IDI_ICQJ_PLUS_OVERLAY,		OVERLAYS_PROTO_CASE		},
-	{"client_ICQJ_overlay",		_T("|^ICQ|^ICQ*|*ICQ*"),					_T("ICQJ overlay"),					IDI_ICQJ_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_IRC_overlay",		_T("|^IRC*|Miranda*IRC*"),					_T("IRC overlay"),					IDI_IRC_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_JGmail_overlay",	_T("*JGmail*"),								_T("JGmail overlay"),				IDI_GMAIL_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_JGTalk_overlay",	_T("*JGTalk*"),								_T("JGTalk overlay"),				IDI_JGTALK_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_Jabber_overlay",	_T("|^jabber*|Miranda*Jabber*|py*jabb*"),	_T("Jabber overlay"),				IDI_JABBER_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_MSN_overlay",		_T("|^MSN*|*Miranda*MSN*"),					_T("MSN overlay"),					IDI_MSN_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_QQ_overlay",		_T("|Miranda*QQ*|MIM*QQ*"),					_T("QQ overlay"),					IDI_QQ_OVERLAY,				OVERLAYS_PROTO_CASE		},
-	{"client_Tlen_overlay",		_T("|^tlen*|*tlen*"),						_T("Tlen.pl overlay"),				IDI_TLEN_OVERLAY,			OVERLAYS_PROTO_CASE		},
-	{"client_Yahoo_overlay",	_T("|^Yahoo*|*yahoo*"),						_T("Yahoo overlay"),				IDI_YAHOO_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_AIM_overlay",		_T("|^AIM*|*AIM*"),							LPGENT("AIM overlay"),					IDI_AIM_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_ICQJ_Plus_over",	_T("|^ICQ|^ICQ*|*ICQ*Plus*"),				LPGENT("ICQJ Plus Mod overlay"),		IDI_ICQJ_PLUS_OVERLAY,		OVERLAYS_PROTO_CASE		},
+	{"client_ICQJ_overlay",		_T("|^ICQ|^ICQ*|*ICQ*"),					LPGENT("ICQJ overlay"),					IDI_ICQJ_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_IRC_overlay",		_T("|^IRC*|Miranda*IRC*"),					LPGENT("IRC overlay"),					IDI_IRC_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_JGmail_overlay",	_T("*JGmail*"),								LPGENT("JGmail overlay"),				IDI_GMAIL_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_JGTalk_overlay",	_T("*JGTalk*"),								LPGENT("JGTalk overlay"),				IDI_JGTALK_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_Jabber_overlay",	_T("|^jabber*|Miranda*Jabber*|py*jabb*"),	LPGENT("Jabber overlay"),				IDI_JABBER_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_MSN_overlay",		_T("|^MSN*|*Miranda*MSN*"),					LPGENT("MSN overlay"),					IDI_MSN_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_QQ_overlay",		_T("|Miranda*QQ*|MIM*QQ*"),					LPGENT("QQ overlay"),					IDI_QQ_OVERLAY,				OVERLAYS_PROTO_CASE		},
+	{"client_Tlen_overlay",		_T("|^tlen*|*tlen*"),						LPGENT("Tlen.pl overlay"),				IDI_TLEN_OVERLAY,			OVERLAYS_PROTO_CASE		},
+	{"client_Yahoo_overlay",	_T("|^Yahoo*|*yahoo*"),						LPGENT("Yahoo overlay"),				IDI_YAHOO_OVERLAY,			OVERLAYS_PROTO_CASE		},
 	{"client_MRA_overlay",		_T("|^MRA*|^Mail.ru*")
 								_T("|*MRA*|*Mail.ru*IM*|Mrim*")
-								_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"),	_T("Mail.Ru Agent overlay"),		IDI_MAILRU_OVERLAY,			OVERLAYS_PROTO_CASE		},
+								_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"),	LPGENT("Mail.Ru Agent overlay"),		IDI_MAILRU_OVERLAY,			OVERLAYS_PROTO_CASE		},
 
 //#############################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		###########################################################################################################
 //#############################################################################################################################################################################
-	{"client_ICQ3_over",		_T("ICQ*2003*"),							_T("ICQ 2003 overlay"),				IDI_ICQ3_OVERLAY,			ICQ_CASE  				},
-	{"client_ICQ4_over",		_T("|ICQ*4*|ICQ*lite*4*"),					_T("ICQ Lite 4 overlay"),			IDI_ICQ4_OVERLAY,			ICQ_CASE  				},
-	{"client_ICQ5_over",		_T("|ICQ*5*|ICQ*lite*5*|icq5*"),			_T("ICQ v5.x overlay"),				IDI_ICQ5_OVERLAY,			ICQ_CASE  				},
-	{"client_ICQ6_over",		_T("ICQ*6*"),								_T("ICQ v6.x overlay"),				IDI_ICQ6_OVERLAY,			ICQ_CASE  				},
-	{"client_ICQ7_over",		_T("ICQ*7*"),								_T("ICQ v7.x overlay"),				IDI_ICQ7_OVERLAY,			ICQ_CASE  				},
-	{"client_ICQ8_over",		_T("ICQ*8*"),								_T("ICQ v8.x overlay"),				IDI_ICQ8_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ3_over",		_T("ICQ*2003*"),							LPGENT("ICQ 2003 overlay"),				IDI_ICQ3_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ4_over",		_T("|ICQ*4*|ICQ*lite*4*"),					LPGENT("ICQ Lite 4 overlay"),			IDI_ICQ4_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ5_over",		_T("|ICQ*5*|ICQ*lite*5*|icq5*"),			LPGENT("ICQ v5.x overlay"),				IDI_ICQ5_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ6_over",		_T("ICQ*6*"),								LPGENT("ICQ v6.x overlay"),				IDI_ICQ6_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ7_over",		_T("ICQ*7*"),								LPGENT("ICQ v7.x overlay"),				IDI_ICQ7_OVERLAY,			ICQ_CASE  				},
+	{"client_ICQ8_over",		_T("ICQ*8*"),								LPGENT("ICQ v8.x overlay"),				IDI_ICQ8_OVERLAY,			ICQ_CASE  				},
 
-	{"client_Yahoo_11",			_T("*Yahoo 11*"),							_T("Yahoo v11.x overlay"),			IDI_YAHOO11_OVERLAY,		YAHOO_CASE				},
-	{"client_Yahoo_10",			_T("*Yahoo 10*"),							_T("Yahoo v10.x overlay"),			IDI_YAHOO10_OVERLAY,		YAHOO_CASE				},
-	{"client_Yahoo_9",			_T("*Yahoo 9*"),							_T("Yahoo v9.x overlay"),			IDI_YAHOO9_OVERLAY,			YAHOO_CASE				},
+	{"client_Yahoo_11",			_T("*Yahoo 11*"),							LPGENT("Yahoo v11.x overlay"),			IDI_YAHOO11_OVERLAY,		YAHOO_CASE				},
+	{"client_Yahoo_10",			_T("*Yahoo 10*"),							LPGENT("Yahoo v10.x overlay"),			IDI_YAHOO10_OVERLAY,		YAHOO_CASE				},
+	{"client_Yahoo_9",			_T("*Yahoo 9*"),							LPGENT("Yahoo v9.x overlay"),			IDI_YAHOO9_OVERLAY,			YAHOO_CASE				},
 
-	{"client_GG_11",			_T("|Gadu-Gadu*11*|GG*11*"),				_T("Gadu-Gadu v11 client"),			IDI_GG11_OVERLAY,	 		GG_CASE					},
-	{"client_GG_10",			_T("|Gadu-Gadu*10*|GG*10"),					_T("Gadu-Gadu v10 client"),			IDI_GG10_OVERLAY,	 		GG_CASE					},
-	{"client_GG_9",				_T("|Gadu-Gadu*9*|GG*9*"),					_T("Gadu-Gadu v9 client"),			IDI_GG9_OVERLAY,	 		GG_CASE					},
-	{"client_GG_8",				_T("|Gadu-Gadu*8*|GG*8*"),					_T("Gadu-Gadu v8 client"),			IDI_GG8_OVERLAY,	 		GG_CASE					},
+	{"client_GG_11",			_T("|Gadu-Gadu*11*|GG*11*"),				LPGENT("Gadu-Gadu v11 client"),			IDI_GG11_OVERLAY,	 		GG_CASE					},
+	{"client_GG_10",			_T("|Gadu-Gadu*10*|GG*10"),					LPGENT("Gadu-Gadu v10 client"),			IDI_GG10_OVERLAY,	 		GG_CASE					},
+	{"client_GG_9",				_T("|Gadu-Gadu*9*|GG*9*"),					LPGENT("Gadu-Gadu v9 client"),			IDI_GG9_OVERLAY,	 		GG_CASE					},
+	{"client_GG_8",				_T("|Gadu-Gadu*8*|GG*8*"),					LPGENT("Gadu-Gadu v8 client"),			IDI_GG8_OVERLAY,	 		GG_CASE					},
 
-//	{"client_Tlen_8",			_T("Tlen Protocol 1?"),						_T("Tlen 8.x overlay"),				IDI_TLEN8_OVERLAY,	 		TLEN_CASE 				},
-	{"client_Tlen_7",			_T("Tlen Protocol 16"),						_T("Tlen 7.x overlay"),				IDI_TLEN7_OVERLAY,	 		TLEN_CASE 				},
-	{"client_Tlen_6",			_T("Tlen Protocol 10"),						_T("Tlen 6.x overlay"),				IDI_TLEN6_OVERLAY,	 		TLEN_CASE 				},
-	{"client_Tlen_5",			_T("Tlen Protocol 7"),						_T("Tlen 5.x overlay"),				IDI_TLEN5_OVERLAY,	 		TLEN_CASE 				},
+//	{"client_Tlen_8",			_T("Tlen Protocol 1?"),						LPGENT("Tlen 8.x overlay"),				IDI_TLEN8_OVERLAY,	 		TLEN_CASE 				},
+	{"client_Tlen_7",			_T("Tlen Protocol 16"),						LPGENT("Tlen 7.x overlay"),				IDI_TLEN7_OVERLAY,	 		TLEN_CASE 				},
+	{"client_Tlen_6",			_T("Tlen Protocol 10"),						LPGENT("Tlen 6.x overlay"),				IDI_TLEN6_OVERLAY,	 		TLEN_CASE 				},
+	{"client_Tlen_5",			_T("Tlen Protocol 7"),						LPGENT("Tlen 5.x overlay"),				IDI_TLEN5_OVERLAY,	 		TLEN_CASE 				},
 
-	{"client_QQ_2012",			_T("|QQ2012*|TM2012*"),						_T("TM/QQ 2012 overlay"),			IDI_QQ_2012_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2011",			_T("|QQ2011*|TM2011*"),						_T("TM/QQ 2011 overlay"),			IDI_QQ_2011_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2010",			_T("|QQ2010*|TM2010*"),						_T("TM/QQ 2010 overlay"),			IDI_QQ_2010_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2009",			_T("|QQ2009*|TM2009*"),						_T("TM/QQ 2009 overlay"),			IDI_QQ_2009_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2008",			_T("|QQ2008*|TM2008*"),						_T("TM/QQ 2008 overlay"),			IDI_QQ_2008_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2007",			_T("|QQ2007*|TM2007*"),						_T("TM/QQ 2007 overlay"),			IDI_QQ_2007_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2006",			_T("|QQ2006*|TM2006*"),						_T("TM/QQ 2006 overlay"),			IDI_QQ_2006_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2005",			_T("|QQ2005*|TM2005*"),						_T("TM/QQ 2005 overlay"),			IDI_QQ_2005_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2004",			_T("QQ2004*"),								_T("QQ 2004 overlay"),				IDI_QQ_2004_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2003",			_T("|QQ2003*|TM 3.*"),						_T("TM 3.x / QQ 2003 overlay"),		IDI_QQ_2003_OVERLAY,		QQ_CASE					},
-	{"client_TM_2002",			_T("TM 2.*"),								_T("TM 2.x overlay"),				IDI_QQ_2002_OVERLAY,		QQ_CASE					},
-	{"client_TM_2001",			_T("TM 1.*"),								_T("TM 1.x overlay"),				IDI_QQ_2001_OVERLAY,		QQ_CASE					},
-	{"client_QQ_2000",			_T("QQ2000*"),								_T("QQ 2000 overlay"),				IDI_QQ_2000_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2012",			_T("|QQ2012*|TM2012*"),						LPGENT("TM/QQ 2012 overlay"),			IDI_QQ_2012_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2011",			_T("|QQ2011*|TM2011*"),						LPGENT("TM/QQ 2011 overlay"),			IDI_QQ_2011_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2010",			_T("|QQ2010*|TM2010*"),						LPGENT("TM/QQ 2010 overlay"),			IDI_QQ_2010_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2009",			_T("|QQ2009*|TM2009*"),						LPGENT("TM/QQ 2009 overlay"),			IDI_QQ_2009_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2008",			_T("|QQ2008*|TM2008*"),						LPGENT("TM/QQ 2008 overlay"),			IDI_QQ_2008_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2007",			_T("|QQ2007*|TM2007*"),						LPGENT("TM/QQ 2007 overlay"),			IDI_QQ_2007_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2006",			_T("|QQ2006*|TM2006*"),						LPGENT("TM/QQ 2006 overlay"),			IDI_QQ_2006_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2005",			_T("|QQ2005*|TM2005*"),						LPGENT("TM/QQ 2005 overlay"),			IDI_QQ_2005_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2004",			_T("QQ2004*"),								LPGENT("QQ 2004 overlay"),				IDI_QQ_2004_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2003",			_T("|QQ2003*|TM 3.*"),						LPGENT("TM 3.x / QQ 2003 overlay"),		IDI_QQ_2003_OVERLAY,		QQ_CASE					},
+	{"client_TM_2002",			_T("TM 2.*"),								LPGENT("TM 2.x overlay"),				IDI_QQ_2002_OVERLAY,		QQ_CASE					},
+	{"client_TM_2001",			_T("TM 1.*"),								LPGENT("TM 1.x overlay"),				IDI_QQ_2001_OVERLAY,		QQ_CASE					},
+	{"client_QQ_2000",			_T("QQ2000*"),								LPGENT("QQ 2000 overlay"),				IDI_QQ_2000_OVERLAY,		QQ_CASE					},
 
 //#############################################################################################################################################################################
 //#################################		PLATFORM OVERLAYS	###################################################################################################################
 //#############################################################################################################################################################################
-	{"client_on_Win32",			_T("|*Win*|* WM *|wmagent*|*Vista*"),		_T("Windows overlay"),				IDI_PLATFORM_WIN,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_iOS",			_T("|*ipad*|*iphone*"),						_T("iOS overlay (iPhone/iPad)"),	IDI_PLATFORM_IOS,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Mac",			_T("|^*smack*|* Mac *|*mac*"),				_T("MacOS overlay"),				IDI_PLATFORM_MAC,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Linux",			_T("*Linux*"),								_T("Linux overlay"),				IDI_PLATFORM_LINUX,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Flash",			_T("|*Flash*|*Web*ICQ*"),					_T("Flash overlay"),				IDI_PLATFORM_FLASH,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Java",			_T("|*Java*|jagent*|ICQ2Go!*"),				_T("Java overlay"),					IDI_PLATFORM_JAVA,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Symbian",		_T("|*Symbian*|sagent*"),					_T("Symbian overlay"),				IDI_PLATFORM_SYMBIAN,  		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Amiga",			_T("*Amiga*"),								_T("Amiga overlay"),				IDI_PLATFORM_AMIGA,	   		OVERLAYS_PLATFORM_CASE	},
-	{"client_on_Android",		_T("*Android*"),							_T("Android overlay"),				IDI_PLATFORM_ANDROID,  		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Win32",			_T("|*Win*|* WM *|wmagent*|*Vista*"),		LPGENT("Windows overlay"),				IDI_PLATFORM_WIN,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_iOS",			_T("|*ipad*|*iphone*"),						LPGENT("iOS overlay (iPhone/iPad)"),	IDI_PLATFORM_IOS,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Mac",			_T("|^*smack*|* Mac *|*mac*"),				LPGENT("MacOS overlay"),				IDI_PLATFORM_MAC,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Linux",			_T("*Linux*"),								LPGENT("Linux overlay"),				IDI_PLATFORM_LINUX,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Flash",			_T("|*Flash*|*Web*ICQ*"),					LPGENT("Flash overlay"),				IDI_PLATFORM_FLASH,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Java",			_T("|*Java*|jagent*|ICQ2Go!*"),				LPGENT("Java overlay"),					IDI_PLATFORM_JAVA,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Symbian",		_T("|*Symbian*|sagent*"),					LPGENT("Symbian overlay"),				IDI_PLATFORM_SYMBIAN,  		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Amiga",			_T("*Amiga*"),								LPGENT("Amiga overlay"),				IDI_PLATFORM_AMIGA,	   		OVERLAYS_PLATFORM_CASE	},
+	{"client_on_Android",		_T("*Android*"),							LPGENT("Android overlay"),				IDI_PLATFORM_ANDROID,  		OVERLAYS_PLATFORM_CASE	},
 
 };
 
@@ -755,37 +755,37 @@ int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);
 
 KN_FP_MASK def_kn_fp_overlays2_mask[] =
 {//	IconName						Mask										Icon caption					CE_ID
-	{"client_debug_overlay",	_T("|*[*debug*]*|*test*|*тест*"),			_T("debug overlay"),				IDI_DEBUG_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_office_overlay",	_T("|*[*office*]*|*[*офис*]*"),				_T("office overlay"),				IDI_OFFICE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_mobile_overlay",	_T("|*[*mobile*]*|*[*pda*]*"),				_T("mobile overlay"),				IDI_MOBILE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_home_overlay",		_T("|*[*home*]*|*[*дом*]*|*[*хоме*]*"),		_T("home overlay"),					IDI_HOME_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+	{"client_debug_overlay",	_T("|*[*debug*]*|*test*|*тест*"),			LPGENT("debug overlay"),				IDI_DEBUG_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+	{"client_office_overlay",	_T("|*[*office*]*|*[*офис*]*"),				LPGENT("office overlay"),				IDI_OFFICE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+	{"client_mobile_overlay",	_T("|*[*mobile*]*|*[*pda*]*"),				LPGENT("mobile overlay"),				IDI_MOBILE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+	{"client_home_overlay",		_T("|*[*home*]*|*[*дом*]*|*[*хоме*]*"),		LPGENT("home overlay"),					IDI_HOME_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 
 	{"client_work_overlay",		_T("|*[*work*]*|*wrk*")
-								_T("|*[*работа*]*|*ворк*"),					_T("work overlay"),					IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+								_T("|*[*работа*]*|*ворк*"),					LPGENT("work overlay"),					IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 
 	{"client_note_overlay",		_T("|*[*note*]*|*[*laptop*]*")
 								_T("|*[*нетбу*]*|*[*ноут*]*|*[*ноте*]*")
 								_T("|*[*кирпич*]*|*[*portable*]*")
-								_T("|*[*flash*]*|*[*usb*]*"),				_T("notebook overlay"),				IDI_NOTEBOOK_OVERLAY,	OVERLAYS_RESOURCE_CASE	},
+								_T("|*[*flash*]*|*[*usb*]*"),				LPGENT("notebook overlay"),				IDI_NOTEBOOK_OVERLAY,	OVERLAYS_RESOURCE_CASE	},
 
 //	{"client_MirNG_09_over",	_T("*Miranda*NG*\?.\?\?.9.*"),	 			_T("MirandaNG v0.9 #2 overlay"),	IDI_MIRANDA_NG_V9,		MIRANDA_VERSION_CASE	},
 //	{"client_MirNG_08_over",	_T("*Miranda*NG*\?.\?\?.8.*"),	 			_T("MirandaNG v0.8 #2 overlay"),	IDI_MIRANDA_NG_V8,		MIRANDA_VERSION_CASE	},
 //	{"client_MirNG_07_over",	_T("*Miranda*NG*\?.\?\?.7.*"),	 			_T("MirandaNG v0.7 #2 overlay"),	IDI_MIRANDA_NG_V7,		MIRANDA_VERSION_CASE	},
 
-	{"client_MirNG_06_over",	_T("*Miranda*NG*\?.\?\?.6.*"),	 			_T("MirandaNG v0.6 #2 overlay"),	IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
-	{"client_MirNG_05_over",	_T("*Miranda*NG*\?.\?\?.5.*"),	 			_T("MirandaNG v0.5 #2 overlay"),	IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
-	{"client_MirNG_04_over",	_T("*Miranda*NG*\?.\?\?.4.*"),	 			_T("MirandaNG v0.4 #2 overlay"),	IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
-	{"client_MirNG_03_over",	_T("*Miranda*NG*\?.\?\?.3.*"),	 			_T("MirandaNG v0.3 #2 overlay"),	IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
-	{"client_MirNG_02_over",	_T("*Miranda*NG*\?.\?\?.2.*"),	 			_T("MirandaNG v0.2 #2 overlay"),	IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
-	{"client_MirNG_01_over",	_T("*Miranda*NG*\?.\?\?.1.*"),	 			_T("MirandaNG v0.1 #2 overlay"),	IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_06_over",	_T("*Miranda*NG*\?.\?\?.6.*"),	 			LPGENT("MirandaNG v0.6 #2 overlay"),	IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_05_over",	_T("*Miranda*NG*\?.\?\?.5.*"),	 			LPGENT("MirandaNG v0.5 #2 overlay"),	IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_04_over",	_T("*Miranda*NG*\?.\?\?.4.*"),	 			LPGENT("MirandaNG v0.4 #2 overlay"),	IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_03_over",	_T("*Miranda*NG*\?.\?\?.3.*"),	 			LPGENT("MirandaNG v0.3 #2 overlay"),	IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_02_over",	_T("*Miranda*NG*\?.\?\?.2.*"),	 			LPGENT("MirandaNG v0.2 #2 overlay"),	IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_01_over",	_T("*Miranda*NG*\?.\?\?.1.*"),	 			LPGENT("MirandaNG v0.1 #2 overlay"),	IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
 
-	{"client_MirIM_010_over",	_T("*Miranda*0.10.*"),						_T("MirandaIM v0.10 #2 overlay"),	IDI_MIRANDA_IM_V10,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_09_over",	_T("*Miranda*0.9.*"),						_T("MirandaIM v0.9 #2 overlay"),	IDI_MIRANDA_IM_V9,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_08_over",	_T("*Miranda*0.8.*"),						_T("MirandaIM v0.8 #2 overlay"),	IDI_MIRANDA_IM_V8,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_07_over",	_T("*Miranda*0.7.*"),						_T("MirandaIM v0.7 #2 overlay"),	IDI_MIRANDA_IM_V7,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_06_over",	_T("*Miranda*0.6.*"),						_T("MirandaIM v0.6 #2 overlay"),	IDI_MIRANDA_IM_V6,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_05_over",	_T("*Miranda*0.5.*"),						_T("MirandaIM v0.5 #2 overlay"),	IDI_MIRANDA_IM_V5,		MIRANDA_VERSION_CASE	},
-	{"client_MirIM_04_over",	_T("*Miranda*0.4.*"),						_T("MirandaIM v0.4 #2 overlay"),	IDI_MIRANDA_IM_V4,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_010_over",	_T("*Miranda*0.10.*"),						LPGENT("MirandaIM v0.10 #2 overlay"),	IDI_MIRANDA_IM_V10,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_09_over",	_T("*Miranda*0.9.*"),						LPGENT("MirandaIM v0.9 #2 overlay"),	IDI_MIRANDA_IM_V9,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_08_over",	_T("*Miranda*0.8.*"),						LPGENT("MirandaIM v0.8 #2 overlay"),	IDI_MIRANDA_IM_V8,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_07_over",	_T("*Miranda*0.7.*"),						LPGENT("MirandaIM v0.7 #2 overlay"),	IDI_MIRANDA_IM_V7,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_06_over",	_T("*Miranda*0.6.*"),						LPGENT("MirandaIM v0.6 #2 overlay"),	IDI_MIRANDA_IM_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_05_over",	_T("*Miranda*0.5.*"),						LPGENT("MirandaIM v0.5 #2 overlay"),	IDI_MIRANDA_IM_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_04_over",	_T("*Miranda*0.4.*"),						LPGENT("MirandaIM v0.4 #2 overlay"),	IDI_MIRANDA_IM_V4,		MIRANDA_VERSION_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);
@@ -796,10 +796,10 @@ int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);
 //#############################################################################################################################################################################
 KN_FP_MASK def_kn_fp_overlays3_mask[] =
 {//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),					IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
-	{"client_platform_x64",		_T("|*x64*|*64*bit*"),						_T("x64 overlay"),					IDI_PLATFORM_X64,		OVERLAYS_PLATFORM_CASE	},
-	{"client_platform_x32",		_T("|*x32*|*32*bit*|*x86*"),				_T("x32 overlay"),					IDI_PLATFORM_X32,		OVERLAYS_PLATFORM_CASE	},
+	{"client_platform_x64",		_T("|*x64*|*64*bit*"),						LPGENT("x64 overlay"),					IDI_PLATFORM_X64,		OVERLAYS_PLATFORM_CASE	},
+	{"client_platform_x32",		_T("|*x32*|*32*bit*|*x86*"),				LPGENT("x32 overlay"),					IDI_PLATFORM_X32,		OVERLAYS_PLATFORM_CASE	},
 
-	{"client_Unicode",			_T("*unicode*"),							_T("Unicode overlay"),				IDI_UNICODE_CLIENT,		OVERLAYS_UNICODE_CASE	},
+	{"client_Unicode",			_T("*unicode*"),							LPGENT("Unicode overlay"),				IDI_UNICODE_CLIENT,		OVERLAYS_UNICODE_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
@@ -810,9 +810,9 @@ int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
 //#############################################################################################################################################################################
 KN_FP_MASK def_kn_fp_overlays4_mask[] =
 {//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),					IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
-	{"client_NewGPG_over",		_T("*New*GPG*"),							_T("NewGPG overlay"),				IDI_NEWGPG_OVERLAY,		OVERLAYS_SECURITY_CASE	},
-	{"client_MirOTR_over",		_T("*Mir*OTR*"),							_T("MirOTR overlay"),				IDI_MIROTR_OVERLAY,		OVERLAYS_SECURITY_CASE	},
-	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_SECURITY_CASE	},
+	{"client_NewGPG_over",		_T("*New*GPG*"),							LPGENT("NewGPG overlay"),				IDI_NEWGPG_OVERLAY,		OVERLAYS_SECURITY_CASE	},
+	{"client_MirOTR_over",		_T("*Mir*OTR*"),							LPGENT("MirOTR overlay"),				IDI_MIROTR_OVERLAY,		OVERLAYS_SECURITY_CASE	},
+	{"client_SecureIM_over",	_T("*Secure*IM*"),							LPGENT("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_SECURITY_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS4_COUNT = SIZEOF(def_kn_fp_overlays4_mask);
