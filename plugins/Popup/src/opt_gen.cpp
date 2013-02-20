@@ -454,7 +454,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 										PopUpOptions.Seconds = SETTING_LIFETIME_MAX;
 									else if (seconds < SETTING_LIFETIME_MIN)
 										PopUpOptions.Seconds = SETTING_LIFETIME_MIN;
-									if(seconds != PopUpOptions.Seconds) {
+									if (seconds != PopUpOptions.Seconds) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.Seconds, FALSE);
 										ErrorMSG(SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 										SetFocus((HWND)lParam);
@@ -466,9 +466,9 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 									int temp = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
 									if (temp < SETTING_MINIMUMWIDTH_MIN)
 										PopUpOptions.MinimumWidth = SETTING_MINIMUMWIDTH_MIN;
-									else if(temp > SETTING_MAXIMUMWIDTH_MAX)
+									else if (temp > SETTING_MAXIMUMWIDTH_MAX)
 										PopUpOptions.MinimumWidth = SETTING_MAXIMUMWIDTH_MAX;
-									if(temp != PopUpOptions.MinimumWidth) {
+									if (temp != PopUpOptions.MinimumWidth) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.MinimumWidth, FALSE);
 										ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
 										SetFocus((HWND)lParam);
@@ -485,9 +485,9 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 									int temp = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
 									if (temp >= SETTING_MAXIMUMWIDTH_MAX)
 										PopUpOptions.MaximumWidth = SETTING_MAXIMUMWIDTH_MAX;
-									else if(temp < SETTING_MINIMUMWIDTH_MIN)
+									else if (temp < SETTING_MINIMUMWIDTH_MIN)
 										PopUpOptions.MaximumWidth = SETTING_MINIMUMWIDTH_MIN;
-									if(temp != PopUpOptions.MaximumWidth) {
+									if (temp != PopUpOptions.MaximumWidth) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.MaximumWidth, FALSE);
 										ErrorMSG(SETTING_MINIMUMWIDTH_MIN, SETTING_MAXIMUMWIDTH_MAX);
 										SetFocus((HWND)lParam);
@@ -646,7 +646,7 @@ void Check_ReorderPopUps(HWND hwnd) {
 	}
 	DBWriteContactSettingByte(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
 	DBWriteContactSettingByte(NULL, MODULNAME, "ReorderPopUpsWarning", PopUpOptions.ReorderPopUpsWarning);
-	if(hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopUpOptions.ReorderPopUps);
+	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopUpOptions.ReorderPopUps);
 }
 
 void ThemeDialogBackground(HWND hwnd) {

@@ -367,6 +367,7 @@ void IEView::init() {
 }
 
 void IEView::release() {
+	if (!isInited) return;
 	EnterCriticalSection(&mutex);
 	while (list != NULL) {
 		delete list;

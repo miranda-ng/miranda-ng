@@ -2188,19 +2188,19 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			if (dat->pContainer->hwndActive != hwndDlg || dat->pContainer->hwndStatus == 0 || CMimAPI::m_shutDown || dat->szStatusBar[0])
 				break;
+
 			if (si->pszModule != NULL) {
 				TCHAR  szFinalStatusBarText[512];
-				MODULEINFO* mi=NULL;
-				int    x = 12;
 
 				//Mad: strange rare crash here...
-				mi = MM_FindModule(si->pszModule);
+				MODULEINFO *mi = MM_FindModule(si->pszModule);
 				if (!mi)
 					break;
 
 				if (!mi->ptszModDispName)
 					break;
 
+				int x = 12;
 				x += GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(dat->pContainer->hwndStatus, WM_GETFONT, 0, 0), TRUE);
 				x += GetSystemMetrics(SM_CXSMICON);
 
@@ -2224,7 +2224,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 										  diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
 					mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
-				} else {
+				}
+				else {
 					if (si->ptszStatusbarText)
 						mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
 					else {
@@ -2241,50 +2242,47 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 			break;
 
-		case WM_SIZE: {
-			UTILRESIZEDIALOG 	urd;
-			RECT				rc;
-			int 				panelHeight = dat->Panel->getHeight() + 1;
-			LONG				cx;
-
+		case WM_SIZE:
 			if (dat->ipFieldHeight == 0)
 				dat->ipFieldHeight = CInfoPanel::m_ipConfig.height1;
 
 			if (wParam == SIZE_MAXIMIZED)
 				PostMessage(hwndDlg, GC_SCROLLTOBOTTOM, 0, 0);
 
-			if (IsIconic(hwndDlg)) break;
-			ZeroMemory(&urd, sizeof(urd));
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM)si;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CHANNEL);
-			urd.pfnResizer = RoomWndResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			//mad
-			BB_SetButtonsPos(dat);
+			if ( !IsIconic(hwndDlg)) {
+				int panelHeight = dat->Panel->getHeight() + 1;
 
-			GetClientRect(hwndDlg, &rc);
-			cx = rc.right;
+				UTILRESIZEDIALOG urd = { sizeof(urd) };
+				urd.hInstance = g_hInst;
+				urd.hwndDlg = hwndDlg;
+				urd.lParam = (LPARAM)si;
+				urd.lpTemplate = MAKEINTRESOURCEA(IDD_CHANNEL);
+				urd.pfnResizer = RoomWndResize;
+				CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
-			rc.left = panelHeight <= CInfoPanel::LEFT_OFFSET_LOGO ? panelHeight : CInfoPanel::LEFT_OFFSET_LOGO;
-			rc.right = cx;
-			rc.top = 1;
-			rc.bottom = (panelHeight > CInfoPanel::DEGRADE_THRESHOLD ? rc.top + dat->ipFieldHeight - 2 : panelHeight - 1);
-			dat->rcNick = rc;
+				BB_SetButtonsPos(dat);
 
-			rc.left = panelHeight <= CInfoPanel::LEFT_OFFSET_LOGO ? panelHeight : CInfoPanel::LEFT_OFFSET_LOGO;
-			rc.right = cx;
-			rc.bottom = panelHeight - 2;
-			rc.top = dat->rcNick.bottom + 1;
-			dat->rcUIN = rc;
+				RECT rc;
+				GetClientRect(hwndDlg, &rc);
+				int cx = rc.right;
 
-			if (dat->hwndIEView || dat->hwndHPP)
-				Chat_ResizeIeView(dat);
-			DetermineMinHeight(dat);
-		}
-		break;
+				rc.left = panelHeight <= CInfoPanel::LEFT_OFFSET_LOGO ? panelHeight : CInfoPanel::LEFT_OFFSET_LOGO;
+				rc.right = cx;
+				rc.top = 1;
+				rc.bottom = (panelHeight > CInfoPanel::DEGRADE_THRESHOLD ? rc.top + dat->ipFieldHeight - 2 : panelHeight - 1);
+				dat->rcNick = rc;
+
+				rc.left = panelHeight <= CInfoPanel::LEFT_OFFSET_LOGO ? panelHeight : CInfoPanel::LEFT_OFFSET_LOGO;
+				rc.right = cx;
+				rc.bottom = panelHeight - 2;
+				rc.top = dat->rcNick.bottom + 1;
+				dat->rcUIN = rc;
+
+				if (dat->hwndIEView || dat->hwndHPP)
+					Chat_ResizeIeView(dat);
+				DetermineMinHeight(dat);
+			}
+			break;
 
 		case GC_REDRAWWINDOW:
 			InvalidateRect(hwndDlg, NULL, TRUE);

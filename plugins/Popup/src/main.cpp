@@ -64,57 +64,8 @@ HANDLE hMenuRoot			= NULL;
 HANDLE hMenuItem			= NULL;
 HANDLE hMenuItemHistory		= NULL;
 
-//==== ServiceFunctions Handles ====
-HANDLE hShowHistory			= NULL;
-HANDLE hTogglePopup			= NULL;
-HANDLE hGetStatus			= NULL;
-
 //===== Event Handles =====
-HANDLE hOptionsInitialize;
-HANDLE hModulesLoaded;
-HANDLE hOkToExit;
-HANDLE hIconsChanged, hFontsChanged;
-HANDLE hEventStatusChanged; //To automatically disable on status change.
 HANDLE hTTButton = NULL;
-
-GLOBAL g_popup = {0};
-
-static struct {
-	char *name;
-	INT_PTR (*func)(WPARAM, LPARAM);
-	HANDLE handle;
-} popupServices[] =
-{
-	{MS_POPUP_ADDPOPUP,				PopUp_AddPopUp,				0},
-	{MS_POPUP_ADDPOPUPEX,			PopUp_AddPopUpEx,			0},
-	{MS_POPUP_ADDPOPUPW,			PopUp_AddPopUpW,			0},
-	{MS_POPUP_ADDPOPUP2,			PopUp_AddPopUp2,			0},
-
-	{MS_POPUP_CHANGETEXT,			PopUp_ChangeText,			0},
-	{MS_POPUP_CHANGETEXTW,			PopUp_ChangeTextW,			0},
-	{MS_POPUP_CHANGE,				PopUp_Change,				0},
-	{MS_POPUP_CHANGEW,				PopUp_ChangeW,				0},
-	{MS_POPUP_CHANGEPOPUP2,			PopUp_Change2,				0},
-
-	{MS_POPUP_GETCONTACT,			PopUp_GetContact,			0},
-	{MS_POPUP_GETPLUGINDATA,		PopUp_GetPluginData,		0},
-	{MS_POPUP_ISSECONDLINESHOWN,	PopUp_IsSecondLineShown,	0},
-
-	{MS_POPUP_SHOWMESSAGE,			PopUp_ShowMessage,			0},
-	{MS_POPUP_SHOWMESSAGEW,			PopUp_ShowMessageW,			0},
-	{MS_POPUP_QUERY,				PopUp_Query,				0},
-
-	{MS_POPUP_REGISTERACTIONS,		PopUp_RegisterActions,		0},
-	{MS_POPUP_REGISTERNOTIFICATION,	PopUp_RegisterNotification,	0},
-
-	{MS_POPUP_UNHOOKEVENTASYNC,		PopUp_UnhookEventAsync,		0},
-
-	{MS_POPUP_REGISTERVFX,			PopUp_RegisterVfx,			0},
-
-	{MS_POPUP_REGISTERCLASS,		PopUp_RegisterPopupClass,	0},
-	{MS_POPUP_ADDPOPUPCLASS,		PopUp_CreateClassPopup,		0},
-
-};
 
 //===== Options pages =====
 static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
@@ -237,10 +188,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 	mi.flags = CMIM_ICON;
 	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuRoot,(LPARAM)&mi);
 	TTBLoaded(0,0);
-	if(iResult && iResultRoot)
-		return 1;
-	else
-		return 0;
+	return (iResult != 0 && iResultRoot != 0);
 }
 
 INT_PTR svcShowHistory(WPARAM, LPARAM)
@@ -263,21 +211,21 @@ void InitMenuItems(void)
 	hMenuRoot		= Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
-	mi.hParentMenu		= (HGENMENU)hMenuRoot;
+	mi.hParentMenu    = (HGENMENU)hMenuRoot;
 
-	hTogglePopup = CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
-	mi.ptszName			= PopUpOptions.ModuleIsEnabled ? LPGENT("Disable &popup module") : LPGENT("Enable &popup module");
-	mi.pszService		= MENUCOMMAND_SVC;
-	hMenuItem			= Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
+	mi.ptszName       = PopUpOptions.ModuleIsEnabled ? LPGENT("Disable &popup module") : LPGENT("Enable &popup module");
+	mi.pszService     = MENUCOMMAND_SVC;
+	hMenuItem         = Menu_AddMainMenuItem(&mi);
 
 	// Popup History
-	hShowHistory = CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
-	mi.position			= 1000000000;
-	mi.popupPosition	= 1999990000;
-	mi.ptszName			= LPGENT("Popup History");
-	mi.hIcon			= IcoLib_GetIcon(ICO_HISTORY, 0);
-	mi.pszService		= MENUCOMMAND_HISTORY;
-	hMenuItemHistory	= Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
+	mi.position       = 1000000000;
+	mi.popupPosition  = 1999990000;
+	mi.ptszName       = LPGENT("Popup History");
+	mi.hIcon          = IcoLib_GetIcon(ICO_HISTORY, 0);
+	mi.pszService     = MENUCOMMAND_HISTORY;
+	hMenuItemHistory  = Menu_AddMainMenuItem(&mi);
 
 }
 
@@ -289,21 +237,21 @@ INT_PTR GetStatus(WPARAM wp, LPARAM lp)
 
 
 //register Hotkey
-void LoadHotkey() {
-	HOTKEYDESC hk        = {0};
-	hk.cbSize            = sizeof(hk);
-	hk.dwFlags			 = HKD_TCHAR;
-	hk.pszName            = "Toggle Popups";
-	hk.ptszDescription    = LPGENT("Toggle Popups");
-	hk.ptszSection        = LPGENT(MODULNAME_PLU);
-	hk.pszService        = MENUCOMMAND_SVC;
-	Hotkey_Register( &hk);
+void LoadHotkey()
+{
+	HOTKEYDESC hk = { sizeof(hk) };
+	hk.dwFlags = HKD_TCHAR;
+	hk.pszName = "Toggle Popups";
+	hk.ptszDescription = LPGENT("Toggle Popups");
+	hk.ptszSection = LPGENT(MODULNAME_PLU);
+	hk.pszService = MENUCOMMAND_SVC;
+	Hotkey_Register(&hk);
 
 	// 'Popup History' Hotkey
-	hk.pszName			= "Popup History";
-	hk.ptszDescription	= LPGENT("Popup History");
-	hk.pszService		= MENUCOMMAND_HISTORY;
-	Hotkey_Register( &hk);
+	hk.pszName = "Popup History";
+	hk.ptszDescription = LPGENT("Popup History");
+	hk.pszService = MENUCOMMAND_HISTORY;
+	Hotkey_Register(&hk);
 }
 
 //menu
@@ -318,33 +266,24 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		htuText		= MText.Register("PopUp Plus/Text", MTEXT_FANCY_DEFAULT);
 		htuTitle	= MText.Register("PopUp Plus/Title",MTEXT_FANCY_DEFAULT);
 	}
-	else {
-		htuTitle = htuText = NULL;
-	}
+	else htuTitle = htuText = NULL;
+
 	// init meta contacts
 	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	if (ptr != CALLSERVICE_NOTFOUND) {
+	if (ptr != CALLSERVICE_NOTFOUND)
 		gszMetaProto = (LPCSTR)ptr;
-	}
 
 	//check if OptionLoaded
-	if (!OptionLoaded){
+	if (!OptionLoaded)
 		LoadOptions();
-	}
-/*/deprecatet stuff
-	notifyLink = ServiceExists(MS_NOTIFY_GETLINK) ? (MNOTIFYLINK *)CallService(MS_NOTIFY_GETLINK, 0, 0) : NULL;
-	LoadNotifyImp();
-	hNotifyOptionsInitialize = HookEvent(ME_NOTIFY_OPT_INITIALISE, NotifyOptionsInitialize);
 
-	HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInitialise);
-*/
 	//Uninstalling purposes
-	if (ServiceExists("PluginSweeper/Add")) {
+	if (ServiceExists("PluginSweeper/Add"))
 		CallService("PluginSweeper/Add",(WPARAM)Translate(MODULNAME),(LPARAM)MODULNAME);
-	}
+
 	//load fonts / create hook
 	InitFonts();
-	hFontsChanged = HookEvent(ME_FONT_RELOAD,FontsChanged);
+	HookEvent(ME_FONT_RELOAD,FontsChanged);
 
 	//load actions and notifications
 	LoadActions();
@@ -388,12 +327,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 //@param mirandaVersion - The version of the application calling this function
 MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	g_popup.MirVer = mirandaVersion;
-
 	return &pluginInfoEx;
 }
 
-//ME_SYSTEM_OKTOEXIT event
+//ME_SYSTEM_PRESHUTDOWN event
 //called before the app goes into shutdown routine to make sure everyone is happy to exit
 static int OkToExit(WPARAM wParam, LPARAM lParam)
 {
@@ -407,15 +344,12 @@ static int OkToExit(WPARAM wParam, LPARAM lParam)
 //Called when the plugin is loaded into Miranda
 MIRAPI int Load(void)
 {
-	g_popup.isOsUnicode = (GetVersion() & 0x80000000) == 0;
-	g_popup.isMirUnicode = true;
-
-	hGetStatus = CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
-
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	mir_getMTI(&MText);
 	mir_getLP(&pluginInfoEx);
+
+	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 	#if defined(_DEBUG)
 		PopUpOptions.debug = DBGetContactSettingByte(NULL, MODULNAME, "debug", FALSE);
@@ -425,23 +359,14 @@ MIRAPI int Load(void)
 	LoadGDIPlus();
 
 	//Transparent and animation routines
-	OSVERSIONINFO osvi = { 0 };
-	BOOL bResult = FALSE;
-	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	bResult = GetVersionEx(&osvi);
-
-
 	hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
 	MyDwmEnableBlurBehindWindow = 0;
-	if (hDwmapiDll) {
-		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))
-			GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
-	}
+	if (hDwmapiDll)
+		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
 	PopupHistoryLoad();
 	LoadPopupThread();
-	if (!LoadPopupWnd2())
-	{
+	if (!LoadPopupWnd2()) {
 		MessageBox(0, TranslateT("Error: I could not register the PopUp Window class.\r\nThe plugin will not operate."), _T(MODULNAME_LONG), MB_ICONSTOP | MB_OK);
 		return 0; //We couldn't register our Window Class, don't hook any event: the plugin will act as if it was disabled.
 	}
@@ -453,24 +378,48 @@ MIRAPI int Load(void)
 		DBWriteContactSettingString(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
 	DBFreeVariant(&dbv);
 
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	hOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
-//	hEventStatusChanged = HookEvent(ME_CLIST_STATUSMODECHANGE,StatusModeChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OkToExit);
 
 	hbmNoAvatar = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_NOAVATAR));
 
-	if (!OptionLoaded){
+	if (!OptionLoaded)
 		LoadOptions();
-	}
 
 	//Service Functions
-	for (int i = SIZEOF(popupServices); i--; )
-		popupServices[i].handle = CreateServiceFunction(popupServices[i].name, popupServices[i].func);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP,             PopUp_AddPopUp);
+   CreateServiceFunction(MS_POPUP_ADDPOPUPEX,           PopUp_AddPopUpEx);
+   CreateServiceFunction(MS_POPUP_ADDPOPUPW,            PopUp_AddPopUpW);
+   CreateServiceFunction(MS_POPUP_ADDPOPUP2,            PopUp_AddPopUp2);
+
+   CreateServiceFunction(MS_POPUP_CHANGETEXT,           PopUp_ChangeText);
+   CreateServiceFunction(MS_POPUP_CHANGETEXTW,          PopUp_ChangeTextW);
+   CreateServiceFunction(MS_POPUP_CHANGE,               PopUp_Change);
+   CreateServiceFunction(MS_POPUP_CHANGEW,              PopUp_ChangeW);
+   CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         PopUp_Change2);
+
+   CreateServiceFunction(MS_POPUP_GETCONTACT,           PopUp_GetContact);
+   CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        PopUp_GetPluginData);
+   CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    PopUp_IsSecondLineShown);
+
+   CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          PopUp_ShowMessage);
+   CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         PopUp_ShowMessageW);
+   CreateServiceFunction(MS_POPUP_QUERY,                PopUp_Query);
+
+   CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      PopUp_RegisterActions);
+   CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, PopUp_RegisterNotification);
+
+   CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     PopUp_UnhookEventAsync);
+
+   CreateServiceFunction(MS_POPUP_REGISTERVFX,          PopUp_RegisterVfx);
+
+   CreateServiceFunction(MS_POPUP_REGISTERCLASS,        PopUp_RegisterPopupClass);
+   CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        PopUp_CreateClassPopup);
 
 	//load icons / create hook
 	InitIcons();
-	hIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED,IconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED,IconsChanged);
 	//add menu items
 	InitMenuItems();
 
@@ -483,24 +432,7 @@ MIRAPI int Load(void)
 
 MIRAPI int Unload(void)
 {
-	int i;
-
-	for (i = SIZEOF(popupServices); i--; )
-		DestroyServiceFunction(popupServices[i].handle);
-
 	SrmmMenu_Unload();
-
-	UnhookEvent(hOptionsInitialize);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hOkToExit);
-	UnhookEvent(hEventStatusChanged);
-	UnhookEvent(hIconsChanged);
-	UnhookEvent(hFontsChanged);
-
-	DestroyServiceFunction(hShowHistory);
-	DestroyServiceFunction(hTogglePopup);
-	DestroyServiceFunction(hGetStatus);
-	DestroyServiceFunction(hSquareFad);
 
 	DeleteObject(fonts.title);
 	DeleteObject(fonts.clock);
@@ -513,10 +445,9 @@ MIRAPI int Unload(void)
 	FreeLibrary(hDwmapiDll);
 	FreeLibrary(hUserDll);
 	FreeLibrary(hMsimgDll);
-//	FreeLibrary(hKernelDll);
 	FreeLibrary(hGdiDll);
 
-	if(PopUpOptions.SkinPack) mir_free(PopUpOptions.SkinPack);
+	if (PopUpOptions.SkinPack) mir_free(PopUpOptions.SkinPack);
 	mir_free(PopUpOptions.Effect);
 
 	OptAdv_UnregisterVfx();

@@ -324,7 +324,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		int index = -1;
 		OptTree_ProcessMessage(hwndDlg, msg, wParam, lParam, &index, IDC_SKIN_LIST_OPT, skinOptions, skinOptionsCount);
 		if (index != -1) {
-			if(lstrcmp(skinOptions[index].pszSettingName, _T("Skin options")) == 0) {
+			if (lstrcmp(skinOptions[index].pszSettingName, _T("Skin options")) == 0) {
 				const PopupSkin *skin = 0;
 				if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
 					skin->setFlag(skinOptions[index].Data, skinOptions[index].bState ? true : false);
@@ -435,7 +435,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopUpOptions.SkinPack));
 							//make shure we have select skin (ListBox_SetCurSel may be fail)
 							ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
-							if(lstrcmp(pszOldSkin, szNewSkin) != 0) {
+							if (lstrcmp(pszOldSkin, szNewSkin) != 0) {
 								mir_free(PopUpOptions.SkinPack);
 								PopUpOptions.SkinPack = mir_tstrdup(szNewSkin);
 							}

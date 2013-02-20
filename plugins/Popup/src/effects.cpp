@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "headers.h"
 
 class MyTestEffect;
-HANDLE hSquareFad;
 
 class MyTestEffect: public IPopupPlusEffect
 {
@@ -80,6 +79,7 @@ static INT_PTR svcCreateEffect_MyTestEffect(WPARAM, LPARAM) { return (INT_PTR)(n
 
 void PopupEfectsInitialize()
 {
-	hSquareFad = CreateServiceFunction(MS_POPUP_CREATEVFX "Square fading", svcCreateEffect_MyTestEffect);
+	CreateServiceFunction(MS_POPUP_CREATEVFX "Square fading", svcCreateEffect_MyTestEffect);
+	
 	CallService(MS_POPUP_REGISTERVFX, 0, (LPARAM)"Square fading");
 }

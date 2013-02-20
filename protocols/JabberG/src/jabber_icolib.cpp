@@ -498,7 +498,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Cross-instance shared icons
 
-static IconItem sharedIconList[] =
+static IconItem sharedIconList1[] =
 {
 	{   LPGEN("Privacy Lists"),         "privacylists",     IDI_PRIVACY_LISTS      },
 	{   LPGEN("Bookmarks"),             "bookmarks",        IDI_BOOKMARKS          },
@@ -520,24 +520,33 @@ static IconItem sharedIconList[] =
 	{   LPGEN("Service Discovery"),     "servicediscovery", IDI_SERVICE_DISCOVERY  },
 	{   LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
 	{   LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },
-	{   LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          },
+	{   LPGEN("OpenID Request"),        "openid",           IDI_HTTP_AUTH          }
+};
 
+static IconItem sharedIconList2[] =
+{
 	{   LPGEN("Discovery succeeded"),   "disco_ok",         IDI_DISCO_OK           },
 	{   LPGEN("Discovery failed"),      "disco_fail",       IDI_DISCO_FAIL         },
 	{   LPGEN("Discovery in progress"), "disco_progress",   IDI_DISCO_PROGRESS     },
 	{   LPGEN("View as tree"),          "sd_view_tree",     IDI_VIEW_TREE          },
 	{   LPGEN("View as list"),          "sd_view_list",     IDI_VIEW_LIST          },
 	{   LPGEN("Apply filter"),          "sd_filter_apply",  IDI_FILTER_APPLY       },
-	{   LPGEN("Reset filter"),          "sd_filter_reset",  IDI_FILTER_RESET       },
+	{   LPGEN("Reset filter"),          "sd_filter_reset",  IDI_FILTER_RESET       }
+};
 
+static IconItem sharedIconList3[] =
+{
 	{   LPGEN("Navigate home"),         "sd_nav_home",      IDI_NAV_HOME           },
 	{   LPGEN("Refresh node"),          "sd_nav_refresh",   IDI_NAV_REFRESH        },
 	{   LPGEN("Browse node"),           "sd_browse",        IDI_BROWSE             },
 	{   LPGEN("RSS service"),           "node_rss",         IDI_NODE_RSS           },
 	{   LPGEN("Server"),                "node_server",      IDI_NODE_SERVER        },
 	{   LPGEN("Storage service"),       "node_store",       IDI_NODE_STORE         },
-	{   LPGEN("Weather service"),       "node_weather",     IDI_NODE_WEATHER       },
+	{   LPGEN("Weather service"),       "node_weather",     IDI_NODE_WEATHER       }
+};
 
+static IconItem sharedIconList4[] =
+{
 	{   LPGEN("Generic privacy list"),  "pl_list_any",      IDI_PL_LIST_ANY        },
 	{   LPGEN("Active privacy list"),   "pl_list_active",   IDI_PL_LIST_ACTIVE     },
 	{   LPGEN("Default privacy list"),  "pl_list_default",  IDI_PL_LIST_DEFAULT    },
@@ -550,22 +559,36 @@ static IconItem sharedIconList[] =
 	{   LPGEN("Deny Messages"),         "pl_msg_deny",      IDI_PL_MSG_DENY        },
 	{   LPGEN("Deny Presences (in)"),   "pl_prin_deny",     IDI_PL_PRIN_DENY       },
 	{   LPGEN("Deny Presences (out)"),  "pl_prout_deny",    IDI_PL_PROUT_DENY      },
-	{   LPGEN("Deny Queries"),          "pl_iq_deny",       IDI_PL_QUERY_DENY      },
+	{   LPGEN("Deny Queries"),          "pl_iq_deny",       IDI_PL_QUERY_DENY      }
 };
 
 void g_IconsInit()
 {
-	Icon_Register(hInst, "Protocols/Jabber", sharedIconList, 21, GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, "Protocols/Jabber/Dialogs", sharedIconList+21, 7, GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, "Protocols/Dialogs/Discovery", sharedIconList+28, 7, GLOBAL_SETTING_PREFIX);
-	Icon_Register(hInst, "Protocols/Dialogs/Privacy",   sharedIconList+35, 13, GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber"),                       sharedIconList1, SIZEOF(sharedIconList1), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Jabber")"/"LPGEN("Dialogs"),    sharedIconList2, SIZEOF(sharedIconList2), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Discovery"), sharedIconList3, SIZEOF(sharedIconList3), GLOBAL_SETTING_PREFIX);
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("Dialogs")"/"LPGEN("Privacy"),   sharedIconList4, SIZEOF(sharedIconList4), GLOBAL_SETTING_PREFIX);
 }
 
 HANDLE g_GetIconHandle(int iconId)
 {
-	for (int i=0; i < SIZEOF(sharedIconList); i++)
-		if (sharedIconList[i].defIconID == iconId)
-			return sharedIconList[i].hIcolib;
+	int i;
+
+	for (i=0; i < SIZEOF(sharedIconList1); i++)
+		if (sharedIconList1[i].defIconID == iconId)
+			return sharedIconList1[i].hIcolib;
+
+	for (i=0; i < SIZEOF(sharedIconList2); i++)
+		if (sharedIconList2[i].defIconID == iconId)
+			return sharedIconList2[i].hIcolib;
+
+	for (i=0; i < SIZEOF(sharedIconList3); i++)
+		if (sharedIconList3[i].defIconID == iconId)
+			return sharedIconList3[i].hIcolib;
+
+	for (i=0; i < SIZEOF(sharedIconList4); i++)
+		if (sharedIconList4[i].defIconID == iconId)
+			return sharedIconList4[i].hIcolib;
 
 	return NULL;
 }

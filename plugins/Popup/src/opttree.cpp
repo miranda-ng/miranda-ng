@@ -178,21 +178,10 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, 
 
 			hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR|ILC_COLOR32|ILC_MASK, 5, 1);
 			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED));
-			if (g_popup.MirVer >= PLUGIN_MAKE_VERSION(0,7,0,2))
-			{
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
-			} else
-			{
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_CHECK_ON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // check buttons
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_CHECK_OFF), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // check buttons
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_CHECK_ON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // check buttons
-				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_CHECK_OFF), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // check buttons
-//				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_RADIO_ON), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // radio buttons
-//				ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPT_RADIO_OFF), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED)); // radio buttons
-			}
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK));
+			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK));
 			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN));
 			ImageList_ReplaceIcon(hImgLst, -1, (HICON)LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT));
 			TreeView_SetImageList(hwndTree, hImgLst, TVSIL_NORMAL);
@@ -283,9 +272,9 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, 
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());
 					ScreenToClient(lpnmhdr->hwndFrom,&hti.pt);
-					if(TreeView_HitTest(lpnmhdr->hwndFrom,&hti))
+					if (TreeView_HitTest(lpnmhdr->hwndFrom,&hti))
 					{
-						if(hti.flags&TVHT_ONITEMICON)
+						if (hti.flags&TVHT_ONITEMICON)
 						{
 							TVITEM tvi;
 							tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;

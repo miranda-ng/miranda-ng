@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int ComboBox_SelectItem(HWND hwndCtl, int indexStart, char* data) {
 	int i=0;
 	for ( i ; i < ComboBox_GetCount(hwndCtl); i++) {
-		if(strcmp(data, (char*)ComboBox_GetItemData(hwndCtl, i))==0) {
+		if (strcmp(data, (char*)ComboBox_GetItemData(hwndCtl, i))==0) {
 			ComboBox_SetCurSel (hwndCtl,i);
 			return i;
 		}
@@ -362,7 +362,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							ppd.colorBack	= ptd->colorBack;
 							ppd.colorText	= ptd->colorText;
 							POPUPTREEDATA *ptdPrev = NULL;
-							if(ptd->typ == 1) {
+							if (ptd->typ == 1) {
 								//we work with a copy for preview
 								ptdPrev = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
 								memcpy(ptdPrev, ptd, sizeof(POPUPTREEDATA));
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 								ppd.lchNotification = (HANDLE)ptdPrev;
 							}
-							else if(ptd->typ == 2)
+							else if (ptd->typ == 2)
 								ppd.lchIcon = ptd->pupClass.hIcon;
 
 							CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
@@ -455,7 +455,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 								ptd->timeoutValue = SETTING_LIFETIME_MAX;
 							else if (seconds < SETTING_LIFETIME_INFINITE)
 								ptd->timeoutValue = SETTING_LIFETIME_INFINITE;
-							if(seconds != ptd->timeoutValue) {
+							if (seconds != ptd->timeoutValue) {
 								SetDlgItemInt(hwnd, idCtrl, ptd->timeoutValue, TRUE);
 								ErrorMSG(SETTING_LIFETIME_INFINITE, SETTING_LIFETIME_MAX);
 								SetFocus((HWND)lParam);

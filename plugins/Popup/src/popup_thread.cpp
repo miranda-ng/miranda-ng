@@ -57,8 +57,7 @@ static void __cdecl PopupThread(void *arg);
 void LoadPopupThread()
 {
 	hThreadMutex = CreateMutex(NULL, FALSE, NULL);
-	_beginthread(PopupThread, 0, NULL);
-//	_beginthreadex(NULL, 0, PopupThread, NULL, 0, &idPopupThread);
+	mir_forkthread(PopupThread, NULL);
 }
 
 void StopPopupThread()
@@ -299,8 +298,8 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 static void __cdecl PopupThread(void *arg)
 {
 	// grab the mutex
-	if (WaitForSingleObject(hThreadMutex, INFINITE) != WAIT_OBJECT_0)
-	{ // other thread is already running
+	if ( WaitForSingleObject(hThreadMutex, INFINITE) != WAIT_OBJECT_0) {
+		// other thread is already running
 		_endthread();
 		return;
 	}
@@ -335,19 +334,10 @@ static void __cdecl PopupThread(void *arg)
 	SetWindowPos(gHwndManager, 0, 0, 0, 0, 0, SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_HIDEWINDOW);
 
 	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0))
-	{
+	while (GetMessage(&msg, NULL, 0, 0)) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
 	ReleaseMutex(hThreadMutex);
-
-	// Decrement Miranda thread counter
-	Thread_Pop();
-
-	// Ok, now we can kill this thread
-	_endthread();
-
-	return;
 }

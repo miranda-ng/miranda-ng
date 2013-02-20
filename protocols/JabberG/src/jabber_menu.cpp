@@ -202,14 +202,10 @@ void g_MenuInit(void)
 
 	List_InsertPtr(&arServices, CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService));
 
-	TMenuParam mnu = {0};
-	mnu.cbSize = sizeof(mnu);
-	mnu.name = "JabberAccountChooser";
-	mnu.ExecService = "Jabber/MenuChoose";
+	TMenuParam mnu = { sizeof(mnu), "JabberAccountChooser", "Jabber/MenuChoose" };
 	hChooserMenu = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&mnu);
 
-	TMO_MenuItem tmi = { 0 };
-	tmi.cbSize = sizeof(tmi);
+	TMO_MenuItem tmi = { sizeof(tmi) };
 	tmi.flags = CMIF_ICONFROMICOLIB;
 	tmi.pszName = "Cancel";
 	tmi.position = 9999999;

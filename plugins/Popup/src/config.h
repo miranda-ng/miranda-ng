@@ -94,13 +94,6 @@ typedef struct tagPOPUPOPTIONS {
 	WORD MaxPopups;
 } POPUPOPTIONS;
 
-struct GLOBAL{
-	bool	isOsUnicode;
-	bool	isMirUnicode;
-	int		MirVer;
-};
-extern GLOBAL g_popup;
-
 //===== User wnd class =====
 struct GLOBAL_WND_CLASSES{
 	ATOM	cPopupWnd2;

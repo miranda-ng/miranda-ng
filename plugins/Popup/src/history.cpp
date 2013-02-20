@@ -388,7 +388,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			ieData.next = NULL;
 			CallService(MS_HPP_EG_EVENT, 0, (WPARAM)&ieEvent);
 		}
-		else if(logType == LOG_DEFAULT) {
+		else if (logType == LOG_DEFAULT) {
 			if (arPopupHistory.getCount() <= ListBox_GetCount(hwndLog)) {
 				loadItem = 0;
 				PostMessage(hwnd, UM_RESIZELIST, 0, 0);

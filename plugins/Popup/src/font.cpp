@@ -133,7 +133,7 @@ void ReloadFonts()
 	//update class popupps(only temp at this point, must rework)
 	char setting[256];
 	for(int i=0; i < gTreeData.getCount(); i++) {
-		if(gTreeData[i]->typ == 2) {
+		if (gTreeData[i]->typ == 2) {
 			mir_snprintf(setting, 256, "%s/TextCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText = 
 				(COLORREF)DBGetContactSettingDword(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);

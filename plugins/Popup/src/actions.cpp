@@ -108,39 +108,39 @@ DWORD MouseOverride(HWND hCombo, int number)
 {
 	DWORD dwItem = 0;
 	DWORD ItemActive = 0;
-	if(number<0 || number >7)
+	if (number<0 || number >7)
 		number = 0;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("no overwrite"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 0);
-	if(number == 0)
+	if (number == 0)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Send message"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 1);
-	if(number == 1)
+	if (number == 1)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Quick reply"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 2);
-	if(number == 2)
+	if (number == 2)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("User details"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 3);
-	if(number == 3)
+	if (number == 3)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Contact menu"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 4);
-	if(number == 4)
+	if (number == 4)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Dismiss popup"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 5);
-	if(number == 5)
+	if (number == 5)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Pin popup"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 6);
-	if(number == 6)
+	if (number == 6)
 		ItemActive = dwItem;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("Copy to clipboard"));
 	SendMessage(hCombo, CB_SETITEMDATA, dwItem, 7);
-	if(number == 7)
+	if (number == 7)
 		ItemActive = dwItem;
 	return ItemActive;
 }
@@ -266,35 +266,19 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					groups.insert(mir_strdup(szGroup), groups.getCount());
 				}
 
-				if (g_popup.isOsUnicode)
-				{
-					LVITEMW item = {0};
-					item.mask = LVIF_IMAGE|LVIF_PARAM|LVIF_TEXT|LVIF_STATE|LVIF_INDENT;
-					item.iItem = i;
-					LPWSTR wszName = mir_a2u(szName);
-					item.pszText = TranslateW(wszName);
-					item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
-					item.lParam = i;
-					if (IsWinVerXPPlus())
-					{
-						item.mask |= LVIF_GROUPID;
-						item.iGroupId = grpId;
-					}
-					item.iIndent = 0;
-					ListView_InsertItemW(hwndList, &item);
-					mir_free(wszName);
-				} else
-				{
-					LVITEMA item = {0};
-					item.mask = LVIF_IMAGE|LVIF_PARAM|LVIF_TEXT|LVIF_STATE|LVIF_GROUPID|LVIF_INDENT;
-					item.iItem = i;
-					item.pszText = Translate(szName);
-					item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
-					item.lParam = i;
+				LVITEM item = {0};
+				item.mask = LVIF_IMAGE|LVIF_PARAM|LVIF_TEXT|LVIF_STATE|LVIF_INDENT;
+				item.iItem = i;
+				mir_ptr<TCHAR> tszName( mir_a2t(szName));
+				item.pszText = TranslateTS(tszName);
+				item.iImage = ImageList_AddIcon(hImgList, gActions[i]->lchIcon);
+				item.lParam = i;
+				if (IsWinVerXPPlus()) {
+					item.mask |= LVIF_GROUPID;
 					item.iGroupId = grpId;
-					item.iIndent = 0;
-					ListView_InsertItem(hwndList, &item);
 				}
+				item.iIndent = 0;
+				ListView_InsertItemW(hwndList, &item);
 
 				ListView_SetItemState(hwndList, i, (gActions[i]->flags & PAF_ENABLED) ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 			}

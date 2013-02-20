@@ -74,7 +74,7 @@ void LoadNotifications()
 void UnloadTreeData()
 {
 	for (int i=0; i < gTreeData.getCount(); ++i) {
-		if(gTreeData[i]->typ == 2) {
+		if (gTreeData[i]->typ == 2) {
 			mir_free(gTreeData[i]->pupClass.pszName);
 			mir_free(gTreeData[i]->pupClass.pszDescription);
 		}
@@ -86,7 +86,7 @@ void UnloadTreeData()
 
 void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 {
-	if(ptd->typ == 1) {
+	if (ptd->typ == 1) {
 		char setting[2*MAXMODULELABELLENGTH];
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}Timeout",
@@ -143,7 +143,7 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 {
-	if(ptd->typ == 1) {
+	if (ptd->typ == 1) {
 		char setting[2*MAXMODULELABELLENGTH];
 		char *szTmp = NULL;
 

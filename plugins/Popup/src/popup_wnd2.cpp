@@ -1003,26 +1003,23 @@ struct	ReplyEditData
 	WNDPROC		oldWndProc;
 };
 
-bool	IsMsgServiceNameW(HANDLE hContact) {
-	if (g_popup.isMirUnicode) {
-		char szServiceName[100];
-		char *szProto = GetContactProto(hContact);
-		if (szProto == NULL)
-			return false;
+bool	IsMsgServiceNameW(HANDLE hContact)
+{
+	char szServiceName[100];
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL)
+		return false;
 
-		mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
-		if (ServiceExists(szServiceName))
-			return true;
-	}
-	return false;
+	mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
+	return ServiceExists(szServiceName) != 0;
 }
 
 BOOL	IsUtfSendAvailable(HANDLE hContact)
 {
 	char* szProto = GetContactProto(hContact);
-	if(szProto == NULL) return FALSE;
+	if (szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
-	if(strcmp(szProto, gszMetaProto)==0) {
+	if (strcmp(szProto, gszMetaProto)==0) {
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
 		if (!hSubContact) return FALSE;
 		szProto = GetContactProto(hSubContact);
@@ -1038,7 +1035,7 @@ void	AddMessageToDB(HANDLE hContact, char *msg, int flag/*bool utf*/)
 	dbei.flags = DBEF_SENT | ((flag&PREF_UTF)==PREF_UTF ? DBEF_UTF : 0);
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
-	if(g_popup.isOsUnicode && !((flag&PREF_UTF)==PREF_UTF) && (flag&PREF_UNICODE)==PREF_UNICODE)
+	if ( !((flag & PREF_UTF) == PREF_UTF) && (flag & PREF_UNICODE) == PREF_UNICODE)
 		dbei.cbBlob = (lstrlenW((LPWSTR)msg) + 1)*sizeof(WCHAR/*TCHAR*/);
 	else
 		dbei.cbBlob = lstrlenA(msg) + 1;
@@ -1081,7 +1078,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 						SendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
 
-						if(wcslen(msg)==0){
+						if (wcslen(msg)==0){
 							DestroyWindow(hwnd);
 							return 0;
 						}
@@ -1090,7 +1087,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 							buf = mir_utf8encodeW(msg);
 							flag = PREF_UTF;
 						}
-						else if(bSendW){
+						else if (bSendW){
 							bufW = mir_wstrdup(msg)	/*mir_tstrdup(msg)*/;
 							buf = (char*)bufW;
 							flag = PREF_UNICODE		/*PREF_TCHAR*/;
@@ -1103,7 +1100,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 					else {
 						char msg[2048];
 						GetWindowTextA(hwnd, msg, SIZEOF(msg));
-						if(strlen(msg)==0){
+						if (strlen(msg)==0){
 							DestroyWindow(hwnd);
 							return 0;
 						}
@@ -1216,7 +1213,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
 				dat->hwndPopup = m_hwnd;
 				dat->hContact = m_hContact;
-				if(IsWindowUnicode(hwndEditBox)) {
+				if (IsWindowUnicode(hwndEditBox)) {
 
 					SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
 
@@ -1339,7 +1336,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				}
 
 			if (i == m_actionCount) {
-				if(PopUpOptions.overrideLeft!=false && (m_hContact!=NULL || PopUpOptions.overrideLeft == 5 ||  PopUpOptions.overrideLeft == 6)) {
+				if (PopUpOptions.overrideLeft!=false && (m_hContact!=NULL || PopUpOptions.overrideLeft == 5 ||  PopUpOptions.overrideLeft == 6)) {
 					switch (PopUpOptions.overrideLeft){
 					default:
 					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;

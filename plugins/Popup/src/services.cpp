@@ -416,7 +416,7 @@ INT_PTR PopUp_Change2(WPARAM wParam, LPARAM lParam)
 //===== PopUp/ShowMessage
 INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
-	if(closing) return 0;
+	if (closing) return 0;
 
 	POPUPDATA2 ppd2 = {0};
 	ppd2.cbSize		= sizeof(ppd2);
@@ -452,7 +452,7 @@ INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR PopUp_ShowMessageW(WPARAM wParam, LPARAM lParam) {
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
-	if(closing) return 0;
+	if (closing) return 0;
 
 	POPUPDATA2 ppd2 = {0};
 	ppd2.cbSize		= sizeof(ppd2);
@@ -577,7 +577,7 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam) {
 	memcpy(&ptd->pupClass, pc, sizeof(POPUPCLASS));
 	ptd->pszTreeRoot					= mir_a2t(pc->pszName);
 	ptd->pupClass.pszName				= mir_strdup(pc->pszName);
-	if(pc->flags & PCF_UNICODE) {
+	if (pc->flags & PCF_UNICODE) {
 		ptd->pupClass.pwszDescription	= mir_wstrdup(pc->pwszDescription);
 		ptd->pszDescription				= mir_u2t(pc->pwszDescription);
 	}
@@ -627,18 +627,18 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam) {
 INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 	int ret = 1;
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if(pdc->cbSize != sizeof(POPUPDATACLASS)) return ret;
+	if (pdc->cbSize != sizeof(POPUPDATACLASS)) return ret;
 
 	POPUPCLASS		*pc  = NULL;
 	POPUPTREEDATA	*ptd = NULL;
 
-	if(wParam) pc = (POPUPCLASS *)wParam;
+	if (wParam) pc = (POPUPCLASS *)wParam;
 	else {
 		LPTSTR group = mir_a2t(pdc->pszClassName);
 		ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
-		if(ptd) pc = &ptd->pupClass;
+		if (ptd) pc = &ptd->pupClass;
 	}
-	if(pc) {
+	if (pc) {
 		POPUPDATA2 ppd2 = {0};
 		ppd2.cbSize				= sizeof(POPUPDATA2);
 		ppd2.colorBack			= pc->colorBack;
@@ -646,7 +646,7 @@ INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 		ppd2.lchIcon			= pc->hIcon;
 		ppd2.iSeconds			= pc->iSeconds;
 		ppd2.PluginWindowProc	= pc->PluginWindowProc;
-		if(pc->flags & PCF_UNICODE) {
+		if (pc->flags & PCF_UNICODE) {
 			ppd2.flags			= PU2_UNICODE;
 			ppd2.lpwzTitle		= (WCHAR*)pdc->pwszTitle;
 			ppd2.lpwzText		= (WCHAR*)pdc->pwszText;

@@ -391,7 +391,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_MAXPOPUPS:
 								{
 									int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(maxPop > 0){
+									if (maxPop > 0){
 										PopUpOptions.MaxPopups = maxPop;
 										SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 									}
@@ -446,9 +446,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_MAXPOPUPS:
 								{
 									int maxPop = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(maxPop <= 0)
+									if (maxPop <= 0)
 										PopUpOptions.MaxPopups = 20;
-									if(maxPop != PopUpOptions.MaxPopups) {
+									if (maxPop != PopUpOptions.MaxPopups) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.MaxPopups, FALSE);
 										//ErrorMSG(1);
 										SetFocus((HWND)lParam);
@@ -458,11 +458,11 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_HISTORYSIZE:
 								{
 									int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(histSize <= 0)
+									if (histSize <= 0)
 										PopUpOptions.HistorySize = SETTING_HISTORYSIZE_DEFAULT;
-									else if(histSize > SETTING_HISTORYSIZE_MAX)
+									else if (histSize > SETTING_HISTORYSIZE_MAX)
 										PopUpOptions.HistorySize = SETTING_HISTORYSIZE_MAX;
-									if(histSize != PopUpOptions.HistorySize) {
+									if (histSize != PopUpOptions.HistorySize) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.HistorySize, FALSE);
 										ErrorMSG(1, SETTING_HISTORYSIZE_MAX);
 										SetFocus((HWND)lParam);
@@ -472,9 +472,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_AVT_RADIUS:
 								{
 									int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(avtRadius > SETTING_AVTSIZE_MAX / 2)
+									if (avtRadius > SETTING_AVTSIZE_MAX / 2)
 										PopUpOptions.avatarRadius = SETTING_AVTSIZE_MAX / 2;
-									if(avtRadius != PopUpOptions.avatarRadius) {
+									if (avtRadius != PopUpOptions.avatarRadius) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.avatarRadius, FALSE);
 										ErrorMSG(0, SETTING_AVTSIZE_MAX / 2);
 										SetFocus((HWND)lParam);
@@ -484,11 +484,11 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_FADEIN:
 								{
 									int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(fade < SETTING_FADEINTIME_MIN)
+									if (fade < SETTING_FADEINTIME_MIN)
 										PopUpOptions.FadeIn = SETTING_FADEINTIME_MIN;
-									else if(fade > SETTING_FADEINTIME_MAX)										
+									else if (fade > SETTING_FADEINTIME_MAX)										
 										PopUpOptions.FadeIn = SETTING_FADEINTIME_MAX;
-									if(fade != PopUpOptions.FadeIn) {
+									if (fade != PopUpOptions.FadeIn) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.FadeIn, FALSE);
 										ErrorMSG(SETTING_FADEINTIME_MIN, SETTING_FADEINTIME_MAX);
 										SetFocus((HWND)lParam);
@@ -498,11 +498,11 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_FADEOUT:
 								{
 									int fade = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(fade < SETTING_FADEOUTTIME_MIN)
+									if (fade < SETTING_FADEOUTTIME_MIN)
 										PopUpOptions.FadeOut = SETTING_FADEOUTTIME_MIN;
-									else if(fade > SETTING_FADEOUTTIME_MAX)
+									else if (fade > SETTING_FADEOUTTIME_MAX)
 										PopUpOptions.FadeOut = SETTING_FADEOUTTIME_MAX;
-									if(fade != PopUpOptions.FadeOut) {
+									if (fade != PopUpOptions.FadeOut) {
 										SetDlgItemInt(hwnd, idCtrl, PopUpOptions.FadeOut, FALSE);
 										ErrorMSG(SETTING_FADEOUTTIME_MIN, SETTING_FADEOUTTIME_MAX);
 										SetFocus((HWND)lParam);
