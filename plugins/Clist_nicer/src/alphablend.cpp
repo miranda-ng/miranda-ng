@@ -27,7 +27,6 @@ extern int g_hottrack, g_hottrack_done;
 extern BOOL g_inCLCpaint;
 extern BYTE saved_alpha;
 extern DWORD savedCORNER;
-extern StatusItems_t *StatusItems;
 extern ImageItem *g_glyphItem;
 
 BYTE __forceinline percent_to_byte(UINT32 percent)
@@ -112,7 +111,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     LONG realHeightHalf = realHeight >> 1;
 
     if (g_hottrack && g_inCLCpaint) {
-        StatusItems_t *ht = &StatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
+        StatusItems_t *ht = arStatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
         if (ht->IGNORED == 0) {
             basecolor = ht->COLOR;
             basecolor2 = ht->COLOR2;

@@ -45,7 +45,6 @@ extern HICON overlayicons[];
 extern TCHAR *statusNames[];
 
 extern LONG g_cxsmIcon, g_cysmIcon;
-extern StatusItems_t *StatusItems;
 
 int g_hottrack, g_center, g_ignoreselforgroups, g_selectiveIcon, g_hottrack_done;
 HWND g_focusWnd;
@@ -266,7 +265,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int 
 	HRGN rgn = 0;
 	int avatar_size = cfg::dat.avatarSize;
 	DWORD av_saved_left;
-	StatusItems_t *item = contact->wStatus == ID_STATUS_OFFLINE ? &StatusItems[ID_EXTBKAVATARFRAMEOFFLINE - ID_STATUS_OFFLINE] : &StatusItems[ID_EXTBKAVATARFRAME - ID_STATUS_OFFLINE];
+	StatusItems_t *item = contact->wStatus == ID_STATUS_OFFLINE ? arStatusItems[ID_EXTBKAVATARFRAMEOFFLINE - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKAVATARFRAME - ID_STATUS_OFFLINE];
 	int  skinMarginX, skinMarginY;
 	BOOL fOverlay = (cfg::dat.dwFlags & CLUI_FRAME_OVERLAYICONS);
 
@@ -565,10 +564,10 @@ set_bg_l:
 		if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_OUTTOLUNCH) {
 			BYTE perstatus_ignored;
 
-			if ((flags & CONTACTF_IDLE) && !StatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE].IGNORED)
-				sitem = &StatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE];
+			if ((flags & CONTACTF_IDLE) && !arStatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE]->IGNORED)
+				sitem = arStatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE];
 			else
-				sitem = &StatusItems[cstatus - ID_STATUS_OFFLINE];
+				sitem = arStatusItems[cstatus - ID_STATUS_OFFLINE];
 
 			if ( !dat->bisEmbedded) {
 				pp_item = cEntry->status_item ? cEntry->status_item : cEntry->proto_status_item;
@@ -585,15 +584,15 @@ set_bg_l:
 			else if ( !sitem->IGNORED)
 				SetTextColor(hdcMem, sitem->TEXTCOLOR);
 
-			sevencontact_pos = &StatusItems[ID_EXTBKEVEN_CNTCTPOS - ID_STATUS_OFFLINE];
-			soddcontact_pos = &StatusItems[ID_EXTBKODD_CNTCTPOS - ID_STATUS_OFFLINE];
-			sfirstitem = &StatusItems[ID_EXTBKFIRSTITEM - ID_STATUS_OFFLINE];
-			ssingleitem = &StatusItems[ID_EXTBKSINGLEITEM - ID_STATUS_OFFLINE];
-			slastitem = &StatusItems[ID_EXTBKLASTITEM - ID_STATUS_OFFLINE];
+			sevencontact_pos = arStatusItems[ID_EXTBKEVEN_CNTCTPOS - ID_STATUS_OFFLINE];
+			soddcontact_pos = arStatusItems[ID_EXTBKODD_CNTCTPOS - ID_STATUS_OFFLINE];
+			sfirstitem = arStatusItems[ID_EXTBKFIRSTITEM - ID_STATUS_OFFLINE];
+			ssingleitem = arStatusItems[ID_EXTBKSINGLEITEM - ID_STATUS_OFFLINE];
+			slastitem = arStatusItems[ID_EXTBKLASTITEM - ID_STATUS_OFFLINE];
 
-			sfirstitem_NG = &StatusItems[ID_EXTBKFIRSTITEM_NG - ID_STATUS_OFFLINE];
-			ssingleitem_NG = &StatusItems[ID_EXTBKSINGLEITEM_NG - ID_STATUS_OFFLINE];
-			slastitem_NG = &StatusItems[ID_EXTBKLASTITEM_NG - ID_STATUS_OFFLINE];
+			sfirstitem_NG = arStatusItems[ID_EXTBKFIRSTITEM_NG - ID_STATUS_OFFLINE];
+			ssingleitem_NG = arStatusItems[ID_EXTBKSINGLEITEM_NG - ID_STATUS_OFFLINE];
+			slastitem_NG = arStatusItems[ID_EXTBKLASTITEM_NG - ID_STATUS_OFFLINE];
 
 			rc.left = sitem->MARGIN_LEFT + bg_indent_l;
 			rc.top = y + sitem->MARGIN_TOP;
@@ -775,9 +774,9 @@ set_bg_l:
 	}
 
 	if (type == CLCIT_GROUP) {
-		StatusItems_t *sempty = &StatusItems[ID_EXTBKEMPTYGROUPS - ID_STATUS_OFFLINE];
-		StatusItems_t *sexpanded = &StatusItems[ID_EXTBKEXPANDEDGROUP - ID_STATUS_OFFLINE];
-		StatusItems_t *scollapsed = &StatusItems[ID_EXTBKCOLLAPSEDDGROUP - ID_STATUS_OFFLINE];
+		StatusItems_t *sempty = arStatusItems[ID_EXTBKEMPTYGROUPS - ID_STATUS_OFFLINE];
+		StatusItems_t *sexpanded = arStatusItems[ID_EXTBKEXPANDEDGROUP - ID_STATUS_OFFLINE];
+		StatusItems_t *scollapsed = arStatusItems[ID_EXTBKCOLLAPSEDDGROUP - ID_STATUS_OFFLINE];
 
 		ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
 		if (contact->group->cl.count == 0) {
@@ -814,7 +813,7 @@ set_bg_l:
 		}
 	}
 	if (selected) {
-		StatusItems_t *sselected = &StatusItems[ID_EXTBKSELECTION - ID_STATUS_OFFLINE];
+		StatusItems_t *sselected = arStatusItems[ID_EXTBKSELECTION - ID_STATUS_OFFLINE];
 
 		if ( !g_ignoreselforgroups || type != CLCIT_GROUP) {
 			if ( !sselected->IGNORED) {
@@ -840,7 +839,7 @@ set_bg_l:
 		}
 	}
 	else if (g_hottrack) {
-		StatusItems_t *ht = &StatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
+		StatusItems_t *ht = arStatusItems[ID_EXTBKHOTTRACK - ID_STATUS_OFFLINE];
 
 		SetHotTrackColour(hdcMem, dat);
 		if (ht->IGNORED == 0)

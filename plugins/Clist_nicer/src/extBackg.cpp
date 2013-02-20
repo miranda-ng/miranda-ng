@@ -28,7 +28,7 @@ extern int g_hottrack;
 
 extern HWND g_hwndViewModeFrame;
 
-StatusItems_t *StatusItems = NULL;
+LIST<StatusItems_t> arStatusItems(10);
 ImageItem *g_ImageItems = NULL, *g_glyphItem = NULL;
 ButtonItem *g_ButtonItems = NULL;
 ImageItem *g_CLUIImageItem = NULL;
@@ -243,8 +243,11 @@ static StatusItems_t _StatusItems[] = {
 
 BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem)
 {
-	status = (status >= ID_STATUS_OFFLINE && status <= ID_EXTBK_LAST) ? status : ID_STATUS_OFFLINE;     // better check the index...
-	*retitem = StatusItems[status - ID_STATUS_OFFLINE];
+	int idx = status - ID_STATUS_OFFLINE; // better check the index...
+	if ( idx < 0 || idx >= arStatusItems.getCount())
+		idx = 0;
+
+	*retitem = *arStatusItems[idx];
 	if (g_hottrack && status != ID_EXTBKHOTTRACK)        // allow hottracking for ignored items, unless hottrack item itself should be ignored
 		retitem->IGNORED = FALSE;
 	return TRUE;
@@ -252,14 +255,13 @@ BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem)
 
 StatusItems_t *GetProtocolStatusItem(const char *szProto)
 {
-	int i;
-
 	if (szProto == NULL)
 		return NULL;
 
-	for (i = ID_EXTBK_LAST_D - ID_STATUS_OFFLINE + 1; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-		if ( !strcmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, szProto))
-			return &StatusItems[i];
+	for (int i = SIZEOF(_StatusItems); i < arStatusItems.getCount(); i++) {
+		StatusItems_t *p = arStatusItems[i];
+		if ( !strcmp(p->szName[0] == '{' ? p->szName+3 : p->szName, szProto))
+			return p;
 	}
 	return NULL;
 }
@@ -267,93 +269,61 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
 // fills the struct with the settings in the database
 void LoadExtBkSettingsFromDB()
 {
-	DWORD ret;
-	int n;
-	char buffer[255];
-	int protoCount = 0, i;
-	PROTOACCOUNT **accs = 0;
-	DBVARIANT dbv = {0};
+	int i, n;
+	for (i=0; i < SIZEOF(_StatusItems); i++) {
+		StatusItems_t *p = (StatusItems_t*)mir_alloc( sizeof(StatusItems_t));
+		*p = _StatusItems[i];
+		arStatusItems.insert(p);
+	}
 
+	int protoCount;
+	PROTOACCOUNT **accs;
 	ProtoEnumAccounts( &protoCount, &accs );
 
-	StatusItems = (StatusItems_t *)malloc(sizeof(StatusItems_t) * ((ID_EXTBK_LAST - ID_STATUS_OFFLINE) + protoCount + 2));
-	CopyMemory(StatusItems, _StatusItems, sizeof(_StatusItems));
-
 	for (i = 0; i < protoCount; i++) {
+		StatusItems_t *p = (StatusItems_t*)mir_alloc( sizeof(StatusItems_t));
+		*p = _StatusItems[0];
 		ID_EXTBK_LAST++;
-		CopyMemory(&StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE], &StatusItems[0], sizeof(StatusItems_t));
-		mir_snprintf(StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].szDBname, 30, "EXBK_%s", accs[i]->szModuleName );
+
+		mir_snprintf(p->szDBname, 30, "EXBK_%s", accs[i]->szModuleName );
 		if (i == 0) {
-			lstrcpynA(StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].szName, "{-}", 30);
-			strncat(StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].szName, accs[i]->szModuleName, 30);
+			lstrcpynA(p->szName, "{-}", 30);
+			strncat(p->szName, accs[i]->szModuleName, 30);
 		}
-		else
-			lstrcpynA(StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].szName, accs[i]->szModuleName, 30);
-		StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].statusID = ID_EXTBK_LAST;
+		else lstrcpynA(p->szName, accs[i]->szModuleName, 30);
+		p->statusID = ID_EXTBK_LAST;
+		arStatusItems.insert(p);
 	}
-	for (n = 0; n <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; n++) {
-		if (StatusItems[n].statusID != ID_EXTBKSEPARATOR) {
-			StatusItems[n].imageItem = 0;
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_IGNORE");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].IGNORED);
-			StatusItems[n]. IGNORED = (BYTE) ret;
 
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_GRADIENT");
-			ret = cfg::getDword("CLCExt", buffer, StatusItems[n].GRADIENT);
-			StatusItems[n]. GRADIENT = (BYTE) ret;
+	for (n = 0; n < arStatusItems.getCount(); n++) {
+		StatusItems_t *p = arStatusItems[n];
+		if (p->statusID == ID_EXTBKSEPARATOR)
+			continue;
 
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_CORNER");
-			ret = cfg::getDword("CLCExt", buffer, StatusItems[n].CORNER);
-			StatusItems[n]. CORNER = (BYTE) ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR");
-			ret = cfg::getDword("CLCExt", buffer, StatusItems[n].COLOR);
-			StatusItems[n]. COLOR = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2");
-			ret = cfg::getDword(NULL, "CLCExt", buffer, StatusItems[n].COLOR2);
-			StatusItems[n]. COLOR2 = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2_TRANSPARENT");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].COLOR2_TRANSPARENT);
-			StatusItems[n]. COLOR2_TRANSPARENT = (BYTE) ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_TEXTCOLOR");
-			ret = cfg::getDword("CLCExt", buffer, StatusItems[n].TEXTCOLOR);
-			StatusItems[n]. TEXTCOLOR = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_ALPHA");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].ALPHA);
-			StatusItems[n]. ALPHA = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_LEFT");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].MARGIN_LEFT);
-			StatusItems[n]. MARGIN_LEFT = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_TOP");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].MARGIN_TOP);
-			StatusItems[n]. MARGIN_TOP = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_RIGHT");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].MARGIN_RIGHT);
-			StatusItems[n]. MARGIN_RIGHT = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_BOTTOM");
-			ret = cfg::getByte("CLCExt", buffer, StatusItems[n].MARGIN_BOTTOM);
-			StatusItems[n]. MARGIN_BOTTOM = ret;
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_BDRSTYLE");
-			ret = cfg::getDword("CLCExt", buffer, StatusItems[n].BORDERSTYLE);
-			StatusItems[n]. BORDERSTYLE = ret;
-		}
+		p->imageItem = 0;
+		char buffer[255], *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		strcpy(pszEnd, "IGNORE"); p->IGNORED = (BYTE)cfg::getByte("CLCExt", buffer, p->IGNORED);
+		strcpy(pszEnd, "GRADIENT"); p->GRADIENT = (BYTE)cfg::getDword("CLCExt", buffer, p->GRADIENT);
+		strcpy(pszEnd, "CORNER"); p->CORNER = (BYTE)cfg::getDword("CLCExt", buffer, p->CORNER);
+		strcpy(pszEnd, "COLOR"); p->COLOR = cfg::getDword("CLCExt", buffer, p->COLOR);
+		strcpy(pszEnd, "COLOR2"); p->COLOR2 = cfg::getDword(NULL, "CLCExt", buffer, p->COLOR2);
+		strcpy(pszEnd, "COLOR2_TRANSPARENT"); p->COLOR2_TRANSPARENT = (BYTE)cfg::getByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
+		strcpy(pszEnd, "TEXTCOLOR"); p->TEXTCOLOR = cfg::getDword("CLCExt", buffer, p->TEXTCOLOR);
+		strcpy(pszEnd, "ALPHA"); p->ALPHA = cfg::getByte("CLCExt", buffer, p->ALPHA);
+		strcpy(pszEnd, "MRGN_LEFT"); p->MARGIN_LEFT = cfg::getByte("CLCExt", buffer, p->MARGIN_LEFT);
+		strcpy(pszEnd, "MRGN_TOP"); p->MARGIN_TOP = cfg::getByte("CLCExt", buffer, p->MARGIN_TOP);
+		strcpy(pszEnd, "MRGN_RIGHT"); p->MARGIN_RIGHT = cfg::getByte("CLCExt", buffer, p->MARGIN_RIGHT);
+		strcpy(pszEnd, "MRGN_BOTTOM"); p->MARGIN_BOTTOM = cfg::getByte("CLCExt", buffer, p->MARGIN_BOTTOM);
+		strcpy(pszEnd, "BDRSTYLE"); p->BORDERSTYLE = cfg::getDword("CLCExt", buffer, p->BORDERSTYLE);
 	}
+
 	if (cfg::dat.bFirstRun) {
-		StatusItems_t *item = &StatusItems[ID_EXTBKBUTTONBAR - ID_STATUS_OFFLINE];
+		StatusItems_t *item = arStatusItems[ID_EXTBKBUTTONBAR - ID_STATUS_OFFLINE];
 
 		item->COLOR = GetSysColor(COLOR_3DFACE);
 		item->COLOR2 = GetSysColor(COLOR_3DFACE);
 
-		item = &StatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
+		item = arStatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
 		item->COLOR = item->COLOR2 = GetSysColor(COLOR_WINDOW);
 		item->BORDERSTYLE = EDGE_ETCHED;
 		SaveCompleteStructToDB();
@@ -363,50 +333,27 @@ void LoadExtBkSettingsFromDB()
 // writes whole struct to the database
 static void SaveCompleteStructToDB(void)
 {
-	int n;
 	char buffer[255];
 
-	for (n = 0; n <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; n++) {
-		if (StatusItems[n].statusID != ID_EXTBKSEPARATOR) {
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_IGNORE");
-			cfg::writeByte("CLCExt", buffer, StatusItems[n].IGNORED);
+	for (int n = 0; n < arStatusItems.getCount(); n++) {
+		StatusItems_t *p = arStatusItems[n];
+		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		if (p->statusID == ID_EXTBKSEPARATOR)
+			continue;
 
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_GRADIENT");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].GRADIENT);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_CORNER");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].CORNER);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].COLOR);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].COLOR2);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2_TRANSPARENT");
-			cfg::writeByte("CLCExt", buffer, StatusItems[n].COLOR2_TRANSPARENT);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_TEXTCOLOR");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].TEXTCOLOR);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_ALPHA");
-			cfg::writeByte("CLCExt", buffer, (BYTE)StatusItems[n].ALPHA);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_LEFT");
-			cfg::writeByte("CLCExt", buffer, (BYTE)StatusItems[n].MARGIN_LEFT);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_TOP");
-			cfg::writeByte("CLCExt", buffer, (BYTE)StatusItems[n].MARGIN_TOP);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_RIGHT");
-			cfg::writeByte("CLCExt", buffer, (BYTE)StatusItems[n].MARGIN_RIGHT);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MRGN_BOTTOM");
-			cfg::writeByte("CLCExt", buffer, (BYTE)StatusItems[n].MARGIN_BOTTOM);
-
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_BDRSTYLE");
-			cfg::writeDword("CLCExt", buffer, StatusItems[n].BORDERSTYLE);
-		}
+		strcpy(pszEnd, "IGNORE"); cfg::writeByte("CLCExt", buffer, p->IGNORED);
+		strcpy(pszEnd, "GRADIENT"); cfg::writeDword("CLCExt", buffer, p->GRADIENT);
+		strcpy(pszEnd, "CORNER"); cfg::writeDword("CLCExt", buffer, p->CORNER);
+		strcpy(pszEnd, "COLOR"); cfg::writeDword("CLCExt", buffer, p->COLOR);
+		strcpy(pszEnd, "COLOR2"); cfg::writeDword("CLCExt", buffer, p->COLOR2);
+		strcpy(pszEnd, "COLOR2_TRANSPARENT"); cfg::writeByte("CLCExt", buffer, p->COLOR2_TRANSPARENT);
+		strcpy(pszEnd, "TEXTCOLOR"); cfg::writeDword("CLCExt", buffer, p->TEXTCOLOR);
+		strcpy(pszEnd, "ALPHA"); cfg::writeByte("CLCExt", buffer, (BYTE)p->ALPHA);
+		strcpy(pszEnd, "MRGN_LEFT"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
+		strcpy(pszEnd, "MRGN_TOP"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_TOP);
+		strcpy(pszEnd, "MRGN_RIGHT"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
+		strcpy(pszEnd, "MRGN_BOTTOM"); cfg::writeByte("CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
+		strcpy(pszEnd, "BDRSTYLE"); cfg::writeDword("CLCExt", buffer, p->BORDERSTYLE);
 	}
 }
 
@@ -429,7 +376,7 @@ void Reload3dBevelColors()
 	cfg::dat.hPen3DDark = CreatePen(PS_SOLID, 1, cfg::getDword("CLCExt", "3ddark", GetSysColor(COLOR_3DSHADOW)));
 }
 
-// Save Non-StatusItems Settings
+// Save Non-arStatusItems Settings
 void SaveNonStatusItemsSettings(HWND hwndDlg)
 {
 	BOOL translated;
@@ -491,7 +438,7 @@ struct {char *szModule; char *szSetting; unsigned int size; int defaultval;} _ta
 
 void extbk_export(char *file)
 {
-	int n, i;
+	int i, n;
 	char buffer[255];
 	char szSection[255];
 	char szKey[255];
@@ -501,36 +448,27 @@ void extbk_export(char *file)
 	data = 3;
 
 	WritePrivateProfileStructA("Global", "Version", &data, 4, file);
-	for (n = 0; n <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; n++) {
-		if (StatusItems[n].statusID != ID_EXTBKSEPARATOR) {
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_ALPHA");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].ALPHA), sizeof(StatusItems[n].ALPHA), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR), sizeof(StatusItems[n].COLOR), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR2), sizeof(StatusItems[n].COLOR2), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2_TRANSPARENT");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR2_TRANSPARENT), sizeof(StatusItems[n].COLOR2_TRANSPARENT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_TEXTCOLOR");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].TEXTCOLOR), sizeof(StatusItems[n].TEXTCOLOR), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_CORNER");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].CORNER), sizeof(StatusItems[n].CORNER), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_GRADIENT");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].GRADIENT), sizeof(StatusItems[n].GRADIENT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_IGNORED");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].IGNORED), sizeof(StatusItems[n].IGNORED), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_BOTTOM");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_BOTTOM), sizeof(StatusItems[n].MARGIN_BOTTOM), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_LEFT");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_LEFT), sizeof(StatusItems[n].MARGIN_LEFT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_RIGHT");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_RIGHT), sizeof(StatusItems[n].MARGIN_RIGHT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_TOP");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_TOP), sizeof(StatusItems[n].MARGIN_TOP), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_BORDERSTYLE");
-			WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].BORDERSTYLE), sizeof(StatusItems[n].BORDERSTYLE), file);
-		}
+	for (n = 0; n < arStatusItems.getCount(); n++) {
+		StatusItems_t *p = arStatusItems[n];
+		if (p->statusID == ID_EXTBKSEPARATOR)
+			continue;
+
+		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		strcpy(pszEnd, "ALPHA"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
+		strcpy(pszEnd, "COLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
+		strcpy(pszEnd, "COLOR2"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
+		strcpy(pszEnd, "COLOR2_TRANSPARENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
+		strcpy(pszEnd, "TEXTCOLOR"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
+		strcpy(pszEnd, "CORNER"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
+		strcpy(pszEnd, "GRADIENT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
+		strcpy(pszEnd, "IGNORED"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
+		strcpy(pszEnd, "MARGIN_BOTTOM"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
+		strcpy(pszEnd, "MARGIN_LEFT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
+		strcpy(pszEnd, "MARGIN_RIGHT"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
+		strcpy(pszEnd, "MARGIN_TOP"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
+		strcpy(pszEnd, "BORDERSTYLE"); WritePrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
 	}
+
 	for (n = 0; n <= FONTID_LAST; n++) {
 		mir_snprintf(szSection, 255, "Font%d", n);
 
@@ -563,6 +501,7 @@ void extbk_export(char *file)
 		data = (DWORD)cfg::getWord("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 	}
+
 	i = 0;
 	while(_tagSettings[i].szModule != NULL) {
 		data = 0;
@@ -580,6 +519,7 @@ void extbk_export(char *file)
 		WritePrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
 		i++;
 	}
+
 	if ( !cfg::getString(NULL, "CLC", "BkBitmap", &dbv)) {
 		WritePrivateProfileStringA("Global", "BkBitmap", dbv.pszVal, file);
 		DBFreeVariant(&dbv);
@@ -602,7 +542,6 @@ static StatusItems_t default_item =  {
 	CLCDEFAULT_ALPHA, CLCDEFAULT_MRGN_LEFT, CLCDEFAULT_MRGN_TOP, CLCDEFAULT_MRGN_RIGHT,
 	CLCDEFAULT_MRGN_BOTTOM, CLCDEFAULT_IGNORE
 };
-
 
 static void PreMultiply(HBITMAP hBitmap, int mode)
 {
@@ -752,15 +691,15 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 
 
 	if (strcmp(buffer, "None")) {
-		int i;
-
-		for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-			if ( !_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
-				defaults = &StatusItems[i];
+		for (int i = 0; i < arStatusItems.getCount(); i++) {
+			StatusItems_t *p = arStatusItems[i];
+			if ( !_stricmp(p->szName[0] == '{' ? p->szName+3 : p->szName, buffer)) {
+				defaults = p;
 				break;
 			}
 		}
 	}
+
 	this_item->ALPHA = (int)GetPrivateProfileIntA(szItem, "Alpha", defaults->ALPHA, file);
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
@@ -945,8 +884,9 @@ done_with_glyph:
 				}
 				continue;
 			}
-			for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-				if ( !_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
+			for (i = 0; i < arStatusItems.getCount(); i++) {
+				StatusItems_t *p = arStatusItems[i];
+				if ( !_stricmp(p->szName[0] == '{' ? p->szName+3 : p->szName, buffer)) {
 					if ( !alloced) {
 						if ( !(tmpItem.dwFlags & IMAGE_GLYPH))
 							IMG_CreateItem(&tmpItem, szFinalName, hdc);
@@ -954,7 +894,7 @@ done_with_glyph:
 							newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
 							ZeroMemory(newItem, sizeof(ImageItem));
 							*newItem = tmpItem;
-							StatusItems[i].imageItem = newItem;
+							p->imageItem = newItem;
 							if (g_ImageItems == NULL)
 								g_ImageItems = newItem;
 							else {
@@ -968,7 +908,7 @@ done_with_glyph:
 						}
 					}
 					else if (newItem != NULL)
-						StatusItems[i].imageItem = newItem;
+						p->imageItem = newItem;
 				}
 			}
 		}
@@ -1011,8 +951,8 @@ void IMG_DeleteItems()
 	}
 	g_glyphItem = NULL;
 
-	for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++)
-		StatusItems[i].imageItem = NULL;
+	for (i = 0; i < arStatusItems.getCount(); i++)
+		arStatusItems[i]->imageItem = NULL;
 }
 
 static UINT nextButtonID = IDC_TBFIRSTUID;
@@ -1034,7 +974,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 	GetPrivateProfileStringA(itemName, "Pressed", "None", szBuffer, 1000, file);
 	if ( !_stricmp(szBuffer, "default"))
-		tmpItem.imgPressed = StatusItems[ID_EXTBKTBBUTTONSPRESSED - ID_STATUS_OFFLINE].imageItem;
+		tmpItem.imgPressed = arStatusItems[ID_EXTBKTBBUTTONSPRESSED - ID_STATUS_OFFLINE]->imageItem;
 	else {
 		while(imgItem) {
 			if ( !_stricmp(imgItem->szName, szBuffer)) {
@@ -1048,7 +988,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	imgItem = g_ImageItems;
 	GetPrivateProfileStringA(itemName, "Normal", "None", szBuffer, 1000, file);
 	if ( !_stricmp(szBuffer, "default"))
-		tmpItem.imgNormal = StatusItems[ID_EXTBKTBBUTTONSNPRESSED - ID_STATUS_OFFLINE].imageItem;
+		tmpItem.imgNormal = arStatusItems[ID_EXTBKTBBUTTONSNPRESSED - ID_STATUS_OFFLINE]->imageItem;
 	else {
 		while(imgItem) {
 			if ( !_stricmp(imgItem->szName, szBuffer)) {
@@ -1062,7 +1002,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	imgItem = g_ImageItems;
 	GetPrivateProfileStringA(itemName, "Hover", "None", szBuffer, 1000, file);
 	if ( !_stricmp(szBuffer, "default"))
-		tmpItem.imgHover = StatusItems[ID_EXTBKTBBUTTONMOUSEOVER - ID_STATUS_OFFLINE].imageItem;
+		tmpItem.imgHover = arStatusItems[ID_EXTBKTBBUTTONMOUSEOVER - ID_STATUS_OFFLINE]->imageItem;
 	else {
 		while(imgItem) {
 			if ( !_stricmp(imgItem->szName, szBuffer)) {
@@ -1392,35 +1332,25 @@ void extbk_import(char *file, HWND hwndDlg)
 	char szKey[255], szSection[255];
 	DWORD data, version = 0;
 
-	for (n = 0; n <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; n++) {
-		if (StatusItems[n].statusID != ID_EXTBKSEPARATOR) {
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_ALPHA");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].ALPHA), sizeof(StatusItems[n].ALPHA), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR), sizeof(StatusItems[n].COLOR), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR2), sizeof(StatusItems[n].COLOR2), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_COLOR2_TRANSPARENT");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].COLOR2_TRANSPARENT), sizeof(StatusItems[n].COLOR2_TRANSPARENT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_TEXTCOLOR");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].TEXTCOLOR), sizeof(StatusItems[n].TEXTCOLOR), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_CORNER");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].CORNER), sizeof(StatusItems[n].CORNER), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_GRADIENT");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].GRADIENT), sizeof(StatusItems[n].GRADIENT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_IGNORED");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].IGNORED), sizeof(StatusItems[n].IGNORED), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_BOTTOM");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_BOTTOM), sizeof(StatusItems[n].MARGIN_BOTTOM), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_LEFT");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_LEFT), sizeof(StatusItems[n].MARGIN_LEFT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_RIGHT");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_RIGHT), sizeof(StatusItems[n].MARGIN_RIGHT), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_MARGIN_TOP");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].MARGIN_TOP), sizeof(StatusItems[n].MARGIN_TOP), file);
-			lstrcpyA(buffer, StatusItems[n].szDBname); lstrcatA(buffer, "_BORDERSTYLE");
-			GetPrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].BORDERSTYLE), sizeof(StatusItems[n].BORDERSTYLE), file);
-		}
+	for (n = 0; n < arStatusItems.getCount(); n++) {
+		StatusItems_t *p = arStatusItems[n];
+		if (p->statusID == ID_EXTBKSEPARATOR)
+			continue;
+
+		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
+		strcpy(pszEnd, "ALPHA"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
+		strcpy(pszEnd, "COLOR"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
+		strcpy(pszEnd, "COLOR2"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
+		strcpy(pszEnd, "COLOR2_TRANSPARENT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
+		strcpy(pszEnd, "TEXTCOLOR"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
+		strcpy(pszEnd, "CORNER"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
+		strcpy(pszEnd, "GRADIENT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
+		strcpy(pszEnd, "IGNORED"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
+		strcpy(pszEnd, "MARGIN_BOTTOM"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
+		strcpy(pszEnd, "MARGIN_LEFT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
+		strcpy(pszEnd, "MARGIN_RIGHT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
+		strcpy(pszEnd, "MARGIN_TOP"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
+		strcpy(pszEnd, "BORDERSTYLE"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
 	}
 
 	data = 0;
@@ -1663,18 +1593,17 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	static int iInit = TRUE;
 	static HWND hwndSkinEdit = 0;
 
-	switch(msg)
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwnd);
 		{
-			TCITEM tci;
-			RECT rcClient;
 			int oPage = cfg::getByte("CLUI", "opage", 0);
-			SKINDESCRIPTION sd;
 
-			TranslateDialogDefault(hwnd);
+			RECT rcClient;
 			GetClientRect(hwnd, &rcClient);
 			iInit = TRUE;
+
+			TCITEM tci;
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_SKIN), hwnd, DlgProcSkinOpts);
 			tci.pszText = TranslateT("Load and apply");
@@ -1684,14 +1613,14 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			if (IS_THEMED)
 				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
 
-			if (ServiceExists(MS_CLNSE_INVOKE)) {
-				ZeroMemory(&sd, sizeof(sd));
+			if ( ServiceExists(MS_CLNSE_INVOKE)) {
+				SKINDESCRIPTION sd = { 0 };
 				sd.cbSize = sizeof(sd);
-				sd.StatusItems = StatusItems;
+				sd.StatusItems = arStatusItems.getArray();
 				sd.hWndParent = hwnd;
 				sd.hWndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
 				sd.pfnSaveCompleteStruct = SaveCompleteStructToDB;
-				sd.lastItem = ID_EXTBK_LAST;
+				sd.lastItem = ID_STATUS_OFFLINE + arStatusItems.getCount() + 1;
 				sd.firstItem = ID_STATUS_OFFLINE;
 				sd.pfnClcOptionsChanged = pcli->pfnClcOptionsChanged;
 				sd.hwndCLUI = pcli->hwndContactList;
@@ -1816,24 +1745,24 @@ int CoolSB_SetupScrollBar()
 	* and no item is set to ignored
 	*/
 
-	cfg::dat.bSkinnedScrollbar = !StatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE].IGNORED &&
-		!StatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE].IGNORED;
+	cfg::dat.bSkinnedScrollbar = !arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->IGNORED &&
+		!arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->IGNORED;
 
 
-	if ( !StatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE].imageItem ||
-		!StatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE].imageItem)
+	if ( !arStatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLTHUMBPRESSED - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTON - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTONHOVER - ID_STATUS_OFFLINE]->imageItem ||
+		!arStatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE]->imageItem)
 
 	cfg::dat.bSkinnedScrollbar = FALSE;
 

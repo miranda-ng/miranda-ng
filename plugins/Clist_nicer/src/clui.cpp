@@ -61,7 +61,6 @@ extern HWND g_hwndViewModeFrame, g_hwndEventArea;
 
 extern ImageItem *g_CLUIImageItem;
 extern HBRUSH g_CLUISkinnedBkColor;
-extern StatusItems_t *StatusItems;
 extern HWND g_hwndSFL;
 extern ButtonItem *g_ButtonItems;
 extern COLORREF g_CLUISkinnedBkColorRGB;
@@ -626,7 +625,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	if (winstyle & CLS_SKINNEDFRAME) {
 		BOOL hasTitleBar = wndFrameCLC ? wndFrameCLC->TitleBar.ShowTitleBar : 0;
-		StatusItems_t *item = &StatusItems[(hasTitleBar ? ID_EXTBKOWNEDFRAMEBORDERTB : ID_EXTBKOWNEDFRAMEBORDER) - ID_STATUS_OFFLINE];
+		StatusItems_t *item = arStatusItems[(hasTitleBar ? ID_EXTBKOWNEDFRAMEBORDERTB : ID_EXTBKOWNEDFRAMEBORDER) - ID_STATUS_OFFLINE];
 		skinHeight = item->IGNORED ? 0 : item->MARGIN_BOTTOM + item->MARGIN_TOP;
 	}
 
@@ -704,7 +703,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 					}
 
 					uItemID -= ID_STATUS_OFFLINE;
-					item = &StatusItems[uItemID];
+					item = arStatusItems[uItemID];
 					if ( !item->IGNORED) {
 						int alpha = nmcsbcd->uState == CDIS_DISABLED ? item->ALPHA - 50 : item->ALPHA;
 						DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
@@ -715,9 +714,9 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 											 (nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
 
 					if (nmcsbcd->uItem == HTSCROLL_UP)
-						arrowItem = &StatusItems[ID_EXTBKSCROLLARROWUP - ID_STATUS_OFFLINE];
+						arrowItem = arStatusItems[ID_EXTBKSCROLLARROWUP - ID_STATUS_OFFLINE];
 					if (nmcsbcd->uItem == HTSCROLL_DOWN)
-						arrowItem = &StatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
+						arrowItem = arStatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
 					if (arrowItem && !arrowItem->IGNORED)
 						DrawAlpha(hdcScroll, &nmcsbcd->rect, arrowItem->COLOR, arrowItem->ALPHA, arrowItem->COLOR2, arrowItem->COLOR2_TRANSPARENT,
 								  arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);

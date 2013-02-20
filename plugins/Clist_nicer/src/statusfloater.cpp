@@ -58,8 +58,6 @@ BOOL tooltip = FALSE;
 UINT_PTR hTooltipTimer = 0;
 POINT start_pos;
 
-
-extern StatusItems_t *StatusItems;
 extern int g_padding_y;
 
 extern HIMAGELIST hCListImages;
@@ -765,7 +763,7 @@ void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BO
 	SIZE szDest, szT;
 	BLENDFUNCTION bf = {0};
 	HFONT hOldFont;
-	StatusItems_t *item = &StatusItems[ID_EXTBKSTATUSFLOATER - ID_STATUS_OFFLINE];
+	StatusItems_t *item = arStatusItems[ID_EXTBKSTATUSFLOATER - ID_STATUS_OFFLINE];
 	RECT rcStatusArea;
 	LONG cy;
 

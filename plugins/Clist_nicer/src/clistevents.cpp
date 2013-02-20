@@ -32,8 +32,6 @@ extern wndFrame *wndFrameEventArea;
 
 extern HPEN g_hPenCLUIFrames;
 
-extern StatusItems_t *StatusItems;
-
 HWND g_hwndEventArea = 0;
 
 struct CListEvent {
@@ -215,7 +213,7 @@ LRESULT CALLBACK EventAreaWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			if (cfg::dat.bWallpaperMode)
 				SkinDrawBg(hwnd, hdcMem);
-			item = &StatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
+			item = arStatusItems[ID_EXTBKEVTAREA - ID_STATUS_OFFLINE];
 			if (item->IGNORED) {
 				FillRect(hdcMem, &rc, GetSysColorBrush(COLOR_3DFACE));
 			}
@@ -299,7 +297,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 					mii.dwItemData = (ULONG_PTR) nmi;
 					mii.wID = cfg::dat.wNextMenuID;
 					SetMenuItemInfo(cfg::dat.hMenuNotify, cfg::dat.wNextMenuID, FALSE, &mii);
-					p-> menuId = cfg::dat.wNextMenuID;
+					p->menuId = cfg::dat.wNextMenuID;
 					cfg::dat.wNextMenuID++;
 					if (cfg::dat.wNextMenuID > 0x7fff)
 						cfg::dat.wNextMenuID = 1;

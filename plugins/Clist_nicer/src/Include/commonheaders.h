@@ -52,6 +52,7 @@
 #include <win2k.h>
 #include <m_clistint.h>
 #include <m_database.h>
+#include <m_system_cpp.h>
 #include <m_langpack.h>
 #include <m_avatars.h>
 #include <m_button.h>
@@ -175,7 +176,7 @@
 // shared vars
 extern HINSTANCE g_hInst;
 extern LONG g_cxsmIcon, g_cysmIcon;
-extern StatusItems_t *StatusItems;
+extern LIST<StatusItems_t> arStatusItems;
 extern ImageItem *g_glyphItem;
 
 /* most free()'s are invalid when the code is executed from a dll, so this changes

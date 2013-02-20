@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
 extern HWND g_hwndViewModeFrame, g_hwndEventArea;
-extern StatusItems_t *StatusItems;
 extern int mf_updatethread_running;
 
 extern DWORD WINAPI MF_UpdateThread(LPVOID p);
@@ -1137,7 +1136,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			}
 			if (Frames[pos].Skinned) {
 				int uID = (Frames[pos].TitleBar.ShowTitleBar ? ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE : ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE);
-				lParam += (StatusItems[uID].MARGIN_BOTTOM + StatusItems[uID].MARGIN_TOP);
+				lParam += (arStatusItems[uID]->MARGIN_BOTTOM + arStatusItems[uID]->MARGIN_TOP);
 			}
 			if (Frames[pos].collapsed)	{
 				int oldHeight = Frames[pos].height;
@@ -1694,10 +1693,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 
 	if (pcli && pcli->hwndContactList && GetParent(hwnd) == pcli->hwndContactList) {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SKINNEDFRAME) {
-			StatusItems_t *item = StatusItems ? (hasTitleBar ?  &StatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : &StatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
-			HDC realDC;
-			HBITMAP hbmDraw, hbmOld;
-
+			StatusItems_t *item = (arStatusItems.getCount() != 0) ? (hasTitleBar ?  arStatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
 			if (item == 0)
 				return 0;
 
@@ -1706,7 +1702,8 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 			rc.right = rcWindow.right - rcWindow.left;
 			rc.bottom = rcWindow.bottom - rcWindow.top;
 
-			hdc = realDC = GetWindowDC(hwnd);
+			HBITMAP hbmDraw, hbmOld;
+			HDC realDC = hdc = GetWindowDC(hwnd);
 			if (hwnd == pcli->hwndContactTree) {
 				realDC = CreateCompatibleDC(hdc);
 				hbmDraw = CreateCompatibleBitmap(hdc, rc.right, rc.bottom);
@@ -1717,8 +1714,8 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 
 			BitBlt(realDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, cfg::dat.hdcBg, rcWindow.left - cfg::dat.ptW.x, rcWindow.top - cfg::dat.ptW.y, SRCCOPY);
 
-			DrawAlpha(realDC, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
-					  item->CORNER, item->BORDERSTYLE, item->imageItem);
+			DrawAlpha(realDC, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+
 			if (hwnd == pcli->hwndContactTree) {
 				ExcludeClipRect(hdc, item->MARGIN_LEFT, item->MARGIN_TOP, rc.right - item->MARGIN_RIGHT, rc.bottom - item->MARGIN_BOTTOM);
 				BitBlt(hdc, 0, 0, rc.right, rc.bottom, realDC, 0, 0, SRCCOPY);
@@ -1728,17 +1725,16 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 			}
 			ReleaseDC(hwnd, hdc);
 			return 0;
-		} else if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
-			HPEN hPenOld;
-			HBRUSH brold;
-
+		}
+		
+		if ( GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
 			hdc = GetWindowDC(hwnd);
-			hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
+			HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
 			GetWindowRect(hwnd, &rcWindow);
 			rc.left = rc.top = 0;
 			rc.right = rcWindow.right - rcWindow.left;
 			rc.bottom = rcWindow.bottom - rcWindow.top;
-			brold = reinterpret_cast<HBRUSH>(SelectObject(hdc, GetStockObject(HOLLOW_BRUSH)));
+			HBRUSH brold = reinterpret_cast<HBRUSH>(SelectObject(hdc, GetStockObject(HOLLOW_BRUSH)));
 			Rectangle(hdc, 0, 0, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top);
 			SelectObject(hdc, hPenOld);
 			SelectObject(hdc, brold);
@@ -1751,7 +1747,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar)
 {
-	StatusItems_t *item = StatusItems ? (hasTitleBar ?  &StatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : &StatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
+	StatusItems_t *item = (arStatusItems.getCount() != 0) ? (hasTitleBar ?  arStatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
 	LRESULT orig = oldWndProc ? CallWindowProc(oldWndProc, hwnd, WM_NCCALCSIZE, wParam, lParam) : 0;
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
 	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -2497,7 +2493,7 @@ static int DrawTitleBar(HDC dc, RECT rect, int Frameid)
 	HBITMAP hBmpOsb, hoBmp;
 	HBRUSH hBack, hoBrush;
 	int pos;
-	StatusItems_t *item = &StatusItems[ID_EXTBKFRAMETITLE - ID_STATUS_OFFLINE];
+	StatusItems_t *item = arStatusItems[ID_EXTBKFRAMETITLE - ID_STATUS_OFFLINE];
 
 	/*
 	 * no need to redraw anything while shutting down

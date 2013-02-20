@@ -43,7 +43,6 @@ extern wndFrame *wndFrameCLC;
 extern ButtonItem *g_ButtonItems;
 
 extern int during_sizing;
-extern StatusItems_t *StatusItems;
 
 HIMAGELIST hCListImages;
 
@@ -219,21 +218,21 @@ int ClcShutdown(WPARAM wParam, LPARAM lParam)
 				free(cfg::eCache[i].statusMsg);
 			if (cfg::eCache[i].status_item) {
 				StatusItems_t *item = cfg::eCache[i].status_item;
-				int j;
 
 				free(cfg::eCache[i].status_item);
 				cfg::eCache[i].status_item = 0;
-				for (j = i; j < cfg::nextCacheEntry; j++) {			// avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
+				for (int j = i; j < cfg::nextCacheEntry; j++)  // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
 					if (cfg::eCache[j].status_item == item)
 						cfg::eCache[j].status_item = 0;
-				}
 			}
 		}
 		free(cfg::eCache);
 		cfg::eCache = NULL;
 	}
 	IMG_DeleteItems();
-	free(StatusItems);
+	for (int i=0; i < arStatusItems.getCount(); i++)
+		mir_free(arStatusItems[i]);
+	arStatusItems.destroy();
 	DeleteCriticalSection(&cfg::cachecs);
 	return 0;
 }

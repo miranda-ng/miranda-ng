@@ -220,7 +220,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKTBBUTTONMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKTBBUTTONSPRESSED : ID_EXTBKTBBUTTONSNPRESSED);
 					else
 						item_id = ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : (ctl->stateId == PBS_PRESSED ? ID_EXTBKBUTTONSPRESSED : ID_EXTBKBUTTONSNPRESSED);
-					item = &StatusItems[item_id - ID_STATUS_OFFLINE];
+					item = arStatusItems[item_id - ID_STATUS_OFFLINE];
 
 					SetTextColor(hdcMem, item->TEXTCOLOR);
 					if (item->IGNORED) {

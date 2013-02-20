@@ -29,7 +29,6 @@ static POINT ptMouse = {0};
 static RECT rcMouse = {0};
 static int timer_set = 0, tooltip_active = 0;
 extern HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
-extern StatusItems_t *StatusItems;
 extern HBRUSH g_CLUISkinnedBkColor;
 
 extern HANDLE   (WINAPI *MyOpenThemeData)(HWND, LPCWSTR);
@@ -85,7 +84,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_PAINT:
-		if (cfg::shutDown || !StatusItems)
+		if (cfg::shutDown || arStatusItems.getCount() == 0)
 			return 0;
 
 		if (cfg::dat.bSkinnedStatusBar) {
@@ -114,7 +113,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetBkMode(hdcMem, TRANSPARENT);
 			hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT)));
 			BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
-			item = &StatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
+			item = arStatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
 			if ( !item->IGNORED) {
 				RECT rc = rcClient;
 				rc.left += item->MARGIN_LEFT;

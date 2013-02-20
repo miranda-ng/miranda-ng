@@ -98,7 +98,7 @@ typedef struct {
 
 typedef struct _tagSkinDescription {
     DWORD           cbSize;
-    StatusItems_t   *StatusItems;
+    StatusItems_t **StatusItems;
     int             lastItem;
     int             firstItem;
     char            szModule[100];
