@@ -16,13 +16,10 @@
 [Disable all contacts not included into my contact list]
 [Manage server groups]
 [Run the following application when new Hotmail arrives]
-[...]
 [Allow people on my contact list send messages to mobile device]
 [Connection settings]
 [Direct:]
-[ 1863]
 [Gateway:]
-[ 80]
 [Reset]
 [Notify me when a message delivery has failed]
 [Incoming file transfers]
@@ -141,7 +138,6 @@
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 [Contact tried to view our webcam data (currently not supported)]
-[Contact tried to share media with us (currently not supported)]
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 [Live Alert]

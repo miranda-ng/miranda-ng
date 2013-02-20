@@ -22,7 +22,6 @@
 [Screen Saver is running]
 [Workstation is Locked (2000/XP)]
 [Defined programs are running]
-[...]
 [All other situations]
 [Only notify if status is]
 [Online]

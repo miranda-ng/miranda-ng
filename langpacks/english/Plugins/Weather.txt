@@ -45,6 +45,7 @@
 [3 chars]
 [Elevation]
 [ft]
+[m]
 [Do not append units to values]
 [Do not display fractional values]
 [Frame]
@@ -241,8 +242,6 @@
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [Weather Protocol Text Preview]
 ;file \plugins\Weather\src\weather_popup.cpp
-[This is the name of the city]
-[Here is a short weather description]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [%[..]\tcustom variables]
 ;file \plugins\Weather\src\weather_svcs.cpp

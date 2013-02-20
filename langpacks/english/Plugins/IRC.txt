@@ -31,7 +31,6 @@
 [Full name (e-mail)]
 [Password]
 [Server name]
-[->]
 [Alternative nick]
 [Ident]
 [System]

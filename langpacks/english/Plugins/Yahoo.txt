@@ -46,9 +46,6 @@
 [&Cancel]
 [Invitation reason]
 [Add]
-;file \protocols\Yahoo\src\avatar.cpp
-[Yahoo Error]
-[Avatar upload failed!?!]
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
@@ -69,6 +66,7 @@
 [Set Status]
 [Calendar]
 ;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
 [The message send timed out.]
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 ;file \protocols\Yahoo\src\links.cpp
@@ -76,9 +74,8 @@
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to restart Miranda NG before they take effect]
-[YAHOO Options]
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
+[YAHOO Options]
 [You need to be connected to Yahoo to add to Ignore List.]
 [Yahoo Ignore]
 [Please enter a valid buddy name to ignore.]
@@ -106,7 +103,6 @@
 [&Address Book]
 [&Calendar]
 [Create Conference]
-[&Refresh]
 [&Show Profile]
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
@@ -126,7 +122,6 @@
 [Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
 [Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
-[You have been logged out of the yahoo service.]
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 [Could not log in, unknown reason: %d.]
 [Unknown error %s]

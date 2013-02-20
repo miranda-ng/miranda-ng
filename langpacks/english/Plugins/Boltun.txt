@@ -21,7 +21,6 @@
 [Typing time (for a message of 4 words):]
 [Thinking time:]
 [Engine]
-[...]
 [Base of remarks]
 [Reload]
 [Stay silent, if have no good aswers]

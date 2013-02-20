@@ -12,7 +12,6 @@
 [Configuration]
 [Login Server:]
 [Port:]
-[(2042, 443, 110, 25)]
 [Default]
 [Automatically request authorization on logon]
 [Automatically add contacts to server list on logon]
@@ -45,7 +44,6 @@
 [Remember]
 [Enable avatars support (loading)]
 [Server:]
-[(80, 443, 2041)]
 [Updates check interval, min]
 [Return absolute path]
 [Delete avatar file with contact]
@@ -94,7 +92,6 @@
 [Cancel]
 [Notify]
 [Writed:]
-[0/500]
 [Select e-mail]
 ;file \protocols\MRA\src\MraAntiSpam.cpp
 [Spam bot blocked]

@@ -28,10 +28,8 @@
 [You]
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
-[Chosing server: ]
 [Connected to server %s. There are %s users online now.]
 [Connected to server %s.]
-[On whole Omegle are %s strangers online now.]
 [Stranger 1]
 [Stranger 2]
 [Stranger]
@@ -46,7 +44,6 @@
 [We are already waiting for new stranger...]
 [Connecting...]
 [Waiting for Stranger...]
-[We are disconnecting now, wait...]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Omegle]

@@ -11,7 +11,6 @@
 [Password:]
 [Create a new Facebook account]
 [What's on your mind?]
-[420]
 [Share]
 [Cancel]
 [User Details]

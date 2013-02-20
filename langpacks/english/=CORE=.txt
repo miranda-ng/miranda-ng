@@ -78,7 +78,6 @@
 [Log to]
 [OutputDebugString()]
 [File]
-[...]
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
 [Run now]
 [Show this dialog box when Miranda NG starts]
@@ -385,7 +384,6 @@
 [Fade contact list in/out]
 [Transparent contact list]
 [Inactive opacity:]
-[000%]
 [Active opacity:]
 [Items]
 [Show divider between online and offline contacts]
@@ -439,7 +437,6 @@
 [If window is partially covered, bring iy to front]
 [Window:]
 [Contact list background:]
-[&¤]
 [&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]
@@ -1085,6 +1082,8 @@
 ['(Unknown Contact)' (not moveable)]
 ['(Unknown Contact)']
 [Contact names]
+;file \src\modules\clist\genmenu.cpp
+[Menu Icons]
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 [Customize]
@@ -1170,7 +1169,6 @@
 [Fonts & Colors]
 [Sample Text]
 [Fonts]
-[Installed Plugins]
 ;file \src\modules\icolib\skin2opts.cpp
 [Icon Sets]
 ;file \src\modules\ignore\ignore.cpp
@@ -1279,6 +1277,7 @@
 [Always invisible]
 [Locked status]
 [%s Icons]
+[Main Icons]
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
 ;file \src\modules\utils\bmpfilter.cpp

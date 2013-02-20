@@ -18,7 +18,6 @@
 [Delete filter]
 [Add event]
 [Delete event]
-[...]
 [WinSCP path]
 [WinSCP log path]
 [New messages on top]

@@ -78,9 +78,6 @@
 [Unknown]
 [OTR: %s (%s)]
 [OTR %s (%s)]
-[OTR New Fingerprint]
-[OTR encrypted session with '%s'.\n\nFingerprint is UNVERIFIED.\n\n%s\n\nVerify?]
-[A new fingerprint has been recieved from '%s'\n\n%s\n\nDo you trust it?]
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
 [OTR unverified]
@@ -137,10 +134,3 @@
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Services]
-;file \plugins\MirOTR\MirOTR\src\otr.cpp
-[Would you like to generate a new private key for this protocol?]
-[Generating new private key.]
-[Please wait.]
-[Would you like to save the current fingerprint list?]
-[OTR Log Message]
-;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp

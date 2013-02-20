@@ -23,7 +23,6 @@
 [Tray Icon]
 [Keyboard Flash]
 [Execute Application]
-[...]
 [Use contact notification for this account]
 [Replace nick name]
 [Disable Events]

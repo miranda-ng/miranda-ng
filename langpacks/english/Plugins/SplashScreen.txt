@@ -10,7 +10,6 @@
 [Splash Options]
 [Show splash]
 [Show random splash]
-[...]
 [Play sound]
 [Loop sound]
 [Show Miranda Version]

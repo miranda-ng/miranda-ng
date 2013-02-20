@@ -14,7 +14,6 @@
 [(Default is 12001)]
 [Allow actions to execute programs]
 [Password:]
-[...]
 ;file \plugins\NotifyAnything\src\common.h
 [NotifyAnything]
 ;file \plugins\NotifyAnything\src\main.cpp

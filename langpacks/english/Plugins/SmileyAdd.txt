@@ -8,7 +8,6 @@
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 [Specify Smiley Pack for each category]
-[...]
 [Name:]
 [Author:]
 [Version:]

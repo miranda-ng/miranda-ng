@@ -43,6 +43,3 @@
 [MSN Link Protocol]
 [Gadu-Gadu Link Protocol]
 [Jabber Link Protocol]
-[Testing Service]
-[Miranda Installer Package (demo purpose)]
-[&Install]

@@ -25,10 +25,8 @@
 [Date:]
 [Version:]
 [Locale:]
-[Not included:]
 [Download more Language Packs]
 [Please restart Miranda NG for your changes to take effect.]
-[Check for new &versions of Language Packs periodically]
 [&Download Language]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]

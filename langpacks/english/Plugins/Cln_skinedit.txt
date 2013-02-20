@@ -39,4 +39,3 @@
 [Sunken]
 [Bumped]
 [Etched]
-[Image items]

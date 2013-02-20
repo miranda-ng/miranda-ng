@@ -405,6 +405,10 @@
 [Deny Presences (in)]
 [Deny Presences (out)]
 [Deny Queries]
+[Protocols]
+[Dialogs]
+[Discovery]
+[Privacy]
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for]
 [Jabber Authentication]

@@ -35,7 +35,6 @@
 [Preview]
 [Translucency options (Windows 2000/XP only)]
 [Transparent tooltip]
-[000%]
 [Contacts]
 [Idle]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp

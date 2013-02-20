@@ -66,8 +66,6 @@
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
-[Cannot upload VersionInfo. Incorrect username or password]
-[Cannot upload VersionInfo. Unknown error]
 [Feed]
 [%s\nis a valid feed's address.]
 [New Aggregator]

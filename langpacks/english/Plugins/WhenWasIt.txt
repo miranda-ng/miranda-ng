@@ -8,7 +8,6 @@
 [Notifies you of upcoming birthdays.]
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
-[  ]
 [Popups]
 [Popup timeout:]
 [Preview]

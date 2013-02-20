@@ -59,7 +59,6 @@
 [Hosts]
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
-[Failed to initialize. Plugin disabled.]
 ;file \plugins\Ping\src\pinggraph.cpp
 [Show grid lines]
 [Show stats]

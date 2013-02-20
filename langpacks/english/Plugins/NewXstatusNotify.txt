@@ -29,7 +29,6 @@
 [Enable]
 [Go to Customize -> Sound to select the sounds]
 [Extra status]
-[...]
 [Open]
 [Status message]
 [IndSndList]

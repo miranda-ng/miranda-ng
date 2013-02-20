@@ -147,8 +147,6 @@
 [Export to file]
 [Error Loading Module List]
 [Couldn't open file for writing]
-[Do you want to overwrite it "%s"?]
-[Contact already exists]
 [Import from files]
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]

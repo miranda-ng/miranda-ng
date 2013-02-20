@@ -19,7 +19,6 @@
 [Add Launch]
 [Del Sep/Launch Button]
 [Name: ]
-[...]
 [Path:]
 [Set]
 ;file \plugins\TopToolBar\src\toolbar.cpp
