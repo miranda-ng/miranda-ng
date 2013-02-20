@@ -464,8 +464,11 @@ function ParseSourceFile (SourceFile,array) {
  
  //read file fully into var
  allstrings=sourcefile_stream.ReadAll();
+ //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+ //and remove multi-line comments, started with /* and ended with */
+ allstrings_without_comments=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
  //now make a job, till end of matching regexp
- while ((string = find.exec(allstrings)) != null) {
+ while ((string = find.exec(allstrings_without_comments)) != null) {
     //first, init empty var
     var string;
     //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
