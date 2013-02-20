@@ -90,10 +90,9 @@ PLUGININFOEX pluginInfoEx = {
 	__EMAIL,
 	__COPYRIGHTS,
 	__WEB,
-	UNICODE_AWARE, 
+	UNICODE_AWARE,
 	// {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
-	{0xb1902a52, 0x9114, 0x4d7e, { 0xac, 0x2e, 0xb3, 0xa5, 0x2e, 0x01, 0xd5, 0x74 }}
-
+	{0xb1902a52, 0x9114, 0x4d7e, {0xac, 0x2e, 0xb3, 0xa5, 0x2e, 0x01, 0xd5, 0x74}}
 };
 
 struct ModSetLinkLinkItem { // code from dbe++ plugin by Bio
@@ -143,8 +142,8 @@ int enumModulesSettingsProc( const char *szName, LPARAM lParam)
 
 void FreeModuleSettingLL(ModuleSettingLL* msll)
 {
-    if (msll)
-    {
+	if (msll)
+	{
 		struct ModSetLinkLinkItem *item = msll->first;
 		struct ModSetLinkLinkItem *temp;
 
@@ -255,27 +254,27 @@ void CopyToClipboard(HWND hwnd,LPSTR pszMsg, LPTSTR ptszMsg)
 	if (ptszMsg)
 		buf = mir_tstrdup(ptszMsg);
 	else if (pszMsg)
-		buf = mir_a2t(pszMsg);		
+		buf = mir_a2t(pszMsg);
 
 	if (buf == 0)
 		return;
 
-	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(buf)+1)*sizeof(TCHAR)); 
-	lptstrCopy = (LPTSTR)GlobalLock(hglbCopy); 
+	hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (lstrlen(buf)+1)*sizeof(TCHAR));
+	lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
 	lstrcpy(lptstrCopy, buf);
 	mir_free(buf);
-	GlobalUnlock(hglbCopy); 
+	GlobalUnlock(hglbCopy);
 
 	OpenClipboard(NULL);
-	EmptyClipboard(); 
+	EmptyClipboard();
 
 	SetClipboardData(CF_UNICODETEXT, hglbCopy);
 
 	CloseClipboard();
 }
 
-BOOL isMetaContact(HANDLE hContact) {
-
+BOOL isMetaContact(HANDLE hContact)
+{
 	char *proto;
 	if(bMetaContacts) {
 		proto = GetContactProto(hContact);
@@ -286,16 +285,16 @@ BOOL isMetaContact(HANDLE hContact) {
 	return FALSE;
 }
 
-HANDLE getDefaultContact(HANDLE hContact) {
-
+HANDLE getDefaultContact(HANDLE hContact)
+{
 	if(bMetaContacts) {
 		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)hContact,0);
 	}
 	return 0;
 }
 
-HANDLE getMostOnline(HANDLE hContact) {
-
+HANDLE getMostOnline(HANDLE hContact)
+{
 	if(bMetaContacts) {
 		return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact,0);
 	}
