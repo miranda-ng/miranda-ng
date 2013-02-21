@@ -105,7 +105,7 @@
 Поздравляем! Вы прошли тест, теперь можете отправлять сообщения пользователю.
 [StopSpam: send a message and reply to a anti-spam bot question.]
 StopSpam: отправьте сообщение и ответьте на простой вопрос анти-спам бота.
-[Spammers made me to install small anti-spam system you are now speaking with.Please reply "nospam" without quotes and spaces if you want to contact me.]
+[Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply "nospam" without quotes and spaces if you want to contact me.]
 Здравствуйте! Вы говорите с анти-спам ботом. Пожалуйста напишите слово "nospam" без кавычек, чтобы пройти проверку на спам.
 [Use regex for answers checking]
 Использовать регулярные выражения для проверки ответов
