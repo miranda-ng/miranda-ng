@@ -84,6 +84,7 @@
 #include <m_userinfo.h>
 #include <m_utils.h>
 #include <m_idle.h>
+#include <m_skin.h>
 #include <m_popup.h>
 #include <m_clistint.h>
 #include <m_cluiframes.h>

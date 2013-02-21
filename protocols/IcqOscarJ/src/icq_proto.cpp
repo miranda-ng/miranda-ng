@@ -165,9 +165,7 @@ cheekySearchId( -1 )
 	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
 	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
 
-	IconItemT protoIcon = { m_tszUserName, "main", IDI_ICQ };
-	Icon_RegisterT(hInst, _T("Protocols/ICQ/Accounts"), &protoIcon, 1, m_szModuleName);
-	m_hIconProtocol = protoIcon.hIcolib;
+	m_hIconProtocol = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(m_szModuleName, ID_STATUS_ONLINE), 0);
 
 	// Reset a bunch of session specific settings
 	UpdateGlobalSettings();

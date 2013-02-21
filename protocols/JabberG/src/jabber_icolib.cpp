@@ -175,20 +175,13 @@ CIconPool::CPoolItem *CIconPool::FindItemByName(const char *name)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Icons init
 
-static IconItem iconList[] =
-{
-	{   LPGEN("%s"),  "main", IDI_JABBER },
-};
-
 void CJabberProto::IconsInit(void)
 {
 	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * SIZEOF(TransportProtoTable));
 	for (int i = 0; i < SIZEOF(TransportProtoTable); i++)
 		m_transportProtoTableStartIndex[i] = -1;
 
-	IconItemT protoIcon = { m_tszUserName, "main", IDI_JABBER };
-	Icon_RegisterT(hInst, _T("Protocols/Jabber/Accounts"), &protoIcon, 1, m_szModuleName);
-	m_hProtoIcon = protoIcon.hIcolib;
+	m_hProtoIcon = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(m_szModuleName, ID_STATUS_ONLINE), 0);
 }
 
 HANDLE CJabberProto::GetIconHandle(int iconId)
