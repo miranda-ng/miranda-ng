@@ -431,7 +431,6 @@ void   LoadLogFonts(void);
 void   HookEvents(void);
 void   UnhookEvents(void);
 void   CreateServiceFunctions(void);
-void   DestroyServiceFunctions(void);
 void   CreateHookableEvents(void);
 void   DestroyHookableEvents(void);
 void   TabsInit(void);

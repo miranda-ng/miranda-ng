@@ -65,7 +65,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 		}	}
 
 END_GROUPLOOP:
-		DBWriteContactSettingWord( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
+		db_set_w( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
 		DBWriteContactSettingTString(hContact, pszModule, "Nick", pszDisplayName );
 		return hContact;
 	}
@@ -78,11 +78,11 @@ END_GROUPLOOP:
 	if ( pszGroup && lstrlen( pszGroup ) > 0 )
 		DBWriteContactSettingTString(hContact, "CList", "Group", pszGroup );
 	else
-		DBDeleteContactSetting( hContact, "CList", "Group" );
+		db_unset( hContact, "CList", "Group" );
 	DBWriteContactSettingTString( hContact, pszModule, "Nick", pszDisplayName );
 	DBWriteContactSettingTString( hContact, pszModule, "ChatRoomID", pszRoom );
 	DBWriteContactSettingByte( hContact, pszModule, "ChatRoom", (BYTE)iType );
-	DBWriteContactSettingWord( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
+	db_set_w( hContact, pszModule, "Status", ID_STATUS_OFFLINE );
 	return hContact;
 }
 
@@ -91,8 +91,8 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
 		int i = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0);
-		DBWriteContactSettingWord(hContact, szProto,"ApparentMode",(LPARAM) 0);
-		DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		db_set_w(hContact, szProto,"ApparentMode",(LPARAM) 0);
+		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}
 
@@ -111,8 +111,8 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 			if ( !pszModule || ( pszModule && !strcmp( pszModule, szProto ))) {
 				int i = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0);
 				if ( i != 0 ) {
-					DBWriteContactSettingWord(hContact, szProto,"ApparentMode",(LPARAM)(WORD) 0);
-					DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+					db_set_w(hContact, szProto,"ApparentMode",(LPARAM)(WORD) 0);
+					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		}	}	}
 		hContact = db_find_next(hContact);
 	}

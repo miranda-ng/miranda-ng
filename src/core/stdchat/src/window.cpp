@@ -1749,7 +1749,7 @@ END_REMOVETAB:
 				if (s) {
 					if (s->wState&STATE_TALK) {
 						s->wState &= ~STATE_TALK;
-						DBWriteContactSettingWord(s->hContact, s->pszModule ,"ApparentMode",(LPARAM) 0);
+						db_set_w(s->hContact, s->pszModule ,"ApparentMode",(LPARAM) 0);
 					}
 
 					if (s->wState&GC_EVENT_HIGHLIGHT) {
@@ -1790,7 +1790,7 @@ END_REMOVETAB:
 					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB),i,  &tci);
 					s = (SESSION_INFO*)tci.lParam;
 					if (s && s->hContact && DBGetContactSettingWord(s->hContact, s->pszModule, "TabPosition", 0) != 0)
-						DBWriteContactSettingWord(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+						db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
 		}	}	}
 		break;
 
@@ -1941,15 +1941,15 @@ END_REMOVETAB:
 			case SESSION_TERMINATE:
 				SendMessage(hwndDlg,GC_SAVEWNDPOS,0,0);
 				if (DBGetContactSettingByte(NULL, "Chat", "SavePosition", 0)) {
-					DBWriteContactSettingDword(si->hContact, "Chat", "roomx", si->iX);
-					DBWriteContactSettingDword(si->hContact, "Chat", "roomy", si->iY);
-					DBWriteContactSettingDword(si->hContact, "Chat", "roomwidth" , si->iWidth);
-					DBWriteContactSettingDword(si->hContact, "Chat", "roomheight", si->iHeight);
+					db_set_dw(si->hContact, "Chat", "roomx", si->iX);
+					db_set_dw(si->hContact, "Chat", "roomy", si->iY);
+					db_set_dw(si->hContact, "Chat", "roomwidth" , si->iWidth);
+					db_set_dw(si->hContact, "Chat", "roomheight", si->iHeight);
 				}
 				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
 				si->wState &= ~STATE_TALK;
-				DBWriteContactSettingWord(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
+				db_set_w(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 				return TRUE;
 
@@ -2134,7 +2134,7 @@ LABEL_SHOWWINDOW:
 			if (KillTimer(hwndDlg, TIMERID_FLASHWND))
 				FlashWindow(hwndDlg, FALSE);
 			if (DBGetContactSettingWord(si->hContact, si->pszModule ,"ApparentMode", 0) != 0)
-				DBWriteContactSettingWord(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
+				db_set_w(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
 		}
@@ -2208,9 +2208,9 @@ LABEL_SHOWWINDOW:
 								TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
 								if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
 									if (s->hContact)
-										DBWriteContactSettingWord(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+										db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
 								}
-								else DBDeleteContactSetting(s->hContact, s->pszModule, "TabPosition");
+								else db_unset(s->hContact, s->pszModule, "TabPosition");
 								break;
 				}	}	}	}
 				break;

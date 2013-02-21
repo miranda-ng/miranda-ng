@@ -25,23 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_fontservice.h"
 
 extern HICON hIcons[30];
-extern HIMAGELIST	hImageList;
-extern HIMAGELIST	hIconsList;
-extern BOOL			SmileyAddInstalled;
-extern BOOL			PopUpInstalled;
-extern BOOL			IEviewInstalled;
+extern HIMAGELIST	hImageList, hIconsList;
+extern BOOL       SmileyAddInstalled;
+extern BOOL       PopUpInstalled;
+extern BOOL       IEviewInstalled;
 
-HANDLE				hSendEvent;
-HANDLE				hBuildMenuEvent ;
-HANDLE				g_hModulesLoaded;
-HANDLE g_hModuleLoad;
-HANDLE g_hModuleUnload;
-HANDLE				g_hSystemPreShutdown;
-HANDLE hJoinMenuItem, hLeaveMenuItem;
-HANDLE				g_hHookPrebuildMenu;
-HANDLE				g_hIconsChanged, g_hFontsChanged;
-HANDLE				g_hSmileyOptionsChanged = NULL;
-HANDLE				g_hIconsChanged2;
+HANDLE            hSendEvent;
+HANDLE            hBuildMenuEvent ;
+HANDLE            hJoinMenuItem, hLeaveMenuItem;
 SESSION_INFO		g_TabSession;
 CRITICAL_SECTION	cs;
 
@@ -213,48 +204,6 @@ static int SmileyOptionsChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
-{
-	char* mods[3] = { "Chat", "ChatFonts" };
-	CallService( "DBEditorpp/RegisterModule", (WPARAM)mods, 2 );
-
-	RegisterFonts();
-	AddIcons();
-	LoadIcons();
-	{
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.position = -2000090001;
-		mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
-		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );
-		mi.pszName = LPGEN("&Join");
-		mi.pszService = "GChat/JoinChat";
-		hJoinMenuItem = Menu_AddContactMenuItem(&mi);
-
-		mi.position = -2000090000;
-		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_LEAVE );
-		mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
-		mi.pszName = LPGEN("&Leave");
-		mi.pszService = "GChat/LeaveChat";
-		hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
-	}
-
-	g_hFontsChanged  = HookEvent(ME_FONT_RELOAD, FontsChanged);
-	g_hIconsChanged2 = HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
-
-	if ( ServiceExists( MS_SMILEYADD_SHOWSELECTION )) {
-		SmileyAddInstalled = TRUE;
-		g_hSmileyOptionsChanged = HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
-	}
-	if ( ServiceExists(MS_POPUP_ADDPOPUPEX))
-		PopUpInstalled = TRUE;
-
-	if ( ServiceExists( MS_IEVIEW_WINDOW ))
-		IEviewInstalled = TRUE;
-
-	CList_SetAllOffline(TRUE, NULL);
-	return 0;
-}
-
 static INT_PTR Service_GetCount(WPARAM wParam,LPARAM lParam)
 {
 	int i;
@@ -415,7 +364,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->hContact = CList_AddRoom( gcw->pszModule, ptszID, szTemp, si->iType);
 			DBWriteContactSettingString(si->hContact, si->pszModule , "Topic", "");
-			DBDeleteContactSetting(si->hContact, "CList", "StatusMsg");
+			db_unset(si->hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
 				DBWriteContactSettingTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
@@ -794,77 +743,85 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	PLUGININFOEX* pluginInfo = (PLUGININFOEX*)wParam;
-	if (!stricmp(pluginInfo->shortName, "popup plus") || !stricmp(pluginInfo->shortName, "yapp"))
-		PopUpInstalled = TRUE;
-	return 0;
-}
-
-static int ModuleUnload(WPARAM wParam, LPARAM lParam)
-{
-	PLUGININFOEX* pluginInfo = (PLUGININFOEX*)wParam;
-	if (!stricmp(pluginInfo->shortName, "popup plus") || !stricmp(pluginInfo->shortName, "yapp"))
-		PopUpInstalled = FALSE;
+	PopUpInstalled = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service creation
 
+static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
+{
+	char* mods[3] = { "Chat", "ChatFonts" };
+	CallService( "DBEditorpp/RegisterModule", (WPARAM)mods, 2 );
+
+	RegisterFonts();
+	AddIcons();
+	LoadIcons();
+	{
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.position = -2000090001;
+		mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
+		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );
+		mi.pszName = LPGEN("&Join");
+		mi.pszService = "GChat/JoinChat";
+		hJoinMenuItem = Menu_AddContactMenuItem(&mi);
+
+		mi.position = -2000090000;
+		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_LEAVE );
+		mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
+		mi.pszName = LPGEN("&Leave");
+		mi.pszService = "GChat/LeaveChat";
+		hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
+	}
+
+	HookEvent(ME_FONT_RELOAD, FontsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
+
+	if ( ServiceExists( MS_SMILEYADD_SHOWSELECTION )) {
+		SmileyAddInstalled = TRUE;
+		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
+	}
+
+	ModuleLoad(0, 0);
+
+	if ( ServiceExists( MS_IEVIEW_WINDOW ))
+		IEviewInstalled = TRUE;
+
+	CList_SetAllOffline(TRUE, NULL);
+	return 0;
+}
+
 void HookEvents(void)
 {
 	InitializeCriticalSection(&cs);
-	g_hModulesLoaded =       HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	g_hModuleLoad = HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
-	g_hModuleUnload = HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleUnload);
-	g_hHookPrebuildMenu =    HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
-	g_hSystemPreShutdown =   HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	g_hIconsChanged =	       HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 }
 
 void UnhookEvents(void)
 {
-	UnhookEvent(g_hModulesLoaded);
-	UnhookEvent(g_hModuleLoad);
-	UnhookEvent(g_hModuleUnload);
-	UnhookEvent(g_hSystemPreShutdown);
-	UnhookEvent(g_hHookPrebuildMenu);
-	UnhookEvent(g_hIconsChanged);
-	UnhookEvent(g_hIconsChanged2);
-	UnhookEvent(g_hFontsChanged);
-	if (g_hSmileyOptionsChanged)
-		UnhookEvent(g_hSmileyOptionsChanged);
 	DeleteCriticalSection(&cs);
 }
 
 void CreateServiceFunctions(void)
 {
-	hServiceRegister       = CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
-	hServiceNewChat        = CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
-	hServiceAddEvent       = CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
-	hServiceGetAddEventPtr = CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
-	hServiceGetInfo        = CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
-	hServiceGetCount       = CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
+	CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
+	CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
+	CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
+	CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
+	CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
+	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
 
-	hEventDoubleclicked    = CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclicked);
-	hEventPrebuildMenu     = CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
-	hEventJoinChat         = CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
-	hEventLeaveChat        = CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
-}
-
-void DestroyServiceFunctions(void)
-{
-	DestroyServiceFunction( hServiceRegister       );
-	DestroyServiceFunction( hServiceNewChat        );
-	DestroyServiceFunction( hServiceAddEvent       );
-	DestroyServiceFunction( hServiceGetAddEventPtr );
-	DestroyServiceFunction( hServiceGetInfo        );
-	DestroyServiceFunction( hServiceGetCount       );
-
-	DestroyServiceFunction( hEventDoubleclicked    );
-	DestroyServiceFunction( hEventPrebuildMenu     );
-	DestroyServiceFunction( hEventJoinChat         );
-	DestroyServiceFunction( hEventLeaveChat        );
+	CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclicked);
+	CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
+	CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
+	CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
 }
 
 void CreateHookableEvents(void)
