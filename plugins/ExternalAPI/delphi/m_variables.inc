@@ -22,49 +22,6 @@
 
 const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
 
-// --------------------------------------------------------------------------
-// Memory management
-// --------------------------------------------------------------------------
-
-// Release memory that was allocated by the Variables plugin, e.g. returned 
-// strings.
-
-  MS_VARS_FREEMEMORY:PAnsiChar = 'Vars/FreeMemory';
-{
-  Parameters:
-  ------------------------
-  wParam = (WPARAM)(void *)pntr 
-    Pointer to memory that was allocated by the Variables plugin (e.g. a 
-    returned string) (can be NULL).
-  lParam = 0
-
-  Return Value:
-  ------------------------
-  Does return 0 on success, nozero otherwise.
-
-  Note: Do only use this service to free memory that was *explicitliy* 
-  stated that it should be free with this service.
-}
-
-  MS_VARS_GET_MMI:PAnsiChar = 'Vars/GetMMI';
-{
-  Get Variable's RTL/CRT function poiners to malloc(), free() and
-  realloc().
-
-  Parameters:
-  ------------------------
-  wParam = 0
-  lParam = (LPARAM) &MM_INTERFACE  
-    Pointer to a memory manager interface struct (see m_system.h).
-
-  Return Value:
-  ------------------------
-  Returns 0 on success, nozero otherwise
-
-  Note: Works exactly the same as the MS_SYSTEM_GET_MMI service 
-  service of m_system.h.
-}
-
 // Helper function for easy using:
 
 // --------------------------------------------------------------------------
@@ -73,11 +30,11 @@ const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
 
   MS_VARS_FORMATSTRING:PAnsiChar = 'Vars/FormatString';
 {
-  This service can be used to parse tokens in a text. The tokens will be  
-  replaced by their resolved values. A token can either be a field or a 
-  function. A field takes no arguments and is represented between 
-  %-characters, e.g. "%winampsong%". A function can take any number of 
-  arguments and is represented by a ? or !-character followed by the name 
+  This service can be used to parse tokens in a text. The tokens will be
+  replaced by their resolved values. A token can either be a field or a
+  function. A field takes no arguments and is represented between
+  %-characters, e.g. "%winampsong%". A function can take any number of
+  arguments and is represented by a ? or !-character followed by the name
   of the function and a list of arguments, e.g. "?add(1,2)".
 
   Parameters:
@@ -90,7 +47,7 @@ const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
   ------------------------
   Returns a pointer to the resolved string or NULL in case of an error.
 
-  Note: The returned pointer needs to be freed using MS_VARS_FREEMEMORY.
+  Note: The returned pointer needs to be freed using mir_free().
 }
 
 type
@@ -133,8 +90,8 @@ const
 
   MS_VARS_REGISTERTOKEN:PAnsiChar = 'Vars/RegisterToken';
 {
-  With this service you can define your own token. The newly added tokens 
-  using this service are taken into account on every call to 
+  With this service you can define your own token. The newly added tokens
+  using this service are taken into account on every call to
   MS_VARS_FORMATSTRING.
 
   Parameters:
@@ -145,7 +102,7 @@ const
 
   Return Value:
   ------------------------
-  Returns 0 on success, nonzero otherwise. Existing tokens will be 
+  Returns 0 on success, nonzero otherwise. Existing tokens will be
   'overwritten' if registered twice.
 }
 
@@ -153,22 +110,22 @@ const
 type
   PARGUMENTSINFO = ^TARGUMENTSINFO;
   TARGUMENTSINFO = record
-    cbSize:int;          // You need to check if this is >=sizeof(ARGUMENTSINFO) 
+    cbSize:int;          // You need to check if this is >=sizeof(ARGUMENTSINFO)
                          // (already filled in).
     fi    :^TFORMATINFO; // Arguments passed to MS_VARS_FORMATSTRING.
     argc  :uint;         // Number of elements in the argv array.
-    argv  :^TCHAR;       // Argv[0] will be the token name, the following elements 
+    argv  :^TCHAR;       // Argv[0] will be the token name, the following elements
                          // are the additional arguments.
-    flags :int;          // (output) You can set flags here (initially 0), use the 
+    flags :int;          // (output) You can set flags here (initially 0), use the
                          // AIF_* flags (see below).
   end;
 
 // Available flags for ARGUMENTSINFO:
-// Set the flags of the ARGUMENTSINFO struct to any of these to influence 
+// Set the flags of the ARGUMENTSINFO struct to any of these to influence
 // further parsing.
 const
-  AIF_DONTPARSE = 1; // Don't parse the result of this function, 
-                     // usually the result of a token is parsed 
+  AIF_DONTPARSE = 1; // Don't parse the result of this function,
+                     // usually the result of a token is parsed
                      // again, if the `?` is used as a function character.
   AIF_FALSE = 2;     // The function returned logical false.
 
@@ -185,73 +142,71 @@ typedef void (*VARCLEANUPFUNCW)(WCHAR *wszReturn);
 type
   TTOKENREGISTER = record
     cbSize:int;          // Set this to sizeof(TOKENREGISTER).
-    szTokenString:TCHAR; // Name of the new token to be created, without %, 
+    szTokenString:TCHAR; // Name of the new token to be created, without %,
                          // ?, ! etc. signs (can't be NULL).
-    szService:PAnsiChar; // Name of a service that is used to request the 
-                     // token's value, if no service is used, a function 
+    szService:PAnsiChar; // Name of a service that is used to request the
+                     // token's value, if no service is used, a function
                      // and TRF_PARSEFUNC must be used.
                      // [VARPARSEFUNC];
-    szCleanupService:PAnsiChar; // Name of a service to be called when the 
+    szCleanupService:PAnsiChar; // Name of a service to be called when the
                             // memory allocated in szService can be freed
-                            // (only used when flag VRF_CLEANUP is set, 
+                            // (only used when flag VRF_CLEANUP is set,
                             // else set this to NULL).
                             // [VARCLEANUPFUNC]
-    szHelpText:PAnsiChar;// Help info shown in help dialog (can be NULL). Has to 
-                     // be in the following format: 
-                     // "subject\targuments\tdescription" 
-                     // (Example: "math\t(x, y ,...)\tx + y + ..."), or:  
-                     // "subject\tdescription" 
-                     // (Example: "miranda\tPath to the Miranda-IM 
+    szHelpText:PAnsiChar;// Help info shown in help dialog (can be NULL). Has to
+                     // be in the following format:
+                     // "subject\targuments\tdescription"
+                     // (Example: "math\t(x, y ,...)\tx + y + ..."), or:
+                     // "subject\tdescription"
+                     // (Example: "miranda\tPath to the Miranda-IM
                      // executable").
                      // Note: subject and description are translated by Variables.
-    memType:int;     // Describes which method Varibale's plugin needs to use to 
-                     // free the returned buffer, use one of the VR_MEM_* values 
-                     // (see below). Only valid if the flag VRF_FREEMEM is set, 
+    memType:int;     // Describes which method Varibale's plugin needs to use to
+                     // free the returned buffer, use one of the VR_MEM_* values
+                     // (see below). Only valid if the flag VRF_FREEMEM is set,
                      // use TR_MEM_OWNER otherwise).
     flags  :int;     // Flags to use (see below), one of TRF_* (see below).
   end;
 
 const
 // Available Memory Storage Types:
-// These values describe which method Variables Plugin will use to free the 
+// These values describe which method Variables Plugin will use to free the
 // buffer returned by the parse function or service
-  TR_MEM_VARIABLES = 1;  // Memory is allocated using the functions 
-                         // retrieved by MS_VARS_GET_MMI.
   TR_MEM_MIRANDA   = 2;  // Memory is allocated using Miranda's Memory
-                         // Manager Interface (using the functions 
-                         // returned by MS_SYSTEM_GET_MMI), if 
-                         // VRF_FREEMEM is set, the memory will be 
+                         // Manager Interface (using the functions
+                         // returned by MS_SYSTEM_GET_MMI), if
+                         // VRF_FREEMEM is set, the memory will be
                          // freed by Variables.
-  TR_MEM_OWNER     = 3;  // Memory is owned by the calling plugin 
-                         // (can't be freed by Variables Plugin 
-                         // automatically). This should be used if 
+  TR_MEM_OWNER     = 3;  // Memory is owned by the calling plugin
+                         // (can't be freed by Variables Plugin
+                         // automatically). This should be used if
                          // VRF_FREEMEM is not specified in the flags.
 
 // Available Flags for TOKENREGISTER:
   TRF_FREEMEM      = $01; // Variables Plugin will automatically free the
-                          // pointer returned by the parse function or 
-                          // service (which method it will us is 
+                          // pointer returned by the parse function or
+                          // service (which method it will us is
                           // specified in memType -> see above).
-  TRF_CLEANUP      = $02; // Call cleanup service or function, notifying 
-                          // that the returned buffer can be freed. 
-                          // Normally you should use either TRF_FREEMEM 
+  TRF_CLEANUP      = $02; // Call cleanup service or function, notifying
+                          // that the returned buffer can be freed.
+                          // Normally you should use either TRF_FREEMEM
                           // or TRF_CLEANUP.
   TRF_PARSEFUNC    = $40; // parseFunction will be used instead of a service.
   TRF_CLEANUPFUNC  = $80; // cleanupFunction will be used instead of a service.
   TRF_USEFUNCS = TRF_PARSEFUNC or TRF_CLEANUPFUNC;
-  TRF_UNPARSEDARGS = $04; // Provide the arguments for the parse 
-                          // function in their raw (unparsed) form. 
-                          // By default, arguments are parsed before 
+  TRF_UNPARSEDARGS = $04; // Provide the arguments for the parse
+                          // function in their raw (unparsed) form.
+                          // By default, arguments are parsed before
                           // presenting them to the parse function.
   TRF_FIELD        = $08; // The token can be used as a %field%.
-  TRF_FUNCTION     = $10; // The token can be used as a ?function(). 
-                          // Normally you should use either TRF_FIELD or 
+  TRF_FUNCTION     = $10; // The token can be used as a ?function().
+                          // Normally you should use either TRF_FIELD or
                           // TRF_FUNCTION.
-  TRF_UNICODE      = $20; // Strings in structure are unicode (WCHAR*). 
-                          // In this case, the strings pointing to the 
-                          // arguments in the ARGUMENTS struct are 
-                          // unicode also. The returned buffer is 
-                          // expected to be unicode also, and the 
+  TRF_UNICODE      = $20; // Strings in structure are unicode (WCHAR*).
+                          // In this case, the strings pointing to the
+                          // arguments in the ARGUMENTS struct are
+                          // unicode also. The returned buffer is
+                          // expected to be unicode also, and the
                           // unicode parse and cleanup functions are called.
 
   TRF_TCHAR = TRF_UNICODE; // Strings in structure are TCHAR*.
@@ -270,14 +225,14 @@ const
 //   see above
 
 // Return Value:
-// Needs to return the pointer to a dynamically allocacated string or NULL. 
+// Needs to return the pointer to a dynamically allocacated string or NULL.
 // A return value of NULL is regarded as an error (eCount will be increaded).
 // Flags in the ARGUMENTSINFO struct can be set (see above).
 
 // Callback Service (szCallbackService) / cleanupFunction:
 // ------------------------
-// This service is called when the memory that was allocated by the parse 
-// function or service can be freed. Note: It will only be called when the 
+// This service is called when the memory that was allocated by the parse
+// function or service can be freed. Note: It will only be called when the
 // flag VRF_CLEANUP of TOKENREGISTER is set.
 
 // Parameters:
@@ -300,7 +255,7 @@ const
   MS_VARS_SHOWHELPEX:PAnsiChar = 'Vars/ShowHelpEx';
 
 // This service can be used to open the help dialog of Variables. This dialog
-// provides easy input for the user and/or information about the available 
+// provides easy input for the user and/or information about the available
 // tokens.
 
 // Parameters:
@@ -316,20 +271,20 @@ const
 type
   TVARHELPINFO = record
     cbSize:int;      // Set to sizeof(VARHELPINFO).
-    fi:^TFORMATINFO; // Used for both input and output. If this pointer is not 
-                   // NULL, the information is used as the initial values for 
+    fi:^TFORMATINFO; // Used for both input and output. If this pointer is not
+                   // NULL, the information is used as the initial values for
                    // the dialog.
-    hwndCtrl:HWND; // Used for both input and output. The window text of this 
-                   // window will be read and used as the initial input of the 
+    hwndCtrl:HWND; // Used for both input and output. The window text of this
+                   // window will be read and used as the initial input of the
                    // input dialog. If the user presses the OK button the window
-                   // text of this window will be set to the text of the input 
-                   // field and a EN_CHANGE message via WM_COMMAND is send to 
+                   // text of this window will be set to the text of the input
+                   // field and a EN_CHANGE message via WM_COMMAND is send to
                    // this window. (Can be NULL).
-    szSubjectDesc:PAnsiChar; // The description of the %subject% token will be set 
+    szSubjectDesc:PAnsiChar; // The description of the %subject% token will be set
                          // to this text, if not NULL. This is translated
                          // automatically.
-    szExtraTextDesc:PAnsiChar; // The description of the %extratext% token will be 
-                           // set to this text, if not NULL. This is translated 
+    szExtraTextDesc:PAnsiChar; // The description of the %extratext% token will be
+                           // set to this text, if not NULL. This is translated
                            // automatically.
     flags:int;  // Flags, see below.
   end;
@@ -338,26 +293,26 @@ type
 const
 // Flags for VARHELPINFO
   VHF_TOKENS             = $00000001; // Create a dialog with the list of tokens
-  VHF_INPUT              = $00000002; // Create a dialog with an input 
+  VHF_INPUT              = $00000002; // Create a dialog with an input
                                       // field (this contains the list of
                                       // tokens as well).
-  VHF_SUBJECT            = $00000004; // Create a dialog to select a 
+  VHF_SUBJECT            = $00000004; // Create a dialog to select a
                                       // contact for the %subject% token.
-  VHF_EXTRATEXT          = $00000008; // Create a dialog to enter a text 
+  VHF_EXTRATEXT          = $00000008; // Create a dialog to enter a text
                                       // for the %extratext% token.
   VHF_HELP               = $00000010; // Create a dialog with help info.
-  VHF_HIDESUBJECTTOKEN   = $00000020; // Hide the %subject% token in the 
+  VHF_HIDESUBJECTTOKEN   = $00000020; // Hide the %subject% token in the
                                       // list of tokens.
-  VHF_HIDEEXTRATEXTTOKEN = $00000040; // Hide the %extratext% token in 
+  VHF_HIDEEXTRATEXTTOKEN = $00000040; // Hide the %extratext% token in
                                       // the list of tokens.
-  VHF_DONTFILLSTRUCT     = $00000080; // Don't fill the struct with the 
+  VHF_DONTFILLSTRUCT     = $00000080; // Don't fill the struct with the
                                       // new information if OK is pressed
-  VHF_FULLFILLSTRUCT     = $00000100; // Fill all members of the struct 
-                                      // when OK is pressed. By default 
+  VHF_FULLFILLSTRUCT     = $00000100; // Fill all members of the struct
+                                      // when OK is pressed. By default
                                       // only szFormat is set. With this
-                                      // flag on, hContact and 
+                                      // flag on, hContact and
                                       // szExtraText are also set.
-  VHF_SETLASTSUBJECT     = $00000200; // Set the last contact that was 
+  VHF_SETLASTSUBJECT     = $00000200; // Set the last contact that was
                                       // used in the %subject% dialog in
                                       // case fi.hContact is NULL.
 
@@ -366,14 +321,14 @@ const
   VHF_SIMPLEDLG  = VHF_INPUT  or VHF_HELP;
   VHF_NOINPUTDLG = VHF_TOKENS or VHF_HELP;
 
-// If the service fills information in the struct for szFormat or szExtraText, 
+// If the service fills information in the struct for szFormat or szExtraText,
 // these members must be free'd using the free function of Variables.
-// If wParam==NULL, the dialog is created modeless. Only one dialog can be 
-// shown at the time. 
-// If both hwndCtrl and fi are NULL, the user input will not be retrievable. 
-// In this case, the dialog is created with only a "Close" button, instead of 
+// If wParam==NULL, the dialog is created modeless. Only one dialog can be
+// shown at the time.
+// If both hwndCtrl and fi are NULL, the user input will not be retrievable.
+// In this case, the dialog is created with only a "Close" button, instead of
 // the "OK" and "Cancel" buttons.
-// In case of modeless dialog and fi != NULL, please make sure this pointer 
+// In case of modeless dialog and fi != NULL, please make sure this pointer
 // stays valid while the dialog is open.
 
 
@@ -398,7 +353,7 @@ const
                        // Variables help dialog. Returns (HICON)hIcon on
                        // success or NULL on failure;
   VSI_HELPTIPTEXT = 2; // Returns the tooltip text you can use for the
-                       // help button. Returns (AnsiChar *)szTipText, a 
+                       // help button. Returns (AnsiChar *)szTipText, a
                        // static, translated buffer containing the help
                        // text or NULL on error.
 
@@ -407,29 +362,29 @@ const
   WARNING: This service is obsolete, please use MS_VARS_SHOWHELPEX
 
   Shows a help dialog where all possible tokens are displayed. The tokens
-  are explained on the dialog, too. The user can edit the initial string and 
+  are explained on the dialog, too. The user can edit the initial string and
   insert as many tokens as he likes.
 
   Parameters:
   ------------------------
   wParam = (HWND)hwndEdit
-    Handle to an edit control in which the modified string 
-    should be inserted (When the user clicks OK in the dialog the edited 
+    Handle to an edit control in which the modified string
+    should be inserted (When the user clicks OK in the dialog the edited
     string will be set to hwndEdit) (can be NULL).
   lParam = (AnsiChar *)pszInitialString
-    String that the user is provided with initially when 
-    the dialog gets opened (If this is NULL then the current text in the 
+    String that the user is provided with initially when
+    the dialog gets opened (If this is NULL then the current text in the
     hwndEdit edit control will be used) (can be NULL).
 
   Return Value:
   ------------------------
   Returns the handle to the help dialog (HWND).
 
-  Note: Only one help dialog can be opened at a time. When the dialog gets 
-  closed an EN_CHANGE of the edit controll will be triggered because the 
+  Note: Only one help dialog can be opened at a time. When the dialog gets
+  closed an EN_CHANGE of the edit controll will be triggered because the
   contents were updated. (Only when user selected OK).
 
-  Example: 
+  Example:
   CallService(MS_VARS_SHOWHELP, (WPARAM)hwndEdit, (LPARAM)"some initial text");
 }
 
@@ -439,7 +394,7 @@ const
 
   MS_VARS_GETCONTACTFROMSTRING:PAnsiChar = 'Vars/GetContactFromString';
 {
-  Searching for contacts in the database. You can find contacts in db by 
+  Searching for contacts in the database. You can find contacts in db by
   searching for their name, e.g first name.
 
   Parameters:
@@ -451,11 +406,10 @@ const
   Return Value:
   ------------------------
   Returns number of contacts found matching the given string representation.
-  The hContacts array of CONTACTSINFO struct contains these hContacts after 
+  The hContacts array of CONTACTSINFO struct contains these hContacts after
   the call.
 
-  Note: The hContacts array needs to be freed after use using 
-  MS_VARS_FREEMEMORY.
+  Note: The hContacts array needs to be freed after use using mir_free
 }
 
 type

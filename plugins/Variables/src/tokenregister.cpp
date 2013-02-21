@@ -237,12 +237,9 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 			else if (trCopy.szCleanupService != NULL)
 				CallService( trCopy.szCleanupService, 0, (LPARAM)callRes );
 		}
-		if (trCopy.flags & TRF_FREEMEM ) {
-			if (trCopy.memType == TR_MEM_MIRANDA )
+		if (trCopy.flags & TRF_FREEMEM)
+			if (trCopy.memType == TR_MEM_MIRANDA)
 				mir_free(( void* )callRes );
-//			else if (trCopy.memType == TR_MEM_VARIABLES )
-//				mir_free((void *)callRes);
-		}
 	}
 	LeaveCriticalSection(&csRegister);
 	return res;

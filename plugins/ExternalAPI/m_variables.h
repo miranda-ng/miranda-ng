@@ -59,7 +59,7 @@
 // ------------------------
 // Returns a pointer to the resolved string or NULL in case of an error.
 
-// Note: The returned pointer needs to be freed using MS_VARS_FREEMEMORY.
+// Note: The returned pointer needs to be freed using mir_free().
 
 typedef struct {
   int cbSize;  // Set this to sizeof(FORMATINFO).
@@ -107,7 +107,7 @@ typedef struct {
 
 // Helper #1: variables_parse
 // ------------------------
-// The returned string needs to be freed using MS_VARS_FREEMEMORY.
+// The returned string needs to be freed using mir_free.
 
 #ifndef VARIABLES_NOHELPER
 __inline static TCHAR *variables_parse(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact) {
@@ -292,8 +292,6 @@ typedef struct {
 // Available Memory Storage Types:
 // These values describe which method Variables Plugin will use to free the
 // buffer returned by the parse function or service
-#define TR_MEM_VARIABLES    1  // Memory is allocated using the functions
-                               // retrieved by MS_VARS_GET_MMI.
 #define TR_MEM_MIRANDA      2  // Memory is allocated using Miranda's Memory
                                // Manager Interface (using the functions
                                // returned by MS_SYSTEM_GET_MMI), if
@@ -609,8 +607,7 @@ __inline static int variables_skin_helpbutton(HWND hwndDlg, UINT uIDButton) {
 // The hContacts array of CONTACTSINFO struct contains these hContacts after
 // the call.
 
-// Note: The hContacts array needs to be freed after use using
-// MS_VARS_FREEMEMORY.
+// Note: The hContacts array needs to be freed after use using mir_free
 
 typedef struct {
   int cbSize;  // Set this to sizeof(CONTACTSINFO).
