@@ -311,7 +311,7 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 	InitAvatars();
 
 	// Init extra optional modules
-	InitPopUps();
+	ModuleLoad(0, 0);
 	InitXStatusItems(FALSE);
 
 	HANDLE hContact = FindFirstContact();

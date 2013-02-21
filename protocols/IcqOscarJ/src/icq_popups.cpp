@@ -29,15 +29,7 @@
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
 
-BOOL bPopUpService = FALSE;
-
-void InitPopUps()
-{
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX))
-	{
-		bPopUpService = TRUE;
-	}
-}
+extern BOOL bPopUpService;
 
 static const UINT icqPopupsControls[] = {
 	IDC_POPUPS_LOG_ENABLED, IDC_POPUPS_SPAM_ENABLED, IDC_PREVIEW, IDC_USESYSICONS, IDC_POPUP_LOG0_TIMEOUT,

@@ -33,8 +33,7 @@
 
 #define POPTYPE_SPAM    254  // this is for spambots
 
-
-void InitPopUps();
+int  ModuleLoad(WPARAM, LPARAM);
 void InitPopupOpts(WPARAM wParam);
 
 

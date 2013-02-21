@@ -35,6 +35,7 @@
 HINSTANCE hInst;
 int hLangpack;
 CLIST_INTERFACE *pcli;
+BOOL bPopUpService = FALSE;
 
 HANDLE   hExtraXStatus;
 
@@ -88,6 +89,12 @@ IconItem g_IconsList[4] =
 	{ LPGEN("Add to server list"),    "add_to_server", IDI_SERVLIST_ADD }
 };
 
+int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
@@ -117,6 +124,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Init extra statuses
 	InitXStatusIcons();
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
+
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
 	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus", "icq_xstatus13");
 
