@@ -377,6 +377,22 @@ if (plug.match(/(KeepStatus|StartupStatus|AdvancedAutoAway)/)) {
     }
 }
 
+//read text file, removing all commented text for further processing
+function ReadFile (file) {
+ //If file zero size, return;
+ if (FSO.GetFile(file).Size==0) return;  
+ //reading current file
+ file_stream=FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefault);
+ //read file fully into var
+ allstrings=file_stream.ReadAll();
+ //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+ //and remove multi-line comments, started with /* and ended with */
+ text=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
+ //close file
+ file_stream.Close();
+ return text
+}
+
 //Parsing filelist into stringsarray by parsefunction (ParseSourceFile OR ParseRCFile)
 function ParseFiles (filelist,stringsarray, parsefunction) {
  //create enumerator filesenum from filelist
@@ -389,8 +405,10 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
      var crap_strings=crap.length;
      //curfile is our current file in files enumerator
      curfile=filesenum.item();
-     //now apply a parsing function to current file, and put result into stringsarray
-     parsefunction(curfile,stringsarray);
+	 //read file (filtering comments) into filetext
+	 var filetext=ReadFile(curfile);
+     //now apply a parsing function to current filetext, and put result into stringsarray
+     parsefunction(filetext,stringsarray);
      //string variable to cut out a trunkPath from absolute path
      curfilepath=new String(curfile);
      //if after parsing file our stringsarray length greater then var "current_strings", so parsed file return some strings. Thus, we need add a comment with filename
@@ -403,19 +421,10 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
 }
 
 //*.RC files line-by-line parser for RC_File, return result into "array"
-function ParseRCFile(RC_File,array) {
- //If file zero size, return;
- if (FSO.GetFile(RC_File).Size==0) return;  
- //reading current file
- RC_File_stream=FSO.GetFile(RC_File).OpenAsTextStream(ForReading, TristateUseDefault);
- //read file fully into var
- allstrings=RC_File_stream.ReadAll();
- //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
- //and remove multi-line comments, started with /* and ended with */
- allstrings_without_comments=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
+function ParseRCFile(FileTextVar,array) {
  var find=/^(?!\/{1,2})\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
  //now make a job, till end of matching regexp
- while ((string = find.exec(allstrings_without_comments)) != null) {
+ while ((string = find.exec(FileTextVar)) != null) {
       // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
       onestring=string[1].replace(/(List|Tab|Tree|Spin|Custom|Slider)\d/g,"");
       //if there is double "", replace with single one
@@ -425,28 +434,16 @@ function ParseRCFile(RC_File,array) {
       //if still something in onestring, push to array
       if (onestring) array.push("["+onestring+"]");
       }
- //closing file
- RC_File_stream.Close();
 };
 
 //Source files C++ (*.h,*.c,*.cpp) and *.pas,*.dpr,*.inc (Pascal) multiline parser for translations using LPGEN() LPGENT() TranslateT() Translate() _T() TranslateW()
-function ParseSourceFile (SourceFile,array) {
- //If file zero size, return;
- if (FSO.GetFile(SourceFile).Size==0) return;
- //open file
- sourcefile_stream=FSO.GetFile(SourceFile).OpenAsTextStream(ForReading, TristateUseDefault);
- //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
+function ParseSourceFile (FileTextVar,array) {
+  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
  //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
  var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
- 
- //read file fully into var
- allstrings=sourcefile_stream.ReadAll();
- //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
- //and remove multi-line comments, started with /* and ended with */
- allstrings_without_comments=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
  //now make a job, till end of matching regexp
- while ((string = find.exec(allstrings_without_comments)) != null) {
+ while ((string = find.exec(FileTextVar)) != null) {
     //first, init empty var
     var string;
     //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
@@ -461,8 +458,6 @@ function ParseSourceFile (SourceFile,array) {
         if (clearstring) {array.push("["+clearstring+"]")}
         };
     }
- //close file, we've finish.
- sourcefile_stream.Close();
 };
 
 //filter _T() function results
