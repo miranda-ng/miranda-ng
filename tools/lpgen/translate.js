@@ -6,7 +6,7 @@
 //* Usage:     cscript /nologo translate.js  to run generation in batches                 *//
 //* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging          *//
 //* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template          *//
-//* Usage:     cscript /nologo translate.js /path:"path\folder" translate templates folder*//
+//* Usage:     cscript /nologo translate.js /path:"path\plugins" translated plugins folder*//
 //* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
 //* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
@@ -260,7 +260,7 @@ stream.LoadFromFile(file);
 //read file into var
 var translatefiletext=stream.ReadText();
 //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
-var find=/(^\[.+?\])\r\n((?!\[|;file).+?[^\]])(?=$)/mg;
+var find=/(^\[.+?\](?=$))\r\n(^(?!\[|;file).+?[^\]](?=$))/mg;
 //While our "find" RegExp return a results, add strings into dictionary.
 while ((string = find.exec(translatefiletext)) != null) {
     //first, init empty var
@@ -311,8 +311,10 @@ function TranslateTemplateFile(Template_file,translated_array,untranslated_array
      if (noref) {
         //RegExp matching strings, starting from ";file"
         reffline=line.match(/^;file.+/);
+        //RegExp for match a =CORE=.txt header line "Miranda Language Pack Version 1". If /noref specified, remove this line as well.
+        headerline=line.match(/^Miranda Language Pack Version 1$/)
         //if RegExp not matched, push line into array
-        if (!reffline) translated_array.push(line);
+        if (!reffline && !headerline) translated_array.push(line);
         }
      //find string covered by[] using regexp
      englishstring=line.match(/\[.+\]/);
