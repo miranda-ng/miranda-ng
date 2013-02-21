@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "m_iconheader.h"
 
-
 extern HINSTANCE hInst;
 
 static BOOL IsAeroMode()
@@ -292,7 +291,8 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 
 			MIcoTab_FillRect(tempDC, 0, mit->height-2, mit->width, 1, GetSysColor(COLOR_BTNSHADOW));
 			MIcoTab_FillRect(tempDC, 0, mit->height-1, mit->width, 1, GetSysColor(COLOR_BTNHIGHLIGHT));
-	}	}
+		}
+	}
 
 	//Draw Items
 	HFONT hFont = mit->hFont;

@@ -53,13 +53,13 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 {
 	if (root) {
 		TCHAR title[2048] = {0};
-		
+
 		TVITEM item = {0};
 		item.mask = TVIF_TEXT;
 		item.hItem = root;
 		item.pszText = title;
 		item.cchTextMax = SIZEOF(title);
-		
+
 		if (TreeView_GetItem(hWndDlg, &item))
 			if (_tcslen(title) > 0)
 				AddFilterString(key, title);
@@ -69,7 +69,7 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 			child = TreeView_GetNextItem(hWndDlg, child, TVGN_CHILD);
 			AddTreeViewNodes(hWndDlg, key, child);
 		}
-		
+
 		AddTreeViewNodes(hWndDlg, key, TreeView_GetNextSibling(hWndDlg, root));
 	}
 }
@@ -80,10 +80,10 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 	GetWindowText(hWndDlg, title, SIZEOF(title));
 	if (_tcslen(title) > 0)
 		AddFilterString(key, title);
-	
+
 	TCHAR szClass[64];
 	GetClassName(hWndDlg, szClass, SIZEOF(szClass));
-	
+
 	if (lstrcmpi(szClass, _T("SysTreeView32")) == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
 		AddTreeViewNodes(hWndDlg, key, hItem);
@@ -100,7 +100,9 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 					title[SIZEOF(title) - 1] = 0;
 					if (_tcslen(title) > 0)
 						AddFilterString(key, title);
-		}	}	}
+				}
+			}
+		}
 		return;
 	}
 
@@ -109,7 +111,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		for (int i=0; i < count; i++) {
 			title[0] = 0; //safety
 			ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
-					
+
 			if (_tcslen(title) > 0)
 				AddFilterString(key, title);
 		}
@@ -124,15 +126,19 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 				int res = ComboBox_GetLBText(hWndDlg, i, title);
 				if (res != CB_ERR) {
 					title[SIZEOF(title) - 1] = 0;
-							
+
 					if (_tcslen(title) > 0)
 						AddFilterString(key, title);
-}	}	}	}	}
+				}
+			}
+		}
+	}
+}
 
 static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 {
 	AddDialogString(hWnd, lParam);
-	
+
 	return TRUE;
 }
 
@@ -146,7 +152,7 @@ void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *plu
 
 	if ((enableKeywordFiltering) && (hWnd != 0)) {
 		AddDialogString(hWnd, key);
-		
+
 		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM) key);
 	}
 }

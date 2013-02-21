@@ -169,7 +169,8 @@ static void SaveOptionsTreeState(HWND hdlg)
 			db_set_b(NULL, "Options", buf, (BYTE)((tvi.state&TVIS_EXPANDED)?1:0));
 		}
 		tvi.hItem = TreeView_GetNextSibling( GetDlgItem(hdlg, IDC_PAGETREE), tvi.hItem);
-}	}
+	}
+}
 
 #define DM_FOCUSPAGE   (WM_USER+10)
 #define DM_REBUILDPAGETREE (WM_USER+11)
@@ -229,7 +230,8 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 		{
 			hWnd = CreateDialogIndirectParamA(page->hInst, page->pTemplate, hWndParent, page->dlgProc, page->dwInitParam); //create the options dialog page so we can parse it
 			ShowWindow(hWnd, SW_HIDE); //make sure it's hidden
-	}	}
+		}
+	}
 
 	DWORD key = GetPluginPageHash(page); //get the plugin page hash
 
@@ -786,7 +788,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					if (pos) pos++;
 					else pos = szFileName;
 					_tcsncpy(dat->szFilterString, pos, SIZEOF(dat->szFilterString));
-			}	}
+				}
+			}
 
 			_tcslwr_locale(dat->szFilterString); //all strings are stored as lowercase ... make sure filter string is lowercase too
 
@@ -853,7 +856,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							tvi.lParam = i;
 							TreeView_SetItem(hwndTree, &tvi);
 							continue;
-				}	}	}
+						}
+					}
+				}
 
 				if (ptszTab != NULL) {
 					HTREEITEM hItem;
@@ -1163,7 +1168,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						if (opd)
 							ShowWindow(opd->hwnd, SW_SHOW);
 						return 0;
-				}	}
+					}
+				}
 
 				if (LOWORD(wParam) == IDOK)
 					DestroyWindow(hdlg);
@@ -1290,7 +1296,8 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 			NULL, OptionsDlgProc, (LPARAM)&psh);
 
 		FreeOptionsData(&opi);
-}	}
+	}
+}
 
 static INT_PTR OpenOptions(WPARAM wParam, LPARAM lParam)
 {

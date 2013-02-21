@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HINSTANCE hInst;
 
-
 static BOOL IsAeroMode()
 {
 	BOOL result;
@@ -55,7 +54,7 @@ struct MHeaderbarCtrl : public MZeroedObject
 	// UI info
 	RECT		rc;
 	int			width, height;
-	HICON       hIcon;
+	HICON		hIcon;
 
 	// control colors
 	RGBQUAD		rgbBkgTop, rgbBkgBottom;
@@ -195,7 +194,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 
 	if (mit->hIcon)
 		DrawIcon(tempDC, 10, iTopSpace, mit->hIcon);
-	else  {
+	else {
 		HICON hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_BIG, 0);
 		if (hIcon == NULL)
 			hIcon = (HICON)SendMessage(GetParent(hwndDlg), WM_GETICON, ICON_SMALL, 0);
@@ -241,7 +240,8 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 			textRect.left = 66;
 			SelectObject(tempDC, hFont);
 			DrawText(tempDC, szSubTitle, -1, &textRect, DT_BOTTOM|DT_LEFT|DT_SINGLELINE|DT_NOPREFIX|DT_NOCLIP|DT_END_ELLIPSIS);
-	}	}
+		}
+	}
 
 	DeleteObject(hFntBold);
 
@@ -295,7 +295,8 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)itc);
 		MHeaderbar_SetupColors(itc);
 
-		{	HWND hParent = GetParent(hwndDlg);
+		{
+			HWND hParent = GetParent(hwndDlg);
 			RECT rcWnd; GetWindowRect(hwndDlg, &rcWnd);
 			itc->controlsToRedraw = 0;
 			itc->nControlsToRedraw = 0;
