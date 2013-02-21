@@ -127,7 +127,8 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 						for (int i=0; i < accounts.getCount(); i++)
 							if (_stricmp(buf, accounts[i]->szModuleName) == 0)
 								return FALSE;
-				}	}
+					}
+				}
 
 				switch(param->action) {
 				case PRAC_UPGRADED:
@@ -176,7 +177,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 							if (DBGetContactSettingString(NULL, buf, "AM_BaseProto", &dbv))
 								break;
 							db_free(&dbv);
-						}	
+						}
 					}
 					pa->szModuleName = mir_strdup(buf);
 
@@ -387,7 +388,8 @@ static void sttSubclassAccList(HWND hwnd, BOOL subclass)
 		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->oldWndProc);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		mir_free(dat);
-}	}
+	}
+}
 
 static void sttSelectItem(struct TAccMgrData *dat, HWND hwndList, int iItem)
 {
@@ -445,10 +447,12 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				else {
 					ShowWindow( GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
 					SetWindowText( GetDlgItem(hwndDlg, IDC_TXT_INFO), legacyMsg);
-			}	}
+				}
+			}
 			return;
-	}	}
-	
+		}
+	}
+
 	EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
 	EnableWindow( GetDlgItem(hwndDlg, IDC_EDIT), FALSE);
 	EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
@@ -621,7 +625,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 					szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
  					tszIdName = szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID"));
-					
+
 					ci.cbSize = sizeof(ci);
 					ci.hContact = NULL;
 					ci.szProto = acc->szModuleName;
@@ -646,7 +650,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_END_ELLIPSIS);
 				GetTextExtentPoint32(lps->hDC, text, length, &sz);
 				lps->rcItem.top += sz.cy + 2;
-		}	}
+			}
+		}
 		return TRUE;
 
 	case WM_MY_REFRESH:
@@ -744,7 +749,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					break;
 				}
 				DestroyMenu(hMenu);
-			}	
+			}
 		}
 		break;
 
@@ -783,9 +788,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 								DWORD dwStatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 								if (dwStatus >= ID_STATUS_ONLINE) {
 									if (IDCANCEL == ::MessageBox(hwndDlg, 
-										                  TranslateT("Account is online. Disable account?"), 
-															   TranslateT("Accounts"), MB_OKCANCEL)) {
-										pa->bIsEnabled = 1;	//stay enabled
+																TranslateT("Account is online. Disable account?"),
+																TranslateT("Accounts"), MB_OKCANCEL)) {
+										pa->bIsEnabled = 1; //stay enabled
 									}
 								}
 
@@ -797,7 +802,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							NotifyEventHooks(hAccListChanged, PRAC_CHECKED, (LPARAM)pa);
 							sttUpdateAccountInfo(hwndDlg, dat);
 							RedrawWindow(hwndList, NULL, NULL, RDW_INVALIDATE);
-					}	}
+						}
+					}
 					break;
 
 				case LBN_MY_RENAME:
@@ -822,7 +828,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						else mir_free((TCHAR*)lParam);
 					}
 					break;
-			}	}
+				}
+			}
 			break;
 
 		case IDC_ADD:
@@ -876,7 +883,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 						EnableWindow(hList, TRUE);
 						EnableWindow( GetDlgItem(hwndDlg, IDC_ADD), TRUE);
-			}	}	}
+					}
+				}
+			}
 			break;
 
 		case IDC_OPTIONS:
@@ -894,7 +903,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 						Options_Open(&ood);
 					}
 					else OpenAccountOptions(pa);
-			}	}
+				}
+			}
 			break;
 
 		case IDC_UPGRADE:
@@ -904,7 +914,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				if (idx != -1) {
 					AccFormDlgParam param = { PRAC_UPGRADED, (PROTOACCOUNT*)ListBox_GetItemData(hList, idx) };
 					DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param);
-			}	}
+				}
+			}
 			break;
 
 		case IDC_LNK_NETWORK:
@@ -964,7 +975,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY:
-				{	
+				{
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_APPLY;
@@ -973,11 +984,12 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
 							accounts[i]->bAccMgrUIChanged = FALSE;
-					}	}
+						}
+					}
 					return TRUE;
 				}
 				case PSN_RESET:
-				{	
+				{
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_RESET;
@@ -986,7 +998,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
 							accounts[i]->bAccMgrUIChanged = FALSE;
-					}	}
+						}
+					}
 					return TRUE;
 				}
 			}
@@ -1000,7 +1013,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				if (accounts[i]->hwndAccMgrUI) {
 					DestroyWindow(accounts[i]->hwndAccMgrUI);
 					accounts[i]->hwndAccMgrUI = NULL;
-		}	}	}
+				}
+			}
+		}
 
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_ADD);

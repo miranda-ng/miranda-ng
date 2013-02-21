@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../clist/clc.h"
 
 bool CheckProtocolOrder(void);
-void 	BuildProtoMenus();
+void BuildProtoMenus();
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -282,86 +282,103 @@ int LoadAccountsModule(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR stub1(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
+{
+	return (INT_PTR)ppi->AddToList(wParam, (PROTOSEARCHRESULT*)lParam);
 }
 
 static INT_PTR stub2(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->AddToListByEvent(HIWORD(wParam), LOWORD(wParam), (HANDLE)lParam);
+{
+	return (INT_PTR)ppi->AddToListByEvent(HIWORD(wParam), LOWORD(wParam), (HANDLE)lParam);
 }
 
 static INT_PTR stub3(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{	return (INT_PTR)ppi->Authorize((HANDLE)wParam);
+{
+	return (INT_PTR)ppi->Authorize((HANDLE)wParam);
 }
 
 static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((const char*)lParam));
+{
+	return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((const char*)lParam));
 }
 
 static INT_PTR stub7(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->ChangeInfo(wParam, (void*)lParam);
+{
+	return (INT_PTR)ppi->ChangeInfo(wParam, (void*)lParam);
 }
 
 static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
+{
+	PROTOFILERESUME* pfr = (PROTOFILERESUME*)lParam;
 	return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
 }
 
 static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->GetCaps(wParam, (HANDLE)lParam);
+{
+	return (INT_PTR)ppi->GetCaps(wParam, (HANDLE)lParam);
 }
 
 static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{	return (INT_PTR)ppi->GetIcon(wParam);
+{
+	return (INT_PTR)ppi->GetIcon(wParam);
 }
 
 static INT_PTR stub15(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	return (INT_PTR)ppi->SearchBasic(StrConvT((char*)lParam));
+{
+	return (INT_PTR)ppi->SearchBasic(StrConvT((char*)lParam));
 }
 
 static INT_PTR stub16(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	return (INT_PTR)ppi->SearchByEmail(StrConvT((char*)lParam));
+{
+	return (INT_PTR)ppi->SearchByEmail(StrConvT((char*)lParam));
 }
 
 static INT_PTR stub17(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
+{
+	PROTOSEARCHBYNAME* psbn = (PROTOSEARCHBYNAME*)lParam;
 	return (INT_PTR)ppi->SearchByName(StrConvT((char*)psbn->pszNick), 
 		StrConvT((char*)psbn->pszFirstName), StrConvT((char*)psbn->pszLastName));
 }
 
 static INT_PTR stub18(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
+{
+	return (INT_PTR)ppi->SearchAdvanced((HWND)lParam);
 }
 
 static INT_PTR stub19(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	return (INT_PTR)ppi->CreateExtendedSearchUI ((HWND)lParam);
+{
+	return (INT_PTR)ppi->CreateExtendedSearchUI ((HWND)lParam);
 }
 
 static INT_PTR stub22(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)
-{	CCSDATA *ccs = (CCSDATA*)lParam;
+{
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	ppi->RecvMsg(ccs->hContact, (PROTORECVEVENT*)ccs->lParam);
 	return 0;
 }
 
 static INT_PTR stub29(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
-{	return (INT_PTR)ppi->SetStatus(wParam);
+{
+	return (INT_PTR)ppi->SetStatus(wParam);
 }
 
 static INT_PTR stub33(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((const char*)lParam));
+{
+	return (INT_PTR)ppi->SetAwayMsg(wParam, StrConvT((const char*)lParam));
 }
 
 static INT_PTR stub41(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam);
+{
+	lstrcpynA((char*)lParam, ppi->m_szModuleName, wParam);
 	return 0;
 }
 
 static INT_PTR stub42(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	return ppi->m_iStatus;
+{
+	return ppi->m_iStatus;
 }
 
-
 static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	
+{
 	PROTO_AVATAR_INFORMATION* p = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	PROTO_AVATAR_INFORMATIONW tmp = { 0 };
@@ -380,7 +397,7 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 }
 
 static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	
+{
 	wchar_t* buf = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
 	int result = CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
 	if (result == 0)
@@ -396,10 +413,9 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 }
 
 static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
-{	
+{
 	return CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
 }
-
 
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)
 {
@@ -532,7 +548,7 @@ void DeactivateAccount(PROTOACCOUNT* pa, bool bIsDynamic, bool bErase)
 	pa->ppro = NULL;
 	if (bIsDynamic)
 		mir_forkthread((pThreadFunc)DeactivationThread, param);
-	else 
+	else
 		DeactivationThread(param);
 }
 
@@ -568,7 +584,6 @@ void EraseAccount(const char* pszModuleName)
 	// remove all protocol settings
 	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)pszModuleName);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

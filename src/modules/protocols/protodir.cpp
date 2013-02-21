@@ -168,7 +168,7 @@ void contactDir_Contact_Add(contactDir * cd, HANDLE hContact, char * proto, char
 // only expected to be called at startup.
 void contactDir_Proto_Walk(contactDir * cd)
 {
-	HANDLE hContact;	
+	HANDLE hContact;
 	char buf[128];
 	DBCONTACTGETSETTING gsProto;
 	DBVARIANT dbvProto;
@@ -229,7 +229,6 @@ void InitContactDir(void)
 	//CreateServiceFunction(MS_PROTODIR_PROTOFROMCONTACT, contactDirGetProto);
 }
 
-
 void UninitContactDir(void)
 {
 	return;
@@ -244,5 +243,5 @@ void UninitContactDir(void)
 		}
 	}
 	contactDir_Deinit(&condir);
-#endif 
+#endif
 }
