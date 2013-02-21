@@ -408,45 +408,23 @@ function ParseRCFile(RC_File,array) {
  if (FSO.GetFile(RC_File).Size==0) return;  
  //reading current file
  RC_File_stream=FSO.GetFile(RC_File).OpenAsTextStream(ForReading, TristateUseDefault);
- //Reading line-by-line
- while (!RC_File_stream.AtEndOfStream) {
-      //Init regexp array for getting only $1 from regexp search
-      rc_regexp=new Array();
-      //clear up variable
-      stringtolangpack="";
-      //read on line into rcline
-      rcline=RC_File_stream.ReadLine();
-      //find string to translate in rcline by regexp
-      rc_regexp=rcline.match(/^(?!\/{1,2})\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/i);
-      // if exist rc_regexp, and our string length at least one symbol do checks, double "" removal and add strings into array
-          if (rc_regexp && rc_regexp[1].length>0) {
-          // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-            switch (rc_regexp[1]) {
-            case "List1": {break};
-            case "List2": {break};
-            case "Tab1":  {break};
-            case "Tree1": {break};
-            case "Tree2": {break};
-            case "Spin1": {break};
-            case "Spin2": {break};
-            case "Spin3": {break};
-            case "Spin4": {break};
-            case "Spin5": {break};
-            case "Custom1": {break};
-            case "Custom2": {break};
-            case "Slider1": {break};
-            case "Slider2": {break};
-            //default action is to wrote text inside quoted into array
-            default:
-            //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
-            if (!rc_regexp[1].match(/[a-z]/gi)) {break}; 
-            //if there is double "", replace with single one
-            stringtolangpack=rc_regexp[1].replace(/\"{2}/g,"\"");
-            //add string  to array
-            array.push("["+stringtolangpack+"]");
-            }
-        }
-    }
+ //read file fully into var
+ allstrings=RC_File_stream.ReadAll();
+ //remove all comments. The text starting with \\ (but not with ":\\" it's a links like http://miranda-ng.org/ and ")//" -there is one comment right after needed string)
+ //and remove multi-line comments, started with /* and ended with */
+ allstrings_without_comments=allstrings.replace(/(?:[^\):])(\/{2}.+?(?=$))|(\s\/\*[\S\s]+?\*\/)/mg,".")
+ var find=/^(?!\/{1,2})\s*(?:CONTROL|(?:DEF)?PUSHBUTTON|[LRC]TEXT|AUTORADIOBUTTON|GROUPBOX|(?:AUTO)?CHECKBOX|CAPTION|MENUITEM|POPUP)\s*"((?:(?:""[^"]+?"")*[^"]*?)*)"\s*?(,|$|\\)/mgi;
+ //now make a job, till end of matching regexp
+ while ((string = find.exec(allstrings_without_comments)) != null) {
+      // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
+      onestring=string[1].replace(/(List|Tab|Tree|Spin|Custom|Slider)\d/g,"");
+      //if there is double "", replace with single one
+      onestring=onestring.replace(/\"{2}/g,"\"");
+      //check result. If it does not match [a-z] (no any letter in results, such as "..." or "->") it's a crap, break further actions.
+      if (!onestring.match(/[a-z]/i)) var onestring=""; 
+      //if still something in onestring, push to array
+      if (onestring) array.push("["+onestring+"]");
+      }
  //closing file
  RC_File_stream.Close();
 };
@@ -458,7 +436,7 @@ function ParseSourceFile (SourceFile,array) {
  //open file
  sourcefile_stream=FSO.GetFile(SourceFile).OpenAsTextStream(ForReading, TristateUseDefault);
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
- //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\()(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
+ //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
  var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  
