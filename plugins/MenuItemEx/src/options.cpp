@@ -2,6 +2,7 @@
 
 
 extern HINSTANCE hinstance;
+extern BOOL bPopUpService;
 
 struct {
 	int idc;
@@ -45,7 +46,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
 			}
 
-			if (ServiceExists(MS_POPUP_ADDPOPUP))
+			if (bPopUpService)
 			{
 				for (i = 0; i < 4; i++)
 				{

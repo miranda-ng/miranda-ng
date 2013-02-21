@@ -23,7 +23,7 @@ HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuth
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcon[5];
-BOOL bMetaContacts;
+BOOL bMetaContacts, bPopUpService = FALSE;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
@@ -707,7 +707,7 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 		strcpy(buffer, szID);
 
 	CopyToClipboard((HWND)lparam, buffer, 0);
-	if(CTRL_IS_PRESSED && ServiceExists(MS_POPUP_ADDPOPUP))
+	if(CTRL_IS_PRESSED && bPopUpService)
 		ShowPopup(buffer, 0, hContact);
 
 	return 0;
@@ -751,7 +751,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 	}
 
 	CopyToClipboard((HWND)lparam, 0, buffer);
-	if(CTRL_IS_PRESSED && ServiceExists(MS_POPUP_ADDPOPUP))
+	if(CTRL_IS_PRESSED && bPopUpService)
 		ShowPopup(0, buffer, (HANDLE)wparam);
 
 	return 0;
@@ -765,7 +765,7 @@ INT_PTR onCopyIP(WPARAM wparam,LPARAM lparam)
 	getIP((HANDLE)wparam,szProto,(LPSTR)&szIP);
 
 	CopyToClipboard((HWND)lparam, szIP, 0);
-	if(CTRL_IS_PRESSED && ServiceExists(MS_POPUP_ADDPOPUP))
+	if(CTRL_IS_PRESSED && bPopUpService)
 		ShowPopup(szIP, 0, (HANDLE)wparam);
 
 	return 0;
@@ -776,7 +776,7 @@ INT_PTR onCopyMirVer(WPARAM wparam,LPARAM lparam)
 	LPSTR msg = getMirVer((HANDLE)wparam);
 	if(msg) {
 		CopyToClipboard((HWND)lparam, msg, 0);
-		if(CTRL_IS_PRESSED && ServiceExists(MS_POPUP_ADDPOPUP))
+		if(CTRL_IS_PRESSED && bPopUpService)
 			ShowPopup(msg, 0, (HANDLE)wparam);
 
 		mir_free(msg);
@@ -1147,6 +1147,12 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
+static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	return 0;
+}
+
 // called when all modules are loaded
 static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
@@ -1157,18 +1163,20 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 
-	CreateServiceFunction(MS_SETINVIS,onSetInvis);
-	CreateServiceFunction(MS_SETVIS,onSetVis);
-	CreateServiceFunction(MS_HIDE,onHide);
-	CreateServiceFunction(MS_IGNORE,onIgnore);
-	CreateServiceFunction(MS_PROTO,onChangeProto);
-	CreateServiceFunction(MS_ADDED,onSendAdded);
-	CreateServiceFunction(MS_AUTHREQ,onSendAuthRequest);
-	CreateServiceFunction(MS_COPYID,onCopyID);
-	CreateServiceFunction(MS_RECVFILES,onRecvFiles);
-	CreateServiceFunction(MS_STATUSMSG,onCopyStatusMsg);
-	CreateServiceFunction(MS_COPYIP,onCopyIP);
-	CreateServiceFunction(MS_COPYMIRVER,onCopyMirVer);
+	CreateServiceFunction(MS_SETINVIS, onSetInvis);
+	CreateServiceFunction(MS_SETVIS, onSetVis);
+	CreateServiceFunction(MS_HIDE, onHide);
+	CreateServiceFunction(MS_IGNORE, onIgnore);
+	CreateServiceFunction(MS_PROTO, onChangeProto);
+	CreateServiceFunction(MS_ADDED, onSendAdded);
+	CreateServiceFunction(MS_AUTHREQ, onSendAuthRequest);
+	CreateServiceFunction(MS_COPYID, onCopyID);
+	CreateServiceFunction(MS_RECVFILES, onRecvFiles);
+	CreateServiceFunction(MS_STATUSMSG, onCopyStatusMsg);
+	CreateServiceFunction(MS_COPYIP, onCopyIP);
+	CreateServiceFunction(MS_COPYMIRVER, onCopyMirVer);
+
+	ModuleLoad(0, 0);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
@@ -1286,7 +1294,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, PluginInit);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	return 0;
 }
 
