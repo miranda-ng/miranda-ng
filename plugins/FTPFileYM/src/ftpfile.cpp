@@ -71,17 +71,17 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 static IconItem iconList[] =
 {
-	{ "FTP Server 1",     "ftp1", 		IDI_FTP0       },
-	{ "FTP Server 2",     "ftp2", 		IDI_FTP1       },
-	{ "FTP Server 3",     "ftp3", 		IDI_FTP2       },
-	{ "FTP Server 4",     "ftp4", 		IDI_FTP3       },
-	{ "FTP Server 5",     "ftp5", 		IDI_FTP4       },
-	{ "Send file",        "main",       IDI_MENU       },
-	{ "Clipboard",        "clipboard",  IDI_CLIPBOARD  },
-	{ "Pause",            "pause",      IDI_PAUSE      },
-	{ "Resume",           "resume",     IDI_RESUME     },
-	{ "Delete from list", "clear",      IDI_CLEAR      },
-	{ "Delete from FTP",  "delete",     IDI_DELETE     }
+	{ LPGEN("FTP Server 1"),     "ftp1", 		IDI_FTP0       },
+	{ LPGEN("FTP Server 2"),     "ftp2", 		IDI_FTP1       },
+	{ LPGEN("FTP Server 3"),     "ftp3", 		IDI_FTP2       },
+	{ LPGEN("FTP Server 4"),     "ftp4", 		IDI_FTP3       },
+	{ LPGEN("FTP Server 5"),     "ftp5", 		IDI_FTP4       },
+	{ LPGEN("Send file"),        "main",       IDI_MENU       },
+	{ LPGEN("Clipboard"),        "clipboard",  IDI_CLIPBOARD  },
+	{ LPGEN("Pause"),            "pause",      IDI_PAUSE      },
+	{ LPGEN("Resume"),           "resume",     IDI_RESUME     },
+	{ LPGEN("Delete from list"), "clear",      IDI_CLEAR      },
+	{ LPGEN("Delete from FTP"),  "delete",     IDI_DELETE     }
 };
 
 static void InitIcolib()
