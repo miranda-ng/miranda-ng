@@ -65,7 +65,7 @@ BOOL BackupStatusMsg() {
 
 		char ttemp[128]="";
 		sprintf_s(ttemp,128,"%s%s",temp[i]->szModuleName,PS_SETAWAYMSG);
-		
+
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
 		if(!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||DBGetContactSettingByte(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
 		{
@@ -80,7 +80,7 @@ BOOL BackupStatusMsg() {
 
 		int dummystatusid=statusid;
 
-		if(statustype) 
+		if(statustype)
 		{
 			if(statusid!=0)
 			{
@@ -335,7 +335,7 @@ BOOL SetGameStatusMsg()
 	}
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
-		CallService(MS_VARS_FREEMEMORY, (WPARAM)statusmsg, 0);
+		mir_free(statusmsg);
 	else
 		if(statusmsg) delete[] statusmsg;
 

@@ -208,7 +208,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			char *FortuneMsgA;
 
-			
+
 			if (!ServiceExists(MS_FORTUNEMSG_GETMESSAGE))
 				continue;
 
@@ -221,7 +221,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 12, (lstrlen(msg) - i - 11) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
-			
+
 
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
@@ -233,7 +233,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			char *FortuneMsgA;
 
-			
+
 			if (!ServiceExists(MS_FORTUNEMSG_GETPROTOMSG))
 				continue;
 
@@ -247,7 +247,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 17, (lstrlen(msg) - i - 16) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
-			
+
 
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
@@ -259,7 +259,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			char *FortuneMsgA;
 
-			
+
 			if (!ServiceExists(MS_FORTUNEMSG_GETSTATUSMSG))
 				continue;
 
@@ -273,7 +273,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 18, (lstrlen(msg) - i - 17) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
-			
+
 
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
@@ -474,7 +474,7 @@ TCHAR *InsertVarsIntoMsg(TCHAR *tszMsg, const char *szProto, int iStatus, HANDLE
 		if (tszVarsMsg != NULL)
 		{
 			TCHAR *format = InsertBuiltinVarsIntoMsg(tszVarsMsg, szProto, iStatus);
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)tszVarsMsg, 0);
+			mir_free(tszVarsMsg);
 			return format;
 		}
 	}
@@ -558,7 +558,7 @@ void DBWriteMessage(char *szSetting, TCHAR *tszMsg)
 void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
 {
 	char szSetting[80];
-		
+
 	if (!szProto)
 	{
 		for (int i = 0; i < accounts->count; ++i)
@@ -568,7 +568,7 @@ void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
 
 			if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0))
 				continue;
-			
+
 			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 				continue;
 
@@ -805,7 +805,7 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 
 		if (DBGetContactSettingByte(NULL, accounts->pa[i]->szModuleName, "LockMainStatus", 0))
 			continue;
-	
+
 		if (wParam == ID_STATUS_CURRENT || wParam == 0)
 			newStatus = GetCurrentStatus(accounts->pa[i]->szModuleName);
 
@@ -814,7 +814,7 @@ INT_PTR SetStatusModeFromExtern(WPARAM wParam, LPARAM lParam)
 			CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, newStatus, 0);
 			continue;
 		}
-			
+
 		int status_modes_msg = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 
 		if ((Proto_Status2Flag(newStatus) & status_modes_msg) || (newStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & status_modes_msg)))
@@ -961,9 +961,9 @@ INT_PTR ShowStatusMessageDialogInternal(WPARAM wParam, LPARAM lParam)
 {
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
-	
+
 	if (Miranda_Terminated()) return 0;
-		
+
 	if (hTTBButton)
 	{
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButton, (LPARAM)TTBST_RELEASED);
@@ -1038,9 +1038,9 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 {
 	struct MsgBoxInitData *box_data;
 	BOOL idvstatusmsg = FALSE;
-	
+
 	if (Miranda_Terminated()) return 0;
-		
+
 	box_data = (struct MsgBoxInitData *)mir_alloc(sizeof(struct MsgBoxInitData));
 
 	for (int i = 0; i < accounts->count; ++i)
@@ -1056,7 +1056,7 @@ INT_PTR ShowStatusMessageDialog(WPARAM wParam, LPARAM lParam)
 
 		if (!accounts->pa[i]->bIsVisible)
 			continue;
-	
+
 		if (!strcmp(accounts->pa[i]->szModuleName, (char *)lParam))
 		{
 			box_data->m_szProto = accounts->pa[i]->szModuleName;
@@ -1390,7 +1390,7 @@ int SetStartupStatus(int i)
 	if (iStatus == ID_STATUS_OFFLINE)
 		return -1;
 
-	if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) || 
+	if (!CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) ||
 		!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND))
 	{
 		CallProtoService(accounts->pa[i]->szModuleName, PS_SETSTATUS, (WPARAM)iStatus, 0);
@@ -1425,7 +1425,7 @@ int SetStartupStatus(int i)
 
 	if (fmsg)
 		msg = InsertVarsIntoMsg(fmsg, accounts->pa[i]->szModuleName, iStatus, NULL);
-			
+
 	SaveMessageToDB(accounts->pa[i]->szModuleName, fmsg, TRUE);
 	SaveMessageToDB(accounts->pa[i]->szModuleName, msg, FALSE);
 
@@ -1938,7 +1938,7 @@ static int OnAccListChanged(WPARAM wParam, LPARAM lParam)
 			HookProtoEvent(accounts->pa[i]->szModuleName, ME_ICQ_STATUSMSGREQ, OnICQStatusMsgRequest);
 
 		accounts->statusFlags |= (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0));
-		
+
 		if (CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0))
 			accounts->statusCount++;
 
@@ -2058,7 +2058,7 @@ static int OnOkToExit(WPARAM wParam, LPARAM lParam)
 	if (accounts->statusCount)
 	{
 		char szSetting[80];
-		
+
 		for (int i = 0; i < accounts->count; ++i)
 		{
 			if (!IsAccountEnabled(accounts->pa[i]))
@@ -2066,7 +2066,7 @@ static int OnOkToExit(WPARAM wParam, LPARAM lParam)
 
 			if (!(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 				continue;
-			
+
 			mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sStatus", accounts->pa[i]->szModuleName);
 			DBWriteContactSettingWord(NULL, "SimpleStatusMsg", szSetting, (WORD)CallProtoService(accounts->pa[i]->szModuleName, PS_GETSTATUS, 0, 0));
 		}
@@ -2082,7 +2082,7 @@ static int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	if (!accounts->statusMsgFlags)
 		return 0;
-	
+
 	AwayMsgPreShutdown();
 	if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
 	if (hProtoStatusMenuItem) mir_free(hProtoStatusMenuItem);

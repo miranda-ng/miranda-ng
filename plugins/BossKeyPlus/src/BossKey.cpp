@@ -406,7 +406,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 						ptszParsed = (TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 						ChangeAllProtoStatuses(uMode, ptszParsed);
 						if (ptszParsed)
-							CallService(MS_VARS_FREEMEMORY, (WPARAM)ptszParsed, 0);
+							mir_free(ptszParsed);
 					}else
 						ChangeAllProtoStatuses(uMode, dbVar.ptszVal);
 				DBFreeVariant(&dbVar);
@@ -596,7 +596,7 @@ static TCHAR *GetBossKeyText(void)
 	return buf;
 }
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	{ LPGEN("Hide Miranda NG"), "hidemim", IDI_DLGPASSWD }
 };

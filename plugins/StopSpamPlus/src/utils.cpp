@@ -11,7 +11,7 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 	s = buf;
 	delete []buf;
 	return s;
-}					
+}
 
 bool IsExistMyMessage(HANDLE hContact)
 {
@@ -57,7 +57,7 @@ tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 		free(fi.tszFormat);
 		if (tszParsed) {
 			tstrResult = tszParsed;
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
+			mir_free(tszParsed);
 			return tstrResult;
 		}
 	}

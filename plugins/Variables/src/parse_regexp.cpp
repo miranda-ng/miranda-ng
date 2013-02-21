@@ -46,7 +46,7 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	pcre_extra *extra = pcre_study(ppat, 0, &err);
-	int nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	int nmat = pcre_exec(ppat, extra, arg2, (int)strlen(arg2), 0, 0, offsets, 99);
 	mir_free(arg1);
 	mir_free(arg2);
 	if (nmat > 0) {
@@ -96,7 +96,7 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	pcre_extra *extra = pcre_study(ppat, 0, &err);
-	int nmat = pcre_exec(ppat, extra, arg2, strlen(arg2), 0, 0, offsets, 99);
+	int nmat = pcre_exec(ppat, extra, arg2, (int)strlen(arg2), 0, 0, offsets, 99);
 	if (nmat >= 0) {
 		ai->flags &= ~AIF_FALSE;
 	}

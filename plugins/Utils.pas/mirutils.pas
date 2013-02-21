@@ -72,7 +72,7 @@ uses Messages,dbsettings,common,io,freeimage,syswin;
 
 const
   clGroup = 'Group';
-// Save / Load contact 
+// Save / Load contact
 const
   opt_cproto   = 'cproto';
   opt_cuid     = 'cuid';
@@ -194,7 +194,7 @@ begin
     end;
     tmp:=pointer(CallService(MS_VARS_FORMATSTRING,wparam(@tfi),0));
     StrDup(result,tmp);
-    CallService(MS_VARS_FREEMEMORY,wparam(tmp),0);
+    mir_free(tmp);
   end
   else
   begin
@@ -233,7 +233,7 @@ begin
     end;
     tmp:=pointer(CallService(MS_VARS_FORMATSTRING,wparam(@tfi),0));
     StrDupW(result,tmp);
-    CallService(MS_VARS_FREEMEMORY,wparam(tmp),0);
+    mir_free(tmp);
   end
   else
   begin
@@ -588,7 +588,7 @@ begin
   gce.szText.w:=pszText;
   gce.dwFlags :=GCEF_ADDTOLOG+GC_UNICODE;
   gce.time    :=GetCurrentTime;
-  
+
   CallServiceSync(MS_GC_EVENT,0,lparam(@gce));
 end;
 
@@ -730,7 +730,7 @@ begin
     if proto<>nil then
       proto^:=#0;
   end;
- 
+
 end;
 
 // Import plugin function adaptation

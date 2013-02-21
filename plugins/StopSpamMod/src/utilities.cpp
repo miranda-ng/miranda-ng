@@ -4,12 +4,12 @@
 * modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation; either version 2
 * of the License, or (at your option) any later version.
-* 
+*
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -127,13 +127,13 @@ void RemoveExcludedUsers()
 				plist->hContact = INVALID_HANDLE_VALUE;
 			}
 		}while(hContact = db_find_next(hContact));
-		
+
 		plist = first;
 		while(plist->hContact != INVALID_HANDLE_VALUE)
 		{
 			std::string proto=DBGetContactSettingStringPAN_A(plist->hContact,"Protocol","p","");
 			UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
-			
+
 			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
 				LogSpamToFile(plist->hContact, _T("Mark for delete"));
 				DBWriteContactSettingByte(plist->hContact,"CList","Delete", 1);
@@ -176,8 +176,8 @@ void RemoveTemporaryUsers()
 		{
 			std::string proto=DBGetContactSettingStringPAN_A(plist->hContact,"Protocol","p","");
 			UINT status = CallProtoService(proto.c_str(), PS_GETSTATUS, 0, 0);
-			
-			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){ 
+
+			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
 				LogSpamToFile(plist->hContact, _T("Mark for delete"));
 				DBWriteContactSettingByte(plist->hContact,"CList","Delete", 1);
 			}else{
@@ -214,7 +214,7 @@ tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 		free(fi.tszFormat);
 		if (tszParsed) {
 			tstrResult = tszParsed;
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
+			mir_free(tszParsed);
 			return tstrResult;
 		}
 	}
@@ -325,11 +325,11 @@ tstring GetContactUid(HANDLE hContact, tstring Protocol)
 			break;
 			case CNFT_DWORD:
 #if defined(_MSC_VER) && _MSC_VER >= 1300
-		
+
 		_itoa_s(ci.dVal,aUid,32,10);
 #else
 		_itoa(ci.dVal,aUid,10);
-		
+
 #endif
 				OemToChar(aUid, dUid);
 				Uid=dUid;

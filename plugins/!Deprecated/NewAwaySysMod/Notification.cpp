@@ -216,7 +216,7 @@ int ShowPopupNotification(COptPage &PopupNotifyData, HANDLE hContact, int iStatu
 		if (szResult)
 		{
 			PopupMsg = szResult;
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)szResult, 0);
+			mir_free(szResult);
 		}
 	} else
 	{

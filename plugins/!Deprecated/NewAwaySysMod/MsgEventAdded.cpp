@@ -304,7 +304,7 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 		if (szResult != NULL)
 		{
 			Reply = szResult;
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)szResult, 0);
+			mir_free(szResult);
 		}
 	}
 	if (Reply.GetLen())
@@ -314,4 +314,3 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-

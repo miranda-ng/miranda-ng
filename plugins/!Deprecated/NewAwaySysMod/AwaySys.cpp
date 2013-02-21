@@ -134,7 +134,7 @@ TCString GetDynamicStatMsg(HANDLE hContact, char *szProto, DWORD UIN, int iStatu
 		if (szResult)
 		{
 			VarParseData.Message = szResult;
-			CallService(MS_VARS_FREEMEMORY, (WPARAM)szResult, 0);
+			mir_free(szResult);
 		}
 	}
 	return VarParseData.Message = VarParseData.Message.Left(AWAY_MSGDATA_MAX);
@@ -150,7 +150,7 @@ int StatusMsgReq(WPARAM wParam, LPARAM lParam, CString &szProto)
 	HANDLE hFoundContact = NULL; // if we'll find the contact only on some other protocol, but not on szProto, then we'll use that hContact.
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact)
-	{	
+	{
 		char *szCurProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (DBGetContactSettingDword(hContact, szCurProto, "UIN", 0) == lParam)
 		{
@@ -356,7 +356,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 int CSStatusChange(WPARAM wParam, LPARAM lParam) // CommonStatus plugins (StartupStatus and AdvancedAutoAway)
 {
 // wParam = PROTOCOLSETTINGEX** protoSettings
-	PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;	
+	PROTOCOLSETTINGEX** ps = *(PROTOCOLSETTINGEX***)wParam;
 	if (!ps)
 	{
 		return -1;
@@ -473,7 +473,7 @@ static INT_PTR SetContactStatMsg(WPARAM wParam, LPARAM lParam)
 {
 	if (g_SetAwayMsgPage.GetWnd()) // already setting something
 	{
-		SetForegroundWindow(g_SetAwayMsgPage.GetWnd()); 
+		SetForegroundWindow(g_SetAwayMsgPage.GetWnd());
 		return 0;
 	}
 	SetAwayMsgData *dat = new SetAwayMsgData;
@@ -544,7 +544,7 @@ INT_PTR srvAutoreplyUseDefault(WPARAM wParam, LPARAM lParam)
 
 /* //NightFox: deleted used-to-be support
 int Create_TopToolbar(WPARAM wParam, LPARAM lParam)
-{	
+{
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
 	if (ServiceExists(MS_TTB_ADDBUTTON))
 	{
@@ -967,9 +967,9 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	//NightFox
-	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);	
-	
-	
+	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInitialise);
+
+
 	return 0;
 }
 
@@ -985,7 +985,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService
-	
+
 	logservice_register(LOG_ID, LPGENT("New Away System"), _T("NewAwaySys?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateTS(_T("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %") _T(VAR_STATDESC) _T("% message:\r\n%extratext%\r\n\r\n")));
 
 	if (DBGetContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1)

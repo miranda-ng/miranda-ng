@@ -1,5 +1,5 @@
 /*
-Plugin of miranda IM(ICQ) for Communicating with users of the baseProtocol. 
+Plugin of miranda IM(ICQ) for Communicating with users of the baseProtocol.
 Copyright (C) 2004 Daniel Savi (dss@brturbo.com)
 
 -> Based on J. Lawler BaseProtocol <-
@@ -10,7 +10,7 @@ Added:
  - tinyclib http://msdn.microsoft.com/msdnmag/issues/01/01/hood/default.aspx
  - C++ version
 
-Miranda ICQ: the free icq client for MS Windows 
+Miranda ICQ: the free icq client for MS Windows
 Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 */
 
@@ -191,7 +191,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = {sizeof(dbei)};
 
 	if (!fEnabled || !hContact || !hDBEvent)
-		return FALSE;	/// unspecifyed error 
+		return FALSE;	/// unspecifyed error
 
 	char* pszProto = GetContactProto(hContact);
 	int status = CallProtoService(pszProto, PS_GETSTATUS, 0, 0);
@@ -200,7 +200,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 
 	CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei); /// detect size of msg
 
-	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ)) 
+	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ))
 		return FALSE; /// we need EVENTTYPE_MESSAGE event..
 	else
 	{	/// needed event has occured..
@@ -212,15 +212,15 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSettingTString(hContact,"Protocol","p",&dbv))
 			// Contact with no protocol ?!!
 			return FALSE;
-		else 
+		else
 			DBFreeVariant(&dbv);
-		
+
 		if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
 			return FALSE;
-		
+
 		if(DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0))
 			return FALSE;
-		
+
 		if (!( dbei.flags & DBEF_SENT))
 		{
 			int timeBetween=time(NULL)-DBGetContactSettingDword(hContact,protocolname,"LastReplyTS",0);
@@ -260,7 +260,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 						if (ServiceExists(MS_VARS_FORMATSTRING))
 						{
 							FORMATINFO fi;
-						
+
 							ZeroMemory(&fi, sizeof(fi));
 							fi.cbSize = sizeof(fi);
 							fi.flags = FIF_TCHAR;
@@ -279,11 +279,8 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 						dbei.cbBlob = lstrlenA(pszUtf) + 1;
 						dbei.pBlob = (PBYTE)pszUtf;
 						CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
-						
-						if (ServiceExists(MS_VARS_FORMATSTRING))
-							CallService(MS_VARS_FREEMEMORY, (WPARAM)ptszTemp, 0);
-						else
-							mir_free(ptszTemp);
+
+						mir_free(ptszTemp);
 						mir_free(ptszTemp2);
 						mir_free(pszUtf);
 						if (dbvNick.ptszVal)

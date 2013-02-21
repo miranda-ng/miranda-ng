@@ -24,7 +24,6 @@ static BOOL bWarningShown = FALSE; // unicode on ansi warning
 /* some handles */
 static HANDLE
 	hFormatStringService,
-	hFreeMemoryService,
 	hRegisterVariableService,
 	hGetMMIService,
 	hShowHelpService,
@@ -492,51 +491,30 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 	return res;
 }
 
-TCHAR *formatString(FORMATINFO *fi) {
-
+TCHAR *formatString(FORMATINFO *fi)
+{
 	/* the service to format a given string */
-	TCHAR *string, *formattedString;
-
 	if (fi->eCount + fi->pCount > 5000) {
 		fi->eCount += 1;
 		fi->pCount += 1;
 		log_debugA("Variables: Overflow protection; %d parses", fi->eCount + fi->pCount);
 		return NULL;
 	}
-	if ((fi == NULL) || (fi->tszFormat == NULL)) {
+	if ((fi == NULL) || (fi->tszFormat == NULL))
 		return NULL;
-	}
-	string = mir_tstrdup(fi->tszFormat);
-	if (string == NULL) {
-		return NULL;
-	}
-	formattedString = replaceDynVars(string, fi);
-	mir_free(string);
-	if (formattedString == NULL) {
-		return NULL;
-	}
 
-	return formattedString;
+	mir_ptr<TCHAR> string( mir_tstrdup(fi->tszFormat));
+	if (string == NULL)
+		return NULL;
+
+	return replaceDynVars(string, fi);
 }
 
-/*
-	MS_VARS_FREEMEMORY
-*/
-static INT_PTR freeMemory(WPARAM wParam, LPARAM lParam) {
-
-	if ((void*)wParam == NULL) {
-		return -1;
-	}
-	mir_free((void*)wParam);
-
-	return 0;
-}
-
-int setParseOptions(struct ParseOptions *po) {
-
-	if (po == NULL) {
+int setParseOptions(struct ParseOptions *po)
+{
+	if (po == NULL)
 		po = &gParseOpts;
-	}
+
 	ZeroMemory(po, sizeof(struct ParseOptions));
 	if (!db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0)) {
 		po->bStripEOL = db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0);
@@ -558,7 +536,6 @@ int LoadVarModule()
 
 	setParseOptions(NULL);
 	hFormatStringService = CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
-	hFreeMemoryService = CreateServiceFunction(MS_VARS_FREEMEMORY, freeMemory);
 	hRegisterVariableService = CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
 	// help dialog
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
@@ -573,7 +550,7 @@ int LoadVarModule()
 	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
 
 	Icon_Register(hInst, LPGEN("Variables"), &icon, 1);
-	
+
 	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
 
 	hGetIconService = CreateServiceFunction(MS_VARS_GETSKINITEM, getSkinItemService);
@@ -600,7 +577,7 @@ int LoadVarModule()
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = db_get_tsa(NULL, MODULENAME, SETTING_STARTUPTEXT);
 		if (fi.tszFormat != NULL) {
-			freeMemory((WPARAM)formatString(&fi), 0);
+			mir_free(formatString(&fi));
 			mir_free(fi.tszFormat);
 		}
 	}
@@ -616,7 +593,6 @@ int UnloadVarModule() {
 		UnhookEvent(hIconsChangedHook);
 
 	DestroyServiceFunction(hRegisterVariableService);
-	DestroyServiceFunction(hFreeMemoryService);
 	DestroyServiceFunction(hFormatStringService);
 	DestroyServiceFunction(hGetMMIService);
 	DestroyServiceFunction(hShowHelpService);

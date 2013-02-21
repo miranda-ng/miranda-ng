@@ -37,37 +37,6 @@
 #endif
 
 // --------------------------------------------------------------------------
-// Memory management
-// --------------------------------------------------------------------------
-
-// Release memory that was allocated by the Variables plugin, e.g. returned
-// strings.
-
-#define MS_VARS_FREEMEMORY  "Vars/FreeMemory"
-
-// Parameters:
-// ------------------------
-// wParam = (WPARAM)(void *)pntr
-//   Pointer to memory that was allocated by the Variables plugin (e.g. a
-//   returned string) (can be NULL).
-// lParam = 0
-
-// Return Value:
-// ------------------------
-// Does return 0 on success, nozero otherwise.
-
-// Note: Do only use this service to free memory that was *explicitliy*
-// stated that it should be free with this service.
-
-// Helper function for easy using:
-#ifndef VARIABLES_NOHELPER
-__inline static void variables_free(void *pntr) {
-
-  CallService(MS_VARS_FREEMEMORY, (WPARAM)pntr, 0);
-}
-#endif
-
-// --------------------------------------------------------------------------
 // String formatting
 // --------------------------------------------------------------------------
 
@@ -180,51 +149,37 @@ __inline static TCHAR *variables_parse_ex(TCHAR *tszFormat, TCHAR *tszExtraText,
 // Note: The returned pointer needs to be released using your own free().
 
 #ifndef VARIABLES_NOHELPER
-__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact) {
-
-  if (ServiceExists(MS_VARS_FORMATSTRING)) {
-    FORMATINFO fi;
-    TCHAR *tszParsed, *tszResult;
-
-    ZeroMemory(&fi, sizeof(fi));
-    fi.cbSize = sizeof(fi);
-    fi.tszFormat = tszFormat;
-    fi.tszExtraText = tszExtraText;
-    fi.hContact = hContact;
-    fi.flags |= FIF_TCHAR;
-    tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-    if (tszParsed) {
-      tszResult = mir_tstrdup(tszParsed);
-      CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
-      return tszResult;
-    }
-  }
-  return tszFormat?mir_tstrdup(tszFormat):tszFormat;
+__inline static TCHAR *variables_parsedup(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact)
+{
+	if ( ServiceExists(MS_VARS_FORMATSTRING)) {
+		FORMATINFO fi = { sizeof(fi) };
+		fi.tszFormat = tszFormat;
+		fi.tszExtraText = tszExtraText;
+		fi.hContact = hContact;
+		fi.flags |= FIF_TCHAR;
+		TCHAR *tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		if (tszParsed)
+			return tszParsed;
+	}
+	return tszFormat ? mir_tstrdup(tszFormat) : tszFormat;
 }
 
 __inline static TCHAR *variables_parsedup_ex(TCHAR *tszFormat, TCHAR *tszExtraText, HANDLE hContact,
-										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize) {
-
-  if (ServiceExists(MS_VARS_FORMATSTRING)) {
-    FORMATINFO fi;
-    TCHAR *tszParsed, *tszResult;
-
-    ZeroMemory(&fi, sizeof(fi));
-    fi.cbSize = sizeof(fi);
-    fi.tszFormat = tszFormat;
-    fi.tszExtraText = tszExtraText;
-    fi.hContact = hContact;
-    fi.flags |= FIF_TCHAR;
-    fi.tszaTemporaryVars = tszaTemporaryVars;
-    fi.cbTemporaryVarsSize = cbTemporaryVarsSize;
-    tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
-    if (tszParsed) {
-      tszResult = mir_tstrdup(tszParsed);
-      CallService(MS_VARS_FREEMEMORY, (WPARAM)tszParsed, 0);
-      return tszResult;
-    }
-  }
-  return tszFormat?mir_tstrdup(tszFormat):tszFormat;
+										  TCHAR **tszaTemporaryVars, int cbTemporaryVarsSize)
+{
+	if ( ServiceExists(MS_VARS_FORMATSTRING)) {
+		FORMATINFO fi = { sizeof(fi) };
+		fi.tszFormat = tszFormat;
+		fi.tszExtraText = tszExtraText;
+		fi.hContact = hContact;
+		fi.flags |= FIF_TCHAR;
+		fi.tszaTemporaryVars = tszaTemporaryVars;
+		fi.cbTemporaryVarsSize = cbTemporaryVarsSize;
+		TCHAR *tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		if (tszParsed)
+			return tszParsed;
+	}
+	return tszFormat ? mir_tstrdup(tszFormat) : tszFormat;
 }
 #endif
 

@@ -17,6 +17,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#define _CRT_NON_CONFORMING_SWPRINTFS
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <tchar.h> 
 #include <malloc.h>
 

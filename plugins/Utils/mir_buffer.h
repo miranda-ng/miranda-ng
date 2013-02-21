@@ -530,7 +530,7 @@ static void ReplaceTemplate(Buffer<TCHAR> *out, HANDLE hContact, TCHAR *templ, T
 		if (tmp != NULL)
 		{
 			out->append(tmp);
-			variables_free(tmp);
+			mir_free(tmp);
 			out->pack();
 			return;
 		}

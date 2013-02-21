@@ -199,7 +199,7 @@ static TCHAR *parseLen(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return NULL;
 
-	return itot( _tcslen( ai->targv[1] ));
+	return itot((int)_tcslen( ai->targv[1] ));
 }
 
 static TCHAR *parseLineCount(ARGUMENTSINFO *ai)
@@ -462,13 +462,13 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai) {
 	}
 	move = ttoi(ai->targv[3])%_tcslen(ai->targv[1]);
 	display = ttoi(ai->targv[2]);
-	if (display > _tcslen(ai->targv[1])) {
-		display = _tcslen(ai->targv[1]);
-	}
+	if (display > _tcslen(ai->targv[1]))
+		display = (unsigned)_tcslen(ai->targv[1]);
+
 	res = (TCHAR*)mir_alloc((2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
-	if (res == NULL) {
+	if (res == NULL)
 		return NULL;
-	}
+
 	ZeroMemory(res, (2*_tcslen(ai->targv[1])+1)*sizeof(TCHAR));
 	_tcscpy(res, ai->targv[1]);
 	_tcscat(res, ai->targv[1]);
