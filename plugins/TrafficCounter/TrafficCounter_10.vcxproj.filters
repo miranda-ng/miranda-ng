@@ -15,22 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\misc.c">
+    <ClCompile Include="src\misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\opttree.c">
+    <ClCompile Include="src\opttree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\commonheaders.c">
+    <ClCompile Include="src\commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\statistics.c">
+    <ClCompile Include="src\statistics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TrafficCounter.c">
+    <ClCompile Include="src\TrafficCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vars.c">
+    <ClCompile Include="src\vars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

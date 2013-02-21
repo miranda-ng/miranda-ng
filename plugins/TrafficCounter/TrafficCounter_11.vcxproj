@@ -288,7 +288,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>CompileAsC</CompileAs>
+      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
@@ -327,7 +327,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>CompileAsC</CompileAs>
+      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
@@ -366,7 +366,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>CompileAsC</CompileAs>
+      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
@@ -524,12 +524,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\commonheaders.c" />
-    <ClCompile Include="src\misc.c" />
-    <ClCompile Include="src\opttree.c" />
-    <ClCompile Include="src\statistics.c" />
-    <ClCompile Include="src\TrafficCounter.c" />
-    <ClCompile Include="src\vars.c" />
+    <ClCompile Include="src\commonheaders.cpp" />
+    <ClCompile Include="src\misc.cpp" />
+    <ClCompile Include="src\opttree.cpp" />
+    <ClCompile Include="src\statistics.cpp" />
+    <ClCompile Include="src\TrafficCounter.cpp" />
+    <ClCompile Include="src\vars.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />
