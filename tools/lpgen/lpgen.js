@@ -289,10 +289,8 @@ function GetPluginName (folder_or_file) {
      //hope, that project file is first file
      plugin_project_file=plugin_project_files[0]
      }
- //open as text stream
- plugin_project=plugin_project_file.OpenAsTextStream(ForReading, TristateUseDefault);
- //read all file into var project
- project=plugin_project.ReadAll();
+ //read file into var project
+ project=ReadFile(plugin_project_file);
  //find a <ProjectName>%langpackfilename%</ProjectName> from *.vcxproj file
  filename=project.match(/<ProjectName>(.+)<\/ProjectName>/);
  if (filename) {
@@ -317,49 +315,42 @@ function GetMUUID (folder,array) {
  while (!filesenum.atEnd()) {
     //curfile is our current file in files enumerator
     curfile=filesenum.item();
-    //If file not zero size, read it and do the job
-    if (FSO.GetFile(curfile).Size!=0) {
-        //open file as text stream
-        file_stream=FSO.GetFile(curfile).OpenAsTextStream(ForReading, TristateUseDefault);
-        //this is a regexp to search UNICODE_AWARE
-        var find=/(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
-        //read file fully into var "allstrings"
-        allstrings=file_stream.ReadAll();
-        //search regexp in "allstrings" and put results into var "string"
-        string=find.exec(allstrings);
-        //if current file have found UNICODE_AWARE, var "string" exists, so parse it.
-        if (string) {
-            //remove spaces, "0x" and "{", in second [1] item of array "string". RegExp "find" have subregexp (.+?), which are our MUUID in "string[1]"
-            vals=string[1].replace(/0x|\{|\x20/g,"");
-            //now split values of muuid in "vals" by "," into array "values"
-            values=vals.split(",");
-            //we get array of values, if length of this array not equal to 12 values (starting from zero, thus length is 11), that's mean we found something else, not MUUID. Log it and quit, if length is 12, so check it and generate MUUID          
-            if (values.length==11) {
-                //now check, is there some values, which have omitted zero after 0x, like in alarms: " 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x(no_zero_here_)6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}"
-                //first value in values have to be 8 bytes, while length less than 8, add leading "0" to values[0],  
-                while (values[0].length<8) {values[0]="0"+values[0]};
-                //next two values have to be 4 bytes, adding leading zeroes, while length less than 4.
-                for (i=1;i<=2;i++) {
-                    while (values[i].length<4) {
-                        values[i]="0"+values[i];
-                        }
+    //this is a regexp to search UNICODE_AWARE
+    var find=/(?:UNICODE_AWARE(?:\s*?\|\s*?STATIC_PLUGIN)?,[\s\S]*?\{)(.+?)(?=\}\s{0,2}\})/g;
+    //read file fully into var "allstrings"
+    allstrings=ReadFile(curfile);
+    //search regexp in "allstrings" and put results into var "string"
+    string=find.exec(allstrings);
+    //if current file have found UNICODE_AWARE, var "string" exists, so parse it.
+    if (string) {
+        //remove spaces, "0x" and "{", in second [1] item of array "string". RegExp "find" have subregexp (.+?), which are our MUUID in "string[1]"
+        vals=string[1].replace(/0x|\{|\x20/g,"");
+        //now split values of muuid in "vals" by "," into array "values"
+        values=vals.split(",");
+        //we get array of values, if length of this array not equal to 12 values (starting from zero, thus length is 11), that's mean we found something else, not MUUID. Log it and quit, if length is 12, so check it and generate MUUID          
+        if (values.length==11) {
+            //now check, is there some values, which have omitted zero after 0x, like in alarms: " 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x(no_zero_here_)6, 0x8f, 0x17, 0x85, 0x9b, 0x6d}"
+            //first value in values have to be 8 bytes, while length less than 8, add leading "0" to values[0],  
+            while (values[0].length<8) {values[0]="0"+values[0]};
+            //next two values have to be 4 bytes, adding leading zeroes, while length less than 4.
+            for (i=1;i<=2;i++) {
+                while (values[i].length<4) {
+                    values[i]="0"+values[i];
                     }
-                //other values have to be 2 bytes, same as above, adding zeroes
-                for (i=3;i<=10;i++) {
-                    while (values[i].length<2) {
-                        values[i]="0"+values[i];
-                        }
+                }
+            //other values have to be 2 bytes, same as above, adding zeroes
+            for (i=3;i<=10;i++) {
+                while (values[i].length<2) {
+                    values[i]="0"+values[i];
                     }
-                //Push to array founded #muuid
-                var muuid="#muuid {"+values[0]+"-"+values[1]+"-"+values[2]+"-"+values[3]+values[4]+"-"+values[5]+values[6]+values[7]+values[8]+values[9]+values[10]+"}";
-                };
+                }
+            //Push to array founded #muuid
+            var muuid="#muuid {"+values[0]+"-"+values[1]+"-"+values[2]+"-"+values[3]+values[4]+"-"+values[5]+values[6]+values[7]+values[8]+values[9]+values[10]+"}";
             };
-        //close file
-        file_stream.Close();
-        }
-    //move to next file
+        };
+    //moving to next file
     filesenum.moveNext();
-    };
+};
  //if we didn't find muuid, put alarm into "muuid"
  if (!muuid) {muuid=";#muuid for "+plugin+" not found, please specify manually!"}
  //output result into array
@@ -405,8 +396,8 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
      var crap_strings=crap.length;
      //curfile is our current file in files enumerator
      curfile=filesenum.item();
-	 //read file (filtering comments) into filetext
-	 var filetext=ReadFile(curfile);
+     //read file (filtering comments) into filetext
+     var filetext=ReadFile(curfile);
      //now apply a parsing function to current filetext, and put result into stringsarray
      parsefunction(filetext,stringsarray);
      //string variable to cut out a trunkPath from absolute path
@@ -438,7 +429,7 @@ function ParseRCFile(FileTextVar,array) {
 
 //Source files C++ (*.h,*.c,*.cpp) and *.pas,*.dpr,*.inc (Pascal) multiline parser for translations using LPGEN() LPGENT() TranslateT() Translate() _T() TranslateW()
 function ParseSourceFile (FileTextVar,array) {
-  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
+ //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " (stored and used as \1) than \S\s - magic with multiline capture, ending with not stored ?= \1 (we get " or ' after "("), than none or few spaces \x20 followed by )/m=multiline g=global
  //var find= /(?:LPGENT?|Translate[TW]?|_T)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
  //comment previous line and uncomment following line to output templates without _T() function in source files. Too many garbage from _T()..
  var find= /(?:LPGENT?|Translate[TW]?)(?:\s*?\(\s*?L?\s*)(['"])([\S\s]*?)(?=\1,?\x20*?(?:tmp)?\))/mg;
@@ -504,10 +495,8 @@ if (FSO.FileExists(FSO.BuildPath(pluginfolder,"src\\include\\version.h"))) Versi
 if (FSO.FileExists(FSO.BuildPath(pluginfolder,"src\\version.h"))) VersionFile=FSO.BuildPath(pluginfolder,"src\\version.h");
 //If we still not found version.h, return
 if (!VersionFile) return;
-//open file
-versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, TristateUseDefault);
 //read file fully into var allstrings
-allstrings=versionfile_stream.ReadAll();
+allstrings=ReadFile(VersionFile)
 //define RegExp for defines.
 var filename=/(?:#define\s+_*?FILENAME\s+")(.+)(?=")/m;
 var pluginname=/(?:#define\s+_*?PLUG(?:IN)?_?NAME\s+")(.+)(?=")/i;
@@ -541,8 +530,6 @@ if (author) array.push(";  Authors: "+fixHexa(author[1])); else array.push(";  A
 //add a header end mark
 array.push(";============================================================");
 if (description) array.push("["+description[1]+"]");
-//close file
-versionfile_stream.Close();
 }
 
 //Replaces \x?? hexa codes with their char representation
