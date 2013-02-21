@@ -189,7 +189,6 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		}
 
 		// create items
-		confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
 		SetStatusList(hwndDlg);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
