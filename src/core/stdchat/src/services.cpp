@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_fontservice.h"
 
-extern HICON      hIcons[30];
+extern HICON hIcons[30];
 extern HIMAGELIST	hImageList;
 extern HIMAGELIST	hIconsList;
 extern BOOL			SmileyAddInstalled;
@@ -34,8 +34,10 @@ extern BOOL			IEviewInstalled;
 HANDLE				hSendEvent;
 HANDLE				hBuildMenuEvent ;
 HANDLE				g_hModulesLoaded;
+HANDLE g_hModuleLoad;
+HANDLE g_hModuleUnload;
 HANDLE				g_hSystemPreShutdown;
-HANDLE            hJoinMenuItem, hLeaveMenuItem;
+HANDLE hJoinMenuItem, hLeaveMenuItem;
 HANDLE				g_hHookPrebuildMenu;
 HANDLE				g_hIconsChanged, g_hFontsChanged;
 HANDLE				g_hSmileyOptionsChanged = NULL;
@@ -243,14 +245,14 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		SmileyAddInstalled = TRUE;
 		g_hSmileyOptionsChanged = HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	}
-	if ( ServiceExists( MS_POPUP_ADDPOPUPEX ))
+	if ( ServiceExists(MS_POPUP_ADDPOPUPEX))
 		PopUpInstalled = TRUE;
 
 	if ( ServiceExists( MS_IEVIEW_WINDOW ))
 		IEviewInstalled = TRUE;
 
 	CList_SetAllOffline(TRUE, NULL);
- 	return 0;
+	return 0;
 }
 
 static INT_PTR Service_GetCount(WPARAM wParam,LPARAM lParam)
@@ -790,6 +792,22 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	PLUGININFOEX* pluginInfo = (PLUGININFOEX*)wParam;
+	if (!stricmp(pluginInfo->shortName, "popup plus") || !stricmp(pluginInfo->shortName, "yapp"))
+		PopUpInstalled = TRUE;
+	return 0;
+}
+
+static int ModuleUnload(WPARAM wParam, LPARAM lParam)
+{
+	PLUGININFOEX* pluginInfo = (PLUGININFOEX*)wParam;
+	if (!stricmp(pluginInfo->shortName, "popup plus") || !stricmp(pluginInfo->shortName, "yapp"))
+		PopUpInstalled = FALSE;
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Service creation
 
@@ -797,6 +815,8 @@ void HookEvents(void)
 {
 	InitializeCriticalSection(&cs);
 	g_hModulesLoaded =       HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	g_hModuleLoad = HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	g_hModuleUnload = HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleUnload);
 	g_hHookPrebuildMenu =    HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
 	g_hSystemPreShutdown =   HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 	g_hIconsChanged =	       HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
@@ -805,6 +825,8 @@ void HookEvents(void)
 void UnhookEvents(void)
 {
 	UnhookEvent(g_hModulesLoaded);
+	UnhookEvent(g_hModuleLoad);
+	UnhookEvent(g_hModuleUnload);
 	UnhookEvent(g_hSystemPreShutdown);
 	UnhookEvent(g_hHookPrebuildMenu);
 	UnhookEvent(g_hIconsChanged);
