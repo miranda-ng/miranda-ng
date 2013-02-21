@@ -347,7 +347,7 @@ int Plugin_UnloadDyn(pluginEntry* p)
 		if ( CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 			return FALSE;
 
-		NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.InfoEx, (LPARAM)p->bpi.hInst);
+		NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
 		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
 		CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
@@ -585,7 +585,7 @@ LBL_Error:
 		if (CallPluginEventHook(pPlug->bpi.hInst, hModulesLoadedEvent, 0, 0) != 0)
 			goto LBL_Error;
 
-		NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
+		NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
 	}
 	mr.pImpl = pPlug;
 	return TRUE;

@@ -560,7 +560,7 @@ static INT_PTR TTBSetCustomProc(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Adds buttons of plugins being loaded. lParam = HINSTANCE
 
-int OnPluginLoad(WPARAM wParam, LPARAM lParam)
+int OnPluginLoad(WPARAM, LPARAM lParam)
 {
 	CallPluginEventHook((HINSTANCE)lParam, hTTBModuleLoaded, 0, 0);
 	if (g_ctrl->hWnd && g_ctrl->bOrderChanged)
@@ -571,7 +571,7 @@ int OnPluginLoad(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Removes buttons of plugins being unloaded. lParam = HINSTANCE
 
-int OnPluginUnload(WPARAM wParam, LPARAM lParam)
+int OnPluginUnload(WPARAM, LPARAM lParam)
 {
 	int hLangpack = CallService(MS_LANGPACK_LOOKUPHANDLE, 0, lParam);
 	if (hLangpack) {

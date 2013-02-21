@@ -183,7 +183,7 @@ LBL_Error:
 		goto LBL_Error;
 
 	dat->hInst = pPlug->bpi.hInst;
-	NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.InfoEx, (LPARAM)pPlug->bpi.hInst);
+	NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
 	return TRUE;
 }
 
