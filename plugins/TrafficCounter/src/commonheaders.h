@@ -115,7 +115,7 @@ typedef struct
 //---------------------------------------------------------------------------------------------
 // Различные флаги
 //---------------------------------------------------------------------------------------------
-union
+typedef union
 {
 	DWORD Flags;
 	struct
@@ -141,14 +141,7 @@ union
 		unsigned int Reserv1:1;					//22
 		unsigned int DrawTotalTimeCounter:1;	//23
 	};
-} unOptions;
-
-PROTOLIST *ProtoList; // Данные обо всех аккаунтах.
-PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
-int NumberOfAccounts;
-WORD Stat_SelAcc; // Выбранные аккаунты в окне статистики
-HWND TrafficHwnd;
-DWORD mirandaVer;
+} uTCFLAGS;
 
 #include "misc.h"
 #include "opttree.h"

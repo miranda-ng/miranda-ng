@@ -24,6 +24,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*-------------------------------------------------------------------------------------------------------------------*/
 //GLOBAL
 /*-------------------------------------------------------------------------------------------------------------------*/
+uTCFLAGS unOptions;
+PROTOLIST *ProtoList; // Данные обо всех аккаунтах.
+PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
+int NumberOfAccounts;
+extern WORD Stat_SelAcc;
+HWND TrafficHwnd;
+DWORD mirandaVer;
+
 HINSTANCE hInst;
 
 int hLangpack = 0; // Поддержка плагинозависимого перевода.
@@ -109,7 +117,7 @@ PLUGININFOEX pluginInfoEx =
 	{0x82181510, 0x5dfa, 0x49d7, { 0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}} // {82181510-5DFA-49d7-B469-33871E2AE8B5}
 };
 
-__declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	mirandaVer = mirandaVersion;
     return &pluginInfoEx;
@@ -123,7 +131,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-int __declspec(dllexport) Load(void)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	if (mirandaVer < PLUGIN_MAKE_VERSION(0, 92, 2, 0)) return -1;
 	
@@ -139,7 +147,7 @@ int __declspec(dllexport) Load(void)
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
@@ -1137,7 +1145,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 				}
 				mir_free(ItemsList);
 			}
-			dx = CallService(MS_VARS_FREEMEMORY, (WPARAM)(void*)buf, 0);
+			mir_free(buf);
 			rect.top += Traffic_LineHeight + Traffic_AdditionSpace;
 		}
 
