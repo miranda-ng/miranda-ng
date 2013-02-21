@@ -341,7 +341,7 @@ void Plugin_Uninit(pluginEntry* p)
 	pluginList.remove(p);
 }
 
-int Plugin_UnloadDyn(pluginEntry* p)
+int Plugin_UnloadDyn(pluginEntry *p)
 {
 	if (p->bpi.hInst) {
 		if ( CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
@@ -349,6 +349,9 @@ int Plugin_UnloadDyn(pluginEntry* p)
 
 		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
 		CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
+
+		KillModuleEventHooks(p->bpi.hInst);
+		KillModuleServices(p->bpi.hInst);
 	}
 
 	int hLangpack = p->hLangpack;
