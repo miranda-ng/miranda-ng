@@ -347,8 +347,6 @@ int Plugin_UnloadDyn(pluginEntry* p)
 		if ( CallPluginEventHook(p->bpi.hInst, hOkToExitEvent, 0, 0) != 0)
 			return FALSE;
 
-		NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
-
 		CallPluginEventHook(p->bpi.hInst, hPreShutdownEvent, 0, 0);
 		CallPluginEventHook(p->bpi.hInst, hShutdownEvent, 0, 0);
 	}
@@ -364,6 +362,8 @@ int Plugin_UnloadDyn(pluginEntry* p)
 		KillModuleSounds(hLangpack);
 		KillModuleExtraIcons(hLangpack);
 	}
+
+	NotifyEventHooks(hevUnloadModule, (WPARAM)p->bpi.pluginInfo, (LPARAM)p->bpi.hInst);
 
 	Plugin_Uninit(p);
 
