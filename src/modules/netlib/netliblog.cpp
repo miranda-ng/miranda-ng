@@ -58,10 +58,10 @@ static HANDLE hLogEvent = NULL;
 
 static const TCHAR* szTimeFormats[] = 
 {
-	_T("No times"), 
-	_T("Standard hh:mm:ss times"), 
-	_T("Times in milliseconds"), 
-	_T("Times in microseconds")
+	LPGENT("No times"), 
+	LPGENT("Standard hh:mm:ss times"), 
+	LPGENT("Times in milliseconds"), 
+	LPGENT("Times in microseconds")
 };
 
 static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)

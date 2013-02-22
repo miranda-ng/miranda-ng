@@ -462,7 +462,7 @@ static void ShowEffectButton(HWND hwndDlg, BOOL bShow)
 	ShowWindow( GetDlgItem(hwndDlg, IDC_EFFECT_STATIC), bShow ? SW_SHOW : SW_HIDE);
 }
 
-TCHAR* ModernEffectNames[] = { _T("<none>"), _T("Shadow at left"), _T("Shadow at right"), _T("Outline"), _T("Outline smooth"), _T("Smooth bump"), _T("Contour thin"), _T("Contour heavy") };
+TCHAR* ModernEffectNames[] = { LPGENT("<none>"), LPGENT("Shadow at left"), LPGENT("Shadow at right"), LPGENT("Outline"), LPGENT("Outline smooth"), LPGENT("Smooth bump"), LPGENT("Contour thin"), LPGENT("Contour heavy") };
 
 static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -540,13 +540,11 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 
 	mir_snprintf(str, SIZEOF(str), "%sSize", F.prefix);
 	if (F.flags & FIDF_SAVEACTUALHEIGHT) {
-		HDC hdc;
 		SIZE size;
-		HFONT hFont, hOldFont;
 		CreateFromFontSettings(&F.value, &lf);
-		hFont = CreateFontIndirect(&lf);
-		hdc = GetDC(hwndDlg);
-		hOldFont = (HFONT)SelectObject(hdc, hFont);
+		HFONT hFont = CreateFontIndirect(&lf);
+		HDC hdc = GetDC(hwndDlg);
+		HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 		GetTextExtentPoint32(hdc, _T("_W"), 2, &size);
 		ReleaseDC(hwndDlg, hdc);
 		SelectObject(hdc, hOldFont);
