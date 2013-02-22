@@ -142,7 +142,7 @@ extern int iService, iHook;
 extern HICON g_hICO[ICO_CNT], g_hIEC[1+IEC_CNT*MODE_CNT], g_hPOP[POP_CNT];
 extern HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
 extern int iBmpDepth;
-extern BOOL bCoreUnicode, bMetaContacts, bPopupExists, bPopupUnicode;
+extern BOOL bMetaContacts, bPopupExists;
 extern BOOL bPGPloaded, bPGPkeyrings, bUseKeyrings, bPGPprivkey;
 extern BOOL bGPGloaded, bGPGkeyrings, bSavePass;
 extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
@@ -150,8 +150,9 @@ extern BYTE bPGP, bGPG;
 extern DWORD iCoreVersion;
 extern CRITICAL_SECTION localQueueMutex;
 
-int onModulesLoaded(WPARAM,LPARAM);
-int onSystemOKToExit(WPARAM,LPARAM);
+int onModulesLoaded(WPARAM, LPARAM);
+int onSystemOKToExit(WPARAM, LPARAM);
+int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
 void AddServiceFunction(LPCSTR,MIRANDASERVICE);
 void AddProtoServiceFunction(LPCSTR,MIRANDASERVICE);

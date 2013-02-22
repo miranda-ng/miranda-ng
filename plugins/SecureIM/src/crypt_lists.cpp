@@ -218,11 +218,9 @@ void getContactNameA(HANDLE hContact, LPSTR szName) {
 	strcpy(szName,(LPCSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
 }
 
-void getContactName(HANDLE hContact, LPSTR szName) {
-	if ( bCoreUnicode )
-		wcscpy((LPWSTR)szName,(LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GSMDF_UNICODE));
-	else
-		getContactNameA(hContact, szName);
+void getContactName(HANDLE hContact, LPSTR szName)
+{
+	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_UNICODE));
 }
 
 void getContactUinA(HANDLE hContact, LPSTR szUIN) {
@@ -250,9 +248,10 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN) {
 	DBFreeVariant(&dbv_uniqueid);
 }
 
-void getContactUin(HANDLE hContact, LPSTR szUIN) {
+void getContactUin(HANDLE hContact, LPSTR szUIN)
+{
 	getContactUinA(hContact, szUIN);
-	if ( bCoreUnicode && *szUIN ) {
+	if (*szUIN) {
 		LPWSTR tmp = mir_a2u(szUIN);
 		wcscpy((LPWSTR)szUIN, tmp);
 		mir_free(tmp);

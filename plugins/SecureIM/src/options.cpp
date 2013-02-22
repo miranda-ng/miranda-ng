@@ -26,42 +26,30 @@ BOOL hasKey(pUinKey ptr)
 
 void TC_InsertItem(HWND hwnd, WPARAM wparam, TCITEM *tci)
 {
-	if ( bCoreUnicode ) {
-		LPWSTR tmp = mir_a2u(tci->pszText);
-		tci->pszText = (LPSTR)TranslateW(tmp);
-		SNDMSG(hwnd, TCM_INSERTITEMW, wparam, (LPARAM)tci);
-		mir_free(tmp);
-	}
-	else {
-		tci->pszText = Translate(tci->pszText);
-		SNDMSG(hwnd, TCM_INSERTITEMA, wparam, (LPARAM)tci);
-	}
+	LPWSTR tmp = mir_a2u(tci->pszText);
+	tci->pszText = (LPSTR)TranslateW(tmp);
+	SNDMSG(hwnd, TCM_INSERTITEMW, wparam, (LPARAM)tci);
+	mir_free(tmp);
 }
 
 static void LV_InsertColumn(HWND hwnd, WPARAM wparam, LVCOLUMN *lvc)
 {
-	if ( bCoreUnicode ) {
-		LPWSTR tmp = mir_a2u(lvc->pszText);
-		lvc->pszText = (LPSTR)TranslateW(tmp);
-		SNDMSG(hwnd, LVM_INSERTCOLUMNW, wparam, (LPARAM)lvc);
-		mir_free(tmp);
-	}
-	else {
-		lvc->pszText = Translate(lvc->pszText);
-		SNDMSG(hwnd, LVM_INSERTCOLUMNA, wparam, (LPARAM)lvc);
-	}
+	LPWSTR tmp = mir_a2u(lvc->pszText);
+	lvc->pszText = (LPSTR)TranslateW(tmp);
+	SNDMSG(hwnd, LVM_INSERTCOLUMNW, wparam, (LPARAM)lvc);
+	mir_free(tmp);
 }
 
 int LV_InsertItem(HWND hwnd, LVITEM *lvi)
 {
-	return SNDMSG(hwnd, bCoreUnicode ? LVM_INSERTITEMW : LVM_INSERTITEMA, 0, (LPARAM)lvi);
+	return SNDMSG(hwnd, LVM_INSERTITEMW, 0, (LPARAM)lvi);
 }
 
 int LV_InsertItemA(HWND hwnd, LVITEM *lvi)
 {
-	if ( bCoreUnicode ) lvi->pszText = (LPSTR) mir_a2u(lvi->pszText);
+	lvi->pszText = (LPSTR) mir_a2u(lvi->pszText);
 	int ret = LV_InsertItem(hwnd, lvi);
-	if ( bCoreUnicode ) mir_free(lvi->pszText);
+	mir_free(lvi->pszText);
 	return ret;
 }
 
@@ -70,14 +58,14 @@ void LV_SetItemText(HWND hwnd, WPARAM wparam, int subitem, LPSTR text)
 	LV_ITEM lvi; memset(&lvi,0,sizeof(lvi));
 	lvi.iSubItem = subitem;
 	lvi.pszText = text;
-	SNDMSG(hwnd, bCoreUnicode ? LVM_SETITEMTEXTW : LVM_SETITEMTEXTA, wparam, (LPARAM)&lvi);
+	SNDMSG(hwnd, LVM_SETITEMTEXTW, wparam, (LPARAM)&lvi);
 }
 
 void LV_SetItemTextA(HWND hwnd, WPARAM wparam, int subitem, LPSTR text)
 {
-	if ( bCoreUnicode ) text = (LPSTR) mir_a2u(text);
+	text = (LPSTR) mir_a2u(text);
 	LV_SetItemText(hwnd, wparam, subitem, text);
-	if ( bCoreUnicode ) mir_free(text);
+	mir_free(text);
 }
 
 void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cchTextMax)
@@ -86,12 +74,10 @@ void LV_GetItemTextA(HWND hwnd, WPARAM wparam, int iSubItem, LPSTR text, int cch
 	lvi.iSubItem = iSubItem;
 	lvi.cchTextMax = cchTextMax;
 	lvi.pszText = text;
-	SNDMSG(hwnd, bCoreUnicode ? LVM_GETITEMTEXTW : LVM_GETITEMTEXTA, wparam, (LPARAM)&lvi);
-	if ( bCoreUnicode ) {
-		lvi.pszText = mir_u2a((LPWSTR)text);
-		strcpy(text, lvi.pszText);
-		mir_free(lvi.pszText);
-	}
+	SNDMSG(hwnd, LVM_GETITEMTEXTW, wparam, (LPARAM)&lvi);
+	lvi.pszText = mir_u2a((LPWSTR)text);
+	strcpy(text, lvi.pszText);
+	mir_free(lvi.pszText);
 }
 
 /*
@@ -1007,9 +993,8 @@ INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) 
 	switch(uMsg) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault(hDlg);
-		SendDlgItemMessage(hDlg,IDC_EDIT1,EM_LIMITTEXT,PSKSIZE-1,0);
-		if ( bCoreUnicode )	SetDlgItemTextW(hDlg,IDC_EDIT2,(LPWSTR)lParam);
-		else			SetDlgItemTextA(hDlg,IDC_EDIT2,(LPCSTR)lParam);
+		SendDlgItemMessage(hDlg, IDC_EDIT1, EM_LIMITTEXT, PSKSIZE-1, 0);
+		SetDlgItemTextW(hDlg, IDC_EDIT2, (LPWSTR)lParam);
 		buffer = (LPSTR)lParam;
 		return (TRUE);
 	}

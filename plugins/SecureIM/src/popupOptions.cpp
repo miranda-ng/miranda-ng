@@ -225,7 +225,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 
 int onRegisterPopOptions(WPARAM wParam, LPARAM)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (bPopupExists) {
 		OPTIONSDIALOGPAGE odp = {0};
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = g_hInst;

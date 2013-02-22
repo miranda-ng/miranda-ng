@@ -71,46 +71,21 @@ void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type) {
 		DBFreeVariant(&dbv_timeout);
 	}
 
-	if ( bCoreUnicode && bPopupUnicode ) {
-		POPUPDATAW ppd = {0};
+	POPUPDATAW ppd = {0};
 
-		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
-		ppd.lchIcon = hIcon;
-		LPWSTR lpwzContactName = (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GSMDF_UNICODE);
-		wcscpy(ppd.lpwzContactName, lpwzContactName);
-		LPWSTR lpwzText = mir_a2u(lpzText);
-		wcscpy(ppd.lpwzText, TranslateW(lpwzText));
-		mir_free(lpwzText);
-		ppd.colorBack = colorBack;
-		ppd.colorText = colorText;
-		ppd.iSeconds = timeout;
-//		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
+	ppd.lchIcon = hIcon;
+	LPWSTR lpwzContactName = (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GSMDF_UNICODE);
+	wcscpy(ppd.lpwzContactName, lpwzContactName);
+	LPWSTR lpwzText = mir_a2u(lpzText);
+	wcscpy(ppd.lpwzText, TranslateW(lpwzText));
+	mir_free(lpwzText);
+	ppd.colorBack = colorBack;
+	ppd.colorText = colorText;
+	ppd.iSeconds = timeout;
 
-		//Now that the plugin data has been filled, we add it to the PopUpData.
-//		ppd.PluginData = NULL;
-
-		//Now that every field has been filled, we want to see the popup.
-		PUAddPopUpW(&ppd);
-	}
-	else {
-		POPUPDATAEX ppd = {0};
-
-		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
-		ppd.lchIcon = hIcon;
-		LPSTR lpzContactName = (LPSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
-		strcpy(ppd.lpzContactName, lpzContactName);
-		strcpy(ppd.lpzText, Translate(lpzText));
-		ppd.colorBack = colorBack;
-		ppd.colorText = colorText;
-		ppd.iSeconds = timeout;
-//		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
-
-		//Now that the plugin data has been filled, we add it to the PopUpData.
-//		ppd.PluginData = NULL;
-
-		//Now that every field has been filled, we want to see the popup.
-		PUAddPopUpEx(&ppd);
-	}
+	//Now that every field has been filled, we want to see the popup.
+	PUAddPopUpW(&ppd);
 }
 
 

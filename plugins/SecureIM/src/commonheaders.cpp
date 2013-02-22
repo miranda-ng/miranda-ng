@@ -17,7 +17,7 @@ HICON g_hICO[ICO_CNT], g_hPOP[POP_CNT], g_hIEC[1+IEC_CNT*MODE_CNT] = {0};
 HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
 
 int iBmpDepth;
-BOOL bCoreUnicode = false, bMetaContacts = false, bPopupExists = false, bPopupUnicode = false;
+BOOL bMetaContacts = false, bPopupExists = false;
 BOOL bPGPloaded = false, bPGPkeyrings = false, bUseKeyrings = false, bPGPprivkey = false;
 BOOL bGPGloaded = false, bGPGkeyrings = false, bSavePass = false;
 BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
@@ -122,33 +122,21 @@ LPSTR TranslateU( LPCSTR lpText )
 	ca2u++;
 	pa2u = (pA2U) mir_realloc(pa2u,sizeof(A2U)*ca2u);
 	pa2u[i].a = (LPSTR) lpText;
-	if ( bCoreUnicode ) {
-		LPWSTR lpwText = mir_a2u(lpText);
-		LPWSTR lpwTran = TranslateW(lpwText);
-		mir_free(lpwText);
-		pa2u[i].u = mir_strdup(exp->utf8encode(lpwTran));
-	}
-	else {
-		LPSTR lpTran = Translate(lpText);
-		LPWSTR lpwTran = mir_a2u(lpTran);
-		lpTran = exp->utf8encode(lpwTran);
-		mir_free(lpwTran);
-		pa2u[i].u = mir_strdup(lpTran);
-	}
+	LPWSTR lpwText = mir_a2u(lpText);
+	LPWSTR lpwTran = TranslateW(lpwText);
+	mir_free(lpwText);
+	pa2u[i].u = mir_strdup(exp->utf8encode(lpwTran));
 	return pa2u[i].u;
 }
 
 int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 {
-	if ( bCoreUnicode ) {
-		LPWSTR lpwText = mir_a2u(lpText);
-		LPWSTR lpwCaption = mir_a2u(lpCaption);
-		int r = MessageBoxW(hWnd,TranslateW(lpwText),TranslateW(lpwCaption),uType);
-		mir_free(lpwCaption);
-		mir_free(lpwText);
-		return r;
-	}
-	return MessageBoxA(hWnd,Translate(lpText),Translate(lpCaption),uType);
+	LPWSTR lpwText = mir_a2u(lpText);
+	LPWSTR lpwCaption = mir_a2u(lpCaption);
+	int r = MessageBoxW(hWnd,TranslateW(lpwText),TranslateW(lpwCaption),uType);
+	mir_free(lpwCaption);
+	mir_free(lpwText);
+	return r;
 }
 
 void CopyToClipboard(HWND hwnd,LPSTR msg)

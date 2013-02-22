@@ -112,18 +112,13 @@ LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags) {
 		flags &= ~(PREF_UTF|PREF_UNICODE);
 		LPWSTR wszMsg = exp->utf8decode(szUtfMsg);
 		LPSTR szMsg = mir_u2a(wszMsg);
-		if ( bCoreUnicode ) {
-		    flags |= PREF_UNICODE;
-		    int olen = (int)wcslen((LPWSTR)wszMsg)+1;
-		    int nlen = olen*(sizeof(WCHAR)+1);
-		    szNewMsg = (LPSTR) mir_alloc(nlen);
-		    memcpy(szNewMsg,szMsg,olen);
-		    memcpy(szNewMsg+olen,wszMsg,olen*sizeof(WCHAR));
-		    mir_free(szMsg);
-		}
-		else {
-		    szNewMsg = szMsg;	
-                }
+	    flags |= PREF_UNICODE;
+	    int olen = (int)wcslen((LPWSTR)wszMsg)+1;
+	    int nlen = olen*(sizeof(WCHAR)+1);
+	    szNewMsg = (LPSTR) mir_alloc(nlen);
+	    memcpy(szNewMsg,szMsg,olen);
+	    memcpy(szNewMsg+olen,wszMsg,olen*sizeof(WCHAR));
+	    mir_free(szMsg);
 	}
 	else {
 		flags &= ~PREF_UNICODE;	flags |= PREF_UTF;

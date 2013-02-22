@@ -98,7 +98,6 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	if (bIsComCtl6)	iBmpDepth = ILC_COLOR32 | ILC_MASK;  // 32-bit images are supported
 	else		iBmpDepth = ILC_COLOR24 | ILC_MASK;
 
-	bCoreUnicode = true;
 	iCoreVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 
 	// load crypo++ dll
@@ -118,6 +117,8 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	// hook events
 	AddHookFunction(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	AddHookFunction(ME_SYSTEM_OKTOEXIT, onSystemOKToExit);
+	AddHookFunction(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	AddHookFunction(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
 	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");
 	g_hEvent[1] = CreateHookableEvent(MODULENAME"/Established");
@@ -145,17 +146,19 @@ extern "C" __declspec(dllexport) int __cdecl Unload()
 	return 0;
 }
 
+int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+    bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
+	return 0;
+}
 
-int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam)
+int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
     InitNetlib();
     Sent_NetLog("onModuleLoaded begin");
 #endif
-
-    bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT)!=0;
-    bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX)!=0;
-    bPopupUnicode = ServiceExists(MS_POPUP_ADDPOPUPW)!=0;
 
 	 if ( ServiceExists(MS_FOLDERS_GET_PATH))
 		g_hFolders = FoldersRegisterCustomPathT(szModuleName, "Icons", _T(MIRANDA_PATH"\\icons"));
@@ -464,8 +467,8 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam)
 }
 
 
-int __cdecl onSystemOKToExit(WPARAM wParam,LPARAM lParam) {
-
+int onSystemOKToExit(WPARAM wParam, LPARAM lParam)
+{
     if (bSavePass) {
 	LPSTR tmp = gpg_get_passphrases();
 	DBWriteContactSettingString(0,szModuleName,"gpgSave",tmp);
