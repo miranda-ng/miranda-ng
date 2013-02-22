@@ -13,10 +13,6 @@
       <UniqueIdentifier>{d26bc05b-c5a5-4dfc-88a9-1c9e7da444ad}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{71089b54-009a-4229-868a-c90b5e0b350e}</UniqueIdentifier>
-      <Extensions>txt</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\extraimg.cpp">
@@ -59,22 +55,5 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="docs\Flags-Developer.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\Flags-License.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\Flags-Readme.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\Info_Src.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="docs\License_Appendix.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
   </ItemGroup>
 </Project>
