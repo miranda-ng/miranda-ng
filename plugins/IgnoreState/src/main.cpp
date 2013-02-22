@@ -134,11 +134,11 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
 	//IcoLib support
-	Icon_Register(g_hInst, MODULENAME, iconList, SIZEOF(iconList));
+	Icon_Register(g_hInst, LPGEN("Ignore State"), iconList, SIZEOF(iconList));
 
 	fill_filter();
 
-	hExtraIcon = ExtraIcon_Register("ignore", "IgnoreState", "ignore_full");
+	hExtraIcon = ExtraIcon_Register("ignore", LPGEN("Ignore State"), "ignore_full");
 
 	// Set initial value for all contacts
 	HANDLE hContact = db_find_first();
