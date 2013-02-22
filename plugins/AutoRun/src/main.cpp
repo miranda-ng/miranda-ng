@@ -2,6 +2,7 @@
 
 HINSTANCE hInst;
 int hLangpack;
+HKEY ROOT_KEY = HKEY_CURRENT_USER;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
