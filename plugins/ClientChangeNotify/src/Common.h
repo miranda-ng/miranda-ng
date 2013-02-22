@@ -105,6 +105,7 @@
 #define CLIENTCHANGED_SOUND "ClientChanged"
 
 extern HINSTANCE g_hInstance;
+extern BOOL bPopupExists;
 
 extern COptPage g_PopupOptPage;
 extern COptPage *g_PreviewOptPage;

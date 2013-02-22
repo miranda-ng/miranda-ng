@@ -18,11 +18,11 @@
 */
 
 #include "Common.h"
-
+extern BOOL bPopupExists;
 
 __inline void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine = _T(""), bool IsErrorMsg = false, int Timeout = 0)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX))
+	if (bPopupExists)
 	{
 		POPUPDATAT ppd = {0};
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);

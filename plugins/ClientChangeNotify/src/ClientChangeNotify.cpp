@@ -25,6 +25,7 @@ HANDLE g_hTogglePopupsMenuItem;
 int hLangpack;
 TMyArray<HANDLE> hHooks, hServices;
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
+BOOL bPopupExists = FALSE;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -335,7 +336,7 @@ static INT_PTR srvTogglePopups(WPARAM wParam, LPARAM lParam)
 static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 {
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (bPopupExists) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY)) {
@@ -372,6 +373,12 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	return 0;
 }
 
+static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	return 0;
+}
+
 int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitPcre();
@@ -379,12 +386,14 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	PopupOptPage.DBToMem();
 	RecompileRegexps(*(TCString*)PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
 	hHooks.AddElem(HookEvent(ME_OPT_INITIALISE, OptionsDlgInit));
+	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad));
+	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad));
 	hHooks.AddElem(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged));
 	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
 	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
 
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (bPopupExists) {
 		hServices.AddElem(CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups));
 		hHooks.AddElem(HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu));
 	
