@@ -382,6 +382,7 @@ static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitPcre();
+	ModuleLoad(0, 0);
 	COptPage PopupOptPage(g_PopupOptPage);
 	PopupOptPage.DBToMem();
 	RecompileRegexps(*(TCString*)PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
