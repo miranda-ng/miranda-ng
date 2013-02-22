@@ -3,6 +3,7 @@
 
 //extern BYTE numProto;
 extern int NumberOfAccounts;
+extern BOOL bVariablesExists;
 //extern PROTOLIST *ProtoList;
 void RegisterVariablesTokens(void);
 

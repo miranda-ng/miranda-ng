@@ -168,7 +168,7 @@ void RegisterVariablesTokens(void)
 {
 	TOKENREGISTER trs;
 	
-	if (!ServiceExists(MS_VARS_REGISTERTOKEN)) return;
+	if (!bVariablesExists) return;
 		
 	ZeroMemory(&trs, sizeof(trs));
 	trs.cbSize = sizeof(TOKENREGISTER);

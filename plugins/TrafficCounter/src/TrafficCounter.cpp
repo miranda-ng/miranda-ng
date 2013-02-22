@@ -30,11 +30,12 @@ PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
 int NumberOfAccounts;
 extern WORD Stat_SelAcc;
 HWND TrafficHwnd;
-DWORD mirandaVer;
 
 HINSTANCE hInst;
 
 int hLangpack = 0; // Поддержка плагинозависимого перевода.
+BOOL bPopupExists = FALSE, bVariablesExists = FALSE, bTooltipExists = FALSE;
+
 
 TCHAR* TRAFFIC_COUNTER_WINDOW_CLASS = _T("TrafficCounterWnd");
 
@@ -65,11 +66,7 @@ HANDLE Traffic_FrameID = NULL;
 
 char Traffic_AdditionSpace;
 
-HANDLE h_OptInit;
-HANDLE h_ModulesLoaded;
-HANDLE h_SystemShutDown;
 HANDLE h_OnRecv, h_OnSend;
-HANDLE h_OnAccListChange;
 HANDLE h_FontReload;
 
 HFONT Traffic_h_font = NULL;
@@ -79,7 +76,6 @@ HGENMENU hTrafficMainMenuItem = NULL;
 /*-------------------------------------------------------------------------------------------------------------------*/
 //TIME COUNTER
 /*-------------------------------------------------------------------------------------------------------------------*/
-static HANDLE h_AckHook;
 BYTE online_count = 0;
 
 /*-------------------------------------------------------------------------------------------------------------------*/
@@ -114,12 +110,12 @@ PLUGININFOEX pluginInfoEx =
 	"© 2002-2006 Ghost, © 2007-2012 Mironych",
 	"",
 	UNICODE_AWARE,
-	{0x82181510, 0x5dfa, 0x49d7, { 0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}} // {82181510-5DFA-49d7-B469-33871E2AE8B5}
+	// {82181510-5DFA-49D7-B469-33871E2AE8B5}
+	{0x82181510, 0x5dfa, 0x49d7, {0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	mirandaVer = mirandaVersion;
     return &pluginInfoEx;
 }
 
@@ -133,16 +129,16 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	if (mirandaVer < PLUGIN_MAKE_VERSION(0, 92, 2, 0)) return -1;
-	
 	// Получаем дескриптор языкового пакета.
 	mir_getLP(&pluginInfoEx);
 	
-	h_OptInit = HookEvent(ME_OPT_INITIALISE,TrafficCounterOptInitialise);
-	h_ModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,TrafficCounterModulesLoaded);
-	h_AckHook = HookEvent(ME_PROTO_ACK,ProtocolAckHook);
-	h_OnAccListChange = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsListChange);
-	h_SystemShutDown = HookEvent(ME_SYSTEM_OKTOEXIT, TrafficCounterShutdown);
+	HookEvent(ME_OPT_INITIALISE,TrafficCounterOptInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED,TrafficCounterModulesLoaded);
+	HookEvent(ME_PROTO_ACK,ProtocolAckHook);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccountsListChange);
+	HookEvent(ME_SYSTEM_OKTOEXIT, TrafficCounterShutdown);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 	
 	return 0;
 }
@@ -159,13 +155,8 @@ int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
 
 	// Отказываемся от обработки событий.
 	UnhookEvent(h_FontReload);
-	UnhookEvent(h_OnAccListChange);
-	UnhookEvent(h_AckHook);
-	UnhookEvent(h_ModulesLoaded);
 	UnhookEvent(h_OnRecv);
 	UnhookEvent(h_OnSend);
-	UnhookEvent(h_OptInit);
-	UnhookEvent(h_SystemShutDown);
 
 	SaveSettings(0);
 
@@ -206,11 +197,20 @@ int TrafficCounterShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam)
+int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) && ServiceExists(MS_VARS_REGISTERTOKEN) != 0;
+	bTooltipExists = ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip") != 0;
+	return 0;
+}
+
+int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 
 	CreateProtocolList();
+	ModuleLoad(0, 0);
 
 	// Читаем флаги
 	unOptions.Flags = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
@@ -493,7 +493,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		pOptions = options;
 		optionCount = SIZEOF(options);
 		// Если нет Variables, активируем галочки для старого метода рисования
-		if (!ServiceExists(MS_VARS_FORMATSTRING))
+		if (!bVariablesExists)
 		{
 			for (i = 0; i < 8; i++)	options[i].dwFlag = 1;
 		}
@@ -531,12 +531,12 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetDlgItemText(hwndDlg,IDC_BSHOWHIDE,(IsWindowVisible(TrafficHwnd) != 0)? TranslateT("Hide now") : TranslateT("Show now"));
 
 			// Строки формата для счётчиков
-			EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_COUNTER_FORMAT),ServiceExists(MS_VARS_FORMATSTRING));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), bVariablesExists);
 			SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat);
 
 			// Формат всплывающей подсказки
 			EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_TOOLTIP_FORMAT),
-				ServiceExists("mToolTip/ShowTipW") || ServiceExists("mToolTip/ShowTip"));
+				bTooltipExists);
 			SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat);
 
 			// Display traffic for current...
@@ -691,7 +691,7 @@ int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 	
 	// Popups option page
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
+	if (bPopupExists)
 	{
 		odp.groupPosition = 100;
 		odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_TRAFFIC_POPUPS);
@@ -877,7 +877,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 //-------------------
 // Если нет плагина Variables, рисуем упрощённо.
 //-------------------
-	if (!ServiceExists(MS_VARS_FORMATSTRING))
+	if (!bVariablesExists)
 	{
 		SummarySession = SummaryTotal = 0;
 		// Для каждого аккаунта
@@ -1521,7 +1521,7 @@ void Traffic_AddMainMenuItem(void)
 /*-------------------------------------------------------------------------------------------------------------------*/
 void UpdateNotifyTimer(void)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUP)) return;
+	if (!bPopupExists) return;
 
 	if (Traffic_Notify_time_value && unOptions.NotifyByTime)
 		SetTimer(TrafficHwnd, TIMER_NOTIFY_TICK, Traffic_Notify_time_value * 1000 * 60, NULL);
