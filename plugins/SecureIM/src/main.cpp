@@ -165,6 +165,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
     InitIcons();
     GetFlags();
+	ModuleLoad(0, 0);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_init");
