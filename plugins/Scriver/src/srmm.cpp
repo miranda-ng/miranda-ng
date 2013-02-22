@@ -43,7 +43,8 @@ PLUGININFOEX pluginInfo = {
 	"Copyright (c) 2000-2012 Miranda IM Project, 2012-2013 Miranda NG Project",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
-	{0x84636f78, 0x2057, 0x4302, { 0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c }} //{84636F78-2057-4302-8A65-23A16D46844C}
+	//{84636F78-2057-4302-8A65-23A16D46844C}
+	{0x84636f78, 0x2057, 0x4302, {0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -61,8 +62,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, M
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
-
 	// set the memory manager
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );

@@ -297,9 +297,6 @@ void FreeGlobals() {
 }
 
 void ReloadGlobals() {
-	g_dat->smileyAddInstalled =  ServiceExists(MS_SMILEYADD_SHOWSELECTION);
-	g_dat->popupInstalled =  ServiceExists(MS_POPUP_ADDPOPUPEX);
-	g_dat->ieviewInstalled =  ServiceExists(MS_IEVIEW_WINDOW);
 	g_dat->flags = 0;
 	g_dat->flags2 = 0;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE))

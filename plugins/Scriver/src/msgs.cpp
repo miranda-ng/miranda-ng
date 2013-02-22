@@ -476,6 +476,13 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
+static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+{
+	g_dat->smileyAddInstalled = ServiceExists(MS_SMILEYADD_SHOWSELECTION) && ServiceExists(MS_SMILEYADD_REPLACESMILEYS) != 0;
+	g_dat->popupInstalled = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	g_dat->ieviewInstalled = ServiceExists(MS_IEVIEW_WINDOW) != 0;
+	return 0;
+}
 
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -485,6 +492,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	RegisterKeyBindings();
 	LoadGlobalIcons();
 	LoadMsgLogIcons();
+	ModuleLoad(0, 0);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
@@ -563,6 +571,8 @@ int OnLoadModule(void) {
 	HookEvent_Ex(ME_PROTO_CONTACTISTYPING, TypingMessage);
 	HookEvent_Ex(ME_SYSTEM_PRESHUTDOWN, OnSystemPreshutdown);
 	HookEvent_Ex(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent_Ex(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent_Ex(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
 	CreateServiceFunction_Ex(MS_MSG_SENDMESSAGE, SendMessageCommand);
 	CreateServiceFunction_Ex(MS_MSG_SENDMESSAGEW, SendMessageCommandW);

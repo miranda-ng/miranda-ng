@@ -791,7 +791,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (DBGetContactSettingByte(dat->windowData.hContact, SRMMMOD, "UseRTL", (BYTE) 0)) {
 				dat->flags |= SMF_RTL;
 			}
-			dat->flags |= ServiceExists(MS_IEVIEW_WINDOW) ? g_dat->flags & SMF_USEIEVIEW : 0;
+			dat->flags |= g_dat->ieviewInstalled ? g_dat->flags & SMF_USEIEVIEW : 0;
 			{
 				PARAFORMAT2 pf2;
 				ZeroMemory((void *)&pf2, sizeof(pf2));
@@ -1209,7 +1209,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			LOGFONT lf;
 			COLORREF colour;
 			dat->flags &= ~SMF_USEIEVIEW;
-			dat->flags |= ServiceExists(MS_IEVIEW_WINDOW) ? g_dat->flags & SMF_USEIEVIEW : 0;
+			dat->flags |= g_dat->ieviewInstalled ? g_dat->flags & SMF_USEIEVIEW : 0;
 			if (dat->flags & SMF_USEIEVIEW && dat->windowData.hwndLog == NULL) {
 				IEVIEWWINDOW ieWindow;
 				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
