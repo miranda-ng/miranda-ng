@@ -21,10 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HELP_H__
 #define M_HELP_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
- #pragma once
-#endif
-
 /*
  Help Plugin 0.2.1.2
  All services in here except MS_HELP_SHOWLANGDIALOG should be thread-safe,

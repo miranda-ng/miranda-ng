@@ -23,11 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ASSOCMGR_H__
 #define M_ASSOCMGR_H__
 
-#if defined(_MSC_VER)
-#pragma warning(push)          /* save warning settings */
-#pragma warning(disable:4201)  /* nonstandard extension used : nameless struct/union */
-#endif
-
 /* Add a new file type   v0.1.0.0+
 Add a new file type to be registered with Windows.
 You probably want to call this event when
@@ -268,10 +263,6 @@ static __inline char *Netlib_UrlDecode(char *str)
 		}
 	return str;
 }
-#endif
-
-#if defined(_MSC_VER)
-#pragma warning(pop)  /* restore warning settings */
 #endif
 
 #ifndef ASSOCMGR_NOSETTINGS
