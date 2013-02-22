@@ -60,6 +60,8 @@
 * Types used for Huffman coding
 *************************************************************************/
 
+#include "flags.h"
+
 typedef struct {
     unsigned char *BytePtr;
     unsigned int  BitPos;

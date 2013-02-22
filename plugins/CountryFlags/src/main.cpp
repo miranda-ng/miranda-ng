@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "flags.h"
-#include "version.h"
 
 HINSTANCE hInst;
 int nCountriesCount;
@@ -27,16 +26,16 @@ int hLangpack;
 
 static PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Country Flags",
-	PLUGIN_VERSION,
-	"Service offering misc country utilities as flag icons and a IP-to-Country database.",  /* autotranslated */
-	"H. Herkenrath",
-	"hrathh@users.sourceforge.net",
-	"© 2006-2007 H. Herkenrath",
-	PLUGIN_WEBSITE,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {68C36842-3D95-4f4a-AB81-014D6593863B}
-	{0x68c36842,0x3d95,0x4f4a,{0xab,0x81,0x1,0x4d,0x65,0x93,0x86,0x3b}}
+	// {68C36842-3D95-4F4A-AB81-014D6593863B}
+	{0x68c36842, 0x3d95, 0x4f4a, {0xab, 0x81, 0x1, 0x4d, 0x65, 0x93, 0x86, 0x3b}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

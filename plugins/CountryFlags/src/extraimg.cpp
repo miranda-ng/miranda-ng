@@ -101,7 +101,7 @@ static int ExtraImageApply(WPARAM wParam,LPARAM lParam)
 #define STATUSICON_REFRESHDELAY  100  /* time for which setting changes are buffered */
 
 // always call in context of main thread
-static void FASTCALL SetStatusIcon(HANDLE hContact,int countryNumber)
+static void __fastcall SetStatusIcon(HANDLE hContact,int countryNumber)
 {
 	HICON hIcon = NULL;
 
@@ -136,7 +136,7 @@ static void FASTCALL SetStatusIcon(HANDLE hContact,int countryNumber)
 }
 
 // always call in context of main thread
-static void FASTCALL UnsetStatusIcon(HANDLE hContact,int countryNumber)
+static void __fastcall UnsetStatusIcon(HANDLE hContact,int countryNumber)
 {
 	StatusIconData sid;
 	sid.cbSize=sizeof(sid);

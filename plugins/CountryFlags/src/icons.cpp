@@ -44,7 +44,7 @@ const int BitmapIndexMap[232]={
 	974, 975, 976, 977, 994, 995,1141,2691,3811,4101,6101,6722
 };
 
-static int FASTCALL CountryNumberToBitmapIndex(int countryNumber)
+static int __fastcall CountryNumberToBitmapIndex(int countryNumber)
 {
 	/* shared flags by multiple countries */
 	switch(countryNumber) {
@@ -94,7 +94,7 @@ static int FASTCALL CountryNumberToBitmapIndex(int countryNumber)
 
 // return value needs to be released using DestroyIcon()
 // only operates on color icons, which isn't a problem here
-static HICON FASTCALL ResizeIconCentered(HICON hIcon,int cx,int cy)
+static HICON __fastcall ResizeIconCentered(HICON hIcon,int cx,int cy)
 {
 	HICON hResIcon=NULL;
 	HDC hdc = CreateCompatibleDC(NULL);
@@ -143,7 +143,7 @@ static HICON FASTCALL ResizeIconCentered(HICON hIcon,int cx,int cy)
 
 /************************* Utils **********************************/
 
-HICON FASTCALL LoadFlagIcon(int countryNumber)
+HICON __fastcall LoadFlagIcon(int countryNumber)
 {
 	/* create identifier */
 	char *szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber, 0);
@@ -155,7 +155,7 @@ HICON FASTCALL LoadFlagIcon(int countryNumber)
 	return Skin_GetIcon(szId);
 }
 
-int FASTCALL CountryNumberToIndex(int countryNumber)
+int __fastcall CountryNumberToIndex(int countryNumber)
 {
 	int nf=0;
 	for(int i=0; i < nCountriesCount; ++i) {

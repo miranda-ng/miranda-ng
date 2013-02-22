@@ -19,39 +19,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
+
 #include <windows.h>
-#define NONAMELESSUNION
 #include <commctrl.h>  /* for ImageList functions */
-#define NOWIN2K
+
 #include <win2k.h>
-#define MIRANDA_VER  0x0A00
-#include <stdio.h>
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_langpack.h>
 #include <m_icolib.h>
-#include <m_clui.h>
-#include <m_cluiframes.h>
 #include <m_message.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <m_contacts.h>
 #include <m_protocols.h>
 #include <m_extraicons.h>
-#define FLAGS_NOHELPERFUNCTIONS
-#include "m_flags.h"
-#include "resource.h"
 
-#if defined(_MSC_VER) && !defined(FASTCALL)
-	#define FASTCALL  __fastcall
-#else
-	#define FASTCALL
-#endif
-#if defined(_DEBUG)
-	#undef FASTCALL
-	#define FASTCALL 
-#endif
+#define FLAGS_NOHELPERFUNCTIONS
+#include <m_flags.h>
+
+#include "resource.h"
+#include "version.h"
 
 /* huffman.c */
 #ifdef HUFFMAN_ENCODE
@@ -60,8 +46,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void Huffman_Uncompress(unsigned char *in,unsigned char *out,unsigned int insize,unsigned int outsize);
 
 /* icons.c */
-HICON FASTCALL LoadFlagIcon(int countryNumber);
-int FASTCALL CountryNumberToIndex(int countryNumber);
+HICON __fastcall LoadFlagIcon(int countryNumber);
+int __fastcall CountryNumberToIndex(int countryNumber);
 void InitIcons(void);
 void UninitIcons(void);
 
