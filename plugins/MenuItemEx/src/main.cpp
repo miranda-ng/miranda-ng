@@ -23,7 +23,7 @@ HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuth
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
 static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcon[5];
-BOOL bMetaContacts, bPopUpService = FALSE;
+BOOL bMetaContacts = FALSE, bPopUpService = FALSE;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
@@ -278,7 +278,7 @@ BOOL isMetaContact(HANDLE hContact)
 	char *proto;
 	if(bMetaContacts) {
 		proto = GetContactProto(hContact);
-		if ( lstrcmpA(proto,"MetaContacts") == 0 ) {
+		if ( lstrcmpA(proto, "MetaContacts") == 0 ) {
 			return TRUE;
 		}
 	}
@@ -287,17 +287,15 @@ BOOL isMetaContact(HANDLE hContact)
 
 HANDLE getDefaultContact(HANDLE hContact)
 {
-	if(bMetaContacts) {
-		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT,(WPARAM)hContact,0);
-	}
+	if(bMetaContacts)
+		return (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
 	return 0;
 }
 
 HANDLE getMostOnline(HANDLE hContact)
 {
-	if(bMetaContacts) {
-		return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact,0);
-	}
+	if(bMetaContacts)
+		return (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
 	return 0;
 }
 
@@ -1150,6 +1148,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 	return 0;
 }
 
@@ -1160,8 +1159,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	Icon_Register(hinstance, MODULENAME, iconList, SIZEOF(iconList));
 	Icon_Register(hinstance, MODULENAME, overlayIconList, SIZEOF(overlayIconList));
-
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);
