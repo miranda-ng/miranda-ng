@@ -9,7 +9,7 @@
 //* Usage:     cscript /nologo translate.js /path:"path\plugins" translated plugins folder*//
 //* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
-//* Usage:     cscript /nologo translate.js /out:"path\folder" output result to folder    *//
+//* Usage:     cscript /nologo translate.js /out:"path\plugins" output result to folder   *//
 //* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
 //* Usage:     cscript /nologo translate.js /noref:"yes" - remove ref. ";file path\file"  *//
@@ -186,16 +186,24 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
     TraslatedTemplateFile=trunk+"\\langpacks\\english\\plugins\\translated_"+FileName
     UnTranslatedFile=trunk+"\\langpacks\\english\\plugins\\untranslated_"+FileName
     
-    //redefine path to files, if FileName is a =CORE=.txt
-    if (FileName=="=CORE=.txt") {
-        TraslatedTemplateFile=trunk+"\\langpacks\\english\\translated_"+FileName;
-        UnTranslatedFile=trunk+"\\langpacks\\english\\untranslated_"+FileName;
-        }
-    
     //redefine path to files, if /out specified
     if (out) {
         TraslatedTemplateFile=out+"\\"+FileName;
         UnTranslatedFile=out+"\\untranslated_"+FileName;
+        }
+        
+    //redefine path to files, if FileName is a =CORE=.txt
+    if (FileName=="=CORE=.txt") {
+        TraslatedTemplateFile=trunk+"\\langpacks\\english\\translated_"+FileName;
+        UnTranslatedFile=trunk+"\\langpacks\\english\\untranslated_"+FileName;
+        if (out) {
+            //if /out:"/path/plugins" specified redefine path of translated and untranslated =CORE=.txt file to parent folder of specified path
+            TraslatedTemplateFile=FSO.BuildPath(FSO.GetParentFolderName(out),FileName);
+            //if /untranslated:"yes" specified, redefine untranslated core to parent folder, same as above.
+            UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(out),"untranslated_"+FileName);
+            }
+        //if /untralsated:"path/plugins" specified, redefine to parent folder with name "=CORE=.txt"
+        if (UnTranslatedPath!="yes") UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(UnTranslatedPath),FileName);
         }
     
     // output translated file if /out and /outfile ommited, or if /out specified
@@ -206,7 +214,8 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
     
     //Write untranslated array into file, if /untranslated specified and there is something in array
     if (untranslated & UntranslatedArray.length>0) {
-        if (UnTranslatedPath!="yes") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
+        //redefine Untranslated file path and name, if /untranslated:"/path/plugins" specified and this is not a =CORE=.txt file
+        if (UnTranslatedPath!="yes" && FileName!="=CORE=.txt") UnTranslatedFile=UnTranslatedPath+"\\"+FileName;
         if (log) WScript.Echo("Untranslated in: "+UnTranslatedFile);
         WriteToUnicodeFile(UntranslatedArray,UnTranslatedFile);
         }
