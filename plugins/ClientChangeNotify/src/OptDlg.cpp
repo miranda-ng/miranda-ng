@@ -54,7 +54,7 @@ void EnablePopupOptDlgControls()
 		ShowVer->Enable(false);
 		ShowVer->MemToWnd(g_PopupOptPage.hWnd);
 	}
-	if (!ServiceExists(MS_FP_SAMECLIENTS))
+	if (!bFingerprintExists)
 	{ // disable these checkboxes if Fingerprint wasn't found
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_VERCHGNOTIFY)->Enable(false);
 		g_PopupOptPage.Find(IDC_POPUPOPTDLG_SHOWVER)->Enable(false);

@@ -25,7 +25,7 @@ HANDLE g_hTogglePopupsMenuItem;
 int hLangpack;
 TMyArray<HANDLE> hHooks, hServices;
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
-BOOL bPopupExists = FALSE;
+BOOL bPopupExists = FALSE, bMetaContactsExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -213,7 +213,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				return 0;
 
 			_ASSERT(szProto);
-			if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
+			if (bMetaContactsExists && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 				return 0;
 
 			sd.MirVer = DBGetContactSettingString(hContact, szProto, DB_MIRVER, _T(""));
@@ -233,7 +233,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			PopupOptPage.DBToMem();
 		}
 
-		HANDLE hContactOrMeta = (hContact && ServiceExists(MS_MC_GETMETACONTACT)) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
+		HANDLE hContactOrMeta = (hContact && bMetaContactsExists) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
 		if (!hContactOrMeta)
 			hContactOrMeta = hContact;
 
@@ -250,7 +250,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
 				CString OldMirVerA = TCHAR2ANSI(sd.OldMirVer);
 				CString MirVerA = TCHAR2ANSI(sd.MirVer);
-				if (ServiceExists(MS_FP_SAMECLIENTS)) {
+				if (bFingerprintExists) {
 					char *szOldClient = (char*)CallService(MS_FP_SAMECLIENTS, (WPARAM)(const char*)OldMirVerA, (LPARAM)(const char*)OldMirVerA); // remove version from MirVer strings. I know, the way in which MS_FP_SAMECLIENTS is used here is pretty ugly, but at least it gives necessary results
 					char *szClient = (char*)CallService(MS_FP_SAMECLIENTS, (WPARAM)(const char*)MirVerA, (LPARAM)(const char*)MirVerA);
 					if (szOldClient && szClient) {
@@ -281,7 +281,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 			else ClientName = sd.MirVer;
 
-			if (ServiceExists(MS_VARS_FORMATSTRING))
+			if (bVariablesExists)
 				logservice_log(LOG_ID, hContact, ClientName);
 			else {
 				_ASSERT(szProto);
@@ -376,6 +376,9 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
 	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	bMetaContactsExists = ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT) != 0;
+	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTS) && ServiceExists(MS_FP_GETCLIENTICON) != 0;
+	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) != 0;
 	return 0;
 }
 
@@ -411,7 +414,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// seems that Fingerprint is not installed
-	if ((!ServiceExists(MS_FP_SAMECLIENTS) || !ServiceExists(MS_FP_GETCLIENTICON)) && !DBGetContactSettingByte(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
+	if (!bFingerprintExists && !DBGetContactSettingByte(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
 		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), NULL, CCNErrorDlgProc);
 
 	logservice_register(LOG_ID, LPGENT("ClientChangeNotify"), _T("ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateT("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%"));
