@@ -92,7 +92,7 @@ void* __stdcall GenerateKey(char* pwd)
 	rc4_key* key;
 	key = (rc4_key*)malloc(sizeof(rc4_key));
 	zero_fill((BYTE*)key, sizeof(key));
-	prepare_key(pwd, strlen(pwd), key);
+	prepare_key((BYTE*)pwd, strlen(pwd), key);
 	return key;
 }
 
@@ -103,12 +103,12 @@ void __stdcall FreeKey(void* key)
 
 void __stdcall EncryptMem(BYTE* data, int size, void* key)
 {
-	rc4(data, size, key);
+	rc4(data, size, (rc4_key*)key);
 }
 
 void __stdcall DecryptMem(BYTE* data, int size, void* key)
 {
-	rc4(data, size, key);
+	rc4(data, size, (rc4_key*)key);
 }
 
 Cryptor cryptor = 
@@ -118,7 +118,7 @@ Cryptor cryptor =
 		EncryptMem,
 		DecryptMem,
 		"RC4",
-		"Old, very easy to crack stream cipher",
+		"Old, very easy to crack stream cipher.",
 		"Unknown",
 		"http://ru.wikipedia.org/wiki/RC4",
 		"nomail",
