@@ -45,6 +45,9 @@
     <ClCompile Include="src\Engine\WordsList.cpp">
       <Filter>Source Files\Enigne</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\actionQueue.h">
