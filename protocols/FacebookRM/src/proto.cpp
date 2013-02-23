@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 {
 	ProtoConstructor(this, proto_name, username);
-	m_szProtoName  = mir_strdup(proto_name);
 
 	facy.parent = this;
 
@@ -98,7 +97,6 @@ FacebookProto::~FacebookProto( )
 	CloseHandle( facy.send_message_lock_ );
 	CloseHandle( facy.fcb_conn_lock_ );
 
-	mir_free( m_szProtoName );
 	ProtoDestructor(this);
 }
 
