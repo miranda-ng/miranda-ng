@@ -764,12 +764,10 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 //=====================================================
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 //=====================================================
 // Unloads plugin
@@ -948,42 +946,42 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 		tr.tszTokenString = _T("xfiregame");
 		tr.parseFunction = Varxfiregame;
-		tr.szHelpText = "XFire\tCurrent Game";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("myxfiregame");
 		tr.parseFunction = Varmyxfiregame;
-		tr.szHelpText = "XFire\tMy Current Game";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Game");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("xfireserverip");
 		tr.parseFunction = Varxfireserverip;
-		tr.szHelpText = "XFire\tServerIP";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("myxfireserverip");
 		tr.parseFunction = Varmyxfireserverip;
-		tr.szHelpText = "XFire\tMy Current ServerIP";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("xfirevoice");
 		tr.parseFunction = Varxfirevoice;
-		tr.szHelpText = "XFire\tVoice";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("myxfirevoice");
 		tr.parseFunction = Varmyxfirevoice;
-		tr.szHelpText = "XFire\tMy Current Voice";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Current Voice");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("xfirevoiceip");
 		tr.parseFunction = Varxfirevoiceip;
-		tr.szHelpText = "XFire\tVoice ServerIP";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 		tr.tszTokenString = _T("myxfirevoiceip");
 		tr.parseFunction = Varmyxfirevoiceip;
-		tr.szHelpText = "XFire\tMy Voice ServerIP";
+		tr.szHelpText = LPGEN("XFire")"\t"LPGEN("My Voice ServerIP");
 		CallService(MS_VARS_REGISTERTOKEN, 0, (LPARAM) &tr);
 
 	}
@@ -995,7 +993,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	//sound einfügen
-	SkinAddNewSoundEx(Translate("xfirebstartgame"),protocolname,Translate("Buddy start a game"));
+	SkinAddNewSoundEx("xfirebstartgame",protocolname,LPGEN("Buddy start a game"));
 
 	//hook für mbot einfügen, nur wenn mbot option aktiv
 	if(DBGetContactSettingByte(NULL,protocolname,"mbotsupport",0))
@@ -3147,7 +3145,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 					//buddy vorher ein spielgestartet, wenn nicht sound spielen?
 					if(!DBGetContactSettingWord(hContact, protocolname, "GameId",0))
-						SkinPlaySound( Translate( "xfirebstartgame" ) );
+						SkinPlaySound("xfirebstartgame");
 
 					DBWriteContactSettingWord(hContact, protocolname, "GameId", entry->game);
 				}

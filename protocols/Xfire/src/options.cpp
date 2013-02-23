@@ -1099,152 +1099,39 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam,LPARAM)
 {
-	switch (msg)
-	{
-		case PSM_CHANGED:
-		  SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		  break;
-		case WM_INITDIALOG:
-		{
-			HWND hwndTab,hPage;
-			TCITEMA tci = {0};
-			int iTotal;
-			RECT rcClient;
+	ghwndDlg2 = NULL;
 
-			hwndTab = GetDlgItem(hwndDlg, IDC_OPTIONSTAB);
-			TabCtrl_DeleteAllItems(hwndTab);
-			GetClientRect(GetParent(hwndTab), &rcClient);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hInstance = hinstance;
+	odp.ptszTitle = LPGENT("XFire");
+	odp.ptszGroup = LPGENT("Network");
+	odp.flags = ODPF_BOLDGROUPS| ODPF_TCHAR;
 
-			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_OPTLOGIN), hwndDlg, DlgProcOpts2);
-			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("Account");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
-			MoveWindow(hPage, 3, 24, rcClient.right - 6, rcClient.bottom - 28, 1);
-			iTotal++;
+	odp.pfnDlgProc = DlgProcOpts2;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTLOGIN);
+	odp.ptszTab = LPGENT("Account");
+	Options_AddPage(wParam, &odp);
 
+	odp.pfnDlgProc = DlgProcOpts3;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTFEAT);
+	odp.ptszTab = LPGENT("Features");
+	Options_AddPage(wParam, &odp);
 
-			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_OPTFEAT), hwndDlg, DlgProcOpts3);
-			ShowWindow(hPage,FALSE);
-			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("Features");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
-			MoveWindow(hPage, 3, 24, rcClient.right - 6, rcClient.bottom - 28, 1);		
-			iTotal++;
+	odp.pfnDlgProc = DlgProcOpts4;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTFEAT2);
+	odp.ptszTab = LPGENT("Blocklist / Games");
+	Options_AddPage(wParam, &odp);
 
-			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_OPTFEAT2), hwndDlg, DlgProcOpts4);
-			ShowWindow(hPage,FALSE);
-			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("Blocklist / Games");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
-			MoveWindow(hPage, 3, 24, rcClient.right - 6, rcClient.bottom - 28, 1);		
-			iTotal++;
+	odp.pfnDlgProc = DlgProcOpts5;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTFEAT3);
+	odp.ptszTab = LPGENT("StatusMsg");
+	Options_AddPage(wParam, &odp);
 
-			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_OPTFEAT3), hwndDlg, DlgProcOpts5);
-			ShowWindow(hPage,FALSE);
-			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("StatusMsg");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
-			MoveWindow(hPage, 3, 24, rcClient.right - 6, rcClient.bottom - 28, 1);		
-			iTotal++;
-
-			hPage=CreateDialog(hinstance, MAKEINTRESOURCE(IDD_OPTFEAT4), hwndDlg, DlgProcOpts6);
-			ShowWindow(hPage,FALSE);
-			iTotal = TabCtrl_GetItemCount(hwndTab);
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)hPage;
-			tci.pszText = Translate("Games");
-			SendMessageA(hwndTab, TCM_INSERTITEMA, iTotal, (WPARAM)&tci);
-			MoveWindow(hPage, 3, 24, rcClient.right - 6, rcClient.bottom - 28, 1);		
-			iTotal++;
-
-			TabCtrl_SetCurSel(hwndTab, 0);
-
-			return TRUE;
-		}
-		case WM_NOTIFY:
-		  switch (((LPNMHDR)lParam)->idFrom) 
-		  {
-			case 0:
-			  switch (((LPNMHDR)lParam)->code)
-			  {
-				case PSN_APPLY:
-				{
-				  TCITEM tci;
-				  int i,count;
-	 
-				  tci.mask = TCIF_PARAM;
-				  count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg,IDC_OPTIONSTAB));
-				  for (i=0; i<count; i++)
-				  {
-					TabCtrl_GetItem(GetDlgItem(hwndDlg,IDC_OPTIONSTAB),i,&tci);
-					SendMessage((HWND)tci.lParam,WM_NOTIFY,0,lParam);
-				  }
-				  break;
-				}
-			  }
-			  break;
-
-			case IDC_OPTIONSTAB:
-			{
-			  HWND hTabCtrl = GetDlgItem(hwndDlg, IDC_OPTIONSTAB);
-
-			  switch (((LPNMHDR)lParam)->code)
-			  {
-				case TCN_SELCHANGING:
-				{
-				  TCITEM tci;
-
-				  tci.mask = TCIF_PARAM;
-				  TabCtrl_GetItem(hTabCtrl, TabCtrl_GetCurSel(hTabCtrl), &tci);
-				  ShowWindow((HWND)tci.lParam, SW_HIDE);
-				}
-				break;
-
-				case TCN_SELCHANGE:
-				{
-				  TCITEM tci;
-
-				  tci.mask = TCIF_PARAM;
-				  TabCtrl_GetItem(hTabCtrl, TabCtrl_GetCurSel(hTabCtrl), &tci);
-				  ShowWindow((HWND)tci.lParam,SW_SHOW);                     
-				}
-				break;
-			  }
-			  break;
-			}
-		  }
-		  break;
-	}
-
-	return FALSE;
-}
-
-int OptInit(WPARAM wParam,LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp;
-
-	ghwndDlg2=NULL;
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	//odp.position=-790000000;
-	odp.hInstance=hinstance;
-	odp.pszTemplate=MAKEINTRESOURCE(IDD_OPT);
-	odp.ptszTitle=_T("XFire");
-	odp.ptszGroup = TranslateT("Network");
-	odp.flags=ODPF_BOLDGROUPS, ODPF_UNICODE;
-	//odp.nIDBottomSimpleControl=IDC_GROUPMAIN;
-	odp.pfnDlgProc=DlgProcOpts;
+	odp.pfnDlgProc = DlgProcOpts6;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTFEAT4);
+	odp.ptszTab = LPGENT("Games");
 	Options_AddPage(wParam, &odp);
 
 	return 0;
