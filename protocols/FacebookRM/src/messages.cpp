@@ -54,7 +54,7 @@ void FacebookProto::SendMsgWorker(void *p)
 	}
 	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
-		//parseSmileys(data->msg, data->hContact);
+		parseSmileys(data->msg, data->hContact);
 
 		int retries = 5;
 		std::string error_text = "";
@@ -215,9 +215,11 @@ void FacebookProto::parseSmileys(std::string message, HANDLE hContact)
 
 		std::tstring filename = GetAvatarFolder() + L"\\smileys\\" + (TCHAR*)_A2T(b64.c_str()) + _T(".jpg");
 		FILE *f = _tfopen(filename.c_str(), _T("r"));
-		if (!f) {
+		if (f) {
+			fclose(f);
+		} else {
 			facy.save_url(url, filename, nlc);
-
+		}
 			TCHAR *path = _tcsdup(filename.c_str());
 
 			SMADD_CONT cont;
@@ -228,7 +230,6 @@ void FacebookProto::parseSmileys(std::string message, HANDLE hContact)
 
 			CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 			mir_free(path);
-		} else
-			fclose(f);
+		//}
 	}
 }
