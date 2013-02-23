@@ -41,65 +41,8 @@ typedef enum
 #define PROTOCHAR TCHAR
 #define PROTOFILEEVENT PROTORECVFILET
 
-#ifndef __cplusplus
-typedef struct tagPROTO_INTERFACE_VTBL
+struct  PROTO_INTERFACE
 {
-	HANDLE    (*AddToList)(struct tagPROTO_INTERFACE*, int flags, PROTOSEARCHRESULT* psr);
-	HANDLE    (*AddToListByEvent)(struct tagPROTO_INTERFACE*, int flags, int iContact, HANDLE hDbEvent);
-
-	int       (*Authorize)(struct tagPROTO_INTERFACE*, HANDLE hContact);
-	int       (*AuthDeny)(struct tagPROTO_INTERFACE*, HANDLE hContact, const TCHAR* szReason);
-	int       (*AuthRecv)(struct tagPROTO_INTERFACE*, HANDLE hContact, PROTORECVEVENT*);
-	int       (*AuthRequest)(struct tagPROTO_INTERFACE*, HANDLE hContact, const TCHAR* szMessage);
-
-	HANDLE    (*ChangeInfo)(struct tagPROTO_INTERFACE*, int iInfoType, void* pInfoData);
-
-	HANDLE    (*FileAllow)(struct tagPROTO_INTERFACE*, HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath);
-	int       (*FileCancel)(struct tagPROTO_INTERFACE*, HANDLE hContact, HANDLE hTransfer);
-	int       (*FileDeny)(struct tagPROTO_INTERFACE*, HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason);
-	int       (*FileResume)(struct tagPROTO_INTERFACE*, HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
-
-	DWORD_PTR (*GetCaps)(struct tagPROTO_INTERFACE*, int type, HANDLE hContact);
-	HICON     (*GetIcon)(struct tagPROTO_INTERFACE*, int iconIndex);
-	int       (*GetInfo)(struct tagPROTO_INTERFACE*, HANDLE hContact, int infoType);
-
-	HANDLE    (*SearchBasic)(struct tagPROTO_INTERFACE*, const PROTOCHAR* id);
-	HANDLE    (*SearchByEmail)(struct tagPROTO_INTERFACE*, const PROTOCHAR* email);
-	HANDLE    (*SearchByName)(struct tagPROTO_INTERFACE*, const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName);
-	HWND      (*SearchAdvanced)(struct tagPROTO_INTERFACE*, HWND owner);
-	HWND      (*CreateExtendedSearchUI)(struct tagPROTO_INTERFACE*, HWND owner);
-
-	int       (*RecvContacts)(struct tagPROTO_INTERFACE*, HANDLE hContact, PROTORECVEVENT*);
-	int       (*RecvFile)(struct tagPROTO_INTERFACE*, HANDLE hContact, PROTOFILEEVENT*);
-	int       (*RecvMsg)(struct tagPROTO_INTERFACE*, HANDLE hContact, PROTORECVEVENT*);
-	int       (*RecvUrl)(struct tagPROTO_INTERFACE*, HANDLE hContact, PROTORECVEVENT*);
-
-	int       (*SendContacts)(struct tagPROTO_INTERFACE*, HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList);
-	HANDLE    (*SendFile)(struct tagPROTO_INTERFACE*, HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
-	int       (*SendMsg)(struct tagPROTO_INTERFACE*, HANDLE hContact, int flags, const char* msg);
-	int       (*SendUrl)(struct tagPROTO_INTERFACE*, HANDLE hContact, int flags, const char* url);
-
-	int       (*SetApparentMode)(struct tagPROTO_INTERFACE*, HANDLE hContact, int mode);
-	int       (*SetStatus)(struct tagPROTO_INTERFACE*, int iNewStatus);
-
-	HANDLE    (*GetAwayMsg)(struct tagPROTO_INTERFACE*, HANDLE hContact);
-	int       (*RecvAwayMsg)(struct tagPROTO_INTERFACE*, HANDLE hContact, int mode, PROTORECVEVENT* evt);
-	int       (*SendAwayMsg)(struct tagPROTO_INTERFACE*, HANDLE hContact, HANDLE hProcess, const char* msg);
-	int       (*SetAwayMsg)(struct tagPROTO_INTERFACE*, int iStatus, const PROTOCHAR* msg);
-
-	int       (*UserIsTyping)(struct tagPROTO_INTERFACE*, HANDLE hContact, int type);
-
-	int       (*OnEvent)(struct tagPROTO_INTERFACE*, PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
-}
-	PROTO_INTERFACE_VTBL;
-#endif
-
-typedef struct tagPROTO_INTERFACE
-{
-	#ifndef __cplusplus
-		PROTO_INTERFACE_VTBL* vtbl;
-	#endif
-
 	int    m_iStatus,
 	       m_iDesiredStatus,
 	       m_iXStatus,
@@ -156,7 +99,6 @@ typedef struct tagPROTO_INTERFACE
 	virtual	int       __cdecl UserIsTyping(HANDLE hContact, int type) = 0;
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
-}
-	PROTO_INTERFACE;
+};
 
 #endif // M_PROTOINT_H__

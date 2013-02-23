@@ -488,17 +488,17 @@ BOOL ActivateAccount(PROTOACCOUNT* pa)
 
 struct DeactivationThreadParam
 {
-	tagPROTO_INTERFACE* ppro;
-	pfnUninitProto      fnUninit;
-	bool                bIsDynamic;
-	bool                bErase;
+	PROTO_INTERFACE *ppro;
+	pfnUninitProto   fnUninit;
+	bool             bIsDynamic;
+	bool             bErase;
 };
 
 pfnUninitProto GetProtocolDestructor(char* szProto);
 
 static int DeactivationThread(DeactivationThreadParam* param)
 {
-	tagPROTO_INTERFACE* p = (tagPROTO_INTERFACE*)param->ppro;
+	PROTO_INTERFACE* p = (PROTO_INTERFACE*)param->ppro;
 	p->SetStatus(ID_STATUS_OFFLINE);
 
 	char * szModuleName = NEWSTR_ALLOCA(p->m_szModuleName);

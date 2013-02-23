@@ -1211,7 +1211,7 @@ public:
 #define WM_PROTO_ACTIVATE             (WM_USER + 102)
 #define WM_PROTO_LAST                 (WM_USER + 200)
 
-typedef struct tagPROTO_INTERFACE PROTO_INTERFACE;
+struct PROTO_INTERFACE;
 
 class CProtoIntDlgBase : public CDlgBase
 {
