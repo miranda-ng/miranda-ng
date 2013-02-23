@@ -13,7 +13,6 @@
 #define IDI_REMOVE                      124
 #define IDI_FAVOURITE                   125
 #define IDI_UNDO                        126
-#define IDI_GLOBAL                      127
 #define IDI_FILTER                      128
 #define IDI_CLOSE                       129
 #define IDI_UNSET                       130

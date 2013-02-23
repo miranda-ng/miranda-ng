@@ -22,16 +22,6 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-  ============================================================================
-
-  File name      : $URL$
-  Revision       : $Rev$
-  Last change on : $Date$
-  Last change by : $Author$
-
-  ============================================================================
-
-
   DESCRIPTION:
 
   Offers List of your Custom Statuses.
@@ -43,44 +33,34 @@
 #ifndef __CSLIST_H
 #define __CSLIST_H 1
 
-
 #define WINVER          0x501
 #define _WIN32_WINNT    0x501
 #define _WIN32_IE	    0x600
 
-#define MIRANDA_VER   0x0A00
-
-#pragma warning( disable: 4996 )
-#pragma comment( lib, "comctl32.lib")
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
-#include <commctrl.h>
-#include <tchar.h>
 
-#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
-#include <m_utils.h>
 #include <m_system_cpp.h>
 #include <m_langpack.h>
-#include <m_clist.h>
 #include <m_clistint.h>
-#include <m_genmenu.h>
-#include <m_skin.h>
 #include <m_icolib.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_xstatus.h>
 #include <m_options.h>
 #include <m_hotkeys.h>
-#include <m_variables.h>
 
-// ====[ BASIC DEFINITIONS ]==================================================
+#include <m_variables.h>
 
 #include "resource.h"
 #include "version.h"
 
+// ====[ BASIC DEFINITIONS ]==================================================
+
 #define MODULENAME	       LPGEN("Custom Status List")
+#define MODNAME		"CSList"
 
 // ====[ LIMITS ]=============================================================
 
@@ -109,15 +89,15 @@
   #define ListView_SetSelectionMark( x, y )     0
 #endif
 
-#define getByte( setting, error )           DBGetContactSettingByte( NULL, __INTERNAL_NAME, setting, error )
-#define setByte( setting, value )           DBWriteContactSettingByte( NULL, __INTERNAL_NAME, setting, value )
-#define getWord( setting, error )           DBGetContactSettingWord( NULL, __INTERNAL_NAME, setting, error )
-#define setWord( setting, value )           DBWriteContactSettingWord( NULL, __INTERNAL_NAME, setting, value )
-#define getDword( setting, error )          DBGetContactSettingDword( NULL, __INTERNAL_NAME, setting, error )
-#define setDword( setting, value )          DBWriteContactSettingDword( NULL, __INTERNAL_NAME, setting, value )
-#define getTString( setting, dest )         DBGetContactSettingTString( NULL, __INTERNAL_NAME, setting, dest )
-#define setTString( setting, value )        DBWriteContactSettingTString( NULL, __INTERNAL_NAME, setting, value )
-#define deleteSetting( setting )            DBDeleteContactSetting( NULL, __INTERNAL_NAME, setting )
+#define getByte(setting, error)           db_get_b(NULL, MODNAME, setting, error)
+#define setByte(setting, value)           db_set_b(NULL, MODNAME, setting, value)
+#define getWord(setting, error)           db_get_w(NULL, MODNAME, setting, error)
+#define setWord(setting, value)           db_set_w(NULL, MODNAME, setting, value)
+#define getDword(setting, error)          db_get_dw(NULL, MODNAME, setting, error)
+#define setDword(setting, value)          db_set_dw(NULL, MODNAME, setting, value)
+#define getTString(setting, dest)         db_get_ts(NULL, MODNAME, setting, dest)
+#define setTString(setting, value)        db_set_ts(NULL, MODNAME, setting, value)
+#define deleteSetting(setting)            db_unset(NULL, MODNAME, setting)
 
 // --
 typedef void (__cdecl *pForAllProtosFunc)( char*, void *);
@@ -385,8 +365,8 @@ struct CSWindow
 
 	void __inline saveWindowPosition( HWND hwnd )
 	{
-		if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ) == TRUE )
-			Utils_SaveWindowPosition(hwnd,NULL,__INTERNAL_NAME,"Position");
+		if (getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION) == TRUE)
+			Utils_SaveWindowPosition(hwnd, NULL, MODNAME, "Position");
 	}
 };
 
@@ -423,30 +403,11 @@ void IitIcoLib();
 void RegisterHotkeys(char buf[200], TCHAR* accName, int Number);
 void SetStatus(WORD code, StatusItem* item, char *protoName);
 
-// ====[ INIT STUFF ]=========================================================
-
-extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD );
-
-extern "C" __declspec( dllexport ) int Load(void);
-extern "C" __declspec( dllexport ) int Unload( void );
-
 // ====[ PROCEDURES ]=========================================================
 
 INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
 INT_PTR CALLBACK CSAMWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
 INT_PTR CALLBACK CSRNWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
 INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-
-// ====[ HELPERS ]============================================================
-
-void __fastcall SAFE_FREE(void** p)
-{
-	if (*p)
-	{
-		free(*p);
-		*p = NULL;
-	}
-}
-
 
 #endif /* __CSLIST_H */
