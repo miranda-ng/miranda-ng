@@ -216,15 +216,19 @@ void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 //
 HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 {
-	int statusIndx = -1;
 	char iconName[MAX_PATH];
-	DWORD caps2 = (szProto == NULL) ? (DWORD)-1 : CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_2, 0);
+	INT_PTR caps2;
+	if (szProto == NULL)
+		caps2 = -1;
+	else if ((caps2 = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_2, 0)) == CALLSERVICE_NOTFOUND)
+		caps2 = 0;
 
 	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, 7);
 		return IcoLib_GetIcon(iconName, big);
 	}
 
+	int statusIndx = -1;
 	for (int i=0; i < SIZEOF(statusIcons); i++) {
 		if (statusIcons[i].id == status) {
 			statusIndx = i;
