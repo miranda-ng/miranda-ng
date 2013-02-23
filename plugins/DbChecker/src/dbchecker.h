@@ -20,27 +20,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-#include <tchar.h>
-
 #include <windows.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <io.h>
-#include <stdarg.h>
 #include <process.h>
-#include <direct.h>
 #include <malloc.h>
 #include <commctrl.h>
 #include <time.h>
 
-#include <m_system.h>
-#include <m_system_cpp.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_db_int.h>
 #include <m_langpack.h>
 
 #include "resource.h"
+#include "version.h"
 
 #define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
 #define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion())!=5)

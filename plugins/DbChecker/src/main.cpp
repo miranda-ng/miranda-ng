@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "dbchecker.h"
-#include "version.h"
 
 HINSTANCE hInst;
 int hLangpack = 0;
@@ -31,7 +30,7 @@ PLUGININFOEX pluginInfoEx =
 {
 	sizeof(pluginInfoEx),
 	__PLUGIN_NAME,
-	__VERSION_DWORD,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
@@ -39,12 +38,12 @@ PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
 	// {A0138FC6-4C52-4501-AF93-7D3E20BCAE5B}
-	{ 0xa0138fc6, 0x4c52, 0x4501, { 0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b}}
+	{0xa0138fc6, 0x4c52, 0x4501, {0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b}}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
