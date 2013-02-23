@@ -72,9 +72,6 @@
     <ClCompile Include="src\cluiservices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\commonheaders.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

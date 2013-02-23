@@ -224,7 +224,6 @@
     <ClCompile Include="src\rowheight_funcs.cpp" />
     <ClCompile Include="src\statusbar.cpp" />
     <ClCompile Include="src\statusfloater.cpp" />
-    <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\viewmodes.cpp" />
     <ClCompile Include="src\wallpaper.cpp" />
   </ItemGroup>
