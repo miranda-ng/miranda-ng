@@ -43,7 +43,7 @@ extern OPTIONS opt;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"(x)Status Notify",
+	"xStatus Notify",
 	__VERSION_DWORD,
 	"Notifies you when a contact changes his/her (X)status or status message.",
 	"Luca Santarelli, Vasilich, yaho",
@@ -749,9 +749,9 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 
 	char szSoundFile[MAX_PATH] = {0};
 
-	if (!db_get_b(0, "SkinSoundsOff", "UserFromOffline", 0) && 
+	if (!db_get_b(0, "SkinSoundsOff", "UserFromOffline", 0) &&
 		!db_get_s(0,"SkinSounds", "UserFromOffline", &dbv) &&
-		oldStatus == ID_STATUS_OFFLINE) 
+		oldStatus == ID_STATUS_OFFLINE)
 	{
 		strcpy(szSoundFile, "UserFromOffline");
 		db_free(&dbv);
