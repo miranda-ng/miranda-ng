@@ -26,15 +26,11 @@
 #include <windows.h>
 #include <time.h>
 #include <fstream>
-#include <algorithm>
-#include "assert.h"
+#include <assert.h>
 
 #include "newpluginapi.h"
 #include "m_clist.h"
-#include "m_skin.h"
 #include "m_database.h"
-#include "m_system.h"
-#include "m_protosvc.h"
 #include "m_options.h"
 #include "m_langpack.h"
 
