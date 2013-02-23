@@ -18,7 +18,6 @@
  */
 
 #include "plugin.h"
-#include "MirandaContact.h"
 
 HINSTANCE hInst;
 int hLangpack = 0;

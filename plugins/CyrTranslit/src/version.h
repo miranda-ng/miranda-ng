@@ -23,19 +23,11 @@
 #define __BUILD_NUM					0
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
-
-#define __PLUGIN_NAME             "CyrTranslit"
-#define __INTERNAL_NAME          "CyrTranslit"
+#define __PLUGIN_NAME            "CyrTranslit"
 #define __FILENAME               "CyrTranslit.dll"
-#define __DESCRIPTION            "Replaces (for the selected contacts only) the Cyrillic letters in the "\
-                                    "outgoing messages with the phonetically equivalent Latin letter "\
-                                    "combinations."
+#define __DESCRIPTION            "Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations."
 #define __AUTHOR                 "ValeraVi, Ivan Krechetov"
-#define __AUTHOREMAIL				"valeravi@vi-soft.com.ua"
-#define __AUTHORWEB					"http://miranda-ng.org/"
-#define __COPYRIGHT					"© 2005-2009 ValeraVi, Ivan Krechetov"
+#define __AUTHOREMAIL            "valeravi@vi-soft.com.ua"
+#define __AUTHORWEB              "http://miranda-ng.org/"
+#define __COPYRIGHT              "© 2005-2009 ValeraVi, Ivan Krechetov"

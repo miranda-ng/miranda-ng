@@ -18,7 +18,6 @@
  */
 
 #include "plugin.h"
-#include "TransliterationMap.h"
 
 namespace CyrTranslit
 {

@@ -18,8 +18,6 @@
  */
 
 #include "plugin.h"
-#include "MirandaContact.h"
-#include "TransliterationProtocol.h"
 
 namespace CyrTranslit
 {
