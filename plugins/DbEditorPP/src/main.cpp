@@ -1,8 +1,5 @@
 #include "headers.h"
 
-
-
-
 HINSTANCE hInst = NULL;
 
 HANDLE hTTBButt = NULL;
@@ -30,7 +27,8 @@ PLUGININFOEX pluginInfoEx={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0xa8a417ef, 0x7aa, 0x4f37, { 0x86, 0x9f, 0x7b, 0xfd, 0x74, 0x88, 0x65, 0x34}} // {A8A417EF-07AA-4f37-869F-7BFD74886534}
+	// {A8A417EF-07AA-4F37-869F-7BFD74886534}
+	{0xa8a417ef, 0x7aa, 0x4f37, {0x86, 0x9f, 0x7b, 0xfd, 0x74, 0x88, 0x65, 0x34}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -44,9 +42,9 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICE
 //========================
 //  WINAPI DllMain
 //========================
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 

@@ -78,74 +78,6 @@ BEGIN
     LTEXT           "If the module name has a space in it, put a \\ before the space. eg ""aaa\\ bbb""",IDC_STATIC,12,127,286,8
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_FIND, DIALOG
-    BEGIN
-        LEFTMARGIN, 3
-        RIGHTMARGIN, 337
-        VERTGUIDE, 10
-        VERTGUIDE, 40
-        VERTGUIDE, 115
-        VERTGUIDE, 194
-        VERTGUIDE, 277
-        TOPMARGIN, 7
-        HORZGUIDE, 18
-        HORZGUIDE, 35
-        HORZGUIDE, 48
-        HORZGUIDE, 68
-        HORZGUIDE, 95
-    END
-
-    IDD_OPTIONS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 307
-        VERTGUIDE, 12
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 232
-        HORZGUIDE, 68
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-ICO_KNOWN               ICON                    "Yellow.ico"
-ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
-ICO_UNKNOWNOPEN         ICON                    "Red_open.ico"
-ICO_UNKNOWN             ICON                    "Red.ico"
-ICO_SETTINGS            ICON                    "Icon_4.ico"
-ICO_ONLINE              ICON                    "online2.ico"
-#endif    // Английский (США) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Английский (Австралия) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
 IDD_ADD_MODULE DIALOGEX 0, 0, 186, 67
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Add a module to contact"
@@ -236,6 +168,33 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_FIND, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 337
+        VERTGUIDE, 10
+        VERTGUIDE, 40
+        VERTGUIDE, 115
+        VERTGUIDE, 194
+        VERTGUIDE, 277
+        TOPMARGIN, 7
+        HORZGUIDE, 18
+        HORZGUIDE, 35
+        HORZGUIDE, 48
+        HORZGUIDE, 68
+        HORZGUIDE, 95
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        VERTGUIDE, 12
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 232
+        HORZGUIDE, 68
+    END
+
     IDD_ADD_MODULE, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -292,6 +251,12 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+ICO_KNOWN               ICON                    "Yellow.ico"
+ICO_KNOWNOPEN           ICON                    "Yellow_open.ico"
+ICO_UNKNOWNOPEN         ICON                    "Red_open.ico"
+ICO_UNKNOWN             ICON                    "Red.ico"
+ICO_SETTINGS            ICON                    "Icon_4.ico"
+ICO_ONLINE              ICON                    "online2.ico"
 ICO_REGEDIT             ICON                    "Icon_1.ico"
 ICO_DBE_BUTT            ICON                    "dbepp.ico"
 ICO_REGUSER             ICON                    "usermenu.ico"
@@ -304,6 +269,10 @@ ICO_WORD                ICON                    "Icon_18.ico"
 ICO_OFFLINE             ICON                    "offline2.ico"
 ICO_UNICODE             ICON                    "unicode.ico"
 ICO_HANDLE              ICON                    "handle.ico"
+
+#endif    // Английский (США) resources
+/////////////////////////////////////////////////////////////////////////////
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -498,10 +467,6 @@ BEGIN
         MENUITEM "E&xit",                       MENU_EXIT
     END
 END
-
-#endif    // Английский (Австралия) resources
-/////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED
