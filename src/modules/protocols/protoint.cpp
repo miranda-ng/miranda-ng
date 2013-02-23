@@ -51,7 +51,7 @@ INT_PTR __fastcall MyCallProtoService(const char *szModule, const char *szServic
 	return CallService(str, wParam, lParam);
 }
 
-struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
+struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE, public MZeroedObject
 {
 	HANDLE __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr)
 	{
