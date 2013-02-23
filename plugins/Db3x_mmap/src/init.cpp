@@ -28,15 +28,16 @@ int hLangpack;
 static PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	"Miranda NG mmap database driver",
-	__VERSION_DWORD,
-	"Provides Miranda database support: global settings, contacts, history, settings per contact.",
-	"Miranda-NG project",
-	"bio@msx.ru; ghazan@miranda.im",
-	"Copyright 2012 Miranda NG project",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
-    {0xf7a6b27c, 0x9d9c, 0x4a42, { 0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61 }} //{F7A6B27C-9D9C-4a42-BE86-A448AE109161}
+	//{F7A6B27C-9D9C-4A42-BE86-A448AE109161}
+    {0xf7a6b27c, 0x9d9c, 0x4a42, {0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61}}
 };
 
 HINSTANCE g_hInst = NULL;

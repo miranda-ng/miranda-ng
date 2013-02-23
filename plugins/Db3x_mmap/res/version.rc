@@ -1,14 +1,11 @@
+// Microsoft Visual C++ generated resource script.
+//
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include <windows.h>
+#include "afxres.h"
 #include "..\src\version.h"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
@@ -20,23 +17,22 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "041904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", "Miranda NG Mmap DataBase Engine 3x"
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "LegalCopyright", "Copyright (C) 2012"
-            VALUE "OriginalFilename", "dbx_mmap.dll"
-            VALUE "ProductName", "Miranda NG Mmap DataBase Engine 3x"
-            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x419, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END
