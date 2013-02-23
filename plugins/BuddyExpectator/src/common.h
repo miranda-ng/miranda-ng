@@ -17,37 +17,25 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-	File name      : $URL: http://svn.miranda.im/mainrepo/buddyexpectator/trunk/common.h $
-	Revision       : $Rev: 1392 $
-	Last change on : $Date: 2009-04-22 17:46:08 +0300 (Ср, 22 апр 2009) $
-	Last change by : $Author: Thief $
 */
 
 #define _CRT_SECURE_NO_WARNINGS
 #ifndef _COMMON_INC
 #define _COMMON_INC
-#define MIRANDA_VER 0x0A00
 
-#include <stddef.h> // needed by m_icolib.h > r9256
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
-#include <stdio.h>
 #include <locale.h>
 
 #include <newpluginapi.h>
 #include <m_skin.h>
 #include <m_clist.h>
 #include <m_database.h>
-#include <m_system.h>
 #include <m_langpack.h>
-#include <m_contacts.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
 #include <win2k.h>
-#include <m_ignore.h>
 #include <m_message.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>

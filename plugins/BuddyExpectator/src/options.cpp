@@ -20,7 +20,6 @@
 */
 
 #include "common.h"
-#include "options.h"
 
 #define DEF_COLOR_BACK  0xCEF7AD
 #define DEF_COLOR_FORE  0x000000
