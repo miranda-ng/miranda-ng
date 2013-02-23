@@ -1,6 +1,4 @@
 #include "headers.h"
-#include "version.h"
-#include "m_trigger.h"
 
 HINSTANCE hInst;
 
@@ -14,14 +12,14 @@ HANDLE hServices[3];
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-	__VERSION_DWORD,
-	__PLUGIN_DESC,
-	"chaos.persei, sje, Kildor, Billy_Bons",
-	"chaos.persei@gmail.com",
-	__COPYRIGHTS,
-	"http://miranda-ng.org/",
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {81C220A6-0226-4ad6-BFCA-217B17A16053}
+	// {81C220A6-0226-4Ad6-BFCA-217B17A16053}
 	{0x81c220a6, 0x226, 0x4ad6, {0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53}}
 };
 

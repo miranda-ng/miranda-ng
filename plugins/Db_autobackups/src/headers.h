@@ -2,28 +2,26 @@
 #define _HEADERS_H
 
 #define _CRT_SECURE_NO_DEPRECATE
-#define MIRANDA_VER 0x0A00
 
-#include <m_stdhdr.h>
 #include <windows.h>
 #include <shlobj.h>
 #include <time.h>
-#include <commctrl.h>
 
-#include <m_system.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_utils.h>
 #include <m_options.h>
 #include <m_popup.h>
 #include <m_icolib.h>
-#include "m_folders.h"
 #include <win2k.h>
+
+#include <m_folders.h>
+#include <m_trigger.h>
 
 #include "options.h"
 #include "resource.h"
+#include "version.h"
 
 #define MS_AB_BACKUP		"AB/Backup"
 #define MS_AB_BACKUPTRGR	"AB/Backuptrg"

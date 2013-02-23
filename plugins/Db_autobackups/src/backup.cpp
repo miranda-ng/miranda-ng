@@ -1,5 +1,4 @@
 #include "headers.h"
-#include <commctrl.h>
 
 TCHAR dbname[MAX_PATH];
 
