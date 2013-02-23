@@ -45,9 +45,8 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 {
 	char path[MAX_PATH];
 
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup(aUserName);
-	m_szModuleName = mir_strdup(aProtoName);
+	ProtoConstructor(this, aProtoName, aUserName);
+
 	m_szProtoName = mir_strdup(aProtoName);
 	_strlwr(m_szProtoName);
 	m_szProtoName[0] = (char)toupper(m_szProtoName[0]);
@@ -133,8 +132,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	mir_snprintf(alertsoundname, 64, "%s:Alerts", m_szModuleName);
 	SkinAddNewSoundExT(alertsoundname, m_tszUserName, LPGENT("Live Alert"));
 
-	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-
 	MSN_InitThreads();
 	Lists_Init();
 	MsgQueue_Init();
@@ -189,8 +186,6 @@ CMsnProto::~CMsnProto()
 
 	mir_free(mailsoundname);
 	mir_free(alertsoundname);
-	mir_free(m_tszUserName);
-	mir_free(m_szModuleName);
 	mir_free(m_szProtoName);
 
 	for (int i=0; i < MSN_NUM_MODES; i++)
@@ -205,6 +200,7 @@ CMsnProto::~CMsnProto()
 	mir_free(storageCacheKey);
 
 	FreeAuthTokens();
+	ProtoDestructor(this);
 }
 
 
@@ -753,29 +749,6 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HANDLE hContact)
 int __cdecl CMsnProto::GetInfo(HANDLE hContact, int infoType)
 {
 	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// MsnLoadIcon - obtain the protocol icon
-
-HICON __cdecl CMsnProto::GetIcon(int iconIndex)
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle(IDI_MSN);
-
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx("main", big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		hIcon = CopyIcon(hIcon);
-		ReleaseIconEx("main", big);
-		return hIcon;
-	}
-	return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

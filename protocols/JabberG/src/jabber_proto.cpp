@@ -85,15 +85,14 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	m_lstJabberFeatCapPairsDynamic(2),
 	m_uEnabledFeatCapsDynamic(0)
 {
+	ProtoConstructor(this, aProtoName, aUserName);
+
 	InitializeCriticalSection(&m_csModeMsgMutex);
 	InitializeCriticalSection(&m_csLists);
 	InitializeCriticalSection(&m_csLastResourceMap);
 
 	m_szXmlStreamToBeInitialized = NULL;
 
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup(aUserName);
-	m_szModuleName = mir_strdup(aProtoName);
 	m_szProtoName = mir_strdup(aProtoName);
 	_strlwr(m_szProtoName);
 	m_szProtoName[0] = toupper(m_szProtoName[0]);
@@ -221,8 +220,6 @@ CJabberProto::~CJabberProto()
 
 	delete m_pInfoFrame;
 
-	Skin_RemoveIconHandle(m_hProtoIcon);
-
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
@@ -249,8 +246,6 @@ CJabberProto::~CJabberProto()
 
 	mir_free(m_szStreamId);
 	mir_free(m_szProtoName);
-	mir_free(m_szModuleName);
-	mir_free(m_tszUserName);
 
 	int i;
 	for (i=0; i < m_lstTransports.getCount(); i++)
@@ -266,6 +261,8 @@ CJabberProto::~CJabberProto()
 	}
 	m_lstJabberFeatCapPairsDynamic.destroy();
 	m_hPrivacyMenuItems.destroy();
+
+	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -702,28 +699,6 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 		}
 	}
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// GetIcon - loads an icon for the contact list
-
-HICON __cdecl CJabberProto::GetIcon(int iconIndex)
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL) {
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)m_hProtoIcon;
-
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = Skin_GetIconByHandle(m_hProtoIcon, big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		HICON hIcon2 = CopyIcon(hIcon);
-		g_ReleaseIcon(hIcon);
-		return hIcon2;
-	}
-	return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

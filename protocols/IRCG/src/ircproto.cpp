@@ -29,16 +29,14 @@ static int CompareSessions( const CDccSession* p1, const CDccSession* p2 )
 	return INT_PTR( p1->di->hContact ) - INT_PTR( p2->di->hContact );
 }
 
-CIrcProto::CIrcProto( const char* szModuleName, const TCHAR* tszUserName ) :
+CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 	m_dcc_chats( 10, CompareSessions ),
 	m_dcc_xfers( 10, CompareSessions ),
 	m_ignoreItems( 10 ),
 	vUserhostReasons( 10 ),
 	vWhoInProgress( 10 )
 {
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup( tszUserName );
-	m_szModuleName = mir_strdup( szModuleName );
+	ProtoConstructor(this, szModuleName, tszUserName);
 
 	InitializeCriticalSection(&cs);
 	InitializeCriticalSection(&m_gchook);
@@ -165,14 +163,14 @@ CIrcProto::~CIrcProto()
 		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )hMenuRoot, 0 );
 
 	mir_free( m_alias );
-	mir_free( m_szModuleName );
-	mir_free( m_tszUserName );
 
 	CloseHandle( m_evWndCreate );
 	DeleteCriticalSection(&m_resolve);
 	DeleteCriticalSection(&m_dcc);
 	KillChatTimer(OnlineNotifTimer);
 	KillChatTimer(OnlineNotifTimer3);
+
+	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -552,29 +550,6 @@ DWORD_PTR __cdecl CIrcProto::GetCaps( int type, HANDLE )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// GetIcon - loads an icon for the contact list
-
-HICON __cdecl CIrcProto::GetIcon( int iconIndex )
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle(IDI_MAIN);
-		
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx(IDI_MAIN, big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		HICON hIcon2 = CopyIcon(hIcon);
-		ReleaseIconEx(hIcon);
-		return hIcon2;
-	}
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
 int __cdecl CIrcProto::GetInfo( HANDLE, int )
@@ -605,7 +580,7 @@ void __cdecl CIrcProto::AckBasicSearch( void* param )
 HANDLE __cdecl CIrcProto::SearchBasic( const PROTOCHAR* szId )
 {
 	if ( szId ) {
-		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING && 
+		if (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
 			szId && szId[0] && !IsChannel(szId)) {
 			AckBasicSearchParam* param = new AckBasicSearchParam;
 			lstrcpyn( param->buf, szId, 50 );

@@ -17,7 +17,7 @@ struct StringList : public LIST<char>
 	{ return _stricmp(p1, p2); }
 
 	StringList() : LIST<char>(2, compare) {}
-	StringList(const char* string, const char *delimeters) : LIST<char>(2, compare) 
+	StringList(const char* string, const char *delimeters) : LIST<char>(2, compare)
 	{
 		char *data = ::mir_strdup(string);
 		if (data)
@@ -155,13 +155,13 @@ struct PasswordRequestBoxParam
 	PasswordRequestBoxParam(const char *login, bool showRememberPasswordBox = true, bool rememberPassword = false) :
 		login(::mir_strdup(login)),
 		password(NULL),
-		rememberPassword(rememberPassword), 
+		rememberPassword(rememberPassword),
 		showRememberPasswordBox(showRememberPasswordBox) { }
 
 	~PasswordRequestBoxParam()
-	{ 
+	{
 		if (login) ::mir_free(login);
-		if (password) ::mir_free(password); 
+		if (password) ::mir_free(password);
 	}
 };
 
@@ -173,8 +173,8 @@ struct PasswordChangeBoxParam
 	PasswordChangeBoxParam() { }
 
 	~PasswordChangeBoxParam()
-	{ 
-		if (password) ::mir_free(password); 
+	{
+		if (password) ::mir_free(password);
 		if (password2) ::mir_free(password2);
 	}
 };
@@ -202,7 +202,6 @@ public:
 	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const TCHAR** szFilename );
 
 	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
-	virtual	HICON  __cdecl GetIcon( int iconIndex );
 	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
 
 	virtual	HANDLE __cdecl SearchBasic( const TCHAR* id );
@@ -306,14 +305,14 @@ protected:
 	bool IsChatRoom(HANDLE hContact);
 	HANDLE GetChatRoomByID(const char *cid);
 	HANDLE	AddChatRoomByID(const char* cid, const char* name, DWORD flags = 0);
-	
+
 	char *CSkypeProto::GetChatUsers(const char *cid);
 
 	void ChatValidateContact(HANDLE hItem, HWND hwndList, const char *contacts);
 	void ChatPrepare(HANDLE hItem, HWND hwndList, const char *contacts);
 
 	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &invitedContacts);
-	
+
 	void InitChat();
 	char *StartChat(const char *cid, const SEStringList &invitedContacts);
 	void JoinToChat(const char *cid, bool showWindow = true);
@@ -343,7 +342,7 @@ protected:
 
 	void	OnContactChanged(CContact::Ref contact, int prop);
 	void	OnContactListChanged(const ContactRef& contact);
-	
+
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const char* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
@@ -374,7 +373,7 @@ protected:
 	void	UpdateProfileStatusMessage(SEObject *obj, HANDLE hContact = NULL);
 	void	UpdateProfileTimezone(SEObject *obj, HANDLE hContact = NULL);
 
-	void	UpdateProfile(SEObject *obj, HANDLE hContact = NULL);	
+	void	UpdateProfile(SEObject *obj, HANDLE hContact = NULL);
 
 	void __cdecl LoadOwnInfo(void*);
 
@@ -408,7 +407,7 @@ protected:
 
 	void	CreateService(const char* szService, SkypeServiceFunc serviceProc);
 	void	CreateServiceParam(const char* szService, SkypeServiceFunc serviceProc, LPARAM lParam);
-	
+
 	HANDLE	CreateEvent(const char* szService);
 	void	HookEvent(const char*, SkypeEventFunc);
 
@@ -445,24 +444,24 @@ protected:
 	static HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
 	static INT_PTR MenuChooseService(WPARAM wParam, LPARAM lParam);
 	int OnPrebuildContactMenu(WPARAM wParam, LPARAM);
-	
+
 
 	// database
 	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	void RaiseMessageReceivedEvent(
-		DWORD timestamp, 
-		const char* sid, 
-		const char* nick, 
+		DWORD timestamp,
+		const char* sid,
+		const char* nick,
 		const char* message = "");
 	void RaiseMessageSendedEvent(
-		DWORD timestamp, 
-		const char* sid, 
-		const char* nick, 
+		DWORD timestamp,
+		const char* sid,
+		const char* nick,
 		const char* message = "");
 	void RaiseAuthRequestEvent(
-		DWORD timestamp, 
-		const char* sid, 
-		const char* nick, 
+		DWORD timestamp,
+		const char* sid,
+		const char* nick,
 		const char* firstName = "",
 		const char* lastName = "",
 		const char* reason = "");

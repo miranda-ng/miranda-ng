@@ -30,7 +30,7 @@ type
     EV_PROTO_ONEXIT,
     EV_PROTO_ONRENAME,
     EV_PROTO_ONOPTIONS,
- 	  EV_PROTO_ONERASE,
+    EV_PROTO_ONERASE,
     EV_PROTO_ONMENU,
     EV_PROTO_ONCONTACTDELETED,
     EV_PROTO_DBSETTINGSCHANGED);
@@ -46,17 +46,11 @@ type
     iDesiredStatus:int;
     iXStatus      :int;
     iVersion      :int;  // version 2 or higher designate support of Unicode services
-{
-    bOldProto     :Bool;
-    szPhysName    :PAnsiChar;
-    szProtoName   :PAnsiChar;
-    tszUserName   :TChar;
-}
+
     tszUserName   :TChar;
     szProtoName   :PAnsiChar;
     szModuleName  :PAnsiChar;
-
-    reserved      :array [0..39] of dword;
+    hProtoIcon    :THandle;
 
     AddToList       :function(intf:PPROTO_INTERFACE;flags:int; var psr:TPROTOSEARCHRESULT):THANDLE; cdecl;
     AddToListByEvent:function(intf:PPROTO_INTERFACE;flags:int; iContact:int; hDbEvent:THANDLE):THANDLE; cdecl;
@@ -74,7 +68,6 @@ type
     FileResume:function(intf:PPROTO_INTERFACE;hTransfer:THANDLE;var action:Integer; var szFilename:PROTOCHAR):int; cdecl;
 
     GetCaps:function(intf:PPROTO_INTERFACE;_type:int):dword_ptr; cdecl;
-    GetIcon:function(intf:PPROTO_INTERFACE;iconIndex:int):HICON; cdecl;
     GetInfo:function(intf:PPROTO_INTERFACE;hContact:THANDLE;infoType:int):int; cdecl;
 
     SearchBasic           :function(intf:PPROTO_INTERFACE;id:PAnsiChar):THANDLE; cdecl;

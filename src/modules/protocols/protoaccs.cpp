@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 bool CheckProtocolOrder(void);
 void BuildProtoMenus();
 
+HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex);
+
 static BOOL bModuleInitialized = FALSE;
 
 static int CompareAccounts(const PROTOACCOUNT* p1, const PROTOACCOUNT* p2)
@@ -319,7 +321,7 @@ static INT_PTR stub12(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub13(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)ppi->GetIcon(wParam);
+	return (INT_PTR)Proto_GetIcon(ppi, wParam);
 }
 
 static INT_PTR stub15(PROTO_INTERFACE* ppi, WPARAM, LPARAM lParam)

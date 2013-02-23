@@ -50,8 +50,7 @@ struct  PROTO_INTERFACE
 	TCHAR* m_tszUserName;
 	char*  m_szProtoName;
 	char*  m_szModuleName;
-
-	DWORD  reserved[ 40 ];
+	HANDLE m_hProtoIcon;
 
 	virtual	HANDLE   __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr) = 0;
 	virtual	HANDLE   __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) = 0;
@@ -69,7 +68,6 @@ struct  PROTO_INTERFACE
 	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) = 0;
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL) = 0;
-	virtual	HICON     __cdecl GetIcon(int iconIndex) = 0;
 	virtual	int       __cdecl GetInfo(HANDLE hContact, int infoType) = 0;
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id) = 0;
@@ -100,5 +98,18 @@ struct  PROTO_INTERFACE
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) = 0;
 };
+
+// Call it in the very beginning of your proto's constructor
+__forceinline void ProtoConstructor(PROTO_INTERFACE *pThis, LPCSTR pszModuleName, LPCTSTR ptszUserName)
+{
+	CallService("Proto/Constructor", (WPARAM)pThis, (LPARAM)pszModuleName);
+	pThis->m_tszUserName = mir_tstrdup(ptszUserName);
+}
+
+// Call it in the very end of your proto's destructor
+__forceinline void ProtoDestructor(PROTO_INTERFACE *pThis)
+{
+	CallService("Proto/Destructor", (WPARAM)pThis, 0);
+}
 
 #endif // M_PROTOINT_H__

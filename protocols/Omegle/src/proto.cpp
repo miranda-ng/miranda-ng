@@ -24,10 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
 {
-	m_iVersion = 2;
+	ProtoConstructor(this, aProtoName, aUserName);
 	m_szProtoName  = mir_strdup( proto_name );
-	m_szModuleName = mir_strdup( proto_name );
-	m_tszUserName  = mir_tstrdup( username );
 
 	this->facy.parent = this;
 
@@ -41,7 +39,7 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
 	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &OmegleProto::OnLeaveChat, this);
 
 	CreateProtoService(m_szModuleName, PS_CREATEACCMGRUI, &OmegleProto::SvcCreateAccMgrUI, this);
-	
+
 	HookProtoEvent(ME_OPT_INITIALISE, &OmegleProto::OnOptionsInit, this);
 	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent, this);
 
@@ -83,9 +81,8 @@ OmegleProto::~OmegleProto( )
 
 	mir_free( this->facy.nick_ );
 
-	mir_free( m_tszUserName );
-	mir_free( m_szModuleName );
-	mir_free( m_szProtoName );	
+	mir_free( m_szProtoName );
+	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -108,17 +105,6 @@ DWORD_PTR OmegleProto::GetCaps( int type, HANDLE hContact )
 		return (DWORD_PTR) "Nick";
 	}
 	return 0;
-}
-
-HICON OmegleProto::GetIcon(int index)
-{
-	if(LOWORD(index) == PLI_PROTOCOL)
-	{
-		HICON ico = Skin_GetIcon("Omegle_omegle");
-		return CopyIcon(ico);
-	} else {
-		return 0;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -146,7 +132,7 @@ int OmegleProto::SetStatus( int new_status )
 
 	if ( m_iStatus == ID_STATUS_CONNECTING && new_status != ID_STATUS_OFFLINE )
 	{
-		return 0;		
+		return 0;
 	}
 
 	if ( new_status == ID_STATUS_OFFLINE )
@@ -171,7 +157,7 @@ int OmegleProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 	case EV_PROTO_ONEXIT:
 		return OnPreShutdown  (wParam,lParam);
-	
+
 	case EV_PROTO_ONOPTIONS:
 		return OnOptionsInit  (wParam,lParam);
 

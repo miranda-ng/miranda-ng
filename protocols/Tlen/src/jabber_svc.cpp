@@ -64,17 +64,6 @@ INT_PTR TlenGetName(void *ptr, LPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-HICON __cdecl TlenProtocol::GetIcon(int iconIndex)
-{
-	if ((iconIndex&0xffff) == PLI_PROTOCOL) {
-		HICON hIcon = GetIcolibIcon(IDI_TLEN);
-		HICON hIconCopy = CopyIcon(hIcon);
-		ReleaseIcolibIcon(hIcon);
-		return hIconCopy;
-	}
-	return (HICON) NULL;
-}
-
 int TlenRunSearch(TlenProtocol *proto) {
 	int iqId = 0;
 	if (!proto->isOnline) return 0;
@@ -1286,14 +1275,11 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 
 TlenProtocol::TlenProtocol( const char* aProtoName, const TCHAR* aUserName )
 {
+	ProtoConstructor(this, aProtoName, aUserName);
 
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup(aUserName);
-	m_szModuleName = mir_strdup(aProtoName);
 	m_szProtoName = mir_strdup(aProtoName);
 	_strlwr( m_szProtoName );
 	m_szProtoName[0] = toupper( m_szProtoName[0] );
-	m_iStatus = ID_STATUS_OFFLINE;
 
 	TlenInitServicesVTbl(this);
 
@@ -1358,6 +1344,5 @@ TlenProtocol::~TlenProtocol()
 	mir_free(modeMsgs.szFreechat);
 	mir_free(modeMsgs.szInvisible);
 
+	ProtoDestructor(this);
 }
-
-

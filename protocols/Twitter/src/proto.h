@@ -54,7 +54,6 @@ public:
 	virtual	int       __cdecl FileResume(HANDLE,int *,const TCHAR **);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int,HANDLE = 0);
-	virtual	HICON     __cdecl GetIcon(int);
 	virtual	int       __cdecl GetInfo(HANDLE,int);
 
 	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);

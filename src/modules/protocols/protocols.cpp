@@ -302,6 +302,25 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 	return filesU;
 }
 
+HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
+{
+	if (LOWORD(iconIndex) == PLI_PROTOCOL) {
+		if (iconIndex & PLIF_ICOLIBHANDLE)
+			return (HICON)ppro->m_hProtoIcon;
+
+		bool big = (iconIndex & PLIF_SMALL) == 0;
+		HICON hIcon = Skin_GetIconByHandle(ppro->m_hProtoIcon, big);
+
+		if (iconIndex & PLIF_ICOLIB)
+			return hIcon;
+
+		HICON hIcon2 = CopyIcon(hIcon);
+		Skin_ReleaseIcon(hIcon);
+		return hIcon2;
+	}
+	return NULL;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // 0.8.0+ - accounts
 
@@ -426,7 +445,7 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 					return (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action, (const PROTOCHAR**)&pfr->szFilename);
 			}
 			case 12: return (INT_PTR)ppi->GetCaps(wParam, (HANDLE)lParam);
-			case 13: return (INT_PTR)ppi->GetIcon(wParam);
+			case 13: return (INT_PTR)Proto_GetIcon(ppi, wParam);
 			case 14: return (INT_PTR)ppi->GetInfo(hContact, wParam);;
 			case 15:
 				if (ppi->m_iVersion > 1)
@@ -614,6 +633,28 @@ INT_PTR CallProtoServiceInt(HANDLE hContact, const char *szModule, const char *s
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static INT_PTR srvProtoConstructor(WPARAM wParam, LPARAM lParam)
+{
+	PROTO_INTERFACE *ppi = (PROTO_INTERFACE*)wParam;
+	LPCSTR szProtoName = (LPCSTR)lParam;
+
+	ppi->m_iVersion = 2;
+	ppi->m_iStatus = ppi->m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ppi->m_szModuleName = mir_strdup(szProtoName);
+	ppi->m_hProtoIcon = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(szProtoName, ID_STATUS_ONLINE), 0);
+	return 0;
+}
+
+static INT_PTR srvProtoDestructor(WPARAM wParam, LPARAM)
+{
+	PROTO_INTERFACE *ppi = (PROTO_INTERFACE*)wParam;
+	mir_free(ppi->m_szModuleName);
+	mir_free(ppi->m_tszUserName);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void InsertServiceListItem(int id, const char* szName)
 {
 	TServiceListItem* p = (TServiceListItem*)mir_alloc(sizeof(TServiceListItem));
@@ -695,6 +736,9 @@ int LoadProtocolsModule(void)
 	CreateServiceFunction(MS_PROTO_ENUMACCOUNTS,     Proto_EnumAccounts);
 	CreateServiceFunction(MS_PROTO_GETACCOUNT,       srvProto_GetAccount);
 
+	CreateServiceFunction("Proto/Constructor",       srvProtoConstructor);
+	CreateServiceFunction("Proto/Destructor",        srvProtoDestructor);
+
 	CreateServiceFunction(MS_PROTO_ISACCOUNTENABLED, srvProto_IsAccountEnabled);
 	CreateServiceFunction(MS_PROTO_ISACCOUNTLOCKED,  srvProto_IsAccountLocked);
 
@@ -703,8 +747,6 @@ int LoadProtocolsModule(void)
 
 void UnloadProtocolsModule()
 {
-	int i;
-
 	if ( !bModuleInitialized) return;
 
 	if (hAckEvent) {
@@ -717,14 +759,14 @@ void UnloadProtocolsModule()
 	}
 
 	if (protos.getCount()) {
-		for (i=0; i < protos.getCount(); i++) {
+		for (int i=0; i < protos.getCount(); i++) {
 			mir_free(protos[i]->szName);
 			mir_free(protos[i]);
 		}
 		protos.destroy();
 	}
 
-	for (i=0; i < serviceItems.getCount(); i++)
+	for (int i=0; i < serviceItems.getCount(); i++)
 		mir_free(serviceItems[i]);
 	serviceItems.destroy();
 }
@@ -733,10 +775,10 @@ void UnloadProtocolsModule()
 
 pfnUninitProto GetProtocolDestructor(char* szProto)
 {
-	int idx;
 	PROTOCOLDESCRIPTOR temp;
 	temp.szName = szProto;
-	if ((idx = protos.getIndex(&temp)) != -1)
+	int idx = protos.getIndex(&temp);
+	if (idx != -1)
 		return protos[idx]->fnUninit;
 
 	return NULL;

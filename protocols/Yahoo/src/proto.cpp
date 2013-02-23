@@ -28,15 +28,12 @@
 #endif
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
-	m_bLoggedIn( FALSE ), 
+	m_bLoggedIn( FALSE ),
 	poll_loop( 0),
-	m_chatrooms(3, ChatRoom::compare) 
+	m_chatrooms(3, ChatRoom::compare)
 {
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup( aUserName );
-	m_szModuleName = mir_strdup( aProtoName );
+	ProtoConstructor(this, aProtoName, aUserName);
 
-	m_startStatus = ID_STATUS_ONLINE;
 	m_connections = NULL;
 	m_connection_tags = 0;
 
@@ -59,15 +56,15 @@ CYahooProto::~CYahooProto()
 	DestroyHookableEvent(hYahooNudge);
 
 	MenuUninit();
-	
+
 	m_chatrooms.destroy();
-	mir_free( m_szModuleName );
-	mir_free( m_tszUserName );
 
 	FREE(m_startMsg);
 	FREE(m_pw_token);
 
 	Netlib_CloseHandle( m_hNetlibUser );
+
+	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -344,29 +341,6 @@ DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
 	default:
 		return 0;
 	}
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// GetIcon - loads an icon for the contact list
-
-HICON __cdecl CYahooProto::GetIcon( int iconIndex )
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle(IDI_YAHOO);
-
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx("yahoo", big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		hIcon = CopyIcon(hIcon);
-		ReleaseIconEx("yahoo", big);
-		return hIcon;
-	}
-	return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

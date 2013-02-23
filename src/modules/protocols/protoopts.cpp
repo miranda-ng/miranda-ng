@@ -590,9 +590,9 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			lps->rcItem.left += cxIcon + 2;
 
 			if (acc->ppro) {
-				hIcon = acc->ppro->GetIcon(PLI_PROTOCOL | PLIF_SMALL);
+				hIcon = Skin_GetIconByHandle(acc->ppro->m_hProtoIcon);
 				DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
-				DestroyIcon(hIcon);
+				Skin_ReleaseIcon(hIcon);
 			}
 			lps->rcItem.left += cxIcon + 2;
 

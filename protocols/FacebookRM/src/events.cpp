@@ -63,7 +63,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		PUDeletePopUp(hwnd);
 		} break;
 
-	case WM_CONTEXTMENU: 
+	case WM_CONTEXTMENU:
 		PUDeletePopUp(hwnd);
 		break;
 
@@ -76,7 +76,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 	} return FALSE;
 
 	default:
-		break; 
+		break;
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -149,7 +149,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 			pd.colorText = colorText;
 			pd.iSeconds = timeout;
 			pd.lchContact = contact;
-			pd.lchIcon = GetIcon(1); // TODO: Icon test
+			pd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon); // TODO: Icon test
 			pd.PluginData = szUrl;
 			pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 			lstrcpy(pd.lptzContactName, title);

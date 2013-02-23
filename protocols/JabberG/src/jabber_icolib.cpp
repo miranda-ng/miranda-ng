@@ -180,8 +180,6 @@ void CJabberProto::IconsInit(void)
 	m_transportProtoTableStartIndex = (int *)mir_alloc(sizeof(int) * SIZEOF(TransportProtoTable));
 	for (int i = 0; i < SIZEOF(TransportProtoTable); i++)
 		m_transportProtoTableStartIndex[i] = -1;
-
-	m_hProtoIcon = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(m_szModuleName, ID_STATUS_ONLINE), 0);
 }
 
 HANDLE CJabberProto::GetIconHandle(int iconId)

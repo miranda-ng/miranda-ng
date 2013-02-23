@@ -77,11 +77,8 @@ expectedFileRecvs(10, CompareFT),
 contactsCache(10, CompareContactsCache),
 cheekySearchId( -1 )
 {
-	m_iVersion = 2;
-	m_iStatus = ID_STATUS_OFFLINE;
-	m_tszUserName = mir_tstrdup( aUserName );
-	m_szModuleName = mir_strdup( aProtoName );
-	m_szProtoName = mir_strdup( aProtoName );
+	ProtoConstructor(this, aProtoName, aUserName);
+	m_szProtoName = mir_strdup(aProtoName);
 	_strlwr( m_szProtoName );
 	m_szProtoName[0] = toupper( m_szProtoName[0] );
 	NetLog_Server( "Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName );
@@ -164,8 +161,6 @@ cheekySearchId( -1 )
 	// Custom caps
 	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
 	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
-
-	m_hIconProtocol = (HANDLE)CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)LoadSkinnedProtoIcon(m_szModuleName, ID_STATUS_ONLINE), 0);
 
 	// Reset a bunch of session specific settings
 	UpdateGlobalSettings();
@@ -271,14 +266,10 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE(&m_modeMsgs.szDnd);
 	SAFE_FREE(&m_modeMsgs.szFfc);
 
-	// Remove account icons
-	Skin_RemoveIconHandle(m_hIconProtocol);
-
 	NetLog_Server("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);
 
 	mir_free( m_szProtoName );
-	mir_free( m_szModuleName );
-	mir_free( m_tszUserName );
+	ProtoDestructor(this);
 }
 
 
@@ -785,29 +776,6 @@ DWORD_PTR __cdecl CIcqProto::GetCaps( int type, HANDLE hContact )
 	}
 
 	return nReturn;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// GetIcon - loads an icon for the contact list
-
-HICON __cdecl CIcqProto::GetIcon( int iconIndex )
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)m_hIconProtocol;
-
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = Skin_GetIconByHandle(m_hIconProtocol, big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		HICON hIconNew = CopyIcon(hIcon);
-		Skin_ReleaseIcon(hIcon);
-		return hIconNew;
-	}
-	return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

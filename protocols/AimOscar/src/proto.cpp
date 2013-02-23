@@ -20,9 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
 	: chat_rooms(5)
 {
-	m_iVersion = 2;
-	m_tszUserName = mir_tstrdup(aUserName);
-	m_szModuleName = mir_strdup(aProtoName);
+	ProtoConstructor(this, aProtoName, aUserName);
 	m_szProtoName = mir_strdup(aProtoName);
 	_strlwr(m_szProtoName);
 	m_szProtoName[0] = (char)toupper(m_szProtoName[0]);
@@ -115,9 +113,8 @@ CAimProto::~CAimProto()
 	mir_free(ADMIN_COOKIE);
 	mir_free(username);
 
-	mir_free(m_szModuleName);
-	mir_free(m_tszUserName);
 	mir_free(m_szProtoName);
+	ProtoDestructor(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -352,29 +349,6 @@ DWORD_PTR __cdecl CAimProto::GetCaps(int type, HANDLE hContact)
 		return (DWORD_PTR) AIM_KEY_SN;
 	}
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// GetIcon - loads an icon for the contact list
-
-HICON __cdecl CAimProto::GetIcon(int iconIndex)
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle("aim");
-
-		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx("aim", big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		hIcon =  CopyIcon(hIcon);
-		ReleaseIconEx("aim", big);
-		return hIcon;
-	}
-	return NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

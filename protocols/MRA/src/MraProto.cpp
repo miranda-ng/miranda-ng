@@ -10,10 +10,7 @@ static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	m_bLoggedIn(false)
 {
-	m_iVersion = 2;
-	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-	m_szModuleName = mir_strdup(_module);
-	m_tszUserName = mir_tstrdup(_displayName);
+	ProtoConstructor(this, _module, _displayName);
 
 	InitializeCriticalSectionAndSpinCount(&csCriticalSectionSend, 0);
 	MraSendQueueInitialize(0, &hSendQueueHandle);
@@ -41,8 +38,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	TCHAR name[128];
 	mir_sntprintf( name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
 
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = name;
@@ -87,6 +83,8 @@ CMraProto::~CMraProto()
 	MraFilesQueueDestroy(hFilesQueueHandle);
 	MraSendQueueDestroy(hSendQueueHandle);
 	DeleteCriticalSection(&csCriticalSectionSend);
+
+	ProtoDestructor(this);
 }
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
@@ -373,20 +371,6 @@ DWORD_PTR CMraProto::GetCaps(int type, HANDLE hContact)
 	default:
 		return 0;
 	}
-}
-
-HICON CMraProto::GetIcon(int iconIndex)
-{
-	UINT id;
-
-	switch (iconIndex & 0xFFFF) {
-		case PLI_PROTOCOL: id = IDI_MRA; break; // IDI_TM is the main icon for the protocol
-		default: return NULL;
-	}
-
-	return (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(id), IMAGE_ICON,
-		GetSystemMetrics((iconIndex & PLIF_SMALL) ? SM_CXSMICON : SM_CXICON),
-		GetSystemMetrics((iconIndex & PLIF_SMALL) ? SM_CYSMICON : SM_CYICON), 0);
 }
 
 int CMraProto::GetInfo(HANDLE hContact, int infoType)

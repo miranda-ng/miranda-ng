@@ -125,17 +125,6 @@ DWORD_PTR TwitterProto::GetCaps(int type,HANDLE hContact)
 	return 0;
 }
 
-HICON TwitterProto::GetIcon(int index)
-{
-	if(LOWORD(index) == PLI_PROTOCOL)
-	{
-		HICON ico = Skin_GetIcon("Twitter_twitter");
-		return CopyIcon(ico);
-	}
-	else
-		return 0;
-}
-
 // *************************
 
 int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
@@ -179,7 +168,7 @@ int TwitterProto::SendMsg(HANDLE hContact,int flags,const char *msg)
 		return 0;
 
 	TCHAR* tszMsg;
-	if ( flags & PREF_UTF ) 
+	if ( flags & PREF_UTF )
 		tszMsg = mir_utf8decodeT( msg );
 	else if ( flags & PREF_UNICODE )
 		tszMsg = mir_u2t(( wchar_t* )&msg[ strlen( msg )+1 ] );
@@ -252,7 +241,7 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 int TwitterProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT), 
+	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),
 		 (HWND)lParam, first_run_dialog, (LPARAM)this );
 }
 
@@ -361,7 +350,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc  = options_proc;
 	Options_AddPage(wParam, &odp);
 
-	if(ServiceExists(MS_POPUP_ADDPOPUPT)) 
+	if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		odp.ptszTab     = LPGENT("PopUps");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
@@ -412,7 +401,7 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	GCREGISTER gcr = {sizeof(gcr)};
 	gcr.pszModule = m_szModuleName;
 	gcr.pszModuleDispName = m_szModuleName;
-	gcr.iMaxText = 159;  
+	gcr.iMaxText = 159;
 	CallService(MS_GC_REGISTER,0,reinterpret_cast<LPARAM>(&gcr));
 
 	if (ServiceExists(MS_HISTORYEVENTS_REGISTER))

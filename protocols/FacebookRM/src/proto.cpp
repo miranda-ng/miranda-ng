@@ -24,10 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 {
-	m_iVersion = 2;
-	m_szProtoName  = mir_strdup( proto_name );
-	m_szModuleName = mir_strdup( proto_name );
-	m_tszUserName  = mir_tstrdup( username );
+	ProtoConstructor(this, proto_name, username);
+	m_szProtoName  = mir_strdup(proto_name);
 
 	facy.parent = this;
 
@@ -100,9 +98,8 @@ FacebookProto::~FacebookProto( )
 	CloseHandle( facy.send_message_lock_ );
 	CloseHandle( facy.fcb_conn_lock_ );
 
-	mir_free( m_tszUserName );
-	mir_free( m_szModuleName );
 	mir_free( m_szProtoName );
+	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -114,7 +111,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	case PFLAGNUM_1:
 	{
 		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
-		
+
 		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ))
 			return flags |= PF1_MODEMSG;
 		else
@@ -141,28 +138,17 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	return 0;
 }
 
-HICON FacebookProto::GetIcon(int index)
-{
-	if (LOWORD(index) == PLI_PROTOCOL)
-	{
-		HICON ico = Skin_GetIcon("Facebook_facebook");
-		return CopyIcon(ico);
-	} else {
-		return 0;
-	}
-}
-
 //////////////////////////////////////////////////////////////////////////////
 
 int FacebookProto::SetStatus( int new_status )
 {
 	LOG("===== Beginning SetStatus process");
-	
+
 	// Routing statuses not supported by Facebook
 	switch ( new_status )
 	{
 	case ID_STATUS_INVISIBLE:
-	case ID_STATUS_OFFLINE:	
+	case ID_STATUS_OFFLINE:
 		m_iDesiredStatus = new_status;
 		break;
 
@@ -171,7 +157,7 @@ int FacebookProto::SetStatus( int new_status )
 		m_iDesiredStatus = ID_STATUS_OFFLINE;
 		break;
 
-	case ID_STATUS_IDLE:	
+	case ID_STATUS_IDLE:
 	default:
 		m_iDesiredStatus = ID_STATUS_INVISIBLE;
 		if (DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
@@ -195,7 +181,7 @@ int FacebookProto::SetStatus( int new_status )
 	}
 
 	facy.invisible_ = ( new_status == ID_STATUS_INVISIBLE );
-  
+
 	ForkThread( &FacebookProto::ChangeStatus, this );
 
 	return 0;
@@ -230,7 +216,7 @@ HANDLE FacebookProto::SearchBasic( const PROTOCHAR* id )
 {
 	if (isOffline())
 		return 0;
-	
+
 	TCHAR* email = mir_tstrdup(id);
 	ForkThread(&FacebookProto::SearchAckThread, this, (void*)email);
 
@@ -298,12 +284,12 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 		return ApproveFriendship((WPARAM)hContact, NULL);
 	}
 
-	return 1;	
+	return 1;
 }
 
 int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
-	
+
 	if (!isOffline() && hDbEvent)
 	{
 		HANDLE hContact = HContactFromAuthEvent(hDbEvent);
@@ -370,7 +356,7 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 	case EV_PROTO_ONEXIT:
 		return OnPreShutdown(wParam,lParam);
-	
+
 	case EV_PROTO_ONOPTIONS:
 		return OnOptionsInit(wParam,lParam);
 
@@ -386,7 +372,7 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 int FacebookProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT), 
+	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		 (HWND)lParam, FBAccountProc, (LPARAM)this );
 }
 
@@ -425,7 +411,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = FBOptionsProc;
 	Options_AddPage(wParam, &odp);
-	
+
 	odp.position    = 271829;
 	odp.ptszTab     = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_ADVANCED);
@@ -480,8 +466,8 @@ int FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
 
 
 int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
-{	
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);	
+{
+	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	std::string url = FACEBOOK_URL_PROFILE;
 	DBVARIANT dbv;
@@ -531,7 +517,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	}
 
 	if (MessageBox( 0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
-		
+
 		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 		{
 			std::string* id = new std::string(dbv.pszVal);
@@ -546,7 +532,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 			ForkThread( &FacebookProto::DeleteContactFromServer, this, ( void* )id );
 			DBFreeVariant(&dbv);
 		}
-				
+
 	}
 
 	return 0;

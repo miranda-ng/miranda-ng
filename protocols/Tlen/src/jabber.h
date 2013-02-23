@@ -242,7 +242,6 @@ struct TlenProtocol : public PROTO_INTERFACE, public MZeroedObject
 	virtual	int      __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, HANDLE hContact = NULL);
-	virtual	HICON     __cdecl GetIcon(int iconIndex);
 	virtual	int       __cdecl GetInfo(HANDLE hContact, int infoType);
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
@@ -504,4 +503,3 @@ char *TlenAdvSearchCreateQuery(HWND hwndDlg, int iqId);
 
 
 #endif
-

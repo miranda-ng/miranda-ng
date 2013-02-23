@@ -23,6 +23,8 @@
 
 GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 {
+	ProtoConstructor(this, pszProtoName, tszUserName);
+
 #ifdef DEBUGMODE
 	extendedLogging = 0;
 #endif
@@ -36,10 +38,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	InitializeCriticalSection(&sessions_mutex);
 
 	// Init instance names
-	m_szModuleName = mir_strdup(pszProtoName);
-	m_tszUserName = mir_tstrdup(tszUserName);
 	m_szProtoName = GGDEF_PROTONAME;
-	m_iVersion = 2;
 
 	// Register netlib user
 	TCHAR name[128];
@@ -126,8 +125,7 @@ GGPROTO::~GGPROTO()
 	if (modemsg.invisible) mir_free(modemsg.invisible);
 	if (modemsg.offline)   mir_free(modemsg.offline);
 
-	mir_free(m_szModuleName);
-	mir_free(m_tszUserName);
+	ProtoDestructor(this);
 }
 
 //////////////////////////////////////////////////////////
@@ -191,30 +189,6 @@ DWORD_PTR GGPROTO::GetCaps(int type, HANDLE hContact)
 			return (DWORD_PTR) GG_KEY_UIN;
 	}
 	return 0;
-}
-
-//////////////////////////////////////////////////////////
-// loads protocol icon
-
-HICON GGPROTO::GetIcon(int iconIndex)
-{
-	if (LOWORD(iconIndex) == PLI_PROTOCOL)
-	{
-		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle(IDI_GG);
-
-		BOOL big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx("main", big);
-
-		if (iconIndex & PLIF_ICOLIB)
-			return hIcon;
-
-		hIcon = CopyIcon(hIcon);
-		ReleaseIconEx("main", big);
-		return hIcon;
-	}
-
-	return (HICON)NULL;
 }
 
 //////////////////////////////////////////////////////////
