@@ -33,15 +33,15 @@ HINSTANCE g_hInst = NULL;
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-	__VERSION_DWORD,
-	"Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.",
-	"Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons",
-	"chaos.persei@gmail.com; ashpynov@gmail.com; bio@msx.ru; ghazan@miranda.im",
-	"Copyright 2000-2011 Miranda IM project, 2012 Miranda NG project FYR, chaos.persei, induction, nullbie",
-	"http://miranda-ng.org/",
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
-	// {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}
-	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }
+	// {28FF9B91-3E4D-4F1C-B47C-C641B037FF40}
+	{0x28ff9b91, 0x3e4d, 0x4f1c, {0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40}}
 };
 
 LIST<CDbxMmapSA> g_Dbs(1, (LIST<CDbxMmapSA>::FTSortFunc)HandleKeySort);
