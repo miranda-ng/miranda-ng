@@ -27,9 +27,8 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\resource.h\0"
     "afxres.h\0"
-    "version.rc\0"
 END
 
 #endif    // APSTUDIO_INVOKED

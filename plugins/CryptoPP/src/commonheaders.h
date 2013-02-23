@@ -100,11 +100,6 @@ int Sent_NetLog(const char *,...);
 PBYTE cpp_alloc_pdata(pCNTX);
 
 extern "C" {
-
- DLLEXPORT int Load();
- DLLEXPORT PLUGININFOEX *MirandaPluginInfoEx(DWORD);
- DLLEXPORT int Unload();
-
  DLLEXPORT HANDLE __cdecl cpp_create_context(int); // create crypt-context
  DLLEXPORT void   __cdecl cpp_delete_context(HANDLE); // delete crypt-context
  DLLEXPORT void   __cdecl cpp_reset_context(HANDLE);  // reset crypt-context (free all data)
