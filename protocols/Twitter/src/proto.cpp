@@ -32,9 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 {
-	m_szProtoName  = mir_strdup (proto_name);
-	m_szModuleName = mir_strdup (proto_name);
-	m_tszUserName  = mir_tstrdup(username);
+	ProtoConstructor(this, proto_name, username);
 
 	CreateProtoService(m_szModuleName,PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI,this);
 	CreateProtoService(m_szModuleName,PS_GETNAME,  &TwitterProto::GetName,    this);
@@ -95,9 +93,7 @@ TwitterProto::~TwitterProto()
 	CloseHandle(avatar_lock_);
 	CloseHandle(signon_lock_);
 
-	mir_free(m_szProtoName);
-	mir_free(m_szModuleName);
-	mir_free(m_tszUserName);
+	ProtoDestructor(this);
 }
 
 // *************************
@@ -247,7 +243,7 @@ int TwitterProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 
 int TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpynA(reinterpret_cast<char*>(lParam), m_szProtoName, (int)wParam);
+	lstrcpynA(reinterpret_cast<char*>(lParam), m_szModuleName, (int)wParam);
 	return 0;
 }
 

@@ -21,10 +21,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
 	: chat_rooms(5)
 {
 	ProtoConstructor(this, aProtoName, aUserName);
-	m_szProtoName = mir_strdup(aProtoName);
-	_strlwr(m_szProtoName);
-	m_szProtoName[0] = (char)toupper(m_szProtoName[0]);
-	LOG("Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName);
+	LOG("Setting protocol/module name to '%s'", m_szModuleName);
 
 	//create some events
 	hAvatarEvent  = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -113,7 +110,6 @@ CAimProto::~CAimProto()
 	mir_free(ADMIN_COOKIE);
 	mir_free(username);
 
-	mir_free(m_szProtoName);
 	ProtoDestructor(this);
 }
 

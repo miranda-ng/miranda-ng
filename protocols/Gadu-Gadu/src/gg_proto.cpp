@@ -37,9 +37,6 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	InitializeCriticalSection(&avatar_mutex);
 	InitializeCriticalSection(&sessions_mutex);
 
-	// Init instance names
-	m_szProtoName = GGDEF_PROTONAME;
-
 	// Register netlib user
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
@@ -690,11 +687,11 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
-		ProtoBroadcastAck(m_szProtoName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
+		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
 		netlog("getawaymsgthread(): Reading away msg <" TCHAR_STR_PARAM ">.", dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	} else {
-		ProtoBroadcastAck(m_szProtoName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
+		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
 	}
 	netlog("getawaymsgthread(): end");
 }

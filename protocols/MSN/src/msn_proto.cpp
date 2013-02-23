@@ -47,10 +47,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	ProtoConstructor(this, aProtoName, aUserName);
 
-	m_szProtoName = mir_strdup(aProtoName);
-	_strlwr(m_szProtoName);
-	m_szProtoName[0] = (char)toupper(m_szProtoName[0]);
-
 	mir_snprintf(path, sizeof(path), "%s/Status", m_szModuleName);
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path);
 
@@ -186,7 +182,6 @@ CMsnProto::~CMsnProto()
 
 	mir_free(mailsoundname);
 	mir_free(alertsoundname);
-	mir_free(m_szProtoName);
 
 	for (int i=0; i < MSN_NUM_MODES; i++)
 		mir_free(msnModeMsgs[i]);

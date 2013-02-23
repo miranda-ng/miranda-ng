@@ -295,11 +295,11 @@ int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
 	}
 	TlenMUCInit(proto);
 	sprintf(str, "%s", LPGEN("Incoming mail"));
-	SkinAddNewSoundEx("TlenMailNotify", proto->m_szProtoName, str);
+	SkinAddNewSoundEx("TlenMailNotify", proto->m_szModuleName, str);
 	sprintf(str, "%s", LPGEN("Alert"));
-	SkinAddNewSoundEx("TlenAlertNotify", proto->m_szProtoName, str);
+	SkinAddNewSoundEx("TlenAlertNotify", proto->m_szModuleName, str);
 	sprintf(str, "%s", LPGEN("Voice chat"));
-	SkinAddNewSoundEx("TlenVoiceNotify", proto->m_szProtoName, str);
+	SkinAddNewSoundEx("TlenVoiceNotify", proto->m_szModuleName, str);
 
 	HookEventObj_Ex(ME_USERINFO_INITIALISE, proto, TlenUserInfoInit);
 

@@ -72,7 +72,7 @@ CIrcProto::CIrcProto(const char* szModuleName, const TCHAR* tszUserName) :
 	InitPrefs();
 
 	char text[ MAX_PATH ];
-	mir_snprintf( text, sizeof( text ), "%s/Status", m_szProtoName );
+	mir_snprintf( text, sizeof( text ), "%s/Status", m_szModuleName);
 	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 
 	CList_SetAllOffline(true);

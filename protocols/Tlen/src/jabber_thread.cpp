@@ -983,7 +983,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 	if ((f=JabberXmlGetAttrValue(node, "f")) != NULL) {
 
 		char webContactName[128];
-		sprintf(webContactName, Translate("%s Web Messages"), info->proto->m_szProtoName);
+		sprintf(webContactName, Translate("%s Web Messages"), info->proto->m_szModuleName);
 		if ((hContact=JabberHContactFromJID(info->proto, webContactName)) == NULL) {
 			hContact = JabberDBCreateContact(info->proto, webContactName, webContactName, TRUE);
 		}
@@ -1198,7 +1198,7 @@ static void TlenProcessN(XmlNode *node, ThreadData *info)
 		str = NULL;
 		strSize = 0;
 
-		JabberStringAppend(&str, &strSize, Translate("%s mail"), info->proto->m_szProtoName);
+		JabberStringAppend(&str, &strSize, Translate("%s mail"), info->proto->m_szModuleName);
 		popupTitle = JabberTextDecode(str);
 		mir_free(str);
 

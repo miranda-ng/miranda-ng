@@ -48,7 +48,6 @@ type
     iVersion      :int;  // version 2 or higher designate support of Unicode services
 
     tszUserName   :TChar;
-    szProtoName   :PAnsiChar;
     szModuleName  :PAnsiChar;
     hProtoIcon    :THandle;
 

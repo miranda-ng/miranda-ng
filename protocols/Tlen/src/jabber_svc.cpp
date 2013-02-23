@@ -60,7 +60,7 @@ DWORD_PTR __cdecl TlenProtocol::GetCaps(int type, HANDLE hContact)
 INT_PTR TlenGetName(void *ptr, LPARAM wParam, LPARAM lParam)
 {
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	strncpy((char *) lParam, proto->m_szProtoName, wParam);
+	strncpy((char*)lParam, proto->m_szModuleName, wParam);
 	return 0;
 }
 
@@ -1276,10 +1276,6 @@ void TlenInitServicesVTbl(TlenProtocol *proto) {
 TlenProtocol::TlenProtocol( const char* aProtoName, const TCHAR* aUserName )
 {
 	ProtoConstructor(this, aProtoName, aUserName);
-
-	m_szProtoName = mir_strdup(aProtoName);
-	_strlwr( m_szProtoName );
-	m_szProtoName[0] = toupper( m_szProtoName[0] );
 
 	TlenInitServicesVTbl(this);
 

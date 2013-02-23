@@ -289,7 +289,6 @@ PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName)
 	PROTO_INTERFACE* ppi = new DEFAULT_PROTO_INTERFACE;
 	if (ppi != NULL) {
 		ppi->m_szModuleName = mir_strdup(szProtoName);
-		ppi->m_szProtoName = mir_strdup(szProtoName);
 		ppi->m_tszUserName = mir_a2t(szProtoName);
 	}
 	return ppi;
@@ -298,7 +297,6 @@ PROTO_INTERFACE* AddDefaultAccount(const char* szProtoName)
 int FreeDefaultAccount(PROTO_INTERFACE* ppi)
 {
 	mir_free(ppi->m_szModuleName);
-	mir_free(ppi->m_szProtoName);
 	mir_free(ppi->m_tszUserName);
 	delete ppi;
 	return 0;

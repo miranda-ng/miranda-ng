@@ -671,7 +671,7 @@ int TlenMUCCreateWindow(TlenProtocol *proto, const char *roomID, const char *roo
 	mucw.cbSize = sizeof(MUCCWINDOW);
 	mucw.iType = MUCC_WINDOW_CHATROOM;
 	mucw.pszModule = proto->m_szModuleName;
-	mucw.pszModuleName = proto->m_szProtoName;
+	mucw.pszModuleName = proto->m_szModuleName;
 	mucw.pszID = roomID;
 	mucw.pszName = roomName;
 	mucw.pszNick = nick;
@@ -1041,7 +1041,7 @@ INT_PTR TlenMUCMenuHandleChats(void *ptr, LPARAM wParam, LPARAM lParam)
 	mucw.cbSize = sizeof(MUCCWINDOW);
 	mucw.iType = MUCC_WINDOW_CHATLIST;
 	mucw.pszModule = proto->m_szModuleName;
-	mucw.pszModuleName = proto->m_szProtoName;
+	mucw.pszModuleName = proto->m_szModuleName;
 	CallService(MS_MUCC_NEW_WINDOW, 0, (LPARAM) &mucw);
 	return 0;
 }

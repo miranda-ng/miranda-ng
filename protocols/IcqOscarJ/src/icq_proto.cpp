@@ -71,17 +71,15 @@ static int CompareContactsCache(const icq_contacts_cache *p1, const icq_contacts
 }
 
 CIcqProto::CIcqProto( const char* aProtoName, const TCHAR* aUserName ) :
-cookies(10, CompareCookies),
-directConns(10, CompareConns),
-expectedFileRecvs(10, CompareFT),
-contactsCache(10, CompareContactsCache),
-cheekySearchId( -1 )
+	cookies(10, CompareCookies),
+	directConns(10, CompareConns),
+	expectedFileRecvs(10, CompareFT),
+	contactsCache(10, CompareContactsCache),
+	cheekySearchId( -1 )
 {
 	ProtoConstructor(this, aProtoName, aUserName);
-	m_szProtoName = mir_strdup(aProtoName);
-	_strlwr( m_szProtoName );
-	m_szProtoName[0] = toupper( m_szProtoName[0] );
-	NetLog_Server( "Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName );
+
+	NetLog_Server( "Setting protocol/module name to '%s'", m_szModuleName );
 
 	oftMutex = new icq_critical_section();
 
@@ -267,8 +265,6 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE(&m_modeMsgs.szFfc);
 
 	NetLog_Server("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);
-
-	mir_free( m_szProtoName );
 	ProtoDestructor(this);
 }
 

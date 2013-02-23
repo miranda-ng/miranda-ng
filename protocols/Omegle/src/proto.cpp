@@ -24,8 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-	m_szProtoName  = mir_strdup( proto_name );
+	ProtoConstructor(this, proto_name, username);
 
 	this->facy.parent = this;
 
@@ -81,7 +80,6 @@ OmegleProto::~OmegleProto( )
 
 	mir_free( this->facy.nick_ );
 
-	mir_free( m_szProtoName );
 	ProtoDestructor(this);
 }
 

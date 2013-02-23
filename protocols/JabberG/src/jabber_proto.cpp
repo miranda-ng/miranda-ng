@@ -93,10 +93,7 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 
 	m_szXmlStreamToBeInitialized = NULL;
 
-	m_szProtoName = mir_strdup(aProtoName);
-	_strlwr(m_szProtoName);
-	m_szProtoName[0] = toupper(m_szProtoName[0]);
-	Log("Setting protocol/module name to '%s/%s'", m_szProtoName, m_szModuleName);
+	Log("Setting protocol/module name to '%s'", m_szModuleName);
 
 	// Initialize Jabber API
 	m_JabberApi.m_psProto = this;
@@ -245,7 +242,6 @@ CJabberProto::~CJabberProto()
 	mir_free(m_transportProtoTableStartIndex);
 
 	mir_free(m_szStreamId);
-	mir_free(m_szProtoName);
 
 	int i;
 	for (i=0; i < m_lstTransports.getCount(); i++)
