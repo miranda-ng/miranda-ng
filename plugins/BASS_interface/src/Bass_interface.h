@@ -2,9 +2,6 @@
 Copyright (C) 2010, 2011 tico-tico
 */
 
-#ifndef __BASS_INTERFACE_H__
-#define __BASS_INTERFACE_H__
-
 #include <windows.h>
 #include <commctrl.h>
 #include <Uxtheme.h>
@@ -26,13 +23,6 @@ Copyright (C) 2010, 2011 tico-tico
 #include "resource.h"
 #include "version.h"
 
-#define BASSDEF(f) (WINAPI *f)
-#include "bass.h"
-
-#define BASS_TCHAR   BASS_UNICODE
-
-#define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
-
 #define ModuleName LPGEN("Bass Interface")
 
 #define OPT_VOLUME		"Volume"
@@ -44,5 +34,3 @@ Copyright (C) 2010, 2011 tico-tico
 #define OPT_TIME2		"Time2"
 #define OPT_STATUS		"StatMask"
 #define OPT_PREVIEW		"Preview"
-
-#endif

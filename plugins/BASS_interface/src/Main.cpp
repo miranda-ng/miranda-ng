@@ -3,6 +3,12 @@ Copyright (C) 2010, 2011 tico-tico
 */
 
 #include "bass_interface.h"
+#define BASSDEF(f) (WINAPI *f)
+#include "bass.h"
+
+#define BASS_TCHAR   BASS_UNICODE
+
+#define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
 
 HINSTANCE hInst;
 int hLangpack;
