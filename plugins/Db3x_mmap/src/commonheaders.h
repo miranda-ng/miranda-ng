@@ -24,30 +24,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CRT_SECURE_NO_WARNINGS
 #define _WIN32_WINNT 0x0501
 
-#include "m_stdhdr.h"
-
 #include <windows.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include <string.h>
 #include <time.h>
-#include <stddef.h>
 #include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
 #include <memory>
-#ifndef __GNUC__
-#include <crtdbg.h>
-#endif
 
 #include <newpluginapi.h>
 #include <win2k.h>
-#include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_utils.h>
 
 #include "database.h"
 #include "dbintf.h"
