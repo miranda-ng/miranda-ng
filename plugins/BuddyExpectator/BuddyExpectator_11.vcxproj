@@ -184,7 +184,7 @@
     <ClCompile Include="src\BuddyExpectator.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
