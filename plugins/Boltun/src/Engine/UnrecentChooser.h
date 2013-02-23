@@ -21,9 +21,6 @@
 #ifndef UnRecentChooserH
 #define UnRecentChooserH
 
-#include <map>
-#include <vector>
-#include <string>
 #include "tstring.h"
 
 class UnRecentChooser
@@ -35,7 +32,7 @@ class UnRecentChooser
 	std::map<size_t, tstring> oldItems;
 	std::map<tstring, float> oldPrios;
 	size_t last;
-	int min;
+	int minimum;
 	static const size_t maxItems = 100;
 public:
 	UnRecentChooser();

@@ -18,30 +18,7 @@
 //
 //***********************************************************
 
-#include "Engine/TalkEngine.h"
-
-#include <windows.h>
-#include <time.h>
-#include <string>
-
-#include "newpluginapi.h"
-#include "m_clist.h"
-#include "m_skin.h"
-#include "m_database.h"
-#include "m_system.h"
-#include "m_protosvc.h"
-#include "m_options.h"
-#include "m_langpack.h"
-#include "resource.h"
-
-#include "resource.h"
-#include "version.h"
-
 #include "boltun.h"
-#include "config.h"
-#include "actionQueue.h"
-
-//#define DEBUG_LOAD_TIME
 
 int hLangpack;
 

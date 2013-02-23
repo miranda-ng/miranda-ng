@@ -18,12 +18,12 @@
 //
 //***********************************************************
 
-#include "UnrecentChooser.h"
+#include "..\boltun.h"
 
 using namespace std;
 
 UnRecentChooser::UnRecentChooser()
-	:last(-1), min(-1), newItemsPrio(-1), maxOldPrio(-1)
+	:last(-1), minimum(-1), newItemsPrio(-1), maxOldPrio(-1)
 {
 }
 
@@ -34,8 +34,8 @@ void UnRecentChooser::AddChoice(tstring value, float prio)
 		int val = (int)items[value];
 		oldItems.insert(make_pair(val, value));
 		oldPrios.insert(make_pair(value, prio));
-		if (min > val || min == -1)
-			min = val;
+		if (minimum > val || minimum == -1)
+			minimum = val;
 		if (maxOldPrio < prio)
 			maxOldPrio = prio;
 	}
@@ -59,17 +59,17 @@ tstring UnRecentChooser::Choose()
 		res = newItems[num];
 	}
 	else
-		if (min == -1)
+		if (minimum == -1)
 			res = _T("");
 		else
 		{
 			float minprio = maxOldPrio / 1.5F;
-			while (oldPrios[oldItems[min]] < minprio)
-				min++;
-			res = oldItems[min];
+			while (oldPrios[oldItems[minimum]] < minprio)
+				minimum++;
+			res = oldItems[minimum];
 		}
 	//Clean items
-	min = -1;
+	minimum = -1;
 	newItemsPrio = -1;
 	maxOldPrio = -1;
 	oldItems.clear();

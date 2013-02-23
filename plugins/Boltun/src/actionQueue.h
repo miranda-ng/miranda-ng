@@ -21,8 +21,6 @@
 #ifndef ACTIONQUEUE_H
 #define ACTIONQUEUE_H
 
-#include <windows.h>
-
 void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer);
 
 void StartChatting(HANDLE hContact);

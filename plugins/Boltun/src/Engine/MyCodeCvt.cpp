@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "MyCodeCvt.h"
+#include "..\boltun.h"
 
 using namespace std;
 

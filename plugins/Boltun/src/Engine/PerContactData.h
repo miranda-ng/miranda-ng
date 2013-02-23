@@ -21,10 +21,6 @@
 #ifndef PerContactDataH
 #define PerContactDataH
 
-#include <map>
-#include <time.h>
-#include <assert.h>
-
 #include "CriticalSection.h"
 
 static std::map<unsigned, void*> perContactDataObjects;

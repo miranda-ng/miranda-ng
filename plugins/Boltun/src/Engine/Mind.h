@@ -21,12 +21,10 @@
 #ifndef MindH
 #define MindH
 
-#include <string>
 #include <vector>
 #include <map>
 #include <set>
 #include "WordsList.h"
-#include <tchar.h>
 #include "tstring.h"
 
 

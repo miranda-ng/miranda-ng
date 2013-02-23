@@ -21,8 +21,6 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
 
-#include <tchar.h>
-
 class BoltunConfig;
 
 template <class T, class BaseClass>

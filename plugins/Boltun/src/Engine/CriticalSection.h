@@ -21,8 +21,6 @@
 #ifndef CriticalSectionH
 #define CriticalSectionH
 
-#include <windows.h>
-
 class CriticalSection
 {
 	CRITICAL_SECTION csQueue;

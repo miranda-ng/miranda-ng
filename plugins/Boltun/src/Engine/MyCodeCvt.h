@@ -21,10 +21,6 @@
 #ifndef MYCODECVT_H
 #define MYCODECVT_H
 
-#include <locale>
-#include <xlocale>
-#include <cwchar>
-
 typedef std::codecvt<wchar_t, char, std::mbstate_t> MyCodeCvtBase;
 
 class MyCodeCvt

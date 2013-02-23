@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#include "WordsList.h"
+#include "..\boltun.h"
 
 using namespace std;
 

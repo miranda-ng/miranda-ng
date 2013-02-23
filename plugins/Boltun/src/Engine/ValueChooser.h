@@ -21,9 +21,6 @@
 #ifndef StringChooserH
 #define StringChooserH
 
-#include <vector>
-#include <string>
-
 template<class container = std::vector<tstring> >
 class ValueChooser
 {

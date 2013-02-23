@@ -21,11 +21,35 @@
 #ifndef _BOLTUN_H
 #define _BOLTUN_H
 
-//Should use different keys in UNICODE and ANSI builds, because usage of plugin
-//with old (another) configs will cause crashes.
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <windows.h>
+#include <time.h>
+#include <fstream>
+#include <algorithm>
+#include "assert.h"
+
+#include "newpluginapi.h"
+#include "m_clist.h"
+#include "m_skin.h"
+#include "m_database.h"
+#include "m_system.h"
+#include "m_protosvc.h"
+#include "m_options.h"
+#include "m_langpack.h"
+
+#include "resource.h"
+#include "version.h"
+#include "config.h"
+#include "actionQueue.h"
+#include "Engine/TalkEngine.h"
+#include "Engine/WordsList.h"
+#include "Engine/UnrecentChooser.h"
+#include "Engine/MyCodeCvt.h"
+#include "Engine/Mind.h"
+#include "Engine/tstring.h"
 
 #define BOLTUN_KEY  "Boltun"
-
 
 //Service names
 #define SERV_CONTACT_AUTO_CHAT "Boltun/ContactAutoChat"

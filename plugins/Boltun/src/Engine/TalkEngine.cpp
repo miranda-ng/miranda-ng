@@ -18,9 +18,7 @@
 //
 //***********************************************************
 
-#include "TalkEngine.h"
-#include <fstream>
-#include <windows.h>
+#include "..\boltun.h"
 
 #ifdef _DEBUG
 

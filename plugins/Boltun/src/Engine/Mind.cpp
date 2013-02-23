@@ -18,15 +18,7 @@
 //
 //***********************************************************
 
-#include "Mind.h"
-#include <fstream>
-#include <algorithm>
-#include "tstring.h"
-#include "assert.h"
-
-#include <windows.h>
-
-#include "MyCodeCvt.h"
+#include "..\boltun.h"
 
 using namespace std;
 

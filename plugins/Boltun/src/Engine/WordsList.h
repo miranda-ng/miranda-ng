@@ -21,10 +21,6 @@
 #ifndef WordsListH
 #define WordsListH
 
-#include <set>
-#include <vector>
-#include <string>
-#include "tchar.h"
 #include "tstring.h"
 
 class WordsList
