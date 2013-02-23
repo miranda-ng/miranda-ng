@@ -547,9 +547,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 	case WM_DRAWITEM:
 		{
-			int tmp, size, length;
+			int tmp;
 			TCHAR *text;
-			HICON hIcon;
 			HBRUSH hbrBack;
 			SIZE sz;
 
@@ -584,7 +583,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			else
 				tmp = acc->bIsEnabled ? SKINICON_OTHER_TICK : SKINICON_OTHER_NOTICK;
 
-			hIcon = LoadSkinnedIcon(tmp);
+			HICON hIcon = LoadSkinnedIcon(tmp);
 			DrawIconEx(lps->hDC, lps->rcItem.left, lps->rcItem.top, hIcon, cxIcon, cyIcon, 0, hbrBack, DI_NORMAL);
 			IcoLib_ReleaseIcon(hIcon, 0);
 
@@ -597,8 +596,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			}
 			lps->rcItem.left += cxIcon + 2;
 
-			length = SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXTLEN, lps->itemID, 0);
-			size = max(length+1, 256);
+			int length = SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXTLEN, lps->itemID, 0);
+			int size = max(length+1, 256);
 			text = (TCHAR *)_alloca(sizeof(TCHAR) * size);
 			SendDlgItemMessage(hwndDlg, IDC_ACCLIST, LB_GETTEXT, lps->itemID, (LPARAM)text);
 

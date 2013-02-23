@@ -711,10 +711,10 @@ HICON __cdecl CJabberProto::GetIcon(int iconIndex)
 {
 	if (LOWORD(iconIndex) == PLI_PROTOCOL) {
 		if (iconIndex & PLIF_ICOLIBHANDLE)
-			return (HICON)GetIconHandle(IDI_JABBER);
+			return (HICON)m_hProtoIcon;
 
 		bool big = (iconIndex & PLIF_SMALL) == 0;
-		HICON hIcon = LoadIconEx("main", big);
+		HICON hIcon = Skin_GetIconByHandle(m_hProtoIcon, big);
 
 		if (iconIndex & PLIF_ICOLIB)
 			return hIcon;

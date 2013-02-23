@@ -186,13 +186,10 @@ void CJabberProto::IconsInit(void)
 
 HANDLE CJabberProto::GetIconHandle(int iconId)
 {
-	if (HANDLE result = g_GetIconHandle(iconId))
-		return result;
-
 	if (iconId == IDI_JABBER)
 		return m_hProtoIcon;
 
-	return NULL;
+	return g_GetIconHandle(iconId);
 }
 
 HICON CJabberProto::LoadIconEx(const char* name, bool big)

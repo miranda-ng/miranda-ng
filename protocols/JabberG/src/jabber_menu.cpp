@@ -436,7 +436,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 				CLISTMENUITEM mi = { sizeof(mi) };
 				mi.flags = CMIM_ICON|CMIM_FLAGS;
-				mi.icolibItem = GetIconHandle(IDI_JABBER);
+				mi.icolibItem = m_hProtoIcon;
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hMenuResourcesRoot, (LPARAM)&mi);
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hMenuResourcesActive, (LPARAM)&mi);
 
@@ -690,7 +690,7 @@ void CJabberProto::MenuInit()
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = GetIconHandle(IDI_JABBER);
+		mi.icolibItem = m_hProtoIcon;
 		hJabberRoot = m_hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
