@@ -22,8 +22,6 @@ extern TCHAR* vertxt;
 extern TCHAR* profname;
 extern TCHAR* profpath;
 
-#pragma comment(lib, "version.lib")
-
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr)
 {
 	MINIDUMP_EXCEPTION_INFORMATION exceptionInfo;

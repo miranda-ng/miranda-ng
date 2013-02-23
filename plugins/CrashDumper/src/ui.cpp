@@ -17,9 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "utils.h"
-#include <commctrl.h>
-#include <richedit.h>
-#include <m_popup.h>
 
 HWND hViewWnd;
 extern HINSTANCE hInst;

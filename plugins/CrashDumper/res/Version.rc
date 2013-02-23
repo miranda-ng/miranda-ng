@@ -7,10 +7,6 @@
 #include "afxres.h"
 #include "..\src\version.h"
 
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#endif //_WIN32
-
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
@@ -21,25 +17,22 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName", "Boris Krasnovskiy"
-            VALUE "FileDescription", "Crash Dumper plugin for Miranda NG."
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "svc_crshdmp"
-            VALUE "LegalCopyright", "Copyright© 2008 - 2012 Boris Krasnovskiy All Rights Reserved"
-            VALUE "OriginalFilename", "svc_crshdmp.dll"
-            VALUE "ProductName", "Crash Dumper"
-            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END

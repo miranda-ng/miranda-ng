@@ -1,5 +1,4 @@
 #include "utils.h"
-#include "crtdbg.h"
 
 static PVOID exchndlr, exchndlrv;
 static pfnExceptionFilter  threadfltr;

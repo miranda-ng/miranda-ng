@@ -16,12 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <windows.h>
-
-
-//#define DBGHELP_TRANSLATE_TCHAR
-
-
 #ifndef __in_bcount_opt
 #define __in_bcount_opt(x)
 #endif

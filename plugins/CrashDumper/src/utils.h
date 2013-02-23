@@ -17,48 +17,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define _CRT_SECURE_NO_WARNINGS
-#define MIRANDA_VER 0x0A00
 
-#include <m_stdhdr.h>
-#include "sdkstuff.h"
-
-#ifdef _MSC_VER
+#include <windows.h>
+#include <richedit.h>
 #include <delayimp.h>
-#endif
-
-#include <stdio.h>
-
-#include "resource.h"
 
 #include <newpluginapi.h>
-
-#ifdef _MSC_VER
-
-#pragma warning( push )
-#pragma warning( disable : 4201 4100 )
 #include <m_database.h>
-#pragma warning( pop )
-
-#else
-
-#include <m_database.h>
-
-#endif
-
-#ifdef __GNUC__
-#endif
-
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_langpack.h>
 #include <m_clist.h>
 #include <m_skin.h>
 #include <m_hotkeys.h>
 #include <m_protocols.h>
-#include <m_help.h>
 #include <m_icolib.h>
+#include <m_stdhdr.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_netlib.h>
 
+#include "m_folders.h"
+#include "m_toptoolbar.h"
+
+#include "sdkstuff.h"
+#include "version.h"
 #include "bkstring.h"
+#include "resource.h"
 
 #define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
 
