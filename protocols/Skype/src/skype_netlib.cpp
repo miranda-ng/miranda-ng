@@ -13,10 +13,7 @@ void CSkypeProto::InitNetLib()
 	nlu.szSettingsModule = this->m_szModuleName;
 	this->hNetLibUser = (HANDLE)::CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
-	this->Log(
-		L"Setting protocol/module name to '%s/%s'", 
-		_A2T(this->m_szProtoName), 
-		_A2T(this->m_szModuleName));
+	this->Log(L"Setting protocol/module name to '%s'", (TCHAR*)_A2T(m_szModuleName));
 }
 
 void CSkypeProto::UninitNetLib()

@@ -2,11 +2,7 @@
 
 CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
-	ProtoConstructor(this, aProtoName, aUserName);
-
-	this->m_szProtoName =	::mir_strdup(protoName);
-	::strlwr(m_szProtoName);
-	this->m_szProtoName[0] = ::toupper(this->m_szProtoName[0]);
+	ProtoConstructor(this, protoName, userName);
 
 	//this->login = NULL;
 	this->password = NULL;
@@ -33,7 +29,6 @@ CSkypeProto::~CSkypeProto()
 	::mir_free(this->login);
 	::mir_free(this->password);
 
-	::mir_free(this->m_szProtoName);
 	ProtoDestructor(this);
 }
 
