@@ -25,23 +25,15 @@
 #define WINVER 0x0700
 #define _WIN32_WINNT 0x0700
 #define _WIN32_IE 0x0601
-#define MIRANDA_VER 0x0A00
 
 #define BOSSKEY_LISTEN_INFO _T("MY6BossKey_Param")
 
 #include <m_stdhdr.h>
 #include <windows.h>
 #include <shellapi.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include <win2k.h>
-#include "resource.h"
-#include "version.h"
+
 #include <newpluginapi.h>
-#include <m_utils.h>
-#include <m_clist.h>
 #include <m_database.h>
-#include <m_clui.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>
 #include <m_options.h>
@@ -51,9 +43,14 @@
 #include <m_clistint.h>
 #include <m_message.h>
 #include <m_hotkeys.h>
+
 #include <m_trigger.h>
 #include <m_variables.h>
 #include <m_toptoolbar.h>
+#include <m_msg_buttonsbar.h>
+
+#include "resource.h"
+#include "version.h"
 
 #define MOD_NAME "BossKey"
 #define KEY_DOWN(key) ((GetAsyncKeyState(key) & 0x8000) ? (true) : (false))

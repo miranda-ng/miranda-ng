@@ -18,7 +18,6 @@
 */
 
 #include "BossKey.h"
-#include "m_msg_buttonsbar.h"
 
 // multiple instances support:
 // when hotkey is hit, handler notifies all listen windows
