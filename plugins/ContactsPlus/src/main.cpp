@@ -59,6 +59,12 @@ PLUGININFOEX pluginInfo = {
 	{0x0324785E, 0x74CE, 0x4600, {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5}}
 };
 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+  hInst = hinstDLL;
+  return TRUE;
+}
+
 static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 {
   HANDLE hContact = (HANDLE)wParam;
