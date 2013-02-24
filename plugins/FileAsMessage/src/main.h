@@ -3,32 +3,27 @@
 #define _WIN32_WINNT 0x0501
 
 #include <windows.h>
-#include <stdio.h>
-#include <time.h>
+#include <io.h>
+#include <fcntl.h>
 #include <commctrl.h>
 
-#include "newpluginapi.h"
-#include "m_system.h"
-#include "m_database.h"
-#include "m_protomod.h"
-#include "m_protosvc.h"
-#include "m_langpack.h"
-#include "m_clist.h"
-#include "m_options.h"
-#include "m_clui.h"
-#include "m_clc.h"
-#include "m_utils.h"
-#include "m_skin.h"
-#include "m_popup.h"
-#include "m_icolib.h"
-#include "m_message.h"
-#include "m_button.h"
-#include "m_netlib.h"
-#include "m_file.h"
-#include "win2k.h"
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_protomod.h>
+#include <m_langpack.h>
+#include <m_clist.h>
+#include <m_options.h>
+#include <m_skin.h>
+#include <m_popup.h>
+#include <m_icolib.h>
+#include <m_button.h>
+#include <m_netlib.h>
+#include <m_file.h>
+#include <win2k.h>
 
 #include "dialog.h"
 #include "resource.h"
+#include "version.h"
 
 #define MAXBUFSIZE 4096
 #define SERVICE_TITLE LPGEN("File As Message")
@@ -36,10 +31,9 @@
 
 #define SERVICE_PREFIX "<%fAM-0023%>"
 
-#define PLUGIN_URL "http://miranda-ng.org/"
 #define NOPLUGIN_MESSAGE LPGEN("\nIf you see this \"garbage\", probably you "\
                          "have no \"fileAsMessage\" plugin installed, see "\
-						 PLUGIN_URL " for more information and download.")
+						 "http://miranda-ng.org/ for more information and download.")
 extern char *szServiceTitle;
 extern char *szServicePrefix;
 extern const ulong INITCRC;
@@ -54,4 +48,5 @@ extern HANDLE hEventNewFile;
 
 extern HICON hIcons[5];
 
-ulong memcrc32(uchar *ptr, int size, ulong crc );
+ulong memcrc32(uchar *ptr, int size, ulong crc);
+INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);

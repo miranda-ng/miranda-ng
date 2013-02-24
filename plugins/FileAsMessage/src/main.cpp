@@ -3,16 +3,16 @@
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	SERVICE_TITLE,
-	PLUGIN_MAKE_VERSION( 0,0,2,4 ),
-	"File tranfer by using the messaging services - as plain text.",
-	"Denis Stanishevskiy // StDenis",
-	"stdenformiranda(at)fromru(dot)com",
-	"Copyright (c) 2004, Denis Stanishevskiy",
-	PLUGIN_URL,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {34B5A402-1B79-4246-B041-43D0B590AE2C}
-	{ 0x34b5a402, 0x1b79, 0x4246, { 0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c } }
+	{0x34b5a402, 0x1b79, 0x4246, {0xb0, 0x41, 0x43, 0xd0, 0xb5, 0x90, 0xae, 0x2c}}
 };
 
 HANDLE hFileList;
@@ -22,8 +22,6 @@ int hLangpack;
 char *szServiceTitle = SERVICE_TITLE;
 char *szServicePrefix = SERVICE_PREFIX;
 HANDLE hHookDbSettingChange, hHookContactAdded, hHookSkinIconsChanged;
-
-extern INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 HICON hIcons[5];
 
@@ -119,7 +117,7 @@ INT_PTR OnSendFile(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR OnRecvMessage( WPARAM wParam, LPARAM lParam )
+INT_PTR OnRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
@@ -241,8 +239,8 @@ extern "C" __declspec(dllexport) int Unload(void)
 //
 // DllMain()
 //
-int WINAPI DllMain( HINSTANCE hInstance, DWORD dwReason, LPVOID pReserved )
+int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID pReserved)
 {
 	hInst = hInstance;
-	return 1;
+	return TRUE;
 }

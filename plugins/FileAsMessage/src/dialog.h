@@ -1,6 +1,3 @@
-#include<io.h>
-#include<fcntl.h>
-#include<commctrl.h>
 extern HINSTANCE hInst;
 
 int getMsgId(char *msg);
