@@ -19,13 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "hooked_events.h"
-#include "services.h"
-#include "events.h"
-
-#include "m_folders.h"
-
-#define MS_FOLDERS_TEST_PLUGIN "Folders/Test/Plugin"
 
 char ModuleName[] = "Folders";
 HINSTANCE hInstance;
@@ -35,15 +28,15 @@ CFoldersList &lstRegisteredFolders = CFoldersList(10); //the list
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
-	VERSION,
-	__DESC,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+	// {2F129563-2C7D-4A9A-B948-97DFCC0AFDD7}
 	{0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}}
 };
 
