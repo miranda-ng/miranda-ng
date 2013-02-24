@@ -20,22 +20,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-DWORD     g_mirandaVersion;
 HINSTANCE g_hInst;
 
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Favourite Contacts",
-	PLUGIN_MAKE_VERSION(0, 0, 0, 6),
-	"Favourite contacts menu.",
-	"code by Victor Pavlychko, icons by Angeli-Ka",
-	"nullbie@gmail.com",
-	"Copyright 2007-2009 Victor Pavlychko",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {CE2C0401-F9E0-40d7-8E95-1A4197D7AB04}
+	// {CE2C0401-F9E0-40D7-8E95-1A4197D7AB04}
 	{0xce2c0401, 0xf9e0, 0x40d7, {0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4}}
 };
 

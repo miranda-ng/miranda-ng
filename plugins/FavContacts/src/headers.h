@@ -19,44 +19,40 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #define _CRT_SECURE_NO_DEPRECATE
-
-#include <tchar.h>
 #define _WIN32_WINNT 0x0501
+
+#include <winsock2.h>
 #include <windows.h>
 #include <commctrl.h>
-#include <stdio.h>
 #include <malloc.h>
+#include <time.h>
+#include <math.h>
 
-#define MIRANDA_VER	0x0A00
 #include <win2k.h>
 #include <newpluginapi.h>
-#include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
 #include <m_clist.h>
 #include <m_clc.h>
-#include <m_clui.h>
-#include <m_options.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
 #include <m_skin.h>
 #include <m_contacts.h>
 #include <m_userinfo.h>
-#include <m_history.h>
-#include <m_addcontact.h>
 #include <m_message.h>
-#include <m_file.h>
 #include <m_icolib.h>
-#include <m_idle.h>
-#include <m_awaymsg.h>
 #include <m_avatars.h>
-#include <m_toptoolbar.h>
 #include <m_fontservice.h>
 #include <m_hotkeys.h>
 
+#include <m_toptoolbar.h>
+
 #include "resource.h"
+#include "version.h"
+#include "contact_cache.h"
+#include "http_api.h"
+#include "csocket.h"
+#include "cserver.h"
 
 struct Options
 {
@@ -78,11 +74,6 @@ struct Options
 	HFONT hfntName, hfntSecond;
 };
 
-
-#include "contact_cache.h"
-
 extern Options g_Options;
 extern CContactCache *g_contactCache;
-
 #include "favlist.h"
-#include "http_api.h"

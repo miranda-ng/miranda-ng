@@ -3,11 +3,7 @@
 // Used by resource.rc
 //
 #define IDI_FAVOURITE                   101
-#define IDI_ICON1                       102
 #define IDI_REGULAR                     102
-#define IDD_DIALOG1                     103
-#define IDD_LIST                        103
-#define IDD_PROPPAGE_LARGE              107
 #define IDD_OPTIONS                     107
 #define IDC_CLIST                       1001
 #define IDC_CHK_SECONDLINE              1003
@@ -22,7 +18,6 @@
 #define IDC_CHK_GROUPS                  1013
 #define IDC_CHK_GROUPCOLUMS             1014
 #define IDC_BTN_FONTS                   1015
-#define IDC_TXT_RADIUS2                 1016
 #define IDC_TXT_MAXRECENT               1016
 #define IDC_CHK_RIGHTAVATARS            1019
 

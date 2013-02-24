@@ -1,6 +1,4 @@
 #include "headers.h"
-#include <time.h>
-#include <math.h>
 
 int __cdecl CContactCache::OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 {

@@ -1,10 +1,5 @@
 #include "headers.h"
 
-#pragma comment(lib,"ws2_32.lib")
-
-#include "csocket.h"
-#include "cserver.h"
-
 #define MS_FAVCONTACTS_OPEN_CONTACT			"FavContacts/OpenContact"
 
 class CHttpProcessor: public IConnectionProcessor

@@ -1,8 +1,4 @@
-#include <winsock2.h>
-#include <windows.h>
-#include <ws2tcpip.h>
-
-#include "csocket.h"
+#include "headers.h"
 
 int CSocket::Recv(char *buf, int count)
 {

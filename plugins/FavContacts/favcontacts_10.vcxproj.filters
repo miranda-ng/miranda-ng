@@ -13,28 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="http">
-      <UniqueIdentifier>{190cde56-eadb-44f2-a0cd-1cb46fe8de29}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\contact_cache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\favlist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\cserver.cpp">
-      <Filter>http</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\csocket.cpp">
-      <Filter>http</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\http_api.cpp">
-      <Filter>http</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,18 +44,27 @@
     <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\cserver.h">
-      <Filter>http</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\csocket.h">
-      <Filter>http</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\http_api.h">
-      <Filter>http</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

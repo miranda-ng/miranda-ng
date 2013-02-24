@@ -1,9 +1,4 @@
-#include <winsock2.h>
-#include <windows.h>
-#include <ws2tcpip.h>
-
-#include "csocket.h"
-#include "cserver.h"
+#include "headers.h"
 
 void CServer::Start(int port, IConnectionProcessorFactory *connectionProcessorFactory, bool background)
 {
