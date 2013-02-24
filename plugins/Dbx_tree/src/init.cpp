@@ -26,20 +26,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE  hInstance = NULL;
 int hLangpack;
 
-static const DWORD gMinMirVer = 0x00080000;
-
-
 static PLUGININFOEX gPluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	gInternalNameLong,
-	gVersion,
-	gDescription,
-	gAutor,
-	gAutorEmail,
-	gCopyright,
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
-	{ 0x28f45248, 0x8c9c, 0x4bee, { 0x93, 0x07, 0x7b, 0xcf, 0x3e, 0x12, 0xbf, 0x99 } } // {28F45248-8C9C-4bee-9307-7BCF3E12BF99}
+	// {28F45248-8C9C-4BEE-9307-7BCF3E12BF99}
+	{0x28f45248, 0x8c9c, 0x4bee, {0x93, 0x07, 0x7b, 0xcf, 0x3e, 0x12, 0xbf, 0x99}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD MirandaVersion)

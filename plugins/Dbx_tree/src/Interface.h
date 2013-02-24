@@ -20,11 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#pragma once
-
 #ifndef INTERFACE_VERSION_ONLY
 
-#define MIRANDA_VER 0x0A00
 #include <windows.h>
 #include "newpluginapi.h"
 #include "m_system.h"
@@ -33,23 +30,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_db_int.h"
 #include "m_utils.h"
 #include "win2k.h"
-
 #include "m_langpack.h"
 
 #include "m_dbx_tree.h"
+
+#include "version.h"
 
 extern HINSTANCE   hInstance;
 
 extern DATABASELINK gDBLink;
 #endif
-
-
-#define gVersion 0x00000012
-#define gResVersion 0,0,0,18
-#define gResVersionString "0.0.0.18"
-#define gInternalName "dbx_tree"
-#define gInternalNameLong "Miranda dbx_tree database driver"
-#define gDescription "Provides extended Miranda database support."
-#define gAutor "Michael 'Protogenes' Kunz"
-#define gAutorEmail "Michael.Kunz@s2005.TU-Chemnitz.de"
-#define gCopyright "2007 - 2010 Michael 'Protogenes' Kunz"

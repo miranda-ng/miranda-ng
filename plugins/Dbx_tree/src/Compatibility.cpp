@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "Interface.h"
 #include "Compatibility.h"
 #include "Logger.h"
 #define DB_NOHELPERFUNCTIONS

@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "Interface.h"
 #include "Logger.h"
 #include <process.h>
 
@@ -96,7 +97,7 @@ CLogger::TLevel CLogger::ShowMessage(TLevel CanAsyncTill)
 		p->hwndOwner = 0;
 		p->hInstance = NULL;
 		p->lpszText = msg;
-		p->lpszCaption = _T(gInternalNameLong);
+		p->lpszCaption = _T(__PLUGIN_NAME);
 		p->dwStyle = MB_OK | (m_Level >= logERROR)?MB_ICONHAND:((m_Level == logWARNING)?MB_ICONWARNING:MB_ICONINFORMATION);
 		p->lpszIcon = NULL;
 		p->dwContextHelpId = 0;
@@ -105,7 +106,7 @@ CLogger::TLevel CLogger::ShowMessage(TLevel CanAsyncTill)
 
 		_beginthread(&CLogger::MessageBoxAsync, 0, p);
 	} else {
-		MessageBox(0, msg, _T(gInternalNameLong), MB_OK | (m_Level >= logERROR)?MB_ICONHAND:((m_Level == logWARNING)?MB_ICONWARNING:MB_ICONINFORMATION));
+		MessageBox(0, msg, _T(__PLUGIN_NAME), MB_OK | (m_Level >= logERROR)?MB_ICONHAND:((m_Level == logWARNING)?MB_ICONWARNING:MB_ICONINFORMATION));
 		delete [] msg;
 	}
 

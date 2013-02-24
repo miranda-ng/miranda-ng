@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
+#include "Interface.h"
 #include "DatabaseLink.h"
 #ifndef _MSC_VER
 #include "savestrings_gcc.h"
@@ -84,8 +85,8 @@ static int UnloadDatabase(MIDatabase* db)
 
 DATABASELINK gDBLink = {
 	sizeof(DATABASELINK),
-	gInternalName,
-	_T(gInternalNameLong),
+	__INTERNAL_NAME,
+	_T(__PLUGIN_NAME),
 	makeDatabase,
 	grokHeader,
 	LoadDatabase,
