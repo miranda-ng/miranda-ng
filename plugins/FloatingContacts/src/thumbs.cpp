@@ -1,5 +1,4 @@
 #include "stdhdr.h"
-#include "Wingdi.h"
 
 ThumbList thumbList;
 

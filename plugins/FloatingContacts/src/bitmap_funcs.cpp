@@ -20,10 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdhdr.h"
-#include "bitmap_funcs.h"
-
-#include <m_png.h>
-#include <math.h>
 
 #define PU_FONT_THRESHOLD				96
 #define PU_BMP_ACCURATE_ARITHMETICS

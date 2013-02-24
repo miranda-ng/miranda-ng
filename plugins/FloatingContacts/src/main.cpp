@@ -15,18 +15,6 @@ No warranty for any misbehaviour.
 */
 
 #include "stdhdr.h"
-#include "shlwapi.h"
-
-#include "version.h"
-
-#pragma comment ( lib, "comctl32.lib" )
-#pragma comment ( lib, "shlwapi.lib" )
-
-#pragma warning ( default : 4201 )
-
-//#define DB_POS_GETX(pos) LOWORD(pos)
-//#define DB_POS_GETY(pos) HIWORD(pos)
-//#define DB_POS_MAKE_XY(x, y) MAKELONG(x, y)
 
 BOOL (WINAPI *pSetLayeredWindowAttributes)(HWND, COLORREF, BYTE, DWORD);
 BOOL (WINAPI *pUpdateLayeredWindow)
@@ -143,53 +131,36 @@ static void InitOptions() {
 	fcOpt.bShowIdle				 =  TRUE;
 }
 
-
-
 PLUGININFOEX pluginInfoEx  = {
 	sizeof(PLUGININFOEX),
-		__PLUGIN_NAME,
-		0,
-		__DESC,
-		__AUTHOR,
-		__AUTHOREMAIL,
-		__COPYRIGHT,
-		__AUTHORWEB,
-		UNICODE_AWARE,
-		{ 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } } // {53C715A8-EB01-4136-A73C-441868610074}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {53C715A8-EB01-4136-A73C-441868610074}
+	{0x53c715a8, 0xeb01, 0x4136, {0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74}}
 };
-
-_inline unsigned int MakeVer(int a, int b, int c, int d)
-{
-    return PLUGIN_MAKE_VERSION(a, b, c, d);
-}
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-
 ///////////////////////////////////////////////////////
 // Load / unload
-BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
-
-	switch ( fdwReason )
-	{
-		case DLL_PROCESS_ATTACH:
-			break;
-
-		case DLL_PROCESS_DETACH:
-			break;
-	}
-
-	return( TRUE );
+	return TRUE;
 }
 
-extern "C" int __declspec(dllexport) Load(  )
+extern "C" int __declspec(dllexport) Load()
 {
-	SetLastError( 0 );
+	SetLastError(0);
 	InitOptions();
 
 	mir_getLP(&pluginInfoEx);
@@ -213,15 +184,11 @@ extern "C" int __declspec(dllexport) Load(  )
 	return 0;
 }
 
-
-
 extern "C" int __declspec(dllexport) Unload()
 {
 	CleanUp();
 	return 0;
 }
-
-
 
 static void CleanUp()
 {
@@ -446,7 +413,7 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	if ( hContact == NULL )
 	{
-		if (( 0 == stricmp( pdbcws->szModule, "CLC" )) || ( 0 == stricmp( pdbcws->szModule, sModule )) ) {
+		if (( 0 == _stricmp( pdbcws->szModule, "CLC" )) || ( 0 == _stricmp( pdbcws->szModule, sModule )) ) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
 		}
@@ -457,19 +424,19 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	if ( pThumb == NULL ) return( 0 );
 
 	// Only on these 2 events we need to refresh
-	if ( 0 == stricmp( pdbcws->szSetting, "Status" ))
+	if ( 0 == _stricmp( pdbcws->szSetting, "Status" ))
 	{
 		idStatus = pdbcws->value.wVal;
 	}
-	else if ( 0 == stricmp( pdbcws->szSetting, "Nick" ))
+	else if ( 0 == _stricmp( pdbcws->szSetting, "Nick" ))
 	{
 		idStatus = GetContactStatus( hContact );
 	}
-	else if ( 0 == stricmp( pdbcws->szSetting, "MyHandle" ))
+	else if ( 0 == _stricmp( pdbcws->szSetting, "MyHandle" ))
 	{
 		idStatus = GetContactStatus( hContact );
 	}
-	else if ( fcOpt.bShowIdle && 0 == stricmp( pdbcws->szSetting, "IdleTS" ))
+	else if ( fcOpt.bShowIdle && 0 == _stricmp( pdbcws->szSetting, "IdleTS" ))
 	{
 		idStatus = GetContactStatus( hContact );
 	}
