@@ -161,9 +161,13 @@
   <ItemGroup>
     <ClInclude Include="src\CAST128.h" />
     <ClInclude Include="..\Common\Cipher.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\CAST128.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

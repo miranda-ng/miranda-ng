@@ -26,10 +26,18 @@
     <ClInclude Include="..\Common\Cipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\CAST128.inc">
       <Filter>Header Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

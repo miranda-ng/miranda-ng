@@ -158,9 +158,13 @@
   <ItemGroup>
     <ClInclude Include="..\Common\Cipher.h" />
     <ClInclude Include="src\HC256.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HC256.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -162,9 +162,13 @@
   <ItemGroup>
     <ClInclude Include="src\ARC4.h" />
     <ClInclude Include="..\Common\Cipher.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ARC4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

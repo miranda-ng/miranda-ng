@@ -21,10 +21,18 @@
     <ClInclude Include="..\Common\Cipher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ARC4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
