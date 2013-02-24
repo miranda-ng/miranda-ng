@@ -42,7 +42,7 @@ static TCHAR* getSectionName(int flag)
 	return NULL;
 }
 
-void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
+void __fastcall Prepare(KN_FP_MASK* mask, bool bEnable)
 {
 	mask->szMaskUpper = NULL;
 
@@ -159,7 +159,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 *	 3)Set ExtraImage for contact
 */
 
-int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
+int __fastcall ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 {
 	if (hContact == NULL)
 		return 0;
@@ -283,7 +283,7 @@ int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 *		IF Mask match - comparing stops as TRUE
 *		IF Mask does not not match comparing continue
 */
-BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
+BOOL __fastcall WildCompareA(LPSTR szName, LPSTR szMask)
 {
 	if (*szMask != '|')
 		return WildCompareProcA(szName, szMask);
@@ -337,7 +337,7 @@ BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 *		IF Mask match - comparing stops as TRUE
 *		IF Mask does not not match comparing continue
 */
-BOOL FASTCALL WildCompareW(LPWSTR wszName, LPWSTR wszMask)
+BOOL __fastcall WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 {
 	if (wszMask == NULL)
 		return NULL;
@@ -500,7 +500,7 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *over
 *	Retrieves Icons indexes by Mirver
 */
 
-void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
+void __fastcall GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
 	if (strcmp(szMirVer, "?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
@@ -521,7 +521,7 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, shor
 *	Retrieves Icons indexes by Mirver
 */
 
-void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
+void __fastcall GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
 	if (wcscmp(wszMirVer, L"?") == 0)
 	{
@@ -543,7 +543,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, sh
 * returns hIcon of joined icon by given indexes
 */
 
-HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3, short overlay4)
+HICON __fastcall CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3, short overlay4)
 {
 	HICON hIcon = NULL;	// returned HICON
 	HICON hTmp = NULL;
@@ -800,7 +800,7 @@ HBITMAP __inline CreateBitmap32(int cx, int cy)
  *	CreateBitmap32 - Create DIB 32 bitmap with sizes cx*cy and put reference
  *				to new bitmap pixel image memory area to void ** bits
  */
-HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits)
+HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 {
 	BITMAPINFO bmpi = { 0 };
 	LPVOID ptPixels = NULL;
@@ -831,7 +831,7 @@ HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 *	 checkHasAlfa - checks if image has at least one BYTE in alpha channel
 *				 that is not a 0. (is image real 32 bit or just 24 bit)
 */
-BOOL FASTCALL checkHasAlfa(LPBYTE from, int width, int height)
+BOOL __fastcall checkHasAlfa(LPBYTE from, int width, int height)
 {
 	LPDWORD pt = (LPDWORD)from;
 	LPDWORD lim = pt + width * height;
@@ -849,7 +849,7 @@ BOOL FASTCALL checkHasAlfa(LPBYTE from, int width, int height)
 *	 checkMaskUsed - checks if mask image has at least one that is not a 0.
 *	 Not sure is it required or not
 */
-BOOL FASTCALL checkMaskUsed(LPBYTE from)
+BOOL __fastcall checkMaskUsed(LPBYTE from)
 {
 	int i;
 	for (i=0; i < 16 * 16 / 8; i++)
@@ -871,7 +871,7 @@ BOOL __inline GetMaskBit(LPBYTE line, int x)
 *	blend	- alpha blend ARGB values of 2 pixels. X1 - underlaying,
 *	 X2 - overlaying points.
 */
-DWORD FASTCALL blend(DWORD X1,DWORD X2)
+DWORD __fastcall blend(DWORD X1,DWORD X2)
 {
 	RGBA* q1 = (RGBA*)&X1;
 	RGBA* q2 = (RGBA*)&X2;
@@ -900,7 +900,7 @@ DWORD FASTCALL blend(DWORD X1,DWORD X2)
 /*
 *	CreateJoinedIcon	- creates new icon by drawing hTop over hBottom.
 */
-HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
+HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 {
 	BOOL drawn = FALSE;
 	HDC tempDC, tempDC2, tempDC3;
@@ -1075,7 +1075,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 	return res;
 }
 
-HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
+HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer)
 {
 	short base, overlay, overlay2, overlay3, overlay4;
 	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);

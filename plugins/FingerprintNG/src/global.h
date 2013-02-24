@@ -41,33 +41,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //Start of header
 // Native include
 #include <windows.h>
-#include <windowsx.h>
 #include <malloc.h>
 
 // Miranda IM SDK includes
 #include <newpluginapi.h>
 #include <win2k.h>
-#include <m_cluiframes.h>
 #include <m_database.h>
-#include <m_options.h>
 #include <m_langpack.h>
 #include <m_icolib.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
 #include <m_extraicons.h>
 
+#include <m_fingerprint.h>
+
 //plugins header
 #include "version.h"
-#include "m_fingerprint.h"
 #include "resource.h"
 #include "utilities.h"
-
-#if defined(__GNUC__)
-#define _alloca alloca
-//#define FASTCALL
-#else
-#define FASTCALL __fastcall
-#endif
 
 typedef struct {
 	BYTE	b;
@@ -150,17 +141,17 @@ INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam);
 INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam);
 INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
 
-HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop);
+HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop);
 HBITMAP __inline CreateBitmap32(int cx, int cy);
-HBITMAP FASTCALL CreateBitmap32Point(int cx, int cy, LPVOID* bits);
-HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer);
+HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits);
+HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer);
 
-BOOL FASTCALL WildCompareA(LPSTR name, LPSTR mask);
-BOOL FASTCALL WildCompareW(LPWSTR name, LPWSTR mask);
+BOOL __fastcall WildCompareA(LPSTR name, LPSTR mask);
+BOOL __fastcall WildCompareW(LPWSTR name, LPWSTR mask);
 BOOL __inline WildCompareProcA(LPSTR name, LPSTR mask);
 BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
 
-void FASTCALL Prepare(KN_FP_MASK* mask);
+void __fastcall Prepare(KN_FP_MASK* mask);
 void RegisterIcons();
 
 #define WildCompare		WildCompareW
