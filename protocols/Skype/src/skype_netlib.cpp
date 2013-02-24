@@ -84,7 +84,7 @@ void CSkypeProto::Log(const wchar_t *fmt, ...)
 	wchar_t msg[1024];
 
 	va_start(va, fmt);
-	::mir_vsntprintf(msg, sizeof(msg), fmt, va);
+	::mir_vsntprintf(msg, SIZEOF(msg), fmt, va);
 	va_end(va);
 
 	::CallService(MS_NETLIB_LOGW, (WPARAM)this->hNetLibUser, (LPARAM)msg);

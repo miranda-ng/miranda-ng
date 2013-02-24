@@ -117,10 +117,10 @@ Cleanup:
 char *CSkype::LoadKeyPair(HINSTANCE hInstance)
 {
 	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(/*IDR_KEY*/107), L"BIN");
-	if (hRes) 
+	if (hRes)
 	{
 		HGLOBAL hResource = LoadResource(hInstance, hRes);
-		if (hResource) 
+		if (hResource)
 		{
 			aes_context ctx;
 			unsigned char key[128];
@@ -155,7 +155,7 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 	PROCESS_INFORMATION pi;
 	wchar_t param[128];
 
-	::ZeroMemory(&cif, sizeof(STARTUPINFO));	
+	::ZeroMemory(&cif, sizeof(STARTUPINFO));
 	cif.cb = sizeof(STARTUPINFO);
 	cif.dwFlags = STARTF_USESHOWWINDOW;
 	cif.wShowWindow = SW_HIDE;
@@ -170,11 +170,11 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 		HGLOBAL hResource = ::LoadResource(hInstance, hRes);
 		if (hResource)
 		{
-			HANDLE  hFile;
-			char 	*pData = (char *)LockResource(hResource);
-			DWORD	dwSize = SizeofResource(hInstance, hRes), written = 0;
+			HANDLE hFile;
+			char *pData = (char *)LockResource(hResource);
+			DWORD dwSize = SizeofResource(hInstance, hRes), written = 0;
 			::GetModuleFileName(hInstance, fileName, MAX_PATH);
-			
+
 			wchar_t *skypeKitPath = ::wcsrchr(fileName, '\\');
 			if (skypeKitPath != NULL)
 				*skypeKitPath = 0;
@@ -182,13 +182,13 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 			if ( !::PathFileExists(fileName))
 			{
 				if ((hFile = ::CreateFile(
-					fileName, 
-					GENERIC_WRITE, 
-					0, 
-					NULL, 
-					CREATE_ALWAYS, 
-					FILE_ATTRIBUTE_NORMAL, 
-					0)) != INVALID_HANDLE_VALUE) 
+					fileName,
+					GENERIC_WRITE,
+					0,
+					NULL,
+					CREATE_ALWAYS,
+					FILE_ATTRIBUTE_NORMAL,
+					0)) != INVALID_HANDLE_VALUE)
 				{
 					::WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
 					::CloseHandle(hFile);
@@ -202,10 +202,10 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 						wchar_t path[MAX_PATH], cmdLine[100];
 						::GetModuleFileName(NULL, path, ARRAYSIZE(path));
 						::swprintf(
-							cmdLine, 
-							SIZEOF(cmdLine), 
-							L" /restart:%d /profile=%s", 
-							::GetCurrentProcessId(), 
+							cmdLine,
+							SIZEOF(cmdLine),
+							L" /restart:%d /profile=%s",
+							::GetCurrentProcessId(),
 							profileName);
 
 						// Launch itself as administrator.
@@ -237,27 +237,28 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 		}
 	}
 
-    PROCESSENTRY32 entry;
-    entry.dwSize = sizeof(PROCESSENTRY32);
+	PROCESSENTRY32 entry;
+	entry.dwSize = sizeof(PROCESSENTRY32);
 
-    HANDLE snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
-    if (::Process32First(snapshot, &entry) == TRUE) {
-        while (::Process32Next(snapshot, &entry) == TRUE) {
-            if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0) {  
-                HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+	HANDLE snapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+	if (::Process32First(snapshot, &entry) == TRUE) {
+		while (::Process32Next(snapshot, &entry) == TRUE) {
+			if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0) {
+				HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
 				port += rand() % 8963 + 1000;
-                ::CloseHandle(hProcess);
+				::CloseHandle(hProcess);
 				break;
-            }
-        }
-    }
-    ::CloseHandle(snapshot);
+			}
+		}
+	}
+	::CloseHandle(snapshot);
 
-	::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, dbPath);
+	//::swprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, dbPath);
+	::swprintf(param, SIZEOF(param), L"-p -P %d", port);
 	int startingrt = ::CreateProcess(
-		fileName, param, 
-		NULL, NULL, FALSE, 
-		CREATE_NEW_CONSOLE, 
+		fileName, param,
+		NULL, NULL, FALSE,
+		CREATE_NEW_CONSOLE,
 		NULL, NULL, &cif, &pi);
 	DWORD rterr = GetLastError();
 

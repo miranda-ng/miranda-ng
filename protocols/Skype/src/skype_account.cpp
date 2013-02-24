@@ -32,8 +32,11 @@ void CSkypeProto::OnAccountChanged(int prop)
 				if (this->rememberPassword && whyLogout == CAccount::INCORRECT_PASSWORD)
 				{
 					this->rememberPassword = false;
-					if (this->password) 
+					if (this->password)
+					{
 						::mir_free(this->password);
+						this->password = NULL;
+					}
 				}
 			}
 		}
@@ -81,7 +84,10 @@ bool CSkypeProto::IsOnline()
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
 	if ( !this->rememberPassword)
+	{
 		::mir_free(this->password);
+		this->password = NULL;
+	}
 	else
 	{
 		::CallService(MS_DB_CRYPT_ENCODESTRING, ::strlen(this->password), LPARAM(this->password));
@@ -109,12 +115,18 @@ bool CSkypeProto::SignIn(int status)
 		if ( !this->rememberPassword)
 		{
 			if (this->password)
+			{
 				::mir_free(this->password);
+				this->password = NULL;
+			}
 			this->password = ::DBGetString(NULL, this->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
 			if ( !this->password || !::strlen(this->password))
 			{
 				if (this->password)
+				{
 					::mir_free(this->password);
+					this->password = NULL;
+				}
 				PasswordRequestBoxParam param(this->login);
 				if ( !this->RequestPassword(param))
 				{

@@ -2,8 +2,6 @@
 
 void CSkypeProto::InitSkype()
 {
-	int port = 8963;
-
 	wchar_t *profileName = ::Utils_ReplaceVarsT(L"%miranda_profilename%");
 	wchar_t *dbPath = ::Utils_ReplaceVarsT(L"%miranda_userdata%\\SkypeKit\\");	
 

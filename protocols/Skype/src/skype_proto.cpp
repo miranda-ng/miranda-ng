@@ -5,7 +5,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	ProtoConstructor(this, protoName, userName);
 
 	//this->login = NULL;
-	this->password = NULL;
+	//this->password = NULL;
 	this->rememberPassword = false;
 
 	this->signin_lock = CreateMutex(0, false, 0);
@@ -27,7 +27,11 @@ CSkypeProto::~CSkypeProto()
 	::CloseHandle(this->signin_lock);
 
 	::mir_free(this->login);
-	::mir_free(this->password);
+	if (this->password)
+	{
+		::mir_free(this->password);
+		this->password = NULL;
+	}
 
 	ProtoDestructor(this);
 }
