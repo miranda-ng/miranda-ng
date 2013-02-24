@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resources.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\resources.rc
 //
 #define IDC_OTHERICON                   1
 #define IDD_OPT_KN_ACTION               120

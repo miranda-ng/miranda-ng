@@ -162,7 +162,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TCITEM tci;
 			tc = GetDlgItem(hwndDlg, IDC_TABS);
 			tci.mask = TCIF_TEXT;
-			tci.pszText = TranslateT("Protocols");
+			tci.pszText = TranslateT("Accounts");
 			TabCtrl_InsertItem(tc, 0, &tci);
 			tci.pszText = TranslateT("Rules");
 			TabCtrl_InsertItem(tc, 1, &tci);
