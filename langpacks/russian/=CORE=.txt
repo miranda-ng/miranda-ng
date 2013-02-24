@@ -727,8 +727,8 @@ URL:
 Установить настройки базы данных
 [Installed Plugins]
 Установленные плагины
-[Instead of displaying contacts by their nickname, \ndrag to choose another order:]
-Вместо показа псевдонимов, \nвыберите другой приоритет показа имён:
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
+Вместо показа псевдонимов,\nвыберите другой приоритет показа имён:
 [Interests:]
 Интересы:
 [Invalid Message]
