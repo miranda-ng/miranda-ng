@@ -9,6 +9,9 @@
       <UniqueIdentifier>{a22eadc9-ed9b-4e56-8e1e-350ce8875bef}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e502d69e-3182-4849-8a80-09df8b3f5ce5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\criticalsection.h">
@@ -23,15 +26,27 @@
     <ClInclude Include="src\TigerHash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\FlashAvatars.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cflash.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
-    <ClCompile Include="src\TigerHash.cpp" />
+    <ClCompile Include="src\cflash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TigerHash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

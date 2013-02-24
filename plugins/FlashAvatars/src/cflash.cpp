@@ -1,50 +1,19 @@
 #include "stdafx.h"
 
-#define MIRANDA_VER 0x0A00
-
-#include "m_stdhdr.h"
-#include "win2k.h"
-
-#include <newpluginapi.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_database.h>
-#include <m_protosvc.h>
-#include <statusmodes.h>
-#include <m_clist.h>
-#include <m_langpack.h>
-
-#include <io.h>
-#include <fcntl.h>
-#include <Winsock2.h>
-
-#include "m_flash.h"
-#include "m_avatars.h"
-#include "m_utils.h"
-#include "m_netlib.h"
-
-#include "m_clist.h"
-#include "m_clistint.h"
-
-#include "m_folders.h"
-
-#include "CriticalSection.h"
-#include "TigerHash.h"
-
 #import  "Flash.tlb" no_namespace exclude("IServiceProvider")
 
 PLUGININFOEX pluginInfo = {
-  sizeof(PLUGININFOEX),
-	"Flash Avatars",
-	PLUGIN_MAKE_VERSION(0, 0, 1, 14),
-	"Loads and displays flash avatars.",
-	"Big Muscle",
-	"",
-	"Copyright 2000-2009 Miranda-IM project",
-	"http://miranda-ng.org/",
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {72765A6F-B017-42f1-B30F-5E0941273A3F}
-	{ 0x72765a6f, 0xb017, 0x42f1, { 0xb3, 0xf, 0x5e, 0x9, 0x41, 0x27, 0x3a, 0x3f } }
+	// {72765A6F-B017-42F1-B30F-5E0941273A3F}
+	{0x72765a6f, 0xb017, 0x42f1, {0xb3, 0xf, 0x5e, 0x9, 0x41, 0x27, 0x3a, 0x3f}}
 };
 
 

@@ -27,8 +27,28 @@
 #define _STLP_NO_ANACHRONISMS 1
 
 #include <windows.h>
-#include <stdio.h>
+#include <io.h>
+#include <fcntl.h>
+#include <Winsock2.h>
 
+#include <m_stdhdr.h>
+#include <win2k.h>
+#include <newpluginapi.h>
+#include <m_system_cpp.h>
+#include <m_database.h>
+#include <m_protosvc.h>
+#include <m_langpack.h>
+#include <m_avatars.h>
+#include <m_netlib.h>
+#include <m_clistint.h>
+
+#include <m_folders.h>
+#include <m_flash.h>
+
+#include "CriticalSection.h"
+#include "TigerHash.h"
+#include "Version.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 

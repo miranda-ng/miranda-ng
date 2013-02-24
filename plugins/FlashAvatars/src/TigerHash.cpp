@@ -17,7 +17,6 @@
  */
 
 #include "stdafx.h"
-#include "TigerHash.h"
 
 #ifdef _WIN32
 #if defined(_M_X64)

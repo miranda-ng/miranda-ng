@@ -19,8 +19,6 @@
 #if !defined(TIGER_HASH_H)
 #define TIGER_HASH_H
 
-#include <tchar.h>
-
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
