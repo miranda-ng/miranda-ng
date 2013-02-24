@@ -727,8 +727,8 @@ URL:
 Установить настройки базы данных
 [Installed Plugins]
 Установленные плагины
-[Instead of displaying contacts by their nickname, drag to choose another order:]
-Вместо показа псевдонимов, выберите другой приоритет показа имён:
+[Instead of displaying contacts by their nickname, \ndrag to choose another order:]
+Вместо показа псевдонимов, \nвыберите другой приоритет показа имён:
 [Interests:]
 Интересы:
 [Invalid Message]
@@ -1135,8 +1135,8 @@ Cлужба:
 Показать/Скрыть список контактов
 [Show/Hide Offline Users]
 Показать/Скрыть отключённых
-[Show protocols in the following order, drag to choose another order:]
-Порядок отображения протоколов. Перетаскивайте для изменения:
+[Show accounts in the following order,\ndrag to choose another order:]
+Порядок отображения учетных записей. \nПеретаскивайте для изменения:
 [Show this dialog box when Miranda NG starts]
 Показать этот диалог при запуске Miranda NG
 [Show]
