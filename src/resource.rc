@@ -74,14 +74,14 @@ BEGIN
     LTEXT           "This will erase all history and settings for this contact!",IDC_STATIC,7,18,239,14
 END
 
-IDD_OPT_CONTACT DIALOGEX 0, 0, 199, 147
+IDD_OPT_CONTACT DIALOGEX 0, 0, 313, 242
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact Display Options",IDC_STATIC,13,7,176,133
-    LTEXT           "Instead of displaying contacts by their nickname, drag to choose another order:",IDC_STATIC,19,17,165,27
-    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,19,48,164,86
+    GROUPBOX        "Contact Display Options",IDC_STATIC,7,7,299,228
+    CTEXT           "Instead of displaying contacts by their nickname,\ndrag to choose another order:",IDC_STATIC,64,39,181,32
+    CONTROL         "Tree1",IDC_NAMEORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,65,78,182,93
 END
 
 IDD_PROFILEMANAGER DIALOGEX 0, 0, 400, 211
@@ -532,16 +532,16 @@ BEGIN
     PUSHBUTTON      "Reset",IDC_RESETMENU,254,230,50,14
 END
 
-IDD_OPT_PROTOCOLORDER DIALOGEX 0, 0, 300, 211
+IDD_OPT_PROTOCOLORDER DIALOGEX 0, 0, 315, 242
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_PROTOCOLORDERWARNING,5,190,289,14,NOT WS_VISIBLE
-    GROUPBOX        "Account Order && Visibility",IDC_STATIC,75,0,147,185
-    CONTROL         "Tree1",IDC_PROTOCOLORDER,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP,85,40,132,95
-    LTEXT           "Show protocols in the following order, drag to choose another order:",IDC_STATIC,85,15,132,20
-    PUSHBUTTON      "Reset",IDC_RESETPROTOCOLDATA,120,140,50,14,BS_NOTIFY
+    CTEXT           "Show accounts in the following order,\ndrag to choose another order:",IDC_STATIC,78,11,150,25
+    GROUPBOX        "Account Order && Visibility",IDC_STATIC,0,0,314,241,0,WS_EX_TRANSPARENT
+    CONTROL         "Tree1",IDC_PROTOCOLORDER,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,78,37,151,153
+    PUSHBUTTON      "Reset",IDC_RESETPROTOCOLDATA,96,193,115,14,BS_NOTIFY
+    CTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_PROTOCOLORDERWARNING,13,216,280,16
 END
 
 IDD_OPT_KEYBINDINGS DIALOGEX 0, 0, 316, 251
@@ -750,9 +750,9 @@ BEGIN
     IDD_OPT_CONTACT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 192
+        RIGHTMARGIN, 306
         TOPMARGIN, 7
-        BOTTOMMARGIN, 140
+        BOTTOMMARGIN, 235
     END
 
     IDD_FINDADD, DIALOG
@@ -885,6 +885,12 @@ BEGIN
 
     IDD_OPT_GENMENU, DIALOG
     BEGIN
+    END
+
+    IDD_OPT_PROTOCOLORDER, DIALOG
+    BEGIN
+        RIGHTMARGIN, 314
+        BOTTOMMARGIN, 241
     END
 
     IDD_ACCMGR, DIALOG
@@ -1191,3 +1197,4 @@ IDB_SORTCOLDOWN         BITMAP                  "res/arrow_sort_column_down.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
