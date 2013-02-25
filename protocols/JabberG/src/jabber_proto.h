@@ -145,7 +145,7 @@ struct CJabberInterface: public IJabberInterface
 	CJabberProto *m_psProto;
 };
 
-struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
+struct CJabberProto : public PROTO_INTERFACE
 {
 	typedef PROTO_INTERFACE CSuper;
 

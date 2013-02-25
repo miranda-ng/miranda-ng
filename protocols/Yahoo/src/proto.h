@@ -33,7 +33,7 @@ extern "C"
 	typedef INT_PTR ( __cdecl CYahooProto::*YServiceFuncParam )( WPARAM, LPARAM, LPARAM );
 #endif
 
-struct CYahooProto : public PROTO_INTERFACE, public MZeroedObject
+struct CYahooProto : public PROTO_INTERFACE
 {
 				CYahooProto( const char*, const TCHAR* );
 				virtual ~CYahooProto();

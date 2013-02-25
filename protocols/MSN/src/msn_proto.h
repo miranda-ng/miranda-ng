@@ -30,7 +30,7 @@ typedef int     (__cdecl CMsnProto::*MsnEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CMsnProto::*MsnServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
-struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
+struct CMsnProto : public PROTO_INTERFACE
 {
 	CMsnProto(const char*, const TCHAR*);
 	~CMsnProto();

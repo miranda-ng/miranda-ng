@@ -215,7 +215,7 @@ struct JABBER_LIST_ITEM_STRUCT;
 struct TLEN_VOICE_CONTROL_STRUCT;
 
 
-struct TlenProtocol : public PROTO_INTERFACE, public MZeroedObject
+struct TlenProtocol : public PROTO_INTERFACE
 {
 	typedef PROTO_INTERFACE CSuper;
 

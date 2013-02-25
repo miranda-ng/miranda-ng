@@ -27,7 +27,7 @@ typedef void    ( __cdecl GGPROTO::*GGThreadFunc )( void* );
 typedef int     ( __cdecl GGPROTO::*GGEventFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl GGPROTO::*GGServiceFunc )( WPARAM, LPARAM );
 
-struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
+struct GGPROTO : public PROTO_INTERFACE
 {
 				GGPROTO( const char*, const TCHAR* );
 				~GGPROTO();

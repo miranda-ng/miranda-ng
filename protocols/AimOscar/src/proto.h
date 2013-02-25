@@ -27,7 +27,7 @@ typedef int     ( __cdecl CAimProto::*AimEventFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl CAimProto::*AimServiceFunc )( WPARAM, LPARAM );
 typedef INT_PTR ( __cdecl CAimProto::*AimServiceFuncParam )( WPARAM, LPARAM, LPARAM );
 
-struct CAimProto : public PROTO_INTERFACE, public MZeroedObject
+struct CAimProto : public PROTO_INTERFACE
 {
 	CAimProto( const char*, const TCHAR* );
 	~CAimProto();

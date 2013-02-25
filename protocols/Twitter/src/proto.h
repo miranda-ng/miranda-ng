@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_protoint.h>
 
-class TwitterProto : public PROTO_INTERFACE, public MZeroedObject
+class TwitterProto : public PROTO_INTERFACE
 {
 public:
 	TwitterProto(const char *,const TCHAR *);

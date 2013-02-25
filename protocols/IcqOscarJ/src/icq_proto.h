@@ -51,7 +51,7 @@ struct userinfo
   time_t queued;
 };
 
-struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
+struct CIcqProto : public PROTO_INTERFACE
 {
 				CIcqProto( const char*, const TCHAR* );
 				~CIcqProto();

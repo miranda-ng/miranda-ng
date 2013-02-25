@@ -179,7 +179,7 @@ struct PasswordChangeBoxParam
 	}
 };
 
-struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
+struct CSkypeProto : public PROTO_INTERFACE
 {
 public:
 	CSkypeProto(const char *, const wchar_t *);

@@ -33,7 +33,7 @@ BOOL	DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 int   DB_WriteContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpValue, size_t dwValueSize);
 BOOL  DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, LPVOID lpRet, size_t dwRetBuffSize, size_t *pdwRetBuffSize);
 
-struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
+struct CMraProto : public PROTO_INTERFACE
 {
 				CMraProto(const char*, const TCHAR*);
 				~CMraProto();

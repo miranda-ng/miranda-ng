@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class OmegleProto : public PROTO_INTERFACE, public MZeroedObject
+class OmegleProto : public PROTO_INTERFACE
 {
 public:
 	OmegleProto( const char *proto_name, const TCHAR *username );

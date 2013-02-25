@@ -215,7 +215,7 @@ struct CIrcHandler
 	PfnIrcMessageHandler m_handler;
 };
 
-struct CIrcProto : public PROTO_INTERFACE, public MZeroedObject
+struct CIrcProto : public PROTO_INTERFACE
 {
 				CIrcProto( const char*, const TCHAR* );
 			   ~CIrcProto();

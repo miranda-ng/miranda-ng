@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_PROTOINT_H__
 #define M_PROTOINT_H__ 1
 
+#include <m_system_cpp.h>
+
 typedef enum
 {
 	EV_PROTO_ONLOAD,
@@ -41,7 +43,7 @@ typedef enum
 #define PROTOCHAR TCHAR
 #define PROTOFILEEVENT PROTORECVFILET
 
-struct  PROTO_INTERFACE
+struct  PROTO_INTERFACE : public MZeroedObject
 {
 	int    m_iStatus,
 	       m_iDesiredStatus,
