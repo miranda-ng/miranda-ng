@@ -96,7 +96,7 @@
 [left<->right]
 [Keyboard Flash]
 [Events]
-[Protocols]
+[Accounts]
 [Rules]
 [Flashing]
 [Themes]

@@ -1,10 +1,11 @@
 ﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
-;  Plugin: Miranda NG secure database driver
+;  Plugin: Miranda NG mmap secure database driver
 ;  Version: 0.7.5.4
-;  Authors: 
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
 [EN]

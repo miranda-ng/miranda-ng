@@ -1,7 +1,7 @@
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
-;  File: dbchecker.dll
-;  Plugin: Database Checker
+;  File: DbChecker.dll
+;  Plugin: Database checker
 ;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================

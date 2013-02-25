@@ -26,7 +26,7 @@
 [Counters format string:]
 [Tooltip format string:]
 [Display traffic for current]
-;file \plugins\TrafficCounter\src\statistics.c
+;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 [KB]
 [MB]
@@ -45,7 +45,7 @@
 [Traffic counter]
 [Couldn't read statistics file]
 [Traffic Counter]
-;file \plugins\TrafficCounter\src\TrafficCounter.c
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 [Hide traffic window]
 [Clear the current (Now:) value]

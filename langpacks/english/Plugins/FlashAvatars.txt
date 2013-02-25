@@ -1,5 +1,11 @@
 ﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
-;langpack template for FlashAvatars
+;============================================================
+;  File: FlashAvatars.dll
+;  Plugin: Flash avatars
+;  Version: 0.0.1.14
+;  Authors: Big Muscle
+;============================================================
+[Loads and displays flash avatars.]
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
 [You don't have installed ShockwaveFlash interface in your system.]

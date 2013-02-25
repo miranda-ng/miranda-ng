@@ -6,19 +6,6 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
-[Language Pack Update Now Available]
-[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-[Language:]
-[Current:]
-[New:]
-[&Install Now]
-[Close]
-[Select your language]
-[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-[Download &all languages]
-[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-[OK]
-[Cancel]
 [Author(s):]
 [E-mail:]
 [Last modified using:]
@@ -27,7 +14,6 @@
 [Locale:]
 [Download more Language Packs]
 [Please restart Miranda NG for your changes to take effect.]
-[&Download Language]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 ;file \plugins\LangMan\src\options.cpp

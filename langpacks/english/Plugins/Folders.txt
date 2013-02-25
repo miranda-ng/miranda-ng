@@ -1,11 +1,11 @@
 ﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
 ;  File: Folders.dll
-;  Plugin: Folders
+;  Plugin: Custom profile folders
 ;  Version: 0.1.6.1
 ;  Authors: Cristian Libotean
 ;============================================================
-[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
+[Allows plugins to save their data to user selected folders; supports variables.]
 ;file \plugins\Folders\res\folders.rc
 [Dialog]
 [Custom folders]

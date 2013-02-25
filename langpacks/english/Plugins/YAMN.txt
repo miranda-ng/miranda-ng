@@ -6,8 +6,6 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
-[List4]
-[List5]
 [OK]
 [Installed plugins]
 [Version:]

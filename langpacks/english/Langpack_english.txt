@@ -22,7 +22,7 @@
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Contact Display Options]
-[Instead of displaying contacts by their nickname, drag to choose another order:]
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 [Miranda NG Profile Manager]
 [&Run]
 [&Exit]
@@ -185,9 +185,9 @@
 [Default]
 [Set]
 [Disable icons]
-[Note: Miranda NG will have to be restarted for changes to take effect.]
+[Show accounts in the following order,\ndrag to choose another order:]
 [Account Order && Visibility]
-[Show protocols in the following order, drag to choose another order:]
+[Note: Miranda NG will have to be restarted for changes to take effect.]
 [Key Bindings]
 [Shortcut:]
 [Add]
@@ -1163,18 +1163,34 @@
 [No users found]
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
+[<none>]
+[Shadow at left]
+[Shadow at right]
+[Outline]
+[Outline smooth]
+[Smooth bump]
+[Contour thin]
+[Contour heavy]
 [Configuration Files]
 [Text Files]
 [Error writing file]
 [Fonts & Colors]
 [Sample Text]
 [Fonts]
+;file \src\modules\fonts\FontService.cpp
+[Headers]
+[Generic text]
+[Small text]
 ;file \src\modules\icolib\skin2opts.cpp
 [Icon Sets]
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 [Contacts]
 ;file \src\modules\netlib\netliblog.cpp
+[No times]
+[Standard hh:mm:ss times]
+[Times in milliseconds]
+[Times in microseconds]
 [(Miranda Core Logging)]
 [Select where log file will be created]
 [Select program to be run]
@@ -1201,7 +1217,6 @@
 ;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 [Version]
-[<none>]
 [Miranda NG must be restarted to apply changes for these plugins:]
 [Do you want to restart it now?]
 [Plugins]
@@ -1289,6 +1304,258 @@
 [PNG Bitmaps]
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
+;file \src\modules\utils\utils.cpp
+[Unspecified]
+[Unknown]
+[Afghanistan]
+[Aland Islands]
+[Albania]
+[Algeria]
+[American Samoa]
+[Andorra]
+[Angola]
+[Anguilla]
+[Antarctica]
+[Antigua and Barbuda]
+[Argentina]
+[Armenia]
+[Aruba]
+[Australia]
+[Austria]
+[Azerbaijan]
+[Bahamas]
+[Bahrain]
+[Bangladesh]
+[Barbados]
+[Belarus]
+[Belgium]
+[Belize]
+[Benin]
+[Bermuda]
+[Bhutan]
+[Bolivia, Plurinational State of]
+[Bonaire, Sint Eustatius and Saba]
+[Bosnia and Herzegovina]
+[Botswana]
+[Bouvet Island]
+[Brazil]
+[British Indian Ocean Territory]
+[Brunei Darussalam]
+[Bulgaria]
+[Burkina Faso]
+[Burundi]
+[Cambodia]
+[Cameroon]
+[Canada]
+[Cape Verde]
+[Cayman Islands]
+[Central African Republic]
+[Chad]
+[Chile]
+[China]
+[Christmas Island]
+[Cocos (Keeling) Islands]
+[Colombia]
+[Comoros]
+[Congo]
+[Congo, the Democratic Republic of the]
+[Cook Islands]
+[Costa Rica]
+[Cote d'Ivoire]
+[Croatia]
+[Cuba]
+[Curacao]
+[Cyprus]
+[Czech Republic]
+[Denmark]
+[Djibouti]
+[Dominica]
+[Dominican Republic]
+[Ecuador]
+[Egypt]
+[El Salvador]
+[Equatorial Guinea]
+[Eritrea]
+[Estonia]
+[Ethiopia]
+[Falkland Islands (Malvinas)]
+[Faroe Islands]
+[Fiji]
+[Finland]
+[France]
+[French Guiana]
+[French Polynesia]
+[French Southern Territories]
+[Gabon]
+[Gambia]
+[Georgia]
+[Germany]
+[Ghana]
+[Gibraltar]
+[Greece]
+[Greenland]
+[Grenada]
+[Guadeloupe]
+[Guam]
+[Guatemala]
+[Guernsey]
+[Guinea]
+[Guinea-Bissau]
+[Guyana]
+[Haiti]
+[Heard Island and McDonald Islands]
+[Holy See (Vatican City State)]
+[Honduras]
+[Hong Kong]
+[Hungary]
+[Iceland]
+[India]
+[Indonesia]
+[Iran, Islamic Republic of]
+[Iraq]
+[Ireland]
+[Isle of Man]
+[Israel]
+[Italy]
+[Jamaica]
+[Japan]
+[Jersey]
+[Jordan]
+[Kazakhstan]
+[Kenya]
+[Kiribati]
+[Korea, Democratic People's Republic of]
+[Korea, Republic of]
+[Kuwait]
+[Kyrgyzstan]
+[Lao People's Democratic Republic]
+[Latvia]
+[Lebanon]
+[Lesotho]
+[Liberia]
+[Libya]
+[Liechtenstein]
+[Lithuania]
+[Luxembourg]
+[Macao]
+[Macedonia, The Former Yugoslav Republic of]
+[Madagascar]
+[Malawi]
+[Malaysia]
+[Maldives]
+[Mali]
+[Malta]
+[Marshall Islands]
+[Martinique]
+[Mauritania]
+[Mauritius]
+[Mayotte]
+[Mexico]
+[Micronesia, Federated States of]
+[Moldova, Republic of]
+[Monaco]
+[Mongolia]
+[Montenegro]
+[Montserrat]
+[Morocco]
+[Mozambique]
+[Myanmar]
+[Namibia]
+[Nauru]
+[Nepal]
+[Netherlands]
+[New Caledonia]
+[New Zealand]
+[Nicaragua]
+[Niger]
+[Nigeria]
+[Niue]
+[Norfolk Island]
+[Northern Mariana Islands]
+[Norway]
+[Oman]
+[Pakistan]
+[Palau]
+[Palestinian Territory, Occupied]
+[Panama]
+[Papua New Guinea]
+[Paraguay]
+[Peru]
+[Philippines]
+[Pitcairn]
+[Poland]
+[Portugal]
+[Puerto Rico]
+[Qatar]
+[Reunion]
+[Romania]
+[Russian Federation]
+[Rwanda]
+[Saint Barthelemy]
+[Saint Helena, Ascension and Tristan da Cunha]
+[Saint Kitts and Nevis]
+[Saint Lucia]
+[Saint Martin (French part)]
+[Saint Pierre and Miquelon]
+[Saint Vincent and the Grenadines]
+[Samoa]
+[San Marino]
+[Sao Tome and Principe]
+[Saudi Arabia]
+[Senegal]
+[Serbia]
+[Seychelles]
+[Sierra Leone]
+[Singapore]
+[Sint Maarten (Dutch part)]
+[Slovakia]
+[Slovenia]
+[Solomon Islands]
+[Somalia]
+[South Africa]
+[South Georgia and the South Sandwich Islands]
+[South Sudan]
+[Spain]
+[Sri Lanka]
+[Sudan]
+[Suriname]
+[Svalbard and Jan Mayen]
+[Swaziland]
+[Sweden]
+[Switzerland]
+[Syrian Arab Republic]
+[Taiwan, Province of China]
+[Tajikistan]
+[Tanzania, United Republic of]
+[Thailand]
+[Timor-Leste]
+[Togo]
+[Tokelau]
+[Tonga]
+[Trinidad and Tobago]
+[Tunisia]
+[Turkey]
+[Turkmenistan]
+[Turks and Caicos Islands]
+[Tuvalu]
+[Uganda]
+[Ukraine]
+[United Arab Emirates]
+[United Kingdom]
+[United States]
+[United States Minor Outlying Islands]
+[Uruguay]
+[Uzbekistan]
+[Vanuatu]
+[Venezuela, Bolivarian Republic of]
+[Viet Nam]
+[Virgin Islands, British]
+[Virgin Islands, U.S.]
+[Wallis and Futuna]
+[Western Sahara]
+[Yemen]
+[Zambia]
+[Zimbabwe]
 ;file \src\modules\visibility\visibility.cpp
 ﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;============================================================
@@ -4496,10 +4763,11 @@
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
-;  Plugin: CrashDumper
+;  Plugin: Crash dumper
 ;  Version: 0.0.4.22
-;  Authors: 
+;  Authors: borkra
 ;============================================================
+[Crash Dumper for Miranda NG.]
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 [Close]
@@ -4552,10 +4820,11 @@
 ﻿#muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
-;  Plugin: CryptoPP
+;  Plugin: Crypto++
 ;  Version: 1.0.4.4
-;  Authors: 
+;  Authors: Baloo
 ;============================================================
+[Crypto++ library for SecureIM plugin.]
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
 [GnuPG Plugin - Passphrase]
 [Enter passphrase for the secret key of user:]
@@ -4567,7 +4836,7 @@
 ﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
-;  Plugin: Custom Status List mod
+;  Plugin: Custom status list
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
@@ -4623,11 +4892,11 @@
 ;  Version: 0.1.2.0
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
-[Replaces (for the selected contacts only) the Cyrillic letters in the ]
+[Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
-;  File: dbchecker.dll
-;  Plugin: Database Checker
+;  File: DbChecker.dll
+;  Plugin: Database checker
 ;  Version: 0.11.0.1
 ;  Authors: George Hazan
 ;============================================================
@@ -4709,8 +4978,8 @@
 [All tasks completed successfully]
 ﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
-;  File: Svc_dbepp.dll
-;  Plugin: Database Editor++
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
@@ -4924,10 +5193,11 @@
 ﻿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
 ;============================================================
 ;  File: Dbx_3x.dll
-;  Plugin: Dbx_3x
+;  Plugin: Miranda NG database driver
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Miranda NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
 ;file \plugins\Db3x\res\resource.rc
 [Install Database Settings]
 [Yes]
@@ -4956,10 +5226,11 @@
 ﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
-;  Plugin: Dbx_mmap
+;  Plugin: Miranda NG mmap database driver
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 [Yes]
@@ -5045,10 +5316,11 @@
 ﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
-;  Plugin: Miranda NG secure database driver
+;  Plugin: Miranda NG mmap secure database driver
 ;  Version: 0.7.5.4
-;  Authors: 
+;  Authors: Miranda-IM project, modification by FYR and chaos.persei, nullbie, Billy_Bons
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [Login to Miranda NG]
 [EN]
@@ -5117,7 +5389,13 @@
 [current database]
 [Set Password]
 ﻿#muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
-;langpack template for Dbx_tree
+;============================================================
+;  File: Dbx_tree.dll
+;  Plugin: Miranda dbx_tree database driver
+;  Version: 0.0.0.18
+;  Authors: Michael 'Protogenes' Kunz
+;============================================================
+[Provides extended Miranda database support.]
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [dbxTree Profile Wizard]
 [Cancel]
@@ -5131,10 +5409,11 @@
 ﻿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
-;  Plugin: Db_autobackups
+;  Plugin: Db autobackuper
 ;  Version: 0.0.0.8
-;  Authors: 
+;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
+[Db autobackuper plugin.]
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Backup progress]
 [Cancel]
@@ -5301,7 +5580,13 @@
 [Check Friends Requests]
 [Check Newsfeeds]
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
-;langpack template for FavContacts
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+[Favourite contacts menu.]
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 [Show second line]
@@ -5331,7 +5616,13 @@
 [&Favourite Contacts...]
 [<No group>]
 ﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
-;langpack template for FileAsMessage
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+[File tranfer by using the messaging services - as plain text.]
 ;file \plugins\FileAsMessage\res\resources.rc
 [fileAsMessage]
 [Filename:]
@@ -5376,7 +5667,7 @@
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
 [File As Message]
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
@@ -5516,24 +5807,38 @@
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 [Fingerprint]
+﻿#muuid {49c2cf54-7898-44de-be3a-6d2e4ef90079}
+;============================================================
+;  File: FirstRun.dll
+;  Plugin: First run
+;  Version: 0.0.0.2
+;  Authors: Yasnovidyashii
+;============================================================
+[Displays the Accounts window at the first start.]
 ﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
-;  Plugin: Flags
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Country flags
+;  Version: 0.1.0.3
+;  Authors: H. Herkenrath
 ;============================================================
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
 [Show country flag as &status icon on message window]
 [Show country flag as &extra image on contact list]
-[In following contact list &column:]
-[Use &unknown flag if the country can not be determined]
 [Use &IP-to-country database for country detection]
+[Use &unknown flag if the country can not be determined]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
 ﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
-;langpack template for FlashAvatars
+;============================================================
+;  File: FlashAvatars.dll
+;  Plugin: Flash avatars
+;  Version: 0.0.1.14
+;  Authors: Big Muscle
+;============================================================
+[Loads and displays flash avatars.]
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [Flash.ocx not registered!]
 [You don't have installed ShockwaveFlash interface in your system.]
@@ -5543,8 +5848,8 @@
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
-;  Plugin: Floating Contacts
-;  Version: x.x.x.x
+;  Plugin: Floating contacts
+;  Version: 0.6.0.2
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -5556,18 +5861,19 @@
 [pixels]
 [Hide all contacts]
 [Hide when a fulscreen app is active]
-[Show tooltips]
+[Show tooltips*]
 [ms]
 [Tooltips]
 [Miscellaneous]
 [0 = Default]
-[requires mToolTip or Tipper plugin]
+[*requires Tipper plugin]
 [Bring to front]
 [Bring to front every]
 [seconds]
 [Hide when contact list is shown]
 [Single click interface]
 [Dim idle contacts]
+[Idle contacts]
 [Fonts]
 [same]
 [Typeface]
@@ -5612,11 +5918,11 @@
 ﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;============================================================
 ;  File: Folders.dll
-;  Plugin: Folders
+;  Plugin: Custom profile folders
 ;  Version: 0.1.6.1
 ;  Authors: Cristian Libotean
 ;============================================================
-[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
+[Allows plugins to save their data to user selected folders; supports variables.]
 ;file \plugins\Folders\res\folders.rc
 [Dialog]
 [Custom folders]
@@ -5734,6 +6040,13 @@
 [%d days]
 [Do you really want to cancel all running jobs?]
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+[FTP Server 2]
+[FTP Server 3]
+[FTP Server 4]
+[FTP Server 5]
+[Send file]
+[Resume]
 [FTP File]
 [FTP Server %d]
 [Upload file(s)]
@@ -5748,7 +6061,6 @@
 [Error has occurred while trying to create a dialog!]
 [File upload complete]
 [Upload canceled]
-[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 [FTP File - Select files]
@@ -5771,7 +6083,6 @@
 [Do you really want to cancel this upload?]
 [Status: %s\r\nFile: %s\r\nServer: %s]
 ;file \plugins\FTPFileYM\src\job_upload.cpp
-[Resume]
 [File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]
@@ -7685,6 +7996,7 @@
 [Full Ignore]
 [Partial Ignore]
 [Message Ignore]
+[Ignore State]
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 ﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
@@ -8366,7 +8678,6 @@
 [Recently visited chatrooms:]
 [Bookmarks]
 [JID List]
-[List4]
 [Apply Filter]
 [Reset Filter]
 [Jabber Agent Registration]
@@ -9399,7 +9710,7 @@
 [left<->right]
 [Keyboard Flash]
 [Events]
-[Protocols]
+[Accounts]
 [Rules]
 [Flashing]
 [Themes]
@@ -9417,19 +9728,6 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
-[Language Pack Update Now Available]
-[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-[Language:]
-[Current:]
-[New:]
-[&Install Now]
-[Close]
-[Select your language]
-[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-[Download &all languages]
-[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-[OK]
-[Cancel]
 [Author(s):]
 [E-mail:]
 [Last modified using:]
@@ -9438,7 +9736,6 @@
 [Locale:]
 [Download more Language Packs]
 [Please restart Miranda NG for your changes to take effect.]
-[&Download Language]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 ;file \plugins\LangMan\src\options.cpp
@@ -16149,7 +16446,7 @@
 [Counters format string:]
 [Tooltip format string:]
 [Display traffic for current]
-;file \plugins\TrafficCounter\src\statistics.c
+;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 [KB]
 [MB]
@@ -16168,7 +16465,7 @@
 [Traffic counter]
 [Couldn't read statistics file]
 [Traffic Counter]
-;file \plugins\TrafficCounter\src\TrafficCounter.c
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 [Hide traffic window]
 [Clear the current (Now:) value]
@@ -18031,8 +18328,15 @@
 [Do you really want to add %s to your friend list?]
 [Add me to your friends list.]
 [XFire is not connected.]
+[Current Game]
+[My Current Game]
+[ServerIP]
+[My Current ServerIP]
+[Voice]
+[My Current Voice]
+[Voice ServerIP]
+[My Voice ServerIP]
 [Xfire Link Protocol]
-[xfirebstartgame]
 [Buddy start a game]
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
 [&XFire Online Profile]
@@ -18106,11 +18410,11 @@
 [Not supported]
 [Configuration saved!]
 [Game not found?!]
+[Network]
 [Account]
 [Features]
 [Blocklist / Games]
 [StatusMsg]
-[Network]
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 [Games found:%s%s]
@@ -18263,8 +18567,6 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
-[List4]
-[List5]
 [OK]
 [Installed plugins]
 [Version:]

@@ -75,6 +75,13 @@
 [%d days]
 [Do you really want to cancel all running jobs?]
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+[FTP Server 2]
+[FTP Server 3]
+[FTP Server 4]
+[FTP Server 5]
+[Send file]
+[Resume]
 [FTP File]
 [FTP Server %d]
 [Upload file(s)]
@@ -89,7 +96,6 @@
 [Error has occurred while trying to create a dialog!]
 [File upload complete]
 [Upload canceled]
-[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 [FTP File - Select files]
@@ -112,7 +118,6 @@
 [Do you really want to cancel this upload?]
 [Status: %s\r\nFile: %s\r\nServer: %s]
 ;file \plugins\FTPFileYM\src\job_upload.cpp
-[Resume]
 [File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]

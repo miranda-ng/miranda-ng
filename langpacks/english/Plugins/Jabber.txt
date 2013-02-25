@@ -131,7 +131,6 @@
 [Recently visited chatrooms:]
 [Bookmarks]
 [JID List]
-[List4]
 [Apply Filter]
 [Reset Filter]
 [Jabber Agent Registration]

@@ -1,10 +1,11 @@
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
-;  Plugin: CrashDumper
+;  Plugin: Crash dumper
 ;  Version: 0.0.4.22
-;  Authors: 
+;  Authors: borkra
 ;============================================================
+[Crash Dumper for Miranda NG.]
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 [Close]

@@ -1,8 +1,8 @@
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
-;  Plugin: Floating Contacts
-;  Version: x.x.x.x
+;  Plugin: Floating contacts
+;  Version: 0.6.0.2
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -14,18 +14,19 @@
 [pixels]
 [Hide all contacts]
 [Hide when a fulscreen app is active]
-[Show tooltips]
+[Show tooltips*]
 [ms]
 [Tooltips]
 [Miscellaneous]
 [0 = Default]
-[requires mToolTip or Tipper plugin]
+[*requires Tipper plugin]
 [Bring to front]
 [Bring to front every]
 [seconds]
 [Hide when contact list is shown]
 [Single click interface]
 [Dim idle contacts]
+[Idle contacts]
 [Fonts]
 [same]
 [Typeface]

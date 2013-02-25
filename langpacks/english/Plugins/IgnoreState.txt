@@ -22,5 +22,6 @@
 [Full Ignore]
 [Partial Ignore]
 [Message Ignore]
+[Ignore State]
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]

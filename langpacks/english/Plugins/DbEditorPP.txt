@@ -1,7 +1,7 @@
 ﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
-;  File: Svc_dbepp.dll
-;  Plugin: Database Editor++
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
