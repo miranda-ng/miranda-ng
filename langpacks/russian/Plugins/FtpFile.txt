@@ -177,3 +177,11 @@ FTP сервер 3
 FTP сервер 4
 [FTP Server 5]
 FTP сервер 5
+[ZIP support]
+Поддержка ZIP-архивации
+[Enter archive name manually]
+Введите свое имя архива
+[Compression level:]
+Уровень сжатия:
+[Close dialog after upload is completed]
+Закрыть диалог после успешной загрузки
