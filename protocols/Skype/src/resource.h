@@ -8,6 +8,7 @@
 #define IDD_OPT_MAIN                    10
 #define IDD_INFO_SKYPE                  11
 #define IDD_OWNINFO_SKYPE               12
+#define IDD_PASSWORD_CHANGE             13
 #define IDD_CHATROOM_INVITE             40
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
@@ -17,7 +18,6 @@
 #define IDD_PASSWORDREQUEST             106
 #define IDD_PASSWORD_REQUEST            106
 #define IDR_KEY                         107
-#define IDD_PASSWORD_CHANGE             107
 #define IDC_CCLIST                      173
 #define IDC_EDITSCR                     174
 #define IDC_ADDSCR                      175

@@ -116,7 +116,7 @@ Cleanup:
 
 char *CSkype::LoadKeyPair(HINSTANCE hInstance)
 {
-	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(/*IDR_KEY*/107), L"BIN");
+	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(IDR_KEY), L"BIN");
 	if (hRes)
 	{
 		HGLOBAL hResource = LoadResource(hInstance, hRes);
@@ -127,11 +127,12 @@ char *CSkype::LoadKeyPair(HINSTANCE hInstance)
 
 			int basedecoded = Base64::Decode(MY_KEY, (char *)key, MAX_PATH);
 			::aes_set_key(&ctx, key, 128);
+			memset(key, 0, sizeof(key));
 
-			int dwResSize = ::SizeofResource(hInstance, hRes);
-			char *pData = (char *)::GlobalLock(hResource);
-			basedecoded = dwResSize;
-			::GlobalUnlock(hResource);
+			basedecoded = ::SizeofResource(hInstance, hRes);
+			char *pData = (char *)hResource;
+			if (!pData)
+				return NULL;
 
 			unsigned char *bufD = (unsigned char*)::malloc(basedecoded + 1);
 			unsigned char *tmpD = (unsigned char*)::malloc(basedecoded + 1);
@@ -274,7 +275,10 @@ CSkype *CSkype::GetInstance(HINSTANCE hInstance, const wchar_t *profileName, con
 	int port = 8963;
 	if (!CSkype::StartSkypeRuntime(hInstance, profileName, port, dbPath)) return NULL;
 
-	char *keyPair = CSkype::LoadKeyPair(hInstance);
+
+ 	char *keyPair = CSkype::LoadKeyPair(hInstance);
+	if (!keyPair)
+		return NULL;
 
 	CSkype *skype = new CSkype();
 	TransportInterface::Status status = skype->init(keyPair, "127.0.0.1", port, 0, 2, 3);
