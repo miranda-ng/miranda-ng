@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define FILTER_TIMEOUT_TIMER 10012
 
-#define ALL_MODULES_FILTER _T("<all modules>")
-#define CORE_MODULES_FILTER _T("<core modules>")
+#define ALL_MODULES_FILTER LPGEN("<all modules>")
+#define CORE_MODULES_FILTER LPGEN("<core modules>")
 
 static HANDLE hOptionsInitEvent;
 static HWND hwndOptions = NULL;
@@ -472,9 +472,9 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 	HINSTANCE *KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_RESETCONTENT, 0, 0);
-	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
+	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateT(ALL_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, 0);
-	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
+	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateT(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	TCHAR *tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
 	for (int i=0; i < dat->arOpd.getCount(); i++) {
@@ -761,12 +761,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			GetDlgItemText(hdlg, IDC_KEYWORD_FILTER, dat->szFilterString, SIZEOF(dat->szFilterString));
 
 			//if filter string is set to all modules then make the filter string empty (this will return all modules)
-			if (_tcscmp(dat->szFilterString, TranslateTS(ALL_MODULES_FILTER)) == 0) {
+			if (_tcscmp(dat->szFilterString, TranslateT(ALL_MODULES_FILTER)) == 0) {
 				dat->szFilterString[0] = 0;
 				bRemoveFocusFromFilter = TRUE;
 			}
 			//if filter string is set to core modules replace it with the name of the executable (this will return all core modules)
-			else if (_tcscmp(dat->szFilterString, TranslateTS(CORE_MODULES_FILTER)) == 0) {
+			else if (_tcscmp(dat->szFilterString, TranslateT(CORE_MODULES_FILTER)) == 0) {
 				//replace string with process name - that will show core settings
 				TCHAR szFileName[300];
 				GetModuleFileName(NULL, szFileName, SIZEOF(szFileName));
