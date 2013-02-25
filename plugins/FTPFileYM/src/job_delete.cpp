@@ -25,7 +25,6 @@ int DeleteJob::iRunningJobCount = 0;
 
 extern ServerList &ftpList;
 extern Manager *manDlg;
-extern LibCurl &curl; 
 
 DeleteJob::DeleteJob(DBEntry *_entry, Manager::TreeItem *_item)
 :entry(_entry),treeItem(_item),ftp(ftpList[entry->iFtpNum])
@@ -74,15 +73,15 @@ void DeleteJob::run()
 {
 	char szError[1024];
 
-	CURL *hCurl = curl.easy_init();
+	CURL *hCurl = curl_easy_init();
 	if (hCurl)
 	{
 		struct curl_slist *headerList = NULL;
-		headerList = curl.slist_append(headerList, getDelFileString());
+		headerList = curl_slist_append(headerList, getDelFileString());
 
 		Utils::curlSetOpt(hCurl, this->ftp, getDelUrlString(), headerList, szError);
 
-		int result = curl.easy_perform(hCurl);
+		int result = curl_easy_perform(hCurl);
 		if (result == CURLE_OK)
 		{
 			if (manDlg != NULL && this->treeItem)
@@ -98,8 +97,8 @@ void DeleteJob::run()
 			FREE(error);
 		}				
 
-		curl.slist_free_all(headerList);
-		curl.easy_cleanup(hCurl);
+		curl_slist_free_all(headerList);
+		curl_easy_cleanup(hCurl);
 	}
 }
 

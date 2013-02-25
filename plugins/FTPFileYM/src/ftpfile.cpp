@@ -31,7 +31,6 @@ extern Manager *manDlg;
 extern DeleteTimer &deleteTimer;
 extern ServerList &ftpList;
 extern Options &opt;
-extern LibCurl &curl; 
 
 BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
@@ -462,7 +461,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	SkinAddNewSoundEx(SOUND_UPCOMPLETE, Translate("FTP File"), Translate("File upload complete"));
 	SkinAddNewSoundEx(SOUND_CANCEL, Translate("FTP File"), Translate("Upload canceled"));
 
-	curl.global_init(CURL_GLOBAL_ALL);
+	curl_global_init(CURL_GLOBAL_ALL);
 
 	return 0;
 }
@@ -478,11 +477,10 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 	DeleteJob::jobDone.release();
 	DBEntry::cleanupDB();
 
-	curl.global_cleanup();	
+	curl_global_cleanup();	
 
 	ftpList.deinit();
 	opt.deinit();
-	curl.deinit();
 
 	return 0;
 }
@@ -490,11 +488,6 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
-	if (!curl.init())
-	{
-		Utils::msgBox(TranslateT("FTP File YM won't be loaded because libcurl.dll is missing or wrong version!"), MB_OK | MB_ICONERROR);
-		return 1;
-	}
 
 #ifdef _DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);

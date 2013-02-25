@@ -20,7 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 extern Options &opt;
 extern UploadDialog *uDlg;
-extern LibCurl &curl;
 
 int Utils::getDeleteTimeMin()
 {
@@ -90,8 +89,8 @@ void Utils::copyToClipboard(char *szText)
 	}
 }
 
-const char from_chars[] = "ÁÉÍÓÚÝÉŠÈØŽÏÒáéìíóúùýšèøžïò #{}^~[];,";
-const char to_chars[]	= "AEIOUYESCRZDTNaeeiouuyscrzdtn__________";
+const char from_chars[] = "àáâãäå¸æçèéêëìíîïðñòóôõö÷øùúûüýþÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß !@#$%^&=,{}[];'`";
+const char to_chars[]	= "abvgdeezziiklmnoprstufhccwwqyqeuaABVGDEEZZIIKLMNOPRSTUFHCCWWQYQEUA_________________";
 
 char* Utils::makeSafeString(TCHAR *input, char *output)
 {
@@ -120,39 +119,39 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 {
 	char buff[256];
 
-	curl.easy_setopt(hCurl, CURLOPT_ERRORBUFFER, errorBuff);
+	curl_easy_setopt(hCurl, CURLOPT_ERRORBUFFER, errorBuff);
 
-	curl.easy_setopt(hCurl, CURLOPT_POSTQUOTE, headerList);
-	curl.easy_setopt(hCurl, CURLOPT_NOPROGRESS, 1);
+	curl_easy_setopt(hCurl, CURLOPT_POSTQUOTE, headerList);
+	curl_easy_setopt(hCurl, CURLOPT_NOPROGRESS, 1);
 
-	curl.easy_setopt(hCurl, CURLOPT_URL, url);
-	curl.easy_setopt(hCurl, CURLOPT_PORT, ftp->iPort);
-	curl.easy_setopt(hCurl, CURLOPT_CONNECTTIMEOUT, 30);
-	curl.easy_setopt(hCurl, CURLOPT_FTP_RESPONSE_TIMEOUT, 20);
+	curl_easy_setopt(hCurl, CURLOPT_URL, url);
+	curl_easy_setopt(hCurl, CURLOPT_PORT, ftp->iPort);
+	curl_easy_setopt(hCurl, CURLOPT_CONNECTTIMEOUT, 30);
+	curl_easy_setopt(hCurl, CURLOPT_FTP_RESPONSE_TIMEOUT, 20);
 
-	curl.easy_setopt(hCurl, CURLOPT_FTP_USE_EPRT, 0);
-	curl.easy_setopt(hCurl, CURLOPT_FTP_USE_EPSV, 0);
+	curl_easy_setopt(hCurl, CURLOPT_FTP_USE_EPRT, 0);
+	curl_easy_setopt(hCurl, CURLOPT_FTP_USE_EPSV, 0);
 
 	if (ftp->bPassive)
-		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
+		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
 	else if (!DB::getAString(0, MODULE, "LocalIP", buff))
-		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, buff);
+		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, buff);
 	else
-		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
+		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
 
 	mir_snprintf(buff, sizeof(buff), "%s:%s", ftp->szUser, ftp->szPass);
-	curl.easy_setopt(hCurl, CURLOPT_USERPWD, buff);
+	curl_easy_setopt(hCurl, CURLOPT_USERPWD, buff);
 
 	if (ftp->ftpProto == ServerList::FTP::FT_SSL_EXPLICIT || ftp->ftpProto == ServerList::FTP::FT_SSL_IMPLICIT)
 	{
-		curl.easy_setopt(hCurl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
-		curl.easy_setopt(hCurl, CURLOPT_FTPSSLAUTH, CURLFTPAUTH_DEFAULT);
-		curl.easy_setopt(hCurl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl.easy_setopt(hCurl, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_easy_setopt(hCurl, CURLOPT_USE_SSL, CURLUSESSL_ALL);
+		curl_easy_setopt(hCurl, CURLOPT_FTPSSLAUTH, CURLFTPAUTH_DEFAULT);
+		curl_easy_setopt(hCurl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_easy_setopt(hCurl, CURLOPT_SSL_VERIFYHOST, 2);
 	}
 	else if (ftp->ftpProto == ServerList::FTP::FT_SSH)
 	{
-		curl.easy_setopt(hCurl, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PASSWORD);
+		curl_easy_setopt(hCurl, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PASSWORD);
 	}
 }
 

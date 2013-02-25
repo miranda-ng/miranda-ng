@@ -24,7 +24,6 @@ int UploadJob::iRunningJobCount = 0;
 
 extern UploadDialog *uDlg;
 extern ServerList &ftpList;
-extern LibCurl &curl; 
 
 UploadJob::UploadJob(HANDLE _hContact, int _iFtpNum, EMode _mode)
 :GenericJob(_hContact, _iFtpNum, _mode),fp(NULL) 
@@ -112,7 +111,7 @@ void UploadJob::pause()
 {
 	if (!isCompleted())
 	{
-		curl.easy_pause(this->hCurl, CURLPAUSE_SEND);
+		curl_easy_pause(this->hCurl, CURLPAUSE_SEND);
 		this->setStatus(STATUS_PAUSED);
 	}
 }
@@ -139,7 +138,7 @@ void UploadJob::resume()
 	this->startTS = time(NULL);
 	if (!isCompleted())
 	{
-		curl.easy_pause(this->hCurl, CURLPAUSE_CONT);
+		curl_easy_pause(this->hCurl, CURLPAUSE_CONT);
 		this->setStatus(STATUS_UPLOADING);
 	}
 }
@@ -147,7 +146,7 @@ void UploadJob::resume()
 void UploadJob::cancel()
 {
 	this->setStatus(STATUS_CANCELED);
-	curl.easy_pause(this->hCurl, CURLPAUSE_CONT);	
+	curl_easy_pause(this->hCurl, CURLPAUSE_CONT);	
 }
 
 void UploadJob::waitingThread(void *arg) 
@@ -229,14 +228,14 @@ char *UploadJob::getDelUrlString()
 
 CURL *UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
 {
-	this->hCurl = curl.easy_init();
+	this->hCurl = curl_easy_init();
 	if (!hCurl) return NULL;
 
 	Utils::curlSetOpt(this->hCurl, this->ftp, szUrl, headerList, this->szError);
 
-	curl.easy_setopt(this->hCurl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)this->uiFileSize);
-	curl.easy_setopt(this->hCurl, CURLOPT_READDATA, this);
-	curl.easy_setopt(this->hCurl, CURLOPT_READFUNCTION, &UploadJob::ReadCallback);
+	curl_easy_setopt(this->hCurl, CURLOPT_INFILESIZE_LARGE, (curl_off_t)this->uiFileSize);
+	curl_easy_setopt(this->hCurl, CURLOPT_READDATA, this);
+	curl_easy_setopt(this->hCurl, CURLOPT_READFUNCTION, &UploadJob::ReadCallback);
 	//curl.easy_setopt(this->hCurl, CURLOPT_UPLOAD, 1L);
 
 	return this->hCurl;
@@ -244,7 +243,7 @@ CURL *UploadJob::curlInit(char *szUrl, struct curl_slist *headerList)
 
 bool UploadJob::fileExistsOnServer()
 {
-	int result = curl.easy_perform(hCurl);
+	int result = curl_easy_perform(hCurl);
 	return result != CURLE_REMOTE_FILE_NOT_FOUND;
 }
 
@@ -287,7 +286,7 @@ void UploadJob::upload()
 
 	struct curl_slist *headerList = NULL;
 	if (this->ftp->szChmod[0])
-		headerList = curl.slist_append(headerList, getChmodString());
+		headerList = curl_slist_append(headerList, getChmodString());
 
 	struct _stat fileInfo;
 	_tstat(this->stzFilePath, &fileInfo);
@@ -307,7 +306,7 @@ void UploadJob::upload()
 		if (res == IDC_RENAME)
 		{
 			if (Utils::setFileNameDlgA(this->szSafeFileName) == true)
-				curl.easy_setopt(hCurl, CURLOPT_URL, getUrlString());	
+				curl_easy_setopt(hCurl, CURLOPT_URL, getUrlString());	
 		}
 		else if (res == IDC_COPYURL)
 		{
@@ -323,13 +322,13 @@ void UploadJob::upload()
 
 	if (uploadFile)
 	{
-		curl.easy_setopt(this->hCurl, CURLOPT_UPLOAD, 1L);
+		curl_easy_setopt(this->hCurl, CURLOPT_UPLOAD, 1L);
 		this->setStatus(STATUS_CONNECTING);
 		this->startTS = time(NULL);
 
-		int result = curl.easy_perform(hCurl);
-		curl.slist_free_all(headerList);
-		curl.easy_cleanup(hCurl);
+		int result = curl_easy_perform(hCurl);
+		curl_slist_free_all(headerList);
+		curl_easy_cleanup(hCurl);
 		
 		if (result != CURLE_OK && result != CURLE_ABORTED_BY_CALLBACK)
 		{
@@ -341,15 +340,15 @@ void UploadJob::upload()
 		if (result > CURLE_OPERATION_TIMEDOUT)
 		{
 			struct curl_slist *headerList = NULL;
-			headerList = curl.slist_append(headerList, getDelFileString());
+			headerList = curl_slist_append(headerList, getDelFileString());
 
-			CURL *hCurl = curl.easy_init();	
+			CURL *hCurl = curl_easy_init();	
 			if (hCurl)
 			{
 				Utils::curlSetOpt(hCurl, this->ftp, getDelUrlString(), headerList, this->szError);
-				curl.easy_perform(hCurl);
-				curl.slist_free_all(headerList);
-				curl.easy_cleanup(hCurl);
+				curl_easy_perform(hCurl);
+				curl_slist_free_all(headerList);
+				curl_easy_cleanup(hCurl);
 			}
 		}		
 

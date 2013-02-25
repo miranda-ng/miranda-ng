@@ -80,11 +80,10 @@ using namespace std;
 #include <m_utils.h>
 #include <win2k.h>
 
-#include "curl/curl.h"
+#include "curl.h"
 #include "sys/stat.h"
 
 #include "mir_db.h"
-#include "libcurl.h"
 #include "utils.h"
 #include "dialog.h"
 #include "options.h"
