@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Script.rc
+// Used by ..\res\fltcnt.rc
 //
 #define IDD_OPT_FLTCONT                 101
 #define IDI_ICON1                       103
