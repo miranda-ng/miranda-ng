@@ -86,8 +86,8 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurl32.lib;comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>lib;$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurl32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -114,8 +114,8 @@
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurl64.lib;comctl32.lib;zlib64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>lib;$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurl64.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -143,8 +143,8 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurld32.lib;comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>lib;$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurld32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -168,8 +168,8 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurld64.lib;comctl32.lib;zlib64.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>lib;$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wldap32.lib;ws2_32.lib;winmm.lib;libcurld64.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -228,6 +228,9 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zlib\zlib_11.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
     <ProjectReference Include="curl-7.29.0\lib\vc6libcurl_11.vcxproj">
       <Project>{01f9e227-06f5-4bed-907f-402ca7dfafe6}</Project>
     </ProjectReference>

@@ -141,9 +141,7 @@ int PackerJob::createZipFile()
 {
 	int result = ZIP_ERRNO;
 
-	char *filePath = mir_t2a(this->stzFilePath);
-	zipFile zf = zipOpen2(filePath, 0, NULL, NULL);
-	FREE(filePath);
+	zipFile zf = zipOpen2_64(this->stzFilePath, 0, NULL, NULL);
 
 	if (zf != NULL)
 	{
