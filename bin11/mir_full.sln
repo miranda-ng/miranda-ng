@@ -369,6 +369,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pu_stub", "..\plugins\Plugi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything_11.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\plugins\FTPFileYM\curl-7.29.0\lib\vc6libcurl_11.vcxproj", "{01F9E227-06F5-4BED-907F-402CA7DFAFE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1641,6 +1643,14 @@ Global
 		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|Win32.Build.0 = Release|Win32
 		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|x64.ActiveCfg = Release|x64
 		{F5E3FAFE-B650-4736-8D27-FA53866668C6}.Release|x64.Build.0 = Release|x64
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Debug|Win32.Build.0 = Debug|Win32
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Debug|x64.ActiveCfg = Debug|x64
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Debug|x64.Build.0 = Debug|x64
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|Win32.ActiveCfg = Release|Win32
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|Win32.Build.0 = Release|Win32
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|x64.ActiveCfg = Release|x64
+		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
