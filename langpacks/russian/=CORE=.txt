@@ -815,6 +815,8 @@ Miranda не может открыть '%s', так как плагины для
 Сочетание в Miranda
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
 Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью dbtool.
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DBChecker which should be installed.]
+Miranda NG не может открыть '%s', профиль в неизвестном формате.\nЭтот профиль также может быть повреждён, попробуйте исправить его с помощью DBChecker.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 Miranda NG не может открыть '%s'\nОн недоступен или занят другим приложением, или другой копией Miranda NG
 [Miranda Website]
@@ -2440,7 +2442,6 @@ Miranda не смогла загрузить встроенную систему
 Для этого шрифта настройка стилей и эффектов отключена.
 [Max Number of Flashes]
 Максимально миганий
-
 [&Offline\tCtrl+0]
 Не в с&ети\tCtrl+0
 [On&line\tCtrl+1]
@@ -2461,3 +2462,5 @@ Miranda не смогла загрузить встроенную систему
 На &телефоне\tCtrl+8
 [Out to &Lunch\tCtrl+9]
 Обед&аю\tCtrl+9
+[No profile support installed!]
+Нет установленных плагинов базы!

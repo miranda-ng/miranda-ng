@@ -167,3 +167,13 @@ FTP файл менеджер
 Автоматически удалить файл через...
 [%d days]
 %d дней
+[FTP Server 1]
+FTP сервер 1
+[FTP Server 2]
+FTP сервер 2
+[FTP Server 3]
+FTP сервер 3
+[FTP Server 4]
+FTP сервер 4
+[FTP Server 5]
+FTP сервер 5
