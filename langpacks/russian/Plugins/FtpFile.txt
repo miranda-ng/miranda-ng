@@ -185,3 +185,27 @@ FTP сервер 5
 Уровень сжатия:
 [Close dialog after upload is completed]
 Закрыть диалог после успешной загрузки
+[Default FTP server]
+Использовать по умолчанию
+[Use passive mode]
+Пассивный режим
+[Speed:]
+Скорость:
+[Do you really want to cancel all running jobs?]
+Отменить все запущенные задачи?
+[CANCELED]
+Отмена
+[COMPLETED]
+Закончено
+[CONNECTING...]
+Подключение...
+[CREATED]
+Создано
+[PACKING...]
+Архивация...
+[PAUSED]
+Пауза
+[WAITING...]
+Ожидание...
+[UNKNOWN]
+Неизвестно
