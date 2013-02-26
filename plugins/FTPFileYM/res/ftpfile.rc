@@ -254,18 +254,10 @@ IDI_CLIPBOARD           ICON                    "clipboard.ico"
 IDI_RESUME              ICON                    "resume.ico"
 IDI_CLEAR               ICON                    "clear.ico"
 IDI_DELETE              ICON                    "delete.ico"
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Czech resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CSY)
-#ifdef _WIN32
-LANGUAGE LANG_CZECH, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -291,10 +283,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-#endif    // Czech resources
-/////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED

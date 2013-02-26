@@ -38,50 +38,32 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define WIN32_LEAN_AND_MEAN	
 #define _CRT_SECURE_NO_WARNINGS
-#include <stdlib.h>
 #include <windows.h>
 #include <commdlg.h>
-#include <commctrl.h>
 #include <shellapi.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <uxtheme.h>
-#include <wininet.h>
 #include <windowsx.h>
 #include <shlobj.h>
-
-#ifdef _DEBUG
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
-#endif
-
 #include <vector>
-#include <iostream>
 using namespace std;
 
-#define MIRANDA_VER		0x0A00
 #include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clist.h>
-#include <m_clui.h>
 #include <m_database.h>
-#include <m_fontservice.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_message.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_popup.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_utils.h>
 #include <win2k.h>
 
+#include <m_ftpfile.h>
+#include <m_msg_buttonsbar.h>
+
 #include "curl.h"
-#include "sys/stat.h"
 
 #include "mir_db.h"
 #include "utils.h"
@@ -96,23 +78,18 @@ using namespace std;
 #include "job_upload.h"
 #include "version.h"
 #include "job_generic.h"
-
 #include "resource.h"
-#include "m_ftpfile.h"
-#include "m_msg_buttonsbar.h"
 
 #ifndef FREE
 #define FREE(X)	if (X) { mir_free(X); X = NULL; }
 #endif
 
 #ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#define new DEBUG_CLIENTBLOCK
 #define DEBUG_CLIENTBLOCK   new( _CLIENT_BLOCK, __FILE__, __LINE__)
 #else
 #define DEBUG_CLIENTBLOCK
-#endif
-
-#ifdef _DEBUG
-#define new DEBUG_CLIENTBLOCK
 #endif
 
 #define MS_FTPFILE_SHAREFILE	"FTPFile/ShareFiles"
