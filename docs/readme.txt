@@ -48,7 +48,7 @@ b) Update to the latest alpha version.
    section of our website.
 c) Check the list of known bugs.
    The official buglist is available at:
-   http://trac.mysvn.ru/ghazan/myranda/report
+   http://trac.miranda-ng.org/report
    Look here before you submit a new report, dont submit a new report if
    it has already been reported.
 d) Submit a bugreport.
@@ -85,7 +85,7 @@ will increase.
 
 7. License and Copyright
 ------------------------
-Source code is available at: http://www.miranda-ng.org/distr/
+Source code is available at: http://svn.miranda-ng.org/
 
 Miranda NG is released under the terms of the GNU General Public License. See
 "License.txt" for more details.
