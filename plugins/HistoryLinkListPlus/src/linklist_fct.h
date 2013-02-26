@@ -20,8 +20,6 @@
 #ifndef _LINKLIST_FCT_H
 #define _LINKLIST_FCT_H
 
-#include "linklist.h"
-
 void DrawLine(HWND, size_t);
 BYTE GetFlags(HMENU);
 void GetFilterText(HMENU, LPTSTR, size_t);

@@ -21,23 +21,23 @@
 #define _LINKLIST_H
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <windows.h>
-#ifdef _DEBUG
-#include <crtdbg.h>
-#endif
-#include <richedit.h>
 
-// Miranda SDK Includes
+#include <windows.h>
+#include <richedit.h>
+#include <commctrl.h>
+
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_database.h>
-#include <m_utils.h>
 #include <m_langpack.h>
+#include <win2k.h>
 #include <m_options.h>
 
-#include "resource.h"
-#include "linklist_dlg.h"
 #include "language.h"
+#include "linklist_dlg.h"
+#include "resource.h"
+#include "Version.h"
+
 
 // Filter Flags
 #define WLL_URL		0x01
@@ -73,6 +73,38 @@
 #define BG_COL_DEF	0x00EAFFFF
 #define TXT_COL_DEF	0x00000000
 
+struct LISTELEMENT {
+	BYTE direction;
+	BYTE type;
+	TCHAR date[DATE_SIZE];
+	TCHAR time[TIME_SIZE];
+	TCHAR link[LINK_MAX];
+	HANDLE hEvent;
+	int	linePos;
+	struct LISTELEMENT *nextElement;
+} ;
+
+typedef struct{
+	BYTE openNewWindow;
+	BYTE updateWindow;
+	BYTE mouseEvent;
+	BYTE saveSpecial;
+	BYTE showDate;
+	BYTE showLine;
+	BYTE showTime;
+	BYTE showDirection;
+	BYTE showType;
+}LISTOPTIONS;
+
+typedef struct{
+	DWORD incoming;
+	DWORD outgoing;
+	DWORD background;
+	DWORD text;
+} MYCOLOURSET;
+
+#include "linklist_fct.h"
+
 #define LINKLIST_MODULE			"HistoryLinklist"
 #define LINKLIST_IN_COL			"InColour"
 #define LINKLIST_OUT_COL		"OutColour"
@@ -96,21 +128,10 @@
 #define LINKLIST_SHOW_TYPE		"ShowMessageType"
 
 
-
+#define _mstrlen(x) (_countof(x)-1)
 #define MAKE_TXT_COL(BGCol) ((DWORD)~BGCol & 0x00FFFFFF)
 
 #define DM_LINKSPLITTER			WM_USER+99
-
-struct LISTELEMENT {
-	BYTE direction;
-	BYTE type;
-	TCHAR date[DATE_SIZE];
-	TCHAR time[TIME_SIZE];
-	TCHAR link[LINK_MAX];
-	HANDLE hEvent;
-	int	linePos;
-	struct LISTELEMENT *nextElement;
-} ;
 
 typedef struct LISTELEMENT LISTELEMENT;
 
@@ -125,26 +146,6 @@ typedef struct{
 	SIZE minSize;
 } DIALOGPARAM;
 
-
-typedef struct{
-	DWORD incoming;
-	DWORD outgoing;
-	DWORD background;
-	DWORD text;
-} MYCOLOURSET;
-
-
-typedef struct{
-	BYTE openNewWindow;
-	BYTE updateWindow;
-	BYTE mouseEvent;
-	BYTE saveSpecial;
-	BYTE showDate;
-	BYTE showLine;
-	BYTE showTime;
-	BYTE showDirection;
-	BYTE showType;
-}LISTOPTIONS;
 
 static INT_PTR LinkList_Main(WPARAM, LPARAM);
 int InitOptionsDlg(WPARAM, LPARAM);

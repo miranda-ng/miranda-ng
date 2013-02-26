@@ -27,16 +27,16 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"History Linklist Plus",
-	 PLUGIN_MAKE_VERSION(0,0,0,2),
-	"Generates a list of extracted URIs from the history.",
-	"Thomas Wendel, gureedo",
-	"gureedo@gmail.com",
-	"© 2010-2011 gureedo",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
-	{ 0xDA0B09F5, 0x9C66, 0x488C, { 0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79 } }
+	{0xDA0B09F5, 0x9C66, 0x488C, {0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

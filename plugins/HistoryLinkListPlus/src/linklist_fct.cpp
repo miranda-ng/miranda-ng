@@ -15,29 +15,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-#include <windows.h>
-#include "resource.h"
-#ifdef _DEBUG
-#include <crtdbg.h>
-#endif
-
-// Miranda SDK Includes
-#pragma warning(disable:4996)
-#pragma warning(disable:4100)
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_database.h>
-#include <m_utils.h>
-#include <m_langpack.h>
-#include <win2k.h>
-#pragma warning(default:4100)
-#pragma warning(default:4996)
 
 #include "linklist.h"
-#include "linklist_fct.h"
-#include "language.h"
-#include "utils.h"
-
 
 extern HINSTANCE hInst;
 extern HANDLE hWindowList;
