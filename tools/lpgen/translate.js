@@ -119,9 +119,12 @@ if (WScript.Arguments.Named.Item("plugin")) {
     TranslateTemplateFile(WScript.Arguments.Named.Item("plugin"),cmdline_file_array,cmdline_untranslated_array);
     //Output results to scriptpath folder.
     WriteToUnicodeFile(cmdline_file_array,traslated_cmdline_file);
+    if (log) WScript.Echo("Translated file:     "+traslated_cmdline_file);
     //if there is something untranslated in cmdline_untranslated_array, output to file
-    if (cmdline_untranslated_array.length>0) WriteToUnicodeFile(cmdline_untranslated_array,untranslated_cmdline_file);
-    if (log) WScript.Echo("files here:\r\n"+traslated_cmdline_file+"\r\n"+untranslated_cmdline_file);
+    if (cmdline_untranslated_array.length>0) {
+        WriteToUnicodeFile(cmdline_untranslated_array,untranslated_cmdline_file);
+        if (log) WScript.Echo("Untranslated file:   "+traslated_cmdline_file);
+        }
     //We are done, quit.
     WScript.Quit();
 }
