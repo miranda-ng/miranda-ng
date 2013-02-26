@@ -65,10 +65,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR lpCmdLine, int)
 	hInst = hInstance;
 
 	TCHAR tszPipeName[MAX_PATH];
-	#ifdef _MSC_VER < 1400
+	#if _MSC_VER < 1400
 		_stprintf(tszPipeName,  _T("\\\\.\\pipe\\Miranda_Pu_%s"), lpCmdLine);
 	#else
-		stprintf_s(tszPipeName, MAX_PATH, _T("\\\\.\\pipe\\Miranda_Pu_%s"), lpCmdLine);
+		_stprintf_s(tszPipeName, MAX_PATH, _T("\\\\.\\pipe\\Miranda_Pu_%s"), lpCmdLine);
 	#endif
 	log( L"Opening pipe %s...", tszPipeName);
 	HANDLE hPipe = CreateFile(tszPipeName, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
