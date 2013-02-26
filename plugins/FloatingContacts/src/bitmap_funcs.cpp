@@ -379,7 +379,7 @@ void MyBitmap::BlendColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32
 					PU_DIV255(koef2g * cl * alpha),
 					PU_DIV255(koef2b * cl * alpha),
 					alpha);
-#pragma warning(pop) 
+#pragma warning(pop)
 //			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
 //			COLOR32 src = (cl > 128) ?
 //				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, alpha):
@@ -446,7 +446,7 @@ void MyBitmap::DrawColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 
 					PU_DIV255(koef2g * cl * alpha),
 					PU_DIV255(koef2b * cl * alpha),
 					alpha);
-#pragma warning(pop) 
+#pragma warning(pop)
 //			bits[(i+y)*width + (j+x)] = (cl > 128) ?
 //				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])):
 //				rgba(koef2r * cl, koef2g * cl, koef2b * cl, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]));
@@ -548,7 +548,7 @@ void MyBitmap::BlendPartColorized(MyBitmap *bmp, int xin, int yin, int win, int 
 					PU_DIV255(koef2g * cl * alpha),
 					PU_DIV255(koef2b * cl * alpha),
 					alpha);
-#pragma warning(pop) 
+#pragma warning(pop)
 //			COLOR32 cl = getr(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]);
 //			COLOR32 src = (cl > 128) ?
 //				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, alpha):
@@ -789,7 +789,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 
 //Base on code by Artem Shpynov
 //from clist_modern plugin
-//slightly modified and integrated to MyBitmap class 
+//slightly modified and integrated to MyBitmap class
 void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 {
 	SIZE sz; GetTextExtentPoint32(this->getDC(), str, lstrlen(str), &sz);
@@ -877,7 +877,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 
 			mx = (BYTE)(max(max(bx,rx),gx));
 
-			if (1) 
+			if (1)
 			{
 				bx = (bx<mx)?(BYTE)(((WORD)bx*7+(WORD)mx)>>3):bx;
 				rx = (rx<mx)?(BYTE)(((WORD)rx*7+(WORD)mx)>>3):rx;
@@ -885,7 +885,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 				// reduce boldeness at white fonts
 			}
 			COLOR32 cl = row_dst[j];
-			if (mx)                                      
+			if (mx)
 			{
 				COLOR32 rrx,grx,brx;
 				COLOR32 rlx,glx,blx;
@@ -981,7 +981,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 	}
 
 	HRGN hRgn = ExtCreateRegion(NULL, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount*sizeof(RECT), (LPRGNDATA)pRgnData);
-	delete pRgnData;
+	delete[] pRgnData;
 	return hRgn;
 }
 
@@ -1166,7 +1166,7 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 	} else
 	{
 		char ext[5];
-		memcpy(ext,fn+(strlen(fn)-4),5);   
+		memcpy(ext,fn+(strlen(fn)-4),5);
 		if (!lstrcmpiA(ext,".png"))
 		{
 			return loadFromFile_png(fn, fnAlpha);
@@ -1182,7 +1182,7 @@ bool MyBitmap::loadFromFile(const char *fn, const char *fnAlpha)
 void MyBitmap::allocate(int w, int h)
 {
 	if (dcBmp && (width == w) && (height == h)) return;
-	
+
 	width = w;
 	height = h;
 
