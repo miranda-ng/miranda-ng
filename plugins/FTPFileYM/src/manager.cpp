@@ -49,7 +49,8 @@ Manager::~Manager()
 
 void Manager::init()
 {
-	if (opt.enabled != 0) 
+	ServerList::FTP *ftp = ftpList.getSelected();
+	if (ftp->bEnabled) 
 	{
 		this->hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DLG_MANAGER), NULL, Manager::ManagerDlgProc);
 		this->hwndFileTree = GetDlgItem(this->hwnd, IDC_FILELIST);

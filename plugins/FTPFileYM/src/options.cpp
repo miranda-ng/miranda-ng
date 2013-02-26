@@ -33,7 +33,6 @@ void Options::deinit()
 
 void Options::loadOptions()
 {
-	enabled = db_get_b(0, MODULE, "Enabled", 0);
 	selected = db_get_b(0, MODULE, "Selected", 0);
 	defaultFTP = db_get_b(0, MODULE, "Default", 0);
 	bAutosend = db_get_b(0, MODULE, "Autosend", 0) ? true : false;
@@ -103,12 +102,13 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
 			SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
 			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
-		}
-		if (ftpList.getSelected()->bEnabled) 
-			CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
-		else {
-			CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
-			enableItems(hwndDlg, false);
+			CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled);
+			if (ftp->bEnabled)
+				CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
+			else {
+				CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
+				enableItems(hwndDlg, false);
+			}
 		}
 		return TRUE;
 
@@ -134,7 +134,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 				SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
 				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
 
-				if (ftpList.getSelected()->bEnabled) {
+				if (ftp->bEnabled) {
 					CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
 					enableItems(hwndDlg, true);
 				} 
@@ -161,11 +161,6 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			if (IsDlgButtonChecked(hwndDlg, IDC_ENABLED))
-				opt.enabled |= (1 << opt.selected);
-			else
-				opt.enabled &= ~(1 << opt.selected);
-
 			if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULT))
 				opt.defaultFTP = opt.selected;
 
@@ -180,7 +175,8 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			ftp->ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
 			ftp->iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
-			ftp->bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;		
+			ftp->bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;
+			ftp->bEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLED) ? true : false;
 
 			ComboBox_DeleteString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
 			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected, ftp->stzName);

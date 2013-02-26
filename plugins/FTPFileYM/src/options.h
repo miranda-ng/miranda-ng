@@ -37,7 +37,6 @@ public:
 		TR_DAYS
 	};
 
-	BYTE enabled;
 	BYTE selected;
 	BYTE defaultFTP;
 	bool bCloseDlg;

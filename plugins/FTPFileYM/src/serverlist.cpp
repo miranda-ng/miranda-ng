@@ -56,17 +56,15 @@ void ServerList::saveToDb() const
 	DB::setAStringF(0, MODULE, "Chmod%d", opt.selected, ftp->szChmod);
 	DB::setWordF(0, MODULE, "FtpProto%d", opt.selected, ftp->ftpProto);
 	DB::setWordF(0, MODULE, "Port%d", opt.selected, ftp->iPort);
-	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->bPassive);	
+	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->bPassive);
+	DB::setByteF(0, MODULE, "Enabled%d", opt.selected, ftp->bEnabled);
 	db_set_b(0, MODULE, "Selected", opt.selected);
-	db_set_b(0, MODULE, "Enabled", opt.enabled);
 	db_set_b(0, MODULE, "Default", opt.defaultFTP);
 }
 
 ServerList::FTP::FTP(int index)
 {
 	char buff[256];
-
-	this->bEnabled = ((opt.enabled >> index) & 1); 
 
 	if (DB::getStringF(0, MODULE, "Name%d", index, this->stzName))
 		mir_sntprintf(this->stzName, SIZEOF(this->stzName), TranslateT("FTP Server %d"), index + 1);
@@ -82,6 +80,7 @@ ServerList::FTP::FTP(int index)
 	this->ftpProto = (FTP::EProtoType)DB::getWordF(0, MODULE, "FtpProto%d", index, FTP::FT_STANDARD);
 	this->iPort = DB::getWordF(0, MODULE, "Port%d", index, 21);
 	this->bPassive = DB::getByteF(0, MODULE, "Passive%d", index, 0) ? true : false;
+	this->bEnabled = DB::getByteF(0, MODULE, "Enabled%d", index, 0) ? true : false;
 }
 
 ServerList::FTP *ServerList::getSelected() const
