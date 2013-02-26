@@ -40,7 +40,7 @@ extern void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowDa
 
 TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	{
-		_T("Like tabs, vertical text orientation"),
+		LPGENT("Like tabs, vertical text orientation"),
 		26, 30,
 		SIDEBARLAYOUT_DYNHEIGHT | SIDEBARLAYOUT_VERTICALORIENTATION,
 		CSideBar::m_DefaultContentRenderer,
@@ -50,7 +50,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_VERTICAL
 	},
 	{
-		_T("Compact layout, horizontal buttons"),
+		LPGENT("Compact layout, horizontal buttons"),
 		100, 24,
 		0,
 		CSideBar::m_DefaultContentRenderer,
@@ -60,7 +60,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
-		_T("Advanced layout with avatars"),
+		LPGENT("Advanced layout with avatars"),
 		140, 40,
 		SIDEBARLAYOUT_NOCLOSEBUTTONS,
 		CSideBar::m_AdvancedContentRenderer,
@@ -70,7 +70,7 @@ TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 		SIDEBARLAYOUT_NORMAL
 	},
 	{
-		_T("Advanced with avatars, vertical orientation"),
+		LPGENT("Advanced with avatars, vertical orientation"),
 		40, 40,
 		SIDEBARLAYOUT_DYNHEIGHT | SIDEBARLAYOUT_VERTICALORIENTATION | SIDEBARLAYOUT_NOCLOSEBUTTONS,
 		CSideBar::m_AdvancedContentRenderer,
