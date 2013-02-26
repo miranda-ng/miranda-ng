@@ -54,7 +54,7 @@ void FacebookProto::SendMsgWorker(void *p)
 	}
 	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
-		parseSmileys(data->msg, data->hContact);
+		//parseSmileys(data->msg, data->hContact);
 
 		int retries = 5;
 		std::string error_text = "";

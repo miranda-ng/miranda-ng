@@ -102,8 +102,8 @@ INT_PTR ReplaceSmileysCommand(WPARAM, LPARAM lParam)
 	else if (smrec.rangeToReplace->cpMax < 0) smrec.rangeToReplace->cpMax = LONG_MAX; 
 
 	SmileyPackCType* smcp = NULL;
-	SmileyPackType* SmileyPack = GetSmileyPack(smrec.Protocolname, smrec.hContact,/* 
-		(smrec.flags & (SAFLRE_OUTGOING | SAFLRE_NOCUSTOM)) ? NULL : */&smcp);
+	SmileyPackType* SmileyPack = GetSmileyPack(smrec.Protocolname, smrec.hContact, 
+		(smrec.flags & (SAFLRE_OUTGOING | SAFLRE_NOCUSTOM)) ? NULL : &smcp);
 
 	ReplaceSmileys(smre->hwndRichEditControl, SmileyPack, smcp, *smrec.rangeToReplace, 
 		smrec.hContact == NULL, false, false, (smre->flags & SAFLRE_FIREVIEW)?true:false);
