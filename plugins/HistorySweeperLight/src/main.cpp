@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "historysweeperlight.h"
-#include "version.h"
 
 HINSTANCE hInst;
 
@@ -29,22 +28,22 @@ int hLangpack;
 
 static PLUGININFOEX pluginInfoEx =
 { 
-	// about plugin
 	sizeof(PLUGININFOEX),
-	"History Sweeper Light",
-	__VERSION_DWORD,
-	"This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.",
-	"Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico",
-	"",
-	"© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010, 2011 tico-tico",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x1d9bf74a, 0x44a8, 0x4b3f, { 0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79 } } // {1D9BF74A-44A8-4b3f-A6E5-73069D3A8979}
+	// {1D9BF74A-44A8-4B3F-A6E5-73069D3A8979}
+	{0x1d9bf74a, 0x44a8, 0x4b3f, {0xa6, 0xe5, 0x73, 0x6, 0x9d, 0x3a, 0x89, 0x79}}
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 

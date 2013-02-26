@@ -1,23 +1,14 @@
-/*
-Plugin of Miranda IM for communicating with users of the MSN Messenger protocol.
-Copyright (c) 2008-2009 Boris Krasnovskiy.
-Copyright (C) 2010, 2011 tico-tico
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				0
+#define __RELEASE_NUM				0
+#define __BUILD_NUM					7
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#define __FILEVERSION_STRING        0,0,0,7
-#define __VERSION_STRING            "0.0.0.7"
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 0, 7)
-
+#define __PLUGIN_NAME				"History sweeper light"
+#define __FILENAME					"HistorySweeperLight.dll"
+#define __DESCRIPTION 				"This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown."
+#define __AUTHOR					"Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico"
+#define __AUTHOREMAIL				""
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010-2011 tico-tico"
