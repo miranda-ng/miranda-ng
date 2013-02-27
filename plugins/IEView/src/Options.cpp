@@ -18,14 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#define _WIN32_WINNT  0x0501
-#include "Options.h"
-#include "resource.h"
-#include "Template.h"
-#include "Utils.h"
-#include "m_MathModule.h"
-#include "m_avatars.h"
-#include <m_icolib.h>
+
+#include "ieview_common.h"
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 HANDLE hHookOptionsChanged;

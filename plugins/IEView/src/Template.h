@@ -47,7 +47,7 @@ public:
 		BASE,
 		PLAIN,
 		TEXT,
-		NAME,
+		INAME,
 		TIME,
 		DATE,
 		AVATAR,

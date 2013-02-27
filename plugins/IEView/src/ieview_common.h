@@ -25,40 +25,51 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 
-#define MIRANDA_VER 0x0A00
+#define _WIN32_WINNT  0x0501
 
 #include <windows.h>
 #include <commctrl.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
 #include <process.h>
 #include <shlguid.h>
-#include <oleauto.h>
 #include <mshtml.h>
 #include <io.h>
 #include <fcntl.h>
 
 #include <newpluginapi.h>
-#include <m_utils.h>
 #include <m_clist.h>
 #include <m_langpack.h>
-#include <m_system.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_options.h>
 #include <m_database.h>
 #include <m_skin.h>
-#include <m_message.h>
 #include <m_contacts.h>
 #include <win2k.h>
-#include "m_avatars.h"
+#include <m_avatars.h>
+#include <m_chat.h>
+#include <m_icolib.h>
+#include <m_netlib.h>
 
-#include "m_smileyadd.h"
-#include "m_ieview.h"
+#include <m_smileyadd.h>
+#include <m_ieview.h>
+#include <m_MathModule.h>
+#include <m_metacontacts.h>
 
 #include "IEView.h"
 #include "Utils.h"
+#include "ieview_services.h"
+#include "Options.h"
+#include "Version.h"
+#include "ChatHTMLBuilder.h"
+#include "HistoryHTMLBuilder.h"
+#include "HTMLBuilder.h"
+#include "resource.h"
+#include "ScriverHTMLBuilder.h"
+#include "TabSRMMHTMLBuilder.h"
+#include "TemplateHTMLBuilder.h"
+#include "MUCCHTMLBuilder.h"
+#include "Template.h"
+#include "TextToken.h"
 
 extern HINSTANCE hInstance;
 extern IEView *debugView;

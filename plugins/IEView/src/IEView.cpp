@@ -18,13 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "IEView.h"
-#include "resource.h"
-#include "Options.h"
-#include "Utils.h"
 
-//#include <Urlmon.h>
-
+#include "ieview_common.h"
 
 #define WM_WAITWHILEBUSY (WM_USER+600)
 //#define GECKO

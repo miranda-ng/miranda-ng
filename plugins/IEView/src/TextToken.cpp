@@ -18,10 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "TextToken.h"
-#include "m_MathModule.h"
-//#include "m_metacontacts.h"
-#include "Utils.h"
+
+#include "ieview_common.h"
 
 TextToken::TextToken(int type, const char *text, int len) {
 	next = NULL;

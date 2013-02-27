@@ -18,8 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 */
-#include "Template.h"
-#include "Utils.h"
+
+#include "ieview_common.h"
 
 TokenDef::TokenDef(const char *tokenString) {
 	this->tokenString = tokenString;
@@ -111,7 +111,7 @@ bool Template::equals(const char *name) {
 }
 
 static TokenDef tokenNames[] = {
-	TokenDef("%name%", Token::NAME, 0),
+	TokenDef("%name%", Token::INAME, 0),
 	TokenDef("%time%", Token::TIME, 0),
 	TokenDef("%text%", Token::TEXT, 0),
 	TokenDef("%date%", Token::DATE, 0),
@@ -131,7 +131,7 @@ static TokenDef tokenNames[] = {
 	TokenDef("%statusMsg%", Token::STATUSMSG, 0),
 	TokenDef("%fileDesc%", Token::FILEDESC, 0),
 
-	TokenDef("%\\name%", Token::NAME, 1),
+	TokenDef("%\\name%", Token::INAME, 1),
 	TokenDef("%\\time%", Token::TIME, 1),
 	TokenDef("%\\text%", Token::TEXT, 1),
 	TokenDef("%\\date%", Token::DATE, 1),

@@ -18,10 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "ScriverHTMLBuilder.h"
 
-#include "Options.h"
-#include "Utils.h"
+#include "ieview_common.h"
 
 // srmm stuff
 #define SMF_LOG_SHOWNICK 1

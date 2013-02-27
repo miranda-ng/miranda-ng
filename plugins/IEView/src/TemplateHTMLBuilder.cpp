@@ -18,7 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 */
-#include "TemplateHTMLBuilder.h"
+
+#include "ieview_common.h"
 
 #define EVENTTYPE_STATUSCHANGE 25368
 
@@ -514,7 +515,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 						case Token::PLAIN:
 							tokenVal = token->getText();
 							break;
-						case Token::NAME:
+						case Token::INAME:
 							if (getFlags(protoSettings) & Options::LOG_SHOW_NICKNAMES) {
 								tokenVal = szName;
 							} else {

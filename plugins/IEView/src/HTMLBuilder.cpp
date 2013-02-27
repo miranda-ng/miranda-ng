@@ -18,13 +18,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include "HTMLBuilder.h"
-#include "m_MathModule.h"
-#include "m_metacontacts.h"
-#include "Utils.h"
-//#include "Smiley.h"
-#include "Options.h"
 
+#include "ieview_common.h"
 
 int HTMLBuilder::mimFlags = 0;
 
