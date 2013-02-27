@@ -20,40 +20,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-
-//#define _LOGGING   1
-
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
-
-#define MIRANDA_VER 0x0A00
 
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <commctrl.h> // datetimepicker
-
-#include <stddef.h>
 #include <time.h>
-#include <io.h>
 
+#include <m_stdhdr.h>
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
-#include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_database.h>
-#include <m_protocols.h>
-#include <m_protosvc.h>
 #include <m_protomod.h>
 #include <m_icolib.h>
-#include <m_utils.h>
-#include <m_findadd.h>
 #include <m_clist.h>
+#include <m_db_int.h>
+
+#include "version.h"
+#include "resource.h"
 
 // ** Global constants
 

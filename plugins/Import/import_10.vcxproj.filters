@@ -13,9 +13,6 @@
       <UniqueIdentifier>{e10cb216-83c1-4eb2-95ec-09f1e42a2c96}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{8ad8cb39-e207-46f6-8fbf-1f5871148568}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -47,23 +44,15 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\import-ICQ_Db_Specs.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-license.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-readme.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="docs\import-translation.txt">
-      <Filter>Documentation</Filter>
-    </None>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

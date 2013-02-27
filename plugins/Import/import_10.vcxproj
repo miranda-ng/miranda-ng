@@ -209,15 +209,11 @@
   <ItemGroup>
     <ClInclude Include="src\import.h" />
     <ClInclude Include="src\resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\import-ICQ_Db_Specs.txt" />
-    <None Include="docs\import-license.txt" />
-    <None Include="docs\import-readme.txt" />
-    <None Include="docs\import-translation.txt" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
