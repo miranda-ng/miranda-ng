@@ -25,7 +25,7 @@ begin
   lGroup  :=StrPosW(format,'%group%')<>nil;
   lAccount:=StrPosW(format,'%account%')<>nil;
   lUID    :=StrPosW(format,'%uid%')<>nil;
-  
+
   while hContact<>0 do
   begin
     if ((not filter) and ((IsContactActive(hContact)+1)>=0)) or // + disabled (not deleted)
@@ -64,7 +64,7 @@ begin
         else
         begin
           uid:=pAnsiChar(CallProtoService(acc,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-          if int_ptr(uid)<>CALLSERVICE_NOTFOUND then
+          if uid <> pAnsiChar(CALLSERVICE_NOTFOUND) then
           begin
             if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
             begin

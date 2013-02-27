@@ -373,7 +373,7 @@ begin
     if proto = '' then
       proto := GetContactProto(hContact);
     uid := PAnsiChar(CallProtoService(PAnsiChar(proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
-    if (uint_ptr(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then
+    if (uid <> pAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
     begin
       cgs.szModule := PAnsiChar(proto);
       cgs.szSetting := uid;

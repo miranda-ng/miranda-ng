@@ -128,7 +128,7 @@ var
   cbkg_sub,
   cfgr_sub:TCOLORREF;
   AdvFilter:cardinal;
-  
+
 function GetQSColumn(item:integer):LPARAM;
 var
   i:integer;
@@ -500,7 +500,7 @@ var
   cni:TCONTACTINFO;
   dbei:TDBEVENTINFO;
   hDbEvent:cardinal;
-  tmp:int_ptr;
+  tmp:uint_ptr;
   protov:PAnsiChar;
 begin
   FillChar(res,SizeOf(tQSRec),0);
@@ -661,7 +661,7 @@ begin
     i2  := res2^.data;
     typ1:=i1=uint_ptr(-1);
     typ2:=i2=uint_ptr(-1);
-    
+
     if (typ1 and typ2) then // string & string
     begin
       if (res2.text=nil) and (res1.text=nil) then // nil
@@ -1101,7 +1101,7 @@ begin
       end;
     end;
   end;
-  
+
   SendMessage(grid,WM_SETREDRAW,1,0);
   InvalidateRect(grid,nil,false);
 
@@ -1128,7 +1128,7 @@ begin
   UpdateSB;
 
   AdvancedFilter; //!!
-  
+
   ListView_SetItemState(grid,0,LVIS_FOCUSED or LVIS_SELECTED,
     LVIS_FOCUSED or LVIS_SELECTED);
 end;
@@ -1541,7 +1541,7 @@ begin
             end;
           end;
           p^:=#0;
-          
+
           CopyToClipboard(pp,false);
           mFreeMem(pp);
           exit;
@@ -1762,7 +1762,7 @@ begin
   end
   else
     qsopt.ascendsort:=not qsopt.ascendsort;
-  
+
   if qsopt.ascendsort then
     hdi.hbm:=sortcoldn
   else
@@ -1830,17 +1830,17 @@ procedure SetCellColor(lplvcd:PNMLVCUSTOMDRAW;idx:integer);
 begin
   if qsopt.colorize then
   begin
-    with FlagBuf[idx] do 
+    with FlagBuf[idx] do
     begin
       if (flags and QSF_ACCDEL)<>0 then
       begin
-        lplvcd^.clrTextBk:=cbkg_del; 
+        lplvcd^.clrTextBk:=cbkg_del;
         lplvcd^.clrText  :=cfgr_del;
       end
       else if (flags and QSF_ACCOFF)<>0 then
       begin
-        lplvcd^.clrTextBk:=cbkg_dis; 
-        lplvcd^.clrText  :=cfgr_dis; 
+        lplvcd^.clrTextBk:=cbkg_dis;
+        lplvcd^.clrText  :=cfgr_dis;
       end
       else if (flags and QSF_META)<>0 then
       begin
@@ -1854,7 +1854,7 @@ begin
       end
       else if (flags and QSF_INLIST)=0 then
       begin
-        lplvcd^.clrTextBk:=cbkg_hid; 
+        lplvcd^.clrTextBk:=cbkg_hid;
         lplvcd^.clrText  :=cfgr_hid;
       end
       else
@@ -1867,8 +1867,8 @@ begin
   begin
     if (not qsopt.drawgrid) and odd(lplvcd^.nmcd.dwItemSpec) then
     begin
-      lplvcd^.clrTextBk:=cbkg_odd; 
-      lplvcd^.clrText  :=cfgr_odd; 
+      lplvcd^.clrTextBk:=cbkg_odd;
+      lplvcd^.clrText  :=cfgr_odd;
     end
     else
     begin
@@ -1897,7 +1897,7 @@ begin
       result:=CDRF_NOTIFYSUBITEMDRAW;
 
       SetCellColor(lplvcd,LV_GetLParam(grid,lplvcd^.nmcd.dwItemSpec));
-      
+
       exit;
     end;
     CDDS_SUBITEM or CDDS_ITEMPREPAINT: begin
@@ -1947,7 +1947,7 @@ begin
       begin
         i:=LV_GetLParam(grid,lplvcd^.nmcd.dwItemSpec);
         FastWideToAnsiBuf(MainBuf[i,sub].text,buf);
-        
+
 //        ListView_GetItemTextA(grid,lplvcd^.nmcd.dwItemSpec,lplvcd^.iSubItem,buf,SizeOf(buf));
         if buf[0]<>#0 then
         begin
@@ -1968,7 +1968,7 @@ var
   li:LV_ITEM;
 begin
   result:=0;
-  case hMessage of 
+  case hMessage of
     WM_CHAR: if wParam=27 then
     begin
       PostMessage(GetParent(Dialog),WM_COMMAND,(BN_CLICKED shl 16)+IDCANCEL,0);
@@ -2371,7 +2371,7 @@ begin
       FillProtoCombo(GetDlgItem(Dialog,IDC_CB_PROTOCOLS));
 
       PrepareTable;
-      
+
       if pattern<>nil then
       begin
         SetDlgItemTextW(Dialog,IDC_E_SEARCHTEXT,pattern)
@@ -2406,7 +2406,7 @@ begin
       SendMessageW(HintWnd,TTM_ADDTOOLW,0,tlparam(@TI));
 //      SetWindowsHookEx(WH_KEYBOARD,@QSKbdHook,0,GetCurrentThreadId);
       colorhook:=HookEvent(ME_COLOUR_RELOAD,@ColorReload);
-      
+
       opened:=true;
     end;
 
@@ -2880,7 +2880,7 @@ begin
         // screen
         with qsopt.columns[column] do // atm - to the end only
           addcolumn(grid,tablecolumns,width,TranslateW(title));
-        
+
         // fill new column
         FillLVColumn(column,tablecolumns);
         // index
