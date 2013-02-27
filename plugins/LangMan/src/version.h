@@ -1,27 +1,14 @@
-/*
+#define __MAJOR_VERSION				1
+#define __MINOR_VERSION				0
+#define __RELEASE_NUM				2
+#define __BUILD_NUM					3
 
-'Language Pack Manager'-Plugin for Miranda IM
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-Copyright (C) 2005-2007 H. Herkenrath
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful, 
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program (LangMan-License.txt); if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-
-#define PLUGIN_VERSION              PLUGIN_MAKE_VERSION(1, 0, 2, 3)
-#define FILE_VERSION                1, 0, 2, 3
-
-#define FILE_VERSION_STR           "1.0.2.3"
-#define USERAGENT_VERSION          "1.0.2.3"
-
+#define __PLUGIN_NAME				"Language pack manager"
+#define __FILENAME					"LangMan.dll"
+#define __DESCRIPTION 				"Helps you manage Language Packs of different languages."
+#define __AUTHOR					"H. Herkenrath"
+#define __AUTHOREMAIL				"hrathh@users.sourceforge.net"
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"© 2005-2007 H. Herkenrath"

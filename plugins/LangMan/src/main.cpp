@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "version.h"
 
 HINSTANCE hInst;
 
@@ -29,15 +28,15 @@ int hLangpack;
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
-	"Language Pack Manager", 
-	PLUGIN_VERSION, 
-	"Helps you manage Language Packs of different languages.",
-	"H. Herkenrath", 
-	"hrathh@users.sourceforge.net",
-	"© 2005-2007 H. Herkenrath", 
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE, 
-	// {D4BDD1EB-56F1-4a87-A187-67246EE919A2}
+	// {D4BDD1EB-56F1-4A87-A187-67246EE919A2}
 	{0xd4bdd1eb, 0x56f1, 0x4a87, {0xa1, 0x87, 0x67, 0x24, 0x6e, 0xe9, 0x19, 0xa2}}, 
 };
 
