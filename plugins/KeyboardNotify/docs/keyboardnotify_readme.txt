@@ -135,82 +135,113 @@ Heartbeat (created by sir_qwerty): 00000000000000000000000000000000303
 Note: remember that when the sequence is finished the plugin will go back to the beginning until it has to stop due to 'until when' settings.
 
 
-Thanks
-------
-- Pete for the numerous patches he sent, actively helping to improve the code and functionality
-- UnregistereD for great help in solving problem with Windows activity detection
-- Slacktarn, Sir_qwerty and Tweety for giving great help with ideas (most of the new features included in this plugin were suggested by them) and testing
-- The authors of AAA, PopUp+, KeyScrollNotify, original KeyboardNotify, Neweventnotify, IEView, NGEventNotify for part of their code used in this plugin.
-- Vampik fot the InTurn flashing option
-- Miranda IM developers for this amazing program
-- all other people from Miranda community
+  Description
+  -----------
+  This plugin for Miranda-IM notifies user of specified events (as incoming messages,
+  incoming files, incoming URLs or other events). This plugin is based on the original one
+  by Martin Öberg (aka strickz) and Std's modifications (mainly the idea of using direct
+  port handling using a driver).
+  It has many options allowing:
+  a) To select on which events to react
+  b) Under which conditions (eg: fullscreen mode, ScreenSaver running, workstation locked)
+  c) To act only if the protocol receiving the event is under specified status
+  d) For message events you can choose to be notified if the message window is open or not
+  e) A notification feature allowing to be notified of pending events (unopen events)
+  after specified period of time
+  f) To select method for stopping the blinking (after x secs, if Miranda is re-attended,
+  if Windows is re-attended, if all notified events are opened or when the notify conditions
+  end)
+  g) And several flashing options: select leds to blink, effects (all at the same time,
+  in turn, in sequence and like KITT!), preview button
+  It was designed to be flexible and performing several different tasks. It can be
+  configured to act like the original one and has several functions from other Miranda's
+  keyboard notifier plugins.
+  It also provides a service to allow third party plugins use its notifier abilities.
 
+  Options
+  -------
+  Options page Options->Plugins->Keyboard Flash. Tabbed: Protocols, Rules (when), Flashing (how), Themes and Ignore.
 
-History
--------
-1.5.7.6:
+  Thanks
+  ------
+  - Pete for the numerous patches he sent, actively helping to improve the code and
+  functionality
+  - UnregistereD for great help in solving problem with Windows activity detection
+  - Slacktarn, Sir_qwerty and Tweety for giving great help with ideas (most of the new
+  features included in this plugin were suggested by them) and testing
+  - The authors of AAA, PopUp+, KeyScrollNotify, original KeyboardNotify, Neweventnotify,
+  IEView, NGEventNotify for part of their code used in this plugin.
+  - Vampik fot the InTurn flashing option
+  - Miranda IM developers for this amazing program
+  - all other people from Miranda community
+
+  History
+  -------
+  1.5.7.7:
+    [!] Added support for Miranda 0.8.x.x.
+  1.5.7.6:
     [!] Fixed bug in Ignore module.
-1.5.7.5:
+  1.5.7.5:
     [!] Updated TriggerPlugin support for latest version.
-1.5.7.4:
+  1.5.7.4:
     [*] Updated screenshot
-    [*] Minor code cleaning
-1.5.7.3:
+	[*] Minor code cleaning
+  1.5.7.3:
     [+] Added xstatus support
-1.5.7.2:
+  1.5.7.2:
     [+] Added per contact Ignore options
-1.5.7.1:
-    [+] Fix in Options for themes under WinXP+ (really essential feature)
-1.5.7.0:
+  1.5.7.1:
+    [!] Fix in Options for themes under WinXP+ (really essential feature)
+  1.5.7.0:
     [+] Added support for Trigger plugin
-1.5.6.3:
-    [-] Removed device presence validation: it is not needed now that the plugin works on USB (thanks Nick, aka Aestetic).
+  1.5.6.3:
+    [-] Removed device presence validation: it is not needed now that the plugin works on USB (thanks Nick, aka Aestetic)
     [+] Added a new service to the API for 'normalizing' a custom flashing sequence string
     [-] Simplified the API (the extended version of the start blink service is no longer needed).
-1.5.6.2:
+  1.5.6.2:
     [!] Fixed problem while trying to detect if message window is in foreground.
-1.5.6.1:
+  1.5.6.1:
     [!] Fixed bug with keypress emulation and "until Windows is re-attended" option.
-1.5.6.0:
+  1.5.6.0:
     [+] Option to emulate keypresses (for the USB people)
     [*] Changed the emergency key (to make it stop with PAUSE instead of SCROLL LOCK key).
-1.5.5.4:
+  1.5.5.4:
     [*] Improved ListView control handling
     [*] Changed the default values (for the sake of new users).
-1.5.5.3:
+  1.5.5.3:
     [*] More code optimization.
-1.5.5.2:
+  1.5.5.2:
     [+] Support for Update plugin.
-1.5.5.1:
+  1.5.5.1:
     [!] Minor source fixes.
-1.5.5.0:
+  1.5.5.0:
     [+] New 'notify when' option: while defined programs are running (just like gamerstatus)
-    [+] Extended the API to add two new services to disable and re-enable keyboards notifications (for use by bosskey plugin).
-1.5.4.4:
+    [+] Extended the API to add two new services to disable and re-enable keyboard notifications (for use by bosskey plugin).
+  1.5.4.4:
     [!] Fixed (hopefully) problems with some system configurations (with PS2 keyboards) where the KeyboardClass0 device was not the apropriate one (thanks pete!)
     [+] Extended the plugin API (requested bt tweety).
-1.5.4.3:
+  1.5.4.3:
     [!] Fixed some compatibility issues with nconvers++ (thank you donatas for your help).
-1.5.4.2:
+  1.5.4.2:
     [!] Fixed problem with Windows' activity detection under Win9X when using other plugins that do the same.
     [!] Fixed crash caused by incoming authorisation requests when metacontacts was enabled.
-1.5.4.1:
+  1.5.4.1:
     [!] Some corrections on third party plugins events handling (now they are more assimilated to the 'other events')
     [*] Some code cleaning
     [!] Fixed problem with first message in Metacontacts recognition while checking for pending events (thank you again NirG)
-1.5.4.0:
+  1.5.4.0:
     [+] New plugin API (thank you CriS for your ideas and great help)
     [!] Added Offline status to status check list (thank you Slaktarn for finding it).
-1.5.3.4:
+  1.5.3.4:
     [!] Fixed Metacontacts recognition in checking and counting of pending events (thank you NirG for finding the problem)
     [!] Fixed problems with multiple instances of the plugin running (thank you tweety for reporting and testing).
-1.5.3.3:
+  1.5.3.3:
     [!] Changed behaviour of Preview button to make it independent of the rules' options.
-1.5.3.2:
+  1.5.3.2:
     [+] New dialog to asign leds to specific events for the trillian-like sequences.
-1.5.3.1:
+  1.5.3.1:
     [!] Fixed bug of loosing any other until setting when selecting 'Events are opened'.
-1.5.3.0:
+  1.5.3.0:
     [+] Applied pete's patches (thank you very much for your great work)
         - Use of GetLastInputInfo when possible for detecting Windows' activity
         - Made Windows' mouse hooks also aware of mouse clicking
@@ -222,31 +253,24 @@ History
     [+] Possibility of choosing more than one flash until option at the same time
     [+] New flashing effect to make the leds blink accordingly to number of events
     [+] Possibility of selecting/unselecting protocols (requested by tweety, usuful to avoid flashing on some protocols as rss)
-
-1.5.2.2:
+  1.5.2.2:
     [!] scriver's message window detection (thanks D46MD for your great help)
     [!] corrected 'flash until' checking accordingly to pete's patch (thank you)
-
-1.5.2.1:
-    [!] fixed nconvers++'s message window detection and checked window detection for srmm, scriver, sramm and srmm_mod
-    [!] checking of 'notify when' and statuses added for API events
-
-1.5.2.0:
-    [+] Themes support (another of Slaktarn's ideas: thank you *g*)
-    [-] History dropdown list for the custom order string
-
-1.5.1.0:
-    [+] Custom effects using 'flashing language' (thank you very much Slaktarn for this very nice idea!)
-    [+] History dropdown list for the custom order string
-
-1.5.0.0: (unreleased)
+  1.5.2.1:
+    [!] nconvers++'s message window detection
+    [!] checked window detection for srmm, scriver, sramm and srmm_mod
+  1.5.2.0:
+    [+] Custom theme support
+    [-] Custom order history
+  1.5.1.0:
+    [+] Custom order effect
+    [+] Custom order history
+  1.5.0.0:
     [+] Drivers aren't needed anymore
     [+] Status selection option
     [+] Miranda/Windows activity detection (thank you Peter Boon)
     [+] 'Opened events' stop method
-    [+] 'End of notify when conditions' stop method
-    [+] 'Miranda/Windows are re-attended' stop method
-    [+] 'x seconds' stop method
+    [+] x seconds stop method
     [+] Hooking database event for detecting incoming events
     [+] Notifier option for pending events
     [+] Checkbox for enabling disabling open messages notification
@@ -255,19 +279,15 @@ History
     [+] Tabbed options
     [!] Several corrections/improvements in options page
     [!] Not selected leds will preserve their original state
-
-1.4.1.0: (by me and Vampik)
+  1.4.1.0: (by me and Vampik)
     [+] Notify on fullscreen, screensaver, worksation locked
     [!] Try to improve Win98 keysimulation routines
     [+] Added InTurn effect (thank you Vampik)
     [!] Corrected speed of blinking (thank you Vampik)
-
-1.4.0.0: (by Std, unreleased)
+  1.4.0.0: (by Std, unreleased)
     [+] Added direct port handling using PortTalk.sys driver
-
-1.3.0.0: (by Martin Öberg)
+  1.3.0.0: (by strickz)
     This is strickz' final release. It still uses keypress simulation. It was nice (thanks *g*)
-
 
 TODO:
 -----
@@ -290,3 +310,4 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 =====================================================================
+

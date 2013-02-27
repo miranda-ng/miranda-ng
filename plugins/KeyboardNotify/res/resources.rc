@@ -244,10 +244,6 @@ BEGIN
         RIGHTMARGIN, 317
     END
 
-    IDD_PROTO_OPTIONS, DIALOG
-    BEGIN
-    END
-
     IDD_BASIC_OPTIONS, DIALOG
     BEGIN
         BOTTOMMARGIN, 220
@@ -329,4 +325,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

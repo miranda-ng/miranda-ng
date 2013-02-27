@@ -20,14 +20,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define _WIN32_WINNT 0x0500
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <windows.h>
+#include <stdlib.h>
 #include <tlhelp32.h>
 #include <vdmdbg.h>
 #include <commctrl.h>
 #include <commdlg.h>
 #include <winioctl.h>
+
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_options.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_protosvc.h>
+#include <m_message.h>
+#include <m_xstatus.h>
+#include <m_clc.h>
+#include <m_skin.h>
+#include <win2k.h>
+#include <m_extraicons.h>
+
+#include <m_kbdnotify.h>
+#include <m_metacontacts.h>
+#include <m_trigger.h>
 
 #include "flash.h"
 #include "ignore.h"
@@ -39,25 +55,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "utils.h"
 #include "keypresses.h"
 #include "resource.h"
-
-#include <newpluginapi.h>
-#include <m_database.h>
-#include <m_options.h>
-#include <m_clist.h>
-#include <m_system.h>
-#include <m_langpack.h>
-#include <m_protocols.h>
-#include <m_protosvc.h>
-#include <m_contacts.h>
-#include <m_message.h>
-#include <m_utils.h>
-#include <m_xstatus.h>
-#include <m_clc.h>
-#include <m_skin.h>
-#include <win2k.h>
-#include <m_extraicons.h>
-
-#include "m_kbdnotify.h"
-#include <m_metacontacts.h>
-#include "m_trigger.h"
-
+#include "Version.h"

@@ -39,6 +39,9 @@
     <ClInclude Include="src\Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EnumProc.cpp">
@@ -74,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
