@@ -194,10 +194,6 @@
     <ResourceCompile Include="res\ignore.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\ignore_state.txt" />
-    <None Include="docs\IgnoreState-readme.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

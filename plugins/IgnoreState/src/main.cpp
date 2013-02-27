@@ -57,7 +57,7 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// a6872bcd-f2a1-41b8-b2f1-dd7cec055734
+	// A6872BCD-F2A1-41B8-B2F1-DD7CEC055734
 	{0xa6872bcd, 0xf2a1, 0x41b8, {0xb2, 0xf1, 0xdd, 0x7c, 0xec, 0x05, 0x57, 0x34}}
 };
 

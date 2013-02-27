@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{ff5fe82d-72b5-4a1c-b4a0-8741f7b22c5a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -46,13 +43,5 @@
     <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="docs\ignore_state.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\IgnoreState-readme.txt">
-      <Filter>Docs</Filter>
-    </None>
   </ItemGroup>
 </Project>
