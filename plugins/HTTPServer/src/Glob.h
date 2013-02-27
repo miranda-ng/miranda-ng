@@ -22,29 +22,23 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include <process.h>
 #include <time.h>
-#include <stdio.h>
 #include <string>
-#include <win2k.h>
 using namespace std;
 
+#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>
-#include <m_skin.h>
 #include <m_langpack.h>
 #include <m_clui.h>
-#include <m_options.h>
-#include <m_system.h>
-#include <m_history.h>
 #include <m_userinfo.h>
 #include <m_netlib.h>
 #include <m_message.h>
 #include <m_popup.h>
 #include <m_protosvc.h>
 
-#include "m_HTTPServer.h"
+#include <m_HTTPServer.h>
 
 #include "FileShareNode.h"
 #include "HttpUser.h"
@@ -52,6 +46,7 @@ using namespace std;
 #include "MimeHandling.h"
 #include "resource.h"
 #include "IndexCreation.h"
+#include "Version.h"
 
 
 #define SD_RECEIVE      0x00
@@ -89,7 +84,5 @@ extern bool bLimitOnlyWhenOnline;
 
 extern void* (*MirandaMalloc)(size_t);
 extern void (*MirandaFree)(void*);
-
-extern char * pszVersion;
 
 #endif

@@ -84,21 +84,18 @@ bool bShutdownInProgress = false;
 
 int hLangpack = 0;
 
-char* pszVersion = "0.1.2.2";
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	MODULE,
-	PLUGIN_MAKE_VERSION(0, 1, 2, 2),
-	"HTTP Server\r\n"
-	"HTTP Web Server plugin for Miranda",
-	"Kennet Nielsen, modified by Vampik, Houdini",
-	"",
-	"© 2003-2009 Kennet Nielsen, Vampik, Houdini",
-	"http://addons.miranda-im.org/details.php?action=viewfile&id=2304",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {67848B07-83D2-49e9-8844-7E3DE268E304}
-	{ 0x67848b07, 0x83d2, 0x49e9, { 0x88, 0x44, 0x7e, 0x3d, 0xe2, 0x68, 0xe3, 0x4 } }
+	// {67848B07-83D2-49E9-8844-7E3DE268E304}
+	{0x67848b07, 0x83d2, 0x49e9, {0x88, 0x44, 0x7e, 0x3d, 0xe2, 0x68, 0xe3, 0x4}}
 };
 
 

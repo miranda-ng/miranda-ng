@@ -250,7 +250,7 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 	    "</BODY></HTML>\n"
 	    "\r\n"
 	    "\r\n",
-	    iErrorCode, pszError, szCurTime, pszVersion, iErrorCode, pszError, pszError, pszDescription, pszVersion);
+	    iErrorCode, pszError, szCurTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 
 	Netlib_Send(hConnection, szBuf, dwBytesToWrite, 0);
 }
@@ -301,7 +301,7 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 	    "</BODY></HTML>\n"
 	    "\r\n"
 	    "\r\n",
-	    iErrorCode, pszError, szCurrTime, pszVersion, pszRedirect, iErrorCode, pszError, pszError, pszDescription, pszVersion);
+	    iErrorCode, pszError, szCurrTime, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), pszRedirect, iErrorCode, pszError, pszError, pszDescription, PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 
 	Netlib_Send(hConnection, szBuff, dwBytesToWrite, 0);
 }
@@ -618,7 +618,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 				dwBytesToWrite = _snprintf(szBuf, sizeof(szBuf), szHttpPartial ,
 				    szCurTime ,
-				    pszVersion,
+				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag ,
 				    dwDataToSend ,
 				    pszGetMimeType(pszRealPath),
@@ -640,7 +640,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 				dwBytesToWrite = _snprintf(szBuf, sizeof(szBuf), szHttpOk ,
 				    szCurTime ,
-				    pszVersion,
+				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag ,
 				    nDataSize ,
 				    pszGetMimeType(pszRealPath),
