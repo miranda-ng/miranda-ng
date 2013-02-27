@@ -1201,6 +1201,8 @@
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 [Host we are connecting to is not the one certificate was issued for]
 ;file \src\modules\options\options.cpp
+[<all modules>]
+[<core modules>]
 [Loading... %d%%]
 [%s options]
 [Miranda NG Options]

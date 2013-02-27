@@ -805,6 +805,11 @@
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 [The send later feature is not available on this protocol.]
 [\n(Sent delayed. Original timestamp %s)]
+;file \plugins\TabSRMM\src\sidebar.cpp
+[Like tabs, vertical text orientation]
+[Compact layout, horizontal buttons]
+[Advanced layout with avatars]
+[Advanced with avatars, vertical orientation]
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
 [tabSRMM Message (%s)]
