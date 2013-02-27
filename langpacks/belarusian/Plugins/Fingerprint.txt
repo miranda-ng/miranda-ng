@@ -4,9 +4,9 @@
 [Show Miranda version]
 Паказваць версію Miranda
 [Pack overlays]
-Аверлэі зборак
+Абразкі зборак
 [Fingerprint]
-Значкі кліентаў
+Абразкі кліентаў
 [Undetected client]
 Нязнойдзены кліент
 [Unknown client]
@@ -14,25 +14,25 @@
 [Platform]
 Аперацыйная сістэма
 [Fingerprint NG (client version) icons module for Miranda NG.]
-Fingerprint NG адлюстроўвае значкі кліентаў, выкарыстованых вашымі суразмоўцамі.
+Fingerprint NG адлюстроўвае абразкі кліентаў, выкарыстованых вашымі суразмоўцамі.
 [Fingerprint overlays icons]
-Аверлэі значкоў кліентаў
+Аверлэі абразкоў кліентаў
 [Client icons]
 Кліенты
 [Miranda clients]
 Кліенты Miranda
 [Miranda packs overlays]
-Аверлэі зборак Miranda
+Абразкі зборак Miranda
 [Show Miranda version at Overlay#2]
 Значок версіі на аверлэі #2
 [Resource overlays]
 Аверлэі рэсурсаў
 [Platform overlays]
-Аверлэі платформы
+Абразкі платформы
 [Protocols overlays]
-Аверлэі пратаколаў
+Абразкі пратаколаў
 [Secure overlays]
-Аверлэі шыфравання
+Абразкі шыфравання
 [AIM clients]
 Кліенты AIM
 [Gadu-Gadu clients]
@@ -64,11 +64,11 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 [Other (rare) protocols]
 Кліенты рэдкіх пратаколаў
 [Other icons]
-Іншыя значкі
+Іншыя абразкі
 [Other protocols]
 Іншыя пратаколы
 [Overlays]
-Аверлэі
+Абразкі
 [Windows overlay]
 Windows
 [iOS overlay (iPhone/iPad)]
@@ -133,3 +133,25 @@ debug
 ноутбук
 [Client not found]
 Нязнойдзены кліент
+[MirandaNG stable]
+Стабільная MirandaNG
+[MirandaIM (old versions)]
+MirandaIM (старая)
+[Miranda (unknown)]
+Miranda (невядома)
+[spam client]
+спам кліент
+[PHP Jabber Client]
+PHP Jabber кліент
+[Mail.Ru Agent (official)]
+Mail.Ru Агент (афіцыйны)
+[Mail.Ru (unknown client)]
+Mail.Ru (невядомы)
+[Gadu-Gadu client]
+Gadu-Gadu
+[Tlen.pl client]
+Tlen.pl
+[Jabber client]
+Jabber
+[XMPP client]
+XMPP

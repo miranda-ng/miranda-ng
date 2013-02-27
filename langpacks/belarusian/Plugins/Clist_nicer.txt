@@ -1,6 +1,6 @@
 ﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;  File: Clist_nicer.dll
-;  Module: Nicer Contact list
+;  Module: Contact list
 [Displays contacts, event notifications, protocol status.]
 Паказвае кантакты, з'явы, статусы протоколаў.
 [&Skinned frame]
@@ -523,3 +523,5 @@ xСтатус
 Паказваць "слухаю" калі даступна (мае прыярытэт)
 [Contact rows]
 Радкі кантактаў
+[Allows inline skin item editing for clist nicer.]
+Рэдактар шкурак для ўбудовы Clist nicer.

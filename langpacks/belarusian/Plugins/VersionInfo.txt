@@ -2,11 +2,11 @@
 ;  File: VersionInfo.dll
 ;  Module: Version Information
 [VersionInfo]
-Версіі
+Версіі ўбудоў
 [Customize using folders plugin]
 Налада з дапамогай модуля folders
 [Show plugin UUIDs]
-UUID модуля
+UUID убудовы
 [Output folder]
 Тэчка захавання
 [Ask every time]
@@ -18,7 +18,7 @@ UUID модуля
 [Text file]
 Тэкставы файл
 [DialogBox]
-Дыялогавае акно
+Дыялогавае вакно
 [You will need to restart Miranda to add/remove the menu item.]
 Каб дадаць ці выдаліць пункт меню трэба перазапусціць Miranda.
 [Show disabled plugins too]
@@ -66,16 +66,16 @@ UUID модуля
 [Informations successfully written on file: "%s".]
 Інфармацыя пра модулі паспяхова запісана ў файл: "%s".
 [Show plugin UUIDs ?]
-UUID модуляў
+UUID убудоў
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 Вы ўпэўнены, што жадаеце ўключыць гэту опцыю?\n Калі ласка, выкарыстоўвайце яе, толькі калі разумееце, для чаго яна ці калі хто-небудзь папытаў вас уключыць яе.
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\nIf you don't check your bug and give help, it will not be fixed!]
-Калі вы збіраецеся выкарыстоўваць гэта справаздача для паведамлення пра памылку, не забудзьцеся праверыць старонку для пытанняў ці дапамогі, якая патрэбна распрацоўнікам.\n Калі вы не апавесціце пра памылку, яна не будзе выпраўлена!
+Калі вы збіраецеся выкарыстоўваць гэту справаздачу для паведамлення пра памылку, не забудзьцеся праверыць старонку для пытанняў ці дапамогі, якая патрэбна распрацоўнікам.\n Калі вы не апавясціце пра памылку, яна не будзе выпраўлена!
 [Error during the creation of file "%s". Disk may be full or write protected.]
 Памылка стварэння файла %s. Магчыма дыск поўны ці абаронены.
 [Version Informations]
-Версіі модуляў
+Версіі ўбудоў
 [&Version Informations]
-&Версіі модуляў
+&Версіі ўбудоў
 [Output Debug String]
 Выснова адладкавых радкоў

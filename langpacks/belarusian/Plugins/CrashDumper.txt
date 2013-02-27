@@ -76,11 +76,11 @@ HTTP далучэнне Crash Dumper
 [Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
 Папярэджанне: Уключайце гэту опцыю толькі тады, калі няма іншага спосабу атрымаць справаздачу пра памылку. Вы атрымаеце на шмат больш справаздач пра памылкі чым чакалі ці пра якія трэба турбуецца.
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda  NG была завершана аварыйна. Справаздача захаваны ў \n %s\n\n Ці жадаеце вы захаваць яго ў буфер абмену?
+Miranda  NG была завершана аварыйна. Справаздача захавана ў \n %s\n\nЦі жадаеце вы захаваць яе ў буфер абмену?
 [Disable Crash Reporting]
 Выключыць справаздачы пра памылкі
 [Notify only if crash stops Miranda]
-Апавяшчаць толькі калі Miranda "валіцца"
+Апавяшчаць толькі калі Miranda "падае"
 [Copy To Clipboard]
 Капіяваць у буфер
 [Copy Version Info to clipboard]

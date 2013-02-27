@@ -14,4 +14,4 @@
 [No SysTray blink when:]
 Няма мігцення ў трэі:
 [No CLIST blink when:]
-Няма мігцення ў СК:
+Не мігаць спісам:

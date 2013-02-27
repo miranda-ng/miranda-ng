@@ -722,7 +722,7 @@ Unicode зборка
 [No list selected]
 Спіс не абраны
 [Privacy rule]
-Правила прыватнасці
+Налады прыватнасці
 [Warning: privacy lists were changed on server.]
 Увага: спісы прыватнасці захаваны на серверы.
 [If:]
@@ -882,7 +882,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 [having coffee]
 п'ю каву
 [having tea]
-п'ю чай
+п'ю гарбату
 [having a snack]
 перакусваю
 [having breakfast]
@@ -896,7 +896,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 [cycling]
 на ровары
 [hiking]
-хаджу пешшу
+пешкі
 [jogging]
 прабягаюся
 [playing sports]

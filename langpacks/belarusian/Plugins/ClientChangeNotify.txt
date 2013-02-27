@@ -1,8 +1,8 @@
 ﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
-;  File: ClientChangeNotify.dll
+;  File: ClientChangeNotify.dll ClientChangeNotifyW.dll
 ;  Module: ClientChangeNotify
-[ClientChangeNotify plugin for Miranda NG.]
-Апавяшчэнне пра змену кліента.
+[Shows a notification when someone in your contact list changes his client.]
+Папярэдзіць пра змену кліента ў Вашых кантактаў.
 [%s (was %s)]
 %s (быў %s)
 [) changed client to ]

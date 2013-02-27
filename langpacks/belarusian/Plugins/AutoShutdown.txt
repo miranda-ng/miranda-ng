@@ -1,26 +1,89 @@
 ﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;  File: AutoShutdown.dll
-;  Plugin: Adds the possibility to shutdown the computer when a specified event occurs
 [Adds the possibility to shutdown the computer when a specified event occurs.]
 Дадае магчымасць кіравання камп'ютара праз Miranda NG.
 [Shutdown]
 Выключэнне
+[&Show confirmation dialog before shutdown]
+Спытаць перад выключэннем
+[&Countdown starts at:]
+Адлік пачнецца:
 [seconds]
 секунд(ы)
+[Shutdown Events]
+З'ява аўтавыключэння
+[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+Ізноў акцівіраваць аўтавыключэнне з тымі ж наладамі, калі Міранда была зачынена з аўтавыключэннем.
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+Ігнараваць схаваныя і часовыя кантакты пры назіранні за ўсімі адключанымі кантактамі
+[Critical Shutdown Events]
+Крытычныя падзеі аўтавыключэння
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Аўтаматычна выключаць камп'ютар пры наступных з'явах:
+[&Thunderstorm warning is issued  (Weather)]
+Штармавое папярэджанне (Weather)
+[&Harddrive overheats (HDD Info)]
+Перагрэў HDD (убудова HDD info)
+[Automatic Shutdown]
+Аўтавыключэнне
+[Select the automatic shutdown event]
+Выбар з'яў для аўтавыключэння
+[Shutdown at &specific time]
+Выключыць ў азначаны час
+[Shutdown a&t:]
+Выключыць у:
+[Shutdown i&n:]
+Выкл. праз:
+[Shutdown when a &message is received containing the following text:]
+Выключыць пры атрыманні паведамлення, якое змяшчае наступны тэкст:
+[Shutdown when Miranda NG becomes &idle]
+Пераход Miranda NG у рэжым чакання
 [Configure]
 Наладзіць
+[Shutdown when &prozessor usage drops below:]
+Выключыць, калі карыстанне працэсара падзе да:
 [(current: 0%)]
 (зараз 0%)
+[Shutdown when all contacts are &offline]
+Выключыць, калі ўсе кантакты адключаны
+[Shutdown when all &file transfers are finished]
+Выключыць, калі ўсе перадачы файлаў завяршыліся
 [&Action:]
 Дзеянне:
 [Cancel]
 Скасаваць
+[Unsaved data in open applications except Miranda NG might get lost.]
+Ўсе не захаваныя дадзеныя ў іншых прыкладаннях могуць быць згублены.
+[Please click "Cancel" if you would like to abort the process.]
+Націсніце "Скасаваць", калі жадаеце спыніць
 [&Now!]
 Зараз!
+[Shutdown at:]
+Выключыць у:
 [Time left:]
 Засталося часу:
+[Progress Bar]
+Радок стана
+[Background]
+Фон
+[Countdown on Frame]
+Адлік
+[Paused]
+Паўза
+[&Unpause Countdown]
+Узнавіць адлік
+[&Pause Countdown]
+Спыніць адлік
+[&Cancel Countdown]
+Адмяніць адлік
+[AutoShutdown]
+Аўтавыключэнне
 [Header]
 Загаловак
+[Active]
+Актыўна
+[Inactive]
+Не Актыўна
 [Events]
 З'явы
 [(current: %u%%)]
@@ -37,6 +100,34 @@
 Тыдні(яў)
 [Month(s)]
 Месяц(аў)
+[Start/Stop automatic shutdown]
+Старт/Стоп аўтавыключэння
+[Stop automatic shutdown]
+Спыніць аўтавыключэнне
+[Start automatic shutdown]
+Запусціць аўтавыключэнне
+[Stop automatic &shutdown]
+Спыніць аўтавыключэнне
+[Automatic &shutdown...]
+Аўтавыключэнне...
+[Automatic Shutdown Error]
+Памылка аўтавыключэння
+[The shutdown process failed!\nReason: %s]
+Памылка працэсу аўтавыключэння!\nЧыннік: %s
+[Miranda NG is going to be automatically closed in %u second(s).]
+Miranda NG аўтаматычна зачынецца праз %u секунд(ы).
+[All Miranda NG protocols are going to be set to offline in %u second(s).]
+Усе пратаколы
+[You will be logged off automatically in %u second(s).]
+Выхад з сістэмы праз %u секунд(ы).
+[The computer will automatically be restarted in %u second(s).]
+Камп'ютар перазагрузіцца праз %u секунд(ы).
+[The computer will automatically be set to standby mode in %u second(s).]
+Камп'ютар перайдзе ў рэжым чакання праз %u секунд(ы).
+[The computer will automatically be set to hibernate mode in %u second(s).]
+Камп'ютэр перайдзе ў рэжым гібернацыі праз %u секунд(ы).
+[The workstation will automatically get locked in %u second(s).]
+Камп'ютэр заблакуецца праз %u секунд(ы).
 [All dialup connections will be closed in %u second(s).]
 Усе далучэнні разарвуцца праз %u секунд(ы).
 [The computer will automatically be shut down in %u second(s).]
@@ -71,6 +162,8 @@
 Адключыць і затым перазапусціць Windows.
 [Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
 Зачыніць усе запушчаныя праграмы і завяршыць працу Windows, каб можна было адключыць сілкаванне.
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Захаваць бягучы стан  Windows ў памяці і перавесці сістэму ў рэжым чакання.
 [Saves the current Windows session on harddisc, so that the power can be turned off.]
 Захаваць бягучы стан Windows на цвёрдым дыску, так што сілкаванне можна выключыць.
 [Locks the computer. To unlock the computer, you must log in.]

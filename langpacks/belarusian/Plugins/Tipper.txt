@@ -4,7 +4,7 @@
 [xStatus: empty xStatus name to default name]
 хстатус: пустое імя ў імя па змаўчанні
 [Tool Tip notification windows.]
-Модуль усплывальных падказак для спісу кантактаў
+Модуль усплывальных падказак для іншых убудоў.
 [Min width:]
 Мін. шырыня:
 [Min height:]

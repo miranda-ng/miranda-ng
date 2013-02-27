@@ -39,7 +39,7 @@
 [Do not show]
 Не паказваць
 [Current path]
-Бягучы шлях
+Сучасны шлях
 [Start normal]
 Звычайны запуск
 [last result]
@@ -58,6 +58,8 @@
 Капіяваць у
 [Paste from as]
 Уставіць як
+[Math]
+Матэм.
 [Variables (below)]
 Зменныя (ніжэй)
 [Variables script]
@@ -75,15 +77,15 @@
 [Message title]
 Загаловак вакна
 [OK, Cancel]
-ОК, Адмена
+ОК, Скасаваць
 [Abort, Retry, Ignore]
-Перапыніць, Паўтор, Прапусціць
+Спыніць, Паўтор, Прапусціць
 [Yes, No, Cancel]
-Так, Не, Адмена
+Так, Не, Скасаваць
 [Yes, No]
 Так, Не
 [Retry, Cancel]
-Паўтор, Адмена
+Паўтор, Скасаваць
 [not defined]
 не вызначана
 [Result as integer]
@@ -95,7 +97,7 @@
 [Variables mark]
 Зменныя
 [C&ancel]
-Адмена
+Скасаваць
 [Structure Editor]
 Рэдактар структур
 [Result as structure]
@@ -127,7 +129,7 @@
 [Choose action]
 Абярыце аперацыю
 [A&ppend]
-Д&адаць
+Дадаць
 [Action "$" exists, do you want to rewrite it?]
 Дзеянне "$" ужо існуе, ці жадаеце вы перапісаць яго?
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
@@ -158,6 +160,8 @@
 Падзея
 [hook sample]
 прыклад хука
+[QWord]
+Чвэрт.
 [Packed structure]
 Пакаваная структура
 [NativeInt]
@@ -189,9 +193,9 @@
 [Where to use]
 Месца выкарыстання
 [CList Modern toolbar]
-Панэль кнопак спісу кантактаў Modern
+Панэль кнопак CList Modern
 [TabSRMM toolbar]
-Панэль кнопак акна паведамленняў TabSRMM
+Панэль кнопак TabSRMM
 [Core Hotkey]
 Гарачая клавіша
 [Tray menu]

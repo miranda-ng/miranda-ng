@@ -1,6 +1,6 @@
 ﻿#muuid {863bfce7-31ed-4a81-af95-da2685ce1bc2}
 ;  File: FTPFile.dll
-;  Module: FTPFile YM
+;  Module: FTPFile, FTP File YM
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
 [FTP File]
@@ -161,3 +161,45 @@ FTP файл мэнэджар
 Аўтаматычна выдаліць файл праз...
 [%d days]
 %d дзён
+[FTP Server 1]
+FTP сервер 1
+[FTP Server 2]
+FTP сервер 2
+[FTP Server 3]
+FTP сервер 3
+[FTP Server 4]
+FTP сервер 4
+[FTP Server 5]
+FTP сервер 5
+[ZIP support]
+Падтрымка ZIP
+[Enter archive name manually]
+Увядзіце сваё імя архіва
+[Compression level:]
+Узровень сціску:
+[Close dialog after upload is completed]
+Зачыніць дыялог пасля запампоўкі
+[Default FTP server]
+Сервер па змаўчанні
+[Use passive mode]
+Пасіўны рэжым
+[Speed:]
+Хуткасць:
+[Do you really want to cancel all running jobs?]
+Скасаваць усе зпушчаныя заданні?
+[CANCELED]
+СКАСАВАННЕ
+[COMPLETED]
+СКОНЧАНА
+[CONNECTING...]
+ДАЛУЧЭННЕ...
+[CREATED]
+СТВОРАНА
+[PACKING...]
+АРХІВАЦЫЯ...
+[PAUSED]
+ПАЎЗА
+[WAITING...]
+ЧАКАННЕ...
+[UNKNOWN]
+НЕВЯДОМА

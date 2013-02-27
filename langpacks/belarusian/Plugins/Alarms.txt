@@ -21,7 +21,7 @@
 [Alert 3]
 Гук 3
 [Alert Window]
-Акно напамінку
+Вакно напамінку
 [Auto hide/show]
 Аўтаўтойванне
 [Auto size vertically]

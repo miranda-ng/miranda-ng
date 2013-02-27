@@ -246,4 +246,4 @@
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Нататкі і напамінкі для Miranda NG.
 [Play Sound Icon]
-Проиграть гук
+Прайграть гук

@@ -95,3 +95,13 @@
 Улічыць налады ігнаравання (змены статусаў)
 [Show Nudge]
 Патрэсці
+[Nudge for %s]
+Будзільнік для %s
+[Shake the contact list]
+Трэсці спіс кантактаў
+[Default Nudge]
+Буздільнік па змаўчанні
+[Nudge : Shake contact list/chat window]
+Будзільнік: Патрэсці спіс\гутарку
+[Nudge : Send a nudge]
+Будзільнік: Пабудзіць

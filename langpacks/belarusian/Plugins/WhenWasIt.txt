@@ -6,9 +6,9 @@
 [Birthday - %s]
 Дзень нараджэння %s
 [%s\n%s will be %d years old.]
-%s\n%s выканаецца %d .
+%s\n%s будзе %d .
 [%s\n%s just turned %d.]
-%s\n%s выканалася %d
+%s\n%s споўнілася %d
 [DTB]
 Дзён да ДН
 [Set birthday for %s:]
@@ -132,7 +132,7 @@
 [Upcoming birthdays]
 Надыходзячыя дні нараджэння
 [Closing in %d seconds]
-Аўтазакрыццё %d секунд...
+Закрыецца праз %d секунд...
 [Notify for]
 Апавяшчэнні
 [All contacts except hidden ones]

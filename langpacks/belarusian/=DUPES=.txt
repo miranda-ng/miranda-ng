@@ -49,7 +49,7 @@ xСтатус %s
 [<default>]
 <па змаўчанні>
 [<Default>]
-<Па змаўчанні>
+<Змаўчанні>
 [0 = Default]
 0=Змаўчанне
 [Abkhazian]
@@ -393,7 +393,7 @@ E-Mail
 [Enable popups]
 Усплываючыя вокны
 [Provides a common popup interface for different plugins.]
-Падтрымка ўсплываючых паведамленняў для розных дадаткаў.
+Падтрымка ўсплываючых паведамленняў для розных убудоў.
 [Enable tracking for these protocols:]
 Адсочваць наступныя пратаколы:
 [Enable]
@@ -513,9 +513,9 @@ E-Mail
 [Hindi]
 Хінді
 [Hiri Motu]
-Хіры Мантачу
+Хіры Моту
 [Home]
-Хата
+Дома
 [Homepage]
 Сайт
 [Hotkey]
@@ -683,7 +683,7 @@ E-Mail
 [Message-Event only]
 Толькі для паведамленняў
 [Message Log]
-лог
+Журнал
 [Message Session]
 Гутарка
 [Message window]
@@ -1961,7 +1961,7 @@ ID карыстача:
 [Invite]
 Запрашэнне
 [Applications]
-Дадаткі
+Убудовы
 [Adding rule]
 Дадаць правіла
 [Ask to set autoreply message when mode changes]
@@ -2001,7 +2001,7 @@ ID карыстача:
 [Set autoreply message]
 Усталяваць паведамленне аўтаадказніка
 [Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
-Нататка: калі вы не бачыце абразкі, змяніце слот. Магчыма, ён ужо выкарыстоўваецца іншым дадаткам.
+Нататка: калі вы не бачыце абразкі, змяніце слот. Магчыма, ён ужо выкарыстоўваецца іншай убудовай.
 [Number of backups to keep:]
 Колькасць рэзервовых копяў:
 [ Track ]
@@ -3347,7 +3347,7 @@ Web Дызайн
 [History format]
 Гісторыя
 [Log format]
-лог
+Фармат Журнала
 [PopUp display time]
 Гадзіна адлюстравання акна
 [Temporarily disable Popups]
@@ -3463,11 +3463,11 @@ Web Дызайн
 [Notify when a contact changes to one of these statuses]
 Паведамляць, калі статус кантакту змяняецца на:
 [Plugin activation]
-Актывізацыя дадатка
+Актывізацыя ўбудовы
 [Temporarily disable NewStatusNotify (disables popups and sounds)]
 Часова забараніць NewStatusNotify (выключыць вокны і гукі)
 [Put an item in the main menu to easily enable/disable the plugin]
-Пункт у галоўным меню для ўключэння/адключэння дадатка
+Пункт у галоўным меню для ўключэння/адключэння ўбудовы
 [Sound options]
 Параметры гуку
 [Use Internal &Speaker]
@@ -3645,7 +3645,7 @@ xСтатусы
 [Show status changes]
 Паказваць змены статусу
 [Message Window Event Log]
-лог вакна гутаркі
+Журнал гутаркі
 [pixels.]
 пікселяў
 [Message Sessions]
@@ -3793,11 +3793,11 @@ xСтатусы
 [UIN]
 Нумар
 [He]
-Ён
+Яму
 [She]
-Яна
+Ёй
 [He/She]
-Ён/яна
+Ёй/яму
 [%s has birthday in %d days.]
 %s адзначае дзень нараджэння праз %d дзён.
 [%s has birthday today.]
@@ -3825,7 +3825,7 @@ xСтатусы
 [%s: Chat Room (%u users)]
 %s: Чат-пакой (%u карыстачоў)
 [Log status changes]
-Запісваць змены статусаў у лог
+Запісваць змены статусаў
 [Indent the second line of a message]
 Водступ другога радка паведамлення
 [Show Date]
@@ -3875,7 +3875,7 @@ xСтатусы
 [An error occured while writing the database backup!]
 Памылка пры спробе запісу копіі базы дадзеных!
 [db3xSA Plugin]
-Дадатак db3xSA
+Убудова db3xSA
 [Fatal error!]
 Фатальная памылка!
 [The current version of encryption is no longer supported!\nYou need to convert your profile!]

@@ -2,7 +2,7 @@
 ;  File: yapp.dll
 ;  Module: Yet Another Popup Plugin
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-Yet Another Popup Plugin - служба ўсплывальных паведамленняў для іншых убудоў.
+Cлужба ўсплывальных паведамленняў для іншых убудоў.
 [Set timeout:]
 Працягласць:
 [Never timeout]
@@ -33,11 +33,8 @@ Yet Another Popup Plugin - служба ўсплывальных паведам�
 Таймаўт (0 = па змаўчанні):
 [Vertical indent:]
 Вертык. водступ:
-[The quick brown fox jumped over the lazy dog.]
-З'ясі ж яшчэ гэтых мяккіх французскіх булак ды выпі яду!
 [Example With a Long Title]
 Прыклад з доўгім загалоўкам
-
 [An avatar.]
 З аватарам
 [First line]

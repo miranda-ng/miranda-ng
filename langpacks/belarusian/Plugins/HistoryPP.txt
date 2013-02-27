@@ -288,7 +288,7 @@ EMail Express
 [Full History [%s] - [%s]]
 Поўная гісторыя [%s] - [%s]
 [Phrase not found]
-Выраз не знойдзена
+Выраз не знойдзены
 [Continued from the top]
 Працягнута зверху
 [Continued from the bottom]

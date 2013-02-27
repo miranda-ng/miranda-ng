@@ -507,6 +507,8 @@ VBR ці няма
 Уключыць модуль
 [Don't forget to enter Login and Password to use Last.fm service]
 Не забудзьцеся ўвесці лагін і пароль, што б карыстацца сэрвісам Last.fm
+[Don't forget to enter Login and Password to use MyShows service]
+Каб карыстацца MyShows, увяздіце логін і пароль.
 [Attempts]
 спроб
 [Disable scrobbling]
@@ -567,3 +569,41 @@ VBR ці няма
 Хаваць калі нічога не прайграваецца
 [Use popup action buttons]
 Выкарыстоўваць кнопкі дзеянняў
+[Picture transform]
+Трансфармацыя выявы
+[none]
+няма
+[kb]
+кб
+[KB]
+Кб
+[Genres]
+Жанр
+[[X]Status Title / Text]
+Загаловак статусу/Тэкст
+[Scrobble at]
+Скробліць з
+[Timeout, ms]
+Паўза, мс
+[Get Series Info]
+Інфармацыя пра серыю
+[Episode]
+Эпізод
+[Kinopoisk info page]
+Інфармацыя з Кінопошуку
+[Last.fm error: ]
+Памылка Last.fm:
+[Client is banned]
+Кліент заблакаваны
+[Bad Auth. Check login and password]
+Памылка аўтарызацыі. Праверце логін і пароль
+[Bad TimeStamp]
+Няслушны час
+[Similar artists]
+Падобныя выканаўцы
+[Music Info from ]
+Інфармацыя пра музыку ад
+[ answer you]
+адказаў
+[You Get Error]
+У Вас памылка

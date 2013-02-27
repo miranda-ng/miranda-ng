@@ -1,6 +1,5 @@
 ﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;  File: addcontactplus.dll
-;  Plugin: AddContact+
 [Add Contact\nAdd a contact to your contact list]
 Дадаць кантакт\nДадаць кантакт у спіс кантактаў
 [&Add contact...]
@@ -14,4 +13,6 @@
 [Open add contact dialog]
 Вакно дадання кнтакта
 [Add contact]
+Дадаць кантакт
+[AddContact+]
 Дадаць кантакт

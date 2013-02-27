@@ -188,7 +188,7 @@ URL навіны.
 [Email address of the author of the item.]
 E-mail аўтара навіны.
 [URL of a page for comments relating to the item.]
-URL старонкі з коментарыями да навіны.
+URL старонкі з каментарыямі да навіны.
 [A string that uniquely identifies the item.]
 ID навіны.
 [Specify one or more categories that the item belongs to.]

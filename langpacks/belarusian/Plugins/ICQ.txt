@@ -196,7 +196,7 @@
 [ALREADY EXISTS]
 УЖО ІСНУЕ
 [INVALID DATA]
-НЯВЕРНЫЯ ДАДЗЕНЫЯ
+НЯСЛУШНЫЯ ДАДЗЕНЫЯ
 [LIST FULL]
 СПІС ПОЎНЫ
 [FAILED]
@@ -422,7 +422,7 @@ ICQ-дапамога
 [Studying]
 Вучуся
 [Shopping]
-Шопінг
+Магазін
 [Feeling sick]
 Хварэю
 [Surfing]
@@ -442,7 +442,7 @@ ICQ-дапамога
 [Hot Dog]
 Хот-дог
 [Rough]
-Грубіянскі
+Буйны
 [Rock On]
 Рок On
 [Baby]
@@ -458,7 +458,7 @@ ICQ-дапамога
 [Birdie]
 Птушанятка
 [Cool]
-Стромкі
+Круты
 [Evil]
 Дэман
 [Scooter]
@@ -736,7 +736,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Немагчыма наладзіць SSL злучэнне з серверам ICQ
 [Failed to create the correct sub-group, the using closest parent group.]
-Не атрымалася зрабіць падгрупу, будзе выкарыстована ближэйшая група.
+Не атрымалася зрабіць падгрупу, будзе выкарыстана бліжэйшая група.
 [Custom Status "%s" Details]
 xСтатус "%s"
 [Retrieving custom status details...]

@@ -42,7 +42,7 @@ YAMN: збой далучэння
 [TopToolBar button "Chack mail"]
 Паказваць кнопку "Праверыць пошту"
 [Installed plugins]
-Усталяваныя дадатковыя модулі
+Усталяваныя ўбудовы
 [Use subject to detect spam]
 Выкарыстоўваць для вызначэння спаму
 [%s - %d new mails, %d total]

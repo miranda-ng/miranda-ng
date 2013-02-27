@@ -638,7 +638,7 @@ TABSRMM: Набірае
 [Frame 4]
 Кадр 4
 [Group chat log]
-лог чата
+Журнал чата
 [Remove Status (10x10)]
 Выдаліць статус (10х10)
 [Group chat windows]
@@ -648,7 +648,7 @@ TABSRMM: Набірае
 [Statuschange]
 Змена статусу
 [Image tag]
-Малюнак
+Выява
 [Quote text]
 Цытата
 [Save and close]
@@ -692,7 +692,7 @@ TABSRMM: Набірае
 [Saved Avatars]
 Аватары
 [Group chat logs root]
-Тэчка лога чатаў
+Тэчка логаў
 [TabSRMM]
 Гутаркі
 [* Message Input Area]

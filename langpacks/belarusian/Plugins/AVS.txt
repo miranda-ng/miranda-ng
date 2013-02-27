@@ -4,9 +4,9 @@
 [Loads and manages contact pictures for other plugins.]
 Загружае і кіруе аватарамі для іншых убудоў.
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
-Усталяваныя тут малюнкі з'яўляюцца аватарамі для кантактаў, у якіх няма свайго аватара. Галачка ўключае/выключае адлюстраванне стандартнага аватара для пратаколаў.
+Усталяваныя тут выявы з'яўляюцца аватарамі для кантактаў, у якіх няма свайго аватара. Галачка ўключае/выключае адлюстраванне стандартнага аватара для пратаколаў.
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-ПАПЯРЭДЖАННЕ: Гэтыя малюнкі НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
+ПАПЯРЭДЖАННЕ: Гэтыя выявы НЕ ВАШЫ аватары. Усталяваць свой аватар Вы можаце праз Галоўнае меню.
 [Set default picture]
 Усталяваць стандартнае
 [Delete default picture]

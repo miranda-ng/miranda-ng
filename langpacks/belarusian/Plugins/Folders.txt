@@ -1,8 +1,8 @@
 ﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;  File: folders.dll
 ;  Module: folders
-[Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
-Службовы модуль. Дазваляе іншым модулям захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
+[Allows plugins to save their data to user selected folders; supports variables.]
+Дазваляе іншым убудовам захоўваць свае дадзеныя ў адвольных тэчках. Падтрымліваюцца зменныя.
 [Custom folders]
 Тэчкі
 [Refresh preview]
