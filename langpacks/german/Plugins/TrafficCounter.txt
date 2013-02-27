@@ -12,8 +12,6 @@ Ausgewä. Summen
 Konten
 [Units]
 Einheiten
-[0]
-
 [Clear statistics]
 Lösche Statistiken
 [Notification]
@@ -48,8 +46,12 @@ Zähler Formatierung:
 Tooltip Formatierung:
 [Display traffic for current]
 Zeige Traffic für aktuellen
-;file \plugins\TrafficCounter\src\statistics.c
+;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
+
+[KB]
+
+[MB]
 
 [Adaptive]
 
@@ -81,7 +83,7 @@ Traffic Counter
 Konnte die Statistikdatei nicht lesen
 [Traffic Counter]
 
-;file \plugins\TrafficCounter\src\TrafficCounter.c
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Schriftart
 [Hide traffic window]
@@ -109,7 +111,7 @@ Zeichne Frame als Skin-Element
 [Show tooltip in traffic window]
 Zeige Tooltips im Trafficfenster
 ["Toggle traffic counter" in main menu]
-
+"Traffic Counter umschalten" im Hauptmenu anzeigen
 [Visible accounts/]
 Sichtbare Konten
 [Summary traffic for visible accounts]
@@ -125,7 +127,7 @@ Woche
 [Month]
 Monat
 [Year]
-
+Jahr
 [Services]
 Dienste
 [Options]

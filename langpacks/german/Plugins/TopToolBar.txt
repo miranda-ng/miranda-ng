@@ -32,8 +32,6 @@ Ausführung hinzufügen
 Platzhalter/Ausführung Löschen
 [Name: ]
 Name:
-[...]
-
 [Path:]
 Pfad:
 [Set]

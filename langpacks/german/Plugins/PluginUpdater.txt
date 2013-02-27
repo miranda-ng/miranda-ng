@@ -6,7 +6,7 @@
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Plugin updater for Miranda NG.]
-
+Plugin Updater für Miranda NG
 ;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 Updates gefunden!
@@ -92,17 +92,17 @@ Fenster
 Popups
 ;file \plugins\PluginUpdater\src\Notifications.cpp
 [Skipped.]
-
+Übersprungen
 [Will be deleted!]
-
+Wird gelöscht.
 [Downloading...]
 Laden...
 [Failed!]
-
+Fehler!
 [Succeeded.]
-
+Erfolgreich!
 [Plugin Updater]
-
+Plugin Updater
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
@@ -110,7 +110,7 @@ Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und M
 [Component Name]
 Komponentenname
 [State]
-Region
+Status
 ;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 Stunden
@@ -134,8 +134,8 @@ Keine Updates gefunden.
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
 ;file \plugins\PluginUpdater\src\Utils.cpp
 ['Yes' Button]
-
+'Ja' Button
 ['No' Button]
-
+'Nein' Button
 [Plugin Updater HTTP connection]
-
+Plugin Updater HTTP Verbindung

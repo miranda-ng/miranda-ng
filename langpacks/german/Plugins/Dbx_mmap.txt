@@ -1,10 +1,12 @@
 ﻿#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;============================================================
 ;  File: Dbx_mmap.dll
-;  Plugin: Dbx_mmap
+;  Plugin: Miranda NG mmap database driver
 ;  Version: 0.11.0.1
-;  Authors: 
+;  Authors: Miranda-NG project
 ;============================================================
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 Datenbankeinstellungen installieren

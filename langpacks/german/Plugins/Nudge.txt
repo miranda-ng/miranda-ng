@@ -18,7 +18,7 @@ als Statusänderung anzeigen
 [Auto resend nudge after]
 Nudge automatisch zurücksenden nach
 [s]
-
+s
 [Enable popup notification]
 Popup-Benachrichtigung aktivieren
 [Respect ignore settings (status changes)]
@@ -93,7 +93,7 @@ Nudge senden
 [Show Nudge]
 Zeige Nudge
 [Nudge for %s]
-
+Nudge für %s
 [Send &Nudge]
 &Nudge senden
 ;file \plugins\Nudge\src\nudge.cpp

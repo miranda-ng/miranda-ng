@@ -1,7 +1,7 @@
 ﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
 ;============================================================
-;  File: Svc_dbepp.dll
-;  Plugin: Database Editor++
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
 ;  Version: 3.2.0.0
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
@@ -153,7 +153,7 @@ Nur &ungeladene anzeigen
 [&Restore position]
 Position wiederhe&rstellen
 [&Open Options]
-
+Einstellungen öffnen
 [Item context]
 Eintragkontext
 [&Edit / Rename]
@@ -161,17 +161,17 @@ B&earbeiten/Umbenennen
 [NEW]
 Neu
 [&Byte]
-
+&Byte
 [&Word]
-
+&Word
 [&Dword]
-&DWord
+&Dword
 [&String]
-
+&String
 [&Unicode]
-
+&Unicode
 [BL&OB]
-
+BL&OB
 [&Convert to]
 Umwandeln zu
 [Encyption]
@@ -284,19 +284,15 @@ Exportieren
 Fehler beim Laden der Modulliste
 [Couldn't open file for writing]
 Konnte nicht in Datei schreiben
-[Do you want to overwrite it "%s"?]
-Soll "%s" wirklich überschrieben werden?
-[Contact already exists]
-Kontakt existiert bereits
 [Import from files]
-
+Import aus Dateien
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 Geben Sie einen Suchstring für die Datenbank ein
 [Stop]
 Stopp
 [Replaced with]
-
+Ersetzt durch
 [Deleted]
 Gelöscht
 [Found]
@@ -306,7 +302,7 @@ Gefunden
 [%s Setting "%s" in module "%s" in contact "%s" - "%s"]
 %s Einstellung "%s" in Modul "%s" in Kontakt "%s" - "%s"
 [%s Setting "%s" in module "%s" in contact "%s"]
-
+%s Einstellung "%s" in Modul "%s" in Kontakt "%s"
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
 %s "%s" in Einstellung "%s" in Modul "%s" in Kontakt "%s"
 [Searching...]

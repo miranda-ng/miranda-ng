@@ -1,5 +1,12 @@
 ﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
-;langpack template for FavContacts
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favourite contacts
+;  Version: 0.0.0.6
+;  Authors: Victor Pavlychko
+;============================================================
+[Favourite contacts menu.]
+
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 Customize
@@ -8,31 +15,31 @@ Zweite Zeile anzeigen
 [Show avatars]
 Avatare anzeigen
 [Draw avatar border]
-
+Rand um Avatar zeichnen
 [Round corners by]
 Runde Ecken um
 [px.]
-
+Px.
 [Hide for transparent avatars]
-
+Für transparente Avatare verbergen
 [Use system colors and fonts]
-
+System-Farben und -Schriften verwenden
 [Hotkey shows menu centered on screen]
-
+Hotkeys zeigen das Menu zentriert auf dem Bildschirm
 [Menu item preview:]
-
+Menueintrag Voorschau:
 [Favourite Contacts]
-
+Favourite Contacts
 [Enable groups]
-
+Gruppen aktivieren
 [Multicolumn menu]
-
+Mehrzeiliges menu
 [Configure fonts and colors...]
-
+Schriften und Farben einstellen...
 [Align to the right]
-
+Nach rechts ausrichten
 [Dim idle contact icons]
-
+Icon untätiger Kontakte abblenden
 [Show]
 Zeige
 [recent contacts]
@@ -52,4 +59,4 @@ Favoriten
 [&Favourite Contacts...]
 
 [<No group>]
-
+<Keine Gruppe>

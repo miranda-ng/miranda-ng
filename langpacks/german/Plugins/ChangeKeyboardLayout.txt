@@ -34,8 +34,6 @@ Zeichenketten für Tastaturlayout
 
 [Default]
 Standard
-[+]
-
 [Invert current state]
 Aktuellen Status umkehren
 [Switch off]
@@ -76,6 +74,9 @@ Verwerfen
 Bei Rechtsklick
 [Preview]
 Vorschau
+;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
+[ChangeKeyboardLayout]
+
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 Popup

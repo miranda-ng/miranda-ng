@@ -9,7 +9,7 @@
 Fügt einige nützliche Einstellungen zum Kontaktmenü hinzu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Enter an authorization request]
-
+Autorisierungsanfrage eingeben
 [&Send]
 &Senden
 [&Cancel]
@@ -60,15 +60,15 @@ Details eines Kontaktes automatisch aktualisieren, nachdem er Online geht
 [Status message]
 Statusnachricht
 [XStatus title]
-XStatustitel
+XStatus-Titel
 [XStatus message]
-
+xStatus-Nachricht
 [Listening to]
 Höre gerade
 [Activity title]
-
+Aktivität Titel
 [Activity text]
-
+Aktivität Text
 [Show in list]
 In Liste anzeigen
 [Always visible]
@@ -80,7 +80,7 @@ Autorisierung anfragen
 [Copy to Account]
 In Konto kopieren
 [Copy xStatus Message]
-
+xStatus-Nachricht kopieren
 [All]
 Alle
 [Messages]
@@ -90,7 +90,7 @@ URL
 [Files]
 Dateien
 [User Online]
-
+Benutzer Online
 [Authorization]
 Autorisierung
 [You Were Added]

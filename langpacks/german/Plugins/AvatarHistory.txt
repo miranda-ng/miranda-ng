@@ -22,10 +22,6 @@ Avatarverlauf
 Statisch
 [Open Folder]
 Ordner öffnen
-[<]
-
-[>]
-
 [Store this user's old avatars in disk]
 Avatare auf Datenträger speichern
 [Log this user's avatars changes to history]

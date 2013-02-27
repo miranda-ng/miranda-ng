@@ -8,9 +8,9 @@ Aktiviere das Senden folgender Medientypen:
 [Music]
 Musik
 [Radio]
-
+Radio
 [Video]
-
+Video
 [Others]
 Sonstiges
 [You also have to enable it per protocol in the main menu]
@@ -36,11 +36,11 @@ Informationen vom WATrack-Plugin beziehen
 [Get info from these players:]
 Informationen folgender Player beziehen:
 [Winamp (*)]
-
+Winamp (*)
 [Windows Media Player]
-
+Windows Media Player
 [iTunes]
-
+iTunes
 [foobar2000 (need to install the plugin manually)]
 foobar2000 (Plugin muss manuell installiert werden)
 [Other players]
@@ -52,7 +52,7 @@ Sekunden
 [Allow auto-loading plugins into players (affect players with *)]
 Plugins automatisch in Player laden (betrifft Player mit *)
 [mRadio]
-
+mRadio
 [Listening to]
 Höre gerade
 [Template:]
@@ -89,48 +89,13 @@ Andere Variablen:
 %listening% - Info wie oben eingestellt
 [When nothing is playing, replace %listening% with:]
 Wenn nichts spielt, ersetze %listening% durch:
-;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\foo_sample\foo_sample.rc
-[Bogo setting 1:]
-
-[Bogo setting 2:]
-
-[This is a sample preferences page with meaningless settings.]
-
-[Playback State Demo]
-
-[Pattern:]
-
-[State:]
-Region:
-[Context menu test area - right click me]
-
-[Play]
-Abspielen
-[Pause]
-Pause
-[Stop]
-Stopp
-[Prev]
-Zurück
-[Next]
-Weiter
-[Rand]
-
-[Sample DSP Configuration]
-
-[OK]
-OK
-[Cancel]
-Abbrechen
-[N dB]
-
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 In %s senden
 [Listening to (enabled)]
-
+Listening to (aktiviert)
 [Listening to (disabled)]
-
+Listening to (deaktiviert)
 [Send to all protocols]
 In allen Protokollen senden
 [Listening info]
@@ -138,7 +103,7 @@ In allen Protokollen senden
 [Listening info as set in the options]
 Info wie unter Status=>"Ich höre gerade" : Formate eingestellt
 [Media type: Music, Video, etc]
-
+Media type: Music, Video, etc
 [Artist name]
 Name des Interpreten
 [Album name]
@@ -148,7 +113,7 @@ Name des Liedes
 [Track number]
 
 [Song year]
-
+Lied Jahr
 [Song genre]
 
 [Song length]
@@ -162,20 +127,20 @@ In allen Protokollen, umschalten
 [Enable/Disable sending Listening To info (to all protocols)]
 Listening-To-Informationen aktivieren/deaktivieren (für alle Protokolle)
 [Disable ListeningTo (to all protocols)]
-
+ListeningTo deaktivieren (in alle Protokolle)
 [Enable ListeningTo (to all protocols)]
-
+ListeningTo aktivieren (in alle Protokolle)
 ;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Unbekannt>
 [<Nothing is playing now>]
-
+<Nichts spielt gerade>
 [Status]
 Status
 [General]
 Allgemein
 [Format]
-
+Format
 [Players]
 Player
 ;file \plugins\ListeningTo\src\players\generic.cpp

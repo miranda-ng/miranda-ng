@@ -1,5 +1,4 @@
-﻿[...]
-[IndSndList]
+﻿[IndSndList]
 [Wave Files]
 [connecting]
 [aborting]

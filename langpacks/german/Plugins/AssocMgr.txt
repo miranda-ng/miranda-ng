@@ -76,9 +76,3 @@ AIM-Link-Protokoll
 
 [Jabber Link Protocol]
 Jabber-Link-Protokoll
-[Testing Service]
-
-[Miranda Installer Package (demo purpose)]
-
-[&Install]
-

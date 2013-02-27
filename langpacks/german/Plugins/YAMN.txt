@@ -6,16 +6,12 @@
 ;  Authors: 
 ;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
-[List4]
-
-[List5]
-
 [OK]
 OK
 [Installed plugins]
 Installierte Plugins
 [Version:]
-
+Version:
 [Description:]
 Übersicht:
 [Copyright:]
@@ -40,8 +36,6 @@ Trayicon
 Tastaturblinken
 [Execute Application]
 Programm ausführen
-[...]
-
 [Use contact notification for this account]
 Kontaktlistenhinweis für dieses Konto
 [Replace nick name]
@@ -49,7 +43,7 @@ Ersetze Nickname
 [Disable Events]
 Deak. Ereign.
 [Server:]
-
+Server:
 [User Name:]
 Benutzer:
 [Password:]
@@ -59,7 +53,7 @@ Zeichensatz:
 [Port:]
 Port:
 [SSL]
-
+SSL
 [Disable STLS]
 STLS deaktivieren
 [Startup check]
@@ -78,18 +72,14 @@ Nachrichthinweis bei Fehlern
 Trayiconhinweis bei Fehlern
 [Reset counter]
 Zähler zurücksetzen
-[-]
-
 [Default]
 Standard
 [Status:]
 Status:
-[+]
-
 [Account]
 Konto
 [APOP]
-
+APOP
 [Name:]
 Name:
 [Options]
@@ -129,7 +119,7 @@ Allgemeine YAMN-Einstellungen
 [TopToolBar button "Check mail"]
 TopToolbar-Button "E-Mails abrufen"
 [Enable YAMN Main Menu]
-
+YAMN im Hauptmenu aktivieren
 [Show YAMN as a Protocol  (Require Restart)]
 Zeige YAMN als ein Protokoll (Neustart erforderlich)
 [MailBrowser Options]
@@ -194,11 +184,17 @@ Nick
 [No new mail message]
 Keine neue E-Mail-Nachricht
 ;file \plugins\YAMN\src\browser\badconnect.cpp
+[%s - connection error]
+
+[An error occured. Error code: %d]
+
 [Unknown error]
 Unbekannter Fehler
 [ - connection error]
 
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[%s - %d new mail messages, %d total]
+%s - %d neue E-Mails, %d gesamt
 [- new mail message(s)]
 - neue E-Mail(s)
 [%s : %d new mail message(s), %d total]

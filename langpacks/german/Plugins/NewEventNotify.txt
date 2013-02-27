@@ -52,9 +52,9 @@ Popups eines Kontaktes zusammenfügen
 [Preview]
 Vorschau
 [Show Date]
-
+Datum anzeigen
 [Show Time]
-
+Zeit anzeigen
 [Show Headers]
 Titel anzeigen
 [Number of begin shown messages]
@@ -73,18 +73,37 @@ Keine Popups für gelesene Nachrichten
 [Message Session]
 Nachrichtensitzung
 [Message Received]
-
+Nachricht empfangen
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
 Popups
+;file \plugins\NewEventNotify\src\neweventnotify.h
+[Contacts]
+Kontakte
+[You were added!]
+Sie wurden hinzugefügt!
+[Requests your authorisation]
+Erbittet deine Autorisation
+[ICQ Web pager]
+
+[ICQ Email express]
+ICQ-E-Mail-Express
+[Unknown Event]
+Unbekanntes Ereignis
+[Notify of new events]
+Ereignis-Benachrichtigung
+[Enable new event notification]
+Ereignismeldungen aktivieren
+[Disable new event notification]
+Ereignismeldungen deaktivieren
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Ereignismeldungen
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
-
+%d Kontakte empfangen.
 [ added you to the contact list]
-
+ hat Sie zu Ihrer Kontaktliste hinzugefügt
 [ requested authorization]
 
 [This is a sample message event :-)]

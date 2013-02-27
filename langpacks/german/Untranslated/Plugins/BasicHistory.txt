@@ -1,5 +1,4 @@
 ﻿[History viewer for Miranda NG.]
-[...]
 [Task]
 [Filter]
 [Triger type]

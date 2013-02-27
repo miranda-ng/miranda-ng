@@ -13,7 +13,6 @@
 [<all>]
 [Hosts]
 [Ping Plugin]
-[Failed to initialize. Plugin disabled.]
 [Show grid lines]
 [Show stats]
 [%d ms]

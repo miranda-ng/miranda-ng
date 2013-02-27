@@ -1,10 +1,12 @@
 ﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
-;  Plugin: HistorySweeperLight
+;  Plugin: History sweeper light
 ;  Version: 0.0.0.7
-;  Authors: 
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico
 ;============================================================
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Diese Plugin kann den Systemverlauf, den Verlauf aller Kontakte oder eines Kontaktes löschen. Der Verlauf älter als ein Datum kann gelöscht werden. Der Verlauf kann beim Start/Beenden von Miranda NG gelöscht werden.
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 

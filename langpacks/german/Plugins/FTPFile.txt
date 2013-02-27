@@ -142,6 +142,20 @@ Link kopieren
 [Do you really want to cancel all running jobs?]
 
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP Server 1]
+
+[FTP Server 2]
+
+[FTP Server 3]
+
+[FTP Server 4]
+
+[FTP Server 5]
+
+[Send file]
+Datei senden
+[Resume]
+Fortsetzen
 [FTP File]
 
 [FTP Server %d]
@@ -166,8 +180,6 @@ Zeige FTP-File-Dialog
 Sie müssen erst die FTP-Server einstellungen vornehmen, bevor Sie eine Datei uploaden können.
 [Error has occurred while trying to create a dialog!]
 Es ist ein Fehler aufgetreten, weil Sie versucht haben, einen Dialog zu erstellen.
-[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
-FTP File YM konnte nicht geladen werden, da die libcurl.dll fehlt, im falschen Verzeichnis liegt oder in der falschen Version vorliegt.
 [File upload complete]
 Dateiupload abgeschlossen
 [Upload canceled]
@@ -213,8 +225,6 @@ Alle Dateien (*.*)
 [Status: %s\r\nFile: %s\r\nServer: %s]
 
 ;file \plugins\FTPFileYM\src\job_upload.cpp
-[Resume]
-Fortsetzen
 [File exists - %s]
 
 [Error occurred when opening local file.\nAborting file upload...]

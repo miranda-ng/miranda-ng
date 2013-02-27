@@ -196,6 +196,8 @@ Importieren erfolgreich.
 
 [List export successful.]
 Exportieren erfolgreich.
+[Me]
+Ich
 [Unknown client]
 Unbekannter Client
 [You have logged in at another location]
@@ -333,12 +335,12 @@ Lösche Bild
 [Clear ignored conferences]
 Ignorierte Konferenzen löschen
 [Concurrent sessions]
-
+Gleichzeitige Sitzungen
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
-
+B&ild
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-
+Bilddateien (*.bmp,*.gif,*.jpeg,*.jpg,*.png)
 [Image cannot be written to disk.]
 Das Bild konnte nicht auf die Festplatte geschrieben werden.
 [Delete image from the list]
@@ -367,7 +369,7 @@ Sie müssen verbunden sein, bevor Sie Kontakte vom/zum Server ex-/importieren k�
 [List cannot be removeed because of error: %s (Error: %d)]
 
 [Text files]
-
+Textdateien
 [All Files]
 Alle Dateien
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]

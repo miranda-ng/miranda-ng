@@ -48,8 +48,6 @@ Beenden, wenn Benutzer untätig w&ird
 Einstellungen
 [Shutdown when &prozessor usage drops below:]
 
-[%]
-
 [(current: 0%)]
 
 [Shutdown when all contacts are &offline]

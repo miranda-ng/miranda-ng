@@ -15,7 +15,7 @@ Passwort:
 [Nickname:]
 Nick:
 [Create a new Windows Live account]
-Ein neues Windows Live Konto erstellen ...
+Ein neues Windows Live Konto erstellen
 [Expert]
 Experte
 [Send message font color/size info inside messages]
@@ -24,21 +24,15 @@ Farbe und Größe der Nachrichtenschrift senden
 Alle Kontakte deaktivieren, die nicht in meiner Kontaktliste sind
 [Manage server groups]
 Serverseitige Gruppen verwalten
-[Allow people on my contact list send messages to mobile device]
-Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
 [Run the following application when new Hotmail arrives]
 Führe folgendes Programm aus, sobald eine neue Hotmail eintrifft:
-[...]
-
+[Allow people on my contact list send messages to mobile device]
+Kontakte auf meiner Kontaktliste dürfen Nachrichten auf mein mobiles Gerät senden
 [Connection settings]
 Verbindungseinstellungen
 [Direct:]
 Direkt:
-[ 1863]
-
 [Gateway:]
-
-[ 80]
 
 [Reset]
 Standard
@@ -123,6 +117,8 @@ Hinzufügen
 ;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 
+[Me]
+Ich
 [Others]
 Sonstiges
 [&Invite user...]
@@ -221,7 +217,7 @@ Blockiere Benutzer
 [Invite to chat]
 Zum Chat einladen
 [Start Netmeeting]
-
+Netmeeting starten
 [Contact list]
 Kontaktliste
 [Allowed list]
@@ -237,7 +233,7 @@ Der Import von serverseitigen Gruppen wird Ihre Kontaktliste verändern. Wollen 
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 Sie müssen sich neu ins MSN-Netzwerk einwählen, bevor die Änderungen wirksam werden.
 [MSN Options]
-
+MSN Einstellungen
 [Automatically obtain host/port]
 Host/Port automatisch ermitteln
 [Manually specify host/port]
@@ -263,13 +259,11 @@ Benachrichtigung
 Kontakt versucht Informationen über die von ihm verwendete Webcam zu senden (zzt. nicht unterstützt)
 [Contact tried to view our webcam data (currently not supported)]
 Kontakt versucht Informationen über Ihre verwendete Webcam abzufragen (zzt. nicht unterstützt)
-[Contact tried to share media with us (currently not supported)]
-
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
-
+Live Mail
 [Live Alert]
-
+Live Alert
 [%s plugin HTTPS connections]
 %s Plugin-HTTPS-Verbindungen
 [%s plugin connections]

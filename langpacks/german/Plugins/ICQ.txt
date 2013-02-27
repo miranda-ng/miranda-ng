@@ -11,7 +11,7 @@ ICQ-Nummer:
 [Password:]
 Passwort:
 [Create a new ICQ account]
-Ein neues ICQ-Konto erstellen ...
+Ein neues ICQ-Konto erstellen
 [Enter an authorization request]
 Autorisierungsanfrage eingeben
 [&Send]
@@ -35,9 +35,9 @@ ICQ-Nummer:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
 Tipp: Geben Sie hier kein Passwort ein, so wird immer beim Verbinden danach gefragt.
 [Retrieve a lost password or ICQ number]
-ICQ-Nummer oder Passwort vergessen? Hier klicken ...
+ICQ-Nummer oder Passwort vergessen? Hier klicken
 [Create a new ICQ account using the ICQ website]
-Ein neues ICQ-Konto über die ICQ-Webseite erstellen ...
+Ein neues ICQ-Konto über die ICQ-Webseite erstellen
 [Connection settings]
 Verbindungseinstellungen
 [Login Server:]
@@ -162,7 +162,7 @@ Aussehen && Verhalten
 Hgrd.farbe
 [Text Color]
 Textfarbe
-[Timeout (*)]
+[Timeout]
 Zeitüberschreitung
 [Note]
 Anmerkung
@@ -180,8 +180,6 @@ Windowsfarben verwenden
 System&icons verwenden
 [Previe&w]
 Vorschau
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Zeitüberschreitung erfordert Popup v. 1.0.1.9 oder neuer
 [Use default colours]
 Standardfarben verwenden
 [UIN:]
@@ -418,8 +416,6 @@ Angola
 Anguilla
 [Antigua and Barbuda]
 Antigua und Barbuda
-[Antilles]
-Antillen
 [Argentina]
 Argentinien
 [Armenia]
@@ -450,8 +446,6 @@ Bahrain
 Bangladesch
 [Barbados]
 Barbados
-[Barbuda]
-Barbuda
 [Belarus]
 Weissrussland
 [Belgium]
@@ -502,8 +496,6 @@ Tschad
 Chile
 [China]
 China
-[Cocos (Keeling) Islands]
-Kokos Inseln
 [Colombia]
 Kolumbien
 [Comoros]
@@ -724,10 +716,8 @@ Niederlande (Bonaire  Insel)
 Niederlande (Saba Insel)
 [Netherlands (St. Eustatius Island)]
 Niederlande (St. Eustatius Insel)
-[Nevis]
-Nevis
 [New Caledonia]
-Neu Kaledonien
+Neukaledonien
 [New Zealand]
 Neuseeland
 [Nicaragua]
@@ -737,19 +727,19 @@ Niger
 [Nigeria]
 Nigeria
 [Niue]
-
+Niue
 [Northern Mariana Islands, US Territory of]
-
+Nördliche Marianen-Inseln, US-Territorium
 [Norway]
 Norwegen
 [Oman]
-
+Oman
 [Pakistan]
-
+Pakistan
 [Palau]
-
+Palau
 [Panama]
-
+Panama
 [Papua New Guinea]
 Papua Neuguinea
 [Paraguay]
@@ -770,8 +760,6 @@ Katar
 Reunion Insel
 [Romania]
 Rumänien
-[Rota Island]
-Rota Inseln
 [Russia]
 Russland
 [Rwanda]
@@ -782,8 +770,6 @@ Samoa (USA)
 Samoa, Westen
 [Saint Helena]
 St. Helena
-[Saint Kitts]
-St. Kitts
 [Saint Kitts and Nevis]
 St. Kitts und Nevis
 [Saint Lucia]
@@ -792,8 +778,6 @@ St. Lucia
 St. Pierre und Miquelon
 [Saint Vincent and the Grenadines]
 St. Vincent und Grenadinen
-[Saipan Island]
-Saipan Insel
 [San Marino]
 San Marino
 [Sao Tome and Principe]
@@ -846,16 +830,14 @@ Tadschikistan
 Tansania
 [Thailand]
 Thailand
-[Tinian Island]
-Tinian Inseln
 [Timor, East]
 Timor, Ost
 [Togo]
 Togo
 [Tokelau]
-
+Tokelau
 [Tonga]
-
+Tonga
 [Trinidad and Tobago]
 Trinidad und Tobago
 [Tunisia]
@@ -993,7 +975,7 @@ Haustiere und Tiere
 [Publishing]
 Verlagswesen
 [Religion]
-
+Religion
 [Retail Stores]
 Kaufhäuser
 [Science]
@@ -1531,13 +1513,13 @@ Pro7
 [Love]
 Liebe
 [Hot Dog]
-
+Hot Dog
 [Rough]
 Hart drauf
 [Rock On]
 Am rocken
 [Baby]
-
+Baby
 [Soccer]
 Fußball
 [Pirate]
@@ -1549,7 +1531,7 @@ Affe
 [Birdie]
 Vögelchen
 [Cool]
-
+Cool
 [Evil]
 Böse
 [Alien]
@@ -1561,9 +1543,9 @@ Maske
 [Money]
 Geld
 [Pilot]
-
+Pilot
 [Afro]
-
+Afro
 [St. Patrick]
 St. Patrick's Day
 [Headmaster]
@@ -1573,7 +1555,7 @@ Lippen
 [Ice-Cream]
 Eiscreme
 [Pink Lady]
-
+Pink Lady
 [Up yours]
 Leck mich!
 [Laughing]
@@ -1585,23 +1567,23 @@ Süßigkeiten
 [Crazy Professor]
 Verrückter Professor
 [Ninja]
-
+Ninja
 [Cocktail]
-
+Cocktail
 [Punch]
 Schlag
 [Donut]
-
+Donut
 [Feeling Good]
 Wohlfühlen
 [Lollypop]
 Lutscher
 [Oink Oink]
-
+Oink Oink
 [Kitty]
 Kätzchen
 [Sumo]
-
+Sumo
 [Broken hearted]
 Gebrochenen Herzens
 [Free for Chat]
@@ -1615,7 +1597,7 @@ Erdbeere
 [Angel]
 Engel
 [Pizza]
-
+Pizza
 [Snoring]
 Schnarchen
 [On my mobile]
@@ -1644,7 +1626,7 @@ Schreiben
 Keine
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
-
+Grußkarte:
 ;file \protocols\IcqOscarJ\src\init.cpp
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
@@ -1669,7 +1651,7 @@ Der angegebene Server existiert nicht. Eintrag prüfen unter Einstellungen -> Pr
 
 ;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
-
+%d Dateien
 [The file transfer was aborted by the other user.]
 Dateiübertragung wurde durch die Gegenseite abgebrochen.
 [The file transfer failed: Proxy error]
@@ -1692,7 +1674,7 @@ Datenübertragung aus unbekannten Gründen fehlgeschlagen.
 
 ;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
-
+<ungültig>
 ;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [GMT-12:00 Eniwetok; Kwajalein]
 GMT-12:00 Internationale Datumsgrenze (Westen)

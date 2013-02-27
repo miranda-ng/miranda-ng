@@ -81,9 +81,6 @@ Avatare je Protokoll setzen
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokolle haben unterschiedliche Avatare
-;file \plugins\AVS\src\commonheaders.h
-[Global avatar]
-Globaler Avatar
 ;file \plugins\AVS\src\main.cpp
 [Grow avatar to fit max allowed protocol size]
 Avatargröße an maximale Protokollgröße anpassen
@@ -96,7 +93,7 @@ JPEG-/JPG-Bilder
 [GIF Bitmaps]
 GIF-Bilder
 [PNG Bitmaps]
-
+
 [Flash Animations]
 
 [XML Files]
@@ -107,14 +104,10 @@ Meinen Avatar einstellen
 Setze Mein Avatar für %s
 [Global avatar for %s accounts]
 Globaler Avatar für %s Konten
-[Avatars]
-Avatare
-[My Avatars]
-Meine Avatare
-[My Global Avatar Cache]
-Mein globaler Avatar-Cache
 [Contacts]
 Kontakte
+[Avatars]
+Avatare
 [Protocols]
 Protokolle
 [Contact Avatars]

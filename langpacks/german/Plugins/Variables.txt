@@ -86,9 +86,9 @@ Empfängt den Titel des aktuell in Winamp abgespielten Liedes
 [retrieves current Winamp state (Playing/Paused/Stopped)]
 Empfängt den Status von Winamp (Spielt/Pausiert/Gestoppt)
 [retrieves info from AMIP (x is var_<variable> with any AMIP variable)]
-
+Empfängt Info von AMIP (x ist var_<variable> mit einer AMIP-Variable)
 [retrieves info from AMIP (x is AMIP format string)]
-
+Empfängt Info von AMIP (x ist AMIP Format String)
 ;file \plugins\Variables\src\parse_inet.cpp
 [Internet Related]
 Internet-bezogen
@@ -139,7 +139,7 @@ Ausführen von logischem XOR (x ^ y)
 [Mathematical Functions]
 Mathematische Funktionen
 [x + y + ...]
-
+x + y + ...
 [x divided by y]
 x geteilt durch y
 [converts decimal value x to hex value and padds to length y]
@@ -159,7 +159,7 @@ Füllt dezimalen Wert x mit Nullen bis zu Länge y
 [random number]
 Zufallszahl
 [x - y - ...]
-
+x - y - ...
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 [MetaContacts]
 Metakontakte
@@ -191,9 +191,9 @@ wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
 Benutzername für den aktuell angemeldeten Windows-Benutzer.
 ["My Documents" folder for currently logged-on Windows user]
-
+"Meine Dokumente" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 ["Desktop" folder for currently logged-on Windows user]
-
+"Desktop" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 [Miranda Related]
 Miranda-Bezogen
 [translates status code x into a status description]
@@ -235,7 +235,7 @@ Abruf des Anzeigenamens des Kontakts
 [get the date and time (using Miranda format)]
 Abruf von Datum und Zeit (verwende Miranda-Format)
 [TRUE if service function exists]
-
+WAHR wenn Service-Funktion existiert
 ;file \plugins\Variables\src\parse_regexp.cpp
 [Regular Expressions]
 Reguläre Ausdrücke
@@ -359,6 +359,8 @@ Formatiert Zeitstempel x (Sekunden seit 1.1.1970) in Zeitformat y
 y > 0: Zeile y aus Datei x, y = 0: komplette Datei, y < 0: Zeile y (von unten) aus Datei x, y = r: Zufallszeile
 [uptime in seconds]
 Laufzeit in Sekunden
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [expand environment variable x]
 Liest Umgebungsvariable x aus
 [user name]
@@ -374,9 +376,9 @@ x, und speichert y als Variable x
 Speichert nur Variable y als x
 ;file \plugins\Variables\src\parse_xml.cpp
 [XML]
-
+XML
 [apply stylesheet file x to document file y]
-
+Wende Stylesheet-Datei x auf Dokument-Datei y an.
 [apply stylesheet x to document y]
-
+Wende Stylesheet x auf Dokument y an.
 ;file \plugins\Variables\src\variables.cpp

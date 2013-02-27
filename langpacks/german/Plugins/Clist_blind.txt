@@ -112,8 +112,6 @@ Transparente Kontaktliste
 Deckkraft inaktiv:
 [Active opacity:]
 Deckkraft aktiv:
-[000%]
-
 [Show menu bar]
 Menüleiste anzeigen
 [Easy move]
@@ -170,34 +168,32 @@ Alle Protokolle gleiche Breite
 Rahmen um Protokolle
 [Show resize grip indicator]
 Ecke zur Größenänderung anzeigen
-[&¤]
-
 [E&xit]
 B&eenden
 [&Status]
-
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
 [Tray]
-
+
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -233,6 +229,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]

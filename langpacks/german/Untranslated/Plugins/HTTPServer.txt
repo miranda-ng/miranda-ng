@@ -1,4 +1,5 @@
-﻿[IPAddress1]
+﻿[HTTP Web Server plugin for Miranda.]
+[IPAddress1]
 [IPAddress2]
 [Max downloads]
 [Miranda NG HTTP-Server]

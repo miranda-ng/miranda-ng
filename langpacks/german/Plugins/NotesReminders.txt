@@ -10,23 +10,23 @@ Breite (Pixel)
 [Height (Pixels)]
 Höhe (Pixel)
 [Notes Appearance]
-
+Notizen Aussehen
 [Show Scrollbars]
 Zeige Bildlaufleisten
 [Show Buttons]
-
+Buttons anzeigen
 [Title Date]
-
+Titel Datum
 [Title Time]
-
+Titel Zeit
 [Startup options]
 Startoptionen
 [Hide notes at startup]
-
+Notizen beim Start verbergen
 [Add Contact list menu items]
 Füge Kontaktlisteneintrag hinzu
 [(Requires Miranda restart)]
-
+(benötigt Miranda Neustart)
 [Reminder options]
 
 [Add Reminder closes dialog]
@@ -35,16 +35,10 @@ Füge Kontaktlisteneintrag hinzu
 
 [Note Transparency (Minimum Win 2k/XP)]
 
-[0%]
-
-[100%]
-
 [Send Reminders through E-mail / SMS :]
 Erinnerungen durch E-Mail / SMS senden:
 [Open links with this program instead:]
-
-[...]
-
+Links mit diesem Programm öffnen:
 [Reset to defaults]
 Zurücksetzen auf Standards
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
@@ -72,7 +66,7 @@ Monatlich
 [Repeat Alert Sound]
 
 [Use Sound]
-
+Sound verwenden
 [&Add Reminder]
 Erinnerungen hinzufügen
 [&Close]
@@ -84,7 +78,7 @@ Zeige Erinnerungen
 [Reminder]
 Erinnerung
 [After:]
-
+Nach:
 [On Time && Date:]
 
 [&Remind Again]
@@ -110,13 +104,13 @@ Neue hinzufügen
 [Context Menu Note Popup]
 
 [&Hide Note]
-
+Notiz verbergen
 [&Always On Top]
-
+Immer im Vordergrund
 [&New Note]
 &Neue Notiz
 [&Delete Note]
-
+Notiz löschen
 [Appearance]
 Erscheinungsbild
 [Background Color]
@@ -130,9 +124,9 @@ Textfarbe
 [Font]
 Schriftart
 [Paste Title]
-
+Titel einfügen
 [Reset Title]
-
+Titel zurücksetzen
 [Undo]
 Rückgängig
 [&Copy]
@@ -144,39 +138,42 @@ A&usschneiden
 [C&lear]
 &Löschen
 [&View Notes]
-
+Notizen anzeigen
 [&Bring All To Front]
-
+Alle nach Vorne bringen
 [Context Menu Note ListView]
 
 [Edi&t Note]
-
+Notiz bearbeiten
 [&Visible]
 Sichtbar
 [Always &On Top]
-
+Immer im Vordergrund
 [Delete &All Notes]
-
+Alle Notizen löschen
 [&Show / Hide Notes]
 Zeige / Ver&stecke Notizen
+;file \plugins\NotesAndReminders\src\globals.h
+[Notes & Reminders]
+Notizen & Erinnerungen
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [New Note]
-
+Neue Notiz
 [Toggle Notes Visibility]
 
 [Bring All Notes to Front]
-
+Alle Notizen in Vordergrund bringen
 [New Reminder]
-
+Neue Erinnerung
 ;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
 
 [Are you sure you want to delete all reminders?]
 
 [Delete All Notes]
-
+Alle Notizen löschen
 [Show/Hide Notes]
-
+Notizen zeigen/verbergen
 [On Top Caption Icon]
 
 [Delete All Reminders]
@@ -190,17 +187,17 @@ Ale Erinnerungen löschen
 [Remove Note Icon]
 
 [Reminder Icon]
-
+Erinnerungs-Icon
 [Bring All to Front]
 
 [Play Sound Icon]
 
 [View Notes]
-
+Notizen anzeigen
 [Plugins]
 Plugins
 [Add New Note]
-
+Neue Notiz hinzufügen
 [Add New Reminder]
 Neue Erinnerung hinzufügen
 [Alerts]

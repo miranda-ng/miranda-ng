@@ -2,15 +2,15 @@
 ;langpack template for PManagerEx
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
-
+Miranda NG wird beendet und DatabaseChecker wird gestartet\n\nSind Sie sicher, dass Sie dies wollen?
 [Check Database]
-
+Datenbank prüfen
 [Database]
 Datenbank
 [Load profile]
-
+Profil laden
 [Change profile]
-
+Profil ändern
 [Check database]
 Datenbank überprüfen
 [Restart]

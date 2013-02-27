@@ -24,7 +24,7 @@ URL
 [Files]
 Dateien
 [User Online]
-
+Benutzer Online
 [Authorization]
 Autorisierung
 [You Were Added]
@@ -37,6 +37,8 @@ Vollständiges Ignorieren
 Teilweises Ignorieren
 [Message Ignore]
 Nachrichten ignorieren
+[Ignore State]
+
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Icons

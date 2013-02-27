@@ -5,7 +5,6 @@
 [Denial Message]
 [Invitation Message]
 [Host]
-[Avatar upload failed!?!]
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
 [Join My Conference...]
@@ -16,5 +15,4 @@
 [[miranda] Got webcam invite. (not currently supported)]
 [Unknown Error??.]
 [Yahoo System Message]
-[You have been logged out of the yahoo service.]
 [Custom error %s]

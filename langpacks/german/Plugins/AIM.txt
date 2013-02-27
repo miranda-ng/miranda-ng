@@ -137,6 +137,8 @@ Nachricht
 [Room]
 Raum
 ;file \protocols\AimOscar\src\chat.cpp
+[Me]
+Ich
 [Others]
 Sonstiges
 [&Invite user...]
@@ -290,13 +292,11 @@ AIM-Link-Protokoll
 %s Client-to-Client-Verbindung
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-[Automatische Antwort]:
+
 [Contact tried to open an audio/video conference (currently not supported)]
 
 [No information has been provided by the server.]
 Es wurden keine Informationen über den Server ermittelt.
-[Successfully removed buddy from list.]
-Der Kontakt wurde erfolgreich von der Liste entfernt.
 [Item you want to delete not found in list.]
 Das Artikel zum löschen wurde in der Liste nicht gefunden.
 [Failed to add buddy to list: Item already exist.]
@@ -311,8 +311,6 @@ Fehler beim Versuch den ICQ Kontakt in die AIM-Liste aufzunehmen!
 Konnte den Kontakt nicht hinzufügen, da eine Autorisation benötigt wird.
 [Unknown error when adding buddy to list. Error code %#x]
 Unbekannter Fehler beim hinzufügen eines Kontaktes in Ihre Liste. Fehlercode %#x
-[Successfully modified group.]
-
 [Item you want to modify not found in list.]
 Der Kontakt den Sie modifizieren möchten wurde in ihrer Liste nicht gefunden.
 [Unknown error when attempting to modify a group. Error code %#x]
@@ -393,9 +391,9 @@ Normaler Stil
 [Not Normal Script]
 Nicht normaler Stil
 [AIM Account Type]
-
+AIM Account Typ
 [AIM Extended Status]
-
+AIM erweiterter Status
 [&Block]
 &Blockieren
 [&Unblock]

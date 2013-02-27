@@ -52,8 +52,6 @@ Aktivieren
 Gehen Sie zu Customize -> Klänge und wählen Sie die Klänge aus
 [Extra status]
 XStatus
-[...]
-
 [Open]
 Öffnen
 [Status message]
@@ -193,6 +191,9 @@ Klang für den Status
 Von offline
 [** All contacts **]
 ** Alle Kontakte **
+;file \plugins\NewXstatusNotify\src\indsnd.h
+[(default sound)]
+Standardton
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 <keine Statusnachricht>
@@ -363,6 +364,8 @@ Aktivität
 änderte %N-Nachricht in:%D%I
 [removed %N]
 entfernte %N
+[changed his/her status message to %n]
+ändert seine/ihre Statusnachricht zu %n
 [changed %N @ %T%D%I]
 änderte %N @ %T%D%I
 [changed %N message @ %I]

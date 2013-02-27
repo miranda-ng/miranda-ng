@@ -9,9 +9,7 @@
 Erinnert Sie an kommende Geburtstage.
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays:]
-
-[  ]
-
+Benachrichtige über Geburtstage:
 [Popups]
 Popups
 [Popup timeout:]
@@ -53,7 +51,7 @@ Zeige
 [in birthday list window]
 in der Geburtstagsliste.
 [Dialog]
-
+Dialog
 [Timeout:]
 Dauer:
 [seconds.]
@@ -71,7 +69,7 @@ Schließen
 [Show all contacts]
 Alle Kontakte zeigen
 [Set birthday:]
-
+Geburtstag setzen:
 [OK]
 OK
 [Manage anniversaries]
@@ -174,7 +172,7 @@ Geburtstag ändern/hinzufügen
 [1 day to birthday]
 1 Tag bis zum Geburtstag
 [WhenWasIt birthday reminder]
-
+WhenWasIt Geburtstagserinnerungen
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 Keine kommenden Geburtstage.
@@ -192,6 +190,8 @@ Keine kommenden Geburtstage.
 
 [Birthday - %s]
 Geburtstag - %s
+[He]
+Er
 [She]
 Sie
 [He/She]
@@ -237,3 +237,6 @@ Warnung
 
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 
+;file \plugins\WhenWasIt\src\services.h
+[Could not find UID '%s [%S]' in current database, skipping]
+Kann die UID '%s [%S]' nicht in der aktuellen Datenbank finde, überspringe

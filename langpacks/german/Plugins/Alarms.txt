@@ -108,8 +108,6 @@ Verwerfen
 
 [Static]
 Statisch
-[...]
-
 [Reminder Frame Context]
 
 [&Suspend]
@@ -133,6 +131,18 @@ Alarm stellen
 Beispielalarm
 [Some example text. Example, example, example.]
 Ein Beispieltext. Beispiel, Beispiel, Beispiel.
+[5 mins]
+
+[15 mins]
+
+[30 mins]
+
+[1 hour]
+1 Stunde
+[1 day]
+1 Tag
+[1 week]
+
 [Title]
 Titel
 [Background]

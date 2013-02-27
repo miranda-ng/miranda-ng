@@ -1,6 +1,4 @@
 ﻿[ms]
-[Behavior]
-[000%]
 [Tooltip Notify: Online]
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]

@@ -14,8 +14,6 @@ Splash - Optionen
 Splash zeigen
 [Show random splash]
 Bild zufällig aussuchen
-[...]
-
 [Play sound]
 Sound abspielen
 [Loop sound]

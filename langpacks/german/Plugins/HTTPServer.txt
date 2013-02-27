@@ -1,5 +1,12 @@
 ﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
-;langpack template for HTTPServer
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[HTTP Web Server plugin for Miranda.]
+
 ;file \plugins\HTTPServer\res\resource.rc
 [IPAddress1]
 
@@ -69,8 +76,6 @@ max. Verbindungen gesamt
 max. Verbindungen/Kontakt
 [Default download limit]
 Standard-DL-Begrenzung
-[1]
-
 [&Edit share]
 Freigabe b&earbeiten
 [&Remove share]
@@ -144,9 +149,6 @@ HTTP Datei freigeben
 ;file \plugins\HTTPServer\src\HttpUser.cpp
 [Share removed]
 Freigabe entfernt
-;file \plugins\HTTPServer\src\IndexHTML.cpp
-[HTTPServerIndex.html not found in Plugin Path]
-
 ;file \plugins\HTTPServer\src\main.cpp
 [Failed to open or create log file]
 

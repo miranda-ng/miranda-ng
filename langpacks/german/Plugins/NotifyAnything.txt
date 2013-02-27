@@ -1,10 +1,5 @@
 ﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
-;============================================================
-;  File: NotifyAnything.dll
-;  Plugin: NotifyAnything
-;  Version: 0.0.2.8
-;  Authors: Daniel Wesslén, Korney San
-;============================================================
+;langpack template for NotifyAnything
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
 
@@ -32,8 +27,8 @@ Port:
 
 [Password:]
 Passwort:
-[...]
-
+;file \plugins\NotifyAnything\src\common.h
+[NotifyAnything]
 
 ;file \plugins\NotifyAnything\src\main.cpp
 [No resource name given.]
@@ -72,8 +67,6 @@ Dienste
 [Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
 
 [Invalid port number]
-
-[NotifyAnything]
 
 [Plugins]
 Plugins

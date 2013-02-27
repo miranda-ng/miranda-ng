@@ -2,7 +2,7 @@
 ;langpack template for Omegle
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
-
+Server:
 [Visible name:]
 Sichtbarer Name:
 [Meet strangers with common interests (separated by commas):]
@@ -29,9 +29,9 @@ Treffe neue Fremde mit gemeinsamen Interessen
 Ihre Interessen (durch Komma trennen)
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
-
+Server
 [Last question is empty.]
-
+Letzte Frage ist leer.
 [Your question is too short.]
 Ihre Frage ist zu kurz.
 [Your '/asl' setting is empty.]
@@ -45,21 +45,17 @@ Unbekannter Befehl. Benutzen Sie '/commands' für eine Übersicht.
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 Sie sind zu keinem Fremden verbunden. Senden Sie '/help' oder '/commands' für Hilfe oder Übersicht.
 [You can't send messages in question mode.]
-
+Sie können im Frage-Modus keine Nachrichten senden
 [Omegle is a great way of meeting new friends!]
 Das Omegle-Protokoll ist ein schöner Weg neue Freunde zu finden!
 [You]
-
+Sie
 ;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
-
-[Chosing server: ]
-
+Verbindungsfehler.
 [Connected to server %s. There are %s users online now.]
 Verbinde zum Server %s. Es sind insgesamt %s Nutzer online.
 [Connected to server %s.]
-
-[On whole Omegle are %s strangers online now.]
 
 [Stranger 1]
 Fremder 1
@@ -88,8 +84,6 @@ Sie und der Fremde mögen beide:
 Verbinden...
 [Waiting for Stranger...]
 Warte auf Fremden...
-[We are disconnecting now, wait...]
-
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 %s Serververbindung

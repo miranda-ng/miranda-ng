@@ -33,7 +33,6 @@
 [Tlen Mail]
 [Send picture]
 [1 File]
-[%d Files]
 [Image sent file://%s]
 [Image received file://%s]
 [...Connecting...]

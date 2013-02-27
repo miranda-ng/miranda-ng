@@ -30,8 +30,6 @@ Filter löschen
 Ereignis hinzufg.
 [Delete event]
 Ereignis löschen
-[...]
-
 [WinSCP path]
 WinSCP-Pfad
 [WinSCP log path]
@@ -179,7 +177,9 @@ Standard Verlaufsereignisse
 [History for %s]
 Verlauf von %s
 [System]
-
+
+[Me]
+Ich
 [Invalid Message]
 Ungültige Nachricht
 [Authorisation request by %s (%s%d): %s]
@@ -256,7 +256,7 @@ Nachricht
 [File transfer]
 Dateiübertragung
 [Link]
-
+
 [Authorization request]
 Eingehende Autorisierungsanfrage
 [You were added]

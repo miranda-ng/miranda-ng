@@ -11,6 +11,7 @@
 [mm Hg (torr)]
 [Elevation]
 [ft]
+[m]
 [ID]
 [Updates]
 [Weather Protocol INI Setup]

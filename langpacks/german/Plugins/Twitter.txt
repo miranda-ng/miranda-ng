@@ -77,11 +77,7 @@ OK
 
 [Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection.]
 
-[Please enter a password.]
-Bitte geben Sie das Kennwort ein.
 [You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options]
-
-[Something went wrong with authorisation, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor]
 
 ;file \protocols\Twitter\src\proto.cpp
 [Send Tweet...]

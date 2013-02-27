@@ -96,6 +96,8 @@ OTR aktivieren
 OTR deaktivieren
 [Yes]
 Ja
+[No]
+Nein
 [OTR status (Click for more options)]
 OTR-Status (Hier klicken für mehr Optionen)
 [OTR Encryption: Disabled]
@@ -146,12 +148,6 @@ Unbekannt
 
 [OTR %s (%s)]
 
-[OTR New Fingerprint]
-OTR - neuer Fingerprint
-[OTR encrypted session with '%s'.\n\nFingerprint is UNVERIFIED.\n\n%s\n\nVerify?]
-OTR-verschlüsselte Sitzung mit '%s'.\n\nFingerprint ist NICHT BESTÄTIGT.\n\n%s\n\nBestätigen und fortfahren?
-[A new fingerprint has been recieved from '%s'\n\n%s\n\nDo you trust it?]
-Ein neuer Fingerprint wurde von '%s'\n\n%s\n\n empfangen. Vertrauen Sie ihm?
 [OTR encrypted session with '%s' is now using a VERIFIED fingerprint]
 OTR-verschlüsselte Sitzung mit '%s' ist nun mit einem Fingerabdruck verifiziert worden.
 [OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint]
@@ -262,15 +258,3 @@ Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Services]
 Dienste
-;file \plugins\MirOTR\MirOTR\src\otr.cpp
-[Would you like to generate a new private key for this protocol?]
-Möchten Sie einen neuen privaten Schlüssel für dieses Protokoll generieren?
-[Generating new private key.]
-Generiere neuen privaten Schlüssel
-[Please wait.]
-Bitte warten.
-[Would you like to save the current fingerprint list?]
-Möchten Sie die aktuelle Fingerprintliste speichern?
-[OTR Log Message]
-OTR-Nachrichtenlog
-;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp

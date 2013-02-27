@@ -6,5 +6,4 @@
 [EN]
 [Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
-[Hide Miranda NG]
 [BossKey\tget the BossKey name]

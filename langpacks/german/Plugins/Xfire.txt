@@ -121,12 +121,8 @@ Name:
 
 [IP:]
 
-[255.255.255.255]
-
 [Port:]
 Port:
-[27770]
-
 [Userdetails]
 
 [dufte]
@@ -167,8 +163,6 @@ Suchen ...
 Launcher-exe (optional):
 [Game id:]
 Spiel-ID:
-[?]
-
 [Send game id:]
 Sende Spiel-ID:
 [Statusmessage for Xfire, if this game will be started:]
@@ -176,7 +170,7 @@ Statusnachricht für XFire, wenn dieses Spiel läuft:
 [Parameter:]
 
 [Add a new game]
-
+Neues Spiel hinzufügen
 [Searching games ...]
 Spiele werden gesucht ...
 ;file \protocols\Xfire\res\resource.rc
@@ -240,6 +234,8 @@ Fehler bei der Icons.dll-Aktualisierung.
 Protokollicon
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 
+[Friends of Friends Playing]
+
 [Login failed.]
 Login fehlgeschlagen.
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -254,10 +250,24 @@ Möchten Sie wirklich %s zu Ihrer Freundesliste hinzufügen?
 Füge mich zu Ihrer Freundesliste hinzu.
 [XFire is not connected.]
 
+[Current Game]
+Aktuelles Spiel
+[My Current Game]
+Mein aktuelles Spiel
+[ServerIP]
+
+[My Current ServerIP]
+
+[Voice]
+Stimme
+[My Current Voice]
+
+[Voice ServerIP]
+
+[My Voice ServerIP]
+
 [Xfire Link Protocol]
 XFire-Link-Protokoll
-[xfirebstartgame]
-
 [Buddy start a game]
 Ein Freund startet ein Spiel
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
@@ -301,9 +311,9 @@ Es wurde kein Passwort eingegeben.
 [Last game: %s playtime: %.2d:%.2d:%.2d]
 Letztes Spiel: %s Spielzeit: %.2d:%.2d:%.2d
 [%s is playing %s.]
-
+%s spielt %s.
 [%s is playing %s on server %d.%d.%d.%d:%d.]
-
+%s spielt %s auf Server %d.%d.%d.%d:%d.
 [Playing]
 Spielen
 [Do you really want delete your friend %s?]
@@ -383,6 +393,8 @@ Versteckt
 
 [Popup]
 Popup
+[No]
+Nein
 [On every start]
 Bei jedem Start
 [Daily]

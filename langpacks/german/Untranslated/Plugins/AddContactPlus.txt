@@ -1,5 +1,4 @@
 ﻿[Provides the ability to quickly add new contacts.]
-[Contact ID:]
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 [Open add contact dialog]

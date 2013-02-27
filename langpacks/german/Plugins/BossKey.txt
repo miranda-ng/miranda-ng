@@ -72,11 +72,11 @@ Verstecke Miranda NG bei Neustart nach einem Fehler
 [Password is not correct!\nPlease, enter correct password.]
 
 [Hide Miranda NG]
-
+Miranda NG verbergen
 [Hide]
 Verstecken
 [Hide/Show Miranda]
-Verstecke/zeige Miranda NG
+Verstecke/zeige Miranda
 [BossKey\tget the BossKey name]
 
 ;file \plugins\BossKeyPlus\src\Options.cpp

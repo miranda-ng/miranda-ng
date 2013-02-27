@@ -37,7 +37,7 @@ Verbindung aufrechterhalten
 [Automatically join on invite]
 Channel bei Einladung automatisch betreten
 ['Old style' mode changes]
-
+'Alter Stil' Statusänderungen
 [Update online statuses for users]
 Status für Kontakte aktualisieren
 [Update statuses in channel nicklist]
@@ -56,14 +56,12 @@ Voller Name (E-Mail)
 Passwort
 [Server name]
 Servername
-[->]
-
 [Alternative nick]
 Alternativer Nick
 [Ident]
 Ident
 [System]
-
+
 [Port]
 Port
 [Default network]
@@ -120,8 +118,6 @@ Awayinfo
 Der Server liefert die folgenden Informationen. Beachten Sie aber, dass diese verfälscht oder nicht richtig sein könnten.
 [CTCP information]
 CTCP-Informationen
-[-]
-
 [Question]
 Frage
 [&OK]
@@ -168,12 +164,8 @@ Filtern nach:
 Verbinden
 [&Save]
 &Speichern
-[@]
-
 [Hostmask]
 Hostmaske
-[!]
-
 [&Clear all]
 Alles lös&chen
 [Online detection mode]
@@ -477,9 +469,9 @@ Traditionelles Chinesisch
 [Central European]
 Mitteleuropäisch
 [Cyrillic (Windows)]
-
+Kyrillisch (Windows)
 [Cyrillic (KOI8R)]
-
+Kyrillisch (KOI8R)
 [Latin I]
 Lateinisch
 [Greek]
@@ -748,6 +740,14 @@ Wiederverbinden mit
 [Offline]
 Offline
 ;file \protocols\IRCG\src\userinfo.cpp
+[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
+Schneller! Durchsucht das Netzwerk nur nach einer exakten Übereinstimmung mit dem \"Nick\". Die Adresse ist optional und gibt zusätzliche Genauigkeit. Platzhalter (? und *) sind erlaubt.
+[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
+
+[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
+
+[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
+Einstellungen konnten nicht gespeichert werden!\n\nFür diese Methode der Statusbestimmung muss eine komplette Hostmaske angegeben werden.
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Bitte warten...

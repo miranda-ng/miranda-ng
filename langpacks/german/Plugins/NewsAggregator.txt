@@ -19,7 +19,7 @@ Importieren
 [Export]
 Exportieren
 [Retrieve news at startup]
-
+Neuigkeiten beim Start abrufen
 [OK]
 OK
 [Cancel]
@@ -52,10 +52,8 @@ News in folgendem Format anzeigen:
 Alle Elemente sind gültig, diese zwischen # setzen; z. B: #<author>#
 [Reset]
 Standard
-[?]
-
 [0 - check manually]
-
+0 - manuell prüfen
 ;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 Protokollicon
@@ -75,30 +73,30 @@ Autom. Aktualisierung deaktiviert
 
 ;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
-
+Feed prüfen
 [Change feed]
-
+Feed ändern
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [Enter Feed name]
-
+Feed Name eingeben:
 [Error]
 Fehler
 [Enter Feed URL]
-
+Feed URL eingeben:
 [Enter checking interval]
-
+Prüfintervall eingeben
 [Enter message format]
-
+Nachrichtenformat eingeben
 [The title of the item.]
-
+Titel des Eintrages
 [The item synopsis.]
 
 [The URL of the item.]
-
+URL des Eintrages
 [Email address of the author of the item.]
-
+E-Mail-Adresse des Autors des beitrages
 [URL of a page for comments relating to the item.]
-
+URL einer Seite für Kommentare  zu diesem Eintrag
 [A string that uniquely identifies the item.]
 
 [Specify one or more categories that the item belongs to.]
@@ -112,7 +110,7 @@ Sind Sie sich sicher?
 [Wait...]
 Warten...
 [Change Feed]
-
+Feed ändern
 [Contact deleting]
 
 [Network]
@@ -123,10 +121,6 @@ Netzwerk
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
 
-[Cannot upload VersionInfo. Incorrect username or password]
-Kann Versionsinfo nicht hochladen: Falscher Nutzername oder Passwort!
-[Cannot upload VersionInfo. Unknown error]
-Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
 [Feed]
 
 [%s\nis a valid feed's address.]

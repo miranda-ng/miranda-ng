@@ -71,7 +71,7 @@ Nur seit:
 [Messages]
 Nachrichten
 [URLs]
-
+URLs
 [File Transfers]
 Dateiübertragungen
 [Other]

@@ -14,6 +14,7 @@ Dieses Plugin ermöglicht ein automatisches Starten von Miranda NG beim Hochfahr
 Miranda NG beim Systemstart starten
 [Note: At startup Miranda NG will use current profile]
 Hinweis: Miranda NG startet dann mit dem aktuellen Profil.
+;file \plugins\AutoRun\src\autorun.h
 ;file \plugins\AutoRun\src\main.cpp
 [Services]
 Dienste

@@ -1,7 +1,7 @@
 ﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
-;  Plugin: Custom Status List mod
+;  Plugin: Custom status list
 ;  Version: 0.1.1.0
 ;  Authors: Mataes, jarvis
 ;============================================================
@@ -10,24 +10,6 @@ Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche
 ;file \plugins\CSList\res\cslist.rc
 [Custom Status List]
 Custom-Status-Liste
-[A]
-
-[M]
-
-[D]
-
-[F]
-
-[U]
-
-[I]
-
-[N]
-
-[C]
-
-[O]
-
 [No items available in the database.\nClick the Add button to define some.]
 Keine Einträge in der Datenbank.\nKlicken Sie auf das Pluszeichen, um welche hinzuzufügen.
 [Add/Modify Custom Status]

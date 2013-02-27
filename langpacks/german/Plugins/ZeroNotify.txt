@@ -16,6 +16,11 @@ Keine Klänge, wenn:
 Kein Blinken (Tray), wenn:
 [No CLIST blink when:]
 Kein Blinken (Liste), wenn:
+;file \plugins\ZeroNotification\src\common.h
+[Disable &Sounds]
+Klänge deaktivieren
+[Enable &Sounds]
+Klänge aktivieren
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Keine Benachrichtigungen

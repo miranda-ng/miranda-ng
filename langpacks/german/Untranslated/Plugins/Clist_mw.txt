@@ -1,8 +1,5 @@
 ﻿[Displays contacts, event notifications, protocol status with MW modifications.]
-[...]
 [InsertSeparator]
-[000%]
-[&¤]
 [&Status]
 [&Offline\tCtrl+0]
 [On&line\tCtrl+1]

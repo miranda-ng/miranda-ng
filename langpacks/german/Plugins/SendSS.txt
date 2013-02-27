@@ -19,7 +19,7 @@ Keine
 [Cancel]
 Abbrechen
 [Send screenshot]
-
+Screenshot senden
 [Send screenshot to\n<unknown>]
 Sende Screenshot an\n unbekannt
 [Ti&med capture]
@@ -30,8 +30,6 @@ Zeit (Sek.) :
 &Format:
 [Send B&y :]
 Senden per:
-[?]
-
 [E&xplore]
 Öffnen
 [&Fill description textbox.]
@@ -61,22 +59,6 @@ Größe (HxB):
 [Target Tool]
 Zielscheibe
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
-[Unable to initiate transfer.]
-Übertragung kann nicht gestartet werden.
-[Initialising...]
-Vorbereitung...
-[Connecting...]
-Verbinden...
-[Connecting to proxy...]
-Verbinde zum Proxy...
-[Waiting for connection...]
-Warte auf Verbindung...
-[Connected]
-Verbunden
-[Decision sent]
-Entscheidung gesendet
-[Moving to next file...]
-Nächste Datei...
 [GCHAT error]
 
 [An unknown error has occured.]
@@ -135,6 +117,8 @@ Kann HTTP-Server-Plugin nicht starten.
 Wiederholen
 [Yes]
 Ja
+[No]
+Nein
 [Abord]
 
 [Ignore]

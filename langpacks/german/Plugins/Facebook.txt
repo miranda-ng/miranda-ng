@@ -16,8 +16,6 @@ Passwort:
 Ein neues Facebook-Konto erstellen...
 [What's on your mind?]
 Was machst du gerade?
-[420]
-
 [Share]
 Mitteilen
 [Cancel]

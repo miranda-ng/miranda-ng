@@ -1,10 +1,12 @@
 ﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
-;  Plugin: Flags
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Country flags
+;  Version: 0.1.0.3
+;  Authors: H. Herkenrath
 ;============================================================
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
 Länderflaggen
@@ -12,12 +14,10 @@ Länderflaggen
 Länderflagge als &Statusicon im Nachrichtenfenster anzeigen
 [Show country flag as &extra image on contact list]
 Länderflagge als &Extra Icon in &Kontaktliste anzeigen
-[In following contact list &column:]
-Verwende folgende &Spalte:
-[Use &unknown flag if the country can not be determined]
-"&Unbekannt" anzeigen, wenn Land nicht bestimmbar
 [Use &IP-to-country database for country detection]
 &IP-Datenbank zur Bestimmung des Landes verwenden
+[Use &unknown flag if the country can not be determined]
+"&Unbekannt" anzeigen, wenn Land nicht bestimmbar
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
 Icons

@@ -183,8 +183,6 @@ Erweitert
 Benachrichtigung
 [Network]
 Netzwerk
-[PopUps]
-Popups
 [These changes will take effect the next time you connect to the Tlen network.]
 Diese Änderungen werden erst nach erneuter Verbindung zum Tlen-Netzwerk aktiv.
 [Tlen Protocol Option]
@@ -213,12 +211,12 @@ Ignoriere Bilder von unautorisierten Kontakten
 Alle Bilder ignorieren
 [<Last message>]
 <Letzte Nachricht>
-[<Ask me>]
-<Frage mich>
 [Online]
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [DND]
 Bitte nicht stören
 [Free for chat]
@@ -228,9 +226,9 @@ Unsichtbar
 [Forwarding]
 Weiterleiten
 [SOCKS4]
-
+
 [SOCKS5]
-
+
 [%s mail]
 
 ;file \protocols\Tlen\src\jabber_svc.cpp
@@ -315,7 +313,7 @@ Sprachchat
 [1 File]
 
 [%d Files]
-
+%d Dateien
 ;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 Sie wurden gekickt. Grund: %s
@@ -343,6 +341,11 @@ Sie können nicht mehr als %s Chaträume betreten.
 Anonyme Nicks sind in diesem Chatraum nicht erlaubt.
 [Unknown error code : %d]
 Unbekannter Fehlercode: %d
+;file \protocols\Tlen\src\tlen_picture.cpp
+[Image sent file://%s]
+
+[Image received file://%s]
+
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Konto

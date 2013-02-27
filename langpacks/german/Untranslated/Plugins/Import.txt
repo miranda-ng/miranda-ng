@@ -1,5 +1,4 @@
-﻿[URLs]
-[Ignored event from/to self]
+﻿[Ignored event from/to self]
 [Added contact %u (found in history)]
 [Failed to add %S contact %s]
 [Added %S contact %s, '%s']

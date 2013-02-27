@@ -1,10 +1,12 @@
 ﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
-;  Plugin: CrashDumper
+;  Plugin: Crash dumper
 ;  Version: 0.0.4.22
-;  Authors: 
+;  Authors: borkra
 ;============================================================
+[Crash Dumper for Miranda NG.]
+Crash Dumper für Miranda NG.
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Miranda-Versionsinfo anzeigen
@@ -40,7 +42,7 @@ Alles ko&pieren
 [VersionInfo stored into file %s]
 Versionsinfo gespeichert in Datei:\n%s
 [VersionInfo file %s is inaccessible]
-
+Versionsinfo Datei %s ist nicht verfügbar.
 [Services]
 Dienste
 [Version Information To Clipboard]
@@ -94,3 +96,6 @@ Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
 Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
 [Crash Dumper HTTP connections]
 Crash-Dumper-HTTP-Verbindungen
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+Es ist mehr als ein Plugin zur Erstellung eines Crash Reportes installiert.\nDadurch kann gar keiner erstellt werden!

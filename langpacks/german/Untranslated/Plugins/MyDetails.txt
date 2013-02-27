@@ -1,5 +1,2 @@
-﻿[RTL]
-[&Offline]
-[On&line]
-[ListeningTo popup]
+﻿[ListeningTo popup]
 [Listening To]

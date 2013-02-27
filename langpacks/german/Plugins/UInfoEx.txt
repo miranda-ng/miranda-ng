@@ -19,7 +19,7 @@ Akt&ualisieren
 [Updating]
 Aktualisieren
 [Ok]
-
+Ok
 [Cancel]
 Abbrechen
 [Apply]
@@ -48,12 +48,6 @@ Familienstand:
 
 [Language skills]
 Sprachkenntnisse
-[1.:]
-
-[2.:]
-
-[3.:]
-
 [Street:]
 Straße:
 [Postal code:]
@@ -70,8 +64,6 @@ In Liste aufgenommen am:
 Von Anfang an.
 [Your contact's local time is:]
 Lokalzeit des Kontakts:
-[00:00]
-
 [Timezone:]
 Zeitzone
 [Company:]
@@ -188,8 +180,6 @@ Liste der Jahrestage
 Statistik:
 [with birthday:]
 mit Geburtsdatum:
-[0]
-
 [female:]
 Weiblich:
 [male:]
@@ -375,8 +365,6 @@ Steinbock
 Wassermann
 [Pisces]
 Fische
-[Unknown]
-Unbekannt
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
 %s hat sein Geburtsdatum über das Protokoll aktualisiert.\nEs lautet jetzt: %s. (Das alte war: %s)\n\nSoll das neue Datum übernommen werden?
 [Update custom birthday]
@@ -417,8 +405,6 @@ E-Mail bearbeiten
 Tel. bearbeiten
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Die Telefonnummer sollte mit + beginnen und nur aus\nNummern, Leerzeichen, Klammern und Bindestrichen bestehen.
-[Syntax Error]
-
 [Choose the item to display.]
 Wählen Sie einen Eintrag zum Anzeigen aus.
 [Edit the currently displayed item.]
@@ -464,6 +450,8 @@ Zeige Jahrestagsliste
 Wiederholen
 [Yes]
 Ja
+[No]
+Nein
 [Abord]
 
 [Ignore]
@@ -723,7 +711,7 @@ Mazedonisch
 [Malay]
 Malayisch
 [Mandarin]
-
+Mandarin
 [Mongolian]
 Mongolisch
 [Norwegian]
@@ -759,7 +747,7 @@ Schwedisch
 [Tagalog]
 
 [Taiwanese]
-
+Taiwanesisch
 [Tamil]
 Tamilisch
 [Tatar]
@@ -1013,7 +1001,7 @@ Homepage ansehen
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
-[b]%s (%S)...[/b]\n%d verbleibende Kontakte
+
 [Abort Refreshing Contact Details]
 Kontaktinformationen-Aktualisieren abgebrochen
 [Do you want to cancel the current refresh procedure?]
@@ -1027,6 +1015,8 @@ Die Funktion verursachte eine Ausnahme!
 %s hat heute %s.
 [an anniversary]
 ein Jahrestag
+[He]
+Er
 [She]
 Sie
 [He/She]

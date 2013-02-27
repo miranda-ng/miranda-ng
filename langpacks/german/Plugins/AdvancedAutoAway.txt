@@ -13,7 +13,7 @@ Verbindung prüfen
 [Max. retries]
 Max. Versuche
 [Account Connection]
-
+Account Verbindung
 [Delay between retries (secs)]
 Verzögerung der Versuche (Sek.)
 [Show popups]
@@ -21,7 +21,7 @@ Popups anzeigen
 [General]
 Allgemein
 [Accounts to check]
-
+Folgende Accounts prüfen
 [Dial-Up]
 Internetverbindung
 [Don't reconnect if no internet connection seems available]
@@ -104,8 +104,6 @@ Timeout
 
 [Set window location]
 Fensterposition
-[,]
-
 [Set window size]
 Fenstergröße
 [x]
@@ -173,9 +171,9 @@ Statusnachricht:
 [Variables...]
 Variablen
 [Specify settings for each account]
-
+Einstellungen für jedes Konto festlegen
 [Use same settings for all accounts]
-
+Selbe Einstellungen für alle Konten verwenden
 [Ignore caps-lock, num-lock and scroll-lock keys]
 Feststell-, Nummernblock- und Rollentaste ignorieren
 [Check interval (secs)]
@@ -183,7 +181,7 @@ Prüfintervall (s)
 [Confirm dialog timeout (secs)]
 Dialogfenster autom. schließen (s)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-
+Sie haben "Meinen Status ändern in" in den "Untätigkeits-Einstellungen" aktiviert,  Einstellungen von AdvancedAutoAway werden ignoriert.
 [Monitor keyboard activity]
 Tastaturaktivität überwachen
 [Monitor mouse activity]
@@ -239,7 +237,7 @@ Max. Verzögerung (Sek.)
 [Increase delay exponential]
 Verzögerung exponentiell erhöhen
 [Cancel all if a account connects from another location]
-
+Alles abbrechen, wenn sich ein Konto von einem anderen Ort aus verbindet.
 [Reconnect on APM resume]
 Wiederverbinden nach Energiesparmodus (APM)
 [Stop trying to reconnect]
@@ -251,9 +249,9 @@ Reaktion bei Einwahlfehlern:
 [seconds]
 Sekunden
 [Set account offline before a connection attempt]
-
+Konto vor Verbindungsversuch offline setzen
 [Max. account connecting time (secs)]
-
+Max. Konto Verbindungszeit (Sek.)
 [Timers]
 Zeitplan
 [Reconnecting]

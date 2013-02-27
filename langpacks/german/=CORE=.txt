@@ -43,7 +43,7 @@ Soll Kontakt %s wirklich gelöscht werden ?
 Damit werden der Verlauf und die Einstellungen des Kontakts gelöscht!
 [Contact Display Options]
 Namensanzeige in der Kontaktliste
-[Instead of displaying contacts by their nickname, drag to choose another order:]
+[Instead of displaying contacts by their nickname,\ndrag to choose another order:]
 Festlegen, welcher Name eines Kontakts in der Kontaktliste angezeigt werden soll:
 [Miranda NG Profile Manager]
 Miranda NG Profilmanager
@@ -152,10 +152,11 @@ Pluginnamen benutzen
 [Log to]
 Log nach
 [OutputDebugString()]
+OutputDebugString()
 [File]
 Datei
-[...]
 [Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
+Programm ausführen wenn Miranda NG startet (bspw. tail -f, dbgview etc.):
 [Run now]
 Starten
 [Show this dialog box when Miranda NG starts]
@@ -163,6 +164,7 @@ Diesen Dialog zeigen, wenn Miranda NG startet
 [Save as default]
 Als Standard speichern
 [Ok]
+Ok
 [SSL Traffic]
 SSL-Verkehr
 [Sounds]
@@ -196,6 +198,7 @@ Die folgenden Ereignisse werden ignoriert:
 [Messages]
 Nachrichten
 [URLs]
+URLs
 [Files]
 Dateien
 [Online Notification]
@@ -233,6 +236,7 @@ in allg. Icon
 [To]
 An
 [<< &Import]
+
 [To default status icons]
 Als Standard-Statusicon
 [Logging...]
@@ -282,6 +286,7 @@ z. B. Miranda Datenbank
 [Driver]
 Treiber
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+
 [Download more plugins]
 Weitere Plugins herunterladen
 [Description:]
@@ -293,6 +298,7 @@ E-Mail:
 [Homepage:]
 Homepage:
 [Unique ID:]
+
 [Copyright:]
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
@@ -320,6 +326,7 @@ Schri&ftart:
 [Font st&yle:]
 Schriftstil:
 [\nStyles and effects are disabled for this font.]
+
 [&Size:]
 Größe:
 [Effects]
@@ -329,6 +336,7 @@ Durchgestr.
 [&Underline]
 &Unterstr.
 [&Color:]
+&Farbe:
 [Sample]
 Beispiel
 [AaBbYyZz]
@@ -361,20 +369,24 @@ Standard
 Setzen
 [Disable icons]
 Icons deaktivieren
+[Show accounts in the following order,\ndrag to choose another order:]
+Zeige Konten in folgender Reihenfolge, Elemente sind verschiebbar
+[Account Order && Visibility]
+Konten Reihenfolge und Sichtbarkeit
 [Note: Miranda NG will have to be restarted for changes to take effect.]
 Hinweis: Bei Änderungen ist ein Neustart von Miranda NG erforderlich.
-[Account Order && Visibility]
-Reihenfolge und Sichtbarkeit
-[Show protocols in the following order, drag to choose another order:]
-Zeige Protokolle in folgender Reihenfolge, Elemente sind verschiebbar
 [Key Bindings]
+
 [Shortcut:]
+
 [Add]
 Hinzufügen
 [Remove]
 Entfernen
 [Undo Changes]
+Änderungen rückgängig
 [Reset To Default]
+Auf Standard zurücksetzen
 [Hotkeys]
 Hotkeys
 [Accounts]
@@ -383,8 +395,6 @@ Konten
 Konten\nKonfigurieren Sie Ihre IM-Konten
 [Account information:]
 Kontoinformationen:
-[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-Willkommen in Miranda NG Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen.\nAnsonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
 [Additional:]
 Zusätzlich:
 [Configure network...]
@@ -398,6 +408,7 @@ B&earbeiten
 [&Options]
 Einstellungen
 [&Upgrade]
+
 [&Remove...]
 &Entfernen...
 [Miranda NG]
@@ -407,7 +418,9 @@ Mianda NG wird neu gestartet.\nBitte warten...
 [Close]
 Schließen
 [Error Console]
+
 [Error notifications]
+
 [Headers:]
 Überschriften:
 [This font is used to display main section titles or text elements.]
@@ -443,6 +456,7 @@ Hinweis: Nur die ersten %d Icons werden angezeigt!
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Wählen Sie mehrere Elemente mit gedrückter SHIFT- oder STRG-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
 [Tray]
+
 [&Hide/Show]
 Zeigen/Ausblenden
 [E&xit]
@@ -472,9 +486,11 @@ G&ruppe umbenennen
 [&Delete Group]
 Gruppe löschen
 [IconOptions]
+
 [&Reset to default]
 Zu&rücksetzen auf Standard
 [find/add]
+
 [&Add to List]
 Zur Liste hinzufügen
 [User &Details]
@@ -492,6 +508,7 @@ Alles ko&pieren
 [C&lear Log]
 Verlauf &leeren
 [LogLink]
+
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -512,6 +529,7 @@ Ablehnen
 [Decide &Later]
 Später entscheiden
 [&I]
+
 [Reason:]
 Grund:
 [Denial Reason:]
@@ -523,6 +541,7 @@ Sie wurden hinzugefügt
 [&Close]
 S&chließen
 [&U]
+
 ;file \src\core\stdaway\resource.rc
 [%s Message for %s]
 '%s'-Nachricht von %s
@@ -550,6 +569,7 @@ In %d schließen
 [&Send]
 &Senden
 [Show these events only:]
+Nur folgende Ereignisse anzeigen:
 [Actions]
 Aktionen
 [Nick changes]
@@ -623,9 +643,13 @@ Verlauf löschen
 [Co&py all]
 Alles ko&pieren
 [Word lookup]
+Wort nachschlagen
 [Google]
+Google
 [Wikipedia]
+
 [Link]
+
 [Open a &new browser window]
 In &neuem Browserfenster öffnen
 [&Open in current browser window]
@@ -633,6 +657,7 @@ In aktuellem Br&owserfenster öffnen
 [Message]
 Nachricht
 [Undo  ]
+
 [Redo]
 Wiederherstellen
 [Copy]
@@ -646,6 +671,7 @@ Alles markieren
 [Clear]
 Löschen
 [Tabs]
+
 [&Close tab]
 Tab s&chließen
 [C&lose other tabs]
@@ -737,7 +763,6 @@ Ein-/Ausblenden animieren
 Transparente Kontaktliste
 [Inactive opacity:]
 Deckkraft inaktiv:
-[000%]
 [Active opacity:]
 Deckkraft aktiv:
 [Items]
@@ -844,18 +869,28 @@ Bringe teils verdecktes Fenster in Vordergrund
 Fenster:
 [Contact list background:]
 Kontaktlisten-Hintergrund:
-[&¤]
 [&Status]
+
 [&Offline\tCtrl+0]
+
 [On&line\tCtrl+1]
+
 [&Away\tCtrl+2]
+
 [&NA\tCtrl+3]
+
 [Occ&upied\tCtrl+4]
+
 [&DND\tCtrl+5]
+
 [&Free for chat\tCtrl+6]
+
 [&Invisible\tCtrl+7]
+
 [On the &Phone\tCtrl+8]
+
 [Out to &Lunch\tCtrl+9]
+
 ;file \src\core\stdfile\resource.rc
 [Send File(s)]
 Datei(en) senden
@@ -867,9 +902,10 @@ Datei(en):
 Erneut auswählen...
 [Total size:]
 Gesamtgröße:
-[6]
 [&D]
+
 [&H]
+
 [Incoming File Transfer]
 Eingehende Dateiübertragung
 [A&ccept]
@@ -885,6 +921,7 @@ Dateien:
 [Save to:]
 Speichern nach:
 [&A]
+
 [Contact menu]
 Kontaktmenü
 [Open...]
@@ -892,6 +929,7 @@ Kontaktmenü
 [Open folder]
 Ordner öffnen
 [Transfer completed, open file(s).]
+
 [No data transferred]
 Keine Daten übertragen
 [File Already Exists]
@@ -907,6 +945,7 @@ Alle überschreiben
 [Save as...]
 Speichern unter...
 [Auto rename]
+
 [Skip]
 Überspringen
 [Cancel transfer]
@@ -971,6 +1010,7 @@ Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [About Miranda NG]
 Über Miranda NG
 [Miranda NG\n%s]
+
 [Credits >]
 Dank an >
 ;file \src\core\stdidle\resource.rc
@@ -1098,8 +1138,11 @@ Ballonpopup anzeigen
 [Save the window position for each contact]
 Fenster-Position für jeden Kontakt speichern
 [Message window behaviour:]
+Verhalten des Nachrichtenfensters:
 [Messaging:]
+Nachrichten:
 [&Open link]
+Link &öffnen
 [Paste && Send]
 Einfügen && Senden
 [Delete]
@@ -1214,7 +1257,8 @@ Kontakt dauerhaft zur Liste hinzufügen
 %s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%u %s
 [%s added you to the contact list\n%s on %s]
 %s hat Sie zu Ihrer Kontaktliste hinzugefügt\n%s in %s
-[%s added you to the contact list\n(Unknown) on %s]
+[(Unknown)]
+(Unbekannt)
 [View User Details]
 Kontaktprofil anzeigen
 [%s requested authorization\n%u (%s) on %s]
@@ -1223,14 +1267,13 @@ Kontaktprofil anzeigen
 %s fragt nach einer Autorisierung\n%u unter %s
 [%s requested authorization\n%s on %s]
 %s fragt nach einer Autorisierung\n%s unter %s
-[(Unknown)]
-(Unbekannt)
 [Feature is not supported by protocol]
 Diese Funktion wird durch dieses Protokoll nicht unterstützt
 ;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s Message]
 '%s'-N&achricht lesen
 [Re&ad Status Message]
+St&atusnachricht lesen
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
@@ -1280,13 +1323,19 @@ Ihr Name ist nun %s
 [%s kicked %s]
 %s kickte %s
 [Notice from %s: ]
+
 [The topic is '%s%s']
+Das Thema ist '%s%s'
 [ (set by %s on %s)]
+ (gesetzt von %s am %s)
 [ (set by %s)]
  (gesetzt von %s)
 [%s enables '%s' status for %s]
+%s aktiviert '%s' Status für %s
 [%s disables '%s' status for %s]
+%s deaktiviert '%s' Status für %s
 [<invalid>]
+<ungültig>
 ;file \src\core\stdchat\src\options.cpp
 [Others nicknames]
 Andere Nicks
@@ -1569,6 +1618,7 @@ Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
 Aussehen des Verlaufsfensters
 [Default events to show in new chat rooms if the 'event filter' is enabled]
+
 [Icons to display in the message log]
 Folgende Icons im Verlaufsfenster anzeigen
 [Icons to display in the tray]
@@ -1679,6 +1729,7 @@ Aktuellen Tab schließen (Strg+F4)
 [Nick name]
 Nick
 [Unique id]
+
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardkontakte
@@ -1709,6 +1760,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]
@@ -1780,6 +1833,8 @@ Abgebrochen
 Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
 [File Received]
 Datei empfangen
+[of]
+
 [Request sent, waiting for acceptance...]
 Anfrage gesendet, warte auf Annahme...
 [Waiting for connection...]
@@ -2050,6 +2105,9 @@ Vorname Nachname
 (Unbekannter Kontakt)
 [Contact names]
 Kontaktnamen
+;file \src\modules\clist\genmenu.cpp
+[Menu Icons]
+Menüicons
 ;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menüs
@@ -2195,6 +2253,7 @@ Fehler während der Suche
 Kein Kontakt gefunden
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
+
 [<none>]
 <keine>
 [Shadow at left]
@@ -2216,14 +2275,13 @@ Konfigurationsdateien
 [Text Files]
 Textdateien
 [Error writing file]
+
 [Fonts & Colors]
 Schriften & Farben
 [Sample Text]
 Beispieltext
 [Fonts]
 Schriftarten
-[Installed Plugins]
-Installierte Plugins
 ;file \src\modules\fonts\FontService.cpp
 [Headers]
 Kopfzeilen
@@ -2255,13 +2313,6 @@ Dateiauswahl zum Erstellen der Logdatei
 [Select program to be run]
 Programmauswahl für den Start
 ;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-<gemischt>
-[SOCKS4]
-[SOCKS5]
-[HTTP]
-[HTTPS]
-[Internet Explorer]
 [<All connections>]
 <Alle Verbindungen>
 [Network]
@@ -2272,6 +2323,10 @@ Der Client konnte die Hostnachricht nicht entschlüsseln. Der Host unterstützt 
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\modules\options\options.cpp
+[<all modules>]
+<Alle Module>
+[<core modules>]
+<Kernmodule>
 [Loading... %d%%]
 Lade... %d%%
 [%s options]
@@ -2284,12 +2339,15 @@ Einstellungen...
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Core Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
 [Fatal error]
+
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+
 ['%s' is disabled, re-enable?]
 '%s' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]
 Miranda-Plugin erneut aktivieren?
 [Unable to load plugin in Service Mode!]
+
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Miranda kann keines der angegebenen Plugins für die Kontaktliste starten, die entsprechenden Einstellungen für die \nKontaktliste werden ebenfalls ignoriert.
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
@@ -2300,10 +2358,20 @@ Plugin
 [Version]
 Version
 [Miranda NG must be restarted to apply changes for these plugins:]
+Miranda NG muss neu gestartet werden, um die Änderungen für folgende Plugins zu übernehmen:
 [Do you want to restart it now?]
+Möchten Sie jetzt neu starten?
 [Plugins]
 Plugins
 ;file \src\modules\protocols\protoopts.cpp
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+WARNUNG! Das Konto wird gelöscht. Das heißt, dass all seine Einstellungen, Kontakte und Verläufe ebenfalls gelöscht werden.\n\nSind Sie sich absolut sicher?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Dieses Konto wurde erfolgreich aktualisiert. Um es zu aktivieren, muss Miranda neu gestartet werden.\n\nUm Miranda nun neu zu starten, klicken Sie auf "Ja", wenn Sie ein weiteres Konto aktualisieren möchten, klicken Sie auf "Nein".
+[This account uses legacy protocol plugin. Use Miranda NG options dialogs to change it's preferences.]
+Dieses Konto verwendet ein Protokoll, welches die Kontoverwaltung nicht unterstützt. Verwenden Sie bitte die Miranda NG Einstellungen, um die zugehörigen Einstellungen zu ändern.
+[Welcome to Miranda NG's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Willkommen in Miranda NG Kontoverwaltung!\nHier können Sie Ihre IM-Konten einrichten.\n\nWählen Sie ein Konto aus der Liste auf der linken Seite aus, um die verfügbaren Einstellungen zu sehen. Ansonsten klicken Sie einfach auf das grüne Pluszeichen links unter der Liste, um ein neues IM-Konto einzurichten.
 [Create new account]
 Neues Konto erstellen...
 [Editing account]
@@ -2325,6 +2393,7 @@ Konto aktualisieren
 [Protocol]
 Protokoll
 [Account ID]
+Account ID
 [<unknown>]
 <unbekannt>
 [Protocol is not loaded.]
@@ -2334,7 +2403,9 @@ Umbenennen
 [Configure]
 Einstellungen
 [Upgrade]
+
 [Account is online. Disable account?]
+
 [Account %s is being deleted]
 Konto %s wird gelöscht
 [You need to disable plugin to delete this account]
@@ -2343,10 +2414,13 @@ Um dieses Konto zu loschen, mussen Sie das dazugehorige Plugin deaktivieren
 Konten
 ;file \src\modules\skin\hotkey_opts.cpp
 [Remove shortcut]
+
 [Add another shortcut]
+
 [Scope:]
 Bereich:
 [System]
+
 [Actions:]
 Aktionen:
 [Add binding]
@@ -2359,6 +2433,7 @@ Systemweit
 Mirandaweit
 ;file \src\modules\skin\skinicons.cpp
 [User Online]
+Benutzer Online
 [Group (Open)]
 Gruppe (offen)
 [Group (Closed)]
@@ -2376,6 +2451,7 @@ Kontakte suchen/hinzufügen
 [Send E-mail]
 E-Mail senden
 [SMS]
+
 [Search All]
 Suche überall
 [Tick]
@@ -2410,10 +2486,14 @@ Hauptmenü
 Chat verlassen
 [Move to Group]
 In Gruppe verschieben
+[On]
+Ein
 [Off]
 Aus
 [Running core plugin]
+Geladenes Core-Plugin
 [Non-loadable plugin]
+Nicht-ladbares Plugin
 [Frames]
 Frames
 [Always visible]
@@ -2423,11 +2503,15 @@ Immer unsichtbar
 [Locked status]
 Gesperrter Status
 [%s Icons]
+
+[Main Icons]
+Allgemeine Icons
 ;file \src\modules\skin\sounds.cpp
 [Sound Files]
 Klangdateien
 ;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
+
 [All Bitmaps]
 Alle Bilder
 [Windows Bitmaps]
@@ -2437,7 +2521,511 @@ JPEG-/JPG-Bilder
 [GIF Bitmaps]
 GIF-Bilder
 [PNG Bitmaps]
+
 ;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 unspezifiziert
+;file \src\modules\utils\utils.cpp
+[Unspecified]
+unspezifiziert
+[Unknown]
+Unbekannt
+[Afghanistan]
+Afghanistan
+[Aland Islands]
+Aland Inseln
+[Albania]
+Albanien
+[Algeria]
+Algerien
+[American Samoa]
+Amerikanisch Samoa
+[Andorra]
+Andorra
+[Angola]
+Angola
+[Anguilla]
+Anguilla
+[Antarctica]
+Antarktis
+[Antigua and Barbuda]
+Antigua und Barbuda
+[Argentina]
+Argentinien
+[Armenia]
+Armenien
+[Aruba]
+Aruba
+[Australia]
+Australien
+[Austria]
+Österreich
+[Azerbaijan]
+Aserbaidschan
+[Bahamas]
+Bahamas
+[Bahrain]
+Bahrain
+[Bangladesh]
+Bangladesch
+[Barbados]
+Barbados
+[Belarus]
+Weissrussland
+[Belgium]
+Belgien
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermuda
+[Bhutan]
+Bhutan
+[Bolivia, Plurinational State of]
+Bolivien, pluralistischer Staat
+[Bonaire, Sint Eustatius and Saba]
+Bonaire, Sint Eustatius und Saba
+[Bosnia and Herzegovina]
+Bosnien-Herzegowina
+[Botswana]
+Botswana
+[Bouvet Island]
+Bouvet Insel
+[Brazil]
+Brasilien
+[British Indian Ocean Territory]
+Britisches Territorium Indischer Ozean
+[Brunei Darussalam]
+Brunei Darussalam
+[Bulgaria]
+Bulgarien
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodscha
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cape Verde]
+Cape Verde
+[Cayman Islands]
+Cayman Inseln
+[Central African Republic]
+Zentralafrikanische Republik
+[Chad]
+Tschad
+[Chile]
+Chile
+[China]
+China
+[Christmas Island]
+Weihnachtsinseln
+[Cocos (Keeling) Islands]
+Kokos (Keeling) Inseln
+[Colombia]
+Kolumbien
+[Comoros]
+Comoren
+[Congo]
+Kongo
+[Congo, the Democratic Republic of the]
+Kongo, demokratische Republik
+[Cook Islands]
+Cook-Inseln
+[Costa Rica]
+Costa Rica
+[Cote d'Ivoire]
+Elfenbeinküste
+[Croatia]
+Kroatien
+[Cuba]
+Kuba
+[Curacao]
+Curacao
+[Cyprus]
+Zypern
+[Czech Republic]
+Tschechische Republik
+[Denmark]
+Dänemark
+[Djibouti]
+Dschibuti
+[Dominica]
+Dominica
+[Dominican Republic]
+Dominikanische Republik
+[Ecuador]
+Ekuador
+[Egypt]
+Ägypten
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Äquatorialguinea
+[Eritrea]
+Eritrea
+[Estonia]
+Estland
+[Ethiopia]
+Äthiopien
+[Falkland Islands (Malvinas)]
+Falkland Inseln (Malvinas)
+[Faroe Islands]
+Faroer-Inseln
+[Fiji]
+Fidschi
+[Finland]
+Finnland
+[France]
+Frankreich
+[French Guiana]
+Französisch-Guayana
+[French Polynesia]
+Französisch-Polynesien
+[French Southern Territories]
+Französische Südliche Territorien
+[Gabon]
+Gabun
+[Gambia]
+Gambia
+[Georgia]
+Georgien
+[Germany]
+Deutschland
+[Ghana]
+Ghana
+[Gibraltar]
+Gibraltar
+[Greece]
+Griechenland
+[Greenland]
+Grönland
+[Grenada]
+Grenada
+[Guadeloupe]
+Guadeloupe
+[Guam]
+Guam
+[Guatemala]
+Guatemala
+[Guernsey]
+Guernsey
+[Guinea]
+Guinea
+[Guinea-Bissau]
+Guinea-Bissau
+[Guyana]
+Guyana
+[Haiti]
+Haiti
+[Heard Island and McDonald Islands]
+Heard Insel und McDonald Inseln
+[Holy See (Vatican City State)]
+Heiliger Stuhl (Vatikanstadt)
+[Honduras]
+Honduras
+[Hong Kong]
+Hong Kong
+[Hungary]
+Ungarn
+[Iceland]
+Island
+[India]
+Indien
+[Indonesia]
+Indonesien
+[Iran, Islamic Republic of]
+Iran, Islamische Republik
+[Iraq]
+Irak
+[Ireland]
+Irland
+[Isle of Man]
+Isle of Man
+[Israel]
+Israel
+[Italy]
+Italien
+[Jamaica]
+Jamaika
+[Japan]
+Japan
+[Jersey]
+Jersey
+[Jordan]
+Jordanien
+[Kazakhstan]
+Kasachstan
+[Kenya]
+Kenia
+[Kiribati]
+Kiribati
+[Korea, Democratic People's Republic of]
+Korea, Demokratische Volksrepublik
+[Korea, Republic of]
+Korea, Republik
+[Kuwait]
+Kuwait
+[Kyrgyzstan]
+Kirgisien
+[Lao People's Democratic Republic]
+Lao, Demokratische Volksrepublik
+[Latvia]
+Lettland
+[Lebanon]
+Libanon
+[Lesotho]
+Lesotho
+[Liberia]
+Liberia
+[Libya]
+Libyen
+[Liechtenstein]
+Liechtenstein
+[Lithuania]
+Litauen
+[Luxembourg]
+Luxemburg
+[Macao]
+Macao
+[Macedonia, The Former Yugoslav Republic of]
+Mazedonien, ehemalige Jugoslawische Republik
+[Madagascar]
+Madagaskar
+[Malawi]
+Malawi
+[Malaysia]
+Malaysia
+[Maldives]
+Malediven
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Marshall Inseln
+[Martinique]
+Martinique
+[Mauritania]
+Mauretanien
+[Mauritius]
+Mauritius
+[Mayotte]
+Mayotte
+[Mexico]
+Mexiko
+[Micronesia, Federated States of]
+Föderierte Staaten von Mikronesien
+[Moldova, Republic of]
+Moldawien
+[Monaco]
+Monaco
+[Mongolia]
+Mongolei
+[Montenegro]
+Montenegro
+[Montserrat]
+Montserrat
+[Morocco]
+Marokko
+[Mozambique]
+Mosambik
+[Myanmar]
+Myanmar
+[Namibia]
+Namibia
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Niederlande
+[New Caledonia]
+Neu Kaledonien
+[New Zealand]
+Neuseeland
+[Nicaragua]
+Nicaragua
+[Niger]
+Niger
+[Nigeria]
+Nigeria
+[Niue]
+Niue
+[Norfolk Island]
+Norfolk Inseln
+[Northern Mariana Islands]
+Nördliche Marina-Inseln
+[Norway]
+Norwegen
+[Oman]
+Oman
+[Pakistan]
+Pakistan
+[Palau]
+Palau
+[Palestinian Territory, Occupied]
+Palästinensisches Territorium, besetzt
+[Panama]
+Panama
+[Papua New Guinea]
+Papua Neuguinea
+[Paraguay]
+Paraguay
+[Peru]
+Peru
+[Philippines]
+Philippinen
+[Pitcairn]
+Pitcairn
+[Poland]
+Polen
+[Portugal]
+Portugal
+[Puerto Rico]
+Puerto Rico
+[Qatar]
+Katar
+[Reunion]
+Reunion
+[Romania]
+Rumänien
+[Russian Federation]
+Russische Förderation
+[Rwanda]
+Ruanda
+[Saint Barthelemy]
+Sankt Bartholomäus
+[Saint Helena, Ascension and Tristan da Cunha]
+Saint Helena, Ascension und Tristan da Cunha
+[Saint Kitts and Nevis]
+St. Kitts und Nevis
+[Saint Lucia]
+St. Lucia
+[Saint Martin (French part)]
+Saint Martin (französischer Teil)
+[Saint Pierre and Miquelon]
+St. Pierre und Miquelon
+[Saint Vincent and the Grenadines]
+St. Vincent und Grenadinen
+[Samoa]
+Samoa
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome und Principe
+[Saudi Arabia]
+Saudi Arabien
+[Senegal]
+Senegal
+[Serbia]
+Serbien
+[Seychelles]
+Seychellen
+[Sierra Leone]
+Sierra leone
+[Singapore]
+Singapur
+[Sint Maarten (Dutch part)]
+Sint Maarten (holländischer Teil)
+[Slovakia]
+Slowakei
+[Slovenia]
+Slowenien
+[Solomon Islands]
+Solomon-Inseln
+[Somalia]
+Somalia
+[South Africa]
+Südafrika
+[South Georgia and the South Sandwich Islands]
+Süd Georgia und die Süd-Sandwich-Inseln
+[South Sudan]
+Südsudan
+[Spain]
+Spanien
+[Sri Lanka]
+Sri lanka
+[Sudan]
+Sudan
+[Suriname]
+Surinam
+[Svalbard and Jan Mayen]
+Svalbard und Jan Mayen
+[Swaziland]
+Swaziland
+[Sweden]
+Schweden
+[Switzerland]
+Schweiz
+[Syrian Arab Republic]
+Arabische Republik Syrien
+[Taiwan, Province of China]
+Taiwan, Provinz von China
+[Tajikistan]
+Tadschikistan
+[Tanzania, United Republic of]
+Tansania, vereinigte Republik
+[Thailand]
+Thailand
+[Timor-Leste]
+Timor-Leste
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad und Tobago
+[Tunisia]
+Tunesien
+[Turkey]
+Türkei
+[Turkmenistan]
+Turkmenistan
+[Turks and Caicos Islands]
+Turks und Caicos Inseln
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukraine
+[United Arab Emirates]
+Vereinigte Arabische Emirate
+[United Kingdom]
+Großbritannien
+[United States]
+Vereinigte Staaten
+[United States Minor Outlying Islands]
+Vereinigte Staaten, kleine Inseln außerhalb
+[Uruguay]
+Uruguay
+[Uzbekistan]
+Usbekistan
+[Vanuatu]
+Vanuatu
+[Venezuela, Bolivarian Republic of]
+Venezuela, bolivarische Republik
+[Viet Nam]
+Vietnam
+[Virgin Islands, British]
+Jungferninseln, Britisch
+[Virgin Islands, U.S.]
+Jungferninseln, U.S.
+[Wallis and Futuna]
+Wallis und Futuna
+[Western Sahara]
+Westsahara
+[Yemen]
+Jemen
+[Zambia]
+Sambia
+[Zimbabwe]
+Simbabwe
 ;file \src\modules\visibility\visibility.cpp

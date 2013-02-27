@@ -11,6 +11,3 @@
 [Yahoo Link Protocol]
 [MSN Link Protocol]
 [Gadu-Gadu Link Protocol]
-[Testing Service]
-[Miranda Installer Package (demo purpose)]
-[&Install]

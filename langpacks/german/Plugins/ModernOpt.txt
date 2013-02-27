@@ -3,8 +3,6 @@
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Besuchen Sie die offizielle Miranda NG Webseite
-[`]
-
 [Sample page]
 
 [Miranda NG Options]

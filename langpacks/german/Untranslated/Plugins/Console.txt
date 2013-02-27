@@ -25,4 +25,3 @@
 [*** Console cleared ***]
 [Miranda Console]
 [Save selection to file]
-[Save log to file]

@@ -27,10 +27,14 @@ Unterkontakte verstecken
 Aber Unterkont. des Prot. in Liste lassen, wenn Metakont. verst. ist
 [Enter username:]
 Namen eingeben:
-[Show all contacts]
-Alle Kontakte zeigen
-[Send message]
-Nachricht senden
+[Show all contacts (Ctrl+A)]
+Alle Kontakte anzeigen (Strg+A)
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Schnellkontakte
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Dialog öffnen
 [Make a voice call]
 Sprachanruf durchführen
 [Send file]
@@ -43,11 +47,23 @@ Benutzerprofil öffnen
 Verlauf öffnen
 [Open contact menu]
 Kontaktmenü öffnen
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-Schnellkontakte
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
-Dialog öffnen
+[Show all contacts]
+Alle Kontakte zeigen
 [Quick Contacts...]
 Schnellkontakte...
+[Ctrl+A]
+
+[Send message]
+Nachricht senden
+[Ctrl+V]
+
+[Ctrl+F]
+
+[Ctrl+U]
+
+[Ctrl+I]
+
+[Ctrl+H]
+
+[Ctrl+M]
+

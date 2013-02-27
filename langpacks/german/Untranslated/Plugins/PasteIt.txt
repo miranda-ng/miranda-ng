@@ -1,4 +1,3 @@
-﻿[User name]
-[Paste It]
+﻿[Paste It]
 [Format]
 [Recode]

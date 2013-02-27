@@ -1,2 +1,2 @@
 ﻿[Shows ignore state of contact in contacts list.]
-[User Online]
+[Ignore State]

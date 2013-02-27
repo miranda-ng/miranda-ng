@@ -9,15 +9,7 @@
 Über das Kontextmenü der Kontakte können Kontakte versendet und empfangen werden.
 ;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
-
-[&A]
-
-[6]
-
-[&D]
-
-[&H]
-
+Kontakte senden
 [Choose contacts to be send:]
 Kontakte zum Senden auswählen:
 [&Send]
@@ -59,3 +51,13 @@ Kontakte
 Eingehende Kontakte
 [Outgoing Contacts]
 Ausgehende Kontakte
+;file \plugins\ContactsPlus\src\receive.cpp
+[Add Contact Permanently to List]
+Kontakt dauerhaft zur Liste hinzufügen
+[View User's Details]
+Kontaktprofil anzeigen
+[View User's History]
+Verlauf anzeigen
+[User Menu]
+Kontaktmenü
+;file \plugins\ContactsPlus\src\send.cpp

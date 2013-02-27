@@ -131,7 +131,7 @@ Zeichen
 [Disable in invisible status]
 Im Unsichtbar-Status deaktivieren
 [Skins]
-
+Skins
 [Opacity(%):]
 Deckkraft (%):
 [Transparency]
@@ -145,7 +145,7 @@ Schatten
 [Round corners (window)]
 Runde Ecken (Fenster)
 [Aero Glass (Vista+)]
-
+Aero Glass (Vista+)
 [Animation speed:]
 Animationsgeschwindigkeit:
 [Preview]
@@ -329,38 +329,28 @@ Miranda-Laufzeit:
 Geburtstag
 [Birthday:]
 Geburtstag:
-[%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
-
 [Client:]
-
-[%raw:/MirVer%]
 
 [Email]
 E-Mail
 [Email:]
 E-Mail:
-[%raw:/e-mail%]
-
 [Gender:]
 Geschlecht:
 [Homepage]
 Homepage
 [Homepage:]
 Homepage:
-[%raw:/Homepage%]
-
 [Identifier]
 Nutzer-ID
 [%sys:uidname|UID^!MetaContacts%:]
-
-[%sys:uid%]
 
 [Idle]
 Untätigkeit
 [Idle:]
 
-[%idle% (%idle_diff% ago)]
-%idle% (%idle_diff% her)
+[IP]
+
 [IP:]
 
 [IP internal]
@@ -624,7 +614,7 @@ Mazedonisch
 [Malay]
 Malayisch
 [Mandarin]
-
+Mandarin
 [Mongolian]
 Mongolisch
 [Norwegian]
@@ -660,7 +650,7 @@ Schwedisch
 [Tagalog]
 
 [Taiwanese]
-
+Taiwanesisch
 [Tamil]
 Tamilisch
 [Tatar]

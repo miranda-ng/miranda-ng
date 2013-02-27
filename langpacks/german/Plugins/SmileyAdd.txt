@@ -10,20 +10,14 @@
 Smileykategorien
 [Specify Smiley Pack for each category]
 Für jede Kategorie separate Smileys setzen
-[...]
-
 [Name:]
 Name:
 [Author:]
 Autor:
 [Version:]
-
+Version:
 [Preview]
 Vorschau
-[+]
-
-[-]
-
 [Display]
 Anzeige
 [Replace only smileys surrounded by spaces]
@@ -66,11 +60,6 @@ Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
 [SmileyAdd HTTP connections]
 SmileyAdd-Plugin HTTP-Verbindungen
-;file \plugins\SmileyAdd\src\general.cpp
-[GDI+ not installed.\nGDI+ can be downloaded here: http://www.microsoft.com/downloads]
-
-[Miranda SmileyAdd]
-
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
 Smiley-Button

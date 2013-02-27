@@ -28,7 +28,7 @@ Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds.]
 Sekunden.
 [Tabs]
-
+
 [Enable tabs]
 Tabs aktivieren
 [Always show tab bar]
@@ -69,8 +69,6 @@ Statusicon des Kontaktes als Fenstericon verwenden
 Transparenz aktivieren
 [active]
 aktiv
-[100%]
-
 [inactive]
 inaktiv
 [Min input area size]
@@ -150,13 +148,13 @@ Abbrechen
 [Message Session]
 Nachrichtensitzung
 [&U]
-
+
 [&D]
-
+
 [&E]
 
 [&H]
-
+
 [&Q]
 
 [Send To All Tabs]
@@ -170,7 +168,7 @@ Ja
 [No]
 Nein
 [Show these events only:]
-
+Nur folgende Ereignisse anzeigen:
 [Actions]
 Aktionen
 [Messages]
@@ -223,8 +221,6 @@ Wörter zum Hervorheben (Wildcards möglich)
 Logs speichern
 [Location]
 Ort
-[...]
-
 [Trim to]
 bis max.
 [kB]
@@ -256,9 +252,9 @@ Alles ko&pieren
 [Select &All]
 &Alles auswählen
 [Word lookup]
-
+Wort nachschlagen
 [Google]
-
+Google
 [Bing]
 
 [Wikipedia (en)]
@@ -274,9 +270,9 @@ Alles ko&pieren
 [C&lear Log]
 Verlauf &leeren
 [LogLink]
-
+
 [&Open link]
-
+Link &öffnen
 [&Copy link]
 Link kopieren
 [Message]
@@ -369,7 +365,7 @@ Benutzerliste einblenden
 [Status 1 (10x10)]
 Status 1 (10x10)
 [Status 2 (10x10]
-
+Status 2 (10x10)
 [Status 3 (10x10)]
 Status 3 (10x10)
 [Status 4 (10x10)]
@@ -515,6 +511,8 @@ Letzte Nachricht am %s um %s erhalten.
 ;file \plugins\Scriver\src\msglog.cpp
 [Unknown Contact]
 Unbekannter Kontakt
+[Me]
+Ich
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
 O Herr, segne diese deine Handgranate, mit ihr darfst du deine Feinde schlagen.
 [to tiny bits, in Thy mercy]
@@ -630,6 +628,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]
@@ -704,17 +704,17 @@ Ihr Name ist nun %s
 [Notice from %s]
 Private Nachricht von %s
 [The topic is '%s%s']
-
+Das Thema ist '%s%s'
 [ (set by %s on %s)]
-
+ (gesetzt von %s am %s)
 [ (set by %s)]
  (gesetzt von %s)
 [%s enables '%s' status for %s]
-
+%s aktiviert '%s' Status für %s
 [%s disables '%s' status for %s]
-
+%s deaktiviert '%s' Status für %s
 [<invalid>]
-
+<ungültig>
 ;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 Betreten
@@ -884,7 +884,7 @@ Variablen
 [Appearance]
 Erscheinungsbild
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-
+
 [Select Folder]
 Ordner wählen
 [PopUps]
@@ -950,8 +950,6 @@ Unterstrichen
 Textfarbe
 [Background color]
 Hintergrundfarbe
-[Font size]
-
 [Filter]
 
 [Manager]
@@ -981,7 +979,7 @@ Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Nick name]
 Nick
 [Unique id]
-
+
 [Status]
 Status
 [%s: Chat Room (%u user)]

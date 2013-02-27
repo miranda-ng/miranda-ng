@@ -27,7 +27,7 @@ Einstellungen
 [Enable BBCodes]
 BBCodes aktivieren
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-Folgende BBCodes werden unterstützt: [b], [i], [u], [s], [img], [size], [color], [url]
+Folgende BBCodes werden unterstützt: [b], [i], [u], [s], [img], [size], [color], [url] 
 [Enable support for Flash files in smileys and BBCodes]
 Unterstützung für Flash-Dateien in Smileys und BBCodes
 [Enable workaround for PNG transparency]
@@ -54,8 +54,6 @@ Vorlage verwenden
 Hintergrundbild
 [Scroll with text]
 Mit Text scrollen
-[...]
-
 [Template Options]
 Einstellungen der Vorlage
 [Use message grouping]
@@ -91,6 +89,12 @@ URL empfangen
 [ was added.]
 
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[%s has joined.]
+%s ist beigetreten.
+[%s has left.]
+%s ist gegangen.
+[The topic is %s.]
+Das Thema ist %s.
 [Error]
 Fehler
 ;file \plugins\IEView\src\Options.cpp
@@ -104,30 +108,28 @@ Gruppenchats
 Verlauf
 [Default]
 Standard
-[protocol]
-Protokoll
 [Message Sessions]
 Nachrichtensitzungen
 [IEView]
-
+IEView
 [Skins]
-
+Skins
 [320 x 205]
-
+320 x 205
 [480 x 385]
-
+480 x 385
 [560 x 349]
-
+560 x 349
 [640 x 390]
-
+640 x 390
 [Template]
 Vorlage
 [All Files]
 Alle Dateien
 [All Images]
-
+Alle Bilder
 [Style Sheet]
-
+Style Sheet
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Heute

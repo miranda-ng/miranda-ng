@@ -86,16 +86,13 @@ Abbre&chen
 Grund der Einlad.
 [Add]
 Hinzufügen
-;file \protocols\Yahoo\src\avatar.cpp
-[Yahoo Error]
-Yahoo-Fehler
-[Avatar upload failed!?!]
-
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-[Miranda] Chateinladung in Raum: %s mit Nachricht: %s
+
 [%s denied invitation with message: %s]
 
+[Me]
+Ich
 [Others]
 Sonstiges
 [&Invite user...]
@@ -126,6 +123,8 @@ Status setzen
 [Calendar]
 Kalender
 ;file \protocols\Yahoo\src\im.cpp
+[Yahoo Error]
+Yahoo-Fehler
 [The message send timed out.]
 Timeout beim Nachrichtenversand
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
@@ -137,12 +136,10 @@ Nachricht zu lang: Bitte auf max. 800 Zeichen (UTF8) kürzen
 [YAHOO plugin HTTP connections]
 Yahoo-Plugin HTTP-Verbindungen
 ;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to restart Miranda NG before they take effect]
-Die vorgenommenen Änderungen werden erst nach einem Neustart von Miranda NG aktiv
-[YAHOO Options]
-Yahoo-Einstellungen
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Die vorgenommenen Änderungen werden erst nach einer Neuverbindung zum Yahoo-Netzwerk aktiv.
+[YAHOO Options]
+Yahoo-Einstellungen
 [You need to be connected to Yahoo to add to Ignore List.]
 Sie müssen mit Yahoo online sein, um jemanden zu Ihrer Ignorierliste hinzufügen zu können.
 [Yahoo Ignore]
@@ -168,6 +165,8 @@ Ignorierliste
 Neue E-Mail im Posteingang
 [%s plugin connections]
 %s Pluginverbindungen
+[ID]
+
 [Please enter your yahoo id in Options/Network/Yahoo]
 Bitte die Yahoo-ID unter 'Einstellungen -> Protokolle -> Yahoo' eintragen!
 [Please enter your yahoo password in Options/Network/Yahoo]
@@ -193,13 +192,11 @@ Mein Profil b&earbeiten
 Kalender
 [Create Conference]
 Konferenz erstellen
-[&Refresh]
-Aktualisie&ren
 [&Show Profile]
 Profil zeigen
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-[Miranda] Webcameinladung. Diese wird nicht unterstützt.
+
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Kalendererinnerung
@@ -231,8 +228,6 @@ Verbindungsfehler zum Yahoo-Server - Falsches Passwort. Bitte Benutzername und P
 Verbindungsfehler zum Yahoo-Server. Ihr Konto ist gesperrt.\nBitte zum Freischalten auf %s gehen.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
 Sie wurden vermutlich aufgrund eines Mehrfachlogins vom Yahooserver getrennt.
-[You have been logged out of the yahoo service.]
-
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
 Verbindungsfehler zum Yahoo-Server. Bitte Einstellungen prüfen (Server/Port und Proxy.)
 [Could not log in, unknown reason: %d.]

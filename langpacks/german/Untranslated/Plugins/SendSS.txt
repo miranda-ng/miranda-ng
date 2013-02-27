@@ -1,5 +1,4 @@
 ﻿[Dialog]
-[Send screenshot]
 [%s\nv%s]
 [GCHAT error]
 [Unable to initiate %s.]

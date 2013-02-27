@@ -11,7 +11,7 @@ Frage: (Strg+Eingabe für Zeilenvorschub)
 [Restore defaults]
 Standard
 [Answer:]
-
+Antwort:
 [Congratulation:]
 Gratulation:
 [Auth. request reply:]
@@ -20,16 +20,8 @@ Rückmeldung bei Authorisierungsanfragen:
 
 [Available accounts:]
 Installierte Protokolle:
-[>>>>]
-
-[>>]
-
-[<<]
-
-[<<<<]
-
 [Filtered accounts:]
-
+Gefilterte Konten:
 [Do not send more than ]
 Sende nicht mehr als
 [ questions to one contact (0 - for no limit)]
@@ -41,43 +33,43 @@ Kontakt dauerhaft hinzufügen
 [Enable auth. requests blocking]
 Autorisierungsanfragen blockieren
 [Hide unanswered contacts and spammers from contact list]
-
+Unbeantwortete Kontakte und Spammer in Kontaktliste verbergen
 [Ignore spammers (do not write messages to history)]
-
+Spammer ignorieren (Nachrichten nicht in den Systemverlauf schreiben)
 [Log spam to file]
-
+Spam in Datei schreiben
 [Case insensitive answer checking]
-
+Groß-/Kleinschreibung bei Antwort überprüfen
 [Disable question in invisible mode]
-
+Frage in Unsichtbar-Modus deaktivieren
 [Enable integration with DOS plugin]
-
+Integration mit DOS-Plugin
 [Exclude contacts which we sending something from spam check]
-
+Kontakte, denen wir etwas senden, von Spamprüfung ausnehmen
 [Remove Excluded contacts after restart]
-
+Ausgeschlossene Kontakte nach Neustart entfernen
 [Add contacts to specified group:]
-
+Kontakt in angegebene Gruppe hinzufügen
 [Ignore URL in messages and auth requests]
-
+URLs in Nachrichten und Autorisierungsanfragen ignorieren
 [Add contact to server list]
-
+Kontakt in Serverliste hinzufügen
 [After congratulation (ICQ only)]
-
+Nach Gratulation (nur ICQ)
 [Automatically grant authorization]
-
+Automatisch Autorisierung gewähren
 [Request authorization from contacts which pass stopspam test]
-
+Autorisierung von Kontakten, die den Spam-Test bestanden haben,  anfragen
 [Remove all tempory contacts after restart]
 Alle temporären Kontakte nach einem Neustart entfernen
 [Use regex for answers checking]
-
+Prüfe Antwort mit regulärem Ausdruck
 [Log Spammers to system history]
 Spammer in den Systemverlauf eintragen
 [Use math expression in question]
-
+Matehmatischen Ausdruck in Frage verwenden
 [Details..]
-
+Details...
 ;file \plugins\StopSpamMod\src\init.cpp
 [Remove Temporary Contacts]
 Temporäre Kontakte entfernen

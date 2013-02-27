@@ -5,290 +5,23 @@
 ;  Version: 0.11.0.1
 ;  Authors: 
 ;============================================================
-;file \protocols\JabberG\IcqOscarJ\res\resources.rc
-[ICQ Number:]
-ICQ-Nummer:
-[Password:]
-Passwort:
-[Create a new ICQ account]
-Ein neues ICQ-Konto erstellen ...
-[Enter an authorization request]
-
-[&Send]
-&Senden
-[&Cancel]
-Abbre&chen
-[Enter ICQ Password]
-ICQ-Passwort eingeben
-[Enter a password for UIN %d:]
-Bitte Passwort für UIN %d eingeben:
-[Remember this session password]
-Dieses Sitzungspasswort merken
-[OK]
-OK
-[Cancel]
-Abbrechen
-[ICQ]
-
-[ICQ number:]
-ICQ-Nummer:
-[Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Tipp: Geben Sie hier kein Passwort ein, so wird immer beim Verbinden danach gefragt.
-[Retrieve a lost password or ICQ number]
-ICQ-Nummer oder Passwort vergessen? Hier klicken ...
-[Create a new ICQ account using the ICQ website]
-Ein neues ICQ-Konto über die ICQ-Webseite erstellen ...
-[Connection settings]
-Verbindungseinstellungen
-[Login Server:]
-Loginserver:
-[Port:]
-Port:
-[Default]
-Standard
-[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
-Tipp: Benutzen Sie Port 0 für eine zufällige Portwahl. Benutzen Sie Port 80 oder 443 bei Problemen mit einem HTTP-Proxyserver.
-[Secure Connection (SSL)]
-Sichere Verbindung (SSL)
-[Secure (MD5) login]
-Sichere Anmeldung (MD5)
-[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
-Verbindung aufrecht erhalten (aktivieren Sie dies, wenn Sie einen Proxyserver benutzen und häufig getrennt werden)
-[Ignore concurrent error messages]
-Ignoriere gleichzeitige Störungen
-[Show connection error messages:]
-Zeige Verbindungsfehler-Meldungen:
-[ICQ contacts stored on server]
-Serverseitige Kontaktliste
-[Manage server's list...]
-Serverliste verwalten
-[Enable server-side contact lists *]
-Serverseitige Kontaktliste aktivieren (*)
-[Add contacts to the server's list when I add them to mine]
-Füge Kontakte zur Serverliste hinzu, wenn ich diese zu meiner hinzufüge
-[Update my contacts' details from the server *]
-Aktualisiere Kontaktdetails vom Server (*)
-[Update contacts' details on the server's list when I change them in mine]
-Aktualisiere Kontaktdetails der Serverliste, wenn ich diese in meiner ändere
-[ICQ avatars]
-Avatare
-[Enable avatar support]
-Avatarunterstützung aktivieren
-[Check avatar validity before saving *]
-Avatare vor dem Speichern auf Gültigkeit prüfen (*)
-[Load avatars automatically (like ICQ Lite)]
-Avatare automatisch laden (wie ICQ Lite)
-[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-
-[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-Aktivieren/Deaktivieren der Serverkontaktliste nur möglich, wenn keine ICQ-Netzwerkverbindung besteht. Bitte zuerst offline gehen!
-[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
-(*) Diese Einstellungen wirken sich auch auf bereits bestehende Kontakte und das Profil aus. Sie müssen aber aktiviert sein, um ein Avatar auf den Server zu laden.
-[Messaging]
-Nachrichten
-[Enable unicode messaging support]
-Unicode für Nachrichten aktivieren
-[Send all messages in unicode if possible]
-Alle Nachrichten in Unicode senden, wenn möglich
-[Use this codepage for Ansi <-> Unicode translation :]
-Verwende diese Codetabelle für ANSI <-> Unicode:
-[Make me temporarily visible to contacts I send message to]
-Temporär für Kontakte sichtbar machen beim Nachrichtenversand
-[Notify me when a message delivery has failed (recommended)]
-Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte (empfohlen)
-[Never use legacy messaging (server acknowledgements)]
-Niemals Bestätigung alter Nachrichten einholen (Server Empfangsbestätigungen)
-[Peer-to-peer Messaging]
-Direktverbindung Nachrichten
-[Enable peer-to-peer message connections]
-Direktverbindungen für Nachrichtensitzungen
-[Passive mode, i.e. do not initiate new connections]
-Passiver Modus, d. h. keine neuen Verbindungen herstellen
-[Extra Features]
-Zusätzliche Funktionen
-[Enable Custom status support for xtraz]
-Custom Status Unterstützung für Xtraz aktivieren
-[Enable Custom status support for moods]
-Custom Status Unterstützung für Stimmungen aktivieren
-[Reset Custom status on status change]
-Custom Status bei Statusänderung zurücksetzen
-[Auto-retrieve Custom status details]
-XStatus-Details automatisch empfangen
-[Block known Spam Bots]
-Bekannte Spambots blockieren
-[Enable AIM contacts support]
-Unterstützung für AIM-Kontakte aktivieren
-[Direct connections]
-Direktverbindungen
-[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
-Bei direkten Verbindungen wird die eigene IP-Adresse bekanntgegeben. Für einige Funktionen des ICQ-Protokolls (z. B. Dateiübertragung) ist dies jedoch erforderlich.
-[Allow direct connections with any user]
-Direkte Verbindungen zu jedem Kontakt erlauben
-[Allow direct connections with users on my contact list]
-Direkte Verbindungen nur zu Kontakten meiner Kontaktliste erlauben
-[Allow direct connections only when I authorize or initiate them]
-Direkte Verbindungen nur, wenn von mir autorisiert oder selbst gestartet
-[Contact List Authorization]
-Kontaktlisten-Autorisierung
-[All users may add me to their Contact List]
-Jeder darf mich in seiner Kontaktliste aufnehmen
-[I want to be asked when someone wants to add me to their Contact List]
-Nachfragen, wenn jemand mich in seiner Kontaktliste aufnehmen möchte
-[Misc Settings]
-Sonstige Einstellungen
-[Allow others to view my Online / Offline status from the web (Web Aware)]
-Anzeigen des Online-/Offline-Status' im Internet (Web Aware) erlauben
-[Allow others to view my primary e-mail address]
-Erlaube anderen meine erste E-Mail-Adresse zu sehen
-[Only reply to status message requests from users on my contact list]
-Nur auf Statusnachrichtenanfragen von Kontakten aus meiner Kontaktliste antworten
-[Only reply to status message request from visible contacts]
-Nur auf Statusnachrichtenanfragen von sichtbaren Kontakten antworten
-[Some options are greyed out because they can only be changed when you are online.]
-Ausgegraute Einstellungen können nur geändert werden, wenn Sie online sind.
-[Options]
-Einstellungen
-[Enable popup support]
-Popup-Unterstützung aktivieren
-[Display errors using popups]
-Fehler durch Popups anzeigen
-[Display popup when spambot is detected]
-Zeige Popup, wenn Spambot entdeckt wurde
-[Look && Feel]
-Aussehen && Verhalten
-[Back Color]
-Hgrd.farbe
-[Text Color]
-Textfarbe
-[Timeout (*)]
-Zeitüberschreitung
-[Note]
-Anmerkung
-[Warning]
-Warnung
-[Error]
-Fehler
-[Fatal]
-Fataler Fehler
-[Spam detected]
-Spam entdeckt
-[&Use Windows colors]
-Windowsfarben verwenden
-[Use system &icons]
-System&icons verwenden
-[Previe&w]
-Vorschau
-[(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Zeitüberschreitung erfordert Popup v. 1.0.1.9 oder neuer
-[Use default colours]
-Standardfarben verwenden
-[UIN:]
-
-[External IP:]
-Externe IP:
-[Internal IP:]
-Interne IP:
-[Protocol Version:]
-Protokollversion:
-[User Client:]
-Benutzerclient:
-[Online since:]
-Online seit:
-[System up since:]
-System an seit:
-[Idle since:]
-Untätig seit:
-[Status:]
-Status:
-[Summary]
-Zusammenfassung
-[Nickname:]
-Nick:
-[First name:]
-Vorname:
-[Last name:]
-Nachname:
-[E-mail:]
-E-Mail:
-[Gender:]
-Geschlecht:
-[Age:]
-Alter:
-[Marital status:]
-Familienstand:
-[Keywords:]
-Schlüsselw.
-[Work]
-Arbeit
-[Occupation:]
-Beruf:
-[Company:]
-Firma:
-[Department:]
-Abteilung:
-[Position:]
-Position:
-[Organisation:]
-
-[Location]
-Ort
-[Language:]
-Sprache:
-[Country:]
-Land:
-[State:]
-Region:
-[City:]
-Stadt:
-[Background info]
-Hintergrund-Info
-[Interests]
-Interessen
-[Category:]
-Kategorie:
-[Past]
-Vergangenheit
-[Homepage]
-Homepage
-[Other]
-Sonstige
-[Search online users only]
-Suche nur nach Onlinenutzern
-[Manage ICQ Server Contacts]
-ICQ-Kontakte auf Server verwalten
-[Select contacts to store:]
-Kontakte für Upload wählen:
-[Synchronize]
-Synchronisiere
-[Custom Status "%s" Details]
-Custom-Status "%s" Details
-[Closing in %d]
-In %d schließen
-[Title:]
-Titel:
-[Message:]
-Nachricht:
-[Retrieving custom status details...]
-Empfange Custom-Status-Details ...
-[&Save changes]
-Änderungen &speichern
-[Confirm Password Change]
-Passwortänderung bestätigen
-[Please re-type your new password:]
-Bitte neues Passwort hier eingeben:
-[Enter your current password:]
-Aktuelles Passwort hier eingeben:
 ;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Notiz editieren
 [Tags:]
 Schlagwörter: (mehrere Schlagwörter durch Komma trennen)
+[OK]
+OK
+[Cancel]
+Abbrechen
 [Type:]
 Typ:
 [User:]
 Benutzer:
 [Domain/Server:]
 
+[Password:]
+Passwort:
 [Save password]
 Passwort speichern
 [Resource:]
@@ -297,8 +30,6 @@ Standort:
 Neu registrieren
 [Use custom connection host and port:]
 Verwende eigenen Verbindungshost und -port:
-[:]
-
 [Use Domain Login]
 Domain-Login verwenden
 [Go]
@@ -329,6 +60,8 @@ Priorität:
 Computername als Standort verwenden
 [List of public servers]
 Liste öffentlicher Server
+[Port:]
+Port:
 [Use SSL]
 SSL verwenden
 [Use TLS]
@@ -380,7 +113,7 @@ Registrieren
 [Browse/Join chat room...]
 Konferenzraum suchen/betreten
 [Search...]
-
+Suchen...
 [Registered Jabber Transports]
 Angemeldete Jabbertransporte/Gateways
 [Log on]
@@ -410,27 +143,49 @@ Jabber-Passwort
 [Remember password for this session]
 Passwort für diese Sitzung behalten
 [Save password permanently]
-
+Passwort dauerhaft speichern
 [Data form test]
 
 [Address1:]
 Adresse 1:
 [Address2:]
 Adresse 2:
+[City:]
+Stadt:
+[State:]
+Region:
 [ZIP:]
 PLZ:
+[Country:]
+Land:
 [Full name:]
 vollst. Name:
 [Nick name:]
 Nick:
+[First name:]
+Vorname:
 [Middle:]
 Weitere Vorn.
+[Last name:]
+Nachname:
 [Date of birth:]
 Geburtstag:
 [YYYY-MM-DD]
 JJJJ-MM-TT (1991-10-31)
+[Gender:]
+Geschlecht:
+[Occupation:]
+Beruf:
 [Homepage:]
 Homepage:
+[Company:]
+Firma:
+[Department:]
+Abteilung:
+[Title:]
+Titel:
+[E-mail:]
+E-Mail:
 [Phone:]
 Telefon:
 [Jabber vCard: Add Email Address]
@@ -439,6 +194,8 @@ Jabber-vCard: E-Mail-Adresse hinzufügen
 E-Mail-Adresse:
 [Home]
 Wohnort
+[Work]
+Arbeit
 [Internet]
 
 [X400]
@@ -499,8 +256,6 @@ Zuletzt besuchte Konferenzräume:
 Lesezeichen
 [JID List]
 
-[List4]
-
 [Apply Filter]
 
 [Reset Filter]
@@ -531,6 +286,8 @@ E&inladen
 
 [with following reason:]
 
+[Nickname:]
+Nick:
 [&Accept]
 &Akzeptieren
 [Jabber Bookmarks]
@@ -621,6 +378,8 @@ Aktualisieren
 
 [Change %s Message]
 '%s'-Nachricht ändern
+[Closing in %d]
+In %d schließen
 [Account type:]
 
 [Login server:]
@@ -685,1720 +444,6 @@ XML-Konsole
 Log löschen
 [Send]
 Senden
-;file \protocols\JabberG\IcqOscarJ\src\chan_04close.cpp
-[Unable to connect to migrated ICQ communication server]
-Es konnte keine Verbindung zum ICQ-Loginserver migriert werden.
-[Unable to connect to ICQ communication server]
-Es konnte keine Verbindung zum ICQ-Loginserver hergestellt werden.
-[You could not sign on because the server returned invalid data. Try again.]
-Anmeldung war nicht möglich, da der Server ungültige Daten sendete. Versuchen Sie es später noch einmal.
-[You have been disconnected from the ICQ network because the current server shut down.]
-Verbindung zum ICQ-Netzwerk wurde getrennt, da der aktuelle Server nicht erreichbar ist.
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
-[Connection failed.\nThe server is temporarily unavailable (%d).]
-Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
-[Connection failed.\nServer has too many connections from your IP (%d).]
-Verbindung fehlgeschlagen.\nServer hat zu viele Verbindungen von Ihrer IP (%d).
-[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-Verbindung fehlgeschlagen.\nDer Verbindungsaufbau erfolgte zu schnell,\nbitte warten Sie mindestens 30 Minuten und versuchen Sie es dann erneut, versuchen Sie sich auf keinen Fall in dieser Zeit erneut zu verbinden (%d).
-[Connection failed.\nThe server did not accept this client version.]
-Verbindung fehlgeschlagen.\nDer Server akzeptiert diese Clientversion nicht.
-[The server sent warning, this version is getting old.\nTry to look for a new one.]
-Der Server sendete die Warnung, dass diese Version alt wird.\nSuche nach einer neuen.
-[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-Verbindung fehlgeschlagen.\nSie wurden vom Server abgewiesen.\nDas kann passieren, wenn die ICQ-Nummer bereits angemeldet ist.
-[Connection failed.\nSecure (MD5) login is not supported on this account.]
-Verbindung fehlgeschlagen.\nVerschlüsseltes (MD5-)Anmelden wird von diesem Konto nicht unterstützt.
-[Connection failed.\nUnknown error during sign on: 0x%02x]
-Verbindung fehlgeschlagen.\nUnbekannter Fehler beim Anmelden: 0x%02x
-[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-Sie wurden vom ICQ-Netzwerk getrennt, da Sie bereits von einem anderen Ort mit derselben ICQ-Nummer eingeloggt sind.
-[Unknown runtime error: 0x%02x]
-Unbekannter Laufzeitfehler: 0x%02x
-;file \protocols\JabberG\IcqOscarJ\src\fam_01service.cpp
-[A server migration has failed because the server returned invalid data. You must reconnect manually.]
-Probleme beim Datenaustausch mit dem Server, es wurden ungültige Daten vom Server gesendet. Bitte manuell neu verbinden.
-[Failed to request offline messages. They may be received next time you log in.]
-Fehler beim anfordern der Offlinenachricht. Sie können diese beim nächsten Verbinden empfangen.
-;file \protocols\JabberG\IcqOscarJ\src\fam_03buddy.cpp
-[Spambot Detected]
-Spambot entdeckt
-[Contact deleted & further events blocked.]
-Kontakt gelöscht und weitere Ereignisse blockiert.
-;file \protocols\JabberG\IcqOscarJ\src\fam_04message.cpp
-[Incoming URL:]
-
-[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
-Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x02
-[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
-Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x03
-[The contact does not support receiving offline messages.]
-
-[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Kontakt ist offline gegangen. Bitte erneut als Offlinenachricht senden.\nSNAC(4.1) Fehler x04
-[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
-Der Nachrichtendienst ist temporär nicht verfügbar. Warten Sie ein bisschen und versuchen Sie es dann erneut.\r\nSNAC(4.1) Fehler x05
-[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
-Der Client des Kontakts unterstützt diese Art der Nachricht nicht.\nSNAC(4.1) Fehler x09
-[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
-Der Client des Empfängers unterstützt keine Nachrichten dieser Länge.\nSNAC(4.1) Fehler x0A
-[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
-Das SNAC-Format wurde vom Server abgelehnt.\nSNAC(4.1) Fehler x0E
-[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
-Der Kontakt ist zzt. nicht erreichbar. Eine Weile warten und erneut versuchen.\nSNAC(4.1) Fehler x13
-[SNAC(4.1) SENDMSG Error (x%02x)]
-SNAC(4.1) SENDMSG-Fehler (x%02x)
-[Contact "%s" has closed the message window.]
-"%s" hat das Nachrichtenfenster geschlossen.
-[ICQ Note]
-ICQ-Hinweis
-;file \protocols\JabberG\IcqOscarJ\src\fam_13servclist.cpp
-[Server contact list is unavailable, Miranda will use local contact list.]
-Server-Kontaktliste nicht erreichbar, Miranda benutzt die lokale Kontaktliste.
-[Updating of server contact failed.]
-Update des Serverkontakt schlug fehl.
-[Adding of privacy item to server list failed.]
-Hinzufügen des privaten Teils auf dem Server fehlgeschlagen.
-[Removing of privacy item from server list failed.]
-Löschen des privaten Teils auf dem Server fehlgeschlagen.
-[Adding of contact to server list failed.]
-Hinzufügen des Kontakts auf dem Server fehlgeschlagen.
-[Adding of group to server list failed.]
-Hinzufügen der Gruppe auf dem Server fehlgeschlagen.
-[Removing of contact from server list failed.]
-Löschen des Kontakts auf dem Server fehlgeschlagen.
-[Updating of group on server list failed.]
-Aktualisierung der Gruppe auf dem Server ist fehlgeschlagen.
-[Removing of group from server list failed.]
-Löschen der Gruppe auf dem Server fehlgeschlagen.
-[Moving of user to another group on server list failed.]
-Verschieben des Kontakts zu einer anderen Gruppe auf dem Server fehlgeschlagen.
-[Renaming of server group failed.]
-Umbenennen der Gruppe auf dem Server fehlgeschlagen.
-[Contact "%s" was authorized in the server list.]
-
-[Contact "%s" lost its authorization in the server list.]
-
-[User "%s" was removed from server list.]
-Nutzer "%s" wurde aus der Serverliste entfernt.
-;file \protocols\JabberG\IcqOscarJ\src\fam_17signon.cpp
-[Secure login failed.\nInvalid server response.]
-Sicherer Login schlug fehl.\nUngültige Serverantwort.
-[Secure login failed.\nInvalid key length.]
-Sicherer Login schlug fehl.\nFalsche Schlüssellänge.
-;file \protocols\JabberG\IcqOscarJ\src\icqosc_svcs.cpp
-[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
-Sind Sie sich sicher, dass Sie diesem Kontakt Ihre Autorisierung entziehen wollen?\nDies entfernt Sie von dessen Kontaktliste in einigen Clients.
-[Confirmation]
-Bestätigung
-[** This message was blocked by the ICQ server ** The message was invalid.]
-** Diese Nachricht wurde vom Server blockiert ** Die Nachricht ist ungültig.
-[** This message was blocked by the ICQ server ** The message was too long.]
-** Diese Nachricht wurde vom Server blockiert ** Nachricht ist zu lang.
-[** This message was blocked by the ICQ server ** The sender has flooded the server.]
-** Diese Nachricht wurde vom Server blockiert ** Der Sender hat den Server gefloodet.
-[** This message was blocked by the ICQ server ** You are too evil.]
-** Diese Nachricht wurde vom Server blockiert ** Sie sind zu bose.
-[** Unknown missed message event.]
-
-;file \protocols\JabberG\IcqOscarJ\src\icq_avatar.cpp
-[Error uploading avatar to server, server temporarily unavailable.]
-Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
-[Error uploading avatar to server, server refused to accept the image.]
-Fehler beim Avatarupload zum Server, der Server akzeptiert das Bild nicht.
-;file \protocols\JabberG\IcqOscarJ\src\icq_constants.h
-;file \protocols\JabberG\IcqOscarJ\src\icq_fieldnames.cpp
-[Afghanistan]
-
-[Albania]
-Albanien
-[Algeria]
-Algerien
-[Andorra]
-
-[Angola]
-
-[Anguilla]
-
-[Antigua and Barbuda]
-Antigua und Barbuda
-[Antilles]
-Antillen
-[Argentina]
-Argentinien
-[Armenia]
-Armenien
-[Aruba]
-
-[Ascension Island]
-Ascension Inseln
-[Australia]
-Australien
-[Australia, Antarctic Territory]
-
-[Australia, Christmas Island]
-
-[Australia, Cocos (Keeling) Islands]
-
-[Australia, Norfolk Island]
-
-[Austria]
-Österreich
-[Azerbaijan]
-Aserbaidschan
-[Bahamas]
-
-[Bahrain]
-
-[Bangladesh]
-
-[Barbados]
-
-[Barbuda]
-
-[Belarus]
-Weissrussland
-[Belgium]
-Belgien
-[Belize]
-
-[Benin]
-
-[Bermuda]
-
-[Bhutan]
-
-[Bolivia]
-Bolivien
-[Bosnia and Herzegovina]
-Bosnien-Herzegowina
-[Botswana]
-
-[Brazil]
-Brasilien
-[British Virgin Islands]
-Britische Jungfraueninseln
-[Brunei]
-
-[Bulgaria]
-Bulgarien
-[Burkina Faso]
-
-[Burundi]
-
-[Cambodia]
-Kambodscha
-[Cameroon]
-Kamerun
-[Canada]
-Kanada
-[Canary Islands]
-Kanarische Inseln
-[Cape Verde Islands]
-Kapverdische Inseln
-[Cayman Islands]
-Cayman Inseln
-[Central African Republic]
-Zentralafrikanische Republik
-[Chad]
-Tschad
-[Chile, Republic of]
-Chile
-[China]
-China
-[Cocos (Keeling) Islands]
-Kokos Inseln
-[Colombia]
-Kolumbien
-[Comoros]
-Comoren
-[Congo, Democratic Republic of (Zaire)]
-Demokratische Republik Kongo (Zaire)
-[Congo, Republic of the]
-Republik Kongo
-[Cook Islands]
-Cook-Inseln
-[Costa Rica]
-
-[Cote d'Ivoire (Ivory Coast)]
-Elfenbeinküste
-[Croatia]
-Kroatien
-[Cuba]
-Kuba
-[Greek, Republic of South Cyprus]
-
-[Czech Republic]
-Tschechische Republik
-[Denmark]
-Dänemark
-[Diego Garcia]
-
-[Djibouti]
-Dschibuti
-[Dominica]
-
-[Dominican Republic]
-Dominikanische Republik
-[Ecuador]
-Ekuador
-[Egypt]
-Ägypten
-[El Salvador]
-
-[Equatorial Guinea]
-Äquatorialguinea
-[Eritrea]
-
-[Estonia]
-Estland
-[Ethiopia]
-Äthiopien
-[Europe]
-
-[Faeroe Islands]
-Färöer Inseln
-[Falkland Islands]
-Falkland Inseln
-[Fiji]
-Fidschi
-[Finland]
-Finnland
-[France]
-Frankreich
-[French Antilles]
-Fränzösische Antillen
-[French Guiana]
-Französisch-Guayana
-[French Polynesia]
-Französisch-Polynesien
-[Gabon]
-Gabun
-[Gambia]
-
-[Georgia]
-Georgien
-[Germany]
-Deutschland
-[Ghana]
-
-[Gibraltar]
-
-[Greece]
-Griechenland
-[Greenland]
-Grönland
-[Grenada]
-
-[Guadeloupe]
-
-[Guam, US Territory of]
-Guam, US Territorium
-[Guatemala]
-
-[Guinea]
-
-[Guinea-Bissau]
-
-[Guyana]
-
-[Haiti]
-
-[Honduras]
-
-[Hong Kong]
-
-[Hungary]
-Ungarn
-[Iceland]
-Island
-[India]
-Indien
-[Indonesia]
-Indonesien
-[Iran (Islamic Republic of)]
-Islamische Republik Iran
-[Iraq]
-Irak
-[Ireland]
-Irland
-[Israel]
-
-[Italy]
-Italien
-[Jamaica]
-Jamaika
-[Japan]
-
-[Jordan]
-Jordanien
-[Kazakhstan]
-Kasachstan
-[Kenya]
-Kenia
-[Kiribati]
-Kiribati
-[Korea, North]
-Korea, Nordkorea
-[Korea, South]
-Republik Korea, Südkorea
-[Kuwait]
-
-[Kyrgyzstan]
-Kirgisien
-[Laos]
-
-[Latvia]
-Lettland
-[Lebanon]
-Libanon
-[Lesotho]
-
-[Liberia]
-
-[Libyan Arab Jamahiriya]
-Libyen
-[Liechtenstein]
-
-[Lithuania]
-Litauen
-[Luxembourg]
-Luxemburg
-[Macau]
-Macao
-[Macedonia, Republic of]
-
-[Madagascar]
-Madagaskar
-[Malawi]
-
-[Malaysia]
-
-[Maldives]
-Malediven
-[Mali]
-
-[Malta]
-
-[Marshall Islands]
-Marshall Inseln
-[Martinique]
-
-[Mauritania]
-Mauretanien
-[Mauritius]
-
-[Mayotte Island]
-Mayotte Inseln
-[Mexico]
-Mexiko
-[Micronesia, Federated States of]
-Föderierte Staaten von Mikronesien
-[Moldova, Republic of]
-Moldawien
-[Monaco]
-
-[Mongolia]
-Mongolei
-[Montserrat]
-
-[Morocco]
-Marokko
-[Mozambique]
-Mosambik
-[Myanmar]
-
-[Namibia]
-
-[Nauru]
-Nauruisch
-[Nepal]
-
-[Netherlands]
-Niederlande
-[Netherlands Antilles]
-Niederländische Antillen
-[St. Maarten]
-
-[Curacao]
-
-[Netherlands (Bonaire Island)]
-
-[Netherlands (Saba Island)]
-
-[Netherlands (St. Eustatius Island)]
-
-[Nevis]
-
-[New Caledonia]
-Neu Kaledonien
-[New Zealand]
-Neuseeland
-[Nicaragua]
-
-[Niger]
-
-[Nigeria]
-
-[Niue]
-
-[Northern Mariana Islands, US Territory of]
-
-[Norway]
-Norwegen
-[Oman]
-
-[Pakistan]
-
-[Palau]
-
-[Panama]
-
-[Papua New Guinea]
-Papua Neuguinea
-[Paraguay]
-
-[Peru]
-
-[Philippines]
-Philippinen
-[Poland]
-Polen
-[Portugal]
-
-[Puerto Rico]
-
-[Qatar]
-Katar
-[Reunion Island]
-Reunion Insel
-[Romania]
-Rumänien
-[Rota Island]
-Rota Inseln
-[Russia]
-Russland
-[Rwanda]
-Ruanda
-[Samoa (USA)]
-
-[Samoa, Western]
-
-[Saint Helena]
-St. Helena
-[Saint Kitts]
-St. Kitts
-[Saint Kitts and Nevis]
-St. Kitts und Nevis
-[Saint Lucia]
-St. Lucia
-[Saint Pierre and Miquelon]
-St. Pierre und Miquelon
-[Saint Vincent and the Grenadines]
-St. Vincent und Grenadinen
-[Saipan Island]
-Saipan
-[San Marino]
-
-[Sao Tome and Principe]
-Sao Tome und Principe
-[Saudi Arabia]
-Saudi Arabien
-[Scotland]
-Schottland
-[Senegal]
-
-[Seychelles]
-Seychellen
-[Sierra Leone]
-
-[Singapore]
-Singapur
-[Slovakia]
-Slowakei
-[Slovenia]
-Slowenien
-[Solomon Islands]
-Solomon-Inseln
-[Somalia]
-
-[South Africa]
-Südafrika
-[Spain]
-Spanien
-[Spain, Canary Islands]
-
-[Sri Lanka]
-
-[Sudan]
-
-[Suriname]
-Surinam
-[Swaziland]
-
-[Sweden]
-Schweden
-[Switzerland]
-Schweiz
-[Syrian Arab Republic]
-Arabische Republik Syrien
-[Taiwan]
-
-[Tajikistan]
-Tadschikistan
-[Tanzania]
-Tansania
-[Thailand]
-
-[Tinian Island]
-Tinian Inseln
-[Timor, East]
-
-[Togo]
-
-[Tokelau]
-
-[Tonga]
-
-[Trinidad and Tobago]
-Trinidad und Tobago
-[Tunisia]
-Tunesien
-[Turkey]
-Türkei
-[Turkey, Republic of Northern Cyprus]
-
-[Turkmenistan]
-
-[Turks and Caicos Islands]
-Turks und Caicos Inseln
-[Tuvalu]
-
-[Uganda]
-
-[Ukraine]
-
-[United Arab Emirates]
-Vereinigte Arabische Emirate
-[United Kingdom]
-Großbritannien
-[Uruguay]
-
-[USA]
-
-[Uzbekistan]
-Usbekistan
-[Vanuatu]
-
-[Vatican City]
-Vatikanstadt
-[Venezuela]
-
-[Vietnam]
-
-[Virgin Islands (UK)]
-
-[Virgin Islands (USA)]
-Amerikanische Jungferninseln
-[Wales]
-
-[Wallis and Futuna Islands]
-Wallis und Futuna Inseln
-[Yemen]
-Jemen
-[Yugoslavia]
-Jugoslawien
-[Serbia, Republic of]
-
-[Kosovo, Republic of]
-
-[Montenegro, Republic of]
-
-[Zambia]
-Sambia
-[Zimbabwe]
-Simbabwe
-[50's]
-50er Jahre
-[60's]
-60er Jahre
-[70's]
-70er Jahre
-[80's]
-80er Jahre
-[Art]
-Kunst
-[Astronomy]
-Astronomie
-[Audio and Visual]
-Bild & Ton
-[Business]
-Geschäft
-[Business Services]
-Unternehmen
-[Cars]
-Autos
-[Celebrity Fans]
-Fans
-[Clothing]
-Kleidung
-[Collections]
-Sammlungen
-[Computers]
-Computer
-[Culture]
-Kultur
-[Ecology]
-Ökologie
-[Entertainment]
-Unterhaltung
-[Finance and Corporate]
-Finanzen & Firmen
-[Fitness]
-
-[Health and Beauty]
-Gesundheit & Schönheit
-[Hobbies]
-Hobbys
-[Home Automation]
-Heimautomatisierung
-[Household Products]
-Haushaltsprodukte
-[Games]
-Spiele
-[Government]
-Politik
-[ICQ - Help]
-ICQ - Hilfe
-[Lifestyle]
-Lebensart
-[Mail Order Catalog]
-Versandhauskatalog
-[Media]
-Medien
-[Movies and TV]
-Filme und TV
-[Music]
-Musik
-[Mystics]
-Mystik
-[News and Media]
-News und Medien
-[Outdoors]
-Im Freien
-[Parenting]
-Elternschaft
-[Parties]
-Partys
-[Pets and Animals]
-Haustiere und Tiere
-[Publishing]
-Verlagswesen
-[Religion]
-
-[Retail Stores]
-Kaufhäuser
-[Science]
-Forschung
-[Skills]
-Fähigkeiten
-[Social science]
-Sozialwissenschaft
-[Space]
-Raumfahrt
-[Sporting and Athletic]
-sportlich & athletisch
-[Sports]
-Sportarten
-[Travel]
-Reisen
-[Web Design]
-Webdesign
-[Women]
-Frauen
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanisch
-[Arabic]
-Arabisch
-[Armenian]
-Armenisch
-[Azerbaijani]
-Aserbaidschanisch
-[Belorussian]
-Weissrussisch
-[Bhojpuri]
-
-[Bosnian]
-Bosnisch
-[Bulgarian]
-Bulgarisch
-[Burmese]
-Birmanisch
-[Cantonese]
-Kantonesisch
-[Catalan]
-Katalanisch
-[Chamorro]
-
-[Chinese]
-Chinesisch
-[Croatian]
-Kroatisch
-[Czech]
-Tschechisch
-[Danish]
-Dänisch
-[Dutch]
-Niederländisch
-[English]
-Englisch
-[Esperanto]
-Esperanto (Plansprache)
-[Estonian]
-Estnisch
-[Farsi]
-
-[Finnish]
-Finnisch
-[French]
-Französisch
-[Gaelic]
-Gälisch
-[German]
-Deutsch
-[Greek]
-Griechisch
-[Gujarati]
-
-[Hebrew]
-Hebräisch
-[Hindi]
-
-[Hungarian]
-Ungarisch
-[Icelandic]
-Isländisch
-[Indonesian]
-Indonesisch
-[Italian]
-Italienisch
-[Japanese]
-Japanisch
-[Khmer]
-
-[Korean]
-Koreanisch
-[Kurdish]
-Kurdisch
-[Lao]
-Laotisch
-[Latvian]
-Lettisch
-[Lithuanian]
-Litauisch
-[Macedonian]
-Mazedonisch
-[Malay]
-Malayisch
-[Mandarin]
-
-[Mongolian]
-Mongolisch
-[Norwegian]
-Norwegisch
-[Persian]
-Persisch
-[Polish]
-Polnisch
-[Portuguese]
-Portugiesisch
-[Punjabi]
-Panjabi
-[Romanian]
-Rumänisch
-[Russian]
-Russisch
-[Serbian]
-Serbisch
-[Sindhi]
-
-[Slovak]
-Slowakisch
-[Slovenian]
-Slowenisch
-[Somali]
-Somalisch
-[Spanish]
-Spanisch
-[Swahili]
-Suaheli
-[Swedish]
-Schwedisch
-[Tagalog]
-
-[Taiwanese]
-
-[Tamil]
-Tamilisch
-[Tatar]
-Tatarisch
-[Thai]
-Thailändisch
-[Turkish]
-Türkisch
-[Ukrainian]
-Ukrainisch
-[Urdu]
-
-[Vietnamese]
-Vietnamesisch
-[Welsh]
-Walisisch
-[Yiddish]
-Jiddisch
-[Yoruba]
-
-[Elementary School]
-Grundschule
-[High School]
-Mittelschule
-[College]
-Gymnasium
-[University]
-Universität
-[Military]
-Militär
-[Past Work Place]
-ehemaliger Arbeitsplatz
-[Past Organization]
-ehemalige Organisation
-[Female]
-weiblich
-[Male]
-männlich
-[Associated degree]
-
-[Bachelor's degree]
-
-[Elementary]
-
-[High-school]
-
-[Master's degree]
-
-[PhD]
-
-[Postdoctoral]
-
-[University / College]
-
-[Agriculture]
-
-[Arts]
-
-[Construction]
-
-[Consumer Goods]
-
-[Corporate Services]
-
-[Education]
-Schule und Studium
-[Finance]
-
-[High Tech]
-
-[Legal]
-
-[Manufacturing]
-Fertigung
-[Medical & Health Care]
-
-[Non-Profit Organization Management]
-
-[Recreation, Travel & Entertainment]
-
-[Service Industry]
-
-[Transportation]
-
-[Academic]
-Akademisch
-[Administrative]
-Verwaltung
-[Art/Entertainment]
-Kunst/Unterhaltung
-[College Student]
-Schüler
-[Community & Social]
-Gemeinde & Soziales
-[Engineering]
-Ingenieurwesen
-[Financial Services]
-Finanzservice
-[High School Student]
-Mittelschüler
-[ICQ - Providing Help]
-ICQ - Helfer
-[Law]
-Gesetz
-[Managerial]
-geschäftsführend
-[Medical/Health]
-Medizin/Gesundheit
-[Non-Government Organization]
-Nichtpolitische Organisation
-[Professional]
-Experte
-[Retail]
-Einzelhandel
-[Retired]
-pensioniert
-[Science & Research]
-Forschung & Entwicklung
-[Technical]
-technisch
-[University Student]
-Student (Universitär)
-[Web Building]
-
-[Other Services]
-
-[Alumni Org.]
-Studentenvereinigung
-[Charity Org.]
-Wohltätigkeitsverein
-[Club/Social Org.]
-Verein/Soziale Org.
-[Community Org.]
-Gemeine-Org.
-[Cultural Org.]
-Kulturelle Org.
-[Fan Clubs]
-
-[Fraternity/Sorority]
-Bruder-/Schwesternschaft
-[Hobbyists Org.]
-Hobby-Organisationen
-[International Org.]
-Internationale Org.
-[Nature and Environment Org.]
-Natur- & Umwelt-Organisationen
-[Professional Org.]
-
-[Scientific/Technical Org.]
-Wissenschaftliche/Technische Org.
-[Self Improvement Group]
-Selbsterfahrungsgruppen
-[Spiritual/Religious Org.]
-Spirituelle/Religiöse Org.
-[Sports Org.]
-Sportverein
-[Support Org.]
-Unterstützungs-Org.
-[Trade and Business Org.]
-Handels- & Geschäfts-Org.
-[Union]
-Gewerkschaft
-[Volunteer Org.]
-Freiwilligen-Org.
-[60-above]
-60 und älter
-[Single]
-
-[Close relationships]
-Feste Beziehung
-[Engaged]
-Verlobt
-[Married]
-Verheiratet
-[Divorced]
-Geschieden
-[Separated]
-Getrennt
-[Widowed]
-Verwitwet
-[Open relationship]
-Offene Beziehung
-;file \protocols\JabberG\IcqOscarJ\src\icq_filerequests.cpp
-[No description given]
-Keine Beschreibung vorhanden.
-;file \protocols\JabberG\IcqOscarJ\src\icq_filetransfer.cpp
-[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
-Dateiübertragung abgebrochen, da eine der ausgewählten Dateien nicht mehr vorhanden ist. Entweder wurde diese gelöscht oder verschoben.
-[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
-Dateiübertragung abgebrochen, da Miranda die Zieldatei nicht schreiben kann. Sie haben vielleicht einen schreibgeschützten Ordner angegeben.
-;file \protocols\JabberG\IcqOscarJ\src\icq_menu.cpp
-[Request authorization]
-Autorisierung anfragen
-[Grant authorization]
-Autorisierung gewähren
-[Revoke authorization]
-Autorisierung widerrufen
-[Add to server list]
-Zur Serverliste hinzufügen
-[Show custom status details]
-Custom-Status-Details anzeigen
-[Open ICQ profile]
-ICQ-Profil öffnen
-;file \protocols\JabberG\IcqOscarJ\src\icq_opts.cpp
-[Display all problems]
-Zeige alle Probleme
-[Display problems causing possible loss of data]
-Zeige Probleme, die möglichen Datenverlust verursachen
-[Display explanations for disconnection]
-Erklärung anzeigen für Trennung
-[Display problems requiring user intervention]
-Zeige Probleme, die einen Benutzereingriff erfordern
-[Do not display any problems (not recommended)]
-Gar keine Probleme anzeigen (nicht empfohlen)
-[Simplified Chinese]
-Vereinfachtes Chinesisch
-[Traditional Chinese]
-Traditionelles Chinesisch
-[Central European]
-Mitteleuropäisch
-[Cyrillic]
-Kyrillisch
-[Latin I]
-Lateinisch
-[Baltic]
-Baltisch
-[Korean (Johab)]
-Koreanisch, Johab
-[System default codepage]
-Standardsystemcodepage
-[Network]
-Netzwerk
-[Account]
-Konto
-[Contacts]
-Kontakte
-[Features]
-Funktionen
-[Privacy]
-Privatsphäre
-[PopUps]
-Popups
-;file \protocols\JabberG\IcqOscarJ\src\icq_popups.cpp
-[Popup Title]
-Popup-Titel
-[Sample Note]
-Beispiel: Hinweis
-[Sample Warning]
-Beispiel: Warnung
-[Sample Error]
-Beispiel: Fehler
-[Sample Fatal]
-Beispiel: Fataler Fehler
-[Sample Spambot]
-Beispiel: Spambot
-;file \protocols\JabberG\IcqOscarJ\src\icq_proto.cpp
-[%s server connection]
-%s Serververbindung
-[%s client-to-client connections]
-%s Client-to-Client-Verbindungen
-[User ID]
-Nutzer-ID
-[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Sie haben keine ICQ-Nummer angegeben.\nDiese bitte unter Einstellungen -> Protokolle -> ICQ eintragen und neu versuchen.
-;file \protocols\JabberG\IcqOscarJ\src\icq_server.cpp
-[Unable to connect to ICQ login server, SSL could not be negotiated]
-Die Verbindung zum ICQ-Loginserver konnte nicht hergestellt werden, SSL konnte nicht ausgehandelt werden.
-[Unable to connect to ICQ login server]
-Konnte sich nicht mit dem ICQ-Loginserver verbinden.
-[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Miranda NG konnte den Port für die direkte P2P-Verbindung zwischen den Clients nicht zuweisen. Sie können das ICQ-Netzwerk ohne Probleme benutzen (z.B. die Suche), allerdings können keine Daten empfangen oder gesendet werden..\n\nFalls Sie eine Firewall haben, blockt diese evtt. Miranda NG. Kontrollieren Sie alle Einstellungen und überprüfen Sie alle Ports die Miranda NG und ICQ benötigen unter Einstellungen - ICQ KOnto - Verbindungseinstellungen und Einstellungen - Protokolle.
-[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-Verbindungsversuch aus unbekannter Ursache fehlgeschlagen.\nBitte in 30 Minuten noch einmal versuchen.
-[Your connection with the ICQ server was abortively closed]
-Ihre Verbindung mit dem ICQ-Server wurde vorzeitig abgebrochen.
-;file \protocols\JabberG\IcqOscarJ\src\icq_servlist.cpp
-[The contact's information was too big and was truncated.]
-Die Kontaktinformationen sind zu groß und werden abgekürzt.
-[Failed to create the correct sub-group, the using closest parent group.]
-
-;file \protocols\JabberG\IcqOscarJ\src\icq_uploadui.cpp
-[NOT FOUND]
-
-[ALREADY EXISTS]
-Existiert bereits
-[INVALID DATA]
-Ungültige Daten
-[LIST FULL]
-Liste voll
-[FAILED]
-FEHLGESCHLAGEN
-[Select contacts you want to store on server.]
-Markiere Kontakte zum Speichern auf dem Server.
-[Ready...]
-Fertig...
-[Server rate warning -> slowing down the process.]
-Server sendet Warnung -> wir bremsen den Prozess.
-[Adding group "%s"...]
-
-[Uploading %s...]
-Upload von %s...
-[No upload group available]
-Keine Upload-Gruppen vorhanden
-[Deleting %s...]
-Lösche %s...
-[Moving %s to group "%s"...]
-Verschiebe %s in Gruppe "%s"...
-[Adding %s to visible list...]
-Füge %s zur Sichtbarkeitsliste hinzu...
-[Adding %s to invisible list...]
-Füge %s zur Unsichtbarkeitsliste hinzu...
-[Deleting %s from visible list...]
-Lösche %s von der Sichtbarkeitsliste...
-[Deleting %s from invisible list...]
-Lösche %s von der Unsichtbarkeitsliste...
-[Cleaning groups]
-Säubere Gruppen
-[Updating group "%s"...]
-
-[Deleting group "%s"...]
-
-[All operations complete]
-Alle Operationen beendet
-[You have to be online to sychronize the server-list !]
-Sie müssen für das Synchronisieren der Serverliste online sein!
-[** All contacts **]
-** Alle Kontakte **
-;file \protocols\JabberG\IcqOscarJ\src\icq_xstatus.cpp
-[Angry]
-Wütend
-[Taking a bath]
-Baden
-[Tired]
-Müde
-[Birthday]
-Geburtstag
-[Drinking beer]
-Bier trinken
-[Thinking]
-Denken
-[Eating]
-Essen
-[Watching TV]
-Fernsehen
-[Meeting]
-Treffen
-[Coffee]
-Kaffee
-[Listening to music]
-Musik hören
-[Shooting]
-Kamera
-[Having fun]
-Spaß haben
-[On the phone]
-Am Telefon
-[Gaming]
-Spielen
-[Studying]
-Lernen
-[Shopping]
-Einkaufsbummel
-[Feeling sick]
-Krank fühlen
-[Sleeping]
-Schlafen
-[Surfing]
-Sport
-[Working]
-Arbeiten
-[Typing]
-Tippen
-[Picnic]
-Picknick
-[Cooking]
-Kochen
-[Smoking]
-Rauchen
-[I'm high]
-Hanf
-[On WC]
-Toilette
-[To be or not to be]
-Sein oder Nichtsein
-[Watching pro7 on TV]
-Pro7
-[Love]
-Liebe
-[Hot Dog]
-
-[Rough]
-Hart drauf
-[Rock On]
-Am rocken
-[Baby]
-
-[Soccer]
-Fußball
-[Pirate]
-Pirat
-[Cyclop]
-Zyklop
-[Monkey]
-Affe
-[Birdie]
-Vögelchen
-[Cool]
-
-[Evil]
-Böse
-[Alien]
-Außerirdischer
-[Scooter]
-Roller
-[Mask]
-Maske
-[Money]
-Geld
-[Pilot]
-
-[Afro]
-
-[St. Patrick]
-St. Patrick's Day
-[Headmaster]
-Schulleiter
-[Lips]
-Lippen
-[Ice-Cream]
-Eiscreme
-[Pink Lady]
-
-[Up yours]
-Leck mich!
-[Laughing]
-Lachend
-[Dog]
-Hund
-[Candy]
-Süßigkeiten
-[Crazy Professor]
-Verrückter Professor
-[Ninja]
-
-[Cocktail]
-
-[Punch]
-Schlag
-[Donut]
-
-[Feeling Good]
-Wohlfühlen
-[Lollypop]
-Lutscher
-[Oink Oink]
-
-[Kitty]
-Kätzchen
-[Sumo]
-
-[Broken hearted]
-Gebrochenen Herzens
-[Free for Chat]
-Frei zum Chat
-[@home]
-@Zuhause
-[@work]
-@Arbeit
-[Strawberry]
-Erdbeere
-[Angel]
-Engel
-[Pizza]
-
-[Snoring]
-Schnarchen
-[On my mobile]
-Am Handy
-[Depressed]
-Deprimiert
-[Beetle]
-Käfer
-[Double Rainbow]
-Doppelter Regenbogen
-[Basketball]
-
-[Cupid shot me]
-Amor hat mich getroffen
-[Celebrating]
-Feiern
-[Sushi]
-
-[Playing]
-Spielen
-[Writing]
-Schreiben
-[%s Custom Status]
-%s Custom Status
-[None]
-Keine
-;file \protocols\JabberG\IcqOscarJ\src\icq_xtraz.cpp
-[Greeting card:]
-
-;file \protocols\JabberG\IcqOscarJ\src\init.cpp
-;file \protocols\JabberG\IcqOscarJ\src\log.cpp
-[ICQ Warning]
-ICQ-Warnung
-[ICQ Error]
-ICQ-Fehler
-[ICQ Fatal]
-Fataler ICQ-Fehler
-[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-Der Server antwortete nicht innerhalb eines bestimmten Zeitraums, er könnte temporär nicht erreichbar sein. Später erneut versuchen.
-[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-Der Verbindungsversuch zum Server wurde vorzeitig abgebrochen. Es könnte die lokale Netzwerkverbindung verloren gegangen sein.
-[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Miranda war nicht in der Lage, den Servernamen zu der nummerischen Adresse zu finden. Dies bedeutet, dass die Internetverbindung verloren ging (Beispiel: Modem wurde getrennt); wenn Sie einen Proxy verwenden, aktivieren Sie "Auflösung von Hostnamen via Proxy" in den Netzwerkeinstellungen.
-[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-Miranda konnte keine Verbindung mit einem Server herstellen. Der Server ist vermutlich offline. Bitte etwas warten und später noch einmal versuchen.
-[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Ihr Proxy hat den Benutzernamen und das Passwort abgewiesen. Überprüfen Sie die Einstellungen zum Proxy in den Netzwerkeinstellungen.
-[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Der angegebene Server existiert nicht. Eintrag prüfen unter Einstellungen -> Protokolle -> ICQ.
-[error]
-
-;file \protocols\JabberG\IcqOscarJ\src\oscar_filetransfer.cpp
-[%d Files]
-
-[The file transfer was aborted by the other user.]
-Dateiübertragung wurde durch die Gegenseite abgebrochen.
-[The file transfer failed: Proxy error]
-Dateiübertragung fehlgeschlagen: Proxyfehler
-[The file transfer failed: Invalid request]
-Dateiübertragung fehlgeschlagen: ungültige Anfrage
-[The file transfer failed: Proxy unavailable]
-Dateiübertragung fehlgeschlagen: Proxy nicht erreichbar
-[Failed to Initialize File Transfer. No valid files were specified.]
-Fehler mein initialisieren des Dateitransfers. Keine gültigen Dateien wurden ausgewählt.
-[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
-Die Dateien sind zu groß zum Verschicken. Dateien größer als 4 GB können nur getrennt gesendet werden.
-[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-Dateiübertragung konnte nicht initialisiert werden, da lokaler Port nicht geöffnet werden konnte und der Dateiproxy nicht erreichbar ist.
-[Connection lost during file transfer.]
-Verbindung ist während der Dateiübertragung abgebrochen.
-[File transfer negotiation failed for unknown reason.]
-Datenübertragung aus unbekannten Gründen fehlgeschlagen.
-[The checksum of file "%s" does not match, the file is probably damaged.]
-
-;file \protocols\JabberG\IcqOscarJ\src\utilities.cpp
-[<invalid>]
-
-;file \protocols\JabberG\IcqOscarJ\src\changeinfo\constants.cpp
-[GMT-12:00 Eniwetok; Kwajalein]
-GMT-12:00 Internationale Datumsgrenze (Westen)
-[GMT-11:30]
-
-[GMT-11:00 Midway Island; Samoa]
-GMT-11:00 Midway Inseln; Samoa
-[GMT-10:30]
-
-[GMT-10:00 Hawaii]
-
-[GMT-9:30]
-
-[GMT-9:00 Alaska]
-
-[GMT-8:30]
-
-[GMT-8:00 Pacific Time; Tijuana]
-GMT-8:00 Pazifische Zeit; Tijuana; Los Angeles; Seattle; Vancouver
-[GMT-7:30]
-
-[GMT-7:00 Arizona; Mountain Time]
-GMT-7:00 Arizona; Denver; Salt Lake City; Calgary
-[GMT-6:30]
-
-[GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-6:00 Zentralamerika; Chicago; Dallas; Kansas City
-[GMT-5:30]
-
-[GMT-5:00 Eastern Time; Bogota; Lima; Quito]
-GMT-5:00 New York; Bogota; Lima
-[GMT-4:30]
-
-[GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz]
-GMT-4:00 Atlantische Zeit; Santiago; Caracas; Montreal
-[GMT-3:30 Newfoundland]
-GMT-3:30 Neufundland
-[GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-3:00 Grönland; Brasilien; Georgetown
-[GMT-2:30]
-
-[GMT-2:00 Mid-Atlantic]
-GMT-2:00 Mittelatlantik
-[GMT-1:30]
-
-[GMT-1:00 Cape Verde Islands; Azores]
-GMT-1:00 Kapverdische Inseln; Azoren
-[GMT-0:30]
-
-[GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+0:00 London; Dublin; Edinburgh; Lissabon; Casablanca
-[GMT+0:30]
-
-[GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 Berlin; Paris; Prag; Warschau; Westzentralafrika
-[GMT+1:30]
-
-[GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+2:00 Athen; Jerusalem; Helsinki; Kairo; Minsk
-[GMT+2:30]
-
-[GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+3:00 Moskau; St. Petersburg; Nairobi; Kuwait; Bagdad
-[GMT+3:30 Tehran]
-GMT+3:30 Teheran
-[GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+4:00 Baku; Tiflis; Yerevan; Abu Dhabi; Muskat
-[GMT+4:30 Kabul]
-GMT+4:30 Kabul
-[GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+5:00 Islamabad; Karatschi; Taschkent; Jekaterinburg
-[GMT+5:30]
-GMT+5:30 Chennai; Kolkata; Mumbai; Neu-Delhi
-[GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
-GMT+6:00 Almaty; Nowosibirsk; Astana; Dhaka; Sri Jayawardenepura
-[GMT+6:30 Rangoon]
-GMT+6:30 Rangun
-[GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
-GMT+7:00 Bangkok; Hanoi; Jakarta; Krasnojarsk
-[GMT+7:30]
-
-[GMT+8:00 Perth; Taipei; Singapore; Hong Kong; Beijing]
-GMT+8:00 Ulan Bator; Kuala Lumpur; Singapur; Hong Kong; Peking
-[GMT+8:30]
-
-[GMT+9:00 Tokyo; Osaka; Seoul; Sapporo; Yakutsk]
-GMT+9:00 Tokio; Osaka; Seoul; Sapporo
-[GMT+9:30 Darwin; Adelaide]
-GMT+9:30 Adelaide; Darwin
-[GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 Australien; Brisbane; Sydney; Guam; Wladiwostok
-[GMT+10:30]
-
-[GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 Magadan; Salomonen; Neukaledonien
-[GMT+11:30]
-
-[GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Fidschi; Kamtschatka; Marshall-Inseln; Auckland
-[January]
-Januar
-[February]
-Februar
-[March]
-März
-[April]
-April
-[May]
-Mai
-[June]
-Juni
-[July]
-Juli
-[August]
-August
-[September]
-September
-[October]
-Oktober
-[November]
-November
-[December]
-Dezember
-[Personal]
-Persönlich
-[Nickname]
-Nick
-[First name]
-Vorname
-[Last name]
-Nachname
-[Age]
-Alter
-[Gender]
-Geschlecht
-[About]
-Über
-[Password]
-Passwort
-[Contact]
-Kontakt
-[Primary e-mail]
-Erste E-Mail
-[Secondary e-mail]
-Zweite E-Mail
-[Tertiary e-mail]
-Dritte E-Mail
-[Street]
-Straße
-[City]
-Stadt
-[State]
-Region
-[ZIP/postcode]
-Postleitzahl
-[Country]
-Land
-[Phone number]
-Telefon
-[Fax number]
-Fax
-[Cellular number]
-Mobiltelefon
-[Personal Detail]
-Persönliches Profil
-[Timezone]
-Zeitzone
-[Year of birth]
-Geburtsjahr
-[Month of birth]
-Geburtsmonat
-[Day of birth]
-Geburtstag
-[Marital Status]
-Familienstand
-[Spoken language 1]
-erste Sprache
-[Spoken language 2]
-zweite Sprache
-[Spoken language 3]
-dritte Sprache
-[Originally from]
-Herkunft
-[Level]
-Schulart
-[Institute]
-Name der Hochschule
-[Degree]
-Akademischer Grad
-[Graduation Year]
-Abschlussjahr
-[Company name]
-Firmenname
-[Company homepage]
-Firmenhomepage
-[Company street]
-Straße
-[Company city]
-Stadt
-[Company state]
-Region
-[Company phone]
-Telefon (geschäftl.)
-[Company fax]
-Fax (geschäftl.)
-[Company ZIP/postcode]
-Postleitzahl (geschäftl.)
-[Company country]
-Land
-[Company department]
-Abteilung
-[Company position]
-Position
-[Company industry]
-Geschäftszweig
-[Company occupation]
-Berufsverkehr
-[Personal Interests]
-Persönliche Interessen
-[Interest category 1]
-Interessengebiete 1
-[Interest areas 1]
-Interessen Text 1
-[Interest category 2]
-Interessengebiete 2
-[Interest areas 2]
-Interessen Text 2
-[Interest category 3]
-Interessengebiete 3
-[Interest areas 3]
-Interessen Text 4
-[Interest category 4]
-Interessengebiete 4
-[Interest areas 4]
-Interessen Text 4
-[Past Background]
-Vergangenheit
-[Category 1]
-Kategorie 1
-[Past Background 1]
-Vergangenheit 1
-[Category 2]
-Kategorie 2
-[Past Background 2]
-Vergangenheit 2
-[Category 3]
-Kategorie 3
-[Past Background 3]
-Vergangenheit 3
-[Affiliations]
-Mitgliedschaften, Organisationen, Verbände
-[Affiliation category 1]
-Mitgliedschaft Kategorie 1
-[Affiliation 1]
-Mitgliedschaft Text 1
-[Affiliation category 2]
-Mitgliedschaft Kategorie 2
-[Affiliation 2]
-Mitgliedschaft Text 2
-[Affiliation category 3]
-Mitgliedschaft Kategorie 3
-[Affiliation 3]
-Mitgliedschaft Text 3
-;file \protocols\JabberG\IcqOscarJ\src\changeinfo\db.cpp
-[The password does not match your current password. Check Caps Lock and try again.]
-Passwort stimmt nicht mit Ihrem aktuellen überein. Ist die Feststelltaste aktiviert?
-[Change ICQ Details]
-ICQ-Profil ändern
-[The password does not match the password you originally entered. Check Caps Lock and try again.]
-
-[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
-Der ICQ-Server unterstützt keine Passwörter, die länger als 8 Zeichen sind. Bitte ein kürzeres Passwort verwenden.
-;file \protocols\JabberG\IcqOscarJ\src\changeinfo\dlgproc.cpp
-[<unremovable once applied>]
-
-[<empty>]
-<leer>
-[Unknown value]
-Unbekannter Wert
-[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Sie haben Änderungen an Ihren ICQ-Details vorgenommen, diese wurden aber noch nicht auf dem Server gespeichert. Trotzdem schließen und nicht speichern?
-[Upload in progress...]
-Upload erfolgt...
-[Upload complete]
-Upload fertig
-[Upload FAILED]
-Upload FEHLGESCHLAGEN
-;file \protocols\JabberG\IcqOscarJ\src\changeinfo\upload.cpp
-[You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
-Sie sind nicht mit dem ICQ-Netzwerk verbunden.\nSie müssen online sein um das ICQ-Profil auf dem Server aktualisieren zu können.
-;file \protocols\JabberG\IcqOscarJ\src\UI\askauthentication.cpp
-[Please authorize me to add you to my contact list.]
-
-;file \protocols\JabberG\IcqOscarJ\src\UI\loginpassword.cpp
-[Enter a password for UIN %u:]
-
-;file \protocols\JabberG\IcqOscarJ\src\UI\userinfotab.cpp
-[ (DC Established)]
- (Direktverbindung)
-[ScreenName:]
-
-[<not specified>]
-<nicht angegeben>
-[Member since:]
-
-[%s Details]
-
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Jabber-Link-Protokoll
@@ -2436,6 +481,8 @@ Bitte warten...
 Lesezeichennamen
 [Address (JID or URL)]
 Adresse (JID oder URL)
+[Nickname]
+Nick
 [Conferences]
 Konferenzen
 [Links]
@@ -2447,6 +494,8 @@ Konferenzen
 [Enter the text you see]
 
 ;file \protocols\JabberG\src\jabber_chat.cpp
+[None]
+Keine
 [Member]
 Mitglied
 [Admin]
@@ -2519,6 +568,8 @@ Chatstatus &setzen
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [DND]
 Bitte nicht stören
 [Free for chat]
@@ -2617,38 +668,6 @@ Registrierte Transporte
 Transporte des Anmeldeservers
 [Browse chatrooms]
 Konferenzräume durchsuchen
-[Contact Menu...]
-Kontaktmenü...
-[View vCard]
-vCard zeigen
-[Join chatroom]
-Konferenzraum betreten
-[Refresh Info]
-Info aktualisieren
-[Refresh Children]
-Kindelemente aktualisieren
-[Add to favorites]
-Zu Favoriten hinzufügen
-[Add to roster]
-Zur Server-Kontaktliste hinzufügen
-[Bookmark chatroom]
-Zu Lesezeichen hinzufügen
-[Add search directory]
-Suchverzeichnis hinzufügen
-[Use this proxy]
-Diesen Proxyserver benutzen
-[Commands...]
-Befehle ausführen...
-[Logon]
-
-[Logoff]
-Abmelden
-[Copy JID]
-JID kopieren
-[Copy node name]
-Nodenamen kopieren
-[Copy node information]
-Nodeinformationen kopieren
 ;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 
@@ -2700,8 +719,16 @@ Agentenliste
 Transporte
 [Personal vCard]
 Persönliche Jabber-vCard
+[Request authorization]
+Autorisierung anfragen
+[Grant authorization]
+Autorisierung gewähren
+[Revoke authorization]
+Autorisierung widerrufen
 [Convert to room]
 in Konferenzraum umwandeln
+[Add to roster]
+Zur Server-Kontaktliste hinzufügen
 [Login/logout]
 Anmelden/Abmelden
 [Resolve nicks]
@@ -2762,6 +789,14 @@ Status empfangen verweigern
 Status senden verweigern
 [Deny Queries]
 Querys verweigern
+[Protocols]
+Protokolle
+[Dialogs]
+Dialoge
+[Discovery]
+Diensterkennung
+[Privacy]
+Privatsphäre
 ;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for]
 Authentifizierung fehlgeschlagen für
@@ -2852,6 +887,8 @@ Statusnachricht
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 Chat.dll ist für Mehrbenutzerkonferenzen erforderlich. Bitte installieren Sie diese Datei nach.
+[To]
+An
 [From]
 Von
 [Both]
@@ -2878,12 +915,20 @@ Eingehende Notiz
 Afarisch
 [Abkhazian]
 Abchasisch
+[Afrikaans]
+Afrikaans
 [Akan]
 
+[Albanian]
+Albanisch
 [Amharic]
 Amharisch
+[Arabic]
+Arabisch
 [Aragonese]
 Aragonesisch
+[Armenian]
+Armenisch
 [Assamese]
 Assamesisch
 [Avaric]
@@ -2892,6 +937,8 @@ Assamesisch
 
 [Aymara]
 
+[Azerbaijani]
+Aserbaidschanisch
 [Bashkir]
 Baschkirisch
 [Bambara]
@@ -2899,19 +946,29 @@ Baschkirisch
 [Basque]
 Baskisch
 [Belarusian]
-
+Weißrussisch
 [Bengali]
 Bengalisch
 [Bihari]
 
 [Bislama]
 
+[Bosnian]
+Bosnisch
 [Breton]
 Bretonisch
+[Bulgarian]
+Bulgarisch
+[Burmese]
+Birmanisch
 [Catalan; Valencian]
 Katalanisch, Valencianisch
+[Chamorro]
+
 [Chechen]
 Tschetschenisch
+[Chinese]
+Chinesisch
 [Church Slavic; Old Slavonic]
 Kirchenslawisch, Altslawisch
 [Chuvash]
@@ -2922,24 +979,40 @@ Kornisch
 Korsisch
 [Cree]
 
+[Czech]
+Tschechisch
+[Danish]
+Dänisch
 [Divehi; Dhivehi; Maldivian]
 Dhivehi, Malediven
 [Dutch; Flemish]
 Niederländisch, Flämisch
 [Dzongkha]
 
+[English]
+Englisch
+[Esperanto]
+Esperanto
+[Estonian]
+Estnisch
 [Ewe]
 
 [Faroese]
 Färöisch
 [Fijian]
 Fidschi
+[Finnish]
+Finnisch
+[French]
+Französisch
 [Western Frisian]
 Westfriesisch
 [Fulah]
 Fulfulde
 [Georgian]
 Georgisch
+[German]
+Deutsch
 [Gaelic; Scottish Gaelic]
 Gälisch, Schottisch
 [Irish]
@@ -2952,16 +1025,26 @@ Galicisch
 Griechisch, Modern (1453-)
 [Guarani]
 
+[Gujarati]
+
 [Haitian; Haitian Creole]
 Haitianisch
 [Hausa]
 
+[Hebrew]
+Hebräisch
 [Herero]
 Otjiherero
+[Hindi]
+
 [Hiri Motu]
 
+[Hungarian]
+Ungarisch
 [Igbo]
 
+[Icelandic]
+Isländisch
 [Ido]
 
 [Sichuan Yi]
@@ -2969,25 +1052,31 @@ Sichuan, Yi
 [Inuktitut]
 
 [Interlingue]
-Interlingue (Plansprache)
+Interlingue
 [Interlingua (International Auxiliary Language Association)]
-Interlingua (Plansprache)
+Interlingua (Internationale Hilfssprachengesellschaft)
+[Indonesian]
+Indonesisch
 [Inupiaq]
 
+[Italian]
+Italienisch
 [Javanese]
 Javanisch
+[Japanese]
+Japanisch
 [Kalaallisut; Greenlandic]
 Kalaallisut, Grönländisch
 [Kannada]
 
 [Kashmiri]
-
+Kashmiri
 [Kanuri]
 
 [Kazakh]
 Kasachisch
 [Central Khmer]
-Khmer
+Zentral-Khmer
 [Kikuyu; Gikuyu]
 Kikuyu, Gikuyu
 [Kinyarwanda]
@@ -2998,20 +1087,32 @@ Kirgisisch
 
 [Kongo]
 
+[Korean]
+Koreanisch
 [Kuanyama; Kwanyama]
 Oshivambo, Kwanyama
+[Kurdish]
+Kurdisch
+[Lao]
+Laotisch
 [Latin]
 Lateinisch
+[Latvian]
+Lettisch
 [Limburgan; Limburger; Limburgish]
 Limburgisch
 [Lingala]
 
+[Lithuanian]
+Litauisch
 [Luxembourgish; Letzeburgesch]
 Luxemburgisch
 [Luba-Katanga]
 Kiluba
 [Ganda]
 
+[Macedonian]
+Mazedonisch
 [Marshallese]
 Marshallesisch
 [Malayalam]
@@ -3020,12 +1121,18 @@ Marshallesisch
 
 [Marathi]
 
+[Malay]
+Malayisch
 [Malagasy]
 
 [Maltese]
 Maltesisch
 [Moldavian]
 Moldawien
+[Mongolian]
+Mongolisch
+[Nauru]
+Nauruisch
 [Navajo; Navaho]
 Navajo, Navaho
 [Ndebele, South; South Ndebele]
@@ -3040,6 +1147,8 @@ Nepalesisch
 Norwegisch Nynorsk, Neunorwegisch
 [Bokmaal, Norwegian; Norwegian Bokmaal]
 
+[Norwegian]
+Norwegisch
 [Chichewa; Chewa; Nyanja]
 Chichewa
 [Occitan (post 1500); Provencal]
@@ -3054,28 +1163,50 @@ Anishinabe
 Ossetisch
 [Panjabi; Punjabi]
 Panjabi, Punjabi
+[Persian]
+Persisch
 [Pali]
 
+[Polish]
+Polnisch
+[Portuguese]
+Portugiesisch
 [Pushto]
 Paschtunisch
 [Quechua]
 
 [Romansh]
 Rätoromanisch
+[Romanian]
+Rumänisch
 [Rundi]
 Kirundi
+[Russian]
+Russisch
 [Sango]
 
 [Sanskrit]
-
+Sanskrit
+[Serbian]
+Serbisch
+[Croatian]
+Kroatisch
 [Sinhala; Sinhalese]
 Singhalesisch
+[Slovak]
+Slowakisch
+[Slovenian]
+Slowenisch
 [Northern Sami]
 Sami, Nördlich
 [Samoan]
 Samoanisch
 [Shona]
 
+[Sindhi]
+
+[Somali]
+Somalisch
 [Sotho, Southern]
 Sotho, Südlich
 [Spanish; Castilian]
@@ -3086,40 +1217,66 @@ Sardisch
 Siswati
 [Sundanese]
 Sundanesisch
+[Swahili]
+Suaheli
+[Swedish]
+Schwedisch
 [Tahitian]
 Tahitianisch
+[Tamil]
+Tamilisch
+[Tatar]
+Tatarisch
 [Telugu]
 
 [Tajik]
 Tadschikisch
+[Tagalog]
+
+[Thai]
+Thailändisch
 [Tibetan]
 Tibetisch
 [Tigrinya]
 Tigrinnisch
 [Tonga (Tonga Islands)]
-Tongaisch
+Tongaisch (Tonga Inseln)
 [Tswana]
 Setswana
 [Tsonga]
 
 [Turkmen]
 Turkmenisch
+[Turkish]
+Türkisch
 [Twi]
 
 [Uighur; Uyghur]
 Uighurisch
+[Ukrainian]
+Ukrainisch
+[Urdu]
+
 [Uzbek]
 Usbekisch
 [Venda]
 Tshivenda
+[Vietnamese]
+Vietnamesisch
 [Volapuk]
 
+[Welsh]
+Walisisch
 [Walloon]
 Wallonisch
 [Wolof]
 
 [Xhosa]
 isiXhosa
+[Yiddish]
+Jiddisch
+[Yoruba]
+
 [Zhuang; Chuang]
 Zhuang, Guangxi
 [Zulu]
@@ -3140,6 +1297,8 @@ Konto wirklich löschen?
 Du kannst dein Passwort nur ändern wenn du Online bist.
 [You must be online]
 Du musst Online sein
+[Messaging]
+Nachrichten
 [Send messages slower, but with full acknowledgement]
 Nachrichten langsamer, aber mit voller Bestätigung senden
 [Enable avatars]
@@ -3168,6 +1327,8 @@ Servereinstellungen
 SASL-Authentifizierung deaktivieren (für ältere Server)
 [Enable stream compression (if possible)]
 Datenstromkompression aktivieren (falls möglich)
+[Other]
+Sonstige
 [Enable remote controlling (from another resource of same JID only)]
 Fernsteuerung aktivieren (nur von einem anderen Standort derselben JID)
 [Show transport agents on contact list]
@@ -3236,6 +1397,10 @@ Laden...
 XML für MS Excel (UTF-8 Kodierung)
 [Connecting...]
 Verbinden...
+[Network]
+Netzwerk
+[Account]
+Konto
 [Advanced]
 Erweitert
 [Public XMPP Network]
@@ -3262,6 +1427,8 @@ Neues Passwort und Bestätigung stimmen nicht überein.
 [Current password is incorrect.]
 Aktuelles Passwort ist falsch.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
+[Sending request, please wait...]
+
 [Warning: privacy lists were changed on server.]
 Warnung: Privatsphäreliste wurde auf Server geändert
 [Error occurred while applying changes]
@@ -3486,12 +1653,14 @@ Registrierungsdaten werden gesendet...
 Standort
 [Message]
 Nachricht
+[<not specified>]
+<nicht angegeben>
 [Software]
 Software
 [Version]
 Version
 [System]
-
+
 [unknown]
 Unbekannt
 [Idle since]
@@ -3512,6 +1681,8 @@ Miranda NG Core-Version
 
 [Yes]
 Ja
+[No]
+Nein
 [Alpha build]
 
 [Debug build]
@@ -3524,6 +1695,8 @@ Aktivität
 Lied
 [both]
 beide
+[to]
+an
 [none]
 Keine
 [Last logoff time]
@@ -3553,6 +1726,8 @@ Nur diesen Wert kopieren
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
+[Error]
+Fehler
 [Unknown error message]
 Unbekannte Fehlernachricht
 [Advanced Status]
@@ -3562,6 +1737,10 @@ Setze Stimmung...
 [Set activity...]
 Setze Aktivität...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
+[Male]
+männlich
+[Female]
+weiblich
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 
 [Jabber vCard]
@@ -3570,6 +1749,10 @@ Jabber-vCard
 Jabber-vCard: E-Mail-Adresse ändern
 [Jabber vCard: Edit Phone Number]
 Jabber-vCard: Telefonnummer ändern
+[Contacts]
+Kontakte
+[Note]
+Anmerkung
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 
@@ -3580,6 +1763,8 @@ Jabber-vCard: Telefonnummer ändern
 Verblüfft
 [Amorous]
 Verliebt
+[Angry]
+Wütend
 [Annoyed]
 Verärgert
 [Anxious]
@@ -3616,6 +1801,8 @@ Schöpferisch
 Neugierig
 [Dejected]
 Niedergeschlagen
+[Depressed]
+Deprimiert
 [Disappointed]
 Enttäuscht
 [Disgusted]
@@ -3730,6 +1917,8 @@ Stark
 Dankbar
 [Thirsty]
 Durstig
+[Tired]
+Müde
 [Undefined]
 Irgendwie anders
 [Weak]
@@ -3737,7 +1926,7 @@ Kraftlos
 [Worried]
 Besorgt
 [Mood: %s]
-
+Stimmung: %s
 [Set Mood]
 Setze Stimmung
 [Doing chores]
@@ -3768,6 +1957,8 @@ Bier trinken
 Kaffee trinken
 [having tea]
 Tee trinken
+[Eating]
+Essen
 [having a snack]
 Einen Happen essen
 [having breakfast]
@@ -3882,6 +2073,8 @@ Zug fahren
 Einen Ausflug machen
 [walking]
 Wandern
+[Working]
+Arbeiten
 [coding]
 Programmieren
 [in a meeting]
@@ -3891,7 +2084,7 @@ Lernen
 [writing]
 Schreiben
 [Activity: %s]
-
+Aktivität: %s
 [Set Activity]
 Setze Aktivität
 [Listening To]

@@ -6,61 +6,61 @@
 ;  Authors: Bio
 ;============================================================
 [Console log window for Miranda.]
-
+Konsolen-Fenster für Miranda NG
 ;file \plugins\Console\res\resource.rc
 [Console                                    ]
-
+Konsole                                    
 [Single window mode*]
-
+Einzelner Fenster-Modus*
 [Show icons in log*]
-
+Icons im Verlauf anzeigen*
 [New lines between events*]
-
+Neue Zeile zwischen Ereignissen*
 [Always show at start]
-
+Immer beim Start anzeigen
 [Lines wrap length [25-255]]
-
+Zeilenumbruch nach (25-225)
 [Log size limit [1 000 - 1 000 000 lines]]
-
+Verlauf Größenlimit (1 000 - 1 000 000 Zeilen)
 [* Restart needed]
-
+*Benötigt Neustart
 [Save settings and restart console]
-
+Einstellungen speichern und Konsole neu starten
 ;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
-
+Konsole zeigen/verbergen
 [Hide Console]
-
+Konsole verbergen
 [Show Console]
-Zeige Konsole
+Konsole anzeigen
 [Scrolling (Ctrl+Q)]
-
+Scrollen (Strg+Q)
 [Pause logging(Ctrl+P)]
-
+Loggen pausieren (Strg+P)
 [Save log to file (Ctrl+S)]
-
+Log in Datei speichern (Strg+S)
 [Copy selected log (Ctrl+C)]
-
+Ausgewählten Log kopieren (Strg+C)
 [Delete selected (Del)]
-
+Ausgewähltes Löschen (Entf)
 [Log options (Ctrl+O)]
-
+Log-Einstellungen (Strg+O)
 [Start logging in all tabs]
-
+Loggen in allen Tabs starten
 [Pause logging in all tabs]
-
+Loggen in allen tabs pausieren
 [Close tab (Ctrl+W)]
-
+Tab schließen (Strg+W)
 [*** Console started ***]
-
+*** Konsole gestartet ***
 [*** Console paused ***]
-
+*** Konsole pausiert ***
 [*** Console resumed ***]
-
+*** Konsole wiederaufgenommen ***
 [*** Console cleared ***]
-
+*** Konsole gelöscht ***
 [Miranda Console]
-
+Miranda Konsole
 [Services]
 Dienste
 [Console]
@@ -74,6 +74,6 @@ Textdokumente (*.txt)
 [All Files]
 Alle Dateien
 [Save selection to file]
-
+Auswahl in Datei speichern
 [Save log to file]
-
+Log in Datei speichern

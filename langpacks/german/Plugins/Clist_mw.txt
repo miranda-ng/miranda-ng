@@ -16,8 +16,6 @@ Hintergrundfarbe:
 Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
-[...]
-
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -148,8 +146,6 @@ Transparente Kontaktliste
 Deckkraft inaktiv:
 [Active opacity:]
 Deckkraft aktiv:
-[000%]
-
 [Show menu bar]
 Menüleiste anzeigen
 [Easy move]
@@ -236,8 +232,6 @@ Rechtsklick öffnet Statusmenü
 Rechtsklick öffnet Miranda-Hauptmenü
 [Make sections equal width]
 Alle Protokolle gleiche Breite
-[-]
-
 [Show size grip]
 Zeige fixierte Größe
 [Show bevel effect on panels]
@@ -246,34 +240,32 @@ Zeige Abschrägungseffekt auf Tafeln
 Benutze Verbindungsicon
 [Use New Drawer for StatusBar]
 Benutze neue Zeichnung für die Statusbar
-[&¤]
-
 [E&xit]
 B&eenden
 [&Status]
-
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
 [Tray]
-
+
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -351,6 +343,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]

@@ -5,7 +5,6 @@
 [Message debugging]
 [(Default is 12001)]
 [Allow actions to execute programs]
-[...]
 [NotifyAnything]
 [No resource name given.]
 [Icon indices start at 1.]

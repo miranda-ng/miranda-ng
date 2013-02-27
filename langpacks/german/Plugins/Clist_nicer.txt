@@ -38,8 +38,6 @@ Nur zeigen, wenn Kontaktliste versteckt oder minimiert ist
 Abstand
 [Enable floating contacts (required restart)]
 Schwebende Kontakte aktivieren (benötigt Neustart)
-[000%]
-
 [Opacity]
 Deckkraft
 [Width]
@@ -322,8 +320,6 @@ Windowsfarben verwenden
 Hintergrundfarbe
 [Use background image]
 Hintergrundbild verwenden
-[...]
-
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -370,10 +366,6 @@ Vom globalen Status ausgenommene Protokolle markieren
 Verfügbare Kontaktfilter
 [Include protocols]
 Protokolle auswählen
-[+]
-
-[-]
-
 [New]
 Neu
 [Include groups]
@@ -381,7 +373,7 @@ Gruppen auswählen
 [Include status modes]
 Statusmodus auswählen
 [Ok]
-
+Ok
 [Cancel]
 Abbrechen
 [Apply]
@@ -492,34 +484,32 @@ Avatar zeigen
 Überlagerungsicons über Avatar
 [Show local time]
 Lokale Zeit anzeigen
-[&¤]
-
 [E&xit]
 B&eenden
 [&Status]
-
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
 [Tray]
-
+
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -624,8 +614,6 @@ Eingelassen
 Hervorstehen
 [Etched]
 
-[Image items]
-Bild-Elemente
 ;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Hauptmenü
@@ -664,6 +652,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]
@@ -727,7 +717,7 @@ Erweitert
 [Floating contacts]
 'Schwebende' Kontakte
 [Skins]
-
+Skins
 [Contact list]
 Kontaktliste
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
@@ -840,6 +830,8 @@ Keine Ereignisse
 Nicht gruppierte Kontakte
 [And]
 Und
+[Or]
+Oder
 [Older than]
 Älter als
 [Newer than]

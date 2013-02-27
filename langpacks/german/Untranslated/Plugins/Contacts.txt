@@ -1,5 +1,4 @@
-﻿[Send contacts]
-[&A]
+﻿[&A]
 [&D]
 [&H]
 [Received contacts]

@@ -76,8 +76,6 @@ Schlüsselringe deakt.
 Allgemein
 [Executable:]
 GnuPG-Programm:
-[...]
-
 [Home Directory:]
 Benutzerverzeichnis:
 [Temp Dir:]
@@ -139,7 +137,7 @@ SecureIM: Passphrase des privaten Schlüssels
 [Enter passphrase for the secret key:]
 'Passphrase' für den geheimen Schlüssel eingeben:
 [Ok]
-
+Ok
 [Mode]
 Modus
 [Native SecureIM]
@@ -149,8 +147,6 @@ AES SecureIM (Nativ)
 [GPG SecureIM]
 
 [RSA/AES SecureIM]
-
-[RSA SecureIM]
 
 [Status]
 Status
@@ -182,6 +178,161 @@ Schlüssel importieren
 Öffentlichen Schlüssel importieren
 [Delete public key]
 Öffentlichen Schlüssel löschen
+;file \plugins\SecureIM\src\language.cpp
+[SecureIM established...]
+Sichere Verbindung aufgebaut...
+[Key exchange failed...]
+Austausch der Schlüssel fehlgeschlagen.
+[Key from disabled...]
+Schlüssel deaktiviert...
+[Sended back message received...]
+Zurückgesendete Nachricht erhalten.
+[Sending back secure message...]
+Sende sichere Nachricht zurück...
+[SecureIM disabled...]
+SecureIM deaktiviert.
+[Sending Key...]
+Sende Schlüssel...
+[Key Received...]
+Schlüssel erhalten...
+[Sending Message...]
+Sende Nachricht...
+[Message Received...]
+Nachricht erhalten.
+[Encrypting File:]
+
+[Decrypting File:]
+
+[Bad key received...]
+Falschen Schlüssel erhalten...
+[SecureIM: Error while decrypting the message.]
+
+[SecureIM: Error while decrypting the message, bad message length.]
+
+[SecureIM: Error while decrypting the message, bad message CRC.]
+
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+
+[SecureIM not enabled! You Must Enable SecureIM with this user...]
+
+[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+
+[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+
+[Can't change mode! Secure connection established!]
+
+[Can't export RSA private key!]
+Kann privaten RSA-Schlüssel nicht exportieren!
+[Can't import RSA private key!]
+
+[Can't export RSA public key!]
+Kann öffentl. RSA-Schlüssel nicht exportieren!
+[Can't import RSA public key!]
+
+[General]
+Allgemein
+[Nickname]
+Nick
+[Name]
+Name
+[Password is too short!]
+Passwort ist zu kurz!
+[ON]
+Ein
+[Off]
+Aus
+[Keyrings loaded.]
+Schlüsselringe geladen.
+[Keyrings not loaded!]
+Schlüsselringe nicht geladen!
+[PGP SDK v%i.%i.%i found.]
+PGP-SDK v%i.%i.%i gefunden.
+[PGP SDK not found!]
+PGP-SDK nicht gefunden!
+[This version not supported!]
+Diese Version wird nicht unterstützt!
+[(none)]
+(kein)
+[Private key loaded.]
+Privater Schlüssel geladen.
+[Private key not loaded!]
+Privater Schlüssel nicht geladen!
+[The new settings will become valid when you restart MirandaNG!]
+
+[Keyrings disabled!]
+Schlüsselringe deaktiviert!
+[Native]
+Nativ
+[Disabled]
+Deaktiviert
+[Enabled]
+Aktiviert
+[Always try]
+Immer versuchen
+[Create SecureIM connection]
+SecureIM-Verbindung aktivieren
+[Disable SecureIM connection]
+SecureIM-Verbindung deaktivieren
+[Load PGP Key]
+PGP-Schlüssel laden
+[Unload PGP Key]
+PGP-Schlüssel entladen
+[Load GPG Key]
+GPG-Schlüssel laden
+[Unload GPG Key]
+GPG-Schlüssel entladen
+[Delete RSA Key]
+
+[SecureIM mode (Native)]
+SecureIM-Modus (Nativ)
+[SecureIM mode (PGP)]
+SecureIM-Modus (PGP)
+[SecureIM mode (GPG)]
+SecureIM-Modus (GPG)
+[SecureIM mode (RSA/AES)]
+SecureIM-Modus (RSA/AES)
+[SecureIM mode (RSA)]
+
+[SecureIM status (disabled)]
+SecureIM-Status (deaktiviert)
+[SecureIM status (enabled)]
+SecureIM-Status (aktiviert)
+[SecureIM status (always try)]
+SecureIM-Status (immer versuchen)
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+
+[SecureIM received unencrypted message:\n]
+
+[SecureIM received encrypted message:\n]
+
+[Session closed by receiving incorrect message type]
+Sitzung aufgrund des Empfangs eines falschen Nachrichtentyps unterbrochen
+[Session closed by other side on error]
+Sitzung aufgrund eines Fehlers unterbrochen.
+[Error while decoding AES message]
+
+[Error while decoding RSA message]
+
+[Session closed on timeout]
+Sitzung aufgrund eines Timeouts unterbrochen.
+[Session closed by other side when status "disabled"]
+
+[Session closed on error: %02x]
+
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+SecureIM hat den öffentlichen RSA-Schlüssel von "%s" erhalten.\n\nSHA1: %s\n\nMöchten Sie diesen akzeptieren?
+[SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
+
+[SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
+
+[SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
+
 ;file \plugins\SecureIM\src\main.cpp
 [Incoming Secure Message]
 Sichere Nachricht (eingehend)

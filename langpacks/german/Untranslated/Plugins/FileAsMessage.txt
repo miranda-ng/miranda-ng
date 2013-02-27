@@ -1,5 +1,5 @@
-﻿[fileAsMessage]
-[...]
+﻿[File tranfer by using the messaging services - as plain text.]
+[fileAsMessage]
 [Chunk size]
 [ms]
 [Delays between sends]
@@ -32,4 +32,4 @@
 [Transfer is in progress. Do you really want to close?]
 [File As Message...]
 [File As Message]
-[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 PLUGIN_URL " for more information and download.]
+[\nIf you see this "garbage", probably you "                         "have no "fileAsMessage" plugin installed, see "						 "http://miranda-ng.org/ for more information and download.]

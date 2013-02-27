@@ -39,7 +39,7 @@ Hinweise
 [Popup]
 Popup
 [Tray]
-
+
 [Options]
 Einstellungen
 [Add new rooms to group:]
@@ -52,8 +52,6 @@ Logdateien
 Logdatei aktivieren
 [Log directory]
 Verzeichnis für Logdateien
-[...]
-
 [Maximum size for log files (in kB)]
 Maximale Größe der Logdateien (in kB)
 [Group chat log formatting]
@@ -117,13 +115,13 @@ Verlauf löschen
 [Co&py all]
 Alles ko&pieren
 [Word lookup]
-
+Wort nachschlagen
 [Google]
-
+Google
 [Wikipedia]
-
+Wikipedia
 [Link]
-
+Link
 [Open a &new browser window]
 In &neuem Browserfenster öffnen
 [&Open in current browser window]
@@ -133,7 +131,7 @@ Link kopieren
 [Message]
 Nachricht
 [Undo  ]
-
+
 [Redo]
 Wiederherstellen
 [Copy]
@@ -147,7 +145,7 @@ Alles markieren
 [Clear]
 Löschen
 [Tabs]
-
+Tabs
 [&Close tab]
 Tab s&chließen
 [C&lose other tabs]
@@ -162,7 +160,7 @@ In Zwischenablage kopieren
 [Continue]
 
 [Exit Miranda]
-
+Miranda beenden
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 
 [Customize the panel]
@@ -271,8 +269,6 @@ Lade nur aktuellen Nachrichtenverlauf
 Neue Nachrichten begrenzen auf
 [Events]
 Ereignisse
-[   ]
-
 [Only show tab bar when it's needed]
 Tableiste nur zeigen, wenn sie benötigt wird
 [Container stays on top]
@@ -507,8 +503,8 @@ Windowsfarben verwenden
 Nur ein P&opup pro Kontakt
 [Show &entry in the main menu]
 &Eintrag im Hauptmenü anzeigen
-[PopUp timeout (is typing)]
-Anzeigedauer (tippt gerade)
+[...is typing]
+
 [From PopUp plugin]
 Vom Popup-Plugin
 [From protocol]
@@ -517,8 +513,10 @@ Vom Protokoll
 Dauerhaft
 [Custom]
 Benutzerdef.
-[PopUp timeout (stopped typing)]
-Anzeigedauer (tippt nicht mehr)
+[...stopped typing]
+
+[PopUps timeout]
+
 [Templates]
 Vorlagen
 [Edit template]
@@ -594,7 +592,7 @@ Exportiere in eine Datei ...
 [Import from a file...]
 Importiere aus einer Datei ...
 [Ok]
-
+Ok
 [Icons]
 Icons
 [Event type icons in the message log]
@@ -648,7 +646,7 @@ Verlauf leeren
 [Freeze Log]
 Verlauf einfrieren
 [LogLink]
-
+
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -696,7 +694,7 @@ Für diesen Kontakt sichtbar
 [Contact Picture Settings...]
 Kontaktbild-Einstellungen...
 [Always keep the button bar at full width]
-
+Button-Leiste immer auf voller Breite halten
 [Save this Picture As...]
 Bild speichern unter...
 [Logmenu]
@@ -932,7 +930,7 @@ Tabs in minimierten Fenstern automatisch wechseln
 [History:]
 Verlauf:
 [Notifications:]
-
+Benachrichtigungen:
 [Don't announce when dialog is open]
 Keine Benachrichtigung, wenn Dialog offen
 [Message events]
@@ -1057,8 +1055,6 @@ An, falls vorhanden, immer unten anzeigen
 [Don't show them]
 Nicht anzeigen
 ;file \plugins\TabSRMM\src\controls.cpp
-[&Main]
-Allge&mein
 [&User]
 Ben&utzer
 [&Room]
@@ -1517,6 +1513,18 @@ Sitzungsliste
 
 [Frame 4]
 
+[Toolbar]
+Toolbar
+[Message Log]
+Nachrichtenverlauf
+[Animated Tray]
+Animierter Tray
+[Clock symbol (for the info panel clock)]
+Uhrsymbol (für die Uhr im Infopanel)
+[Feature disabled (used as overlay)]
+Funktion deaktiviert (als Overlay)
+[Feature enabled (used as overlay)]
+Funktion aktiviert (als Overlay)
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Container für %s auswählen
@@ -1594,11 +1602,11 @@ TabSRMM-Nachricht (%s)
 [Previews not availble when using History++ plugin for message log display.]
 
 [%d Unread]
-
+%d Ungelesen
 [Chat room %s]
 Chatraum %s
 [%d User(s)]
-
+%d Benutzer
 [Server window]
 Serverfenster
 [%s on %s%s]
@@ -1714,7 +1722,7 @@ Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
 [Delete temporary contacts on close]
 Temporäre Kontakte beim Schließen löschen
 [Enable "Paste and send" feature]
-
+"Einfügen und Senden" Funktion aktivieren
 [Allow BBCode formatting in outgoing messages]
 BBCode-Formatierung in ausgehenden Nachrichten erlauben
 [Automatically split long messages (experimental, use with care)]
@@ -1755,8 +1763,6 @@ BBCode-Formatierung verwenden
 Platziere einen Abstandshalter im Verlauf, wenn ein Fenster den Fokus verliert
 [Only place a separator when an incoming event is announced with a popup]
 Nur einen Abstandshalter platzieren, wenn eingehendes Ereignis mit einem Popup angekündigt wird
-[Support Math Module plugin]
-
 [Show events at the new line (IEView Compatibility Mode)]
 Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
@@ -1797,10 +1803,6 @@ Offline-Kontakte zur Mehrfach-Senden-Liste hinzufügen
 &Tipphinweis deaktivieren
 [Enable &typing notification]
 &Tipphinweis aktivieren
-[Warning: Popup plugin not found.]
-Achtung: Popup-Plugin wurde nicht gefunden.
-[Warning: Current Popup plugin version is not supported.]
-Achtung: Ihre Popup-Version wird nicht unterstützt.
 [...is typing a message.]
 ...tippt gerade eine Nachricht.
 [...has stopped typing.]
@@ -1822,8 +1824,6 @@ History++ erzwingen
 IEView erzwingen
 [Set messaging options for %s]
 Nachrichteneinstellungen für %s
-[Message Log]
-Nachrichtenverlauf
 ;file \plugins\TabSRMM\src\utils.cpp
 [Important release notes|A test warning message]
 Wichtige Release Informationen|Eine Testnachricht
@@ -1874,40 +1874,34 @@ Sie sind in %s
 Ihr Name ist nun %s
 [%s kicked %s]
 %s kickte %s
-[Notice from %s]
-Private Nachricht von %s
+[Notice from %s: ]
+
 [The topic is '%s%s']
-
+Das Thema ist '%s%s'
 [ (set by %s on %s)]
-
+ (gesetzt von %s um %s)
 [ (set by %s)]
  (gesetzt von %s)
 [%s enables '%s' status for %s]
-
+%s aktiviert '%s' Status für %s
 [%s disables '%s' status for %s]
-
-[Notice from %s: ]
-
+%s deaktiviert '%s' Status für %s
 [<invalid>]
-
+<ungültig>
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Füge Benutzer zur "Highlight"-Liste hinzu
 [Edit user highlight list]
 Editiere Benutzer-"Highlight"-Liste
 ;file \plugins\TabSRMM\src\chat\options.cpp
-[TabSRMM/Group Chats]
-
 [Group chat log background]
-
-[TabSRMM]
 
 [Input area background]
 
 [Log background]
 Verlaufshintergrund
-[TabSRMM/Single Messaging]
-
+[Single Messaging]
+Einzelchats
 [Outgoing background]
 
 [Incoming background]
@@ -1920,14 +1914,14 @@ Verlaufshintergrund
 
 [Horizontal Grid Lines]
 Horizontale Gitterlinien
-[TabSRMM/Info Panel]
-
+[Info Panel]
+Infobereich
 [Panel background low]
 Niedriger Panel-Hintergrund
 [Panel background high]
 Hoher Panel-Hintergrund
-[TabSRMM/Common colors]
-
+[Common colors]
+Allgemeine Farben
 [Toolbar background high]
 Toolbar-Hintergrund oben
 [Toolbar background low]
@@ -1940,8 +1934,6 @@ Textgrenzen Bereich
 Aero-Glanzeffekt
 [Generic text color (only when fill color is set)]
 Ubergeordnete Textfarbe (falls Fullfarbe aktiv)
-[TabSRMM/Tabs]
-
 [Normal text]
 Normaler Text
 [Active text]
@@ -2152,6 +2144,10 @@ Thema (10x10)
 Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
+[Group chat windows]
+Gruppenchat-Fenster
+[Group chat log]
+Gruppenchat-Verlauf
 [Appearance and functionality of chat room windows]
 Aussehen und Funktionen des Chatfensters
 [Appearance of the message log]
@@ -2172,12 +2168,16 @@ Markierter Hintergrund
 Markierter Text
 [Incremental search highlight]
 Inkrementelle Suche
+[Fields background]
+
+[Userlist background]
+Hintergrund Benutzerliste
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-
+Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
+BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to root miranda folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to current miranda profile]
@@ -2191,9 +2191,9 @@ wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
 Benutzername für den aktuell angemeldeten Windows-Benutzer.
 ["My Documents" folder for currently logged-on Windows user]
-
+"Meine Dokumente" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 ["Desktop" folder for currently logged-on Windows user]
-
+"Desktop" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [day of month, 1-31]
@@ -2258,6 +2258,8 @@ Ver&lassen
 %s verlässt %s
 [%s kicked %s from %s]
 %s kickt %s aus %s
+[Notice from %s]
+Private Nachricht von %s
 [Topic change in %s]
 Themenänderung in %s
 [Information in %s]
@@ -2296,7 +2298,7 @@ Nick
 [Nick]
 Nick
 [Unique id]
-
+
 [%s: Chat Room (%u user%s)]
 %s: Chatraum (%u Benutzer%s)
 [%s: Chat Room (%u users%s)]
@@ -2316,7 +2318,7 @@ Stunde
 [minutes]
 Minuten
 [minute]
-
+Minute
 [, %d %s idle]
 , %d %s untätig
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]

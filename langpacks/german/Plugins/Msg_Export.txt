@@ -6,7 +6,7 @@
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or File you receive to a text file.]
-
+Exportiert jede Nachricht, URL oder Datei, die Sie empfangen, in einen Textdatei.
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 Durchsuchen
@@ -74,8 +74,6 @@ Kontaktprofil
 Auswahl expotieren
 [Set to default filename]
 Setze Standard-Dateiname
-[1]
-
 [Copy]
 Kopieren
 ;file \plugins\Msg_Export\src\FileViewer.cpp
@@ -100,7 +98,7 @@ Kopieren
 [Search string was not found !]
 Suchpfad wurde nicht gefunden!
 [Save as RTF]
-
+Als RTF speichern
 [Color...]
 Farbe...
 [Font...]
@@ -108,7 +106,7 @@ Schrift...
 [Syntax highlight]
 Syntaxhöhepunkt
 [Failed to create file]
-
+
 [Failed to save file]
 
 [History was saved successfully in file\r\n]
@@ -181,7 +179,7 @@ Verlauf
 [General]
 Allgemein
 [Additional]
-
+Zusätzlich
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 
@@ -192,7 +190,7 @@ Allgemein
 [(Unknown Contact)]
 (Unbekannter Kontakt)
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
-
+Dateiname von Benutzer "%s" hat sich geändert!\n\nVon:\t%s\nIn:\t%s\n\nMöchten Sie diese Datei umbenennen?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Umbenennen der Datei\n\nvon:\t%s\nzu:\t%s\n\nmit folgendem Fehler: %s fehlgeschlagen
 [\nError: ]

@@ -40,8 +40,6 @@ Runde Ecken um
 Pixel
 [Avatar size:]
 Avatargröße:
-[32]
-
 [Enable avatar updates]
 Avatar-Updates aktivieren
 [Multimonitor (98/ME/2000/XP)]
@@ -60,8 +58,6 @@ Transparenz
 Transparenz verwenden (Win2k+)
 [opacity:]
 Deckkraft:
-[100%]
-
 [Opaque popups under cursor]
 Max. Deckkraft bei Mauskontakt
 [Slide Popup]
@@ -77,8 +73,6 @@ Ausblenzeit:
 [Limit window amount to:]
 Begrenze Popupanzahl auf:
 [Skins]
-
-[R]
 
 [* - built-in skins]
 * = Eingebaut
@@ -194,8 +188,6 @@ Minimale Breite
 Maximale Breite
 [Position:]
 Position:
-[...]
-
 [Layout:]
 Ausricht.:
 [Reorder Popups]
@@ -227,9 +219,6 @@ Popup anheften
 In Zwischenablage kopieren
 [Action]
 Aktion
-;file \plugins\Popup\src\bitmap_funcs.cpp
-[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Das png2dib-Plugin 0.1.3.x oder höher wird benötigt, um PNG-Bilder anzuzeigen.
 ;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 Der Zipferlake
@@ -263,6 +252,8 @@ Mit "Vollbild"-Überlagerung
 Skin-Liste aktualisieren
 [Popup Placement]
 Popup-Platzierung
+[OK]
+OK
 [Cancel]
 Abbrechen
 [Popup Group]
@@ -289,15 +280,6 @@ Kontaktmenü
 Kontakt hinzufügen
 [Dismiss Popup]
 Popup schließen
-;file \plugins\Popup\src\icons.h
-[Toolbar]
-Toolbar
-[/Actions]
-
-[/Options]
-
-[/Misc]
-
 ;file \plugins\Popup\src\main.cpp
 [Classes]
 Kategorien
@@ -420,6 +402,3 @@ Auto
 Favorit
 [Block]
 Blockieren
-;file \plugins\Popup\src\version.h
-[PopUps]
-Popups

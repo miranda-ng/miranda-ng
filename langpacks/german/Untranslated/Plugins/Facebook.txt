@@ -1,5 +1,4 @@
 ﻿[Facebook protocol support for Miranda NG.]
-[420]
 [Login error: Some Facebook things are required.]
 [Timeout when sending message.]
 [Contact was removed from your server list.]

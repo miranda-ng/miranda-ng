@@ -40,8 +40,6 @@ Ein-/Ausblenden animieren
 Transparente Kontaktliste
 [Inactive opacity:]
 Deckkraft inaktiv:
-[000%]
-
 [Active opacity:]
 Deckkraft aktiv:
 [Show Avatars]
@@ -64,8 +62,6 @@ Hintergrundfarbe:
 Auswahlfarbe:
 [Use background bitmap]
 Hintergrundbild verwenden
-[...]
-
 [Stretch to width]
 In Breite strecken
 [Stretch to height]
@@ -140,10 +136,6 @@ B x H: 0 x 0 Pixel
 Verfügbare Kontaktfilter
 [Include protocols]
 Protokolle auswählen
-[+]
-
-[-]
-
 [New]
 Neu
 [Include groups]
@@ -153,7 +145,7 @@ Kontakte gruppiert anzeigen
 [Include status modes]
 Statusmodus auswählen
 [Ok]
-
+ok
 [Cancel]
 Abbrechen
 [Sticky contacts]
@@ -610,34 +602,32 @@ Hoch
 Runter
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 EINSTELLUNGSSEITE IST IM BAU!
-[&¤]
-
 [E&xit]
 B&eenden
 [&Status]
-
+
 [&Offline\tCtrl+0]
-
+
 [On&line\tCtrl+1]
-
+
 [&Away\tCtrl+2]
-
+
 [&NA\tCtrl+3]
-
+
 [Occ&upied\tCtrl+4]
-
+
 [&DND\tCtrl+5]
-
+
 [&Free for chat\tCtrl+6]
-
+
 [&Invisible\tCtrl+7]
-
+
 [On the &Phone\tCtrl+8]
-
+
 [Out to &Lunch\tCtrl+9]
-
+
 [Tray]
-
+
 [&Hide/Show]
 Zeigen/Ausblenden
 [Nowhere]
@@ -694,14 +684,14 @@ Soll Kontakt '%s' aus Metakontakt '%s' entfernt und zu '%s' hinzugefügt werden?
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 Soll Kontakt '%s' vom Metakontakt '%s' hinzugefügt werden?
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
-[Contact List/Contact names]
-
-[Contact List/Row Items]
-
-[Contact List/Frame texts]
-
-[Contact List/Special colours]
-
+[Contact names]
+Kontaktnamen
+[Row Items]
+Zeileninhalt
+[Frame texts]
+Frame-Texte
+[Special colours]
+Spezielle Farben
 [Standard contacts]
 Standardkontakte
 [Away contacts]
@@ -784,6 +774,8 @@ Offline
 Online
 [Away]
 Abwesend
+[NA]
+Außer Haus
 [Occupied]
 Beschäftigt
 [DND]
@@ -961,7 +953,7 @@ Linien
 Bildgröße ist
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
-
+
 [Error]
 Fehler
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
@@ -1021,6 +1013,8 @@ Standardskin
 Nicht gruppierte Kontakte
 [And]
 Und
+[Or]
+Oder
 [Older than]
 Älter als
 [Newer than]

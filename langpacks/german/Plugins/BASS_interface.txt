@@ -22,8 +22,6 @@ Ausgabegerät:
 Lautstärke
 [Quiet time:]
 Ruhezeit:
-[-]
-
 [download bass library]
 Herunterladen der Bass-Bibliothek
 [Play only if]
@@ -50,6 +48,9 @@ Am Telefon
 Zum Essen
 [Preview]
 Vorschau
+;file \plugins\BASS_interface\src\Bass_interface.h
+[Bass Interface]
+
 ;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Un4seen's Bass Version: %d.%d.%d.%d
@@ -62,8 +63,6 @@ Klänge deaktivieren
 [Enable sounds]
 Klänge aktivieren
 [Frame Background]
-
-[Bass Interface]
 
 [Sounds enabled]
 

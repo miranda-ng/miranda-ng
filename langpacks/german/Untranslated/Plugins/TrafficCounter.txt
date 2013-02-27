@@ -5,5 +5,3 @@
 [Traffic Counter]
 [Display/]
 [General/]
-["Toggle traffic counter" in main menu]
-[Year]

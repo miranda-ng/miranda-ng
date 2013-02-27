@@ -29,7 +29,7 @@ An:
 [Add number to list]
 Nummer zur Liste hinzufügen
 [&H]
-
+
 [Save number]
 Nummer speichern
 [Multiple >>]

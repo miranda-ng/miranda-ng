@@ -49,7 +49,7 @@ Zeigt/Versteckt CList
 [Opens message dialog]
 Öffnet Nachricht
 [Behavior]
-
+Verhalten
 [Misc]
 Diverses
 [Obey 'Suppress online notification' settings]
@@ -64,8 +64,6 @@ Vorschau
 Transparenz (ab Windows 2000)
 [Transparent tooltip]
 Transparenter Tooltip
-[000%]
-
 [Contacts]
 Kontakte
 [Idle]
@@ -103,3 +101,5 @@ Unsichtbar
 
 [Unknown]
 Unbekannt
+[is]
+ist

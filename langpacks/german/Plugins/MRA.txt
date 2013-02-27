@@ -18,8 +18,6 @@ Konfiguration
 Loginserver:
 [Port:]
 Port:
-[(2042, 443, 110, 25)]
-
 [Default]
 Standard
 [Automatically request authorization on logon]
@@ -56,8 +54,6 @@ Nick:
 Vorname:
 [Last name:]
 Nachname:
-[@]
-
 [Gender:]
 Geschlecht:
 [Age:]
@@ -85,8 +81,6 @@ Stadt:
 [Enable avatars support (loading)]
 Avatar-Unterstützung aktivieren (lädt)
 [Server:]
-
-[(80, 443, 2041)]
 
 [Updates check interval, min]
 Überprüfe Updates alle (in Min.)
@@ -183,8 +177,6 @@ Abbrechen
 [Notify]
 Benachrichtigung
 [Writed:]
-
-[0/500]
 
 [Select e-mail]
 E-Mail auswählen

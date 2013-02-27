@@ -18,7 +18,7 @@ Sekunden
 [Global on avatar]
 Avatar global setzen
 [RTL]
-
+RTL
 [Align text to right]
 Text rechtsbündig
 [Global on nickname]
@@ -74,9 +74,9 @@ Statusnachricht:
 [Status popup]
 Statuspopup
 [&Offline]
-
+&Offline
 [On&line]
-
+On&line
 [&Away]
 &Abwesend
 [&NA]

@@ -2,7 +2,7 @@
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
-
+Folgende Konten prüfen
 [Events to react on]
 Auf folgende Ereignisse reagieren
 [Incoming messages]
@@ -43,8 +43,6 @@ Bildschirmschoner läuft
 Arbeitsplatz blockiert wird (2000/XP)
 [Defined programs are running]
 Bestimmte Programme laufen
-[...]
-
 [All other situations]
 Auch sonst immer
 [Only notify if status is]
@@ -80,11 +78,11 @@ XStatus
 [Keys to flash]
 Folgende LEDs
 [Num Lock]
-
+Num Lock
 [Caps Lock]
-
+Caps Lock
 [Scroll Lock]
-
+Scroll Lock
 [Flashing effects]
 Blinkeffekte
 [All at the same time]
@@ -191,8 +189,8 @@ links<->rechts
 Tastaturblinken
 [Events]
 Ereignisse
-[Protocols]
-Protokolle
+[Accounts]
+Konten
 [Rules]
 Regeln
 [Flashing]

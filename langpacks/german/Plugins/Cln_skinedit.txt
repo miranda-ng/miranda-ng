@@ -71,5 +71,3 @@ Eingelassen
 Hervorstehen
 [Etched]
 
-[Image items]
-Bild-Elemente

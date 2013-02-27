@@ -3,7 +3,6 @@
 [DateTimePicker1]
 [i'm hiding]
 [Snooze]
-[...]
 [Reminder Frame Context]
 [&Suspend]
 [&New Alarm...]
