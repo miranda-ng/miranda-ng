@@ -178,7 +178,7 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 {
-	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
+ 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
 	ptd->signature = PopupNotificationData_SIGNATURE;
 	ptd->typ = 1;
 	ptd->pszTreeRoot = mir_a2t(notification->lpzGroup);

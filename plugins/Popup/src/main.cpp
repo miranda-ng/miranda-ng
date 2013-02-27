@@ -465,6 +465,7 @@ MIRAPI int Unload(void)
 	UnloadGDIPlus();
 
 	UnloadActions();
+	UnloadTreeData();
 
 	CloseHandle(hMainThread);
 

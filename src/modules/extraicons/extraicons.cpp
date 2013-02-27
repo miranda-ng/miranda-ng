@@ -368,7 +368,8 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 	if (ei->type == EXTRAICON_TYPE_CALLBACK && (ei->ApplyIcon == NULL || ei->RebuildIcons == NULL))
 		return 0;
 
-	TCHAR *desc = Langpack_PcharToTchar(ei->description);
+	mir_ptr<TCHAR> tszDesc( mir_a2t(ei->description));
+	TCHAR *desc = TranslateTH(lParam, tszDesc);
 
 	BaseExtraIcon *extra = GetExtraIconByName(ei->name);
 	if (extra != NULL) {
