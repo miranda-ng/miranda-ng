@@ -44,7 +44,7 @@ typedef struct {
 ///   Service MS_HTTP_ADD_CHANGE_REMOVE   ///
 /////////////////////////////////////////////
 //
-// wParam = 0
+// wParam = (WPARAM)0
 // lParam = (LPARAM)LPSTFileShareInfo;
 // Server path is the key when working with FileShareInfo.
 // Two files can not be shared with the same "Server path" in the HTTP server.
@@ -62,7 +62,7 @@ typedef struct {
 //////    Service MS_HTTP_GET_SHARE    //////
 /////////////////////////////////////////////
 //
-// wParam = 0;
+// wParam = (WPARAM)0;
 // lParam = (LPARAM)LPSTFileShareInfo;
 // Returns the information for a share
 // Server path must be set the the share you wish information for.
@@ -78,7 +78,7 @@ typedef struct {
 /////////////////////////////////////////////
 //
 // wParam = (WPARAM)boolean(true/false);
-// lParam = 0;
+// lParam = (LPARAM)0;
 // Toggles the HTTP server state if wParam is FALSE
 // Force enable HTTP server if wParam is TRUE
 // returns 0 on success, nonzero on failure
@@ -89,7 +89,7 @@ typedef struct {
 ////   Service MS_HTTP_GET_ALL_SHARES   /////
 /////////////////////////////////////////////
 //
-// wParam = 0;
+// wParam = (WPARAM)0;
 // lParam = (LPARAM)&LPSTFileShareInfo;
 // Returns an array of all currently shared files in the HTTP Server
 // LPSTFileShareInfo points to the first share.
@@ -100,18 +100,6 @@ typedef struct {
 
 #define MS_HTTP_GET_ALL_SHARES	"HTTPServer/GetAllShares"
 
-/////////////////////////////////////////////
-////   Service MS_HTTP_GET_LINK         /////
-/////////////////////////////////////////////
-//
-// wParam = (char*)pszSrvPath;
-// lParam = 0
-// Return URL Link on success, 0 on failure
-// Return pointer must be mir_free by caller
-//
-// Return the URL link to the pszSrvPath
-
-#define MS_HTTP_GET_LINK	"HTTPServer/GetLink"
 
 
 #endif
