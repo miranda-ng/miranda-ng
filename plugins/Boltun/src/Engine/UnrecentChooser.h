@@ -21,24 +21,22 @@
 #ifndef UnRecentChooserH
 #define UnRecentChooserH
 
-#include "tstring.h"
-
 class UnRecentChooser
 {
-	std::map<tstring, size_t> items;
-	std::vector<tstring> itemsList;
-	std::vector<tstring> newItems;
+	std::map<std::tstring, size_t> items;
+	std::vector<std::tstring> itemsList;
+	std::vector<std::tstring> newItems;
 	float newItemsPrio, maxOldPrio;
-	std::map<size_t, tstring> oldItems;
-	std::map<tstring, float> oldPrios;
+	std::map<size_t, std::tstring> oldItems;
+	std::map<std::tstring, float> oldPrios;
 	size_t last;
 	int minimum;
 	static const size_t maxItems = 100;
 public:
 	UnRecentChooser();
-	void AddChoice(tstring value, float prio = 1.0);
-	tstring Choose();
-	void SaveChoice(tstring choice);
+	void AddChoice(std::tstring value, float prio = 1.0);
+	std::tstring Choose();
+	void SaveChoice(std::tstring choice);
 };
 
 #endif /* UnRecentChooserH */

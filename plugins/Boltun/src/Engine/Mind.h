@@ -25,30 +25,28 @@
 #include <map>
 #include <set>
 #include "WordsList.h"
-#include "tstring.h"
-
 
 class Mind;
 
 typedef struct
 {
 	friend class Mind;
-	std::vector<tstring> initial;
-	std::set<tstring> question;
-	std::set<tstring> special;
-	std::vector<tstring> escape;
-	std::vector<tstring> failure;
-	std::vector<tstring> repeats;
+	std::vector<std::tstring> initial;
+	std::set<std::tstring> question;
+	std::set<std::tstring> special;
+	std::vector<std::tstring> escape;
+	std::vector<std::tstring> failure;
+	std::vector<std::tstring> repeats;
     unsigned int maxSmileLen;
-	std::set<tstring> smiles;
-	std::multimap<WordsList, tstring> keywords;
-	std::multimap<WordsList, tstring> qkeywords;
-	std::multimap<tstring, tstring> widelyUsed;
-	std::multimap<WordsList, tstring> specialEscapes;
-	std::multimap<WordsList, tstring> qspecialEscapes;
-	std::multimap<tstring, tstring> study;
-	std::map<tstring, tstring> aliases;
-	std::map<tstring, std::vector<tstring>> raliases;
+	std::set<std::tstring> smiles;
+	std::multimap<WordsList, std::tstring> keywords;
+	std::multimap<WordsList, std::tstring> qkeywords;
+	std::multimap<std::tstring, std::tstring> widelyUsed;
+	std::multimap<WordsList, std::tstring> specialEscapes;
+	std::multimap<WordsList, std::tstring> qspecialEscapes;
+	std::multimap<std::tstring, std::tstring> study;
+	std::map<std::tstring, std::tstring> aliases;
+	std::map<std::tstring, std::vector<std::tstring>> raliases;
 private:
 	int referenceCount;
 } MindData;
@@ -59,7 +57,7 @@ private:
 	MindData *data;
 	bool fileTypeMark;	
 
-	std::vector<tstring> Parse(tstring s);
+	std::vector<std::tstring> Parse(std::tstring s);
 public:
 	Mind();
 	~Mind();
@@ -77,9 +75,9 @@ public:
 	};
 
 	const MindData *GetData() const;
-	void Load(tstring filename);
-	void Save(tstring filename) const;
-	void LoadSmiles(tstring filename);
+	void Load(std::tstring filename);
+	void Save(std::tstring filename) const;
+	void LoadSmiles(std::tstring filename);
 	void LoadSmiles(void* smiles, size_t size);
 };
 

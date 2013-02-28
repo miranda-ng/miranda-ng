@@ -28,8 +28,12 @@
 #include <fstream>
 #include <assert.h>
 
+#include <string>
+#include <list>
+
 #include "newpluginapi.h"
 #include "m_clist.h"
+#include "m_system_cpp.h"
 #include "m_database.h"
 #include "m_options.h"
 #include "m_langpack.h"
@@ -43,7 +47,6 @@
 #include "Engine/UnrecentChooser.h"
 #include "Engine/MyCodeCvt.h"
 #include "Engine/Mind.h"
-#include "Engine/tstring.h"
 
 #define BOLTUN_KEY  "Boltun"
 

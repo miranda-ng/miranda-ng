@@ -21,26 +21,24 @@
 #ifndef WordsListH
 #define WordsListH
 
-#include "tstring.h"
-
 class WordsList
 {
 	WordsList();
-	void Parse(tstring s/*, bool allowUnstrict = false*/);
+	void Parse(std::tstring s/*, bool allowUnstrict = false*/);
 	//bool unstrict;
 #ifdef _DEBUG
 public:
 #endif
-	std::set<tstring> words;
+	std::set<std::tstring> words;
 	bool isQuestion;
 public:
-	WordsList(const tstring &data/*, bool allowUnstrict = false*/);
-	operator tstring() const;
-	bool MatchesAll(const std::vector<tstring>& s/*, bool& WasStrict*/, float& priority) const;
-	bool MatchesAny(const std::vector<tstring>& s) const;
-	std::vector<tstring> ConsistsOf(const std::set<tstring>& list) const;
-	std::vector<tstring> DoesntIncludeAny(const std::set<tstring>& list) const;
-	WordsList& operator= (const tstring& s);
+	WordsList(const std::tstring &data/*, bool allowUnstrict = false*/);
+	operator std::tstring() const;
+	bool MatchesAll(const std::vector<std::tstring>& s/*, bool& WasStrict*/, float& priority) const;
+	bool MatchesAny(const std::vector<std::tstring>& s) const;
+	std::vector<std::tstring> ConsistsOf(const std::set<std::tstring>& list) const;
+	std::vector<std::tstring> DoesntIncludeAny(const std::set<std::tstring>& list) const;
+	WordsList& operator= (const std::tstring& s);
 	bool operator<(const WordsList& value) const;
 	bool operator==(const WordsList& value) const;
 	bool operator!=(const WordsList& value) const;

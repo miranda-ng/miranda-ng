@@ -18,15 +18,6 @@
 //
 //***********************************************************
 
-#include "config.h"
-
-#include <windows.h>
-#include <time.h>
-#include <string>
-
-#include "newpluginapi.h"
-#include "m_database.h"
-#include "m_langpack.h"
 #include "boltun.h"
 
 //Database keys

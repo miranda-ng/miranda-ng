@@ -27,13 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_system.h"
 
-#if defined(_UNICODE)
-	#define tstring wstring
-#else
-	#define tstring string
-#endif
-
 #if defined(__cplusplus)
+
+#if defined(_STRING_)
+namespace std
+{
+	typedef basic_string<TCHAR, char_traits<TCHAR>, allocator<TCHAR> > tstring;
+}
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // mir_ptr - automatic pointer for buffers, allocated using mir_alloc/mir_calloc

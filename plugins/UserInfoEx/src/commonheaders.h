@@ -55,7 +55,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <Richedit.h>
 
 using namespace std;
-typedef std::basic_string<TCHAR>	tstring;
 
 /***********************************************************************************************************
  * Miranda NG SDK includes and macros

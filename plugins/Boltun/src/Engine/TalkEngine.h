@@ -32,14 +32,14 @@ public:
 	struct MessageInfo
 	{
 		private:
-			tstring Question;
-			MessageInfo(tstring q, tstring a)
+			std::tstring Question;
+			MessageInfo(std::tstring q, std::tstring a)
 				:Question(q), Answer(a)
 			{
 			}
 		public:
-			tstring Answer;
-			MessageInfo(tstring q)
+			std::tstring Answer;
+			MessageInfo(std::tstring q)
 				:Question(q)
 			{
 			}
@@ -50,17 +50,17 @@ private:
 	{
 		BEST, LOOKSLIKE/*, LOOKSLIKE2*/, BAD, FAIL, NOTHING
 	} Level;
-	friend tstring LevelToStr(TalkBot::Level target); 
+	friend std::tstring LevelToStr(TalkBot::Level target); 
 
 	struct ContactData
 	{
 		ValueChooser<> initial;
-		//ValueChooser<std::set<tstring> > question;
-		//ValueChooser<std::set<tstring> > special;
+		//ValueChooser<std::set<std::tstring> > question;
+		//ValueChooser<std::set<std::tstring> > special;
 		ValueChooser<> escape;
 		ValueChooser<> failure;
 		UnRecentChooser chooser;
-		tstring lastMessage;
+		std::tstring lastMessage;
 		long long lastMessageTime;
 		int repeatCount;
 		inline ContactData(const Mind& mind)
@@ -79,23 +79,23 @@ private:
 	bool beSilent;
 	bool makeLowercase;
 	bool understandAlways;
-	void UpdateStartChar(tstring& str);
-	typedef std::multimap<tstring, tstring>::const_iterator mm_cit; 
-	bool FindExact(ContactData* contactData, const tstring &incomingMessage,
-		const std::multimap<tstring, tstring>& map, tstring& res);
-	bool FindAny(ValueChooser<> &ch, tstring& res);
-	void FindByKeywords(ContactData* contactData, const std::vector<tstring> &keywords, tstring& res/*, tstring& ures*/, bool isQuestion);
-	bool FindByOthers(ContactData* contactData, const std::vector<tstring> &otherwords, tstring& res, bool isQuestion);
-	tstring AllReplies(const tstring &incomingMessage, ContactData* contactData, Level &maxValue, std::multimap<Level, tstring> &mm);
-	tstring ReplaceAliases(const tstring &message);
-	tstring ChooseResult(ContactData* contactData, Level maxValue, const std::multimap<Level, tstring> &mm);
+	void UpdateStartChar(std::tstring& str);
+	typedef std::multimap<std::tstring, std::tstring>::const_iterator mm_cit; 
+	bool FindExact(ContactData* contactData, const std::tstring &incomingMessage,
+		const std::multimap<std::tstring, std::tstring>& map, std::tstring& res);
+	bool FindAny(ValueChooser<> &ch, std::tstring& res);
+	void FindByKeywords(ContactData* contactData, const std::vector<std::tstring> &keywords, std::tstring& res/*, std::tstring& ures*/, bool isQuestion);
+	bool FindByOthers(ContactData* contactData, const std::vector<std::tstring> &otherwords, std::tstring& res, bool isQuestion);
+	std::tstring AllReplies(const std::tstring &incomingMessage, ContactData* contactData, Level &maxValue, std::multimap<Level, std::tstring> &mm);
+	std::tstring ReplaceAliases(const std::tstring &message);
+	std::tstring ChooseResult(ContactData* contactData, Level maxValue, const std::multimap<Level, std::tstring> &mm);
 	void RecordAnswer(ContactData *contactData, const TalkBot::MessageInfo& info);
 #ifdef _DEBUG
 public:
 #endif
-	void SplitSectences(const tstring &incomingMessage, std::vector<tstring>& vec);
-	void SplitAndSortWords(tstring sentence, std::vector<tstring>& keywords,
-		std::vector<tstring>& otherwords, bool& isQuestion);
+	void SplitSectences(const std::tstring &incomingMessage, std::vector<std::tstring>& vec);
+	void SplitAndSortWords(std::tstring sentence, std::vector<std::tstring>& keywords,
+		std::vector<std::tstring>& otherwords, bool& isQuestion);
 public:
 	TalkBot(const Mind& goodMind);
 	~TalkBot();
@@ -104,8 +104,8 @@ public:
 	void SetLowercase(const bool isLowercase);
 	void SetUnderstandAlways(const bool understandAlways);
 	//const MindData *GetData();
-	tstring GetInitMessage(void* contact);
-	MessageInfo* Reply(void* contact, const tstring incomingMessage, bool saveChoice);
+	std::tstring GetInitMessage(void* contact);
+	MessageInfo* Reply(void* contact, const std::tstring incomingMessage, bool saveChoice);
 	void AnswerGiven(void* contact, const MessageInfo& info);
 };
 
