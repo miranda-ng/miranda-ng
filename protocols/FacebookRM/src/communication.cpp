@@ -685,14 +685,14 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			parent->Log(" ! !  Login error: Captcha code is required.");
 			return handle_error( "login", FORCE_DISCONNECT );
 		}
-		
+
 		// Get error message
 		std::string error_str = utils::text::trim(
 			utils::text::special_expressions_decode(
 				utils::text::remove_html( 
 					utils::text::edit_html(
-						utils::text::source_get_value( &resp.data, 2, "id=\"standard_error\">", "</h2>" )) )) );
-
+						utils::text::source_get_value(&resp.data, 3, "login_error_box", "<p>", "</p>")))));
+		
 		if ( !error_str.length())
 			error_str = Translate("Unknown login error");
 		parent->Log(" ! !  Login error: %s", error_str.c_str());
