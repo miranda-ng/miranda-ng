@@ -2,40 +2,35 @@
 #define MENUEX_H__
 
 #define _CRT_SECURE_NO_DEPRECATE
-#define MIRANDA_VER    0x0A00
 
-#include "m_stdhdr.h"
 #include <windows.h>
+#include <time.h>
+
+#include <newpluginapi.h>
+#include <win2k.h>
+#include <m_system_cpp.h>
+#include <m_options.h>
+#include <m_database.h>
+#include <m_langpack.h>
+#include <m_file.h>
+#include <m_protomod.h>
+#include <m_clui.h>
+#include <m_ignore.h>
+#include <m_icolib.h>
+#include <m_skin.h>
+#include <m_genmenu.h>
+#include <m_popup.h>
+#include <m_message.h>
+
+#include <m_fingerprint.h>
+#include <m_metacontacts.h>
+#include <m_msg_buttonsbar.h>
+
+#include "images.h"
+#include "version.h"
 #include "resource.h"
-#include <stdio.h>
-#include "newpluginapi.h"
-#include "win2k.h"
-#include "time.h"
-#include "m_system.h"
-#include "m_system_cpp.h"
-#include "m_utils.h"
-#include "m_options.h"
-#include "m_database.h"
-#include "m_langpack.h"
-#include "m_file.h"
-#include "m_clist.h"
-#include "m_protosvc.h"
-#include "m_protomod.h"
-#include "m_clui.h"
-#include "m_ignore.h"
-#include "m_icolib.h"
-#include "m_skin.h"
-#include "m_genmenu.h"
-#include "m_popup.h"
-#include "m_message.h"
-#include "m_fingerprint.h"
-#include "m_metacontacts.h"
-#include "m_msg_buttonsbar.h"
 
-#pragma optimize("gsy",on)
-
-#define VISPLG "MenuItemEx"
-#define MODULENAME VISPLG
+#define MODULENAME "MenuItemEx"
 
 #define MIIM_STRING	0x00000040
 

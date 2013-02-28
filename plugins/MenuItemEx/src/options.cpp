@@ -1,6 +1,5 @@
 #include "menuex.h"
 
-
 extern HINSTANCE hinstance;
 extern BOOL bPopUpService;
 
@@ -31,7 +30,7 @@ static const checkboxes[]={
 
 INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	DWORD flags=DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
+	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
 	TCHAR buffer[64] = {0};
 	int i;
 	
@@ -89,7 +88,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					}
 
 					//DBDeleteContactSetting(NULL,VISPLG,"flags");
-					DBWriteContactSettingDword(NULL,VISPLG,"flags",mod_flags);
+					db_set_dw(NULL, MODULENAME, "flags", mod_flags);
 					
 					return 1;
 				}

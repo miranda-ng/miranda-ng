@@ -1,6 +1,4 @@
 #include "menuex.h"
-#include "images.h"
-#include "version.h"
 
 #define MS_SETINVIS		"MenuEx/SetInvis"
 #define MS_SETVIS		"MenuEx/SetVis"
@@ -83,15 +81,15 @@ static const ii[] = {
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	MODULENAME,
-	__VERSION_DWORD,
-	__DESC,
-	__AUTHORS,
-	__EMAIL,
-	__COPYRIGHTS,
-	__WEB,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+	// {B1902A52-9114-4D7E-AC2E-B3A52E01D574}
 	{0xb1902a52, 0x9114, 0x4d7e, {0xac, 0x2e, 0xb3, 0xa5, 0x2e, 0x01, 0xd5, 0x74}}
 };
 
@@ -691,9 +689,9 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 	if ((szProto = GetContactProto(hContact)) == NULL)
 		return 0;
 
-	GetID(hContact,szProto,(LPSTR)&szID);
+	GetID(hContact, szProto, (LPSTR)&szID);
 
-	if(DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default)&VF_CIDN) {
+	if(db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		
 		if (!pa->bOldProto) 
@@ -718,7 +716,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 	char par[32];
 	TCHAR buffer[2048];
 	int i;
-	DWORD flags = DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
+	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
 
 	module = GetContactProto((HANDLE)wparam);
 	if (!module)
@@ -841,8 +839,8 @@ int isIgnored(HANDLE  hContact, int type)
 
 INT_PTR onIgnore(WPARAM wparam,LPARAM lparam)
 {
-	if (DBGetContactSettingByte(NULL, VISPLG, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL)) {
-		DBWriteContactSettingByte((HANDLE)wparam, "CList", "Hidden", (isIgnored((HANDLE)wparam, lparam) ? (byte)0 : (byte)1));
+	if (db_get_b(NULL, MODULENAME, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL)) {
+		db_set_b((HANDLE)wparam, "CList", "Hidden", (isIgnored((HANDLE)wparam, lparam) ? (byte)0 : (byte)1));
 		CallService(MS_CLUI_SORTLIST, 0, 0);
 	}
 
@@ -878,8 +876,8 @@ static void ModifySubmenuItem(HANDLE hItem, TCHAR* name, int checked, int hidden
 // called when the contact-menu is built
 int BuildMenu(WPARAM wparam,LPARAM lparam)
 {
-	CLISTMENUITEM miAV = {0},miNV,miHFL,miIGN,miPROTO,miADD,miREQ,miCID,miRECV,miSTAT,miCIP,miCMV;
-	DWORD flags = DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
+	CLISTMENUITEM miAV = {0}, miNV, miHFL, miIGN, miPROTO, miADD, miREQ, miCID, miRECV, miSTAT, miCIP, miCMV;
+	DWORD flags = db_get_dw(NULL, MODULENAME, "flags", vf_default);
 	int i = 0, j = 0, check = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	char* pszProto = GetContactProto((HANDLE)wparam);
@@ -1120,7 +1118,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 		DBDeleteContactSetting(hContact, lpzProto, "LogoffTS");
 	
 		// TESTING: updating user's details
-		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH) {	
+		if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_REFRESH) {	
 			// don't refresh Hidden or NotOnList contact's details
 			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0) && !DBGetContactSettingByte((HANDLE)wParam, "CList", "NotOnList", 0))
 				CallContactService(hContact, PSS_GETINFO, 0, 0 );

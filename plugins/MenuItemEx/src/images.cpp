@@ -1,5 +1,4 @@
 #include "menuex.h"
-#include "images.h"
 
 extern HINSTANCE hinstance;
 
