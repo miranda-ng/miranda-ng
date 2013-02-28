@@ -22,12 +22,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "..\..\core\commonheaders.h"
+#include "profilemanager.h"
 
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;
 
 extern TCHAR mirandabootini[MAX_PATH];
-extern bool dbCreated;
 
 static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -395,7 +395,6 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 static void DoAutoExec(void)
 {
 	TCHAR szUse[7], szIniPath[MAX_PATH], szFindPath[MAX_PATH];
-	TCHAR *str2;
 	TCHAR buf[2048], szSecurity[11], szOverrideSecurityFilename[MAX_PATH], szOnCreateFilename[MAX_PATH];
 	char *szSafeSections, *szUnsafeSections;
 	int secur;
@@ -415,17 +414,12 @@ static void DoAutoExec(void)
 	GetPrivateProfileString(_T("AutoExec"), _T("OnCreateFilename"), _T(""), szOnCreateFilename, SIZEOF(szOnCreateFilename), mirandabootini);
 	GetPrivateProfileString(_T("AutoExec"), _T("Glob"), _T("autoexec_*.ini"), szFindPath, SIZEOF(szFindPath), mirandabootini);
 
-	if (dbCreated && szOnCreateFilename[0]) {
-		str2 = Utils_ReplaceVarsT(szOnCreateFilename);
-		PathToAbsoluteT(str2, szIniPath, NULL);
-		mir_free(str2);
-
+	if (g_bDbCreated && szOnCreateFilename[0]) {
+		PathToAbsoluteT( VARST(szOnCreateFilename), szIniPath, NULL);
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, 0, 1);
 	}
 
-	str2 = Utils_ReplaceVarsT(szFindPath);
-	PathToAbsoluteT(str2, szFindPath, NULL);
-	mir_free(str2);
+	PathToAbsoluteT( VARST(szFindPath), szFindPath, NULL);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szFindPath, &fd);
@@ -435,7 +429,7 @@ static void DoAutoExec(void)
 		return;
 	}
 
-	str2 = _tcsrchr(szFindPath, '\\');
+	TCHAR *str2 = _tcsrchr(szFindPath, '\\');
 	if (str2 == NULL) szFindPath[0] = 0;
 	else str2[1] = 0;
 
@@ -478,7 +472,9 @@ static void DoAutoExec(void)
 			else if ( !lstrcmpi(szOnCompletion, _T("ask")))
 				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INIIMPORTDONE), NULL, IniImportDoneDlgProc, (LPARAM)szIniPath);
 		}
-	} while (FindNextFile(hFind, &fd));
+	}
+		while (FindNextFile(hFind, &fd));
+
 	FindClose(hFind);
 	mir_free(szSafeSections);
 	mir_free(szUnsafeSections);

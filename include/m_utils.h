@@ -414,16 +414,34 @@ typedef struct
 #define MS_UTILS_REPLACEVARS "Utils/ReplaceVars"
 
 __forceinline char* Utils_ReplaceVars(const char *szData) {
-	REPLACEVARSDATA dat = {0};
-	dat.cbSize = sizeof(dat);
+	REPLACEVARSDATA dat = { sizeof(dat) };
 	return (char*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&dat);
 }
 __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
-	REPLACEVARSDATA dat = {0};
-	dat.cbSize = sizeof(dat);
-	dat.dwFlags = RVF_TCHAR;
+	REPLACEVARSDATA dat = { sizeof(dat), RVF_TCHAR };
 	return (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&dat);
 }
+
+#if defined(__cplusplus)
+	#if !defined(M_SYSTEM_CPP_H__)
+		#include "m_system_cpp.h"
+	#endif
+
+	struct VARS : public mir_ptr<char>
+	{
+		__forceinline VARS(const char *str) :
+			mir_ptr<char>( Utils_ReplaceVars(str))
+			{}
+	};
+
+	struct VARST : public mir_ptr<TCHAR>
+	{
+		__forceinline VARST(const TCHAR *str) :
+			mir_ptr<TCHAR>( Utils_ReplaceVarsT(str))
+			{}
+	};
+#endif
+
 #ifdef _UNICODE
 	#define MS_UTILS_PATHTORELATIVEW         "Utils/PathToRelativeW"
 	#define MS_UTILS_PATHTOABSOLUTEW         "Utils/PathToAbsoluteW"

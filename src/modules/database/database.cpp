@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // contains the location of mirandaboot.ini
 extern TCHAR mirandabootini[MAX_PATH];
-bool dbCreated;
+bool g_bDbCreated;
 TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH];
 TCHAR* g_defaultProfile;
 void EnsureCheckerLoaded(bool);
@@ -55,15 +55,11 @@ static void fillProfileName(const TCHAR* ptszFileName)
 
 bool IsInsideRootDir(TCHAR* profiledir, bool exact)
 {
-	int res;
-	TCHAR* pfd = Utils_ReplaceVarsT(_T("%miranda_path%"));
+	VARST pfd( _T("%miranda_path%"));
 	if (exact)
-		res = _tcsicmp(profiledir, pfd);
-	else
-		res = _tcsnicmp(profiledir, pfd, _tcslen(pfd));
-
-	mir_free(pfd);
-	return res == 0;
+		return _tcsicmp(profiledir, pfd) == 0;
+	
+	return _tcsnicmp(profiledir, pfd, _tcslen(pfd)) == 0;
 }
 
 // returns 1 if the profile path was returned, without trailing slash
@@ -75,9 +71,7 @@ int getProfilePath(TCHAR *buf, size_t cch)
 	if (profiledir[0] == 0)
 		_tcscpy(profiledir, _T("%miranda_path%\\Profiles"));
 
-	TCHAR* exprofiledir = Utils_ReplaceVarsT(profiledir);
-	size_t len = PathToAbsoluteT(exprofiledir, buf, NULL);
-	mir_free(exprofiledir);
+	size_t len = PathToAbsoluteT( VARST(profiledir), buf, NULL);
 
 	if (buf[len-1] == '/' || buf[len-1] == '\\')
 		buf[len-1] = 0;
@@ -123,12 +117,11 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 	if (defaultProfile[0] == 0)
 		return;
 
-	TCHAR* res = Utils_ReplaceVarsT(defaultProfile);
-	if (res) {
-		mir_sntprintf(szProfile, cch, _T("%s\\%s\\%s%s"), profiledir, res, res, isValidProfileName(res) ? _T("") : _T(".dat"));
-		mir_free(res);
-	}
-	else szProfile[0] = 0;
+	VARST res(defaultProfile);
+	if (res)
+		mir_sntprintf(szProfile, cch, _T("%s\\%s\\%s%s"), profiledir, (TCHAR*)res, (TCHAR*)res, isValidProfileName(res) ? _T("") : _T(".dat"));
+	else
+		szProfile[0] = 0;
 }
 
 // returns 1 if something that looks like a profile is there
@@ -183,12 +176,10 @@ void getProfileDefault(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 static void moveProfileDirProfiles(TCHAR *profiledir, BOOL isRootDir = TRUE)
 {
 	TCHAR pfd[MAX_PATH];
-	if (isRootDir) {
-		TCHAR *path = Utils_ReplaceVarsT(_T("%miranda_path%\\*.dat"));
-		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s"), path);
-		mir_free(path);
-	}
-	else mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
+	if (isRootDir)
+		_tcsncpy(pfd, VARST( _T("%miranda_path%\\*.dat")), SIZEOF(pfd));
+	else
+		mir_sntprintf(pfd, SIZEOF(pfd), _T("%s\\*.dat"), profiledir);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(pfd, &ffd);
@@ -288,7 +279,6 @@ static int getProfileAutoRun(TCHAR *szProfile)
 // returns 1 if a profile was selected
 static int getProfile(TCHAR *szProfile, size_t cch)
 {
-	PROFILEMANAGERDATA pd = {0};
 	getProfilePath(g_profileDir, SIZEOF(g_profileDir));
 	if (IsInsideRootDir(g_profileDir, true))
 		if (WritePrivateProfileString(_T("Database"), _T("ProfileDir"), _T(""), mirandabootini))
@@ -304,6 +294,7 @@ static int getProfile(TCHAR *szProfile, size_t cch)
 		return 0;
 	}
 
+	PROFILEMANAGERDATA pd = {0};
 	if ( CmdLine_GetOption( _T("ForceShowPM"))) {
 LBL_Show:
 		pd.szProfile = szProfile;
@@ -339,47 +330,6 @@ char* makeFileName(const TCHAR* tszOriginalName)
 	mir_free(tszFileName);
 
 	return szResult;
-}
-
-// called by the UI, return 1 on success, use link to create profile, set error if any
-int makeDatabase(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
-{
-	TCHAR buf[256];
-	int err = 0;
-	// check if the file already exists
-	TCHAR *file = _tcsrchr(profile, '\\');
-	if (file) file++;
-	if (_taccess(profile, 0) == 0) {
-		// file already exists!
-		mir_sntprintf(buf, SIZEOF(buf),
-			TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
-			file);
-		if (MessageBox(hwndDlg, buf, TranslateT("The profile already exists"), MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2) != IDYES)
-			return 0;
-
-		// move the file
-		SHFILEOPSTRUCT sf = {0};
-		sf.wFunc = FO_DELETE;
-		sf.pFrom = buf;
-		sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
-		if (SHFileOperation(&sf) != 0) {
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."), file);
-			MessageBox(0, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION|MB_OK);
-			return 0;
-		}
-		// now the file should be gone!
-	}
-	// ask the database to create the profile
-	CreatePathToFileT(profile);
-	if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
-		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
-		MessageBox(hwndDlg, buf, TranslateT("Problem creating profile"), MB_ICONERROR|MB_OK);
-		return 0;
-	}
-	dbCreated = true;
-	// the profile has been created! woot
-	return 1;
 }
 
 // enumerate all plugins that had valid DatabasePluginInfo()
@@ -428,7 +378,7 @@ static int tryCreateDatabase(const TCHAR* ptszProfile)
 
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
-			dbCreated = true;
+			g_bDbCreated = true;
 			MIDatabase *pDb = p->Load(tszProfile);
 			if (pDb != NULL) {
 				fillProfileName(tszProfile);

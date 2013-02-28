@@ -429,11 +429,11 @@ static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 	si.cb = sizeof(si);
 	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
 	if (wParam) {
-		TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
-		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
-		mir_free(profilename);
-	} else
-		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+		VARST profilename( _T("%miranda_profilename%"));
+		mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), (TCHAR*)profilename);
+	}
+	else mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d"), mirandaPath, GetCurrentProcessId());
+
 	CallService("CloseAction", 0, 0);
 	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	return 0;

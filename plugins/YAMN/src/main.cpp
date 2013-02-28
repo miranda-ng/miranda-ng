@@ -123,7 +123,7 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszOldPath), (LPARAM)tszOldPath);
 	_tcscat(tszOldPath, _T("\\*.book"));
 
-	TCHAR* ptszNewPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
+	VARST ptszNewPath( _T("%miranda_userdata%"));
 
 	SHFILEOPSTRUCT file_op = {
 		NULL,
@@ -137,7 +137,6 @@ static void GetProfileDirectory(TCHAR *szPath, int cbPath)
 	SHFileOperation(&file_op);
 
 	_tcsncpy(szPath, ptszNewPath, cbPath);
-	mir_free(ptszNewPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -107,6 +107,47 @@ static int findProfiles(TCHAR *szProfileDir, ENUMPROFILECALLBACK callback, LPARA
 	return 1;
 }
 
+static int CreateProfile(TCHAR *profile, DATABASELINK * link, HWND hwndDlg)
+{
+	TCHAR buf[256];
+	int err = 0;
+	// check if the file already exists
+	TCHAR *file = _tcsrchr(profile, '\\');
+	if (file) file++;
+	if (_taccess(profile, 0) == 0) {
+		// file already exists!
+		mir_sntprintf(buf, SIZEOF(buf),
+			TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
+			file);
+		if (MessageBox(hwndDlg, buf, TranslateT("The profile already exists"), MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2) != IDYES)
+			return 0;
+
+		// move the file
+		SHFILEOPSTRUCT sf = {0};
+		sf.wFunc = FO_DELETE;
+		sf.pFrom = buf;
+		sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
+		if (SHFileOperation(&sf) != 0) {
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."), file);
+			MessageBox(0, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION|MB_OK);
+			return 0;
+		}
+		// now the file should be gone!
+	}
+	// ask the database to create the profile
+	CreatePathToFileT(profile);
+	if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
+		MessageBox(hwndDlg, buf, TranslateT("Problem creating profile"), MB_ICONERROR|MB_OK);
+		return 0;
+	}
+
+	// the profile has been created!
+	g_bDbCreated = true;
+	return 1;
+}
+
 static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR) {
@@ -119,7 +160,7 @@ static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct DlgProfData * dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	struct DlgProfData *dat = (struct DlgProfData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -189,7 +230,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case WM_NOTIFY:
 		{
-			NMHDR* hdr = (NMHDR*)lParam;
+			NMHDR *hdr = (NMHDR*)lParam;
 			if (hdr && hdr->code == PSN_APPLY && dat && IsWindowVisible(hwndDlg)) {
 				TCHAR szName[MAX_PATH];
 				LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_PROFILEDRIVERS, CB_GETCURSEL, 0, 0);
@@ -203,9 +244,8 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				dat->pd->newProfile = 1;
 				dat->pd->dblink = (DATABASELINK *)SendDlgItemMessage(hwndDlg, IDC_PROFILEDRIVERS, CB_GETITEMDATA, (WPARAM)curSel, 0);
 
-				if (makeDatabase(dat->pd->szProfile, dat->pd->dblink, hwndDlg) == 0) {
+				if ( CreateProfile(dat->pd->szProfile, dat->pd->dblink, hwndDlg) == 0)
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-				}
 			}
 		}
 		break;
@@ -751,7 +791,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return FALSE;
 }
 
-static int AddProfileManagerPage(struct DetailsPageInit * opi, OPTIONSDIALOGPAGE * odp)
+static int AddProfileManagerPage(struct DetailsPageInit *opi, OPTIONSDIALOGPAGE *odp)
 {
 	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE))
 		return 1;
@@ -777,12 +817,9 @@ static int AddProfileManagerPage(struct DetailsPageInit * opi, OPTIONSDIALOGPAGE
 
 int getProfileManager(PROFILEMANAGERDATA * pd)
 {
-	DetailsPageInit opi;
-	opi.pageCount = 0;
-	opi.odp = NULL;
+	DetailsPageInit opi = { 0 };
 
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.pszTitle = LPGEN("My Profiles");
 	odp.pfnDlgProc = DlgProfileSelect;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);
@@ -797,16 +834,13 @@ int getProfileManager(PROFILEMANAGERDATA * pd)
 	PROPSHEETHEADER psh = { 0 };
 	psh.dwSize = sizeof(psh);
 	psh.dwFlags = PSH_PROPSHEETPAGE|PSH_NOAPPLYNOW;
-	psh.hwndParent = NULL;
 	psh.nPages = opi.pageCount;
-	psh.pStartPage = 0;
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;
 
 	DlgProfData prof;
 	prof.pd = pd;
 	prof.psh = &psh;
 	int rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PROFILEMANAGER), NULL, DlgProfileManager, (LPARAM)&prof);
-
 	if (rc != -1)
 		for (int i=0; i < opi.pageCount; i++) {
 			mir_free((char*)opi.odp[i].pszTitle);

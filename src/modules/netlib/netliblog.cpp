@@ -138,18 +138,15 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 */
 		case IDC_FILENAME:
-			if (HIWORD(wParam) != EN_CHANGE) break;
-			if ((HWND)lParam == GetFocus())
-				CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
+			if (HIWORD(wParam) == EN_CHANGE) {
+				if ((HWND)lParam == GetFocus())
+					CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
-			{
 				TCHAR path[MAX_PATH];
 				GetWindowText((HWND)lParam, path, MAX_PATH);
 
-				TCHAR *pszNewPath = Utils_ReplaceVarsT(path);
-				PathToAbsoluteT(pszNewPath, path, NULL);
+				PathToAbsoluteT( VARST(path), path, NULL);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
-				mir_free(pszNewPath);
 			}
 			break;
 		case IDC_FILENAMEBROWSE:
@@ -568,13 +565,11 @@ void NetlibLogInit(void)
 
 	if ( !DBGetContactSettingTString(NULL, "Netlib", "File", &dbv)) {
 		logOptions.szUserFile = mir_tstrdup(dbv.ptszVal);
-		TCHAR *pszNewPath = Utils_ReplaceVarsT(dbv.ptszVal);
 
 		TCHAR path[MAX_PATH];
-		PathToAbsoluteT(pszNewPath, path, NULL);
+		PathToAbsoluteT( VARST(dbv.ptszVal), path, NULL);
 		logOptions.szFile = mir_tstrdup(path);
 
-		mir_free(pszNewPath);
 		db_free(&dbv);
 	}
 	else {

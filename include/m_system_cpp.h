@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SYSTEM_CPP_H__
 #define M_SYSTEM_CPP_H__ 1
 
+#include <stdlib.h>
+
 #include "m_system.h"
 
 #if defined(_UNICODE)

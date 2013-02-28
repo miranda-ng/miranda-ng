@@ -388,11 +388,10 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 {
 	REPLACEVARSDATA *data = (REPLACEVARSDATA *)lParam;
-	if ( !(data->dwFlags & RVF_UNICODE))
-		return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
+	if (data->dwFlags & RVF_UNICODE)
+		return (INT_PTR)ReplaceVariables<WCHAR>((WCHAR *)wParam, data);
 
-
-	return (INT_PTR)ReplaceVariables<WCHAR>((WCHAR *)wParam, data);
+	return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
 }
 
 int InitPathUtils(void)

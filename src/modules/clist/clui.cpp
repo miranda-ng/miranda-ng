@@ -460,9 +460,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		int rc;
 		// wParam = (ATOM)hProfileAtom, lParam = 0
 		if (GlobalGetAtomName((ATOM) wParam, profile, SIZEOF(profile))) {
-			TCHAR *pfd = Utils_ReplaceVarsT(_T("%miranda_userdata%\\%miranda_profilename%.dat"));
-			rc = lstrcmpi(profile, pfd) == 0;
-			mir_free(pfd);
+			rc = lstrcmpi(profile, VARST(_T("%miranda_userdata%\\%miranda_profilename%.dat"))) == 0;
 			ReplyMessage(rc);
 			if (rc) {
 				ShowWindow(hwnd, SW_RESTORE);
