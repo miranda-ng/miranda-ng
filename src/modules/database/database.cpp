@@ -428,6 +428,7 @@ static int tryCreateDatabase(const TCHAR* ptszProfile)
 
 		int err = p->makeDatabase(tszProfile);
 		if (err == ERROR_SUCCESS) {
+			dbCreated = true;
 			MIDatabase *pDb = p->Load(tszProfile);
 			if (pDb != NULL) {
 				fillProfileName(tszProfile);
