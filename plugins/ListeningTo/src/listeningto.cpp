@@ -17,38 +17,23 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-
 #include "commons.h"
-
-
-// Prototypes ///////////////////////////////////////////////////////////////////////////
-
-// Service called by the main menu
-#define MS_LISTENINGTO_MAINMENU				"ListeningTo/MainMenu"
-
-// Service called by toptoolbar
-#define MS_LISTENINGTO_TTB					"ListeningTo/TopToolBar"
-
-// Services called by hotkeys
-#define MS_LISTENINGTO_HOTKEYS_ENABLE		"ListeningTo/HotkeysEnable"
-#define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
-#define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"ListeningTo",
-	PLUGIN_MAKE_VERSION(0,3,0,0),
-	"Handles listening information to/for contacts.",
-	"Ricardo Pescuma Domenecci",
-	"",
-	"© 2006-2009 Ricardo Pescuma Domenecci",
-	"http://miranda-ng.org/",
-	UNICODE_AWARE,		//doesn't replace anything built-in
-	{ 0xf981f3f5, 0x35a, 0x444f, { 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } } // {F981F3F5-035A-444f-9892-CA722C195ADA}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {F981F3F5-035A-444F-9892-CA722C195ADA}
+	{0xf981f3f5, 0x35a, 0x444f, {0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda}}
 };
-
 
 HINSTANCE hInst;
 

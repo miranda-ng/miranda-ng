@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winresrc.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -149,16 +149,7 @@ END
 // remains consistent on all systems.
 IDI_LISTENINGTO         ICON                    "listening_to.ico"
 IDI_LISTENINGOFF        ICON                    "listening_off.ico"
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// English (Canada) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
-#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -173,7 +164,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""winresrc.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -185,7 +176,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (Canada) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

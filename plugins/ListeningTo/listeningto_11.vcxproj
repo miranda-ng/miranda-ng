@@ -82,7 +82,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -105,7 +106,8 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -130,7 +132,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -158,7 +161,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <ExceptionHandling>false</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -179,8 +183,8 @@
   <ItemGroup>
     <ClInclude Include="src\commons.h" />
     <ClInclude Include="..\utils\mir_buffer.h" />
-    <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
+    <ClInclude Include="..\utils\utf8_helpers.h" />
     <ClInclude Include="src\music.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
@@ -192,23 +196,46 @@
     <ClInclude Include="src\players\watrack.h" />
     <ClInclude Include="src\players\winamp.h" />
     <ClInclude Include="src\players\wmp.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\listeningto.cpp" />
-    <ClCompile Include="..\utils\mir_options.cpp" />
+    <ClCompile Include="..\utils\mir_options.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\music.cpp" />
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\players\foobar.cpp" />
-    <ClCompile Include="src\players\generic.cpp" />
-    <ClCompile Include="src\players\itunes.cpp" />
-    <ClCompile Include="src\players\mradio.cpp" />
-    <ClCompile Include="src\players\player.cpp" />
-    <ClCompile Include="src\players\watrack.cpp" />
-    <ClCompile Include="src\players\winamp.cpp" />
-    <ClCompile Include="src\players\wmp.cpp" />
+    <ClCompile Include="src\players\foobar.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\generic.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\itunes.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\mradio.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\player.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\watrack.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\winamp.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\players\wmp.cpp">
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

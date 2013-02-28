@@ -17,18 +17,13 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
-#include "..\\commons.h"
-
+#include "..\commons.h"
 
 static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
 
 static UINT hTimer = NULL;
 
 GenericPlayer *singleton = NULL;
-
-
 
 int m_log(const TCHAR *function, const TCHAR *fmt, ...)
 {

@@ -18,15 +18,11 @@ Boston, MA 02111-1307, USA.
 */
 
 
-#include "..\\commons.h"
-
-
+#include "..\commons.h"
 extern "C"
 {
 #include "iTunesCOMInterface_i.c"
 }
-
-
 
 ITunes::ITunes()
 {

@@ -25,56 +25,50 @@ Boston, MA 02111-1307, USA.
 #define _CRT_NONSTDC_NO_DEPRECATE
 
 #include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
 #include <time.h>
 #include <vector>
 #include <algorithm>
-#include <functional>
-
-
-
-// Miranda headers
-#define MIRANDA_VER 0x0600
 
 #include <newpluginapi.h>
 #include <win2k.h>
-#include <m_system.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_clist.h>
-#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <m_utils.h>
-#include <m_metacontacts.h>
-#include <m_popup.h>
-#include <m_history.h>
-#include <m_proto_listeningto.h>
-#include <m_music.h>
-#include <m_radio.h>
-#include <m_toptoolbar.h>
-#include <m_icolib.h>
 #include <m_xstatus.h>
-#include <m_variables.h>
 #include <m_clui.h>
-#include <m_cluiframes.h>
 #include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_extraicons.h>
 
+#include <m_metacontacts.h>
+#include <m_proto_listeningto.h>
+#include <m_music.h>
+#include <m_radio.h>
+#include <m_toptoolbar.h>
+#include <m_listeningto.h>
 
-#include "../utils/mir_memory.h"
-#include "../utils/mir_options.h"
-#include "../utils/mir_buffer.h"
-#include "../utils/utf8_helpers.h"
+#include "..\utils\mir_options.h"
+#include "..\utils\mir_buffer.h"
+#include "..\utils\utf8_helpers.h"
 
-#include "m_listeningto.h"
 #include "music.h"
 #include "resource.h"
 #include "options.h"
+#include "Version.h"
 
+// Prototypes ///////////////////////////////////////////////////////////////////////////
+
+// Service called by the main menu
+#define MS_LISTENINGTO_MAINMENU				"ListeningTo/MainMenu"
+
+// Service called by toptoolbar
+#define MS_LISTENINGTO_TTB					"ListeningTo/TopToolBar"
+
+// Services called by hotkeys
+#define MS_LISTENINGTO_HOTKEYS_ENABLE		"ListeningTo/HotkeysEnable"
+#define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
+#define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
 #define MODULE_NAME		"ListeningTo"
 
