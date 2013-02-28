@@ -423,7 +423,7 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 static INT_PTR RestartMiranda(WPARAM wParam, LPARAM)
 {
-	TCHAR mirandaPath[MAX_PATH], cmdLine[100];
+	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = {0};
 	si.cb = sizeof(si);
