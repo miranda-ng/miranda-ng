@@ -89,7 +89,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				ofn.Flags = OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
 				ofn.lpstrDefExt = _T("log");
 				if ( GetOpenFileName(&ofn)) {
-					CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)(char*) szTemp, (LPARAM)(char*) szTemp1);
+					PathToRelativeT(szTemp, szTemp1);
 					SetDlgItemText(hwndDlg, NA_LOG_FILENAME, szTemp1);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 				}

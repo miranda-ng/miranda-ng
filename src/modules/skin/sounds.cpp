@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if ( !GetOpenFileName(&ofn))
 				break;
 
-			CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)str, (LPARAM)strFull);
+			PathToRelativeT(str, strFull);
 			snd.ptszTempFile = mir_tstrdup(strFull);
 			SetDlgItemText(hwndDlg, IDC_LOCATION, strFull);
 		}

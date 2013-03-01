@@ -521,7 +521,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		if (ContactEnabled(hContact, "LogToHistory", AVH_DEF_LOGTOHISTORY))
 		{
 			TCHAR rel_path[MAX_PATH] = _T("");
-			CallService(MS_UTILS_PATHTORELATIVET,(WPARAM)history_filename,(LPARAM)rel_path);
+			PathToRelativeT(history_filename, rel_path);
 			char *blob = mir_utf8encodeT(rel_path);
 			int flags = DBEF_READ | DBEF_UTF;
 			if(ServiceExists(MS_HISTORYEVENTS_ADD_TO_HISTORY))

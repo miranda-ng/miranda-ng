@@ -608,11 +608,6 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-size_t PathToRelative(const TCHAR *pSrc, TCHAR *pOut)
-{
-	return CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)pSrc, (LPARAM)pOut );
-}
-
 typedef HRESULT (MarkupCallback)(IHTMLDocument3*, BSTR& message);
 
 HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback* pCallback, BSTR& message)

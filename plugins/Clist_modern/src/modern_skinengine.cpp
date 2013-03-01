@@ -228,7 +228,7 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 			char bb[MAX_PATH*2] = {0};
 			int pp, i;
 			pp = -1;
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)szFileName, (LPARAM)fn);
+			PathToRelative(szFileName, fn);
 			{
 				for (i = strlen(fn); i >= 0; i--)  if (fn[i] == '.') break;
 				if (i>0) fn[i] = '\0';
@@ -264,7 +264,7 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 		_sntprintf(pszFolderName,MAX_PATH,_T("%s\\%s"),custom_folder,cus);
 
 	mir_free(szBuff);
-	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)pszFolderName, (LPARAM)pszFolderName);
+	PathToRelativeT(pszFolderName, pszFolderName);
 	return 0;
 }
 
@@ -2411,7 +2411,7 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 
 	ske_DeleteAllSettingInSection("ModernSkin");
 	IniParser::GetSkinFolder(szFileName,skinFolder);
-	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szFileName, (LPARAM)skinFile);
+	PathToRelativeT(szFileName, skinFile);
 
 	db_set_ws(NULL,SKIN,"SkinFolder", skinFolder);
 	db_set_ws(NULL,SKIN,"SkinFile", skinFile);

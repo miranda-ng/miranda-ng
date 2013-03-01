@@ -408,12 +408,10 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 					char str[MAX_PATH],strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg,IDC_FILENAME,str,SIZEOF(str));
-					if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-						if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)str, (LPARAM)strrel))
-							db_set_s(NULL,"StatusBar","BkBitmap",strrel);
-						else db_set_s(NULL,"StatusBar","BkBitmap",str);
-					}
-					else db_set_s(NULL,"StatusBar","BkBitmap",str);
+					if ( PathToRelative(str, strrel))
+						db_set_s(NULL,"StatusBar","BkBitmap",strrel);
+					else
+						db_set_s(NULL,"StatusBar","BkBitmap",str);
 
 					WORD flags = 0;
 					if (IsDlgButtonChecked(hwndDlg,IDC_STRETCHH)) flags |= CLB_STRETCHH;
@@ -530,12 +528,10 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					char str[MAX_PATH],strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg,IDC_FILENAME,str,SIZEOF(str));
-					if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-						if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)str, (LPARAM)strrel))
-							db_set_s(NULL,"CLC","BkBitmap",strrel);
-						else db_set_s(NULL,"CLC","BkBitmap",str);
-					}
-					else db_set_s(NULL,"CLC","BkBitmap",str);
+					if ( PathToRelative(str, strrel))
+						db_set_s(NULL,"CLC","BkBitmap",strrel);
+					else
+						db_set_s(NULL,"CLC","BkBitmap",str);
 				}
 				{	WORD flags = 0;
 					if (IsDlgButtonChecked(hwndDlg,IDC_STRETCHH)) flags |= CLB_STRETCHH;

@@ -350,7 +350,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 				if ( db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
 					lstrcpyn(pai.filename, wszFileName, SIZEOF(pai.filename));
 				else
-					CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)wszFileName, (LPARAM)pai.filename );
+					PathToRelativeT(wszFileName, pai.filename);
 
 				if (bDefaultAvt) dwAvatarFormat = PA_FORMAT_DEFAULT;
 				SetContactAvatarFormat(pmraaqiAvatarsQueueItem->hContact, dwAvatarFormat);
@@ -610,7 +610,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 					if (db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH))
 						lstrcpyn(lpszPath, wszFileName, MAX_PATH);
 					else
-						CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)wszFileName, (LPARAM)lpszPath );
+						PathToRelativeT(wszFileName, lpszPath);
 				}
 				if (pdwFormat)
 					*pdwFormat = GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT);

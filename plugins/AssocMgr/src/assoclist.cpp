@@ -62,8 +62,8 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	DBWriteContactSettingByte(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	/* dll name for uninstall */
 	if(assoc->hInstance!= NULL && assoc->hInstance!= hInst && assoc->hInstance!= GetModuleHandle(NULL))
-		if(GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
-			if(CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szBuf, (LPARAM)szDLL)) {
+		if( GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
+			if( PathToRelativeT(szBuf, szDLL)) {
 				mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
 				DBWriteContactSettingTString(NULL, "AssocMgr", szSetting, szDLL);
 			}

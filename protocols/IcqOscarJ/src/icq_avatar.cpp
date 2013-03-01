@@ -1674,7 +1674,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 							if (!pCookieData->hContact) // our avatar, set filename
 							{
 								TCHAR tmp[MAX_PATH * 2];
-								CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)tszImageFile, (LPARAM)tmp);
+								PathToRelativeT(tszImageFile, tmp);
 								ppro->setSettingStringT(NULL, "AvatarFile", tmp);
 							}
 							else

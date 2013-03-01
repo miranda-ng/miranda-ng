@@ -150,7 +150,7 @@ HICON ImageList_GetIconFixed (HIMAGELIST himl, INT i, UINT fStyle)
 void pathToRelative(const bkstring& pSrc, bkstring& pOut)
 {
 	TCHAR szOutPath[MAX_PATH];
-	CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)pSrc.c_str(), (LPARAM)szOutPath);
+	PathToRelativeT(pSrc.c_str(), szOutPath);
 	pOut = szOutPath;
 }
 

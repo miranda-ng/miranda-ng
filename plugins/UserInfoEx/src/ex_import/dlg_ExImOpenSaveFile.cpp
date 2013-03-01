@@ -262,7 +262,7 @@ static VOID SaveInitialDir(LPSTR pszInitialDir)
 
 	if (p = mir_strrchr(pszInitialDir, '\\')) {
 		*p = 0;
-		if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)pszInitialDir, (LPARAM)szRelative))
+		if ( PathToRelative(pszInitialDir, szRelative))
 			DB::Setting::WriteAString(0, MODNAME, "vCardPath", szRelative);
 		else
 			DB::Setting::WriteAString(0, MODNAME, "vCardPath", pszInitialDir);

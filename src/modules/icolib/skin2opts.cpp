@@ -547,7 +547,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				LVITEM lvi;
 
 				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, SIZEOF(fullPath));
-				CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)fullPath, (LPARAM)filename);
+				PathToRelativeT(fullPath, filename);
 				lvi.mask = LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
@@ -874,7 +874,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
 				TCHAR filename[ MAX_PATH ];
 
-				CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)file, (LPARAM)filename);
+				PathToRelativeT(file, filename);
 				SAFE_FREE((void**)&file);
 
 				MySetCursor(IDC_WAIT);

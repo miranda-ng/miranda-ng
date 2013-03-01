@@ -206,8 +206,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						#endif
 
 						// Make path relative
-						int result = CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szTempPath, (LPARAM)szPath2Spash);			
-
+						int result = PathToRelativeT(szTempPath, szPath2Spash);			
 						if(result && lstrlen(szPath2Spash) > 0)
 						{
 							if (options.random)
@@ -271,8 +270,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						#endif
 
 						// Make path relative
-						int result = CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szTempPath, (LPARAM)szSoundFilePath);			
-
+						int result = PathToRelativeT(szTempPath, szSoundFilePath);			
 						if(result && lstrlen(szSoundFile) > 0)
 							SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),szSoundFilePath);
 

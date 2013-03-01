@@ -391,12 +391,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				{
 					char str[MAX_PATH], strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-					if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-						if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM) str, (LPARAM) strrel))
-							DBWriteContactSettingString(NULL, "CLC", "BkBitmap", strrel);
-						else
-							DBWriteContactSettingString(NULL, "CLC", "BkBitmap", str);
-					}
+					if ( PathToRelative(str, strrel))
+						DBWriteContactSettingString(NULL, "CLC", "BkBitmap", strrel);
 					else
 						DBWriteContactSettingString(NULL, "CLC", "BkBitmap", str);
 				}

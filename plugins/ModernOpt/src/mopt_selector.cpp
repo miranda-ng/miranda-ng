@@ -97,7 +97,7 @@ struct TSkinListItem
 		GetCurrentDirectory(SIZEOF(curPath), curPath);
 
 		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
-		CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)curPath, (LPARAM)path);
+		PathToRelativeT(curPath, path);
 
 		int length = lstrlen(curPath)+lstrlen(fn)+2;
 		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));

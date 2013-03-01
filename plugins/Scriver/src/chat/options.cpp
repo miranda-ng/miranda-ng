@@ -383,7 +383,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		SendDlgItemMessage(hwndDlg,IDC_CHAT_SPIN3,UDM_SETPOS,0,MAKELONG(DBGetContactSettingWord(NULL,"Chat","LoggingLimit",100),0));
 		{
 			TCHAR tszTemp[MAX_PATH];
-			CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)g_Settings.pszLogDir, (LPARAM)tszTemp );
+			PathToRelativeT(g_Settings.pszLogDir, tszTemp);
 			SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, tszTemp);
 		}
 		if (ServiceExists(MS_UTILS_REPLACEVARS)) {
@@ -485,7 +485,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				if (idList) {
 					SHGetPathFromIDList(idList,tszDirectory);
 					lstrcat(tszDirectory, _T("\\"));
-					CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)tszDirectory, (LPARAM)tszTemp );
+					PathToRelativeT(tszDirectory, tszTemp);
 					SetWindowText(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), lstrlen(tszTemp) > 1?tszTemp:DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);

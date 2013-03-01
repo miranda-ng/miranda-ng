@@ -356,7 +356,7 @@ int GetShortFileName(char * FullFile)
 		return 1; //skin folder relative
 	}
 	
-	CallService(MS_UTILS_PATHTORELATIVE,(WPARAM)FullFile,(LPARAM)buf);
+	PathToRelative(FullFile, buf);
 	if (buf[0] != '\\' && buf[1] != ':')
 		_snprintf(FullFile,MAX_PATH,"\\%s",buf);
 	else

@@ -335,8 +335,8 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						sd = ( SkinListData* )nmtv->itemNew.lParam;
 						{
 							TCHAR buf[MAX_PATH];
-							CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)sd->File, (LPARAM)buf );
-							SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
+							PathToRelativeT(sd->File, buf);
+							SendDlgItemMessage(hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
 						}
 						{
 							TCHAR prfn[MAX_PATH] = {0};
@@ -602,7 +602,7 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	TCHAR * ptr;
 	TCHAR * ptrE;
 	BOOL ext = FALSE;
-	CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)folder, (LPARAM)path );
+	PathToRelativeT(folder, path);
 	ptrE = path;
 	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
 	if ( *ptrE == _T('\\'))

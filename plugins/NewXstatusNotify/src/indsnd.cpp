@@ -281,7 +281,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					else 
 					{
 						TCHAR stzSoundPath[MAX_PATH] = { 0 };
-						CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)buff, (LPARAM)stzSoundPath);
+						PathToRelativeT(buff, stzSoundPath);
 						if (lvi.lParam == ID_STATUS_FROMOFFLINE)
 							db_set_ws(hContact, MODULE, "UserFromOffline", stzSoundPath);
 						else

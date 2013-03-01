@@ -614,7 +614,7 @@ INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 			}
 
 			TCHAR tmp[MAX_PATH];
-			CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)tszMyFile, (LPARAM)tmp);
+			PathToRelativeT(tszMyFile, tmp);
 			setSettingStringT(NULL, "AvatarFile", tmp);
 
 			iRet = 0;

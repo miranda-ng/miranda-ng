@@ -98,10 +98,10 @@ TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size)
 {
 	if (size < MAX_PATH) {
 		TCHAR buffer[MAX_PATH];
-		CallService(MS_UTILS_PATHTORELATIVET, (WPARAM) szAbsolute, (LPARAM) szRelative);
+		PathToRelativeT(szAbsolute, szRelative);
 		_tcsncpy(szRelative, buffer, size);
 	}
-	else CallService(MS_UTILS_PATHTORELATIVET, (WPARAM) szAbsolute, (LPARAM) szRelative);
+	else PathToRelativeT(szAbsolute, szRelative);
 		
 	return szRelative;
 }

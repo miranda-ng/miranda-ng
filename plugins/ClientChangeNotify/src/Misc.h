@@ -43,7 +43,7 @@ __inline TCString Path_ToRelative(TCString &Path)
 {
 	CString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)(const char*)TCHAR2ANSI(Path), (LPARAM)(char*)Str);
+	PathToRelative(TCHAR2ANSI(Path), Str);
 	Str.ReleaseBuffer();
 	return ANSI2TCHAR(Str);
 }

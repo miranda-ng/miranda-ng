@@ -836,7 +836,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					char str[MAX_PATH], strrel[MAX_PATH];
 
 					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));
-					if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM) str, (LPARAM) strrel))
+					if ( PathToRelative(str, strrel))
 						cfg::writeString(NULL, "CLC", "BkBitmap", strrel);
 					else
 						cfg::writeString(NULL, "CLC", "BkBitmap", str);

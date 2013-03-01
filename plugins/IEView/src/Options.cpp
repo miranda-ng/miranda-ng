@@ -1729,23 +1729,20 @@ void Options::saveProtocolSettings() {
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_FLAGS);
 		DBWriteContactSettingDword(NULL, ieviewModuleName, dbsName, proto->getSRMMFlags());
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
-		strcpy (tmpPath, proto->getSRMMBackgroundFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getSRMMBackgroundFilename(), (LPARAM)tmpPath);
-		}
+		strcpy(tmpPath, proto->getSRMMBackgroundFilename());
+		PathToRelative(proto->getSRMMBackgroundFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
 		strcpy (tmpPath, proto->getSRMMCssFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getSRMMCssFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getSRMMCssFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
 		strcpy (tmpPath, proto->getSRMMTemplateFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getSRMMTemplateFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getSRMMTemplateFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		/* Group Chat settings */
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_ENABLE);
 		DBWriteContactSettingByte(NULL, ieviewModuleName, dbsName, proto->isChatEnable());
@@ -1755,22 +1752,19 @@ void Options::saveProtocolSettings() {
 		DBWriteContactSettingDword(NULL, ieviewModuleName, dbsName, proto->getChatFlags());
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
 		strcpy (tmpPath, proto->getChatBackgroundFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getChatBackgroundFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getChatBackgroundFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
 		strcpy (tmpPath, proto->getChatCssFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getChatCssFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getChatCssFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
 		strcpy (tmpPath, proto->getChatTemplateFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getChatTemplateFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getChatTemplateFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
 		/* History settings */
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_ENABLE);
 		DBWriteContactSettingByte(NULL, ieviewModuleName, dbsName, proto->isHistoryEnable());
@@ -1780,22 +1774,17 @@ void Options::saveProtocolSettings() {
 		DBWriteContactSettingDword(NULL, ieviewModuleName, dbsName, proto->getHistoryFlags());
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
 		strcpy (tmpPath, proto->getHistoryBackgroundFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getHistoryBackgroundFilename(), (LPARAM)tmpPath);
-		}
-		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
-		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
-		strcpy (tmpPath, proto->getHistoryCssFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getHistoryCssFilename(), (LPARAM)tmpPath);
-		}
-		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
-		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
-		strcpy (tmpPath, proto->getHistoryTemplateFilename());
-		if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
-			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)proto->getHistoryTemplateFilename(), (LPARAM)tmpPath);
-		}
+		PathToRelative(proto->getHistoryBackgroundFilename(), tmpPath);
 		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
 
+		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
+		strcpy (tmpPath, proto->getHistoryCssFilename());
+		PathToRelative(proto->getHistoryCssFilename(), tmpPath);
+		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
+
+		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
+		strcpy (tmpPath, proto->getHistoryTemplateFilename());
+		PathToRelative(proto->getHistoryTemplateFilename(), tmpPath);
+		DBWriteContactSettingString(NULL, ieviewModuleName, dbsName, tmpPath);
 	}
 }
