@@ -19,8 +19,6 @@
 
 #pragma once
 
-#define MIRANDA_VER    0x0A00
-
 #include <windows.h>
 #include <malloc.h>
 
@@ -31,10 +29,10 @@
 #include <m_langpack.h>
 #include <m_icolib.h>
 #include <m_extraicons.h>
+#include <win2k.h>
 
 #include "resource.h"
 #include "Version.h"
+#include "clients.h"
 
 #define MODULENAME "MobileState"
-
-extern HINSTANCE g_hInst;

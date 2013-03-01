@@ -18,7 +18,6 @@
 */
 
 #include "commonheaders.h"
-#include "clients.h"
 
 HINSTANCE g_hInst;
 int hLangpack;
@@ -35,7 +34,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {F0BA32D0-CD07-4A9C-926B-5A1FF21C3C10}
-	{0xf0ba32d0, 0xcd07, 0x4a9c, { 0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10 }}
+	{0xf0ba32d0, 0xcd07, 0x4a9c, {0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10}}
 };
 
 static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
@@ -60,7 +59,7 @@ bool hasMobileClient(HANDLE hContact, LPARAM lParam)
 		TCHAR *client = _tcslwr(NEWTSTR_ALLOCA(dbv.ptszVal));
 		db_free(&dbv);
 
-		for (size_t i=0; i<(sizeof(clients) / sizeof(TCHAR*)); i++)
+		for (size_t i = 0; i < SIZEOF(clients); i++)
 			if (_tcsstr(client, clients[i]))
 				return true;
 	}
