@@ -43,7 +43,7 @@ Unit CommCtrl;
 Interface
 
 {$Mode ObjFPC}
-Uses Windows,CTypes,ActiveX;
+Uses Windows,CTypes;
 
 // --------------------
 
@@ -59,7 +59,7 @@ CONST CommCtrlDLL = 'comctl32.dll';
 {$DEFINE IE3PLUS}
 {$DEFINE IE4PLUS}
 {$define IE5plus}
-{$define WIN32XP} 
+{$define WIN32XP}
 {$define win32vista} // till WC_STATICA
 {$define ie501plus}
 {$ifdef win32}
@@ -73,8 +73,8 @@ CONST CommCtrlDLL = 'comctl32.dll';
   {$define _win32}
 {$endif win64}
 
-{$DEFINE WIN32_WINNT=0}                     // NO XP
-{$DEFINE __IStream_INTERFACE_DEFINED__}  // lpstream defined in activex afaik.
+{$DEFINE WIN32_WINNT=1}                     // NO XP
+// {$DEFINE __IStream_INTERFACE_DEFINED__}  // lpstream defined in activex afaik.
 
 // Sanity check in source. Not translated:
 //if (WIN32_IE < $0400) && defined(WIN32_WINNT) && (WIN32_WINNT >= $0500)}
@@ -294,7 +294,7 @@ CONST
          CCM_GETUNICODEFORMAT           = (CCM_FIRST + 6);
 
 {$ifdef ie5plus}
-{$ifdef win32xp} 
+{$ifdef win32xp}
          COMCTL32_VERSION               = 6;
 {$ELSE}
          COMCTL32_VERSION               = 5;
@@ -453,7 +453,7 @@ Type
 				 hDC      : HDC;
                                  lpString : LPCWSTR;
 			         nCount   : cint;
-			         lpRect   : LPRECT; 
+			         lpRect   : LPRECT;
 			         uFormat  : UINT;
 			         fLink    : bool;
 				end;
@@ -682,7 +682,7 @@ function ImageList_Draw(himl:HIMAGELIST;i:cint;hdcDst:HDC;x:cint;y:cint;fStyle:U
 {$IFDEF _WIN32}
 
 {$ifdef win32vista}
-const 
+const
   HBITMAP_CALLBACK               =HBITMAP(-1);       // only for SparseImageList
 {$endif}
 function ImageList_Replace(himl:HIMAGELIST;i:cint;hbmImage:HBITMAP;hbmMask:HBITMAP):BOOL; stdcall; external commctrldll name 'ImageList_Replace';
@@ -5840,7 +5840,7 @@ CONST
          TVIF_INTEGRAL                  = $0080;
 {$ENDIF}
 {$ifdef win32vista}
- 	 TVIF_STATEEX            	= $0100;	
+ 	 TVIF_STATEEX            	= $0100;
 	 TVIF_EXPANDEDIMAGE      	= $0200;
 {$endif}
          TVIS_SELECTED                  = $0002;
@@ -6208,7 +6208,7 @@ function TreeView_GetRoot(hwnd:hwnd) : HTREEITEM;inline;
 function TreeView_GetLastVisible(hwnd:hwnd) : HTREEITEM;inline;
 
 {$ifdef win32vista}
-function  TreeView_GetNextSelected(hwnd:hwnd; hitem:HTREEITEM):HTREEITEM;inline;   
+function  TreeView_GetNextSelected(hwnd:hwnd; hitem:HTREEITEM):HTREEITEM;inline;
 {$endif}
 
 CONST
@@ -6605,7 +6605,7 @@ Function TreeView_MapHTREEITEMToAccID( hwnd : hwnd; htreeitem : WPARAM):UINT;
 {$ENDIF}
 
 {$ifdef win32vista}
-CONST 
+CONST
          TVM_GETSELECTEDCOUNT       	= (TV_FIRST + 70);
 	 TVM_SHOWINFOTIP            	= (TV_FIRST + 71);
 	 TVM_GETITEMPARTRECT            = (TV_FIRST + 72);
@@ -6997,7 +6997,7 @@ Type
      PNMTVITEMCHANGE = ^NMTVITEMCHANGE;
 
      tagNMTVASYNCDRAW = packed record
-          hdr : NMHDR; 
+          hdr : NMHDR;
           pimldp : PIMAGELISTDRAWPARAMS;   { the draw that failed }
           hr : HRESULT;                    { why it failed }
           hItem : HTREEITEM;               { item that failed to draw icon }
@@ -8154,7 +8154,7 @@ TYPE
 				 iOffset      : cint;
 				 iRow         : cint;
 				 iCol	      : cint;
-{$endif}				 
+{$endif}
                                  END;
          MCHITTESTINFO        = DummyStruct16;
          PMCHITTESTINFO       = ^DummyStruct16;
@@ -12521,10 +12521,10 @@ end;
 function  TreeView_GetItemPartRect(hwnd:HWND; hitem:HTREEITEM; prc:prect; partid:TVITEMPART):bool;
 var info : TVGETITEMPARTRECTINFO;
 Begin
-  info.hti := (hitem); 
+  info.hti := (hitem);
   info.prc := (prc);
   info.partID := (partid);
-  Result:=BOOL(SendMessage((hwnd), TVM_GETITEMPARTRECT, 0, LPARAM(@info))); 
+  Result:=BOOL(SendMessage((hwnd), TVM_GETITEMPARTRECT, 0, LPARAM(@info)));
 end;
 {$endif}
 
@@ -13552,7 +13552,7 @@ Begin
 end;
 
 {$ifdef win32vista}
-function  TreeView_GetNextSelected(hwnd:hwnd; hitem:HTREEITEM):HTREEITEM;inline;   
+function  TreeView_GetNextSelected(hwnd:hwnd; hitem:HTREEITEM):HTREEITEM;inline;
 begin
  result:=TreeView_GetNextItem(hwnd, hitem,  TVGN_NEXTSELECTED)
 end;
@@ -13747,5 +13747,5 @@ end;
 initialization
   Initialize;
 Finalization
-  Finalize;  
+  Finalize;
 End.
