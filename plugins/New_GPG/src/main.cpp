@@ -860,7 +860,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		bool gpg_exists = false, lang_exists = false;
 		{
 			char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
-			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			PathToAbsolute("\\", mir_path);
 			SetCurrentDirectoryA(mir_path);
 			tmp = mir_a2t(mir_path);
 			mir_free(mir_path);
@@ -888,20 +888,12 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
 			if(tmp[0])
-			{
 				if(!boost::filesystem::exists(tmp))
-				{
 					MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
-				}
-/*				char *mir_path = (char*)mir_alloc(MAX_PATH);
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-				SetCurrentDirectoryA(mir_path);
-				mir_free(mir_path); */
-			}
 		}
-		else
-			tmp = mir_wstrdup(path);
+		else tmp = mir_wstrdup(path);
 		mir_free(path);
+
 		SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 		bool bad_version = false;
 		if(gpg_exists/* && lang_exists*/)
@@ -942,7 +934,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				mir_free(tmp);
 				char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+				PathToAbsolute("\\", mir_path);
 				strcat(mir_path, "\\gpg");
 				if(_access(mir_path, 0) != -1)
 				{
@@ -980,7 +972,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char mir_path[MAX_PATH];
 			  char *atmp = mir_t2a(tmp);
 			  mir_free(tmp);
-			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  PathToAbsolute("\\", mir_path);
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
@@ -998,7 +990,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char mir_path[MAX_PATH];
 			  char *atmp = mir_t2a(tmp);
 			  mir_free(tmp);
-			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  PathToAbsolute("\\", mir_path);
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
@@ -1015,7 +1007,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		  if(tmp[0])
 		  {
 			  char *mir_path = new char [MAX_PATH];
-			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  PathToAbsolute("\\", mir_path);
 			  SetCurrentDirectoryA(mir_path);
 			  delete [] mir_path;
 			  if(!boost::filesystem::exists(tmp))
@@ -1093,7 +1085,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if(tmp[0])
 			{
 				char *mir_path = new char [MAX_PATH];
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+				PathToAbsolute("\\", mir_path);
 				SetCurrentDirectoryA(mir_path);
 				delete [] mir_path;
 				if(!boost::filesystem::exists(tmp))

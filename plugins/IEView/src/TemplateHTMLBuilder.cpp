@@ -73,8 +73,8 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 				if (result == NULL) {
 					/* relative -> absolute */
 					_tcscpy (tmpPath, dbv.ptszVal);
-					if (ServiceExists(MS_UTILS_PATHTOABSOLUTET) && _tcsncmp(tmpPath, _T("http://"), 7))
-						CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbv.ptszVal, (LPARAM)tmpPath);
+					if ( _tcsncmp(tmpPath, _T("http://"), 7))
+						PathToAbsoluteT(dbv.ptszVal, tmpPath);
 
 					result = tmpPath;
 				}

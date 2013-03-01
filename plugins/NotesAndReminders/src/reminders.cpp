@@ -858,7 +858,7 @@ static void SkinPlaySoundPoly(LPCSTR pszSoundName)
 		if (DBGetContactSettingString(NULL, "SkinSounds", pszSoundName, &dbv)==0) {
 			char szFull[MAX_PATH];
 
-			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)szFull);
+			PathToAbsolute(dbv.pszVal, szFull);
 
 			//NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
 			{

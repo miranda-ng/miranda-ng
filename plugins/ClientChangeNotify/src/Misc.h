@@ -53,7 +53,7 @@ __inline TCString Path_ToAbsolute(TCString &Path)
 {
 	CString Str;
 	Str.GetBuffer(MAX_PATH);
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)(const char*)TCHAR2ANSI(Path), (LPARAM)(char*)Str);
+	PathToAbsolute( TCHAR2ANSI(Path), Str);
 	Str.ReleaseBuffer();
 	return ANSI2TCHAR(Str);
 }

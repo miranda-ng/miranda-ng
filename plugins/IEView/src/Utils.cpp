@@ -30,7 +30,7 @@ HANDLE* Utils::hServices = NULL;
 const wchar_t *Utils::getBaseDir() {
 	char temp[MAX_PATH];
 	base_dir[0] = '\0';
-	long tlen = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"miranda32.exe", (LPARAM)temp);
+	long tlen = PathToAbsolute("miranda32.exe", temp);
 	if (tlen) {
 		temp[tlen - 13]=0;
 		MultiByteToWideChar(CP_ACP, 0, temp, (int)strlen(temp), base_dir, MAX_PATH);

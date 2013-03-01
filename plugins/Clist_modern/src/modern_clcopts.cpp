@@ -587,15 +587,14 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR, 0, CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR, 0, db_get_dw(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{
-			DBVARIANT dbv = {0};
-			if ( !DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+			DBVARIANT dbv;
+			if ( !DBGetContactSettingString(NULL, "StatusBar", "BkBitmap", &dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
-				if ( ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
-					char szPath[MAX_PATH];
 
-					if (CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)szPath))
-						SetDlgItemTextA(hwndDlg,IDC_FILENAME,szPath);
-				}
+				char szPath[MAX_PATH];
+				if ( PathToAbsolute(dbv.pszVal, szPath))
+					SetDlgItemTextA(hwndDlg,IDC_FILENAME,szPath);
+
 				db_free(&dbv);
 			}
 		}
@@ -1497,7 +1496,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				DBVARIANT dbv;
 				if ( !DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
 				{
-					int retval = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)dat->item[indx].filename);
+					int retval = PathToAbsolute(dbv.pszVal, dat->item[indx].filename);
 					if ( !retval || retval == CALLSERVICE_NOTFOUND)
 						lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 					mir_free(dbv.pszVal);
@@ -1670,9 +1669,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 							db_set_b(NULL, module, "UseWinColours", (BYTE)dat->item[indx].useWinColours);
 
 							char str[MAX_PATH];
-							int retval = CallService(MS_UTILS_PATHTOABSOLUTE,
-								(WPARAM)dat->item[indx].filename,
-								(LPARAM)str);
+							int retval = PathToAbsolute(dat->item[indx].filename, str);
 							if ( !retval || retval == CALLSERVICE_NOTFOUND)
 								db_set_s(NULL, module, "BkBitmap", dat->item[indx].filename);
 							else

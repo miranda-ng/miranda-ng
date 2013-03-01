@@ -74,7 +74,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		file_descriptor_sink sout(pout.sink, close_handle);
 
 		char *mir_path = new char [MAX_PATH];
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+		PathToAbsolute("\\", mir_path);
 
 		child c = execute(set_args(argv), bind_stdout(sout), /*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
 		_child = &c;
@@ -185,7 +185,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, string *aoutp
 //	file_descriptor_source sin(pin.source, close_handle);
 
 	char *mir_path = new char [MAX_PATH];
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+	PathToAbsolute("\\", mir_path);
 
 	//execute(set_args(argv), bind_stdout(sout), bind_stdin(sin), show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
 	child c = execute(set_args(argv), /*bind_stdin(sin), */inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
@@ -230,7 +230,7 @@ pxResult pxExecute_passwd_change(std::vector<std::wstring> &aargv, string *aoutp
 	ctx.environment["LC_ALL"] = "English";
 
 	char *mir_path = new char [MAX_PATH];
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+	PathToAbsolute("\\", mir_path);
 	ctx.work_directory = mir_path;
 	delete [] mir_path;
 

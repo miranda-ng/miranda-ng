@@ -901,7 +901,7 @@ void * GetHistoryEventText(HANDLE hContact, HANDLE hDbEvent, DBEVENTINFO *dbe, i
 		if (dbe->pBlob[i] != 0)
 		{
 			TCHAR absFile[MAX_PATH] = _T("");
-			CallService(MS_UTILS_PATHTOABSOLUTET,(WPARAM) &dbe->pBlob[i], (LPARAM)absFile);
+			PathToAbsoluteT((TCHAR*)&dbe->pBlob[i], absFile);
 			if(absFile != NULL)
 			{
 				HBITMAP hBmp = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM) absFile, IMGL_TCHAR);

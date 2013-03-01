@@ -307,7 +307,7 @@ INT_PTR BmpFilterSaveBitmap(WPARAM wParam,LPARAM lParam)
 
 	const char *szFile = (const char*)lParam;
 	char szFilename[MAX_PATH];
-	if ( !CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)szFile, (LPARAM)szFilename))
+	if ( !PathToAbsolute(szFile, szFilename))
 		mir_snprintf(szFilename, SIZEOF(szFilename), "%s", szFile);
 
 	int filenameLen = lstrlenA( szFilename );
@@ -324,7 +324,7 @@ INT_PTR BmpFilterSaveBitmapW(WPARAM wParam,LPARAM lParam)
 
 	const wchar_t *wszFile = (const wchar_t *)lParam;
 	wchar_t wszFilename[MAX_PATH];
-	if ( !CallService(MS_UTILS_PATHTOABSOLUTEW, (WPARAM)wszFile, (LPARAM)wszFilename))
+	if ( !PathToAbsoluteW(wszFile, wszFilename))
 		mir_sntprintf(wszFilename, SIZEOF(wszFilename), _T("%s"), wszFile);
 
 	int filenameLen = lstrlenW( wszFilename );

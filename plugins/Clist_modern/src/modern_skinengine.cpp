@@ -1778,13 +1778,13 @@ int ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsol
 		_snprintf(b2, MAX_PATH,"%s\\%s",(skinfolder == NULL)?SkinPlace:((INT_PTR)skinfolder != -1)?skinfolder:"",file);
 	else
 		_snprintf(b2, MAX_PATH,"%s",file);
-	if (madeAbsolute)
+	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
-			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)(b2+1), (LPARAM)buf);
+			PathToAbsolute(b2+1, buf);
 		else
-			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)(b2), (LPARAM)buf);
-	else
-		memcpy(buf,b2,MAX_PATH);
+			PathToAbsolute(b2, buf);
+	}
+	else memcpy(buf,b2,MAX_PATH);
 
 	mir_free(SkinPlace);
 	return 0;

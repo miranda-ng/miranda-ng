@@ -145,7 +145,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				TCHAR path[MAX_PATH];
 				GetWindowText((HWND)lParam, path, MAX_PATH);
 
-				PathToAbsoluteT( VARST(path), path, NULL);
+				PathToAbsoluteT( VARST(path), path);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
 			}
 			break;
@@ -567,7 +567,7 @@ void NetlibLogInit(void)
 		logOptions.szUserFile = mir_tstrdup(dbv.ptszVal);
 
 		TCHAR path[MAX_PATH];
-		PathToAbsoluteT( VARST(dbv.ptszVal), path, NULL);
+		PathToAbsoluteT( VARST(dbv.ptszVal), path);
 		logOptions.szFile = mir_tstrdup(path);
 
 		db_free(&dbv);

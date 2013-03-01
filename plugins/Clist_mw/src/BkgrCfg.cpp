@@ -71,7 +71,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					DBVARIANT dbv;
 					if ( !DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
 					{
-						int retval = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)dat->item[indx].filename);
+						int retval = PathToAbsolute(dbv.pszVal, dat->item[indx].filename);
 						if ( !retval || retval == CALLSERVICE_NOTFOUND)
 							lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 						mir_free(dbv.pszVal);
@@ -232,9 +232,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								}
 								{
 									char str[MAX_PATH];
-									int retval = CallService(MS_UTILS_PATHTOABSOLUTE,
-										(WPARAM)dat->item[indx].filename,
-										(LPARAM)str);
+									int retval = PathToAbsolute(dat->item[indx].filename, str);
 									if ( !retval || retval == CALLSERVICE_NOTFOUND)
 										db_set_s(NULL, module, "BkBitmap", dat->item[indx].filename);
 									else

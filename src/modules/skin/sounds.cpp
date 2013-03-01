@@ -127,7 +127,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 		DBVARIANT dbv;
 		if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 			TCHAR szFull[MAX_PATH];
-			PathToAbsoluteT(dbv.ptszVal, szFull, NULL);
+			PathToAbsoluteT(dbv.ptszVal, szFull);
 			NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
 			db_free(&dbv);
 		}
@@ -251,7 +251,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBVARIANT dbv;
 				if ( !DBGetContactSettingTString(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 					TCHAR szPathFull[MAX_PATH];
-					PathToAbsoluteT(dbv.ptszVal, szPathFull, NULL);
+					PathToAbsoluteT(dbv.ptszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
 					db_free(&dbv);
 				}
@@ -281,12 +281,12 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if (db_get_b(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
 					if (DBGetContactSettingTString(NULL, "SkinSounds", snd.name, &dbv) == 0) {
-						PathToAbsoluteT(dbv.ptszVal, strdir, NULL);
+						PathToAbsoluteT(dbv.ptszVal, strdir);
 						db_free(&dbv);
 			}	}	}
 
 			mir_sntprintf(strFull, SIZEOF(strFull), _T("%s"), snd.ptszTempFile ? snd.ptszTempFile : _T(""));
-			PathToAbsoluteT(strFull, strdir, NULL);
+			PathToAbsoluteT(strFull, strdir);
 
 			OPENFILENAME ofn;
 			ZeroMemory(&ofn, sizeof(ofn));

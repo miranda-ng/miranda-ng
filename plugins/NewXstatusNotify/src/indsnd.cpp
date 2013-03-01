@@ -49,7 +49,7 @@ void PreviewSound(HWND hList)
 	}
 	else 
 	{ 
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)buff, (LPARAM)stzSoundPath);
+		PathToAbsoluteT(buff, stzSoundPath);
 		PlaySound(stzSoundPath, NULL, SND_ASYNC | SND_FILENAME);
 	}
 }

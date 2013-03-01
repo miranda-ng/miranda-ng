@@ -56,7 +56,7 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 		n = _ttoi(comma+1);
 		*comma = 0;
 	}
-	PathToAbsoluteT(file, fileFull, NULL);
+	PathToAbsoluteT(file, fileFull);
 	hIcon = NULL;
 
 	//SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION

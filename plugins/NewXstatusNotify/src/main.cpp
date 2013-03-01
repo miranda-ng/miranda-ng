@@ -741,7 +741,7 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 		if (stzSoundFile[0]) {
 			//Now make path to IndSound absolute, as it isn't registered
 			TCHAR stzSoundPath[MAX_PATH];
-			CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)stzSoundFile, (LPARAM)stzSoundPath);
+			PathToAbsoluteT(stzSoundFile, stzSoundPath);
 			PlaySound(stzSoundPath, NULL, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
 			return;
 		}

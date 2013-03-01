@@ -894,8 +894,9 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 		char szRelativePath[MAX_PATH];
 		GetModuleFileNameA(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
 		char *str = strrchr( szRelativePath, '\\' );
-		if ( str != NULL ) *str = 0;
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)szRelativePath, (LPARAM)szFolderPath);
+		if (str != NULL)
+			*str = 0;
+		PathToAbsolute(szRelativePath, szFolderPath);
 	}
 
 	if ( szAccoName ) {
@@ -934,7 +935,7 @@ static HICON CLUI_ExtractIconFromPath(const char *path, BOOL * needFree)
 	comma = strrchr(file,',');
 	if (comma == NULL) n = 0;
 	else {n = atoi(comma+1); *comma = 0;}
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
+	PathToAbsolute(file, fileFull);
 	hIcon = NULL;
 	ExtractIconExA(fileFull,n,NULL,&hIcon,1);
 	if (needFree)
@@ -1648,7 +1649,7 @@ HANDLE RegisterIcolibIconHandle(char *szIcoID, char *szSectionName,  char *szDes
 	sid.ptszDefaultFile = fileFull;
 
 	if (tszDefaultFile) {
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tszDefaultFile, (LPARAM)fileFull);
+		PathToAbsoluteT(tszDefaultFile, fileFull);
 		if ( !FileExists(fileFull))
 			fileFull[0] = _T('\0');
 	}

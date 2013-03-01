@@ -86,10 +86,10 @@ TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size)
 {
 	if (size < MAX_PATH) {
 		TCHAR buffer[MAX_PATH]; //new path should be at least MAX_PATH chars
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) szRelative, (LPARAM) buffer);
+		PathToAbsoluteT(szRelative, buffer);
 		_tcsncpy(szAbsolute, buffer, size);
 	}
-	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) szRelative, (LPARAM) szAbsolute);
+	else PathToAbsoluteT(szRelative, szAbsolute);
 		
 	return szAbsolute;
 }

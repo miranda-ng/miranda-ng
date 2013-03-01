@@ -143,7 +143,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
+	PathToAbsoluteT(DEFAULT_SKIN_FOLDER, g_szSkinLib);
 
 	RegisterIcons();
 

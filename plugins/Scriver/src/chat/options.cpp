@@ -564,7 +564,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 				TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR) + 2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
 				DBWriteContactSettingTString(NULL, "Chat", "LogDirectory", pszText1);
-				CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)pszText1, (LPARAM)g_Settings.pszLogDir);
+				PathToAbsoluteT(pszText1, g_Settings.pszLogDir);
 				free(pszText1);
 			}
 			else {

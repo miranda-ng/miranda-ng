@@ -415,11 +415,11 @@ static void DoAutoExec(void)
 	GetPrivateProfileString(_T("AutoExec"), _T("Glob"), _T("autoexec_*.ini"), szFindPath, SIZEOF(szFindPath), mirandabootini);
 
 	if (g_bDbCreated && szOnCreateFilename[0]) {
-		PathToAbsoluteT( VARST(szOnCreateFilename), szIniPath, NULL);
+		PathToAbsoluteT( VARST(szOnCreateFilename), szIniPath);
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, 0, 1);
 	}
 
-	PathToAbsoluteT( VARST(szFindPath), szFindPath, NULL);
+	PathToAbsoluteT( VARST(szFindPath), szFindPath);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szFindPath, &fd);
@@ -494,7 +494,7 @@ int InitIni(void)
 	DoAutoExec();
 
 	TCHAR szMirandaDir[MAX_PATH];
-	PathToAbsoluteT(_T("."), szMirandaDir, NULL);
+	PathToAbsoluteT(_T("."), szMirandaDir);
 	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
 		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);

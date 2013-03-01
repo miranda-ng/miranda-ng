@@ -174,9 +174,10 @@ static void __cdecl loadFlash_Thread(void *p) {
 				TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
 				mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), tmpPath, _T("Flash"));
 				mir_free(tmpPath);
-			} else
-				CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)(_T("Flash")), (LPARAM)path);
-		} else {
+			}
+			else PathToAbsoluteT( _T("Flash"), path);
+		}
+		else {
 			if(_tcslen(path) && path[_tcslen(path)-1]=='\\')
 				path[_tcslen(path)-1] = 0;
 		}
@@ -600,11 +601,11 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s\\"), tmpPath, _T("Flash"));
 		mir_free(tmpPath);
-	} // default for older Mirandas
-	else
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)(_T("Flash\\")), (LPARAM)path);
-	hAvatarsFolder = FoldersRegisterCustomPathT("Flash Avatars", "Avatars Cache", path);
+	}
+	// default for older Mirandas
+	else PathToAbsoluteT( _T("Flash\\"), path);
 
+	hAvatarsFolder = FoldersRegisterCustomPathT("Flash Avatars", "Avatars Cache", path);
 	return 0;
 }
 

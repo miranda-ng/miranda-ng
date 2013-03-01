@@ -580,12 +580,12 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
 
 	TCHAR szSearch[MAX_PATH];
-	PathToAbsoluteT(_T("langpack_*.txt"), szSearch, NULL);
+	PathToAbsoluteT(_T("langpack_*.txt"), szSearch);
 
 	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearch, &fd);
 	if (hFind != INVALID_HANDLE_VALUE) {
-		PathToAbsoluteT(fd.cFileName, szSearch, NULL);
+		PathToAbsoluteT(fd.cFileName, szSearch);
 		FindClose(hFind);
 		LoadLangPack(szSearch);
 	}

@@ -290,7 +290,7 @@ static void CheckUpdates(void *)
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("Plugins\\%s"), Files[CurrentFile].File.tszDiskPath);
 			else
 				mir_sntprintf(tszBuff, SIZEOF(tszBuff), _T("Plugins\\%s\\%s"), Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
-			CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tszBuff, (LPARAM)pluginFolgerName);
+			PathToAbsoluteT(tszBuff, pluginFolgerName);
 			if ((IsPluginDisabled(Files[CurrentFile].File.tszDiskPath) || !Exists(pluginFolgerName))) //check if plugin disabled or not exists
 				continue;
 		}

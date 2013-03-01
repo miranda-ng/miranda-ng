@@ -269,7 +269,7 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	comma=strrchr(file,',');
 	if (comma==NULL) n=0;
 	else {n=atoi(comma+1); *comma=0;}
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
+	PathToAbsolute(file, fileFull);
 	hIcon=NULL;
 	ExtractIconExA(fileFull,n,NULL,&hIcon,1);
 	if (needFree)

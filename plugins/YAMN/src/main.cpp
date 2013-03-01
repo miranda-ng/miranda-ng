@@ -332,13 +332,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path
-	if (ServiceExists(MS_UTILS_PATHTOABSOLUTET))
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)_T("."), (LPARAM)szMirandaDir);
-	else {
-		GetModuleFileName(GetModuleHandle(NULL), szMirandaDir, MAX_PATH);
-		TCHAR* str2 = _tcsrchr(szMirandaDir, '\\');
-		if (str2 != NULL) *str2 = 0;
-	}
+	PathToAbsoluteT( _T("."), szMirandaDir);
 
 	// retrieve the current profile name
 	CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(ProfileName), (LPARAM)ProfileName);	//not to pass entire array to fcn

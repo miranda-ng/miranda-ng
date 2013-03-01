@@ -71,7 +71,7 @@ int getProfilePath(TCHAR *buf, size_t cch)
 	if (profiledir[0] == 0)
 		_tcscpy(profiledir, _T("%miranda_path%\\Profiles"));
 
-	size_t len = PathToAbsoluteT( VARST(profiledir), buf, NULL);
+	size_t len = PathToAbsoluteT( VARST(profiledir), buf);
 
 	if (buf[len-1] == '/' || buf[len-1] == '\\')
 		buf[len-1] = 0;
@@ -427,7 +427,7 @@ static int FindMirandaForProfile(TCHAR *szProfile)
 int LoadDatabaseModule(void)
 {
 	TCHAR szProfile[MAX_PATH];
-	PathToAbsoluteT(_T("."), szProfile, NULL);
+	PathToAbsoluteT(_T("."), szProfile);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
 

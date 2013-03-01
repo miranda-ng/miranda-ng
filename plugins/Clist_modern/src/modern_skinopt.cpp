@@ -345,7 +345,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
 							IniParser::GetSkinFolder( sd->File, skinfolder );
 							_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
-							CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );
+							PathToAbsoluteT(prfn, imfn);
 							char * imfn_ch = mir_t2a( imfn ); 
 							hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
 							mir_free( imfn_ch );
@@ -477,8 +477,8 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder");
 	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
-	CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)SkinsFolder, (LPARAM)path );
-	mir_free_and_nil( SkinsFolder );
+	PathToAbsoluteT(SkinsFolder, path);
+	mir_free_and_nil(SkinsFolder);
 
 	AddSkinToList( hwndDlg, TranslateT("Default Skin"), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
@@ -488,10 +488,9 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 		TCHAR * skinfile;
 		TCHAR skinfull[MAX_PATH];
 		skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
-		if ( skinfile )
-		{
-			CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
-			res = AddSkinToListFullName( hwndDlg, skinfull );
+		if ( skinfile ) {
+			PathToAbsoluteT(skinfile, skinfull);
+			res = AddSkinToListFullName(hwndDlg, skinfull);
 
 			mir_free( skinfile );
 		}
@@ -668,7 +667,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 	TCHAR skinfull[MAX_PATH];
 	skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
 	if ( skinfile ) {
-		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)skinfile, (LPARAM)skinfull );
+		PathToAbsoluteT(skinfile, skinfull);
 		mir_free(skinfile);
 		return (INT_PTR)mir_tstrdup(skinfull);
 	}
@@ -722,8 +721,8 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
-		CallService( MS_UTILS_PATHTOABSOLUTET, (WPARAM)prfn, (LPARAM) imfn );
-		char * imfn_ch = mir_t2a( imfn ); 
+		PathToAbsoluteT(prfn, imfn);
+		char * imfn_ch = mir_t2a(imfn); 
 		hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
 		mir_free( imfn_ch );
 

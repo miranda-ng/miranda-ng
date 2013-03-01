@@ -35,7 +35,7 @@ static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR pathToAbsolute(WPARAM wParam, LPARAM lParam)
 {
-	return PathToAbsolute((char*)wParam, (char*)lParam, NULL);
+	return PathToAbsolute((char*)wParam, (char*)lParam);
 }
 
 static INT_PTR createDirTree(WPARAM, LPARAM lParam)

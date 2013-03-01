@@ -96,7 +96,7 @@ void CleanupAssocEnabledSettings(void)
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, sizeof(szSetting), "module_%s", pszSuffix);
 			if (!DBGetContactSettingTString(NULL, "AssocMgr", szSetting, &dbv)) {
-				if(CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbv.ptszVal, (LPARAM)szDLL)) {
+				if( PathToAbsoluteT(dbv.ptszVal, szDLL)) {
 					/* file still exists? */
 					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 					if(hFile == INVALID_HANDLE_VALUE) {

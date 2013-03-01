@@ -464,7 +464,7 @@ int FillAvatarListFromDB(HWND list, HANDLE hContact)
 
 				// Get file in disk
 				char path[MAX_PATH] = "";
-				CallService(MS_UTILS_PATHTOABSOLUTE,(WPARAM) (char *) &dbei.pBlob[i+1],(LPARAM)path);
+				PathToAbsolute((char*)&dbei.pBlob[i+1], path);
 				TCHAR *filename = mir_a2t(path);
 
 				// Add to list

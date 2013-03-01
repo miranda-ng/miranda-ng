@@ -163,11 +163,11 @@ void pathToAbsolute(const bkstring& pSrc, bkstring& pOut)
 	{
 		TCHAR szExpPath[MAX_PATH];
 		ExpandEnvironmentStrings(pSrc.c_str(), szExpPath, SIZEOF(szExpPath));
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)szExpPath, (LPARAM)szOutPath);
+		PathToAbsoluteT(szExpPath, szOutPath);
 	}
 	else
 	{
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)szVarPath, (LPARAM)szOutPath);
+		PathToAbsoluteT(szVarPath, szOutPath);
 		mir_free(szVarPath);
 	}
 	pOut = szOutPath;

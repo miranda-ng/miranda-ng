@@ -234,19 +234,17 @@ static VOID GetInitialDir(LPSTR pszInitialDir)
 
 	// is some standard path defined
 	if (!DB::Setting::GetStatic(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
-		if (!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)szRelative, (WPARAM)pszInitialDir))
+		if ( !PathToAbsolute(szRelative, pszInitialDir))
 			strcpy(pszInitialDir, szRelative);
 	}
 	else if (//try to use environment variables supported by pathpatch of db3xSA
 		!ServiceExists(MS_DB_GETPROFILEPATH_BASIC) ||		
-		!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)PROFILEPATH "\\" PROFILENAME, (WPARAM)pszInitialDir)
-	 ) {
+		!PathToAbsolute(PROFILEPATH "\\" PROFILENAME, pszInitialDir)) {
 		// use standard path to absolute
-		if (!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"", (WPARAM)pszInitialDir))
+		if ( !PathToAbsolute("", pszInitialDir))
 			*pszInitialDir = 0;
 	}
-	else
-		*pszInitialDir = 0;
+	else *pszInitialDir = 0;
 }
 
 /**

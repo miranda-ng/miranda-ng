@@ -756,7 +756,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			}
 			else db_unset(NULL, "Chat", "LogDirectory");
 
-			CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)pszText, (LPARAM)g_Settings.pszLogDir);
+			PathToAbsoluteT(pszText, g_Settings.pszLogDir);
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 			if ( iLen > 0 ) {
@@ -991,7 +991,7 @@ void LoadGlobalSettings(void)
             mir_free(tmpPath);
         }
 
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)pszTemp, (LPARAM)g_Settings.pszLogDir);
+		PathToAbsoluteT(pszTemp, g_Settings.pszLogDir);
 	}
 
 	g_Settings.LogIndentEnabled = (DBGetContactSettingByte(NULL, "Chat", "LogIndentEnabled", 1) != 0)?TRUE:FALSE;

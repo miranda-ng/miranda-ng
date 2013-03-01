@@ -548,7 +548,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char mir_path[MAX_PATH];
 			  char *atmp = mir_t2a(tmp);
 			  mir_free(tmp);
-			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  PathToAbsolute("\\", mir_path);
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {
@@ -566,7 +566,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			  char mir_path[MAX_PATH];
 			  char *atmp = mir_t2a(tmp);
 			  mir_free(tmp);
-			  CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+			  PathToAbsolute("\\", mir_path);
 			  char* p_path = NULL;
 			  if(StriStr(atmp, mir_path))
 			  {

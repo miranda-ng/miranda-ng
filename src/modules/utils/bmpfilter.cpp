@@ -37,7 +37,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 	short picType;
 
 	TCHAR szFilename[MAX_PATH];
-	if ( !PathToAbsoluteT(ptszFileName, szFilename, NULL))
+	if ( !PathToAbsoluteT(ptszFileName, szFilename))
 		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s"), ptszFileName);
 
 	int filenameLen = lstrlen(szFilename);

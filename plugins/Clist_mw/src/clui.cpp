@@ -139,7 +139,7 @@ int GetConnectingIconForProtoCount(char *szProto)
 	_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\proto_conn_%s.dll", szPath, szProto);
 
 	lstrcpynA(file,szFullPath,SIZEOF(file));
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
+	PathToAbsolute(file, fileFull);
 	ret = ExtractIconExA(fileFull,-1,NULL,NULL,1);
 	if (ret == 0&&!strcmp(szProto,"ICQ")) ret = 8;
 	return ret;
@@ -160,7 +160,7 @@ static HICON ExtractIconFromPath(const char *path)
 	comma = strrchr(file,',');
 	if (comma == NULL) n = 0;
 	else {n = atoi(comma+1); *comma = 0;}
-   CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
+   PathToAbsolute(file, fileFull);
 
 #ifdef _DEBUG
 	{

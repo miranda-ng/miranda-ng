@@ -544,7 +544,7 @@ bool bReadMirandaDirAndPath()
 	char tmp[MAX_PATH];
 	TCHAR *tmp2;
 	_tcscpy( szDBPath , pszDbPathError );
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"miranda32.exe", (LPARAM)tmp);
+	PathToAbsolute("miranda32.exe", tmp);
 	tmp2 = mir_utf8decodeT(tmp);
 	sMirandaPath = tmp2;
 	sMirandaPath.erase(sMirandaPath.find_last_of(_T("\\")));

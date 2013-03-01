@@ -118,7 +118,7 @@ IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 		return NULL;
 
 	if (isPath)
-		PathToAbsoluteT(file, fileFull, NULL);
+		PathToAbsoluteT(file, fileFull);
 	/// TODO: convert path to long - eliminate duplicate items
 	else
 		_tcscpy(fileFull, file);
@@ -539,9 +539,9 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 	if (sid->pszDefaultFile) {
 		WCHAR fileFull[ MAX_PATH ];
 		if (utf_path)
-			PathToAbsoluteT(sid->pwszDefaultFile, fileFull, NULL);
+			PathToAbsoluteT(sid->pwszDefaultFile, fileFull);
 		else
-			PathToAbsoluteT( StrConvT(sid->pszDefaultFile), fileFull, NULL);
+			PathToAbsoluteT( StrConvT(sid->pszDefaultFile), fileFull);
 		item->default_file = mir_wstrdup(fileFull);
 	}
 	item->default_indx = sid->iDefaultIndex;
@@ -681,7 +681,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 
 	if ( !source && !DBGetContactSettingTString(NULL, "SkinIcons", item->name, &dbv)) {
 		TCHAR tszFullPath[MAX_PATH];
-		PathToAbsoluteT(dbv.ptszVal, tszFullPath, NULL);
+		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
 		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
 		int cy = item->cy ? item->cy : GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON);
 		source = GetIconSourceItemFromPath(tszFullPath, cx, cy);

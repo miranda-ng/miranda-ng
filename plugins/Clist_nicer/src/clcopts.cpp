@@ -741,10 +741,9 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendMessage(hwndDlg, WM_USER + 11, 0, 0);
 		{
 			DBVARIANT dbv;
-
 			if ( !cfg::getTString(NULL, "CLC", "BkBitmap", &dbv)) {
 				TCHAR szPath[MAX_PATH];
-				if (CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) dbv.ptszVal, (LPARAM)szPath))
+				if ( PathToAbsoluteT(dbv.ptszVal, szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
 
 				DBFreeVariant(&dbv);

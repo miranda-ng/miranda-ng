@@ -1135,7 +1135,7 @@ bool isGPGValid()
 		mir_free(tmp);
 		TCHAR *path = (TCHAR*)mir_alloc(sizeof(TCHAR)*MAX_PATH);
 		char *mir_path = (char*)mir_alloc(MAX_PATH);
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+		PathToAbsolute("\\", mir_path);
 		SetCurrentDirectoryA(mir_path);
 		tmp = mir_a2t(mir_path);
 		mir_free(mir_path);
@@ -2207,7 +2207,7 @@ void clean_temp_dir()
 {
 	using namespace boost::filesystem;
 	char *mir_path = new char [MAX_PATH];
-	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+	PathToAbsolute("\\", mir_path);
 	wstring path  = toUTF16(mir_path);
 	SetCurrentDirectoryA(mir_path);
 	delete [] mir_path;

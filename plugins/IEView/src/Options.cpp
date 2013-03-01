@@ -1538,27 +1538,25 @@ void Options::init() {
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_BACKGROUND);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setSRMMBackgroundFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_CSS);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setSRMMCssFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_SRMM_TEMPLATE);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setSRMMTemplateFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
@@ -1573,27 +1571,25 @@ void Options::init() {
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_BACKGROUND);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setChatBackgroundFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_CSS);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setChatCssFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_CHAT_TEMPLATE);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setChatTemplateFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
@@ -1608,27 +1604,25 @@ void Options::init() {
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_BACKGROUND);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setHistoryBackgroundFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_CSS);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE) && strncmp(tmpPath, "http://", 7)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			if ( strncmp(tmpPath, "http://", 7))
+				PathToAbsolute(dbv.pszVal, tmpPath);
+
 			proto->setHistoryCssFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(dbsName, "%s.%s", proto->getProtocolName(), DBS_HISTORY_TEMPLATE);
 		if (!DBGetContactSetting(NULL,  ieviewModuleName, dbsName, &dbv)) {
 			strcpy(tmpPath, dbv.pszVal);
-			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)tmpPath);
-			}
+			PathToAbsolute(dbv.pszVal, tmpPath);
 			proto->setHistoryTemplateFilename(tmpPath);
 			DBFreeVariant(&dbv);
 		}

@@ -177,7 +177,7 @@ namespace NServices
 							absolute[0] = '\0';
 
 							// check if file exists
-							if (!CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)absolute))
+							if ( !PathToAbsolute(dbv.pszVal, absolute))
 							{
 								FILE *f = fopen(absolute, "rb");
 								if (f) {

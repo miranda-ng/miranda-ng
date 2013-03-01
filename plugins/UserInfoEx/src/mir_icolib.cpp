@@ -140,13 +140,10 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 	};
 	TCHAR absolute[MAX_PATH];
 
-	for (INT i = 0; i < SIZEOF(path); i++)
-	{
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)path[i], (LPARAM)absolute);
-		if (PathFileExists(absolute))
-		{
+	for (INT i = 0; i < SIZEOF(path); i++) {
+		PathToAbsoluteT(path[i], absolute);
+		if ( PathFileExists(absolute))
 			return path[i];
-		}
 	}
 	return NULL;
 }
@@ -167,12 +164,10 @@ static VOID IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 	{
 		if (szIconPack)
 		{
-			TCHAR		szAbsolutePath[MAX_PATH];
-			HMODULE hIconDll;
+			TCHAR szAbsolutePath[MAX_PATH];
+			PathToAbsoluteT(szIconPack, szAbsolutePath);
 
-			CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)szIconPack, (LPARAM)szAbsolutePath);
-
-			hIconDll = LoadLibrary(szAbsolutePath);
+			HMODULE hIconDll = LoadLibrary(szAbsolutePath);
 			if (hIconDll) 
 			{
 				CHAR szFileVersion[64];

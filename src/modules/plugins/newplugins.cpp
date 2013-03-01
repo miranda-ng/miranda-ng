@@ -836,7 +836,7 @@ int LoadNewPluginsModuleInfos(void)
 	mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
 
 	// remember where the mirandaboot.ini goes
-	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
+	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini);
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 	return 0;

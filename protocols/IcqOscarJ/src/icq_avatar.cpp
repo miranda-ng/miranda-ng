@@ -104,7 +104,7 @@ TCHAR* CIcqProto::GetOwnAvatarFileName()
 	if (!getSettingStringT(NULL, "AvatarFile", &dbvFile))
 	{
 		TCHAR tmp[MAX_PATH * 2];
-		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbvFile.ptszVal, (LPARAM)tmp);
+		PathToAbsoluteT(dbvFile.ptszVal, tmp);
 		db_free(&dbvFile);
 
 		return null_strdup(tmp);
