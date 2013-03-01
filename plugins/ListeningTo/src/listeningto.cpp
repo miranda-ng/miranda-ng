@@ -189,7 +189,7 @@ void RebuildMenu()
 			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM) info->hMenu, 0);
 
 		TCHAR text[512];
-		mir_sntprintf(text, MAX_REGS(text), TranslateT("Send to %s"), info->account);
+		mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 100000 + i;
@@ -215,10 +215,10 @@ void RegisterProtocol(char *proto, TCHAR *account)
 	size_t id = proto_items.size();
 	proto_items.resize(id+1);
 
-	strncpy(proto_items[id].proto, proto, MAX_REGS(proto_items[id].proto));
-	proto_items[id].proto[MAX_REGS(proto_items[id].proto)-1] = 0;
+	strncpy(proto_items[id].proto, proto, SIZEOF(proto_items[id].proto));
+	proto_items[id].proto[SIZEOF(proto_items[id].proto)-1] = 0;
 
-	lstrcpyn(proto_items[id].account, account, MAX_REGS(proto_items[id].account));
+	lstrcpyn(proto_items[id].account, account, SIZEOF(proto_items[id].account));
 
 	proto_items[id].hMenu = NULL;
 	proto_items[id].old_xstatus = 0;
@@ -238,10 +238,10 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	{
 		if (wParam == PRAC_UPGRADED || wParam == PRAC_CHANGED)
 		{
-			lstrcpyn(info->account, proto->tszAccountName, MAX_REGS(info->account));
+			lstrcpyn(info->account, proto->tszAccountName, SIZEOF(info->account));
 
 			TCHAR text[512];
-			mir_sntprintf(text, MAX_REGS(text), TranslateT("Send to %s"), info->account);
+			mir_sntprintf(text, SIZEOF(text), TranslateT("Send to %s"), info->account);
 
 			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
@@ -598,9 +598,9 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 				};
 
 				Buffer<TCHAR> name;
-				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, MAX_REGS(fr));
+				ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, SIZEOF(fr));
 				Buffer<TCHAR> msg;
-				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, MAX_REGS(fr));
+				ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, SIZEOF(fr));
 
 				ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
 				ics.ptszName = name.str;
@@ -690,9 +690,9 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti = NULL)
 			};
 
 			Buffer<TCHAR> name;
-			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, MAX_REGS(fr));
+			ReplaceTemplate(&name, NULL, opts.xstatus_name, fr, SIZEOF(fr));
 			Buffer<TCHAR> msg;
-			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, MAX_REGS(fr));
+			ReplaceTemplate(&msg, NULL, opts.xstatus_message, fr, SIZEOF(fr));
 
 			status = XSTATUS_MUSIC;
 			ics.flags = CSSF_TCHAR | CSSF_MASK_STATUS |	CSSF_MASK_NAME | CSSF_MASK_MESSAGE;
@@ -826,7 +826,7 @@ TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 	};
 
 	Buffer<TCHAR> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, MAX_REGS(fr));
+	ReplaceTemplate(&ret, NULL, opts.templ, fr, SIZEOF(fr));
 	return ret.detach();
 }
 
@@ -1036,7 +1036,7 @@ TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 	};
 
 	Buffer<TCHAR> ret;
-	ReplaceTemplate(&ret, NULL, opts.templ, fr, MAX_REGS(fr));
+	ReplaceTemplate(&ret, NULL, opts.templ, fr, SIZEOF(fr));
 	return ret.detach();
 }
 

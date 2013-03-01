@@ -124,9 +124,9 @@ void DeInitOptions()
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, MAX_REGS(optionsControls), MODULE_NAME);
-	LoadOpts(formatControls, MAX_REGS(formatControls), MODULE_NAME);
-	LoadOpts(playersControls, MAX_REGS(playersControls), MODULE_NAME);
+	LoadOpts(optionsControls, SIZEOF(optionsControls), MODULE_NAME);
+	LoadOpts(formatControls, SIZEOF(formatControls), MODULE_NAME);
+	LoadOpts(playersControls, SIZEOF(playersControls), MODULE_NAME);
 }
 
 
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	BOOL ret;
 	if (msg != WM_INITDIALOG)
-		ret = SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		ret = SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		}
 
-		ret = SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		ret = SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 		OptionsEnableDisableCtrls(hwndDlg);
 		break;
 
@@ -256,7 +256,7 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PLAYERS_L), enabled);
 
 	BOOL needPoll = FALSE;
-	for (int i = 0; i < MAX_REGS(playerDlgs); i += 2) {
+	for (int i = 0; i < SIZEOF(playerDlgs); i += 2) {
 		EnableWindow(GetDlgItem(hwndDlg, playerDlgs[i+1]), enabled);
 		if (players[playerDlgs[i]]->needPoll && IsDlgButtonChecked(hwndDlg, playerDlgs[i+1]))
 			needPoll = TRUE;
@@ -273,7 +273,7 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 
 static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	BOOL ret = SaveOptsDlgProc(playersControls, MAX_REGS(playersControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	BOOL ret = SaveOptsDlgProc(playersControls, SIZEOF(playersControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -301,6 +301,6 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 static INT_PTR CALLBACK FormatDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	return SaveOptsDlgProc(formatControls, MAX_REGS(formatControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(formatControls, SIZEOF(formatControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
