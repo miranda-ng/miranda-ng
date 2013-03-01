@@ -14,3 +14,4 @@ if /i '%3' == '' (set asm=tasm) else set asm=%3
 cd %asm%
 call icons.bat %pack% ..\iconsets\%iconpack% %4 %5 %6 %7 %8 %9
 cd ..\
+exit /b 0

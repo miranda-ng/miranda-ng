@@ -16,8 +16,10 @@ if not exist %OUTDIR% mkdir %OUTDIR%
 md tmp
 
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
+if errorlevel 1 exit /b 1
 
 move .\tmp\%PROJECT%.dll %OUTDIR%
 move .\tmp\%PROJECT%.map .
 del /Q tmp\*
 rd tmp
+exit /b 0
