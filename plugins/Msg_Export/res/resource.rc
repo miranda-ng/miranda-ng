@@ -8,7 +8,6 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include <winres.h>
-#include <richedit.h>
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -33,7 +32,7 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#include <winres.h>\r\n"
-    "#include <richedit.h>\0"
+    "\0"
 END
 
 3 TEXTINCLUDE 
