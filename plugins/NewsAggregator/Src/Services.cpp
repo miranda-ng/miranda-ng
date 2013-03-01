@@ -51,17 +51,11 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		hNewsAggregatorFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
+	hNewsAggregatorFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
+	if (hNewsAggregatorFolder)
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
-	}
 	else
-	{
-		TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"_T(DEFAULT_AVATARS_FOLDER)));
-		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
-		mir_free(tszFolder);
-	}
+		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL)

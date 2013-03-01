@@ -134,10 +134,8 @@ int hook_ModulesLoaded(WPARAM, LPARAM) {
 	}
 
 	// Folders plugin support
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hFolderScreenshot = FoldersRegisterCustomPathT("SendSS", "Screenshots",
+	hFolderScreenshot = FoldersRegisterCustomPathT("SendSS", "Screenshots",
 							_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
-	}
 
 	return 0;
 }

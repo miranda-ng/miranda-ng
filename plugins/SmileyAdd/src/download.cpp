@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern HANDLE hEvent1;
 HANDLE hNetlibUser;
-static HANDLE hFolder, hFolderHook;
+static HANDLE hFolder;
 
 struct QueueElem
 {
@@ -227,11 +227,10 @@ int FolderChanged(WPARAM, LPARAM)
 
 void GetSmileyCacheFolder(void)
 {
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		hFolder = FoldersRegisterCustomPathT("SmileyAdd", "Smiley Cache", MIRANDA_USERDATAT _T("\\SmileyCache"));
+	hFolder = FoldersRegisterCustomPathT("SmileyAdd", "Smiley Cache", MIRANDA_USERDATAT _T("\\SmileyCache"));
+	if (hFolder) {
 		FoldersGetCustomPathT(hFolder, cachepath, MAX_PATH, _T(""));
-		hFolderHook = HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
+		HookEvent(ME_FOLDERS_PATH_CHANGED, FolderChanged);
 	}
 	else
 	{
@@ -256,7 +255,6 @@ void DownloadInit(void)
 
 void DownloadClose(void) 
 {
-	UnhookEvent(hFolderHook);
 	CloseHandle(g_hDlMutex);
 	Netlib_CloseHandle(hNetlibUser);
 }

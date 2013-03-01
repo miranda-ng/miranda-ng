@@ -226,10 +226,8 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 	CheckMenuItems();
 
-	if (ServiceExists(MS_FOLDERS_GET_PATH)) {
-		hAccountFolder = FoldersRegisterCustomPathT(YAMN_DBMODULE, YAMN_DBMODULE" Account Folder", UserDirectory);
+	if (hAccountFolder = FoldersRegisterCustomPathT(YAMN_DBMODULE, YAMN_DBMODULE" Account Folder", UserDirectory))
 		FoldersGetCustomPathT(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);
-	}
 
 	RegisterPOP3Plugin(0, 0);
 	return 0;

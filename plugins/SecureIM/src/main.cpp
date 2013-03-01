@@ -160,12 +160,11 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
     Sent_NetLog("onModuleLoaded begin");
 #endif
 
-	 if ( ServiceExists(MS_FOLDERS_GET_PATH))
-		g_hFolders = FoldersRegisterCustomPathT(szModuleName, "Icons", _T(MIRANDA_PATH"\\icons"));
+	 g_hFolders = FoldersRegisterCustomPathT(szModuleName, "Icons", _T(MIRANDA_PATH"\\icons"));
 
-    InitIcons();
-    GetFlags();
-	ModuleLoad(0, 0);
+	 InitIcons();
+	 GetFlags();
+	 ModuleLoad(0, 0);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_init");

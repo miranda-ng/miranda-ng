@@ -318,17 +318,13 @@ int CMimAPI::FoldersPathChanged(WPARAM wParam, LPARAM lParam)
 
 void CMimAPI::configureCustomFolders()
 {
-	m_haveFolders = false;
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		m_hDataPath = (HANDLE)FoldersRegisterCustomPathT("TabSRMM", "Data path", const_cast<TCHAR *>(getDataPath()));
-		m_hSkinsPath = (HANDLE)FoldersRegisterCustomPathT("TabSRMM", "Skins root", const_cast<TCHAR *>(getSkinPath()));
-		m_hAvatarsPath = (HANDLE)FoldersRegisterCustomPathT("TabSRMM", "Saved Avatars", const_cast<TCHAR *>(getSavedAvatarPath()));
-		m_hChatLogsPath = (HANDLE)FoldersRegisterCustomPathT("TabSRMM", "Group chat logs root", const_cast<TCHAR *>(getChatLogPath()));
+	m_hDataPath = FoldersRegisterCustomPathT("TabSRMM", "Data path", const_cast<TCHAR *>(getDataPath()));
+	m_hSkinsPath = FoldersRegisterCustomPathT("TabSRMM", "Skins root", const_cast<TCHAR *>(getSkinPath()));
+	m_hAvatarsPath = FoldersRegisterCustomPathT("TabSRMM", "Saved Avatars", const_cast<TCHAR *>(getSavedAvatarPath()));
+	m_hChatLogsPath = FoldersRegisterCustomPathT("TabSRMM", "Group chat logs root", const_cast<TCHAR *>(getChatLogPath()));
+
+	if (m_hDataPath)
 		CGlobals::m_event_FoldersChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, CMimAPI::FoldersPathChanged);
-		m_haveFolders = true;
-	}
-	else
-		m_hDataPath = m_hSkinsPath = m_hAvatarsPath = m_hChatLogsPath = 0;
 
 	foldersPathChanged();
 }
@@ -381,15 +377,12 @@ INT_PTR CMimAPI::foldersPathChanged()
 const TCHAR* CMimAPI::getUserDir()
 {
 	if (m_userDir[0] == 0) {
-		wchar_t*	userdata;
-		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-			userdata = L"%%miranda_userdata%%";
+		if ( ServiceExists(MS_FOLDERS_REGISTER_PATH))
+			lstrcpyn(m_userDir, L"%%miranda_userdata%%", SIZEOF(m_userDir));
 		else
-			userdata = ::Utils_ReplaceVarsT(L"%miranda_userdata%");
-		mir_sntprintf(m_userDir, MAX_PATH, userdata);
+			lstrcpyn(m_userDir, VARST( _T("%miranda_userdata%")), SIZEOF(m_userDir));
+
 		Utils::ensureTralingBackslash(m_userDir);
-		if (!ServiceExists(MS_FOLDERS_REGISTER_PATH))
-			mir_free(userdata);
 	}
 	return(m_userDir);
 }

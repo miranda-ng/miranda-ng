@@ -196,15 +196,15 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	mir_sntprintf(basedir, MAX_REGS(basedir), _T("%s\\Avatars History"), profilePath);
 
-	hFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Avatar History"), 
+	hFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\Avatars History"));
+
 	InitPopups();
 
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-	if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
-	{
+	if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY)) {
 		char *templates[] = { "Avatar change\nchanged his/her avatar", "Avatar removal\nremoved his/her avatar" };
 		HICON hIcon = createDefaultOverlayedIcon(FALSE);
 		HistoryEvents_RegisterWithTemplates(MODULE_NAME, "avatarchange", "Avatar change", EVENTTYPE_AVATAR_CHANGE, hIcon, 

@@ -30,7 +30,6 @@ HICON hiVIIcon;
 
 DWORD EnglishLocale;
 
-BOOL bFoldersAvailable = FALSE;
 HANDLE hOutputLocation = NULL; //for folders plugin
 
 void * (* MirandaMalloc)(size_t);

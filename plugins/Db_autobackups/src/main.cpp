@@ -6,8 +6,6 @@ TCHAR *profilePath;
 int hLangpack;
 
 HANDLE hFolder;
-HANDLE hHooks[4];
-HANDLE hServices[3];
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -42,12 +40,12 @@ static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int FoldersInit(void)
+static void FoldersInit(void)
 {
-	hFolder = (HANDLE) FoldersRegisterCustomPathT("Database Backups", "Backup Folder", DIR SUB_DIR);
-	hHooks[0] = HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
-	FoldersGetBackupPath(0, 0);
-	return 0;
+	if (hFolder = FoldersRegisterCustomPathT("Database Backups", "Backup Folder", DIR SUB_DIR)) {
+		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
+		FoldersGetBackupPath(0, 0);
+	}
 }
 
 static void MenuInit(void)
@@ -85,16 +83,15 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 
 	Icon_Register(hInst, LPGEN("Database/Database Backups"), iconList, SIZEOF(iconList));
 
-	if(ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		FoldersInit();
+	FoldersInit();
 	LoadOptions();
 	MenuInit();
 
 	// register trigger action for triggerplugin
-	if(ServiceExists(MS_TRIGGER_REGISTERACTION))
+	if ( ServiceExists(MS_TRIGGER_REGISTERACTION))
 		TriggerActionInit();
 
-	hHooks[1] = HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	if(options.backup_types & BT_START)
 		mir_forkthread(BackupThread, NULL);
 	return 0;
@@ -117,12 +114,12 @@ void SysInit()
 	mir_getLP(&pluginInfo);
 	OleInitialize(0);
 
-	hServices[0] = CreateServiceFunction(MS_AB_BACKUP, ABService);
-	hServices[1] = CreateServiceFunction(MS_AB_BACKUPTRGR, BackupServiceTrgr);
-	hServices[2] = CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
+	CreateServiceFunction(MS_AB_BACKUP, ABService);
+	CreateServiceFunction(MS_AB_BACKUPTRGR, BackupServiceTrgr);
+	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
 
-	hHooks[2] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	hHooks[3] = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -138,7 +135,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	SysInit();
 	return 0;
 }
@@ -146,18 +142,6 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	OleUninitialize();
-
-	for (int i = 0; i < SIZEOF(hHooks); ++i)
-	{
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-	}
-	for (int i = 0; i < SIZEOF(hServices); ++i)
-	{
-		if (hServices[i])
-			DestroyServiceFunction(hServices[i]);
-	}
-
 	return 0;
 }
 

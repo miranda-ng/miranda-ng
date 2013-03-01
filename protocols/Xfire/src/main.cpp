@@ -1200,18 +1200,14 @@ extern "C" __declspec(dllexport) int  Load(void)
 	strcat(AvatarsFolder, CurProfile);
 	strcat(AvatarsFolder, "\\");
 	strcat(AvatarsFolder, "XFire");
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
-		XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
-		XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder);
-	}
-	else
-		CreateDirectory(AvatarsFolder,NULL);
+
+	XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
+	if ( !(XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder)))
+		CreateDirectory(AvatarsFolder, NULL);
 
 	strcat(AvatarsFolder, "\\Avatars");
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder);
-	else
-	CreateDirectory(AvatarsFolder,NULL);
+	if ( !(XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder)))
+		CreateDirectory(AvatarsFolder,NULL);
 
 	//erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { sizeof(mi) };

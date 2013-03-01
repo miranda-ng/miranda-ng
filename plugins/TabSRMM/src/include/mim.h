@@ -159,7 +159,6 @@ public:
 	const TCHAR* 		getSkinPath() const 			{ return(m_szSkinsPath); }
 	const TCHAR* 		getSavedAvatarPath() const 		{ return(m_szSavedAvatarsPath); }
 	const TCHAR* 		getChatLogPath() const 			{ return(m_szChatLogsPath); }
-	const bool	 		haveFoldersPlugin() const 		{ return(m_haveFolders); }
 
 	const TCHAR* 		getUserDir();
 	void		  		configureCustomFolders();

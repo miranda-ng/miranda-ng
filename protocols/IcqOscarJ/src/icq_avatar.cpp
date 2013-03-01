@@ -85,18 +85,15 @@ avatars_request* CIcqProto::ReleaseAvatarRequestInQueue(avatars_request *request
 
 void CIcqProto::InitAvatars()
 {
-	if (!bAvatarsFolderInited)
-	{ // do it only once
-		bAvatarsFolderInited = TRUE;
+	if (bAvatarsFolderInited)
+		return;
 
-		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		{ // check if it does make sense
-			TCHAR tszPath[MAX_PATH * 2];
-			null_snprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), m_szModuleName);
+	bAvatarsFolderInited = TRUE;
 
-			hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars Cache", tszPath);
-		}
-	}
+	// check if it does make sense
+	TCHAR tszPath[MAX_PATH * 2];
+	null_snprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), m_szModuleName);
+	hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars Cache", tszPath);
 }
 
 

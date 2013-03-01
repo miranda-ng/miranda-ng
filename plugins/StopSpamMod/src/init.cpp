@@ -129,11 +129,9 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	void CleanThread();
 	if(gbDelAllTempory || gbDelExcluded)
 		boost::thread *thr = new boost::thread(&CleanThread);
+	
 	// Folders plugin support
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		hStopSpamLogDirH = (HANDLE) FoldersRegisterCustomPath("StopSpam", "StopSpam Logs", PROFILE_PATH "\\" CURRENT_PROFILE "\\StopSpamLog");
-	}
+	hStopSpamLogDirH = FoldersRegisterCustomPath("StopSpam", "StopSpam Logs", PROFILE_PATH "\\" CURRENT_PROFILE "\\StopSpamLog");
 	return 0;
 }
 

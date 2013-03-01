@@ -119,27 +119,23 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
 	// Folders plugin support
-	if ( ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER);
-
+	if (hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
 		dictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hDictionariesFolder, dictionariesFolder, MAX_PATH, _T("."));
+	}
+	else dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
 
-		hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER);
-
+	if (hCustomDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Custom Dictionaries"), CUSTOM_DICTIONARIES_FOLDER)) {
 		customDictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hCustomDictionariesFolder, customDictionariesFolder, MAX_PATH, _T("."));
+	}
+	else customDictionariesFolder = Utils_ReplaceVarsT(CUSTOM_DICTIONARIES_FOLDER);
 		
-		hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER);
-
+	if (hFlagsDllFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Flags DLL"), FLAGS_DLL_FOLDER)) {
 		flagsDllFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, _T("."));
 	}
-	else {
-		dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
-		customDictionariesFolder = Utils_ReplaceVarsT(CUSTOM_DICTIONARIES_FOLDER);
-		flagsDllFolder = Utils_ReplaceVarsT(FLAGS_DLL_FOLDER);
-	}
+	else flagsDllFolder = Utils_ReplaceVarsT(FLAGS_DLL_FOLDER);
 
 	InitOptions();
 	

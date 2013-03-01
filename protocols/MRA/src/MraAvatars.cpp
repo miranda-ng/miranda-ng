@@ -53,14 +53,6 @@ struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
 char szAvtSectName[MAX_PATH];
 #define MRA_AVT_SECT_NAME		szAvtSectName
 
-
-static bool bFoldersPresent = false;
-
-
-//#define mir_calloc(Size)		HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (Size+sizeof(size_t)))
-//#define mir_realloc(Mem, Size)	HeapReAlloc(GetProcessHeap(), (HEAP_ZERO_MEMORY), (LPVOID)Mem, (Size+sizeof(size_t)))
-//#define mir_free(Mem)			if (Mem) {HeapFree(GetProcessHeap(), 0, (LPVOID)Mem);Mem = NULL;}
-
 #define NETLIB_CLOSEHANDLE(hConnection) {Netlib_CloseHandle(hConnection);hConnection = NULL;}
 
 HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort);
@@ -75,7 +67,6 @@ DWORD MraAvatarsGetFileFormat		(LPTSTR lpszPath, size_t dwPathSize);
 
 DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
-	bFoldersPresent = ServiceExists( MS_FOLDERS_REGISTER_PATH ) != 0;
 	mir_snprintf(szAvtSectName, SIZEOF(szAvtSectName), "%s Avatars", m_szModuleName);
 
 	if (phAvatarsQueueHandle == NULL)
@@ -97,12 +88,9 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		nlu.szDescriptiveName = szBuffer;
 		pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 		if (pmraaqAvatarsQueue->hNetlibUser) {
-			if (bFoldersPresent) {
-				TCHAR tszPath[ MAX_PATH ];
-				mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
-				pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(MRA_AVT_SECT_NAME, "AvatarsPath", tszPath);
-			}
-			else pmraaqAvatarsQueue->hAvatarsPath = NULL;
+			TCHAR tszPath[ MAX_PATH ];
+			mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
+			pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(MRA_AVT_SECT_NAME, "AvatarsPath", tszPath);
 
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
@@ -547,13 +535,11 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 	size_t dwEMailSize;
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 
-	if ( !bFoldersPresent ) {
+	if (pmraaqAvatarsQueue->hAvatarsPath == NULL)
 		// default path
-		mir_ptr<TCHAR> lpszPathToAvatarsCache( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
-		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), (TCHAR*)lpszPathToAvatarsCache, m_tszUserName);
-	}
+		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 	else {
-		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, int(dwPathSize), _T(""));
+		FoldersGetCustomPathT(pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, int(dwPathSize), _T(""));
 		dwEMailSize = lstrlen( lpszCurPath );
 		_tcscpy( lpszCurPath + dwEMailSize, _T("\\"));
 		dwEMailSize++;

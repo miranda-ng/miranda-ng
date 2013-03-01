@@ -264,7 +264,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			else
 				RelativePathToAbsolute( _T("VersionInfo.txt"), notFound, SIZEOF(notFound));
 
-			if (bFoldersAvailable)
+			if (hOutputLocation)
 				_tcscpy(buffer, TranslateT("Customize using folders plugin"));
 			else
 				_tcsncpy(buffer, notFound, SIZEOF(notFound));
@@ -345,7 +345,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		EnableWindow(GetDlgItem(hWnd, IDC_SHOWINTASKBAR), IsDlgButtonChecked(hWnd, IDC_TODIALOGBOX) ? TRUE : FALSE); //only enable for to dialog box
 		EnableWindow(GetDlgItem(hWnd, IDC_DISABLEDTOO), IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? FALSE : TRUE); //if forum style disable show disabled plugins
 		EnableWindow(GetDlgItem(hWnd, IDC_CLIPBOARDALSO), IsDlgButtonChecked(hWnd, IDC_TOCLIPBOARD) ? FALSE : TRUE); //don't enable always clipboard if we're printing to clipboard
-		EnableWindow(GetDlgItem(hWnd, IDC_FILENAME), ((IsDlgButtonChecked(hWnd, IDC_TOFILE)) && (!bFoldersAvailable)) ? TRUE : FALSE);
+		EnableWindow(GetDlgItem(hWnd, IDC_FILENAME), ((IsDlgButtonChecked(hWnd, IDC_TOFILE)) && (!hOutputLocation)) ? TRUE : FALSE);
 		EnableUploadSettings(hWnd, IsDlgButtonChecked(hWnd, IDC_TOUPLOAD) ? TRUE : FALSE);
 		{
 			OSVERSIONINFO osvi = { 0 };
@@ -378,7 +378,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			EnableWindow(GetDlgItem(hWnd, IDC_SIZECOMBOBOX), IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? TRUE : FALSE); //forum style only
 			EnableWindow(GetDlgItem(hWnd, IDC_BOLDVERSION), IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? TRUE : FALSE); //forum style only
 			EnableWindow(GetDlgItem(hWnd, IDC_BOLDCOMBOBOX), (IsDlgButtonChecked(hWnd, IDC_BOLDVERSION) & IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE)) ? TRUE : FALSE); //both forum style and bold version checked
-			EnableWindow(GetDlgItem(hWnd, IDC_FILENAME), ((IsDlgButtonChecked(hWnd, IDC_TOFILE)) && (!bFoldersAvailable)) ? TRUE : FALSE);
+			EnableWindow(GetDlgItem(hWnd, IDC_FILENAME), ((IsDlgButtonChecked(hWnd, IDC_TOFILE)) && (!hOutputLocation)) ? TRUE : FALSE);
 			EnableWindow(GetDlgItem(hWnd, IDC_SHOWINTASKBAR), IsDlgButtonChecked(hWnd, IDC_TODIALOGBOX) ? TRUE : FALSE); //only enable for to dialog box
 			EnableWindow(GetDlgItem(hWnd, IDC_DISABLEDTOO), IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? FALSE : TRUE); //if forum style disable show disabled plugins
 			EnableWindow(GetDlgItem(hWnd, IDC_CLIPBOARDALSO), IsDlgButtonChecked(hWnd, IDC_TOCLIPBOARD) ? FALSE : TRUE); //don't enable always clipboard if we're printing to clipboard
@@ -461,7 +461,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				DBWriteContactSettingByte(NULL, ModuleName, "ShowUUIDs", IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) ? TRUE : FALSE);
 				DBWriteContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", IsDlgButtonChecked(hWnd, IDC_SHOWINSTALLEDLANGUAGES) ? TRUE : FALSE);
 
-				if (!bFoldersAvailable) {
+				if (!hOutputLocation) {
 					TCHAR filePath[MAX_PATH], fileName[MAX_PATH];
 					GetDlgItemText(hWnd, IDC_FILENAME, fileName, MAX_PATH);
 					AbsolutePathToRelative(fileName, filePath, SIZEOF(filePath));

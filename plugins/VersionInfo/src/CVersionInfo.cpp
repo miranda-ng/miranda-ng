@@ -1113,7 +1113,7 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 void CVersionInfo::PrintInformationsToFile(const TCHAR *info)
 {
 	TCHAR buffer[MAX_PATH], outputFileName[MAX_PATH];
-	if (bFoldersAvailable) {
+	if (hOutputLocation) {
 		FoldersGetCustomPathT(hOutputLocation,  buffer, SIZEOF(buffer), _T("%miranda_path%"));
 		_tcscat(buffer, _T("\\VersionInfo.txt"));
 	}

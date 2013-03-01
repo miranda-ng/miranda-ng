@@ -4,6 +4,8 @@
 #include "variables.h"
 #include <string>
 
+extern HANDLE XFireWorkingFolder, XFireIconFolder, XFireAvatarFolder;
+
 using namespace std;
 
 char* Varxfiregame(ARGUMENTSINFO *ai)
@@ -169,9 +171,6 @@ char* Varmyxfirevoice(ARGUMENTSINFO *ai)
 
 char* XFireGetFoldersPath(char * pathtype)
 {// Get XFire folder path
-extern HANDLE XFireWorkingFolder;
-extern HANDLE XFireIconFolder;
-extern HANDLE XFireAvatarFolder;
 	static char path[1024]; path[0] = 0;
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
 		if (!strcmp(pathtype,"Avatar")){

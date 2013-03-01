@@ -41,17 +41,16 @@ int FoldersChanged(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void LoadFilenames() {
-	if(ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hPATH_MIROTR = FoldersRegisterCustomPath(MODULENAME, "Private Data", DATA_DIRECTORY);
+void LoadFilenames()
+{
+	if (hPATH_MIROTR = FoldersRegisterCustomPath(MODULENAME, "Private Data", DATA_DIRECTORY)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersChanged);
 
 		// get the path - above are only defaults - there may be a different value in the db
 		FoldersChanged(0, 0);
-	} else {
-		char *path = Utils_ReplaceVars(DATA_DIRECTORY);
-		SetFilenames(path);
-		mir_free(path);
+	}
+	else {
+		SetFilenames( VARS(DATA_DIRECTORY));
 		ReadPrivkeyFiles();
 	}
 }

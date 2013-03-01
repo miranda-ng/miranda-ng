@@ -236,7 +236,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	crs_a2t(vertxt, temp);
 
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	if ( ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		profpath = mir_tstrdup( _T("%miranda_userdata%"));
 	else
 		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));

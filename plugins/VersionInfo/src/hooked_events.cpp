@@ -49,8 +49,6 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	
-	bFoldersAvailable = ServiceExists(MS_FOLDERS_REGISTER_PATH);
 	hOutputLocation = FoldersRegisterCustomPathT("VersionInfo", "Output folder", _T("%miranda_path%"));
 	
 	GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);

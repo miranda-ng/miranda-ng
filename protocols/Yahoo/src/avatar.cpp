@@ -619,15 +619,14 @@ void CYahooProto::request_avatar(const char* who)
 
 void CYahooProto::InitCustomFolders(void)
 {
-	if ( InitCstFldRan ) return; 
+	if (InitCstFldRan)
+		return; 
 
 	InitCstFldRan = true;
-	if ( ServiceExists( MS_FOLDERS_REGISTER_PATH )) 
-	{
-		TCHAR AvatarsFolder[MAX_PATH];
-		mir_sntprintf(AvatarsFolder, MAX_PATH, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), m_szModuleName);
-		hYahooAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", AvatarsFolder);
-	}
+
+	TCHAR AvatarsFolder[MAX_PATH];
+	mir_sntprintf(AvatarsFolder, MAX_PATH, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), m_szModuleName);
+	hYahooAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", AvatarsFolder);
 }
 
 void CYahooProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, int cbLen, int type)

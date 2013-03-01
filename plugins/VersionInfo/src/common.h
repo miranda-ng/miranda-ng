@@ -82,7 +82,6 @@ extern HICON hiVIIcon;
 extern DWORD EnglishLocale;
 
 //for folders support
-extern BOOL bFoldersAvailable;
 extern HANDLE hOutputLocation;
 
 //services.cpp
