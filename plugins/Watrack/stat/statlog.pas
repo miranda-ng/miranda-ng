@@ -358,7 +358,7 @@ begin
         begin
           CurCell^.next:=Cell;
           CurCell:=Cell;
-        end;  
+        end;
       end;
     end;
     inc(p,2); p1:=p;
@@ -414,7 +414,6 @@ var
 begin
   Lock:=true;
   ConvertFileName(fname,buf1);
-//  CallService(MS_UTILS_PATHTOABSOLUTE,dword(fname),dword(@buf1));
   Root:=BuildTree(buf1,buf);
   if Root<>nil then
   begin
@@ -459,7 +458,6 @@ begin
   else
     fname:=PAnsiChar(wParam);
   ConvertFileName(fname,log);
-//  CallService(MS_UTILS_PATHTOABSOLUTE,dword(fname),dword(@log));
   AppendStat(log,pSongInfo(lParam));
 end;
 
@@ -491,9 +489,6 @@ begin
     ConvertFileName(r,report);
     ConvertFileName(l,template);
     ConvertFileName(StatName,log);
-//    CallService(MS_UTILS_PATHTOABSOLUTE,dword(r),dword(@report));
-//    CallService(MS_UTILS_PATHTOABSOLUTE,dword(l),dword(@template));
-//    CallService(MS_UTILS_PATHTOABSOLUTE,dword(StatName),dword(@log));
     if DoAddExt=BST_CHECKED then
       ChangeExt(report,'htm');
     if StatOut(report,log,template) then

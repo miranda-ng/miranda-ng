@@ -8,8 +8,8 @@ uses windows,messages;
 type
   tmApiCard = class
   private
-    function  GetDescription:pAnsiChar; 
-    function  GetResultType :pAnsiChar; 
+    function  GetDescription:pAnsiChar;
+    function  GetResultType :pAnsiChar;
     procedure SetCurrentService(item:pAnsiChar);
   public
     constructor Create(fname:pAnsiChar; lparent:HWND=0);
@@ -371,8 +371,6 @@ begin
   if fname<>nil then
   begin
     ConvertFileName(fname,@INIFile);
-  //  PluginLink^.CallService(MS_UTILS_PATHTOABSOLUTE,
-  //    dword(PAnsiChar(ServiceHlpFile)),dword(INIFile));
     if GetFSize(pAnsiChar(@INIFile))=0 then
     begin
       INIFile[0]:=#0;

@@ -8,8 +8,8 @@ uses windows,messages;
 type
   tmApiCard = class
   private
-    function  GetDescription:pAnsiChar; 
-    function  GetResultType :pAnsiChar; 
+    function  GetDescription:pAnsiChar;
+    function  GetResultType :pAnsiChar;
     procedure SetCurrentService(item:pAnsiChar);
   public
     constructor Create(fname:pAnsiChar; lparent:HWND=0);
@@ -239,7 +239,7 @@ begin
 
           SetDlgItemTextA(Dialog,IDC_HLP_ALIAS,
               GetParamSectionStr(current,'alias',''));
-          
+
           FastAnsiToWideBuf(GetParamSectionStr(current,'return','Undefined'),tmp);
           SetDlgItemTextW(Dialog,IDC_HLP_RETURN,TranslateW(tmp));
 
@@ -367,8 +367,6 @@ begin
   if fname<>nil then
   begin
     ConvertFileName(fname,@INIFile);
-  //  CallService(MS_UTILS_PATHTOABSOLUTE,
-  //    dword(PAnsiChar(ServiceHlpFile)),dword(INIFile));
     if GetFSize(pAnsiChar(@INIFile))=0 then
     begin
       INIFile[0]:=#0;

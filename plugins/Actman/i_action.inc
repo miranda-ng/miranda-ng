@@ -198,7 +198,7 @@ begin
       vars1:=false;
       tmpp:=replPrg;
     end;
-    
+
     if StrScanW(tmpp,'%')<>nil then
     begin
       mGetMem(replPrg1,8192*SizeOf(WideChar));
@@ -263,7 +263,7 @@ begin
   begin
     if (flags2 and ACF2_SRV_SRVC)<>0 then
       lservice:=ParseVarString(lservice,Param);
-      
+
     StrCopy(buf,lservice);
     if StrPos(lservice,protostr)<>nil then
       if CallService(MS_DB_CONTACT_IS,Param,0)=0 then
@@ -677,7 +677,6 @@ begin
     begin
       StrDeleteW(dst,i shr 16,loword(i));
       ConvertFileName(r.text,buf);
-//      CallService(MS_UTILS_PATHTOABSOLUTE,dword(r.text),dword(@buf));
       lp:=GetFileString(@buf,r.one);
       if lp<>nil then
       begin

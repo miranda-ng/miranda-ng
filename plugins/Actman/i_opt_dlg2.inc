@@ -297,7 +297,7 @@ begin
   SendMessage(ti.uId,BM_SETIMAGE,IMAGE_ICON,
       CallService(MS_SKIN_LOADICON,SKINICON_OTHER_HELP,0));
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-  
+
   ti.uId     :=GetDlgItem(Dialog,IDC_ACTION_NEW);
   ti.lpszText:=TranslateW('New');
   SetButtonIcon(ti.uId,ACI_NEW);
@@ -820,7 +820,7 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
           if IsDlgButtonChecked(Dialog,IDC_CNT_KEEP)=BST_CHECKED then
             flags:=flags or ACF_KEEPONLY;
         end;
-    
+
         ACT_SERVICE: begin
           if IsDlgButtonChecked(Dialog,IDC_SRV_WPAR)=BST_CHECKED then
             flags2:=flags2 or ACF2_SRV_WPAR;
@@ -914,15 +914,6 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
 
         ACT_PROGRAM: begin
           prgname:=GetDlgText(Dialog,IDC_EDIT_PRGPATH);
-  {
-          p:=GetDlgText(IDC_EDIT_PRGPATH);
-          if p<>nil then
-          begin
-            CallService(MS_UTILS_PATHTORELATIVE,dword(p),dword(@buf));
-            StrDupW(prgname,@buf);
-            mFreeMem(p);
-          end;
-  }
           args:=GetDlgText(Dialog,IDC_EDIT_PRGARGS);
           if IsDlgButtonChecked(Dialog,IDC_FLAG_PARALLEL)=BST_CHECKED then
             flags:=flags or ACF_PRTHREAD;
@@ -987,7 +978,7 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
           else if IsDlgButtonChecked(Dialog,IDC_FLAG_EQ )=BST_CHECKED then
             condition:=ADV_COND_EQ;
           value:=GetDlgItemInt(Dialog,IDC_ADV_VALUE,pbool(nil)^,false);
-          
+
           if IsDlgButtonChecked(Dialog,IDC_FLAG_NOT)=BST_CHECKED then
             condition:=condition or ADV_COND_NOT;
 
@@ -1079,7 +1070,7 @@ function DlgProcOpt2(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lres
               pWideChar(dbvalue):=GetDlgText(Dialog,IDC_RW_TEXT);
           end;
 
-          if (IsDlgButtonChecked(Dialog,IDC_RW_LAST)=BST_CHECKED) or 
+          if (IsDlgButtonChecked(Dialog,IDC_RW_LAST)=BST_CHECKED) or
              ((flags and ACF_LAST)<>0) then
             flags:=flags or ACF_LAST;
         end;
@@ -1369,7 +1360,7 @@ begin
         EnableWindow(GetDlgItem(Dialog,IDC_GROUP_EXPORT),false);
         EnableWindow(GetDlgItem(Dialog,IDC_GROUP_IMPORT),false);
       end;
-      
+
       OldActTableProc  :=pointer(SetWindowLongPtrW(wnd,GWL_WNDPROC,long_ptr(@NewActTableProc)));
       OldGroupTableProc:=pointer(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_ACTION_GROUP),
             GWL_WNDPROC,long_ptr(@NewGroupTableProc)));
@@ -1429,7 +1420,7 @@ begin
                 end;
               end;
             end;
-            
+
             IDC_ADV_OPER: begin
               EnableWindow(GetDlgItem(Dialog,IDC_ADV_VAL1),
                 (CB_GetData(lParam)<>lresult(aeNot)));
@@ -1596,7 +1587,7 @@ begin
               i:=SendMessage(wnd,CB_GETITEMDATA,SendMessage(wnd,CB_GETCURSEL,0,0),0);
 
               FillContactList(wnd,fCLfilter,fCLformat);
-              
+
               SendMessage(wnd,CB_SETCURSEL,FindContact(wnd,i),0);
             end;
             IDC_HLP_FVARS,
@@ -1824,7 +1815,7 @@ begin
               Listview_SetItemState(wnd,0,LVIS_FOCUSED or LVIS_SELECTED,
                                           LVIS_FOCUSED or LVIS_SELECTED);
               CheckActionList(0);
-{              
+{
               wnd:=GetDlgItem(Dialog,IDC_ACTION_LIST);
               li.iItem:=SendMessage(wnd,LVM_GETNEXTITEM,-1,LVNI_FOCUSED); //??
               if li.iItem>=0 then

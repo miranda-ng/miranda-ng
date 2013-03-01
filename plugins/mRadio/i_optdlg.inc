@@ -148,7 +148,7 @@ begin
     if lstorage<>nil then
     begin
       list:=GetSectionList(lstorage);
-      
+
       pc:=list;
       while pc^<>#0 do
       begin
@@ -174,7 +174,7 @@ begin
   pc:=DBReadString(hContact,strCList,optMyHandle);
   WritePrivateProfileStringA(section,'Name',pc,fname);
   mFreeMem(pc);
-          
+
   pc:=DBReadString(hContact,PluginName,optStationURL);
   WritePrivateProfileStringA(section,'URL',pc,fname);
   mFreeMem(pc);
@@ -316,7 +316,7 @@ begin
   SetButtonIcon(ti.uId,IcoBtnAdd);
 
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-  
+
   ti.uId     :=GetDlgItem(Dialog,IDC_EQ_DEL);
   ti.lpszText:=TranslateW('Delete');
   SetButtonIcon(ti.uId,IcoBtnDel);
@@ -331,7 +331,6 @@ var
   psr:TPROTOSEARCHRESULT;
   dst:pWideChar;
   i:dword;
-//  info:BASS_CHANNELINFO;
   vhi:TVARHELPINFO;
   wnd:HWND;
   p:pWideChar;
@@ -381,7 +380,7 @@ begin
       CheckDlgButton(Dialog,IDC_OFFLINE  ,AsOffline);
 
       SetDlgItemTextW(Dialog,IDC_STATUS,StatusTmpl);
-      
+
       DlgInit:=0;
     end;
 
@@ -420,7 +419,7 @@ begin
             end;
 
             IDC_BN_URLPATH: begin
-   
+
               dst:=ConstructFilter;
               if ShowDlgW(@buf,nil,dst) then
                 SetDlgItemTextW(Dialog,IDC_STATIONURL,@buf);
@@ -467,20 +466,14 @@ begin
                     StrDupW(email.w,@buf);
 
                     i:=Service_AddToList(0,tlparam(@psr));
-{
-                    GetDlgItemTextW(Dialog,IDC_STATION,@buf,SizeOf(buf));
-                    DBWriteUnicode(i,strCList,optMyHandle,@buf);
 
-                    GetDlgItemTextW(Dialog,IDC_STATIONURL,@buf,SizeOf(buf));
-                    DBWriteUnicode(i,PluginName,optStationURL,@buf);
-}
                     // "changing" station group
                     dst:=GetNewGroupName(Dialog);
                     if dst<>nil then
                       DBWriteUnicode(i,strCList,optGroup,dst)
                     else
                       DBDeleteSetting(i,strCList,optGroup);
-                      
+
                   end
                   else if loword(wParam)=IDC_ADD_INI then
                   begin
@@ -548,13 +541,6 @@ begin
         doLoop:=IsDlgButtonChecked(Dialog,IDC_LOOP);
         if chan<>0 then
         begin
-{
-          BASS_ChannelGetInfo(chan,info);
-          if doLoop<>BST_UNCHECKED then
-            info.flags:=info.flags or BASS_SAMPLE_LOOP
-          else
-            info.flags:=info.flags and not BASS_SAMPLE_LOOP;
-}
           BASS_ChannelFlags(chan,ord(doLoop<>BST_UNCHECKED),BASS_SAMPLE_LOOP);
         end;
 
@@ -642,7 +628,7 @@ begin
         SendDlgItemMessageA(Dialog,IDC_0+i,WM_SETTEXT,0,tlparam(eq[i].text));
         EnableWindow(eq[i].wnd,isEQ_OFF=BST_UNCHECKED);
       end;
-      
+
       CheckDlgButton(Dialog,IDC_EQOFF,isEQ_OFF);
 
       dst:=DBReadUnicode(0,PluginName,optBASSPath,nil);
@@ -922,7 +908,7 @@ begin
       DBWriteString(wParam,PluginName,optBitrate,IntToStr(buf,i));
       exit;
     end;
-    
+
     case value._type of
       DBVT_DELETED,
       DBVT_ASCIIZ ,
