@@ -11,7 +11,7 @@ unit KOLEdb;
 
 interface
 
-uses Windows, ActiveX, KOL;
+uses Windows, mComObj, KOL;
 
 type
   INT64 = I64;
@@ -29,7 +29,7 @@ type
     3: ( fltVal     : Extended );
     4: ( dblVal     : Double );
     5: ( boolVal    : Bool );
-    6: ( scode      : SCODE );
+    //6: ( scode      : SCODE );
     //7: ( cyVal      : CY );
     //8: ( date       : Date );
     9: ( bstrVal    : Pointer ); // BSTR => [ Len: Integer; array[ 1..Len ] of WideChar ]
@@ -212,7 +212,7 @@ type
       riid: TIID; var DataSource: IUnknown): HResult; stdcall;
     function CreateDBInstanceEx(const clsidProvider: TGUID;
       const pUnkOuter: IUnknown; dwClsCtx: DWORD; pwszReserved: POleStr;
-      pServerInfo: PCoServerInfo; cmq: ULONG; rgmqResults: PMultiQI): HResult; stdcall;
+      pServerInfo: PCoServerInfo; cmq: ULONG; rgmqResults: Pointer): HResult; stdcall;
     function LoadStringFromStorage(pwszFileName: POleStr;
       out pwszInitializationString: POleStr): HResult; stdcall;
     function WriteStringToStorage(pwszFileName, pwszInitializationString: POleStr;
@@ -481,7 +481,7 @@ type
   PDBColumnInfo = ^TDBColumnInfo;
   DBCOLUMNINFO = packed record
     pwszName: PWideChar;
-    pTypeInfo: ITypeInfo;
+    pTypeInfo: Pointer;
     iOrdinal: UINT;
     dwFlags: DBCOLUMNFLAGS;
     ulColumnSize: UINT;

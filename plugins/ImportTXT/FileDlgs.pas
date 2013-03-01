@@ -9,7 +9,7 @@ function FolderDialogExecute(hdlg:HWND; var nFO:integer; const DefExt:string):Wi
 
 implementation
 
-uses shlobj, activex, SysUtils, CommDlg;
+uses ActiveX, ShlObj, SysUtils, CommDlg;
 
 function OpenDialogExecute(hDlg:hWnd; flg:cardinal; var nFO:integer; const DefExt:string):WideString;  //Диалог открытия файла
 var
