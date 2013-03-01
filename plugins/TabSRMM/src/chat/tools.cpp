@@ -778,7 +778,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	_tcscpy(tszFolder, si->pszLogFileName);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)tszFolder);
+		CreateDirectoryTreeT(tszFolder);
 
 	lstrcpyn(szTime, MakeTimeStamp(g_Settings.pszTimeStampLog, gce->time), 99);
 
@@ -910,7 +910,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 					mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"),
 							tszDrive, tszDir);
 
-					CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)tszNewPath);
+					CreateDirectoryTreeT(tszNewPath);
 					mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 					fclose(hFile);
 					hFile = 0;

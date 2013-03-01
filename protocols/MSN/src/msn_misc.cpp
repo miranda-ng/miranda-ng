@@ -221,7 +221,7 @@ void  CMsnProto::MSN_GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t c
 	}
 
 	if (_taccess(pszDest, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CreateDirectoryTreeT(pszDest);
 
 	size_t tPathLen2 = tPathLen;
 	if (hContact != NULL) {
@@ -451,7 +451,7 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 	}
 
 	if (!exist)
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CreateDirectoryTreeT(pszDest);
 
 	TCHAR *sztSmileyName = mir_a2t(SmileyName);
 	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), sztSmileyName,

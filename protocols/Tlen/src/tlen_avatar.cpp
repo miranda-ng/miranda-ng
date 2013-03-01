@@ -41,9 +41,9 @@ void TlenGetAvatarFileName(TlenProtocol *proto, JABBER_LIST_ITEM *item, TCHAR* p
 	tPathLen = mir_sntprintf( ptszDest, cbLen, TEXT("%s\\Tlen"), tmpPath );
 	mir_free(tmpPath);
 	dwAttributes = GetFileAttributes( ptszDest );
-	if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 ) {
-		CallService( MS_UTILS_CREATEDIRTREET, 0, ( LPARAM )ptszDest );
-	}
+	if (dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0)
+		CreateDirectoryTreeT(ptszDest);
+
 	ptszDest[ tPathLen++ ] = '\\';
 	if (item != NULL) {
 		format = item->avatarFormat;

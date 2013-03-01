@@ -361,7 +361,7 @@ int CAimProto::receiving_file(file_transfer *ft, HANDLE hServerPacketRecver, NET
 					if (ft->pfts.tszCurrentFile)
 					{
 						TCHAR* dir = get_dir(ft->pfts.tszCurrentFile);
-						CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)dir);
+						CreateDirectoryTreeT(dir);
 						mir_free(dir);
 
 						oft->type = _htons(ft->pfts.currentFileProgress ? 0x0205 : 0x0202);

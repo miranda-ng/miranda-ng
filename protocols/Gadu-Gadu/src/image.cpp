@@ -826,7 +826,7 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 	}
 
 	if ( _taccess(szPath, 0)){
-		int ret = CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
+		int ret = CreateDirectoryTreeT(szPath);
 		if (ret == 0){
 			netlog("img_displayasmsg(): Created new directory for image cache: %S.", szPath);
 		} else {

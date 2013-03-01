@@ -796,7 +796,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			g_Settings.LoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED?TRUE:FALSE;
 			DBWriteContactSettingByte(NULL, "Chat", "LoggingEnabled", (BYTE)g_Settings.LoggingEnabled);
 			if ( g_Settings.LoggingEnabled )
-				CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)g_Settings.pszLogDir);
+				CreateDirectoryTreeT(g_Settings.pszLogDir);
 
 			iLen = SendDlgItemMessage(hwndDlg,IDC_SPIN2,UDM_GETPOS,0,0);
 			db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
@@ -1073,7 +1073,7 @@ int OptionsInit(void)
 	SkinAddNewSoundEx("ChatTopic",     LPGEN("Group chats"), LPGEN("The topic has been changed"));
 
 	if ( g_Settings.LoggingEnabled )
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)g_Settings.pszLogDir);
+		CreateDirectoryTreeT(g_Settings.pszLogDir);
 	{
 		LOGFONT lf;
 		HFONT hFont;

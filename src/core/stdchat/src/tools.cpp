@@ -535,7 +535,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	ValidateFilename(szName);
 	mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), g_Settings.pszLogDir, szName );
 
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szFolder);
+	CreateDirectoryTreeT(szFolder);
 
 	mir_sntprintf( szName, MAX_PATH, _T("%s.log"), si->ptszID );
 	ValidateFilename(szName);

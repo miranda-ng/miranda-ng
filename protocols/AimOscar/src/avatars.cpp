@@ -202,7 +202,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 	}
 
 	if (ext && _taccess(pszDest, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CreateDirectoryTreeT(pszDest);
 
 	size_t tPathLen2 = tPathLen;
 	

@@ -520,7 +520,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	_tcscpy(tszFolder, tszFile);
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)tszFolder);
+		CreateDirectoryTreeT(tszFolder);
 
 	lstrcpyn(szTime, MakeTimeStamp(g_Settings.pszTimeStampLog, gce->time), 99);
 

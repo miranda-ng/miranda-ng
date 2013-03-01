@@ -647,7 +647,7 @@ void CYahooProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, int cbLen, 
 	}
 
 	if ( _taccess(pszDest, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		CreateDirectoryTreeT(pszDest);
 
 	if (hContact != NULL) {
 		int ck_sum = db_get_dw(hContact, m_szModuleName,"PictCK", 0);

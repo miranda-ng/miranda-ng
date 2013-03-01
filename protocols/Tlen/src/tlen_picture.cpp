@@ -224,9 +224,9 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 			int tPathLen = mir_snprintf( fileName, MAX_PATH, "%s\\Images\\Tlen", tmpPath );
 			long oldSize = 0, lSize = atol(size);
 			DWORD dwAttributes = GetFileAttributesA( fileName );
-			if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 ) {
-				CallService( MS_UTILS_CREATEDIRTREE, 0, ( LPARAM )fileName );
-			}
+			if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 )
+				CreateDirectoryTree(fileName);
+
 			mir_free(tmpPath);
 			fileName[ tPathLen++ ] = '\\';
 			mir_snprintf( fileName + tPathLen, MAX_PATH - tPathLen, "%s.%s", crc, ext );

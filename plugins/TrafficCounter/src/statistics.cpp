@@ -326,7 +326,7 @@ void Stat_ReadFile(BYTE n)
 	SYSTEMTIME stNow, stLast = {0};
 	
 	pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\statistics"));
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszPath);
+	CreateDirectoryTreeT(pszPath);
 	mir_sntprintf(FileName, MAX_PATH, _T("%s\\%S.stat"), pszPath, ProtoList[n].name);
 	mir_free(pszPath);
 	GetLocalTime(&stNow);

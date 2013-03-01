@@ -145,7 +145,7 @@ void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, 
 	int tPathLen = strlennull(pszDest);
 
 	// make sure the avatar cache directory exists
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
+	CreateDirectoryTreeT(szPath);
 
 	if (dwUin != 0)
 	{

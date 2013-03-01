@@ -550,7 +550,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 
 	if (dwPathSize) {
 		// some path in buff and free space for file name is avaible
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)lpszPath);
+		CreateDirectoryTreeT(lpszPath);
 
 		if (dwFormat != PA_FORMAT_DEFAULT) {
 			if ( mraGetStaticStringW(hContact, "e-mail", lpszCurPath, dwPathSize-5, &dwEMailSize)) {

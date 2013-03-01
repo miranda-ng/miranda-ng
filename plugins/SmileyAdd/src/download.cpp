@@ -75,7 +75,7 @@ bool InternetDownloadFile(const char *szUrl, char* szDest, HANDLE &hHttpDwnl)
 			{
 				char* delim = strrchr(szDest, '\\');
 				if (delim) *delim = '\0';
-				CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)szDest);
+				CreateDirectoryTree(szDest);
 				if (delim) *delim = '\\';
 				int res = -1;
 				int fh = _open(szDest, _O_BINARY | _O_WRONLY | _O_CREAT, _S_IREAD | _S_IWRITE);

@@ -69,7 +69,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
 		Utils::sanitizeFilename(szFilename);
 
 		mir_sntprintf(szInitialDir, MAX_PATH, _T("%s%s\\"), M->getDataPath(), _T("\\Saved message logs"));
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szInitialDir);
+		CreateDirectoryTreeT(szInitialDir);
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = dat->hwnd;
 		ofn.lpstrFile = szFilename;

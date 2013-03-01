@@ -355,10 +355,10 @@ INT_PTR CMimAPI::foldersPathChanged()
 
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
 	}
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)m_szProfilePath);
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)m_szSkinsPath);
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)m_szSavedAvatarsPath);
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)m_szChatLogsPath);
+	CreateDirectoryTreeT(m_szProfilePath);
+	CreateDirectoryTreeT(m_szSkinsPath);
+	CreateDirectoryTreeT(m_szSavedAvatarsPath);
+	CreateDirectoryTreeT(m_szChatLogsPath);
 
 #if defined(_FOLDER_LOCKING)
 	mir_sntprintf(szTemp, MAX_PATH, L"%sfolder.lck", m_szChatLogsPath);

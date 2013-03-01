@@ -11,9 +11,12 @@ struct PROTOREGENKEYOPTIONS {
 	TCHAR proto[129];
 };
 
-void SetFilenames(const char *path) {
-	if (!path || !path[0]) return;
-	CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM) path);
+void SetFilenames(const char *path)
+{
+	if (!path || !path[0]) 
+		return;
+
+	CreateDirectoryTree(path);
 	strcpy(g_fingerprint_store_filename, path);
 	strcpy(g_private_key_filename, path);
 	strcat(g_fingerprint_store_filename, ("\\"));
@@ -23,18 +26,12 @@ void SetFilenames(const char *path) {
 	strcat(g_private_key_filename, PRIVATE_KEY_FILENAME);
 }
 
-int FoldersChanged(WPARAM wParam, LPARAM lParam) {
+int FoldersChanged(WPARAM wParam, LPARAM lParam)
+{
 	char path[MAX_PATH];
-
-	FOLDERSGETDATA fgd = {0};
-	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = MAX_PATH;
-	fgd.szPath = path;
-	if (CallService(MS_FOLDERS_GET_PATH, (LPARAM)hPATH_MIROTR, (LPARAM)&fgd)) {
-		char *mypath = Utils_ReplaceVars(DATA_DIRECTORY);
-		SetFilenames(mypath);
-		mir_free(mypath);
-	} else
+	if ( FoldersGetCustomPath(hPATH_MIROTR, path, SIZEOF(path), ""))
+		SetFilenames( VARS(DATA_DIRECTORY));
+	else
 		SetFilenames(path);
 
 	ReadPrivkeyFiles();

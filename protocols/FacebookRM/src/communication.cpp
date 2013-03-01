@@ -1235,7 +1235,7 @@ bool facebook_client::save_url(const std::string &url,const std::tstring &filena
 		// Create folder if necessary
 		std::tstring dir = filename.substr(0,filename.rfind('\\'));
 		if( _taccess(dir.c_str(),0))
-			CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)dir.c_str());
+			CreateDirectoryTreeT(dir.c_str());
 
 		// Write to file
 		FILE *f = _tfopen(filename.c_str(), _T("wb"));

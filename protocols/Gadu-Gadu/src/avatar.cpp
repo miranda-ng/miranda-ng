@@ -40,7 +40,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	}
 
 	if (_taccess(pszDest, 0)) {
-		int ret = CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		int ret = CreateDirectoryTreeT(pszDest);
 		if (ret == 0){
 			netlog("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
 		} else {

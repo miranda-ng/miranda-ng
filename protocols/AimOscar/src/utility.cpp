@@ -606,7 +606,7 @@ int CAimProto::open_contact_file(const char* sn, const TCHAR* file, const char* 
 	}
 
 	if (_taccess(path, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+		CreateDirectoryTreeT(path);
 
 	mir_sntprintf(path + pos, MAX_PATH - pos, _T("\\%s"), file);
 	int fid = _topen(path, _O_CREAT | _O_RDWR | _O_BINARY, _S_IREAD);

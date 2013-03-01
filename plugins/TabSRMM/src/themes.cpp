@@ -2804,7 +2804,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));
 
-	CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)tszBasePath);
+	CreateDirectoryTreeT(tszBasePath);
 
 	m_fAeroSkinsValid = true;
 
