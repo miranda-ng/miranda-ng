@@ -13,7 +13,7 @@ uses {$IFDEF KOL_MCK}err,{$ENDIF}
   {$IFDEF KOL_MCK}
   ,kolcomobj
   {$ELSE}
-  ,ComObj
+  ,mComObj
   {$ENDIF}
 ;
 

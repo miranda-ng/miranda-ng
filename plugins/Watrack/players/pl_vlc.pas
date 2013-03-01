@@ -12,7 +12,7 @@ uses windows,common,srv_player,wat_api,syswin,wrapper
   {$IFDEF KOL_MCK}
   ,kolcomobj
   {$ELSE}
-  ,ComObj
+  ,mComObj
   {$ENDIF}
 ;
 
