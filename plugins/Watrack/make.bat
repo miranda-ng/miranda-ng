@@ -29,5 +29,6 @@ rem brcc32.exe templates\templates.rc -fotemplates\templates.res
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 
 move .\tmp\%PROJECT%.dll %OUTDIR%
+move .\tmp\%PROJECT%.map .
 del /Q .\tmp\*
 rd tmp

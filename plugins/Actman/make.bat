@@ -23,5 +23,6 @@ rem brcc32.exe %myopts% ua\ua.rc       -foua\ua.res
 %FPCBIN% @..\Utils.pas\fpc.cfg %PROJECT%.dpr %3 %4 %5 %6 %7 %8 %9
 
 move .\tmp\%PROJECT%.dll %OUTDIR%
+move .\tmp\%PROJECT%.map .
 del /Q tmp\*
 rd tmp
