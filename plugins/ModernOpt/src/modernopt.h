@@ -26,10 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef MODERNOPT_H__
 #define MODERNOPT_H__ 1
 
-#include "m_descbutton.h"
-#include "m_iconheader.h"
-#include "m_modernopt.h"
-
 struct ModernOptMainPageInfo
 {
 	int		idcButton;

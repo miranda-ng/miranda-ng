@@ -21,59 +21,29 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// to enable all 0.8.0 core functions
-#define MIRANDA_VER 0x0A00
-
 #define WINVER 0x0501
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
 #define _CRT_SECURE_NO_WARNINGS
-#define CINTERFACE
-
-#include "m_stdhdr.h"
 
 #include <windows.h>
 #include <windowsx.h>
-#include <shlobj.h>
-#include <uxtheme.h>
-#include <commctrl.h>
-#include <stdio.h>
 #include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <locale.h>
-#include <direct.h>
-#include <win2k.h>
 
+#include <win2k.h>
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_database.h>
-#include <m_clc.h>
-#include <m_clui.h>
 #include <m_langpack.h>
-#include <m_clist.h>
 #include <m_clistint.h>
-#include <m_button.h>
-#include <m_protosvc.h>
 #include <m_protomod.h>
-#include <m_protocols.h>
-#include <m_options.h>
 #include <m_skin.h>
-#include <m_contacts.h>
-#include <m_message.h>
 #include <m_userinfo.h>
-#include <m_history.h>
-#include <m_addcontact.h>
-#include <m_findadd.h>
-#include <m_file.h>
-#include <m_email.h>
-#include <m_awaymsg.h>
-#include <m_idle.h>
-#include <m_ignore.h>
-#include <m_icolib.h>
+#include <m_descbutton.h>
+#include <m_iconheader.h>
+#include <m_modernopt.h>
 
 #include "resource.h"
+#include "version.h"
+#include "modernopt.h"
+#include "..\..\..\src\resource.h"
