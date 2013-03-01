@@ -1,8 +1,6 @@
 #ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
-//#include "stdafx.h"
-
 extern char* g_metaproto;
 
 #define PRIVATE_KEY_FILENAME "otr.private_key"

@@ -6,8 +6,6 @@
 #ifndef DECODE_HTML_ENTITIES_UTF8
 #define DECODE_HTML_ENTITIES_UTF8
 
-#include <stddef.h>
-
 extern size_t decode_html_entities_utf8(char *dest, const char *src, size_t len);
 /*	if `src` is `NULL`, input will be taken from `dest`, decoding
 	the entities in-place

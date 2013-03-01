@@ -2,12 +2,6 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#ifndef IDOK
-  #define IDOK 1
-#endif
-#ifndef IDCANCEL
-  #define IDCANCEL 2
-#endif
 #define IDD_GENKEYNOTIFY                101
 #define IDD_OPT_GENERAL                 102
 #define IDD_OPT_PROTO					103
@@ -81,8 +75,6 @@
 #define IDI_UNVERIFIED					2003
 #define IDI_PRIVATE						2004
 #define IDI_FINISHED					2005
-
-#define IDC_STATIC                      -1
 
 #define IDM_OTR_MENU 10001
 #define IDR_CONTEXT 10000

@@ -1,9 +1,5 @@
 // dllmain.cpp : Definiert den Einstiegspunkt für die DLL-Anwendung.
 #include "stdafx.h"
-#include "dllmain.h"
-#include "otr.h"
-#include "dbfilter.h"
-#include <commctrl.h>
 
 HANDLE hEventWindow;
 HINSTANCE hInst;
@@ -14,34 +10,25 @@ char* g_metaproto;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	SHORT_NAME_STRING,
-	PLUGIN_MAKE_VERSION(VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD),
-	LONGDESC_STRING,
-	AUTHOR,
-	AUTHOR_MAIL,
-	LEGAL_COPYRIGHT_LONG,
-	HOMEPAGE,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x12d8faad, 0x78ab, 0x4e3c, { 0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f } }	// {12D8FAAD-78AB-4e3c-9854-320E9EA5CC9F}
+	// {12D8FAAD-78AB-4E3C-9854-320E9EA5CC9F}
+	{0x12d8faad, 0x78ab, 0x4e3c, {0x98, 0x54, 0x32, 0xe, 0x9e, 0xa5, 0xcc, 0x9f}}
 };
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-					   DWORD  ul_reason_for_call,
-					   LPVOID lpReserved
-					 )
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
-	if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
-		hInst=hModule;
-		OTRL_INIT;
-		INITCOMMONCONTROLSEX icce = {0};
-		icce.dwSize = sizeof(icce);
-		icce.dwICC = ICC_LISTVIEW_CLASSES|ICC_PROGRESS_CLASS;
-		InitCommonControlsEx(&icce);
-	}
+	hInst = hModule;
 	return TRUE;
 }
 
-DLLFUNC PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -90,13 +77,19 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-DLLFUNC int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	DEBUGOUT_T("LOAD MIROTR")
 
 	mir_getLP( &pluginInfo );
 	/* for timezones
 	 mir_getTMI(&tmi);  */
+
+	OTRL_INIT;
+	INITCOMMONCONTROLSEX icce = {0};
+	icce.dwSize = sizeof(icce);
+	icce.dwICC = ICC_LISTVIEW_CLASSES|ICC_PROGRESS_CLASS;
+	InitCommonControlsEx(&icce);
 
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(MODULENAME "/TrustLevel"));
 
@@ -129,7 +122,7 @@ DLLFUNC int Load(void)
 	return 0;
 }
 
-DLLFUNC int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	//UnhookEvent(hSettingChanged);
 	UnhookEvent(hEventWindow);

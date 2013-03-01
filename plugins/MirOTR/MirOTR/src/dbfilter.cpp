@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "dbfilter.h"
+
 static HANDLE hDBEventPreAdd, hDBEventAdded, hContactSettingChanged;
 static CRITICAL_SECTION RemoveChainCS={0}, *lpRemoveChainCS = &RemoveChainCS;
 static UINT_PTR timerId = 0;

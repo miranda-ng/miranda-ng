@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "utils.h"
 
 CRITICAL_SECTION lib_cs;
 

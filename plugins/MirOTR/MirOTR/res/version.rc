@@ -7,13 +7,9 @@
 #include "afxres.h"
 #include "..\src\version.h"
 
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#endif //_WIN32
-
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
- PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -28,11 +24,11 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", FILE_DESCRIPTION
-            VALUE "InternalName", INTERNAL_NAME
-            VALUE "LegalCopyright", LEGAL_COPYRIGHT
-            VALUE "OriginalFilename", ORIGINAL_FILENAME
-            VALUE "ProductName", PRODUCT_NAME
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"

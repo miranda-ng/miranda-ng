@@ -1,6 +1,4 @@
-#include <stdafx.h>
-#include "otr.h"
-#include <process.h>
+#include "stdafx.h"
 
 OtrlUserState otr_user_state;
 #define WMU_ENDDIALOG (WM_USER+244)

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "icons.h"
+
 TCHAR g_dllpath[1024];
 
 static IconItem iconList[] = {

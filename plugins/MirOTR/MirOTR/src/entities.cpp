@@ -4,12 +4,6 @@
 // modified by ProgAndy
 
 #include "stdafx.h"
-#include "entities.h"
-
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h>
-using namespace std;
 
 #define UNICODE_MAX 0x10FFFFul
 

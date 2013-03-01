@@ -1,8 +1,4 @@
 #include "stdafx.h"
-#include "dialogs.h"
-#include <Prsht.h>
-#include <commctrl.h>
-#include <process.h>
 
 struct SmpData {
 	HWND dialog;

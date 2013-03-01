@@ -1,11 +1,4 @@
 #include "stdafx.h"
-#include "svcs_proto.h"
-#include "striphtml.h"
-#include "entities.h"
-#include <winuser.h>
-#include <sys\stat.h>
-#include <ole.h>
-#include <wtypes.h>
 
 //TODO: Social-Millionaire-Dialoge
 INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){

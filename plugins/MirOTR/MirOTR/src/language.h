@@ -1,7 +1,5 @@
 #pragma once
 
-#include "m_langpack.h"
-
 #define LANG_START_OTR						LPGEN("Start OTR")
 #define LANG_STOP_OTR						LPGEN("Stop OTR")
 

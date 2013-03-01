@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "otr.h"
 
 HANDLE hMenuBuildEvent, hStopItem, hStartItem;
 

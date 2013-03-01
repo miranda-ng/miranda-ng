@@ -1,7 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
-
 extern OtrlUserState otr_user_state;
 extern OtrlMessageAppOps ops;
 

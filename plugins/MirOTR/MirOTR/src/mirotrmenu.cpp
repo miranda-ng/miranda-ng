@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "m_genmenu.h"
-#include "mirotrmenu.h"
+
 static HANDLE hMirOTRMenuObject;
 static HGENMENU hStatusInfoItem, hHTMLConvMenuItem;
 HWND hDummyPaintWin;

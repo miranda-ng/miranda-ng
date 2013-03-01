@@ -1,10 +1,4 @@
 #include "stdafx.h"
-#include "options.h"
-#include "utils.h"
-#include "m_options.h"
-#include <Prsht.h>
-#include <commctrl.h>
-#include <process.h>
 
 char g_fingerprint_store_filename[MAX_PATH];
 char g_private_key_filename[MAX_PATH];

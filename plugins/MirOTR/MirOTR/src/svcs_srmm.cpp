@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "mirotrmenu.h"
+
 HANDLE hEventIconPressed;
 HICON hIconNotSecure, hIconFinished, hIconPrivate, hIconUnverified;
 BBButton OTRButton;
