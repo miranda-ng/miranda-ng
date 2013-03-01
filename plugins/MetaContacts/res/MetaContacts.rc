@@ -44,123 +44,7 @@ BEGIN
         TOPMARGIN, 4
         BOTTOMMARGIN, 255
     END
-END
-#endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_METASELECT DIALOGEX 0, 0, 256, 259
-STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Add to Existing MetaContact"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CTEXT           "Please select a MetaContact:",IDC_STATIC,27,11,201,14
-    DEFPUSHBUTTON   "&Ok",IDOK,73,238,48,14
-    PUSHBUTTON      "&Cancel",IDCANCEL,133,238,48,14
-    LISTBOX         IDC_METALIST,44,28,168,168,LBS_NOINTEGRALHEIGHT | WS_VSCROLL
-    CONTROL         "Sort Alphabetically",IDC_CHK_SRT,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,78,210,124,13
-END
-
-IDD_METAEDIT DIALOGEX 0, 0, 383, 260
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_STATICEDGE
-CAPTION "Editing"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "&OK",IDOK,106,241,50,14
-    PUSHBUTTON      "&Cancel",IDCANCEL,166,241,50,14
-    LTEXT           "Name:",IDC_STATIC,108,26,42,8
-    GROUPBOX        "Information",IDC_STATIC,5,4,373,45
-    GROUPBOX        "Contacts",IDC_FRAME,5,54,373,180
-    PUSHBUTTON      "&Apply",IDC_VALIDATE,226,241,50,14
-    DEFPUSHBUTTON   "&Remove",IDC_BTN_REM,53,181,50,14
-    PUSHBUTTON      "&Set as Default",IDC_BTN_SETDEFAULT,107,181,50,14
-    PUSHBUTTON      "Move &Up",IDC_BTN_UP,224,181,50,14
-    PUSHBUTTON      "Move &Down",IDC_BTN_DOWN,279,181,50,14
-    EDITTEXT        IDC_ED_NAME,158,23,135,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
-    CONTROL         "List1",IDC_LST_CONTACTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,53,79,276,89,WS_EX_CLIENTEDGE
-    GROUPBOX        "",IDC_STATIC,35,66,313,138
-    CONTROL         "Force use of default for sending (even if offline)",IDC_CHK_FORCEDEFAULT,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,110,215,209,10
-    PUSHBUTTON      "Send &Offline",IDC_BTN_SETOFFLINE,161,181,50,14
-END
-
-#endif    // Neutral (Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// French (France) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
-#ifdef _WIN32
-LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
-#pragma code_page(1252)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""afxres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // French (France) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Neutral (Sys. Default) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#pragma code_page(1252)
-#endif //_WIN32
-
-#endif    // Neutral (Sys. Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (Australia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
         VERTGUIDE, 4
@@ -209,6 +93,42 @@ END
 //
 // Dialog
 //
+
+IDD_METASELECT DIALOGEX 0, 0, 256, 259
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Add to Existing MetaContact"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CTEXT           "Please select a MetaContact:",IDC_STATIC,27,11,201,14
+    DEFPUSHBUTTON   "&Ok",IDOK,73,238,48,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,133,238,48,14
+    LISTBOX         IDC_METALIST,44,28,168,168,LBS_NOINTEGRALHEIGHT | WS_VSCROLL
+    CONTROL         "Sort Alphabetically",IDC_CHK_SRT,"Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,78,210,124,13
+END
+
+IDD_METAEDIT DIALOGEX 0, 0, 383, 260
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_STATICEDGE
+CAPTION "Editing"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&OK",IDOK,106,241,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,166,241,50,14
+    LTEXT           "Name:",IDC_STATIC,108,26,42,8
+    GROUPBOX        "Information",IDC_STATIC,5,4,373,45
+    GROUPBOX        "Contacts",IDC_FRAME,5,54,373,180
+    PUSHBUTTON      "&Apply",IDC_VALIDATE,226,241,50,14
+    DEFPUSHBUTTON   "&Remove",IDC_BTN_REM,53,181,50,14
+    PUSHBUTTON      "&Set as Default",IDC_BTN_SETDEFAULT,107,181,50,14
+    PUSHBUTTON      "Move &Up",IDC_BTN_UP,224,181,50,14
+    PUSHBUTTON      "Move &Down",IDC_BTN_DOWN,279,181,50,14
+    EDITTEXT        IDC_ED_NAME,158,23,135,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    CONTROL         "List1",IDC_LST_CONTACTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,53,79,276,89,WS_EX_CLIENTEDGE
+    GROUPBOX        "",IDC_STATIC,35,66,313,138
+    CONTROL         "Force use of default for sending (even if offline)",IDC_CHK_FORCEDEFAULT,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,110,215,209,10
+    PUSHBUTTON      "Send &Offline",IDC_BTN_SETOFFLINE,161,181,50,14
+END
 
 IDD_OPTIONS DIALOGEX 0, 0, 298, 178
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
@@ -286,6 +206,32 @@ BEGIN
 END
 
 
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -300,7 +246,7 @@ IDI_MCREMOVE            ICON                    "meta_remove2.ico"
 IDI_MCCONVERT           ICON                    "meta_convert.ico"
 IDI_MCADD               ICON                    "meta_add.ico"
 IDI_MCSETDEFAULT        ICON                    "meta_set_as_default.ico"
-#endif    // English (Australia) resources
+#endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

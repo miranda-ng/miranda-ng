@@ -84,9 +84,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-// Use VersionNo.h to set the version number, and ensure resource file is not open
-#include "version.h"
-
 BOOL os_unicode_enabled = FALSE;
 int hLangpack;
 CLIST_INTERFACE *pcli = NULL;
@@ -94,16 +91,16 @@ CLIST_INTERFACE *pcli = NULL;
 //! Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,		// altered here and on file listing, so as not to match original
+	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESC,
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {4C4A27CF-5E64-4242-A332-B98B08243E89}
-	{0x4c4a27cf, 0x5e64, 0x4242, {0xa3, 0x32, 0xb9, 0x8b, 0x8, 0x24, 0x3e, 0x89} }
+	{0x4c4a27cf, 0x5e64, 0x4242, {0xa3, 0x32, 0xb9, 0x8b, 0x8, 0x24, 0x3e, 0x89}}
 };
 
 HINSTANCE hInstance;	//!< Global reference to the application
