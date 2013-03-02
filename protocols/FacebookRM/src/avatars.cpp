@@ -130,8 +130,9 @@ std::tstring FacebookProto::GetAvatarFolder()
 	TCHAR path[MAX_PATH];
 	if ( hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")) == 0 )
 		return path;
-	else
-		return def_avatar_folder_;
+	
+	mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+	return path;
 }
 
 int FacebookProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)

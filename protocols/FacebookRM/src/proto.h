@@ -198,7 +198,6 @@ public:
 	HANDLE  m_hNetlibUser;
 
 	std::string last_status_msg_;
-	std::tstring def_avatar_folder_;
 	HANDLE  hAvatarFolder_;
 	HANDLE	hSmileysFolder_;
 	std::vector<HANDLE> avatar_queue;
