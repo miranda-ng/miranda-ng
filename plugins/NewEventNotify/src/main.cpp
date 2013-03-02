@@ -36,15 +36,13 @@ PLUGIN_OPTIONS pluginOptions;
 int hLangpack;
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"NewEventNotify",
-	PLUGIN_MAKE_VERSION(0, VER_MAJOR, VER_MINOR, VER_BUILD),
-	"Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. "
-	"Original plugin was written by icebreaker, modified by Prezes and some "
-	"bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.",
-	"icebreaker, Prezes, vj, vlko, Joe @ Whale",
-	"jokusoftware@miranda-im.org",
-	"GNU GPL",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 	{0x3503D584, 0x6234, 0x4BEF, {0xA5, 0x53, 0x6C, 0x1B, 0x9C, 0xD4, 0x71, 0xF2}}

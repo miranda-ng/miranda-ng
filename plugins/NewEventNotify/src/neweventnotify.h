@@ -27,33 +27,26 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
 
-#include <stdio.h>
 #include <stddef.h>
 #include <windows.h>
-#include <commctrl.h>
-#include <string.h>
 #include <time.h>
-#include <malloc.h>
 
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_contacts.h>
 #include <m_popup.h>
 #include <m_skin.h>
 #include <m_clist.h>
-#include <m_system.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_message.h>
 #include <m_options.h>
 #include <m_icq.h>
-#include <m_utils.h>
 
 #include <m_metacontacts.h>
 
 #include "resource.h"
+#include "Version.h"
 
 //VERY_PUBLIC Begin ... will be moved to m_neweventnotify.h
 #define MS_NEN_MENUNOTIFY "NewEventNotify/MenuitemNotifyCommand"
@@ -65,9 +58,6 @@
 //---Definitions
 
 #define MODULE "NewEventNotify"
-#define VER_MAJOR 2
-#define VER_MINOR 2
-#define VER_BUILD 3
 #define MAX_POPUPS 20
 
 #define DEFAULT_COLBACK RGB(255,255,128)
