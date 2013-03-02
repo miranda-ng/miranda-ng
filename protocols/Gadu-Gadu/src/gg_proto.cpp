@@ -66,14 +66,10 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
 
 	TCHAR szPath[MAX_PATH];
-	TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), tmpPath, m_tszUserName);
-	mir_free(tmpPath);
+	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 	hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", szPath);
 
-	tmpPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
-	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
-	mir_free(tmpPath);
+	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT(m_szModuleName, "Images", szPath);
 
 	DWORD dwVersion;

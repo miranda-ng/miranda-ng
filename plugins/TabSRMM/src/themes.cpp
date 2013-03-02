@@ -2798,8 +2798,7 @@ void CSkin::setAeroEffect(LRESULT effect)
  */
 void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 {
-	TCHAR 	tszBasePath[MAX_PATH];
-
+	TCHAR tszBasePath[MAX_PATH];
 	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M->getDataPath());
 	if (tszBasePath[lstrlen(tszBasePath) - 1] != '\\')
 		_tcscat(tszBasePath, _T("\\"));

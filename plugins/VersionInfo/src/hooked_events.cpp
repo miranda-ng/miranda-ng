@@ -49,7 +49,7 @@ int UnhookEvents()
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	hOutputLocation = FoldersRegisterCustomPathT("VersionInfo", "Output folder", _T("%miranda_path%"));
+	hOutputLocation = FoldersRegisterCustomPathT("VersionInfo", "Output folder", MIRANDA_PATHT);
 	
 	GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
 	return 0;

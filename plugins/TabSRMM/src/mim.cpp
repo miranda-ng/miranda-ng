@@ -378,7 +378,7 @@ const TCHAR* CMimAPI::getUserDir()
 {
 	if (m_userDir[0] == 0) {
 		if ( ServiceExists(MS_FOLDERS_REGISTER_PATH))
-			lstrcpyn(m_userDir, L"%%miranda_userdata%%", SIZEOF(m_userDir));
+			lstrcpyn(m_userDir, L"%miranda_userdata%", SIZEOF(m_userDir));
 		else
 			lstrcpyn(m_userDir, VARST( _T("%miranda_userdata%")), SIZEOF(m_userDir));
 
