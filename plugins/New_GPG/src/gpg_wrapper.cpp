@@ -70,13 +70,15 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 
 
 	pipe pout = create_pipe();
+	pipe perr = create_pipe();
 	{
 		file_descriptor_sink sout(pout.sink, close_handle);
+		file_descriptor_sink serr(perr.sink, close_handle);
 
 		char *mir_path = new char [MAX_PATH];
 		PathToAbsolute("\\", mir_path);
 
-		child c = execute(set_args(argv), bind_stdout(sout), /*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
+		child c = execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
 		_child = &c;
 
 		delete [] mir_path;
@@ -84,7 +86,8 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		*aexitcode = ec;
 		_child = nullptr;
 	}
-	
+
+
 	file_descriptor_source source(pout.source, close_handle);
 
 	stream<file_descriptor_source> is(source);
@@ -102,6 +105,25 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		if(bDebugLog)
 			debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
+
+	file_descriptor_source source2(pout.source, close_handle);
+
+	stream<file_descriptor_source> is2(source2);
+
+	try{
+		std::string s;
+		while(std::getline(is2, s))
+		{
+			aoutput->append(s);
+			aoutput->append("\n");
+		}
+	}
+	catch(const std::exception &e)
+	{
+		if(bDebugLog)
+			debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
+	}
+
 	fix_line_term(*aoutput);
 
 	if(bDebugLog)

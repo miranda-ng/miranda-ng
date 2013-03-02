@@ -1925,28 +1925,38 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 
 void fix_line_term(std::string &s)
 {
+	if(s.empty())
+		return;
 	boost::algorithm::erase_all(s, "\r\r");
 }
 
 void fix_line_term(std::wstring &s)
 {
+	if(s.empty())
+		return;
 	boost::algorithm::erase_all(s, _T("\r\r"));
 }
 
 void strip_line_term(std::wstring &s)
 {
+	if(s.empty())
+		return;
 	boost::algorithm::erase_all(s, _T("\r"));
 	boost::algorithm::erase_all(s, _T("\n"));
 }
 
 void strip_line_term(std::string &s)
 {
+	if(s.empty())
+		return;
 	boost::algorithm::erase_all(s, "\r");
 	boost::algorithm::erase_all(s, "\n");
 }
 
 void strip_tags(std::wstring &str)
 {
+	if(str.empty())
+		return;
 	boost::algorithm::erase_all(str, inopentag);
 	boost::algorithm::erase_all(str, inclosetag);
 	boost::algorithm::erase_all(str, outopentag);
