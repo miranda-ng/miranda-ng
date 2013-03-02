@@ -1,6 +1,4 @@
 #include "common.h"
-#include "icons.h"
-#include "resource.h"
 
 HICON hIconRemove, hIconKeep, hIconClear;
 

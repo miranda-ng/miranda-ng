@@ -1,15 +1,5 @@
-/* Replace "dll.h" with the name of your header */
 #include "common.h"
-#include "private.h"
-#include "resource.h"
-#include "icons.h"
-#include "options.h"
 
-#include <time.h>
-
-///////////////////////////////////////////////
-// Common Plugin Stuff
-///////////////////////////////////////////////
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -39,18 +29,19 @@ EventListNode *event_list = 0;
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	MODULE,
-	PLUGIN_MAKE_VERSION(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD),
-	DESC_STRING,
-	"Scott Ellis, NightFox",
-	"mail@scottellis.com.au; nightfox@myied.org",
-	"© 2005 Scott Ellis; NightFox 2010",
-	"http://www.scottellis.com.au/",
-	UNICODE_AWARE,		//not transient
-	{ 0xb25e8c7b, 0x292b, 0x495a, { 0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b } } // {B25E8C7B-292B-495a-9FB8-A4C3D4EEB04B}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {B25E8C7B-292B-495A-9FB8-A4C3D4EEB04B}
+	{0xb25e8c7b, 0x292b, 0x495a, {0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b}}
 };
 
-extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;

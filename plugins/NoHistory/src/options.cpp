@@ -1,7 +1,4 @@
 #include "common.h"
-#include "options.h"
-#include "resource.h"
-#include "icons.h"
 
 static void SetListGroupIcons(HWND hwndList,HANDLE hFirstItem,HANDLE hParentItem,int *groupChildCount)
 {
