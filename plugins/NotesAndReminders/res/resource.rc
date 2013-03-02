@@ -47,57 +47,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,5,1
- PRODUCTVERSION 0,0,5,1
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "New ""Notes And Reminders"" plugin for Miranda NG"
-            VALUE "CompanyName", "Jokusoftware, Digital Forcess"
-            VALUE "FileDescription", "New ""Notes And Reminders"""
-            VALUE "FileVersion", "0.0.5.1"
-            VALUE "InternalName", "NewNotesAndReminders"
-            VALUE "LegalCopyright", "(C) 2003,2005 by Joe Kucera, Lubomir Ivanov"
-            VALUE "LegalTrademarks", "Digital Forcess"
-            VALUE "OriginalFilename", "NewNR.dll"
-            VALUE "ProductName", "New ""Notes And Reminders"""
-            VALUE "ProductVersion", "0.0.5.1"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Dialog
 //
 
@@ -323,22 +272,10 @@ BEGIN
         VERTGUIDE, 291
         VERTGUIDE, 296
     END
-
-    IDD_ADDREMINDER, DIALOG
-    BEGIN
-    END
-
-    IDD_NOTIFYREMINDER, DIALOG
-    BEGIN
-    END
-
-    IDD_LISTREMINDERS, DIALOG
-    BEGIN
-    END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,10 +1,7 @@
 #include "globals.h"
 
-
-
 // min allowed alpha (don't want 0 because it's a waste of resources as well as might confuse user)
 #define MIN_ALPHA 30
-
 
 extern HANDLE hkFontChange;
 extern HANDLE hkColorChange;

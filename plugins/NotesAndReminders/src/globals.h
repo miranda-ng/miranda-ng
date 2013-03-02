@@ -2,31 +2,25 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include <memory.h>
 #include <time.h>
 #include <richedit.h>
-#include <stdio.h>
-#include <WinSock.h>
-#include <mmsystem.h>
 
-#include "win2k.h"
-#include "newpluginapi.h"
-#include "m_system.h" 
-#include "m_database.h"
-#include "m_clist.h"
-#include "m_langpack.h"
-#include "m_options.h" 
-#include "m_skin.h"
-#include "m_fontservice.h"
-#include "m_hotkeys.h"
-#include "m_icolib.h"
+#include <win2k.h>
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_options.h>
+#include <m_skin.h>
+#include <m_fontservice.h>
+#include <m_hotkeys.h>
+#include <m_icolib.h>
 
-#include "m_toptoolbar.h"
+#include <m_toptoolbar.h>
 
 #include "miscutils.h"
 #include "resource.h"
-
-
+#include "Version.h"
 
 #define MODULENAME	"StickyNotes"
 #define SECTIONNAME	LPGEN("Notes & Reminders")
