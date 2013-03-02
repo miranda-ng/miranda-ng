@@ -24,21 +24,13 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <io.h>
-#include <uxtheme.h>
 #include <shlwapi.h>
-#include <richedit.h>
-//c
-#include <locale.h>
-#include <errno.h>
-#include <time.h>
+
 //c++
-#include <iostream>
 #include <map>
 using std::map;
 #include <list>
 using std::list;
-#include <vector>
-using std::vector;
 #include <string>
 using std::string;
 using std::wstring;
@@ -54,6 +46,7 @@ using std::fstream;
 #include <boost/random/uniform_int.hpp>
 #include <boost/date_time.hpp>
 #include <boost/iostreams/stream.hpp>
+
 //boost process
 #include <boost/process.hpp>
 
@@ -65,21 +58,18 @@ using std::fstream;
 #include <m_database.h>
 #include <m_options.h>
 #include <m_langpack.h>
-#include <m_clist.h>
 #include <m_clui.h>
-#include <m_icolib.h>
 #include <m_skin.h>
 #include <m_protomod.h>
-#include <m_protosvc.h>
-#include <m_netlib.h>
 #include <m_jabber.h>
 #include <m_icqplus.h>
 #include <m_message.h>
 #include <m_cluiframes.h>
 #include <m_icolib.h>
-#include "m_extraicons.h"
-#include "m_metacontacts.h"
-#include "win2k.h"
+#include <m_extraicons.h>
+#include <win2k.h>
+
+#include <m_metacontacts.h>
 
 //internal
 #include "resource.h"
