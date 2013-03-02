@@ -93,7 +93,7 @@ void CIcqProto::InitAvatars()
 	// check if it does make sense
 	TCHAR tszPath[MAX_PATH * 2];
 	null_snprintf(tszPath, MAX_PATH * 2, _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), m_szModuleName);
-	hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars Cache", tszPath);
+	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, tszPath);
 }
 
 

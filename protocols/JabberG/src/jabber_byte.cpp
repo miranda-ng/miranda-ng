@@ -641,7 +641,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 						if (jbt->streamhostJID) mir_free(jbt->streamhostJID);
 						jbt->streamhostJID = mir_tstrdup(str);
 
-						Log("bytestream_recv connecting to " TCHAR_STR_PARAM ":%d", szHost, port);
+						Log("bytestream_recv connecting to %S:%d", szHost, port);
 						NETLIBOPENCONNECTION nloc = { 0 };
 						nloc.cbSize = sizeof(nloc);
 						nloc.szHost = mir_t2a(szHost);

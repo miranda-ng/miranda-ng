@@ -360,12 +360,12 @@ HANDLE CJabberProto::AddToListByJID(const TCHAR *newJid, DWORD flags)
 	HANDLE hContact;
 	TCHAR* jid, *nick;
 
-	Log("AddToListByJID jid = " TCHAR_STR_PARAM, newJid);
+	Log("AddToListByJID jid = %S", newJid);
 
 	if ((hContact=HContactFromJID(newJid)) == NULL) {
 		// not already there: add
 		jid = mir_tstrdup(newJid);
-		Log("Add new jid to contact jid = " TCHAR_STR_PARAM, jid);
+		Log("Add new jid to contact jid = %S", jid);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)m_szModuleName);
 		JSetStringT(hContact, "jid", jid);
@@ -473,7 +473,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 	char *lastName = firstName + strlen(firstName) + 1;
 	char *jid = lastName + strlen(lastName) + 1;
 
-	Log("Send 'authorization allowed' to " TCHAR_STR_PARAM, jid);
+	Log("Send 'authorization allowed' to %S", jid);
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
 
@@ -485,7 +485,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 		JABBER_LIST_ITEM *item;
 
 		if ((item = ListGetItemPtr(LIST_ROSTER, newJid)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-			Log("Try adding contact automatically jid = " TCHAR_STR_PARAM, jid);
+			Log("Try adding contact automatically jid = %S", jid);
 			if ((hContact = AddToListByJID(newJid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
@@ -1417,7 +1417,7 @@ int __cdecl CJabberProto::SendAwayMsg(HANDLE /*hContact*/, HANDLE /*hProcess*/, 
 
 int __cdecl CJabberProto::SetAwayMsg(int status, const TCHAR *msg)
 {
-	Log("SetAwayMsg called, wParam=%d lParam=" TCHAR_STR_PARAM, status, msg);
+	Log("SetAwayMsg called, wParam=%d lParam=%S", status, msg);
 
 	EnterCriticalSection(&m_csModeMsgMutex);
 

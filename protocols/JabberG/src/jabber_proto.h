@@ -991,6 +991,9 @@ private:
 
 	DWORD   m_lastTicks;
 
+	HANDLE  m_hJabberAvatarsFolder;
+	BOOL    m_bFoldersInitDone;
+
 	CRITICAL_SECTION m_csSerial;
 	unsigned int m_nSerial;
 

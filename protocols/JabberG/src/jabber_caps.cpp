@@ -575,12 +575,12 @@ JabberCapsBits CJabberClientCapsManager::GetClientCaps(TCHAR *szNode, TCHAR *szV
 	CJabberClientCaps *pClient = FindClient(szNode);
 	if ( !pClient) {
 		Unlock();
-		ppro->Log("CAPS: get no caps for: " TCHAR_STR_PARAM ", " TCHAR_STR_PARAM, szNode, szVer);
+		ppro->Log("CAPS: get no caps for: %S, %S", szNode, szVer);
 		return JABBER_RESOURCE_CAPS_UNINIT;
 	}
 	JabberCapsBits jcbCaps = pClient->GetPartialCaps(szVer);
 	Unlock();
-	ppro->Log("CAPS: get caps %I64x for: " TCHAR_STR_PARAM ", " TCHAR_STR_PARAM, jcbCaps, szNode, szVer);
+	ppro->Log("CAPS: get caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
 	return jcbCaps;
 }
 
@@ -599,7 +599,7 @@ BOOL CJabberClientCapsManager::SetClientCaps(const TCHAR *szNode, const TCHAR *s
 	}
 	BOOL bOk = pClient->SetPartialCaps(szVer, jcbCaps, nIqId);
 	Unlock();
-	ppro->Log("CAPS: set caps %I64x for: " TCHAR_STR_PARAM ", " TCHAR_STR_PARAM, jcbCaps, szNode, szVer);
+	ppro->Log("CAPS: set caps %I64x for: %S, %S", jcbCaps, szNode, szVer);
 	return bOk;
 }
 

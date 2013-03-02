@@ -202,7 +202,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 			db_set_b(hContact, "CList", "NotOnList", 1);
 		else
 			SendGetVcard(s);
-		Log("Create Jabber contact jid=" TCHAR_STR_PARAM ", nick=" TCHAR_STR_PARAM, s, nick);
+		Log("Create Jabber contact jid=%S, nick=%S", s, nick);
 		DBCheckIsTransportedContact(s,hContact);
 	}
 
@@ -246,18 +246,15 @@ BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetAvatarFileName() - gets a file name for the avatar image
 
-static HANDLE hJabberAvatarsFolder = NULL;
-static bool bInitDone = false;
-
 void CJabberProto::InitCustomFolders(void)
 {
-	if (bInitDone)
+	if (m_bFoldersInitDone)
 		return;
 
-	bInitDone = true;
+	m_bFoldersInitDone = true;
 	TCHAR AvatarsFolder[MAX_PATH];
-	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\Jabber"));
-	hJabberAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", AvatarsFolder);
+	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
+	m_hJabberAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder);
 }
 
 void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)
@@ -267,12 +264,10 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 
 	InitCustomFolders();
 
-	if (hJabberAvatarsFolder == NULL || FoldersGetCustomPathT(hJabberAvatarsFolder, path, (int)cbLen, _T(""))) {
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\Jabber"), tmpPath);
-		mir_free(tmpPath);
-	}
-	else tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s"), path);
+	if (m_hJabberAvatarsFolder == NULL || FoldersGetCustomPathT(m_hJabberAvatarsFolder, path, (int)cbLen, _T("")))
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), (TCHAR*)VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	else
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s"), path);
 
 	DWORD dwAttributes = GetFileAttributes(pszDest);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -299,18 +294,18 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 		else _i64toa((LONG_PTR)hContact, str, 10);
 
 		char* hash = JabberSha1(str);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T(TCHAR_STR_PARAM) _T(".") _T(TCHAR_STR_PARAM), hash, szFileType);
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S.%S"), hash, szFileType);
 		mir_free(hash);
 	}
 	else if (m_ThreadInfo != NULL) {
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@") _T(TCHAR_STR_PARAM) _T(" avatar.") _T(TCHAR_STR_PARAM),
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%s@%S avatar.%S"),
 			m_ThreadInfo->username, m_ThreadInfo->server, szFileType);
 	}
 	else {
 		DBVARIANT dbv1, dbv2;
 		BOOL res1 = DBGetContactSettingString(NULL, m_szModuleName, "LoginName", &dbv1);
 		BOOL res2 = DBGetContactSettingString(NULL, m_szModuleName, "LoginServer", &dbv2);
-		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T(TCHAR_STR_PARAM) _T("@") _T(TCHAR_STR_PARAM) _T(" avatar.") _T(TCHAR_STR_PARAM),
+		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar.%S"),
 			res1 ? "noname" : dbv1.pszVal,
 			res2 ? m_szModuleName : dbv2.pszVal,
 			szFileType);
@@ -463,7 +458,7 @@ void CJabberProto::UpdateMirVer(JABBER_LIST_ITEM *item)
 	if ( !hContact)
 		return;
 
-	Log("JabberUpdateMirVer: for jid " TCHAR_STR_PARAM, item->jid);
+	Log("JabberUpdateMirVer: for jid %S", item->jid);
 
 	int resource = -1;
 	if (item->resourceMode == RSMODE_LASTSEEN)
@@ -484,7 +479,7 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 
 	// jabber:iq:version info requested and exists?
 	if (resource->dwVersionRequestTime && resource->software) {
-		Log("JabberUpdateMirVer: for iq:version rc " TCHAR_STR_PARAM ": " TCHAR_STR_PARAM, resource->resourceName, resource->software);
+		Log("JabberUpdateMirVer: for iq:version rc %S: %S", resource->resourceName, resource->software);
 		if ( !resource->version || _tcsstr(resource->software, resource->version))
 			lstrcpyn(buf, resource->software, bufSize);
 		else
@@ -492,13 +487,13 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 	}
 	// no version info and no caps info? set MirVer = resource name
 	else if ( !resource->szCapsNode || !resource->szCapsVer) {
-		Log("JabberUpdateMirVer: for rc " TCHAR_STR_PARAM ": " TCHAR_STR_PARAM, resource->resourceName, resource->resourceName);
+		Log("JabberUpdateMirVer: for rc %S: %S", resource->resourceName, resource->resourceName);
 		if (resource->resourceName)
 			lstrcpyn(buf, resource->resourceName, bufSize);
 	}
 	// XEP-0115 caps mode
 	else {
-		Log("JabberUpdateMirVer: for rc " TCHAR_STR_PARAM ": " TCHAR_STR_PARAM "#" TCHAR_STR_PARAM, resource->resourceName, resource->szCapsNode, resource->szCapsVer);
+		Log("JabberUpdateMirVer: for rc %S: %S#%S", resource->resourceName, resource->szCapsNode, resource->szCapsVer);
 
 		int i;
 

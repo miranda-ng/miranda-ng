@@ -339,7 +339,7 @@ LBL_FatalError:
 		}
 
 		TCHAR jidStr[512];
-		mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@") _T(TCHAR_STR_PARAM) _T("/%s"), info->username, info->server, info->resource);
+		mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S/%s"), info->username, info->server, info->resource);
 		_tcsncpy(info->fullJID, jidStr, SIZEOF(info->fullJID)-1);
 
 		if (m_options.SavePassword == FALSE) {
@@ -348,7 +348,7 @@ LBL_FatalError:
 				info->password[ SIZEOF(info->password)-1] = '\0';
 			}
 			else {
-				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@") _T(TCHAR_STR_PARAM), info->username, info->server);
+				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@%S"), info->username, info->server);
 
 				JabberPasswordDlgParam param;
 				param.pro = this;
@@ -459,7 +459,7 @@ LBL_FatalError:
 			m_bJabberConnected = TRUE;
 			size_t len = _tcslen(info->username) + strlen(info->server)+1;
 			m_szJabberJID = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len+1));
-			mir_sntprintf(m_szJabberJID, len+1, _T("%s@") _T(TCHAR_STR_PARAM), info->username, info->server);
+			mir_sntprintf(m_szJabberJID, len+1, _T("%s@%S"), info->username, info->server);
 			m_bSendKeepAlive = m_options.KeepAlive != 0;
 			JSetStringT(NULL, "jid", m_szJabberJID); // store jid in database
 		}
@@ -744,7 +744,7 @@ void CJabberProto::PerformAuthentication(ThreadData* info)
 		}
 
 		TCHAR text[1024];
-		mir_sntprintf(text, SIZEOF(text), _T("%s %s@")_T(TCHAR_STR_PARAM)_T("."), TranslateT("Authentication failed for"), info->username, info->server);
+		mir_sntprintf(text, SIZEOF(text), _T("%s %s@%S."), TranslateT("Authentication failed for"), info->username, info->server);
 		MsgPopup(NULL, text, TranslateT("Jabber Authentication"));
 		JSendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");
@@ -928,7 +928,7 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 			db_free(&dbv);
 		xmlStreamInitialize("after successful sasl");
 	}
-	else Log("Success: unknown action "TCHAR_STR_PARAM".",type);
+	else Log("Success: unknown action %S.",type);
 }
 
 void CJabberProto::OnProcessChallenge(HXML node, ThreadData* info)
@@ -1516,7 +1516,7 @@ void CJabberProto::OnProcessPresenceCapabilites(HXML node)
 	if ((from = xmlGetAttrValue(node, _T("from"))) == NULL)
 		return;
 
-	Log("presence: for jid " TCHAR_STR_PARAM, from);
+	Log("presence: for jid %S", from);
 
 	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID(from);
 	if (r == NULL) return;
@@ -1579,7 +1579,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 	}
 	item->itemResource.status = status;
 	if (nSelectedResource != -1) {
-		Log("JabberUpdateJidDbSettings: updating jid " TCHAR_STR_PARAM " to rc " TCHAR_STR_PARAM, item->jid, item->resource[nSelectedResource].resourceName);
+		Log("JabberUpdateJidDbSettings: updating jid %S to rc %S", item->jid, item->resource[nSelectedResource].resourceName);
 		if (item->resource[nSelectedResource].statusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", item->resource[nSelectedResource].statusMessage);
 		else
@@ -1638,14 +1638,14 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 		if ((hContact = HContactFromJID(from)) == NULL) {
 			if ( !_tcsicmp(info->fullJID, from) || (!bSelfPresence && !ListExist(LIST_ROSTER, from))) {
-				Log("SKIP Receive presence online from "TCHAR_STR_PARAM" (who is not in my roster and not in list - skiping)", from);
+				Log("SKIP Receive presence online from %S (who is not in my roster and not in list - skiping)", from);
 				mir_free(nick);
 				return;
 			}
 			hContact = DBCreateContact(from, nick, TRUE, TRUE);
 		}
 		if ( !ListExist(LIST_ROSTER, from)) {
-			Log("Receive presence online from "TCHAR_STR_PARAM" (who is not in my roster)", from);
+			Log("Receive presence online from %S (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from);
 		}
 		DBCheckIsTransportedContact(from, hContact);
@@ -1677,7 +1677,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 		if (_tcschr(from, '@')==NULL) {
 			UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 		}
-		Log(TCHAR_STR_PARAM " (" TCHAR_STR_PARAM ") online, set contact status to %s", nick, from, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)status,0));
+		Log("%S (%S) online, set contact status to %s", nick, from, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)status,0));
 		mir_free(nick);
 
 		HXML xNode;
@@ -1762,7 +1762,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 					replaceStrT(item->itemResource.statusMessage, NULL);
 			}
 		}
-		else Log("SKIP Receive presence offline from " TCHAR_STR_PARAM " (who is not in my roster)", from);
+		else Log("SKIP Receive presence offline from %S (who is not in my roster)", from);
 
 		UpdateJidDbSettings(from);
 
@@ -1784,7 +1784,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 
 			if (m_options.AutoAdd == TRUE) {
 				if ((item = ListGetItemPtr(LIST_ROSTER, from)) == NULL || (item->subscription != SUB_BOTH && item->subscription != SUB_TO)) {
-					Log("Try adding contact automatically jid = " TCHAR_STR_PARAM, from);
+					Log("Try adding contact automatically jid = %S", from);
 					if ((hContact=AddToListByJID(from, 0)) != NULL) {
 						// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 						// See AddToListByJID() and JabberDbSettingChanged().
@@ -1796,7 +1796,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			HXML n = xmlGetChild(node , "nick");
 			nick = (n == NULL) ? JabberNickFromJID(from) : mir_tstrdup(xmlGetText(n));
 			if (nick != NULL) {
-				Log(TCHAR_STR_PARAM " (" TCHAR_STR_PARAM ") requests authorization", nick, from);
+				Log("%S (%S) requests authorization", nick, from);
 				DBAddAuthRequest(from, nick);
 				mir_free(nick);
 		}	}

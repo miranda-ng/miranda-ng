@@ -381,6 +381,9 @@ protected:
 	static void FakeAsync(void*);
 	void InitCustomFolders();
 
+	HANDLE m_hAvatarsFolder;
+	bool   m_bInitDone;
+
 	static int DetectAvatarFormatBuffer(const char *pBuffer);
 	static int DetectAvatarFormat(const wchar_t *path);
 
@@ -395,7 +398,6 @@ protected:
 
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
-
 
 	// runtime
 	void InitSkype();

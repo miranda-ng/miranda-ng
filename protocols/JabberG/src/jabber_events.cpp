@@ -117,7 +117,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 	else {
 		TCHAR* p = sttSettingToTchar(cws);
 		if (cws->value.pszVal != NULL && lstrcmp(p, item->group)) {
-			Log("Group set to " TCHAR_STR_PARAM, p);
+			Log("Group set to %S", p);
 			if (p)
 				AddContactToRoster(item->jid, nick, p);
 		}
@@ -147,7 +147,7 @@ void __cdecl CJabberProto::OnRenameContact(DBCONTACTWRITESETTING* cws, HANDLE hC
 	TCHAR* newNick = sttSettingToTchar(cws);
 	if (newNick) {
 		if (lstrcmp(item->nick, newNick)) {
-			Log("Renaming contact " TCHAR_STR_PARAM ": " TCHAR_STR_PARAM " -> " TCHAR_STR_PARAM, item->jid, item->nick, newNick);
+			Log("Renaming contact %S: %S -> %S", item->jid, item->nick, newNick);
 			AddContactToRoster(item->jid, newNick, item->group);
 		}
 		mir_free(newNick);
@@ -163,7 +163,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 		return;
 
 	TCHAR *nick;
-	Log("Add " TCHAR_STR_PARAM " permanently to list", jid.pszVal);
+	Log("Add %S permanently to list", jid.pszVal);
 	if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);

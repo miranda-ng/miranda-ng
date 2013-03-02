@@ -555,7 +555,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 
 		// invalid JID
 		if ( !bRetVal) {
-			Log("<iq/> attempt to hack via roster push from " TCHAR_STR_PARAM, pInfo->GetFrom());
+			Log("<iq/> attempt to hack via roster push from %S", pInfo->GetFrom());
 			return TRUE;
 		}
 	}
@@ -631,7 +631,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 			else if ( !_tcscmp(str, _T("to"))) item->subscription = SUB_TO;
 			else if ( !_tcscmp(str, _T("from"))) item->subscription = SUB_FROM;
 			else item->subscription = SUB_NONE;
-			Log("Roster push for jid=" TCHAR_STR_PARAM ", set subscription to " TCHAR_STR_PARAM, jid, str);
+			Log("Roster push for jid=%S, set subscription to %S", jid, str);
 			// subscription = remove is to remove from roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.

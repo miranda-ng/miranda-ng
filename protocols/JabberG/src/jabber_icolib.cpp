@@ -325,7 +325,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 	int first=-1;
 	HICON empty=LoadSmallIcon(NULL,MAKEINTRESOURCE(102));
 
-	mir_sntprintf(Group, SIZEOF(Group), _T("Status Icons/%s/") _T(TCHAR_STR_PARAM) _T(" %s"), m_tszUserName, proto, TranslateT("transport"));
+	mir_sntprintf(Group, SIZEOF(Group), _T("Status Icons/%s/%S %s"), m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, SIZEOF(defFile), "proto_%s.dll",proto);
 	if ( !hAdvancedStatusIcon)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);

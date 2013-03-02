@@ -605,7 +605,7 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 	// default for older Mirandas
 	else PathToAbsoluteT( _T("Flash\\"), path);
 
-	hAvatarsFolder = FoldersRegisterCustomPathT("Flash Avatars", "Avatars Cache", path);
+	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", "Flash Avatars", path);
 	return 0;
 }
 

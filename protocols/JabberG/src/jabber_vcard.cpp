@@ -298,7 +298,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
 				_tcscpy(szTempPath, _T(".\\"));
 			if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-				dat->ppro->Log("Temp file = " TCHAR_STR_PARAM, szTempFileName);
+				dat->ppro->Log("Temp file = %S", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
 					char* p = mir_t2a(szTempFileName);
 					if ((dat->hBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)p)) != NULL) {
@@ -343,7 +343,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					struct _stat st;
 					HBITMAP hNewBitmap;
 
-					dat->ppro->Log("File selected is " TCHAR_STR_PARAM, szFileName);
+					dat->ppro->Log("File selected is %S", szFileName);
 					if (_tstat(szFileName, &st)<0 || st.st_size>40*1024) {
 						MessageBox(hwndDlg, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK|MB_SETFOREGROUND);
 						break;
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (GetTempPath(SIZEOF(szTempPath), szTempPath) <= 0)
 						_tcscpy(szTempPath, _T(".\\"));
 					if (GetTempFileName(szTempPath, _T("jab"), 0, szTempFileName) > 0) {
-						dat->ppro->Log("Temp file = " TCHAR_STR_PARAM, szTempFileName);
+						dat->ppro->Log("Temp file = %S", szTempFileName);
 						if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
 							char* pszTemp = mir_t2a(szTempFileName);
 							if ((hNewBitmap=(HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)pszTemp)) != NULL) {
@@ -1136,7 +1136,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		szFileName = szAvatarName;
 
 	// Set photo element, also update the global jabberVcardPhotoFileName to reflect the update
-	Log("Before update, file name = " TCHAR_STR_PARAM, szFileName);
+	Log("Before update, file name = %S", szFileName);
 	if (szFileName == NULL || szFileName[0] == 0) {
 		v << XCHILD(_T("PHOTO"));
 		DeleteFile(szAvatarName);
@@ -1149,7 +1149,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 		char* buffer, *str;
 		DWORD nRead;
 
-		Log("Saving picture from " TCHAR_STR_PARAM, szFileName);
+		Log("Saving picture from %S", szFileName);
 		if (_tstat(szFileName, &st) >= 0) {
 			// Note the FILE_SHARE_READ attribute so that the CopyFile can succeed
 			if ((hFile=CreateFile(szFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL)) != INVALID_HANDLE_VALUE) {

@@ -164,7 +164,7 @@ INT_PTR __cdecl CJabberProto::JabberGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				}
 				else lstrcpyn(szJid, dbv.ptszVal, SIZEOF(szJid));
 
-				Log("Rereading %s for " TCHAR_STR_PARAM, isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
+				Log("Rereading %s for %S", isXVcard ? JABBER_FEAT_VCARD_TEMP : JABBER_FEAT_AVATAR, szJid);
 
 				int iqId = SerialNext();
 				if (isXVcard)

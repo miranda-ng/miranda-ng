@@ -98,10 +98,10 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 	AI.cbSize = sizeof(AI);
 
 	AI.hContact = contact_from_sn(sn);
-	
+
 	if (data_len > 0)
 	{
-		const TCHAR *type; 
+		const TCHAR *type;
 		AI.format = detect_image_type(data, type);
 		get_avatar_filename(AI.hContact, AI.filename, SIZEOF(AI.filename), type);
 
@@ -153,7 +153,7 @@ int detect_image_type(const char* stream, const TCHAR* &type_ret)
 int detect_image_type(const TCHAR* file)
 {
    const TCHAR *ext = _tcsrchr(file, '.');
-   if (ext == NULL) 
+   if (ext == NULL)
 	   return PA_FORMAT_UNKNOWN;
    if (_tcsicmp(ext, _T(".gif")) == 0)
 	   return PA_FORMAT_GIF;
@@ -167,13 +167,13 @@ int detect_image_type(const TCHAR* file)
 
 void CAimProto::init_custom_folders(void)
 {
-	if (init_cst_fld_ran) return; 
+	if (init_cst_fld_ran) return;
 
 	TCHAR AvatarsFolder[MAX_PATH];
 
 	TCHAR *tszModuleName = mir_a2t(m_szModuleName);
 	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%s"), tszModuleName);
-	hAvatarsFolder = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", AvatarsFolder);
+	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder);
 	mir_free(tszModuleName);
 
 	init_cst_fld_ran = true;
@@ -195,7 +195,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 		mir_free(tszModuleName);
 		mir_free(tmpPath);
 	}
-	else 
+	else
 	{
 		_tcscpy(pszDest, path);
 		tPathLen = _tcslen(pszDest);
@@ -205,7 +205,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 		CreateDirectoryTreeT(pszDest);
 
 	size_t tPathLen2 = tPathLen;
-	
+
 	DBVARIANT dbv;
 	if (getTString(hContact, AIM_KEY_AH, &dbv)) return GAIR_NOAVATAR;
 	tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
@@ -228,7 +228,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 			} while (_tfindnext(hFile, &c_file) == 0);
 			_findclose( hFile );
 		}
-		
+
 		if (!found) pszDest[0] = 0;
 	}
 	else

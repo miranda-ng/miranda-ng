@@ -109,7 +109,7 @@ bool TNtlmAuth::getSpn(TCHAR* szSpn, size_t dwSpnLen)
 		mir_free(connectHostT);
 	}
 
-	Netlib_Logf(NULL, "SPN: " TCHAR_STR_PARAM, szSpn);
+	Netlib_Logf(NULL, "SPN: %S", szSpn);
 
 
 	return true;

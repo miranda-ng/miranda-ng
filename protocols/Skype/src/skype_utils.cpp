@@ -1,6 +1,6 @@
 #include "skype_proto.h"
 
-wchar_t* CSkypeProto::LogoutReasons[] = 
+wchar_t* CSkypeProto::LogoutReasons[] =
 {
 	LPGENW("LOGOUT_CALLED")												/* LOGOUT_CALLED				*/,
 	LPGENW("HTTPS_PROXY_AUTH_FAILED")									/* HTTPS_PROXY_AUTH_FAILED		*/,
@@ -31,7 +31,7 @@ wchar_t* CSkypeProto::LogoutReasons[] =
 	LPGENW("")															/* ACCESS_TOKEN_RENEWAL_FAILED 	*/
 };
 
-wchar_t* CSkypeProto::ValidationReasons[] = 
+wchar_t* CSkypeProto::ValidationReasons[] =
 {
 	LPGENW("NOT_VALIDATED")												/* NOT_VALIDATED				*/,
 	LPGENW("Validation succeeded")										/* VALIDATED_OK					*/,
@@ -46,7 +46,7 @@ wchar_t* CSkypeProto::ValidationReasons[] =
 	LPGENW("Value starts with an invalid character")					/* STARTS_WITH_INVALID_CHAR		*/,
 };
 
-wchar_t* CSkypeProto::PasswordChangeReasons[] = 
+wchar_t* CSkypeProto::PasswordChangeReasons[] =
 {
 	LPGENW("Password change succeeded")									/* PWD_OK						*/,
 	LPGENW("")															/* PWD_CHANGING					*/,
@@ -58,7 +58,7 @@ wchar_t* CSkypeProto::PasswordChangeReasons[] =
 	LPGENW("Account was currently not logged in")						/* PWD_MUST_LOG_IN_TO_CHANGE	*/,
 };
 
-LanguagesListEntry CSkypeProto::languages[] = 
+LanguagesListEntry CSkypeProto::languages[] =
 {
 	{"Abkhazian", "ab"},
 	{"Afar", "aa"},
@@ -322,30 +322,25 @@ int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
 	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
 }
 
-static HANDLE hAvatarsFolder = NULL;
-static bool bInitDone = false;
-
 void CSkypeProto::InitCustomFolders()
 {
-	if (bInitDone)
+	if (m_bInitDone)
 		return;
 
-	bInitDone = true;
-	if (::ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		TCHAR AvatarsFolder[MAX_PATH];
-		mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), this->m_szModuleName);
-		hAvatarsFolder = ::FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars", AvatarsFolder);
-	}
+	m_bInitDone = true;
+
+	TCHAR AvatarsFolder[MAX_PATH];
+	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), this->m_szModuleName);
+	m_hAvatarsFolder = ::FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder);
 }
 
 wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 {
 	wchar_t* path = new wchar_t[MAX_PATH];
-	
+
 	this->InitCustomFolders();
 
-	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, MAX_PATH, _T("")))
+	if (m_hAvatarsFolder == NULL || FoldersGetCustomPathT(m_hAvatarsFolder, path, MAX_PATH, _T("")))
 	{
 		wchar_t *tmpPath = ::Utils_ReplaceVarsT(L"%miranda_avatarcache%");
 		::mir_sntprintf(path, MAX_PATH, _T("%s\\") _T(TCHAR_STR_PARAM), tmpPath, this->m_szModuleName);
@@ -416,11 +411,11 @@ DWORD CSkypeProto::SendBroadcastAsync(HANDLE hContact, int type, int hResult, HA
 {
 	ACKDATA *ack = (ACKDATA *)::mir_calloc(sizeof(ACKDATA) + paramSize);
 	ack->cbSize = sizeof(ACKDATA);
-	ack->szModule = this->m_szModuleName; 
+	ack->szModule = this->m_szModuleName;
 	ack->hContact = hContact;
-	ack->type = type; 
+	ack->type = type;
 	ack->result = hResult;
-	ack->hProcess = hProcess; 
+	ack->hProcess = hProcess;
 	ack->lParam = lParam;
 	if (paramSize)
 		::memcpy(ack+1, (void*)lParam, paramSize);
@@ -432,9 +427,9 @@ void CSkypeProto::ForkThread(SkypeThreadFunc pFunc, void *param)
 {
 	UINT threadID;
 	::CloseHandle((HANDLE)::mir_forkthreadowner(
-		(pThreadFuncOwner)*(void**)&pFunc, 
-		this, 
-		param, 
+		(pThreadFuncOwner)*(void**)&pFunc,
+		this,
+		param,
 		&threadID));
 }
 
@@ -442,9 +437,9 @@ HANDLE CSkypeProto::ForkThreadEx(SkypeThreadFunc pFunc, void *param, UINT* threa
 {
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner(
-		(pThreadFuncOwner)*(void**)&pFunc, 
+		(pThreadFuncOwner)*(void**)&pFunc,
 		this,
-		param, 
+		param,
 		threadID ? threadID : &lthreadID);
 }
 
@@ -486,7 +481,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 
 	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
 		::MessageBoxW(NULL, message, caption, MB_OK | flags);
-	else 
+	else
 	{
 		POPUPDATAT_V2 ppd = {0};
 		ppd.cbSize = sizeof(POPUPDATAT_V2);
@@ -536,13 +531,13 @@ char *CSkypeProto::RemoveHtml(char *text)
 				bool found = false;
 				for (int j=0; j<SIZEOF(htmlEntities); j++)
 				{
-					if (!stricmp(entity.c_str(), htmlEntities[j].entity)) {						
+					if (!stricmp(entity.c_str(), htmlEntities[j].entity)) {
 						new_string += htmlEntities[j].symbol;
 						found = true;
 						break;
 					}
 				}
-				
+
 				if (found)
 					continue;
 				else
@@ -552,7 +547,7 @@ char *CSkypeProto::RemoveHtml(char *text)
 
 		new_string += data.at(i);
 	}
-	
+
 	::mir_free(text);
 	return ::mir_strdup(new_string.c_str());
 }

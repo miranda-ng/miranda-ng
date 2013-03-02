@@ -308,9 +308,9 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo* pInfo)
 		LPCTSTR szJid = XPathT(iqNode, "bind[@xmlns='urn:ietf:params:xml:ns:xmpp-bind']/jid");
 		if (szJid) {
 			if ( !_tcsncmp(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID)))
-				Log("Result Bind: " TCHAR_STR_PARAM " confirmed ", m_ThreadInfo->fullJID);
+				Log("Result Bind: %S confirmed ", m_ThreadInfo->fullJID);
 			else {
-				Log("Result Bind: " TCHAR_STR_PARAM " changed to " TCHAR_STR_PARAM, m_ThreadInfo->fullJID, szJid);
+				Log("Result Bind: %S changed to %S", m_ThreadInfo->fullJID, szJid);
 				_tcsncpy(m_ThreadInfo->fullJID, szJid, SIZEOF(m_ThreadInfo->fullJID));
 			}
 		}
@@ -542,7 +542,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 				DBVARIANT dbv;
 				if ( !JGetStringT(hContact, "jid", &dbv)) {
 					if ( !ListExist(LIST_ROSTER, dbv.ptszVal)) {
-						Log("Syncing roster: preparing to delete " TCHAR_STR_PARAM " (hContact=0x%x)", dbv.ptszVal, hContact);
+						Log("Syncing roster: preparing to delete %S (hContact=0x%x)", dbv.ptszVal, hContact);
 						if (listSize >= listAllocSize) {
 							listAllocSize = listSize + 100;
 							if ((list=(HANDLE *) mir_realloc(list, listAllocSize * sizeof(HANDLE))) == NULL) {
@@ -688,7 +688,7 @@ LBL_Ret:
 	TCHAR szAvatarFileName[MAX_PATH];
 	GetAvatarFileName(hContact, szAvatarFileName, SIZEOF(szAvatarFileName));
 
-	Log("Picture file name set to " TCHAR_STR_PARAM, szAvatarFileName);
+	Log("Picture file name set to %S", szAvatarFileName);
 	HANDLE hFile = CreateFile(szAvatarFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		goto LBL_Ret;
@@ -705,7 +705,7 @@ LBL_Ret:
 		hasPhoto = TRUE;
 		CallService(MS_AV_SETMYAVATART, (WPARAM)m_szModuleName, (LPARAM)szAvatarFileName);
 
-		Log("My picture saved to " TCHAR_STR_PARAM, szAvatarFileName);
+		Log("My picture saved to %S", szAvatarFileName);
 	}
 	else {
 		DBVARIANT dbv;
@@ -720,7 +720,7 @@ LBL_Ret:
 				if (item->photoFileName && _tcscmp(item->photoFileName, szAvatarFileName))
 					DeleteFile(item->photoFileName);
 				replaceStrT(item->photoFileName, szAvatarFileName);
-				Log("Contact's picture saved to " TCHAR_STR_PARAM, szAvatarFileName);
+				Log("Contact's picture saved to %S", szAvatarFileName);
 				OnIqResultGotAvatar(hContact, o, xmlGetText(m));
 			}
 
@@ -1254,7 +1254,7 @@ void CJabberProto::OnIqResultSetSearch(HXML iqNode)
 					_tcsncpy(jsr.jid, jid, SIZEOF(jsr.jid));
 					jsr.jid[ SIZEOF(jsr.jid)-1] = '\0';
 					jsr.hdr.id  = (TCHAR*)jid;
-					Log("Result jid = " TCHAR_STR_PARAM, jid);
+					Log("Result jid = %S", jid);
 					if ((n=xmlGetChild(itemNode , "nick"))!=NULL && xmlGetText(n)!=NULL)
 						jsr.hdr.nick = (TCHAR*)xmlGetText(n);
 					else
@@ -1325,7 +1325,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode)
 				if ( !lstrcmp(fieldName, _T("jid"))) {
 					_tcsncpy(jsr.jid, xmlGetText(n), SIZEOF(jsr.jid));
 					jsr.jid[SIZEOF(jsr.jid)-1] = '\0';
-					Log("Result jid = " TCHAR_STR_PARAM, jsr.jid);
+					Log("Result jid = %S", jsr.jid);
 				}
 				else if ( !lstrcmp(fieldName, _T("nickname")))
 					jsr.hdr.nick = (xmlGetText(n) != NULL) ? (TCHAR*)xmlGetText(n) : _T("");
@@ -1523,7 +1523,7 @@ void CJabberProto::OnIqResultGotAvatar(HANDLE hContact, HXML n, const TCHAR *mim
 		else if ( !lstrcmp(mimeType, _T("image/bmp"))) pictureType = PA_FORMAT_BMP;
 		else {
 LBL_ErrFormat:
-			Log("Invalid mime type specified for picture: " TCHAR_STR_PARAM, mimeType);
+			Log("Invalid mime type specified for picture: %S", mimeType);
 			mir_free(body);
 			return;
 	}	}
