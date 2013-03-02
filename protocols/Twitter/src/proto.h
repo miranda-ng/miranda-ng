@@ -161,7 +161,6 @@ private:
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
 
-	std::tstring def_avatar_folder_;
 	HANDLE hAvatarFolder_;
 
 	bool in_chat_;

@@ -48,18 +48,17 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu,    this);
 	HookProtoEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit,        this);
 
-	def_avatar_folder_ = std::tstring( VARST( _T("%miranda_avatarcache%"))) + _T("\\") + m_tszUserName;
-	hAvatarFolder_ = FoldersRegisterCustomPathT("Avatars", m_szModuleName, def_avatar_folder_.c_str(), m_tszUserName);
+	tstring defFolder = std::tstring( _T("%miranda_avatarcache%\\")) + m_tszUserName;
+	hAvatarFolder_ = FoldersRegisterCustomPathT("Avatars", m_szModuleName, defFolder.c_str(), m_tszUserName);
 
 	// Initialize hotkeys
 	char text[512];
+	mir_snprintf(text,SIZEOF(text),"%s/Tweet",m_szModuleName);
+
 	HOTKEYDESC hkd = {sizeof(hkd)};
-	hkd.cbSize = sizeof(hkd);
 	hkd.pszName = text;
 	hkd.pszService = text;
 	hkd.pszSection = m_szModuleName; // Section title; TODO: use username?
-
-	mir_snprintf(text,SIZEOF(text),"%s/Tweet",m_szModuleName);
 	hkd.pszDescription = "Send Tweet";
 	Hotkey_Register(&hkd);
 
@@ -550,10 +549,9 @@ void TwitterProto::UpdateSettings()
 std::tstring TwitterProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	if(hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_,path,SIZEOF(path), _T("")) == 0)
-		return path;
-
-	return def_avatar_folder_;
+	if (!hAvatarFolder_ || FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")))
+		mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+	return path;
 }
 
 int TwitterProto::GetAvatar(WPARAM,LPARAM)
