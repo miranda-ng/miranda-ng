@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
-#include <m_skin_eng.h>
-
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
 #define WINDOW_NAME_PREFIX "mydetails_window"

@@ -19,7 +19,6 @@ Boston, MA 02111-1307, USA.
 
 
 #include "commons.h"
-#include "data.h"
 
 static char *StatusModeToDbSetting(int status,const char *suffix);
 

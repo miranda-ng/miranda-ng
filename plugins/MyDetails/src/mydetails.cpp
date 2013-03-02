@@ -27,13 +27,13 @@ int hLangpack = 0;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"My Details",
-	PLUGIN_MAKE_VERSION(0,0,1,11),
-	"Shows and allows you to edit your details for all protocols.",
-	"Ricardo Pescuma Domenecci, Drugwash",
-	"",
-	"© 2005-2008 Ricardo Pescuma Domenecci, Drugwash",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
 	{0xa82baeb3, 0xa33c, 0x4036, {0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab}}

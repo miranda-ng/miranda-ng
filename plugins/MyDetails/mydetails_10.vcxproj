@@ -206,16 +206,18 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commons.h" />
     <ClInclude Include="src\data.h" />
     <ClInclude Include="src\frame.h" />
     <ClInclude Include="..\utils\mir_dblists.h" />
-    <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="..\utils\mir_smileys.h" />
     <ClInclude Include="src\options.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

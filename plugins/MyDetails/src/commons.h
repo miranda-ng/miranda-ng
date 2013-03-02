@@ -24,44 +24,41 @@ Boston, MA 02111-1307, USA.
 #define _CRT_SECURE_NO_WARNINGS
 
 #define _WIN32_WINNT 0x0501
+
 #include <windows.h>
-#include <win2k.h>
 #include <commctrl.h>
-#include <stdio.h>
 
 #include <newpluginapi.h>
-#include <m_clist.h>
 #include <m_skin.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_database.h>
-#include <m_utils.h>
 #include <m_langpack.h>
-#include <m_awaymsg.h>
 #include <m_contacts.h>
 #include <m_options.h>
 #include <m_clui.h>
-#include <m_clc.h>
-#include <m_proto_listeningto.h>
-#include <m_listeningto.h>
-
 #include <m_fontservice.h>
-#include <m_variables.h>
 #include <m_avatars.h>
-#include <m_statusplugins.h>
 #include <m_xstatus.h>
 #include <m_icolib.h>
-#include "m_cluiframes.h"
-#include "m_simpleaway.h"
+#include <m_cluiframes.h>
+#include <win2k.h>
 
-#include <richedit.h>
+#include <m_proto_listeningto.h>
+#include <m_listeningto.h>
+#include <m_statusplugins.h>
+#include <m_simpleaway.h>
 #include <m_smileyadd.h>
+#include <m_mydetails.h>
+#include <m_skin_eng.h>
 
-#include <io.h>
+#include "../utils/mir_smileys.h"
+#include "../utils/mir_options.h"
 
 #include "resource.h"
+#include "Version.h"
+#include "data.h"
+#include "options.h"
+#include "frame.h"
 
 #define MODULE_NAME "MyDetails"
 
@@ -69,22 +66,11 @@ Boston, MA 02111-1307, USA.
 #define SETTING_DEFAULT_NICK "DefaultNick"
 
 extern HINSTANCE hInst;
-
 extern long nickname_dialog_open;
 extern long status_msg_dialog_open;
-
 extern bool g_bFramesExist;
 
-#include "m_mydetails.h"
-#include "data.h"
-#include "options.h"
-#include "frame.h"
-#include "../utils/mir_smileys.h"
-#include "../utils/mir_memory.h"
-#include "../utils/mir_options.h"
-
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
-
 #define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
 
 // See if a protocol service exists

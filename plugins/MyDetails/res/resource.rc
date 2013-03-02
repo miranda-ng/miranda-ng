@@ -22,44 +22,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,1,11
- PRODUCTVERSION 0,0,1,11
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "080004b0"
-        BEGIN
-            VALUE "CompanyName", " "
-            VALUE "FileDescription", "MyDetails Miranda Plugin"
-            VALUE "FileVersion", "0, 0, 1, 11"
-            VALUE "InternalName", "mydetails"
-            VALUE "LegalCopyright", "Copyright © 2005-2008 Ricardo Pescuma Domenecci, Drugwash"
-            VALUE "OriginalFilename", "mydetails.dll"
-            VALUE "ProductVersion", "0, 0, 1, 11"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x800, 1200
-    END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Dialog
 //
 
@@ -191,16 +153,7 @@ END
 IDI_LISTENINGTO         ICON                    "listening_to.ico"
 IDI_RIGHT_ARROW         ICON                    "rightarrow.ico"
 IDI_LEFT_ARROW          ICON                    "leftarrow.ico"
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Portuguese (Brazil) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PTB)
-LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
-#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -285,7 +238,7 @@ BEGIN
     END
 END
 
-#endif    // Portuguese (Brazil) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
