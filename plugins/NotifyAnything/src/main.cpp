@@ -71,16 +71,16 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"NotifyAnything",
-	PLUGIN_MAKE_VERSION(0, 0, 2, 8),
-	"Displays popups for custom events, triggered by UDP packages.",
-	"Daniel Wesslén, Korney San",
-	"wesslen@users.sourceforge.net, kora@users.sourceforge.net",
-	"Public Domain 2003 Daniel Wesslén",
-	"http://miranda-ng.org",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {E92874EC-594A-4A2F-BDED-C0BE8B5A45D1}
-	{ 0xe92874ec, 0x594a, 0x4a2f, { 0xbd, 0xed, 0xc0, 0xbe, 0x8b, 0x5a, 0x45, 0xd1 }}
+	{0xe92874ec, 0x594a, 0x4a2f, {0xbd, 0xed, 0xc0, 0xbe, 0x8b, 0x5a, 0x45, 0xd1}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hi, DWORD, LPVOID)

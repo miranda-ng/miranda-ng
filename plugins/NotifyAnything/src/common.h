@@ -1,33 +1,25 @@
-// disable warnings about underscore in stdc functions
-#pragma warning(disable: 4996)
+#define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
-
-#include <string.h>
-#include <stdio.h>
-#include <winsock.h>
 #include <time.h>
-#include <stdio.h>
 #include <direct.h>
 #include <process.h>
-#include <sys/types.h>
-#include <sys/timeb.h>
-
 #include <string>
 #include <map>
 #include <set>
 #include <vector>
 
 #include "newpluginapi.h"
-#include "m_system_cpp.h"
 #include "m_options.h"
 #include "m_skin.h"
 #include "m_langpack.h"
 #include "m_database.h"
-#include "m_utils.h"
-
 #include "m_popup.h"
+
 #include "m_LogService.h"
+
+#include "resource.h"
+#include "Version.h"
 
 extern HINSTANCE hInst;
 

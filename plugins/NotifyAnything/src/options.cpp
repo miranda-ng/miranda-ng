@@ -1,8 +1,4 @@
-
-#include <windows.h>
-
 #include "common.h"
-#include "resource.h"
 
 NASettings g_settings;
 

@@ -102,59 +102,6 @@ END
 /////////////////////////////////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////////////////
-// Swedish resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
-#ifdef _WIN32
-LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,2,8
- PRODUCTVERSION 0,0,2,8
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Receives popup descriptions from external sources and forward them to the PopUp plugin."
-            VALUE "CompanyName", "Daniel Wesslen"
-            VALUE "FileDescription", "NotifyAnything Miranda IM plugin"
-            VALUE "FileVersion", "0, 0, 2, 8"
-            VALUE "InternalName", "NotifyAnything"
-            VALUE "LegalCopyright", "Placed in public domain 2003"
-            VALUE "OriginalFilename", "NotifyAnything.dll"
-            VALUE "ProductName", "NotifyAnything Miranda plugin"
-            VALUE "ProductVersion", "0, 0, 2, 8"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // Swedish resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
