@@ -1,11 +1,6 @@
 #include "headers.h"
-#include "main.h"
-#include "shake.h"
-#include "options.h"
 
 CNudgeElement* ActualNudge = NULL;
-
-
 
 int NudgeOptInit(WPARAM wParam,LPARAM lParam)
 {

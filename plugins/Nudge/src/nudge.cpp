@@ -1,5 +1,4 @@
 #include "headers.h"
-#include "nudge.h"
 
 void CNudge::Save(void)
 {

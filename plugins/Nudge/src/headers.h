@@ -5,8 +5,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#pragma once
-
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows XP or later.
@@ -26,33 +24,35 @@
 #endif
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-// Windows Header Files:
 
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
 
-#define MIRANDA_VER 0x0A00
-#include <newpluginapi.h>	//CallService,UnHookEvent
+#include <newpluginapi.h>
 #include <m_clist.h>			
 #include <m_langpack.h>	
-#include <m_system.h>	
 #include <m_popup.h>	
 #include <m_clui.h>
 #include <m_message.h>
-#include <m_protocols.h>
 #include <m_ignore.h>
 #include <m_options.h>
 #include <m_skin.h>
 #include <m_database.h>
 #include <m_protosvc.h>
-#include <m_trigger.h>
-#include <m_metacontacts.h>
 #include <m_icolib.h>	
 #include <win2k.h>
-#include "resource.h"
-#include "m_nudge.h"
 
+#include <m_trigger.h>
+#include <m_metacontacts.h>
+#include <m_nudge.h>
+#include <m_msg_buttonsbar.h>
+
+#include "resource.h"
+#include "shake.h"
+#include "Version.h"
+#include "nudge.h"
+#include "options.h"
 
 /*
 *
@@ -68,3 +68,35 @@ int Preview();
 *
 ****************************/
 HANDLE Nudge_GethContact(HANDLE);
+
+/*
+*
+****************************/
+void Nudge_ShowPopup(CNudgeElement, HANDLE, TCHAR *);
+
+/*
+*
+****************************/
+void Nudge_ShowStatus(CNudgeElement, HANDLE, DWORD timestamp);
+
+/*
+*
+****************************/
+void Nudge_SentStatus(CNudgeElement, HANDLE);
+
+/*
+*
+****************************/
+void Nudge_AddAccount(PROTOACCOUNT *proto);
+
+/*
+*
+****************************/
+void LoadPopupClass();
+
+/*
+*
+****************************/
+void AutoResendNudge(void *wParam) ;
+
+extern CShake shake;

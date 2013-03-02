@@ -1,8 +1,4 @@
 #include "headers.h"
-#include "main.h"
-#include "shake.h"
-#include "m_msg_buttonsbar.h"
-
 
 int nProtocol = 0;
 static HANDLE g_hEventModulesLoaded = NULL, hEventOptionsInitialize = NULL, g_hEventDbWindowEvent = NULL, g_hEventToolbarLoaded = NULL, g_hEventButtonPressed = NULL, g_hEventAccountsChanged = NULL;
@@ -13,25 +9,23 @@ CNudgeElement DefaultNudge;
 CShake shake;
 CNudge GlobalNudge;
 
-
-
 int hLangpack = 0;
-
 
 //========================
 //  MirandaPluginInfo
 //========================
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Nudge",
-	 PLUGIN_MAKE_VERSION(0,0,2,0),
-	"Plugin to shake the clist and chat window.",
-	"Tweety/GouZ, FREAK_THEMIGHTY",
-	"francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com",
-	"copyright to the miranda community",
-	"http://miranda-ng.org/",		// www
-	UNICODE_AWARE,		//doesn't replace anything built-in
-	{ 0xe47cc215, 0xd28, 0x462d, { 0xa0, 0xf6, 0x3a, 0xe4, 0x44, 0x3d, 0x29, 0x26 } } // {E47CC215-0D28-462D-A0F6-3AE4443D2926}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {E47CC215-0D28-462D-A0F6-3AE4443D2926}
+	{0xe47cc215, 0xd28, 0x462d, {0xa0, 0xf6, 0x3a, 0xe4, 0x44, 0x3d, 0x29, 0x26}}
 };
 
 INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)

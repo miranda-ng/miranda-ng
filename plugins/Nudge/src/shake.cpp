@@ -1,7 +1,4 @@
 #include "headers.h"
-#include "shake.h"
-
-extern CShake shake;
 
 void CShake::Load(void)
 {
