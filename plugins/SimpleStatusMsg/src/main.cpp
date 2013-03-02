@@ -576,9 +576,9 @@ void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
 			DBWriteMessage(szSetting, tszMsg);
 #ifdef _DEBUG
 			if (bIsFormat)
-				log2file("SaveMessageToDB(): Set \"" TCHAR_STR_PARAM "\" status message (without inserted vars) for %s.", tszMsg, accounts->pa[i]->szModuleName);
+				log2file("SaveMessageToDB(): Set \"%S\" status message (without inserted vars) for %s.", tszMsg, accounts->pa[i]->szModuleName);
 			else
-				log2file("SaveMessageToDB(): Set \"" TCHAR_STR_PARAM "\" status message for %s.", tszMsg, accounts->pa[i]->szModuleName);
+				log2file("SaveMessageToDB(): Set \"%S\" status message for %s.", tszMsg, accounts->pa[i]->szModuleName);
 #endif
 		}
 	}
@@ -591,9 +591,9 @@ void SaveMessageToDB(const char *szProto, TCHAR *tszMsg, BOOL bIsFormat)
 		DBWriteMessage(szSetting, tszMsg);
 #ifdef _DEBUG
 		if (bIsFormat)
-			log2file("SaveMessageToDB(): Set \"" TCHAR_STR_PARAM "\" status message (without inserted vars) for %s.", tszMsg, szProto);
+			log2file("SaveMessageToDB(): Set \"%S\" status message (without inserted vars) for %s.", tszMsg, szProto);
 		else
-			log2file("SaveMessageToDB(): Set \"" TCHAR_STR_PARAM "\" status message for %s.", tszMsg, szProto);
+			log2file("SaveMessageToDB(): Set \"%S\" status message for %s.", tszMsg, szProto);
 #endif
 	}
 }
@@ -668,7 +668,7 @@ static TCHAR *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars,
 			format = GetAwayMessageFormat(iStatus, szProto);
 	}
 #ifdef _DEBUG
-	log2file("GetAwayMessage(): %s has %s status and \"" TCHAR_STR_PARAM "\" status message.", szProto, StatusModeToDbSetting(iStatus, ""), format);
+	log2file("GetAwayMessage(): %s has %s status and \"%S\" status message.", szProto, StatusModeToDbSetting(iStatus, ""), format);
 #endif
 
 	if (bInsertVars && format != NULL)
@@ -845,7 +845,7 @@ void SetStatusMessage(const char *szProto, int iInitialStatus, int iStatus, TCHA
 {
 	TCHAR *msg = NULL;
 #ifdef _DEBUG
-	log2file("SetStatusMessage(\"%s\", %d, %d, \"" TCHAR_STR_PARAM "\", %d)", szProto, iInitialStatus, iStatus, message, bOnStartup);
+	log2file("SetStatusMessage(\"%s\", %d, %d, \"%S\", %d)", szProto, iInitialStatus, iStatus, message, bOnStartup);
 #endif
 	if (szProto)
 	{
@@ -1172,7 +1172,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 			//else
 			//	msg = mir_tstrdup(_T(""));
 #ifdef _DEBUG
-			log2file("ChangeStatusMessage(): Set %s status and \"" TCHAR_STR_PARAM "\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
+			log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
 #endif
 			SetStatusMessage(szProto, iStatus, iStatus, msg, FALSE);
 			if (msg) mir_free(msg);
@@ -1183,7 +1183,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 		{
 			TCHAR *msg = GetAwayMessageFormat(iStatus, szProto);
 #ifdef _DEBUG
-			log2file("ChangeStatusMessage(): Set %s status and \"" TCHAR_STR_PARAM "\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
+			log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, szProto);
 #endif
 			SetStatusMessage(szProto, iStatus, iStatus, msg, FALSE);
 			if (msg) mir_free(msg);
@@ -1253,7 +1253,7 @@ static int ChangeStatusMessage(WPARAM wParam, LPARAM lParam)
 				else
 					msg = GetAwayMessageFormat(iStatus, NULL);
 #ifdef _DEBUG
-				log2file("ChangeStatusMessage(): Set %s status and \"" TCHAR_STR_PARAM "\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, accounts->pa[i]->szModuleName);
+				log2file("ChangeStatusMessage(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), msg, accounts->pa[i]->szModuleName);
 #endif
 				SetStatusMessage(accounts->pa[i]->szModuleName, iStatus, iStatus, msg, FALSE);
 				if (msg) { mir_free(msg); msg = NULL; }
@@ -1360,7 +1360,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 		}
 
 #ifdef _DEBUG
-		log2file("ProcessProtoAck(): Send away message \"" TCHAR_STR_PARAM "\" reply.", tszMsg);
+		log2file("ProcessProtoAck(): Send away message \"%S\" reply.", tszMsg);
 #endif
 		if (tszMsg) mir_free(tszMsg);
 		return 0;
@@ -1420,7 +1420,7 @@ int SetStartupStatus(int i)
 		fmsg = GetAwayMessageFormat(iStatus, accounts->pa[i]->szModuleName);
 
 #ifdef _DEBUG
-	log2file("SetStartupStatus(): Set %s status and \"" TCHAR_STR_PARAM "\" status message for %s.", StatusModeToDbSetting(iStatus, ""), fmsg, accounts->pa[i]->szModuleName);
+	log2file("SetStartupStatus(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iStatus, ""), fmsg, accounts->pa[i]->szModuleName);
 #endif
 
 	if (fmsg)
@@ -1581,7 +1581,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 			if (tszMsg && lstrlen(tszMsg))
 			{
 #ifdef _DEBUG
-				log2file("UpdateMsgTimerProc(): Set %s status and \"" TCHAR_STR_PARAM "\" status message for %s.", StatusModeToDbSetting(iCurrentStatus, ""), tszMsg, accounts->pa[i]->szModuleName);
+				log2file("UpdateMsgTimerProc(): Set %s status and \"%S\" status message for %s.", StatusModeToDbSetting(iCurrentStatus, ""), tszMsg, accounts->pa[i]->szModuleName);
 #endif
 				Proto_SetStatus(accounts->pa[i]->szModuleName, iCurrentStatus, iCurrentStatus, tszMsg);
 				SaveMessageToDB(accounts->pa[i]->szModuleName, tszMsg, FALSE);

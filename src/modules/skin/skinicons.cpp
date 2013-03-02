@@ -277,11 +277,11 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 			str = _tcsrchr(szPath, '\\');
 			if (str != NULL)
 				*str = 0;
-			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Icons\\proto_") _T(TCHAR_STR_PARAM) _T(".dll"), szPath, pa->szProtoName);
+			mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Icons\\proto_%S.dll"), szPath, pa->szProtoName);
 			if (GetFileAttributes(szFullPath) != INVALID_FILE_ATTRIBUTES)
 				sid.ptszDefaultFile = szFullPath;
 			else {
-				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Plugins\\") _T(TCHAR_STR_PARAM) _T(".dll"), szPath, szProto);
+				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Plugins\\%S.dll"), szPath, szProto);
 				if ((int)ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1) > 0) {
 					DestroyIcon(hIcon);
 					sid.ptszDefaultFile = szFullPath;
@@ -444,9 +444,9 @@ int LoadSkinIcons(void)
 		DBDeleteContactSetting(NULL, "Icons", moduleName);
 
 		// make old skinicons' prefix
-		mir_snprintf(moduleName, SIZEOF(moduleName), TCHAR_STR_PARAM, dbv.ptszVal);
+		mir_snprintf(moduleName, SIZEOF(moduleName), "%S", dbv.ptszVal);
 		// make IcoLib's prefix
-		mir_snprintf(iconName, SIZEOF(iconName), "%s" TCHAR_STR_PARAM, statusIconsFmt, dbv.ptszVal);
+		mir_snprintf(iconName, SIZEOF(iconName), "%s%S", statusIconsFmt, dbv.ptszVal);
 
 		convertOneProtocol(moduleName, iconName);
 		db_free(&dbv);

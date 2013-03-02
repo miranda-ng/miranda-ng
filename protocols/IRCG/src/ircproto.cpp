@@ -268,7 +268,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	}
 
 	TCHAR szTemp[MAX_PATH];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\") _T(TCHAR_STR_PARAM) _T("_perform.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_perform.ini"), m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT( szTemp );
 	char* pszPerformData = IrcLoadFile( szLoadFileName );
 	if ( pszPerformData != NULL ) {
@@ -782,7 +782,7 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 			index++;
 			while( ppszFiles[index] ) {
 				if ( _taccess(ppszFiles[index], 0) == 0 ) {
-					PostIrcMessage( _T("/DCC SEND %s ") _T(TCHAR_STR_PARAM), dci->sContactName.c_str(), ppszFiles[index]);
+					PostIrcMessage( _T("/DCC SEND %s %S"), dci->sContactName.c_str(), ppszFiles[index]);
 				}
 				index++;
 			}

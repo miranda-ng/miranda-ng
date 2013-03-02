@@ -806,7 +806,7 @@ INT CExImContactXML::Import(BOOLEAN keepMetaSubContact)
 				do {
 					// update progressbar and abort if user clicked cancel
 					pszNick = mir_utf8decodeT(xContact->Attribute("nick"));
-					result = _pXmlFile->_progress.UpdateContact(_T("Sub Contact: %s (") _T(TCHAR_STR_PARAM) _T(")"), pszNick, xContact->Attribute("proto"));
+					result = _pXmlFile->_progress.UpdateContact(_T("Sub Contact: %s (%S)"), pszNick, xContact->Attribute("proto"));
 					if (pszNick) mir_free(pszNick);
 					// user clicked abort button
 					if (!result) break;

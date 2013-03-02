@@ -882,9 +882,9 @@ char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO* si)
 
 	// font table
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	for (i = 0; i < OPTIONS_FONTCOUNT; i++) {
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u" TCHAR_STR_PARAM ";}", i, (!forceCharset) ? aFonts[i].lf.lfCharSet : charset, aFonts[i].lf.lfFaceName);
-	}
+	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
+		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, (!forceCharset) ? aFonts[i].lf.lfCharSet : charset, aFonts[i].lf.lfFaceName);
+
 	// colour table
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
 

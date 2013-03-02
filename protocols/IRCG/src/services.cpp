@@ -353,7 +353,7 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 					S = "+qnidcm";
 				else
 					S = "+qnidc";
-				PostIrcMessage( _T("/IGNORE %%question=\"%s\",\"%s\",\"*!*@") _T(TCHAR_STR_PARAM) _T("\" %s"),
+				PostIrcMessage( _T("/IGNORE %%question=\"%s\",\"%s\",\"*!*@%S\" %s"),
 					TranslateT("Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored"),
 					TranslateT("Ignore"), host, S.c_str());
 				DBFreeVariant(&dbv1);
@@ -1170,7 +1170,7 @@ void CIrcProto::ConnectToServer(void)
 		InterlockedIncrement((long *) &m_bConnectRequested);
 
 	TCHAR szTemp[300];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (") _T(TCHAR_STR_PARAM) _T(": %u)"),
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (%S: %u)"),
 		TranslateT("Connecting to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 }
@@ -1222,7 +1222,7 @@ VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 		ppro->si.iPort = ppro->m_portCount;
 
 		TCHAR szTemp[300];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (") _T(TCHAR_STR_PARAM) _T(": %u, try %u)"),
+		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0033%s \002%s\002 (%S: %u, try %u)"),
 			TranslateT("Reconnecting to"), ppro->si.sNetwork.c_str(), ppro->si.sServer.c_str(), ppro->si.iPort, ppro->m_iRetryCount);
 
 		ppro->DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);

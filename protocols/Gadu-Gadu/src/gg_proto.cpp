@@ -684,7 +684,7 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
 		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
-		netlog("getawaymsgthread(): Reading away msg <" TCHAR_STR_PARAM ">.", dbv.ptszVal);
+		netlog("getawaymsgthread(): Reading away msg <%S>.", dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	} else {
 		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);

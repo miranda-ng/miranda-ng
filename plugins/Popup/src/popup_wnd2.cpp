@@ -373,7 +373,7 @@ void PopupWnd2::show()
 			if (*PopUpOptions.Effect)
 			{
 				char vfxService[128];
-				mir_snprintf(vfxService, sizeof(vfxService), "PopUp/Vfx/"TCHAR_STR_PARAM, PopUpOptions.Effect);
+				mir_snprintf(vfxService, sizeof(vfxService), "PopUp/Vfx/%S", PopUpOptions.Effect);
 				if (ServiceExists(vfxService))
 					if (effect = (IPopupPlusEffect *)CallService(vfxService, 0, 0))
 					{
@@ -471,7 +471,7 @@ void PopupWnd2::hide()
 			if (*PopUpOptions.Effect)
 			{
 				char vfxService[128];
-				mir_snprintf(vfxService, sizeof(vfxService), "PopUp/Vfx/"TCHAR_STR_PARAM, PopUpOptions.Effect);
+				mir_snprintf(vfxService, sizeof(vfxService), "PopUp/Vfx/%S", PopUpOptions.Effect);
 				if (ServiceExists(vfxService))
 					if (effect = (IPopupPlusEffect *)CallService(vfxService, 0, 0))
 					{

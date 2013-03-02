@@ -171,11 +171,8 @@ void CAimProto::init_custom_folders(void)
 
 	TCHAR AvatarsFolder[MAX_PATH];
 
-	TCHAR *tszModuleName = mir_a2t(m_szModuleName);
-	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%s"), tszModuleName);
+	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
 	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder);
-	mir_free(tszModuleName);
-
 	init_cst_fld_ran = true;
 }
 

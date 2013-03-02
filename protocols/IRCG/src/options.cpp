@@ -1362,7 +1362,7 @@ static LRESULT CALLBACK ListviewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 void CIrcProto::InitIgnore( void )
 {
 	TCHAR szTemp[ MAX_PATH ];
-	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\") _T(TCHAR_STR_PARAM) _T("_ignore.ini"), m_szModuleName);
+	mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%%miranda_path%%\\Plugins\\%S_ignore.ini"), m_szModuleName);
 	TCHAR *szLoadFileName = Utils_ReplaceVarsT( szTemp );
 	char* pszIgnoreData = IrcLoadFile(szLoadFileName);
 	if ( pszIgnoreData != NULL ) {

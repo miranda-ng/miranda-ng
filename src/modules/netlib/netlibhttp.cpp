@@ -301,7 +301,7 @@ struct HttpSecurityContext
 				szChallenge, szLogin, szPassw, true, complete);
 
 			if ( !szAuthHdr) {
-				NetlibLogf(NULL, "Security login %s failed, user: " TCHAR_STR_PARAM " pssw: " TCHAR_STR_PARAM,
+				NetlibLogf(NULL, "Security login %s failed, user: %S pssw: %S",
 					szProvider, szLogin ? szLogin : _T("(no user)"), szPassw ? _T("(exist)") : _T("(no psw)"));
 			}
 			else if (justCreated)

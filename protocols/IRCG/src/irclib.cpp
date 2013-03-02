@@ -197,7 +197,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	con = (HANDLE) CallService( MS_NETLIB_OPENCONNECTION, (WPARAM) hNetlib, (LPARAM) & ncon);
 	if (con == NULL) {
 		TCHAR szTemp[300];
-		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0035%s \002%s\002 (") _T(TCHAR_STR_PARAM) _T(": %u)."),
+		mir_sntprintf(szTemp, SIZEOF(szTemp), _T("\0035%s \002%s\002 (%S: %u)."),
 			TranslateT("Failed to connect to"), si.sNetwork.c_str(), si.sServer.c_str(), si.iPort);
 		DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, szTemp, NULL, NULL, NULL, true, false);
 		return false;
@@ -1471,7 +1471,7 @@ LBL_Parse:
 			{
 				if (PeerPortNrRcvd == g_Instances[i]->m_info.iPort && LocalPortNrRcvd == g_Instances[i]->m_myLocalPort) 
 				{
-					cbLen = mir_snprintf(buf, SIZEOF(buf), "%s : USERID : " TCHAR_STR_PARAM " : " TCHAR_STR_PARAM "\r\n", 
+					cbLen = mir_snprintf(buf, SIZEOF(buf), "%s : USERID : %S : %S\r\n", 
 						szBuf, g_Instances[i]->m_info.sIdentServerType.c_str() , g_Instances[i]->m_info.sUserID.c_str());
 					break;
 				}

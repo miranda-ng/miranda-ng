@@ -217,7 +217,7 @@ static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszP
 	else
 		pd.lchIcon = LoadIconEx(IDI_CHANMGR, "window", 0, 0);
 
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T(TCHAR_STR_PARAM) _T(" - %s"),
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%S - %s"),
 				  pszProtoName, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 	lstrcpyn(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE - 1);
 	pd.iSeconds = g_Settings.iPopupTimeout;

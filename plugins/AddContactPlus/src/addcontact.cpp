@@ -85,7 +85,7 @@ void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALS
 	{
 		size_t cbLen = strlen(szUniqueId) + 2;
 		TCHAR* pszUniqueId = (TCHAR*)mir_alloc(cbLen * sizeof(TCHAR));
-		mir_sntprintf(pszUniqueId, cbLen, _T(TCHAR_STR_PARAM) _T(":"), szUniqueId);
+		mir_sntprintf(pszUniqueId, cbLen, _T("%S:"), szUniqueId);
 		SetDlgItemText(hdlg, IDC_IDLABEL, pszUniqueId);
 		mir_free(pszUniqueId);
 	}
@@ -324,7 +324,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						}
 						psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(TLEN_SEARCH_RESULT));
 						psr->cbSize = sizeof(TLEN_SEARCH_RESULT);
-						mir_snprintf(((TLEN_SEARCH_RESULT*)psr)->jid, SIZEOF(((TLEN_SEARCH_RESULT*)psr)->jid), TCHAR_STR_PARAM, szUserId);
+						mir_snprintf(((TLEN_SEARCH_RESULT*)psr)->jid, SIZEOF(((TLEN_SEARCH_RESULT*)psr)->jid), "%S", szUserId);
 					}
 					else
 					{

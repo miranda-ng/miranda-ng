@@ -459,7 +459,7 @@ static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 static INT AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = NULL)
 {
 	TCHAR szTitle[MAX_PATH];
-	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, SIZEOF(szTitle), _T(TCHAR_STR_PARAM) _T("\\"), pszProto) : 0;
+	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%S\\"), pszProto) : 0;
 
 	odp.ptszTitle = szTitle;
 	

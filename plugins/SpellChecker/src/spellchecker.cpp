@@ -81,7 +81,7 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 			sid.dwId = i;
 
 			char tmp[128];
-			mir_snprintf(tmp, SIZEOF(tmp), "%s - " TCHAR_STR_PARAM, 
+			mir_snprintf(tmp, SIZEOF(tmp), "%s - %S", 
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 
@@ -221,7 +221,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			sid.dwId = i;
 
 			char tmp[128];
-			mir_snprintf(tmp, SIZEOF(tmp), "%s - " TCHAR_STR_PARAM, 
+			mir_snprintf(tmp, SIZEOF(tmp), "%s - %S", 
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 

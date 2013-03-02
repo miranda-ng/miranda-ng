@@ -386,7 +386,7 @@ static char *CreateRTFHeader(struct SrmmWindowData *dat, struct GlobalMessageDat
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (i = 0; i < fontOptionsListSize; i++) {
 		LoadMsgDlgFont(i, &lf, NULL, FALSE);
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u " TCHAR_STR_PARAM ";}", i,
+		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u %S;}", i,
 			(!forceCharset) ? lf.lfCharSet : charset, lf.lfFaceName);
 	}
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ");

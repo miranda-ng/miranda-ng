@@ -192,7 +192,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			for (i = 0; i < gTreeData.getCount(); ++i) {
 				switch (gTreeData[i]->typ) {
 					case 1:				//Treeview part for typ 1 (notification)
-						mir_snprintf(iconName, sizeof(iconName), "%s_"TCHAR_STR_PARAM"_"TCHAR_STR_PARAM, MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
+						mir_snprintf(iconName, sizeof(iconName), "%s_%S_%S", MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 						iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIcon(iconName));
 						wsprintf(itemName, _T("%s/%s"), gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 						break;

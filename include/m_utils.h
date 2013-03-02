@@ -1,3 +1,4 @@
+
 /*
 
 Miranda IM: the free IM client for Microsoft* Windows*
@@ -457,13 +458,6 @@ __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 	#define MS_UTILS_PATHTOABSOLUTET         MS_UTILS_PATHTOABSOLUTE
 	#define MS_UTILS_CREATEDIRTREET          MS_UTILS_CREATEDIRTREE
 	#define MS_UTILS_GETBITMAPFILTERSTRINGST MS_UTILS_GETBITMAPFILTERSTRINGS
-#endif
-
-// allows to include TCHAR* strings into mir_snprintf and NetLib_Logf calls
-#if defined(_UNICODE)
-	#define TCHAR_STR_PARAM "%S"
-#else
-	#define TCHAR_STR_PARAM "%s"
 #endif
 
 #endif // M_UTILS_H__
