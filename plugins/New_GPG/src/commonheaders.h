@@ -13,12 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #ifndef COMMONHEADERS_H
 #define COMMONHEADERS_H
 
 #define _CRT_SECURE_NO_WARNINGS
-
-#define MIRANDA_VER  0x0A00
+#define _SCL_SECURE_NO_WARNINGS
 
 //windows
 #include <windows.h>
@@ -46,9 +46,7 @@ using std::wstring;
 using std::wfstream;
 using std::fstream;
 
-
 //boost
-
 #include <boost/thread/thread.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/nondet_random.hpp>
@@ -59,10 +57,8 @@ using std::fstream;
 //boost process
 #include <boost/process.hpp>
 
-
 //utf8cpp
 #include <utf8.h>
-
 
 //miranda
 #include <newpluginapi.h>
@@ -84,10 +80,10 @@ using std::fstream;
 #include "m_extraicons.h"
 #include "m_metacontacts.h"
 #include "win2k.h"
-#include "resource.h"
-
 
 //internal
+#include "resource.h"
+#include "Version.h"
 #include "constants.h"
 #include "log.h"
 #include "globals.h"
@@ -96,4 +92,5 @@ using std::fstream;
 #include "gpg_wrapper.h"
 #include "jabber_account.h"
 #include "metacontacts.h"
+
 #endif

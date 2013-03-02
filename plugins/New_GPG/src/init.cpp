@@ -32,25 +32,23 @@ logtofile debuglog;
 bool gpg_valid = false, gpg_keyexist = false;
 std::map<HANDLE, contact_data> hcontact_data;
 
-
-
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"GPG",
-	PLUGIN_MAKE_VERSION(0,0,0,11),
-	"New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.",
-	"sss",
-	"sss123next@list.ru",
-	"© 2010-2012 sss",
-	"http://sss.chaoslab.ru/tracker/mim_plugs/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {4227c050-8d97-48d2-91ec-6a952b3dab94}
 	{ 0x4227c050, 0x8d97, 0x48d2, { 0x91, 0xec, 0x6a, 0x95, 0x2b, 0x3d, 0xab, 0x94 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
