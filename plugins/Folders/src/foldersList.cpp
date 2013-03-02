@@ -67,7 +67,7 @@ PFolderItem CFoldersList::Get(int index)
 	return list[index];	
 }
 
-PFolderItem CFoldersList::Get(const char *section, const char *name)
+PFolderItem CFoldersList::Get(const char *section, const TCHAR *name)
 {
 	for (int i = 0; i < count; i++)
 		if (list[i]->IsEqual(section, name))
@@ -76,7 +76,7 @@ PFolderItem CFoldersList::Get(const char *section, const char *name)
 	return NULL;
 }
 
-PFolderItem CFoldersList::GetTranslated(const char *trSection, const char *trName)
+PFolderItem CFoldersList::GetTranslated(const char *trSection, const TCHAR *trName)
 {
 	for (int i = 0; i < count; i++)
 		if (list[i]->IsEqualTranslated(trSection, trName))
@@ -112,13 +112,17 @@ int CFoldersList::Add(CFolderItem *item)
 
 int CFoldersList::Add(FOLDERSDATA* data)
 {
-	CFolderItem *item;
-	if (data->flags & FF_UNICODE)
-		item = new CFolderItem(data->szSection, data->szName, data->szFormatW, data->flags);
-	else
-		item = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat), data->flags);
+	FOLDERSDATA tmp;
+	if (data->cbSize < sizeof(FOLDERSDATA)) {
+		memset(&tmp, 0, sizeof(FOLDERSDATA));
+		memcpy(&tmp, data, data->cbSize);
+		data = &tmp;
+	}
 
-	return Add(item);
+	if (data->flags & FF_UNICODE)
+		return Add( new CFolderItem(data->szSection, data->szName, data->szFormatW, data->szUserNameW));
+
+	return Add( new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat), _A2T(data->szUserName)));
 }
 
 void CFoldersList::Remove(CFolderItem *item)
@@ -131,10 +135,10 @@ void CFoldersList::Remove(int uniqueID)
 
 int CFoldersList::Contains(CFolderItem *item)
 {
-	return Contains(item->GetSection(), item->GetName());
+	return Contains(item->GetSection(), item->GetUserName());
 }
 
-int CFoldersList::Contains(const char *section, const char *name)
+int CFoldersList::Contains(const char *section, const TCHAR *name)
 {
 	for (int i = 0; i < count; i++)
 		if (list[i]->IsEqual(section, name))

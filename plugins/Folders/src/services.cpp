@@ -27,11 +27,6 @@ TCHAR szCurrentProfile[MAX_FOLDERS_PATH];
 TCHAR szMirandaPath[MAX_FOLDERS_PATH];
 TCHAR szUserDataPath[MAX_FOLDERS_PATH];
 
-HANDLE hsFoldersGetPath;
-HANDLE hsFoldersGetSize;
-HANDLE hsFoldersGetPathAlloc;
-HANDLE hsFoldersRegisterPath;
-
 INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 {
 	szResult[0] = '\0';
@@ -62,8 +57,11 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 
 INT_PTR RegisterPathService(WPARAM wParam, LPARAM lParam)
 {
-	FOLDERSDATA *tmp = (FOLDERSDATA *) lParam;
-	if (tmp == NULL || tmp->cbSize != sizeof(FOLDERSDATA))
+	FOLDERSDATA *tmp = (FOLDERSDATA*)lParam;
+	if (tmp == NULL)
+		return NULL;
+
+	if (tmp->cbSize != sizeof(FOLDERSDATA) && tmp->cbSize != FOLDERSDATA_SIZE_V1)
 		return NULL;
 
 	return lstRegisteredFolders.Add(tmp); //returns 1..n or 0 on error
@@ -113,16 +111,8 @@ int InitServices()
 	mir_sntprintf(szUserDataPath, MAX_FOLDERS_PATH, szTemp);
 	mir_free(szTemp);
 
-	hsFoldersGetPath = CreateServiceFunction(MS_FOLDERS_GET_PATH, GetPathService);
-	hsFoldersGetSize = CreateServiceFunction(MS_FOLDERS_GET_SIZE, GetPathSizeService);
-	hsFoldersRegisterPath = CreateServiceFunction(MS_FOLDERS_REGISTER_PATH, RegisterPathService);
-	return 0;
-}
-
-int DestroyServices()
-{
-	DestroyServiceFunction(hsFoldersGetPath);
-	DestroyServiceFunction(hsFoldersGetSize);
-	DestroyServiceFunction(hsFoldersRegisterPath);
+	CreateServiceFunction(MS_FOLDERS_GET_PATH, GetPathService);
+	CreateServiceFunction(MS_FOLDERS_GET_SIZE, GetPathSizeService);
+	CreateServiceFunction(MS_FOLDERS_REGISTER_PATH, RegisterPathService);
 	return 0;
 }

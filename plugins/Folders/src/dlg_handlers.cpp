@@ -14,19 +14,11 @@ int GetCurrentSectionSelection(HWND hWnd)
 	return SendDlgItemMessage(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETCURSEL, 0, 0);
 }
 
-PFolderItem GetSelectedItem(HWND hWnd)
-{
-	char section[MAX_FOLDER_SIZE], item[MAX_FOLDER_SIZE];
-	GetCurrentItemText(hWnd, item, MAX_FOLDER_SIZE);
-	GetCurrentSectionText(hWnd, section, MAX_FOLDER_SIZE);
-	return lstRegisteredFolders.GetTranslated(section, item);
-}
-
-int GetCurrentItemText(HWND hWnd, char *buffer, int count)
+int GetCurrentItemText(HWND hWnd, TCHAR *buffer, int count)
 {
 	int index = GetCurrentItemSelection(hWnd);
 	if (index != LB_ERR) {
-		SendDlgItemMessageA(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETTEXT, index, (LPARAM) buffer);
+		SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETTEXT, index, (LPARAM)buffer);
 		return 1;
 	}
 
@@ -38,10 +30,19 @@ int GetCurrentSectionText(HWND hWnd, char *buffer, int count)
 {
 	int index = GetCurrentSectionSelection(hWnd);
 	if (index != LB_ERR)
-		SendDlgItemMessageA(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETTEXT, index, (LPARAM) buffer);
+		SendDlgItemMessageA(hWnd, IDC_FOLDERS_SECTIONS_LIST, LB_GETTEXT, index, (LPARAM)buffer);
 	else
 		buffer[0] = L'0';
 	return index;
+}
+
+PFolderItem GetSelectedItem(HWND hWnd)
+{
+	char section[MAX_FOLDER_SIZE];
+	TCHAR item[MAX_FOLDER_SIZE];
+	GetCurrentItemText(hWnd, item, MAX_FOLDER_SIZE);
+	GetCurrentSectionText(hWnd, section, MAX_FOLDER_SIZE);
+	return lstRegisteredFolders.GetTranslated(section, item);
 }
 
 static void GetEditText(HWND hWnd, TCHAR *buffer, int size)
@@ -87,10 +88,8 @@ void LoadRegisteredFolderItems(HWND hWnd)
 
 	for (int i = 0; i < lstRegisteredFolders.Count(); i++) {
 		PFolderItem item = lstRegisteredFolders.Get(i + 1);
-		if ( !strcmp(szSection, item->GetSection())) {
-			mir_ptr<TCHAR> wide( mir_a2t( item->GetName()));
-			SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(wide));
-		}
+		if ( !strcmp(szSection, item->GetSection()))
+			SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item->GetUserName()));
 	}
 	SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_SETCURSEL, 0, 0); //select the first item
 	PostMessage(hWnd, WM_COMMAND, MAKEWPARAM(IDC_FOLDERS_ITEMS_LIST, LBN_SELCHANGE), 0); //tell the dialog to refresh the preview

@@ -67,10 +67,10 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 
 	TCHAR szPath[MAX_PATH];
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
-	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, szPath);
+	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, szPath, m_tszUserName);
 
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
-	hImagesFolder = FoldersRegisterCustomPathT(m_szModuleName, "Images", szPath);
+	hImagesFolder = FoldersRegisterCustomPathT("Images", m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
 	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)

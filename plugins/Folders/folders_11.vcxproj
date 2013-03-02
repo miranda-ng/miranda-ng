@@ -196,6 +196,7 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ExternalAPI\m_folders.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\dlg_handlers.h" />
     <ClInclude Include="src\events.h" />

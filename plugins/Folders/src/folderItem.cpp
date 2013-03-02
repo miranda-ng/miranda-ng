@@ -20,13 +20,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-CFolderItem::CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const DWORD flags)
+CFolderItem::CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName)
 {
 	m_szSection = mir_strdup(sectionName);
 	m_szName = mir_strdup(name);
+	if (userName)
+		m_tszUserName = mir_tstrdup(userName);
+	else
+		m_tszUserName = mir_a2t(name);
 	m_tszFormat = NULL;
 	m_tszOldFormat = NULL;
-	m_flags = flags;
 	GetDataFromDatabase(format);
 	FolderCreateDirectory();
 }
@@ -48,17 +51,17 @@ void CFolderItem::SetFormat(const TCHAR *newFormat)
 
 int CFolderItem::IsEqual(const CFolderItem *other)
 {
-	return (IsEqual(other->GetSection(), other->GetName()));
+	return (IsEqual(other->GetSection(), other->GetUserName()));
 }
 
-int CFolderItem::IsEqual(const char *section, const char *name)
+int CFolderItem::IsEqual(const char *section, const TCHAR *name)
 {
-	return ((strcmp(m_szName, name) == 0) && (strcmp(m_szSection, section) == 0));
+	return !_tcscmp(m_tszUserName, name) && !strcmp(m_szSection, section);
 }
 
-int CFolderItem::IsEqualTranslated(const char *trSection, const char *trName)
+int CFolderItem::IsEqualTranslated(const char *trSection, const TCHAR *trName)
 {
-	return ((strcmp(Translate(m_szName), trName) == 0) && (strcmp(Translate(m_szSection), trSection) == 0));
+	return !_tcscmp( TranslateTS(m_tszUserName), trName) && !strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)

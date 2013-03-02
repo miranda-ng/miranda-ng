@@ -172,7 +172,7 @@ void CAimProto::init_custom_folders(void)
 	TCHAR AvatarsFolder[MAX_PATH];
 
 	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder);
+	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder, m_tszUserName);
 	init_cst_fld_ran = true;
 }
 
@@ -185,15 +185,8 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 
 	TCHAR* path = (TCHAR*)alloca(cbLen * sizeof(TCHAR));
 	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, (int)cbLen, _T("")))
-	{
-		TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
-		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
-		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), tmpPath, tszModuleName);
-		mir_free(tszModuleName);
-		mir_free(tmpPath);
-	}
-	else
-	{
+		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%S"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_szModuleName);
+	else {
 		_tcscpy(pszDest, path);
 		tPathLen = _tcslen(pszDest);
 	}

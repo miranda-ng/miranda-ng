@@ -51,14 +51,14 @@ class CFoldersList{
 		void Remove(CFolderItem *item);
 		void Remove(int uniqueID);
 		int Contains(CFolderItem *item);
-		int Contains(const char *section, const char *name);
+		int Contains(const char *section, const TCHAR *name);
 		
 		int Count();
 		int Capacity();
 		
 		PFolderItem Get(int index);
-		PFolderItem Get(const char *section, const char *name);
-		PFolderItem GetTranslated(const char *trSection, const char *trName);
+		PFolderItem Get(const char *section, const TCHAR *name);
+		PFolderItem GetTranslated(const char *trSection, const TCHAR *trName);
 		int Expand(int index, TCHAR *szResult, int size);
 		void Save();
 };

@@ -31,7 +31,7 @@ extern TCHAR szCurrentProfile[MAX_FOLDERS_PATH];
 extern TCHAR szMirandaPath[MAX_FOLDERS_PATH];
 
 int InitServices();
-int DestroyServices();
+
 INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size);
 INT_PTR GetPath(int hRegisteredFolder, TCHAR *szResult, int size);
 
