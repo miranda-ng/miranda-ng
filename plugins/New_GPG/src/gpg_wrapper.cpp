@@ -82,9 +82,6 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		_child = &c;
 
 		delete [] mir_path;
-		auto ec = wait_for_exit(*_child);
-		*aexitcode = ec;
-		_child = nullptr;
 	}
 
 
@@ -106,7 +103,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 			debuglog<<std::string(time_str()+": failed to read from stream with error: " + e.what() + "\n\tSuccesfully read : " + *aoutput);
 	}
 
-	file_descriptor_source source2(pout.source, close_handle);
+	file_descriptor_source source2(perr.source, close_handle);
 
 	stream<file_descriptor_source> is2(source2);
 
@@ -128,6 +125,10 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
+
+//	auto ec = wait_for_exit(*_child);
+	*aexitcode = 0;
+	_child = nullptr;
 
 
 	if(*aexitcode)
