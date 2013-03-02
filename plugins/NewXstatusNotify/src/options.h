@@ -22,8 +22,6 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "common.h"
-
 #define DEFAULT_LOGFILE	"NewStatusNotify.log"
 
 typedef struct tagOPTIONS {

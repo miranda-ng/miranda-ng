@@ -20,21 +20,12 @@
 */
 
 #include "common.h"
-#include "indsnd.h"
-#include "options.h"
-#include "popup.h"
-#include "xstatus.h"
-#include "utils.h"
 
 OPTIONS opt = {0};
 TEMPLATES templates = {0};
 BOOL UpdateListFlag = FALSE;
 LIST<PROTOTEMPLATE> ProtoTemplates(10);
 int LastItem = 0;
-
-extern HINSTANCE hInst;
-extern HANDLE hEnableDisableMenu;
-extern STATUS StatusList[STATUS_COUNT];
 
 INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

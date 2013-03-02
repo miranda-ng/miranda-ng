@@ -20,10 +20,6 @@
 */
 
 #include "common.h"
-#include "options.h"
-
-extern OPTIONS opt;
-extern STATUS StatusList[STATUS_COUNT];
 
 TCHAR *db2t(DBVARIANT *dbv)
 {

@@ -18,14 +18,6 @@
 */
 
 #include "common.h"
-#include "options.h"
-#include "popup.h"
-#include "utils.h"
-#include "xstatus.h"
-
-extern LIST<DBEVENT> eventList;
-extern OPTIONS opt;
-extern TEMPLATES templates;
 
 XSTATUSCHANGE *NewXSC(HANDLE hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText)
 {

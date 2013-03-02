@@ -20,12 +20,6 @@
 */
 
 #include "common.h"
-#include "indsnd.h"
-#include "options.h"
-#include "popup.h"
-#include "utils.h"
-#include "version.h"
-#include "xstatus.h"
 
 HINSTANCE hInst;
 
@@ -39,17 +33,15 @@ STATUS StatusList[STATUS_COUNT];
 DWORD LoadTime = 0;
 int hLangpack;
 
-extern OPTIONS opt;
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"xStatus Notify",
-	__VERSION_DWORD,
-	"Notifies you when a contact changes his/her (X)status or status message.",
-	"Luca Santarelli, Vasilich, yaho",
-	"yaho@miranda-easy.net",
-	"© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// EBF19652-E434-4D79-9897-91A0FF226F51
 	{0xebf19652, 0xe434, 0x4d79, {0x98, 0x97, 0x91, 0xa0, 0xff, 0x22, 0x6f, 0x51}}

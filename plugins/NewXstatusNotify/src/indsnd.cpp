@@ -20,13 +20,6 @@
 */
 
 #include "common.h"
-#include "options.h"
-#include "indsnd.h"
-#include "utils.h"
-
-extern STATUS StatusList[];
-extern OPTIONS opt;
-extern HINSTANCE hInst;
 
 void PreviewSound(HWND hList)
 {

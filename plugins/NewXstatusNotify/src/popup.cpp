@@ -20,11 +20,6 @@
 */
 
 #include "common.h"
-#include "popup.h"
-#include "options.h"
-#include "utils.h"
-
-extern OPTIONS opt;
 
 void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
