@@ -25,7 +25,6 @@ extern HANDLE hModulesLoaded;
 extern HANDLE hOptionsInitialise;
 
 int HookEvents();
-int UnhookEvents();
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam);

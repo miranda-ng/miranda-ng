@@ -104,7 +104,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvents();
-	DestroyServices();
 	return 0;
 }

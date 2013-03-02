@@ -21,9 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 #include "hooked_events.h"
 
-HANDLE hModulesLoaded;
-HANDLE hOptionsInitialize;
-
 #define HOST "http://eblis.tla.ro/projects"
 
 #define VERSIONINFO_VERSION_URL HOST "/miranda/VersionInfo/updater/VersionInfo.html"
@@ -32,18 +29,8 @@ HANDLE hOptionsInitialize;
 
 int HookEvents()
 {
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	//hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
-	
-	return 0;
-}
-
-int UnhookEvents()
-{
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hOptionsInitialize);
-	
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	return 0;
 }
 

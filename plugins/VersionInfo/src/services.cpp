@@ -21,25 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 #include "services.h"
 
-HANDLE hsMenuCommand;
-HANDLE hsGetInfo;
-HANDLE hsServiceMode;
-
 int bServiceMode = 0; //true only if plugin is running in service mode
 
 int InitServices()
 {
-	hsMenuCommand = CreateServiceFunction(MS_VERSIONINFO_MENU_COMMAND, PluginMenuCommand);
-	hsGetInfo = CreateServiceFunction(MS_VERSIONINFO_GETINFO, GetInfoService);
-	hsServiceMode = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeService);
-	return 0;
-}
-
-int DestroyServices()
-{
-	DestroyServiceFunction(hsMenuCommand);
-	DestroyServiceFunction(hsGetInfo);
-	DestroyServiceFunction(hsServiceMode);
+	CreateServiceFunction(MS_VERSIONINFO_MENU_COMMAND, PluginMenuCommand);
+	CreateServiceFunction(MS_VERSIONINFO_GETINFO, GetInfoService);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeService);
 	return 0;
 }
 
