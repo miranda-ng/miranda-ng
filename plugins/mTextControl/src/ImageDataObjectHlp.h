@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _IMAGEDATAOBJECTHLP_
 #define _IMAGEDATAOBJECTHLP_
 
-#include <richole.h>
-
 void LoadEmfCache();
 void UnloadEmfCache();
 HENHMETAFILE CacheIconToEmf(HICON hIcon);

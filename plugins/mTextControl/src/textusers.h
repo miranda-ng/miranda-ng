@@ -37,7 +37,7 @@ void UnloadTextUsers();
 
 extern HANDLE htuDefault;
 
-DLL_API HANDLE	DLL_CALLCONV	MTI_TextUserAdd(const char *userTitle, DWORD options);
+__declspec(dllexport) HANDLE	DLL_CALLCONV	MTI_TextUserAdd(const char *userTitle, DWORD options);
 
 DWORD TextUserGetOptions(HANDLE userHandle);
 void TextUserSetOptions(HANDLE userHandle, DWORD options);

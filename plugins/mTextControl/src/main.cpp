@@ -30,21 +30,21 @@ HRESULT	(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHos
 PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	MTEXT_DISPLAYNAME,
-	PLUGIN_MAKE_VERSION(__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM),
-	MTEXT_DESCRIPTION,
-	MTEXT_AUTHOR,
-	MTEXT_EMAIL,
-	MTEXT_COPYRIGHT,
-	MTEXT_WEBPAGE,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x69b9443b, 0xdc58, 0x4876, { 0xad, 0x39, 0xe3, 0xf4, 0x18, 0xa1, 0x33, 0xc5 } } //{69B9443B-DC58-4876-AD39-E3F418A133C5}
-	
+	// {69B9443B-DC58-4876-AD39-E3F418A133C5}
+	{0x69b9443b, 0xdc58, 0x4876, {0xad, 0x39, 0xe3, 0xf4, 0x18, 0xa1, 0x33, 0xc5}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -58,7 +58,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	//6.0A SDK is missing RichEd20.lib for x64
