@@ -141,10 +141,10 @@ void CMsnProto::InitCustomFolders(void)
 	TCHAR folder[MAX_PATH];
 	TCHAR *tszModuleName = mir_a2t(m_szModuleName);
 
-	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_userdata%%\\Avatars\\%s"), tszModuleName);
+	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_avatarcache%%\\%s"), tszModuleName);
 	hMSNAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, folder, m_tszUserName);
 
-	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_userdata%%\\Avatars\\%s"), tszModuleName);
+	mir_sntprintf(folder, SIZEOF(folder), _T("%%miranda_avatarcache%%\\%s"), tszModuleName);
 	hCustomSmileyFolder = FoldersRegisterCustomPathT("Custom Smileys", m_szModuleName, folder, m_tszUserName);
 
 	mir_free(tszModuleName);
