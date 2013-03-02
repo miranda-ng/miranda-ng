@@ -98,8 +98,6 @@
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
     <ResourceCompile>
-      <IgnoreStandardIncludePath>
-      </IgnoreStandardIncludePath>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -128,8 +126,6 @@
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
     <ResourceCompile>
-      <IgnoreStandardIncludePath>
-      </IgnoreStandardIncludePath>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -155,8 +151,6 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
-      <IgnoreStandardIncludePath>
-      </IgnoreStandardIncludePath>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -180,8 +174,6 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
-      <IgnoreStandardIncludePath>
-      </IgnoreStandardIncludePath>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
