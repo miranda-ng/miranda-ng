@@ -1,8 +1,4 @@
-#include <windows.h>
-#include <winsock.h>
-
-#include <iostream>
-#include <string>
+#include "Common.h"
 
 void implementation(int argc, char **argv, bool console);
 

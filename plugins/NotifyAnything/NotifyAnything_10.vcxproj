@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>NotifyAnything</ProjectName>
-    <ProjectGuid>{5B592088-D4C3-4BDA-8307-0B2A0EE24C40}</ProjectGuid>
+    <ProjectGuid>{F5E3FAFE-B650-4736-8D27-FA53866668C6}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -192,6 +192,14 @@
   <ItemGroup>
     <ResourceCompile Include="res\NotifyAnything.rc" />
     <ResourceCompile Include="res\Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SendLog\SendLogWin_10.vcxproj">
+      <Project>{f72a3196-30e6-430b-a5ea-3332113a9959}</Project>
+    </ProjectReference>
+    <ProjectReference Include="SendLog\SendLog_10.vcxproj">
+      <Project>{1af47743-6e78-4c83-a1e5-21f98516ef5e}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
