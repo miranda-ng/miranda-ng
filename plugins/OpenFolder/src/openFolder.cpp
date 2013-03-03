@@ -6,21 +6,22 @@ HANDLE hServiceOpenFolder, hButtonTopToolbar;
 
 PLUGININFOEX pluginInfoEx =
 {
-	sizeof( PLUGININFOEX ),
-	"Open Miranda Folder",
-	OPENFOLDER_VERSION,
-	OPENFOLDER_DESCRIPTION,
-	"jarvis, Kreisquadratur",
-	"jarvis@jabber.cz, djui@kreisquadratur.de",
-	"© 2008 jarvis, © 2004 Kreisquadratur",
-	"http://miranda-ng.org/",
-	UNICODE_AWARE,    //not transient
-	{ 0x10896143, 0x7249, 0x4b36, { 0xa4, 0x8, 0x65, 0x1, 0xa6, 0xb6, 0x3, 0x5a } }      // {10896143-7249-4b36-A408-6501A6B6035A}
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {10896143-7249-4B36-A408-6501A6B6035A}
+	{0x10896143, 0x7249, 0x4b36, {0xa4, 0x8, 0x65, 0x1, 0xa6, 0xb6, 0x3, 0x5a}}
 };
 
 static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
 
-BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -57,14 +58,14 @@ static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HookEvent(ME_TTB_MODULELOADED,ToptoolBarHook);
+	HookEvent(ME_TTB_MODULELOADED, ToptoolBarHook);
 	
 	// icolib (0.7+)
 	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
 
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = { 0 };
-	hotkey.cbSize = sizeof( hotkey );
+	hotkey.cbSize = sizeof(hotkey);
 	hotkey.dwFlags = HKD_TCHAR;
 	hotkey.pszName = "Open Folder";
 	hotkey.ptszDescription = LPGENT("Open Folder");
