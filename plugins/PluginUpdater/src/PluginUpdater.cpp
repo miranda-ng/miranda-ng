@@ -47,7 +47,7 @@ PLUGININFOEX pluginInfoEx = {
 #if MIRANDA_VER < 0x0A00
 	0,
 #endif
-	//{968DEF4A-BC60-4266-AC08-754CE721DB5F}
+	// {968DEF4A-BC60-4266-AC08-754CE721DB5F}
 	{0x968def4a, 0xbc60, 0x4266, {0xac, 0x8, 0x75, 0x4c, 0xe7, 0x21, 0xdb, 0x5f}} 
 };
 

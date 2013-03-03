@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 
 // Windows Header Files:
 #include <time.h>
-#include <stdio.h>
-#include <malloc.h>
 #include <stddef.h>
 #include <windows.h>
 #include <Windowsx.h>
@@ -35,9 +33,6 @@ Boston, MA 02111-1307, USA.
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_database.h>
-#include <m_utils.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
 #include <m_netlib.h>
@@ -64,9 +59,8 @@ Boston, MA 02111-1307, USA.
 
 #define MODNAME "PluginUpdater"
 #define MODULEA "Plugin Updater"
-#define MODULEW L"Plugin Updater"
+#define MODULE L"Plugin Updater"
 #define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
-#define MODULE	MODULEW
 
 struct FILEURL
 {
