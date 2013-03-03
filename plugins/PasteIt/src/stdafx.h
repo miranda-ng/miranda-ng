@@ -5,9 +5,8 @@
 
 #pragma once
 
-#include "targetver.h"
-
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+
 // Windows Header Files:
 #include <windows.h>
 #include <winsock.h>
@@ -15,28 +14,31 @@
 #include <commdlg.h>
 #include <windowsx.h>
 #include <time.h>
-
-#include <tchar.h>
 #include <string>
 #include <map>
 #include <list>
 
-#define MIRANDA_VER		0x0A00
-
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_skin.h>
 #include <m_langpack.h>
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_netlib.h>
 #include <m_xml.h>
 #include <m_message.h>
 #include <m_protosvc.h>
-#include <m_icolib.h>
 #include <m_options.h>
 #include <m_database.h>
 #include <m_chat.h>
-#include <m_protoint.h>
 
-#include "m_msg_buttonsbar.h"
+#include <m_msg_buttonsbar.h>
+
+#include "PasteToWeb.h"
+#include "PasteToWeb1.h"
+#include "PasteToWeb2.h"
+#include "version.h"
+#include "resource.h"
+#include "Options.h"
+
+extern HINSTANCE hInst;
+extern PasteToWeb* pasteToWebs[PasteToWeb::pages];
+
+#define MODULE				"PasteIt"

@@ -17,18 +17,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-#include "PasteToWeb1.h"
-#include "PasteToWeb2.h"
-#include "version.h"
-#include "resource.h"
-#include "Options.h"
-
 
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
 std::map<HANDLE, HWND>* contactWindows;
 DWORD gMirandaVersion;
 
-extern HINSTANCE hInst;
 HANDLE hModulesLoaded, hTabsrmmButtonPressed;
 HANDLE g_hNetlibUser;
 HANDLE hPrebuildContactMenu;
@@ -39,7 +32,6 @@ HANDLE hOptionsInit;
 HANDLE hWindowEvent = NULL;
 HINSTANCE hInst;
 
-#define MODULE				"PasteIt"
 #define FROM_CLIPBOARD 10
 #define FROM_FILE 11
 #define DEF_PAGES_START 20
@@ -56,7 +48,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE, 
 	// {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
-	{ 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
+	{0x1aac15e8, 0xdcec, 0x4050, {0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22}}
 };
 
 static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };

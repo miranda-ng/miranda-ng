@@ -17,7 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "StdAfx.h"
-#include "PasteToWeb2.h"
 
 PasteFormat PasteToWeb2::defFormats[] =
 {

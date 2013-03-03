@@ -176,7 +176,6 @@
     <ClInclude Include="src\PasteToWeb2.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\targetver.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

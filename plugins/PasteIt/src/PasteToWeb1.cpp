@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "StdAfx.h"
-#include "PasteToWeb1.h"
-#include "Options.h"
 
 PasteFormat PasteToWeb1::formats[] =
 {

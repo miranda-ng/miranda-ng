@@ -17,11 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "StdAfx.h"
-#include "PasteToWeb.h"
-#include "Options.h"
-#include "resource.h"
-
-extern HINSTANCE hInst;
 
 PasteToWeb::PasteToWeb()
 {

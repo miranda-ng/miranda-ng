@@ -17,17 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "StdAfx.h"
-#include "Options.h"
-#include "resource.h"
-#include "PasteToWeb.h"
-#include "PasteToWeb1.h"
-
-extern HINSTANCE hInst;
-
-#define MODULE				"PasteIt"
 
 Options *Options::instance;
-extern PasteToWeb* pasteToWebs[PasteToWeb::pages];
 
 struct TCpTable {
 	UINT cpId;
