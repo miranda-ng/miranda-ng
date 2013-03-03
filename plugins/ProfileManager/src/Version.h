@@ -1,0 +1,14 @@
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				0
+#define __RELEASE_NUM				0
+#define __BUILD_NUM					5
+
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+
+#define __PLUGIN_NAME				"Miranda NG profile changer"
+#define __FILENAME					"PManagerEx.dll"
+#define __DESCRIPTION 				"Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker."
+#define __AUTHOR					"Roman Gemini"
+#define __AUTHOREMAIL				"woobind@ukr.net"
+#define __AUTHORWEB					"http://miranda-ng.org/"
+#define __COPYRIGHT					"© 2008 - 2010 Roman Gemini"

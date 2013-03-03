@@ -6,21 +6,8 @@ This file is placed in the public domain. Anybody is free to use or
 modify it as they wish with no restriction.
 There is no warranty.
 */
-#define MIRANDA_VER 0x0A00
 
-#include <tchar.h>
-#include <windows.h>
-
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_langpack.h>
-#include <m_system.h>
-#include <m_genmenu.h>
-#include <m_utils.h>
-#include <win2k.h>
-
-#include "resource.h"
+#include "Common.h"
 
 HINSTANCE hInst;
 
@@ -31,15 +18,16 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Miranda NG Profile Changer",
-	PLUGIN_MAKE_VERSION(0,0,0,5),
-	"Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.",
-	"Roman Gemini",
-	"woobind@ukr.net",
-	"© 2008 - 2010 Roman Gemini",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x7eeeb55e, 0x9d83, 0x4e1a, { 0xa1, 0x2f, 0x8f, 0x13, 0xf1, 0xa1, 0x24, 0xfb } }
+	// {7EEEB55E-9D83-4E1A-A12F-8F13F1A124FbB}
+	{0x7eeeb55e, 0x9d83, 0x4e1a, {0xa1, 0x2f, 0x8f, 0x13, 0xf1, 0xa1, 0x24, 0xfb}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
