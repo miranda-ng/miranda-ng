@@ -575,6 +575,11 @@ function mir_utf8checkstring(const astr:PAnsiChar):bool;stdcall;
 
 ///////////////////////////////////////////////////////////////////////////////
 
+procedure mir_subclassWindow(Wnd: HWND; WndProc: WNDPROC); stdcall;
+                       external CoreDLL name 'mir_subclassWindow';
+
+///////////////////////////////////////////////////////////////////////////////
+
 procedure UnloadCoreModule(); stdcall;
                            external CoreDLL name 'UnloadCoreModule';
 

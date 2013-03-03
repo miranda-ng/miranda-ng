@@ -43,7 +43,7 @@ static HHOOK g_hMessageHookPre = NULL;
 static HANDLE g_hMutex = NULL;
 static HANDLE g_hHookMsgWnd = NULL;
 
-static LRESULT CALLBACK MessageDlgSubclas(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 
 //type definitions 
@@ -344,7 +344,7 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 
 		if (msgwnd != NULL)
 		{
-			msgwnd->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)MessageDlgSubclas);
+			msgwnd->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)MessageDlgSubclass);
 			msgwnd->CreateSmileyButton();
 			if (hContact == NULL) SetRichCallback(msgwnd->REdit, msgwnd->hContact, true, true);
 		}
@@ -353,7 +353,7 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 
 
 //global subclass function for all dialogs
-static LRESULT CALLBACK MessageDlgSubclas(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MsgWndData* dat = IsMsgWnd(hwnd);
 	if (dat == NULL) return 0;

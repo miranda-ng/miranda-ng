@@ -581,6 +581,12 @@ __forceinline char* mir_utf8decodeA(const char* src)
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
+// Window subclassing
+
+MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc);
+MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst);
+
+///////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) UnloadCoreModule(void);
 

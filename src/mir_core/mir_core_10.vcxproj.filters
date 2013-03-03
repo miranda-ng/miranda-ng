@@ -58,6 +58,9 @@
     <ClCompile Include="icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="subclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h">

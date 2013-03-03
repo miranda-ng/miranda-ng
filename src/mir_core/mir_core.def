@@ -136,3 +136,5 @@ db_find_first                 @133
 db_find_next                  @134
 Icon_Register                 @135
 Icon_RegisterT                @136
+mir_subclassWindow            @137
+KillModuleSubclassing         @138
