@@ -69,6 +69,17 @@ MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 	p->m_hooks[p->m_iHooks++] = wndProc;		
 }
 
+MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
+	if (p)
+		for (int i=0; i < p->m_iHooks-1; i++)
+			if (p->m_hooks[i] == wndProc)
+				return p->m_hooks[i+1](hWnd, uMsg, wParam, lParam);
+
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
 MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst)
 {
 	for (int i=0; i < arSubclass.getCount(); i++) {
