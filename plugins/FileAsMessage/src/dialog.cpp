@@ -389,8 +389,9 @@ int FILEECHO::createTransfer()
 #ifdef DEBUG
 	overhead = 0;
 #endif
-	hFile = CreateFile(filename, inSend?GENERIC_READ:(GENERIC_READ|GENERIC_WRITE), inSend?FILE_SHARE_READ:0,
-		NULL, inSend?OPEN_EXISTING:(DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0)?CREATE_ALWAYS:CREATE_NEW), FILE_ATTRIBUTE_NORMAL, NULL);
+	BYTE bAuto = db_get_b(NULL, "SRFile", "AutoAccept", 0);
+
+	hFile = CreateFile(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, NULL, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, NULL);
 	if(hFile == INVALID_HANDLE_VALUE && !inSend && GetLastError() == ERROR_FILE_EXISTS)
 	{
 		if(MessageBox(hDlg, Translate("File already exists. Overwrite?"),
@@ -403,7 +404,7 @@ int FILEECHO::createTransfer()
 	if(hFile == INVALID_HANDLE_VALUE) goto createTransfer_FAILED;
 	if(!inSend)
 	{
-		SetFilePointer(hFile, fileSize, NULL, FILE_CURRENT);
+		SetFilePointer(hFile, fileSize, NULL, FILE_BEGIN);
 		SetEndOfFile(hFile);
 	}
 	else
@@ -416,7 +417,7 @@ int FILEECHO::createTransfer()
 	LastError = GetLastError();
 	if(lpData == NULL) goto createTransfer_FAILED;
 
-	if(inSend)
+	if (inSend)
 	//
 	// frequency analysis of source file
 	// and building the table of offsets
@@ -424,44 +425,47 @@ int FILEECHO::createTransfer()
 	{
 		if(asBinary)
 		{
-			uint freq_table[256];
-			uchar *data;
-			uint len, chunk_offset, chunk_size, out_size, indx;
-			int chunk_count_limit;
-
+			uint freq_table[256] = { 0 };
 			codeSymb = 1;
 			//
 			// searching for symbol with lowest frequency: "codeSymb"
 			//
 			BuildFreqTable(lpData, fileSize, freq_table);
-			for(int indx = codeSymb+1; indx < 256; indx++)
+			for (uint i = codeSymb + 1; i < 256; ++i)
 			{
-				if(freq_table[codeSymb] > freq_table[indx]) codeSymb = indx;
+				if (freq_table[codeSymb] > freq_table[i])
+				codeSymb = i;
 			}
 			//DEBUG
 			//codeSymb = ':';
-			
+
 			//
 			// calculating chunks sizes
 			// build table of chunks offsets: chunkPos
 			//
-			chunk_count_limit = 2*fileSize/chunkMaxLen+2;
-			chunkPos = (uint*)malloc(sizeof(uint)*chunk_count_limit);
-			data = lpData;
-			chunk_size = 0; out_size = 0; indx = 0; chunk_offset = 0;
-			for(len = fileSize; len; len--)
+			uint chunk_count_limit = 2 * fileSize / chunkMaxLen + 2;
+			chunkPos = (uint*)calloc(chunk_count_limit, sizeof(uint));
+
+			uchar *data = lpData;
+			uint chunk_size = 0;
+			uint out_size = 0;
+			uint indx = 0;
+			uint chunk_offset = 0;
+
+			for (uint len = fileSize; len; --len)
 			{
-				if(*data == 0 || *data == codeSymb)
+				if (*data == 0 || *data == codeSymb)
 					out_size += 2;
 				else
-					out_size++;
+					++out_size;
 
 				data++; chunk_size++;
-				if(out_size >= chunkMaxLen-1)
+				if (out_size >= chunkMaxLen-1)
 				{
-					chunkPos[indx] = chunk_offset; chunk_offset += chunk_size;
+					chunkPos[indx] = chunk_offset;
+					chunk_offset += chunk_size;
 					chunk_size = 0; out_size = 0;
-					indx++;
+					++indx;
 				}
 			}
 			chunkPos[indx++] = chunk_offset; chunkCount = indx;
@@ -472,23 +476,26 @@ int FILEECHO::createTransfer()
 		{
 			int EncodedMaxLen = Base64_GetEncodedBufferSize(Base64_GetDecodedBufferSize(chunkMaxLen));
 			int DecodedMaxLen = Base64_GetDecodedBufferSize(EncodedMaxLen);
-			int indx = 0;
 
 			codeSymb = '-';
 			chunkCount = (fileSize + DecodedMaxLen - 1) / DecodedMaxLen;
-			chunkPos = (uint*)malloc(sizeof(uint)*(chunkCount+1));
-			for(uint chunk_offset = 0, indx = 0; indx < chunkCount; indx++, chunk_offset += DecodedMaxLen)
-				chunkPos[indx] = chunk_offset;
-			chunkPos[indx] = chunkPos[indx-1] + fileSize%DecodedMaxLen;
+			chunkPos = (uint*)calloc(chunkCount + 1, sizeof(uint));
+
+			uint i = 0;
+			for (uint chunk_offset = 0; i < chunkCount; ++i, chunk_offset += DecodedMaxLen)
+			{
+				chunkPos[i] = chunk_offset;
+			}
+
+			chunkPos[i] = chunkPos[i - 1] + (fileSize % DecodedMaxLen);
 		}
 	}
 	else
 		chunkCount = chunkCountx;
-	chunkAck = (uchar*)malloc(sizeof(uchar)*chunkCount);
-	memset(chunkAck, 0, sizeof(uchar)*chunkCount);
 
+	chunkAck = (uchar*)calloc(chunkCount, sizeof(uchar));
 	chunkIndx = 0; chunkSent = 0;
-	
+
 	return 1;
 createTransfer_FAILED:
 	if(lpData != NULL) UnmapViewOfFile(lpData);
@@ -515,9 +522,8 @@ void FILEECHO::destroyTransfer()
 
 void FILEECHO::sendReq()
 {
-
 	char sendbuf[MAX_PATH];
-	
+
 	if(!createTransfer())
 	{
 		SetDlgItemText(hDlg, IDC_FILESIZE, Translate("Couldn't open a file"));
@@ -538,6 +544,7 @@ void FILEECHO::sendReq()
 	SetDlgItemText(hDlg, IDC_STATUS, Translate("Request sent. Awaiting of acceptance.."));
 	setState(STATE_REQSENT);
 }
+
 void FILEECHO::incomeRequest(char *param)
 {
 	// param: filename?cCOUNT:SIZE
