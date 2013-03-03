@@ -55,7 +55,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	if (hNewsAggregatorFolder)
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
 	else
-		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
+		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
