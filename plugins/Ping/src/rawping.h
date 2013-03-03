@@ -1,10 +1,6 @@
 #ifndef _RAWPING_H
 #define _RAWPING_H
 
-#include "options.h"
-#include "log.h"
-
-
 // ICMP protocol identifier
 #define ICMP_PROTO	1
 

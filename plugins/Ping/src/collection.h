@@ -1,5 +1,3 @@
-#include <malloc.h>
-
 template<class T> class Collection {
 protected:
 	unsigned long count;
@@ -28,7 +26,7 @@ public:
 	ListNode(const T &v): Node<T>(v), next(0), prev(0) {}
 	virtual ~ListNode() {
 		if(next) next->prev = prev;
-		if(prev) prev->next = next;			
+		if(prev) prev->next = next;
 	}
 };
 
@@ -53,19 +51,21 @@ public:
 
 	LinkedList(): Collection<T>(), head(0), tail(0) {};
 	LinkedList(const LinkedList<T> &other): Collection<T>(), head(0), tail(0) {
-		for(Iterator i = other.start(); i.has_val(); i.next())
+		for(Iterator i = other.begin(); i.has_val(); i.next())
 			add(i.val());
 	}
-	virtual ~LinkedList() {clear();}
+	virtual ~LinkedList() { clear(); }
 
-	LinkedList<T> &operator=(const LinkedList<T> &other) {
+	LinkedList<T> &operator=(const LinkedList<T> &other)
+	{
 		clear();
-		for(Iterator i = other.start(); i.has_val(); i.next())
+		for(Iterator i = other.begin(); i.has_val(); i.next())
 			add(i.val());
 		return *this;
 	}
 
-	virtual void clear() {
+	virtual void clear()
+	{
 		ListNode<T> *n;
 		while(head) {
 			n = head;
@@ -76,7 +76,7 @@ public:
 		Collection<T>::count = 0;
 	}
 
-	virtual Iterator start() const {return Iterator(head);}
+	virtual Iterator begin() const {return Iterator(head);}
 
 	virtual void add_front(T &val) {
 		ListNode<T> *n = new ListNode<T>(val);
@@ -190,7 +190,7 @@ public:
 		}
 	}
 
-	virtual Iterator start() const {return Iterator(ar, Collection<T>::count, 0);}
+	virtual Iterator begin() const {return Iterator(ar, Collection<T>::count, 0);}
 
 	virtual void add(const T &val) {
 		if(Collection<T>::count == limit) {
@@ -202,7 +202,7 @@ public:
 	}
 
 	virtual void add_all(DynamicArray<T> &other) {
-		for(Iterator i = other.start(); i.has_val(); i.next()) {
+		for(Iterator i = other.begin(); i != pl.end(); ++i) {
 			add(i.val());
 		}
 	}
@@ -431,14 +431,14 @@ public:
 
 	BinaryTree(): Collection<T>(), root(0) {};
 	BinaryTree(BinaryTree<T> &other): Collection<T>(), root(0) {
-		for(Iterator i = other.start(); i.has_val(); i.next())
+		for(Iterator i = other.begin(); i != pl.end(); ++i)
 			add(i.val());
 	}
 	virtual ~BinaryTree() {clear();}
 
 	BinaryTree &operator=(BinaryTree<T> &other) {
 		clear();
-		for(Iterator i = other.start(); i.has_val(); i.next())
+		for(Iterator i = other.begin(); i != pl.end(); ++i)
 			add(i.val());
 		return *this;
 	}
@@ -497,7 +497,7 @@ public:
 		return current != 0;
 	}
 
-	Iterator start() const {return Iterator(root);}
+	Iterator begin() const {return Iterator(root);}
 };
 
 #define RED		1

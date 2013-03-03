@@ -1,10 +1,9 @@
 #include "common.h"
-#include "icmp.h"
 
 char data[] = "AAAABBBBCCCCDDDDEEEEFFFFGGGGHHH";
 ICMP *ICMP::instance = 0;
 
-#define BUFFER_SIZE			(8 * (sizeof(ICMP_ECHO_REPLY) + sizeof(data)))
+#define BUFFER_SIZE			(16 * (sizeof(ICMP_ECHO_REPLY) + sizeof(data)))
 
 ICMP::ICMP():
 	timeout(2000),
@@ -30,8 +29,8 @@ ICMP::ICMP():
 	} else
 		DBWriteContactSettingString(0, PLUG, "PingLib", "IPHLPAPI.DLL"); // for debugging
 
-    WSAData wsaData;
-    if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
+	WSAData wsaData;
+	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
 		WSACleanup();
 		FreeLibrary((HMODULE)hDLL);
 		return;
@@ -44,7 +43,7 @@ ICMP::ICMP():
 		return;
 	}
 	*/
-   
+
 	buff = new char[BUFFER_SIZE];
 	functions_loaded = true;
 }
@@ -60,21 +59,27 @@ ICMP::~ICMP() {
 	if(hIP) stop();
 	WSACleanup();
 	if(hDLL)
-		FreeLibrary(hDLL);	
+		FreeLibrary(hDLL);
 	delete[] buff;
 }
 
-bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply) {
-	if(!functions_loaded) return false;
+
+bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
+{
+	if (!functions_loaded)
+		return false;
 
 	HOSTENT *rec;
 	IP_OPTION_INFORMATION ipoi;
 
 	unsigned long address = inet_addr(host);
-	if (address == INADDR_NONE) {
+	if (address == INADDR_NONE)
+	{
 		rec = gethostbyname(host);
-		if(rec) address = *(unsigned long *)(*rec->h_addr_list);
-		else return false;
+		if (rec != NULL)
+			address = *(unsigned long *)(*rec->h_addr_list);
+		else
+			return false;
 	}
 
 	ipoi.Ttl = 255;
@@ -83,15 +88,19 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply) {
 	ipoi.OptionsSize = 0;
 	ipoi.OptionsData = 0;
 	
-	reply.Status = 0;	
+	reply.Status = 0;
 
 	hIP = pIcmpCreateFile();
-	if (hIP == INVALID_HANDLE_VALUE) return false;
+	if (hIP == INVALID_HANDLE_VALUE)
+		return false;
 
 	//pIcmpSendEcho2(hIP, 0, 0, 0, address, data, sizeof(data), &ipoi, buff, sizeof(ICMP_ECHO_REPLY) + sizeof(data), timeout);
-	if(pIcmpSendEcho2(hIP, 0, 0, 0, address, data, sizeof(data), 0, buff, BUFFER_SIZE, timeout) == 0) {
+	DWORD rep_cnt = pIcmpSendEcho2(hIP, 0, 0, 0, address, data, sizeof(data), 0, buff, BUFFER_SIZE, timeout);
+	if (rep_cnt == 0)
+	{
 		DWORD code = GetLastError();
-		if(code != 11010) {
+		if (code != 11010)
+		{
 			char winmsg[512], msg[1024];
 			FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, 0, code, 0, winmsg, 512, 0);
 			mir_snprintf(msg, 1024, "Ping error (%d): %s", code, winmsg);

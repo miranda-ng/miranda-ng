@@ -1,5 +1,4 @@
 #include "common.h"
-#include "options.h"
 
 PingOptions options;
 
@@ -249,8 +248,10 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			}
 		}
 
-		if ( HIWORD( wParam ) == BN_CLICKED ) {
-			switch( LOWORD( wParam )) {
+		if ( HIWORD( wParam ) == BN_CLICKED )
+		{
+			switch( LOWORD( wParam ))
+			{
 			case IDC_CHK_DESTTCP:
 				hw = GetDlgItem(hwndDlg, IDC_ED_DESTPORT);
 				EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
@@ -262,7 +263,8 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, MAX_PATH);
 
 				hw = GetDlgItem(hwndDlg, IDC_COMBO_DESTPROTO);
-				if(SendMessage(hw, CB_GETCURSEL, 0, 0) != -1) {
+				if(SendMessage(hw, CB_GETCURSEL, 0, 0) != -1)
+				{
 					GetDlgItemText(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, MAX_PINGADDRESS_STRING_LENGTH);
 					if(!strcmp(add_edit_addr.pszProto, Translate("<none>"))) add_edit_addr.pszProto[0] = '\0';
 					else {
@@ -278,7 +280,8 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				} else
 					add_edit_addr.pszProto[0] = '\0';
 
-				if(IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP)) {
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP))
+				{
 					BOOL tr;
 					int port = GetDlgItemInt(hwndDlg, IDC_ED_DESTPORT, &tr, FALSE);
 					if(tr) add_edit_addr.port = port;
@@ -292,7 +295,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				EndDialog(hwndDlg, IDCANCEL);
 				break;
 			}
-				
+
 		}
 
 		return TRUE;
@@ -300,17 +303,18 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-BOOL Edit(HWND hwnd, PINGADDRESS &addr) {
-	if(&addr != NULL)
+bool Edit(HWND hwnd, PINGADDRESS &addr)
+{
+	add_edit_addr = addr;
+	if (DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK)
 	{
-		add_edit_addr = addr;
-		if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK) {
-			addr = add_edit_addr;
-			return TRUE;
-		}
+		addr = add_edit_addr;
+		return true;
 	}
-	return FALSE;
+
+	return false;
 }
+
 // ping hosts list window
 static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -328,19 +332,22 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			Unlock(&data_list_cs);
 
 			hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-			for(PINGLIST::Iterator i = temp_list.start(); i.has_val(); i.next()) {
-				int index = SendMessage(hw, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i.val().pszLabel);
-				SendMessage(hw, LB_SETITEMDATA, index, (LPARAM)&i.val());
+			for (pinglist_it i = temp_list.begin(); i != temp_list.end(); ++i)
+			{
+				int index = SendMessage(hw, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i->pszLabel);
+				SendMessage(hw, LB_SETITEMDATA, index, (LPARAM)&(*i));
 			}
 
 		}
 		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD( wParam ) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_DEST) {
+		if (HIWORD( wParam ) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_DEST)
+		{
 			hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
 			sel = SendMessage(hw, LB_GETCURSEL, 0, 0);
-			if(sel != LB_ERR) {
+			if(sel != LB_ERR)
+			{
 				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
 				EnableWindow(hw, TRUE);
 				hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
@@ -355,21 +362,25 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 		}
 
-		if ( HIWORD( wParam ) == BN_CLICKED ) {
-			switch( LOWORD( wParam )) {
+		if ( HIWORD( wParam ) == BN_CLICKED )
+		{
+			switch( LOWORD( wParam ))
+			{
 			case IDC_BTN_DESTEDIT:
 				hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
 				sel = SendMessage(hw, LB_GETCURSEL, 0, 0);
-				if(sel != LB_ERR) {
+				if (sel != LB_ERR)
+				{
 					PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel, 0);
 					PINGADDRESS temp = *item;
-					if(Edit(hwndDlg, temp)) {
+					if (Edit(hwndDlg, temp))
+					{
 						*item = temp;
 						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel, 0);
 						SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
 						SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
 						SendMessage(hw, LB_SETCURSEL, (WPARAM)sel, 0);
-						
+
 						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
 						EnableWindow(hw, TRUE);
 						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT);
@@ -379,7 +390,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
 						int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
 						EnableWindow(hw, (sel < count - 1));
-	
+
 						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 					}
 				}
@@ -393,15 +404,17 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				add_edit_addr.get_status = ID_STATUS_OFFLINE;
 				add_edit_addr.status = PS_NOTRESPONDING;
 				add_edit_addr.item_id = 0;
+				add_edit_addr.index = temp_list.size();
 
-				if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK) {
-
-					temp_list.add(add_edit_addr);
+				if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK)
+				{
+					temp_list.push_back(add_edit_addr);
 
 					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
 					int index = SendMessage(hw, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)add_edit_addr.pszLabel);
 					hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
 					SendMessage(hw, LB_SETCURSEL, (WPARAM)index, 0);
+					SendMessage(hw, LB_SETITEMDATA, (WPARAM)index, (LPARAM)&(temp_list.back()));
 
 					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTREM);
 					EnableWindow(hw, TRUE);
@@ -415,7 +428,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
 					hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
 					EnableWindow(hw, (sel < count - 1));
-					
+
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 				}
 
@@ -449,8 +462,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							*item2 = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2 + 1, 0);
 						if(item && item2)
 						{
-							add_edit_addr = *item;					
-							*item = *item2;					
+							add_edit_addr = *item;
+							*item = *item2;
 							*item2 = add_edit_addr;
 
 							// keep indexes the same, as they're used for sorting the binary tree
@@ -475,7 +488,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						}
-					}				
+					}
 				}
 				break;
 			case IDC_BTN_DESTUP:
@@ -488,8 +501,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						if (item && item2)
 						{
-							add_edit_addr = *item;					
-							*item = *item2;					
+							add_edit_addr = *item;
+							*item = *item2;
 							*item2 = add_edit_addr;
 
 							// keep indexes the same, as they're used for sorting the binary tree
@@ -513,10 +526,10 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
 							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
 							EnableWindow(hw, (sel2 - 1 < count - 1));
-		
+
 							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						}
-					}				
+					}
 				}
 
 				break;
@@ -530,7 +543,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY )
+		{
 			CallService(PLUG "/SetAndSavePingList", (WPARAM)&temp_list, 0);
 			CallService(PLUG "/GetPingList", 0, (LPARAM)&temp_list);
 			// the following will be affected due to list rebuild event
@@ -567,7 +581,7 @@ int PingOptInit(WPARAM wParam,LPARAM lParam)
 
 void LoadOptions() {
 	options.ping_period = DBGetContactSettingDword(NULL, PLUG, "PingPeriod", DEFAULT_PING_PERIOD);
-	
+
 	options.ping_timeout = DBGetContactSettingDword(NULL, PLUG, "PingTimeout", DEFAULT_PING_TIMEOUT);
 	CallService(PLUG "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
 	options.show_popup = (DBGetContactSettingByte(NULL, PLUG, "ShowPopup", DEFAULT_SHOW_POPUP ? 1 : 0) == 1);
@@ -585,7 +599,7 @@ void LoadOptions() {
 	CallService(PLUG "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
-	
+
 	options.attach_to_clist = (DBGetContactSettingByte(NULL, PLUG, "AttachToClist", DEFAULT_ATTACH_TO_CLIST ? 1 : 0) == 1);
 	options.log_csv = (DBGetContactSettingByte(NULL, PLUG, "LogCSV", 0) == 1);
 }

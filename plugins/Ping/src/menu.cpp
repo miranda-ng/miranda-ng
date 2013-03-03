@@ -1,5 +1,4 @@
 #include "common.h"
-#include "menu.h"
 
 HANDLE hMenuDisable, hMenuGraph, hMenuEdit;
 HANDLE hEventMenuBuild;

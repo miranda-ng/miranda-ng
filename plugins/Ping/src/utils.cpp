@@ -1,6 +1,4 @@
 #include "common.h"
-#include "utils.h"
-#include "icmp.h"
 
 LRESULT CALLBACK NullWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -160,9 +158,9 @@ void Unlock(CRITICAL_SECTION *cs) {
 INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		i.val().status = PS_DISABLED;
-		i.val().miss_count = 0;
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		i->status = PS_DISABLED;
+		i->miss_count = 0;
 	}
 	CallService(PLUG "/SetPingList", (WPARAM)&pl, 0);
 	return 0;
@@ -171,9 +169,9 @@ INT_PTR PingDisableAll(WPARAM wParam, LPARAM lParam) {
 INT_PTR PingEnableAll(WPARAM wParam, LPARAM lParam) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		if(i.val().status == PS_DISABLED) {
-			i.val().status = PS_NOTRESPONDING;
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		if(i->status == PS_DISABLED) {
+			i->status = PS_NOTRESPONDING;
 		}
 	}
 	CallService(PLUG "/SetPingList", (WPARAM)&pl, 0);
@@ -185,14 +183,14 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM lParam) {
 	int retval = 0;
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		if(i.val().item_id == (DWORD)wParam) {
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		if(i->item_id == (DWORD)wParam) {
 
-			if(i.val().status == PS_DISABLED)
-				i.val().status = PS_NOTRESPONDING;
+			if(i->status == PS_DISABLED)
+				i->status = PS_NOTRESPONDING;
 			else {
-				i.val().status = PS_DISABLED;
-				i.val().miss_count = 0;
+				i->status = PS_DISABLED;
+				i->miss_count = 0;
 				retval = 1;
 			}
 		}
@@ -206,14 +204,14 @@ INT_PTR EditContact(WPARAM wParam, LPARAM lParam) {
 	HWND hwndList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		if(i.val().item_id == (DWORD)wParam) {
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		if(i->item_id == (DWORD)wParam) {
 
-			add_edit_addr = i.val();
+			add_edit_addr = *i;
 	
 			if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwndList, DlgProcDestEdit) == IDOK) {
 	
-				i.val() = add_edit_addr;
+				*i = add_edit_addr;
 				CallService(PLUG "/SetAndSavePingList", (WPARAM)&pl, 0);
 				return 0;
 			}
@@ -225,10 +223,10 @@ INT_PTR EditContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR DblClick(WPARAM wParam, LPARAM lParam) {
 	PINGLIST pl;
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		if(i.val().item_id == (DWORD)wParam) {
-			if(strlen(i.val().pszCommand)) {
-				ShellExecute(0, "open", i.val().pszCommand, i.val().pszParams, 0, SW_SHOW);
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		if(i->item_id == (DWORD)wParam) {
+			if(strlen(i->pszCommand)) {
+				ShellExecute(0, "open", i->pszCommand, i->pszParams, 0, SW_SHOW);
 			} else {
 				return CallService(PLUG "/ToggleEnabled", wParam, 0);
 			}
@@ -286,15 +284,17 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 }
 
 // read in addresses from old pingplug
-void import_ping_addresses() {
+void import_ping_addresses()
+{
 	int count = DBGetContactSettingDword(0, "PingPlug", "NumEntries", 0);
 	PINGADDRESS pa;
 
 	EnterCriticalSection(&list_cs);
 	list_items.clear();
-	for(int index = 0; index < count; index++) {
+	for(int index = 0; index < count; index++)
+	{
 		import_ping_address(index, pa);
-		list_items.add(pa);
+		list_items.push_back(pa);
 	}
 	write_ping_addresses();
 	LeaveCriticalSection(&list_cs);

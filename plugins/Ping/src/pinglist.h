@@ -1,14 +1,6 @@
 #ifndef _PINGLIST_H
 #define _PINGLIST_H
 
-typedef BinaryTree<PINGADDRESS> PINGLIST;
-
-#include <algorithm> // for sort
-
-extern PINGLIST list_items;
-extern HANDLE reload_event_handle;
-extern CRITICAL_SECTION list_cs;
-
 INT_PTR LoadPingList(WPARAM wParam, LPARAM lParam);
 INT_PTR GetPingList(WPARAM wParam,LPARAM lParam);
 INT_PTR SavePingList(WPARAM wParam, LPARAM lParam);

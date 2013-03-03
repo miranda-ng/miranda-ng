@@ -1,6 +1,47 @@
 #ifndef _COMMON_H
 #define _COMMON_H
 
+#define _CRT_SECURE_NO_DEPRECATE
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+
+#define WINVER	0x0500
+#define _WIN32_WINNT 0x0500
+#define _WIN32_IE 0x0300
+
+#include <windows.h>
+#include <winsock.h>
+#include <shellapi.h>
+#include <commdlg.h>
+#include <commctrl.h>
+#include <iphlpapi.h>
+#include <list>
+
+#include <newpluginapi.h>
+#include <m_options.h>
+#include <m_langpack.h>
+#include <m_popup.h>
+#include <m_skin.h>
+#include <m_netlib.h>
+#include <m_database.h>
+#include <m_protosvc.h>
+#include <m_clui.h>
+#include <m_cluiframes.h>
+#include <m_fontservice.h>
+#include <m_icolib.h>
+#include <win2k.h>
+
+#include "resource.h"
+#include "collection.h"
+#include "Version.h"
+#include "icmp.h"
+#include "log.h"
+#include "menu.h"
+#include "pinggraph.h"
+#include "pinglist.h"
+#include "pingthread.h"
+#include "rawping.h"
+#include "utils.h"
+
 #define MAX_HISTORY		(1440)		// 12 hrs at 30 sec intervals
 
 #define PLUG	"PING"
@@ -17,48 +58,6 @@
 
 #define MAX_PINGADDRESS_STRING_LENGTH	256
 
-//#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-//#define VC_EXTRALEAN
-//#define _WIN32_WINNT 0x0500
-
-#define WINVER	0x0500
-#define _WIN32_WINNT 0x0500
-#define _WIN32_IE 0x0300
-
-#define MIRANDA_VER		0x0600
-#include <windows.h>
-
-//#include <prsht.h>
-#include <shellapi.h>
-#include <commdlg.h>
-#include <commctrl.h>
-#include <time.h>
-
-#include <stdio.h>
-
-#include <newpluginapi.h>
-#include <statusmodes.h>
-#include <m_options.h>
-#include <m_langpack.h>
-#include <m_popup.h>
-#include <m_system.h>
-#include <m_skin.h>
-#include <m_netlib.h>
-#include <m_database.h>
-#include <m_protocols.h>
-#include <m_protomod.h>
-#include <m_protosvc.h>
-#include <m_ignore.h>
-#include <m_clist.h>
-#include <m_clui.h>
-#include <m_genmenu.h>
-#include <m_cluiframes.h>
-#include <m_utils.h>
-#include <m_fontservice.h>
-#include <m_icolib.h>
-#include <win2k.h>
-
-#include "collection.h"
 
 typedef struct {
 	int ping_period, ping_timeout;
@@ -71,8 +70,6 @@ typedef struct {
 	bool attach_to_clist;
 	bool log_csv;
 } PingOptions;
-
-#pragma warning( disable : 4786 )
 
 // a deque of pairs - ping time and timestamp
 struct HistPair {
@@ -110,12 +107,30 @@ struct PINGADDRESS {
 	const bool operator<(const PINGADDRESS &b) const;
 };
 
+#include "options.h"
 typedef Map<DWORD, HistoryList> HistoryMap;
+typedef std::list<PINGADDRESS> PINGLIST;
+typedef std::list<PINGADDRESS>::iterator pinglist_it;
 
 
 extern HANDLE hNetlibUser;
 extern HINSTANCE hInst;
 
 extern bool use_raw_ping;
+
+// wake event for ping thread
+extern HANDLE hWakeEvent;
+
+extern PingOptions options;
+extern PINGADDRESS add_edit_addr;
+extern HistoryMap history_map;
+extern PINGLIST list_items;
+extern HANDLE reload_event_handle;
+extern CRITICAL_SECTION list_cs;
+extern HANDLE mainThread;
+extern HANDLE hWakeEvent; 
+extern CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
+
+extern PINGLIST data_list;
 
 #endif

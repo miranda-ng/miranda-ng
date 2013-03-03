@@ -1,5 +1,4 @@
 #include "common.h"
-#include "pinggraph.h"
 
 HistoryMap history_map;
 
@@ -25,8 +24,8 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			bool found = false;
 			EnterCriticalSection(&data_list_cs);
-			for(PINGLIST::Iterator i = data_list.start(); i.has_val(); i.next()) {
-				if(i.val().item_id == wd->item_id) {
+			for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i) {
+				if(i->item_id == wd->item_id) {
 					wd->list = history_map[wd->item_id];
 					found = true;
 					break;
@@ -86,23 +85,31 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			HDC hdc;
 			RECT r;
 			WindowData *wd = (WindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			if(wd && (hdc = BeginPaint(hwnd, &ps)) != 0) {
+			if (wd && (hdc = BeginPaint(hwnd, &ps)) != 0)
+			{
 				GetClientRect(hwnd, &r);
 				FillRect(hdc, &r, GetSysColorBrush(COLOR_WINDOW));
 
 				short max_value = -1, min_value = (short)0x7FFF,
 					graph_height = 0; // this is minimum graph height, in ms
+
 				double avg = 0;
-				for(HistoryList::Iterator hli = wd->list.start(); hli.has_val(); hli.next()) {
-					if(hli.val().first > max_value) max_value = hli.val().first;
-					if(hli.val().first >= 0 && hli.val().first < min_value) min_value = hli.val().first;
+				for(HistoryList::Iterator hli = wd->list.begin(); hli.has_val(); hli.next())
+				{
+					if (hli.val().first > max_value)
+						max_value = hli.val().first;
+					if (hli.val().first >= 0 && hli.val().first < min_value)
+						min_value = hli.val().first;
 					avg += hli.val().first;
 				}
-				if(wd->list.size())
+
+				if (wd->list.size())
 					avg /= wd->list.size();
 
 				graph_height = (int)(max_value * 1.2f);
-				if(graph_height < MIN_GRAPH_HEIGHT) graph_height = MIN_GRAPH_HEIGHT;
+
+				if(graph_height < MIN_GRAPH_HEIGHT)
+					graph_height = MIN_GRAPH_HEIGHT;
 
 #ifdef max
 				float unit_width = (r.right - r.left) / (float)max((int)wd->list.size(), MIN_BARS), // space for at least MIN_BARS bars
@@ -113,7 +120,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				time_t last_time = 0, time, start_time = 0;
 				if(wd->list.size())
-					start_time = wd->list.start().val().second;
+					start_time = wd->list.begin().val().second;
 
 				RECT bar;
 				bar.bottom = r.bottom;
@@ -125,15 +132,18 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				HPEN hPenOld, hPen = CreatePen(PS_SOLID, 1, GetSysColor(COLOR_3DDKSHADOW));
 				hPenOld = (HPEN)SelectObject(hdc, hPen);
 
-				for(HistoryList::Iterator hi = wd->list.start(); hi.has_val(); hi.next()) {
-					if(hi.val().first != -1) {
+				for(HistoryList::Iterator hi = wd->list.begin(); hi.has_val(); hi.next())
+				{
+					if(hi.val().first != -1)
+					{
 						bar.top = bar.bottom - (int)(hi.val().first * unit_height + 0.5f);
 						FillRect(hdc, &bar, GetSysColorBrush(COLOR_HOTLIGHT));
 					}
 
 					time = hi.val().second - start_time;
-					
-					if(time / MARK_PERIOD != last_time / MARK_PERIOD) { // new minute
+
+					if(time / MARK_PERIOD != last_time / MARK_PERIOD)
+					{ // new minute
 						MoveToEx(hdc, bar.left, r.bottom, 0);
 						LineTo(hdc, bar.left, r.top);
 					}
@@ -145,20 +155,24 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					bar.right = (int)(x + unit_width + 0.5f);
 				}
 
-				if(wd->show_grid) {
+				if(wd->show_grid)
+				{
 					// draw horizontal lines to mark every 100ms
-					for(int li = 0; li < graph_height; li += MARK_TIME) {
+					for(int li = 0; li < graph_height; li += MARK_TIME)
+					{
 						MoveToEx(hdc, r.left, r.bottom - (int)(li * unit_height + 0.5f), 0);
 						LineTo(hdc, r.right, r.bottom - (int)(li * unit_height + 0.5f));
 					}
 				}
-				 
+
 				HPEN hPen2 = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-				if(wd->show_stat) {
+				if(wd->show_stat)
+				{
 					SelectObject(hdc, hPen2);
 					MoveToEx(hdc, r.left, r.bottom - (int)(avg * unit_height + 0.5f), 0);
 					LineTo(hdc, r.right, r.bottom - (int)(avg * unit_height + 0.5f));
-					if(max_value != avg) {
+					if (max_value != avg)
+					{
 						MoveToEx(hdc, r.left, r.bottom - (int)(max_value * unit_height + 0.5f), 0);
 						LineTo(hdc, r.right, r.bottom - (int)(max_value * unit_height + 0.5f));
 						MoveToEx(hdc, r.left, r.bottom - (int)(min_value * unit_height + 0.5f), 0);
@@ -174,16 +188,19 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetBkMode(hdc, TRANSPARENT);
 				SetTextColor(hdc, GetSysColor(COLOR_3DDKSHADOW));
 				char buff[64];
-				if(wd->show_grid) {
+				if(wd->show_grid)
+				{
 					sprintf(buff, Translate("%d ms"), MARK_TIME);
 					TextOut(hdc, r.right - 100, r.bottom - (int)(unit_height * MARK_TIME + 0.5f), buff, strlen(buff));
 				}
 
-				if(wd->show_stat) {
+				if (wd->show_stat)
+				{
 					SetTextColor(hdc, RGB(255, 0, 0));
 					sprintf(buff, Translate("AVG %.1lf ms"), avg);
 					TextOut(hdc, r.left + 10, r.bottom - (int)(avg * unit_height + 0.5f), buff, strlen(buff));
-					if(max_value != avg) {
+					if (max_value != avg)
+					{
 						sprintf(buff, Translate("MAX %hd ms"), max_value);
 						TextOut(hdc, r.left + 10, r.bottom - (int)(max_value * unit_height + 0.5f), buff, strlen(buff));
 						sprintf(buff, Translate("MIN %hd ms"), min_value);
@@ -247,16 +264,16 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	}
 
 	WNDCLASS wndclass;
-    wndclass.style         = 0;
-    wndclass.lpfnWndProc   = GraphWindowProc;
-    wndclass.cbClsExtra    = 0;
-    wndclass.cbWndExtra    = 0;
-    wndclass.hInstance     = hInst;
-    wndclass.hIcon         = hIconResponding;
-    wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-    wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
-    wndclass.lpszMenuName  = NULL;
-    wndclass.lpszClassName = _T(PLUG) _T("GraphWindow");
+	wndclass.style         = 0;
+	wndclass.lpfnWndProc   = GraphWindowProc;
+	wndclass.cbClsExtra    = 0;
+	wndclass.cbWndExtra    = 0;
+	wndclass.hInstance     = hInst;
+	wndclass.hIcon         = hIconResponding;
+	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
+	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
+	wndclass.lpszMenuName  = NULL;
+	wndclass.lpszClassName = _T(PLUG) _T("GraphWindow");
 	RegisterClass(&wndclass);
 
 	char title[256];
@@ -313,13 +330,13 @@ void graphs_init() {
 	PINGLIST pl;
 	char buff[64];
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
-	for(PINGLIST::Iterator i = pl.start(); i.has_val(); i.next()) {
-		sprintf(buff, "WindowHandle%d", i.val().item_id); // clean up from possible crash
+	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
+		sprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
 		DBWriteContactSettingDword(0, PLUG, buff, 0);
-		sprintf(buff, "WindowWasOpen%d", i.val().item_id); // restore windows that were open on shutdown
+		sprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
 		if(DBGetContactSettingByte(0, PLUG, buff, 0)) {
 			DBWriteContactSettingByte(0, PLUG, buff, 0);
-			ShowGraph((WPARAM)i.val().item_id, (LPARAM)i.val().pszLabel);
+			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);
 		}
 	}
 }

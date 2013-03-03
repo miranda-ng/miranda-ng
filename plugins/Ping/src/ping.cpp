@@ -1,6 +1,5 @@
 #include "common.h"
-#include "ping.h"
-#include <list>
+
 HINSTANCE hInst;
 int hLangpack = 0;
 
@@ -12,15 +11,15 @@ bool use_raw_ping = true;
 // plugin stuff
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Ping Plugin",
-	PLUGIN_MAKE_VERSION(0, 9, 1, 1),
-	"Ping labelled IP addresses or domain names.",
-	"Scott Ellis",
-	"mail@scottellis.com.au",
-	"© 2005 Scott Ellis",
-	"http://www.scottellis.com.au/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {760EA901-C0C2-446c-8029-94C3BC47C45E}
+	// {760EA901-C0C2-446C-8029-94C3BC47C45E}
 	{0x760ea901, 0xc0c2, 0x446c, {0x80, 0x29, 0x94, 0xc3, 0xbc, 0x47, 0xc4, 0x5e}}
 };
 
@@ -70,12 +69,12 @@ int OnShutdown(WPARAM wParam, LPARAM lParam) {
 
 	UnhookEvent(hFillListEvent);
 
+	DeinitList();
+
 	if(use_raw_ping)
 		cleanup_raw_ping();
 	else
 		ICMP::cleanup();
-
-	DeinitList();
 
 	return 0;
 }
@@ -99,7 +98,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	InitUtils();
 
 	InitMenus();
-	
+
 	hFillListEvent = HookEvent(PLUG "/ListReload", FillList);
 
 	if(!DBGetContactSettingByte(0, PLUG, "PingPlugImport", 0)) {
@@ -111,8 +110,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 	InitList();
 
-	CallService(PLUG "/LoadPingList", 0, 0);	
-	
+	CallService(PLUG "/LoadPingList", 0, 0);
+
 	graphs_init();
 
 	if(options.logging) CallService(PLUG "/Log", (WPARAM)"start", 0);
@@ -136,7 +135,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitializeCriticalSection(&thread_finished_cs);
 	InitializeCriticalSection(&list_changed_cs);
 	InitializeCriticalSection(&data_list_cs);
-	
+
 	// create services before loading options - so we can have the 'getlogfilename' service!
 	CreatePluginServices();
 
@@ -145,7 +144,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	SkinAddNewSound("PingTimeout", "Ping Timout", 0);
 	SkinAddNewSound("PingReply", "Ping Reply", 0);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);	
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	HookEvent(ME_OPT_INITIALISE, PingOptInit );
 

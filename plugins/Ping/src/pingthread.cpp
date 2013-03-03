@@ -1,5 +1,4 @@
 #include "common.h"
-#include "pingthread.h"
 
 int upCount, total = 0;
 
@@ -91,12 +90,12 @@ void SetProtoStatus(char *pszLabel, char *pszProto, int if_status, int new_statu
 DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 {
 	clock_t start_t = clock(), end_t;
-	while(!get_thread_finished()) {
-
+	while (!get_thread_finished())
+	{
 		end_t = clock();
 
 		int wait = (int)((options.ping_period - ((end_t - start_t) / (double)CLOCKS_PER_SEC)) * 1000);
-		if(wait > 0)
+		if (wait > 0)
 			WaitForSingleObjectEx(hWakeEvent, wait, TRUE);
 
 		if(get_thread_finished()) break;
@@ -116,21 +115,24 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 		Unlock(&data_list_cs);
 
 		int index = 0;
-		for(; index < size; index++) {
+		for(; index < size; index++)
+		{
 			Lock(&data_list_cs, "ping thread loop start");
 			int c = 0;
-			for(PINGLIST::Iterator i = data_list.start(); i.has_val() && c <= index; i.next(), c++) {
-				if(c == index) {
+			for (pinglist_it i = data_list.begin(); i != data_list.end() && c <= index; ++i, c++)
+			{
+				if (c == index)
+				{
 					// copy just what we need - i.e. not history, not command
-					pa.get_status = i.val().get_status;
-					pa.item_id = i.val().item_id;
-					pa.miss_count = i.val().miss_count;
-					pa.port = i.val().port;
-					strcpy(pa.pszLabel, i.val().pszLabel);
-					strcpy(pa.pszName, i.val().pszName);
-					strcpy(pa.pszProto, i.val().pszProto);
-					pa.set_status = i.val().set_status;
-					pa.status = i.val().status;
+					pa.get_status = i->get_status;
+					pa.item_id = i->item_id;
+					pa.miss_count = i->miss_count;
+					pa.port = i->port;
+					strcpy(pa.pszLabel, i->pszLabel);
+					strcpy(pa.pszName, i->pszName);
+					strcpy(pa.pszProto, i->pszProto);
+					pa.set_status = i->set_status;
+					pa.status = i->status;
 					break;
 				}
 
@@ -143,9 +145,11 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 			if(pa.status != PS_DISABLED) {
 				if(!options.no_test_icon) {
 					Lock(&data_list_cs, "ping thread loop start");
-					for(PINGLIST::Iterator i = data_list.start(); i.has_val(); i.next()) {
-						if(i.val().item_id == pa.item_id) {
-							i.val().status = PS_TESTING;
+					for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i)
+					{
+						if(i->item_id == pa.item_id)
+						{
+							i->status = PS_TESTING;
 						}
 					}
 					Unlock(&data_list_cs);
@@ -158,44 +162,49 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 				if(get_list_changed()) break;
 
 				Lock(&data_list_cs, "ping thread loop start");
-				for(PINGLIST::Iterator i = data_list.start(); i.has_val(); i.next()) {
-					if(i.val().item_id == pa.item_id) {
-						i.val().responding = pa.responding;
-						i.val().round_trip_time = pa.round_trip_time;
-						history_entry.first = i.val().round_trip_time;
+				for(pinglist_it i = data_list.begin(); i != data_list.end(); ++i)
+				{
+					if(i->item_id == pa.item_id)
+					{
+						i->responding = pa.responding;
+						i->round_trip_time = pa.round_trip_time;
+						history_entry.first = i->round_trip_time;
 						history_entry.second = time(0);
-						history_map[i.val().item_id].push_back(history_entry);
+						history_map[i->item_id].push_back(history_entry);
 						// maintain history (-1 represents no response)
-						while(history_map[i.val().item_id].size() >= MAX_HISTORY)
-							//history_map[i.val().item_id].pop_front();
-							history_map[i.val().item_id].remove(history_map[i.val().item_id].start().val());
+						while(history_map[i->item_id].size() >= MAX_HISTORY)
+							//history_map[i->item_id].pop_front();
+							history_map[i->item_id].remove(history_map[i->item_id].begin().val());
 
-						if(pa.responding) {
+						if(pa.responding)
+						{
 							if(pa.miss_count > 0)
 								pa.miss_count = -1;
 							else
 								pa.miss_count--;
 							pa.status = PS_RESPONDING;
 						}
-						else {
+						else
+						{
 							if(pa.miss_count < 0)
 								pa.miss_count = 1;
 							else
 								pa.miss_count++;
 							pa.status = PS_NOTRESPONDING;
 						}
-						i.val().miss_count = pa.miss_count;
-						i.val().status = pa.status;
+
+						i->miss_count = pa.miss_count;
+						i->status = pa.status;
 
 						break;
 					}
 				}
 				Unlock(&data_list_cs);
 
-				if(pa.responding) {
+				if(pa.responding) {	
 					count++;
 
-					if(pa.miss_count == -1 - options.retries ||
+					if(pa.miss_count == -1 - options.retries || 
 						(((-pa.miss_count) % (options.retries + 1)) == 0 && !options.block_reps))
 					{
 						reply = true;
@@ -211,7 +220,7 @@ DWORD WINAPI sttCheckStatusThreadProc( void *vp)
 					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
 				} else {
 
-					if(pa.miss_count == 1 + options.retries ||
+					if(pa.miss_count == 1 + options.retries || 
 						((pa.miss_count % (options.retries + 1)) == 0 && !options.block_reps))
 					{
 						timeout = true;
@@ -283,8 +292,9 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	SendMessage(list_hwnd, LB_RESETCONTENT, 0, 0);
 
 	int index = 0;
-	for(PINGLIST::Iterator j = data_list.start(); j.has_val(); j.next(), index++) {
-		SendMessage(list_hwnd, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)&j.val());
+	for(pinglist_it j = data_list.begin(); j != data_list.end(); ++j, index++)
+	{
+		SendMessage(list_hwnd, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)&(*j));
 	}
 	set_list_changed(true);
 
@@ -303,12 +313,14 @@ int FillList(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR PingPlugShowWindow(WPARAM wParam, LPARAM lParam) {
-	if(hpwnd) {
-		if(frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_SHFRAME)) CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);
-		else {
+INT_PTR PingPlugShowWindow(WPARAM wParam, LPARAM lParam)
+{
+	if(hpwnd)
+	{
+		if (frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_SHFRAME))
+			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);
+		else
 			ShowWindow(hpwnd, IsWindowVisible(hpwnd) ? SW_HIDE : SW_SHOW);
-		}
 	}
 	return 0;
 }
@@ -321,9 +333,10 @@ void CALLBACK TimerProc(
   DWORD dwTime       // current system time
 )
 {
-	if(frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if(frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+	{
 		char TBcapt[255];
-		if(total > 0)
+		if (total > 0)
 			wsprintf(TBcapt,"Ping (%d/%d)", upCount, total);
 		else
 			wsprintf(TBcapt,"Ping");
@@ -383,7 +396,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				GetClientRect(hwnd, &r);
 
-				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS)
+				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS) 
 					|| (context_point_valid && (x >= dis->rcItem.left && x <= dis->rcItem.right) && (y >= dis->rcItem.top && y <= dis->rcItem.bottom)))
 				{
 					tcol = DBGetContactSettingDword(NULL,"CLC","SelBkColour", GetSysColor(COLOR_HIGHLIGHT));
@@ -438,7 +451,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			return (BOOL)(tbrush = CreateSolidBrush(bk_col));
 		}
 
-	case WM_ERASEBKGND:
+	case WM_ERASEBKGND: 
 		{
 			RECT r;
 			GetClientRect(hwnd, &r);
@@ -509,9 +522,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_CREATE:
-		list_hwnd = CreateWindow("LISTBOX", "",
-			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY)
-			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY)
+		list_hwnd = CreateWindow("LISTBOX", "", 
+			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY) 
+			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY) 
 			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);
 
 		if (DBGetContactSettingByte(NULL,"CList","Transparent",0))
@@ -595,7 +608,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return FALSE;
 
 	case WM_SHOWWINDOW:
-	{	static int noRecurse=0;
+	{
+		static int noRecurse=0;
 		if(lParam) break;
 		if(noRecurse) break;
 		if(!DBGetContactSettingByte(NULL,"CLUI","FadeInOut",0) || !IsWinVer2000Plus()) break;
@@ -657,7 +671,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				//TextOut(paintDC,4,4,"cl1 Bottom window",sizeof("cl1 Bottom window")-1);
 				//DeleteObject(brush);
 				EndPaint(hwnd, &paintStruct); //
-
 
 				};
 				return TRUE;
@@ -877,7 +890,6 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return(TRUE);
 };
 
-
 int ReloadFont(WPARAM wParam, LPARAM lParam) {
 	if(hFont) DeleteObject(hFont);
 
@@ -920,12 +932,8 @@ void UpdateFrame() {
 
 WNDPROC wpOrigClistProc;
 
-// Subclass procedure
-LRESULT APIENTRY ClistSubclassProc(
-    HWND hwnd,
-    UINT uMsg,
-    WPARAM wParam,
-    LPARAM lParam)
+// Subclass procedure 
+LRESULT APIENTRY ClistSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if(uMsg == WM_SIZE || uMsg == WM_MOVE)
 		UpdateFrame();
@@ -944,10 +952,11 @@ LRESULT APIENTRY ClistSubclassProc(
 		ShowWindow(hpwnd, wParam);
 	}
 
-    return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam);
+	return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam); 
 }
 
-void AttachToClist(bool attach) {
+void AttachToClist(bool attach)
+{
 	if(!hpwnd) return;
 
 	if(attach) {
@@ -968,8 +977,8 @@ void AttachToClist(bool attach) {
 	}
 }
 
-void InitList() {
-
+void InitList()
+{
 	hUserDll = LoadLibrary(_T("user32.dll"));
 	if (hUserDll) {
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
@@ -980,16 +989,16 @@ void InitList() {
 
 	WNDCLASS wndclass;
 
-    wndclass.style         = 0;
-    wndclass.lpfnWndProc   = FrameWindowProc;
-    wndclass.cbClsExtra    = 0;
-    wndclass.cbWndExtra    = 0;
-    wndclass.hInstance     = hInst;
-    wndclass.hIcon         = hIconResponding;
-    wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-    wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
-    wndclass.lpszMenuName  = NULL;
-    wndclass.lpszClassName = _T(PLUG) _T("WindowClass");
+	wndclass.style         = 0;
+	wndclass.lpfnWndProc   = FrameWindowProc;
+	wndclass.cbClsExtra    = 0;
+	wndclass.cbWndExtra    = 0;
+	wndclass.hInstance     = hInst;
+	wndclass.hIcon         = hIconResponding;
+	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
+	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
+	wndclass.lpszMenuName  = NULL;
+	wndclass.lpszClassName = _T(PLUG) _T("WindowClass");
 	RegisterClass(&wndclass);
 
 	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
@@ -1003,7 +1012,6 @@ void InitList() {
 		frame.Flags=F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 		frame.height=30;
 		frame.TBname=Translate("Ping");
-		frame.hIcon = hIconResponding;
 
 		frame_id=CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
 	} else {
@@ -1036,7 +1044,7 @@ void InitList() {
 		strncpy(font_id.dbSettingsGroup, "PING", sizeof(font_id.dbSettingsGroup));
 		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
 		_tcsncpy(font_id.backgroundGroup, _T("Ping"), SIZEOF(font_id.backgroundGroup));
-		_tcsncpy(font_id.backgroundName ,_T("Background"), SIZEOF(font_id.backgroundName));
+		_tcsncpy(font_id.backgroundName, _T("Background"), SIZEOF(font_id.backgroundName));
 		font_id.order = 0;
 
 		FontRegisterT(&font_id);

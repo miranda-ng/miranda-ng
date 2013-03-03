@@ -1,14 +1,6 @@
 #ifndef _PING_UTILS
 #define _PING_UTILS
 
-#pragma warning( disable : 4786 )
-
-#include "pingthread.h" // for mainthread, for popup
-//#include "icmp.h"
-#include "rawping.h"
-#include "icmp.h"
-#include "options.h"
-
 void __stdcall	ShowPopup( const char* line1, const char* line2, int flags );
 
 INT_PTR PluginPing(WPARAM wParam,LPARAM lParam);

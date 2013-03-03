@@ -1,5 +1,4 @@
 #include "common.h"
-#include "log.h"
 
 INT_PTR Log(WPARAM wParam, LPARAM lParam) {
 
