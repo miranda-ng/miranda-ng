@@ -1,0 +1,17 @@
+; Smiley Definitions
+; Copyright (C) 2008 Angeli-Ka, borkra All Rights Reserved
+;
+; Licensed under:
+; GNU General Public License version 2
+;
+; The complete text of the license, translation and legal text can be found here:
+; http://www.gnu.org/licenses/
+;
+; Emoticon Images
+; Copyright (C) 2008 Angeli-Ka All Rights Reserved
+;
+; Licensed under:
+; Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 license 
+;
+; The complete text of the license, translation and legal text can be found here:
+; http://creativecommons.org/licenses/by-nc-nd/3.0/
