@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 
 #include "..\..\src\mimcmd_ipc.h"
-#include "..\..\src\version.h"
+#include "version.h"
 #include "..\..\src\utils.h"
 #include "commands.h"
 
