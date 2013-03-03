@@ -257,11 +257,11 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		if (!PopUpOptions.ModuleIsEnabled)
 			return -1;
 		#ifdef _DEBUG
-			itoa(PopUpOptions.DisableWhenFullscreen,temp,10);
+			_itoa(PopUpOptions.DisableWhenFullscreen,temp,10);
 			OutputDebugStringA("PopUpOptions.DisableWhenFullscreen: \t");
 			OutputDebugStringA(temp);
 			OutputDebugStringA("\n");
-			itoa(bShowMode,temp,10);
+			_itoa(bShowMode,temp,10);
 			OutputDebugStringA("bShowMode: \t");
 			OutputDebugStringA(temp);
 			OutputDebugStringA("\n");

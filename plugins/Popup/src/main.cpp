@@ -389,37 +389,37 @@ MIRAPI int Load(void)
 
 	//Service Functions
 	CreateServiceFunction(MS_POPUP_ADDPOPUP,             PopUp_AddPopUp);
-   CreateServiceFunction(MS_POPUP_ADDPOPUPEX,           PopUp_AddPopUpEx);
-   CreateServiceFunction(MS_POPUP_ADDPOPUPW,            PopUp_AddPopUpW);
-   CreateServiceFunction(MS_POPUP_ADDPOPUP2,            PopUp_AddPopUp2);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPEX,           PopUp_AddPopUpEx);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            PopUp_AddPopUpW);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            PopUp_AddPopUp2);
 
-   CreateServiceFunction(MS_POPUP_CHANGETEXT,           PopUp_ChangeText);
-   CreateServiceFunction(MS_POPUP_CHANGETEXTW,          PopUp_ChangeTextW);
-   CreateServiceFunction(MS_POPUP_CHANGE,               PopUp_Change);
-   CreateServiceFunction(MS_POPUP_CHANGEW,              PopUp_ChangeW);
-   CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         PopUp_Change2);
+	CreateServiceFunction(MS_POPUP_CHANGETEXT,           PopUp_ChangeText);
+	CreateServiceFunction(MS_POPUP_CHANGETEXTW,          PopUp_ChangeTextW);
+	CreateServiceFunction(MS_POPUP_CHANGE,               PopUp_Change);
+	CreateServiceFunction(MS_POPUP_CHANGEW,              PopUp_ChangeW);
+	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         PopUp_Change2);
 
-   CreateServiceFunction(MS_POPUP_GETCONTACT,           PopUp_GetContact);
-   CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        PopUp_GetPluginData);
-   CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    PopUp_IsSecondLineShown);
+	CreateServiceFunction(MS_POPUP_GETCONTACT,           PopUp_GetContact);
+	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        PopUp_GetPluginData);
+	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN,    PopUp_IsSecondLineShown);
 
-   CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          PopUp_ShowMessage);
-   CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         PopUp_ShowMessageW);
-   CreateServiceFunction(MS_POPUP_QUERY,                PopUp_Query);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          PopUp_ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         PopUp_ShowMessageW);
+	CreateServiceFunction(MS_POPUP_QUERY,                PopUp_Query);
 
-   CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      PopUp_RegisterActions);
-   CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, PopUp_RegisterNotification);
+	CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      PopUp_RegisterActions);
+	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, PopUp_RegisterNotification);
 
-   CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     PopUp_UnhookEventAsync);
+	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     PopUp_UnhookEventAsync);
 
-   CreateServiceFunction(MS_POPUP_REGISTERVFX,          PopUp_RegisterVfx);
+	CreateServiceFunction(MS_POPUP_REGISTERVFX,          PopUp_RegisterVfx);
 
-   CreateServiceFunction(MS_POPUP_REGISTERCLASS,        PopUp_RegisterPopupClass);
-   CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        PopUp_CreateClassPopup);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS,        PopUp_RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        PopUp_CreateClassPopup);
 
 	//load icons / create hook
 	InitIcons();
-	HookEvent(ME_SKIN2_ICONSCHANGED,IconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 	//add menu items
 	InitMenuItems();
 

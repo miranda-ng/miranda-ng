@@ -181,7 +181,6 @@
   <ItemGroup>
     <ClCompile Include="src\actions.cpp" />
     <ClCompile Include="src\avatars.cpp" />
-    <ClCompile Include="src\avatars_flash.cpp" />
     <ClCompile Include="src\avatars_gif.cpp" />
     <ClCompile Include="src\avatars_simple.cpp" />
     <ClCompile Include="src\bitmap_funcs.cpp" />
@@ -189,7 +188,6 @@
     <ClCompile Include="src\effects.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\formula.cpp" />
-    <ClCompile Include="src\headers.cpp" />
     <ClCompile Include="src\history.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\stdafx.cpp">

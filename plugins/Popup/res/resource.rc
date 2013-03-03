@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "winres.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -319,25 +319,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog Info
-//
-
-IDD_OPT_NOTIFICATIONS DLGINIT
-BEGIN
-    IDC_LACTION, 0x403, 13, 0
-0x6553, 0x646e, 0x4d20, 0x7365, 0x6173, 0x6567, "\000" 
-    IDC_LACTION, 0x403, 14, 0
-0x6944, 0x6d73, 0x7369, 0x2073, 0x6f50, 0x7570, 0x0070, 
-    IDC_RACTION, 0x403, 13, 0
-0x6553, 0x646e, 0x4d20, 0x7365, 0x6173, 0x6567, "\000" 
-    IDC_RACTION, 0x403, 14, 0
-0x6944, 0x6d73, 0x7369, 0x2073, 0x6f50, 0x7570, 0x0070, 
-    0
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // SKIN
 //
 
@@ -365,18 +346,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Нейтральный resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Итальянский (Италия) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ITA)
-LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
-#pragma code_page(1252)
-
-#ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
@@ -399,9 +369,7 @@ BEGIN
     "\0"
 END
 
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Итальянский (Италия) resources
+#endif    // Нейтральный resources
 /////////////////////////////////////////////////////////////////////////////
 
 

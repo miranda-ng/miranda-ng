@@ -24,9 +24,6 @@
     <ClCompile Include="src\avatars.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\avatars_flash.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\avatars_gif.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,9 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\formula.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\headers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\history.cpp">

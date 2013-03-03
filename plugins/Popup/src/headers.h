@@ -46,122 +46,89 @@ http://miranda-ng.org/distr/
 #ifndef HEADERS_H
 #define HEADERS_H
 
-	// disable security warnings about "*_s" functions
-	#define _CRT_SECURE_NO_DEPRECATE
+// disable security warnings about "*_s" functions
+#define _CRT_SECURE_NO_DEPRECATE
 
-	// disable warnings about underscore in stdc functions
-	#pragma warning(disable: 4996)
+#define _WIN32_WINNT 0x0501
+#define WINVER 0x0500
+#define OEMRESOURCE
 
-	#define _WIN32_WINNT 0x0501
-	#define WINVER 0x0500
-	#define OEMRESOURCE
+#include <windows.h>
+#include <windowsx.h>
+#include <time.h>
+#include <process.h>
+#include <commctrl.h>
 
-	#include <windows.h>
-	#include <windowsx.h>
-	#include <winuser.h>
+#include <newpluginapi.h>
+#include <win2k.h>
+#include <m_clui.h>
+#include <m_clist.h>
+#include <m_options.h>
+#include <m_skin.h>
+#include <m_langpack.h>
+#include <m_database.h>
+#undef DBGetContactSettingString
+#include <m_protosvc.h>
+#include <m_button.h>
+#include <m_message.h>
+#include <m_userinfo.h>
+#include <m_addcontact.h>
+#include <m_png.h>
+#include <m_clc.h>
+#include <m_icolib.h>
+#include <m_hotkeys.h>
+#include <m_fontservice.h>
+#include <m_avatars.h>
+#include <m_extraicons.h>
+#include <m_popup.h>
 
-	//Standard headers
-	#include <stdlib.h>
-	#include <stdio.h>
-	#include <time.h>
-	#include <malloc.h>
+#include <m_metacontacts.h>
+#include <m_folders.h>
+#include <m_ieview.h>
+#include <m_smileyadd.h>
+#ifndef MTEXT_NOHELPERS
+	#define MTEXT_NOHELPERS
+#endif // MTEXT_NOHELPERS
+#include <m_text.h>
+#include <m_toptoolbar.h>
+#include <m_popup2.h>
+#include <m_hpp.h>
 
-	//Windows headers
-	#include <process.h>
-	#include <commctrl.h>
-	#include <commdlg.h>
+#include "resource.h"
+#include "defs.h"
+#include "version.h"
+#include "config.h"
+#include "common.h"
+#include "def_settings.h"
+#include "opttree.h"
+#include "opt_gen.h"
+#include "opt_skins.h"
+#include "opt_contacts.h"
+#include "opt_adv.h"
+#include "history.h"
+#include "services.h"
+#include "srmm_menu.h"
+#include "bitmap_funcs.h"
+#include "icons.h"
+#include "font.h"
+#include "formula.h"
+#include "skin.h"
+#include "popup_thread.h"
+#include "actions.h"
+#include "notifications.h"
+#include "opt_class.h"
+#include "popup_wnd2.h"
+#include "effects.h"
+#include "avatars.h"
+#include "avatars_simple.h"
+#include "avatars_flash.h"
+#include "avatars_gif.h"
+#include "popup_gdiplus.h"
 
-#ifdef ComboBox_SelectItemData
- // use Workaround for MS bug ComboBox_SelectItemData;
- #undef ComboBox_SelectItemData
-#endif
-
-	//Resources
-	#include "resource.h"
-
-	#define NOWIN2K
-	#define MIRANDA_VER 0x0A00
-
-	//Miranda API (see Miranda svn)
-	#include <newpluginapi.h>
-	#include <win2k.h>
-	#include <m_system.h>
-	#include <m_clui.h>
-	#include <m_clist.h>
-	#include <m_options.h>
-	#include <m_skin.h>
-	#include <m_langpack.h>
-	#include <m_database.h>
-		#undef DBGetContactSettingString
-	#include <m_protocols.h>
-	#include <m_protosvc.h>
-	#include <m_utils.h>
-	#include <m_button.h>
-	#include <m_message.h>
-	#include <m_userinfo.h>
-	#include <m_addcontact.h>
-	#include <m_png.h>
-	#include <m_clc.h>
-	#include <m_icolib.h>
-	#include <m_hotkeys.h>
-	#include <m_fontservice.h>
-	#include <m_avatars.h>
-	#include <m_metacontacts.h>
-	#include <m_extraicons.h>
-
-	#include <m_system_cpp.h>
-
-
-	// API for 3rd party plugins (\include_API folder)
- 	// this folder contain always the latest API
-	#include <m_folders.h>
-	#include <m_ieview.h>
-	#include <m_smileyadd.h>
-	#ifndef MTEXT_NOHELPERS
-		#define MTEXT_NOHELPERS
-	#endif // MTEXT_NOHELPERS
-	#include <m_text.h>
-	#include <m_toptoolbar.h>
-	#include <m_popup.h>			//core define see miranda\include\
-
-	// API for 3rd party plugins (.\api folder)
-	// this folder contain spetial edition API (not latest API !!!)
-	#include "m_mathmodule.h"
-	#include "m_popup2.h"
-
-	//PopUp common handlers
-	#include "defs.h"
-	#include "version.h"
-	#include "config.h"
-	#include "common.h"
-	#include "def_settings.h"
-	#include "opttree.h"
-	#include "opt_gen.h"
-	#include "opt_skins.h"
-	#include "opt_contacts.h"
-	#include "opt_adv.h"
-	#include "m_hpp.h"
-	#include "history.h"
-	#include "services.h"
-	#include "srmm_menu.h"
-	#include "bitmap_funcs.h"
-	#include "icons.h"
-	#include "font.h"
-	#include "formula.h"
-	#include "skin.h"
-	#include "popup_thread.h"
-	#include "actions.h"
-	#include "notifications.h"
-	#include "opt_class.h"
-	#include "popup_wnd2.h"
-	#include "effects.h"
-
-	#include "avatars.h"
-	#include "avatars_simple.h"
-	#include "avatars_flash.h"
-	#include "avatars_gif.h"
-
-	#include "popup_gdiplus.h"
+#define PU_MODULCLASS				"PopUpCLASS"		//temp DB modul for this plugin
+#define MODULNAME					"PopUp"
+#define MODULNAME_LONG				"Popup Plus"		//dont use "PopUp Plus" coz notify register use "Popup Plus"
+#define MODULNAME_PLU				"PopUps"
 
 INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM);
 

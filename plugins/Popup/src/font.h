@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //basic constants for all popup plugins
 #define PU_FNT_AND_COLOR		"Popups"			//common main group for customice\font&color
-#define PU_FNT_AND_COLOR_DB		PU_COMMONMODUL		//use eg strcpy(fid.dbSettingsGroup, PU_FNT_GROUP_DB);
+#define PU_FNT_AND_COLOR_DB		MODULNAME		//use eg strcpy(fid.dbSettingsGroup, PU_FNT_GROUP_DB);
 
 #define PU_FNT_PREFIX			"fnt%s"				//use eg mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_....);
 #define PU_FNT_NAME_TITLE		"Title"				//use eg lstrcpy(fid.name, _T(FNT_NAME_....)) for FontIDT
