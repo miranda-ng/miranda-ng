@@ -17,33 +17,28 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#define MIRANDA_VER    0x0A00
-
 // Windows Header Files:
-#include <time.h>
-#include <stdio.h>
 #include <windows.h>
 #include <Windowsx.h>
-#include "vector"       // stl vector header
+#include <time.h>
+#include <vector>
 #include <Shlobj.h>
 
 // Miranda header files
-#include "win2k.h"
+#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_database.h>
-#include <m_utils.h>
-#include <m_system.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
 
 #include <m_folders.h>
-#include "m_popup2.h"
+#include <m_popup2.h>
 
 #include "version.h"
 #include "resource.h"
@@ -51,10 +46,9 @@ Boston, MA 02111-1307, USA.
 
 #define MODNAME					"PackUpdater"
 #define MODULEA					"Pack Updater"
-#define MODULEW					L"Pack Updater"
+#define MODULE					L"Pack Updater"
 #define DEFAULT_UPDATES_FOLDER	L"Pack Updates"
 typedef std::wstring tString;
-#define MODULE	MODULEW
 
 struct FILEURL
 {
