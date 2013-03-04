@@ -522,6 +522,7 @@
   <ItemGroup>
     <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\misc.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\opttree.cpp" />
     <ClCompile Include="src\statistics.cpp" />
     <ClCompile Include="src\TrafficCounter.cpp" />

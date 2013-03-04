@@ -82,5 +82,30 @@ int TrafficCounter_Draw(HWND, HDC);
 int PaintTrafficCounterWindow(HWND, HDC);
 // Вспомогательные функции
 INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM);
+void Traffic_AddMainMenuItem(void);
+
+extern HINSTANCE hInst;
+
+extern HWND TrafficHwnd;
+extern PROTOLIST *ProtoList;
+extern uTCFLAGS unOptions;
+
+extern int  Traffic_PopupBkColor;
+extern int  Traffic_PopupFontColor;
+extern char Traffic_Notify_time_value;
+extern int  Traffic_Notify_size_value;
+extern char Traffic_PopupTimeoutDefault;
+extern char Traffic_PopupTimeoutValue;
+extern char Traffic_AdditionSpace;
+
+extern TCHAR Traffic_CounterFormat[512];
+extern TCHAR Traffic_TooltipFormat[512];
+
+extern BOOL bPopupExists, bVariablesExists, bTooltipExists;
+
+extern BOOL UseKeyColor;
+extern COLORREF KeyColor;
+
+extern HGENMENU hTrafficMainMenuItem;
 
 #endif;

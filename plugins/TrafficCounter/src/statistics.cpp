@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include <math.h>
 
-extern HWND TrafficHwnd;
-extern PROTOLIST *ProtoList;
-extern uTCFLAGS unOptions;
 WORD Stat_SelAcc; // Выбранные аккаунты в окне статистики
 
 HWND hListAccs;
