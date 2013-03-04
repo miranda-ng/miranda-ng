@@ -90,7 +90,7 @@ private:
 
 	       INT_PTR CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK WndProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	HWND    m_hwnd;            // our window handle
 	HWND    m_hRich;           // handle of the rich edit child
@@ -104,9 +104,6 @@ private:
 	int     m_leftWidth;
 
 	const CInfoPanel *m_panel; // the info panel parent (if any)
-
-private:
-	static WNDPROC m_OldMessageEditProc;   // stores original richedit wnd proc
 };
 
 /**
@@ -182,7 +179,7 @@ public:
 public:
 	static TInfoPanelConfig m_ipConfig;
 	static int setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
 	void  mapRealRect(const RECT& rcSrc, RECT& rcDest, const SIZE& sz);

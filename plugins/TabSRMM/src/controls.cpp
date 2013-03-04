@@ -33,17 +33,17 @@
  */
 
 #include "commonheaders.h"
-static 	WNDPROC OldStatusBarproc = 0;
+static    WNDPROC OldStatusBarproc = 0;
 
-extern int 		status_icon_list_size;
-extern 			TStatusBarIconNode *status_icon_list;
+extern    int status_icon_list_size;
+extern    TStatusBarIconNode *status_icon_list;
 
-bool	 	CMenuBar::m_buttonsInit = false;
-HHOOK		CMenuBar::m_hHook = 0;
-TBBUTTON 	CMenuBar::m_TbButtons[8] = {0};
-CMenuBar*	CMenuBar::m_Owner = 0;
-HBITMAP		CMenuBar::m_MimIcon = 0;
-int			CMenuBar::m_MimIconRefCount = 0;
+bool      CMenuBar::m_buttonsInit = false;
+HHOOK     CMenuBar::m_hHook = 0;
+TBBUTTON  CMenuBar::m_TbButtons[8] = {0};
+CMenuBar *CMenuBar::m_Owner = 0;
+HBITMAP   CMenuBar::m_MimIcon = 0;
+int       CMenuBar::m_MimIconRefCount = 0;
 
 static int resetLP(WPARAM, LPARAM, LPARAM obj)
 {
@@ -89,14 +89,12 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_isContactMenu = m_isMainMenu = false;
 	m_hevHook = HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
 
-	m_oldWndProc = (WNDPROC)::GetWindowLongPtr(m_hwndToolbar, GWLP_WNDPROC);
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, (UINT_PTR)this);
-	::SetWindowLongPtr(m_hwndToolbar, GWLP_WNDPROC, (UINT_PTR)wndProc);
+	mir_subclassWindow(m_hwndToolbar, wndProc);
 }
 
 CMenuBar::~CMenuBar()
 {
-	::SetWindowLongPtr(m_hwndToolbar, GWLP_WNDPROC, (UINT_PTR)m_oldWndProc);
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, 0);
 	::DestroyWindow(m_hwndToolbar);
 	::UnhookEvent(m_hevHook);
@@ -161,20 +159,20 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM 
 	if (msg == WM_NOTIFY) {
 		NMHDR* pNMHDR = (NMHDR*)lParam;
 		switch(pNMHDR->code) {
-			case NM_CUSTOMDRAW: {
+		case NM_CUSTOMDRAW:
+			{
 				NMCUSTOMDRAW *nm = (NMCUSTOMDRAW*)lParam;
-				return(customDrawWorker(nm));
+				return customDrawWorker(nm);
 			}
 
-			case TBN_DROPDOWN: {
+		case TBN_DROPDOWN:
+			{
 				NMTOOLBAR *mtb = (NMTOOLBAR *)lParam;
-
-				LRESULT result = Handle(mtb);
-				return(result);
+				return Handle(mtb);
 			}
-			case TBN_HOTITEMCHANGE: {
+		case TBN_HOTITEMCHANGE:
+			{
 				NMTBHOTITEM *nmtb = (NMTBHOTITEM *)lParam;
-
 				if (nmtb->idNew != 0 && m_fTracking && nmtb->idNew != m_activeID && m_activeID != 0) {
 					cancel(0);
 					return 0;
@@ -185,14 +183,14 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM 
 				}
 				break;
 			}
-			default:
-				return(-1);
+
+		default:
+			return -1;
 		}
 	}
 	else if (msg == WM_LBUTTONDOWN) {
 		if (m_pContainer->dwFlags & CNT_NOTITLE) {
 			POINT	pt;
-
 			::GetCursorPos(&pt);
 			return ::SendMessage(m_pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
@@ -210,17 +208,14 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 	CMenuBar *menuBar = reinterpret_cast<CMenuBar *>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
 	switch(msg) {
-		case WM_SYSKEYUP: {
-			if (wParam == VK_MENU) {
-				menuBar->Cancel();
-				return 0;
-			}
-			break;
+	case WM_SYSKEYUP:
+		if (wParam == VK_MENU) {
+			menuBar->Cancel();
+			return 0;
 		}
-		default:
-			break;
+		break;
 	}
-	return(::CallWindowProc(menuBar->m_oldWndProc, hWnd, msg, wParam, lParam));
+	return ::mir_callNextSubclass(hWnd, CMenuBar::wndProc, msg, wParam, lParam);
 }
 
 /**
@@ -331,13 +326,13 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : 
 						(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
 
-					::SetBkMode(m_hdcDraw, TRANSPARENT);
-					CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
+				::SetBkMode(m_hdcDraw, TRANSPARENT);
+				CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
 				}
 				if (iIndex == 0) 
 					::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
-						(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
-						16, 16, 0, 0, DI_NORMAL);
+					(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
+					16, 16, 0, 0, DI_NORMAL);
 
 				return(CDRF_SKIPDEFAULT);
 			}
@@ -721,13 +716,14 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		OldStatusBarproc = wc.lpfnWndProc;
 	}
 	switch (msg) {
-		case WM_CREATE: {
+	case WM_CREATE:
+		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
 			LRESULT ret;
 			HWND hwndParent = GetParent(hWnd);
 			/*
-			 * dirty trick to get rid of that annoying sizing gripper
-			 */
+			* dirty trick to get rid of that annoying sizing gripper
+			*/
 			SetWindowLongPtr(hwndParent, GWL_STYLE, GetWindowLongPtr(hwndParent, GWL_STYLE) & ~WS_THICKFRAME);
 			SetWindowLongPtr(hwndParent, GWL_EXSTYLE, GetWindowLongPtr(hwndParent, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
 			cs->style &= ~SBARS_SIZEGRIP;
@@ -737,7 +733,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			return ret;
 		}
 
-		case WM_NCHITTEST: {
+	case WM_NCHITTEST:
+		{
 			RECT r;
 			POINT pt;
 			LRESULT lr = SendMessage(GetParent(hWnd), WM_NCHITTEST, wParam, lParam);
@@ -750,15 +747,16 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					return HTBOTTOMRIGHT;
 			}
 			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
-					|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
+				|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
 				return HTTRANSPARENT;
-			break;
 		}
+		break;
 
-		case WM_ERASEBKGND:
-			return 1;
+	case WM_ERASEBKGND:
+		return 1;
 
-		case WM_PAINT: {
+	case WM_PAINT:
+		{
 			PAINTSTRUCT 	ps;
 			TCHAR 			szText[1024];
 			int 			i;
@@ -825,8 +823,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					itemRect.left += 2;
 
 				/*
-				 * draw visual message length indicator in the leftmost status bar field
-				 */
+				* draw visual message length indicator in the leftmost status bar field
+				*/
 
 				if (PluginConfig.m_visualMessageSizeIndicator && i == 0) {
 
@@ -894,7 +892,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							}
 							itemRect.left += 20;
 							CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX,
-											  CSkin::m_glowSize, clr);
+								CSkin::m_glowSize, clr);
 						}
 						else
 							DrawIconEx(hdcMem, itemRect.left + 3, (height / 2 - 8) + itemRect.top, hIcon, 16, 16, 0, 0, DI_NORMAL);
@@ -903,7 +901,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						itemRect.left += 2;
 						itemRect.right -= 2;
 						CSkin::RenderText(hdcMem, hTheme, szText, &itemRect, DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX,
-										  CSkin::m_glowSize, clr);
+							CSkin::m_glowSize, clr);
 					}
 				}
 			}
@@ -921,14 +919,15 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				CMimAPI::m_pfnCloseThemeData(hTheme);
 
 			EndPaint(hWnd, &ps);
-			return 0;
 		}
+		return 0;
 
-		/*
-		 * tell status bar to update the part layout (re-calculate part widths)
-		 * needed when an icon is added to or removed from the icon area
-		 */
-		case WM_USER + 101: {
+	/*
+	 * tell status bar to update the part layout (re-calculate part widths)
+	 * needed when an icon is added to or removed from the icon area
+	 */
+	case WM_USER + 101:
+		{
 			struct TWindowData *dat = (struct TWindowData *)lParam;
 			RECT rcs;
 			int statwidths[5];
@@ -966,17 +965,18 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			statwidths[1] = (rcs.right - rcs.left) - (62 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
 			statwidths[2] = -1;
 			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM) statwidths);
-			return 0;
 		}
+		return 0;
 
-		case WM_SETCURSOR: {
+	case WM_SETCURSOR:
+		{
 			POINT pt;
 
 			GetCursorPos(&pt);
 			SendMessage(GetParent(hWnd), msg, wParam, lParam);
-			if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
+			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
 				return 1;
-			}
+
 			ptMouse = pt;
 			if (tooltip_active) {
 				KillTimer(hWnd, TIMERID_HOVER);
@@ -985,11 +985,12 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			}
 			KillTimer(hWnd, TIMERID_HOVER);
 			SetTimer(hWnd, TIMERID_HOVER, 450, 0);
-			break;
 		}
+		break;
 
-		case WM_LBUTTONDOWN:
-		case WM_RBUTTONDOWN: {
+	case WM_LBUTTONDOWN:
+	case WM_RBUTTONDOWN:
+		{
 			POINT 	pt;
 
 			KillTimer(hWnd, TIMERID_HOVER);
@@ -1010,148 +1011,147 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				if (!PtInRect(&rcIconpart, pt1))
 					return SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 			}
-			break;
 		}
+		break;
 
-		case WM_TIMER:
-			if (wParam == TIMERID_HOVER) {
-				POINT pt;
-				char *szTTService = "mToolTip/ShowTipW";
-				CLCINFOTIP ti = {0};
-				ti.cbSize = sizeof(ti);
+	case WM_TIMER:
+		if (wParam == TIMERID_HOVER) {
+			POINT pt;
+			char *szTTService = "mToolTip/ShowTipW";
+			CLCINFOTIP ti = {0};
+			ti.cbSize = sizeof(ti);
 
-				KillTimer(hWnd, TIMERID_HOVER);
-				GetCursorPos(&pt);
-				if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
-					RECT rc;
-					struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-//mad
-					SIZE size;
-					TCHAR  szStatusBarText[512];
-//mad_
-					ti.ptCursor = pt;
-					ScreenToClient(hWnd, &pt);
-					SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
-					if (dat && PtInRect(&rc, pt)) {
-						int gap = 2;
-						TStatusBarIconNode *current = status_icon_list;
-						TStatusBarIconNode *clicked = NULL;
-						TStatusBarIconNode *currentSIN = NULL;
+			KillTimer(hWnd, TIMERID_HOVER);
+			GetCursorPos(&pt);
+			if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
+				RECT rc;
+				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+				//mad
+				SIZE size;
+				TCHAR  szStatusBarText[512];
+				//mad_
+				ti.ptCursor = pt;
+				ScreenToClient(hWnd, &pt);
+				SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
+				if (dat && PtInRect(&rc, pt)) {
+					int gap = 2;
+					TStatusBarIconNode *current = status_icon_list;
+					TStatusBarIconNode *clicked = NULL;
+					TStatusBarIconNode *currentSIN = NULL;
 
-						unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
-						unsigned int list_icons = 0;
-						char         buff[100];
-						DWORD        flags;
+					unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + gap);
+					unsigned int list_icons = 0;
+					char         buff[100];
+					DWORD        flags;
 
-						while (current) {
-							if (current->sid.flags&MBF_OWNERSTATE&&dat->pSINod){
-								TStatusBarIconNode *currentSIN = dat->pSINod;
-								flags=current->sid.flags;
-								while (currentSIN)	{
-									if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
-										flags=currentSIN->sid.flags;
-										break;
-									}
-									currentSIN = currentSIN->next;
+					while (current) {
+						if (current->sid.flags&MBF_OWNERSTATE&&dat->pSINod){
+							TStatusBarIconNode *currentSIN = dat->pSINod;
+							flags=current->sid.flags;
+							while (currentSIN)	{
+								if (strcmp(currentSIN->sid.szModule, current->sid.szModule) == 0 && currentSIN->sid.dwId == current->sid.dwId) {
+									flags=currentSIN->sid.flags;
+									break;
 								}
+								currentSIN = currentSIN->next;
 							}
-							else  {
-								sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
-								flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
+						}
+						else  {
+							sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
+							flags = M->GetByte(dat->hContact, current->sid.szModule, buff, current->sid.flags);
+						}
+						if (!(flags & MBF_HIDDEN)) {
+							if (list_icons++ == iconNum)
+								clicked = current;
+						}
+						current = current->next;
+					}
+
+					if (clicked&&clicked->sid.flags&MBF_OWNERSTATE) {
+						currentSIN=dat->pSINod;
+						while (currentSIN) {
+							if (strcmp(currentSIN->sid.szModule, clicked->sid.szModule) == 0 && currentSIN->sid.dwId == clicked->sid.dwId) {
+								clicked=currentSIN;
+								break;
 							}
-							if (!(flags & MBF_HIDDEN)) {
-								if (list_icons++ == iconNum)
-									clicked = current;
-							}
-							current = current->next;
-						}
-
- 						if (clicked&&clicked->sid.flags&MBF_OWNERSTATE) {
- 							currentSIN=dat->pSINod;
- 							while (currentSIN) {
- 								if (strcmp(currentSIN->sid.szModule, clicked->sid.szModule) == 0 && currentSIN->sid.dwId == clicked->sid.dwId) {
- 									clicked=currentSIN;
- 									break;
- 								}
- 								currentSIN = currentSIN->next;
- 							}
- 						}
-
-						if ((int)iconNum == list_icons && pContainer) {
-							TCHAR wBuf[512];
-
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
-										  pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
-							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-							tooltip_active = TRUE;
-						}
-						else if ((int)iconNum == list_icons + 1 && dat && dat->bType == SESSIONTYPE_IM) {
-							int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
-							TCHAR wBuf[512];
-
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sending typing notifications is %s."),
-										  mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
-							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-							tooltip_active = TRUE;
-						}
-						else if ((int)iconNum == list_icons + 2) {
-							TCHAR wBuf[512];
-
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
-
-							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
-							tooltip_active = TRUE;
-						}
-						else {
-							if (clicked) {
-								CallService("mToolTip/ShowTip", (WPARAM)clicked->sid.szTooltip, (LPARAM)&ti);
-								tooltip_active = TRUE;
-							}
+							currentSIN = currentSIN->next;
 						}
 					}
-					SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
-					if (dat && PtInRect(&rc, pt)) {
-						int iLength = 0;
-						GETTEXTLENGTHEX gtxl = {0};
-						int iQueued = M->GetDword(dat->hContact, "SendLater", "count", 0);
-						gtxl.codepage = CP_UTF8;
-						gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-						iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
-						tooltip_active = TRUE;
 
+					if ((int)iconNum == list_icons && pContainer) {
 						TCHAR wBuf[512];
-						const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
-						mir_sntprintf(wBuf, safe_sizeof(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
+						mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
+						tooltip_active = TRUE;
 					}
-					//MAD
-					if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)szStatusBarText)) {
-						HDC hdc;
-						int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
-						SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-						GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), szStatusBarText, iLen, &size );
-						ReleaseDC (dat->pContainer->hwndStatus,hdc);
+					else if ((int)iconNum == list_icons + 1 && dat && dat->bType == SESSIONTYPE_IM) {
+						int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+						TCHAR wBuf[512];
 
-						if (dat && PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
-							DBVARIANT dbv={0};
+						mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sending typing notifications is %s."),
+							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
+						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
+						tooltip_active = TRUE;
+					}
+					else if ((int)iconNum == list_icons + 2) {
+						TCHAR wBuf[512];
 
-							if (dat->bType == SESSIONTYPE_CHAT)
-								M->GetTString(dat->hContact,dat->szProto,"Topic",&dbv);
+						mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
 
+						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
+						tooltip_active = TRUE;
+					}
+					else {
+						if (clicked) {
+							CallService("mToolTip/ShowTip", (WPARAM)clicked->sid.szTooltip, (LPARAM)&ti);
 							tooltip_active = TRUE;
-							CallService(szTTService, (WPARAM)dbv.ptszVal, (LPARAM)&ti);
-							if (dbv.pszVal)
-								DBFreeVariant(&dbv);
 						}
 					}
-					// MAD_
+				}
+				SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
+				if (dat && PtInRect(&rc, pt)) {
+					int iLength = 0;
+					GETTEXTLENGTHEX gtxl = {0};
+					int iQueued = M->GetDword(dat->hContact, "SendLater", "count", 0);
+					gtxl.codepage = CP_UTF8;
+					gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
+					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
+					tooltip_active = TRUE;
+
+					TCHAR wBuf[512];
+					const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
+
+					mir_sntprintf(wBuf, safe_sizeof(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
+					CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
+				}
+				//MAD
+				if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)szStatusBarText)) {
+					HDC hdc;
+					int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
+					SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
+					GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), szStatusBarText, iLen, &size );
+					ReleaseDC (dat->pContainer->hwndStatus,hdc);
+
+					if (dat && PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
+						DBVARIANT dbv={0};
+
+						if (dat->bType == SESSIONTYPE_CHAT)
+							M->GetTString(dat->hContact,dat->szProto,"Topic",&dbv);
+
+						tooltip_active = TRUE;
+						CallService(szTTService, (WPARAM)dbv.ptszVal, (LPARAM)&ti);
+						if (dbv.pszVal)
+							DBFreeVariant(&dbv);
+					}
 				}
 			}
-			break;
+		}
+		break;
 
-		case WM_DESTROY:
-			KillTimer(hWnd, TIMERID_HOVER);
+	case WM_DESTROY:
+		KillTimer(hWnd, TIMERID_HOVER);
 	}
 	return CallWindowProc(OldStatusBarproc, hWnd, msg, wParam, lParam);
 }

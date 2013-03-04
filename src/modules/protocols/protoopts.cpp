@@ -227,12 +227,9 @@ struct TAccMgrData
 
 struct TAccListData
 {
-	WNDPROC oldWndProc;
-	int iItem;
+	int  iItem;
 	RECT rcCheck;
-
 	HWND hwndEdit;
-	WNDPROC oldEditProc;
 };
 
 static void sttClickButton(HWND hwndDlg, int idcButton)
@@ -272,7 +269,7 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		DestroyWindow(hwnd);
 		return 0;
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, sttEditSubclassProc, msg, wParam, lParam);
 }
 
 static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -338,7 +335,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			++rc.top; --rc.right;
 
 			dat->hwndEdit = CreateWindow(_T("EDIT"), pa->tszAccountName, WS_CHILD|WS_BORDER|ES_AUTOHSCROLL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, hwnd, NULL, hInst, NULL);
-			SetWindowLongPtr(dat->hwndEdit, GWLP_USERDATA, SetWindowLongPtr(dat->hwndEdit, GWLP_WNDPROC, (LONG_PTR)sttEditSubclassProc));
+			mir_subclassWindow(dat->hwndEdit, sttEditSubclassProc);
 			SendMessage(dat->hwndEdit, WM_SETFONT, (WPARAM)parentDat->hfntTitle, 0);
 			SendMessage(dat->hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN|EC_RIGHTMARGIN|EC_USEFONTINFO, 0);
 			SendMessage(dat->hwndEdit, EM_SETSEL, 0, (LPARAM) (-1));
@@ -371,7 +368,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		break;
 	}
 
-	return CallWindowProc(dat->oldWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, AccListWndProc, msg, wParam, lParam);
 }
 
 static void sttSubclassAccList(HWND hwnd, BOOL subclass)
@@ -379,13 +376,11 @@ static void sttSubclassAccList(HWND hwnd, BOOL subclass)
 	if (subclass) {
 		struct TAccListData *dat = (struct TAccListData *)mir_alloc(sizeof(struct TAccListData));
 		dat->iItem = -1;
-		dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
-		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)AccListWndProc);
+		mir_subclassWindow(hwnd, AccListWndProc);
 	}
 	else {
 		struct TAccListData *dat = (struct TAccListData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->oldWndProc);
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		mir_free(dat);
 	}

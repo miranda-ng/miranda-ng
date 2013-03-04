@@ -547,18 +547,15 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 	DestroyMenu(hmenu); 
 }
 
-static WNDPROC MainDlgProc;
-
 static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
-		case WM_CONTEXTMENU:
+	switch (uMsg) {
+	case WM_CONTEXTMENU:
 		{
 			POINT pt = {(LONG)LOWORD(lParam), (LONG)HIWORD(lParam)};
 			RECT rc;
 			GetClientRect(hwndDlg, &rc);
- 
+
 			if (pt.x == -1 && pt.y == -1)
 			{
 				GetCursorPos(&pt);
@@ -573,47 +570,47 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 			if (PtInRect(&rc, pt)) 
 				HandlePopupMenu(hwndDlg, pt, GetDlgItem(GetParent(hwndDlg), IDC_EDIT1));
-                
+
 			return 0;
 		}
 
-		case WM_CHAR:
-			if (wParam=='\n' && GetKeyState(VK_CONTROL) & 0x8000)
-			{
-				PostMessage(GetParent(hwndDlg), WM_COMMAND, IDC_OK, 0);
-				return 0;
-			}
-			if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + A
-			{
-				SendMessage(hwndDlg, EM_SETSEL, 0, -1);
-				return 0;
-			}
-			if (wParam == 23 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + W
-			{
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, IDC_CANCEL, 0);
-				return 0;
-			}
-			if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + Backspace
-			{
-				DWORD start, end;
-				TCHAR *text;
-				int textLen;
-				SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&end, (LPARAM)(PDWORD)NULL);
-				SendMessage(hwndDlg, WM_KEYDOWN, VK_LEFT, 0);
-				SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&start, (LPARAM)(PDWORD)NULL);
-				textLen = GetWindowTextLength(hwndDlg);
-				text = (TCHAR *)mir_alloc(sizeof(TCHAR) * (textLen + 1));
-				GetWindowText(hwndDlg, text, textLen + 1);
-				MoveMemory(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
-				SetWindowText(hwndDlg, text);
-				mir_free(text);
-				SendMessage(hwndDlg, EM_SETSEL, start, start);
-				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwndDlg), EN_CHANGE), (LPARAM)hwndDlg);
-				return 0;
-			}
-			break;
+	case WM_CHAR:
+		if (wParam=='\n' && GetKeyState(VK_CONTROL) & 0x8000)
+		{
+			PostMessage(GetParent(hwndDlg), WM_COMMAND, IDC_OK, 0);
+			return 0;
+		}
+		if (wParam == 1 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + A
+		{
+			SendMessage(hwndDlg, EM_SETSEL, 0, -1);
+			return 0;
+		}
+		if (wParam == 23 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + W
+		{
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, IDC_CANCEL, 0);
+			return 0;
+		}
+		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000)	// Ctrl + Backspace
+		{
+			DWORD start, end;
+			TCHAR *text;
+			int textLen;
+			SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&end, (LPARAM)(PDWORD)NULL);
+			SendMessage(hwndDlg, WM_KEYDOWN, VK_LEFT, 0);
+			SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&start, (LPARAM)(PDWORD)NULL);
+			textLen = GetWindowTextLength(hwndDlg);
+			text = (TCHAR *)mir_alloc(sizeof(TCHAR) * (textLen + 1));
+			GetWindowText(hwndDlg, text, textLen + 1);
+			MoveMemory(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
+			SetWindowText(hwndDlg, text);
+			mir_free(text);
+			SendMessage(hwndDlg, EM_SETSEL, start, start);
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwndDlg), EN_CHANGE), (LPARAM)hwndDlg);
+			return 0;
+		}
+		break;
 
-		case WM_LBUTTONDBLCLK:
+	case WM_LBUTTONDBLCLK:
 		{
 			MsgEditCtrl* mec = (MsgEditCtrl*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (mec != NULL)
@@ -625,7 +622,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			break;
 		}
 
-		case WM_LBUTTONDOWN:
+	case WM_LBUTTONDOWN:
 		{
 			MsgEditCtrl* mec = (MsgEditCtrl*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (mec != NULL && UINT(clock() - mec->ctLastDblClk) < mec->uClocksPerDblClk)
@@ -636,14 +633,14 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			break;
 		}
 
-		case WM_SETFOCUS:
+	case WM_SETFOCUS:
 		{
 			MsgEditCtrl* mec = (MsgEditCtrl*)mir_calloc(sizeof(MsgEditCtrl));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)mec);
 			break;
 		}
 
-		case WM_KILLFOCUS:
+	case WM_KILLFOCUS:
 		{
 			MsgEditCtrl* mec = (MsgEditCtrl*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			mir_free(mec);
@@ -653,7 +650,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		}
 	}
 
-	return CallWindowProc(MainDlgProc, hwndDlg, uMsg, wParam, lParam);
+	return mir_callNextSubclass(hwndDlg, EditBoxSubProc, uMsg, wParam, lParam);
 }
 
 int AddToPredefined(HWND hwndDlg, struct MsgBoxData *data)
@@ -1168,7 +1165,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 			mir_free(init_data);
 
-			MainDlgProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT1), GWLP_WNDPROC, (LONG_PTR)EditBoxSubProc);
+			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EDIT1), EditBoxSubProc);
 			if (!init_data->m_bOnEvent && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1)))
 			{
 				SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
@@ -1787,7 +1784,6 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT1), GWLP_WNDPROC, (LONG_PTR)MainDlgProc);
 			if (msgbox_data)
 				mir_free(msgbox_data);
 			hwndSAMsgDialog = NULL;

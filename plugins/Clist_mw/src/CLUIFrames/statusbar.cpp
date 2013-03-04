@@ -266,7 +266,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 		EndPaint(hwnd,&paintst);	
 }
 
-LRESULT CALLBACK StatusBarOwnerDrawProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK StatusBarOwnerDrawProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (UseOwnerDrawStatusBar) {
 		switch(uMsg) {
@@ -282,7 +282,7 @@ LRESULT CALLBACK StatusBarOwnerDrawProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 			return 0;
 		}
 	}
-	return CallWindowProc(OldWindowProc, hwnd, uMsg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, StatusBarOwnerDrawProc, uMsg, wParam, lParam);
 }
 
 LRESULT CALLBACK StatusHelperProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -485,7 +485,7 @@ int RecreateStatusBar(HWND parent)
 		WS_CHILD | ( db_get_b(NULL,"CLUI","ShowSBar",1)?WS_VISIBLE:0), _T(""), helperhwnd, 0);
 
 	OldWindowProc = (WNDPROC)GetWindowLongPtr(pcli->hwndStatus,GWLP_WNDPROC);
-	SetWindowLongPtr(pcli->hwndStatus,GWLP_WNDPROC,(LONG_PTR)&StatusBarOwnerDrawProc);
+	mir_subclassWindow(pcli->hwndStatus, StatusBarOwnerDrawProc);
 	CreateStatusBarFrame();
 
 	SetWindowPos(helperhwnd,NULL,1,1,1,1,SWP_NOZORDER);

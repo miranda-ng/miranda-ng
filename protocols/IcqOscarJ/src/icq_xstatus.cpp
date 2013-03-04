@@ -542,8 +542,6 @@ void CIcqProto::updateServerCustomStatus(int fullUpdate)
 	SAFE_FREE(&szStatusNote);
 }
 
-static WNDPROC OldMessageEditProc;
-
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
@@ -575,7 +573,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 		}
 		break;
 	}
-	return CallWindowProc(OldMessageEditProc,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
 struct SetXStatusData
@@ -641,12 +639,12 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			if (!init->bAction) { // set our xStatus
 				dat->bXStatus = init->bXStatus;
 				SendDlgItemMessage(hwndDlg, IDC_XMSG, EM_LIMITTEXT, 1024, 0);
-				OldMessageEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_XMSG),GWLP_WNDPROC,(LONG_PTR)MessageEditSubclassProc);
+				mir_subclassWindow( GetDlgItem(hwndDlg,IDC_XMSG), MessageEditSubclassProc);
 				SetDlgItemTextUtf(hwndDlg, IDC_XMSG, init->szXStatusMsg);
 
 				if (dat->ppro->m_bXStatusEnabled) { // custom status enabled, prepare title edit
 					SendDlgItemMessage(hwndDlg, IDC_XTITLE, EM_LIMITTEXT, 256, 0);
-					OldMessageEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_XTITLE),GWLP_WNDPROC,(LONG_PTR)MessageEditSubclassProc);
+					mir_subclassWindow( GetDlgItem(hwndDlg,IDC_XTITLE), MessageEditSubclassProc);
 					SetDlgItemTextUtf(hwndDlg, IDC_XTITLE, init->szXStatusName);
 				}
 				else { // only moods enabled, hide title, resize message edit control
@@ -763,10 +761,6 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				}
 			}
 			dat->ppro->updateServerCustomStatus(TRUE);
-
-			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_XMSG),GWLP_WNDPROC,(LONG_PTR)OldMessageEditProc);
-			if (dat->ppro->m_bXStatusEnabled)
-				SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_XTITLE),GWLP_WNDPROC,(LONG_PTR)OldMessageEditProc);
 		}
 		if (dat->hEvent) UnhookEvent(dat->hEvent);
 		SAFE_FREE(&dat->okButtonFormat);

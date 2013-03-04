@@ -33,7 +33,6 @@ class UploadDialog
 private:
 	static UploadDialog *instance;
 	static Mutex mutexTabs;
-	static WNDPROC oldTabControlProc;
 	TCHAR stzToolTipText[1024];
 
 	UploadDialog();
@@ -79,6 +78,6 @@ public:
 	void selectTab(int index);
 	void show();
 
-	static INT_PTR CALLBACK TabControlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam); 
+	static LRESULT CALLBACK TabControlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam); 
 	static INT_PTR CALLBACK UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };

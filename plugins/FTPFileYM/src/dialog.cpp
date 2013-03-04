@@ -22,7 +22,6 @@ UploadDialog *UploadDialog::instance = NULL;
 UploadDialog *uDlg = NULL;
 
 Mutex UploadDialog::mutexTabs;
-WNDPROC UploadDialog::oldTabControlProc;
 
 extern Options &opt;
 extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
@@ -141,12 +140,11 @@ void UploadDialog::Tab::labelCompleted()
 	TabCtrl_SetItem(uDlg->hwndTabs, this->index(), &tab);
 }
 
-INT_PTR CALLBACK UploadDialog::TabControlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) 
+LRESULT CALLBACK UploadDialog::TabControlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
-		case WM_LBUTTONDBLCLK:
-		case WM_MBUTTONDOWN:
+	switch (msg) {
+	case WM_LBUTTONDBLCLK:
+	case WM_MBUTTONDOWN:
 		{
 			POINT pt;
 			GetCursorPos(&pt);
@@ -163,7 +161,7 @@ INT_PTR CALLBACK UploadDialog::TabControlProc(HWND hwnd, UINT msg, WPARAM wParam
 		break;
 	}
 
-	return CallWindowProc(UploadDialog::oldTabControlProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, UploadDialog::TabControlProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
@@ -175,7 +173,7 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Utils::loadIconEx("main"));
 
-			UploadDialog::oldTabControlProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWLP_WNDPROC, (LONG_PTR)TabControlProc);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_TAB), TabControlProc);
 
 			LOGFONT logFont = {0};
 			HFONT hFont = (HFONT)SendMessage(GetDlgItem(hwndDlg, IDC_ST_FILE), WM_GETFONT, 0, 0);

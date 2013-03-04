@@ -73,7 +73,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_ERASEBKGND:
 		if (cfg::dat.bSkinnedStatusBar)
 			return 1;
-		return CallWindowProc(OldStatusBarProc, hwnd, msg, wParam, lParam);
+		return mir_callNextSubclass(hwnd, NewStatusBarWndProc, msg, wParam, lParam);
 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
@@ -187,5 +187,5 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 	}
 
-	return CallWindowProc(OldStatusBarProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, NewStatusBarWndProc, msg, wParam, lParam);
 }

@@ -1064,13 +1064,12 @@ static LRESULT CALLBACK DatePickerWndProc(HWND hWnd, UINT message, WPARAM wParam
 		return FALSE;
 	}
 
-	return CallWindowProc((WNDPROC)GetProp(hWnd, TEXT("OldWndProc")), hWnd, message, wParam, lParam);
+	return mir_callNextSubclass(hWnd, DatePickerWndProc, message, wParam, lParam);
 }
 
 static void InitDatePicker(HWND Dialog, UINT nIDDate)
 {
 	// subclass date picker to prevent user editing (should only use the dropdown calender to ensure valid dates)
-	WNDPROC pOldWndProc;
 	HWND hCtrl = GetDlgItem(Dialog, nIDDate);
 
 	// tweak style of picker
@@ -1081,13 +1080,7 @@ static void InitDatePicker(HWND Dialog, UINT nIDDate)
 		SendDlgItemMessage(Dialog,nIDDate,DTM_SETMCSTYLE,0,dw);
 	}
 
-#ifdef _WIN64
-	pOldWndProc = (WNDPROC)SetWindowLongPtr(hCtrl, GWLP_WNDPROC, (LONG_PTR)DatePickerWndProc);
-#else
-	pOldWndProc = (WNDPROC)SetWindowLong(hCtrl, GWL_WNDPROC, (LONG)DatePickerWndProc);
-#endif
-
-	SetProp(hCtrl, TEXT("OldWndProc"), pOldWndProc);
+	mir_subclassWindow(hCtrl, DatePickerWndProc);
 }
 
 static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAllowOffsetOverride)

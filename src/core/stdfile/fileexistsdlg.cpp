@@ -112,24 +112,23 @@ static void DoAnnoyingShellCommand(HWND hwnd, const TCHAR *szFilename, int cmd, 
 	}
 }
 
-static WNDPROC pfnIconWindowProc;
 static LRESULT CALLBACK IconCtrlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PROTOFILETRANSFERSTATUS* pft = (PROTOFILETRANSFERSTATUS*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 
 	switch(msg) {
-		case WM_LBUTTONDBLCLK:
-			ShellExecute(hwnd, NULL, pft->tszCurrentFile, NULL, NULL, SW_SHOW);
-			break;
-		case WM_RBUTTONUP:
+	case WM_LBUTTONDBLCLK:
+		ShellExecute(hwnd, NULL, pft->tszCurrentFile, NULL, NULL, SW_SHOW);
+		break;
+	case WM_RBUTTONUP:
 		{	POINT pt;
-			pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
-			ClientToScreen(hwnd, &pt);
-			DoAnnoyingShellCommand(hwnd, pft->tszCurrentFile, C_CONTEXTMENU, &pt);
-			return 0;
+		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
+		ClientToScreen(hwnd, &pt);
+		DoAnnoyingShellCommand(hwnd, pft->tszCurrentFile, C_CONTEXTMENU, &pt);
+		return 0;
 		}
 	}
-	return CallWindowProc(pfnIconWindowProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, IconCtrlSubclassProc, msg, wParam, lParam);
 }
 
 struct loadiconsstartinfo {
@@ -215,7 +214,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		GetSensiblyFormattedSize(fts->currentFileSize, szSize, SIZEOF(szSize), 0, 1, NULL);
 		SetDlgItemText(hwndDlg, IDC_NEWSIZE, szSize);
 
-		pfnIconWindowProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EXISTINGICON), GWLP_WNDPROC, (LONG_PTR)IconCtrlSubclassProc);
+		mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EXISTINGICON), IconCtrlSubclassProc);
 
 		hwndFocus = GetDlgItem(hwndDlg, IDC_RESUME);
 		if (_tstati64(fts->tszCurrentFile, &statbuf) == 0) {

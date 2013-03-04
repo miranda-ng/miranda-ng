@@ -611,29 +611,19 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 	}
 }
 
-
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	LRESULT lrRet=0;
-	WNDPROC OldMessageEditProc=(WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch(message){
 	case WM_CHAR:
 		if (wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000)
-		{
 			PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
-			return 0;
-		}
-		break;
+		return 0;
 	}
 
-	if (OldMessageEditProc) lrRet=CallWindowProc(OldMessageEditProc,hwnd,message,wParam,lParam);
-
-return(lrRet);
+	return mir_callNextSubclass(hwnd, MessageSubclassProc, message, wParam, lParam);
 }
-
-
-
 
 //This function refresh account list. 
 //It called when SMS plugin loaded and upon change in the account list.

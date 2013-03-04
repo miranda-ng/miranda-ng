@@ -29,7 +29,7 @@ LRESULT CALLBACK MyEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 		SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
 		break;
 	}
-	return CallWindowProc (g_pOldProc, hwnd, message, wParam, lParam);
+	return CallWindowProc(g_pOldProc, hwnd, message, wParam, lParam);
 }
 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

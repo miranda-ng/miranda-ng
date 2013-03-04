@@ -715,14 +715,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	if (pd && pd->windowProc)
 		return CallWindowProc(pd->windowProc, hwnd, uMsg, wParam, lParam);
-	else {
-		// provide a way to close popups, if no PluginWindowProc is provided
-		if (uMsg == WM_CONTEXTMENU) {
-			SendMessage(hwnd, PM_DESTROY, 0, 0);
-			return TRUE;
-		} else
-			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+	
+	// provide a way to close popups, if no PluginWindowProc is provided
+	if (uMsg == WM_CONTEXTMENU) {
+		SendMessage(hwnd, PM_DESTROY, 0, 0);
+		return TRUE;
 	}
+	
+	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
 void InitWindowStack()

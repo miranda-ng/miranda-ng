@@ -861,22 +861,19 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	CListFilter(GetDlgItem(m_hwnd, IDC_CLIST));
 	CListApplyList(GetDlgItem(m_hwnd, IDC_CLIST));
 
-	if (db_get_b(NULL, m_proto->m_szModuleName, "plistsWnd_simpleMode", 1))
-	{
+	if ( db_get_b(NULL, m_proto->m_szModuleName, "plistsWnd_simpleMode", 1)) {
 		UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
 		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, TRUE);
-	} else
-	{
+	}
+	else {
 		UIShowControls(m_hwnd, idSimpleControls, SW_HIDE);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_SHOW);
 		CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, TRUE);
 	}
 
-	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LB_LISTS), GWLP_USERDATA,
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_LB_LISTS), GWLP_WNDPROC, (LONG_PTR)LstListsSubclassProc));
-	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), GWLP_USERDATA,
-		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), GWLP_WNDPROC, (LONG_PTR)LstRulesSubclassProc));
+	mir_subclassWindow( GetDlgItem(m_hwnd, IDC_LB_LISTS), LstListsSubclassProc);
+	mir_subclassWindow( GetDlgItem(m_hwnd, IDC_PL_RULES_LIST), LstRulesSubclassProc);
 
 	SetStatusText(TranslateT("Loading..."));
 
@@ -889,8 +886,7 @@ void CJabberDlgPrivacyLists::OnClose()
 		DestroyWindow(m_hwnd);
 		CSuper::OnClose();
 	}
-	else
-		m_lresult = TRUE;
+	else m_lresult = TRUE;
 }
 
 void CJabberDlgPrivacyLists::OnDestroy()
@@ -1696,52 +1692,43 @@ void CJabberDlgPrivacyLists::EnableEditorControls()
 
 LRESULT CALLBACK CJabberDlgPrivacyLists::LstListsSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC sttOldWndProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg)
-	{
-		case WM_KEYDOWN:
-		case WM_SYSKEYDOWN:
-		{
-			if (wParam == VK_INSERT)
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_ADD_LIST);
-			if (wParam == VK_DELETE)
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_REMOVE_LIST);
-			if (wParam == VK_SPACE)
-			{
-				if (GetAsyncKeyState(VK_CONTROL))
-					return UIEmulateBtnClick(GetParent(hwnd), IDC_SET_DEFAULT);
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_ACTIVATE);
-			}
-
-			break;
+	switch (msg) {
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (wParam == VK_INSERT)
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_ADD_LIST);
+		if (wParam == VK_DELETE)
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_REMOVE_LIST);
+		if (wParam == VK_SPACE) {
+			if (GetAsyncKeyState(VK_CONTROL))
+				return UIEmulateBtnClick(GetParent(hwnd), IDC_SET_DEFAULT);
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_ACTIVATE);
 		}
+
+		break;
 	}
-	return CallWindowProc(sttOldWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, CJabberDlgPrivacyLists::LstListsSubclassProc, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK CJabberDlgPrivacyLists::LstRulesSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC sttOldWndProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg)
-	{
-		case WM_KEYDOWN:
-		case WM_SYSKEYDOWN:
-		{
-			if (wParam == VK_INSERT)
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_ADD_RULE);
-			if (wParam == VK_DELETE)
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_REMOVE_RULE);
-			if ((wParam == VK_UP) && (lParam & (1UL << 29)))
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_UP_RULE);
-			if ((wParam == VK_DOWN) && (lParam & (1UL << 29)))
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_DOWN_RULE);
-			if (wParam == VK_F2)
-				return UIEmulateBtnClick(GetParent(hwnd), IDC_EDIT_RULE);
+	switch (msg) {
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (wParam == VK_INSERT)
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_ADD_RULE);
+		if (wParam == VK_DELETE)
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_REMOVE_RULE);
+		if ((wParam == VK_UP) && (lParam & (1UL << 29)))
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_UP_RULE);
+		if ((wParam == VK_DOWN) && (lParam & (1UL << 29)))
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_DOWN_RULE);
+		if (wParam == VK_F2)
+			return UIEmulateBtnClick(GetParent(hwnd), IDC_EDIT_RULE);
 
-			break;
-		}
+		break;
 	}
-	return CallWindowProc(sttOldWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, CJabberDlgPrivacyLists::LstRulesSubclassProc, msg, wParam, lParam);
 }
 
 BOOL CJabberDlgPrivacyLists::CanExit()

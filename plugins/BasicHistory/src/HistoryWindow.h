@@ -59,7 +59,6 @@ private:
 	HICON *eventIcons;
 	int allIconNumber;
 	HICON plusIco, minusIco, findNextIco, findPrevIco, configIco, deleteIco;
-	WNDPROC OldSplitterProc;
 	bool isContactList;
 	LONG listOryginalPos;
 	bool isLoading;

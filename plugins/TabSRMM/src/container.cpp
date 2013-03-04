@@ -42,7 +42,6 @@ extern ButtonSet 		g_ButtonSet;
 TContainerData *pFirstContainer = 0;        // the linked list of struct ContainerWindowData
 TContainerData *pLastActiveContainer = NULL;
 
-static 	WNDPROC OldContainerWndProc = 0;
 static  bool	fForceOverlayIcons = false;
 
 static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HANDLE hContact)
@@ -153,8 +152,8 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 		if (M->GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
 			iTemp |= CNT_CREATEFLAG_CLONED;
 		/*
-		 * save container name to the db
-		 */
+		* save container name to the db
+		*/
 		i = 0;
 		if (!M->GetByte("singlewinmode", 0)) {
 			do {
@@ -202,7 +201,7 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 	return NULL;
 }
 
-static BOOL CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bSkinned;
 
@@ -210,101 +209,226 @@ static BOOL CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 
 	switch (msg) {
-		case WM_NCPAINT: {
-			PAINTSTRUCT ps;
-			HDC hdcReal;
-			RECT rcClient;
-			LONG width, height;
-			HDC hdc;
-			CSkinItem *item = &SkinItems[0], *item_normal, *item_pressed, *item_hot;
-			HICON hIcon;
-			HFONT hOldFont = 0;
-			TEXTMETRIC tm;
+	case WM_NCPAINT: {
+		PAINTSTRUCT ps;
+		HDC hdcReal;
+		RECT rcClient;
+		LONG width, height;
+		HDC hdc;
+		CSkinItem *item = &SkinItems[0], *item_normal, *item_pressed, *item_hot;
+		HICON hIcon;
+		HFONT hOldFont = 0;
+		TEXTMETRIC tm;
 
-			if (!pContainer || !bSkinned)
-				break;
+		if (!pContainer || !bSkinned)
+			break;
 
-			if (CSkin::m_frameSkins) {
-				RECT rcWindow, rcClient;
-				HDC dcFrame = GetDCEx(hwndDlg, 0, DCX_WINDOW|/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
-				POINT pt, pt1;
-				LONG clip_top, clip_left;
-				HRGN rgn = 0;
-				CSkinItem *item;
-				TCHAR szWindowText[512];
-				RECT rcText;
-				HDC dcMem = CreateCompatibleDC(pContainer->cachedDC ? pContainer->cachedDC : dcFrame);
-				HBITMAP hbmMem, hbmOld;
-				int i;
-				DRAWITEMSTRUCT dis = {0};
+		if (CSkin::m_frameSkins) {
+			RECT rcWindow, rcClient;
+			HDC dcFrame = GetDCEx(hwndDlg, 0, DCX_WINDOW|/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
+			POINT pt, pt1;
+			LONG clip_top, clip_left;
+			HRGN rgn = 0;
+			CSkinItem *item;
+			TCHAR szWindowText[512];
+			RECT rcText;
+			HDC dcMem = CreateCompatibleDC(pContainer->cachedDC ? pContainer->cachedDC : dcFrame);
+			HBITMAP hbmMem, hbmOld;
+			int i;
+			DRAWITEMSTRUCT dis = {0};
 
-				GetWindowRect(hwndDlg, &rcWindow);
-				GetClientRect(hwndDlg, &rcClient);
-				pt.y = 0;
-				pt.x = 0;
-				ClientToScreen(hwndDlg, &pt);
-				pt1.x = rcClient.right;
-				pt1.y = rcClient.bottom;
-				ClientToScreen(hwndDlg, &pt1);
-				clip_top = pt.y - rcWindow.top;
-				clip_left = pt.x - rcWindow.left;
+			GetWindowRect(hwndDlg, &rcWindow);
+			GetClientRect(hwndDlg, &rcClient);
+			pt.y = 0;
+			pt.x = 0;
+			ClientToScreen(hwndDlg, &pt);
+			pt1.x = rcClient.right;
+			pt1.y = rcClient.bottom;
+			ClientToScreen(hwndDlg, &pt1);
+			clip_top = pt.y - rcWindow.top;
+			clip_left = pt.x - rcWindow.left;
 
-				rcWindow.right = rcWindow.right - rcWindow.left;
-				rcWindow.bottom = rcWindow.bottom - rcWindow.top;
-				rcWindow.left = rcWindow.top = 0;
+			rcWindow.right = rcWindow.right - rcWindow.left;
+			rcWindow.bottom = rcWindow.bottom - rcWindow.top;
+			rcWindow.left = rcWindow.top = 0;
 
-				hbmMem = CreateCompatibleBitmap(dcFrame, rcWindow.right, rcWindow.bottom);
-				hbmOld = (HBITMAP)SelectObject(dcMem, hbmMem);
+			hbmMem = CreateCompatibleBitmap(dcFrame, rcWindow.right, rcWindow.bottom);
+			hbmOld = (HBITMAP)SelectObject(dcMem, hbmMem);
 
-				ExcludeClipRect(dcFrame, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
-				ExcludeClipRect(dcMem, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
-				item = pContainer->ncActive ? &SkinItems[ID_EXTBKFRAME] : &SkinItems[ID_EXTBKFRAMEINACTIVE];
+			ExcludeClipRect(dcFrame, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
+			ExcludeClipRect(dcMem, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
+			item = pContainer->ncActive ? &SkinItems[ID_EXTBKFRAME] : &SkinItems[ID_EXTBKFRAMEINACTIVE];
 
-				CSkin::DrawItem(dcMem, &rcWindow, item);
+			CSkin::DrawItem(dcMem, &rcWindow, item);
 
-				GetWindowText(hwndDlg, szWindowText, 512);
-				szWindowText[511] = 0;
-				hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);
-				GetTextMetrics(dcMem, &tm);
-				SetTextColor(dcMem, CInfoPanel::m_ipConfig.clrs[IPFONTCOUNT - 1]);
-				SetBkMode(dcMem, TRANSPARENT);
-				rcText.left =20 + CSkin::m_SkinnedFrame_left + CSkin::m_bClipBorder + CSkin::m_titleBarLeftOff;//26;
-				rcText.right = rcWindow.right - 3 * CSkin::m_titleBarButtonSize.cx - 11 - CSkin::m_titleBarRightOff;
-				rcText.top = CSkin::m_captionOffset + CSkin::m_bClipBorder;
-				rcText.bottom = rcText.top + tm.tmHeight;
-				rcText.left += CSkin::m_captionPadding;
-				DrawText(dcMem, szWindowText, -1, &rcText, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS | DT_NOPREFIX);
-				SelectObject(dcMem, hOldFont);
-				/*
-				 * icon
-				 */
+			GetWindowText(hwndDlg, szWindowText, 512);
+			szWindowText[511] = 0;
+			hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);
+			GetTextMetrics(dcMem, &tm);
+			SetTextColor(dcMem, CInfoPanel::m_ipConfig.clrs[IPFONTCOUNT - 1]);
+			SetBkMode(dcMem, TRANSPARENT);
+			rcText.left =20 + CSkin::m_SkinnedFrame_left + CSkin::m_bClipBorder + CSkin::m_titleBarLeftOff;//26;
+			rcText.right = rcWindow.right - 3 * CSkin::m_titleBarButtonSize.cx - 11 - CSkin::m_titleBarRightOff;
+			rcText.top = CSkin::m_captionOffset + CSkin::m_bClipBorder;
+			rcText.bottom = rcText.top + tm.tmHeight;
+			rcText.left += CSkin::m_captionPadding;
+			DrawText(dcMem, szWindowText, -1, &rcText, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS | DT_NOPREFIX);
+			SelectObject(dcMem, hOldFont);
+			/*
+			* icon
+			*/
 
-				hIcon = (HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0);
-				DrawIconEx(dcMem, 4 + CSkin::m_SkinnedFrame_left + CSkin::m_bClipBorder + CSkin::m_titleBarLeftOff, rcText.top + (rcText.bottom - rcText.top) / 2 - 8, hIcon, 16, 16, 0, 0, DI_NORMAL);
+			hIcon = (HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0);
+			DrawIconEx(dcMem, 4 + CSkin::m_SkinnedFrame_left + CSkin::m_bClipBorder + CSkin::m_titleBarLeftOff, rcText.top + (rcText.bottom - rcText.top) / 2 - 8, hIcon, 16, 16, 0, 0, DI_NORMAL);
 
-				// title buttons;
+			// title buttons;
 
-				pContainer->rcClose.top = pContainer->rcMin.top = pContainer->rcMax.top = CSkin::m_titleButtonTopOff;
-				pContainer->rcClose.bottom = pContainer->rcMin.bottom = pContainer->rcMax.bottom = CSkin::m_titleButtonTopOff + CSkin::m_titleBarButtonSize.cy;
+			pContainer->rcClose.top = pContainer->rcMin.top = pContainer->rcMax.top = CSkin::m_titleButtonTopOff;
+			pContainer->rcClose.bottom = pContainer->rcMin.bottom = pContainer->rcMax.bottom = CSkin::m_titleButtonTopOff + CSkin::m_titleBarButtonSize.cy;
 
-				pContainer->rcClose.right = rcWindow.right - 10 - CSkin::m_titleBarRightOff;
-				pContainer->rcClose.left = pContainer->rcClose.right - CSkin::m_titleBarButtonSize.cx;
+			pContainer->rcClose.right = rcWindow.right - 10 - CSkin::m_titleBarRightOff;
+			pContainer->rcClose.left = pContainer->rcClose.right - CSkin::m_titleBarButtonSize.cx;
 
-				pContainer->rcMax.right = pContainer->rcClose.left - 2;
-				pContainer->rcMax.left = pContainer->rcMax.right - CSkin::m_titleBarButtonSize.cx;
+			pContainer->rcMax.right = pContainer->rcClose.left - 2;
+			pContainer->rcMax.left = pContainer->rcMax.right - CSkin::m_titleBarButtonSize.cx;
 
-				pContainer->rcMin.right = pContainer->rcMax.left - 2;
-				pContainer->rcMin.left = pContainer->rcMin.right - CSkin::m_titleBarButtonSize.cx;
+			pContainer->rcMin.right = pContainer->rcMax.left - 2;
+			pContainer->rcMin.left = pContainer->rcMin.right - CSkin::m_titleBarButtonSize.cx;
 
-				item_normal = &SkinItems[ID_EXTBKTITLEBUTTON];
-				item_hot = &SkinItems[ID_EXTBKTITLEBUTTONMOUSEOVER];
-				item_pressed = &SkinItems[ID_EXTBKTITLEBUTTONPRESSED];
+			item_normal = &SkinItems[ID_EXTBKTITLEBUTTON];
+			item_hot = &SkinItems[ID_EXTBKTITLEBUTTONMOUSEOVER];
+			item_pressed = &SkinItems[ID_EXTBKTITLEBUTTONPRESSED];
 
+			for (i=0; i < 3; i++) {
+				RECT *rc = 0;
+				HICON hIcon;
+
+				switch (i) {
+				case 0:
+					rc = &pContainer->rcMin;
+					hIcon = CSkin::m_minIcon;
+					break;
+				case 1:
+					rc = &pContainer->rcMax;
+					hIcon = CSkin::m_maxIcon;
+					break;
+				case 2:
+					rc = &pContainer->rcClose;
+					hIcon = CSkin::m_closeIcon;
+					break;
+				}
+				if (rc) {
+					item = pContainer->buttons[i].isPressed ? item_pressed : (pContainer->buttons[i].isHot ? item_hot : item_normal);
+					CSkin::DrawItem(dcMem, rc, item);
+					DrawIconEx(dcMem, rc->left + ((rc->right - rc->left) / 2 - 8), rc->top + ((rc->bottom - rc->top) / 2 - 8), hIcon, 16, 16, 0, 0, DI_NORMAL);
+				}
+			}
+			SetBkMode(dcMem, TRANSPARENT);
+			BitBlt(dcFrame, 0, 0, rcWindow.right, rcWindow.bottom, dcMem, 0, 0, SRCCOPY);
+			SelectObject(dcMem, hbmOld);
+			DeleteObject(hbmMem);
+			DeleteDC(dcMem);
+			ReleaseDC(hwndDlg, dcFrame);
+		}
+		else mir_callNextSubclass(hwndDlg, ContainerWndProc, msg, wParam, lParam);
+
+		hdcReal = BeginPaint(hwndDlg, &ps);
+
+		GetClientRect(hwndDlg, &rcClient);
+		width = rcClient.right - rcClient.left;
+		height = rcClient.bottom - rcClient.top;
+		if (width != pContainer->oldDCSize.cx || height != pContainer->oldDCSize.cy) {
+			CSkinItem *sbaritem = &SkinItems[ID_EXTBKSTATUSBAR];
+			BOOL statusBarSkinnd = !(pContainer->dwFlags & CNT_NOSTATUSBAR) && !sbaritem->IGNORED;
+			LONG sbarDelta = statusBarSkinnd ? pContainer->statusBarHeight : 0;
+
+			pContainer->oldDCSize.cx = width;
+			pContainer->oldDCSize.cy = height;
+
+			if (pContainer->cachedDC) {
+				SelectObject(pContainer->cachedDC, pContainer->oldHBM);
+				DeleteObject(pContainer->cachedHBM);
+				DeleteDC(pContainer->cachedDC);
+			}
+			pContainer->cachedDC = CreateCompatibleDC(hdcReal);
+			pContainer->cachedHBM = CreateCompatibleBitmap(hdcReal, width, height);
+			pContainer->oldHBM = (HBITMAP)SelectObject(pContainer->cachedDC, pContainer->cachedHBM);
+
+			hdc = pContainer->cachedDC;
+
+			if (!CSkin::DrawItem(hdc, &rcClient, item))
+				FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
+
+			if (sbarDelta) {
+				rcClient.top = rcClient.bottom - sbarDelta;
+				CSkin::DrawItem(hdc, &rcClient, sbaritem);
+			}
+		}
+		BitBlt(hdcReal, 0, 0, width, height, pContainer->cachedDC, 0, 0, SRCCOPY);
+		EndPaint(hwndDlg, &ps);
+		return 0;
+						  }
+	case WM_NCLBUTTONDOWN:
+	case WM_NCLBUTTONUP:
+	case WM_NCMOUSEHOVER:
+	case WM_NCMOUSEMOVE:
+		if (pContainer && CSkin::m_frameSkins) {
+			POINT pt;
+			RECT rcWindow;
+			BOOL isMin, isMax, isClose;
+			int i;
+
+			GetCursorPos(&pt);
+			GetWindowRect(hwndDlg, &rcWindow);
+
+			CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
+			ZeroMemory(&pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
+			isMin = isMax = isClose = FALSE;
+
+			if (pt.x >= (rcWindow.left + pContainer->rcMin.left) && pt.x <= (rcWindow.left + pContainer->rcClose.right) && pt.y < rcWindow.top + 24 && wParam != HTTOPRIGHT) {
+				LRESULT result = 0; //DefWindowProc(hwndDlg, msg, wParam, lParam);
+				HDC hdc = GetWindowDC(hwndDlg);
+				LONG left = rcWindow.left;
+
+				pt.y = 10;
+				isMin = pt.x >= left + pContainer->rcMin.left && pt.x <= left + pContainer->rcMin.right;
+				isMax = pt.x >= left + pContainer->rcMax.left && pt.x <= left + pContainer->rcMax.right;
+				isClose = pt.x >= left + pContainer->rcClose.left && pt.x <= left + pContainer->rcClose.right;
+
+				if (msg == WM_NCMOUSEMOVE) {
+					if (isMax)
+						pContainer->buttons[BTN_MAX].isHot = TRUE;
+					else if (isMin)
+						pContainer->buttons[BTN_MIN].isHot = TRUE;
+					else if (isClose)
+						pContainer->buttons[BTN_CLOSE].isHot = TRUE;
+				}
+				else if (msg == WM_NCLBUTTONDOWN) {
+					if (isMax)
+						pContainer->buttons[BTN_MAX].isPressed = TRUE;
+					else if (isMin)
+						pContainer->buttons[BTN_MIN].isPressed = TRUE;
+					else if (isClose)
+						pContainer->buttons[BTN_CLOSE].isPressed = TRUE;
+				}
+				else if (msg == WM_NCLBUTTONUP) {
+					if (isMin)
+						SendMessage(hwndDlg, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+					else if (isMax) {
+						if (IsZoomed(hwndDlg))
+							PostMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
+						else
+							PostMessage(hwndDlg, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+					}
+					else if (isClose)
+						PostMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
+				}
 				for (i=0; i < 3; i++) {
-					RECT *rc = 0;
-					HICON hIcon;
+					if (pContainer->buttons[i].isHot != pContainer->oldbuttons[i].isHot) {
+						RECT *rc = 0;
+						HICON hIcon;
 
-					switch (i) {
+						switch (i) {
 						case 0:
 							rc = &pContainer->rcMin;
 							hIcon = CSkin::m_minIcon;
@@ -317,243 +441,115 @@ static BOOL CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							rc = &pContainer->rcClose;
 							hIcon = CSkin::m_closeIcon;
 							break;
-					}
-					if (rc) {
-						item = pContainer->buttons[i].isPressed ? item_pressed : (pContainer->buttons[i].isHot ? item_hot : item_normal);
-						CSkin::DrawItem(dcMem, rc, item);
-						DrawIconEx(dcMem, rc->left + ((rc->right - rc->left) / 2 - 8), rc->top + ((rc->bottom - rc->top) / 2 - 8), hIcon, 16, 16, 0, 0, DI_NORMAL);
-					}
-				}
-				SetBkMode(dcMem, TRANSPARENT);
-				BitBlt(dcFrame, 0, 0, rcWindow.right, rcWindow.bottom, dcMem, 0, 0, SRCCOPY);
-				SelectObject(dcMem, hbmOld);
-				DeleteObject(hbmMem);
-				DeleteDC(dcMem);
-				ReleaseDC(hwndDlg, dcFrame);
-			}
-			else
-				CallWindowProc(OldContainerWndProc, hwndDlg, msg, wParam, lParam);
-
-			hdcReal = BeginPaint(hwndDlg, &ps);
-
-			GetClientRect(hwndDlg, &rcClient);
-			width = rcClient.right - rcClient.left;
-			height = rcClient.bottom - rcClient.top;
-			if (width != pContainer->oldDCSize.cx || height != pContainer->oldDCSize.cy) {
-				CSkinItem *sbaritem = &SkinItems[ID_EXTBKSTATUSBAR];
-				BOOL statusBarSkinnd = !(pContainer->dwFlags & CNT_NOSTATUSBAR) && !sbaritem->IGNORED;
-				LONG sbarDelta = statusBarSkinnd ? pContainer->statusBarHeight : 0;
-
-				pContainer->oldDCSize.cx = width;
-				pContainer->oldDCSize.cy = height;
-
-				if (pContainer->cachedDC) {
-					SelectObject(pContainer->cachedDC, pContainer->oldHBM);
-					DeleteObject(pContainer->cachedHBM);
-					DeleteDC(pContainer->cachedDC);
-				}
-				pContainer->cachedDC = CreateCompatibleDC(hdcReal);
-				pContainer->cachedHBM = CreateCompatibleBitmap(hdcReal, width, height);
-				pContainer->oldHBM = (HBITMAP)SelectObject(pContainer->cachedDC, pContainer->cachedHBM);
-
-				hdc = pContainer->cachedDC;
-
-				if (!CSkin::DrawItem(hdc, &rcClient, item))
-					FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
-
-				if (sbarDelta) {
-					rcClient.top = rcClient.bottom - sbarDelta;
-					CSkin::DrawItem(hdc, &rcClient, sbaritem);
-				}
-			}
-			BitBlt(hdcReal, 0, 0, width, height, pContainer->cachedDC, 0, 0, SRCCOPY);
-			EndPaint(hwndDlg, &ps);
-			return 0;
-		}
-		case WM_NCLBUTTONDOWN:
-		case WM_NCLBUTTONUP:
-		case WM_NCMOUSEHOVER:
-		case WM_NCMOUSEMOVE:
-			if (pContainer && CSkin::m_frameSkins) {
-				POINT pt;
-				RECT rcWindow;
-				BOOL isMin, isMax, isClose;
-				int i;
-
-				GetCursorPos(&pt);
-				GetWindowRect(hwndDlg, &rcWindow);
-
-				CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
-				ZeroMemory(&pContainer->buttons[0], sizeof(struct TitleBtn) * 3);
-				isMin = isMax = isClose = FALSE;
-
-				if (pt.x >= (rcWindow.left + pContainer->rcMin.left) && pt.x <= (rcWindow.left + pContainer->rcClose.right) && pt.y < rcWindow.top + 24 && wParam != HTTOPRIGHT) {
-					LRESULT result = 0; //DefWindowProc(hwndDlg, msg, wParam, lParam);
-					HDC hdc = GetWindowDC(hwndDlg);
-					LONG left = rcWindow.left;
-
-					pt.y = 10;
-					isMin = pt.x >= left + pContainer->rcMin.left && pt.x <= left + pContainer->rcMin.right;
-					isMax = pt.x >= left + pContainer->rcMax.left && pt.x <= left + pContainer->rcMax.right;
-					isClose = pt.x >= left + pContainer->rcClose.left && pt.x <= left + pContainer->rcClose.right;
-
-					if (msg == WM_NCMOUSEMOVE) {
-						if (isMax)
-							pContainer->buttons[BTN_MAX].isHot = TRUE;
-						else if (isMin)
-							pContainer->buttons[BTN_MIN].isHot = TRUE;
-						else if (isClose)
-							pContainer->buttons[BTN_CLOSE].isHot = TRUE;
-					}
-					else if (msg == WM_NCLBUTTONDOWN) {
-						if (isMax)
-							pContainer->buttons[BTN_MAX].isPressed = TRUE;
-						else if (isMin)
-							pContainer->buttons[BTN_MIN].isPressed = TRUE;
-						else if (isClose)
-							pContainer->buttons[BTN_CLOSE].isPressed = TRUE;
-					}
-					else if (msg == WM_NCLBUTTONUP) {
-						if (isMin)
-							SendMessage(hwndDlg, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-						else if (isMax) {
-							if (IsZoomed(hwndDlg))
-								PostMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
-							else
-								PostMessage(hwndDlg, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 						}
-						else if (isClose)
-							PostMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
-					}
-					for (i=0; i < 3; i++) {
-						if (pContainer->buttons[i].isHot != pContainer->oldbuttons[i].isHot) {
-							RECT *rc = 0;
-							HICON hIcon;
-
-							switch (i) {
-								case 0:
-									rc = &pContainer->rcMin;
-									hIcon = CSkin::m_minIcon;
-									break;
-								case 1:
-									rc = &pContainer->rcMax;
-									hIcon = CSkin::m_maxIcon;
-									break;
-								case 2:
-									rc = &pContainer->rcClose;
-									hIcon = CSkin::m_closeIcon;
-									break;
-							}
-							if (rc) {
-								CSkinItem *item = &SkinItems[pContainer->buttons[i].isPressed ? ID_EXTBKTITLEBUTTONPRESSED : (pContainer->buttons[i].isHot ? ID_EXTBKTITLEBUTTONMOUSEOVER : ID_EXTBKTITLEBUTTON)];
-								CSkin::DrawItem(hdc, rc, item);
-								DrawIconEx(hdc, rc->left + ((rc->right - rc->left) / 2 - 8), rc->top + ((rc->bottom - rc->top) / 2 - 8), hIcon, 16, 16, 0, 0, DI_NORMAL);
-							}
+						if (rc) {
+							CSkinItem *item = &SkinItems[pContainer->buttons[i].isPressed ? ID_EXTBKTITLEBUTTONPRESSED : (pContainer->buttons[i].isHot ? ID_EXTBKTITLEBUTTONMOUSEOVER : ID_EXTBKTITLEBUTTON)];
+							CSkin::DrawItem(hdc, rc, item);
+							DrawIconEx(hdc, rc->left + ((rc->right - rc->left) / 2 - 8), rc->top + ((rc->bottom - rc->top) / 2 - 8), hIcon, 16, 16, 0, 0, DI_NORMAL);
 						}
 					}
-					ReleaseDC(hwndDlg, hdc);
-					return result;
 				}
-				else {
-					LRESULT result = DefWindowProc(hwndDlg, msg, wParam, lParam);
-					RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_NOCHILDREN);
-					return result;
-				}
-			}
-			break;
-		case WM_SETCURSOR: {
-			if (CSkin::m_frameSkins && (HWND)wParam == hwndDlg) {
-				DefWindowProc(hwndDlg, msg, wParam, lParam);
-				RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_NOCHILDREN);
-				return 1;
-			}
-			break;
-		}
-		case WM_NCCALCSIZE: {
-			if (!CSkin::m_frameSkins)
-				break;
-
-			if (wParam) {
-				RECT *rc;
-				NCCALCSIZE_PARAMS *ncsp = (NCCALCSIZE_PARAMS *)lParam;
-
-				DefWindowProc(hwndDlg, msg, wParam, lParam);
-				rc = &ncsp->rgrc[0];
-
-				rc->left += CSkin::m_realSkinnedFrame_left;
-				rc->right -= CSkin::m_realSkinnedFrame_right;
-				rc->bottom -= CSkin::m_realSkinnedFrame_bottom;
-				rc->top += CSkin::m_realSkinnedFrame_caption;
-				return TRUE;
+				ReleaseDC(hwndDlg, hdc);
+				return result;
 			}
 			else {
-				return DefWindowProc(hwndDlg, msg, wParam, lParam);
+				LRESULT result = DefWindowProc(hwndDlg, msg, wParam, lParam);
+				RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_NOCHILDREN);
+				return result;
 			}
 		}
-		case WM_NCACTIVATE:
-			if (pContainer) {
-				pContainer->ncActive = wParam;
-				if (bSkinned && CSkin::m_frameSkins) {
-					SendMessage(hwndDlg, WM_NCPAINT, 0, 0);
-					return 1;
-				}
-			}
-			break;
-		case WM_SETTEXT:
-		case WM_SETICON: {
-			if (CSkin::m_frameSkins) {
-				DefWindowProc(hwndDlg, msg, wParam, lParam);
-				RedrawWindow(hwndDlg, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_NOCHILDREN);
-				return 0;
-			}
-			break;
+		break;
+	case WM_SETCURSOR:
+		if (CSkin::m_frameSkins && (HWND)wParam == hwndDlg) {
+			DefWindowProc(hwndDlg, msg, wParam, lParam);
+			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_NOCHILDREN);
+			return 1;
 		}
-		case WM_NCHITTEST: {
-			RECT r;
-			POINT pt;
-			int k = 0;
-			int clip = CSkin::m_bClipBorder;
+		break;
 
-			if (!pContainer)
-				break;
-
-			if (!(pContainer->dwFlags & CNT_NOTITLE))
-				break;
-
-			GetWindowRect(hwndDlg, &r);
-			GetCursorPos(&pt);
-			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6) {
-				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-					return HTBOTTOM;
-				if (pt.x < r.left + clip + 10)
-					return HTBOTTOMLEFT;
-				if (pt.x > r.right - clip - 10)
-					return HTBOTTOMRIGHT;
-
-			}
-			else if (pt.y >= r.top && pt.y <= r.top + 6) {
-				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-					return HTTOP;
-				if (pt.x < r.left + clip + 10)
-					return HTTOPLEFT;
-				if (pt.x > r.right - clip - 10)
-					return HTTOPRIGHT;
-			}
-			else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
-				return HTLEFT;
-			else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
-				return HTRIGHT;
-
-			return(DefWindowProc(hwndDlg, WM_NCHITTEST, wParam, lParam));
-		}
-		case 0xae:						// must be some undocumented message - seems it messes with the title bar...
-			if (CSkin::m_frameSkins)
-				return 0;
-		default:
+	case WM_NCCALCSIZE:
+		if (!CSkin::m_frameSkins)
 			break;
+
+		if (wParam) {
+			RECT *rc;
+			NCCALCSIZE_PARAMS *ncsp = (NCCALCSIZE_PARAMS *)lParam;
+
+			DefWindowProc(hwndDlg, msg, wParam, lParam);
+			rc = &ncsp->rgrc[0];
+
+			rc->left += CSkin::m_realSkinnedFrame_left;
+			rc->right -= CSkin::m_realSkinnedFrame_right;
+			rc->bottom -= CSkin::m_realSkinnedFrame_bottom;
+			rc->top += CSkin::m_realSkinnedFrame_caption;
+			return TRUE;
+		}
+
+		return DefWindowProc(hwndDlg, msg, wParam, lParam);
+
+	case WM_NCACTIVATE:
+		if (pContainer) {
+			pContainer->ncActive = wParam;
+			if (bSkinned && CSkin::m_frameSkins) {
+				SendMessage(hwndDlg, WM_NCPAINT, 0, 0);
+				return 1;
+			}
+		}
+		break;
+	case WM_SETTEXT:
+	case WM_SETICON: {
+		if (CSkin::m_frameSkins) {
+			DefWindowProc(hwndDlg, msg, wParam, lParam);
+			RedrawWindow(hwndDlg, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_NOCHILDREN);
+			return 0;
+		}
+		break;
+						  }
+	case WM_NCHITTEST: {
+		RECT r;
+		POINT pt;
+		int k = 0;
+		int clip = CSkin::m_bClipBorder;
+
+		if (!pContainer)
+			break;
+
+		if (!(pContainer->dwFlags & CNT_NOTITLE))
+			break;
+
+		GetWindowRect(hwndDlg, &r);
+		GetCursorPos(&pt);
+		if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6) {
+			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+				return HTBOTTOM;
+			if (pt.x < r.left + clip + 10)
+				return HTBOTTOMLEFT;
+			if (pt.x > r.right - clip - 10)
+				return HTBOTTOMRIGHT;
+
+		}
+		else if (pt.y >= r.top && pt.y <= r.top + 6) {
+			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+				return HTTOP;
+			if (pt.x < r.left + clip + 10)
+				return HTTOPLEFT;
+			if (pt.x > r.right - clip - 10)
+				return HTTOPRIGHT;
+		}
+		else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
+			return HTLEFT;
+		else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
+			return HTRIGHT;
+
+		return(DefWindowProc(hwndDlg, WM_NCHITTEST, wParam, lParam));
+							 }
+	case 0xae:						// must be some undocumented message - seems it messes with the title bar...
+		if (CSkin::m_frameSkins)
+			return 0;
 	}
-	return CallWindowProc(OldContainerWndProc, hwndDlg, msg, wParam, lParam);
+	return mir_callNextSubclass(hwndDlg, ContainerWndProc, msg, wParam, lParam);
 }
+
 /*
  * container window procedure...
  */
@@ -587,8 +583,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			fHaveTipper = ServiceExists("mToolTip/ShowTip");
 			fForceOverlayIcons = M->GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
-
-			OldContainerWndProc = (WNDPROC)SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)ContainerWndProc);
 
 			pContainer = (struct TContainerData *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
@@ -2055,7 +2049,6 @@ buttons_done:
 				DeleteObject(pContainer->hbmToolbarBG);
 				DeleteDC(pContainer->cachedToolbarDC);
 			}
-			SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)OldContainerWndProc);
 			return 0;
 		}
 
@@ -2069,6 +2062,7 @@ buttons_done:
 			}
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			break;
+
 		case WM_CLOSE: {
 			//mad
 			if (PluginConfig.m_HideOnClose && !lParam) {

@@ -23,7 +23,6 @@ extern HANDLE hWindowList;
 extern HCURSOR splitCursor;
 
 MYCOLOURSET colourSet;
-WNDPROC wndSplitterProc;
 LISTOPTIONS options;
 /*
 MainDlgProc handles messages to the main dialog box
@@ -90,7 +89,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			GetFilterText(listMenu, filter, _countof(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			
-			wndSplitterProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hDlg, IDC_SPLITTER), GWLP_WNDPROC, (LONG_PTR)SplitterProc);
+			mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterProc);
 			
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK );
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
@@ -977,5 +976,5 @@ LRESULT CALLBACK SplitterProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		ReleaseCapture();
 		return 0;
 	}
-	return CallWindowProc(wndSplitterProc, hWnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hWnd, SplitterProc, msg, wParam, lParam);
 }

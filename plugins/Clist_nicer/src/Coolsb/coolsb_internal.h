@@ -41,7 +41,6 @@ typedef struct
 typedef struct
 {
 	UINT bars;				//which of the scrollbars do we handle? SB_VERT / SB_HORZ / SB_BOTH
-	WNDPROC oldproc;		//old window procedure to call for every message
 
 	SCROLLBAR sbarHorz;		//one scrollbar structure each for 
 	SCROLLBAR sbarVert;		//the horizontal and vertical scrollbars

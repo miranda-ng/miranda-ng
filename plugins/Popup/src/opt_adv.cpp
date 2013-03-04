@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HWND hwndBox = NULL;
 
-INT_PTR CALLBACK AvatarTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK AlphaTrackBarWndProc (HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 //effekt name for drop down box
 LIST<TCHAR> g_lstPopupVfx(5, _tcsicmp);
@@ -121,8 +121,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemInt(hwnd, IDC_AVT_RADIUS, PopUpOptions.avatarRadius, FALSE);
 			SendDlgItemMessage(hwnd, IDC_AVT_RADIUS_SPIN,UDM_SETRANGE, 0, (LPARAM)MAKELONG((PopUpOptions.avatarSize / 2),0));
 			//Size
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE),	GWLP_USERDATA, GetWindowLongPtr(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE), GWLP_WNDPROC));
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE),	GWLP_WNDPROC, (LONG_PTR)AvatarTrackBarWndProc);
+			mir_subclassWindow(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE),	AvatarTrackBarWndProc);
 
 			SendDlgItemMessage(hwnd, IDC_AVT_SIZE_SLIDE, TBM_SETRANGE,FALSE,
 				MAKELONG(SETTING_AVTSIZE_MIN, SETTING_AVTSIZE_MAX));
@@ -577,22 +576,21 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-INT_PTR CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (!IsWindowEnabled(hwnd))
-		return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+		return mir_callNextSubclass(hwnd, AvatarTrackBarWndProc, msg, wParam, lParam);
 
 	static int oldVal = -1;
 	switch (msg) {
-		case WM_MOUSEWHEEL:
-		case WM_KEYDOWN:
-		case WM_KEYUP:
-			{
-			if (!IsWindowVisible(hwndBox))
-				break;
-			}
-		case WM_MOUSEMOVE:
-			{
+	case WM_MOUSEWHEEL:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+		if (!IsWindowVisible(hwndBox))
+			break;
+
+	case WM_MOUSEMOVE:
+		{
 			TRACKMOUSEEVENT tme;
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
@@ -615,69 +613,31 @@ INT_PTR CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				InvalidateRect(hwndBox, NULL, FALSE);
 				oldVal = newVal;
 			}
-			}
-			break;
-		case WM_MOUSELEAVE:
-			{
-/*
-			SetWindowLongPtr(hwndBox, GWLP_USERDATA, 2);
-			SetWindowPos(hwndBox, NULL,
-				0, 0, 201, 201,
-				SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
-
-			HRGN hrgnWindow, hrgnTmp, hrgnTmp2;
-			hrgnWindow = CreateRectRgn(0, 0, 201, 201);
-			hrgnTmp = CreateEllipticRgn(-90, -90,  90,  90);
-			SubtractRgn(hrgnWindow, hrgnWindow, hrgnTmp);
-			hrgnTmp = CreateEllipticRgn(112, -90, 292,  90);
-			SubtractRgn(hrgnWindow, hrgnWindow, hrgnTmp);
-			hrgnTmp = CreateEllipticRgn(-90, 112,  90, 292);
-			SubtractRgn(hrgnWindow, hrgnWindow, hrgnTmp);
-			hrgnTmp = CreateEllipticRgn(112, 112, 292, 292);
-			SubtractRgn(hrgnWindow, hrgnWindow, hrgnTmp);
-
-			hrgnTmp = CreateRectRgn(5, 5, 196, 196);
-			hrgnTmp2 = CreateRoundRectRgn(89, 0, 113, 201, 8, 8);
-			UnionRgn(hrgnTmp, hrgnTmp, hrgnTmp2);
-			hrgnTmp2 = CreateRoundRectRgn(0, 89, 201, 113, 8, 8);
-			UnionRgn(hrgnTmp, hrgnTmp, hrgnTmp2);
-			IntersectRgn(hrgnWindow, hrgnWindow, hrgnTmp);
-
-			SetWindowRgn(hwndBox, hrgnWindow, FALSE);
-
-			if (MySetLayeredWindowAttributes)
-			{
-				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
-				MySetLayeredWindowAttributes(hwndBox, NULL, PopUpOptions.Alpha, LWA_ALPHA);
-			}
-*/
-			SetWindowRgn(hwndBox, NULL, TRUE);
-			ShowWindow(hwndBox, SW_HIDE);
-			oldVal = -1;
-			}
-			break;
-		default:
-			break;
+		}
+		break;
+	case WM_MOUSELEAVE:
+		SetWindowRgn(hwndBox, NULL, TRUE);
+		ShowWindow(hwndBox, SW_HIDE);
+		oldVal = -1;
+		break;
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, AvatarTrackBarWndProc, msg, wParam, lParam);
 }
 
-INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (!IsWindowEnabled(hwnd))
-		return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+		return mir_callNextSubclass(hwnd, AlphaTrackBarWndProc, msg, wParam, lParam);
 
 	static int oldVal = -1;
-	switch (msg)
-	{
-		case WM_MOUSEWHEEL:
-		case WM_KEYDOWN:
-		case WM_KEYUP:
-		{
-			if (!IsWindowVisible(hwndBox))
-				break;
-		}
-		case WM_MOUSEMOVE:
+	switch (msg) {
+	case WM_MOUSEWHEEL:
+	case WM_KEYDOWN:
+	case WM_KEYUP:
+		if (!IsWindowVisible(hwndBox))
+			break;
+
+	case WM_MOUSEMOVE:
 		{
 			TRACKMOUSEEVENT tme;
 			tme.cbSize = sizeof(tme);
@@ -706,17 +666,14 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			}
 			break;
 		}
-		case WM_MOUSELEAVE:
-		{
+	case WM_MOUSELEAVE:
+		SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+		SetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
 
-			SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-			SetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
-
-			ShowWindow(hwndBox, SW_HIDE);
-			oldVal = -1;
-			break;
-		}
+		ShowWindow(hwndBox, SW_HIDE);
+		oldVal = -1;
+		break;
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, AlphaTrackBarWndProc, msg, wParam, lParam);
 }
 

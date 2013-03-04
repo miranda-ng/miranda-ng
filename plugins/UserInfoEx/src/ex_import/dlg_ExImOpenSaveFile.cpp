@@ -21,19 +21,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-
- #include <dlgs.h>
-
+#include <dlgs.h>
 
 #include "m_db3xSA.h"
 #include "dlg_ExImOpenSaveFile.h"
 
-
-
 #define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda NG\\PlacesBar")
 #define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")
-
-static WNDPROC	DefPlacesBarProc;
 
 /**
  * This function maps the current users registry to a dummy key and
@@ -121,68 +115,61 @@ static VOID ResetAlteredPlaceBars()
  *				lParam	- message dependend parameter
  * return:		depends on message
  **/
-static LRESULT PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg) 
-	{
-		case TB_ADDBUTTONS: 
-		{
-			TBBUTTON *tbb = (TBBUTTON *)lParam;
-			TCHAR szBtnText[MAX_PATH];
-			INT iString;
-			HWND hWndToolTip;
+	if (uMsg == TB_ADDBUTTONS) {
+		TBBUTTON *tbb = (TBBUTTON *)lParam;
+		TCHAR szBtnText[MAX_PATH];
+		INT iString;
+		HWND hWndToolTip;
 
-			if (tbb)
-			{
-				switch (tbb->idCommand)
-				{
-					// miranda button
-					case 41063:
-						ZeroMemory(szBtnText, sizeof(szBtnText));
-						
-						mir_tcsncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
-						iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
-						if (iString != -1) tbb->iString = iString;
-						// set tooltip
-						hWndToolTip = (HWND)SendMessage(hWnd, TB_GETTOOLTIPS, NULL, NULL);
-						if (hWndToolTip) {
-							TOOLINFO ti;
+		if (tbb) {
+			// miranda button
+			switch (tbb->idCommand) {
+			case 41063:
+				ZeroMemory(szBtnText, sizeof(szBtnText));
 
-							ZeroMemory(&ti, sizeof(ti));
-							ti.cbSize = sizeof(ti);
-							ti.hwnd = hWnd;
-							ti.lpszText = TranslateT("Shows Miranda's installation directory.");
-							ti.uId = tbb->idCommand;
-							SendMessage(hWndToolTip, TTM_ADDTOOL, NULL, (LPARAM)&ti);
-						}
-						break;
-					// profile button
-					case 41064:
-						// set button text
-						iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM) TranslateT("Profile"));
-						if (iString != -1) tbb->iString = iString;
+				mir_tcsncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
+				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
+				if (iString != -1) tbb->iString = iString;
+				// set tooltip
+				hWndToolTip = (HWND)SendMessage(hWnd, TB_GETTOOLTIPS, NULL, NULL);
+				if (hWndToolTip) {
+					TOOLINFO ti;
 
-						// set tooltip
-						hWndToolTip = (HWND)SendMessage(hWnd, TB_GETTOOLTIPS, NULL, NULL);
-						if (hWndToolTip) {
-							TOOLINFO ti;
-
-							ZeroMemory(&ti, sizeof(ti));
-							ti.cbSize = sizeof(ti);
-							ti.hwnd = hWnd;
-							ti.lpszText = TranslateT("Shows the directory with all your Miranda's profiles.");
-							ti.uId = tbb->idCommand;
-							SendMessage(hWndToolTip, TTM_ADDTOOL, NULL, (LPARAM)&ti);
-						}
-						// unmap registry and delete keys
-						ResetAlteredPlaceBars();
-						break;
+					ZeroMemory(&ti, sizeof(ti));
+					ti.cbSize = sizeof(ti);
+					ti.hwnd = hWnd;
+					ti.lpszText = TranslateT("Shows Miranda's installation directory.");
+					ti.uId = tbb->idCommand;
+					SendMessage(hWndToolTip, TTM_ADDTOOL, NULL, (LPARAM)&ti);
 				}
+				break;
+				// profile button
+			case 41064:
+				// set button text
+				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM) TranslateT("Profile"));
+				if (iString != -1) tbb->iString = iString;
+
+				// set tooltip
+				hWndToolTip = (HWND)SendMessage(hWnd, TB_GETTOOLTIPS, NULL, NULL);
+				if (hWndToolTip) {
+					TOOLINFO ti;
+
+					ZeroMemory(&ti, sizeof(ti));
+					ti.cbSize = sizeof(ti);
+					ti.hwnd = hWnd;
+					ti.lpszText = TranslateT("Shows the directory with all your Miranda's profiles.");
+					ti.uId = tbb->idCommand;
+					SendMessage(hWndToolTip, TTM_ADDTOOL, NULL, (LPARAM)&ti);
+				}
+				// unmap registry and delete keys
+				ResetAlteredPlaceBars();
+				break;
 			}
-			break;
 		}
 	}
-	return CallWindowProc(DefPlacesBarProc, hWnd, uMsg, wParam,lParam);
+	return mir_callNextSubclass(hWnd, PlacesBarSubclassProc, uMsg, wParam,lParam);
 }
 
 /**
@@ -194,26 +181,26 @@ static LRESULT PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
  *				lParam	- message dependend parameter
  * return:		depends on message
  **/
-static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
-		case WM_NOTIFY:
-			if (((LPNMHDR)lParam)->code == CDN_INITDONE) {
-				HWND hPlacesBar = GetDlgItem(GetParent(hDlg), ctl1);
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == CDN_INITDONE) {
+			HWND hPlacesBar = GetDlgItem(GetParent(hDlg), ctl1);
 
-				// we have a places bar?
-				if (hPlacesBar != NULL) {
-					InitAlteredPlacesBar();
-					// finally subclass the places bar
-					DefPlacesBarProc = SubclassWindow(hPlacesBar, PlacesBarSubclassProc);
-				}
+			// we have a places bar?
+			if (hPlacesBar != NULL) {
+				InitAlteredPlacesBar();
+				// finally subclass the places bar
+				mir_subclassWindow(hPlacesBar, PlacesBarSubclassProc);
 			}
-			break;
-		case WM_DESTROY:
-			// unmap registry and delete keys 
-			// (is to make it sure, if somehow the last places button was not added which also calls this function)
-			ResetAlteredPlaceBars();
-			break;
+		}
+		break;
+	case WM_DESTROY:
+		// unmap registry and delete keys 
+		// (is to make it sure, if somehow the last places button was not added which also calls this function)
+		ResetAlteredPlaceBars();
+		break;
 	}
 	return FALSE;
 }

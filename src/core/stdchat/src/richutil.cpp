@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <windows.h>
 #include <stdio.h>
 #include <richedit.h>
+
+#include <m_core.h>
 #include "richutil.h"
 
 /*
@@ -176,29 +178,29 @@ int RichUtil_SubClass(HWND hwndEdit) {
 		slist = rlist_append(slist, ru);
 		LeaveCriticalSection(&csRich);
 		SetWindowLongPtr(ru->hwnd, GWLP_USERDATA, (LONG_PTR)ru); // Ugly hack
-		ru->origProc = (WNDPROC)SetWindowLongPtr(ru->hwnd, GWLP_WNDPROC, (LONG_PTR)&RichUtil_Proc);
+		mir_subclassWindow(ru->hwnd, RichUtil_Proc);
 		RichUtil_ClearUglyBorder(ru);
 		return 1;
 	}
 	return 0;
 }
 
-static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	TRichUtil *ru;
-	
+
 	EnterCriticalSection(&csRich);
 	ru = rlist_find(slist, hwnd);
 	LeaveCriticalSection(&csRich);
 	switch(msg) {
-		case WM_THEMECHANGED:
-		case WM_STYLECHANGED:
+	case WM_THEMECHANGED:
+	case WM_STYLECHANGED:
+		RichUtil_ClearUglyBorder(ru);
+		break;
+
+	case WM_NCPAINT:
 		{
-			RichUtil_ClearUglyBorder(ru);
-			break;
-		}
-		case WM_NCPAINT:
-		{
-			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
+			LRESULT ret = mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
 			if (ru->hasUglyBorder&&MyIsThemeActive()) {
 				HANDLE hTheme = MyOpenThemeData(ru->hwnd, L"EDIT");
 
@@ -232,11 +234,11 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 			return ret;
 		}
-		case WM_NCCALCSIZE:
+	case WM_NCCALCSIZE:
 		{
-			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
+			LRESULT ret = mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
 			NCCALCSIZE_PARAMS *ncsParam = (NCCALCSIZE_PARAMS*)lParam;
-			
+
 			if (ru->hasUglyBorder&&MyIsThemeActive()) {
 				HANDLE hTheme = MyOpenThemeData(hwnd, L"EDIT");
 
@@ -261,17 +263,14 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 			return ret;
 		}
-		case WM_ENABLE:
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE|RDW_NOCHILDREN|RDW_UPDATENOW|RDW_FRAME);
-			break;
-		case WM_DESTROY:
-		{
-			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
 
-			if(IsWindow(hwnd)) {
-				if ((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC) == &RichUtil_Proc)
-					SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)ru->origProc);
-			}
+	case WM_ENABLE:
+		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE|RDW_NOCHILDREN|RDW_UPDATENOW|RDW_FRAME);
+		break;
+
+	case WM_DESTROY:
+		{
+			LRESULT ret = mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
 			EnterCriticalSection(&csRich);
 			slist = rlist_remove(slist, ru);
 			LeaveCriticalSection(&csRich);
@@ -279,7 +278,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			return ret;
 		}
 	}
-	return CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, RichUtil_Proc, msg, wParam, lParam);
 }
 
 static VOID RichUtil_ClearUglyBorder(TRichUtil *ru) {

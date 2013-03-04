@@ -73,10 +73,8 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 		prswdWindowData=(RECV_SMS_WINDOW_DATA*)lParam;
 		SetWindowLongPtr(hWndDlg,GWLP_USERDATA,(LONG_PTR)lParam);
-		{
-			WNDPROC OldEditWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWLP_WNDPROC,(LONG_PTR)MessageSubclassProc);
-			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWLP_USERDATA,(LONG_PTR)OldEditWndProc);
-		}
+
+		mir_subclassWindow(GetDlgItem(hWndDlg,IDC_MESSAGE), MessageSubclassProc);
 		{
 			HFONT hFont;
 			LOGFONT lf;

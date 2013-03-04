@@ -37,8 +37,6 @@ struct Data
 
 	AutoReplaceDialogCallback callback;
 	void *param;
-	
-	WNDPROC old_edit_proc;
 };
 
 BOOL ShowAutoReplaceDialog(HWND parent, BOOL modal, 
@@ -81,17 +79,15 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 {
 	Data *data = (Data *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
-	switch(msg)
-	{
-		case WM_CHAR:
+	switch(msg) {
+	case WM_CHAR:
+		if (wParam == VK_BACK)
+			break;
+		if (lParam & (1 << 28))	// ALT key
+			break;
+		if (GetKeyState(VK_CONTROL) & 0x8000)	// CTRL key
+			break;
 		{
-			if (wParam == VK_BACK)
-				break;
-			if (lParam & (1 << 28))	// ALT key
-				break;
-			if (GetKeyState(VK_CONTROL) & 0x8000)	// CTRL key
-				break;
-
 			TCHAR c = (TCHAR) wParam;
 			if (!data->dict->autoReplace->isWordChar(c))
 				return 1;
@@ -104,12 +100,11 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		}
 	}
 
-	LRESULT ret = CallWindowProc(data->old_edit_proc, hwnd, msg, wParam, lParam);
+	LRESULT ret = mir_callNextSubclass(hwnd, OnlyCharsEditProc, msg, wParam, lParam);
 
-	switch(msg)
-	{
-		case EM_PASTESPECIAL:
-		case WM_PASTE:
+	switch(msg) {
+	case EM_PASTESPECIAL:
+	case WM_PASTE:
 		{
 			TCHAR text[256];
 			GetWindowText(hwnd, text, SIZEOF(text));
@@ -121,7 +116,6 @@ static LRESULT CALLBACK OnlyCharsEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	}
 
 	return ret;
-
 }
 
 
@@ -159,14 +153,9 @@ static void Close(HWND hwndDlg, int ret)
 	Data *data = (Data *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	if (!ret)
-	{
 		data->callback(TRUE, data->dict, 
 					   data->find.c_str(), data->replace.c_str(), data->useVariables, 
 					   data->find.c_str(), data->param);
-	}
-
-	SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_WNDPROC, (LONG_PTR) data->old_edit_proc);
-	data->old_edit_proc = NULL;
 
 	if (data->modal)
 		EndDialog(hwndDlg, ret);
@@ -185,9 +174,8 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			Data *data = (Data *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) data);
 
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_USERDATA, (LONG_PTR) data);
-			data->old_edit_proc = (WNDPROC) SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_WNDPROC, 
-				(LONG_PTR) OnlyCharsEditProc);
+			SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_OLD), GWLP_USERDATA, (LONG_PTR)data);
+			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_OLD), OnlyCharsEditProc);
 
 			HICON hIcon = Skin_GetIcon("spellchecker_enabled");
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM) hIcon);

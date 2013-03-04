@@ -2260,9 +2260,8 @@ void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON
 	DeleteDC(dcMem);
 }
 
-UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
+UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC MyWndProc)
 {
-	LRESULT orig = 0;
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
 	BOOL bReturn = FALSE;
 
@@ -2271,8 +2270,8 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID
 		EnableScrollBar(hwnd, SB_VERT, ESB_DISABLE_BOTH);
 		ShowScrollBar(hwnd, SB_VERT, FALSE);
 	}
-	if (OldWndProc)
-		orig = CallWindowProc(OldWndProc, hwnd, msg, wParam, lParam);
+
+	LRESULT orig = mir_callNextSubclass(hwnd, MyWndProc, msg, wParam, lParam);
 
 	if (0 == mwdat)
 		return(orig);
@@ -2313,12 +2312,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID
 
 UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)
 {
-	CSkinItem *item = &SkinItems[skinID];
-	LRESULT result = 0;
-
-	if (OldWndProc)
-		result = CallWindowProc(OldWndProc, hwnd, msg, wParam, lParam);			// do default processing (otherwise, NO scrollbar as it is painted in NC_PAINT)
-
+	LRESULT result = mir_callNextSubclass(hwnd, OldWndProc, msg, wParam, lParam);			// do default processing (otherwise, NO scrollbar as it is painted in NC_PAINT)
 	if (0 == mwdat)
 		return result;
 
@@ -2341,6 +2335,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, 
 		left_off -= PluginConfig.m_ncm.iScrollWidth;
 	top_off = pt.y - rcWindow.top;
 
+	CSkinItem *item = &SkinItems[skinID];
 	if (CSkin::m_skinEnabled && !item->IGNORED) {
 		right_off = item->MARGIN_RIGHT;
 		bottom_off = item->MARGIN_BOTTOM;

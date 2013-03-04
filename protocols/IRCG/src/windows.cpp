@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "irc.h"
 
-static WNDPROC OldMgrEditProc;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Message Box
 
@@ -866,7 +864,7 @@ LRESULT CALLBACK MgrEditSubclassProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARA
 		break;
 	} 
 
-	return CallWindowProc(OldMgrEditProc, m_hwnd, msg, wParam, lParam); 
+	return mir_callNextSubclass(m_hwnd, MgrEditSubclassProc, msg, wParam, lParam); 
 } 
 
 void CManagerDlg::OnInitDialog()
@@ -877,7 +875,7 @@ void CManagerDlg::OnInitDialog()
 	pt.x = 3; 
 	pt.y = 3; 
 	HWND hwndEdit = ChildWindowFromPoint( m_topic.GetHwnd(), pt); 
-	OldMgrEditProc = (WNDPROC)SetWindowLongPtr(hwndEdit, GWLP_WNDPROC,(LONG_PTR)MgrEditSubclassProc); 
+	mir_subclassWindow(hwndEdit, MgrEditSubclassProc); 
 	
 	WindowSetIcon( m_hwnd, IDI_MANAGER );
 

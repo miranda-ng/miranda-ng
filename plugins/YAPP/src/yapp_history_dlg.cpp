@@ -15,8 +15,6 @@
 #define ANCHOR_BOTTOM   0x000008
 #define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
 
-WNDPROC oldPopupsListProc = NULL;
-
 HWND hHistoryWindow = 0; //the history window
 HICON hiPopupHistory; //popup history icon
 PopupHistoryList lstPopupHistory; //defined in main.cpp
@@ -516,16 +514,15 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 }
 
 //subclass proc for the list view
-BOOL CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_CONTEXTMENU:
+	switch (msg) {
+	case WM_CONTEXTMENU:
 		{
 			int x = LOWORD(lParam);
 			int y = HIWORD(lParam);
 			int selection;		
-			
+
 			HMENU hMenu = CreatePopupMenu();
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_TITLE, TranslateT("Copy title to clipboard"));
 			AppendMenu(hMenu, MF_STRING, POPUPMENU_MESSAGE, TranslateT("Copy message to clipboard"));
@@ -536,48 +533,30 @@ BOOL CALLBACK PopupsListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			{
 				CopyPopupDataToClipboard(hWnd, selection);
 			}
-		
+
 			break;
 		}
-		
-		case WM_KEYUP:
-		{
-			switch (wParam)
-			{
-				case 'C':
-				{
-					if (GetKeyState(VK_CONTROL))
-					{
-						CopyPopupDataToClipboard(hWnd, POPUPMENU_MESSAGE);
-					}
-					
-					break;
-				}
-				
-				case VK_ESCAPE:
-				{
-					SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
-					
-					break;
-				}
-				
-			}
-			 
+
+	case WM_KEYUP:
+		switch (wParam) {
+		case 'C':
+			if (GetKeyState(VK_CONTROL))
+				CopyPopupDataToClipboard(hWnd, POPUPMENU_MESSAGE);
+			break;
+
+		case VK_ESCAPE:
+			SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
 			break;
 		}
-		
-		case WM_SYSKEYDOWN:
-		{
-			if (wParam == 'X')
-			{
-				SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
-			}
-			
-			break;
-		}
+		break;
+
+	case WM_SYSKEYDOWN:
+		if (wParam == 'X')
+			SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
+		break;
 	}
-	
-	return CallWindowProc(oldPopupsListProc, hWnd, msg, wParam, lParam);
+
+	return mir_callNextSubclass(hWnd, PopupsListSubclassProc, msg, wParam, lParam);
 }
 
 //load the columns
@@ -599,62 +578,48 @@ void LoadHistoryColumns(HWND hHistoryList)
 INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int bInitializing;
-	
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		bInitializing = 1;
 		{
-			bInitializing = 1;
 			int renderer = lstPopupHistory.GetRenderer();
-			
+
 			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiPopupHistory);
-			
+
 			LoadRenderer(hWnd, renderer);
-			
+
 			TranslateDialogDefault(hWnd);
 			HWND hHistoryList = GetDlgItem(hWnd, IDC_LST_HISTORY);
 
 			ListView_SetExtendedListViewStyleEx(hHistoryList, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
 
-			oldPopupsListProc = (WNDPROC) SetWindowLongPtr(hHistoryList, GWLP_WNDPROC, (LONG_PTR) PopupsListSubclassProc);
-			
+			mir_subclassWindow(hHistoryList, PopupsListSubclassProc);
+
 			LoadHistoryColumns(hHistoryList);
-			
+
 			RefreshPopupHistory(hWnd, renderer);
-			
-			bInitializing = 0;
-
-			return TRUE;
-		}		
-
-		case WM_DESTROY:
-		{
-			UnloadRenderer(hWnd, lstPopupHistory.GetRenderer());
-			hHistoryWindow = NULL;
-			
-			break;
 		}
-		
-		case WM_CLOSE:
-		{
-			//Utils_SaveWindowPosition(hWnd, 0, MODULE, "history_dlg");
-			DestroyWindow(hWnd);
-	
-			break;
-		}
+		bInitializing = 0;
+		return TRUE;
 
-		case WM_WINDOWPOSCHANGING:
+	case WM_DESTROY:
+		UnloadRenderer(hWnd, lstPopupHistory.GetRenderer());
+		hHistoryWindow = NULL;
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hWnd);
+		break;
+
+	case WM_WINDOWPOSCHANGING:
 		{
 			WINDOWPOS *wndPos = (WINDOWPOS *) lParam;
-			
+
 			if (wndPos->cx < MIN_HISTORY_WIDTH)
-			{
 				wndPos->cx = MIN_HISTORY_WIDTH;
-			}
 			if (wndPos->cy < MIN_HISTORY_HEIGHT)
-			{
 				wndPos->cy = MIN_HISTORY_HEIGHT;
-			}
 
 			RECT rParent;
 			GetWindowRect(hWnd, &rParent);
@@ -667,77 +632,48 @@ INT_PTR CALLBACK DlgProcHistLst(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			EndDeferWindowPos(hdWnds);
 			MoveCustomControl(hWnd, lstPopupHistory.GetRenderer()); //move the custom control too, if any
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_CLOSE:
+			SendMessage(hWnd, WM_CLOSE, 0, 0);
+			break;
+
+		case IDC_HISTORY_FILTER_CASESENSITIVE:
+			if (HIWORD(wParam) == BN_CLICKED)
+				RefreshPopupHistory(hWnd, lstPopupHistory.GetRenderer());
+
+		case IDC_HISTORY_FILTER:
+			if (HIWORD(wParam) == EN_CHANGE)
+				if (!bInitializing)
+					RefreshPopupHistory(hWnd, lstPopupHistory.GetRenderer());
 			break;
 		}
+		break;
 
-			
-		case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-				case IDC_CLOSE:
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->idFrom) {
+		case IDC_LST_HISTORY:
+			switch (((LPNMHDR)lParam)->code) {
+			case LVN_COLUMNCLICK:
 				{
-					SendMessage(hWnd, WM_CLOSE, 0, 0);
-	
-					break;
-				}
-				
-				case IDC_HISTORY_FILTER_CASESENSITIVE:
-				{
-					if (HIWORD(wParam) == BN_CLICKED)
-					{
-						RefreshPopupHistory(hWnd, lstPopupHistory.GetRenderer());
-					}
-				}
-				
-				case IDC_HISTORY_FILTER:
-				{
-					if (HIWORD(wParam) == EN_CHANGE)
-					{
-						if (!bInitializing)
-						{
-							RefreshPopupHistory(hWnd, lstPopupHistory.GetRenderer());
-						}
-					}
-					
-					break;
-				}
-				
-			}
-	
-			break;
-		}
-	
-		case WM_NOTIFY:
-		{
-			switch(((LPNMHDR)lParam)->idFrom)
-			{
-				case IDC_LST_HISTORY:
-				{
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case LVN_COLUMNCLICK:
-						{
-							LPNMLISTVIEW lv = (LPNMLISTVIEW) lParam;
-							int column = lv->iSubItem;
-							SortParams params = {0};
-							params.hList = GetDlgItem(hWnd, IDC_LST_HISTORY);
-							params.column = column;
-							
-							ListView_SortItemsEx(params.hList, PopupsCompare, (LPARAM) &params);
-							lastColumn = (params.column == lastColumn) ? -1 : params.column;
+					LPNMLISTVIEW lv = (LPNMLISTVIEW) lParam;
+					int column = lv->iSubItem;
+					SortParams params = {0};
+					params.hList = GetDlgItem(hWnd, IDC_LST_HISTORY);
+					params.column = column;
 
-							break;
-						}
-					}
-				
+					ListView_SortItemsEx(params.hList, PopupsCompare, (LPARAM) &params);
+					lastColumn = (params.column == lastColumn) ? -1 : params.column;
+
 					break;
 				}
 			}
-				
-			break;
 		}
+		break;
 	}
-	
+
 	return 0;
 }

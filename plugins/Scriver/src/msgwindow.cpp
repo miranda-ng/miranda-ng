@@ -35,20 +35,18 @@ extern ITaskbarList3 * pTaskbarInterface;
 #define TIMERID_FLASHWND     1
 #define TIMEOUT_FLASHWND     900
 
-static WNDPROC OldTabCtrlProc;
-static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lParam);
-BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static  void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 extern TCHAR *GetNickname(HANDLE hContact, const char* szProto);
 
 void SubclassTabCtrl(HWND hwnd) {
-	OldTabCtrlProc = (WNDPROC) SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) TabCtrlProc);
+	mir_subclassWindow(hwnd, TabCtrlProc);
 	SendMessage(hwnd, EM_SUBCLASSED, 0, 0);
 }
 
 void UnsubclassTabCtrl(HWND hwnd) {
 	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
-	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldTabCtrlProc);
 }
 
 static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%statusmsg%"), _T("%account%")};
@@ -1278,7 +1276,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 	}
 }
 
-BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TabCtrlData *dat;
 	dat = (TabCtrlData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
@@ -1570,9 +1568,8 @@ BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			mir_free(dat);
 			return 0;
 	}
-	return CallWindowProc(OldTabCtrlProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, TabCtrlProc, msg, wParam, lParam);
 }
-
 
 int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix, int flags, int showCmd)
 {

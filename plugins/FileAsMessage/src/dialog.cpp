@@ -1023,14 +1023,6 @@ void CreateDirectoryTree(char *szDir)
 	CreateDirectory(szTestDir,NULL);
 }
 
-void SubclassWnd(HWND hwnd, WNDPROC lpfnWndProc)
-{
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)GetWindowLongPtr(hwnd, GWLP_WNDPROC));
-	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG)lpfnWndProc);
-}
-#define CallSubclassed(hwnd, uMsg, wParam, lParam)\
-	CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, uMsg, wParam, lParam)
-
 LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
@@ -1134,7 +1126,7 @@ LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			return 0;
 		}
 	}
-	return CallSubclassed(hwnd, uMsg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, ProgressWndProc, uMsg, wParam, lParam);
 }
 
 INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -1158,7 +1150,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 			//SetDlgItemText(hDlg, IDC_FILENAME, "C:\\!Developer\\!Miranda\\miranda\\bin\\release\\emo\\biggrin.gif");
 
-			SubclassWnd(GetDlgItem(hDlg, IDC_PROGRESS), ProgressWndProc);
+			mir_subclassWindow(GetDlgItem(hDlg, IDC_PROGRESS), ProgressWndProc);
 			
 			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONSETASFLATBTN,0,0);				
 			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[ICON_PLAY]);

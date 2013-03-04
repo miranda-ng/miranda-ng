@@ -252,15 +252,13 @@ static int MatchesFilter(const OptionsPageData *page, TCHAR *szFilterString)
 	return ContainsFilterString(key, szFilterString);
 }
 
-static WNDPROC OptionsFilterDefaultProc = NULL;
-
 static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	if (message != WM_PAINT && message != WM_PRINT)
-		return CallWindowProc(OptionsFilterDefaultProc, hWnd, message, wParam, lParam);
+		return mir_callNextSubclass(hWnd, OptionsFilterSubclassProc, message, wParam, lParam);
 
 	if (GetFocus() == hWnd || GetWindowTextLength(hWnd))
-		return CallWindowProc(OptionsFilterDefaultProc, hWnd, message, wParam, lParam);
+		return mir_callNextSubclass(hWnd, OptionsFilterSubclassProc, message, wParam, lParam);
 
 	RECT rc;
 	GetClientRect(hWnd, &rc);
@@ -386,7 +384,7 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 
 	//paint
 	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)TRUE);
-	CallWindowProc(OldWndProc, hwnd, msg, (WPARAM)tempDC, lpFlags);
+	mir_callNextSubclass(hwnd, OldWndProc, msg, (WPARAM)tempDC, lpFlags);
 	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)FALSE);
 
 	// Fix alpha channel
@@ -403,7 +401,6 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 
 static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WNDPROC OldWndProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	switch (msg) {
 	case WM_CTLCOLOREDIT:
 		if ( !GetPropA((HWND)lParam, "Miranda.AeroRender.Active"))
@@ -415,14 +412,14 @@ static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 
 	case WM_PRINT:
 	case WM_PRINTCLIENT:
-		AeroPaintControl(hwnd, (HDC)wParam, OldWndProc, msg, lParam);
+		AeroPaintControl(hwnd, (HDC)wParam, AeroPaintSubclassProc, msg, lParam);
 		return TRUE;
 
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
-			AeroPaintControl(hwnd, hdc, OldWndProc);
+			AeroPaintControl(hwnd, hdc, AeroPaintSubclassProc);
 			EndPaint(hwnd, &ps);
 		}
 		return TRUE;
@@ -431,7 +428,7 @@ static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 		RemovePropA(hwnd, "Miranda.AeroRender.Active");
 		break;
 	}
-	return CallWindowProc(OldWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, AeroPaintSubclassProc, msg, wParam, lParam);
 }
 
 static void CALLBACK FilterSearchTimerFunc(HWND hwnd, UINT, UINT_PTR, DWORD)
@@ -662,13 +659,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				COMBOBOXINFO cbi;
 				cbi.cbSize = sizeof(COMBOBOXINFO);
 				getComboBoxInfo( GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
-				OptionsFilterDefaultProc = (WNDPROC)SetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC, (LONG_PTR) OptionsFilterSubclassProc);
+				mir_subclassWindow(cbi.hwndItem, OptionsFilterSubclassProc);
 
 				if (IsAeroMode()) {
-					SetWindowLongPtr(cbi.hwndCombo, GWLP_USERDATA, GetWindowLongPtr(cbi.hwndCombo, GWLP_WNDPROC));
-					SetWindowLongPtr(cbi.hwndCombo, GWLP_WNDPROC, (LONG_PTR)AeroPaintSubclassProc);
-					SetWindowLongPtr(cbi.hwndItem, GWLP_USERDATA, GetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC));
-					SetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC, (LONG_PTR)AeroPaintSubclassProc);
+					mir_subclassWindow(cbi.hwndCombo, AeroPaintSubclassProc);
+					mir_subclassWindow(cbi.hwndItem, AeroPaintSubclassProc);
 				}
 			}
 

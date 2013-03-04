@@ -40,7 +40,6 @@ void ResetCList(HWND hWnd);
 
 HistoryWindow::HistoryWindow(HANDLE _hContact) :
 	isDestroyed(true),
-	OldSplitterProc(0),
 	splitterY(0),
 	splitterOrgY(0),
 	splitterX(0),
@@ -1174,8 +1173,8 @@ void HistoryWindow::Initialise()
 {
 	splitterXhWnd = GetDlgItem(hWnd, IDC_SPLITTER);
 	splitterYhWnd = GetDlgItem(hWnd, IDC_SPLITTERV);
-	OldSplitterProc = (WNDPROC)SetWindowLongPtr(splitterXhWnd, GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
-	SetWindowLongPtr(splitterYhWnd, GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
+	mir_subclassWindow(splitterXhWnd, SplitterSubclassProc);
+	mir_subclassWindow(splitterYhWnd, SplitterSubclassProc);
 
 	editWindow = GetDlgItem(hWnd, IDC_EDIT);
 	findWindow = GetDlgItem(hWnd, IDC_FIND_TEXT);
@@ -1327,10 +1326,6 @@ void HistoryWindow::Destroy()
 	
 	hIcon = (HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0);
 	Skin_ReleaseIcon(hIcon);
-			
-	UnregisterHotkeyControl(GetDlgItem(hWnd, IDC_SHOWHIDE));
-	UnregisterHotkeyControl(GetDlgItem(hWnd, IDC_LIST_CONTACTS));
-	UnregisterHotkeyControl(findWindow);
 
 	isDestroyed = true;
 	HistoryWindow::Close(this);
@@ -1749,7 +1744,7 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 			return 0;
 		}
 	}
-	return CallWindowProc(dat->OldSplitterProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, HistoryWindow::SplitterSubclassProc, msg, wParam, lParam);
 }
 
 void HistoryWindow::EnableWindows(BOOL enable)

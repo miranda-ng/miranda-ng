@@ -1283,7 +1283,7 @@ LRESULT TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT result = CallWindowProc(oldWndProc, hwnd, WM_COPY, wParam, lParam);
+	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, WM_COPY, wParam, lParam);
 
 	if (OpenClipboard(hwnd)) {
 		HANDLE hClip = GetClipboardData(CF_UNICODETEXT);

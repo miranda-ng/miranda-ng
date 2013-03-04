@@ -681,21 +681,22 @@ static POINT ptMouseT = {0};
 
 static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct		TabControlData *tabdat = 0;
-
-	tabdat = (struct TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (tabdat) {
 		if (tabdat->pContainer == NULL)
 			tabdat->pContainer = (TContainerData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		tabdat->dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 	}
 
-	switch (msg) {
-		case WM_NCCREATE: {
-			WNDCLASSEXA wcl = {0};
+	POINT pt;
 
+	switch (msg) {
+	case WM_NCCREATE:
+		{
+			WNDCLASSEXA wcl = {0};
 			wcl.cbSize = sizeof(wcl);
 			GetClassInfoExA(g_hInst, "SysTabControl32", &wcl);
+			OldTabControlClassProc = wcl.lpfnWndProc;
 
 			tabdat = (struct TabControlData *)mir_alloc(sizeof(struct TabControlData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
@@ -706,116 +707,117 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			tabdat->fTipActive = FALSE;
 			tabdat->iHoveredCloseIcon = -1;
 			SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
-			OldTabControlClassProc = wcl.lpfnWndProc;
-			return TRUE;
 		}
-		case EM_THEMECHANGED:
-			tabdat->m_xpad = M->GetByte("x-pad", 3);
-			tabdat->m_VisualStyles = FALSE;
-			if (PluginConfig.m_bIsXP && M->isVSAPIState()) {
-				if (CMimAPI::m_pfnIsThemeActive != 0)
-					if (CMimAPI::m_pfnIsThemeActive()) {
-						tabdat->m_VisualStyles = TRUE;
-						if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
-							CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
-							CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
-						}
-						if (CMimAPI::m_pfnOpenThemeData != 0) {
-							if ((tabdat->hTheme = CMimAPI::m_pfnOpenThemeData(hwnd, L"TAB")) == 0 || (tabdat->hThemeButton = CMimAPI::m_pfnOpenThemeData(hwnd, L"BUTTON")) == 0)
-								tabdat->m_VisualStyles = FALSE;
-						}
+		return TRUE;
+
+	case EM_THEMECHANGED:
+		tabdat->m_xpad = M->GetByte("x-pad", 3);
+		tabdat->m_VisualStyles = FALSE;
+		if (PluginConfig.m_bIsXP && M->isVSAPIState()) {
+			if (CMimAPI::m_pfnIsThemeActive != 0)
+				if (CMimAPI::m_pfnIsThemeActive()) {
+					tabdat->m_VisualStyles = TRUE;
+					if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
+						CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
+						CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
 					}
-			}
-			return 0;
-		case EM_SEARCHSCROLLER: {
+					if (CMimAPI::m_pfnOpenThemeData != 0) {
+						if ((tabdat->hTheme = CMimAPI::m_pfnOpenThemeData(hwnd, L"TAB")) == 0 || (tabdat->hThemeButton = CMimAPI::m_pfnOpenThemeData(hwnd, L"BUTTON")) == 0)
+							tabdat->m_VisualStyles = FALSE;
+					}
+				}
+		}
+		return 0;
+
+	case EM_SEARCHSCROLLER:
+		{
 			HWND hwndChild;
 			/*
-			 * search the updown control (scroll arrows) to subclass it...
-			 * the control is dynamically created and may not exist as long as it is
-			 * not needed. So we have to search it everytime we need to paint. However,
-			 * it is sufficient to search it once. So this message is called, whenever
-			 * a new tab is inserted
-			 */
+			* search the updown control (scroll arrows) to subclass it...
+			* the control is dynamically created and may not exist as long as it is
+			* not needed. So we have to search it everytime we need to paint. However,
+			* it is sufficient to search it once. So this message is called, whenever
+			* a new tab is inserted
+			*/
 
 			if ((hwndChild = FindWindowEx(hwnd, 0, _T("msctls_updown32"), NULL)) != 0)
 				DestroyWindow(hwndChild);
-			return 0;
 		}
-		case EM_VALIDATEBOTTOM: {
+		return 0;
+
+	case EM_VALIDATEBOTTOM:
+		{
 			BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
 			if ((tabdat->dwStyle & TCS_BOTTOM) && !bClassicDraw && PluginConfig.tabConfig.m_bottomAdjust != 0)
 				InvalidateRect(hwnd, NULL, FALSE);
-			break;
 		}
-		case EM_REFRESHWITHOUTCLIP:
-			if (TabCtrl_GetItemCount(hwnd) > 1)
-				return 0;
-			else {
-				tabdat->bRefreshWithoutClip = TRUE;
-				RedrawWindow(hwnd, NULL, NULL, RDW_UPDATENOW | RDW_NOCHILDREN | RDW_INVALIDATE);
-				tabdat->bRefreshWithoutClip = FALSE;
-				return 0;
-			}
-		case TCM_INSERTITEM:
-		case TCM_DELETEITEM:
-			tabdat->iHoveredCloseIcon = -1;
-			if (!(tabdat->dwStyle & TCS_MULTILINE) || tabdat->dwStyle & TCS_BUTTONS) {
-				LRESULT result;
-				RECT rc;
-				int iTabs = TabCtrl_GetItemCount(hwnd);
-				if (iTabs >= 1 && msg == TCM_INSERTITEM) {
-					TabCtrl_GetItemRect(hwnd, 0, &rc);
-					TabCtrl_SetItemSize(hwnd, 10, rc.bottom - rc.top);
-				}
-				result = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
-				TabCtrl_GetItemRect(hwnd, 0, &rc);
-				SendMessage(hwnd, WM_SIZE, 0, 0);
-				return result;
-			}
-			break;
-		case WM_DESTROY:
-			if (tabdat) {
-				if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
-					CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
-					CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
-				}
-			}
-			break;
-		case WM_NCDESTROY:
-			if (tabdat) {
-				mir_free(tabdat);
-				SetWindowLongPtr(hwnd, GWLP_USERDATA, 0L);
-			}
-			break;
-		case WM_MBUTTONDOWN: {
-			POINT pt;
-			GetCursorPos(&pt);
-			SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
-			return 1;
-		}
-		case WM_SETCURSOR: {
-			POINT pt;
+		break;
 
-			GetCursorPos(&pt);
-			SendMessage(GetParent(hwnd), msg, wParam, lParam);
-			if (abs(pt.x - ptMouseT.x) < 4  && abs(pt.y - ptMouseT.y) < 4)
-				return 1;
-			ptMouseT = pt;
-			if (tabdat->fTipActive) {
-				KillTimer(hwnd, TIMERID_HOVER_T);
-				CallService("mToolTip/HideTip", 0, 0);
-				tabdat->fTipActive = FALSE;
-			}
-			KillTimer(hwnd, TIMERID_HOVER_T);
-			if (tabdat->pContainer && (!tabdat->pContainer->SideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->dwFlags & CNT_HIDETABS))))
-				SetTimer(hwnd, TIMERID_HOVER_T, 750, 0);
-			break;
-		}
-		case WM_SIZE: {
+	case EM_REFRESHWITHOUTCLIP:
+		if (TabCtrl_GetItemCount(hwnd) > 1)
+			return 0;
+
+		tabdat->bRefreshWithoutClip = TRUE;
+		RedrawWindow(hwnd, NULL, NULL, RDW_UPDATENOW | RDW_NOCHILDREN | RDW_INVALIDATE);
+		tabdat->bRefreshWithoutClip = FALSE;
+		return 0;
+
+	case TCM_INSERTITEM:
+	case TCM_DELETEITEM:
+		tabdat->iHoveredCloseIcon = -1;
+		if (!(tabdat->dwStyle & TCS_MULTILINE) || tabdat->dwStyle & TCS_BUTTONS) {
+			LRESULT result;
+			RECT rc;
 			int iTabs = TabCtrl_GetItemCount(hwnd);
+			if (iTabs >= 1 && msg == TCM_INSERTITEM) {
+				TabCtrl_GetItemRect(hwnd, 0, &rc);
+				TabCtrl_SetItemSize(hwnd, 10, rc.bottom - rc.top);
+			}
+			result = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
+			TabCtrl_GetItemRect(hwnd, 0, &rc);
+			SendMessage(hwnd, WM_SIZE, 0, 0);
+			return result;
+		}
+		break;
 
-			if (!tabdat->pContainer)
-				break;
+	case WM_DESTROY:
+		if (tabdat) {
+			if (tabdat->hTheme != 0 && CMimAPI::m_pfnCloseThemeData != 0) {
+				CMimAPI::m_pfnCloseThemeData(tabdat->hTheme);
+				CMimAPI::m_pfnCloseThemeData(tabdat->hThemeButton);
+			}
+		}
+		break;
+	case WM_NCDESTROY:
+		if (tabdat) {
+			mir_free(tabdat);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0L);
+		}
+		break;
+	case WM_MBUTTONDOWN:
+		GetCursorPos(&pt);
+		SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+		return 1;
+
+	case WM_SETCURSOR:
+		GetCursorPos(&pt);
+		SendMessage(GetParent(hwnd), msg, wParam, lParam);
+		if (abs(pt.x - ptMouseT.x) < 4  && abs(pt.y - ptMouseT.y) < 4)
+			return 1;
+		ptMouseT = pt;
+		if (tabdat->fTipActive) {
+			KillTimer(hwnd, TIMERID_HOVER_T);
+			CallService("mToolTip/HideTip", 0, 0);
+			tabdat->fTipActive = FALSE;
+		}
+		KillTimer(hwnd, TIMERID_HOVER_T);
+		if (tabdat->pContainer && (!tabdat->pContainer->SideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->dwFlags & CNT_HIDETABS))))
+			SetTimer(hwnd, TIMERID_HOVER_T, 750, 0);
+		break;
+
+	case WM_SIZE:
+		if (tabdat->pContainer) {
+			int iTabs = TabCtrl_GetItemCount(hwnd);
 
 			if (!(tabdat->dwStyle & TCS_MULTILINE)) {
 				RECT rcClient, rc;
@@ -825,11 +827,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					TabCtrl_GetItemRect(hwnd, iTabs - 1, &rc);
 					newItemSize = (rcClient.right - 6) - (tabdat->dwStyle & TCS_BUTTONS ? (iTabs) * 10 : 0);
 					newItemSize = newItemSize / iTabs;
-					if (newItemSize < PluginConfig.tabConfig.m_fixedwidth) {
+					if (newItemSize < PluginConfig.tabConfig.m_fixedwidth)
 						TabCtrl_SetItemSize(hwnd, newItemSize, rc.bottom - rc.top);
-					} else {
+					else
 						TabCtrl_SetItemSize(hwnd, PluginConfig.tabConfig.m_fixedwidth, rc.bottom - rc.top);
-					}
+
 					SendMessage(hwnd, EM_SEARCHSCROLLER, 0, 0);
 				}
 			} else if (tabdat->dwStyle & TCS_BUTTONS && iTabs > 0) {
@@ -843,174 +845,171 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				else
 					TabCtrl_SetItemSize(hwnd, PluginConfig.tabConfig.m_fixedwidth, rcItem.bottom - rcItem.top);
 			}
-			break;
-		}
-		case WM_LBUTTONDBLCLK: {
-			POINT pt;
-			GetCursorPos(&pt);
-			SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
-			break;
-		}
-		case WM_RBUTTONDOWN:
-			KillTimer(hwnd, TIMERID_HOVER_T);
-			CallService("mToolTip/HideTip", 0, 0);
-			tabdat->fTipActive = FALSE;
-			break;
-
-		case WM_LBUTTONDOWN: {
-			TCHITTESTINFO tci = {0};
-
-			KillTimer(hwnd, TIMERID_HOVER_T);
-			CallService("mToolTip/HideTip", 0, 0);
-			tabdat->fTipActive = FALSE;
-
-			if (GetKeyState(VK_CONTROL) & 0x8000) {
-				tci.pt.x = (short)LOWORD(GetMessagePos());
-				tci.pt.y = (short)HIWORD(GetMessagePos());
-				if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-					int i;
-					tci.flags = TCHT_ONITEM;
-
-					ScreenToClient(hwnd, &tci.pt);
-					i = TabCtrl_HitTest(hwnd, &tci);
-					if (i != -1) {
-						TCITEM tc;
-						struct TWindowData *dat = NULL;
-
-						tc.mask = TCIF_PARAM;
-						TabCtrl_GetItem(hwnd, i, &tc);
-						dat = (struct TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
-						if (dat)	{
-							tabdat->bDragging = TRUE;
-							tabdat->iBeginIndex = i;
-							tabdat->hwndDrag = (HWND)tc.lParam;
-							tabdat->dragDat = dat;
-							tabdat->fSavePos = TRUE;
-							tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
-							ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
-							ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-							ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-							SetCapture(hwnd);
-						}
-						return TRUE;
-					}
-				}
-			}
-
-			if (GetKeyState(VK_MENU) & 0x8000) {
-				tci.pt.x = (short)LOWORD(GetMessagePos());
-				tci.pt.y = (short)HIWORD(GetMessagePos());
-				if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-					int i;
-					tci.flags = TCHT_ONITEM;
-
-					ScreenToClient(hwnd, &tci.pt);
-					i = TabCtrl_HitTest(hwnd, &tci);
-					if (i != -1) {
-						TCITEM tc;
-						TWindowData *dat = NULL;
-
-						tc.mask = TCIF_PARAM;
-						TabCtrl_GetItem(hwnd, i, &tc);
-						dat = (TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
-						if (dat)	{
-							tabdat->bDragging = TRUE;
-							tabdat->iBeginIndex = i;
-							tabdat->hwndDrag = (HWND)tc.lParam;
-							tabdat->dragDat = dat;
-							tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
-							tabdat->fSavePos = FALSE;
-							ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
-							ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-							ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
-							SetCapture(hwnd);
-						}
-						return TRUE;
-					}
-				}
-			}
-			if (tabdat->fCloseButton) {
-				POINT	pt;
-				GetCursorPos(&pt);
-
-				if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
-					return(TRUE);
-			}
 		}
 		break;
 
-		case WM_CAPTURECHANGED: {
+	case WM_LBUTTONDBLCLK:
+		GetCursorPos(&pt);
+		SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
+		break;
+
+	case WM_RBUTTONDOWN:
+		KillTimer(hwnd, TIMERID_HOVER_T);
+		CallService("mToolTip/HideTip", 0, 0);
+		tabdat->fTipActive = FALSE;
+		break;
+
+	case WM_LBUTTONDOWN:
+		KillTimer(hwnd, TIMERID_HOVER_T);
+		CallService("mToolTip/HideTip", 0, 0);
+		tabdat->fTipActive = FALSE;
+
+		if (GetKeyState(VK_CONTROL) & 0x8000) {
+			TCHITTESTINFO tci = {0};
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+				int i;
+				tci.flags = TCHT_ONITEM;
+
+				ScreenToClient(hwnd, &tci.pt);
+				i = TabCtrl_HitTest(hwnd, &tci);
+				if (i != -1) {
+					TCITEM tc;
+					struct TWindowData *dat = NULL;
+
+					tc.mask = TCIF_PARAM;
+					TabCtrl_GetItem(hwnd, i, &tc);
+					dat = (struct TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					if (dat)	{
+						tabdat->bDragging = TRUE;
+						tabdat->iBeginIndex = i;
+						tabdat->hwndDrag = (HWND)tc.lParam;
+						tabdat->dragDat = dat;
+						tabdat->fSavePos = TRUE;
+						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
+						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
+						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+						SetCapture(hwnd);
+					}
+					return TRUE;
+				}
+			}
+		}
+
+		if (GetKeyState(VK_MENU) & 0x8000) {
+			TCHITTESTINFO tci = {0};
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+				int i;
+				tci.flags = TCHT_ONITEM;
+
+				ScreenToClient(hwnd, &tci.pt);
+				i = TabCtrl_HitTest(hwnd, &tci);
+				if (i != -1) {
+					TCITEM tc;
+					TWindowData *dat = NULL;
+
+					tc.mask = TCIF_PARAM;
+					TabCtrl_GetItem(hwnd, i, &tc);
+					dat = (TWindowData *)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					if (dat)	{
+						tabdat->bDragging = TRUE;
+						tabdat->iBeginIndex = i;
+						tabdat->hwndDrag = (HWND)tc.lParam;
+						tabdat->dragDat = dat;
+						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | (PluginConfig.m_bIsXP ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
+						tabdat->fSavePos = FALSE;
+						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
+						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
+						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+						SetCapture(hwnd);
+					}
+					return TRUE;
+				}
+			}
+		}
+	
+		if (tabdat->fCloseButton) {
+			GetCursorPos(&pt);
+			if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
+				return(TRUE);
+		}
+		break;
+
+	case WM_CAPTURECHANGED:
+		tabdat->bDragging = FALSE;
+		ImageList_DragLeave(hwnd);
+		ImageList_EndDrag();
+		if (tabdat->himlDrag) {
+			ImageList_RemoveAll(tabdat->himlDrag);
+			ImageList_Destroy(tabdat->himlDrag);
+			tabdat->himlDrag = 0;
+		}
+		break;
+
+	case WM_MOUSEMOVE:
+		if (tabdat->bDragging) {
+			TCHITTESTINFO tci = {0};
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			ScreenToClient(hwnd, &tci.pt);
+			ImageList_DragMove(tci.pt.x, tci.pt.y);
+		}
+		if (tabdat->fCloseButton) {
+			POINT	pt;
+
+			GetCursorPos(&pt);
+			int iOldHovered = tabdat->iHoveredCloseIcon;
+			tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
+			if (tabdat->iHoveredCloseIcon != iOldHovered)
+				InvalidateRect(hwnd, NULL, FALSE);
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
+		if (tabdat->bDragging && ReleaseCapture()) {
+			TCHITTESTINFO tci = {0};
+			int i;
+			tci.pt.x = (short)LOWORD(GetMessagePos());
+			tci.pt.y = (short)HIWORD(GetMessagePos());
+			tci.flags = TCHT_ONITEM;
 			tabdat->bDragging = FALSE;
 			ImageList_DragLeave(hwnd);
 			ImageList_EndDrag();
+
+			ScreenToClient(hwnd, &tci.pt);
+			i = TabCtrl_HitTest(hwnd, &tci);
+			if (i != -1 && i != tabdat->iBeginIndex)
+				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
+			tabdat->hwndDrag = (HWND) - 1;
+			tabdat->dragDat = NULL;
 			if (tabdat->himlDrag) {
 				ImageList_RemoveAll(tabdat->himlDrag);
 				ImageList_Destroy(tabdat->himlDrag);
 				tabdat->himlDrag = 0;
 			}
 		}
-		break;
+		if (tabdat->fCloseButton) {
+			POINT	pt;
 
-		case WM_MOUSEMOVE: {
-			if (tabdat->bDragging) {
-				TCHITTESTINFO tci = {0};
-				tci.pt.x = (short)LOWORD(GetMessagePos());
-				tci.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(hwnd, &tci.pt);
-				ImageList_DragMove(tci.pt.x, tci.pt.y);
-			}
-			if (tabdat->fCloseButton) {
-				POINT	pt;
-
-				GetCursorPos(&pt);
-				int iOldHovered = tabdat->iHoveredCloseIcon;
-				tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
-				if (tabdat->iHoveredCloseIcon != iOldHovered)
-					InvalidateRect(hwnd, NULL, FALSE);
-			}
+			GetCursorPos(&pt);
+			int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
+			if (iItem != -1)
+				SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 		}
 		break;
 
-		case WM_LBUTTONUP: {
-			CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
-			if (tabdat->bDragging && ReleaseCapture()) {
-				TCHITTESTINFO tci = {0};
-				int i;
-				tci.pt.x = (short)LOWORD(GetMessagePos());
-				tci.pt.y = (short)HIWORD(GetMessagePos());
-				tci.flags = TCHT_ONITEM;
-				tabdat->bDragging = FALSE;
-				ImageList_DragLeave(hwnd);
-				ImageList_EndDrag();
+	case WM_ERASEBKGND:
+		if (tabdat->pContainer && (CSkin::m_skinEnabled || M->isAero()))
+			return TRUE;
+		return 0;
 
-				ScreenToClient(hwnd, &tci.pt);
-				i = TabCtrl_HitTest(hwnd, &tci);
-				if (i != -1 && i != tabdat->iBeginIndex)
-					RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
-				tabdat->hwndDrag = (HWND) - 1;
-				tabdat->dragDat = NULL;
-				if (tabdat->himlDrag) {
-					ImageList_RemoveAll(tabdat->himlDrag);
-					ImageList_Destroy(tabdat->himlDrag);
-					tabdat->himlDrag = 0;
-				}
-			}
-			if (tabdat->fCloseButton) {
-				POINT	pt;
-
-				GetCursorPos(&pt);
-				int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
-				if (iItem != -1)
-					SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
-			}
-		}
-		break;
-
-		case WM_ERASEBKGND:
-			if (tabdat->pContainer && (CSkin::m_skinEnabled || M->isAero()))
-				return TRUE;
-			return 0;
-		case WM_PAINT: {
+	case WM_PAINT:
+		{
 			PAINTSTRUCT ps;
 			HDC hdcreal, hdc;
 			RECT rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
@@ -1056,10 +1055,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			hdcreal = BeginPaint(hwnd, &ps);
 
 			/*
-			 * switchbar is active, don't paint a single pixel, the tab control won't be visible at all
-			 * same when we have only ONE tab and do not want it to be visible because of the container
-			 * option "Show tab bar only when needed".
-			 */
+			* switchbar is active, don't paint a single pixel, the tab control won't be visible at all
+			* same when we have only ONE tab and do not want it to be visible because of the container
+			* option "Show tab bar only when needed".
+			*/
 
 			if ((tabdat->pContainer->dwFlags & CNT_SIDEBAR) || (nCount == 1 && tabdat->pContainer->dwFlags & CNT_HIDETABS)) {
 				if (nCount == 0)
@@ -1076,8 +1075,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			cy = rctPage.bottom - rctPage.top;
 
 			/*
-			 * draw everything to a memory dc to avoid flickering
-			 */
+			* draw everything to a memory dc to avoid flickering
+			*/
 
 			if (CMimAPI::m_haveBufferedPaint)
 				hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
@@ -1124,8 +1123,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 			hPenOld = (HPEN)SelectObject(hdc, PluginConfig.tabConfig.m_hPenLight);
 			/*
-			 * visual style support
-			 */
+			* visual style support
+			*/
 
 			CopyRect(&rcTabPage, &rctPage);
 			if (!tabdat->bRefreshWithoutClip)
@@ -1152,7 +1151,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 						if (!item->IGNORED) {
 							DrawAlpha(hdc, &rctPage, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
-									  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+								item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 							goto page_done;
 						}
 					}
@@ -1233,9 +1232,9 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			}
 page_done:
 			/*
-			 * if aero is active _and_ the infopanel is visible in the current window, we "flatten" out the top area
-			 * of the tab page by overpainting it black (thus it will appear transparent)
-			 */
+			* if aero is active _and_ the infopanel is visible in the current window, we "flatten" out the top area
+			* of the tab page by overpainting it black (thus it will appear transparent)
+			*/
 			if (isAero && tabdat->helperDat) {
 				RECT	rcLog, rcPage;
 				POINT	pt;
@@ -1260,8 +1259,8 @@ page_done:
 
 			uiFlags = 0;
 			/*
-			 * figure out hottracked item (if any)
-			 */
+			* figure out hottracked item (if any)
+			*/
 
 			if (tabdat->bRefreshWithoutClip)
 				goto skip_tabs;
@@ -1298,8 +1297,8 @@ page_done:
 				}
 			}
 			/*
-			 * draw the active item
-			 */
+			* draw the active item
+			*/
 			if (!bClassicDraw && uiBottom) {
 				rctActive.top -= PluginConfig.tabConfig.m_bottomAdjust;
 				rctActive.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -1342,15 +1341,15 @@ skip_tabs:
 				SelectObject(hdc, hPenOld);
 
 			/*
-			 * finally, bitblt the contents of the memory dc to the real dc
-			 */
+			* finally, bitblt the contents of the memory dc to the real dc
+			*/
 			//if (!tabdat->pContainer->bSkinned)
 			if (!tabdat->bRefreshWithoutClip)
 				ExcludeClipRect(hdcreal, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 
 			if (hpb)
 				CSkin::FinalizeBufferedPaint(hpb, &rctOrig);
-				//CMimAPI::m_pfnEndBufferedPaint(hpb, TRUE);
+			//CMimAPI::m_pfnEndBufferedPaint(hpb, TRUE);
 			else {
 				BitBlt(hdcreal, 0, 0, cx, cy, hdc, 0, 0, SRCCOPY);
 				SelectObject(hdc, bmpOld);
@@ -1358,47 +1357,49 @@ skip_tabs:
 				DeleteDC(hdc);
 			}
 			EndPaint(hwnd, &ps);
-			return 0;
 		}
-		case WM_TIMER: {
-			if (wParam == TIMERID_HOVER_T &&  M->GetByte("d_tooltips", 0)) {
-				POINT pt;
-				CLCINFOTIP ti = {0};
-				ti.cbSize = sizeof(ti);
+		return 0;
 
-				KillTimer(hwnd, TIMERID_HOVER_T);
-				GetCursorPos(&pt);
-				if (abs(pt.x - ptMouseT.x) < 5 && abs(pt.y - ptMouseT.y) < 5) {
-					TCITEM item = {0};
-					int    nItem = 0;
-					struct TWindowData *dat = 0;
+	case WM_TIMER:
+		if (wParam == TIMERID_HOVER_T &&  M->GetByte("d_tooltips", 0)) {
+			POINT pt;
+			CLCINFOTIP ti = {0};
+			ti.cbSize = sizeof(ti);
 
-					ti.ptCursor = pt;
-					//ScreenToClient(hwnd, &pt);
+			KillTimer(hwnd, TIMERID_HOVER_T);
+			GetCursorPos(&pt);
+			if (abs(pt.x - ptMouseT.x) < 5 && abs(pt.y - ptMouseT.y) < 5) {
+				TCITEM item = {0};
+				int    nItem = 0;
+				struct TWindowData *dat = 0;
 
-					item.mask = TCIF_PARAM;
-					nItem = GetTabItemFromMouse(hwnd, &pt);
-					if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
-						TabCtrl_GetItem(hwnd, nItem, &item);
-						/*
-						 * get the message window data for the session to which this tab item belongs
-						 */
+				ti.ptCursor = pt;
+				//ScreenToClient(hwnd, &pt);
 
-						if (IsWindow((HWND)item.lParam) && item.lParam != 0)
-							dat = (struct TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-						if (dat) {
-							tabdat->fTipActive = TRUE;
-							ti.isGroup = 0;
-							ti.hItem = dat->hContact;
-							ti.isTreeFocused = 0;
-							CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
-						}
+				item.mask = TCIF_PARAM;
+				nItem = GetTabItemFromMouse(hwnd, &pt);
+				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
+					TabCtrl_GetItem(hwnd, nItem, &item);
+					/*
+					* get the message window data for the session to which this tab item belongs
+					*/
+
+					if (IsWindow((HWND)item.lParam) && item.lParam != 0)
+						dat = (struct TWindowData *)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+					if (dat) {
+						tabdat->fTipActive = TRUE;
+						ti.isGroup = 0;
+						ti.hItem = dat->hContact;
+						ti.isTreeFocused = 0;
+						CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
 					}
 				}
 			}
-			break;
 		}
-		case WM_MOUSEWHEEL: {
+		break;
+	
+	case WM_MOUSEWHEEL:
+		{
 			short amount = (short)(HIWORD(wParam));
 			if (lParam != -1)
 				break;
@@ -1407,21 +1408,21 @@ skip_tabs:
 			else if (amount < 0)
 				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_NEXT, 0);
 			InvalidateRect(hwnd, NULL, FALSE);
-			break;
 		}
-		case  WM_USER + 100: {
-			if (tabdat->fTipActive) {
-				tabdat->fTipActive = FALSE;
-				CallService("mToolTip/HideTip", 0, 0);
-			}
+		break;
+
+	case  WM_USER + 100:
+		if (tabdat->fTipActive) {
+			tabdat->fTipActive = FALSE;
+			CallService("mToolTip/HideTip", 0, 0);
 		}
 	}
 	return CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 }
 
 /*
- * load the tab control configuration data (colors, fonts, flags...
- */
+* load the tab control configuration data (colors, fonts, flags...
+*/
 
 void TSAPI ReloadTabConfig()
 {
@@ -1475,116 +1476,113 @@ void TSAPI FreeTabConfig()
 }
 
 /*
- * options dialog for setting up tab options
- */
+* options dialog for setting up tab options
+*/
 
 static bool tconfig_init = false;
 
 INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-		case WM_INITDIALOG: {
-			tconfig_init = false;
-			TranslateDialogDefault(hwndDlg);
-			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-			tconfig_init = true;
-			return TRUE;
-		}
-		case WM_USER + 100: {
-			DWORD dwFlags = M->GetDword("tabconfig", TCF_DEFAULT);
-			int i = 0;
+	case WM_INITDIALOG:
+		tconfig_init = false;
+		TranslateDialogDefault(hwndDlg);
+		SendMessage(hwndDlg, WM_USER + 100, 0, 0);
+		tconfig_init = true;
+		return TRUE;
 
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
-			SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);;
+	case WM_USER + 100:
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPIN, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2));
+		SetDlgItemInt(hwndDlg, IDC_TABBORDER, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder" : "tborder", 2), FALSE);;
 
-			SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETRANGE, 0, MAKELONG(3, -3));
-			SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_bottomAdjust);
-			SetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, PluginConfig.tabConfig.m_bottomAdjust, TRUE);
+		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETRANGE, 0, MAKELONG(3, -3));
+		SendDlgItemMessage(hwndDlg, IDC_BOTTOMTABADJUSTSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_bottomAdjust);
+		SetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, PluginConfig.tabConfig.m_bottomAdjust, TRUE);
 
-			SendDlgItemMessage(hwndDlg, IDC_TABWIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(400, 50));
-			SendDlgItemMessage(hwndDlg, IDC_TABWIDTHSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_fixedwidth);
-			SetDlgItemInt(hwndDlg, IDC_TABWIDTH, PluginConfig.tabConfig.m_fixedwidth, TRUE);
+		SendDlgItemMessage(hwndDlg, IDC_TABWIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(400, 50));
+		SendDlgItemMessage(hwndDlg, IDC_TABWIDTHSPIN, UDM_SETPOS, 0, PluginConfig.tabConfig.m_fixedwidth);
+		SetDlgItemInt(hwndDlg, IDC_TABWIDTH, PluginConfig.tabConfig.m_fixedwidth, TRUE);
 
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETRANGE, 0, MAKELONG(50, 0));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETRANGE, 0, MAKELONG(50, 0));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETRANGE, 0, MAKELONG(40, 0));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETRANGE, 0, MAKELONG(40, 0));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETRANGE, 0, MAKELONG(50, 0));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETRANGE, 0, MAKELONG(50, 0));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETRANGE, 0, MAKELONG(40, 0));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETRANGE, 0, MAKELONG(40, 0));
 
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", 2));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", 2));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", 2));
-			SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTER, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERRIGHT, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERTOP, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", 2));
+		SendDlgItemMessage(hwndDlg, IDC_TABBORDERSPINOUTERBOTTOM, UDM_SETPOS, 0, (int)M->GetByte(CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", 2));
 
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETRANGE, 0, MAKELONG(10, 1));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, (LPARAM)M->GetByte("y-pad", 3));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETPOS, 0, (LPARAM)M->GetByte("x-pad", 4));
-			SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M->GetByte("y-pad", 3), FALSE);;
-			SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M->GetByte("x-pad", 4), FALSE);;
-			return 0;
-		}
-		case WM_NOTIFY:
-			switch (((LPNMHDR) lParam)->idFrom) {
-				case 0:
-					switch (((LPNMHDR) lParam)->code) {
-						case PSN_APPLY: {
-							int i = 0;
-							BOOL translated;
-							int  fixedWidth;
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETRANGE, 0, MAKELONG(10, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, (LPARAM)M->GetByte("y-pad", 3));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN3, UDM_SETPOS, 0, (LPARAM)M->GetByte("x-pad", 4));
+		SetDlgItemInt(hwndDlg, IDC_TABPADDING, (int)M->GetByte("y-pad", 3), FALSE);;
+		SetDlgItemInt(hwndDlg, IDC_HTABPADDING, (int)M->GetByte("x-pad", 4), FALSE);;
+		return 0;
 
-							struct TContainerData *pContainer = pFirstContainer;
+	case WM_NOTIFY:
+		switch (((LPNMHDR) lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR) lParam)->code) {
+			case PSN_APPLY:
+				{
+					BOOL translated;
+					int  fixedWidth;
 
-							M->WriteByte(SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
-							M->WriteByte(SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
-							M->WriteByte(SRMSGMOD_T, "tborder", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
-							M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
-							M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
-							M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
-							M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
-							M->WriteDword(SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
+					struct TContainerData *pContainer = pFirstContainer;
 
-							fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
-							fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
-							M->WriteDword(SRMSGMOD_T, "fixedwidth", fixedWidth);
-							FreeTabConfig();
-							ReloadTabConfig();
-							while (pContainer) {
-								TabCtrl_SetPadding(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-								RedrawWindow(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
-								pContainer = pContainer->pNextContainer;
-							}
-							return TRUE;
-						}
+					M->WriteByte(SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
+					M->WriteByte(SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
+					M->WriteByte(SRMSGMOD_T, "tborder", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
+					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
+					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
+					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
+					M->WriteByte(SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
+					M->WriteDword(SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
+
+					fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
+					fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
+					M->WriteDword(SRMSGMOD_T, "fixedwidth", fixedWidth);
+					FreeTabConfig();
+					ReloadTabConfig();
+					while (pContainer) {
+						TabCtrl_SetPadding(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
+						RedrawWindow(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
+						pContainer = pContainer->pNextContainer;
 					}
-					break;
+					return TRUE;
+				}
 			}
 			break;
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_TABWIDTH:
-				case IDC_TABPADDING:
-				case IDC_HTABPADDING:
-				case IDC_TABBORDER:
-				case IDC_TABBORDEROUTER:
-				case IDC_TABBORDEROUTERBOTTOM:
-				case IDC_TABBORDEROUTERRIGHT:
-				case IDC_TABBORDEROUTERTOP:
-					if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
-						return TRUE;
-					break;
+		}
+		break;
 
-				default:
-					break;
-
-			}
-			if (tconfig_init)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_TABWIDTH:
+		case IDC_TABPADDING:
+		case IDC_HTABPADDING:
+		case IDC_TABBORDER:
+		case IDC_TABBORDEROUTER:
+		case IDC_TABBORDEROUTERBOTTOM:
+		case IDC_TABBORDEROUTERRIGHT:
+		case IDC_TABBORDEROUTERTOP:
+			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+				return TRUE;
 			break;
 
-		case WM_DESTROY:
-			tconfig_init = false;
+		default:
+			break;
+
+		}
+		if (tconfig_init)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_DESTROY:
+		tconfig_init = false;
 	}
 	return FALSE;
 }
-

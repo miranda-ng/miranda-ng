@@ -382,8 +382,6 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 	return NULL;
 }
 
-WNDPROC MyOldWindowProc = NULL;
-
 LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_LBUTTONDOWN && !(GetKeyState(VK_CONTROL)&0x8000)) {
@@ -424,7 +422,7 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		}
 	}
 
-	return CallWindowProc(MyOldWindowProc, hwnd, uMsg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, LBTNDOWNProc, uMsg, wParam, lParam);
 }
 
 static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -439,8 +437,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_USERDATA, (LONG_PTR)dat);
 		dat->dragging = 0;
 		dat->iInitMenuValue = db_get_b(NULL, "CList", "MoveProtoMenus", TRUE);
-		MyOldWindowProc = (WNDPROC)GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_WNDPROC);
-		SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_MENUITEMS), GWLP_WNDPROC, (LONG_PTR)&LBTNDOWNProc);
+		mir_subclassWindow( GetDlgItem(hwndDlg, IDC_MENUITEMS), LBTNDOWNProc);
 		{
 			HIMAGELIST himlCheckBoxes;
 			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),

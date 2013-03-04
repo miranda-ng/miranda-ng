@@ -120,15 +120,12 @@ struct Dialog
 	char name[64];
 	Dictionary *lang;
 	TCHAR lang_name[32];
-	WNDPROC old_edit_proc;
-	WNDPROC owner_old_edit_proc;
 	BOOL enabled;
 	BOOL srmm;
 
 	RichEdit *re;
 
 	HWND hwnd_menu_owner;
-	WNDPROC old_menu_proc;
 
 	BOOL changed;
 	BOOL markedSomeWord;

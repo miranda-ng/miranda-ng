@@ -581,8 +581,7 @@ private:
 			return;
 
 		m_txtPassword.GetText(pass, SIZEOF(pass));
-		if (lstrcmp(buf, pass))
-		{
+		if (lstrcmp(buf, pass)) {
 			MessageBox(m_hwnd, TranslateT("Passwords do not match."), _T("Miranda NG"), MB_ICONSTOP|MB_OK);
 			return;
 		}
@@ -591,21 +590,18 @@ private:
 		m_txtUsername.GetText(regInfo.username, SIZEOF(regInfo.username));
 		m_txtPassword.GetText(regInfo.password, SIZEOF(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, SIZEOF(regInfo.server));
-		if (m_chkManualHost.GetState() == BST_CHECKED)
-		{
+		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (WORD)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, SIZEOF(regInfo.manualHost));
-		} else
-		{
+		}
+		else {
 			regInfo.port = (WORD)m_txtPort.GetInt();
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port>0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
-		{
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port>0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0])) {
 			CJabberDlgRegister dlg(m_proto, m_hwnd, &regInfo);
 			dlg.DoModal();
-//			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_OPT_REGISTER), m_hwnd, JabberRegisterDlgProc, (LPARAM)&regInfo);
 		}
 	}
 
@@ -643,13 +639,12 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		if (chk->GetState() == BST_CHECKED)
-		{
+		if (chk->GetState() == BST_CHECKED) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
 			m_txtPort.Disable();
-		} else
-		{
+		}
+		else {
 			m_txtManualHost.Disable();
 			m_txtManualPort.Disable();
 			m_txtPort.Enable();
@@ -969,14 +964,12 @@ enum {
 	RRA_SYNCDONE
 };
 
-typedef struct _tag_RosterhEditDat{
-	WNDPROC OldEditProc;
+struct ROSTEREDITDAT
+{
 	HWND hList;
 	int index;
 	int subindex;
-} ROSTEREDITDAT;
-
-static WNDPROC _RosterOldListProc=NULL;
+};
 
 static int	_RosterInsertListItem(HWND hList, const TCHAR * jid, const TCHAR * nick, const TCHAR * group, const TCHAR * subscr, BOOL bChecked)
 {
@@ -1223,16 +1216,13 @@ static void _RosterItemEditEnd(HWND hEditor, ROSTEREDITDAT * edat, BOOL bCancel)
 	DestroyWindow(hEditor);
 }
 
-static BOOL CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ROSTEREDITDAT * edat = (ROSTEREDITDAT *) GetWindowLongPtr(hEditor,GWLP_USERDATA);
 	if ( !edat) return 0;
-	switch(msg)
-	{
-
+	switch(msg) {
 	case WM_KEYDOWN:
-		switch(wParam)
-		{
+		switch(wParam) {
 		case VK_RETURN:
 			_RosterItemEditEnd(hEditor, edat, FALSE);
 			return 0;
@@ -1241,6 +1231,7 @@ static BOOL CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wPara
 			return 0;
 		}
 		break;
+
 	case WM_GETDLGCODE:
 		if (lParam) {
 			MSG *msg2 = (MSG*)lParam;
@@ -1248,22 +1239,19 @@ static BOOL CALLBACK _RosterItemNewEditProc(HWND hEditor, UINT msg, WPARAM wPara
 			if (msg2->message==WM_CHAR && msg2->wParam=='\t') return 0;
 		}
 		return DLGC_WANTMESSAGE;
+
 	case WM_KILLFOCUS:
 		_RosterItemEditEnd(hEditor, edat, FALSE);
 		return 0;
-	}
 
-	if (msg==WM_DESTROY)
-	{
-		SetWindowLongPtr(hEditor, GWLP_WNDPROC, (LONG_PTR) edat->OldEditProc);
+	case WM_DESTROY:
 		SetWindowLongPtr(hEditor, GWLP_USERDATA, (LONG_PTR) 0);
 		free(edat);
 		return 0;
 	}
-	else return CallWindowProc(edat->OldEditProc, hEditor, msg, wParam, lParam);
+	
+	return mir_callNextSubclass(hEditor, _RosterItemNewEditProc, msg, wParam, lParam);
 }
-
-
 
 void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 {
@@ -1426,12 +1414,10 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	SendMessage(hwndDlg, JM_STATUSCHANGED, 0, 0);
 }
 
-static BOOL CALLBACK _RosterNewListProc(HWND hList, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK _RosterNewListProc(HWND hList, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg==WM_MOUSEWHEEL || msg==WM_NCLBUTTONDOWN || msg==WM_NCRBUTTONDOWN)
-	{
 		SetFocus(hList);
-	}
 
 	if (msg==WM_LBUTTONDOWN)
 	{
@@ -1458,15 +1444,14 @@ static BOOL CALLBACK _RosterNewListProc(HWND hList, UINT msg, WPARAM wParam, LPA
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
 
 			ROSTEREDITDAT * edat=(ROSTEREDITDAT *)malloc(sizeof(ROSTEREDITDAT));
-			edat->OldEditProc=(WNDPROC)GetWindowLongPtr(hEditor, GWLP_WNDPROC);
-			SetWindowLongPtr(hEditor,GWLP_WNDPROC,(LONG_PTR)_RosterItemNewEditProc);
+			mir_subclassWindow(hEditor, _RosterItemNewEditProc);
 			edat->hList=hList;
 			edat->index=lvhti.iItem;
 			edat->subindex=lvhti.iSubItem;
 			SetWindowLongPtr(hEditor,GWLP_USERDATA,(LONG_PTR)edat);
 		}
 	}
-	return CallWindowProc(_RosterOldListProc, hList, msg, wParam, lParam);
+	return mir_callNextSubclass(hList, _RosterNewListProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1486,8 +1471,6 @@ static int sttRosterEditorResizer(HWND /*hwndDlg*/, LPARAM, UTILRESIZECONTROL *u
 	case IDC_EXPORT:
 	case IDC_IMPORT:
 		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
-//	case IDC_STATUSBAR:
-//		return RD_ANCHORX_LEFT|RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
 	}
 	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
 }
@@ -1528,16 +1511,15 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			Utils_RestoreWindowPosition(hwndDlg, NULL, ppro->m_szModuleName, "rosterCtrlWnd_");
 
 			ListView_SetExtendedListViewStyle(GetDlgItem(hwndDlg,IDC_ROSTER),  LVS_EX_CHECKBOXES | LVS_EX_BORDERSELECT /*| LVS_EX_FULLROWSELECT*/ | LVS_EX_GRIDLINES /*| LVS_EX_HEADERDRAGDROP*/);
-			_RosterOldListProc=(WNDPROC) GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_ROSTER), GWLP_WNDPROC);
-			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_ROSTER), GWLP_WNDPROC, (LONG_PTR) _RosterNewListProc);
+			mir_subclassWindow( GetDlgItem(hwndDlg,IDC_ROSTER), _RosterNewListProc);
 			_RosterListClear(hwndDlg);
 			ppro->rrud.hwndDlg = hwndDlg;
 			ppro->rrud.bReadyToDownload = TRUE;
 			ppro->rrud.bReadyToUpload = FALSE;
 			SendMessage(hwndDlg, JM_STATUSCHANGED, 0, 0);
-
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO lpmmi = (LPMINMAXINFO)lParam;
@@ -1545,17 +1527,19 @@ static INT_PTR CALLBACK JabberRosterOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			lpmmi->ptMinTrackSize.y = 390;
 			return 0;
 		}
+
 	case WM_SIZE:
-	{
-		UTILRESIZEDIALOG urd = {0};
-		urd.cbSize = sizeof(urd);
-		urd.hInstance = hInst;
-		urd.hwndDlg = hwndDlg;
-		urd.lpTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER3);
-		urd.pfnResizer = sttRosterEditorResizer;
-		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		{
+			UTILRESIZEDIALOG urd = {0};
+			urd.cbSize = sizeof(urd);
+			urd.hInstance = hInst;
+			urd.hwndDlg = hwndDlg;
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER3);
+			urd.pfnResizer = sttRosterEditorResizer;
+			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		}
 		break;
-	}
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_DOWNLOAD:

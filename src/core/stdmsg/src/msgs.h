@@ -38,7 +38,6 @@ struct SrmmWindowData
 	HANDLE hContact;
 	HANDLE hDbEventFirst, hDbEventLast;
 	HBRUSH hBkgBrush;
-	WNDPROC OldMessageEditProc, OldSplitterProc;
 	int splitterPos, originalSplitterPos;
 	SIZE minEditBoxSize;
 	RECT minEditInit;

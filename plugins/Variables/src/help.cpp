@@ -37,7 +37,6 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 extern HINSTANCE hInst;
 
 extern HCURSOR hCurSplitNS;
-static WNDPROC OldSplitterProc;
 
 static HWND hwndHelpDialog = NULL;
 
@@ -618,7 +617,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		ReleaseCapture();
 		return 0;
 	}
-	return CallWindowProc(OldSplitterProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
 struct INPUTDLGDATA
@@ -683,7 +682,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				dat->splitterPos = dat->originalSplitterPos;
 
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SHOWHELP), &rc);
-			OldSplitterProc = (WNDPROC) SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
+			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_SPLITTER), SplitterSubclassProc);
 
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_TESTSTRING), &rc);
 			dat->minInputSize.x = rc.right - rc.left;
@@ -809,7 +808,6 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	case WM_DESTROY:
 		KillTimer(hwndDlg, IDT_PARSE);
 		db_set_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, dat->splitterPos);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWLP_WNDPROC, (LONG_PTR) OldSplitterProc);
 		if (dat != NULL) {
 			mir_free(dat);
 			dat = NULL;

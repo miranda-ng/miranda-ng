@@ -601,16 +601,13 @@ int GetItemPos(HANDLE hcontact)
 }
 
 
-WNDPROC wpEditMainProc;
-
 // callback function for edit-box of the listbox
 // without this the autofill function isn't possible
 // this was done like ie does it..as far as spy++ could tell ;)
 LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	switch(msg)
-	{
-		case WM_CHAR:
+	switch(msg) {
+	case WM_CHAR:
 		{
 			if (wparam<32 && wparam != VK_BACK) 
 				break;
@@ -648,7 +645,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			return 1;
 		}
-		case WM_KEYUP:
+	case WM_KEYUP:
 		{
 			TCHAR sztext[120] = _T("");
 
@@ -656,13 +653,13 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			{
 				switch(SendMessage(GetParent(hdlg),CB_GETDROPPEDSTATE,0,0))
 				{
-					case FALSE:
-						SendMessage(GetParent(GetParent(hdlg)),WM_COMMAND,MAKEWPARAM(IDC_ENTER,STN_CLICKED),0);
-						break;
+				case FALSE:
+					SendMessage(GetParent(GetParent(hdlg)),WM_COMMAND,MAKEWPARAM(IDC_ENTER,STN_CLICKED),0);
+					break;
 
-					case TRUE:
-						SendMessage(GetParent(hdlg),CB_SHOWDROPDOWN,(WPARAM)FALSE,0);
-						break;
+				case TRUE:
+					SendMessage(GetParent(hdlg),CB_SHOWDROPDOWN,(WPARAM)FALSE,0);
+					break;
 				}
 			}
 			else if (wparam == VK_DELETE)
@@ -673,14 +670,13 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			return 0;
 		}
-		case WM_GETDLGCODE:
-			return DLGC_WANTCHARS|DLGC_WANTARROWS;
 
+	case WM_GETDLGCODE:
+		return DLGC_WANTCHARS|DLGC_WANTARROWS;
 	}
 
-	return CallWindowProc(wpEditMainProc,hdlg,msg,wparam,lparam);
+	return mir_callNextSubclass(hdlg, EditProc, msg, wparam, lparam);
 }
-
 
 HACCEL hAcct;
 HHOOK hHook;
@@ -694,9 +690,7 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 
 	MSG *msg = (MSG*)lparam;
 
-
-	if (hasNewHotkeyModule)
-	{
+	if (hasNewHotkeyModule) {
 		int action = CallService(MS_HOTKEY_CHECK, (WPARAM) msg, (LPARAM) "Quick Contacts");
 		if (action != 0)
 		{
@@ -704,8 +698,7 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 			return 1;
 		}
 	}
-	else
-	{
+	else {
 		HWND htemp = msg->hwnd;
 		msg->hwnd = hwndMain;
 
@@ -715,17 +708,15 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 		msg->hwnd=htemp;
 	}
 
-	if (msg->message == WM_KEYDOWN && msg->wParam == VK_ESCAPE)
-	{
-		switch(SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_GETDROPPEDSTATE, 0, 0))
-		{
-			case FALSE:
-				SendMessage(hwndMain, WM_CLOSE, 0, 0);
-				break;
+	if (msg->message == WM_KEYDOWN && msg->wParam == VK_ESCAPE) {
+		switch(SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_GETDROPPEDSTATE, 0, 0)) {
+		case FALSE:
+			SendMessage(hwndMain, WM_CLOSE, 0, 0);
+			break;
 
-			case TRUE:
-				SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_SHOWDROPDOWN, (WPARAM)FALSE, 0);
-				break;
+		case TRUE:
+			SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_SHOWDROPDOWN, (WPARAM)FALSE, 0);
+			break;
 		}
 	}
 	
@@ -818,7 +809,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			// Combo
 			SendMessage(GetDlgItem(hwndDlg, IDC_USERNAME), EM_LIMITTEXT, (WPARAM)119,0);
-			wpEditMainProc = (WNDPROC) SetWindowLongPtr(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), GWLP_WNDPROC, (LONG)EditProc);
+			mir_subclassWindow(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), EditProc);
 
 			// Buttons
 			FillCheckbox(hwndDlg, IDC_SHOW_ALL_CONTACTS, LPGENT("Show all contacts"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+A"));

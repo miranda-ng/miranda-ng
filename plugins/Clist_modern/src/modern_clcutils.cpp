@@ -234,14 +234,11 @@ void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
 }
 
 
-static WNDPROC OldRenameEditWndProc;
 static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
+	switch(msg)  {
 	case WM_KEYDOWN:
-		switch(wParam) 
-		{
+		switch(wParam) {
 		case VK_RETURN:
 			pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
 			return 0;
@@ -251,8 +248,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		break;
 	case WM_GETDLGCODE:
-		if (lParam) 
-		{
+		if (lParam) {
 			MSG *msg = (MSG*)lParam;
 			if (msg->message == WM_KEYDOWN && msg->wParam == VK_TAB) return 0;
 			if (msg->message == WM_CHAR && msg->wParam == '\t') return 0;
@@ -263,7 +259,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		SendMessage(pcli->hwndContactTree,WM_SIZE, 0, 0);
 		return 0;
 	}
-	return CallWindowProc(OldRenameEditWndProc,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, msg, wParam, lParam);
 }
 
 void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
@@ -335,11 +331,11 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 	}
 	SetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE,GetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE)&(~WS_CAPTION)|WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)dat);
-	OldRenameEditWndProc = (WNDPROC)SetWindowLongPtr(dat->hwndRenameEdit,GWLP_WNDPROC,(LONG_PTR)RenameEditSubclassProc);
+	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit,WM_SETFONT,(WPARAM)(contact->type == CLCIT_GROUP?dat->fontModernInfo[FONTID_OPENGROUPS].hFont:dat->fontModernInfo[FONTID_CONTACTS].hFont),0);
 	SendMessage(dat->hwndRenameEdit,EM_SETMARGINS,EC_LEFTMARGIN|EC_RIGHTMARGIN|EC_USEFONTINFO,0);
 	SendMessage(dat->hwndRenameEdit,EM_SETSEL, 0, (LPARAM)(-1));
-	// SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)hwnd);
+
 	r.top = 1;
 	r.bottom = h-1;
 	r.left = 0;

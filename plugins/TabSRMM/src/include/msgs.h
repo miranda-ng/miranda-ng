@@ -346,7 +346,6 @@ struct TWindowData
 	int     nMax;            // max message size
 	int     textLen;         // current text len
 	LONG    ipFieldHeight;
-	WNDPROC oldIEViewProc;
 	BOOL    clr_added;
 	BOOL    fIsReattach;
 	WPARAM  wParam;          // used for "delayed" actions like moved splitters in minimized windows

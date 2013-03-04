@@ -67,8 +67,6 @@ static void RemoveExtraIcons(int slot)
 #define TVIS_FOCUSED	1
 #endif
 
-WNDPROC origTreeProc;
-
 static bool IsSelected(HWND tree, HTREEITEM hItem)
 {
 	return (TVIS_SELECTED & TreeView_GetItemState(tree, hItem, TVIS_SELECTED)) == TVIS_SELECTED;
@@ -234,7 +232,7 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	return CallWindowProc(origTreeProc, hwndDlg, msg, wParam, lParam);
+	return mir_callNextSubclass(hwndDlg, TreeProc, msg, wParam, lParam);
 }
 
 static vector<int> * Tree_GetIDs(HWND tree, HTREEITEM hItem)
@@ -468,7 +466,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			sort.lpfnCompare = CompareFunc;
 			TreeView_SortChildrenCB(tree, &sort, 0);
 
-			origTreeProc = (WNDPROC) SetWindowLongPtr(tree, GWLP_WNDPROC, (INT_PTR)TreeProc);
+			mir_subclassWindow(tree, TreeProc);
 		}
 		return TRUE;
 

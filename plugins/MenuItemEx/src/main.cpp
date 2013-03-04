@@ -26,7 +26,6 @@ PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
 int hLangpack;
-static LONG_PTR OldAuthReqEditProc;
 
 struct {
 	char *module;
@@ -409,21 +408,21 @@ LPSTR getMirVer(HANDLE hContact)
 static LRESULT CALLBACK AuthReqEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
-		case WM_CHAR:
-			if(wParam == '\n' && CTRL_IS_PRESSED) { // ctrl + ENTER
-				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-				return 0;
-			}
-			if(wParam == 1 && CTRL_IS_PRESSED) { // ctrl + a
-				SendMessage(hwnd, EM_SETSEL, 0, -1);
-				return 0;
-			}
-			break;
-		case WM_SETFOCUS:
+	case WM_CHAR:
+		if(wParam == '\n' && CTRL_IS_PRESSED) { // ctrl + ENTER
+			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+			return 0;
+		}
+		if(wParam == 1 && CTRL_IS_PRESSED) { // ctrl + a
 			SendMessage(hwnd, EM_SETSEL, 0, -1);
-			break;
+			return 0;
+		}
+		break;
+	case WM_SETFOCUS:
+		SendMessage(hwnd, EM_SETSEL, 0, -1);
+		break;
 	}
-	return CallWindowProc((WNDPROC)OldAuthReqEditProc,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, AuthReqEditSubclassProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
@@ -433,7 +432,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	switch(msg){
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
-		OldAuthReqEditProc = SetWindowLongPtr(GetDlgItem(hdlg, IDC_REASON), GWLP_WNDPROC, (LONG_PTR)AuthReqEditSubclassProc);
+		mir_subclassWindow( GetDlgItem(hdlg, IDC_REASON), AuthReqEditSubclassProc);
 		SendDlgItemMessage(hdlg, IDC_REASON, EM_LIMITTEXT, (WPARAM)255, 0);
 		SetDlgItemText(hdlg, IDC_REASON, TranslateT("Please authorize me to add you to my contact list."));
 		hcontact = (HANDLE)lparam;
@@ -441,15 +440,15 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 	case WM_COMMAND:
 		switch(LOWORD(wparam)) {
-	case IDOK:
-		{
-			TCHAR tszReason[256] = {0};
-			GetDlgItemText(hdlg,IDC_REASON,tszReason,255);
-			CallContactService(hcontact,PSS_AUTHREQUESTT,0,(LPARAM)tszReason);
-		} // fall through
-	case IDCANCEL:
-		DestroyWindow(hdlg);
-		break;
+		case IDOK:
+			{
+				TCHAR tszReason[256] = {0};
+				GetDlgItemText(hdlg,IDC_REASON,tszReason,255);
+				CallContactService(hcontact,PSS_AUTHREQUESTT,0,(LPARAM)tszReason);
+			} // fall through
+		case IDCANCEL:
+			DestroyWindow(hdlg);
+			break;
 		}
 		break;
 	}

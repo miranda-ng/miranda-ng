@@ -22,9 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "commonheaders.h"
 #include "dlg_propsheet.h"
 
-
-static WNDPROC DefEditProc;
-
 /***********************************************************************************************************
  * construction and destruction
  ***********************************************************************************************************/
@@ -611,25 +608,25 @@ VOID CPsTree::DBResetState()
  **/
 static LRESULT CALLBACK TPropsheetTree_LabelEditProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	switch(uMsg)
-	{
-		case WM_KEYDOWN:
-			switch(wParam)
-			{
-				case VK_RETURN:
-					return ((CPsTree*)GetUserData(hwnd))->EndLabelEdit(TRUE);
-				case VK_TAB:
-				case VK_ESCAPE:
-					return ((CPsTree*)GetUserData(hwnd))->EndLabelEdit(FALSE);
-			}
-			break;
-		case WM_KILLFOCUS:
-			((CPsTree*)GetUserData(hwnd))->EndLabelEdit(FALSE);
-			break;
-		case WM_GETDLGCODE:
-			return DLGC_WANTALLKEYS | CallWindowProc(DefEditProc, hwnd, uMsg, wParam, lParam );
+	switch(uMsg) {
+	case WM_KEYDOWN:
+		switch(wParam) {
+		case VK_RETURN:
+			return ((CPsTree*)GetUserData(hwnd))->EndLabelEdit(TRUE);
+		case VK_TAB:
+		case VK_ESCAPE:
+			return ((CPsTree*)GetUserData(hwnd))->EndLabelEdit(FALSE);
+		}
+		break;
+
+	case WM_KILLFOCUS:
+		((CPsTree*)GetUserData(hwnd))->EndLabelEdit(FALSE);
+		break;
+
+	case WM_GETDLGCODE:
+		return DLGC_WANTALLKEYS | mir_callNextSubclass(hwnd, TPropsheetTree_LabelEditProc, uMsg, wParam, lParam );
 	}
-	return CallWindowProc(DefEditProc, hwnd, uMsg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, TPropsheetTree_LabelEditProc, uMsg, wParam, lParam);
 }
 
 /**
@@ -671,7 +668,7 @@ INT CPsTree::BeginLabelEdit(HTREEITEM hItem)
 		{
 			_hDragItem = hItem;
 			SetUserData(_hLabelEdit, this);
-			DefEditProc = (WNDPROC)SetWindowLongPtr(_hLabelEdit,GWLP_WNDPROC, (LONG_PTR)TPropsheetTree_LabelEditProc );
+			mir_subclassWindow(_hLabelEdit, TPropsheetTree_LabelEditProc);
 			SendMessage(_hLabelEdit, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), 0 );
 			Edit_SetSel(_hLabelEdit, 0, -1);
 			Edit_LimitText(_hLabelEdit, MAX_TINAME);

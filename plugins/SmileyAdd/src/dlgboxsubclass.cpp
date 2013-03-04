@@ -61,7 +61,6 @@ public:
 	mutable HBITMAP hSmlBmp;
 	mutable HICON hSmlIco;
 	int idxLastChar;
-	WNDPROC wpOrigWndProc;
 	HANDLE hContact;
 	bool doSmileyReplace;
 	bool doSmileyButton;
@@ -87,7 +86,6 @@ public:
 		OldButtonPlace = false;
 		isSplit = false;
 		isSend = false;
-		wpOrigWndProc = NULL;
 	}
 
 	MsgWndData(const MsgWndData &dsb)
@@ -333,8 +331,7 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 		WaitForSingleObject(g_hMutex, 2000);
 
 		MsgWndData* msgwnd = g_MsgWndList.find((MsgWndData*)&hwndDlg);
-		if (msgwnd == NULL)
-		{
+		if (msgwnd == NULL) {
 			msgwnd = new MsgWndData(dat);
 			g_MsgWndList.insert(msgwnd);
 		}
@@ -342,11 +339,11 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 			msgwnd = NULL;
 		ReleaseMutex(g_hMutex);
 
-		if (msgwnd != NULL)
-		{
-			msgwnd->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwndDlg, GWLP_WNDPROC, (LONG_PTR)MessageDlgSubclass);
+		if (msgwnd != NULL) {
+			mir_subclassWindow(hwndDlg, MessageDlgSubclass);
 			msgwnd->CreateSmileyButton();
-			if (hContact == NULL) SetRichCallback(msgwnd->REdit, msgwnd->hContact, true, true);
+			if (hContact == NULL)
+				SetRichCallback(msgwnd->REdit, msgwnd->hContact, true, true);
 		}
 	}
 }
@@ -377,19 +374,16 @@ static LRESULT CALLBACK MessageDlgSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		break;
 	}
 
-	LRESULT result = CallWindowProc(dat->wpOrigWndProc, hwnd, uMsg, wParam, lParam); 
+	LRESULT result = mir_callNextSubclass(hwnd, MessageDlgSubclass, uMsg, wParam, lParam); 
+	if (!opt.PluginSupportEnabled)
+		return result;
 
-	if (!opt.PluginSupportEnabled) return result;
-
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case WM_DESTROY:
 		WaitForSingleObject(g_hMutex, 2000);
-		SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)dat->wpOrigWndProc);
 		{
 			int ind = g_MsgWndList.getIndex((MsgWndData*)&hwnd);
-			if ( ind != -1 ) 
-			{
+			if ( ind != -1 ) {
 				delete g_MsgWndList[ind];
 				g_MsgWndList.remove(ind);
 			}

@@ -564,15 +564,11 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 
 }
 
-
-static WNDPROC ModuleTreeLabelEditSubClass;
-
 static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 	case WM_KEYUP:
-		switch (wParam)
-		{
+		switch (wParam) {
 		case VK_RETURN:
 			TreeView_EndEditLabelNow(GetParent(hwnd),0);
 			return 0;
@@ -582,8 +578,9 @@ static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd,UINT msg,WPARA
 		}
 		break;
 	}
-	return CallWindowProc(ModuleTreeLabelEditSubClass,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, ModuleTreeLabelEditSubClassProc, msg, wParam, lParam);
 }
+
 void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam);
 
 void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd here is to the main window, NOT the treview
@@ -751,7 +748,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 				SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
 				break;
 			}
-			ModuleTreeLabelEditSubClass = (WNDPROC)SetWindowLongPtr(hwnd2Edit, GWLP_WNDPROC, (LONG)ModuleTreeLabelEditSubClassProc);
+			mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
 			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
 		}
 		break;

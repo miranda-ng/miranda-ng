@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ui_utils.h"
 
-static WNDPROC  OldProc;
-static WNDPROC  OldListViewProc;
-
 static const CIrcProto* pZero = NULL;
 
 void CIrcProto::ReadSettings( TDbSetting* sets, int count )
@@ -1018,7 +1015,7 @@ static LRESULT CALLBACK EditSubclassProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 	}
 
-	return CallWindowProc(OldProc, hwndDlg, msg, wParam, lParam);
+	return mir_callNextSubclass(hwndDlg, EditSubclassProc, msg, wParam, lParam);
 }
 
 COtherPrefsDlg::COtherPrefsDlg( CIrcProto* _pro ) :
@@ -1047,9 +1044,9 @@ COtherPrefsDlg::COtherPrefsDlg( CIrcProto* _pro ) :
 
 void COtherPrefsDlg::OnInitDialog()
 {
-	OldProc = (WNDPROC)SetWindowLongPtr( m_alias.GetHwnd(), GWLP_WNDPROC,(LONG_PTR)EditSubclassProc);
-	SetWindowLongPtr( m_quitMessage.GetHwnd(), GWLP_WNDPROC,(LONG_PTR)EditSubclassProc);
-	SetWindowLongPtr( m_pertormEdit.GetHwnd(), GWLP_WNDPROC,(LONG_PTR)EditSubclassProc);
+	mir_subclassWindow( m_alias.GetHwnd(), EditSubclassProc);
+	mir_subclassWindow( m_quitMessage.GetHwnd(), EditSubclassProc);
+	mir_subclassWindow( m_pertormEdit.GetHwnd(), EditSubclassProc);
 
 	m_alias.SetText( m_proto->m_alias );
 	m_quitMessage.SetText( m_proto->m_quitMessage );
@@ -1354,7 +1351,7 @@ static LRESULT CALLBACK ListviewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 	}
 
-	return CallWindowProc(OldListViewProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, ListviewSubclassProc, msg, wParam, lParam);
 }
 
 // Callback for the 'Add ignore' dialog
@@ -1454,7 +1451,7 @@ CIgnorePrefsDlg::CIgnorePrefsDlg( CIrcProto* _pro ) :
 void CIgnorePrefsDlg::OnInitDialog()
 {
 	m_proto->m_ignoreDlg = this;
-	OldListViewProc = (WNDPROC)SetWindowLongPtr( m_list.GetHwnd(),GWLP_WNDPROC, (LONG_PTR)ListviewSubclassProc );
+	mir_subclassWindow(m_list.GetHwnd(), ListviewSubclassProc);
 
 	m_enable.SetState( m_proto->m_ignore );
 	m_ignoreFile.SetState( !m_proto->m_DCCFileEnabled );
@@ -1609,7 +1606,6 @@ void CIgnorePrefsDlg::OnDestroy()
 	}
 
 	m_proto->RewriteIgnoreSettings();
-	SetWindowLongPtr( m_list.GetHwnd(), GWLP_WNDPROC, (LONG_PTR)OldListViewProc );
 }
 
 void CIgnorePrefsDlg::FixButtons()

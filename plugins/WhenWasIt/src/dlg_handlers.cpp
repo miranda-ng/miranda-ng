@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define UPCOMING_TIMER_ID 1002
 
-static WNDPROC OldBirthdaysListProc = NULL;
-
 const TCHAR *szShowAgeMode[] = { LPGENT("Upcoming age"), LPGENT("Current age")};
 const int cShowAgeMode = sizeof(szShowAgeMode) / sizeof(szShowAgeMode[0]);
 
@@ -647,7 +645,7 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 	return res;	
 }
 
-INT_PTR CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_KEYUP:
@@ -677,7 +675,7 @@ INT_PTR CALLBACK BirthdaysListSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, L
 			break;
 		}
 	}
-	return CallWindowProc(OldBirthdaysListProc, hWnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hWnd, BirthdaysListSubclassProc, msg, wParam, lParam);
 }
 
 void SetBirthdaysCount(HWND hWnd)
@@ -714,7 +712,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
 
-			OldBirthdaysListProc = (WNDPROC) SetWindowLongPtr(hList, GWLP_WNDPROC, (LONG_PTR) BirthdaysListSubclassProc);
+			mir_subclassWindow(hList, BirthdaysListSubclassProc);
 
 			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;

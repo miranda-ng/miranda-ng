@@ -21,4 +21,3 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define CLN_MYSELCHANGED (CLN_FIRST-50)
 
 void RegisterHotkeyControl(HWND control);
-void UnregisterHotkeyControl(HWND control);

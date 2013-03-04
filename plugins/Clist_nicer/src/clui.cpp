@@ -52,7 +52,6 @@ static int disableautoupd = 1;
 HANDLE hFrameContactTree;
 extern HIMAGELIST hCListImages;
 extern PLUGININFOEX pluginInfo;
-extern WNDPROC OldStatusBarProc;
 extern RECT old_window_rect, new_window_rect;
 
 extern BOOL g_trayTooltipActive;
@@ -808,7 +807,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				ShowWindow(pcli->hwndStatus, SW_SHOW);
 				SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
 			}
-			OldStatusBarProc = (WNDPROC)SetWindowLongPtr(pcli->hwndStatus, GWLP_WNDPROC, (LONG_PTR)NewStatusBarWndProc);
+			mir_subclassWindow(pcli->hwndStatus, NewStatusBarWndProc);
 			SetClassLong(pcli->hwndStatus, GCL_STYLE, GetClassLong(pcli->hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
 		}
 		g_oldSize.cx = g_oldSize.cy = 0;

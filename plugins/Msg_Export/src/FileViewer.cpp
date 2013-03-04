@@ -106,8 +106,6 @@ class CLHistoryDlg
 		HANDLE hContact;
 		tstring sPath;
 
-		WNDPROC wpOrigEditProc;
-
 		HWND hFindDlg;
 		FINDREPLACE fr;
 		_TCHAR acFindStr[100];
@@ -928,9 +926,8 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			SendMessage(hwnd , EM_EXSETSEL, 0, (LPARAM)&ft.chrg);
 			return 0;
 		}
-
 	}
-	return CallWindowProc(pclDlg->wpOrigEditProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, EditSubclassProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -1040,9 +1037,8 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 {
 	CLHistoryDlg * pclDlg = (CLHistoryDlg *)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lParam);
 			CLHistoryDlg * pclDlg = (CLHistoryDlg *)lParam;
@@ -1050,7 +1046,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				(LPARAM)LoadIcon( hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 
 			HWND hRichEdit = GetDlgItem( hwndDlg , IDC_RICHEDIT );
-			pclDlg->wpOrigEditProc = (WNDPROC) SetWindowLongPtr( hRichEdit, GWLP_WNDPROC, (LONG) EditSubclassProc);
+			mir_subclassWindow(hRichEdit, EditSubclassProc);
 
 			SetWindowLongPtr( hRichEdit, GWLP_USERDATA, (LONG) pclDlg );
 
@@ -1068,14 +1064,10 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseCC ? MF_CHECKED : 0 ) , ID_FV_COLOR, LPGENT("Color...") );
 
 			if( bUseCC )
-			{
-				SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 ,
-					db_get_dw( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) )
-				);
-			}
+				SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0,
+				db_get_dw( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255)));
 
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_FONT, LPGENT("Font...") );
-
 
 			bool bUseSyntaxHL = db_get_b( NULL , MODULE , szFileViewDB "UseSyntaxHL" , 1 )!=0;
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseSyntaxHL ? MF_CHECKED : 0 ) , ID_FV_SYNTAX_HL, LPGENT("Syntax highlight") );
@@ -1083,7 +1075,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetRichEditFont( hRichEdit , bUseSyntaxHL );
 
 			TranslateDialogDefault(hwndDlg);
-			
+
 			Utils_RestoreWindowPosition(hwndDlg,pclDlg->hContact,MODULE,szFileViewDB);
 
 			pclDlg->sPath = GetFilePathFromUser( pclDlg->hContact );
@@ -1105,44 +1097,39 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 						sPath.erase( 0 , n + 1 );
 
 					if( _sntprintf( szTitle , sizeof( szTitle ) , szFormat , pszNick , sPath.c_str() , (pclDlg->bUtf8File ? _T("UTF8"):_T("ANSI")) ) > 0 )
-					{
 						SetWindowText( hwndDlg , szTitle);
-					}
 				}
 			}
 
-			
-			WindowList_Add(hInternalWindowList,hwndDlg,pclDlg->hContact);
-			return TRUE;
-		}
-		case WM_RELOAD_FILE:
-		{
-			bLoadFile(hwndDlg , pclDlg );
-			return TRUE;
-		}
-		case WM_SIZE:
-		case WM_SIZING:
-		{
-			SetWindowsCtrls( hwndDlg );
-			return TRUE;
-		}
-		case WM_NCDESTROY:
-		{
-			EnterCriticalSection( &csHistoryList );
-			clHistoryDlgList.remove( pclDlg );
-			LeaveCriticalSection( &csHistoryList );
 
-			delete pclDlg;
-         SetWindowLongPtr(hwndDlg,GWLP_USERDATA,NULL);
-         return 0;
-      }
-      case WM_DESTROY:
-		{
-			Utils_SaveWindowPosition(hwndDlg,pclDlg->hContact,MODULE,szFileViewDB);
-			WindowList_Remove(hInternalWindowList,hwndDlg);
-			return 0;
+			WindowList_Add(hInternalWindowList,hwndDlg,pclDlg->hContact);
 		}
-		case WM_SYSCOMMAND:
+		return TRUE;
+
+	case WM_RELOAD_FILE:
+		bLoadFile(hwndDlg , pclDlg );
+		return TRUE;
+
+	case WM_SIZE:
+	case WM_SIZING:
+		SetWindowsCtrls( hwndDlg );
+		return TRUE;
+
+	case WM_NCDESTROY:
+		EnterCriticalSection( &csHistoryList );
+		clHistoryDlgList.remove( pclDlg );
+		LeaveCriticalSection( &csHistoryList );
+
+		delete pclDlg;
+		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,NULL);
+		return 0;
+
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hwndDlg,pclDlg->hContact,MODULE,szFileViewDB);
+		WindowList_Remove(hInternalWindowList,hwndDlg);
+		return 0;
+
+	case WM_SYSCOMMAND:
 		{
 			HMENU hSysMenu = GetSystemMenu( hwndDlg , FALSE );
 			bool bUseSyntaxHL = (GetMenuState( hSysMenu  , ID_FV_SYNTAX_HL , MF_BYCOMMAND ) & MF_CHECKED)!=0;
@@ -1154,10 +1141,10 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				lf.lfHeight = 14L;
 
 				{	DWORD dwEffects = db_get_dw( NULL , MODULE , szFileViewDB "TEffects" , 0 );
-					lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
-					lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
-					lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
-					lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
+				lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
+				lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
+				lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
+				lf.lfItalic = (dwEffects & CFE_ITALIC) != 0;
 				}
 				_tcscpy(lf.lfFaceName, _DBGetString( NULL , MODULE , szFileViewDB "TFace" , _T("Courier New")).c_str());
 				CHOOSEFONT cf = { 0 };
@@ -1170,9 +1157,9 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if( ChooseFont( &cf ) )
 				{
 					DWORD dwEffects = (lf.lfWeight == FW_BOLD ?  CFE_BOLD : 0) |
-							  			   (lf.lfItalic          ?  CFE_ITALIC : 0) |
-										   (lf.lfStrikeOut 	   ? CFE_STRIKEOUT : 0) |
-										   (lf.lfUnderline    ?  CFE_UNDERLINE : 0);
+						(lf.lfItalic          ?  CFE_ITALIC : 0) |
+						(lf.lfStrikeOut 	   ? CFE_STRIKEOUT : 0) |
+						(lf.lfUnderline    ?  CFE_UNDERLINE : 0);
 
 					db_set_dw( NULL , MODULE , szFileViewDB "TEffects" , dwEffects );
 					db_set_dw( NULL , MODULE , szFileViewDB "THeight" , cf.iPointSize * 2 );
@@ -1264,69 +1251,60 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			return FALSE;
 		}
 
-		case WM_COMMAND:
-		{
-			switch (LOWORD(wParam))
-			{
-				case IDCANCEL:
-				case IDOK:
-					DestroyWindow(hwndDlg);
-					return TRUE;
-				case IDC_FV_EXTERNAL:
-					bOpenExternaly( pclDlg->hContact );
-					return TRUE;
-				case IDC_FV_FIND:
-				{
-					if( pclDlg->hFindDlg )
-					{
-						BringWindowToTop( pclDlg->hFindDlg );
-						return TRUE;
-					}
-					pclDlg->fr.hwndOwner = GetDlgItem( hwndDlg , IDC_RICHEDIT );
-					pclDlg->hFindDlg = FindText( &pclDlg->fr );
-					return TRUE;
-				}
-			}
-			break;
-		}
-		case WM_NOTIFY:
-		{
-			if( ((NMHDR*)lParam)->idFrom == IDC_RICHEDIT )
-			{
-				if( ((NMHDR*)lParam)->code == EN_LINK )
-				{
-					ENLINK* pstLink = (ENLINK*)lParam;
-					if( pstLink->msg == WM_LBUTTONUP )
-					{
-						_TCHAR szUrl[ 500 ];
-						if( (pstLink->chrg.cpMax - pstLink->chrg.cpMin) > (sizeof( szUrl ) - 2) )
-							return FALSE;
-
-						TEXTRANGE stToGet;
-						stToGet.chrg = pstLink->chrg;
-						stToGet.lpstrText = szUrl;
-						if( SendMessage( pstLink->nmhdr.hwndFrom , EM_GETTEXTRANGE , 0 , (LPARAM)&stToGet ) > 0 )
-						{
-							CallService(MS_UTILS_OPENURL,1,(LPARAM)szUrl);
-						}
-						return TRUE;
-					}
-				}
-			}
-			break;
-		}
-		case WM_CLOSE:
-		{
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDCANCEL:
+		case IDOK:
 			DestroyWindow(hwndDlg);
 			return TRUE;
+		case IDC_FV_EXTERNAL:
+			bOpenExternaly( pclDlg->hContact );
+			return TRUE;
+		case IDC_FV_FIND:
+			{
+				if( pclDlg->hFindDlg )
+				{
+					BringWindowToTop( pclDlg->hFindDlg );
+					return TRUE;
+				}
+				pclDlg->fr.hwndOwner = GetDlgItem( hwndDlg , IDC_RICHEDIT );
+				pclDlg->hFindDlg = FindText( &pclDlg->fr );
+				return TRUE;
+			}
 		}
+		break;
+
+	case WM_NOTIFY:
+		if( ((NMHDR*)lParam)->idFrom == IDC_RICHEDIT )
+		{
+			if( ((NMHDR*)lParam)->code == EN_LINK )
+			{
+				ENLINK* pstLink = (ENLINK*)lParam;
+				if( pstLink->msg == WM_LBUTTONUP )
+				{
+					_TCHAR szUrl[ 500 ];
+					if( (pstLink->chrg.cpMax - pstLink->chrg.cpMin) > (sizeof( szUrl ) - 2) )
+						return FALSE;
+
+					TEXTRANGE stToGet;
+					stToGet.chrg = pstLink->chrg;
+					stToGet.lpstrText = szUrl;
+					if( SendMessage( pstLink->nmhdr.hwndFrom , EM_GETTEXTRANGE , 0 , (LPARAM)&stToGet ) > 0 )
+					{
+						CallService(MS_UTILS_OPENURL,1,(LPARAM)szUrl);
+					}
+					return TRUE;
+				}
+			}
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		return TRUE;
 	}
 	return FALSE;
-//FALSE;//DefWindowProc( hwndDlg, msg, wParam, lParam );
-//DefDlgProc( hwndDlg, msg, wParam, lParam );
 }
-
-
 
 /////////////////////////////////////////////////////////////////////
 // Member Function : bShowFileViewer

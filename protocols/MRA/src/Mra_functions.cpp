@@ -1176,9 +1176,6 @@ void EnableControlsArray(HWND hWndDlg, WORD *pwControlsList, size_t dwControlsLi
 
 LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT lrRet = 0;
-	WNDPROC OldMessageEditProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
 	if (msg == WM_CHAR)
 	if (GetKeyState(VK_CONTROL) & 0x8000) {
 		if (wParam == '\n') {
@@ -1195,10 +1192,7 @@ LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		}
 	}
 
-	if (OldMessageEditProc)
-		lrRet = CallWindowProc(OldMessageEditProc, hwnd, msg, wParam, lParam);
-
-	return lrRet;
+	return mir_callNextSubclass(hwnd, MessageEditSubclassProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1215,20 +1209,13 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 		dat = (SetXStatusData*)lParam;
 		if (dat) {
 			char szValueName[MAX_PATH];
-			HWND hWndEdit;
 			WCHAR szBuff[STATUS_TITLE_MAX+STATUS_DESC_MAX];
-			WNDPROC OldMessageEditProc;
 
 			dat->hDlgIcon = IconLibGetIcon(hXStatusAdvancedStatusIcons[dat->dwXStatus]);
 			dat->dwCountdown = 5;
 
-			hWndEdit = GetDlgItem(hWndDlg, IDC_XTITLE);
-			OldMessageEditProc = (WNDPROC)SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)OldMessageEditProc);
-
-			hWndEdit = GetDlgItem(hWndDlg, IDC_XMSG);
-			OldMessageEditProc = (WNDPROC)SetWindowLongPtr(hWndEdit, GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
-			SetWindowLongPtr(hWndEdit, GWLP_USERDATA, (LONG_PTR)OldMessageEditProc);
+			mir_subclassWindow( GetDlgItem(hWndDlg, IDC_XTITLE), MessageEditSubclassProc);
+			mir_subclassWindow( GetDlgItem(hWndDlg, IDC_XMSG),   MessageEditSubclassProc);
 
 			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_XTITLE, EM_LIMITTEXT, STATUS_TITLE_MAX, 0);

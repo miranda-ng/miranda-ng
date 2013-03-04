@@ -142,29 +142,23 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return TRUE;
 
 	case WM_DESTROY:
-		{
-			WNDPROC saveOldWndProc = data->oldWndProc;
-			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)data->oldWndProc);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-			mir_free(data);
-			return CallWindowProc(saveOldWndProc, hwnd, msg, wParam, lParam);
-		}	
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+		mir_free(data);
 	}
 
-	return CallWindowProc(data->oldWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, sttHotkeyEditProc, msg, wParam, lParam);
 }
 
 void HotkeyEditCreate(HWND hwnd)
 {
 	THotkeyBoxData *data = (THotkeyBoxData *)mir_alloc(sizeof(THotkeyBoxData));
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (ULONG_PTR)data);
-	data->oldWndProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (ULONG_PTR)sttHotkeyEditProc);
+	mir_subclassWindow(hwnd, sttHotkeyEditProc);
 }
 
 void HotkeyEditDestroy(HWND hwnd)
 {
 	THotkeyBoxData *data = (THotkeyBoxData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (ULONG_PTR)data->oldWndProc);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 	mir_free(data);
 }

@@ -29,7 +29,6 @@ typedef enum { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL, HKT_COUNT } THotkeyType;
 
 struct THotkeyBoxData
 {
-	WNDPROC oldWndProc;
 	BYTE shift;
 	BYTE key;
 };

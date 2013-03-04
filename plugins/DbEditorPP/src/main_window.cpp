@@ -9,8 +9,6 @@ int Hex;
 
 extern BOOL bServiceMode;
 
-static WNDPROC SettingListSubClass, ModuleTreeSubClass, SplitterSubClass;
-
 void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam);
 void SettingsListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam);
 
@@ -79,7 +77,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LP
 		return 0;
 	}
 
-	return CallWindowProc(SplitterSubClass,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -149,7 +147,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 		}
 		break;
 	}
-	return CallWindowProc(ModuleTreeSubClass,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, ModuleTreeSubclassProc, msg, wParam, lParam);
 }
 
 static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
@@ -186,7 +184,7 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 			CreateDialog(hInst, MAKEINTRESOURCE(IDD_FIND), hwnd, FindWindowDlgProc);
 		break;
 	}
-	return CallWindowProc(SettingListSubClass,hwnd,msg,wParam,lParam);
+	return mir_callNextSubclass(hwnd, SettingListSubclassProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -203,13 +201,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			// setup the splitter
 			SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_USERDATA,(LPARAM)DBGetContactSettingWord(NULL, modname, "Splitter", 300));
 			SendMessage(hwnd, GC_SPLITTERMOVED, 0,0);
-			SplitterSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_WNDPROC,(LONG)SplitterSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwnd,IDC_SPLITTER), SplitterSubclassProc);
 			// module tree
 			TreeView_SetUnicodeFormat(GetDlgItem(hwnd,IDC_MODULES), TRUE);
-			ModuleTreeSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_MODULES),GWLP_WNDPROC,(LONG)ModuleTreeSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwnd,IDC_MODULES), ModuleTreeSubclassProc);
 			//setting list
 			setupSettingsList(GetDlgItem(hwnd,IDC_SETTINGS));
-			SettingListSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_SETTINGS),GWLP_WNDPROC,(LONG)SettingListSubclassProc);
+			mir_subclassWindow(GetDlgItem(hwnd,IDC_SETTINGS), SettingListSubclassProc);
 
 			HMENU hMenu = GetMenu(hwnd);
 			TranslateMenu(hMenu);
@@ -420,9 +418,6 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			ImageList_Destroy(himl);
 		if (himl2)
 			ImageList_Destroy(himl2);
-		SetWindowLongPtr(GetDlgItem(hwnd,IDC_SETTINGS),GWLP_WNDPROC,(LONG)SettingListSubClass);
-		SetWindowLongPtr(GetDlgItem(hwnd,IDC_MODULES),GWLP_WNDPROC,(LONG)ModuleTreeSubClass);
-		SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_WNDPROC,(LONG)SplitterSubClass);
 
 		if (!DBGetContactSettingByte(NULL,modname,"Maximised",0)) {
 			RECT rc;

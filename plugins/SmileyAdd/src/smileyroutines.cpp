@@ -221,13 +221,10 @@ void UpdateSelection(CHARRANGE& sel, int pos, int dif)
 void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const CHARRANGE& sel, 
 	bool useHidden, bool ignoreLast, bool unFreeze, bool fireView)
 {
-/*
-	LARGE_INTEGER freq, strt, end;
-	QueryPerformanceFrequency(&freq);
-	QueryPerformanceCounter(&strt);
-*/
-	IRichEditOle* RichEditOle;
+	IRichEditOle* RichEditOle = NULL;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
+		return;
+	if (RichEditOle == NULL)
 		return;
 
 	ITextDocument* TextDocument;
@@ -534,8 +531,10 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
 {
-	IRichEditOle* RichEditOle;
+	IRichEditOle* RichEditOle = NULL;
 	if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
+		return;
+	if (RichEditOle == NULL)
 		return;
 
 	ITextDocument* TextDocument;

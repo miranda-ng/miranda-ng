@@ -108,7 +108,6 @@ private:
    bool     m_isAero;
    bool     m_mustAutoHide;
    LONG     m_size_y;
-   WNDPROC  m_oldWndProc;
    HANDLE   m_hevHook;
    /*
     * for custom drawing

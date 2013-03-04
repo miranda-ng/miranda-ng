@@ -43,7 +43,6 @@ TCHAR *xStatusDescr[] = {	_T("Angry"), _T("Duck"), _T("Tired"), _T("Party"), _T(
 
 
 TInfoPanelConfig CInfoPanel::m_ipConfig = {0};
-WNDPROC CTip::m_OldMessageEditProc = 0;
 
 int CInfoPanel::setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
@@ -1021,7 +1020,7 @@ void CInfoPanel::hideTip(const HWND hwndNew)
  * native avatar rendering does not support animated images.
  * To avoid clipping issues, this is done during WM_ERASEBKGND.
  */
-INT_PTR CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 		case WM_ERASEBKGND:
@@ -1407,7 +1406,7 @@ CTip::CTip(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText, c
 		m_pszText = 0;
 	m_panel = panel;
 	m_hwndParent = hwndParent;
-	m_OldMessageEditProc = (WNDPROC)SetWindowLongPtr(m_hRich, GWLP_WNDPROC, (LONG_PTR)RichEditProc);
+	mir_subclassWindow(m_hRich, RichEditProc);
 }
 
 /**
@@ -1518,26 +1517,26 @@ void CTip::registerClass()
  * subclass the rich edit control inside the tip. Needed to hide the blinking
  * caret and prevent all scrolling actions.
  */
-INT_PTR CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_SETCURSOR:
-			::HideCaret(hwnd);
-			break;
+	case WM_SETCURSOR:
+		::HideCaret(hwnd);
+		break;
 
-		case WM_ERASEBKGND:
-			return 1;
+	case WM_ERASEBKGND:
+		return 1;
 
-		case WM_NCCALCSIZE:
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VSCROLL);
-			EnableScrollBar(hwnd, SB_VERT, ESB_DISABLE_BOTH);
-			ShowScrollBar(hwnd, SB_VERT, FALSE);
-			break;
+	case WM_NCCALCSIZE:
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VSCROLL);
+		EnableScrollBar(hwnd, SB_VERT, ESB_DISABLE_BOTH);
+		ShowScrollBar(hwnd, SB_VERT, FALSE);
+		break;
 
-		case WM_VSCROLL:
-			return 0;
+	case WM_VSCROLL:
+		return 0;
 	}
-	return(::CallWindowProc(m_OldMessageEditProc, hwnd, msg, wParam, lParam));
+	return ::mir_callNextSubclass(hwnd, CTip::RichEditProc, msg, wParam, lParam);
 }
 
 /**
@@ -1568,21 +1567,22 @@ INT_PTR CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_ACTIVATE:
-		case WM_SETCURSOR:
-			::KillTimer(hwnd, 1000);
-			::SetTimer(hwnd, 1000, 200, 0);
+	case WM_ACTIVATE:
+	case WM_SETCURSOR:
+		::KillTimer(hwnd, 1000);
+		::SetTimer(hwnd, 1000, 200, 0);
 
-			if (msg == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE)
-				::DestroyWindow(hwnd);
-			break;
+		if (msg == WM_ACTIVATE && LOWORD(wParam) == WA_INACTIVE)
+			::DestroyWindow(hwnd);
+		break;
 
-			/* prevent resizing */
-		case WM_NCHITTEST:
-			return(HTCLIENT);
-			break;
+	/* prevent resizing */
+	case WM_NCHITTEST:
+		return(HTCLIENT);
+		break;
 
-		case WM_ERASEBKGND: {
+	case WM_ERASEBKGND:
+		{
 			HDC 		hdc = (HDC) wParam;
 			RECT 		rc;
 			TCHAR		szTitle[128];
@@ -1601,7 +1601,6 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				HBITMAP hbm		= ::CSkin::CreateAeroCompatibleBitmap(rc, hdc);
 				HBITMAP hbmOld  = 	reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbm));
 				HFONT  	hOldFont = 	reinterpret_cast<HFONT>(::SelectObject(hdcMem, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]));
-
 
 				::SetBkMode(hdcMem, TRANSPARENT);
 				rc.bottom += 2;
@@ -1623,7 +1622,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				else {
 					::FillRect(hdcMem, &rc, br);
 					::DrawAlpha(hdcMem, &rcText, PluginConfig.m_ipBackgroundGradientHigh, 100, PluginConfig.m_ipBackgroundGradient,
-								0, GRADIENT_TB + 1, 0, 2, 0);
+						0, GRADIENT_TB + 1, 0, 2, 0);
 				}
 				::DeleteObject(br);
 				rcText.left = 20;
@@ -1650,64 +1649,56 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				::DeleteObject(hbm);
 				::DeleteDC(hdcMem);
 			}
-			return 1;
 		}
+		return 1;
 
-		case WM_NOTIFY: {
-			switch (((NMHDR *) lParam)->code) {
-				case EN_LINK:
-					::SetFocus(m_hRich);
-					switch (((ENLINK *) lParam)->msg) {
-						case WM_LBUTTONUP: {
-							ENLINK* 		e = reinterpret_cast<ENLINK *>(lParam);
-
-							const TCHAR*	tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
-							if (tszUrl) {
-								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tszUrl);
-								mir_free(const_cast<TCHAR *>(tszUrl));
-							}
-							::DestroyWindow(hwnd);
-							break;
-						}
+	case WM_NOTIFY:
+		switch (((NMHDR *) lParam)->code) {
+		case EN_LINK:
+			::SetFocus(m_hRich);
+			switch (((ENLINK *) lParam)->msg) {
+			case WM_LBUTTONUP:
+				{
+					ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
+					const TCHAR *tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
+					if (tszUrl) {
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tszUrl);
+						mir_free(const_cast<TCHAR *>(tszUrl));
 					}
+					::DestroyWindow(hwnd);
 					break;
-				default:
-					break;
+				}
 			}
 			break;
 		}
+		break;
 
-		case WM_COMMAND: {
-			if ((HWND)lParam == m_hRich && HIWORD(wParam) == EN_SETFOCUS)
-				::HideCaret(m_hRich);
-			break;
+	case WM_COMMAND:
+		if ((HWND)lParam == m_hRich && HIWORD(wParam) == EN_SETFOCUS)
+			::HideCaret(m_hRich);
+		break;
+
+	case WM_TIMER:
+		if (wParam == 1000) {
+			POINT	pt;
+			RECT	rc;
+
+			::KillTimer(hwnd, 1000);
+			::GetCursorPos(&pt);
+			::GetWindowRect(hwnd, &rc);
+			if (!PtInRect(&rc, pt))
+				::DestroyWindow(hwnd);
+			else
+				break;
+			if (::GetActiveWindow() != hwnd)
+				::DestroyWindow(hwnd);
 		}
+		break;
 
-		case WM_TIMER:
-			if (wParam == 1000) {
-				POINT	pt;
-				RECT	rc;
-
-				::KillTimer(hwnd, 1000);
-				::GetCursorPos(&pt);
-				::GetWindowRect(hwnd, &rc);
-				if (!PtInRect(&rc, pt))
-					::DestroyWindow(hwnd);
-				else
-					break;
-				if (::GetActiveWindow() != hwnd)
-					::DestroyWindow(hwnd);
-			}
-			break;
-
-		case WM_DESTROY:
-			::SetWindowLongPtr(m_hRich, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(m_OldMessageEditProc));
-			break;
-
-		case WM_NCDESTROY: {
-			::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-			delete this;
-		}
+	case WM_NCDESTROY:
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+		delete this;
 	}
+
 	return(::DefWindowProc(hwnd, msg, wParam, lParam));
 }

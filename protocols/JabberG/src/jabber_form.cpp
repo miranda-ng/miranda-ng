@@ -24,8 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber.h"
 #include "jabber_caps.h"
 
-
-static BOOL CALLBACK JabberFormMultiLineWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK JabberFormMultiLineWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	//case WM_GETDLGCODE:
@@ -37,7 +36,7 @@ static BOOL CALLBACK JabberFormMultiLineWndProc(HWND hwnd, UINT msg, WPARAM wPar
 		};
 		break;
 	}
-	return CallWindowProc((WNDPROC) GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, JabberFormMultiLineWndProc, msg, wParam, lParam);
 }
 
 struct TJabberFormControlInfo
@@ -331,8 +330,7 @@ TJabberFormControlInfo *JabberFormAppendControl(HWND hwndStatic, TJabberFormLayo
 				WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_VSCROLL|ES_LEFT|ES_MULTILINE|ES_AUTOVSCROLL|ES_WANTRETURN,
 				0, 0, 0, 0,
 				hwndStatic, (HMENU) layout_info->id, hInst, NULL);
-			WNDPROC oldWndProc = (WNDPROC) SetWindowLongPtr(item->hCtrl, GWLP_WNDPROC, (LONG_PTR)JabberFormMultiLineWndProc);
-			SetWindowLongPtr(item->hCtrl, GWLP_USERDATA, (LONG_PTR) oldWndProc);
+			mir_subclassWindow(item->hCtrl, JabberFormMultiLineWndProc);
 			++layout_info->id;
 			break;
 		}

@@ -155,7 +155,7 @@ static LRESULT CALLBACK ProfileNameValidate(HWND edit, UINT msg, WPARAM wParam, 
 			return 0;
 		PostMessage(GetParent(edit), WM_INPUTCHANGED, 0, 0);
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(edit, GWLP_USERDATA), edit, msg, wParam, lParam);
+	return mir_callNextSubclass(edit, ProfileNameValidate, msg, wParam, lParam);
 }
 
 static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -187,10 +187,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendMessage(hwndCombo, CB_SETCURSEL, 0, 0);
 
 			// subclass the profile name box
-			HWND hwndProfile = GetDlgItem(hwndDlg, IDC_PROFILENAME);
-			WNDPROC proc = (WNDPROC)GetWindowLongPtr(hwndProfile, GWLP_WNDPROC);
-			SetWindowLongPtr(hwndProfile, GWLP_USERDATA, (LONG_PTR)proc);
-			SetWindowLongPtr(hwndProfile, GWLP_WNDPROC, (LONG_PTR)ProfileNameValidate);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PROFILENAME), ProfileNameValidate);
 		}
 
 		// decide if there is a default profile name given in the INI and if it should be used

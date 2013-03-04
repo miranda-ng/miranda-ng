@@ -62,9 +62,6 @@ static INT_PTR OnMainMenu_HideAll		( WPARAM wParam, LPARAM lParam );
 static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam );
 static VOID CALLBACK ToTopTimerProc ( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
-WNDPROC oldMirandaWndProc;
-
-
 HINSTANCE	hInst				 =  NULL;
 HMODULE		hUserDll			 =  NULL;
 HFONT		hFont[FLT_FONTIDS]	 =  {NULL};
@@ -260,12 +257,9 @@ static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 	hevPrebuildMenu		 =  HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
 	hwndMiranda			 =  (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
 
-	oldMirandaWndProc	 =  (WNDPROC)SetWindowLongPtr( hwndMiranda, GWLP_WNDPROC, (LONG)newMirandaWndProc);
-
-
+	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
 
 	// No thumbs yet
-//	pThumbsList	 =  NULL;
 	bEnableTip = ServiceExists("mToolTip/ShowTip");
 
 	RegisterWindowClass();
@@ -1222,5 +1216,5 @@ static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 			}
 		}
 	}
-	return( CallWindowProc(oldMirandaWndProc, hwnd, uMsg, wParam, lParam));
+	return mir_callNextSubclass(hwnd, newMirandaWndProc, uMsg, wParam, lParam);
 }

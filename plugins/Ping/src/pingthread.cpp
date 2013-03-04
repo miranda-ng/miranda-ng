@@ -930,8 +930,6 @@ void UpdateFrame() {
 	SetWindowPos(hpwnd, 0, r_clist.left, r_clist.top - height, (r_clist.right - r_clist.left), height, SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
-WNDPROC wpOrigClistProc;
-
 // Subclass procedure 
 LRESULT APIENTRY ClistSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -948,11 +946,10 @@ LRESULT APIENTRY ClistSubclassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 	}
 
-	if(uMsg == WM_SHOWWINDOW) {
+	if(uMsg == WM_SHOWWINDOW)
 		ShowWindow(hpwnd, wParam);
-	}
 
-	return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam); 
+	return mir_callNextSubclass(hwnd, ClistSubclassProc, uMsg, wParam, lParam);
 }
 
 void AttachToClist(bool attach)
@@ -965,15 +962,13 @@ void AttachToClist(bool attach)
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
 
 		// subclass clist to trap move/size
-		wpOrigClistProc = (WNDPROC) SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) ClistSubclassProc);
-
+		mir_subclassWindow(hwnd_clist, ClistSubclassProc);
 		UpdateFrame();
-	} else {
+	}
+	else {
 		SetWindowLong(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
 		SetWindowLong(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
 		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
-
-		SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) wpOrigClistProc);
 	}
 }
 

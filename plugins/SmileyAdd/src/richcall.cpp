@@ -30,7 +30,6 @@ typedef struct
 {
 	HWND hwnd;
 	HANDLE hContact;
-	WNDPROC wpOrigWndProc;
 	HWND hToolTip;
 	int tipActive;
 	bool inputarea;
@@ -40,7 +39,6 @@ typedef struct
 typedef struct   
 {
 	HWND hwnd;
-	WNDPROC wpOrigWndProc;
 	HWND hwndInput;
 	HWND hwndLog;
 } RichEditOwnerData;
@@ -217,10 +215,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 	CHARRANGE sel;
 
-	WNDPROC wpOrigWndProc = rdt->wpOrigWndProc;
-
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case WM_DESTROY:
 		CloseRichCallback(hwnd, false);
 		break;
@@ -237,8 +232,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	case EM_STREAMOUT:
 		if (wParam & SFF_SELECTION)
 			SmileyToTextCutPrep(rdt);
-		else
-		{
+		else {
 			sel = allsel;
 			ReplaceContactSmileysWithText(rdt, sel, true);
 		}
@@ -264,10 +258,9 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 		break;
 	}
 
-	LRESULT result = CallWindowProc(wpOrigWndProc, hwnd, uMsg, wParam, lParam); 
+	LRESULT result = mir_callNextSubclass(hwnd, RichEditSubclass, uMsg, wParam, lParam); 
 
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case WM_DESTROY:
 		CloseRichCallback(hwnd, true);
 		break;
@@ -296,16 +289,12 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 	case WM_KEYDOWN:
 		if ((wParam == 'C' || wParam == VK_INSERT) && (GetKeyState(VK_CONTROL) & 0x8000))
-		{
 			SmileyToTextCutRest(rdt);
-		}
-		else if ((wParam == 'X' && (GetKeyState(VK_CONTROL) & 0x8000)) || 
-			(wParam == VK_DELETE && (GetKeyState(VK_SHIFT) & 0x8000)))
-		{
+
+		else if ((wParam == 'X' && (GetKeyState(VK_CONTROL) & 0x8000)) || (wParam == VK_DELETE && (GetKeyState(VK_SHIFT) & 0x8000)))
 			SmileyToTextCutRest(rdt);
-		}
-		else if (wParam == VK_TAB && ((GetKeyState(VK_CONTROL) | GetKeyState(VK_SHIFT)) & 0x8000) == 0)
-		{
+
+		else if (wParam == VK_TAB && ((GetKeyState(VK_CONTROL) | GetKeyState(VK_SHIFT)) & 0x8000) == 0) {
 			sel.cpMax = LONG_MAX;
 			bool hascont = rdt->hContact != NULL; 
 			ReplaceContactSmileys(rdt, sel, false, hascont);
@@ -325,27 +314,20 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 		if (wParam > ' ' && opt.EnforceSpaces)
 			break;
 
-		if (wParam == 0x16)
-		{
+		if (wParam == 0x16) {
 			ReplaceContactSmileys(rdt, allsel, false, false);
 			break;
 		}
 
 		if (opt.DCursorSmiley)
-		{
 			ReplaceContactSmileys(rdt, allsel, true, true);
-		}
-		else
-		{
-			if (wParam >= ' ' || wParam == '\n' || wParam == '\r')
-			{
-				SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
-				sel.cpMin = max(sel.cpMin - 20, 0);
-				sel.cpMax += 20;
+		else if (wParam >= ' ' || wParam == '\n' || wParam == '\r') {
+			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
+			sel.cpMin = max(sel.cpMin - 20, 0);
+			sel.cpMax += 20;
 
-				ReplaceContactSmileysWithText(rdt, sel, true);
-				ReplaceContactSmileys(rdt, sel, false, true);
-			}
+			ReplaceContactSmileysWithText(rdt, sel, true);
+			ReplaceContactSmileys(rdt, sel, false, true);
 		}
 		break;
 
@@ -369,13 +351,9 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 void CloseRichCallback(HWND hwnd, bool force)
 {
 	int ind = g_RichEditList.getIndex((RichEditData*)&hwnd);
-	if ( ind != -1 ) 
-	{
+	if ( ind != -1 ) {
 		RichEditData* rdt = g_RichEditList[ind];
-		bool richsub = GetWindowLongPtr(hwnd, GWLP_WNDPROC) == (LONG_PTR)RichEditSubclass;
-		if (richsub) SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)rdt->wpOrigWndProc);
-		if (richsub || force)
-		{
+		if (force) {
 			if (rdt->hToolTip) DestroyWindow(rdt->hToolTip);
 			delete rdt;
 			g_RichEditList.remove(ind);
@@ -386,8 +364,7 @@ void CloseRichCallback(HWND hwnd, bool force)
 bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew)
 {
 	RichEditData* rdt = g_RichEditList.find((RichEditData*)&hwnd);
-	if (rdt == NULL)
-	{
+	if (rdt == NULL) {
 		IRichEditOle* RichEditOle;
 		if (SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle) == 0)
 			return false;
@@ -400,18 +377,18 @@ bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew)
 		rdt->inputarea = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == 0;
 		rdt->dontReplace = false;
 		rdt->tipActive = -1;
-		rdt->wpOrigWndProc = NULL;
 		rdt->hToolTip = NULL;
 		g_RichEditList.insert(rdt);
 
 		if (subnew)
-			rdt->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)RichEditSubclass);
+			mir_subclassWindow(hwnd, RichEditSubclass);
 	}
-	else
-	{
-		if (hContact && !rdt->hContact) rdt->hContact = hContact; 
-		if (subany && rdt->wpOrigWndProc == NULL) 
-			rdt->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)RichEditSubclass);
+	else {
+		if (hContact && !rdt->hContact)
+			rdt->hContact = hContact; 
+
+		if (subany) 
+			mir_subclassWindow(hwnd, RichEditSubclass);
 	}
 	return true;
 }
@@ -419,17 +396,21 @@ bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew)
 static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	RichEditOwnerData* rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
-	if (rdto == NULL) return 0;
+	if (rdto == NULL)
+		return 0;
 
-	WNDPROC wpOrigWndProc = rdto->wpOrigWndProc;
-
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case WM_DESTROY:
-		{
+		if ( !Miranda_Terminated()) {
+			CHARRANGE sel = allsel;
+			if (rdto->hwndInput)
+				ReplaceSmileysWithText(rdto->hwndInput, sel, false);
+			if (rdto->hwndLog)
+				ReplaceSmileysWithText(rdto->hwndLog, sel, false);
+		}
+		else {
 			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
-			if (rdt && (!rdt->inputarea || opt.InputSmileys))
-			{
+			if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
 				CHARRANGE sel = allsel;
 				rdt->dontReplace = true;
 				ReplaceSmileysWithText(rdt->hwnd, sel, false);
@@ -438,13 +419,10 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 		CloseRichOwnerCallback(hwnd, false);
 		break;
 
-
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624)
-		{
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
 			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
-			if (rdt && (!rdt->inputarea || opt.InputSmileys))
-			{
+			if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
 				rdt->dontReplace = true;
 				CHARRANGE sel = allsel;
 				ReplaceSmileysWithText(rdt->hwnd, sel, false);
@@ -453,20 +431,17 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 		break;
 	}
 
-	LRESULT result = CallWindowProc(wpOrigWndProc, hwnd, uMsg, wParam, lParam); 
+	LRESULT result = mir_callNextSubclass(hwnd, RichEditOwnerSubclass, uMsg, wParam, lParam); 
 
-	switch(uMsg) 
-	{
+	switch(uMsg) {
 	case WM_DESTROY:
 		CloseRichOwnerCallback(hwnd, true);
 		break;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) // && lParam == 0)
-		{
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
 			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
-			if (rdt)
-			{
+			if (rdt) {
 				CHARRANGE sel = allsel;
 				if (!result) ReplaceContactSmileys(rdt, sel, false, false);
 				rdt->dontReplace = false;
@@ -480,41 +455,32 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 void CloseRichOwnerCallback(HWND hwnd, bool force)
 {
 	int ind = g_RichEditOwnerList.getIndex((RichEditOwnerData*)&hwnd);
-	if ( ind != -1 ) 
-	{
-		RichEditOwnerData* rdto = g_RichEditOwnerList[ind];
-		bool richsub = GetWindowLongPtr(hwnd, GWLP_WNDPROC) == (LONG_PTR)RichEditOwnerSubclass;
-		if (richsub) 
-		{
-			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)rdto->wpOrigWndProc);
-			rdto->wpOrigWndProc = NULL;
-		}
-		if (force)
-		{
-			CloseRichCallback(rdto->hwndInput, true);
-			CloseRichCallback(rdto->hwndLog, true);
+	if (ind == -1)
+		return;
 
-			delete rdto;
-			g_RichEditOwnerList.remove(ind);
-		}
+	RichEditOwnerData* rdto = g_RichEditOwnerList[ind];
+	if (rdto && force) {
+		CloseRichCallback(rdto->hwndInput, true);
+		CloseRichCallback(rdto->hwndLog, true);
+
+		delete rdto;
+		g_RichEditOwnerList.remove(ind);
 	}
 }
 
 void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 {
 	RichEditOwnerData* rdto = g_RichEditOwnerList.find((RichEditOwnerData*)&hwnd);
-	if (rdto == NULL)
-	{
+	if (rdto == NULL) {
 		rdto = new RichEditOwnerData;
-
 		rdto->hwnd = hwnd;
 		rdto->hwndInput = hwndInput;
 		rdto->hwndLog = hwndLog;
-		rdto->wpOrigWndProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)RichEditOwnerSubclass);
 		g_RichEditOwnerList.insert(rdto);
+
+		mir_subclassWindow(hwnd, RichEditOwnerSubclass);
 	}
-	else
-	{
+	else {
 		if (rdto->hwndInput == NULL) rdto->hwndInput = hwndInput;
 		if (rdto->hwndLog == NULL) rdto->hwndLog = hwndLog;
 	}
@@ -522,24 +488,17 @@ void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 
 void ProcessAllInputAreas(bool restoreText)
 {
-	for (int i=g_RichEditList.getCount(); i--; ) 
-	{
+	for (int i=g_RichEditList.getCount(); i--; ) {
 		RichEditData* rdt = g_RichEditList[i];
-		if (rdt->inputarea)
-		{
-			if (restoreText)
-			{
+		if (rdt->inputarea) {
+			if (restoreText) {
 				CHARRANGE sel = allsel;
 				ReplaceContactSmileysWithText(rdt, sel, false);
 			}
-			else
-			{
-				ReplaceContactSmileys(rdt, allsel, false, false);
-			}
+			else ReplaceContactSmileys(rdt, allsel, false, false);
 		}
 	}
 }
-
 
 void  RichEditData_Destroy(void)
 {

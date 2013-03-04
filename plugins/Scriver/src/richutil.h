@@ -30,7 +30,6 @@ typedef struct {
 	HWND hwnd;
 	RECT rect;
 	int hasUglyBorder;
-	WNDPROC origProc;
 } TRichUtil;
 
 void RichUtil_Load();

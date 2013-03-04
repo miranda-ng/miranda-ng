@@ -170,24 +170,23 @@ static BOOL CALLBACK ClipSiblingsChildEnumProc(HWND hwnd, LPARAM)
 	return TRUE;
 }
 
-static WNDPROC OldSendEditProc;
 static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_CHAR:
-			if (wParam == '\n' && GetKeyState(VK_CONTROL)&0x8000) {
-				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-				return 0;
-			}
-			break;
-		case WM_SYSCHAR:
-			if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU)&0x8000) {
-				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-				return 0;
-			}
-			break;
+	case WM_CHAR:
+		if (wParam == '\n' && GetKeyState(VK_CONTROL)&0x8000) {
+			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+			return 0;
+		}
+		break;
+	case WM_SYSCHAR:
+		if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU)&0x8000) {
+			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+			return 0;
+		}
+		break;
 	}
-	return CallWindowProc(OldSendEditProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, SendEditSubclassProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -210,7 +209,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		TranslateDialogDefault(hwndDlg);
 		EnumChildWindows(hwndDlg, ClipSiblingsChildEnumProc, 0);
-		OldSendEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)SendEditSubclassProc);
+		mir_subclassWindow( GetDlgItem(hwndDlg, IDC_MSG), SendEditSubclassProc);
 
 		Window_SetIcon_IcoLib(hwndDlg, SKINICON_EVENT_FILE);
 		Button_SetIcon_IcoLib(hwndDlg, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View User's Details"));
@@ -349,7 +348,6 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		if (dat)
 			FreeFileDlgData(dat);
 
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)OldSendEditProc);
 		return TRUE;
 	}
 	return FALSE;

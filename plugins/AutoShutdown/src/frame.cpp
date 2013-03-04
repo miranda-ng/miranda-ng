@@ -76,7 +76,7 @@ static LRESULT CALLBACK ProgressBarSubclassProc(HWND hwndProgress,UINT msg,WPARA
 		case WM_LBUTTONDBLCLK:
 			return SendMessage(GetParent(hwndProgress),msg,wParam,lParam);
 	}
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwndProgress, GWLP_USERDATA), hwndProgress, msg, wParam, lParam);
+	return mir_callNextSubclass(hwndProgress, ProgressBarSubclassProc, msg, wParam, lParam);
 }
 
 /************************* Window Class *******************************/
@@ -153,7 +153,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL);
 			if(dat->hwndProgress==NULL) return -1; /* creation failed, calls WM_DESTROY */
 			SendMessage(dat->hwndProgress,PBM_SETSTEP,(WPARAM)1,0);
-			SetWindowLongPtr(dat->hwndProgress, GWLP_USERDATA, SetWindowLongPtr(dat->hwndProgress, GWLP_WNDPROC, (LONG)ProgressBarSubclassProc));
+			mir_subclassWindow(dat->hwndProgress, ProgressBarSubclassProc);
 			dat->hwndDesc=CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 					_T("Static"),
 					(dat->fTimeFlags&SDWTF_ST_TIME)?TranslateT("Shutdown at:"):TranslateT("Time left:"),

@@ -438,7 +438,6 @@ static void GetOpenBrowserUrls(HWND hwndDlg, HWND hwndCombo)
 	GetOpenBrowserUrlsForBrowser("iexplore", hwndDlg, hwndCombo);
 }
 
-static WNDPROC OldSendEditProc;
 static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
@@ -455,7 +454,7 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		}
 		break;
 	}
-	return CallWindowProc(OldSendEditProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, SendEditSubclassProc, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -489,8 +488,8 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCOUNT, 0, 0))SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_URLS, CBN_SELCHANGE), 0);
 		EnableWindow(GetDlgItem(hwndDlg, IDOK), (SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCURSEL, 0, 0) == CB_ERR)?FALSE:TRUE);
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, "SRUrl", "send");
-		OldSendEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWLP_WNDPROC, (LONG_PTR)SendEditSubclassProc);
-		OldSendEditProc = (WNDPROC)SetWindowLongPtr(GetWindow(GetDlgItem(hwndDlg, IDC_URLS), GW_CHILD), GWLP_WNDPROC, (LONG_PTR)SendEditSubclassProc);
+		mir_subclassWindow( GetDlgItem(hwndDlg, IDC_MESSAGE), SendEditSubclassProc);
+		mir_subclassWindow( GetWindow(GetDlgItem(hwndDlg, IDC_URLS), GW_CHILD), SendEditSubclassProc);
 
 		// From message dlg
 		if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
@@ -647,8 +646,6 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 
 		WindowList_Remove(hUrlWindowList, hwndDlg);
-		SetWindowLongPtr(GetWindow(GetDlgItem(hwndDlg, IDC_URLS), GW_CHILD), GWLP_WNDPROC, (LONG_PTR)OldSendEditProc);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWLP_WNDPROC, (LONG_PTR)OldSendEditProc);
 		if (dat->hAckEvent) UnhookEvent(dat->hAckEvent);
 		if (dat->sendBuffer != NULL) mir_free(dat->sendBuffer);
 		mir_free(dat);

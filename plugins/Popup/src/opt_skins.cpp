@@ -149,35 +149,29 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 	FrameRect(hdc, &rc, GetStockBrush(LTGRAY_BRUSH));
 }
 
-static WNDPROC WndProcPreviewBoxSave;
 LRESULT CALLBACK WndProcPreviewBox(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (!wndPreview)
-		return CallWindowProc(WndProcPreviewBoxSave, hwnd, msg, wParam, lParam);
+		return mir_callNextSubclass(hwnd, WndProcPreviewBox, msg, wParam, lParam);
 
-	switch (msg)
-	{
-		case WM_PAINT:
+	switch (msg) {
+	case WM_PAINT:
+		if (GetUpdateRect(hwnd, 0, FALSE))
 		{
-			if (GetUpdateRect(hwnd, 0, FALSE))
-			{
-				PAINTSTRUCT ps;
-				HDC hdc = BeginPaint(hwnd, &ps);
-				DrawPreview(hwnd, hdc);
-				EndPaint(hwnd, &ps);
-				return 0;
-			}
-		}
-
-		case WM_PRINT:
-		case WM_PRINTCLIENT:
-		{
-			HDC hdc = (HDC)wParam;
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
 			DrawPreview(hwnd, hdc);
+			EndPaint(hwnd, &ps);
 			return 0;
 		}
+
+	case WM_PRINT:
+	case WM_PRINTCLIENT:
+		HDC hdc = (HDC)wParam;
+		DrawPreview(hwnd, hdc);
+		return 0;
 	}
-	return CallWindowProc(WndProcPreviewBoxSave, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, WndProcPreviewBox, msg, wParam, lParam);
 }
 
 int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions) {
@@ -332,26 +326,24 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			else if (lstrcmp(skinOptions[index].pszSettingName, _T("Global settings")) == 0) {
 				switch (skinOptions[index].dwFlag) {
-					case (1 << 0):
-						PopUpOptions.DisplayTime = skinOptions[index].bState;
-						break;
-					case (1 << 1):
-						PopUpOptions.DropShadow = skinOptions[index].bState;
-						break;
-					case (1 << 2):
-						PopUpOptions.EnableFreeformShadows = skinOptions[index].bState;
-						break;
-					case (1 << 3):
-						PopUpOptions.EnableAeroGlass = skinOptions[index].bState;
-						break;
-					case (1 << 4):
-						PopUpOptions.UseWinColors = skinOptions[index].bState;
-						break;
-					case (1 << 5):
-						PopUpOptions.UseMText = skinOptions[index].bState;
-						break;
-					default:
-						break;
+				case (1 << 0):
+					PopUpOptions.DisplayTime = skinOptions[index].bState;
+					break;
+				case (1 << 1):
+					PopUpOptions.DropShadow = skinOptions[index].bState;
+					break;
+				case (1 << 2):
+					PopUpOptions.EnableFreeformShadows = skinOptions[index].bState;
+					break;
+				case (1 << 3):
+					PopUpOptions.EnableAeroGlass = skinOptions[index].bState;
+					break;
+				case (1 << 4):
+					PopUpOptions.UseWinColors = skinOptions[index].bState;
+					break;
+				case (1 << 5):
+					PopUpOptions.UseMText = skinOptions[index].bState;
+					break;
 				}
 			}
 			updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
@@ -360,8 +352,8 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	}
 
 	switch (msg) {
-		case WM_INITDIALOG:
-			{
+	case WM_INITDIALOG:
+		{
 			HWND		hCtrl	= NULL;
 			DWORD		dwIndex	= 0;
 
@@ -385,7 +377,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);
 
 			//PreviewBox
-			WndProcPreviewBoxSave = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PREVIEWBOX), GWLP_WNDPROC, (LONG_PTR)WndProcPreviewBox);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PREVIEWBOX), WndProcPreviewBox);
 			updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
 
 			//hooks
@@ -393,164 +385,149 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			TranslateDialogDefault(hwndDlg);
 			bDlgInit = true;
-			}
-			return TRUE;
+		}
+		return TRUE;
 
-		case WM_USER:
-			{
-			updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-			}
-			return TRUE;
+	case WM_USER:
+		updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
+		return TRUE;
 
-		case WM_COMMAND: {
+	case WM_COMMAND:
+		{
 			HWND hCtrl	= NULL;
 			UINT idCtrl	= LOWORD(wParam);
 			switch (HIWORD(wParam)) {
-				case BN_KILLFOCUS:		//Button controls
-				case BN_SETFOCUS:		//Button controls
-					return TRUE;
+			case BN_KILLFOCUS:		//Button controls
+			case BN_SETFOCUS:		//Button controls
+				return TRUE;
+				break;
+			case BN_CLICKED:		//Button controls
+				switch(idCtrl) {
+				case IDC_PREVIEW:
+					PopUpPreview();
 					break;
-				case BN_CLICKED:		//Button controls
-					switch(idCtrl)
+
+				case IDC_BTN_RELOAD:
 					{
-						case IDC_PREVIEW:
-							{
-							PopUpPreview();
-							}
-							break;
-						case IDC_BTN_RELOAD:
-							{
-							LPTSTR Temp		= NULL;
-							DWORD  dwIndex	= 0;
-							TCHAR  szNewSkin[128];
-							LPTSTR pszOldSkin = mir_tstrdup(PopUpOptions.SkinPack);
-							skins.load(_T(""));
-							hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
-							ListBox_ResetContent(hCtrl);
-							for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
-							{
-								dwIndex = ListBox_AddString(hCtrl, sl->name);
-								ListBox_SetItemData(hCtrl, dwIndex, sl->name);
-							}
-							ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopUpOptions.SkinPack));
-							//make shure we have select skin (ListBox_SetCurSel may be fail)
-							ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
-							if (lstrcmp(pszOldSkin, szNewSkin) != 0) {
-								mir_free(PopUpOptions.SkinPack);
-								PopUpOptions.SkinPack = mir_tstrdup(szNewSkin);
-							}
-							mir_free(pszOldSkin);
-
-							const PopupSkin *skin = 0;
-							if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
-								//update Skin Option List from reload SkinPack
-								bDlgInit = false;
-								bDlgInit = SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);
-							}
-
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-							}//end IDC_BTN_RELOAD:
-							break;
-						case IDC_GETSKINS:
-							CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://miranda-ng.org/");
-							break;
-						default:
-							break;
-					}//end switch(idCtrl)
-					updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-					break;
-				case CBN_SELCHANGE:		//combo box controls
-					switch(idCtrl) {
-						case IDC_SKINLIST: {
-							//Skin list change
+						LPTSTR Temp		= NULL;
+						DWORD  dwIndex	= 0;
+						TCHAR  szNewSkin[128];
+						LPTSTR pszOldSkin = mir_tstrdup(PopUpOptions.SkinPack);
+						skins.load(_T(""));
+						hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
+						ListBox_ResetContent(hCtrl);
+						for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
+						{
+							dwIndex = ListBox_AddString(hCtrl, sl->name);
+							ListBox_SetItemData(hCtrl, dwIndex, sl->name);
+						}
+						ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopUpOptions.SkinPack));
+						//make shure we have select skin (ListBox_SetCurSel may be fail)
+						ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
+						if (lstrcmp(pszOldSkin, szNewSkin) != 0) {
 							mir_free(PopUpOptions.SkinPack);
-							PopUpOptions.SkinPack = mir_tstrdup((TCHAR *)SendDlgItemMessage(
-								hwndDlg,
-								IDC_SKINLIST,
-								LB_GETITEMDATA,
-								(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL,0,0),
-								0));
-							const PopupSkin *skin = 0;
-							if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
-								mir_free(PopUpOptions.SkinPack);
-								PopUpOptions.SkinPack = mir_tstrdup(skin->getName());
+							PopUpOptions.SkinPack = mir_tstrdup(szNewSkin);
+						}
+						mir_free(pszOldSkin);
 
-								//update Skin Option List
-								bDlgInit = false;
-								bDlgInit = SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);
-							}
-							updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
-							}
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-							break;
-						default:
-							break;
-					}//end switch(idCtrl)
+						const PopupSkin *skin = 0;
+						if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
+							//update Skin Option List from reload SkinPack
+							bDlgInit = false;
+							bDlgInit = SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);
+						}
+
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}//end IDC_BTN_RELOAD:
+					break;
+				case IDC_GETSKINS:
+					CallService(MS_UTILS_OPENURL,0,(LPARAM)"http://miranda-ng.org/");
 					break;
 				default:
 					break;
+				}//end switch(idCtrl)
+				updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
+				break;
+			case CBN_SELCHANGE:		//combo box controls
+				switch(idCtrl) {
+				case IDC_SKINLIST:
+					{
+						//Skin list change
+						mir_free(PopUpOptions.SkinPack);
+						PopUpOptions.SkinPack = mir_tstrdup((TCHAR *)SendDlgItemMessage(
+							hwndDlg,
+							IDC_SKINLIST,
+							LB_GETITEMDATA,
+							(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL,0,0),
+							0));
+						const PopupSkin *skin = 0;
+						if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
+							mir_free(PopUpOptions.SkinPack);
+							PopUpOptions.SkinPack = mir_tstrdup(skin->getName());
+
+							//update Skin Option List
+							bDlgInit = false;
+							bDlgInit = SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);
+						}
+						updatePreviewImage(GetDlgItem(hwndDlg, IDC_PREVIEWBOX));
+					}
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					break;
+				}//end switch(idCtrl)
+				break;
 			}//end switch (HIWORD(wParam))
 			break;
-			}// end WM_COMMAND
-			return FALSE;
+		}// end WM_COMMAND
+		return FALSE;
 
-		case WM_NOTIFY: {
-			if (!bDlgInit) return FALSE;
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0: {
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_RESET:
-					LoadOption_Skins();
-					return TRUE;
-				case PSN_APPLY: 
-					{	//skin pack
-						DBWriteContactSettingTString(NULL, MODULNAME, "SkinPack", PopUpOptions.SkinPack);
-						//skin options
-						const PopupSkin *skin = 0;
-						if (skin = skins.getSkin(PopUpOptions.SkinPack))
-							skin->saveOpts();
-						skins.freeAllButActive();
-						//more Skin options
-						DBWriteContactSettingByte(NULL, MODULNAME, "DisplayTime", PopUpOptions.DisplayTime);
-						DBWriteContactSettingByte(NULL, MODULNAME, "DropShadow", PopUpOptions.DropShadow);
-						DBWriteContactSettingByte(NULL, MODULNAME, "EnableShadowRegion", PopUpOptions.EnableFreeformShadows);
-						DBWriteContactSettingByte(NULL, MODULNAME, "EnableAeroGlass", PopUpOptions.EnableAeroGlass);
-						DBWriteContactSettingByte(NULL, MODULNAME, "UseMText", PopUpOptions.UseMText);
-					}//end PSN_APPLY:
-					return TRUE;
-				default:
-					break;
-				}//switch (((LPNMHDR)lParam)->code)
-				}// end case 0:
-				break;
-			default:
-				break;
-			}//end switch (((LPNMHDR)lParam)->idFrom)
-			}//end WM_NOTIFY:
-			return FALSE;
+	case WM_NOTIFY:
+		if (!bDlgInit) return FALSE;
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				LoadOption_Skins();
+				return TRUE;
 
-		case WM_DESTROY:
-			{
-				if (wndPreview) {
-					delete wndPreview;
-					wndPreview = NULL;
-					gPreviewOk = false;
-				}
-				if (hhkFontsReload) UnhookEvent(hhkFontsReload);
-				if (skinOptions) {
-					for (int i=0; i < skinOptionsCount; ++i) {
-						mir_free(skinOptions[i].pszOptionName);
-						mir_free(skinOptions[i].pszSettingName);
-					}
-					mir_free(skinOptions);
-					skinOptions = NULL;
-					skinOptionsCount = 0;
-				}
-			}
-			return TRUE;
-
-		default:
+			case PSN_APPLY: 
+				{
+					//skin pack
+					DBWriteContactSettingTString(NULL, MODULNAME, "SkinPack", PopUpOptions.SkinPack);
+					//skin options
+					const PopupSkin *skin = 0;
+					if (skin = skins.getSkin(PopUpOptions.SkinPack))
+						skin->saveOpts();
+					skins.freeAllButActive();
+					//more Skin options
+					DBWriteContactSettingByte(NULL, MODULNAME, "DisplayTime", PopUpOptions.DisplayTime);
+					DBWriteContactSettingByte(NULL, MODULNAME, "DropShadow", PopUpOptions.DropShadow);
+					DBWriteContactSettingByte(NULL, MODULNAME, "EnableShadowRegion", PopUpOptions.EnableFreeformShadows);
+					DBWriteContactSettingByte(NULL, MODULNAME, "EnableAeroGlass", PopUpOptions.EnableAeroGlass);
+					DBWriteContactSettingByte(NULL, MODULNAME, "UseMText", PopUpOptions.UseMText);
+				}//end PSN_APPLY:
+				return TRUE;
+			}//switch (((LPNMHDR)lParam)->code)
 			break;
+		}//end switch (((LPNMHDR)lParam)->idFrom)
+		return FALSE;
+
+	case WM_DESTROY:
+		if (wndPreview) {
+			delete wndPreview;
+			wndPreview = NULL;
+			gPreviewOk = false;
+		}
+		if (hhkFontsReload) UnhookEvent(hhkFontsReload);
+		if (skinOptions) {
+			for (int i=0; i < skinOptionsCount; ++i) {
+				mir_free(skinOptions[i].pszOptionName);
+				mir_free(skinOptions[i].pszSettingName);
+			}
+			mir_free(skinOptions);
+			skinOptions = NULL;
+			skinOptionsCount = 0;
+		}
+		return TRUE;
 	}//end switch (msg)
 	return FALSE;
 }

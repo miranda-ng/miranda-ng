@@ -1816,8 +1816,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 		CLUI::SnappingToEdge( wp );
 		return DefWindowProc(m_hWnd,msg,wParam,lParam);
 	}
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_DISPLAYCHANGE:
 		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 		return TRUE;

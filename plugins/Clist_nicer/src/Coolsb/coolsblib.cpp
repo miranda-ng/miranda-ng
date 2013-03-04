@@ -240,7 +240,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 
 	sw->bPreventStyleChange		 = FALSE;
 	
-	sw->oldproc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)CoolSBWndProc);
+	mir_subclassWindow(hwnd, CoolSBWndProc);
 
 	CoolSB_SetMinThumbSize(hwnd, SB_BOTH, CoolSB_GetDefaultMinThumbSize());
 
@@ -574,17 +574,14 @@ HRESULT WINAPI UninitializeCoolSB(HWND hwnd)
 	SCROLLWND *sw = GetScrollWndFromHwnd(hwnd);
 	if ( !sw) return E_FAIL;
 
-	//restore the window procedure with the original one
-	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)sw->oldproc);
-
 	RemoveProp(hwnd, szPropStr);
 	//SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 
 	//finally, release the memory needed for the cool scrollbars
 	HeapFree(GetProcessHeap(), 0, sw);
 
-    //Force WM_NCCALCSIZE and WM_NCPAINT so the original scrollbars can kick in
-    RedrawNonClient(hwnd, TRUE);
+	//Force WM_NCCALCSIZE and WM_NCPAINT so the original scrollbars can kick in
+	RedrawNonClient(hwnd, TRUE);
 
 	return S_OK;
 }

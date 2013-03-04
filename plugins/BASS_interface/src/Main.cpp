@@ -325,8 +325,6 @@ static void EnableFrameIcon(bool bEnable)
 	}
 }
 
-static WNDPROC OldSliderWndProc = 0;
-
 static void fnPainter(MButtonCtrl *btn, HDC hdc)
 {
 	DrawIconEx(hdc, 0, 0, btn->hIcon, 16, 16, 0, hBkgBrush, DI_NORMAL);
@@ -338,7 +336,7 @@ static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_ERASEBKGND:
 		return TRUE;
 	}
-	return CallWindowProc(OldSliderWndProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, SliderWndProc, msg, wParam, lParam);
 }
 
 static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -358,7 +356,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
 		SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 		SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
-		OldSliderWndProc = (WNDPROC)SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LPARAM)SliderWndProc);
+		mir_subclassWindow(hwndSlider, SliderWndProc);
 		break;
 
 	case WM_COMMAND:
@@ -407,11 +405,6 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			SetBkColor(dc, clBack);
 			return (BOOL)hBkgBrush;
 		}
-		break;
-
-	case WM_DESTROY:
-		if (hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
-			SetWindowLongPtr(hwndSlider, GWLP_WNDPROC, (LONG)OldSliderWndProc);
 		break;
 
 	default:

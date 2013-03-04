@@ -523,7 +523,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		dlg->changed = TRUE;
 	}
 
-	return CallWindowProc(dlg->owner_old_edit_proc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, OwnerProc, msg, wParam, lParam);
 }
 
 void ToggleEnabled(Dialog *dlg)
@@ -565,7 +565,7 @@ LRESULT CALLBACK EditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 
-	LRESULT ret = CallWindowProc(dlg->old_edit_proc, hwnd, msg, wParam, lParam);
+	LRESULT ret = mir_callNextSubclass(hwnd, EditProc, msg, wParam, lParam);
 
 	switch(msg) {
 	case WM_KEYDOWN:
@@ -932,12 +932,12 @@ int AddContactTextBox(HANDLE hContact, HWND hwnd, char *name, BOOL srmm, HWND hw
 		if (opts.auto_locale)
 			LoadDictFromKbdl(dlg);
 
-		dlg->old_edit_proc = (WNDPROC) SetWindowLongPtr(dlg->hwnd, GWLP_WNDPROC, (LONG_PTR) EditProc);
+		mir_subclassWindow(dlg->hwnd, EditProc);
 		dialogs[hwnd] = dlg;
 
 		if (dlg->srmm && hwndOwner != NULL) {
 			dlg->hwnd_owner = hwndOwner;
-			dlg->owner_old_edit_proc = (WNDPROC) SetWindowLongPtr(dlg->hwnd_owner, GWLP_WNDPROC, (LONG_PTR) OwnerProc);
+			mir_subclassWindow(dlg->hwnd_owner, OwnerProc);
 			dialogs[dlg->hwnd_owner] = dlg;
 
 			ModifyIcon(dlg);
@@ -958,14 +958,6 @@ void FreePopupData(Dialog *dlg)
 {
 	DESTROY_MENY(dlg->hLanguageSubMenu)
 	DESTROY_MENY(dlg->hWrongWordsSubMenu)
-
-	if (dlg->old_menu_proc != NULL)
-		SetWindowLongPtr(dlg->hwnd_menu_owner, GWLP_WNDPROC, (LONG_PTR) dlg->old_menu_proc);
-	dlg->old_menu_proc = NULL;
-
-	if (dlg->hwnd_menu_owner != NULL)
-		menus.erase(dlg->hwnd_menu_owner);
-	dlg->hwnd_menu_owner = NULL;
 
 	if (dlg->wrong_words != NULL) {
 		for (unsigned i = 0; i < dlg->wrong_words->size(); i++) {
@@ -1000,15 +992,9 @@ int RemoveContactTextBox(HWND hwnd)
 
 		KillTimer(hwnd, TIMER_ID);
 
-		if (dlg->old_edit_proc != NULL)
-			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) dlg->old_edit_proc);
 		dialogs.erase(hwnd);
-
-		if (dlg->hwnd_owner != NULL) {
-			if (dlg->owner_old_edit_proc != NULL)
-				SetWindowLongPtr(dlg->hwnd_owner, GWLP_WNDPROC, (LONG_PTR) dlg->owner_old_edit_proc);
+		if (dlg->hwnd_owner != NULL)
 			dialogs.erase(dlg->hwnd_owner);
-		}
 
 		delete dlg->re;
 		FreePopupData(dlg);
@@ -1200,7 +1186,7 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 		dlg->hLanguageSubMenu = CreatePopupMenu();
 
 		if (dlg->hwnd_menu_owner != NULL)
-			dlg->old_menu_proc = (WNDPROC) SetWindowLongPtr(dlg->hwnd_menu_owner, GWLP_WNDPROC, (LONG_PTR) MenuWndProc);
+			mir_subclassWindow(dlg->hwnd_menu_owner, MenuWndProc);
 
 		// First add languages
 		for (int i = 0; i < languages.getCount(); i++)
@@ -1450,7 +1436,7 @@ int IconPressed(WPARAM wParam, LPARAM lParam)
 			if (opts.use_flags) {
 				menus[dlg->hwnd] = dlg;
 				dlg->hwnd_menu_owner = dlg->hwnd;
-				dlg->old_menu_proc = (WNDPROC) SetWindowLongPtr(dlg->hwnd_menu_owner, GWLP_WNDPROC, (LONG_PTR) MenuWndProc);
+				mir_subclassWindow(dlg->hwnd_menu_owner, MenuWndProc);
 			}
 
 			// First add languages
@@ -1607,7 +1593,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	return CallWindowProc(dlg->old_menu_proc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, MenuWndProc, msg, wParam, lParam);
 }
 
 TCHAR *lstrtrim(TCHAR *str)

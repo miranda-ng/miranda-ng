@@ -24,25 +24,17 @@ Last change by : $Author: y_b $
 */
 #include "seen.h"
 
-
-
-WNDPROC MainProc;
-
-
-
 extern HINSTANCE hInstance;
 extern DWORD dwmirver;
 
-
-
-BOOL CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
 	switch(msg){
 	case WM_SETCURSOR:
 		SetCursor(LoadCursor(NULL,IDC_ARROW));
 		return 1;
 	}
-	return CallWindowProc(MainProc,hdlg,msg,wparam,lparam);
+	return mir_callNextSubclass(hdlg, EditProc, msg, wparam, lparam);
 }
 
 INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
@@ -51,7 +43,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	
 	switch(msg) {
 	case WM_INITDIALOG:
-		MainProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg, IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
+		mir_subclassWindow( GetDlgItem(hdlg, IDC_INFOTEXT), EditProc);
 		{
 			TCHAR *szout;
 			if ( !DBGetContactSettingTString(NULL, S_MOD, "UserStamp", &dbv)) {

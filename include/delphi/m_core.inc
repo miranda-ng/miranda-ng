@@ -578,6 +578,9 @@ function mir_utf8checkstring(const astr:PAnsiChar):bool;stdcall;
 procedure mir_subclassWindow(Wnd: HWND; WndProc: WNDPROC); stdcall;
                        external CoreDLL name 'mir_subclassWindow';
 
+procedure mir_subclassWindowFull(Wnd: HWND; WndProc, OldWndProc: WNDPROC); stdcall;
+                       external CoreDLL name 'mir_subclassWindowFull';
+
 function  mir_callNextSubclass(Wnd: HWND; WndProc: WNDPROC; uMsg: uint; wParam: WPARAM; lParam: LPARAM ): LRESULT; stdcall;
                        external CoreDLL name 'mir_callNextSubclass';
 

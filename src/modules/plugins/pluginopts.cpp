@@ -229,8 +229,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 						ListView_SetItem(hwnd, &lvi);
 	}	}	}	}	}
 
-	WNDPROC wnProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	return CallWindowProc(wnProc, hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
 }
 
 static int CALLBACK SortPlugins(WPARAM i1, LPARAM i2, LPARAM lParamSort)
@@ -254,8 +253,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwndDlg);
 		{
 			HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
-			SetWindowLongPtr(hwndList, GWLP_USERDATA, (LONG_PTR)GetWindowLongPtr(hwndList, GWLP_WNDPROC));
-			SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
+			mir_subclassWindow(hwndList, PluginListWndProc);
 
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
 			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);

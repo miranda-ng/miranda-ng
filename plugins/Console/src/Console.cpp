@@ -248,89 +248,82 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 
 	switch (msg) {
 
-		case WM_KEYDOWN:
-			if ( wParam == VK_DELETE && !ctrl) {
-				SendMessage(GetParent(hwnd), WM_COMMAND, IDC_DELETE, 0);
-				break;
-			}
+	case WM_KEYDOWN:
+		if ( wParam == VK_DELETE && !ctrl) {
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_DELETE, 0);
+			break;
+		}
 
-			if (wParam == VK_LEFT && ctrl)
-			{
-			    NMHDR nmhdr = {0};
-   				int tab = TabCtrl_GetCurSel(hTabs);
+		if (wParam == VK_LEFT && ctrl)
+		{
+			NMHDR nmhdr = {0};
+			int tab = TabCtrl_GetCurSel(hTabs);
 
-				if (tab == 0)
-					tab = TabCtrl_GetItemCount(hTabs)-1;
-				else
-					tab--;
+			if (tab == 0)
+				tab = TabCtrl_GetItemCount(hTabs)-1;
+			else
+				tab--;
 
-				TabCtrl_SetCurSel(hTabs, tab);
-			    nmhdr.code = TCN_SELCHANGE;
-			    SendMessage(hwndConsole, WM_NOTIFY, IDC_TABS, (LPARAM)&nmhdr);
-				break;
-			}
+			TabCtrl_SetCurSel(hTabs, tab);
+			nmhdr.code = TCN_SELCHANGE;
+			SendMessage(hwndConsole, WM_NOTIFY, IDC_TABS, (LPARAM)&nmhdr);
+			break;
+		}
 
-			if (wParam == VK_RIGHT && ctrl)
-			{
-				NMHDR nmhdr = {0};
-				int tab = TabCtrl_GetCurSel(hTabs);
-				int count =  TabCtrl_GetItemCount(hTabs);
-				tab = (tab + 1) % count;
+		if (wParam == VK_RIGHT && ctrl)
+		{
+			NMHDR nmhdr = {0};
+			int tab = TabCtrl_GetCurSel(hTabs);
+			int count =  TabCtrl_GetItemCount(hTabs);
+			tab = (tab + 1) % count;
 
-				TabCtrl_SetCurSel(hTabs, tab);
-				nmhdr.code = TCN_SELCHANGE;
-				SendMessage(hwndConsole, WM_NOTIFY, IDC_TABS, (LPARAM)&nmhdr);
-				break;
-			}
+			TabCtrl_SetCurSel(hTabs, tab);
+			nmhdr.code = TCN_SELCHANGE;
+			SendMessage(hwndConsole, WM_NOTIFY, IDC_TABS, (LPARAM)&nmhdr);
+			break;
+		}
 
+		break;
+
+	case WM_CHAR:
+		// CTRL
+		if ( !(GetKeyState(VK_CONTROL)&0x8000))
 			break;
 
-		case WM_CHAR:
-/*
-			{
-				char t[32];
-				sprintf(t,"%u\n",wParam);
-				OutputDebugStringA(t);
-			}
-*/
-			// CTRL
-			if ( !(GetKeyState(VK_CONTROL)&0x8000))
-				break;
+		switch(wParam) {
 
-			switch(wParam) {
+		case 1:	// Ctrl+A
+			if ( ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd))
+				ListView_SetItemState(hwnd, -1, LVIS_SELECTED, LVIS_SELECTED);
+			return 0;
 
-				case 1:	// Ctrl+A
-	   				if ( ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd))
-						ListView_SetItemState(hwnd, -1, LVIS_SELECTED, LVIS_SELECTED);
-					return 0;
+		case 3: // Ctrl+D
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_COPY, 0);
+			return 0;
 
-				case 3: // Ctrl+D
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_COPY, 0);
-					return 0;
+		case 15: // Ctrl+O
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_OPTIONS, 0);
+			return 0;
 
-				case 15: // Ctrl+O
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_OPTIONS, 0);
-					return 0;
+		case 16: // Ctrl+P
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_PAUSE, 0);
+			return 0;
 
-				case 16: // Ctrl+P
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_PAUSE, 0);
-					return 0;
+		case 17: // Ctrl+Q
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_SCROLL, 0);
+			return 0;
 
-				case 17: // Ctrl+Q
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_SCROLL, 0);
-					return 0;
+		case 19: // Ctrl+S
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_SAVE, 0);
+			return 0;
 
-				case 19: // Ctrl+S
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_SAVE, 0);
-					return 0;
-
-				case 23: // Ctrl+W
-					SendMessage(GetParent(hwnd), WM_COMMAND, IDC_CLOSE, 0);
-					return 0;
-			}
-			break;
-   	}       
-	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA),hwnd,msg,wParam,lParam);
+		case 23: // Ctrl+W
+			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_CLOSE, 0);
+			return 0;
+		}
+		break;
+	}       
+	return mir_callNextSubclass(hwnd, SubclassProc, msg, wParam, lParam);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -351,7 +344,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		dat->hList = GetDlgItem(hwndDlg, IDC_LIST);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)dat);
-		SetWindowLongPtr(dat->hList, GWLP_USERDATA, SetWindowLongPtr(dat->hList, GWLP_WNDPROC, (LONG)SubclassProc));
+		mir_subclassWindow(dat->hList, SubclassProc);
 
 		// init buttons
 		{
@@ -641,8 +634,8 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
 		break;
+
 	case WM_DESTROY:
-		SetWindowLongPtr(dat->hList, GWLP_WNDPROC, GetWindowLongPtr(dat->hList, GWLP_USERDATA));
 		SendMessage(hwndConsole, HM_REMOVE, 0, (LPARAM)dat);
 		break;
 	}
