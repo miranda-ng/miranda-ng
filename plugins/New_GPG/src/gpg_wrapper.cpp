@@ -71,6 +71,7 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 
 	pipe pout = create_pipe();
 	pipe perr = create_pipe();
+	child *c = nullptr;
 	{
 		file_descriptor_sink sout(pout.sink, close_handle);
 		file_descriptor_sink serr(perr.sink, close_handle);
@@ -78,8 +79,8 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 		char *mir_path = new char [MAX_PATH];
 		PathToAbsolute("\\", mir_path);
 
-		child c = execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path)));
-		_child = &c;
+		c = new child(execute(set_args(argv), bind_stdout(sout), bind_stderr(serr), close_stdin(),/*bind_stdin(sin),*/ show_window(SW_HIDE), hide_console(), inherit_env(), set_env(env), start_in_dir(toUTF16(mir_path))));
+		_child = c;
 
 		delete [] mir_path;
 	}
@@ -126,8 +127,9 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	if(bDebugLog)
 		debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
 
-//	auto ec = wait_for_exit(*_child);
-	*aexitcode = 0;
+	auto ec = wait_for_exit(*c);
+	delete c;
+	*aexitcode = ec;
 	_child = nullptr;
 
 
