@@ -479,8 +479,8 @@ void SaveAlpha(LPRECT lpRect)
 
 	if (lpRect->left < 0) lpRect->left = 0; 
 	if (lpRect->top < 0) lpRect->top = 0;
-	if (lpRect->right > skin.iWidth) lpRect->right = skin.iWidth;
-	if (lpRect->bottom > skin.iHeight) lpRect->bottom = skin.iHeight;
+	if (lpRect->right - lpRect->left > skin.iWidth) lpRect->right = lpRect->left + skin.iWidth;
+	if (lpRect->bottom - lpRect->top > skin.iHeight) lpRect->bottom = lpRect->top + skin.iHeight;
 
 	int x = lpRect->left;
 	int y = lpRect->top;

@@ -73,52 +73,40 @@ void Smileys_FreeParse(SMILEYPARSEINFO parseInfo)
 // parseInfo is optional (pass NULL and it will be calculated and deleted inside function
 int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SMILEYPARSEINFO parseInfo)
 {
-	int result;
-
 	if (nCount == -1)
 		nCount = (int)lstrlen(lpString);
 
-	if (uFormat & DT_CALCRECT)
-	{
+	if (uFormat & DT_CALCRECT) {
 		SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
 		lpRect->bottom = text_size.cy;
 
-		if (text_size.cx < lpRect->right - lpRect->left)
-		{
+		if (text_size.cx < lpRect->right - lpRect->left) {
 			if (uFormat & DT_RIGHT)
 				lpRect->left = lpRect->right - text_size.cx;
 			else
 				lpRect->right = lpRect->left + text_size.cx;
 		}
 
-		result = text_size.cy;
+		return text_size.cy;
 	}
-	else
-	{
-		// Draw
-		if (parseInfo->pieces == NULL)
-		{
-			result = DrawText(hDC, lpString, nCount, lpRect, uFormat);
-		}
+
+
+	// Draw
+	if (parseInfo->pieces == NULL)
+		return DrawText(hDC, lpString, nCount, lpRect, uFormat);
+
+	RECT rc = *lpRect;
+	SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
+
+	if (text_size.cx < rc.right - rc.left) {
+		if (uFormat & DT_RIGHT)
+			rc.left = rc.right - text_size.cx;
 		else
-		{
-			RECT rc = *lpRect;
-			SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
-
-			if (text_size.cx < rc.right - rc.left)
-			{
-				if (uFormat & DT_RIGHT)
-					rc.left = rc.right - text_size.cx;
-				else
-					rc.right = rc.left + text_size.cx;
-			}
-
-			result = text_size.cy;
-			DrawTextSmiley(hDC, rc, lpString, nCount, parseInfo, uFormat, parseInfo->max_height);
-		}
+			rc.right = rc.left + text_size.cx;
 	}
 
-	return result;
+	DrawTextSmiley(hDC, rc, lpString, nCount, parseInfo, uFormat, parseInfo->max_height);
+	return text_size.cy;
 }
 
 SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SMILEYPARSEINFO info, UINT uTextFormat, int max_smiley_height, int max_width)
