@@ -38,7 +38,7 @@ static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hwnd);
 	if (p != NULL) {
 		if (p->m_iHooks)
-			return p->m_hooks[0](hwnd, uMsg, wParam, lParam);
+			return p->m_hooks[p->m_iHooks-1](hwnd, uMsg, wParam, lParam);
 
 		return p->m_origWndProc(hwnd, uMsg, wParam, lParam);
 	}		
@@ -96,30 +96,28 @@ MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
 	if (p) {
-		int i;
-		for (i=0; i < p->m_iHooks; i++)
-			if (p->m_hooks[i] == wndProc)
-				break;
+		for (int i=p->m_iHooks-1; i >= 0; i--) {
+			if (p->m_hooks[i] == wndProc) {
+				// next hook exitst, call it 
+				if (i != 0)
+					return p->m_hooks[i-1](hWnd, uMsg, wParam, lParam);
+
+				// last hook called, ping the default window procedure
+				if (uMsg == WM_DESTROY) {
+					WNDPROC saveProc = p->m_origWndProc;
+					arSubclass.remove(p);
+					delete p;
+
+					SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
+					return CallWindowProc(saveProc, hWnd, uMsg, wParam, lParam);
+				}
+
+				return CallWindowProc(p->m_origWndProc, hWnd, uMsg, wParam, lParam);
+			}
+		}
 		
 		// invalid / closed hook
-		if (i == p->m_iHooks)
-			return 0;
-		
-		// next hook exitst, call it 
-		if (i != p->m_iHooks-1)
-			return p->m_hooks[i+1](hWnd, uMsg, wParam, lParam);
-
-		// last hook called, ping the default window procedure
-		if (uMsg == WM_DESTROY) {
-			WNDPROC saveProc = p->m_origWndProc;
-			arSubclass.remove(p);
-			delete p;
-
-			SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
-			return CallWindowProc(saveProc, hWnd, uMsg, wParam, lParam);
-		}
-
-		return CallWindowProc(p->m_origWndProc, hWnd, uMsg, wParam, lParam);
+		return 0;
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
