@@ -81,101 +81,97 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	static HWND hPreviousActiveWindow;
 
 	switch (msg) {
-		case WM_INITDIALOG: {
-			RECT rc;
-			int iSquareRoot;
-			int width ;
-			int height;
-
-			TranslateDialogDefault(hwndDlg);
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
 			pCC = (COLORCHOOSER*) lParam;
 
 			iCurrentHotTrack = -2;
 			bChoosing = FALSE;
 
-			iSquareRoot = (int)sqrt(static_cast<float>(pCC->pModule->nColorCount));
+			int iSquareRoot = (int)sqrt(static_cast<float>(pCC->pModule->nColorCount));
 
 			iColumns = iSquareRoot * iSquareRoot == pCC->pModule->nColorCount ? iSquareRoot : iSquareRoot + 1;
 			iRows = iSquareRoot;
 
+			RECT rc;
 			rc.top = rc.left = 100;
 			rc.right =  100 +  iColumns * 25 + 1;
 			rc.bottom = iRows * 20 + 100 + 20;
 
 			AdjustWindowRectEx(&rc, GetWindowLongPtr(hwndDlg, GWL_STYLE), FALSE, GetWindowLongPtr(hwndDlg, GWL_EXSTYLE));
 
-			width = rc.right - rc.left;
-			height = rc.bottom - rc.top;
+			int width = rc.right - rc.left;
+			int height = rc.bottom - rc.top;
 
 			pCC->yPosition -= height;
 
-
-			SetDlgItemText(hwndDlg, IDC_COLORTEXT, pCC->bForeground ? TranslateT("Text color") :
-						   TranslateT("Background color"));
+			SetDlgItemText(hwndDlg, IDC_COLORTEXT, pCC->bForeground ? TranslateT("Text color") : TranslateT("Background color"));
 			SetWindowPos(GetDlgItem(hwndDlg, IDC_COLORTEXT), NULL,  0, 0, width, 20, 0);
 			SetWindowPos(hwndDlg, NULL, pCC->xPosition, pCC->yPosition, width, height, SWP_SHOWWINDOW);
 		}
 		break;
 
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_COLORTEXT)) {
-				SetTextColor((HDC)wParam, RGB(60, 60, 150));
-				SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-				return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-			}
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_COLORTEXT)) {
+			SetTextColor((HDC)wParam, RGB(60, 60, 150));
+			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			if (iCurrentHotTrack >= 0)
+				PostMessage(hwndDlg, WM_LBUTTONUP, 0, 0);
 			break;
-
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-					if (iCurrentHotTrack >= 0)
-						PostMessage(hwndDlg, WM_LBUTTONUP, 0, 0);
-					break;
-				case IDCANCEL:
-					DestroyWindow(hwndDlg);
-					break;
-			}
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
 			break;
+		}
+		break;
 
-		case WM_LBUTTONUP:
-			if (iCurrentHotTrack >= 0 && iCurrentHotTrack < pCC->pModule->nColorCount && pCC->hWndTarget != NULL) {
-				HWND hWindow;
-				CHARFORMAT2 cf;
-				cf.cbSize = sizeof(CHARFORMAT2);
-				cf.dwMask = 0;
-				cf.dwEffects = 0;
-				hWindow = GetParent(pCC->hWndTarget);
+	case WM_LBUTTONUP:
+		if (iCurrentHotTrack >= 0 && iCurrentHotTrack < pCC->pModule->nColorCount && pCC->hWndTarget != NULL) {
+			HWND hWindow;
+			CHARFORMAT2 cf;
+			cf.cbSize = sizeof(CHARFORMAT2);
+			cf.dwMask = 0;
+			cf.dwEffects = 0;
+			hWindow = GetParent(pCC->hWndTarget);
 
-				if (pCC->bForeground) {
-					pCC->si->bFGSet = TRUE;
-					pCC->si->iFG = iCurrentHotTrack;
-					if (IsDlgButtonChecked(hWindow, IDC_COLOR)) {
-						cf.dwMask = CFM_COLOR;
-						cf.crTextColor = pCC->pModule->crColors[iCurrentHotTrack];
-						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-					}
-				} else {
-					pCC->si->bBGSet = TRUE;
-					pCC->si->iBG = iCurrentHotTrack;
-					if (IsDlgButtonChecked(hWindow, IDC_BKGCOLOR)) {
-						cf.dwMask = CFM_BACKCOLOR;
-						cf.crBackColor = pCC->pModule->crColors[iCurrentHotTrack];
-						SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-					}
+			if (pCC->bForeground) {
+				pCC->si->bFGSet = TRUE;
+				pCC->si->iFG = iCurrentHotTrack;
+				if (IsDlgButtonChecked(hWindow, IDC_COLOR)) {
+					cf.dwMask = CFM_COLOR;
+					cf.crTextColor = pCC->pModule->crColors[iCurrentHotTrack];
+					SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+				}
+			} else {
+				pCC->si->bBGSet = TRUE;
+				pCC->si->iBG = iCurrentHotTrack;
+				if (IsDlgButtonChecked(hWindow, IDC_BKGCOLOR)) {
+					cf.dwMask = CFM_BACKCOLOR;
+					cf.crBackColor = pCC->pModule->crColors[iCurrentHotTrack];
+					SendMessage(pCC->hWndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
 			}
+		}
+		PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+		break;
+
+	case WM_ACTIVATE:
+		if (wParam == WA_INACTIVE)
 			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			break;
+		else if ((wParam == WA_ACTIVE) || (wParam == WA_CLICKACTIVE))
+			hPreviousActiveWindow = (HWND)lParam;
+		break;
 
-		case WM_ACTIVATE:
-			if (wParam == WA_INACTIVE)
-				PostMessage(hwndDlg, WM_CLOSE, 0, 0);
-			else if ((wParam == WA_ACTIVE) || (wParam == WA_CLICKACTIVE))
-				hPreviousActiveWindow = (HWND)lParam;
-			break;
-
-		case WM_MOUSEMOVE: {
+	case WM_MOUSEMOVE:
+		{
 			HDC hdc = GetDC(hwndDlg);
 			POINT pt;
 			RECT rect;
@@ -207,26 +203,22 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 		break;
 
-		case WM_PAINT: {
+	case WM_PAINT:
+		{
 			PAINTSTRUCT ps;
-			HDC hdc;
-			RECT rc;
-			int i = 0;
 			int iThisRow = 1;
 			int iThisColumn = 0;
 
+			RECT rc;
 			GetClientRect(hwndDlg, &rc);
-
 			rc.top += 20;
 
-			hdc = BeginPaint(hwndDlg, &ps);
+			HDC hdc = BeginPaint(hwndDlg, &ps);
 
 			// fill background
 			FillRect(hdc, &rc, GetSysColorBrush(COLOR_WINDOW));
 
-			for (i; i < pCC->pModule->nColorCount; i++) {
-				HBRUSH hbr;
-
+			for (int i=0; i < pCC->pModule->nColorCount; i++) {
 				// decide place to draw the color block in the window
 				iThisColumn ++;
 				if (iThisColumn > iColumns) {
@@ -234,8 +226,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					iThisRow++;
 				}
 
-				if (pCC->bForeground && pCC->si->bFGSet && pCC->si->iFG == i ||
-						!pCC->bForeground && pCC->si->bBGSet && pCC->si->iBG == i) {
+				if (pCC->bForeground && pCC->si->bFGSet && pCC->si->iFG == i || !pCC->bForeground && pCC->si->bBGSet && pCC->si->iBG == i) {
 					rc.top = (iThisRow - 1) * 20 + 1 + 20 ;
 					rc.left = (iThisColumn - 1) * 25 + 1 + 1 ;
 					rc.bottom = iThisRow * 20 - 1 + 20 ;
@@ -251,7 +242,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 				FillRect(hdc, &rc, CSkin::m_BrushBack);
 
-				hbr = CreateSolidBrush(pCC->pModule->crColors[i]);
+				HBRUSH hbr = CreateSolidBrush(pCC->pModule->crColors[i]);
 
 				rc.top = (iThisRow - 1) * 20 + 4 + 20;
 				rc.left = (iThisColumn - 1) * 25 + 4 + 1;
@@ -267,14 +258,14 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 		break;
 
-		case WM_CLOSE:
-			SetFocus(pCC->hWndTarget);
-			DestroyWindow(hwndDlg);
-			break;
+	case WM_CLOSE:
+		SetFocus(pCC->hWndTarget);
+		DestroyWindow(hwndDlg);
+		break;
 
-		case WM_DESTROY:
-			mir_free(pCC);
-			return TRUE;
+	case WM_DESTROY:
+		mir_free(pCC);
+		return TRUE;
 	}
 
 	return FALSE;

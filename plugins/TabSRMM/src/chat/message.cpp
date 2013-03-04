@@ -119,167 +119,167 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 		iRemoveChars = 0;
 
 		switch (*p1) {
-			case '\\':
-				if (!memcmp(p1, "\\cf", 3)) {   // foreground color
-					int iCol, iInd;
-					iRemoveChars = 3 + ReadInteger(p1 + 3, &iCol);
-					iInd = RTFColorToIndex(pIndex, iCol, si);
-					bJustRemovedRTF = TRUE;
+		case '\\':
+			if (!memcmp(p1, "\\cf", 3)) {   // foreground color
+				int iCol, iInd;
+				iRemoveChars = 3 + ReadInteger(p1 + 3, &iCol);
+				iInd = RTFColorToIndex(pIndex, iCol, si);
+				bJustRemovedRTF = TRUE;
 
-					if (bTextHasStarted || iInd >= 0)
-						mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%c%02u" : "%%C", iInd);
-				} else if (!memcmp(p1, "\\highlight", 10)) {  //background color
-					int iCol, iInd;
-					iRemoveChars = 10 + ReadInteger(p1 + 10, &iCol);
-					iInd = RTFColorToIndex(pIndex, iCol, si);
-					bJustRemovedRTF = TRUE;
+				if (bTextHasStarted || iInd >= 0)
+					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%c%02u" : "%%C", iInd);
+			} else if (!memcmp(p1, "\\highlight", 10)) {  //background color
+				int iCol, iInd;
+				iRemoveChars = 10 + ReadInteger(p1 + 10, &iCol);
+				iInd = RTFColorToIndex(pIndex, iCol, si);
+				bJustRemovedRTF = TRUE;
 
-					if (bTextHasStarted || iInd >= 0)
-						mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%f%02u" : "%%F", iInd);
-				} else if (!memcmp(p1, "\\lang", 5)) {  // language id
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 5 + ReadInteger(p1 + 5, NULL);
-				} else if (!memcmp(p1, "\\par", 4)) {  // newline
-					bTextHasStarted = bJustRemovedRTF = TRUE;
+				if (bTextHasStarted || iInd >= 0)
+					mir_snprintf(InsertThis, SIZEOF(InsertThis), (iInd >= 0) ? "%%f%02u" : "%%F", iInd);
+			} else if (!memcmp(p1, "\\lang", 5)) {  // language id
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 5 + ReadInteger(p1 + 5, NULL);
+			} else if (!memcmp(p1, "\\par", 4)) {  // newline
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 4;
+				strcpy(InsertThis, "\n");
+			} else if (!memcmp(p1, "\\endash", 7)) {
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				strcpy(InsertThis, "\xE2\x80\x93");
+			} else if (!memcmp(p1, "\\emdash", 7)) {
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				strcpy(InsertThis, "\xE2\x80\x94");
+			} else if (!memcmp(p1, "\\bullet", 7)) {
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				strcpy(InsertThis, "\xE2\x80\xA2");
+			} else if (!memcmp(p1, "\\line", 5)) {  // newline
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 5;
+				strcpy(InsertThis, "\n");
+			} else if (!memcmp(p1, "\\b", 2)) {  //bold
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = (p1[2] != '0') ? 2 : 3;
+				strcpy(InsertThis, (p1[2] != '0') ? "%b" : "%B");
+			} else if (!memcmp(p1, "\\i", 2)) {  // italics
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = (p1[2] != '0') ? 2 : 3;
+				strcpy(InsertThis, (p1[2] != '0') ? "%i" : "%I");
+			} else if (!memcmp(p1, "\\uc", 3)) {  // number of Unicode chars
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iUcMode = p1[3] - '0';
+				iRemoveChars = 4;
+			} else if (!memcmp(p1, "\\ul", 3)) {  // underlined
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				if (p1[3] == 'n')
+					iRemoveChars = 7;
+				else if (p1[3] == '0')
 					iRemoveChars = 4;
-					strcpy(InsertThis, "\n");
-				} else if (!memcmp(p1, "\\endash", 7)) {
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 7;
-					strcpy(InsertThis, "\xE2\x80\x93");
-				} else if (!memcmp(p1, "\\emdash", 7)) {
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 7;
-					strcpy(InsertThis, "\xE2\x80\x94");
-				} else if (!memcmp(p1, "\\bullet", 7)) {
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 7;
-					strcpy(InsertThis, "\xE2\x80\xA2");
-				} else if (!memcmp(p1, "\\line", 5)) {  // newline
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 5;
-					strcpy(InsertThis, "\n");
-				} else if (!memcmp(p1, "\\b", 2)) {  //bold
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = (p1[2] != '0') ? 2 : 3;
-					strcpy(InsertThis, (p1[2] != '0') ? "%b" : "%B");
-				} else if (!memcmp(p1, "\\i", 2)) {  // italics
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = (p1[2] != '0') ? 2 : 3;
-					strcpy(InsertThis, (p1[2] != '0') ? "%i" : "%I");
-				} else if (!memcmp(p1, "\\uc", 3)) {  // number of Unicode chars
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iUcMode = p1[3] - '0';
-					iRemoveChars = 4;
-				} else if (!memcmp(p1, "\\ul", 3)) {  // underlined
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					if (p1[3] == 'n')
-						iRemoveChars = 7;
-					else if (p1[3] == '0')
-						iRemoveChars = 4;
-					else
-						iRemoveChars = 3;
-					mir_snprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != '0' && p1[3] != 'n') ? "%%u" : "%%U");
-				} else if (p1[1] == 'f' && isdigit(p1[2])) {   // unicode char
-					bTextHasStarted = bJustRemovedRTF = TRUE;
-					iRemoveChars = 2 + ReadInteger(p1 + 2, NULL);
-				} else if (p1[1] == '\\' ||  p1[1] == '{' || p1[1] == '}') {  // escaped characters
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = FALSE;
-					iRemoveChars = 2;
-					mir_snprintf(InsertThis, SIZEOF(InsertThis), "%c", p1[1]);
-				} else if (p1[1] == '~') {  // non-breaking space
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = FALSE;
-					iRemoveChars = 2;
-					strcpy(InsertThis, "\xC2\xA0");
-				}
+				else
+					iRemoveChars = 3;
+				mir_snprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != '0' && p1[3] != 'n') ? "%%u" : "%%U");
+			} else if (p1[1] == 'f' && isdigit(p1[2])) {   // unicode char
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 2 + ReadInteger(p1 + 2, NULL);
+			} else if (p1[1] == '\\' ||  p1[1] == '{' || p1[1] == '}') {  // escaped characters
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = FALSE;
+				iRemoveChars = 2;
+				mir_snprintf(InsertThis, SIZEOF(InsertThis), "%c", p1[1]);
+			} else if (p1[1] == '~') {  // non-breaking space
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = FALSE;
+				iRemoveChars = 2;
+				strcpy(InsertThis, "\xC2\xA0");
+			}
 
 
-				else if (!memcmp(p1, "\\tab",4)) { // tab
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = TRUE;
-					iRemoveChars = 4;
-					strcpy(InsertThis, "\x09");
-				}
-				else if (!memcmp(p1, "\\ldblquote",10)) {
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = TRUE;
-					iRemoveChars = 10;
-					strcpy(InsertThis, "\xe2\x80\x9c");
-				}
-				else if (!memcmp(p1, "\\rdblquote",10)) {
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = TRUE;
-					iRemoveChars = 10;
-					strcpy(InsertThis, "\xe2\x80\x9d");
-				}
-				else if (!memcmp(p1, "\\lquote",7)) {
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = TRUE;
-					iRemoveChars = 7;
-					strcpy(InsertThis, "\xE2\x80\x98");
-				}
-				else if (!memcmp(p1, "\\rquote",7)) {
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = TRUE;
-					iRemoveChars = 7;
-					strcpy(InsertThis, "\xE2\x80\x99");
-				}
+			else if (!memcmp(p1, "\\tab",4)) { // tab
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 4;
+				strcpy(InsertThis, "\x09");
+			}
+			else if (!memcmp(p1, "\\ldblquote",10)) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 10;
+				strcpy(InsertThis, "\xe2\x80\x9c");
+			}
+			else if (!memcmp(p1, "\\rdblquote",10)) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 10;
+				strcpy(InsertThis, "\xe2\x80\x9d");
+			}
+			else if (!memcmp(p1, "\\lquote",7)) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				strcpy(InsertThis, "\xE2\x80\x98");
+			}
+			else if (!memcmp(p1, "\\rquote",7)) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				strcpy(InsertThis, "\xE2\x80\x99");
+			}
 
-				 else if (p1[1] == '\'') {  // special character
-					char tmp[4], *p3 = tmp;
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = FALSE;
-					if (p1[2] != ' ' && p1[2] != '\\') {
-						*p3++ = p1[2];
-						iRemoveChars = 3;
-						if (p1[3] != ' ' && p1[3] != '\\') {
-							*p3++ = p1[3];
-							iRemoveChars++;
-						}
-						*p3 = 0;
-						sscanf(tmp, "%x", InsertThis);
+			else if (p1[1] == '\'') {  // special character
+				char tmp[4], *p3 = tmp;
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = FALSE;
+				if (p1[2] != ' ' && p1[2] != '\\') {
+					*p3++ = p1[2];
+					iRemoveChars = 3;
+					if (p1[3] != ' ' && p1[3] != '\\') {
+						*p3++ = p1[3];
+						iRemoveChars++;
+					}
+					*p3 = 0;
+					sscanf(tmp, "%x", InsertThis);
 
-						InsertThis[1] = 0;
-					} else iRemoveChars = 2;
-				} else if (bJustRemovedRTF) {  // remove unknown RTF command
-					int j = 1;
-					bJustRemovedRTF = TRUE;
-					while (p1[j] != ' ' && p1[j] != '\\' && p1[j] != '\0')
-						j++;
-					iRemoveChars = j;
-				}
-				break;
+					InsertThis[1] = 0;
+				} else iRemoveChars = 2;
+			} else if (bJustRemovedRTF) {  // remove unknown RTF command
+				int j = 1;
+				bJustRemovedRTF = TRUE;
+				while (p1[j] != ' ' && p1[j] != '\\' && p1[j] != '\0')
+					j++;
+				iRemoveChars = j;
+			}
+			break;
 
-			case '{': // other RTF control characters
-			case '}':
+		case '{': // other RTF control characters
+		case '}':
+			iRemoveChars = 1;
+			break;
+
+		case '\r': case '\n':
+			bTextHasStarted = TRUE;
+			bJustRemovedRTF = FALSE;
+			iRemoveChars = 1;
+			break;
+
+		case '%': // escape chat -> protocol control character
+			bTextHasStarted = TRUE;
+			bJustRemovedRTF = FALSE;
+			iRemoveChars = 1;
+			strcpy(InsertThis, "%%");
+			break;
+		case ' ': // remove spaces following a RTF command
+			if (bJustRemovedRTF)
 				iRemoveChars = 1;
-				break;
+			bJustRemovedRTF = FALSE;
+			bTextHasStarted = TRUE;
+			break;
 
-			case '\r': case '\n':
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = FALSE;
-				iRemoveChars = 1;
-				break;
-
-			case '%': // escape chat -> protocol control character
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = FALSE;
-				iRemoveChars = 1;
-				strcpy(InsertThis, "%%");
-				break;
-			case ' ': // remove spaces following a RTF command
-				if (bJustRemovedRTF)
-					iRemoveChars = 1;
-				bJustRemovedRTF = FALSE;
-				bTextHasStarted = TRUE;
-				break;
-
-			default: // other text that should not be touched
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = FALSE;
-				break;
+		default: // other text that should not be touched
+			bTextHasStarted = TRUE;
+			bJustRemovedRTF = FALSE;
+			break;
 		}
 
 		// move the memory and paste in new commands instead of the old RTF

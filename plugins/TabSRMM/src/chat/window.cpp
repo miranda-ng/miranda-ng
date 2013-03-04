@@ -469,86 +469,87 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	//ShowWindow(GetDlgItem(hwndDlg, IDC_CHAT_TOGGLESIDEBAR), dat->pContainer->dwFlags & CNT_SIDEBAR ? SW_SHOW : SW_HIDE);
 
 	switch (urc->wId) {
-		case IDC_PANELSPLITTER:
-			urc->rcItem.bottom = panelHeight;
-			urc->rcItem.top = panelHeight - 2;
-			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
-		case IDC_CHAT_LOG:
-			urc->rcItem.top = 0;
-			urc->rcItem.left = 0;
-			urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
-			urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - (PluginConfig.g_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
-			if (fInfoPanel)
-				urc->rcItem.top += panelHeight;
-			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = &SkinItems[ID_EXTBKHISTORY];
-				if (!item->IGNORED) {
-					urc->rcItem.left += item->MARGIN_LEFT;
-					urc->rcItem.right -= item->MARGIN_RIGHT;
-					urc->rcItem.top += item->MARGIN_TOP;
-					urc->rcItem.bottom -= item->MARGIN_BOTTOM;
-				}
+	case IDC_PANELSPLITTER:
+		urc->rcItem.bottom = panelHeight;
+		urc->rcItem.top = panelHeight - 2;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
+	case IDC_CHAT_LOG:
+		urc->rcItem.top = 0;
+		urc->rcItem.left = 0;
+		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
+		urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - (PluginConfig.g_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		if (fInfoPanel)
+			urc->rcItem.top += panelHeight;
+		if (CSkin::m_skinEnabled) {
+			CSkinItem *item = &SkinItems[ID_EXTBKHISTORY];
+			if (!item->IGNORED) {
+				urc->rcItem.left += item->MARGIN_LEFT;
+				urc->rcItem.right -= item->MARGIN_RIGHT;
+				urc->rcItem.top += item->MARGIN_TOP;
+				urc->rcItem.bottom -= item->MARGIN_BOTTOM;
 			}
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		}
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-		case IDC_LIST:
-			urc->rcItem.top = 0;
-			urc->rcItem.right = urc->dlgNewSize.cx ;
-			urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
-			urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
-			if (fInfoPanel)
-				urc->rcItem.top += panelHeight;
-			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = &SkinItems[ID_EXTBKUSERLIST];
-				if (!item->IGNORED) {
-					urc->rcItem.left += item->MARGIN_LEFT;
-					urc->rcItem.right -= item->MARGIN_RIGHT;
-					urc->rcItem.top += item->MARGIN_TOP;
-					urc->rcItem.bottom -= item->MARGIN_BOTTOM;
-				}
+	case IDC_LIST:
+		urc->rcItem.top = 0;
+		urc->rcItem.right = urc->dlgNewSize.cx ;
+		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX + 2;
+		urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		if (fInfoPanel)
+			urc->rcItem.top += panelHeight;
+		if (CSkin::m_skinEnabled) {
+			CSkinItem *item = &SkinItems[ID_EXTBKUSERLIST];
+			if (!item->IGNORED) {
+				urc->rcItem.left += item->MARGIN_LEFT;
+				urc->rcItem.right -= item->MARGIN_RIGHT;
+				urc->rcItem.top += item->MARGIN_TOP;
+				urc->rcItem.bottom -= item->MARGIN_BOTTOM;
 			}
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		}
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-		case IDC_SPLITTERX:
-			urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
-			urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
-			urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
-			urc->rcItem.top = 0;
-			if (fInfoPanel)
-				urc->rcItem.top += panelHeight;
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+	case IDC_SPLITTERX:
+		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
+		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
+		urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.top = 0;
+		if (fInfoPanel)
+			urc->rcItem.top += panelHeight;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-		case IDC_SPLITTERY:
-			urc->rcItem.right = urc->dlgNewSize.cx;
-			urc->rcItem.top = (bToolbar&&!bBottomToolbar) ? urc->dlgNewSize.cy - si->iSplitterY : urc->dlgNewSize.cy - si->iSplitterY;
-			urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2)) : (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2));
-			urc->rcItem.left = 0;
-			urc->rcItem.bottom++;
-			urc->rcItem.top++;
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+	case IDC_SPLITTERY:
+		urc->rcItem.right = urc->dlgNewSize.cx;
+		urc->rcItem.top = (bToolbar&&!bBottomToolbar) ? urc->dlgNewSize.cy - si->iSplitterY : urc->dlgNewSize.cy - si->iSplitterY;
+		urc->rcItem.bottom = (bToolbar&&!bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2)) : (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2));
+		urc->rcItem.left = 0;
+		urc->rcItem.bottom++;
+		urc->rcItem.top++;
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-		case IDC_CHAT_MESSAGE:
-			urc->rcItem.right = urc->dlgNewSize.cx ;
-			urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
-			urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
-			msgBottom = urc->rcItem.bottom;
+	case IDC_CHAT_MESSAGE:
+		urc->rcItem.right = urc->dlgNewSize.cx ;
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY + 3;
+		urc->rcItem.bottom = urc->dlgNewSize.cy; // - 1 ;
+		msgBottom = urc->rcItem.bottom;
 
-			if (dat->fIsAutosizingInput)
-				urc->rcItem.top -= DPISCALEY_S(1);
+		if (dat->fIsAutosizingInput)
+			urc->rcItem.top -= DPISCALEY_S(1);
 
-			msgTop = urc->rcItem.top;
-			if (bBottomToolbar&&bToolbar)
-				urc->rcItem.bottom -= DPISCALEY_S(22);
-			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = &SkinItems[ID_EXTBKINPUTAREA];
-				if (!item->IGNORED) {
-					urc->rcItem.left += item->MARGIN_LEFT;
-					urc->rcItem.right -= item->MARGIN_RIGHT;
-					urc->rcItem.top += item->MARGIN_TOP;
-					urc->rcItem.bottom -= item->MARGIN_BOTTOM;
-				}
+		msgTop = urc->rcItem.top;
+		if (bBottomToolbar&&bToolbar)
+			urc->rcItem.bottom -= DPISCALEY_S(22);
+		if (CSkin::m_skinEnabled) {
+			CSkinItem *item = &SkinItems[ID_EXTBKINPUTAREA];
+			if (!item->IGNORED) {
+				urc->rcItem.left += item->MARGIN_LEFT;
+				urc->rcItem.right -= item->MARGIN_RIGHT;
+				urc->rcItem.top += item->MARGIN_TOP;
+				urc->rcItem.bottom -= item->MARGIN_BOTTOM;
 			}
-			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
+		}
+		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
@@ -1180,8 +1181,8 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 {
 	SESSION_INFO * si = (SESSION_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (uMsg) {
-		case WM_INITDIALOG: {
-
+	case WM_INITDIALOG:
+		{
 			si = (SESSION_INFO *)lParam;
 			DWORD dwMask = M->GetDword(si->hContact, "Chat", "FilterMask", 0);
 			DWORD dwFlags = M->GetDword(si->hContact, "Chat", "FilterFlags", 0);
@@ -1199,89 +1200,90 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupMask & _eventorder[i] ? (dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 				CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayMask & _eventorder[i] ? (dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
 			}
-			return(FALSE);
 		}
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+		return FALSE;
 
-		case WM_CLOSE:
-			if (wParam == 1 && lParam == 1) {
-				int iFlags = 0, i;
-				UINT result;
-				DWORD dwMask = 0, dwFlags = 0;
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 
-				for (i=0; _eventorder[i]; i++) {
-					result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
-					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
-					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
-				}
+	case WM_CLOSE:
+		if (wParam == 1 && lParam == 1) {
+			int iFlags = 0, i;
+			UINT result;
+			DWORD dwMask = 0, dwFlags = 0;
 
-				if (iFlags&GC_EVENT_ADDSTATUS)
-					iFlags |= GC_EVENT_REMOVESTATUS;
+			for (i=0; _eventorder[i]; i++) {
+				result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
 
-				if (si) {
-					if (dwMask == 0) {
-						DBDeleteContactSetting(si->hContact, "Chat", "FilterFlags");
-						DBDeleteContactSetting(si->hContact, "Chat", "FilterMask");
-					} else {
-						M->WriteDword(si->hContact, "Chat", "FilterFlags", iFlags);
-						M->WriteDword(si->hContact, "Chat", "FilterMask", dwMask);
-					}
-				}
+			if (iFlags&GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
 
-				dwMask = iFlags = 0;
-
-				for (i=0; _eventorder[i]; i++) {
-					result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
-					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
-					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
-				}
-
-				if (iFlags&GC_EVENT_ADDSTATUS)
-					iFlags |= GC_EVENT_REMOVESTATUS;
-
-				if (si) {
-					if (dwMask == 0) {
-						DBDeleteContactSetting(si->hContact, "Chat", "PopupFlags");
-						DBDeleteContactSetting(si->hContact, "Chat", "PopupMask");
-					} else {
-						M->WriteDword(si->hContact, "Chat", "PopupFlags", iFlags);
-						M->WriteDword(si->hContact, "Chat", "PopupMask", dwMask);
-					}
-				}
-
-				dwMask = iFlags = 0;
-
-				for (i=0; _eventorder[i]; i++) {
-					result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
-					dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
-					iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
-				}
-				if (iFlags&GC_EVENT_ADDSTATUS)
-					iFlags |= GC_EVENT_REMOVESTATUS;
-
-				if (si) {
-					if (dwMask == 0) {
-						DBDeleteContactSetting(si->hContact, "Chat", "TrayIconFlags");
-						DBDeleteContactSetting(si->hContact, "Chat", "TrayIconMask");
-					} else {
-						M->WriteDword(si->hContact, "Chat", "TrayIconFlags", iFlags);
-						M->WriteDword(si->hContact, "Chat", "TrayIconMask", dwMask);
-					}
-					Chat_SetFilters(si);
-					SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
-					if (si->bFilterEnabled)
-						SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
+			if (si) {
+				if (dwMask == 0) {
+					DBDeleteContactSetting(si->hContact, "Chat", "FilterFlags");
+					DBDeleteContactSetting(si->hContact, "Chat", "FilterMask");
+				} else {
+					M->WriteDword(si->hContact, "Chat", "FilterFlags", iFlags);
+					M->WriteDword(si->hContact, "Chat", "FilterMask", dwMask);
 				}
 			}
-			DestroyWindow(hwndDlg);
-			break;
-		case WM_DESTROY:
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			break;
+
+			dwMask = iFlags = 0;
+
+			for (i=0; _eventorder[i]; i++) {
+				result = IsDlgButtonChecked(hwndDlg, IDC_P1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+
+			if (iFlags&GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (si) {
+				if (dwMask == 0) {
+					DBDeleteContactSetting(si->hContact, "Chat", "PopupFlags");
+					DBDeleteContactSetting(si->hContact, "Chat", "PopupMask");
+				} else {
+					M->WriteDword(si->hContact, "Chat", "PopupFlags", iFlags);
+					M->WriteDword(si->hContact, "Chat", "PopupMask", dwMask);
+				}
+			}
+
+			dwMask = iFlags = 0;
+
+			for (i=0; _eventorder[i]; i++) {
+				result = IsDlgButtonChecked(hwndDlg, IDC_T1 + i);
+				dwMask |= (result != BST_INDETERMINATE ? _eventorder[i] : 0);
+				iFlags |= (result == BST_CHECKED ? _eventorder[i] : 0);
+			}
+			if (iFlags&GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			if (si) {
+				if (dwMask == 0) {
+					DBDeleteContactSetting(si->hContact, "Chat", "TrayIconFlags");
+					DBDeleteContactSetting(si->hContact, "Chat", "TrayIconMask");
+				} else {
+					M->WriteDword(si->hContact, "Chat", "TrayIconFlags", iFlags);
+					M->WriteDword(si->hContact, "Chat", "TrayIconMask", dwMask);
+				}
+				Chat_SetFilters(si);
+				SendMessage(si->hWnd, GC_CHANGEFILTERFLAG, 0, (LPARAM)iFlags);
+				if (si->bFilterEnabled)
+					SendMessage(si->hWnd, GC_REDRAWLOG, 0, 0);
+			}
+		}
+		DestroyWindow(hwndDlg);
+		break;
+	case WM_DESTROY:
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		break;
 	}
 	return(FALSE);
 }
@@ -1295,26 +1297,24 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	HWND hwndParent = GetParent(hwnd);
 
 	switch (msg) {
-		case WM_RBUTTONUP: {
-			HWND hFilter = GetDlgItem(hwndParent, IDC_FILTER);
-			HWND hColor = GetDlgItem(hwndParent, IDC_COLOR);
-			HWND hBGColor = GetDlgItem(hwndParent, IDC_BKGCOLOR);
+	case WM_RBUTTONUP:
+		HWND hFilter = GetDlgItem(hwndParent, IDC_FILTER);
+		HWND hColor = GetDlgItem(hwndParent, IDC_COLOR);
+		HWND hBGColor = GetDlgItem(hwndParent, IDC_BKGCOLOR);
 
-			if (M->GetByte("Chat", "RightClickFilter", 0) != 0) {
-				if (hFilter == hwnd)
-					SendMessage(hwndParent, GC_SHOWFILTERMENU, 0, 0);
-				if (hColor == hwnd)
-					SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
-				if (hBGColor == hwnd)
-					SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
-			}
+		if (M->GetByte("Chat", "RightClickFilter", 0) != 0) {
+			if (hFilter == hwnd)
+				SendMessage(hwndParent, GC_SHOWFILTERMENU, 0, 0);
+			if (hColor == hwnd)
+				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_COLOR);
+			if (hBGColor == hwnd)
+				SendMessage(hwndParent, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_BKGCOLOR);
 		}
 		break;
 	}
 
 	return mir_callNextSubclass(hwnd, ButtonSubclassProc, msg, wParam, lParam);
 }
-
 
 /*
  * subclassing for the message history display (rich edit control in which the chat history appears)

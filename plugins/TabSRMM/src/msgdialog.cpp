@@ -270,10 +270,10 @@ LRESULT CALLBACK IEViewSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	struct TWindowData *mwdat = (struct TWindowData *)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 
 	switch (msg) {
-		case WM_NCCALCSIZE:
-			return(CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc));
-		case WM_NCPAINT:
-			return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc));
+	case WM_NCCALCSIZE:
+		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc);
+	case WM_NCPAINT:
+		return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, IEViewSubclassProc);
 	}
 	return mir_callNextSubclass(hwnd, IEViewSubclassProc, msg, wParam, lParam);
 }
@@ -290,23 +290,20 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
 		switch(msg) {
-			case WM_NCCALCSIZE:
-				return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, HPPKFSubclassProc);
-			case WM_NCPAINT:
-				return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, HPPKFSubclassProc);
+		case WM_NCCALCSIZE:
+			return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, HPPKFSubclassProc);
+		case WM_NCPAINT:
+			return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, HPPKFSubclassProc);
 
-			case WM_KEYDOWN:
-				if (!isCtrl && !isAlt&&!isShift) {
-				{
-					if (wParam != VK_PRIOR&&wParam != VK_NEXT&&
-						wParam != VK_DELETE&&wParam != VK_MENU&&wParam != VK_END&&
-						wParam != VK_HOME&&wParam != VK_UP&&wParam != VK_DOWN&&
-						wParam != VK_LEFT&&wParam != VK_RIGHT&&wParam != VK_TAB&&
-						wParam != VK_SPACE)	{
+		case WM_KEYDOWN:
+			if (!isCtrl && !isAlt && !isShift) {
+				if (wParam != VK_PRIOR && wParam != VK_NEXT && wParam != VK_DELETE &&
+					 wParam != VK_MENU  && wParam != VK_END  && wParam != VK_HOME &&
+					 wParam != VK_UP    && wParam != VK_DOWN && wParam != VK_LEFT &&
+					 wParam != VK_RIGHT && wParam != VK_TAB  && wParam != VK_SPACE) {
 						SetFocus(GetDlgItem(mwdat->hwnd,IDC_MESSAGE));
 						keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam,0), KEYEVENTF_EXTENDEDKEY | 0, 0);
 						return 0;
-					}
 				}
 				break;
 			}
@@ -618,9 +615,10 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LONG lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HWND hwndParent = GetParent(hwnd);
 	struct TWindowData *mwdat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	if (mwdat == NULL)
+		return 0;
 
 	/*
 	* prevent the rich edit from switching text direction or keyboard layout when
@@ -630,11 +628,11 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		GetKeyboardState(mwdat->kstate);
 		if (mwdat->kstate[VK_CONTROL] & 0x80 || mwdat->kstate[VK_SHIFT] & 0x80)
 			return 0;
-		else {
-			mwdat->fkeyProcessed = false;
-			return 0;
-		}
+		
+		mwdat->fkeyProcessed = false;
+		return 0;
 	}
+
 	switch (msg) {
 	case WM_NCCALCSIZE:
 		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, MessageEditSubclassProc);
@@ -754,6 +752,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 						break;
 
 					if (PluginConfig.m_SendOnDblEnter) {
+						LONG lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
 						if (lastEnterTime + 2 < time(NULL)) {
 							lastEnterTime = time(NULL);
 							SetWindowLongPtr(hwnd, GWLP_USERDATA, lastEnterTime);
@@ -1743,30 +1742,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			* this allows border-less textboxes to appear "skinned" and blended with the
 			* background
 			*/
-			PAINTSTRUCT 	ps;
-			HDC 			hdc = BeginPaint(hwndDlg, &ps);
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwndDlg, &ps);
 			EndPaint(hwndDlg, &ps);
-			return 0;
 		}
+		return 0;
 
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd;
-			BITMAP bminfo;
-			RECT rc;
-			int saved = 0;
-			HBITMAP hbm = ((dat->Panel->isActive()) && m_pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
-
-			if (IsIconic(hwndDlg))
-				break;
-			ZeroMemory(&urd, sizeof(urd));
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = g_hInst;
-			urd.hwndDlg = hwndDlg;
-			urd.lParam = (LPARAM) dat;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_MSGSPLITNEW);
-			urd.pfnResizer = MessageDialogResize;
-
+		if ( !IsIconic(hwndDlg)) {
 			if (dat->ipFieldHeight == 0)
 				dat->ipFieldHeight = CInfoPanel::m_ipConfig.height2;
 
@@ -1780,13 +1763,24 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					LoadSplitter(dat);
 			}
 
+			HBITMAP hbm = ((dat->Panel->isActive()) && m_pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
 			if (hbm != 0) {
+				BITMAP bminfo;
 				GetObject(hbm, sizeof(bminfo), &bminfo);
 				CalcDynamicAvatarSize(dat, &bminfo);
 			}
 
+			RECT rc;
 			GetClientRect(hwndDlg, &rc);
+
+			UTILRESIZEDIALOG urd = { sizeof(urd) };
+			urd.hInstance = g_hInst;
+			urd.hwndDlg = hwndDlg;
+			urd.lParam = (LPARAM) dat;
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_MSGSPLITNEW);
+			urd.pfnResizer = MessageDialogResize;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM) & urd);
+
 			BB_SetButtonsPos(dat);
 
 			/*

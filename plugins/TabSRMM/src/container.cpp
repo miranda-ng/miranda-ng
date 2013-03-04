@@ -586,6 +586,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			pContainer = (struct TContainerData *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
+			mir_subclassWindow(hwndDlg, ContainerWndProc);
 
 			pContainer->hwnd = hwndDlg;
 			dwCreateFlags = pContainer->dwFlags;

@@ -344,34 +344,34 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 static int EventToIndex(LOGINFO * lin)
 {
 	switch (lin->iType) {
-		case GC_EVENT_MESSAGE:
-			if (lin->bIsMe)
-				return 10;
-			else
-				return 9;
+	case GC_EVENT_MESSAGE:
+		if (lin->bIsMe)
+			return 10;
+		else
+			return 9;
 
-		case GC_EVENT_JOIN:
-			return 3;
-		case GC_EVENT_PART:
-			return 4;
-		case GC_EVENT_QUIT:
-			return 5;
-		case GC_EVENT_NICK:
-			return 7;
-		case GC_EVENT_KICK:
-			return 6;
-		case GC_EVENT_NOTICE:
-			return 8;
-		case GC_EVENT_TOPIC:
-			return 11;
-		case GC_EVENT_INFORMATION:
-			return 12;
-		case GC_EVENT_ADDSTATUS:
-			return 13;
-		case GC_EVENT_REMOVESTATUS:
-			return 14;
-		case GC_EVENT_ACTION:
-			return 15;
+	case GC_EVENT_JOIN:
+		return 3;
+	case GC_EVENT_PART:
+		return 4;
+	case GC_EVENT_QUIT:
+		return 5;
+	case GC_EVENT_NICK:
+		return 7;
+	case GC_EVENT_KICK:
+		return 6;
+	case GC_EVENT_NOTICE:
+		return 8;
+	case GC_EVENT_TOPIC:
+		return 11;
+	case GC_EVENT_INFORMATION:
+		return 12;
+	case GC_EVENT_ADDSTATUS:
+		return 13;
+	case GC_EVENT_REMOVESTATUS:
+		return 14;
+	case GC_EVENT_ACTION:
+		return 15;
 	}
 	return 0;
 }
@@ -379,28 +379,28 @@ static int EventToIndex(LOGINFO * lin)
 static BYTE EventToSymbol(LOGINFO *lin)
 {
 	switch (lin->iType) {
-		case GC_EVENT_MESSAGE:
-			return (lin->bIsMe) ? 0x37 : 0x38;
-		case GC_EVENT_JOIN:
-			return 0x34;
-		case GC_EVENT_PART:
-			return 0x33;
-		case GC_EVENT_QUIT:
-			return 0x39;
-		case GC_EVENT_NICK:
-			return 0x71;
-		case GC_EVENT_KICK:
-			return 0x72;
-		case GC_EVENT_NOTICE:
-			return 0x28;
-		case GC_EVENT_INFORMATION:
-			return 0x69;
-		case GC_EVENT_ADDSTATUS:
-			return 0x35;
-		case GC_EVENT_REMOVESTATUS:
-			return 0x36;
-		case GC_EVENT_ACTION:
-			return 0x60;
+	case GC_EVENT_MESSAGE:
+		return (lin->bIsMe) ? 0x37 : 0x38;
+	case GC_EVENT_JOIN:
+		return 0x34;
+	case GC_EVENT_PART:
+		return 0x33;
+	case GC_EVENT_QUIT:
+		return 0x39;
+	case GC_EVENT_NICK:
+		return 0x71;
+	case GC_EVENT_KICK:
+		return 0x72;
+	case GC_EVENT_NOTICE:
+		return 0x28;
+	case GC_EVENT_INFORMATION:
+		return 0x69;
+	case GC_EVENT_ADDSTATUS:
+		return 0x35;
+	case GC_EVENT_REMOVESTATUS:
+		return 0x36;
+	case GC_EVENT_ACTION:
+		return 0x60;
 	}
 	return 0x73;
 }
@@ -408,34 +408,34 @@ static BYTE EventToSymbol(LOGINFO *lin)
 static int EventToIcon(LOGINFO * lin)
 {
 	switch (lin->iType) {
-		case GC_EVENT_MESSAGE:
-			if (lin->bIsMe)
-				return ICON_MESSAGEOUT;
-			else
-				return ICON_MESSAGE;
+	case GC_EVENT_MESSAGE:
+		if (lin->bIsMe)
+			return ICON_MESSAGEOUT;
+		else
+			return ICON_MESSAGE;
 
-		case GC_EVENT_JOIN:
-			return ICON_JOIN;
-		case GC_EVENT_PART:
-			return ICON_PART;
-		case GC_EVENT_QUIT:
-			return ICON_QUIT;
-		case GC_EVENT_NICK:
-			return ICON_NICK;
-		case GC_EVENT_KICK:
-			return ICON_KICK;
-		case GC_EVENT_NOTICE:
-			return ICON_NOTICE;
-		case GC_EVENT_TOPIC:
-			return ICON_TOPIC;
-		case GC_EVENT_INFORMATION:
-			return ICON_INFO;
-		case GC_EVENT_ADDSTATUS:
-			return ICON_ADDSTATUS;
-		case GC_EVENT_REMOVESTATUS:
-			return ICON_REMSTATUS;
-		case GC_EVENT_ACTION:
-			return ICON_ACTION;
+	case GC_EVENT_JOIN:
+		return ICON_JOIN;
+	case GC_EVENT_PART:
+		return ICON_PART;
+	case GC_EVENT_QUIT:
+		return ICON_QUIT;
+	case GC_EVENT_NICK:
+		return ICON_NICK;
+	case GC_EVENT_KICK:
+		return ICON_KICK;
+	case GC_EVENT_NOTICE:
+		return ICON_NOTICE;
+	case GC_EVENT_TOPIC:
+		return ICON_TOPIC;
+	case GC_EVENT_INFORMATION:
+		return ICON_INFO;
+	case GC_EVENT_ADDSTATUS:
+		return ICON_ADDSTATUS;
+	case GC_EVENT_REMOVESTATUS:
+		return ICON_REMSTATUS;
+	case GC_EVENT_ACTION:
+		return ICON_ACTION;
 	}
 	return 0;
 }
@@ -557,61 +557,61 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 
 			szTemp[0] = '\0';
 			switch (*++line) {
-				case '\0':
-				case '%':
-					*d++ = '%';
-					break;
+			case '\0':
+			case '%':
+				*d++ = '%';
+				break;
 
-				case 'c':
-				case 'f':
-					if (g_Settings.StripFormat || streamData->bStripFormat)
-						line += 2;
+			case 'c':
+			case 'f':
+				if (g_Settings.StripFormat || streamData->bStripFormat)
+					line += 2;
 
-					else if (line[1] != '\0' && line[2] != '\0') {
-						TCHAR szTemp3[3], c = *line;
-						int col;
-						szTemp3[0] = line[1];
-						szTemp3[1] = line[2];
-						szTemp3[2] = '\0';
-						line += 2;
+				else if (line[1] != '\0' && line[2] != '\0') {
+					TCHAR szTemp3[3], c = *line;
+					int col;
+					szTemp3[0] = line[1];
+					szTemp3[1] = line[2];
+					szTemp3[2] = '\0';
+					line += 2;
 
-						col = _ttoi(szTemp3);
-						col += (OPTIONS_FONTCOUNT + 1);
-						mir_snprintf(szTemp, SIZEOF(szTemp), (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
-					}
-					break;
-				case 'C':
-				case 'F':
-					if (!g_Settings.StripFormat && !streamData->bStripFormat) {
-						int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
-						if (*line == 'C')
-							mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j + 1);
-						else
-							mir_snprintf(szTemp, SIZEOF(szTemp), "\\highlight0 ");
-					}
-					break;
-				case 'b':
-				case 'u':
-				case 'i':
-					if (!streamData->bStripFormat)
-						mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'u') ? "\\%cl " : "\\%c ", *line);
-					break;
+					col = _ttoi(szTemp3);
+					col += (OPTIONS_FONTCOUNT + 1);
+					mir_snprintf(szTemp, SIZEOF(szTemp), (c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
+				}
+				break;
+			case 'C':
+			case 'F':
+				if (!g_Settings.StripFormat && !streamData->bStripFormat) {
+					int j = streamData->lin->bIsHighlighted ? 16 : EventToIndex(streamData->lin);
+					if (*line == 'C')
+						mir_snprintf(szTemp, SIZEOF(szTemp), "\\cf%u ", j + 1);
+					else
+						mir_snprintf(szTemp, SIZEOF(szTemp), "\\highlight0 ");
+				}
+				break;
+			case 'b':
+			case 'u':
+			case 'i':
+				if (!streamData->bStripFormat)
+					mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'u') ? "\\%cl " : "\\%c ", *line);
+				break;
 
-				case 'B':
-				case 'U':
-				case 'I':
-					if (!streamData->bStripFormat) {
-						mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line);
-						CharLowerA(szTemp);
-					}
-					break;
+			case 'B':
+			case 'U':
+			case 'I':
+				if (!streamData->bStripFormat) {
+					mir_snprintf(szTemp, SIZEOF(szTemp), (*line == 'U') ? "\\%cl0 " : "\\%c0 ", *line);
+					CharLowerA(szTemp);
+				}
+				break;
 
-				case 'r':
-					if (!streamData->bStripFormat) {
-						int index = EventToIndex(streamData->lin);
-						mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", Log_SetStyle(index, index));
-					}
-					break;
+			case 'r':
+				if (!streamData->bStripFormat) {
+					int index = EventToIndex(streamData->lin);
+					mir_snprintf(szTemp, SIZEOF(szTemp), "%s ", Log_SetStyle(index, index));
+				}
+				break;
 			}
 
 			if (szTemp[0]) {
@@ -665,85 +665,85 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 	}
 
 	switch (streamData->lin->iType) {
-		case GC_EVENT_MESSAGE:
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
-			break;
-		case GC_EVENT_ACTION:
-			if (streamData->lin->ptszNick && streamData->lin->ptszText) {
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s "), streamData->lin->ptszNick);
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
-			}
-			break;
-		case GC_EVENT_JOIN:
-			if (pszNick) {
-				if (!streamData->lin->bIsMe)
-					/* replace nick of a newcomer with a link */
+	case GC_EVENT_MESSAGE:
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+		break;
+	case GC_EVENT_ACTION:
+		if (streamData->lin->ptszNick && streamData->lin->ptszText) {
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s "), streamData->lin->ptszNick);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+		}
+		break;
+	case GC_EVENT_JOIN:
+		if (pszNick) {
+			if (!streamData->lin->bIsMe)
+				/* replace nick of a newcomer with a link */
 					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has joined"), pszNick);
-				else
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You have joined %s"), streamData->si->ptszName);
-			}
-			break;
-		case GC_EVENT_PART:
-			if (pszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has left"), pszNick);
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
-			break;
-		case GC_EVENT_QUIT:
-			if (pszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has disconnected"), pszNick);
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
-			break;
-		case GC_EVENT_NICK:
-			if (pszNick && streamData->lin->ptszText) {
-				if (!streamData->lin->bIsMe)
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s is now known as %s"), pszNick, streamData->lin->ptszText);
-				else
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You are now known as %s"), streamData->lin->ptszText);
-			}
-			break;
-		case GC_EVENT_KICK:
-			if (pszNick && streamData->lin->ptszStatus)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  TranslateT("%s kicked %s"), streamData->lin->ptszStatus, pszNick);
+			else
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You have joined %s"), streamData->si->ptszName);
+		}
+		break;
+	case GC_EVENT_PART:
+		if (pszNick)
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has left"), pszNick);
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+		break;
+	case GC_EVENT_QUIT:
+		if (pszNick)
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has disconnected"), pszNick);
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+		break;
+	case GC_EVENT_NICK:
+		if (pszNick && streamData->lin->ptszText) {
+			if (!streamData->lin->bIsMe)
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s is now known as %s"), pszNick, streamData->lin->ptszText);
+			else
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You are now known as %s"), streamData->lin->ptszText);
+		}
+		break;
+	case GC_EVENT_KICK:
+		if (pszNick && streamData->lin->ptszStatus)
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+			TranslateT("%s kicked %s"), streamData->lin->ptszStatus, pszNick);
 
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
-			break;
-		case GC_EVENT_NOTICE:
-			if (pszNick && streamData->lin->ptszText) {
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
-			}
-			break;
-		case GC_EVENT_TOPIC:
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is \'%s%s\'"), streamData->lin->ptszText, _T("%r"));
-			if (pszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  (streamData->lin->ptszUserInfo) ? TranslateT(" (set by %s on %s)") :
-							  TranslateT(" (set by %s)"),
-							  pszNick, streamData->lin->ptszUserInfo);
-			break;
-		case GC_EVENT_INFORMATION:
-			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, (streamData->lin->bIsMe) ? _T("--> %s") : _T("%s"), streamData->lin->ptszText);
-			break;
-		case GC_EVENT_ADDSTATUS:
-			if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  TranslateT("%s enables \'%s\' status for %s"),
-							  streamData->lin->ptszText, streamData->lin->ptszStatus, pszNick);
-			break;
-		case GC_EVENT_REMOVESTATUS:
-			if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus) {
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  TranslateT("%s disables \'%s\' status for %s"),
-							  streamData->lin->ptszText , streamData->lin->ptszStatus, pszNick);
-			}
-			break;
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
+		break;
+	case GC_EVENT_NOTICE:
+		if (pszNick && streamData->lin->ptszText) {
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
+		}
+		break;
+	case GC_EVENT_TOPIC:
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is \'%s%s\'"), streamData->lin->ptszText, _T("%r"));
+		if (pszNick)
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+			(streamData->lin->ptszUserInfo) ? TranslateT(" (set by %s on %s)") :
+			TranslateT(" (set by %s)"),
+			pszNick, streamData->lin->ptszUserInfo);
+		break;
+	case GC_EVENT_INFORMATION:
+		if (streamData->lin->ptszText)
+			Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, (streamData->lin->bIsMe) ? _T("--> %s") : _T("%s"), streamData->lin->ptszText);
+		break;
+	case GC_EVENT_ADDSTATUS:
+		if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+			TranslateT("%s enables \'%s\' status for %s"),
+			streamData->lin->ptszText, streamData->lin->ptszStatus, pszNick);
+		break;
+	case GC_EVENT_REMOVESTATUS:
+		if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus) {
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
+				TranslateT("%s disables \'%s\' status for %s"),
+				streamData->lin->ptszText , streamData->lin->ptszStatus, pszNick);
+		}
+		break;
 	}
 }
 
@@ -861,28 +861,28 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 							if (ti && (int)ti->hIcon < streamData->si->iStatusCount) {
 								int id = streamData->si->iStatusCount - (int)ti->hIcon - 1;
 								switch (id) {
-									case 1:
-										pszIndicator[0] = '+';
-										crNickIndex = 2;
-										break;
-									case 2:
-										pszIndicator[0] = '%';
-										crNickIndex = 1;
-										break;
-									case 3:
-										pszIndicator[0] = '@';
-										crNickIndex = 0;
-										break;
-									case 4:
-										pszIndicator[0] = '!';
-										crNickIndex = 3;
-										break;
-									case 5:
-										pszIndicator[0] = '*';
-										crNickIndex = 4;
-										break;
-									default:
-										pszIndicator[0] = 0;
+								case 1:
+									pszIndicator[0] = '+';
+									crNickIndex = 2;
+									break;
+								case 2:
+									pszIndicator[0] = '%';
+									crNickIndex = 1;
+									break;
+								case 3:
+									pszIndicator[0] = '@';
+									crNickIndex = 0;
+									break;
+								case 4:
+									pszIndicator[0] = '!';
+									crNickIndex = 3;
+									break;
+								case 5:
+									pszIndicator[0] = '*';
+									crNickIndex = 4;
+									break;
+								default:
+									pszIndicator[0] = 0;
 								}
 							}
 							break;
