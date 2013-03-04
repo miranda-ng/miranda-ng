@@ -1,4 +1,14 @@
-#include "Common.h"
+#define _WINSOCKAPI_ // don't include winsock 1.x
+#include <windows.h>
+#include <winioctl.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <string>
+#include <iostream>
 
 void implementation(int argc, char **argv, bool console)
 {

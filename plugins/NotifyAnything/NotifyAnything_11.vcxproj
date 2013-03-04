@@ -197,14 +197,6 @@
     <ResourceCompile Include="res\NotifyAnything.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="SendLog\SendLogWin_11.vcxproj">
-      <Project>{f72a3196-30e6-430b-a5ea-3332113a9959}</Project>
-    </ProjectReference>
-    <ProjectReference Include="SendLog\SendLog_11.vcxproj">
-      <Project>{1af47743-6e78-4c83-a1e5-21f98516ef5e}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
