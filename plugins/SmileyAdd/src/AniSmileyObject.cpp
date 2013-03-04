@@ -440,11 +440,13 @@ static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 
 void DestroyAniSmileys(void)
 {
-	if (timerId && (timerId+1)) 
-	{
+	if (timerId && (timerId+1)) {
 		KillTimer(NULL, timerId);
 		timerId = 0;
 	}
+
+	for (int i=0; i < regAniSmileys.getCount(); i++)
+		delete regAniSmileys[i];
 	regAniSmileys.destroy();
 }
 

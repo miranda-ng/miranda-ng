@@ -216,8 +216,8 @@ void DestroyGdiPlus(void);
 void ReportError(const TCHAR* errmsg);
 HICON GetDefaultIcon(bool copy = true);
 
-void CloseRichCallback(HWND hwnd, bool force);
-void CloseRichOwnerCallback(HWND hwnd, bool force);
+void CloseRichCallback(HWND hwnd);
+void CloseRichOwnerCallback(HWND hwnd);
 bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew);
 void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog);
 void ProcessAllInputAreas(bool restoreText);

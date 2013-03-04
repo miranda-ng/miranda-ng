@@ -33,6 +33,8 @@ struct MSubclassData
 
 static LIST<MSubclassData> arSubclass(10, LIST<MSubclassData>::FTSortFunc(HandleKeySortT));
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hwnd);
@@ -92,6 +94,14 @@ MIR_CORE_DLL(void) mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC ol
 	p->m_hooks[p->m_iHooks++] = wndProc;		
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd)
+{
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
@@ -109,10 +119,17 @@ MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg
 					delete p;
 
 					SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
-					return CallWindowProc(saveProc, hWnd, uMsg, wParam, lParam);
+					LONG res = 0;
+					__try {
+						res = saveProc(hWnd, uMsg, wParam, lParam);
+					}
+					__except(EXCEPTION_EXECUTE_HANDLER)
+					{
+					}
+					return res;
 				}
 
-				return CallWindowProc(p->m_origWndProc, hWnd, uMsg, wParam, lParam);
+				return p->m_origWndProc(hWnd, uMsg, wParam, lParam);
 			}
 		}
 		
@@ -121,6 +138,8 @@ MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg
 	}
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst)
 {

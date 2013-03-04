@@ -66,66 +66,69 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HAN
 
 void TSAPI SetAeroMargins(TContainerData *pContainer)
 {
-	if (M->isAero() && pContainer && !CSkin::m_skinEnabled) {
-		MARGINS	m;
-		TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-		RECT	rcWnd;
-		POINT	pt;
-		LONG	sbar_left = 0, sbar_right = 0;
-
-		if (dat) {
-			if (dat->bType == SESSIONTYPE_IM) {
-				if (dat->Panel->isActive())
-					GetWindowRect(GetDlgItem(dat->hwnd, IDC_LOG), &rcWnd);
-				else
-					GetWindowRect(dat->hwnd, &rcWnd);
-			}
-			else {
-				if (dat->Panel->isActive())
-					GetWindowRect(GetDlgItem(dat->hwnd, IDC_CHAT_LOG), &rcWnd);
-				else
-					GetWindowRect(dat->hwnd, &rcWnd);
-			}
-
-			pt.x = rcWnd.left;
-			pt.y = rcWnd.top;
-			ScreenToClient(pContainer->hwnd, &pt);
-			m.cyTopHeight = pt.y;
-			pContainer->MenuBar->setAero(true);
-
-			/*
-			 * bottom part
-			 */
-
-			GetWindowRect(dat->hwnd, &rcWnd);
-			pt.x = rcWnd.left;
-			if (!pContainer->SideBar->isActive())
-				pt.y = rcWnd.bottom + ((pContainer->iChilds > 1 || !(pContainer->dwFlags & CNT_HIDETABS)) ? pContainer->tBorder : 0);
-			else {
-				pt.y = rcWnd.bottom;
-				sbar_left = (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT ? pContainer->SideBar->getWidth() : 0);
-				sbar_right = (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT ? pContainer->SideBar->getWidth() : 0);
-			}
-			ScreenToClient(pContainer->hwnd, &pt);
-			GetClientRect(pContainer->hwnd, &rcWnd);
-			m.cyBottomHeight = (rcWnd.bottom - pt.y);
-
-			if (m.cyBottomHeight < 0 || m.cyBottomHeight >= rcWnd.bottom)
-				m.cyBottomHeight = 0;
-
-			m.cxLeftWidth = pContainer->tBorder_outer_left;
-			m.cxRightWidth = pContainer->tBorder_outer_right;
-			m.cxLeftWidth += sbar_left;
-			m.cxRightWidth += sbar_right;
-
-			if (memcmp(&m, &pContainer->mOld, sizeof(MARGINS)) != 0) {
-				pContainer->mOld = m;
-				CMimAPI::m_pfnDwmExtendFrameIntoClientArea(pContainer->hwnd, &m);
-			}
-		}
-	}
-	else
+	if ( !M->isAero() || !pContainer || CSkin::m_skinEnabled) {
 		pContainer->MenuBar->setAero(false);
+		return;
+	}
+
+	TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+	if (!dat)
+		return;
+
+	RECT	rcWnd;
+	if (dat->bType == SESSIONTYPE_IM) {
+		if (dat->Panel->isActive())
+			GetWindowRect(GetDlgItem(dat->hwnd, IDC_LOG), &rcWnd);
+		else
+			GetWindowRect(dat->hwnd, &rcWnd);
+	}
+	else {
+		if (dat->Panel->isActive())
+			GetWindowRect(GetDlgItem(dat->hwnd, IDC_CHAT_LOG), &rcWnd);
+		else
+			GetWindowRect(dat->hwnd, &rcWnd);
+	}
+
+	POINT	pt = { rcWnd.left, rcWnd.top };
+	ScreenToClient(pContainer->hwnd, &pt);
+
+	MARGINS m;
+	m.cyTopHeight = pt.y;
+	pContainer->MenuBar->setAero(true);
+
+	/*
+	 * bottom part
+	 */
+
+	GetWindowRect(dat->hwnd, &rcWnd);
+	pt.x = rcWnd.left;
+
+	LONG sbar_left, sbar_right;
+	if (!pContainer->SideBar->isActive()) {
+		pt.y = rcWnd.bottom + ((pContainer->iChilds > 1 || !(pContainer->dwFlags & CNT_HIDETABS)) ? pContainer->tBorder : 0);
+		sbar_left = 0, sbar_right = 0;
+	}
+	else {
+		pt.y = rcWnd.bottom;
+		sbar_left = (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT ? pContainer->SideBar->getWidth() : 0);
+		sbar_right = (pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT ? pContainer->SideBar->getWidth() : 0);
+	}
+	ScreenToClient(pContainer->hwnd, &pt);
+	GetClientRect(pContainer->hwnd, &rcWnd);
+	m.cyBottomHeight = (rcWnd.bottom - pt.y);
+
+	if (m.cyBottomHeight < 0 || m.cyBottomHeight >= rcWnd.bottom)
+		m.cyBottomHeight = 0;
+
+	m.cxLeftWidth = pContainer->tBorder_outer_left;
+	m.cxRightWidth = pContainer->tBorder_outer_right;
+	m.cxLeftWidth += sbar_left;
+	m.cxRightWidth += sbar_right;
+
+	if (memcmp(&m, &pContainer->mOld, sizeof(MARGINS)) != 0) {
+		pContainer->mOld = m;
+		CMimAPI::m_pfnDwmExtendFrameIntoClientArea(pContainer->hwnd, &m);
+	}
 }
 
 /*
@@ -137,76 +140,74 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
  * pointer and for removing the struct from the linked list.
  */
 
-struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom) {
-	DBVARIANT dbv;
-	char szCounter[10];
+struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDLE hContactFrom)
+{
 	char *szKey = "TAB_ContainersW";
-	int i, iFirstFree = -1, iFound = FALSE;
+	int iFirstFree = -1, iFound = FALSE;
 
-	struct TContainerData *pContainer = (struct TContainerData *)malloc(sizeof(struct TContainerData));
-	if (pContainer) {
-		ZeroMemory((void*)pContainer, sizeof(struct TContainerData));
-		_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
-		AppendToContainerList(pContainer);
+	struct TContainerData *pContainer = (struct TContainerData *)calloc(sizeof(struct TContainerData), 1);
+	if (!pContainer)
+		return NULL;
 
-		if (M->GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
-			iTemp |= CNT_CREATEFLAG_CLONED;
-		/*
-		* save container name to the db
-		*/
-		i = 0;
-		if (!M->GetByte("singlewinmode", 0)) {
-			do {
-				_snprintf(szCounter, 8, "%d", i);
-				if (M->GetTString(NULL, szKey, szCounter, &dbv)) {
-					if (iFirstFree != -1) {
-						pContainer->iContainerIndex = iFirstFree;
-						_snprintf(szCounter, 8, "%d", iFirstFree);
-					}
-					else {
-						pContainer->iContainerIndex = i;
-					}
-					M->WriteTString(NULL, szKey, szCounter, name);
-					BuildContainerMenu();
-					break;
+	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
+	AppendToContainerList(pContainer);
+
+	if (M->GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
+		iTemp |= CNT_CREATEFLAG_CLONED;
+	/*
+	* save container name to the db
+	*/
+	int i = 0;
+	if (!M->GetByte("singlewinmode", 0)) {
+		do {
+			char szCounter[10];
+			_snprintf(szCounter, 8, "%d", i);
+		
+			DBVARIANT dbv;
+			if (M->GetTString(NULL, szKey, szCounter, &dbv)) {
+				if (iFirstFree != -1) {
+					pContainer->iContainerIndex = iFirstFree;
+					_snprintf(szCounter, 8, "%d", iFirstFree);
 				}
-				else {
-					if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
-						if (!_tcsncmp(dbv.ptszVal, name, CONTAINER_NAMELEN)) {
-							pContainer->iContainerIndex = i;
-							iFound = TRUE;
-						}
-						else if (!_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
-							iFirstFree =  i;
-					}
-					DBFreeVariant(&dbv);
-				}
+				else pContainer->iContainerIndex = i;
+
+				M->WriteTString(NULL, szKey, szCounter, name);
+				BuildContainerMenu();
+				break;
 			}
+			else {
+				if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
+					if (!_tcsncmp(dbv.ptszVal, name, CONTAINER_NAMELEN)) {
+						pContainer->iContainerIndex = i;
+						iFound = TRUE;
+					}
+					else if (!_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
+						iFirstFree =  i;
+				}
+				DBFreeVariant(&dbv);
+			}
+		}
 			while (++i && iFound == FALSE);
-		}
-		else {
-			iTemp |= CNT_CREATEFLAG_CLONED;
-			pContainer->iContainerIndex = 1;
-		}
-
-		if (iTemp & CNT_CREATEFLAG_MINIMIZED)
-			pContainer->dwFlags = CNT_CREATE_MINIMIZED;
-		if (iTemp & CNT_CREATEFLAG_CLONED) {
-			pContainer->dwFlags |= CNT_CREATE_CLONED;
-			pContainer->hContactFrom = hContactFrom;
-		}
-		pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM) pContainer);
-		return pContainer;
 	}
-	return NULL;
+	else {
+		iTemp |= CNT_CREATEFLAG_CLONED;
+		pContainer->iContainerIndex = 1;
+	}
+
+	if (iTemp & CNT_CREATEFLAG_MINIMIZED)
+		pContainer->dwFlags = CNT_CREATE_MINIMIZED;
+	if (iTemp & CNT_CREATEFLAG_CLONED) {
+		pContainer->dwFlags |= CNT_CREATE_CLONED;
+		pContainer->hContactFrom = hContactFrom;
+	}
+	pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM) pContainer);
+	return pContainer;
 }
 
 static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL bSkinned;
-
 	struct TContainerData *pContainer = (struct TContainerData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
+	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 
 	switch (msg) {
 	case WM_NCPAINT: {

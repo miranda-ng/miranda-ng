@@ -217,7 +217,7 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 	switch(uMsg) {
 	case WM_DESTROY:
-		CloseRichCallback(hwnd, false);
+		CloseRichCallback(hwnd);
 		break;
 
 	case WM_COPY:
@@ -261,10 +261,6 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	LRESULT result = mir_callNextSubclass(hwnd, RichEditSubclass, uMsg, wParam, lParam); 
 
 	switch(uMsg) {
-	case WM_DESTROY:
-		CloseRichCallback(hwnd, true);
-		break;
-
 	case WM_MOUSEMOVE:
 		SetTooltip(LOWORD(lParam), HIWORD(lParam), hwnd, rdt);
 		break;
@@ -348,16 +344,14 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	return result;
 }
 
-void CloseRichCallback(HWND hwnd, bool force)
+void CloseRichCallback(HWND hwnd)
 {
 	int ind = g_RichEditList.getIndex((RichEditData*)&hwnd);
 	if ( ind != -1 ) {
 		RichEditData* rdt = g_RichEditList[ind];
-		if (force) {
-			if (rdt->hToolTip) DestroyWindow(rdt->hToolTip);
-			delete rdt;
-			g_RichEditList.remove(ind);
-		}
+		if (rdt->hToolTip) DestroyWindow(rdt->hToolTip);
+		delete rdt;
+		g_RichEditList.remove(ind);
 	}
 }
 
@@ -400,25 +394,6 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 		return 0;
 
 	switch(uMsg) {
-	case WM_DESTROY:
-		if ( !Miranda_Terminated()) {
-			CHARRANGE sel = allsel;
-			if (rdto->hwndInput)
-				ReplaceSmileysWithText(rdto->hwndInput, sel, false);
-			if (rdto->hwndLog)
-				ReplaceSmileysWithText(rdto->hwndLog, sel, false);
-		}
-		else {
-			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
-			if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
-				CHARRANGE sel = allsel;
-				rdt->dontReplace = true;
-				ReplaceSmileysWithText(rdt->hwnd, sel, false);
-			}
-		}
-		CloseRichOwnerCallback(hwnd, false);
-		break;
-
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
 			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
@@ -429,15 +404,30 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 			}
 		}
 		break;
+
+	case WM_DESTROY:
+		if ( !Miranda_Terminated()) {
+			CHARRANGE sel = allsel;
+			if (rdto->hwndInput)
+				ReplaceSmileysWithText(rdto->hwndInput, sel, false);
+			if (rdto->hwndLog)
+				ReplaceSmileysWithText(rdto->hwndLog, sel, false);
+		}
+
+		RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
+		if (rdt && (!rdt->inputarea || opt.InputSmileys)) {
+			CHARRANGE sel = allsel;
+			rdt->dontReplace = true;
+			ReplaceSmileysWithText(rdt->hwnd, sel, false);
+		}
+
+		CloseRichOwnerCallback(hwnd);
+		break;
 	}
 
 	LRESULT result = mir_callNextSubclass(hwnd, RichEditOwnerSubclass, uMsg, wParam, lParam); 
 
 	switch(uMsg) {
-	case WM_DESTROY:
-		CloseRichOwnerCallback(hwnd, true);
-		break;
-
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == 1624) {
 			RichEditData* rdt = g_RichEditList.find((RichEditData*)&rdto->hwndInput);
@@ -452,16 +442,16 @@ static LRESULT CALLBACK RichEditOwnerSubclass(HWND hwnd, UINT uMsg, WPARAM wPara
 	return result;
 }
 
-void CloseRichOwnerCallback(HWND hwnd, bool force)
+void CloseRichOwnerCallback(HWND hwnd)
 {
 	int ind = g_RichEditOwnerList.getIndex((RichEditOwnerData*)&hwnd);
 	if (ind == -1)
 		return;
 
 	RichEditOwnerData* rdto = g_RichEditOwnerList[ind];
-	if (rdto && force) {
-		CloseRichCallback(rdto->hwndInput, true);
-		CloseRichCallback(rdto->hwndLog, true);
+	if (rdto) {
+		CloseRichCallback(rdto->hwndInput);
+		CloseRichCallback(rdto->hwndLog);
 
 		delete rdto;
 		g_RichEditOwnerList.remove(ind);
@@ -504,10 +494,10 @@ void  RichEditData_Destroy(void)
 {
 	int i;
 	for (i=g_RichEditList.getCount(); i--; ) 
-		CloseRichCallback(g_RichEditList[i]->hwnd, true);
+		CloseRichCallback(g_RichEditList[i]->hwnd);
 	g_RichEditList.destroy();
 
 	for (i=g_RichEditOwnerList.getCount(); i--; ) 
-		CloseRichOwnerCallback(g_RichEditOwnerList[i]->hwnd, true);
+		CloseRichOwnerCallback(g_RichEditOwnerList[i]->hwnd);
 	g_RichEditOwnerList.destroy();
 }

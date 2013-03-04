@@ -506,8 +506,8 @@ static int MsgDlgHook(WPARAM, LPARAM lParam)
 	case MSG_WINDOW_EVT_CLOSE:
 		if (wndEvtData->cbSize >= sizeof(MessageWindowEventData) && wndEvtData->hwndLog)
 		{
-			CloseRichCallback(wndEvtData->hwndLog, true);
-			CloseRichOwnerCallback(wndEvtData->hwndWindow, true);
+			CloseRichCallback(wndEvtData->hwndLog);
+			CloseRichOwnerCallback(wndEvtData->hwndWindow);
 		}
 		break;
 	}
