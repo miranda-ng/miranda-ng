@@ -30,7 +30,7 @@ HANDLE hToolbarButton;
 
 char szMetaModuleName[256] = {0};
 STATUS StatusList[STATUS_COUNT];
-DWORD LoadTime = 0;
+HWND SecretWnd;
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -301,14 +301,6 @@ BOOL FreeSmiStr(STATUSMSGINFO *smi)
 	return 0;
 }
 
-// return TRUE if timeout is over
-BOOL TimeoutCheck()
-{
-	if (GetTickCount() - LoadTime > TMR_CONNECTIONTIMEOUT)
-		return TRUE;
-	return FALSE;
-}
-
 TCHAR* AddCR(const TCHAR *statusmsg)
 {
 	const TCHAR *found;
@@ -498,7 +490,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 
 			if (opt.IgnoreEmpty && (smi.compare == 2))
 				retem = FALSE;
-			else if (!TimeoutCheck() && !opt.PopupOnConnect)
+			else if (!db_get_b(0, MODULE, smi.proto, 1) && !opt.PopupOnConnect)
 				rettime = FALSE;
 
 			char status[8];
@@ -795,7 +787,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		strcpy(szProto, szSubProto);
 	}
 	else {
-		if (myStatus == ID_STATUS_OFFLINE)
+		if (myStatus == ID_STATUS_OFFLINE || !db_get_b(0, MODULE, szProto, 1)) 
 			return 0;
 	}
 
@@ -821,7 +813,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		bEnablePopup = db_get_b(0, MODULE, statusIDp, 1) ? FALSE : TRUE;
 	}
 
-	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1) && TimeoutCheck())
+	if (bEnablePopup && db_get_b(hContact, MODULE, "EnablePopups", 1))
 		ShowStatusChangePopup(hContact, szProto, oldStatus, newStatus);
 
 	if (opt.BlinkIcon)
@@ -997,6 +989,18 @@ void InitStatusList()
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40081tx", COLOR_TX_DEFAULT);
 }
 
+VOID CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+{
+	if (uMsg == WM_TIMER)
+	{
+		char szProto[256];
+		//We've received a timer message: enable the popups for a specified protocol.
+		KillTimer(hwnd, idEvent);
+		DWORD dwResult = (DWORD)GetAtomNameA((ATOM)idEvent, szProto, sizeof(szProto));
+		if (dwResult) db_set_b(0, MODULE, szProto, 1);
+	}
+}
+
 int ProtoAck(WPARAM wParam,LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
@@ -1016,7 +1020,14 @@ int ProtoAck(WPARAM wParam,LPARAM lParam)
 		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
 			//Enable the popups for this protocol.
-			LoadTime = GetTickCount();
+			int idTimer = AddAtomA(szProto);
+			if (idTimer) 
+			{
+				char TimerProtoName[256];
+				mir_snprintf(TimerProtoName, sizeof(TimerProtoName), "ConnectionTimeout%s", szProto);
+				UINT ConnectTimer = db_get_dw(0, MODULE, TimerProtoName, db_get_dw(0, MODULE, "ConnectionTimeout", 10000));
+				SetTimer(SecretWnd, idTimer, ConnectTimer, ConnectionTimerProc);
+			}
 		}
 	}
 
@@ -1104,6 +1115,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
+
+	SecretWnd = CreateWindowEx(WS_EX_TOOLWINDOW,_T("static"),_T("ConnectionTimerWindow"),0,
+		CW_USEDEFAULT,CW_USEDEFAULT,CW_USEDEFAULT,CW_USEDEFAULT,HWND_DESKTOP,
+		NULL,hInst,NULL);
 
 	int count = 0;
 	PROTOACCOUNT **accounts = NULL;

@@ -101,6 +101,5 @@ XSTATUSCHANGE *NewXSC(HANDLE hContact, char *szProto, int xstatusType, int actio
 void ExtraStatusChanged(XSTATUSCHANGE *xsc);
 void FreeXSC(XSTATUSCHANGE *xsc);
 int  OnWindowEvent(WPARAM wParam, LPARAM lParam);
-BOOL TimeoutCheck();
 
 #endif
