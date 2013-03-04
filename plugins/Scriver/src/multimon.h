@@ -178,8 +178,7 @@ typedef struct {
         if (InitMultipleMonitorStubs())
             return g_pfnGetSystemMetrics(nIndex);
 
-        switch (nIndex)
-        {
+        switch (nIndex) {
         case SM_CMONITORS:
         case SM_SAMEDISPLAYFORMAT:
             return 1;
@@ -313,18 +312,17 @@ typedef struct {
             if ((hWnd = WindowFromDC(hdc)) == NULL)
                 return FALSE;
 
-            switch (GetClipBox(hdc, &rcClip))
-            {
-            default:
-                MapWindowPoints(NULL, hWnd, (LPPOINT)&rcLimit, 2);
-                if (IntersectRect(&rcCallback, &rcClip, &rcLimit))
-                    break;
-                //fall thru
-            case NULLREGION:
-                 return TRUE;
-            case ERROR:
-                 return FALSE;
-            }
+				switch (GetClipBox(hdc, &rcClip)) {
+				default:
+					MapWindowPoints(NULL, hWnd, (LPPOINT)&rcLimit, 2);
+					if (IntersectRect(&rcCallback, &rcClip, &rcLimit))
+						break;
+					//fall thru
+				case NULLREGION:
+					return TRUE;
+				case ERROR:
+					return FALSE;
+				}
 
             rcLimit = rcCallback;
         }

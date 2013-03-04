@@ -218,13 +218,13 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 {
 	char szDir[MAX_PATH];
 	switch(uMsg) {
-		case BFFM_INITIALIZED:
-			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
-			break;
-		case BFFM_SELCHANGED:
-			if (SHGetPathFromIDListA((LPITEMIDLIST) lp ,szDir))
-					SendMessage(hwnd,BFFM_SETSTATUSTEXT,0,(LPARAM)szDir);
-			break;
+	case BFFM_INITIALIZED:
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, pData);
+		break;
+	case BFFM_SELCHANGED:
+		if (SHGetPathFromIDListA((LPITEMIDLIST) lp ,szDir))
+			SendMessage(hwnd,BFFM_SETSTATUSTEXT,0,(LPARAM)szDir);
+		break;
 	}
 	return 0;
 }
@@ -324,8 +324,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			break;
 
 		case 0:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				{
 					int iLen;
@@ -515,8 +514,8 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			else
 				PostMessage(hwndDlg, OPT_FIXHEADINGS, 0, 0);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
 		}
+		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == IDC_CHAT_CHECKBOXES) {

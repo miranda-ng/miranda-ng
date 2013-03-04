@@ -790,7 +790,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 	}
 
-	return mir_callNextSubclass(hwnd, ButtonSubclassProc, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
 static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESSION_INFO * parentdat)

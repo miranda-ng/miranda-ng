@@ -519,43 +519,43 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	ied.bIsMe = streamData->lin->bIsMe;
 
 	switch ( streamData->lin->iType ) {
-		case GC_EVENT_MESSAGE:
-			ied.iType = IEED_GC_EVENT_MESSAGE;
-			ied.dwData = IEEDD_GC_SHOW_NICK;
-			break;
-		case GC_EVENT_ACTION:
-			ied.iType = IEED_GC_EVENT_ACTION;
-			break;
-		case GC_EVENT_JOIN:
-			ied.iType = IEED_GC_EVENT_JOIN;
-			break;
-		case GC_EVENT_PART:
-			ied.iType = IEED_GC_EVENT_PART;
-			break;
-		case GC_EVENT_QUIT:
-			ied.iType = IEED_GC_EVENT_QUIT;
-			break;
-		case GC_EVENT_NICK:
-			ied.iType = IEED_GC_EVENT_NICK;
-			break;
-		case GC_EVENT_KICK:
-			ied.iType = IEED_GC_EVENT_KICK;
-			break;
-		case GC_EVENT_NOTICE:
-			ied.iType = IEED_GC_EVENT_NOTICE;
-			break;
-		case GC_EVENT_TOPIC:
-			ied.iType = IEED_GC_EVENT_TOPIC;
-			break;
-		case GC_EVENT_INFORMATION:
-			ied.iType = IEED_GC_EVENT_INFORMATION;
-			break;
-		case GC_EVENT_ADDSTATUS:
-			ied.iType = IEED_GC_EVENT_ADDSTATUS;
-			break;
-		case GC_EVENT_REMOVESTATUS:
-			ied.iType = IEED_GC_EVENT_REMOVESTATUS;
-			break;
+	case GC_EVENT_MESSAGE:
+		ied.iType = IEED_GC_EVENT_MESSAGE;
+		ied.dwData = IEEDD_GC_SHOW_NICK;
+		break;
+	case GC_EVENT_ACTION:
+		ied.iType = IEED_GC_EVENT_ACTION;
+		break;
+	case GC_EVENT_JOIN:
+		ied.iType = IEED_GC_EVENT_JOIN;
+		break;
+	case GC_EVENT_PART:
+		ied.iType = IEED_GC_EVENT_PART;
+		break;
+	case GC_EVENT_QUIT:
+		ied.iType = IEED_GC_EVENT_QUIT;
+		break;
+	case GC_EVENT_NICK:
+		ied.iType = IEED_GC_EVENT_NICK;
+		break;
+	case GC_EVENT_KICK:
+		ied.iType = IEED_GC_EVENT_KICK;
+		break;
+	case GC_EVENT_NOTICE:
+		ied.iType = IEED_GC_EVENT_NOTICE;
+		break;
+	case GC_EVENT_TOPIC:
+		ied.iType = IEED_GC_EVENT_TOPIC;
+		break;
+	case GC_EVENT_INFORMATION:
+		ied.iType = IEED_GC_EVENT_INFORMATION;
+		break;
+	case GC_EVENT_ADDSTATUS:
+		ied.iType = IEED_GC_EVENT_ADDSTATUS;
+		break;
+	case GC_EVENT_REMOVESTATUS:
+		ied.iType = IEED_GC_EVENT_REMOVESTATUS;
+		break;
 	}
 	ied.dwData |= g_Settings.ShowTime ? IEEDD_GC_SHOW_TIME : 0;
 	ied.dwData |= IEEDD_GC_SHOW_ICON;

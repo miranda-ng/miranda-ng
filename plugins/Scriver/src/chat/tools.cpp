@@ -263,7 +263,8 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT * gce)
 		case GC_EVENT_REMOVESTATUS:
 			ShowPopup(si->windowData.hContact, si, GetCachedIcon("chat_log_removestatus"), si->pszModule, si->ptszName, aFonts[14].color, TranslateT("%s disables \'%s\' status for %s"), gce->ptszText, (char *)gce->pszStatus, gce->ptszNick);
 			break;
-	}	}
+		}
+	}
 
 	return TRUE;
 }
