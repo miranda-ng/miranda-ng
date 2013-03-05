@@ -94,7 +94,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	sid.iDefaultIndex = - IDI_LISTENING_TO;
 	Skin_AddIcon(&sid);
 
-	sid.pszSection = LPGEN("Contact List/Avatar Overlay");
+	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Avatar Overlay");
 	for (i=0; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++) {
 		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
 		sid.pszName = g_pAvatarOverlayIcons[i].name;
@@ -102,7 +102,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 		Skin_AddIcon(&sid);
 	}
 
-	sid.pszSection = LPGEN("Contact List/Status Overlay");
+	sid.pszSection = LPGEN("Contact List") "/" LPGEN("Status Overlay");
 	for (i=0; i < MAX_REGS(g_pStatusOverlayIcons); i++) {
 		sid.pszDescription = g_pStatusOverlayIcons[i].description;
 		sid.pszName = g_pStatusOverlayIcons[i].name;
