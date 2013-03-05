@@ -164,14 +164,8 @@ int SafeCreateFilePath(TCHAR *pFolder);
 #if MIRANDA_VER < 0x0A00
 
 #define db_free(A) DBFreeVariant(A)
+#define db_get_b(A,B,C,D) DBGetContactSettingByte(A,B,C,D)
 #define db_set_s(A,B,C,D) DBWriteContactSettingString(A,B,C,D)
-
-struct VARST : public mir_ptr<TCHAR>
-{
-	__forceinline VARST(const TCHAR *str) :
-		mir_ptr<TCHAR>( Utils_ReplaceVarsT(str))
-		{}
-};
 
 template<class T> class mir_ptr
 {
@@ -185,6 +179,13 @@ public:
 	__inline T *operator->() const { return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
+};
+
+struct VARST : public mir_ptr<TCHAR>
+{
+	__forceinline VARST(const TCHAR *str) :
+		mir_ptr<TCHAR>( Utils_ReplaceVarsT(str))
+		{}
 };
 
 class _A2T
@@ -226,6 +227,7 @@ __forceinline INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
 }
 
 char *rtrim(char *str);
+int CreatePathToFileT(const TCHAR *ptszPath);
 
 #define NEWTSTR_ALLOCA(A) (A == NULL)?NULL:_tcscpy((TCHAR*)alloca((_tcslen(A)+1) *sizeof(TCHAR)), A)
 

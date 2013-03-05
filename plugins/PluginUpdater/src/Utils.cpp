@@ -344,6 +344,17 @@ char* rtrim(char *str)
 	}
 	return str;
 }
+
+void CreatePathToFileT(TCHAR* tszFilePath)
+{
+	TCHAR* pszLastBackslash = _tcsrchr(tszFilePath, '\\');
+	if (pszLastBackslash == NULL)
+		return;
+
+	*pszLastBackslash = '\0';
+	CreateDirectoryTreeT(tszFilePath);
+	*pszLastBackslash = '\\';
+}
 #endif
 
 //   FUNCTION: IsRunAsAdmin()
