@@ -377,9 +377,6 @@ void ClcCacheEntry::freeName()
 
 void ClcCacheEntry::getName()
 {
-	if (UnknownConctactTranslatedName == NULL)
-		UnknownConctactTranslatedName = TranslateT("(Unknown Contact)");
-
 	freeName();
 
 	if (m_cache_bProtoNotExists || !m_cache_cszProto) {
@@ -525,4 +522,10 @@ int PostAutoRebuidMessage(HWND hwnd)
 	if ( !CLM_AUTOREBUILD_WAS_POSTED)
 		CLM_AUTOREBUILD_WAS_POSTED = PostMessage(hwnd,CLM_AUTOREBUILD, 0, 0);
 	return CLM_AUTOREBUILD_WAS_POSTED;
+}
+
+int OnLoadLangpack(WPARAM, LPARAM)
+{
+	UnknownConctactTranslatedName = TranslateT("(Unknown Contact)");
+	return 0;
 }

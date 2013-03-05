@@ -34,6 +34,8 @@ pfnMyMonitorFromPoint  MyMonitorFromPoint = NULL;
 pfnMyMonitorFromWindow MyMonitorFromWindow = NULL;
 pfnMyGetMonitorInfo    MyGetMonitorInfo = NULL;
 
+int OnLoadLangpack(WPARAM, LPARAM);
+
 static HANDLE hookSystemShutdown_CListMod = NULL;
 HANDLE  hookOptInitialise_CList = NULL,
         hookOptInitialise_Skin = NULL,
@@ -225,6 +227,10 @@ HRESULT PreLoadContactListModule()
 	//clist interface is empty yet so handles should check
 	CreateServiceFunction(MS_CLIST_GETCONTACTICON, GetContactIcon);
 	CreateServiceFunction(MS_CLUI_GETCAPS, GetCapsService);
+
+	// catch langpack events
+	HookEvent(ME_LANGPACK_CHANGED, OnLoadLangpack);
+	OnLoadLangpack(0, 0);
 	return S_OK;
 }
 
