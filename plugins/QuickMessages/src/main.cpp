@@ -33,16 +33,16 @@ BOOL g_bQuickMenu=0;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	MODULENAME,
-	PLUGIN_MAKE_VERSION(0,0,4,2),
-	"Plugin for quick insert pre-defined messages in message input area.",
-	"MaD_CLuSTeR",
-	"daniok@yandex.ru",
-	"© 2008 Danil Mozhar",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {37ED754B-6CF9-40ed-9EB6-0FEF8E822475}
-	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
+	// {37ED754B-6CF9-40ED-9EB6-0FEF8E822475}
+	{0x37ed754b, 0x6cf9, 0x40ed, {0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75}}
 };
 
 int PreShutdown(WPARAM wparam,LPARAM lparam)
