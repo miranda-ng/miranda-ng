@@ -79,7 +79,7 @@ static INT_PTR svcCreateEffect_MyTestEffect(WPARAM, LPARAM) { return (INT_PTR)(n
 
 void PopupEfectsInitialize()
 {
-	CreateServiceFunction(MS_POPUP_CREATEVFX "Square fading", svcCreateEffect_MyTestEffect);
+	CreateServiceFunction(MS_POPUP_CREATEVFX LPGEN("Square fading"), svcCreateEffect_MyTestEffect);
 	
 	CallService(MS_POPUP_REGISTERVFX, 0, (LPARAM)"Square fading");
 }

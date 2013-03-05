@@ -198,7 +198,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						break;
 					case 2:				//Treeview part typ 2 (popup class api)
 						iconIndex = ImageList_ReplaceIcon(hImgLst, -1, gTreeData[i]->pupClass.hIcon);
-						wsprintf(itemName, _T("%s/%s"), _T("CLASS Plugins")/*gTreeData[i]->pszTreeRoot*/, gTreeData[i]->pszDescription);
+						wsprintf(itemName, _T("%s/%s"), LPGENT("CLASS Plugins")/*gTreeData[i]->pszTreeRoot*/, gTreeData[i]->pszDescription);
 						break;
 					default:
 						break;

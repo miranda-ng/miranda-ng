@@ -273,7 +273,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		if (PopUpOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && isFullScreen())
 			return -1;
 
-		if (DBGetContactSettingDword(NULL, MODULNAME, "Global Status", 0) &
+		if (DBGetContactSettingDword(NULL, MODULNAME, LPGEN("Global Status"), 0) &
 				Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
@@ -283,7 +283,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		if (proto)
 		{
 			char prefix[128];
-			mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", GetContactProto(ppd->lchContact));
+			mir_snprintf(prefix, sizeof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
 			if (DBGetContactSettingDword(NULL, MODULNAME, prefix, 0) &
 					Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;
