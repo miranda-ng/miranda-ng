@@ -18,22 +18,20 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
 #include "commons.h"
-
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Quick Contacts",
-	PLUGIN_MAKE_VERSION(1,0,0,0),
-	"Open contact-specific windows by hotkey.",
-	"Ricardo Pescuma Domenecci, Heiko Schillinger",
-	"pescuma@miranda-im.org",
-	"© 2007-2009 Ricardo Pescuma Domenecci",
-	"http://pescuma.org/miranda/quickcontacts",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {F93BA59C-4F48-4F2E-8A91-77A2801527A3}
 	{0xf93ba59c, 0x4f48, 0x4f2e, {0x8a, 0x91, 0x77, 0xa2, 0x80, 0x15, 0x27, 0xa3}}
@@ -274,7 +272,7 @@ TCHAR *GetListName(c_struct *cs)
 {
 	if (opts.group_append && cs->szgroup[0] != _T('\0'))
 	{
-		mir_sntprintf(tmp_list_name, MAX_REGS(tmp_list_name), _T("%s (%s)"), cs->szname, cs->szgroup);
+		mir_sntprintf(tmp_list_name, SIZEOF(tmp_list_name), _T("%s (%s)"), cs->szname, cs->szgroup);
 		return tmp_list_name;
 	}
 	else
@@ -438,7 +436,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 				if (DBGetContactSettingTString(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 				{
 					if (dbv.ptszVal != NULL)
-						lstrcpyn(contact->szgroup, dbv.ptszVal, MAX_REGS(contact->szgroup));
+						lstrcpyn(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
 
 					DBFreeVariant(&dbv);
 				}
@@ -446,12 +444,12 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 
 			// Make contact name
 			TCHAR *tmp = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR);
-			lstrcpyn(contact->szname, tmp, MAX_REGS(contact->szname));
+			lstrcpyn(contact->szname, tmp, SIZEOF(contact->szname));
 
 			PROTOACCOUNT *acc = ProtoGetAccount(pszProto);
 			if (acc != NULL)
 			{
-				lstrcpyn(contact->proto, acc->tszAccountName, MAX_REGS(contact->proto));
+				lstrcpyn(contact->proto, acc->tszAccountName, SIZEOF(contact->proto));
 			}
 
 			contact->hcontact = hContact;
@@ -576,7 +574,7 @@ HANDLE GetSelectedContact(HWND hwndDlg)
 	// Now try the name
 	TCHAR cname[120] = _T("");
 
-	GetDlgItemText(hwndDlg, IDC_USERNAME, cname, MAX_REGS(cname));
+	GetDlgItemText(hwndDlg, IDC_USERNAME, cname, SIZEOF(cname));
 			
 	for(int loop = 0; loop < contacts.getCount(); loop++)
 	{
@@ -618,7 +616,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			int ret = SendMessage(hdlg,EM_GETSEL,(WPARAM)&start,(LPARAM)&end);
 
-			SendMessage(hdlg,WM_GETTEXT,(WPARAM)MAX_REGS(sztext),(LPARAM)sztext);
+			SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
 
 			BOOL at_end = (lstrlen(sztext) == (int)end);
 
@@ -638,7 +636,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				}
 
 				SendMessage(hdlg,EM_REPLACESEL,0,(LPARAM)sztext);
-				SendMessage(hdlg,WM_GETTEXT,(WPARAM)MAX_REGS(sztext),(LPARAM)sztext);
+				SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
 			}
 
 			CheckText(hdlg, sztext, !at_end);
@@ -664,7 +662,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			}
 			else if (wparam == VK_DELETE)
 			{
-				SendMessage(hdlg,WM_GETTEXT,(WPARAM)MAX_REGS(sztext),(LPARAM)sztext);
+				SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
 				CheckText(hdlg, sztext, TRUE);
 			}
 
@@ -765,7 +763,7 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(full = tmp, MAX_REGS(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(full = tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONSETASFLATBTN, 0, 0);
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONADDTOOLTIP, (LPARAM) full, BATF_TCHAR);
@@ -780,7 +778,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(full = tmp, MAX_REGS(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(full = tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), WM_SETTEXT, 0, (LPARAM) full);
 }
@@ -1049,7 +1047,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
 						SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
 
-					SendMessage(hEdit, WM_GETTEXT, (WPARAM)MAX_REGS(sztext), (LPARAM)sztext);
+					SendMessage(hEdit, WM_GETTEXT, (WPARAM)SIZEOF(sztext), (LPARAM)sztext);
 
 					// Fill combo			
 					BOOL all = IsDlgButtonChecked(hwndDlg, IDC_SHOW_ALL_CONTACTS);

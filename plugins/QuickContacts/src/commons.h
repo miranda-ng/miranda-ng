@@ -22,51 +22,37 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
-
 #define WINVER 0x0500
+
 #include <windows.h>
 #include <commctrl.h>
-#include <stdio.h>
-#include <tchar.h>
 
-
-// Miranda headers
-#define MIRANDA_VER 0x0A00
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_clist.h>
-#include <m_ignore.h>
-#include <m_contacts.h>
 #include <m_message.h>
 #include <m_userinfo.h>
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_database.h>
-#include <m_options.h>
-#include <m_utils.h>
 #include <m_button.h>
 #include <m_file.h>
 #include <m_url.h>
 #include <m_history.h>
-#include <m_metacontacts.h>
-#include <m_MagneticWindows.h>
-#include <m_popup.h>
-#include <m_voice.h>
-#include <m_voiceservice.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
+#include <win2k.h>
 
-#include "../utils/mir_memory.h"
+#include <m_metacontacts.h>
+#include <m_MagneticWindows.h>
+#include <m_voiceservice.h>
+#include <m_quickcontacts.h>
+
 #include "../utils/mir_options.h"
-#include "../utils/utf8_helpers.h"
 
 #include "resource.h"
-#include "m_quickcontacts.h"
 #include "options.h"
-
+#include "Version.h"
 
 #define MODULE_NAME		"QuickContacts"
 
@@ -74,12 +60,6 @@ Boston, MA 02111-1307, USA.
 // Global Variables
 extern HINSTANCE hInst;
 extern char *metacontacts_proto;
-
-
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
-
-
-
 
 
 // Copied from "../modernb/clc.h" ///////////////////////////////////////////////////////////////////

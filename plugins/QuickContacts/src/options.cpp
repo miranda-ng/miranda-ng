@@ -18,10 +18,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
-#include "options.h"
-
-
+#include "commons.h"
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,7 +96,7 @@ static OptPageControl controls[] = {
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	int ret = SaveOptsDlgProc(controls, MAX_REGS(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	int ret = SaveOptsDlgProc(controls, SIZEOF(controls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 	switch (msg) 
 	{

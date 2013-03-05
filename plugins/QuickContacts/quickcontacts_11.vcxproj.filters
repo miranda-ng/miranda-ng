@@ -13,14 +13,8 @@
       <UniqueIdentifier>{f0bde4e2-7779-412c-a801-78220d6915cc}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{c5afa7ec-eb0e-45af-8ac8-157f4e55f107}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\utils\mir_memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -31,6 +25,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,23 +41,15 @@
     <ClCompile Include="..\Utils\mir_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Docs\langpack_quickcontacts.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\quickcontacts_changelog.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\quickcontacts_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Docs\quickcontacts_version.txt">
-      <Filter>Docs</Filter>
-    </None>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

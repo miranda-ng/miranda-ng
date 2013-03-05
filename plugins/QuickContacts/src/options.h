@@ -22,12 +22,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __OPTIONS_H__
 # define __OPTIONS_H__
 
-
-#include "commons.h"
-
-#include <windows.h>
-
-
 #define TYPE_GLOBAL 0
 #define TYPE_LOCAL 1
 
