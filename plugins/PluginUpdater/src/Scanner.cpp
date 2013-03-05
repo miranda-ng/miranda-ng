@@ -177,7 +177,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			continue;
 
 		// calculate the current file's relative name and store it into tszNewName
-		TCHAR tszNewName[MAX_PATH], key[MAX_PATH];
+		TCHAR tszNewName[MAX_PATH];
 		if ( !CheckFileRename(ffd.cFileName, tszNewName)) {
 			if (level == 0)
 				_tcscpy(tszNewName, ffd.cFileName);
@@ -199,7 +199,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 				if (p[-1] != 'w' && p[-1] != 'W')
 					continue;
 
-				int iPos = int(p - key)-1;
+				int iPos = int(p - tszNewName)-1;
 				strdel(p-1, 1);
 				if ((item = hashes.find(&tmp)) == NULL)
 					continue;
