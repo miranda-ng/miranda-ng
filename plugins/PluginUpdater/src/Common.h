@@ -166,6 +166,13 @@ int SafeCreateFilePath(TCHAR *pFolder);
 #define db_free(A) DBFreeVariant(A)
 #define db_set_s(A,B,C,D) DBWriteContactSettingString(A,B,C,D)
 
+struct VARST : public mir_ptr<TCHAR>
+{
+	__forceinline VARST(const TCHAR *str) :
+		mir_ptr<TCHAR>( Utils_ReplaceVarsT(str))
+		{}
+};
+
 template<class T> class mir_ptr
 {
 	T *data;
