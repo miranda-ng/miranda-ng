@@ -175,19 +175,6 @@ int Get_CRC(unsigned char* buffer, ULONG bufsize)
 	return crc^0xffffffff;
 }
 
-long FileSize(FILE *input)
-{
-
-  long fileSizeBytes;
-  fseek(input, 0, SEEK_END);
-  fileSizeBytes = ftell(input);
-  fseek(input, 0, SEEK_SET);
-
-  return fileSizeBytes;
- 
-
-}
-
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 {
 	DWORD dwBytes;
@@ -257,11 +244,6 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal, int CRCsum)
 
 	DlgDld = ret;
 	return ret;
-}
-
-void __stdcall RestartMe(void*)
-{
-	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +337,30 @@ void CreatePathToFileT(TCHAR* tszFilePath)
 	CreateDirectoryTreeT(tszFilePath);
 	*pszLastBackslash = '\\';
 }
+
+void __stdcall RestartMe(void*)
+{
+	TCHAR mirandaPath[MAX_PATH], cmdLine[MAX_PATH];
+	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+
+	TCHAR *profilename = Utils_ReplaceVarsT(_T("%miranda_profilename%"));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("\"%s\" /restart:%d /profile=%s"), mirandaPath, GetCurrentProcessId(), profilename);
+	mir_free(profilename);
+
+	CallService("CloseAction", 0, 0);
+
+	PROCESS_INFORMATION pi;
+	STARTUPINFO si = { sizeof(si) };
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+}
+
+#else
+
+void __stdcall RestartMe(void*)
+{
+	CallService(MS_SYSTEM_RESTART, db_get_b(NULL,MODNAME,"RestartCurrentProfile",1) ? 1 : 0, 0);
+}
+
 #endif
 
 //   FUNCTION: IsRunAsAdmin()
