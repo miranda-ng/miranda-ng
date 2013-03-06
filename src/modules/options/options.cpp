@@ -41,6 +41,8 @@ static int FilterPage = 0;
 static int FilterLoadProgress = 100;
 static int FilterTimerId = 0;
 
+extern bool bOldMode;
+
 struct OptionsPageInit
 {
 	int pageCount;
@@ -1394,6 +1396,8 @@ static int OptModulesLoaded(WPARAM, LPARAM)
 	mi.pszName = LPGEN("&Options...");
 	mi.pszService = "Options/OptionsCommand";
 	Menu_AddMainMenuItem(&mi);
+
+	bOldMode = db_get_b(NULL, "Options", "OldPluginSettings", false) != 0;
 	return 0;
 }
 

@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern MUUID miid_clist, miid_database, miid_protocol;
 HANDLE hevLoadModule, hevUnloadModule;
-static bool bOldMode = false;
+bool bOldMode = false;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
@@ -495,7 +495,6 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 
 void LoadPluginOptions()
 {
-	bOldMode = db_get_b(NULL, "Options", "OldPluginSettings", false) != 0;
 	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
 	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);
 }
