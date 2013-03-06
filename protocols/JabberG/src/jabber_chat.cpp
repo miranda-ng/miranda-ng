@@ -1322,8 +1322,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 
 static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* gch)
 {
-	TCHAR szBuffer[ 1024 ];
-	TCHAR szCaption[ 1024 ];
+	TCHAR szCaption[1024], szBuffer[1024];
 	szBuffer[ 0 ] = _T('\0');
 
 	switch(gch->dwData) {
@@ -1353,27 +1352,30 @@ static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* g
 
 	case IDM_TOPIC:
 		mir_sntprintf(szCaption, SIZEOF(szCaption), _T("%s %s"), TranslateT("Set topic for"), gch->pDest->ptszID);
-		TCHAR szTmpBuff[ SIZEOF(szBuffer) * 2 ];
-		if (item->itemResource.statusMessage) {
-			int j = 0;
-			for (int i = 0; i < SIZEOF(szTmpBuff); i++) {
-				if (item->itemResource.statusMessage[ i ] != _T('\n') || (i && item->itemResource.statusMessage[ i - 1 ] == _T('\r')))
-					szTmpBuff[ j++ ] = item->itemResource.statusMessage[ i ];
-				else {
-					szTmpBuff[ j++ ] = _T('\r');
-					szTmpBuff[ j++ ] = _T('\n');
+		{	
+			size_t cbLen = 2048 + lstrlen(item->itemResource.statusMessage)*2;
+			mir_ptr<TCHAR> ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
+			if (item->itemResource.statusMessage) {
+				TCHAR *d = ptszBuf;
+				for (int i = 0; i < cbLen; i++) {
+					if (item->itemResource.statusMessage[ i ] != _T('\n') || (i && item->itemResource.statusMessage[ i - 1 ] == _T('\r')))
+						*d++ = item->itemResource.statusMessage[ i ];
+					else {
+						*d++ = _T('\r');
+						*d++ = _T('\n');
+					}
+					if ( !item->itemResource.statusMessage[ i ])
+						break;
 				}
-				if ( !item->itemResource.statusMessage[ i ])
-					break;
+				*d = 0;
 			}
+			else ptszBuf[0] = 0;
+
+			if (ppro->EnterString(ptszBuf, cbLen, szCaption, JES_RICHEDIT, "gcTopic_"))
+				ppro->m_ThreadInfo->send(
+					XmlNode(_T("message")) << XATTR(_T("to"), gch->pDest->ptszID) << XATTR(_T("type"), _T("groupchat"))
+						<< XCHILD(_T("subject"), ptszBuf));
 		}
-		else szTmpBuff[ 0 ] = _T('\0');
-
-		if (ppro->EnterString(szTmpBuff, SIZEOF(szTmpBuff), szCaption, JES_RICHEDIT, "gcTopic_"))
-			ppro->m_ThreadInfo->send(
-				XmlNode(_T("message")) << XATTR(_T("to"), gch->pDest->ptszID) << XATTR(_T("type"), _T("groupchat"))
-					<< XCHILD(_T("subject"), szTmpBuff));
-
 		break;
 
 	case IDM_NICK:
