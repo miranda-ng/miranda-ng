@@ -107,17 +107,12 @@ CIconPool::CPoolItem::~CPoolItem()
 }
 
 CIconPool::CIconPool() :
-	m_items(10, CIconPool::CPoolItem::cmp),
-	m_hOnExtraIconsRebuild(NULL)
+	m_items(10, CIconPool::CPoolItem::cmp)
 {
 }
 
 CIconPool::~CIconPool()
 {
-	if (m_hOnExtraIconsRebuild) {
-		UnhookEvent(m_hOnExtraIconsRebuild);
-		m_hOnExtraIconsRebuild = NULL;
-	}
 }
 
 void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)

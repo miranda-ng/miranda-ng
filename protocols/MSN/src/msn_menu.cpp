@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_global.h"
 #include "msn_proto.h"
 
-static HANDLE hPrebuildMenuHook;
 static HGENMENU
 	hBlockMenuItem,
 	hLiveSpaceMenuItem,
@@ -483,13 +482,11 @@ void MSN_InitContactMenu(void)
 	mi.pszName = LPGEN("Open &Hotmail Inbox");
 	hOpenInboxMenuItem = Menu_AddContactMenuItem(&mi);
 
-	hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MSN_OnPrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MSN_OnPrebuildContactMenu);
 }
 
 void MSN_RemoveContactMenus(void)
 {
-	UnhookEvent(hPrebuildMenuHook);
-
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hLiveSpaceMenuItem, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hNetmeetingMenuItem, 0);

@@ -45,9 +45,6 @@ extern HMODULE          g_hIconDLL;
 
 extern HIMAGELIST       CreateStateImageList();
 
-HANDLE					g_hOptions = NULL;
-
-
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2
 
@@ -1418,7 +1415,6 @@ int OptionsInit(void)
 int OptionsUnInit(void)
 {
 	FreeGlobalSettings();
-	UnhookEvent(g_hOptions);
 	DeleteObject(hListBkgBrush);
 	DeleteObject(g_Settings.NameFont);
 	return 0;

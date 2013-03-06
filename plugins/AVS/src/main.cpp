@@ -31,19 +31,11 @@ static BOOL    g_MetaAvail = FALSE;
 BOOL           g_AvatarHistoryAvail = FALSE;
 static long    hwndSetMyAvatar = 0;
 
-static HANDLE  hMyAvatarsFolder = 0;
-static HANDLE  hGlobalAvatarFolder = 0;
-static HANDLE  hLoaderEvent = 0;
-static HANDLE  hLoaderThread = 0;
+static HANDLE  hMyAvatarsFolder;
+static HANDLE  hGlobalAvatarFolder;
+static HANDLE  hLoaderEvent, hLoaderThread;
+HANDLE  hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
-static HANDLE  hOptInit = 0;
-static HANDLE  hModulesLoaded = 0;
-static HANDLE  hPresutdown = 0;
-static HANDLE  hOkToExit = 0;
-static HANDLE  hAccChanged = 0;
-
-HANDLE hProtoAckHook = 0, hContactSettingChanged = 0, hEventChanged = 0, hEventContactAvatarChanged = 0,
-		hMyAvatarChanged = 0, hEventDeleted = 0, hUserInfoInitHook = 0;
 HICON	g_hIcon = 0;
 
 BOOL (WINAPI *AvsAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION) = NULL;
@@ -502,7 +494,7 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)szFileName, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 				else
-					MultiByteToWideChar( CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF( tszFilename ));
+					MultiByteToWideChar( CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
 			}
 			else if (!DBGetContactSettingTString(NULL, szProto, "AvatarFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
@@ -1910,34 +1902,6 @@ static int MetaChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static LIST<void> arServices( 10 );
-
-static int DestroyServicesAndEvents()
-{
-	UnhookEvent(hContactSettingChanged);
-	UnhookEvent(hProtoAckHook);
-	UnhookEvent(hUserInfoInitHook);
-	UnhookEvent(hOptInit);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hPresutdown);
-	UnhookEvent(hOkToExit);
-	UnhookEvent(hAccChanged);
-
-	for ( int i=0; i < arServices.getCount(); i++ )
-		DestroyServiceFunction( arServices[i] );
-
-	arServices.destroy();
-
-	DestroyHookableEvent(hEventChanged);
-	DestroyHookableEvent(hEventContactAvatarChanged);
-	DestroyHookableEvent(hMyAvatarChanged);
-	hEventChanged = 0;
-	hEventContactAvatarChanged = 0;
-	hMyAvatarChanged = 0;
-	UnhookEvent(hEventDeleted);
-	return 0;
-}
-
 static void LoadDefaultInfo()
 {
 	protoPicCacheEntry* pce = new protoPicCacheEntry;
@@ -2060,11 +2024,10 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	pce->szProtoname = mir_strdup("");
 	g_MyAvatars.insert( pce );
 
-	hAccChanged = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
-	hPresutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownProc);
-	hOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT, OkToExitProc);
-	hUserInfoInitHook = HookEvent(ME_USERINFO_INITIALISE, OnDetailsInit);
-
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccChanged);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownProc);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExitProc);
+	HookEvent(ME_USERINFO_INITIALISE, OnDetailsInit);
 	return 0;
 }
 
@@ -2151,8 +2114,7 @@ static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Contacts");
@@ -2172,7 +2134,6 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }
 
@@ -2181,7 +2142,9 @@ static int OkToExitProc(WPARAM wParam, LPARAM lParam)
 	EnterCriticalSection(&cachecs);
 	g_shutDown = TRUE;
 
-	DestroyServicesAndEvents();
+	DestroyHookableEvent(hEventChanged); hEventChanged = 0;
+	DestroyHookableEvent(hEventContactAvatarChanged); hEventContactAvatarChanged = 0;
+	DestroyHookableEvent(hMyAvatarChanged); hMyAvatarChanged = 0;
 
 	LeaveCriticalSection(&cachecs);
 
@@ -2394,27 +2357,27 @@ static int LoadAvatarModule()
 	InitializeCriticalSection(&cachecs);
 	InitializeCriticalSection(&alloccs);
 
-	hOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
-	hEventDeleted = HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	hProtoAckHook = HookEvent(ME_PROTO_ACK, ProtocolAck);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
+	HookEvent(ME_PROTO_ACK, ProtocolAck);
 
-	arServices.insert( CreateServiceFunction( MS_AV_GETAVATARBITMAP, GetAvatarBitmap ));
-	arServices.insert( CreateServiceFunction( MS_AV_PROTECTAVATAR, ProtectAvatar ));
-	arServices.insert( CreateServiceFunction( MS_AV_SETAVATAR, SetAvatar ));
-	arServices.insert( CreateServiceFunction( MS_AV_SETMYAVATAR, SetMyAvatar ));
-	arServices.insert( CreateServiceFunction( MS_AV_CANSETMYAVATAR, CanSetMyAvatar ));
-	arServices.insert( CreateServiceFunction( MS_AV_CONTACTOPTIONS, ContactOptions ));
-	arServices.insert( CreateServiceFunction( MS_AV_DRAWAVATAR, DrawAvatarPicture ));
-	arServices.insert( CreateServiceFunction( MS_AV_GETMYAVATAR, GetMyAvatar ));
-	arServices.insert( CreateServiceFunction( MS_AV_REPORTMYAVATARCHANGED, ReportMyAvatarChanged ));
-	arServices.insert( CreateServiceFunction( MS_AV_LOADBITMAP32, BmpFilterLoadBitmap32 ));
-	arServices.insert( CreateServiceFunction( MS_AV_SAVEBITMAP, BmpFilterSaveBitmap ));
-	arServices.insert( CreateServiceFunction( MS_AV_CANSAVEBITMAP, BmpFilterCanSaveBitmap ));
-	arServices.insert( CreateServiceFunction( MS_AV_RESIZEBITMAP, BmpFilterResizeBitmap ));
-	arServices.insert( CreateServiceFunction( MS_AV_SETAVATARW, SetAvatarW ));
-	arServices.insert( CreateServiceFunction( MS_AV_SETMYAVATARW, SetMyAvatarW ));
+	CreateServiceFunction(MS_AV_GETAVATARBITMAP, GetAvatarBitmap);
+	CreateServiceFunction(MS_AV_PROTECTAVATAR, ProtectAvatar);
+	CreateServiceFunction(MS_AV_SETAVATAR, SetAvatar);
+	CreateServiceFunction(MS_AV_SETMYAVATAR, SetMyAvatar);
+	CreateServiceFunction(MS_AV_CANSETMYAVATAR, CanSetMyAvatar);
+	CreateServiceFunction(MS_AV_CONTACTOPTIONS, ContactOptions);
+	CreateServiceFunction(MS_AV_DRAWAVATAR, DrawAvatarPicture);
+	CreateServiceFunction(MS_AV_GETMYAVATAR, GetMyAvatar);
+	CreateServiceFunction(MS_AV_REPORTMYAVATARCHANGED, ReportMyAvatarChanged);
+	CreateServiceFunction(MS_AV_LOADBITMAP32, BmpFilterLoadBitmap32);
+	CreateServiceFunction(MS_AV_SAVEBITMAP, BmpFilterSaveBitmap);
+	CreateServiceFunction(MS_AV_CANSAVEBITMAP, BmpFilterCanSaveBitmap);
+	CreateServiceFunction(MS_AV_RESIZEBITMAP, BmpFilterResizeBitmap);
+	CreateServiceFunction(MS_AV_SETAVATARW, SetAvatarW);
+	CreateServiceFunction(MS_AV_SETMYAVATARW, SetMyAvatarW);
 
 	hEventChanged = CreateHookableEvent(ME_AV_AVATARCHANGED);
 	hEventContactAvatarChanged = CreateHookableEvent(ME_AV_CONTACTAVATARCHANGED);

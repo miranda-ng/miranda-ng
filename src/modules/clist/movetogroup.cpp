@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\..\core\commonheaders.h"
 
-HANDLE hOnCntMenuBuild;
 HGENMENU hMoveToGroupItem = 0, hPriorityItem = 0, hFloatingItem = 0;
 
 LIST<HANDLE> lphGroupsItems(5);
@@ -144,14 +143,12 @@ static INT_PTR MTG_DOMOVE(WPARAM wParam, LPARAM lParam)
 
 void MTG_OnmodulesLoad()
 {
-	hOnCntMenuBuild = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
 	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);
 }
 
 int UnloadMoveToGroup(void)
 {
-	UnhookEvent(hOnCntMenuBuild);
 	lphGroupsItems.destroy();
-
 	return 0;
 }

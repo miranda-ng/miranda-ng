@@ -19,7 +19,7 @@
 #ifndef MSG_EXP_FILE_VIEWER
 #define MSG_EXP_FILE_VIEWER
 
-void Initilize();
+void Initialize();
 void Uninitilize();
 
 void UpdateFileViews( const _TCHAR * pszFile );

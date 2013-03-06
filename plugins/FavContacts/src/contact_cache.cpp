@@ -66,14 +66,13 @@ CContactCache::CContactCache(): m_cache(50, TContactInfo::cmp)
 
 	int (__cdecl CContactCache::*pfn)(WPARAM, LPARAM);
 	pfn = &CContactCache::OnDbEventAdded;
-	m_hOnDbEventAdded = HookEventObj(ME_DB_EVENT_ADDED, *(MIRANDAHOOKOBJ *)&pfn, this);
+	HookEventObj(ME_DB_EVENT_ADDED, *(MIRANDAHOOKOBJ *)&pfn, this);
 
 	Rebuild();
 }
 
 CContactCache::~CContactCache()
 {
-	UnhookEvent(m_hOnDbEventAdded);
 	DeleteCriticalSection(&m_cs);
 }
 

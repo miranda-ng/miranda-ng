@@ -46,7 +46,6 @@ CRITICAL_SECTION  cs;
 HANDLE hSendEvent;
 HANDLE hBuildMenuEvent;
 HANDLE hJoinMenuItem, hLeaveMenuItem;
-HANDLE g_hHookPrebuildMenu;
 
 static HANDLE
 	hServiceRegister = NULL,
@@ -819,12 +818,11 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 void HookEvents(void)
 {
 	InitializeCriticalSection(&cs);
-	g_hHookPrebuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu); // MIRANDAHOOK should return INT_PTR too
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu); // MIRANDAHOOK should return INT_PTR too
 }
 
 void UnhookEvents(void)
 {
-	UnhookEvent(g_hHookPrebuildMenu);
 	DeleteCriticalSection(&cs);
 }
 

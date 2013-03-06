@@ -560,14 +560,8 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 }
 
 
-HANDLE hEventOptInitialise;
 void InitOptions()
 {
 	LoadOptions();
-	hEventOptInitialise = HookEvent(ME_OPT_INITIALISE, OptionsInit);
-}
-
-void DeinitOptions()
-{
-	UnhookEvent(hEventOptInitialise);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 }

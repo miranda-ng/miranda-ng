@@ -88,7 +88,7 @@ void CIrcProto::InitMainMenus(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static HGENMENU hUMenuChanSettings, hUMenuWhois, hUMenuDisconnect, hUMenuIgnore;
-static HANDLE hPreBuildContactMenu, hMenuChanSettings, hMenuWhois, hMenuDisconnect, hMenuIgnore;
+static HANDLE hMenuChanSettings, hMenuWhois, hMenuDisconnect, hMenuIgnore;
 
 static CIrcProto* IrcGetInstanceByHContact(HANDLE hContact)
 {
@@ -178,12 +178,11 @@ void InitContactMenus(void)
 	hUMenuIgnore = Menu_AddContactMenuItem(&mi);
 	hMenuIgnore = CreateServiceFunction( temp, IrcMenuIgnore );
 
-	hPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, IrcPrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, IrcPrebuildContactMenu);
 }
 
 void UninitContactMenus(void)
 {
-	UnhookEvent(hPreBuildContactMenu);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuChanSettings, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuWhois, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hUMenuDisconnect, 0);

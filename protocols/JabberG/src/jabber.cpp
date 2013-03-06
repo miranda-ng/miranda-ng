@@ -72,7 +72,6 @@ HRESULT (WINAPI *JabberDrawThemeParentBackground)(HWND, HDC, RECT *) = NULL;
 /////////////////////////////////////////////////////////////////////////////
 
 BOOL   jabberChatDllPresent = FALSE;
-HANDLE hModulesLoaded, hModulesLoadedTB;
 
 HANDLE hExtraActivity = NULL;
 HANDLE hExtraMood = NULL;
@@ -148,7 +147,7 @@ static INT_PTR g_SvcParseXmppUri(WPARAM w, LPARAM l)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	hModulesLoadedTB = HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
+	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
 	bSecureIM = (ServiceExists("SecureIM/IsContactSecured"));
 	bMirOTR = (int)GetModuleHandle(_T("mirotr.dll"));
@@ -264,7 +263,7 @@ extern "C" int __declspec(dllexport) Load()
 	g_IconsInit();
 	g_XstatusIconsInit();
 	g_MenuInit();
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
 
 	return 0;
@@ -275,9 +274,6 @@ extern "C" int __declspec(dllexport) Load()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hModulesLoadedTB);
-
 	g_MenuUninit();
 
 	g_Instances.destroy();

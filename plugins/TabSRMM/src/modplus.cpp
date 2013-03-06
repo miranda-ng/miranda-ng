@@ -47,8 +47,6 @@
 
 #include "commonheaders.h"
 
-static  HANDLE  hEventCBButtonPressed,hEventCBInit, hEventDbOptionsInit, hEventDbPluginsLoaded;
-
 int     g_bStartup=0;
 
 BOOL    g_bIMGtagButton;
@@ -104,19 +102,6 @@ int ChangeClientIconInStatusBar(const TWindowData *dat)
 	CallService(MS_MSG_MODIFYICON,(WPARAM)dat->hContact, (LPARAM)&sid);
 	mir_free(msg);
 	return (S_OK);
-}
-
-
-int ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam)
-{
-	if ( hEventCBButtonPressed )
-		UnhookEvent(hEventCBButtonPressed);
-	if ( hEventCBInit )
-		UnhookEvent(hEventCBInit);
-	UnhookEvent(hEventDbPluginsLoaded);
-	UnhookEvent(hEventDbOptionsInit);
-
-	return (0);
 }
 
 static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
@@ -258,8 +243,8 @@ int ModPlus_Init(WPARAM wparam,LPARAM lparam)
 {
 	g_bStartup = 1;
 
-	hEventCBButtonPressed=HookEvent(ME_MSG_BUTTONPRESSED,CustomButtonPressed);
-	hEventCBInit=HookEvent(ME_MSG_TOOLBARLOADED,RegisterCustomButton);
+	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
+	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 
 	if (PluginConfig.g_bClientInStatusBar&&ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = {0};

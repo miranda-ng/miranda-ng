@@ -412,7 +412,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 
 
 /////////////////////////////////////////////////////////////////////
-// Member Function : Initilize
+// Member Function : Initialize
 // Type            : Global
 // Parameters      : None
 // Returns         : void
@@ -424,7 +424,7 @@ int CLStreamRTFInfo::nLoadFileStream( LPBYTE pbBuff , LONG cb )
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void Initilize()
+void Initialize()
 {
 	InitializeCriticalSection( &csHistoryList );
 }

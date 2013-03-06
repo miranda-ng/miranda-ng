@@ -26,9 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hOptionsInitialize;
 
-int UnhookEvents();
 int HookEvents();
 
-int OnOptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 #endif

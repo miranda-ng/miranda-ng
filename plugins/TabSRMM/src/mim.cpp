@@ -324,7 +324,7 @@ void CMimAPI::configureCustomFolders()
 	m_hChatLogsPath = FoldersRegisterCustomPathT("TabSRMM", "Group chat logs root", const_cast<TCHAR *>(getChatLogPath()));
 
 	if (m_hDataPath)
-		CGlobals::m_event_FoldersChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, CMimAPI::FoldersPathChanged);
+		HookEvent(ME_FOLDERS_PATH_CHANGED, CMimAPI::FoldersPathChanged);
 
 	foldersPathChanged();
 }

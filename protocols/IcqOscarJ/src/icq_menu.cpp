@@ -29,8 +29,6 @@
 
 #include <m_skin.h>
 
-static HANDLE hPrebuildMenuHook;
-
 HANDLE g_hContactMenuItems[6];
 HANDLE g_hContactMenuSvc[6];
 
@@ -118,7 +116,7 @@ void g_MenuInit(void)
 	///////////////
 	// Contact menu
 
-	hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, IcqPrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, IcqPrebuildContactMenu);
 
 	// Contact menu initialization
 
@@ -179,8 +177,6 @@ void g_MenuInit(void)
 
 void g_MenuUninit(void)
 {
-	UnhookEvent(hPrebuildMenuHook);
-
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_REQUEST], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_GRANT], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_REVOKE], 0);

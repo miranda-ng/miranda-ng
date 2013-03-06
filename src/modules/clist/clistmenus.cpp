@@ -56,8 +56,6 @@ bool prochotkey;
 
 HANDLE hPreBuildMainMenuEvent, hStatusModeChangeEvent, hPreBuildContactMenuEvent;
 
-static HANDLE hAckHook;
-
 static HMENU hMainMenu, hStatusMenu = 0;
 static const int statusModeList[ MAX_STATUS_COUNT ] =
 {
@@ -1319,7 +1317,7 @@ void InitCustomMenus(void)
 	cli.hPreBuildStatusMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDSTATUSMENU);
 	hStatusModeChangeEvent = CreateHookableEvent(ME_CLIST_STATUSMODECHANGE);
 
-	hAckHook = (HANDLE)HookEvent(ME_PROTO_ACK, MenuProtoAck);
+	HookEvent(ME_PROTO_ACK, MenuProtoAck);
 
 	hMainMenu = CreatePopupMenu();
 	hStatusMenu = CreatePopupMenu();
@@ -1408,5 +1406,4 @@ void UninitCustomMenus(void)
 
 	DestroyMenu(hMainMenu);
 	DestroyMenu(hStatusMenu);
-	UnhookEvent(hAckHook);
 }

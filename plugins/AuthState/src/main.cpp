@@ -20,11 +20,10 @@
 #include "commonheaders.h"
 
 HINSTANCE g_hInst;
-static HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
-static HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSettingChanged = NULL, hContactAdded = NULL;
-static HANDLE hPrebuildContactMenu = NULL, hAuthMenuSelected = NULL;
-static HANDLE hUserMenu = NULL;
-HANDLE hExtraIcon = NULL;
+static HANDLE hOptInitialise;
+static HANDLE hHookExtraIconsRebuild, hHookExtraIconsApply;
+static HANDLE hAuthMenuSelected, hUserMenu;
+HANDLE hExtraIcon;
 int hLangpack;
 
 BYTE bUseAuthIcon = 0, bUseGrantIcon = 0, bContactMenuItem = 0, bIconsForRecentContacts = 0, bUseAuthGroup = 0;
@@ -186,28 +185,15 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
-	if (bContactMenuItem) hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
+	if (bContactMenuItem)
+		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
 	return 0;
 }
 
 int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 {
-	UnhookEvent(hHookModulesLoaded);
-	UnhookEvent(hHookExtraIconsRebuild);
-	UnhookEvent(hHookExtraIconsApply);
-	UnhookEvent(hOptInitialise);
-	UnhookEvent(hSystemOKToExit);
-	UnhookEvent(hContactSettingChanged);
-	if (hIcoLibIconsChanged) UnhookEvent(hIcoLibIconsChanged);
-	if (hContactAdded) UnhookEvent(hContactAdded);
-	if (hPrebuildContactMenu)
-	{
-		UnhookEvent(hPrebuildContactMenu);
-		UnhookEvent(hUserMenu);
-	}
 	DestroyServiceFunction(hAuthMenuSelected);
-
 	return 0;
 }
 
@@ -215,16 +201,16 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
 	bUseAuthIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableAuthIcon", 1);
 	bUseGrantIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableGrantIcon", 1);
 	bContactMenuItem = DBGetContactSettingByte(NULL, MODULENAME, "MenuItem", 0);
 	bIconsForRecentContacts = DBGetContactSettingByte(NULL, MODULENAME, "EnableOnlyForRecent", 0);
 
-	hContactAdded = HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
+	HookEvent(ME_DB_CONTACT_ADDED, onDBContactAdded);
 
 	if (bContactMenuItem)
 	{

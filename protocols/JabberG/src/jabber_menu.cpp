@@ -42,8 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HANDLE hChooserMenu;
 static int iChooserMenuPos = 30000;
 
-static HANDLE hPrebuildMenuHook;
-
 static HGENMENU g_hMenuRequestAuth;
 static HGENMENU g_hMenuGrantAuth;
 static HGENMENU g_hMenuRevokeAuth;
@@ -195,7 +193,7 @@ static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void g_MenuInit(void)
 {
-	hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, JabberPrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, JabberPrebuildContactMenu);
 
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
 
@@ -358,8 +356,6 @@ void g_MenuUninit(void)
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuLogin, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRefresh, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuAddBookmark, 0);
-
-	UnhookEvent(hPrebuildMenuHook);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

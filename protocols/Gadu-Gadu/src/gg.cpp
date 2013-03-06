@@ -277,7 +277,7 @@ void GGPROTO::block_init()
 	mi.pszContactOwner = m_szModuleName;
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
-	hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
 
 //////////////////////////////////////////////////////////
@@ -285,7 +285,6 @@ void GGPROTO::block_init()
 
 void GGPROTO::block_uninit()
 {
-	UnhookEvent(hPrebuildMenuHook);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hBlockMenuItem, 0);
 }
 
@@ -385,9 +384,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload()
 {
-	LocalEventUnhook(hHookModulesLoaded);
-	LocalEventUnhook(hHookPreShutdown);
-
 	// Cleanup WinSock
 	WSACleanup();
 	return 0;

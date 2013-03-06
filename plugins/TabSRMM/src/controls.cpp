@@ -87,7 +87,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_activeSubMenu = 0;
 	m_fTracking = false;
 	m_isContactMenu = m_isMainMenu = false;
-	m_hevHook = HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
+	HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
 
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, (UINT_PTR)this);
 	mir_subclassWindow(m_hwndToolbar, wndProc);
@@ -97,7 +97,6 @@ CMenuBar::~CMenuBar()
 {
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, 0);
 	::DestroyWindow(m_hwndToolbar);
-	::UnhookEvent(m_hevHook);
 	releaseHook();
 	m_MimIconRefCount--;
 	if (m_MimIconRefCount == 0) {

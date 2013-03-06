@@ -56,9 +56,6 @@ struct ProtoIconIndex
 
 OBJLIST<ProtoIconIndex> protoIconIndex(5);
 
-static HANDLE hProtoAckHook;
-static HANDLE hContactSettingChanged;
-
 TCHAR* fnGetStatusModeDescription(int mode, int flags)
 {
 	static TCHAR szMode[64];
@@ -498,10 +495,10 @@ int LoadContactListModule2(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ContactListModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, ContactListAccountsChanged);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	hProtoAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ProtocolAck);
+	HookEvent(ME_PROTO_ACK, ProtocolAck);
 
 	hContactDoubleClicked = CreateHookableEvent(ME_CLIST_DOUBLECLICKED);
 	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
@@ -561,9 +558,7 @@ void UnloadContactListModule()
 		hContact = hNext;
 	}
 	ImageList_Destroy(hCListImages);
-	UnhookEvent(hProtoAckHook);
 	UninitCListEvents();
 	protoIconIndex.destroy();
 	DestroyHookableEvent(hContactDoubleClicked);
-	UnhookEvent(hContactSettingChanged);
 }

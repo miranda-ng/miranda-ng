@@ -817,9 +817,6 @@ int PreShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 /////////////////////////////////////////////////////////////////////
 
 int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
-	if (hEventProtoAck)
-		UnhookEvent(hEventProtoAck);
-
 	while (pclFirstNode) {
 		CLFileShareNode * pclCur = pclFirstNode;
 		pclFirstNode = pclFirstNode->pclNext;
@@ -827,10 +824,6 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 	}
 	pclFirstNode = NULL;
 
-	if (hEventSystemInit) {
-		UnhookEvent(hEventSystemInit);
-		hEventSystemInit = 0;
-	}
 	UnInitGuiElements();
 
 	db_set_b(NULL, MODULE, "IndexCreationMode", (BYTE)indexCreationMode);

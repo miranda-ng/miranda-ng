@@ -17,31 +17,24 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
 #include "commonheaders.h"
-
 
 BOOL g_shutDown = FALSE;
 static HANDLE hShutdownEvent = NULL;
-static HANDLE hOkToExit = NULL;
-
 
 static int OkToExitProc(WPARAM wParam, LPARAM lParam)
 {
 	g_shutDown = TRUE;
 	SetEvent(hShutdownEvent);
 	CloseHandle(hShutdownEvent);
-	UnhookEvent(hOkToExit);
 	return 0;
 }
-
 
 void init_mir_thread() 
 {
 	hShutdownEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	hOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT, OkToExitProc);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExitProc);
 }
-
 
 void mir_sleep(int time) 
 {

@@ -31,7 +31,7 @@
 // unique to this DLL, not to be shared
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
-HANDLE g_hmGenMenuInit, g_hMenuItem, g_hHideService, g_hIsHiddenService;
+HANDLE g_hMenuItem, g_hHideService, g_hIsHiddenService;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
@@ -628,16 +628,13 @@ void BossKeyMenuItemInit(void) // Add menu item
 
 	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 
-	g_hmGenMenuInit = HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);
+	HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);
 }
 
 void BossKeyMenuItemUnInit(void) // Remove menu item
 {
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)g_hMenuItem, 0);
 	g_hMenuItem = 0;
-	if(g_hmGenMenuInit)
-		UnhookEvent(g_hmGenMenuInit);
-	g_hmGenMenuInit = 0;
 }
 
 void RegisterCoreHotKeys (void)
@@ -840,9 +837,6 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitIdleTimer();
-
-	if(g_hmGenMenuInit)
-		UnhookEvent(g_hmGenMenuInit);
 
 	if (g_hWinHook != 0)
 		UnhookWinEvent(g_hWinHook);

@@ -1,6 +1,5 @@
 #include <commonheaders.h>
 
-HANDLE hOnCntMenuBuild;
 HANDLE hPriorityItem = 0, hFloatingItem = 0;
 
 static int OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
@@ -34,14 +33,6 @@ static int OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 
 int MTG_OnmodulesLoad(WPARAM wParam,LPARAM lParam)
 {
-	hOnCntMenuBuild=HookEvent(ME_CLIST_PREBUILDCONTACTMENU,OnContactMenuBuild);
-	return 0;
-}
-
-int UnloadMoveToGroup(void)
-{
-	if (hOnCntMenuBuild)
-		UnhookEvent(hOnCntMenuBuild);
-
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,OnContactMenuBuild);
 	return 0;
 }

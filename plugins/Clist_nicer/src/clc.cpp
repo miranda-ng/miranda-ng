@@ -46,9 +46,7 @@ extern int during_sizing;
 
 HIMAGELIST hCListImages;
 
-HANDLE hIcoLibChanged = 0, hSvc_GetContactStatusMsg = 0;
-
-static HANDLE hClcSettingsChanged, hClcDBEvent = 0;
+HANDLE hSvc_GetContactStatusMsg = 0;
 
 static HRESULT(WINAPI *MyCloseThemeData)(HANDLE);
 
@@ -195,10 +193,6 @@ static int ClcPreshutdown(WPARAM wParam, LPARAM lParam)
 	cfg::shutDown = TRUE;
 	if (hSvc_GetContactStatusMsg)
 		DestroyServiceFunction(hSvc_GetContactStatusMsg);
-	UnhookEvent(hClcSettingsChanged);
-	UnhookEvent(hClcDBEvent);
-	if (hIcoLibChanged)
-		UnhookEvent(hIcoLibChanged);
 	return 0;
 }
 
@@ -244,8 +238,8 @@ int LoadCLCModule(void)
 
 	hCListImages = (HIMAGELIST) CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 
-	hClcSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
-	hClcDBEvent = HookEvent(ME_DB_EVENT_ADDED, ClcEventAdded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
+	HookEvent(ME_DB_EVENT_ADDED, ClcEventAdded);
 	HookEvent(ME_OPT_INITIALISE, ClcOptInit);
 	HookEvent(ME_SYSTEM_SHUTDOWN, ClcPreshutdown);
 	return 0;

@@ -39,7 +39,6 @@ private:
 	OBJLIST<TContactInfo> m_cache;
 	unsigned long m_lastUpdate;
 	CRITICAL_SECTION m_cs;
-	HANDLE m_hOnDbEventAdded;
 
 	int __cdecl OnDbEventAdded(WPARAM wParam, LPARAM lParam);
 	float GetEventWeight(unsigned long age);

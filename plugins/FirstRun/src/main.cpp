@@ -2,7 +2,6 @@
 
 HINSTANCE hInst;
 
-HANDLE hModulesLoaded;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -50,14 +49,12 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfo);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hModulesLoaded);
 	return 0;
 }

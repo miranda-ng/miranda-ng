@@ -29,8 +29,6 @@ HINSTANCE hInst;
 int hLangpack;
 TIME_API tmi;
 
-HANDLE hMooduleLoaded;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialization routines
 
@@ -117,7 +115,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
-	hMooduleLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "MSN";
@@ -138,7 +136,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	MSN_RemoveContactMenus();
 	MsnLinks_Destroy();
-	UnhookEvent(hMooduleLoaded);
 	return 0;
 }
 

@@ -95,8 +95,6 @@ extern int do_yahoo_debug;
 
 #define STYLE_DEFAULTBGCOLOUR     RGB(173,206,247)
 
-#define LocalEventUnhook(hook)	if (hook) UnhookEvent(hook)
-
 struct _conn {
 	unsigned int tag;
 	int id;

@@ -36,8 +36,6 @@ static BOOL bModuleInitialized = FALSE;
 static HANDLE hClcWindowList;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
-static HANDLE hAckHook;
-static HANDLE hClcSettingsChanged;
 
 int g_IconWidth, g_IconHeight;
 
@@ -223,12 +221,12 @@ int LoadCLCModule(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, ClcAccountsChanged);
-	hClcSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, ClcContactDeleted);
 	HookEvent(ME_CLIST_CONTACTICONCHANGED, ClcContactIconChanged);
 	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);
-	hAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ClcProtoAck);
+	HookEvent(ME_PROTO_ACK, ClcProtoAck);
 
 	InitCustomMenus();
 	return 0;
@@ -237,9 +235,6 @@ int LoadCLCModule(void)
 void UnloadClcModule()
 {
 	if ( !bModuleInitialized) return;
-
-	UnhookEvent(hAckHook);
-	UnhookEvent(hClcSettingsChanged);
 
 	mir_free(cli.clcProto);
 

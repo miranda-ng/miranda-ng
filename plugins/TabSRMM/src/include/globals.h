@@ -201,7 +201,6 @@ public:
 	TSplitterBroadCast 		lastSPlitterPos;
 	TContainerSettings		globalContainerSettings;
 
-	static HANDLE					m_event_FoldersChanged;
 	static TCHAR*					m_default_container_name;
 	static	void					cacheUpdateMetaChanged();
 	static  void 					logStatusChange(WPARAM wParam, const CContactCache *c);
@@ -212,12 +211,6 @@ public:
 	static  INT_PTR CALLBACK 		Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 private:
 	bool				m_TypingSoundAdded;
-	static HANDLE		m_event_ModulesLoaded, m_event_PrebuildMenu, m_event_SettingChanged;
-	static HANDLE		m_event_ContactDeleted, m_event_Dispatch, m_event_EventAdded;
-	static HANDLE		m_event_IconsChanged, m_event_TypingEvent, m_event_ProtoAck, m_event_PreShutdown, m_event_OkToExit;
-	static HANDLE		m_event_IcoLibChanged, m_event_AvatarChanged, m_event_MyAvatarChanged, m_event_FontsChanged;
-	static HANDLE		m_event_SmileyAdd, m_event_IEView;
-	static HANDLE 		m_event_ME_MC_SUBCONTACTSCHANGED, m_event_ME_MC_FORCESEND, m_event_ME_MC_UNFORCESEND;
 
 	static EXCEPTION_RECORD m_exRecord;
 	static CONTEXT			m_exCtx;

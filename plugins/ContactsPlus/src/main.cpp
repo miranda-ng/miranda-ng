@@ -34,15 +34,6 @@ HANDLE ghSendWindowList;
 HANDLE ghRecvWindowList;
 gAckList gaAckData;
 
-HANDLE hServiceSend;
-HANDLE hServiceReceive;
-
-HANDLE hHookModulesLoaded = NULL;
-HANDLE hHookDBEventAdded = NULL;
-HANDLE hHookContactDeleted = NULL;
-HANDLE hHookContactSettingChanged = NULL;
-HANDLE hHookPreBuildContactMenu = NULL;
-
 HANDLE hContactMenuItem = NULL;
 
 PLUGININFOEX pluginInfo = {
@@ -179,7 +170,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-	hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
 
 	ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
 	ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
@@ -251,33 +242,25 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	InitCommonControls();
-  	InitI18N();
+	InitI18N();
 
-   //init hooks
-  hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
-  hHookDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, HookDBEventAdded);
-  hHookContactDeleted = HookEvent(ME_DB_CONTACT_DELETED, HookContactDeleted);
-  hHookContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, HookContactSettingChanged);
-  //create services
-  hServiceSend = CreateServiceFunction(MS_CONTACTS_SEND, ServiceSendCommand);
-  hServiceReceive = CreateServiceFunction(MS_CONTACTS_RECEIVE, ServiceReceiveCommand);
-  //define event sounds
-  SkinAddNewSound("RecvContacts", LPGEN("Incoming Contacts"), "contacts.wav");
-  SkinAddNewSound("SentContacts", LPGEN("Outgoing Contacts"), "ocontacts.wav");
+	//init hooks
+	HookEvent(ME_SYSTEM_MODULESLOADED, HookModulesLoaded);
+	HookEvent(ME_DB_EVENT_ADDED, HookDBEventAdded);
+	HookEvent(ME_DB_CONTACT_DELETED, HookContactDeleted);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, HookContactSettingChanged);
 
-  return 0;
+	//create services
+	CreateServiceFunction(MS_CONTACTS_SEND, ServiceSendCommand);
+	CreateServiceFunction(MS_CONTACTS_RECEIVE, ServiceReceiveCommand);
+
+	//define event sounds
+	SkinAddNewSound("RecvContacts", LPGEN("Incoming Contacts"), "contacts.wav");
+	SkinAddNewSound("SentContacts", LPGEN("Outgoing Contacts"), "ocontacts.wav");
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-  UnhookEvent(hHookModulesLoaded);
-  UnhookEvent(hHookDBEventAdded);
-  UnhookEvent(hHookContactDeleted);
-  UnhookEvent(hHookContactSettingChanged);
-  UnhookEvent(hHookPreBuildContactMenu);
-
-  DestroyServiceFunction(hServiceSend);
-  DestroyServiceFunction(hServiceReceive);
-
-  return 0;
+	return 0;
 }

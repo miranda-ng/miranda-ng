@@ -26,21 +26,8 @@ int hLangpack;
 
 DWORD timer_id = 0;
 
-HANDLE hEventContactSetting = NULL;
-HANDLE hEventContactAdded = NULL;
-HANDLE hEventUserInfoInit = NULL;
-HANDLE hPrebuildContactMenu = NULL;
-HANDLE hContactMenu = NULL;
-HANDLE hIcoLibIconsChanged = NULL;
-HANDLE hContactReturnedAction = NULL;
-HANDLE hContactStillAbsentAction = NULL;
-HANDLE hMissYouAction = NULL;
-HANDLE hMenuMissYouClick = NULL;
-HANDLE hModulesLoaded = NULL;
-HANDLE hModulesLoaded2 = NULL;
-HANDLE hSystemOKToExit = NULL;
-HANDLE hHookExtraIconsRebuild = NULL;
-HANDLE hHookExtraIconsApply = NULL;
+HANDLE hContactReturnedAction, hContactStillAbsentAction, hMissYouAction, hMenuMissYouClick;
+HANDLE hContactMenu;
 
 HICON hIcon;
 HANDLE hExtraIcon;
@@ -663,7 +650,7 @@ int ModulesLoaded2(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	hEventUserInfoInit = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
+	HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 
 	// add sounds support
 	SkinAddNewSoundExT("buddyExpectatorReturn", LPGENT("BuddyExpectator"), LPGENT("Contact returned"));
@@ -673,7 +660,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 
-	hModulesLoaded2 = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
 	if (options.MissYouIcon)
 		hExtraIcon = ExtraIcon_Register("buddy_exp", "Buddy Expectator", "enabled_icon");
 
@@ -681,12 +668,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	Icon_Register(hInst, "BuddyExpectator", iconList, SIZEOF(iconList));
 
-	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 
 	onIconsChanged(0,0);
 
 	if (options.enableMissYou) {
-		hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
+		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
@@ -728,29 +715,12 @@ int ContactAdded(WPARAM wParam, LPARAM lParam)
 
 int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 {
-	UnhookEvent(hEventContactSetting);
-	UnhookEvent(hEventContactAdded);
-	UnhookEvent(hEventUserInfoInit);
-	if (hPrebuildContactMenu) UnhookEvent(hPrebuildContactMenu);
-	UnhookEvent(hIcoLibIconsChanged);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hModulesLoaded2);
-	UnhookEvent(hSystemOKToExit);
-	UnhookEvent(hHookExtraIconsRebuild);
-	UnhookEvent(hHookExtraIconsApply);
-
 	DestroyServiceFunction(hContactReturnedAction);
 	DestroyServiceFunction(hContactStillAbsentAction);
 	DestroyServiceFunction(hMissYouAction);
 	DestroyServiceFunction(hMenuMissYouClick);
 
-	DeinitOptions();
-
-	if (hIcoLibIconsChanged)
-		Skin_ReleaseIcon(hIcon);
-	else
-		DestroyIcon(hIcon);
-
+	Skin_ReleaseIcon(hIcon);
 	return 0;
 }
 
@@ -767,11 +737,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	hMissYouAction = CreateServiceFunction("BuddyExpectator/actionMissYou", MissYouAction);
 	hMenuMissYouClick = CreateServiceFunction("BuddyExpectator/actionMissYouClick", MenuMissYouClick);
 
-	hEventContactSetting = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 
-	hEventContactAdded = HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
+	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 
 	// ensure all contacts are timestamped
 	DBVARIANT dbv;

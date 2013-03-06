@@ -63,8 +63,6 @@ HANDLE hNetlibUser;
 
 static char pluginName[64];
 
-static HANDLE hHooks[4];
-static HANDLE hServices[7];
 static CriticalSection cs;
 
 static HANDLE hAvatarsFolder = NULL;
@@ -575,17 +573,17 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 		init();
 	MyAtlAxAttachControl = (LPAtlAxAttachControl)GetProcAddress(hAtl, "AtlAxAttachControl");
 
-	hServices[0] = CreateServiceFunction(MS_FAVATAR_DESTROY,    destroyAvatar);
-	hServices[1] = CreateServiceFunction(MS_FAVATAR_MAKE,       makeAvatar);
-	hServices[2] = CreateServiceFunction(MS_FAVATAR_RESIZE,     resizeAvatar);
-	hServices[3] = CreateServiceFunction(MS_FAVATAR_SETPOS,     setPos);
-	hServices[4] = CreateServiceFunction(MS_FAVATAR_GETINFO,    getInfo);
-	hServices[5] = CreateServiceFunction(MS_FAVATAR_SETEMOFACE, setEmoFace);
-	hServices[6] = CreateServiceFunction(MS_FAVATAR_SETBKCOLOR, setBkColor);
+	CreateServiceFunction(MS_FAVATAR_DESTROY,    destroyAvatar);
+	CreateServiceFunction(MS_FAVATAR_MAKE,       makeAvatar);
+	CreateServiceFunction(MS_FAVATAR_RESIZE,     resizeAvatar);
+	CreateServiceFunction(MS_FAVATAR_SETPOS,     setPos);
+	CreateServiceFunction(MS_FAVATAR_GETINFO,    getInfo);
+	CreateServiceFunction(MS_FAVATAR_SETEMOFACE, setEmoFace);
+	CreateServiceFunction(MS_FAVATAR_SETBKCOLOR, setBkColor);
 
-	hHooks[1] = HookEvent(ME_DB_EVENT_ADDED, eventAdded);
-	hHooks[2] = HookEvent("Miranda/StatusChange/ContactStatusChanged", statusChanged); // NewStatusNotify
-	hHooks[3] = HookEvent(ME_CLIST_STATUSMODECHANGE, ownStatusChanged);
+	HookEvent(ME_DB_EVENT_ADDED, eventAdded);
+	HookEvent("Miranda/StatusChange/ContactStatusChanged", statusChanged); // NewStatusNotify
+	HookEvent(ME_CLIST_STATUSMODECHANGE, ownStatusChanged);
 
 	NETLIBUSER nl_user = {0};
 	nl_user.cbSize = sizeof(nl_user);
@@ -619,8 +617,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
-
+	HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 	return 0;
 }
 
@@ -641,16 +638,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 		}
 		FlashList.destroy();
 	}
-
-	int i;
-
-	for (i = 0; i < SIZEOF(hHooks); i++)
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-
-	for (i = 0; i < SIZEOF(hServices); i++)
-		if (hServices[i])
-			DestroyServiceFunction(hServices[i]);
 
 	if (hNetlibUser)
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);

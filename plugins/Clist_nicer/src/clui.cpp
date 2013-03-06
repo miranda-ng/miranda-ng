@@ -86,7 +86,6 @@ void FLT_SnapToEdges(HWND hwnd);
 void DestroyTrayMenu(HMENU hMenu);
 
 extern LONG g_cxsmIcon, g_cysmIcon;
-extern HANDLE hIcoLibChanged;
 
 SIZE g_oldSize = {0};
 POINT g_oldPos = {0};
@@ -340,7 +339,7 @@ void CLN_LoadAllIcons(BOOL mode)
 {
 	if (mode) {
 		InitIcoLib();
-		hIcoLibChanged = HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibChanged);
+		HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibChanged);
 	}
 	CacheClientIcons();
 }

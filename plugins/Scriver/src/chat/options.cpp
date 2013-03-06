@@ -28,7 +28,6 @@ extern HBRUSH 			hListBkgBrush;
 extern HBRUSH 			hListSelectedBkgBrush;
 extern FONTINFO			aFonts[OPTIONS_FONTCOUNT];
 
-HANDLE			g_hOptions = NULL;
 static HWND hPathTip = 0;
 
 struct branch_t
@@ -882,11 +881,11 @@ void SetIndentSize()
 
 int OptionsInit(void)
 {
-	LOGFONT lf;
-
-	g_hOptions = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	LoadLogFonts();
+
+	LOGFONT lf;
 	LoadMsgDlgFont(18, &lf, NULL, TRUE);
 	lstrcpy(lf.lfFaceName, _T("MS Shell Dlg"));
 	lf.lfUnderline = lf.lfItalic = lf.lfStrikeOut = 0;
@@ -917,7 +916,6 @@ int OptionsInit(void)
 int OptionsUnInit(void)
 {
 	FreeGlobalSettings();
-	UnhookEvent(g_hOptions);
 	DeleteObject(hListBkgBrush);
 	DeleteObject(hListSelectedBkgBrush);
 	DeleteObject(g_Settings.NameFont);

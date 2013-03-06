@@ -67,17 +67,6 @@ HMODULE		hUserDll			 =  NULL;
 HFONT		hFont[FLT_FONTIDS]	 =  {NULL};
 COLORREF	tColor[FLT_FONTIDS]	 =  {0};
 HIMAGELIST	himl				 =  NULL;
-HANDLE		hevContactIcon		 =  NULL;
-HANDLE		hevContactDrop		 =  NULL;
-HANDLE		hevContactDragStop	 =  NULL;
-HANDLE		hevSkinIcons		 =  NULL;
-HANDLE		hevContactDrag		 =  NULL;
-HANDLE		hevContactSetting	 =  NULL;
-HANDLE		hevContactDeleted	 =  NULL;
-HANDLE		hevOptionsInit		 =  NULL;
-HANDLE		hevStatusMode		 =  NULL;
-HANDLE		hevModules			 =  NULL;
-HANDLE		hevPrebuildMenu		 =  NULL;
 HANDLE		hNewContact			 =  NULL;
 
 HPEN		hLTEdgesPen			 =  NULL;
@@ -162,7 +151,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	mir_getLP(&pluginInfoEx);
 
-	hevModules = HookEvent( ME_SYSTEM_MODULESLOADED,  OnModulesLoded );
+	HookEvent( ME_SYSTEM_MODULESLOADED,  OnModulesLoded );
 	bNT = GetOSPlatform();
 
 	if (hUserDll = LoadLibrary(_T("user32.dll"))) {
@@ -190,18 +179,6 @@ extern "C" int __declspec(dllexport) Unload()
 static void CleanUp()
 {
 	int nFontId;
-
-	UnhookEvent( hevContactIcon );
-	UnhookEvent( hevContactDrag );
-	UnhookEvent( hevContactDrop );
-	UnhookEvent( hevContactDragStop );
-	UnhookEvent( hevSkinIcons );
-	UnhookEvent( hevContactDeleted );
-	UnhookEvent( hevContactSetting );
-	UnhookEvent( hevOptionsInit );
-	UnhookEvent( hevStatusMode );
-	UnhookEvent( hevModules );
-	UnhookEvent( hevPrebuildMenu );
 
 	if (hRemoveThumb)
 		DestroyServiceFunction(hRemoveThumb);
@@ -245,18 +222,18 @@ static void CleanUp()
 // Hooked events
 static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 {
-	hevContactIcon		 =  HookEvent( ME_CLIST_CONTACTICONCHANGED,  OnContactIconChanged );
-	hevSkinIcons		 =  HookEvent( ME_SKIN_ICONSCHANGED,  OnSkinIconsChanged );
-	hevContactDrag		 =  HookEvent( ME_CLUI_CONTACTDRAGGING,  OnContactDrag );
-	hevContactDrop		 =  HookEvent( ME_CLUI_CONTACTDROPPED,  OnContactDrop );
-	hevContactDragStop	 =  HookEvent( ME_CLUI_CONTACTDRAGSTOP,  OnContactDragStop );
-	hevContactSetting	 =  HookEvent( ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
-	hevContactDeleted	 =  HookEvent( ME_DB_CONTACT_DELETED, OnContactDeleted );
-	hevOptionsInit		 =  HookEvent( ME_OPT_INITIALISE, OnOptionsInitialize );
-	hevStatusMode		 =  HookEvent( ME_CLIST_STATUSMODECHANGE, OnStatusModeChange );
-	hevPrebuildMenu		 =  HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
-	hwndMiranda			 =  (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
-
+	HookEvent( ME_CLIST_CONTACTICONCHANGED,  OnContactIconChanged );
+	HookEvent( ME_SKIN_ICONSCHANGED,  OnSkinIconsChanged );
+	HookEvent( ME_CLUI_CONTACTDRAGGING,  OnContactDrag );
+	HookEvent( ME_CLUI_CONTACTDROPPED,  OnContactDrop );
+	HookEvent( ME_CLUI_CONTACTDRAGSTOP,  OnContactDragStop );
+	HookEvent( ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
+	HookEvent( ME_DB_CONTACT_DELETED, OnContactDeleted );
+	HookEvent( ME_OPT_INITIALISE, OnOptionsInitialize );
+	HookEvent( ME_CLIST_STATUSMODECHANGE, OnStatusModeChange );
+	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
+	
+	hwndMiranda =  (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
 	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
 
 	// No thumbs yet

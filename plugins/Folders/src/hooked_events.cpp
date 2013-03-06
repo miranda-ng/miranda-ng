@@ -20,24 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-HANDLE hOptionsInitialize;
-
-int HookEvents()
+static int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
-	return 0;
-}
-
-int UnhookEvents()
-{
-	UnhookEvent(hOptionsInitialize);
-	return 0;
-}
-
-int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
@@ -48,5 +33,11 @@ int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
 	
+	return 0;
+}
+
+int HookEvents()
+{
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
 	return 0;
 }

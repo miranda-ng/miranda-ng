@@ -21,15 +21,6 @@
 HINSTANCE hInstance = NULL;
 int hLangpack = 0;
 
-// static so they can not be used from other modules ( sourcefiles )
-static HANDLE hEventOptionsInitialize = 0;
-static HANDLE hDBEventAdded = 0;
-static HANDLE hDBContactDeleted = 0;
-static HANDLE hEventSystemInit = 0;
-static HANDLE hEventSystemShutdown = 0;
-
-static HANDLE hServiceFunc = 0;
-
 static HANDLE hOpenHistoryMenuItem = 0;
 
 HANDLE hInternalWindowList = NULL;
@@ -95,42 +86,6 @@ static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
 	WindowList_Broadcast(hInternalWindowList, WM_CLOSE, 0, 0);
-
-	if (hEventOptionsInitialize)
-	{
-		UnhookEvent(hEventOptionsInitialize);
-		hEventOptionsInitialize = 0;
-	}
-
-	if (hDBEventAdded)
-	{
-		UnhookEvent(hDBEventAdded);
-		hDBEventAdded = 0;
-	}
-
-	if (hDBContactDeleted)
-	{
-		UnhookEvent(hDBContactDeleted);
-		hDBContactDeleted = 0;
-	}
-
-	if (hServiceFunc)
-	{
-		DestroyServiceFunction(hServiceFunc);
-		hServiceFunc = 0;
-	}
-
-	if (hEventSystemInit)
-	{
-		UnhookEvent(hEventSystemInit);
-		hEventSystemInit = 0;
-	}
-
-	if (hEventSystemShutdown)
-	{
-		UnhookEvent(hEventSystemShutdown); // here we unhook the fun we are in, might not bee good
-		hEventSystemShutdown = 0;
-	}
 	return 0;
 }
 
@@ -150,23 +105,14 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 
 int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 {
-
-	Initilize();
+	Initialize();
 
 	bReadMirandaDirAndPath();
 	UpdateFileToColWidth();
 
-	hDBEventAdded = HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
-	if ( !hDBEventAdded)
-		MessageBox(NULL, TranslateT("Failed to HookEvent ME_DB_EVENT_ADDED"), MSG_BOX_TITEL, MB_OK);
-
-	hDBContactDeleted = HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
-	if ( !hDBContactDeleted)
-		MessageBox(NULL, TranslateT("Failed to HookEvent ME_DB_CONTACT_DELETED"), MSG_BOX_TITEL, MB_OK);
-
-	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
-	if ( !hEventOptionsInitialize)
-		MessageBox(NULL, TranslateT("Failed to HookEvent ME_OPT_INITIALISE"), MSG_BOX_TITEL, MB_OK);
+	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
+	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	if ( !bReplaceHistory)
 	{
@@ -183,11 +129,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 			MessageBox(NULL, TranslateT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)"), MSG_BOX_TITEL, MB_OK);
 	}
 
-	hEventSystemShutdown = HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
-
-	if ( !hEventSystemShutdown)
-		MessageBox(NULL, TranslateT("Failed to HookEvent ME_SYSTEM_SHUTDOWN"), MSG_BOX_TITEL, MB_OK);
-
+	HookEvent(ME_SYSTEM_SHUTDOWN, nSystemShutdown);
 	return 0;
 }
 
@@ -249,13 +191,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
-	hEventSystemInit = HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
-
-	if ( !hEventSystemInit)
-	{
-		MessageBox(NULL, TranslateT("Failed to HookEvent ME_SYSTEM_MODULESLOADED"), MSG_BOX_TITEL, MB_OK);
-		return 0;
-	}
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 
 	nMaxLineWidth = db_get_w(NULL, MODULE, "MaxLineWidth", nMaxLineWidth);
 	if(nMaxLineWidth < 5)
@@ -280,26 +216,14 @@ extern "C" __declspec(dllexport) int Load()
 	// Plugin sweeper support
 	db_set_ts(NULL, "Uninstall", "Message Export", _T(MODULE));
 
+	HANDLE hServiceFunñ = 0;
 	if (bReplaceHistory)
-	{
-		hServiceFunc = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
+		hServiceFunñ = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowExportHistory); //this need new code
 
-		if ( !hServiceFunc) 
-			MessageBox(NULL, TranslateT("Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda."), MSG_BOX_TITEL, MB_OK);
-	}
+	if ( !hServiceFunñ)
+		hServiceFunñ = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
 
-	if ( !hServiceFunc)
-	{
-		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
-	}
-
-	if ( !hServiceFunc)
-	{
-		MessageBox(NULL, TranslateT("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY"), MSG_BOX_TITEL, MB_OK);
-	}
-	
 	hInternalWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-
 	return 0;
 }
 

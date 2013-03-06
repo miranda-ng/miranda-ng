@@ -51,13 +51,6 @@ static TContainerSettings _cnt_default = {
 		0
 };
 
-HANDLE		CGlobals::m_event_ModulesLoaded = 0, CGlobals::m_event_PrebuildMenu = 0, CGlobals::m_event_SettingChanged = 0;
-HANDLE		CGlobals::m_event_ContactDeleted = 0, CGlobals::m_event_Dispatch = 0, CGlobals::m_event_EventAdded = 0;
-HANDLE		CGlobals::m_event_IconsChanged = 0, CGlobals::m_event_TypingEvent = 0, CGlobals::m_event_ProtoAck = 0;
-HANDLE		CGlobals::m_event_PreShutdown = 0, CGlobals::m_event_OkToExit = 0;
-HANDLE		CGlobals::m_event_IcoLibChanged = 0, CGlobals::m_event_AvatarChanged = 0, CGlobals::m_event_MyAvatarChanged = 0, CGlobals::m_event_FontsChanged = 0;
-HANDLE		CGlobals::m_event_SmileyAdd = 0, CGlobals::m_event_IEView = 0, CGlobals::m_event_FoldersChanged = 0;
-HANDLE 		CGlobals::m_event_ME_MC_SUBCONTACTSCHANGED = 0, CGlobals::m_event_ME_MC_FORCESEND = 0, CGlobals::m_event_ME_MC_UNFORCESEND = 0;
 TCHAR*		CGlobals::m_default_container_name = _T("default");
 
 extern 		HANDLE 	hHookButtonPressedEvt;
@@ -165,10 +158,8 @@ void CGlobals::reloadSystemModulesChanged()
 	 */
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
 		PluginConfig.g_SmileyAddAvail = 1;
-		m_event_SmileyAdd = HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
+		HookEvent(ME_SMILEYADD_OPTIONSCHANGED, ::SmileyAddOptionsChanged);
 	}
-	else
-		m_event_SmileyAdd = 0;
 
 	/*
 	 * Flashavatars
@@ -186,11 +177,9 @@ void CGlobals::reloadSystemModulesChanged()
 		if (bOldIEView != bIEView)
 			M->WriteByte(SRMSGMOD_T, "default_ieview", 1);
 		M->WriteByte(SRMSGMOD_T, "ieview_installed", 1);
-		m_event_IEView = HookEvent(ME_IEVIEW_OPTIONSCHANGED, ::IEViewOptionsChanged);
-	} else {
-		M->WriteByte(SRMSGMOD_T, "ieview_installed", 0);
-		m_event_IEView = 0;
+		HookEvent(ME_IEVIEW_OPTIONSCHANGED, ::IEViewOptionsChanged);
 	}
+	else M->WriteByte(SRMSGMOD_T, "ieview_installed", 0);
 
 	g_iButtonsBarGap = 							M->GetByte("ButtonsBarGap", 1);
 	m_hwndClist = 								(HWND)CallService(MS_CLUI_GETHWND, 0, 0);
@@ -341,18 +330,18 @@ const HMENU CGlobals::getMenuBar()
  */
 void CGlobals::hookSystemEvents()
 {
-	m_event_ModulesLoaded 	= 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	m_event_IconsChanged 	= 	HookEvent(ME_SKIN_ICONSCHANGED, ::IconsChanged);
-	m_event_TypingEvent 	= 	HookEvent(ME_PROTO_CONTACTISTYPING, CMimAPI::TypingMessage);
-	m_event_ProtoAck 		= 	HookEvent(ME_PROTO_ACK, CMimAPI::ProtoAck);
-	m_event_PreShutdown 	= 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
-	m_event_OkToExit 		= 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SKIN_ICONSCHANGED, ::IconsChanged);
+	HookEvent(ME_PROTO_CONTACTISTYPING, CMimAPI::TypingMessage);
+	HookEvent(ME_PROTO_ACK, CMimAPI::ProtoAck);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
 
-	m_event_PrebuildMenu 	= 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CMimAPI::PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CMimAPI::PrebuildContactMenu);
 
-	m_event_IcoLibChanged 	= 	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
-	m_event_AvatarChanged 	= 	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
-	m_event_MyAvatarChanged = 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, ::IcoLibIconsChanged);
+	HookEvent(ME_AV_AVATARCHANGED, ::AvatarChanged);
+	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
 }
 
 /**
@@ -361,8 +350,6 @@ void CGlobals::hookSystemEvents()
 
 int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	::UnhookEvent(m_event_ModulesLoaded);
-
 	M->configureCustomFolders();
 
 	Skin->Init(true);
@@ -423,17 +410,17 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
 		TN_ModuleInit();
 
-	m_event_SettingChanged 	= HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
-	m_event_ContactDeleted 	= HookEvent(ME_DB_CONTACT_DELETED, DBContactDeleted);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
+	HookEvent(ME_DB_CONTACT_DELETED, DBContactDeleted);
 
-	m_event_Dispatch 		= HookEvent(ME_DB_EVENT_ADDED, CMimAPI::DispatchNewEvent);
-	m_event_EventAdded 		= HookEvent(ME_DB_EVENT_ADDED, CMimAPI::MessageEventAdded);
+	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::DispatchNewEvent);
+	HookEvent(ME_DB_EVENT_ADDED, CMimAPI::MessageEventAdded);
 	if (PluginConfig.g_MetaContactsAvail) {
-		m_event_ME_MC_SUBCONTACTSCHANGED = HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
-		m_event_ME_MC_FORCESEND			 = HookEvent(ME_MC_FORCESEND, MetaContactEvent);
-		m_event_ME_MC_UNFORCESEND		 = HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
+		HookEvent(ME_MC_SUBCONTACTSCHANGED, MetaContactEvent);
+		HookEvent(ME_MC_FORCESEND, MetaContactEvent);
+		HookEvent(ME_MC_UNFORCESEND, MetaContactEvent);
 	}
-	m_event_FontsChanged 	= 	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
+	HookEvent(ME_FONT_RELOAD, ::FontServiceFontsChanged);
 	return 0;
 }
 
@@ -636,7 +623,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 {
-	UnhookEvent(m_event_OkToExit);
 #if defined(__USE_EX_HANDLERS)
 	__try {
 #endif
@@ -646,34 +632,7 @@ int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 		CWarning::destroyAll();
 
 		CMimAPI::m_shutDown = true;
-		UnhookEvent(m_event_EventAdded);
-		UnhookEvent(m_event_Dispatch);
-		UnhookEvent(m_event_PrebuildMenu);
-		UnhookEvent(m_event_SettingChanged);
-		UnhookEvent(m_event_ContactDeleted);
-		UnhookEvent(m_event_AvatarChanged);
-		UnhookEvent(m_event_MyAvatarChanged);
-		UnhookEvent(m_event_ProtoAck);
-		UnhookEvent(m_event_TypingEvent);
-		UnhookEvent(m_event_FontsChanged);
-		UnhookEvent(m_event_IcoLibChanged);
-		UnhookEvent(m_event_IconsChanged);
 
-		if (m_event_SmileyAdd)
-			UnhookEvent(m_event_SmileyAdd);
-
-		if (m_event_IEView)
-			UnhookEvent(m_event_IEView);
-
-		if (m_event_FoldersChanged)
-			UnhookEvent(m_event_FoldersChanged);
-
-		if (m_event_ME_MC_FORCESEND) {
-			UnhookEvent(m_event_ME_MC_FORCESEND);
-			UnhookEvent(m_event_ME_MC_SUBCONTACTSCHANGED);
-			UnhookEvent(m_event_ME_MC_UNFORCESEND);
-		}
-		::ModPlus_PreShutdown(wParam, lParam);
 		PluginConfig.globalContainerSettings.fPrivate = false;
 		::DBWriteContactSettingBlob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 #if defined(__USE_EX_HANDLERS)

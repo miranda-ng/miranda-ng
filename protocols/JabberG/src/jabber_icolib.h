@@ -54,7 +54,6 @@ private:
 	};
 
 	OBJLIST<CPoolItem> m_items;
-	HANDLE m_hOnExtraIconsRebuild;
 
 	CPoolItem *FindItemByName(const char *name);
 };

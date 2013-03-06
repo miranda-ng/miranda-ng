@@ -47,10 +47,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	WNDCLASS wndclass;
-
-
 	mir_getLP(&pluginInfo);
+
 	//  Load Rich Edit control
 	hRichEdit = LoadLibrary(_T("RICHED32.DLL"));
 	if (!hRichEdit)
@@ -81,16 +79,14 @@ extern "C" __declspec(dllexport) int Load(void)
 	
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
+	WNDCLASS wndclass = { 0 };
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;
 	wndclass.lpfnWndProc = ProgressBarDlg;
-	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = hInst;
 	wndclass.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
 	wndclass.lpszClassName = _T("Progressbar");
-	wndclass.lpszMenuName = NULL;
 	RegisterClass(&wndclass);
 
 	splitCursor = LoadCursor(NULL, IDC_SIZENS);
@@ -108,7 +104,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(ME_DB_EVENT_ADDED);
 	DestroyCursor(splitCursor);
 	return 0;
 }
@@ -142,7 +137,6 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 	int actCount = 0;
 	
 	RECT DesktopRect;
-	DIALOGPARAM *DlgParam;
 	LISTELEMENT *listStart;
 
 	UNREFERENCED_PARAMETER(lParam);
@@ -223,9 +217,7 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 		return 0;
 	}
 
-
-
-	DlgParam = (DIALOGPARAM*)malloc(sizeof(DIALOGPARAM));
+	DIALOGPARAM *DlgParam = (DIALOGPARAM*)malloc(sizeof(DIALOGPARAM));
 	DlgParam->hContact    = hContact;
 	DlgParam->listStart   = listStart;
 	DlgParam->findMessage = 0;

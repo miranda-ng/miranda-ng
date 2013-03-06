@@ -289,8 +289,6 @@ typedef struct
 #define GG_POPUP_WARNING		8
 #define GG_POPUP_MULTILOGON		16
 
-#define LocalEventUnhook(hook)	if (hook) UnhookEvent(hook)
-
 // Some MSVC compatibility with gcc
 #ifdef _MSC_VER
 #ifndef strcasecmp
