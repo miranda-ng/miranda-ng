@@ -92,7 +92,7 @@ begin
 
   if (msh_login   <>nil) and (msh_login^   <>#0) and
      (msh_password<>nil) and (msh_password^<>#0) then
-    CloseHandle(mir_forkthread(@ThScrobble,nil));
+    mir_forkthread(@ThScrobble,nil);
 end;
 
 function NewPlStatus(wParam:WPARAM;lParam:LPARAM):int;cdecl;
@@ -145,7 +145,7 @@ begin
       mi.flags :=CMIM_FLAGS+flag;
       CallService(MS_CLIST_MODIFYMENUITEM,hMenuMyShows,tlParam(@mi));
     end;
-    
+
     WAT_EVENT_PLAYERSTATUS: begin
       case Integer(loword(lParam)) of
         WAT_PLS_NOMUSIC,WAT_PLS_NOTFOUND: begin
@@ -233,7 +233,7 @@ begin
   sid.szDescription.a:='MyShows';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  
+
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;

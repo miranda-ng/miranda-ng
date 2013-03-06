@@ -600,7 +600,7 @@ begin
   tmp^.group :=group;
   tmp^.last  :=alast;
   tmp^.event :=CreateEvent(nil,FALSE,FALSE,nil);
-  CloseHandle(mir_forkthread(@ThDoAction,tmp));
+  mir_forkthread(@ThDoAction,tmp);
   WaitForSingleObjectEx(tmp.event,INFINITE,true);
   CloseHandle(tmp^.event);
   result:=tmp^.last;
@@ -617,7 +617,7 @@ begin
   tmp^.group :=group;
   tmp^.last  :=alast;
   tmp^.event :=0;
-  CloseHandle(mir_forkthread(@ThDoAction,tmp));
+  mir_forkthread(@ThDoAction,tmp);
 end;
 
 procedure ReallocActionList(var ActList:pActList;var MaxAct:cardinal);

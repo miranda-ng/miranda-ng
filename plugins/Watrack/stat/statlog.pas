@@ -464,7 +464,7 @@ end;
 function PackLog(wParam:WPARAM;lParam:LPARAM):integer;cdecl;
 begin
   result:=0;
-  CloseHandle(mir_forkthread(@ThPackLog,nil));
+  mir_forkthread(@ThPackLog,nil);
 end;
 
 function MakeReport(wParam:WPARAM;lParam:LPARAM):integer;cdecl;

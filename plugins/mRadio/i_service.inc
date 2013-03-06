@@ -99,7 +99,7 @@ begin
   if (ccs^.hContact<>0) and (PluginStatus=ID_STATUS_ONLINE) and
      (DBReadWord(ccs^.hContact,PluginName,optStatus,ID_STATUS_OFFLINE)=ID_STATUS_ONLINE) then
   begin
-    CloseHandle(mir_forkthread(@GetAwayMsgProc,pointer(ccs^.hContact)));
+    mir_forkthread(@GetAwayMsgProc,pointer(ccs^.hContact));
     result:=AckHandle;
   end
   else
@@ -202,7 +202,7 @@ begin
  Asks protocol for the status message for a status
  wParam=(WORD) 0 for current status or a status id
  lParam=SGMA_xxx
- Returns status msg or NULL if there is none.  The protocol have to handle only the current 
+ Returns status msg or NULL if there is none.  The protocol have to handle only the current
  status. Handling messages for other statuses is optional.
  Remember to mir_free the return value
 }

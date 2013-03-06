@@ -289,7 +289,7 @@ end;
 
 procedure ShowPopUp(si:pSongInfo);
 begin
-  CloseHandle(mir_forkthread(@ThShowPopup,si));
+  mir_forkthread(@ThShowPopup,si);
 end;
 
 // --------------- Services and Hooks ----------------
