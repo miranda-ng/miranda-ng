@@ -65,6 +65,18 @@ unit mcomobj;
     TClassInstancing = (ciInternal, ciSingleInstance, ciMultiInstance);
     TThreadingModel = (tmSingle, tmApartment, tmFree, tmBoth, tmNeutral);
 
+    type
+      EOleError = class(Exception);
+
+      EOleSysError = class(EOleError)
+      private
+        FErrorCode: HRESULT;
+      public
+        constructor Create(const Msg: string; aErrorCode: HRESULT;aHelpContext: Integer);
+        property ErrorCode: HRESULT read FErrorCode write FErrorCode;
+      end;
+
+
   function CreateComObject(const ClassID: TGUID) : IUnknown;
   function CreateOleObject(const ClassName : string) : IDispatch;
   function GetActiveOleObject(const ClassName: string) : IDispatch;
@@ -120,11 +132,37 @@ unit mcomobj;
   procedure CoTaskMemFree(_para1:PVOID);stdcall; external  'ole32.dll' name 'CoTaskMemFree';
   function CoGetMalloc(_para1:DWORD; out _para2:IMalloc):HRESULT;stdcall; external  'ole32.dll' name 'CoGetMalloc';
   procedure CoUninitialize;stdcall; external  'ole32.dll' name 'CoUninitialize';
+  function CoCreateGuid(out _para1:TGUID):HRESULT;stdcall;external 'ole32.dll' name 'CoCreateGuid';
+  function StringFromCLSID(const _para1:TCLSID; out _para2:POLESTR):HRESULT;stdcall; external  'ole32.dll' name 'StringFromCLSID';
 
 implementation
 
     uses
       ComConst, Ole2, RtlConsts;
+
+    constructor EOleSysError.Create(const Msg: string; aErrorCode: HRESULT; aHelpContext: Integer);
+      var
+        m : string;
+      begin
+        if Msg='' then
+          m:=SysErrorMessage(aErrorCode)
+        else
+          m:=Msg;
+        inherited CreateHelp(m,HelpContext);
+        FErrorCode:=aErrorCode;
+      end;
+
+    {$define FPC_COMOBJ_HAS_CREATE_CLASS_ID}
+    function CreateClassID : ansistring;
+      var
+         ClassID : TCLSID;
+         p : PWideChar;
+      begin
+         CoCreateGuid(ClassID);
+         StringFromCLSID(ClassID,p);
+         result:=p;
+         CoTaskMemFree(p);
+      end;
 
    function CreateComObject(const ClassID : TGUID) : IUnknown;
      begin
@@ -157,6 +195,7 @@ implementation
 
    procedure OleError(Code: HResult);
      begin
+       raise EOleSysError.Create('',Code,0);
      end;
 
    procedure OleCheck(Value : HResult);inline;
