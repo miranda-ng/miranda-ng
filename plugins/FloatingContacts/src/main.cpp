@@ -16,6 +16,8 @@ No warranty for any misbehaviour.
 
 #include "stdhdr.h"
 
+#include "../Utils/mir_fonts.h"
+
 BOOL (WINAPI *pSetLayeredWindowAttributes)(HWND, COLORREF, BYTE, DWORD);
 BOOL (WINAPI *pUpdateLayeredWindow)
 	(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
@@ -33,8 +35,6 @@ static void	LoadMenus				();
 static void	CreateThumbWnd			( TCHAR *ptszName, HANDLE hContact, int nX, int nY );
 static void	RegisterWindowClass		( void );
 static void	UnregisterWindowClass	( void );
-static void	CleanUp					( void );
-static BOOL GetOSPlatform			( void );
 static void LoadDBSettings			( void );
 static void CreateThumbsFont		( void );
 static void CreateBackgroundBrush	( void );
@@ -46,24 +46,9 @@ static int	ClcStatusToPf2			( int status );
 static LRESULT __stdcall CommWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-static int OnContactDeleted			( WPARAM wParam, LPARAM lParam );
-static int OnContactIconChanged		( WPARAM wParam, LPARAM lParam );
-static int OnContactDrag			( WPARAM wParam, LPARAM lParam );
-static int OnContactDrop			( WPARAM wParam, LPARAM lParam );
-static int OnContactDragStop		( WPARAM wParam, LPARAM lParam );
-static int OnSkinIconsChanged		( WPARAM wParam, LPARAM lParam );
-static int OnContactSettingChanged	( WPARAM wParam, LPARAM lParam );
-static int OnStatusModeChange		( WPARAM wParam, LPARAM lParam );
-static int OnModulesLoded			( WPARAM wParam, LPARAM lParam );
-static int OnPrebuildContactMenu	( WPARAM wParam, LPARAM lParam );
-
-static INT_PTR OnContactMenu_Remove		( WPARAM wParam, LPARAM lParam );
-static INT_PTR OnMainMenu_HideAll		( WPARAM wParam, LPARAM lParam );
-static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam );
 static VOID CALLBACK ToTopTimerProc ( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 HINSTANCE	hInst				 =  NULL;
-HMODULE		hUserDll			 =  NULL;
 HFONT		hFont[FLT_FONTIDS]	 =  {NULL};
 COLORREF	tColor[FLT_FONTIDS]	 =  {0};
 HIMAGELIST	himl				 =  NULL;
@@ -78,7 +63,6 @@ WORD		nBackgroundBmpUse	 =  CLB_STRETCH;
 
 HWND		hwndMiranda			 =  NULL;
 BOOL		bVersionOK			 =  FALSE;
-BOOL		bNT					 =  FALSE;
 BOOL		bDockHorz			 =  TRUE;
 //UINT		nStatus				 =  0;
 HMENU		hContactMenu		 =  NULL;
@@ -91,10 +75,9 @@ BOOL		bEnableTip			 =  FALSE;
 UINT_PTR	ToTopTimerID		 =  0;
 BOOL		bIsCListShow		 =  TRUE;
 
-HANDLE		hRemoveThumb		 =  NULL;
-HANDLE		hMainHideAllThumbs	 =  NULL;
-HANDLE		hHideWhenCListShow	 =  NULL;
 int hLangpack;
+
+pfnSHAutoComplete fnSHAutoComplete = NULL;
 
 //Options
 
@@ -138,124 +121,27 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 ///////////////////////////////////////////////////////
 // Load / unload
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" int __declspec(dllexport) Load()
+/////////////////////////////////////////////////////////////////////////////
+// Fonts
+									  
+static LPCTSTR s_fonts[FLT_FONTIDS]  = 
 {
-	SetLastError(0);
-	InitOptions();
-
-	mir_getLP(&pluginInfoEx);
-
-	HookEvent( ME_SYSTEM_MODULESLOADED,  OnModulesLoded );
-	bNT = GetOSPlatform();
-
-	if (hUserDll = LoadLibrary(_T("user32.dll"))) {
-		pSetLayeredWindowAttributes  =
-			(BOOL (WINAPI *)(HWND, COLORREF, BYTE, DWORD))
-			GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		pUpdateLayeredWindow  =
-			(BOOL (WINAPI *)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD))
-			GetProcAddress(hUserDll, "UpdateLayeredWindow");
-	}
-	else {
-		pSetLayeredWindowAttributes = NULL;
-		pUpdateLayeredWindow = NULL;
-	}
-
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) Unload()
-{
-	CleanUp();
-	return 0;
-}
-
-static void CleanUp()
-{
-	int nFontId;
-
-	if (hRemoveThumb)
-		DestroyServiceFunction(hRemoveThumb);
-	if (hMainHideAllThumbs)
-		DestroyServiceFunction(hMainHideAllThumbs);
-	if (hHideWhenCListShow)
-		DestroyServiceFunction(hHideWhenCListShow);
-
-	if (ServiceExists(MS_HOTKEY_UNREGISTER)) {
-		CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)(sModule "/MainHideAllThumbs"));
-		CallService(MS_HOTKEY_UNREGISTER, 0, (LPARAM)(sModule "/HideWhenCListShow"));
-	}
-
-	if (NULL != hLTEdgesPen)
-		DeleteObject(hLTEdgesPen);
-	if (NULL != hRBEdgesPen)
-		DeleteObject(hRBEdgesPen);
-	if (NULL != hBmpBackground)
-		DeleteObject(hBmpBackground);
-	if (NULL != hBkBrush) {
-		SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)NULL);
-		DeleteObject(hBkBrush);
-		hBkBrush = NULL;
-	}
-
-	for (nFontId = 0; nFontId < FLT_FONTIDS; nFontId++)
-		if (NULL != hFont[nFontId])
-			DeleteObject(hFont[nFontId]);
-
-	UnregisterWindowClass();
-
-	FreeFileDropping();
-
-	if ( hUserDll != NULL )
-		FreeLibrary( hUserDll );
-}
-
-
+	{ LPGENT("Standard contacts") },
+	{ LPGENT("Online contacts to whom you have a different visibility") },
+	{ LPGENT("Offline contacts") },
+	{ LPGENT("Offline contacts to whom you have a different visibility") },
+	{ LPGENT("Contacts which are 'not on list'") }
+};
 
 ///////////////////////////////////////////////////////
 // Hooked events
-static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
-{
-	HookEvent( ME_CLIST_CONTACTICONCHANGED,  OnContactIconChanged );
-	HookEvent( ME_SKIN_ICONSCHANGED,  OnSkinIconsChanged );
-	HookEvent( ME_CLUI_CONTACTDRAGGING,  OnContactDrag );
-	HookEvent( ME_CLUI_CONTACTDROPPED,  OnContactDrop );
-	HookEvent( ME_CLUI_CONTACTDRAGSTOP,  OnContactDragStop );
-	HookEvent( ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
-	HookEvent( ME_DB_CONTACT_DELETED, OnContactDeleted );
-	HookEvent( ME_OPT_INITIALISE, OnOptionsInitialize );
-	HookEvent( ME_CLIST_STATUSMODECHANGE, OnStatusModeChange );
-	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
-	
-	hwndMiranda =  (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
-	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
-
-	// No thumbs yet
-	bEnableTip = ServiceExists("mToolTip/ShowTip");
-
-	RegisterWindowClass();
-	InitFileDropping();
-	GetScreenRect();
-	LoadDBSettings();
-	CreateBackgroundBrush();
-	CreateThumbsFont();
-	LoadContacts();
-	LoadMenus();
-
-	if (fcOpt.bToTop){
-		fcOpt.ToTopTime = (fcOpt.ToTopTime<1)?1:fcOpt.ToTopTime;
-		fcOpt.ToTopTime = (fcOpt.ToTopTime>TOTOPTIME_MAX)?TOTOPTIME_MAX:fcOpt.ToTopTime;
-		ToTopTimerID = SetTimer(NULL, 0, fcOpt.ToTopTime*TOTOPTIME_P, ToTopTimerProc);
-	}
-	return( 0 );
-}
-
 
 static int OnContactDeleted( WPARAM wParam, LPARAM lParam )
 {
@@ -272,11 +158,10 @@ static int OnContactDeleted( WPARAM wParam, LPARAM lParam )
 
 static int OnContactIconChanged( WPARAM wParam, LPARAM lParam )
 {
-	HANDLE		hContact	 =  ( HANDLE )wParam;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
+	HANDLE     hContact = ( HANDLE )wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
 
-	if ( pThumb )
-	{
+	if ( pThumb ) {
 		pThumb->RefreshContactIcon( ( int )lParam );
 		//pThumb->ThumbSelect( FALSE );
 		//SetTimer( pThumb->hwnd, TIMERID_SELECT_T, 1000, NULL );
@@ -384,7 +269,7 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	if ( hContact == NULL )
 	{
-		if (( 0 == _stricmp( pdbcws->szModule, "CLC" )) || ( 0 == _stricmp( pdbcws->szModule, sModule )) ) {
+		if (( 0 == _stricmp( pdbcws->szModule, "CLC" )) || ( 0 == _stricmp( pdbcws->szModule, MODULE )) ) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
 		}
@@ -469,26 +354,26 @@ static int OnPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 
 static void LoadDBSettings()
 {
-	fcOpt.thumbAlpha			 =  (BYTE)((double)DBGetContactSettingByte( NULL, sModule, "Opacity", 100 ) * 2.55 );
-	fcOpt.bHideOffline			 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "HideOffline", 0 );
-	fcOpt.bHideAll				 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "HideAll", 0 );
-	fcOpt.bHideWhenFullscreen	 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "HideWhenFullscreen", 0 );
-	fcOpt.bMoveTogether			 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "MoveTogether", 0 );
-	fcOpt.bFixedWidth			 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "FixedWidth", 0 );
-	fcOpt.nThumbWidth			 =  (DWORD)DBGetContactSettingDword( NULL, sModule, "Width", 0 );
-	dwOfflineModes				 =  DBGetContactSettingDword( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
-	fcOpt.bShowTip				 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "ShowTip", 1 );
-	fcOpt.TimeIn				 =  (WORD)DBGetContactSettingWord( NULL, sModule, "TimeIn", 0 );
-	fcOpt.bToTop				 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "ToTop", 0 );
-	fcOpt.ToTopTime				 =  (WORD)DBGetContactSettingWord( NULL, sModule, "ToTopTime", TOTOPTIME_DEF );
-	fcOpt.bHideWhenCListShow	 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "HideWhenCListShow", 0 );
-	fcOpt.bUseSingleClick		 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "UseSingleClick", 0 );
-	fcOpt.bShowIdle				 =  (BOOL)DBGetContactSettingByte( NULL, sModule, "ShowIdle", 0 );
+	fcOpt.thumbAlpha			 =  (BYTE)((double)db_get_b( NULL, MODULE, "Opacity", 100 ) * 2.55 );
+	fcOpt.bHideOffline			 =  (BOOL)db_get_b( NULL, MODULE, "HideOffline", 0 );
+	fcOpt.bHideAll				 =  (BOOL)db_get_b( NULL, MODULE, "HideAll", 0 );
+	fcOpt.bHideWhenFullscreen	 =  (BOOL)db_get_b( NULL, MODULE, "HideWhenFullscreen", 0 );
+	fcOpt.bMoveTogether			 =  (BOOL)db_get_b( NULL, MODULE, "MoveTogether", 0 );
+	fcOpt.bFixedWidth			 =  (BOOL)db_get_b( NULL, MODULE, "FixedWidth", 0 );
+	fcOpt.nThumbWidth			 =  (DWORD)db_get_dw( NULL, MODULE, "Width", 0 );
+	dwOfflineModes				 =  db_get_dw( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
+	fcOpt.bShowTip				 =  (BOOL)db_get_b( NULL, MODULE, "ShowTip", 1 );
+	fcOpt.TimeIn				 =  (WORD)db_get_w( NULL, MODULE, "TimeIn", 0 );
+	fcOpt.bToTop				 =  (BOOL)db_get_b( NULL, MODULE, "ToTop", 0 );
+	fcOpt.ToTopTime				 =  (WORD)db_get_w( NULL, MODULE, "ToTopTime", TOTOPTIME_DEF );
+	fcOpt.bHideWhenCListShow	 =  (BOOL)db_get_b( NULL, MODULE, "HideWhenCListShow", 0 );
+	fcOpt.bUseSingleClick		 =  (BOOL)db_get_b( NULL, MODULE, "UseSingleClick", 0 );
+	fcOpt.bShowIdle				 =  (BOOL)db_get_b( NULL, MODULE, "ShowIdle", 0 );
 
-	if (DBGetContactSettingByte(NULL, "ModernData", "HideBehind", 0))
-		bIsCListShow = (DBGetContactSettingByte(NULL, "ModernData", "BehindEdge", 0) == 0);
+	if (db_get_b(NULL, "ModernData", "HideBehind", 0))
+		bIsCListShow = (db_get_b(NULL, "ModernData", "BehindEdge", 0) == 0);
 	else
-		bIsCListShow = (DBGetContactSettingByte(NULL, "CList", "State", 0) == 2);
+		bIsCListShow = (db_get_b(NULL, "CList", "State", 0) == 2);
 }
 
 void SendMsgDialog( HWND hwnd, TCHAR *pText )
@@ -587,7 +472,7 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 
 	case WM_LBUTTONUP:
 		if (pThumb) pThumb->OnLButtonUp();
-		//if (bMouseMoved || !DBGetContactSettingByte(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT))
+		//if (bMouseMoved || !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT))
 		break;
 		// FALL THRU
 
@@ -668,7 +553,7 @@ void ApplyOptionsChanges()
 	CreateThumbsFont();
 	CreateBackgroundBrush();
 
-//	dwOfflineModes	 =  DBGetContactSettingDword( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
+//	dwOfflineModes	 =  db_get_dw( NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES );
 	if (!fcOpt.bToTop && ToTopTimerID){
 		KillTimer(NULL, ToTopTimerID);
 		ToTopTimerID = 0;
@@ -720,139 +605,92 @@ static void UnregisterWindowClass()
 	UnregisterClass( WND_CLASS, hInst );
 }
 
-
-
-static void CreateThumbWnd( TCHAR *ptszName, HANDLE hContact, int nX, int nY )
+static void CreateThumbWnd(TCHAR *ptszName, HANDLE hContact, int nX, int nY)
 {
-	HWND		hwnd		 =  NULL;
-	ThumbInfo	*pThumb		 =  thumbList.FindThumbByContact( hContact );
+	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
+	if (pThumb != NULL)
+		return;
 
 	// Prepare for window creation
-	if ( pThumb == NULL )
-	{
-		hwnd = CreateWindowEx(	WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
-								WND_CLASS,
-								ptszName,
-								WS_POPUP,
-								nX,
-								nY,
-								50,
-								20,
-								NULL /*hwndMiranda*/,
-								NULL,
-								hInst,
-								NULL
-								 );
+	HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, WND_CLASS, ptszName,
+											WS_POPUP, nX, nY, 50, 20, NULL, NULL, hInst, NULL);
+	if (hwnd == NULL)
+		return;
 
-		if ( hwnd != NULL )
-		{
-			pThumb = thumbList.AddThumb( hwnd, ptszName, hContact );
-			SetWindowLongPtr( hwnd, GWLP_USERDATA, (long)pThumb );
-			pThumb->ResizeThumb();
+	pThumb = thumbList.AddThumb( hwnd, ptszName, hContact );
+	SetWindowLongPtr( hwnd, GWLP_USERDATA, (long)pThumb );
+	pThumb->ResizeThumb();
 
-			pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
-			ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow))? SW_HIDE : SW_SHOWNA );
-			pThumb->PositionThumb( (short)nX, (short)nY );
+	pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
+	ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow))? SW_HIDE : SW_SHOWNA );
+	pThumb->PositionThumb( (short)nX, (short)nY );
 
-			// force repaint
-			pThumb->UpdateContent();
-		}
-	}
+	// force repaint
+	pThumb->UpdateContent();
 }
-
-
-
-static BOOL GetOSPlatform()
-{
-	OSVERSIONINFO	VersionInfo;
-
-	// Get OS platform
-	ZeroMemory( &VersionInfo, sizeof( VersionInfo ));
-	VersionInfo.dwOSVersionInfoSize = sizeof( VersionInfo );
-
-	GetVersionEx( &VersionInfo );
-	return( VersionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT );
-}
-
-
 
 static void CreateThumbsFont()
 {
-	int nFontId;
-	LOGFONTA lf;
-
-	for (nFontId = 0; nFontId < FLT_FONTIDS; nFontId++)
-	{
-		if (NULL != hFont[nFontId])
-		{
+	for (int nFontId = 0; nFontId < FLT_FONTIDS; nFontId++) {
+		if (NULL != hFont[nFontId]) {
 			DeleteObject(hFont[nFontId]);
 			hFont[nFontId] = NULL;
 		}
-		GetFontSetting(TRUE, nFontId, &lf, &tColor[nFontId]);
-		{
-			LONG height;
-			HDC hdc = GetDC(NULL);
-			height = lf.lfHeight;
-			lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-			ReleaseDC(NULL, hdc);
 
-			hFont[nFontId] = CreateFontIndirectA(&lf);
+		LOGFONT lf;
+		FontService_GetFont( LPGENT("Floating contacts"), s_fonts[nFontId], &tColor[nFontId], &lf);
 
-			lf.lfHeight = height;
-		}
+		HDC hdc = GetDC(NULL);
+		LONG height = lf.lfHeight;
+		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+		ReleaseDC(NULL, hdc);
+
+		hFont[nFontId] = CreateFontIndirect(&lf);
+
+		lf.lfHeight = height;
 	}
 }
-
-
-
+									 
 static void CreateBackgroundBrush()
 {
-//	LOGBRUSH	lb;
-	bkColor = DBGetContactSettingDword(NULL, sModule, "BkColor", FLT_DEFAULT_BKGNDCOLOR);
+	bkColor = db_get_dw(NULL, MODULE, "BkColor", FLT_DEFAULT_BKGNDCOLOR);
 
-
-	if (NULL != hLTEdgesPen)
-	{
+	if (NULL != hLTEdgesPen) {
 		DeleteObject(hLTEdgesPen);
 		hLTEdgesPen = NULL;
 	}
-	if (NULL != hRBEdgesPen)
-	{
+
+	if (NULL != hRBEdgesPen) {
 		DeleteObject(hRBEdgesPen);
 		hRBEdgesPen = NULL;
 	}
-	if (NULL != hBmpBackground)
-	{
+
+	if (NULL != hBmpBackground) {
 		DeleteObject(hBmpBackground);
 		hBmpBackground = NULL;
 	}
-	if (NULL != hBkBrush)
-	{
+
+	if (NULL != hBkBrush) {
 		SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)NULL);
 		DeleteObject( hBkBrush );
 		hBkBrush = NULL;
 	}
 
-	if (DBGetContactSettingByte(NULL, sModule, "DrawBorder", FLT_DEFAULT_DRAWBORDER))
-	{
-		COLORREF cr;
-
-		cr = (COLORREF)DBGetContactSettingDword(NULL, sModule, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR);
+	if ( db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER)) {
+		COLORREF cr = (COLORREF)db_get_dw(NULL, MODULE, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR);
 		hLTEdgesPen = CreatePen(PS_SOLID, 1, cr);
-		cr = (COLORREF)DBGetContactSettingDword(NULL, sModule, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
+		cr = (COLORREF)db_get_dw(NULL, MODULE, "RBEdgesColor", FLT_DEFAULT_RBEDGESCOLOR);
 		hRBEdgesPen = CreatePen(PS_SOLID, 1, cr);
 	}
-	if (DBGetContactSettingByte(NULL, sModule, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP))
-	{
+	
+	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
 		DBVARIANT dbv;
-
-		if (!DBGetContactSetting(NULL, sModule, "BkBitmap", &dbv))
-		{
-			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-			DBFreeVariant(&dbv);
+		if ( !DBGetContactSettingTString(NULL, MODULE, "BkBitmap", &dbv)) {
+			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
+			db_free(&dbv);
 		}
 	}
-	nBackgroundBmpUse = (WORD)DBGetContactSettingWord(NULL, sModule, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
+	nBackgroundBmpUse = (WORD)db_get_w(NULL, MODULE, "BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 
 	// Create brush
 	hBkBrush	 =  CreateSolidBrush(bkColor);
@@ -861,27 +699,18 @@ static void CreateBackgroundBrush()
 	SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)hBkBrush);
 }
 
-
 static int GetContactStatus( HANDLE hContact )
 {
-	char	*szProto	 =  NULL;
-	int		idStatus	 =  ID_STATUS_OFFLINE;
-
-	if ( hContact == NULL )
-	{
+	if (hContact == NULL) {
 		assert( !"Contact is NULL" );
-		return( 0 );
+		return 0;
 	}
 
-	szProto	 =  ( char* )CallService( "Proto/GetContactBaseProto", (WPARAM)hContact, 0 );
+	char *szProto = GetContactProto(hContact);
+	if (szProto == NULL)
+		return ID_STATUS_OFFLINE;
 
-	if ( NULL != szProto )
-	{
-		idStatus	 =  DBGetContactSettingWord( hContact, szProto, "Status", ID_STATUS_OFFLINE );
-	}
-
-
-	return( idStatus );
+	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
 
@@ -907,46 +736,30 @@ BOOL IsStatusVisible( int status )
 	return ( 0 == ( dwOfflineModes & ClcStatusToPf2( status )) );
 }
 
-
-
 void RegHotkey( HANDLE hContact, HWND hwnd )
 {
 	char szBuf[ MAX_PATH ] =  {0};
-/*	char szPath[ MAX_PATH ] =  {0};
 
-	GetModuleFileName( NULL, szPath, MAX_PATH );
-	PathRemoveFileSpec( szPath );
-	strcat( szPath, "\\Thumbs.ini" );
-	GetPrivateProfileString( "Hotkeys", szName, "", szBuf, MAX_PATH - 1, szPath );*/
 	DBVARIANT dbv;
-	if (DBGetContactSettingString ( hContact, sModule, "Hotkey", &dbv)) return;
+	if (DBGetContactSettingString(hContact, MODULE, "Hotkey", &dbv)) return;
 	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
-	DBFreeVariant( &dbv );
+	db_free( &dbv );
 
-	if ( 0 != strlen( szBuf ))
-	{
-		UINT nModifiers			 =  0;
-		char chKey				 =  0;
-		char szMod[ 2 ][ 20 ]	 =  {0};
-		char szKey[ 20 ]		 =  {0};
-		int i = 0;
+	if ( 0 != strlen( szBuf )) {
+		UINT nModifiers = 0;
+		char chKey = 0;
+		char szMod[2][20] = {0};
+		char szKey[20] =  {0};
 
-		sscanf( szBuf, "%[^'+']+%[^'+']+%[^'+']", szMod[ 0 ], szMod[ 1 ], szKey );
+		sscanf( szBuf, "%[^'+']+%[^'+']+%[^'+']", szMod[0], szMod[1], szKey );
 
-		for (  i = 0; i < 2; ++i )
-		{
+		for (int i=0; i < 2; i++) {
 			if ( 0 == strncmp( szMod[ i ], "ALT", 19 ))
-			{
 				nModifiers = nModifiers | MOD_ALT;
-			}
 			else if ( 0 == strncmp( szMod[ i ], "CTRL", 19 ))
-			{
 				nModifiers = nModifiers | MOD_CONTROL;
-			}
 			else if ( 0 == strncmp( szMod[ i ], "SHIFT", 19 ))
-			{
 				nModifiers = nModifiers | MOD_SHIFT;
-			}
 		}
 
 		chKey = szKey[ 0 ];
@@ -971,7 +784,7 @@ void SaveContactsPos()
 		thumbList[i]->GetThumbRect( &rc );
 
 		if ( 0 == GetLastError())
-			DBWriteContactSettingDword( thumbList[i]->hContact, sModule, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
+			db_set_dw( thumbList[i]->hContact, MODULE, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
 	}
 }
 
@@ -985,51 +798,83 @@ static void LoadContacts()
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Menus
 
+static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
+{
+	fcOpt.bHideAll = !fcOpt.bHideAll;
+	db_set_b(NULL, MODULE, "HideAll", (BYTE)fcOpt.bHideAll);
+	OnStatusChanged();
 
+	CLISTMENUITEM clmi = { sizeof(clmi) };
+	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
+	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
+	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
+	return 0;
+}
+
+static INT_PTR OnContactMenu_Remove( WPARAM wParam, LPARAM lParam )
+{
+	HANDLE hContact = ( HANDLE )wParam;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
+
+	if (pThumb) {
+		pThumb->DeleteContactPos();
+		thumbList.RemoveThumb(pThumb);
+	}
+
+	DestroyMenu( hContactMenu );
+	return 0;
+}
+
+static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam )
+{
+	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
+	db_set_b(NULL, MODULE, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
+	OnStatusChanged();
+	return 0;
+}
 
 static void LoadMenus()
 {
 	// Remove thumb menu item
-	hRemoveThumb = CreateServiceFunction( sModule "/RemoveThumb", OnContactMenu_Remove );
+	CreateServiceFunction(MODULE "/RemoveThumb", OnContactMenu_Remove);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ));
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_HIDE));
 	mi.ptszName = LPGENT("Remove thumb");
-	mi.pszService = sModule "/RemoveThumb";
+	mi.pszService = MODULE "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
 	// Hide all thumbs main menu item
-	hMainHideAllThumbs = CreateServiceFunction( sModule "/MainHideAllThumbs", OnMainMenu_HideAll );
-	ZeroMemory( &mi, sizeof( mi ));
+	CreateServiceFunction(MODULE "/MainHideAllThumbs", OnMainMenu_HideAll );
 
-	mi.cbSize = sizeof( mi );
-	mi.position = 0xFFFFF;
-	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
 	mi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	mi.pszService = sModule "/MainHideAllThumbs";
+	mi.pszService = MODULE "/MainHideAllThumbs";
 	Menu_AddMainMenuItem(&mi);
 
 	// Register hotkeys
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszSection = "Floating Contacts";
 
-	hkd.pszName = sModule "/MainHideAllThumbs";
+	hkd.pszName = MODULE "/MainHideAllThumbs";
 	hkd.pszDescription = LPGEN("Show/Hide all thumbs");
-	hkd.pszService = sModule "/MainHideAllThumbs";
+	hkd.pszService = MODULE "/MainHideAllThumbs";
 	Hotkey_Register(&hkd);
 
-	hHideWhenCListShow = CreateServiceFunction( sModule "/HideWhenCListShow", OnHotKey_HideWhenCListShow );
-	hkd.pszName = sModule "/HideWhenCListShow";
+	CreateServiceFunction(MODULE "/HideWhenCListShow", OnHotKey_HideWhenCListShow );
+	hkd.pszName = MODULE "/HideWhenCListShow";
 	hkd.pszDescription = LPGEN("Hide when contact list is shown");
-	hkd.pszService = sModule "/HideWhenCListShow";
+	hkd.pszService = MODULE "/HideWhenCListShow";
 	Hotkey_Register(&hkd);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static void LoadContact( HANDLE hContact )
 {
@@ -1041,7 +886,7 @@ static void LoadContact( HANDLE hContact )
 
 	if ( hContact == NULL ) return;
 
-	dwPos = DBGetContactSettingDword( hContact, sModule, "ThumbsPos", (DWORD)-1 );
+	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
 
 	if ( dwPos != -1 )
 	{
@@ -1090,44 +935,6 @@ BOOL HideOnFullScreen()
 	return bFullscreen && fcOpt.bHideWhenFullscreen;
 }
 
-
-static INT_PTR OnContactMenu_Remove( WPARAM wParam, LPARAM lParam )
-{
-	HANDLE hContact = ( HANDLE )wParam;
-	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
-
-	if (pThumb) {
-		pThumb->DeleteContactPos();
-		thumbList.RemoveThumb(pThumb);
-	}
-
-	DestroyMenu( hContactMenu );
-	return 0;
-}
-
-static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam )
-{
-	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
-	DBWriteContactSettingByte(NULL, sModule, "HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
-	OnStatusChanged();
-	return 0;
-}
-
-
-static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
-{
-	fcOpt.bHideAll = !fcOpt.bHideAll;
-	DBWriteContactSettingByte(NULL, sModule, "HideAll", (BYTE)fcOpt.bHideAll);
-	OnStatusChanged();
-
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
-	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
-	clmi.ptszName = fcOpt.bHideAll ? LPGENT("Show all thumbs") : LPGENT("Hide all thumbs");
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
-	return 0;
-}
-
 static VOID CALLBACK ToTopTimerProc ( HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	for (int i = 0; i < thumbList.getCount(); ++i)
@@ -1173,9 +980,9 @@ static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 			HideThumbsOnShowCList();
 		}
 		else if (!(wp->flags&SWP_NOMOVE)) {
-			BYTE method = DBGetContactSettingByte(NULL, "ModernData", "HideBehind", 0);
+			BYTE method = db_get_b(NULL, "ModernData", "HideBehind", 0);
 			if (method) {
-				WORD wBehindEdgeBorderSize = DBGetContactSettingWord(NULL, "ModernData", "HideBehindBorderSize", 0);
+				WORD wBehindEdgeBorderSize = db_get_w(NULL, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = {wp->x, wp->y, wp->x+wp->cx, wp->y+wp->cy};
 				RECT rcScreen = {wBehindEdgeBorderSize*(2-method), 0, GetSystemMetrics(SM_CXSCREEN)-wBehindEdgeBorderSize*(method-1), GetSystemMetrics(SM_CYSCREEN)};
 				RECT rcOverlap;
@@ -1194,4 +1001,107 @@ static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 		}
 	}
 	return mir_callNextSubclass(hwnd, newMirandaWndProc, uMsg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
+{
+	HookEvent(ME_CLIST_CONTACTICONCHANGED, OnContactIconChanged);
+	HookEvent(ME_SKIN_ICONSCHANGED, OnSkinIconsChanged);
+	HookEvent(ME_CLUI_CONTACTDRAGGING, OnContactDrag);
+	HookEvent(ME_CLUI_CONTACTDROPPED, OnContactDrop);
+	HookEvent(ME_CLUI_CONTACTDRAGSTOP, OnContactDragStop);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
+	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialize);
+	HookEvent(ME_CLIST_STATUSMODECHANGE, OnStatusModeChange);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+	
+	hwndMiranda = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	mir_subclassWindow(hwndMiranda, newMirandaWndProc);
+
+	// No thumbs yet
+	bEnableTip = ServiceExists("mToolTip/ShowTip");
+
+	RegisterWindowClass();
+	InitFileDropping();
+	GetScreenRect();
+	LoadDBSettings();
+	CreateBackgroundBrush();
+	CreateThumbsFont();
+	LoadContacts();
+	LoadMenus();
+
+	if (fcOpt.bToTop){
+		fcOpt.ToTopTime = (fcOpt.ToTopTime<1)?1:fcOpt.ToTopTime;
+		fcOpt.ToTopTime = (fcOpt.ToTopTime>TOTOPTIME_MAX)?TOTOPTIME_MAX:fcOpt.ToTopTime;
+		ToTopTimerID = SetTimer(NULL, 0, fcOpt.ToTopTime*TOTOPTIME_P, ToTopTimerProc);
+	}
+	return( 0 );
+}
+
+extern "C" int __declspec(dllexport) Load()
+{
+	mir_getLP(&pluginInfoEx);
+
+	InitOptions();
+
+	for (int i=0; i < SIZEOF(s_fonts); i++) {
+		LOGFONT lf;
+		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lf), &lf, FALSE);
+		if (i == FLT_FONTID_OFFINVIS || i == FLT_FONTID_INVIS)
+			lf.lfItalic = !lf.lfItalic;
+
+		COLORREF defColor = GetSysColor((i == FLT_FONTID_NOTONLIST) ? COLOR_3DSHADOW : COLOR_WINDOWTEXT);
+
+		char szId[20];
+		mir_snprintf(szId, SIZEOF(szId), "Font%d", i);
+		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), s_fonts[i], i+1, false, &lf, defColor);
+	}
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);
+
+	HMODULE hUserDll = GetModuleHandleA("user32.dll");
+	if (hUserDll) {
+		pSetLayeredWindowAttributes  =
+			(BOOL (WINAPI *)(HWND, COLORREF, BYTE, DWORD))
+			GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
+		pUpdateLayeredWindow  =
+			(BOOL (WINAPI *)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD))
+			GetProcAddress(hUserDll, "UpdateLayeredWindow");
+	}
+	else {
+		pSetLayeredWindowAttributes = NULL;
+		pUpdateLayeredWindow = NULL;
+	}
+
+	fnSHAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandle(_T("shlwapi")), "SHAutoComplete");
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" int __declspec(dllexport) Unload()
+{
+	if (hLTEdgesPen)
+		DeleteObject(hLTEdgesPen);
+	if (hRBEdgesPen)
+		DeleteObject(hRBEdgesPen);
+	if (hBmpBackground)
+		DeleteObject(hBmpBackground);
+	if (hBkBrush) {
+		SetClassLong((HWND)WND_CLASS, GCLP_HBRBACKGROUND, (LONG)NULL);
+		DeleteObject(hBkBrush);
+		hBkBrush = NULL;
+	}
+
+	for (int nFontId = 0; nFontId < FLT_FONTIDS; nFontId++)
+		if (NULL != hFont[nFontId])
+			DeleteObject(hFont[nFontId]);
+
+	UnregisterWindowClass();
+
+	FreeFileDropping();
+	return 0;
 }

@@ -67,7 +67,7 @@ enum
 /////////////////////////////////////////////////////////////////////////////
 //
 
-#define sModule "FloatingContacts"
+#define MODULE "FloatingContacts"
 
 #define TOTOPTIME_P	1000
 #define TOTOPTIME_MAX	(15*(60000/TOTOPTIME_P))
@@ -79,7 +79,7 @@ enum
 #define DB_POS_MAKE_XY(x, y) MAKELONG((short)(((float)x*MAXRCOOR)/(float)GetSystemMetrics(SM_CXSCREEN)+0.5), (short)(((float)y*MAXRCOOR)/(float)GetSystemMetrics(SM_CYSCREEN)+0.5))
 
 extern HINSTANCE	hInst;
-extern BOOL			bNT;
+
 //extern BOOL			bHideOffline;
 //extern BOOL			bHideAll;
 //extern BOOL			bHideWhenFullscreen;
@@ -156,34 +156,19 @@ void SendMsgDialog			( HWND hwnd, TCHAR *pText );
 void SaveContactsPos		( void );
 
 /////////////////////////////////////////////////////////////////////////////
-//
 
-void
-GetFontSetting
-	( IN BOOL bFltContacts
-	, IN int nFontId
-	, IN LOGFONTA* lf
-	, IN COLORREF* colour
-	);
+void ApplyOptionsChanges();
 
-void
-ApplyOptionsChanges();
+void OnStatusChanged();
 
-void
-OnStatusChanged();
+void SetThumbsOpacity(BYTE btAlpha);
 
-void
-SetThumbsOpacity
-	( IN BYTE btAlpha
-	);
-
-int
-OnOptionsInitialize
-	( IN WPARAM wParam
-	, IN LPARAM lParam
-	);
+int OnOptionsInitialize(WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////
+
+typedef HRESULT (STDAPICALLTYPE *pfnSHAutoComplete)(HWND,DWORD);
+extern pfnSHAutoComplete fnSHAutoComplete;
 
 #endif	// #ifndef __FLTCONT_H__
 

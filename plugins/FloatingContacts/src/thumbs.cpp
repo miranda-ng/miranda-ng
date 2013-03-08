@@ -298,7 +298,7 @@ void ThumbInfo::ResizeThumb()
 
 	hdc = GetWindowDC(hwnd);
 
-	if (!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+	if (!db_get_b(hContact, "CList", "NotOnList", 0))
 	{
 		int nStatus;
 		int nContactStatus;
@@ -310,8 +310,8 @@ void ThumbInfo::ResizeThumb()
 		if ( NULL != szProto )
 		{
 			nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-			nContactStatus = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			nApparentMode = DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+			nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 			
 			if (	(nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE)
 				||	(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE)
@@ -344,8 +344,7 @@ void ThumbInfo::ResizeThumb()
 	hOldFont = (HFONT)SelectObject( hdc, hFont[ index ] );
 	
 	// Get text and icon sizes
-	GetTextExtentPoint32( hdc, ptszName, _tcslen( ptszName ), &sizeText );
-	
+	GetTextExtentPoint32( hdc, ptszName, (DWORD)_tcslen(ptszName), &sizeText);
 	
 	SelectObject( hdc, hOldFont );
 	
@@ -408,7 +407,7 @@ void ThumbInfo::RefreshContactStatus(int idStatus)
 
 void ThumbInfo::DeleteContactPos()
 {
-	DBDeleteContactSetting( hContact, sModule, "ThumbsPos" );
+	DBDeleteContactSetting( hContact, MODULE, "ThumbsPos" );
 }
 
 void ThumbInfo::OnLButtonDown(short nX, short nY)
@@ -716,7 +715,7 @@ void ThumbInfo::UpdateContent()
 
 	oldBkMode	 =  SetBkMode( hdcDraw, TRANSPARENT );
 
-	if (!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+	if (!db_get_b(hContact, "CList", "NotOnList", 0))
 	{
 		int nStatus;
 		int nContactStatus;
@@ -729,8 +728,8 @@ void ThumbInfo::UpdateContent()
 		if ( NULL != szProto )
 		{
 			nStatus			 =  CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-			nContactStatus	 =  DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			nApparentMode	 =  DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+			nContactStatus	 =  db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			nApparentMode	 =  db_get_w(hContact, szProto, "ApparentMode", 0);
 			
 			if (	(nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
 					(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
@@ -742,7 +741,7 @@ void ThumbInfo::UpdateContent()
 				else
 				{
 					index  = 	FLT_FONTID_INVIS;
-					if (fcOpt.bShowIdle && DBGetContactSettingDword(hContact, szProto, "IdleTS", 0)) {
+					if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0)) {
 						fStyle|=ILD_BLEND50;
 					}
 				}
@@ -754,7 +753,7 @@ void ThumbInfo::UpdateContent()
 			else
 			{
 				index = FLT_FONTID_CONTACTS;
-				if (fcOpt.bShowIdle && DBGetContactSettingDword(hContact, szProto, "IdleTS", 0)) {
+				if (fcOpt.bShowIdle && db_get_dw(hContact, szProto, "IdleTS", 0)) {
 					fStyle|=ILD_BLEND50;
 				}
 			}
@@ -769,36 +768,24 @@ void ThumbInfo::UpdateContent()
 
 	oldColor = SetTextColor( hdcDraw, tColor[ index ] );
 	
-/*	ImageList_DrawEx(	himl, 
-						iIcon, 
-						hdcDraw, 
-						2, 
-						( szSize.cy - size.cx ) / 2, 
-						0, 
-						0, 
-						CLR_NONE, 
-						CLR_NONE, 
-						fStyle);
-*/
-	{ 
-		HICON icon = ImageList_GetIcon(himl, iIcon, ILD_NORMAL);
-		MyBitmap bmptmp(size.cx, size.cy);
-		bmptmp.DrawIcon(icon,0,0);//bmpContent
-		BLENDFUNCTION blend;
-		blend.BlendOp = AC_SRC_OVER;
-		blend.BlendFlags = 0;
-		blend.SourceConstantAlpha = (fStyle&ILD_BLEND50)?128:255;
-		blend.AlphaFormat = AC_SRC_ALPHA;
-		AlphaBlend(hdcDraw, 2,( szSize.cy - size.cx ) / 2, bmptmp.getWidth(), bmptmp.getHeight(), bmptmp.getDC(), 0, 0, bmptmp.getWidth(), bmptmp.getHeight(), blend);
-		DestroyIcon(icon);
-	}
+	HICON icon = ImageList_GetIcon(himl, iIcon, ILD_NORMAL);
+	MyBitmap bmptmp(size.cx, size.cy);
+	bmptmp.DrawIcon(icon,0,0);//bmpContent
+	BLENDFUNCTION blend;
+	blend.BlendOp = AC_SRC_OVER;
+	blend.BlendFlags = 0;
+	blend.SourceConstantAlpha = (fStyle&ILD_BLEND50)?128:255;
+	blend.AlphaFormat = AC_SRC_ALPHA;
+	AlphaBlend(hdcDraw, 2,( szSize.cy - size.cx ) / 2, bmptmp.getWidth(), bmptmp.getHeight(), bmptmp.getDC(), 0, 0, bmptmp.getWidth(), bmptmp.getHeight(), blend);
+	DestroyIcon(icon);
+
 	SetRect(&rcText, 0, 0, szSize.cx, szSize.cy);
 	rcText.left += size.cx + 4;
 
 	hOldFont = (HFONT)SelectObject( hdcDraw, hFont[ index ] );
 
 	SIZE szText;
-	GetTextExtentPoint32(hdcDraw, ptszName, _tcslen(ptszName), &szText);
+	GetTextExtentPoint32(hdcDraw, ptszName, (DWORD)_tcslen(ptszName), &szText);
 	SetTextColor(hdcDraw, bkColor);
 
 	// simple border

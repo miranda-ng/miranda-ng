@@ -282,8 +282,8 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 			}
 			else
 			{
-				int	 nSize = sizeof(char) * ( strlen( szItem ) + strlen( fd.cFileName ) + sizeof( char ));
-				char *szFile = (char*) malloc( nSize ) ;
+				size_t nSize = sizeof(char) * ( strlen( szItem ) + strlen( fd.cFileName ) + sizeof( char ));
+				char  *szFile = (char*) malloc( nSize ) ;
 				
 				strncpy( szFile, szItem, nSize - 1 ); 
 				

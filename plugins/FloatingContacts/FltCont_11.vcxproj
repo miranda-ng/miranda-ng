@@ -186,6 +186,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Utils\mir_fonts.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\bitmap_funcs.cpp" />
     <ClCompile Include="src\filedrop.cpp" />
     <ClCompile Include="src\stdafx.cpp">

@@ -11,6 +11,7 @@
 #include <newpluginapi.h>
 #include <m_system_cpp.h>
 #include <m_skin.h>
+#include <m_fontservice.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>
 #include <m_database.h>
@@ -20,6 +21,7 @@
 #include <m_clistint.h>
 #include <m_hotkeys.h>
 #include <m_png.h>
+#include <win2k.h>
 
 #include "bitmap_funcs.h"
 #include "fltcont.h"
