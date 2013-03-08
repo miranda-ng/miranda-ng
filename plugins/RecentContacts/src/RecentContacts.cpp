@@ -35,15 +35,15 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	"Recent Contacts",
-	PLUGIN_MAKE_VERSION(0,0,2,0),
-	"Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.",
-	"ValeraVi, Kildor",
-	"kostia@ngs.ru",
-	"© 2005 ValeraVi, © 2009 Kildor",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// 0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3
+	// {0E5F3B9D-EBCD-44D7-9374-D8E5D88DF4E3}
 	{0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
 };
 

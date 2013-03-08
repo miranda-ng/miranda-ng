@@ -1,34 +1,27 @@
-
-#pragma once
-
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NONSTDC_NO_DEPRECATE
-#define MIRANDA_VER    0x0A00
 
 #include <windows.h>
 #include <commctrl.h>
 #include <string>
 #include <map>
 #include <xfunctional> 
-#include "resource.h"
 #include <time.h>
 
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_database.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_message.h>
-#include <m_utils.h>
-#include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <m_protosvc.h>
 #include <m_options.h>
 #include <win2k.h>
 
 #include <m_toptoolbar.h>
+
+#include "resource.h"
+#include "Version.h"
 
 #define V_RECENTCONTACTS_TOGGLE_IGNORE "RecentContacts/ToggleIgnore"
 

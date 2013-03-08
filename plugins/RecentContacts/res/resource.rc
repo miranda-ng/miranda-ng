@@ -39,18 +39,21 @@ BEGIN
                     WS_TABSTOP,0,0,150,200
 END
 
-#endif    // Russian resources
-/////////////////////////////////////////////////////////////////////////////
+IDD_LASTUC_OPT DIALOGEX 0, 0, 314, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Plugin settings",IDC_STATIC,7,7,300,226
+    EDITTEXT        IDC_SHOWNCONTACTS,161,27,28,12,ES_AUTOHSCROLL
+    CONTROL         "Number shown contacts:\n (0 to show all)",IDC_STATIC,
+                    "Static",SS_LEFTNOWORDWRAP | WS_GROUP,24,27,121,17
+    LTEXT           "Format of date and time\n(Look to readme for placeholders help)",
+                    IDC_STATIC,24,50,133,22
+    EDITTEXT        IDC_DATETIME,161,50,96,12,ES_AUTOHSCROLL
+    CONTROL         "Hide offline contacts",IDC_HIDEOFFLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,161,75,84,8
+END
 
-
-/////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-#ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -76,39 +79,6 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-
-#endif    // German (Germany) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_LASTUC_OPT DIALOGEX 0, 0, 314, 240
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    GROUPBOX        "Plugin settings",IDC_STATIC,7,7,300,226
-    EDITTEXT        IDC_SHOWNCONTACTS,161,27,28,12,ES_AUTOHSCROLL
-    CONTROL         "Number shown contacts:\n (0 to show all)",IDC_STATIC,
-                    "Static",SS_LEFTNOWORDWRAP | WS_GROUP,24,27,121,17
-    LTEXT           "Format of date and time\n(Look to readme for placeholders help)",
-                    IDC_STATIC,24,50,133,22
-    EDITTEXT        IDC_DATETIME,161,50,96,12,ES_AUTOHSCROLL
-    CONTROL         "Hide offline contacts",IDC_HIDEOFFLINE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,161,75,84,8
-END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -140,7 +110,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
