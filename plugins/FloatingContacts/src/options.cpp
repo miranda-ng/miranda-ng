@@ -158,6 +158,7 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bEnable;
+	char szPercent[20];
 
 	switch ( uMsg ) {
 	case WM_INITDIALOG:
@@ -193,6 +194,17 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (fnSHAutoComplete)
 				fnSHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
+
+			// Windows 2K/XP
+			BYTE btOpacity = (BYTE)DBGetContactSettingByte(NULL, MODULE, "Opacity", 100);
+			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
+			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
+				
+			wsprintfA(szPercent, "%d%%", btOpacity);
+			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
+
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SLIDER_OPACITY), pSetLayeredWindowAttributes != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_OPACITY), pSetLayeredWindowAttributes != 0);
 		}
 		return TRUE;
 
@@ -211,6 +223,18 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		bEnable = IsDlgButtonChecked(hwndDlg, IDC_DRAWBORDER);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LTEDGESCOLOR), bEnable);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RBEDGESCOLOR), bEnable);
+		break;
+
+	case WM_HSCROLL:
+		if (wParam != TB_ENDTRACK) {
+			int nPos = (int)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0);
+			fcOpt.thumbAlpha = (BYTE)(( nPos * 255 ) / 100 );
+			SetThumbsOpacity(fcOpt.thumbAlpha);
+
+			wsprintfA(szPercent, "%d%%", nPos);
+			SetDlgItemTextA(hwndDlg, IDC_OPACITY, szPercent);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
 		break;
 
 	case WM_COMMAND:
@@ -271,6 +295,8 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				db_set_dw(NULL, MODULE, "LTEdgesColor", col);
 				col = SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_GETCOLOUR, 0, 0);
 				db_set_dw(NULL, MODULE, "RBEdgesColor", col);
+
+				db_set_b(NULL, MODULE, "Opacity", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0));
 
 				// Backgroud
 				col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);

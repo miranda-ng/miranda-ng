@@ -4,13 +4,13 @@ ThumbList thumbList;
 
 /////////////////////////////////////////////////////////////////////////////
 // ThumbInfo
-static POINT	ptOld;
+static POINT ptOld;
 static BOOL	bMouseDown		 =  FALSE;
 static BOOL	bMouseIn		 =  FALSE;
 static BOOL	bMouseMoved		 =  FALSE;
-static short	nLeft			 =  0;
-static short	nTop			 =  0;
-static int		nOffs			 =  5;
+static int	nLeft = 0;
+static int  nTop  = 0;
+static int  nOffs = 5;
 static ThumbInfo *pThumbMouseIn	 =  NULL;
 
 static void SnapToScreen( RECT rcThumb, int nX, int nY, int *pX, int *pY )
@@ -54,7 +54,7 @@ void ThumbInfo::GetThumbRect(RECT *rc)
 	rc->bottom = ptPos.y + szSize.cy;
 }
 
-void ThumbInfo::PositionThumb(short nX, short nY)
+void ThumbInfo::PositionThumb(int nX, int nY)
 {
 	POINT pos = { nX, nY };
 	HDWP hdwp;
@@ -64,7 +64,7 @@ void ThumbInfo::PositionThumb(short nX, short nY)
 	ThumbInfo *pThumb = this;
 	while (pThumb)
 	{
-		pThumb->PositionThumbWorker( (short)pos.x, (short)pos.y, &pos );
+		pThumb->PositionThumbWorker(pos.x, pos.y, &pos);
 
 		DeferWindowPos(	hdwp,
 						pThumb->hwnd, 
@@ -84,7 +84,7 @@ void ThumbInfo::PositionThumb(short nX, short nY)
 	EndDeferWindowPos(hdwp);
 }
 
-void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
+void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 {
 	RECT		rc;
 	RECT		rcThumb;
@@ -373,7 +373,7 @@ void ThumbInfo::ResizeThumb()
 	if (pNextThumb = thumbList.FindThumb(dockOpt.hwndRight))
 	{
 		GetThumbRect( &rcThumb );
-		pNextThumb->PositionThumb( (short)rcThumb.right, (short)rcThumb.top );
+		pNextThumb->PositionThumb(rcThumb.right, rcThumb.top);
 	}
 }
 
@@ -410,7 +410,7 @@ void ThumbInfo::DeleteContactPos()
 	DBDeleteContactSetting( hContact, MODULE, "ThumbsPos" );
 }
 
-void ThumbInfo::OnLButtonDown(short nX, short nY)
+void ThumbInfo::OnLButtonDown(int nX, int nY)
 {
 	RECT rc;
 
@@ -424,8 +424,8 @@ void ThumbInfo::OnLButtonDown(short nX, short nY)
 	GetCursorPos(&ptOld);
 	GetThumbRect(&rc);
 	
-	nLeft	 =  (short)rc.left;
-	nTop	 =  (short)rc.top;
+	nLeft	 =  rc.left;
+	nTop	 =  rc.top;
 	
 	//bMouseIn	 =  FALSE;
 	bMouseDown	 =  TRUE;
@@ -459,8 +459,8 @@ void ThumbInfo::OnLButtonUp()
 		{
 			if ( IsWindowVisible( hwndMiranda ))
 			{
-				DeleteContactPos( );
-				thumbList.RemoveThumb( this );
+				DeleteContactPos();
+				thumbList.RemoveThumb(this);
 			}
 		}
 	}
@@ -468,7 +468,7 @@ void ThumbInfo::OnLButtonUp()
 	SaveContactsPos();
 }
 
-void ThumbInfo::OnMouseMove(short nX, short nY, WPARAM wParam)
+void ThumbInfo::OnMouseMove(int nX, int nY, WPARAM wParam)
 {
 //	if (bMouseDown && !wParam&MK_LBUTTON) OnLButtonUp();
 
@@ -492,8 +492,8 @@ void ThumbInfo::OnMouseMove(short nX, short nY, WPARAM wParam)
 		if (dX || dY){
 			bMouseMoved	 =  TRUE;
 
-			nLeft	+= (short)dX;
-			nTop	+= (short)dY;
+			nLeft	+= dX;
+			nTop	+= dY;
 
 			PositionThumb( nLeft, nTop );
 		}

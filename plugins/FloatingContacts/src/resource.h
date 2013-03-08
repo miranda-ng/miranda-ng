@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\fltcnt.rc
+// Used by D:\Myranda\plugins\FloatingContacts\res\fltcnt.rc
 //
 #define IDD_OPT_FLTCONT                 101
 #define IDI_ICON1                       103
@@ -8,6 +8,8 @@
 #define IDI_SHOW                        105
 #define IDD_OPT_FNT                     106
 #define IDD_OPT_SKIN                    106
+#define IDC_SLIDER_OPACITY              1001
+#define IDC_OPACITY                     1002
 #define IDC_CHK_HIDE_OFFLINE            1003
 #define IDC_CHK_STICK                   1004
 #define IDC_CHK_WIDTH                   1005
@@ -45,7 +47,7 @@
 #define IDC_RBEDGESCOLOR                1211
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107

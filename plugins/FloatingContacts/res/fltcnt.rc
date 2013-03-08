@@ -13,11 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// NEUTRAL resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -25,18 +25,18 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -85,29 +85,31 @@ BEGIN
     GROUPBOX        "Idle contacts",IDC_STATIC,150,132,148,59
 END
 
-IDD_OPT_SKIN DIALOGEX 0, 0, 303, 229
+IDD_OPT_SKIN DIALOGEX 0, 0, 303, 117
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0xCC
 BEGIN
-    GROUPBOX        "Border",IDC_STATIC,4,116,293,36
-    CONTROL         "Draw border",IDC_DRAWBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,131,109,10,WS_EX_TRANSPARENT
-    RTEXT           "Left-top edges color:",IDC_STATIC,116,126,137,8,NOT WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "",IDC_LTEDGESCOLOR,"ColourPicker",WS_TABSTOP,257,124,32,10
-    RTEXT           "Right-bottom eges color:",IDC_STATIC,116,139,137,8,NOT WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "",IDC_RBEDGESCOLOR,"ColourPicker",WS_TABSTOP,257,138,32,10
-    GROUPBOX        "Background",IDC_STATIC,3,168,294,57,0,WS_EX_TRANSPARENT
-    LTEXT           "Background colour:",IDC_STATIC,13,157,72,8,NOT WS_GROUP,WS_EX_TRANSPARENT
-    CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,87,157,32,10
-    CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,178,137,10,WS_EX_TRANSPARENT
-    EDITTEXT        IDC_FILENAME,154,179,111,12,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BROWSE,271,179,18,13
-    CONTROL         "Stretch to width",IDC_STRETCHH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,200,139,10,WS_EX_TRANSPARENT
-    CONTROL         "Stretch to height",IDC_STRETCHV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,199,129,10,WS_EX_TRANSPARENT
-    CONTROL         "Tile horizontally",IDC_TILEH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,211,139,10,WS_EX_TRANSPARENT
-    CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,211,130,10,WS_EX_TRANSPARENT
-    CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,189,137,10,WS_EX_TRANSPARENT
-    LTEXT           "Opacity:",IDC_STATIC,129,157,52,8
+    GROUPBOX        "Border",IDC_STATIC,4,2,293,36
+    CONTROL         "Draw border",IDC_DRAWBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,17,109,10,WS_EX_TRANSPARENT
+    LTEXT           "Left-top edge's color:",IDC_STATIC,116,12,137,8,NOT WS_GROUP,WS_EX_TRANSPARENT | WS_EX_RIGHT
+    CONTROL         "",IDC_LTEDGESCOLOR,"ColourPicker",WS_TABSTOP,257,10,32,10
+    RTEXT           "Right-bottom edge's color:",IDC_STATIC,116,25,137,8,NOT WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_RBEDGESCOLOR,"ColourPicker",WS_TABSTOP,257,24,32,10
+    GROUPBOX        "Background",IDC_STATIC,3,54,294,57,0,WS_EX_TRANSPARENT
+    LTEXT           "Background colour:",IDC_STATIC,13,43,72,8,NOT WS_GROUP,WS_EX_TRANSPARENT
+    CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,87,43,32,10
+    CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,64,137,10,WS_EX_TRANSPARENT
+    EDITTEXT        IDC_FILENAME,154,65,111,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSE,271,65,18,13
+    CONTROL         "Stretch to width",IDC_STRETCHH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,86,139,10,WS_EX_TRANSPARENT
+    CONTROL         "Stretch to height",IDC_STRETCHV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,86,130,10,WS_EX_TRANSPARENT
+    CONTROL         "Tile horizontally",IDC_TILEH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,96,139,10,WS_EX_TRANSPARENT
+    CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,96,130,10,WS_EX_TRANSPARENT
+    CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,75,137,10,WS_EX_TRANSPARENT
+    LTEXT           "Opacity:",IDC_STATIC,129,43,52,8
+    CONTROL         "Slider1",IDC_SLIDER_OPACITY,"msctls_trackbar32",TBS_TOP | TBS_NOTICKS | WS_TABSTOP,161,42,81,12,WS_EX_TRANSPARENT
+    CTEXT           "100 %",IDC_OPACITY,244,44,25,8,0,WS_EX_TRANSPARENT
 END
 
 
@@ -133,7 +135,7 @@ BEGIN
     IDD_OPT_SKIN, DIALOG
     BEGIN
         RIGHTMARGIN, 297
-        BOTTOMMARGIN, 226
+        BOTTOMMARGIN, 114
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -148,7 +150,7 @@ END
 // remains consistent on all systems.
 IDI_HIDE                ICON                    "hide.ico"
 IDI_SHOW                ICON                    "show.ico"
-#endif    // NEUTRAL resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

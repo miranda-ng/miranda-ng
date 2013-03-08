@@ -34,15 +34,15 @@ public:
 	~ThumbInfo();
 
 	void GetThumbRect			(RECT *rc);
-	void PositionThumb			(short nX, short nY); 
-	void PositionThumbWorker	(short nX, short nY, POINT *rcNewPos); 
+	void PositionThumb			(int nX, int nY); 
+	void PositionThumbWorker	(int nX, int nY, POINT *rcNewPos); 
 	void ResizeThumb			();
 	void RefreshContactIcon		(int iIcon);
 	void RefreshContactStatus	(int idStatus);
 	void DeleteContactPos		();
-	void OnLButtonDown			(short nX, short nY);
+	void OnLButtonDown			(int nX, int nY);
 	void OnLButtonUp			();
-	void OnMouseMove			(short nX, short nY, WPARAM wParam);
+	void OnMouseMove			(int nX, int nY, WPARAM wParam);
 	void ThumbSelect			(BOOL bMouse);
 	void ThumbDeselect			(BOOL bMouse);
 	void SetThumbOpacity		(BYTE btAlpha);

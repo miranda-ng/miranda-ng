@@ -194,7 +194,7 @@ static int OnContactDrag( WPARAM wParam, LPARAM lParam )
 		}
 	}
 	else if ( hContact == hNewContact )
-		pThumb->PositionThumb( (short)( pt.x - 5 ), (short)( pt.y - 5 ));
+		pThumb->PositionThumb(pt.x - 5, pt.y - 5);
 
 	return( hNewContact != NULL ? 1 : 0 );
 }
@@ -216,11 +216,6 @@ static int OnContactDrop( WPARAM wParam, LPARAM lParam )
 
 		GetWindowRect( hwndMiranda, &rcMiranda );
 		pThumb->GetThumbRect( &rcThumb );
-
-		//if ( IntersectRect( &rcOverlap, &rcThumb, &rcMiranda ))
-		//{
-		//	pThumb->OnLButtonDown( (short)(rcThumb.left + 5), (short)(rcThumb.top + 5));
-		//}
 	}
 
 	SaveContactsPos();
@@ -413,8 +408,8 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 	case WM_RBUTTONUP:
 		{
 			POINT pt;
-			pt.x = LOWORD( lParam );
-			pt.y = HIWORD( lParam );
+			pt.x = LOWORD(lParam );
+			pt.y = HIWORD(lParam );
 
 			if (pThumb) pThumb->ThumbDeselect( TRUE );
 
@@ -455,19 +450,19 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 //#endif
 
 	case WM_MEASUREITEM:
-		lResult = CallService( MS_CLIST_MENUMEASUREITEM, wParam, lParam );
+		lResult = CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam );
 		break;
 
 	case WM_DRAWITEM:
-		lResult = CallService( MS_CLIST_MENUDRAWITEM, wParam, lParam );
+		lResult = CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam );
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pThumb) pThumb->OnLButtonDown( (short)LOWORD( lParam ), (short)HIWORD( lParam ));
+		if (pThumb) pThumb->OnLButtonDown( LOWORD(lParam), HIWORD(lParam));
 		break;
 
 	case WM_MOUSEMOVE:
-		if (pThumb) pThumb->OnMouseMove( (short)LOWORD( lParam ), (short)HIWORD( lParam ), wParam);
+		if (pThumb) pThumb->OnMouseMove( LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_LBUTTONUP:
@@ -623,7 +618,7 @@ static void CreateThumbWnd(TCHAR *ptszName, HANDLE hContact, int nX, int nY)
 
 	pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
 	ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow))? SW_HIDE : SW_SHOWNA );
-	pThumb->PositionThumb( (short)nX, (short)nY );
+	pThumb->PositionThumb(nX, nY);
 
 	// force repaint
 	pThumb->UpdateContent();
@@ -878,27 +873,19 @@ static void LoadMenus()
 
 static void LoadContact( HANDLE hContact )
 {
-	DWORD	dwPos		 =  (DWORD)-1;
-	TCHAR	*ptName		 =  NULL;
-	ThumbInfo	*pThumb	 =  thumbList.FindThumbByContact( hContact );
-	int		nX, nY;
+	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
+	if ( hContact == NULL )
+		return;
 
-
-	if ( hContact == NULL ) return;
-
-	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
-
-	if ( dwPos != -1 )
-	{
-		ptName = (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, (LPARAM)GCDNF_TCHAR );
-
-		if ( ptName != NULL )
-		{
-			nX = DB_POS_GETX( dwPos );
-			nY = DB_POS_GETY( dwPos );
+	DWORD	dwPos = db_get_dw( hContact, MODULE, "ThumbsPos", (DWORD)-1 );
+	if ( dwPos != -1 ) {
+		TCHAR	*ptName = (TCHAR*)CallService( MS_CLIST_GETCONTACTDISPLAYNAME, ( WPARAM )hContact, (LPARAM)GCDNF_TCHAR );
+		if ( ptName != NULL ) {
+			int nX = DB_POS_GETX( dwPos );
+			int nY = DB_POS_GETY( dwPos );
 
 			CreateThumbWnd( ptName, hContact, nX, nY );
-			pThumb->PositionThumb( (short)nX, (short)nY );
+			pThumb->PositionThumb(nX, nY);
 		}
 	}
 }
@@ -909,21 +896,17 @@ BOOL HideOnFullScreen()
 	BOOL bFullscreen = FALSE;
 	HWND hWnd = 0;
 
-	if ( fcOpt.bHideWhenFullscreen )
-	{
+	if ( fcOpt.bHideWhenFullscreen ) {
 		int w = GetSystemMetrics(SM_CXSCREEN);
 		int h = GetSystemMetrics(SM_CYSCREEN);
 
 		hWnd = GetForegroundWindow();
 
-		while (GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST)
-		{
+		while (GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST) {
 			RECT WindowRect;
 			GetWindowRect(hWnd, &WindowRect);
 
-			if ( (w == (WindowRect.right - WindowRect.left)) &&
-				(h == (WindowRect.bottom - WindowRect.top)))
-			{
+			if ( w == WindowRect.right - WindowRect.left && h == WindowRect.bottom - WindowRect.top) {
 				bFullscreen = TRUE;
 				break;
 			}
@@ -969,17 +952,17 @@ void HideThumbsOnShowCList()
 
 static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-	if ( uMsg == WM_WINDOWPOSCHANGED) {
+	if (uMsg == WM_WINDOWPOSCHANGED) {
 		WINDOWPOS *wp = (WINDOWPOS *)lParam;
-		if (wp->flags&SWP_HIDEWINDOW) {
+		if (wp->flags & SWP_HIDEWINDOW) {
 			bIsCListShow = FALSE;
 			ShowThumbsOnHideCList();
 		}
-		else if (wp->flags&SWP_SHOWWINDOW){
+		else if (wp->flags & SWP_SHOWWINDOW){
 			bIsCListShow = TRUE;
 			HideThumbsOnShowCList();
 		}
-		else if (!(wp->flags&SWP_NOMOVE)) {
+		else if (!(wp->flags & SWP_NOMOVE)) {
 			BYTE method = db_get_b(NULL, "ModernData", "HideBehind", 0);
 			if (method) {
 				WORD wBehindEdgeBorderSize = db_get_w(NULL, "ModernData", "HideBehindBorderSize", 0);
