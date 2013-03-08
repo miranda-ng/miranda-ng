@@ -31,18 +31,7 @@ LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
 IDI_RATEHI              ICON                    "rate_high.ico"
 IDI_RATELO              ICON                    "rate_low.ico"
 IDI_RATEME              ICON                    "rate_med.ico"
-#endif    // Ukrainian resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -70,7 +59,7 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-#endif    // English (U.S.) resources
+#endif    // Ukrainian resources
 /////////////////////////////////////////////////////////////////////////////
 
 

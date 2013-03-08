@@ -43,19 +43,19 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
    sizeof(PLUGININFOEX),
-   "Contact`s Rate",
-   PLUGIN_MAKE_VERSION(0,0,2,1),
-   "Shows rating of contact in contact list (if presents).",
-   "Kildor, Thief",
-   "kostia@ngs.ru",
-   "© 2006-2009 Kostia Romanov, based on AuthState by Alexander Turyak",
-   "http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
    UNICODE_AWARE,
-	// 45230488-977b-405b-856d-ea276d7083b7
+	// {45230488-977B-405B-856D-EA276D7083B7}
    {0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
    g_hInst = hinstDLL;
    return TRUE;

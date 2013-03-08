@@ -16,12 +16,6 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   File name      : $URL: http://svn.mirandaim.ru/mainrepo/authstate/trunk/commonheaders.h $
-   Revision       : $Rev: 222 $
-   Last change on : $Date: 2006-09-26 05:54:03 +0700 (Вт, 26 сен 2006) $
-   Last change by : $Author: Thief $
-
 */
 
 #ifndef COMMHEADERS_H
@@ -29,26 +23,17 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-//Miranda API headers
 #include <windows.h>
+
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
-#include <m_system.h>
-//#include <m_protocols.h>
-#include <m_utils.h>
-#include <m_clist.h>
-#include <m_options.h>
 #include <m_langpack.h>
-#include <m_icolib.h>
-#include "resource.h"
-
-//external SDK headers
 #include <m_extraicons.h>
 
-#define MODULENAME "Rate"
+#include "resource.h"
+#include "Version.h"
 
-/* 0e2866a8-6f4c-4132-98ae-6afdb8766c48 */
-#define MIID_CONTACTSRATE {0x0e2866a8, 0x6f4c, 0x4132, {0x98, 0xae, 0x6a, 0xfd, 0xb8, 0x76, 0x6c, 0x48}}
+#define MODULENAME "Rate"
 
 #endif //COMMHEADERS_H
