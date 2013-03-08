@@ -90,9 +90,6 @@
     <ClCompile Include="src\statusbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\statusfloater.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\viewmodes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,9 +109,6 @@
       <Filter>Source Files\CLUIFrames</Filter>
     </ClCompile>
     <ClCompile Include="src\CLUIFrames\groupmenu.cpp">
-      <Filter>Source Files\CLUIFrames</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CLUIFrames\movetogroup.cpp">
       <Filter>Source Files\CLUIFrames</Filter>
     </ClCompile>
     <ClCompile Include="src\clnplus.cpp">

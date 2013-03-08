@@ -91,16 +91,6 @@
 #define ECF_AVATAR 1
 #define ECF_SECONDLINE 2
 
-struct ContactFloater {
-	ContactFloater *pNextFloater;
-	HWND hwnd;
-	HDC hdc;
-	HBITMAP hbm, hbmOld;
-	HANDLE hContact;
-};
-
-typedef ContactFloater CONTACTFLOATER;
-
 #define DSPF_CENTERSTATUSICON 1
 #define DSPF_DIMIDLE 2
 #define DSPF_NOFFLINEAVATARS 4
@@ -129,7 +119,6 @@ struct TExtraCache
 	DWORD  dwCFlags;
 	DWORD  dwDFlags;     // display flags for caching only
 	StatusItems_t *status_item, *proto_status_item;
-	CONTACTFLOATER *floater;
 	DWORD  dwLastMsgTime;
 	DWORD  msgFrequency;
 	BOOL   isChatRoom;
@@ -230,10 +219,6 @@ struct ClcData : public ClcDataBase
 #define MULTIROW_IFSPACE 2
 #define MULTIROW_IFNEEDED 3
 
-#define CLUI_USE_FLOATER 1
-#define CLUI_FLOATER_AUTOHIDE 2
-#define CLUI_FLOATER_EVENTS 4
-
 #define CLC_GROUPALIGN_LEFT 0
 #define CLC_GROUPALIGN_RIGHT 1
 #define CLC_GROUPALIGN_AUTO 2
@@ -319,7 +304,6 @@ struct TCluiData {
 	BYTE bFirstRun;
 	BYTE bUseDCMirroring;
 	BYTE bCLeft, bCRight, bCTop, bCBottom;
-	BYTE bUseFloater;
 	BYTE fullyInited;
 	BYTE bAutoExpandGroups;
 	SIZE szOldCTreeSize;
@@ -451,20 +435,6 @@ void RTL_DetectAndSet(ClcContact *contact, HANDLE hContact);
 void RTL_DetectGroupName(ClcContact *group);
 void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();
-void SFL_RegisterWindowClass(), SFL_UnregisterWindowClass();
-void SFL_Create();
-void SFL_Destroy();
-void SFL_SetState(int iMode);
-void SFL_SetSize();
-void SFL_PaintNotifyArea();
-void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BOOL refresh);
-
-void FLT_Update(struct ClcData *dat, ClcContact *contact);
-int FLT_CheckAvail();
-void FLT_Create(int iEntry);
-void FLT_SetSize(struct TExtraCache *centry, LONG width, LONG height);
-void FLT_SyncWithClist();
-void FLT_ReadOptions(), FLT_WriteOptions(), FLT_RefreshAll();
 
 //clcopts.c
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
@@ -528,8 +498,6 @@ int CoolSB_SetupScrollBar();
 #define CLM_SETHIDESUBCONTACTS (CLM_FIRST+106)
 #define CLM_TOGGLEPRIORITYCONTACT (CLM_FIRST+107)
 #define CLM_QUERYPRIORITYCONTACT (CLM_FIRST+108)
-#define CLM_TOGGLEFLOATINGCONTACT (CLM_FIRST+109)
-#define CLM_QUERYFLOATINGCONTACT (CLM_FIRST+110)
 
 #define IDC_RESETMODES 110
 #define IDC_SELECTMODE 108
@@ -538,33 +506,3 @@ int CoolSB_SetupScrollBar();
 #define NR_CLIENTS 40
 
 typedef BOOL (WINAPI *PGF)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);
-
-/*
- * floating stuff
- */
-
-#define FLT_SIMPLE			1
-#define FLT_AVATARS			2
-#define FLT_DUALROW			4
-#define FLT_EXTRAICONS		8
-#define FLT_SYNCWITHCLIST	16
-#define FLT_AUTOHIDE		32
-#define FLT_SNAP			64
-#define FLT_BORDER			128
-#define FLT_ROUNDED			256
-#define FLT_FILLSTDCOLOR    512
-#define FLT_SHOWTOOLTIPS	1024
-
-typedef struct _floatopts {
-	DWORD dwFlags;
-	BYTE  pad_left, pad_right, pad_top, pad_bottom;
-	DWORD width;
-	COLORREF border_colour;
-	BYTE trans, act_trans;
-	BYTE radius;
-	BYTE enabled;
-	BYTE def_hover_time;
-	WORD hover_time;
-} FLOATINGOPTIONS;
-
-extern FLOATINGOPTIONS g_floatoptions;

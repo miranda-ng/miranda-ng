@@ -254,6 +254,5 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 			}
 			InvalidateRect(hwndTtbStatus, NULL, TRUE);
 		}
-		SFL_Update(hIcon, iIcon, hCListImages, szStatus, TRUE);
 	}
 }

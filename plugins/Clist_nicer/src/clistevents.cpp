@@ -323,8 +323,6 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 			}
 		}
 		InvalidateRect(hwndEventFrame, NULL, FALSE);
-		if (cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
-			SFL_Update(0, 0, 0, NULL, FALSE);
 	}
 
 	return p;
@@ -385,11 +383,8 @@ int RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
 	if (hContact == cfg::dat.hUpdateContact || (INT_PTR)hDbEvent == 1)
 		cfg::dat.hUpdateContact = 0;
 
-	if (cfg::dat.notifyActive) {
+	if (cfg::dat.notifyActive)
 		InvalidateRect(hwndEventFrame, NULL, FALSE);
-		if (cfg::dat.bUseFloater & CLUI_USE_FLOATER && cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS)
-			SFL_Update(0, 0, 0, NULL, FALSE);
-	}
 
 	return 0;
 }

@@ -387,16 +387,9 @@ static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
  * the desktop.
 */
 
-static INT_PTR SetContactFloating(WPARAM wParam, LPARAM lParam)
-{
-	SendMessage(pcli->hwndContactTree, CLM_TOGGLEFLOATINGCONTACT, wParam, lParam);
-	return 0;
-}
-
 int InitCustomMenus(void)
 {
 	CreateServiceFunction("CloseAction",CloseAction);
-	CreateServiceFunction("CList/SetContactFloating", SetContactFloating);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
 	{
 		//FYR: Visibility and ignore item moved back to clist_nicer from core

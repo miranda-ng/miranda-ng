@@ -152,16 +152,7 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam)
 		CheckMenuItem(hMenuOldContext, POPUP_SHOWMETAICONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_USEMETAICONS ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_SHOWSTATUSICONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_STATUSICONS ? MF_CHECKED : MF_UNCHECKED));
 
-		// floater menu items
-
-		EnableMenuItem(hMenuOldContext, POPUP_FLOATER_AUTOHIDE, MF_BYCOMMAND | (cfg::dat.bUseFloater & CLUI_USE_FLOATER ? MF_ENABLED : MF_GRAYED));
-		EnableMenuItem(hMenuOldContext, POPUP_FLOATER_EVENTS, MF_BYCOMMAND | (cfg::dat.bUseFloater & CLUI_USE_FLOATER ? MF_ENABLED : MF_GRAYED));
-		CheckMenuItem(hMenuOldContext, POPUP_FLOATER, MF_BYCOMMAND | (cfg::dat.bUseFloater & CLUI_USE_FLOATER ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(hMenuOldContext, POPUP_FLOATER_AUTOHIDE, MF_BYCOMMAND | (cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(hMenuOldContext, POPUP_FLOATER_EVENTS, MF_BYCOMMAND | (cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS ? MF_CHECKED : MF_UNCHECKED));
-
-		mii->fMask|=MIIM_SUBMENU;
-		//mi.fType=MFT_STRING;
+		mii->fMask |= MIIM_SUBMENU;
 		mii->hSubMenu=(HMENU)hMenuOldContext;
 	}
 	return(TRUE);

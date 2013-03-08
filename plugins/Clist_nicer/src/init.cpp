@@ -68,9 +68,6 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat);
 int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 
-ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
-ClcGroup* RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
-
 struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
 struct CListEvent* AddEvent(CLISTEVENT *cle);
 
@@ -272,7 +269,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 		cfg::writeByte("CLUI", "firstrun", 0);
 
 	ReloadThemedOptions();
-	FLT_ReadOptions();
 	Reload3dBevelColors();
 
 	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
@@ -311,7 +307,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	pcli->pfnShowHide = ShowHide;
 
 	saveAddContactToGroup = pcli->pfnAddContactToGroup; pcli->pfnAddContactToGroup = AddContactToGroup;
-	saveRemoveItemFromGroup = pcli->pfnRemoveItemFromGroup; pcli->pfnRemoveItemFromGroup = RemoveItemFromGroup;
 
 	saveAddEvent = pcli->pfnAddEvent; pcli->pfnAddEvent = AddEvent;
 	saveRemoveEvent = pcli->pfnRemoveEvent; pcli->pfnRemoveEvent = RemoveEvent;

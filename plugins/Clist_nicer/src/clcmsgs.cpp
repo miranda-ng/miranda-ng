@@ -96,37 +96,6 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		}
 		return 0;
 
-	case CLM_TOGGLEFLOATINGCONTACT:
-		if (wParam) {
-			ClcContact *contact = NULL;
-			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-				return 0;
-			if (contact->type != CLCIT_CONTACT)
-				return 0;
-
-			int iEntry = contact->extraCacheEntry;
-
-			if (iEntry >= 0 && iEntry <= cfg::nextCacheEntry) {
-				BYTE state = !cfg::getByte(contact->hContact, "CList", "floating", 0);
-				if (state) {
-					if (cfg::eCache[iEntry].floater == NULL)
-						FLT_Create(iEntry);
-					ShowWindow(cfg::eCache[contact->extraCacheEntry].floater->hwnd, SW_SHOW);
-				}
-				else {
-					if (cfg::eCache[iEntry].floater && cfg::eCache[iEntry].floater->hwnd) {
-						DestroyWindow(cfg::eCache[iEntry].floater->hwnd);
-						cfg::eCache[iEntry].floater = 0;
-					}
-				}
-				cfg::writeByte(contact->hContact, "CList", "floating", state);
-			}
-		}
-		return 0;
-
-	case CLM_QUERYFLOATINGCONTACT:
-		return cfg::getByte((HANDLE)wParam, "CList", "floating", 0);
-
 	case CLM_SETFONT:
 		if (HIWORD(lParam)<0 || HIWORD(lParam)>FONTID_LAST) 
 			return 0;

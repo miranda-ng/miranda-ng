@@ -195,7 +195,6 @@
     <ClCompile Include="src\CLUIFrames\cluiframes.cpp" />
     <ClCompile Include="src\CLUIFrames\framesmenu.cpp" />
     <ClCompile Include="src\CLUIFrames\groupmenu.cpp" />
-    <ClCompile Include="src\CLUIFrames\movetogroup.cpp" />
     <ClCompile Include="src\Coolsb\coolsblib.cpp" />
     <ClCompile Include="src\Coolsb\coolscroll.cpp" />
     <ClCompile Include="src\alphablend.cpp" />
@@ -227,7 +226,6 @@
     <ClCompile Include="src\init.cpp" />
     <ClCompile Include="src\rowheight_funcs.cpp" />
     <ClCompile Include="src\statusbar.cpp" />
-    <ClCompile Include="src\statusfloater.cpp" />
     <ClCompile Include="src\viewmodes.cpp" />
     <ClCompile Include="src\wallpaper.cpp" />
   </ItemGroup>

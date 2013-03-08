@@ -79,10 +79,7 @@ int LoadCluiServices(void);
 void InitGroupMenus();
 void FS_RegisterFonts();
 void LoadExtraIconModule();
-int MTG_OnmodulesLoad(WPARAM wParam, LPARAM lParam);
 void RemoveFromTaskBar(HWND hWnd);
-void FLT_ShowHideAll(int showCmd);
-void FLT_SnapToEdges(HWND hwnd);
 void DestroyTrayMenu(HMENU hMenu);
 
 extern LONG g_cxsmIcon, g_cysmIcon;
@@ -253,7 +250,6 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
 	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
 
-	MTG_OnmodulesLoad(wParam, lParam);
 	FS_RegisterFonts();
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 	return 0;
@@ -575,7 +571,6 @@ void ReloadThemedOptions()
 	if (cfg::dat.hBrushColorKey)
 		DeleteObject(cfg::dat.hBrushColorKey);
 	cfg::dat.hBrushColorKey = CreateSolidBrush(RGB(255, 0, 255));
-	cfg::dat.bUseFloater = 			cfg::getByte("CLUI", "FloaterMode", 0);
 	cfg::dat.bWantFastGradients = 	cfg::getByte("CLCExt", "FastGradients", 0);
 	cfg::dat.titleBarHeight = 		cfg::getByte("CLCExt", "frame_height", DEFAULT_TITLEBAR_HEIGHT);
 	cfg::dat.group_padding = 		cfg::getDword("CLCExt", "grp_padding", 0);
@@ -651,86 +646,82 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 {
 	switch (nmcsbcd->hdr.code) {
-		case NM_COOLSB_CUSTOMDRAW: {
-			static HDC hdcScroll = 0;
-			static HBITMAP hbmScroll, hbmScrollOld;
-			static LONG scrollLeft, scrollRight, scrollHeight, scrollYmin, scrollYmax;
+	case NM_COOLSB_CUSTOMDRAW:
+		static HDC hdcScroll = 0;
+		static HBITMAP hbmScroll, hbmScrollOld;
+		static LONG scrollLeft, scrollRight, scrollHeight, scrollYmin, scrollYmax;
 
-			switch (nmcsbcd->dwDrawStage) {
-				case CDDS_PREPAINT:
-					if (cfg::dat.bSkinnedScrollbar) // XXX fix (verify skin items to be complete, otherwise don't draw
-						return CDRF_SKIPDEFAULT;
-					else
-						return CDRF_DODEFAULT;
-				case CDDS_POSTPAINT:
-					return 0;
-				case CDDS_ITEMPREPAINT: {
-					HDC hdc = nmcsbcd->hdc;
-					StatusItems_t *item = 0, *arrowItem = 0;
-					UINT uItemID = ID_EXTBKSCROLLBACK;
-					RECT rcWindow;
-					POINT pt;
-					DWORD dfcFlags;
-					HRGN rgn = 0;
-					GetWindowRect(pcli->hwndContactTree, &rcWindow);
-					pt.x = rcWindow.left;
-					pt.y = rcWindow.top;
-					ScreenToClient(pcli->hwndContactList, &pt);
-					hdcScroll = hdc;
-					BitBlt(hdcScroll, nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right - nmcsbcd->rect.left,
-						nmcsbcd->rect.bottom - nmcsbcd->rect.top, cfg::dat.hdcBg, pt.x + nmcsbcd->rect.left, pt.y + nmcsbcd->rect.top, SRCCOPY);
+		switch (nmcsbcd->dwDrawStage) {
+		case CDDS_PREPAINT:
+			if (cfg::dat.bSkinnedScrollbar) // XXX fix (verify skin items to be complete, otherwise don't draw
+				return CDRF_SKIPDEFAULT;
+			return CDRF_DODEFAULT;
 
-					switch (nmcsbcd->uItem) {
-						case HTSCROLL_UP:
-						case HTSCROLL_DOWN:
-							uItemID = (nmcsbcd->uState == CDIS_DEFAULT || nmcsbcd->uState == CDIS_DISABLED) ? ID_EXTBKSCROLLBUTTON :
-									  (nmcsbcd->uState == CDIS_HOT ? ID_EXTBKSCROLLBUTTONHOVER : ID_EXTBKSCROLLBUTTONPRESSED);
-							break;
-						case HTSCROLL_PAGEGDOWN:
-						case HTSCROLL_PAGEGUP:
-							uItemID = nmcsbcd->uItem == HTSCROLL_PAGEGUP ? ID_EXTBKSCROLLBACK : ID_EXTBKSCROLLBACKLOWER;;
-							rgn = CreateRectRgn(nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right, nmcsbcd->rect.bottom);
-							SelectClipRgn(hdcScroll, rgn);
-							break;
-						case HTSCROLL_THUMB:
-							uItemID = nmcsbcd->uState == CDIS_HOT ? ID_EXTBKSCROLLTHUMBHOVER : ID_EXTBKSCROLLTHUMB;
-							uItemID = nmcsbcd->uState == CDIS_SELECTED ? ID_EXTBKSCROLLTHUMBPRESSED : ID_EXTBKSCROLLTHUMB;
-							break;
-						default:
-							break;
-					}
+		case CDDS_POSTPAINT:
+			return 0;
 
-					uItemID -= ID_STATUS_OFFLINE;
-					item = arStatusItems[uItemID];
-					if ( !item->IGNORED) {
-						int alpha = nmcsbcd->uState == CDIS_DISABLED ? item->ALPHA - 50 : item->ALPHA;
-						DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
-								  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
-					}
-					dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
-											(nmcsbcd->uState == CDIS_HOT ? DFCS_HOT :
-											 (nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
+		case CDDS_ITEMPREPAINT:
+			HDC hdc = nmcsbcd->hdc;
+			StatusItems_t *item = 0, *arrowItem = 0;
+			UINT uItemID = ID_EXTBKSCROLLBACK;
+			RECT rcWindow;
+			POINT pt;
+			DWORD dfcFlags;
+			HRGN rgn = 0;
+			GetWindowRect(pcli->hwndContactTree, &rcWindow);
+			pt.x = rcWindow.left;
+			pt.y = rcWindow.top;
+			ScreenToClient(pcli->hwndContactList, &pt);
+			hdcScroll = hdc;
+			BitBlt(hdcScroll, nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right - nmcsbcd->rect.left,
+				nmcsbcd->rect.bottom - nmcsbcd->rect.top, cfg::dat.hdcBg, pt.x + nmcsbcd->rect.left, pt.y + nmcsbcd->rect.top, SRCCOPY);
 
-					if (nmcsbcd->uItem == HTSCROLL_UP)
-						arrowItem = arStatusItems[ID_EXTBKSCROLLARROWUP - ID_STATUS_OFFLINE];
-					if (nmcsbcd->uItem == HTSCROLL_DOWN)
-						arrowItem = arStatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
-					if (arrowItem && !arrowItem->IGNORED)
-						DrawAlpha(hdcScroll, &nmcsbcd->rect, arrowItem->COLOR, arrowItem->ALPHA, arrowItem->COLOR2, arrowItem->COLOR2_TRANSPARENT,
-								  arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
-					else if (arrowItem)
-						DrawFrameControl(hdcScroll, &nmcsbcd->rect, DFC_SCROLL, (nmcsbcd->uItem == HTSCROLL_UP ? DFCS_SCROLLUP : DFCS_SCROLLDOWN) | dfcFlags);
+			switch (nmcsbcd->uItem) {
+			case HTSCROLL_UP:
+			case HTSCROLL_DOWN:
+				uItemID = (nmcsbcd->uState == CDIS_DEFAULT || nmcsbcd->uState == CDIS_DISABLED) ? ID_EXTBKSCROLLBUTTON :
+					(nmcsbcd->uState == CDIS_HOT ? ID_EXTBKSCROLLBUTTONHOVER : ID_EXTBKSCROLLBUTTONPRESSED);
+				break;
+			case HTSCROLL_PAGEGDOWN:
+			case HTSCROLL_PAGEGUP:
+				uItemID = nmcsbcd->uItem == HTSCROLL_PAGEGUP ? ID_EXTBKSCROLLBACK : ID_EXTBKSCROLLBACKLOWER;;
+				rgn = CreateRectRgn(nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right, nmcsbcd->rect.bottom);
+				SelectClipRgn(hdcScroll, rgn);
+				break;
+			case HTSCROLL_THUMB:
+				uItemID = nmcsbcd->uState == CDIS_HOT ? ID_EXTBKSCROLLTHUMBHOVER : ID_EXTBKSCROLLTHUMB;
+				uItemID = nmcsbcd->uState == CDIS_SELECTED ? ID_EXTBKSCROLLTHUMBPRESSED : ID_EXTBKSCROLLTHUMB;
+				break;
+			default:
+				break;
+			}
 
-					if (rgn) {
-						SelectClipRgn(hdcScroll, NULL);
-						DeleteObject(rgn);
-					}
-				}
-				default:
-					break;
+			uItemID -= ID_STATUS_OFFLINE;
+			item = arStatusItems[uItemID];
+			if ( !item->IGNORED) {
+				int alpha = nmcsbcd->uState == CDIS_DISABLED ? item->ALPHA - 50 : item->ALPHA;
+				DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
+					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+			}
+			dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
+				(nmcsbcd->uState == CDIS_HOT ? DFCS_HOT :
+				(nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
+
+			if (nmcsbcd->uItem == HTSCROLL_UP)
+				arrowItem = arStatusItems[ID_EXTBKSCROLLARROWUP - ID_STATUS_OFFLINE];
+			if (nmcsbcd->uItem == HTSCROLL_DOWN)
+				arrowItem = arStatusItems[ID_EXTBKSCROLLARROWDOWN - ID_STATUS_OFFLINE];
+			if (arrowItem && !arrowItem->IGNORED)
+				DrawAlpha(hdcScroll, &nmcsbcd->rect, arrowItem->COLOR, arrowItem->ALPHA, arrowItem->COLOR2, arrowItem->COLOR2_TRANSPARENT,
+				arrowItem->GRADIENT, arrowItem->CORNER, arrowItem->BORDERSTYLE, arrowItem->imageItem);
+			else if (arrowItem)
+				DrawFrameControl(hdcScroll, &nmcsbcd->rect, DFC_SCROLL, (nmcsbcd->uItem == HTSCROLL_UP ? DFCS_SCROLLUP : DFCS_SCROLLDOWN) | dfcFlags);
+
+			if (rgn) {
+				SelectClipRgn(hdcScroll, NULL);
+				DeleteObject(rgn);
 			}
 		}
-		return 0;
 	}
 	return 0;
 }
@@ -776,8 +767,6 @@ static void ShowCLUI(HWND hwnd)
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 	}
-	SFL_Create();
-	SFL_SetState(cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? (old_cliststate == SETTING_STATE_NORMAL ? 0 : 1) : 1);
 }
 
 static void GetButtonRect(HWND hwnd, RECT *rc)
@@ -1301,15 +1290,6 @@ skipbg:
 			}
 			PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 
-			if (g_floatoptions.enabled) {
-				if (wParam)
-					FLT_ShowHideAll(SW_HIDE);
-				else
-					FLT_ShowHideAll(SW_SHOWNOACTIVATE);
-			}
-
-			if ( !cfg::dat.fadeinout)
-				SFL_SetState(-1);
 			if (lParam)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			if (noRecurse)
@@ -1334,7 +1314,6 @@ skipbg:
 			for (startTick = GetTickCount(); ;) {
 				thisTick = GetTickCount();
 				if (thisTick >= startTick + 200) {
-					SFL_SetState(-1);
 					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)(destAlpha), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 					g_fading_active = 0;
 					return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1595,26 +1574,6 @@ buttons_done:
 				break;
 			case POPUP_SHOWSTATUSICONS:
 				cfg::dat.dwFlags ^= CLUI_FRAME_STATUSICONS;
-				break;
-			case POPUP_FLOATER:
-				cfg::dat.bUseFloater ^= CLUI_USE_FLOATER;
-				if (cfg::dat.bUseFloater & CLUI_USE_FLOATER) {
-					SFL_Create();
-					SFL_SetState(-1);
-				} else
-					SFL_Destroy();
-				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
-				break;
-			case POPUP_FLOATER_AUTOHIDE:
-				cfg::dat.bUseFloater ^= CLUI_FLOATER_AUTOHIDE;
-				SFL_SetState(cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? (cfg::getByte("CList", "State", SETTING_STATE_NORMAL) == SETTING_STATE_NORMAL ? 0 : 1) : 1);
-				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
-				break;
-			case POPUP_FLOATER_EVENTS:
-				cfg::dat.bUseFloater ^= CLUI_FLOATER_EVENTS;
-				SFL_SetSize();
-				SFL_Update(0, 0, 0, NULL, FALSE);
-				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
 				break;
 			}
 			if (dwOldFlags != cfg::dat.dwFlags) {
@@ -2032,8 +1991,6 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = _T("EventAreaClass");
 	RegisterClass(&wndclass);
 
-	SFL_RegisterWindowClass();
-
 	oldhideoffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
 	cluiPos.left = cfg::getDword("CList", "x", 600);
 	cluiPos.top = cfg::getDword("CList", "y", 200);
@@ -2046,6 +2003,13 @@ void LoadCLUIModule(void)
 	CreateServiceFunction("CLN/About", CLN_ShowAbout);
 	CreateServiceFunction(MS_CLUI_SHOWMAINMENU, CLN_ShowMainMenu);
 	CreateServiceFunction(MS_CLUI_SHOWSTATUSMENU, CLN_ShowStatusMenu);
+
+	if ( cfg::getByte("CLUI", "FloaterMode", 0)) {
+		MessageBox(NULL,
+			TranslateT("You need the FloatingContacts plugin, cause the embedded floating contacts were removed"), 
+			TranslateT("Warning"), MB_OK | MB_ICONWARNING);
+		db_unset(NULL, "CLUI", "FloaterMode");
+	}
 }
 
 void OnCreateClc()

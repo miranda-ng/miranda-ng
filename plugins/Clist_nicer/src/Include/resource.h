@@ -3,7 +3,6 @@
 // Используется d:\MNG_orig\plugins\Clist_nicer\res\resource.rc
 //
 #define IDD_OPT_VIEWMODES               1
-#define IDD_OPT_FLOATING                3
 #define IDD_OPT_SKIN                    4
 #define IDD_QUICKIGNORE                 5
 #define IDD_OPT                         6
@@ -364,12 +363,9 @@
 #define IDC_FLT_OPACITY                 40055
 #define IDC_DSP_APPLY                   40056
 #define IDC_FLT_ACTIVEOPACITY           40056
-#define POPUP_FLOATER                   40057
-#define POPUP_FLOATER_AUTOHIDE          40058
 #define IDC_FLT_WIDTH                   40058
 #define IDC_AVATARDISPMODE              40059
 #define IDC_FLT_WIDTHSPIN               40059
-#define POPUP_FLOATER_EVENTS            40060
 #define IDC_FLT_SNAP                    40060
 #define IDC_FLT_ACTIVEOPACITYVALUE      40061
 #define IDC_FLT_BORDER                  40062

@@ -36,7 +36,6 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 //static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -587,15 +586,6 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("Icons");
 	odp.pfnDlgProc = DlgProcIcons;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICONS);
-	Options_AddPage(wParam, &odp);
-
-	////////////////////////////////////////////////////////////////////////////
-
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLOATING);
-	odp.pszTitle = LPGEN("Floating contacts");
-	odp.pszTab = NULL;
-	odp.pfnDlgProc = DlgProcFloatingContacts;
-	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////

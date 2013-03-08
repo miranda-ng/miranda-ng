@@ -78,15 +78,6 @@ ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD fl
 	return p;
 }
 
-ClcGroup *RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
-{
-	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)
-		if (cfg::eCache[contact->extraCacheEntry].floater && cfg::eCache[contact->extraCacheEntry].floater->hwnd)
-			ShowWindow(cfg::eCache[contact->extraCacheEntry].floater->hwnd, SW_HIDE);
-
-	return(saveRemoveItemFromGroup(hwnd, group, contact, updateTotalCount));
-}
-
 void LoadAvatarForContact(ClcContact *p)
 {
 	DWORD dwFlags;
@@ -143,17 +134,9 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 	else {
 		p->extraCacheEntry = cfg::getCache(p->hContact, p->proto);
 		GetExtendedInfo( p, dat);
-		if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry) {
+		if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry)
 			cfg::eCache[p->extraCacheEntry].proto_status_item = GetProtocolStatusItem(p->bIsMeta ? p->metaProto : p->proto);
-			if (cfg::getByte(p->hContact, "CList", "floating", 0) && g_floatoptions.enabled) {
-				if (cfg::eCache[p->extraCacheEntry].floater == NULL)
-					FLT_Create(p->extraCacheEntry);
-				else {
-					ShowWindow(cfg::eCache[p->extraCacheEntry].floater->hwnd, SW_SHOWNOACTIVATE);
-					FLT_Update(dat, p);
-				}
-			}
-		}
+
 		LoadAvatarForContact(p);
 		// notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
 		pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, hContact);
@@ -244,9 +227,6 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 	pcli->pfnSortCLC(hwnd, dat, 0);
 	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
-
-	if ( !dat->bisEmbedded)
-		FLT_SyncWithClist();
 }
 
 /*

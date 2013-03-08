@@ -265,23 +265,6 @@ int RowHeight::getHeight(ClcData *dat, int item)
 
 int RowHeight::getFloatingRowHeight(const ClcData *dat, HWND hwnd, ClcContact *contact, DWORD dwFlags)
 {
-	int height = 0;
-
-    height = dat->fontInfo[GetBasicFontID(contact)].fontHeight;
-
-    if ( !dat->bisEmbedded) {
-		if ( !(dwFlags & FLT_SIMPLE)) {
-			if (dwFlags & FLT_DUALROW) {
-				height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);
-			}
-			// Avatar size
-			if (dwFlags & FLT_AVATARS && contact->cFlags & ECF_AVATAR && contact->type == CLCIT_CONTACT && contact->ace != NULL && !(contact->ace->dwFlags & AVS_HIDEONCLIST))
-				height = max(height, cfg::dat.avatarSize + cfg::dat.avatarPadding);
-		}
-	}
-
-    height = max(height, dat->min_row_heigh);
-    height += cfg::dat.bRowSpacing;
-
-	return height;
+	int height = max(dat->fontInfo[GetBasicFontID(contact)].fontHeight, dat->min_row_heigh);
+	return height + cfg::dat.bRowSpacing;
 }
