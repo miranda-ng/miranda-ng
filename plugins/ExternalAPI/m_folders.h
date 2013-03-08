@@ -141,12 +141,6 @@ typedef struct{
 */
 #define ME_FOLDERS_PATH_CHANGED "Folders/On/Path/Changed"
 
-#ifndef FOLDERS_NO_HELPER_FUNCTIONS
-
-#ifndef M_UTILS_H__
-#error The helper functions require that m_utils.h be included in the project. Please include that file if you want to use the helper functions. If you don''t want to use the functions just define FOLDERS_NO_HELPER_FUNCTIONS.
-#endif
-
 __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char *name, const char *defaultPath)
 {
 	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH)) return 0;
@@ -179,7 +173,7 @@ __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, co
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res) {
 		char buffer[MAX_PATH];
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM) notFound, (LPARAM) buffer);
+		PathToAbsolute(notFound, buffer);
 		mir_snprintf(path, size, "%s", buffer);
 	}
 
@@ -196,7 +190,7 @@ __inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *path
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res) {
 		wchar_t buffer[MAX_PATH];
-		CallService(MS_UTILS_PATHTOABSOLUTEW, (WPARAM) notFoundW, (LPARAM) buffer);
+		PathToAbsoluteW(notFoundW, buffer);
 		mir_sntprintf(pathW, size, _T("%s"), buffer);
 	}
 
@@ -212,17 +206,17 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res) {
 		char buffer[MAX_PATH];
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM) notFound, (LPARAM) buffer);
+		PathToAbsolute(notFound, buffer);
 		mir_snprintf(path, size, "%s", buffer);
 	}
 
 	if (strlen(path) > 0)
-		strcat(path, "\\");
+		strncat(path, "\\", size);
 	else
 		path[0] = '\0';
 
 	if (fileName)
-		strcat(path, fileName);
+		strncat(path, fileName, size);
 
 	return res;
 }
@@ -237,17 +231,17 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res) {
 		wchar_t buffer[MAX_PATH];
-		CallService(MS_UTILS_PATHTOABSOLUTEW, (WPARAM) notFoundW, (LPARAM) buffer);
+		PathToAbsoluteW(notFoundW, buffer);
 		mir_sntprintf(pathW, size, _T("%s"), buffer);
 	}
 
 	if (wcslen(pathW) > 0)
-		wcscat(pathW, L"\\");
+		wcsncat(pathW, L"\\",size);
 	else
 		pathW[0] = L'\0';
 
 	if (fileNameW)
-		wcscat(pathW, fileNameW);
+		wcsncat(pathW, fileNameW, size);
 
 	return res;
 }
@@ -263,6 +257,5 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 #  define FoldersRegisterCustomPathT FoldersRegisterCustomPath
 #endif
 
-#endif
 
 #endif //M_CUSTOM_FOLDERS_H
