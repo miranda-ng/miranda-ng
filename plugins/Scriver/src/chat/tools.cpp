@@ -20,12 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
-
-extern FONTINFO     aFonts[OPTIONS_FONTCOUNT];
-extern HMENU        g_hMenu;
-extern HANDLE       hBuildMenuEvent ;
-extern HANDLE       hSendEvent;
 
 TCHAR* RemoveFormatting(const TCHAR* pszWord)
 {

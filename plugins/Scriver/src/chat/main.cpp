@@ -20,12 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
 
 void RegisterChatFonts( void );
 
-extern struct GlobalMessageData *g_dat;
-extern CRITICAL_SECTION	cs;
 //globals
 HMENU       g_hMenu = NULL;
 HANDLE      hJoinMenuItem, hLeaveMenuItem;

@@ -20,10 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
-#include "../msgwindow.h"
-
-extern HICON      hIcons[30];
 
 HANDLE				hSendEvent;
 HANDLE				hBuildMenuEvent ;

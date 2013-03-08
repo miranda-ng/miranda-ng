@@ -26,41 +26,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#define MIRANDA_VER 0x0A00
-
 #define COMPILE_MULTIMON_STUBS
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 #define WIN32_LEAN_AND_MEAN
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
 #include <shlwapi.h>
-#include <commctrl.h>
-#include <commdlg.h>
-#include <ole2.h>
-
 #include <uxtheme.h>
 #include <vssym32.h>
-
 #include <time.h>
+#include <math.h>
+#include <richedit.h>
+#include <richole.h>
 
 #include <win2k.h>
-
+#include <m_stdhdr.h>
 #include <newpluginapi.h>
-#include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_button.h>
 #include <m_clist.h>
 #include <m_clc.h>
 #include <m_clui.h>
-#include <m_options.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
 #include <m_skin.h>
 #include <m_contacts.h>
 #include <m_userinfo.h>
@@ -75,20 +66,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_timezones.h>
 
-#include "m_ieview.h"
+#include <m_ieview.h>
+#include <m_smileyadd.h>
+#include <m_metacontacts.h>
+#include <m_historyevents.h>
 
 #include "resource.h"
-#include "globals.h"
+#include "Version.h"
+#include "infobar.h"
+#include "cmdlist.h"
+#include "sendqueue.h"
 #include "msgs.h"
+#include "globals.h"
 #include "msgwindow.h"
 #include "utils.h"
 #include "input.h"
-#include "sendqueue.h"
-
-#include "m_smileyadd.h"
-#include "m_metacontacts.h"
-#include "m_historyevents.h"
 #include "richutil.h"
+#include "statusicon.h"
+#include "chat/chat.h"
 
 #ifndef IMF_AUTOFONTSIZEADJUST
 #define IMF_AUTOFONTSIZEADJUST	0x0010
@@ -108,6 +103,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HWND SM_FindWindowByContact(HANDLE hContact);
 extern HINSTANCE g_hInst;
+extern CREOleCallback reOleCallback;
+extern void ChangeStatusIcons();
+extern void LoadInfobarFonts();
+extern HCURSOR hDragCursor;
+extern ITaskbarList3 * pTaskbarInterface;
+extern struct GlobalMessageData *g_dat;
+extern CRITICAL_SECTION	cs;
+extern TCHAR* pszActiveWndID ;
+extern char*  pszActiveWndModule ;
+extern struct MM_INTERFACE		mmi ;
+extern HBRUSH 			hListBkgBrush;
+extern HBRUSH 			hListSelectedBkgBrush;
+extern FONTINFO			aFonts[OPTIONS_FONTCOUNT];
+extern HICON      hIcons[30];
+extern HMENU        g_hMenu;
+extern HANDLE       hBuildMenuEvent;
+extern HANDLE       hSendEvent;
+extern TABLIST *g_TabList;
+extern HANDLE   hHookWinPopup;
+extern HCURSOR  hCurSplitNS, hCurSplitWE;
+
+extern CREOleCallback reOleCallback;
 
 #define SPLITTER_HEIGHT   4
 #define TOOLBAR_HEIGHT   24

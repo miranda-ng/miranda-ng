@@ -20,13 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
-
-extern HBRUSH 			hListBkgBrush;
-extern HBRUSH 			hListSelectedBkgBrush;
-extern FONTINFO			aFonts[OPTIONS_FONTCOUNT];
 
 static HWND hPathTip = 0;
 

@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
-#include <math.h>
 
 static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO* si)
 {

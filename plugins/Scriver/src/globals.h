@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_GLOBALS_H
 #define SRMM_GLOBALS_H
 
-#include "cmdlist.h"
-#include "msgs.h"
-
 #define SMF_AUTOPOPUP       		0x00000001
 #define SMF_STAYMINIMIZED			0x00000002
 #define SMF_CLOSEONSEND				0x00000004

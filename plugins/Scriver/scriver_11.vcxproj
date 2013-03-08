@@ -261,9 +261,11 @@
     <ClInclude Include="src\statusicon.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\chat\chat.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

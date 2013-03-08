@@ -20,23 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../commonheaders.h"
-#include "chat.h"
-#include "../utils.h"
-#include "../statusicon.h"
 
 #ifndef WM_UNICHAR
 #define WM_UNICHAR    0x0109
 #endif
-
-extern HBRUSH   hListBkgBrush;
-extern HBRUSH   hListSelectedBkgBrush;
-extern HANDLE   hSendEvent;
-extern HMENU    g_hMenu;
-extern TABLIST *g_TabList;
-extern HANDLE   hHookWinPopup;
-extern HCURSOR  hCurSplitNS, hCurSplitWE;
-
-extern CREOleCallback reOleCallback;
 
 static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Bold"), IDC_CHAT_BOLD, 0, 4, 24},

@@ -20,6 +20,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "commonheaders.h"
 
 int OnLoadModule(void);
@@ -35,15 +36,15 @@ ITaskbarList3 * pTaskbarInterface;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Scriver",
-	PLUGIN_MAKE_VERSION(2, 10, 0, 2),
-	"Scriver - send and receive instant messages.",
-	"Miranda IM Development Team",
-	"the_leech@users.berlios.de",
-	"Copyright (c) 2000-2012 Miranda IM Project, 2012-2013 Miranda NG Project",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	//{84636F78-2057-4302-8A65-23A16D46844C}
+	// {84636F78-2057-4302-8A65-23A16D46844C}
 	{0x84636f78, 0x2057, 0x4302, {0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c}}
 };
 

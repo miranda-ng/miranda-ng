@@ -23,10 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_MSGS_H
 #define SRMM_MSGS_H
 
-#include <richedit.h>
-#include <richole.h>
-#include "sendqueue.h"
-#include "infobar.h"
 #define MSGERROR_CANCEL	0
 #define MSGERROR_RETRY	1
 #define MSGERROR_DONE	2
