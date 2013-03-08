@@ -1,7 +1,4 @@
 #include "StdAfx.h"
-#include "HTTPSession.h"
-#include "EconomicRateInfo.h"
-#include "LightMutex.h"
 
 class CHTTPSession::CImpl
 {

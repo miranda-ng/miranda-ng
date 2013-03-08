@@ -1,8 +1,4 @@
 #include "StdAfx.h"
-#include "CreateFilePath.h"
-
-#include <sstream>
-#include "ModuleInfo.h"
 
 namespace
 {

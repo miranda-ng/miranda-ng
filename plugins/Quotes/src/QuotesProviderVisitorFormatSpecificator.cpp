@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviderVisitorFormatSpecificator.h"
 
 CQuotesProviderVisitorFormatSpecificator::CQuotesProviderVisitorFormatSpecificator()
 {

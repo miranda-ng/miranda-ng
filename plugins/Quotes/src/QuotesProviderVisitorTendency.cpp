@@ -1,9 +1,4 @@
 #include "stdafx.h"
-#include "QuotesProviderVisitorTendency.h"
-#include "DBUtils.h"
-#include "QuotesProviderGoogleFinance.h"
-#include "EconomicRateInfo.h"
-#include "QuotesProviderYahoo.h"
 
 CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(HANDLE hContact,TCHAR chr)
 	: m_hContact(hContact),m_chr(chr),m_bValid(false),m_dResult(0.0)

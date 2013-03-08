@@ -1,9 +1,6 @@
 #ifndef __E927F394_5452_458E_AF48_71E44F9EE793_QuotesProviderYahoo_h__
 #define __E927F394_5452_458E_AF48_71E44F9EE793_QuotesProviderYahoo_h__
 
-#include "QuotesProviderFinance.h"
-
-
 #define DB_STR_YAHOO_OPEN_VALUE "OpenQuotePrice"
 #define DB_STR_YAHOO_DAY_HIGH "DayHigh"
 #define DB_STR_YAHOO_DAY_LOW "DayLow"

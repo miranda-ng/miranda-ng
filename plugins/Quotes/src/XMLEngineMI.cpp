@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "XMLEngineMI.h"
 
 XML_API xi;
 

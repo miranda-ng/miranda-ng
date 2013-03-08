@@ -1,14 +1,4 @@
 #include "StdAfx.h"
-#include "OptionDukasCopy.h"
-#include "IconLib.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "QuotesProviderDukasCopy.h"
-#include "resource.h"
-#include "EconomicRateInfo.h"
-#include "CommonOptionDlg.h"
-
-// extern HANDLE g_hEventSettingsCnanged;
 
 namespace
 {

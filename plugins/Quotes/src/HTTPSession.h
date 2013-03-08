@@ -1,8 +1,6 @@
 #ifndef __8C9706FF_6B05_4d0d_85B8_5724E5DC0BA4_HTTPSession_h__
 #define __8C9706FF_6B05_4d0d_85B8_5724E5DC0BA4_HTTPSession_h__
 
-#include <string>
-
 class CHTTPSession
 {
 public:

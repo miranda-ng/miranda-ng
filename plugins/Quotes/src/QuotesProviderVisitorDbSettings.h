@@ -1,8 +1,6 @@
 #ifndef __97cd432a_1119_4803_a96f_0abc1cc2653f_QuotesProviderVisitorDbSettings_h__
 #define __97cd432a_1119_4803_a96f_0abc1cc2653f_QuotesProviderVisitorDbSettings_h__
 
-#include "quotesprovidervisitor.h"
-
 class CQuotesProviderVisitorDbSettings : public CQuotesProviderVisitor
 {
 public:

@@ -1,14 +1,4 @@
 #include "StdAfx.h"
-#include "SettingsDlg.h"
-#include "EconomicRateInfo.h"
-#include "ModuleInfo.h"
-#include "WinCtrlHelper.h"
-#include "CreateFilePath.h"
-#include "QuotesProviderVisitorDbSettings.h"
-#include "DBUtils.h"
-#include "resource.h"
-#include "QuotesProviders.h"
-#include "IQuotesProvider.h"
 
 #define WINDOW_PREFIX_SETTINGS "Edit Settings_"
 

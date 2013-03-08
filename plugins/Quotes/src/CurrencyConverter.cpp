@@ -1,15 +1,4 @@
 #include "StdAfx.h"
-#include "CurrencyConverter.h"
-#include "ModuleInfo.h"
-#include "resource.h"
-
-#include "QuotesProviderGoogle.h"
-#include "QuotesProviders.h"
-#include "WinCtrlHelper.h"
-#include "EconomicRateInfo.h"
-#include "Locale.h"
-#include "DBUtils.h"
-#include "IconLib.h"
 
 #define WINDOW_PREFIX "CurrenyConverter_"
 

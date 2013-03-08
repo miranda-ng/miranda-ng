@@ -1,10 +1,6 @@
 #ifndef __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
 #define __3e6cb4ec_fc47_468f_a2c8_a77941176bc9_QuotesProviderBase_h__
 
-#include "iquotesprovider.h"
-#include <vector>
-#include "LightMutex.h"
-
 class CQuotesProviderBase : public IQuotesProvider
 {
 public:

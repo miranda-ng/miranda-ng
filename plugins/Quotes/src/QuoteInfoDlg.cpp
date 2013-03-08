@@ -1,14 +1,4 @@
 #include "StdAfx.h"
-#include "QuoteInfoDlg.h"
-#include "EconomicRateInfo.h"
-#include "resource.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "IconLib.h"
-#include "DBUtils.h"
-#include "IQuotesProvider.h"
-#include "Locale.h"
-#include "SettingsDlg.h"
 
 // extern HANDLE g_hWindowListEditSettings;
 extern HGENMENU g_hMenuEditSettings;

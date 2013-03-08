@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "Locale.h"
 
 const std::locale GetSystemLocale()
 {

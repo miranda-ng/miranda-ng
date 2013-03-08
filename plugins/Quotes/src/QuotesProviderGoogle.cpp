@@ -1,16 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviderGoogle.h"
-#include "resource.h"
-#include "HTTPSession.h"
-#include "Log.h"
-#include "DBUtils.h"
-#include "EconomicRateInfo.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "IHTMLParser.h"
-#include "IHTMLEngine.h"
-#include "CommonOptionDlg.h"
-#include "QuotesProviderVisitor.h"
 
 CQuotesProviderGoogle::CQuotesProviderGoogle()
 {

@@ -1,8 +1,4 @@
 #include "stdafx.h"
-#include "QuotesProviderVisitorFormatSpecificator.h"
-#include "IQuotesProvider.h"
-#include "resource.h"
-#include "ModuleInfo.h"
 
 namespace
 {

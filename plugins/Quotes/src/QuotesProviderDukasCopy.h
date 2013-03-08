@@ -1,9 +1,6 @@
 #ifndef __93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
 #define __93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
 
-#include "quotesproviderbase.h"
-#include <vector>
-
 #define DB_STR_REFRESH_RATE_TYPE "RefreshRateType"
 #define DB_STR_REFRESH_RATE_VALUE "RefreshRateValue"
 #define DB_STR_DC_DISPLAY_NAME_FORMAT "DC_DisplayNameFormat"

@@ -1,13 +1,4 @@
 #include "stdafx.h"
-#include "QuotesProviderFinance.h"
-#include "EconomicRateInfo.h"
-#include "DBUtils.h"
-#include "QuotesProviderVisitor.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "CommonOptionDlg.h"
-#include "resource.h"
-#include "WinCtrlHelper.h"
 
 void CQuotesProviderFinance::GetWatchedQuotes(TQuotes& raQuotes)const
 {

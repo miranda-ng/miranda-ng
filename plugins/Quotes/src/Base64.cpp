@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "Base64.h"
 
 bool base64::encode(const BYTE* in, size_t inlen,std::vector<char>& out)
 {

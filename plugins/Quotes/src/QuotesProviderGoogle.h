@@ -1,8 +1,6 @@
 #ifndef __c0e48a95_b3f0_4227_8adc_455e265f3c14_QuotesProviderGoogle_h__
 #define __c0e48a95_b3f0_4227_8adc_455e265f3c14_QuotesProviderGoogle_h__
 
-#include "quotesproviderBase.h"
-
 #define DB_STR_FROM_ID "FromID"
 #define DB_STR_TO_ID "ToID"
 #define DB_STR_FROM_DESCRIPTION "FromDesc"

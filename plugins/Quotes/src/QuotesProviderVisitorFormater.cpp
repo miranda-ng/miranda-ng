@@ -1,12 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviderVisitorFormater.h"
-#include "DBUtils.h"
-#include "EconomicRateInfo.h"
-#include "QuotesProviderGoogle.h"
-#include "Locale.h"
-#include "IsWithinAccuracy.h"
-#include "QuotesProviderGoogleFinance.h"
-#include "QuotesProviderYahoo.h"
 
 CQuotesProviderVisitorFormater::CQuotesProviderVisitorFormater(HANDLE hContact,TCHAR chr,int nWidth)
 							   : m_hContact(hContact),

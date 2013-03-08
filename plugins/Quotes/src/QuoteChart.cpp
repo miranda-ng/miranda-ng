@@ -1,19 +1,6 @@
 #include "StdAfx.h"
-#include "QuoteChart.h"
 
 #ifdef CHART_IMPLEMENT
-
-// #include "QuotesProviderDukasCopy.h"
-// #include "QuotesProviders.h"
-#include "ModuleInfo.h"
-#include "EconomicRateInfo.h"
-// #include "WinCtrlHelper.h"
-#include "resource.h"
-#include "DBUtils.h"
-#include "Locale.h"
-#include "SettingsDlg.h"
-#include "Chart.h"
-#include "WinCtrlHelper.h"
 
 #define WINDOW_PREFIX "Quotes Chart_"
 #define CHART_CTRL_CLASS _T("DioksinChart")

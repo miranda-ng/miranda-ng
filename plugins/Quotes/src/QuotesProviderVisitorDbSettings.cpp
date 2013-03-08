@@ -1,8 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviderVisitorDbSettings.h"
-
-#include "QuotesProviderGoogle.h"
-#include "QuotesProviderDukasCopy.h"
 
 CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
 								 : m_pszDbRefreshRateType(NULL),

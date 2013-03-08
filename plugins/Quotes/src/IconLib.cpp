@@ -1,14 +1,4 @@
 #include "StdAfx.h"
-#include "IconLib.h"
-#include <m_icolib.h>
-#include "resource.h"
-#include "EconomicRateInfo.h"
-#include <m_langpack.h>
-#include <sstream>
-#pragma warning (disable:4996)
-#include <m_utils.h>
-#pragma warning (default:4996)
-#include "ModuleInfo.h"
 
 static IconItem iconList[] =
 {

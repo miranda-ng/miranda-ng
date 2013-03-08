@@ -1,7 +1,4 @@
 #include "StdAfx.h"
-#include "WorkingThread.h"
-
-#include "IQuotesProvider.h"
 
 void WorkingThread(void* pParam)
 {

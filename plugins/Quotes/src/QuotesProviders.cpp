@@ -1,12 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviders.h"
-
-#include "QuotesProviderDukasCopy.h"
-#include "EconomicRateInfo.h"
-#include "QuotesProviderGoogle.h"
-#include "DBUtils.h"
-#include "QuotesProviderGoogleFinance.h"
-#include "QuotesProviderYahoo.h"
 
 #define LAST_RUN_VERSION "LastRunVersion"
 

@@ -1,19 +1,4 @@
 #include "StdAfx.h"
-#include "ImportExport.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#ifdef TEST_IMPORT_EXPORT
-#include "m_Quotes.h"
-#endif
-#include "IXMLEngine.h"
-#include "Base64.h"
-#include "EconomicRateInfo.h"
-#include "IQuotesProvider.h"
-#include "QuotesProviderVisitor.h"
-#include "QuotesProviderDukasCopy.h"
-#include "QuotesProviderGoogle.h"
-#include "QuotesProviderGoogleFinance.h"
-#include "Locale.h"
 
 namespace
 {

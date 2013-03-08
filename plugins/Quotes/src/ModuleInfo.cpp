@@ -1,11 +1,4 @@
 #include "StdAfx.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "HTMLParserMS.h"
-#include "LightMutex.h"
-#include "WinCtrlHelper.h"
-#include "EconomicRateInfo.h"
-#include "XMLEngineMI.h"
 
 namespace
 {

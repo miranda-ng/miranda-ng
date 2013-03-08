@@ -37,16 +37,7 @@ IDI_ICON_EXPORT         ICON                    "Export quotes.ico"
 IDI_ICON_SWAP           ICON                    "swap.ico"
 IDI_ICON_IMPORT         ICON                    "Import quotes.ico"
 IDI_ICON_NOTCHANGED     ICON                    "notchanged.ico"
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -87,41 +78,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,83,161,50,14
     EDITTEXT        IDC_EDIT_VARIABLE,7,7,202,147,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_DIALOG_VARIABLE_LIST, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 209
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 175
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Russian (Russia) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_CONTACT_SETTINGS DIALOGEX 0, 0, 323, 269
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
@@ -258,101 +214,6 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,167,139,50,14
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_CONTACT_SETTINGS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 316
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 262
-    END
-
-    IDD_CURRENCY_CONVERTER, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 335
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 94
-    END
-
-    IDD_CHART, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 387
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 272
-    END
-
-    IDD_PROVIDER_ADV_SETTINGS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 296
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 253
-    END
-
-    IDD_DIALOG_POPUP, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 312
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 153
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog Info
-//
-
-IDD_CHART DLGINIT
-BEGIN
-    IDC_COMBO_DATA_SOURCE, 0x403, 9, 0
-0x6f4c, 0x2067, 0x6946, 0x656c, "\000" 
-    IDC_COMBO_DATA_SOURCE, 0x403, 18, 0
-0x694d, 0x6172, 0x646e, 0x2761, 0x2073, 0x6948, 0x7473, 0x726f, 0x0079, 
-
-    IDC_COMBO_FILTER, 0x403, 4, 0
-0x6c41, 0x006c, 
-    IDC_COMBO_FILTER, 0x403, 9, 0
-0x614c, 0x7473, 0x4420, 0x7961, "\000" 
-    IDC_COMBO_FILTER, 0x403, 10, 0
-0x614c, 0x7473, 0x5720, 0x6565, 0x006b, 
-    IDC_COMBO_FILTER, 0x403, 11, 0
-0x614c, 0x7473, 0x4d20, 0x6e6f, 0x6874, "\000" 
-    IDC_COMBO_FILTER, 0x403, 10, 0
-0x614c, 0x7473, 0x5920, 0x6165, 0x0072, 
-    IDC_COMBO_FILTER, 0x403, 13, 0
-0x7355, 0x7265, 0x442d, 0x6665, 0x6e69, 0x6465, "\000" 
-    0
-END
-
-#endif    // English (United States) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United Kingdom) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
 IDD_DIALOG_ECONOMIC_RATES DIALOGEX 0, 0, 310, 230
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
@@ -465,6 +326,54 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_DIALOG_VARIABLE_LIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 209
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_CONTACT_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 316
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 262
+    END
+
+    IDD_CURRENCY_CONVERTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 335
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_CHART, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 387
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 272
+    END
+
+    IDD_PROVIDER_ADV_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+
+    IDD_DIALOG_POPUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 153
+    END
+
     IDD_DIALOG_ECONOMIC_RATES, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -510,45 +419,7 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog Info
-//
-
-IDD_DIALOG_ECONOMIC_RATES DLGINIT
-BEGIN
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x6553, 0x6f63, 0x646e, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x694d, 0x756e, 0x6574, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
-0x6f48, 0x7275, 0x0073, 
-    0
-END
-
-IDD_DIALOG_OPT_GOOGLE DLGINIT
-BEGIN
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x6553, 0x6f63, 0x646e, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x694d, 0x756e, 0x6574, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
-0x6f48, 0x7275, 0x0073, 
-    0
-END
-
-IDD_DIALOG_OPT_FINANCE DLGINIT
-BEGIN
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x6553, 0x6f63, 0x646e, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
-0x694d, 0x756e, 0x6574, 0x0073, 
-    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
-0x6f48, 0x7275, 0x0073, 
-    0
-END
-
-#endif    // English (United Kingdom) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -3,33 +3,6 @@
 
 #include "stdafx.h"
 
-#pragma warning(disable:4996)
-#include <m_protocols.h>
-#include <m_protomod.h>
-#pragma warning(default:4996)
-#include "WorkingThread.h"
-#include <m_protosvc.h>
-#include "resource.h"
-#include "IconLib.h"
-#include <m_options.h>
-#include <m_userinfo.h>
-#include "QuoteInfoDlg.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "IQuotesProvider.h"
-#include "EconomicRateInfo.h"
-#include "DBUtils.h"
-#include "ExtraImages.h"
-#include "HTTPSession.h"
-#include "CurrencyConverter.h"
-#ifdef CHART_IMPLEMENT
-#include "QuoteChart.h"
-#endif
-#include "WinCtrlHelper.h"
-#include "ImportExport.h"
-#include "m_Quotes.h"
-#include "version.h"
-
 int hLangpack;
 HINSTANCE g_hInstance = NULL;
 HANDLE g_hEventWorkThreadStop;

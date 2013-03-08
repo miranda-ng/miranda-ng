@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "DBUtils.h"
 
 std::string Quotes_DBGetStringA(HANDLE hContact,const char* szModule,const char* szSetting,const char* pszDefValue /*= NULL*/)
 {

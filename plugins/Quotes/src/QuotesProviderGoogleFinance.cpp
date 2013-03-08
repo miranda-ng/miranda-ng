@@ -1,18 +1,4 @@
 #include "StdAfx.h"
-#include "QuotesProviderGoogleFinance.h"
-#include "QuotesProviderVisitor.h"
-#include "EconomicRateInfo.h"
-#include "DBUtils.h"
-#include "resource.h"
-#include "ModuleInfo.h"
-// #include "QuotesProviders.h"
-// #include "CommonOptionDlg.h"
-// #include "WinCtrlHelper.h"
-#include "IHTMLParser.h"
-#include "IHTMLEngine.h"
-#include "HTTPSession.h"
-#include "Log.h"
-#include "Locale.h"
 
 CQuotesProviderGoogleFinance::CQuotesProviderGoogleFinance()
 {

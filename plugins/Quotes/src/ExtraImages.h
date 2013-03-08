@@ -1,8 +1,6 @@
 #ifndef __9d0dac0c_12e4_46ce_809a_db6dc7d6f269_ExtraImages_h__
 #define __9d0dac0c_12e4_46ce_809a_db6dc7d6f269_ExtraImages_h__
 
-#include "LightMutex.h"
-
 class CExtraImages : private boost::noncopyable
 {
 public:

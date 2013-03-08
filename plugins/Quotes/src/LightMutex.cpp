@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "LightMutex.h"
 
 CLightMutex::CLightMutex()
 {

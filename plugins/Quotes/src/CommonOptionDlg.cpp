@@ -1,12 +1,4 @@
 #include "StdAfx.h"
-#include "CommonOptionDlg.h"
-#include "QuotesProviderBase.h"
-#include "resource.h"
-#include "EconomicRateInfo.h"
-#include "DBUtils.h"
-#include "QuotesProviderVisitorDbSettings.h"
-#include "WinCtrlHelper.h"
-#include "SettingsDlg.h"
 
 namespace
 {

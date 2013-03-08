@@ -1,13 +1,4 @@
 #include "StdAfx.h"
-#include "ExtraImages.h"
-#include "IconLib.h"
-#include "EconomicRateInfo.h"
-#include "ModuleInfo.h"
-#include "QuotesProviders.h"
-#include "IQuotesProvider.h"
-#include "Log.h"
-#include "DBUtils.h"
-#include "resource.h"
 
 CExtraImages::CExtraImages() :
 	m_hExtraIcons(ExtraIcon_Register(ICON_STR_QUOTE,QUOTES_PROTOCOL_NAME,Quotes_MakeIconName(ICON_STR_MAIN).c_str())),

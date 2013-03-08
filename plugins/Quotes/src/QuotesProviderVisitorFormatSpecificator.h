@@ -1,8 +1,6 @@
 #ifndef __00c159f3_525a_41e9_8fc5_00464b6fafa3_QuotesProviderVisitorFormatSpecificator_h__
 #define __00c159f3_525a_41e9_8fc5_00464b6fafa3_QuotesProviderVisitorFormatSpecificator_h__
 
-#include "quotesprovidervisitor.h"
-
 class CQuotesProviderVisitorFormatSpecificator : public CQuotesProviderVisitor
 {
 public:

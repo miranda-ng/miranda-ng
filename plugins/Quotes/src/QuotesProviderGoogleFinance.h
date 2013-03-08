@@ -1,8 +1,6 @@
 #ifndef __89D3CC58_7DED_484f_AA25_62BDBB57E18B_QuotesProvider_Google_Finance_h__
 #define __89D3CC58_7DED_484f_AA25_62BDBB57E18B_QuotesProvider_Google_Finance_h__
 
-#include "QuotesProviderFinance.h"
-
 #define DB_STR_GOOGLE_FINANCE_OPEN_VALUE "OpenQuotePrice"
 #define DB_STR_GOOGLE_FINANCE_DIFF "DifferentFromStartOfDay"
 #define DB_STR_GOOGLE_FINANCE_PERCENT_CHANGE_TO_YERSTERDAY_CLOSE "PercentChangeToYersterdayClose"

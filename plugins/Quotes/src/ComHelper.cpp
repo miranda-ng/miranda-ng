@@ -1,7 +1,4 @@
 #include "StdAfx.h"
-#include "ComHelper.h"
-#include "Log.h"
-#include "WinCtrlHelper.h"
 
 tstring ComException2Msg(_com_error& e,const tstring& rsAdditionalInfo)
 {

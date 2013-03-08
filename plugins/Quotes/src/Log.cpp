@@ -1,8 +1,4 @@
 #include "StdAfx.h"
-#include "Log.h"
-#include "LightMutex.h"
-#include "EconomicRateInfo.h"
-#include "CreateFilePath.h"
 
 namespace
 {

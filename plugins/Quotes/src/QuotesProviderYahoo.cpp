@@ -1,10 +1,4 @@
 #include "stdafx.h"
-#include "QuotesProviderYahoo.h"
-#include "QuotesProviderVisitor.h"
-#include "ModuleInfo.h"
-#include "DBUtils.h"
-#include "EconomicRateInfo.h"
-#include "HTTPSession.h"
 
 namespace
 {
