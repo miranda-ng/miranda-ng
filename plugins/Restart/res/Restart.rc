@@ -27,18 +27,18 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE MOVEABLE PURE 
+1 TEXTINCLUDE
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE MOVEABLE PURE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -54,7 +54,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_RESTARTICON         ICON    DISCARDABLE     "restart.ico"
+IDI_RESTARTICON         ICON         "restart.ico"
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 

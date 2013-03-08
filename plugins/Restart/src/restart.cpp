@@ -1,14 +1,4 @@
-#include <windows.h>
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_icolib.h>
-#include <m_langpack.h>
-#include <m_system.h>
-#include <m_genmenu.h>
-#include <m_utils.h>
-#include <win2k.h>
-#include "resource.h"
+#include "Common.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -16,15 +6,15 @@ HANDLE hRestartMe;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Restart plugin",
-	PLUGIN_MAKE_VERSION(0,0,6,0),
-	"Adds Restart menu item.",
-	"eugene.nv",
-	"ep@eugn.me",
-	"© 2008 - 2013 eugene.nv",
-	"http://miranda-ng.org",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {61BEDF3A-0CC2-41a3-B980-BB9393368935}
+	// {61BEDF3A-0CC2-41A3-B980-BB9393368935}
 	{0x61bedf3a, 0xcc2, 0x41a3, {0xb9, 0x80, 0xbb, 0x93, 0x93, 0x36, 0x89, 0x35}}
 };
 
