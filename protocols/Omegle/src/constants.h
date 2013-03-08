@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 // Version management
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0,1,0,1)
-#define __VERSION_STRING            "0.1.0.1"
+#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0,1,1,0)
+#define __VERSION_STRING            "0.1.1.0"
 
 // Product management
 #define OMEGLE_NAME               "Omegle"

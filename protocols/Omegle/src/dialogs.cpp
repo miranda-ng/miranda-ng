@@ -167,6 +167,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		LoadDBCheckState(proto, hwnd, IDC_REUSE_QUESTIONS, OMEGLE_KEY_REUSE_QUESTION);
 		LoadDBCheckState(proto, hwnd, IDC_SERVER_INFO, OMEGLE_KEY_SERVER_INFO);
 		LoadDBCheckState(proto, hwnd, IDC_LOGGING, OMEGLE_KEY_LOGGING);
+		LoadDBCheckState(proto, hwnd, IDC_AUTO_CONNECT, OMEGLE_KEY_AUTO_CONNECT);		
 
 	} return TRUE;
 
@@ -194,6 +195,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 			case IDC_REUSE_QUESTIONS:
 			case IDC_SERVER_INFO:
 			case IDC_LOGGING:
+			case IDC_AUTO_CONNECT:
 				if (HIWORD(wparam) == BN_CLICKED) {
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				} break;
@@ -220,6 +222,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 			StoreDBCheckState(proto, hwnd, IDC_REUSE_QUESTIONS, OMEGLE_KEY_REUSE_QUESTION);
 			StoreDBCheckState(proto, hwnd, IDC_SERVER_INFO, OMEGLE_KEY_SERVER_INFO);
 			StoreDBCheckState(proto, hwnd, IDC_LOGGING, OMEGLE_KEY_LOGGING);
+			StoreDBCheckState(proto, hwnd, IDC_AUTO_CONNECT, OMEGLE_KEY_AUTO_CONNECT);
 			
 			return TRUE;
 		}

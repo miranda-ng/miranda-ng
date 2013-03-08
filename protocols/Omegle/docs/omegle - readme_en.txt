@@ -1,18 +1,19 @@
 ---------------------------
-| Omegle Protocol 0.1.0.0 |
-|        (26.4.2012)      |
+| Omegle Protocol 0.1.1.0 |
+|       for Miranda NG    |
+|         (8.3.2013)      |
 ---------------------------
 
 Autor: Robyer
   E-mail: robyer@seznam.cz
   Jabber: robyer@jabbim.cz
   ICQ: 372317536
-  Web: http://robyer.info
- 
-SVN: http://code.google.com/p/robyer/
+  Web: http://www.robyer.cz
 
-!!!! Required Miranda 0.9.43 or newer or Miranda 0.10.2 and newer !!!!
-
+Info:
+ - This plugin uses part of code from Facebook Protocol (author jarvis) version 0.1.3.3 (open source).
+ - Original source code can be found on http://code.google.com/p/eternityplugins/
+  
 --------------------------------
 			 HIDDEN SETTINGS
 --------------------------------
@@ -21,6 +22,20 @@ TimeoutsLimit (byte) - number of allowed timeouts before disconnection protocol
 --------------------------------
        Version history
 --------------------------------
+0.1.1.0 - 8.3.2013
+ + Option to automatically connect to stranger when protocol is turned online
+ * Updated (this) readme
+
+=== OLD CHANGES (MIRANDA IM) ===
+
+0.1.0.1 - 24.5.2012
+ * Same GUID for 32bit and 64bit versions
+ * Updated for new version of smileyadd plugin
+ ! Fixed functionality of plugin due to changes on Omegle
+ ! Fixed Options (saving text values, tab order)
+ ! Show own name in contact list tooltip (thanks FREAK_THEMIGHTY) 
+ ! Internal fixes
+
 0.1.0.0 - 26.4.2012
  First addons release
  

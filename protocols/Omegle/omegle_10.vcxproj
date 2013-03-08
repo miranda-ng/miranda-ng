@@ -205,6 +205,9 @@
   <ItemGroup>
     <ResourceCompile Include="res\omegle.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\omegle.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

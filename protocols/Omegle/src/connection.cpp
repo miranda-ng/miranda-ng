@@ -36,7 +36,10 @@ void OmegleProto::SignOn(void*)
 
 	setDword( "LogonTS", (DWORD)time(NULL));
 	ClearChat();
-	OnJoinChat(0,false);	
+	OnJoinChat(0,false);
+
+	if (getByte(OMEGLE_KEY_AUTO_CONNECT, 0))
+		NewChat();
 
 	//ToggleStatusMenuItems(true);
 }

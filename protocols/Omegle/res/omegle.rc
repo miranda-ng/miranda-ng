@@ -31,28 +31,31 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     COMBOBOX        IDC_SERVER,84,7,130,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Server:",IDC_STATIC,24,9,60,8
-    LTEXT           "Visible name:",IDC_STATIC,24,26,60,8
-    EDITTEXT        IDC_NAME,84,23,130,14,ES_AUTOHSCROLL
+    LTEXT           "Visible name:",IDC_STATIC,24,25,60,8
+    EDITTEXT        IDC_NAME,84,22,130,14,ES_AUTOHSCROLL
     CONTROL         "Meet strangers with common interests (separated by commas):",IDC_MEET_COMMON,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,41,272,10
-    EDITTEXT        IDC_INTERESTS,24,52,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,39,272,10
+    EDITTEXT        IDC_INTERESTS,24,49,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
     CONTROL         "Automatically send this message to stranger after connection:",IDC_HI_ENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,76,272,10
-    EDITTEXT        IDC_HI_MESSAGE,24,87,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,24,111,272,8	
-	EDITTEXT        IDC_ASL_MESSAGE,24,121,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-	LTEXT           "Last used question (Question mode):",IDC_STATIC,24,144,272,8
-	EDITTEXT        IDC_LAST_QUESTION,24,154,272,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL    
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,72,272,10
+    EDITTEXT        IDC_HI_MESSAGE,24,82,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,24,105,272,8
+    EDITTEXT        IDC_ASL_MESSAGE,24,114,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Last used question (Question mode):",IDC_STATIC,24,136,272,8
+    EDITTEXT        IDC_LAST_QUESTION,24,145,272,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
     CONTROL         "I want Omegle to reuse my questions if they are good enough (Question mode)",IDC_REUSE_QUESTIONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,176,272,10
-	CONTROL         "Don't clear chat before connecting to new stranger",IDC_NOCLEAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,167,272,10
+    CONTROL         "Automatically connect to stranger when protocol is turned online",IDC_AUTO_CONNECT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,180,272,10
+	CONTROL         "Automatically connect to another stranger when current disconnects",IDC_DONTSTOP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,192,272,10
-    CONTROL         "Automatically connect to another stranger when current disconnects",IDC_DONTSTOP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,204,272,10
+	CONTROL         "Don't clear chat before connecting to new stranger",IDC_NOCLEAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,204,272,10    
     CONTROL         "Load count of users on actual server after connection",IDC_SERVER_INFO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,216,272,10
     CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,228,272,10    
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,228,272,10
+    
 END
 
 
@@ -184,12 +187,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Omegle protocol plugin for Miranda NG"
-            VALUE "FileVersion", "0.1.0.1"
+            VALUE "FileVersion", "0.1.1.0"
             VALUE "InternalName", "Omegle"
             VALUE "LegalCopyright", "Copyright © 2011-12 Robert Pösel"
             VALUE "OriginalFilename", "omegle.dll"
             VALUE "ProductName", "Omegle Protocol"
-            VALUE "ProductVersion", "0.1.0.1"
+            VALUE "ProductVersion", "0.1.1.0"
         END
     END
     BLOCK "VarFileInfo"

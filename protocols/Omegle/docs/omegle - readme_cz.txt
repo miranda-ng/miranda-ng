@@ -1,17 +1,18 @@
 ---------------------------
-| Omegle Protocol 0.1.0.0 |
-|        (26.4.2012)      |
+| Omegle Protocol 0.1.1.0 |
+|       pro Miranda NG    |
+|         (8.3.2013)      |
 ---------------------------
 
 Autor: Robyer
   E-mail: robyer@seznam.cz
   Jabber: robyer@jabbim.cz
   ICQ: 372317536
-  Web: http://robyer.info
- 
-SVN: http://code.google.com/p/robyer/
+  Web: http://www.robyer.cz
 
-!!!! Vyžadována Miranda 0.9.43 a novìjší nebo 0.10.2 a novìjší !!!!!
+Info:
+ - Tento plugin používá èást kódu z Facebook Protokolu (autor jarvis) verze 0.1.3.3 (open source).
+ - Originální zdrojové kódy jsou k nalezení na http://code.google.com/p/eternityplugins/
 
 --------------------------------
 			 SKRYTÉ NASTAVENÍ
@@ -21,6 +22,20 @@ TimeoutsLimit (byte) - poèet povolených timeoutù pøed odpojením protokolu
 --------------------------------
        Historie verzí
 --------------------------------
+0.1.1.0 - 8.3.2013
+ + Možnost automaticky se pøipojit pøi pøepnutí protokolu do online
+ * Aktualizace (tohoto) readme
+ 
+=== STARÉ ZMÌNY (MIRANDA IM) ===
+
+0.1.0.1 - 24.5.2012
+ * Stejné GUID pro 32bit a 64bit verzi pluginu 
+ * Aktualizace pro novou verzi smileyadd pluginu
+ ! Opravena funkènost pluginu kvùli zmìnám na Omegle
+ ! Opraveno nastavení (ukládání textových hodnot, TAB pøepínání) 
+ ! Zobrazení vlastního jména v tooltipu v kontaktlistu (díky FREAK_THEMIGHTY) 
+ ! Interní opravy 
+
 0.1.0.0 - 26.4.2012
  První vydání na addons
  
