@@ -232,8 +232,9 @@ static INT_PTR srvDestroyInstance(WPARAM wParam,LPARAM lParam)
 {
 	MIDatabase* pDb = (MIDatabase*)lParam;
 	if (pDb != NULL) {
-		delete pDb->m_cache;
+		MDatabaseCache *pCache = (MDatabaseCache*)pDb->m_cache;
 		pDb->m_cache = NULL;
+		delete pCache;
 	}
 	return 0;
 }
@@ -283,4 +284,9 @@ int LoadDbintfModule()
 	CreateServiceFunction(MS_DB_INIT_INSTANCE, srvInitInstance);
 	CreateServiceFunction(MS_DB_DESTROY_INSTANCE, srvDestroyInstance);
 	return 0;
+}
+
+void UnloadDbintfModule()
+{
+	arDbPlugins.destroy();
 }

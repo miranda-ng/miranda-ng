@@ -53,7 +53,7 @@ struct DBCachedContact
 	DBCachedContactValue* last;
 };
 
-interface MIDatabaseCache
+interface MIDatabaseCache : public MZeroedObject
 {
 	STDMETHOD_(DBCachedContact*,AddContactToCache)(HANDLE hContact) PURE;
 	STDMETHOD_(DBCachedContact*,GetCachedContact)(HANDLE hContact) PURE;

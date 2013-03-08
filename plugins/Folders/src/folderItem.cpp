@@ -40,6 +40,7 @@ CFolderItem::~CFolderItem()
 	mir_free(m_szName);
 	mir_free(m_tszFormat);
 	mir_free(m_tszOldFormat);
+	mir_free(m_tszUserName);
 }
 
 void CFolderItem::SetFormat(const TCHAR *newFormat)

@@ -1121,7 +1121,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 	HDC hdc = CreateCompatibleDC(hdc_orig);
 	HBITMAP hBmp = CreateBitmap32(r.right,r.bottom);
-	SelectObject(hdc, hBmp);
+	HBITMAP old_bitmap = (HBITMAP)SelectObject(hdc, hBmp);
 
 	int old_bk_mode = SetBkMode(hdc, TRANSPARENT);
 	HFONT old_font = (HFONT) SelectObject(hdc, hFont[0]);
@@ -1369,6 +1369,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 
 	BitBlt(hdc_orig, r_full.left, r_full.top, r_full.right - r_full.left,
 			r_full.bottom - r_full.top, hdc, r_full.left, r_full.top, SRCCOPY);
+
+	SelectObject(hdc, old_bitmap);
 	DeleteDC(hdc);
 	DeleteObject(hBmp);
 }

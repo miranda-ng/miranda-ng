@@ -66,21 +66,23 @@ int LoadDefaultServiceModePlugin(void);
 int LoadErrorsModule(void);
 int LoadStdPlugins(void);
 
-void UnloadUtilsModule(void);
+void UnloadAccountsModule(void);
 void UnloadButtonModule(void);
 void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadDatabase(void);
+void UnloadDbintfModule(void);
+void UnloadErrorsModule(void);
 void UnloadEventsModule(void);
-void UnloadSslModule(void);
+void UnloadExtraIconsModule(void);
+void UnloadIcoLibModule(void);
 void UnloadNetlibModule(void);
 void UnloadNewPlugins(void);
-void UnloadIcoLibModule(void);
+void UnloadProtocolsModule(void);
 void UnloadSkinSounds(void);
 void UnloadSkinHotkeys(void);
-void UnloadProtocolsModule(void);
-void UnloadAccountsModule(void);
-void UnloadErrorsModule(void);
+void UnloadSslModule(void);
+void UnloadUtilsModule(void);
 
 int LoadIcoTabsModule();
 int LoadHeaderbarModule();
@@ -171,10 +173,12 @@ void UnloadDefaultModules(void)
 //	UnloadErrorsModule();
 	UnloadIcoLibModule();
 	UnloadUtilsModule();
+	UnloadExtraIconsModule();
 	UnloadButtonModule();
 	UnloadClcModule();
 	UnloadContactListModule();
 	UnloadEventsModule();
 	UnloadNetlibModule();
+	UnloadDbintfModule();
 	UnloadSslModule();
 }
