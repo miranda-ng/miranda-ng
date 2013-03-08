@@ -453,10 +453,10 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	avatar_done = FALSE;
 
 	TExtraCache *cEntry;
-	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)
-		cEntry = &cfg::eCache[contact->extraCacheEntry];
+	if (contact->pExtra)
+		cEntry = contact->pExtra;
 	else
-		cEntry = cfg::eCache;
+		cEntry = cfg::arCache[0];
 
 	if (dat->bisEmbedded)
 		goto set_bg_l;

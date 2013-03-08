@@ -32,14 +32,13 @@
 
 #include <commonheaders.h>
 
-TCluiData		cfg::dat = {0};
-ClcData*		cfg::clcdat = 0;
-TExtraCache* 	cfg::eCache = 0;
-int 			cfg::nextCacheEntry = 0, cfg::maxCacheEntry = 0;
+TCluiData cfg::dat = {0};
+ClcData*  cfg::clcdat = 0;
 
-CRITICAL_SECTION cfg::cachecs = {0};
+static CRITICAL_SECTION cachecs;
+LIST<TExtraCache> cfg::arCache(100, LIST<TExtraCache>::FTSortFunc(HandleKeySortT));
 
-bool			cfg::shutDown = false;
+bool cfg::shutDown = false;
 
 pfnSetLayeredWindowAttributes_t 	API::pfnSetLayeredWindowAttributes = 0;
 pfnUpdateLayeredWindow_t			API::pfnUpdateLayeredWindow = 0;
@@ -202,37 +201,53 @@ INT_PTR cfg::writeString(const HANDLE hContact, const char *szModule = 0, const 
 	return(DBWriteContactSettingString(hContact, szModule, szSetting, str));
 }
 
-int cfg::getCache(const HANDLE hContact, const char *szProto)
+TExtraCache* cfg::getCache(const HANDLE hContact, const char *szProto)
 {
-	int i, iFound = -1;
+	int idx = cfg::arCache.getIndex((TExtraCache*)&hContact);
+	if (idx != -1)
+		return cfg::arCache[idx];
 
-	for (i = 0; i < nextCacheEntry; i++) {
-		if (eCache[i].hContact == hContact) {
-			iFound = i;
-			break;
-		}
+	mir_cslock lck(cachecs);
+	TExtraCache *p = (TExtraCache*)calloc(sizeof(TExtraCache), 1);
+	p->hContact = hContact;
+	LoadSkinItemToCache(p, szProto);
+	p->dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
+	GetCachedStatusMsg(p, const_cast<char *>(szProto));
+	p->dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
+	cfg::arCache.insert(p);
+	return p;
+}
+
+void ReloadSkinItemsToCache()
+{
+	for (int i = 0; i < cfg::arCache.getCount(); i++) {
+		TExtraCache *p = cfg::arCache[i];
+		char *szProto = GetContactProto(p->hContact);
+		if (szProto)
+			LoadSkinItemToCache(p, szProto);
 	}
-	if (iFound == -1) {
-		EnterCriticalSection(&cachecs);
-		if (nextCacheEntry == maxCacheEntry) {
-			maxCacheEntry += 100;
-			cfg::eCache = (TExtraCache *)realloc(cfg::eCache, maxCacheEntry * sizeof(TExtraCache));
+}
+
+void CSH_Destroy()
+{
+	for (int i = 0; i < cfg::arCache.getCount(); i++) {
+		TExtraCache *p = cfg::arCache[i];
+		if (p->statusMsg)
+			free(p->statusMsg);
+		if (p->status_item) {
+			StatusItems_t *item = p->status_item;
+
+			free(p->status_item);
+			p->status_item = 0;
+			for (int j = i; j < cfg::arCache.getCount(); j++)  // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
+				if (cfg::arCache[j]->status_item == item)
+					cfg::arCache[j]->status_item = 0;
 		}
-		memset(&cfg::eCache[nextCacheEntry], 0, sizeof(TExtraCache));
-		cfg::eCache[nextCacheEntry].hContact = hContact;
-		cfg::eCache[nextCacheEntry].valid = FALSE;
-		cfg::eCache[nextCacheEntry].bStatusMsgValid = 0;
-		cfg::eCache[nextCacheEntry].statusMsg = NULL;
-		cfg::eCache[nextCacheEntry].status_item = NULL;
-		LoadSkinItemToCache(&cfg::eCache[nextCacheEntry], szProto);
-		cfg::eCache[nextCacheEntry].dwCFlags = 0;
-		cfg::eCache[nextCacheEntry].dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
-		GetCachedStatusMsg(nextCacheEntry, const_cast<char *>(szProto));
-		cfg::eCache[nextCacheEntry].dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
-		iFound = nextCacheEntry++;
-		LeaveCriticalSection(&cachecs);
+		free(p);
 	}
-	return iFound;
+
+	cfg::arCache.destroy();
+	DeleteCriticalSection(&cachecs);
 }
 
 void API::onInit()

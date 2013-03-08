@@ -222,10 +222,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	if ( iCount < 300 )
 		iCount = 300;
 
-	cfg::eCache = reinterpret_cast<TExtraCache *>(malloc(sizeof(TExtraCache) * iCount));
-	ZeroMemory(cfg::eCache, sizeof(struct TExtraCache) * iCount);
-	cfg::nextCacheEntry = 0;
-	cfg::maxCacheEntry = iCount;
 	cfg::init();
 
 	cfg::dat.hMenuNotify =             CreatePopupMenu();

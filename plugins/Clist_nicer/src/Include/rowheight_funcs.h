@@ -32,7 +32,7 @@ public:
 
 	    if ( !dat->bisEmbedded) {
 	        if (contact->bSecondLine != MULTIROW_NEVER && contact->bSecondLine != MULTIROW_IFSPACE && contact->type == CLCIT_CONTACT) {
-	            if ((contact->bSecondLine == MULTIROW_ALWAYS || ((cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG && contact->bSecondLine == MULTIROW_IFNEEDED) && (contact->xStatus > 0 || cfg::eCache[contact->extraCacheEntry].bStatusMsgValid > STATUSMSG_XSTATUSID))))
+	            if ((contact->bSecondLine == MULTIROW_ALWAYS || ((cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG && contact->bSecondLine == MULTIROW_IFNEEDED) && (contact->xStatus > 0 || contact->pExtra->bStatusMsgValid > STATUSMSG_XSTATUSID))))
 	                height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);
 	        }
 

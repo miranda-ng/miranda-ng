@@ -36,6 +36,8 @@
 #include "../cluiframes/cluiframes.h"
 #include "../coolsb/coolscroll.h"
 
+void CSH_Destroy();
+
 int DefaultImageListColorDepth = ILC_COLOR32;
 
 extern HPEN g_hPenCLUIFrames;
@@ -77,7 +79,6 @@ int __forceinline __strcmp(const char * src, const char * dst)
 static int ClcEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO dbei = {0};
-	int iEntry;
 	DWORD new_freq = 0;
 
 	cfg::dat.t_now = time(NULL);
@@ -94,11 +95,12 @@ static int ClcEventAdded(WPARAM wParam, LPARAM lParam)
 			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
 			cfg::writeDword((HANDLE)wParam, "CList", "mf_freq", new_freq);
 			cfg::writeDword((HANDLE)wParam, "CList", "mf_count", count);
-			iEntry = cfg::getCache((HANDLE)wParam, NULL);
-			if (iEntry >= 0 && iEntry < cfg::nextCacheEntry) {
-				cfg::eCache[iEntry].dwLastMsgTime = dbei.timestamp;
+
+			TExtraCache *p = cfg::getCache((HANDLE)wParam, NULL);
+			if (p) {
+				p->dwLastMsgTime = dbei.timestamp;
 				if (new_freq)
-					cfg::eCache[iEntry].msgFrequency = new_freq;
+					p->msgFrequency = new_freq;
 				pcli->pfnClcBroadcast(INTM_FORCESORT, 0, 1);
 			}
 		}
@@ -205,28 +207,11 @@ int ClcShutdown(WPARAM wParam, LPARAM lParam)
 	DestroyMenu(cfg::dat.hMenuNotify);
 	ClearIcons(1);
 
-	if (cfg::eCache) {
-		for (int i = 0; i < cfg::nextCacheEntry; i++) {
-			if (cfg::eCache[i].statusMsg)
-				free(cfg::eCache[i].statusMsg);
-			if (cfg::eCache[i].status_item) {
-				StatusItems_t *item = cfg::eCache[i].status_item;
-
-				free(cfg::eCache[i].status_item);
-				cfg::eCache[i].status_item = 0;
-				for (int j = i; j < cfg::nextCacheEntry; j++)  // avoid duplicate free()'ing status item pointers (there are references from sub to master contacts, so compare the pointers...
-					if (cfg::eCache[j].status_item == item)
-						cfg::eCache[j].status_item = 0;
-			}
-		}
-		free(cfg::eCache);
-		cfg::eCache = NULL;
-	}
+	CSH_Destroy();
 	IMG_DeleteItems();
 	for (int i=0; i < arStatusItems.getCount(); i++)
 		mir_free(arStatusItems[i]);
 	arStatusItems.destroy();
-	DeleteCriticalSection(&cfg::cachecs);
 	return 0;
 }
 
@@ -403,18 +388,18 @@ LBL_Def:
 			break;
 
 		if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
-			contact->hSubContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) contact->hContact, 0);
+			contact->hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) contact->hContact, 0);
 			contact->metaProto = GetContactProto(contact->hSubContact);
 			contact->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) contact->hSubContact, 0);
-			if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
-				int subIndex = cfg::getCache(contact->hSubContact, contact->metaProto);
+			if (contact->pExtra) {
+				TExtraCache *pSub = cfg::getCache(contact->hSubContact, contact->metaProto);
 				ClcContact *subContact;
 				if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE)contact->hSubContact, &subContact, NULL, NULL))
 					break;
 
-				cfg::eCache[contact->extraCacheEntry].proto_status_item = GetProtocolStatusItem(contact->metaProto);
-				if (subIndex >= 0 && subIndex <= cfg::nextCacheEntry) {
-					cfg::eCache[contact->extraCacheEntry].status_item = cfg::eCache[subIndex].status_item;
+				contact->pExtra->proto_status_item = GetProtocolStatusItem(contact->metaProto);
+				if (pSub) {
+					contact->pExtra->status_item = pSub->status_item;
 					memcpy(contact->iExtraImage, subContact->iExtraImage, sizeof(contact->iExtraImage));
 				}
 			}
@@ -469,8 +454,8 @@ LBL_Def:
 			else {
 				DWORD dwFlags;
 
-				if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)
-					dwFlags = cfg::eCache[contact->extraCacheEntry].dwDFlags;
+				if (contact->pExtra)
+					dwFlags = contact->pExtra->dwDFlags;
 				else
 					dwFlags = cfg::getDword(contact->hContact, "CList", "CLN_Flags", 0);
 				if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
@@ -484,16 +469,16 @@ LBL_Def:
 
 	case INTM_STATUSMSGCHANGED:
 		{
-			int index = -1;
+			TExtraCache *p;
 			char *szProto = NULL;
 
 			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
-				index = cfg::getCache((HANDLE)wParam, NULL);
+				p = cfg::getCache((HANDLE)wParam, NULL);
 			else {
-				index = contact->extraCacheEntry;
+				p = contact->pExtra;
 				szProto = contact->proto;
 			}
-			GetCachedStatusMsg(index, szProto);
+			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
 		}
 		goto LBL_Def;
@@ -577,13 +562,12 @@ LBL_Def:
 
 	case INTM_XSTATUSCHANGED:
 		{
-			int index;
-
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto = (char *)cws->szModule;
+			TExtraCache *p;
 
 			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-				index = cfg::getCache((HANDLE)wParam, szProto);
+				p = cfg::getCache((HANDLE)wParam, szProto);
 				if ( !dat->bisEmbedded && cfg::dat.bMetaAvail && szProto) {				// may be a subcontact, forward the xstatus
 					if (cfg::getByte((HANDLE)wParam, cfg::dat.szMetaName, "IsSubcontact", 0)) {
 						HANDLE hMasterContact = (HANDLE)cfg::getDword((HANDLE)wParam, cfg::dat.szMetaName, "Handle", 0);
@@ -595,12 +579,12 @@ LBL_Def:
 				}
 			} else {
 				contact->xStatus = cfg::getByte((HANDLE)wParam, szProto, "XStatusId", 0);
-				index = contact->extraCacheEntry;
+				p = contact->pExtra;
 			}
 			if (szProto == NULL)
 				break;
 
-			GetCachedStatusMsg(index, szProto);
+			GetCachedStatusMsg(p, szProto);
 			PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
 		}
 		goto LBL_Def;

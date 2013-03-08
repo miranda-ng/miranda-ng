@@ -261,9 +261,8 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 		return CompareString(LOCALE_USER_DEFAULT, NORM_IGNORECASE, namea, -1, nameb, -1) - 2;
 	
 	case SORTBY_LASTMSG:
-		if (c1->extraCacheEntry >= 0 && c1->extraCacheEntry < cfg::nextCacheEntry && 
-		   c2->extraCacheEntry >= 0 && c2->extraCacheEntry < cfg::nextCacheEntry)
-			return(cfg::eCache[c2->extraCacheEntry].dwLastMsgTime - cfg::eCache[c1->extraCacheEntry].dwLastMsgTime);
+		if (c1->pExtra && c2->pExtra)
+			return c2->pExtra->dwLastMsgTime - c1->pExtra->dwLastMsgTime;
 		else {
 			DWORD timestamp1 = INTSORT_GetLastMsgTime(c1->hContact);
 			DWORD timestamp2 = INTSORT_GetLastMsgTime(c2->hContact);
@@ -271,9 +270,8 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 		}
     
 	case SORTBY_FREQUENCY:
-		if ( c1->extraCacheEntry >= 0 && c1->extraCacheEntry < cfg::nextCacheEntry && 
-			 c2->extraCacheEntry >= 0 && c2->extraCacheEntry < cfg::nextCacheEntry )
-			return(cfg::eCache[c1->extraCacheEntry].msgFrequency - cfg::eCache[c2->extraCacheEntry].msgFrequency);
+		if ( c1->pExtra && c2->pExtra)
+			return c1->pExtra->msgFrequency - c2->pExtra->msgFrequency;
 		break;
 
 	case SORTBY_PROTO:

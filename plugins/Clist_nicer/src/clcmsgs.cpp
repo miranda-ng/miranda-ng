@@ -62,9 +62,9 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
 
-			if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry)
-				if (cfg::eCache[contact->extraCacheEntry].bStatusMsgValid != STATUSMSG_NOTFOUND)
-					return((INT_PTR)cfg::eCache[contact->extraCacheEntry].statusMsg);
+			if (contact->pExtra)
+				if (contact->pExtra->bStatusMsgValid != STATUSMSG_NOTFOUND)
+					return((INT_PTR)contact->pExtra->statusMsg);
 		}
 		return 0;
 

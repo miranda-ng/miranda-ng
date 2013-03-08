@@ -257,7 +257,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 		return NULL;
 
 	if (1) {
-		if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE) 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+		if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE)1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
 			int j;
 			struct NotifyMenuItemExData *nmi = 0;
 			char *szProto;
@@ -270,7 +270,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 				for (j = 0; j < GetMenuItemCount(cfg::dat.hMenuNotify); j++) {
 					if (GetMenuItemInfo(cfg::dat.hMenuNotify, j, TRUE, &mii) != 0) {
 						nmi = (struct NotifyMenuItemExData *) mii.dwItemData;
-						if (nmi != 0 && (HANDLE) nmi->hContact == (HANDLE) p->cle.hContact && nmi->iIcon == p->imlIconIndex)
+						if (nmi != 0 && (HANDLE)nmi->hContact == (HANDLE)p->cle.hContact && nmi->iIcon == p->imlIconIndex)
 							return p;
 			}	}	}
 
@@ -309,7 +309,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 			cfg::dat.hUpdateContact = p->cle.hContact;
 		}
 		if (cfg::dat.dwFlags & CLUI_STICKYEVENTS) {
-			HANDLE hItem = (HANDLE) SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM) p->cle.hContact, 0);
+			HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM) p->cle.hContact, 0);
 			if (hItem) {
 				SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 1);
 				pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM) p->cle.hContact, 0);
@@ -374,7 +374,7 @@ int RemoveEvent(HANDLE hContact, HANDLE hDbEvent)
 	if (bUnstick) {
 		// clear "sticky" (sort) status
 
-		hItem = (HANDLE) SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+		hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem) {
 			SendMessage(pcli->hwndContactTree, CLM_SETSTICKY, (WPARAM) hItem, 0);
 			pcli->pfnClcBroadcast(INTM_PROTOCHANGED, (WPARAM)hContact, 0);

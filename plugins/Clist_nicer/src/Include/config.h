@@ -79,45 +79,44 @@ private:
 class cfg
 {
 public:
-	static void			init							();
+	static void    init();
 
-	static DWORD 		getDword						(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD uDefault);
-	static DWORD  		getDword						(const char *szModule, const char *szSetting, DWORD uDefault);
-	static DWORD 		getDword						(const char *szSetting, DWORD uDefault);
+   static DWORD   getDword(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD uDefault);
+   static DWORD   getDword(const char *szModule, const char *szSetting, DWORD uDefault);
+   static DWORD   getDword(const char *szSetting, DWORD uDefault);
 
-	static WORD 		getWord							(const HANDLE hContact, const char *szModule, const char *szSetting, WORD uDefault);
-	static WORD  		getWord							(const char *szModule, const char *szSetting, WORD uDefault);
-	static WORD 		getWord							(const char *szSetting, WORD uDefault);
+   static WORD    getWord(const HANDLE hContact, const char *szModule, const char *szSetting, WORD uDefault);
+   static WORD    getWord(const char *szModule, const char *szSetting, WORD uDefault);
+   static WORD    getWord(const char *szSetting, WORD uDefault);
 
-	static int 			getByte							(const HANDLE hContact, const char *szModule, const char *szSetting, int uDefault);
-	static int 	 		getByte							(const char *szModule, const char *szSetting, int uDefault);
-	static int			getByte							(const char *szSetting, int uDefault);
+   static int     getByte(const HANDLE hContact, const char *szModule, const char *szSetting, int uDefault);
+   static int     getByte(const char *szModule, const char *szSetting, int uDefault);
+   static int     getByte(const char *szSetting, int uDefault);
 
-	static INT_PTR 		getTString						(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-	static INT_PTR 		getString						(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+   static INT_PTR getTString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
+   static INT_PTR getString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 
-	static INT_PTR		writeDword						(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD value);
-	static INT_PTR		writeDword						(const char *szModule, const char *szSetting, DWORD value);
+   static INT_PTR writeDword(const HANDLE hContact, const char *szModule, const char *szSetting, DWORD value);
+   static INT_PTR writeDword(const char *szModule, const char *szSetting, DWORD value);
 
-	static INT_PTR		writeWord						(const HANDLE hContact, const char *szModule, const char *szSetting, WORD value);
-	static INT_PTR		writeWord						(const char *szModule, const char *szSetting, WORD value);
+   static INT_PTR writeWord(const HANDLE hContact, const char *szModule, const char *szSetting, WORD value);
+   static INT_PTR writeWord(const char *szModule, const char *szSetting, WORD value);
 
-	static INT_PTR		writeByte						(const HANDLE hContact, const char *szModule, const char *szSetting, BYTE value);
-	static INT_PTR		writeByte						(const char *szModule, const char *szSetting, BYTE value);
+   static INT_PTR writeByte(const HANDLE hContact, const char *szModule, const char *szSetting, BYTE value);
+   static INT_PTR writeByte(const char *szModule, const char *szSetting, BYTE value);
 
-	static INT_PTR		writeTString					(const HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *st);
-	static INT_PTR		writeString						(const HANDLE hContact, const char *szModule, const char *szSetting, const char *st);
-	static int 			getCache						(const HANDLE hContact, const char *szProto);
+   static INT_PTR writeTString(const HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *st);
+   static INT_PTR writeString(const HANDLE hContact, const char *szModule, const char *szSetting, const char *st);
+   
+	static TExtraCache* getCache(const HANDLE hContact, const char *szProto);
 
 public:
-	static TCluiData	dat;
-	static ClcData*		clcdat;
-	static TExtraCache* eCache;
-	static int			nextCacheEntry, maxCacheEntry;
+   static TCluiData dat;
+   static ClcData*  clcdat;
+	
+	static LIST<TExtraCache> arCache;
 
-	static CRITICAL_SECTION	cachecs;
-
-	static bool			shutDown;
+   static bool    shutDown;
 };
 
 struct TSysConfig {

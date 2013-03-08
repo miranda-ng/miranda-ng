@@ -232,7 +232,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 
 	if ( !dat->bisEmbedded) {
 		if (hitcontact->type == CLCIT_CONTACT) {
-			if (mirror_mode == 1 || (mirror_mode == 2 && cfg::eCache[hitcontact->extraCacheEntry].dwCFlags & ECF_RTLNICK))
+			if (mirror_mode == 1 || (mirror_mode == 2 && hitcontact->pExtra->dwCFlags & ECF_RTLNICK))
 				return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
 		}
 		else if (hitcontact->type == CLCIT_GROUP) {
@@ -522,7 +522,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 
 	dat->hwndRenameEdit = CreateWindowEx(0, _T("RichEdit20W"),contact->szText,WS_CHILD|WS_BORDER|ES_MULTILINE|ES_AUTOHSCROLL,x,y,clRect.right-x,h,hwnd,NULL,g_hInst,NULL);
 	{
-		if ((contact->type == CLCIT_CONTACT && cfg::eCache[contact->extraCacheEntry].dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
+		if ((contact->type == CLCIT_CONTACT && contact->pExtra->dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
 			ZeroMemory((void *)&pf2, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
