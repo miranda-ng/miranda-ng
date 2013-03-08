@@ -207,11 +207,10 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			//new status options
 			{
 			int protocolCount = 0;
-			int i;
 			PROTOACCOUNT **protocols;
 			ProtoEnumAccounts(&protocolCount, &protocols);
 			DWORD globalFlags = 0;
-			for (i = 0; i < protocolCount; ++i) {
+			for (int i = 0; i < protocolCount; ++i) {
 				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				globalFlags |= protoFlags;
 				statusOptionsCount += CountStatusModes(protoFlags);
@@ -221,35 +220,32 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			statusOptions = new OPTTREE_OPTION[statusOptionsCount];
 
 			int pos = 0;
-			pos = AddStatusModes(statusOptions, pos, _T("Global Status"), globalFlags);
-			for (i = 0; i < protocolCount; ++i) {
+			pos = AddStatusModes(statusOptions, pos, LPGENT("Global Status"), globalFlags);
+			for (int i = 0; i < protocolCount; ++i) {
 				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				if (!CountStatusModes(protoFlags))
 					continue;
 				TCHAR prefix[128];
-				wsprintf(prefix, _T("Protocol Status/%hs"), protocols[i]->szModuleName);
+				mir_sntprintf(prefix,SIZEOF(prefix), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
 				pos = AddStatusModes(statusOptions, pos, prefix, protoFlags);
 			}
 
 			int index;
 			OptTree_ProcessMessage(hwnd, msg, wParam, lParam, &index, IDC_STATUSES, statusOptions, statusOptionsCount);
 
-			char prefix[128];
-			LPTSTR pszSettingName = NULL;
-			for (i = 0; i < protocolCount; ++i) {
+			for (int i = 0; i < protocolCount; ++i) {
 				DWORD protoFlags = CallProtoService(protocols[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 				if (!CountStatusModes(protoFlags))
 					continue;
 
+				char prefix[128];
 				mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
-				pszSettingName = mir_a2t(prefix);
-				OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount,
-					DBGetContactSettingDword(NULL, MODULNAME, prefix, 0),
-					pszSettingName);
-				mir_free(pszSettingName); pszSettingName = NULL;
+
+				TCHAR pszSettingName[256];
+				mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);
+				OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, prefix, 0), pszSettingName);
 			}
-			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount,
-				DBGetContactSettingDword(NULL, MODULNAME, "Global Status", 0), _T("Global Status"));
+			OptTree_SetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, db_get_dw(NULL, MODULNAME, "Global Status", 0), LPGENT("Global Status"));
 			}
 			//Debug
 			{
@@ -548,17 +544,13 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 								ProtoEnumAccounts(&protocolCount, &protocols);
 
 								char prefix[128];
-								LPTSTR pszSettingName = NULL;
 								for (int i=0; i < protocolCount; ++i)
 								{
-									mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
-									pszSettingName = mir_a2t(prefix);
-									DBWriteContactSettingDword(NULL, MODULNAME, prefix,
-										OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
-									mir_free(pszSettingName); pszSettingName = NULL;
+									TCHAR pszSettingName[256];
+									mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), _T("Protocol Status/%s"), protocols[i]->tszAccountName);
+									db_set_dw(NULL, MODULNAME, prefix, OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, pszSettingName));
 								}
-								DBWriteContactSettingDword(NULL, MODULNAME, "Global Status",
-									OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, _T("Global Status")));
+								db_set_dw(NULL, MODULNAME, "Global Status", OptTree_GetOptions(hwnd, IDC_STATUSES, statusOptions, statusOptionsCount, _T("Global Status")));
 							}
 							//Debug
 							#if defined(_DEBUG)
