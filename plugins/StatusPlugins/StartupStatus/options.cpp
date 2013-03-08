@@ -755,7 +755,6 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOMMSG)) {
 					len = SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 					ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
-					memset(ps->szMsg, '\0', len+1);
 					SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 				}
 				SendMessage(hwndDlg, UM_SETSTATUSMSG, 0, 0);
@@ -775,8 +774,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 				}
 				int len = SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXTLENGTH, 0, 0);
 				ps->szMsg = (TCHAR*)calloc(sizeof(TCHAR), len+1);
-				memset(ps->szMsg, '\0', len+1);
-				SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
+				SendDlgItemMessage(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (WPARAM)len+1, (LPARAM)ps->szMsg);
 			}
 			break;
 
