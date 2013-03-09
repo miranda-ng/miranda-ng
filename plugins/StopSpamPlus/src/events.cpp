@@ -1,6 +1,5 @@
 #include "headers.h"
 
-
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 {
 	HANDLE hDbEvent = (HANDLE)lParam;

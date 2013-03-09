@@ -1,7 +1,3 @@
-#pragma once
-
-#include "headers.h"
-
 class db_usage
 {
 public:

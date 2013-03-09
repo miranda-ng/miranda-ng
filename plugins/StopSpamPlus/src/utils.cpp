@@ -1,6 +1,5 @@
 #include "headers.h"
 
-
 tstring &GetDlgItemString(HWND hwnd, int id)
 {
 	HWND h = GetDlgItem(hwnd, id);
