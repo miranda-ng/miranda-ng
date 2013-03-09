@@ -24,7 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "UAboutForm.h"
+#include "global.h"
 
 //---------------------------------------------------------------------------
 TfrmAbout::CHandleMapping TfrmAbout::_HandleMapping;
@@ -85,7 +85,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	LPTSTR pszTitle = NULL;
 	// Headerbar
 	LPTSTR pszPlug = mir_a2t(__PLUGIN_NAME);
-	LPTSTR pszVer  = mir_a2t(__VERSION_STRING_DOT);
+	LPTSTR pszVer  = mir_a2t(__VERSION_STRING);
 	GetDlgItemText( m_hWnd, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
 	mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, pszPlug, pszVer );
 	mir_freeAndNil(pszPlug);

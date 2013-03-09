@@ -26,15 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #ifndef UMainFormH
 #define UMainFormH
-//---------------------------------------------------------------------------
-#include "global.h"
-#include "Utils.h"
-#include "CSend.h"
-#include "CSendFile.h"
-#include "CSendImageShack.h"
-#include "CSendHTTPServer.h"
-#include "CSendFTPFile.h"
-#include "CSendEmail.h"
 
 #define SS_JUSTSAVE		0
 #define SS_FILESEND		1

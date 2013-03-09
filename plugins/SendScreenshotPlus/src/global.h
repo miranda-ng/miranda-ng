@@ -1,5 +1,4 @@
 /*
-
 Miranda IM: the free IM client for Microsoft* Windows*
 Copyright 2000-2009 Miranda ICQ/IM project, 
 
@@ -31,72 +30,60 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _WIN32_WINNT	0x0700
 #define _WIN32_IE		0x0601
 
+#define _CRT_SECURE_NO_WARNINGS
 #define OEMRESOURCE
-#define MIRANDA_VER		0x0A00
 
-// Windows includes
 #include <windows.h>
 #include <Windowsx.h>
-
-// Standard includes
-#include <shlobj.h>
-//#include <uxtheme.h>
 #include <commctrl.h>
-#include <stdio.h>
-#include <share.h>
 #include <time.h>
-#include <process.h>
+#include <Shlwapi.h>
+#include <gdiplus.h>
+#include <mapi.h>
 #include <map>
 #include <string>
-#include <Shlwapi.h>
-#include <Wingdi.h>
-#include <gdiplus.h>
 using namespace std;
 
-// Miranda NG SDK includes
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
-#include <newpluginapi.h>	// This must be included first
-#include <m_utils.h>
+#include <newpluginapi.h>
 #include <m_button.h>
 #include <m_chat.h>
 #include <m_clist.h>
 #include <m_contacts.h>
 #include <m_database.h>
-#include <m_file.h>
 #include <m_imgsrvc.h>
 #include <m_langpack.h>
-#include <m_message.h>
 #include <m_netlib.h>
-#include <m_options.h>
-#include <m_png.h>
 #include <m_protosvc.h>
-#include <m_protoint.h>
 #include <m_skin.h>
-#include <m_system.h>
 #include <m_popup.h>
+#include <m_icolib.h>
 
-// plugins SDK
 #include <m_folders.h>
 #include <m_HTTPServer.h>
 #include <m_ftpfile.h>
 #include <m_popup2.h>
-#include "icons.h"		//from uiex icon pack
+#include <m_sendss.h>
 
-// Project resources
-#include "m_sendss.h"
 #include "mir_string.h"
 #include "mir_icolib.h"
 #include "ctrl_button.h"
 #include "dlg_msgbox.h"
 #include "resource.h"
 #include "version.h"
-
-#ifdef ComboBox_SelectItemData
- // use Workaround for MS bug ComboBox_SelectItemData;
- #undef ComboBox_SelectItemData
-#endif
+#include "main.h"
+#include "CSend.h"
+#include "CSendEmail.h"
+#include "CSendFile.h"
+#include "CSendFTPFile.h"
+#include "CSendHTTPServer.h"
+#include "CSendImageShack.h"
+#include "DevKey.h"
+#include "UMainForm.h"
+#include "UAboutForm.h"
+#include "Utils.h"
 
 #define UM_CLOSING	WM_USER+1
 #define UM_EVENT	WM_USER+2

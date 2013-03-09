@@ -24,9 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "UMainForm.h"
-#include "UAboutForm.h"
-//#include "UEditForm.h"
+#include "global.h"
 
 //---------------------------------------------------------------------------
 INT_PTR CALLBACK TfrmMain::DlgProc_CaptureWindow(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -354,7 +352,7 @@ LRESULT TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
 		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBF_TCHAR);
-		HICON hIcon = IcoLib_GetIcon(ICO_BTN_OK);
+		HICON hIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));
 		SendMessage(hCtrl, BUTTONSETDEFAULT, (WPARAM)1, NULL);

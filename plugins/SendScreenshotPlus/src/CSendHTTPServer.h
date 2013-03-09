@@ -28,10 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _CSEND_HTTP_SERVER_H
 
 //---------------------------------------------------------------------------
-#include "global.h"
-#include "CSend.h"
-
-//---------------------------------------------------------------------------
 class CSendHTTPServer : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor

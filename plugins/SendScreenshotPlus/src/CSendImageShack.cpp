@@ -25,12 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //---------------------------------------------------------------------------
-#include <fcntl.h>
-#include <io.h>
-#include <sys/stat.h>
-
-#include "CSendImageShack.h"
-#include "DevKey.h"
+#include "global.h"
 
 //---------------------------------------------------------------------------
 CSendImageShack::CSendImageShack(HWND Owner, HANDLE hContact, bool bFreeOnExit)

@@ -28,11 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _CSEND_EMAIL_H
 
 //---------------------------------------------------------------------------
-#include "global.h"
-#include "CSend.h"
-#include <mapi.h>
-
-//---------------------------------------------------------------------------
 class CSendEmail : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor

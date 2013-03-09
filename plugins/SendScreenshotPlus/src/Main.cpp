@@ -24,8 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-//---------------------------------------------------------------------------
-#include "main.h"
+#include "global.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 //LIST_INTERFACE	li;
@@ -38,16 +37,16 @@ int hLangpack;
 //Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	__PLUGIN_NAME,		// altered here and on file listing, so as not to match original
+	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESC,
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE,		//doesn't replace anything built-in
-	// {ED39AF7C-BECD-404e-9499-4D04F711B9CB}
-	{ 0xed39af7c, 0xbecd, 0x404e, { 0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb } }
+	UNICODE_AWARE,
+	// {ED39AF7C-BECD-404E-9499-4D04F711B9CB}
+	{0xed39af7c, 0xbecd, 0x404e, {0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb}}
 };
 
 //static char szSendSS[]=SZ_SENDSS;
@@ -69,11 +68,9 @@ HANDLE hhook_SystemPShutdown=0;
 /*---------------------------------------------------------------------------
 * DLL entry point - Required to store the instance handle
 */
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
 	hInst = hinstDLL;
-	// Freeing some unneeded resources
-	DisableThreadLibraryCalls(GetModuleHandle(_T("sendss.dll")));
-
 	return TRUE;
 }
 
@@ -82,8 +79,8 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 * It only returns the PLUGININFO structure, without any test on the version
 * @param mirandaVersion The version of the application calling this function
 */
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
-	myGlobals.mirandaVersion = mirandaVersion;
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
 	return &pluginInfo;
 }
 
@@ -92,7 +89,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 * Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
-extern "C" int __declspec(dllexport) Load(void) {
+extern "C" int __declspec(dllexport) Load(void)
+{
 	mir_getLP(&pluginInfo);
 	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
@@ -115,7 +113,8 @@ extern "C" int __declspec(dllexport) Load(void) {
 	return 0;
 }
 
-int hook_ModulesLoaded(WPARAM, LPARAM) {
+int hook_ModulesLoaded(WPARAM, LPARAM)
+{
 
 	myGlobals.PopUpExist		= ServiceExists(MS_POPUP_ADDPOPUP);
 	myGlobals.PopUpActionsExist	= ServiceExists(MS_POPUP_REGISTERACTIONS);
@@ -144,7 +143,8 @@ int hook_ModulesLoaded(WPARAM, LPARAM) {
 * Prepare the plugin to stop
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
-extern "C" int __declspec(dllexport) Unload(void) {
+extern "C" int __declspec(dllexport) Unload(void)
+{
 	UnhookEvent(hhook_SystemPShutdown);
 
 	DestroyServiceFunction(MS_SENDSS_OPENDIALOG);
@@ -171,7 +171,7 @@ int hook_SystemPShutdown(WPARAM wParam, LPARAM lParam) {
 HANDLE NetlibInit(void) {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.szSettingsModule = PLUGNAME;
+	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
 	return hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);

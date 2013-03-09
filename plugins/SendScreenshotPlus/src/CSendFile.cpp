@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //---------------------------------------------------------------------------
-#include "CSendFile.h"
+#include "global.h"
 
 //---------------------------------------------------------------------------
 CSendFile::CSendFile(HWND Owner, HANDLE hContact, bool bFreeOnExit)

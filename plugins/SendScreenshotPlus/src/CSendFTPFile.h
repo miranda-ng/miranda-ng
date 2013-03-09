@@ -28,10 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _CSEND_FTP_FILE_H
 
 //---------------------------------------------------------------------------
-#include "global.h"
-#include "CSend.h"
-
-//---------------------------------------------------------------------------
 class CSendFTPFile : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor

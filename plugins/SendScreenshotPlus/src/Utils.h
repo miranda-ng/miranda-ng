@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef UTILSH
 #define UTILSH
 
-#include "global.h"
-//#include <uxtheme.h>
-//#include <tmschema.h>
 #define SPP_USERPANE 1
 
 extern FI_INTERFACE *FIP;
@@ -45,8 +42,6 @@ extern HWND g_hCapture;
 extern HBITMAP g_hBitmap, g_hbmMask;
 
 //---------------------------------------------------------------------------
-int				ComboBox_SelectItemData(HWND hwndCtl, int indexStart, LPARAM data);
-
 size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 

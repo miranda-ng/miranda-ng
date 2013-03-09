@@ -24,23 +24,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "Utils.h"
-
-//---------------------------------------------------------------------------
-extern HINSTANCE hInst;
-
-//---------------------------------------------------------------------------
-//Workaround for MS bug ComboBox_SelectItemData
-int ComboBox_SelectItemData(HWND hwndCtl, int indexStart, LPARAM data) {
-	int i = 0;
-	for ( i ; i < ComboBox_GetCount(hwndCtl); i++) {
-		if(data == ComboBox_GetItemData(hwndCtl, i)) {
-			ComboBox_SetCurSel (hwndCtl,i);
-			return i;
-		}
-	}
-	return CB_ERR;
-}
+#include "global.h"
 
 //---------------------------------------------------------------------------
 // MonitorInfoEnum

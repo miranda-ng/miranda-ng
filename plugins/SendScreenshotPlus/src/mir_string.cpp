@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "global.h"
-#include "mir_string.h"
 
 char	*mir_strncpy(char *pszDest, const char *pszSrc, const size_t cchDest)
 {

@@ -21,7 +21,7 @@ aLONG with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 */
 
-#include "dlg_msgbox.h"
+#include "global.h"
 
 typedef struct _MSGPOPUPDATA
 {
@@ -116,7 +116,7 @@ void MakePopupAction(POPUPACTION &pa, INT id)
 	{
 	case IDOK:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Ok");
 		}
 		break;
@@ -124,63 +124,63 @@ void MakePopupAction(POPUPACTION &pa, INT id)
 	case IDCLOSE:
 	case IDCANCEL:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Cancel");
 		}
 		break;
 
 	case IDABORT:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Abort");
 		}
 		break;
 
 	case IDRETRY:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_UPDATE);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Retry");
 		}
 		break;
 
 	case IDIGNORE:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Ignore");
 		}
 		break;
 
 	case IDYES:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Yes");
 		}
 		break;
 
 	case IDNO:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 			mir_strcpy(pa.lpzTitle, MODNAME"/No");
 		}
 		break;
 	
 	case IDHELP:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 			mir_strcpy(pa.lpzTitle, MODNAME"/Help");
 		}
 		break;
 
 	case IDALL:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_OK);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_OK);
 			mir_strcpy(pa.lpzTitle, MODNAME"/All");
 		}
 		break;
 
 	case IDNONE:
 		{
-			pa.lchIcon = IcoLib_GetIcon(ICO_BTN_CANCEL);
+			pa.lchIcon = IcoLib_GetIcon(ICO_PLUG_CANCEL);
 			mir_strcpy(pa.lpzTitle, MODNAME"/None");
 		}
 	}

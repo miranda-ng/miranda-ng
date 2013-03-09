@@ -160,6 +160,12 @@ IDI_PLUG_DESKOFF        ICON                    "ssDeskOff.ico"
 IDI_PLUG_DESKON         ICON                    "ssDeskOn.ico"
 IDI_PLUG_DELOFF         ICON                    "ssDelOff.ico"
 IDI_PLUG_DELON          ICON                    "ssDelOn.ico"
+IDI_PLUG_UPDATE         ICON                    "ssUpdate.ico"
+IDI_PLUG_OK             ICON                    "ssOk.ico"
+IDI_PLUG_CLOSE          ICON                    "ssClose.ico"
+IDI_PLUG_APPLY          ICON                    "ssApply.ico"
+IDI_PLUG_EDIT           ICON                    "ssEdit.ico"
+IDI_PLUG_DOWNARROW      ICON                    "ssDownarrow.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -25,9 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA	02111-1307, USA.
 #define _DLG_MSGBOX 1
 
 //---------------------------------------------------------------------------
-#include "global.h"
-
-//---------------------------------------------------------------------------
 #define SET_POPUPMSGBOX			"PopupMsgBox"
 #define DEFVAL_POPUPMSGBOX		TRUE		//FALSE
 

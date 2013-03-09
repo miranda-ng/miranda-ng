@@ -28,11 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _CSEND_IMAGESHACK_H
 
 //---------------------------------------------------------------------------
-#include "global.h"
-#include "Utils.h"
-#include "CSend.h"
-
-//---------------------------------------------------------------------------
 class CSendImageShack : public CSend {
 	public:
 		// Deklaration Standardkonstruktor/Standarddestructor

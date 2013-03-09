@@ -39,6 +39,12 @@
 #define IDI_PLUG_DESKON                 202
 #define IDI_PLUG_DELOFF                 203
 #define IDI_PLUG_DELON                  204
+#define IDI_PLUG_UPDATE                 205
+#define IDI_PLUG_OK                     206
+#define IDI_PLUG_CLOSE                  207
+#define IDI_PLUG_APPLY                  208
+#define IDI_PLUG_EDIT                   209
+#define IDI_PLUG_DOWNARROW              210
 #define IDD_UEditForm                   301
 #define IDC_CAPTURETAB                  1005
 #define IDD_MSGBOX                      1008
