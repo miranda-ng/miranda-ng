@@ -183,7 +183,6 @@
     <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\folderItem.cpp" />
     <ClCompile Include="src\folders.cpp" />
-    <ClCompile Include="src\foldersList.cpp" />
     <ClCompile Include="src\hooked_events.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\stdafx.cpp">
@@ -194,11 +193,8 @@
   <ItemGroup>
     <ClInclude Include="..\ExternalAPI\m_folders.h" />
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\dlg_handlers.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\folderItem.h" />
-    <ClInclude Include="src\foldersList.h" />
-    <ClInclude Include="src\hooked_events.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\services.h" />
     <ClInclude Include="src\utils.h" />
