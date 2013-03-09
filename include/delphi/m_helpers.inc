@@ -25,6 +25,9 @@ function WindowList_Broadcast(hList: THandle; message: int; wParam: WPARAM; lPar
 function Utils_SaveWindowPosition(hWnd: THandle; hContact: THandle; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 function Utils_RestoreWindowPosition(hWnd: THandle; hContact: THandle; Flags: int; const szModule, szNamePrefix: PAnsiChar): int_ptr;
 
+procedure Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar=nil);
+procedure Icon_RegisterT(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar=nil);
+
 function mir_hashstr(const key:pAnsiChar):uint; {inline;}
 function mir_hashstrW(const key:pWideChar):uint; {inline;}
 function lrtrim(str:pAnsiChar):pAnsiChar; {inline}
@@ -474,6 +477,16 @@ end;
 procedure FontRegisterW(pFontID:pFontIDW);
 begin
 	CallService(MS_FONT_REGISTERW, WPARAM(pFontID), hLangpack);
+end;
+
+procedure Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem; iCount:size_t; prefix:PAnsiChar);
+begin
+	mir_Icon_Register(hInst, szSection, pIcons, iCount, prefix, hLangpack);
+end;
+
+procedure Icon_RegisterT(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW; iCount:size_t; prefix:PAnsiChar);
+begin
+	mir_Icon_RegisterT(hInst, szSection, pIcons, iCount, prefix, hLangpack);
 end;
 
 procedure ColourRegister(pColorID:pColourID);

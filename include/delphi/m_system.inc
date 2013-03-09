@@ -33,13 +33,6 @@ const
   MIRANDACLASS = 'Miranda';
 {$ENDIF}
 
-// set the default compatibility lever for Miranda 0.4.x
-{$IFNDEF MIRANDA_VER}
-{$DEFINE MIRANDA_VER}
-const
-  MIRANDA_VER = $0400;
-{$ENDIF}
-
   { miranda/system/modulesloaded
     called after all modules have been successfully initialised
     wParam=lParam=0

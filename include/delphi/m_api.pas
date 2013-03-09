@@ -42,13 +42,12 @@ interface
 {$ENDIF}
 
 uses
-  Windows;//, FreeImage;
+  Windows,Messages;//, FreeImage;
 
 // often used
 const
   strCList:PAnsiChar = 'CList';
 const
-  WM_USER  = $0400; // from Messages
   NM_FIRST = 0;     // from CommCtrl
 
 // RichEdit definitions
@@ -253,8 +252,8 @@ var
 
 implementation
 
-const
-  hLangpack:THANDLE = 0;
+var
+  hLangpack : integer = 0;
 
 {$undef M_API_UNIT}
   {$include m_helpers.inc}

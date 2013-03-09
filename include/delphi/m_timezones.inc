@@ -48,18 +48,19 @@ type
 
     printDateTime:function(hTZ:THANDLE; szFormat:TChar; szDest:TChar;
           cbDest:int; dwFlags:dword):int; cdecl;
-	  printTimeStamp:function(hTZ:THANDLE; ts:mir_time; szFormat:TChar; szDest:TChar;
-	        cbDest:int; dwFlags:dword):int; cdecl;
+    printTimeStamp:function(hTZ:THANDLE; ts:mir_time; szFormat:TChar; szDest:TChar;
+          cbDest:int; dwFlags:dword):int; cdecl;
 
-	  prepareList     :function (hContact:THANDLE; hWnd:HWND; dwFlags:dword):int; cdecl;
-	  selectListItem  :function (hContact:THANDLE; hWnd:HWND; dwFlags:dword):int; cdecl;
-	  storeListResults:procedure(hContact:THANDLE; hWnd:HWND; dwFlags:dword); cdecl;
+    prepareList     :function (hContact:THANDLE; hWnd:HWND; dwFlags:dword):int; cdecl;
+    selectListItem  :function (hContact:THANDLE; hWnd:HWND; dwFlags:dword):int; cdecl;
+    storeListResults:procedure(hContact:THANDLE; hWnd:HWND; dwFlags:dword); cdecl;
 
-	  getTimeZoneTime:function(hTZ:THANDLE; var st:SYSTEMTIME):int; cdecl;
-	  timeStampToTimeZoneTimeStamp:function(hTZ:THANDLE; ts:mir_time):time_t; cdecl;
+    getTimeZoneTime:function(hTZ:THANDLE; var st:SYSTEMTIME):int; cdecl;
+    timeStampToTimeZoneTimeStamp:function(hTZ:THANDLE; ts:mir_time):time_t; cdecl;
 
     getTzi:function(hTZ:THANDLE):PTimeZoneInformation; cdecl;
-	  getTzName:function(hTZ:THANDLE):TChar;
+    getTzName:function(hTZ:THANDLE):TChar; cdecl;
+    getTzDescription:function(TZName:TChar):TChar; cdecl;
   end;
 
 // every protocol should declare this variable to use the Time API

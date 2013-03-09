@@ -251,6 +251,37 @@ function SetExceptionFilter(pMirandaExceptFilter:pfnExceptionFilter):pfnExceptio
 
 
 ///////////////////////////////////////////////////////////////////////////////
+// icons support
+
+type
+  pIconItem = ^tIconItem;
+  tIconItem = record
+    szDescr:pAnsiChar;
+    szName :pAnsiChar;
+    defIconID,
+    size   :int;
+    hIcolib:THANDLE;
+  end;
+  tagIconItem = tIconItem;
+
+  pIconItemW = ^tIconItemW;
+  tIconItemW = record
+    szDescr:pWideChar;
+    szName :pAnsiChar;
+    defIconID,
+    size   :int;
+    hIcolib:THANDLE;
+  end;
+  tagIconItemW = tIconItemW;
+
+procedure mir_Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem;
+    iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
+                        external CoreDLL name 'Icon_Register';
+procedure mir_Icon_RegisterT(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW;
+    iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
+                        external CoreDLL name 'Icon_RegisterT';
+
+///////////////////////////////////////////////////////////////////////////////
 // language packs support
 
 const
