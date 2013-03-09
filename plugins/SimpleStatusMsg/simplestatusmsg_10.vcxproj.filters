@@ -30,6 +30,9 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
@@ -41,9 +44,15 @@
     <ClInclude Include="src\simplestatusmsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

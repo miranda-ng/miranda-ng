@@ -17,12 +17,8 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-#include "commonheaders.h"
-#include "simplestatusmsg.h"
 
-extern UINT_PTR g_uUpdateMsgTimer;
-extern VOID CALLBACK UpdateMsgTimerProc(HWND, UINT, UINT_PTR, DWORD);
-extern VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control);
+#include "commonheaders.h"
 
 static void RebuildStatusMenu(void)
 {

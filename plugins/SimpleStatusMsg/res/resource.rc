@@ -21,57 +21,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1250)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,9,0,4
- PRODUCTVERSION 1,9,0,4
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "CompanyName", "Bartosz 'Dezeath' Bia³ek, Harven"
-            VALUE "FileDescription", "Simple Status Message plugin for Miranda NG"
-            VALUE "FileVersion", "1.9.0.4"
-            VALUE "InternalName", "simplestatusmsg"
-            VALUE "LegalCopyright", "Copyright © 2006-2011 Bartosz Bia³ek, © 2005 Harven"
-            VALUE "OriginalFilename", "simplestatusmsg.dll"
-            VALUE "ProductName", "Simple Status Message"
-            VALUE "ProductVersion", "1.9.0.4"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Polish resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PLK)
-#ifdef _WIN32
-LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
-#pragma code_page(1250)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -137,132 +86,6 @@ FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     DEFPUSHBUTTON   "&Cancel",IDCANCEL,55,6,50,14,BS_CENTER | BS_VCENTER
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
-    IDD_READAWAYMSG, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 182
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 67
-    END
-
-    IDD_AWAYMSGBOX, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 201
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 83
-    END
-
-    IDD_COPY, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 152
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 18
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_CROSS               ICON                    "cross.ico"
-IDI_HISTORY             ICON                    "history.ico"
-IDI_MESSAGE             ICON                    "msg.ico"
-IDI_PLUS                ICON                    "plus.ico"
-IDI_CHIST               ICON                    "cbook.ico"
-IDI_COPY                ICON                    "copy.ico"
-IDI_CSMSG               ICON                    "csmsg.ico"
-IDI_GOTOURL             ICON                    "gotourl.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-IDR_EDITMENU MENU 
-BEGIN
-    POPUP ""
-    BEGIN
-        MENUITEM "%time%",                      IDM_VTIME
-        MENUITEM "%date%",                      IDM_VDATE
-        MENUITEM "%winampsong%",                IDM_VWINAMPSONG
-        MENUITEM "%rand(x,y)%",                 IDM_VRANDXY
-        MENUITEM "%randmsg%",                   IDM_VRANDMSG
-        MENUITEM "%randdefmsg%",                IDM_VRANDDEFMSG
-        MENUITEM SEPARATOR
-        POPUP "Fortune"
-        BEGIN
-            MENUITEM "%fortunemsg%",                ID__FORTUNE
-            MENUITEM "%protofortunemsg%",           ID__FORTUNEAWAYMSG_PROTOFORTUNEMSG
-            MENUITEM "%statusfortunemsg%",          ID__FORTUNEAWAYMSG_STATUSFORTUNEMSG
-        END
-        POPUP "Variables"
-        BEGIN
-            MENUITEM "?cinfo(contact,property)",    ID__VARIABLES_CINFOCONTACTPROPERTY
-            MENUITEM "?contact(string,property)",   ID__VARIABLES_CONTACTSTRINGPROPERTY
-            MENUITEM "?mstatus(protocol)",          ID__VARIABLES_MSTATUSPROTOCOL
-            MENUITEM "?lsdate(contact,format)",     ID__VARIABLES_LSDATECONTACTFORMAT
-            MENUITEM "?lsstatus(contact)",          ID__VARIABLES_LSSTATUSCONTACT
-            MENUITEM "?lstime(contact,format)",     ID__VARIABLES_LSTIMECONTACTFORMAT
-            MENUITEM "?dbsetting(contact,module,setting)", ID__VARIABLES_DBSETTINGCONTACTMODULESETTING
-            MENUITEM "?txtfile(file,line)",         ID__VARIABLES_TXTFILEFILELINE
-            MENUITEM "?if(condition,true,false)",   ID__VARIABLES_IFCONDITIONTRUEFALSE
-            MENUITEM "?strcmp(string1,string2)",    ID__VARIABLES_STRCMPSTRING1STRING2
-            MENUITEM "?stricmp(string1,string2)",   ID__VARIABLES_STRICMPSTRING1STRING2
-            MENUITEM "?cdate(format)",              ID__VARIABLES_CDATEFORMAT
-            MENUITEM "?ctime(format)",              ID__VARIABLES_CTIMEFORMAT
-            MENUITEM "?replace(sub,string1,string2)", ID__VARIABLES_REPLACESUBSTRING1STRING2
-            MENUITEM "?lower(string)",              ID__VARIABLES_LOWERSTRING
-            MENUITEM "?upper(string)",              ID__VARIABLES_UPPERSTRING
-            MENUITEM "?scroll(string,numchars,numchars)", ID__VARIABLES_SCROLLSTRINGNUMCHARSNUMCHARS
-            MENUITEM SEPARATOR
-            MENUITEM "More variables...",           ID__VARIABLES_MOREVARIABLES
-        END
-        MENUITEM "Fortune",                     ID__FORTUNEAWAYMSG
-        MENUITEM "Variables",                   ID__VARIABLES
-        MENUITEM SEPARATOR
-        MENUITEM "Cut",                         IDM_CUT
-        MENUITEM "Copy",                        IDM_COPY
-        MENUITEM "Paste",                       IDM_PASTE
-        MENUITEM "Delete",                      IDM_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "Select All",                  IDM_SELECTALL
-    END
-END
-
-#endif    // Polish resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_OPT_GENERAL DIALOGEX 0, 0, 307, 216
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
@@ -386,6 +209,30 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO 
 BEGIN
+    IDD_READAWAYMSG, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 182
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_AWAYMSGBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 201
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+
+    IDD_COPY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 152
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 18
+    END
+
     IDD_OPT_GENERAL, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -420,7 +267,81 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CROSS               ICON                    "cross.ico"
+IDI_HISTORY             ICON                    "history.ico"
+IDI_MESSAGE             ICON                    "msg.ico"
+IDI_PLUS                ICON                    "plus.ico"
+IDI_CHIST               ICON                    "cbook.ico"
+IDI_COPY                ICON                    "copy.ico"
+IDI_CSMSG               ICON                    "csmsg.ico"
+IDI_GOTOURL             ICON                    "gotourl.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_EDITMENU MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+        MENUITEM "%time%",                      IDM_VTIME
+        MENUITEM "%date%",                      IDM_VDATE
+        MENUITEM "%winampsong%",                IDM_VWINAMPSONG
+        MENUITEM "%rand(x,y)%",                 IDM_VRANDXY
+        MENUITEM "%randmsg%",                   IDM_VRANDMSG
+        MENUITEM "%randdefmsg%",                IDM_VRANDDEFMSG
+        MENUITEM SEPARATOR
+        POPUP "Fortune"
+        BEGIN
+            MENUITEM "%fortunemsg%",                ID__FORTUNE
+            MENUITEM "%protofortunemsg%",           ID__FORTUNEAWAYMSG_PROTOFORTUNEMSG
+            MENUITEM "%statusfortunemsg%",          ID__FORTUNEAWAYMSG_STATUSFORTUNEMSG
+        END
+        POPUP "Variables"
+        BEGIN
+            MENUITEM "?cinfo(contact,property)",    ID__VARIABLES_CINFOCONTACTPROPERTY
+            MENUITEM "?contact(string,property)",   ID__VARIABLES_CONTACTSTRINGPROPERTY
+            MENUITEM "?mstatus(protocol)",          ID__VARIABLES_MSTATUSPROTOCOL
+            MENUITEM "?lsdate(contact,format)",     ID__VARIABLES_LSDATECONTACTFORMAT
+            MENUITEM "?lsstatus(contact)",          ID__VARIABLES_LSSTATUSCONTACT
+            MENUITEM "?lstime(contact,format)",     ID__VARIABLES_LSTIMECONTACTFORMAT
+            MENUITEM "?dbsetting(contact,module,setting)", ID__VARIABLES_DBSETTINGCONTACTMODULESETTING
+            MENUITEM "?txtfile(file,line)",         ID__VARIABLES_TXTFILEFILELINE
+            MENUITEM "?if(condition,true,false)",   ID__VARIABLES_IFCONDITIONTRUEFALSE
+            MENUITEM "?strcmp(string1,string2)",    ID__VARIABLES_STRCMPSTRING1STRING2
+            MENUITEM "?stricmp(string1,string2)",   ID__VARIABLES_STRICMPSTRING1STRING2
+            MENUITEM "?cdate(format)",              ID__VARIABLES_CDATEFORMAT
+            MENUITEM "?ctime(format)",              ID__VARIABLES_CTIMEFORMAT
+            MENUITEM "?replace(sub,string1,string2)", ID__VARIABLES_REPLACESUBSTRING1STRING2
+            MENUITEM "?lower(string)",              ID__VARIABLES_LOWERSTRING
+            MENUITEM "?upper(string)",              ID__VARIABLES_UPPERSTRING
+            MENUITEM "?scroll(string,numchars,numchars)", ID__VARIABLES_SCROLLSTRINGNUMCHARSNUMCHARS
+            MENUITEM SEPARATOR
+            MENUITEM "More variables...",           ID__VARIABLES_MOREVARIABLES
+        END
+        MENUITEM "Fortune",                     ID__FORTUNEAWAYMSG
+        MENUITEM "Variables",                   ID__VARIABLES
+        MENUITEM SEPARATOR
+        MENUITEM "Cut",                         IDM_CUT
+        MENUITEM "Copy",                        IDM_COPY
+        MENUITEM "Paste",                       IDM_PASTE
+        MENUITEM "Delete",                      IDM_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "Select All",                  IDM_SELECTALL
+    END
+END
+
+
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

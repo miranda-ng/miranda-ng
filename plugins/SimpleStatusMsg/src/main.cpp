@@ -17,9 +17,8 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
+
 #include "commonheaders.h"
-#include "simplestatusmsg.h"
-#include <io.h>
 
 HINSTANCE g_hInst;
 
@@ -35,16 +34,16 @@ static HANDLE *hProtoStatusMenuItem;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Simple Status Message",
-	 PLUGIN_MAKE_VERSION(1, 9, 0, 4),
-	"Provides a simple way to set status and away messages.",
-	"Bartosz 'Dezeath' Bia³ek, Harven",
-	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",
-	"© 2006-2011 Bartosz Bia³ek, © 2005 Harven",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {768CE156-34AC-45a3-B53B-0083C47615C4}
-	{ 0x768ce156, 0x34ac, 0x45a3, { 0xb5, 0x3b, 0x0, 0x83, 0xc4, 0x76, 0x15, 0xc4 } }
+	// {768CE156-34AC-45A3-B53B-0083C47615C4}
+	{0x768ce156, 0x34ac, 0x45a3, {0xb5, 0x3b, 0x0, 0x83, 0xc4, 0x76, 0x15, 0xc4}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
