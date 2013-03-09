@@ -1,9 +1,6 @@
 #ifndef __LOADLIB_H__
 #define __LOADLIB_H__
 
-#include <windows.h>
-#include "cryptopp.h"
-
 BOOL loadlib(void);
 
 typedef HANDLE (__cdecl * _cpp_create_context) (int);

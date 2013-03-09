@@ -1,31 +1,9 @@
-// Windows API
-
 #define WIN32_LEAN_AND_MEAN
 #define NETLIB_LOG
 
-#ifdef _MSC_VER
-#pragma once
 #define _CRT_SECURE_NO_WARNINGS
-// _MSC_VER: 1200=6.0 1300=7.0(2003) 1400=8.0(2005) 1500=9.0(2008)
-#if _MSC_VER >= 1300
-// MSVC 7.0 and above
 #define mir_itoa _itoa
 #define mir_unlink _unlink
-#else
-// MSVC 6.0 and below
-#ifndef _DEBUG
-#pragma optimize("gsy", on)
-#endif 
-#endif 
-#endif
-
-#ifndef mir_itoa
-#define mir_itoa itoa
-#endif
-
-#ifndef mir_unlink
-#define mir_unlink unlink
-#endif
 
 #ifndef WINVER
 #define WINVER 0x0501
@@ -42,69 +20,37 @@
 #ifndef M_SIM_COMMONHEADERS_H
 #define M_SIM_COMMONHEADERS_H
 
-#define MIRANDA_VER 0x0A00
-#include <m_stdhdr.h>
-
-// Windows API
 #include <windows.h>
-#include <wingdi.h>
 #include <winsock2.h>
 #include <commdlg.h>
 #include <commctrl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <io.h>
 #include <shlwapi.h>
 #include <process.h>
 #include <time.h>
 
-#define MODULENAME "SecureIM"
+#include <win2k.h>
+#include <m_stdhdr.h>
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_protomod.h>
+#include <m_langpack.h>
+#include <m_options.h>
+#include <m_skin.h>
+#include <m_popup.h>
+#include <m_genmenu.h>
+#include <m_icolib.h>
+#include <m_message.h>
+#include <m_netlib.h>
+#include <m_extraicons.h>
 
-#ifndef ListView_SetCheckState
-#define ListView_SetCheckState(hwndLV, i, fCheck) \
-  ListView_SetItemState(hwndLV, i, INDEXTOSTATEIMAGEMASK((fCheck)?2:1), LVIS_STATEIMAGEMASK)
-#endif
-
-#ifndef SIZEOF
-#define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
-#endif
-
-#ifndef M_API_H__
-#define M_API_H__
-
-// Miranda API
-#include "newpluginapi.h"
-#include "m_stdhdr.h"
-#include "m_system.h"
-#include "m_system_cpp.h"
-#include "m_database.h"
-#include "m_protomod.h"
-#include "m_protosvc.h"
-#include "m_langpack.h"
-#include "m_options.h"
-#include "m_clist.h"
-#include "m_clc.h"
-#include "m_clui.h"
-#include "m_cluiframes.h"
-#include "m_utils.h"
-#include "m_skin.h"
-#include "m_popup.h"
-#include "m_genmenu.h"
-#include "m_icolib.h"
-#include "m_message.h"
-#include "m_netlib.h"
-#include "m_metacontacts.h"
-#include "m_extraicons.h"
-#include "m_folders.h"
+#include <m_metacontacts.h>
+#include <m_folders.h>
  
-#endif
-
-// my libs
 #include "secureim.h"
 #include "version.h"
 #include "resource.h"
+#include "..\SecureIM_icons\src\resource.h"
 #include "language.h"
-#include "loadlib.h"
 #include "mmi.h"
 #include "crypt.h"
 #include "gettime.h"
@@ -114,6 +60,7 @@
 #include "loadicons.h"
 #include "rtfconv.h"
 #include "cryptopp.h"
+#include "loadlib.h"
 #include "images.h"
 #include "dbevent.h"
 #include "splitmsg.h"
@@ -122,6 +69,8 @@
 #include "svcs_menu.h"
 #include "svcs_srmm.h"
 #include "svcs_rsa.h"
+
+#define MODULENAME "SecureIM"
 
 extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;

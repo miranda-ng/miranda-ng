@@ -1,8 +1,6 @@
 #ifndef __SVCS_MENU_H__
 #define __SVCS_MENU_H__
 
-#include <windows.h>
-
 INT_PTR __cdecl Service_IsContactSecured(WPARAM,LPARAM);
 
 INT_PTR __cdecl Service_CreateIM(WPARAM,LPARAM);

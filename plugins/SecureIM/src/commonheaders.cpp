@@ -27,19 +27,19 @@ CRITICAL_SECTION localQueueMutex;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-		MODULENAME,
-		__VERSION_DWORD,
-		MODULENAME" plugin for Miranda NG.",
-		"Johell, Ghost, Nightwish, __alex, Baloo",
-		"Johell@ifrance.com, baloo@bk.ru",
-		"© 2003 Johell, © 2005-09 Baloo",
-		"http://miranda-ng.org/",
-		UNICODE_AWARE,
-		//1B2A39E5-E2F6-494D-958D-1808FD110DD5
-		{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+	{0x1B2A39E5, 0xE2F6, 0x494D, {0x95, 0x8D, 0x18, 0x08, 0xFD, 0x11, 0x0D, 0xD5}}
 };
 
-LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting)
+LPSTR myDBGetString(HANDLE hContact, const char *szModule, const char *szSetting)
 {
 	char *val=NULL;
 	DBVARIANT dbv;

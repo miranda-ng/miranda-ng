@@ -1,13 +1,11 @@
+// Microsoft Visual C++ generated resource script.
+//
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
 #include "..\src\version.h"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
@@ -19,20 +17,18 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", "Iconpack for SecureIM plugin of Miranda NG"
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "SecureIM_icons"
-            VALUE "LegalCopyright", "Copyright é 2006-09 Baloo"
-            VALUE "OriginalFilename", "SecureIM_icons.dll"
-            VALUE "ProductName", "Iconpack for SecureIM plugin"
-            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
@@ -40,5 +36,3 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-
-

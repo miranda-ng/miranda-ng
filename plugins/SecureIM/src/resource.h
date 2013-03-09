@@ -3,25 +3,7 @@
 // Used by resource.rc
 //
 #define ID_FIRSTICON			1
-#define IDI_CL_DIS                      1
-#define IDI_CL_EST                      2
-#define IDI_CM_DIS                      3
-#define IDI_CM_EST                      4
-#define IDI_MW_DIS                      5
-#define IDI_MW_EST                      6
-#define IDI_PU_DIS                      7
-#define IDI_PU_EST                      8
-#define IDI_PU_PRC                      9
-#define IDI_PU_MSG                      10
-#define IDI_ST_DIS                      11
-#define IDI_ST_ENA                      12
-#define IDI_ST_TRY                      13
-#define IDI_OV_NAT                      14
-#define IDI_OV_PGP                      15
-#define IDI_OV_GPG                      16
-#define IDI_OV_RSA                      17
 #define ID_LASTICON			17
-
 #define ID_DISABLED                     111
 #define ID_ENABLED                      112
 #define ID_ALWAYS                       113
@@ -144,7 +126,6 @@
 #define IDC_TMPPATHON_CBOX              1311
 #define IDC_GPGTMPPATH_EDIT             1312
 
-#define IDC_STATIC                      -1
 #define ID_ENCRYPTION                   40001
 
 // Next default values for new objects

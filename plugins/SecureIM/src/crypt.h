@@ -1,10 +1,6 @@
 #ifndef __CRYPT_H__
 #define __CRYPT_H__
 
-#include "secureim.h"
-#include "cryptopp.h"
-#include "gettime.h"
-
 #define KEYSIZE 256
 #define NAMSIZE 512
 #define DEFMSGS 4096

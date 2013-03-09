@@ -1,8 +1,6 @@
 #ifndef __LANGUAGE_H__
 #define __LANGUAGE_H__
 
-#include <windows.h>
-
 //Popup Messages
 extern LPCSTR sim001;
 extern LPCSTR sim002;

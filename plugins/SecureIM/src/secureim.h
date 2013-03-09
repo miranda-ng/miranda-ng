@@ -1,8 +1,6 @@
 #ifndef __SECURE_IM__
 #define __SECURE_IM__
 
-#include "resource.h"
-
 // режимы шифрования SecureIM
 #define MODE_NATIVE	0
 #define MODE_PGP	1

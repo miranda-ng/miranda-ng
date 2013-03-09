@@ -1,8 +1,6 @@
 #ifndef __RTFCONV_H__
 #define __RTFCONV_H__
 
-#include <windows.h>
-
 #ifndef _INTPTR_T_DEFINED
 #define intptr_t int
 #endif

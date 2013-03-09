@@ -1,8 +1,6 @@
 #ifndef __MMI_H__
 #define __MMI_H__
 
-#include "commonheaders.h"
-
 char *m_wwstrcat(LPCSTR,LPCSTR);
 char *m_awstrcat(LPCSTR,LPCSTR);
 char *m_aastrcat(LPCSTR,LPCSTR);
