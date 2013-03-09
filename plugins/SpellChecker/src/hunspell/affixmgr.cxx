@@ -1,18 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
-
-#include <vector>
-
-#include "affixmgr.hxx"
-#include "affentry.hxx"
-#include "langnum.hxx"
-
-#include "csutil.hxx"
+#include "..\commons.h"
 
 AffixMgr::AffixMgr(const char * affpath, HashMgr** ptr, int * md, const char * key) 
 {

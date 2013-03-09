@@ -27,13 +27,7 @@
                 Porting from Aspell to Hunspell using C-like structs
 */
 
-#include <stdlib.h> 
-#include <string.h>
-#include <stdio.h> 
-#include <ctype.h>
-
-#include "csutil.hxx"
-#include "phonet.hxx"
+#include "..\commons.h"
 
 void init_phonet_hash(phonetable & parms) 
   {

@@ -1,14 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h> 
-#include <string.h>
-#include <stdio.h> 
-#include <ctype.h>
-
-#include "hashmgr.hxx"
-#include "csutil.hxx"
-#include "atypes.hxx"
+#include "..\commons.h"
 
 // build a hash table from a munched word list
 

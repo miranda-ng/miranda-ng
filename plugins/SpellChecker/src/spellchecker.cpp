@@ -58,7 +58,7 @@ LIST<Dictionary> languages(1);
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
 	hInst = hinstDLL;
 	return TRUE;

@@ -1,12 +1,6 @@
 #ifndef __RICHEDIT_H__
 #define __RICHEDIT_H__
 
-#include <windows.h>
-#include <richedit.h>
-#include <tom.h>
-#include <richole.h>
-
-
 class RichEdit
 {
 	HWND hwnd;

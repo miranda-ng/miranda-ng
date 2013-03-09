@@ -1,8 +1,4 @@
-#include <stdlib.h> 
-#include <string.h>
-#include <stdio.h> 
-
-#include "hunzip.hxx"
+#include "..\commons.h"
 
 #define CODELEN  65536
 #define BASEBITREC 5000

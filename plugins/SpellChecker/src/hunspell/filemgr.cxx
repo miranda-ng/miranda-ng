@@ -1,11 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#include "filemgr.hxx"
+#include "..\commons.h"
 
 int FileMgr::fail(const char * err, const char * par) {
     fprintf(stderr, err, par);

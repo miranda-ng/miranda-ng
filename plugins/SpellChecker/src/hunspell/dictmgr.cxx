@@ -1,10 +1,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <stdio.h>
-
-#include "dictmgr.hxx"
+#include "..\commons.h"
 
 DictMgr::DictMgr(const char * dictpath, const char * etype) : numdict(0)
 {

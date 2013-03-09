@@ -1,14 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h> 
-#include <string.h>
-#include <stdio.h> 
-#include <ctype.h>
-
-#include "suggestmgr.hxx"
-#include "htypes.hxx"
-#include "csutil.hxx"
+#include "..\commons.h"
 
 const w_char W_VLINE = { '\0', '|' };
 

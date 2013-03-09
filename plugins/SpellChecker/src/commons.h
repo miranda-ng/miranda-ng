@@ -20,57 +20,59 @@ Boston, MA 02111-1307, USA.
 #ifndef __COMMONS_H__
 # define __COMMONS_H__
 
+#define _CRT_SECURE_NO_WARNINGS
 #define OEMRESOURCE
+
 #include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <time.h>
 #include <richedit.h>
 #include <tom.h>
 #include <richole.h>
 #include <commctrl.h>
-
 #include <map>
 #include <vector>
-#include <string>
 using namespace std;
 
-
-// Miranda headers
-#define MIRANDA_VER 0x0A00
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_clist.h>
-#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <m_utils.h>
 #include <m_popup.h>
-#include <m_history.h>
 #include <m_message.h>
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 #include <win2k.h>
 
 //own includes
-#include "m_folders.h"
-#include "m_metacontacts.h"
-#include "m_variables.h"
-#include "m_userinfoex.h"
+#include <m_folders.h>
+#include <m_metacontacts.h>
+#include <m_variables.h>
+#include <m_userinfoex.h>
+#include <m_spellchecker.h>
 
-#include "../utils/mir_memory.h"
-#include "../utils/mir_options.h"
-#include "../utils/tstring.h"
-#include "../utils/utf8_helpers.h"
-#include "../utils/scope.h"
+#include <../utils/mir_options.h>
+#include <../utils/tstring.h>
+#include <../utils/utf8_helpers.h>
+#include <../utils/scope.h>
+
+#include "hunspell/affentry.hxx"
+#include "hunspell/config.h"
+#include "hunspell/hunspell.hxx"
+#include "hunspell/csutil.hxx"
+#include "hunspell/affixmgr.hxx"
+#include "hunspell/langnum.hxx"
+#include "hunspell/atypes.hxx"
+#include "hunspell/dictmgr.hxx"
+#include "hunspell/filemgr.hxx"
+#include "hunspell/hashmgr.hxx"
+#include "hunspell/hunspell.h"
+#include "hunspell/hunzip.hxx"
+#include "hunspell/phonet.hxx"
+#include "hunspell/replist.hxx"
+#include "hunspell/suggestmgr.hxx"
 
 #include "resource.h"
 #include "Version.h"
-#include "m_spellchecker.h"
 #include "options.h"
 #include "autoreplace.h"
 #include "dictionary.h"

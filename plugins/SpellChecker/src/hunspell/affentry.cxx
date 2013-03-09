@@ -1,13 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <ctype.h>
-
-#include "affentry.hxx"
-#include "csutil.hxx"
+#include "..\commons.h"
 
 PfxEntry::PfxEntry(AffixMgr* pmgr, affentry* dp)
 {

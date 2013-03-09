@@ -78,7 +78,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
@@ -108,7 +108,7 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
@@ -137,7 +137,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -162,7 +162,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;HUNSPELL_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -187,8 +187,6 @@
     <ClInclude Include="src\autoreplace.h" />
     <ClInclude Include="src\commons.h" />
     <ClInclude Include="src\dictionary.h" />
-    <ClInclude Include="..\utils\mir_memory.h" />
-    <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\RichEdit.h" />
@@ -228,37 +226,37 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hunspell\affentry.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\affixmgr.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\csutil.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\dictmgr.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\filemgr.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\hashmgr.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\hunspell.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\hunzip.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\phonet.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\replist.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\hunspell\suggestmgr.cxx">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\commons.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\SpellChecker.cpp" />
     <ClCompile Include="src\utils.cpp" />

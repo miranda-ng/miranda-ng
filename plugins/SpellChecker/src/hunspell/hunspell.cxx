@@ -1,16 +1,8 @@
-#include "license.hunspell"
-#include "license.myspell"
+#include "..\commons.h"
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#include "hunspell.hxx"
-#include "hunspell.h"
 #ifndef MOZILLA_CLIENT
 #    include "config.h"
 #endif
-#include "csutil.hxx"
 
 Hunspell::Hunspell(const char * affpath, const char * dpath, const char * key)
 {

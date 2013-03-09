@@ -1,12 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#include "replist.hxx"
-#include "csutil.hxx"
+#include "..\commons.h"
 
 RepList::RepList(int n) {
     dat = (replentry **) malloc(sizeof(replentry *) * n);

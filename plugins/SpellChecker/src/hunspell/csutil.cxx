@@ -1,14 +1,4 @@
-#include "license.hunspell"
-#include "license.myspell"
-
-#include <stdlib.h> 
-#include <string.h>
-#include <stdio.h> 
-#include <ctype.h>
-
-#include "csutil.hxx"
-#include "atypes.hxx"
-#include "langnum.hxx"
+#include "..\commons.h"
 
 // Unicode character encoding information
 struct unicode_info {
