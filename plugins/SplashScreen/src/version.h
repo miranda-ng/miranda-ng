@@ -5,7 +5,7 @@
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
 
-#define __PLUGIN_NAME				"Splash Screen"
+#define __PLUGIN_NAME				"Splash screen"
 #define __FILENAME					"SplashScreen.dll"
 #define __DESCRIPTION 				"Shows a splash at Miranda startup."
 #define __AUTHOR					"nullbie, Thief"

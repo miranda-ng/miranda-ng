@@ -155,14 +155,14 @@ void SplashMain()
 
 		TCHAR szExpandedSplashFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSplashFile, SIZEOF(szExpandedSplashFile));
-		lstrcpy(inBuf, szExpandedSplashFile);
+		_tcscpy_s(inBuf, szExpandedSplashFile);
 
 		TCHAR *pos3 = 0;
 		pos3 = _tcsrchr(inBuf, _T(':'));
 		if (pos3 == NULL)
 			mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), _T("%s\\%s"), szMirDir, inBuf);
 		else
-			lstrcpy(szSplashFile, inBuf);
+			_tcscpy_s(szSplashFile, inBuf);
 
 		DBGetContactSettingTString(NULL, MODNAME, "Sound", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
@@ -175,14 +175,14 @@ void SplashMain()
 
 		TCHAR szExpandedSoundFile[MAX_PATH];
 		ExpandEnvironmentStrings(inBuf, szExpandedSoundFile, SIZEOF(szExpandedSoundFile));
-		lstrcpy(inBuf, szExpandedSoundFile);
+		_tcscpy_s(inBuf, szExpandedSoundFile);
 
 		TCHAR *pos2;
 		pos2 = _tcschr(inBuf, _T(':'));
 		if (pos2 == NULL)
 			mir_sntprintf(szSoundFile, SIZEOF(szSoundFile), _T("%s\\%s"), szMirDir, inBuf);
 		else
-			lstrcpy(szSoundFile, inBuf);
+			_tcscpy_s(szSoundFile, inBuf);
 
 		#ifdef _DEBUG
 			logMessage(_T("SoundFilePath"), szSoundFile);
@@ -197,8 +197,8 @@ void SplashMain()
 			TCHAR* p = 0;
 			TCHAR files [255][50]; //TODO: make memory allocation dynamic
 
-			lstrcpy(szSplashDir, szSplashFile);
-			lstrcpy(szOldPath, szSplashFile);
+			_tcscpy_s(szSplashDir, szSplashFile);
+			_tcscpy_s(szOldPath, szSplashFile);
 			// find the last \ and null it out, this leaves no trailing slash
 			p = _tcsrchr(szSplashDir, _T('\\'));
 			if (p) *p = 0;

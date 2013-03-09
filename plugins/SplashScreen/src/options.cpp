@@ -172,14 +172,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					if (Exists(szSplashFile))
 					{
-						lstrcpy(initDir, szSplashFile);
+						_tcscpy_s(initDir, szSplashFile);
 						pos = _tcsrchr(initDir, _T('\\'));
 						if(pos != NULL) *pos = 0;
 					}
 					else
 					{
 						szMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
-						lstrcpy(initDir, szMirDir);
+						_tcscpy_s(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
 
@@ -199,7 +199,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					if (GetOpenFileName(&ofn)) 
 					{
-						lstrcpy(szSplashFile, szTempPath);
+						_tcscpy_s(szSplashFile, szTempPath);
 
 						#ifdef _DEBUG
 							logMessage(_T("Set path"), szSplashFile);
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								if (pos != NULL) 
 								{
 									*pos = 0;
-									lstrcat(szPath2Spash, _T("\\"));
+									_tcscat_s(szPath2Spash, _T("\\"));
 								}
 							}
 
@@ -236,14 +236,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					if (Exists(szSoundFile))
 					{
-						lstrcpy(initDir, szSoundFile);
+						_tcscpy_s(initDir, szSoundFile);
 						pos = _tcsrchr(initDir, _T('\\'));
 						if(pos != NULL) *pos = 0;
 					}
 					else
 					{
 						szMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
-						lstrcpy(initDir, szMirDir);
+						_tcscpy_s(initDir, szMirDir);
 						mir_free(szMirDir);
 					}
 
@@ -263,7 +263,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					if (GetOpenFileName(&ofn))
 					{
-						lstrcpy(szSoundFile,szTempPath);
+						_tcscpy_s(szSoundFile,szTempPath);
 
 						#ifdef _DEBUG
 							logMessage(_T("Set sound path"), szSoundFile);
@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), tmp, MAX_PATH);
 						DBWriteContactSettingTString(NULL, MODNAME, "VersionPrefix", tmp);
-						lstrcpy(szPrefix, tmp);
+						_tcscpy_s(szPrefix, tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), tmp, MAX_PATH);
 						DBWriteContactSettingDword(NULL, MODNAME, "TimeToShow", _ttoi(tmp));

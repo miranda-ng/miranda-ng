@@ -18,7 +18,7 @@
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO MOVEABLE PURE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_SPLASH_OPT, DIALOG
     BEGIN
@@ -101,14 +101,15 @@ BEGIN
     "..\\src\\resource.h\0"
 END
 
-3 TEXTINCLUDE
-BEGIN
-    "\r\n"
-END
-
 2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\0"
 END
 
 #endif    // APSTUDIO_INVOKED

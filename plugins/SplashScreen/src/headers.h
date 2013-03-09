@@ -23,7 +23,6 @@
 #define _WIN32_WINNT 0x0500
 #define WINVER 0x0400
 #define AC_SRC_ALPHA  0x01
-#define OEMRESOURCE
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
@@ -31,7 +30,6 @@
 #include <time.h>
 #include <dshow.h>
 
-// Miranda API headers
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -39,9 +37,8 @@
 #include <m_langpack.h>
 #include <m_png.h>
 
-#include "m_splash.h"
+#include <m_splash.h>
 
-// Common headers
 #include "version.h"
 #include "resource.h"
 #include "bitmap_funcs.h"

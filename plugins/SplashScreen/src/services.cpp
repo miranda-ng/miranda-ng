@@ -27,18 +27,18 @@ INT_PTR ShowSplashService(WPARAM wparam,LPARAM lparam)
 	TCHAR* filename = (TCHAR*) wparam;
 	int timetoshow = (int) lparam;
 
-	lstrcpy(szOldfn, szSplashFile);
+	_tcscpy_s(szOldfn, szSplashFile);
 	options.showtime = timetoshow;
 
 	pos = _tcsrchr(filename, _T(':'));
 	if (pos == NULL)
 		mir_sntprintf(szSplashFile, SIZEOF(szSplashFile), _T("%s\\%s"), szMirDir, filename);
 	else
-		lstrcpy(szSplashFile, filename);
+		_tcscpy_s(szSplashFile, filename);
 
 	ShowSplash(false);
 
-	lstrcpy(szSplashFile, szOldfn);
+	_tcscpy_s(szSplashFile, szOldfn);
 
 	return 0;
 }
