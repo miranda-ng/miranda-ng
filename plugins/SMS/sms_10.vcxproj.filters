@@ -50,9 +50,6 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\recvdlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,6 +57,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SMSConstans.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdditionalFunctions\InterlockedFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdditionalFunctions\ListMT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdditionalFunctions\MemoryCompare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AdditionalFunctions\MemoryFindByte.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

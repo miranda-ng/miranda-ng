@@ -1,10 +1,6 @@
 #if !defined(AFX_MEMORYFINDBYTE__H__INCLUDED_)
 #define AFX_MEMORYFINDBYTE__H__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 __inline LPVOID MemoryFindByte(SIZE_T dwFrom,LPCVOID lpcSource,SIZE_T dwSourceSize,unsigned char chWhatFind)
 {
 	if (lpcSource && dwSourceSize)

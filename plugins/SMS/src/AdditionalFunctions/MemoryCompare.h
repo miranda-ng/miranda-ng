@@ -1,10 +1,6 @@
 #if !defined(AFX_MEMORYCOMPARE__H__INCLUDED_)
 #define AFX_MEMORYCOMPARE__H__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 __inline DWORD MemoryCompare(LPCVOID lpcSource1,SIZE_T dwSource1Size,LPCVOID lpcSource2,SIZE_T dwSource2Size)
 {
 	if (dwSource1Size == dwSource2Size) {

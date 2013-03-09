@@ -1,9 +1,5 @@
 #include "common.h"
 
-
-
-
-
 BOOL DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize)
 {// sizes in wchars
 	BOOL bRet=FALSE;

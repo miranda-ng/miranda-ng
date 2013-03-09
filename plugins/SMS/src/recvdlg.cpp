@@ -26,7 +26,6 @@ Enjoy the code and use it smartly!
 */
 
 #include "common.h"
-#include "recvdlg.h"
 
 //Defnition needed to the SMS window list
 typedef struct

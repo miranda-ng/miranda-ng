@@ -7,63 +7,32 @@
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #define VC_EXTRALEAN
 
-
-//////#define _USE_32BIT_TIME_T
 #define _CRT_SECURE_NO_WARNINGS
-
-//#define UNICODE
-//#define _UNICODE
-
-/*#ifdef NDEBUG
-	#pragma optimize("gsy",on)
-	#pragma comment(linker,"/subsystem:Windows,5")
-	#pragma comment(linker,"/version:5")
-
-	#pragma comment(linker,"/nodefaultlib")
-	//#pragma comment(linker,"/GS")
-	//#pragma comment(linker,"/merge:.rdata=.text /merge:.data=.text")
-	//#pragma comment(linker,"/verbose")
-	//#pragma comment(linker,"/noentry")
-	#pragma comment(linker,"/ENTRY:DllMain")
-
-#endif //_DEBUG*/
-
-	//#pragma comment(linker,"/nodefaultlib")
-	//#pragma comment(linker,"/noentry")
-	//#pragma comment(linker,"/ENTRY:DllMain")
-
-//#define CRTDLL
-
-#define MIRANDA_VER 0x0A00
 
 #include <windows.h>
 #include <commctrl.h>
-#include <stdio.h>
 #include <time.h>
-
-#include "AdditionalFunctions/ListMT.h"
-#include "AdditionalFunctions/DebugFunctions.h"
-#include "AdditionalFunctions/MemoryCompare.h"
-#include "AdditionalFunctions/MemoryFindByte.h"
 
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clist.h>
 #include <m_langpack.h>
 #include <m_history.h>
-#include <m_protomod.h>
-#include <m_autoreplacer.h>
 #include <m_skin.h>
 #include <m_protosvc.h>
 #include <m_icq.h>
-#include <m_protosvc.h>
-#include <m_system.h>
-#include <m_utils.h>
 #include <m_options.h>
 #include <win2k.h>
 
+#include "AdditionalFunctions/InterlockedFunctions.h"
+#include "AdditionalFunctions/ListMT.h"
+#include "AdditionalFunctions/MemoryCompare.h"
+#include "AdditionalFunctions/MemoryFindByte.h"
 #include "resource.h"
 #include "version.h"
+#include "recvdlg.h"
+#include "SMSConstans.h"
+#include "senddlg.h"
 
 extern HINSTANCE hInst;
 
@@ -75,19 +44,6 @@ struct GUI_DISPLAY_ITEM
 	LONG	defIcon;		// иконка из ресурсов
 	LPVOID	lpFunc;			// функция вызываемая меню
 };
-
-
-// структура содержащая информацию о сервисах/функциях
-struct SERVICE_ITEM
-{
-	LPSTR	lpszName;		// имя сервиса, оно же имя в иколибе
-	LPVOID	lpFunc;			// функция вызываемая
-};
-
-
-#include "SMSConstans.h"
-#include "senddlg.h"
-#include "recvdlg.h"
 
 
 #define MAIN_MENU_ITEMS_COUNT		1

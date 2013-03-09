@@ -27,8 +27,6 @@ Enjoy the code and use it smartly!
 
 #include "common.h"
 
-
-
 //This function gets HWND of the window, the number, and the message.
 void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPWSTR lpwszMessage,SIZE_T dwMessageSize)
 {

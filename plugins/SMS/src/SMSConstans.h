@@ -1,37 +1,15 @@
 #if !defined(AFX_SMS_CONSTANS_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_)
 #define AFX_SMS_CONSTANS_H__F58D13FF_F6F2_476C_B8F0_7B9E9357CF48__INCLUDED_
 
-
-
-
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
-
-
-
-
-#define MIN_MIR_VER_VERSION_DWORD			PLUGIN_MAKE_VERSION(0,8,0,0)
-
-
-#define PLUGIN_VERSION_DWORD				PLUGIN_MAKE_VERSION(0,2,5,3)
 #define PROTOCOL_NAMEA						"SMSPlugin"
-#define PROTOCOL_NAMEW						TEXT(PROTOCOL_NAMEA)
 #define PROTOCOL_NAME_LEN					(sizeof(PROTOCOL_NAMEA)-1)
 #define PROTOCOL_NAME_SIZE					sizeof(PROTOCOL_NAMEA)
 #define PROTOCOL_DISPLAY_NAME_ORIG			"SMS"
-#define PROTOCOL_DISPLAY_NAME_ORIGW			TEXT(PROTOCOL_DISPLAY_NAME_ORIG)
-
-
-
 
 #define TIMEOUT_MSGSEND						60000			// send sms timeout
 #define MIN_SMS_DBEVENT_LEN					4				// для фильтрации событий авторизации от джабер плагина
 #define MAX_PHONE_LEN						MAX_PATH
 #define PHONES_MIN_COUNT					4 //internal	// колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
-
-
 
 #define SMS_DEFAULT_
 #define SMS_DEFAULT_SIGNATUREPOS	FALSE
@@ -91,6 +69,12 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam);
 #define SMS_SEND_STR				L"Send &SMS..."
 #define SMS_SEND_CM_STR				L"&SMS Message"
 
+// структура содержащая информацию о сервисах/функциях
+struct SERVICE_ITEM
+{
+	LPSTR	lpszName;		// имя сервиса, оно же имя в иколибе
+	LPVOID	lpFunc;			// функция вызываемая
+};
 
 static const SERVICE_ITEM siPluginServices[] =
 {

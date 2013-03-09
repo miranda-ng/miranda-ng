@@ -27,8 +27,6 @@ Enjoy the code and use it smartly!
 
 #include "common.h"
 
-
-
 #define TIMERID_MSGSEND		0
 #define TIMEDOUT_CANCEL		0
 #define TIMEDOUT_RETRY		1

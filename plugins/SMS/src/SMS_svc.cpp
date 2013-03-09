@@ -1,7 +1,5 @@
 #include "common.h"
 
-
-
 int LoadServices(void)
 {
 	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;

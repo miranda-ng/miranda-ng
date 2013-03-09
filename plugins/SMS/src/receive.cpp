@@ -27,8 +27,6 @@ Enjoy the code and use it smartly!
 
 #include "common.h"
 
-
-
 //This function handles the ACK received from that hooked.
 int handleAckSMS(WPARAM wParam,LPARAM lParam)
 {

@@ -24,6 +24,7 @@ For any comments, problems, etc. contact me at Miranda-IM forums or E-Mail or IC
 All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
+
 #include "common.h"
 
 WORD wSMSSignControlsList[] = { IDC_BEGIN, IDC_END, IDC_SIGNATURE, IDC_SIGNGROUP };

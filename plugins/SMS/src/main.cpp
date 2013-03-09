@@ -27,121 +27,6 @@ Enjoy the code and use it smartly!
 
 #include "common.h"
 
-
-
-
-/*
-extern "C" __declspec(naked) void __cdecl _chkstk()
-{
-	#define _PAGESIZE_ 4096
-
-			__asm
-			{
-			push    ecx
-
-	; Calculate new TOS.
-
-			lea     ecx, [esp] + 8 - 4      ; TOS before entering function + size for ret value
-			sub     ecx, eax                ; new TOS
-
-	; Handle allocation size that results in wraparound.
-	; Wraparound will result in StackOverflow exception.
-
-			sbb     eax, eax                ; 0 if CF==0, ~0 if CF==1
-			not     eax                     ; ~0 if TOS did not wrapped around, 0 otherwise
-			and     ecx, eax                ; set to 0 if wraparound
-
-			mov     eax, esp                ; current TOS
-			and     eax, not ( _PAGESIZE_ - 1) ; Round down to current page boundary
-
-	cs10:
-			cmp     ecx, eax                ; Is new TOS
-			jb      short cs20              ; in probed page?
-			mov     eax, ecx                ; yes.
-			pop     ecx
-			xchg    esp, eax                ; update esp
-			mov     eax, dword ptr [eax]    ; get return address
-			mov     dword ptr [esp], eax    ; and put it at new TOS
-			ret
-
-	; Find next lower page and probe
-	cs20:
-			sub     eax, _PAGESIZE_         ; decrease by PAGESIZE
-			test    dword ptr [eax],eax     ; probe page.
-			jmp     short cs10
-
-			}
-}//
-
-
-extern "C" void __declspec(naked) __cdecl _aulldiv()
-{// http://tamiaode.3322.org/svn/ntldr/trunk/source/ntldr/ia32/x86stub.cpp
-	__asm
-	{
-		push	ebx
-		push	esi
-
-		mov	eax,[esp + 24]
-		or	eax,eax
-		jnz	short L1
-
-		mov	ecx,[esp + 20]
-		mov	eax,[esp + 16]
-		xor	edx,edx
-		div	ecx
-		mov	ebx,eax
-		mov	eax,[esp + 12]
-		div	ecx
-		mov	edx,ebx
-		jmp	short L2
-
-	L1:
-		mov	ecx,eax
-		mov	ebx,[esp + 20]
-		mov	edx,[esp + 14]
-		mov	eax,[esp + 12]
-
-	L3:
-		shr	ecx,1
-		rcr	ebx,1
-		shr	edx,1
-		rcr	eax,1
-		or	ecx,ecx
-		jnz	short L3
-		div	ebx
-		mov	esi,eax
-
-		mul	dword ptr [esp + 24]
-		mov	ecx,eax
-		mov	eax,[esp + 20]
-		mul	esi
-		add	edx,ecx
-		jc	short L4
-
-		cmp	edx,[esp + 16]
-		ja	short L4
-		jb	short L5
-		cmp	eax,[esp + 12]
-		jbe	short L5
-	L4:
-		dec	esi
-	L5:
-		xor	edx,edx
-		mov	eax,esi
-
-	L2:
-
-		pop	esi
-		pop	ebx
-
-		ret	16
-	}
-}//
-
-
-
-*/
-
 int hLangpack;
 HINSTANCE hInst;
 
@@ -158,11 +43,9 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {CF97FD5D-B911-47a8-AF03-D21968B5B894}
-	{ 0xcf97fd5d, 0xb911, 0x47a8, { 0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94 } }
+	// {CF97FD5D-B911-47A8-AF03-D21968B5B894}
+	{0xcf97fd5d, 0xb911, 0x47a8, {0xaf, 0x3, 0xd2, 0x19, 0x68, 0xb5, 0xb8, 0x94}}
 };
-
-
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -173,25 +56,9 @@ int		OnModulesLoaded		(WPARAM wParam,LPARAM lParam);
 int		OnPreShutdown		(WPARAM wParam,LPARAM lParam);
 void	VersionConversions();
 
-BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 {
     hInst = hInstance;
-
-	switch(dwReason){
-	case DLL_PROCESS_ATTACH:
-		ZeroMemory(&ssSMSSettings,sizeof(ssSMSSettings));
-		ssSMSSettings.hInstance=hInstance;
-		ssSMSSettings.hHeap=HeapCreate(0,0,0);//GetProcessHeap();
-		DisableThreadLibraryCalls((HMODULE)hInstance);
-		break;
-	case DLL_PROCESS_DETACH:
-		HeapDestroy(ssSMSSettings.hHeap);
-		ssSMSSettings.hHeap=NULL;
-	case DLL_THREAD_ATTACH:
-	case DLL_THREAD_DETACH:
-		break;
-    }
-
 	return TRUE;
 }
 
@@ -220,8 +87,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-
-
 int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	VersionConversions();
@@ -230,7 +95,6 @@ int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	return 0;
 }
-
 
 int OnPreShutdown(WPARAM wParam,LPARAM lParam)
 {
@@ -242,8 +106,6 @@ int OnPreShutdown(WPARAM wParam,LPARAM lParam)
 
 	return 0;
 }
-
-
 
 void VersionConversions()
 {
