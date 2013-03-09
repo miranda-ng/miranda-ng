@@ -25,14 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __BUILD_NUM					7
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
-
-#define __PLUGIN_NAME				"Last Seen Mod"
-#define __INTERNAL_NAME				"Last Seen"
+#define __PLUGIN_NAME				"Last seen"
 #define __FILENAME					"SeenPlugin.dll"
 #define __DESCRIPTION 				"Logs when a user was last seen online and which users were online while you were away."
 #define __AUTHOR					"Heiko Schillinger, YB"

@@ -16,15 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-File name      : $URL: http://svn.berlios.de/svnroot/repos/mgoodies/trunk/lastseen-mod/history.c $
-Revision       : $Rev: 1056 $
-Last change on : $Date: 2006-10-30 06:22:07 +0300 (Пн, 30 окт 2006) $
-Last change by : $Author: y_b $
 */
-#include "seen.h"
 
-extern HINSTANCE hInstance;
+#include "seen.h"
 
 static HANDLE hWindowList;
 

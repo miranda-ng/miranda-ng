@@ -16,17 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-File name      : $URL: http://svn.berlios.de/svnroot/repos/mgoodies/trunk/lastseen-mod/options.c $
-Revision       : $Rev: 1570 $
-Last change on : $Date: 2007-12-30 01:30:07 +0300 (Вс, 30 дек 2007) $
-Last change by : $Author: y_b $
 */
 
 #include "seen.h"
 
-extern HINSTANCE hInstance;
-extern HANDLE ehuserinfo,hmenuitem,ehmissed_proto;
 void BuildInfo(char *,char *,char *);
 int BuildContactMenu(WPARAM,LPARAM);
 int UserinfoInit(WPARAM,LPARAM);

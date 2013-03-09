@@ -1,13 +1,11 @@
+// Microsoft Visual C++ generated resource script.
+//
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
 #include "..\src\version.h"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING

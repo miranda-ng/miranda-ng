@@ -16,14 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-File name      : $URL: http://svn.berlios.de/svnroot/repos/mgoodies/trunk/lastseen-mod/main.c $
-Revision       : $Rev: 1571 $
-Last change on : $Date: 2007-12-30 04:55:51 +0300 (Вс, 30 дек 2007) $
-Last change by : $Author: y_b $
 */
+
 #include "seen.h"
-#include "version.h"
 
 HINSTANCE hInstance;
 HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
@@ -40,7 +35,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x2d506d46,0xc94e,0x4ef8,{0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81}}/* 2d506d46-c94e-4ef8-8537-f11233a80381 */
+	// {2D506D46-C94E-4EF8-8537-F11233A80381}
+	{0x2d506d46, 0xc94e, 0x4ef8, {0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81}}
 };
 
 #define TRANSNUMBER 2

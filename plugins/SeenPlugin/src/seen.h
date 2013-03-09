@@ -25,47 +25,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define ETDT_USETABTEXTURE  0x00000004
 #define ETDT_ENABLETAB      (ETDT_ENABLE  | ETDT_USETABTEXTURE)
 
-#define MIRANDA_VER    0x0A00
 #define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NON_CONFORMING_SWPRINTFS
 
 #include <windows.h>
-#include <win2k.h>
 #include <commctrl.h>
 #include <malloc.h>
-#include <stdio.h>
-#include <string.h>
 #include <time.h>
 
-#include "resource.h"
-
+#include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_system.h>
 #include <m_skin.h>
-#include <m_utils.h>
-#include <m_options.h>
 #include <m_userinfo.h>
 #include <m_clist.h>
 #include <m_contacts.h>
 #include <m_message.h>
 #include <m_protosvc.h>
-#include <m_protocols.h>
 #include <m_popup.h>
 #include <m_ignore.h>
 #include <m_button.h>
 
-#include "m_tipper.h"
+#include <m_tipper.h>
+
+#include "resource.h"
+#include "version.h"
 
 WCHAR *any_to_IdleNotidleUnknown(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
 WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting_name, WCHAR *buff, int bufflen);
 
-#ifdef __GNUC__
-#define NUM100NANOSEC  116444736000000000ULL
-#else
 #define NUM100NANOSEC  116444736000000000
-#endif
 
 #define S_MOD "SeenModule"
 
@@ -97,10 +87,6 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 
 #define VARIABLE_LIST "%s \n%%Y: \t %s \n%%y: \t %s \n%%m: \t %s \n%%E: \t %s \n%%e: \t %s \n%%d: \t %s \n%%W: \t %s \n%%w: \t %s \n\n%s \n%%H: \t %s \n%%h: \t %s \n%%p: \t %s \n%%M: \t %s \n%%S: \t %s \n\n%s \n%%n: \t %s \n%%N: \t %s \n%%u: \t %s \n%%G: \t %s \n%%s: \t %s \n%%T: \t %s \n%%o: \t %s \n%%i: \t %s \n%%r: \t %s \n%%C: \t %s \n%%P: \t %s \n\n%s \n%%t: \t %s \n%%b: \t %s\n\n%s\t%s \"#\" %s\n\t%s %s", Translate("-- Date --"), Translate("year (4 digits)"), Translate("year (2 digits)"), Translate("month"), Translate("name of month"), Translate("short name of month"), Translate("day"), Translate("weekday (full)"), Translate("weekday (abbreviated)"), Translate("-- Time --"), Translate("hours (24)"), Translate("hours (12)"), Translate("AM/PM"), Translate("minutes"), Translate("seconds"), Translate("-- User --"), Translate("username"), Translate("nick"), Translate("UIN/handle"), Translate("Group"), Translate("Status"), Translate("Status message"), Translate("Old status"), Translate("external IP"), Translate("internal IP"),Translate("Client info"),Translate("Protocol"), Translate("-- Format --"), Translate("tabulator"), Translate("line break"), Translate("Note:"),Translate("Use"),Translate("for empty string"),Translate("instead of"),Translate("<unknown>")
 
-#ifndef LPCOLORREF
-typedef DWORD   *LPCOLORREF;
-#endif
-
 typedef struct{
 	int count;
 	WPARAM wpcontact[1024];
@@ -109,7 +95,6 @@ typedef struct{
 
 int IsWatchedProtocol(const char* szProto);
 TCHAR *ParseString(TCHAR*, HANDLE, BYTE);
-extern DWORD StatusColors15bits[];
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword);
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second);
 int OptionsInit(WPARAM,LPARAM);
@@ -124,7 +109,6 @@ int CheckIfOnline(void);
 void UninitMenuitem();
 void ShowHistory(HANDLE hContact, BYTE isAlert);
 
-extern BOOL includeIdle;
 typedef struct logthread_info {
   char sProtoName[MAXMODULELABELLENGTH];
   HANDLE hContact;
@@ -132,6 +116,12 @@ typedef struct logthread_info {
   int queueIndex;
 } logthread_info;
 
+extern HINSTANCE hInstance;
 extern logthread_info **contactQueue;
 extern int contactQueueSize;
+extern DWORD StatusColors15bits[];
+extern BOOL includeIdle;
+extern HANDLE ehmissed;
+extern HANDLE ehuserinfo, hmenuitem, ehmissed_proto;
+extern DWORD dwmirver;
 

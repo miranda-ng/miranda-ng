@@ -201,6 +201,7 @@
   <ItemGroup>
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\seen.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
