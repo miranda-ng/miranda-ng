@@ -27,6 +27,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "global.h"
 
 //---------------------------------------------------------------------------
+//Workaround for MS bug ComboBox_SelectItemData
+int ComboBox_SelectItemData(HWND hwndCtl, int indexStart, LPARAM data) {
+	int i = 0;
+	for ( i ; i < ComboBox_GetCount(hwndCtl); i++) {
+		if(data == ComboBox_GetItemData(hwndCtl, i)) {
+			ComboBox_SetCurSel (hwndCtl,i);
+			return i;
+		}
+	}
+	return CB_ERR;
+}
+
+//---------------------------------------------------------------------------
 // MonitorInfoEnum
 size_t MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen) {
 	MONITORS tmp = {0,0};

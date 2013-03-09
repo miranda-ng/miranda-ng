@@ -44,6 +44,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <string>
 using namespace std;
 
+#ifdef ComboBox_SelectItemData
+ // use Workaround for MS bug ComboBox_SelectItemData;
+ #undef ComboBox_SelectItemData
+#endif
+
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
