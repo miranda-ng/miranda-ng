@@ -35,4 +35,6 @@ int InitServices();
 INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size);
 INT_PTR GetPath(int hRegisteredFolder, TCHAR *szResult, int size);
 
+void InitOptions();
+
 #endif //M_FOLDERS_PROVIDED_SERVICES_H

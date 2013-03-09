@@ -96,8 +96,6 @@ typedef struct
 }
 	FOLDERSDATA;
 
-#define FOLDERSDATA_SIZE_V1  FIELD_OFFSET(FOLDERSDATA,szUserName)
-
 /*Folders/Register/Path service
   wParam - not used, must be 0
   lParam - (LPARAM) (const FOLDERDATA *) - Data structure filled with

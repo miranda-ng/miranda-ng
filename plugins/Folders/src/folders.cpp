@@ -24,7 +24,7 @@ char ModuleName[] = "Folders";
 HINSTANCE hInstance;
 int hLangpack;
 
-CFoldersList &lstRegisteredFolders = CFoldersList(10); //the list
+OBJLIST<CFolderItem> lstRegisteredFolders(10, OBJLIST<CFolderItem>::FTSortFunc(PtrKeySortT));
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 	{0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}}
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -48,10 +48,10 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	
+
 	InitServices();
 	InitEvents();
-	HookEvents();
+	InitOptions();
 	return 0;
 }
 
@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) int Unload()
 	return 0;
 }
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
 	return TRUE;

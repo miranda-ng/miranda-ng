@@ -37,8 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CFolderItem
 {
-				char  *m_szSection;
-				char  *m_szName;
+				char  *m_szSection, *m_szName;
 				TCHAR *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
 
 				void GetDataFromDatabase(const TCHAR *szNotFound);

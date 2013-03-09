@@ -57,41 +57,58 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 
 INT_PTR RegisterPathService(WPARAM wParam, LPARAM lParam)
 {
-	FOLDERSDATA *tmp = (FOLDERSDATA*)lParam;
-	if (tmp == NULL)
+	FOLDERSDATA *data = (FOLDERSDATA*)lParam;
+	if (data == NULL)
 		return NULL;
 
-	if (tmp->cbSize != sizeof(FOLDERSDATA) && tmp->cbSize != FOLDERSDATA_SIZE_V1)
+	if (data->cbSize != sizeof(FOLDERSDATA))
 		return NULL;
 
-	return lstRegisteredFolders.Add(tmp); //returns 1..n or 0 on error
+	CFolderItem *pNew;
+	if (data->flags & FF_UNICODE)
+		pNew = new CFolderItem(data->szSection, data->szName, data->szFormatW, data->szUserNameW);
+	else
+		pNew = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat), _A2T(data->szUserName));
+
+	lstRegisteredFolders.insert(pNew);
+	return (INT_PTR)pNew;
 }
 
 INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tmp[MAX_FOLDER_SIZE];
-	int res = lstRegisteredFolders.Expand(wParam, tmp, SIZEOF(tmp));
-	size_t len = _tcslen(tmp);
+	size_t len;
+
+	CFolderItem *p = (CFolderItem*)wParam;
+	if ( lstRegisteredFolders.getIndex(p) != -1) {
+		TCHAR tmp[MAX_FOLDER_SIZE];
+		p->Expand(tmp, SIZEOF(tmp));
+		len = _tcslen(tmp);
+	}
+	else len = 0;
 
 	if (lParam != NULL)
-		*((size_t *) lParam) = len;
+		*((size_t*)lParam) = len;
 
 	return len;
 }
 
 INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 {
-	FOLDERSGETDATA* data = (FOLDERSGETDATA *) lParam;
-	if (data->cbSize != sizeof	(FOLDERSGETDATA))
+	CFolderItem *p = (CFolderItem*)wParam;
+	if ( lstRegisteredFolders.getIndex(p) == -1)
 		return 1;
 
-	if (data->flags & FF_UNICODE)
-		return lstRegisteredFolders.Expand(wParam, data->szPathT, data->nMaxPathSize);
+	FOLDERSGETDATA* data = (FOLDERSGETDATA*)lParam;
+	if (data->cbSize != sizeof(FOLDERSGETDATA))
+		return 1;
+
+	if (data->flags & FF_UNICODE) {
+		p->Expand(data->szPathT, data->nMaxPathSize);
+		return 0;
+	}
 
 	TCHAR buf[MAX_FOLDER_SIZE];
-	if ( lstRegisteredFolders.Expand(wParam, buf, MAX_FOLDER_SIZE))
-		return 1;
-
+	p->Expand(buf, SIZEOF(buf));
 	strncpy(data->szPath, _T2A(buf), data->nMaxPathSize);
 	return 0;
 }

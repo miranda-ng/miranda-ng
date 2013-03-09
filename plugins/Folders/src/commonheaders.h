@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MAX_FOLDER_SIZE 2048
 
 #include <windows.h>
+#include <richedit.h>
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -34,13 +35,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_variables.h>
 #include <m_folders.h>
+#include <m_langpack.h>
 
 #include "version.h"
 #include "utils.h"
 #include "resource.h"
-#include "foldersList.h"
-#include "dlg_handlers.h"
-#include "hooked_events.h"
 #include "services.h"
 #include "events.h"
 #include "folderItem.h"
@@ -53,6 +52,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;
-extern CFoldersList &lstRegisteredFolders;
+extern OBJLIST<CFolderItem> lstRegisteredFolders;
 
 #endif //FOLDERS_COMMONHEADERS_H

@@ -27,9 +27,6 @@
     <ClCompile Include="src\folders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\foldersList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\hooked_events.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -47,19 +44,10 @@
     <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dlg_handlers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\folderItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\foldersList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hooked_events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
