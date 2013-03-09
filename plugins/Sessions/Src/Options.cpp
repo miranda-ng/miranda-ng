@@ -178,19 +178,19 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			hIcon=(bChecked=IsMarkedUserDefSession(opses_count))?hMarked:hNotMarked;
 
-			SetDlgItemInt(hdlg, IDC_TRACK,ses_limit=DBGetContactSettingByte(0, __INTERNAL_NAME, "TrackCount", 10), FALSE);
+			SetDlgItemInt(hdlg, IDC_TRACK,ses_limit=DBGetContactSettingByte(0, MODNAME, "TrackCount", 10), FALSE);
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 1));
 			SendDlgItemMessage(hdlg, IDC_SPIN1, UDM_SETPOS, 0, GetDlgItemInt(hdlg, IDC_TRACK, NULL, FALSE));
 
 			SendDlgItemMessage(hdlg, IDC_OPCLIST, LB_RESETCONTENT, 0, 0);
-			SetDlgItemInt(hdlg, IDC_STARTDELAY, DBGetContactSettingWord(NULL, __INTERNAL_NAME, "StartupModeDelay", 1500), FALSE);
-			startupmode = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 3);
-			exitmode = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "ShutdownMode", 2);
+			SetDlgItemInt(hdlg, IDC_STARTDELAY, DBGetContactSettingWord(NULL, MODNAME, "StartupModeDelay", 1500), FALSE);
+			startupmode = DBGetContactSettingByte(NULL, MODNAME, "StartupMode", 3);
+			exitmode = DBGetContactSettingByte(NULL, MODNAME, "ShutdownMode", 2);
 
-			g_bExclHidden = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "ExclHidden", 0);	
-			g_bWarnOnHidden = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "WarnOnHidden", 0);
-			g_bOtherWarnings = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "OtherWarnings", 1);
-			g_bCrashRecovery = DBGetContactSettingByte(NULL, __INTERNAL_NAME, "CrashRecovery", 0);
+			g_bExclHidden = DBGetContactSettingByte(NULL, MODNAME, "ExclHidden", 0);	
+			g_bWarnOnHidden = DBGetContactSettingByte(NULL, MODNAME, "WarnOnHidden", 0);
+			g_bOtherWarnings = DBGetContactSettingByte(NULL, MODNAME, "OtherWarnings", 1);
+			g_bCrashRecovery = DBGetContactSettingByte(NULL, MODNAME, "CrashRecovery", 0);
 
 			CheckDlgButton(hdlg,IDC_EXCLHIDDEN,g_bExclHidden?BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hdlg,IDC_LASTHIDDENWARN,g_bWarnOnHidden?BST_CHECKED:BST_UNCHECKED);
@@ -262,26 +262,26 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case PSN_APPLY:
 			{
 				int iDelay=GetDlgItemInt(hdlg, IDC_STARTDELAY,NULL, FALSE);
-				DBWriteContactSettingWord(0, __INTERNAL_NAME, "StartupModeDelay", (WORD)iDelay);
+				DBWriteContactSettingWord(0, MODNAME, "StartupModeDelay", (WORD)iDelay);
 
-				DBWriteContactSettingByte(0, __INTERNAL_NAME, "TrackCount", (BYTE)(ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
-				if(IsDlgButtonChecked(hdlg, IDC_REXSAVE)) DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "ShutdownMode", 2);
-				else if(IsDlgButtonChecked(hdlg, IDC_REXDSAVE)) DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "ShutdownMode", 0);
-				else if(IsDlgButtonChecked(hdlg, IDC_REXASK)) DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "ShutdownMode", 1);			
+				DBWriteContactSettingByte(0, MODNAME, "TrackCount", (BYTE)(ses_limit=GetDlgItemInt(hdlg, IDC_TRACK,NULL, FALSE)));
+				if(IsDlgButtonChecked(hdlg, IDC_REXSAVE)) DBWriteContactSettingByte(NULL, MODNAME, "ShutdownMode", 2);
+				else if(IsDlgButtonChecked(hdlg, IDC_REXDSAVE)) DBWriteContactSettingByte(NULL, MODNAME, "ShutdownMode", 0);
+				else if(IsDlgButtonChecked(hdlg, IDC_REXASK)) DBWriteContactSettingByte(NULL, MODNAME, "ShutdownMode", 1);			
 
 				if(IsDlgButtonChecked(hdlg, IDC_STARTDIALOG))
 				{ 
 					if (!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
-						DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 1);
-					else DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 3);
+						DBWriteContactSettingByte(NULL, MODNAME, "StartupMode", 1);
+					else DBWriteContactSettingByte(NULL, MODNAME, "StartupMode", 3);
 				}
-				else if(IsDlgButtonChecked(hdlg, IDC_RLOADLAST)) DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 2);
-				else if(IsDlgButtonChecked(hdlg, IDC_RNOTHING)) DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 0);
+				else if(IsDlgButtonChecked(hdlg, IDC_RLOADLAST)) DBWriteContactSettingByte(NULL, MODNAME, "StartupMode", 2);
+				else if(IsDlgButtonChecked(hdlg, IDC_RNOTHING)) DBWriteContactSettingByte(NULL, MODNAME, "StartupMode", 0);
 
-				DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "ExclHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
-				DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "WarnOnHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
-				DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "OtherWarnings", (BYTE)(IsDlgButtonChecked(hdlg, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
-				DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "CrashRecovery", (BYTE)(IsDlgButtonChecked(hdlg, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
+				DBWriteContactSettingByte(NULL, MODNAME, "ExclHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
+				DBWriteContactSettingByte(NULL, MODNAME, "WarnOnHidden", (BYTE)(IsDlgButtonChecked(hdlg, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
+				DBWriteContactSettingByte(NULL, MODNAME, "OtherWarnings", (BYTE)(IsDlgButtonChecked(hdlg, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
+				DBWriteContactSettingByte(NULL, MODNAME, "CrashRecovery", (BYTE)(IsDlgButtonChecked(hdlg, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
 
 				return 1;
 			}
@@ -526,7 +526,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.position = 955000000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = __INTERNAL_NAME;
+	odp.pszTitle = MODNAME;
 	odp.pfnDlgProc = OptionsProc;
 	odp.pszGroup = LPGEN("Message Sessions");
 	odp.flags = ODPF_BOLDGROUPS;

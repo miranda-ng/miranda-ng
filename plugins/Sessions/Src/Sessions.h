@@ -21,30 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define _WIN32_WINNT 0x0501
 
-#define MIRANDA_VER    0x0A00
-
 #include <windows.h>
 #include <commctrl.h>
 
-#include "newpluginapi.h"
-#include "m_utils.h"
-#include "m_system.h"
-#include "m_options.h"
-#include "m_clc.h"
-#include "m_database.h"
-#include "m_langpack.h"
-#include "m_icolib.h"
-#include "m_message.h"
-#include "m_clist.h"
-#include "m_hotkeys.h"
-#include "win2k.h"
+#include <newpluginapi.h>
+#include <m_options.h>
+#include <m_clc.h>
+#include <m_database.h>
+#include <m_langpack.h>
+#include <m_icolib.h>
+#include <m_message.h>
+#include <m_clist.h>
+#include <m_hotkeys.h>
+#include <win2k.h>
 
-#include "m_toptoolbar.h"
-#include "m_sessions.h"
+#include <m_toptoolbar.h>
+#include <m_sessions.h>
 
 #include "Utils.h"
 #include "Version.h"
 #include "Resource.h"
+
+#define MODNAME "Sessions"
 
 extern IconItem iconList[];
 
@@ -73,14 +71,3 @@ extern BOOL g_bIncompletedSave;
 #define TIMERID_LOAD		  12
 #define TIMERID_SHOW          11
 #define TIMERID_REBUILDAFTER   14
-
-#define SESSIONS_NAME "sessions"
-
-
-#define SESSIONS_VERSION_URL "http://miranda.radicaled.ru/public/updater/sessions.txt"
-
-#define SESSIONS_UPDATE_URL "http://miranda.radicaled.ru/public/sessions/"SESSIONS_NAME".zip"
-
-#define SESSIONS_UPDATE_URL "http://miranda.radicaled.ru/public/sessions/"SESSIONS_NAME".zip"
-
-#define SESSIONS_VERSION_PREFIX "Sessions "
