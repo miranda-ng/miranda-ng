@@ -510,16 +510,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 	TextDocument->Release();
 	RichEditOle->Release();
-
-/*
-	QueryPerformanceCounter(&end);
-	unsigned dif = (end.QuadPart - strt.QuadPart)/(freq.QuadPart/1000);
-	TCHAR mess[300];
-	wsprintf(mess, _T("Time elapsed: %u"), dif);
-	MessageBox(NULL, mess, _T(""), MB_OK);
-*/
 }
-
 
 void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
 {
