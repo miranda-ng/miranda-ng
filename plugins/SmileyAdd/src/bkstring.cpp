@@ -16,21 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __GNUC__
-#	ifdef _DEBUG
-#		define _CRTDBG_MAP_ALLOC
-#		include <stdlib.h>
-#		include <crtdbg.h>
-#  else
-#		include <stdlib.h>
-#  endif
-#endif
-
-#include <stdio.h>
-#include <stdarg.h>
-
-#include "bkstring.h"
-
+#include "general.h"
 
 bkstring::~bkstring() { if (sizeAlloced) free(buf); }
 

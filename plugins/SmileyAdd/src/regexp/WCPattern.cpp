@@ -23,18 +23,7 @@
   @version  1.07.00
 */
 
-#ifdef _WIN32
-  #pragma warning(push)
-  #pragma warning(disable:4996)
-#endif
-
-#include <WCPattern.h>
-#include <WCMatcher.h>
-#include <wchar.h>
-#include <algorithm>
-#ifndef _WIN32
-  #include <wctype.h>
-#endif
+#include "..\general.h"
 
 std::map<bkstring, WCPattern *> WCPattern::compiledWCPatterns;
 std::map<bkstring, std::pair<bkstring, unsigned long> > WCPattern::registeredWCPatterns;
@@ -1741,7 +1730,3 @@ int NFAGroupLoopUNode::matchPossessive(const bkstring & str, WCMatcher * matcher
   }
   return ret;
 }
-
-#ifdef _WIN32
-  #pragma warning(pop)
-#endif

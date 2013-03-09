@@ -17,13 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "SmileyBase.h"
-#include "m_smileyadd.h"
-#include "smileys.h"
-#include "options.h"
-
-#include <richole.h>
-
 
 class CAniSmileyObject;
 

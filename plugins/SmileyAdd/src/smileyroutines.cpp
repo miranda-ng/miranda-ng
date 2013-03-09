@@ -18,17 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "smileyroutines.h"
-#include "SmileyBase.h"
-#include "options.h"
-
-#include <richole.h>
-#include <tom.h>
 
 ISmileyBase* CreateSmileyObject(SmileyType* sml);
 ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp);
-
-
 
 bool g_HiddenTextSupported = true;
 

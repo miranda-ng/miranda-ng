@@ -18,14 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "smltool.h"
-#include "smileyroutines.h"
-#include "services.h"
-#include "options.h"
-
-
-//globals, defined int main.cpp
-extern HANDLE hEvent1, hContactMenuItem;
 
 LIST<void> menuHandleArray(5);
 

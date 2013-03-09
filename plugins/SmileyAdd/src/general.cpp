@@ -18,15 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "m_metacontacts.h"
 
-#ifdef _MSC_VER
-#include <delayimp.h>
-#endif
-
-/*
-#include "m_popup.h"
-*/
 static ULONG_PTR g_gdiplusToken = 0;
 static bool gdiPlusFail = false;
 
@@ -291,9 +283,3 @@ void ReportError(const TCHAR* errmsg)
 */		
 		MessageBox(NULL, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
 }
-
-#pragma warning( disable : 4786 )
-#undef _MT
-
-#include <wcpattern.cpp>
-#include <wcmatcher.cpp>

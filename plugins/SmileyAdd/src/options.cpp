@@ -18,16 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "options.h"
-#include "smileys.h"
-#include "customsmiley.h"
-#include "services.h"
-
-//globals, defined int main.cpp
-extern HINSTANCE g_hInst;
-extern HANDLE hEvent1;
-extern SmileyCategoryListType g_SmileyCategories;
-extern SmileyPackListType g_SmileyPacks;
 
 OptionsType opt;
 

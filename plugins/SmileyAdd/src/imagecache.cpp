@@ -16,8 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "imagecache.h"
-#include "options.h"
+#include "general.h"
 
 typedef BOOL (WINAPI *tAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 static tAlphaBlend pAlphaBlend;

@@ -18,10 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "options.h"
-#include "smileys.h"
-#include "smltool.h"
-#include "anim.h"
 
 #define SB_MYMOVE 20
 

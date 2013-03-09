@@ -16,10 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once
-#include <oleidl.h>
-#include <tchar.h>
-
 #define OLEIVERB_SETOWNER		(-24)
 
 EXTERN_C const IID IID_ITooltipData;

@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef anim_h
 #define anim_h
 
-#include "smileys.h"
-
 class Animate
 {
 private:

@@ -17,16 +17,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#include "smileys.h"
-#include "smileyroutines.h"
-#include "options.h"
-#include "download.h"
+#include "general.h"
 
 SmileyPackListType g_SmileyPacks;
 SmileyCategoryListType g_SmileyCategories;
-
-extern HANDLE hNetlibUser;
 
 //
 // SmileyType

@@ -17,19 +17,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "smileys.h"
-#include "customsmiley.h"
-#include "services.h"
-#include "options.h"
-#include "download.h"
-#include "imagecache.h"
-#include "version.h"
-#include "m_metacontacts.h"
+#include "general.h"
 
 //globals
 HINSTANCE g_hInst;
 HANDLE hEvent1, hContactMenuItem;
-extern LIST<void> menuHandleArray;
 
 char* metaProtoName;
 
@@ -38,15 +30,15 @@ int hLangpack;
 static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	"SmileyAdd",
-	__VERSION_DWORD,
-	"Smiley support for Miranda NG.",
-	"Peacow, nightwish, bid, borkra",
-	"borkra@miranda-im.org",
-	"Copyright© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {BD542BB4-5AE4-4d0e-A435-BA8DBE39607F}
+	// {BD542BB4-5AE4-4D0E-A435-BA8DBE39607F}
 	{0xbd542bb4, 0x5ae4, 0x4d0e, {0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f}}
 };
 

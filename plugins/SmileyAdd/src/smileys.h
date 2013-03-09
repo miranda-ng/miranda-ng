@@ -20,10 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SMILEYADD_SMILEYS_H_
 #define SMILEYADD_SMILEYS_H_
 
-#include "general.h"
-#include "smltool.h"
-#include "imagecache.h"
-
 #define MS_SMILEYADD_CUSTOMCATMENU  "SmileyAdd/CustomCatMenu"
 
 const unsigned HiddenSmiley  =  1;
@@ -94,6 +90,33 @@ public:
 	bool LoadFromImage(IStream* pStream);
 };
 
+template<class T> struct SMOBJLIST : public OBJLIST<T>
+{
+	SMOBJLIST() : OBJLIST<T>(5) {};
+
+	SMOBJLIST<T>& operator = (const SMOBJLIST<T>& lst)
+	{ 
+		OBJLIST<T>::destroy();
+		return operator += (lst); 
+	}
+
+	SMOBJLIST<T>& operator += (const SMOBJLIST<T>& lst)
+	{ 		
+		for (int i=0; i<lst.getCount(); ++i)
+		{
+			T *p = new T(lst[i]); 
+			insert(p);
+		}
+		return *this; 
+	}
+
+	void splice(SMOBJLIST<T>& lst)
+	{
+		for (int i=0; i<lst.getCount(); ++i)
+			insert(&lst[i]);
+		lst.LIST<T>::destroy();
+	}
+};
 
 class SmileyLookup
 {

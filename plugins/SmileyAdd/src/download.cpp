@@ -17,10 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "m_smileyadd.h"
-#include "m_folders.h"
 
-extern HANDLE hEvent1;
 HANDLE hNetlibUser;
 static HANDLE hFolder;
 

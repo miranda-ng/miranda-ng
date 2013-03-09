@@ -1,15 +1,6 @@
 #ifndef __WCPATTERN_H__
 #define __WCPATTERN_H__
 
-#ifdef _WIN32
-  #pragma warning(disable:4786)
-#endif
-
-#include "bkstring.h"
-
-#include <vector>
-#include <map>
-
 class WCMatcher;
 class NFAUNode;
 class NFAQuantifierUNode;

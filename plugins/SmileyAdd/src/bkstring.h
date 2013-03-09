@@ -16,14 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#pragma once 
-
-#include <tchar.h>
-#include <string.h>
-
-#ifndef min
-#define min(A, B) ((A) < (B) ? (A) : (B)) 
-#endif
 
 class bkstring
 {

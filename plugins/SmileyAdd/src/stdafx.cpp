@@ -1,6 +1,5 @@
 /*
-Miranda SmileyAdd Plugin
-Copyright (C) 2008 - 2011 Boris Krasnovskiy All Rights Reserved
+Copyright (C) 2012-13 Miranda NG Project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -13,14 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SMILEYADD_DOWNLOAD_H_
-#define SMILEYADD_DOWNLOAD_H_
-
-bool GetSmileyFile(bkstring& url, const bkstring& packstr);
-void DownloadInit(void);
-void DownloadClose(void);
-
-#endif
+#include "general.h"

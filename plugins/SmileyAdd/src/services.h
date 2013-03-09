@@ -20,9 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SMILEYADD_SERVICES_H_
 #define SMILEYADD_SERVICES_H_
 
-#include "m_smileyadd.h"
-#include "m_smileyadd_deprecated.h"
-
 // service commands
 INT_PTR ReplaceSmileysCommand(WPARAM wParam, LPARAM lParam);
 INT_PTR GetSmileyIconCommand(WPARAM wParam, LPARAM lParam);

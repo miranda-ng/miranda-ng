@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef SMILEYADD_IMAGECACHE_H_
 #define SMILEYADD_IMAGECACHE_H_
 
-#include "general.h"
-
-
 class ImageBase
 {
 protected:

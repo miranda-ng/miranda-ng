@@ -1,10 +1,6 @@
 #ifndef __WCMATCHER_H__
 #define __WCMATCHER_H__
 
-#include "bkstring.h"
-#include <vector>
-#include <WCPattern.h>
-
 /**
   A matcher is a non thread-safe object used to scan strings using a given
   {@link WCPattern WCPattern} object. Using a <code>WCMatcher</code> is the preferred

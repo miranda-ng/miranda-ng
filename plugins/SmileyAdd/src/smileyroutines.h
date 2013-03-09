@@ -20,9 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SMILEYROUTINES_
 #define _SMILEYROUTINES_
 
-#include "smileys.h"
-#include "customsmiley.h"
-
 typedef struct ReplaceSmileyType_tag
 {
 	CHARRANGE loc;

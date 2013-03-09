@@ -20,83 +20,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _GENERAL_
 #define _GENERAL_
 
+#define _CRT_SECURE_NO_WARNINGS
+#define _SCL_SECURE_NO_WARNINGS
+
 #define _HAS_EXCEPTIONS 0
 #define _SECURE_SCL 0
 #define _SECURE_SCL_THROWS 0
-#define __STDC_WANT_SECURE_LIB__ 0
 #define _STRALIGN_USE_SECURE_CRT 0
 #define _NO_EXCEPTIONS
+#define _CRTDBG_MAP_ALLOC
 
-#include <m_stdhdr.h>
-
+#include <windows.h>
 #include <io.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <time.h>
-#include <ctype.h>
-#include <limits.h>
-
-#include <windows.h>
 #include <gdiplus.h>
-
 #include <commctrl.h>
 #include <richedit.h>
+#include <delayimp.h>
+#include <richole.h>
+#include <tom.h>
+#include <vector>
+#include <map>
+#include <algorithm>
 
-#include "bkstring.h"
-
-#undef _MT
-
-#pragma warning( push )
-#pragma warning( disable : 4530 )
-#pragma warning( disable : 4275 )
-#pragma warning( disable : 4390 )
-
-#include <wcpattern.h>
-#include <wcmatcher.h>
-
-typedef WCPattern _TPattern;
-typedef WCMatcher _TMatcher;
-#define createTMatcher createWCMatcher
-
-#pragma warning( pop )
-
-#define _MT
-
-#include "resource.h"
-
-#pragma warning( push )
-#pragma warning( disable : 4100 )
-#define MIRANDA_VER 0x0A00
 #define NETLIB_NOLOGGING
-#define MIRANDA_CUSTOM_LP
 
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_database.h>
 #include <m_button.h>
 #include <m_message.h>
-#include <m_clist.h>
-#include <m_clui.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
 #include <m_genmenu.h>
 #include <m_imgsrvc.h>
-#pragma warning( pop )
 
-//globals, defined int main.cpp
+#include <m_metacontacts.h>
+#include <m_smileyadd.h>
+#include <m_smileyadd_deprecated.h>
+#include <m_folders.h>
+
+#include "bkstring.h"
+#include "regexp\wcpattern.h"
+#include "regexp\wcmatcher.h"
+
+typedef WCPattern _TPattern;
+typedef WCMatcher _TMatcher;
+#define createTMatcher createWCMatcher
+
+#include "resource.h"
+#include "version.h"
+#include "imagecache.h"
+#include "smileys.h"
+#include "customsmiley.h"
+#include "services.h"
+#include "options.h"
+#include "download.h"
+#include "anim.h"
+#include "SmileyBase.h"
+#include "smileyroutines.h"
+#include "smltool.h"
+
 extern HINSTANCE g_hInst;
 extern char* metaProtoName;
-
-//some system and NT stuff...
-#ifndef OPENFILENAME_SIZE_VERSION_400
-#define OPENFILENAME_SIZE_VERSION_400 sizeof(OPENFILENAME)
-#endif
-
+extern HANDLE hNetlibUser;
+extern HANDLE hEvent1, hContactMenuItem;
+extern SmileyCategoryListType g_SmileyCategories;
+extern SmileyPackListType g_SmileyPacks;
+extern LIST<void> menuHandleArray;
 
 #define IDC_SMLBUTTON        (WM_USER + 33)
 
@@ -156,33 +152,6 @@ public:
 #define A2T_SM     (wchar_t*)A2W_SM
 #define W2T_SM(p1) (TCHAR*)p1
 
-template<class T> struct SMOBJLIST : public OBJLIST<T>
-{
-	SMOBJLIST() : OBJLIST<T>(5) {};
-
-	SMOBJLIST<T>& operator = (const SMOBJLIST<T>& lst)
-	{ 
-		OBJLIST<T>::destroy();
-		return operator += (lst); 
-	}
-
-	SMOBJLIST<T>& operator += (const SMOBJLIST<T>& lst)
-	{ 		
-		for (int i=0; i<lst.getCount(); ++i)
-		{
-			T *p = new T(lst[i]); 
-			insert(p);
-		}
-		return *this; 
-	}
-
-	void splice(SMOBJLIST<T>& lst)
-	{
-		for (int i=0; i<lst.getCount(); ++i)
-			insert(&lst[i]);
-		lst.LIST<T>::destroy();
-	}
-};
 
 inline unsigned short GetWinVer(void)
 {

@@ -18,9 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "smileyroutines.h"
-#include "services.h"
-#include "options.h"
 
 //***************************************************//
 //              DISCLAIMER!!!
@@ -36,8 +33,6 @@ msgData;
 // subject to change in miranda versions...!!!!!!
 //              DISCLAIMER!!!
 //***************************************************//
-
-extern HINSTANCE g_hInst;
 
 static HHOOK g_hMessageHookPre = NULL;
 static HANDLE g_hMutex = NULL;

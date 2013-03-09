@@ -16,9 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "general.h"
-#include "smileys.h"
-
 #ifndef SMILEYADD_CUSTOMSMILEY_H_
 #define SMILEYADD_CUSTOMSMILEY_H_
 

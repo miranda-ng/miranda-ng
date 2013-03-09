@@ -17,9 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "anim.h"
-
-#include <process.h>
 
 Animate::Animate(SmileyType *sml, RECT& rect, HDC hdcMem, HBRUSH hbr, bool clip)
 	: m_sml(sml), m_img(NULL),

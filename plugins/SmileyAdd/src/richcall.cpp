@@ -17,14 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "general.h"
-#include "smileys.h"
-#include "smileyroutines.h"
-#include "services.h"
-#include "options.h"
-#include "SmileyBase.h"
-
-#include <richole.h>
-#include <tom.h>
 
 typedef struct   
 {
