@@ -58,7 +58,21 @@ void	VersionConversions();
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 {
-    hInst = hInstance;
+	switch(dwReason) {
+	case DLL_PROCESS_ATTACH:
+		ZeroMemory(&ssSMSSettings, sizeof(ssSMSSettings));
+		ssSMSSettings.hInstance = hInstance;
+		ssSMSSettings.hHeap = HeapCreate(0, 0, 0);
+		DisableThreadLibraryCalls((HMODULE)hInstance);
+		break;
+	case DLL_PROCESS_DETACH:
+		HeapDestroy(ssSMSSettings.hHeap);
+		ssSMSSettings.hHeap = NULL;
+	case DLL_THREAD_ATTACH:
+	case DLL_THREAD_DETACH:
+		break;
+	}
+
 	return TRUE;
 }
 
