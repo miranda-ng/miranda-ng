@@ -154,8 +154,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			CheckDlgButton(hwnd, IDC_TRANS, PopUpOptions.UseTransparency);
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1,255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopUpOptions.Alpha);
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_TRANS_SLIDER),	GWLP_USERDATA, GetWindowLongPtr(GetDlgItem(hwnd, IDC_TRANS_SLIDER), GWLP_WNDPROC));
-			SetWindowLongPtr(GetDlgItem(hwnd, IDC_TRANS_SLIDER),	GWLP_WNDPROC, (LONG_PTR)AlphaTrackBarWndProc);
+			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER),	AlphaTrackBarWndProc);
 			wsprintf(tstr, _T("%d%%"), Byte2Percentile(PopUpOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopUpOptions.OpaqueOnHover);
