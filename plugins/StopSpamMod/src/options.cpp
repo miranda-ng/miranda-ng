@@ -15,17 +15,13 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#define MIRANDA_VER 0x0800
 #include "headers.h"
 
 char * pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.");
 TCHAR const * defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
 
-
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
 	switch(msg)
 	{
 	case WM_INITDIALOG:

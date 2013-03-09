@@ -19,12 +19,6 @@
 #ifndef EVENTHOOKER_H_C8EAA58A_7C4D_45f7_A88E_0E41FE93754D
 #define EVENTHOOKER_H_C8EAA58A_7C4D_45f7_A88E_0E41FE93754D
 
-#pragma warning( once : 4430 )
-
-#include <windows.h>
-#include <string>
-#include <newpluginapi.h>
-
 namespace miranda
 {
 

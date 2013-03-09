@@ -18,8 +18,6 @@
 
 #include "headers.h"
 
-
-
 BOOL gbDosServiceExist = 0;
 BOOL gbVarsServiceExist = 0;
 
@@ -54,7 +52,6 @@ tstring gbQuestion;
 tstring gbAnswer;
 tstring gbCongratulation;
 std::wstring gbAuthRepl;
-extern char * pluginDescription;
 extern TCHAR const * defQuestion;
 extern int RemoveTmp(WPARAM,LPARAM);
 
@@ -66,16 +63,16 @@ extern int RemoveTmp(WPARAM,LPARAM);
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	pluginName" mod",
-	PLUGIN_MAKE_VERSION(0, 0, 2, 0),
-	pluginDescription,
-	"Roman Miklashevsky, sss, Elzor",
-	"sss123next@list.ru",
-	"© 2004-2012 Roman Miklashevsky, A. Petkevich, Kosh&chka, sss, Elzor",
-	"http://sss.chaoslab.ru/tracker/mim_plugs/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {553811EE-DEB6-48b8-8902-A8A00C1FD679}
-	{ 0x553811ee, 0xdeb6, 0x48b8, { 0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79 } }
+	// {553811EE-DEB6-48B8-8902-A8A00C1FD679}
+	{0x553811ee, 0xdeb6, 0x48b8, {0x89, 0x2, 0xa8, 0xa0, 0xc, 0x1f, 0xd6, 0x79}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)

@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "src/resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -152,56 +152,6 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,2,0
- PRODUCTVERSION 0,7,0,0
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "CompanyName", " "
-            VALUE "FileDescription", "StopSpam plugin for Miranda NG"
-            VALUE "FileVersion", "0.0.2.0"
-            VALUE "InternalName", "stopspam"
-            VALUE "LegalCopyright", "Copyright © 2000-2010 Miranda IM Project, 2012 Miranda NG Project. This software is released under the terms of the GNU General Public License."
-            VALUE "OriginalFilename", "stopspam.dll"
-            VALUE "ProductName", "StopSpam"
-            VALUE "ProductVersion", "0.7.0.0"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // Русский (Россия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -210,7 +160,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -227,7 +177,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский (США) resources
+#endif    // Русский (Россия) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -18,7 +18,6 @@
 
 #include "headers.h"
 
-
 MIRANDA_HOOK_EVENT(ME_DB_CONTACT_ADDED, w, l)
 {
 	return 0;
