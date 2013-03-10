@@ -19,15 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "subst.h"
-#include "popwin.h"
-#include "message_pump.h"
-#include "str_utils.h"
-#include "bitmap_func.h"
-#include "translations.h"
-#include "m_gender.h"
-
-extern TOOLTIPSKIN skin;
 
 __inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = NULL) 
 {

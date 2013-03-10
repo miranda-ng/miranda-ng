@@ -19,16 +19,12 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "translations.h"
-#include "subst.h"
-#include "str_utils.h"
 
 int iTransFuncsCount = 0;
 DBVTranslation *translations = 0;
 
 DWORD dwNextFuncId;
 HANDLE hServiceAdd;
-
 
 void AddTranslation(DBVTranslation *newTrans) 
 {

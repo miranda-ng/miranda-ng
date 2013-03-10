@@ -19,10 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "options.h"
-#include "str_utils.h"
-
-extern TCHAR SKIN_FOLDER[256];
 
 int RefreshSkinList(HWND hwndDlg)
 {

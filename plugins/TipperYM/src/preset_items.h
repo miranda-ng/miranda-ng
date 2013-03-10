@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef _PRESETITEMS_INC
 #define _PRESETITEMS_INC
 
-#include "options.h"
-
 #define MAX_PRESET_SUBST_COUNT	3
 
 typedef struct {

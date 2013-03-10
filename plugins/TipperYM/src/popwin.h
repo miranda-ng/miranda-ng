@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef _POPWIN_INC
 #define _POPWIN_INC
 
-#include "mir_smileys.h"
-
 #define POP_WIN_CLASS					_T(MODULE) _T("MimTTClass")
 
 #define PUM_GETHEIGHT					(WM_USER + 0x020)

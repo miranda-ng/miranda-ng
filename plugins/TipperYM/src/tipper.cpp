@@ -19,12 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "version.h"
-#include "message_pump.h"
-#include "options.h"
-#include "popwin.h"
-#include "skin_parser.h"
-#include "str_utils.h"
 
 HMODULE hInst;
 
@@ -50,19 +44,19 @@ int hLangpack;
 PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	"Tipper",
-	__VERSION_DWORD,
-	"Tool Tip notification windows.",
-	"Scott Ellis, yaho",
-	"yaho@miranda-easy.net",
-	"© 2005-2007 Scott Ellis, 2007-2011 Jan Holub",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}
+	// {8392DF1D-9090-4F8E-9DF6-2FE058EDD800}
 	{0x8392df1d, 0x9090, 0x4f8e, {0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00}}
 };
 
-extern "C" bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
     return TRUE;

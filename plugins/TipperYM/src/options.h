@@ -21,11 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
-#include "translations.h"
-#include "popwin.h"
-#include "bitmap_func.h"
-#include "skin_parser.h"
-
 #define WMU_ENABLE_LIST_BUTTONS			(WM_USER + 0x030)
 #define WMU_ENABLE_MODULE_ENTRY			(WM_USER + 0x031)
 

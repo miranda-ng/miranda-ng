@@ -19,9 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "options.h"
-#include "bitmap_func.h"
-#include "message_pump.h"
 
 TOOLTIPSKIN skin = {0};
 

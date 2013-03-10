@@ -21,9 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef _SUBST_INC
 #define _SUBST_INC
 
-#include "options.h"
-#include "translations.h"
-
 bool GetLabelText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBufflen);
 bool GetValueText(HANDLE hContact, const DISPLAYITEM &di, TCHAR *buff, int iBufflen);
 

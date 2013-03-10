@@ -19,7 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "preset_items.h"
 
 PRESETITEM presetItems[] = 
 {

@@ -333,16 +333,7 @@ IDI_DOWN                ICON                    "arrow_down.ico"
 IDI_SEPARATOR           ICON                    "separator.ico"
 IDI_RELOAD              ICON                    "reload.ico"
 IDI_APPLY               ICON                    "apply.ico"
-#endif    // Czech (Czech Republic) resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -369,7 +360,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (United States) resources
+#endif    // Czech (Czech Republic) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -19,19 +19,9 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "options.h"
-#include "popwin.h"
-#include "str_utils.h"
-#include "message_pump.h"
-#include "preset_items.h"
-#include "skin_parser.h"
 
 OPTIONS opt;
 ICONSTATE exIcons[EXICONS_COUNT];
-
-extern TOOLTIPSKIN skin;
-extern int ReloadFont(WPARAM wParam, LPARAM lParam);
-
 
 extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
 {

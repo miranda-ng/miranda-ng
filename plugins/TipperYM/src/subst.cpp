@@ -19,10 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "subst.h"
-#include "str_utils.h"
-#include "popwin.h"
-
 
 int ProtoServiceExists(const char *szModule, const char *szService)
 {

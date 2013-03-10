@@ -19,11 +19,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
-#include "message_pump.h"
-#include "popwin.h"
-#include "options.h"
-#include "str_utils.h"
-#include "subst.h"
 
 BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;
 BOOL (WINAPI *MyUpdateLayeredWindow)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags) = 0;

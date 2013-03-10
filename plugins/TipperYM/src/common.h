@@ -38,11 +38,7 @@ Boston, MA 02111-1307, USA.
 #define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
 #endif
 
-#define MIRANDA_VER		0x0A00
-
 #define _CRT_SECURE_NO_WARNINGS
-
-#include <m_stdhdr.h>
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
@@ -52,6 +48,7 @@ Boston, MA 02111-1307, USA.
 #include <time.h>
 #include <windowsx.h>
 
+#include <m_stdhdr.h>
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <statusmodes.h>
@@ -79,7 +76,6 @@ Boston, MA 02111-1307, USA.
 #include <m_xstatus.h>
 #include <m_icq.h>
 
-#include "resource.h"
 #include "m_tipper.h"
 #include "m_fingerprint.h"
 #include "m_flags.h"
@@ -87,7 +83,20 @@ Boston, MA 02111-1307, USA.
 #include "m_metacontacts.h"
 #include "m_variables.h"
 #include "m_smileyadd.h"
+#include "m_gender.h"
 
+#include "resource.h"
+#include "version.h"
+#include "message_pump.h"
+#include "mir_smileys.h"
+#include "popwin.h"
+#include "skin_parser.h"
+#include "bitmap_func.h"
+#include "options.h"
+#include "str_utils.h"
+#include "subst.h"
+#include "preset_items.h"
+#include "translations.h"
 
 #define MODULE					"Tipper"
 #define MODULE_ITEMS			"Tipper_Items"
@@ -102,3 +111,8 @@ extern int iCodePage;
 extern char szMetaModuleName[256];
 
 extern FI_INTERFACE *fii;
+
+extern TOOLTIPSKIN skin;
+extern TCHAR SKIN_FOLDER[256];
+
+extern int ReloadFont(WPARAM wParam, LPARAM lParam);
