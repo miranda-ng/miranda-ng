@@ -6,32 +6,25 @@
 
 #include <windows.h>
 #include <commctrl.h>
-#include <time.h>
 #include <stddef.h>
-#include <process.h>
-#include <math.h>
-#include <vsstyle.h>
 
-#include "win2k.h"
-#include "newpluginapi.h"
-#include "m_system.h"
-#include "m_system_cpp.h"
-#include "m_database.h"
-#include "m_clist.h"
-#include "m_skin.h"
-#include "m_utils.h"
-#include "m_cluiframes.h"
-#include "m_clui.h"
-#include "m_clc.h"
-#include "m_findadd.h"
-#include "m_langpack.h"
-#include "m_options.h"
+#include <win2k.h>
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_skin.h>
+#include <m_cluiframes.h>
+#include <m_clui.h>
+#include <m_clc.h>
+#include <m_findadd.h>
+#include <m_langpack.h>
+#include <m_options.h>
+#include <m_button.h>
+#include <m_icolib.h>
+
+#include <m_toptoolbar.h>
+
 #include "resource.h"
-#include "m_protocols.h"
-#include "m_protosvc.h"
-#include "m_toptoolbar.h"
-#include "m_button.h"
-#include "m_icolib.h"
+#include "version.h"
 #include "BkgrCfg.h"
 
 #define TTB_BUTTON_CLASS  _T("TopToolbarButtonClass")

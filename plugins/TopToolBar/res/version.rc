@@ -4,55 +4,31 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
+#include "afxres.h"
 #include "..\src\version.h"
-
-#define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 2 resource.
-//
-#include <winres.h>
-/////////////////////////////////////////////////////////////////////////////
-#undef APSTUDIO_READONLY_SYMBOLS
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
 #else
  FILEFLAGS 0x0L
 #endif
- FILEOS 0x40004L
- FILETYPE 0x1L
+ FILEOS 0x4L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "FileDescription", __PLUGIN_DESC
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", __PLUGIN_SHORTNAME
-            VALUE "LegalCopyright", __PLUGIN_RIGHTS
-            VALUE "OriginalFilename", __PLUGIN_FILE
-            VALUE "ProductName", __PLUGIN_SHORTNAME
-            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
@@ -60,5 +36,3 @@ BEGIN
         VALUE "Translation", 0x0, 1200
     END
 END
-
-#endif

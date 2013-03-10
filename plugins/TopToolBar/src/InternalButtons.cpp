@@ -5,8 +5,6 @@
 #define TTBI_SOUNDSONOFF    "TTBInternal/SoundsOnOFF"
 #define TTBI_MAINMENUBUTT   "TTBInternal/MainMenuBUTT"
 
-extern HINSTANCE hInst;
-
 static HWND hwndContactTree;
 
 struct 
