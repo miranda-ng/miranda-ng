@@ -2,24 +2,24 @@
 
 HINSTANCE hInst;
 
-HANDLE hModulesLoaded, hShowGuide;
+HANDLE hShowGuide;
 int hLangpack;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"User Guide Plugin",
-	PLUGIN_MAKE_VERSION(0,0,0,1),
-	"This plug-in adds the main menu item used to view miranda-im pack user guide.",
-	"Yasnovidyashii",
-	"yasnovidyashii@gmail.com",
-	"© 2009 Mikhail Yuriev",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x297ec1e7, 0x41b7, 0x41f9, { 0xbb, 0x91, 0xef, 0xa9, 0x50, 0x28, 0xf1, 0x6c }} //297ec1e7-41b7-41f9-bb91-efa95028f16c
-
+	// 297EC1E7-41B7-41F9-BB91-EFA95028F16C
+	{0x297ec1e7, 0x41b7, 0x41f9, {0xbb, 0x91, 0xef, 0xa9, 0x50, 0x28, 0xf1, 0x6c}}
 };
 
-static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)
+static INT_PTR ShowGuideFile(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
 	int iRes;
@@ -78,7 +78,7 @@ static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam,LPARAM lParam)
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
 
@@ -93,7 +93,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -107,15 +107,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfo);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hModulesLoaded);
 	DestroyServiceFunction(hShowGuide);
 	return 0;
 }
