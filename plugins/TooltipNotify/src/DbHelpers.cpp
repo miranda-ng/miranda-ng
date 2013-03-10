@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "DbHelpers.h"
 
 typedef std::vector<const char*> SettingsList;
 

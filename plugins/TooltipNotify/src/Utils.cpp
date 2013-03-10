@@ -3,7 +3,6 @@
 //
 
 #include "stdafx.h"
-#include "Utils.h"
 
 BOOL IsNt50()
 {

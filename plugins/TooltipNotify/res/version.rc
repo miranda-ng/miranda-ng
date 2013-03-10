@@ -1,23 +1,15 @@
+// Microsoft Visual C++ generated resource script.
 //
-// version.rc2 - resources Microsoft Visual C++ does not edit directly
-//
-
 #ifdef APSTUDIO_INVOKED
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
 #include "afxres.h"
 #include "..\src\version.h"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MAJOR,MINOR,BUILD,REVISION
- PRODUCTVERSION MAJOR,MINOR,BUILD,REVISION
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -25,29 +17,22 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Shows a small tooltip above system tray area when a contact status is changed."
-            VALUE "CompanyName", "Gneedah software"
-            VALUE "FileDescription", "Tooltip Notify plugin for Miranda NG."
-            VALUE "FileVersion", "*,*,*,*"
-            VALUE "InternalName", "ttnotify.dll"
-            VALUE "LegalCopyright", "© 2004-2008  Gneedah software"
-            VALUE "OriginalFilename", "ttnotify.dll"
-            VALUE "ProductName", "Tooltip Notify"
-            VALUE "ProductVersion", "*,*,*,*"
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END
-
-
-/////////////////////////////////////////////////////////////////////////////

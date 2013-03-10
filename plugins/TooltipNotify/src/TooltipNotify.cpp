@@ -3,12 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "resource.h"
-#include "TooltipNotify.h"
-#include "Tooltip.h"
-#include "Settings.h"
-#include "DbHelpers.h"
-#include "Utils.h"
 
 #define ReadSettingByte(c, d)		DBGetContactSettingByte(NULL, s_szModuleName, c, d)
 #define ReadSettingWord(c, d)		DBGetContactSettingWord(NULL, s_szModuleName, c, d)
@@ -111,7 +105,7 @@ void CTooltipNotify::RegisterFonts()
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 
-	for (int i=0; i<ARRAY_SIZE(s_fontTable); i++)
+	for (int i=0; i<SIZEOF(s_fontTable); i++)
 	{
 		_tcscpy(fontId.name, s_fontTable[i].name);
 		strcpy(fontId.prefix, s_fontTable[i].fontPrefix);
@@ -127,7 +121,7 @@ void CTooltipNotify::RegisterFonts()
 void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF* bg)
 {
 	TCHAR* fontName = 0;
-	for(int i=0; i<ARRAY_SIZE(s_fontTable); i++)
+	for(int i=0; i<SIZEOF(s_fontTable); i++)
 	{
 		if (s_fontTable[i].status == iStatus)
 		{
@@ -136,7 +130,7 @@ void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF*
 	}
 	if (fontName == 0)
 	{
-		fontName = s_fontTable[ARRAY_SIZE(s_fontTable)-1].name;
+		fontName = s_fontTable[SIZEOF(s_fontTable)-1].name;
 	}
 
 	// name and group only
@@ -724,7 +718,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					WCHAR wszProto[128];
 					long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szModuleName,
-						(int)strlen(ppProtos[i]->szModuleName), wszProto, ARRAY_SIZE(wszProto));
+						(int)strlen(ppProtos[i]->szModuleName), wszProto, SIZEOF(wszProto));
 					wszProto[lLen] = L'\0';
 
 					lvi.pszText = wszProto;
@@ -750,7 +744,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 					{
 						TCHAR szProto[64];
 
-						ListView_GetItemText(GetDlgItem(hDlg,IDC_PROTOS), i, 0, szProto, ARRAY_SIZE(szProto));
+						ListView_GetItemText(GetDlgItem(hDlg,IDC_PROTOS), i, 0, szProto, SIZEOF(szProto));
 
 						char szMultiByteProto[128];
 						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, lstrlen(szProto), 
@@ -979,7 +973,7 @@ TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize
 TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *szString, int iBufSize)
 {
 	TCHAR szStatus[32];
-	StatusToString(iStatus, szStatus, ARRAY_SIZE(szStatus));
+	StatusToString(iStatus, szStatus, SIZEOF(szStatus));
 
 	// "proro: user is online"
 	const TCHAR *szFormatString = m_sOptions.bPrefixProto ? _T("%s%s%s") : _T("%.0s%.0s%s");
@@ -994,7 +988,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 
 
 	WCHAR wszProto[32];
-	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)strlen(szProto), wszProto, ARRAY_SIZE(wszProto));
+	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)strlen(szProto), wszProto, SIZEOF(wszProto));
 	wszProto[lLen] = _T('\0');
 
 	_sntprintf(szString, iBufSize-1, szFormatString, wszProto, _T(": "), szContactName);

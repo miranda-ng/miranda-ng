@@ -3,9 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "Tooltip.h"
-#include "Settings.h"
-#include "TooltipNotify.h"
 
 /*static*/ const TCHAR *CTooltip::s_szTooltipClass = _T("MimTooltipNotify");
 
