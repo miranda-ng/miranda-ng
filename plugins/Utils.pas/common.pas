@@ -183,6 +183,8 @@ function StrToInt(src:pWideChar):int64; overload;
 function StrToInt(src:PAnsiChar):int64; overload;
 function HexToInt(src:pWideChar;len:cardinal=$FFFF):int64; overload;
 function HexToInt(src:PAnsiChar;len:cardinal=$FFFF):int64; overload;
+function NumToInt(src:pWideChar):int64; overload;
+function NumToInt(src:pAnsiChar):int64; overload;
 
 // filename work
 function ChangeExt (src,ext:PAnsiChar):PAnsiChar;
@@ -210,7 +212,7 @@ implementation
 // Murmur 2.0
 function Hash(s:pointer; len:integer{const Seed: LongWord=$9747b28c}): LongWord;
 var
-  hash: LongWord;
+  lhash: LongWord;
   k: LongWord;
   tmp,data: pByte;
 const
@@ -222,7 +224,7 @@ begin
   //The default seed, $9747b28c, is from the original C library
 
   // Initialize the hash to a 'random' value
-  hash := {seed xor }len;
+  lhash := {seed xor }len;
 
   // Mix 4 bytes at a time into the hash
   data := s;
@@ -235,8 +237,8 @@ begin
     k := k xor (k shr r);
     k := k*m;
 
-    hash := hash*m;
-    hash := hash xor k;
+    lhash := lhash*m;
+    lhash := lhash xor k;
 
     inc(data,4);
     dec(len,4);
@@ -247,27 +249,27 @@ begin
   begin
     tmp:=data;
     inc(tmp,2);
-    hash := hash xor (LongWord(tmp^) shl 16);
+    lhash := lhash xor (LongWord(tmp^) shl 16);
   end;
   if len >= 2 then
   begin
     tmp:=data;
     inc(tmp);
-    hash := hash xor (LongWord(tmp^) shl 8);
+    lhash := lhash xor (LongWord(tmp^) shl 8);
   end;
   if len >= 1 then
   begin
-    hash := hash xor (LongWord(data^));
-    hash := hash * m;
+    lhash := lhash xor (LongWord(data^));
+    lhash := lhash * m;
   end;
 
   // Do a few final mixes of the hash to ensure the last few
   // bytes are well-incorporated.
-  hash := hash xor (hash shr 13);
-  hash := hash * m;
-  hash := hash xor (hash shr 15);
+  lhash := lhash xor (lhash shr 13);
+  lhash := lhash * m;
+  lhash := lhash xor (lhash shr 15);
 
-  Result := hash;
+  Result := lhash;
 end;
 
 function BSwap(value:dword):dword;
@@ -2052,6 +2054,34 @@ var
   buf:array [0..63] of AnsiChar;
 begin
   result:=FastAnsiToWideBuf(IntToTime(buf,time),dst);
+end;
+
+function NumToInt(src:pWideChar):int64;
+begin
+  if (src[0]='$') and
+     (AnsiChar(src[1]) in sHexNum) then
+    result:=HexToInt(src+1)
+  else
+  if (src[0]='0') and
+     (src[1]='x') and
+     (AnsiChar(src[2]) in sHexNum) then
+    result:=HexToInt(src+2)
+  else
+    result:=StrToInt(src);
+end;
+
+function NumToInt(src:pAnsiChar):int64;
+begin
+  if (src[0]='$') and
+     (src[1] in sHexNum) then
+    result:=HexToInt(src+1)
+  else
+  if (src[0]='0') and
+     (src[1]='x') and
+     (src[2] in sHexNum) then
+    result:=HexToInt(src+2)
+  else
+    result:=StrToInt(src);
 end;
 
 function StrToInt(src:pWideChar):int64;

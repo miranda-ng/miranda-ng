@@ -3,7 +3,7 @@ unit strans;
 
 interface
 
-uses windows{$IFDEF Miranda}, m_api{$ENDIF};
+uses windows{$IFDEF Miranda}, m_api, mirutils{$ENDIF};
 // <align>|[<key>]<type> [(<type alias>)] [<alias>] [arr.len] [value]|
 const
   char_separator = '|';
@@ -27,10 +27,10 @@ const
   SST_PARAM   = 10;
   SST_UNKNOWN = -1;
 const
-  EF_RETURN = $00000001;
-  EF_SCRIPT = $00000002;
-  EF_MMI    = $00000004;
-  EF_LAST   = $00000080;
+  SF_RETURN = $00000001;
+  SF_SCRIPT = $00000002;
+  SF_MMI    = $00000004;
+  SF_LAST   = $00000080;
 type
   // int_ptr = to use aligned structure data at start
   PStructResult = ^TStructResult;
@@ -71,7 +71,7 @@ const
 type
   tOneElement = record
     etype :integer;
-    flags :integer; // EF_MMI,EF_SCRIPT,EF_RETURN
+    flags :integer; // SF_MMI,SF_SCRIPT,SF_RETURN
     len   :integer; // value length (for arrays and pointers)
     align :integer;
     alias :array [0..63] of AnsiChar;
@@ -87,12 +87,6 @@ function GetOneElement(txt:pAnsiChar;var res:tOneElement;
                        SizeOnly:boolean;num:integer=0):integer;
 procedure FreeElement(var element:tOneElement);
 
-{$IFDEF Miranda}
-const
-  rtInt  = 1;
-  rtWide = 2;
-{$ENDIF}
-
 function MakeStructure(txt:pAnsiChar;aparam,alast:LPARAM
          {$IFDEF Miranda}; restype:integer=rtInt{$ENDIF}):pointer;
 
@@ -102,7 +96,7 @@ procedure FreeStructure(var struct);
 
 implementation
 
-uses common{$IFDEF Miranda}, mirutils{$ENDIF};
+uses common;
 
 type
   pint_ptr = ^int_ptr;
@@ -182,10 +176,10 @@ begin
   while not (txt^ in sWordOnly) do
   begin
     case txt^ of
-      char_return: res.flags:=res.flags or EF_RETURN;
+      char_return: res.flags:=res.flags or SF_RETURN;
 {$IFDEF Miranda}
-      char_script: res.flags:=res.flags or EF_SCRIPT;
-      char_mmi   : res.flags:=res.flags or EF_MMI;
+      char_script: res.flags:=res.flags or SF_SCRIPT;
+      char_mmi   : res.flags:=res.flags or SF_MMI;
 {$ENDIF}
     end;
     inc(txt);
@@ -261,7 +255,7 @@ begin
 
       SST_BYTE,SST_WORD,SST_DWORD,SST_QWORD,SST_NATIVE: begin
         begin
-          if (res.flags and EF_SCRIPT)=0 then
+          if (res.flags and SF_SCRIPT)=0 then
           begin
             pc1:=@res.svalue;
             if pc^=char_hex then
@@ -355,7 +349,7 @@ begin
 
   if element.etype in [SST_WARR,SST_WPTR] then
   begin
-    if (element.flags and EF_SCRIPT)<>0 then
+    if (element.flags and SF_SCRIPT)<>0 then
       datatype:=2  // Wide to Wide (if script done)
     else
       datatype:=1; // UTF to Wide
@@ -500,7 +494,7 @@ begin
     end;
     SST_BYTE,SST_WORD,SST_DWORD,
     SST_QWORD,SST_NATIVE: begin
-      if (element.flags and EF_SCRIPT)<>0 then
+      if (element.flags and SF_SCRIPT)<>0 then
         mFreeMem(element.text);
     end;
     SST_BARR,SST_WARR,
@@ -562,7 +556,7 @@ begin
     GetOneElement(lsrc,element,true);
     AdjustSize(summ,element.align,align);
 
-    if ((element.flags and EF_RETURN)<>0) and (code=SST_UNKNOWN) then
+    if ((element.flags and SF_RETURN)<>0) and (code=SST_UNKNOWN) then
     begin
       code:=element.etype;
       alen:=element.len;
@@ -615,7 +609,7 @@ begin
     p:=StrScan(pc,char_separator);
     GetOneElement(pc,element,false);
 
-    if (element.flags and EF_SCRIPT)<>0 then
+    if (element.flags and SF_SCRIPT)<>0 then
     begin
 {$IFDEF Miranda}
       if restype=rtInt then
@@ -705,7 +699,7 @@ begin
         begin
           inc(element.len); // with Zero at the end
 {$IFDEF Miranda}
-          if (element.flags and EF_MMI)<>0 then
+          if (element.flags and SF_MMI)<>0 then
             lsrc:=mir_alloc(element.len*SizeOf(AnsiChar))
           else
 {$ENDIF}
@@ -719,7 +713,7 @@ begin
         if element.len=0 then
         begin
 {$IFDEF Miranda}
-          if (element.flags and EF_SCRIPT)<>0 then
+          if (element.flags and SF_SCRIPT)<>0 then
             element.len:=StrLenW(element.text)
           else
 {$ENDIF}
@@ -732,7 +726,7 @@ begin
         begin
           inc(element.len); // with Zero at the end
 {$IFDEF Miranda}
-          if (element.flags and EF_MMI)<>0 then
+          if (element.flags and SF_MMI)<>0 then
             lsrc:=mir_alloc(element.len*SizeOf(WideChar))
           else
 {$ENDIF}
@@ -754,7 +748,7 @@ begin
     pc:=p+1;
     inc(tmpl);
   end;
-  tmpl^.flags:=tmpl^.flags or EF_LAST;
+  tmpl^.flags:=tmpl^.flags or SF_LAST;
 end;
 
 function GetStructureResult(var struct;atype:pinteger=nil;alen:pinteger=nil):int_ptr;
@@ -812,7 +806,7 @@ begin
         //??
         value:=pAnsiChar(pint_ptr(pAnsiChar(struct)+tmpl^.offset)^);
 {$IFDEF Miranda}
-        if (tmpl^.flags and EF_MMI)<>0 then
+        if (tmpl^.flags and SF_MMI)<>0 then
           mir_free(value)
         else
 {$ENDIF}
@@ -820,7 +814,7 @@ begin
       end;
     end;
     inc(tmpl);
-  until (tmpl^.flags and EF_LAST)<>0;
+  until (tmpl^.flags and SF_LAST)<>0;
 
   mFreeMem(tmp);
 end;

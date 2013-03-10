@@ -20,11 +20,11 @@ function StringToGUID(const astr:PAnsiChar):TGUID; overload;
 function StringToGUID(const astr:PWideChar):TGUID; overload;
 
 // Comboboxes
-function CB_SelectData(cb:HWND;data:dword):lresult; overload;
-function CB_SelectData(Dialog:HWND;id:cardinal;data:dword):lresult; overload;
-function CB_GetData   (cb:HWND;idx:integer=-1):lresult;
-function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:integer=0;idx:integer=-1):HWND;
-function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:integer=0;idx:integer=-1):HWND;
+function CB_SelectData(cb:HWND;data:lparam):lresult; overload;
+function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):lresult; overload;
+function CB_GetData   (cb:HWND;idx:integer=-1):lresult; overload;
+function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
 
 // CommCtrl - ListView
 Procedure ListView_GetItemTextA(hwndLV:hwnd;i:WPARAM;iSubItem:integer;pszText:Pointer;cchTextMax:integer);
@@ -179,14 +179,14 @@ end;
 
 //----- Combobox functions -----
 
-function CB_SelectData(cb:HWND;data:dword):lresult; overload;
+function CB_SelectData(cb:HWND;data:lparam):lresult; overload;
 var
   i:integer;
 begin
-  result:=0;
+  result:=CB_ERR;
   for i:=0 to SendMessage(cb,CB_GETCOUNT,0,0)-1 do
   begin
-    if data=dword(SendMessage(cb,CB_GETITEMDATA,i,0)) then
+    if data=lparam(SendMessage(cb,CB_GETITEMDATA,i,0)) then
     begin
       result:=i;
       break;
@@ -195,7 +195,7 @@ begin
   result:=SendMessage(cb,CB_SETCURSEL,result,0);
 end;
 
-function CB_SelectData(Dialog:HWND;id:cardinal;data:dword):lresult; overload;
+function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):lresult; overload;
 begin
   result:=CB_SelectData(GetDlgItem(Dialog,id),data);
 end;
@@ -210,7 +210,7 @@ begin
     result:=SendMessage(cb,CB_GETITEMDATA,idx,0);
 end;
 
-function CB_AddStrData(cb:HWND;astr:pAnsiChar;data:integer=0;idx:integer=-1):HWND;
+function CB_AddStrData(cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=cb;
   if idx<0 then
@@ -220,7 +220,7 @@ begin
   SendMessageA(cb,CB_SETITEMDATA,idx,data);
 end;
 
-function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:integer=0;idx:integer=-1):HWND;
+function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=cb;
   if idx<0 then

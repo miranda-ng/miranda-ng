@@ -5,6 +5,14 @@ interface
 
 uses windows,m_api;
 
+// for miranda services
+const
+  rtInt  = 1;
+  rtWide = 2;
+  rtAnsi = 3;
+  rtUTF8 = 4;
+
+
 // icons
 function SetButtonIcon(btn:HWND;name:PAnsiChar):HICON;
 function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;
@@ -68,11 +76,14 @@ function LoadImageURL(url:pAnsiChar;size:integer=0):HBITMAP;
 
 implementation
 
-uses Messages,dbsettings,common,io,freeimage,syswin;
+uses
+  Messages,
+  dbsettings,freeimage,
+  common,io,syswin;
 
 const
   clGroup = 'Group';
-// Save / Load contact
+// Save / Load contact 
 const
   opt_cproto   = 'cproto';
   opt_cuid     = 'cuid';
@@ -266,6 +277,9 @@ procedure ShowPopupW(text:pWideChar;title:pWideChar=nil);
 var
   ppdu:TPOPUPDATAW;
 begin
+  if ServiceExists(MS_POPUP_ADDPOPUPW)=0 then
+    exit;
+
   FillChar(ppdu,SizeOf(TPOPUPDATAW),0);
   if CallService(MS_POPUP_ISSECONDLINESHOWN,0,0)<>0 then
   begin

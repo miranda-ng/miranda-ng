@@ -174,7 +174,7 @@ begin
 
     if D.rptvalue<>0 then
     begin
-      D.rpttimer:=SetTimer(Sender.Handle,dword(Sender),D.rptvalue,@TimerProc);
+      D.rpttimer:=SetTimer(Sender.Handle,uint(Sender),D.rptvalue,@TimerProc);
 //      D.rpttimer:=SetTimer(Sender.GetWindowHandle,1,D.rptvalue,nil);
     end;
   end;

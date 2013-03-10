@@ -2,10 +2,12 @@ unit memini;
 
 interface
 
-function OpenStorage(fname:pAnsiChar):pointer;
+function OpenStorage(fname:pWideChar):pointer; overload;
+function OpenStorage(fname:pAnsiChar):pointer; overload;
 function OpenStorageBuf(buf:pAnsiChar):pointer;
 procedure CloseStorage(storage:pointer);
 
+//function GetNamespaceList(storage:pointer):pAnsiChar;
 function GetSectionList(storage:pointer;namespace:pAnsiChar=nil):pAnsiChar;
 procedure FreeSectionList(ptr:pAnsiChar);
 
@@ -74,9 +76,17 @@ end;
 // sections adds 1 by 1, without duplicate check
 procedure AddSection(data:pStorage;anamespace,aname:pAnsiChar);
 var
+  i:integer;
+  fnhash:integer;
   c:AnsiChar;
 begin
-  // search section with same name?
+  // search section with same name
+  fnhash:=HashOf(anamespace);
+  for i:=0 to data.numsect-1 do
+  begin
+    if data.arSection[i].full=fnhash then
+      exit; // Doing nothing!
+  end;
 
   // add section
   if data.numsect>High(data.arSection) then
@@ -87,7 +97,7 @@ begin
   begin
     fullname:=anamespace;
     name    :=aname;
-    full:=HashOf(anamespace);
+    full    :=fnhash;
     if anamespace<>aname then
     begin
       c:=(aname-1)^;
@@ -204,6 +214,7 @@ end;
 procedure TranslateData(data:pStorage);
 var
   pc2,pc1,pc:pAnsiChar;
+  len:integer;
 begin
   pc:=data^.buffer;
   data.numsect:=0;
@@ -227,14 +238,31 @@ begin
       //!! without #0 check
       pc1:=pc;
       pc2:=pc;
-      while pc^ in sLatWord do inc(pc);
+//??      while pc^ in sLatWord do inc(pc);
+      {}
+      repeat
+        len:=CharUTF8Len(pc);
+        if (len>1) or (pc^ in sLatWord) then
+          inc(pc,len)
+        else
+          break;
+      until false;
+      {}
       // namespace
       if pc^=ns_separator then
       begin
         inc(pc);
         pc2:=pc;
       end;
-      while pc^ <> ']' do inc(pc);
+//      while pc^ <> ']' do inc(pc);
+      {}
+      repeat
+        len:=CharUTF8Len(pc);
+        if (len=1) and (pc^ = ']') then
+          break;
+        inc(pc,len);
+      until false;
+      {}
       pc^:=#0; //!!
 
       AddSection(data,pc1,pc2);
@@ -258,7 +286,9 @@ begin
       pc2:=ProcessParamValue(pc);
 
       AddParam(data,pc1,pc2,false);
-    end;
+    end
+    else // wrong thing, skip line
+      while not (pc^ in [#10,#13]) do inc(pc);
   end;
 
 end;
@@ -277,32 +307,43 @@ begin
   end;
 end;
 
-function OpenStorage(fname:pAnsiChar):pointer;
+function OpenFileStorage(h:THANDLE):pointer;
 var
-  h:THANDLE;
   size:integer;
 begin
   result:=nil;
-  if FileExists(fname) then
+  if h<>THANDLE(INVALID_HANDLE_VALUE) then
   begin
-    h:=Reset(fname);
-    if h<>THANDLE(INVALID_HANDLE_VALUE) then
+    size:=FileSize(h);
+    if size>0 then
     begin
-      size:=FileSize(h);
-      if size>0 then
-      begin
-        GetMem(result,SizeOf(tStorage));
-        FillChar(result^,SizeOf(tStorage),0);
+      GetMem(result,SizeOf(tStorage));
+      FillChar(result^,SizeOf(tStorage),0);
 
-        // save name too?
-        GetMem(pStorage(result)^.buffer,size+1);
-        BlockRead(h,pStorage(result)^.buffer^,size);
-        pStorage(result)^.buffer[size]:=#0;
-      end;
-      CloseHandle(h);
-      TranslateData(pStorage(result));
+      // save name too?
+      GetMem(pStorage(result)^.buffer,size+1);
+      BlockRead(h,pStorage(result)^.buffer^,size);
+      pStorage(result)^.buffer[size]:=#0;
     end;
+    CloseHandle(h);
+    TranslateData(pStorage(result));
   end;
+end;
+
+function OpenStorage(fname:pWideChar):pointer;
+begin
+  if FileExists(fname) then
+    result:=OpenFileStorage(Reset(fname))
+  else
+  result:=nil;
+end;
+
+function OpenStorage(fname:pAnsiChar):pointer;
+begin
+  if FileExists(fname) then
+    result:=OpenFileStorage(Reset(fname))
+  else
+  result:=nil;
 end;
 
 procedure CloseStorage(storage:pointer);
@@ -323,10 +364,20 @@ begin
   end;
   FreeMem(storage);
 end;
+{
+function GetNamespaceList(storage:pointer):pAnsiChar;
+begin
+  if storage=nil then
+  begin
+    result:=nil;
+    exit;
+  end;
 
+end;
+}
 function GetSectionList(storage:pointer;namespace:pAnsiChar=nil):pAnsiChar;
 var
-  i,size,ns:integer;
+  i,lsize,lns:integer;
   pc:pAnsiChar;
 begin
   if storage=nil then
@@ -336,16 +387,30 @@ begin
   end;
 
   // calculate size
-  size:=0;
-  ns:=0;
+  lsize:=0;
   if (namespace<>nil) and (namespace^<>#0) then
-    ns:=HashOf(namespace);
+    lns:=HashOf(namespace)
+  else
+    lns:=0;
 
   with pStorage(storage)^ do
   begin
     for i:=0 to HIGH(arSection) do
     begin
-      if (namespace<>nil) and (namespace^<>#0) then
+      with arSection[i] do
+      begin
+        if (namespace=nil) or
+           ((namespace^=#0) and (name=fullname)) then
+          inc(lsize,StrLen(fullname)+1)
+        else
+        begin
+          if lns<>ns then
+            continue;
+          inc(lsize,StrLen(name)+1);
+        end;
+      end;
+{
+      if (namespace<>nil) and (namespace^<>#0) then //?? ns=0
       begin
         if ns<>arSection[i].ns then
           continue;
@@ -353,15 +418,29 @@ begin
       end
       else
         inc(size,StrLen(arSection[i].fullname)+1);
+}
     end;
-    inc(size);
+    inc(lsize);
   // get memory
-    GetMem(pc,size);
+    GetMem(pc,lsize);
     result:=pc;
   // fill
     for i:=0 to HIGH(arSection) do
     begin
-      if (namespace<>nil) and (namespace^<>#0) then
+      with arSection[i] do
+      begin
+        if (namespace=nil) or
+           ((namespace^=#0) and (name=fullname)) then
+          pc:=StrCopyE(pc,fullname)
+        else
+        begin
+          if lns<>ns then
+            continue;
+          pc:=StrCopyE(pc,name);
+        end;
+      end;
+{     
+      if (namespace<>nil) and (namespace^<>#0) then //?? ns=0
       begin
         if ns<>arSection[i].ns then
           continue;
@@ -369,6 +448,7 @@ begin
       end
       else
         pc:=StrCopyE(pc,arSection[i].fullname);
+}
       inc(pc);
     end;
     pc^:=#0;

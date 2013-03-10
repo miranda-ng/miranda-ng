@@ -25,7 +25,7 @@ const
   ACI_DELETE :PAnsiChar = 'ACI_Delete';
 
 const
-  API_STRUCT_FILE = 'plugins\services.ini';
+  API_STRUCT_FILE:pAnsiChar = 'plugins\services.ini';
   namespace = 'Structure';
 {$ENDIF}
 
@@ -276,7 +276,7 @@ var
   p,pc:pAnsiChar;
   pw:pWideChar;
 begin
-  if (element.flags and EF_RETURN)<>0 then
+  if (element.flags and SF_RETURN)<>0 then
     ListView_SetCheckState(list,item,true);
 
   li.iItem:=item;
@@ -299,11 +299,11 @@ begin
   // flags
 {$IFDEF Miranda}
   llen:=0;
-  if (element.flags and EF_SCRIPT)<>0 then
+  if (element.flags and SF_SCRIPT)<>0 then
   begin
     tmp1[llen]:=char_script; inc(llen);
   end;
-  if (element.flags and EF_MMI)<>0 then
+  if (element.flags and SF_MMI)<>0 then
   begin
     tmp1[llen]:=char_mmi; inc(llen);
   end;
@@ -337,7 +337,7 @@ begin
     SST_BYTE,SST_WORD,SST_DWORD,
     SST_QWORD,SST_NATIVE: begin
 {$IFDEF Miranda}
-      if (element.flags and EF_SCRIPT)<>0 then
+      if (element.flags and SF_SCRIPT)<>0 then
       begin
         li.iSubItem:=col_data;
         UTF8ToWide(element.text,pw);
@@ -382,7 +382,7 @@ begin
         li.iSubItem:=col_data;
         if (element.etype in [SST_WARR,SST_WPTR])
 {$IFDEF Miranda}
-           or ((element.flags and EF_SCRIPT)<>0)
+           or ((element.flags and SF_SCRIPT)<>0)
 {$ENDIF}
         then
         begin
@@ -666,11 +666,11 @@ begin
       SendMessageW(wnd,LVM_SETITEMSTATE,i,lparam(@li));
 {
       li.iItem:=i;
-      SendMessageW(list,LVM_GETITEMSTATE,i,dword(@li));
+      SendMessageW(list,LVM_GETITEMSTATE,i,lparam(@li));
       if (li.state shr 12)>1 then
       begin
         li.state:=1 shl 12;
-        SendMessageW(wnd,LVM_SETITEMSTATE,i,dword(@li));
+        SendMessageW(wnd,LVM_SETITEMSTATE,i,lparam(@li));
       end;
 }
     end;

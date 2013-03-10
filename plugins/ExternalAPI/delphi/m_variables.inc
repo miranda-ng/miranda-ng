@@ -22,8 +22,6 @@
 
 const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
 
-// Helper function for easy using:
-
 // --------------------------------------------------------------------------
 // String formatting
 // --------------------------------------------------------------------------
@@ -47,7 +45,7 @@ const MIID_VARIABLES:MUUID = '{630756DE-3681-440B-991E-77A4742DA595}';
   ------------------------
   Returns a pointer to the resolved string or NULL in case of an error.
 
-  Note: The returned pointer needs to be freed using mir_free().
+  Note: The returned pointer needs to be freed using mir_free.
 }
 
 type
@@ -409,7 +407,7 @@ const
   The hContacts array of CONTACTSINFO struct contains these hContacts after
   the call.
 
-  Note: The hContacts array needs to be freed after use using mir_free
+  Note: The hContacts array needs to be freed after use using mir_free.
 }
 
 type

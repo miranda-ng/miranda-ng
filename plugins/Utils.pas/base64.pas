@@ -5,8 +5,8 @@ interface
 uses windows;
 
 { Base64 encode and decode a string }
-function BASE64Encode(src:pByte;len:integer):PAnsiChar;
-function BASE64Decode(src:PAnsiChar;var dst:pByte):integer;
+function Base64Encode(src:pByte;len:integer):PAnsiChar;
+function Base64Decode(src:PAnsiChar;var dst:pByte):integer;
 
 {******************************************************************************}
 {******************************************************************************}
@@ -18,7 +18,7 @@ const
   base64chars{:array [0..63] of AnsiChar}:PAnsiChar =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
-function BASE64Encode(src:pByte;len:integer):PAnsiChar;
+function Base64Encode(src:pByte;len:integer):PAnsiChar;
 var
   dst:PAnsiChar;
 begin
@@ -68,7 +68,7 @@ begin
   end;
 end;
 
-function BASE64Decode(src:PAnsiChar;var dst:pByte):integer;
+function Base64Decode(src:PAnsiChar;var dst:pByte):integer;
 var
   slen:integer;
   ptr:pByte;

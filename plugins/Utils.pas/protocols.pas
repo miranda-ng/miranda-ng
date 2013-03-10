@@ -19,11 +19,12 @@ function IsChatSupported   (ProtoNum:uint_ptr):bool;
 function GetProtoStatus   (ProtoNum:uint_ptr):integer;
 function GetProtoStatusNum(ProtoNum:uint_ptr):integer;
 function GetProtoName     (ProtoNum:uint_ptr):PAnsiChar;
+function GetProtoAccName  (ProtoNum:uint_ptr):PWideChar;
 
 procedure FillProtoList  (list:hwnd;withIcons:bool=false);
 procedure CheckProtoList (list:hwnd);
-procedure FillStatusList (proto:cardinal;list:hwnd;withIcons:bool=false);
-procedure CheckStatusList(list:hwnd;ProtoNum:cardinal);
+procedure FillStatusList (proto:uint_ptr;list:hwnd;withIcons:bool=false);
+procedure CheckStatusList(list:hwnd;ProtoNum:uint_ptr);
 
 function  CreateProtoList(deepscan:boolean=false):integer;
 procedure FreeProtoList;
@@ -205,6 +206,14 @@ begin
     result:=nil;
 end;
 
+function GetProtoAccName(ProtoNum:uint_ptr):PWideChar;
+begin
+  if ProtoNum<=NumProto then
+    result:=protos^[ProtoNum].descr
+  else
+    result:=nil;
+end;
+
 procedure FillProtoList(list:hwnd;withIcons:bool=false);
 var
   item:TLVITEMW;
@@ -266,7 +275,7 @@ begin
   end;
 end;
 
-procedure FillStatusList(proto:cardinal;list:hwnd;withIcons:bool=false);
+procedure FillStatusList(proto:uint_ptr;list:hwnd;withIcons:bool=false);
 
   procedure AddString(num:integer;enabled:boolean;cli:PCLIST_INTERFACE);
   var
@@ -336,7 +345,7 @@ begin
   ListView_SetColumnWidth(list,0,LVSCW_AUTOSIZE);
 end;
 
-procedure CheckStatusList(list:hwnd;ProtoNum:cardinal);
+procedure CheckStatusList(list:hwnd;ProtoNum:uint_ptr);
 
   procedure SetStatusMask(stat:integer;state:bool);
   var
@@ -571,29 +580,7 @@ begin
         wParam:=@i;
         lParam:=@j;
       end;
-      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
-    end;
-
-    if title<>nil then
-    begin
-      mGetMem(title^,(i+1)*SizeOf(WideChar));
-      with ics do
-      begin
-        flags   :=CSSF_MASK_NAME or CSSF_UNICODE;
-        szName.w:=pWideChar(title^);
-      end;
-      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
-    end;
-
-    if txt<>nil then
-    begin
-      mGetMem(txt^,(j+1)*SizeOf(WideChar));
-      with ics do
-      begin
-        flags:=CSSF_MASK_MESSAGE or CSSF_UNICODE;
-        szMessage.w:=pWideChar(txt^);
-      end;
-      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
+      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,LPARAM(@ics));
     end;
 
     with ics do
@@ -601,7 +588,28 @@ begin
       flags:=CSSF_MASK_STATUS;
       status:=@result;
     end;
-    CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
+
+    if title<>nil then
+    begin
+      mGetMem(title^,(i+1)*SizeOf(WideChar));
+      with ics do
+      begin
+        flags   :=flags or CSSF_MASK_NAME or CSSF_UNICODE;
+        szName.w:=pWideChar(title^);
+      end;
+    end;
+
+    if txt<>nil then
+    begin
+      mGetMem(txt^,(j+1)*SizeOf(WideChar));
+      with ics do
+      begin
+        flags:=flags or CSSF_MASK_MESSAGE or CSSF_UNICODE;
+        szMessage.w:=pWideChar(txt^);
+      end;
+    end;
+
+    CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,LPARAM(@ics));
 
 {
     StrCopy(buf,proto);

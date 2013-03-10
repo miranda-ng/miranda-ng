@@ -49,13 +49,6 @@ const
 
 
 {
-  toptoolbar/initbuttons event
-  wParam = lParam = 0
-  Called when the toolbar needs to add default buttons
-}
-  ME_TTB_INITBUTTONS:PAnsiChar = 'TopToolBar/InitButtons';
-
-{
 //=== SERVICES ===
 
   toptoolbar/addbutton service
