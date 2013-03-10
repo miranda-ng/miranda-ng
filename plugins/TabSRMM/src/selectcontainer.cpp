@@ -26,14 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: selectcontainer.cpp 12351 2010-08-21 21:44:54Z Michael.Kunz@s2005.TU-Chemnitz.de $
- *
  * dialog to manage containers (attaching sessions to containers etc.)
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -55,7 +52,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (lParam) {
 				struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 				if (dat) {
-					mir_sntprintf(szNewTitle, safe_sizeof(szNewTitle), TranslateT("Select container for %s"), dat->cache->getNick());
+					mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), TranslateT("Select container for %s"), dat->cache->getNick());
 					SetWindowText(hwndDlg, szNewTitle);
 				}
 			}

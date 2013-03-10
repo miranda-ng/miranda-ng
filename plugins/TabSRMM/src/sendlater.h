@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: sendlater.h 11707 2010-05-05 13:53:11Z silvercircle $
- *
  * the sendlater class
  */
 

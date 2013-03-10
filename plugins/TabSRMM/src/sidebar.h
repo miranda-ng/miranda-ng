@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: sidebar.h 11744 2010-05-13 20:34:30Z silvercircle $
- *
  * the contact switch bar on the left (or right) side
  *
  */

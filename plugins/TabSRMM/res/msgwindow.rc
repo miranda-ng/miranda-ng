@@ -1,7 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include <winres.h>
-#include "..\src\include\resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -9,11 +9,9 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #define APSTUDIO_HIDDEN_SYMBOLS
-#include "windows.h"
 #include "richedit.h"
 #undef APSTUDIO_HIDDEN_SYMBOLS
 #include "..\..\..\include\statusmodes.h"
-#include "..\src\include\version.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -56,45 +54,6 @@ BEGIN
 END
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION _VER_MAJOR,_VER_MINOR,_VER_REVISION,_VER_BUILD
- PRODUCTVERSION _VER_MAJOR,_VER_MINOR,_VER_REVISION,_VER_BUILD
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "CompanyName", "Miranda NG project"
-            VALUE "FileDescription", RES_FILE_DESC
-            VALUE "FileVersion", VER_PLAIN
-            VALUE "InternalName", "TabSRMsg"
-            VALUE "LegalCopyright", "Copyright (C) 2004-2010"
-            VALUE "LegalTrademarks", "Licensed under the Gnu general public license V2 or any later version."
-            VALUE "OriginalFilename", "tabsrmm.dll"
-            VALUE "ProductName", "TabSRMM message window plugin for Miranda NG"
-            VALUE "ProductVersion", VER_PLAIN
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -103,15 +62,12 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\src\\include\\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
     "#include ""richedit.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
     "#include ""..\\..\\..\\include\\statusmodes.h""\r\n"
     "\0"
 END

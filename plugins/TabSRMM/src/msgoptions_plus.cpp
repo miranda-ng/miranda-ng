@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgoptions_plus.cpp 13034 2010-10-24 20:39:04Z silvercircle $
- *
  * implements the "advanced tweak" option page
  *
  * originally developed by Mad Cluster for the tabSRMM "MADMOD" patch in
@@ -36,10 +34,6 @@
  */
 
 #include "commonheaders.h"
-
-extern HINSTANCE	hinstance;
-extern BOOL			g_bIMGtagButton;
-extern HIMAGELIST	g_himlOptions, CreateStateImageList();
 
 static void FillDialog(HWND hwndDlg)
 {

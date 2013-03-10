@@ -26,16 +26,12 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: mim.cpp 12842 2010-09-28 04:32:57Z borkra $
- *
  * wraps some parts of Miranda API
  * Also, OS dependent stuff (visual styles api etc.)
  *
  */
 
-
 #include "commonheaders.h"
-extern PLUGININFOEX pluginInfo;
 
 PITA 	CMimAPI::m_pfnIsThemeActive = 0;
 POTD 	CMimAPI::m_pfnOpenThemeData = 0;
@@ -320,7 +316,7 @@ void CMimAPI::configureCustomFolders()
 {
 	m_hDataPath = FoldersRegisterCustomPathT("TabSRMM", "Data path", const_cast<TCHAR *>(getDataPath()));
 	m_hSkinsPath = FoldersRegisterCustomPathT("TabSRMM", "Skins root", const_cast<TCHAR *>(getSkinPath()));
-	m_hAvatarsPath = FoldersRegisterCustomPathT("TabSRMM", "Saved Avatars", const_cast<TCHAR *>(getSavedAvatarPath()));
+	m_hAvatarsPath = FoldersRegisterCustomPathT("Avatars", "Saved TabSRMM avatars", const_cast<TCHAR *>(getSavedAvatarPath()));
 	m_hChatLogsPath = FoldersRegisterCustomPathT("TabSRMM", "Group chat logs root", const_cast<TCHAR *>(getChatLogPath()));
 
 	if (m_hDataPath)

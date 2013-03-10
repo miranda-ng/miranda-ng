@@ -26,27 +26,13 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgoptions.cpp 13750 2011-08-03 20:10:43Z george.hazan $
- *
  * Implementation of the option pages
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-#include <m_modernopt.h>
 
 #define DM_GETSTATUSMASK (WM_USER + 10)
-
-extern		INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-extern		INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-extern		INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -694,7 +680,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
 			Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY),r == 0 ? FALSE : TRUE);
-			for (int i=0; i < safe_sizeof(__ctrls); i++)
+			for (int i=0; i < SIZEOF(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 			return 0;
 		}

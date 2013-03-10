@@ -26,9 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: userprefs.cpp 12893 2010-10-04 06:19:57Z silvercircle $
- *
- *
  * global/local message log options
  * local (per user) template overrides
  * view mode (ieview/default)
@@ -38,15 +35,10 @@
 
 #include "commonheaders.h"
 
-#pragma hdrstop
-#include <uxtheme.h>
 
 #define UPREF_ACTION_APPLYOPTIONS 1
 #define UPREF_ACTION_REMAKELOG 2
 #define UPREF_ACTION_SWITCHLOGVIEWER 4
-
-extern		HANDLE hUserPrefsWindowList;
-extern		struct TCpTable cpTable[];
 
 static HWND hCpCombo;
 
@@ -489,7 +481,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			GetClientRect(hwndDlg, &rcClient);
 
-			mir_sntprintf(szBuffer, safe_sizeof(szBuffer), TranslateT("Set messaging options for %s"),
+			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Set messaging options for %s"),
 						  (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 
 			SetWindowText(hwndDlg, szBuffer);

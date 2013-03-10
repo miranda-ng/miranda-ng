@@ -26,14 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: containeroptions.cpp 13631 2011-04-24 08:44:57Z silvercircle $
- *
  * The dialog to customize per container options
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 static void MY_CheckDlgButton(HWND hWnd, UINT id, int iCheck)
 {

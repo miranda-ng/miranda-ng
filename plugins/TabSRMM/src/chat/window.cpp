@@ -30,15 +30,12 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: window.cpp 13631 2011-04-24 08:44:57Z silvercircle $
- *
  * This implements the group chat dialog window
  *
  */
 
 #include "..\commonheaders.h"
 
-#include <tom.h>
 
 //#include "../m_MathModule.h"
 
@@ -2118,9 +2115,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			if (lstrlen(szNick) > 0) {
 				if (M->GetByte("cuttitle", 0))
-					CutContactName(szNick, dat->newtitle, safe_sizeof(dat->newtitle));
+					CutContactName(szNick, dat->newtitle, SIZEOF(dat->newtitle));
 				else {
-					lstrcpyn(dat->newtitle, szNick, safe_sizeof(dat->newtitle));
+					lstrcpyn(dat->newtitle, szNick, SIZEOF(dat->newtitle));
 					dat->newtitle[129] = 0;
 				}
 			}

@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: translator.h 12299 2010-08-10 02:39:36Z silvercircle $
- *
  * string handling
  *
  */

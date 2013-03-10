@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: nen.h 13750 2011-08-03 20:10:43Z george.hazan $
- *
  * This implements the event notification module for tabSRMM. The code
  * is largely based on the NewEventNotify plugin for Miranda NG. See
  * notices below for original copyright
@@ -42,9 +40,6 @@
 
 #ifndef _NEN_H_
 #define _NEN_H_
-
-//#include "m_popup.h"
-//#include "m_popupw.h"
 
 #define MODULE "tabSRMM_NEN"
 

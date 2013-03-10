@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: utils.h 12833 2010-09-27 23:45:55Z silvercircle $
- *
  * utility functions for TabSRMM
  *
  */

@@ -26,17 +26,13 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: controls.cpp 13587 2011-04-12 13:54:26Z george.hazan $
- *
  * Menu and status bar control(s) for the container window.
  *
  */
 
 #include "commonheaders.h"
-static    WNDPROC OldStatusBarproc = 0;
 
-extern    int status_icon_list_size;
-extern    TStatusBarIconNode *status_icon_list;
+static    WNDPROC OldStatusBarproc = 0;
 
 bool      CMenuBar::m_buttonsInit = false;
 HHOOK     CMenuBar::m_hHook = 0;
@@ -1080,7 +1076,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					if ((int)iconNum == list_icons && pContainer) {
 						TCHAR wBuf[512];
 
-						mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
 							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 						tooltip_active = TRUE;
@@ -1089,7 +1085,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 						TCHAR wBuf[512];
 
-						mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sending typing notifications is %s."),
+						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 						tooltip_active = TRUE;
@@ -1097,7 +1093,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					else if ((int)iconNum == list_icons + 2) {
 						TCHAR wBuf[512];
 
-						mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
+						mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
 
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 						tooltip_active = TRUE;
@@ -1122,7 +1118,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					TCHAR wBuf[512];
 					const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
-					mir_sntprintf(wBuf, safe_sizeof(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
+					mir_sntprintf(wBuf, SIZEOF(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
 					CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 				}
 				//MAD

@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: generic_msghandlers.cpp 13587 2011-04-12 13:54:26Z george.hazan $
- *
  * these are generic message handlers which are used by the message dialog window procedure.
  * calling them directly instead of using SendMessage() is faster.
  * also contains various callback functions for custom buttons
@@ -35,9 +33,6 @@
 
 
 #include "commonheaders.h"
-
-extern RECT	  			rcLastStatusBarClick;
-
 
 /**
  * Save message log for given session as RTF document
@@ -1222,7 +1217,7 @@ LRESULT TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		if (dat->showTyping) {
 			TCHAR szBuf[80];
 
-			mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
+			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
 			SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) szBuf);
 			SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 			return 0;
@@ -1234,18 +1229,18 @@ LRESULT TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 			TCHAR date[64], time[64];
 
 			if (!(dat->pContainer->dwFlags & CNT_UINSTATUSBAR)) {
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, safe_sizeof(date), 0);
+				tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
 				if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && lstrlen(date) > 6)
 					date[lstrlen(date) - 5] = 0;
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, safe_sizeof(time), 0);
+				tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
 			}
 			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR) {
 				TCHAR fmt[100];
-				mir_sntprintf(fmt, safe_sizeof(fmt), _T("UID: %s"), dat->cache->getUIN());
+				mir_sntprintf(fmt, SIZEOF(fmt), _T("UID: %s"), dat->cache->getUIN());
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 			} else {
 				TCHAR fmt[100];
-				mir_sntprintf(fmt, safe_sizeof(fmt), TranslateT("Last received: %s at %s"), date, time);
+				mir_sntprintf(fmt, SIZEOF(fmt), TranslateT("Last received: %s at %s"), date, time);
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) fmt);
 			}
 		} else
@@ -1617,7 +1612,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				dat->showTyping = 2;
 				dat->nTypeSecs = 86400;
 
-				mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar),
+				mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar),
 						  TranslateT("%s has entered text."), dat->cache->getNick());
 				if (hwndStatus && dat->pContainer->hwndActive == hwndDlg)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM) dat->szStatusBar);
@@ -1643,7 +1638,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 	}
 	else {
 		if (dat->nTypeSecs > 0) {
-			mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
+			mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
 
 			dat->nTypeSecs--;
 			if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
@@ -1854,7 +1849,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 						dat->iEventQueueSize += 10;
 					}
 					dat->hQueuedEvents[dat->iNextQueuedEvent++] = (HANDLE)lParam;
-					mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
+					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
 								  dat->iNextQueuedEvent);
 					SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
 					RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
@@ -2007,13 +2002,13 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			dat->dwFlagsEx =  dat->idle ? dat->dwFlagsEx | MWF_SHOW_ISIDLE : dat->dwFlagsEx & ~MWF_SHOW_ISIDLE;
 
 			dat->wStatus = dat->cache->getStatus();
-			mir_sntprintf(dat->szStatus, safe_sizeof(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
+			mir_sntprintf(dat->szStatus, SIZEOF(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
 
 			if (lParam != 0) {
 				if (PluginConfig.m_CutContactNameOnTabs)
-					CutContactName(szNick, newcontactname, safe_sizeof(newcontactname));
+					CutContactName(szNick, newcontactname, SIZEOF(newcontactname));
 				else
-					lstrcpyn(newcontactname, szNick, safe_sizeof(newcontactname));
+					lstrcpyn(newcontactname, szNick, SIZEOF(newcontactname));
 
 				Utils::DoubleAmpersands(newcontactname);
 
@@ -2029,24 +2024,24 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 			if (dat->bIsMeta)
-				mir_sntprintf(fulluin, safe_sizeof(fulluin),
+				mir_sntprintf(fulluin, SIZEOF(fulluin),
 							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites."),
 							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 			else
-				mir_sntprintf(fulluin, safe_sizeof(fulluin),
+				mir_sntprintf(fulluin, SIZEOF(fulluin),
 							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
 							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, /*iHasName ?*/ (WPARAM)fulluin /*: (WPARAM)_T("")*/, 0);
 		}
 	} else
-		lstrcpyn(newtitle, pszNewTitleEnd, safe_sizeof(newtitle));
+		lstrcpyn(newtitle, pszNewTitleEnd, SIZEOF(newtitle));
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 
 		if (item.mask & TCIF_TEXT) {
 			item.pszText = newtitle;
-			_tcsncpy(dat->newtitle, newtitle, safe_sizeof(dat->newtitle));
+			_tcsncpy(dat->newtitle, newtitle, SIZEOF(dat->newtitle));
 			dat->newtitle[127] = 0;
 			item.cchTextMax = 127;
 			if (dat->pWnd)

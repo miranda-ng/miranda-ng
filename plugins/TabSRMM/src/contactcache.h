@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: contactcache.h 12846 2010-10-01 03:26:02Z silvercircle $
- *
  * the contact cache
  *
  */

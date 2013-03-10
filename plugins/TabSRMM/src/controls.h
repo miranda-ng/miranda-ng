@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: controls.h 11635 2010-04-26 07:17:39Z silvercircle $
- *
  * menu bar and status bar classes for the container window.
  *
  */

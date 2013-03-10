@@ -30,19 +30,10 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: chat.h 12272 2010-08-04 08:24:08Z silvercircle $
- *
  */
 
 #ifndef _CHAT_H_
 #define _CHAT_H_
-
-#pragma warning( disable : 4786 ) // limitation in MSVC's debugger.
-#pragma warning( disable : 4996 ) // limitation in MSVC's debugger.
-
-#define WIN32_LEAN_AND_MEAN
-
-#include "m_stdhdr.h"
 
 //defines
 #define OPTIONS_FONTCOUNT 20

@@ -26,15 +26,12 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: globals.cpp 13447 2011-03-14 19:55:07Z george.hazan $
- *
  * Plugin configuration variables and functions. Implemented as a class
  * though there will always be only a single instance.
  *
  */
 
 #include "commonheaders.h"
-extern PLUGININFOEX pluginInfo;
 
 CGlobals 	PluginConfig;
 CGlobals*	pConfig = &PluginConfig;
@@ -187,7 +184,7 @@ void CGlobals::reloadSystemModulesChanged()
 	if (m_MathModAvail) {
 		char *szDelim = (char *)CallService(MATH_GET_STARTDELIMITER, 0, 0);
 		if (szDelim) {
-			MultiByteToWideChar(CP_ACP, 0, szDelim, -1, PluginConfig.m_MathModStartDelimiter, safe_sizeof(PluginConfig.m_MathModStartDelimiter));
+			MultiByteToWideChar(CP_ACP, 0, szDelim, -1, PluginConfig.m_MathModStartDelimiter, SIZEOF(PluginConfig.m_MathModStartDelimiter));
 			CallService(MTH_FREE_MATH_BUFFER, 0, (LPARAM)szDelim);
 		}
 	}
@@ -683,7 +680,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
-				mir_sntprintf(toolTip, safe_sizeof(toolTip), TranslateT("Message from %s"),
+				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"),
 							  (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
@@ -734,11 +731,11 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 		if (c->isValid()) {
 			if (wStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("signed off."));
+				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed off."));
 			else if (wOldStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("signed on and is now %s."), szNewStatus);
+				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("signed on and is now %s."), szNewStatus);
 			else
-				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
+				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 		}
 
 		char *szMsg = mir_utf8encodeT(buffer);

@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: hotkeyhandler.cpp 13596 2011-04-15 19:07:23Z george.hazan $
- *
  * The hotkeyhandler is a small, invisible window which handles the following things:
 
     a) event notify stuff, messages posted from the popups to avoid threading
@@ -40,11 +38,6 @@
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-
-extern HICON		hIcons[];
-extern INT_PTR		SendMessageCommand(WPARAM wParam, LPARAM lParam);
-extern INT_PTR		SendMessageCommand_W(WPARAM wParam, LPARAM lParam);
 
 static UINT 	WM_TASKBARCREATED;
 static HANDLE 	hSvcHotkeyProcessor = 0;
@@ -166,7 +159,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_CREATE:
-		for (int i=0; i < safe_sizeof(_hotkeydescs); i++) {
+		for (int i=0; i < SIZEOF(_hotkeydescs); i++) {
 			_hotkeydescs[i].cbSize = sizeof(HOTKEYDESC);
 			Hotkey_Register(&_hotkeydescs[i]);
 		}

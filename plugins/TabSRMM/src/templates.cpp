@@ -26,14 +26,11 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: templates.cpp 13034 2010-10-24 20:39:04Z silvercircle $
- *
  * Simple editor for the message log templates
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 /*
 * hardcoded default set of templates for both LTR and RTL.
@@ -372,7 +369,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dat->dwFlags = MWF_LOG_ALL;
 		dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
 		dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;
-		mir_sntprintf(dat->szMyNickname, safe_sizeof(dat->szMyNickname), _T("My Nickname"));
+		mir_sntprintf(dat->szMyNickname, SIZEOF(dat->szMyNickname), _T("My Nickname"));
 		StreamInEvents(hwndDlg, 0, 1, 1, &dbei);
 		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 		if (teInfo->changed)

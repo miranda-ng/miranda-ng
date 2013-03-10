@@ -26,20 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: srmm.cpp 13596 2011-04-15 19:07:23Z george.hazan $
- *
  * plugin loading functions and global exports.
  *
  */
 
 #include "commonheaders.h"
-
-extern int 	LoadSendRecvMessageModule(void);
-extern int 	SplitmsgShutdown(void);
-extern void LogErrorMessage(HWND hwndDlg, struct TWindowData *dat, int i, TCHAR *szMsg);
-extern int  Chat_Load(), Chat_Unload();
-extern void FreeLogFonts();
-
 
 HINSTANCE g_hInst;
 LOGFONT lfDefault = {0};
@@ -53,19 +44,16 @@ TIME_API tmi = {0};
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-#ifdef __GNUWIN32__
-	"TabSRMM (MINGW32)",
-#else
-	"TabSRMM",
-#endif
-	PLUGIN_MAKE_VERSION(_VER_MAJOR, _VER_MINOR, _VER_REVISION, _VER_BUILD),
-	"IM and group chat module for Miranda NG.",
-	"The Miranda developers team and contributors",
-	"silvercircle _at_ gmail _dot_ com",
-	"2000-2010 Miranda Project and contributors. See readme.txt for more.",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x6ca5f042, 0x7a7f, 0x47cc, { 0xa7, 0x15, 0xfc, 0x8c, 0x46, 0xfb, 0xf4, 0x34 }} //{6CA5F042-7A7F-47cc-A715-FC8C46FBF434}
+	// {6CA5F042-7A7F-47CC-A715-FC8C46FBF434}
+	{0x6ca5f042, 0x7a7f, 0x47cc, {0xa7, 0x15, 0xfc, 0x8c, 0x46, 0xfb, 0xf4, 0x34}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -219,7 +207,7 @@ int _DebugPopup(HANDLE hContact, const TCHAR *fmt, ...)
 
 		tn.szProto = NULL;
 		tn.cbSize = sizeof(tn);
-		mir_sntprintf(szTitle, safe_sizeof(szTitle), TranslateT("tabSRMM Message (%s)"), (hContact != 0) ? (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR) : TranslateT("Global"));
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Message (%s)"), (hContact != 0) ? (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR) : TranslateT("Global"));
 		tn.tszInfoTitle = szTitle;
 		tn.tszInfo = debug;
 		tn.dwInfoFlags = NIIF_INFO;
@@ -250,7 +238,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				mir_snprintf(buildstr, 50, "[Build #%d]", build_nr);
 			}
 			TCHAR	*szBuildstr = mir_a2t(buildstr);
-			mir_sntprintf(tStr, safe_sizeof(tStr), _T("TabSRMM\n%s %d.%d.%d.%d (Unicode) %s"),
+			mir_sntprintf(tStr, SIZEOF(tStr), _T("TabSRMM\n%s %d.%d.%d.%d (Unicode) %s"),
 				_T("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)),
 				szBuildstr);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, tStr);

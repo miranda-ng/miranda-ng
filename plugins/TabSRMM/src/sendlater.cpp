@@ -26,13 +26,10 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: sendlater.cpp 14225 2012-05-08 19:49:18Z george.hazan $
- *
  * the sendlater class implementation
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 #define U_PREF_UNICODE PREF_UNICODE
 /*

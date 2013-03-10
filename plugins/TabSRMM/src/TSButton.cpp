@@ -33,7 +33,6 @@
  */
 
 #include "commonheaders.h"
-#include <ctype.h>
 
 #define PBS_PUSHDOWNPRESSED 6
 

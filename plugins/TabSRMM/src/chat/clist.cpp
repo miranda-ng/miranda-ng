@@ -26,8 +26,6 @@ contacts and handle default action for such contacts.
 This code was taken in almost unmodified from from the chat.dll
 plugin, originally written by Jörgen Persson
 
-$Id: clist.c 10402 2009-07-24 00:35:21Z silvercircle $
-
 */
 
 /*
@@ -37,8 +35,6 @@ $Id: clist.c 10402 2009-07-24 00:35:21Z silvercircle $
 #include "..\commonheaders.h"
 
 char *szChatIconString = "chaticon";
-
-extern HANDLE hJoinMenuItem, hLeaveMenuItem;
 
 static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 {

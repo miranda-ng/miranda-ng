@@ -1,5 +1,4 @@
 #include "commonheaders.h"
-#pragma hdrstop
 
 static HANDLE hButtonsBarAddButton;
 static HANDLE hButtonsBarRemoveButton;

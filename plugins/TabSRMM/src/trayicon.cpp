@@ -30,15 +30,11 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: trayicon.cpp 13447 2011-03-14 19:55:07Z george.hazan $
- *
  * The code that creates and animates the tray icon.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-//#include "m_toptoolbar.h"
 
 static BOOL    isAnimThreadRunning = TRUE;
 static HANDLE  hTrayAnimThread = 0;
@@ -244,7 +240,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 	TCHAR			szFinalNick[100];
 
 	if (szNickname == NULL) {
-		mir_sntprintf(szFinalNick, safe_sizeof(szFinalNick), _T("%s"), (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+		mir_sntprintf(szFinalNick, SIZEOF(szFinalNick), _T("%s"), (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 	}
 	else {
 		_tcsncpy(szFinalNick, szNickname, 100);
@@ -269,7 +265,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 
 	if (acc && acc->tszAccountName) {
 		mii.cbSize = sizeof(mii);
-		mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
+		mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s)"), acc->tszAccountName, szFinalNick, szStatus);
 		if (mode) {
 			if (hMenu == PluginConfig.g_hMenuRecent) {
 				if (CheckMenuItem(hMenu, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == 0) {

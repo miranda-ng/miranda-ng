@@ -26,9 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgdlgutils.h 12833 2010-09-27 23:45:55Z silvercircle $
- *
- *
  */
 
 #ifndef _MSGDLGUTILS_H

@@ -26,16 +26,12 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: themes.cpp 12512 2010-08-28 22:03:43Z silvercircle $
- *
  * Implements the skinning engine and most parts of the aero support in
  * tabSRMM 3.x+
  *
  */
 
 #include "commonheaders.h"
-#include <stdexcept>
-#pragma hdrstop
 
 static SKINDESC my_default_skin[] = {
 	IDR_SKIN_AERO, _T("tabskin_aero.png"),
@@ -2582,7 +2578,7 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 	m_fAeroSkinsValid = true;
 
 	try {
-		for (int i = 0; i < safe_sizeof(my_default_skin); i++)
+		for (int i = 0; i < SIZEOF(my_default_skin); i++)
 			Utils::extractResource(g_hInst, my_default_skin[i].ulID, _T("SKIN_GLYPH"), tszBasePath, my_default_skin[i].tszName, fForceOverwrite);
 	}
 	catch(CRTException& ex) {

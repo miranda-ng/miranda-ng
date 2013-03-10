@@ -26,31 +26,21 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgs.cpp 13587 2011-04-12 13:54:26Z george.hazan $
- *
  * Load, setup and shutdown the plugin
  * core plugin messaging services (single IM chats only).
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
 REOLECallback*		mREOLECallback;
 NEN_OPTIONS 		nen_options;
-extern PLUGININFOEX pluginInfo;
-extern HANDLE 		hHookToolBarLoadedEvt;
 static HANDLE 		hUserPrefsWindowLis = 0;
 HMODULE 			g_hIconDLL = 0;
 
 static void 	UnloadIcons();
-
-extern INT_PTR 	CALLBACK 		DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern struct 	TLogIcon 		msgLogIcons[NR_LOGICONS * 3];
-extern int 		CacheIconToBMP	(struct TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
-extern void 	DeleteCachedIcon(struct TLogIcon *theIcon);
 
 int     Chat_IconsChanged(WPARAM wp, LPARAM lp);
 void    Chat_AddIcons(void);
@@ -541,7 +531,7 @@ static void TSAPI InitAPI()
 {
 	ZeroMemory(PluginConfig.hSvc, sizeof(HANDLE) * CGlobals::SERVICE_LAST);
 
-	for (int i=0; i < safe_sizeof(SERVICES); i++)
+	for (int i=0; i < SIZEOF(SERVICES); i++)
 		*(SERVICES[i].h) = CreateServiceFunction(SERVICES[i].szName, SERVICES[i].pfnService);
 
 	*(SERVICES[CGlobals::H_MS_MSG_SENDMESSAGEW].h) = CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
@@ -709,23 +699,23 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 
 	if (contactName && lstrlen(contactName) > 0) {
 		if (M->GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, safe_sizeof(newcontactname));
+			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
 		else {
-			lstrcpyn(newcontactname, contactName, safe_sizeof(newcontactname));
+			lstrcpyn(newcontactname, contactName, SIZEOF(newcontactname));
 			newcontactname[127] = 0;
 		}
 		//Mad: to fix tab width for nicknames with ampersands
 		Utils::DoubleAmpersands(newcontactname);
 	} else
-		lstrcpyn(newcontactname, _T("_U_"), safe_sizeof(newcontactname));
+		lstrcpyn(newcontactname, _T("_U_"), SIZEOF(newcontactname));
 
 	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
 	TCHAR *szStatus = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 
 	if (M->GetByte("tabstatus", 1))
-		mir_sntprintf(tabtitle, safe_sizeof(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
+		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s (%s)  "), newcontactname, szStatus);
 	else
-		mir_sntprintf(tabtitle, safe_sizeof(tabtitle), _T("%s   "), newcontactname);
+		mir_sntprintf(tabtitle, SIZEOF(tabtitle), _T("%s   "), newcontactname);
 
 	newData.item.pszText = tabtitle;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;

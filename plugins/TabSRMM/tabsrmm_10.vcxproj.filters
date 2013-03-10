@@ -16,17 +16,44 @@
       <UniqueIdentifier>{c6aa9273-8563-4007-afa1-63e8d2164122}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="BuildScripts">
-      <UniqueIdentifier>{196b0a74-3839-43b9-a9e8-8220bd015468}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{34490cba-faaa-4738-91b7-f3f60bc24992}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Icons">
-      <UniqueIdentifier>{7dbf611a-769b-4495-9d7a-b7008268c0dc}</UniqueIdentifier>
+    <Filter Include="Header Files\Chat">
+      <UniqueIdentifier>{2ea6d9e6-399a-44c2-a431-9560e18f31fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\chat\clist.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\colorchooser.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\log.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\main.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\manager.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\message.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\muchighlight.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\options.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\services.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\tools.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat\window.cpp">
+      <Filter>Source Files\Chat</Filter>
+    </ClCompile>
     <ClCompile Include="src\buttonsbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -87,6 +114,9 @@
     <ClCompile Include="src\selectcontainer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\sendlater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\sendqueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -94,6 +124,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\srmm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tabctrl.cpp">
@@ -129,137 +162,104 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat\clist.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\colorchooser.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\log.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\main.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\manager.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\message.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\muchighlight.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\options.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\services.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\tools.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat\window.cpp">
-      <Filter>Source Files\Chat</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sendlater.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\chat\chat.h">
-      <Filter>Source Files\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chat\chat_resource.h">
-      <Filter>Source Files\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chat\chatprototypes.h">
-      <Filter>Source Files\Chat</Filter>
-    </ClInclude>
-    <ClInclude Include="src\chat\muchighlight.h">
-      <Filter>Source Files\Chat</Filter>
+    <ClInclude Include="src\buttonbar.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\contactcache.h">
+    <ClInclude Include="src\contactcache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\controls.h">
+    <ClInclude Include="src\controls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\functions.h">
+    <ClInclude Include="src\functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\generic_msghandlers.h">
+    <ClInclude Include="src\generic_msghandlers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\globals.h">
+    <ClInclude Include="src\globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\ImageDataObject.h">
+    <ClInclude Include="src\ImageDataObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\infopanel.h">
+    <ClInclude Include="src\infopanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\mim.h">
+    <ClInclude Include="src\mim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\msgdlgutils.h">
+    <ClInclude Include="src\msgdlgutils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\msgs.h">
+    <ClInclude Include="src\msgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\nen.h">
+    <ClInclude Include="src\nen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\sendqueue.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\sidebar.h">
+    <ClInclude Include="src\sendlater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\taskbar.h">
+    <ClInclude Include="src\sendqueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\templates.h">
+    <ClInclude Include="src\sidebar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\themes.h">
+    <ClInclude Include="src\taskbar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\translator.h">
+    <ClInclude Include="src\templates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\typingnotify.h">
+    <ClInclude Include="src\themes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\utils.h">
+    <ClInclude Include="src\translator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\version.h">
+    <ClInclude Include="src\typingnotify.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\sendlater.h">
+    <ClInclude Include="src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\resource.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\chat.h">
+      <Filter>Header Files\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\chat_resource.h">
+      <Filter>Header Files\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\chatprototypes.h">
+      <Filter>Header Files\Chat</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chat\muchighlight.h">
+      <Filter>Header Files\Chat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\chat.rc">
-      <Filter>Source Files\Chat</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="res\msgwindow.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\chat.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

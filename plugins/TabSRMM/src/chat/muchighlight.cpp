@@ -26,15 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: muchighlight.cpp 13184 2010-12-07 14:16:58Z silvercircle $
- *
  * highlighter class for multi user chats
  *
  */
 
 #include "..\commonheaders.h"
-
-//#define __HLT_PERFSTATS 0
 
 void CMUCHighlight::cleanup()
 {

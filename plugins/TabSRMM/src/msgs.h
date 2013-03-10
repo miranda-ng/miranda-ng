@@ -26,9 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgs.h 13587 2011-04-12 13:54:26Z george.hazan $
- *
- *
  */
 
 #ifndef _MSGS_H
@@ -46,11 +43,6 @@
  */
 
 #define CF_TEXTT CF_UNICODETEXT
-
-#include <richedit.h>
-#include <richole.h>
-#include "m_avatars.h"
-#include "m_message.h"
 
 #define MSGERROR_CANCEL	0
 #define MSGERROR_RETRY	    1

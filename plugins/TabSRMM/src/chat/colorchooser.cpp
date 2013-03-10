@@ -30,14 +30,11 @@
  * original chat module for Miranda NG, written and copyrighted
  * by Joergen Persson in 2005.
  *
- * $Id: colorchooser.cpp 10670 2009-09-11 03:28:50Z silvercircle $
- *
  * Color chooser for group chats
  *
  */
 
 #include "..\commonheaders.h"
-#include <math.h>
 
 static int CalculateCoordinatesToButton(COLORCHOOSER * pCC, POINT pt)
 {

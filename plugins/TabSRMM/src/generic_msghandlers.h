@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: generic_msghandlers.h 12058 2010-06-24 15:26:10Z silvercircle $
- *
  * prototypes from generic_msghandlers.c
  *
  */

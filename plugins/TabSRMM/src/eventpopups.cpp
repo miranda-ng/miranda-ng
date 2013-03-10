@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: eventpopups.cpp 13750 2011-08-03 20:10:43Z george.hazan $
- *
  * This implements the event notification module for tabSRMM. The code
  * is largely based on the NewEventNotify plugin for Miranda NG. See
  * notices below.
@@ -41,11 +39,6 @@
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-
-extern      INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern      HIMAGELIST CreateStateImageList();
-extern      HANDLE g_hEvent;
 
 typedef std::vector<PLUGIN_DATAT *>::iterator PopupListIterator;
 static std::vector<PLUGIN_DATAT *> PopupList;
@@ -614,7 +607,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 
 	if (hEvent) {
 		if (pdata->pluginOptions->bShowHeaders) {
-			mir_sntprintf(pdata->szHeader, safe_sizeof(pdata->szHeader), _T("%s %d\n"),
+			mir_sntprintf(pdata->szHeader, SIZEOF(pdata->szHeader), _T("%s %d\n"),
 						  TranslateT("New messages: "), pdata->nrMerged + 1);
 			pdata->szHeader[255] = 0;
 		}
@@ -808,7 +801,7 @@ void TSAPI UpdateTrayMenuState(struct TWindowData *dat, BOOL bForced)
 			if (!bForced)
 				mii.dwItemData = 0;
 			mii.fMask |= MIIM_STRING;
-			mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s) [%d]"), tszProto, dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : _T("(undef)"), mii.dwItemData & 0x0000ffff);
+			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszProto, dat->cache->getNick(), dat->szStatus[0] ? dat->szStatus : _T("(undef)"), mii.dwItemData & 0x0000ffff);
 			mii.dwTypeData = (LPTSTR)szMenuEntry;
 			mii.cch = lstrlen(szMenuEntry) + 1;
 		}
@@ -854,7 +847,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 			if (fromEvent == 2)                         // from chat...
 				mii.dwItemData |= 0x10000000;
 			DeleteMenu(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND);
-			mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
+			mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
 			AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
 			PluginConfig.m_UnreadInTray++;
 			if (PluginConfig.m_UnreadInTray)
@@ -863,7 +856,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 		} else {
 			szNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 			if (CheckMenuItem(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)hContact, MF_BYCOMMAND | MF_UNCHECKED) == -1) {
-				mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
+				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, fromEvent ? 1 : 0);
 				AppendMenu(PluginConfig.g_hMenuTrayUnread, MF_BYCOMMAND | MF_STRING, (UINT_PTR)hContact, szMenuEntry);
 				mii.dwItemData = fromEvent ? 1 : 0;
 				PluginConfig.m_UnreadInTray += (mii.dwItemData & 0x0000ffff);
@@ -880,7 +873,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 				mii.fMask |= MIIM_STRING;
 				if (fromEvent == 2)
 					mii.dwItemData |= 0x10000000;
-				mir_sntprintf(szMenuEntry, safe_sizeof(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
+				mir_sntprintf(szMenuEntry, SIZEOF(szMenuEntry), _T("%s: %s (%s) [%d]"), tszFinalProto, szNick, szMyStatus, mii.dwItemData & 0x0000ffff);
 				mii.cch = lstrlen(szMenuEntry) + 1;
 				mii.dwTypeData = (LPTSTR)szMenuEntry;
 			}

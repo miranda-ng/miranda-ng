@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: mim.h 12272 2010-08-04 08:24:08Z silvercircle $
- *
  * wraps some parts of Miranda API
  * Also, OS dependent stuff (visual styles api etc.)
  *

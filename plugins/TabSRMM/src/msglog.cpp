@@ -26,21 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msglog.cpp 13642 2011-05-27 10:26:12Z silvercircle $
- *
  * implements the richedit based message log and the template parser
  *
  */
 
 #include "commonheaders.h"
-#include <mbstring.h>
-
-#pragma hdrstop
-
-extern      void 	ReleaseRichEditOle(IRichEditOle *ole);
-extern      void 	ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm);
-extern 		int 	CacheIconToBMP(struct TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY);
-extern		void 	DeleteCachedIcon(struct TLogIcon *theIcon);
 
 struct TCpTable cpTable[] = {
 	{ 874,	LPGENT("Thai")	 },
@@ -1619,7 +1609,7 @@ static TCHAR *Template_MakeRelativeDate(struct TWindowData *dat, HANDLE hTimeZon
 		else
 			szFormat = _T("d");
 
-		tmi.printTimeStamp(hTimeZone, check, szFormat, szResult, safe_sizeof(szResult), 0);
+		tmi.printTimeStamp(hTimeZone, check, szFormat, szResult, SIZEOF(szResult), 0);
 	}
 	return szResult;
 }

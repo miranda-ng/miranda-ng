@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: taskbar.cpp 13178 2010-12-05 21:29:17Z silvercircle $
- *
  * Windows 7 taskbar integration
  *
  * - overlay icons

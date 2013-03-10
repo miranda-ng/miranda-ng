@@ -26,21 +26,14 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: themeio.cpp 13412 2011-03-08 19:13:11Z george.hazan $
- *
  * Import and export theme settings between files and the database
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 #define CURRENT_THEME_VERSION 5
 #define THEME_COOKIE 25099837
-
-extern char 		*TemplateNames[];
-extern TTemplateSet 	LTR_Active, RTL_Active;
-
 
 static struct _tagExtSettings {
 	char*	szIniSection;
@@ -218,12 +211,12 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, struct TWindowData *dat)
 	}
 	def = SRMSGDEFSET_BKGCOLOUR;
 
-	for (i=0; i < safe_sizeof(_extSettings); i++) {
+	for (i=0; i < SIZEOF(_extSettings); i++) {
 		WritePrivateProfileStringA(_extSettings[i].szIniSection, _extSettings[i].szIniName, 
 			_itoa(M->GetDword(_extSettings[i].szDbModule, _extSettings[i].szDbSetting, _extSettings[i].dwDef), szBuf, 10), szIniFilename);
 	}
 
-	for (i=0; i < safe_sizeof(_extSettings_v5); i++) {
+	for (i=0; i < SIZEOF(_extSettings_v5); i++) {
 		WritePrivateProfileStringA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName,
 			_itoa(M->GetDword(_extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting, _extSettings_v5[i].dwDef), szBuf, 10), szIniFilename);
 	}
@@ -324,13 +317,13 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 		if (dwFlags & THEME_READ_FONTS) {
 			COLORREF defclr;
 
-			for (i=0; i < safe_sizeof(_extSettings); i++) {
+			for (i=0; i < SIZEOF(_extSettings); i++) {
 				M->WriteDword(_extSettings[i].szDbModule, _extSettings[i].szDbSetting, 
 					GetPrivateProfileIntA(_extSettings[i].szIniSection, _extSettings[i].szIniName, _extSettings[i].dwDef, szIniFilename));
 			}
 
 			if (version >= 5) {
-				for (i=0; i < safe_sizeof(_extSettings_v5); i++) {
+				for (i=0; i < SIZEOF(_extSettings_v5); i++) {
 					M->WriteDword(_extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting,
 						GetPrivateProfileIntA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName, _extSettings_v5[i].dwDef, szIniFilename));
 				}

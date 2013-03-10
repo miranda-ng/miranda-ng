@@ -30,8 +30,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: main.cpp 13132 2010-11-17 03:47:44Z silvercircle $
- *
  * chat module exports and functions to load/unload the plugin.
  *
  */

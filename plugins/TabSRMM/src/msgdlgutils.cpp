@@ -26,21 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgdlgutils.cpp 13650 2011-05-30 11:53:13Z silvercircle@gmail.com $
- *
  * Helper functions for the message dialog.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-
-//#include "m_MathModule.h"
-
-extern      NEN_OPTIONS nen_options;
-extern      LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
-extern      COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
-extern      TTemplateSet LTR_Active, RTL_Active;
 
 #ifndef SHVIEW_THUMBNAIL
 #define SHVIEW_THUMBNAIL 0x702D
@@ -540,7 +530,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 		if (dat->fInsertMode || fCaps || fNum)
 			lstrcat(szIndicators, _T(" | "));
 
-		mir_sntprintf(buf, safe_sizeof(buf), _T("%s%s %d/%d"), szIndicators, dat->lcID, dat->iOpenJobs, len);
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szIndicators, dat->lcID, dat->iOpenJobs, len);
 		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM) buf);
 		if (PluginConfig.m_visualMessageSizeIndicator)
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, FALSE);
@@ -1077,48 +1067,48 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 5;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("\n"));
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
 					} else if (p1 == _tcsstr(p1, _T("\\endash"))) {
 						bTextHasStarted = bJustRemovedRTF = TRUE;
 						iRemoveChars = 7;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x2013);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
 					} else if (p1 == _tcsstr(p1, _T("\\emdash"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 7;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x2014);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
 					} else if (p1 == _tcsstr(p1, _T("\\bullet"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 7;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x2022);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
 					} else if (p1 == _tcsstr(p1, _T("\\ldblquote"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 10;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x201C);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
 					} else if (p1 == _tcsstr(p1, _T("\\rdblquote"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 10;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x201D);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
 					} else if (p1 == _tcsstr(p1, _T("\\lquote"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 7;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x2018);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
 					} else if (p1 == _tcsstr(p1, _T("\\rquote"))) {
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 7;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x2019);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
 					} else if (p1 == _tcsstr(p1, _T("\\b"))) { //bold
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
 						if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
 							if (dat->SendFormat)
-								_sntprintf(InsertThis, safe_sizeof(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
+								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
 						}
 
 					} else if (p1 == _tcsstr(p1, _T("\\i"))) { // italics
@@ -1127,7 +1117,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 						iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
 						if (!lf.lfItalic) { // same as for bold
 							if (dat->SendFormat)
-								_sntprintf(InsertThis, safe_sizeof(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
+								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
 						}
 
 					} else if (p1 == _tcsstr(p1, _T("\\strike"))) { // strike-out
@@ -1136,7 +1126,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 						iRemoveChars = (p1[7] != (TCHAR) '0') ? 7 : 8;
 						if (!lf.lfStrikeOut) { // same as for bold
 							if (dat->SendFormat)
-								_sntprintf(InsertThis, safe_sizeof(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
+								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
 						}
 
 					} else if (p1 == _tcsstr(p1, _T("\\ul"))) { // underlined
@@ -1150,19 +1140,19 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 							iRemoveChars = 3;
 						if (!lf.lfUnderline) { // same as for bold
 							if (dat->SendFormat)
-								_sntprintf(InsertThis, safe_sizeof(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
+								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
 						}
 
 					} else if (p1 == _tcsstr(p1, _T("\\tab"))) { // tab
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = TRUE;
 						iRemoveChars = 4;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), 0x09);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
 					} else if (p1[1] == (TCHAR) '\\' || p1[1] == (TCHAR) '{' || p1[1] == (TCHAR) '}') { // escaped characters
 						bTextHasStarted = TRUE;
 						//bJustRemovedRTF = TRUE;
 						iRemoveChars = 2;
-						_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), p1[1]);
+						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
 					} else if (p1[1] == (TCHAR) '\'') { // special character
 						bTextHasStarted = TRUE;
 						bJustRemovedRTF = FALSE;
@@ -1183,7 +1173,7 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 							// convert string containing char in hex format to int.
 							p3 = InsertThis;
 							iLame = _tcstol(p3, &stoppedHere, 16);
-							_sntprintf(InsertThis, safe_sizeof(InsertThis), _T("%c"), (TCHAR) iLame);
+							_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR) iLame);
 
 						} else
 							iRemoveChars = 2;
@@ -1271,11 +1261,11 @@ void TSAPI GetMYUIN(TWindowData *dat)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
 			case CNFT_ASCIIZ:
-				mir_sntprintf(dat->myUin, safe_sizeof(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
+				mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
 				mir_free((void*)ci.pszVal);
 				break;
 			case CNFT_DWORD:
-				mir_sntprintf(dat->myUin, safe_sizeof(dat->myUin), _T("%u"), ci.dVal);
+				mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%u"), ci.dVal);
 				break;
 			default:
 				dat->myUin[0] = 0;
@@ -1633,7 +1623,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 		_tcsupr(szLI);
 	}
 	fLocaleNotSet = (dat->lcID[0] == 0 && dat->lcID[1] == 0);
-	mir_sntprintf(dat->lcID, safe_sizeof(dat->lcID), szLI);
+	mir_sntprintf(dat->lcID, SIZEOF(dat->lcID), szLI);
 	GetStringTypeA(dat->lcid, CT_CTYPE2, szTest, 3, wCtype2);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA;
@@ -2272,7 +2262,7 @@ void TSAPI GetMyNick(TWindowData *dat)
 		if (ci.type == CNFT_ASCIIZ) {
 			if (lstrlen(reinterpret_cast<TCHAR *>(ci.pszVal)) < 1 || !_tcscmp(reinterpret_cast<TCHAR *>(ci.pszVal),
 																			  TranslateT("'(Unknown Contact)'"))) {
-				mir_sntprintf(dat->szMyNickname, safe_sizeof(dat->szMyNickname), _T("%s"), dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown Contact)'"));
+				mir_sntprintf(dat->szMyNickname, SIZEOF(dat->szMyNickname), _T("%s"), dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown Contact)'"));
 				if (ci.pszVal) {
 					mir_free(ci.pszVal);
 					ci.pszVal = NULL;

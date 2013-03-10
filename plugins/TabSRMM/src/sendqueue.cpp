@@ -26,18 +26,13 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: sendqueue.cpp 13750 2011-08-03 20:10:43Z george.hazan $
- *
  * Implements a queued, asynchronous sending system for tabSRMM.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 SendQueue *sendQueue = 0;
-
-extern      const TCHAR *pszIDCSAVE_save, *pszIDCSAVE_close;
 
 static char *pss_msg = "/SendMsg";
 static char *pss_msgw = "/SendMsgW";
@@ -788,7 +783,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				SkinPlaySound("SendError");
 
 			TCHAR *szAckMsg = mir_a2t((char *)ack->lParam);
-			mir_sntprintf(m_jobs[iFound].szErrorMsg, safe_sizeof(m_jobs[iFound].szErrorMsg),
+			mir_sntprintf(m_jobs[iFound].szErrorMsg, SIZEOF(m_jobs[iFound].szErrorMsg),
 						 TranslateT("Delivery failure: %s"), szAckMsg);
 			m_jobs[iFound].iStatus = SQ_ERROR;
 			mir_free(szAckMsg);
@@ -937,10 +932,10 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 			_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&now));
 			tszTimestamp[29] = 0;
 			mir_snprintf(szKeyName, 20, "S%d", now);
-			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
+			mir_sntprintf(tszHeader, SIZEOF(tszHeader), TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
 		else
-			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), _T("M%d|"), time(0));
+			mir_sntprintf(tszHeader, SIZEOF(tszHeader), _T("M%d|"), time(0));
 
 		if (job->dwFlags & PREF_UTF || !(job->dwFlags & PREF_UNICODE)) {
 			char *utf_header = mir_utf8encodeT(tszHeader);

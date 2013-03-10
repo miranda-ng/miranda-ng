@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: infopanel.cpp 12702 2010-09-16 02:36:17Z borkra $
- *
  * the info area for both im and chat sessions
  */
 
@@ -509,7 +507,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			time_t diff = time(NULL) - m_dat->idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
-			mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		}
 		else _tcscpy_s (szBuf, 256, tszUin);
 
@@ -645,7 +643,7 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 	if (m_height < DEGRADE_THRESHOLD) {
 		TCHAR	tszText[2048];
 
-		mir_sntprintf(tszText, safe_sizeof(tszText), TranslateT("Topic is: %s"), si->ptszTopic ? si->ptszTopic :
+		mir_sntprintf(tszText, SIZEOF(tszText), TranslateT("Topic is: %s"), si->ptszTopic ? si->ptszTopic :
 					  TranslateT("no topic set."));
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
@@ -986,7 +984,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			m_tip->show(rc, pt, m_dat->hTabIcon, m_dat->szStatus);
 			return;
 		}
-		mir_sntprintf(szTitle, safe_sizeof(szTitle), TranslateT("tabSRMM Information"));
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("tabSRMM Information"));
 		::SendMessage(m_dat->hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_dat->ti);
 		::SendMessage(m_dat->hwndTip, TTM_SETMAXTIPWIDTH, 0, 350);
 

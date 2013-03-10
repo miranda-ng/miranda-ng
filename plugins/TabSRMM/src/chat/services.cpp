@@ -30,16 +30,11 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: services.cpp 13046 2010-10-28 10:02:50Z silvercircle $
- *
  * This implements the services that form the group chat API
  *
  */
 
 #include "..\commonheaders.h"
-
-// defs
-extern HICON hIcons[30];
 
 CRITICAL_SECTION  cs;
 
@@ -454,9 +449,9 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	TCHAR newcontactname[128];
 	if ( lstrlen(contactName) > 0) {
 		if (M->GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, safe_sizeof(newcontactname));
+			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
 		else {
-			lstrcpyn(newcontactname, contactName, safe_sizeof(newcontactname));
+			lstrcpyn(newcontactname, contactName, SIZEOF(newcontactname));
 			newcontactname[127] = 0;
 		}
 	}

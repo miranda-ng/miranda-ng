@@ -30,24 +30,17 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: log.cpp 13614 2011-04-22 13:16:21Z borkra $
- *
  * Implements the richedit-based message history display for the group
  * chat window.
  *
  */
 
 #include "..\commonheaders.h"
-#include <math.h>
-#include <mbstring.h>
 
 /*
  * The code for streaming the text is to a large extent copied from
  * the srmm module and then modified to fit the chat module.
  */
-
-extern FONTINFO	aFonts[OPTIONS_FONTCOUNT];
-extern HICON	hIcons[30];
 
 static PBYTE	pLogIconBmpBits[14];
 static int		logIconBmpSize[ SIZEOF(pLogIconBmpBits)];

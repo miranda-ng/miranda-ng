@@ -1,13 +1,12 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\src\include\resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
 #include <winres.h>
 #include "..\..\..\include\statusmodes.h"
 
@@ -610,6 +609,91 @@ BEGIN
                     "Button",BS_AUTO3STATE | WS_TABSTOP,15,224,290,11
 END
 
+IDD_SENDLATER_QMGR DIALOGEX 0, 0, 484, 258
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Queued send jobs"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,391,239,86,14
+    CONTROL         "",IDC_QMGR_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,6,33,471,183
+    GROUPBOX        "Queued jobs",IDC_STATIC,3,24,477,198
+    RTEXT           "Filter by contact:",IDC_STATIC,9,8,324,12
+    COMBOBOX        IDC_QMGR_FILTER,345,6,132,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Help on this",IDC_QMGR_HELP,"Hyperlink",WS_TABSTOP,246,240,141,12
+    CONTROL         "Display popups for failed jobs",IDC_QMGR_ERRORPOPUPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,228,210,12
+    CONTROL         "Display popups for completed jobs",IDC_QMGR_SUCCESSPOPUPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,242,210,12
+END
+
+IDD_WARNING DIALOGEX 0, 0, 298, 105
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "",IDC_STATIC,0,0,298,76
+    CONTROL         "Do not show this message again",IDC_DONTSHOWAGAIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,77,277,11
+    CONTROL         "",IDC_WARNTEXT,"RichEdit20W",WS_VSCROLL | 0x1944,36,23,250,51
+    ICON            "",IDC_WARNICON,6,8,24,24,SS_CENTERIMAGE
+    LTEXT           "Static",IDC_CAPTION,36,5,252,16
+    DEFPUSHBUTTON   "OK",IDOK,245,88,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,241,88,50,14
+    PUSHBUTTON      "Yes",IDYES,136,88,50,14
+    PUSHBUTTON      "No",IDNO,189,88,50,14
+    CONTROL         "",IDC_WARNGROUP,"Static",SS_ENHMETAFILE,0,74,297,2
+END
+
+IDD_MODERNOPTS DIALOGEX 0, 0, 369, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Message sending:",IDC_TXT_TITLE2,0,64,185,8
+    LTEXT           "Window:",IDC_TXT_TITLE1,1,0,182,8
+    CONTROL         "Esc closes sessions (minimizes window, if disabled)",IDC_CLOSEONESC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,174,10
+    CONTROL         "Always pop up and activate new windows",IDC_ALWAYSPOPUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,174,10
+    CONTROL         "Create new windows in minimized state",IDC_CREATEMIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,174,10
+    CONTROL         "Check1",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,10,49,174,10
+    CONTROL         "Send on Shift+Enter",IDC_SENDSHIFTENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,89,174,10
+    CONTROL         "Send message on Enter",IDC_SENDENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,101,174,10
+    CONTROL         "Send message on double Enter",IDC_SENDDBLENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,113,174,10
+    CONTROL         "Minimize the message window on send",IDC_MINSEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,125,174,10
+    LTEXT           "Tabs:",IDC_TXT_TITLE4,184,0,183,8
+    CONTROL         "Use tabbed interface",IDC_USETABS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,13,173,10
+    CONTROL         "Create new tabs without activating them",IDC_CREATENOACTIVATE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,25,173,10
+    CONTROL         "Pop up minimized window when a new tab is created",IDC_POPUPONCREATE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,37,173,10
+    CONTROL         "Automatically switch tabs in minimized windows",IDC_AUTOSWITCHTABS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,49,173,10
+    LTEXT           "History:",IDC_TXT_TITLE5,1,140,367,8
+    CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,153,135,10
+    CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,166,138,10
+    CONTROL         "Load previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,179,138,10
+    CONTROL         "Always trim message log to",IDC_ALWAYSTRIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,192,146,10
+    EDITTEXT        IDC_LOADCOUNTN,164,164,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_LOADCOUNTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,203,163,10,14
+    EDITTEXT        IDC_LOADTIMEN,164,177,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_LOADTIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,200,175,10,14
+    EDITTEXT        IDC_TRIM,164,190,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_TRIMSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,200,189,10,14
+    LTEXT           "Events",IDC_STATIC,215,192,82,8
+    LTEXT           "minutes old",IDC_STMINSOLD,215,179,83,8,WS_DISABLED
+    LTEXT           "Notifications:",IDC_TXT_TITLE3,184,64,183,8
+    CONTROL         "Don't announce when dialog is open",IDC_NOOPENNOTIFY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,77,173,10
+    CONTROL         "Message events",IDC_NOTIFYMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,89,173,10
+    CONTROL         "File events",IDC_NOTIFYFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,101,173,10
+    CONTROL         "URL events",IDC_NOTIFYURL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,113,173,10
+    CONTROL         "Other events",IDC_NOTIFYOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,125,173,10
+    CONTROL         "Send message on Ctrl+Enter (always enabled)",IDC_SENDCTRLENTER,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,10,77,174,10
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -895,69 +979,7 @@ BEGIN
     BEGIN
         BOTTOMMARGIN, 191
     END
-END
-#endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Немецкий (Германия) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_SENDLATER_QMGR DIALOGEX 0, 0, 484, 258
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Queued send jobs"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "Close",IDOK,391,239,86,14
-    CONTROL         "",IDC_QMGR_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,6,33,471,183
-    GROUPBOX        "Queued jobs",IDC_STATIC,3,24,477,198
-    RTEXT           "Filter by contact:",IDC_STATIC,9,8,324,12
-    COMBOBOX        IDC_QMGR_FILTER,345,6,132,15,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Help on this",IDC_QMGR_HELP,"Hyperlink",WS_TABSTOP,246,240,141,12
-    CONTROL         "Display popups for failed jobs",IDC_QMGR_ERRORPOPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,228,210,12
-    CONTROL         "Display popups for completed jobs",IDC_QMGR_SUCCESSPOPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,242,210,12
-END
-
-IDD_WARNING DIALOGEX 0, 0, 298, 105
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "",IDC_STATIC,0,0,298,76
-    CONTROL         "Do not show this message again",IDC_DONTSHOWAGAIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,77,277,11
-    CONTROL         "",IDC_WARNTEXT,"RichEdit20W",WS_VSCROLL | 0x1944,36,23,250,51
-    ICON            "",IDC_WARNICON,6,8,24,24,SS_CENTERIMAGE
-    LTEXT           "Static",IDC_CAPTION,36,5,252,16
-    DEFPUSHBUTTON   "OK",IDOK,245,88,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,241,88,50,14
-    PUSHBUTTON      "Yes",IDYES,136,88,50,14
-    PUSHBUTTON      "No",IDNO,189,88,50,14
-    CONTROL         "",IDC_WARNGROUP,"Static",SS_ENHMETAFILE,0,74,297,2
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
     IDD_SENDLATER_QMGR, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -973,84 +995,7 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 98
     END
-END
-#endif    // APSTUDIO_INVOKED
 
-#endif    // Немецкий (Германия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_MODERNOPTS DIALOGEX 0, 0, 369, 210
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    LTEXT           "Message sending:",IDC_TXT_TITLE2,0,64,185,8
-    LTEXT           "Window:",IDC_TXT_TITLE1,1,0,182,8
-    CONTROL         "Esc closes sessions (minimizes window, if disabled)",IDC_CLOSEONESC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,13,174,10
-    CONTROL         "Always pop up and activate new windows",IDC_ALWAYSPOPUP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,174,10
-    CONTROL         "Create new windows in minimized state",IDC_CREATEMIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,37,174,10
-    CONTROL         "Check1",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,10,49,174,10
-    CONTROL         "Send on Shift+Enter",IDC_SENDSHIFTENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,89,174,10
-    CONTROL         "Send message on Enter",IDC_SENDENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,101,174,10
-    CONTROL         "Send message on double Enter",IDC_SENDDBLENTER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,113,174,10
-    CONTROL         "Minimize the message window on send",IDC_MINSEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,125,174,10
-    LTEXT           "Tabs:",IDC_TXT_TITLE4,184,0,183,8
-    CONTROL         "Use tabbed interface",IDC_USETABS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,13,173,10
-    CONTROL         "Create new tabs without activating them",IDC_CREATENOACTIVATE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,25,173,10
-    CONTROL         "Pop up minimized window when a new tab is created",IDC_POPUPONCREATE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,37,173,10
-    CONTROL         "Automatically switch tabs in minimized windows",IDC_AUTOSWITCHTABS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,49,173,10
-    LTEXT           "History:",IDC_TXT_TITLE5,1,140,367,8
-    CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,153,135,10
-    CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,166,138,10
-    CONTROL         "Load previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,179,138,10
-    CONTROL         "Always trim message log to",IDC_ALWAYSTRIM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,192,146,10
-    EDITTEXT        IDC_LOADCOUNTN,164,164,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_LOADCOUNTSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,203,163,10,14
-    EDITTEXT        IDC_LOADTIMEN,164,177,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_LOADTIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,200,175,10,14
-    EDITTEXT        IDC_TRIM,164,190,39,12,ES_RIGHT | ES_NUMBER | WS_DISABLED
-    CONTROL         "",IDC_TRIMSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK | WS_DISABLED,200,189,10,14
-    LTEXT           "Events",IDC_STATIC,215,192,82,8
-    LTEXT           "minutes old",IDC_STMINSOLD,215,179,83,8,WS_DISABLED
-    LTEXT           "Notifications:",IDC_TXT_TITLE3,184,64,183,8
-    CONTROL         "Don't announce when dialog is open",IDC_NOOPENNOTIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,77,173,10
-    CONTROL         "Message events",IDC_NOTIFYMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,89,173,10
-    CONTROL         "File events",IDC_NOTIFYFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,101,173,10
-    CONTROL         "URL events",IDC_NOTIFYURL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,113,173,10
-    CONTROL         "Other events",IDC_NOTIFYOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,194,125,173,10
-    CONTROL         "Send message on Ctrl+Enter (always enabled)",IDC_SENDCTRLENTER,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,10,77,174,10
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
     IDD_MODERNOPTS, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1072,16 +1017,14 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\src\\include\\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
     "#include ""..\\..\\..\\include\\statusmodes.h""\r\n"
-    "\r\r\n"
-    "\r\0"
+    "\0"
 END
 
 3 TEXTINCLUDE 
@@ -1101,7 +1044,7 @@ IDR_SKIN_AERO           SKIN_GLYPH              "SKIN\\tabskin_aero.png"
 IDR_SKIN_AERO_GLOW      SKIN_GLYPH              "SKIN\\tabskin_aero_glow.png"
 IDR_SKIN_AERO_SWITCHBAR SKIN_GLYPH              "SKIN\\tabskin_aero_button.png"
 IDR_SKIN_LOGO           SKIN_GLYPH              "SKIN\\unknown.png"
-#endif    // Английский (США) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

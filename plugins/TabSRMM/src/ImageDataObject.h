@@ -19,11 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //code taken partly from public example on the internet, source unknown.
 
-//make sure <richedit.h> is include before this file
-#include <richedit.h>
-#include <richole.h>
-#include <ole2.h>
-
 class CImageDataObject : IDataObject
 {
 public:

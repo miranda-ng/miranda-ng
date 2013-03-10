@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: contactcache.cpp 13336 2011-01-27 20:02:17Z george.hazan $
- *
  * contact cache implementation
  *
  * the contact cache provides various services to the message window(s)
@@ -207,11 +205,11 @@ bool CContactCache::updateUIN()
 		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 			switch (ci.type) {
 				case CNFT_ASCIIZ:
-					mir_sntprintf(m_szUIN, safe_sizeof(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
+					mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
 					mir_free((void*)ci.pszVal);
 					break;
 				case CNFT_DWORD:
-					mir_sntprintf(m_szUIN, safe_sizeof(m_szUIN), _T("%u"), ci.dVal);
+					mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%u"), ci.dVal);
 					break;
 				default:
 					m_szUIN[0] = 0;

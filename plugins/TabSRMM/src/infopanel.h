@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: infopanel.h 12396 2010-08-22 17:17:05Z silvercircle $
- *
  * the info area for both im and chat sessions
  */
 

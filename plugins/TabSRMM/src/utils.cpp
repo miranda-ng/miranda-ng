@@ -26,14 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: utils.cpp 13428 2011-03-10 13:15:44Z borkra $
- *
  * generic utility functions
  *
  */
 
 #include "commonheaders.h"
-#include <string>
 
 #define MWF_LOG_BBCODE 1
 #define MWF_LOG_TEXTFORMAT 0x2000000

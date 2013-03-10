@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: taskbar.h 12227 2010-07-23 16:57:25Z silvercircle $
- *
  * - Windows 7 taskbar integration class
  * - Proxy window class, needed to support custom aero peek tab
  *   thumbnails

@@ -1,5 +1,5 @@
 #include "commonheaders.h"
-#pragma hdrstop
+
 HANDLE hTypingNotify;
 
 static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)

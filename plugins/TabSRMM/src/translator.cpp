@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: translator.cpp 12999 2010-10-22 07:32:53Z silvercircle $
- *
  * handle pretranslated strings
  *
  */

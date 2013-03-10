@@ -30,20 +30,11 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: options.cpp 13412 2011-03-08 19:13:11Z george.hazan $
- *
  * group chat options and generic font handling
  *
  */
 
 #include "..\commonheaders.h"
-
-extern HBRUSH 			hListBkgBrush;
-extern HICON			hIcons[30];
-extern FONTINFO			aFonts[OPTIONS_FONTCOUNT];
-extern HMODULE          g_hIconDLL;
-
-extern HIMAGELIST       CreateStateImageList();
 
 #define FONTF_BOLD   1
 #define FONTF_ITALIC 2

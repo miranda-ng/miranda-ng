@@ -26,18 +26,12 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: container.cpp 13447 2011-03-14 19:55:07Z george.hazan $
- *
  * implements the "Container" window which acts as a toplevel window
  * for message sessions.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
-
-extern SESSION_INFO*	m_WndList;
-extern ButtonSet 		g_ButtonSet;
 
 TContainerData *pFirstContainer = 0;        // the linked list of struct ContainerWindowData
 TContainerData *pLastActiveContainer = NULL;
@@ -2675,7 +2669,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 				wStatus = (WORD)DBGetContactSettingWord(dat->hContact, PluginConfig.szMetaName, szTemp, 0);
 				szStatusText = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 			}
-			mir_sntprintf(szMenuLine, safe_sizeof(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,
+			mir_sntprintf(szMenuLine, SIZEOF(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,
 						  i == isForced ? TranslateT("(Forced)") : _T(""));
 			iChecked = MF_UNCHECKED;
 			if (hContactMostOnline != 0 && hContactMostOnline == handle)

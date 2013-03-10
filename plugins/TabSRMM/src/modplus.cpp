@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: modplus.cpp 11848 2010-05-27 14:57:22Z silvercircle $
- *
  * implements features of the tabSRMM "MADMOD" patch, developed by
  * Mad Cluster in May 2008
  *

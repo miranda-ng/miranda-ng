@@ -26,17 +26,11 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: sidebar.cpp 12647 2010-09-09 22:17:49Z silvercircle $
- *
  * the contact switch bar on the left (or right) side
  *
  */
 
 #include "commonheaders.h"
-
-extern int TSAPI TBStateConvert2Flat(int state);
-extern int TSAPI RBStateConvert2Flat(int state);
-extern void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData* dat, RECT* rc);
 
 TSideBarLayout CSideBar::m_layouts[CSideBar::NR_LAYOUTS] = {
 	{

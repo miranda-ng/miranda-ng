@@ -26,8 +26,6 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: themes.h 11997 2010-06-14 20:12:34Z silvercircle $
- *
  * The class CSkin implements the skinning engine and loads skins from
  * their skin definition files (.tsk).
  *

@@ -25,18 +25,14 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: tabctrl.cpp 12643 2010-09-09 03:57:16Z silvercircle $
- *
  * a custom tab control, skinable, aero support, single/multi row, button
  * tabs support, proper rendering for bottom row tabs and more.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 static WNDPROC		OldTabControlClassProc;
-extern ButtonSet	g_ButtonSet;
 
 static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

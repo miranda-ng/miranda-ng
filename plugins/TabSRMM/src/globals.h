@@ -26,8 +26,6 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: globals.h 13046 2010-10-28 10:02:50Z silvercircle $
- *
  * Plugin configuration variables and functions. Implemented as a class
  * though there will always be only a single instance.
  *

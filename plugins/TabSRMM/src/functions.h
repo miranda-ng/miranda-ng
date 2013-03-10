@@ -26,8 +26,6 @@
  *
  *(C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: functions.h 11636 2010-04-27 22:08:16Z silvercircle $
- *
  * Global function prototypes
  *
  */

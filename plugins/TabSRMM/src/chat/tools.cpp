@@ -30,20 +30,11 @@
  *
  * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: tools.cpp 13650 2011-05-30 11:53:13Z silvercircle@gmail.com $
- *
  * Helper functions for the group chat module.
  *
  */
 
 #include "..\commonheaders.h"
-
-// externs
-extern HICON    hIcons[30];
-extern FONTINFO aFonts[OPTIONS_FONTCOUNT];
-extern HMENU    g_hMenu;
-extern HANDLE   hBuildMenuEvent ;
-extern HANDLE   hSendEvent;
 
 int GetRichTextLength(HWND hwnd)
 {

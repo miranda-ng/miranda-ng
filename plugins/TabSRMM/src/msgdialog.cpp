@@ -26,18 +26,14 @@
  *
  * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
  *
- * $Id: msgdialog.cpp 13447 2011-03-14 19:55:07Z george.hazan $
- *
  * This implements the message dialog window.
  *
  */
 
 #include "commonheaders.h"
-#pragma hdrstop
 
 #define MS_HTTPSERVER_ADDFILENAME "HTTPServer/AddFileName"
 
-extern 	TTemplateSet RTL_Active, LTR_Active;
 const 	TCHAR*		pszIDCSAVE_close = 0, *pszIDCSAVE_save = 0;
 
 static const UINT sendControls[] 			= { IDC_MESSAGE, IDC_LOG };
@@ -1336,7 +1332,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (dat->hContact && dat->szProto != NULL) {
 				dat->wStatus = DBGetContactSettingWord(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-				mir_sntprintf(dat->szStatus, safe_sizeof(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
+				mir_sntprintf(dat->szStatus, SIZEOF(dat->szStatus), _T("%s"), (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, GSMDF_TCHAR));
 			} else
 				dat->wStatus = ID_STATUS_OFFLINE;
 
@@ -2672,7 +2668,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (iIndex < SendQueue::NR_SENDJOBS) {     // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
-				mir_sntprintf(job->szErrorMsg, safe_sizeof(job->szErrorMsg), TranslateT("Delivery failure: %s"),
+				mir_sntprintf(job->szErrorMsg, SIZEOF(job->szErrorMsg), TranslateT("Delivery failure: %s"),
 					TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
@@ -3498,7 +3494,7 @@ quote_from_last:
 					if (!(pcaps & PF4_OFFLINEFILES)) {
 						TCHAR szBuffer[256];
 
-						_sntprintf(szBuffer, safe_sizeof(szBuffer), TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
+						_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 						break;
 					}

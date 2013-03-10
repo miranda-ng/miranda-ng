@@ -19,23 +19,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-$Id: manager.cpp 14208 2012-03-26 13:56:42Z silvercircle $
 */
 
 #include "..\commonheaders.h"
-
-extern  TCHAR	*pszActiveWndID ;
-extern  char	*pszActiveWndModule ;
-extern  HICON	hIcons[30];
 
 #define	WINDOWS_COMMANDS_MAX 30
 #define	STATUSICONCOUNT 6
 
 SESSION_INFO	*m_WndList = 0;
 MODULEINFO		*m_ModList = 0;
-
-extern CRITICAL_SECTION cs;
 
 void SetActiveSession(const TCHAR* pszID, const char* pszModule)
 {
