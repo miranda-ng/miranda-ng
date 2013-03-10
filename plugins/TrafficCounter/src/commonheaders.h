@@ -20,97 +20,37 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#ifndef _WIN64
-	#define _USE_32BIT_TIME_T
-#endif
+#define _CRT_SECURE_NO_WARNINGS
 
-// Standart includes
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
-#include <time.h>
-#include <tchar.h>
 
 #include <win2k.h>
-
-#include "resource.h"
-
-// Miranda SDK includes
 #include <newpluginapi.h>
-#include <m_system.h>
 #include <m_netlib.h>
 #include <m_langpack.h>
-#include <m_clist.h>
-//#include <m_clistint.h>
 #include <m_clui.h>
 #include <m_clc.h>
 #include <m_options.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_cluiframes.h>
 #include <m_fontservice.h>
 #include <m_popup.h>
 #include <m_skin.h>
 #include <m_hotkeys.h>
+
 #include <m_variables.h>
+#include <m_skin_eng.h>
+#include <m_tipper.h>
 
-#pragma pack(push)
-#pragma pack(1)
-typedef	struct
-{
-	BYTE Hour, Day, Month;
-	WORD Year;
-	DWORD Incoming, Outgoing;
-	WORD Time;
-} HOURLYSTATS;
-#pragma pack(pop)
-
-typedef struct tagTimer
-{
-	DWORD TimeAtStart; // Время в момент запуска таймера - в миллисекундах.
-	DWORD Timer; // Количество секунд со времени запуска таймера.
-} TIMER;
-
-typedef struct
-{
-	char *name; // Имя аккаунта.
-
-	TIMER Session; // Таймер текущей сессии (протокол в онлайне).
-	TIMER Total; // Таймер общий.
-
-	DWORD TotalRecvTraffic, // Общий трафик протокола (за выбранный период)
-		  TotalSentTraffic,
-		  CurrentRecvTraffic, // Текущий трафик протокола (за сессию)
-		  CurrentSentTraffic;
-	union
-	{
-		BYTE Flags;
-		struct
-		{
-			unsigned int Reserv0:1; // Активность потеряла смысл - статистика ведётся по всем аккаунтам.
-			unsigned int Visible:1; // = 1 - аккаунт будет показываться во фрейме счётчиков
-			unsigned int Enabled:1; // = 1 - аккаунт включен и не прячется
-			unsigned int State:1;   // = 1 - аккаунт сейчас онлайн
-			unsigned int Reserv1:3;
-		};
-	};
-
-	// Добавлено в версии 0.1.1.0.
-	DWORD NumberOfRecords; // Количество часов в общей статистике.
-	HOURLYSTATS *AllStatistics; // Полная статистика вместе со статистикой онлайна.
-	HANDLE hFile; // Файл с сохранённой статистикой данного протокола.
-
-	DWORD StartIndex; // Номер записи в статистике, бывший актуальным на момент запуска.
-	DWORD StartIncoming; // Значение входящего трафика на момент запуска.
-	DWORD StartOutgoing; // Значение исходящего трафика на момент запуска.
-
-	// 0.1.1.5.
-	DWORD Shift;	// Номер записи в статистике старейшего выбранного аккаунта,
-					// дата которой соответствует началу статистики данного аккаунта.
-
-	// 0.1.1.6
-	TCHAR *tszAccountName; // Человеческое имя аккаунта для использования в графическом интерфейсе.
-} PROTOLIST;
+#include "resource.h"
+#include "version.h"
+#include "misc.h"
+#include "opttree.h"
+#include "vars.h"
+#include "statistics.h"
+#include "TrafficCounter.h"
 
 //---------------------------------------------------------------------------------------------
 // Различные флаги
@@ -143,10 +83,32 @@ typedef union
 	};
 } uTCFLAGS;
 
-#include "misc.h"
-#include "opttree.h"
-#include "vars.h"
-#include "statistics.h"
-#include "TrafficCounter.h"
+extern HINSTANCE hInst;
+
+extern HWND TrafficHwnd;
+extern PROTOLIST *ProtoList;
+extern uTCFLAGS unOptions;
+
+extern int  Traffic_PopupBkColor;
+extern int  Traffic_PopupFontColor;
+extern char Traffic_Notify_time_value;
+extern int  Traffic_Notify_size_value;
+extern char Traffic_PopupTimeoutDefault;
+extern char Traffic_PopupTimeoutValue;
+extern char Traffic_AdditionSpace;
+
+extern TCHAR Traffic_CounterFormat[512];
+extern TCHAR Traffic_TooltipFormat[512];
+
+extern BOOL bPopupExists, bVariablesExists, bTooltipExists;
+
+extern BOOL UseKeyColor;
+extern COLORREF KeyColor;
+
+extern HGENMENU hTrafficMainMenuItem;
+
+extern WORD Stat_SelAcc;
+extern OPTTREE_OPTION *pOptions; // Объявлено в модуле TrafficCounter.c.
+extern PROTOLIST OverallInfo;
 
 #endif

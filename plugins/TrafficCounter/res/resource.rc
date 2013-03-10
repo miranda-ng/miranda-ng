@@ -1,14 +1,12 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
-#include "..\src\version.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
 #include <winres.h>
 
 
@@ -30,16 +28,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_UNINSTALL_ICON      ICON                    "network.ico"
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Russian (Russia) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -61,39 +50,6 @@ BEGIN
     CONTROL         "",IDC_LIST_DATA,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_OWNERDATA | WS_BORDER | WS_TABSTOP,3,99,298,118
     PUSHBUTTON      "Clear statistics",IDC_BUTTON_CLEAR,243,13,62,14
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
-BEGIN
-    IDD_OPT_STATS, DIALOG
-    BEGIN
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 233
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Russian (Russia) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (United States) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_OPT_TRAFFIC_POPUPS DIALOG 0, 0, 313, 233
 STYLE DS_SETFONT | WS_CHILD
@@ -145,6 +101,12 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_STATS, DIALOG
+    BEGIN
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 233
+    END
+
     IDD_OPT_TRAFFIC, DIALOG
     BEGIN
         BOTTOMMARGIN, 233
@@ -166,60 +128,20 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
-    "#include ""..\\..\\Include\\statusmodes.h""\r\0"
+    "\0"
 END
 
 3 TEXTINCLUDE 
 BEGIN
-    "\r\0"
+    "\r\n"
+    "\0"
 END
 
 #endif    // APSTUDIO_INVOKED
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION __FILEVERSION_STRING
- PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
-            VALUE "CompanyName", " "
-            VALUE "FileDescription", "TrafficCounter"
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", "TrafficCounter"
-            VALUE "LegalCopyright", "© 2002-2006 Ghost, © 2007-2012 Mironych"
-            VALUE "OriginalFilename", "TrafficCounter.dll"
-            VALUE "ProductName", "TrafficCounter"
-            VALUE "ProductVersion", __VERSION_STRING
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-#endif    // English (United States) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 

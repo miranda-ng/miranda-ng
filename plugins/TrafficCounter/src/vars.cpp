@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-extern PROTOLIST *ProtoList;
-extern PROTOLIST OverallInfo;
-
 static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 {
 	DWORD tmp, tmpsn = 0, tmprn = 0, tmpst = 0, tmprt = 0;

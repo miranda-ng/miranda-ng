@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const TCHAR *name);
 HTREEITEM OptTree_AddItem(HWND hwndTree, TCHAR *name, LPARAM lParam, int iconIndex);
-extern OPTTREE_OPTION *pOptions; // Объявлено в модуле TrafficCounter.c.
 
 static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 {

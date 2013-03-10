@@ -18,8 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "m_skin_eng.h"
-#include "m_tipper.h"
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //GLOBAL
@@ -28,7 +26,6 @@ uTCFLAGS unOptions;
 PROTOLIST *ProtoList; // Данные обо всех аккаунтах.
 PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
 int NumberOfAccounts;
-extern WORD Stat_SelAcc;
 HWND TrafficHwnd;
 
 HINSTANCE hInst;
@@ -97,13 +94,13 @@ COLORREF KeyColor;
 PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
-	"Traffic Counter",
-	0, // Начиная с версии ядра 0.92.1.0 поле с версией не используется.
-	"Adding traffic and time counters.",
-	"Ghost, Mironych",
-	"",
-	"© 2002-2006 Ghost, © 2007-2012 Mironych",
-	"",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {82181510-5DFA-49D7-B469-33871E2AE8B5}
 	{0x82181510, 0x5dfa, 0x49d7, {0xb4, 0x69, 0x33, 0x87, 0x1e, 0x2a, 0xe8, 0xb5}}
