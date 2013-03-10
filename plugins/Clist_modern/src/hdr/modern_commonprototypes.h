@@ -272,7 +272,6 @@ HRESULT PreLoadContactListModule();
 HRESULT ClcLoadModule();
 HRESULT ToolbarLoadModule();
 HRESULT ToolbarButtonLoadModule();
-void    CustomizeButton(HWND);
 
 // INTERFACES
 

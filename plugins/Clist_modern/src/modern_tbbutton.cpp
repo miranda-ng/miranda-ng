@@ -463,7 +463,9 @@ void MakeButtonSkinned(HWND hWnd)
 	WindowList_Add(hButtonWindowList, hWnd, NULL);
 }
 
-static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 {
 	if (ttbid == TTB_WINDOW_HANDLE) {
 		CustomizeToolbar(hWnd);
@@ -473,18 +475,12 @@ static void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam)
 	MakeButtonSkinned(hWnd);
 
 	TBBUTTONDATA* p = (TBBUTTONDATA*)GetWindowLongPtr(hWnd, 0);
-	p->szButtonID, "Toolbar.MissingID";
+	p->szButtonID = "Toolbar.MissingID";
 	p->ttbID = ttbid;
 	SendMessage(hWnd, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-int Buttons_ModuleLoaded(WPARAM wParam, LPARAM lParam)
-{
-	TopToolbar_SetCustomProc(CustomizeButton, 0);
-	return 0;
-}
 
 int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 {	
@@ -494,8 +490,6 @@ int Buttons_OnSkinModeSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 HRESULT ToolbarButtonLoadModule()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, Buttons_ModuleLoaded);
-
 	hButtonWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
 	hBkgChangedHook = HookEvent(ME_BACKGROUNDCONFIG_CHANGED,Buttons_OnSkinModeSettingsChanged);

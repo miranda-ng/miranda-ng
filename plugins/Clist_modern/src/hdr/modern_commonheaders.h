@@ -174,13 +174,13 @@ DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
 //  lParam = 0
 #define ME_BACKGROUNDCONFIG_CHANGED "ModernBkgrCfg/Changed"
 
-
-
 HBITMAP ske_CreateDIB32(int cx, int cy);
 
-extern void InitDisplayNameCache(void);
-extern void FreeDisplayNameCache();
-extern int CLUI_ShowWindowMod(HWND hwnd, int cmd);
+void InitDisplayNameCache(void);
+void FreeDisplayNameCache();
+int CLUI_ShowWindowMod(HWND hwnd, int cmd);
+
+void MakeButtonSkinned(HWND hWnd);
 
 #ifdef UNICODE
 	#define GSMDF_TCHAR_MY GSMDF_TCHAR|CNF_UNICODE

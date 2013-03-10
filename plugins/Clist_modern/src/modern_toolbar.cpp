@@ -55,7 +55,7 @@ static void SetButtonPressed(int i, int state)
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)BTNS[i].hButton, state ? TTBST_PUSHED : TTBST_RELEASED);
 }
 
-static int Modern_InitButtons(WPARAM, LPARAM)
+void Modern_InitButtons()
 {
 	for (int i=0; i < SIZEOF(BTNS); i++) {
 		TTBButton tbb = { 0 };
@@ -91,7 +91,6 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 	SetButtonPressed(3, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 	SetButtonPressed(6, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	SetButtonPressed(7, db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
-	return 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -304,15 +303,13 @@ void CustomizeToolbar(HWND hwnd)
 
 	pMTBInfo->mtbXPTheme = xpt_AddThemeHandle(hwnd, L"TOOLBAR");
 	pMTBInfo->bHardUpdate = TRUE;
+
+	Modern_InitButtons();
 }
 
 #define TTB_OPTDIR "TopToolBar"
 
-#if defined(WIN64)
-	static char szUrl[] = "http://miranda-ng.org/x64/Plugins/toptoolbar.zip";
-#else
-	static char szUrl[] = "http://miranda-ng.org/x32/Plugins/toptoolbar.zip";
-#endif
+static char szUrl[] = "http://wiki.miranda-ng.org/index.php?title=Plugin:TopToolBar";
 
 static TCHAR szWarning[] = LPGENT("To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue");
 
@@ -321,12 +318,27 @@ static void CopySettings(const char* to, const char* from, int defValue)
 	db_set_b(NULL, TTB_OPTDIR, to, db_get_b(NULL,"ModernToolBar",from, defValue));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CustomizeButton(HANDLE ttbid, HWND hWnd, LPARAM lParam);
+
+static int Toolbar_ModuleReloaded(WPARAM wParam, LPARAM lParam)
+{	
+	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
+	if ( !_stricmp(pInfo->shortName, "TopToolBar"))
+		TopToolbar_SetCustomProc(CustomizeButton, 0);
+
+	return 0;
+}
+
 static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 {
 	CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)"ToolBar Background/ToolBar",0);
+	
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ehhToolBarSettingsChanged);
 	HookEvent(ME_BACKGROUNDCONFIG_CHANGED, ehhToolBarBackgroundSettingsChanged);
-	HookEvent(ME_TTB_INITBUTTONS, Modern_InitButtons);
+
+	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	BYTE bOldSetting = 0;
 	if ( !db_get_b(NULL, "Compatibility", "TTB_Upgrade", 0)) {
@@ -356,6 +368,8 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 HRESULT ToolbarLoadModule()
 {
 	ehhToolBarBackgroundSettingsChanged(0, 0);
+
+	HookEvent(ME_SYSTEM_MODULELOAD, Toolbar_ModuleReloaded);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Toolbar_ModulesLoaded);
 	return S_OK;
 }

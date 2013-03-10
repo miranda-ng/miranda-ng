@@ -26,13 +26,10 @@ $Id: viewmodes.c 2998 2006-06-01 07:11:52Z nightwish2004 $
 */
 
 #include "hdr/modern_commonheaders.h"
-#include "m_variables.h"
 #include "hdr/modern_cluiframes.h"
 #include "m_api/m_skinbutton.h"
 
 #define TIMERID_VIEWMODEEXPIRE 100
-
-void MakeButtonSkinned(HWND hWnd);
 
 typedef int (__cdecl *pfnEnumCallback)(char *szName);
 static HWND clvmHwnd = 0;

@@ -116,7 +116,7 @@ extern HBITMAP hBmpBackground, hBmpSeparator;
 extern CRITICAL_SECTION csButtonsHook;
 extern pfnCustomProc g_CustomProc;
 extern LPARAM g_CustomProcParam;
-extern HANDLE hTTBModuleLoaded, hTTBInitButtons;
+extern HANDLE hTTBModuleLoaded;
 
 void AddToOptions(TopButtonInt* b);
 void RemoveFromOptions(int id);
@@ -138,14 +138,14 @@ TopButtonInt* idtopos(int id, int* pPos=NULL);
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);
 
-int  InitInternalButtons(WPARAM, LPARAM);
+void InitInternalButtons(void);
 
-int  LoadToolbarModule( void );
-int  UnloadToolbarModule( void );
+int  LoadToolbarModule(void);
+int  UnloadToolbarModule(void);
 
-void SetAllBitmaps( void );
-int  SaveAllLButs( void );
-int  SaveAllButtonsOptions( void );
+void SetAllBitmaps(void);
+int  SaveAllLButs(void);
+int  SaveAllButtonsOptions(void);
 
 void InsertSeparator( int i );
 void DeleteSeparator(int i);

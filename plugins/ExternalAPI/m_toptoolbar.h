@@ -50,13 +50,6 @@ Called when the toolbar services are available
 */
 #define ME_TTB_MODULELOADED   "TopToolBar/ModuleLoaded"
 
-/*
-toptoolbar/initbuttons event
-wParam = lParam = 0
-Called when the toolbar needs to add default buttons
-*/
-#define ME_TTB_INITBUTTONS   "TopToolBar/InitButtons"
-
 
 //=== SERVICES ===
 /*

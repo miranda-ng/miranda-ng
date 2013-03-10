@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __MAJOR_VERSION				0
 #define __MINOR_VERSION				8
 #define __RELEASE_NUM				0
-#define __BUILD_NUM					2
+#define __BUILD_NUM					3
 
 // other stuff for Version resource
 #define __STRINGIFY_IMPL(x)			#x

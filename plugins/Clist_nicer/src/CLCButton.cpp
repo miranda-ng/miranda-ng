@@ -64,7 +64,7 @@ static int getButtonIndex(HANDLE hButton)
 	return -1;
 }
 
-static int InitDefaultButtons(WPARAM, LPARAM)
+static void InitDefaultButtons()
 {
 	for (int i=0; i < SIZEOF(BTNS); i++ ) {
 		TTBButton tbb = { 0 };
@@ -90,7 +90,6 @@ static int InitDefaultButtons(WPARAM, LPARAM)
 	ClcSetButtonState(IDC_TBHIDEOFFLINE, db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 	ClcSetButtonState(IDC_TBHIDEGROUPS, db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	ClcSetButtonState(IDC_TBSOUND, db_get_b(NULL, "Skin", "UseSound", 1));
-	return 1;
 }
 
 void ClcSetButtonState(int ctrlid, int status)
@@ -520,6 +519,8 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 	if (hButton == TTB_WINDOW_HANDLE) {
 		TTBCtrlCustomize custData = { sizeof(TTBCtrl), ToolbarWndProc };
 		SendMessage(hWnd, TTB_SETCUSTOM, 0, (LPARAM)&custData);
+
+		InitDefaultButtons();
 		return;
 	}
 	
@@ -552,12 +553,20 @@ void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat)
 
 static int Nicer_CustomizeToolbar(WPARAM, LPARAM)
 {	
-	HookEvent(ME_TTB_INITBUTTONS, InitDefaultButtons);
 	TopToolbar_SetCustomProc(CustomizeToolbar, 0);
+	return 0;
+}
+
+static int Nicer_ReloadToolbar(WPARAM wParam, LPARAM)
+{	
+	PLUGININFOEX *pInfo = (PLUGININFOEX*)wParam;
+	if ( !_stricmp(pInfo->shortName, "TopToolBar"))
+		TopToolbar_SetCustomProc(CustomizeToolbar, 0);
 	return 0;
 }
 
 void LoadButtonModule()
 {
+	HookEvent(ME_SYSTEM_MODULELOAD, Nicer_ReloadToolbar);
 	HookEvent(ME_SYSTEM_MODULESLOADED, Nicer_CustomizeToolbar);
 }

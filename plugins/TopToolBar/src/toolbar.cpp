@@ -13,7 +13,7 @@ HWND hwndContactList = 0;
 
 int nextButtonId = 200;
 
-HANDLE hTTBModuleLoaded, hTTBInitButtons;
+HANDLE hTTBModuleLoaded;
 static WNDPROC buttonWndProc;
 
 CRITICAL_SECTION csButtonsHook;
@@ -677,8 +677,6 @@ int LoadToolbarModule()
 	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
 
 	hTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);
-	hTTBInitButtons = CreateHookableEvent(ME_TTB_INITBUTTONS);
-	SetHookDefaultForHookableEvent(hTTBInitButtons, InitInternalButtons);
 
 	CreateServiceFunction("TopToolBar/AddButton", TTBAddButton);
 	CreateServiceFunction(MS_TTB_REMOVEBUTTON, TTBRemoveButton);
@@ -712,7 +710,6 @@ int LoadToolbarModule()
 int UnloadToolbarModule()
 {
 	DestroyHookableEvent(hTTBModuleLoaded);
-	DestroyHookableEvent(hTTBInitButtons);
 
 	DeleteObject(hBmpSeparator);
 	DeleteCriticalSection(&csButtonsHook);

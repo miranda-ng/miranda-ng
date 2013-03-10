@@ -279,6 +279,8 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 	// if we're working in skinned clist, receive the standard buttons & customizations
 	if (g_CustomProc && g_ctrl->hWnd)
 		g_CustomProc(TTB_WINDOW_HANDLE, g_ctrl->hWnd, g_CustomProcParam);
+	else
+		InitInternalButtons();
 
 	// if there's no customized frames, create our own
 	if (g_ctrl->hFrame == NULL) {
@@ -292,8 +294,7 @@ INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 		g_ctrl->hFrame = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	}
 
-	// receive all buttons
-	NotifyEventHooks(hTTBInitButtons, 0, 0);
+	// receive buttons
 	NotifyEventHooks(hTTBModuleLoaded, 0, 0);
 
 	return 0;
