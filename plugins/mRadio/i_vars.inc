@@ -7,6 +7,7 @@ const
   optLastStn    :PAnsiChar = 'LastStation';
   optConnect    :PAnsiChar = 'AutoConnect';
   optAutoMute   :PAnsiChar = 'AutoMute';
+  optDevice     :PAnsichar = 'Device';
   optEQ_OFF     :PAnsiChar = 'eqoff';
   optStatusMsg  :PAnsiChar = 'StatusMsg';
   optCurElement :PAnsiChar = 'LastPlayed';
@@ -93,6 +94,7 @@ var
   sBuffer,
   sTimeout,
   sPreBuf:cardinal;
+  usedevice:PAnsiChar;
 const
   hVolCtrl    :HWND=0;
   hVolFrmCtrl :HWND=0;

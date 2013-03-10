@@ -1,96 +1,4 @@
 {Options dialog}
-const
-  OldEQPreset:integer=-1;
-const
-  optOldPreset:pAnsiChar='oldpreset';
-  optPresets  :pAnsiChar='numpreset';
-  optPreset   :pAnsiChar='preset_';
-  optPreDescr :pAnsiChar='predescr_';
-
-const
-  PresetMax = 17;
-
-procedure InitPresets;
-type
-  tP = array [0..9] of AnsiChar;
-begin
-  StrDupW(Presets[00].name,'Acoustic' ); tP(Presets[00].preset):=#$01#$02#$00#$00#$00#$00#$00#$01#$01#$03;
-  StrDupW(Presets[01].name,'Blues'    ); tP(Presets[01].preset):=#$01#$02#$01#$00#$00#$00#$00#$00#$00#$FE;
-  StrDupW(Presets[02].name,'Classical'); tP(Presets[02].preset):=#$01#$04#$01#$00#$00#$00#$00#$00#$01#$01;
-  StrDupW(Presets[03].name,'Country'  ); tP(Presets[03].preset):=#$00#$00#$01#$01#$00#$00#$01#$01#$01#$01;
-  StrDupW(Presets[04].name,'Dance'    ); tP(Presets[04].preset):=#$04#$03#$02#$01#$FF#$FF#$02#$04#$05#$05;
-  StrDupW(Presets[05].name,'Folk'     ); tP(Presets[05].preset):=#$FF#$00#$00#$01#$01#$00#$01#$01#$01#$00;
-  StrDupW(Presets[06].name,'Grunge'   ); tP(Presets[06].preset):=#$01#$00#$FF#$00#$00#$02#$01#$FF#$FE#$FD;
-  StrDupW(Presets[07].name,'Jazz'     ); tP(Presets[07].preset):=#$00#$01#$02#$03#$03#$01#$01#$03#$04#$05;
-  StrDupW(Presets[08].name,'Metall'   ); tP(Presets[08].preset):=#$FE#$00#$00#$00#$00#$03#$02#$04#$06#$05;
-  StrDupW(Presets[09].name,'New Age'  ); tP(Presets[09].preset):=#$03#$03#$00#$00#$00#$00#$00#$00#$02#$02;
-  StrDupW(Presets[10].name,'Opera'    ); tP(Presets[10].preset):=#$00#$01#$02#$04#$01#$02#$00#$00#$00#$00;
-  StrDupW(Presets[11].name,'Rap'      ); tP(Presets[11].preset):=#$00#$04#$04#$00#$00#$00#$01#$04#$05#$07;
-  StrDupW(Presets[12].name,'Reggae'   ); tP(Presets[12].preset):=#$03#$00#$FD#$00#$05#$00#$02#$03#$04#$05;
-  StrDupW(Presets[13].name,'Rock'     ); tP(Presets[13].preset):=#$00#$02#$04#$00#$00#$00#$02#$04#$05#$06;
-  StrDupW(Presets[14].name,'Speech'   ); tP(Presets[14].preset):=#$FE#$02#$00#$00#$00#$00#$FF#$FE#$FD#$FC;
-  StrDupW(Presets[15].name,'Swing'    ); tP(Presets[15].preset):=#$FF#$00#$00#$02#$02#$00#$02#$02#$03#$03;
-  StrDupW(Presets[16].name,'Techno'   ); tP(Presets[16].preset):=#$05#$08#$FF#$FE#$FD#$FF#$04#$06#$06#$06;
-end;
-
-procedure LoadPresets;
-var
-  num,preset,descr:array [0..63] of AnsiChar;
-  i:integer;
-  p,pd:pAnsiChar;
-begin
-  p :=StrCopyE(preset,optPreset);
-  pd:=StrCopyE(descr ,optPreDescr);
-
-  i:=DBReadByte(0,PluginName,optPresets);
-  if i=0 then
-  begin
-    SetLength(Presets,PresetMax);
-    InitPresets;
-  end
-  else
-  begin
-    OldEQPreset:=integer(DBReadByte(0,PluginName,optOldPreset,byte(-1)));
-    SetLength(Presets,i);
-    for i:=0 to HIGH(Presets) do
-    begin
-      StrCopy(p ,IntToStr(num,i));      DBReadStruct (0,PluginName,preset,@Presets[i].preset,10);
-      StrCopy(pd,num); Presets[i].name:=DBReadUnicode(0,PluginName,descr);
-    end;
-  end;
-end;
-
-procedure SavePresets;
-var
-  num,preset,descr:array [0..63] of AnsiChar;
-  i,j:integer;
-  p,pd:pAnsiChar;
-begin
-  p :=StrCopyE(preset,optPreset);
-  pd:=StrCopyE(descr ,optPreDescr);
-  j:=DBReadByte(0,PluginName,optPresets);
-  for i:=0 to HIGH(Presets) do
-  begin
-    StrCopy(p ,IntToStr(num,i)); DBWriteStruct (0,PluginName,preset,@Presets[i].preset,10);
-    StrCopy(pd,num);             DBWriteUnicode(0,PluginName,descr ,Presets[i].name);
-  end;
-  while j>Length(Presets) do
-  begin
-    dec(j);
-    StrCopy(p ,IntToStr(num,j)); DBDeleteSetting(0,PluginName,preset);
-    StrCopy(pd,num);             DBDeleteSetting(0,PluginName,descr);
-  end;
-  DBWriteByte(0,PluginName,optOldPreset,OldEQPreset);
-  DBWriteByte(0,PluginName,optPresets  ,Length(Presets));
-end;
-
-procedure FreePresets;
-var
-  i:integer;
-begin
-  for i:=0 to HIGH(Presets) do
-    mFreeMem(Presets[i].name);
-end;
 
 function ImportOneStation(group:PAnsiChar;section:pointer):int;
 var
@@ -466,7 +374,13 @@ begin
                     StrDupW(email.w,@buf);
 
                     i:=Service_AddToList(0,tlparam(@psr));
+{
+                    GetDlgItemTextW(Dialog,IDC_STATION,@buf,SizeOf(buf));
+                    DBWriteUnicode(i,strCList,optMyHandle,@buf);
 
+                    GetDlgItemTextW(Dialog,IDC_STATIONURL,@buf,SizeOf(buf));
+                    DBWriteUnicode(i,PluginName,optStationURL,@buf);
+}
                     // "changing" station group
                     dst:=GetNewGroupName(Dialog);
                     if dst<>nil then
@@ -541,6 +455,13 @@ begin
         doLoop:=IsDlgButtonChecked(Dialog,IDC_LOOP);
         if chan<>0 then
         begin
+{
+          BASS_ChannelGetInfo(chan,info);
+          if doLoop<>BST_UNCHECKED then
+            info.flags:=info.flags or BASS_SAMPLE_LOOP
+          else
+            info.flags:=info.flags and not BASS_SAMPLE_LOOP;
+}
           BASS_ChannelFlags(chan,ord(doLoop<>BST_UNCHECKED),BASS_SAMPLE_LOOP);
         end;
 
@@ -560,6 +481,144 @@ begin
 //  else
 //    result:=DefWindowProc(Dialog,hMessage,wParam,lParam);
   end;
+end;
+
+//----- Tech tab -----
+
+const
+  OldEQPreset:integer=-1;
+const
+  optOldPreset:pAnsiChar='oldpreset';
+  optPresets  :pAnsiChar='numpreset';
+  optPreset   :pAnsiChar='preset_';
+  optPreDescr :pAnsiChar='predescr_';
+
+const
+  PresetMax = 17;
+
+procedure InitPresets;
+type
+  tP = array [0..9] of AnsiChar;
+begin
+  StrDupW(Presets[00].name,'Acoustic' ); tP(Presets[00].preset):=#$01#$02#$00#$00#$00#$00#$00#$01#$01#$03;
+  StrDupW(Presets[01].name,'Blues'    ); tP(Presets[01].preset):=#$01#$02#$01#$00#$00#$00#$00#$00#$00#$FE;
+  StrDupW(Presets[02].name,'Classical'); tP(Presets[02].preset):=#$01#$04#$01#$00#$00#$00#$00#$00#$01#$01;
+  StrDupW(Presets[03].name,'Country'  ); tP(Presets[03].preset):=#$00#$00#$01#$01#$00#$00#$01#$01#$01#$01;
+  StrDupW(Presets[04].name,'Dance'    ); tP(Presets[04].preset):=#$04#$03#$02#$01#$FF#$FF#$02#$04#$05#$05;
+  StrDupW(Presets[05].name,'Folk'     ); tP(Presets[05].preset):=#$FF#$00#$00#$01#$01#$00#$01#$01#$01#$00;
+  StrDupW(Presets[06].name,'Grunge'   ); tP(Presets[06].preset):=#$01#$00#$FF#$00#$00#$02#$01#$FF#$FE#$FD;
+  StrDupW(Presets[07].name,'Jazz'     ); tP(Presets[07].preset):=#$00#$01#$02#$03#$03#$01#$01#$03#$04#$05;
+  StrDupW(Presets[08].name,'Metall'   ); tP(Presets[08].preset):=#$FE#$00#$00#$00#$00#$03#$02#$04#$06#$05;
+  StrDupW(Presets[09].name,'New Age'  ); tP(Presets[09].preset):=#$03#$03#$00#$00#$00#$00#$00#$00#$02#$02;
+  StrDupW(Presets[10].name,'Opera'    ); tP(Presets[10].preset):=#$00#$01#$02#$04#$01#$02#$00#$00#$00#$00;
+  StrDupW(Presets[11].name,'Rap'      ); tP(Presets[11].preset):=#$00#$04#$04#$00#$00#$00#$01#$04#$05#$07;
+  StrDupW(Presets[12].name,'Reggae'   ); tP(Presets[12].preset):=#$03#$00#$FD#$00#$05#$00#$02#$03#$04#$05;
+  StrDupW(Presets[13].name,'Rock'     ); tP(Presets[13].preset):=#$00#$02#$04#$00#$00#$00#$02#$04#$05#$06;
+  StrDupW(Presets[14].name,'Speech'   ); tP(Presets[14].preset):=#$FE#$02#$00#$00#$00#$00#$FF#$FE#$FD#$FC;
+  StrDupW(Presets[15].name,'Swing'    ); tP(Presets[15].preset):=#$FF#$00#$00#$02#$02#$00#$02#$02#$03#$03;
+  StrDupW(Presets[16].name,'Techno'   ); tP(Presets[16].preset):=#$05#$08#$FF#$FE#$FD#$FF#$04#$06#$06#$06;
+end;
+
+procedure LoadPresets;
+var
+  num,preset,descr:array [0..63] of AnsiChar;
+  i:integer;
+  p,pd:pAnsiChar;
+begin
+  p :=StrCopyE(preset,optPreset);
+  pd:=StrCopyE(descr ,optPreDescr);
+
+  i:=DBReadByte(0,PluginName,optPresets);
+  if i=0 then
+  begin
+    SetLength(Presets,PresetMax);
+    InitPresets;
+  end
+  else
+  begin
+    OldEQPreset:=integer(DBReadByte(0,PluginName,optOldPreset,byte(-1)));
+    SetLength(Presets,i);
+    for i:=0 to HIGH(Presets) do
+    begin
+      StrCopy(p ,IntToStr(num,i));      DBReadStruct (0,PluginName,preset,@Presets[i].preset,10);
+      StrCopy(pd,num); Presets[i].name:=DBReadUnicode(0,PluginName,descr);
+    end;
+  end;
+end;
+
+procedure SavePresets;
+var
+  num,preset,descr:array [0..63] of AnsiChar;
+  i,j:integer;
+  p,pd:pAnsiChar;
+begin
+  p :=StrCopyE(preset,optPreset);
+  pd:=StrCopyE(descr ,optPreDescr);
+  j:=DBReadByte(0,PluginName,optPresets);
+  for i:=0 to HIGH(Presets) do
+  begin
+    StrCopy(p ,IntToStr(num,i)); DBWriteStruct (0,PluginName,preset,@Presets[i].preset,10);
+    StrCopy(pd,num);             DBWriteUnicode(0,PluginName,descr ,Presets[i].name);
+  end;
+  while j>Length(Presets) do
+  begin
+    dec(j);
+    StrCopy(p ,IntToStr(num,j)); DBDeleteSetting(0,PluginName,preset);
+    StrCopy(pd,num);             DBDeleteSetting(0,PluginName,descr);
+  end;
+  DBWriteByte(0,PluginName,optOldPreset,OldEQPreset);
+  DBWriteByte(0,PluginName,optPresets  ,Length(Presets));
+end;
+
+procedure FreePresets;
+var
+  i:integer;
+begin
+  for i:=0 to HIGH(Presets) do
+    mFreeMem(Presets[i].name);
+end;
+
+procedure FillDeviceCombo(wnd:HWND;choose:pAnsiChar);
+var
+  i,select,def:integer;
+  info:BASS_DEVICEINFO;
+  buf: array [0..255] of AnsiChar;
+begin
+  SendMessage(wnd,CB_RESETCONTENT,0,0);
+  i:=0;
+  select:=-1;
+  def:=0;
+  repeat
+    if not BASS_GetDeviceInfo(i+1,info) then
+      break;
+    if (info.flags and BASS_DEVICE_ENABLED)<>0 then
+    begin
+      if (info.flags and BASS_DEVICE_INIT)<>0 then
+      begin
+        select:=i;
+        buf[0]:='>';
+      end
+      else if (info.flags and BASS_DEVICE_DEFAULT)<>0 then
+      begin
+        def:=i;
+        buf[0]:='*';
+      end
+      else buf[0]:=' ';
+      if select<0 then
+      begin
+        if StrCmp(info.name,choose)=0 then
+          select:=i;
+      end;
+      StrCopy(@buf[1],info.name);
+      SendMessageA(wnd,CB_ADDSTRING,0,lparam(@buf));
+    end;
+    inc(i);
+  until false;
+  if select>=0 then
+    def:=select;
+  SendMessage(wnd,CB_SETCURSEL,def,0);
+// not acceptable coz we added 1st char
+//  SendMessageW(wnd,CB_SELECTSTRING,twparam(-1),tlparam(choose))
 end;
 
 function DlgProcOptTech(Dialog:HWnd;hMessage:uint;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
@@ -609,16 +668,22 @@ begin
 
       CheckDlgButton(Dialog,IDC_MONO,ForcedMono);
 
+      // Fill EAX combo
       hEAXCombo:=GetDlgItem(Dialog,IDC_EAXTYPE);
       for i:=0 to EAX_ENVIRONMENT_COUNT do
         SendMessageW(hEAXCombo,CB_ADDSTRING,0,tlparam(TranslateW(EAXItems[i].name)));
       SendMessage(hEAXCombo,CB_SETCURSEL,DBReadByte(0,PluginName,optEAXType,0),0);
 
+      // Fill combo with devices
+      FillDeviceCombo(GetDlgItem(Dialog,IDC_DEVICE),usedevice);
+
+      // Add preset to combo
       wnd:=GetDlgItem(Dialog,IDC_PRESET);
       for i:=0 to HIGH(Presets) do
         SendMessageW(wnd,CB_ADDSTRING,0,tlparam(Presets[i].name));
       SendMessage(wnd,CB_SETCURSEL,OldEQPreset,0);
 
+      // Equalizer
       for i:=0 to 9 do
       begin
         eq[i].wnd:=GetDlgItem(Dialog,IDC_EQ00+i);
@@ -628,7 +693,7 @@ begin
         SendDlgItemMessageA(Dialog,IDC_0+i,WM_SETTEXT,0,tlparam(eq[i].text));
         EnableWindow(eq[i].wnd,isEQ_OFF=BST_UNCHECKED);
       end;
-
+      
       CheckDlgButton(Dialog,IDC_EQOFF,isEQ_OFF);
 
       dst:=DBReadUnicode(0,PluginName,optBASSPath,nil);
@@ -761,6 +826,11 @@ begin
       if integer(PNMHdr(lParam)^.code)=PSN_APPLY then
       begin
         SavePresets;
+
+        mFreeMem(usedevice);
+        usedevice:=GetDlgText(Dialog,IDC_DEVICE,true);
+        StrCopy(usedevice,usedevice+1);
+        DBWriteString(0,PluginName,optDevice,usedevice);
 
 //!!  bass path saving here
         dst:=GetDlgText(Dialog,IDC_BASSPATH);

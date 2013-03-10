@@ -149,6 +149,7 @@ begin
 //  CallService(MS_RADIO_COMMAND,MRC_RECORD,2); record off - not so necessary
 
   recpath:=DBReadUnicode(0,PluginName,optRecPath);
+  usedevice:=DBReadString(0,PluginName,optDevice);
 
   sPreBuf:=DBReadWord(0,PluginName,optPreBuf,75);
   BASS_SetConfig(BASS_CONFIG_NET_PREBUF,sPreBuf);
@@ -243,6 +244,7 @@ begin
   mFreeMem(storage);
   mFreeMem(storagep);
   mFreeMem(recpath);
+  mFreeMem(usedevice);
   mFreeMem(StatusTmpl);
   mFreeMem(basspath);
   FreePresets;
