@@ -18,8 +18,6 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-#pragma once
-
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
 #ifndef WINVER				// Allow use of features specific to Windows XP or later.
@@ -44,46 +42,37 @@ Boston, MA 02111-1307, USA.
 // Windows Header Files:
 #include <windows.h>
 #include <commctrl.h>
-#include <stddef.h>
 #include <time.h>
 #include <windowsx.h>
+#include <malloc.h>
 
-#include <m_stdhdr.h>
 #include <win2k.h>
 #include <newpluginapi.h>
-#include <statusmodes.h>
 #include <m_avatars.h>
 #include <m_awaymsg.h>
 #include <m_clc.h>
-#include <m_clist.h>
 #include <m_clui.h>
 #include <m_cluiframes.h>
-#include <m_contacts.h>
 #include <m_database.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
-#include <m_idle.h>
 #include <m_imgsrvc.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_protocols.h>
-#include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_skin.h>
-#include <m_system.h>
 #include <m_timezones.h>
-#include <m_utils.h>
 #include <m_xstatus.h>
 #include <m_icq.h>
 
-#include "m_tipper.h"
-#include "m_fingerprint.h"
-#include "m_flags.h"
-#include "m_folders.h"
-#include "m_metacontacts.h"
-#include "m_variables.h"
-#include "m_smileyadd.h"
-#include "m_gender.h"
+#include <m_tipper.h>
+#include <m_fingerprint.h>
+#include <m_flags.h>
+#include <m_folders.h>
+#include <m_metacontacts.h>
+#include <m_variables.h>
+#include <m_smileyadd.h>
+#include <m_gender.h>
 
 #include "resource.h"
 #include "version.h"
