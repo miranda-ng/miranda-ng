@@ -66,12 +66,7 @@ begin
   CreateTemplates;
   hINS:=CreateServiceFunction(MS_WAT_INSERT,@InsertProc);
   reghotkey;
-  plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
-
-//  mStatus.ModuleStat:=1;
-
-//  if ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)<>0 then
-//    hLTo:=CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT,@ListenProc);
+  HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -88,7 +83,6 @@ begin
   end;
 //  DestroyServiceFunction(hLTo);
   DestroyServiceFunction(hINS);
-  UnhookEvent(plStatusHook);
   FreeProtoList;
   FreeTemplates;
 
@@ -133,7 +127,6 @@ begin
   mStatus.DeInit    :=@DeInitProc;
   mStatus.AddOption :=@AddOptionsPage;
   mStatus.ModuleName:='Statuses';
-//  mStatus.ModuleStat:=0;
   ModuleLink        :=@mStatus;
 end;
 

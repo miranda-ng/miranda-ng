@@ -15,7 +15,6 @@ const
   IcoLastFM:pAnsiChar = 'WATrack_lasfm';
 var
   lfm_tries:integer;
-  sic:THANDLE;
   slastinf:THANDLE;
   slast:THANDLE;
 const
@@ -222,9 +221,6 @@ begin
   result:=0;
 end;
 
-var
-  plStatusHook:THANDLE;
-
 function InitProc(aGetStatus:boolean=false):integer;
 begin
   slastinf:=CreateServiceFunction(MS_WAT_LASTFMINFO,@SrvLastFMInfo);
@@ -248,9 +244,9 @@ begin
   slast:=CreateServiceFunction(MS_WAT_LASTFM,@SrvLastFM);
   if hMenuLast=0 then
     CreateMenus;
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
   if (lfm_on and 4)=0 then
-    plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+    HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -263,8 +259,6 @@ begin
   CallService(MS_CLIST_REMOVEMAINMENUITEM,hMenuLast,0);
   hMenuLast:=0;
   DestroyServiceFunction(slast);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
 
   if hTimer<>0 then
   begin
@@ -289,7 +283,7 @@ begin
   last.Next      :=ModuleLink;
   last.Init      :=@InitProc;
   last.DeInit    :=@DeInitProc;
-  last.AddOption:=@AddOptionsPage;
+  last.AddOption :=@AddOptionsPage;
   last.ModuleName:='Last.FM';
   ModuleLink     :=@last;
 

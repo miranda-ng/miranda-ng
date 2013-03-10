@@ -45,12 +45,12 @@ const
   hmISend      = $0080;
 
 var
+  Icons : tIconItem = (szDescr: 'Context Menu'; szName: @IcoBtnContext; defIconID: BTN_CONTEXT; size: 0; hIcolib: 0;);
+
+var
   hSRM,
   hGCI,
-  icchangedhook,
-  hAddUserHook,
-  hContactMenuItem,
-  contexthook:THANDLE;
+  hContactMenuItem:THANDLE;
   ProtoText:pWideChar;
   HistMask:cardinal;
 
@@ -231,7 +231,7 @@ begin
   isNewRequest:=StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,
      wpRequestNew,Length(wpRequestNew))=0;
 
-  if isNewRequest or 
+  if isNewRequest or
      (StrCmp(PPROTORECVEVENT(ccs^.lParam)^.szMessage.a,
              wpRequest,Length(wpRequest))=0) then
   begin
@@ -255,7 +255,7 @@ begin
         curpos:=nil;
         if DisablePlugin<>dsPermanent then
         begin
-          if CallService(MS_WAT_GETMUSICINFO,0,0)=WAT_PLS_NOTFOUND then
+          if CallService(MS_WAT_GETMUSICINFO,0,0)=uint_ptr(WAT_PLS_NOTFOUND) then
           begin
             s:=#0#0#0'No player found at this time';
             textpos:=s+3;
@@ -448,42 +448,7 @@ begin
   desc._type :=PROTOTYPE_TRANSLATION;
 
   CallService(MS_PROTO_REGISTERMODULE,0,lparam(@desc));
-//  CreateProtoServiceFunction(PluginShort,PSS_MESSAGE ,@SendMessageProcW);
-//  CreateProtoServiceFunction(PluginShort,PSS_MESSAGEW,@SendMessageProcW);
   hSRM:=CreateProtoServiceFunction(PluginShort,PSR_MESSAGE ,@ReceiveMessageProcW);
-//  CreateProtoServiceFunction(PluginShort,PSR_MESSAGEW,@ReceiveMessageProcW);
-end;
-
-function IconChanged(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-  mi:TCListMenuItem;
-begin
-  result:=0;
-  FillChar(mi,SizeOf(mi),0);
-  mi.cbSize:=sizeof(mi);
-  mi.flags :=CMIM_ICON;
-
-  mi.hIcon:=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnContext));
-  CallService(MS_CLIST_MODIFYMENUITEM,hContactMenuItem,tlparam(@mi));
-end;
-
-procedure RegisterIcons;
-var
-  sid:TSKINICONDESC;
-begin
-  FillChar(sid,SizeOf(TSKINICONDESC),0);
-  sid.cbSize:=SizeOf(TSKINICONDESC);
-  sid.cx:=16;
-  sid.cy:=16;
-  sid.szSection.a:=PluginShort;
-
-  sid.hDefaultIcon   :=LoadImage(hInstance,MAKEINTRESOURCE(BTN_CONTEXT),IMAGE_ICON,16,16,0);
-  sid.pszName        :=IcoBtnContext;
-  sid.szDescription.a:='Context Menu';
-  Skin_AddIcon(@sid);
-  DestroyIcon(sid.hDefaultIcon);
-//!!
-  icchangedhook:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 end;
 
 // ------------ base interface functions -------------
@@ -505,14 +470,15 @@ begin
   result:=1;
 
   ReadOptions;
-  RegisterIcons;
+
+  Icon_Register(hInstance,PluginShort,@Icons,1);
 
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize       :=sizeof(mi);
   mi.szPopupName.a:=PluginShort;
-  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST;
+  mi.flags        :=CMIF_NOTOFFLINE or CMIF_NOTOFFLIST or CMIF_ICONFROMICOLIB;
 //  mi.popupPosition:=MenuUserInfoPos;
-  mi.hIcon        :=CallService(MS_SKIN2_GETICON,0,lparam(IcoBtnContext));
+  mi.hIcon        :=Icons.hIcolib;
   mi.szName.a     :='Get user''s Music Info';
   mi.pszService   :=MS_WAT_GETCONTACTINFO;
   hContactMenuItem:=Menu_AddContactMenuItem(@mi);
@@ -520,18 +486,14 @@ begin
   SetProtocol;
   RegisterContacts;
   hGCI:=CreateServiceFunction(MS_WAT_GETCONTACTINFO,@SendRequest);
-  contexthook :=HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
-  hAddUserHook:=HookEvent(ME_DB_CONTACT_ADDED         ,@HookAddUser);
+  HookEvent(ME_CLIST_PREBUILDCONTACTMENU,@OnContactMenu);
+  HookEvent(ME_DB_CONTACT_ADDED         ,@HookAddUser);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
 begin
   if aSetDisable then
     SetModStatus(0);
-
-  UnhookEvent(hAddUserHook);
-  UnhookEvent(contexthook);
-  UnhookEvent(icchangedhook);
 
   DestroyServiceFunction(hSRM);
   DestroyServiceFunction(hGCI);

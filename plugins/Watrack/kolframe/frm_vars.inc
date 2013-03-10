@@ -1,8 +1,5 @@
 {Frame variables}
 var
-  sic,
-  PlStatusHook:cardinal;
-
   HiddenByMe:bool;
 
   FrameHeight:dword;

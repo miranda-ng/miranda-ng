@@ -27,10 +27,7 @@ type
   end;
 var
   msh_tries,
-//  msh_timeout,
   msh_scrobpos:integer;
-  sic:THANDLE;
-//  slastinf:THANDLE;
   slast:THANDLE;
   MSData:tMyShowsData;
 const
@@ -255,9 +252,6 @@ begin
   result:=0;
 end;
 
-var
-  plStatusHook:THANDLE;
-
 function InitProc(aGetStatus:boolean=false):integer;
 begin
 //  slastinf:=CreateServiceFunction(MS_WAT_MYSHOWSINFO,@SrvMyShowsInfo);
@@ -281,21 +275,17 @@ begin
   slast:=CreateServiceFunction(MS_WAT_MYSHOWS,@SrvMyShows);
   if hMenuMyShows=0 then
     CreateMenus;
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
   if (msh_on and 4)=0 then
-    plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+    HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
 begin
   if aSetDisable then
-    SetModStatus(0)
-  else
-;//    DestroyServiceFunction(slastinf);
+    SetModStatus(0);
 
   DestroyServiceFunction(slast);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
 
   if hTimer<>0 then
   begin
@@ -324,7 +314,7 @@ begin
   mmyshows.DeInit    :=@DeInitProc;
   mmyshows.AddOption :=@AddOptionsPage;
   mmyshows.ModuleName:='MyShows.ru';
-  ModuleLink     :=@mmyshows;
+  ModuleLink         :=@mmyshows;
 
 end;
 

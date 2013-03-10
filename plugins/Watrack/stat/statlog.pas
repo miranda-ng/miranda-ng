@@ -591,7 +591,7 @@ begin
   sid.szDescription.a:='Create Report';
   Skin_AddIcon(@sid);
   DestroyIcon(sid.hDefaultIcon);
-  sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+  HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 
   FillChar(mi, sizeof(mi), 0);
   mi.cbSize       :=sizeof(mi);
@@ -602,7 +602,8 @@ begin
   mi.pszService   :=MS_WAT_MAKEREPORT;
   mi.popupPosition:=MenuReportPos;
   hMenuReport :=Menu_AddMainMenuItem(@mi);
-  plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+
+  HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -611,8 +612,6 @@ begin
     SetModStatus(0);
 
   CallService(MS_CLIST_REMOVEMAINMENUITEM,hMenuReport,0);
-  UnhookEvent(plStatusHook);
-  UnhookEvent(sic);
   DestroyServiceFunction(hPackLog);
   DestroyServiceFunction(hMakeReport);
   DestroyServiceFunction(hAddToLog);

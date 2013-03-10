@@ -4,8 +4,6 @@ function OnTTBLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   ttb:m_api.TTBButton;
 begin
-  UnhookEvent(onloadhook);
-
   FillChar(ttb,SizeOf(ttb),0);
   ttb.cbSize :=SizeOf(ttb);
   ttb.dwFlags:=TTBBF_VISIBLE or TTBBF_SHOWTOOLTIP;
@@ -99,12 +97,6 @@ begin
 // toptoolbar
   if ServiceExists(MS_TTB_GETBUTTONOPTIONS)<>0 then
   begin
-{
-    CallService(MS_TTB_GETBUTTONOPTIONS,(ttbInfo shl 16)+TTBO_ALLDATA,tlparam(@ttb));
-    ttb.hIconUp:=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnInfo));
-    ttb.hIconDn:=ttb.hIconUp;
-    CallService(MS_TTB_SETBUTTONOPTIONS,(ttbInfo shl 16)+TTBO_ALLDATA,tlparam(@ttb));
-}
     CallService(MS_TTB_GETBUTTONOPTIONS,(ttbState shl 16)+TTBO_ALLDATA,tlparam(@ttb));
     ttb.hIconDn:=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnEnable));
     ttb.hIconUp:=CallService(MS_SKIN2_GETICON,0,tlparam(IcoBtnDisable));

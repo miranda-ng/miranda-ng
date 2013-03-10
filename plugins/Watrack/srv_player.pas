@@ -550,9 +550,15 @@ begin
 
     UTF8ToWide(GetParamSectionStr(sec,'notes'),rec.Notes);
 
-    ServicePlayer(WAT_ACT_REGISTER,lparam(@rec));
+    if ServicePlayer(WAT_ACT_REGISTER,lparam(@rec))=WAT_RES_ERROR then
+    begin
+      ClearTemplate(pcell);
+//      mFreeMem(rec.URL);
+      mFreeMem(rec.Notes);
+    end
+    else
+      inc(NumPlayers);
 
-    inc(NumPlayers);
     while ptr^<>#0 do inc(ptr);
     inc(ptr);
   end;
@@ -740,7 +746,7 @@ var
 begin
   result:=WAT_RES_ERROR;
   wnd:=CheckAllPlayers(flags,lstat,dummy);
-  if wnd<>dword(WAT_RES_NOTFOUND) then
+  if wnd<>THANDLE(WAT_RES_NOTFOUND) then
     if plyLink^[0].Command<>nil then
       result:=tCommandProc(plyLink^[0].Command)(wnd,wParam,lParam)
     else if (plyLink^[0].flags and WAT_OPT_WINAMPAPI)<>0 then

@@ -28,6 +28,7 @@ type
     Init      :function(aGetStatus:boolean=false):integer;
     DeInit    :procedure(aSetDisable:boolean);
     AddOption :function(var tmpl:pAnsiChar;var proc:pointer;var name:pAnsiChar):integer;
+    Check     :function(load:boolean):boolean;
     ModuleName:pWideChar;
     ModuleStat:integer; // filling by the way
     Button    :HWND;    // checkboxes for switch on/off

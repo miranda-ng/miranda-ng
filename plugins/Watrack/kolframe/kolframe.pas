@@ -223,7 +223,7 @@ begin
     PWATFrameData(FrameCtrl.CustomData).FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,dword(@CLFrame),0);
     if PWATFrameData(FrameCtrl.CustomData).FrameId>=0 then
     begin
-      plStatusHook:=HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
+      HookEvent(ME_WAT_NEWSTATUS,@NewPlStatus);
     end;
   end;
   result:=FrameWnd<>0;
@@ -235,8 +235,6 @@ var
 begin
   if (FrameCtrl<>nil) and (PWATFrameData(FrameCtrl.CustomData).FrameId>=0) then
   begin
-    UnhookEvent(plStatusHook);
-
     id:=PWATFrameData(FrameCtrl.CustomData).FrameId;
     FrameCtrl.Free;
     FrameCtrl:=nil;
@@ -273,7 +271,7 @@ begin
 
   result:=ord(CreateFrame(0));
   if result<>0 then
-    sic:=HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
+    HookEvent(ME_SKIN2_ICONSCHANGED,@IconChanged);
 end;
 
 procedure DeInitProc(aSetDisable:boolean);
@@ -281,8 +279,6 @@ begin
   if aSetDisable then
     SetModStatus(0);
 
-  if sic<>0 then UnhookEvent(sic);
-  sic:=0;
   DestroyFrame;
 end;
 

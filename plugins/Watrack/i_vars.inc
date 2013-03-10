@@ -15,11 +15,7 @@ var
   hFMT,
   hPLR,
   hRGS,
-  wsic,
   hHookWATLoaded:THANDLE;
-  opthook:cardinal;
-  onloadhook:cardinal;
-  hHookShutdown:cardinal;
   inshotkey:cardinal;
   globhotkey:cardinal;
   hTimer:cardinal;
