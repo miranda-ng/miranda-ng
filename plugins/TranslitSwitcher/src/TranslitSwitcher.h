@@ -17,34 +17,29 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#define MIRANDA_VER    0x0A00
-
-#define _CRT_SECURE_NO_WARNINGS
-
 #ifndef __TRANSLITSWIITCHER_H__
 #define __TRANSLITSWIITCHER_H__
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
 #include <commctrl.h>
-#include <richedit.h>
-#include <time.h>
 
-#include "newpluginapi.h"
-#include "m_options.h"
-#include "m_langpack.h"
-#include "m_database.h"
-#include "m_hotkeys.h"
-#include "m_protosvc.h"
-#include "win2k.h"
+#include <newpluginapi.h>
+#include <m_langpack.h>
+#include <m_database.h>
+#include <m_hotkeys.h>
+#include <win2k.h>
 #include <m_icolib.h>
-#include "m_msg_buttonsbar.h"
-#include "m_popup.h"
+#include <m_popup.h>
+
+#include <m_msg_buttonsbar.h>
+#include <m_smileyadd.h>
+#include <m_ieview.h>
+#include <m_popup2.h>
 
 #include "version.h"
 #include "resource.h"
-#include "m_smileyadd.h"
-#include "m_ieview.h"
-#include "m_popup2.h"
 
 #define IDC_MESSAGE				1002
 #define IDC_CHATMESSAGE			1009
