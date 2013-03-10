@@ -190,7 +190,7 @@ const
 const
   PROTOTYPE_IGNORE      = 50;    // added during v0.3.3
   PROTOTYPE_PROTOCOL    = 1000;
-  PROTOTYPE_VIRTUAL     = 1001;  // added in 0.93.5
+  PROTOTYPE_VIRTUAL     = 1001;  // virtual protocol (has no accounts)
   PROTOTYPE_ENCRYPTION  = 2000;
   PROTOTYPE_FILTER      = 3000;
   PROTOTYPE_TRANSLATION = 4000;

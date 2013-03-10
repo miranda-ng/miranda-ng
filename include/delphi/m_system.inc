@@ -25,7 +25,7 @@
 {$IFNDEF MIRANDANAME}
 {$DEFINE MIRANDANAME}
 const
-  MIRANDANAME = 'Miranda IM';
+  MIRANDANAME = 'Miranda NG';
 {$ENDIF}
 {$IFNDEF MIRANDACLASS}
 {$DEFINE MIRANDACLASS}
@@ -49,8 +49,10 @@ const
   ME_SYSTEM_SHUTDOWN:PAnsiChar = 'Miranda/System/Shutdown';
 
   { restarts miranda ( 0.8+ )
-    wParam=0 or 1. 1 - restart with current profile, 0 - restart in default profile or profile manager
-    lParam=0
+    wParam = 0 or 1.
+      1 - restart with current profile,
+      0 - restart in default profile or profile manager
+    lParam = 0
   }
   MS_SYSTEM_RESTART:PAnsiChar = 'Miranda/System/Restart';
 

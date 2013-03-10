@@ -86,7 +86,7 @@ type
     backgroundName: array [0..63] of AnsiChar;
   end;
   TFontID = TFontID_tag;
-  PFontID = ^TFontID;
+  pFontID = ^TFontID;
 
   PFontIDW_tag = ^TFontIDW_tag;
   TFontIDW_tag = record

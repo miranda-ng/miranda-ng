@@ -112,6 +112,8 @@ const
 }
   MS_LANGPACK_RELOAD:PAnsiChar = 'LangPack/Reload';
 
+  ME_LANGPACK_CHANGE:PAnsiChar = 'LangPack/Changed';
+
 {
   retrieves the hLangpack of a plugin by its HINSTANCE
   wParam = 0 (ignored)

@@ -75,9 +75,9 @@ type
   end;
 
 
-function db_free(dbv:PDBVARIANT):uint_ptr; stdcall;
+function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_free';
-function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):uint_ptr; stdcall;
+function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
                   external CoreDLL name 'db_unset';
 
 function db_find_first(const szModule:pAnsiChar=nil):THANDLE; stdcall;
@@ -91,34 +91,34 @@ function db_get_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pA
                   external CoreDLL name 'db_get_w';
 function db_get_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:dword):dword; stdcall;
                    external CoreDLL name 'db_get_dw';
-function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):uint_ptr; stdcall;
+function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
                 external CoreDLL name 'db_get';
-function db_get_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):uint_ptr; stdcall;
+function db_get_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall;
                   external CoreDLL name 'db_get_s';
 function db_get_sa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pAnsiChar; stdcall;
                    external CoreDLL name 'db_get_sa';
 function db_get_wsa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                     external CoreDLL name 'db_get_wsa';
 
-function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):uint_ptr; stdcall;
+function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;
                   external CoreDLL name 'db_set_b';
-function db_set_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):uint_ptr; stdcall;
+function db_set_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):int_ptr; stdcall;
                   external CoreDLL name 'db_set_w';
-function db_set_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):uint_ptr; stdcall;
+function db_set_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):int_ptr; stdcall;
                    external CoreDLL name 'db_set_dw';
-function db_set_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
+function db_set_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
                   external CoreDLL name 'db_set_s';
-function db_set_ws(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):uint_ptr; stdcall;
+function db_set_ws(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):int_ptr; stdcall;
                    external CoreDLL name 'db_set_ws';
-function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
+function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
                     external CoreDLL name 'db_set_utf';
-function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):uint_ptr; stdcall;
+function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
                      external CoreDLL name 'db_set_blob';
 
 // Aliases
-function DBFreeVariant(dbv:PDBVARIANT):uint_ptr; stdcall;
+function DBFreeVariant(dbv:PDBVARIANT):int_ptr; stdcall;
                  external CoreDLL name 'db_free';
-function DBDeleteContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):uint_ptr; stdcall;
+function DBDeleteContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
                   external CoreDLL name 'db_unset';
 
 function DBGetContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
@@ -127,28 +127,28 @@ function DBGetContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; con
                                  external CoreDLL name 'db_get_w';
 function DBGetContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:dword):dword; stdcall;
                                   external CoreDLL name 'db_get_dw';
-function DBGetContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):uint_ptr; stdcall;
+function DBGetContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
                              external CoreDLL name 'db_get';
-function DBGetContactSettingStr(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):uint_ptr; stdcall;
+function DBGetContactSettingStr(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int=DBVT_ASCIIZ):int_ptr; stdcall;
                                 external CoreDLL name 'db_get_s';
 function DBGetContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pAnsiChar; stdcall;
                                    external CoreDLL name 'db_get_sa';
 function DBGetContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                                     external CoreDLL name 'db_get_wsa';
 
-function DBWriteContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):uint_ptr; stdcall;
+function DBWriteContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;
                                    external CoreDLL name 'db_set_b';
-function DBWriteContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):uint_ptr; stdcall;
+function DBWriteContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):int_ptr; stdcall;
                                    external CoreDLL name 'db_set_w';
-function DBWriteContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):uint_ptr; stdcall;
+function DBWriteContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):int_ptr; stdcall;
                                     external CoreDLL name 'db_set_dw';
-function DBWriteContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
+function DBWriteContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
                                      external CoreDLL name 'db_set_s';
-function DBWriteContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):uint_ptr; stdcall;
+function DBWriteContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):int_ptr; stdcall;
                                       external CoreDLL name 'db_set_ws';
-function DBWriteContactSettingUTF8String(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
+function DBWriteContactSettingUTF8String(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
                                          external CoreDLL name 'db_set_utf';
-function DBWriteContactSettingBlob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):uint_ptr; stdcall;
+function DBWriteContactSettingBlob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
                                    external CoreDLL name 'db_set_blob';
 
 
@@ -277,7 +277,7 @@ type
 procedure mir_Icon_Register(hInst:HINST; const szSection:pAnsiChar; pIcons:pIconItem;
     iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
                         external CoreDLL name 'Icon_Register';
-procedure mir_Icon_RegisterT(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW;
+procedure mir_Icon_RegisterW(hInst:HINST; const szSection:pWideChar; pIcons:pIconItemW;
     iCount:size_t; prefix:PAnsiChar; hLangpack:int); stdcall;
                         external CoreDLL name 'Icon_RegisterT';
 
@@ -435,7 +435,7 @@ procedure CreatePathToFile(wszFilePath:pAnsiChar); stdcall;
                            external CoreDLL name 'CreatePathToFile';
 function CreateDirectoryTree(const szDir:pAnsiChar):int; stdcall;
                              external CoreDLL name 'CreateDirectoryTree';
-function PathToAbsolute(const pSrc:pAnsiChar; pOut:pAnsiChar; base:pAnsiChar):int; stdcall;
+function PathToAbsolute(const pSrc:pAnsiChar; pOut:pAnsiChar; base:pAnsiChar=nil):int; stdcall;
                         external CoreDLL name 'PathToAbsolute';
 function PathToRelative(const pSrc:pAnsiChar; pOut:pAnsiChar):int; stdcall;
                         external CoreDLL name 'PathToRelative';
@@ -444,7 +444,7 @@ procedure CreatePathToFileW(wszFilePath:pWideChar); stdcall;
                             external CoreDLL name 'CreatePathToFileW';
 function CreateDirectoryTreeW(const szDir:pWideChar):int; stdcall;
                               external CoreDLL name 'CreateDirectoryTreeW';
-function PathToAbsoluteW(const pSrc:pWideChar; pOut:pWideChar; base:pWideChar):int; stdcall;
+function PathToAbsoluteW(const pSrc:pWideChar; pOut:pWideChar; base:pWideChar=nil):int; stdcall;
                          external CoreDLL name 'PathToAbsoluteW';
 function PathToRelativeW(const pSrc:pWideChar; pOut:pWideChar):int; stdcall;
                          external CoreDLL name 'PathToRelativeW';
@@ -538,9 +538,9 @@ type
   pThreadFuncEx    = function (ptr:pointer):uint_ptr; stdcall;
   pThreadFuncOwner = function (owner:pointer;param:pointer):uint_ptr; cdecl;
 
-function Thread_Push(hInst:HINST; Owner:pointer):uint_ptr; stdcall;
+function Thread_Push(hInst:HINST; Owner:pointer):int_ptr; stdcall;
                      external CoreDLL name 'Thread_Push';
-function Thread_Pop():uint_ptr; stdcall;
+function Thread_Pop():int_ptr; stdcall;
                     external CoreDLL name 'Thread_Pop';
 procedure Thread_Wait(); stdcall;
                       external CoreDLL name 'Thread_Wait';
@@ -605,15 +605,17 @@ function mir_utf8checkstring(const astr:PAnsiChar):bool;stdcall;
                          external CoreDLL name 'Utf8CheckString';
 
 ///////////////////////////////////////////////////////////////////////////////
+// Window subclassing
 
-procedure mir_subclassWindow(Wnd: HWND; WndProc: TWNDPROC); stdcall;
+procedure mir_subclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
                        external CoreDLL name 'mir_subclassWindow';
-
-procedure mir_subclassWindowFull(Wnd: HWND; WndProc, OldWndProc: TWNDPROC); stdcall;
+procedure mir_subclassWindowFull(Wnd:HWND; WndProc, OldWndProc:TWNDPROC); stdcall;
                        external CoreDLL name 'mir_subclassWindowFull';
-
-function  mir_callNextSubclass(Wnd: HWND; WndProc: TWNDPROC; uMsg: uint; wParam: WPARAM; lParam: LPARAM ): LRESULT; stdcall;
+function  mir_callNextSubclass(Wnd:HWND; WndProc:TWNDPROC; uMsg:uint; wParam:WPARAM; lParam:LPARAM ):LRESULT; stdcall;
                        external CoreDLL name 'mir_callNextSubclass';
+
+procedure KillModuleSubclassing(hInst: HMODULE);
+                       external CoreDLL name 'KillModuleSubclassing';
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -109,7 +109,7 @@ type
     sortFunc  : pointer;
   end;
 
-  PClcGroup = ^ClcGroup;
+  pClcGroup = ^ClcGroup;
   ClcGroup = record
     cl           : ContactList;
     expanded     : int;
@@ -120,7 +120,7 @@ type
     totalMembers : int;
   end;
 
-  PClcFontInfo = ^ClcFontInfo;
+  pClcFontInfo = ^ClcFontInfo;
   ClcFontInfo = record
     hFont      : HFONT;
     fontHeight : int;
@@ -297,7 +297,7 @@ type
     isHidden:int;
   end;
 
-  PCLCCacheEntry = ^CLCCacheEntry;
+  PClcCacheEntry = ^CLCCacheEntry;
   CLCCacheEntry = record
   end;
 

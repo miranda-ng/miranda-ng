@@ -46,7 +46,6 @@ type
     iDesiredStatus:int;
     iXStatus      :int;
     iVersion      :int;  // version 2 or higher designate support of Unicode services
-
     tszUserName   :TChar;
     szModuleName  :PAnsiChar;
     hProtoIcon    :THandle;

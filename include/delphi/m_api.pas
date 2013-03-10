@@ -180,7 +180,7 @@ const
 var
   { has to be returned via MirandaPluginInfo and has to be statically allocated,
   this means only one module can return info, you shouldn't be merging them anyway! }
-  PLUGININFO: TPLUGININFOEX;
+  PluginInfo: TPLUGININFOEX;
 
   {$include m_database.inc}
   {$include m_db_int.inc}
@@ -253,7 +253,7 @@ var
 implementation
 
 var
-  hLangpack : integer = 0;
+  hLangpack:int = 0;
 
 {$undef M_API_UNIT}
   {$include m_helpers.inc}
