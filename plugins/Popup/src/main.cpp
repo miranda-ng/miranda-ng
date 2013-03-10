@@ -142,21 +142,18 @@ static int IconsChanged(WPARAM wParam,LPARAM lParam)
 
 static int TTBLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if ( !hTTButton) {
-		TTBButton btn = {0};
-		btn.cbSize = sizeof(btn);
-		btn.pszService = MENUCOMMAND_SVC;
-		btn.lParamUp = 1;
-		btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
-		btn.name = LPGEN("Toggle Popups");
-		btn.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
-		btn.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
-		btn.pszTooltipUp = LPGEN("Enable popups");
-		btn.pszTooltipDn = LPGEN("Disable popups");
-		hTTButton = TopToolbar_AddButton(&btn);
-	}
-
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.pszService = MENUCOMMAND_SVC;
+	ttb.lParamUp = 1;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON;
+	if (PopUpOptions.ModuleIsEnabled)
+		ttb.dwFlags |= TTBBF_PUSHED;
+	ttb.name = LPGEN("Toggle Popups");
+	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_TB_POPUP_OFF);
+	ttb.hIconHandleDn = Skin_GetIconHandle(ICO_TB_POPUP_ON);
+	ttb.pszTooltipUp = LPGEN("Enable popups");
+	ttb.pszTooltipDn = LPGEN("Disable popups");
+	hTTButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
@@ -187,7 +184,10 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 	iResult = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
 	mi.flags = CMIM_ICON;
 	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuRoot,(LPARAM)&mi);
-	TTBLoaded(0,0);
+
+	if (hTTButton)
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
+
 	return (iResult != 0 && iResultRoot != 0);
 }
 

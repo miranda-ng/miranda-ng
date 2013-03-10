@@ -165,15 +165,14 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 
 static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(ttb);
+	TTBButton ttb = { sizeof(ttb) };
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszService = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set Alarm");
-
 	hTopToolbarButton = TopToolbar_AddButton(&ttb);
+
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)TTBST_RELEASED);
 	return 0;
 }

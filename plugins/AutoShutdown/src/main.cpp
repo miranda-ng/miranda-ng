@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 
 HINSTANCE hInst;
-static HANDLE hHookModulesLoaded;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -53,7 +52,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, VOID *pReserved)
 
 static int ShutdownModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if(ServiceExists("DBEditorpp/RegisterSingleModule"))
+	if ( ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"AutoShutdown",0);
 
 	return 0;
@@ -82,14 +81,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	InitSettingsDlg();
 	InitOptions();
 
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ShutdownModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ShutdownModulesLoaded);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	UnhookEvent(hHookModulesLoaded);
-
 	UninitOptions();
 	UninitSettingsDlg(); /* before UninitWatcher() */
 	UninitWatcher(); /* before UninitFrame() */

@@ -94,13 +94,12 @@ static __forceinline COLORREF sttShadeColor(COLORREF clLine1, COLORREF clBack)
 
 int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton button = {0};
-	button.cbSize = sizeof(button);
-	button.pszTooltipUp = button.name = LPGEN("Favourite Contacts");
-	button.pszService = MS_FAVCONTACTS_SHOWMENU;
-	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
-	button.hIconHandleUp = iconList[0].hIcolib;
-	TopToolbar_AddButton(&button);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.pszTooltipUp = ttb.name = LPGEN("Favourite Contacts");
+	ttb.pszService = MS_FAVCONTACTS_SHOWMENU;
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+	ttb.hIconHandleUp = iconList[0].hIcolib;
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

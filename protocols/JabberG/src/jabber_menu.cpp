@@ -948,27 +948,26 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	if (g_Instances.getCount() == 0)
 		return 0;
 
-	TTBButton button = {0};
-	button.cbSize = sizeof(button);
-	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat);
-	button.pszService = "JABBER/*/Groupchat";
-	button.pszTooltipUp = button.name = LPGEN("Join conference");
-	button.hIconHandleUp = g_GetIconHandle(IDI_GROUP);
-	TopToolbar_AddButton(&button);
+	ttb.pszService = "JABBER/*/Groupchat";
+	ttb.pszTooltipUp = ttb.name = LPGEN("Join conference");
+	ttb.hIconHandleUp = g_GetIconHandle(IDI_GROUP);
+	TopToolbar_AddButton(&ttb);
 
 	CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks);
-	button.pszService = "JABBER/*/Bookmarks";
-	button.pszTooltipUp = button.name = LPGEN("Open bookmarks");
-	button.hIconHandleUp = g_GetIconHandle(IDI_BOOKMARKS);
-	TopToolbar_AddButton(&button);
+	ttb.pszService = "JABBER/*/Bookmarks";
+	ttb.pszTooltipUp = ttb.name = LPGEN("Open bookmarks");
+	ttb.hIconHandleUp = g_GetIconHandle(IDI_BOOKMARKS);
+	TopToolbar_AddButton(&ttb);
 
 	CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery);
-	button.pszService = "JABBER/*/ServiceDiscovery";
-	button.pszTooltipUp = button.name = LPGEN("Service discovery");
-	button.hIconHandleUp = g_GetIconHandle(IDI_SERVICE_DISCOVERY);
-	TopToolbar_AddButton(&button);
+	ttb.pszService = "JABBER/*/ServiceDiscovery";
+	ttb.pszTooltipUp = ttb.name = LPGEN("Service discovery");
+	ttb.hIconHandleUp = g_GetIconHandle(IDI_SERVICE_DISCOVERY);
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

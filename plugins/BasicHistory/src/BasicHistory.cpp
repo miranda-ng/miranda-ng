@@ -96,15 +96,12 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if(ServiceExists(MS_TTB_REMOVEBUTTON)) {
-		TTBButton tbb = {0};
-		tbb.cbSize = sizeof(tbb);
-		tbb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-		tbb.name = tbb.pszTooltipUp = LPGEN("Open History");
-		tbb.dwFlags = TTBBF_SHOWTOOLTIP;
-		tbb.hIconHandleUp = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
-		hToolbarButton = TopToolbar_AddButton(&tbb);
-	}
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Open History");
+	ttb.dwFlags = TTBBF_SHOWTOOLTIP;
+	ttb.hIconHandleUp = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	hToolbarButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
@@ -269,9 +266,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Options::instance->Load();
 	InitTaskMenuItems();
 
-	HookEvent(ME_TTB_MODULELOADED,ToolbarModuleLoaded);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdownHistoryModule);
-	HookEvent(ME_DB_CONTACT_DELETED,HistoryContactDelete);
+	HookEvent(ME_TTB_MODULELOADED, ToolbarModuleLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
+	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
 	HookEvent(ME_FONT_RELOAD, HistoryWindow::FontsChanged);
 	HookEvent(ME_SYSTEM_OKTOEXIT, DoLastTask);
 	

@@ -122,9 +122,6 @@ static IconItem iconList[] =
 
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
-	if ( !IsWindow(hwndConsole))
-		return 0;
-
 	int state = IsWindowVisible(hwndConsole);
 
 	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));

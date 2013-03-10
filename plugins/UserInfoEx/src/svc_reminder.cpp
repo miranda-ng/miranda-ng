@@ -782,9 +782,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 
 VOID SvcReminderOnTopToolBarLoaded()
 {
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(ttb);
-
+	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check anniversaries");

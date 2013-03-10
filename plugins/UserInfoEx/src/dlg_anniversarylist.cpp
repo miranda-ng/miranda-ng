@@ -1080,8 +1080,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam)
 
 VOID DlgAnniversaryListOnTopToolBarLoaded()
 {
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(ttb);
+	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_USERINFO_REMINDER_LIST;
 	ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);

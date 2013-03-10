@@ -57,11 +57,6 @@ static PLUGININFOEX pluginInfo = {
 	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
 
-static HANDLE ghModulesLoadedHook		= NULL;
-static HANDLE ghTopToolBarLoaded		= NULL;
-static HANDLE ghModernToolBarLoaded		= NULL;
-static HANDLE ghShutdownHook			= NULL;
-static HANDLE ghPrebuildStatusMenu		= NULL;
 int hLangpack;
 
 /*
@@ -122,7 +117,7 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// build contact's menuitems
 	RebuildMenu();
-	ghPrebuildStatusMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
+	HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
 
 	// install known modules strings to database
 	DB::Setting::WriteAString(NULL, "KnownModules", MODULELONGNAME, USERINFO","MODNAME","MOD_MBIRTHDAY","MODNAMEFLAGS);
@@ -132,7 +127,6 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 {
-	UnhookEvent(ghShutdownHook);
 	DlgContactInfoUnLoadModule();
 	SvcReminderUnloadModule();
 
@@ -141,7 +135,6 @@ static INT OnShutdown(WPARAM wParam, LPARAM lParam)
 	CtrlButtonUnloadModule();
 
 	SvcConstantsUnloadModule();
-	UnhookEvent(ghPrebuildStatusMenu);
 	SvcEMailUnloadModule();
 	SvcFlagsUnloadModule();
 	SvcGenderUnloadModule();
@@ -256,9 +249,9 @@ extern "C" INT __declspec(dllexport) Load(void)
 	SvcReminderLoadModule();
 
 	// Now the module is loaded! Start initializing certain things
-	ghModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	ghTopToolBarLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
-	ghShutdownHook = HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	return 0;
 }
 
@@ -269,10 +262,8 @@ extern "C" INT __declspec(dllexport) Load(void)
  **/
 BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
-	switch (fdwReason) {
-		case DLL_PROCESS_ATTACH:
-			ghInst = hinst;
-			break;
-	}
+	if (fdwReason == DLL_PROCESS_ATTACH)
+		ghInst = hinst;
+
 	return TRUE;
 }

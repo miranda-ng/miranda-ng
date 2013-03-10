@@ -120,8 +120,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(ttb);
+	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	ttb.hIconHandleUp = hCheckMenu;

@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Menu Item */
 static HANDLE hServiceMenuCommand;
-/* Toolbar Button */
-static HANDLE hHookToolbarLoaded;
 /* Services */
 static HANDLE hServiceShowDlg;
 static HWND hwndSettingsDlg;
@@ -407,20 +405,15 @@ static HANDLE hToolbarButton;
 
 static int ToolbarLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButton ttbb = {0};
-	ttbb.cbSize = sizeof(ttbb);
-	/* toptoolbar offers icolib support */
-	ttbb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ACTIVE), IMAGE_ICON, 0, 0, 0);
-	ttbb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_INACTIVE), IMAGE_ICON, 0, 0, 0);
-	ttbb.pszService = "AutoShutdown/MenuCommand";
-	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = LPGEN("Start/Stop automatic shutdown");
-	ttbb.pszTooltipUp = LPGEN("Stop automatic shutdown");
-	ttbb.pszTooltipDn = LPGEN("Start automatic shutdown");
-
-	hToolbarButton = TopToolbar_AddButton(&ttbb);
-	if(ttbb.hIconUp != NULL) DestroyIcon(ttbb.hIconUp);
-	if(ttbb.hIconDn != NULL) DestroyIcon(ttbb.hIconDn);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.hIconHandleUp = iconList[1].hIcolib;
+	ttb.hIconHandleDn = iconList[2].hIcolib;
+	ttb.pszService = "AutoShutdown/MenuCommand";
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.name = LPGEN("Start/Stop automatic shutdown");
+	ttb.pszTooltipUp = LPGEN("Stop automatic shutdown");
+	ttb.pszTooltipDn = LPGEN("Start automatic shutdown");
+	hToolbarButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
@@ -435,7 +428,6 @@ void SetShutdownToolbarButton(BOOL fActive)
 /************************* Menu Item **********************************/
 
 static HANDLE hMainMenuItem,hTrayMenuItem;
-extern IconItem iconList[];
 
 void SetShutdownMenuItem(BOOL fActive)
 {
@@ -482,8 +474,7 @@ void InitSettingsDlg(void)
 	hMainMenuItem=hTrayMenuItem=NULL;
 	SetShutdownMenuItem(FALSE);
 	/* Toolbar Item */
-	hToolbarButton=0;
-	hHookToolbarLoaded=HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
+	HookEvent(ME_TTB_MODULELOADED,ToolbarLoaded); /* no service to check for */
 	/* Hotkey */
 	AddHotkey();
 	/* Services */
@@ -493,8 +484,6 @@ void InitSettingsDlg(void)
 
 void UninitSettingsDlg(void)
 {
-	/* Toolbar Item */
-	UnhookEvent(hHookToolbarLoaded);
 	/* Menu Item */
 	DestroyServiceFunction(hServiceMenuCommand);
 	/* Services */

@@ -652,13 +652,12 @@ void RegisterCoreHotKeys (void)
 
 static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 {
-	TTBButton button = {0};
-	button.cbSize = sizeof(button);
-	button.pszService = MS_BOSSKEY_HIDE;
-	button.pszTooltipUp = button.name = LPGEN("Hide Miranda NG");
-	button.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	button.hIconHandleUp = iconList[0].hIcolib;
-	TopToolbar_AddButton(&button);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.pszService = MS_BOSSKEY_HIDE;
+	ttb.pszTooltipUp = ttb.name = LPGEN("Hide Miranda NG");
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.hIconHandleUp = iconList[0].hIcolib;
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

@@ -44,6 +44,9 @@ void RemoveTopToolbarButtons()
 
 int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 {
+	if (iconList[0].hIcolib == NULL)
+		Icon_Register(hInst, "Toolbar/StartupStatus", iconList, SIZEOF(iconList));
+
 	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 
 	TTBButton ttb = { 0 };
@@ -71,11 +74,4 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		DBFreeVariant(&dbv);
 	}
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void RegisterButtons()
-{
-	Icon_Register(hInst, "Toolbar/StartupStatus", iconList, SIZEOF(iconList));
 }
