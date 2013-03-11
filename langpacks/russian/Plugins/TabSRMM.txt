@@ -765,6 +765,8 @@ TABSRMM: Набирает
 Аватары
 [Group chat logs root]
 Папка журнала чатов
+[Saved TabSRMM avatars]
+Сохранённые аватары
 
 ;-ШРИФТЫ И ЦВЕТА-
 

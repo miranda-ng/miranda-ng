@@ -9,6 +9,8 @@
 ;============================================================
 [Service plugin. Allows plugins to save their data to user selected folders; supports variables.]
 Служебный плагин. Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
+[Allows plugins to save their data to user selected folders; supports variables.]
+Позволяет другим плагинам сохранять свои данные в произвольных папках. Поддерживаются переменные.
 [Custom folders]
 Папки
 [Refresh preview]
