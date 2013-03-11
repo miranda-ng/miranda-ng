@@ -172,8 +172,6 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Set Alarm");
 	hTopToolbarButton = TopToolbar_AddButton(&ttb);
-
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTopToolbarButton, (LPARAM)TTBST_RELEASED);
 	return 0;
 }
 

@@ -46,13 +46,12 @@ static INT_PTR MenuCommand_OpenFolder(WPARAM wParam, LPARAM lParam)
 // toptoolbar (if plugin is installed)
 static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttbb = { 0 };
-	ttbb.cbSize = sizeof( ttbb );
-	ttbb.hIconHandleUp = icon.hIcolib;
-	ttbb.pszService = MS_OPENFOLDER_OPEN;
-	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.name = LPGEN("Open Folder");
-	TopToolbar_AddButton(&ttbb);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.hIconHandleUp = icon.hIcolib;
+	ttb.pszService = MS_OPENFOLDER_OPEN;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.name = LPGEN("Open Folder");
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

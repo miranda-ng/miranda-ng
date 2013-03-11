@@ -38,16 +38,40 @@ UINT_PTR hDateChangeTimer = NULL;
 
 int currentDay;
 
-int HookEvents()
+static int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
+	ttb.hIconHandleUp = hCheckMenu;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Check for birthdays");
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
-int UnhookEvents()
+static int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
-	KillTimers();
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = 100000000;
+	odp.hInstance = hInstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
+	odp.ptszTitle = LPGENT("Birthdays");
+	odp.ptszGroup = LPGENT("Contacts");
+	odp.groupPosition = 910000000;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcOptions;
+	Options_AddPage(wParam, &odp);
+	
+	return 0;
+}
+
+static int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
+{
+	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
+	DBVARIANT dv = dw->value;
+	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
+		RefreshContactListIcons((HANDLE)wParam);
+	
 	return 0;
 }
 
@@ -100,8 +124,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
 
 	// Register hotkeys
-	HOTKEYDESC hotkey = {0};
-	hotkey.cbSize = sizeof(hotkey);
+	HOTKEYDESC hotkey = { sizeof(hotkey) };
 	hotkey.ptszSection = LPGENT("Birthdays");
 	hotkey.dwFlags = HKD_TCHAR;
 
@@ -118,44 +141,20 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
+int HookEvents()
 {
-	TTBButton ttb = { sizeof(ttb) };
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	ttb.hIconHandleUp = hCheckMenu;
-	ttb.name = ttb.pszTooltipUp = LPGEN("Check for birthdays");
-	TopToolbar_AddButton(&ttb);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	return 0;
 }
 
-int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
+int UnhookEvents()
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	
-	odp.cbSize = sizeof(odp);
-	odp.position = 100000000;
-	odp.hInstance = hInstance;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
-	odp.ptszTitle = LPGENT("Birthdays");
-	odp.ptszGroup = LPGENT("Contacts");
-	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc = DlgProcOptions;
-	Options_AddPage(wParam, &odp);
-	
+	KillTimers();
 	return 0;
 }
 
-int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
-{
-	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
-	DBVARIANT dv = dw->value;
-	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
-		RefreshContactListIcons((HANDLE)wParam);
-	
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int RefreshContactListIcons(HANDLE hContact)
 {

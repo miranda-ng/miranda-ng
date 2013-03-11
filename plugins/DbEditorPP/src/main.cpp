@@ -12,7 +12,7 @@ HANDLE hUserMenu;
 HANDLE hRestore;
 WatchListArrayStruct WatchListArray;
 HANDLE sMenuCommand, sRegisterModule, sRegisterSingleModule, sImport, sServicemodeLaunch;
-HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL, hTTBHook = NULL;
+HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL;
 
 //========================
 //  MirandaPluginInfo
@@ -141,17 +141,15 @@ BOOL IsCP_UTF8(void)
 
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButton ttbb = {0};
 	HICON ico = LoadIcon(hInst, MAKEINTRESOURCE(ICO_DBE_BUTT));
-	UnhookEvent(hTTBHook);
 
-	ttbb.cbSize = sizeof(ttbb);
-	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.pszService = "DBEditorpp/MenuCommand";
-	ttbb.name = LPGEN("Database Editor++");
-	ttbb.hIconUp = ico;
-	ttbb.pszTooltipUp = LPGEN("Open Database Editor");
-	hTTBButt = TopToolbar_AddButton(&ttbb);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.pszService = "DBEditorpp/MenuCommand";
+	ttb.name = LPGEN("Database Editor++");
+	ttb.hIconUp = ico;
+	ttb.pszTooltipUp = LPGEN("Open Database Editor");
+	hTTBButt = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
@@ -175,8 +173,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	// Register hotkeys
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = "hk_dbepp_open";
 	hkd.pszService = "DBEditorpp/MenuCommand";
 	hkd.ptszDescription = LPGEN("Open Database Editor");
@@ -235,7 +232,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		DBFreeVariant(&dbv);
 	}
 
-	hTTBHook = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
+	HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
 	if ( bServiceMode )
 		CallService("DBEditorpp/MenuCommand",0,0);

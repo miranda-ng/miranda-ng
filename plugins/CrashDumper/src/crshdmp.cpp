@@ -202,30 +202,28 @@ int OptionsInit(WPARAM wParam, LPARAM)
 
 static int ToolbarModulesLoaded(WPARAM, LPARAM)
 {
-	TTBButton tbb = {0};
-	tbb.cbSize = sizeof(TTBButton);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.pszService = MS_CRASHDUMPER_STORETOCLIP;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To Clipboard");
+	ttb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
+	ttb.dwFlags = TTBBF_VISIBLE;
+	TopToolbar_AddButton(&ttb);
 
-	tbb.pszService = MS_CRASHDUMPER_STORETOCLIP;
-	tbb.name = tbb.pszTooltipUp = LPGEN("Version Information To Clipboard");
-	tbb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
-	tbb.dwFlags = TTBBF_VISIBLE;
-	TopToolbar_AddButton(&tbb);
+	ttb.pszService = MS_CRASHDUMPER_STORETOFILE;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Version Information To File");
+	ttb.hIconHandleUp = GetIconHandle(IDI_VITOFILE);
+	ttb.dwFlags = 0;
+	TopToolbar_AddButton(&ttb);
 
-	tbb.pszService = MS_CRASHDUMPER_STORETOFILE;
-	tbb.name = tbb.pszTooltipUp = LPGEN("Version Information To File");
-	tbb.hIconHandleUp = GetIconHandle(IDI_VITOFILE);
-	tbb.dwFlags = 0;
-	TopToolbar_AddButton(&tbb);
+	ttb.pszService = MS_CRASHDUMPER_VIEWINFO;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Show Version Information");
+	ttb.hIconHandleUp = GetIconHandle(IDI_VISHOW);
+	TopToolbar_AddButton(&ttb);
 
-	tbb.pszService = MS_CRASHDUMPER_VIEWINFO;
-	tbb.name = tbb.pszTooltipUp = LPGEN("Show Version Information");
-	tbb.hIconHandleUp = GetIconHandle(IDI_VISHOW);
-	TopToolbar_AddButton(&tbb);
-
-	tbb.pszService = MS_CRASHDUMPER_UPLOAD;
-	tbb.name = tbb.pszTooltipUp = LPGEN("Upload Version Information");
-	tbb.hIconHandleUp = GetIconHandle(IDI_VIUPLOAD);
-	TopToolbar_AddButton(&tbb);
+	ttb.pszService = MS_CRASHDUMPER_UPLOAD;
+	ttb.name = ttb.pszTooltipUp = LPGEN("Upload Version Information");
+	ttb.hIconHandleUp = GetIconHandle(IDI_VIUPLOAD);
+	TopToolbar_AddButton(&ttb);
 	return 0;
 }
 

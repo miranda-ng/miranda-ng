@@ -352,7 +352,7 @@ int SystemModulesLoaded(WPARAM, LPARAM); //in main.cpp
 typedef struct { HANDLE hookHandle;	const char *hookName; MIRANDAHOOK mirandaFunction;} HookDataType;
 static HookDataType hookData[] = {
 	{0, ME_SYSTEM_MODULESLOADED, SystemModulesLoaded}, //pop3 plugin must be included after all miranda modules are loaded
-	{0, ME_TTB_MODULELOADED,      AddTopToolbarIcon},
+	{0, ME_TTB_MODULELOADED,     AddTopToolbarIcon},
 	{0, ME_OPT_INITIALISE,       YAMNOptInitSvc}, 
 	{0, ME_SYSTEM_PRESHUTDOWN,   Shutdown}, 
 	{0, ME_CLIST_DOUBLECLICKED,  Service_ContactDoubleclicked}, 

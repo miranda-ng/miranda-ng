@@ -481,8 +481,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 
 	CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick);
 
-	TTBButton ttb = {0};
-	ttb.cbSize = sizeof(ttb);
+	TTBButton ttb = { sizeof(ttb) };
 	ttb.hIconHandleDn = iconList[0].hIcolib;
 	ttb.hIconHandleUp = iconList[1].hIcolib;
 	ttb.pszService = MS_LISTENINGTO_TTB;
@@ -491,7 +490,6 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.pszTooltipDn = LPGEN("Disable ListeningTo (to all protocols)");
 	ttb.pszTooltipUp = LPGEN("Enable ListeningTo (to all protocols)");
 	hTTB = TopToolbar_AddButton(&ttb);
-
 	return 0;
 }
 

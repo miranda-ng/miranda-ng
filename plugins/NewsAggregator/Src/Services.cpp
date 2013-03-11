@@ -287,15 +287,14 @@ INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam)
 
 int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton tbb = {0};
-	tbb.cbSize = sizeof(TTBButton);
-	tbb.name = LPGEN("Enable/disable auto update");
-	tbb.pszService = MS_NEWSAGGREGATOR_ENABLED;
-	tbb.pszTooltipUp = LPGEN("Auto Update Enabled");
-	tbb.pszTooltipDn = LPGEN("Auto Update Disabled");
-	tbb.hIconHandleUp = GetIconHandle("enabled");
-	tbb.hIconHandleDn = GetIconHandle("disabled");
-	tbb.dwFlags = (db_get_b(NULL, MODULE, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
-	hTBButton = TopToolbar_AddButton(&tbb);
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.name = LPGEN("Enable/disable auto update");
+	ttb.pszService = MS_NEWSAGGREGATOR_ENABLED;
+	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
+	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
+	ttb.hIconHandleUp = GetIconHandle("enabled");
+	ttb.hIconHandleDn = GetIconHandle("disabled");
+	ttb.dwFlags = (db_get_b(NULL, MODULE, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	hTBButton = TopToolbar_AddButton(&ttb);
 	return 0;
 }

@@ -126,19 +126,15 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));
 
-	TTBButton ttbb = { 0 };
-	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconHandleUp = iconList[0].hIcolib;
-	ttbb.hIconHandleDn = iconList[1].hIcolib;
-	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	ttbb.pszService = MS_CONSOLE_SHOW_HIDE;
-	ttbb.name = LPGEN("Show/Hide Console");
-	ttbb.pszTooltipDn = LPGEN("Hide Console");
-	ttbb.pszTooltipUp = LPGEN("Show Console");
-	hTTBButt = TopToolbar_AddButton(&ttbb);
-	if (hTTBButt)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (LPARAM)(state?TTBST_PUSHED:TTBST_RELEASED));
-
+	TTBButton ttb = { sizeof(ttb) };
+	ttb.hIconHandleUp = iconList[0].hIcolib;
+	ttb.hIconHandleDn = iconList[1].hIcolib;
+	ttb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttb.pszService = MS_CONSOLE_SHOW_HIDE;
+	ttb.name = LPGEN("Show/Hide Console");
+	ttb.pszTooltipDn = LPGEN("Hide Console");
+	ttb.pszTooltipUp = LPGEN("Show Console");
+	hTTBButt = TopToolbar_AddButton(&ttb);
 	return 0;
 }
 
