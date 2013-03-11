@@ -113,13 +113,12 @@ int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
 	closesocket(nlbp->s);
 	closesocket(nlbp->s6);
 	WaitForSingleObject(nlbp->hThread, INFINITE);
-	CloseHandle(nlbp->hThread);
 	NetlibLogf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
 	mir_free(nlbp);
 	return 1;
 }
 
-static unsigned __stdcall NetlibBindAcceptThread(void* param)
+static void NetlibBindAcceptThread(void* param)
 {
 	SOCKET s;
 	SOCKADDR_INET_M sin;
@@ -169,7 +168,6 @@ static unsigned __stdcall NetlibBindAcceptThread(void* param)
 			nlbp->pfnNewConnectionV2(nlc, ntohl(sin.Ipv4.sin_addr.S_un.S_addr), nlbp->pExtra);
 	}
 	NetlibUPnPDeletePortMapping(nlbp->wExPort, "TCP");
-	return 0;
 }
 
 INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
@@ -180,7 +178,6 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	SOCKADDR_IN sin = {0};
 	SOCKADDR_IN6 sin6 = {0};
 	int foundPort = 0;
-	UINT dwThreadId;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
 		nlb == NULL || nlb->pfnNewConnection == NULL)
@@ -319,14 +316,13 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 				NetlibLogf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
 
 			nlbp->wExPort = 0;
-			if (nlb->cbSize > NETLIBBIND_SIZEOF_V2)
-			{
+			if (nlb->cbSize > NETLIBBIND_SIZEOF_V2) {
 				nlb->wExPort = nlb->wPort;
 				nlb->dwExternalIP = nlb->dwInternalIP;
 			}
 		}
 	}
 
-	nlbp->hThread = (HANDLE)mir_forkthreadex(NetlibBindAcceptThread, nlbp, &dwThreadId);
+	nlbp->hThread = mir_forkthread(NetlibBindAcceptThread, nlbp);
 	return (INT_PTR)nlbp;
 }

@@ -114,29 +114,28 @@ static void MF_CalcFrequency(HANDLE hContact, DWORD dwCutoffDays, int doSleep)
 
 extern TCHAR g_ptszEventName[];
 
-DWORD WINAPI MF_UpdateThread(LPVOID p)
+void MF_UpdateThread(LPVOID)
 {
-    HANDLE hContact;
-    HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, g_ptszEventName);
+	HANDLE hContact;
+	HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, g_ptszEventName);
 
-    WaitForSingleObject(hEvent, 20000);
-    ResetEvent(hEvent);
+	WaitForSingleObject(hEvent, 20000);
+	ResetEvent(hEvent);
 
-    while(mf_updatethread_running) {
-        hContact = db_find_first();
-        while (hContact != NULL && mf_updatethread_running) {
-            MF_CalcFrequency(hContact, 50, 1);
-            if (mf_updatethread_running)
-                WaitForSingleObject(hEvent, 5000);
-            ResetEvent(hEvent);
-            hContact = db_find_next(hContact);
-        }
-        if (mf_updatethread_running)
-            WaitForSingleObject(hEvent, 1000000);
-        ResetEvent(hEvent);
-    }
-	 CloseHandle(hEvent);
-    return 0;
+	while(mf_updatethread_running) {
+		hContact = db_find_first();
+		while (hContact != NULL && mf_updatethread_running) {
+			MF_CalcFrequency(hContact, 50, 1);
+			if (mf_updatethread_running)
+				WaitForSingleObject(hEvent, 5000);
+			ResetEvent(hEvent);
+			hContact = db_find_next(hContact);
+		}
+		if (mf_updatethread_running)
+			WaitForSingleObject(hEvent, 1000000);
+		ResetEvent(hEvent);
+	}
+	CloseHandle(hEvent);
 }
 
 static BOOL mc_hgh_removed = FALSE;

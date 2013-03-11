@@ -43,7 +43,7 @@ HANDLE  g_hEvent = 0;
 
 static TCHAR g_eventName[100];
 
-static unsigned __stdcall TrayAnimThread(LPVOID vParam)
+static void TrayAnimThread(LPVOID vParam)
 {
 	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] &&
 						 PluginConfig.m_AnimTrayIcons[3]);
@@ -94,7 +94,6 @@ static unsigned __stdcall TrayAnimThread(LPVOID vParam)
 	}
 	while (isAnimThreadRunning);
 	CloseHandle(hEvent);
-	return 0;
 }
 
 void TSAPI CreateTrayMenus(int mode)
@@ -103,7 +102,7 @@ void TSAPI CreateTrayMenus(int mode)
 		mir_sntprintf(g_eventName, 100, _T("tsr_evt_%d"), GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
-		hTrayAnimThread = (HANDLE)mir_forkthreadex(TrayAnimThread, NULL, NULL);
+		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);
 
 		PluginConfig.g_hMenuTrayUnread = CreatePopupMenu();
 		PluginConfig.g_hMenuFavorites = CreatePopupMenu();
@@ -119,7 +118,6 @@ void TSAPI CreateTrayMenus(int mode)
 		isAnimThreadRunning = FALSE;
 		SetEvent(g_hEvent);
 		WaitForSingleObject(hTrayAnimThread, 5000);
-		CloseHandle(hTrayAnimThread);
 		CloseHandle(g_hEvent);
 		g_hEvent = 0;
 		hTrayAnimThread = 0;

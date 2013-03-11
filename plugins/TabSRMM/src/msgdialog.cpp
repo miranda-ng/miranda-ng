@@ -2611,16 +2611,20 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		HWND hwnd = GetDlgItem(hwndDlg, IDC_LOG);
 		int len;
 
-		if (wParam == 0 && lParam == 0)
-			return(DM_ScrollToBottom(dat, 0, 1));
+		if (wParam == 0 && lParam == 0) {
+			DM_ScrollToBottom(dat, 0, 1);
+			return 0;
+		}
 
 		if (dat->hwndIEView == 0 && dat->hwndHPP == 0) {
 			len = GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_LOG));
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
 		}
 
-		if (psi == NULL)
-			return(DM_ScrollToBottom(dat, 0, 0));
+		if (psi == NULL) {
+			DM_ScrollToBottom(dat, 0, 0);
+			return 0;
+		}
 
 		if ((UINT)psi->nPos >= (UINT)psi->nMax - psi->nPage - 5 || psi->nMax - psi->nMin - psi->nPage < 50)
 			DM_ScrollToBottom(dat, 0, 0);

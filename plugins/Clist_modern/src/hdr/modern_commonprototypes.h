@@ -67,7 +67,8 @@ extern BOOL g_bTransparentFlag;
 extern HINSTANCE g_hInst;
 extern HIMAGELIST hCListImages;
 extern BOOL g_mutex_bChangingMode;
-extern UINT g_dwMainThreadID, g_dwAwayMsgThreadID, g_dwGetTextAsyncThreadID, g_dwSmoothAnimationThreadID;
+extern UINT g_dwMainThreadID;
+extern HANDLE g_hAwayMsgThread, g_hGetTextAsyncThread, g_hSmoothAnimationThread;
 extern HWND g_hwndViewModeFrame;
 extern HANDLE hSmileyAddOptionsChangedHook,hAvatarChanged,hIconChangedHook;
 extern BYTE gl_TrimText;
@@ -75,6 +76,15 @@ extern BYTE gl_TrimText;
 /************************************************************************/
 /*                              TYPE DEFS                               */
 /************************************************************************/
+
+class thread_catcher
+{
+	HANDLE &m_ptr;
+
+public:
+	__forceinline thread_catcher(HANDLE &param) : m_ptr(param) {}
+	__forceinline ~thread_catcher() { m_ptr = 0; }
+};
 
 typedef INT_PTR (*PSYNCCALLBACKPROC)(WPARAM,LPARAM);
 

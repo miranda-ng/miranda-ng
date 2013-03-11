@@ -234,8 +234,10 @@ HANDLE FindNetUserHandle(LPCSTR acc)
 	return *pResult;
 }
 
-unsigned __stdcall OpenUrlThread(OPEN_URL_HEADER* data)
+void OpenUrlThread(void *param)
 {
+	OPEN_URL_HEADER* data = (OPEN_URL_HEADER*)param;
+	
 	__try {
 		HANDLE hUser = FindNetUserHandle(data->acc);
 		if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
@@ -244,7 +246,6 @@ unsigned __stdcall OpenUrlThread(OPEN_URL_HEADER* data)
 	__finally {
 		free(data);
 	}
-	return 0;
 }
 
 void __forceinline DecryptString(LPSTR str, int len)
@@ -315,11 +316,8 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 		data->acc = acc;
 
-		if (HANDLE h = mir_forkthreadex((pThreadFuncEx)OpenUrlThread, data, NULL)) {
-			CloseHandle(h);
-			data = NULL;
-		}
-		else return FALSE;
+		mir_forkthread(OpenUrlThread, data);
+		data = NULL;
 	}
 	__finally {
 		free(data);
@@ -328,7 +326,7 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	return TRUE;
 }
 
-unsigned __stdcall ShellExecuteThread(PVOID param)
+static void ShellExecuteThread(PVOID param)
 {
 	__try {
 		ShellExecute(0, NULL, (LPTSTR)param, NULL, NULL, SW_SHOW);
@@ -336,21 +334,11 @@ unsigned __stdcall ShellExecuteThread(PVOID param)
 	__finally {
 		free(param);
 	}
-	return 0;
 }
 
 void StartShellExecuteThread(LPCTSTR url)
 {
-	LPTSTR urlCopy = _tcsdup(url);
-	__try {
-		if (HANDLE h = mir_forkthreadex(ShellExecuteThread, urlCopy, NULL)) {
-			CloseHandle(h);
-			urlCopy = NULL;
-		}
-	}
-	__finally {
-		free(urlCopy);
-	}
+	mir_forkthread(ShellExecuteThread, _tcsdup(url));
 }
 
 void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)

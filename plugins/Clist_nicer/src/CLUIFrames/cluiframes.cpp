@@ -30,8 +30,9 @@ HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHei
 extern HWND g_hwndViewModeFrame, g_hwndEventArea;
 extern int mf_updatethread_running;
 
-extern DWORD WINAPI MF_UpdateThread(LPVOID p);
 extern HANDLE hThreadMFUpdate;;
+
+void MF_UpdateThread(LPVOID);
 
 HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 HANDLE g_hEventThread = 0;
@@ -3280,7 +3281,7 @@ static int CLUIFrameOnModulesLoad(WPARAM wParam, LPARAM lParam)
 {
 	mir_sntprintf(g_ptszEventName, SIZEOF(g_ptszEventName), _T("mf_update_evt_%d"), GetCurrentThreadId());
 	g_hEventThread = CreateEvent(NULL, TRUE, FALSE, g_ptszEventName);
-	hThreadMFUpdate = (HANDLE)mir_forkthreadex(reinterpret_cast<pThreadFuncEx>(MF_UpdateThread), NULL, NULL);
+	hThreadMFUpdate = mir_forkthread(MF_UpdateThread, NULL);
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_IDLE);
 	CLUIFramesLoadMainMenu();
 	CLUIFramesCreateMenuForFrame(-1, -1, 000010000, Menu_AddContextFrameMenuItem);
@@ -3294,7 +3295,6 @@ static int CLUIFrameOnModulesUnload(WPARAM wParam, LPARAM lParam)
 	SetThreadPriority(hThreadMFUpdate, THREAD_PRIORITY_NORMAL);
 	SetEvent(g_hEventThread);
 	WaitForSingleObject(hThreadMFUpdate, 2000);
-	CloseHandle(hThreadMFUpdate);
 	CloseHandle(g_hEventThread);
 
 	CallService(MS_CLIST_REMOVECONTEXTFRAMEMENUITEM, (LPARAM)contMIVisible, 0);

@@ -249,14 +249,12 @@ void InitMessagePump()
 	RegisterClassEx(&wcl);
 
 	HMODULE hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll)
-	{
+	if (hUserDll) {
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
 		MyUpdateLayeredWindow = (BOOL (WINAPI *)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags))GetProcAddress(hUserDll, "UpdateLayeredWindow");
 		MyAnimateWindow =(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll, "AnimateWindow");
 		MyMonitorFromPoint = (HMONITOR (WINAPI*)(POINT, DWORD))GetProcAddress(hUserDll, "MonitorFromPoint");
 		MyGetMonitorInfo = (BOOL (WINAPI*)(HMONITOR, LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-
 	}
 
 	HMODULE hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));

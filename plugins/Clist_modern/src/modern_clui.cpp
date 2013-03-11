@@ -514,16 +514,16 @@ static BOOL CLUI_WaitThreadsCompletion(HWND hwnd)
 	if (bEntersCount < bcMAX_AWAITING_RETRY &&
 		( g_mutex_nCalcRowHeightLock ||
 		  g_CluiData.mutexPaintLock ||
-		  g_dwAwayMsgThreadID ||
-		  g_dwGetTextAsyncThreadID ||
-		  g_dwSmoothAnimationThreadID) && !Miranda_Terminated())
+		  g_hAwayMsgThread ||
+		  g_hGetTextAsyncThread ||
+		  g_hSmoothAnimationThread) && !Miranda_Terminated())
 	{
 		TRACE("Waiting threads");
 		TRACEVAR("g_mutex_nCalcRowHeightLock: %x",g_mutex_nCalcRowHeightLock);
 		TRACEVAR("g_CluiData.mutexPaintLock: %x",g_CluiData.mutexPaintLock);
-		TRACEVAR("g_dwAwayMsgThreadID: %x",g_dwAwayMsgThreadID);
-		TRACEVAR("g_dwGetTextAsyncThreadID: %x",g_dwGetTextAsyncThreadID);
-		TRACEVAR("g_dwSmoothAnimationThreadID: %x",g_dwSmoothAnimationThreadID);
+		TRACEVAR("g_hAwayMsgThread: %x",g_hAwayMsgThread);
+		TRACEVAR("g_hGetTextAsyncThread: %x",g_hGetTextAsyncThread);
+		TRACEVAR("g_hSmoothAnimationThread: %x",g_hSmoothAnimationThread);
 
 		bEntersCount++;
 		SleepEx(10, TRUE);
@@ -1451,31 +1451,25 @@ static int CLUI_SyncSmoothAnimation(WPARAM wParam, LPARAM lParam)
 	return CLUI_SmoothAlphaThreadTransition((HWND)lParam);
 }
 
-static unsigned __stdcall CLUI_SmoothAnimationThreadProc(void *param)
+static void CLUI_SmoothAnimationThreadProc(void *param)
 {
-	if ( !mutex_bAnimationInProgress) {
-		g_dwSmoothAnimationThreadID = 0;
-		return 0;  /// Should be some locked to avoid painting against contact deletion.
-	}
+	thread_catcher lck(g_hSmoothAnimationThread);
 
-	do {
-		if ( !g_mutex_bLockUpdating) {
-			if ( !MirandaExiting())
+	if (mutex_bAnimationInProgress) {
+		do {
+			if ( !g_mutex_bLockUpdating) {
+				if ( MirandaExiting())
+					return;
+
 				Sync(CLUI_SyncSmoothAnimation, 0, (LPARAM)param);
-
-			SleepEx(20, TRUE);
-			if (MirandaExiting()) {
-				g_dwSmoothAnimationThreadID = 0;
-				return 0;
+				SleepEx(20, TRUE);
+				if ( MirandaExiting())
+					return;
 			}
+			else SleepEx(0, TRUE);
 		}
-		else SleepEx(0, TRUE);
-
+			while (mutex_bAnimationInProgress);
 	}
-		while (mutex_bAnimationInProgress);
-	
-	g_dwSmoothAnimationThreadID = 0;
-	return 0;
 }
 
 static int CLUI_SmoothAlphaThreadTransition(HWND hwnd)
@@ -1563,10 +1557,10 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 				g_CluiData.bCurrentAlpha = 1;
 				ske_UpdateWindowImage();
 			}
-			if (IsWindowVisible(hwnd) && !g_dwSmoothAnimationThreadID) {
+			if (IsWindowVisible(hwnd) && !g_hSmoothAnimationThread) {
 				mutex_bAnimationInProgress = 1;
 				if (g_CluiData.fSmoothAnimation)
-					mir_forkthreadex(CLUI_SmoothAnimationThreadProc, pcli->hwndContactList, &g_dwSmoothAnimationThreadID);
+					g_hSmoothAnimationThread = mir_forkthread(CLUI_SmoothAnimationThreadProc, pcli->hwndContactList);
 			}
 		}
 	}

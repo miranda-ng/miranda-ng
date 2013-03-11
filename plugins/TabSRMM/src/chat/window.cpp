@@ -2664,9 +2664,9 @@ LABEL_SHOWWINDOW:
 		}
 		break;
 
-		case GC_SCROLLTOBOTTOM: {
-			return(DM_ScrollToBottom(dat, wParam, lParam));
-		}
+		case GC_SCROLLTOBOTTOM:
+			DM_ScrollToBottom(dat, wParam, lParam);
+			return 0;
 
 		case WM_TIMER:
 			if (wParam == TIMERID_FLASHWND)

@@ -1087,47 +1087,47 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat)
 	}
 }
 
-LRESULT TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	if (dat) {
+	if (dat == NULL)
+		return;
 
-		if (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
-			return 0;
+	if (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
+		return;
 
-		if (IsIconic(dat->pContainer->hwnd))
-			dat->dwFlags |= MWF_DEFERREDSCROLL;
+	if ( IsIconic(dat->pContainer->hwnd))
+		dat->dwFlags |= MWF_DEFERREDSCROLL;
 
-		if (dat->hwndIEView) {
-			PostMessage(dat->hwnd, DM_SCROLLIEVIEW, 0, 0);
-			return 0;
-		} else if (dat->hwndHPP) {
-			SendMessage(dat->hwnd, DM_SCROLLIEVIEW, 0, 0);
-			return 0;
-		} else {
-			HWND hwnd = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG);
-			if (lParam)
-				SendMessage(hwnd, WM_SIZE, 0, 0);
-
-			if (wParam == 1 && lParam == 1) {
-				RECT rc;
-				int len;
-
-				GetClientRect(hwnd, &rc);
-				len = GetWindowTextLengthA(hwnd);
-				SendMessage(hwnd, EM_SETSEL, len - 1, len - 1);
-			}
-			if (wParam)
-				SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			else
-				PostMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			if (lParam)
-				InvalidateRect(hwnd, NULL, FALSE);
-		}
+	if (dat->hwndIEView) {
+		PostMessage(dat->hwnd, DM_SCROLLIEVIEW, 0, 0);
+		return;
 	}
-	return 0;
+	if (dat->hwndHPP) {
+		SendMessage(dat->hwnd, DM_SCROLLIEVIEW, 0, 0);
+		return;
+	}
+
+	HWND hwnd = GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG);
+	if (lParam)
+		SendMessage(hwnd, WM_SIZE, 0, 0);
+
+	if (wParam == 1 && lParam == 1) {
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		int len = GetWindowTextLengthA(hwnd);
+		SendMessage(hwnd, EM_SETSEL, len - 1, len - 1);
+	}
+
+	if (wParam)
+		SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+	else
+		PostMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+
+	if (lParam)
+		InvalidateRect(hwnd, NULL, FALSE);
 }
 
-static unsigned __stdcall LoadKLThread(LPVOID vParam)
+static void LoadKLThread(LPVOID vParam)
 {
 	HANDLE 		hContact = reinterpret_cast<HANDLE>(vParam);
 	DBVARIANT 	dbv = {0};
@@ -1138,54 +1138,34 @@ static unsigned __stdcall LoadKLThread(LPVOID vParam)
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)hContact, (LPARAM)hkl);
 		DBFreeVariant(&dbv);
 	}
-	return 0;
 }
 
-
-LRESULT TSAPI DM_LoadLocale(TWindowData *dat)
+void TSAPI DM_LoadLocale(TWindowData *dat)
 {
-	/*
-	* set locale if saved to contact
-	*/
-	if (dat) {
-		if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
-			return 0;
+	if (dat == NULL || !PluginConfig.m_AutoLocaleSupport)
+		return;
 
-		if (PluginConfig.m_AutoLocaleSupport) {
-			DBVARIANT dbv;
-			int res;
-			TCHAR szKLName[KL_NAMELENGTH+1];
-			UINT  flags = KLF_ACTIVATE;
+	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
+		return;
 
-			res = DBGetContactSettingTString(dat->hContact, SRMSGMOD_T, "locale", &dbv);
-			if (res == 0) {
-
-				/*
-				dat->hkl = LoadKeyboardLayout(dbv.ptszVal, KLF_REPLACELANG | KLF_NOTELLSHELL);
-				GetLocaleID(dat, dbv.ptszVal);
-				PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);*/
-				DBFreeVariant(&dbv);
-				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, dat->hContact, NULL));
-			} else {
-				if (!PluginConfig.m_dontUseDefaultKbd) {
-					TCHAR	szBuf[20];
-
-					GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
-					mir_sntprintf(szKLName, KL_NAMELENGTH, _T("0000%s"), szBuf);
-					M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
-				}
-				else {
-					GetKeyboardLayoutName(szKLName);
-					M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
-				}
-				/*dat->hkl = LoadKeyboardLayout(szKLName, KLF_NOTELLSHELL | KLF_REPLACELANG);
-				GetLocaleID(dat, szKLName);
-				PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);*/
-				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, reinterpret_cast<void *>(dat->hContact), NULL));
-			}
+	DBVARIANT dbv;
+	if ( !DBGetContactSettingTString(dat->hContact, SRMSGMOD_T, "locale", &dbv))
+		DBFreeVariant(&dbv);
+	else {
+		TCHAR szKLName[KL_NAMELENGTH+1];
+		if (!PluginConfig.m_dontUseDefaultKbd) {
+			TCHAR	szBuf[20];
+			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
+			mir_sntprintf(szKLName, KL_NAMELENGTH, _T("0000%s"), szBuf);
+			M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
+		}
+		else {
+			GetKeyboardLayoutName(szKLName);
+			M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 		}
 	}
-	return 0;
+
+	mir_forkthread(LoadKLThread, dat->hContact);
 }
 
 LRESULT TSAPI DM_RecalcPictureSize(TWindowData *dat)
@@ -1207,68 +1187,58 @@ LRESULT TSAPI DM_RecalcPictureSize(TWindowData *dat)
 	return 0;
 }
 
-LRESULT TSAPI DM_UpdateLastMessage(const TWindowData *dat)
+void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 {
-	if (dat) {
-		if (dat->pContainer->hwndStatus == 0)
-			return 0;
-		if (dat->pContainer->hwndActive != dat->hwnd)
-			return 0;
-		if (dat->showTyping) {
-			TCHAR szBuf[80];
+	if (dat == NULL)
+		return;
 
-			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
-			SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) szBuf);
-			SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
-			return 0;
-		}
-		else
-			SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
+	if (dat->pContainer->hwndStatus == 0 || dat->pContainer->hwndActive != dat->hwnd)
+		return;
 
-		if (dat->lastMessage || dat->pContainer->dwFlags & CNT_UINSTATUSBAR) {
-			TCHAR date[64], time[64];
-
-			if (!(dat->pContainer->dwFlags & CNT_UINSTATUSBAR)) {
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
-				if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && lstrlen(date) > 6)
-					date[lstrlen(date) - 5] = 0;
-				tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
-			}
-			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR) {
-				TCHAR fmt[100];
-				mir_sntprintf(fmt, SIZEOF(fmt), _T("UID: %s"), dat->cache->getUIN());
-				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
-			} else {
-				TCHAR fmt[100];
-				mir_sntprintf(fmt, SIZEOF(fmt), TranslateT("Last received: %s at %s"), date, time);
-				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) fmt);
-			}
-		} else
-			SendMessageA(dat->pContainer->hwndStatus, SB_SETTEXTA, 0, (LPARAM) "");
+	TCHAR szBuf[100];
+	if (dat->showTyping) {
+		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
 	}
-	return 0;
+	else {
+		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, 0);
+
+		if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR)
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("UID: %s"), dat->cache->getUIN());
+		else if (dat->lastMessage) {
+			TCHAR date[64], time[64];
+			tmi.printTimeStamp(NULL, dat->lastMessage, _T("d"), date, SIZEOF(date), 0);
+			if (dat->pContainer->dwFlags & CNT_UINSTATUSBAR && lstrlen(date) > 6)
+				date[lstrlen(date) - 5] = 0;
+			tmi.printTimeStamp(NULL, dat->lastMessage, _T("t"), time, SIZEOF(time), 0);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Last received: %s at %s"), date, time);
+		}
+		else szBuf[0] = 0;
+	}
+	
+	SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 }
 
 /*
 * save current keyboard layout for the given contact
 */
 
-LRESULT TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	if (dat) {
-		if (PluginConfig.m_AutoLocaleSupport && dat->hContact && dat->pContainer->hwndActive == dat->hwnd) {
-			TCHAR szKLName[KL_NAMELENGTH + 1];
-			if ((HKL)lParam != dat->hkl) {
-				dat->hkl = (HKL)lParam;
-				ActivateKeyboardLayout(dat->hkl, 0);
-				GetKeyboardLayoutName(szKLName);
-				M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
-				GetLocaleID(dat, szKLName);
-				UpdateReadChars(dat);
-			}
+	if (!dat)
+		return;
+
+	if (PluginConfig.m_AutoLocaleSupport && dat->hContact && dat->pContainer->hwndActive == dat->hwnd) {
+		TCHAR szKLName[KL_NAMELENGTH + 1];
+		if ((HKL)lParam != dat->hkl) {
+			dat->hkl = (HKL)lParam;
+			ActivateKeyboardLayout(dat->hkl, 0);
+			GetKeyboardLayoutName(szKLName);
+			M->WriteTString(dat->hContact, SRMSGMOD_T, "locale", szKLName);
+			GetLocaleID(dat, szKLName);
+			UpdateReadChars(dat);
 		}
 	}
-	return 0;
 }
 
 /*

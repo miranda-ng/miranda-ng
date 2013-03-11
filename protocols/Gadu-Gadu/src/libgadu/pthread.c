@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int pthread_create(pthread_t *tid, const pthread_attr_t *attr, void *(__stdcall * thread_start) (void *), void *param)
 {
 	tid->hThread = (HANDLE)mir_forkthreadex((pThreadFuncEx)*(void**)&thread_start, param, (unsigned *)&tid->dwThreadId);
-
 	return 0;
 }
 

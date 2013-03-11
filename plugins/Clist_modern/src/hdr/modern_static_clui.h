@@ -41,9 +41,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TM_WINDOWUPDATE             100
 #define TM_STATUSBARUPDATE          200
 
-
-
-
 #define MS_CLUI_SHOWMAINMENU    "CList/ShowMainMenu"
 #define MS_CLUI_SHOWSTATUSMENU  "CList/ShowStatusMenu"
 
@@ -98,17 +95,10 @@ void RowHeight_InitModernRow();
 
 int UnhookAll();
 
-
-/* External variables */
-
-
 /* Global variables */
 
-
-UINT    g_dwMainThreadID = 0,
-        g_dwAwayMsgThreadID = 0,
-        g_dwGetTextAsyncThreadID = 0,
-        g_dwSmoothAnimationThreadID = 0;
+UINT    g_dwMainThreadID = 0;
+HANDLE  g_hAwayMsgThread = 0, g_hGetTextAsyncThread = 0, g_hSmoothAnimationThread = 0;
         
 HMENU   g_hMenuMain;
 BOOL    g_bTransparentFlag=FALSE;

@@ -266,13 +266,12 @@ struct IeProxyParam
 	char *szProxy;
 };
 
-static unsigned __stdcall NetlibIeProxyThread(void * arg)
+static void NetlibIeProxyThread(void *arg)
 {
 	IeProxyParam *param = (IeProxyParam*)arg;
 	param->szProxy = NULL;
 
-	if ( !bAutoProxyInit)
-	{
+	if ( !bAutoProxyInit) {
 		WaitForSingleObject(hIeProxyMutex, INFINITE);
 		NetlibInitAutoProxy();
 		ReleaseMutex(hIeProxyMutex);
@@ -280,14 +279,12 @@ static unsigned __stdcall NetlibIeProxyThread(void * arg)
 
 	BOOL res;
 	char *loc = strstr(szAutoUrlStr, "file://");
-	if (loc || strstr(szAutoUrlStr, "://") == NULL)
-	{
+	if (loc || strstr(szAutoUrlStr, "://") == NULL) {
 		NetlibLogf(NULL, "Autoproxy Init file: %s", loc);
 		loc = loc ? loc + 7 : szAutoUrlStr;
 		res = pInternetInitializeAutoProxyDll(0, loc, NULL, NULL /*&HelperFunctions*/, NULL);
 	}
-	else
-	{
+	else {
 		NetlibLogf(NULL, "Autoproxy Init %d", abuf.dwScriptBufferSize);
 		if (abuf.dwScriptBufferSize)
 			res = pInternetInitializeAutoProxyDll(0, NULL, NULL, NULL /*&HelperFunctions*/, &abuf);
@@ -295,8 +292,7 @@ static unsigned __stdcall NetlibIeProxyThread(void * arg)
 			res = false;
 	}
 
-	if (res)
-	{
+	if (res) {
 		char proxyBuffer[1024];
 		char *proxy = proxyBuffer;
 		DWORD dwProxyLen = sizeof(proxyBuffer);
@@ -308,10 +304,7 @@ static unsigned __stdcall NetlibIeProxyThread(void * arg)
 		NetlibLogf(NULL, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);
 		pInternetDeInitializeAutoProxyDll(NULL, 0);
 	}
-	else
-		NetlibLogf(NULL, "Autoproxy init failed");
-
-	return 0;
+	else NetlibLogf(NULL, "Autoproxy init failed");
 }
 
 char* NetlibGetIeProxy(char *szUrl)
@@ -352,13 +345,10 @@ char* NetlibGetIeProxy(char *szUrl)
 		return res;
 	}
 
-	if (szAutoUrlStr[0])
-	{
-		unsigned dwThreadId;
+	if (szAutoUrlStr[0]) {
 		IeProxyParam param = { szUrl, szHost, NULL };
-		HANDLE hThread = (HANDLE)mir_forkthreadex(NetlibIeProxyThread, &param, &dwThreadId);
+		HANDLE hThread = mir_forkthread(NetlibIeProxyThread, &param);
 		WaitForSingleObject(hThread, INFINITE);
-		CloseHandle(hThread);
 		res = param.szProxy;
 	}
 	return res;

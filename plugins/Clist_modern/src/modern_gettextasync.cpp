@@ -76,18 +76,18 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 	return FALSE;
 }
 
-static unsigned __stdcall gtaThreadProc(void * lpParam)
+static void gtaThreadProc(void *lpParam)
 {
+	thread_catcher lck(g_hGetTextAsyncThread);
 	HWND hwnd = pcli->hwndContactList;
-	struct SHORTDATA data = {0};
+	SHORTDATA data = {0};
 
 	while (!MirandaExiting()) {
 		Sync(CLUI_SyncGetShortData,(WPARAM)pcli->hwndContactTree,(LPARAM)&data);       
 		while (true) {
-			if (MirandaExiting()) {
-				g_dwGetTextAsyncThreadID = 0;
-				return 0;
-			}
+			if ( MirandaExiting())
+				return;
+
 			SleepEx(0, TRUE); //1000 contacts per second
 
 			GTACHAINITEM mpChain = {0};
@@ -102,10 +102,8 @@ static unsigned __stdcall gtaThreadProc(void * lpParam)
 				Sync(CLUI_SyncGetShortData,(WPARAM)mpChain.dat->hWnd,(LPARAM)&dat2);       
 				dat = &dat2;
 			}
-			if ( MirandaExiting()) {
-				g_dwGetTextAsyncThreadID = 0;
-				return 0;
-			}
+			if ( MirandaExiting())
+				return;
 
 			ClcCacheEntry cacheEntry;
 			memset(&cacheEntry, 0, sizeof(cacheEntry));
@@ -124,13 +122,11 @@ static unsigned __stdcall gtaThreadProc(void * lpParam)
 		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, TRUE);
 		ResetEvent(hgtaWakeupEvent);
 	}
-	g_dwGetTextAsyncThreadID = 0;
-	return 1;
 }
 
 BOOL gtaWakeThread()
 {
-	if (hgtaWakeupEvent && g_dwGetTextAsyncThreadID) {
+	if (hgtaWakeupEvent && g_hGetTextAsyncThread) {
 		SetEvent(hgtaWakeupEvent);
 		return TRUE;
 	}
@@ -178,14 +174,14 @@ void InitCacheAsync()
 {
 	InitializeCriticalSection(&gtaCS);
 	hgtaWakeupEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
-	mir_forkthreadex(gtaThreadProc, 0, &g_dwGetTextAsyncThreadID);
+	g_hGetTextAsyncThread = mir_forkthread(gtaThreadProc, 0);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,  gtaOnModulesUnload);
 }
 
 void UninitCacheAsync()
 {
 	SetEvent(hgtaWakeupEvent);
-	while(g_dwGetTextAsyncThreadID)
+	while(g_hGetTextAsyncThread)
 		SleepEx(50, TRUE);
 
 	CloseHandle(hgtaWakeupEvent);

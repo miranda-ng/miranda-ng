@@ -563,8 +563,10 @@ int addContactToQueue(HANDLE hContact){
 	return i;
 }
 
-static DWORD __stdcall waitThread(logthread_info* infoParam)
+static void waitThread(void *param)
 {
+	logthread_info* infoParam = (logthread_info*)param;
+
 	WORD prevStatus = db_get_w(infoParam->hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
 	Sleep(1500); // I hope in 1.5 second all the needed info will be set
 	if (includeIdle)
@@ -581,10 +583,7 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 
 	contactQueue[infoParam->queueIndex] = 0;
 	free(infoParam);
-	return 0;
 }
-
-
 
 int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
@@ -664,9 +663,7 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			if (!(index = isContactQueueActive((HANDLE)wparam))) {
 				index = addContactToQueue((HANDLE)wparam);
 				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
-	
-				unsigned int dwThreadId;
-				mir_forkthreadex((pThreadFuncEx)waitThread, contactQueue[index], &dwThreadId);
+				mir_forkthread(waitThread, contactQueue[index]);
 			}
 			contactQueue[index]->courStatus = isIdleEvent ? db_get_w((HANDLE)wparam, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 	}	}	
@@ -674,8 +671,10 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-static DWORD __stdcall cleanThread(logthread_info* infoParam)
+static void cleanThread(void *param)
 {
+	logthread_info* infoParam = (logthread_info*)param;
+
 	Sleep(10000); // I hope in 10 secons all logged-in contacts will be listed
 
 	HANDLE hcontact = db_find_first();
@@ -700,11 +699,8 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 	mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
 	db_unset(NULL,S_MOD,str);
 	free(str);
-
 	free(infoParam);
-	return 0;
 }
-
 
 int ModeChange(WPARAM wparam,LPARAM lparam)
 {
@@ -713,10 +709,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	if (ack->type!=ACKTYPE_STATUS || ack->result!=ACKRESULT_SUCCESS || ack->hContact!=NULL) return 0;
 	courProtoName = (char *)ack->szModule;
 	if (!IsWatchedProtocol(courProtoName) && strncmp(courProtoName,"MetaContacts",12)) 
-	{
-		//MessageBox(NULL,"Protocol not watched",courProtoName,0);
 		return 0;
-	}
 
 	DBWriteTimeTS(time(NULL),NULL);
 
@@ -732,10 +725,10 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			info->hContact = 0;
 			info->courStatus = 0;
 
-			unsigned int dwThreadId;
-			CloseHandle( mir_forkthreadex((pThreadFuncEx)cleanThread, info, &dwThreadId));
+			mir_forkthread(cleanThread, info);
 		}
-	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
+	}
+	else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off
 		if (IsWatchedProtocol(ack->szModule)) {
 			char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
@@ -744,19 +737,18 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",ack->szModule);
 			db_set_dw(NULL,S_MOD,str,t);
 			free(str);
-	}	}
-	if (isetting==db_get_w(NULL,S_MOD,courProtoName,ID_STATUS_OFFLINE)) return 0;
+		}
+	}
+	
+	if (isetting==db_get_w(NULL,S_MOD,courProtoName,ID_STATUS_OFFLINE))
+		return 0;
+
 	db_set_w(NULL,S_MOD,courProtoName,isetting);
 
-	// log "myself"
 	if ( db_get_b(NULL,S_MOD,"FileOutput",0))
 		FileWrite(NULL);
 
-//	if (isetting==ID_STATUS_OFFLINE) //this is removed 'cause I want other contacts to be logged only if the status changed while I was offline
-//		SetOffline();
-
 	courProtoName = NULL;
-
 	return 0;
 }
 

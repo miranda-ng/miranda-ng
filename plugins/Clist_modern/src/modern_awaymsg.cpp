@@ -115,29 +115,27 @@ static HANDLE amGetCurrentChain()
 /*
 *	Tread sub to ask protocol to retrieve away message
 */
-static unsigned __stdcall amThreadProc(void *)
+static void amThreadProc(void *)
 {
-	DWORD time;
-	HANDLE hContact;
-	HANDLE ACK = 0;
+	thread_catcher lck(g_hAwayMsgThread);
+	
 	ClcCacheEntry dnce;
-	memset( &dnce, 0, sizeof(dnce));
+	memset(&dnce, 0, sizeof(dnce));
 
-	while (!MirandaExiting())
-	{
-		hContact = amGetCurrentChain(); 
+	while (!MirandaExiting()) {
+		HANDLE hContact = amGetCurrentChain(); 
 		while (hContact) { 
-			time = GetTickCount();
+			DWORD time = GetTickCount();
 			if ((time-amRequestTick) < AMASKPERIOD) {
 				SleepEx(AMASKPERIOD-(time-amRequestTick)+10, TRUE);
-				if (MirandaExiting()) {
-					g_dwAwayMsgThreadID = 0;
-					return 0; 
-				}
+				if ( MirandaExiting())
+					return; 
 			}
 			CListSettings_FreeCacheItemData(&dnce);
 			dnce.hContact = (HANDLE)hContact;
-			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);            
+			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);
+			
+			HANDLE ACK = 0;
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);		
 			if ( !ACK) {
@@ -163,26 +161,19 @@ static unsigned __stdcall amThreadProc(void *)
 					while (i < AMASKPERIOD/50 && !MirandaExiting());
 			}
 			else break;
-			if (MirandaExiting()) {	
-				g_dwAwayMsgThreadID = 0;
-				return 0;			
-			}
+			if ( MirandaExiting())
+				return;			
 		}
 		WaitForSingleObjectEx(hamProcessEvent, INFINITE, TRUE);
 		ResetEvent(hamProcessEvent);
-		if (MirandaExiting()) 
-		{
-			g_dwAwayMsgThreadID = 0;
-			return 0;
-		}
+		if ( MirandaExiting())
+			break;
 	}
-	g_dwAwayMsgThreadID = 0;
-	return 1;
 }
 
 BOOL amWakeThread()
 {
-	if (hamProcessEvent && g_dwAwayMsgThreadID) {
+	if (hamProcessEvent && g_hAwayMsgThread) {
 		SetEvent(hamProcessEvent);
 		return TRUE;
 	}
@@ -209,14 +200,14 @@ void InitAwayMsgModule()
 {
 	InitializeCriticalSection(&amLockChain);
 	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);   
-	mir_forkthreadex(amThreadProc, 0, &g_dwAwayMsgThreadID);
+	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
 }
 
 void UninitAwayMsgModule()
 {
 	SetEvent(hamProcessEvent);
 
-	while (g_dwAwayMsgThreadID)
+	while (g_hAwayMsgThread)
 		SleepEx(50, TRUE);
 
 	CloseHandle(hamProcessEvent);
