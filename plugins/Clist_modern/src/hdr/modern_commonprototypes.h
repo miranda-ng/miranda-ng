@@ -67,12 +67,8 @@ extern BOOL g_bTransparentFlag;
 extern HINSTANCE g_hInst;
 extern HIMAGELIST hCListImages;
 extern BOOL g_mutex_bChangingMode;
-extern DWORD g_dwMainThreadID;
-extern DWORD g_dwAwayMsgThreadID;
-extern DWORD g_dwGetTextAsyncThreadID;
-extern DWORD g_dwSmoothAnimationThreadID;
-extern DWORD g_dwFillFontListThreadID;
-extern HWND  g_hwndViewModeFrame;
+extern UINT g_dwMainThreadID, g_dwAwayMsgThreadID, g_dwGetTextAsyncThreadID, g_dwSmoothAnimationThreadID;
+extern HWND g_hwndViewModeFrame;
 extern HANDLE hSmileyAddOptionsChangedHook,hAvatarChanged,hIconChangedHook;
 extern BYTE gl_TrimText;
 

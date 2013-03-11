@@ -148,7 +148,7 @@ typedef struct _tagAniAva
 	int width;
 	int height;
 	SortedList * AniAvatarList;
-	DWORD AnimationThreadID;
+	UINT   AnimationThreadID;
 	HANDLE AnimationThreadHandle;
 	HANDLE hExitEvent;
 	//Objects
@@ -166,7 +166,6 @@ static void		_AniAva_PausePainting();
 static void		_AniAva_ResumePainting();
 static void		_AniAva_LoadOptions();
 static void		_AniAva_ReduceAvatarImages(int startY, int dY, BOOL bDestroyWindow);
-static void		_AniAva_AnimationTreadProc(HANDLE hExitEvent);
 static void		_AniAva_RemoveAniAvaDC(ANIAVA * pAniAva);
 static void		_AniAva_RealRemoveAvatar(DWORD UniqueID);
 static int		_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height, ANIAVATARIMAGEINFO * pRetAII);
@@ -188,6 +187,36 @@ int _AniAva_OnModulesUnload(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+static unsigned __stdcall _AniAva_AnimationTreadProc(HANDLE hExitEvent)
+{
+	//wait forever till hExitEvent signalled
+	DWORD rc;
+	HANDLE hThread = 0;
+	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&hThread, 0, FALSE,DUPLICATE_SAME_ACCESS);
+	AniAva.AnimationThreadHandle = hThread;
+	SetThreadPriority(hThread,THREAD_PRIORITY_LOWEST);
+	for (;;) {
+		if ( fnMsgWaitForMultipleObjectsEx )
+			rc = fnMsgWaitForMultipleObjectsEx(1,&hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+		else
+			rc = MsgWaitForMultipleObjects(1,&hExitEvent, FALSE, INFINITE, QS_ALLINPUT);
+
+		ResetEvent(hExitEvent);
+		if (rc == WAIT_OBJECT_0 + 1) {
+			MSG msg;
+			while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+				if ( IsDialogMessage(msg.hwnd, &msg)) continue;
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+		}
+		else if ( rc == WAIT_OBJECT_0 )
+			break;
+	}
+	CloseHandle(AniAva.AnimationThreadHandle);
+	AniAva.AnimationThreadHandle = NULL;
+	return 0;
+}
 
 // Init AniAva module
 int AniAva_InitModule()
@@ -197,14 +226,11 @@ int AniAva_InitModule()
 	if ( !( db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
 		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT))) return 0;
 	{
-		WNDCLASSEX wc;
-		ZeroMemory(&wc, sizeof(wc));
-		wc.cbSize         = sizeof(wc);
+		WNDCLASSEX wc = { sizeof(wc) };
 		wc.lpszClassName  = ANIAVAWINDOWCLASS;
 		wc.lpfnWndProc    = _AniAva_WndProc;
 		wc.hCursor        = LoadCursor(NULL, IDC_ARROW);
 		wc.cbWndExtra     = sizeof(ANIAVA_WINDOWINFO*);
-		wc.hbrBackground  = 0;
 		wc.style          = CS_GLOBALCLASS;
 		RegisterClassEx(&wc);
 	}
@@ -214,7 +240,7 @@ int AniAva_InitModule()
 	AniAva.AniAvatarList->sortFunc = _AniAva_SortAvatarInfo;
 	AniAva.bModuleStarted = TRUE;
 	AniAva.hExitEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
-	AniAva.AnimationThreadID = (DWORD)mir_forkthread(_AniAva_AnimationTreadProc, (void*)AniAva.hExitEvent);
+	mir_forkthreadex(_AniAva_AnimationTreadProc, AniAva.hExitEvent, &AniAva.AnimationThreadID);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,  _AniAva_OnModulesUnload);
 
 	_AniAva_LoadOptions();
@@ -1028,40 +1054,6 @@ static void _AniAva_LoadOptions()
 
 	}
 	aaunlock;
-}
-static void _AniAva_AnimationTreadProc(HANDLE hExitEvent)
-{
-	//wait forever till hExitEvent signalled
-	DWORD rc;
-	HANDLE hThread = 0;
-	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&hThread, 0, FALSE,DUPLICATE_SAME_ACCESS);
-	AniAva.AnimationThreadHandle = hThread;
-	SetThreadPriority(hThread,THREAD_PRIORITY_LOWEST);
-	for (;;)
-	{
-		if ( fnMsgWaitForMultipleObjectsEx )
-			rc = fnMsgWaitForMultipleObjectsEx(1,&hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
-		else
-			rc = MsgWaitForMultipleObjects(1,&hExitEvent, FALSE, INFINITE, QS_ALLINPUT);
-
-		ResetEvent(hExitEvent);
-		if ( rc == WAIT_OBJECT_0 + 1 )
-		{
-			MSG msg;
-			while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-			{
-				if ( IsDialogMessage(msg.hwnd, &msg)) continue;
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-		}
-		else if ( rc == WAIT_OBJECT_0 )
-		{
-			break;
-		}
-	}
-	CloseHandle(AniAva.AnimationThreadHandle);
-	AniAva.AnimationThreadHandle = NULL;
 }
 
 static int	_AniAva_SortAvatarInfo(void * first, void * last)

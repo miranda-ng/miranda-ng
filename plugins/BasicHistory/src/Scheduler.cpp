@@ -40,8 +40,8 @@ time_t GetNextExportTime(TaskOptions& to);
 void SchedulerThreadFunc(void*);
 volatile bool finishThread = false;
 bool initTask = false;
-HANDLE thread = NULL;
-HANDLE threadEvent;
+HANDLE hThread = NULL;
+HANDLE hThreadEvent;
 time_t nextExportTime;
 void StartThread(bool init);
 void StopThread();
@@ -856,24 +856,21 @@ void SchedulerThreadFunc(void*)
 {
 	if(initTask)
 	{
-		WaitForSingleObject(threadEvent, 5 * 1000);
+		WaitForSingleObject(hThreadEvent, 5 * 1000);
 		initTask = false; 
 	}
 
-	while(!finishThread)
-	{
+	while(!finishThread) {
 		DWORD timeWait;
 		time_t now = time(NULL);
 		while(nextExportTime <= now)
-		{
 			if(!ExecuteCurrentTask(now))
 				return;
-		}
 
 		time_t dif = nextExportTime - now;
 		timeWait = (dif > 60 * 60 * 24) ? (60 * 60 * 1000) : (60 * 1000);
 
-		WaitForSingleObject(threadEvent, timeWait);
+		WaitForSingleObject(hThreadEvent, timeWait);
 	}
 }
 
@@ -883,26 +880,24 @@ void StartThread(bool init)
 	
 	initTask = false;
 	bool isExport = GetNextExportTime(init, time(NULL));
-	if(isExport)
-	{
+	if(isExport) {
 		finishThread = false;
-		threadEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-		thread = mir_forkthread(SchedulerThreadFunc, NULL);
+		hThreadEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+		hThread = mir_forkthread(SchedulerThreadFunc, NULL);
 	}
 }
 
 void StopThread()
 {
-	if(thread != NULL)
-	{
-		finishThread = true;
-		SetEvent(threadEvent);
-		WaitForSingleObject(thread, INFINITE);
-		//CloseHandle(thread);
-		CloseHandle(threadEvent);
-		thread = NULL;
-		threadEvent = NULL;
-	}
+	if(hThread == NULL)
+		return;
+
+	finishThread = true;
+	SetEvent(hThreadEvent);
+	WaitForSingleObject(hThread, INFINITE);
+	CloseHandle(hThreadEvent);
+	hThread = NULL;
+	hThreadEvent = NULL;
 }
 
 bool GetNextExportTime(bool init, time_t now)

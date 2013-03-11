@@ -95,7 +95,7 @@ extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasu
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
 extern FILEURL* pFileUrl;
-extern HANDLE CheckThread, hOnPreShutdown, hOptHook, hLoadHook;
+extern HANDLE hCheckThread, hOnPreShutdown, hOptHook, hLoadHook;
 extern MYOPTIONS MyOptions;
 extern aPopups PopupsList[POPUPS];
 extern LPCTSTR Title, Text;
@@ -111,7 +111,7 @@ INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
 INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
 INT OnPreShutdown(WPARAM wParam, LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);
-VOID DoCheck(INT iFlag, INT iFlag2);
+VOID DoCheck(INT iFlag);
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal);
 VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, INT Number, INT ActType);
 VOID DlgDownloadProc();

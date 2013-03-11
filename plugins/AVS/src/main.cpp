@@ -33,7 +33,7 @@ static long    hwndSetMyAvatar = 0;
 
 static HANDLE  hMyAvatarsFolder;
 static HANDLE  hGlobalAvatarFolder;
-static HANDLE  hLoaderEvent, hLoaderThread;
+static HANDLE  hLoaderEvent;
 HANDLE  hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 HICON	g_hIcon = 0;
@@ -1986,8 +1986,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	mir_sntprintf(szEventName, 100, _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
-	hLoaderThread = (HANDLE) mir_forkthread(PicLoader, 0);
-	SetThreadPriority(hLoaderThread, THREAD_PRIORITY_IDLE);
+	SetThreadPriority( mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
 
 	// Folders plugin support
 	hMyAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAT _T("\\Avatars"));
@@ -2004,17 +2003,16 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	PROTOACCOUNT **accs = NULL;
 	int accCount;
-	ProtoEnumAccounts( &accCount, &accs );
+	ProtoEnumAccounts(&accCount, &accs);
 
-	if ( fei != NULL )
-	{
+	if ( fei != NULL ) {
 		LoadDefaultInfo();
 		PROTOCOLDESCRIPTOR** proto;
 		int protoCount;
 		CallService(MS_PROTO_ENUMPROTOS, ( WPARAM )&protoCount, ( LPARAM )&proto);
-		for ( i=0; i < protoCount; i++ )
+		for (i=0; i < protoCount; i++ )
 			LoadProtoInfo( proto[i] );
-		for(i = 0; i < accCount; i++)
+		for (i=0; i < accCount; i++)
 			LoadAccountInfo( accs[i] );
 	}
 
@@ -2048,9 +2046,9 @@ static void ReloadMyAvatar(LPVOID lpParam)
 					continue;
 			}
 
-		} else if (lstrcmpA(myAvatarProto, szProto)) {
-			continue;
 		}
+		else if (lstrcmpA(myAvatarProto, szProto))
+			continue;
 
 		if (g_MyAvatars[i].hbmPic)
 			DeleteObject(g_MyAvatars[i].hbmPic);

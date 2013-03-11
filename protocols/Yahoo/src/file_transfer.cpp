@@ -761,7 +761,6 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 		}
 
 		LOG(("who: %s, msg: %s, # files: %d", sf->who, sf->msg, i));
-		//mir_forkthread(yahoo_send_filethread, sf);
 		
 		sf->ftoken=yahoo_ft7dc_send(m_id, sf->who, fs);
 		

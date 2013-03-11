@@ -297,7 +297,7 @@ static void CheckUpdates(void *)
 	mir_sntprintf(pFileUrl.tszDiskPath, SIZEOF(pFileUrl.tszDiskPath), _T("%s\\hashes.zip"), tszTempPath);
 	if (!DownloadFile(pFileUrl.tszDownloadURL, pFileUrl.tszDiskPath, 0)) {
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("An error occured while downloading the update."), 1, 0);
-		CheckThread = NULL;
+		hCheckThread = NULL;
 		return;
 	}
 
@@ -308,7 +308,7 @@ static void CheckUpdates(void *)
 	mir_sntprintf(tszTmpIni, SIZEOF(tszTmpIni), _T("%s\\hashes.txt"), tszTempPath);
 	FILE *fp = _tfopen(tszTmpIni, _T("r"));
 	if (!fp) {
-		CheckThread = NULL;
+		hCheckThread = NULL;
 		return;
 	}
 
@@ -351,12 +351,12 @@ static void CheckUpdates(void *)
 	}
 	else CallFunctionAsync(LaunchDialog, UpdateFiles);
 
-	CheckThread = NULL;
+	hCheckThread = NULL;
 }
 
 void DoCheck(int iFlag)
 {
-	if (CheckThread)
+	if (hCheckThread)
 		ShowPopup(0, LPGENT("Plugin Updater"), LPGENT("Update checking already started!"), 2, 0);
 	else if (hwndDialog) {
 		ShowWindow(hwndDialog, SW_SHOW);
@@ -364,7 +364,7 @@ void DoCheck(int iFlag)
 		SetFocus(hwndDialog);
 	}
 	else if (iFlag) {
-		CheckThread = mir_forkthread(CheckUpdates, 0);
+		hCheckThread = mir_forkthread(CheckUpdates, 0);
 		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
 }

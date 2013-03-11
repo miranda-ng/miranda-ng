@@ -105,11 +105,10 @@ int UnhookAll();
 /* Global variables */
 
 
-DWORD   g_dwMainThreadID=0,
-        g_dwAwayMsgThreadID=0,
-        g_dwGetTextAsyncThreadID=0,
-        g_dwSmoothAnimationThreadID=0,
-        g_dwFillFontListThreadID=0;
+UINT    g_dwMainThreadID = 0,
+        g_dwAwayMsgThreadID = 0,
+        g_dwGetTextAsyncThreadID = 0,
+        g_dwSmoothAnimationThreadID = 0;
         
 HMENU   g_hMenuMain;
 BOOL    g_bTransparentFlag=FALSE;

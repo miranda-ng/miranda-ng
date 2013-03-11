@@ -114,7 +114,7 @@ extern HINSTANCE hInst;
 
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048], tszTempPath[MAX_PATH];
 extern FILEINFO *pFileInfo;
-extern HANDLE CheckThread, hPluginUpdaterFolder;
+extern HANDLE hCheckThread, hPluginUpdaterFolder;
 extern PlugOptions opts;
 extern POPUP_OPTIONS PopupOptions;
 extern aPopups PopupsList[POPUPS];

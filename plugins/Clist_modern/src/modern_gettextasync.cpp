@@ -76,7 +76,7 @@ static BOOL gtaGetItem(GTACHAINITEM * mpChain)
 	return FALSE;
 }
 
-static int gtaThreadProc(void * lpParam)
+static unsigned __stdcall gtaThreadProc(void * lpParam)
 {
 	HWND hwnd = pcli->hwndContactList;
 	struct SHORTDATA data = {0};
@@ -178,7 +178,7 @@ void InitCacheAsync()
 {
 	InitializeCriticalSection(&gtaCS);
 	hgtaWakeupEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
-	g_dwGetTextAsyncThreadID = (DWORD)mir_forkthread((pThreadFunc)gtaThreadProc,0);
+	mir_forkthreadex(gtaThreadProc, 0, &g_dwGetTextAsyncThreadID);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN,  gtaOnModulesUnload);
 }
 

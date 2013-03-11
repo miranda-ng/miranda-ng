@@ -53,7 +53,6 @@ static DWORD			amRequestTick	 = 0;
 
 static int		amAddHandleToChain(HANDLE hContact);
 static HANDLE	amGetCurrentChain();
-static int		amThreadProc(HWND hwnd);
 
 /*
 *  Add contact handle to requests queue
@@ -116,7 +115,7 @@ static HANDLE amGetCurrentChain()
 /*
 *	Tread sub to ask protocol to retrieve away message
 */
-static int amThreadProc(HWND hwnd)
+static unsigned __stdcall amThreadProc(void *)
 {
 	DWORD time;
 	HANDLE hContact;
@@ -127,14 +126,11 @@ static int amThreadProc(HWND hwnd)
 	while (!MirandaExiting())
 	{
 		hContact = amGetCurrentChain(); 
-		while (hContact)
-		{ 
+		while (hContact) { 
 			time = GetTickCount();
-			if ((time-amRequestTick) < AMASKPERIOD)
-			{
+			if ((time-amRequestTick) < AMASKPERIOD) {
 				SleepEx(AMASKPERIOD-(time-amRequestTick)+10, TRUE);
-				if (MirandaExiting())
-				{
+				if (MirandaExiting()) {
 					g_dwAwayMsgThreadID = 0;
 					return 0; 
 				}
@@ -144,8 +140,7 @@ static int amThreadProc(HWND hwnd)
 			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);            
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
 				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);		
-			if ( !ACK)
-			{
+			if ( !ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;
 				ack.type = ACKTYPE_AWAYMSG;
@@ -159,18 +154,16 @@ static int amThreadProc(HWND hwnd)
 			CListSettings_FreeCacheItemData(&dnce);
 			amRequestTick = time;
 			hContact = amGetCurrentChain();
-			if (hContact) 
-			{
+			if (hContact) {
 				DWORD i=0;
-				do 
-				{
+				do {
 					i++;
 					SleepEx(50, TRUE);
-				} while (i < AMASKPERIOD/50 && !MirandaExiting());
+				}
+					while (i < AMASKPERIOD/50 && !MirandaExiting());
 			}
 			else break;
-			if (MirandaExiting()) 
-			{	
+			if (MirandaExiting()) {	
 				g_dwAwayMsgThreadID = 0;
 				return 0;			
 			}
@@ -216,7 +209,7 @@ void InitAwayMsgModule()
 {
 	InitializeCriticalSection(&amLockChain);
 	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);   
-	g_dwAwayMsgThreadID = (DWORD)mir_forkthread((pThreadFunc)amThreadProc,0);
+	mir_forkthreadex(amThreadProc, 0, &g_dwAwayMsgThreadID);
 }
 
 void UninitAwayMsgModule()

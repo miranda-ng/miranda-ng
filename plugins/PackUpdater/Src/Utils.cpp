@@ -28,7 +28,7 @@ INT Period;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO* pFileInfo = NULL;
 FILEURL* pFileUrl = NULL;
-HANDLE CheckThread = NULL, hNetlibUser = NULL;
+HANDLE hCheckThread = NULL, hNetlibUser = NULL;
 MYOPTIONS MyOptions = {0};
 aPopups PopupsList[POPUPS];
 LPCTSTR Title = {0}, Text = {0};
@@ -210,7 +210,7 @@ static void CheckUpdates(void *)
 		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONSTOP);
 		DBFreeVariant(&dbVar);
-		CheckThread = NULL;
+		hCheckThread = NULL;
 		return;
 	}
 	// Download version info
@@ -225,7 +225,7 @@ static void CheckUpdates(void *)
 	mir_free(pFileUrl);
 	if (!DlgDld)
 	{
-		CheckThread = NULL;
+		hCheckThread = NULL;
 		return;
 	}
 
@@ -304,7 +304,7 @@ static void CheckUpdates(void *)
 			{
 				MessageBox(NULL, TranslateT("Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights."), Title, MB_ICONINFORMATION);
 				DeleteFile(tszTmpIni);
-				CheckThread = NULL;
+				hCheckThread = NULL;
 				return;
 			} // user have not admin's rights
 			else
@@ -365,7 +365,7 @@ static void CheckUpdates(void *)
 	DeleteFile(tszTmpIni);
 	if (upd_ret == IDCANCEL)
 	{
-		CheckThread = NULL;
+		hCheckThread = NULL;
 		return;
 	}
 	if (!UpdatesCount && !Silent)
@@ -392,12 +392,12 @@ static void CheckUpdates(void *)
 		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
-	CheckThread = NULL;
-}//end* static void CheckUpdates(void *)
+	hCheckThread = NULL;
+}
 
-void DoCheck(int iFlag, int iFlag2)
+void DoCheck(int iFlag)
 {
-	if (iFlag2)
+	if (hCheckThread != NULL)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
@@ -411,7 +411,7 @@ void DoCheck(int iFlag, int iFlag2)
 	}
 	else if (iFlag)
 	{
-		CheckThread = mir_forkthread(CheckUpdates, 0);
+		hCheckThread = mir_forkthread(CheckUpdates, 0);
 		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
 }
@@ -451,7 +451,7 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 
 VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
 {
-	DoCheck(1, (int)CheckThread);
+	DoCheck(TRUE);
 }
 
 VOID InitTimer()

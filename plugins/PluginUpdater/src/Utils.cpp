@@ -23,7 +23,7 @@ BOOL DlgDld;
 int  Number = 0;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO *pFileInfo = NULL;
-HANDLE CheckThread = NULL, hNetlibUser = NULL;
+HANDLE hCheckThread = NULL, hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 

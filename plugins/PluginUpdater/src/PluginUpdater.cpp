@@ -131,8 +131,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	if (CheckThread)
-		CheckThread = NULL;
+	if (hCheckThread)
+		hCheckThread = NULL;
 
 	NetlibUnInit();
 	DestroyServiceFunction(hCheckUpdates);

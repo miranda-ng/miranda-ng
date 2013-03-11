@@ -243,8 +243,7 @@ namespace
 					for(CQuotesProviders::TQuotesProviders::const_iterator i = rapProviders.begin();i != rapProviders.end();++i)
 					{
 						const CQuotesProviders::TQuotesProviderPtr& pProvider = *i;
-						HANDLE hThread = reinterpret_cast<HANDLE>(mir_forkthread(WorkingThread,pProvider.get()));
-						g_ahThreads.push_back(hThread);
+						g_ahThreads.push_back( mir_forkthread(WorkingThread, pProvider.get()));
 					}
 				}
 

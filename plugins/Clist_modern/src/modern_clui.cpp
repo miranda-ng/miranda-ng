@@ -516,8 +516,7 @@ static BOOL CLUI_WaitThreadsCompletion(HWND hwnd)
 		  g_CluiData.mutexPaintLock ||
 		  g_dwAwayMsgThreadID ||
 		  g_dwGetTextAsyncThreadID ||
-		  g_dwSmoothAnimationThreadID ||
-		  g_dwFillFontListThreadID) && !Miranda_Terminated())
+		  g_dwSmoothAnimationThreadID) && !Miranda_Terminated())
 	{
 		TRACE("Waiting threads");
 		TRACEVAR("g_mutex_nCalcRowHeightLock: %x",g_mutex_nCalcRowHeightLock);
@@ -525,7 +524,7 @@ static BOOL CLUI_WaitThreadsCompletion(HWND hwnd)
 		TRACEVAR("g_dwAwayMsgThreadID: %x",g_dwAwayMsgThreadID);
 		TRACEVAR("g_dwGetTextAsyncThreadID: %x",g_dwGetTextAsyncThreadID);
 		TRACEVAR("g_dwSmoothAnimationThreadID: %x",g_dwSmoothAnimationThreadID);
-		TRACEVAR("g_dwFillFontListThreadID: %x",g_dwFillFontListThreadID);
+
 		bEntersCount++;
 		SleepEx(10, TRUE);
 		return TRUE;
@@ -1293,11 +1292,6 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
 	return ClcGetShortData(dat,(struct SHORTDATA *)lParam);
 }
 
-int CLUI_SyncSmoothAnimation(WPARAM wParam, LPARAM lParam)
-{
-	return CLUI_SmoothAlphaThreadTransition((HWND)lParam);
-}
-
 int CLUI_IconsChanged(WPARAM wParam,LPARAM lParam)
 {
 	if (MirandaExiting())
@@ -1451,33 +1445,37 @@ int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 	}
 	return SCF_NONE;
 }
-int CLUI_SyncSmoothAnimation(WPARAM wParam, LPARAM lParam);
-static void CLUI_SmoothAnimationThreadProc(HWND hwnd)
+
+static int CLUI_SyncSmoothAnimation(WPARAM wParam, LPARAM lParam)
 {
-	//  return;
-	if ( !mutex_bAnimationInProgress)
-	{
+	return CLUI_SmoothAlphaThreadTransition((HWND)lParam);
+}
+
+static unsigned __stdcall CLUI_SmoothAnimationThreadProc(void *param)
+{
+	if ( !mutex_bAnimationInProgress) {
 		g_dwSmoothAnimationThreadID = 0;
-		return;  /// Should be some locked to avoid painting against contact deletion.
+		return 0;  /// Should be some locked to avoid painting against contact deletion.
 	}
-	do
-	{
-		if ( !g_mutex_bLockUpdating)
-		{
+
+	do {
+		if ( !g_mutex_bLockUpdating) {
 			if ( !MirandaExiting())
-				Sync(CLUI_SyncSmoothAnimation, 0, (LPARAM)hwnd );
+				Sync(CLUI_SyncSmoothAnimation, 0, (LPARAM)param);
+
 			SleepEx(20, TRUE);
-			if (MirandaExiting())
-			{
+			if (MirandaExiting()) {
 				g_dwSmoothAnimationThreadID = 0;
-				return;
+				return 0;
 			}
 		}
 		else SleepEx(0, TRUE);
 
-	} while (mutex_bAnimationInProgress);
+	}
+		while (mutex_bAnimationInProgress);
+	
 	g_dwSmoothAnimationThreadID = 0;
-	return;
+	return 0;
 }
 
 static int CLUI_SmoothAlphaThreadTransition(HWND hwnd)
@@ -1551,14 +1549,13 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 		}
 		return 0;
 	}
-	if (mutex_bShowHideCalledFromAnimation) return 0;
-	if (wParam != 2)  //not from timer
-	{
+	if (mutex_bShowHideCalledFromAnimation)
+		return 0;
+
+	if (wParam != 2) {  //not from timer
 		bAlphaEnd = GoalAlpha;
-		if ( !mutex_bAnimationInProgress)
-		{
-			if ((!IsWindowVisible(hwnd) || g_CluiData.bCurrentAlpha == 0) && bAlphaEnd>0 )
-			{
+		if ( !mutex_bAnimationInProgress) {
+			if ((!IsWindowVisible(hwnd) || g_CluiData.bCurrentAlpha == 0) && bAlphaEnd > 0) {
 				mutex_bShowHideCalledFromAnimation = 1;
 				CLUI_ShowWindowMod(pcli->hwndContactList,SW_SHOWNA);
 				Sync(CLUIFrames_OnShowHide, hwnd,SW_SHOW);
@@ -1566,46 +1563,36 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 				g_CluiData.bCurrentAlpha = 1;
 				ske_UpdateWindowImage();
 			}
-			if (IsWindowVisible(hwnd) && !g_dwSmoothAnimationThreadID)
-			{
+			if (IsWindowVisible(hwnd) && !g_dwSmoothAnimationThreadID) {
 				mutex_bAnimationInProgress = 1;
 				if (g_CluiData.fSmoothAnimation)
-					g_dwSmoothAnimationThreadID = (DWORD)mir_forkthread((pThreadFunc)CLUI_SmoothAnimationThreadProc,pcli->hwndContactList);
-
+					mir_forkthreadex(CLUI_SmoothAnimationThreadProc, pcli->hwndContactList, &g_dwSmoothAnimationThreadID);
 			}
 		}
 	}
 
-	{
-		int step;
-		int a;
-		step = (g_CluiData.bCurrentAlpha>bAlphaEnd)?-1*ANIMATION_STEP:ANIMATION_STEP;
-		a = g_CluiData.bCurrentAlpha+step;
-		if ((step >= 0 && a >= bAlphaEnd) || (step <= 0 && a <= bAlphaEnd) || g_CluiData.bCurrentAlpha == bAlphaEnd || !g_CluiData.fSmoothAnimation) //stop animation;
-		{
-			KillTimer(hwnd,TM_SMOTHALPHATRANSITION);
-			mutex_bAnimationInProgress = 0;
-			if (bAlphaEnd == 0)
-			{
-				g_CluiData.bCurrentAlpha = 1;
-				ske_UpdateWindowImage();
-				mutex_bShowHideCalledFromAnimation = 1;
-				CLUI_ShowWindowMod(pcli->hwndContactList,0);
-				Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,0);
-				mutex_bShowHideCalledFromAnimation = 0;
-				g_CluiData.bCurrentAlpha = 0;
-			}
-			else
-			{
-				g_CluiData.bCurrentAlpha = bAlphaEnd;
-				ske_UpdateWindowImage();
-			}
+	int step = (g_CluiData.bCurrentAlpha>bAlphaEnd) ? -1*ANIMATION_STEP : ANIMATION_STEP;
+	int a = g_CluiData.bCurrentAlpha+step;
+	if ((step >= 0 && a >= bAlphaEnd) || (step <= 0 && a <= bAlphaEnd) || g_CluiData.bCurrentAlpha == bAlphaEnd || !g_CluiData.fSmoothAnimation) { //stop animation;
+		KillTimer(hwnd,TM_SMOTHALPHATRANSITION);
+		mutex_bAnimationInProgress = 0;
+		if (bAlphaEnd == 0) {
+			g_CluiData.bCurrentAlpha = 1;
+			ske_UpdateWindowImage();
+			mutex_bShowHideCalledFromAnimation = 1;
+			CLUI_ShowWindowMod(pcli->hwndContactList,0);
+			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,0);
+			mutex_bShowHideCalledFromAnimation = 0;
+			g_CluiData.bCurrentAlpha = 0;
 		}
-		else
-		{
-			g_CluiData.bCurrentAlpha = a;
+		else {
+			g_CluiData.bCurrentAlpha = bAlphaEnd;
 			ske_UpdateWindowImage();
 		}
+	}
+	else {
+		g_CluiData.bCurrentAlpha = a;
+		ske_UpdateWindowImage();
 	}
 
 	return 0;
