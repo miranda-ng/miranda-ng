@@ -1,7 +1,7 @@
 ﻿#muuid {0286947d-3140-4222-b5ad-2c92315e1c1e}
 ;============================================================
 ;  File: TranslitSwitcher.dll
-;  Plugin: Switch Layout or Transliterate
+;  Plugin: Switch layout or transliterate
 ;  Version: 0.0.1.0
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================

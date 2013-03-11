@@ -3,8 +3,9 @@
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
 ;  Version: 0.2.3.17
-;  Authors: 
+;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Smiley support for Miranda NG.]
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 [Specify Smiley Pack for each category]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.6.0.2
+;  Version: 0.7.0.0
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
@@ -27,20 +27,10 @@
 [Single click interface]
 [Dim idle contacts]
 [Idle contacts]
-[Fonts]
-[same]
-[Typeface]
-[Size]
-[Style]
-[Colour]
-[as:]
-[Bold]
-[Italic]
-[Underline]
 [Border]
 [Draw border]
-[Left-top edges color:]
-[Right-bottom eges color:]
+[Left-top edge's color:]
+[Right-bottom edge's color:]
 [Background]
 [Background colour:]
 [Use background bitmap]
@@ -51,20 +41,18 @@
 [Stretch proportionally]
 [Opacity:]
 ;file \plugins\FloatingContacts\src\main.cpp
-[Remove thumb]
-[Show all thumbs]
-[Hide all thumbs]
-[Show/Hide all thumbs]
-;file \plugins\FloatingContacts\src\options.cpp
 [Standard contacts]
 [Online contacts to whom you have a different visibility]
 [Offline contacts]
 [Offline contacts to whom you have a different visibility]
 [Contacts which are 'not on list']
+[Floating contacts]
+[Show all thumbs]
+[Hide all thumbs]
+[Remove thumb]
+[Show/Hide all thumbs]
+;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 [Contact List]
 [Main Features]
 [Appearance]
-[Sample]
-[<none>]
-[<Contact List Text>]

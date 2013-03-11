@@ -331,8 +331,8 @@
 [&Rename Group]
 [&Delete Group]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Contact List/Avatar Overlay]
-[Contact List/Status Overlay]
+[Avatar Overlay]
+[Status Overlay]
 [Contact List smileys]
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 [Converting to MetaContact]

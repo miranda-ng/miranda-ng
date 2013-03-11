@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter
-;  Version: 1.1.0.0
+;  Version: 1.1.0.1
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]

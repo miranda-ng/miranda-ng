@@ -1,5 +1,11 @@
 ﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
-;langpack template for KeyboardNotify
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[Flashes your keyboard LEDs when a message has arrived.]
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 [Events to react on]

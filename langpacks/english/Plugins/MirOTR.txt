@@ -1,11 +1,11 @@
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
-;  Plugin: MirOTR
+;  Plugin: Miranda OTR
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-[OTR (Off-the-Record) plugin for Miranda NG]
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 [Generating new private key - please wait.]
@@ -32,12 +32,6 @@
 [Set verified]
 [Set unknown]
 [Forget]
-[MirOTR]
-[OTR status]
-[&Start OTR session]
-[&Refresh OTR session]
-[Sto&p OTR session]
-[&Verify Fingerprint]
 [Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
@@ -45,6 +39,12 @@
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
 [&Yes]
+[MirOTR]
+[OTR status]
+[&Start OTR session]
+[&Refresh OTR session]
+[Sto&p OTR session]
+[&Verify Fingerprint]
 ;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]

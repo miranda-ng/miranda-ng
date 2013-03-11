@@ -3,8 +3,9 @@
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
 ;  Version: 1.0.12.4
-;  Authors: 
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
 ;============================================================
+[SecureIM plugin for Miranda NG.]
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
 [Enable Secure Offline messages]

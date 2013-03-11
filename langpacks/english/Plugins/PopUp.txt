@@ -1,10 +1,11 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
-;  Plugin: PopUp
+;  Plugin: PopUp plus
 ;  Version: 2.1.1.6
-;  Authors: 
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 [Go to Customize > Fonts && Colors for fonts and colors options]
@@ -121,6 +122,8 @@
 [This is a notification message]
 [This is a warning message]
 [This is an error message]
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]
@@ -160,6 +163,7 @@
 [No effect]
 [Fade in/out]
 ;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ;file \plugins\Popup\src\opt_gen.cpp
 [/Offline]
@@ -179,6 +183,8 @@
 [upper right corner]
 [horizontal]
 [vertical]
+[Global Status]
+[Protocol Status]
 [You cannot specify a value lower than %d and higher than %d.]
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
 [Popup Plus Warning]

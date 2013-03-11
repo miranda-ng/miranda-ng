@@ -1,5 +1,11 @@
 ﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
-;langpack template for NotifyAnything
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+[Displays popups for custom events, triggered by UDP packages.]
 ;file \plugins\NotifyAnything\res\NotifyAnything.rc
 [Property Page]
 [Security]

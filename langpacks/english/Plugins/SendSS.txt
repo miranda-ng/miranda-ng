@@ -1,7 +1,7 @@
 ﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
 ;============================================================
 ;  File: SendSS.dll
-;  Plugin: Send Screenshot+
+;  Plugin: Send screenshot+
 ;  Version: 0.8.0.0
 ;  Authors: Merlin
 ;============================================================
@@ -79,9 +79,6 @@
 [Take a screenshot]
 [Could not register miranda service.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 [< Copyright]

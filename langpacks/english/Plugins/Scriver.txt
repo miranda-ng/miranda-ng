@@ -1,5 +1,11 @@
 ﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
-;langpack template for Scriver
+;============================================================
+;  File: Scriver.dll
+;  Plugin: Scriver
+;  Version: 2.10.0.2
+;  Authors: Miranda NG Development Team
+;============================================================
+[Scriver - send and receive instant messages.]
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 [Automatically pop up the window when]
