@@ -1,5 +1,12 @@
 ﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
-;langpack template for SimpleStatusMsg
+;============================================================
+;  File: SimpleStatusMsg.dll
+;  Plugin: Simple status message
+;  Version: 1.9.0.4
+;  Authors: Bartosz 'Dezeath' Biaіek, Harven
+;============================================================
+[Provides a simple way to set status and away messages.]
+
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s Message for %s]
 '%s'-Nachricht von %s
@@ -15,74 +22,6 @@ Nachricht kopieren
 OK
 [Retrieving status message for %s...]
 Statusnachricht für %s ermitteln...
-[%time%]
-
-[%date%]
-
-[%winampsong%]
-
-[%rand(x,y)%]
-
-[%randmsg%]
-
-[%randdefmsg%]
-
-[Fortune]
-
-[%fortunemsg%]
-
-[%protofortunemsg%]
-
-[%statusfortunemsg%]
-
-[Variables]
-Variablen
-[?cinfo(contact,property)]
-
-[?contact(string,property)]
-
-[?mstatus(protocol)]
-
-[?lsdate(contact,format)]
-
-[?lsstatus(contact)]
-
-[?lstime(contact,format)]
-
-[?dbsetting(contact,module,setting)]
-
-[?txtfile(file,line)]
-
-[?if(condition,true,false)]
-
-[?strcmp(string1,string2)]
-
-[?stricmp(string1,string2)]
-
-[?cdate(format)]
-
-[?ctime(format)]
-
-[?replace(sub,string1,string2)]
-
-[?lower(string)]
-
-[?upper(string)]
-
-[?scroll(string,numchars,numchars)]
-
-[More variables...]
-
-[Cut]
-Ausschneiden
-[Copy]
-Kopieren
-[Paste]
-Einfügen
-[Delete]
-Löschen
-[Select All]
-Alles markieren
 [Behaviour on status change]
 Verhalten beim Statuswechsel
 [Apply to all]
@@ -113,6 +52,8 @@ Letzte Nachricht dieses Status benutzen
 Folgende Nachricht setzen:
 [Put default message in message list]
 Standardnachricht setzen
+[Variables]
+Variablen
 [Update variables in status messages every]
 Aktualisiere Variablen in Statusnachricht alle
 [seconds]
@@ -177,6 +118,72 @@ Status:
 Unabhängige Einstellung für jedes Protokoll
 [Pop up dialog asking for status message]
 Popup-Dialog zur Nachfrage nach Statusnachricht
+[%time%]
+
+[%date%]
+
+[%winampsong%]
+
+[%rand(x,y)%]
+
+[%randmsg%]
+
+[%randdefmsg%]
+
+[Fortune]
+
+[%fortunemsg%]
+
+[%protofortunemsg%]
+
+[%statusfortunemsg%]
+
+[?cinfo(contact,property)]
+
+[?contact(string,property)]
+
+[?mstatus(protocol)]
+
+[?lsdate(contact,format)]
+
+[?lsstatus(contact)]
+
+[?lstime(contact,format)]
+
+[?dbsetting(contact,module,setting)]
+
+[?txtfile(file,line)]
+
+[?if(condition,true,false)]
+
+[?strcmp(string1,string2)]
+
+[?stricmp(string1,string2)]
+
+[?cdate(format)]
+
+[?ctime(format)]
+
+[?replace(sub,string1,string2)]
+
+[?lower(string)]
+
+[?upper(string)]
+
+[?scroll(string,numchars,numchars)]
+
+[More variables...]
+
+[Cut]
+Ausschneiden
+[Copy]
+Kopieren
+[Paste]
+Einfügen
+[Delete]
+Löschen
+[Select All]
+Alles markieren
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 Fehler beim abrufen der %s Nachricht

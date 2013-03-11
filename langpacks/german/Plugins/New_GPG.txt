@@ -1,12 +1,19 @@
 ﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
-;langpack template for New_GPG
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.0.0.11
+;  Authors: sss
+;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Load Public GPG key]
 
 [OK]
 OK
 [Load from file]
-
+Aus Datei laden
 [Select existing]
 Wähle existierenden
 [Turn on encryption]
@@ -32,15 +39,15 @@ Konto:
 [key id: ]
 
 [Copy public key]
-
+Öffentlichen Schlüssen kopieren
 [Export private key]
-
+Privaten Schlüssel exportieren
 [Change password]
 Passwort ändern
 [Set GPG bin path and keyring home dir.]
 Setze GPG-Heimverzeichnis und -Schlüsselverzeichnis
 [Continue]
-
+Wiederholen
 [Home directory:]
 Hauptverzeichnis:
 [GnuPG binary:]
@@ -76,7 +83,7 @@ Kommentar:
 [Expire date:]
 Ablaufdatum:
 [ex.: 2010-08-15]
-
+bspw.: 2010-08-15
 [From 1024 to 4096]
 Von 1024 bis 4096
 [It can take a long time, be patient]
@@ -130,7 +137,7 @@ Wähle eigenen Schlüssel
 [Turn on debug log]
 Schalte Debug-Log ein
 [Use jabber api on Miranda NG (recomended)]
-
+Jabber-API in Miranda NG verwenden (empfohlen)
 [Default key]
 
 [Encrypt file transfers]
@@ -154,9 +161,9 @@ Zu:
 [Turn on presence signing (Jabber) (required by xep 0-27)]
 
 [Export keys]
-
+Schlüssel  exportieren
 [Import keys]
-
+Schlüssel  importieren
 ;file \plugins\New_GPG\src\init.cpp
 [GPG Turn off encryption]
 

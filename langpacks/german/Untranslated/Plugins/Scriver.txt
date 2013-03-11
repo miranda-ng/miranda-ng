@@ -1,4 +1,5 @@
-﻿[Tabs]
+﻿[Scriver - send and receive instant messages.]
+[Tabs]
 [Show close button on each tab ]
 [Layout]
 [&U]

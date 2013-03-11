@@ -1,4 +1,4 @@
-﻿[No more spam! Robots can't go! Only human beings invited!]
+﻿[Antispam plugin for Miranda NG.]
 [Vars]
 [Disable protection for following accounts:]
 [StopSpam]

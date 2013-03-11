@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.0.9.3
+;  Version: 0.0.9.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
-
+Facebook-Protokollunterstützung für Miranda NG
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-Mail:
@@ -102,20 +102,20 @@ Bitte geben Sie einen Benutzernamen ein.
 Bitte geben Sie das Kennwort ein.
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
-
+Kontakt wurde aus Ihrer Server-Liste entfernt.
 [Error occured when removing contact from server.]
-
+Ein Fehler ist beim Entfernen des Kontaktes vom Server aufgetreten
 [Request for friendship was sent.]
-
+Freundschaftsanfrage wurde gesendet.
 [Error occured when requesting friendship.]
-
+Fehler bei der Freundschaftsanfrage aufgetreten
 [Request for friendship was canceled.]
-
+Freundschaftsanfrage wurde zurückgezogen.
 [Error occured when canceling friendship request.]
-
+Fehler beim Zurückziehen der Freundschaftsanfrage
 ;file \protocols\FacebookRM\src\dialogs.cpp
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-
+Hinweis: Stellen Sie sicher, dass "SSL-Zertifikate überprüfen" in den Netzwerk-Einstellungen deaktiviert ist.
 [Sample event]
 Beispiel Ereignis
 [Sample request]
@@ -132,9 +132,9 @@ Beispiel Benachrichtigung
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
-
+Kontakt ist wieder in Ihrer Server-Liste.
 [Contact is no longer on server-list.]
-
+Kontakt ist nicht mehr in Ihrer Server-Liste.
 [Attachments:]
 
 ;file \protocols\FacebookRM\src\proto.cpp
@@ -147,7 +147,7 @@ Benachrichtigung
 [News Feed]
 
 [Other Event]
-
+Andere Ereignisse
 [Network]
 Netzwerk
 [Account]
@@ -159,26 +159,26 @@ Popups
 [Events]
 Ereignisse
 [Loading newsfeeds...]
-
+Newsfeeds laden...
 [Checking friend requests...]
-
+Freundschaftsanfragen überprüfen
 [Refreshing buddy list...]
-
+Freundesliste aktuallisieren
 [Do you want to cancel your friendship with '%s'?]
-
+Möchten Sie Ihre Freundschaft mit "%s" abbrechen?
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook Icon]
 
 [Mind]
 Pinnwand
 [Cancel friendship]
-
+Freundschaft beenden
 [Cancel friendship request]
-
+Freundschaftsanfrage abbrechen
 [Request friendship]
 Freundschaftsanfrage
 [Approve friendship]
-
+Freundschaft genehmigen
 [Visit Profile]
 Profil ansehen
 [Mind...]
@@ -190,6 +190,6 @@ Spezielle Funktionen...
 [Services]
 Dienste
 [Check Friends Requests]
-
+Freundschaftsanfragen überprüfen
 [Check Newsfeeds]
-
+Newsfeeds überprüfen

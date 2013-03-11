@@ -1,4 +1,5 @@
-﻿[Listening to information]
+﻿[Handles listening information to/for contacts.]
+[Listening to information]
 [XStatus]
 [Track number]
 [Song genre]

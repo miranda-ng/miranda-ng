@@ -1,4 +1,5 @@
-﻿[ms]
+﻿[Shows a small tooltip above system tray area when a contact status is changed.]
+[ms]
 [Tooltip Notify: Online]
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]

@@ -1,4 +1,5 @@
-﻿[ICQ Web pager]
+﻿[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+[ICQ Web pager]
 [ requested authorization]
 [Plugin Test]
 [Number of new message: ]

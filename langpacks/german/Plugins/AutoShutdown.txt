@@ -9,7 +9,7 @@
 Dieses Plugin ermöglicht es den Computer, bei Eintreten festgelegter Ereignisse, zu Beenden.
 ;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
-
+Herunterfahren
 [&Show confirmation dialog before shutdown]
 &Bestätigungsfenster vor dem Beenden anzeigen
 [&Countdown starts at:]
@@ -25,7 +25,7 @@ Ereignisse beim Herunterfahren
 [Critical Shutdown Events]
 Kritische Ereignisse
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-
+Automatisch bei einem der folgenden Ereignisse herunterfahren und ausschalten:
 [&Thunderstorm warning is issued  (Weather)]
 &Gewitterwarnung ist aktiv (Wetterplugin)
 [&Harddrive overheats (HDD Info)]
@@ -43,13 +43,13 @@ Durchführen i&n:
 [Shutdown when a &message is received containing the following text:]
 Beenden, wenn eine &Nachricht eingeht, die den folgenden Text enthält:
 [Shutdown when Miranda NG becomes &idle]
-Beenden, wenn Benutzer untätig w&ird
+Beenden, wenn Miranda NG untätig w&ird
 [Configure]
 Einstellungen
 [Shutdown when &prozessor usage drops below:]
-
+Herunterfahren bei &Prozessorauslastung unter:
 [(current: 0%)]
-
+(aktuell: 0%)
 [Shutdown when all contacts are &offline]
 Beenden, wenn alle Kontakte &offline sind
 [Shutdown when all &file transfers are finished]

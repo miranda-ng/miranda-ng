@@ -1,4 +1,5 @@
-﻿[Ctrl+A]
+﻿[Open contact-specific windows by hotkey.]
+[Ctrl+A]
 [Ctrl+V]
 [Ctrl+F]
 [Ctrl+U]

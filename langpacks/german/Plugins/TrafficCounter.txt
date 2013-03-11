@@ -1,10 +1,12 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;============================================================
 ;  File: TrafficCounter.dll
-;  Plugin: TrafficCounter
+;  Plugin: Traffic counter
 ;  Version: 0.1.1.8
-;  Authors: 
+;  Authors: Ghost, Mironych
 ;============================================================
+[Adding traffic and time counters.]
+
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 Ausgewä. Summen
@@ -46,50 +48,7 @@ Zähler Formatierung:
 Tooltip Formatierung:
 [Display traffic for current]
 Zeige Traffic für aktuellen
-;file \plugins\TrafficCounter\src\statistics.cpp
-[Bytes]
-
-[KB]
-
-[MB]
-
-[Adaptive]
-
-[Hourly]
-Stündlich
-[Daily]
-Täglich
-[Weekly]
-Wöchentlich
-[Monthly]
-Monatlich
-[Yearly]
-Jährlich
-[Period]
-Periode
-[Incoming]
-Eingehend
-[Outgoing]
-Ausgehend
-[Sum]
-Summe
-[Online]
-Online
-[Now traffic statistics for selected accounts will be cleared.\nContinue?]
-Der aktuelle Traffic für den ausgewählten Account wird gelöscht.\nWeitermachen?
-[Traffic counter]
-Traffic Counter
-[Couldn't read statistics file]
-Konnte die Statistikdatei nicht lesen
-[Traffic Counter]
-
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
-[Font]
-Schriftart
-[Hide traffic window]
-verstecke Trafficfenster
-[Clear the current (Now:) value]
-Lösche aktuellen Wert
+;file \plugins\TrafficCounter\src\options.cpp
 [Display/]
 
 [Icon]
@@ -132,10 +91,54 @@ Jahr
 Dienste
 [Options]
 Einstellungen
+[Traffic counter]
+Traffic Counter
 [Statistics]
 Statistiken
 [PopUps]
 Popups
+;file \plugins\TrafficCounter\src\statistics.cpp
+[Bytes]
+
+[KB]
+
+[MB]
+
+[Adaptive]
+
+[Hourly]
+Stündlich
+[Daily]
+Täglich
+[Weekly]
+Wöchentlich
+[Monthly]
+Monatlich
+[Yearly]
+Jährlich
+[Period]
+Periode
+[Incoming]
+Eingehend
+[Outgoing]
+Ausgehend
+[Sum]
+Summe
+[Online]
+Online
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Der aktuelle Traffic für den ausgewählten Account wird gelöscht.\nWeitermachen?
+[Couldn't read statistics file]
+Konnte die Statistikdatei nicht lesen
+[Traffic Counter]
+
+;file \plugins\TrafficCounter\src\TrafficCounter.cpp
+[Font]
+Schriftart
+[Hide traffic window]
+verstecke Trafficfenster
+[Clear the current (Now:) value]
+Lösche aktuellen Wert
 [Toggle traffic counter]
 Traffic Counter zeigen
 [Traffic counter notification]

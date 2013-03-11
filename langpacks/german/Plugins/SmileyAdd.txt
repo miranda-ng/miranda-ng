@@ -3,8 +3,10 @@
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
 ;  Version: 0.2.3.17
-;  Authors: 
+;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
+[Smiley support for Miranda NG.]
+Smiley-Unterstützung für Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 Smileykategorien
@@ -25,7 +27,7 @@ Nur von Leerzeichen umgebene Smileys ersetzen
 [Scale smiley to textheight]
 Smileys an Texthöhe anpassen
 [Disable custom smileys]
-'MSN Custom Smileys' deaktivieren
+'Custom Smileys' deaktivieren
 [High Quality smiley scaling]
 Hochwertige Skalierung von Smileys
 [Animate]
@@ -69,7 +71,7 @@ Smileykategorie zuweisen
 Nur eine Instanz von SmileyAdd kann ausgeführt werden.\nEntfernung des Duplikats im 'Plugins'-Verzeichnis erforderlich.
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
-
+Smileys
 [Customize]
 Customize
 [Off]

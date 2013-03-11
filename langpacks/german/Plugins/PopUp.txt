@@ -1,10 +1,12 @@
 ﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;============================================================
 ;  File: PopUp.dll
-;  Plugin: PopUp
+;  Plugin: PopUp plus
 ;  Version: 2.1.1.6
-;  Authors: 
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
+[Provides popup notification services for different plugins.]
+Stellt Popup-Benachrichtigungen für verschiedene andere Plugins bereit.
 ;file \plugins\Popup\res\resource.rc
 [Content && Style]
 Inhalt && Stil
@@ -67,13 +69,13 @@ Effekt:
 [Time (in):]
 Einblendzeit:
 [ms]
-
+ms
 [Time (out):]
 Ausblenzeit:
 [Limit window amount to:]
 Begrenze Popupanzahl auf:
 [Skins]
-
+Skins
 [* - built-in skins]
 * = Eingebaut
 [Skin options]
@@ -85,7 +87,7 @@ Weitere Skins herunterladen
 [Popup History]
 Popupverlauf
 [Desktop]
-
+Desktop
 [Popup Area]
 Popupbereich
 [pixel(s)]
@@ -234,6 +236,9 @@ Dies ist eine Benachrichtigung
 Dies ist eine Warnung
 [This is an error message]
 Dies ist eine Fehlermeldung
+;file \plugins\Popup\src\effects.cpp
+[Square fading]
+Quadratisch einblenden
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 
@@ -307,6 +312,8 @@ Kein Effekt
 [Fade in/out]
 Ein-/Ausblenden
 ;file \plugins\Popup\src\opt_class.cpp
+[CLASS Plugins]
+Plugin-Systeme
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 Popup-Fehler Benachrichtigung
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -344,6 +351,10 @@ obere rechte Ecke
 Horizontal
 [vertical]
 Vertikal
+[Global Status]
+Globaler Status
+[Protocol Status]
+Protokoll Status
 [You cannot specify a value lower than %d and higher than %d.]
 Werte kleiner als %d und größer als %d sind nicht zulässig.
 ['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
@@ -364,7 +375,7 @@ Schatten werfen (WinXP+)
 [Drop shadow effect (Windows XP+)/non rectangular]
 
 [Enable Aero Glass (Vista+)]
-
+Aero Glass aktivieren (Vista+)
 [Use Windows colours]
 Windowsfarben verwenden
 [Use advanced text render]
@@ -391,9 +402,9 @@ Benachrichtigung
 [Popup Mode: Auto]
 Popup-Modus: Auto
 [Popup Mode: Favourite]
-
+Popup-Modus: Favorit
 [Popup Mode: Ignore fullscreen]
-
+Popup-Modus: Vollbildschirm ignorieren
 [Popup Mode: Block contact]
 Popup-Modus: Blockiere Kontakt
 [Auto]

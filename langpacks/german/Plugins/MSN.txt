@@ -9,7 +9,7 @@
 [MSN]
 
 [Live ID:]
-
+Live ID:
 [Password:]
 Passwort:
 [Nickname:]
@@ -33,7 +33,7 @@ Verbindungseinstellungen
 [Direct:]
 Direkt:
 [Gateway:]
-
+Gateway:
 [Reset]
 Standard
 [Notify me when a message delivery has failed]
@@ -57,7 +57,7 @@ Jemand führt Sie in seiner/ihrer Serverliste
 [Refresh]
 Aktualisieren
 [Hotmail]
-
+Hotmail
 [Disable Popup notifications]
 Popup-Benachrichtigungen deaktivieren
 [Disable Tray notifications]
@@ -164,7 +164,7 @@ Es befindet sich nur noch eine Person im Multi-Chat, wollen Sie wieder zum norma
 
 ;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
-
+Kontakt %s wurde vom Server entfernt.\nWollen Sie den Kontakt lokal behalten, um den Verlauf zu erhalten?
 [%s protocol]
 %s Protokoll
 ;file \protocols\MSN\src\msn_mail.cpp

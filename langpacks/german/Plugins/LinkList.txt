@@ -149,7 +149,7 @@ Liste wird verarbeitet...
 [No messages found!\nPlease change current filter options.]
 Keine Nachrichten gefunden!\nBitte Filterregeln ändern.
 [RTF file]
-
+RTF-Datei
 [All files]
 Alle Dateien
 [Save RTF File]

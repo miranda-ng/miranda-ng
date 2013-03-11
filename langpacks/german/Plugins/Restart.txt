@@ -1,5 +1,12 @@
 ﻿#muuid {61bedf3a-0cc2-41a3-b980-bb9393368935}
-;langpack template for Restart
+;============================================================
+;  File: Restart.dll
+;  Plugin: Restart
+;  Version: 0.0.6.0
+;  Authors: eugene.nv
+;============================================================
+[Adds Restart menu item.]
+
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
 Neustart

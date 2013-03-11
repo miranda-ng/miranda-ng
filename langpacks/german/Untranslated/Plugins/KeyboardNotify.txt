@@ -1,4 +1,5 @@
-﻿[Num]
+﻿[Flashes your keyboard LEDs when a message has arrived.]
+[Num]
 [Caps]
 [Scroll]
 [Consider event opened after]

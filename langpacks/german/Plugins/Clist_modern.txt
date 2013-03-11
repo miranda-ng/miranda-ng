@@ -25,7 +25,7 @@ Summe der Kontakte ausblenden, wenn niemand online ist
 [1st:]
 1.:
 [2nd:]
- 2.:
+2.:
 [3rd:]
 3.:
 [Always on top]
@@ -187,9 +187,9 @@ Protokolle pro Zeile
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Änderung der Statusleistenhöhe:\nHauptmenü->Kontaktl. Elem.-> Statusl.->Titell. aktivieren, auf Titelleiste drücken und Höhe ändern.
 [Hold [Shift] to inverse [Right Click] behaviour]
-[Shift] gedrückt halten, um [Rechtsklick]-Verhalten umzukehren
+Shift gedrückt halten, um Rechtsklick-Verhalten umzukehren
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
-[Strg]+[Linksklick] filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
+Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
 [Set options per account]
 Setze Einstellungen je Protokoll
 [Enable custom account settings]
@@ -391,7 +391,7 @@ Einstellungen für Metakontakte
 [Additional stuff]
 Zusatzliche Einstellungen
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
-
+Für weitere Einstellungen benötigen Sie das MetaContacts-Plugin:\n\nhttp://miranda-ng.org
 [Allow internal requesting of away message text]
 Interne Abfrage der Texte der Abwesenheitsnachrichten
 [Subcontacts indent:]
@@ -655,10 +655,10 @@ G&ruppe umbenennen
 [&Delete Group]
 Gruppe löschen
 ;file \plugins\Clist_modern\src\modern_clc.cpp
-[Contact List/Avatar Overlay]
-
-[Contact List/Status Overlay]
-
+[Avatar Overlay]
+Avatar-Overlay
+[Status Overlay]
+Status-Overlay
 [Contact List smileys]
 Smileys in Kontaktliste
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
@@ -763,7 +763,7 @@ Liste
 [Window]
 Fenster
 [Skins]
-
+Skins
 [List Background]
 Hintergrund Liste
 [Not focused]
@@ -1005,9 +1005,9 @@ Standardskin
 
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
-
+Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
 [Toolbar upgrade]
-
+Toolbar aktuallisieren
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nicht gruppierte Kontakte

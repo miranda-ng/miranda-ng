@@ -1,5 +1,12 @@
 ﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
-;langpack template for NotesReminders
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Sticky Notes Options]
 
@@ -12,7 +19,7 @@ Höhe (Pixel)
 [Notes Appearance]
 Notizen Aussehen
 [Show Scrollbars]
-Zeige Bildlaufleisten
+Bildlaufleisten anzeigen
 [Show Buttons]
 Buttons anzeigen
 [Title Date]
@@ -28,13 +35,13 @@ Füge Kontaktlisteneintrag hinzu
 [(Requires Miranda restart)]
 (benötigt Miranda Neustart)
 [Reminder options]
-
+Erinnerungs-Einstellungen
 [Add Reminder closes dialog]
-
+Hinzufügen einer Erinnerung schließt Dialog
 [Use MCI to play alert sounds]
-
+Verwende MCI um Sounds zu spielen
 [Note Transparency (Minimum Win 2k/XP)]
-
+Notiz-Transparenz (Minimum Windows 2000/XP)
 [Send Reminders through E-mail / SMS :]
 Erinnerungen durch E-Mail / SMS senden:
 [Open links with this program instead:]
@@ -42,7 +49,7 @@ Links mit diesem Programm öffnen:
 [Reset to defaults]
 Zurücksetzen auf Standards
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-
+(MCI ermöglicht es, mehrere Sounds gleichzeitig abzuspielen, evtl unerwünscht wenn ein eigenes Sound-Plugin installiert ist)
 [Add Reminder]
 Erinnerung hinzufügen
 [Trigger On Time && Date:]

@@ -266,11 +266,11 @@ Portbereich:
 [Example: 1050-1070, 2000-2010, 2500]
 Beispiel: 1050-1070, 2000-2010, 2500
 [Validate SSL certificates]
-Nur offiziell gültige SSL-Zertifikate zulassen
+SSL-Zertifikate überprüfen
 [Incoming Connections]
 Eingehende Verbindungen
 [Enable UPnP port mapping]
-Automatische Portfreigabe am Router (falls UPnP unterstützt wird)
+UPnP-Portweiterleitungen aktivieren
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Sie müssen sich neu verbinden, damit diese Änderungen wirksam werden.
 [Please complete the following form to create a new user profile]
@@ -298,7 +298,7 @@ E-Mail:
 [Homepage:]
 Homepage:
 [Unique ID:]
-
+Unique ID:
 [Copyright:]
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
@@ -2149,18 +2149,6 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an de
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht automatisch an den neuen Ort %s verschieben\nvermutlich wegen unzureichenden Berechtigungen. Bitte verschieben Sie das Profil manuell.
 [Profile cannot be placed into Miranda root folder.\nPlease move Miranda profile to some other location.]
 Profil kann nicht im Miranda-Hauptverzeichnis abgelegt werden.\nBitte verschieben Sie Ihr Miranda-Profil an einen anderen Ort.
-[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
-Das Profil '%s' existiert ebreits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
-[The profile already exists]
-Dieses Profil existiert bereits
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
-Profil '%s" kann nicht in den Papierkorb verschoben werden, bitte wählen Sie ein anderes Profil aus.
-[Problem moving profile]
-Fehler beim Verschieben des Profils
-[Unable to create the profile '%s', the error was %x]
-Beim Erstellen des Profils '%s' ist Fehler %x aufgetreten.
-[Problem creating profile]
-Fehler beim Erstellen des Profils
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_3x.dll oder ein vergleichbares Plugin installiert sein.
 [No profile support installed!]
@@ -2189,6 +2177,18 @@ Diese Veränderung ist nicht bekannt, sicher zu sein.
 [Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültige Einstellungs-Typ. Die ersten Zeichen für jeden String müssen b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\modules\database\profilemanager.cpp
+[The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
+Das Profil '%s' existiert ebreits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
+[The profile already exists]
+Dieses Profil existiert bereits
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Profil '%s" kann nicht in den Papierkorb verschoben werden, bitte wählen Sie ein anderes Profil aus.
+[Problem moving profile]
+Fehler beim Verschieben des Profils
+[Unable to create the profile '%s', the error was %x]
+Beim Erstellen des Profils '%s' ist Fehler %x aufgetreten.
+[Problem creating profile]
+Fehler beim Erstellen des Profils
 [&Create]
 Erstellen
 [<In Use>]

@@ -1,4 +1,5 @@
-﻿[PGP]
+﻿[SecureIM plugin for Miranda NG.]
+[PGP]
 [GPG]
 [Online:]
 [Offline:]

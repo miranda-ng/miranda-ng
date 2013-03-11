@@ -1,5 +1,12 @@
 ﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
-;langpack template for Nudge
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.0.2.0
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Plugin to shake the clist and chat window.]
+
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 Protokolleinstellungen

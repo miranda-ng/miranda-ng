@@ -15,10 +15,12 @@ Dieser Text wird gesendet nachdem Sie "/asl" Nachrichten nutzen:
 Zuletzt genutzte Frage (Frage-Modus):
 [I want Omegle to reuse my questions if they are good enough (Question mode)]
 Omegle darf meine Fragen weiterverwenden, falls diese gut genug sind (Frage-Modus)
-[Don't clear chat before connecting to new stranger]
-Den Chat nicht löschen bevor sie zu einem neuen Fremden verbinden
+[Automatically connect to stranger when protocol is turned online]
+Nachdem das Protokoll online ist, automatisch mit einem Fremden verbinden
 [Automatically connect to another stranger when current disconnects]
 Automatisch zu einem neuen Fremden verbinden falls aktuelle Verbindung verloren geht
+[Don't clear chat before connecting to new stranger]
+Den Chat nicht löschen bevor sie zu einem neuen Fremden verbinden
 [Load count of users on actual server after connection]
 Aktuelle Benutzerzahl des Severs nach dem Verbinden laden
 [Enable logging for debugging purposes]
@@ -26,7 +28,7 @@ Debug-Loggen aktivieren
 [Meet strangers with common interests]
 Treffe neue Fremde mit gemeinsamen Interessen
 [Your interests (separated by commas):]
-Ihre Interessen (durch Komma trennen)
+Ihre Interessen (durch Komma trennen):
 ;file \protocols\Omegle\src\chat.cpp
 [Server]
 Server
@@ -54,9 +56,9 @@ Sie
 [Connection error.]
 Verbindungsfehler.
 [Connected to server %s. There are %s users online now.]
-Verbinde zum Server %s. Es sind insgesamt %s Nutzer online.
+Verbinde zum Server %s. Es sind jetzt %s Nutzer online.
 [Connected to server %s.]
-
+Verbinde zum Server %s.
 [Stranger 1]
 Fremder 1
 [Stranger 2]
@@ -66,7 +68,7 @@ Unbekannter
 [You and the Stranger both like: ]
 Sie und der Fremde mögen beide:
 [%s disconnected.]
-
+%d wurde getrennt
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 
 [Error: ]

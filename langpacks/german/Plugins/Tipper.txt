@@ -3,8 +3,10 @@
 ;  File: Tipper.dll
 ;  Plugin: Tipper
 ;  Version: 2.1.0.4
-;  Authors: 
+;  Authors: Scott Ellis, yaho
 ;============================================================
+[Tool Tip notification windows.]
+
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Einstellungen
@@ -241,7 +243,7 @@ Maximale Avatargröße:
 [None]
 Keine
 [Animation]
-
+Animation
 [Fade]
 Einblenden
 [Appearance]

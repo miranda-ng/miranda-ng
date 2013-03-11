@@ -1,7 +1,7 @@
 ﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
-;  Plugin: Plugin Updater
+;  Plugin: Plugin updater
 ;  Version: 0.1.0.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
@@ -15,7 +15,7 @@ PluginUpdater hat aktuallisierte Versionen einiger Miranda-\nKomponenten gefunde
 [Update]
 Aktualisieren
 [Details >>]
-
+Details >>
 [Cancel]
 Abbrechen
 [Select &all]
@@ -106,7 +106,7 @@ Plugin Updater
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 Download vollständig, Update beginnen? Alle ihre Daten werden gespeichert und Miranda NG wird geschlossen.
 [You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
-
+Sie haben sich dazu entschieden, nicht alle Plugins sofort zu installieren.\nSie können diese manuell aus folgendem Verzeichnis installieren:\n\n%s
 [Component Name]
 Komponentenname
 [State]

@@ -1,5 +1,12 @@
 ﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
-;langpack template for ModernOpt
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Support for new options design.]
+Unterstützung für den neuen Einstellungsdialog.
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 Besuchen Sie die offizielle Miranda NG Webseite

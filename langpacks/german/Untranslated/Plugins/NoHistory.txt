@@ -1,1 +1,2 @@
-﻿[No History]
+﻿[Prevent miranda from storing any history.]
+[No History]

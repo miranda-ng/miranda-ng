@@ -1,10 +1,12 @@
 ﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: TooltipNotify.dll
-;  Plugin: TooltipNotify
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Tooltip notify
+;  Version: 0.6.0.47
+;  Authors: perf
 ;============================================================
+[Shows a small tooltip above system tray area when a contact status is changed.]
+
 ;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Protokoll Auswahl

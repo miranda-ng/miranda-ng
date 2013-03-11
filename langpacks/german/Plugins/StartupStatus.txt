@@ -163,9 +163,9 @@ Dauerhaft
 [Show additional information in popups]
 Erweiterte Informationen in Popups anzeigen
 [Use Miranda's message setting]
-Statusnachricht von Miranda beziehen
+Nachricht von Miranda verwenden
 [Use this message:]
-Statusnachricht:
+Diese nachricht verwenden:
 [Use %time% for the current time, %date% for the current date]
 %time%, %date% für die aktuelle Uhrzeit oder Datum
 [Variables...]

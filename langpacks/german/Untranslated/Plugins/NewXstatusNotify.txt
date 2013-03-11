@@ -1,4 +1,5 @@
-﻿[IndSndList]
+﻿[Notifies you when a contact changes his/her (X)status or status message.]
+[IndSndList]
 [Wave Files]
 [connecting]
 [aborting]

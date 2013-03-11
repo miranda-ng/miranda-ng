@@ -1,6 +1,4 @@
-﻿[Connected to server %s.]
-[%s disconnected.]
-[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
+﻿[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 [Error: ]
 [We are still waiting...]
 [Connecting canceled.]

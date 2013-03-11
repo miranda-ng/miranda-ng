@@ -1,4 +1,2 @@
-﻿[Details >>]
-[Hotkey]
-[You have chosen not to install the plugin updates immediately.\nYou can install it manually from this location:\n\n%s]
+﻿[Hotkey]
 [An error occured while downloading the update.]

@@ -1,12 +1,12 @@
 ﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
-;  Plugin: MirOTR
+;  Plugin: Miranda OTR
 ;  Version: 0.11.0.4
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
-[OTR (Off-the-Record) plugin for Miranda NG]
-OTR-(Off-the-Record-)Plugin für Miranda NG
+[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR generiert privaten Schlüssel
@@ -58,18 +58,6 @@ Setze geprüft
 Setze ungeprüft
 [Forget]
 Verwerfen
-[MirOTR]
-
-[OTR status]
-OTR-Status
-[&Start OTR session]
-&Starte OTR-Sitzung
-[&Refresh OTR session]
-E&rneuere OTR-Sitzung
-[Sto&p OTR session]
-Sto&ppe OTR-Sitzung
-[&Verify Fingerprint]
-&Verifiziere Fingerabdruck
 [Socialist Millionaires Protocol]
 Socialist Millionaire Protocol
 [Socialist Millionaires Protocol\r\nVerification progress]
@@ -84,6 +72,18 @@ Socialist Millionaire Protocol\r\nVerifizierung
 &Nein
 [&Yes]
 Ja
+[MirOTR]
+
+[OTR status]
+OTR-Status
+[&Start OTR session]
+&Starte OTR-Sitzung
+[&Refresh OTR session]
+E&rneuere OTR-Sitzung
+[Sto&p OTR session]
+Sto&ppe OTR-Sitzung
+[&Verify Fingerprint]
+&Verifiziere Fingerabdruck
 ;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 

@@ -1,6 +1,5 @@
 ﻿[<< &Import]
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
-[Unique ID:]
 [\nStyles and effects are disabled for this font.]
 [Key Bindings]
 [Shortcut:]

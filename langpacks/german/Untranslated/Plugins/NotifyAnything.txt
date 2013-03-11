@@ -1,4 +1,5 @@
-﻿[Property Page]
+﻿[Displays popups for custom events, triggered by UDP packages.]
+[Property Page]
 [Only listen to localhost]
 [Use internal speaker]
 [Debug]

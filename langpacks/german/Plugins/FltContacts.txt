@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating contacts
-;  Version: 0.6.0.2
+;  Version: 0.7.0.0
 ;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
 ;============================================================
 [Floating Contacts plugin for Miranda.]
-
+Floating Contacts plugin für Miranda.
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Kontakte ausblenden
@@ -47,35 +47,15 @@ Kontaktliste mit Einfachklick öffnen
 [Dim idle contacts]
 Untätige Kontakte abblenden
 [Idle contacts]
-
-[Fonts]
-Schriftarten
-[same]
-gleich in
-[Typeface]
-Schriftart
-[Size]
-Größe
-[Style]
-Stil
-[Colour]
-Farbe
-[as:]
-wie:
-[Bold]
-Fett
-[Italic]
-Kursiv
-[Underline]
-Unterstrichen
+Untätige Kontakte
 [Border]
 Rand
 [Draw border]
 Umrandung
-[Left-top edges color:]
-Schatten oben links:
-[Right-bottom eges color:]
-Schatten unten rechts:
+[Left-top edge's color:]
+
+[Right-bottom edge's color:]
+
 [Background]
 Hintergrund
 [Background colour:]
@@ -95,15 +75,6 @@ Proportional strecken
 [Opacity:]
 Deckkraft:
 ;file \plugins\FloatingContacts\src\main.cpp
-[Remove thumb]
-Entferne Floater
-[Show all thumbs]
-Zeige alle Floater
-[Hide all thumbs]
-Verstecke alle Floater
-[Show/Hide all thumbs]
-Zeige/Verstecke alle Floater
-;file \plugins\FloatingContacts\src\options.cpp
 [Standard contacts]
 Standardkontakte
 [Online contacts to whom you have a different visibility]
@@ -114,6 +85,17 @@ Offline-Kontakte
 Offline-Kontakte mit anderer Sichtbarkeit
 [Contacts which are 'not on list']
 Temporäre Kontakte
+[Floating contacts]
+'Schwebende' Kontakte
+[Show all thumbs]
+Zeige alle Floater
+[Hide all thumbs]
+Verstecke alle Floater
+[Remove thumb]
+Entferne Floater
+[Show/Hide all thumbs]
+Zeige/Verstecke alle Floater
+;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Schwebende Kontakte
 [Contact List]
@@ -122,9 +104,3 @@ Kontaktliste
 Funktionen
 [Appearance]
 Erscheinungsbild
-[Sample]
-Beispiel
-[<none>]
-<keine>
-[<Contact List Text>]
-<Kontakt Listen Text>

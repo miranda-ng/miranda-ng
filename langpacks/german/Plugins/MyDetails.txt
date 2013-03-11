@@ -1,5 +1,12 @@
 ﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
-;langpack template for MyDetails
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.11
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Shows and allows you to edit your details for all protocols.]
+
 ;file \plugins\MyDetails\res\resource.rc
 [Set My Nickname]
 Mein Nicknamen setzen

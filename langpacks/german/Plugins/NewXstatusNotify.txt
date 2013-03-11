@@ -1,10 +1,12 @@
 ﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
-;  Plugin: NewXstatusNotify
+;  Plugin: xStatus Notify
 ;  Version: 1.4.0.9
-;  Authors: 
+;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
+[Notifies you when a contact changes his/her (X)status or status message.]
+
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 Melden, wenn ein Kontakt den Status ändert in:

@@ -81,13 +81,13 @@ Fürchte die Affen!!!
 [Check every (s):]
 Prüfe alle (s):
 [SSL]
-
+SSL
 [Don't check if more than (users):]
 Nicht prüfen bei mehr als (Ben.):
 [User information]
 Benutzerinformation
 [Ping]
-
+Ping
 [Version]
 Version
 [Time]
@@ -139,7 +139,7 @@ Quit-Nachricht:
 [Server code page:]
 Server-Codepage:
 [Enable UTF8 autodetection]
-Automatische UTF-8-Erkennung
+Automatische UTF8-Erkennung
 [Add server]
 Server hinzufügen
 [On]
@@ -211,7 +211,7 @@ Moduseinstellungen für diesen Channel festlegen; normalerweise wird Op-Status o
 [Strip colors]
 Farben entfernen
 [Normal]
-
+Normal
 [Send-ahead]
 Voraussenden
 [Attempt reverse DCC (good if firewalled)]
@@ -269,9 +269,9 @@ Nachrichten
 [Notices]
 Hinweise
 [CTCP]
-
+CTCP
 [DCC]
-
+DCC
 [Ignore mask ( nick!user@host )]
 Ignoriermaske ( nick!user@host )
 [Network (*)]
@@ -281,7 +281,7 @@ Zu ignorierende Ereignisse
 [(*) blank to set this mask for all networks]
 (*) frei lassen um diese Maske für alle Netzwerke zu setzen
 [Server:]
-
+Server:
 [Password:]
 Passwort:
 [Alternate nick]

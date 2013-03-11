@@ -1,3 +1,2 @@
-﻿[Floating Contacts plugin for Miranda.]
-[*requires Tipper plugin]
-[Idle contacts]
+﻿[Left-top edge's color:]
+[Right-bottom edge's color:]

@@ -1,7 +1,7 @@
 ﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
 ;============================================================
-;  File: sms.dll
-;  Plugin: SMS plugin
+;  File: SMS.dll
+;  Plugin: SMS
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
@@ -59,13 +59,13 @@ Ende
 [Put signature at the:]
 Signatur setzen am:
 [Use Signature]
-
+Signatur verwenden
 [Show server notifications]
-
+Server-Benachrichtigungen anzeigen
 [Auto popup on new message]
-
+Fenster bei neuer Nachricht automatisch öffnen
 [Save window position per contact]
-
+Fenster-Position per Kontat speichern
 [SMS Message Sent]
 
 [&OK]

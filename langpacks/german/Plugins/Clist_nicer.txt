@@ -18,56 +18,6 @@ In Zwischenablage kopieren
 
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
 
-[Floating contacts appearance]
-Aussehen 'schwebender' Kontakte
-[Simple layout]
-Einfaches Aussehen
-[Show avatars]
-Avatare anzeigen
-[Show second text line]
-2. Textzeile anzeigen
-[Show extra icons]
-Extraicons anzeigen
-[Behaviour]
-Verhalten
-[Synchronzie floater visibility with contact list]
-Sichtbarkeit mit Kontaktliste synchronisieren
-[Only show contact floaters when contact list is hidden or minimized]
-Nur zeigen, wenn Kontaktliste versteckt oder minimiert ist
-[Padding]
-Abstand
-[Enable floating contacts (required restart)]
-Schwebende Kontakte aktivieren (benötigt Neustart)
-[Opacity]
-Deckkraft
-[Width]
-Breite
-[Snap to edges (hold CTRL for snap between floaters)]
-An Rand einrasten (Strg gedrückt halten, um 2 Floater zu verbinden)
-[Inactive]
-Inaktiv
-[Active]
-Aktiv
-[Border]
-Rand
-[Rounded corners]
-Ecken abrunden
-[Colour]
-Farbe
-[Radius]
-
-[Fill with contact list background color]
-Mit Hintergrundfarbe der Kontaktliste auffüllen
-[Tooltips]
-Tooltips
-[Show tooltips]
-Tooltips zeigen
-[Hover time]
-Verzögerung
-[Use default]
-Standard verw.
-[ms]
-
 [About CList Nicer+]
 Über CList Nicer+
 [OK]
@@ -120,6 +70,8 @@ Systemtray-Icon
 Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
+[ms]
+
 [Event area]
 Ereignisbereich
 [Set base visiblity on the frames menu]
@@ -192,12 +144,16 @@ Als 'offline' verstecken
 Kontakte rechtsbündig
 [Avatars]
 Avatare
+[Show avatars]
+Avatare anzeigen
 [Height]
 Höhe
 [Draw a border around avatars]
 Rand um Avatare zeichnen
 [Rounded avatars]
 Avatare abrunden
+[Radius]
+
 [Always align icons and text for missing avatars]
 Icons und Text für fehlende Avatare ausrichten
 [Avatar alignment]
@@ -240,6 +196,8 @@ Menüleiste anzeigen
 Einfaches Bewegen
 [Rounded border]
 Gerundeter Rand
+[Border]
+Rand
 [Title bar text:]
 Titelleistentext:
 [Pin to desktop]
@@ -546,12 +504,6 @@ Metakontaktprotokollicons zeigen
 Zusätzliche Buttons anzeigen
 [Draw sunken Frame]
 Eingefallene Ecken benutzen
-[Use Status Floater]
-Statusfloater aktivieren
-[Auto-Hide Status Floater]
-Statusfloater automatisch ausblenden
-[Show Event Area in Floater]
-Ereignisbereich im Floater anzeigen
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Skinelemente
@@ -600,7 +552,7 @@ Rahmenform
 [Item ignored]
 Element ignorieren
 [Not yet supported]
-
+Noch nicht unterstützt
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 
@@ -714,8 +666,6 @@ Kontakte
 Gruppen und Aussehen
 [Advanced]
 Erweitert
-[Floating contacts]
-'Schwebende' Kontakte
 [Skins]
 Skins
 [Contact list]
@@ -781,6 +731,10 @@ Status auswählen
 
 [Service failure]
 
+[You need the FloatingContacts plugin, cause the embedded floating contacts were removed]
+Sie benötigen das FloatingContacts Plugin, die eingebauten schwebenden Kontakte wurden entfernt.
+[Warning]
+Warnung
 [Standard contacts]
 Standardkontakte
 [Online contacts to whom you have a different visibility]
@@ -928,6 +882,3 @@ Einstellungen...
 Über die Kont&aktliste...
 [&New SubGroup]
 &Neue Untergruppe
-;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
-[&Floating Contact]
-

@@ -83,7 +83,7 @@ Keine Änder.
 [Elevation]
 
 [ft]
-
+Fuß
 [m]
 
 [Do not append units to values]
@@ -101,7 +101,7 @@ Wetterstation
 [City name]
 Stadt-Name
 [ID]
-
+ID
 [Log Information]
 Log-Informationen
 [Use internal history]
@@ -213,7 +213,7 @@ Luftfeuchtigkeit
 [More...]
 Mehr...
 [Weather Protocol INI Setup]
-
+Wetter-Protokoll-INI-Einrichtung
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 Wetter-Protokoll-INI-Einrichtung\nInstallieren und laden Sie hier die Wetter-INI-Dateien
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
@@ -422,7 +422,7 @@ Interner Name:
 [Author:]
 Autor:
 [Version:]
-
+Version:
 [INI Version:]
 INI-Version:
 [File Name:]

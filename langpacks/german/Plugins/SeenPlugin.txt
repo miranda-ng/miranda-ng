@@ -1,7 +1,7 @@
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
-;  Plugin: Last Seen Mod
+;  Plugin: Last seen
 ;  Version: 5.0.4.7
 ;  Authors: Heiko Schillinger, YB
 ;============================================================

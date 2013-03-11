@@ -1,5 +1,12 @@
 ﻿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
-;langpack template for QuickMessages
+;============================================================
+;  File: QuickMessages.dll
+;  Plugin: Quick messages
+;  Version: 0.0.4.2
+;  Authors: MaD_CLuSTeR
+;============================================================
+[Plugin for quick insert pre-defined messages in message input area.]
+
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [Button Right-Click value]
 Schaltfläche Rechts-Klick Wert

@@ -5,5 +5,4 @@
 [no filter]
 [Search Filter]
 [no settings]
-[RTF file]
 [Save RTF File]

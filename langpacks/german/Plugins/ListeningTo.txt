@@ -1,5 +1,12 @@
 ﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
-;langpack template for ListeningTo
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Handles listening information to/for contacts.]
+
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 

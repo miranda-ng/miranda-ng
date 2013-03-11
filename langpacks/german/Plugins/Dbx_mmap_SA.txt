@@ -85,7 +85,7 @@ Webseite:
 [Email:]
 E-Mail:
 [Unique ID:]
-
+Unique ID:
 ;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 

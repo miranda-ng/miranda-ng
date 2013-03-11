@@ -1,4 +1,5 @@
-﻿[Interface]
+﻿[Ping labelled IP addresses or domain names.]
+[Interface]
 [Do not change icon when testing]
 [Use the Customize/Fonts options to change text size and colour.]
 [Attach to contact list]

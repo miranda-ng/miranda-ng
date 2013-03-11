@@ -3,8 +3,10 @@
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
 ;  Version: 3.1.99.8
-;  Authors: 
+;  Authors: The Miranda developers team and contributors
 ;============================================================
+[IM and group chat module for Miranda NG.]
+Instant-Messaging- und Gruppenchat-Modul für Miranda NG.
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Sie können den Nutzer nach Benutzernamen oder seiner ID hinzufügen. Platzhalter sind erlaubt und empfohlen.
@@ -504,7 +506,7 @@ Nur ein P&opup pro Kontakt
 [Show &entry in the main menu]
 &Eintrag im Hauptmenü anzeigen
 [...is typing]
-
+...tippt gerade
 [From PopUp plugin]
 Vom Popup-Plugin
 [From protocol]
@@ -514,9 +516,9 @@ Dauerhaft
 [Custom]
 Benutzerdef.
 [...stopped typing]
-
+...tippt nicht mehr
 [PopUps timeout]
-
+PopUp-Zeitüberschreitung
 [Templates]
 Vorlagen
 [Edit template]
@@ -633,10 +635,72 @@ Auf globale Einstellungen zurücksetzen
 Hier können Sie für diesen Kontakt die globalen Einstellungen von Nachrichtensitzungen => Nachrichtenverlauf überschreiben. Ausgefüllte Kästchen nutzen die globale Einstellung.
 [Use normal templates (uncheck to use simple templates)]
 Verwende normale Vorlagen (anstelle von einfachen)
+[Queued send jobs]
+Gespeicherte Sendenaufgaben
+[Queued jobs]
+Gespeicherte Aufgaben
+[Filter by contact:]
+Nach Kontakt gefiltert:
+[Display popups for failed jobs]
+Popups für fehlgeschlagene Aufträge anzeigen
+[Display popups for completed jobs]
+Popups für komplette Aufträge anzeigen
+[Do not show this message again]
+Diese Nachricht nicht wieder zeigen
+[Yes]
+Ja
+[No]
+Nein
+[Message sending:]
+Nachrichten senden:
+[Window:]
+Fenster:
+[Esc closes sessions (minimizes window, if disabled)]
+ESC schließt Sitzungen, anstatt sie zu minimieren
+[Always pop up and activate new windows]
+Neue Fenster immer öffnen und aktivieren
+[Create new windows in minimized state]
+Neue Fenster minimiert erzeugen
+[Check1]
+
+[Send on Shift+Enter]
+Shift+Enter sendet Nachricht
+[Send message on Enter]
+'Enter' sendet Nachricht
+[Send message on double Enter]
+2-mal Enter sendet Nachricht
+[Minimize the message window on send]
+Nachrichtenfenster beim Senden minimieren
+[Tabs:]
+Tabs:
+[Use tabbed interface]
+Chatfenster mit Tabs verwenden
+[Create new tabs without activating them]
+Neue Tabs erzeugen, ohne sie zu aktivieren
+[Pop up minimized window when a new tab is created]
+Minimierte Fenster öffnen, wenn neuer Tab erzeugt wird
+[Automatically switch tabs in minimized windows]
+Tabs in minimierten Fenstern automatisch wechseln
+[History:]
+Verlauf:
+[Notifications:]
+Benachrichtigungen:
+[Don't announce when dialog is open]
+Keine Benachrichtigung, wenn Dialog offen
+[Message events]
+Nachrichten-Ereignisse
+[File events]
+Datei-Ereignisse
+[URL events]
+URL-Ereignisse
+[Other events]
+Sonstige Ereignisse
+[Send message on Ctrl+Enter (always enabled)]
+Strg+Enter sendet Nachricht (immer aktiviert)
 [&Copy]
 Kopieren
 [&Quote]
-
+Zitieren
 [Co&py All]
 Alles ko&pieren
 [Select &All]
@@ -718,7 +782,7 @@ Später senden
 [Force &ANSI]
 &ANSI erzwingen
 [Send unsafe (ignore Timeouts)]
-Unsicher senden, Zeitüberschreitungen ignorieren
+Unsicher senden (Zeitüberschreitungen ignorieren)
 [Send Nudge]
 Nudge senden
 [Protomenu]
@@ -881,68 +945,6 @@ Aktuelle Fensterposition als Standard
 Hilfe
 [About tabSRMM...]
 Über TabSRMM...
-[Queued send jobs]
-Gespeicherte Sendenaufgaben
-[Queued jobs]
-Gespeicherte Aufgaben
-[Filter by contact:]
-Nach Kontakt gefiltert:
-[Display popups for failed jobs]
-Popups für fehlgeschlagene Aufträge anzeigen
-[Display popups for completed jobs]
-Popups für komplette Aufträge anzeigen
-[Do not show this message again]
-Diese Nachricht nicht wieder zeigen
-[Yes]
-Ja
-[No]
-Nein
-[Message sending:]
-Nachrichten senden:
-[Window:]
-Fenster:
-[Esc closes sessions (minimizes window, if disabled)]
-ESC schließt Sitzungen, anstatt sie zu minimieren
-[Always pop up and activate new windows]
-Neue Fenster immer öffnen und aktivieren
-[Create new windows in minimized state]
-Neue Fenster minimiert erzeugen
-[Check1]
-
-[Send on Shift+Enter]
-Shift+Enter sendet Nachricht
-[Send message on Enter]
-'Enter' sendet Nachricht
-[Send message on double Enter]
-2-mal Enter sendet Nachricht
-[Minimize the message window on send]
-Nachrichtenfenster beim Senden minimieren
-[Tabs:]
-Tabs:
-[Use tabbed interface]
-Chatfenster mit Tabs verwenden
-[Create new tabs without activating them]
-Neue Tabs erzeugen, ohne sie zu aktivieren
-[Pop up minimized window when a new tab is created]
-Minimierte Fenster öffnen, wenn neuer Tab erzeugt wird
-[Automatically switch tabs in minimized windows]
-Tabs in minimierten Fenstern automatisch wechseln
-[History:]
-Verlauf:
-[Notifications:]
-Benachrichtigungen:
-[Don't announce when dialog is open]
-Keine Benachrichtigung, wenn Dialog offen
-[Message events]
-Nachrichten-Ereignisse
-[File events]
-Datei-Ereignisse
-[URL events]
-URL-Ereignisse
-[Other events]
-Sonstige Ereignisse
-[Send message on Ctrl+Enter (always enabled)]
-Strg+Enter sendet Nachricht (immer aktiviert)
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Protokoll-Schaltfläche
@@ -1125,7 +1127,7 @@ Keine Statusnachricht
 [Other]
 Sonstige
 [TABSRMM: Typing]
-
+TABSRMM: Tippen
 [&Messaging settings...]
 Nachrichteneinstellungen...
 [&Send later job list...]
@@ -1336,7 +1338,7 @@ Baltisch
 [Vietnamese]
 Vietnamesisch
 [Korean (Johab)]
-Koreanisch, Johab
+Koreanisch (Johab)
 [Sunday]
 Sonntag
 [Monday]
@@ -1387,9 +1389,9 @@ Kein Skin
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
 Wollen Sie bereits gelesene Nachrichten-Vorlagen aus dem Theme laden?\nAchtung: Dies wird das gespeicherte Template-Set, das das Aussehen Ihres Meldungsfenster beeinflusst erheblich beeinträchtigen und könnte überschrieben werden.\nWählen Sie Abbrechen, um nichts zu laden.
 [Load theme]
-
+Theme laden
 [Internal message log]
-
+Interner Nachrichtenverlauf
 [IEView plugin]
 IEView-Plugin
 [History++ plugin]
@@ -1435,7 +1437,7 @@ Nachrichtenfenster
 [Load and apply]
 Skin laden
 [Skins]
-
+Skins
 [Window layout tweaks]
 Fenster-Anordnung
 [Group Chats]
@@ -1525,6 +1527,13 @@ Uhrsymbol (für die Uhr im Infopanel)
 Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
+;file \plugins\TabSRMM\src\msgs.h
+[Message windows - IM]
+Nachrichtenfenster - Instant Messaging
+[Message windows - all]
+Nachrichtenfenster - Alle
+[Message windows - groupchats]
+Nachrichtenfenster - Gruppenchats
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Container für %s auswählen
@@ -2325,10 +2334,3 @@ Minute
 Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
 [Event filter error]
 Ereignisfilter-Fehler
-;file \plugins\TabSRMM\src\include\msgs.h
-[Message windows - IM]
-Nachrichtenfenster - Instant Messaging
-[Message windows - all]
-Nachrichtenfenster - Alle
-[Message windows - groupchats]
-Nachrichtenfenster - Gruppenchats

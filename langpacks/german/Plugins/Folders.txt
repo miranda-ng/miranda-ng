@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.1.6.1
-;  Authors: Cristian Libotean
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
 Dienst, welcher es Plugins erlaubt Daten in vom Nutzer gewählten Verzeichnissen zu speichern. Unterstützt das Variables-Plugin.
@@ -79,7 +79,6 @@ Einige Änderungen wurden nicht gespeichert. Änderungen speichern?
 
 [Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.]
 
-;file \plugins\Folders\src\hooked_events.cpp
 [Folders]
 Verzeichnisse
 [Customize]
