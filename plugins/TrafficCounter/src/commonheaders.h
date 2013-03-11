@@ -52,6 +52,64 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "statistics.h"
 #include "TrafficCounter.h"
 
+#pragma pack(push)
+#pragma pack(1)
+typedef	struct
+{
+	BYTE Hour, Day, Month;
+	WORD Year;
+	DWORD Incoming, Outgoing;
+	WORD Time;
+} HOURLYSTATS;
+#pragma pack(pop)
+
+typedef struct tagTimer
+{
+	DWORD TimeAtStart; // Время в момент запуска таймера - в миллисекундах.
+	DWORD Timer; // Количество секунд со времени запуска таймера.
+} TIMER;
+
+typedef struct
+{
+	char *name; // Имя аккаунта.
+
+	TIMER Session; // Таймер текущей сессии (протокол в онлайне).
+	TIMER Total; // Таймер общий.
+
+	DWORD TotalRecvTraffic, // Общий трафик протокола (за выбранный период)
+		  TotalSentTraffic,
+		  CurrentRecvTraffic, // Текущий трафик протокола (за сессию)
+		  CurrentSentTraffic;
+	union
+	{
+		BYTE Flags;
+		struct
+		{
+			unsigned int Reserv0:1; // Активность потеряла смысл - статистика ведётся по всем аккаунтам.
+			unsigned int Visible:1; // = 1 - аккаунт будет показываться во фрейме счётчиков
+			unsigned int Enabled:1; // = 1 - аккаунт включен и не прячется
+			unsigned int State:1;   // = 1 - аккаунт сейчас онлайн
+			unsigned int Reserv1:3;
+		};
+	};
+
+	// Добавлено в версии 0.1.1.0.
+	DWORD NumberOfRecords; // Количество часов в общей статистике.
+	HOURLYSTATS *AllStatistics; // Полная статистика вместе со статистикой онлайна.
+	HANDLE hFile; // Файл с сохранённой статистикой данного протокола.
+
+	DWORD StartIndex; // Номер записи в статистике, бывший актуальным на момент запуска.
+	DWORD StartIncoming; // Значение входящего трафика на момент запуска.
+	DWORD StartOutgoing; // Значение исходящего трафика на момент запуска.
+
+	// 0.1.1.5.
+	DWORD Shift;	// Номер записи в статистике старейшего выбранного аккаунта,
+					// дата которой соответствует началу статистики данного аккаунта.
+
+	// 0.1.1.6
+	TCHAR *tszAccountName; // Человеческое имя аккаунта для использования в графическом интерфейсе.
+} PROTOLIST;
+
 //---------------------------------------------------------------------------------------------
 // Различные флаги
 //---------------------------------------------------------------------------------------------
