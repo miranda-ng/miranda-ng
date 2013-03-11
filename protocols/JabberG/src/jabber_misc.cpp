@@ -254,7 +254,7 @@ void CJabberProto::InitCustomFolders(void)
 	m_bFoldersInitDone = true;
 	TCHAR AvatarsFolder[MAX_PATH];
 	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), m_szModuleName);
-	m_hJabberAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder, m_tszUserName);
+	m_hJabberAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
 }
 
 void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbLen)

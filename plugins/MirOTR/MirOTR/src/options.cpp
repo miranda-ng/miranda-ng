@@ -40,7 +40,7 @@ int FoldersChanged(WPARAM wParam, LPARAM lParam)
 
 void LoadFilenames()
 {
-	if (hPATH_MIROTR = FoldersRegisterCustomPath(MODULENAME, "Private Data", DATA_DIRECTORY)) {
+	if (hPATH_MIROTR = FoldersRegisterCustomPath(MODULENAME, LPGEN("Private Data"), DATA_DIRECTORY)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersChanged);
 
 		// get the path - above are only defaults - there may be a different value in the db

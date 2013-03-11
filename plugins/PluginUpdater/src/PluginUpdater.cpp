@@ -85,7 +85,7 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
 #endif
-	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Plugin Updater", MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
+	hPluginUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHT _T("\\")DEFAULT_UPDATES_FOLDER);
 	if (hPluginUpdaterFolder)
 		OnFoldersChanged(0, 0);
 	else

@@ -71,7 +71,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	SkinAddNewSoundExT( "OtherEvent", m_tszUserName, LPGENT( "Other Event" ));
 
 	mir_sntprintf(descr, SIZEOF(descr), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
-	hAvatarFolder_ = FoldersRegisterCustomPathT("Avatars", m_szModuleName, descr, m_tszUserName);
+	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, descr, m_tszUserName);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses( ID_STATUS_OFFLINE, true );

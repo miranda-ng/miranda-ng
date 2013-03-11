@@ -246,8 +246,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	SetExceptionHandler();
 
-	hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, "Crash Reports", CrashLogFolder);
-	hVerInfoFolder  = FoldersRegisterCustomPathT(PluginName, "Version Information", VersionInfoFolder);
+	hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
+	hVerInfoFolder  = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
 
 	FoldersPathChanged(0, 0);
 

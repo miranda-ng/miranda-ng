@@ -42,7 +42,7 @@ static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam)
 
 static void FoldersInit(void)
 {
-	if (hFolder = FoldersRegisterCustomPathT("Database Backups", "Backup Folder", DIR SUB_DIR)) {
+	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database Backups"), LPGEN("Backup Folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}

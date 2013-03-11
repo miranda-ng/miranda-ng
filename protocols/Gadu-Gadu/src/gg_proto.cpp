@@ -67,7 +67,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 
 	TCHAR szPath[MAX_PATH];
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)VARST( _T("%miranda_avatarcache%")), m_tszUserName);
-	hAvatarsFolder = FoldersRegisterCustomPathT("Avatars", m_szModuleName, szPath, m_tszUserName);
+	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, szPath, m_tszUserName);
 
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathT("Images", m_szModuleName, szPath, m_tszUserName);

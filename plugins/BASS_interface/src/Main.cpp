@@ -548,7 +548,7 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	if (hBASSFolder = FoldersRegisterCustomPathT("Bass Interface", "Bass library", PLUGINS_PATHT _T("\\Bass"))) {
+	if (hBASSFolder = FoldersRegisterCustomPathT(LPGEN("Bass Interface"), LPGEN("Bass library"), PLUGINS_PATHT _T("\\Bass"))) {
 		FoldersGetCustomPathT(hBASSFolder, CurrBassPath, MAX_PATH, _T(""));
 		_tcscat(CurrBassPath, _T("\\bass.dll"));
 	}

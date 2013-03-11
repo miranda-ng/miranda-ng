@@ -331,7 +331,7 @@ void CSkypeProto::InitCustomFolders()
 
 	TCHAR AvatarsFolder[MAX_PATH];
 	mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\%S"), this->m_szModuleName);
-	m_hAvatarsFolder = ::FoldersRegisterCustomPathT("Avatars", m_szModuleName, AvatarsFolder, m_tszUserName);
+	m_hAvatarsFolder = ::FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, AvatarsFolder, m_tszUserName);
 }
 
 wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)

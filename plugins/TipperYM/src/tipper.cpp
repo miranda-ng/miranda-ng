@@ -260,7 +260,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	hFolderChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 
-	hSkinFolder = FoldersRegisterCustomPathT(MODULE, "Tipper skins", MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	hSkinFolder = FoldersRegisterCustomPathT(MODULE, LPGEN("Tipper skins"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
 	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, SIZEOF(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 
 	InitTipperSmileys();

@@ -57,7 +57,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 
-	hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
+	hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, LPGEN("Pack Updater"), MIRANDA_USERDATAT _T("\\")DEFAULT_UPDATES_FOLDER);
 	if (hPackUpdaterFolder)
 		FoldersGetCustomPathT(hPackUpdaterFolder, tszRoot, MAX_PATH, _T(""));
 

@@ -90,7 +90,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		if (pmraaqAvatarsQueue->hNetlibUser) {
 			TCHAR tszPath[ MAX_PATH ];
 			mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%%miranda_avatarcache%%\\%s"), m_tszUserName);
-			pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT("Avatars", m_szModuleName, tszPath, m_tszUserName);
+			pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, tszPath, m_tszUserName);
 
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);

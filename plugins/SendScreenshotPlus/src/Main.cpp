@@ -133,7 +133,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	}
 
 	// Folders plugin support
-	hFolderScreenshot = FoldersRegisterCustomPathT("SendSS", "Screenshots",
+	hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
 							_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
 
 	return 0;

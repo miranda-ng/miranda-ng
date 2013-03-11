@@ -51,7 +51,7 @@ int OnFoldersChanged(WPARAM, LPARAM)
 
 int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 {
-	hNewsAggregatorFolder = FoldersRegisterCustomPathT("Avatars", "News Aggregator", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
+	hNewsAggregatorFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("News Aggregator"), MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));
 	if (hNewsAggregatorFolder)
 		FoldersGetCustomPathT(hNewsAggregatorFolder, tszRoot, MAX_PATH, _T(""));
 	else

@@ -160,7 +160,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
     Sent_NetLog("onModuleLoaded begin");
 #endif
 
-	 g_hFolders = FoldersRegisterCustomPathT(szModuleName, "Icons", _T(MIRANDA_PATH"\\icons"));
+	 g_hFolders = FoldersRegisterCustomPathT(szModuleName, LPGEN("Icons"), _T(MIRANDA_PATH"\\icons"));
 
 	 InitIcons();
 	 GetFlags();

@@ -49,7 +49,7 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	HookProtoEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit,        this);
 
 	tstring defFolder = std::tstring( _T("%miranda_avatarcache%\\")) + m_tszUserName;
-	hAvatarFolder_ = FoldersRegisterCustomPathT("Avatars", m_szModuleName, defFolder.c_str(), m_tszUserName);
+	hAvatarFolder_ = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, defFolder.c_str(), m_tszUserName);
 
 	// Initialize hotkeys
 	char text[512];
