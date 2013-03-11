@@ -439,8 +439,10 @@ function ParseSourceFile (FileTextVar,array) {
     var string;
     //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
     onestring=string[2].replace(/'?(\#13\#10)*?\\?\r\n(\x20*?\')?/g,"");
+	//remove trailing slash from the string. This is a tree item, slesh is a crap :)
+	noslashstring=onestring.replace(/\/(?=$)/g,"");
     //remove escape slashes before ' and "
-    stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
+    stringtolangpack=noslashstring.replace(/\\(['"])/g,"$1");
     //if our string still exist, and length more than 1 symbol (nothing to translate if only one symbol)
     if (stringtolangpack.length>1) {
         //brand new _T() crap filtering engine :)
