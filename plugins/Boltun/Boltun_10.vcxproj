@@ -204,7 +204,6 @@
     <ClInclude Include="src\Engine\MyCodeCvt.h" />
     <ClInclude Include="src\Engine\PerContactData.h" />
     <ClInclude Include="src\Engine\TalkEngine.h" />
-    <ClInclude Include="src\Engine\tstring.h" />
     <ClInclude Include="src\Engine\UnrecentChooser.h" />
     <ClInclude Include="src\Engine\ValueChooser.h" />
     <ClInclude Include="src\Engine\WordsList.h" />

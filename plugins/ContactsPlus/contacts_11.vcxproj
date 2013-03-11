@@ -188,7 +188,6 @@
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\contacts.h" />
     <ClInclude Include="src\receive.h" />
     <ClInclude Include="src\resource.h" />
