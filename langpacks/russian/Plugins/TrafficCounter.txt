@@ -199,8 +199,8 @@
 Получить дату последнего сброса
 [Traffic counter]
 Счётчик трафика
-[Visible accounts/]
-Отображаемые аккаунты/
+[Visible accounts]
+Отображаемые аккаунты
 [Summary traffic for active accounts]
 Суммарный трафик активных аккаунтов
 [Summary traffic for visible accounts]
@@ -211,8 +211,8 @@
 Трафик за текущий
 [Account counters format string:]
 Формат строки счётчиков аккаунтов:
-[Active accounts/]
-Активные аккаунты/
+[Active accounts]
+Активные аккаунты
 [Clear statistics]
 Очистить
 [Hourly]
@@ -229,3 +229,21 @@
 %d Кб отправлено
 [%d kilobytes received]
 %d Кб получено
+[Counters format string:]
+Формат строки счётчиков
+[Current traffic]
+Текущий трафик
+[Total traffic]
+Общий трафик
+[Current online]
+Текущий онлайн
+[Total online]
+Общий онлайн
+[MB]
+МБ
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+Вся статистика по выбранным учётным записям будет очищена\nПродолжить?
+[Couldn't read statistics file]
+Не могу прочитать файл статистики
+[Toggle traffic counter]
+Переключить счётчик трафика
