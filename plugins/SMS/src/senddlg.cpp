@@ -83,10 +83,9 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		
 		psswdWindowData=(SEND_SMS_WINDOW_DATA*)lParam;
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		{
-			WNDPROC OldEditWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE), GWLP_WNDPROC, (LONG_PTR)MessageSubclassProc);
-			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE), GWLP_USERDATA, (LONG_PTR)OldEditWndProc);
-		}
+		
+		mir_subclassWindow(GetDlgItem(hWndDlg, IDC_MESSAGE), MessageSubclassProc);
+
 		SendMessage(hWndDlg,WM_SETICON,ICON_BIG,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_SMS));
 		SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_HISTORY,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
 		{
