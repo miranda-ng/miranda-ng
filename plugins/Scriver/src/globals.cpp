@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-struct GlobalMessageData *g_dat=NULL;
+GlobalMessageData g_dat;
 extern PSLWA pSetLayeredWindowAttributes;
 
 static int ackevent(WPARAM wParam, LPARAM lParam);
@@ -99,7 +99,7 @@ static IconItem iconList[] =
 
 void RegisterIcons(void)
 {
-	HookEvent_Ex(ME_SKIN2_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IconsChanged);
 
 	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList,    16);
 	Icon_Register(g_hInst, LPGEN("Group Chats"),      iconList+16, 20);
@@ -110,9 +110,9 @@ void RegisterIcons(void)
 
 HICON hIconList[SIZEOF(iconList)];
 
-BOOL IsStaticIcon(HICON hIcon) {
-	int i;
-	for (i = 0; i < SIZEOF(hIconList); i++)
+BOOL IsStaticIcon(HICON hIcon)
+{
+	for (int i = 0; i < SIZEOF(hIconList); i++)
 		if (hIcon == hIconList[i])
 			return TRUE;
 
@@ -158,9 +158,9 @@ void ReleaseIcons()
 		if (hIconList[i] != NULL)
 			Skin_ReleaseIcon(hIconList[i]);
 
-	Skin_ReleaseIcon(g_dat->hMsgIcon);
-	Skin_ReleaseIcon(g_dat->hMsgIconBig);
-	Skin_ReleaseIcon(g_dat->hIconChatBig);
+	Skin_ReleaseIcon(g_dat.hMsgIcon);
+	Skin_ReleaseIcon(g_dat.hMsgIconBig);
+	Skin_ReleaseIcon(g_dat.hIconChatBig);
 }
 
 HICON GetCachedIcon(const char *name)
@@ -178,30 +178,29 @@ void LoadGlobalIcons() {
 	for (i = 0; i < SIZEOF(iconList); i++)
 		hIconList[i] = Skin_GetIcon(iconList[i].szName);
 
-	g_dat->hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	g_dat->hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
-	g_dat->hIconChatBig = Skin_GetIcon("chat_window");
+	g_dat.hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+	g_dat.hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
+	g_dat.hIconChatBig = Skin_GetIcon("chat_window");
 
-	ImageList_RemoveAll(g_dat->hButtonIconList);
-	ImageList_RemoveAll(g_dat->hChatButtonIconList);
-	ImageList_RemoveAll(g_dat->hHelperIconList);
-	ImageList_RemoveAll(g_dat->hSearchEngineIconList);
-	for (i=0; i<SIZEOF(buttonIcons); i++) {
-		if (buttonIcons[i] == NULL) {
-			ImageList_AddIcon_ProtoEx(g_dat->hButtonIconList, NULL, ID_STATUS_OFFLINE);
-		} else {
-			ImageList_AddIcon(g_dat->hButtonIconList, GetCachedIcon(buttonIcons[i]));
-		}
+	ImageList_RemoveAll(g_dat.hButtonIconList);
+	ImageList_RemoveAll(g_dat.hChatButtonIconList);
+	ImageList_RemoveAll(g_dat.hHelperIconList);
+	ImageList_RemoveAll(g_dat.hSearchEngineIconList);
+	for (i=0; i < SIZEOF(buttonIcons); i++) {
+		if (buttonIcons[i] == NULL)
+			ImageList_AddIcon_ProtoEx(g_dat.hButtonIconList, NULL, ID_STATUS_OFFLINE);
+		else
+			ImageList_AddIcon(g_dat.hButtonIconList, GetCachedIcon(buttonIcons[i]));
 	}
-	for (i=0; i<SIZEOF(chatButtonIcons); i++) {
-		ImageList_AddIcon(g_dat->hChatButtonIconList, GetCachedIcon(chatButtonIcons[i]));
-	}
-	ImageList_AddIcon(g_dat->hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
-	overlayIcon = ImageList_AddIcon(g_dat->hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
-	ImageList_SetOverlayImage(g_dat->hHelperIconList, overlayIcon, 1);
+	for (i=0; i < SIZEOF(chatButtonIcons); i++)
+		ImageList_AddIcon(g_dat.hChatButtonIconList, GetCachedIcon(chatButtonIcons[i]));
+
+	ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
+	overlayIcon = ImageList_AddIcon(g_dat.hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
+	ImageList_SetOverlayImage(g_dat.hHelperIconList, overlayIcon, 1);
 	for (i=IDI_GOOGLE; i < IDI_LASTICON; i++) {
 		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
-		ImageList_AddIcon(g_dat->hSearchEngineIconList, hIcon);
+		ImageList_AddIcon(g_dat.hSearchEngineIconList, hIcon);
 		DestroyIcon(hIcon);
 	}
 }
@@ -230,7 +229,7 @@ static BOOL CALLBACK LangAddCallback(CHAR * str) {
 	count = sizeof(cpTable)/sizeof(cpTable[0]);
 	for (i=0; i<count && cpTable[i].cpId!=cp; i++);
 	if (i < count)
-        AppendMenu(g_dat->hMenuANSIEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
+        AppendMenu(g_dat.hMenuANSIEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
 
 	return TRUE;
 }
@@ -239,231 +238,231 @@ void LoadInfobarFonts()
 {
 	LOGFONT lf;
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL, FALSE);
-	g_dat->minInputAreaHeight = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat->logPixelSY / 72;
-	if (g_dat->hInfobarBrush != NULL)
-		DeleteObject(g_dat->hInfobarBrush);
+	g_dat.minInputAreaHeight = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat.logPixelSY / 72;
+	if (g_dat.hInfobarBrush != NULL)
+		DeleteObject(g_dat.hInfobarBrush);
 
-	g_dat->hInfobarBrush = CreateSolidBrush(DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR));
+	g_dat.hInfobarBrush = CreateSolidBrush(DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR));
 }
 
-void InitGlobals() {
+void InitGlobals()
+{
 	HDC hdc = GetDC(NULL);
-	g_dat = (struct GlobalMessageData *)mir_alloc(sizeof(struct GlobalMessageData));
-	ZeroMemory(g_dat, sizeof(struct GlobalMessageData));
-	g_dat->hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	g_dat->hParentWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
-	HookEvent_Ex(ME_PROTO_ACK, ackevent);
+	ZeroMemory(&g_dat, sizeof(struct GlobalMessageData));
+	g_dat.hMessageWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	g_dat.hParentWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+
+	HookEvent(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
-	g_dat->lastParent = NULL;
-	g_dat->lastChatParent = NULL;
-	g_dat->hTabIconList = NULL;
-	g_dat->tabIconListUsage = NULL;
-	g_dat->tabIconListUsageSize = 0;
-	g_dat->hButtonIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
-	g_dat->hChatButtonIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
-	g_dat->hTabIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
-	g_dat->hHelperIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
-	g_dat->hSearchEngineIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
-	g_dat->draftList = NULL;
-	g_dat->logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
-	g_dat->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
+	g_dat.lastParent = NULL;
+	g_dat.lastChatParent = NULL;
+	g_dat.hTabIconList = NULL;
+	g_dat.tabIconListUsage = NULL;
+	g_dat.tabIconListUsageSize = 0;
+	g_dat.hButtonIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	g_dat.hChatButtonIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	g_dat.hTabIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	g_dat.hHelperIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	g_dat.hSearchEngineIconList = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 0, 0);
+	g_dat.draftList = NULL;
+	g_dat.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
+	g_dat.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	LoadInfobarFonts();
 	ReleaseDC(NULL, hdc);
 }
 
-void FreeGlobals() {
-	if (g_dat) {
-		if (g_dat->hInfobarBrush != NULL) {
-			DeleteObject(g_dat->hInfobarBrush);
-		}
-		if (g_dat->draftList != NULL) tcmdlist_free(g_dat->draftList);
-		if (g_dat->hTabIconList)
-			ImageList_Destroy(g_dat->hTabIconList);
-		if (g_dat->hButtonIconList)
-			ImageList_Destroy(g_dat->hButtonIconList);
-		if (g_dat->hChatButtonIconList)
-			ImageList_Destroy(g_dat->hChatButtonIconList);
-		if (g_dat->hHelperIconList)
-			ImageList_Destroy(g_dat->hHelperIconList);
-		if (g_dat->hSearchEngineIconList)
-			ImageList_Destroy(g_dat->hSearchEngineIconList);
-		if (g_dat->hMenuANSIEncoding)
-			DestroyMenu(g_dat->hMenuANSIEncoding);
-		mir_free(g_dat->tabIconListUsage);
-		mir_free(g_dat);
-		g_dat = NULL;
-	}
+void FreeGlobals()
+{
+	if (g_dat.hInfobarBrush != NULL)
+		DeleteObject(g_dat.hInfobarBrush);
+	if (g_dat.draftList != NULL)
+		tcmdlist_free(g_dat.draftList);
+	if (g_dat.hTabIconList)
+		ImageList_Destroy(g_dat.hTabIconList);
+	if (g_dat.hButtonIconList)
+		ImageList_Destroy(g_dat.hButtonIconList);
+	if (g_dat.hChatButtonIconList)
+		ImageList_Destroy(g_dat.hChatButtonIconList);
+	if (g_dat.hHelperIconList)
+		ImageList_Destroy(g_dat.hHelperIconList);
+	if (g_dat.hSearchEngineIconList)
+		ImageList_Destroy(g_dat.hSearchEngineIconList);
+	if (g_dat.hMenuANSIEncoding)
+		DestroyMenu(g_dat.hMenuANSIEncoding);
+	mir_free(g_dat.tabIconListUsage);
+
+	ZeroMemory(&g_dat, sizeof(g_dat));
 }
 
-void ReloadGlobals() {
-	g_dat->flags = 0;
-	g_dat->flags2 = 0;
+void ReloadGlobals()
+{
+	g_dat.flags = 0;
+	g_dat.flags2 = 0;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE))
-		g_dat->flags |= SMF_AVATAR;
+		g_dat.flags |= SMF_AVATAR;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS))
-		g_dat->flags |= SMF_SHOWPROGRESS;
+		g_dat.flags |= SMF_SHOWPROGRESS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS))
-		g_dat->flags |= SMF_SHOWICONS;
+		g_dat.flags |= SMF_SHOWICONS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME))
-		g_dat->flags |= SMF_SHOWTIME;
+		g_dat.flags |= SMF_SHOWTIME;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWSECONDS, SRMSGDEFSET_SHOWSECONDS))
-		g_dat->flags |= SMF_SHOWSECONDS;
+		g_dat.flags |= SMF_SHOWSECONDS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWDATE, SRMSGDEFSET_SHOWDATE))
-		g_dat->flags |= SMF_SHOWDATE;
+		g_dat.flags |= SMF_SHOWDATE;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USELONGDATE, SRMSGDEFSET_USELONGDATE))
-		g_dat->flags |= SMF_LONGDATE;
+		g_dat.flags |= SMF_LONGDATE;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USERELATIVEDATE, SRMSGDEFSET_USERELATIVEDATE))
-		g_dat->flags |= SMF_RELATIVEDATE;
+		g_dat.flags |= SMF_RELATIVEDATE;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_GROUPMESSAGES, SRMSGDEFSET_GROUPMESSAGES))
-		g_dat->flags |= SMF_GROUPMESSAGES;
+		g_dat.flags |= SMF_GROUPMESSAGES;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_MARKFOLLOWUPS, SRMSGDEFSET_MARKFOLLOWUPS))
-		g_dat->flags |= SMF_MARKFOLLOWUPS;
+		g_dat.flags |= SMF_MARKFOLLOWUPS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, SRMSGDEFSET_MESSAGEONNEWLINE))
-		g_dat->flags |= SMF_MSGONNEWLINE;
+		g_dat.flags |= SMF_MSGONNEWLINE;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_DRAWLINES, SRMSGDEFSET_DRAWLINES))
-		g_dat->flags |= SMF_DRAWLINES;
+		g_dat.flags |= SMF_DRAWLINES;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_HIDENAMES, SRMSGDEFSET_HIDENAMES))
-		g_dat->flags |= SMF_HIDENAMES;
+		g_dat.flags |= SMF_HIDENAMES;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP))
-		g_dat->flags |= SMF_AUTOPOPUP;
+		g_dat.flags |= SMF_AUTOPOPUP;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_STAYMINIMIZED, SRMSGDEFSET_STAYMINIMIZED))
-		g_dat->flags |= SMF_STAYMINIMIZED;
+		g_dat.flags |= SMF_STAYMINIMIZED;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SAVEDRAFTS, SRMSGDEFSET_SAVEDRAFTS))
-		g_dat->flags |= SMF_SAVEDRAFTS;
+		g_dat.flags |= SMF_SAVEDRAFTS;
 
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_DELTEMP, SRMSGDEFSET_DELTEMP))
-		g_dat->flags |= SMF_DELTEMP;
+		g_dat.flags |= SMF_DELTEMP;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))
-		g_dat->flags |= SMF_SENDONENTER;
+		g_dat.flags |= SMF_SENDONENTER;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER))
-		g_dat->flags |= SMF_SENDONDBLENTER;
+		g_dat.flags |= SMF_SENDONDBLENTER;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON))
-		g_dat->flags |= SMF_STATUSICON;
+		g_dat.flags |= SMF_STATUSICON;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_INDENTTEXT, SRMSGDEFSET_INDENTTEXT))
-		g_dat->flags |= SMF_INDENTTEXT;
+		g_dat.flags |= SMF_INDENTTEXT;
 
-	g_dat->openFlags = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
-	g_dat->indentSize = DBGetContactSettingWord(NULL, SRMMMOD, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE);
-    g_dat->logLineColour = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
+	g_dat.openFlags = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_POPFLAGS, SRMSGDEFSET_POPFLAGS);
+	g_dat.indentSize = DBGetContactSettingWord(NULL, SRMMMOD, SRMSGSET_INDENTSIZE, SRMSGDEFSET_INDENTSIZE);
+    g_dat.logLineColour = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);
 
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USETABS, SRMSGDEFSET_USETABS))
-		g_dat->flags2 |= SMF2_USETABS;
+		g_dat.flags2 |= SMF2_USETABS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_TABSATBOTTOM, SRMSGDEFSET_TABSATBOTTOM))
-		g_dat->flags2 |= SMF2_TABSATBOTTOM;
+		g_dat.flags2 |= SMF2_TABSATBOTTOM;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SWITCHTOACTIVE, SRMSGDEFSET_SWITCHTOACTIVE))
-		g_dat->flags2 |= SMF2_SWITCHTOACTIVE;
+		g_dat.flags2 |= SMF2_SWITCHTOACTIVE;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_LIMITNAMES, SRMSGDEFSET_LIMITNAMES))
-		g_dat->flags2 |= SMF2_LIMITNAMES;
+		g_dat.flags2 |= SMF2_LIMITNAMES;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_HIDEONETAB, SRMSGDEFSET_HIDEONETAB))
-		g_dat->flags2 |= SMF2_HIDEONETAB;
+		g_dat.flags2 |= SMF2_HIDEONETAB;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SEPARATECHATSCONTAINERS, SRMSGDEFSET_SEPARATECHATSCONTAINERS))
-		g_dat->flags2 |= SMF2_SEPARATECHATSCONTAINERS;
+		g_dat.flags2 |= SMF2_SEPARATECHATSCONTAINERS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_TABCLOSEBUTTON, SRMSGDEFSET_TABCLOSEBUTTON))
-		g_dat->flags2 |= SMF2_TABCLOSEBUTTON;
+		g_dat.flags2 |= SMF2_TABCLOSEBUTTON;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_LIMITTABS, SRMSGDEFSET_LIMITTABS))
-		g_dat->flags2 |= SMF2_LIMITTABS;
+		g_dat.flags2 |= SMF2_LIMITTABS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABS, SRMSGDEFSET_LIMITCHATSTABS))
-		g_dat->flags2 |= SMF2_LIMITCHATSTABS;
+		g_dat.flags2 |= SMF2_LIMITCHATSTABS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_HIDECONTAINERS, SRMSGDEFSET_HIDECONTAINERS))
-		g_dat->flags2 |= SMF2_HIDECONTAINERS;
+		g_dat.flags2 |= SMF2_HIDECONTAINERS;
 
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSBAR, SRMSGDEFSET_SHOWSTATUSBAR))
-		g_dat->flags2 |= SMF2_SHOWSTATUSBAR;
+		g_dat.flags2 |= SMF2_SHOWSTATUSBAR;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTITLEBAR, SRMSGDEFSET_SHOWTITLEBAR))
-		g_dat->flags2 |= SMF2_SHOWTITLEBAR;
+		g_dat.flags2 |= SMF2_SHOWTITLEBAR;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWBUTTONLINE, SRMSGDEFSET_SHOWBUTTONLINE))
-		g_dat->flags2 |= SMF2_SHOWTOOLBAR;
+		g_dat.flags2 |= SMF2_SHOWTOOLBAR;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWINFOBAR, SRMSGDEFSET_SHOWINFOBAR))
-		g_dat->flags2 |= SMF2_SHOWINFOBAR;
+		g_dat.flags2 |= SMF2_SHOWINFOBAR;
 
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
-		g_dat->flags2 |= SMF2_SHOWTYPING;
+		g_dat.flags2 |= SMF2_SHOWTYPING;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGWIN, SRMSGDEFSET_SHOWTYPINGWIN))
-		g_dat->flags2 |= SMF2_SHOWTYPINGWIN;
+		g_dat.flags2 |= SMF2_SHOWTYPINGWIN;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGNOWIN, SRMSGDEFSET_SHOWTYPINGNOWIN))
-		g_dat->flags2 |= SMF2_SHOWTYPINGTRAY;
+		g_dat.flags2 |= SMF2_SHOWTYPINGTRAY;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST))
-		g_dat->flags2 |= SMF2_SHOWTYPINGCLIST;
+		g_dat.flags2 |= SMF2_SHOWTYPINGCLIST;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGSWITCH, SRMSGDEFSET_SHOWTYPINGSWITCH))
-		g_dat->flags2 |= SMF2_SHOWTYPINGSWITCH;
+		g_dat.flags2 |= SMF2_SHOWTYPINGSWITCH;
 
 	if (LOBYTE(LOWORD(GetVersion())) >= 5  && pSetLayeredWindowAttributes != NULL) {
 		if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USETRANSPARENCY, SRMSGDEFSET_USETRANSPARENCY))
-			g_dat->flags2 |= SMF2_USETRANSPARENCY;
-		g_dat->activeAlpha = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);
-		g_dat->inactiveAlpha = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA);
+			g_dat.flags2 |= SMF2_USETRANSPARENCY;
+		g_dat.activeAlpha = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_ACTIVEALPHA, SRMSGDEFSET_ACTIVEALPHA);
+		g_dat.inactiveAlpha = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INACTIVEALPHA, SRMSGDEFSET_INACTIVEALPHA);
 	}
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW))
-		g_dat->flags |= SMF_USEIEVIEW;
+		g_dat.flags |= SMF_USEIEVIEW;
 
-	g_dat->buttonVisibility = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_BUTTONVISIBILITY, SRMSGDEFSET_BUTTONVISIBILITY);
-	g_dat->chatBbuttonVisibility = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_CHATBUTTONVISIBILITY, SRMSGDEFSET_CHATBUTTONVISIBILITY);
+	g_dat.buttonVisibility = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_BUTTONVISIBILITY, SRMSGDEFSET_BUTTONVISIBILITY);
+	g_dat.chatBbuttonVisibility = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_CHATBUTTONVISIBILITY, SRMSGDEFSET_CHATBUTTONVISIBILITY);
 
-	g_dat->limitNamesLength = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
-	g_dat->limitTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
-	g_dat->limitChatsTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
+	g_dat.limitNamesLength = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
+	g_dat.limitTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
+	g_dat.limitChatsTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
 }
 
-static int ackevent(WPARAM wParam, LPARAM lParam) {
+static int ackevent(WPARAM wParam, LPARAM lParam)
+{
 	ACKDATA *pAck = (ACKDATA *)lParam;
+	if (!pAck)
+		return 0;
 
-	if (!pAck) return 0;
-	else if (pAck->type==ACKTYPE_MESSAGE) {
-		ACKDATA *ack = (ACKDATA *) lParam;
-		DBEVENTINFO dbei = { 0 };
-		HANDLE hNewEvent;
-		MessageSendQueueItem * item;
-		HWND hwndSender;
+	if (pAck->type != ACKTYPE_MESSAGE)
+		return 0;
 
-		item = FindSendQueueItem((HANDLE)pAck->hContact, (HANDLE)pAck->hProcess);
-		if (item != NULL) {
-			hwndSender = item->hwndSender;
-			if (ack->result == ACKRESULT_FAILED) {
-				if (item->hwndErrorDlg != NULL) {
-					item = FindOldestPendingSendQueueItem(hwndSender, (HANDLE)pAck->hContact);
-				}
-				if (item != NULL && item->hwndErrorDlg == NULL) {
-					if (hwndSender != NULL) {
-						ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
-						ewd->szName = GetNickname(item->hContact, item->proto);
-						ewd->szDescription = a2t((char *) ack->lParam);
-						ewd->szText = GetSendBufferMsg(item);
-						ewd->hwndParent = hwndSender;
-						ewd->queueItem = item;
-						SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-						SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
-					} else {
-						RemoveSendQueueItem(item);
-					}
-				}
-				return 0;
+	ACKDATA *ack = (ACKDATA*) lParam;
+	MessageSendQueueItem *item = FindSendQueueItem((HANDLE)pAck->hContact, (HANDLE)pAck->hProcess);
+	if (item != NULL) {
+		HWND hwndSender = item->hwndSender;
+		if (ack->result == ACKRESULT_FAILED) {
+			if (item->hwndErrorDlg != NULL) {
+				item = FindOldestPendingSendQueueItem(hwndSender, (HANDLE)pAck->hContact);
 			}
-
-			dbei.cbSize = sizeof(dbei);
-			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
-			if ( item->flags & PREF_UTF )
-				dbei.flags |= DBEF_UTF;
-			dbei.szModule = GetContactProto(item->hContact);
-			dbei.timestamp = time(NULL);
-			dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
-			if ( !( item->flags & PREF_UTF ))
-				dbei.cbBlob *= sizeof(TCHAR) + 1;
-			dbei.pBlob = (PBYTE) item->sendBuffer;
-			hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) item->hContact, (LPARAM) & dbei);
-
-			if (item->hwndErrorDlg != NULL)
-				DestroyWindow(item->hwndErrorDlg);
-
-			if (RemoveSendQueueItem(item) && DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+			if (item != NULL && item->hwndErrorDlg == NULL) {
 				if (hwndSender != NULL) {
-					DestroyWindow(hwndSender);
+					ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
+					ewd->szName = GetNickname(item->hContact, item->proto);
+					ewd->szDescription = a2t((char *) ack->lParam);
+					ewd->szText = GetSendBufferMsg(item);
+					ewd->hwndParent = hwndSender;
+					ewd->queueItem = item;
+					SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+					SendMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
+				} else {
+					RemoveSendQueueItem(item);
 				}
-			} else if (hwndSender != NULL) {
-				SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
-				SkinPlaySound("SendMsg");
 			}
+			return 0;
+		}
+
+		DBEVENTINFO dbei = { 0 };
+		dbei.cbSize = sizeof(dbei);
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
+		if ( item->flags & PREF_UTF )
+			dbei.flags |= DBEF_UTF;
+		dbei.szModule = GetContactProto(item->hContact);
+		dbei.timestamp = time(NULL);
+		dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
+		if ( !( item->flags & PREF_UTF ))
+			dbei.cbBlob *= sizeof(TCHAR) + 1;
+		dbei.pBlob = (PBYTE) item->sendBuffer;
+		CallService(MS_DB_EVENT_ADD, (WPARAM) item->hContact, (LPARAM) & dbei);
+
+		if (item->hwndErrorDlg != NULL)
+			DestroyWindow(item->hwndErrorDlg);
+
+		if (RemoveSendQueueItem(item) && DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+			if (hwndSender != NULL)
+				DestroyWindow(hwndSender);
+		}
+		else if (hwndSender != NULL) {
+			SendMessage(hwndSender, DM_STOPMESSAGESENDING, 0, 0);
+			SkinPlaySound("SendMsg");
 		}
 	}
 	return 0;

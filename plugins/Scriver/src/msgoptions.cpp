@@ -125,7 +125,7 @@ int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	Chat_FontsChanged(wParam, lParam);
 	return 0;
 }
@@ -234,15 +234,15 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
 	ChangeStatusIcons();
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_REMAKELOG, 0, 0);
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_CHANGEICONS, 0, 1);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_CHANGEICONS, 0, 1);
 	Chat_IconsChanged(wParam, lParam);
 	return 0;
 }
 
 int SmileySettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_REMAKELOG, wParam, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, wParam, 0);
 	Chat_SmileyOptionsChanged(wParam, lParam);
 	return 0;
 }
@@ -342,12 +342,13 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 static int changed = 0;
 
-static void ApplyChanges(int i) {
+static void ApplyChanges(int i)
+{
 	changed &= ~i;
 	if (changed == 0) {
 		ReloadGlobals();
-		WindowList_Broadcast(g_dat->hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
-		WindowList_Broadcast(g_dat->hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+		WindowList_Broadcast(g_dat.hParentWindowList, DM_OPTIONSAPPLIED, 0, 0);
+		WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 		SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 	}
 }
@@ -529,7 +530,7 @@ static INT_PTR CALLBACK DlgProcLayoutOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 			CheckDlgButton(hwndDlg, IDC_STATUSWIN, DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON));
 			CheckDlgButton(hwndDlg, IDC_SHOWPROGRESS, DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS));
-			CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat->flags&SMF_AVATAR);
+			CheckDlgButton(hwndDlg, IDC_AVATARSUPPORT, g_dat.flags&SMF_AVATAR);
 			return TRUE;
 		}
 
@@ -740,7 +741,7 @@ static void ShowPreview(HWND hwndDlg)
 	gdat.indentSize = (int) SendDlgItemMessage(hwndDlg, IDC_INDENTSPIN, UDM_GETPOS, 0, 0);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_OFFSET;
-	pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 /g_dat->logPixelSX : 0;
+	pf2.dxOffset = (gdat.flags & SMF_INDENTTEXT) ? gdat.indentSize * 1440 /g_dat.logPixelSX : 0;
 	SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	StreamInTestEvents(GetDlgItem(hwndDlg, IDC_LOG), &gdat);
@@ -786,7 +787,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USELONGDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_USERELATIVEDATE), IsDlgButtonChecked(hwndDlg, IDC_SHOWDATES) && IsDlgButtonChecked(hwndDlg, IDC_SHOWTIMES));
 
-		if (!g_dat->ieviewInstalled) {
+		if (!g_dat.ieviewInstalled) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USEIEVIEW), FALSE);
 		}
 		CheckDlgButton(hwndDlg, IDC_USEIEVIEW, DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_USEIEVIEW, SRMSGDEFSET_USEIEVIEW));
@@ -1076,7 +1077,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 							DBWriteContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGCLIST, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 							DBWriteContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTYPINGSWITCH, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_TYPINGSWITCH));
 							ReloadGlobals();
-							WindowList_Broadcast(g_dat->hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+							WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 						}
 					}
 					break;

@@ -147,9 +147,9 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h) {
 	HDWP hdwp;
 	BOOL      bNick = si->iType!=GCW_SERVER && si->bNicklistEnabled;
 	BOOL      bToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
-	int       buttonVisibility = bToolbar ? g_dat->chatBbuttonVisibility : 0;
+	int       buttonVisibility = bToolbar ? g_dat.chatBbuttonVisibility : 0;
 	int		  hSplitterMinTop = TOOLBAR_HEIGHT + si->windowData.minLogBoxHeight, hSplitterMinBottom = si->windowData.minEditBoxHeight;
-	int		  toolbarHeight = bToolbar ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat->chatBbuttonVisibility) ? TOOLBAR_HEIGHT : TOOLBAR_HEIGHT / 3 : 0;
+	int		  toolbarHeight = bToolbar ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat.chatBbuttonVisibility) ? TOOLBAR_HEIGHT : TOOLBAR_HEIGHT / 3 : 0;
 
 	si->iSplitterY = si->desiredInputAreaHeight + SPLITTER_HEIGHT + 3;
 
@@ -1228,14 +1228,14 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 		{
 			TitleBarData tbd = {0};
 			TCHAR szTemp [100];
-			if (g_dat->flags & SMF_STATUSICON) {
+			if (g_dat.flags & SMF_STATUSICON) {
 				MODULEINFO* mi = MM_FindModule(si->pszModule);
 				tbd.hIcon = (si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIcon : mi->hOfflineIcon;
 				tbd.hIconBig = (si->wStatus == ID_STATUS_ONLINE) ? mi->hOnlineIconBig : mi->hOfflineIconBig;
 			}
 			else {
 				tbd.hIcon = GetCachedIcon("chat_window");
-				tbd.hIconBig = g_dat->hIconChatBig;
+				tbd.hIconBig = g_dat.hIconChatBig;
 			}
 			tbd.hIconNot = (si->wState & (GC_EVENT_HIGHLIGHT | STATE_TALK)) ?  GetCachedIcon("chat_overlay") : NULL;
 
@@ -1389,7 +1389,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				else
 					hIcon = (si->wStatus==ID_STATUS_ONLINE) ? MM_FindModule(si->pszModule)->hOnlineIcon : MM_FindModule(si->pszModule)->hOfflineIcon;
 			} else {
-				hIcon = g_dat->hMsgIcon;
+				hIcon = g_dat.hMsgIcon;
 			}
 			tcd.iFlags = TCDF_ICON;
 			tcd.hIcon = hIcon;
@@ -1725,8 +1725,8 @@ LABEL_SHOWWINDOW:
 				if (pNmhdr->idFrom == IDC_CHAT_MESSAGE) {
 					REQRESIZE *rr = (REQRESIZE *)lParam;
 					int height = rr->rc.bottom - rr->rc.top + 1;
-					if (height < g_dat->minInputAreaHeight) {
-						height = g_dat->minInputAreaHeight;
+					if (height < g_dat.minInputAreaHeight) {
+						height = g_dat.minInputAreaHeight;
 					}
 					if (si->desiredInputAreaHeight != height) {
 						si->desiredInputAreaHeight = height;
@@ -2076,9 +2076,9 @@ LABEL_SHOWWINDOW:
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 				mii.fType = MFT_STRING;
-				mii.fState = (g_dat->chatBbuttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
+				mii.fState = (g_dat.chatBbuttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
 				mii.wID = i + 1;
-				mii.dwItemData = (ULONG_PTR)g_dat->hChatButtonIconList;
+				mii.dwItemData = (ULONG_PTR)g_dat.hChatButtonIconList;
 				mii.hbmpItem = HBMMENU_CALLBACK;
 				mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
 				InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
@@ -2088,8 +2088,8 @@ LABEL_SHOWWINDOW:
 			pt.y = (short) HIWORD(GetMessagePos());
 			i = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 			if (i > 0) {
-				g_dat->chatBbuttonVisibility ^= (1 << (i - 1));
-				DBWriteContactSettingDword(NULL, SRMMMOD, SRMSGSET_CHATBUTTONVISIBILITY, g_dat->chatBbuttonVisibility);
+				g_dat.chatBbuttonVisibility ^= (1 << (i - 1));
+				DBWriteContactSettingDword(NULL, SRMMMOD, SRMSGSET_CHATBUTTONVISIBILITY, g_dat.chatBbuttonVisibility);
 				SM_BroadcastMessage(NULL, GC_SETWNDPROPS, 0, 0, TRUE);
 			}
 			DestroyMenu(hToolbarMenu);

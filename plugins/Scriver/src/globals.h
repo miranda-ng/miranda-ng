@@ -110,12 +110,12 @@ struct GlobalMessageData
 	HBRUSH	   hInfobarBrush;
 	int		   toolbarPosition;
 	HWND       hFocusWnd;
-    DWORD      logLineColour;
+	DWORD      logLineColour;
 	int        logPixelSX;
 	int        logPixelSY;
-    HICON      hMsgIcon;
-    HICON      hMsgIconBig;
-    HICON      hIconChatBig;
+	HICON      hMsgIcon;
+	HICON      hMsgIconBig;
+	HICON      hIconChatBig;
 	int		   minInputAreaHeight;
 };
 
@@ -137,7 +137,6 @@ int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id);
 int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status);
 void ReleaseIconSmart(HICON hIcon);
 
-extern struct GlobalMessageData *g_dat;
-void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat);
+void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat);
 
 #endif

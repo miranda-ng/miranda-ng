@@ -137,10 +137,10 @@ static TCHAR *GetQuotedTextW(TCHAR * text) {
 static void saveDraftMessage(HWND hwnd, HANDLE hContact, int codepage) {
 	char *textBuffer = GetRichTextEncoded(hwnd, codepage);
 	if (textBuffer != NULL) {
-		g_dat->draftList = tcmdlist_append2(g_dat->draftList, hContact, textBuffer);
+		g_dat.draftList = tcmdlist_append2(g_dat.draftList, hContact, textBuffer);
 		mir_free(textBuffer);
 	} else {
-		g_dat->draftList = tcmdlist_remove2(g_dat->draftList, hContact);
+		g_dat.draftList = tcmdlist_remove2(g_dat.draftList, hContact);
 	}
 }
 
@@ -154,7 +154,7 @@ void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type) {
 	mwe.szModule = SRMMMOD;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	bChat = (WindowList_Find(g_dat->hMessageWindowList, hContact) == NULL);
+	bChat = (WindowList_Find(g_dat.hMessageWindowList, hContact) == NULL);
 	mwe.hwndInput = GetDlgItem(hwnd, bChat ? IDC_CHAT_MESSAGE : IDC_MESSAGE);
 	mwe.hwndLog = GetDlgItem(hwnd, bChat ? IDC_CHAT_LOG : IDC_LOG);
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
@@ -229,14 +229,14 @@ static void SetDialogToType(HWND hwndDlg)
 		ShowWindow(dat->infobarData->hWnd, SW_HIDE);
 
 	if (dat->windowData.hContact) {
-		ShowToolbarControls(hwndDlg, SIZEOF(toolbarButtons), toolbarButtons, g_dat->buttonVisibility, showToolbar ? SW_SHOW : SW_HIDE);
+		ShowToolbarControls(hwndDlg, SIZEOF(toolbarButtons), toolbarButtons, g_dat.buttonVisibility, showToolbar ? SW_SHOW : SW_HIDE);
 		if (!DBGetContactSettingByte(dat->windowData.hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 
-		if (!g_dat->smileyAddInstalled)
+		if (!g_dat.smileyAddInstalled)
 			ShowWindow(GetDlgItem(hwndDlg, IDC_SMILEYS), SW_HIDE);
 	}
-	else ShowToolbarControls(hwndDlg, SIZEOF(toolbarButtons), toolbarButtons, g_dat->buttonVisibility, SW_HIDE);
+	else ShowToolbarControls(hwndDlg, SIZEOF(toolbarButtons), toolbarButtons, g_dat.buttonVisibility, SW_HIDE);
 
 	ShowWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), SW_SHOW);
 	if (dat->windowData.hwndLog != NULL)
@@ -279,21 +279,21 @@ void SetStatusIcon(struct SrmmWindowData *dat) {
 	if (dat->statusIconOverlay != NULL)
 		DestroyIcon(dat->statusIconOverlay); 
 
-	int index = ImageList_ReplaceIcon(g_dat->hHelperIconList, 0, dat->statusIcon);
-	dat->statusIconOverlay = ImageList_GetIcon(g_dat->hHelperIconList, index, ILD_TRANSPARENT|INDEXTOOVERLAYMASK(1));
+	int index = ImageList_ReplaceIcon(g_dat.hHelperIconList, 0, dat->statusIcon);
+	dat->statusIconOverlay = ImageList_GetIcon(g_dat.hHelperIconList, index, ILD_TRANSPARENT|INDEXTOOVERLAYMASK(1));
 }
 
 void GetTitlebarIcon(struct SrmmWindowData *dat, TitleBarData *tbd) {
-	if (dat->showTyping && (g_dat->flags2 & SMF2_SHOWTYPINGWIN)) {
+	if (dat->showTyping && (g_dat.flags2 & SMF2_SHOWTYPINGWIN)) {
 		tbd->hIconNot = tbd->hIcon = GetCachedIcon("scriver_TYPING");
 	} else if (dat->showUnread && (GetActiveWindow() != dat->hwndParent || GetForegroundWindow() != dat->hwndParent)) {
-		tbd->hIcon = (g_dat->flags & SMF_STATUSICON) ? dat->statusIcon : g_dat->hMsgIcon;
-		tbd->hIconNot = (g_dat->flags & SMF_STATUSICON) ? g_dat->hMsgIcon : GetCachedIcon("scriver_OVERLAY");
+		tbd->hIcon = (g_dat.flags & SMF_STATUSICON) ? dat->statusIcon : g_dat.hMsgIcon;
+		tbd->hIconNot = (g_dat.flags & SMF_STATUSICON) ? g_dat.hMsgIcon : GetCachedIcon("scriver_OVERLAY");
 	} else {
-		tbd->hIcon = (g_dat->flags & SMF_STATUSICON) ? dat->statusIcon : g_dat->hMsgIcon;
+		tbd->hIcon = (g_dat.flags & SMF_STATUSICON) ? dat->statusIcon : g_dat.hMsgIcon;
 		tbd->hIconNot = NULL;
 	}
-	tbd->hIconBig = (g_dat->flags & SMF_STATUSICON) ? dat->statusIconBig : g_dat->hMsgIconBig;
+	tbd->hIconBig = (g_dat.flags & SMF_STATUSICON) ? dat->statusIconBig : g_dat.hMsgIconBig;
 }
 
 HICON GetTabIcon(struct SrmmWindowData *dat) {
@@ -355,7 +355,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				TCHAR szMenuText[4096];
 				mir_sntprintf( szMenuText, 4096, TranslateT("Look up \'%s\':"), pszWord );
 				ModifyMenu( hSubMenu, 5, MF_STRING|MF_BYPOSITION, 5, szMenuText );
-				SetSearchEngineIcons(hMenu, g_dat->hSearchEngineIconList);
+				SetSearchEngineIcons(hMenu, g_dat.hSearchEngineIconList);
 			}
 			else ModifyMenu( hSubMenu, 5, MF_STRING|MF_GRAYED|MF_BYPOSITION, 5, TranslateT( "No word to look up" ));
 			inMenu = TRUE;
@@ -423,11 +423,11 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_KEYDOWN:
 		{
 			if (wParam == VK_RETURN) {
-				if ((isCtrl != 0) ^ (0 != (g_dat->flags & SMF_SENDONENTER))) {
+				if ((isCtrl != 0) ^ (0 != (g_dat.flags & SMF_SENDONENTER))) {
 					PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 					return 0;
 				}
-				if (g_dat->flags & SMF_SENDONDBLENTER) {
+				if (g_dat.flags & SMF_SENDONDBLENTER) {
 					if (dat->lastEnterTime + ENTERCLICKTIME < GetTickCount())
 						dat->lastEnterTime = GetTickCount();
 					else {
@@ -516,7 +516,7 @@ static void UnsubclassLogEdit(HWND hwnd) {
 static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w, int h) {
 	HDWP hdwp;
 	ParentWindowData *pdat = dat->parent;
-	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat->buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
+	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat.buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
 	int hSplitterMinTop = toolbarHeight + dat->windowData.minLogBoxHeight, hSplitterMinBottom = dat->windowData.minEditBoxHeight;
 	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
 	int infobarHeight = INFO_BAR_HEIGHT;
@@ -547,7 +547,7 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 		hSplitterPos = hSplitterMinBottom;
 	}
 	if (!(pdat->flags2 & SMF2_SHOWINFOBAR)) {
-		if (dat->avatarPic && (g_dat->flags&SMF_AVATAR)) {
+		if (dat->avatarPic && (g_dat.flags&SMF_AVATAR)) {
 			avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
 			avatarHeight = toolbarHeight + hSplitterPos - 2;
 			if (avatarHeight < BOTTOM_RIGHT_AVATAR_HEIGHT) {
@@ -579,7 +579,7 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_AVATAR), 0, w-avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
 
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_SPLITTER), 0, 0, h - hSplitterPos-1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
-	hdwp = ResizeToolbar(hwndDlg, hdwp, toolbarWidth, h - hSplitterPos - toolbarHeight + 1, toolbarHeight, SIZEOF(toolbarButtons), toolbarButtons, g_dat->buttonVisibility);
+	hdwp = ResizeToolbar(hwndDlg, hdwp, toolbarWidth, h - hSplitterPos - toolbarHeight + 1, toolbarHeight, SIZEOF(toolbarButtons), toolbarButtons, g_dat.buttonVisibility);
 
 	/*
 	if (hSplitterPos - SPLITTER_HEIGHT - toolbarHeight - 2< dat->avatarHeight) {
@@ -597,7 +597,7 @@ static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w,
 	}
 	vPos = h - toolbarHeight;
 	hdwp = ResizeToolbar(hwndDlg, hdwp, w, vPos, toolbarHeight, SIZEOF(buttonControls),
-					buttonControls, buttonWidth, buttonSpacing, buttonAlignment, g_dat->buttonVisibility);
+					buttonControls, buttonWidth, buttonSpacing, buttonAlignment, g_dat.buttonVisibility);
 
 */
 	EndDeferWindowPos(hdwp);
@@ -786,7 +786,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (DBGetContactSettingByte(dat->windowData.hContact, SRMMMOD, "UseRTL", (BYTE) 0)) {
 				dat->flags |= SMF_RTL;
 			}
-			dat->flags |= g_dat->ieviewInstalled ? g_dat->flags & SMF_USEIEVIEW : 0;
+			dat->flags |= g_dat.ieviewInstalled ? g_dat.flags & SMF_USEIEVIEW : 0;
 			{
 				PARAFORMAT2 pf2;
 				ZeroMemory((void *)&pf2, sizeof(pf2));
@@ -827,15 +827,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->splitterPos == -1) {
 				dat->splitterPos = dat->windowData.minEditBoxHeight;
 			}
-			WindowList_Add(g_dat->hMessageWindowList, hwndDlg, dat->windowData.hContact);
+			WindowList_Add(g_dat.hMessageWindowList, hwndDlg, dat->windowData.hContact);
 
 			if (newData->szInitialText) {
 				if (newData->isWchar)
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
-				} else if (g_dat->flags & SMF_SAVEDRAFTS) {
-					TCmdList *draft = tcmdlist_get2(g_dat->draftList, dat->windowData.hContact);
+				} else if (g_dat.flags & SMF_SAVEDRAFTS) {
+					TCmdList *draft = tcmdlist_get2(g_dat.draftList, dat->windowData.hContact);
 				if (draft != NULL) {
 					len = SetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), draft->szCmd, dat->windowData.codePage);
 				}
@@ -1031,9 +1031,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_STRING | MIIM_STATE | MIIM_DATA | MIIM_BITMAP;
 				mii.fType = MFT_STRING;
-				mii.fState = (g_dat->buttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
+				mii.fState = (g_dat.buttonVisibility & (1<< i)) ? MFS_CHECKED : MFS_UNCHECKED;
 				mii.wID = i + 1;
-				mii.dwItemData = (ULONG_PTR)g_dat->hButtonIconList;
+				mii.dwItemData = (ULONG_PTR)g_dat.hButtonIconList;
 				mii.hbmpItem = HBMMENU_CALLBACK;
 				mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
 				InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
@@ -1043,9 +1043,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			pt.y = (short) HIWORD(GetMessagePos());
 			i = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 			if (i > 0) {
-				g_dat->buttonVisibility ^= (1 << (i - 1));
-				DBWriteContactSettingDword(NULL, SRMMMOD, SRMSGSET_BUTTONVISIBILITY, g_dat->buttonVisibility);
-				WindowList_Broadcast(g_dat->hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+				g_dat.buttonVisibility ^= (1 << (i - 1));
+				DBWriteContactSettingDword(NULL, SRMMMOD, SRMSGSET_BUTTONVISIBILITY, g_dat.buttonVisibility);
+				WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 			}
 			DestroyMenu(hToolbarMenu);
 			return TRUE;
@@ -1204,7 +1204,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			LOGFONT lf;
 			COLORREF colour;
 			dat->flags &= ~SMF_USEIEVIEW;
-			dat->flags |= g_dat->ieviewInstalled ? g_dat->flags & SMF_USEIEVIEW : 0;
+			dat->flags |= g_dat.ieviewInstalled ? g_dat.flags & SMF_USEIEVIEW : 0;
 			if (dat->flags & SMF_USEIEVIEW && dat->windowData.hwndLog == NULL) {
 				IEVIEWWINDOW ieWindow;
 				ieWindow.cbSize = sizeof(IEVIEWWINDOW);
@@ -1249,13 +1249,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
 			cf2.wWeight = (WORD)lf.lfWeight;
 			cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-			cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat->logPixelSY;
+			cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&cf2);
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETLANGOPTIONS, 0, (LPARAM) SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_OFFSET;
-			pf2.dxOffset = (g_dat->flags & SMF_INDENTTEXT) ? g_dat->indentSize * 1440 / g_dat->logPixelSX : 0;
+			pf2.dxOffset = (g_dat.flags & SMF_INDENTTEXT) ? g_dat.indentSize * 1440 / g_dat.logPixelSX : 0;
  			SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETLANGOPTIONS, 0, (LPARAM) SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~(IMF_AUTOKEYBOARD | IMF_AUTOFONTSIZEADJUST));
@@ -1394,13 +1394,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				return TRUE;
 			}
 		}
-		if (g_dat->hFocusWnd == hwndDlg) {
+		if (g_dat.hFocusWnd == hwndDlg) {
 			SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 		}
 		return TRUE;
 	case WM_SETFOCUS:
 		SendMessage(dat->hwndParent, CM_ACTIVATECHILD, 0, (LPARAM)hwndDlg);
-		g_dat->hFocusWnd = hwndDlg;
+		g_dat.hFocusWnd = hwndDlg;
 		PostMessage(hwndDlg, DM_SETFOCUS, 0, 0);
 		return TRUE;
 	case DM_SETPARENT:
@@ -1509,7 +1509,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (GetForegroundWindow()==dat->hwndParent && dat->parent->hwndActive == hwndDlg)
 						SkinPlaySound("RecvMsgActive");
 					else SkinPlaySound("RecvMsgInactive");
-					if ((g_dat->flags2 & SMF2_SWITCHTOACTIVE) && (IsIconic(dat->hwndParent) || GetActiveWindow() != dat->hwndParent) && IsWindowVisible(dat->hwndParent)) {
+					if ((g_dat.flags2 & SMF2_SWITCHTOACTIVE) && (IsIconic(dat->hwndParent) || GetActiveWindow() != dat->hwndParent) && IsWindowVisible(dat->hwndParent)) {
 						SendMessage(dat->hwndParent, CM_ACTIVATECHILD, 0, (LPARAM) hwndDlg);
 					}
 					if (IsAutoPopup(dat->windowData.hContact)) {
@@ -1537,7 +1537,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			StatusBarData sbd= {0};
 			StatusIconData sid = {0};
 			sbd.iFlags = SBDF_TEXT | SBDF_ICON;
-			if (dat->messagesInProgress && (g_dat->flags & SMF_SHOWPROGRESS)) {
+			if (dat->messagesInProgress && (g_dat.flags & SMF_SHOWPROGRESS)) {
 				sbd.hIcon = GetCachedIcon("scriver_DELIVERING");
 				sbd.pszText = szText;
 				mir_sntprintf(szText, SIZEOF(szText), TranslateT("Sending in progress: %d message(s) left..."), dat->messagesInProgress);
@@ -1564,7 +1564,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			sid.flags = MBF_DISABLED;
 			ModifyStatusIcon((WPARAM)dat->windowData.hContact, (LPARAM) &sid);
 			sid.dwId = 1;
-			if (IsTypingNotificationSupported(dat) && g_dat->flags2 & SMF2_SHOWTYPINGSWITCH) {
+			if (IsTypingNotificationSupported(dat) && g_dat.flags2 & SMF2_SHOWTYPINGSWITCH) {
 				sid.flags = (DBGetContactSettingByte(dat->windowData.hContact, SRMMMOD, SRMSGSET_TYPING,
 					DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW))) ? 0 : MBF_DISABLED;
 			} else {
@@ -1665,14 +1665,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		dat->messagesInProgress++;
 	case DM_SHOWMESSAGESENDING:
 		SetTimer(hwndDlg, TIMERID_MSGSEND, 1000, NULL);
-		if (g_dat->flags & SMF_SHOWPROGRESS) {
+		if (g_dat.flags & SMF_SHOWPROGRESS) {
 			SendMessage(dat->hwnd, DM_UPDATESTATUSBAR, 0, 0);
 		}
 		break;
 	case DM_STOPMESSAGESENDING:
 		if (dat->messagesInProgress>0) {
 			dat->messagesInProgress--;
-			if (g_dat->flags & SMF_SHOWPROGRESS) {
+			if (g_dat.flags & SMF_SHOWPROGRESS) {
 				SendMessage(dat->hwnd, DM_UPDATESTATUSBAR, 0, 0);
 			}
 		}
@@ -1727,7 +1727,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					rect.bottom = itemHeight - 1;
 					FillRect(hdcMem, &rect, GetSysColorBrush(COLOR_BTNFACE));
 
-					if (dat->avatarPic && (g_dat->flags&SMF_AVATAR)) {
+					if (dat->avatarPic && (g_dat.flags&SMF_AVATAR)) {
 						BITMAP bminfo;
 						GetObject(dat->avatarPic, sizeof(bminfo), &bminfo);
 						if ( bminfo.bmWidth != 0 && bminfo.bmHeight != 0 ) {
@@ -1871,7 +1871,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) dat->windowData.hContact, 0);
 			break;
 		case IDC_SMILEYS:
-			if (g_dat->smileyAddInstalled) {
+			if (g_dat.smileyAddInstalled) {
 				SMADD_SHOWSEL3 smaddInfo;
 				RECT rc;
 				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
@@ -2042,8 +2042,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					{
 						REQRESIZE *rr = (REQRESIZE *)lParam;
 						int height = rr->rc.bottom - rr->rc.top + 1;
-						if (height < g_dat->minInputAreaHeight) {
-							height = g_dat->minInputAreaHeight;
+						if (height < g_dat.minInputAreaHeight) {
+							height = g_dat.minInputAreaHeight;
 						}
 						if (dat->desiredInputAreaHeight != height) {
 							dat->desiredInputAreaHeight = height;
@@ -2071,13 +2071,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		dat->statusIcon = NULL;
 		dat->statusIconOverlay = NULL;
 		ReleaseSendQueueItems(hwndDlg);
-		if (g_dat->flags & SMF_SAVEDRAFTS) {
+		if (g_dat.flags & SMF_SAVEDRAFTS) {
 			saveDraftMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->windowData.hContact, dat->windowData.codePage);
 		} else {
-			g_dat->draftList = tcmdlist_remove2(g_dat->draftList, dat->windowData.hContact);
+			g_dat.draftList = tcmdlist_remove2(g_dat.draftList, dat->windowData.hContact);
 		}
 		tcmdlist_free(dat->windowData.cmdList);
-		WindowList_Remove(g_dat->hMessageWindowList, hwndDlg);
+		WindowList_Remove(g_dat.hMessageWindowList, hwndDlg);
 		UnsubclassMessageEdit(GetDlgItem(hwndDlg, IDC_MESSAGE));
 		UnsubclassLogEdit(GetDlgItem(hwndDlg, IDC_LOG));
 		{
@@ -2088,7 +2088,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		DBWriteContactSettingByte(dat->windowData.hContact, SRMMMOD, "UseRTL", (BYTE) ((dat->flags & SMF_RTL) ? 1 : 0));
 		DBWriteContactSettingWord(dat->windowData.hContact, SRMMMOD, "CodePage", (WORD) dat->windowData.codePage);
-		if (dat->windowData.hContact && (g_dat->flags & SMF_DELTEMP)) {
+		if (dat->windowData.hContact && (g_dat.flags & SMF_DELTEMP)) {
 			if (DBGetContactSettingByte(dat->windowData.hContact, "CList", "NotOnList", 0)) {
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)dat->windowData.hContact, 0);
 			}

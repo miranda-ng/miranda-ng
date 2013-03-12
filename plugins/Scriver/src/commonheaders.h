@@ -108,7 +108,7 @@ extern void ChangeStatusIcons();
 extern void LoadInfobarFonts();
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 * pTaskbarInterface;
-extern struct GlobalMessageData *g_dat;
+extern GlobalMessageData g_dat;
 extern CRITICAL_SECTION	cs;
 extern TCHAR* pszActiveWndID ;
 extern char*  pszActiveWndModule ;

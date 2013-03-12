@@ -69,10 +69,11 @@ void RichUtil_Load(void)
 	sListInt.increment = 10;
 	sListInt.sortFunc = RichUtil_CmpVal;
 
-	mTheme = IsWinVerXPPlus() ? GetModuleHandleA("uxtheme") : 0;
-
 	InitializeCriticalSection(&csRich);
-	if (!mTheme) return;
+
+	mTheme = IsWinVerXPPlus() ? GetModuleHandleA("uxtheme") : 0;
+	if (!mTheme)
+		return;
 
 	MyOpenThemeData = (HANDLE (WINAPI *)(HWND, LPCWSTR))GetProcAddress(mTheme, "OpenThemeData");
 	MyCloseThemeData = (HRESULT (WINAPI *)(HANDLE))GetProcAddress(mTheme, "CloseThemeData");
@@ -84,25 +85,16 @@ void RichUtil_Load(void)
 	MyIsThemeBackgroundPartiallyTransparent = (BOOL (WINAPI *)(HANDLE, int, int))GetProcAddress(mTheme, "IsThemeBackgroundPartiallyTransparent");
 	MyDrawThemeText = (HRESULT (WINAPI *)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, const RECT *))GetProcAddress(mTheme, "DrawThemeText");
 	MyEnableThemeDialogTexture = (HRESULT (WINAPI *)(HWND, DWORD))GetProcAddress(mTheme, "EnableThemeDialogTexture");
-	if (!MyOpenThemeData ||
-		!MyCloseThemeData ||
-		!MyIsThemeActive ||
-		!MyDrawThemeBackground ||
-		!MyGetThemeBackgroundContentRect ||
-		!MyDrawThemeParentBackground ||
-		!MyIsThemeBackgroundPartiallyTransparent)
-	{
-		FreeLibrary(mTheme);
+	if (!MyOpenThemeData || !MyCloseThemeData || !MyIsThemeActive || !MyDrawThemeBackground ||
+		 !MyGetThemeBackgroundContentRect || !MyDrawThemeParentBackground || !MyIsThemeBackgroundPartiallyTransparent)
 		mTheme = NULL;
-	}
 }
 
 void RichUtil_Unload(void)
 {
 	List_Destroy(&sListInt);
 	DeleteCriticalSection(&csRich);
-	if (mTheme)
-		FreeLibrary(mTheme);
+	mTheme = NULL;
 }
 
 int RichUtil_SubClass(HWND hwndEdit)

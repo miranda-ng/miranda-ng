@@ -906,104 +906,16 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	}
 	return 0;
 }
-/*
-#ifndef CFE_LINK
-#define CFE_LINK 32
-#endif
 
-
-static const CLSID IID_ITextDocument=
-{ 0x8CC497C0,0xA1DF,0x11CE,
-    { 0x80,0x98, 0x00,0xAA,
-      0x00,0x47,0xBE,0x5D} };
-
-void AutoURLDetect(HWND hwnd, CHARRANGE* sel) {
-	CHARFORMAT2 cf;
-	long cnt;
-	BSTR btxt = 0;
-	CHARRANGE oldSel;
-	LOGFONT lf;
-	COLORREF colour;
-
-	IRichEditOle* RichEditOle;
-	ITextDocument* TextDocument;
-	ITextRange* TextRange;
-	ITextSelection* TextSelection;
-
-	LoadMsgDlgFont(MSGFONTID_MYMSG, &lf, &colour);
-
-	SendMessage(hwnd, EM_GETOLEINTERFACE, 0, (LPARAM)&RichEditOle);
-	if (RichEditOle->lpVtbl->QueryInterface(RichEditOle, &IID_ITextDocument, (void**)&TextDocument) != S_OK)
-	{
-		RichEditOle->lpVtbl->Release(RichEditOle);
-		return;
-	}
-	// retrieve text range
-	if (TextDocument->lpVtbl->Range(TextDocument,sel->cpMin, sel->cpMax, &TextRange) != S_OK)
-	{
-		TextDocument->lpVtbl->Release(TextDocument);
-		RichEditOle->lpVtbl->Release(RichEditOle);
-		return;
-	}
-
-	// retrieve text to parse for URLs
-	if (TextRange->lpVtbl->GetText(TextRange, &btxt) != S_OK)
-	{
-		TextRange->lpVtbl->Release(TextRange);
-		TextDocument->lpVtbl->Release(TextDocument);
-		RichEditOle->lpVtbl->Release(RichEditOle);
-		return;
-	}
-
-	TextRange->lpVtbl->Release(TextRange);
-
-	// disable screen updates
-
-	TextDocument->lpVtbl->Freeze(TextDocument, &cnt);
-
-	TextDocument->lpVtbl->GetSelection(TextDocument, &TextSelection);
-
-	cf.cbSize = sizeof(cf);
-	cf.dwMask = CFM_LINK | CFM_COLOR | CFM_UNDERLINE | CFM_BOLD | CFM_ITALIC | CFM_FACE | CFM_SIZE;
-	cf.dwEffects = CFE_UNDERLINE | (lf.lfWeight >= FW_BOLD ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
-	_tcsncpy(cf.szFaceName, lf.lfFaceName, SIZEOF(cf.szFaceName));
-	cf.crTextColor = RGB(255,255,255);//colour;
-	cf.yHeight = 20 * lf.lfHeight;
-
-	//text = GetRichEditSelection(hwnd);
-	if (btxt!=NULL) {
-		int cpMin = sel->cpMin;
-		int cpMax = sel->cpMax;
-		int i, j, len = _tcslen(btxt);
-		for (j = 0; j < len ; j++) {
-			int l = DetectURL(btxt+j);
-			if (l > 0) {
-				sel->cpMin = cpMin + j;
-				sel->cpMax = cpMin + j + l;
-				TextSelection->lpVtbl->SetRange(TextSelection, cpMin + j, cpMin + j + l);
-				SendMessage(hwnd, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-				j+= l-1;
-			}
-		}
-	}
-	TextSelection->lpVtbl->SetRange(TextSelection,oldSel.cpMin, oldSel.cpMax);
-	TextSelection->lpVtbl->Release(TextSelection);
-	TextDocument->lpVtbl->Unfreeze(TextDocument,&cnt);
-	SysFreeString(btxt);
-	TextDocument->lpVtbl->Release(TextDocument);
-	RichEditOle->lpVtbl->Release(RichEditOle);
-	UpdateWindow(hwnd);
-}
-*/
 void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
 {
 	EDITSTREAM stream = { 0 };
 	struct LogStreamData streamData = { 0 };
-    struct SrmmWindowData dat = { 0 };
+	struct SrmmWindowData dat = { 0 };
 	streamData.isFirst = TRUE;
-    streamData.events = GetTestEvents();
-    streamData.dlgDat = &dat;
-    streamData.gdat = gdat;
+	streamData.events = GetTestEvents();
+	streamData.dlgDat = &dat;
+	streamData.gdat = gdat;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR) & streamData;
 	SendMessage(hEditWnd, EM_STREAMIN, SF_RTF, (LPARAM) & stream);
@@ -1045,8 +957,8 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		return;
 	}
-// IEVIew MOD End
 
+	// IEVIew MOD End
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM) & oldSel);
 	streamData.hContact = dat->windowData.hContact;
@@ -1055,7 +967,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
 	streamData.isFirst = fAppend ? GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE) == 0 : 1;
-    streamData.gdat = g_dat;
+	streamData.gdat = &g_dat;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR) & streamData;
 	sel.cpMin = 0;
@@ -1076,11 +988,11 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
         fi.chrg.cpMin = 0;
 		dat->isMixed = 0;
 	}
-//SFF_SELECTION |
+
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION |  SF_RTF, (LPARAM) & stream);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & oldSel);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, FALSE, 0);
-	if (g_dat->smileyAddInstalled) {
+	if (g_dat.smileyAddInstalled) {
 		SMADD_RICHEDIT3 smre;
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
 		smre.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
@@ -1104,15 +1016,13 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		smre.flags = 0;
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM) &smre);
 	}
-//	if (GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL)
-	{
-		int len;
-		len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
-	}
-	if (!fAppend) {
+
+	int len = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
+	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
+
+	if (!fAppend)
 		SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
-	}
+
 	dat->hDbEventLast = streamData.hDbEventLast;
 	PostMessage(hwndDlg, DM_SCROLLLOGTOBOTTOM, 0, 0);
 }

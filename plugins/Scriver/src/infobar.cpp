@@ -40,7 +40,7 @@ void SetupInfobar(InfobarWindowData* idat) {
     cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
     cf2.wWeight = (WORD)lf.lfWeight;
     cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat->logPixelSY;
+	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
     SendDlgItemMessageA(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 
     LoadMsgDlgFont(MSGFONTID_INFOBAR_STATUS, &lf, &colour, FALSE);
@@ -52,7 +52,7 @@ void SetupInfobar(InfobarWindowData* idat) {
     cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
     cf2.wWeight = (WORD)lf.lfWeight;
     cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-    cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat->logPixelSY;
+    cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
     SendDlgItemMessageA(hwnd, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 
     RefreshInfobar(idat);
@@ -132,7 +132,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				GetClientRect(hwnd, &rc);
 				dlgWidth = rc.right - rc.left;
 				dlgHeight = rc.bottom - rc.top;
-				if (idat->mwd->avatarPic && (g_dat->flags&SMF_AVATAR)) {
+				if (idat->mwd->avatarPic && (g_dat.flags&SMF_AVATAR)) {
 					BITMAP bminfo;
 					GetObject(idat->mwd->avatarPic, sizeof(bminfo), &bminfo);
 					if ( bminfo.bmWidth != 0 && bminfo.bmHeight != 0 ) {
@@ -160,7 +160,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		}
 	case WM_CTLCOLORDLG:
     case WM_CTLCOLORSTATIC:
-		return (INT_PTR)g_dat->hInfobarBrush;
+		return (INT_PTR)g_dat.hInfobarBrush;
 	
 	case WM_DROPFILES:
 		SendMessage(GetParent(hwnd), WM_DROPFILES, wParam, lParam);
@@ -227,8 +227,8 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				rect.left = 0;
 				rect.right = itemWidth - 1;
 				rect.bottom = itemHeight - 1;
-				FillRect(hdcMem, &rect, g_dat->hInfobarBrush);
-				if (idat->mwd->avatarPic && (g_dat->flags&SMF_AVATAR)) {
+				FillRect(hdcMem, &rect, g_dat.hInfobarBrush);
+				if (idat->mwd->avatarPic && (g_dat.flags&SMF_AVATAR)) {
 					BITMAP bminfo;
 					GetObject(idat->mwd->avatarPic, sizeof(bminfo), &bminfo);
 					if ( bminfo.bmWidth != 0 && bminfo.bmHeight != 0 ) {

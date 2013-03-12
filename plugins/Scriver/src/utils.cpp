@@ -27,50 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TTI_NONE 0
 #endif
 
-static unsigned hookNum = 0;
-static unsigned serviceNum = 0;
-static HANDLE* hHooks = NULL;
-static HANDLE* hServices = NULL;
-
-HANDLE HookEvent_Ex(const char *name, MIRANDAHOOK hook) {
-	hookNum ++;
-	hHooks = (HANDLE *) mir_realloc(hHooks, sizeof(HANDLE) * (hookNum));
-	hHooks[hookNum - 1] = HookEvent(name, hook);
-	return hHooks[hookNum - 1] ;
-}
-
-HANDLE CreateServiceFunction_Ex(const char *name, MIRANDASERVICE service) {
-	serviceNum++;
-	hServices = (HANDLE *) mir_realloc(hServices, sizeof(HANDLE) * (serviceNum));
-	hServices[serviceNum - 1] = CreateServiceFunction(name, service);
-	return hServices[serviceNum - 1] ;
-}
-
-void UnhookEvents_Ex() {
-	unsigned i;
-	for (i=0; i<hookNum ; ++i) {
-		if (hHooks[i] != NULL) {
-			UnhookEvent(hHooks[i]);
-		}
-	}
-	mir_free(hHooks);
-	hookNum = 0;
-	hHooks = NULL;
-}
-
-void DestroyServices_Ex() {
-	unsigned i;
-	for (i=0; i<serviceNum; ++i) {
-		if (hServices[i] != NULL) {
-			DestroyServiceFunction(hServices[i]);
-		}
-	}
-	mir_free(hServices);
-	serviceNum = 0;
-	hServices = NULL;
-}
-
-
 int safe_wcslen(wchar_t *msg, int maxLen) {
     int i;
 	for (i = 0; i < maxLen; i++) {
@@ -292,7 +248,7 @@ void rtrimText(TCHAR *text)
 TCHAR *limitText(TCHAR *text, int limit)
 {
 	int len = lstrlen(text);
-	if (len > g_dat->limitNamesLength)
+	if (len > g_dat.limitNamesLength)
 	{
 		TCHAR *ptszTemp = (TCHAR *)mir_alloc(sizeof(TCHAR) * (limit + 4));
 		_tcsncpy(ptszTemp, text, limit + 1);
@@ -390,7 +346,7 @@ void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT) lParam;
-	if (mis->itemData != (ULONG_PTR) g_dat->hButtonIconList && mis->itemData != (ULONG_PTR) g_dat->hSearchEngineIconList && mis->itemData != (ULONG_PTR) g_dat->hChatButtonIconList) {
+	if (mis->itemData != (ULONG_PTR) g_dat.hButtonIconList && mis->itemData != (ULONG_PTR) g_dat.hSearchEngineIconList && mis->itemData != (ULONG_PTR) g_dat.hChatButtonIconList) {
 		return FALSE;
 	}
 	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON) - GetSystemMetrics(SM_CXMENUCHECK) + 4);
@@ -403,7 +359,7 @@ int DrawMenuItem(WPARAM wParam, LPARAM lParam)
 	int y;
 	int id;
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
-	if (dis->itemData != (ULONG_PTR) g_dat->hButtonIconList && dis->itemData != (ULONG_PTR) g_dat->hSearchEngineIconList && dis->itemData != (ULONG_PTR) g_dat->hChatButtonIconList) {
+	if (dis->itemData != (ULONG_PTR) g_dat.hButtonIconList && dis->itemData != (ULONG_PTR) g_dat.hSearchEngineIconList && dis->itemData != (ULONG_PTR) g_dat.hChatButtonIconList) {
 		return FALSE;
 	}
 	id = dis->itemID;
@@ -624,7 +580,7 @@ int GetToolbarWidth(int cControls, const ToolbarButton * buttons)
 {
 	int w = 0;
 	for (int i = 0; i < cControls; i++)
-		if (buttons[i].controlId != IDC_SMILEYS || g_dat->smileyAddInstalled)
+		if (buttons[i].controlId != IDC_SMILEYS || g_dat.smileyAddInstalled)
 			w += buttons[i].width + buttons[i].spacing;
 
 	return w;

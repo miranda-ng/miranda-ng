@@ -636,22 +636,22 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 
 void HookEvents(void)
 {
-	HookEvent_Ex(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CList_PrebuildContactMenu);
 }
 
 void CreateServiceFunctions(void)
 {
-	CreateServiceFunction_Ex(MS_GC_REGISTER,        Service_Register);
-	CreateServiceFunction_Ex(MS_GC_NEWSESSION,      Service_NewChat);
-	CreateServiceFunction_Ex(MS_GC_EVENT,           Service_AddEvent);
-	CreateServiceFunction_Ex(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
-	CreateServiceFunction_Ex(MS_GC_GETINFO,         Service_GetInfo);
-	CreateServiceFunction_Ex(MS_GC_GETSESSIONCOUNT, Service_GetCount);
+	CreateServiceFunction(MS_GC_REGISTER,        Service_Register);
+	CreateServiceFunction(MS_GC_NEWSESSION,      Service_NewChat);
+	CreateServiceFunction(MS_GC_EVENT,           Service_AddEvent);
+	CreateServiceFunction(MS_GC_GETEVENTPTR,     Service_GetAddEventPtr);
+	CreateServiceFunction(MS_GC_GETINFO,         Service_GetInfo);
+	CreateServiceFunction(MS_GC_GETSESSIONCOUNT, Service_GetCount);
 
-	CreateServiceFunction_Ex("GChat/DblClickEvent",     CList_EventDoubleclickedSvc);
-	CreateServiceFunction_Ex("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
-	CreateServiceFunction_Ex("GChat/JoinChat",          CList_JoinChat);
-	CreateServiceFunction_Ex("GChat/LeaveChat",         CList_LeaveChat);
+	CreateServiceFunction("GChat/DblClickEvent",     CList_EventDoubleclickedSvc);
+	CreateServiceFunction("GChat/PrebuildMenuEvent", CList_PrebuildContactMenuSvc);
+	CreateServiceFunction("GChat/JoinChat",          CList_JoinChat);
+	CreateServiceFunction("GChat/LeaveChat",         CList_LeaveChat);
 }
 
 void CreateHookableEvents(void)

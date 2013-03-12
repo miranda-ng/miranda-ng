@@ -34,10 +34,6 @@ enum SEARCHENGINES {
 	SEARCHENGINE_FOODNETWORK = 8
 };
 
-HANDLE HookEvent_Ex(const char *name, MIRANDAHOOK hook);
-HANDLE CreateServiceFunction_Ex(const char *name, MIRANDASERVICE service);
-extern void UnhookEvents_Ex();
-extern void DestroyServices_Ex();
 extern int IsUnicodeMIM();
 extern int safe_wcslen(wchar_t *msg, int maxLen) ;
 extern TCHAR *a2t(const char *text);

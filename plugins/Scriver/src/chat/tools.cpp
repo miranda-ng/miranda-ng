@@ -683,7 +683,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* s
 			TCHAR szMenuText[4096];
 			mir_sntprintf( szMenuText, 4096, TranslateT("Look up \'%s\':"), pszWordText );
 			ModifyMenu( *hMenu, 4, MF_STRING|MF_BYPOSITION, 4, szMenuText );
-			SetSearchEngineIcons(*hMenu, g_dat->hSearchEngineIconList);
+			SetSearchEngineIcons(*hMenu, g_dat.hSearchEngineIconList);
 		}
 		else ModifyMenu( *hMenu, 4, MF_STRING|MF_GRAYED|MF_BYPOSITION, 4, TranslateT( "No word to look up" ));
 		gcmi.Type = MENU_ON_LOG;
