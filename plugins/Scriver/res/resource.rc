@@ -569,10 +569,11 @@ IDI_FILTER2             ICON                    "chat/filter2.ico"
 
 IDI_GOOGLE              ICON                    "google.ico"
 IDI_BING                ICON                    "bing.ico"
+IDI_YANDEX              ICON                    "yandex.ico"
 IDI_WIKIPEDIA           ICON                    "wikipedia.ico"
 IDI_GOOGLE_MAPS         ICON                    "gmaps.ico"
 IDI_GOOGLE_TRANSLATE    ICON                    "gtranslate.ico"
-IDI_YAHOO           	ICON                    "yahoo.ico"
+IDI_YAHOO               ICON                    "yahoo.ico"
 IDI_FOODNETWORK         ICON                    "foodnetwork.ico"
 
 
@@ -602,6 +603,7 @@ BEGIN
         BEGIN
             MENUITEM "Google",                      IDM_SEARCH_GOOGLE
             MENUITEM "Bing",                        IDM_SEARCH_BING
+            MENUITEM "Yandex",                        IDM_SEARCH_YANDEX
             MENUITEM "Wikipedia (en)",          IDM_SEARCH_WIKIPEDIA
 	        MENUITEM SEPARATOR
             MENUITEM "Google Maps",             IDM_SEARCH_GOOGLE_MAPS
@@ -657,6 +659,7 @@ BEGIN
         BEGIN
             MENUITEM "Google",                  IDM_SEARCH_GOOGLE
             MENUITEM "Bing",                    IDM_SEARCH_BING
+            MENUITEM "Yandex",                    IDM_SEARCH_YANDEX
             MENUITEM "Wikipedia (en)",          IDM_SEARCH_WIKIPEDIA
 	        MENUITEM SEPARATOR
             MENUITEM "Google Maps",             IDM_SEARCH_GOOGLE_MAPS

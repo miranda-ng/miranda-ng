@@ -483,47 +483,45 @@ void SearchWord(TCHAR * word, int engine)
 		//char *wordURL = (char *)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)wordUTF);
 		char *wordURL = url_encode(wordUTF);
 		switch (engine) {
-			case SEARCHENGINE_WIKIPEDIA:
-				mir_snprintf( szURL, sizeof( szURL ), "http://en.wikipedia.org/wiki/%s", wordURL );
-				break;
-			case SEARCHENGINE_YAHOO:
-				mir_snprintf( szURL, sizeof( szURL ), "http://search.yahoo.com/search?p=%s&ei=UTF-8", wordURL );
-				break;
-			case SEARCHENGINE_FOODNETWORK:
-				mir_snprintf( szURL, sizeof( szURL ), "http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", wordURL );
-				break;
-			case SEARCHENGINE_BING:
-				mir_snprintf( szURL, sizeof( szURL ), "http://www.bing.com/search?q=%s&form=OSDSRC", wordURL );
-				break;
-			case SEARCHENGINE_GOOGLE_MAPS:
-				mir_snprintf( szURL, sizeof( szURL ), "http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", wordURL );
-				break;
-			case SEARCHENGINE_GOOGLE_TRANSLATE:
-				mir_snprintf( szURL, sizeof( szURL ), "http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", wordURL );
-				break;
-			case SEARCHENGINE_GOOGLE:
-			default:
-				mir_snprintf( szURL, sizeof( szURL ), "http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", wordURL );
-				break;
+		case SEARCHENGINE_WIKIPEDIA:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://en.wikipedia.org/wiki/%s", wordURL);
+			break;
+		case SEARCHENGINE_YAHOO:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://search.yahoo.com/search?p=%s&ei=UTF-8", wordURL);
+			break;
+		case SEARCHENGINE_FOODNETWORK:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://search.foodnetwork.com/search/delegate.do?fnSearchString=%s", wordURL);
+			break;
+		case SEARCHENGINE_BING:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://www.bing.com/search?q=%s&form=OSDSRC", wordURL);
+			break;
+		case SEARCHENGINE_GOOGLE_MAPS:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			break;
+		case SEARCHENGINE_GOOGLE_TRANSLATE:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			break;
+		case SEARCHENGINE_YANDEX:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://yandex.ru/yandsearch?text=%s", wordURL);
+			break;
+		case SEARCHENGINE_GOOGLE:
+		default:
+			mir_snprintf(szURL, SIZEOF(szURL), "http://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", wordURL);
+			break;
 		}
-//		HeapFree(GetProcessHeap(), 0, wordURL);
+
 		mir_free(wordUTF);
 		mir_free(wordURL);
 		CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
 	}
 }
 
-void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList) {
-	int i;
-	for (i=0; i<IDI_FOODNETWORK - IDI_GOOGLE + 1; i++) {
-		MENUITEMINFO minfo = {0};
-		minfo.cbSize = sizeof(minfo);
-//		minfo.fMask = MIIM_FTYPE | MIIM_ID;
-//		GetMenuItemInfo(hMenu, IDM_SEARCH_GOOGLE + i, FALSE, &minfo);
+void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
+{
+	for (int i=0; i < IDI_LASTICON - IDI_GOOGLE; i++) {
+		MENUITEMINFO minfo = { sizeof(minfo) };
 		minfo.fMask = MIIM_BITMAP | MIIM_DATA;
 		minfo.hbmpItem = HBMMENU_CALLBACK;
-		//minfo.fType = MFT_STRING;
-		//minfo.wID = IDM_SEARCH_GOOGLE + i;
 		minfo.dwItemData = (ULONG_PTR) hImageList;
 		SetMenuItemInfo(hMenu, IDM_SEARCH_GOOGLE + i, FALSE, &minfo);
 	}
@@ -618,31 +616,25 @@ HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cC
 
 void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton* buttons, int controlVisibility, int state)
 {
-	int i;
-	for (i = 0; i < cControls; i++)
+	for (int i = 0; i < cControls; i++)
 		ShowWindow(GetDlgItem(hwndDlg, buttons[i].controlId), (controlVisibility & (1 << i)) ? state : SW_HIDE);
 }
 
 int GetToolbarWidth(int cControls, const ToolbarButton * buttons)
 {
-	int i, w = 0;
-	for (i = 0; i < cControls; i++) {
-//		if (g_dat->buttonVisibility & (1 << i)) {
-			if (buttons[i].controlId != IDC_SMILEYS || g_dat->smileyAddInstalled) {
-				w += buttons[i].width + buttons[i].spacing;
-			}
-//		}
-	}
+	int w = 0;
+	for (int i = 0; i < cControls; i++)
+		if (buttons[i].controlId != IDC_SMILEYS || g_dat->smileyAddInstalled)
+			w += buttons[i].width + buttons[i].spacing;
+
 	return w;
 }
 
 BOOL IsToolbarVisible(int cControls, int visibilityFlags)
 {
-	int i;
-	for (i = 0; i < cControls; i++) {
-		if (visibilityFlags & (1 << i)) {
+	for (int i = 0; i < cControls; i++)
+		if (visibilityFlags & (1 << i))
 			return TRUE;
-		}
-	}
+
 	return FALSE;
 }

@@ -199,8 +199,8 @@ void LoadGlobalIcons() {
 	ImageList_AddIcon(g_dat->hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	overlayIcon = ImageList_AddIcon(g_dat->hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	ImageList_SetOverlayImage(g_dat->hHelperIconList, overlayIcon, 1);
-	for (i=0; i<IDI_FOODNETWORK - IDI_GOOGLE + 1; i++) {
-		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_GOOGLE + i), IMAGE_ICON, 0, 0, 0);
+	for (i=IDI_GOOGLE; i < IDI_LASTICON; i++) {
+		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(i), IMAGE_ICON, 0, 0, 0);
 		ImageList_AddIcon(g_dat->hSearchEngineIconList, hIcon);
 		DestroyIcon(hIcon);
 	}
