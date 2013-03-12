@@ -82,9 +82,9 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_LOADEDGRAY,      LPGEN("Running core plugin"), -IDI_LOADED_GRAY    }, // 44
 	{ SKINICON_OTHER_NOTLOADEDGRAY,   LPGEN("Non-loadable plugin"), -IDI_NOTLOADED_GRAY },	// 45
 	{ SKINICON_OTHER_FRAME,           LPGEN("Frames"),              -IDI_FRAME          },	// 46
-	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),      -IDI_ALWAYSVIS,     0, "Contact List" },
-	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),    -IDI_NEVERVIS,      0, "Contact List" },
-	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),       -IDI_STATUS_LOCKED, 0, "Status Icons" }, 
+	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),      -IDI_ALWAYSVIS,     0, LPGEN("Contact List") },
+	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),    -IDI_NEVERVIS,      0, LPGEN("Contact List") },
+	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),       -IDI_STATUS_LOCKED, 0, LPGEN("Status Icons") }, 
 };
 
 static struct StandardIconDescription statusIcons[] = 
@@ -105,7 +105,7 @@ const char mainIconsFmt[] = "core_main_";
 const char statusIconsFmt[] = "core_status_";
 const char protoIconsFmt[] = LPGEN("%s Icons");
 
-#define PROTOCOLS_PREFIX "Status Icons/"
+#define PROTOCOLS_PREFIX LPGEN("Status Icons/")
 #define GLOBAL_PROTO_NAME "*"
 
 // load small icon (shared) it's not need to be destroyed
@@ -480,7 +480,7 @@ int LoadSkinIcons(void)
 	//
 	// Add global icons to list
 	//
-	sid.pszSection = PROTOCOLS_PREFIX "Global";
+	sid.pszSection = PROTOCOLS_PREFIX LPGEN("Global");
 	//
 	// Asterisk is used, to avoid conflict with proto-plugins
 	// 'coz users can't rename it to name with '*'
