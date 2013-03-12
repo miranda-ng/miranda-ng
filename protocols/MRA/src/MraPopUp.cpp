@@ -4,13 +4,13 @@
 #define POPUPS_TYPES_COUNT	7
 static LPCWSTR lpcwszPopupsTypes[] =
 {
-	L"None",
-	L"Debug",
-	L"Information",
-	L"Question",
-	L"Warning",
-	L"Error",
-	L"NewMail",
+	LPGENT("None"),
+	LPGENT("Debug"),
+	LPGENT("Information"),
+	LPGENT("Question"),
+	LPGENT("Warning"),
+	LPGENT("Error"),
+	LPGENT("NewMail"),
 	NULL
 };
 

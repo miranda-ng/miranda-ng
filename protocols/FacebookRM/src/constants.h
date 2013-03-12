@@ -127,10 +127,10 @@ static const struct
 	const char *name;
 	const char *id;
 } feed_types[] = {
-	{ "Most Recent", "lf_" }, //h_chr?
-	{ "Wall Posts", "app_2915120374" },
-	{ "Top News", "h_nor" }, //h
-	{ "Photos", "app_2305272732_2392950137" },
-	{ "Links", "app_2309869772" },
-	{ "Apps and Games", "appsandgames" },
+	{ LPGEN("Most Recent"), "lf_" }, //h_chr?
+	{ LPGEN("Wall Posts"), "app_2915120374" },
+	{ LPGEN("Top News"), "h_nor" }, //h
+	{ LPGEN("Photos"), "app_2305272732_2392950137" },
+	{ LPGEN("Links"), "app_2309869772" },
+	{ LPGEN("Apps and Games"), "appsandgames" },
 };
