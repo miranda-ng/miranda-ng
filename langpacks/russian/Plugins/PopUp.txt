@@ -79,7 +79,7 @@
 справа сверху
 [The Jabberwocky :)]
 БАРМАГЛОТ :)
-[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
 Варкалось. Хливкие шорьки\r\nПырялись по наве,\r\nИ хрюкотали зелюки,\r\nКак мюмзики в мове.\r\n\t[b][i]Льюис Кэрролл,1855[/i][/b]
 [Drop shadow effect]
 Эффект тени
