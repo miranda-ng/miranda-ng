@@ -1,88 +1,49 @@
-#include <windows.h>
-#include <commctrl.h>
-#include "../../miranda32/random/plugins/newpluginapi.h"
-#include "../../miranda32/database/m_database.h"
-#include "../../miranda32/ui/contactlist/m_clist.h"
-#include "../../miranda32/ui/options/m_options.h"
-#include "../../miranda32/random/skin/m_skin.h"
-#include "../../miranda32/random/langpack/m_langpack.h"
-#include "../../miranda32/core/m_system.h"
-#include "../../miranda32/protocols/protocols/m_protosvc.h"
-#include "resource.h"
-#include "resrc1.h"
-
-#define PLUGINNAME "StatusChange"
-
-typedef struct
-{
-	BOOL MessageRead;
-	BOOL MessageSend;
-	BOOL UrlRead;
-	BOOL UrlSend;
-	BOOL FileRead;
-	BOOL FileSend;
-
-	int ChangeTo; // ID_STATUS_XXX
-
-	BOOL IfOffline;
-	BOOL IfOnline;
-	BOOL IfAway;
-	BOOL IfNA;
-	BOOL IfOccupied;
-	BOOL IfDND;
-	BOOL IfFreeforchat;
-	BOOL IfInvisible;
-	BOOL IfOnthephone;
-	BOOL IfOuttolunch;
-} TOPTIONS;
+#include "Common.h"
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
-HANDLE hNewMessage;
-HANDLE hOptInit;
 TOPTIONS Options;
 HICON hIconMsg;
 HICON hIconUrl;
 HICON hIconFile;
-static int StatusChangeGetMessage(WPARAM,LPARAM);
-static BOOL CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+int hLangpack;
 
-PLUGININFO pluginInfo={
-	sizeof(PLUGININFO),
-	PLUGINNAME,
-	PLUGIN_MAKE_VERSION(1,3,0,0),
-	"Change status when you send/receive and event.",
-	"Angelo Luiz Tartari",
-	"corsario-br@users.sourceforge.net",
-	"© 2002 Angelo Luiz Tartari",
-	"http://miranda-icq.sourceforge.net/",
-	0,
-	0
+PLUGININFOEX pluginInfo={
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {1ACB2ED1-C1ED-43EE-89BD-086686F6EBB5}
+	{0x1acb2ed1, 0xc1ed, 0x43ee, {0x89, 0xbd, 0x8, 0x66, 0x86, 0xf6, 0xeb, 0xb5}}
 };
 
 void LoadOptions()
 {
 	ZeroMemory(&Options, sizeof(Options));
-	Options.MessageRead = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "MessageRead", FALSE);
-	Options.MessageSend = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "MessageSend", TRUE);
-	Options.UrlRead = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "UrlRead", FALSE);
-	Options.UrlSend = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "UrlSend", TRUE);
-	Options.FileRead = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "FileRead", FALSE);
-	Options.FileSend = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "FileSend", TRUE);
-	Options.ChangeTo = (INT)DBGetContactSettingDword(NULL, PLUGINNAME, "ChangeTo", ID_STATUS_ONLINE);
-	Options.IfOffline = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfOffline", FALSE);
-	Options.IfOnline = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfOnline", FALSE);
-	Options.IfAway = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfAway", TRUE);
-	Options.IfNA = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfNA", TRUE);
-	Options.IfOccupied = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfOccupied", FALSE);
-	Options.IfDND = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfDND", FALSE);
-	Options.IfFreeforchat = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfFreeforchat", FALSE);
-	Options.IfInvisible = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfInvisible", FALSE);
-	Options.IfOnthephone = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfOnthephone", FALSE);
-	Options.IfOuttolunch = (BOOL)DBGetContactSettingByte(NULL, PLUGINNAME, "IfOuttolunch", FALSE);
+	Options.MessageRead = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageRead", FALSE);
+	Options.MessageSend = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageSend", TRUE);
+	Options.UrlRead = (BOOL)db_get_b(NULL, PLUGINNAME, "UrlRead", FALSE);
+	Options.UrlSend = (BOOL)db_get_b(NULL, PLUGINNAME, "UrlSend", TRUE);
+	Options.FileRead = (BOOL)db_get_b(NULL, PLUGINNAME, "FileRead", FALSE);
+	Options.FileSend = (BOOL)db_get_b(NULL, PLUGINNAME, "FileSend", TRUE);
+	Options.ChangeTo = (INT)db_get_dw(NULL, PLUGINNAME, "ChangeTo", ID_STATUS_ONLINE);
+	Options.IfOffline = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOffline", FALSE);
+	Options.IfOnline = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOnline", FALSE);
+	Options.IfAway = (BOOL)db_get_b(NULL, PLUGINNAME, "IfAway", TRUE);
+	Options.IfNA = (BOOL)db_get_b(NULL, PLUGINNAME, "IfNA", TRUE);
+	Options.IfOccupied = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOccupied", FALSE);
+	Options.IfDND = (BOOL)db_get_b(NULL, PLUGINNAME, "IfDND", FALSE);
+	Options.IfFreeforchat = (BOOL)db_get_b(NULL, PLUGINNAME, "IfFreeforchat", FALSE);
+	Options.IfInvisible = (BOOL)db_get_b(NULL, PLUGINNAME, "IfInvisible", FALSE);
+	Options.IfOnthephone = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOnthephone", FALSE);
+	Options.IfOuttolunch = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOuttolunch", FALSE);
 }
 
-static int StatusChangeGetMessage(WPARAM wParam,LPARAM lParam)
+static int StatusChangeGetMessage(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbe;
@@ -152,32 +113,17 @@ static int StatusChangeGetMessage(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int StatusChangeOptInit(WPARAM wParam,LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszTitle = Translate(PLUGINNAME);
-	odp.pszGroup = Translate("Plugins");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcStatusChangeOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
-	return 0;
-}
-
 static BOOL CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 
-			hIconMsg = CopyImage(LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconMsg = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_MESSAGE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_MSGICON, STM_SETICON, (WPARAM)hIconMsg, 0);
-			hIconUrl = CopyImage(LoadSkinnedIcon(SKINICON_EVENT_URL), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconUrl = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_URL), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_URLICON, STM_SETICON, (WPARAM)hIconUrl, 0);
-			hIconFile = CopyImage(LoadSkinnedIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
+			hIconFile = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIconFile, 0);
 
 			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGEREAD, Options.MessageRead?BST_CHECKED:BST_UNCHECKED);
@@ -332,23 +278,23 @@ static BOOL CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 							LoadOptions();
 							return TRUE;
 						case PSN_APPLY:
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "MessageRead", (BYTE)Options.MessageRead);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "MessageSend", (BYTE)Options.MessageSend);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "UrlRead", (BYTE)Options.UrlRead);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "UrlSend", (BYTE)Options.UrlSend);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "FileRead", (BYTE)Options.FileRead);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "FileSend", (BYTE)Options.FileSend);
-							DBWriteContactSettingDword(NULL, PLUGINNAME, "ChangeTo", (DWORD)Options.ChangeTo);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfOffline", (BYTE)Options.IfOffline);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfOnline", (BYTE)Options.IfOnline);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfAway", (BYTE)Options.IfAway);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfNA", (BYTE)Options.IfNA);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfDND", (BYTE)Options.IfDND);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfOccupied", (BYTE)Options.IfOccupied);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfFreeforchat", (BYTE)Options.IfFreeforchat);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfInvisible", (BYTE)Options.IfInvisible);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfOnthephone", (BYTE)Options.IfOnthephone);
-							DBWriteContactSettingByte(NULL, PLUGINNAME, "IfOuttolunch", (BYTE)Options.IfOuttolunch);
+							db_set_b(NULL, PLUGINNAME, "MessageRead", (BYTE)Options.MessageRead);
+							db_set_b(NULL, PLUGINNAME, "MessageSend", (BYTE)Options.MessageSend);
+							db_set_b(NULL, PLUGINNAME, "UrlRead", (BYTE)Options.UrlRead);
+							db_set_b(NULL, PLUGINNAME, "UrlSend", (BYTE)Options.UrlSend);
+							db_set_b(NULL, PLUGINNAME, "FileRead", (BYTE)Options.FileRead);
+							db_set_b(NULL, PLUGINNAME, "FileSend", (BYTE)Options.FileSend);
+							db_set_dw(NULL, PLUGINNAME, "ChangeTo", (DWORD)Options.ChangeTo);
+							db_set_b(NULL, PLUGINNAME, "IfOffline", (BYTE)Options.IfOffline);
+							db_set_b(NULL, PLUGINNAME, "IfOnline", (BYTE)Options.IfOnline);
+							db_set_b(NULL, PLUGINNAME, "IfAway", (BYTE)Options.IfAway);
+							db_set_b(NULL, PLUGINNAME, "IfNA", (BYTE)Options.IfNA);
+							db_set_b(NULL, PLUGINNAME, "IfDND", (BYTE)Options.IfDND);
+							db_set_b(NULL, PLUGINNAME, "IfOccupied", (BYTE)Options.IfOccupied);
+							db_set_b(NULL, PLUGINNAME, "IfFreeforchat", (BYTE)Options.IfFreeforchat);
+							db_set_b(NULL, PLUGINNAME, "IfInvisible", (BYTE)Options.IfInvisible);
+							db_set_b(NULL, PLUGINNAME, "IfOnthephone", (BYTE)Options.IfOnthephone);
+							db_set_b(NULL, PLUGINNAME, "IfOuttolunch", (BYTE)Options.IfOuttolunch);
 							return TRUE;
 						break;
 					}
@@ -367,36 +313,44 @@ static BOOL CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 	return FALSE;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+int StatusChangeOptInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.ptszTitle = LPGENT("Status Change");
+	odp.ptszGroup = LPGENT("Status");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcStatusChangeOpts;
+	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
-	DisableThreadLibraryCalls(hInst);
 	return TRUE;
 }
 
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink = link;
+	mir_getLP(&pluginInfo);
 
-	hOptInit = HookEvent(ME_OPT_INITIALISE,StatusChangeOptInit);
-	hNewMessage = HookEvent(ME_DB_EVENT_ADDED,StatusChangeGetMessage);
-
-	// Plugin Sweeper support
-	DBWriteContactSettingString(NULL, "Uninstall", Translate(PLUGINNAME), PLUGINNAME);
+	HookEvent(ME_OPT_INITIALISE, StatusChangeOptInit);
+	HookEvent(ME_DB_EVENT_ADDED, StatusChangeGetMessage);
 
 	LoadOptions();
 
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
-	if(hOptInit) UnhookEvent(hOptInit);
-	if(hNewMessage) UnhookEvent(hNewMessage);
 	return 0;
 }

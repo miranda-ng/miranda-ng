@@ -1,16 +1,13 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
-#include "resrc1.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#define APSTUDIO_HIDDEN_SYMBOLS
-#include "windows.h"
-#undef APSTUDIO_HIDDEN_SYMBOLS
-#include "resource.h"
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -106,23 +103,19 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
-    "resrc1.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""resource.h""\r\n"
+    "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
-    "\r\n"
     "\0"
 END
 

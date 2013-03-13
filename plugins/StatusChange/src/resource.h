@@ -1,3 +1,5 @@
+#define IDD_OPTIONS                     10
+
 #define IDC_CHK_OFFLINE                 1001
 #define IDC_CHK_ONLINE                  1002
 #define IDC_CHK_AWAY                    1003
@@ -6,6 +8,8 @@
 #define IDC_CHK_OCCUPIED                1006
 #define IDC_CHK_FREECHAT                1007
 #define IDC_CHK_INVISIBLE               1008
+#define IDC_CHK_ONTHEPHONE              1009
+#define IDC_CHK_OUTTOLUNCH              1010
 
 #define IDC_RAD_OFFLINE                 2001
 #define IDC_RAD_ONLINE                  2002
@@ -15,6 +19,8 @@
 #define IDC_RAD_OCCUPIED                2006
 #define IDC_RAD_FREECHAT                2007
 #define IDC_RAD_INVISIBLE               2008
+#define IDC_RAD_ONTHEPHONE              2009
+#define IDC_RAD_OUTTOLUNCH              2010
 
 #define IDC_CHK_MESSAGEREAD             3001
 #define IDC_CHK_MESSAGESEND             3002
