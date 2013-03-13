@@ -1293,6 +1293,7 @@
 [Always visible]
 [Always invisible]
 [Locked status]
+[Status Icons]
 [%s Icons]
 [Main Icons]
 ;file \src\modules\skin\sounds.cpp
@@ -1980,6 +1981,8 @@
 [&Deny]
 [Message]
 [Room]
+;file \protocols\AimOscar\src\avatars.cpp
+[Avatars]
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 [Others]
@@ -2578,8 +2581,10 @@
 [Set My Avatar]
 [Set My Avatar for %s]
 [Global avatar for %s accounts]
-[Contacts]
 [Avatars]
+[My Avatars]
+[My Global Avatar Cache]
+[Contacts]
 [Protocols]
 [Contact Avatars]
 [Own Avatars]
@@ -2883,6 +2888,7 @@
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
+[Bass library]
 [Sounds enabled]
 [Sounds disabled]
 ﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
@@ -4769,6 +4775,7 @@
 [Version Information To File]
 [Show Version Information]
 [Upload Version Information]
+[Crash Reports]
 [Version Information]
 [Copy to clipboard]
 [Store to file]
@@ -5416,6 +5423,8 @@
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup Profile]
 [Save Profile As...]
+[Database Backups]
+[Backup Folder]
 [Database]
 [Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
@@ -5506,6 +5515,13 @@
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 [Please enter a password.]
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+[Wall Posts]
+[Top News]
+[Photos]
+[Links]
+[Apps and Games]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -5533,6 +5549,7 @@
 [Notification]
 [News Feed]
 [Other Event]
+[Avatars]
 [Network]
 [Account]
 [Advanced]
@@ -5822,6 +5839,7 @@
 [Bugged Flash detected!]
 [You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]
 [Flash Avatars]
+[Avatars]
 ﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
@@ -6220,6 +6238,7 @@
 [Contact list]
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
+[Avatars]
 [Gadu-Gadu Number]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
@@ -7075,6 +7094,7 @@
 [** This message was blocked by the ICQ server ** You are too evil.]
 [** Unknown missed message event.]
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Avatars]
 [Error uploading avatar to server, server temporarily unavailable.]
 [Error uploading avatar to server, server refused to accept the image.]
 ;file \protocols\IcqOscarJ\src\icq_constants.h
@@ -7695,6 +7715,7 @@
 [Writing]
 [%s Custom Status]
 [None]
+[Custom Status]
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 ;file \protocols\IcqOscarJ\src\init.cpp
@@ -8975,6 +8996,7 @@
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
+[Avatars]
 [To]
 [From]
 [Both]
@@ -9583,6 +9605,8 @@
 [Activity: %s]
 [Set Activity]
 [Listening To]
+[Moods]
+[Activities]
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 ﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
@@ -10429,6 +10453,7 @@
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
 [Services]
 ﻿#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;============================================================
@@ -10616,7 +10641,19 @@
 [Send files: requested file: %S - not found in send files list.]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
+;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+[Contact Menu]
+[Extra status]
+[Custom Status]
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+[Debug]
+[Information]
+[Question]
+[Warning]
+[Error]
+[NewMail]
 [PopUps]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
@@ -10651,6 +10688,55 @@
 [MRIM_CS_SMS_ACK: not found in queue]
 [Mail.ru System notify]
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Sick]
+[Home]
+[Eating]
+[Compass]
+[On WC]
+[Cooking]
+[Walking]
+[Alien]
+[Shrimp]
+[Got lost]
+[Crazy]
+[Duck]
+[Playing]
+[Smoking]
+[Office]
+[Meeting]
+[Beer]
+[Coffee]
+[Working]
+[Relaxing]
+[On the phone]
+[In institute]
+[At school]
+[Wrong number]
+[Laughing]
+[Malicious]
+[Imp]
+[Blind]
+[Disappointed]
+[Almost crying]
+[Fearful]
+[Angry]
+[Vampire]
+[Ass]
+[Love]
+[Sleeping]
+[Cool!]
+[Peace!]
+[Cock a snook]
+[Get out]
+[Death]
+[Rocket]
+[Devil-fish]
+[Heavy metal]
+[Things look bad]
+[Squirrel]
+[Star]
+[Music]
+[Dating]
 [Are you sure?]
 ﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;============================================================
@@ -11000,6 +11086,8 @@
 [&Block]
 [&Start Netmeeting]
 ;file \protocols\MSN\src\msn_misc.cpp
+[Avatars]
+[Custom Smileys]
 [Notify]
 [Error]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
@@ -11283,6 +11371,7 @@
 [Contact deleting]
 [Network]
 ;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]
@@ -11445,6 +11534,8 @@
 [User: On The Phone]
 [Enable status notification]
 [Disable status notification]
+[Notification enabled]
+[Notification disabled]
 [User: from offline (has priority!)]
 [Extra status changed]
 [Extra status message changed]
@@ -12739,7 +12830,7 @@
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 ;file \plugins\QuickReplies\res\resources.rc
-[QuickReplies]
+[Quick Replies]
 [Send replies immediately]
 [- Add your replies, one per line.]
 [Variables]
@@ -12751,7 +12842,6 @@
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 ;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
-[Quick Replies]
 ﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
 ;============================================================
 ;  File: QuickSearch.dll
@@ -13206,6 +13296,7 @@
 [Word lookup]
 [Google]
 [Bing]
+[Yandex]
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
@@ -13754,7 +13845,29 @@
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 [SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
+;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+[Connection Disabled]
+[Connection Established]
+[Contact Menu]
+[Disable Secure Connection]
+[Establishe Secure Connection]
+[Message Window]
+[Popups]
+[Secure Connection Disabled]
+[Secure Connection Established]
+[Secure Connection In Process]
+[Recv Secured Message]
+[Sent Secured Message]
+[Menu State]
+[Always Try]
+[Overlays]
+[Native mode]
+[PGP mode]
+[GPG mode]
+[RSA/AES mode]
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
 [Incoming Secure Message]
 [Outgoing Secure Message]
 [SecureIM status]
@@ -13774,6 +13887,9 @@
 [Load Public Key File]
 [Services]
 ;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+[Secure Popup]
+[Message Popup]
 [PopUps]
 ﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
@@ -13987,12 +14103,14 @@
 [Retry]
 [Yes]
 [No]
-[Abord]
+[Abort]
 [Ignore]
 ;file \plugins\SendScreenshotPlus\src\global.h
 [SendScreenshot - Error]
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
+[SendSS]
+[Screenshots]
 [SendSS HTTP connections]
 [Could not create main dialog.]
 [Send Screenshot]
@@ -14000,6 +14118,29 @@
 [Take a screenshot]
 [Could not register miranda service.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Screenshot Icon1]
+[Screenshot Icon2]
+[Target Cursor]
+[Target Desktop]
+[Default]
+[overlay on]
+[overlay off]
+[Help]
+[Open Folder]
+[description off]
+[description on]
+[delete off]
+[delete on]
+[Prev]
+[Next]
+[Update]
+[Ok]
+[Apply]
+[Down arrow]
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+[overlays]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 [< Copyright]
@@ -14018,7 +14159,6 @@
 [FTP File]
 [ImageShack]
 [Information]
-[Open Folder]
 [Fill description textbox.]
 [Delete after send]
 [Capture]
@@ -14292,6 +14432,7 @@
 [Recent Message]
 [Predefined Message]
 [Go to URL in Away Message]
+[Simple Status Message]
 [I've been away since %time%.]
 [Give it up, I'm not in!]
 [Not right now.]
@@ -14378,6 +14519,8 @@
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show Smiley Selection Window]
 ;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+[Smiley Cache]
 [SmileyAdd HTTP connections]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
@@ -14791,6 +14934,36 @@
 [<n/a>]
 [Protocol]
 [Closing in %d]
+﻿#muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
+;============================================================
+;  File: StatusChange.dll
+;  Plugin: Status change
+;  Version: 1.3.0.0
+;  Authors: Angelo Luiz Tartari
+;============================================================
+[Change status when you send/receive and event.]
+;file \plugins\StatusChange\res\resource.rc
+[Offline]
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[On the phone]
+[Out to lunch]
+[On events...]
+[Send]
+[Receive]
+[Message]
+[URL]
+[File transfer]
+[...change status to...]
+[... if status is...]
+;file \plugins\StatusChange\src\main.cpp
+[Status Change]
+[Status]
 ﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;============================================================
 ;  File: StopSpam.dll
@@ -14875,6 +15048,8 @@
 [Use math expression in question]
 [Details..]
 ;file \plugins\StopSpamMod\src\init.cpp
+[StopSpam]
+[StopSpam Logs]
 [Remove Temporary Contacts]
 ;file \plugins\StopSpamMod\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
@@ -14885,7 +15060,6 @@
 [If math expression is turned on you can use following expression in message text:\nXX+XX-X/X*X\neach X will be replaced by one ruandom number and answer will be expression result\nMessage must contain only one expression without spaces]
 [Info]
 [Message Sessions]
-[StopSpam]
 [General]
 [Messages]
 [Accounts]
@@ -15521,6 +15695,12 @@
 [Show always (if present)]
 [Never show it at all]
 ;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+[Data path]
+[Skins root]
+[Avatars]
+[Saved TabSRMM avatars]
+[Group chat logs root]
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
@@ -16329,6 +16509,7 @@
 [Labels]
 [Values]
 [Tray title]
+[Tipper skins]
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 [Male]
@@ -16762,18 +16943,18 @@
 [Tooltip format string:]
 [Display traffic for current]
 ;file \plugins\TrafficCounter\src\options.cpp
-[Display/]
+[Display]
 [Icon]
 [Account name]
 [Current traffic]
 [Total traffic]
 [Current online]
 [Total online]
-[General/]
+[General]
 [Draw frame as skin element]
 [Show tooltip in traffic window]
 ["Toggle traffic counter" in main menu]
-[Visible accounts/]
+[Visible accounts]
 [Summary traffic for visible accounts]
 [Overall traffic]
 [Hide now]
@@ -16878,6 +17059,7 @@
 [Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection.]
 [You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options]
 ;file \protocols\Twitter\src\proto.cpp
+[Avatars]
 [Send Tweet...]
 [Network]
 [Basic]
@@ -17744,6 +17926,8 @@
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 [Show plugin UUIDs ?]
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+[Output folder]
 [Version Information]
 [Services]
 ;file \plugins\VersionInfo\src\main.cpp
@@ -18432,17 +18616,17 @@
 [Closing in %d seconds]
 [Closing in %d second]
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+[Birthdays]
+[Contacts]
 [WhenWasIt]
 [Birthday near]
 [Birthday today]
 [Birthdays (When Was It)]
-[Check for birthdays]
 [Refresh user details]
 [Import birthdays]
 [Export birthdays]
 [Add/change user &birthday]
-[Birthdays]
-[Contacts]
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 [List birthdays menu item]
@@ -18794,6 +18978,8 @@
 [&Cancel]
 [Invitation reason]
 [Add]
+;file \protocols\Yahoo\src\avatar.cpp
+[Avatars]
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]

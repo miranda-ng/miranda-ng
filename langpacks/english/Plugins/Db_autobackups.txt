@@ -31,6 +31,8 @@
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup Profile]
 [Save Profile As...]
+[Database Backups]
+[Backup Folder]
 [Database]
 [Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp

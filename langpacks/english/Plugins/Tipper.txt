@@ -245,6 +245,7 @@
 [Labels]
 [Values]
 [Tray title]
+[Tipper skins]
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 [Male]

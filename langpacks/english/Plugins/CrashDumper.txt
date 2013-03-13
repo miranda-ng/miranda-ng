@@ -30,6 +30,7 @@
 [Version Information To File]
 [Show Version Information]
 [Upload Version Information]
+[Crash Reports]
 [Version Information]
 [Copy to clipboard]
 [Store to file]

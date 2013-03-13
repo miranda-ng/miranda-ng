@@ -63,6 +63,7 @@
 [Contact deleting]
 [Network]
 ;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
 [Enable/disable auto update]
 ;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggregator HTTP connection]

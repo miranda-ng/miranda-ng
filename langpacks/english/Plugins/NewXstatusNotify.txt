@@ -152,6 +152,8 @@
 [User: On The Phone]
 [Enable status notification]
 [Disable status notification]
+[Notification enabled]
+[Notification disabled]
 [User: from offline (has priority!)]
 [Extra status changed]
 [Extra status message changed]

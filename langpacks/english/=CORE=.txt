@@ -1293,6 +1293,7 @@
 [Always visible]
 [Always invisible]
 [Locked status]
+[Status Icons]
 [%s Icons]
 [Main Icons]
 ;file \src\modules\skin\sounds.cpp

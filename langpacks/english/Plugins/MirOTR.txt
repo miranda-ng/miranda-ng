@@ -133,4 +133,5 @@
 ;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
 [Services]

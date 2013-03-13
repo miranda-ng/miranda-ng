@@ -49,6 +49,8 @@
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 [Show plugin UUIDs ?]
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+[Output folder]
 [Version Information]
 [Services]
 ;file \plugins\VersionInfo\src\main.cpp

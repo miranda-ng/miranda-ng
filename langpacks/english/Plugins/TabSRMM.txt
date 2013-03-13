@@ -629,6 +629,12 @@
 [Show always (if present)]
 [Never show it at all]
 ;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+[Data path]
+[Skins root]
+[Avatars]
+[Saved TabSRMM avatars]
+[Group chat logs root]
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp

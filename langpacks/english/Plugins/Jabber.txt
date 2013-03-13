@@ -456,6 +456,7 @@
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
+[Avatars]
 [To]
 [From]
 [Both]
@@ -1064,5 +1065,7 @@
 [Activity: %s]
 [Set Activity]
 [Listening To]
+[Moods]
+[Activities]
 ;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]

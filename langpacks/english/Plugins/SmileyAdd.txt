@@ -34,6 +34,8 @@
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show Smiley Selection Window]
 ;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+[Smiley Cache]
 [SmileyAdd HTTP connections]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]

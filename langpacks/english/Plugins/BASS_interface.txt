@@ -36,5 +36,6 @@
 [Disable sounds]
 [Enable sounds]
 [Frame Background]
+[Bass library]
 [Sounds enabled]
 [Sounds disabled]

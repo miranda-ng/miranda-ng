@@ -147,6 +147,7 @@
 [Contact list]
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
+[Avatars]
 [Gadu-Gadu Number]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]

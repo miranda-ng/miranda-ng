@@ -54,6 +54,13 @@
 ;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 [Please enter a password.]
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+[Wall Posts]
+[Top News]
+[Photos]
+[Links]
+[Apps and Games]
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
@@ -81,6 +88,7 @@
 [Notification]
 [News Feed]
 [Other Event]
+[Avatars]
 [Network]
 [Account]
 [Advanced]

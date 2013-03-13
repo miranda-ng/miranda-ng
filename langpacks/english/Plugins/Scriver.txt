@@ -135,6 +135,7 @@
 [Word lookup]
 [Google]
 [Bing]
+[Yandex]
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]
