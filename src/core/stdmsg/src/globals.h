@@ -56,9 +56,8 @@ struct GlobalMessageData
 };
 
 void InitGlobals();
-void FreeGlobals();
 void ReloadGlobals();
 
-extern struct GlobalMessageData *g_dat;
+extern GlobalMessageData g_dat;
 
 #endif

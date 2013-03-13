@@ -124,7 +124,6 @@ void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 
 void InitOptions(void);
-void UnloadOptions(void);
 
 #define MSGFONTID_MYMSG		  0
 #define MSGFONTID_YOURMSG	  1

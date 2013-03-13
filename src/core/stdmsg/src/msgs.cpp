@@ -63,7 +63,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 	/* does a window for the contact exist? */
-	hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam);
+	hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
 	if (hwnd)
 	{
 		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS))
@@ -86,7 +86,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	SkinPlaySound("AlertMsg");
 	{
 		char *szProto = GetContactProto((HANDLE)wParam);
-		if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
+		if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 		{
 			struct NewMessageWindowLParam newData = { 0 };
 			newData.hContact = (HANDLE) wParam;
@@ -122,7 +122,7 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 	if (!szProto || (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
-	if (hwnd = WindowList_Find(g_dat->hMessageWindowList, hContact))
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact))
 	{
 		if (msg)
 		{
@@ -174,17 +174,17 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 	HWND hwnd;
 	int foundWin = 0;
 
-	if (!(g_dat->flags&SMF_SHOWTYPING))
+	if (!(g_dat.flags&SMF_SHOWTYPING))
 		return 0;
-	if (hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam)) {
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam)) {
 		SendMessage(hwnd, DM_TYPING, 0, lParam);
 		foundWin = 1;
 	}
-	if (lParam && !foundWin && (g_dat->flags&SMF_SHOWTYPINGTRAY)) {
+	if (lParam && !foundWin && (g_dat.flags&SMF_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
 
-		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat->flags&SMF_SHOWTYPINGCLIST)) {
+		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags&SMF_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn = {0};
 			tn.cbSize = sizeof(tn);
 			tn.tszInfoTitle = TranslateT("Typing Notification");
@@ -220,16 +220,16 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (cws->szModule == NULL) return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
-		WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
+		WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
 	else if (hContact)
 	{
 		if (cws->szSetting && !strcmp(cws->szSetting, "Timezone"))
-			WindowList_Broadcast(g_dat->hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
+			WindowList_Broadcast(g_dat.hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
 		else
 		{
 			char * szProto = GetContactProto((HANDLE)wParam);
 			if (szProto && !strcmp(cws->szModule, szProto))
-				WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
+				WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
 		}
 	}
 	return 0;
@@ -238,7 +238,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd;
-	if (hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam))
+	if (hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam))
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 
 	return 0;
@@ -271,12 +271,12 @@ static void RestoreUnreadMessageAlerts(void)
 			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 			{
-				windowAlreadyExists = WindowList_Find(g_dat->hMessageWindowList, hContact) != NULL;
+				windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
 				{
 					char *szProto = GetContactProto(hContact);
-					if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
+					if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 					{
 						autoPopup = 1;
 					}
@@ -306,7 +306,7 @@ void RegisterSRMMFonts( void );
 
 static int FontsChanged(WPARAM wParam,LPARAM lParam)
 {
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
 }
 
@@ -331,14 +331,14 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(g_dat->hMessageWindowList, WM_CLOSE, 0, 0);
+	WindowList_BroadcastAsync(g_dat.hMessageWindowList, WM_CLOSE, 0, 0);
 	DeinitStatusIcons();
 	return 0;
 }
 
 int SplitmsgShutdown(void)
 {
-    int i;
+	int i;
 
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurHyperlinkHand);
@@ -357,7 +357,6 @@ int SplitmsgShutdown(void)
 	OleUninitialize();
 	RichUtil_Unload();
 	msgQueue_destroy();
-	FreeGlobals();
 	return 0;
 }
 
@@ -365,9 +364,9 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	FreeMsgLogIcons();
 	LoadMsgLogIcons();
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_REMAKELOG, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, 0, 0);
 	// change all the icons
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATEWINICON, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_UPDATEWINICON, 0, 0);
 	return 0;
 }
 
@@ -415,7 +414,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1;
 	if (mwid->hContact == NULL) return 1;
 	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
-	hwnd = WindowList_Find(g_dat->hMessageWindowList, mwid->hContact);
+	hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
 	mwd->local = 0;

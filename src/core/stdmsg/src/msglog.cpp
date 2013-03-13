@@ -110,7 +110,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 			*d++ = '\\';
 			*d++ = (char) *line;
 		}
-		else if (*line == '[' && (g_dat->flags & SMF_SHOWFORMAT))
+		else if (*line == '[' && (g_dat.flags & SMF_SHOWFORMAT))
 		{
 			int i, found = 0;
 			for (i = 0; i < SIZEOF(bbcodes); ++i)
@@ -317,7 +317,7 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		}
 	}
 
-	if (g_dat->flags&SMF_SHOWICONS) {
+	if (g_dat.flags & SMF_SHOWICONS) {
 		int i;
 
 		switch (dbei.eventType) {
@@ -344,15 +344,15 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		CopyMemory(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
 		bufferEnd += logIconBmpSize[i];
 	}
-	if (g_dat->flags & SMF_SHOWTIME)
+	if (g_dat.flags & SMF_SHOWTIME)
 	{
 		const TCHAR* szFormat;
 		TCHAR str[64];
 
-		if (g_dat->flags & SMF_SHOWSECS)
-			szFormat = g_dat->flags & SMF_SHOWDATE ? _T("d s") : _T("s");
+		if (g_dat.flags & SMF_SHOWSECS)
+			szFormat = g_dat.flags & SMF_SHOWDATE ? _T("d s") : _T("s");
 		else
-			szFormat = g_dat->flags & SMF_SHOWDATE ? _T("d t") : _T("t");
+			szFormat = g_dat.flags & SMF_SHOWDATE ? _T("d t") : _T("t");
 
 		tmi.printTimeStamp(NULL, dbei.timestamp, szFormat, str, SIZEOF(str), 0);
 
@@ -360,7 +360,7 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, str);
 		showColon = 1;
 	}
-	if (!(g_dat->flags&SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_STATUSCHANGE && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+	if (!(g_dat.flags&SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_STATUSCHANGE && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		TCHAR* szName;
 		CONTACTINFO ci = {0};
 

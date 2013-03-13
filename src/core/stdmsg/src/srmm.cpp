@@ -57,7 +57,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, M
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
@@ -66,6 +65,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnloadOptions();
 	return SplitmsgShutdown();
 }

@@ -74,7 +74,7 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 	for (i = 0; i < msgQueue.realCount; ++i)
 	{
 		TMsgQueue *item = (TMsgQueue*)msgQueue.items[i];
-		if (dwTime - item->ts > g_dat->msgTimeout)
+		if (dwTime - item->ts > g_dat.msgTimeout)
 		{
 			if (!ntl)
 				tmlst = (TMsgQueue**)alloca((msgQueue.realCount - i) * sizeof(TMsgQueue*));

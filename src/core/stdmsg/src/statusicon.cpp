@@ -48,7 +48,7 @@ INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam) {
 	status_icon_list = siln;
 	status_icon_list_size++;
 
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 	return 0;
 }
 
@@ -68,7 +68,7 @@ INT_PTR RemoveStatusIcon(WPARAM wParam, LPARAM lParam) {
 			if(current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
 			mir_free(current->sid.szTooltip);
 			mir_free(current);
-			WindowList_Broadcast(g_dat->hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
+			WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 			return 0;
 		}
 
@@ -94,7 +94,7 @@ void RemoveAllStatusIcons(void) {
 		mir_free(current);
 	}
 
-	WindowList_Broadcast(g_dat->hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
+	WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 }
 
 INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
@@ -120,13 +120,13 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
 					current->sid.szTooltip = mir_strdup(sid->szTooltip);
 				}
 
-				WindowList_Broadcast(g_dat->hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
+				WindowList_Broadcast(g_dat.hMessageWindowList, DM_STATUSICONCHANGE, 0, 0);
 			} else {
 				char buff[256];
 				HWND hwnd;
 				sprintf(buff, "SRMMStatusIconFlags%d", sid->dwId);
 				DBWriteContactSettingByte(hContact, sid->szModule, buff, (BYTE)sid->flags);
-				if (hwnd = WindowList_Find(g_dat->hMessageWindowList, hContact)) {
+				if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact)) {
 					PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 				}
 			}
