@@ -48,7 +48,7 @@ typedef struct
 }
 	PluginListItemData;
 
-static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM lParam)
+static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM lParam)
 {
 	TCHAR buf[MAX_PATH];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
@@ -163,7 +163,7 @@ static void RemoveAllItems(HWND hwnd)
 		lvi.iItem ++;
 }	}
 
-static int LoadPluginDynamically(PluginListItemData* dat)
+static bool LoadPluginDynamically(PluginListItemData *dat)
 {
 	TCHAR exe[MAX_PATH];
 	GetModuleFileName(NULL, exe, SIZEOF(exe));
@@ -173,7 +173,7 @@ static int LoadPluginDynamically(PluginListItemData* dat)
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
 		Plugin_UnloadDyn(pPlug);
-		return FALSE;
+		return false;
 	}
 
 	if ( !TryLoadPlugin(pPlug, true))
@@ -184,21 +184,19 @@ LBL_Error:
 
 	dat->hInst = pPlug->bpi.hInst;
 	NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
-	return TRUE;
+	return true;
 }
 
-static int UnloadPluginDynamically(PluginListItemData* dat)
+static bool UnloadPluginDynamically(PluginListItemData *dat)
 {
-	pluginEntry tmp;
-	_tcsncpy(tmp.pluginname, dat->fileName, SIZEOF(tmp.pluginname)-1);
-
-	int idx = pluginList.getIndex(&tmp);
-	if (idx == -1)
-		return FALSE;
-
-	if ( Plugin_UnloadDyn(pluginList[idx]))
+	pluginEntry* p = pluginList.find((pluginEntry*)dat->fileName);
+	if (p) {
+		if ( !Plugin_UnloadDyn(p))
+			return false;
+	
 		dat->hInst = NULL;
-	return TRUE;
+	}
+	return true;
 }
 
 static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -310,7 +308,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_NOTIFY:
 		if (lParam) {
-			NMLISTVIEW * hdr = (NMLISTVIEW *) lParam;
+			NMLISTVIEW *hdr = (NMLISTVIEW *) lParam;
 			if (hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom)) {
 				if (hdr->uOldState != 0 && (hdr->uNewState == 0x1000 || hdr->uNewState == 0x2000)) {
 					HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
