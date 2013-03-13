@@ -36,7 +36,7 @@ static IconItem iconList[] =
 
 void IconsInit(void)
 {
-	Icon_Register(g_hInst, "Simple Status Message", iconList, SIZEOF(iconList), "SimpleStatusMsg");
+	Icon_Register(g_hInst, LPGEN("Simple Status Message"), iconList, SIZEOF(iconList), "SimpleStatusMsg");
 }
 
 HICON LoadIconEx(const char* name)
