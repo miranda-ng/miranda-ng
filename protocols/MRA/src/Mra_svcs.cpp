@@ -105,7 +105,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 	LPGENT("Sleeping"),
 	LPGENT("Cool!"),
 	LPGENT("Peace!"),
-	LPGENT("Cock a snook"),
+	LPGENT("Cook a snook"),
 	LPGENT("Get out"),
 	LPGENT("Death"),
 	LPGENT("Rocket"),
@@ -157,7 +157,7 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 		if (dwBlogStatusMsgSize) dwIconID = ADV_ICON_BLOGSTATUS;
 	}
 
-	ExtraIcon_SetIcon(hExtraXstatusIcon, hContact, 
+	ExtraIcon_SetIcon(hExtraXstatusIcon, hContact,
 		(IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN) ? hXStatusAdvancedStatusIcons[dwXStatus] : NULL);
 	ExtraIcon_SetIcon(hExtraInfo, hContact, (dwIconID != -1) ? gdiExtraStatusIconsItems[dwIconID].hIconHandle : NULL);
 }
