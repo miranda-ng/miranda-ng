@@ -24,11 +24,6 @@ int hLangpack;
 
 HANDLE hTopToolbarButton;
 
-typedef LRESULT (CALLBACK *WNDPROC)(HWND, UINT, WPARAM, LPARAM);
-
-//bool right_window = false;
-WNDPROC old_clist_wndproc;
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,

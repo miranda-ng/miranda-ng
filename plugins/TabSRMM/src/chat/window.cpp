@@ -334,25 +334,6 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 			PostMessage(hwndDlg, WM_SIZE, 0, 0);
 			dat->wParam = dat->lParam = 0;
 		}
-		/*
-		if (dat->hwndIEView) {
-			RECT rcRTF;
-			POINT pt;
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcRTF);
-			rcRTF.left += 20;
-			rcRTF.top += 20;
-			pt.x = rcRTF.left;
-			pt.y = rcRTF.top;
-			if (dat->hwndIEView) {
-				if (M->GetByte("subclassIEView", 0) && dat->oldIEViewProc == 0) {
-					WNDPROC wndProc = (WNDPROC)SetWindowLongPtr(dat->hwndIEView, GWLP_WNDPROC, (LONG_PTR)IEViewSubclassProc);
-					dat->oldIEViewProc = wndProc;
-				}
-			}
-			dat->hwndIWebBrowserControl = WindowFromPoint(pt);
-		}
-		*/
 	}
 	if (M->isAero())
 		InvalidateRect(hwndTab, NULL, FALSE);

@@ -1821,7 +1821,6 @@ buttons_done:
 
 			if (pContainer->dwFlags & CNT_NOSTATUSBAR) {
 				if (pContainer->hwndStatus) {
-					//SetWindowLongPtr(pContainer->hwndStatus, GWLP_WNDPROC, (LONG_PTR)OldStatusBarproc);
 					DestroyWindow(pContainer->hwndStatus);
 					pContainer->hwndStatus = 0;
 					pContainer->statusBarHeight = 0;
