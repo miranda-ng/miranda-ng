@@ -72,7 +72,7 @@ BEGIN
 					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,45,126,10
     EDITTEXT        IDC_LIMITNAMESLEN,212,44,20,12,ES_RIGHT | ES_NUMBER
     LTEXT           "characters",IDC_CHARS,236,45,65,8,WS_DISABLED
-    CONTROL         "Show close button on each tab ",IDC_TABCLOSEBUTTON,
+    CONTROL         "Show close button on each tab",IDC_TABCLOSEBUTTON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,56,192,10
     CONTROL         "Switch to active tab",IDC_SWITCHTOACTIVE,
 					"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,67,252,10
