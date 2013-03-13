@@ -47,8 +47,8 @@
 изменил(а) сообщение %N на:%D%I
 [removed %N]
 удалил(а) %N
-[These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
-Доступные переменные:\r\n\r\n\%N\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n\%T\tзаголовок xСтатуса\r\n\%I\tтекст xСтатуса\r\n\%D\tразделитель\r\n\%B\tразрыв строки (может использоваться как разделитель)
+[These variables are available:\r\n\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n%T\textra status title\r\n%I\textra status text\r\n%D\tdelimiter\r\n%B\tline break (can be used as delimiter)]
+Доступные переменные:\r\n\r\n%N\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n%T\tзаголовок xСтатуса\r\n%I\tтекст xСтатуса\r\n%D\tразделитель\r\n%B\tразрыв строки (может использоваться как разделитель)
 [Automatically turn off Popups and Sounds on status change]
 Выключать вспл. окна и звуки при изменении статуса
 [Notify me for people not in my Contact List]
@@ -123,7 +123,7 @@ Wave файлы
 сменил(а) статусное сообщение на %n
 [Enable/Disable protocols which you don't wish to be notified for:]
 Включить/Выключить уведомления для протоколов:
-[These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-Доступные переменные:\r\n\r\n\%n\tНовое сообщение статуса\r\n\%o\tСтарое сообщение статуса\r\n\%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция
+[These variables are available:\r\n\r\n%n\tNew Status Message\r\n%o\tOld Status Message\r\n%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Доступные переменные:\r\n\r\n%n\tНовое сообщение статуса\r\n%o\tСтарое сообщение статуса\r\n%c\tНикнейм\r\n\\n\tРазрыв строки\r\n\\t\tТабуляция
 [This is status message]
 Это сообщение статуса
