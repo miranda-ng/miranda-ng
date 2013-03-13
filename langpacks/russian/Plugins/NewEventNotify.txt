@@ -74,3 +74,25 @@
 Не показывать для прочитанных сообщений
 [NewEventNotify]
 События
+[Notifies you when you receive a message, url, file or any other event by displaying a popup.]
+Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах.
+[Message Received]
+Получено сообщение
+[Received %d contacts.]
+Получено %d контактов.
+[ added you to the contact list]
+ добавил(а) вас в свой список
+[ requested authorization]
+ запросил(а) авторизацию
+[This is a sample message event :-)]
+Это пример сообщения :-)
+[This is a sample URL event ;-)]
+Это пример URL ;-)
+[This is a sample file event :-D]
+Это пример входящего файла :-D
+[This is a sample other event ;-D]
+Это пример других событий ;-D
+[Plugin Test]
+Тест плагина
+[Number of new message: ]
+Количество новых сообщений: 
