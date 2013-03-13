@@ -282,6 +282,8 @@ Kontaktliste
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 
+[Avatars]
+Avatare
 [Gadu-Gadu Number]
 
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp

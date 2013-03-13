@@ -477,6 +477,8 @@ Beschriftungen
 Werte
 [Tray title]
 Traytitel
+[Tipper skins]
+Tipper-Skins
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 weiblich

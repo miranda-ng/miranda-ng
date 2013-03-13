@@ -256,5 +256,7 @@ Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
 [OTR Status]
 
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
+[Private Data]
+Private Daten
 [Services]
 Dienste

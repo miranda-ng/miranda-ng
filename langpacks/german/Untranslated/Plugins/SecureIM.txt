@@ -41,6 +41,7 @@
 [SecureIM auto accepted RSA Public key from: %s uin: %s SHA1: %s]
 [SecureIM received NEW RSA Public Key from "%s"\n\nNew SHA1: %s\n\nOld SHA1: %s\n\nDo you Replace this Key ?]
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
+[Overlays]
 [SecureIM [Native]]
 [SecureIM [PGP]]
 [SecureIM [GPG]]

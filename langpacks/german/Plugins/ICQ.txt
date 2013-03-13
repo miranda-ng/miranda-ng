@@ -115,7 +115,7 @@ Custom Status Unterstützung für Stimmungen aktivieren
 [Reset Custom status on status change]
 Custom Status bei Statusänderung zurücksetzen
 [Auto-retrieve Custom status details]
-XStatus-Details automatisch empfangen
+Custom Status Details automatisch empfangen
 [Block known Spam Bots]
 Bekannte Spambots blockieren
 [Enable AIM contacts support]
@@ -396,6 +396,8 @@ Bestätigung
 [** Unknown missed message event.]
 
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
+[Avatars]
+Avatare
 [Error uploading avatar to server, server temporarily unavailable.]
 Fehler beim Upload des Avatars auf den Server, der Server ist vorübergehend nicht verfügbar.
 [Error uploading avatar to server, server refused to accept the image.]
@@ -1624,6 +1626,8 @@ Schreiben
 %s Custom Status
 [None]
 Keine
+[Custom Status]
+Custom Status
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Grußkarte:

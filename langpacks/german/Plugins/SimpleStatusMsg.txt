@@ -267,6 +267,8 @@ Letzte Nachricht
 Vordefinierte Nachricht
 [Go to URL in Away Message]
 Gehe zu URL in Statusnachricht
+[Simple Status Message]
+
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
 [Give it up, I'm not in!]

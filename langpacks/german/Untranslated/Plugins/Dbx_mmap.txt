@@ -1,5 +1,4 @@
-﻿[Provides Miranda database support: global settings, contacts, history, settings per contact.]
-[Disk is full. Miranda will now shutdown.]
+﻿[Disk is full. Miranda will now shutdown.]
 [Database failure. Miranda will now shutdown.]
 [Database Error]
 [Invalid offset found (database truncated?)]

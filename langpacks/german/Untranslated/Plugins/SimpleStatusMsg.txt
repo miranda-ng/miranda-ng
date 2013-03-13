@@ -37,3 +37,4 @@
 [Confirm clearing history]
 [Are you sure you want to clear predefined status messages?]
 [Confirm clearing predefined]
+[Simple Status Message]

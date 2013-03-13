@@ -10,6 +10,7 @@
 [Remember my choice for this container]
 [kB]
 [Bing]
+[Yandex]
 [Wikipedia (en)]
 [Google Maps]
 [Google Translate]

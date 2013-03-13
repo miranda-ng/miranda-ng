@@ -18,3 +18,5 @@ Adobe Flash ist nicht installiert!
 
 [Flash Avatars]
 
+[Avatars]
+Avatare

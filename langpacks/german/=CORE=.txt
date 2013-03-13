@@ -1,4 +1,5 @@
-﻿;file \src\resource.rc
+﻿Miranda Language Pack Version 1
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Geben Sie den Kontonamen (z. B. Mein Google) ein
 [Choose the protocol type]
@@ -2502,6 +2503,8 @@ Immer sichtbar
 Immer unsichtbar
 [Locked status]
 Gesperrter Status
+[Status Icons]
+Statusicons
 [%s Icons]
 
 [Main Icons]

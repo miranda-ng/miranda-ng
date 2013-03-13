@@ -6,7 +6,7 @@
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-
+Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Install Database Settings]
 Datenbankeinstellungen installieren

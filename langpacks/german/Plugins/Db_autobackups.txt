@@ -54,6 +54,10 @@ Datenbank gesichert
 Sicherheitskopie des Profils erstellen
 [Save Profile As...]
 Profil speichern unter...
+[Database Backups]
+Datenbanksicherung
+[Backup Folder]
+Sicherungsordner
 [Database]
 Datenbank
 [Database/Database Backups]

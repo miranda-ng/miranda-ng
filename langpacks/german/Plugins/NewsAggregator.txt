@@ -116,6 +116,8 @@ Feed ändern
 [Network]
 Netzwerk
 ;file \plugins\NewsAggregator\Src\Services.cpp
+[Avatars]
+Avatare
 [Enable/disable auto update]
 
 ;file \plugins\NewsAggregator\Src\Utils.cpp

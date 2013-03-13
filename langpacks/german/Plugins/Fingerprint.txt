@@ -9,7 +9,7 @@
 Fingerprint NG (client version) Icon Modul für Miranda NG.
 ;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
-
+Fingerprint Overlay Icons
 [Miranda clients]
 Miranda Clients
 [Miranda packs overlays]
@@ -23,11 +23,11 @@ Platform-Overlays
 [Protocols overlays]
 Protokolle-Overlays
 [Unicode overlay]
-
+Unicode-Overlay
 [Secure overlays]
-
+Sicherheits-Overlay
 [Select protocols]
-Protokoll Auswahl
+Protokolle auswählen
 [AIM clients]
 AIM Clients
 [Gadu-Gadu clients]
@@ -53,20 +53,20 @@ Weather Clients
 [Yahoo clients]
 Yahoo Clients
 [Multi-protocol clients]
-
+Multi-Protokoll Clients
 [Other (rare) protocols]
 Andere (seltene) Protokolle
 [Other icons]
 Andere Icons
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
-
+Client-Icons
 [Pack overlays]
-
+Pack-Overlays
 [Multi-proto clients]
-
+Multi-Protokoll Clients
 [Other protocols]
-
+Andere Protokolle
 [Overlays]
 
 [Resource]
@@ -79,11 +79,11 @@ Sicherheit
 Protokoll
 ;file \plugins\FingerprintNG\src\masks.cpp
 [MirandaNG stable]
-
+MirandaNG stabil
 [MirandaIM (old versions)]
-
+MirandaIM (alte Versionen)
 [Miranda (unknown)]
-
+Miranda (unbekannt)
 [spam client]
 
 [PHP Jabber Client]
@@ -111,7 +111,7 @@ Protokoll
 [Unknown client]
 Unbekannter Client
 [Undetected client]
-
+Unerkannter Client
 [AIM overlay]
 
 [ICQJ Plus Mod overlay]
@@ -264,4 +264,4 @@ Unbekannter Client
 [Icons]
 Icons
 [Fingerprint]
-
+Fingerprint

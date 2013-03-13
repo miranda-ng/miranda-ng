@@ -64,6 +64,8 @@ Klänge deaktivieren
 Klänge aktivieren
 [Frame Background]
 
+[Bass library]
+
 [Sounds enabled]
 
 [Sounds disabled]

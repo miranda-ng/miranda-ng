@@ -140,6 +140,12 @@ In %d Sekunden schließen
 [Closing in %d second]
 In %d Sekunde schließen
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
+[Check for birthdays]
+Prüfe Geburtstage
+[Birthdays]
+Geburtstage
+[Contacts]
+Kontakte
 [WhenWasIt]
 
 [Birthday near]
@@ -148,8 +154,6 @@ Geburtstag nahe
 Geburtstag heute
 [Birthdays (When Was It)]
 Geburtstage (When Was It)
-[Check for birthdays]
-Prüfe Geburtstage
 [Refresh user details]
 Details aktualisieren
 [Import birthdays]
@@ -158,10 +162,6 @@ Geburtstage importieren
 Geburtstage exportieren
 [Add/change user &birthday]
 Ge&burtstag ändern/hinzufügen
-[Birthdays]
-Geburtstage
-[Contacts]
-Kontakte
 ;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Prüfe Geburtstage

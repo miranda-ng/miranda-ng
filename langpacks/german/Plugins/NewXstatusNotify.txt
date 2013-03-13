@@ -295,6 +295,10 @@ Kontakt: Am Telefon
 Statusbenachrichtigungen aktivieren
 [Disable status notification]
 Statusbenachrichtigung deaktivieren
+[Notification enabled]
+Benachrichtigung aktiviert
+[Notification disabled]
+Benachrichtigung deaktiviert
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Extra status changed]

@@ -1241,6 +1241,18 @@ Immer anzeigen (falls vorhanden)
 [Never show it at all]
 Niemals anzeigen
 ;file \plugins\TabSRMM\src\mim.cpp
+[TabSRMM]
+TabSRMM
+[Data path]
+Daten-Pfad
+[Skins root]
+Skin-Verzeichnis
+[Avatars]
+Avatare
+[Saved TabSRMM avatars]
+Gespeicherte TabSRMM Avatare
+[Group chat logs root]
+Gruppenchats Hauptverzeichnis
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]

@@ -1,6 +1,4 @@
 ﻿[Adding traffic and time counters.]
-[Display/]
-[General/]
 [Bytes]
 [KB]
 [MB]

@@ -136,6 +136,9 @@ Ablehnen
 Nachricht
 [Room]
 Raum
+;file \protocols\AimOscar\src\avatars.cpp
+[Avatars]
+Avatare
 ;file \protocols\AimOscar\src\chat.cpp
 [Me]
 Ich

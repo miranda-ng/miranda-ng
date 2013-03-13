@@ -9,7 +9,7 @@
 Diese Plugin kann den Systemverlauf, den Verlauf aller Kontakte oder eines Kontaktes löschen. Der Verlauf älter als ein Datum kann gelöscht werden. Der Verlauf kann beim Start/Beenden von Miranda NG gelöscht werden.
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
-
+History Sweeper Light
 [Sweep history for this contacts:]
 Verlauf der ausgewählten Kontakte löschen:
 [Action 1]
@@ -57,8 +57,8 @@ Alle Ereignisse löschen
 [Keep 50 last events]
 50 letzte Ereignisse behalten
 [*** Defaut Action ***]
-
+*** Standard-Aktion ***
 [*** System History ***]
-
+*** Systemverlauf ***
 [History]
 Verlauf

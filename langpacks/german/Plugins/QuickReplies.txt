@@ -8,8 +8,8 @@
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 Plugin, um schnell vordefinierte Nachrichten in den Eingabebereich einzufügen (oder zu senden).
 ;file \plugins\QuickReplies\res\resources.rc
-[QuickReplies]
-
+[Quick Replies]
+Schnelle Antworten
 [Send replies immediately]
 Antworten sofort senden
 [- Add your replies, one per line.]
@@ -30,5 +30,3 @@ Schnelle Antworten\r\nLinksklick öffnet das Menü\r\nRechtsklick öffnet die Ei
 ;file \plugins\QuickReplies\src\options.cpp
 [Message Sessions]
 Nachrichtensitzungen
-[Quick Replies]
-Schnelle Antworten

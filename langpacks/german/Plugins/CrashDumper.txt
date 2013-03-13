@@ -53,6 +53,8 @@ Versionsinformation in Datei
 Versionsinformation anzeigen
 [Upload Version Information]
 Versionsinformation hochladen
+[Crash Reports]
+Crash Reports
 [Version Information]
 Versionsinformation
 [Copy to clipboard]

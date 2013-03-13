@@ -335,7 +335,50 @@ SecureIM hat den öffentlichen RSA-Schlüssel von "%s" erhalten.\n\nSHA1: %s\n\n
 
 [SecureIM auto accepted NEW RSA Public key from: %s uin: %s New SHA1: %s Old SHA1: %s]
 
+;file \plugins\SecureIM\src\loadicons.cpp
+[Contact List]
+Kontaktliste
+[Connection Disabled]
+Verbindung getrennt
+[Connection Established]
+Verbindung hergestellt
+[Contact Menu]
+Kontaktmenü
+[Disable Secure Connection]
+Sichere Verbindung trennen
+[Establishe Secure Connection]
+Sichere Verbindung herstellen
+[Message Window]
+Nachrichtenfenster
+[Popups]
+Popups
+[Secure Connection Disabled]
+Sichere Verbindung getrennt
+[Secure Connection Established]
+Sichere Verbindung hergestellt
+[Secure Connection In Process]
+Sichere Verbindung wird hergestellt
+[Recv Secured Message]
+Verschlüsselte Nachricht erhalten
+[Sent Secured Message]
+Verschlüsselte Nachricht gesendet
+[Menu State]
+Status im Kontaktmenü
+[Always Try]
+Immer versuchen
+[Overlays]
+
+[Native mode]
+Nativer Modus
+[PGP mode]
+PGP-Modus
+[GPG mode]
+GPG-Modus
+[RSA/AES mode]
+RSA/AES-Modus
 ;file \plugins\SecureIM\src\main.cpp
+[Icons]
+Icons
 [Incoming Secure Message]
 Sichere Nachricht (eingehend)
 [Outgoing Secure Message]
@@ -372,5 +415,11 @@ Privaten Schlüssel aus Datei laden
 [Services]
 Dienste
 ;file \plugins\SecureIM\src\popupOptions.cpp
+[Key Popup]
+Schlüssel-Popup
+[Secure Popup]
+Sicherheits-Popup
+[Message Popup]
+Nachrichten-Popup
 [PopUps]
 Popups

@@ -81,7 +81,7 @@ Stadt:
 [Enable avatars support (loading)]
 Avatar-Unterstützung aktivieren (lädt)
 [Server:]
-
+Server:
 [Updates check interval, min]
 Überprüfe Updates alle (in Min.)
 [Return absolute path]
@@ -215,9 +215,9 @@ Mein Album
 [My Blog]
 Mein Blog
 [My Blog Status]
-
+Mein Blog Status
 [My Video]
-
+Mein Video
 [My Answers]
 Meine Antworten
 [My World]
@@ -245,11 +245,11 @@ Blog lesen
 [Reply Blog Status]
 
 [View Video]
-
+Video ansehen
 [Answers]
 
 [World]
-
+Welt
 [Send &Nudge]
 &Nudge senden
 [Mail box deleted]
@@ -280,7 +280,30 @@ Neue E-Mail im Posteingang
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 Keine Beschreibung vorhanden.
+;file \protocols\MRA\src\MraIcons.cpp
+[Main Menu]
+Hauptmenü
+[Contact Menu]
+Kontaktmenü
+[Extra status]
+Extra Status
+[Custom Status]
+Custom Status
 ;file \protocols\MRA\src\MraPopUp.cpp
+[None]
+Keine
+[Debug]
+
+[Information]
+Information
+[Question]
+Frage
+[Warning]
+Warnung
+[Error]
+Fehler
+[NewMail]
+Neue E-Mail
 [PopUps]
 Popups
 ;file \protocols\MRA\src\MraProto.cpp
@@ -344,5 +367,103 @@ MRIM_CS_SMS_ACK: Nicht in der Warteschlange gefunden
 [Mail.ru System notify]
 Mail.ru-Systembenachrichtigung
 ;file \protocols\MRA\src\Mra_svcs.cpp
+[Sick]
+Krank
+[Home]
+Wohnort
+[Eating]
+Essen
+[Compass]
+Kompass
+[On WC]
+Toilette
+[Cooking]
+Kochen
+[Walking]
+Wandern
+[Alien]
+Außerirdischer
+[Shrimp]
+Shrimp
+[Got lost]
+Verloren
+[Crazy]
+Verrückt
+[Duck]
+Ente
+[Playing]
+Spielen
+[Smoking]
+Rauchen
+[Office]
+Büro
+[Meeting]
+Treffen
+[Beer]
+Bier
+[Coffee]
+Kaffee
+[Working]
+Arbeiten
+[Relaxing]
+Ausruhen
+[On the phone]
+Am Telefon
+[In institute]
+Im Institut
+[At school]
+In der Schule
+[Wrong number]
+Falsche Nummer
+[Laughing]
+Lachend
+[Malicious]
+Bösartig
+[Imp]
+Kobold
+[Blind]
+Blind
+[Disappointed]
+Enttäuscht
+[Almost crying]
+Fast Weinend
+[Fearful]
+Ängstlich
+[Angry]
+Wütend
+[Vampire]
+Vampir
+[Ass]
+Arsch
+[Love]
+Liebe
+[Sleeping]
+Schlafen
+[Cool!]
+Cool!
+[Peace!]
+Friede!
+[Cook a snook]
+Einen Snook kochen
+[Get out]
+Rausgehen
+[Death]
+Tod
+[Rocket]
+Rakete
+[Devil-fish]
+Teufelsfisch
+[Heavy metal]
+
+[Things look bad]
+Dinge sehen schlecht aus
+[Squirrel]
+Eichhörnchen
+[Star]
+Star
+[Music]
+Musik
+[Dating]
+
 [Are you sure?]
 Sind Sie sich sicher?

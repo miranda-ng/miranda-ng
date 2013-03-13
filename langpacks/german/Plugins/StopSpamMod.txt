@@ -73,6 +73,10 @@ Matehmatischen Ausdruck in Frage verwenden
 [Details..]
 Details...
 ;file \plugins\StopSpamMod\src\init.cpp
+[StopSpam]
+
+[StopSpam Logs]
+
 [Remove Temporary Contacts]
 Temporäre Kontakte entfernen
 ;file \plugins\StopSpamMod\src\options.cpp
@@ -92,8 +96,6 @@ Glückwunsch! Sie haben gerade den Mensch-/Robotertest bestanden. Nun können Si
 
 [Message Sessions]
 Nachrichtensitzungen
-[StopSpam]
-
 [General]
 Allgemein
 [Messages]

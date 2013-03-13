@@ -60,6 +60,10 @@ Smileybutton
 [Show Smiley Selection Window]
 Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
+[SmileyAdd]
+
+[Smiley Cache]
+Smiley-Cache
 [SmileyAdd HTTP connections]
 SmileyAdd-Plugin HTTP-Verbindungen
 ;file \plugins\SmileyAdd\src\main.cpp

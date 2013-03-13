@@ -119,8 +119,8 @@ Wiederholen
 Ja
 [No]
 Nein
-[Abord]
-
+[Abort]
+Abbrechen
 [Ignore]
 Ignorieren
 ;file \plugins\SendScreenshotPlus\src\global.h
@@ -128,6 +128,10 @@ Ignorieren
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
 [Fatal error, image services not found. Send Screenshot will be disabled.]
+
+[SendSS]
+
+[Screenshots]
 
 [SendSS HTTP connections]
 SendSS-Plugin-HTTPS-Verbindungen
@@ -142,6 +146,50 @@ Screenshot machen
 [Could not register miranda service.]
 Konnte Miranda NG Service nicht initialisieren.
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
+[Screenshot Icon1]
+
+[Screenshot Icon2]
+
+[Target Cursor]
+
+[Target Desktop]
+
+[Default]
+Standard
+[overlay on]
+Overlay ein
+[overlay off]
+Overlay aus
+[Help]
+Hilfe
+[Open Folder]
+Ordner öffnen
+[description off]
+Beschreibung aus
+[description on]
+Beschreibung ein
+[delete off]
+Löschen aus
+[delete on]
+Löschen ein
+[Prev]
+Zurück
+[Next]
+Weiter
+[Update]
+Aktualisieren
+[Ok]
+Ok
+[Apply]
+Übernehmen
+[Down arrow]
+Pfeil runter
+;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Buttons]
+Schaltflächen
+[overlays]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
@@ -177,8 +225,6 @@ E-Mail
 
 [Information]
 Information
-[Open Folder]
-Ordner öffnen
 [Fill description textbox.]
 Fülle Beschreibungstextbox
 [Delete after send]

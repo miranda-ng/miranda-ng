@@ -11,7 +11,7 @@ Unterstützung für den neuen Einstellungsdialog.
 [Visit official Miranda NG website]
 Besuchen Sie die offizielle Miranda NG Webseite
 [Sample page]
-
+Beispielseite
 [Miranda NG Options]
 Miranda NG Einstellungen
 [Use arrow keys to choose category]

@@ -104,10 +104,14 @@ Meinen Avatar einstellen
 Setze Mein Avatar für %s
 [Global avatar for %s accounts]
 Globaler Avatar für %s Konten
-[Contacts]
-Kontakte
 [Avatars]
 Avatare
+[My Avatars]
+Meine Avatare
+[My Global Avatar Cache]
+Mein globaler Avatar-Cache
+[Contacts]
+Kontakte
 [Protocols]
 Protokolle
 [Contact Avatars]

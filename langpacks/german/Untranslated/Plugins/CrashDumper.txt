@@ -1,1 +1,1 @@
-﻿[VersionInfo file %s is inaccessible]
+﻿[Crash Reports]

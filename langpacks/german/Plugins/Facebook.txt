@@ -100,6 +100,19 @@ Eine Konfiguration zum Nachrichtenversand zu anderen Clients wird benötigt.\nÖ
 Bitte geben Sie einen Benutzernamen ein.
 [Please enter a password.]
 Bitte geben Sie das Kennwort ein.
+;file \protocols\FacebookRM\src\constants.h
+[Most Recent]
+Jüngste Nachrichten
+[Wall Posts]
+Pinnwand-Einträge
+[Top News]
+Aktuelle Nachrichten
+[Photos]
+Fotos
+[Links]
+Links
+[Apps and Games]
+Apps und Spiele
 ;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 Kontakt wurde aus Ihrer Server-Liste entfernt.
@@ -148,6 +161,8 @@ Benachrichtigung
 
 [Other Event]
 Andere Ereignisse
+[Avatars]
+Avatare
 [Network]
 Netzwerk
 [Account]

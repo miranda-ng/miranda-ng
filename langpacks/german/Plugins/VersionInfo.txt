@@ -55,7 +55,7 @@ Versuche unladbare Plugins zu finden (funktioniert nicht unter Windows 98)
 [Suppress header information]
 Kopf- und Fußzeilen entfernen
 [Enable debug messages]
-
+Debug-Nachrichten aktivieren
 [Show plugin UUIDs]
 Universally Unique Identifier (UUID) der Plugins zeigen
 [Show installed languages]
@@ -89,6 +89,10 @@ Sind Sie sich sicher, dass Sie dies aktivieren wollen?\nBitte aktivieren Sie die
 [Show plugin UUIDs ?]
 UUIDs der Plugins zeigen
 ;file \plugins\VersionInfo\src\hooked_events.cpp
+[VersionInfo]
+VersionInfo
+[Output folder]
+Ausgabe-Verzeichnis
 [Version Information]
 Versionsinformation
 [Services]

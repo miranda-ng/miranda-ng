@@ -264,6 +264,8 @@ Wort nachschlagen
 Google
 [Bing]
 
+[Yandex]
+
 [Wikipedia (en)]
 
 [Google Maps]
