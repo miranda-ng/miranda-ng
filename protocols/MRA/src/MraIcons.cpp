@@ -92,11 +92,11 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 
 void IconsLoad()
 {
-	AddIcoLibItems(L"Main Menu", gdiMenuItems, SIZEOF(gdiMenuItems));
-	AddIcoLibItems(L"Contact Menu", gdiContactMenuItems, SIZEOF(gdiContactMenuItems));
+	AddIcoLibItems(LPGENT("Main Menu"), gdiMenuItems, SIZEOF(gdiMenuItems));
+	AddIcoLibItems(LPGENT("Contact Menu"), gdiContactMenuItems, SIZEOF(gdiContactMenuItems));
 
 	// Advanced Status Icons initialization
-	AddIcoLibItems(L"Extra status", gdiExtraStatusIconsItems, SIZEOF(gdiExtraStatusIconsItems));
+	AddIcoLibItems(LPGENT("Extra status"), gdiExtraStatusIconsItems, SIZEOF(gdiExtraStatusIconsItems));
 }
 
 void InitXStatusIcons()
@@ -108,7 +108,7 @@ void InitXStatusIcons()
 		bzero(wszPath, sizeof(wszPath));
 
 	SKINICONDESC sid = { sizeof(sid) };
-	sid.pwszSection = L"Protocols/MRA/Custom Status";
+	sid.pwszSection = L"Protocols/MRA/"LPGENT("Custom Status");
 	sid.pwszDefaultFile = wszPath;
 	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_UNICODE;
