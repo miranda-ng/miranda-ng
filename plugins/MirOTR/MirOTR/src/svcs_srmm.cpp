@@ -268,11 +268,7 @@ void InitSRMM() {
 		OTRButton.dwButtonID = 0;
 		OTRButton.pszModuleName = MODULENAME;
 		OTRButton.dwDefPos = 200;
-#ifdef _UNICODE
 		OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON|BBBF_CANBEHIDDEN|BBBF_ISIMBUTTON;
-#else
-		OTRButton.bbbFlags = BBBF_ISRSIDEBUTTON|BBBF_CANBEHIDDEN|BBBF_ISIMBUTTON|BBBF_ANSITOOLTIP;
-#endif
 		OTRButton.ptszTooltip = TranslateT(LANG_OTR_TOOLTIP);
 		OTRButton.hIcon = GetIconHandle(ICON_NOT_PRIVATE);
 		HookEvent(ME_MSG_TOOLBARLOADED, SVC_ButtonsBarLoaded);

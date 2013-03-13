@@ -315,16 +315,7 @@ void ErrorExit(HANDLE hContact,LPTSTR lpszFunction)
     LocalFree(lpDisplayBuf);
 }
 
-#ifdef _UNICODE
-
 #define CS "%S"
-
-#else
-
-#define CS "%s"
-
-#endif
-
 
 TCHAR * GetExtension(TCHAR *file)
 {
@@ -734,13 +725,9 @@ BOOL CreateShortcut(TCHAR *file, TCHAR *shortcut)
 
         if (SUCCEEDED(hr))
         {
-#ifdef _UNICODE
+
 			hr = ppf->Save(shortcut, TRUE); 
-#else
-			WCHAR tmp[MAX_PATH]; 
-            MultiByteToWideChar(CP_ACP, 0, shortcut, -1, tmp, MAX_PATH); 
-            hr = ppf->Save(tmp, TRUE); 
-#endif
+
             ppf->Release(); 
         }
 
@@ -768,13 +755,7 @@ BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file)
 
         if (SUCCEEDED(hr))
 		{
-#ifdef _UNICODE
 			hr = ppf->Load(shortcut, STGM_READ); 
-#else
-			WCHAR tmp[MAX_PATH]; 
-			MultiByteToWideChar(CP_ACP, 0, shortcut, -1, tmp, MAX_PATH); 
-			hr = ppf->Load(tmp, STGM_READ); 
-#endif
 
 			if (SUCCEEDED(hr))
 			{

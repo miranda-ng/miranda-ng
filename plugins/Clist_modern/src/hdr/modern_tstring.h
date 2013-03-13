@@ -4,7 +4,6 @@
 
 #include "MString.h"
 
-#ifdef UNICODE
 typedef CMStringA astring;
 typedef CMStringW wstring;
 
@@ -49,10 +48,3 @@ public:
 	operator mbstring()					{  return mbstring( this->c_str()); }
 };
 
-#else
-typedef CMStringA		astring;
-typedef CMStringA		wstring;
-typedef CMStringA		tstring;
-typedef CMStringA		mbstring;
-
-#endif

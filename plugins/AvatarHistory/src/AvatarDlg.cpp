@@ -86,11 +86,7 @@ int OpenAvatarDialog(HANDLE hContact, char* fn)
 	}
 	else
 	{
-#ifdef _UNICODE
 		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, MAX_REGS(avdlg->fn));
-#else
-		lstrcpyn(avdlg->fn, fn, sizeof(avdlg->fn));
-#endif
 	}
 
 	CloseHandle(CreateThread(NULL, 0, AvatarDialogThread, (LPVOID)avdlg, 0, &dwId));

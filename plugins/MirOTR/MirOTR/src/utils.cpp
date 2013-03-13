@@ -230,11 +230,9 @@ void ShowWarning(TCHAR *msg) {
 				sn.szProto= MODULENAME;
 				sn.tszInfoTitle = buffer;
 				sn.tszInfo = msg;
-#ifdef _UNICODE
+
 				sn.dwInfoFlags = NIIF_WARNING | NIIF_INTERN_UNICODE;
-#else
-				sn.dwInfoFlags = NIIF_WARNING;
-#endif
+
 				sn.uTimeout = 10;
 
 				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);
@@ -276,11 +274,9 @@ void ShowError(TCHAR *msg) {
 				sn.szProto = MODULENAME;
 				sn.tszInfoTitle = buffer;
 				sn.tszInfo = msg;
-#ifdef _UNICODE
+
 				sn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
-#else
-				sn.dwInfoFlags = NIIF_ERROR;
-#endif
+
 				sn.uTimeout = 10;
 
 				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&sn);

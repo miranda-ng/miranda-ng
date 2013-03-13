@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define mir_wcsdup		mir_wstrdup
 
-#ifdef _UNICODE
+
  #define mir_tcslen		mir_wcslen
  #define mir_tcscpy		mir_wcscpy
  #define mir_tcsncpy	mir_wcsncpy
@@ -43,21 +43,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  #define mir_tcsrchr	mir_wcsrchr
  #define mir_tcsncat_c	mir_wcsncat_c
  #define mir_tcsadd		mir_wcsadd
-#else
- #define mir_tcslen		mir_strlen
- #define mir_tcscpy		mir_strcpy
- #define mir_tcsncpy	mir_strncpy
- #define mir_tcsncat	mir_strncat
- #define mir_tcsdup		mir_strdup
- #define mir_tcscmp		mir_strcmp
- #define mir_tcsncmp	mir_strncmp
- #define mir_tcsicmp	mir_stricmp
- #define mir_tcsnicmp	mir_strnicmp
- #define mir_tcschr		mir_strchr
- #define mir_tcsrchr	mir_strrchr
- #define mir_tcsncat_c	mir_strncat_c
- #define mir_tcsadd		mir_stradd
-#endif
+
 
 
 #define mir_strlen(s)			(((s)!=0)?strlen(s):0)

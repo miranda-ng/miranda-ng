@@ -338,21 +338,14 @@ LPTSTR SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, LPTSTR pszFilename, LPTST
 	}
 
 	if(fif==FIF_UNKNOWN) {
-	#if defined(_UNICODE)
 		fif = FIP->FI_GetFIFFromFilenameU(pszFile);
-	#else
-		fif = FIP->FI_GetFIFFromFilename(pszFile);
-	#endif
 	}
 	if(FIP->FI_FIFSupportsICCProfiles(fif)) {
 		bool bDummy = true;
 	}
 
-	#if defined(_UNICODE)
-		ret = FIP->FI_SaveU(fif, dib, pszFile, flag);
-	#else
-		ret = FIP->FI_Save(fif, dib, pszFile, flag);
-	#endif
+	ret = FIP->FI_SaveU(fif, dib, pszFile, flag);
+	
 
 	mir_free(FileExt);
 

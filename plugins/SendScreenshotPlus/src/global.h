@@ -153,11 +153,9 @@ std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, con
 #define MBS_DOWNARROW		0x00008000L			// has arrow on the right
 
 #define MBF_UNICODE			1
-#ifdef _UNICODE
- #define MBF_TCHAR			MBF_UNICODE
-#else
- #define MBF_TCHAR			0
-#endif
+
+#define MBF_TCHAR			MBF_UNICODE
+
 
 // BUTTONADDTOOLTIP
 // use lParam=MBF_UNICODE to set unicode tooltips

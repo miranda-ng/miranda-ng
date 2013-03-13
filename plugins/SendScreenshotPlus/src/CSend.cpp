@@ -295,9 +295,7 @@ void	CSend::DB_EventAdd(WORD EventType) {
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(NULL);
-	#if defined( _UNICODE )
-		dbei.flags |= DBEF_UTF;
-	#endif
+	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob= m_cbEventMsg;
 	dbei.pBlob=(PBYTE)m_szEventMsg;
 

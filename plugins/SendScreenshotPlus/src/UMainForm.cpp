@@ -1085,13 +1085,10 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	TCHAR pszFormat[6];
 	ComboBox_GetText(hwndCombo, pszFormat, 6);
 	if(ret && (_tcsicmp (pszFormat,_T("png")) != 0)) {
-		#if defined(_UNICODE)
+		
 			fif = FIP->FI_GetFIFFromFilenameU(ret);
 			dib_new = FIP->FI_LoadU(fif, ret,0);
-		#else
-			fif = FIP->FI_GetFIFFromFilenameU(ret);
-			dib_new = FIP->FI_Load(fif, ret,0);
-		#endif
+		
 		
 		if(dib_new) {
 			DeleteFile(ret);

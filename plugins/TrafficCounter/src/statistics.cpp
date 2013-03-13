@@ -78,11 +78,9 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				LVCOLUMN lvc ={0};
 
 				SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_SETEXTENDEDLISTVIEWSTYLE, 0,	LVS_EX_FULLROWSELECT);
-#ifdef UNICODE
+
 				SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_SETUNICODEFORMAT, 1, 0);
-#else
-				SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_SETUNICODEFORMAT, 0, 0);
-#endif
+
 
 				lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 				lvc.fmt = LVCFMT_LEFT;

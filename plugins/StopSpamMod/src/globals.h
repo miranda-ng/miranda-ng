@@ -10,11 +10,7 @@ char const * questCountSetting = "QuestionCount";
 TCHAR const * defAufrepl = _T("StopSpam: send a message and reply to a anti-spam bot question.");*/
 
 
-#ifdef _UNICODE
+
 typedef std::wstring tstring;
 #define PREF_TCHAR2 PREF_UTF
-#else
-typedef std::string tstring;
-#define PREF_TCHAR2 0
-#endif //_UNICODE
 

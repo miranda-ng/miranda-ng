@@ -1624,11 +1624,9 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 							else courPos += _stprintf( &buff[courPos], _T("\t%s\r\n"), headvalue);
 						}
 						GlobalUnlock(hData);
-#if defined( _UNICODE )
+
 						SetClipboardData(CF_UNICODETEXT,hData);
-#else
-						SetClipboardData(CF_TEXT,hData);
-#endif
+
 						CloseClipboard();
 					}
 				}
@@ -2411,11 +2409,9 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 							courPos += _stprintf(&buff[courPos], _T("%s\t%s\t%s\t%s\r\n"), from, subject, size, date);
 						}
 						GlobalUnlock(hData);
-#if defined( _UNICODE )
+
 						SetClipboardData(CF_UNICODETEXT,hData);
-#else
-						SetClipboardData(CF_TEXT,hData);
-#endif
+
 						CloseClipboard();
 					}
 				}

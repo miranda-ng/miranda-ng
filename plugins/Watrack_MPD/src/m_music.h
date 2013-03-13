@@ -74,13 +74,9 @@ typedef struct tSongInfo {
     wchar_t *url;
 } SONGINFO, *LPSONGINFO;
 
-#if defined(_UNICODE)
-  #define WAT_INF_TCHAR WAT_INF_UNICODE
-  #define SongInfoT tSongInfo
-#else
-  #define WAT_INF_TCHAR WAT_INF_ANSI
-  #define SongInfoT tSongInfoA
-#endif 
+#define WAT_INF_TCHAR WAT_INF_UNICODE
+#define SongInfoT tSongInfo
+ 
 
   // result codes
 #define WAT_RES_UNKNOWN     -2
