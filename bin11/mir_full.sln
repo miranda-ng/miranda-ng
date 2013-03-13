@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_11.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_11.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -370,6 +370,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotifyAnything", "..\plugins\NotifyAnything\NotifyAnything_11.vcxproj", "{F5E3FAFE-B650-4736-8D27-FA53866668C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcurl", "..\plugins\FTPFileYM\curl-7.29.0\lib\vc6libcurl_11.vcxproj", "{01F9E227-06F5-4BED-907F-402CA7DFAFE6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_11.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1651,6 +1653,14 @@ Global
 		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|Win32.Build.0 = Release|Win32
 		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|x64.ActiveCfg = Release|x64
 		{01F9E227-06F5-4BED-907F-402CA7DFAFE6}.Release|x64.Build.0 = Release|x64
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Debug|Win32.Build.0 = Debug|Win32
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Debug|x64.ActiveCfg = Debug|x64
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Debug|x64.Build.0 = Debug|x64
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|Win32.ActiveCfg = Release|Win32
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|Win32.Build.0 = Release|Win32
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|x64.ActiveCfg = Release|x64
+		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
