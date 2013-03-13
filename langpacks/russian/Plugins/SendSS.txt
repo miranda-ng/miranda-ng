@@ -172,3 +172,25 @@ JPG качество
 (Неизвестный контакт)
 [<Unknow Contact>]
 (Неизвестный контакт)
+[overlays]
+Оверлеи
+[Screenshot Icon1]
+Значок снимка 1
+[Screenshot Icon2]
+Значок снимка 2
+[Target Cursor]
+Курсор цель
+[Target Desktop]
+Курсор рабочий стол
+[overlay on]
+Оверлей вкл
+[overlay off]
+Оверлей выкл
+[description off]
+Описание выкл
+[description on]
+Описание вкл
+[delete off]
+Удаление выкл
+[delete on]
+Удаление вкл
