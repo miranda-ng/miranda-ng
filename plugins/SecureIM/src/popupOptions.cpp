@@ -45,9 +45,9 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		  switch (LOWORD(wParam)) {
 		  case IDC_PREV: {
 			  //preview popups...
-			  showPopUp("Key Popup",NULL,g_hPOP[POP_PU_PRC],0);
-			  showPopUp("Secure Popup",NULL,g_hPOP[POP_PU_EST],1);
-			  showPopUp("Message Popup",NULL,g_hPOP[POP_PU_MSR],2);
+			  showPopUp(LPGEN("Key Popup"),NULL,g_hPOP[POP_PU_PRC],0);
+			  showPopUp(LPGEN("Secure Popup"),NULL,g_hPOP[POP_PU_EST],1);
+			  showPopUp(LPGEN("Message Popup"),NULL,g_hPOP[POP_PU_MSR],2);
 		  }
 		  break;
 		  case IDC_EC: {

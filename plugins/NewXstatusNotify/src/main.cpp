@@ -1071,8 +1071,8 @@ void InitMainMenuItem()
 
 static IconItem iconList[] =
 {
-	{ "Notification enabled",	ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
-	{ "Notification disabled",	ICO_NOTIFICATION_ON,	 IDI_NOTIFICATION_ON  }
+	{ LPGEN("Notification enabled"),	ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
+	{ LPGEN("Notification disabled"),	ICO_NOTIFICATION_ON,	 IDI_NOTIFICATION_ON  }
 };
 
 void InitIcolib()
