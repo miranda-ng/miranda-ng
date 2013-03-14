@@ -91,7 +91,7 @@ void RenewPseudocontactHandles()
 
 	HANDLE hContact = db_find_first();
 	while (hContact) {
-		if (DBGetContactSettingByte(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+		if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 			LPCSTR proto = (LPCSTR)GetContactProto(hContact);
 			DBWriteContactSettingDword(0, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
 		}

@@ -22,41 +22,27 @@
 #include "stdafx.h"
 #include "notifications.h"
 #include "options.h"
-#include "popups.h"
 
 HINSTANCE hInst = 0;
 
 DWORD itlsSettings = TLS_OUT_OF_INDEXES;
 DWORD itlsRecursion = TLS_OUT_OF_INDEXES;
-DWORD itlsPopupHook = TLS_OUT_OF_INDEXES;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
-	hInst = hinstDLL;
-
 	switch (fdwReason) {
-        case DLL_PROCESS_ATTACH:
-            if (((itlsSettings = TlsAlloc()) == TLS_OUT_OF_INDEXES) ||
-				((itlsRecursion = TlsAlloc()) == TLS_OUT_OF_INDEXES) ||
-				((itlsPopupHook = TlsAlloc()) == TLS_OUT_OF_INDEXES))
-                return FALSE;
-			break;
+	case DLL_PROCESS_ATTACH:
+		hInst = hinstDLL;
+		if (((itlsSettings = TlsAlloc()) == TLS_OUT_OF_INDEXES) ||
+			((itlsRecursion = TlsAlloc()) == TLS_OUT_OF_INDEXES))
+			return FALSE;
+		break;
 
-		case DLL_THREAD_ATTACH:
-			TlsSetValue(itlsPopupHook,
-				(PVOID)SetWindowsHookEx(WH_CALLWNDPROCRET, PopupHookProc, NULL, GetCurrentThreadId()));
-			break;
-
-		case DLL_THREAD_DETACH:
-			UnhookWindowsHookEx((HHOOK)TlsGetValue(itlsPopupHook));
-			break;
-
-        case DLL_PROCESS_DETACH:
-            TlsFree(itlsSettings);
-			TlsFree(itlsRecursion);
-			TlsFree(itlsPopupHook);
-            break;
-    }
+	case DLL_PROCESS_DETACH:
+		TlsFree(itlsSettings);
+		TlsFree(itlsRecursion);
+		break;
+	}
 
 	return TRUE;
 }

@@ -142,7 +142,7 @@ VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
 
 int AvaChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (!lParam && DBGetContactSettingByte((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (!lParam && db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		BOOL enqueued = FALSE;
 		AVACHANGED *ach = (AVACHANGED*)malloc(sizeof(AVACHANGED));
 		__try {

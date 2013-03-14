@@ -49,7 +49,6 @@ struct POPUP_DATA_HEADER {
 };
 
 extern DWORD itlsSettings;
-BOOL isOriginalPopups = FALSE;
 
 LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -105,7 +104,7 @@ void MarkEventRead(HANDLE hCnt, HANDLE hEvt)
 
 int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
 {
-	if (DBGetContactSettingByte((HANDLE)hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (db_get_b((HANDLE)hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		CallService(MS_CLIST_REMOVEEVENT, hContact, hDbEvent);
 		PostMessage((HWND)wnd, EVENT_DELETED_MSG, hContact, hDbEvent);
 	}
@@ -117,15 +116,16 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (EVENT_DELETED_MSG == msg) {
 		POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
-		if ((HANDLE)lParam == ppdh->hDbEvent) ppdh->hDbEvent = NULL;
+		if ((HANDLE)lParam == ppdh->hDbEvent)
+			ppdh->hDbEvent = NULL;
 		return 0;
 	}
-	else
-		if (MESSAGE_CLOSEPOPUP == msg) {
-			POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
-			ppdh->MarkRead = TRUE;
-			PUDeletePopUp(wnd);
-		}
+
+	if (MESSAGE_CLOSEPOPUP == msg) {
+		POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
+		ppdh->MarkRead = TRUE;
+		PUDeletePopUp(wnd);
+	}
 
 	switch (msg) {
 		case UM_INITPOPUP: {
@@ -219,7 +219,7 @@ void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCoun
 HANDLE SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR displayName)
 {
 	HANDLE result = (HANDLE)DBGetContactSettingDword(0, acc, PSEUDOCONTACT_LINK, 0);
-	if (!result || !DBGetContactSettingByte(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
+	if (!result || !db_get_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		result = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 		DBWriteContactSettingDword(0, acc, PSEUDOCONTACT_LINK, (DWORD)result);
 		DBWriteContactSettingByte(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
@@ -319,7 +319,7 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 		memcpy(ppdh->url, url, lurl);
 
 		HWND code = DoAddPopup(data);
-		if ((code == (HWND)-1) || (isOriginalPopups && !code))
+		if (code == (HWND)-1 || !code)
 			return;
 		data->PluginData = NULL; // freed in popup wndproc
 	}
@@ -367,7 +367,7 @@ void ClearNotificationContactHistory(LPCSTR acc)
 {
 	HANDLE hEvent = 0;
 	HANDLE hContact = (HANDLE)DBGetContactSettingDword(0, acc, PSEUDOCONTACT_LINK, 0);
-	if (hContact && DBGetContactSettingByte(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+	if (hContact && db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		while ((hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0)) &&
 			!CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hEvent)) {};
 }

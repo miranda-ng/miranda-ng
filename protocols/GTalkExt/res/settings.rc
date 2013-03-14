@@ -13,7 +13,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 	CONTROL "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus", IDC_POPUPSINFULLSCREENLABEL, STATIC, SS_LEFT, 30, 65, 270, 22
 	CONTROL "Notify in contact list", IDC_PSEUDOCONTACTENABLED, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 83, 271, 14
 	CONTROL "Clear pseudocontact history before adding new events", IDC_CLEARPSEUDOCONTACTLOG, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 17, 97, 254, 15
-	CONTROL "Supress foreign popups for pseudocontact", IDC_SUPRESSFOREIGN, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 17, 111, 254, 15
 	CONTROL "Mark history event read when popup closed", IDC_MARKEVENTREAD, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 128, 300, 15
 	CONTROL "Add message snip to notification", IDC_ADDSNIP, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 146, 300, 15
 	CONTROL "Try to login before open mailbox", IDC_AUTHONMAILBOX, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 164, 300, 15

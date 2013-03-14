@@ -24,7 +24,6 @@
 #include "db.h"
 #include "notifications.h"
 #include "options.h"
-#include "popups.h"
 
 static const LPCTSTR JABBER_IQID = _T("mir_");
 static const LPCTSTR JABBER_IQID_FORMAT = _T("mir_%d");
@@ -417,7 +416,6 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	RenewPseudocontactHandles();
-	DetectPopupModule();
 
 	int count;
 	PROTOACCOUNT **protos;

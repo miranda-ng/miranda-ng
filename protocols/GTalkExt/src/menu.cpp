@@ -34,7 +34,7 @@ HANDLE hOnPrebuildMenu = 0;
 
 INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam)
 {
-	if (DBGetContactSettingByte((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+	if (db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		OpenContactInbox((HANDLE)wParam);
 	return 0;
 }
@@ -43,7 +43,7 @@ int OnPrebuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM cmi = { sizeof(cmi) };
 	cmi.flags = CMIM_FLAGS;
-	if (!DBGetContactSettingByte((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
+	if (!db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		cmi.flags |= CMIF_HIDDEN;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hOpenMailboxMenuItem, (LPARAM)&cmi);
 	return 0;

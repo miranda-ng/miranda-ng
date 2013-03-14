@@ -45,11 +45,8 @@ PLUGININFOEX pluginInfo={
 	{0x08B86253, 0xEC6E, 0x4d09, { 0xB7, 0xA9, 0x64, 0xAC, 0xDF, 0x06, 0x27, 0xB8 }} //{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
 };
 
-extern DWORD g_mirandaVersion;
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	g_mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }
 

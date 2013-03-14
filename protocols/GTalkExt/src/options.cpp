@@ -51,7 +51,6 @@ void CheckControlsEnabled(HWND wnd)
 
 	BOOL CListEnabled = (SendMessage(GetDlgItem(wnd, IDC_PSEUDOCONTACTENABLED), BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
 	EnableWindow(GetDlgItem(wnd, IDC_CLEARPSEUDOCONTACTLOG), CListEnabled);
-	EnableWindow(GetDlgItem(wnd, IDC_SUPRESSFOREIGN), CListEnabled);
 
 	EnableWindow(GetDlgItem(wnd, IDC_MARKEVENTREAD), PopupsEnabled && CListEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_ADDSNIP), PopupsEnabled || CListEnabled);
@@ -77,7 +76,6 @@ DWORD ReadCheckboxes(HWND wnd, LPCSTR mod)
 	ReadCheckbox(wnd, IDC_PSEUDOCONTACTENABLED, controls);
 	ReadCheckbox(wnd, IDC_CLEARPSEUDOCONTACTLOG, controls);
 	ReadCheckbox(wnd, IDC_POPUPSINFULLSCREEN, controls);
-	ReadCheckbox(wnd, IDC_SUPRESSFOREIGN, controls);
 	ReadCheckbox(wnd, IDC_MARKEVENTREAD, controls);
 	ReadCheckbox(wnd, IDC_AUTHONMAILBOX, controls);
 	ReadCheckbox(wnd, IDC_ADDSNIP, controls);
@@ -100,7 +98,6 @@ void SaveControls(HWND wnd, LPCSTR mod)
 		GetCheckboxSaveValue(wnd, IDC_POPUPSINFULLSCREEN) |
 		GetCheckboxSaveValue(wnd, IDC_POPUPSENABLED) |
 		GetCheckboxSaveValue(wnd, IDC_PSEUDOCONTACTENABLED) |
-		GetCheckboxSaveValue(wnd, IDC_SUPRESSFOREIGN) |
 		GetCheckboxSaveValue(wnd, IDC_MARKEVENTREAD) |
 		GetCheckboxSaveValue(wnd, IDC_AUTHONMAILBOX) |
 		GetCheckboxSaveValue(wnd, IDC_ADDSNIP) |
@@ -135,7 +132,6 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 				case IDC_CLEARPSEUDOCONTACTLOG:
 				case IDC_POPUPSINFULLSCREEN:
-				case IDC_SUPRESSFOREIGN:
 				case IDC_MARKEVENTREAD:
 				case IDC_AUTHONMAILBOX:
 				case IDC_ADDSNIP:

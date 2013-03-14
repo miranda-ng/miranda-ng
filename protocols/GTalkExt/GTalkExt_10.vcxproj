@@ -186,7 +186,6 @@
     <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\notifications.cpp" />
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\popups.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -200,7 +199,6 @@
     <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\notifications.h" />
     <ClInclude Include="src\options.h" />
-    <ClInclude Include="src\popups.h" />
     <ClInclude Include="src\resources.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\targetver.h" />
