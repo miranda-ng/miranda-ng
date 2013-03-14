@@ -82,7 +82,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  all the bad free()'s to good ones, however it's still incorrect code. The reasons for not
  changing them include:
 
-  * DBFreeVariant has a CallService() lookup
+  * db_unset has a CallService() lookup
   * free() is executed in some large loops to do with clist creation of group data
   * easy search and replace
 
@@ -102,11 +102,11 @@ struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
 
 extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;
 
+extern FI_INTERFACE *fei;
 
 int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
 
 #define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
-
 
 #define GAIR_FAILED 1000
 

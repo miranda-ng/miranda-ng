@@ -1,42 +1,21 @@
 #include "commonheaders.h"
 #include "image_utils.h"
 
-#include <ocidl.h>
-#include <olectl.h>
-
-/*
-Theese are the ones needed
-#include <win2k.h>
-#include <newpluginapi.h>
-#include <m_langpack.h>
-#include <m_utils.h>
-#include <m_png.h>
-#include <m_protocols.h>
-*/
-
 extern int _DebugTrace(const char *fmt, ...);
 extern int _DebugTrace(HANDLE hContact, const char *fmt, ...);
 
-
 #define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
-
-
-extern FI_INTERFACE *fei;
 
 // Make a bitmap all transparent, but only if it is a 32bpp
 void MakeBmpTransparent(HBITMAP hBitmap)
 {
 	BITMAP bmp;
-	DWORD dwLen;
-	BYTE *p;
-
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	p = (BYTE *)malloc(dwLen);
+	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	BYTE *p = (BYTE *)malloc(dwLen);
 	if (p == NULL)
 		return;
 
@@ -47,7 +26,6 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 }
 
 // Resize /////////////////////////////////////////////////////////////////////////////////////////
-
 
 // Returns a copy of the bitmap with the size especified
 // wParam = ResizeBitmap *
@@ -226,32 +204,32 @@ INT_PTR BmpFilterLoadBitmap32(WPARAM wParam,LPARAM lParam)
 {
 	FIBITMAP *dib32 = NULL;
 
-	if(fei == NULL)
+	if (fei == NULL)
 		return 0;
 
 	FIBITMAP *dib = (FIBITMAP *)CallService(MS_IMG_LOAD, lParam, IMGL_RETURNDIB|IMGL_TCHAR);
 
-	if(dib == NULL)
+	if (dib == NULL)
 		return 0;
 
-	if(fei->FI_GetBPP(dib) != 32) {
+	if (fei->FI_GetBPP(dib) != 32) {
 		dib32 = fei->FI_ConvertTo32Bits(dib);
 		fei->FI_Unload(dib);
 	}
 	else
 		dib32 = dib;
 
-	if(dib32) {
-		if(fei->FI_IsTransparent(dib32)) {
-			if(wParam) {
+	if (dib32) {
+		if (fei->FI_IsTransparent(dib32)) {
+			if (wParam) {
 				DWORD *dwTrans = (DWORD *)wParam;
 				*dwTrans = 1;
 			}
 		}
-		if(fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
+		if (fei->FI_GetWidth(dib32) > 128 || fei->FI_GetHeight(dib32) > 128) {
 			FIBITMAP *dib_new = fei->FI_MakeThumbnail(dib32, 128, FALSE);
 			fei->FI_Unload(dib32);
-			if(dib_new == NULL)
+			if (dib_new == NULL)
 				return 0;
 			dib32 = dib_new;
 		}
@@ -434,13 +412,13 @@ DWORD GetImgHash(HBITMAP hBitmap)
  */
 HBITMAP MakeGrayscale(HANDLE hContact, HBITMAP hBitmap)
 {
-	if(hBitmap) {
+	if (hBitmap) {
 		FIBITMAP *dib = fei->FI_CreateDIBFromHBITMAP(hBitmap);
 
-		if(dib) {
+		if (dib) {
 			FIBITMAP *dib_new = fei->FI_ConvertToGreyscale(dib);
 			fei->FI_Unload(dib);
-			if(dib_new) {
+			if (dib_new) {
 				DeleteObject(hBitmap);
 				HBITMAP hbm_new = fei->FI_CreateHBITMAPFromDIB(dib_new);
 				fei->FI_Unload(dib_new);
@@ -471,8 +449,8 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 	GetObject(*hBitmap, sizeof(bmp), &bmp);
 	width = bmp.bmWidth;
 	height = bmp.bmHeight;
-	colorDiff = DBGetContactSettingWord(hContact, "ContactPhoto", "TranspBkgColorDiff",
-					DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgColorDiff", 10));
+	colorDiff = db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff",
+					db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10));
 
 	// Min 5x5 to easy things in loop
 	if (width <= 4 || height <= 4)
@@ -580,8 +558,8 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 			count++;
 	}
 
-	if (count < DBGetContactSettingWord(hContact, "ContactPhoto", "TranspBkgNumPoints",
-						DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgNumPoints", 5)))
+	if (count < db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints",
+						db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)))
 	{
 		if (hBmpTmp != *hBitmap) DeleteObject(hBmpTmp);
 		free(p);
@@ -610,8 +588,8 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 		}
 	}
 
-	if (maxCount < DBGetContactSettingWord(hContact, "ContactPhoto", "TranspBkgNumPoints",
-						DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgNumPoints", 5)))
+	if (maxCount < db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints",
+						db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)))
 	{
 		// Not enought corners with the same color
 		if (hBmpTmp != *hBitmap) DeleteObject(hBmpTmp);
@@ -662,7 +640,7 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 		int topPos = 0;
 		int curPos = 0;
 		int *stack = (int *)malloc(width * height * 2 * sizeof(int));
-		bool transpProportional = (DBGetContactSettingByte(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) != 0);
+		bool transpProportional = (db_get_b(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) != 0);
 
 		if (stack == NULL)
 		{

@@ -28,7 +28,6 @@ struct QueueItem
 };
 
 void InitPolls();
-void FreePolls();
 
 // Add an contact to a queue
 void QueueAdd(HANDLE hContact);

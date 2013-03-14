@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-extern FI_INTERFACE *fei;
-
 int GetImageFormat(TCHAR *filename);
 INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam);
 INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam);
@@ -155,7 +153,7 @@ void StartFlash(HWND hwnd, ACCData* data)
 	int format;
 	if (data->hContact != NULL)
 	{
-		format = DBGetContactSettingWord(data->hContact, "ContactPhoto", "Format", 0);
+		format = db_get_w(data->hContact, "ContactPhoto", "Format", 0);
 	}
 	else if (data->proto[0] != '\0')
 	{
@@ -381,7 +379,7 @@ void StartAnimatedGif(HWND hwnd, ACCData* data)
 		return;
 
 	FREE_IMAGE_FORMAT fif = fei->FI_GetFileTypeT(ace->szFilename, 0);
-	if(fif == FIF_UNKNOWN)
+	if (fif == FIF_UNKNOWN)
 		fif = fei->FI_GetFIFFromFilenameT(ace->szFilename);
 
 	data->ag.multi = fei->FI_OpenMultiBitmapT(fif, ace->szFilename, FALSE, TRUE, FALSE, GIF_LOAD256);
@@ -763,7 +761,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			}
 
 			if (data->hContact == NULL && data->proto[0] == '\0'
-				&& DBGetContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+				&& db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
 			{
 				DrawText(hdc, data->hFont, rc, TranslateT("Protocols have different avatars"));
 			}

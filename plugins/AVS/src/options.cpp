@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2004 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2004 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -56,7 +56,7 @@ struct WindowData {
 
 static void RemoveProtoPic(const char *szProto)
 {
-	DBDeleteContactSetting(NULL, PPICT_MODULE, szProto);
+	db_unset(NULL, PPICT_MODULE, szProto);
 
 	if ( szProto == NULL )
 		return;
@@ -73,7 +73,7 @@ static void RemoveProtoPic(const char *szProto)
 		}
 		return;
 	}
-	
+
 	if (strstr(szProto, "Global avatar for")) {
 		char szProtoname[MAX_PATH] = {0};
 		lstrcpynA(szProtoname, szProto, lstrlenA(szProto)- lstrlenA("accounts"));
@@ -84,7 +84,7 @@ static void RemoveProtoPic(const char *szProto)
 			PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)p.szProtoname);
 			if (pdescr == NULL && lstrcmpA(p.szProtoname, szProto))
 				continue;
-			
+
 			if (!lstrcmpA(p.szProtoname, szProto) || !lstrcmpA(pdescr->szProtoName, szProtoname)) {
 				if (p.szProtoname == NULL)
 					continue;
@@ -135,7 +135,7 @@ static void SetProtoPic(char *szProto)
 
 		TCHAR szNewPath[MAX_PATH];
 		AVS_pathToRelative(FileName, szNewPath);
-		DBWriteContactSettingTString(NULL, PPICT_MODULE, szProto, szNewPath);
+		db_set_ts(NULL, PPICT_MODULE, szProto, szNewPath);
 
 		if (!lstrcmpA(AVS_DEFAULT, szProto)) {
 			for ( int i = 0; i < g_ProtoPictures.getCount(); i++ ) {
@@ -175,7 +175,7 @@ static void SetProtoPic(char *szProto)
 					break;
 
 				if (!strcmp(p.szProtoname, szProto) && lstrlenA(p.szProtoname) == lstrlenA(szProto)) {
-					if (p.hbmPic != 0) 
+					if (p.hbmPic != 0)
 						DeleteObject(p.hbmPic);
 					ZeroMemory(&p, sizeof(avatarCacheEntry));
 					CreateAvatarInCache(0, &p, ( char* )szProto);
@@ -195,16 +195,16 @@ INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, DBGetContactSettingByte(0, AVS_MODULE, "warnings", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, DBGetContactSettingByte(0, AVS_MODULE, "MakeGrayscale", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, DBGetContactSettingByte(0, AVS_MODULE, "MakeTransparentBkg", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, DBGetContactSettingByte(0, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0));
+		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, db_get_b(0, AVS_MODULE, "warnings", 0));
+		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, db_get_b(0, AVS_MODULE, "MakeGrayscale", 0));
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0));
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, db_get_b(0, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0));
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
-		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgNumPoints", 5));
+		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5));
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgColorDiff", 10));
+		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10));
 		{
 			BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enabled);
@@ -246,8 +246,8 @@ INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
 				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
 				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
-				DBWriteContactSettingWord(NULL, AVS_MODULE, "TranspBkgNumPoints", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
-				DBWriteContactSettingWord(NULL, AVS_MODULE, "TranspBkgColorDiff", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, AVS_MODULE, "TranspBkgNumPoints", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, AVS_MODULE, "TranspBkgColorDiff", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
 		}	}
 		break;
 	}
@@ -260,8 +260,8 @@ INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, DBGetContactSettingByte(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0));
-		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, DBGetContactSettingByte(0, AVS_MODULE, "SetAllwaysMakeSquare", 0));
+		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0));
+		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0));
 
 		return TRUE;
 
@@ -321,8 +321,8 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				item.pszText = g_ProtoPictures[i].tszAccName;
 				newItem = ListView_InsertItem(hwndList, &item);
 				if (newItem >= 0)
-					ListView_SetCheckState(hwndList, newItem, 
-						DBGetContactSettingByte(NULL, AVS_MODULE, g_ProtoPictures[i].szProtoname, 1) ? TRUE : FALSE);
+					ListView_SetCheckState(hwndList, newItem,
+						db_get_b(NULL, AVS_MODULE, g_ProtoPictures[i].szProtoname, 1) ? TRUE : FALSE);
 			}
 			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -353,7 +353,7 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 		}
 		break;
-	
+
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				break;
 			case LVN_ITEMCHANGED:
 				{
-					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;						
+					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 					if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_PROTOCOLS)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
@@ -399,11 +399,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					int iItem = ListView_GetSelectionMark(hwndList);
 					g_selectedProto = GetProtoFromList(hwndDlg, iItem);
 					if ( g_selectedProto ) {
-						DBVARIANT dbv = {0};
-						if (!DBGetContactSettingTString(NULL, PPICT_MODULE, g_selectedProto, &dbv)) 
-						{
-							if (!AVS_pathIsAbsolute(dbv.ptszVal))
-							{
+						DBVARIANT dbv;
+						if ( !DBGetContactSettingTString(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
+							if ( !AVS_pathIsAbsolute(dbv.ptszVal)) {
 								TCHAR szFinalPath[MAX_PATH];
 								mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%%miranda_path%%\\%s"), dbv.ptszVal);
 								SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, szFinalPath);
@@ -411,7 +409,7 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							else SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, dbv.ptszVal);
 
 							InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else {
 							SetWindowText(GetDlgItem(hwndDlg, IDC_PROTOAVATARNAME), _T(""));
@@ -429,16 +427,16 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					for (int i = 0; i < ListView_GetItemCount(hwndList); i++) {
 						char *szProto = GetProtoFromList(hwndDlg, i);
 
-						BOOL oldVal = DBGetContactSettingByte(NULL, AVS_MODULE, szProto, 1);
+						BOOL oldVal = db_get_b(NULL, AVS_MODULE, szProto, 1);
 						BOOL newVal = ListView_GetCheckState(hwndList, i);
 
 						if (oldVal && !newVal)
 						{
 							HANDLE hContact = db_find_first();
-							while (hContact != NULL) 
+							while (hContact != NULL)
 							{
 								char* szContactProto = GetContactProto(hContact);
-								if (szContactProto != NULL && !strcmp(szContactProto, szProto)) 
+								if (szContactProto != NULL && !strcmp(szContactProto, szProto))
 									DeleteAvatarFromCache(hContact, TRUE);
 
 								hContact = db_find_next(hContact);
@@ -460,9 +458,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 void LoadTransparentData(HWND hwndDlg, HANDLE hContact)
 {
-	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, DBGetContactSettingByte(hContact, "ContactPhoto", "MakeTransparentBkg", DBGetContactSettingByte(0, AVS_MODULE, "MakeTransparentBkg", 0)));
-	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)DBGetContactSettingWord(hContact, "ContactPhoto", "TranspBkgNumPoints", DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
-	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)DBGetContactSettingWord(hContact, "ContactPhoto", "TranspBkgColorDiff", DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgColorDiff", 10)));
+	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)));
+	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
+	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10)));
 
 	BOOL transp_enabled = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), transp_enabled);
@@ -476,22 +474,22 @@ void LoadTransparentData(HWND hwndDlg, HANDLE hContact)
 void SaveTransparentData(HWND hwndDlg, HANDLE hContact)
 {
 	BOOL transp = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
-	if (DBGetContactSettingByte(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
-		DBDeleteContactSetting(hContact, "ContactPhoto", "MakeTransparentBkg");
+	if (db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
+		db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
 	else
 		DBWriteContactSettingByte(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
 
 	WORD tmp = (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
-	if (DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgNumPoints", 5) == tmp)
-		DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgNumPoints");
+	if (db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5) == tmp)
+		db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
 	else
-		DBWriteContactSettingWord(hContact, "ContactPhoto", "TranspBkgNumPoints", tmp);
+		db_set_w(hContact, "ContactPhoto", "TranspBkgNumPoints", tmp);
 
 	tmp = (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0);
-	if (DBGetContactSettingWord(0, AVS_MODULE, "TranspBkgColorDiff", 10) == tmp)
-		DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgColorDiff");
+	if (db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10) == tmp)
+		db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 	else
-		DBWriteContactSettingWord(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
+		db_set_w(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
 }
 
 void SaveTransparentData(HWND hwndDlg, HANDLE hContact, BOOL locked)
@@ -532,8 +530,8 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 			ShowWindow(hwndDlg, SW_SHOWNORMAL);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, FALSE);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -552,9 +550,9 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case ID_USE_DEFAULTS:
 			hContact = GetContactThatHaveTheAvatar(hContact);
 
-			DBDeleteContactSetting(hContact, "ContactPhoto", "MakeTransparentBkg");
-			DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgNumPoints");
-			DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgColorDiff");
+			db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
+			db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
+			db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 
 			LoadTransparentData(hwndDlg, hContact);
 
@@ -566,10 +564,10 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
 				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != DBGetContactSettingByte(hContact, "ContactPhoto", "Hidden", 0))
+				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
 					DBWriteContactSettingByte(hContact, "ContactPhoto", "Hidden", hidden);
 
-				if (!locked && DBGetContactSettingByte(hContact, "ContactPhoto", "NeedUpdate", 0))
+				if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
 					QueueAdd(hContact);
 
 				// Continue to the cancel handle
@@ -589,7 +587,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_CHANGE:
 			SetAvatar((WPARAM)hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
 			break;
 
 		case IDC_BKG_NUM_POINTS:
@@ -620,16 +618,16 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Locked");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Backup");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "RFile");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "File");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Format");
-				DBDeleteContactSetting(hContact, szProto, "AvatarHash");
-				DBDeleteContactSetting(hContact, szProto, "AvatarSaved");
+				db_unset(hContact, "ContactPhoto", "Locked");
+				db_unset(hContact, "ContactPhoto", "Backup");
+				db_unset(hContact, "ContactPhoto", "RFile");
+				db_unset(hContact, "ContactPhoto", "File");
+				db_unset(hContact, "ContactPhoto", "Format");
+				db_unset(hContact, szProto, "AvatarHash");
+				db_unset(hContact, szProto, "AvatarSaved");
 				DeleteAvatarFromCache(hContact, FALSE);
 
 				QueueAdd(hContact);
@@ -645,14 +643,14 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Locked");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Backup");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "RFile");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "File");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Format");
+				db_unset(hContact, "ContactPhoto", "Locked");
+				db_unset(hContact, "ContactPhoto", "Backup");
+				db_unset(hContact, "ContactPhoto", "RFile");
+				db_unset(hContact, "ContactPhoto", "File");
+				db_unset(hContact, "ContactPhoto", "Format");
 				DeleteAvatarFromCache(hContact, FALSE);
 				SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 				InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
@@ -677,7 +675,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				avdrq.dwFlags |= AVDRQ_DRAWBORDER;
 				avdrq.clrBorder = GetSysColor(COLOR_BTNTEXT);
 				avdrq.radius = 6;
-				if (!CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq)) 
+				if (!CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq))
 				{
 					// Get text rectangle
 					RECT rc = avdrq.rcDraw;
@@ -688,13 +686,13 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 					// Calc text size
 					RECT rc_ret = rc;
-					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc_ret, 
+					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc_ret,
 						DT_WORDBREAK | DT_NOPREFIX | DT_CENTER | DT_CALCRECT);
 
 					// Calc needed size
 					rc.top += ((rc.bottom - rc.top) - (rc_ret.bottom - rc_ret.top)) / 2;
 					rc.bottom = rc.top + (rc_ret.bottom - rc_ret.top);
-					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc, 
+					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc,
 						DT_WORDBREAK | DT_NOPREFIX | DT_CENTER);
 				}
 
@@ -706,21 +704,21 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		{
 			TCHAR szFinalName[MAX_PATH];
 			DBVARIANT dbv = {0};
-			BYTE is_locked = DBGetContactSettingByte(hContact, "ContactPhoto", "Locked", 0);
+			BYTE is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			szFinalName[0] = 0;
 
 			if (is_locked && !DBGetContactSettingTString(hContact, "ContactPhoto", "Backup", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			szFinalName[MAX_PATH - 1] = 0;
 			SetDlgItemText(hwndDlg, IDC_AVATARNAME, szFinalName);
@@ -775,8 +773,8 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			hContact = (HANDLE)lParam;
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -793,9 +791,9 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case ID_USE_DEFAULTS:
 			hContact = GetContactThatHaveTheAvatar(hContact);
 
-			DBDeleteContactSetting(hContact, "ContactPhoto", "MakeTransparentBkg");
-			DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgNumPoints");
-			DBDeleteContactSetting(hContact, "ContactPhoto", "TranspBkgColorDiff");
+			db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
+			db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
+			db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 
 			LoadTransparentData(hwndDlg, hContact);
 
@@ -805,14 +803,14 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_CHANGE:
 			SetAvatar((WPARAM)hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, DBGetContactSettingByte(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
 			break;
 
 		case IDC_HIDEAVATAR:
 			{
 				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != DBGetContactSettingByte(hContact, "ContactPhoto", "Hidden", 0))
+				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
 					DBWriteContactSettingByte(hContact, "ContactPhoto", "Hidden", hidden);
 				break;
 			}
@@ -851,16 +849,16 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Locked");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Backup");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "RFile");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "File");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Format");
-				DBDeleteContactSetting(hContact, szProto, "AvatarHash");
-				DBDeleteContactSetting(hContact, szProto, "AvatarSaved");
+				db_unset(hContact, "ContactPhoto", "Locked");
+				db_unset(hContact, "ContactPhoto", "Backup");
+				db_unset(hContact, "ContactPhoto", "RFile");
+				db_unset(hContact, "ContactPhoto", "File");
+				db_unset(hContact, "ContactPhoto", "Format");
+				db_unset(hContact, szProto, "AvatarHash");
+				db_unset(hContact, szProto, "AvatarSaved");
 				DeleteAvatarFromCache(hContact, FALSE);
 
 				QueueAdd(hContact);
@@ -874,14 +872,14 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
 					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Locked");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Backup");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "RFile");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "File");
-				DBDeleteContactSetting(hContact, "ContactPhoto", "Format");
+				db_unset(hContact, "ContactPhoto", "Locked");
+				db_unset(hContact, "ContactPhoto", "Backup");
+				db_unset(hContact, "ContactPhoto", "RFile");
+				db_unset(hContact, "ContactPhoto", "File");
+				db_unset(hContact, "ContactPhoto", "Format");
 				DeleteAvatarFromCache(hContact, FALSE);
 				SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 				break;
@@ -950,7 +948,7 @@ static void EnableDisableControls(HWND hwndDlg, char *proto)
 	{
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
 
-		if (DBGetContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+		if (db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
 		{
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 		}
@@ -1071,7 +1069,7 @@ INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
 			// Check if should show per protocol avatars
-			CheckDlgButton(hwndDlg, IDC_PER_PROTO, DBGetContactSettingByte(NULL, AVS_MODULE, "PerProtocolUserAvatars", 1));
+			CheckDlgButton(hwndDlg, IDC_PER_PROTO, db_get_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", 1));
 			EnableDisableProtocols(hwndDlg, TRUE);
 		}
 		break;
