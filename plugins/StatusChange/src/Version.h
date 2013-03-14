@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"Status change"
 #define __FILENAME					"StatusChange.dll"
-#define __DESCRIPTION 				"Change status when you send/receive and event."
+#define __DESCRIPTION 				"Change status when you send/receive an event."
 #define __AUTHOR					"Angelo Luiz Tartari"
 #define __AUTHOREMAIL				"corsario-br@users.sourceforge.net"
 #define __AUTHORWEB					"http://miranda-ng.org/"
