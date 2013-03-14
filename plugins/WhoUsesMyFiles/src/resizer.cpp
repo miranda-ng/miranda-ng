@@ -24,7 +24,7 @@ typedef struct {
 	short  cy;
 } START_OF_DLGTEMPLATEEX;
 
-int ResizeDialog(WPARAM wParam,LPARAM lParam)
+int ResizeDialog(WPARAM wParam, LPARAM lParam)
 {
 	UTILRESIZEDIALOG *urd=(UTILRESIZEDIALOG*)lParam;
 	HDWP hDwp;
@@ -42,7 +42,7 @@ int ResizeDialog(WPARAM wParam,LPARAM lParam)
 	if(urd->cbSize != sizeof(UTILRESIZEDIALOG))
 		return 1;
 
-	pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance,FindResource(urd->hInstance,urd->lpTemplate,RT_DIALOG)));
+	pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance, FindResourceA(urd->hInstance, urd->lpTemplate, MAKEINTRESOURCEA(5))));
 	pTemplateEx = (START_OF_DLGTEMPLATEEX*)pTemplate;
 	extendedDlg = pTemplateEx->signature == 0xFFFF;
 	if(extendedDlg && pTemplateEx->dlgVer!=1)

@@ -10,31 +10,33 @@ PWumf new_wumf( DWORD dwID,
 				DWORD dwAttr)
 {
 	PWumf w;
-	CHAR szID[10];
+	//TCHAR szID[10];
 
 	w = (PWumf)malloc(sizeof(Wumf));
 	if(!w)return NULL;
 	
-	#define SCPY(X) if(X){w->X = (LPSTR)malloc(1+strlen(X));if(!w->X)return NULL;strcpy(w->X, X);} else { w->X = NULL;}
-	#define SCPYW(X) if(X){w->X = (LPSTR)malloc(1+lstrlenW((LPWSTR)X));if(!w->X)return NULL;wsprintfA(w->X, "%S", X);} else { w->X = NULL;}
+	//#define SCPY(X) if(X){w->X = (LPTSTR)malloc(1+_tcslen(X));if(!w->X)return NULL;_tcscpy(w->X, X);} else { w->X = NULL;}
+	//#define SCPYW(X) if(X){w->X = (LPTSTR)malloc(1+lstrlenW((LPWSTR)X));if(!w->X)return NULL;wsprintfA(w->X, "%S", X);} else { w->X = NULL;}
 
-    #define SCCPY(X, Y) w->X = (LPSTR)malloc(1+strlen(Y));if(!w->X)return NULL;strcpy(w->X, Y)
+    //#define SCCPY(X, Y) w->X = (LPSTR)malloc(1+strlen(Y));if(!w->X)return NULL;strcpy(w->X, Y)
 
-    SCPYW(szUser);
-	SCPYW(szPath);
-	SCPYW(szComp);
-	SCPYW(szUNC);
+	_tcscpy(w->szUser, szUser);
+	_tcscpy(w->szPath, szPath);
+	_tcscpy(w->szComp, szComp);
+	_tcscpy(w->szUNC, szUNC);
+
 	switch(dwPerm)
 	{
-		case PERM_FILE_READ: SCCPY(szPerm, "Read");break;
-		case PERM_FILE_WRITE: SCCPY(szPerm, "Write");break;
-		case PERM_FILE_CREATE: SCCPY(szPerm, "Create");break;
-		default: SCCPY(szPerm, "Execute");//w->szPerm = NULL;
+	case PERM_FILE_READ: _tcscpy(w->szPerm, _T("Read"));break;
+		case PERM_FILE_WRITE: _tcscpy(w->szPerm, _T("Write"));break;
+		case PERM_FILE_CREATE: _tcscpy(w->szPerm, _T("Create"));break;
+		default: _tcscpy(w->szPerm, _T("Execute"));//w->szPerm = NULL;
 	};
-	wsprintf(szID, "%i", dwID);
-	SCPY(szID);
+	wsprintf(w->szID, _T("%i"), dwID);
+	//_tcscpy(w->szID, szID);
+	//SCPY(szID);
 
-	#undef SCPY
+	//#undef SCPY
 	w->dwID = dwID;
 	w->dwSess = dwSess;
 	w->dwAttr = dwAttr;

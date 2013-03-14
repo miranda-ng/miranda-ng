@@ -73,11 +73,6 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     UTILRESIZEDIALOG urd={0};
     LV_COLUMN lvc = { 0 };
-	char col0[] = "ID";
-	char col1[] = "User";
-	char col2[] = "File";
-	char col3[] = "Access";
-//	char buff[256];
 	HWND hList;
     switch( Msg )
     {
@@ -88,27 +83,23 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
         	lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
         	lvc.fmt = LVCFMT_LEFT;
         	lvc.cx = 40;
-        	lvc.pszText = col0;
-        	lvc.cchTextMax = sizeof(col0);
+        	lvc.pszText = TranslateT("ID");
         	ListView_InsertColumn(hList, 0, &lvc);
         	lvc.cx = 50;
-        	lvc.pszText = col1;
-        	lvc.cchTextMax = sizeof(col1);
+        	lvc.pszText = TranslateT("User");
         	ListView_InsertColumn(hList, 1, &lvc);
         	lvc.cx = 250;
-        	lvc.pszText = col2;
-        	lvc.cchTextMax = sizeof(col2);
+        	lvc.pszText = TranslateT("File");
         	ListView_InsertColumn(hList, 2, &lvc);
         	lvc.cx = 50;
-        	lvc.pszText = col3;
-        	lvc.cchTextMax = sizeof(col3);
+        	lvc.pszText = TranslateT("Access");
         	ListView_InsertColumn(hList, 3, &lvc);
 			KillTimer(NULL, 777);
         	lst = cpy_list(&list);
         	if (IsUserAnAdmin()) {
 				SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
 			} else {
-				MessageBox(NULL, "Plugin WhoUsesMyFiles requires admin privileges in order to work.", "Miranda NG", MB_OK);
+				MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
 			}
         	ShowList(lst, hList);
         	Utils_RestoreWindowPosition(hWnd, NULL, ModuleName,"conn");
@@ -129,7 +120,7 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 			urd.cbSize=sizeof(urd);
 			urd.hwndDlg=hWnd;
 			urd.hInstance=hInst;
-			urd.lpTemplate=MAKEINTRESOURCE(IDD_CONNLIST);
+			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CONNLIST);
 			urd.lParam=(LPARAM)NULL;
 			urd.pfnResizer=DlgResizer;
 			ResizeDialog(0,(LPARAM)&urd);
@@ -158,10 +149,10 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 
 void LogWumf(PWumf w)
 {
-	char str[256];
+	TCHAR str[256];
 	LPTSTR lpstr;
-	char lpDateStr[20];
-	char lpTimeStr[20];
+	TCHAR lpDateStr[20];
+	TCHAR lpTimeStr[20];
 	SYSTEMTIME time;
 	DWORD bytes;
 	
@@ -186,17 +177,17 @@ void LogWumf(PWumf w)
 			    (LPTSTR) &lpstr,
 			    0,
 			    NULL);
-			wsprintf(str, "Can't open log file %s\nError:%s", WumfOptions.LogFile, lpstr);
+			mir_sntprintf(str, SIZEOF(str), _T("Can't open log file %s\nError:%s"), WumfOptions.LogFile, lpstr);
 			LocalFree(lpstr);		
-			MessageBox( NULL, str, "Error opening file", MB_OK | MB_ICONSTOP);
+			MessageBox( NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
 		}
 	}
 	GetLocalTime(&time);
-	GetDateFormat(LOCALE_USER_DEFAULT,DATE_SHORTDATE, &time,NULL, lpDateStr, 20);
-	GetTimeFormat(LOCALE_USER_DEFAULT,TIME_FORCE24HOURFORMAT|TIME_NOTIMEMARKER, &time,NULL, lpTimeStr, 20);
-	wsprintf(str ,"%s %s %20s\t%s\r\n\0",lpDateStr, lpTimeStr, w->szUser, w->szPath);
-	SetFilePointer (hLog, 0, NULL, FILE_END);
+	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
+	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
+	mir_sntprintf(str, SIZEOF(str), _T("%s %s %20s\t%s\r\n\0"), lpDateStr, lpTimeStr, w->szUser, w->szPath);
+	SetFilePointer(hLog, 0, NULL, FILE_END);
 	WriteFile(hLog, str, (DWORD)_tcslen(str), &bytes, NULL);
 }
 
@@ -275,7 +266,7 @@ void process_session(SESSION_INFO_1 s_info)
 	LPFILE_INFO_3 f_info = NULL;
 	DWORD ent_read = 0, ent_total = 0, res_handle = 0, i = 0;
 	NET_API_STATUS res = NERR_Success;
-	if( (res = NetFileEnum(NULL, NULL, s_info.sesi1_username, 3, (LPBYTE *)&f_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, &res_handle)) == NERR_Success ||
+	if( (res = NetFileEnum(NULL, NULL, s_info.sesi1_username, 3, (LPBYTE *)&f_info, MAX_PREFERRED_LENGTH, &ent_read, &ent_total, (PDWORD_PTR)&res_handle)) == NERR_Success ||
 		res == ERROR_MORE_DATA)
 	{
 		for(i = 0; i < ent_read; i++)
@@ -293,10 +284,10 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 	PWumf w = fnd_cell(&list, f_info.fi3_id);
 	if(!w)
 	{
-		w = new_wumf(f_info.fi3_id, (LPSTR)f_info.fi3_username, (LPSTR)f_info.fi3_pathname, (LPSTR)s_info.sesi1_cname, NULL, 0, f_info.fi3_permissions, GetFileAttributes((LPSTR)f_info.fi3_pathname));
+		w = new_wumf(f_info.fi3_id, f_info.fi3_username, f_info.fi3_pathname, s_info.sesi1_cname, NULL, 0, f_info.fi3_permissions, GetFileAttributes(f_info.fi3_pathname));
 		w->mark = FALSE;
 		if(!add_cell(&list, w)){
-			msg("Error memory allocation");
+			msg(TranslateT("Error memory allocation"));
 		};
 		if(WumfOptions.PopupsEnabled) ShowWumfPopUp(w);
 		if(WumfOptions.LogToFile) LogWumf(w);

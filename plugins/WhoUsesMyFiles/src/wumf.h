@@ -11,6 +11,7 @@
 #include <m_clist.h>
 #include <m_database.h>
 #include <m_popup.h>
+#include <win2k.h>
 
 #include <m_toptoolbar.h>
 
@@ -71,17 +72,17 @@ typedef struct
 	BOOL		LogComp;
 	BOOL		AlertComp;
 
-	char		LogFile[255];
+	TCHAR		LogFile[255];
 } WUMF_OPTIONS;
 
 typedef struct _WUMF{
 	DWORD dwID;
-	LPSTR szID;
-	LPSTR szUser;
-	LPSTR szPath;
-	LPSTR szComp;
-	LPSTR szUNC;
-	LPSTR szPerm;
+	LPTSTR szID;
+	LPTSTR szUser;
+	LPTSTR szPath;
+	LPTSTR szComp;
+	LPTSTR szUNC;
+	LPTSTR szPerm;
 	DWORD dwSess; 
 	DWORD dwLocks; 
 	DWORD dwAttr;
@@ -92,10 +93,10 @@ typedef struct _WUMF{
 
 PWumf new_wumf(
 	DWORD dwID, 
-	LPSTR szUser, 
-	LPSTR szPath, 
-	LPSTR szComp, 
-	LPSTR szUNC, 
+	LPTSTR szUser, 
+	LPTSTR szPath, 
+	LPTSTR szComp, 
+	LPTSTR szUNC, 
 	DWORD szSess, 
 	DWORD dwPerm, 
 	DWORD dwAttr);
@@ -120,14 +121,14 @@ VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 int CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
 int ResizeDialog(WPARAM wParam,LPARAM lParam);
 
-void ShowThePopUp(PWumf w, LPSTR, LPSTR);
+void ShowThePopUp(PWumf w, LPTSTR, LPTSTR);
 void ShowWumfPopUp(PWumf w);
 
 void process_session(SESSION_INFO_1 s_info);
 void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info);
 void printError(DWORD res);
 
-#define msg(X) MessageBox(NULL, X, "WUMF", MB_OK|MB_ICONSTOP)
+#define msg(X) MessageBox(NULL, X, _T("WUMF"), MB_OK|MB_ICONSTOP)
 #define MS_WUMF_SWITCHPOPUP 	"WUMF/SwitchPopup"
 #define MS_WUMF_CONNECTIONSSHOW "WUMF/ShowConnections"
 
