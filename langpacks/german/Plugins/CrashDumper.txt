@@ -75,6 +75,9 @@ Miranda-vi.org aufrufen
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
 Version-Info anzeigen
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
+
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 Pfad zur Erstellung des Crash Reports ist nicht verfügbar!

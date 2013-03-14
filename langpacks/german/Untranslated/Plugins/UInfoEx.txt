@@ -14,6 +14,7 @@
 [Abord]
 [The Page to add has invalid size %d bytes!]
 [Fatal error, image services not found. Flags Module will be disabled.]
+[UserInfoEx]
 [Ex-/Import Group]
 [Address & Contact]
 [Everything is done!]

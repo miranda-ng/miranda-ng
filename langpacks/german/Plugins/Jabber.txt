@@ -581,7 +581,7 @@ Chat ver&lassen
 [&User details]
 Kontaktprofil
 [Member &info]
-Mitglieder&infos (Jabber-Dialog)
+Mitglieder&infos
 [User &details]
 Kontaktprofil
 [&Add to roster]
@@ -597,7 +597,7 @@ Besucher
 [&Participant]
 Teilnehmer
 [&Moderator]
-
+&Moderator
 [Set &affiliation]
 Setze Mitgliedsch&aft
 [&None]
@@ -611,7 +611,7 @@ Besitzer
 [Outcast (&ban)]
 Ver&bannt
 [&Kick]
-
+&Kick
 [Copy &nickname]
 &Nicknamen kopieren
 [Copy real &JID]

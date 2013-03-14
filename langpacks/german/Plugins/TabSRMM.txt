@@ -344,7 +344,7 @@ Blinkender Aufschriftstext auf den Tabs
 [Single row tab control (*)]
 Einzeilige Tab-Anordnung (*)
 [Close button on tabs]
-Schlie?en-Schaltflache auf den Tabs
+Schließen-Schaltflache auf den Tabs
 [Use button tabs (*)]
 Benutze Tab-Schaltflächen (*)
 [You have chosen to disable all event notifications for open message windows.]

@@ -5,6 +5,7 @@
 [aborting]
 [playing]
 [%s, %s. %s changed to: %s (was: %s).\r\n]
+[New Status Notify]
 [NewXstatusNotify]
 [Xstatus]
 [%s, %s. %s removed %s.\r\n]

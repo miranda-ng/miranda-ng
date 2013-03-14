@@ -1,12 +1,12 @@
 ﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
-;  File: yapp.dll
+;  File: YAPP.dll
 ;  Plugin: YAPP
 ;  Version: 0.5.0.10
 ;  Authors: Scott Ellis
 ;============================================================
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-
+Yet Another Popup Plugin - Popup-Benachrichtigungen für andere Plugins
 ;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Popupverlauf
@@ -37,7 +37,7 @@ Vorschau
 [Transparent background]
 Transparenter Hintergrund
 [Layout]
-
+Layout
 [Avatar size:]
 Avatargröße:
 [Disable when]
@@ -62,7 +62,7 @@ Anzeigedauer setzen
 Anzeigedauer (0 = Standard):
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
-
+YAPP Popups
 ;file \plugins\YAPP\src\options.cpp
 [Example]
 Beispiel
@@ -105,11 +105,11 @@ Status
 [Full-screen app running]
 Vollbildanwendung aktiv
 [No animate]
-
+Keine Animation
 [Horizontal animate]
-
+Horizontale Animation
 [Vertical animate]
-
+Vertikale Animation
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
 [Error]

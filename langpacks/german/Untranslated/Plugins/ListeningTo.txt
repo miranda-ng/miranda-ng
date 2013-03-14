@@ -1,6 +1,7 @@
 ﻿[Handles listening information to/for contacts.]
 [Listening to information]
 [XStatus]
+[ListeningTo]
 [Track number]
 [Song genre]
 [Player name]

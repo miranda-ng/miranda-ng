@@ -103,6 +103,10 @@ In %s senden
 Listening to (aktiviert)
 [Listening to (disabled)]
 Listening to (deaktiviert)
+[ListeningTo]
+
+[Listening to music]
+Musik hören
 [Send to all protocols]
 In allen Protokollen senden
 [Listening info]

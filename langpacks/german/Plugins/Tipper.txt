@@ -6,12 +6,12 @@
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Tool Tip notification windows.]
-
+ToolTip Fenster.
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 Einstellungen
 [Layout]
-
+Layout
 [Text indent:]
 Texteinzug:
 [Window]
@@ -272,7 +272,7 @@ Status
 [Status message]
 Statusnachricht
 [Extra status]
-XStatus
+Extra Status
 [Listening to]
 Höre gerade
 [Miranda uptime]
@@ -305,11 +305,11 @@ Statusnachricht:
 [Mood:]
 Stimmung:
 [XStatus:]
-
+XStatus:
 [Activity:]
 Aktivität:
 [Listening to:]
-
+Listening to:
 [Copy all items with labels]
 Alle Einträge mit Titeln kopieren
 [Copy all items]

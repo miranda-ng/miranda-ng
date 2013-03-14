@@ -10,3 +10,5 @@
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
 Neustart
+[Restart Plugin]
+

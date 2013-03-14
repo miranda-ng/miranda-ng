@@ -55,8 +55,6 @@
 [user banned]
 [Lin&ks]
 [&Slap]
-[&Moderator]
-[&Kick]
 [Member Info:]
 [Reason to ban]
 [Can't send data while you are offline.]

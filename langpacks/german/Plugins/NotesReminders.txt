@@ -201,6 +201,8 @@ Erinnerungs-Icon
 
 [View Notes]
 Notizen anzeigen
+[Sticky Notes]
+Wichtige Notiz
 [Plugins]
 Plugins
 [Add New Note]

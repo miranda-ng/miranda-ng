@@ -299,6 +299,8 @@ Statusbenachrichtigung deaktivieren
 Benachrichtigung aktiviert
 [Notification disabled]
 Benachrichtigung deaktiviert
+[New Status Notify]
+
 [User: from offline (has priority!)]
 Kontakt: war offline (hat Priorität!)
 [Extra status changed]

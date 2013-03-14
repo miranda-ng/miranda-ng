@@ -5,6 +5,8 @@
 ;  Versions: 1.4.0.4 - 1.4.0.18
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
+[QuickSearch]
+Schnellsuche
 [Global QuickSearch hotkey]
 Globale Schnellsuche
 [Local QuickSearch hotkey]

@@ -509,10 +509,111 @@ Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in d
 [Fatal error, image services not found. Flags Module will be disabled.]
 
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+IM-Benennung
+[Password]
+Passwort
+[Timezone]
+Zeitzone
+[Marital status]
+Familienstand
+[Address]
+Adresse
+[Export: Modules]
+Exportieren: Module
+[Export: Folder]
+Exportieren: Ordner
+[Default]
+Standard
+[Details Infobar]
+Details-Infoleiste
+[Phone Infobar]
+Telefon-Infoleiste
+[E-Mail Infobar]
+E-Mail-Infoleiste
+[Export VCard]
+VCard exportieren
+[Import VCard]
+VCard importieren
+[Anniversary Infobar]
+Jahrestage-Infoleiste
+[Update]
+Aktualisieren
+[Export]
+Exportieren
+[Goto]
+Gehe zu
+[Fax]
+Fax
+[Cellular]
+Mobiltelefon
+[Custom Phone]
+Benutzerdef. Telefon
+[e-mail]
+E-Mail
+[Down arrow]
+Pfeil runter
+[Add]
+Hinzufügen
+[Edit]
+Bearbeiten
+[Search]
+Suchen
+[Ex-/Import]
+Ex-/Importieren
+[Backup Birthday]
+Geburtstag sichern
+[Birthday today]
+Geburtstag heute
+[Birthday tomorrow]
+Geburtstag morgen
+[Birthday in 2 days]
+Geburtstag in 2 Tagen
+[Birthday in 3 days]
+Geburtstag in 3 Tagen
+[Birthday in 4 days]
+Geburtstag in 4 Tagen
+[Birthday in 5 days]
+Geburtstag in 5 Tagen
+[Birthday in 6 days]
+Geburtstag in 6 Tagen
+[Birthday in 7 days]
+Geburtstag in 7 Tagen
+[Birthday in 8 days]
+Geburtstag in 8 Tagen
+[Birthday in 9 days]
+Geburtstag in 9 Tagen
+[Birthday later]
+Geburtstag später
+[Anniversary today]
+Jahrestag Heute]
+[Anniversary tomorrow]
+Jahrestag morgen
+[Anniversary in 2 days]
+Jahrestag in 2 Tagen
+[Anniversary in 3 days]
+Jahrestag in 3 Tagen
+[Anniversary in 4 days]
+Jahrestag in 4 Tagen
+[Anniversary in 5 days]
+Jahrestag in 5 Tagen
+[Anniversary in 6 days]
+Jahrestag in 6 Tagen
+[Anniversary in 7 days]
+Jahrestag in 7 Tagen
+[Anniversary in 8 days]
+Jahrestag in 8 Tagen
+[Anniversary in 9 days]
+Jahrestag in 9 Tagen
+[Anniversary later]
+Jahrestag später
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Achtung: Ihre aktuelle Icon-Paket-Version ist unterschiedlich zu der des UserInfoEx-Pakets, das hierfür erstellt wurde.\nEinige Icons werden eventuell nicht korrekt dargestellt.]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 Achtung: Kein Iconpack wurde in folgendem Ordner gefunden: 'customize\\Icons', 'Icons' oder 'Plugins'!
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[UserInfoEx]
+
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 Kontakt ex-/importieren
@@ -540,8 +641,6 @@ Suche nach Jahrestagen
 Exportiere Gruppe
 [&Import Group]
 Importiere Gruppe
-[Ex-/Import]
-Ex-/Importieren
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 Meine Notizen:
@@ -555,8 +654,6 @@ Es wurde kein gültiges Datum zum Bearbeiten gewählt
 [Do you really want to delete the %s?]
 Wollen Sie wirklich den %s löschen?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Address]
-Adresse
 [Home]
 Wohnort
 [Open in Browser]

@@ -35,7 +35,7 @@ Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds.]
 Sekunden.
 [Tabs]
-
+Tabs
 [Enable tabs]
 Tabs aktivieren
 [Always show tab bar]
@@ -46,8 +46,8 @@ Tabs unten anzeigen
 Namen auf Tabs kürzen auf
 [characters]
 Zeichen
-[Show close button on each tab ]
-
+[Show close button on each tab]
+Schließen-Button auf jedem Tab anzeigen
 [Switch to active tab]
 Zum aktiven Tab wechseln
 [Limit number of tabs per window to]
@@ -57,7 +57,7 @@ Seperate Fenster für Gruppenchats verwenden
 [Limit number of group chats tabs per window to]
 Maximale Anzahl an Gruppenchats in einem Fenster
 [Layout]
-
+Layout
 [Show titlebar]
 Titelleiste anzeigen
 [Show status bar]
@@ -847,9 +847,9 @@ Folgende Icons im Tray anzeigen
 [nick of current contact (if defined)]
 Nick des aktuellen Kontaktes (falls definiert)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-
+Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
+BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to root miranda folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to current miranda profile]
@@ -863,9 +863,9 @@ wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
 Benutzername für den aktuell angemeldeten Windows-Benutzer.
 ["My Documents" folder for currently logged-on Windows user]
-
+"Meine Dokumente" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 ["Desktop" folder for currently logged-on Windows user]
-
+"Desktop" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [day of month, 1-31]
@@ -881,7 +881,7 @@ abgekürzter Monatsname
 [full month name]
 voller Monatsname
 [year without century, 01-  99]
-
+Jahr ohne Jahrhundert, 01-99
 [year with century, 1901-9999]
 Jahr mit Jahrhundert, 1901-1999
 [abbreviated weekday name]

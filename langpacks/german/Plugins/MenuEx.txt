@@ -103,6 +103,8 @@ Tippbenachrichtigungen
 Wollen Sie eine Autorisierungsanfrage an \neinen neuen Kontakt senden?
 [Miranda NG]
 Miranda NG
+[MenuItemEx]
+
 [Open ignore settings]
 Ignorier-Einstellungen öffnen
 ;file \plugins\MenuItemEx\src\options.cpp

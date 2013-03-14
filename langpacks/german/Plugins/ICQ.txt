@@ -183,7 +183,7 @@ Vorschau
 [Use default colours]
 Standardfarben verwenden
 [UIN:]
-
+UIN:
 [External IP:]
 Externe IP:
 [Internal IP:]
@@ -229,7 +229,7 @@ Abteilung:
 [Position:]
 Position:
 [Organisation:]
-
+Organisation:
 [Location]
 Ort
 [Language:]
@@ -321,13 +321,13 @@ Spambot entdeckt
 Kontakt gelöscht und weitere Ereignisse blockiert.
 ;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
-
+Eingehende URL:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
 Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
 Senden erfolgte zu schnell. Eine Weile warten und neu versuchen.\nSNAC(4.1) Fehler x03
 [The contact does not support receiving offline messages.]
-
+Dieser Kontakt unterstützt keine Offline-Nachrichten.
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
 Kontakt ist offline gegangen. Bitte erneut als Offlinenachricht senden.\nSNAC(4.1) Fehler x04
 [The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
@@ -370,9 +370,9 @@ Verschieben des Kontakts zu einer anderen Gruppe auf dem Server fehlgeschlagen.
 [Renaming of server group failed.]
 Umbenennen der Gruppe auf dem Server fehlgeschlagen.
 [Contact "%s" was authorized in the server list.]
-
+Kontakt "%s" wurde in der Serverliste aktuallisiert.
 [Contact "%s" lost its authorization in the server list.]
-
+Kontakt "%s" hat seine Autorisierung in der Serverliste verloren
 [User "%s" was removed from server list.]
 Nutzer "%s" wurde aus der Serverliste entfernt.
 ;file \protocols\IcqOscarJ\src\fam_17signon.cpp
@@ -394,7 +394,7 @@ Bestätigung
 [** This message was blocked by the ICQ server ** You are too evil.]
 ** Diese Nachricht wurde vom Server blockiert ** Sie sind zu bose.
 [** Unknown missed message event.]
-
+** Unbekanntes verpasstes Nachrichten-Ereignis.
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Avatars]
 Avatare

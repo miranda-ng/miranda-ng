@@ -32,11 +32,11 @@ Deaktivieren
 Aktivieren
 [Clear]
 Löschen
+[No History]
+
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Alle Kontakte **
-[No History]
-
 [History]
 Verlauf
 [Logging]

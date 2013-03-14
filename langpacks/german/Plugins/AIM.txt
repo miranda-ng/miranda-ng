@@ -393,6 +393,8 @@ Nicht hochgestellt
 Normaler Stil
 [Not Normal Script]
 Nicht normaler Stil
+[Profile Editor]
+Profileditor
 [AIM Account Type]
 AIM Account Typ
 [AIM Extended Status]

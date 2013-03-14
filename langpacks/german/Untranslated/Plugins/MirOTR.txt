@@ -3,6 +3,7 @@
 [MirOTR]
 [OTR Info]
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
+[Off the Record]
 [[OTR INFO] ]
 [OTR: %s (%s)]
 [OTR %s (%s)]
