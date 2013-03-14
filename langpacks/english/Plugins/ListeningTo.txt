@@ -55,6 +55,8 @@
 [Send to %s]
 [Listening to (enabled)]
 [Listening to (disabled)]
+[ListeningTo]
+[Listening to music]
 [Send to all protocols]
 [Listening info]
 [Listening info as set in the options]

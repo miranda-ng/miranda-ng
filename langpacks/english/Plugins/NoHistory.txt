@@ -20,8 +20,8 @@
 [Disable]
 [Enable]
 [Clear]
+[No History]
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
-[No History]
 [History]
 [Logging]

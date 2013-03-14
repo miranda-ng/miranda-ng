@@ -105,6 +105,7 @@
 [Bring All to Front]
 [Play Sound Icon]
 [View Notes]
+[Sticky Notes]
 [Plugins]
 [Add New Note]
 [Add New Reminder]

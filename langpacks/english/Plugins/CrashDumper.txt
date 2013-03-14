@@ -41,6 +41,8 @@
 [Open miranda-vi.org]
 [Copy Version Info to clipboard]
 [Show Version Info]
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]

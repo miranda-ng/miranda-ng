@@ -8,3 +8,4 @@
 [Adds Restart menu item.]
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
+[Restart Plugin]

@@ -204,6 +204,7 @@
 [Not Superscript]
 [Normal Script]
 [Not Normal Script]
+[Profile Editor]
 [AIM Account Type]
 [AIM Extended Status]
 [&Block]

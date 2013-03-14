@@ -1,12 +1,12 @@
 ﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
 ;  File: ZeroNotify.dll
-;  Plugin: Zero Notifications
+;  Plugin: Zero notifications
 ;  Version: 0.0.0.5
-;  Authors: bidyut (<0.0.0.5), Maat
+;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-;file \plugins\ZeroNotification\res\ZeroNotifyW.rc
+;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 [No sounds when:]
 [No SysTray blink when:]

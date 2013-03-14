@@ -2114,6 +2114,7 @@
 [Not Superscript]
 [Normal Script]
 [Not Normal Script]
+[Profile Editor]
 [AIM Account Type]
 [AIM Extended Status]
 [&Block]
@@ -4786,6 +4787,8 @@
 [Open miranda-vi.org]
 [Copy Version Info to clipboard]
 [Show Version Info]
+;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Crash Dumper]
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
@@ -10078,6 +10081,8 @@
 [Send to %s]
 [Listening to (enabled)]
 [Listening to (disabled)]
+[ListeningTo]
+[Listening to music]
 [Send to all protocols]
 [Listening info]
 [Listening info as set in the options]
@@ -10163,6 +10168,7 @@
 [Please authorize me to add you to my contact list.]
 [Do you want to send authorization request\nto new contact?]
 [Miranda NG]
+[MenuItemEx]
 [Open ignore settings]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
@@ -10368,6 +10374,8 @@
 ;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
+;file \plugins\MirOTR\MirOTR\src\icons.cpp
+[Off the Record]
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 [Stop OTR]
@@ -10726,7 +10734,7 @@
 [Sleeping]
 [Cool!]
 [Peace!]
-[Cock a snook]
+[Cook a snook]
 [Get out]
 [Death]
 [Rocket]
@@ -11536,6 +11544,7 @@
 [Disable status notification]
 [Notification enabled]
 [Notification disabled]
+[New Status Notify]
 [User: from offline (has priority!)]
 [Extra status changed]
 [Extra status message changed]
@@ -11808,9 +11817,9 @@
 [Disable]
 [Enable]
 [Clear]
+[No History]
 ;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
-[No History]
 [History]
 [Logging]
 ﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
@@ -11920,6 +11929,7 @@
 [Bring All to Front]
 [Play Sound Icon]
 [View Notes]
+[Sticky Notes]
 [Plugins]
 [Add New Note]
 [Add New Reminder]
@@ -12849,6 +12859,7 @@
 ;  Versions: 1.4.0.4 - 1.4.0.18
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=260
 ;============================================================
+[QuickSearch]
 [Global QuickSearch hotkey]
 [Local QuickSearch hotkey]
 [Show Offline contacts]
@@ -13159,6 +13170,7 @@
 [Adds Restart menu item.]
 ;file \plugins\Restart\src\restart.cpp
 [Restart]
+[Restart Plugin]
 ﻿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;============================================================
 ;  File: Scriver.dll
@@ -13187,7 +13199,7 @@
 [Tabs at bottom]
 [Limit names on tabs to]
 [characters]
-[Show close button on each tab ]
+[Show close button on each tab]
 [Switch to active tab]
 [Limit number of tabs per window to]
 [Use separate windows for group chats]
@@ -17341,8 +17353,59 @@
 ;file \plugins\UserInfoEx\src\init.cpp
 [Fatal error, image services not found. Flags Module will be disabled.]
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
+[IM Naming]
+[Password]
+[Timezone]
+[Marital status]
+[Address]
+[Export: Modules]
+[Export: Folder]
+[Default]
+[Details Infobar]
+[Phone Infobar]
+[E-Mail Infobar]
+[Export VCard]
+[Import VCard]
+[Anniversary Infobar]
+[Update]
+[Export]
+[Goto]
+[Fax]
+[Cellular]
+[Custom Phone]
+[e-mail]
+[Down arrow]
+[Add]
+[Edit]
+[Search]
+[Ex-/Import]
+[Backup Birthday]
+[Birthday today]
+[Birthday tomorrow]
+[Birthday in 2 days]
+[Birthday in 3 days]
+[Birthday in 4 days]
+[Birthday in 5 days]
+[Birthday in 6 days]
+[Birthday in 7 days]
+[Birthday in 8 days]
+[Birthday in 9 days]
+[Birthday later]
+[Anniversary today]
+[Anniversary tomorrow]
+[Anniversary in 2 days]
+[Anniversary in 3 days]
+[Anniversary in 4 days]
+[Anniversary in 5 days]
+[Anniversary in 6 days]
+[Anniversary in 7 days]
+[Anniversary in 8 days]
+[Anniversary in 9 days]
+[Anniversary later]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
+;file \plugins\UserInfoEx\src\mir_icolib.h
+[UserInfoEx]
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 [User &Details]
@@ -17357,7 +17420,6 @@
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]
-[Ex-/Import]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 [About:]
@@ -17366,7 +17428,6 @@
 [No valid date selected for editing!]
 [Do you really want to delete the %s?]
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[Address]
 [Home]
 [Open in Browser]
 [Primary e-mail]
@@ -19264,7 +19325,7 @@
 [Connection failed message]
 ﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
-;  File: yapp.dll
+;  File: YAPP.dll
 ;  Plugin: YAPP
 ;  Version: 0.5.0.10
 ;  Authors: Scott Ellis
@@ -19347,12 +19408,12 @@
 ﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
 ;============================================================
 ;  File: ZeroNotify.dll
-;  Plugin: Zero Notifications
+;  Plugin: Zero notifications
 ;  Version: 0.0.0.5
-;  Authors: bidyut (<0.0.0.5), Maat
+;  Authors: bidyut, Maat
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
-;file \plugins\ZeroNotification\res\ZeroNotifyW.rc
+;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 [No sounds when:]
 [No SysTray blink when:]
