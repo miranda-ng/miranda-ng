@@ -1,8 +1,4 @@
 #include "common.h"
-#include "message_pump.h"
-#include "popwin.h"
-#include "services.h"
-#include "options.h"
 
 unsigned message_pump_thread_id = 0;
 int num_popups = 0;

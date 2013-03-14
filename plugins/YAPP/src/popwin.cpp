@@ -1,7 +1,4 @@
 #include "common.h"
-#include "popwin.h"
-#include "message_pump.h"
-#include "options.h"
 
 HMODULE hUserDll;
 BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD) = 0;

@@ -1,6 +1,4 @@
 #include "common.h"
-#include "resource.h"
-#include "yapp_history.h"
 
 //************ Some helper resize stuff ******************
 

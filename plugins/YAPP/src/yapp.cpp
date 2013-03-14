@@ -2,13 +2,6 @@
 //
 
 #include "common.h"
-#include "version.h"
-#include "message_pump.h"
-#include "options.h"
-#include "popwin.h"
-#include "notify.h"
-
-#include "yapp_history.h" //to be able to update the renderer
 
 HMODULE hInst = 0;
 
@@ -30,17 +23,17 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-	__DESC,
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
-	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 }}
+	// {EFD15F16-7AE4-40D7-A8E3-A411ED747BD5}
+	{0xefd15f16, 0x7ae4, 0x40d7, {0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5}}
 };
 
-extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
+BOOL WINAPI DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	hInst = hModule;
 	return TRUE;

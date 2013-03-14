@@ -1,8 +1,6 @@
 #ifndef __yapp_history_h__
 #define __yapp_history_h__
 
-#include "m_ieview.h" //need this for special renderers
-
 /****HISTORY ++ STUFF ***/
 //there's no include file for h++ yet
 #ifndef MS_HPP_EG_WINDOW

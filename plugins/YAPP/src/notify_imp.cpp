@@ -1,8 +1,4 @@
 #include "common.h"
-#include "resource.h"
-#include "notify.h"
-#include "message_pump.h"
-#include "m_yapp.h"
 
 HANDLE hhkShow=0, hhkUpdate=0, hhkRemove=0;
 

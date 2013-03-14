@@ -1,8 +1,4 @@
 #include "common.h"
-#include "options.h"
-#include "resource.h"
-#include "popwin.h"
-#include "services.h"
 
 Options options;
 

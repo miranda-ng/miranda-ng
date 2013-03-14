@@ -1,9 +1,4 @@
 #include "common.h"
-#include "services.h"
-#include "popwin.h"
-#include "message_pump.h"
-#include "resource.h"
-#include "yapp_history.h"
 
 HANDLE hMenuShowHistory, hMenuToggleOnOff;
 

@@ -26,28 +26,20 @@
 #endif
 
 
-#include <m_stdhdr.h>
-
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-// Windows Header Files:
+
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
-
-#define MIRANDA_VER		0x0A00
+#include <malloc.h>
 
 #include <newpluginapi.h>
-#include <statusmodes.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_options.h>
-#include <m_system.h>
-#include <m_system_cpp.h>
-#include <m_idle.h>
 #include <m_skin.h>
 #include <m_clui.h>
 #include <m_clist.h>
-#include <m_utils.h>
 #include <m_fontservice.h>
 #include <m_avatars.h>
 #include <m_popup.h>
@@ -55,6 +47,17 @@
 #include <win2k.h>
 
 #include <m_notify.h>
+#include <m_yapp.h>
+#include <m_ieview.h> //need this for special renderers
+
+#include "version.h"
+#include "message_pump.h"
+#include "options.h"
+#include "popwin.h"
+#include "notify.h"
+#include "services.h"
+#include "resource.h"
+#include "yapp_history.h"
 
 #define MODULE			"YAPP"
 
@@ -79,31 +82,6 @@ typedef int (CALLBACK *PFNLVCOMPARE)(LPARAM, LPARAM, LPARAM);
   (BOOL)SendMessage((hwndLV), LVM_SORTITEMSEX, (WPARAM)(LPARAM)(_lPrm), (LPARAM)(PFNLVCOMPARE)(_pfnCompare))
 #endif
 
-
-struct PopupData
-{
-	int cbSize;
-	int flags; // OR of PDF_* flags below
-	HANDLE hContact;
-	HICON hIcon;
-	union {
-		char *pszTitle;
-		TCHAR *ptzTitle;
-		wchar_t *pwzTitle;
-	};
-	union {
-		char *pszText;
-		TCHAR *ptzText;
-		wchar_t *pwzText;
-	};
-	COLORREF colorBack;		// if colorBack and colorText are equal, defaults will be used
-	COLORREF colorText;
-	WNDPROC windowProc;		// optional custom window procedure
-	int timeout;			// -1 == infinite, 0 == default, otherwise timeout in seconds
-	void *opaque;
-
-	void SetIcon(HICON);
-};
 
 #define PDF_UNICODE  0x0001
 #define PDF_ICOLIB   0x0002
