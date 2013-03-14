@@ -139,16 +139,9 @@ void ShowWumfPopUp(PWumf w)
 }
 void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 {
-	POPUPDATAT ppd = { 0 };
-	COLORREF colorBack;
-	COLORREF colorText;
-
-	colorBack = GetSysColor(COLOR_BTNFACE); 
-	colorText = RGB(0,0,0);
-
+	POPUPDATAT ppd = {0};
 	ppd.lchContact = NULL;
-	ppd.lchIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
-	ppd.iSeconds = -1; 
+	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_DRIVE));
 
 	if(WumfOptions.DelayInf)
 	{
@@ -172,8 +165,7 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 	}
 	else if(WumfOptions.UseDefColor)
 	{
-		ppd.colorBack = 0L;
-		ppd.colorText = 0L;
+		ppd.colorBack = ppd.colorText = 0;
 	}
 	else if(WumfOptions.SelectColor)
 	{
@@ -183,8 +175,7 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	ppd.PluginData = w;
-	if(CALLSERVICE_NOTFOUND == CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0))
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
+	PUAddPopUpT(&ppd);
 }
 
 void ShowThePreview()
