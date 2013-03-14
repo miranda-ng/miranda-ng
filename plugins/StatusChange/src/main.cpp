@@ -113,7 +113,7 @@ static int StatusChangeGetMessage(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static BOOL CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 		case WM_INITDIALOG:
