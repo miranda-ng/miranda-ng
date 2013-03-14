@@ -8,13 +8,13 @@ HWND hDlg;
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
-	"WUMF: Who Use My Files?", 
-	PLUGIN_MAKE_VERSION(0,1,0,1),
-	"Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!",
-	"Nikolay Redko",
-	"nike000@users.sf.net",
-	"© 2003 Nike. Freeware. Please mail me all bugs & your suggestions.",	
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {80DCA515-973A-4A7E-8B85-5D8EC88FC5A7}
 	{0x80dca515, 0x973a, 0x4a7e, {0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7}}

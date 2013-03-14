@@ -1,25 +1,21 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
-#include <commctrl.h>
 #include <lm.h>
-#include <locale.h> 
+#include <locale.h>
 #include <shlobj.h>
 
-#include "newpluginapi.h"
-#include "m_system.h"
-#include "m_options.h"
-#include "m_langpack.h"
-#include "m_clui.h"
-#include "m_clist.h"
-#include "m_database.h"
-#include "m_utils.h"
-#include "m_skin.h"
-#include "m_popup.h"
+#include <newpluginapi.h>
+#include <m_options.h>
+#include <m_langpack.h>
+#include <m_clist.h>
+#include <m_database.h>
+#include <m_popup.h>
 
-#include "m_toptoolbar.h"
+#include <m_toptoolbar.h>
 
 #include "resource.h"
+#include "Version.h"
 
 #define ModuleName		"WUMF Plugin"
 

@@ -1,5 +1,4 @@
 #include "wumf.h"
-#pragma hdrstop
 
 typedef struct {
 	DWORD  helpID;

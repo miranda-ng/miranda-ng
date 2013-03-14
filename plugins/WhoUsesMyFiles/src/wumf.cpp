@@ -1,9 +1,10 @@
+#include "wumf.h"
+
 #define MAX_CHARS 4096
 #define WS_WINDOW_STYLE WS_OVERLAPPED
 #define NAME "WUMF"
 #define WM_MYCMD 0x0401
 
-#include "wumf.h"
 static PWumf list = NULL;
 static PWumf lst = NULL;
 
