@@ -28,16 +28,16 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\list.c">
+    <ClCompile Include="src\list.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resizer.c">
+    <ClCompile Include="src\resizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wumf.c">
+    <ClCompile Include="src\wumf.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wumfplug.c">
+    <ClCompile Include="src\wumfplug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

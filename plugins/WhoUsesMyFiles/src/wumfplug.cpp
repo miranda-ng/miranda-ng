@@ -2,13 +2,9 @@
 
 HINSTANCE hInst;
 WUMF_OPTIONS WumfOptions = { 0 };
-const char ModuleName[] = "WUMF Plugin";
 HANDLE hMenuItem = 0;
-extern HANDLE hLog;
-static HWND hDlg;
-static HANDLE hWumfBut;
-extern PWumf list;
 int hLangpack;
+HWND hDlg;
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
@@ -21,7 +17,7 @@ static PLUGININFOEX pluginInfo = {
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	// {80DCA515-973A-4A7E-8B85-5D8EC88FC5A7}
-	{ 0x80dca515, 0x973a, 0x4a7e, { 0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7 } }
+	{0x80dca515, 0x973a, 0x4a7e, {0x8b, 0x85, 0x5d, 0x8e, 0xc8, 0x8f, 0xc5, 0xa7}}
 };
 
 void LoadOptions()
@@ -228,9 +224,9 @@ void ShowThePreview()
 
 
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -289,7 +285,7 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 	return iResult;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -574,7 +570,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-__declspec(dllexport) int Load(void)
+extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
@@ -619,7 +615,7 @@ __declspec(dllexport) int Load(void)
 	return 0;
 }
 
-__declspec(dllexport) int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
     KillTimer(NULL, 777);
     CloseHandle(hLog);

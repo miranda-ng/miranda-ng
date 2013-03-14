@@ -7,11 +7,6 @@
 static PWumf list = NULL;
 static PWumf lst = NULL;
 
-extern WUMF_OPTIONS WumfOptions;
-extern HANDLE hInst;
-extern HWND hDlg;
-extern char ModuleName[];
-
 HANDLE hLog = INVALID_HANDLE_VALUE;
 BOOL wumf();
 
@@ -297,7 +292,7 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 	PWumf w = fnd_cell(&list, f_info.fi3_id);
 	if(!w)
 	{
-		w = new_wumf(f_info.fi3_id, f_info.fi3_username, f_info.fi3_pathname, s_info.sesi1_cname, NULL, 0, f_info.fi3_permissions, GetFileAttributes(f_info.fi3_pathname));
+		w = new_wumf(f_info.fi3_id, (LPSTR)f_info.fi3_username, (LPSTR)f_info.fi3_pathname, (LPSTR)s_info.sesi1_cname, NULL, 0, f_info.fi3_permissions, GetFileAttributes((LPSTR)f_info.fi3_pathname));
 		w->mark = FALSE;
 		if(!add_cell(&list, w)){
 			msg("Error memory allocation");
@@ -313,8 +308,8 @@ void printError(DWORD res)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, NULL, res, 0, (LPTSTR) &lpMsgBuf, 0, NULL );
-	OutputDebugString(lpMsgBuf);
-	msg(lpMsgBuf);
+	OutputDebugString((LPCTSTR)lpMsgBuf);
+	msg((LPCTSTR)lpMsgBuf);
 	LocalFree( lpMsgBuf );
 }
 

@@ -16,7 +16,7 @@ PWumf new_wumf( DWORD dwID,
 	if(!w)return NULL;
 	
 	#define SCPY(X) if(X){w->X = (LPSTR)malloc(1+strlen(X));if(!w->X)return NULL;strcpy(w->X, X);} else { w->X = NULL;}
-	#define SCPYW(X) if(X){w->X = (LPSTR)malloc(1+lstrlenW(X));if(!w->X)return NULL;wsprintfA(w->X, "%S", X);} else { w->X = NULL;}
+	#define SCPYW(X) if(X){w->X = (LPSTR)malloc(1+lstrlenW((LPWSTR)X));if(!w->X)return NULL;wsprintfA(w->X, "%S", X);} else { w->X = NULL;}
 
     #define SCCPY(X, Y) w->X = (LPSTR)malloc(1+strlen(Y));if(!w->X)return NULL;strcpy(w->X, Y)
 

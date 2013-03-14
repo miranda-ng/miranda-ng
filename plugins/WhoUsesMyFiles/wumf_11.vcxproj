@@ -182,10 +182,10 @@
     <ResourceCompile Include="res\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\list.c" />
-    <ClCompile Include="src\resizer.c" />
-    <ClCompile Include="src\wumf.c" />
-    <ClCompile Include="src\wumfplug.c" />
+    <ClCompile Include="src\list.cpp" />
+    <ClCompile Include="src\resizer.cpp" />
+    <ClCompile Include="src\wumf.cpp" />
+    <ClCompile Include="src\wumfplug.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

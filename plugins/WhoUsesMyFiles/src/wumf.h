@@ -21,6 +21,8 @@
 
 #include "resource.h"
 
+#define ModuleName		"WUMF Plugin"
+
 #define LIFETIME_MAX 60
 #define LIFETIME_MIN 1
 #define MAX_PATHNAME 512
@@ -111,7 +113,11 @@ BOOL  del_all   (PWumf* l);
 void  mark_all  (PWumf* l, BOOL mark);
 BOOL  del_marked(PWumf* l);
 
-
+extern WUMF_OPTIONS WumfOptions;
+extern HINSTANCE hInst;
+extern HANDLE hLog;
+static HANDLE hWumfBut;
+extern PWumf list;
 
 void FreeAll();
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
