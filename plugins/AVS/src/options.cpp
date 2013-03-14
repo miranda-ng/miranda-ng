@@ -242,10 +242,10 @@ INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "warnings", IsDlgButtonChecked(hwndDlg, IDC_SHOWWARNINGS) ? 1 : 0);
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "warnings", IsDlgButtonChecked(hwndDlg, IDC_SHOWWARNINGS) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
 				db_set_w(NULL, AVS_MODULE, "TranspBkgNumPoints", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
 				db_set_w(NULL, AVS_MODULE, "TranspBkgColorDiff", (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
 		}	}
@@ -274,8 +274,8 @@ INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "MakeMyAvatarsTransparent", IsDlgButtonChecked(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP) ? 1 : 0);
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "SetAllwaysMakeSquare", IsDlgButtonChecked(hwndDlg, IDC_SET_MAKE_SQUARE) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "MakeMyAvatarsTransparent", IsDlgButtonChecked(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP) ? 1 : 0);
+				db_set_b(NULL, AVS_MODULE, "SetAllwaysMakeSquare", IsDlgButtonChecked(hwndDlg, IDC_SET_MAKE_SQUARE) ? 1 : 0);
 		}	}
 		break;
 	}
@@ -444,9 +444,9 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						}
 
 						if (newVal)
-							DBWriteContactSettingByte(NULL, AVS_MODULE, szProto, 1);
+							db_set_b(NULL, AVS_MODULE, szProto, 1);
 						else
-							DBWriteContactSettingByte(NULL, AVS_MODULE, szProto, 0);
+							db_set_b(NULL, AVS_MODULE, szProto, 0);
 					}
 				}
 			}
@@ -477,7 +477,7 @@ void SaveTransparentData(HWND hwndDlg, HANDLE hContact)
 	if (db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) == transp)
 		db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
 	else
-		DBWriteContactSettingByte(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
+		db_set_b(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
 
 	WORD tmp = (WORD) SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
 	if (db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5) == tmp)
@@ -565,7 +565,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
 				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					DBWriteContactSettingByte(hContact, "ContactPhoto", "Hidden", hidden);
+					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
 
 				if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
 					QueueAdd(hContact);
@@ -616,7 +616,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -641,7 +641,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				DBVARIANT dbv = {0};
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -712,11 +712,11 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
-			else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
+			else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
-			else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+			else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
@@ -811,7 +811,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
 				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					DBWriteContactSettingByte(hContact, "ContactPhoto", "Hidden", hidden);
+					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
 				break;
 			}
 
@@ -847,7 +847,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -870,7 +870,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -1135,7 +1135,7 @@ INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_PER_PROTO:
-			DBWriteContactSettingByte(NULL, AVS_MODULE, "PerProtocolUserAvatars", IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO) ? 1 : 0);
+			db_set_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO) ? 1 : 0);
 			EnableDisableProtocols(hwndDlg, FALSE);
 			break;
 		}

@@ -372,7 +372,7 @@ void MakePathRelative(HANDLE hContact, TCHAR *path)
 static void MakePathRelative(HANDLE hContact)
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTStrring(hContact, "ContactPhoto", "File", &dbv)) {
+	if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 		MakePathRelative(hContact, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -434,11 +434,11 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 				db_free(&dbv);
 		}
-		else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
+		else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
 			AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 			db_free(&dbv);
 		}
-		else if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+		else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
 			AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 			db_free(&dbv);
 		}
@@ -448,13 +448,13 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 	}
 	else {
 		if (hContact == 0) {				// create a protocol picture in the proto picture cache
-			if (!DBGetContactSettingTString(NULL, PPICT_MODULE, szProto, &dbv)) {
+			if ( !DBGetContactSettingTString(NULL, PPICT_MODULE, szProto, &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 				db_free(&dbv);
 			}
 			else {
 				if (lstrcmpA(szProto, AVS_DEFAULT)) {
-					if (!DBGetContactSettingTString(NULL, PPICT_MODULE, AVS_DEFAULT, &dbv)) {
+					if ( !DBGetContactSettingTString(NULL, PPICT_MODULE, AVS_DEFAULT, &dbv)) {
 						AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 						db_free(&dbv);
 					}
@@ -465,7 +465,7 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 							return -1;
 						char key[MAX_PATH];
 						mir_snprintf(key, SIZEOF(key), "Global avatar for %s accounts", pdescr->szProtoName);
-						if (!DBGetContactSettingTString(NULL, PPICT_MODULE, key, &dbv)) {
+						if ( !DBGetContactSettingTString(NULL, PPICT_MODULE, key, &dbv)) {
 							AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 							db_free(&dbv);
 						}
@@ -494,7 +494,7 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				else
 					MultiByteToWideChar( CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF(tszFilename));
 			}
-			else if (!DBGetContactSettingTString(NULL, szProto, "AvatarFile", &dbv)) {
+			else if ( !DBGetContactSettingTString(NULL, szProto, "AvatarFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 				db_free(&dbv);
 			}
@@ -733,7 +733,7 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 			if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
 			{
 				// Queue
-				DBWriteContactSettingByte(ack->hContact, "ContactPhoto", "NeedUpdate", 1);
+				db_set_b(ack->hContact, "ContactPhoto", "NeedUpdate", 1);
 				QueueAdd(ack->hContact);
 			}
 			else
@@ -757,7 +757,7 @@ INT_PTR ProtectAvatar(WPARAM wParam, LPARAM lParam)
 	if (hContact) {
 		if (!was_locked)
 			MakePathRelative(hContact);
-		DBWriteContactSettingByte(hContact, "ContactPhoto", "Locked", lParam ? 1 : 0);
+		db_set_b(hContact, "ContactPhoto", "Locked", lParam ? 1 : 0);
 		if (lParam == 0)
 			MakePathRelative(hContact);
 		ChangeAvatar(hContact, TRUE);
@@ -885,7 +885,7 @@ INT_PTR avSetAvatar(HANDLE hContact, TCHAR* tszPath)
 	AVS_pathToRelative(szFinalName, szBackupName);
 	db_set_ts(hContact, "ContactPhoto", "Backup", szBackupName);
 
-	DBWriteContactSettingByte(hContact, "ContactPhoto", "Locked", is_locked);
+	db_set_b(hContact, "ContactPhoto", "Locked", is_locked);
 	db_set_ts(hContact, "ContactPhoto", "File", szFinalName);
 	MakePathRelative(hContact, szFinalName);
 	// Fix cache
@@ -1135,9 +1135,9 @@ static int InternalRemoveMyAvatar(char *protocol)
 		{
 			// Has global avatar?
 			DBVARIANT dbv = {0};
-			if (!DBGetContactSettingTString(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv)) {
-				db_unset(&dbv);
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			if ( !DBGetContactSettingTString(NULL, AVS_MODULE, "GlobalUserAvatarFile", &dbv)) {
+				db_free(&dbv);
+				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 				DeleteGlobalUserAvatar();
 			}
 		}
@@ -1165,9 +1165,9 @@ static int InternalRemoveMyAvatar(char *protocol)
 		DeleteGlobalUserAvatar();
 
 		if (ret)
-			DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 		else
-			DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
+			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
 	}
 
 	SetIgnoreNotify(protocol, FALSE);
@@ -1218,7 +1218,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 		if (ret == 0)
 		{
 			DeleteGlobalUserAvatar();
-			DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 		}
 	}
 	else
@@ -1244,7 +1244,7 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 
 		if (ret)
 		{
-			DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+			db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 		}
 		else
 		{
@@ -1302,11 +1302,11 @@ static int InternalSetMyAvatar(char *protocol, TCHAR *szFinalName, SetMyAvatarHo
 				else
 					db_set_ts(NULL, AVS_MODULE, "GlobalUserAvatarFile", globalFile);
 
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
+				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 0);
 			}
 			else
 			{
-				DBWriteContactSettingByte(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
+				db_set_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1);
 			}
 		}
 	}
