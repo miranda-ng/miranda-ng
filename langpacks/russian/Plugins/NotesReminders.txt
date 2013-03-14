@@ -250,3 +250,5 @@
 Заметки и напоминания для Miranda NG.
 [Play Sound Icon]
 Проиграть звук
+[Sticky Notes]
+Заметки
