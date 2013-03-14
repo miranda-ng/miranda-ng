@@ -20,16 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static IconItem iconList[] =
 {
-	{ "Version Information", "versionInfo", IDI_VI       },
-	{ "Copy To Clipboard",   "storeToClip", IDI_VITOCLIP },
-	{ "Store to file",       "storeToFile", IDI_VITOFILE },
-	{ "Show",                "showInfo",    IDI_VISHOW   },
-	{ "Upload",              "uploadInfo",  IDI_VIUPLOAD },
+	{ LPGEN("Version Information"), "versionInfo", IDI_VI       },
+	{ LPGEN("Copy To Clipboard"),   "storeToClip", IDI_VITOCLIP },
+	{ LPGEN("Store to file"),       "storeToFile", IDI_VITOFILE },
+	{ LPGEN("Show"),                "showInfo",    IDI_VISHOW   },
+	{ LPGEN("Upload"),              "uploadInfo",  IDI_VIUPLOAD },
 };
 
 void InitIcons(void)
 {
-	Icon_Register(hInst, PluginName, iconList, SIZEOF(iconList), PluginName);
+	Icon_Register(hInst, LPGEN("Crash Dumper"), iconList, SIZEOF(iconList), PluginName);
 }
 
 HICON LoadIconEx(int iconId, bool big)

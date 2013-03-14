@@ -1154,8 +1154,8 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
 	int pos = 1000, i = 0;
 
-	Icon_Register(hinstance, MODULENAME, iconList, SIZEOF(iconList));
-	Icon_Register(hinstance, MODULENAME, overlayIconList, SIZEOF(overlayIconList));
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), iconList, SIZEOF(iconList));
+	Icon_Register(hinstance, LPGEN("MenuItemEx"), overlayIconList, SIZEOF(overlayIconList));
 
 	CreateServiceFunction(MS_SETINVIS, onSetInvis);
 	CreateServiceFunction(MS_SETVIS, onSetVis);

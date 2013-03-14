@@ -295,10 +295,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
 	// icons
-	Icon_Register(hInst, "ListeningTo", iconList, SIZEOF(iconList));
+	Icon_Register(hInst, LPGEN("ListeningTo"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");
+	hExtraIcon = ExtraIcon_Register(MODULE_NAME, LPGEN("Listening to music"), "listening_to_icon");
 	
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {

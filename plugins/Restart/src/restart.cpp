@@ -42,7 +42,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP( &pluginInfo );
 
 	// IcoLib support
-	Icon_Register(hInst, "Restart Plugin", &icon, 1);
+	Icon_Register(hInst, LPGEN("Restart Plugin"), &icon, 1);
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
 

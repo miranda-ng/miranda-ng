@@ -112,7 +112,7 @@ IconItem iconList[] =
 
 void InitIcons(void)
 {
-	Icon_Register(hinstance, MODULENAME, iconList, SIZEOF(iconList), MODULENAME);
+	Icon_Register(hinstance, LPGEN("Sticky Notes"), iconList, SIZEOF(iconList), MODULENAME);
 }
 
 int OnOptInitialise(WPARAM w, LPARAM L)

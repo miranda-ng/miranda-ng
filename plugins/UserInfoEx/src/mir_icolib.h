@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "m_icolib.h"
 
 // sections
-#define SECT_COMMON				"UserInfoEx"
+#define SECT_COMMON				LPGEN("UserInfoEx")
 #define SECT_ZODIAC				"UserInfoEx/Zodiacs"
 #define SECT_DLG				"UserInfoEx/Dialogs"
 #define SECT_BUTTONS			"UserInfoEx/Buttons"

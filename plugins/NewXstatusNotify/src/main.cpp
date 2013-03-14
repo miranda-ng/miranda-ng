@@ -1077,7 +1077,7 @@ static IconItem iconList[] =
 
 void InitIcolib()
 {
-	Icon_Register(hInst, MODULE, iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(hInst, LPGEN("New Status Notify"), iconList, SIZEOF(iconList), MODULE);
 }
 
 void InitSound()

@@ -85,7 +85,7 @@ static IconItem iconList[] =
 
 static void InitIcolib()
 {
-	Icon_Register(hInst, MODULE, iconList, SIZEOF(iconList), MODULE);
+	Icon_Register(hInst, LPGEN("FTP File"), iconList, SIZEOF(iconList), MODULE);
 }
 
 void InitMenuItems()
