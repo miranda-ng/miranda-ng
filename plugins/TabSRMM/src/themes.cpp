@@ -1399,7 +1399,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 	}
 	tmpItem.Clear();
 	if (szImageFileName)
-		delete szImageFileName;
+		delete[] szImageFileName;
 }
 
 /**

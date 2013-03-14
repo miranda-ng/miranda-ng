@@ -39,7 +39,7 @@ extern int nMaxLineWidth;
 extern tstring sExportDir;
 extern tstring sDefaultFile;
 extern tstring sTimeFormat;
-extern map<tstring , string::size_type , less<tstring> > clFileTo1ColWidth;
+extern map<tstring, string::size_type, less<tstring> > clFileTo1ColWidth;
 
 extern bool bAppendNewLine;
 extern bool bUseUtf8InNewFiles;
@@ -49,9 +49,9 @@ extern bool bReplaceHistory;
 
 tstring sGetErrorString(DWORD dwError);
 tstring sGetErrorString();
-void DisplayLastError(const _TCHAR * pszError);
+void DisplayLastError(const TCHAR *pszError);
 
-_TCHAR * CheckedTranslate( const _TCHAR *szEng , int nFormatCount = -1 );
+TCHAR *CheckedTranslate( const TCHAR *szEng, int nFormatCount = -1 );
 
 void SaveSettings();
 void ShowDebugInfo();
@@ -59,27 +59,27 @@ void ShowDebugInfo();
 int nExportEvent(WPARAM wparam,LPARAM lparam);
 int nContactDeleted(WPARAM wparam,LPARAM lparam);
 
-const _TCHAR *NickFromHandle(HANDLE hContact);
+const TCHAR *NickFromHandle(HANDLE hContact);
 
-tstring __inline _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting , const _TCHAR * pszError );
-string __inline _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting , const char * pszError );
+tstring __inline _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting, const TCHAR *pszError );
+string __inline _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting, const char *pszError );
 
-void ReplaceAll( tstring &sSrc , const _TCHAR * pszReplace , const tstring &sNew);
-void ReplaceAll( tstring &sSrc , const _TCHAR * pszReplace , const _TCHAR * pszNew);
+void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const tstring &sNew);
+void ReplaceAll( tstring &sSrc, const TCHAR *pszReplace, const TCHAR *pszNew);
 
 void UpdateFileToColWidth();
 
 bool bReadMirandaDirAndPath();
 tstring GetFilePathFromUser( HANDLE hContact );
 
-void ReplaceDefines( HANDLE hContact , tstring & sTarget );
+void ReplaceDefines( HANDLE hContact, tstring & sTarget );
 void ReplaceTimeVariables( tstring &sRet );
 
 bool bCreatePathToFile( tstring sFilePath );
 
-bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const char * pszSrc , bool bUtf8File );
-bool bWriteIndentedToFile( HANDLE hFile , int nIndent , const _TCHAR * pszSrc , bool bUtf8File );
-bool bWriteNewLine( HANDLE hFile , DWORD dwIndent );
+bool bWriteIndentedToFile( HANDLE hFile, int nIndent, const char *pszSrc, bool bUtf8File );
+bool bWriteIndentedToFile( HANDLE hFile, int nIndent, const TCHAR *pszSrc, bool bUtf8File );
+bool bWriteNewLine( HANDLE hFile, DWORD dwIndent );
 bool bIsUtf8Header( BYTE * pucByteOrder );
 
 #endif

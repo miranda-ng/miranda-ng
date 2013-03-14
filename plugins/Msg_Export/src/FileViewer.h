@@ -22,7 +22,7 @@
 void Initialize();
 void Uninitilize();
 
-void UpdateFileViews( const _TCHAR * pszFile );
+void UpdateFileViews( const TCHAR *pszFile );
 
 bool bOpenExternaly( HANDLE hContact );
 bool bShowFileViewer( HANDLE hContact );

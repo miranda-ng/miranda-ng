@@ -401,7 +401,7 @@ int GetWeatherData(HANDLE hContact)
 	GetSvc(Svc);
 
 	// check for invalid station
-	if (id[0] == 0)	 return INVALID_ID;
+	if (id[0] == 0)  return INVALID_ID;
 	if (Svc[0] == 0) return INVALID_SVC;
 
 	// get the update strings (loaded to memory from ini files)
@@ -412,25 +412,27 @@ int GetWeatherData(HANDLE hContact)
 	WIDATAITEMLIST* Item;
 	WORD cond = NA;
 	char loc[256];
-	char* szId = mir_t2a( id );
-	for ( int i=0; i<4; ++i) {
+	for (int i=0; i<4; ++i) {
 		// generate update URL
 		switch(i) {
 		case 0:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL, szId);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL, _T2A(id));
 			break;
 
 		case 1:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, szId);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, _T2A(id));
 			break;
 
 		case 2:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, szId);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, _T2A(id));
 			break;
 
 		case 3:
-			_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, szId);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, _T2A(id));
 			break;
+
+		default:
+			continue;
 		}
 
 		if ( loc[0] == 0 )

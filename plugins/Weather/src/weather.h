@@ -67,8 +67,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NOSTATUSDATA	1
 
 // limits
-#define MAX_TEXT_SIZE	4096
-#define MAX_DATA_LEN	1024
+#define MAX_TEXT_SIZE   4096
+#define MAX_DATA_LEN    1024
 
 // db info mangement mode
 #define WDBM_REMOVE			1

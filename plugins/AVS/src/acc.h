@@ -21,20 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __ACC_H__
 # define __ACC_H__
 
-class A2T
-{
-	TCHAR* buf;
-
-public:
-	A2T( const char* s ) : buf( mir_a2t( s )) {}
-	A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
-	~A2T() { mir_free(buf); }
-
-	__forceinline operator TCHAR*() const
-	{	return buf;
-	}
-};
-
 INT_PTR avSetAvatar( HANDLE hContact, TCHAR* tszPath );
 INT_PTR avSetMyAvatar( char* szProto, TCHAR* tszPath );
 

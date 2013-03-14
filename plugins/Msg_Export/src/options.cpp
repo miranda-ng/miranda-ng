@@ -22,27 +22,6 @@
 #define EVAL_STRINGIZE(x) STRINGIZE(x)
 #define __LOC__ __FILE__ "("EVAL_STRINGIZE(__LINE__)") : "
 
-
-#pragma message ( __LOC__ "My warning: STD list contains a bug when sorting lists of more than 32,768 elements, you need to fix this")
-/* Change code for VC 6.0
-				if (_I == _MAXN)
-					_A[_I].merge(_X);
-	SHOULD BE  
-				if (_I == _MAXN)
-					_A[_I - 1].merge(_X);
-
-  - And -
-
-				if (_I == _MAXN)
-		         _A[_I].merge(_X, _Pr);
-   SHOULD BE    
-				if (_I == _MAXN)
-					_A[_I - 1].merge(_X, _Pr);
-
-You need to change this in the file <list> function sort() and sort(_Pr3 _Pr)
-*/
-
-
 // width in pixels of the UIN column in the List Ctrl
 const int nUINColWitdh = 80;
 // width in pixels of the UIN column in the List Ctrl
@@ -61,7 +40,7 @@ BOOL bUnaplyedChanges = FALSE;
 // Project         :  Mes_export
 // Designer        :  Kennet Nielsen
 // Version         :  1.0.0
-// Date            :  020422 , 22 April 2002
+// Date            :  020422, 22 April 2002
 //
 //
 // Description: This class is used to store one DB event dyring the export 
@@ -80,7 +59,7 @@ class CLDBEvent
 		HANDLE hUser;
 		HANDLE hDbEvent;
 
-		CLDBEvent( HANDLE hU , HANDLE hDBE )
+		CLDBEvent( HANDLE hU, HANDLE hDBE )
 		{
 			hUser = hU;
 			hDbEvent = hDBE;
@@ -107,39 +86,39 @@ class CLDBEvent
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	if( lParamSort == 1 )
+	if (lParamSort == 1 )
 	{
-		return _tcsicmp( NickFromHandle((HANDLE)lParam1) , NickFromHandle((HANDLE)lParam2) );
+		return _tcsicmp( NickFromHandle((HANDLE)lParam1), NickFromHandle((HANDLE)lParam2));
 	}
 	
-	if( lParamSort == 2 )
+	if (lParamSort == 2 )
 	{
-		return _DBGetString( (HANDLE)lParam1 , "Protocol" , "p" , _T("") ).compare( 
-			             _DBGetString( (HANDLE)lParam2 , "Protocol" , "p" , _T("") ) 
+		return _DBGetString( (HANDLE)lParam1, "Protocol", "p", _T("")).compare( 
+			             _DBGetString( (HANDLE)lParam2, "Protocol", "p", _T("")) 
 				 );
 	}
-	if( lParamSort == 3 )
+	if (lParamSort == 3 )
 	{
 		DWORD dwUin1 = db_get_dw(
 			(HANDLE)lParam1, 
-			_DBGetStringA( (HANDLE)lParam1 , "Protocol" , "p" , "" ).c_str(), 
+			_DBGetStringA( (HANDLE)lParam1, "Protocol", "p", "" ).c_str(), 
 			"UIN", 
 			0);
 		DWORD dwUin2 = db_get_dw(
 			(HANDLE)lParam2, 
-			_DBGetStringA( (HANDLE)lParam2 , "Protocol" , "p" , "" ).c_str(), 
+			_DBGetStringA( (HANDLE)lParam2, "Protocol", "p", "" ).c_str(), 
 			"UIN", 
 			0);
 
-		if( dwUin1 == dwUin2 )
+		if (dwUin1 == dwUin2 )
 			return 0;
-		if( dwUin1 > dwUin2 )
+		if (dwUin1 > dwUin2 )
 			return -1;
 		return 1;
 	}
@@ -159,7 +138,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -191,29 +170,29 @@ INT_PTR CALLBACK __stdcall DialogProc(
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-int nExportCompleatList(HWND hParent , bool bOnlySelected )
+int nExportCompleatList(HWND hParent, bool bOnlySelected )
 {
-	HWND hMapUser = GetDlgItem( hParent , IDC_MAP_USER_LIST );
+	HWND hMapUser = GetDlgItem( hParent, IDC_MAP_USER_LIST );
 
 	int nTotalContacts = ListView_GetItemCount( hMapUser );
 
 	int nContacts;
-	if( bOnlySelected )
+	if (bOnlySelected )
 		nContacts = ListView_GetSelectedCount( hMapUser );
 	else
 		nContacts = nTotalContacts;
 
-	if( !hMapUser || nContacts <= 0 )
+	if (!hMapUser || nContacts <= 0 )
 	{
 		MessageBox(hParent, TranslateT("No contacts found to export"), MSG_BOX_TITEL, MB_OK);
 		return 0;
 	}
 
-	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), hParent , DialogProc);
+	HWND hDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), hParent, DialogProc);
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS );
 	HWND hStatus = GetDlgItem(hDlg, IDC_EXP_ALL_STATUS );
 
@@ -225,14 +204,14 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 		RECT rParrent;
 		RECT rDlg;
-		if (GetWindowRect( hParent , &rParrent ) && GetWindowRect( hDlg , &rDlg ) )
+		if (GetWindowRect( hParent, &rParrent) && GetWindowRect( hDlg, &rDlg))
 		{
-			int x = ( (rParrent.right + rParrent.left) / 2 ) - ( (rDlg.right - rDlg.left) / 2 );
-			int y = ( (rParrent.bottom + rParrent.top) / 2 ) - ( (rDlg.bottom - rDlg.top) / 2 );
-			SetWindowPos( hDlg , 0 , x , y , 0 ,0 , SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
+			int x = ( (rParrent.right + rParrent.left) / 2) - ( (rDlg.right - rDlg.left) / 2 );
+			int y = ( (rParrent.bottom + rParrent.top) / 2) - ( (rDlg.bottom - rDlg.top) / 2 );
+			SetWindowPos( hDlg, 0, x, y, 0,0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 		}
 		else
-			ShowWindow( hDlg , SW_SHOWNORMAL );
+			ShowWindow( hDlg, SW_SHOWNORMAL );
 	}
 
 	// map with list to stored all DB history before it is exported 
@@ -244,9 +223,9 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 		for( int nCur = 0 ; nCur < nTotalContacts ; nCur++ )
 		{
-			if( bOnlySelected )
+			if (bOnlySelected )
 			{
-				if( ! (ListView_GetItemState( hMapUser , nCur , LVIS_SELECTED ) & LVIS_SELECTED) )
+				if ( !(ListView_GetItemState( hMapUser, nCur, LVIS_SELECTED) & LVIS_SELECTED))
 					continue;
 			}
 
@@ -259,33 +238,33 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 
 			HANDLE hContact = (HANDLE)sItem.lParam;
 
-			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact ) ];
+			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
 			
 			HANDLE hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)hContact,0);
-			while( hDbEvent ) 
+			while( hDbEvent) 
 			{
-				rclCurList.push_back( CLDBEvent( hContact , hDbEvent ) );
+				rclCurList.push_back( CLDBEvent( hContact, hDbEvent));
 
 				// Get next event in chain
 				hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
 			}
 
-			SendMessage( hProg , PBM_SETPOS , nCur , 0);
-			RedrawWindow( hDlg , NULL , NULL , RDW_ALLCHILDREN | RDW_UPDATENOW );
+			SendMessage( hProg, PBM_SETPOS, nCur, 0);
+			RedrawWindow( hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW );
 		}
 
 /*
-		if( hContact )
-			MessageBox( hParent , LPGENT("Failed to export at least one contact"),MSG_BOX_TITEL,MB_OK );
+		if (hContact )
+			MessageBox( hParent, LPGENT("Failed to export at least one contact"),MSG_BOX_TITEL,MB_OK );
 			*/
 	}
 
 
 	{ // window text update 
 
-		SetWindowText( hStatus , TranslateT("Sorting and writing database information ( Phase 2 of 2 )") );
-		SendMessage( hProg , PBM_SETRANGE , 0 , MAKELPARAM( 0 , AllEvents.size() ) );
-		SendMessage( hProg , PBM_SETPOS , 0 , 0);
+		SetWindowText( hStatus, TranslateT("Sorting and writing database information ( Phase 2 of 2 )"));
+		SendMessage( hProg, PBM_SETRANGE, 0, MAKELPARAM( 0, AllEvents.size()));
+		SendMessage( hProg, PBM_SETPOS, 0, 0);
 	}
 
 	{ // time to write to files !!!
@@ -302,10 +281,10 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 			for( iterator = FileIterator->second.begin() ; iterator != FileIterator->second.end() ; ++iterator )
 			{
 				HANDLE hDbEvent = (*iterator).hDbEvent;
-				nExportEvent( (WPARAM) (*iterator).hUser , (LPARAM) hDbEvent );
+				nExportEvent( (WPARAM) (*iterator).hUser, (LPARAM) hDbEvent );
 			}
-			SendMessage( hProg , PBM_SETPOS , ++nCur , 0);
-			RedrawWindow( hDlg , NULL , NULL , RDW_ALLCHILDREN | RDW_UPDATENOW );
+			SendMessage( hProg, PBM_SETPOS, ++nCur, 0);
+			RedrawWindow( hDlg, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW );
 		}
 	}
 
@@ -322,46 +301,46 @@ int nExportCompleatList(HWND hParent , bool bOnlySelected )
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 021228 , 28 December 2002
+// Created         : 021228, 28 December 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
 void SetToDefault( HWND hParent )
 {
-	HWND hMapUser = GetDlgItem( hParent , IDC_MAP_USER_LIST );
+	HWND hMapUser = GetDlgItem( hParent, IDC_MAP_USER_LIST );
 
 	int nContacts = ListView_GetItemCount( hMapUser );
 
-	if( !hMapUser || nContacts <= 0 )
+	if (!hMapUser || nContacts <= 0 )
 	{
 		return;
 	}
 
-	_TCHAR szTemp[ 500 ];
-	if( ! GetDlgItemText( hParent , IDC_DEFAULT_FILE , szTemp , sizeof( szTemp ) ) )
+	TCHAR szTemp[ 500 ];
+	if ( !GetDlgItemText( hParent, IDC_DEFAULT_FILE, szTemp, sizeof( szTemp)) )
 		return;
 	
 	LVITEM sItem = { 0 };
 
 	for( int nCur = 0 ; nCur < nContacts ; nCur++ )
 	{
-		if( ! (ListView_GetItemState( hMapUser , nCur , LVIS_SELECTED ) & LVIS_SELECTED) )
+		if ( !(ListView_GetItemState( hMapUser, nCur, LVIS_SELECTED) & LVIS_SELECTED))
 			continue;
 
 		sItem.iItem = nCur;
 		sItem.mask = LVIF_PARAM;
-		if( ! ListView_GetItem( hMapUser, &sItem ) )
+		if ( !ListView_GetItem( hMapUser, &sItem))
 			continue;
 
 		tstring sFileName = szTemp;
-		ReplaceDefines( (HANDLE)sItem.lParam , sFileName );
+		ReplaceDefines( (HANDLE)sItem.lParam, sFileName );
 		ReplaceTimeVariables( sFileName );
 
 		sItem.mask = LVIF_TEXT;
-		sItem.pszText = (_TCHAR*)sFileName.c_str();
+		sItem.pszText = (TCHAR*)sFileName.c_str();
 		ListView_SetItem( hMapUser, &sItem );
 
-		if( ! bUnaplyedChanges )
+		if ( !bUnaplyedChanges )
 		{
 			bUnaplyedChanges = TRUE;
 			SendMessage(GetParent(hParent), PSM_CHANGED, 0, 0);
@@ -374,11 +353,11 @@ void SetToDefault( HWND hParent )
 // Type            : Global
 // Parameters      : hwndDlg - handle to the parrent, ( Options Dlg )
 // Returns         : Returns true if the changes was applyed
-// Description     : but since we cant abort an apply opperation , 
+// Description     : but since we cant abort an apply opperation, 
 //                   this can not currently be used 
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -386,7 +365,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 {
 	BOOL bTrans;
 	BOOL bRet = true;
-	_TCHAR szTemp[500];
+	TCHAR szTemp[500];
 
 	int nTmp = GetDlgItemInt(hwndDlg, IDC_MAX_CLOUMN_WIDTH, &bTrans, TRUE );
 	if ( !bTrans || nTmp < 5 )
@@ -400,34 +379,34 @@ BOOL bApplyChanges( HWND hwndDlg )
 		nMaxLineWidth = nTmp;
 	}
 
-	GetDlgItemText( hwndDlg , IDC_EXPORT_TIMEFORMAT , szTemp , sizeof( szTemp ) );
+	GetDlgItemText( hwndDlg, IDC_EXPORT_TIMEFORMAT, szTemp, sizeof( szTemp));
 	sTimeFormat = szTemp;
 
-	GetDlgItemText( hwndDlg , IDC_EXPORT_DIR , szTemp , sizeof( szTemp ) );
+	GetDlgItemText( hwndDlg, IDC_EXPORT_DIR, szTemp, sizeof( szTemp));
 	sExportDir = szTemp;
 
-	GetDlgItemText( hwndDlg , IDC_DEFAULT_FILE , szTemp , sizeof( szTemp ) );
+	GetDlgItemText( hwndDlg, IDC_DEFAULT_FILE, szTemp, sizeof( szTemp));
 	sDefaultFile = szTemp;
 
-	GetDlgItemText( hwndDlg , IDC_FILE_VIEWER , szTemp , sizeof( szTemp ) );
+	GetDlgItemText( hwndDlg, IDC_FILE_VIEWER, szTemp, sizeof( szTemp));
 	sFileViewerPrg = szTemp;
 
-	bUseInternalViewer( IsDlgButtonChecked( hwndDlg , IDC_USE_INTERNAL_VIEWER  ) == BST_CHECKED );
+	bUseInternalViewer( IsDlgButtonChecked( hwndDlg, IDC_USE_INTERNAL_VIEWER ) == BST_CHECKED );
 
-	bool bNewRp = IsDlgButtonChecked( hwndDlg , IDC_REPLACE_MIRANDA_HISTORY ) == BST_CHECKED;
-	if( bReplaceHistory != bNewRp )
+	bool bNewRp = IsDlgButtonChecked( hwndDlg, IDC_REPLACE_MIRANDA_HISTORY) == BST_CHECKED;
+	if (bReplaceHistory != bNewRp )
 	{
 		bReplaceHistory = bNewRp;
 		MessageBox(hwndDlg, TranslateT("You need to restart miranda to change the history function"), MSG_BOX_TITEL, MB_OK );
 	}
 
-	bAppendNewLine = IsDlgButtonChecked( hwndDlg , IDC_APPEND_NEWLINE ) == BST_CHECKED;
-	bUseUtf8InNewFiles = IsDlgButtonChecked( hwndDlg , IDC_USE_UTF8_IN_NEW_FILES ) == BST_CHECKED;
+	bAppendNewLine = IsDlgButtonChecked( hwndDlg, IDC_APPEND_NEWLINE) == BST_CHECKED;
+	bUseUtf8InNewFiles = IsDlgButtonChecked( hwndDlg, IDC_USE_UTF8_IN_NEW_FILES) == BST_CHECKED;
 
-	bUseLessAndGreaterInExport = IsDlgButtonChecked( hwndDlg , IDC_USE_LESS_AND_GREATER_IN_EXPORT ) == BST_CHECKED;
+	bUseLessAndGreaterInExport = IsDlgButtonChecked( hwndDlg, IDC_USE_LESS_AND_GREATER_IN_EXPORT) == BST_CHECKED;
 	
 
-	HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
+	HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
 	int nCount = ListView_GetItemCount( hMapUser );
 	for( int nCur = 0 ; nCur < nCount ; nCur++ )
 	{
@@ -437,18 +416,18 @@ BOOL bApplyChanges( HWND hwndDlg )
 		sItem.pszText = szTemp;
 		sItem.cchTextMax = sizeof( szTemp );
 
-		if( ListView_GetItem( hMapUser, &sItem ) )
+		if (ListView_GetItem( hMapUser, &sItem))
 		{
 			HANDLE hUser = (HANDLE)sItem.lParam;
-			if( _tcslen( szTemp ) > 0 )
-				db_set_ts( hUser , MODULE , "FileName" , szTemp );
+			if (_tcslen( szTemp) > 0 )
+				db_set_ts( hUser, MODULE, "FileName", szTemp );
 			else
-				DBDeleteContactSetting( hUser , MODULE , "FileName" );
+				DBDeleteContactSetting( hUser, MODULE, "FileName" );
 
-			if( sItem.iImage )
-				DBDeleteContactSetting( hUser , MODULE , "EnableLog" ); // default is Enabled !!
+			if (sItem.iImage )
+				DBDeleteContactSetting( hUser, MODULE, "EnableLog" ); // default is Enabled !!
 			else
-				db_set_b( hUser , MODULE , "EnableLog",0);
+				db_set_b( hUser, MODULE, "EnableLog",0);
 		}
 	}
 	UpdateFileToColWidth();
@@ -469,7 +448,7 @@ BOOL bApplyChanges( HWND hwndDlg )
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 23 April 2002
+// Created         : 020422, 23 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -479,14 +458,14 @@ void ClearAllFileNames(HWND hwndDlg)
 	sItem.mask = LVIF_TEXT;
 	sItem.pszText = _T("");
 
-	HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
+	HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
 	int nCount = ListView_GetItemCount( hMapUser );
 	for( int nCur = 0 ; nCur < nCount ; nCur++ )
 	{
 		sItem.iItem = nCur;
 		ListView_SetItem( hMapUser, &sItem );
 	}
-	if( ! bUnaplyedChanges )
+	if ( !bUnaplyedChanges )
 	{
 		bUnaplyedChanges = TRUE;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -502,23 +481,23 @@ void ClearAllFileNames(HWND hwndDlg)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 23 April 2002
+// Created         : 020422, 23 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
 void AutoFindeFileNames(HWND hwndDlg)
 {
 	
-	_TCHAR szDefaultFile[500];
-	GetDlgItemText( hwndDlg , IDC_DEFAULT_FILE , szDefaultFile , sizeof( szDefaultFile ) );
+	TCHAR szDefaultFile[500];
+	GetDlgItemText( hwndDlg, IDC_DEFAULT_FILE, szDefaultFile, sizeof( szDefaultFile));
 	
 	LVITEM sItem = { 0 };
 
-	HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
+	HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
 	int nCount = ListView_GetItemCount( hMapUser );
 	for( int nCur = 0 ; nCur < nCount ; nCur++ )
 	{
-		_TCHAR szSearch[ 100 ];
+		TCHAR szSearch[ 100 ];
 
 		sItem.mask = LVIF_TEXT;
 		sItem.iItem = nCur;
@@ -526,7 +505,7 @@ void AutoFindeFileNames(HWND hwndDlg)
 		sItem.pszText = szSearch;
 		sItem.cchTextMax = sizeof( szSearch );
 		
-		if( ! ListView_GetItem( hMapUser, &sItem ) )
+		if ( !ListView_GetItem( hMapUser, &sItem))
 		{
 			continue;
 		}
@@ -536,57 +515,57 @@ void AutoFindeFileNames(HWND hwndDlg)
 		int nStortestIndex = -1;
 		for( int nSubCur = 0 ; nSubCur < nCount ; nSubCur++ )
 		{
-			if( nSubCur == nCur )
+			if (nSubCur == nCur )
 				continue;
-			_TCHAR szSubCur[ 100 ];
+			TCHAR szSubCur[ 100 ];
 			sItem.mask = LVIF_TEXT | LVIF_PARAM;
 			sItem.iItem = nSubCur;
 			sItem.iSubItem = 1;
 			sItem.pszText = szSubCur;
 			sItem.cchTextMax = sizeof( szSubCur );
-			if( ListView_GetItem( hMapUser, &sItem ) )
+			if (ListView_GetItem( hMapUser, &sItem))
 			{
 				size_t nLen = _tcslen( szSubCur );
-				if( _tcsncicmp( szSubCur , szSearch , nLen ) == 0 )
+				if (_tcsncicmp( szSubCur, szSearch, nLen) == 0 )
 				{
-					if( nLen < (size_t)nShortestMatch )
+					if (nLen < (size_t)nShortestMatch )
 					{
-						nShortestMatch = nLen;
+						nShortestMatch = (int)nLen;
 						nStortestIndex = nSubCur;
 						hStortest = (HANDLE)sItem.lParam;
 					}
 				}
 			}
 		}
-		if( nShortestMatch != 0xFFFF )
+		if (nShortestMatch != 0xFFFF )
 		{
 			tstring sFileName;
 			szSearch[0] = 0;
-			ListView_GetItemText( hMapUser, nCur , 0 , szSearch , sizeof( szSearch ));
+			ListView_GetItemText( hMapUser, nCur, 0, szSearch, sizeof( szSearch ));
 			bool bPriHasFileName = szSearch[0] != 0;
-			if( bPriHasFileName )
+			if (bPriHasFileName )
 				sFileName = szSearch;
 
 			szSearch[0] = 0;
-			ListView_GetItemText( hMapUser, nStortestIndex , 0 , szSearch , sizeof( szSearch ));
+			ListView_GetItemText( hMapUser, nStortestIndex, 0, szSearch, sizeof( szSearch ));
 			bool bSubHasFileName = szSearch[0] != 0;
-			if( bSubHasFileName )
+			if (bSubHasFileName )
 				sFileName = szSearch;
 
-			if( sFileName.empty() )
+			if (sFileName.empty())
 			{
 				sFileName = szDefaultFile;
-				ReplaceDefines( hStortest , sFileName );
+				ReplaceDefines( hStortest, sFileName );
 				ReplaceTimeVariables( sFileName );
 			}
 
-			if( !bPriHasFileName )
-				ListView_SetItemText( hMapUser, nCur , 0 , (_TCHAR*)sFileName.c_str() );
+			if (!bPriHasFileName )
+				ListView_SetItemText( hMapUser, nCur, 0, (TCHAR*)sFileName.c_str());
 
-			if( !bSubHasFileName )
-				ListView_SetItemText( hMapUser, nStortestIndex , 0 , (_TCHAR*)sFileName.c_str() );
+			if (!bSubHasFileName )
+				ListView_SetItemText( hMapUser, nStortestIndex, 0, (TCHAR*)sFileName.c_str());
 
-			if( ! bUnaplyedChanges )
+			if ( !bUnaplyedChanges )
 			{
 				bUnaplyedChanges = TRUE;
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -605,17 +584,17 @@ void AutoFindeFileNames(HWND hwndDlg)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020427 , 27 April 2002
+// Created         : 020427, 27 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
 void OpenHelp(HWND hwndDlg)
 {
-	_TCHAR szPath[MAX_PATH];
-	if( GetModuleFileName( hInstance , szPath , sizeof( szPath ) ) )
+	TCHAR szPath[MAX_PATH];
+	if (GetModuleFileName( hInstance, szPath, sizeof( szPath)) )
 	{
 		size_t nLen = _tcslen( szPath );
-		if( nLen > 3 )
+		if (nLen > 3 )
 		{
 			szPath[nLen-1] = 't';
 			szPath[nLen-2] = 'x';
@@ -648,7 +627,7 @@ void OpenHelp(HWND hwndDlg)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -664,21 +643,21 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			bWindowTextSet = FALSE;
 
-			HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
+			HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
 
 			{ // init adv. win styles 
 				DWORD dw = ListView_GetExtendedListViewStyle( hMapUser );
 				dw |= LVS_EX_HEADERDRAGDROP | LVS_EX_FULLROWSELECT;
-				ListView_SetExtendedListViewStyle( hMapUser , dw /*| LVS_EX_LABELTIP*/);
+				ListView_SetExtendedListViewStyle( hMapUser, dw /*| LVS_EX_LABELTIP*/);
 			}
 
 			
 			int nColumnWidth = 100;
 			RECT rListSize;
-			if( GetWindowRect( hMapUser , &rListSize ) )
+			if (GetWindowRect( hMapUser, &rListSize))
 			{
 				nColumnWidth = (rListSize.right - rListSize.left- GetSystemMetrics(SM_CXVSCROLL) - 5 - nUINColWitdh - nProtoColWitdh) / 2;
-				if( nColumnWidth < 10 ) 
+				if (nColumnWidth < 10) 
 					nColumnWidth = 10;
 			}
 			
@@ -688,27 +667,27 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
 				cCol.pszText = TranslateT("File");
-				ListView_InsertColumn( hMapUser , 0 , &cCol );
+				ListView_InsertColumn( hMapUser, 0, &cCol );
 				cCol.pszText = TranslateT("Nick");
-				ListView_InsertColumn( hMapUser , 1 , &cCol );
+				ListView_InsertColumn( hMapUser, 1, &cCol );
 				cCol.cx = nProtoColWitdh;
 				cCol.pszText = TranslateT("Proto");
-				ListView_InsertColumn( hMapUser , 2 , &cCol );
+				ListView_InsertColumn( hMapUser, 2, &cCol );
 				cCol.cx = nUINColWitdh;
 				cCol.mask |= LVCF_FMT;
 				cCol.fmt = LVCFMT_RIGHT;
 				cCol.pszText = TranslateT("UIN");
 
-				ListView_InsertColumn( hMapUser , 3 , &cCol );
+				ListView_InsertColumn( hMapUser, 3, &cCol );
 
 				/*
-				int nOrder[3] = { 1 , 2 , 0 };
-				ListView_SetColumnOrderArray( hMapUser , 3 , nOrder );*/
+				int nOrder[3] = { 1, 2, 0 };
+				ListView_SetColumnOrderArray( hMapUser, 3, nOrder );*/
 			}
 
 			{	
 				HIMAGELIST hIml;
-				hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON) , GetSystemMetrics(SM_CYSMICON),ILC_COLOR4|ILC_MASK,2,2);
+				hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),ILC_COLOR4|ILC_MASK,2,2);
 				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_NOTICK)));
 				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_TICK)));
 				ListView_SetImageList( hMapUser, hIml, LVSIL_SMALL);
@@ -727,97 +706,97 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.lParam = (LPARAM) hContact;
 
 
-					sTmp = _DBGetString( hContact , MODULE , "FileName" , _T("") );
-					sItem.pszText = (_TCHAR*)sTmp.c_str();
+					sTmp = _DBGetString( hContact, MODULE, "FileName", _T(""));
+					sItem.pszText = (TCHAR*)sTmp.c_str();
 
-					ListView_InsertItem( hMapUser , &sItem );
+					ListView_InsertItem( hMapUser, &sItem );
 
 					sItem.mask = LVIF_TEXT;
 					sItem.iSubItem = 1;
-					sItem.pszText = (_TCHAR*)NickFromHandle(hContact);
-					ListView_SetItem( hMapUser , &sItem );
+					sItem.pszText = (TCHAR*)NickFromHandle(hContact);
+					ListView_SetItem( hMapUser, &sItem );
 
 					sItem.iSubItem = 2;
 
-					sTmp = _DBGetString( hContact , "Protocol" , "p" , _T("") );
-					string sTmpA = _DBGetStringA( hContact , "Protocol" , "p" , "" );
-					sItem.pszText = (_TCHAR*)sTmp.c_str();
-					ListView_SetItem( hMapUser , &sItem );
+					sTmp = _DBGetString( hContact, "Protocol", "p", _T(""));
+					string sTmpA = _DBGetStringA( hContact, "Protocol", "p", "" );
+					sItem.pszText = (TCHAR*)sTmp.c_str();
+					ListView_SetItem( hMapUser, &sItem );
 				
 
 					DWORD dwUIN = db_get_dw(hContact, sTmpA.c_str(), "UIN", 0);
-					_TCHAR szTmp[50];
-					_sntprintf( szTmp , sizeof(szTmp) ,_T("%d") , dwUIN );
+					TCHAR szTmp[50];
+					_sntprintf( szTmp, sizeof(szTmp),_T("%d"), dwUIN );
 					sItem.iSubItem = 3;
 					sItem.pszText = szTmp;
-					ListView_SetItem( hMapUser , &sItem );
+					ListView_SetItem( hMapUser, &sItem );
 
-					if( ! hContact ) // written like this to add the current user ( handle = 0 )
+					if ( !hContact) // written like this to add the current user ( handle = 0 )
 						break; 
 
 					hContact = db_find_next(hContact);
 				}
-				ListView_SortItems( hMapUser , CompareFunc , 1 );
+				ListView_SortItems( hMapUser, CompareFunc, 1 );
 
 				sItem.mask = LVIF_STATE;
 				sItem.iItem = 0;
 				sItem.iSubItem = 0;
 				sItem.state = LVIS_FOCUSED;
 				sItem.stateMask  = LVIS_FOCUSED;
-				ListView_SetItem( hMapUser , &sItem );
+				ListView_SetItem( hMapUser, &sItem );
 
 			}
 			HWND hComboBox;
 
-			SetDlgItemInt( hwndDlg , IDC_MAX_CLOUMN_WIDTH , nMaxLineWidth , TRUE );
+			SetDlgItemInt( hwndDlg, IDC_MAX_CLOUMN_WIDTH, nMaxLineWidth, TRUE );
 
 			{// Export dir
-				SetDlgItemText( hwndDlg , IDC_EXPORT_DIR , sExportDir.c_str() );
-				hComboBox = GetDlgItem( hwndDlg , IDC_EXPORT_DIR );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%dbpath%\\MsgExport\\") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("C:\\Backup\\MsgExport\\") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%dbpath%\\MsgExport\\%group% - ") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%dbpath%\\MsgExport\\%group%\\") );
+				SetDlgItemText( hwndDlg, IDC_EXPORT_DIR, sExportDir.c_str());
+				hComboBox = GetDlgItem( hwndDlg, IDC_EXPORT_DIR );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\Backup\\MsgExport\\"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\%group% - "));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%dbpath%\\MsgExport\\%group%\\"));
 			}
 			{// default file
-				SetDlgItemText( hwndDlg , IDC_DEFAULT_FILE , sDefaultFile.c_str() );
-				hComboBox = GetDlgItem( hwndDlg , IDC_DEFAULT_FILE );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%nick%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%UIN%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%group%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%e-mail%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%identifier%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%year%-%month%-%day%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%group%\\%nick%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%group%\\%UIN%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%group%\\%identifier%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("%protocol%\\%nick%.txt") );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("History.txt"));
+				SetDlgItemText( hwndDlg, IDC_DEFAULT_FILE, sDefaultFile.c_str());
+				hComboBox = GetDlgItem( hwndDlg, IDC_DEFAULT_FILE );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%nick%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%UIN%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%e-mail%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%identifier%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%year%-%month%-%day%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%nick%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%UIN%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%group%\\%identifier%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("%protocol%\\%nick%.txt"));
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("History.txt"));
 			}
 			{// time format
-				SetDlgItemText( hwndDlg , IDC_EXPORT_TIMEFORMAT , sTimeFormat.c_str() );
-				hComboBox = GetDlgItem( hwndDlg , IDC_EXPORT_TIMEFORMAT );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("d t")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("d s")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("d m")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("D s")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("D m :"));
+				SetDlgItemText( hwndDlg, IDC_EXPORT_TIMEFORMAT, sTimeFormat.c_str());
+				hComboBox = GetDlgItem( hwndDlg, IDC_EXPORT_TIMEFORMAT );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d t")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d s")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("d m")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("D s")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("D m :"));
 			}
 			{// File viewer
-				SetDlgItemText( hwndDlg , IDC_FILE_VIEWER , sFileViewerPrg.c_str() );
-				hComboBox = GetDlgItem( hwndDlg , IDC_FILE_VIEWER );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("C:\\Windows\\Notepad.exe")  );
-				SendMessage( hComboBox , CB_ADDSTRING, 0 , (LPARAM)_T("C:\\WinNT\\Notepad.exe")  );
-				//EnableWindow( GetDlgItem( hwndDlg , IDC_FILE_VIEWER ) , ! bUseInternalViewer() );
+				SetDlgItemText( hwndDlg, IDC_FILE_VIEWER, sFileViewerPrg.c_str());
+				hComboBox = GetDlgItem( hwndDlg, IDC_FILE_VIEWER );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\Windows\\Notepad.exe")  );
+				SendMessage( hComboBox, CB_ADDSTRING, 0, (LPARAM)_T("C:\\WinNT\\Notepad.exe")  );
+				//EnableWindow( GetDlgItem( hwndDlg, IDC_FILE_VIEWER ), ! bUseInternalViewer());
 			}
 
 			
-			CheckDlgButton( hwndDlg , IDC_USE_INTERNAL_VIEWER  , bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton( hwndDlg , IDC_REPLACE_MIRANDA_HISTORY , bReplaceHistory ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton( hwndDlg , IDC_APPEND_NEWLINE , bAppendNewLine ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton( hwndDlg , IDC_USE_UTF8_IN_NEW_FILES , bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton( hwndDlg , IDC_USE_LESS_AND_GREATER_IN_EXPORT , bUseLessAndGreaterInExport ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton( hwndDlg, IDC_USE_INTERNAL_VIEWER , bUseInternalViewer() ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton( hwndDlg, IDC_REPLACE_MIRANDA_HISTORY, bReplaceHistory ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton( hwndDlg, IDC_APPEND_NEWLINE, bAppendNewLine ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton( hwndDlg, IDC_USE_UTF8_IN_NEW_FILES, bUseUtf8InNewFiles ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton( hwndDlg, IDC_USE_LESS_AND_GREATER_IN_EXPORT, bUseLessAndGreaterInExport ? BST_CHECKED : BST_UNCHECKED );
 			
 
 			TranslateDialogDefault(hwndDlg);
@@ -832,20 +811,20 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				case ID_EXPORTSELECTED:
 				case IDC_EXPORTALL:
 				{
-					if( bUnaplyedChanges )
+					if (bUnaplyedChanges )
 					{
 						DWORD res = MessageBox(hwndDlg, TranslateT("You have unapplyed changes do you wish to apply these first ?"), MSG_BOX_TITEL, MB_YESNOCANCEL);
-						if( res == IDCANCEL )
+						if (res == IDCANCEL )
 							return TRUE;
-						if( res == IDYES )
+						if (res == IDYES )
 						{
-							if( ! bApplyChanges( hwndDlg ) )
+							if ( !bApplyChanges( hwndDlg))
 							{
 								return TRUE;
 							}
 						}
 					}
-					nExportCompleatList( hwndDlg , LOWORD(wParam) == ID_EXPORTSELECTED );
+					nExportCompleatList( hwndDlg, LOWORD(wParam) == ID_EXPORTSELECTED );
 					return TRUE;
 				}
 				case IDC_EXPORT_DIR:
@@ -853,10 +832,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDC_DEFAULT_FILE:
 				case IDC_FILE_VIEWER:
 				{
-					if( !bWindowTextSet )
+					if (!bWindowTextSet )
 						return TRUE;
 
-					if( HIWORD(wParam) == CBN_EDITUPDATE || HIWORD(wParam) == CBN_SELCHANGE )
+					if (HIWORD(wParam) == CBN_EDITUPDATE || HIWORD(wParam) == CBN_SELCHANGE )
 					{
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -865,10 +844,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				case IDC_MAX_CLOUMN_WIDTH:
 				{
-					if( !bWindowTextSet )
+					if (!bWindowTextSet )
 						return TRUE;
 
-					if( HIWORD(wParam) == EN_CHANGE )
+					if (HIWORD(wParam) == EN_CHANGE )
 					{
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -878,8 +857,8 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDC_USE_INTERNAL_VIEWER:
 /*				{
 					EnableWindow( 
-						GetDlgItem( hwndDlg , IDC_FILE_VIEWER ) , 
-						!IsDlgButtonChecked( hwndDlg , IDC_USE_INTERNAL_VIEWER )
+						GetDlgItem( hwndDlg, IDC_FILE_VIEWER ), 
+						!IsDlgButtonChecked( hwndDlg, IDC_USE_INTERNAL_VIEWER )
 						);
 				}// fall thru here !!*/
 				case IDC_REPLACE_MIRANDA_HISTORY:
@@ -887,7 +866,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDC_USE_UTF8_IN_NEW_FILES:
 				case IDC_USE_LESS_AND_GREATER_IN_EXPORT:
 				{
-					if( HIWORD(wParam) == BN_CLICKED )
+					if (HIWORD(wParam) == BN_CLICKED )
 					{
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -898,11 +877,11 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				{
 					LVITEM sItem = { 0 };
 					sItem.mask = LVIF_PARAM;
-					HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
-					sItem.iItem = ListView_GetNextItem( hMapUser , -1 , LVIS_SELECTED );
-					if( sItem.iItem >= 0 && ListView_GetItem( hMapUser, &sItem ))
+					HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
+					sItem.iItem = ListView_GetNextItem( hMapUser, -1, LVIS_SELECTED );
+					if (sItem.iItem >= 0 && ListView_GetItem( hMapUser, &sItem ))
 					{
-						CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)sItem.lParam ,0);
+						CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)sItem.lParam,0);
 					}
 					return TRUE;
 				}
@@ -930,9 +909,9 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDC_FILE_VIEWER_BROWSE:
 				{
 					OPENFILENAME ofn = { 0 };       // common dialog box structure
-					_TCHAR szFile[260];       // buffer for file name
+					TCHAR szFile[260];       // buffer for file name
 
-					GetDlgItemText( hwndDlg , IDC_FILE_VIEWER , szFile , sizeof(szFile));
+					GetDlgItemText( hwndDlg, IDC_FILE_VIEWER, szFile, sizeof(szFile));
 					// Initialize OPENFILENAME
 					//ZeroMemory(&ofn, sizeof(OPENFILENAME));
 					ofn.lStructSize = sizeof(OPENFILENAME);
@@ -952,7 +931,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					if (GetOpenFileName(&ofn)) 
 					{
-						SetDlgItemText( hwndDlg , IDC_FILE_VIEWER , szFile );
+						SetDlgItemText( hwndDlg, IDC_FILE_VIEWER, szFile );
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
@@ -969,15 +948,15 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					if (FAILED(SHGetMalloc(&pMalloc))) // we need to use this to support old Windows versions 
 					{
 						MessageBox(hwndDlg, TranslateT("Failed to get the shells allocator!"), MSG_BOX_TITEL, MB_OK);
-						return TRUE; // TRUE because we have handled the message , sort of *S*
+						return TRUE; // TRUE because we have handled the message, sort of *S*
 					}
 
 					// Allocate the Dest Dir buffer to receive browse info
-					_TCHAR * lpDestDir = (_TCHAR * ) pMalloc->Alloc(MAX_PATH+100);
+					TCHAR *lpDestDir = (TCHAR *) pMalloc->Alloc(MAX_PATH+100);
 					if ( ! lpDestDir )
 					{
 						pMalloc->Release();
-						MessageBox(hwndDlg , TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
+						MessageBox(hwndDlg, TranslateT("Failed to Allocate buffer space"), MSG_BOX_TITEL, MB_OK);
 						return TRUE;
 					}
 
@@ -992,16 +971,16 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sBrowseInfo.iImage = 0;
 
 					LPITEMIDLIST psItemIDList = SHBrowseForFolder(&sBrowseInfo);
-					if( psItemIDList )
+					if (psItemIDList )
 					{
 						SHGetPathFromIDList(psItemIDList, lpDestDir);
 						size_t n = _tcslen( lpDestDir );
-						if( n > 0 && lpDestDir[n] != '\\' )
+						if (n > 0 && lpDestDir[n] != '\\' )
 						{
 							lpDestDir[n] = '\\' ; 
 							lpDestDir[n+1] = 0;
 						}
-						SetDlgItemText( hwndDlg , IDC_EXPORT_DIR , lpDestDir );
+						SetDlgItemText( hwndDlg, IDC_EXPORT_DIR, lpDestDir );
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						// Clean up
@@ -1016,33 +995,33 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		}
 		case WM_CONTEXTMENU:
 		{
-			if( wParam != (WPARAM)GetDlgItem( hwndDlg , IDC_MAP_USER_LIST ) )
+			if (wParam != (WPARAM)GetDlgItem( hwndDlg, IDC_MAP_USER_LIST))
 				return FALSE;
 
-			HMENU hMainMenu = LoadMenu(hInstance ,MAKEINTRESOURCE(IDR_MSG_EXPORT));
-			if( hMainMenu )
+			HMENU hMainMenu = LoadMenu(hInstance,MAKEINTRESOURCE(IDR_MSG_EXPORT));
+			if (hMainMenu )
 			{
 				HMENU hMenu = GetSubMenu(hMainMenu,0);
 
 				POINT pt;
 				pt.x=(short)LOWORD(lParam);
 				pt.y=(short)HIWORD(lParam);
-				if( pt.x == -1 && pt.y == -1 )
+				if (pt.x == -1 && pt.y == -1 )
 				{
-					HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
-					int nFirst = ListView_GetNextItem( hMapUser , -1 , LVNI_FOCUSED );
-					if( nFirst >= 0 )
+					HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
+					int nFirst = ListView_GetNextItem( hMapUser, -1, LVNI_FOCUSED );
+					if (nFirst >= 0 )
 					{
-						ListView_GetItemPosition( hMapUser , nFirst , &pt );
+						ListView_GetItemPosition( hMapUser, nFirst, &pt );
 					}
 					
-					if( pt.y < 16 )
+					if (pt.y < 16 )
 						pt.y = 16;
 					else
 					{
 						RECT rUserList;
-						GetClientRect( hMapUser , &rUserList );
-						if( pt.y > rUserList.bottom - 16 )
+						GetClientRect( hMapUser, &rUserList );
+						if (pt.y > rUserList.bottom - 16 )
 							pt.y = rUserList.bottom - 16;
 						else
 							pt.y += 8;
@@ -1061,7 +1040,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case WM_NOTIFY:
 		{
 			NMHDR * p = ((LPNMHDR)lParam);
-			if( p->idFrom == IDC_MAP_USER_LIST )
+			if (p->idFrom == IDC_MAP_USER_LIST )
 			{
             switch (p->code)
 				{
@@ -1069,27 +1048,27 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					{	LVHITTESTINFO hti;
 						LVITEM lvi;
 						hti.pt=((NMLISTVIEW*)lParam)->ptAction;
-						ListView_SubItemHitTest( p->hwndFrom ,&hti);
+						ListView_SubItemHitTest( p->hwndFrom,&hti);
 
-						if( hti.flags != LVHT_ONITEMICON ) 
+						if (hti.flags != LVHT_ONITEMICON) 
 							break;
 
 						lvi.mask=LVIF_IMAGE;
 						lvi.iItem=hti.iItem;
 						lvi.iSubItem=0;
-						ListView_GetItem( p->hwndFrom , &lvi);
+						ListView_GetItem( p->hwndFrom, &lvi);
 						lvi.iImage^=1;
-						ListView_SetItem( p->hwndFrom , &lvi);
+						ListView_SetItem( p->hwndFrom, &lvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						break;
 					}
 					case LVN_ENDLABELEDIT:
 					{
 						NMLVDISPINFO * pdi = (NMLVDISPINFO *) lParam;
-						if( pdi->item.mask & LVIF_TEXT )
+						if (pdi->item.mask & LVIF_TEXT )
 						{
 							pdi->item.mask &= LVIF_TEXT;
-							ListView_SetItem( p->hwndFrom , &pdi->item );
+							ListView_SetItem( p->hwndFrom, &pdi->item );
 
 							bUnaplyedChanges = TRUE;
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1099,31 +1078,31 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
                case LVN_KEYDOWN:
 					{
 						NMLVKEYDOWN * lpnmk = (NMLVKEYDOWN *) lParam;
-						if( lpnmk->wVKey == 'A' && (GetKeyState( VK_CONTROL ) & 0x8000) )
+						if (lpnmk->wVKey == 'A' && (GetKeyState( VK_CONTROL) & 0x8000))
 						{
 							// select all 
 							int nCount = ListView_GetItemCount( p->hwndFrom  );
 							for( int nCur = 0 ; nCur < nCount ; nCur++ )
 							{
-								ListView_SetItemState( p->hwndFrom , nCur , LVIS_SELECTED , LVIS_SELECTED );
+								ListView_SetItemState( p->hwndFrom, nCur, LVIS_SELECTED, LVIS_SELECTED );
 							}
 							return TRUE;
 						}
 
 						
-                  if( lpnmk->wVKey == VK_F2 || 
+                  if (lpnmk->wVKey == VK_F2 || 
 							( lpnmk->wVKey >= 'A' &&  lpnmk->wVKey <= 'Z') || 
 							( lpnmk->wVKey >= '1' &&  lpnmk->wVKey <= '9') ||
 							 lpnmk->wVKey == VK_BACK 
 							)
 						{
-							HWND hEdit = ListView_EditLabel( p->hwndFrom , ListView_GetSelectionMark(p->hwndFrom) );
-							if( hEdit && lpnmk->wVKey != VK_F2 )
+							HWND hEdit = ListView_EditLabel( p->hwndFrom, ListView_GetSelectionMark(p->hwndFrom));
+							if (hEdit && lpnmk->wVKey != VK_F2 )
 							{
-								if( isupper( lpnmk->wVKey ) )
-									SendMessage( hEdit , WM_CHAR , tolower( lpnmk->wVKey ) , 0 );
+								if (isupper( lpnmk->wVKey))
+									SendMessage( hEdit, WM_CHAR, tolower( lpnmk->wVKey ), 0 );
 								else
-									SendMessage( hEdit , WM_CHAR , lpnmk->wVKey , 0 );
+									SendMessage( hEdit, WM_CHAR, lpnmk->wVKey, 0 );
 							}
 						}
 						return TRUE;
@@ -1131,9 +1110,9 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					case NM_DBLCLK:
 					{
 						NMITEMACTIVATE * pdi = (NMITEMACTIVATE *) lParam;
-						if( pdi->iItem >= 0 )
+						if (pdi->iItem >= 0 )
 						{
-							ListView_EditLabel( p->hwndFrom , pdi->iItem );
+							ListView_EditLabel( p->hwndFrom, pdi->iItem );
 						}
 						return TRUE;
 					}
@@ -1149,9 +1128,9 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 							}
 							case CDDS_ITEMPREPAINT:
 							{
-								if( lplvcd->nmcd.lItemlParam == 0 )
+								if (lplvcd->nmcd.lItemlParam == 0 )
 								{
-									lplvcd->clrText = RGB( 0 , 0 , 255 );
+									lplvcd->clrText = RGB( 0, 0, 255 );
 								}
 								SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_NEWFONT);
 								return true;
@@ -1173,10 +1152,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					case HDN_ITEMCLICK:
 					{
 						NMHEADER * phdr = (LPNMHEADER) p;
-						if( phdr->iButton == 0 )// 0 => Left button 
+						if (phdr->iButton == 0 )// 0 => Left button 
 						{
-							HWND hMapUser = GetDlgItem( hwndDlg , IDC_MAP_USER_LIST );
-							ListView_SortItems( hMapUser , CompareFunc , phdr->iItem );
+							HWND hMapUser = GetDlgItem( hwndDlg, IDC_MAP_USER_LIST );
+							ListView_SortItems( hMapUser, CompareFunc, phdr->iItem );
 							return TRUE;
 						}
 						return FALSE;
@@ -1198,30 +1177,30 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 050429 , 29 april 2005
+// Created         : 050429, 29 april 2005
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
 BOOL bApplyChanges2( HWND hwndDlg )
 {
-	if( IsDlgButtonChecked( hwndDlg , IDC_FC_PROMPT ) == BST_CHECKED )
+	if (IsDlgButtonChecked( hwndDlg, IDC_FC_PROMPT) == BST_CHECKED )
 		enRenameAction = eDAPromptUser;
-	else if( IsDlgButtonChecked( hwndDlg , IDC_FC_RENAME ) == BST_CHECKED )
+	else if (IsDlgButtonChecked( hwndDlg, IDC_FC_RENAME) == BST_CHECKED )
 		enRenameAction = eDAAutomatic;
-	else if( IsDlgButtonChecked( hwndDlg , IDC_FC_NOTHING ) == BST_CHECKED )
+	else if (IsDlgButtonChecked( hwndDlg, IDC_FC_NOTHING) == BST_CHECKED )
 		enRenameAction = eDANothing;
 
-	if( IsDlgButtonChecked( hwndDlg , IDC_FD_PROMPT ) == BST_CHECKED )
+	if (IsDlgButtonChecked( hwndDlg, IDC_FD_PROMPT) == BST_CHECKED )
 		enDeleteAction = eDAPromptUser;
-	else if( IsDlgButtonChecked( hwndDlg , IDC_FD_DELETE ) == BST_CHECKED )
+	else if (IsDlgButtonChecked( hwndDlg, IDC_FD_DELETE) == BST_CHECKED )
 		enDeleteAction = eDAAutomatic;
-	else if( IsDlgButtonChecked( hwndDlg , IDC_FD_NOTHING ) == BST_CHECKED )
+	else if (IsDlgButtonChecked( hwndDlg, IDC_FD_NOTHING) == BST_CHECKED )
 		enDeleteAction = eDANothing;
 
 	char szTemp[ 500 ];
-	strcpy( szTemp , "DisableProt_" );
+	strcpy( szTemp, "DisableProt_" );
 
-	HWND hMapUser = GetDlgItem( hwndDlg , IDC_EXPORT_PROTOS );
+	HWND hMapUser = GetDlgItem( hwndDlg, IDC_EXPORT_PROTOS );
 	int nCount = ListView_GetItemCount( hMapUser );
 	for( int nCur = 0 ; nCur < nCount ; nCur++ )
 	{
@@ -1230,12 +1209,12 @@ BOOL bApplyChanges2( HWND hwndDlg )
 		sItem.mask = LVIF_TEXT | LVIF_IMAGE;
 		sItem.pszText = &szTemp[12];
 		sItem.cchTextMax = sizeof( szTemp )-15;
-		if( ::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem ) )
+		if (::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem))
 		{
-			if( sItem.iImage )
-				db_unset( NULL , MODULE , szTemp ); // default is Enabled !!
+			if (sItem.iImage )
+				db_unset( NULL, MODULE, szTemp ); // default is Enabled !!
 			else
-				db_set_b( NULL , MODULE , szTemp,0);
+				db_set_b( NULL, MODULE, szTemp,0);
 		}
 	}
 	SaveSettings();
@@ -1254,7 +1233,7 @@ BOOL bApplyChanges2( HWND hwndDlg )
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 040205 , 05 februar 2004
+// Created         : 040205, 05 februar 2004
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -1270,41 +1249,41 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 			switch( enRenameAction )
 			{
 				case eDAPromptUser: 
-					CheckDlgButton( hwndDlg , IDC_FC_PROMPT ,  true );
+					CheckDlgButton( hwndDlg, IDC_FC_PROMPT,  true );
 					break;
 				case eDAAutomatic:
-					CheckDlgButton( hwndDlg , IDC_FC_RENAME ,  true );
+					CheckDlgButton( hwndDlg, IDC_FC_RENAME,  true );
 					break;
 				case eDANothing:
-					CheckDlgButton( hwndDlg , IDC_FC_NOTHING ,  true );
+					CheckDlgButton( hwndDlg, IDC_FC_NOTHING,  true );
 					break;
 			}
 			switch( enDeleteAction )
 			{
 				case eDAPromptUser: 
-					CheckDlgButton( hwndDlg , IDC_FD_PROMPT ,  true );
+					CheckDlgButton( hwndDlg, IDC_FD_PROMPT,  true );
 					break;
 				case eDAAutomatic:
-					CheckDlgButton( hwndDlg , IDC_FD_DELETE ,  true );
+					CheckDlgButton( hwndDlg, IDC_FD_DELETE,  true );
 					break;
 				case eDANothing:
-					CheckDlgButton( hwndDlg , IDC_FD_NOTHING ,  true );
+					CheckDlgButton( hwndDlg, IDC_FD_NOTHING,  true );
 					break;
 			}
-			HWND hMapUser = GetDlgItem( hwndDlg , IDC_EXPORT_PROTOS );
+			HWND hMapUser = GetDlgItem( hwndDlg, IDC_EXPORT_PROTOS );
 /*
 			{ // init adv. win styles 
 				DWORD dw = ListView_GetExtendedListViewStyle( hMapUser );
 				dw |= LVS_EX_HEADERDRAGDROP | LVS_EX_FULLROWSELECT;
-				ListView_SetExtendedListViewStyle( hMapUser , dw /);
+				ListView_SetExtendedListViewStyle( hMapUser, dw /);
 			}
 */
 			int nColumnWidth = 100;
 			RECT rListSize;
-			if( GetWindowRect( hMapUser , &rListSize ) )
+			if (GetWindowRect( hMapUser, &rListSize))
 			{
 				nColumnWidth = (rListSize.right - rListSize.left- GetSystemMetrics(SM_CXVSCROLL) - 5 );
-				if( nColumnWidth < 10 ) 
+				if (nColumnWidth < 10) 
 					nColumnWidth = 10;
 			}
 
@@ -1313,12 +1292,12 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 				cCol.mask = LVCF_TEXT | LVCF_WIDTH;
 				cCol.cx = nColumnWidth;
 				cCol.pszText = TranslateT("Export Protocols");
-				ListView_InsertColumn( hMapUser , 0 , &cCol );
+				ListView_InsertColumn( hMapUser, 0, &cCol );
 			}
 
 			{	
 				HIMAGELIST hIml;
-				hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON) , GetSystemMetrics(SM_CYSMICON),ILC_COLOR4|ILC_MASK,2,2);
+				hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),ILC_COLOR4|ILC_MASK,2,2);
 				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_NOTICK)));
 				ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_TICK)));
 				ListView_SetImageList( hMapUser, hIml, LVSIL_SMALL);
@@ -1338,7 +1317,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 					mir_snprintf(szTemp, SIZEOF(szTemp), "DisableProt_%s", proto[i]->szModuleName);
 					sItem.pszText = proto[i]->szModuleName;
 					sItem.iImage = db_get_b(NULL,MODULE,szTemp,1);
-					::SendMessage( hMapUser , LVM_INSERTITEMA , 0 ,(LPARAM)&sItem );
+					::SendMessage( hMapUser, LVM_INSERTITEMA, 0,(LPARAM)&sItem );
 					sItem.iItem++;
 				}
 			}
@@ -1359,10 +1338,10 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 				case IDC_FD_DELETE:
 				case IDC_FD_NOTHING:
 				{
-					if( !bWindowTextSet )
+					if (!bWindowTextSet )
 						return TRUE;
 
-					if( HIWORD(wParam) == BN_CLICKED )
+					if (HIWORD(wParam) == BN_CLICKED )
 					{
 						bUnaplyedChanges = TRUE;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1380,7 +1359,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 		case WM_NOTIFY:
 		{
 			NMHDR * p = ((LPNMHDR)lParam);
-			if( p->idFrom == IDC_EXPORT_PROTOS )
+			if (p->idFrom == IDC_EXPORT_PROTOS )
 			{
             switch (p->code)
 				{
@@ -1388,17 +1367,17 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 					{	LVHITTESTINFO hti;
 						LVITEM lvi;
 						hti.pt=((NMLISTVIEW*)lParam)->ptAction;
-						ListView_SubItemHitTest( p->hwndFrom ,&hti);
+						ListView_SubItemHitTest( p->hwndFrom,&hti);
 
-						if( hti.flags != LVHT_ONITEMICON ) 
+						if (hti.flags != LVHT_ONITEMICON) 
 							break;
 
 						lvi.mask=LVIF_IMAGE;
 						lvi.iItem=hti.iItem;
 						lvi.iSubItem=0;
-						ListView_GetItem( p->hwndFrom , &lvi);
+						ListView_GetItem( p->hwndFrom, &lvi);
 						lvi.iImage^=1;
-						ListView_SetItem( p->hwndFrom , &lvi);
+						ListView_SetItem( p->hwndFrom, &lvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						break;
 					}
@@ -1435,7 +1414,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 //                   I need to add my options page.
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 

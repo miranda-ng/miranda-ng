@@ -1038,11 +1038,13 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 					int i=0;
 					nAnimatedIconStep = 100;/*DBGetContactSettingWord(NULL,"CLUI","DefaultStepConnectingIcon",100);*/
 					pt->nIconsCount = cnt;
-					if (pt->himlIconList) ImageList_Destroy(pt->himlIconList);
+					if (pt->himlIconList)
+						ImageList_Destroy(pt->himlIconList);
 					pt->himlIconList = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,cnt,1);
 					for (i=0; i < cnt; i++) {
 						HICON ic = CLUI_GetConnectingIconForProto(szProto,i);
-						if (ic) ImageList_AddIcon(pt->himlIconList,ic);
+						if (ic)
+							ImageList_AddIcon(pt->himlIconList, ic);
 						DestroyIcon_protect(ic);
 					}
 					CLUI_SafeSetTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->nIndex,(int)(nAnimatedIconStep)/1,0);
@@ -2157,8 +2159,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 				pt->bTimerCreated = 0;
 			}
 		}
-
-	};
+	}
 
 	pt = &CycleStartTick[wParam-TM_STATUSBARUPDATE];
 	{

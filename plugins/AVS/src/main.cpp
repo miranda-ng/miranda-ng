@@ -914,7 +914,7 @@ INT_PTR avSetAvatar(HANDLE hContact, TCHAR* tszPath)
 }
 
 INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
-{	return avSetAvatar(( HANDLE )wParam, A2T(( const char* )lParam ));
+{	return avSetAvatar(( HANDLE )wParam, _A2T(( const char* )lParam ));
 }
 
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
@@ -1461,7 +1461,7 @@ INT_PTR avSetMyAvatar( char* protocol, TCHAR* tszPath )
 }
 
 static INT_PTR SetMyAvatar( WPARAM wParam, LPARAM lParam )
-{	return avSetMyAvatar(( char* )wParam, A2T(( const char* )lParam ));
+{	return avSetMyAvatar(( char* )wParam, _A2T(( const char* )lParam ));
 }
 
 static INT_PTR SetMyAvatarW( WPARAM wParam, LPARAM lParam )

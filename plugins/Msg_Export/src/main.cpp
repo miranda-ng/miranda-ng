@@ -54,7 +54,7 @@ PLUGININFOEX pluginInfo = {
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -79,7 +79,7 @@ static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020428 , 28 April 2002
+// Created         : 020428, 28 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -99,7 +99,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -146,7 +146,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -166,7 +166,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD /*fdwReason*/, LPVOID /*lpvReserved*/
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -184,7 +184,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
@@ -236,7 +236,7 @@ extern "C" __declspec(dllexport) int Load()
 //                   
 // References      : -
 // Remarks         : -
-// Created         : 020422 , 22 April 2002
+// Created         : 020422, 22 April 2002
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
