@@ -13,56 +13,6 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-#ifdef _WIN32
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,0,5
- PRODUCTVERSION 0,0,0,5
- FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x4L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "080004b0"
-        BEGIN
-            VALUE "FileDescription", "Zero Notification Plugin for Miranda NG"
-            VALUE "FileVersion", "VER_MAJOR.VER_MINOR.VER_RELEASE.VER_BUILD"
-            VALUE "InternalName", "ZeroNotify"
-            VALUE "LegalCopyright", "© 2005 bidyut, © 2009 Maat"
-            VALUE "OriginalFilename", "zeronotifyw.dll"
-            VALUE "ProductName", "Zero Notification Plugin for Miranda NG"
-            VALUE "ProductVersion", "0.0.0.5"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x800, 1200
-    END
-END
-
-#endif    // German (Germany) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
 // English (U.S.) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)

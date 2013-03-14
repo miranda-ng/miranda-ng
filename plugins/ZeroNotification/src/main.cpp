@@ -9,9 +9,7 @@ Miranda can be found here:
 http://miranda-ng.org/
 */
 
-#include "version.h"
 #include "common.h"
-#include "resource.h"
 
 HINSTANCE hInst;
 
@@ -38,15 +36,16 @@ static const struct CheckBoxValues_t statusValues[]={
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	PLUGINNAME,
-	PLUGIN_MAKE_VERSION(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD),
-	DESCRIPTION,
-	AUTHOR,
-	"",
-	COPYRIGHT,
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x47d489d3, 0x310d, 0x4ef6, { 0xbd, 0x5, 0x69, 0x9f, 0xff, 0xd5, 0xa4, 0xaa } } // {47D489D3-310D-4ef6-BD05-699FFFD5A4AA}
+	// {47D489D3-310D-4EF6-BD05-699FFFD5A4AA}
+	{0x47d489d3, 0x310d, 0x4ef6, {0xbd, 0x5, 0x69, 0x9f, 0xff, 0xd5, 0xa4, 0xaa}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -117,9 +116,9 @@ static int SoundSettingChanged(WPARAM wParam,LPARAM lParam)
 
 static int SetNotify(const long status)
 {
-	DBWriteContactSettingByte(NULL,"Skin","UseSound", (BYTE) !(DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",DEFAULT_NOSOUND) & status));
-	DBWriteContactSettingByte(NULL,"CList","DisableTrayFlash", (BYTE) (DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoBlink",DEFAULT_NOBLINK) & status));
-	DBWriteContactSettingByte(NULL,"CList","NoIconBlink", (BYTE) (DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoCLCBlink",DEFAULT_NOCLCBLINK) & status));
+	DBWriteContactSettingByte(NULL,"Skin","UseSound", (BYTE) !(DBGetContactSettingDword(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND) & status));
+	DBWriteContactSettingByte(NULL,"CList","DisableTrayFlash", (BYTE) (DBGetContactSettingDword(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK) & status));
+	DBWriteContactSettingByte(NULL,"CList","NoIconBlink", (BYTE) (DBGetContactSettingDword(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
 	return 0;
@@ -156,11 +155,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
-		CheckDlgButton(hwndDlg, IDC_HIDEMENU, DBGetContactSettingByte(NULL,PLUGINNAME_SHORT,"HideMenu",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEMENU, DBGetContactSettingByte(NULL, MODNAME, "HideMenu",1) ? BST_CHECKED : BST_UNCHECKED);
 
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOSOUND),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",DEFAULT_NOSOUND));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoBlink",DEFAULT_NOBLINK));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoCLCBlink",DEFAULT_NOCLCBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOSOUND),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK));
 		return TRUE;
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -191,11 +190,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				DBWriteContactSettingByte(NULL,PLUGINNAME_SHORT,"HideMenu",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEMENU));
+				DBWriteContactSettingByte(NULL, MODNAME, "HideMenu",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEMENU));
 
-				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOSOUND)));
-				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOBLINK)));
-				DBWriteContactSettingDword(NULL,PLUGINNAME_SHORT,"NoCLCBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOCLCBLINK)));
+				DBWriteContactSettingDword(NULL, MODNAME, "NoSound",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOSOUND)));
+				DBWriteContactSettingDword(NULL, MODNAME, "NoBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOBLINK)));
+				DBWriteContactSettingDword(NULL, MODNAME, "NoCLCBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOCLCBLINK)));
 
 				test = DBGetContactSettingWord(NULL,"CList","Status",0);
 				SetNotify(Proto_Status2Flag(DBGetContactSettingWord(NULL,"CList","Status",0)));
@@ -239,15 +238,15 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	//The menu item - begin
-	if (!DBGetContactSettingByte(NULL, PLUGINNAME_SHORT, "HideMenu", 1)) {
-		hSoundMenu = CreateServiceFunction(PLUGINNAME_SHORT "/MenuCommand", NoSoundMenuCommand);
+	if (!DBGetContactSettingByte(NULL, MODNAME, "HideMenu", 1)) {
+		hSoundMenu = CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 	
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();
 
-		mi.pszService = PLUGINNAME_SHORT "/MenuCommand";
+		mi.pszService = MODNAME "/MenuCommand";
 		noSoundMenu = Menu_AddMainMenuItem(&mi);
 	}
 	//The menu item - end
@@ -258,7 +257,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	//Uninstall info
-	DBWriteContactSettingString(NULL, "Uninstall", PLUGINNAME_SHORT, PLUGINNAME_SHORT);
+	DBWriteContactSettingString(NULL, "Uninstall", MODNAME, MODNAME);
 
 	return 0;
 }
