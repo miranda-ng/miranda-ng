@@ -222,12 +222,11 @@ void MakePopupMsg(HWND hDlg, HANDLE hContact, char *msg)
 	HWND hFocused = GetForegroundWindow();
 	if(hDlg == hFocused || hDlg == GetParent(hFocused)) return;
 
-	POPUPDATAEX ppd;
 	//
 	//The text for the second line. You could even make something like: char lpzText[128]; lstrcpy(lpzText, "Hello world!"); It's your choice.
 	//
-	ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
-	ppd.lchContact = (HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
+	POPUPDATA ppd = { 0 };
+	ppd.lchContact = (HANDLE)hContact;
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
 	lstrcpy(ppd.lpzContactName, (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0));
 	lstrcpy(ppd.lpzText, msg);
@@ -236,8 +235,7 @@ void MakePopupMsg(HWND hDlg, HANDLE hContact, char *msg)
 	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	ppd.PluginData = (void*)hDlg;
 	ppd.iSeconds = -1;
-
-	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	PUAddPopUp(&ppd);
 }
 //
 // Get ID of string message

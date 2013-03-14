@@ -1045,7 +1045,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 static INT_PTR ShowPopup(char* msg, HICON hIcon)
 {
-	POPUPDATAEX ppd = { NULL };
+	POPUPDATA ppd = { NULL };
 	ppd.lchContact = NULL;
 	ppd.lchIcon = hIcon;
 	memset(ppd.lpzContactName, '\0', sizeof(ppd.lpzContactName));
@@ -1084,7 +1084,7 @@ static INT_PTR ShowPopup(char* msg, HICON hIcon)
 		ppd.iSeconds = 0;
 		break;
 	}
-	return PUAddPopUpEx(&ppd);
+	return PUAddPopUp(&ppd);
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

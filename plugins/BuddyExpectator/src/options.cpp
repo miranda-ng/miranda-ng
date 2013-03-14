@@ -95,7 +95,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		if (!ServiceExists(MS_POPUP_ADDPOPUP))
+		if ( !ServiceExists(MS_POPUP_ADDPOPUP))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), FALSE);
 
 		//iAbsencePeriod
@@ -445,8 +445,8 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-		odp.ptszGroup    = LPGENT("PopUps");
+	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+		odp.ptszGroup   = LPGENT("PopUps");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPPANEL);
 		odp.pfnDlgProc  = PopUpOptionsFrameProc;
 		Options_AddPage(wParam, &odp);

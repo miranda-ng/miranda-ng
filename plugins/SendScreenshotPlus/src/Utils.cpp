@@ -537,18 +537,3 @@ INT_PTR SaveTIF(HBITMAP hBmp, LPTSTR szFilename) {
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return 0;
 }
-
-//---------------------------------------------------------------------------
-/* Old stuff from Borland C++ */
-//---------------------------------------------------------------------------
-/*/Popup
-void ShowPopUp(char *title, char *text) {
-	POPUPDATAEX pude={0};
-
-	strcpy(pude.lpzText, text);
-	strcpy(pude.lpzContactName, title);
-	pude.lchIcon = LoadIcon(g_hAppInstance, MAKEINTRESOURCE(MAIN));
-	pude.colorBack = POPUP_USE_SKINNED_BG;
-
-	CallService(MS_POPUP_ADDPOPUP, (WPARAM)&pude, 0);
-}*/

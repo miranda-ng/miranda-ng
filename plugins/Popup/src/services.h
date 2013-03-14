@@ -26,10 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int num_classes;			//for core class api support
 
-INT_PTR PopUp_AddPopUp(WPARAM, LPARAM);
 INT_PTR PopUp_AddPopUpW(WPARAM, LPARAM);
 
-INT_PTR PopUp_AddPopUpEx(WPARAM, LPARAM);
+INT_PTR PopUp_AddPopUp(WPARAM, LPARAM);
 INT_PTR PopUp_AddPopUp2(WPARAM, LPARAM);
 
 INT_PTR PopUp_GetContact(WPARAM, LPARAM);

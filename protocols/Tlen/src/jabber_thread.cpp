@@ -1145,41 +1145,23 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 
 static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 {
-	POPUPDATAEX ppd;
-	char * lpzContactName;
-	char * lpzText;
-
-	if (!DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE)) {
+	if ( !ServiceExists(MS_POPUP_ADDPOPUP))
 		return;
-	}
-	lpzContactName = title;
-	lpzText = emailInfo;
-	ZeroMemory(&ppd, sizeof(ppd));
-	ppd.lchContact = NULL;
+	if (!DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE))
+		return;
+
+	POPUPDATA ppd = { 0 };
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIL));
-	strcpy(ppd.lpzContactName, lpzContactName);
-	strcpy(ppd.lpzText, lpzText);
+	strcpy(ppd.lpzContactName, title);
+	strcpy(ppd.lpzText, emailInfo);
 	ppd.colorBack = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupBack", 0);
 	ppd.colorText = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupText", 0);
-	ppd.PluginWindowProc = NULL;
-	ppd.PluginData=NULL;
-	if ( ServiceExists( MS_POPUP_ADDPOPUPEX )) {
-		BYTE delayMode;
-		int delay;
-		delayMode = DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
-		delay = 0;
-		if (delayMode==1) {
-			delay = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
-		} else if (delayMode==2) {
-			delay = -1;
-		}
-		ppd.iSeconds = delay;
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
-
-	}
-	else if ( ServiceExists( MS_POPUP_ADDPOPUP )) {
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-	}
+	BYTE delayMode = DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
+	if (delayMode == 1)
+		ppd.iSeconds = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
+	else if (delayMode == 2)
+		ppd.iSeconds = -1;
+	PUAddPopUp(&ppd);
 }
 /*
  * Incoming e-mail notification

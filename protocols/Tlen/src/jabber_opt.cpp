@@ -100,21 +100,6 @@ int TlenOptionsInit(void *ptr, WPARAM wParam, LPARAM lParam)
 		odp.ptszTab = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
-/*
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-		ZeroMemory(&odp,sizeof(odp));
-		odp.cbSize = sizeof(odp);
-		odp.position = 100000000;
-		odp.hInstance = hInst;
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-		odp.ptszGroup = TranslateT("PopUps");
-		odp.ptszTitle = proto->m_tszUserName;
-		odp.dwInitParam = (LPARAM)proto;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
-		odp.pfnDlgProc = TlenPopupsDlgProc;
-		Options_AddPage(wParam, &odp);
-	}
-*/
 	return 0;
 }
 
@@ -592,7 +577,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char *emailInfo, int delay)
 {
-	POPUPDATAEX ppd;
+	POPUPDATA ppd;
 	char * lpzContactName;
 	char * lpzText;
 	HICON hIcon;
@@ -609,12 +594,12 @@ static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char
 	ppd.colorText = colorText;
 	ppd.PluginWindowProc = NULL;
 	ppd.PluginData=NULL;
-	if ( ServiceExists( MS_POPUP_ADDPOPUPEX )) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		ppd.iSeconds = delay;
-		CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
 
 	}
-	else if ( ServiceExists( MS_POPUP_ADDPOPUP )) {
+	else if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
 	}
 }

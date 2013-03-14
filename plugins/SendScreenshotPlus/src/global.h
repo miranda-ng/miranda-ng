@@ -99,7 +99,7 @@ using namespace std;
 #define MSGINFO	(text) MessageBox(NULL, text, _T("SendSS"), MB_OK | MB_ICONINFORMATION)
 
 typedef struct _MGLOBAL {
-	DWORD		mirandaVersion;					// mirandaVersion
+	DWORD       mirandaVersion;					// mirandaVersion
 	BOOLEAN		PopUpExist			: 1;		// Popup or MS_POPUP_ADDPOPUP exist
 	BOOLEAN		PopUpActionsExist	: 1;		// Popup++ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN		PluginHTTPExist		: 1;		// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist

@@ -1375,11 +1375,11 @@ int OptionsInitialize(WPARAM wParam, LPARAM /*lParam*/) {
 /////////////////////////////////////////////////////////////////////
 
 void CALLBACK MainThreadCallback(ULONG_PTR dwParam) {
-	POPUPDATA * pclData = (POPUPDATA *)dwParam;
+	POPUPDATAT *pclData = (POPUPDATAT*)dwParam;
 	if (db_get_b(NULL, MODULE, "WriteLogFile", 0) != 0) {
 		LogEvent(pclData->lpzContactName, pclData->lpzText);
 	}
-	CallService(MS_POPUP_ADDPOPUP, (WPARAM)pclData, 0);
+	PUAddPopUpT(pclData);
 	delete pclData;
 }
 
@@ -1446,8 +1446,8 @@ void ShowPopupWindow(const char * pszName, const char * pszText, COLORREF ColorB
 	if (! bShowPopups)
 		return;
 
-	POPUPDATA * pclData = new POPUPDATA;
-	memset(pclData, 0, sizeof(POPUPDATA));
+	POPUPDATAT *pclData = new POPUPDATAT;
+	memset(pclData, 0, sizeof(POPUPDATAT));
 	pclData->lchIcon = LoadIcon(hInstance,  MAKEINTRESOURCE(IDI_SHARE_NEW_FILE));
 	strncpy(pclData->lpzContactName, pszName, sizeof(pclData->lpzContactName) - 1);   // -1 so that there aways will be a null termination !!
 	strncpy(pclData->lpzText, pszText, sizeof(pclData->lpzText) - 1);

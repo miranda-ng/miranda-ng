@@ -6,13 +6,13 @@ const
   ioRoot         :PWideChar = 'ActMan_Export';
   ioAction       :PWideChar = 'Action';
   ioSubAction    :PWideChar = 'SubAction';
-  ioContactWindow:PWideChar = 'ContactWindow';
-  ioCallService  :PWideChar = 'CallService';
-  ioRunProgram   :PWideChar = 'RunProgram';
-  ioInsertText   :PWideChar = 'InsertText';
-  ioAdvanced     :PWideChar = 'Advanced';
-  ioLinkAction   :PWideChar = 'LinkAction';
-  ioProfile      :PWideChar = 'Profile';
+  ioContactWindow:PWideChar = 'Contact';
+  ioCallService  :PWideChar = 'Service';
+  ioRunProgram   :PWideChar = 'Program';
+  ioInsertText   :PWideChar = 'In/Out';
+  ioAdvanced     :PWideChar = 'Jump';
+  ioLinkAction   :PWideChar = 'Chain';
+  ioProfile      :PWideChar = 'Database';
   ioMessageBox   :PWideChar = 'MessageBox';
   ioWParam       :PWideChar = 'WPARAM';
   ioLParam       :PWideChar = 'LPARAM';
@@ -21,6 +21,7 @@ const
   ioIf           :PWideChar = 'IF';
   ioAct          :PWideChar = 'ACT';
   ioOutput       :PWideChar = 'OUTPUT';
+  ioClass        :PWideChar = 'class';
   // Attributes
   ioType         :PWideChar = 'type';
   ioInverse      :PWideChar = 'inverse';
@@ -273,7 +274,7 @@ begin
 
     actnode:=getChild(actnode,0);
     tmp:=getName(actnode);
-MessageBoxW(0,tmp,'node',0);
+//MessageBoxW(0,tmp,'node',0);
 
     // CONTACT
     if StrCmpW(tmp,ioContactWindow)=0 then
@@ -290,7 +291,7 @@ MessageBoxW(0,tmp,'node',0);
     begin
       actionType:=ACT_SERVICE;
       FastWideToAnsi(getAttrValue(actnode,ioService),service);
-MessageBoxA(0,service,'service',0);
+//MessageBoxA(0,service,'service',0);
       if StrToInt(getAttrValue(actnode,ioVariables))=1 then
         flags2:=flags2 or ACF2_SRV_SRVC;
 
@@ -322,7 +323,7 @@ MessageBoxA(0,service,'service',0);
       else if lstrcmpiw(tmp,ioHex    )=0 then flags:=flags or ACF_HEX
       else if lstrcmpiw(tmp,ioStruct )=0 then flags:=flags or ACF_STRUCT
       else if lstrcmpiw(tmp,ioInt    )=0 then ;
-MessageBoxW(0,'','end',0);
+//MessageBoxW(0,'','end',0);
     end
 
     // PROGRAM
@@ -571,7 +572,7 @@ begin
   BlockRead(f,res^,i);
   CloseHandle(f);
 
-MessageBoxW(0,res,'SRC',0);
+//MessageBoxW(0,res,'SRC',0);
   xmlparser.cbSize:={XML_API_SIZEOF_V1;//}SizeOf(XML_API_W);
   CallService(MS_SYSTEM_GET_XI,0,lparam(@xmlparser));
   with xmlparser do
@@ -582,10 +583,10 @@ MessageBoxW(0,res,'SRC',0);
     repeat
       actnode:=getNthChild(root,ioAction,j);
       if actnode=0 then break;
-MessageBoxW(0,'not zero','actnode',0);
+//MessageBoxW(0,'not zero','actnode',0);
 //??      if StrCmpW(getName(actnode),ioAction)<>0 then break;
       tmp:=getAttrValue(actnode,ioName);
-MessageBoxW(0,tmp,'nodename',0);
+//MessageBoxW(0,tmp,'nodename',0);
       if tmp<>nil then //!!
       begin
         i:=GetActIdxByName(tmp);
@@ -620,7 +621,7 @@ MessageBoxW(0,tmp,'nodename',0);
             StrDupW(descr,tmp);
             i:=0;
             last:=-1;
-MessageBoxW(0,descr,'descr',0);
+//MessageBoxW(0,descr,'descr',0);
             repeat
               next:=ImportAction(getChild(actnode,i));
               if next=0 then
@@ -851,14 +852,18 @@ begin
     case actionType of
 // ----- CONTACT -----
       ACT_CONTACT: begin
-        sub:=AddChild(actnode,ioContactWindow,nil);
+        AddAttr(actnode,ioClass,ioContactWindow);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioContactWindow,nil);
         ExportContact(sub,contact);
 //        AddAttrInt(sub,ioNumber,0); // contact
         if (flags and ACF_KEEPONLY)<>0 then AddAttrInt(sub,ioKeepOnly,1);
       end;
 // ----- SERVICE ----- 
       ACT_SERVICE: begin
-        sub:=AddChild(actnode,ioCallService,nil);
+        AddAttr(actnode,ioClass,ioCallService);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioCallService,nil);
         AddAttr(sub,ioService,FastAnsiToWide(service,tmp));
         if (flags2 and ACF2_SRV_SRVC)<>0 then AddAttrInt(sub,ioVariables,1);
         mFreeMem(tmp);
@@ -898,7 +903,10 @@ begin
       end;
 // ----- PROGRAM -----
       ACT_PROGRAM: begin
-        sub:=AddChild(actnode,ioRunProgram,prgname);
+        AddAttr(actnode,ioClass,ioRunProgram);
+        setText(actnode,prgname);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioRunProgram,prgname);
         if args<>nil then
           AddAttr(sub,ioArgs,args);
         if (flags and ACF_CURPATH)<>0 then AddAttrInt(sub,ioCurrent,1);
@@ -920,10 +928,21 @@ begin
 // ----- TEXT -----
       ACT_TEXT: begin
         if (flags and ACF_CLIPBRD)<>0 then
-          tmp:=nil
+        begin
+          AddAttr(actnode,ioClass,ioInsertText);
+        end
         else
-          tmp:=text;
-        sub:=AddChild(actnode,ioInsertText,tmp);
+        begin
+          if (flags and ACF_FILE)<>0 then
+            AddAttr(actnode,ioClass,ioInsertText)
+          else
+          begin
+            AddAttr(actnode,ioClass,'Text');
+            setText(actnode,text);
+          end;
+        end;
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioInsertText,tmp);
         if (flags and ACF_CLIPBRD)<>0 then
         begin
           AddAttr(sub,ioObject,ioClipboard);
@@ -973,7 +992,9 @@ begin
       end;
 // ----- ADVANCED -----
       ACT_ADVANCE: begin
-        sub:=AddChild(actnode,ioAdvanced,nil);
+        AddAttr(actnode,ioClass,ioAdvanced);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioAdvanced,nil);
         if lobyte(condition)<>0 then
         begin
           act:=AddChild(sub,ioIf,nil);
@@ -986,6 +1007,7 @@ begin
           else
             s:=ioNop;
           end;
+          AddAttr(act,ioOper,'math');
           AddAttr(act,ioCond,s);
           AddAttrInt(act,ioValue,value);
         end;
@@ -1048,7 +1070,9 @@ begin
           s:=actname
         else
           s:=GetActNameById(id);
-        AddChild(actnode,ioLinkAction,s);
+        AddAttr(actnode,ioClass,ioLinkAction);
+        setText(actnode,s);
+//        AddChild(actnode,ioLinkAction,s);
       end;
 // ----- DATABASE -----
       ACT_RW: begin
@@ -1056,7 +1080,10 @@ begin
           tmp:=nil
         else
           tmp:=pWideChar(dbvalue);
-        sub:=AddChild(actnode,ioProfile,tmp);
+        AddAttr(actnode,ioClass,ioProfile);
+        setText(actnode,tmp);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioProfile,tmp);
         if      (flags and ACF_DBDELETE)<>0 then s:=ioDelete
         else if (flags and ACF_DBWRITE )<>0 then s:=ioWrite
         else                                     s:=ioRead;
@@ -1091,7 +1118,10 @@ begin
       end;
 // ----- MESSAGEBOX -----
       ACT_MESSAGE: begin
-        sub:=AddChild(actnode,ioMessageBox,msgtext);
+        AddAttr(actnode,ioClass,ioMessageBox);
+        setText(actnode,msgtext);
+        sub:=actnode;
+//        sub:=AddChild(actnode,ioMessageBox,msgtext);
         if (flags2 and ACF2_MSG_TTL)<>0 then AddAttrInt(sub,ioVariables  ,1);
         if (flags2 and ACF2_MSG_TXT)<>0 then AddAttrInt(sub,ioArgVariable,1);
         if (flags  and ACF_MSG_KEEP)<>0 then AddAttrInt(sub,ioKeepLast   ,1);

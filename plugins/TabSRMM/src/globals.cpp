@@ -201,8 +201,8 @@ void CGlobals::reloadSystemModulesChanged()
 		bMetaEnabled = 0;
 	}
 
-	g_PopupAvail = (ServiceExists(MS_POPUP_ADDPOPUPEX) ? 1 : 0);
-	g_PopupWAvail = (ServiceExists(MS_POPUP_ADDPOPUPW) ? 1 : 0);
+	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUP);
+	g_PopupWAvail = ServiceExists(MS_POPUP_ADDPOPUPW);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;

@@ -1144,8 +1144,8 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
-	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
+	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUP);
+	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT);
 	return 0;
 }
 

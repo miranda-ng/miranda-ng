@@ -18,10 +18,10 @@ LRESULT CALLBACK NullWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 void CALLBACK sttMainThreadCallback( ULONG_PTR dwParam )
 {
-	POPUPDATAEX* ppd = ( POPUPDATAEX* )dwParam;
+	POPUPDATA* ppd = ( POPUPDATA* )dwParam;
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUPEX) )
-		PUAddPopUpEx(ppd);
+	if ( ServiceExists(MS_POPUP_ADDPOPUP))
+		PUAddPopUp(ppd);
 
 	free( ppd );
 }
@@ -30,8 +30,8 @@ void __stdcall	ShowPopup( const char* line1, const char* line2, int flags )
 {
 	if(CallService(MS_SYSTEM_TERMINATED, 0, 0)) return;
 
-	if ( ServiceExists( MS_POPUP_ADDPOPUP )) {
-		POPUPDATAEX* ppd = ( POPUPDATAEX* )calloc( sizeof( POPUPDATAEX ), 1 );
+	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+		POPUPDATA* ppd = ( POPUPDATA* )calloc( sizeof( POPUPDATA ), 1 );
 
 		ppd->lchContact = NULL;
 		ppd->lchIcon = (flags ? hIconResponding : hIconNotResponding);

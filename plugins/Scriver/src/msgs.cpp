@@ -473,9 +473,9 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam) {
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	g_dat.smileyAddInstalled = ServiceExists(MS_SMILEYADD_SHOWSELECTION) && ServiceExists(MS_SMILEYADD_REPLACESMILEYS) != 0;
-	g_dat.popupInstalled = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
-	g_dat.ieviewInstalled = ServiceExists(MS_IEVIEW_WINDOW) != 0;
+	g_dat.smileyAddInstalled = ServiceExists(MS_SMILEYADD_SHOWSELECTION) && ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
+	g_dat.popupInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
+	g_dat.ieviewInstalled = ServiceExists(MS_IEVIEW_WINDOW);
 	return 0;
 }
 

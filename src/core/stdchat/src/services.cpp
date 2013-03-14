@@ -743,7 +743,7 @@ static INT_PTR Service_GetAddEventPtr(WPARAM wParam, LPARAM lParam)
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	PopUpInstalled = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	PopUpInstalled = ServiceExists(MS_POPUP_ADDPOPUP);
 	return 0;
 }
 

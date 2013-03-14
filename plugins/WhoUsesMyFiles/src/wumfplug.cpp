@@ -26,13 +26,10 @@ void LoadOptions()
 	dbv.type = DBVT_TCHAR;
 	ZeroMemory(&WumfOptions, sizeof(WumfOptions));
 	if (DBGetContactSetting(NULL, ModuleName, OPT_FILE, &dbv) == 0)
-	{
 		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
-	}
 	else
-	{
 		WumfOptions.LogFile[0] = '\0';
-	};
+
 	WumfOptions.PopupsEnabled = DBGetContactSettingByte(NULL,ModuleName, POPUPS_ENABLED, TRUE);
 
 	WumfOptions.UseDefColor = DBGetContactSettingByte(NULL,ModuleName, COLOR_DEF, TRUE);
@@ -46,8 +43,7 @@ void LoadOptions()
 	WumfOptions.DelayInf = DBGetContactSettingByte(NULL,ModuleName, DELAY_INF, FALSE);
 	WumfOptions.DelaySet = DBGetContactSettingByte(NULL,ModuleName, DELAY_SET, FALSE);
 	WumfOptions.DelaySec = DBGetContactSettingByte(NULL,ModuleName, DELAY_SEC, 0);
-	if(!ServiceExists(MS_POPUP_ADDPOPUPEX))
-	{
+	if( !ServiceExists(MS_POPUP_ADDPOPUP)) {
 		WumfOptions.DelayDef = TRUE;
 		WumfOptions.DelaySet = FALSE;
 		WumfOptions.DelayInf = FALSE;
@@ -180,35 +176,35 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 
 void ShowThePreview()
 {
-	if(!ServiceExists(MS_POPUP_ADDPOPUP))
-	{
+	if( !ServiceExists(MS_POPUP_ADDPOPUP)) {
 		MessageBox(NULL, TranslateT("PopUp plugin not found!"), TranslateT("WUMF plugin"), MB_OK|MB_ICONSTOP);
 		return;
-	};
+	}
+
 	if(WumfOptions.AlertFolders)
 	{
-			ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share"));
-			Sleep(300);
-			ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share\\Photos"));
-			Sleep(300);
+		ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share"));
+		Sleep(300);
+		ShowThePopUp(NULL, _T("Guest"), _T("C:\\My Share\\Photos"));
+		Sleep(300);
 	}
 	ShowThePopUp(NULL, _T("Guest"), _T("C:\\Share\\My Photos\\photo.jpg"));
 	Sleep(300);
 	if(WumfOptions.AlertFolders)
 	{
-			ShowThePopUp(NULL, _T("User"), _T("C:\\My Share"));
-			Sleep(300);
-			ShowThePopUp(NULL, _T("User"), _T("C:\\My Share\\Movies"));
-			Sleep(300);
+		ShowThePopUp(NULL, _T("User"), _T("C:\\My Share"));
+		Sleep(300);
+		ShowThePopUp(NULL, _T("User"), _T("C:\\My Share\\Movies"));
+		Sleep(300);
 	}
 	ShowThePopUp(NULL, _T("User"), _T("C:\\My Share\\Movies\\The Two Towers.avi"));
 	Sleep(300);
 	if(WumfOptions.AlertFolders)
 	{
-			ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives"));
-			Sleep(300);
-			ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k"));
-			Sleep(300);
+		ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives"));
+		Sleep(300);
+		ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k"));
+		Sleep(300);
 	}
 	ShowThePopUp(NULL, _T("Administrator"), _T("C:\\Distributives\\Win2k\\setup.exe"));
 };
@@ -230,9 +226,9 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 		SetForegroundWindow(hDlg);
 		return (int)(1);
 	}
-   	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), NULL, (DLGPROC)ConnDlgProc);
-   	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE)));
-   	ShowWindow(hDlg, SW_SHOW); 
+	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), NULL, (DLGPROC)ConnDlgProc);
+	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE)));
+	ShowWindow(hDlg, SW_SHOW); 
 	while(GetMessage(&msg, NULL, 0, 0) == TRUE) 
 	{ 
 		TranslateMessage(&msg);
@@ -240,10 +236,9 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 	}
 	hDlg = NULL;
 	ExitThread(0);
-	
+
 	return (int)(1);
 }
-
 
 static INT_PTR WumfShowConnections(WPARAM wParam,LPARAM lParam)
 {
@@ -351,13 +346,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			CheckDlgButton(hwndDlg, IDC_COLOR_SET, WumfOptions.SelectColor?BST_CHECKED:BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK), WumfOptions.SelectColor);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
-			if(WumfOptions.SelectColor)
-			{
+			if(WumfOptions.SelectColor) {
 				SendDlgItemMessage(hwndDlg,IDC_COLOR_BACK,CPM_SETCOLOUR,0,WumfOptions.ColorBack);
 				SendDlgItemMessage(hwndDlg,IDC_COLOR_TEXT,CPM_SETCOLOUR,0,WumfOptions.ColorText);
 			}
-			if(!ServiceExists(MS_POPUP_ADDPOPUPEX))
-			{
+			if( !ServiceExists(MS_POPUP_ADDPOPUP)) {
 				DisableDelayOptions(hwndDlg);
 				break;
 			}

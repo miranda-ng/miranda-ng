@@ -209,7 +209,7 @@ additional APF_ flags */
 
 //overload function for POPUPDATAEX_V2/POPUPDATAW_V2
 static INT_PTR __inline PUAddPopUpEx(POPUPDATAEX_V2* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)ppdp,0);
+	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp,0);
 }
 
 static INT_PTR __inline PUAddPopUpW(POPUPDATAW_V2* ppdp) {

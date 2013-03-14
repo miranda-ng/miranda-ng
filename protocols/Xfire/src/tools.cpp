@@ -91,7 +91,7 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 
 	if ((uType&MB_TYPEMASK) == MB_OK)
 	{
-		POPUPDATAEX ppd = {0};
+		POPUPDATA ppd = {0};
 
 		if (bIconsNotLoaded)
 		{
@@ -126,7 +126,7 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 		if(hicon!=NULL)
 			ppd.lchIcon=hicon;
 
-		PUAddPopUpEx(&ppd);
+		PUAddPopUp(&ppd);
 	}
 
 	return IDOK;

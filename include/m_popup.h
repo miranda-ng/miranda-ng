@@ -29,27 +29,6 @@ mi.position = 0; //You don't need it and it's better if you put it to zero.
 #define MAX_CONTACTNAME 2048
 #define MAX_SECONDLINE  2048
 
-// This is the basic data you'll need to fill and pass to the service function.
-typedef struct
-{
-	HANDLE lchContact;							// Handle to the contact, can be NULL (main contact).
-	HICON lchIcon;								// Handle to a icon to be shown. Cannot be NULL.
-	union
-	{
-		char lptzContactName[MAX_CONTACTNAME];	// This is the contact name or the first line in the plugin. Cannot be NULL.
-		char lpzContactName[MAX_CONTACTNAME];
-	};
-	union
-	{
-		char lptzText[MAX_SECONDLINE];			// This is the second line text. Users can choose to hide it. Cannot be NULL.
-		char lpzText[MAX_SECONDLINE];
-	};
-	COLORREF colorBack;							// COLORREF to be used for the background. Can be NULL, default will be used.
-	COLORREF colorText;							// COLORREF to be used for the text. Can be NULL, default will be used.
-	WNDPROC PluginWindowProc;					// Read below. Can be NULL; default will be used.
-	void * PluginData;							// Read below. Can be NULL.
-} POPUPDATA, * LPPOPUPDATA;
-
 // Extended popup data
 typedef struct
 {
@@ -68,12 +47,12 @@ typedef struct
 	COLORREF colorBack;
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
-	void * PluginData;
+	void *PluginData;
 	int iSeconds;								// Custom delay time in seconds. -1 means "forever", 0 means "default time".
 	char cZero[16];								// Some unused bytes which may come useful in the future.
-} POPUPDATAEX, *LPPOPUPDATAEX;
+} POPUPDATA, *LPPOPUPDATA;
 
-// Unicode version of POPUPDATAEX
+// Unicode version of POPUPDATA
 typedef struct
 {
 	HANDLE lchContact;
@@ -91,17 +70,17 @@ typedef struct
 	COLORREF colorBack;
 	COLORREF colorText;
 	WNDPROC PluginWindowProc;
-	void * PluginData;
+	void *PluginData;
 	int iSeconds;
 	char cZero[16];
 } POPUPDATAW, *LPPOPUPDATAW;
 
 #if defined(_UNICODE) || defined(UNICODE)
-	typedef POPUPDATAW		POPUPDATAT;
+	typedef POPUPDATAW   POPUPDATAT;
 	typedef LPPOPUPDATAW	LPPOPUPDATAT;
 #else
-	typedef POPUPDATAEX		POPUPDATAT;
-	typedef LPPOPUPDATAEX	LPPOPUPDATAT;
+	typedef POPUPDATA    POPUPDATAT;
+	typedef LPPOPUPDATA  LPPOPUPDATAT;
 #endif
 
 /* PopUp/AddPopup
@@ -123,14 +102,9 @@ You may pass additional creation flags via lParam:
 #define APF_RETURN_HWND  0x1
 #define APF_CUSTOM_POPUP 0x2
 
-#define MS_POPUP_ADDPOPUP "PopUp/AddPopUp"
+#define MS_POPUP_ADDPOPUP "PopUp/AddPopUpEx"
 static INT_PTR __inline PUAddPopUp(POPUPDATA* ppdp) {
 	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, 0);
-}
-
-#define MS_POPUP_ADDPOPUPEX "PopUp/AddPopUpEx"
-static INT_PTR __inline PUAddPopUpEx(POPUPDATAEX* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)ppdp, 0);
 }
 
 #define MS_POPUP_ADDPOPUPW "PopUp/AddPopUpW"
@@ -142,8 +116,8 @@ static INT_PTR __inline PUAddPopUpW(POPUPDATAW* ppdp) {
 	#define MS_POPUP_ADDPOPUPT	MS_POPUP_ADDPOPUPW
 	#define PUAddPopUpT			PUAddPopUpW
 #else
-	#define MS_POPUP_ADDPOPUPT	MS_POPUP_ADDPOPUPEX
-	#define PUAddPopUpT			PUAddPopUpEx
+	#define MS_POPUP_ADDPOPUPT	MS_POPUP_ADDPOPUP
+	#define PUAddPopUpT			PUAddPopUp
 #endif
 
 
@@ -270,10 +244,10 @@ static int __inline PUChangeTextW(HWND hWndPopUp, LPCWSTR lpwzNewText) {
 Changes the entire popup
 
 wParam = (WPARAM)(HWND)hPopUpWindow
-lParam = (LPARAM)(POPUPDATAEX*)newData
+lParam = (LPARAM)(POPUPDATA*)newData
 */
 #define MS_POPUP_CHANGE "PopUp/Change"
-static int __inline PUChange(HWND hWndPopUp, POPUPDATAEX *newData) {
+static int __inline PUChange(HWND hWndPopUp, POPUPDATA *newData) {
 	return (int)CallService(MS_POPUP_CHANGE, (WPARAM)hWndPopUp, (LPARAM)newData);
 }
 
@@ -301,8 +275,7 @@ lParam = value of type defined by wParam
 #define CPT_TEXTW	2 // lParam = (WCHAR *)text
 #define CPT_TITLE	3 // lParam = (char *)title
 #define CPT_TITLEW	4 // lParam = (WCHAR *)title
-#define CPT_DATA	5 // lParam = (POPUPDATA *)data
-#define CPT_DATAEX	6 // lParam = (POPUPDATAEX *)data
+#define CPT_DATAEX	6 // lParam = (POPUPDATA *)data
 #define CPT_DATAW	7 // lParam = (POPUPDATAW *)data
 
 #define UM_CHANGEPOPUP			(WM_USER + 0x0203)

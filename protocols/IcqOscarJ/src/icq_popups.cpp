@@ -204,13 +204,10 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 {
 	if (bPopUpService && getSettingByte(NULL, "PopupsEnabled", DEFAULT_POPUPS_ENABLED))
 	{
-		POPUPDATAEX ppd = {0};
-		POPUPDATAW ppdw = {0};
+		POPUPDATAT ppd = { 0 };
 		LPCTSTR rsIcon;
 		char szPrefix[32], szSetting[32];
-
 		strcpy(szPrefix, "Popups");
-		ppd.iSeconds = 0;
 
 		switch(bType) {
 		case LOG_NOTE:
@@ -254,20 +251,17 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 			ppd.lchIcon = Skin_GetIconByHandle(m_hProtoIcon);
 		else
 			ppd.lchIcon = (HICON)LoadImage( NULL, rsIcon, IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
-		if (getSettingByte(NULL, "PopupsWinColors", DEFAULT_POPUPS_WIN_COLORS))
-		{
+		
+		if (getSettingByte(NULL, "PopupsWinColors", DEFAULT_POPUPS_WIN_COLORS)) {
 			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 			ppd.colorBack = GetSysColor(COLOR_WINDOW);
 		}
-		else
-		{
-			if (getSettingByte(NULL, "PopupsDefColors", DEFAULT_POPUPS_DEF_COLORS))
-			{
+		else {
+			if (getSettingByte(NULL, "PopupsDefColors", DEFAULT_POPUPS_DEF_COLORS)) {
 				ppd.colorText = NULL;
 				ppd.colorBack = NULL;
 			}
-			else
-			{
+			else {
 				strcpy(szSetting, szPrefix);
 				strcat(szSetting, "TextColor");
 				ppd.colorText = getSettingDword(NULL, szSetting, ppd.colorText);
@@ -280,36 +274,17 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 		strcat(szSetting, "Timeout");
 		ppd.iSeconds = getSettingDword(NULL, szSetting, ppd.iSeconds);
 
-		// call unicode popup module - only on unicode OS otherwise it will not work properly :(
-		// due to Popup Plug bug in ADDPOPUPW implementation
-		if ( ServiceExists( MS_POPUP_ADDPOPUPW ))
-		{
-			char str[4096];
-
-			make_unicode_string_static(ICQTranslateUtfStatic(szTitle, str, sizeof(str)), ppdw.lpwzContactName, MAX_CONTACTNAME);
-			make_unicode_string_static(ICQTranslateUtfStatic(szMsg, str, sizeof(str)), ppdw.lpwzText, MAX_SECONDLINE);
-			ppdw.lchContact = hContact;
-			ppdw.lchIcon = ppd.lchIcon;
-			ppdw.colorBack = ppd.colorBack;
-			ppdw.colorText = ppd.colorText;
-			ppdw.PluginWindowProc = NULL;
-			ppdw.PluginData = NULL;
-			ppdw.iSeconds = ppd.iSeconds;
-			return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppdw, 0);
-		}
-		else
-
-		{
-			char str[MAX_PATH];
-
-			utf8_decode_static(ICQTranslateUtfStatic(szTitle, str, MAX_PATH), ppd.lpzContactName, MAX_CONTACTNAME);
-			utf8_decode_static(ICQTranslateUtfStatic(szMsg, str, MAX_PATH), ppd.lpzText, MAX_SECONDLINE);
-			ppd.lchContact = hContact;
-			ppd.PluginWindowProc = NULL;
-			ppd.PluginData = NULL;
-
-			return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
-		}
+		char str[4096];
+		make_unicode_string_static( ICQTranslateUtfStatic(szTitle, str, sizeof(str)), ppd.lpwzContactName, MAX_CONTACTNAME);
+		make_unicode_string_static( ICQTranslateUtfStatic(szMsg, str, sizeof(str)), ppd.lpwzText, MAX_SECONDLINE);
+		ppd.lchContact = hContact;
+		ppd.lchIcon = ppd.lchIcon;
+		ppd.colorBack = ppd.colorBack;
+		ppd.colorText = ppd.colorText;
+		ppd.PluginWindowProc = NULL;
+		ppd.PluginData = NULL;
+		ppd.iSeconds = ppd.iSeconds;
+		return PUAddPopUpT(&ppd);
 	}
 	return -1; // Failure
 }

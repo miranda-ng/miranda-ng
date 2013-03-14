@@ -473,80 +473,76 @@ void suspend(unsigned short alarm_id) {
 static LRESULT CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
-		case WM_COMMAND: // snooze
-			if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
-				ALARM *mpd = NULL;
-				mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+	case WM_COMMAND: // snooze
+		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
+			ALARM *mpd = NULL;
+			mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
 
-				if (mpd->flags & ALF_NOSNOOZE)
-					return TRUE;
-
-				// add snooze minutes to current time
-				FILETIME ft;
-				GetLocalTime(&mpd->time);
-				SystemTimeToFileTime(&mpd->time, &ft);
-				ULARGE_INTEGER uli;
-				uli.LowPart = ft.dwLowDateTime;
-				uli.HighPart = ft.dwHighDateTime;
-
-				uli.QuadPart += mult.QuadPart * options.snooze_minutes;
-
-				ft.dwHighDateTime = uli.HighPart;
-				ft.dwLowDateTime = uli.LowPart;
-
-				FileTimeToSystemTime(&ft, &mpd->time);
-
-				mpd->occurrence = OC_ONCE;
-				mpd->snoozer = true;
-				mpd->flags = mpd->flags & ~(ALF_NOSTARTUP);
-
-				mpd->id = next_alarm_id++;
-
-				append_to_list(mpd);
-			}
-
-			PUDeletePopUp(hWnd);
-			return TRUE;
-		case WM_CONTEXTMENU: 
-			PUDeletePopUp(hWnd);
-			return TRUE;
-		case UM_FREEPLUGINDATA: 
-			{
-				ALARM *mpd = NULL;
-				mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
-				if (mpd > 0) {
-					free_alarm_data(mpd);
-					delete mpd;
-				}
+			if (mpd->flags & ALF_NOSNOOZE)
 				return TRUE;
-			}
-		default:
-			break;
+
+			// add snooze minutes to current time
+			FILETIME ft;
+			GetLocalTime(&mpd->time);
+			SystemTimeToFileTime(&mpd->time, &ft);
+			ULARGE_INTEGER uli;
+			uli.LowPart = ft.dwLowDateTime;
+			uli.HighPart = ft.dwHighDateTime;
+
+			uli.QuadPart += mult.QuadPart * options.snooze_minutes;
+
+			ft.dwHighDateTime = uli.HighPart;
+			ft.dwLowDateTime = uli.LowPart;
+
+			FileTimeToSystemTime(&ft, &mpd->time);
+
+			mpd->occurrence = OC_ONCE;
+			mpd->snoozer = true;
+			mpd->flags = mpd->flags & ~(ALF_NOSTARTUP);
+
+			mpd->id = next_alarm_id++;
+
+			append_to_list(mpd);
+		}
+
+		PUDeletePopUp(hWnd);
+		return TRUE;
+
+	case WM_CONTEXTMENU: 
+		PUDeletePopUp(hWnd);
+		return TRUE;
+
+	case UM_FREEPLUGINDATA: 
+		ALARM *mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
+		if (mpd > 0) {
+			free_alarm_data(mpd);
+			delete mpd;
+		}
+		return TRUE;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowPopup(ALARM *alarm) {
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+void ShowPopup(ALARM *alarm)
+{
+	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		ALARM *data = new ALARM;
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
 
 		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
-
 		lstrcpyn(ppd.lptzContactName, data->szTitle, MAX_CONTACTNAME);
 		lstrcpyn(ppd.lptzText, data->szDesc, MAX_SECONDLINE);
 		ppd.PluginWindowProc = PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
-
-		//Now that every field has been filled, we want to see the popup.
 		PUAddPopUpT(&ppd);
 	}
 }
 
-void DoAlarm(ALARM *alarm) {
+void DoAlarm(ALARM *alarm)
+{
 	ALARMINFO alarminfo;
 	alarminfo.szTitle = alarm->szTitle;
 	alarminfo.szDesc = alarm->szDesc;

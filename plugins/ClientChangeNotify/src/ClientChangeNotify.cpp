@@ -375,10 +375,10 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 static int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
-	bMetaContactsExists = ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT) != 0;
-	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTS) && ServiceExists(MS_FP_GETCLIENTICON) != 0;
-	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING) != 0;
+	bPopupExists = ServiceExists(MS_POPUP_ADDPOPUP);
+	bMetaContactsExists = ServiceExists(MS_MC_GETPROTOCOLNAME) && ServiceExists(MS_MC_GETMETACONTACT);
+	bFingerprintExists = ServiceExists(MS_FP_SAMECLIENTS) && ServiceExists(MS_FP_GETCLIENTICON);
+	bVariablesExists = ServiceExists(MS_VARS_FORMATSTRING);
 	return 0;
 }
 

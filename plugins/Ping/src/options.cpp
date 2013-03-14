@@ -44,7 +44,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			EnableWindow(hw, FALSE);
 		}
 
-		if(!ServiceExists( MS_POPUP_ADDPOPUP )) {
+		if( !ServiceExists( MS_POPUP_ADDPOPUP )) {
 			hw = GetDlgItem(hwndDlg, IDC_CHECKPOPUP);
 			EnableWindow(hw, FALSE);
 			hw = GetDlgItem(hwndDlg, IDC_CHECKPOPUP2);

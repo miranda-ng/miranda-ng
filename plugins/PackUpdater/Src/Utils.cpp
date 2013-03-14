@@ -202,7 +202,7 @@ static void CheckUpdates(void *)
 	{
 		Title=TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
@@ -268,7 +268,7 @@ static void CheckUpdates(void *)
 		{
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
+			if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
 			{
 				Number = 1;
 				show_popup(0, Title, Text, Number, 0);
@@ -372,7 +372,7 @@ static void CheckUpdates(void *)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
@@ -384,7 +384,7 @@ static void CheckUpdates(void *)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
@@ -401,7 +401,7 @@ void DoCheck(int iFlag)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);

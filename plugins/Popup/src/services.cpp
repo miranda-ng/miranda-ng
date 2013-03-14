@@ -89,45 +89,10 @@ INT_PTR PopUp_AddPopUp(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
-	POPUPDATA *ppd = (POPUPDATA*)wParam;
-	if (!ppd) return -1;
-
-	POPUPDATA2 ppd2 = {0};
-	ppd2.cbSize = sizeof(ppd2);
-	ppd2.flags = PU2_ANSI;
-	ppd2.lchContact = ppd->lchContact;
-	ppd2.lchIcon = ppd->lchIcon;
-	ppd2.lpzTitle = ppd->lpzContactName;
-	ppd2.lpzText = ppd->lpzText;
-	ppd2.colorBack = ppd->colorBack;
-	ppd2.colorText = ppd->colorText;
-	ppd2.PluginWindowProc = ppd->PluginWindowProc;
-	ppd2.PluginData = ppd->PluginData;
-	ppd2.iSeconds = PopUpOptions.Seconds;
-	return PopUp_AddPopUp2((WPARAM)&ppd2, lParam);
-/*
-	PopupWnd2 *wnd = new PopupWnd2(ppd);
-
-	if (lParam & APF_RETURN_HWND)
-	{
-		while (!wnd->bWindowCreated) Sleep(1);
-		return (int)wnd->getHwnd();
-	}
-
-	return 1;
-*/
-}
-
-//===== PopUp/AddPopUpEx
-INT_PTR PopUp_AddPopUpEx(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded) return -1;
-
 	POPUPDATAEX_V2 *ppd = (POPUPDATAEX_V2*)wParam;
 	if (!ppd) return -1;
 
-	POPUPDATA2 ppd2 = {0};
-	ppd2.cbSize = sizeof(ppd2);
+	POPUPDATA2 ppd2 = { sizeof(ppd2) };
 	ppd2.flags = PU2_ANSI;
 	ppd2.lchContact = ppd->lchContact;
 	ppd2.lchIcon = ppd->lchIcon;

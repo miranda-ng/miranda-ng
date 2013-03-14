@@ -130,7 +130,6 @@ public:
 
 	void  setIcon(HICON);
 
-	void	updateData(POPUPDATA *ppd);
 	void	updateData(POPUPDATAEX_V2 *ppd);
 	void	updateData(POPUPDATAW_V2 *ppd);
 	void	updateData(POPUPDATA2 *ppd);
@@ -216,7 +215,6 @@ public:
 		SendMessage(m_hwnd, UM_CALLMETHOD, (WPARAM)method_copy, (LPARAM)lParam);
 	}
 
-	LRESULT m_updateData_POPUPDATA(LPARAM arg)		{ updateData((POPUPDATA *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATAEX_V2(LPARAM arg)	{ updateData((POPUPDATAEX_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }

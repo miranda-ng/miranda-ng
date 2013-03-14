@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 FI_INTERFACE	*FIP = 0;
 HINSTANCE		hInst;			//!< Global reference to the application
 MGLOBAL			myGlobals;
-int hLangpack;
+int            hLangpack;
 
 
 //Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
@@ -58,10 +58,6 @@ HANDLE hsvc_Send2ImageShack=0;
 
 HANDLE hNetlibUser = 0;		//!< Netlib Register User
 HANDLE hFolderScreenshot=0;
-
-HANDLE hhook_ModulesLoad=0;
-HANDLE hhook_SystemPShutdown=0;
-
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
@@ -102,10 +98,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	// load icon library (use UserInfoEx icon Pack)
 	IcoLib_LoadModule();
 
-	hhook_ModulesLoad		= HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
-	//hhook_options_init	= HookEvent(ME_OPT_INITIALISE, hook_options_init);
-	//hhook_OkToExit		= HookEvent(ME_SYSTEM_OKTOEXIT, hook_OkToExit);
-	hhook_SystemPShutdown	= HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPShutdown);
 
 	AddMenuItems();
 	RegisterServices();
@@ -115,26 +109,21 @@ extern "C" int __declspec(dllexport) Load(void)
 
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
-
 	myGlobals.PopUpExist		= ServiceExists(MS_POPUP_ADDPOPUP);
 	myGlobals.PopUpActionsExist	= ServiceExists(MS_POPUP_REGISTERACTIONS);
 	myGlobals.PluginHTTPExist	= ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	myGlobals.PluginFTPExist	= ServiceExists(MS_FTPFILE_SHAREFILE);
-//	myGlobals.PluginUserinfoEx	= ServiceExists(MS_USERINFO_VCARD_EXPORT);
 
 	// Netlib register
-	if (!NetlibInit()){
-		;
-	}
+	NetlibInit();
 
 	// load my button class
-	if(!ServiceExists("UserInfo/vCard/Export")) {
+	if(!ServiceExists("UserInfo/vCard/Export"))
 		CtrlButtonLoadModule();
-	}
 
 	// Folders plugin support
 	hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
-							_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
+		_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
 
 	return 0;
 }
@@ -143,34 +132,27 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 * Prepare the plugin to stop
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
+
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hhook_SystemPShutdown);
-
-	DestroyServiceFunction(MS_SENDSS_OPENDIALOG);
-	DestroyServiceFunction(MS_SENDSS_EDITBITMAP);
-	DestroyServiceFunction(MS_SENDSS_SENDDESKTOP);
-	DestroyServiceFunction(MS_SENDSS_SEND2IMAGESHACK);
 	return 0;
 }
 
-int hook_SystemPShutdown(WPARAM wParam, LPARAM lParam) {
-	UnhookEvent(hhook_ModulesLoad);
-
+int hook_SystemPShutdown(WPARAM wParam, LPARAM lParam)
+{
 	// Netlib unregister
 	NetlibClose();
 	
 	// uninitialize classes
 	CtrlButtonUnloadModule();
-
 	return 0;
 }
 
 //---------------------------------------------------------------------------
 // Netlib
-HANDLE NetlibInit(void) {
-	NETLIBUSER nlu = {0};
-	nlu.cbSize = sizeof(nlu);
+HANDLE NetlibInit(void)
+{
+	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
 	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;

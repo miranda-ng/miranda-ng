@@ -91,7 +91,7 @@ IconItem g_IconsList[4] =
 
 int ModuleLoad(WPARAM wParam, LPARAM lParam)
 {
-	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUPEX) != 0;
+	bPopUpService = ServiceExists(MS_POPUP_ADDPOPUP);
 	return 0;
 }
 

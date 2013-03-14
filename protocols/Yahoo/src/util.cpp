@@ -246,7 +246,7 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	}
 	else ppd.lchIcon = LoadIconEx("yahoo");
 	
-	DebugLog("[MS_POPUP_ADDPOPUPEX] Generating a popup for [%S] %S", nickname, msg);
+	DebugLog("[MS_POPUP_ADDPOPUP] Generating a popup for [%S] %S", nickname, msg);
 	
 	PUAddPopUpT(&ppd);
 	return 1;

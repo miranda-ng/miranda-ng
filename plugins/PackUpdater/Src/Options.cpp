@@ -21,8 +21,7 @@ Boston, MA 02111-1307, USA.
 
 LRESULT CALLBACK MyEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
+	switch (message) {
 	case WM_KEYDOWN:
 		SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
 		break;
@@ -32,64 +31,56 @@ LRESULT CALLBACK MyEditProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WORD i = 0;
-	char str[20] = {0};
-	switch (msg)
-	{
+	char str[20];
+
+	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, (int)UpdateOnStartup);
-			CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, (int)OnlyOnceADay);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), UpdateOnStartup);
-			CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, (int)UpdateOnPeriod);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), UpdateOnPeriod);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), UpdateOnPeriod);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), UpdateOnPeriod);
+		TranslateDialogDefault(hwndDlg);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, (int)UpdateOnStartup);
+		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, (int)OnlyOnceADay);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), UpdateOnStartup);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, (int)UpdateOnPeriod);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), UpdateOnPeriod);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), UpdateOnPeriod);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), UpdateOnPeriod);
 
-			SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
-			SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)Period);
+		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
+		SendDlgItemMessage(hwndDlg, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)Period);
 
-			Edit_LimitText(GetDlgItem(hwndDlg, IDC_PERIOD), 2);
-			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PERIOD), MyEditProc);
+		Edit_LimitText(GetDlgItem(hwndDlg, IDC_PERIOD), 2);
+		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_PERIOD), MyEditProc);
 
-			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 0, TranslateT("hours"));
-			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
-			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), PeriodMeasure);
+		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 0, TranslateT("hours"));
+		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
+		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), PeriodMeasure);
 
-			CheckDlgButton(hwndDlg, IDC_REMINDER, (int)Reminder);
-			if (ServiceExists(MS_POPUP_ADDPOPUP))
-			{
-				ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_ERRORS2), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_INFO_MESSAGES2), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_PROGR_DLG2), SW_HIDE);
-			}
-			else
-			{
-				for (i = 1; i < POPUPS; i++) 
-				{
-					mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
-					CheckDlgButton(hwndDlg, (i+1029), (DBGetContactSettingByte(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
-				}
-			}
-			return TRUE;
+		CheckDlgButton(hwndDlg, IDC_REMINDER, (int)Reminder);
+		if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
+			ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_ERRORS2), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_INFO_MESSAGES2), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_PROGR_DLG2), SW_HIDE);
 		}
+		else {
+			for (int i = 1; i < POPUPS; i++) {
+				mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
+				CheckDlgButton(hwndDlg, (i+1029), (DBGetContactSettingByte(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
+			}
+		}
+		return TRUE;
 
 	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam)) 
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_UPDATEONSTARTUP:
-			{
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
-			}
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP));
 			break;
+
 		case IDC_ONLYONCEADAY:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+
 		case IDC_UPDATEONPERIOD:
 			{
 				BOOL value = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD);
@@ -99,22 +90,25 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
+
 		case IDC_PERIODMEASURE:
 			if (HIWORD(wParam) == CBN_SELCHANGE)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+
 		case IDC_REMINDER:
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+
 		case IDC_LINK_HOTKEY:
 			{
-				OPENOPTIONSDIALOG ood = {0};
-				ood.cbSize = sizeof(ood);
+				OPENOPTIONSDIALOG ood = { sizeof(ood) };
 				ood.pszGroup = "Customize";
 				ood.pszPage = "Hotkeys";
 				Options_Open(&ood);
-				return (true);
 			} 
+			return true;
+
 		case IDC_MSG_BOXES2:
 		case IDC_ERRORS2:
 		case IDC_INFO_MESSAGES2:
@@ -124,27 +118,25 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			break;
 		}
 		break;
-	}
+
 	case WM_NOTIFY:
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
 			if(hdr && hdr->code == UDN_DELTAPOS)
-			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			}
-			if (hdr && hdr->code == PSN_APPLY) 
-			{
+
+			if (hdr && hdr->code == PSN_APPLY) {
 				UpdateOnStartup = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONSTARTUP);
 				OnlyOnceADay = IsDlgButtonChecked(hwndDlg, IDC_ONLYONCEADAY);
 
 				UpdateOnPeriod = IsDlgButtonChecked(hwndDlg, IDC_UPDATEONPERIOD);
-				
+
 				char buffer[3] = {0};
 				Edit_GetText(GetDlgItem(hwndDlg, IDC_PERIOD), (LPWSTR)&buffer, 2);
 				Period = atoi(buffer); 
 
 				PeriodMeasure = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE));
-				
+
 				InitTimer();
 
 				DBWriteContactSettingByte(NULL, MODNAME, "UpdateOnStartup", UpdateOnStartup);
@@ -154,10 +146,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				DBWriteContactSettingByte(NULL, MODNAME, "PeriodMeasure", PeriodMeasure);
 				Reminder = IsDlgButtonChecked(hwndDlg, IDC_REMINDER);
 				DBWriteContactSettingByte(NULL, MODNAME, "Reminder", Reminder);
-				if (!ServiceExists(MS_POPUP_ADDPOPUP))
-				{
-					for (i = 1; i < POPUPS; i++) 
-					{
+				if ( !ServiceExists(MS_POPUP_ADDPOPUP)) {
+					for (int i = 1; i < POPUPS; i++) {
 						mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
 						DBWriteContactSettingByte(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i+1029))));
 					}
@@ -165,7 +155,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			}
 			break;
 		}
-	}//end* switch (msg)
+	}
 	return FALSE;
 }
 
@@ -441,7 +431,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.ptszGroup = LPGENT("PopUps");
 		odp.ptszTitle = LPGENT("Pack Updater");

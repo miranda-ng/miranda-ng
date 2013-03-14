@@ -284,17 +284,14 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 {
-	POPUPDATAEX ppd = {0};
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
 	char lpzContactName[MAX_CONTACTNAME];
 	char lpzText[MAX_SECONDLINE];
 	COLORREF colorBack = DBGetContactSettingDword(NULL,modname,"PopupColour",RGB(255,0,0));
 	COLORREF colorText = RGB(0,0,0);
-	DBVARIANT dbv;
 	int timeout = DBGetContactSettingByte(NULL,modname,"PopupDelay",3);
 
-	if (hContact)
-	{
+	if (hContact) {
 		// contacts nick
 		char szProto[256];
 		if (GetValue(hContact,"Protocol","p",szProto,SIZEOF(szProto)))
@@ -302,48 +299,42 @@ void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 		else
 			mir_snprintf(lpzContactName, MAX_SECONDLINE, nick_unknown);
 	}
-	else
-	{
-		strcpy(lpzContactName,Translate("Settings"));
-	}
+	else strcpy(lpzContactName,Translate("Settings"));
+
 	// 2nd line
-	if (!GetSetting(hContact, module, setting, &dbv))
-	{
-		switch (dbv.type)
-		{
-			case DBVT_BYTE:
-				mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (BYTE) %d"), module, setting, dbv.bVal);
-			break;
-			case DBVT_WORD:
-				mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (WORD) %d"), module, setting, dbv.wVal);
-			break;
-			case DBVT_DWORD:
-				mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (DWORD) 0x%X"), module, setting, dbv.dVal);
-			break;
-			case DBVT_ASCIIZ:
-				mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: \"%s\""), module, setting, dbv.pszVal);
-				break;
-			case DBVT_UTF8:
-				mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value (UTF8): \"%s\""), module, setting, dbv.pszVal);
-			break;
-			default:
-				return;
-		}
+	DBVARIANT dbv;
+	if ( GetSetting(hContact, module, setting, &dbv))
+		return;
+
+	switch (dbv.type) {
+	case DBVT_BYTE:
+		mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (BYTE) %d"), module, setting, dbv.bVal);
+		break;
+	case DBVT_WORD:
+		mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (WORD) %d"), module, setting, dbv.wVal);
+		break;
+	case DBVT_DWORD:
+		mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: (DWORD) 0x%X"), module, setting, dbv.dVal);
+		break;
+	case DBVT_ASCIIZ:
+		mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value: \"%s\""), module, setting, dbv.pszVal);
+		break;
+	case DBVT_UTF8:
+		mir_snprintf(lpzText, SIZEOF(lpzText), Translate("Database Setting Changed: \nModule: \"%s\" , Setting: \"%s\"\nNew Value (UTF8): \"%s\""), module, setting, dbv.pszVal);
+		break;
+	default:
+		return;
 	}
-	else return;
 
 	DBFreeVariant(&dbv);
 
+	POPUPDATA ppd = { 0 };
 	ppd.lchContact = (HANDLE)hContact;
 	ppd.lchIcon = hIcon;
 	lstrcpyn(ppd.lpzContactName, lpzContactName,MAX_CONTACTNAME);
 	lstrcpyn(ppd.lpzText, lpzText,MAX_SECONDLINE);
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
-	ppd.PluginWindowProc = NULL;
-	ppd.PluginData = NULL;
-	ppd.iSeconds = timeout?timeout:-1;
-
-	//Now that every field has been filled, we want to see the popup.
-	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	ppd.iSeconds = timeout ? timeout : -1;
+	PUAddPopUp(&ppd);
 }

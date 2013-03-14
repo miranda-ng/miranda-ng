@@ -52,8 +52,8 @@ type
 
     // for info on what this stuff is, see m_popup.h
 
-    PPOPUPDATAEX = ^TPOPUPDATAEX;
-    TPOPUPDATAEX = record
+    PPOPUPDATA = ^TPOPUPDATA;
+    TPOPUPDATA = record
         lchContact: HCONTACT;
         lchIcon: THandle;
         lpszContactName: array[0..MAX_CONTACTNAME-1] of Char;
@@ -85,7 +85,7 @@ const
     lParam = 0
 *)
 
-    MS_POPUP_ADDPOPUPEX = 'PopUp/AddPopUpEx';
+    MS_POPUP_ADDPOPUP = 'PopUp/AddPopUpEx';
 
 (*
     Returns the handle to the contact associated to the specified PopUpWindow.

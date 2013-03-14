@@ -38,47 +38,9 @@ void StripBBCodesInPlace(wchar_t *text)
 	}
 }
 
-INT_PTR CreatePopupA(WPARAM wParam, LPARAM lParam)
+static INT_PTR CreatePopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATA *pd_in = (POPUPDATA *)wParam;
-	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
-
-	pd_out->cbSize = sizeof(PopupData);
-	pd_out->flags = PDF_UNICODE;
-	pd_out->pwzTitle = mir_a2u(pd_in->lpzContactName);
-	pd_out->pwzText = mir_a2u(pd_in->lpzText);
-	StripBBCodesInPlace(pd_out->pwzTitle);
-	StripBBCodesInPlace(pd_out->pwzText);
-
-	pd_out->hContact = pd_in->lchContact;
-	pd_out->SetIcon(pd_in->lchIcon);
-	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
-		pd_out->colorBack = pd_out->colorText = 0;
-	else {
-		pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
-		pd_out->colorText = pd_in->colorText & 0xFFFFFF;
-	}
-	pd_out->windowProc = pd_in->PluginWindowProc;
-	pd_out->opaque = pd_in->PluginData;
-	pd_out->timeout = 0;
-
-	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-
-	if (!db_get_b(0, MODULE, "Enabled", 1)) {
-		mir_free(pd_out->pwzTitle);
-		mir_free(pd_out->pwzText);
-		mir_free(pd_out);
-		return -1;
-	}
-
-	//MessageBox(0, pd_out->lpwzContactName, _T("CreatePopupA"), MB_OK);
-	PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
-	return 0;
-}
-
-INT_PTR CreatePopupExA(WPARAM wParam, LPARAM lParam) {
-
-	POPUPDATAEX *pd_in = (POPUPDATAEX *)wParam;
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 
 	pd_out->cbSize = sizeof(PopupData);
@@ -108,12 +70,11 @@ INT_PTR CreatePopupExA(WPARAM wParam, LPARAM lParam) {
 		return -1;
 	}
 
-	//MessageBox(0, pd_out->lpwzContactName, _T("CreatePopupExA"), MB_OK);
 	PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
 	return 0;
 }
 
-INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
+static INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATAW *pd_in = (POPUPDATAW *)wParam;
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
@@ -145,12 +106,11 @@ INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	//MessageBox(0, pd_out->lpwzContactName, _T("CreatePopupW"), MB_OK);
 	PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
 	return 0;
 }
 
-INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
+static INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
 	wchar_t *newText = NEWWSTR_ALLOCA((wchar_t *)lParam);
@@ -161,7 +121,7 @@ INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam)
+static INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
 	char *newText = (char *)lParam;
@@ -200,7 +160,8 @@ void ShowPopup(PopupData &pd_in)
 		PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
 }
 
-INT_PTR GetContact(WPARAM wParam, LPARAM lParam) {
+static INT_PTR GetContact(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
 	HANDLE hContact;
 	if (GetCurrentThreadId() == message_pump_thread_id) {
@@ -215,7 +176,8 @@ INT_PTR GetContact(WPARAM wParam, LPARAM lParam) {
 	return (INT_PTR)hContact;
 }
 
-INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam) {
+static INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
 	void *data = 0;
 	if (GetCurrentThreadId() == message_pump_thread_id) {
@@ -230,7 +192,8 @@ INT_PTR GetOpaque(WPARAM wParam, LPARAM lParam) {
 	return (INT_PTR)data;
 }
 
-INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam) {
+static INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam)
+{
 	return TRUE;
 }
 
@@ -244,39 +207,43 @@ void UpdateMenu()
 
 INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
 	switch(wParam) {
-		case PUQS_ENABLEPOPUPS:
-			{
-				bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
-				if (!enabled) db_set_b(0, MODULE, "Enabled", 1);
-				return !enabled;
-			}
-			break;
-		case PUQS_DISABLEPOPUPS:
-			{
-				bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
-				if (enabled) db_set_b(0, MODULE, "Enabled", 0);
-				return enabled;
-			}
-			break;
-		case PUQS_GETSTATUS:
-			return db_get_b(0, MODULE, "Enabled", 1);
-		default:
-			return 1;
+	case PUQS_ENABLEPOPUPS:
+		{
+			bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
+			if (!enabled) db_set_b(0, MODULE, "Enabled", 1);
+			return !enabled;
+		}
+		break;
+	case PUQS_DISABLEPOPUPS:
+		{
+			bool enabled = db_get_b(0, MODULE, "Enabled", 1) != 0;
+			if (enabled) db_set_b(0, MODULE, "Enabled", 0);
+			return enabled;
+		}
+		break;
+
+	case PUQS_GETSTATUS:
+		return db_get_b(0, MODULE, "Enabled", 1);
+
+	default:
+		return 1;
 	}
 	UpdateMenu();
 	return 0;
 }
 
-INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam) {
+static INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam)
+{
 	BYTE val = db_get_b(0, MODULE, "Enabled", 1);
 	db_set_b(0, MODULE, "Enabled", !val);
 	UpdateMenu();
 	return 0;
 }
 
-INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
+static INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
-	POPUPDATAEX *pd_in = (POPUPDATAEX *)lParam;
+	POPUPDATA *pd_in = (POPUPDATA *)lParam;
 
 	if (IsWindow(hwndPop)) {
 		PopupData pd_out;
@@ -309,7 +276,8 @@ INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
+static INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam)
+{
 	HWND hwndPop = (HWND)wParam;
 	POPUPDATAW *pd_in = (POPUPDATAW *)lParam;
 
@@ -344,7 +312,8 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
+static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
+{
 	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAT pd = {0};
@@ -355,7 +324,7 @@ INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
 	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
@@ -371,9 +340,9 @@ INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 
 INT_PTR PopUp_ShowHistory(WPARAM wParam, LPARAM lParam)
 {
-	if (!hHistoryWindow) {
+	if (!hHistoryWindow)
 		hHistoryWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_LST_HISTORY), NULL, DlgProcHistLst);
-	}
+
 	ShowWindow(hHistoryWindow, SW_SHOW);
 	return 0;
 }
@@ -381,7 +350,7 @@ INT_PTR PopUp_ShowHistory(WPARAM wParam, LPARAM lParam)
 int num_classes = 0;
 POPUPCLASS *classes = 0;
 
-INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
+static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 {
 	classes = (POPUPCLASS *)mir_realloc(classes, sizeof(POPUPCLASS) * (num_classes + 1));
 	memcpy(classes + num_classes, (PVOID)lParam, sizeof(POPUPCLASS));
@@ -406,7 +375,7 @@ INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
+static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
 	if (pdc->cbSize < sizeof(POPUPDATACLASS)) return 1;
@@ -447,8 +416,7 @@ void InitServices()
 {
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
-	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopupA);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPEX, CreatePopupExA);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_CHANGETEXTW, ChangeTextW);
 	CreateServiceFunction(MS_POPUP_CHANGETEXT, ChangeTextA);

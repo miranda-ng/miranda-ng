@@ -528,7 +528,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 int showMessage(const popup_t &msg)
 {
-	POPUPDATAEX ppd = { 0 };
+	POPUPDATA ppd = { 0 };
 	strncpy(ppd.lpzText, strip(msg.message).c_str(), MAX_SECONDLINE);
 	strncpy(ppd.lpzContactName, msg.contact.c_str(), MAX_CONTACTNAME);
 	ppd.colorBack = msg.background;
@@ -548,7 +548,7 @@ int showMessage(const popup_t &msg)
 
 	LeaveCS(&g_popups_cs);
 
-	return CallServiceSync(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	return PUAddPopUp(&ppd);
 }
 
 void replaceMessage(const popup_t &msg)

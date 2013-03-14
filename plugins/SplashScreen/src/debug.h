@@ -13,16 +13,14 @@ extern TCHAR szLogFile[MAX_PATH];
 
 int inline _DebugPopup(HANDLE hContact, TCHAR *fmt, ...)
 {
-	POPUPDATAT ppd;
 	va_list va;
 	TCHAR debug[1024];
 
 	va_start(va, fmt);
 	mir_sntprintf(debug, SIZEOF(debug), fmt, va);
     
-	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1)
-	{
-		ZeroMemory((void *)&ppd, sizeof(ppd));
+	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
+		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		if(hContact != 0)
@@ -32,7 +30,7 @@ int inline _DebugPopup(HANDLE hContact, TCHAR *fmt, ...)
 		_tcsncpy_s(ppd.lptzText, debug, MAX_SECONDLINE - 20);
 		ppd.colorText = RGB(255,255,255);
 		ppd.colorBack = RGB(255,0,0);
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
+		PUAddPopUpT(&ppd);
 	}
 	return 0;
 }

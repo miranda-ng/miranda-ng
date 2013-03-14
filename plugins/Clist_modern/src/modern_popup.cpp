@@ -50,11 +50,11 @@ void ShowTracePopup(const char *text)
 // Show an popup
 void ShowPopup(const char *title, const char *description, int type)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !EnablePopups) 
+	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !EnablePopups) 
 		return;
 
 	// Make popup
-	POPUPDATAEX ppd = { 0 };
+	POPUPDATA ppd = { 0 };
 	ppd.lchContact = 0; 
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 
@@ -83,7 +83,7 @@ void ShowPopup(const char *title, const char *description, int type)
 		ppd.iSeconds = 0;
 
 	// Now that every field has been filled, we want to see the popup.
-	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	PUAddPopUp(&ppd);
 }
 
 // Handle to popup events
