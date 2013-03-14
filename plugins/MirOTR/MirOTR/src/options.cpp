@@ -40,7 +40,7 @@ int FoldersChanged(WPARAM wParam, LPARAM lParam)
 
 void LoadFilenames()
 {
-	if (hPATH_MIROTR = FoldersRegisterCustomPath(MODULENAME, LPGEN("Private Data"), DATA_DIRECTORY)) {
+	if (hPATH_MIROTR = FoldersRegisterCustomPath("OTR", LPGEN("Private Data"), DATA_DIRECTORY)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersChanged);
 
 		// get the path - above are only defaults - there may be a different value in the db
@@ -106,7 +106,7 @@ extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 	odp.position    = 100;
 	odp.hInstance   = hInst;
 	odp.ptszGroup   = LPGENT("Services");
-	odp.ptszTitle   = _T(MODULENAME);
+	odp.ptszTitle   = _T("OTR");
 	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
 
 	odp.ptszTab     = _T(LANG_OPT_GENERAL);

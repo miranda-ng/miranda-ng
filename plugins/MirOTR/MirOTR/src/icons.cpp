@@ -12,7 +12,7 @@ static IconItem iconList[] = {
 
 void InitIcons()
 {
-	Icon_Register(hInst, LPGEN("Off the Record"), iconList, SIZEOF(iconList));
+	Icon_Register(hInst, "OTR", iconList, SIZEOF(iconList));
 }
 
 HICON LoadIcon(const char* name, int big) {
