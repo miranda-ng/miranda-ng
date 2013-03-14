@@ -21,51 +21,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define MIRANDA_VER  0x0A00
 #define _WIN32_WINNT 0x0501
 
-#include "m_stdhdr.h"
-
 #include <windows.h>
-#include <gdiplus.h>
 #include <commctrl.h>
-#include <stdio.h>
 #include <time.h>
-#include <stddef.h>
-#include <process.h>
-#include <io.h>
-#include <string.h>
-#include <direct.h>
-#include <math.h>
-#include <win2k.h>
 
+#include <win2k.h>
 #include <newpluginapi.h>
-#include <m_system_cpp.h>
 #include <m_clist.h>
-#include <m_clc.h>
-#include <m_clui.h>
-#include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>
-#include <m_button.h>
 #include <m_options.h>
 #include <m_protosvc.h>
-#include <m_utils.h>
 #include <m_skin.h>
-#include <m_contacts.h>
-#include <m_file.h>
-#include <m_addcontact.h>
-#include <m_png.h>
 #include <m_userinfo.h>
 #include <m_acc.h>
-#include <m_avatars.h>
-#include <m_popup.h>
 #include <m_imgsrvc.h>
 
-#include "m_folders.h"
-#include "m_metacontacts.h"
-#include "m_avatarhistory.h"
-#include "m_flash.h"
+#include <m_folders.h>
+#include <m_metacontacts.h>
+#include <m_avatarhistory.h>
+#include <m_flash.h>
 
 #include "resource.h"
 #include "version.h"
@@ -91,7 +68,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // The same fields as avatarCacheEntry + proto name
 struct protoPicCacheEntry : public avatarCacheEntry, public MZeroedObject
 {
-    protoPicCacheEntry() { memset(this, 0, sizeof(*this)); };
+	protoPicCacheEntry() { memset(this, 0, sizeof(*this)); };
 	~protoPicCacheEntry();
 
 	void clear();
@@ -105,8 +82,6 @@ extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;
 extern FI_INTERFACE *fei;
 
 int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
-
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 #define GAIR_FAILED 1000
 
