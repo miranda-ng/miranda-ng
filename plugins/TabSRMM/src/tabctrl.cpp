@@ -1130,7 +1130,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 					SendMessage(hwnd, EM_SEARCHSCROLLER, 0, 0);
 				}
-			} else if (tabdat->dwStyle & TCS_BUTTONS && iTabs > 0) {
+			}
+			else if (tabdat->dwStyle & TCS_BUTTONS && iTabs > 0) {
 				RECT rcClient, rcItem;
 				int nrTabsPerLine;
 				GetClientRect(hwnd, &rcClient);
@@ -1344,7 +1345,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_MOUSEWHEEL:
 		if (lParam == -1) {
-			int amount = HIWORD(wParam);
+			short amount = short(HIWORD(wParam));
 			if (amount > 0)
 				SendMessage(GetParent(hwnd), DM_SELECTTAB, DM_SELECT_PREV, 0);
 			else if (amount < 0)
