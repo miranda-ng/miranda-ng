@@ -4,7 +4,7 @@
 ;  Module: No history
 ;  Versions: 0.0.3.4
 ;============================================================
-[Prevent miranda from storing any history]
+[Prevent miranda from storing any history.]
 Запрещает сохранять историю переписки Miranda NG.
 [Disable History]
 Отключить историю

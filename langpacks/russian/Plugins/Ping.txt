@@ -156,3 +156,5 @@ TCP соединение
 Тестирование
 [Disabled]
 Выключен
+[Ping labelled IP addresses or domain names.]
+Пингует IP адрес или доменное имя.

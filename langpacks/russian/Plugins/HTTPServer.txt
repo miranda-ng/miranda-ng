@@ -103,3 +103,5 @@ IP адрес 2
 Создать XML
 [HTTPServer]
 HTTP Сервер
+[HTTP Web Server plugin for Miranda.]
+HTTP веб-сервер для Miranda.

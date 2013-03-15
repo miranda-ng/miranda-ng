@@ -7,7 +7,7 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/dbx_mmap_sa/db_autobackups/
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons, Vasilich
 ;============================================================
-[DB Autobackuper plugin.]
+[Db autobackuper plugin.]
 Плагин авторезервирования профиля.
 [Save Profile As...]
 Сохранить профиль как...
