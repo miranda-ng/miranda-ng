@@ -1,8 +1,6 @@
 #ifndef _M_VERSIONINFO_UTILS_H
 #define _M_VERSIONINFO_UTILS_H
 
-#include "common.h"
-
 //utils.cpp
 void MB(const TCHAR*);
 void Log(const TCHAR*);

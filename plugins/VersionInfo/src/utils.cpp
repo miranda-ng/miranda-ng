@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#define USE_LOG_FUNCTIONS
 
 #include "common.h"
-#include "utils.h"
 
 /*
 My usual MessageBoxes :-)

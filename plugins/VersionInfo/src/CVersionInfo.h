@@ -21,21 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef CVERSIONINFO_H
 #define CVERSIONINFO_H
 
-//#define STRICT
-#define WIN32_LEAN_AND_MEAN
-//#include "AggressiveOptimize.h"
-
-#define _CRT_SECURE_NO_DEPRECATE
-
 #ifndef PF_NX_ENABLED
 	#define PF_NX_ENABLED 12
 #endif
-
-#include <list>
-#include <string>
-//using namespace std;
-
-#include "CPlugin.h"
 
 class CVersionInfo
 {

@@ -19,13 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "hooked_events.h"
-
-#define HOST "http://eblis.tla.ro/projects"
-
-#define VERSIONINFO_VERSION_URL HOST "/miranda/VersionInfo/updater/VersionInfo.html"
-#define VERSIONINFO_UPDATE_URL HOST "/miranda/VersionInfo/updater/VersionInfo.zip"
-#define VERSIONINFO_VERSION_PREFIX "Version Information version "
 
 int HookEvents()
 {

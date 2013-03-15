@@ -4,17 +4,12 @@
 #error this file is not editable by Microsoft Visual C++
 #endif //APSTUDIO_INVOKED
 
-#include "..\src\version.h"
 #include "afxres.h"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
+#include "..\src\version.h"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION __PLUGINVERSION_STRING
- PRODUCTVERSION __PLUGINVERSION_STRING
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -22,25 +17,22 @@ VS_VERSION_INFO VERSIONINFO
  FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "000004b0"
         BEGIN
-            VALUE "Author", __AUTHOR
-            VALUE "FileDescription", __DESC
-            VALUE "FileVersion", __VERSION_STRING
-            VALUE "InternalName", __PLUGIN_DISPLAY_NAME
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
             VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x0, 1200
     END
 END
-
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////

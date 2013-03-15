@@ -22,18 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef CPLUGIN_H
 #define CPLUGIN_H
 
-//#define STRICT
-#define WIN32_LEAN_AND_MEAN
-
-#define _CRT_SECURE_NO_DEPRECATE
-
-#include <windows.h>
-#include <string>
-
-#ifndef M_NEWPLUGINAPI_H__
-	#include "newpluginapi.h"
-#endif
-
 #define DEF_UUID_CHARMARK "¤"
 
 extern const int cPLUGIN_UUID_MARK;

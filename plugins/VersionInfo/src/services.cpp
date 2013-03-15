@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "services.h"
 
 int bServiceMode = 0; //true only if plugin is running in service mode
 

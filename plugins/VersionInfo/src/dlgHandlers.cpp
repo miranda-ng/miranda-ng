@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include "dlgHandlers.h"
 
 const char *szQuoteStrings[] = {"[quote] | [/quote]", "[code] | [/code]", ""};
 const char *szSizeStrings[]	= {"[size=1] | [/size]", "[size=1px] | [/size]", "[size=12] | [/size]", "[size=80] | [/size]", ""};

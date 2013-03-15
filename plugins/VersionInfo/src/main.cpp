@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-#include "CVersionInfo.h"
-
 HINSTANCE hInst;
 
 int hLangpack;
@@ -46,15 +44,15 @@ char ModuleName[] = "VersionInfo";
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
-	VERSION,
-	__DESC,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {2f174488-489c-4fe1-940d-596cf0f35e65}
+	// {2F174488-489C-4FE1-940D-596CF0F35E65}
 	{0x2f174488, 0x489c, 0x4fe1, {0x94, 0x0d, 0x59, 0x6c, 0xf0, 0xf3, 0x5e, 0x65}}
 };
 

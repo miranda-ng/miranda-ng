@@ -18,11 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include "CPlugin.h"
-
 #include "common.h"
-
-#pragma comment(lib, "version.lib")
 
 const int cPLUGIN_UUID_MARK = 4;
 TCHAR PLUGIN_UUID_MARK[cPLUGIN_UUID_MARK];

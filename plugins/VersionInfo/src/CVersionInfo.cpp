@@ -18,14 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#include "CVersionInfo.h"
-//#include "AggressiveOptimize.h"
-
 #include "common.h"
-#include "resource.h"
-
-//using namespace std;
 
 BOOL (WINAPI *MyGetDiskFreeSpaceEx)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 BOOL (WINAPI *MyIsWow64Process)(HANDLE, PBOOL);
