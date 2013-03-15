@@ -326,3 +326,7 @@
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 [You Get Error]
+;other strings
+[Slider]
+[Slider Hovered]
+[Slider Pushed]

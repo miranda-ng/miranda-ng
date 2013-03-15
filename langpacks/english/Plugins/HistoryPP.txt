@@ -381,3 +381,4 @@
 [%0.1n h]
 [%d min]
 [&Reset to Default]
+[Contact history]

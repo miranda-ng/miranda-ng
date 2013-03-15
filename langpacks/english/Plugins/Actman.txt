@@ -138,3 +138,9 @@
 [data]
 [Structure help]
 [Descr]
+;other strings
+[Open contact window]
+[Call service]
+[Execute program]
+[Insert text]
+[Use Variables]
