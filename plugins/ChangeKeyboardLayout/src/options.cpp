@@ -353,7 +353,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 				ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 
 				POPUPDATAT_V2 pdtData = { 0 };
-				pdtData.cbSize = sizeof(POPUPDATAT_V2);
+				pdtData.cbSize = sizeof(pdtData);
 				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
 				_tcsncpy(pdtData.lptzText, _T("Ghbdtn? rfr ltkf&"), MAX_SECONDLINE);
 

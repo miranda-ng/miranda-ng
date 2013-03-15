@@ -569,7 +569,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
 		if (pmpd) {
 			POPUPDATAT_V2 pd = { 0 };
-			pd.cbSize = sizeof(POPUPDATAT_V2);
+			pd.cbSize = sizeof(pd);
 			pd.lchContact = NULL; //(HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);

@@ -527,7 +527,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				_tcscpy(ptszPopupText, ptszMBox);
 
 				POPUPDATAT_V2 pdtData = { 0 };
-				pdtData.cbSize = sizeof(POPUPDATAT_V2);
+				pdtData.cbSize = sizeof(pdtData);
 				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
 				_tcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
 

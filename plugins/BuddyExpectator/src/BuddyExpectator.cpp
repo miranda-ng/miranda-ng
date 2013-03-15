@@ -230,37 +230,34 @@ bool isContactGoneFor(HANDLE hContact, int days)
 	int daysSinceMessage = -1;
 	if (lastInputMsg != -1) daysSinceMessage = (int)((currentTime - lastInputMsg)/(60*60*24));
 
-	if (options.hideInactive) {
-		if (daysSinceMessage >= options.iSilencePeriod)
-			if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b(hContact, MODULE_NAME, "NeverHide", 0)) {
-				TCHAR szInfo[200];
+	if (options.hideInactive)
+	if (daysSinceMessage >= options.iSilencePeriod)
+	if (!db_get_b(hContact, "CList", "Hidden", 0) && !db_get_b(hContact, MODULE_NAME, "NeverHide", 0)) {
+		POPUPDATAT_V2 ppd = {0};
+		ppd.cbSize = sizeof(ppd);
+		ppd.lchContact = hContact;
+		ppd.lchIcon = Skin_GetIcon("enabled_icon");
 
-				POPUPDATAT_V2 ppd = {0};
-				ppd.cbSize = sizeof(ppd);
+		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, TranslateT("Hiding %s (%S)"), 
+			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), 
+			GetContactProto(hContact));
 
-				ppd.lchContact = hContact;
-				ppd.lchIcon = Skin_GetIcon("enabled_icon");
+		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d days since last message"), daysSinceMessage);
 
-				mir_sntprintf(szInfo, 200, TranslateT("Hiding %s (%S)"), (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), GetContactProto(hContact));
-				_tcsncpy(ppd.lptzContactName, szInfo, MAX_CONTACTNAME);
-				mir_sntprintf(szInfo, 200, TranslateT("%d days since last message"), daysSinceMessage);
-				_tcsncpy(ppd.lptzText, szInfo, MAX_SECONDLINE);
-				if (!options.iUsePopupColors) {
-					ppd.colorBack = options.iPopUpColorBack;
-					ppd.colorText = options.iPopUpColorFore;
-				}
-				ppd.PluginWindowProc = HidePopupDlgProc;
-				ppd.PluginData = NULL;
-				ppd.iSeconds = -1;
+		if (!options.iUsePopupColors) {
+			ppd.colorBack = options.iPopUpColorBack;
+			ppd.colorText = options.iPopUpColorFore;
+		}
+		ppd.PluginWindowProc = HidePopupDlgProc;
+		ppd.iSeconds = -1;
 
-				hideactions[0].flags = hideactions[1].flags = PAF_ENABLED;
-				ppd.lpActions = hideactions;
-				ppd.actionCount = 2;
+		hideactions[0].flags = hideactions[1].flags = PAF_ENABLED;
+		ppd.lpActions = hideactions;
+		ppd.actionCount = 2;
 
-				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NEWDATA);
+		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, APF_NEWDATA);
 
-				SkinPlaySound("buddyExpectatorHide");
-			}
+		SkinPlaySound("buddyExpectatorHide");
 	}
 
 	return (daysSinceOnline >= days && (daysSinceMessage == -1 || daysSinceMessage >= days));
@@ -520,7 +517,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
 			// Display PopUp
 			POPUPDATAT_V2 ppd = {0};
-			ppd.cbSize = sizeof(POPUPDATAT_V2);
+			ppd.cbSize = sizeof(ppd);
 
 			ppd.lchContact = hContact;
 			ppd.lchIcon = Skin_GetIcon("enabled_icon");
