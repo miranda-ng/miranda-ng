@@ -37,3 +37,9 @@
 Играть, если
 [Disable sounds]
 Выключить звуки
+[Bass library]
+Библиотека Bass
+[Sounds enabled]
+Звуки включены
+[Sounds disabled]
+Звуки выключены

@@ -201,3 +201,5 @@ OTR-статус
 Запустить OTR
 [Stop OTR]
 Остановить OTR
+[OTR Status]
+Статус OTR
