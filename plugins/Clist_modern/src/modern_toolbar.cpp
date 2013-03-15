@@ -40,14 +40,14 @@ struct
 static BTNS[] = 
 {
 	{ "MainMenu", "Main Menu", "CList/ShowMainMenu", "Main menu", NULL,  100 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "StatusMenu", "Status Menu", "CList/ShowStatusMenu", "Status menu", NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "AccoMgr", "Accounts", MS_PROTO_SHOWACCMGR, "Accounts...", NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE },
-	{ "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE, "Hide offline contacts", "Show offline contacts", 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "FindUser","Find User", "FindAdd/FindAddCommand", "Find User", NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "StatusMenu", "Status Menu", "CList/ShowStatusMenu", LPGEN("Status menu"), NULL,  105 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "AccoMgr", "Accounts", MS_PROTO_SHOWACCMGR, LPGEN("Accounts..."), NULL,  282 , IDI_ACCMGR, IDI_ACCMGR, TRUE },
+	{ "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE, LPGEN("Hide offline contacts"), LPGEN("Show offline contacts"), 110, IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
+	{ "FindUser","Find User", "FindAdd/FindAddCommand", LPGEN("Find User"), NULL,  140 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
 	{ "Options","Options", "Options/OptionsCommand", "Options", NULL,  150 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE },
-	{ "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS, "Use groups", "Disable Groups", 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
-	{ "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS, "Enable sounds", "Disable sounds", 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
-	{ "Minimize","Minimize", "CList/ShowHide", "Minimize", NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
+	{ "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS, LPGEN("Use groups"), LPGEN("Disable Groups"), 160, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS, LPGEN("Enable sounds"), LPGEN("Disable sounds"), 170, IDI_RESETVIEW, IDI_RESETVIEW, FALSE },
+	{ "Minimize","Minimize", "CList/ShowHide", LPGEN("Minimize"), NULL,  180 , IDI_RESETVIEW, IDI_RESETVIEW, FALSE }
 };
 
 static void SetButtonPressed(int i, int state)
