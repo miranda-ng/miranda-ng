@@ -392,9 +392,8 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            PopUp_AddPopUpW);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            PopUp_AddPopUp2);
 
-	CreateServiceFunction(MS_POPUP_CHANGETEXT,           PopUp_ChangeText);
 	CreateServiceFunction(MS_POPUP_CHANGETEXTW,          PopUp_ChangeTextW);
-	CreateServiceFunction(MS_POPUP_CHANGE,               PopUp_Change);
+
 	CreateServiceFunction(MS_POPUP_CHANGEW,              PopUp_ChangeW);
 	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         PopUp_Change2);
 

@@ -120,35 +120,6 @@ typedef struct
 #define MS_POPUP_CHANGEPOPUP2 "Popup/ChangePopup2"
 
 // deprecatet !!! (only for compatibility) use new POPUPDATA2 struct for extended popup
-// Extended popup data V2 (ansi version)
-typedef struct
-{
-	HANDLE lchContact;
-	HICON lchIcon;
-	union
-	{
-		char lptzContactName[MAX_CONTACTNAME];
-		char lpzContactName[MAX_CONTACTNAME];
-	};
-	union
-	{
-		char lptzText[MAX_SECONDLINE];
-		char lpzText[MAX_SECONDLINE];
-	};
-	COLORREF colorBack;
-	COLORREF colorText;
-	WNDPROC PluginWindowProc;
-	void * PluginData;
-	int iSeconds;						// Custom delay time in seconds. -1 means "forever", 0 means "default time".
-	// +2.1.0.3
-	// you *MUST* pass APF_NEWDATA flag for services to take care of this data
-	HANDLE hNotification;				// Reserved. Must be NULL
-	int actionCount;					// Amount of passed actions
-	LPPOPUPACTION lpActions;			// Popup Actions
-	int cbSize;							// struct size for future
-} POPUPDATAEX_V2, *LPPOPUPDATAEX_V2;
-
-// deprecatet !!! (only for compatibility) use new POPUPDATA2 struct for extended popup
 // Unicode version of POPUPDATAEX_V2
 typedef struct
 {
@@ -181,9 +152,6 @@ typedef struct
 #if defined(_UNICODE) || defined(UNICODE)
 	typedef POPUPDATAW_V2		POPUPDATAT_V2;
 	typedef LPPOPUPDATAW_V2	LPPOPUPDATAT_V2;
-#else
-	typedef POPUPDATAEX_V2	POPUPDATAT_V2;
-	typedef LPPOPUPDATAEX_V2	LPPOPUPDATAT_V2;
 #endif
 
 /* PopUp/AddPopup
@@ -207,17 +175,8 @@ additional APF_ flags */
 #define APF_NO_POPUP     0x08	//do not show popup. this is useful if you want popup yo be stored in history only
 #define APF_NEWDATA      0x10	//deprecatet!! only for use with old POPUPDATAEX_V2/POPUPDATAW_V2 structs
 
-//overload function for POPUPDATAEX_V2/POPUPDATAW_V2
-static INT_PTR __inline PUAddPopUpEx(POPUPDATAEX_V2* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp,0);
-}
-
 static INT_PTR __inline PUAddPopUpW(POPUPDATAW_V2* ppdp) {
 	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp,0);
-}
-
-static int __inline PUChange(HWND hWndPopUp, POPUPDATAEX_V2 *newData) {
-	return (int)CallService(MS_POPUP_CHANGE, (WPARAM)hWndPopUp, (LPARAM)newData);
 }
 
 #define MS_POPUP_CHANGEW "PopUp/ChangeW"

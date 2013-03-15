@@ -749,36 +749,6 @@ void PopupWnd2::setIcon(HICON hNewIcon)
 	}
 }
 
-void PopupWnd2::updateData(POPUPDATAEX_V2 *ppd)
-{
-	m_hContact	= ppd->lchContact;
-
-	m_clBack	= ppd->colorBack;
-	m_clClock = m_clTitle = m_clText = ppd->colorText;
-	m_iTimeout = ppd->iSeconds ? ppd->iSeconds : m_options->Seconds;
-
-	if (m_textType == TT_NONE) m_textType = TT_ANSI;
-	mir_free(m_lpzText);  mir_free(m_lpzTitle);
-	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	m_lpzTitle = mir_strdup(ppd->lpzContactName);
-	m_lpzText = mir_strdup(ppd->lpzText);
-	m_lpwzTitle = m_lpwzText = NULL;
-	setIcon(ppd->lchIcon);
-	m_hNotification = ppd->hNotification;
-
-	m_PluginData = ppd->PluginData;
-	m_PluginWindowProc = ppd->PluginWindowProc;
-
-	if (m_options->DisplayTime)
-		GetTimeFormatA(LOCALE_USER_DEFAULT, 0, NULL,"HH':'mm", m_time, SIZEOF(m_time));
-	else m_time[0] = 0;
-
-	fixDefaults();
-	fixActions(ppd->lpActions, ppd->actionCount);
-
-	if (m_textType == TT_MTEXT) buildMText();
-}
-
 void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 {
 	m_hContact	= ppd->lchContact;
@@ -1418,7 +1388,6 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			case CPT_TEXTW:  updateText((WCHAR *)lParam);       mir_free((void *)lParam); break;
 			case CPT_TITLE:  updateTitle((char *)lParam);       mir_free((void *)lParam); break;
 			case CPT_TITLEW: updateTitle((WCHAR *)lParam);      mir_free((void *)lParam); break;
-			case CPT_DATAEX: updateData((POPUPDATAEX_V2 *)lParam); mir_free((void *)lParam); break;
 			case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
 		}
 		update();

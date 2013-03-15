@@ -222,10 +222,6 @@ lParam = (LPARAM)(char*)lpzNewText
 returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call
 PUIsSecondLineShown() before changing the text...)
 */
-#define MS_POPUP_CHANGETEXT "PopUp/Changetext"
-static int __inline PUChangeText(HWND hWndPopUp, LPCSTR lpzNewText) {
-	return (int)CallService(MS_POPUP_CHANGETEXT, (WPARAM)hWndPopUp, (LPARAM)lpzNewText);
-}
 
 #define MS_POPUP_CHANGETEXTW "PopUp/ChangetextW"
 static int __inline PUChangeTextW(HWND hWndPopUp, LPCWSTR lpwzNewText) {
@@ -235,9 +231,6 @@ static int __inline PUChangeTextW(HWND hWndPopUp, LPCWSTR lpwzNewText) {
 #if defined(_UNICODE) || defined(UNICODE)
 	#define MS_POPUP_CHANGETEXTT	MS_POPUP_CHANGETEXTW
 	#define PUChangeTextT			PUChangeTextW
-#else
-	#define MS_POPUP_CHANGETEXTT	MS_POPUP_CHANGETEXT
-	#define PUChangeTextT			PUChangeText
 #endif
 
 /* PopUp/Change
@@ -246,10 +239,6 @@ Changes the entire popup
 wParam = (WPARAM)(HWND)hPopUpWindow
 lParam = (LPARAM)(POPUPDATA*)newData
 */
-#define MS_POPUP_CHANGE "PopUp/Change"
-static int __inline PUChange(HWND hWndPopUp, POPUPDATA *newData) {
-	return (int)CallService(MS_POPUP_CHANGE, (WPARAM)hWndPopUp, (LPARAM)newData);
-}
 
 #define MS_POPUP_CHANGEW "PopUp/ChangeW"
 static int __inline PUChangeW(HWND hWndPopUp, POPUPDATAW *newData) {
@@ -257,11 +246,8 @@ static int __inline PUChangeW(HWND hWndPopUp, POPUPDATAW *newData) {
 }
 
 #if defined(_UNICODE) || defined(UNICODE)
-	#define MS_POPUP_CHANGET	MS_POPUP_CHANGEW
-	#define PUChangeT			PUChangeW
-#else
-	#define MS_POPUP_CHANGET	MS_POPUP_CHANGE
-	#define PUChangeT			PUChange
+	#define MS_POPUP_CHANGET MS_POPUP_CHANGEW
+	#define PUChangeT        PUChangeW
 #endif
 
 /* UM_CHANGEPOPUP
@@ -271,23 +257,18 @@ wParam = Modification type
 lParam = value of type defined by wParam
 */
 
-#define CPT_TEXT	1 // lParam = (char *)text
-#define CPT_TEXTW	2 // lParam = (WCHAR *)text
-#define CPT_TITLE	3 // lParam = (char *)title
-#define CPT_TITLEW	4 // lParam = (WCHAR *)title
-#define CPT_DATAEX	6 // lParam = (POPUPDATA *)data
-#define CPT_DATAW	7 // lParam = (POPUPDATAW *)data
+#define CPT_TEXT	 1 // lParam = (char *)text
+#define CPT_TEXTW	 2 // lParam = (WCHAR *)text
+#define CPT_TITLE	 3 // lParam = (char *)title
+#define CPT_TITLEW 4 // lParam = (WCHAR *)title
+#define CPT_DATAW	 7 // lParam = (POPUPDATAW *)data
 
 #define UM_CHANGEPOPUP			(WM_USER + 0x0203)
 
 #if defined(_UNICODE) || defined(UNICODE)
-	#define CPT_TEXTT	CPT_TEXTW
-	#define CPT_TITLET	CPT_TITLEW
-	#define CPT_DATAT	CPT_DATAW
-#else
-	#define CPT_TEXTT	CPT_TEXT
-	#define CPT_TITLET	CPT_TITLE
-	#define CPT_DATAT	CPT_DATA
+	#define CPT_TEXTT  CPT_TEXTW
+	#define CPT_TITLET CPT_TITLEW
+	#define CPT_DATAT  CPT_DATAW
 #endif
 
 /* PopUp/ShowMessage

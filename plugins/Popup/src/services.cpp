@@ -89,7 +89,7 @@ INT_PTR PopUp_AddPopUp(WPARAM wParam, LPARAM lParam)
 {
 	if (!gbPopupLoaded) return -1;
 
-	POPUPDATAEX_V2 *ppd = (POPUPDATAEX_V2*)wParam;
+	POPUPDATA *ppd = (POPUPDATA*)wParam;
 	if (!ppd) return -1;
 
 	POPUPDATA2 ppd2 = { sizeof(ppd2) };
@@ -103,26 +103,7 @@ INT_PTR PopUp_AddPopUp(WPARAM wParam, LPARAM lParam)
 	ppd2.PluginWindowProc = ppd->PluginWindowProc;
 	ppd2.PluginData = ppd->PluginData;
 	ppd2.iSeconds = ppd->iSeconds;
-
-	if (lParam&APF_NEWDATA)
-	{
-		ppd2.lchNotification = ppd->hNotification;
-		ppd2.actionCount = ppd->actionCount;
-		ppd2.lpActions = ppd->lpActions;
-//		ppd2.hbmAvatar = ppd->hbmAvatar;
-	}
-
 	return PopUp_AddPopUp2((WPARAM)&ppd2, lParam);
-
-/*
-	if (lParam & APF_RETURN_HWND)
-	{
-		while (!wnd->bWindowCreated) Sleep(1);
-		return (int)wnd->getHwnd();
-	}
-
-	return 1;
-*/
 }
 
 //===== PopUp/AddPopupW
@@ -146,25 +127,13 @@ INT_PTR PopUp_AddPopUpW(WPARAM wParam, LPARAM lParam)
 	ppd2.PluginData = ppd->PluginData;
 	ppd2.iSeconds = ppd->iSeconds;
 
-	if (lParam&APF_NEWDATA)
-	{
+	if (lParam & APF_NEWDATA) {
 		ppd2.lchNotification = ppd->hNotification;
 		ppd2.actionCount = ppd->actionCount;
 		ppd2.lpActions = ppd->lpActions;
-//		ppd2.hbmAvatar = ppd->hbmAvatar;
 	}
 
 	return PopUp_AddPopUp2((WPARAM)&ppd2, lParam);
-
-/*
-	if (lParam & APF_RETURN_HWND)
-	{
-		while (!wnd->bWindowCreated) Sleep(1);
-		return (int)wnd->getHwnd();
-	}
-
-	return 1;
-*/
 }
 
 //===== PopUp/AddPopup2
@@ -284,11 +253,12 @@ INT_PTR PopUp_GetContact(WPARAM wParam, LPARAM lParam)
 //===== PopUp/GetPluginData
 INT_PTR PopUp_GetPluginData(WPARAM wParam, LPARAM lParam)
 {
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded || !wParam)
+		return -1;
 
-	HWND hwnd = (HWND)wParam;
-	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (wnd && IsValidPopupObject(wnd)) return (INT_PTR)wnd->getData();
+	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
+	if (wnd && IsValidPopupObject(wnd))
+		return (INT_PTR)wnd->getData();
 	return (INT_PTR)(-1);
 }
 
@@ -298,71 +268,31 @@ INT_PTR PopUp_IsSecondLineShown(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-//===== PopUp/ChangeText
-INT_PTR PopUp_ChangeText(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded) return -1;
-
-	if (!wParam) return -1;
-	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
-	if (!wnd || !IsValidPopupObject(wnd)) return -1;
-	wnd->callMethodSync(&PopupWnd2::m_updateText, lParam);
-/*
-	char *str = (char *)mir_alloc(sizeof(char) * (strlen((char *)lParam) + 1));
-	strcpy(str, (char *)lParam);
-	PostMessage((HWND)wParam, UM_CHANGEPOPUP, CPT_TEXT, (LPARAM)str);
-*/
-	return 0;
-}
-
 //===== PopUp/ChangeTextW
 INT_PTR PopUp_ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded || !wParam)
+		return -1;
 
-	if (!wParam) return -1;
 	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
-	if (!wnd || !IsValidPopupObject(wnd)) return -1;
+	if (!wnd || !IsValidPopupObject(wnd))
+		return -1;
+
 	wnd->callMethodSync(&PopupWnd2::m_updateTextW, lParam);
-/*
-	WCHAR *str = (WCHAR *)mir_alloc(sizeof(WCHAR) * (wcslen((WCHAR *)lParam) + 1));
-	wcscpy(str, (WCHAR *)lParam);
-	PostMessage((HWND)wParam, UM_CHANGEPOPUP, CPT_TEXTW, (LPARAM)str);
-*/
-	return 0;
-}
-
-//===== PopUp/Change
-INT_PTR PopUp_Change(WPARAM wParam, LPARAM lParam)
-{
-	if (!gbPopupLoaded) return -1;
-
-	if (!wParam) return -1;
-	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
-	if (!wnd || !IsValidPopupObject(wnd)) return -1;
-	wnd->callMethodSync(&PopupWnd2::m_updateData_POPUPDATAEX_V2, lParam);
-/*
-	POPUPDATAEX_V2 *ppdx = (POPUPDATAEX_V2 *)mir_alloc(sizeof(POPUPDATAEX_V2));
-	memcpy(ppdx, (POPUPDATAEX_V2 *)lParam, sizeof(POPUPDATAEX_V2));
-	PostMessage((HWND)wParam, UM_CHANGEPOPUP, CPT_DATA, (LPARAM)ppdx);
-*/
 	return 0;
 }
 
 //===== PopUp/ChangeW
 INT_PTR PopUp_ChangeW(WPARAM wParam, LPARAM lParam)
 {
-	if (!gbPopupLoaded) return -1;
+	if (!gbPopupLoaded || !wParam)
+		return -1;
 
-	if (!wParam) return -1;
 	PopupWnd2 *wnd = (PopupWnd2 *)GetWindowLongPtr((HWND)wParam, GWLP_USERDATA);
-	if (!wnd || !IsValidPopupObject(wnd)) return -1;
+	if (!wnd || !IsValidPopupObject(wnd))
+		return -1;
+
 	wnd->callMethodSync(&PopupWnd2::m_updateData_POPUPDATAW_V2, lParam);
-/*
-	POPUPDATAW_V2 *ppdw = (POPUPDATAW_V2 *)mir_alloc(sizeof(POPUPDATAW_V2));
-	memcpy(ppdw, (POPUPDATAW_V2 *)lParam, sizeof(POPUPDATAW_V2));
-	PostMessage((HWND)wParam, UM_CHANGEPOPUP, CPT_DATA, (LPARAM)ppdw);
-*/
 	return 0;
 }
 

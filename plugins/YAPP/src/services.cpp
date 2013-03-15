@@ -121,18 +121,6 @@ static INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR ChangeTextA(WPARAM wParam, LPARAM lParam)
-{
-	HWND hwndPop = (HWND)wParam;
-	char *newText = (char *)lParam;
-	mir_ptr<wchar_t> buff( mir_a2u(newText));
-	StripBBCodesInPlace(buff);
-
-	if (IsWindow(hwndPop))
-		SendMessage(hwndPop, PUM_SETTEXT, 0, (LPARAM)buff);
-	return 0;
-}
-
 void ShowPopup(PopupData &pd_in) 
 {
 	PopupData *pd_out = (PopupData *)mir_alloc(sizeof(PopupData));
@@ -237,42 +225,6 @@ static INT_PTR TogglePopups(WPARAM wParam, LPARAM lParam)
 	BYTE val = db_get_b(0, MODULE, "Enabled", 1);
 	db_set_b(0, MODULE, "Enabled", !val);
 	UpdateMenu();
-	return 0;
-}
-
-static INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam)
-{
-	HWND hwndPop = (HWND)wParam;
-	POPUPDATA *pd_in = (POPUPDATA *)lParam;
-
-	if (IsWindow(hwndPop)) {
-		PopupData pd_out;
-		pd_out.cbSize = sizeof(PopupData);
-		pd_out.flags = PDF_UNICODE;
-
-		pd_out.pwzTitle = mir_a2u(pd_in->lpzContactName);
-		pd_out.pwzText = mir_a2u(pd_in->lpzText);
-		StripBBCodesInPlace(pd_out.pwzTitle);
-		StripBBCodesInPlace(pd_out.pwzText);
-
-		pd_out.hContact = pd_in->lchContact;
-		pd_out.SetIcon(pd_in->lchIcon);
-		if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
-			pd_out.colorBack = pd_out.colorText = 0;
-		else {
-			pd_out.colorBack = pd_in->colorBack & 0xFFFFFF;
-			pd_out.colorText = pd_in->colorText & 0xFFFFFF;
-		}
-		pd_out.colorBack = pd_in->colorBack;
-		pd_out.colorText = pd_in->colorText;
-		pd_out.windowProc = pd_in->PluginWindowProc;
-		pd_out.opaque = pd_in->PluginData;
-		pd_out.timeout = pd_in->iSeconds;
-
-		lstPopupHistory.Add(pd_out.pwzTitle, pd_out.pwzText, time(0));
-
-		SendMessage(hwndPop, PUM_CHANGE, 0, (LPARAM)&pd_out);
-	}
 	return 0;
 }
 
@@ -419,8 +371,6 @@ void InitServices()
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_CHANGETEXTW, ChangeTextW);
-	CreateServiceFunction(MS_POPUP_CHANGETEXT, ChangeTextA);
-	CreateServiceFunction(MS_POPUP_CHANGE, PopupChangeA);
 	CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
 	CreateServiceFunction(MS_POPUP_GETCONTACT, GetContact);
 	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetOpaque);

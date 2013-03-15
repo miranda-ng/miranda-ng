@@ -234,7 +234,7 @@ You may pass additional creation flags via lParam:
   returns: > 0 for success, -1 for failure, 0 if the failure is due to second line not being shown. (but you could call PUIsSecondLineShown() before changing the text...)
   Changes the text displayed in the second line of the popup.
 }
-  MS_POPUP_CHANGETEXT :PAnsiChar = 'PopUp/Changetext';
+
   MS_POPUP_CHANGETEXTW:PAnsiChar = 'PopUp/ChangetextW';
 
 {
@@ -242,7 +242,7 @@ You may pass additional creation flags via lParam:
   lParam = (LPARAM)(POPUPDATAEX*)newData
   Changes the entire popup
 }
-  MS_POPUP_CHANGE :PAnsiChar = 'PopUp/Change';
+
   MS_POPUP_CHANGEW:PAnsiChar = 'PopUp/ChangeW';
 
 {
@@ -257,8 +257,6 @@ You may pass additional creation flags via lParam:
   CPT_TEXTW  = 2; // lParam = (WCHAR *)text
   CPT_TITLE  = 3; // lParam = (AnsiChar *)title
   CPT_TITLEW = 4; // lParam = (WCHAR *)title
-  CPT_DATA   = 5; // lParam = (POPUPDATA *)data
-  CPT_DATAEX = 6; // lParam = (POPUPDATAEX *)data
   CPT_DATAW  = 7; // lParam = (POPUPDATAW *)data
   CPT_DATA2  = 8; // lParam = (POPUPDATA2 *)data
 
