@@ -583,7 +583,7 @@ void replaceMessage(const popup_t &msg)
 
 			LeaveCS(&g_popups_cs);
 
-			PUChangeText(i->second->hwnd, strip(i->second->message).c_str());
+			PUChangeTextT(i->second->hwnd, _A2T(strip(i->second->message).c_str()));
 			return;
 		}
 	}
@@ -849,15 +849,11 @@ void processMessage(std::string buf)
 
 		showMessage(msg);
 
-		if (g_settings.sound == g_settings.always
-			|| g_settings.sound == g_settings.request
-				&& msg.beep)
-		{
+		if (g_settings.sound == g_settings.always || g_settings.sound == g_settings.request && msg.beep) {
 			if (g_settings.use_pcspeaker)
 				Beep(650, 50);
 			else {
-				std::string sname = "NotifyAnything_"
-					+ msg.sound;
+				std::string sname = "NotifyAnything_" + msg.sound;
 				SkinPlaySound(sname.c_str());
 			}
 		}
