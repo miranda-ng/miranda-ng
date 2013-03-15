@@ -10,7 +10,7 @@
 
 #define __PLUGIN_NAME				"Mail Notifier"
 #define __FILENAME					"YAMN.dll"
-#define __DESCRIPTION 				"ail notifier and browser for Miranda NG. Included POP3 protocol."
+#define __DESCRIPTION 				"Mail notifier and browser for Miranda NG. Included POP3 protocol."
 #define __AUTHOR					"y_b, tweety, majvan"
 #define __AUTHOREMAIL				"francois.mean@skynet.be"
 #define __AUTHORWEB					"http://miranda-ng.org/"
