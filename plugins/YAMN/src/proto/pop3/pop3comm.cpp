@@ -10,12 +10,7 @@
 */
 
 
-#pragma warning( disable : 4290 )
 #include "../../yamn.h"
-#include "../../main.h"
-#include "pop3.h"
-#include "pop3comm.h"		//all we need for POP3 account (POP3 account= YAMN account + some more POP3 specified members)
-#include <m_netlib.h>		//socket thorugh proxy functions
 
 #define ERRORSTR_MAXLEN	1024	//in wide-chars
 
@@ -128,7 +123,7 @@ HYAMNPROTOPLUGIN POP3Plugin			= NULL;
 YAMN_PROTOREGISTRATION POP3ProtocolRegistration =
 {
 	"POP3 protocol (internal)",
-	YAMN_VERSION_C,
+	__VERSION_STRING,
 	"© 2002-2004 majvan | 2005-2007 tweety, yb",
 	"Mail notifier and browser for Miranda NG. Included POP3 protocol.",
 	"francois.mean@skynet.be",

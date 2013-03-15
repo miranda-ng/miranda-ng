@@ -8,12 +8,7 @@
  * (c) majvan 2002-2004
  */
 
-
 #include "yamn.h"
-#include "main.h"
-#include <io.h>
-
-#include "m_hotkeys.h"
 
 //--------------------------------------------------------------------------------------------------
 
@@ -39,15 +34,15 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	YAMN_SHORTNAME,
-	YAMN_VERSION,
-	"Mail notifier and browser for Miranda NG. Included POP3 protocol.",
-	"y_b tweety (majvan)",
-	"francois.mean@skynet.be",
-	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {B047A7E5-027A-4cfc-8B18-EDA8345D2790}
+	// {B047A7E5-027A-4CFC-8B18-EDA8345D2790}
 	{0xb047a7e5, 0x27a, 0x4cfc, {0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90}}
 };
 
@@ -156,8 +151,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef YAMN_DEBUG
-static char unknownCP[1500] = {0};
+#ifdef _DEBUG
+static TCHAR unknownCP[1500] = {0};
 #endif
 // The callback function
 BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
@@ -170,21 +165,21 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
     //Get Code Page name
     CPINFOEX info;
     if (GetCPInfoEx(cp, 0, &info)) {
-		#ifdef YAMN_DEBUG
+		#ifdef _DEBUG
 		BOOLEAN found = FALSE;
 		#endif
 		for (int i = 1;i<CPLENALL;i++) if (CodePageNamesAll[i].CP == cp) {
 			CodePageNamesAll[i].isValid = TRUE;
 			CPLENSUPP++;
-			#ifdef YAMN_DEBUG
+			#ifdef _DEBUG
 			found = TRUE;
 			#endif
 			break;
 		}
-		#ifdef YAMN_DEBUG
+		#ifdef _DEBUG
 		if (!found) {
-			strcat(unknownCP, info.CodePageName);
-			strcat(unknownCP, "\n");
+			_tcscat(unknownCP, info.CodePageName);
+			_tcscat(unknownCP, _T("\n"));
 		}
 		#endif
 	}
@@ -389,7 +384,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 
-#ifdef YAMN_DEBUG
+#ifdef _DEBUG
 	InitDebug();
 #endif
 
@@ -437,7 +432,7 @@ static void UnloadPlugins()
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-#ifdef YAMN_DEBUG
+#ifdef _DEBUG
 	UnInitDebug();
 #endif
 	DestroyCursor(hCurSplitNS);

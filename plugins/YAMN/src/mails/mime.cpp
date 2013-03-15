@@ -4,23 +4,8 @@
  * (c) majvan 2002-2004
  */
 
-#pragma warning( disable : 4290 )
 #include "../yamn.h"
 
-//- imported ---------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-extern SWMRG *AccountBrowserSO;
-extern struct WndHandles *MessageWnd;
-
-extern int GetCharsetFromString(char *input,size_t size);
-extern void SendMsgToRecepients(struct WndHandles *FirstWin,UINT msg,WPARAM wParam,LPARAM lParam);
-extern void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode);
-extern DWORD WINAPI MailBrowser(LPVOID Param);
-extern DWORD WINAPI NoNewMailProc(LPVOID Param);
-extern DWORD WINAPI BadConnection(LPVOID Param);
-
-//--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
 //Copies one string to another

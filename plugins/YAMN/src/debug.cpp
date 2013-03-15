@@ -8,17 +8,8 @@
  */
 
 #include "yamn.h"
-#include "debug.h"
-#ifdef YAMN_DEBUG
-#include "version.h"
 
-#if defined (WIN9X)
-	#define YAMN_VER	"YAMN " YAMN_VERSION_C " (Win9x)"
-#elif defined(WIN2IN1)
-	#define YAMN_VER	"YAMN " YAMN_VERSION_C " (2in1)"
-#else
-	#define YAMN_VER	"YAMN " YAMN_VERSION_C " (WinNT)"
-#endif
+#ifdef _DEBUG
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------

@@ -1,8 +1,4 @@
-
 #include "yamn.h"
-#include "main.h"
-
-extern HANDLE hMenuItemMain, hMenuItemCont, hMenuItemContApp;
 
 static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
 {

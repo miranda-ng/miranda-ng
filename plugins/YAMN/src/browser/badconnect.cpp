@@ -4,8 +4,7 @@
  * (c) majvan 2002,2004
  */
 
-#include "../yamn.h"
-#include "../main.h"
+#include "..\yamn.h"
 
 #define BADCONNECTTITLE LPGEN("%s - connection error")
 #define BADCONNECTMSG LPGEN("An error occured. Error code: %d")//is in use?

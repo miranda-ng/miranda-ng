@@ -1,20 +1,6 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#ifdef __GNUC__
-	#define __try
-	#define __except(x) if (0) /* don't execute handler */
-	#define __finally
-	#define _try __try
-	#define _except __except
-	#define _finally __finally 
-#endif
-
-#define YAMN_SHORTNAME "Mail Notifier"
-#define YAMN_FILENAME "yamn"
-
-
-#include "version.h"
 #define YAMN_NEWMAILSNDDESC		LPGEN("YAMN: new mail message")
 #define YAMN_CONNECTFAILSNDDESC	LPGEN("YAMN: connect failed")
 #define	YAMN_CONNECTFAILSOUND	"YAMN/Sound/ConnectFail"

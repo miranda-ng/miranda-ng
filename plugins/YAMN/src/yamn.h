@@ -1,53 +1,53 @@
 
 #ifndef __YAMN_H
 #define __YAMN_H
+
 #ifndef _WIN32_IE
 	#define _WIN32_IE 0x0400
 #endif
+
 #ifndef _WIN32_WINNT
 	#define _WIN32_WINNT 0x0501
 #endif
 
-#include <wchar.h>
-#include <tchar.h>
+#define _CRT_SECURE_NO_WARNINGS
+#define VC_EXTRALEAN
+
 #include <windows.h>
-#include <stdio.h>
-#include <direct.h>			//For _chdir()
+#include <commctrl.h>
 
-#define MIRANDA_VER 0x0A00
+#include <win2k.h>
+#include <newpluginapi.h>
+#include <m_skin.h>
+#include <m_langpack.h>
+#include <m_clist.h>
+#include <m_options.h>
+#include <m_database.h>
+#include <m_protomod.h>
+#include <m_icolib.h>
+#include <m_popup.h>
+#include <m_messages.h>
+#include <m_netlib.h>
+#include <m_hotkeys.h>
 
-#include <commctrl.h>		//For hotkeys
-#include "win2k.h"
-#include "newpluginapi.h"	//CallService,UnHookEvent
-#include "m_utils.h"		//window broadcasting
-#include "m_system.h"
-#include "m_skin.h"
-#include "m_langpack.h"
-#include "m_clist.h"
-#include "m_clui.h"
-#include "m_options.h"
-#include "m_database.h"		//database
-#include "m_contacts.h"		//contact
-#include "m_protocols.h"	//protocols
-#include "m_protomod.h"		//protocols module
-#include "m_protosvc.h"
-#include "m_toptoolbar.h"
-#include "m_icolib.h"
-#include "m_kbdnotify.h"
-#include "m_popup.h"
-#include "m_account.h"	//Account structure and all needed structures to cooperate with YAMN
-#include "m_messages.h"	//Messages sent to YAMN windows
-#include "m_mails.h"	//use YAMN's mails
-#include "mails/m_decode.h"	//use decoding macros (needed for header extracting)
-#include "browser/m_browser.h"	//we want to run YAMN mailbrowser, no new mail notification and bad connect window
-#include "resource.h"
-#include "m_protoplugin.h"
-#include "m_filterplugin.h"
-#include "m_yamn.h"	//Main YAMN's variables
-#include "m_protoplugin.h"	//Protocol registration and so on
-#include "m_synchro.h"	//Synchronization
-#include "debug.h"
+#include <m_toptoolbar.h>
+#include <m_kbdnotify.h>
+#include <m_filterplugin.h>
+#include <m_yamn.h>
+#include <m_protoplugin.h>
 #include <m_folders.h>
+
+#include "main.h"
+#include "mails/decode.h"
+#include "browser/browser.h"
+#include "resource.h"
+#include "debug.h"
+#include "version.h"
+#include "proto\netclient.h"
+#include "proto\netlib.h"
+#include "proto\pop3\pop3.h"
+#include "proto\pop3\pop3comm.h"
+#include "proto\pop3\pop3opt.h"
 
 
 //From services.cpp
@@ -65,8 +65,7 @@ extern HANDLE ExitEV;
 extern HANDLE WriteToFileEV;
 
 //From debug.cpp
-#undef YAMN_DEBUG
-#ifdef YAMN_DEBUG
+#ifdef _DEBUG
 void InitDebug();
 void UnInitDebug();
 #endif
@@ -181,10 +180,8 @@ int AddTopToolbarIcon(WPARAM,LPARAM);	//Executed when TopToolBar plugin loaded A
 extern TCHAR UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
 extern TCHAR ProfileName[];		//e.g. "majvan"
 extern SWMRG *AccountBrowserSO;
-extern CRITICAL_SECTION PluginRegCS;
 extern YAMN_VARIABLES YAMNVar;
 extern HANDLE hNewMailHook;
-extern HANDLE WriteToFileEV;
 extern HANDLE hTTButton;
 extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern UINT SecTimer;
@@ -222,20 +219,12 @@ WCHAR *ParseMultipartBody(char *src, char *bond);
 
 //From account.cpp
 void WINAPI GetStatusFcn(HACCOUNT Which,TCHAR *Value);
-extern int StopAccounts(HYAMNPROTOPLUGIN Plugin);
-extern int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
-extern int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin,BOOL GetAccountBrowserAccess);
 
 extern HYAMNPROTOPLUGIN POP3Plugin;
 
 //from decode.cpp
 int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ);
 int DecodeBase64(char *Src,char *Dst,int DstLen);
-
-//From maild.cpp
-extern INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam);
-extern INT_PTR UnloadMailDataSvc(WPARAM wParam,LPARAM);
-extern INT_PTR SaveMailDataSvc(WPARAM wParam,LPARAM lParam);
 
 //From filterplugin.cpp
 extern PYAMN_FILTERPLUGINQUEUE FirstFilterPlugin;
@@ -265,7 +254,18 @@ extern void __stdcall	SSL_DebugLog( const char *fmt, ... );
 
 extern int YAMN_STATUS;
 
+extern struct WndHandles *MessageWnd;
+
+extern int GetCharsetFromString(char *input,size_t size);
+extern void SendMsgToRecepients(struct WndHandles *FirstWin,UINT msg,WPARAM wParam,LPARAM lParam);
+extern void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode);
+extern DWORD WINAPI MailBrowser(LPVOID Param);
+extern DWORD WINAPI NoNewMailProc(LPVOID Param);
+extern DWORD WINAPI BadConnection(LPVOID Param);
+extern PVOID TLSCtx;
+extern PVOID SSLCtx;
+
+extern HANDLE hMenuItemMain, hMenuItemCont, hMenuItemContApp;
 extern PYAMN_VARIABLES pYAMNVar;
-extern HYAMNPROTOPLUGIN POP3Plugin;
 
 #endif

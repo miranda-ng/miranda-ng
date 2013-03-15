@@ -5,17 +5,12 @@
  */
 
 #include "..\yamn.h"
-#include "m_netlib.h"
-#include "netlib.h"
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
 BOOL SSLLoaded=FALSE;
 HANDLE hNetlibUser=NULL;
-
-extern PVOID TLSCtx;
-extern PVOID SSLCtx;
 
 void __stdcall	SSL_DebugLog(const char *fmt, ...)
 {

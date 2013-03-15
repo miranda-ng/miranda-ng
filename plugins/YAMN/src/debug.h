@@ -1,23 +1,7 @@
 #ifndef __DEBUG_H
 #define __DEBUG_H
 
-//	#define YAMN_DEBUG
-
-//#define YAMN_VER_BETA
-//#define YAMN_VER_BETA_CRASHONLY
-
-#ifdef YAMN_DEBUG
-
-//#pragma comment(lib, "th32.lib")
-
-#if !defined(_WIN32_WINNT)
-#define _WIN32_WINNT 0x0501 // WinXP only
-#endif
-#define VC_EXTRALEAN
-#include <windows.h>
-#include <tlhelp32.h>
-#include <stdio.h>
-#include <shlwapi.h>
+#ifdef _DEBUG
 
 //#define DEBUG_SYNCHRO			//debug synchro to a file
 //#define DEBUG_COMM			//debug communiation to a file

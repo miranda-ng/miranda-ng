@@ -7,10 +7,6 @@
  */
 
 #include "yamn.h"
-#include "m_mails.h"
-#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES) || defined(DEBUG_SYNCHRO)
-	#include <stdio.h>
-#endif
 
 //Account status CS
 //When we check some account, thread should change status of account to idle, connecting etc.

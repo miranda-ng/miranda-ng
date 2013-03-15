@@ -5,15 +5,6 @@
       <UniqueIdentifier>{30eb0c8d-5383-47ff-8a05-4b9793d26d50}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
     </Filter>
-    <Filter Include="Source Files\Mail browser, dialogs">
-      <UniqueIdentifier>{6b01a00c-f1f9-4958-b89a-2721d5bdd229}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Mails">
-      <UniqueIdentifier>{4743640f-ca6b-4518-8ead-525bea367ec0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\POP3 plugin">
-      <UniqueIdentifier>{0189ff00-aae9-40fd-847b-a81dca9496bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{daef8d66-0947-4a6c-ad55-4e1b2bf26d86}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
@@ -48,31 +39,34 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\browser\badconnect.cpp">
-      <Filter>Source Files\Mail browser, dialogs</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\browser\mailbrowser.cpp">
-      <Filter>Source Files\Mail browser, dialogs</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mails\decode.cpp">
-      <Filter>Source Files\Mails</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mails\mails.cpp">
-      <Filter>Source Files\Mails</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\mails\mime.cpp">
-      <Filter>Source Files\Mails</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\proto\netlib.cpp">
-      <Filter>Source Files\POP3 plugin</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\proto\pop3\pop3.cpp">
-      <Filter>Source Files\POP3 plugin</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\proto\pop3\pop3comm.cpp">
-      <Filter>Source Files\POP3 plugin</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\proto\pop3\pop3opt.cpp">
-      <Filter>Source Files\POP3 plugin</Filter>
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,12 +94,24 @@
     <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\proto\netclient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\proto\netlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mails\decode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\browser\browser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\YAMN.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="res\yamn_ver.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

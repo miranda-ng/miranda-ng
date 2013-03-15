@@ -1,10 +1,6 @@
 #ifndef __NETLIB_H
 #define __NETLIB_H
 
-#include "netclient.h"
-
-#pragma warning( disable : 4290 )
-
 class CNLClient: public CNetClient
 {
 public:

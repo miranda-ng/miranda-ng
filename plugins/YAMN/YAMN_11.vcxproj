@@ -83,6 +83,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>yamn.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -109,6 +111,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>yamn.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -138,6 +142,8 @@
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>yamn.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -166,6 +172,8 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>yamn.h</PrecompiledHeaderFile>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -188,19 +196,44 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\protoplugin.cpp" />
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\synchro.cpp" />
     <ClCompile Include="src\yamn.cpp" />
-    <ClCompile Include="src\browser\badconnect.cpp" />
-    <ClCompile Include="src\browser\mailbrowser.cpp" />
-    <ClCompile Include="src\mails\decode.cpp" />
-    <ClCompile Include="src\mails\mails.cpp" />
-    <ClCompile Include="src\mails\mime.cpp" />
-    <ClCompile Include="src\proto\netlib.cpp" />
-    <ClCompile Include="src\proto\pop3\pop3.cpp" />
-    <ClCompile Include="src\proto\pop3\pop3comm.cpp" />
-    <ClCompile Include="src\proto\pop3\pop3opt.cpp" />
+    <ClCompile Include="src\browser\badconnect.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\browser\mailbrowser.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\decode.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\mails.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\mails\mime.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\netlib.cpp">
+      <PrecompiledHeaderFile>..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3.cpp">
+      <PrecompiledHeaderFile>..\..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3comm.cpp">
+      <PrecompiledHeaderFile>..\..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\proto\pop3\pop3opt.cpp">
+      <PrecompiledHeaderFile>..\..\yamn.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\browser\browser.h" />
+    <ClInclude Include="src\mails\decode.h" />
+    <ClInclude Include="src\proto\netclient.h" />
+    <ClInclude Include="src\proto\netlib.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\debug.h" />
     <ClInclude Include="src\main.h" />
@@ -211,8 +244,8 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="res\Version.rc" />
     <ResourceCompile Include="res\YAMN.rc" />
-    <ResourceCompile Include="res\yamn_ver.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

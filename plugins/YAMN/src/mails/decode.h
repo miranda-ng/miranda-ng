@@ -1,8 +1,6 @@
 #ifndef __DECODE_H
 #define __DECODE_H
 
-#include "../debug.h"
-
 #define DOTLINE(s)	((((s)[-2]=='\r') || ((s)[-2]=='\n')) && ((s)[-1]=='.') && (((s)[0]=='\r') || ((s)[0]=='\n') || ((s)[0]=='\0')))	// be careful, it's different to ESR's pop3.c ;-)
 #define ENDLINE(s)	(((s)[0]=='\r') || ((s)[0]=='\n'))	//endline
 #define WS(s)		(((s)[0]==' ') || ((s)[0]=='\t'))	//whitespace

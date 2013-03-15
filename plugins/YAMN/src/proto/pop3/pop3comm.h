@@ -1,20 +1,6 @@
 #ifndef __POP3COMM_H
 #define __POP3COMM_H
 
-#include <windows.h>
-#include "pop3.h"
-
-#include "m_protoplugin.h"
-//We can use synchro.h because this is internal plugin. If you use external plugin,
-//and you want to use SO for your plugin, you can use YAMN's SO.
-//All you need is to include synchro.h and use YAMN's exported synchronization functions.
-#include "m_synchro.h"
-
-//For mail exported functions defintions
-#include "m_mails.h"
-
-#include "../../debug.h"
-					
 #define	POP3_FILEVERSION	1	//Version of aditional information stored in book file
 
 typedef struct CPOP3Account: public CAccount

@@ -9,15 +9,8 @@
  * When you got errors, try to comment the #define <stdio.h> and compile, then
  * put it back to uncommented and compile again :)
  */
-#ifndef _WIN32_IE
-	#define _WIN32_IE 0x0400
-#endif
-#ifndef _WIN32_WINNT
-	#define _WIN32_WINNT 0x0501
-#endif
 
 #include "../yamn.h" 
-#include "../main.h" 
 
 #define	TIMER_FLASHING 0x09061979
 #define MAILBROWSER_MINXSIZE	200		//min size of mail browser window
