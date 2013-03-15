@@ -1889,7 +1889,7 @@ static void LoadDefaultInfo()
 		db_unset(0, PPICT_MODULE, AVS_DEFAULT);
 
 	pce->szProtoname = mir_strdup(AVS_DEFAULT);
-	pce->tszAccName = mir_tstrdup(TranslateT(AVS_DEFAULT));
+	pce->tszAccName = mir_tstrdup(TranslateT("Global avatar"));
 	g_ProtoPictures.insert(pce);
 }
 
