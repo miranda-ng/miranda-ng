@@ -483,22 +483,14 @@ VOID SwitchLayout(BOOL lastword)
 					if (smileyPrs != NULL)
 						CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 					
-					POPUPDATAT_V2 pd;
-					ZeroMemory(&pd, sizeof(pd));
-					pd.cbSize = sizeof(POPUPDATAT_V2);
-					pd.lchContact = NULL; //(HANDLE)wParam;
+					POPUPDATAT pd = { 0 };
 					pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
 					lstrcpyn(pd.lptzText, buf, SIZEOF(pd.lptzText));
 					lstrcpyn(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
-					pd.colorBack = pd.colorText = 0;
-					pd.iSeconds = 0;
-					CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, 0);
-
-					//PUShowMessageT(buf, SM_NOTIFY);
+					PUAddPopUpT(&pd);
 				}
 			}
-			else
-			if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)
+			else if(lstrcmp(szClassName, _T("RichEdit20W")) == 0)
 			{
 				DWORD dwStart, dwEnd;
 				int i, slen, start = 0, end = 0;
