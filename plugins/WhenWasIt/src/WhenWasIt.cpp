@@ -24,22 +24,22 @@ char ModuleName[] = "WhenWasIt";
 HINSTANCE hInstance;
 HWND hBirthdaysDlg = NULL;
 HWND hUpcomingDlg = NULL;
-extern HANDLE hAddBirthdayWndsList = NULL;
+HANDLE hAddBirthdayWndsList = NULL;
 int hLangpack;
 
 CommonData commonData = {0};
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
-	VERSION,
-	__DESC,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+	// {2FF96C84-B0B5-470E-BBF9-907B9F3F5D2F}
 	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}}
 };
 

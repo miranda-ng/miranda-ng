@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "hooked_events.h"
 
 #define DATE_CHANGE_CHECK_INTERVAL 20
 

@@ -230,23 +230,6 @@ IDI_REFRESH_USERDETAILS ICON                    "refresh.ico"
 IDI_IMPORT_BIRTHDAYS    ICON                    "import.ico"
 IDI_EXPORT_BIRTHDAYS    ICON                    "export.ico"
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog Info
-//
-
-IDD_ADD_BIRTHDAY DLGINIT
-BEGIN
-    IDC_COMPATIBILITY, 0x403, 16, 0
-0x7250, 0x746f, 0x636f, 0x6c6f, 0x6d20, 0x646f, 0x6c75, 0x0065, 
-    IDC_COMPATIBILITY, 0x403, 19, 0
-0x7355, 0x7265, 0x6544, 0x6174, 0x6c69, 0x2073, 0x6f6d, 0x7564, 0x656c, 
-"\000" 
-    IDC_COMPATIBILITY, 0x403, 17, 0
-0x426d, 0x7269, 0x6874, 0x6164, 0x2079, 0x6f6d, 0x7564, 0x656c, "\000" 
-    0
-END
-
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

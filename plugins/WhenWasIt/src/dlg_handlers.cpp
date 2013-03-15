@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "dlg_handlers.h"
 
 #define COLOR_USERINFO RGB(138, 190, 160)
 #define COLOR_MBIRTHDAY RGB(222, 222, 88)
