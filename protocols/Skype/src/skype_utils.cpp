@@ -483,8 +483,7 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 		::MessageBoxW(NULL, message, caption, MB_OK | flags);
 	else
 	{
-		POPUPDATAT_V2 ppd = {0};
-		ppd.cbSize = sizeof(POPUPDATAT_V2);
+		POPUPDATAW ppd = {0};
 		ppd.lchContact = hContact;
 		if (!hContact)
 		{
@@ -492,10 +491,8 @@ void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 		}
 		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
-		ppd.colorBack = ppd.colorText = 0;
-		ppd.iSeconds = 0;
 
-		::CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+		PUAddPopUpW(&ppd);
 	}
 }
 
