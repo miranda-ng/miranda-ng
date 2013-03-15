@@ -61,10 +61,10 @@ int AddIcons()
 	hDTB[1] = AddIcon("DTB1", LPGEN("1 day to birthday"), tszPath, IDI_DTB1);
 	for (int i = 2; i < cDTB; i++) {
 		sprintf(name, "DTB%d", i);
-		sprintf(description, "%d days to birthday", i);
+		sprintf(description, Translate("%d days to birthday"), i);
 		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0+i);
 	}
-	sprintf(description, "More than %d days to birthday", cDTB - 1);
+	sprintf(description, Translate("More than %d days to birthday"), cDTB - 1);
 	hDTBMore = AddIcon("DTBMore", description, tszPath, IDI_DTBMORE);
 
 	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", LPGEN("WhenWasIt birthday reminder"), "MenuCheck");
