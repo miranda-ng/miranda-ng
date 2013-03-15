@@ -15,26 +15,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
-#include <uxtheme.h>
-
-HINSTANCE hInst;
-static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-int WaMpdOptInit(WPARAM wParam,LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
-	odp.ptszTitle = LPGENT("Winamp Track");
-	odp.ptszGroup = LPGENT("Plugins");
-	odp.ptszTab = LPGENT("Watrack MPD");
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc = DlgProcWaMpdOpts;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
 
 static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -52,11 +32,6 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
  
   case WM_COMMAND:
     {
-      switch (LOWORD(wParam))
-      {
-
-      }
-      
       SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
       break;
     }
@@ -87,5 +62,17 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
   return FALSE;
 }
 
-
-
+int WaMpdOptInit(WPARAM wParam,LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WA_MPD);
+	odp.ptszTitle = LPGENT("Winamp Track");
+	odp.ptszGroup = LPGENT("Plugins");
+	odp.ptszTab = LPGENT("Watrack MPD");
+	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcWaMpdOpts;
+	Options_AddPage(wParam, &odp);
+	return 0;
+}

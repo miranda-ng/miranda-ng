@@ -21,9 +21,9 @@
 HINSTANCE hInst;
 BOOL bWatrackService = FALSE;
 int hLangpack = 0;
-static int OnModulesLoaded(WPARAM wParam,LPARAM lParam);
-extern char *date();
-extern int WaMpdOptInit(WPARAM wParam,LPARAM lParam);
+TCHAR *gbHost, *gbPassword;
+WORD gbPort;
+HANDLE ghNetlibUser;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -50,13 +50,6 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfo;
 }
 
-int __declspec(dllexport) Load()
-{
-	mir_getLP(&pluginInfo);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	return 0;
-}
-
 void InitVars()
 {
 	gbPort = DBGetContactSettingWord(NULL, szModuleName, "Port", 6600);
@@ -66,9 +59,7 @@ void InitVars()
 	gbPassword = UniGetContactSettingUtf(NULL, szModuleName, "Password", _T(""));
 }
 
-
-extern void RegisterPlayer();
-static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hHookOptionInit;
 	NETLIBUSER nlu = {0};
@@ -86,6 +77,12 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+int __declspec(dllexport) Load()
+{
+	mir_getLP(&pluginInfo);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	return 0;
+}
 
 int __declspec(dllexport) Unload(void)
 {

@@ -15,13 +15,16 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef COMMONHEADERS_H
 #define COMMONHEADERS_H
+
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
 #include <tchar.h>
 #include <malloc.h>
 #include <time.h>
+#include <uxtheme.h>
 
 
-#define MIRANDA_VER 0x0800
 #include <newpluginapi.h>
 #include <m_netlib.h>
 //#include <m_clist.h>
@@ -36,8 +39,18 @@
 #include "resource.h"
 
 #include "constants.h"
-#include "globals.h"
 #include "main.h"
 #include "m_music.h"
 #include "utilities.h"
+
+extern HINSTANCE hInst;
+extern HANDLE ghNetlibUser;
+extern BOOL bWatrackService;
+extern TCHAR *gbHost, *gbPassword;
+extern WORD gbPort;
+
+extern char *date();
+extern int WaMpdOptInit(WPARAM wParam,LPARAM lParam);
+extern void RegisterPlayer();
+
 #endif
