@@ -446,7 +446,7 @@ VOID RebuildSubGroup()
 			mi.position = 1050000;
 			mi.popupPosition = 1050000;
 			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
-			mi.pszName = LPGEN(MODULELONGNAME);
+			mi.pszName = LPGEN("Extended UserInfo");
 			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;

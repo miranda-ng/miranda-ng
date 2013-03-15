@@ -46,10 +46,10 @@ const char* keep_strings[] =
 
 static IconItem iconList[] =
 {
-	{ "Default Action", "actG",   IDI_ACTG },
-	{ "Action 1",       "act1",   IDI_ACT1 },
-	{ "Action 2",       "act2",   IDI_ACT2 },
-	{ "Delete All",     "actDel", IDI_ACTDEL }
+	{ LPGEN("Default Action"), "actG",   IDI_ACTG },
+	{ LPGEN("Action 1"),       "act1",   IDI_ACT1 },
+	{ LPGEN("Action 2"),       "act2",   IDI_ACT2 },
+	{ LPGEN("Delete All"),     "actDel", IDI_ACTDEL }
 };
 
 static HANDLE hIconLibItem[SIZEOF(iconList)];

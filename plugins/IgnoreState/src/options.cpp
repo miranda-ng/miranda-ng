@@ -110,7 +110,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPT);
-	odp.pszTitle = MODULENAME;
+	odp.pszTitle = LPGEN("Ignore State");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
