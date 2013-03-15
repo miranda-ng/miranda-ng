@@ -583,7 +583,7 @@ void replaceMessage(const popup_t &msg)
 
 			LeaveCS(&g_popups_cs);
 
-			CallServiceSync(MS_POPUP_CHANGETEXT, (WPARAM)i->second->hwnd, (LPARAM)strip(i->second->message).c_str());
+			PUChangeText(i->second->hwnd, strip(i->second->message).c_str());
 			return;
 		}
 	}

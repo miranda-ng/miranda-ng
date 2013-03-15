@@ -179,7 +179,7 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps) {
 		if (pstatus == 0)
 			pstatus = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
 
-		if (DBGetContactSettingByte(NULL, protos[i]->szModuleName, "LockMainStatus", 0)) {
+		if ( db_get_b(NULL, protos[i]->szModuleName, "LockMainStatus", 0)) {
 			// if proto is locked, pstatus must be the current status
 			if (pstatus != CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0))
 				return 0;

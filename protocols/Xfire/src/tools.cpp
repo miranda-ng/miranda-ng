@@ -89,12 +89,11 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 
 	static HICON hicNotify = NULL, hicWarning = NULL, hicError = NULL;
 
-	if ((uType&MB_TYPEMASK) == MB_OK)
-	{
-		POPUPDATA ppd = {0};
+	if ((uType & MB_TYPEMASK) == MB_OK) {
+		POPUPDATA ppd = { 0 };
+		ppd.lchIcon = hicon;
 
-		if (bIconsNotLoaded)
-		{
+		if (bIconsNotLoaded) {
 			hicNotify = Skin_GetIcon("popup_notify");
 			hicWarning = Skin_GetIcon("popup_warning");
 			hicError = Skin_GetIcon("popup_error");
@@ -104,27 +103,21 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 		lstrcpynA(ppd.lpzContactName, lpCaption, sizeof(ppd.lpzContactName));
 		lstrcpynA(ppd.lpzText, lpText, sizeof(ppd.lpzText));
 
-		if ((uType&MB_ICONMASK) == MB_ICONSTOP)
-		{
+		if ((uType & MB_ICONMASK) == MB_ICONSTOP) {
 			ppd.lchIcon = hicError;
 			ppd.colorBack = RGB(191,0,0);
 			ppd.colorText = RGB(255,245,225);
-		} else
-		if ((uType&MB_ICONMASK) == MB_ICONWARNING)
-		{
+		}
+		else if ((uType & MB_ICONMASK) == MB_ICONWARNING) {
 			ppd.lchIcon = hicWarning;
 			ppd.colorBack = RGB(210,210,150);
 			ppd.colorText = RGB(0,0,0);
-		} else
-		/* if ((uType&MB_ICONMASK) == MB_ICONINFORMATION) */
-		{
+		}
+		else {
 			ppd.lchIcon = hicNotify;
 			ppd.colorBack = RGB(230,230,230);
 			ppd.colorText = RGB(0,0,0);
 		}
-
-		if(hicon!=NULL)
-			ppd.lchIcon=hicon;
 
 		PUAddPopUp(&ppd);
 	}

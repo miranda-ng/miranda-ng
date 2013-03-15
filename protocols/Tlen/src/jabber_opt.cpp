@@ -577,31 +577,17 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 static void MailPopupPreview(DWORD colorBack, DWORD colorText, char *title, char *emailInfo, int delay)
 {
-	POPUPDATA ppd;
-	char * lpzContactName;
-	char * lpzText;
-	HICON hIcon;
-	lpzContactName = title;
-	lpzText = emailInfo;
-	ZeroMemory(&ppd, sizeof(ppd));
-	ppd.lchContact = NULL;
-	hIcon = GetIcolibIcon(IDI_MAIL);
+	POPUPDATA ppd = { 0 };
+	HICON hIcon = GetIcolibIcon(IDI_MAIL);
 	ppd.lchIcon = CopyIcon(hIcon);
 	ReleaseIcolibIcon(hIcon);
-	strcpy(ppd.lpzContactName, lpzContactName);
-	strcpy(ppd.lpzText, lpzText);
+	strcpy(ppd.lpzContactName, title);
+	strcpy(ppd.lpzText, emailInfo);
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
-	ppd.PluginWindowProc = NULL;
-	ppd.PluginData=NULL;
-	if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
-		ppd.iSeconds = delay;
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-
-	}
-	else if ( ServiceExists(MS_POPUP_ADDPOPUP)) {
-		CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-	}
+	ppd.iSeconds = delay;
+	if ( ServiceExists(MS_POPUP_ADDPOPUP))
+		PUAddPopUp(&ppd);
 }
 
 static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

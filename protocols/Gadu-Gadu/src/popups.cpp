@@ -110,8 +110,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	PopupData* puData = (PopupData*)dwParam;
 	GGPROTO* gg = puData->gg;
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS))
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		char szName[256];
 		POPUPDATACLASS ppd = {sizeof(ppd)};
 		ppd.ptszTitle = puData->title;
@@ -125,46 +124,38 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 			mir_snprintf(szName, SIZEOF(szName), "%s_%s", gg->m_szModuleName, "Notify");
 
 		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
+		return;
 	}
-	else
-	{
-		if (puData->flags & GG_POPUP_ALLOW_MSGBOX) 
-		{
-			BOOL bShow = TRUE;
 
-			if (puData->flags & GG_POPUP_ONCE)
-			{
-				HWND hWnd = FindWindow(NULL, gg->m_tszUserName);
-				while (hWnd != NULL)
-				{
-					if (FindWindowEx(hWnd, NULL, NULL, puData->text) != NULL)
-					{
-						bShow = FALSE;
-						break;
-					}
-					hWnd = FindWindowEx(NULL, hWnd, NULL, gg->m_tszUserName);
+	if (puData->flags & GG_POPUP_ALLOW_MSGBOX) {
+		BOOL bShow = TRUE;
+
+		if (puData->flags & GG_POPUP_ONCE) {
+			HWND hWnd = FindWindow(NULL, gg->m_tszUserName);
+			while (hWnd != NULL) {
+				if (FindWindowEx(hWnd, NULL, NULL, puData->text) != NULL) {
+					bShow = FALSE;
+					break;
 				}
-			}
-
-			if (bShow)
-			{
-				UINT uIcon = puData->flags & GG_POPUP_ERROR ? MB_ICONERROR : puData->flags & GG_POPUP_WARNING ? MB_ICONEXCLAMATION : MB_ICONINFORMATION;
-				MessageBox(NULL, puData->text, gg->m_tszUserName, MB_OK | uIcon);
+				hWnd = FindWindowEx(NULL, hWnd, NULL, gg->m_tszUserName);
 			}
 		}
-		mir_free(puData->title);
-		mir_free(puData->text);
-		mir_free(puData);
+
+		if (bShow) {
+			UINT uIcon = puData->flags & GG_POPUP_ERROR ? MB_ICONERROR : puData->flags & GG_POPUP_WARNING ? MB_ICONEXCLAMATION : MB_ICONINFORMATION;
+			MessageBox(NULL, puData->text, gg->m_tszUserName, MB_OK | uIcon);
+		}
 	}
+	mir_free(puData->title);
+	mir_free(puData->text);
+	mir_free(puData);
 }
 
 void GGPROTO::showpopup(const TCHAR* nickname, const TCHAR* msg, int flags)
 {
-	PopupData* puData;
-
 	if (Miranda_Terminated()) return;
 
-	puData = (PopupData*)mir_alloc(sizeof(PopupData));
+	PopupData *puData = (PopupData*)mir_calloc(sizeof(PopupData));
 	puData->flags = flags;
 	puData->title = mir_tstrdup(nickname);
 	puData->text = mir_tstrdup(msg);

@@ -55,7 +55,6 @@ void ShowPopup(const char *title, const char *description, int type)
 
 	// Make popup
 	POPUPDATA ppd = { 0 };
-	ppd.lchContact = 0; 
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 
 	strncpy(ppd.lpzContactName, title == NULL ? "Modern Contact List" : title, SIZEOF(ppd.lpzContactName)-1);
@@ -66,23 +65,12 @@ void ShowPopup(const char *title, const char *description, int type)
 		ppd.lpzText[SIZEOF(ppd.lpzText)-1] = '\0';
 	}
 
-	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
-		ppd.colorBack = 0;
-		ppd.colorText = 0;
-	}
-	else {
+	if (type != POPUP_TYPE_NORMAL && type != POPUP_TYPE_TEST) {
 		ppd.colorBack = -1;
 		ppd.colorText = RGB(255,255,255);
 	}
 
 	ppd.PluginWindowProc = DumbPopupDlgProc;
-	
-	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
-		ppd.iSeconds = 0;
-	else
-		ppd.iSeconds = 0;
-
-	// Now that every field has been filled, we want to see the popup.
 	PUAddPopUp(&ppd);
 }
 

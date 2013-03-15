@@ -141,9 +141,9 @@ int LoadMainOptions()
 
 	GetCurrentConnectionSettings();
 
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_CHECKCONNECTION, FALSE)) {
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_CONTCHECK, FALSE)) {
-			if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE)) {
+	if ( db_get_b(NULL, MODULENAME, SETTING_CHECKCONNECTION, FALSE)) {
+		if ( db_get_b(NULL, MODULENAME, SETTING_CONTCHECK, FALSE)) {
+			if ( db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE)) {
 				WSADATA wsaData;
 
 				WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -154,10 +154,10 @@ int LoadMainOptions()
 			}
 			StartTimer(IDT_CHECKCONTIN, 0, FALSE);
 		}
-		increaseExponential = DBGetContactSettingByte(NULL, MODULENAME, SETTING_INCREASEEXPONENTIAL, FALSE);
+		increaseExponential = db_get_b(NULL, MODULENAME, SETTING_INCREASEEXPONENTIAL, FALSE);
 		currentDelay = initDelay = 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY);
 		maxDelay = 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY);
-		maxRetries = DBGetContactSettingByte(NULL, MODULENAME, SETTING_MAXRETRIES,0);
+		maxRetries = db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES,0);
 		if (maxRetries == 0) 
 			maxRetries = -1;
 		hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
@@ -165,7 +165,7 @@ int LoadMainOptions()
 		if (ServiceExists(ME_CS_STATUSCHANGE))
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGE, CSStatusChange);
 		hCSStatusChangeExHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_CHECKAPMRESUME, 0)&&(CallService(MS_SYSTEM_GETVERSION,0,0) >= 0x00040000)) {
+		if ( db_get_b(NULL, MODULENAME, SETTING_CHECKAPMRESUME, 0)&&(CallService(MS_SYSTEM_GETVERSION,0,0) >= 0x00040000)) {
 			if (!IsWindow(hMessageWindow)) {
 				hMessageWindow = CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 				SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
@@ -241,7 +241,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 	char dbSetting[128];
 	_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", cs->szName);
 	cs->lastStatus = lastStatus == 0 ? cs->status : lastStatus;
-	if (!DBGetContactSettingByte(NULL, MODULENAME, dbSetting, 1))
+	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		cs->status = ID_STATUS_DISABLED;
 	else if (status == ID_STATUS_LAST)
 		cs->status = cs->lastStatus;
@@ -280,10 +280,10 @@ static int SetCurrentStatus()
 	PROTOCOLSETTINGEX **ps = GetCurrentProtoSettingsCopy();
 	for (i=0; i < connectionSettings.getCount(); i++) {
 		realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
-		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || (DBGetContactSettingByte(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)))	{ // ignore this proto by removing it's name (not so nice)
+		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || ( db_get_b(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)))	{ // ignore this proto by removing it's name (not so nice)
 			ps[i]->szName = "";
 		}
-		else if ( (ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (DBGetContactSettingByte(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
+		else if ( (ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && ( db_get_b(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
 			// force offline before reconnecting
 			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", ps[i]->szName);
 			CallProtoService(ps[i]->szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
@@ -303,8 +303,8 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 		for (int i=0;i<connectionSettings.getCount();i++) {
 			TConnectionSettings& cs = connectionSettings[i];
 			if (GetStatus(cs) != ID_STATUS_DISABLED)
-				if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_NOLOCKED, 0) ||
-					  !DBGetContactSettingByte(NULL, cs.szName, "LockMainStatus", 0 ))
+				if ( db_get_b(NULL, MODULENAME, SETTING_NOLOCKED, 0) ||
+					  !db_get_b(NULL, cs.szName, "LockMainStatus", 0 ))
 					AssignStatus(&cs, wParam, 0, cs.szMsg);
 		}
 	}
@@ -537,10 +537,10 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", ack->szModule);
-	if (!DBGetContactSettingByte(NULL, MODULENAME, dbSetting, 1)) 
+	if (!db_get_b(NULL, MODULENAME, dbSetting, 1)) 
 		return 0;
 
-	if (DBGetContactSettingByte(NULL, ack->szModule, SETTING_PROTORETRY, 0)) {
+	if ( db_get_b(NULL, ack->szModule, SETTING_PROTORETRY, 0)) {
 		log_infoA("KeepStatus: %s has built-in reconnection enabled", ack->szModule);
 		return 0;
 	}
@@ -563,7 +563,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 				TConnectionSettings& cs = connectionSettings[i];
 				if (!strcmp(ack->szModule, cs.szName)) {
 					AssignStatus(&cs, ID_STATUS_OFFLINE, 0, NULL);
-					if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_CNCOTHERLOC, 0)) {
+					if ( db_get_b(NULL, MODULENAME, SETTING_CNCOTHERLOC, 0)) {
 						StopTimer(IDT_PROCESSACK);
 						for (j=0;j<connectionSettings.getCount();j++) {
 							AssignStatus(&connectionSettings[j], ID_STATUS_OFFLINE, 0, NULL);
@@ -576,7 +576,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 		else if (ack->result == ACKRESULT_FAILED) {
 			// login failed
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOGINERROR, (LPARAM)ack->szModule);
-			switch (DBGetContactSettingByte(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
+			switch ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING)) {
 			case LOGINERR_CANCEL:
 				{
 					log_infoA("KeepStatus: cancel on login error (%s)", ack->szModule);
@@ -695,7 +695,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		if (increaseExponential)
 			currentDelay = min(2*currentDelay,maxDelay);
 
-		if ( ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_CHKINET, 0)) && (!InternetGetConnectedState(NULL, 0))) || ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
+		if ( (( db_get_b(NULL, MODULENAME, SETTING_CHKINET, 0)) && (!InternetGetConnectedState(NULL, 0))) || (( db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
 			// no network
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_RETRYNOCONN, (LPARAM)retryCount+1);
 			ProcessPopup(KS_CONN_STATE_RETRYNOCONN, 0);
@@ -796,7 +796,7 @@ static void CheckContinueslyFunction(void *arg)
 		return;
 	}
 
-	BOOL ping = DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE);
+	BOOL ping = db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE);
 	if (ping) {
 		DBVARIANT dbv;
 		if (DBGetContactSetting(NULL, MODULENAME, SETTING_PINGHOST, &dbv))
@@ -890,7 +890,7 @@ static void CheckContinueslyFunction(void *arg)
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);
-		maxRetries = DBGetContactSettingByte(NULL, MODULENAME, SETTING_MAXRETRIES, 0);
+		maxRetries = db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES, 0);
 		if (maxRetries == 0) 
 			maxRetries = -1;
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
@@ -900,7 +900,7 @@ static void CheckContinueslyFunction(void *arg)
 
 static VOID CALLBACK CheckContinueslyTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE))
+	if ( db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE))
 		mir_forkthread(CheckContinueslyFunction, NULL);	
 	else
 		CheckContinueslyFunction(NULL);
@@ -912,7 +912,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	HICON hIcon;
 	char text[MAX_SECONDLINE], protoName[128], *szProto;
 		
-	if ( !DBGetContactSettingByte(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
+	if ( !db_get_b(NULL, MODULENAME, SETTING_SHOWCONNECTIONPOPUPS,FALSE) || !ServiceExists(MS_POPUP_ADDPOPUP))
 		return -1;
 
 	memset(protoName, '\0', sizeof(protoName));
@@ -922,7 +922,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 	switch(reason) {
 	case KS_CONN_STATE_OTHERLOCATION: // lParam = 1 proto
-		if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
+		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
 		szProto = (char *)lParam;
@@ -935,16 +935,16 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		/*******************
 		rethink this
 		********************/
-		if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
+		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
 		szProto = (char *)lParam;
 		hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, (LPARAM)SKINICON_STATUS_OFFLINE);
 		CallProtoService(szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
+		if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_CANCEL)
 			_snprintf(text, sizeof(text), Translate("%s Login error, cancel reconnecting"), protoName);
 
-		else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
+		else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
 			_snprintf(text, sizeof(text), Translate("%s Login error (next retry (%d) in %ds)"), protoName, retryCount+1, DBGetContactSettingDword(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
 
 		else
@@ -953,7 +953,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 	
 	case KS_CONN_STATE_LOST: // lParam = 1 proto, or NULL
-		if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUCONNLOST, TRUE))
+		if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNLOST, TRUE))
 			return -1;
 
 		szProto = (char *)lParam;
@@ -974,7 +974,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			PROTOCOLSETTINGEX **ps;
 			char protoInfoLine[512], protoInfo[MAX_SECONDLINE];
 			
-			if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
+			if (!db_get_b(NULL, MODULENAME, SETTING_PUCONNRETRY, TRUE))
 				return -1;
 
 			memset(protoInfoLine, '\0', sizeof(protoInfoLine));
@@ -987,7 +987,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 					if (szProto == NULL) {
 						szProto = ps[i]->szName;
 					}
-					if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
+					if ( db_get_b(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
 						CallProtoService(ps[i]->szName, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
 						//_snprintf(protoInfoLine, sizeof(protoInfoLine), Translate("%s\t(will be set to %s)\r\n"), protoName, (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
 						_snprintf(protoInfoLine, sizeof(protoInfoLine), "%s\t(%s %s)\r\n", protoName, Translate("will be set to"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
@@ -1012,7 +1012,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 
 	case KS_CONN_STATE_RETRYNOCONN: // lParam = NULL
-		if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
+		if (!db_get_b(NULL, MODULENAME, SETTING_PUOTHER, TRUE))
 			return -1;
 
 		hIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
@@ -1023,7 +1023,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 		break;
 	
 	case KS_CONN_STATE_STOPPEDCHECKING: // lParam == BOOL succes
-		if (!DBGetContactSettingByte(NULL, MODULENAME, SETTING_PURESULT, TRUE))
+		if (!db_get_b(NULL, MODULENAME, SETTING_PURESULT, TRUE))
 			return -1;
 
 		if (lParam) {
@@ -1045,31 +1045,23 @@ static int ProcessPopup(int reason, LPARAM lParam)
 
 static INT_PTR ShowPopup(char* msg, HICON hIcon)
 {
-	POPUPDATA ppd = { NULL };
-	ppd.lchContact = NULL;
+	POPUPDATA ppd = { 0 };
 	ppd.lchIcon = hIcon;
-	memset(ppd.lpzContactName, '\0', sizeof(ppd.lpzContactName));
-	memset(ppd.lpzText, '\0', sizeof(ppd.lpzText));
 	strncpy(ppd.lpzContactName, Translate("KeepStatus"), sizeof(ppd.lpzContactName)-1);
 	strncpy(ppd.lpzText, msg, sizeof(ppd.lpzText)-1);
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
+	if ( db_get_b(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0))
 	{
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 		ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	}
-	else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
-	{
-		ppd.colorBack = NULL;
-		ppd.colorText = NULL;
-	}
-	else
+	else if ( !db_get_b(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
 	{
 		ppd.colorBack = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
 		ppd.colorText = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
-	ppd.PluginData = NULL;
-	switch (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
+
+	switch ( db_get_b(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 	case POPUP_DELAYCUSTOM:
 		ppd.iSeconds = (int)DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
 		if (ppd.iSeconds == 0) {
@@ -1092,7 +1084,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	switch(message) {
 	case WM_CONTEXTMENU: // right
 	case WM_COMMAND: // left
-		switch( DBGetContactSettingByte( NULL, MODULENAME, 
+		switch( db_get_b( NULL, MODULENAME, 
 						(message == WM_COMMAND) ? SETTING_POPUP_LEFTCLICK : SETTING_POPUP_RIGHTCLICK, 
 						POPUP_ACT_CLOSEPOPUP )) {
 		case POPUP_ACT_CANCEL:
@@ -1131,7 +1123,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 
 	char dbSetting[128];
 	_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", szProto);
-	if (!DBGetContactSettingByte(NULL, MODULENAME, dbSetting, 1)) // 'hard' disabled
+	if (!db_get_b(NULL, MODULENAME, dbSetting, 1)) // 'hard' disabled
 		return -1;
 
 	int ret = -2;
@@ -1158,7 +1150,7 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam)
 
 	char dbSetting[128];
 	_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", szProto);
-	if ( !DBGetContactSettingByte(NULL, MODULENAME, dbSetting, 1 ))
+	if ( !db_get_b(NULL, MODULENAME, dbSetting, 1 ))
 		return FALSE;
 
 	for ( int i=0; i < connectionSettings.getCount(); i++ ) {

@@ -157,14 +157,11 @@ void CALLBACK MraPopupThreadMarandaCallback(ULONG_PTR dwParam)
 	if (dwParam == 0)
 		return;
 
-	MraPopupData* dat = (MraPopupData*)((POPUPDATAW*)dwParam)->PluginData;
-	if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS && dat->ppro->hWndEMailPopupStatus) {
-		// 1: PUDeletePopUp(hWndDlg);
-		// 1: PUAddPopUpW((POPUPDATAW*)dwParam);
-		// 2: PUChangeW(hWndEMailPopupStatus, (POPUPDATAW*)dwParam); //- crash :/
+	MraPopupData *dat = (MraPopupData*)((POPUPDATAW*)dwParam)->PluginData;
+	if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS && dat->ppro->hWndEMailPopupStatus)
 		PUChangeTextW(dat->ppro->hWndEMailPopupStatus, ((POPUPDATAW*)dwParam)->lpwzText);
-	}
-	else PUAddPopUpW((POPUPDATAW*)dwParam);
+	else
+		PUAddPopUpW((POPUPDATAW*)dwParam);
 
 	mir_free((void*)dwParam);
 }

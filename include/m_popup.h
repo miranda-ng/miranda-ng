@@ -223,7 +223,7 @@ returns: > 0 for success, -1 for failure, 0 if the failure is due to second line
 PUIsSecondLineShown() before changing the text...)
 */
 #define MS_POPUP_CHANGETEXT "PopUp/Changetext"
-static int __inline PUChangeText(HWND hWndPopUp, LPCTSTR lpzNewText) {
+static int __inline PUChangeText(HWND hWndPopUp, LPCSTR lpzNewText) {
 	return (int)CallService(MS_POPUP_CHANGETEXT, (WPARAM)hWndPopUp, (LPARAM)lpzNewText);
 }
 

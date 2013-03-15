@@ -45,7 +45,7 @@ void __stdcall	ShowPopup( const char* line1, const char* line2, int flags )
 		ppd->PluginWindowProc = NullWindowProc;
 		ppd->PluginData = NULL;
 
-		QueueUserAPC( sttMainThreadCallback , mainThread, ( ULONG )ppd );
+		QueueUserAPC(sttMainThreadCallback, mainThread, ( ULONG )ppd );
 	}
 	else if(ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
 		POPUPDATACLASS d = {sizeof(d), "pingpopups"};

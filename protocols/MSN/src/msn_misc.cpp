@@ -1030,33 +1030,32 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 		mir_free(pud->text);
 		mir_free(pud->url);
 		mir_free(pud);
+		return;
 	}
+
+	char name[256];
+
+	POPUPDATACLASS ppd = { sizeof(ppd) };
+	ppd.ptszTitle = pud->title;
+	ppd.ptszText = pud->text;
+	ppd.PluginData = pud;
+	ppd.pszClassName = name;
+
+	if (pud->flags & MSN_SHOW_ERROR)
+		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Error");
+	else if (pud->flags & (MSN_HOTMAIL_POPUP | MSN_ALERT_POPUP))
+		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Hotmail");
 	else
-	{
-		char name[256];
+		mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Notify");
 
-		POPUPDATACLASS ppd = { sizeof(ppd) };
-		ppd.ptszTitle = pud->title;
-		ppd.ptszText = pud->text;
-		ppd.PluginData = pud;
-		ppd.pszClassName = name;
-
-		if (pud->flags & MSN_SHOW_ERROR)
-			mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Error");
-		else if (pud->flags & (MSN_HOTMAIL_POPUP | MSN_ALERT_POPUP))
-			mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Hotmail");
-		else
-			mir_snprintf(name, SIZEOF(name), "%s_%s", pud->proto->m_szModuleName, "Notify");
-
-		CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
-	}
+	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
 void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, HANDLE hContact)
 {
 	if (Miranda_Terminated()) return;
 
-	PopupData* pud = (PopupData*)mir_alloc(sizeof(PopupData));
+	PopupData *pud = (PopupData*)mir_calloc(sizeof(PopupData));
 	pud->flags = flags;
 	pud->url = mir_strdup(url);
 	pud->title = mir_tstrdup(nickname);
