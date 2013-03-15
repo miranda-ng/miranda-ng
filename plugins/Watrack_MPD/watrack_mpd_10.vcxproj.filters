@@ -12,33 +12,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\init.c">
+    <ClCompile Include="src\init.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.c">
+    <ClCompile Include="src\main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\options.c">
+    <ClCompile Include="src\options.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="src\utilities.c">
+    <ClCompile Include="src\utilities.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\constants.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\globals.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\m_music.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
@@ -47,9 +38,15 @@
     <ClInclude Include="src\utilities.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\watrack_mpd.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>

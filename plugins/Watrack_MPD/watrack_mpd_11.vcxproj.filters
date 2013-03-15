@@ -24,15 +24,12 @@
     <ClCompile Include="src\utilities.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\constants.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
@@ -41,9 +38,15 @@
     <ClInclude Include="src\utilities.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\watrack_mpd.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
   </ItemGroup>

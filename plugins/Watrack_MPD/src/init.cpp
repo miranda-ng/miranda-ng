@@ -16,8 +16,6 @@
 
 #include "commonheaders.h"
 
-#define PLUGIN_NAME	"Watrack_MPD"
-
 HINSTANCE hInst;
 BOOL bWatrackService = FALSE;
 int hLangpack = 0;
@@ -27,13 +25,13 @@ HANDLE ghNetlibUser;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	PLUGIN_NAME,
-	PLUGIN_MAKE_VERSION(0,0,0,4),
-	"Music Player Daemon support for Watrack.",
-	"sss, others..",
-	"sss123next@list.ru",
-	"© 2009 sss, others...",
-	"http://sss.chaoslab.ru:81/tracker/mim_plugs/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// 692E87D0-6C71-4CDC-9E36-2B69FBDC4C
 	{0x692e87d0, 0x6c71, 0x4cdc, {0x9e, 0x36, 0x2b, 0x2d, 0x69, 0xfb, 0xdc, 0x4c}}
@@ -45,7 +43,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -61,15 +59,13 @@ void InitVars()
 
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hHookOptionInit;
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = (NUF_OUTGOING | NUF_HTTPCONNS);
 	nlu.szDescriptiveName = "Watrack MPD connection";
-	nlu.szSettingsModule = PLUGIN_NAME;
+	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	InitVars();
-	hHookOptionInit = HookEvent(ME_OPT_INITIALISE, WaMpdOptInit);
 	if (ServiceExists("WATrack/Player"))
 		bWatrackService = TRUE;
 	RegisterPlayer();
@@ -77,14 +73,16 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __declspec(dllexport) Load()
+extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, WaMpdOptInit);
+
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	free(gbHost);
 	free(gbPassword);

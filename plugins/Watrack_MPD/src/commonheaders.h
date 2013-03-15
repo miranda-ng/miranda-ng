@@ -19,38 +19,29 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <windows.h>
-#include <tchar.h>
-#include <malloc.h>
-#include <time.h>
-#include <uxtheme.h>
-
 
 #include <newpluginapi.h>
 #include <m_netlib.h>
-//#include <m_clist.h>
-//#include <m_skin.h>
 #include <m_database.h>
-//#include <m_protosvc.h>
-//#include <m_protocols.h>
-//#include <m_system.h>
 #include <m_options.h>
 #include <m_langpack.h>
 
-#include "resource.h"
+#include <m_music.h>
 
-#include "constants.h"
-#include "main.h"
-#include "m_music.h"
+#include "resource.h"
 #include "utilities.h"
+#include "Version.h"
+
+#define szModuleName "Watrack_MPD"
 
 extern HINSTANCE hInst;
 extern HANDLE ghNetlibUser;
 extern BOOL bWatrackService;
 extern TCHAR *gbHost, *gbPassword;
 extern WORD gbPort;
-
 extern char *date();
-extern int WaMpdOptInit(WPARAM wParam,LPARAM lParam);
+
+extern int WaMpdOptInit(WPARAM wParam, LPARAM lParam);
 extern void RegisterPlayer();
 
 #endif
