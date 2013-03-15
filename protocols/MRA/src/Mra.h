@@ -57,7 +57,6 @@
 #include <m_icolib.h>
 #include <win2k.h>
 #include <m_popup.h>
-#include <m_popup2.h>
 #include <m_nudge.h>
 #include <m_folders.h>
 #include <m_avatars.h>
