@@ -1,7 +1,7 @@
 ﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
-;  Plugin: WhenWasIt
+;  Plugin: Birthday reminder
 ;  Version: 0.3.3.4
 ;  Authors: Cristian Libotean
 ;============================================================
@@ -90,6 +90,8 @@
 [List birthdays menu item]
 [Add/change birthday]
 [1 day to birthday]
+[%d days to birthday]
+[More than %d days to birthday]
 [WhenWasIt birthday reminder]
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]

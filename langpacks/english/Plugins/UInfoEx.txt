@@ -327,6 +327,7 @@
 [Import all contacts]
 [Backup birthdays]
 [Check anniversaries]
+[Extended UserInfo]
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]

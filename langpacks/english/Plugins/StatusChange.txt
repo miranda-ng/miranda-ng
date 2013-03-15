@@ -5,7 +5,7 @@
 ;  Version: 1.3.0.0
 ;  Authors: Angelo Luiz Tartari
 ;============================================================
-[Change status when you send/receive and event.]
+[Change status when you send/receive an event.]
 ;file \plugins\StatusChange\res\resource.rc
 [Offline]
 [Online]

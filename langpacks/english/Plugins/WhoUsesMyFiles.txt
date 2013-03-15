@@ -1,5 +1,11 @@
 ﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
-;langpack template for WhoUsesMyFiles
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.1
+;  Authors: Nikolay Redko
+;============================================================
+[Scans for network users of your shared files and notify you with popups.]
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [WUMF: Current connections]
 [OK]
@@ -26,9 +32,23 @@
 [Alert computer name with username]
 [Disabled options will be available in the next version]
 [Show current connections]
-;file \plugins\WhoUsesMyFiles\src\wumfplug.c
+;file \plugins\WhoUsesMyFiles\src\wumf.cpp
+[ID]
+[User]
+[File]
+[Access]
+[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
+[Error opening file]
+[Error memory allocation]
+;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
+[Error crerating menu]
+[PopUp plugin not found!]
+[WUMF plugin]
 [Enable WUMF popups]
 [Disable WUMF popups]
+[Common Dialog Error 0x%lx]
+[Wumf plugin]
+[Not implemented yet...]
 [Show connections list]
 [Wumf]
 [Services]

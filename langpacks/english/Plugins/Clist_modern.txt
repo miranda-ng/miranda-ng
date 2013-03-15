@@ -514,6 +514,16 @@
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Status menu]
+[Accounts...]
+[Hide offline contacts]
+[Show offline contacts]
+[Find User]
+[Use groups]
+[Disable Groups]
+[Enable sounds]
+[Disable sounds]
+[Minimize]
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp

@@ -7,7 +7,6 @@
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 [Notify in contact list]
 [Clear pseudocontact history before adding new events]
-[Supress foreign popups for pseudocontact]
 [Mark history event read when popup closed]
 [Add message snip to notification]
 [Try to login before open mailbox]
