@@ -27,8 +27,6 @@ information
 
 #include "weather.h"
 
-extern INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 //============  CONTACT INFORMATION  ============
 
 // initialize user info

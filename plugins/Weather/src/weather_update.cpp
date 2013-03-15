@@ -29,7 +29,6 @@ menu items).
 UPDATELIST *UpdateListHead;
 UPDATELIST *UpdateListTail;
 
-extern HANDLE hUpdateMutex;
 
 //============  RETRIEVE NEW WEATHER  ============
 

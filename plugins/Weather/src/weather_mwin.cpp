@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "weather.h"
-#include "m_acc.h"
 
 #define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
 #define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"

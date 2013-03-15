@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
+#include <winres.h>
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -305,10 +305,6 @@ BEGIN
         RIGHTMARGIN, 308
     END
 
-    IDD_USERINFO, DIALOG
-    BEGIN
-    END
-
     IDD_SETUP, DIALOG
     BEGIN
         BOTTOMMARGIN, 136
@@ -402,7 +398,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
+    "#include <winres.h>\r\n"
     "\0"
 END
 

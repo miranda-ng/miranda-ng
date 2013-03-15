@@ -9,9 +9,6 @@
       <UniqueIdentifier>{229b056a-ba07-4698-ad86-26548bd87e32}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Documentations">
-      <UniqueIdentifier>{3433a4a3-b1af-4761-ab98-0d4ada361b3a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{4be16e1a-70ca-4330-b259-db32ec58dcc0}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>

@@ -25,15 +25,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //============  THE INCLUDES  ===========
 
 #define _CRT_SECURE_NO_WARNINGS
-#include <m_stdhdr.h>
+
 #include <share.h>
 #include <time.h>
 #include <windows.h>
 #include <commctrl.h>
 #include <richedit.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_system_cpp.h>
 #include <m_protomod.h>
 #include <m_icolib.h>
 #include <m_options.h>
@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_cluiframes.h>
 #include <m_popup.h>
 #include <win2k.h>
+#include <m_acc.h>
 
 #include <m_weather.h>
 #include <m_toptoolbar.h>
@@ -363,6 +364,7 @@ extern HANDLE hWindowList;
 extern HANDLE hMwinMenu;
 extern HANDLE hTBButton;
 extern UINT_PTR timerId;
+extern HANDLE hUpdateMutex;
 
 // check if weather is currently updating
 extern BOOL ThreadRunning;
@@ -526,6 +528,7 @@ void removeWindow(HANDLE hContact);
 int UserInfoInit(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #define WM_UPDATEDATA WM_USER + 2687
 
