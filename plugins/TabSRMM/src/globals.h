@@ -111,7 +111,7 @@ public:
 	HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
 	HCURSOR     hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 	HBITMAP     g_hbmUnknown;
-	int         g_MetaContactsAvail, g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_PopupWAvail, g_WantHPP;
+	int         g_MetaContactsAvail, g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_WantHPP;
 	int         g_FlashAvatarAvail;
 	HIMAGELIST  g_hImageList;
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;

@@ -190,23 +190,6 @@ static void MessageDialogResize(HWND hwndDlg, SESSION_INFO *si, int w, int h) {
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), 0, w - si->iSplitterX, 1, 2, toolbarTopY - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY), 0, 0, h - si->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 0, 1, h - si->iSplitterY + SPLITTER_HEIGHT, w - 2, si->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
-/*
-
-	toolbarTopY = h - toolbarHeight;
-	if (si->windowData.hwndLog != NULL) {
-		logBottom = (h - si->iSplitterY) / 2;
-	} else {
-		logBottom = h - si->iSplitterY;
-	}
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LOG), 0, 0, 0, bNick?w - si->iSplitterX:w, logBottom, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_LIST), 0, w - si->iSplitterX + 2, 0, si->iSplitterX - 1, h - si->iSplitterY, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX), 0, w - si->iSplitterX, 1, 2, h - si->iSplitterY, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY), 0, 0, h - si->iSplitterY, w, splitterHeight, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), 0, 0, h - si->iSplitterY + splitterHeight, bSend?w-64:w, si->iSplitterY - toolbarHeight - splitterHeight, SWP_NOZORDER);
-	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDOK), 0, w - 64, h - si->iSplitterY + splitterHeight, 64, si->iSplitterY - toolbarHeight - splitterHeight - 1, SWP_NOZORDER);
-	
-*/
-
 	hdwp = ResizeToolbar(hwndDlg, hdwp, w, toolbarTopY + 1, toolbarHeight - 1, SIZEOF(toolbarButtons), toolbarButtons, buttonVisibility);
 	EndDeferWindowPos(hdwp);
 	if (si->windowData.hwndLog != NULL) {
@@ -250,9 +233,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	windowData = &Parentsi->windowData;
 
 	result = InputAreaShortcuts(hwnd, msg, wParam, lParam, windowData);
-	if (result != -1) {
+	if (result != -1)
 		return result;
-	}
 
    switch (msg) {
    case EM_SUBCLASSED:

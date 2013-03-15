@@ -669,12 +669,6 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 
 static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
 {
-	POPUPDATAT_V2 	pud = {0};
-	PLUGIN_DATAT 	*pdata;
-	DBEVENTINFO 	dbe;
-	long 			iSeconds = 0;
-	TCHAR 			*szPreview = NULL;
-
 	//there has to be a maximum number of popups shown at the same time
 	if (PopupList.size() >= MAX_POPUPS)
 		return(2);
@@ -682,6 +676,8 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	if (!PluginConfig.g_PopupAvail)
 		return 0;
 
+	POPUPDATAT pud = {0};
+	long iSeconds;
 	switch (eventType) {
 		case EVENTTYPE_MESSAGE:
 			pud.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
@@ -699,23 +695,18 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 			return 1;
 	}
 
-	ZeroMemory(&dbe, sizeof(dbe));
-	dbe.pBlob = NULL;
-	dbe.cbSize = sizeof(dbe);
-
+	DBEVENTINFO dbe = { sizeof(dbe) };
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
 		dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
 		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
-	} else
-		dbe.cbBlob = 0;
+	}
 	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
 
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	pdata = (PLUGIN_DATAT *)mir_calloc(sizeof(PLUGIN_DATAT));
-
+	PLUGIN_DATAT *pdata = (PLUGIN_DATAT *)mir_calloc(sizeof(PLUGIN_DATAT));
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->pluginOptions = pluginOptions;
@@ -737,7 +728,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 		mir_free(szModule);
 	}
 
-	szPreview = GetPreviewT((WORD)eventType, &dbe);
+	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
 		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T("%s"), szPreview);
 		mir_free(szPreview);
@@ -753,14 +744,11 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	pdata->nrMerged = 1;
 
 	// fix for broken popups -- process failures
-	if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pud, 0) < 0) {
-		// failed to display, perform cleanup
-		if (pdata->eventData)
-			mir_free(pdata->eventData);
+	if ( PUAddPopUpT(&pud) < 0) {
+		mir_free(pdata->eventData);
 		mir_free(pdata);
 	}
-	else
-		PopupList.push_back(pdata);
+	else PopupList.push_back(pdata);
 
 	if (dbe.pBlob)
 		free(dbe.pBlob);
@@ -936,7 +924,7 @@ int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOp
 		return 0;
 	}
 passed:
-	if (!(PluginConfig.g_PopupAvail && PluginConfig.g_PopupWAvail))
+	if ( !PluginConfig.g_PopupAvail)
 		return 0;
 
 	if (PU_GetByContact((HANDLE)wParam) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {

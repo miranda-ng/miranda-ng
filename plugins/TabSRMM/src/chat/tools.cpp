@@ -190,7 +190,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 static int ShowPopup(HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* pszProtoName,  TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
 {
-	POPUPDATAT_V2 pd = {0};
+	POPUPDATAT pd = {0};
 	va_list marker;
 	static TCHAR szBuf[4*1024];
 

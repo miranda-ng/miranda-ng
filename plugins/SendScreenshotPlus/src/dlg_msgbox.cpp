@@ -561,198 +561,149 @@ INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
  */
 INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			POPUPDATAT_V2				pd;
-			LPMSGPOPUPDATA		pmpd;
-			LPMSGBOX					pMsgBox = (LPMSGBOX)lParam;
-
 			MoveWindow(hDlg,-10,-10,0,0,FALSE);
-			pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
-			if (pmpd)
-				{
-					ZeroMemory(&pd, sizeof(pd));
-					pd.cbSize = sizeof(POPUPDATAT);
-					pd.lchContact = NULL; //(HANDLE)wParam;
-					// icon
-					pd.lchIcon = MsgLoadIcon(pMsgBox);
-					mir_tcsncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
-					mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
-				
-					// CALLBAC Proc
-					pd.PluginWindowProc = (WNDPROC)PopupProc;
-					// 
-					pd.PluginData = pmpd;
+			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+			if (pmpd) {
+				POPUPDATAT_V2 pd = { 0 };
+				pd.cbSize = sizeof(POPUPDATAT);
+				pd.lchContact = NULL; //(HANDLE)wParam;
 
-					pd.iSeconds = -1;
+				// icon
+				LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
+				pd.lchIcon = MsgLoadIcon(pMsgBox);
+				mir_tcsncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
+				mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
 
-					pd.hNotification = NULL;
-					pd.lpActions = pmpd->pa;
+				// CALLBAC Proc
+				pd.PluginWindowProc = (WNDPROC)PopupProc;
+				pd.PluginData = pmpd;
 
-					// set color of popup
-					switch (pMsgBox->uType & MB_ICONMASK)
-					{
-					case MB_ICON_ERROR:
-						{
-							pd.colorBack = RGB(200,	10,	 0);
-							pd.colorText = RGB(255, 255, 255);
-						}
-						break;
+				pd.iSeconds = -1;
 
-					case MB_ICON_WARNING:
-						{
-							pd.colorBack = RGB(200, 100,	 0);
-							pd.colorText = RGB(255, 255, 255);
-						}
-						break;
+				pd.hNotification = NULL;
+				pd.lpActions = pmpd->pa;
 
-					default:
-						{
-							if (pMsgBox->uType & MB_CUSTOMCOLOR)
-							{
-								pd.colorBack = pMsgBox->colorBack;
-								pd.colorText = pMsgBox->colorText;
-							}
-						}
+				// set color of popup
+				switch (pMsgBox->uType & MB_ICONMASK) {
+				case MB_ICON_ERROR:
+					pd.colorBack = RGB(200,	10,	 0);
+					pd.colorText = RGB(255, 255, 255);
+					break;
+
+				case MB_ICON_WARNING:
+					pd.colorBack = RGB(200, 100,	 0);
+					pd.colorText = RGB(255, 255, 255);
+					break;
+
+				default:
+					if (pMsgBox->uType & MB_CUSTOMCOLOR) {
+						pd.colorBack = pMsgBox->colorBack;
+						pd.colorText = pMsgBox->colorText;
 					}
+				}
 
-					// handle for MakePopupAction
-					pmpd->hDialog = hDlg;
+				// handle for MakePopupAction
+				pmpd->hDialog = hDlg;
 
-					// active buttons
-					switch (MB_TYPE(pMsgBox->uType))
-					{
-					case MB_OK:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
-						}
-						break;
+				// active buttons
+				switch (MB_TYPE(pMsgBox->uType)) {
+				case MB_OK:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
+					break;
 
-					case MB_OKCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+				case MB_OKCANCEL:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+					break;
 
-					case MB_RETRYCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+				case MB_RETRYCANCEL:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+					break;
 
-					case MB_YESNO:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-						}
-						break;
+				case MB_YESNO:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+					break;
 
-					case MB_ABORTRETRYIGNORE:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDABORT);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDIGNORE);
-						}
-						break;
+				case MB_ABORTRETRYIGNORE:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDABORT);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDIGNORE);
+					break;
 
-					case MB_YESNOCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+				case MB_YESNOCANCEL:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+					break;
 
-					case MB_YESALLNO:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDALL);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-						}
-						break;
+				case MB_YESALLNO:
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDALL);
+					MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+					break;
+				}
 
-					} // end* switch
-
-					// create popup
-					CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
-					if (MB_TYPE(pMsgBox->uType) == MB_OK)
-					{
-						EndDialog(hDlg, IDOK);
-					}
-				} // end*if (pmpd)
+				// create popup
+				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
+				if (MB_TYPE(pMsgBox->uType) == MB_OK)
+					EndDialog(hDlg, IDOK);
+			}
 			break;
-		} // end* WM_INITDIALOG:
-	} // end* switch (uMsg)
+		}
+	}
 	return FALSE;
 }
 
 /**
- * This is the message procedure for popup
- *
- * @param	hDlg		- window handle
- * @param	uMsg		- message to handle
- * @param	wParam		- message specific parameter
- * @param	lParam		- message specific parameter
- *
- * @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
- **/
+* This is the message procedure for popup
+*
+* @param	hDlg		- window handle
+* @param	uMsg		- message to handle
+* @param	wParam		- message specific parameter
+* @param	lParam		- message specific parameter
+*
+* @return	TRUE, FALSE, IDOK, IDYES, IDALL, IDNO or IDCANCEL
+**/
 INT_PTR CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
-		case UM_POPUPACTION:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
-				LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
-
-				if (pmpd)
-				{
-					switch (LOWORD(wParam))
-					{
-					case IDOK:
-					case IDCANCEL:
-					case IDABORT:
-					case IDRETRY:
-					case IDIGNORE:
-					case IDYES:
-					case IDNO:
-					case IDALL:
-					case IDNONE:
-						{
-							if (IsWindow(pmpd->hDialog))
-								EndDialog(pmpd->hDialog, LOWORD(wParam));
-						}
+	switch (uMsg) {
+	case UM_POPUPACTION:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+			if (pmpd) {
+				switch (LOWORD(wParam)) {
+				case IDOK:
+				case IDCANCEL:
+				case IDABORT:
+				case IDRETRY:
+				case IDIGNORE:
+				case IDYES:
+				case IDNO:
+				case IDALL:
+				case IDNONE:
+					if (IsWindow(pmpd->hDialog))
+						EndDialog(pmpd->hDialog, LOWORD(wParam));
 					break;
 
-					default:
-						{
-							if (IsWindow(pmpd->hDialog))
-								EndDialog(pmpd->hDialog, IDCANCEL);
-						}
-					}
+				default:
+					if (IsWindow(pmpd->hDialog))
+						EndDialog(pmpd->hDialog, IDCANCEL);
 				}
-				PUDeletePopUp(hDlg);
 			}
+			PUDeletePopUp(hDlg);
 		}
 		break;
 
-		case UM_FREEPLUGINDATA:
-		{
-			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
-			if (pmpd > 0) {
-				mir_freeAndNil(pmpd);
-			}
-			return TRUE; //TRUE or FALSE is the same, it gets ignored.
-		}
-		break;
-
-		default:
-		break;
+	case UM_FREEPLUGINDATA:
+		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+		if (pmpd > 0)
+			mir_freeAndNil(pmpd);
+		return TRUE; //TRUE or FALSE is the same, it gets ignored.
 	}
 	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }

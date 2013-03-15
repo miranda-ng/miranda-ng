@@ -138,7 +138,7 @@ void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int A
 		return;
 
 	POPUPDATAT_V2 pd = { 0 };
-	pd.cbSize = sizeof(POPUPDATAT_V2);
+	pd.cbSize = sizeof(pd);
 	pd.lchContact = NULL; //(HANDLE)wParam;
 	pd.lchIcon = LoadSkinnedIcon(PopupsList[Number].Icon);
 	lstrcpyn(pd.lptzText, TranslateTS(ptszText), MAX_SECONDLINE);

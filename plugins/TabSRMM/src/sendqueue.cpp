@@ -690,30 +690,28 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 
 void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 {
-	POPUPDATAT_V2	ppd = {0};
-	int				ibsize = 1023;
-
 	if (M->GetByte("adv_noErrorPopups", 0))
 		return;
 
-	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == 1) {
-		ZeroMemory((void*)&ppd, sizeof(ppd));
-		ppd.lchContact = dat->hContact;
-		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), dat->cache->getNick());
-		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, _T("%s"), TranslateT("A message delivery has failed.\nClick to open the message window."));
-		if (!(BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE))
-		{
-			ppd.colorText = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-			ppd.colorBack = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-		}
-		else
-			ppd.colorText = ppd.colorBack = 0;
-		ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
-		ppd.lchIcon = PluginConfig.g_iconErr;
-		ppd.PluginData = (void*)dat->hContact;
-		ppd.iSeconds = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
-		CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+	if ( CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
+		return;
+
+	POPUPDATAT ppd = { 0 };
+	ppd.lchContact = dat->hContact;
+	lstrcpyn(ppd.lptzContactName, dat->cache->getNick(), MAX_CONTACTNAME);
+	lstrcpyn(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), MAX_SECONDLINE);
+
+	if (!(BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
+		ppd.colorText = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+		ppd.colorBack = (COLORREF)M->GetDword(MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
 	}
+	else ppd.colorText = ppd.colorBack = 0;
+
+	ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
+	ppd.lchIcon = PluginConfig.g_iconErr;
+	ppd.PluginData = (void*)dat->hContact;
+	ppd.iSeconds = (int)M->GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	PUAddPopUpT(&ppd);
 }
 
 /*

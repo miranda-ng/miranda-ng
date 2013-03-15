@@ -133,26 +133,28 @@ struct NEN_OPTIONS {
 	DWORD dwRemoveMask;
 };
 
-typedef struct {
+struct EVENT_DATAT
+{
 	HANDLE hEvent;
-	TCHAR szText[MAX_SECONDLINE + 2];
-	DWORD timestamp;
-} EVENT_DATAT;
+	TCHAR  szText[MAX_SECONDLINE + 2];
+	DWORD  timestamp;
+};
 
-typedef struct {
-	UINT 		eventType;
-	HANDLE 		hContact;
+struct PLUGIN_DATAT
+{
+	UINT         eventType;
+	HANDLE       hContact;
 	NEN_OPTIONS *pluginOptions;
-	POPUPDATAT_V2* pud;
-	HWND 		hWnd;
-	long 		iSeconds;
-	TCHAR 		szHeader[256];
-	int  		nrMerged;
+	POPUPDATAT  *pud;
+	HWND         hWnd;
+	long         iSeconds;
+	TCHAR        szHeader[256];
+	int          nrMerged;
 	EVENT_DATAT *eventData;
-	int  		nrEventsAlloced;
-	int  		iActionTaken;
-	HWND     hContainer;
-} PLUGIN_DATAT;
+	int          nrEventsAlloced;
+	int          iActionTaken;
+	HWND         hContainer;
+};
 
 #define NR_MERGED 5
 

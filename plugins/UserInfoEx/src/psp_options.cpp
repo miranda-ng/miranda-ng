@@ -1099,176 +1099,138 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) 
+		switch (LOWORD(wParam)) {
+		case BTN_PREVIEW:
 			{
-			case BTN_PREVIEW:
-				{
-					POPUPDATAT_V2 ppd;
+				POPUPDATAT ppd = { 0 };
+				ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+				mir_tcsncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
-					ZeroMemory(&ppd, sizeof(POPUPDATAT_V2));
-					ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
-					mir_tcsncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
-
-					// Birthday
-					mir_tcsncpy(ppd.lptzContactName, TranslateT("Birthday"), SIZEOF(ppd.lptzContactName));
-					ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTB0);
-					if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR))
-					{
-						ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-						ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-					}
-					else if (!IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR))
-					{
-						ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
-						ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
-					}
-					PUAddPopUpT(&ppd);
-
-					// Anniversary
-					mir_tcsncpy(ppd.lptzContactName, TranslateT("Anniversary"), SIZEOF(ppd.lptzContactName));
-					ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
-					if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR))
-					{
-						ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-						ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-					}
-					else if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR))
-					{
-						ppd.colorBack = 0;
-						ppd.colorText = 0;
-					}
-					else
-					{
-						ppd.colorBack = SendDlgItemMessage(hDlg, CLR_ABACK, CPM_GETCOLOUR, 0, 0);
-						ppd.colorText = SendDlgItemMessage(hDlg, CLR_ATEXT, CPM_GETCOLOUR, 0, 0);
-					}
-					PUAddPopUpT(&ppd);
+				// Birthday
+				mir_tcsncpy(ppd.lptzContactName, TranslateT("Birthday"), SIZEOF(ppd.lptzContactName));
+				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTB0);
+				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				}
-				break;
+				else if (!IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
+					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
+					ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
+				}
+				PUAddPopUpT(&ppd);
 
-			case CHECK_OPT_POPUP_MSGBOX:
-			case CHECK_OPT_POPUP_PROGRESS:
-				{
-					if (bInitialized)
-					{
-						NotifyParentOfChange(hDlg);
-					}
+				// Anniversary
+				mir_tcsncpy(ppd.lptzContactName, TranslateT("Anniversary"), SIZEOF(ppd.lptzContactName));
+				ppd.lchIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
+				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
+					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				}
-				break;
-
-			case CHECK_OPT_POPUP_ENABLED:
-				{
-					if (HIWORD(wParam) == BN_CLICKED) 
-					{
-						const BOOL bEnabled = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-						const INT idCtrl[] = { 
-							CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR, 
-							CLR_BBACK, TXT_OPT_POPUP_CLR_BACK, 
-							CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
-							CHECK_OPT_POPUP_ADEFCLR, CHECK_OPT_POPUP_AWINCLR,
-							CLR_ABACK, TXT_OPT_POPUP_CLR_ABACK,
-							CLR_ATEXT, TXT_OPT_POPUP_CLR_ATEXT,
-							RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM, 
-							RADIO_OPT_POPUP_PERMANENT, EDIT_DELAY
-						};
-						
-						EnableControls(hDlg, idCtrl, SIZEOF(idCtrl), bEnabled);
-
-						if (bInitialized)
-						{
-							NotifyParentOfChange(hDlg);
-						}
-					}
+				else if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
+					ppd.colorBack = 0;
+					ppd.colorText = 0;
 				}
-				break;
-
-			case CHECK_OPT_POPUP_DEFCLR:
-			case CHECK_OPT_POPUP_WINCLR:
-				{
-					if (HIWORD(wParam) == BN_CLICKED) 
-					{
-						INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL);
-						INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL);
-
-						EnableDlgItem(hDlg, CHECK_OPT_POPUP_DEFCLR, !bWinClr);
-						EnableDlgItem(hDlg, CHECK_OPT_POPUP_WINCLR, !bDefClr);
-						EnableDlgItem(hDlg, CLR_BBACK, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_BACK, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, CLR_BTEXT, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_TEXT, !(bDefClr || bWinClr));
-						if (bInitialized)
-						{
-							NotifyParentOfChange(hDlg);
-						}
-					}
+				else {
+					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_ABACK, CPM_GETCOLOUR, 0, 0);
+					ppd.colorText = SendDlgItemMessage(hDlg, CLR_ATEXT, CPM_GETCOLOUR, 0, 0);
 				}
-				break;
-
-			case CHECK_OPT_POPUP_ADEFCLR:
-			case CHECK_OPT_POPUP_AWINCLR:
-				{
-					if (HIWORD(wParam) == BN_CLICKED) 
-					{
-						INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL);
-						INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL);
-
-						EnableDlgItem(hDlg, CHECK_OPT_POPUP_ADEFCLR, !bWinClr);
-						EnableDlgItem(hDlg, CHECK_OPT_POPUP_AWINCLR, !bDefClr);
-						EnableDlgItem(hDlg, CLR_ABACK, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ABACK, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, CLR_ATEXT, !(bDefClr || bWinClr));
-						EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ATEXT, !(bDefClr || bWinClr));
-						if (bInitialized)
-						{
-							NotifyParentOfChange(hDlg);
-						}
-					}
-				}
-				break;
-
-			case RADIO_OPT_POPUP_DEFAULT:
-				if (HIWORD(wParam) == BN_CLICKED) 
-				{
-					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-					if (bInitialized)
-					{
-						NotifyParentOfChange(hDlg);
-					}
-				}
-				break;
-			case RADIO_OPT_POPUP_CUSTOM:
-				if (HIWORD(wParam) == BN_CLICKED)
-				{
-					EnableDlgItem(hDlg, EDIT_DELAY, TRUE);
-					if (bInitialized) 
-					{
-						NotifyParentOfChange(hDlg);
-					}
-				}
-				break;
-			case RADIO_OPT_POPUP_PERMANENT:
-				if (HIWORD(wParam) == BN_CLICKED)
-				{
-					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-					if (bInitialized)
-					{
-						NotifyParentOfChange(hDlg);
-					}
-				}
-				break;
-			case EDIT_DELAY:
-				if (bInitialized && HIWORD(wParam) == EN_UPDATE)
-				{
-					NotifyParentOfChange(hDlg);
-				}
-				break;
-			default:
-				if (bInitialized && HIWORD(wParam) == CPN_COLOURCHANGED)
-				{
-					NotifyParentOfChange(hDlg);
-				}
+				PUAddPopUpT(&ppd);
 			}
+			break;
+
+		case CHECK_OPT_POPUP_MSGBOX:
+		case CHECK_OPT_POPUP_PROGRESS:
+			if (bInitialized)
+				NotifyParentOfChange(hDlg);
+			break;
+
+		case CHECK_OPT_POPUP_ENABLED:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				const BOOL bEnabled = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
+				const INT idCtrl[] = { 
+					CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR, 
+					CLR_BBACK, TXT_OPT_POPUP_CLR_BACK, 
+					CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
+					CHECK_OPT_POPUP_ADEFCLR, CHECK_OPT_POPUP_AWINCLR,
+					CLR_ABACK, TXT_OPT_POPUP_CLR_ABACK,
+					CLR_ATEXT, TXT_OPT_POPUP_CLR_ATEXT,
+					RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM, 
+					RADIO_OPT_POPUP_PERMANENT, EDIT_DELAY
+				};
+						
+				EnableControls(hDlg, idCtrl, SIZEOF(idCtrl), bEnabled);
+
+				if (bInitialized)
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case CHECK_OPT_POPUP_DEFCLR:
+		case CHECK_OPT_POPUP_WINCLR:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL);
+				INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL);
+
+				EnableDlgItem(hDlg, CHECK_OPT_POPUP_DEFCLR, !bWinClr);
+				EnableDlgItem(hDlg, CHECK_OPT_POPUP_WINCLR, !bDefClr);
+				EnableDlgItem(hDlg, CLR_BBACK, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_BACK, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, CLR_BTEXT, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_TEXT, !(bDefClr || bWinClr));
+				if (bInitialized)
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case CHECK_OPT_POPUP_ADEFCLR:
+		case CHECK_OPT_POPUP_AWINCLR:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL);
+				INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL);
+
+				EnableDlgItem(hDlg, CHECK_OPT_POPUP_ADEFCLR, !bWinClr);
+				EnableDlgItem(hDlg, CHECK_OPT_POPUP_AWINCLR, !bDefClr);
+				EnableDlgItem(hDlg, CLR_ABACK, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ABACK, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, CLR_ATEXT, !(bDefClr || bWinClr));
+				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ATEXT, !(bDefClr || bWinClr));
+				if (bInitialized)
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case RADIO_OPT_POPUP_DEFAULT:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
+				if (bInitialized)
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case RADIO_OPT_POPUP_CUSTOM:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				EnableDlgItem(hDlg, EDIT_DELAY, TRUE);
+				if (bInitialized) 
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case RADIO_OPT_POPUP_PERMANENT:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
+				if (bInitialized)
+					NotifyParentOfChange(hDlg);
+			}
+			break;
+
+		case EDIT_DELAY:
+			if (bInitialized && HIWORD(wParam) == EN_UPDATE)
+				NotifyParentOfChange(hDlg);
+			break;
+
+		default:
+			if (bInitialized && HIWORD(wParam) == CPN_COLOURCHANGED)
+				NotifyParentOfChange(hDlg);
 		}
 	}
 	return FALSE;

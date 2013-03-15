@@ -176,7 +176,7 @@ int   TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat);
 int   TN_ModuleInit();
 int   TN_OptionsInitialize(WPARAM wParam, LPARAM lParam);
 int   TN_ModuleDeInit();
-int   TN_TypingMessage(WPARAM wParam, LPARAM lParam);
+void  TN_TypingMessage(HANDLE hContact, int iMode);
 
 // mod plus
 

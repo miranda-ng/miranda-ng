@@ -236,7 +236,7 @@ bool isContactGoneFor(HANDLE hContact, int days)
 				TCHAR szInfo[200];
 
 				POPUPDATAT_V2 ppd = {0};
-				ppd.cbSize = sizeof(POPUPDATAT_V2);
+				ppd.cbSize = sizeof(ppd);
 
 				ppd.lchContact = hContact;
 				ppd.lchIcon = Skin_GetIcon("enabled_icon");
@@ -275,8 +275,7 @@ void ReturnNotify(HANDLE hContact, TCHAR *message)
 
 	if (options.iShowPopUp > 0) {
 		// Display PopUp
-		POPUPDATAT_V2 ppd = { 0 };
-		ppd.cbSize = sizeof(ppd);
+		POPUPDATAT ppd = { 0 };
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
@@ -288,7 +287,6 @@ void ReturnNotify(HANDLE hContact, TCHAR *message)
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
-
 		PUAddPopUpT(&ppd);
 	}
 
@@ -315,9 +313,7 @@ void GoneNotify(HANDLE hContact, TCHAR *message)
 
 	if (options.iShowPopUp2 > 0) {
 		// Display PopUp
-		POPUPDATAT_V2 ppd = {0};
-		ppd.cbSize = sizeof(POPUPDATAT_V2);
-
+		POPUPDATAT ppd = {0};
 		ppd.lchContact = hContact;
 		ppd.lchIcon = hIcon;
 		_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
@@ -520,10 +516,8 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	// Last status
 	db_set_dw(hContact, MODULE_NAME, "LastStatus", prevStatus);
 
-	if (prevStatus == ID_STATUS_OFFLINE)
-	{
-		if (db_get_b(hContact, MODULE_NAME, "MissYou", 0))
-		{
+	if (prevStatus == ID_STATUS_OFFLINE) {
+		if (db_get_b(hContact, MODULE_NAME, "MissYou", 0)) {
 			// Display PopUp
 			POPUPDATAT_V2 ppd = {0};
 			ppd.cbSize = sizeof(POPUPDATAT_V2);
@@ -532,8 +526,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			ppd.lchIcon = Skin_GetIcon("enabled_icon");
 			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
-			if (!options.iUsePopupColors)
-			{
+			if (!options.iUsePopupColors) {
 				ppd.colorBack = options.iPopUpColorBack;
 				ppd.colorText = options.iPopUpColorFore;
 			}
@@ -551,16 +544,13 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (currentStatus == ID_STATUS_OFFLINE)
-	{
+	if (currentStatus == ID_STATUS_OFFLINE) {
 		setLastSeen(hContact);
 		return 0;
 	}
 
-	if (db_get_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline)
-	{
+	if (db_get_dw(hContact, MODULE_NAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
 		ReturnNotify(hContact, TranslateT("has gone online for the first time."));
-
 		setLastSeen(hContact);
 	}
 
@@ -568,19 +558,15 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	if (isContactGoneFor(hContact, AbsencePeriod))
 	{
 		TCHAR* message = TranslateT("has returned after a long absence.");
-		time_t tmpTime;
 		TCHAR tmpBuf[251] = {0};
-		tmpTime = getLastSeen(hContact);
-		if (tmpTime != -1)
-		{
+		time_t tmpTime = getLastSeen(hContact);
+		if (tmpTime != -1) {
 			_tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
 			message = tmpBuf;
 		}
-		else
-		{
+		else {
 			tmpTime = getLastInputMsg(hContact);
-			if (tmpTime != -1)
-			{
+			if (tmpTime != -1) {
 				_tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
 				message = tmpBuf;
 			}

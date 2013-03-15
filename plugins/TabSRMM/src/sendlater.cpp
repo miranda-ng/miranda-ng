@@ -125,8 +125,6 @@ void CSendLaterJob::writeFlags()
 CSendLaterJob::~CSendLaterJob()
 {
 	if (fSuccess || fFailed) {
-		POPUPDATAT_V2 ppd = {0};
-
 		if ((sendLater->haveErrorPopups() && fFailed) || (sendLater->haveSuccessPopups() && fSuccess)) {
 			bool fShowPopup = true;
 
@@ -138,9 +136,8 @@ CSendLaterJob::~CSendLaterJob()
 			if (PluginConfig.g_PopupAvail && fShowPopup) {
 				TCHAR	*tszName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
-				ZeroMemory((void*)&ppd, sizeof(ppd));
+				POPUPDATAT ppd = {0};
 				ppd.lchContact = hContact;
-				ppd.cbSize = sizeof(ppd);
 				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[lstrlenA((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
@@ -162,7 +159,7 @@ CSendLaterJob::~CSendLaterJob()
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
 				ppd.PluginData = (void*)hContact;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
-				CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppd, 0);
+				PUAddPopUpT(&ppd);
 			}
 		}
 		if (fFailed && (bCode == JOB_AGE || bCode == JOB_REMOVABLE) && szId[0] == 'S')

@@ -424,9 +424,7 @@ public:
 	 **/
 	virtual HWND Create(LPCTSTR szTitle, PUpdCallback pFnCallBack)
 	{
-		POPUPDATAT_V2	pd;
-		
-		ZeroMemory(&pd, sizeof(POPUPDATAT_V2));
+		POPUPDATAT_V2 pd = { 0 };
 		pd.cbSize = sizeof(POPUPDATAT_V2);
 		pd.lchIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
 		pd.iSeconds = -1;

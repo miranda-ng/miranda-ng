@@ -933,7 +933,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M->GetByte("MTN_PopupMode", 0), 0);
 
-			if (!PluginConfig.g_PopupWAvail) {
+			if (!PluginConfig.g_PopupAvail) {
 				Utils::showDlgControl(hwndDlg, IDC_NOTIFYPOPUP, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_STATIC111, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_MTN_POPUPMODE, SW_HIDE);
@@ -1265,7 +1265,7 @@ struct {
 
 static int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	if (PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_PopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
 	OPTIONSDIALOGPAGE odp = { 0 };

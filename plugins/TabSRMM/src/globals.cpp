@@ -202,7 +202,6 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 
 	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUP);
-	g_PopupWAvail = ServiceExists(MS_POPUP_ADDPOPUPW);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
@@ -404,7 +403,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();
 	::Chat_ModulesLoaded(wParam, lParam);
-	if (PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_PopupAvail)
 		TN_ModuleInit();
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);

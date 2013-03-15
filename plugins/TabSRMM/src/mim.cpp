@@ -502,14 +502,12 @@ void CMimAPI::InitAPI()
 
 int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 {
-	HWND			hwnd = 0;
-	int				issplit = 1, foundWin = 0, preTyping = 0;
-	struct			TContainerData *pContainer = NULL;
-	BOOL			fShowOnClist = TRUE;
+	HWND   hwnd = 0;
+	int    issplit = 1, foundWin = 0, preTyping = 0;
+	BOOL   fShowOnClist = TRUE;
 
 	if (wParam) {
-
-		if ((hwnd = M->FindWindow((HANDLE) wParam)) && M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
+		if ((hwnd = M->FindWindow((HANDLE)wParam)) && M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING))
 			preTyping = SendMessage(hwnd, DM_TYPING, 0, lParam);
 
 		if (hwnd && IsWindowVisible(hwnd))
@@ -517,59 +515,54 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		else
 			foundWin = 0;
 
-
+		TContainerData *pContainer = NULL;
 		if (hwnd) {
 			SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 			if (pContainer == NULL)
 				return 0;					// should never happen
 		}
 
-		if (M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
+		if ( M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
 			if (!hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 				fShowOnClist = FALSE;
 			if (hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
 				fShowOnClist = FALSE;
 		}
-		else
-			fShowOnClist = FALSE;
+		else fShowOnClist = FALSE;
 
-		if ((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0)) {
-			if (lParam)
-				SkinPlaySound("TNStart");
-			else
-				SkinPlaySound("TNStop");
-		}
+		if ((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0))
+			SkinPlaySound((lParam) ? "TNStart" : "TNStop");
 
 		if (M->GetByte(SRMSGMOD, "ShowTypingPopup", 0)) {
-			BOOL	fShow = FALSE;
-			int		iMode = M->GetByte("MTN_PopupMode", 0);
+			BOOL fShow = FALSE;
+			int  iMode = M->GetByte("MTN_PopupMode", 0);
 
 			switch(iMode) {
-				case 0:
+			case 0:
+				fShow = TRUE;
+				break;
+			case 1:
+				if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
 					fShow = TRUE;
-					break;
-				case 1:
-					if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
-						fShow = TRUE;
-					break;
-				case 2:
-					if (hwnd == 0)
-						fShow = TRUE;
-					else {
-						if (PluginConfig.m_HideOnClose) {
-							struct	TContainerData *pContainer = 0;
-							SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-							if (pContainer && pContainer->fHidden)
-								fShow = TRUE;
-						}
+				break;
+			case 2:
+				if (hwnd == 0)
+					fShow = TRUE;
+				else {
+					if (PluginConfig.m_HideOnClose) {
+						struct	TContainerData *pContainer = 0;
+						SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+						if (pContainer && pContainer->fHidden)
+							fShow = TRUE;
 					}
-					break;
+				}
+				break;
 			}
 			if (fShow)
-				TN_TypingMessage(wParam, lParam);
+				TN_TypingMessage((HANDLE)wParam, lParam);
 		}
 
-		if ((int) lParam) {
+		if (lParam) {
 			TCHAR szTip[256];
 
 			_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));

@@ -268,8 +268,6 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	EDITSTREAM esStream = {0};
 	struct EditStreamData esdData;
 	
-	POPUPDATAT_V2 pdtData;
-
 	esStream.dwCookie = (DWORD)&esdData;
 	esStream.pfnCallback = EditStreamOutRtf;
 
@@ -524,17 +522,16 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			if (moOptions.CopyToClipboard)
  				CopyTextToClipboard(ptszMBox);
 //-------------------------------Покажем попапы------------------------------------------ 			
- 			if (moOptions.ShowPopup)
-			{				
+ 			if (moOptions.ShowPopup) {				
 				ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 				_tcscpy(ptszPopupText, ptszMBox);
 
+				POPUPDATAT_V2 pdtData = { 0 };
 				pdtData.cbSize = sizeof(POPUPDATAT_V2);
-				ZeroMemory(&pdtData, sizeof(pdtData));
 				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
 				_tcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);
-				switch(poOptions.bColourType)
-				{
+
+				switch(poOptions.bColourType) {
 				case PPC_POPUP:
 					pdtData.colorBack = pdtData.colorText = 0;
 					break;
@@ -546,11 +543,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					pdtData.colorBack = poOptions.crBackColour;
 					pdtData.colorText = poOptions.crTextColour;
 					break;
-				default:
-					break;
 				}
-				switch(poOptions.bTimeoutType)
-				{
+
+				switch(poOptions.bTimeoutType) {
 				case PPT_POPUP:
 					pdtData.iSeconds = 0;
 					break;
@@ -562,22 +557,19 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					break;
 				}			
 				pdtData.PluginData  = ptszPopupText;
+				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
 				
 				pdtData.lchIcon = hPopupIcon;
 				poOptions.paActions[0].lchIcon = hCopyIcon;
 				pdtData.lpActions = poOptions.paActions;
 				pdtData.actionCount = 1;
-
-				pdtData.PluginWindowProc = (WNDPROC)CKLPopupDlgProc;
 								
-				if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pdtData, APF_NEWDATA)<0) 
-				{
+				if ( CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pdtData, APF_NEWDATA) < 0) {
 					mir_free(ptszPopupText);
 					MessageBox(NULL, ptszMBox, TranslateT(ModuleName), MB_ICONINFORMATION);
 				}
 			}
 			mir_free(ptszMBox);
-
 		}
 //------------------Редактируемые поля ----------------------------
 		else 

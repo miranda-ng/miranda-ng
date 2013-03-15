@@ -254,31 +254,24 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 {
 	if (gRemindOpts.bPopups)
 	{
-		POPUPDATAT_V2 ppd;
-
-		ZeroMemory(&ppd, sizeof(POPUPDATAT_V2));
+		POPUPDATAT ppd = { 0 };
 		ppd.PluginWindowProc = PopupWindowProc;
 		ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
 
-		if (hContact)
-		{
+		if (hContact) {
 			ppd.lchContact = hContact;
 			mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName),
 				_T("%s - %s"), TranslateTS(pszDesc), DB::Contact::DisplayName(hContact));
 		}
-		else
-		{
-			mir_tcsncpy(ppd.lptzContactName, TranslateT("Reminder"), SIZEOF(ppd.lptzContactName));
-		}
+		else mir_tcsncpy(ppd.lptzContactName, TranslateT("Reminder"), SIZEOF(ppd.lptzContactName));
+
 		mir_tcsncpy(ppd.lptzText, pszMsg, MAX_SECONDLINE);
 
 		ppd.lchIcon = GetAnnivIcon(CEvent(eventType, DaysToAnniv));
 
-		switch (eventType)
-		{
+		switch (eventType) {
 		case CEvent::BIRTHDAY:
-			switch (DB::Setting::GetByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM))
-			{
+			switch (DB::Setting::GetByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 			case POPUP_COLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
@@ -292,8 +285,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
 			break;
 
 		case CEvent::ANNIVERSARY:
-			switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM))
-			{
+			switch (DB::Setting::GetByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 			case POPUP_COLOR_WINDOWS:
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);

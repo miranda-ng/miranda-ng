@@ -561,132 +561,96 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
  */
 static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
+	switch (uMsg) {
 	case WM_INITDIALOG:
-		{
-			POPUPDATAT_V2	pd;
-			LPMSGPOPUPDATA	pmpd;
-			LPMSGBOX		pMsgBox = (LPMSGBOX)lParam;
+		LPMSGBOX	pMsgBox = (LPMSGBOX)lParam;
 
-			MoveWindow(hDlg,-10,-10,0,0,FALSE);
-			pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
-			if (pmpd)
-				{
-					ZeroMemory(&pd, sizeof(pd));
-					pd.cbSize = sizeof(POPUPDATAT_V2);
-					pd.lchContact = NULL; //(HANDLE)wParam;
-					// icon
-					pd.lchIcon = MsgLoadIcon(pMsgBox);
-					mir_tcsncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
-					mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
-				
-					// CALLBAC Proc
-					pd.PluginWindowProc = PopupProc;
-					// 
-					pd.PluginData = pmpd;
+		MoveWindow(hDlg,-10,-10,0,0,FALSE);
+		LPMSGPOPUPDATA	pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
+		if (pmpd) {
+			POPUPDATAT_V2 pd = { 0 };
+			pd.cbSize = sizeof(POPUPDATAT_V2);
+			pd.lchContact = NULL; //(HANDLE)wParam;
+			// icon
+			pd.lchIcon = MsgLoadIcon(pMsgBox);
+			mir_tcsncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
+			mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
 
-					pd.iSeconds = -1;
+			// CALLBAC Proc
+			pd.PluginWindowProc = PopupProc;
+			pd.PluginData = pmpd;
+			pd.iSeconds = -1;
+			pd.lpActions = pmpd->pa;
 
-					pd.hNotification = NULL;
-					pd.lpActions = pmpd->pa;
+			// set color of popup
+			switch (pMsgBox->uType & MB_ICONMASK) {
+			case MB_ICON_ERROR:
+				pd.colorBack = RGB(200,	10,	 0);
+				pd.colorText = RGB(255, 255, 255);
+				break;
 
-					// set color of popup
-					switch (pMsgBox->uType & MB_ICONMASK)
-					{
-					case MB_ICON_ERROR:
-						{
-							pd.colorBack = RGB(200,	10,	 0);
-							pd.colorText = RGB(255, 255, 255);
-						}
-						break;
+			case MB_ICON_WARNING:
+				pd.colorBack = RGB(200, 100,	 0);
+				pd.colorText = RGB(255, 255, 255);
+				break;
 
-					case MB_ICON_WARNING:
-						{
-							pd.colorBack = RGB(200, 100,	 0);
-							pd.colorText = RGB(255, 255, 255);
-						}
-						break;
+			default:
+				if (pMsgBox->uType & MB_CUSTOMCOLOR) {
+					pd.colorBack = pMsgBox->colorBack;
+					pd.colorText = pMsgBox->colorText;
+				}
+			}
 
-					default:
-						{
-							if (pMsgBox->uType & MB_CUSTOMCOLOR)
-							{
-								pd.colorBack = pMsgBox->colorBack;
-								pd.colorText = pMsgBox->colorText;
-							}
-						}
-					}
+			// handle for MakePopupAction
+			pmpd->hDialog = hDlg;
 
-					// handle for MakePopupAction
-					pmpd->hDialog = hDlg;
+			// active buttons
+			switch (MB_TYPE(pMsgBox->uType)) {
+			case MB_OK:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
+				break;
 
-					// active buttons
-					switch (MB_TYPE(pMsgBox->uType))
-					{
-					case MB_OK:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
-						}
-						break;
+			case MB_OKCANCEL:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				break;
 
-					case MB_OKCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDOK);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+			case MB_RETRYCANCEL:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				break;
 
-					case MB_RETRYCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+			case MB_YESNO:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+				break;
 
-					case MB_YESNO:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-						}
-						break;
+			case MB_ABORTRETRYIGNORE:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDABORT);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDIGNORE);
+				break;
 
-					case MB_ABORTRETRYIGNORE:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDABORT);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDRETRY);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDIGNORE);
-						}
-						break;
+			case MB_YESNOCANCEL:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
+				break;
 
-					case MB_YESNOCANCEL:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDCANCEL);
-						}
-						break;
+			case MB_YESALLNO:
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDALL);
+				MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
+				break;
+			}
 
-					case MB_YESALLNO:
-						{
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDYES);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDALL);
-							MakePopupAction(pmpd->pa[pd.actionCount++], IDNO);
-						}
-						break;
-
-					} // end* switch
-
-					// create popup
-					CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
-					if (MB_TYPE(pMsgBox->uType) == MB_OK)
-					{
-						EndDialog(hDlg, IDOK);
-					}
-				} // end*if (pmpd)
-			break;
-		} // end* WM_INITDIALOG:
-	} // end* switch (uMsg)
+			// create popup
+			CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pd, APF_NEWDATA);
+			if (MB_TYPE(pMsgBox->uType) == MB_OK)
+				EndDialog(hDlg, IDOK);
+		}
+		break;
+	}
 	return FALSE;
 }
 
@@ -702,57 +666,39 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
  **/
 static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg)
-	{
-		case UM_POPUPACTION:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)
-			{
-				LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
-
-				if (pmpd)
-				{
-					switch (LOWORD(wParam))
-					{
-					case IDOK:
-					case IDCANCEL:
-					case IDABORT:
-					case IDRETRY:
-					case IDIGNORE:
-					case IDYES:
-					case IDNO:
-					case IDALL:
-					case IDNONE:
-						{
-							if (IsWindow(pmpd->hDialog))
-								EndDialog(pmpd->hDialog, LOWORD(wParam));
-						}
+	switch (uMsg) {
+	case UM_POPUPACTION:
+		if (HIWORD(wParam) == BN_CLICKED) {
+			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+			if (pmpd) {
+				switch (LOWORD(wParam)) {
+				case IDOK:
+				case IDCANCEL:
+				case IDABORT:
+				case IDRETRY:
+				case IDIGNORE:
+				case IDYES:
+				case IDNO:
+				case IDALL:
+				case IDNONE:
+					if (IsWindow(pmpd->hDialog))
+						EndDialog(pmpd->hDialog, LOWORD(wParam));
 					break;
 
-					default:
-						{
-							if (IsWindow(pmpd->hDialog))
-								EndDialog(pmpd->hDialog, IDCANCEL);
-						}
-					}
+				default:
+					if (IsWindow(pmpd->hDialog))
+						EndDialog(pmpd->hDialog, IDCANCEL);
 				}
-				PUDeletePopUp(hDlg);
 			}
+			PUDeletePopUp(hDlg);
 		}
 		break;
 
-		case UM_FREEPLUGINDATA:
-		{
-			LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
-			if (pmpd > 0) {
-				MIR_FREE(pmpd);
-			}
-			return TRUE; //TRUE or FALSE is the same, it gets ignored.
-		}
-		break;
-
-		default:
-		break;
+	case UM_FREEPLUGINDATA:
+		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)PUGetPluginData(hDlg);
+		if (pmpd > 0)
+			MIR_FREE(pmpd);
+		return TRUE;
 	}
 	return DefWindowProc(hDlg, uMsg, wParam, lParam);
 }
@@ -768,28 +714,21 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
  **/
 INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
 {
-	INT rc = -1;
 	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
 
 	// check input
-	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) 
-	{
+	if ( PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR|MB_NOPOPUP)) &&					// message box can be a popup?
 				ServiceExists(MS_POPUP_ADDPOPUPT) &&						// popups exist?
 				myGlobals.PopUpActionsExist == 1 &&							// popup support ext stuct?
 				(DB::Setting::GetDWord(NULL, "PopUp","Actions", 0) & 1) &&	// popup++ actions on?
-				DB::Setting::GetByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX)	// user likes popups?
-			)
-		{
-			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
-		}
-		else
-		{
-			rc = DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
-		}
+				DB::Setting::GetByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
+			return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
+
+		return DialogBoxParam(ghInst, MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);
 	}
-	return rc;
+	return -1;
 }
 
 /**
@@ -799,22 +738,22 @@ INT_PTR MsgBoxService(WPARAM wParam, LPARAM lParam)
  **/
 INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInfo, LPTSTR pszFormat, ...)
 {
-	MSGBOX	 mb = {0};
-	TCHAR		tszMsg[MAX_SECONDLINE];
-	va_list	vl;
+	TCHAR tszMsg[MAX_SECONDLINE];
 
+	va_list	vl;
 	va_start(vl, pszFormat);
 	mir_vsntprintf(tszMsg, SIZEOF(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 
-	mb.cbSize			= sizeof(MSGBOX);
-	mb.hParent			= hParent;
-	mb.hiLogo			= LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
-	mb.hiMsg			= NULL;
-	mb.ptszTitle		= TranslateTS(pszTitle);
-	mb.ptszInfoText		= TranslateTS(pszInfo);
-	mb.ptszMsg			= tszMsg;
-	mb.uType			= uType;
+	MSGBOX mb = {0};
+	mb.cbSize = sizeof(MSGBOX);
+	mb.hParent = hParent;
+	mb.hiLogo = LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
+	mb.hiMsg = NULL;
+	mb.ptszTitle = TranslateTS(pszTitle);
+	mb.ptszInfoText = TranslateTS(pszInfo);
+	mb.ptszMsg = tszMsg;
+	mb.uType	= uType;
 	return MsgBoxService(NULL, (LPARAM)&mb);
 }
 
@@ -825,23 +764,21 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPTSTR pszTitle, LPTSTR pszInf
  **/
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {
-	MSGBOX	mb = {0};
-	TCHAR	tszTitle[MAX_SECONDLINE];
-	TCHAR	tszMsg[MAX_SECONDLINE];
-	va_list	vl;
-
+	TCHAR	tszTitle[MAX_SECONDLINE], tszMsg[MAX_SECONDLINE];
 	mir_sntprintf(tszTitle, SIZEOF(tszMsg),_T("%s - %s") ,_T(MODNAME), TranslateT("Error"));
 
+	va_list vl;
 	va_start(vl, pszFormat);
 	mir_vsntprintf(tszMsg, SIZEOF(tszMsg), TranslateTS(pszFormat), vl);
 	va_end(vl);
 
-	mb.cbSize		= sizeof(MSGBOX);
-	mb.hParent		= hParent;
-	mb.hiLogo		= LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
-	mb.hiMsg		= NULL;
-	mb.ptszTitle	= tszTitle;
-	mb.ptszMsg		= tszMsg;
-	mb.uType		= MB_OK|MB_ICON_ERROR;
+	MSGBOX mb = {0};
+	mb.cbSize = sizeof(MSGBOX);
+	mb.hParent = hParent;
+	mb.hiLogo = LoadIcon(ghInst, MAKEINTRESOURCE(IDI_MAIN));
+	mb.hiMsg = NULL;
+	mb.ptszTitle = tszTitle;
+	mb.ptszMsg = tszMsg;
+	mb.uType	= MB_OK|MB_ICON_ERROR;
 	return MsgBoxService(NULL, (LPARAM)&mb);
 }
