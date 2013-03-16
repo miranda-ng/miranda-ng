@@ -1612,6 +1612,7 @@
 [Other Action groups]
 [Operation]
 [Last result]
+
 [Own settings]
 [Array]
 [Message title]
@@ -2587,6 +2588,7 @@
 [XML Files]
 [Set My Avatar]
 [Set My Avatar for %s]
+[Global avatar]
 [Global avatar for %s accounts]
 [Avatars]
 [My Avatars]
@@ -6777,7 +6779,8 @@
 [%0.1n h]
 [%d min]
 [&Reset to Default]
-[Contact history]﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+[Contact history]
+﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: History sweeper light
@@ -8152,7 +8155,8 @@
 [Show duplicates]
 [Error at initialization XML parser]
 [Import history to %s (%s)]
-[Can't determine destination contact]﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+[Can't determine destination contact]
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
@@ -10856,7 +10860,8 @@
 [Mute with Miranda]
 [Advanced]
 [Stop]
-[Play]﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+[Play]
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
@@ -12984,7 +12989,8 @@
 [QuickSearch window hotkey]
 [Previous item]
 [Next item]
-[Open main window]﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+[Open main window]
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
 ;  Plugin: Quotes
@@ -14289,7 +14295,8 @@
 [Show contacts that you have set privacy rules for]
 [Do not show status icons in menus]
 [Do not show contacts that are offline, even if my contact list does]
-[Shell context menus for transfers]﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+[Shell context menus for transfers]
+﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;============================================================
 ;  File: SimpleAR.dll
 ;  Plugin: Simple auto replier
@@ -18342,7 +18349,8 @@
 ;other strings
 [Slider]
 [Slider Hovered]
-[Slider Pushed]﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+[Slider Pushed]
+﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll
 ;  Plugin: Watrack MPD
@@ -19184,7 +19192,7 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-[ail notifier and browser for Miranda NG. Included POP3 protocol.]
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 [Installed plugins]

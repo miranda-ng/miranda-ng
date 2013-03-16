@@ -55,6 +55,7 @@
 [XML Files]
 [Set My Avatar]
 [Set My Avatar for %s]
+[Global avatar]
 [Global avatar for %s accounts]
 [Avatars]
 [My Avatars]
