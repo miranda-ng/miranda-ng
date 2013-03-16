@@ -50,7 +50,6 @@
 [Other Action groups]
 [Operation]
 [Last result]
-
 [Own settings]
 [Array]
 [Message title]
