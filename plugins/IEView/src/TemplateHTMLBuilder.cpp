@@ -82,7 +82,7 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 		}
 		DBFreeVariant(&dbv);
 	}
-	char* res = Utils::UTF8Encode(result);
+	char* res = mir_utf8encodeT(result);
 	Utils::convertPath(res);
 	return res;
 }
@@ -145,7 +145,9 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
 		}
 	}
-	Utils::UTF8Encode(str, szResult, 500);
+	char *tmp = mir_utf8encodeT(str);
+	lstrcpynA(szResult, tmp, 500);
+	mir_free(tmp);
 	return szResult;
 }
 
@@ -190,7 +192,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	pathrun++;
 	*pathrun = '\0';
 
-	szBase = Utils::UTF8Encode(tempBase);
+	szBase = mir_utf8encode(tempBase);
 	getUINs(event->hContact, szUINIn, szUINOut);
 	if (getFlags(protoSettings) & Options::LOG_SHOW_NICKNAMES) {
 		szNameOut = getEncodedContactName(NULL, szProto, szRealProto);
@@ -200,11 +202,11 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameIn = Utils::dupString("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
-	szNoAvatar = Utils::UTF8Encode(tempStr);
+	szNoAvatar = mir_utf8encode(tempStr);
 	if (access(szNoAvatar, 0) == -1)
 	{
 		sprintf(tempStr, "%snoavatar.jpg", tempBase);
-		szNoAvatar = Utils::UTF8Encode(tempStr);
+		szNoAvatar = mir_utf8encode(tempStr);
 	}
 	szAvatarIn = getAvatar(event->hContact, szRealProto);
 	if (szAvatarIn == NULL) {
@@ -216,7 +218,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	}
 	if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
 		if (strlen(dbv.pszVal) > 0) {
-			szStatusMsg = Utils::UTF8Encode(dbv.pszVal);
+			szStatusMsg = mir_utf8encode(dbv.pszVal);
 		}
 		DBFreeVariant(&dbv);
 	}
@@ -298,19 +300,19 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		view->write(output);
 		free(output);
 	}
-	if (szBase!=NULL) delete szBase;
+	if (szBase!=NULL) mir_free(szBase);
 	if (szRealProto!=NULL) delete szRealProto;
 	if (szProto!=NULL) delete szProto;
-	if (szUINIn!=NULL) delete szUINIn;
-	if (szUINOut!=NULL) delete szUINOut;
-	if (szNoAvatar!=NULL) delete szNoAvatar;
-	if (szAvatarIn!=NULL) delete szAvatarIn;
-	if (szAvatarOut!=NULL) delete szAvatarOut;
-	if (szNameIn!=NULL) delete szNameIn;
-	if (szNameOut!=NULL) delete szNameOut;
-	if (szNickIn!=NULL) delete szNickIn;
-	if (szNickOut!=NULL) delete szNickOut;
-	if (szStatusMsg!=NULL) delete szStatusMsg;
+	if (szUINIn!=NULL) mir_free(szUINIn);
+	if (szUINOut!=NULL) mir_free(szUINOut);
+	if (szNoAvatar!=NULL) mir_free(szNoAvatar);
+	if (szAvatarIn!=NULL) mir_free(szAvatarIn);
+	if (szAvatarOut!=NULL) mir_free(szAvatarOut);
+	if (szNameIn!=NULL) mir_free(szNameIn);
+	if (szNameOut!=NULL) mir_free(szNameOut);
+	if (szNickIn!=NULL) mir_free(szNickIn);
+	if (szNickOut!=NULL) mir_free(szNickOut);
+	if (szStatusMsg!=NULL) mir_free(szStatusMsg);
 	//view->scrollToBottom();
 	groupTemplate = NULL;
 	iLastEventType = -1;
@@ -362,7 +364,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		*pathrun = '\0';
 		isGrouping = tmpm->isGrouping();
 	}
-	szBase = Utils::UTF8Encode(tempBase);
+	szBase = mir_utf8encode(tempBase);
 
 	if (event->hContact != NULL) {
 		getUINs(event->hContact, szUINIn, szUINOut);
@@ -376,11 +378,11 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameIn = Utils::dupString("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
-	szNoAvatar = Utils::UTF8Encode(tempStr);
+	szNoAvatar = mir_utf8encode(tempStr);
 	if (access(szNoAvatar, 0) == -1)
 	{
 		sprintf(tempStr, "%snoavatar.jpg", tempBase);
-		szNoAvatar = Utils::UTF8Encode(tempStr);
+		szNoAvatar = mir_utf8encode(tempStr);
 	}
 
 	if(event->hContact != NULL) {
@@ -396,7 +398,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if(event->hContact != NULL) {
 		if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
 			if (strlen(dbv.pszVal) > 0) {
-				szStatusMsg = Utils::UTF8Encode(dbv.pszVal);
+				szStatusMsg = mir_utf8encode(dbv.pszVal);
 			}
 			DBFreeVariant(&dbv);
 		}
@@ -614,28 +616,28 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			}
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
-			if (szName!=NULL) delete szName;
-			if (szText!=NULL) delete szText;
-			if (szFileDesc!=NULL) delete szFileDesc;
+			if (szName!=NULL) mir_free(szName);
+			if (szText!=NULL) mir_free(szText);
+			if (szFileDesc!=NULL) mir_free(szFileDesc);
 		}
 		if (output != NULL) {
 			view->write(output);
 			free(output);
 		}
 	}
-	if (szBase!=NULL) delete szBase;
+	if (szBase!=NULL) mir_free(szBase);
 	if (szRealProto!=NULL) delete szRealProto;
 	if (szProto!=NULL) delete szProto;
-	if (szUINIn!=NULL) delete szUINIn;
-	if (szUINOut!=NULL) delete szUINOut;
-	if (szNoAvatar!=NULL) delete szNoAvatar;
-	if (szAvatarIn!=NULL) delete szAvatarIn;
-	if (szAvatarOut!=NULL) delete szAvatarOut;
-	if (szNameIn!=NULL) delete szNameIn;
-	if (szNameOut!=NULL) delete szNameOut;
-	if (szNickIn!=NULL) delete szNickIn;
-	if (szNickOut!=NULL) delete szNickOut;
-	if (szStatusMsg!=NULL) delete szStatusMsg;
+	if (szUINIn!=NULL) mir_free(szUINIn);
+	if (szUINOut!=NULL) mir_free(szUINOut);
+	if (szNoAvatar!=NULL) mir_free(szNoAvatar);
+	if (szAvatarIn!=NULL) mir_free(szAvatarIn);
+	if (szAvatarOut!=NULL) mir_free(szAvatarOut);
+	if (szNameIn!=NULL) mir_free(szNameIn);
+	if (szNameOut!=NULL) mir_free(szNameOut);
+	if (szNickIn!=NULL) mir_free(szNickIn);
+	if (szNickOut!=NULL) mir_free(szNickOut);
+	if (szStatusMsg!=NULL) mir_free(szStatusMsg);
 	view->documentClose();
 }
 

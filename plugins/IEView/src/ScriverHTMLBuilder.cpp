@@ -171,7 +171,9 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		//_tcsncat(szResult, str, 500);
 		strncat(szResult, str, 500);
 	}
-	Utils::UTF8Encode(szResult, szResult, 500);
+	char *tmp = mir_utf8encode(szResult);
+	lstrcpynA(szResult, tmp, 500);
+	mir_free(tmp);
 	return szResult;
 }
 

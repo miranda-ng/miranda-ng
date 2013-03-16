@@ -50,10 +50,6 @@ public:
 	static char *convertToString(const wchar_t *a, int cp);
 	static char *escapeString(const char *a);
 	static DWORD safe_wcslen(wchar_t *msg, DWORD maxLen);
-	static char *UTF8Encode(const wchar_t *wtext);
-	static char *UTF8Encode(const char *text);
-	static void  UTF8Encode(const char *text, char *output, int maxLen);
-	static void  UTF8Encode(const wchar_t *text, char *output, int maxLen);
 	static int   detectURL(const wchar_t *text);
 	static HANDLE hookEvent_Ex(const char *name, MIRANDAHOOK hook);
 	static HANDLE createServiceFunction_Ex(const char *name, MIRANDASERVICE service);

@@ -62,7 +62,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	TCHAR *workingDir = new TCHAR[wdsize];
 	GetCurrentDirectory(wdsize, workingDir);
 	Utils::convertPath(workingDir);
-	workingDirUtf8 = Utils::UTF8Encode(workingDir);
+	workingDirUtf8 = mir_utf8encodeT(workingDir);
 	delete workingDir;
 
 	GetModuleFileNameA(hInstance, text, sizeof(text));
@@ -106,7 +106,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	Utils::destroyServices_Ex();
 	DestroyHookableEvent(hHookOptionsChanged);
 	IEView::release();
-	delete workingDirUtf8;
+	mir_free(workingDirUtf8);
 	free( ieviewModuleName );
 	return 0;
 }

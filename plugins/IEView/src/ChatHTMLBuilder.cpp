@@ -87,7 +87,9 @@ char *ChatHTMLBuilder::timestampToString(time_t time)
 	char *pszStamp = "[%H:%M]";
 	//InitSetting( &g_Settings.pszTimeStamp, "HeaderTime", _T("[%H:%M]"));
 	strftime(str, 79, pszStamp, localtime(&time));
-	Utils::UTF8Encode(str, szResult, 500);
+	char *tmp = mir_utf8encode(str);
+	lstrcpynA(szResult, tmp, 500);
+	mir_free(tmp);
 	return szResult;
 }
 

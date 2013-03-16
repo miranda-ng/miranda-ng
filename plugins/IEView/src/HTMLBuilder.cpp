@@ -102,7 +102,7 @@ char * HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const wchar_t
 	char *outputStr = NULL;
 	if (wtext != NULL) {
 		wchar_t *output = encode(hContact, proto, wtext, flags, isSent);
-		outputStr = Utils::UTF8Encode(output);
+		outputStr = mir_utf8encodeT(output);
 		if (output != NULL) {
 			free(output);
 		}
@@ -224,7 +224,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut) {
 			break;
 		}
 	}
-	uinIn = Utils::UTF8Encode(buf);
+	uinIn = mir_utf8encode(buf);
 	ci.hContact = NULL;
 	buf[0] = 0;
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
@@ -238,7 +238,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut) {
 			break;
 		}
 	}
-	uinOut = Utils::UTF8Encode(buf);
+	uinOut = mir_utf8encode(buf);
 	delete szProto;
 }
 

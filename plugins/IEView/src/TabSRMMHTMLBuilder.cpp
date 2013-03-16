@@ -197,7 +197,9 @@ char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	}
 	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
 	strncat(szResult, str, 500);
-	Utils::UTF8Encode(szResult, szResult, 500);
+	char *tmp = mir_utf8encode(szResult);
+	lstrcpynA(szResult, tmp, 500);
+	mir_free(tmp);
 	return szResult;
 }
 
@@ -419,8 +421,8 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			setLastEventType(MAKELONG(eventData->dwFlags, eventData->iType));
 			setLastEventTime(eventData->time);
-			if (szName!=NULL) delete szName;
-			if (szText!=NULL) delete szText;
+			if (szName!=NULL) mir_free(szName);
+			if (szText!=NULL) mir_free(szText);
 		}
 		if (output != NULL) {
 			view->write(output);
