@@ -89,10 +89,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* DB/GetProfileName service
 Gets the name of the profile currently being used by the database module. This
 is the same as the filename of the database
-  wParam = (WPARAM)(UINT)cbName
+  wParam = (WPARAM)(UINT)cbSize
   lParam = (LPARAM)(char*)pszName
 pszName is a pointer to the buffer that receives the name of the profile
-cbName is the size in bytes of the pszName buffer
+cbSize is the size in characters of the pszName buffer
 Returns 0 on success or nonzero otherwise
 */
 #define MS_DB_GETPROFILENAME  "DB/GetProfileName"
@@ -103,10 +103,10 @@ Get the path of the base folder where Miranda will store all individual profiles
 The returned path does NOT include a trailing backslash.
 Essentially this is what has been set in mirandaboot.ini as ProfileDir.
 For more options to retrieve profile paths check MS_UTILS_REPLACEVARS
-  wParam = (WPARAM)(UINT)cbName
+  wParam = (WPARAM)(UINT)cbSize
   lParam = (LPARAM)(char*)pszName
 pszName is a pointer to the buffer that receives the path of the profile
-cbName is the size in bytes of the pszName buffer
+cbSize is the size in characters of the pszName buffer
 Returns 0 on success or nonzero otherwise
 */
 #define MS_DB_GETPROFILEPATH  "DB/GetProfilePath"
