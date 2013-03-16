@@ -200,12 +200,12 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameIn = Utils::dupString("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
+	szNoAvatar = Utils::UTF8Encode(tempStr);
+	if (access(szNoAvatar, 0) == -1)
+	{
+		sprintf(tempStr, "%snoavatar.jpg", tempBase);
 		szNoAvatar = Utils::UTF8Encode(tempStr);
-		if (access(szNoAvatar, 0) != -1)
-		{
-			sprintf(tempStr, "%snoavatar.jpg", tempBase);
-			szNoAvatar = Utils::UTF8Encode(tempStr);
-		}
+	}
 	szAvatarIn = getAvatar(event->hContact, szRealProto);
 	if (szAvatarIn == NULL) {
 		szAvatarIn = Utils::dupString(szNoAvatar);
@@ -376,12 +376,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameIn = Utils::dupString("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
+	szNoAvatar = Utils::UTF8Encode(tempStr);
+	if (access(szNoAvatar, 0) == -1)
+	{
+		sprintf(tempStr, "%snoavatar.jpg", tempBase);
 		szNoAvatar = Utils::UTF8Encode(tempStr);
-		if (access(szNoAvatar, 0) != -1)
-		{
-			sprintf(tempStr, "%snoavatar.jpg", tempBase);
-			szNoAvatar = Utils::UTF8Encode(tempStr);
-		}
+	}
 
 	if(event->hContact != NULL) {
 		szAvatarIn = getAvatar(event->hContact, szRealProto);
