@@ -339,5 +339,6 @@ static void __cdecl PopupThread(void *arg)
 		DispatchMessage(&msg);
 	}
 
-	ReleaseMutex(hThreadMutex);
+	DestroyWindow(gHwndManager); gHwndManager = NULL;
+	ReleaseMutex(hThreadMutex); hThreadMutex = NULL;
 }

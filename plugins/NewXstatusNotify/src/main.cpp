@@ -1021,8 +1021,7 @@ int ProtoAck(WPARAM wParam,LPARAM lParam)
 			//The protocol changed from a disconnected status to a connected status.
 			//Enable the popups for this protocol.
 			int idTimer = AddAtomA(szProto);
-			if (idTimer) 
-			{
+			if (idTimer) {
 				char TimerProtoName[256];
 				mir_snprintf(TimerProtoName, sizeof(TimerProtoName), "ConnectionTimeout%s", szProto);
 				UINT ConnectTimer = db_get_dw(0, MODULE, TimerProtoName, db_get_dw(0, MODULE, "ConnectionTimeout", 10000));
@@ -1132,6 +1131,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static int OnShutdown(WPARAM, LPARAM)
+{
+	DestroyWindow(SecretWnd);
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -1141,6 +1146,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	//We create this Hook which will notify everyone when a contact changes his status.
 	hHookContactStatusChanged = CreateHookableEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	//We add the option page and the user info page (it's needed because options are loaded after plugins)
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	//This is needed for "NoSound"-like routines.
