@@ -48,7 +48,7 @@ Token::Token(int type, const char *text, int escape) {
 
 Token::~Token() {
 	if (text!=NULL) {
-		delete text;
+		mir_free(text);
 	}
 }
 
@@ -81,8 +81,8 @@ Template::Template(const char *name, const char *text) {
 }
 
 Template::~Template() {
-	if (text != NULL) delete text;
-	if (name != NULL) delete name;
+	if (text != NULL) mir_free(text);
+	if (name != NULL) mir_free(name);
 	Token *ptr = tokens, *ptr2;
 	tokens = NULL;
 	for (;ptr!=NULL;ptr = ptr2) {
@@ -229,7 +229,7 @@ TemplateMap::TemplateMap(const char *name) {
 
 TemplateMap::~TemplateMap() {
 	if (name != NULL) {
-		delete name;
+		mir_free(name);
 	}
 	if (filename != NULL) {
 		delete filename;
