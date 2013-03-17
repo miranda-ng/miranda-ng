@@ -20,21 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "dlg_propsheet.h"
-#include "mir_menuitems.h"
-
-#include "svc_Contactinfo.h"
-#include "svc_Avatar.h"
-#include "svc_Email.h"
-#include "svc_Gender.h"
-#include "svc_Homepage.h"
-#include "svc_Phone.h"
-#include "svc_Refreshci.h"
-#include "svc_Reminder.h"
-#include "svc_Timezone.h"
-#include "svc_Timezone_old.h"
-#include "flags\svc_flags.h"
-#include "psp_options.h"
 
 #define		PSM_ENABLE_TABITEM	(WM_USER+106)
 

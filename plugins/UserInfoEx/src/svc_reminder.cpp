@@ -22,13 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 /**
  * System Includes:
  **/
-#include "commonheaders.h"
-#include "m_skin.h"
-#include "m_clui.h"
 
-#include "svc_Gender.h"
-#include "svc_Reminder.h"
-#include "dlg_anniversarylist.h"
+#include "commonheaders.h"
 
 /**
  * The CEvent structure describes the next anniversary to remind of.

@@ -34,22 +34,6 @@ Copyright:
 #ifndef TINYXML_INCLUDED
 #define TINYXML_INCLUDED
 
-#define _CRT_SECURE_NO_WARNINGS
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4530)
-#pragma warning(disable : 4786)
-#endif
-
-#ifndef USE_MMGR
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#endif
-
 // Help out windows:
 #if defined(_DEBUG) && !defined(DEBUG)
 #define DEBUG
@@ -70,7 +54,6 @@ Copyright:
 	#define TIXML_OSTREAM	std::ostream
 	#define TIXML_ENDL		std::endl
 #else
-	#include "tinystr.h"
 	#define TIXML_STRING	TiXmlString
 	#define TIXML_OSTREAM	TiXmlOutStream
 	#define TIXML_ENDL		"\n"
@@ -1584,10 +1567,6 @@ public:
 private:
 	TiXmlNode* node;
 };
-
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
 
 #endif
 

@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "..\commonheaders.h"
-#include "svc_flags.h"
-#include "svc_flagsicons.h"
-#include "svc_countrylistext.h"
 
 #define M_ENABLE_SUBCTLS			(WM_APP+1)
 

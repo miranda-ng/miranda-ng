@@ -31,9 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define _CRT_SECURE_NO_DEPRECATE 1
 #define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 0
-
-#pragma warning(disable:4995)		// disable warning about strcpy, ... is old in VC2005
-#pragma warning(disable:4996)		// disable warning about strcpy, ... is old in VC2005
+#define _CRT_SECURE_NO_WARNINGS
 
 /***********************************************************************************************************
  * standard windows includes
@@ -41,18 +39,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <windows.h>
 #include <windowsx.h>
-#include <winnt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <commctrl.h>
 #include <commdlg.h>
-#include <shellapi.h>
-#include <shlobj.h>
 #include <shlwapi.h>
-#include <malloc.h>
-#include <string>
-#include <list>
 #include <Richedit.h>
+#include <dlgs.h>
+#include <assert.h>
+#include <string>
 
 using namespace std;
 
@@ -60,28 +52,17 @@ using namespace std;
  * Miranda NG SDK includes and macros
  ***********************************************************************************************************/
 
-#define MIRANDA_VER 0x0A00
-
-#include <newpluginapi.h>	// This must be included first
-#include <m_stdhdr.h>
+#include <newpluginapi.h>
 #include <m_button.h>
 #include <m_clui.h>
-#include <m_clist.h>
 #include <m_clistint.h>
-#include <m_cluiframes.h>
 #include <m_database.h>
-#include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_langpack.h>
 #include <m_protomod.h>
-#include <m_protosvc.h>
 #include <m_options.h>
-#include <m_contacts.h>
-#include <m_utils.h>
-#include <m_system.h>		// memory interface
-#include <m_system_cpp.h>	// list template
-#include <m_xml.h>			// XML API
-#include <m_timezones.h>	// timezone interface
+#include <m_xml.h>
+#include <m_timezones.h>
 #include <m_imgsrvc.h>
 #include <m_message.h>
 #include <m_userinfo.h>
@@ -90,20 +71,24 @@ using namespace std;
 #include <win2k.h>
 #include <msapi/vsstyle.h>
 #include <msapi/vssym32.h>
+#include <m_skin.h>
+#include <m_extraicons.h>
+#include <m_avatars.h>
+#include <m_contacts.h>
+#include <m_db3xSA.h>
+#include <m_icolib.h>
+#include <m_popup.h>
 
 /***********************************************************************************************************
  * Used Plugins SDK includes and macros
  ***********************************************************************************************************/
 
-#include <m_popup.h>
-#include "m_popup2.h"
-#include "m_flags.h"
-#include "m_metacontacts.h"
-#include "m_magneticwindows.h"
-#include "m_toptoolbar.h"
-#include "m_userinfoex.h"
-
-#include <m_extraicons.h>	//change this to match extraicons header location
+#include <m_popup2.h>
+#include <m_flags.h>
+#include <m_metacontacts.h>
+#include <m_magneticwindows.h>
+#include <m_toptoolbar.h>
+#include <m_userinfoex.h>
 
 /***********************************************************************************************************
  * UserInfoEx plugin includes and macros
@@ -128,19 +113,59 @@ using namespace std;
 #define GetUserData(p)		GetWindowLongPtr((p), GWLP_USERDATA)
 #define SetUserData(p, l)	SetWindowLongPtr((p), GWLP_USERDATA, (LONG_PTR) (l))
 
+unsigned int hashSetting_M2(const wchar_t * key);	//new Murma2 hash
+unsigned int hashSetting_M2(const char * key);		//new Murma2 hash
+unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
+
 #include "resource.h"
+#include "version.h"
 #include "../IconPacks/default/src/icons.h"
 #include "../IconPacks/ice/src/icons.h"
-
 #include "svc_constants.h"
-
+#include "svc_avatar.h"
+#include "svc_contactinfo.h"
+#include "svc_email.h"
+#include "svc_gender.h"
+#include "svc_homepage.h"
+#include "svc_phone.h"
+#include "svc_refreshci.h"
+#include "svc_reminder.h"
+#include "svc_timezone.h"
+#include "svc_timezone_old.h"
 #include "mir_contactqueue.h"
 #include "mir_db.h"
 #include "mir_string.h"
 #include "mir_icolib.h"
-#include "dlg_msgbox.h"
+#include "mir_menuitems.h"
 #include "classMTime.h"
 #include "classMAnnivDate.h"
+#include "ctrl_base.h"
+#include "ctrl_button.h"
+#include "ctrl_contact.h"
+#include "ctrl_annivedit.h"
+#include "ctrl_combo.h"
+#include "ctrl_edit.h"
+#include "ctrl_tzcombo.h"
+#include "dlg_msgbox.h"
+#include "dlg_propsheet.h"
+#include "dlg_anniversarylist.h"
+#include "psp_base.h"
+#include "psp_options.h"
+#include "ex_import\svc_ExImport.h"
+#include "ex_import\tinystr.h"
+#include "ex_import\tinyxml.h"
+#include "ex_import\mir_rfcCodecs.h"
+#include "ex_import\classExImContactBase.h"
+#include "ex_import\dlg_ExImProgress.h"
+#include "ex_import\svc_ExImXML.h"
+#include "ex_import\classExImContactXML.h"
+#include "ex_import\dlg_ExImModules.h"
+#include "ex_import\dlg_ExImOpenSaveFile.h"
+#include "ex_import\svc_ExImINI.h"
+#include "ex_import\svc_ExImVCF.h"
+#include "Flags\svc_countrylistext.h"
+#include "flags\svc_flags.h"
+#include "Flags\svc_flagsicons.h"
 
 /***********************************************************************************************************
  * UserInfoEx global variables
@@ -163,6 +188,8 @@ typedef struct _MGLOBAL
 extern HINSTANCE		ghInst;
 extern MGLOBAL			myGlobals;
 extern FI_INTERFACE* FIP;
+extern int nCountriesCount;
+extern struct CountryListEntry *countries;
 
 /***********************************************************************************************************
  * MIRANDA_CPP_PLUGIN_API
@@ -196,10 +223,6 @@ extern FI_INTERFACE* FIP;
  ***********************************************************************************************************/
 
 DWORD	hashSetting(LPCSTR szStr);					//old miranda hash
-
-unsigned int hashSetting_M2(const wchar_t * key);	//new Murma2 hash
-unsigned int hashSetting_M2(const char * key);		//new Murma2 hash
-unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 
 INT_PTR	myDestroyServiceFunction(const char * key);
 

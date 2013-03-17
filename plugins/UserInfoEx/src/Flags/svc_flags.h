@@ -35,8 +35,6 @@ typedef struct _FLAGSOPTIONS
 	BYTE	bShowStatusIconFlag;
 } FLAGSOPTIONS, *LPFLAGSOPTIONS;
 
-extern int nCountriesCount;
-extern struct CountryListEntry *countries;
 extern FLAGSOPTIONS	gFlagsOpts;
 
 class MsgWndData {

@@ -23,13 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define XMLCARD_VERSION	"1.1"
 
-/**
- * system & local includes:
- **/
-#include "dlg_ExImModules.h"
-#include "classExImContactXML.h"
-#include "svc_ExImport.h"
-
 INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) 

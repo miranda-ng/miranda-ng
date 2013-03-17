@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "svc_timezone.h"
-#include "ctrl_tzcombo.h"
-
 
 static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, INT index, LPARAM lParam)
 {

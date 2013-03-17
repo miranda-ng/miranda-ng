@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-#include <dlgs.h>
-
-#include "m_db3xSA.h"
-#include "dlg_ExImOpenSaveFile.h"
-
 #define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda NG\\PlacesBar")
 #define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")
 

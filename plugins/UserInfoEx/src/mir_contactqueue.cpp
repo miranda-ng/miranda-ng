@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "mir_contactqueue.h"
-#include <process.h>
 
 /**
  * This static helper function is used to sort the queue items by time

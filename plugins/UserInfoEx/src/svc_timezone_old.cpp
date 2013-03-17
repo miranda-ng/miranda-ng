@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "svc_timezone_old.h"
 
 #define TZREG		"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones"
 #define TZREG_9X	"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Time Zones"

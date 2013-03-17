@@ -22,13 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 /**
  * System Includes:
  **/
+
 #include "commonheaders.h"
-#include "m_contacts.h"
-#include "svc_timezone.h"
-#include "svc_timezone_old.h"
-#include "svc_contactinfo.h"
-#include "svc_gender.h"
-#include "Flags\svc_countrylistext.h"
 
 #define	CI_TCHAR(ci)	(((ci)->dwFlag & CNF_UNICODE) ? DBVT_WCHAR : DBVT_ASCIIZ)
 

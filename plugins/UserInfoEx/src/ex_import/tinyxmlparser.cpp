@@ -30,27 +30,7 @@ Copyright:
 ===============================================================================
 */
 
-#include <ctype.h>
-#include <stddef.h>
-
-#ifdef USE_MMGR
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
-#include "mmgr.h"
-#endif
-
-#include "tinyxml.h"
-
-//#define DEBUG_PARSER
-#if defined(DEBUG_PARSER)
-#	if defined(DEBUG) && defined(_MSC_VER)
-#		include <windows.h>
-#		define TIXML_LOG OutputDebugString
-#	else
-#		define TIXML_LOG printf
-#	endif
-#endif
+#include "..\commonheaders.h"
 
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries

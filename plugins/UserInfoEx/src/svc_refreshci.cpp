@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "mir_contactqueue.h"
-#include "mir_menuitems.h"
-#include "svc_refreshci.h"
 
 #define HM_PROTOACK	(WM_USER+100)
 

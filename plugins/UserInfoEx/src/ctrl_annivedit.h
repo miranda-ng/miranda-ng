@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_CTRLANNIVEDIT_H_
 #define _UINFOEX_CTRLANNIVEDIT_H_
 
-#include "ctrl_base.h"
-
 #define MAX_DESC	50
 
 class CAnnivEditCtrl : public CBaseCtrl

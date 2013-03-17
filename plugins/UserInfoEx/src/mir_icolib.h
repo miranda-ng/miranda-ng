@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_ICONS_H_INCLUDED_
 #define _UINFOEX_ICONS_H_INCLUDED_ 1
 
-#include "m_icolib.h"
-
 // sections
 #define SECT_COMMON				LPGEN("UserInfoEx")
 #define SECT_ZODIAC				"UserInfoEx/Zodiacs"

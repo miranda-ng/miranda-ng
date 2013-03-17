@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "ctrl_combo.h"
 
 /**
  * This static method creates an object for the CCombo class and returns its pointer.

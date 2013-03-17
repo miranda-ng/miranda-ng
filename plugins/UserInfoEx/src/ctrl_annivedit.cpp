@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "ctrl_annivedit.h"
-#include "svc_Reminder.h"
-#include "psp_base.h"
 
 CBaseCtrl* CAnnivEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 {

@@ -22,12 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 /**
  * system & local includes:
  **/
-#include "../commonheaders.h"
-#include "../svc_reminder.h"
-#include "svc_ExImport.h"
-#include "svc_ExImVCF.h"
 
-#include <m_protosvc.h>
+#include "../commonheaders.h"
 
 #define BLOCKSIZE 260
 

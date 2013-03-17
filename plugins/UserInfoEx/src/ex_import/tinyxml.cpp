@@ -29,25 +29,8 @@ Copyright:
 © 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ===============================================================================
  */
-#include "tinyxml.h"
 
-#include <ctype.h>
-
-#ifdef TIXML_USE_STL
-#include <sstream>
-#include <iostream>
-#endif
-
-#ifdef USE_MMGR
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-
-#include "mmgr.h"
-#endif
-
+#include "..\commonheaders.h"
 
 bool TiXmlBase::condenseWhiteSpace = true;
 

@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UI_CTRL_EDIT_INCLUDE_
 #define _UI_CTRL_EDIT_INCLUDE_
 
-#include "ctrl_base.h"
-
 /**
  *
  **/

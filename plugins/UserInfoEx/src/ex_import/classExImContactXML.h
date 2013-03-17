@@ -22,11 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _CLASS_EXIM_CONTACT_XML_INCLUDED_
 #define _CLASS_EXIM_CONTACT_XML_INCLUDED_ 1
 
-#include "svc_ExImport.h"
-#include "classExImContactBase.h"
-#include "svc_ExImXML.h"
-#include "dlg_ExImProgress.h"
-
 #define XKEY_MOD		"MOD"
 #define XKEY_SET		"SET"
 #define XKEY_EVT		"evt"

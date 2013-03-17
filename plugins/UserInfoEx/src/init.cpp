@@ -20,40 +20,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "version.h"
-
-#include "mir_menuitems.h"
-#include "ctrl_base.h"
-#include "ctrl_button.h"
-#include "ctrl_contact.h"
-#include "dlg_propsheet.h"
-#include "dlg_anniversarylist.h"
-#include "psp_options.h"
-#include "ex_import/svc_ExImport.h"
-//#include "ex_import/svc_ExImVCF.h"
-#include "svc_avatar.h"
-#include "svc_contactinfo.h"
-#include "svc_email.h"
-#include "svc_gender.h"
-#include "svc_homepage.h"
-#include "svc_phone.h"
-#include "svc_refreshci.h"
-#include "svc_reminder.h"
-#include "svc_timezone.h"
-#include "svc_timezone_old.h"
-#include "flags/svc_flags.h"
 
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	__PLUGIN_DISPLAY_NAME,
-	__VERSION_DWORD,
-	__DESC,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	// {9C23A24B-E6AA-43c6-B0B8-D6C36D2F7B57}
+	// {9C23A24B-E6AA-43C6-B0B8-D6C36D2F7B57}
 	{0x9c23a24b, 0xe6aa, 0x43c6, {0xb0, 0xb8, 0xd6, 0xc3, 0x6d, 0x2f, 0x7b, 0x57}}
 };
 

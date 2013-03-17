@@ -22,14 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef __CONTACTASYNCQUEUE_H__
 #define __CONTACTASYNCQUEUE_H__
 
-#ifndef MIRANDA_VER
-#define MIRANDA_VER 0x0A00
-#endif
-
-#include <windows.h>
-#include <newpluginapi.h>
-#include <m_system_cpp.h>
-
 /**
  *
  *

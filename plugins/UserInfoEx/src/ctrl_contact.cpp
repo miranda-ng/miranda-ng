@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "ctrl_base.h"
-#include "ctrl_contact.h"
 
 #define MAX_CAT			64
 

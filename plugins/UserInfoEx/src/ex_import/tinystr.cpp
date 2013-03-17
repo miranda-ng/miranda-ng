@@ -42,16 +42,10 @@ Copyright:
 ===============================================================================
  */
 
+#include "..\commonheaders.h"
+
 #ifndef TIXML_USE_STL
 
-#ifdef USE_MMGR
-#include <assert.h>
-#include <string.h>
-
-#include "mmgr.h"
-#endif
-
-#include "tinystr.h"
 
 // Error value for find primitive
 const TiXmlString::size_type TiXmlString::npos = static_cast< size_type >(-1);

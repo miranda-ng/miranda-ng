@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _SVC_FILEXML_INCLUDED_
 #define _SVC_FILEXML_INCLUDED_ 1
 
-#include "svc_ExImport.h"
-#include "classExImContactBase.h"
-#include "dlg_ExImProgress.h"
-
 #define EXPORT_DATA		1
 #define EXPORT_HISTORY	2
 #define EXPORT_ALL		(EXPORT_DATA|EXPORT_HISTORY)

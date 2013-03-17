@@ -20,10 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "ctrl_combo.h"
-#include "ctrl_contact.h"
-#include "ctrl_edit.h"
-#include "psp_base.h"
 
 /**
  * Dialog procedure for the home contact information propertysheetpage

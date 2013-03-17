@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "..\commonheaders.h"
-#include "classExImContactXML.h"
-#include "svc_ExImXML.h"
-#include "mir_rfcCodecs.h"
 
 /***********************************************************************************************************
  * common stuff

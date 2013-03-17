@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "commonheaders.h"
 #include "dlg_propsheet.h"
 #include "psp_base.h"
-#include "svc_ExImport.h"
+#include "ex_import\svc_ExImport.h"
 #include "svc_reminder.h"
 
 #define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, hLangpack))

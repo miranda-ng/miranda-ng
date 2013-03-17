@@ -22,12 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 /**
  * system & local includes:
  **/
-#include "..\commonheaders.h"
-#include "classExImContactBase.h"
-#include "dlg_ExImModules.h"
-#include "svc_ExImport.h"
-#include "svc_ExImINI.h"
 
+#include "..\commonheaders.h"
 
 /***********************************************************************************************************
  * exporting stuff

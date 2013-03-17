@@ -47,25 +47,8 @@ Copyright:
 #ifndef TIXML_STRING_INCLUDED
 #define TIXML_STRING_INCLUDED
 
-#ifndef USE_MMGR
-#include <assert.h>
-#include <string.h>
-#endif
 
-/*	The support for explicit isn't that universal, and it isn't really
-	required - it is used to check that the TiXmlString class isn't incorrectly
-	used. Be nice to old compilers and macro it here:
-*/
-#if defined(_MSC_VER) && (_MSC_VER >= 1200)
-	// Microsoft visual studio, version 6 and higher.
-	#define TIXML_EXPLICIT explicit
-#elif defined(__GNUC__) && (__GNUC__ >= 3)
-	// GCC version 3 and higher.s
-	#define TIXML_EXPLICIT explicit
-#else
-	#define TIXML_EXPLICIT
-#endif
-
+#define TIXML_EXPLICIT explicit
 
 /*
 	 TiXmlString is an emulation of a subset of the std::string template.

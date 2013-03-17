@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UI_CTRL_TZ_COMBO_INCLUDE_
 #define _UI_CTRL_TZ_COMBO_INCLUDE_
 
-#include "ctrl_base.h"
-#include "svc_timezone.h"
-#include "svc_timezone_old.h"
-
 /**
  *
  **/

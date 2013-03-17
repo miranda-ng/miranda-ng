@@ -20,16 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 #include "..\commonheaders.h"
-#include "classExImContactBase.h"
-#include "dlg_ExImModules.h"
-#include "dlg_ExImOpenSaveFile.h"
-#include "svc_ExImport.h"
-#include "svc_ExImINI.h"
-#include "svc_ExImVCF.h"
-#include "svc_ExImXML.h"
-
-#include <m_clui.h>
-#include <m_clc.h>
 
 /***********************************************************************************************************
  * internal functions

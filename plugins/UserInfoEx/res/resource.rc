@@ -569,23 +569,9 @@ BEGIN
         VERTGUIDE, 144
         VERTGUIDE, 290
     END
-
-    IDD_OPT_ADVANCED, DIALOG
-    BEGIN
-    END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// German (Germany) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
-#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -617,7 +603,7 @@ END
 //
 
 IDB_FLAGSPNG            PNG                     "flags.png"
-#endif    // German (Germany) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 
