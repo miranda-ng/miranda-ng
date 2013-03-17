@@ -22,41 +22,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "ieview_common.h"
 
 wchar_t Utils::base_dir[MAX_PATH];
-unsigned Utils::hookNum = 0;
-unsigned Utils::serviceNum = 0;
-HANDLE* Utils::hHooks = NULL;
-HANDLE* Utils::hServices = NULL;
 
-const wchar_t *Utils::getBaseDir() {
-	char temp[MAX_PATH];
-	base_dir[0] = '\0';
-	long tlen = PathToAbsolute("miranda32.exe", temp);
-	if (tlen) {
-		temp[tlen - 13]=0;
-		MultiByteToWideChar(CP_ACP, 0, temp, (int)strlen(temp), base_dir, MAX_PATH);
-	}
+const wchar_t *Utils::getBaseDir()
+{
+	PathToAbsoluteT(_T("miranda32.exe"), base_dir);
 	return base_dir;
 }
 
-wchar_t* Utils::toAbsolute(wchar_t* relative) {
+wchar_t* Utils::toAbsolute(wchar_t* relative)
+{
 	const wchar_t* bdir = getBaseDir();
 	long len = (int)wcslen(bdir);
 	long tlen = len + (int)wcslen(relative);
 	wchar_t* result = new wchar_t[tlen + 1];
-	if(result){
-		wcscpy(result,bdir);
-		wcscpy(result + len,relative);
+	if(result) {
+		wcscpy(result, bdir);
+		wcscpy(result + len, relative);
 	}
 	return result;
 }
 
-static int countNoWhitespace(const wchar_t *str) {
+static int countNoWhitespace(const wchar_t *str)
+{
 	int c;
 	for (c=0; *str!='\n' && *str!='\r' && *str!='\t' && *str!=' ' && *str!='\0'; str++, c++);
 	return c;
 }
 
-void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...) {
+void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...)
+{
 	va_list vararg;
 	char *p;
 	int size, len;
@@ -90,7 +84,8 @@ void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...) {
 	va_end(vararg);
 }
 
-void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...) {
+void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
+{
 	va_list vararg;
 	wchar_t *p;
 	int size, len;
@@ -124,87 +119,8 @@ void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
 	va_end(vararg);
 }
 
-char *Utils::dupString(const char *a) {
-	if (a!=NULL) {
-		char *b = new char[strlen(a)+1];
-		strcpy(b, a);
-		return b;
-	}
-	return NULL;
-}
-
-char *Utils::dupString(const char *a, int l) {
-	if (a!=NULL) {
-		char *b = new char[l+1];
-		strncpy(b, a, l);
-		b[l] ='\0';
-		return b;
-	}
-	return NULL;
-}
-
-wchar_t *Utils::dupString(const wchar_t *a) {
-	if (a!=NULL) {
-		wchar_t *b = new wchar_t[wcslen(a)+1];
-		wcscpy(b, a);
-		return b;
-	}
-	return NULL;
-}
-
-wchar_t *Utils::dupString(const wchar_t *a, int l) {
-	if (a!=NULL) {
-		wchar_t *b = new wchar_t[l+1];
-		wcsncpy(b, a, l);
-		b[l] ='\0';
-		return b;
-	}
-	return NULL;
-}
-
-
-wchar_t *Utils::convertToWCS(const char *a) {
-	if (a!=NULL) {
-		int len = (int)strlen(a)+1;
-		wchar_t *b = new wchar_t[len];
-		MultiByteToWideChar(CP_ACP, 0, a, len, b, len);
-		return b;
-	}
-	return NULL;
-}
-
-wchar_t *Utils::convertToWCS(const char *a, int cp) {
-	if (a!=NULL) {
-		int len = (int)strlen(a)+1;
-		wchar_t *b = new wchar_t[len];
-		MultiByteToWideChar(cp, 0, a, len, b, len);
-		return b;
-	}
-	return NULL;
-}
-
-char *Utils::convertToString(const wchar_t *a) {
-	if (a!=NULL) {
-		int len = (int)wcslen(a)+1;
-		char *b = new char[len];
-		WideCharToMultiByte(CP_ACP, 0, a, len, b, len, NULL, FALSE);
-		return b;
-	}
-	return NULL;
-}
-
-
-char *Utils::convertToString(const wchar_t *a, int cp) {
-	if (a!=NULL) {
-		int len = (int)wcslen(a)+1;
-		char *b = new char[len];
-		WideCharToMultiByte(cp, 0, a, len, b, len, NULL, FALSE);
-		return b;
-	}
-	return NULL;
-}
-
-void Utils::convertPath(char *path) {
+void Utils::convertPath(char *path)
+{
 	if (path != NULL) {
 		for (; *path!='\0'; path++) {
 			if (*path == '\\') *path = '/';
@@ -212,7 +128,8 @@ void Utils::convertPath(char *path) {
 	}
 }
 
-void Utils::convertPath(wchar_t *path) {
+void Utils::convertPath(wchar_t *path)
+{
 	if (path != NULL) {
 		for (; *path!='\0'; path++) {
 			if (*path == '\\') *path = '/';
@@ -220,16 +137,8 @@ void Utils::convertPath(wchar_t *path) {
 	}
 }
 
-DWORD Utils::safe_wcslen(wchar_t *msg, DWORD maxLen) {
-	DWORD i;
-	for (i = 0; i < maxLen; i++) {
-		if (msg[i] == (wchar_t)0)
-			return i;
-	}
-	return 0;
-}
-
-int Utils::detectURL(const wchar_t *text) {
+int Utils::detectURL(const wchar_t *text)
+{
 	int i;
 	for (i=0;text[i]!='\0';i++) {
 		if (!((text[i] >= '0' && text[i]<='9') || iswalpha(text[i]))) {
@@ -248,7 +157,8 @@ int Utils::detectURL(const wchar_t *text) {
 	return 0;
 }
 
-char *Utils::escapeString(const char *a) {
+char *Utils::escapeString(const char *a)
+{
 	int i, l, len;
 	char *out;
 	if (a == NULL) {
@@ -273,92 +183,23 @@ char *Utils::escapeString(const char *a) {
 	return out;
 }
 
-struct FORK_ARG {
-	HANDLE hEvent;
-	void (__cdecl *threadcode)(void*);
-	void *arg;
-};
-
-static void __cdecl forkthread_r(struct FORK_ARG *fa)
+wchar_t *Utils::urlEncode(const wchar_t *text)
 {
-	void (*callercode)(void*) = fa->threadcode;
-	void *arg = fa->arg;
-	Thread_Push((HINSTANCE)callercode);
-	SetEvent(fa->hEvent);
-	callercode(arg);
-	Thread_Pop();
-	return;
-}
-
-unsigned long Utils::forkThread(void (__cdecl *threadcode)(void*), unsigned long stacksize,	void *arg) {
-
-	unsigned long rc;
-	struct FORK_ARG fa;
-
-	fa.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	fa.threadcode = threadcode;
-	fa.arg = arg;
-	rc = _beginthread((void (__cdecl *)(void*))forkthread_r, stacksize, &fa);
-	if ((unsigned long) -1L != rc) {
-		WaitForSingleObject(fa.hEvent, INFINITE);
-	}
-	CloseHandle(fa.hEvent);
-	return rc;
-}
-
-HANDLE Utils::hookEvent_Ex(const char *name, MIRANDAHOOK hook) {
-	hookNum ++;
-	hHooks = (HANDLE *) mir_realloc(hHooks, sizeof(HANDLE) * (hookNum));
-	hHooks[hookNum - 1] = HookEvent(name, hook);
-	return hHooks[hookNum - 1] ;
-}
-
-HANDLE Utils::createServiceFunction_Ex(const char *name, MIRANDASERVICE service) {
-	serviceNum++;
-	hServices = (HANDLE *) mir_realloc(hServices, sizeof(HANDLE) * (serviceNum));
-	hServices[serviceNum - 1] = CreateServiceFunction(name, service);
-	return hServices[serviceNum - 1] ;
-}
-
-void Utils::unhookEvents_Ex() {
-	unsigned i;
-	for (i=0; i<hookNum ; ++i) {
-		if (hHooks[i] != NULL) {
-			UnhookEvent(hHooks[i]);
-		}
-	}
-	mir_free(hHooks);
-	hookNum = 0;
-	hHooks = NULL;
-}
-
-void Utils::destroyServices_Ex() {
-	unsigned i;
-	for (i=0; i<serviceNum; ++i) {
-		if (hServices[i] != NULL) {
-			DestroyServiceFunction(hServices[i]);
-		}
-	}
-	mir_free(hServices);
-	serviceNum = 0;
-	hServices = NULL;
-}
-
-wchar_t *Utils::urlEncode(const wchar_t *text) {
 	char *utf8 = mir_utf8encodeT(text);
 	wchar_t *result = urlEncode(utf8);
 	mir_free(utf8);
 	return result;
 }
 
-wchar_t *Utils::urlEncode(const char *text) {
+wchar_t *Utils::urlEncode(const char *text)
+{
 	char *pszReturnString = (char *)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)text);
-	wchar_t *result = convertToWCS(pszReturnString);
+	wchar_t *result = mir_a2t(pszReturnString);
 	HeapFree(GetProcessHeap(), 0, pszReturnString);
 	return result;
 }
 
-
-void Utils::appendIcon(char **str, int *sizeAlloced, const char *iconFile) {
+void Utils::appendIcon(char **str, int *sizeAlloced, const char *iconFile)
+{
 	Utils::appendText(str, sizeAlloced, "<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
 }

@@ -40,7 +40,7 @@ Token::Token(int type, const char *text, int escape) {
 	this->type = type;
 	this->escape = escape;
 	if (text!=NULL) {
-		this->text = Utils::dupString(text);
+		this->text = mir_strdup(text);
 	} else {
 		this->text = NULL;
 	}
@@ -75,8 +75,8 @@ const char *Token::getText() {
 Template::Template(const char *name, const char *text) {
 	next = NULL;
 	tokens = NULL;
-	this->text = Utils::dupString(text);
-	this->name = Utils::dupString(name);
+	this->text = mir_strdup(text);
+	this->name = mir_strdup(name);
 	tokenize();
 }
 
@@ -155,7 +155,7 @@ static TokenDef tokenNames[] = {
 void Template::tokenize() {
 	if (text!=NULL) {
 //		debugView->writef("Tokenizing: %s<br>---<br>", text);
-		char *str = Utils::dupString(text);
+		char *str = mir_strdup(text);
 		Token *lastToken = NULL;
 		int lastTokenType = Token::PLAIN;
 		int lastTokenEscape = 0;
@@ -208,7 +208,7 @@ void Template::tokenize() {
 			lastTokenType = newTokenType;
 			i += newTokenSize;
 		}
-		delete str;
+		mir_free(str);
 	}
 }
 
@@ -222,7 +222,7 @@ TemplateMap::TemplateMap(const char *name) {
 	entries = NULL;
 	next = NULL;
 	filename = NULL;
-	this->name = Utils::dupString(name);
+	this->name = mir_strdup(name);
 	this->grouping = false;
 	this->rtl = false;
 }
@@ -439,7 +439,7 @@ void TemplateMap::setFilename(const char *filename) {
 	if (this->filename != NULL) {
 		delete this->filename;
 	}
-	this->filename = Utils::dupString(filename);
+	this->filename = mir_strdup(filename);
 	Utils::convertPath(this->filename);
 }
 

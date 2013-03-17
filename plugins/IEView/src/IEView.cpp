@@ -256,25 +256,20 @@ IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy) 
 	rcClient.top = y;
 	rcClient.right = x + cx;
 	rcClient.bottom = y + cy;
-#ifdef GECKO
-	if (SUCCEEDED(CoCreateInstance(CLSID_MozillaBrowser, NULL, CLSCTX_INPROC, IID_IWebBrowser2, (LPVOID*)&pWebBrowser))) {
-#else
 	if (SUCCEEDED(CoCreateInstance(CLSID_WebBrowser, NULL, CLSCTX_INPROC, IID_IWebBrowser2, (LPVOID*)&pWebBrowser))) {
-#endif
-//		pWebBrowser->put_RegisterAsBrowser(VARIANT_FALSE);
 		if (SUCCEEDED(pWebBrowser->QueryInterface(IID_IOleObject, (void**)&pOleObject))) {
 			pOleObject->SetClientSite(this);
 			pOleObject->DoVerb(OLEIVERB_INPLACEACTIVATE, &msg, this, 0, this->parent, &rcClient);
 			pOleObject->Release();
 		} else {
-			MessageBoxA(NULL,"IID_IOleObject failed.","RESULT",MB_OK);
+			MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 		}
 
 		if (SUCCEEDED(pWebBrowser->QueryInterface(IID_IOleInPlaceObject, (void**)&pOleInPlace))) {
 			pOleInPlace->GetWindow(&hwnd);
 			pOleInPlace->Release();
 		} else {
-			MessageBoxA(NULL,"IID_IOleInPlaceObject failed.","RESULT",MB_OK);
+			MessageBox(NULL, TranslateT("IID_IOleInPlaceObject failed."), TranslateT("RESULT"), MB_OK);
 		}
 
 		setBorder();
@@ -290,16 +285,12 @@ IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy) 
 			 // want to sink its events.
 				sink = new IEViewSink(this);
 			 	if (FAILED(m_pConnectionPoint->Advise((IUnknown *)sink, &m_dwCookie)))	 {
-					MessageBoxA(NULL, "Failed to Advise", "C++ Event Sink", MB_OK);
+					MessageBox(NULL, TranslateT("Failed to Advise"), TranslateT("C++ Event Sink"), MB_OK);
 			 	}
 			}
 			pCPContainer->Release();
 		}
-#ifndef GECKO
 		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) IEViewWindowProcedure));
-#else
-//		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) MozillaWindowProcedure));
-#endif
 	}
 	EnterCriticalSection(&mutex);
 	next = list;
@@ -330,7 +321,7 @@ IEView::~IEView() {
 		pOleObject->SetClientSite(NULL);
 		pOleObject->Release();
 	} else {
-		MessageBoxA(NULL,"IID_IOleObject failed.","RESULT",MB_OK);
+		MessageBox(NULL, TranslateT("IID_IOleObject failed."), TranslateT("RESULT"), MB_OK);
 	}
 	if (builder != NULL) {
 		delete builder;
@@ -346,9 +337,7 @@ IEView::~IEView() {
 	if (selectedText != NULL) {
 		delete 	selectedText;
 	}
-#ifndef GECKO
 	pWebBrowser->Release();
-#endif
 	DestroyWindow(hwnd);
 }
 
@@ -357,7 +346,7 @@ void IEView::init() {
 	isInited = true;
 	InitializeCriticalSection(&mutex);
 	if (FAILED(OleInitialize(NULL))) {
-		MessageBoxA(NULL,"OleInitialize failed.","ERROR",MB_OK);
+		MessageBox(NULL, TranslateT("OleInitialize failed."), TranslateT("ERROR"), MB_OK);
 	}
 }
 
@@ -682,9 +671,6 @@ STDMETHODIMP IEView::GetSecurityId(LPCWSTR pwszUrl, BYTE *pbSecurityId, DWORD *p
 STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *pContext, DWORD cbContext, DWORD dwFlags, DWORD dwReserved) {
 	DWORD dwPolicy=URLPOLICY_ALLOW;
 	if (pwszUrl!=NULL && !wcscmp(pwszUrl, L"about:blank")) {
-//		char str[1024];
-//		sprintf(str, "kod: %08X", dwAction);
-//			MessageBox(NULL,str, "Security", MB_OK);
 		if (dwAction <= URLACTION_ACTIVEX_MAX && dwAction >= URLACTION_ACTIVEX_MIN) {
 			//dwPolicy = URLPOLICY_DISALLOW;
 			//dwPolicy = URLPOLICY_ALLOW;
@@ -926,60 +912,8 @@ void IEView::appendEvent(IEVIEWEVENT *event) {
 	getFocus = false;
 }
 
-void IEView::clear(IEVIEWEVENT *event) {
-#ifdef GECKO
-	pWebBrowser->Navigate(L"about:blank", NULL, NULL, NULL, NULL);
-	Utils::forkThread((void (__cdecl *)(void *))StartThread, 0, (void *) this);
-	MSG msg;
-	BOOL bRet;
-	while( (bRet = GetMessage( &msg, NULL, 0, 0 )) != 0) {
-		if (bRet == -1) {
-			// handle the error and possibly exit
-		} else {
-			if (msg.message == WM_WAITWHILEBUSY) {
-				break;
-			} else {
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-		}
-	}
-	{
-		IHTMLDocument2 *document = getDocument();
-		if (document != NULL) {
-			document->close();
-			VARIANT		open_name;
-			VARIANT		open_features;
-			VARIANT		open_replace;
-			IDispatch	*open_window	= NULL;
-			VariantInit(&open_name);
-			open_name.vt      = VT_BSTR;
-			open_name.bstrVal = SysAllocString(L"_self");
-			VariantInit(&open_features);
-			VariantInit(&open_replace);
-
-			HRESULT hr = document->open(SysAllocString(L"text/html"),
-								open_name,
-									open_features,
-									open_replace,
-									&open_window);
-			if (hr == S_OK) {
-			//	pWebBrowser->Refresh();
-			}
-			if (open_window != NULL) {
-				open_window->Release();
-			}
-			document->Release();
-		}
-		if (builder!=NULL) {
-			builder->clear(this, event);
-		}
-		clearRequired = false;
-		getFocus = false;
-
-	}
-	return;
-#endif
+void IEView::clear(IEVIEWEVENT *event)
+{
 	IHTMLDocument2 *document = getDocument();
 	if (document == NULL) {
 		pWebBrowser->Navigate(L"about:blank", NULL, NULL, NULL, NULL);
@@ -1038,7 +972,7 @@ void* IEView::getSelection(IEVIEWEVENT *event) {
 		if (event->cbSize >= IEVIEWEVENT_SIZE_V2) {
 			cp = event->codepage;
 		}
-		char *str = Utils::convertToString(selectedText, cp);
+		char *str = mir_t2a_cp(selectedText, cp);
 		delete selectedText;
 		selectedText = (BSTR) str;
 	}
@@ -1082,7 +1016,7 @@ BSTR IEView::getSelection() {
 				IHTMLTxtRange *pRange = NULL;
 				if (SUCCEEDED(pDisp->QueryInterface(IID_IHTMLTxtRange, (void**)&pRange))) {
 					if (SUCCEEDED(pRange->get_text(&text))) {
-						text = Utils::dupString(text);
+						text = mir_tstrdup(text);
 					}
 					pRange->Release();
 				}
@@ -1106,7 +1040,7 @@ BSTR IEView::getHrefFromAnchor(IHTMLElement *element) {
 			VARIANT	variant;
 			BSTR url;
 			if (SUCCEEDED(element->getAttribute(L"href", 2, &variant) && variant.vt == VT_BSTR)) {
-				url = Utils::dupString(variant.bstrVal);
+				url = mir_tstrdup(variant.bstrVal);
 				SysFreeString(variant.bstrVal);
 			}
 			//pAnchor->get_href( &url );

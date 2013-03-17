@@ -40,25 +40,10 @@ public:
 	static void appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...);
 	static void convertPath(char *path);
 	static void convertPath(wchar_t *path);
-	static char *dupString(const char *a);
-	static char *dupString(const char *a, int l);
-	static wchar_t *dupString(const wchar_t *a);
-	static wchar_t *dupString(const wchar_t *a, int l);
-	static wchar_t *convertToWCS(const char *a);
-	static wchar_t *convertToWCS(const char *a, int cp);
-	static char *convertToString(const wchar_t *a);
-	static char *convertToString(const wchar_t *a, int cp);
 	static char *escapeString(const char *a);
-	static DWORD safe_wcslen(wchar_t *msg, DWORD maxLen);
 	static int   detectURL(const wchar_t *text);
-	static HANDLE hookEvent_Ex(const char *name, MIRANDAHOOK hook);
-	static HANDLE createServiceFunction_Ex(const char *name, MIRANDASERVICE service);
-	static void unhookEvents_Ex();
-	static void destroyServices_Ex();
-	static unsigned long forkThread(void (__cdecl *threadcode)(void*),unsigned long stacksize,void *arg);
 	static wchar_t *urlEncode(const wchar_t *a);
 	static wchar_t *urlEncode(const char *a);
-
 };
 
 #endif

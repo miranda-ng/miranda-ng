@@ -370,7 +370,7 @@ static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates) {
 //			strcat(protoName, " ");
 	//		strcat(protoName, Translate("protocol"));
 		}
-		tvi.item.pszText = Utils::convertToWCS(protoName);
+		tvi.item.pszText = mir_a2t(protoName);
 		tvi.item.lParam = (LPARAM)proto;
 		tvi.item.iImage = i;
 		tvi.item.iSelectedImage = i;
@@ -989,100 +989,100 @@ int Options::generalFlags;
 ProtocolSettings *Options::protocolList = NULL;
 
 ProtocolSettings::ProtocolSettings(const char *protocolName) {
-	this->protocolName = Utils::dupString(protocolName);
+	this->protocolName = mir_strdup(protocolName);
 	next = NULL;
 	srmmEnable = false;
 	srmmMode = Options::MODE_COMPATIBLE;
 	srmmFlags = 0;
-	srmmBackgroundFilename = Utils::dupString("");
-	srmmCssFilename = Utils::dupString("");
-	srmmTemplateFilename = Utils::dupString("");
+	srmmBackgroundFilename = mir_strdup("");
+	srmmCssFilename = mir_strdup("");
+	srmmTemplateFilename = mir_strdup("");
 
-	srmmBackgroundFilenameTemp = Utils::dupString("");
-	srmmCssFilenameTemp = Utils::dupString("");
-	srmmTemplateFilenameTemp = Utils::dupString("");
+	srmmBackgroundFilenameTemp = mir_strdup("");
+	srmmCssFilenameTemp = mir_strdup("");
+	srmmTemplateFilenameTemp = mir_strdup("");
 
 	chatEnable = false;
 	chatMode = Options::MODE_COMPATIBLE;
 	chatFlags = 0;
-	chatBackgroundFilename = Utils::dupString("");
-	chatCssFilename = Utils::dupString("");
-	chatTemplateFilename = Utils::dupString("");
+	chatBackgroundFilename = mir_strdup("");
+	chatCssFilename = mir_strdup("");
+	chatTemplateFilename = mir_strdup("");
 
-	chatBackgroundFilenameTemp = Utils::dupString("");
-	chatCssFilenameTemp = Utils::dupString("");
-	chatTemplateFilenameTemp = Utils::dupString("");
+	chatBackgroundFilenameTemp = mir_strdup("");
+	chatCssFilenameTemp = mir_strdup("");
+	chatTemplateFilenameTemp = mir_strdup("");
 
 	historyEnable = false;
 	historyMode = Options::MODE_COMPATIBLE;
 	historyFlags = 0;
-	historyBackgroundFilename = Utils::dupString("");
-	historyCssFilename = Utils::dupString("");
-	historyTemplateFilename = Utils::dupString("");
+	historyBackgroundFilename = mir_strdup("");
+	historyCssFilename = mir_strdup("");
+	historyTemplateFilename = mir_strdup("");
 
-	historyBackgroundFilenameTemp = Utils::dupString("");
-	historyCssFilenameTemp = Utils::dupString("");
-	historyTemplateFilenameTemp = Utils::dupString("");
+	historyBackgroundFilenameTemp = mir_strdup("");
+	historyCssFilenameTemp = mir_strdup("");
+	historyTemplateFilenameTemp = mir_strdup("");
 
 }
 
 ProtocolSettings::~ProtocolSettings() {
-	delete protocolName;
+	mir_free(protocolName);
 	if (srmmBackgroundFilename != NULL) {
-		delete srmmBackgroundFilename;
+		mir_free(srmmBackgroundFilename);
 	}
 	if (srmmBackgroundFilenameTemp != NULL) {
-		delete srmmBackgroundFilenameTemp;
+		mir_free(srmmBackgroundFilenameTemp);
 	}
 	if (srmmCssFilename != NULL) {
-		delete srmmCssFilename;
+		mir_free(srmmCssFilename);
 	}
 	if (srmmCssFilenameTemp != NULL) {
-		delete srmmCssFilenameTemp;
+		mir_free(srmmCssFilenameTemp);
 	}
 	if (srmmTemplateFilename != NULL) {
-		delete srmmTemplateFilename;
+		mir_free(srmmTemplateFilename);
 	}
 	if (srmmTemplateFilenameTemp != NULL) {
-		delete srmmTemplateFilenameTemp;
+		mir_free(srmmTemplateFilenameTemp);
 	}
 
 	if (chatBackgroundFilename != NULL) {
-		delete chatBackgroundFilename;
+		mir_free(chatBackgroundFilename);
 	}
 	if (chatBackgroundFilenameTemp != NULL) {
-		delete chatBackgroundFilenameTemp;
+		mir_free(chatBackgroundFilenameTemp);
 	}
 	if (chatCssFilename != NULL) {
-		delete chatCssFilename;
+		mir_free(chatCssFilename);
 	}
 	if (chatCssFilenameTemp != NULL) {
-		delete chatCssFilenameTemp;
+		mir_free(chatCssFilenameTemp);
 	}
 	if (chatTemplateFilename != NULL) {
-		delete chatTemplateFilename;
+		mir_free(chatTemplateFilename);
 	}
 	if (chatTemplateFilenameTemp != NULL) {
-		delete chatTemplateFilenameTemp;
+		mir_free(chatTemplateFilenameTemp);
 	}
 
 	if (historyBackgroundFilename != NULL) {
-		delete historyBackgroundFilename;
+		mir_free(historyBackgroundFilename);
 	}
 	if (historyBackgroundFilenameTemp != NULL) {
-		delete historyBackgroundFilenameTemp;
+		mir_free(historyBackgroundFilenameTemp);
 	}
 	if (historyCssFilename != NULL) {
-		delete historyCssFilename;
+		mir_free(historyCssFilename);
 	}
 	if (historyCssFilenameTemp != NULL) {
-		delete historyCssFilenameTemp;
+		mir_free(historyCssFilenameTemp);
 	}
 	if (historyTemplateFilename != NULL) {
-		delete historyTemplateFilename;
+		mir_free(historyTemplateFilename);
 	}
 	if (historyTemplateFilenameTemp != NULL) {
-		delete historyTemplateFilenameTemp;
+		mir_free(historyTemplateFilenameTemp);
 	}
 }
 
@@ -1146,45 +1146,45 @@ ProtocolSettings * ProtocolSettings::getNext() {
 
 void ProtocolSettings::setSRMMBackgroundFilename(const char *filename) {
 	if (srmmBackgroundFilename != NULL) {
-		delete srmmBackgroundFilename;
+		mir_free(srmmBackgroundFilename);
 	}
-	srmmBackgroundFilename = Utils::dupString(filename);
+	srmmBackgroundFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setSRMMBackgroundFilenameTemp(const char *filename) {
 	if (srmmBackgroundFilenameTemp != NULL) {
-		delete srmmBackgroundFilenameTemp;
+		mir_free(srmmBackgroundFilenameTemp);
 	}
-	srmmBackgroundFilenameTemp = Utils::dupString(filename);
+	srmmBackgroundFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setSRMMCssFilename(const char *filename) {
 	if (srmmCssFilename != NULL) {
-		delete srmmCssFilename;
+		mir_free(srmmCssFilename);
 	}
-	srmmCssFilename = Utils::dupString(filename);
+	srmmCssFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setSRMMCssFilenameTemp(const char *filename) {
 	if (srmmCssFilenameTemp != NULL) {
-		delete srmmCssFilenameTemp;
+		mir_free(srmmCssFilenameTemp);
 	}
-	srmmCssFilenameTemp = Utils::dupString(filename);
+	srmmCssFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setSRMMTemplateFilename(const char *filename) {
 	if (srmmTemplateFilename != NULL) {
-		delete srmmTemplateFilename;
+		mir_free(srmmTemplateFilename);
 	}
-	srmmTemplateFilename = Utils::dupString(filename);
+	srmmTemplateFilename = mir_strdup(filename);
 	TemplateMap::loadTemplates(getSRMMTemplateFilename(), getSRMMTemplateFilename(), false);
 }
 
 void ProtocolSettings::setSRMMTemplateFilenameTemp(const char *filename) {
 	if (srmmTemplateFilenameTemp != NULL) {
-		delete srmmTemplateFilenameTemp;
+		mir_free(srmmTemplateFilenameTemp);
 	}
-	srmmTemplateFilenameTemp = Utils::dupString(filename);
+	srmmTemplateFilenameTemp = mir_strdup(filename);
 }
 
 const char *ProtocolSettings::getSRMMBackgroundFilename() {
@@ -1263,45 +1263,45 @@ int ProtocolSettings::getSRMMFlagsTemp() {
 
 void ProtocolSettings::setChatBackgroundFilename(const char *filename) {
 	if (chatBackgroundFilename != NULL) {
-		delete chatBackgroundFilename;
+		mir_free(chatBackgroundFilename);
 	}
-	chatBackgroundFilename = Utils::dupString(filename);
+	chatBackgroundFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setChatBackgroundFilenameTemp(const char *filename) {
 	if (chatBackgroundFilenameTemp != NULL) {
-		delete chatBackgroundFilenameTemp;
+		mir_free(chatBackgroundFilenameTemp);
 	}
-	chatBackgroundFilenameTemp = Utils::dupString(filename);
+	chatBackgroundFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setChatCssFilename(const char *filename) {
 	if (chatCssFilename != NULL) {
-		delete chatCssFilename;
+		mir_free(chatCssFilename);
 	}
-	chatCssFilename = Utils::dupString(filename);
+	chatCssFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setChatCssFilenameTemp(const char *filename) {
 	if (chatCssFilenameTemp != NULL) {
-		delete chatCssFilenameTemp;
+		mir_free(chatCssFilenameTemp);
 	}
-	chatCssFilenameTemp = Utils::dupString(filename);
+	chatCssFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setChatTemplateFilename(const char *filename) {
 	if (chatTemplateFilename != NULL) {
-		delete chatTemplateFilename;
+		mir_free(chatTemplateFilename);
 	}
-	chatTemplateFilename = Utils::dupString(filename);
+	chatTemplateFilename = mir_strdup(filename);
 	TemplateMap::loadTemplates(getChatTemplateFilename(), getChatTemplateFilename(), false);
 }
 
 void ProtocolSettings::setChatTemplateFilenameTemp(const char *filename) {
 	if (chatTemplateFilenameTemp != NULL) {
-		delete chatTemplateFilenameTemp;
+		mir_free(chatTemplateFilenameTemp);
 	}
-	chatTemplateFilenameTemp = Utils::dupString(filename);
+	chatTemplateFilenameTemp = mir_strdup(filename);
 }
 
 const char *ProtocolSettings::getChatBackgroundFilename() {
@@ -1380,45 +1380,45 @@ int ProtocolSettings::getChatFlagsTemp() {
 
 void ProtocolSettings::setHistoryBackgroundFilename(const char *filename) {
 	if (historyBackgroundFilename != NULL) {
-		delete historyBackgroundFilename;
+		mir_free(historyBackgroundFilename);
 	}
-	historyBackgroundFilename = Utils::dupString(filename);
+	historyBackgroundFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setHistoryBackgroundFilenameTemp(const char *filename) {
 	if (historyBackgroundFilenameTemp != NULL) {
-		delete historyBackgroundFilenameTemp;
+		mir_free(historyBackgroundFilenameTemp);
 	}
-	historyBackgroundFilenameTemp = Utils::dupString(filename);
+	historyBackgroundFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setHistoryCssFilename(const char *filename) {
 	if (historyCssFilename != NULL) {
-		delete historyCssFilename;
+		mir_free(historyCssFilename);
 	}
-	historyCssFilename = Utils::dupString(filename);
+	historyCssFilename = mir_strdup(filename);
 }
 
 void ProtocolSettings::setHistoryCssFilenameTemp(const char *filename) {
 	if (historyCssFilenameTemp != NULL) {
-		delete historyCssFilenameTemp;
+		mir_free(historyCssFilenameTemp);
 	}
-	historyCssFilenameTemp = Utils::dupString(filename);
+	historyCssFilenameTemp = mir_strdup(filename);
 }
 
 void ProtocolSettings::setHistoryTemplateFilename(const char *filename) {
 	if (historyTemplateFilename != NULL) {
-		delete historyTemplateFilename;
+		mir_free(historyTemplateFilename);
 	}
-	historyTemplateFilename = Utils::dupString(filename);
+	historyTemplateFilename = mir_strdup(filename);
 	TemplateMap::loadTemplates(getHistoryTemplateFilename(), getHistoryTemplateFilename(), false);
 }
 
 void ProtocolSettings::setHistoryTemplateFilenameTemp(const char *filename) {
 	if (historyTemplateFilenameTemp != NULL) {
-		delete historyTemplateFilenameTemp;
+		mir_free(historyTemplateFilenameTemp);
 	}
-	historyTemplateFilenameTemp = Utils::dupString(filename);
+	historyTemplateFilenameTemp = mir_strdup(filename);
 }
 
 const char *ProtocolSettings::getHistoryBackgroundFilename() {

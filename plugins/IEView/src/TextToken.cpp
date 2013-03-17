@@ -26,8 +26,8 @@ TextToken::TextToken(int type, const char *text, int len) {
 	tag = 0;
 	end = false;
 	this->type = type;
-	this->text = Utils::dupString(text, len);
-	this->wtext = Utils::convertToWCS(this->text);
+	this->text = mir_strndup(text, len);
+	this->wtext = mir_a2t(this->text);
 	this->link = NULL;
 	this->wlink = NULL;
 }
@@ -37,24 +37,24 @@ TextToken::TextToken(int type, const wchar_t *wtext, int len) {
 	tag = 0;
 	end = false;
 	this->type = type;
-	this->wtext = Utils::dupString(wtext, len);
-	this->text = Utils::convertToString(this->wtext);
+	this->wtext = mir_tstrndup(wtext, len);
+	this->text = mir_t2a(this->wtext);
 	this->link = NULL;
 	this->wlink = NULL;
 }
 
 TextToken::~TextToken() {
 	if (text!=NULL) {
-		delete text;
+		mir_free(text);
 	}
 	if (wtext!=NULL) {
-		delete wtext;
+		mir_free(wtext);
 	}
 	if (link!=NULL) {
-		delete link;
+		mir_free(link);
 	}
 	if (wlink!=NULL) {
-		delete wlink;
+		mir_free(wlink);
 	}
 }
 
@@ -109,8 +109,8 @@ void TextToken::setLink(const char *link) {
 	if (this->wlink != NULL) {
 		delete this->wlink;
 	}
-	this->link = Utils::dupString(link);
-	this->wlink = Utils::convertToWCS(link);
+	this->link = mir_strdup(link);
+	this->wlink = mir_a2t(link);
 }
 
 void TextToken::setLink(const wchar_t *link) {
@@ -120,8 +120,8 @@ void TextToken::setLink(const wchar_t *link) {
 	if (this->wlink != NULL) {
 		delete this->wlink;
 	}
-	this->link = Utils::convertToString(link);
-	this->wlink = Utils::dupString(link);
+	this->link = mir_t2a(link);
+	this->wlink = mir_tstrdup(link);
 }
 
 static int countNoWhitespace(const wchar_t *str) {
@@ -145,11 +145,11 @@ TextToken* TextToken::tokenizeMath(const wchar_t *text) {
 			char* mthDelStart =  (char *)CallService(MATH_GET_PARAMS, (WPARAM)MATH_PARAM_STARTDELIMITER, 0);
 			char* mthDelEnd   =  (char *)CallService(MATH_GET_PARAMS, (WPARAM)MATH_PARAM_ENDDELIMITER, 0);
 			if (mthDelStart!=NULL) {
-				mathTagName[0] = Utils::convertToWCS(mthDelStart);
+				mathTagName[0] = mir_a2t(mthDelStart);
 				mathTagLen[0] = (int)wcslen(mathTagName[0]);
 			}
 			if (mthDelEnd!=NULL) {
-				mathTagName[1] = Utils::convertToWCS(mthDelEnd);
+				mathTagName[1] = mir_a2t(mthDelEnd);
 				mathTagLen[1] = (int)wcslen(mathTagName[1]);
 			}
 			CallService(MTH_FREE_MATH_BUFFER,0, (LPARAM) mthDelStart);
@@ -307,7 +307,7 @@ TextToken* TextToken::tokenizeBBCodes(const wchar_t *text, int l) {
 						newTokenType = BBCODE;
 						newTokenSize = k - i;
 						if (bbTagArg[j]) {
-							wchar_t *urlLink = 	Utils::dupString(text + tagArgStart, tagArgEnd - tagArgStart);
+							wchar_t *urlLink = 	mir_tstrndup(text + tagArgStart, tagArgEnd - tagArgStart);
 							bbToken->setLink(urlLink);
 							delete urlLink;
 						}

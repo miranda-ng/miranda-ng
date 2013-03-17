@@ -102,7 +102,7 @@ const char *TemplateHTMLBuilder::getFlashAvatar(const TCHAR *file, int index) {
 			_close(src);
 			urlBuf = strstr(pBuf, "<URL>");
 			if(urlBuf) {
-				flashAvatars[index] = Utils::dupString(strtok(urlBuf + 5, "<\t\n\r"));
+				flashAvatars[index] = mir_strdup(strtok(urlBuf + 5, "<\t\n\r"));
 			}
 		}
 	}
@@ -198,8 +198,8 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameOut = getEncodedContactName(NULL, szProto, szRealProto);
 		szNameIn = getEncodedContactName(event->hContact, szProto, szRealProto);
 	} else {
-		szNameOut = Utils::dupString("&nbsp;");
-		szNameIn = Utils::dupString("&nbsp;");
+		szNameOut = mir_strdup("&nbsp;");
+		szNameIn = mir_strdup("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
 	szNoAvatar = mir_utf8encode(tempStr);
@@ -210,11 +210,11 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	}
 	szAvatarIn = getAvatar(event->hContact, szRealProto);
 	if (szAvatarIn == NULL) {
-		szAvatarIn = Utils::dupString(szNoAvatar);
+		szAvatarIn = mir_strdup(szNoAvatar);
 	}
 	szAvatarOut = getAvatar(NULL, szRealProto);
 	if (szAvatarOut == NULL) {
-		szAvatarOut = Utils::dupString(szNoAvatar);
+		szAvatarOut = mir_strdup(szNoAvatar);
 	}
 	if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
 		if (strlen(dbv.pszVal) > 0) {
@@ -301,8 +301,8 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		free(output);
 	}
 	if (szBase!=NULL) mir_free(szBase);
-	if (szRealProto!=NULL) delete szRealProto;
-	if (szProto!=NULL) delete szProto;
+	if (szRealProto!=NULL) mir_free(szRealProto);
+	if (szProto!=NULL) mir_free(szProto);
 	if (szUINIn!=NULL) mir_free(szUINIn);
 	if (szUINOut!=NULL) mir_free(szUINOut);
 	if (szNoAvatar!=NULL) mir_free(szNoAvatar);
@@ -374,8 +374,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameOut = getEncodedContactName(NULL, szProto, szRealProto);
 		szNameIn = getEncodedContactName(event->hContact, szProto, szRealProto);
 	} else {
-		szNameOut = Utils::dupString("&nbsp;");
-		szNameIn = Utils::dupString("&nbsp;");
+		szNameOut = mir_strdup("&nbsp;");
+		szNameIn = mir_strdup("&nbsp;");
 	}
 	sprintf(tempStr, "%snoavatar.png", tempBase);
 	szNoAvatar = mir_utf8encode(tempStr);
@@ -389,11 +389,11 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szAvatarIn = getAvatar(event->hContact, szRealProto);
 	}
 	if (szAvatarIn == NULL) {
-		szAvatarIn = Utils::dupString(szNoAvatar);
+		szAvatarIn = mir_strdup(szNoAvatar);
 	}
 	szAvatarOut = getAvatar(NULL, szRealProto);
 	if (szAvatarOut == NULL) {
-		szAvatarOut = Utils::dupString(szNoAvatar);
+		szAvatarOut = mir_strdup(szNoAvatar);
 	}
 	if(event->hContact != NULL) {
 		if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
@@ -626,8 +626,8 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		}
 	}
 	if (szBase!=NULL) mir_free(szBase);
-	if (szRealProto!=NULL) delete szRealProto;
-	if (szProto!=NULL) delete szProto;
+	if (szRealProto!=NULL) mir_free(szRealProto);
+	if (szProto!=NULL) mir_free(szProto);
 	if (szUINIn!=NULL) mir_free(szUINIn);
 	if (szUINOut!=NULL) mir_free(szUINOut);
 	if (szNoAvatar!=NULL) mir_free(szNoAvatar);

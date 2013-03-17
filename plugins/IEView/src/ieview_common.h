@@ -71,10 +71,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Template.h"
 #include "TextToken.h"
 
+#define ieviewModuleName	"IEVIEW"
+
 extern HINSTANCE hInstance;
 extern IEView *debugView;
 extern char *workingDirUtf8;
-extern char *ieviewModuleName;
 extern HANDLE hHookOptionsChanged;
 
 #endif
