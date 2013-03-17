@@ -414,6 +414,8 @@ function mir_wstrdup(const src:PWideChar):PWideChar; stdcall;
                      external CoreDLL name 'mir_wstrdup';
 function mir_strndup(const src:PAnsiChar; len:size_t):PAnsiChar; stdcall;
                      external CoreDLL name 'mir_strndup';
+function mir_wstrndup(const src:PWideChar; len:size_t):PWideChar; stdcall;
+                     external CoreDLL name 'mir_wstrndup';
 
 
 ///////////////////////////////////////////////////////////////////////////////

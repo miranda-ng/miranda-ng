@@ -142,10 +142,10 @@ MIR_C_CORE_DLL(void) mir_free(void* ptr)
 
 /******************************************************************************/
 
-MIR_CORE_DLL(char*) mir_strdup(const char* str)
+MIR_CORE_DLL(char*) mir_strdup(const char *str)
 {
 	if (str != NULL) {
-		char* p = (char*)mir_alloc(strlen(str)+1);
+		char *p = (char*)mir_alloc(strlen(str)+1);
 		if (p)
 			strcpy(p, str);
 		return p;
@@ -153,13 +153,24 @@ MIR_CORE_DLL(char*) mir_strdup(const char* str)
 	return NULL;
 }
 
+MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR *str)
+{
+	if (str != NULL) {
+		WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str)+1));
+		if (p)
+			wcscpy(p, str);
+		return p;
+	}
+	return NULL;
+}
+
 /******************************************************************************/
 
-MIR_CORE_DLL(char*) mir_strndup(const char* str, size_t len)
+MIR_CORE_DLL(char*) mir_strndup(const char *str, size_t len)
 {
 	if (str != NULL && len != 0) {
-		char* p = (char*)mir_alloc(len + 1);
-		if ( !p) {
+		char *p = (char*)mir_alloc(len+1);
+		if (p) {
 			memcpy(p, str, len);
 			p[ len ] = 0;
 		}
@@ -168,14 +179,14 @@ MIR_CORE_DLL(char*) mir_strndup(const char* str, size_t len)
 	return NULL;
 }
 
-/******************************************************************************/
-
-MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR* str)
+MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len)
 {
-	if (str != NULL) {
-		WCHAR* p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str)+1));
-		if (p)
-			wcscpy(p, str);
+	if (str != NULL && len != 0) {
+		WCHAR *p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(len+1));
+		if (p) {
+			memcpy(p, str, sizeof(WCHAR)*len);
+			p[ len ] = 0;
+		}
 		return p;
 	}
 	return NULL;

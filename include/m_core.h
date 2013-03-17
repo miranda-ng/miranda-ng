@@ -346,7 +346,9 @@ MIR_C_CORE_DLL(void)   mir_free(void* ptr);
 
 MIR_CORE_DLL(char*)  mir_strdup(const char* str);
 MIR_CORE_DLL(WCHAR*) mir_wstrdup(const WCHAR* str);
+
 MIR_CORE_DLL(char*)  mir_strndup(const char* str, size_t len);
+MIR_CORE_DLL(WCHAR*) mir_wstrndup(const WCHAR *str, size_t len);
 
 ///////////////////////////////////////////////////////////////////////////////
 // modules

@@ -139,3 +139,4 @@ Icon_RegisterT                @136
 mir_subclassWindow            @137
 mir_callNextSubclass          @138
 KillModuleSubclassing         @139
+mir_wstrndup                  @140
