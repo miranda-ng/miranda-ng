@@ -250,10 +250,10 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 
 int fnTrayIconInit(HWND hwnd)
 {
-	int netProtoCount = 0;
 	initcheck 0;
 	lock;
 
+	int netProtoCount = 0;
 	int averageMode = GetAverageMode(&netProtoCount);
 	mToolTipTrayTips = ServiceExists("mToolTip/ShowTip") != 0;
 
@@ -310,16 +310,15 @@ int fnTrayIconInit(HWND hwnd)
 
 int fnTrayIconDestroy(HWND hwnd)
 {
-	NOTIFYICONDATA nid = { SIZEOFNID };
-	int i;
 	initcheck 0;
 	lock;
 
 	if (cli.trayIconCount == 1)
 		SetTaskBarIcon(NULL, NULL);
 
+	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = hwnd;
-	for (i=0; i < cli.trayIconCount; i++) {
+	for (int i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		nid.uID = cli.trayIcon[i].id;
@@ -937,16 +936,15 @@ void fnUninitTray(void)
 	fTrayInited = FALSE;
 	DeleteCriticalSection(&trayLockCS);
 }
+
 void fnLockTray(void)
 {
-//	return;				//stub to be removed
 	initcheck;
 	EnterCriticalSection(&trayLockCS);
 }
 
 void fnUnlockTray(void)
 {
-//	return;				//stub to be removed
 	initcheck;
 #ifdef _DEBUG
 	if (trayLockCS.RecursionCount == 0) DebugBreak();	   //try to unlock already

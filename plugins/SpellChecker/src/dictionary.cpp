@@ -19,8 +19,6 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
-DWORD WINAPI LoadThread(LPVOID hd);
-
 // Additional languages that i could not find in Windows
 TCHAR *aditionalLanguages[] = {
 	LPGENT("tl_PH"), LPGENT("Tagalog (Philippines)"),
@@ -337,6 +335,8 @@ struct {
 #define LANGUAGE_LOADING		-1
 #define LANGUAGE_LOADED			 0
 
+void LoadThread(LPVOID hd);
+
 class HunspellDictionary : public Dictionary {
 protected:
 	TCHAR fileWithoutExtension[1024];
@@ -412,7 +412,7 @@ protected:
 		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, (int)hunspellWordLen, NULL, NULL);
 	}
 
-	TCHAR * fromHunspell(const char *hunspellWord)
+	TCHAR* fromHunspell(const char *hunspellWord)
 	{
 		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, NULL, 0);
 		WCHAR *ret = (WCHAR *) malloc((len + 1) * sizeof(WCHAR));
@@ -420,7 +420,7 @@ protected:
 		return ret;
 	}
 
-	TCHAR * fromHunspellAndFree(char *hunspellWord)
+	TCHAR* fromHunspellAndFree(char *hunspellWord)
 	{
 		if (hunspellWord == NULL)
 			return NULL;
@@ -695,10 +695,7 @@ public:
 		if (loaded == LANGUAGE_NOT_LOADED)
 		{
 			loaded = LANGUAGE_LOADING;
-
-			DWORD thread_id;
-			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) LoadThread, 
-				(LPVOID) this, 0, &thread_id);
+			mir_forkthread(LoadThread, this);
 		}
 	}
 
@@ -722,12 +719,10 @@ public:
 	}
 };
 
-
-DWORD WINAPI LoadThread(LPVOID hd)
+void LoadThread(LPVOID hd)
 {
 	HunspellDictionary *dict = (HunspellDictionary *) hd;
 	dict->loadThread();
-	return 0;
 }
 
 

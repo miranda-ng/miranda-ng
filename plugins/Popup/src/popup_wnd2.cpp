@@ -332,18 +332,17 @@ void PopupWnd2::animate()
 			SetWindowRgn(m_hwnd, m_bmp->buildOpaqueRgn(skin->getShadowRegionOpacity()), FALSE);
 
 
-		if (MyDwmEnableBlurBehindWindow && PopUpOptions.EnableAeroGlass)
-		{
+		if (MyDwmEnableBlurBehindWindow && PopUpOptions.EnableAeroGlass) {
 			DWM_BLURBEHIND bb = {0};
 			bb.dwFlags = DWM_BB_ENABLE|DWM_BB_BLURREGION;
 			bb.fEnable = TRUE;
 			bb.hRgnBlur = m_bmp->buildOpaqueRgn(254, false);
 			MyDwmEnableBlurBehindWindow(m_hwnd, &bb);
+			DeleteObject(bb.hRgnBlur);
 		}
 
 		// update tooltips
-		for (int i=0; i < m_actionCount; ++i)
-		{
+		for (int i=0; i < m_actionCount; ++i) {
 			char *title = strchr(m_actions[i].actionA.lpzTitle, '/');
 			if (title) title++;
 			else title = m_actions[i].actionA.lpzTitle;

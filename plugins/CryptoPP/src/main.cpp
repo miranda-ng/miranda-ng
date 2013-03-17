@@ -31,14 +31,21 @@ PLUGININFOEX pluginInfoEx = {
 
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
 {
-	g_hInst = hInst;
-	InitializeCriticalSection(&localQueueMutex);
-	InitializeCriticalSection(&localContextMutex);
-#ifdef _DEBUG
-	isVista = 1;
-#else
-	isVista = ( (DWORD)(LOBYTE(LOWORD(GetVersion()))) == 6 );
-#endif
+	if (dwReason == DLL_PROCESS_ATTACH) {
+		g_hInst = hInst;
+		#ifdef _DEBUG
+			isVista = 1;
+		#else
+			isVista = ( (DWORD)(LOBYTE(LOWORD(GetVersion()))) == 6 );
+		#endif
+		InitializeCriticalSection(&localQueueMutex);
+		InitializeCriticalSection(&localContextMutex);
+	}
+	else if (dwReason == DLL_PROCESS_DETACH) {
+		DeleteCriticalSection(&localQueueMutex);
+		DeleteCriticalSection(&localContextMutex);
+	}
+
 	return TRUE;
 }
 

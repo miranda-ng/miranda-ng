@@ -420,9 +420,6 @@ void MyBitmap::DrawColorized(MyBitmap *bmp, int x, int y, int w, int h, COLOR32 
 					PU_DIV255(koef2b * cl * alpha),
 					alpha);
 #pragma warning(pop)
-//			bits[(i+y)*width + (j+x)] = (cl > 128) ?
-//				rgba(koef1r * cl + br, koef1g * cl + bg, koef1b * cl + bb, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)])):
-//				rgba(koef2r * cl, koef2g * cl, koef2b * cl, geta(bmp->bits[int(i*ky)*bmp->width + int(j*kx)]));
 		}
 	}
 }
@@ -461,7 +458,6 @@ void MyBitmap::BlendPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int 
 					getb(src)+PU_DIV255((255-alpha)*getb(dst)),
 					geta(src)+PU_DIV255((255-alpha)*geta(dst))
 				);
-//			bits[(i+y)*width + (j+x)] = bmp->bits[int(yin+i*ky)*bmp->width + int(xin+j*kx)];
 		}
 	}
 }
@@ -743,7 +739,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 				rectsCount += addRectsCount;
 				LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 				memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
-				delete pRgnData;
+				delete[] pRgnData;
 				pRgnData = pRgnDataNew;
 				pRects = (LPRECT)(&pRgnData->Buffer);
 			}

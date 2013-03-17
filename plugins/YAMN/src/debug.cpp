@@ -15,7 +15,7 @@
 //--------------------------------------------------------------------------------------------------
 
 TCHAR DebugUserDirectory[MAX_PATH] = _T(".");
-LPCRITICAL_SECTION FileAccessCS;
+CRITICAL_SECTION FileAccessCS;
 
 #ifdef DEBUG_SYNCHRO
 TCHAR DebugSynchroFileName2[]=_T("%s\\yamn-debug.synchro.log");
@@ -40,11 +40,7 @@ void InitDebug()
 #if defined (DEBUG_SYNCHRO) || defined (DEBUG_COMM) || defined (DEBUG_DECODE)
 	TCHAR DebugFileName[MAX_PATH];
 #endif
-	if (FileAccessCS==NULL)
-	{
-		FileAccessCS=new CRITICAL_SECTION;
-		InitializeCriticalSection(FileAccessCS);
-	}
+	InitializeCriticalSection(&FileAccessCS);
 
 #ifdef DEBUG_SYNCHRO
 	_stprintf(DebugFileName,DebugSynchroFileName2,DebugUserDirectory);
@@ -70,6 +66,7 @@ void InitDebug()
 
 void UnInitDebug()
 {
+	DeleteCriticalSection(&FileAccessCS);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"File is being closed normally.");
 	CloseHandle(SynchroFile);
@@ -99,10 +96,10 @@ void DebugLog(HANDLE File,const char *fmt,...)
 	while(_vsnprintf(str,strsize,fmt,vararg)==-1)
 		str=(char *)realloc(str,strsize+=65536);
 	va_end(vararg);
-	EnterCriticalSection(FileAccessCS);
+	EnterCriticalSection(&FileAccessCS);
 	WriteFile(File,tids,(DWORD)strlen(tids),&Written,NULL);
 	WriteFile(File,str,(DWORD)strlen(str),&Written,NULL);
-	LeaveCriticalSection(FileAccessCS);
+	LeaveCriticalSection(&FileAccessCS);
 	free(str);
 }
 
@@ -120,10 +117,10 @@ void DebugLogW(HANDLE File,const WCHAR *fmt,...)
 	while(_vsnwprintf(str,strsize,fmt,vararg)==-1)
 		str=(WCHAR *)realloc(str,(strsize+=65536)*sizeof(WCHAR));
 	va_end(vararg);
-	EnterCriticalSection(FileAccessCS);
+	EnterCriticalSection(&FileAccessCS);
 	WriteFile(File,tids,(DWORD)strlen(tids),&Written,NULL);
 	WriteFile(File,str,(DWORD)wcslen(str)*sizeof(WCHAR),&Written,NULL);
-	LeaveCriticalSection(FileAccessCS);
+	LeaveCriticalSection(&FileAccessCS);
 	free(str);
 }
 
