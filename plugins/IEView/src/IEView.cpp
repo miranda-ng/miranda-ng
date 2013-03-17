@@ -1092,7 +1092,7 @@ bool IEView::mouseClick(POINT pt) {
 					SendMessage(GetParent(hwnd), WM_COMMAND, IDCANCEL, 0);
 				}
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) url);
-				delete url;
+				mir_free(url);
 				result = true;
 			}
 			element->Release();
