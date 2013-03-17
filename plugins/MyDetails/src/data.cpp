@@ -239,26 +239,14 @@ bool Protocol::CanSetStatusMsg(int aStatus)
 void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 {
 	if ( !CanGetStatusMsg())
-	{
 		lcopystr(msg, _T(""), msg_size);
-		return;
-	}
-
-	if (aStatus == status && ProtoServiceExists(name, PS_GETMYAWAYMSG) )
-	{
-		TCHAR *tmp = (TCHAR*) CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+	else if (aStatus == status && ProtoServiceExists(name, PS_GETMYAWAYMSG)) {
+		mir_ptr<TCHAR> tmp((TCHAR*)CallProtoService(name, PS_GETMYAWAYMSG, 0, SGMA_TCHAR));
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
-
-	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG))
-	{
-		TCHAR *tmp = (TCHAR*) CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0);
-		if (tmp != NULL)
-		{
-			lcopystr(msg, tmp, msg_size);
-			mir_free(tmp);
-		}
-		else lcopystr(msg, _T(""), msg_size);
+	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSG)) {
+		mir_ptr<TCHAR> tmp((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0));
+		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
 }
 

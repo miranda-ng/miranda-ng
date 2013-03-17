@@ -105,7 +105,7 @@ const LPWSTR lpcszXStatusNameDef[] =
 	LPGENT("Sleeping"),
 	LPGENT("Cool!"),
 	LPGENT("Peace!"),
-	LPGENT("Cook a snook"),
+	LPGENT("Cock a snook"),
 	LPGENT("Get out"),
 	LPGENT("Death"),
 	LPGENT("Rocket"),

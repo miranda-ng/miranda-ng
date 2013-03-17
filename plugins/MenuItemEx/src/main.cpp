@@ -1279,7 +1279,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
@@ -1296,8 +1295,12 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyIcon( hIcon[3] );
-	DestroyIcon( hIcon[4] );
+	for (int i=0; i < saveStatuses.getCount(); i++)
+		delete saveStatuses[i];
+	saveStatuses.destroy();
+
+	DestroyIcon(hIcon[3]);
+	DestroyIcon(hIcon[4]);
 	return 0;
 }
 

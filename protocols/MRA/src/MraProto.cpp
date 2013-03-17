@@ -59,7 +59,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
 
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
-	MraRebuildStatusMenu(0, 0);
 
 	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", "Mail.ru Xstatus", "mra_xstatus25");
 	hExtraInfo = ExtraIcon_Register("MRAStatus", "Mail.ru extra info", "mra_xstatus49");

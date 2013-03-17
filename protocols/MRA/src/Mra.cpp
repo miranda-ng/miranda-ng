@@ -129,6 +129,7 @@ extern "C" MRA_API int Unload(void)
 		masMraSettings.hDLLXStatusIcons = NULL;
 	}
 
+	g_Instances.destroy();
 	DebugPrintCRLFW(L"Unload - DONE");
 	return 0;
 }

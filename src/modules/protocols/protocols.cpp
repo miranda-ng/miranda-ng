@@ -769,6 +769,8 @@ void UnloadProtocolsModule()
 	for (int i=0; i < serviceItems.getCount(); i++)
 		mir_free(serviceItems[i]);
 	serviceItems.destroy();
+
+	filters.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

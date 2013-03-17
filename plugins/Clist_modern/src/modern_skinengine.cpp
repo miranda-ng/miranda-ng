@@ -67,8 +67,6 @@ static SortedList       * pEffectStack = NULL;
 static SKINOBJECTSLIST  * pCurrentSkin = NULL;
 static char            ** pszSettingName = NULL;
 static int                nArrayLen = 0;
-static char             * iniCurrentSection = NULL;
-static char             * szFileName = NULL;
 
 static BYTE             pbGammaWeight[256] = {0};
 static BYTE             pbGammaWeightAdv[256] = {0};
@@ -194,47 +192,21 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 //	if ( strlen(szValue)>0 && szValue[strlen(szValue)-1] == '\n' )
 //		szValue[strlen(szValue)-1] = '\0';  //kill linefeed at the end
 
-	switch(szValue[0])
-	{
+	switch(szValue[0]) {
 	case 'b':
-		{
-			BYTE P;
-			P = (BYTE)atoi(szValue+1);
-			db_set_b(NULL,szSection,szName,P);
-		}
+		db_set_b(NULL, szSection, szName, (BYTE)atoi(szValue+1));
 		break;
+
 	case 'w':
-		{
-			WORD P;
-			P = (WORD)atoi(szValue+1);
-			db_set_w(NULL,szSection,szName,P);
-		}
+		db_set_w(NULL, szSection, szName, (WORD)atoi(szValue+1));
 		break;
+
 	case 'd':
-		{
-			DWORD P;
-			P = (DWORD)atoi(szValue+1);
-			db_set_dw(NULL,szSection,szName,P);
-		}
+		db_set_dw(NULL, szSection, szName, (DWORD)atoi(szValue+1));
 		break;
+
 	case 's':
 		db_set_s(NULL,szSection,szName,szValue+1);
-		break;
-	case 'f':
-		if (szFileName)
-		{
-			char fn[MAX_PATH] = {0};
-			char bb[MAX_PATH*2] = {0};
-			int pp, i;
-			pp = -1;
-			PathToRelative(szFileName, fn);
-			{
-				for (i = strlen(fn); i >= 0; i--)  if (fn[i] == '.') break;
-				if (i>0) fn[i] = '\0';
-			}
-			_snprintf(bb,SIZEOF(bb),"%s\\%s",fn,szValue+1);
-			db_set_s(NULL,szSection,szName,bb);
-		}
 		break;
 	}
 	return S_OK;
@@ -1933,7 +1905,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 
 
 //this function is required to load PNG to dib buffer myself
-HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
+static HBITMAP ske_LoadGlyphImage_Png2Dib(const TCHAR *tszFilename)
 {
 	HANDLE hFile, hMap = NULL;
 	BYTE* ppMap = NULL;
@@ -1946,12 +1918,12 @@ HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
 		return (HBITMAP)NULL;
 	}
 
-	if (( hFile = CreateFileA( szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL )) != INVALID_HANDLE_VALUE )
-		if (( hMap = CreateFileMapping( hFile, NULL, PAGE_READONLY, 0, 0, NULL )) != NULL )
-			if (( ppMap = ( BYTE* )MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL )
-				cbFileSize = GetFileSize( hFile, NULL );
+	if ((hFile = CreateFile(tszFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+		if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL )) != NULL)
+			if ((ppMap = ( BYTE* )MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL)
+				cbFileSize = GetFileSize(hFile, NULL);
 
-	if ( cbFileSize != 0 ) {
+	if (cbFileSize != 0) {
 		PNG2DIB param;
 		param.pSource = ppMap;
 		param.cbSourceSize = cbFileSize;
@@ -2000,9 +1972,8 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 
 	BITMAP bmpInfo;
 	{
-		int l;
-		l = lstrlen(tszFileName);
-		memmove(ext,szFileName +(l-4),5);
+		int l = lstrlen(tszFileName);
+		lstrcpyn(ext, tszFileName+(l-4),5);
 	}
 	if ( !_tcschr(tszFileName,'%') && !PathFileExists(tszFileName))
 		return NULL;
@@ -2012,33 +1983,27 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 		f = 1;
 	}
 	else if ( ServiceExists("Image/Png2Dib") && mir_bool_tstrcmpi(ext, _T(".png"))) {
-		hBitmap = ske_LoadGlyphImage_Png2Dib(szFileName);
+		hBitmap = ske_LoadGlyphImage_Png2Dib(tszFileName);
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		f = (bmpInfo.bmBits != NULL);
-		// hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFileName);
-		// f = 1;
-
 	}
-	else if (hImageDecoderModule == NULL || !mir_bool_tstrcmpi(ext, _T(".png")))
-		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFileName);
-	else
-	{
+	else if (hImageDecoderModule == NULL || !mir_bool_tstrcmpi(ext, _T(".png"))) {
+		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)tszFileName);
+	}
+	else {
 		f = 1;
 		ImgNewDecoder(&m_pImgDecoder);
-		if ( !ImgNewDIBFromFile(m_pImgDecoder, szFileName, &pImg))
-		{
+		if ( !ImgNewDIBFromFile(m_pImgDecoder, _T2A(tszFileName), &pImg)) {
 			ImgGetHandle(pImg, &hBitmap, (LPVOID *)&pBitmapBits);
 			ImgDeleteDecoder(m_pImgDecoder);
 		}
 	}
-	if (hBitmap)
-	{
-
+	
+	if (hBitmap) {
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		if (bmpInfo.bmBitsPixel == 32)
 			ske_PreMultiplyChanells(hBitmap,f);
-		else
-		{
+		else {
 			HDC dc24,dc32;
 			HBITMAP hBitmap32,obmp24,obmp32;
 			dc32 = CreateCompatibleDC(NULL);
@@ -2055,7 +2020,6 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 			hBitmap = hBitmap32;
 			ske_PreMultiplyChanells(hBitmap,0);
 		}
-
 	}
 	return hBitmap;
 }
