@@ -452,8 +452,9 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_t2u_cp(s,c) mir_wstrdup(s)
 	#define mir_u2t_cp(s,c) mir_wstrdup(s)
 
-	#define mir_tstrdup mir_wstrdup
-	#define replaceStrT replaceStrW
+	#define mir_tstrdup  mir_wstrdup
+	#define mir_tstrndup mir_wstrndup
+	#define replaceStrT  replaceStrW
 #else
 	#define mir_t2a(s) mir_strdup(s)
 	#define mir_a2t(s) mir_strdup(s)
@@ -465,8 +466,9 @@ __forceinline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 	#define mir_t2u_cp(s,c) mir_a2u_cp(s,c)
 	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
 
-	#define mir_tstrdup mir_strdup
-	#define replaceStrT replaceStr
+	#define mir_tstrdup  mir_strdup
+	#define mir_tstrndup mir_strndup
+	#define replaceStrT  replaceStr
 #endif
 
 MIR_CORE_DLL(WCHAR*) mir_a2u_cp(const char* src, int codepage);
