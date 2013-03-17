@@ -168,7 +168,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 		//The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopUpOptions.ModuleIsEnabled = FALSE;
-		DBWriteContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
+		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable &popup module");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
 	}
@@ -176,7 +176,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 		//The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopUpOptions.ModuleIsEnabled = TRUE;
-		DBWriteContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
+		db_set_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
 		mi.ptszName = LPGENT("Disable &popup module");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	}
@@ -352,7 +352,7 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
 	#if defined(_DEBUG)
-		PopUpOptions.debug = DBGetContactSettingByte(NULL, MODULNAME, "debug", FALSE);
+		PopUpOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#else
 		PopUpOptions.debug = false;
 	#endif

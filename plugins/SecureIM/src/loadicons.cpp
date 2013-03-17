@@ -116,7 +116,7 @@ void InitIcons(void)
 			g_hPOP[icons[i].idx] = hIcon;
 	}
 
-	AddHookFunction(ME_SKIN2_ICONSCHANGED, ReloadIcons);
+	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 }
 
 // EOF

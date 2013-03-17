@@ -42,7 +42,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	if ( DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+	if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
 		k = 1;
 		PBYTE buf = (PBYTE) alloca(sigLen); int len;
 		exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)buf,&len);
@@ -62,14 +62,14 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	else {
 		if ( k ) mir_snprintf(msg,MSGSIZE,Translate(sim522),cnm,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim520),cnm,sha);
-		v = (msgbox(0,msg,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDYES);
+		v = (msgbox(0,msg,MODULENAME,MB_YESNO|MB_ICONQUESTION)==IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("rsa_check_pub: manual accepted %d",v);
 #endif
 	}
 	if (v) {
 		DBCONTACTWRITESETTING cws;
-		cws.szModule = szModuleName;
+		cws.szModule = MODULENAME;
 		cws.szSetting = "rsa_pub";
 		cws.value.type = DBVT_BLOB;
 		cws.value.pbVal = pub;
@@ -112,7 +112,7 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	case -8: { // сессия разорвана по причине "disabled"
 		msg=sim508; 
 //		ptr->status=ptr->tstatus=STATUS_DISABLED;
-//		db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
+//		db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 	} break;
 	case -0x10: // сессия разорвана по ошибке
 	case -0x21:
@@ -159,7 +159,7 @@ unsigned __stdcall sttGenerateRSA( LPVOID param ) {
 	exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
 
 	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModuleName;
+	cws.szModule = MODULENAME;
 	cws.value.type = DBVT_BLOB;
 
 	exp->rsa_get_keypair(CPP_MODE_RSA_4096,(PBYTE)&priv_key,&priv_len,(PBYTE)&pub_key,&pub_len);
@@ -185,7 +185,7 @@ BYTE loadRSAkey(pUinKey ptr) {
        	if ( !ptr->keyLoaded ) {
        	    DBVARIANT dbv;
        	    dbv.type = DBVT_BLOB;
-       	    if (	DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+       	    if (	DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
        		ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx,dbv.pbVal,dbv.cpbVal);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);

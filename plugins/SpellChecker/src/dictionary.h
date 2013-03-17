@@ -40,35 +40,35 @@ public:
 	AutoReplaceMap *autoReplace;
 	HANDLE hIcolib;
 
-	virtual ~Dictionary() {}
+	virtual ~Dictionary();
 
 	// Return TRUE if the word is correct
-	virtual BOOL spell(const TCHAR *) =0;
+	virtual BOOL spell(const TCHAR *) = 0;
 
 	// Return a list of suggestions to a word
-	virtual Suggestions suggest(const TCHAR * word) =0;
+	virtual Suggestions suggest(const TCHAR * word) = 0;
 
 	// Return a list of auto suggestions to a word
-	virtual Suggestions autoSuggest(const TCHAR * word) =0;
+	virtual Suggestions autoSuggest(const TCHAR * word) = 0;
 
 	// Return a auto suggestions to a word
 	// You have to free the item
-	virtual TCHAR * autoSuggestOne(const TCHAR * word) =0;
+	virtual TCHAR * autoSuggestOne(const TCHAR * word) = 0;
 
 	// Return TRUE if the char is a word char
-	virtual BOOL isWordChar(TCHAR c) =0;
+	virtual BOOL isWordChar(TCHAR c) = 0;
 
 	// Add a word to the user custom dict
-	virtual void addWord(const TCHAR * word) =0;
+	virtual void addWord(const TCHAR * word) = 0;
 
 	// Add a word to the list of ignored words
-	virtual void ignoreWord(const TCHAR * word) =0;
+	virtual void ignoreWord(const TCHAR * word) = 0;
 
 	// Assert that all needed data is loaded
-	virtual void load() =0;
+	virtual void load() = 0;
 
 	// Return TRUE if the dict is fully loaded
-	virtual BOOL isLoaded() =0;
+	virtual BOOL isLoaded() = 0;
 };
 
 

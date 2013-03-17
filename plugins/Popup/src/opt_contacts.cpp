@@ -110,7 +110,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 								{
 									if (SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0)))
 									{
-										DBWriteContactSettingByte(hContact, MODULNAME, "ShowMode", i);
+										db_set_b(hContact, MODULNAME, "ShowMode", i);
 										break;
 									}
 								}
@@ -146,7 +146,7 @@ static void sttSetAllContactIcons(HWND hwndList)
 			hContact=db_find_next(hContact))
 	{
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		DWORD dwMode = DBGetContactSettingByte(hContact, MODULNAME, "ShowMode", 0);
+		DWORD dwMode = db_get_b(hContact, MODULNAME, "ShowMode", 0);
 		for (int i=0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
 			//hIml element [0]    = SKINICON_OTHER_SMALLDOT
 			//hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons

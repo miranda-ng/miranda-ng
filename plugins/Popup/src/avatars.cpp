@@ -37,7 +37,7 @@ PopupAvatar *PopupAvatar::create(HANDLE hContact)
 				if (!_tcsicmp(av->szFilename+_tcslen(av->szFilename)-4, _T(".gif")))
 				{
 //					MessageBox(NULL, _T("02"), _T(MODULNAME_LONG), MB_OK);
-					if (DBGetContactSettingByte(NULL, MODULNAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))
+					if (db_get_b(NULL, MODULNAME, "EnableGifAnimation", 1) && GDIPlus_IsAnimatedGIF(av->szFilename))
 					{
 //						MessageBox(NULL, _T("03"), _T(MODULNAME_LONG), MB_OK);
 						return new GifAvatar(hContact);

@@ -500,7 +500,7 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 
 	mir_snprintf(setting, sizeof(setting), "%s/enabled", ptd->pupClass.pszName);
 	ptd->enabled = 
-		(signed char)DBGetContactSettingByte(NULL, szModul, setting, TRUE);
+		(signed char)db_get_b(NULL, szModul, setting, TRUE);
 
 	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
 	ptd->pupClass.iSeconds = 
@@ -527,7 +527,7 @@ void SaveClassSettings(POPUPTREEDATA *ptd, char* szModul)
 	char setting[2*MAXMODULELABELLENGTH];
 
 	mir_snprintf(setting, sizeof(setting), "%s/enabled", ptd->pupClass.pszName);
-	DBWriteContactSettingByte(NULL, szModul, setting, ptd->enabled);
+	db_set_b(NULL, szModul, setting, ptd->enabled);
 
 	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
 	DBWriteContactSettingWord(NULL, szModul, setting, ptd->pupClass.iSeconds);

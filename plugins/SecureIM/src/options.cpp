@@ -9,14 +9,14 @@ BOOL hasKey(pUinKey ptr)
 {
 	BOOL ret = 0;
 	if ( ptr->mode==MODE_NATIVE ) {
-		LPSTR str = myDBGetString(ptr->hContact,szModuleName,"PSK");
+		LPSTR str = myDBGetString(ptr->hContact,MODULENAME,"PSK");
 		ret = (str!=NULL); SAFE_FREE(str);
 	}
 	else
 	if ( ptr->mode==MODE_RSAAES ) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
-		if ( DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+		if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
 			ret = 1;
 			DBFreeVariant(&dbv);
 		}
@@ -304,7 +304,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PSK),NULL,DlgProcSetPSK,(LPARAM)buffer);
 					if (res == IDOK) {
 						setListViewPSK(hLV,idx,1);
-						DBWriteContactSettingString(ptr->hContact,szModuleName,"tPSK",buffer);
+						DBWriteContactSettingString(ptr->hContact,MODULENAME,"tPSK",buffer);
 					}
 				}
 			}
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				ptr = (pUinKey) getListViewParam(hLV,idx);
 				if (ptr) {
 					setListViewPSK(hLV,idx,0);
-					DBDeleteContactSetting(ptr->hContact, szModuleName, "tPSK");
+					db_unset(ptr->hContact, MODULENAME, "tPSK");
 				}
 			}
 			break;
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						LPSTR buffer = (LPSTR) alloca(RSASIZE);
 						exp->rsa_export_pubkey(ptr->cntx,buffer);
 						if ( !SaveExportRSAKeyDlg(hDlg,buffer,0))
-							msgbox(hDlg,sim114,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+							msgbox(hDlg,sim114,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 					}
 				}
 				return TRUE;
@@ -360,7 +360,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
 
 						DBCONTACTWRITESETTING cws;
-						cws.szModule = szModuleName;
+						cws.szModule = MODULENAME;
 						cws.szSetting = "rsa_pub";
 						cws.value.type = DBVT_BLOB;
 						cws.value.pbVal = (PBYTE)pub;
@@ -370,7 +370,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						setListViewPUB(hLV,idx,1);
 					}
 					else
-						msgbox(hDlg,sim115,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+						msgbox(hDlg,sim115,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 				}
 				return TRUE;
 			}
@@ -577,7 +577,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		  		LPSTR pub = (LPSTR) alloca(RSASIZE);
 		  		exp->rsa_export_keypair(CPP_MODE_RSA,NULL,pub,NULL);
 				if ( !SaveExportRSAKeyDlg(hDlg,pub,0))
-					msgbox(hDlg,sim114,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+					msgbox(hDlg,sim114,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 		  	        return TRUE;
 		  	} break;
 		  	case IDC_RSA_EXPPRIV: {
@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		  			LPSTR priv = (LPSTR) alloca(RSASIZE);
 		  			exp->rsa_export_keypair(CPP_MODE_RSA,priv,NULL,passphrase);
 					if ( !SaveExportRSAKeyDlg(hDlg,priv,1))
-						msgbox(hDlg,sim112,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+						msgbox(hDlg,sim112,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 				}
 		  	        return TRUE;
 		  	} break;
@@ -599,7 +599,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,DlgProcSetPassphrase,(LPARAM)passphrase);
 				if ( res==IDOK ) {
 	  				if ( !exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase)) {
-						msgbox(hDlg,sim113,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+						msgbox(hDlg,sim113,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 	  				}
 	  				else {
 	  					// обновить SHA1 значение
@@ -738,8 +738,8 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 				PubRingPath[0]='\0'; SecRingPath[0]='\0';
 				bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
 				if (bPGPkeyrings && PubRingPath[0] && SecRingPath[0]) {
-					DBWriteContactSettingString(0,szModuleName,"pgpPubRing",PubRingPath);
-					DBWriteContactSettingString(0,szModuleName,"pgpSecRing",SecRingPath);
+					DBWriteContactSettingString(0,MODULENAME,"pgpPubRing",PubRingPath);
+					DBWriteContactSettingString(0,MODULENAME,"pgpSecRing",SecRingPath);
 				}
 				SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bPGPkeyrings?Translate(sim216):Translate(sim217));
 //				EnableWindow(hLV, bPGPkeyrings);
@@ -759,11 +759,11 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			  	if (ShowSelectKeyDlg(hDlg,KeyPath)) {
 			  		char *priv = LoadKeys(KeyPath,true);
 			  		if (priv) {
-				  		DBWriteContactSettingString(0,szModuleName,"tpgpPrivKey",priv);
+				  		DBWriteContactSettingString(0,MODULENAME,"tpgpPrivKey",priv);
 				  		mir_free(priv);
 			  		}
 			  		else {
-				  		DBDeleteContactSetting(0,szModuleName,"tpgpPrivKey");
+				  		db_unset(0,MODULENAME,"tpgpPrivKey");
 			  		}
 			  	}
 		  	}
@@ -890,11 +890,11 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			  	if (ShowSelectKeyDlg(hDlg,KeyPath)) {
 			  		char *priv = LoadKeys(KeyPath,true);
 			  		if (priv) {
-				  		DBWriteContactSettingString(0,szModuleName,"tpgpPrivKey",priv);
+				  		DBWriteContactSettingString(0,MODULENAME,"tpgpPrivKey",priv);
 				  		mir_free(priv);
 			  		}
 			  		else {
-				  		DBDeleteContactSetting(0,szModuleName,"tpgpPrivKey");
+				  		db_unset(0,MODULENAME,"tpgpPrivKey");
 			  		}
 			  	}
 		  	}
@@ -1003,7 +1003,7 @@ INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) 
 		case IDOK: {
 			int len = GetDlgItemTextA(hDlg,IDC_EDIT1,buffer,PSKSIZE);
 			if (len<8) {
-				msgbox1(hDlg,sim211,szModuleName,MB_OK|MB_ICONEXCLAMATION);
+				msgbox1(hDlg,sim211,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 				return TRUE;
 			}
 			else {
@@ -1070,12 +1070,12 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 	Sent_NetLog("RefreshGeneralDlg");
 #endif
 	// Key Exchange Timeout
-	data = DBGetContactSettingWord(0, szModuleName, "ket", 10);
+	data = DBGetContactSettingWord(0, MODULENAME, "ket", 10);
 	mir_itoa(data,timeout,10);
 	SetDlgItemText(hDlg,IDC_KET,timeout);
 
 	// Offline Key Timeout
-	data = DBGetContactSettingWord(0, szModuleName, "okt", 2);
+	data = DBGetContactSettingWord(0, MODULENAME, "okt", 2);
 	mir_itoa(data,timeout,10);
 	SetDlgItemText(hDlg,IDC_OKT,timeout);
 
@@ -1214,7 +1214,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit) {
 		pUinKey ptr = getUinKey(hContact);
 		if (ptr && ptr->mode==MODE_PGP && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
 
-			LPSTR szKeyID = myDBGetString(hContact,szModuleName,"pgp_abbr");
+			LPSTR szKeyID = myDBGetString(hContact,MODULENAME,"pgp_abbr");
 
 			lvi.iItem++;
 			lvi.iImage = (szKeyID!=0);
@@ -1243,27 +1243,27 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("RefreshGPGDlg");
 #endif
-	path = myDBGetString(0,szModuleName,"gpgExec");
+	path = myDBGetString(0,MODULENAME,"gpgExec");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, path);
 		mir_free(path);
 	}
-	path = myDBGetString(0,szModuleName,"gpgHome");
+	path = myDBGetString(0,MODULENAME,"gpgHome");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGHOME_EDIT, path);
 		mir_free(path);
 	}
-	BOOL bGPGLogFlag = db_get_b(0, szModuleName, "gpgLogFlag",0);
+	BOOL bGPGLogFlag = db_get_b(0, MODULENAME, "gpgLogFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_LOGGINGON_CBOX),BM_SETCHECK,(bGPGLogFlag)?BST_CHECKED:BST_UNCHECKED,0L);
-	path = myDBGetString(0,szModuleName,"gpgLog");
+	path = myDBGetString(0,MODULENAME,"gpgLog");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, path);
 		mir_free(path);
 	}
 	SendMessage(GetDlgItem(hDlg,IDC_SAVEPASS_CBOX),BM_SETCHECK,(bSavePass)?BST_CHECKED:BST_UNCHECKED,0L);
-	BOOL bGPGTmpFlag = db_get_b(0, szModuleName, "gpgTmpFlag",0);
+	BOOL bGPGTmpFlag = db_get_b(0, MODULENAME, "gpgTmpFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_TMPPATHON_CBOX),BM_SETCHECK,(bGPGTmpFlag)?BST_CHECKED:BST_UNCHECKED,0L);
-	path = myDBGetString(0,szModuleName,"gpgTmp");
+	path = myDBGetString(0,MODULENAME,"gpgTmp");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, path);
 		mir_free(path);
@@ -1288,7 +1288,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 				ptr->tgpgMode = ptr->gpgMode;
 			}
 
-			LPSTR szKeyID = myDBGetString(hContact,szModuleName,"gpg");
+			LPSTR szKeyID = myDBGetString(hContact,MODULENAME,"gpg");
 
 			lvi.iItem++;
 			lvi.iImage = (szKeyID!=0);
@@ -1389,15 +1389,15 @@ void ApplyGeneralSettings(HWND hDlg) {
 	// Key Exchange Timeout
 	GetDlgItemText(hDlg,IDC_KET,timeout,5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	DBWriteContactSettingWord(0,szModuleName,"ket",tmp);
-	exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10));
+	DBWriteContactSettingWord(0,MODULENAME,"ket",tmp);
+	exp->rsa_set_timeout( DBGetContactSettingWord(0,MODULENAME,"ket",10));
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_KET,timeout);
 
 	// Offline Key Timeout
 	GetDlgItemText(hDlg,IDC_OKT,timeout,5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	DBWriteContactSettingWord(0,szModuleName,"okt",tmp);
+	DBWriteContactSettingWord(0,MODULENAME,"okt",tmp);
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_OKT,timeout);
 
@@ -1420,14 +1420,14 @@ void ApplyGeneralSettings(HWND hDlg) {
 	i = SendMessage(GetDlgItem(hDlg, IDC_PGP),BM_GETCHECK,0L,0L)==BST_CHECKED;
 	if (i!=bPGP) {
 		bPGP = i; tmp++;
-		db_set_b(0, szModuleName, "pgp", bPGP);
+		db_set_b(0, MODULENAME, "pgp", bPGP);
 	}
 	i = SendMessage(GetDlgItem(hDlg, IDC_GPG),BM_GETCHECK,0L,0L)==BST_CHECKED;
 	if (i!=bGPG) {
 		bGPG = i; tmp++;
-		db_set_b(0, szModuleName, "gpg", bGPG);
+		db_set_b(0, MODULENAME, "gpg", bGPG);
 	}
-	if (tmp) msgbox1(hDlg, sim224, szModuleName, MB_OK|MB_ICONINFORMATION);
+	if (tmp) msgbox1(hDlg, sim224, MODULENAME, MB_OK|MB_ICONINFORMATION);
 	}
 
 	HWND hLV = GetDlgItem(hDlg,IDC_STD_USERLIST);
@@ -1437,28 +1437,28 @@ void ApplyGeneralSettings(HWND hDlg) {
 		if ( !ptr ) continue;
 		if ( ptr->mode!=ptr->tmode ) {
 			ptr->mode = ptr->tmode;
-			db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
+			db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 		}
 		if ( ptr->status!=ptr->tstatus ) {
 			ptr->status = ptr->tstatus;
-			if (ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
-			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
+			if (ptr->status==STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
+			else 				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 		}
 		if ( ptr->mode==MODE_NATIVE ) {
 			if ( getListViewPSK(hLV,i)) {
-			    LPSTR tmp = myDBGetString(ptr->hContact,szModuleName,"tPSK");
-			    DBWriteContactSettingString(ptr->hContact, szModuleName, "PSK", tmp);
+			    LPSTR tmp = myDBGetString(ptr->hContact,MODULENAME,"tPSK");
+			    DBWriteContactSettingString(ptr->hContact, MODULENAME, "PSK", tmp);
 			    mir_free(tmp);
 			}
 			else {
-			    DBDeleteContactSetting(ptr->hContact, szModuleName, "PSK");
+			    db_unset(ptr->hContact, MODULENAME, "PSK");
 			}
-			DBDeleteContactSetting(ptr->hContact, szModuleName, "tPSK");
+			db_unset(ptr->hContact, MODULENAME, "tPSK");
 		}
 		else
 		if ( ptr->mode==MODE_RSAAES ) {
 			if ( !getListViewPUB(hLV,i)) {
-			    DBDeleteContactSetting(ptr->hContact, szModuleName, "rsa_pub");
+			    db_unset(ptr->hContact, MODULENAME, "rsa_pub");
 			}
 		}
 		i = ListView_GetNextItem(hLV,i,LVNI_ALL);
@@ -1483,22 +1483,22 @@ void ApplyProtoSettings(HWND hDlg) {
 		i = ListView_GetNextItem(hLV,i,LVNI_ALL);
 	}
 
-	DBWriteContactSettingString(0,szModuleName,"protos",szNames);
+	DBWriteContactSettingString(0,MODULENAME,"protos",szNames);
 }
 
 
 void ApplyPGPSettings(HWND hDlg) {
 
 	bUseKeyrings = !(SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	db_set_b(0,szModuleName,"ukr",bUseKeyrings);
+	db_set_b(0,MODULENAME,"ukr",bUseKeyrings);
 
-	char *priv = myDBGetString(0,szModuleName,"tpgpPrivKey");
+	char *priv = myDBGetString(0,MODULENAME,"tpgpPrivKey");
 	if (priv) {
    	    bPGPprivkey = true;
 	    pgp_set_priv_key(priv);
-		myDBWriteStringEncode(0,szModuleName,"pgpPrivKey",priv);
+		myDBWriteStringEncode(0,MODULENAME,"pgpPrivKey",priv);
 		mir_free(priv);
-  		DBDeleteContactSetting(0,szModuleName,"tpgpPrivKey");
+  		db_unset(0,MODULENAME,"tpgpPrivKey");
 	}
 }
 
@@ -1508,24 +1508,24 @@ void ApplyGPGSettings(HWND hDlg) {
 	char tmp[256];
 
 	GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, tmp, sizeof(tmp));
-	DBWriteContactSettingString(0,szModuleName,"gpgExec",tmp);
+	DBWriteContactSettingString(0,MODULENAME,"gpgExec",tmp);
 	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, sizeof(tmp));
-	DBWriteContactSettingString(0,szModuleName,"gpgHome",tmp);
+	DBWriteContactSettingString(0,MODULENAME,"gpgHome",tmp);
 
 	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	db_set_b(0,szModuleName,"gpgSaveFlag",bSavePass);
+	db_set_b(0,MODULENAME,"gpgSaveFlag",bSavePass);
 
 	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	db_set_b(0,szModuleName,"gpgLogFlag",bgpgLogFlag);
+	db_set_b(0,MODULENAME,"gpgLogFlag",bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, sizeof(tmp));
-	DBWriteContactSettingString(0,szModuleName,"gpgLog",tmp);
+	DBWriteContactSettingString(0,MODULENAME,"gpgLog",tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
 	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	db_set_b(0,szModuleName,"gpgTmpFlag",bgpgTmpFlag);
+	db_set_b(0,MODULENAME,"gpgTmpFlag",bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, sizeof(tmp));
-	DBWriteContactSettingString(0,szModuleName,"gpgTmp",tmp);
+	DBWriteContactSettingString(0,MODULENAME,"gpgTmp",tmp);
 	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
 	else gpg_set_tmp(0);
 
@@ -1536,8 +1536,8 @@ void ApplyGPGSettings(HWND hDlg) {
 		if ( !ptr ) continue;
 		if ( ptr->gpgMode != ptr->tgpgMode ) {
 			ptr->gpgMode = ptr->tgpgMode;
-			if ( ptr->gpgMode )	db_set_b(ptr->hContact,szModuleName,"gpgANSI",1);
-			else              	DBDeleteContactSetting(ptr->hContact,szModuleName,"gpgANSI");
+			if ( ptr->gpgMode )	db_set_b(ptr->hContact,MODULENAME,"gpgANSI",1);
+			else              	db_unset(ptr->hContact,MODULENAME,"gpgANSI");
 		}			
 
 		i = ListView_GetNextItem(hLV,i,LVNI_ALL);
@@ -1632,7 +1632,7 @@ void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 		pUinKey ptr = (pUinKey) getListViewParam(hLV, iItem);
-		if ( DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+		if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
 			int len;
 			exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)str,&len);
 			sha = mir_strdup(to_hex((PBYTE)str,len));
@@ -1678,8 +1678,8 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
 		return (s-d)*m;
 	} break;
 	case 0x13: {
-		DBGetContactSetting(pUinKey(lParam1)->hContact,szModuleName,"pgp_abbr",&dbv1);
-		DBGetContactSetting(pUinKey(lParam2)->hContact,szModuleName,"pgp_abbr",&dbv2);
+		DBGetContactSetting(pUinKey(lParam1)->hContact,MODULENAME,"pgp_abbr",&dbv1);
+		DBGetContactSetting(pUinKey(lParam2)->hContact,MODULENAME,"pgp_abbr",&dbv2);
 		s=(dbv1.type==DBVT_ASCIIZ);
 		d=(dbv2.type==DBVT_ASCIIZ);
 		if (s && d) {
@@ -1691,8 +1691,8 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
 		return (s-d)*m;
 	} break;
 	case 0x23: {
-		DBGetContactSetting(pUinKey(lParam1)->hContact,szModuleName,"gpg",&dbv1);
-		DBGetContactSetting(pUinKey(lParam2)->hContact,szModuleName,"gpg",&dbv2);
+		DBGetContactSetting(pUinKey(lParam1)->hContact,MODULENAME,"gpg",&dbv1);
+		DBGetContactSetting(pUinKey(lParam2)->hContact,MODULENAME,"gpg",&dbv2);
 		s=(dbv1.type==DBVT_ASCIIZ);
 		d=(dbv2.type==DBVT_ASCIIZ);
 		if (s && d) {
@@ -1709,10 +1709,10 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
 		return (s-d)*m;
 	} break;
 	case 0x05: {
-		DBGetContactSetting(pUinKey(lParam1)->hContact,szModuleName,"PSK",&dbv1);
+		DBGetContactSetting(pUinKey(lParam1)->hContact,MODULENAME,"PSK",&dbv1);
 		s=(dbv1.type==DBVT_ASCIIZ);
 		DBFreeVariant(&dbv1);
-		DBGetContactSetting(pUinKey(lParam2)->hContact,szModuleName,"PSK",&dbv2);
+		DBGetContactSetting(pUinKey(lParam2)->hContact,MODULENAME,"PSK",&dbv2);
 		d=(dbv2.type==DBVT_ASCIIZ);
 		DBFreeVariant(&dbv2);
 		return (s-d)*m;
@@ -1728,14 +1728,14 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort) {
 	// restore sort column
 	sprintf(t,"os%02x",(UINT)lParamSort&0xF0);
 	if ((lParamSort&0x0F)==0) {
-		lParamSort=(int)db_get_b(0, szModuleName, t, lParamSort+1);
+		lParamSort=(int)db_get_b(0, MODULENAME, t, lParamSort+1);
 	}
-	db_set_b(0, szModuleName, t, (BYTE)lParamSort);
+	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
 
 	// restore sort order
 	sprintf(t,"os%02x",(UINT)lParamSort);
-	int m=db_get_b(0, szModuleName, t, 0);
-	if (bChangeSortOrder){ m=!m; db_set_b(0, szModuleName, t, m); }
+	int m=db_get_b(0, MODULENAME, t, 0);
+	if (bChangeSortOrder){ m=!m; db_set_b(0, MODULENAME, t, m); }
 
 	ListView_SortItems(hLV,&CompareFunc,lParamSort|(m<<8));
 }
@@ -1882,7 +1882,7 @@ int onRegisterOptions(WPARAM wParam, LPARAM)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSTAB);
-	odp.pszTitle = (char*)szModuleName;
+	odp.pszTitle = (char*)MODULENAME;
 	odp.pszGroup = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;
 	Options_AddPage(wParam, &odp);

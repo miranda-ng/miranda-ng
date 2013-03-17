@@ -102,7 +102,7 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}enabled", 
 			ptd->notification.lpzGroup, 
 			ptd->notification.lpzName);
-		DBWriteContactSettingByte(NULL, szModul, setting, ptd->enabled);
+		db_set_b(NULL, szModul, setting, ptd->enabled);
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}TimeoutVal",
 			ptd->notification.lpzGroup,
@@ -112,7 +112,7 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}disableWhen",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
-		DBWriteContactSettingByte(NULL, szModul, setting, ptd->disableWhen);
+		db_set_b(NULL, szModul, setting, ptd->disableWhen);
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}leftAction",
 			ptd->notification.lpzGroup,
@@ -154,7 +154,7 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->enabled = 
-			(signed char)DBGetContactSettingByte(NULL, szModul, setting, TRUE);
+			(signed char)db_get_b(NULL, szModul, setting, TRUE);
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}Timeout", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->notification.iSeconds = 
@@ -167,7 +167,7 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}disableWhen", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->disableWhen =
-			DBGetContactSettingByte(NULL, szModul, setting, 0);
+			db_get_b(NULL, szModul, setting, 0);
 
 		mir_snprintf(setting, sizeof(setting), "{%s/%s}leftAction", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		szTmp = DBGetContactSettingString(NULL, szModul, setting, ptd->notification.lpzLAction);

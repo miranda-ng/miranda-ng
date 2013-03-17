@@ -625,7 +625,7 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				if (textAreaWidth <= 0) textAreaWidth = wnd->getRenderInfo()->realtextw;
 
 				drawActionBar(bmp, wnd,
-					DBGetContactSettingByte(NULL, MODULNAME, "CenterActions", 0) ?
+					db_get_b(NULL, MODULNAME, "CenterActions", 0) ?
 						(pos.x + (textAreaWidth - wnd->getRenderInfo()->actw)/2) :
 					(PopUpOptions.actions&ACT_RIGHTICONS) ?
 						(pos.x + textAreaWidth - wnd->getRenderInfo()->actw) :
@@ -1269,7 +1269,7 @@ void PopupSkin::saveOpts() const
 
 	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
 
-	DBWriteContactSettingDword(NULL, MODULNAME, buf, m_flags);
+	db_set_dw(NULL, MODULNAME, buf, m_flags);
 }
 
 void PopupSkin::loadOpts() const

@@ -72,7 +72,6 @@
 
 #define MODULENAME "SecureIM"
 
-extern LPCSTR szModuleName;
 extern LPCSTR szVersionStr;
 extern char TEMP[MAX_PATH];
 extern int  TEMP_SIZE;
@@ -85,8 +84,6 @@ extern PLUGININFOEX pluginInfoEx;
 #define PREF_SIMNOMETA	0x4000	//!< Flag to indicate message should not be inspected by filter on metacontact
 
 extern HANDLE g_hEvent[2], g_hMenu[15], g_hCLIcon, g_hFolders;
-extern HANDLE *g_hService;
-extern HANDLE *g_hHook;
 extern int iService, iHook;
 extern HICON g_hICO[ICO_CNT], g_hIEC[1+IEC_CNT*MODE_CNT], g_hPOP[POP_CNT];
 extern HANDLE g_IEC[1+IEC_CNT*MODE_CNT];
@@ -102,10 +99,6 @@ extern CRITICAL_SECTION localQueueMutex;
 int onModulesLoaded(WPARAM, LPARAM);
 int onSystemOKToExit(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
-
-void AddServiceFunction(LPCSTR,MIRANDASERVICE);
-void AddProtoServiceFunction(LPCSTR,MIRANDASERVICE);
-void AddHookFunction(LPCSTR,MIRANDAHOOK);
 
 LPSTR myDBGetString(HANDLE,const char *,const char *);
 LPSTR myDBGetStringDecode(HANDLE,const char *,const char *);

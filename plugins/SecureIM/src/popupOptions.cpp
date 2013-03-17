@@ -21,22 +21,22 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 			  switch(LOWORD(wParam)) {
 			  case IDC_BACKKEY:
-				  DBWriteContactSettingDword(0, szModuleName, "colorKeyb", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorKeyb", color);
 				  break;
 			  case IDC_TEXTKEY:
-				  DBWriteContactSettingDword(0, szModuleName, "colorKeyt", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorKeyt", color);
 				  break;
 			  case IDC_BACKSEC:
-				  DBWriteContactSettingDword(0, szModuleName, "colorSecb", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorSecb", color);
 				  break;
 			  case IDC_TEXTSEC:
-				  DBWriteContactSettingDword(0, szModuleName, "colorSect", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorSect", color);
 				  break;
 			  case IDC_BACKSR:
-				  DBWriteContactSettingDword(0, szModuleName, "colorSRb", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorSRb", color);
 				  break;
 			  case IDC_TEXTSR:
-				  DBWriteContactSettingDword(0, szModuleName, "colorSRt", color);
+				  DBWriteContactSettingDword(0, MODULENAME, "colorSRt", color);
 				  break;
 			  }
 			  return TRUE;
@@ -52,53 +52,53 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		  break;
 		  case IDC_EC: {
 			  //set ec checkbox value
-			  db_set_b(0, szModuleName, "ec", (BYTE)(SendMessage(hec,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_DC: {
 			  //set dc checkbox value
-			  db_set_b(0, szModuleName, "dc", (BYTE)(SendMessage(hdc,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_SS: {
 			  //set ss checkbox value
-			  db_set_b(0, szModuleName, "ss", (BYTE)(SendMessage(hss,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_SR: {
 			  //set sr checkbox value
-			  db_set_b(0, szModuleName, "sr", (BYTE)(SendMessage(hsr,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_KS: {
 			  //set indicator checkbox value
-			  db_set_b(0, szModuleName, "ks", (BYTE)(SendMessage(hks,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_KR: {
 			  //set indicator checkbox value
-			  db_set_b(0, szModuleName, "kr", (BYTE)(SendMessage(hkr,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			  db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr,BM_GETCHECK,0L,0L)==BST_CHECKED));
 		  }
 		  break;
 		  case IDC_TIMEKEY: {
 			  //set timeout value
 			  GetDlgItemText(hDlg,IDC_TIMEKEY,getTimeout,sizeof(getTimeout));
 			  mir_itoa(atoi(getTimeout),getTimeout,10);
-			  DBWriteContactSettingString(0, szModuleName, "timeoutKey", getTimeout);
+			  DBWriteContactSettingString(0, MODULENAME, "timeoutKey", getTimeout);
 		  }
 		  break;
 		  case IDC_TIMESEC: {
 			  //set timeout value
 			  GetDlgItemText(hDlg,IDC_TIMESEC,getTimeout,sizeof(getTimeout));
 			  mir_itoa(atoi(getTimeout),getTimeout,10);
-			  DBWriteContactSettingString(0, szModuleName, "timeoutSec", getTimeout);
+			  DBWriteContactSettingString(0, MODULENAME, "timeoutSec", getTimeout);
 		  }
 		  break;
 		  case IDC_TIMESR: {
 			  //set timeout value
 			  GetDlgItemText(hDlg,IDC_TIMESR,getTimeout,sizeof(getTimeout));
 			  mir_itoa(atoi(getTimeout),getTimeout,10);
-			  DBWriteContactSettingString(0, szModuleName, "timeoutSR", getTimeout);
+			  DBWriteContactSettingString(0, MODULENAME, "timeoutSR", getTimeout);
 		  }
 		  break;
 		  } //switch
@@ -118,34 +118,34 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		  char *timeout;
 
 		  //set timeout value for Key
-		  if (DBGetContactSetting(0, szModuleName, "timeoutKey", &dbv) == 0) timeout=dbv.pszVal;
+		  if (DBGetContactSetting(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout=dbv.pszVal;
 		  else timeout="0";
 		  SetDlgItemText(hDlg, IDC_TIMEKEY, timeout);
 		  DBFreeVariant(&dbv);
 
 		  //set timeout value for SEC
-		  if (DBGetContactSetting(0, szModuleName, "timeoutSec", &dbv) == 0) timeout=dbv.pszVal;
+		  if (DBGetContactSetting(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout=dbv.pszVal;
 		  else timeout="0";
 		  SetDlgItemText(hDlg, IDC_TIMESEC, timeout);
 		  DBFreeVariant(&dbv);
 
 		  //set timeout value for SR
-		  if (DBGetContactSetting(0, szModuleName, "timeoutSR", &dbv) == 0) timeout=dbv.pszVal;
+		  if (DBGetContactSetting(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout=dbv.pszVal;
 		  else timeout="0";
 		  SetDlgItemText(hDlg, IDC_TIMESR, timeout);
 		  DBFreeVariant(&dbv);
 
 		  //key color
-		  SendDlgItemMessage(hDlg,IDC_BACKKEY,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorKeyb", RGB(230,230,255)));
-		  SendDlgItemMessage(hDlg,IDC_TEXTKEY,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorKeyt", RGB(0,0,0)));
+		  SendDlgItemMessage(hDlg,IDC_BACKKEY,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorKeyb", RGB(230,230,255)));
+		  SendDlgItemMessage(hDlg,IDC_TEXTKEY,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorKeyt", RGB(0,0,0)));
 
 		  //Session color
-		  SendDlgItemMessage(hDlg,IDC_BACKSEC,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorSecb", RGB(255,255,200)));
-		  SendDlgItemMessage(hDlg,IDC_TEXTSEC,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorSect", RGB(0,0,0)));
+		  SendDlgItemMessage(hDlg,IDC_BACKSEC,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorSecb", RGB(255,255,200)));
+		  SendDlgItemMessage(hDlg,IDC_TEXTSEC,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorSect", RGB(0,0,0)));
 
 		  //SR color
-		  SendDlgItemMessage(hDlg,IDC_BACKSR,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorSRb", RGB(200,255,200)));
-		  SendDlgItemMessage(hDlg,IDC_TEXTSR,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, szModuleName, "colorSRt", RGB(0,0,0)));
+		  SendDlgItemMessage(hDlg,IDC_BACKSR,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorSRb", RGB(200,255,200)));
+		  SendDlgItemMessage(hDlg,IDC_TEXTSR,CPM_SETCOLOUR,0,DBGetContactSettingDword(0, MODULENAME, "colorSRt", RGB(0,0,0)));
 
 		  break;
 						  }
@@ -166,7 +166,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	int indic;
 
 	// ec checkbox
-	if (DBGetContactSetting(0, szModuleName, "ec", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "ec", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=1;
@@ -175,7 +175,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	else SendMessage(hec,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// dc checkbox
-	if (DBGetContactSetting(0, szModuleName, "dc", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "dc", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=1;
@@ -184,7 +184,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	else SendMessage(hdc,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// ks checkbox
-	if (DBGetContactSetting(0, szModuleName, "ks", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "ks", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=1;
@@ -193,7 +193,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	else SendMessage(hks,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// kr checkbox
-	if (DBGetContactSetting(0, szModuleName, "kr", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "kr", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=1;
@@ -202,7 +202,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	else SendMessage(hkr,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	//ss checkbox
-	if (DBGetContactSetting(0, szModuleName, "ss", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "ss", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=0;
@@ -211,7 +211,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	else SendMessage(hss,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	//sr checkbox
-	if (DBGetContactSetting(0, szModuleName, "sr", &dbv) == 0)
+	if (DBGetContactSetting(0, MODULENAME, "sr", &dbv) == 0)
 	{indic=dbv.bVal;
 	}
 	else indic=0;
@@ -230,7 +230,7 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM)
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP);
-		odp.pszTitle = (char*)szModuleName;
+		odp.pszTitle = (char*)MODULENAME;
 		odp.pszGroup = LPGEN("PopUps");
 		odp.pfnDlgProc = PopOptionsDlgProc;
 		Options_AddPage(wParam, &odp);

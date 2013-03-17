@@ -72,7 +72,7 @@ HRESULT		(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurB
 void LoadOptions() {
 	ZeroMemory(&PopUpOptions, sizeof(PopUpOptions));
 	#if defined(_DEBUG)
-		PopUpOptions.debug = DBGetContactSettingByte(NULL, MODULNAME, "debug", FALSE);
+		PopUpOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#endif
 
 	//Load PopUp Options

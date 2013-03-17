@@ -2,14 +2,12 @@
 
 HINSTANCE g_hInst, g_hIconInst;
 
-LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING")";
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 
 HANDLE g_hEvent[2], g_hMenu[15], g_hCLIcon=0, g_hFolders=0;
-HANDLE *g_hService=NULL;
-HANDLE *g_hHook=NULL;
+
 int iService=0;
 int iHook=0;
 
@@ -76,30 +74,30 @@ int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSet
 
 void GetFlags()
 {
-	bSFT = db_get_b(0, szModuleName, "sft", 0);
-	bSOM = db_get_b(0, szModuleName, "som", 0);
-	bASI = db_get_b(0, szModuleName, "asi", 0);
-	bMCD = db_get_b(0, szModuleName, "mcd", 0);
-	bSCM = db_get_b(0, szModuleName, "scm", 0);
-	bDGP = db_get_b(0, szModuleName, "dgp", 0);
-	bAIP = db_get_b(0, szModuleName, "aip", 0);
-	bNOL = db_get_b(0, szModuleName, "nol", 0);
-	bAAK = db_get_b(0, szModuleName, "aak", 0);
-	bMCM = db_get_b(0, szModuleName, "mcm", 0);
+	bSFT = db_get_b(0, MODULENAME, "sft", 0);
+	bSOM = db_get_b(0, MODULENAME, "som", 0);
+	bASI = db_get_b(0, MODULENAME, "asi", 0);
+	bMCD = db_get_b(0, MODULENAME, "mcd", 0);
+	bSCM = db_get_b(0, MODULENAME, "scm", 0);
+	bDGP = db_get_b(0, MODULENAME, "dgp", 0);
+	bAIP = db_get_b(0, MODULENAME, "aip", 0);
+	bNOL = db_get_b(0, MODULENAME, "nol", 0);
+	bAAK = db_get_b(0, MODULENAME, "aak", 0);
+	bMCM = db_get_b(0, MODULENAME, "mcm", 0);
 }
 
 void SetFlags()
 {
-	db_set_b(0, szModuleName, "sft", bSFT);
-	db_set_b(0, szModuleName, "som", bSOM);
-	db_set_b(0, szModuleName, "asi", bASI);
-	db_set_b(0, szModuleName, "mcd", bMCD);
-	db_set_b(0, szModuleName, "scm", bSCM);
-	db_set_b(0, szModuleName, "dgp", bDGP);
-	db_set_b(0, szModuleName, "aip", bAIP);
-	db_set_b(0, szModuleName, "nol", bNOL);
-	db_set_b(0, szModuleName, "aak", bAAK);
-	db_set_b(0, szModuleName, "mcm", bMCM);
+	db_set_b(0, MODULENAME, "sft", bSFT);
+	db_set_b(0, MODULENAME, "som", bSOM);
+	db_set_b(0, MODULENAME, "asi", bASI);
+	db_set_b(0, MODULENAME, "mcd", bMCD);
+	db_set_b(0, MODULENAME, "scm", bSCM);
+	db_set_b(0, MODULENAME, "dgp", bDGP);
+	db_set_b(0, MODULENAME, "aip", bAIP);
+	db_set_b(0, MODULENAME, "nol", bNOL);
+	db_set_b(0, MODULENAME, "aak", bAAK);
+	db_set_b(0, MODULENAME, "mcm", bMCM);
 }
 
 struct A2U {
@@ -161,8 +159,8 @@ HANDLE hNetlibUser;
 void InitNetlib()
 {
 	NETLIBUSER nl_user = { sizeof(nl_user) };
-	nl_user.szSettingsModule = (LPSTR)szModuleName;
-	nl_user.szDescriptiveName = (LPSTR)szModuleName;
+	nl_user.szSettingsModule = (LPSTR)MODULENAME;
+	nl_user.szDescriptiveName = (LPSTR)MODULENAME;
 	nl_user.flags = NUF_NOOPTIONS;
 
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);

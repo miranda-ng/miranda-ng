@@ -984,12 +984,15 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, TCHAR *path, TCHAR *user_pa
 void FreeDictionaries(LIST<Dictionary> &dicts)
 {
 	for (int i = 0; i < dicts.getCount(); i++)
-	{
 		delete dicts[i];
-	}
+
 	dicts.destroy();
 }
 
+Dictionary::~Dictionary()
+{
+	delete autoReplace;
+}
 
 // Free the list returned by GetAvaibleDictionaries
 void FreeSuggestions(Suggestions &suggestions)

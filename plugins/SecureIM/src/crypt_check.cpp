@@ -38,12 +38,12 @@ BYTE isContactSecured(HANDLE hContact) {
 				if (cpp_keyx(clist[j].cntx)!=0) r|=SECURED;
 				break;
 			case MODE_PGP:
-				DBGetContactSetting(hContact,szModuleName,"pgp",&dbv);
+				DBGetContactSetting(hContact,MODULENAME,"pgp",&dbv);
 				if ( dbv.type!=0 ) r|=SECURED;
 				DBFreeVariant(&dbv);
 				break;
 			case MODE_GPG:
-				DBGetContactSetting(hContact,szModuleName,"gpg",&dbv);
+				DBGetContactSetting(hContact,MODULENAME,"gpg",&dbv);
 				if ( dbv.type!=0 ) r|=SECURED;
 				DBFreeVariant(&dbv);
 				break;
@@ -157,7 +157,7 @@ BOOL isContactPGP(HANDLE hContact) {
 		if ( !clist[j].proto->inspecting ) break;
 	    	if ( clist[j].mode!=MODE_PGP ) break;
         	DBVARIANT dbv;
-        	DBGetContactSetting(hContact,szModuleName,"pgp",&dbv);
+        	DBGetContactSetting(hContact,MODULENAME,"pgp",&dbv);
         	BOOL r=(dbv.type!=0);
         	DBFreeVariant(&dbv);
         	return r;
@@ -176,7 +176,7 @@ BOOL isContactGPG(HANDLE hContact) {
 		if ( !clist[j].proto->inspecting ) break;
 	    	if ( clist[j].mode!=MODE_GPG ) break;
         	DBVARIANT dbv;
-        	DBGetContactSetting(hContact,szModuleName,"gpg",&dbv);
+        	DBGetContactSetting(hContact,MODULENAME,"gpg",&dbv);
         	BOOL r=(dbv.type!=0);
         	DBFreeVariant(&dbv);
         	return r;

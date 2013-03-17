@@ -43,25 +43,25 @@ void OptAdv_UnregisterVfx() {
 //Main Dialog Proc
 void LoadOption_AdvOpts() {
 	//History
-	PopUpOptions.EnableHistory			= DBGetContactSettingByte (NULL,MODULNAME, "EnableHistory", TRUE);
+	PopUpOptions.EnableHistory			= db_get_b (NULL,MODULNAME, "EnableHistory", TRUE);
 	PopUpOptions.HistorySize			= DBGetContactSettingWord (NULL,MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
-	PopUpOptions.UseHppHistoryLog		= DBGetContactSettingByte (NULL,MODULNAME, "UseHppHistoryLog", TRUE);
+	PopUpOptions.UseHppHistoryLog		= db_get_b (NULL,MODULNAME, "UseHppHistoryLog", TRUE);
 	//Avatars
-	PopUpOptions.avatarBorders			= DBGetContactSettingByte (NULL,MODULNAME, "AvatarBorders", TRUE);
-	PopUpOptions.avatarPNGBorders		= DBGetContactSettingByte (NULL,MODULNAME, "AvatarPNGBorders", FALSE);
-	PopUpOptions.avatarRadius			= DBGetContactSettingByte (NULL,MODULNAME, "AvatarRadius", 2);
+	PopUpOptions.avatarBorders			= db_get_b (NULL,MODULNAME, "AvatarBorders", TRUE);
+	PopUpOptions.avatarPNGBorders		= db_get_b (NULL,MODULNAME, "AvatarPNGBorders", FALSE);
+	PopUpOptions.avatarRadius			= db_get_b (NULL,MODULNAME, "AvatarRadius", 2);
 	PopUpOptions.avatarSize				= DBGetContactSettingWord (NULL,MODULNAME, "AvatarSize", SETTING_AVTSIZE_DEFAULT);
-	PopUpOptions.EnableAvatarUpdates	= DBGetContactSettingByte (NULL,MODULNAME, "EnableAvatarUpdates", FALSE);
+	PopUpOptions.EnableAvatarUpdates	= db_get_b (NULL,MODULNAME, "EnableAvatarUpdates", FALSE);
 	//Monitor
-	PopUpOptions.Monitor				= DBGetContactSettingByte (NULL,MODULNAME, "Monitor", SETTING_MONITOR_DEFAULT);
+	PopUpOptions.Monitor				= db_get_b (NULL,MODULNAME, "Monitor", SETTING_MONITOR_DEFAULT);
 	//Transparency
-	PopUpOptions.Enable9xTransparency	= DBGetContactSettingByte (NULL,MODULNAME, "EnableRegionTransparency", TRUE);
-	PopUpOptions.UseTransparency		= DBGetContactSettingByte (NULL,MODULNAME, "UseTransparency", TRUE);
-	PopUpOptions.Alpha					= DBGetContactSettingByte (NULL,MODULNAME, "Alpha", SETTING_ALPHA_DEFAULT);
-	PopUpOptions.OpaqueOnHover			= DBGetContactSettingByte (NULL,MODULNAME, "OpaqueOnHover", TRUE);
+	PopUpOptions.Enable9xTransparency	= db_get_b (NULL,MODULNAME, "EnableRegionTransparency", TRUE);
+	PopUpOptions.UseTransparency		= db_get_b (NULL,MODULNAME, "UseTransparency", TRUE);
+	PopUpOptions.Alpha					= db_get_b (NULL,MODULNAME, "Alpha", SETTING_ALPHA_DEFAULT);
+	PopUpOptions.OpaqueOnHover			= db_get_b (NULL,MODULNAME, "OpaqueOnHover", TRUE);
 	//Effects
-	PopUpOptions.UseAnimations			= DBGetContactSettingByte (NULL,MODULNAME, "UseAnimations", TRUE);
-	PopUpOptions.UseEffect				= DBGetContactSettingByte (NULL,MODULNAME, "Fade", TRUE);
+	PopUpOptions.UseAnimations			= db_get_b (NULL,MODULNAME, "UseAnimations", TRUE);
+	PopUpOptions.UseEffect				= db_get_b (NULL,MODULNAME, "Fade", TRUE);
 	PopUpOptions.Effect					= (LPTSTR)DBGetContactSettingStringX(NULL,MODULNAME, "Effect", "", DBVT_TCHAR);
 	PopUpOptions.FadeIn					= DBGetContactSettingDword(NULL,MODULNAME, "FadeInTime", SETTING_FADEINTIME_DEFAULT);
 	PopUpOptions.FadeOut				= DBGetContactSettingDword(NULL,MODULNAME, "FadeOutTime",SETTING_FADEOUTTIME_DEFAULT);
@@ -526,30 +526,30 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						case PSN_APPLY:
 							{
 							//History
-							DBWriteContactSettingByte (NULL,MODULNAME, "EnableHistory", (BYTE)PopUpOptions.EnableHistory);
+							db_set_b (NULL,MODULNAME, "EnableHistory", (BYTE)PopUpOptions.EnableHistory);
 							DBWriteContactSettingWord (NULL,MODULNAME, "HistorySize", PopUpOptions.HistorySize);
 							PopupHistoryResize();
-							DBWriteContactSettingByte (NULL,MODULNAME, "UseHppHistoryLog", PopUpOptions.UseHppHistoryLog);
+							db_set_b (NULL,MODULNAME, "UseHppHistoryLog", PopUpOptions.UseHppHistoryLog);
 							//Avatars
-							DBWriteContactSettingByte (NULL,MODULNAME, "AvatarBorders", PopUpOptions.avatarBorders);
-							DBWriteContactSettingByte (NULL,MODULNAME, "AvatarPNGBorders", PopUpOptions.avatarPNGBorders);
-							DBWriteContactSettingByte (NULL,MODULNAME, "AvatarRadius", PopUpOptions.avatarRadius);
+							db_set_b (NULL,MODULNAME, "AvatarBorders", PopUpOptions.avatarBorders);
+							db_set_b (NULL,MODULNAME, "AvatarPNGBorders", PopUpOptions.avatarPNGBorders);
+							db_set_b (NULL,MODULNAME, "AvatarRadius", PopUpOptions.avatarRadius);
 							DBWriteContactSettingWord (NULL,MODULNAME, "AvatarSize", PopUpOptions.avatarSize);
-							DBWriteContactSettingByte (NULL,MODULNAME, "EnableAvatarUpdates", PopUpOptions.EnableAvatarUpdates);
+							db_set_b (NULL,MODULNAME, "EnableAvatarUpdates", PopUpOptions.EnableAvatarUpdates);
 							//Monitor
-							DBWriteContactSettingByte (NULL,MODULNAME, "Monitor", PopUpOptions.Monitor);
+							db_set_b (NULL,MODULNAME, "Monitor", PopUpOptions.Monitor);
 							//Transparency
-							DBWriteContactSettingByte (NULL,MODULNAME, "EnableRegionTransparency", PopUpOptions.Enable9xTransparency);
-							DBWriteContactSettingByte (NULL,MODULNAME, "UseTransparency", PopUpOptions.UseTransparency);
-							DBWriteContactSettingByte (NULL,MODULNAME, "Alpha", PopUpOptions.Alpha);
-							DBWriteContactSettingByte (NULL,MODULNAME, "OpaqueOnHover", PopUpOptions.OpaqueOnHover);
+							db_set_b (NULL,MODULNAME, "EnableRegionTransparency", PopUpOptions.Enable9xTransparency);
+							db_set_b (NULL,MODULNAME, "UseTransparency", PopUpOptions.UseTransparency);
+							db_set_b (NULL,MODULNAME, "Alpha", PopUpOptions.Alpha);
+							db_set_b (NULL,MODULNAME, "OpaqueOnHover", PopUpOptions.OpaqueOnHover);
 
 							//Effects
-							DBWriteContactSettingByte (NULL,MODULNAME, "UseAnimations", PopUpOptions.UseAnimations);
-							DBWriteContactSettingByte (NULL,MODULNAME, "Fade", PopUpOptions.UseEffect);
+							db_set_b (NULL,MODULNAME, "UseAnimations", PopUpOptions.UseAnimations);
+							db_set_b (NULL,MODULNAME, "Fade", PopUpOptions.UseEffect);
 							DBWriteContactSettingTString(NULL, MODULNAME, "Effect", PopUpOptions.Effect);
-							DBWriteContactSettingDword(NULL,MODULNAME, "FadeInTime", PopUpOptions.FadeIn);
-							DBWriteContactSettingDword(NULL,MODULNAME, "FadeOutTime", PopUpOptions.FadeOut);
+							db_set_dw(NULL,MODULNAME, "FadeInTime", PopUpOptions.FadeIn);
+							db_set_dw(NULL,MODULNAME, "FadeOutTime", PopUpOptions.FadeOut);
 							//other old stuff
 							DBWriteContactSettingWord (NULL,MODULNAME, "MaxPopups", (BYTE)PopUpOptions.MaxPopups);
 							}

@@ -28,8 +28,8 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam) {
 		pUinKey ptr = getUinKey((HANDLE)wParam);
 		if (ptr) {
 			ptr->status=ptr->tstatus=(BYTE)lParam;
-			if (ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
-			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
+			if (ptr->status==STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
+			else 				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 		}
 		break;
     }
@@ -59,9 +59,9 @@ INT_PTR __cdecl Service_StatusTry(WPARAM wParam, LPARAM lParam) {
 INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM lParam) {
 
 	if (bPGPloaded) {
-    	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp");
-    	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp_mode");
-    	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp_abbr");
+    	    db_unset((HANDLE)wParam, MODULENAME, "pgp");
+    	    db_unset((HANDLE)wParam, MODULENAME, "pgp_mode");
+    	    db_unset((HANDLE)wParam, MODULENAME, "pgp_abbr");
 	}
 	{
 	    pUinKey ptr = getUinKey((HANDLE)wParam);
@@ -80,17 +80,17 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
 	    char szKeyID[128]; szKeyID[0]='\0';
     	    PVOID KeyID = pgp_select_keyid(GetForegroundWindow(),szKeyID);
 	    if (szKeyID[0]) {
-    		DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
+    		db_unset((HANDLE)wParam,MODULENAME,"pgp");
     		DBCONTACTWRITESETTING cws;
     		memset(&cws,0,sizeof(cws));
-    		cws.szModule = szModuleName;
+    		cws.szModule = MODULENAME;
     		cws.szSetting = "pgp";
     		cws.value.type = DBVT_BLOB;
     		cws.value.pbVal = (LPBYTE)KeyID;
     		cws.value.cpbVal = pgp_size_keyid();
     		CallService(MS_DB_CONTACT_WRITESETTING,wParam,(LPARAM)&cws);
-    		db_set_b((HANDLE)wParam,szModuleName,"pgp_mode",0);
-    		DBWriteContactSettingString((HANDLE)wParam,szModuleName,"pgp_abbr",szKeyID);
+    		db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",0);
+    		DBWriteContactSettingString((HANDLE)wParam,MODULENAME,"pgp_abbr",szKeyID);
     	  	del = false;
 	    }
     	}
@@ -100,10 +100,10 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
     	  	if (ShowSelectKeyDlg(0,KeyPath)) {
     	  		char *publ = LoadKeys(KeyPath,false);
     	  		if (publ) {
-    				DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
-    		  		myDBWriteStringEncode((HANDLE)wParam,szModuleName,"pgp",publ);
-    				db_set_b((HANDLE)wParam,szModuleName,"pgp_mode",1);
-    				DBWriteContactSettingString((HANDLE)wParam,szModuleName,"pgp_abbr","(binary)");
+    				db_unset((HANDLE)wParam,MODULENAME,"pgp");
+    		  		myDBWriteStringEncode((HANDLE)wParam,MODULENAME,"pgp",publ);
+    				db_set_b((HANDLE)wParam,MODULENAME,"pgp_mode",1);
+    				DBWriteContactSettingString((HANDLE)wParam,MODULENAME,"pgp_abbr","(binary)");
     		  		mir_free(publ);
     		  		del = false;
     	  		}
@@ -124,7 +124,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
 INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM lParam) {
 
 	if (bGPGloaded) {
-    	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "gpg");
+    	    db_unset((HANDLE)wParam, MODULENAME, "gpg");
 	}
 	{
 	    pUinKey ptr = getUinKey((HANDLE)wParam);
@@ -142,7 +142,7 @@ INT_PTR __cdecl Service_GPGsetKey(WPARAM wParam, LPARAM lParam) {
    		char szKeyID[128]; szKeyID[0]='\0';
 		gpg_select_keyid(GetForegroundWindow(),szKeyID);
    		if (szKeyID[0]) {
-   		    DBWriteContactSettingString((HANDLE)wParam,szModuleName,"gpg",szKeyID);
+   		    DBWriteContactSettingString((HANDLE)wParam,MODULENAME,"gpg",szKeyID);
    	  		del = false;
    		}
 	}
@@ -165,7 +165,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam) {
     case MODE_NATIVE:
     case MODE_RSAAES:
     		if ( isContactSecured((HANDLE)wParam)&SECURED ) {
-    			msgbox(NULL, sim111, szModuleName, MB_OK);
+    			msgbox(NULL, sim111, MODULENAME, MB_OK);
     			return 0;
     		}
 		if ( lParam!=MODE_NATIVE && ptr->status>STATUS_ENABLED ) {
@@ -181,7 +181,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam) {
 				ptr->keyLoaded = 0;
 			}
 			ptr->mode=(BYTE)lParam;
-			db_set_b((HANDLE)wParam, szModuleName, "mode", (BYTE)lParam);
+			db_set_b((HANDLE)wParam, MODULENAME, "mode", (BYTE)lParam);
 		}
 		ShowStatusIcon((HANDLE)wParam);
 		break;

@@ -43,7 +43,7 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 
 	if ( !ptr ) return 0;
 
-	for(int i=0;i<DBGetContactSettingWord(0,szModuleName,"ket",10)*10; i++) {
+	for(int i=0;i<DBGetContactSettingWord(0,MODULENAME,"ket",10)*10; i++) {
 		Sleep( 100 );
 		if ( ptr->waitForExchange != 1 ) break;
 	} // for
@@ -53,7 +53,7 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 #endif
    	// if keyexchange failed or timeout
    	if ( ptr->waitForExchange==1 || ptr->waitForExchange==3 ) { // протухло - отправляем незашифрованно, если надо
-   		if ( ptr->msgQueue && msgbox1(0,sim104,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDYES ) {
+   		if ( ptr->msgQueue && msgbox1(0,sim104,MODULENAME,MB_YESNO|MB_ICONQUESTION)==IDYES ) {
 	   		EnterCriticalSection(&localQueueMutex);
 	   		ptr->sendQueue = true;
 	   		pWM ptrMessage = ptr->msgQueue;

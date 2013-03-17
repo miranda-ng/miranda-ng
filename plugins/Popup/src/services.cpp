@@ -177,7 +177,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 	if (ppd->lchContact)
 		proto = GetContactProto(ppd->lchContact);
 
-	BYTE bShowMode = proto ? DBGetContactSettingByte(ppd->lchContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
+	BYTE bShowMode = proto ? db_get_b(ppd->lchContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
 
 	if (bShowMode == PU_SHOWMODE_BLOCK)
 		return -1;

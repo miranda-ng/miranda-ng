@@ -9,7 +9,7 @@ int clist_inc = 100;
 void loadSupportedProtocols() {
 	int numberOfProtocols;
 	PROTOACCOUNT **protos;
-	LPSTR szNames = myDBGetString(0,szModuleName,"protos");
+	LPSTR szNames = myDBGetString(0,MODULENAME,"protos");
 	if ( szNames && strchr(szNames,':') == NULL ) {
 		LPSTR tmp = (LPSTR) mir_alloc(2048); int j=0;
 		for(int i=0; szNames[i]; i++) {
@@ -20,13 +20,13 @@ void loadSupportedProtocols() {
 		}
 		tmp[j] = '\0';
 		SAFE_FREE(szNames); szNames = tmp;
-		DBWriteContactSettingString(0,szModuleName,"protos",szNames);
+		DBWriteContactSettingString(0,MODULENAME,"protos",szNames);
 	}
 
 	ProtoEnumAccounts(&numberOfProtocols, &protos);
 
-	for (int i=0;i<numberOfProtocols;i++) {
-		if (protos[i]->szModuleName && CallProtoService(protos[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0)) {
+	for (int i=0; i < numberOfProtocols; i++) {
+		if (protos[i]->szModuleName && CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)) {
 			int j = proto_cnt; proto_cnt++;
 			proto = (pSupPro) mir_realloc(proto,sizeof(SupPro)*proto_cnt);
 			memset(&proto[j],0,sizeof(SupPro));
@@ -51,9 +51,7 @@ void loadSupportedProtocols() {
 					}
 				}
 			}
-			else {
-				proto[j].inspecting = true;
-			}
+			else proto[j].inspecting = true;
 		}
 	}
 	SAFE_FREE(szNames);
@@ -95,17 +93,17 @@ pUinKey addContact(HANDLE hContact) {
 			clist[j].footer = FOOTER;
 			clist[j].hContact = hContact;
 			clist[j].proto = proto;
-			clist[j].mode = db_get_b(hContact, szModuleName, "mode", 99);
+			clist[j].mode = db_get_b(hContact, MODULENAME, "mode", 99);
 			if ( clist[j].mode == 99 ) {
 				if ( isContactPGP(hContact)) clist[j].mode = MODE_PGP;
 				else
 					if ( isContactGPG(hContact)) clist[j].mode = MODE_GPG;
 					else
 						clist[j].mode = MODE_RSAAES;
-				db_set_b(hContact, szModuleName, "mode", clist[j].mode);
+				db_set_b(hContact, MODULENAME, "mode", clist[j].mode);
 			}
-			clist[j].status = db_get_b(hContact, szModuleName, "StatusID", STATUS_ENABLED);
-			clist[j].gpgMode = db_get_b(hContact, szModuleName, "gpgANSI", 0);
+			clist[j].status = db_get_b(hContact, MODULENAME, "StatusID", STATUS_ENABLED);
+			clist[j].gpgMode = db_get_b(hContact, MODULENAME, "gpgANSI", 0);
 			return &clist[j];
 		}
 	}

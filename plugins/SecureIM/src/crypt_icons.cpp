@@ -77,7 +77,7 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 
 	if ( ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
 		StatusIconData sid = {sizeof(sid) };
-		sid.szModule = (char*)szModuleName;
+		sid.szModule = (char*)MODULENAME;
 		for(int i = MODE_NATIVE; i < MODE_CNT; i++) {
 			sid.dwId = i;
 			sid.flags = (mode & SECURED) ? 0 : MBF_DISABLED;

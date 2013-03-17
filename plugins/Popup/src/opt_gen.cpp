@@ -87,15 +87,15 @@ int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flags)
 //Main Dialog Proc
 void LoadOption_General() {
 	//Seconds
-	PopUpOptions.InfiniteDelay		= DBGetContactSettingByte(NULL, MODULNAME, "InfiniteDelay", FALSE);
+	PopUpOptions.InfiniteDelay		= db_get_b(NULL, MODULNAME, "InfiniteDelay", FALSE);
 	PopUpOptions.Seconds			= DBGetContactSettingRangedWord(NULL, MODULNAME, "Seconds",
 									  SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	PopUpOptions.LeaveHovered		= DBGetContactSettingByte(NULL, MODULNAME, "LeaveHovered", TRUE);
+	PopUpOptions.LeaveHovered		= db_get_b(NULL, MODULNAME, "LeaveHovered", TRUE);
 	//Dynamic Resize
-	PopUpOptions.DynamicResize		= DBGetContactSettingByte(NULL, MODULNAME, "DynamicResize", FALSE);
-	PopUpOptions.UseMinimumWidth	= DBGetContactSettingByte(NULL, MODULNAME, "UseMinimumWidth", TRUE);
+	PopUpOptions.DynamicResize		= db_get_b(NULL, MODULNAME, "DynamicResize", FALSE);
+	PopUpOptions.UseMinimumWidth	= db_get_b(NULL, MODULNAME, "UseMinimumWidth", TRUE);
 	PopUpOptions.MinimumWidth		= DBGetContactSettingWord(NULL, MODULNAME, "MinimumWidth", 160);
-	PopUpOptions.UseMaximumWidth	= DBGetContactSettingByte(NULL, MODULNAME, "UseMaximumWidth", TRUE);
+	PopUpOptions.UseMaximumWidth	= db_get_b(NULL, MODULNAME, "UseMaximumWidth", TRUE);
 	PopUpOptions.MaximumWidth		= DBGetContactSettingWord(NULL, MODULNAME, "MaximumWidth", 300);
 	//Position
 	PopUpOptions.Position			= DBGetContactSettingRangedByte(NULL, MODULNAME, "Position",
@@ -110,11 +110,11 @@ void LoadOption_General() {
 	PopUpOptions.Spreading			= DBGetContactSettingRangedByte(NULL, MODULNAME, "Spreading",
 									  SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
 	//miscellaneous
-	PopUpOptions.ReorderPopUps			= DBGetContactSettingByte(NULL, MODULNAME, "ReorderPopUps", TRUE);
-	PopUpOptions.ReorderPopUpsWarning	= DBGetContactSettingByte(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE);
+	PopUpOptions.ReorderPopUps			= db_get_b(NULL, MODULNAME, "ReorderPopUps", TRUE);
+	PopUpOptions.ReorderPopUpsWarning	= db_get_b(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE);
 	//disable When
-	PopUpOptions.ModuleIsEnabled		= DBGetContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
-	PopUpOptions.DisableWhenFullscreen	= DBGetContactSettingByte(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
+	PopUpOptions.ModuleIsEnabled		= db_get_b(NULL, MODULNAME, "ModuleIsEnabled", TRUE);
+	PopUpOptions.DisableWhenFullscreen	= db_get_b(NULL, MODULNAME, "DisableWhenFullscreen", TRUE);
 	//new status options (done inside WM_INITDIALOG)
 	//Debug (done inside LoadOptions())
 }
@@ -348,7 +348,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 								{
 								PopUpOptions.ReorderPopUps = !PopUpOptions.ReorderPopUps;
 								PopUpOptions.ReorderPopUpsWarning = PopUpOptions.ReorderPopUps ? 
-									DBGetContactSettingByte(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE) : TRUE;
+									db_get_b(NULL, MODULNAME, "ReorderPopUpsWarning", TRUE) : TRUE;
 								SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 								}
 								break;
@@ -513,17 +513,17 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							return TRUE;
 						case PSN_APPLY: {
 							//Seconds
-							DBWriteContactSettingByte(NULL, MODULNAME, "InfiniteDelay", PopUpOptions.InfiniteDelay);
+							db_set_b(NULL, MODULNAME, "InfiniteDelay", PopUpOptions.InfiniteDelay);
 							DBWriteContactSettingWord(NULL, MODULNAME, "Seconds", (WORD)PopUpOptions.Seconds);
-							DBWriteContactSettingByte(NULL, MODULNAME, "LeaveHovered", PopUpOptions.LeaveHovered);
+							db_set_b(NULL, MODULNAME, "LeaveHovered", PopUpOptions.LeaveHovered);
 							//Dynamic Resize
-							DBWriteContactSettingByte(NULL, MODULNAME, "DynamicResize", PopUpOptions.DynamicResize);
-							DBWriteContactSettingByte(NULL, MODULNAME, "UseMinimumWidth", PopUpOptions.UseMinimumWidth);
+							db_set_b(NULL, MODULNAME, "DynamicResize", PopUpOptions.DynamicResize);
+							db_set_b(NULL, MODULNAME, "UseMinimumWidth", PopUpOptions.UseMinimumWidth);
 							DBWriteContactSettingWord(NULL, MODULNAME, "MinimumWidth", PopUpOptions.MinimumWidth);
-							DBWriteContactSettingByte(NULL, MODULNAME, "UseMaximumWidth", PopUpOptions.UseMaximumWidth);
+							db_set_b(NULL, MODULNAME, "UseMaximumWidth", PopUpOptions.UseMaximumWidth);
 							DBWriteContactSettingWord(NULL, MODULNAME, "MaximumWidth", PopUpOptions.MaximumWidth);
 							//Position
-							DBWriteContactSettingByte(NULL, MODULNAME, "Position", (BYTE)PopUpOptions.Position);
+							db_set_b(NULL, MODULNAME, "Position", (BYTE)PopUpOptions.Position);
 							//Configure popup area
 							DBWriteContactSettingWord(NULL, MODULNAME, "gapTop",	(WORD)PopUpOptions.gapTop);
 							DBWriteContactSettingWord(NULL, MODULNAME, "gapBottom",	(WORD)PopUpOptions.gapBottom);
@@ -531,12 +531,12 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							DBWriteContactSettingWord(NULL, MODULNAME, "gapRight",	(WORD)PopUpOptions.gapRight);
 							DBWriteContactSettingWord(NULL, MODULNAME, "spacing",	(WORD)PopUpOptions.spacing);
 							//Spreading
-							DBWriteContactSettingByte(NULL, MODULNAME, "Spreading", (BYTE)PopUpOptions.Spreading);
+							db_set_b(NULL, MODULNAME, "Spreading", (BYTE)PopUpOptions.Spreading);
 							//miscellaneous
-							//DBWriteContactSettingByte(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
+							//db_set_b(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
 							Check_ReorderPopUps(hwnd);	//this save also PopUpOptions.ReorderPopUps
 							//disable When
-							DBWriteContactSettingByte(NULL, MODULNAME, "DisableWhenFullscreen", PopUpOptions.DisableWhenFullscreen);
+							db_set_b(NULL, MODULNAME, "DisableWhenFullscreen", PopUpOptions.DisableWhenFullscreen);
 							//new status options
 							{
 								int protocolCount;
@@ -554,7 +554,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							}
 							//Debug
 							#if defined(_DEBUG)
-								DBWriteContactSettingByte(NULL, MODULNAME, "debug", PopUpOptions.debug);
+								db_set_b(NULL, MODULNAME, "debug", PopUpOptions.debug);
 							#endif
 
 							}//end PSN_APPLY:
@@ -636,8 +636,8 @@ void Check_ReorderPopUps(HWND hwnd) {
 				return;
 		}
 	}
-	DBWriteContactSettingByte(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
-	DBWriteContactSettingByte(NULL, MODULNAME, "ReorderPopUpsWarning", PopUpOptions.ReorderPopUpsWarning);
+	db_set_b(NULL, MODULNAME, "ReorderPopUps", PopUpOptions.ReorderPopUps);
+	db_set_b(NULL, MODULNAME, "ReorderPopUpsWarning", PopUpOptions.ReorderPopUpsWarning);
 	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopUpOptions.ReorderPopUps);
 }
 

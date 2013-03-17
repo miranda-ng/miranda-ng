@@ -89,34 +89,34 @@ extern "C" __declspec(dllexport) int Unload()
 
 BOOL ExtractFileFromResource( HANDLE FH, int ResType, int ResId, DWORD* Size )
 {
-    HRSRC	RH;
-    PBYTE	RP;
-    DWORD	s,x;
+	HRSRC RH = FindResource(g_hInst, MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
+	if ( RH == NULL )
+		return FALSE;
 
-    RH = FindResource( g_hInst, MAKEINTRESOURCE( ResId ), MAKEINTRESOURCE( ResType ) );
+	PBYTE	RP = (PBYTE) LoadResource( g_hInst, RH );
+	if ( RP == NULL )
+		return FALSE;
 
-    if ( RH == NULL ) return FALSE;
-    RP = (PBYTE) LoadResource( g_hInst, RH );
-    if ( RP == NULL ) return FALSE;
-    s = SizeofResource( g_hInst, RH );
-    if ( !WriteFile( FH, RP, s, &x, NULL ) ) return FALSE;
-    if ( x != s ) return FALSE;
-    if ( Size ) *Size = s;
-    return TRUE;
+	DWORD	x, s = SizeofResource(g_hInst, RH);
+	if ( !WriteFile(FH, RP, s, &x, NULL)) return FALSE;
+	if (x != s) return FALSE;
+	if (Size) *Size = s;
+	return TRUE;
 }
 
-
-void ExtractFile( char *FileName, int ResType, int ResId )
+void ExtractFile(char *FileName, int ResType, int ResId)
 {
-    HANDLE FH;
-    FH = CreateFile( FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL );
-    if ( FH == INVALID_HANDLE_VALUE ) return;
-    if (!ExtractFileFromResource( FH, ResType, ResId, NULL )) MessageBoxA(0,"Can't extract","!!!",MB_OK);
+    HANDLE FH = CreateFile( FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL );
+    if (FH == INVALID_HANDLE_VALUE)
+		 return;
+
+	 if (!ExtractFileFromResource( FH, ResType, ResId, NULL ))
+		 MessageBoxA(0,"Can't extract","!!!",MB_OK);
     CloseHandle( FH );
 }
 
-
-size_t rtrim(LPCSTR str) {
+size_t rtrim(LPCSTR str)
+{
 	size_t len = strlen(str);
 	LPSTR ptr = (LPSTR)str+len-1;
 

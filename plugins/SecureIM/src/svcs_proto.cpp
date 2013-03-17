@@ -188,7 +188,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 #endif
 		szEncMsg = ppre->szMessage;
 		if ( !ptr->cntx ) {
-			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(pccsd->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
+			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(pccsd->hContact,MODULENAME,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
 			ptr->keyLoaded = 0;
 		}
 
@@ -245,7 +245,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		if ( ptr->mode==MODE_NATIVE ) {
 		    ptr->mode = MODE_RSAAES;
 		    deleteRSAcntx(ptr);
-		    db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
+		    db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 		}
 		createRSAcntx(ptr);
 		loadRSAkey(ptr);
@@ -322,7 +322,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 
-		if ( DBGetContactSetting(ptr->hContact,szModuleName,"offlineKey",&dbv) == 0 ) {
+		if ( DBGetContactSetting(ptr->hContact,MODULENAME,"offlineKey",&dbv) == 0 ) {
 			// if valid key is succefully retrieved
 			ptr->offlineKey = true;
 			InitKeyX(ptr,dbv.pbVal);
@@ -361,7 +361,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		Sent_NetLog("onRecvMsg: Native SiG_DISA message");
 #endif
 //		ptr->status=ptr->tstatus=STATUS_DISABLED;
-//		db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
+//		db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 	}
 	case SiG_DEIN: { // deinit message
 		// other user has disabled SecureIM with you
@@ -382,7 +382,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		    cpp_delete_context(ptr->cntx);
 		    ptr->cntx = 0;
 		    ptr->keyLoaded = 0;
-		    db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
+		    db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 		}
 		switch(ssig) {
 		case SiG_KEYR: { // key3 message
@@ -419,7 +419,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			if ( ptr->features & CPP_FEATURES_RSA ) {
 				// switch to RSAAES mode
 				ptr->mode = MODE_RSAAES;
-				db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
+				db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 
 				resetRSAcntx(ptr);
 				loadRSAkey(ptr);
@@ -586,10 +586,10 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	int ssig = getSecureSig((LPCSTR)pccsd->lParam);
 	int stat = getContactStatus(pccsd->hContact);
 
-//	HANDLE hMetaContact = getMetaContact(pccsd->hContact);
-//	if ( hMetaContact ) {
-//		ptr = getUinKey(hMetaContact);
-//	}
+	//	HANDLE hMetaContact = getMetaContact(pccsd->hContact);
+	//	if ( hMetaContact ) {
+	//		ptr = getUinKey(hMetaContact);
+	//	}
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("onSend: %s",(LPSTR)pccsd->lParam);
 #endif
@@ -597,14 +597,14 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	if ( !ptr ||
 		ssig==SiG_GAME || ssig==SiG_PGPM || ssig==SiG_SECU || ssig==SiG_SECP ||
 		isChatRoom(pccsd->hContact) ||
-/*		(ssig!=SiG_NONE && hMetaContact && (pccsd->wParam & PREF_METANODB)) || */
+		/*		(ssig!=SiG_NONE && hMetaContact && (pccsd->wParam & PREF_METANODB)) || */
 		stat==-1 ||
 		(ssig==SiG_NONE && ptr->sendQueue) ||
 		(ssig==SiG_NONE && ptr->status==STATUS_DISABLED) // Disabled - pass unhandled
-	   ) {
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		) {
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-		Sent_NetLog("onSendMsg: pass unhandled");
+			Sent_NetLog("onSendMsg: pass unhandled");
 #endif
 	}
 
@@ -613,52 +613,43 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	// 
 	if ( ptr->mode==MODE_PGP || ptr->mode==MODE_GPG ) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-	    Sent_NetLog("onSendMsg: PGP|GPG mode");
+		Sent_NetLog("onSendMsg: PGP|GPG mode");
 #endif
-	    // если можно зашифровать - шифруем
-            if ( isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact)) {
-/*
-		if (stat==ID_STATUS_OFFLINE) {
-			if (msgbox1(0,sim110,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDNO) {
-				return returnNoError(pccsd->hContact);
+		// если можно зашифровать - шифруем
+		if ( isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact)) {
+			if ( !ptr->cntx ) {
+				ptr->cntx = cpp_create_context((isContactGPG(ptr->hContact)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(ptr->hContact,MODULENAME,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
+				ptr->keyLoaded = 0;
 			}
-			// exit and send unencrypted message
+			if ( !ptr->keyLoaded && bPGPloaded ) ptr->keyLoaded = LoadKeyPGP(ptr);
+			if ( !ptr->keyLoaded && bGPGloaded ) ptr->keyLoaded = LoadKeyGPG(ptr);
+			if ( !ptr->keyLoaded ) return returnError(pccsd->hContact,Translate(sim108));
+
+			LPSTR szNewMsg = NULL;
+			LPSTR szUtfMsg = miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam);
+			if ( ptr->keyLoaded == 1 ) { // PGP
+				szNewMsg = pgp_encode(ptr->cntx,szUtfMsg);
+			}
+			else
+				if ( ptr->keyLoaded == 2 ) { // GPG
+					szNewMsg = gpg_encode(ptr->cntx,szUtfMsg);
+				}
+				mir_free(szUtfMsg);
+				if ( !szNewMsg ) {
+					return returnError(pccsd->hContact,Translate(sim109));
+				}
+
+				// отправляем зашифрованное сообщение
+				splitMessageSend(ptr,szNewMsg);
+
+				showPopUpSM(ptr->hContact);
+
+				return returnNoError(pccsd->hContact);
+		}
+		else {
+			// отправляем незашифрованное
 			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 		}
-*/
-		if ( !ptr->cntx ) {
-			ptr->cntx = cpp_create_context((isContactGPG(ptr->hContact)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(ptr->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
-			ptr->keyLoaded = 0;
-		}
-		if ( !ptr->keyLoaded && bPGPloaded ) ptr->keyLoaded = LoadKeyPGP(ptr);
-		if ( !ptr->keyLoaded && bGPGloaded ) ptr->keyLoaded = LoadKeyGPG(ptr);
-		if ( !ptr->keyLoaded ) return returnError(pccsd->hContact,Translate(sim108));
-
-		LPSTR szNewMsg = NULL;
-		LPSTR szUtfMsg = miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam);
-		if ( ptr->keyLoaded == 1 ) { // PGP
-    			szNewMsg = pgp_encode(ptr->cntx,szUtfMsg);
-    		}
-    		else
-		if ( ptr->keyLoaded == 2 ) { // GPG
-    			szNewMsg = gpg_encode(ptr->cntx,szUtfMsg);
-		}
-		mir_free(szUtfMsg);
-		if ( !szNewMsg ) {
-			return returnError(pccsd->hContact,Translate(sim109));
-		}
-
-		// отправляем зашифрованное сообщение
-		splitMessageSend(ptr,szNewMsg);
-
-		showPopUpSM(ptr->hContact);
-
-		return returnNoError(pccsd->hContact);
-	    }
-	    else {
-	    	// отправляем незашифрованное
-		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-	    }
 	}
 
 	// get contact SecureIM status
@@ -673,17 +664,17 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 #endif
 		// contact is offline
 		if ( stat==ID_STATUS_OFFLINE ) {
-        		if ( ptr->cntx ) {
-        			if ( exp->rsa_get_state(ptr->cntx)!=0 ) {
-        				resetRSAcntx(ptr);
+			if ( ptr->cntx ) {
+				if ( exp->rsa_get_state(ptr->cntx)!=0 ) {
+					resetRSAcntx(ptr);
 				}
-        		}
-        		else {
-        			createRSAcntx(ptr);
-        		}
+			}
+			else {
+				createRSAcntx(ptr);
+			}
 			if ( !bSOM || (!isClientMiranda(ptr,1) && !isSecureIM(ptr,1)) || !loadRSAkey(ptr)) {
 				if ( ssig==SiG_NONE ) {
-        				// просто шлем незашифрованное в оффлайн
+					// просто шлем незашифрованное в оффлайн
 					return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 				}
 				else {
@@ -705,8 +696,8 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 				deleteRSAcntx(ptr);
 			}
 			if ( ssig==SiG_NONE ) {
-			    // просто шлем незашифрованное
-			    return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+				// просто шлем незашифрованное
+				return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 			}
 			// ничего не шлем дальше - это служебное сообщение
 			return returnNoError(pccsd->hContact);
@@ -773,7 +764,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 			CCSDATA ccsd;
 			memcpy(&ccsd, (HLOCAL)lParam, sizeof(CCSDATA));
 
-	    		pccsd->wParam |= PREF_METANODB;
+			pccsd->wParam |= PREF_METANODB;
 			ccsd.lParam = (LPARAM) SIG_DEIN;
 			ccsd.szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, (LPARAM)&ccsd);
@@ -795,29 +786,29 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 		}
 
 		if ( !bSOM ) {
-		    if ( ssig!=SiG_NONE ) {
+			if ( ssig!=SiG_NONE ) {
 				return returnNoError(pccsd->hContact);
-		    }
-		    // exit and send unencrypted message
-		    return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			}
+			// exit and send unencrypted message
+			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 		}
 		BOOL isMiranda = isClientMiranda(ptr->hContact);
 
 		if ( stid==STATUS_ALWAYSTRY && isMiranda ) {  // always try && Miranda
 			// set key for offline user
 			DBVARIANT dbv; dbv.type = DBVT_BLOB;
-			if ( DBGetContactSettingDword(ptr->hContact, szModuleName, "offlineKeyTimeout", 0) > gettime() &&
-			    DBGetContactSetting(ptr->hContact, szModuleName, "offlineKey", &dbv) == 0
-			  ) {
-				// if valid key is succefully retrieved
-				ptr->offlineKey = true;
-				InitKeyX(ptr,dbv.pbVal);
-				DBFreeVariant(&dbv);
+			if ( DBGetContactSettingDword(ptr->hContact, MODULENAME, "offlineKeyTimeout", 0) > gettime() &&
+				DBGetContactSetting(ptr->hContact, MODULENAME, "offlineKey", &dbv) == 0
+				) {
+					// if valid key is succefully retrieved
+					ptr->offlineKey = true;
+					InitKeyX(ptr,dbv.pbVal);
+					DBFreeVariant(&dbv);
 			}
 			else {
-				DBDeleteContactSetting(ptr->hContact,szModuleName,"offlineKey");
-				DBDeleteContactSetting(ptr->hContact,szModuleName,"offlineKeyTimeout");
-				if (msgbox1(0,sim106,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDNO) {
+				db_unset(ptr->hContact,MODULENAME,"offlineKey");
+				db_unset(ptr->hContact,MODULENAME,"offlineKeyTimeout");
+				if (msgbox1(0,sim106,MODULENAME,MB_YESNO|MB_ICONQUESTION)==IDNO) {
 					return returnNoError(pccsd->hContact);
 				}
 				// exit and send unencrypted message
@@ -825,13 +816,13 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 			}
 		}
 		else {
-/*			if (stid==STATUS_ALWAYSTRY && !isMiranda || stid!=STATUS_ALWAYSTRY && isMiranda) {
-				int res=msgbox1(0,"User is offline now, Do you want to send your message ?\nIt will be unencrypted !","Can't Send Encrypted Message !",MB_YESNO);
-				if (res==IDNO) return 1;
+			/*			if (stid==STATUS_ALWAYSTRY && !isMiranda || stid!=STATUS_ALWAYSTRY && isMiranda) {
+			int res=msgbox1(0,"User is offline now, Do you want to send your message ?\nIt will be unencrypted !","Can't Send Encrypted Message !",MB_YESNO);
+			if (res==IDNO) return 1;
 			}*/
-		    if ( ssig!=SiG_NONE ) {
-			return returnNoError(pccsd->hContact);
-		    }
+			if ( ssig!=SiG_NONE ) {
+				return returnNoError(pccsd->hContact);
+			}
 			// exit and send unencrypted message
 			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 		}
@@ -885,83 +876,62 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onSendMsg: cryptokey exist");
 #endif
-/*	    if ( !hMetaContact && isProtoMetaContacts(pccsd->hContact) && (db_get_b(NULL, "MetaContacts", "SubcontactHistory", 1) == 1)) {
-		// add sent event to subcontact
-    		DBEVENTINFO dbei; HANDLE hC = getMostOnline(pccsd->hContact);
-		ZeroMemory(&dbei, sizeof(dbei));
-		dbei.cbSize = sizeof(dbei);
-		dbei.szModule = GetContactProto(hC, 0);
-		dbei.flags = DBEF_SENT;
-		dbei.timestamp = time(NULL);
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		if (pccsd->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
-		if (pccsd->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
-		dbei.cbBlob = strlen((char *)pccsd->lParam) + 1;
-		if ( pccsd->wParam & PREF_UNICODE )
-			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
-		dbei.pBlob = (PBYTE)pccsd->lParam;
-
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hC, (LPARAM)&dbei);
-	    } */
-
-	    LPSTR szNewMsg = encodeMsg(ptr,(LPARAM)pccsd);
+		LPSTR szNewMsg = encodeMsg(ptr,(LPARAM)pccsd);
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-	    Sent_NetLog("onSend: encrypted msg '%s'",szNewMsg);
+		Sent_NetLog("onSend: encrypted msg '%s'",szNewMsg);
 #endif
 
-	    pccsd->wParam |= PREF_METANODB;
-	    pccsd->lParam = (LPARAM) szNewMsg;
-            pccsd->szProtoService = PSS_MESSAGE;
-            int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+		pccsd->wParam |= PREF_METANODB;
+		pccsd->lParam = (LPARAM) szNewMsg;
+		pccsd->szProtoService = PSS_MESSAGE;
+		int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-	    mir_free(szNewMsg);
+		mir_free(szNewMsg);
 
-	    showPopUpSM(ptr->hContact);
+		showPopUpSM(ptr->hContact);
 
-	    return ret;
+		return ret;
 	}
-	else {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-		Sent_NetLog("onSendMsg: cryptokey not exist, try establishe connection");
-#endif
-	  	// send KeyA if init || always_try || waitkey || always_if_possible
-  		if ( ssig==SiG_INIT || (stid==STATUS_ALWAYSTRY && isClientMiranda(ptr->hContact)) || isSecureIM(ptr->hContact) || ptr->waitForExchange ) {
-			if (ssig==SiG_NONE) {
-				addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
-			}
-			if ( !ptr->waitForExchange ) {
-				// init || always_try || always_if_possible
-				LPSTR keyToSend = InitKeyA(ptr,0);	// calculate public and private key & fill KeyA
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-				Sent_NetLog("Sending KEY3: %s", keyToSend);
-#endif
-				pccsd->wParam &= ~PREF_UNICODE;
-				pccsd->wParam |= PREF_METANODB;
-				pccsd->lParam = (LPARAM) keyToSend;
-	  			pccsd->szProtoService = PSS_MESSAGE;
-	  			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-	  			mir_free(keyToSend);
 
-	  			showPopUpKS(pccsd->hContact);
-	  			ShowStatusIconNotify(pccsd->hContact);
-
-				waitForExchange(ptr); // запускаем ожидание
-	  		}
-			return returnNoError(pccsd->hContact);
-	  	}
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-		Sent_NetLog("onSendMsg: pass unchanged to chain");
+	Sent_NetLog("onSendMsg: cryptokey not exist, try establishe connection");
 #endif
- 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+	// send KeyA if init || always_try || waitkey || always_if_possible
+	if ( ssig==SiG_INIT || (stid==STATUS_ALWAYSTRY && isClientMiranda(ptr->hContact)) || isSecureIM(ptr->hContact) || ptr->waitForExchange ) {
+		if (ssig==SiG_NONE) {
+			addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
+		}
+		if ( !ptr->waitForExchange ) {
+			// init || always_try || always_if_possible
+			LPSTR keyToSend = InitKeyA(ptr,0);	// calculate public and private key & fill KeyA
+#if defined(_DEBUG) || defined(NETLIB_LOG)
+			Sent_NetLog("Sending KEY3: %s", keyToSend);
+#endif
+			pccsd->wParam &= ~PREF_UNICODE;
+			pccsd->wParam |= PREF_METANODB;
+			pccsd->lParam = (LPARAM) keyToSend;
+			pccsd->szProtoService = PSS_MESSAGE;
+			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+			mir_free(keyToSend);
+
+			showPopUpKS(pccsd->hContact);
+			ShowStatusIconNotify(pccsd->hContact);
+
+			waitForExchange(ptr); // запускаем ожидание
+		}
+		return returnNoError(pccsd->hContact);
 	}
+#if defined(_DEBUG) || defined(NETLIB_LOG)
+	Sent_NetLog("onSendMsg: pass unchanged to chain");
+#endif
+	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 }
-
 
 int file_idx = 0;
 
-INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam) {
-
+INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
+{
 	CCSDATA *pccsd=(CCSDATA*)lParam;
 
 	pUinKey ptr = getUinKey(pccsd->hContact);
@@ -976,9 +946,9 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam) {
 
 			if (strstr(file[i],".AESHELL")) continue;
 
-		    char *name = strrchr(file[i],'\\');
-		    if ( !name ) name = file[i];
-		    else name++;
+			char *name = strrchr(file[i],'\\');
+			if ( !name ) name = file[i];
+			else name++;
 
 			char *file_out = (char*) mir_alloc(TEMP_SIZE+strlen(name)+20);
 			sprintf(file_out,"%s\\%s.AESHELL(%d)",TEMP,name,file_idx++);
@@ -987,12 +957,10 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam) {
 			sprintf(buf,"%s\n%s",Translate(sim011),file[i]);
 			showPopUp(buf,NULL,g_hPOP[POP_PU_MSS],2);
 
-			if ( ptr->mode==MODE_RSAAES ) {
+			if (ptr->mode == MODE_RSAAES)
 				exp->rsa_encrypt_file(ptr->cntx,file[i],file_out);
-			}
-			else {
+			else
 				cpp_encrypt_file(ptr->cntx,file[i],file_out);
-			}
 
 			mir_free(file[i]);
 			file[i]=file_out;
@@ -1014,27 +982,8 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam) {
 	return CallService(PSS_FILE, wParam, lParam);
 }
 
-
-/*
-typedef struct {
-	size_t cbSize;
-	HANDLE hContact;
-	int sending;	//true if sending, false if receiving
-	char **files;
-	int totalFiles;
-	int currentFileNumber;
-	unsigned long totalBytes;
-	unsigned long totalProgress;
-	char *workingDir;
-	char *currentFile;
-	unsigned long currentFileSize;
-	unsigned long currentFileProgress;
-	unsigned long currentFileTime;  //as seconds since 1970
-} PROTOFILETRANSFERSTATUS;
-*/
-
-int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
-
+int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
+{
 	ACKDATA *ack=(ACKDATA*)lParam;
 	if (ack->type!=ACKTYPE_FILE) return 0; //quit if not file transfer event
 	PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*) ack->lParam;
@@ -1044,21 +993,20 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 
 	if ( isContactSecured(ack->hContact)&SECURED ) {
 		switch(ack->result) {
-//		case ACKRESULT_FILERESUME:
-		case ACKRESULT_DATA: {
+		case ACKRESULT_DATA:
 			if ( !( f->flags & PFTS_SENDING )) {
 				ptr->finFileRecv = (f->currentFileSize == f->currentFileProgress);
 				if ( !ptr->lastFileRecv ) ptr->lastFileRecv = mir_strdup(f->szCurrentFile);
 			}
 			else
-			if ( f->flags & PFTS_SENDING ) {
-				ptr->finFileSend = (f->currentFileSize == f->currentFileProgress);
-				if ( !ptr->lastFileSend ) ptr->lastFileSend = mir_strdup(f->szCurrentFile);
-			}
-		} break;
-//		case ACKRESULT_INITIALISING:
+				if ( f->flags & PFTS_SENDING ) {
+					ptr->finFileSend = (f->currentFileSize == f->currentFileProgress);
+					if ( !ptr->lastFileSend ) ptr->lastFileSend = mir_strdup(f->szCurrentFile);
+				}
+			break;
+
 		case ACKRESULT_DENIED:
-		case ACKRESULT_FAILED: {
+		case ACKRESULT_FAILED:
 			if ( ptr->lastFileRecv ) {
 				if (strstr(ptr->lastFileRecv,".AESHELL")) mir_unlink(ptr->lastFileRecv);
 				SAFE_FREE(ptr->lastFileRecv);
@@ -1069,16 +1017,16 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 			}
 			if ( ptr->fileSend ) {
 				char **file=ptr->fileSend;
-        			for(int j=0;file[j];j++) {
+				for(int j=0;file[j];j++) {
 					if ( strstr(file[j],".AESHELL")) mir_unlink(file[j]);
 					mir_free(file[j]);
 				}
 				SAFE_FREE(ptr->fileSend);
 			}
 			return 0;
-		} break;
+
 		case ACKRESULT_NEXTFILE:
-		case ACKRESULT_SUCCESS: {
+		case ACKRESULT_SUCCESS:
 			if ( ptr->finFileRecv && ptr->lastFileRecv ) {
 				if ( strstr(ptr->lastFileRecv,".AESHELL")) {
 					char buf[MAX_PATH];
@@ -1120,11 +1068,10 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 				SAFE_FREE(ptr->lastFileSend);
 				ptr->finFileSend = false;
 			}
-		} break;
+			break;
 		} // switch
 	}
 	return 0;
 }
-
 
 // EOF

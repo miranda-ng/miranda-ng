@@ -88,7 +88,7 @@ static void SrmmMenu_UpdateIcon(HANDLE hContact)
 {
 	if (!hContact) return;
 
-	int mode = DBGetContactSettingByte(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
 
 	StatusIconData sid = {0};
 	sid.cbSize = sizeof(sid);
@@ -131,7 +131,7 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	if (!hContact) return 0;
 
-	int mode = DBGetContactSettingByte(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
+	int mode = db_get_b(hContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO);
 
 	if (sicd->flags&MBCF_RIGHTBUTTON)
 	{
@@ -148,12 +148,12 @@ static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam)
 		
 		if (mode)
 		{
-			DBWriteContactSettingByte(hContact, MODULNAME, "ShowMode", mode-1);
+			db_set_b(hContact, MODULNAME, "ShowMode", mode-1);
 			SrmmMenu_UpdateIcon(hContact);
 		}
 	} else
 	{
-		DBWriteContactSettingByte(hContact, MODULNAME, "ShowMode",
+		db_set_b(hContact, MODULNAME, "ShowMode",
 			(mode == PU_SHOWMODE_AUTO) ? PU_SHOWMODE_BLOCK : PU_SHOWMODE_AUTO);
 		SrmmMenu_UpdateIcon(hContact);
 	}

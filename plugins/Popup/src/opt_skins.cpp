@@ -299,12 +299,12 @@ void LoadOption_Skins() {
 	//skin pack
 	PopUpOptions.SkinPack				= (LPTSTR)DBGetContactSettingStringX(NULL,MODULNAME, "SkinPack", "* Popup Classic",DBVT_TCHAR);
 	//more Skin options
-	PopUpOptions.DisplayTime			= DBGetContactSettingByte(NULL,MODULNAME, "DisplayTime", TRUE);
-	PopUpOptions.DropShadow				= DBGetContactSettingByte(NULL,MODULNAME, "DropShadow", TRUE);
-	PopUpOptions.EnableFreeformShadows	= DBGetContactSettingByte(NULL,MODULNAME, "EnableShadowRegion", 1);
-	PopUpOptions.EnableAeroGlass		= DBGetContactSettingByte(NULL,MODULNAME, "EnableAeroGlass", 1);
-	PopUpOptions.UseWinColors			= DBGetContactSettingByte(NULL,MODULNAME, "UseWinColors", FALSE);
-	PopUpOptions.UseMText				= DBGetContactSettingByte(NULL,MODULNAME, "UseMText", TRUE);
+	PopUpOptions.DisplayTime			= db_get_b(NULL,MODULNAME, "DisplayTime", TRUE);
+	PopUpOptions.DropShadow				= db_get_b(NULL,MODULNAME, "DropShadow", TRUE);
+	PopUpOptions.EnableFreeformShadows	= db_get_b(NULL,MODULNAME, "EnableShadowRegion", 1);
+	PopUpOptions.EnableAeroGlass		= db_get_b(NULL,MODULNAME, "EnableAeroGlass", 1);
+	PopUpOptions.UseWinColors			= db_get_b(NULL,MODULNAME, "UseWinColors", FALSE);
+	PopUpOptions.UseMText				= db_get_b(NULL,MODULNAME, "UseMText", TRUE);
 }
 
 INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -499,11 +499,11 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						skin->saveOpts();
 					skins.freeAllButActive();
 					//more Skin options
-					DBWriteContactSettingByte(NULL, MODULNAME, "DisplayTime", PopUpOptions.DisplayTime);
-					DBWriteContactSettingByte(NULL, MODULNAME, "DropShadow", PopUpOptions.DropShadow);
-					DBWriteContactSettingByte(NULL, MODULNAME, "EnableShadowRegion", PopUpOptions.EnableFreeformShadows);
-					DBWriteContactSettingByte(NULL, MODULNAME, "EnableAeroGlass", PopUpOptions.EnableAeroGlass);
-					DBWriteContactSettingByte(NULL, MODULNAME, "UseMText", PopUpOptions.UseMText);
+					db_set_b(NULL, MODULNAME, "DisplayTime", PopUpOptions.DisplayTime);
+					db_set_b(NULL, MODULNAME, "DropShadow", PopUpOptions.DropShadow);
+					db_set_b(NULL, MODULNAME, "EnableShadowRegion", PopUpOptions.EnableFreeformShadows);
+					db_set_b(NULL, MODULNAME, "EnableAeroGlass", PopUpOptions.EnableAeroGlass);
+					db_set_b(NULL, MODULNAME, "UseMText", PopUpOptions.UseMText);
 				}//end PSN_APPLY:
 				return TRUE;
 			}//switch (((LPNMHDR)lParam)->code)
