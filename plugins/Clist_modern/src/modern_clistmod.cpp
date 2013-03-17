@@ -67,49 +67,35 @@ BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 //returns normal icon or combined with status overlay. Needs to be destroyed.
 HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
-	HICON hIcon = NULL;
-	HICON hXIcon = NULL;
 	// check if options is turned on
 	BYTE trayOption = db_get_b(NULL,"CLUI","XStatusTray",SETTING_TRAYOPTION_DEFAULT);
-	if (trayOption&3 && szProto != NULL)
-	{
+	if (trayOption&3 && szProto != NULL) {
 		// check service exists
 		char str[MAXMODULELABELLENGTH];
 		strcpy(str,szProto);
 		strcat(str,"/GetXStatusIcon");
-		if ( ServiceExists(str))
-		{
+		if ( ServiceExists(str)) {
 			// check status is online
-			if (status>ID_STATUS_OFFLINE)
-			{
+			if (status > ID_STATUS_OFFLINE) {
 				// get xicon
-				hXIcon = (HICON)CallService(str, 0, 0);
-				if (hXIcon)
-				{
+				HICON hXIcon = (HICON)CallService(str, 0, 0);
+				if (hXIcon) {
 					// check overlay mode
-					if (trayOption&2)
-					{
+					if (trayOption & 2) {
 						// get overlay
 						HICON MainOverlay = (HICON)GetMainStatusOverlay(status);
-						hIcon = ske_CreateJoinedIcon(hXIcon,MainOverlay,(trayOption&4)?192:0);
+						HICON hIcon = ske_CreateJoinedIcon(hXIcon,MainOverlay,(trayOption&4)?192:0);
 						DestroyIcon_protect(hXIcon);
 						DestroyIcon_protect(MainOverlay);
+						return hIcon;
 					}
-					else
-					{
-						// paint it
-						hIcon = hXIcon;
-					}
+					return hXIcon;
 				}
 			}
 		}
 	}
-	if ( !hIcon)
-	{
-		hIcon = ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
-	}
-	// if not ready take normal icon
-	return hIcon;
+
+	return ske_ImageList_GetIcon(g_himlCListClc,ExtIconFromStatusMode(hContact,szProto,status),ILD_NORMAL);
 }
 
 int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)

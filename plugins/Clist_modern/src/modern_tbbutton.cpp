@@ -78,12 +78,14 @@ static int TBStateConvert2Flat(int state)
 
 static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 {
-	POINT offset = {0};
-	if (pOffset)
-		offset = *pOffset;
-
 	if ( !hdcPaint)
 		return;  //early exit
+
+	POINT offset;
+	if (pOffset)
+		offset = *pOffset;
+	else
+		offset.x = offset.y = 0;
 
 	RECT rcClient;
 	GetClientRect(bct->hwnd, &rcClient);
@@ -162,15 +164,11 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 			DrawEdge(hdcMem, &rcClient, BDR_SUNKENOUTER,BF_RECT|BF_SOFT);
 	}
 
-	RECT rcTemp	 = rcClient;  //content rect
-	BYTE bPressed = (bct->stateId == PBS_PRESSED || bct->bIsPushed == TRUE)?1:0;
-	HICON hHasIcon = bct->hIcon ? bct->hIcon : NULL;
-	BOOL fHasText  = (bct->szText[0] != '\0');
+	RECT  rcTemp	= rcClient;  //content rect
+	bool  bPressed = (bct->stateId == PBS_PRESSED || bct->bIsPushed == TRUE);
+	bool  bHasText = (bct->szText[0] != '\0');
 
 	/* formatter */
-	RECT rcIcon;
-	RECT rcText;
-	
 	if ( !g_CluiData.fDisableSkinEngine) {
 		/* correct rect according to rcMargins */
 
@@ -180,38 +178,37 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 		rcTemp.right -= bct->rcMargins.right;
 	}
 
-	rcIcon = rcTemp;
-	rcText = rcTemp;
-
 	/* reposition button items */
-	if (hHasIcon && fHasText ) {
-		rcIcon.right = rcIcon.left+16; /* CXSM_ICON */
-		rcText.left = rcIcon.right+2;
-	}
-	else if (hHasIcon) {
-		rcIcon.left += (rcIcon.right-rcIcon.left)/2-8;
-		rcIcon.right = rcIcon.left+16;
+	RECT rcIcon = rcTemp, rcText = rcTemp;
+	if (bct->hIcon) {
+		if (bHasText) {
+			rcIcon.right = rcIcon.left+16; /* CXSM_ICON */
+			rcText.left = rcIcon.right+2;
+		}
+		else {
+			rcIcon.left += (rcIcon.right-rcIcon.left)/2-8;
+			rcIcon.right = rcIcon.left+16;
+		}
 	}
 
 	/*	Check sizes*/
-	if (hHasIcon && (rcIcon.right>rcTemp.right || rcIcon.bottom>rcTemp.bottom || rcIcon.left < rcTemp.left || rcIcon.top < rcTemp.top))
-		hHasIcon = NULL;
+	if (bct->hIcon && (rcIcon.right>rcTemp.right || rcIcon.bottom>rcTemp.bottom || rcIcon.left < rcTemp.left || rcIcon.top < rcTemp.top))
+		bct->hIcon = NULL;
 
-	if (fHasText && (rcText.right>rcTemp.right || rcText.bottom>rcTemp.bottom || rcText.left < rcTemp.left || rcText.top < rcTemp.top))
-		fHasText = FALSE;			
+	if (bHasText && (rcText.right>rcTemp.right || rcText.bottom>rcTemp.bottom || rcText.left < rcTemp.left || rcText.top < rcTemp.top))
+		bHasText = FALSE;			
 
-	if (hHasIcon) {
+	if (bct->hIcon) {
 		/* center icon vertically */
 		rcIcon.top += (rcClient.bottom-rcClient.top)/2 - 8; /* CYSM_ICON/2 */
 		rcIcon.bottom = rcIcon.top + 16; /* CYSM_ICON */
 		/* draw it */
-		ske_DrawIconEx(hdcMem, rcIcon.left+bPressed, rcIcon.top+bPressed, hHasIcon,
-			16, 16, 0, NULL, DI_NORMAL);
+		ske_DrawIconEx(hdcMem, rcIcon.left+bPressed, rcIcon.top+bPressed, bct->hIcon, 16, 16, 0, NULL, DI_NORMAL);
 	}
 
-	if (fHasText) {
+	if (bHasText) {
 		BOOL bCentered = TRUE;
-		SetBkMode(hdcMem,TRANSPARENT);
+		SetBkMode(hdcMem, TRANSPARENT);
 		if (bct->nFontID >= 0)
 			g_clcPainter.ChangeToFont(hdcMem,NULL,bct->nFontID,NULL);
 		
@@ -227,9 +224,9 @@ static void PaintWorker(TBBUTTONDATA *bct, HDC hdcPaint , POINT *pOffset)
 		BitBlt(hdcPaint, 0, 0, width,height,hdcMem, 0, 0, SRCCOPY);
 
 	// better to use try/finally but looks like last one is Microsoft specific
-	SelectObject(hdcMem,hOldFont);
-	if ( !pOffset) {	
-		SelectObject(hdcMem,hbmOld);
+	SelectObject(hdcMem, hOldFont);
+	if ( !pOffset) {
+		SelectObject(hdcMem, hbmOld);
 		DeleteObject(hbmMem);
 		DeleteDC(hdcMem);
 	}

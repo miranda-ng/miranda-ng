@@ -157,14 +157,15 @@ static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD 
 
 void cliTrayIconUpdateBase(const char *szChangedProto)
 {
+	if ( !szChangedProto) return;
+	if ( !pcli->pfnGetProtocolVisibility(szChangedProto)) return;
+
 	int i,count,netProtoCount,changed = -1;
 	PROTOACCOUNT **accs;
 	int averageMode = 0;
 	HWND hwnd = pcli->hwndContactList;
-
-	if ( !szChangedProto) return;
-
-	if ( !pcli->pfnGetProtocolVisibility(szChangedProto)) return;
+	DBVARIANT dbv;
+	char *szProto = NULL;
 
 	pcli->pfnLockTray();
 	if ( pcli->cycleTimerId ) {
@@ -189,58 +190,50 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 					pcli->pfnTrayIconDestroy(hwnd);
 					pcli->pfnTrayIconInit(hwnd);
 				}
-				else
-					changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,NULL,averageMode),NULL);
+				else changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,NULL,averageMode),NULL);
 			}
-			else
-			{
-				if ( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE
-					 &&  db_get_b(NULL,"CList","AlwaysPrimary",SETTING_ALWAYSPRIMARY_DEFAULT))
+			else {
+				if ( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE &&
+					  db_get_b(NULL,"CList","AlwaysPrimary",SETTING_ALWAYSPRIMARY_DEFAULT))
 				{
-					DBVARIANT dbv = {DBVT_DELETED};
-					char *szProto;
-					if (DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) szProto = NULL;
-					else szProto = dbv.pszVal;
+					if ( !DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) {
+						szProto = NEWSTR_ALLOCA(dbv.pszVal);
+						db_free(&dbv);
+					}
 					changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,averageMode),NULL);
-					mir_free(szProto);
 				}
-				else
-					changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,NULL,averageMode),NULL);
+				else changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,NULL,averageMode),NULL);
 			}
 		}
 		else {
 			switch( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)) {
 			case SETTING_TRAYICON_SINGLE:
 				{
-					DBVARIANT dbv = {DBVT_DELETED};
-					char *szProto;
-					int status;
-					if (DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) szProto = NULL;
-					else szProto = dbv.pszVal;
-					status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
+					if ( !DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) {
+						szProto = NEWSTR_ALLOCA(dbv.pszVal);
+						db_free(&dbv);
+					}
+					int status = CallProtoService(szChangedProto,PS_GETSTATUS, 0, 0);
 
 					if ((g_StatusBarData.connectingIcon == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
 						//
 						HICON hIcon;
 						// 1 check if multi connecting icon
 						CListTray_GetGlobalStatus(0, 0);
-						if (g_bMultiConnectionMode)
-							if (_strcmpi(szChangedProto,g_szConnectingProto))
+						if (g_bMultiConnectionMode) {
+							if (_strcmpi(szChangedProto, g_szConnectingProto))
 								{ pcli->pfnUnlockTray(); return; }
 							else
-								hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)"",1);
-						else
-							hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
+								hIcon = (HICON)CLUI_GetConnectingIconService(NULL, 1);
+						}
+						else hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);
+
 						if (hIcon) {
 							changed = pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
-							db_free(&dbv);
 							break;
 						}
 					}
-					else
-						changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,szProto?CallProtoService(szProto,PS_GETSTATUS, 0, 0):CallService(MS_CLIST_GETSTATUSMODE, 0, 0)),NULL);
-
-					db_free(&dbv);
+					else changed = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,szProto?CallProtoService(szProto,PS_GETSTATUS, 0, 0):CallService(MS_CLIST_GETSTATUSMODE, 0, 0)),NULL);
 				}
 				break;
 

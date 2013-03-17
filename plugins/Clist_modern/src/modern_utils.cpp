@@ -135,13 +135,13 @@ BOOL DebugDeleteObject(HGDIOBJ a)
 #endif
 
 // load small icon (not shared) it IS NEED to be destroyed
-HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
+HICON LoadSmallIcon(HINSTANCE hInstance, int index)
 {
-	HICON hIcon = NULL;				  // icon handle
-	int index = -(int)lpIconName;
 	TCHAR filename[MAX_PATH] = {0};
-	GetModuleFileName(hInstance,filename,MAX_PATH);
- 	ExtractIconEx(filename,index,NULL,&hIcon,1);
+	GetModuleFileName(hInstance, filename, MAX_PATH);
+
+	HICON hIcon = NULL;
+ 	ExtractIconEx(filename, index, NULL, &hIcon, 1);
 	return hIcon;
 }
 

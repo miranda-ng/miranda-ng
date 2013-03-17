@@ -223,7 +223,7 @@ extern pfnGetMenuBarInfo fnGetMenuBarInfo;
 
 extern SortedList *clistCache;
 
-HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName);
+HICON LoadSmallIcon(HINSTANCE hInstance, int idx);
 BOOL DestroyIcon_protect(HICON icon);
 
 #ifndef ETDT_ENABLETAB

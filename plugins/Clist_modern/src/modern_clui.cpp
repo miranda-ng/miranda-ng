@@ -55,6 +55,8 @@ CLUI* CLUI::m_pCLUI = NULL;
 BOOL CLUI::m_fMainMenuInited = FALSE;
 HWND CLUI::m_hWnd = NULL;
 
+static TCHAR tszFolderPath[MAX_PATH];
+
 void CLUI::cliOnCreateClc(void)
 {
 	_ASSERT( m_pCLUI );
@@ -97,17 +99,18 @@ int CLUI::OnEvent_FontReload(WPARAM wParam,LPARAM lParam)
 
 int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR cls[128];
-	HANDLE hItem;
-	HWND hwndClist = GetFocus();
+	if (MirandaExiting())
+		return 0;
 
-	if (MirandaExiting()) return 0;
+	HWND hwndClist = GetFocus();
+	TCHAR cls[128];
+	GetClassName(hwndClist, cls, SIZEOF(cls));
+	if ( lstrcmp( _T(CLISTCONTROL_CLASS), cls))
+		hwndClist = pcli->hwndContactList;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	GetClassName(hwndClist,cls,SIZEOF(cls));
-	hwndClist = (!lstrcmp( _T(CLISTCONTROL_CLASS), cls))?hwndClist:pcli->hwndContactList;
-	hItem = (HANDLE)SendMessage(hwndClist,CLM_GETSELECTION, 0, 0);
+	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if ( !hItem)
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
@@ -287,7 +290,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	CreateServiceFunction("CList/ShowContactAvatar",CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
-	mi.hIcon = LoadSmallIcon(g_hInst, MAKEINTRESOURCE(IDI_SHOW_AVATAR));
+	mi.hIcon = LoadSmallIcon(g_hInst, IDI_SHOW_AVATAR);
 	mi.pszName = LPGEN("Show Contact &Avatar");
 	mi.pszService = "CList/ShowContactAvatar";
 	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
@@ -295,7 +298,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 	CreateServiceFunction("CList/HideContactAvatar",CLUI::Service_Menu_HideContactAvatar);
 	mi.position = 2000150001;
-	mi.hIcon = LoadSmallIcon(g_hInst, MAKEINTRESOURCE(IDI_HIDE_AVATAR));
+	mi.hIcon = LoadSmallIcon(g_hInst, IDI_HIDE_AVATAR);
 	mi.pszName = LPGEN("Hide Contact &Avatar");
 	mi.pszService = "CList/HideContactAvatar";
 	hHideAvatarMenuItem = Menu_AddContactMenuItem(&mi);
@@ -884,110 +887,101 @@ static LPPROTOTICKS CLUI_GetProtoTicksByProto(char * szProto)
 
 static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 {
-	char fileFull[MAX_PATH];
-	static char szFolderPath[MAX_PATH] = "";
+	int count;
+	TCHAR fileFull[MAX_PATH];
 
-	int count = 8;
-
-	if ( !szFolderPath[0] ) {
-		char szRelativePath[MAX_PATH];
-		GetModuleFileNameA(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
-		char *str = strrchr( szRelativePath, '\\' );
+	if ( !tszFolderPath[0] ) {
+		TCHAR szRelativePath[MAX_PATH];
+		GetModuleFileName( GetModuleHandle(NULL), szRelativePath, MAX_PATH);
+		TCHAR *str = _tcsrchr( szRelativePath, '\\' );
 		if (str != NULL)
 			*str = 0;
-		PathToAbsolute(szRelativePath, szFolderPath);
+		PathToAbsoluteT(szRelativePath, tszFolderPath);
 	}
 
 	if ( szAccoName ) {
 		// first of all try to find by account name( or empty - global )
-		mir_snprintf( fileFull, SIZEOF(fileFull), "%s\\Icons\\proto_conn_%s.dll", szFolderPath, szAccoName );
-		count = ExtractIconExA(fileFull,-1,NULL,NULL,1);
-		if ( count ) return count;
+		mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, szAccoName );
+		if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
+			return count;
 
 		if ( szAccoName[0] ) {
 			// second try to find by protocol name
 			PROTOACCOUNT *acc = ProtoGetAccount( szAccoName );
 			if (acc && !acc->bOldProto) {
-				mir_snprintf( fileFull, SIZEOF(fileFull), "%s\\Icons\\proto_conn_%s.dll", szFolderPath, acc->szProtoName );
-				count = ExtractIconExA(fileFull,-1,NULL,NULL,1);
-				if (count)
+				mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn_%S.dll"), tszFolderPath, acc->szProtoName );
+				if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 					return count;
 			}
 		}
 	}
+
 	// third try global
-	mir_snprintf( fileFull, SIZEOF(fileFull), "%s\\Icons\\proto_conn.dll", szFolderPath );
-	count = ExtractIconExA(fileFull,-1,NULL,NULL,1);
-	if (count)
+	mir_sntprintf(fileFull, SIZEOF(fileFull), _T("%s\\Icons\\proto_conn.dll"), tszFolderPath );
+	if (count = ExtractIconEx(fileFull, -1, NULL, NULL, 1))
 		return count;
 
 	return 8;
 }
 
-static HICON CLUI_ExtractIconFromPath(const char *path, BOOL * needFree)
+static HICON CLUI_ExtractIconFromPath(const TCHAR *path)
 {
-	char *comma;
-	char file[MAX_PATH],fileFull[MAX_PATH];
+	TCHAR file[MAX_PATH], fileFull[MAX_PATH];
+	lstrcpyn(file, path, SIZEOF(file));
+	TCHAR *comma = _tcsrchr(file, ',');
 	int n;
-	HICON hIcon;
-	lstrcpynA(file,path,sizeof(file));
-	comma = strrchr(file,',');
-	if (comma == NULL) n = 0;
-	else {n = atoi(comma+1); *comma = 0;}
-	PathToAbsolute(file, fileFull);
-	hIcon = NULL;
-	ExtractIconExA(fileFull,n,NULL,&hIcon,1);
-	if (needFree)
-		*needFree = (hIcon != NULL);
-
+	if (comma == NULL)
+		n = 0;
+	else
+		n = _ttoi(comma+1), *comma = 0;
+	PathToAbsoluteT(file, fileFull);
+	
+	HICON hIcon = NULL;
+	ExtractIconEx(fileFull, n, NULL, &hIcon, 1);
 	return hIcon;
 }
 
-static HICON CLUI_LoadIconFromExternalFile(char *filename, int i, BOOL *needFree)
+static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 {
-	char szPath[MAX_PATH], szFullPath[MAX_PATH],*str;
-	if (needFree)
-		*needFree = FALSE;
+	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
+	GetModuleFileName( GetModuleHandle(NULL), szPath, SIZEOF(szPath));
+	TCHAR *str = _tcsrchr(szPath,'\\');
+	if (str != NULL)
+		*str = 0;
+	mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Icons\\%s,%d"), szPath, filename, i);
+	if (str != NULL)
+		*str = '\\';
 
-	GetModuleFileNameA(GetModuleHandle(NULL), szPath, MAX_PATH);
-	str = strrchr(szPath,'\\');
-	if (str != NULL) *str = 0;
-	mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
-	if (str != NULL) *str = '\\';
-
-	return CLUI_ExtractIconFromPath(szFullPath, needFree);
+	return CLUI_ExtractIconFromPath(szFullPath);
 }
 
-static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int b)
+static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
 {
-	char szFullPath[MAX_PATH];
-	HICON hIcon = NULL;
-	BOOL needFree;
-	b = b-1;
+	TCHAR szFullPath[MAX_PATH];
+	HICON hIcon;
 
 	if (szAccoName) {
-		mir_snprintf(szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll",szAccoName);
-		hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
-		if (hIcon) return hIcon;
+		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("proto_conn_%S.dll"), szAccoName);
+		if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
+			return hIcon;
 
 		if (szAccoName[0]) {
 			// second try to find by protocol name
-			PROTOACCOUNT * acc = ProtoGetAccount( szAccoName );
+			PROTOACCOUNT *acc = ProtoGetAccount(szAccoName);
 			if (acc && !acc->bOldProto) {
-				mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn_%s.dll", acc->szProtoName );
-				hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
-				if ( hIcon ) return hIcon;
+				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("proto_conn_%S.dll"), acc->szProtoName );
+				if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
+					return hIcon;
 			}
 		}
 	}
 
 	// third try global
-	mir_snprintf( szFullPath, SIZEOF(szFullPath), "proto_conn.dll");
-	hIcon = CLUI_LoadIconFromExternalFile(szFullPath, b+1, &needFree);
-	if ( hIcon ) return hIcon;
+	lstrcpyn(szFullPath, _T("proto_conn.dll"), SIZEOF(szFullPath));
+	if (hIcon = CLUI_LoadIconFromExternalFile(szFullPath, idx))
+		return hIcon;
 
-	hIcon = LoadSmallIcon(g_hInst,(TCHAR *)(IDI_ICQC1+b+1));
-	return(hIcon);
+	return LoadSmallIcon(g_hInst, IDI_ICQC1 + idx);
 }
 
 
@@ -1035,14 +1029,13 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 				KillTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->nIndex);
 				int cnt = CLUI_GetConnectingIconForProtoCount(szProto);
 				if (cnt != 0) {
-					int i=0;
 					nAnimatedIconStep = 100;/*DBGetContactSettingWord(NULL,"CLUI","DefaultStepConnectingIcon",100);*/
 					pt->nIconsCount = cnt;
 					if (pt->himlIconList)
 						ImageList_Destroy(pt->himlIconList);
 					pt->himlIconList = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,cnt,1);
-					for (i=0; i < cnt; i++) {
-						HICON ic = CLUI_GetConnectingIconForProto(szProto,i);
+					for (int i=0; i < cnt; i++) {
+						HICON ic = CLUI_GetConnectingIconForProto(szProto, i);
 						if (ic)
 							ImageList_AddIcon(pt->himlIconList, ic);
 						DestroyIcon_protect(ic);
@@ -2432,37 +2425,29 @@ LRESULT CLUI::OnNcHitTest( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnShowWindow( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	BYTE gAlpha;
-
 	if (lParam) return 0;
 	if (mutex_bShowHideCalledFromAnimation) return 1;
-	{
 
-		if ( !wParam) gAlpha = 0;
-		else
-			gAlpha = ( db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT):255);
-		if (wParam)
-		{
-			g_CluiData.bCurrentAlpha = 0;
-			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);
-			ske_RedrawCompleteWindow();
-		}
-		CLUI_SmoothAlphaTransition(m_hWnd, gAlpha, 1);
+	BYTE gAlpha = (!wParam) ? 0 : (db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT):255);
+	if (wParam) {
+		g_CluiData.bCurrentAlpha = 0;
+		Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,1);
+		ske_RedrawCompleteWindow();
 	}
+	CLUI_SmoothAlphaTransition(m_hWnd, gAlpha, 1);
 	return FALSE;
 }
 
 LRESULT CLUI::OnSysCommand( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-		switch (wParam)
-		{
-		case SC_MAXIMIZE:
-			return 0;
+	switch (wParam) {
+	case SC_MAXIMIZE:
+		return 0;
 
-		case SC_CLOSE:
-			PostMessage(m_hWnd, msg, SC_MINIMIZE, lParam);
-			return 0;
-		}
+	case SC_CLOSE:
+		PostMessage(m_hWnd, msg, SC_MINIMIZE, lParam);
+		return 0;
+	}
 
 	DefWindowProc(m_hWnd, msg, wParam, lParam);
 	if ( db_get_b(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT))
@@ -2652,29 +2637,24 @@ LRESULT CLUI::OnContextMenu( UINT msg, WPARAM wParam, LPARAM lParam )
 		DestroyTrayMenu(hMenu);
 	}
 	return FALSE;
-
 }
+
 LRESULT CLUI::OnMeasureItem( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	LPMEASUREITEMSTRUCT pmis = (LPMEASUREITEMSTRUCT)lParam;
-	switch ( pmis->itemData )
-	{
+	switch ( pmis->itemData ) {
 	case MENU_MIRANDAMENU:
-		{
-			pmis->itemWidth = GetSystemMetrics( SM_CXSMICON ) * 4 / 3;
-			pmis->itemHeight = 0;
-		}
+		pmis->itemWidth = GetSystemMetrics( SM_CXSMICON ) * 4 / 3;
+		pmis->itemHeight = 0;
 		return TRUE;
+
 	case MENU_STATUSMENU:
-		{
-			HDC hdc;
-			SIZE textSize;
-			hdc = GetDC( m_hWnd );
-			GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate("Status")), &textSize );
-			pmis->itemWidth = textSize.cx;
-			pmis->itemHeight = 0;
-			ReleaseDC( m_hWnd, hdc );
-		}
+		HDC hdc = GetDC( m_hWnd );
+		SIZE textSize;
+		GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate("Status")), &textSize );
+		pmis->itemWidth = textSize.cx;
+		pmis->itemHeight = 0;
+		ReleaseDC( m_hWnd, hdc );
 		return TRUE;
 	}
 	return CallService( MS_CLIST_MENUMEASUREITEM, wParam, lParam );

@@ -340,27 +340,26 @@ void SetControls(HWND hwndDlg, char * str)
 	}
 }
 
-
-
-int GetShortFileName(char * FullFile)
+int GetShortFileName(TCHAR *FullFile)
 {
-	char buf[MAX_PATH] = {0};
-	char * f = strrchr(FullFile,'\\');
-	char * file = f?mir_strdup(f+1):0;
-	if ( !file) return 0;
-	ske_GetFullFilename(buf,file, 0, TRUE);
-	if (mir_bool_strcmpi(buf,FullFile))
-	{
-		_snprintf(FullFile,MAX_PATH,"%s",file);
+	TCHAR buf[MAX_PATH] = {0};
+	TCHAR *f = _tcsrchr(FullFile,'\\');
+	TCHAR *file = f ? mir_tstrdup(f+1) : 0;
+	if ( !file)
+		return 0;
+
+	ske_GetFullFilename(buf, file, 0, TRUE);
+	if ( mir_bool_tstrcmpi(buf, FullFile)) {
+		_tcsncpy(FullFile, file, MAX_PATH);
 		mir_free(file);
 		return 1; //skin folder relative
 	}
 	
-	PathToRelative(FullFile, buf);
+	PathToRelativeT(FullFile, buf);
 	if (buf[0] != '\\' && buf[1] != ':')
-		_snprintf(FullFile,MAX_PATH,"\\%s",buf);
+		mir_sntprintf(FullFile, MAX_PATH, _T("\\%s"), buf);
 	else
-		_snprintf(FullFile,MAX_PATH,"%s",buf);
+		_tcsncpy(FullFile, buf, MAX_PATH);
 	
 	mir_free(file);
 	return 2; //mirand folder relative
@@ -507,23 +506,22 @@ static BOOL fileChanged = FALSE;
 static char * object_clipboard = NULL;
 int GetFileSizes(HWND hwndDlg)
 {
-	char buf[MAX_PATH];
+	TCHAR buf[MAX_PATH];
 	SIZE sz = {0};
 	SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_GETTEXT,(WPARAM)MAX_PATH,(LPARAM)buf);
-	ske_GetFullFilename(buf,buf, 0, TRUE);
-	{
-		HBITMAP hbmp = ske_LoadGlyphImage(buf);
-		if (hbmp)
-		{
-			BITMAP bm = {0};
-			GetObject(hbmp,sizeof(BITMAP),&bm);
-			sz.cx = bm.bmWidth;
-			sz.cy = bm.bmHeight;
-			ske_UnloadGlyphImage(hbmp);
-		}
+	ske_GetFullFilename(buf, buf, 0, TRUE);
+
+	HBITMAP hbmp = ske_LoadGlyphImage(buf);
+	if (hbmp) {
+		BITMAP bm = {0};
+		GetObject(hbmp,sizeof(BITMAP),&bm);
+		sz.cx = bm.bmWidth;
+		sz.cy = bm.bmHeight;
+		ske_UnloadGlyphImage(hbmp);
 	}
-	_snprintf(buf, MAX_PATH, "%s %d x %d %s",Translate("Image size is"),sz.cx, sz.cy, Translate("pixels")); 
-	SendDlgItemMessageA(hwndDlg,IDC_S_SIZE,WM_SETTEXT, 0, (LPARAM)buf);
+
+	mir_sntprintf(buf, MAX_PATH, _T("%s %d x %d %s"),TranslateT("Image size is"), sz.cx, sz.cy, TranslateT("pixels")); 
+	SetDlgItemText(hwndDlg, IDC_S_SIZE, buf);
 	return 0;
 }
 
@@ -639,42 +637,35 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				UpdateInfo(hwndDlg);
 			}
-			else if (LOWORD(wParam) == IDC_BROWSE)
-			{
-				if (HIWORD(wParam) == BN_CLICKED)
-				{
-					{   		
-						char str[MAX_PATH] = {0};
-						OPENFILENAMEA ofn = {0};
-						char filter[512] = {0};
-						int res = 0;
-						ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-						ofn.hwndOwner = hwndDlg;
-						ofn.hInstance = NULL;					
-						ofn.lpstrFilter = "Images (*.png,*.jpg,*.bmp,*.gif,*.tga)\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tga\0All files (*.*)\0*.*\0\0";
-						ofn.Flags = (OFN_FILEMUSTEXIST | OFN_HIDEREADONLY);
-						SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_GETTEXT,(WPARAM)SIZEOF(str),(LPARAM)str);
-						if (str[0] == '\0' || strchr(str,'%'))
-						{
-							ofn.Flags |= OFN_NOVALIDATE;
-							str[0] = '\0';
-						}
-						else
-						{
-							ske_GetFullFilename(str,str,(char*)0, TRUE);
-						}
-						ofn.lpstrFile = str;
+			else if (LOWORD(wParam) == IDC_BROWSE) {
+				if (HIWORD(wParam) == BN_CLICKED) {
+					TCHAR str[MAX_PATH] = {0};
+					OPENFILENAME ofn = {0};
+					TCHAR filter[512] = {0};
+					int res = 0;
+					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+					ofn.hwndOwner = hwndDlg;
+					ofn.hInstance = NULL;					
+					ofn.lpstrFilter = _T("Images (*.png,*.jpg,*.bmp,*.gif,*.tga)\0*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.tga\0All files (*.*)\0*.*\0\0");
+					ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+					GetDlgItemText(hwndDlg, IDC_FILE, str, SIZEOF(str));
+					if (str[0] == '\0' || _tcschr(str,'%')) {
+						ofn.Flags |= OFN_NOVALIDATE;
+						str[0] = '\0';
+					}
+					else ske_GetFullFilename(str, str, 0, TRUE);
 
-						ofn.nMaxFile = SIZEOF(str);
-						ofn.nMaxFileTitle = MAX_PATH;
-						ofn.lpstrDefExt = "*.*";
-						res = GetOpenFileNameA(&ofn);
-						if (res) {
-							GetShortFileName(ofn.lpstrFile);
-							SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT, 0, (LPARAM)ofn.lpstrFile);
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-							UpdateInfo(hwndDlg);						
-						}
+					ofn.lpstrFile = str;
+
+					ofn.nMaxFile = SIZEOF(str);
+					ofn.nMaxFileTitle = MAX_PATH;
+					ofn.lpstrDefExt = _T("*.*");
+					res = GetOpenFileName(&ofn);
+					if (res) {
+						GetShortFileName(ofn.lpstrFile);
+						SetDlgItemText(hwndDlg, IDC_FILE, ofn.lpstrFile);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						UpdateInfo(hwndDlg);						
 					}
 				}
 			}

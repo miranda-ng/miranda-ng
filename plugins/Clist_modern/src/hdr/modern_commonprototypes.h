@@ -126,7 +126,7 @@ int     CLUIUnreadEmailCountChanged(WPARAM wParam,LPARAM lParam);
 
 /* GDIPlus */
 BOOL    GDIPlus_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc, BLENDFUNCTION * blendFunction);
-HBITMAP GDIPlus_LoadGlyphImage(char *szFileName);
+HBITMAP GDIPlus_LoadGlyphImage(const TCHAR *szFileName);
 
 /* EventArea */
 void    EventArea_ConfigureEventArea();
@@ -155,12 +155,12 @@ BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT f
 BOOL    ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT *lpRect, UINT format);
 LPSKINOBJECTDESCRIPTOR   ske_FindObjectByName(const char * szName, BYTE objType, SKINOBJECTSLIST* Skin);
 HBITMAP ske_GetCurrentWindowImage();
-int     ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsolute);
-int     ske_GetSkinFolder(char * szFileName, char * t2);
+int     ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder,BOOL madeAbsolute);
+int     ske_GetSkinFolder(TCHAR *szFileName, char * t2);
 BOOL    ske_ImageList_DrawEx( HIMAGELIST himl,int i,HDC hdcDst,int x,int y,int dx,int dy,COLORREF rgbBk,COLORREF rgbFg,UINT fStyle);
 HICON   ske_ImageList_GetIcon(HIMAGELIST himl, int i, UINT fStyle);
 int     ske_JustUpdateWindowImageRect(RECT *rty);
-HBITMAP ske_LoadGlyphImage(char * szFileName);
+HBITMAP ske_LoadGlyphImage(const TCHAR *szFileName);
 HRESULT SkinEngineLoadModule();
 void    ske_LoadSkinFromDB(void);
 int     ske_LoadSkinFromIniFile(TCHAR*, BOOL);
@@ -205,15 +205,15 @@ int     Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam);
 void    DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse );
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
-BOOL    wildcmp(const char * name, const char * mask, BYTE option);                              //mod_skin_selector.c
-BOOL    wildcmpi(char * name, char * mask);                                       //mod_skin_selector.c
-BOOL    wildcmpi(WCHAR* name, WCHAR* mask);                                       //mod_skin_selector.c
+BOOL    wildcmp(const char *name, const char *mask, BYTE option);                              //mod_skin_selector.c
+BOOL    wildcmpi(const char *name, const char *mask);                                       //mod_skin_selector.c
+BOOL    wildcmpi(const WCHAR *name, const WCHAR *mask);                                       //mod_skin_selector.c
 INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //SkinEditor.c
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);   //RowTemplate.c
 BOOL    FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);   //GenMenu.c
-BOOL    MatchMask(char * name, char * mask);                                    //mod_skin_selector.c
+BOOL    MatchMask(char *name, char *mask);                                    //mod_skin_selector.c
 char*   GetContactCachedProtocol(HANDLE hContact);                                 //clistsettings.c
-char*   GetParamN(char * string, char * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
+char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
 DWORD   CompareContacts2_getLMTime(HANDLE u);                                    //contact.c
 DWORD   mod_CalcHash(const char * a);                                          //mod_skin_selector.c
 HICON   cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status);            //clistmod.c
@@ -259,7 +259,6 @@ void    InitGdiPlus();                                                      //gd
 void    InitTray();                                                         //clisttray.c
 void    InvalidateDNCEbyPointer(HANDLE hContact,ClcCacheEntry *pdnce,int SettingType);  //clistsettings.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
-void    TextOutWithGDIp(HDC hDestDC, int x, int y, LPCTSTR lpString, int nCount);         //gdiplus.cpp
 void    UninitCustomMenus();                                                //clistmenus.c
 void    UnloadAvatarOverlayIcon();                                             //clc.c
 void    UnLoadContactListModule();                                             //clistmod.c

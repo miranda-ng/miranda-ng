@@ -315,47 +315,41 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch (( ( LPNMHDR )lParam )->idFrom ) 
-		{
+		switch (( ( LPNMHDR )lParam )->idFrom ) {
 		case IDC_TREE1:
 			{		
 				NMTREEVIEW * nmtv = ( NMTREEVIEW * ) lParam;
-				if ( !nmtv ) return 0;
-				if ( nmtv->hdr.code == TVN_SELCHANGEDA
-					 ||  nmtv->hdr.code == TVN_SELCHANGEDW )
-				{	
+				if (nmtv == NULL)
+					return 0;
+
+				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW) {	
 					SkinListData * sd = NULL;
-					if ( hPreviewBitmap ) 
-					{
+					if (hPreviewBitmap) {
 						ske_UnloadGlyphImage( hPreviewBitmap );
 						hPreviewBitmap = NULL;
 					}
-					if ( nmtv->itemNew.lParam )
-					{
+
+					if (nmtv->itemNew.lParam) {
 						sd = ( SkinListData* )nmtv->itemNew.lParam;
-						{
-							TCHAR buf[MAX_PATH];
-							PathToRelativeT(sd->File, buf);
-							SendDlgItemMessage(hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
-						}
-						{
-							TCHAR prfn[MAX_PATH] = {0};
-							TCHAR imfn[MAX_PATH] = {0};
-							TCHAR skinfolder[MAX_PATH] = {0};
-							GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
-							IniParser::GetSkinFolder( sd->File, skinfolder );
-							_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
-							PathToAbsoluteT(prfn, imfn);
-							char * imfn_ch = mir_t2a( imfn ); 
-							hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
-							mir_free( imfn_ch );
-						}
+
+						TCHAR buf[MAX_PATH];
+						PathToRelativeT(sd->File, buf);
+						SendDlgItemMessage(hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)buf );
+
+						TCHAR prfn[MAX_PATH] = {0};
+						TCHAR imfn[MAX_PATH] = {0};
+						TCHAR skinfolder[MAX_PATH] = {0};
+						GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), sd->File );
+						IniParser::GetSkinFolder( sd->File, skinfolder );
+						_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
+						PathToAbsoluteT(prfn, imfn);
+						hPreviewBitmap = ske_LoadGlyphImage(imfn);
+
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), TRUE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), TRUE );
 						if ( hPreviewBitmap ) 
 							InvalidateRect( GetDlgItem( hwndDlg, IDC_PREVIEW ), NULL, TRUE );
-						else  //prepare text
-						{
+						else { //prepare text
 							TCHAR Author[255];
 							TCHAR URL[MAX_PATH];
 							TCHAR Contact[255];
@@ -396,8 +390,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, (LPARAM)text );
 						}					
 					}
-					else
-					{
+					else {
 						//no selected
 						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, (LPARAM)TranslateT("Select skin from list"));
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), FALSE );
@@ -408,28 +401,20 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );
 					return 0;
 				}			
-				else if ( nmtv->hdr.code == TVN_DELETEITEMA || nmtv->hdr.code == TVN_DELETEITEMW )
-				{
+				else if (nmtv->hdr.code == TVN_DELETEITEMA || nmtv->hdr.code == TVN_DELETEITEMW) {
 					mir_free_and_nil( nmtv->itemOld.lParam );
 					return 0;
 				}
-				break;
 			}
+			break;
+
 		case 0:
-			switch (( ( LPNMHDR )lParam )->code )
-			{
+			switch (((LPNMHDR)lParam )->code) {
 			case PSN_APPLY:
-				{
-					{
-						DWORD tick = GetTickCount( );
-						pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
-						NotifyEventHooks( g_CluiData.hEventBkgrChanged, 0, 0 );
-						pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );	
-						RedrawWindow( GetParent( pcli->hwndContactTree ), NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_ALLCHILDREN );
-					}
-					return 0;
-				}
-				break;
+				pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
+				NotifyEventHooks( g_CluiData.hEventBkgrChanged, 0, 0 );
+				pcli->pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );	
+				RedrawWindow( GetParent( pcli->hwndContactTree ), NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_ALLCHILDREN );
 			}
 			break;
 		}
@@ -449,7 +434,8 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	{
 		do {     
 			AddSkinToList( hwndDlg, Folder, fd.name );
-		}while ( !_tfindnext( hFile, &fd ));
+		}
+			while ( !_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
 	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*"), Folder );
@@ -467,6 +453,7 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	}
 	return 0;
 }
+
 HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 {
 	struct _finddata_t fd = {0};
@@ -521,38 +508,25 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 
 HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 {
-	{
-		TCHAR buf[MAX_PATH];
-		_sntprintf( buf, SIZEOF( buf ), _T("%s\\%s"), path, file );
+	SkinListData *sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ));
+	if ( !sd )
+		return 0;
 
+	TCHAR fullName[MAX_PATH], defskinname[MAX_PATH];
+	mir_sntprintf(fullName, SIZEOF(fullName), _T("%s\\%s"), path, file);
+	memmove(defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
+	defskinname[_tcslen( file )+1] = _T('\0');
+	if ( !file || _tcschr( file, _T('%'))) {
+		_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
+		_sntprintf( sd->Name, 100, TranslateT("%Default Skin%"));
+		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
 	}
-	{
-		TCHAR fullName[MAX_PATH] = {0};     
-		TCHAR defskinname[MAX_PATH] = {0};
-		SkinListData * sd = NULL;
-		sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ));
-		if ( !sd ) return 0;
-		_sntprintf( fullName, SIZEOF( fullName ), _T("%s\\%s"), path, file );
-		memmove( defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
-		defskinname[_tcslen( file )+1] = _T('\0');
-		if ( !file || _tcschr( file, _T('%'))) 
-		{
-			//sd->File = "%Default Skin%";
-			_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
-			_sntprintf( sd->Name, 100, TranslateT("%Default Skin%"));
-			return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), TranslateT("Default Skin"), sd->Name, sd );
-		}
-		else
-		{
-			GetPrivateProfileString( _T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, SIZEOF( sd->Name ), fullName );
-			_tcscpy( sd->File, fullName );
-		}
-		return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), fullName, sd->Name, sd );
+	else {
+		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Name"), defskinname, sd->Name, SIZEOF( sd->Name ), fullName );
+		_tcscpy(sd->File, fullName);
 	}
-	return (HTREEITEM)-1;
+	return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), fullName, sd->Name, sd );
 }
-
-
 
 HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data )
 {
@@ -561,8 +535,8 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 		tmp = TreeView_GetChild( hTree, Parent );
 	else 
 		tmp = TreeView_GetRoot( hTree );
-	while ( tmp )
-	{
+
+	while (tmp) {
 		TVITEM tvi;
 		TCHAR buf[255];
 		tvi.hItem = tmp;
@@ -570,81 +544,68 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 		tvi.pszText = (LPTSTR)&buf;
 		tvi.cchTextMax = 254;
 		TreeView_GetItem( hTree, &tvi );
-		if ( _tcsicmp( Caption, tvi.pszText ) == 0 )
-		{
-			if ( data )
-			{
-				SkinListData * sd = NULL;
-				TVITEM tvi = {0};
-				tvi.hItem = tmp;
-				tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-				TreeView_GetItem( hTree, &tvi );
-				sd = ( SkinListData* )( tvi.lParam );
-				if ( sd )
-					if ( !_tcsicmp( sd->File, (( SkinListData* )data )->File ))
-						return tmp;
-			}
-			else
+		if ( _tcsicmp(Caption, tvi.pszText) == 0) {
+			if (!data)
 				return tmp;
+
+			TVITEM tvi = {0};
+			tvi.hItem = tmp;
+			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
+			TreeView_GetItem(hTree, &tvi);
+			SkinListData *sd = (SkinListData*)tvi.lParam;
+			if (sd)
+				if ( !_tcsicmp(sd->File, (( SkinListData* )data )->File))
+					return tmp;
 		}
-		tmp = TreeView_GetNextSibling( hTree, tmp );
+		tmp = TreeView_GetNextSibling(hTree, tmp);
 	}
 	return tmp;
 }
-
 
 HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * data )
 {
 	HTREEITEM rootItem = NULL;
 	HTREEITEM cItem = NULL;
 	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
-	TCHAR * ptr;
-	TCHAR * ptrE;
 	BOOL ext = FALSE;
 	PathToRelativeT(folder, path);
-	ptrE = path;
+	TCHAR *ptrE = path;
 	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
-	if ( *ptrE == _T('\\'))
-	{
+	if (*ptrE == _T('\\')) {
 		*ptrE = _T('\0');
 		ptrE++;
 	}
 	else ptrE = path;
-	ptr = ptrE;
-	do 
-	{
 
+	TCHAR *ptr = ptrE;
+	do {
 		while ( *ptrE != _T('\\') && *ptrE != _T('\0')) ptrE++;
-		if ( *ptrE == _T('\\'))
-		{
+		if ( *ptrE == _T('\\')) {
 			*ptrE = _T('\0');
 			ptrE++;
 			// find item if not - create;
-			{
-				cItem = FindChild( hTree, rootItem, ptr, NULL );
-				if ( !cItem ) // not found - create node
-				{
-					TVINSERTSTRUCT tvis;
-					tvis.hParent = rootItem;
-					tvis.hInsertAfter = TVI_ROOT;
-					tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
-					tvis.item.pszText = ptr;
-					{
-						tvis.item.lParam = (LPARAM)NULL;
-					}
-					cItem = TreeView_InsertItem( hTree, &tvis );
 
-				}	
-				rootItem = cItem;
-			}
+			cItem = FindChild( hTree, rootItem, ptr, NULL );
+			if (!cItem) { // not found - create node
+				TVINSERTSTRUCT tvis;
+				tvis.hParent = rootItem;
+				tvis.hInsertAfter = TVI_ROOT;
+				tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
+				tvis.item.pszText = ptr;
+				tvis.item.lParam = (LPARAM)NULL;
+				cItem = TreeView_InsertItem( hTree, &tvis );
+			}	
+			rootItem = cItem;
+
 			ptr = ptrE;
 		}
 		else ext = TRUE;
-	}while ( !ext );
+	}
+		while ( !ext );
+
 	//Insert item node
 	cItem = FindChild( hTree, rootItem, itemName, data );
-	if ( !cItem )
-	{
+	if ( !cItem ) {
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = rootItem;
 		tvis.hInsertAfter = TVI_SORT;
@@ -653,20 +614,16 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 		tvis.item.lParam = (LPARAM)data;
 		return TreeView_InsertItem( hTree, &tvis );
 	}
-	else
-	{
-		mir_free( data ); //need to free otherwise memory leak
-		return cItem;
-	}
-	return 0;
+
+	mir_free(data); //need to free otherwise memory leak
+	return cItem;
 }
 
 INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *skinfile;
-	TCHAR skinfull[MAX_PATH];
-	skinfile = DBGetStringT( NULL, SKIN, "SkinFile");
+	TCHAR *skinfile = DBGetStringT(NULL, SKIN, "SkinFile");
 	if ( skinfile ) {
+		TCHAR skinfull[MAX_PATH];
 		PathToAbsoluteT(skinfile, skinfull);
 		mir_free(skinfile);
 		return (INT_PTR)mir_tstrdup(skinfull);
@@ -684,14 +641,13 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 	Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
 	ske_RedrawCompleteWindow( );        
 	Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
-	{
-		HWND hwnd = pcli->hwndContactList;
-		RECT rc = {0};
-		GetWindowRect( hwnd, &rc );
-		Sync( CLUIFrames_OnMoving, hwnd, &rc );
-	}
-	if ( g_hCLUIOptionsWnd )
-	{
+
+	HWND hwnd = pcli->hwndContactList;
+	RECT rc = {0};
+	GetWindowRect( hwnd, &rc );
+	Sync( CLUIFrames_OnMoving, hwnd, &rc );
+
+	if ( g_hCLUIOptionsWnd ) {
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
 		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
@@ -713,8 +669,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 	workRect = dis->rcItem;
 	OffsetRect( &workRect, -workRect.left, -workRect.top );
 
-	if (lParam)
-	{
+	if (lParam) {
 		TCHAR prfn[MAX_PATH] = {0};
 		TCHAR imfn[MAX_PATH] = {0};
 		TCHAR skinfolder[MAX_PATH] = {0};
@@ -722,12 +677,9 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
 		PathToAbsoluteT(prfn, imfn);
-		char * imfn_ch = mir_t2a(imfn); 
-		hPreviewBitmap = ske_LoadGlyphImage( imfn_ch );
-		mir_free( imfn_ch );
 
-		if ( hPreviewBitmap )
-		{
+		hPreviewBitmap = ske_LoadGlyphImage(imfn);
+		if (hPreviewBitmap) {
 			//variables
 			BITMAP bmp = {0};
 			POINT imgPos = {0};
@@ -749,11 +701,8 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 			imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );     
 			//DrawImage
 			if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
-			{
 				DrawAvatarImageWithGDIp( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
-			}   
-			else
-			{
+			else {
 				BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 				imgDC = CreateCompatibleDC( dis->hDC );
 				imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );                 

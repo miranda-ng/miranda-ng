@@ -24,7 +24,7 @@ struct SKINOBJECTSLIST
 {
 	DWORD dwObjLPReserved;
 	DWORD dwObjLPAlocated;
-	char *szSkinPlace;
+	TCHAR *szSkinPlace;
 	LISTMODERNMASK	*pMaskList;
 	SKINOBJECTDESCRIPTOR  *pObjects;
 	SortedList *pTextList;
@@ -32,10 +32,10 @@ struct SKINOBJECTSLIST
 
 struct GLYPHIMAGE
 {
-	char * szFileName;
-	DWORD dwLoadedTimes;
+	TCHAR  *szFileName;
+	DWORD   dwLoadedTimes;
 	HBITMAP hGlyph;
-	BYTE isSemiTransp;
+	BYTE    isSemiTransp;
 };
 
 typedef GLYPHIMAGE *LPGLYPHIMAGE;

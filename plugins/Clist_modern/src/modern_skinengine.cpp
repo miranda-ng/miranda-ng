@@ -88,7 +88,6 @@ static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJEC
 static int  ske_DeleteAllSettingInSection(char * SectionName);
 static int  ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin);
 static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char * szName, BYTE objType,SKINOBJECTSLIST* Skin);
-static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName);
 static int  ske_LoadSkinFromResource(BOOL bOnlyObjects);
 static void ske_PreMultiplyChanells(HBITMAP hbmp,BYTE Mult);
 static int  ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting);
@@ -1692,25 +1691,23 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
 			pgl = ske_FindObject(preq->szObjectID, OT_GLYPHOBJECT,NULL);
 		if (pgl == NULL) return -1;
 		if (pgl->Data == NULL) return -1;
+
 		gl = (LPGLYPHOBJECT)pgl->Data;
-		if ((gl->Style&7)  == ST_SKIP) return ST_SKIP;
-		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1  &&
-			(  (gl->Style&7) == ST_IMAGE
-			 || (gl->Style&7) == ST_FRAGMENT
-			 || (gl->Style&7) == ST_SOLARIZE ))
-			if (gl->szFileName)
-			{
-				gl->hGlyph = ske_LoadGlyphImage(gl->szFileName);
-				if (gl->hGlyph)
-				{
+		int iStyle = gl->Style & 7;
+		if (iStyle == ST_SKIP)
+			return ST_SKIP;
+		
+		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1 && (iStyle == ST_IMAGE || iStyle == ST_FRAGMENT || iStyle == ST_SOLARIZE))
+			if (gl->szFileName) {
+				gl->hGlyph = ske_LoadGlyphImage( _A2T(gl->szFileName));
+				if (gl->hGlyph) {
 					BITMAP bmp = {0};
 					GetObject(gl->hGlyph,sizeof(BITMAP),&bmp);
 					gl->bmBitsPixel = (BYTE)bmp.bmBitsPixel;
 					gl->bmHeight = bmp.bmHeight;
 					gl->bmWidth = bmp.bmWidth;
 				}
-				else
-					gl->hGlyph = (HBITMAP)-1; //invalid
+				else gl->hGlyph = (HBITMAP)-1; //invalid
 			}
 			return ske_DrawSkinObject(preq,gl);
 	}
@@ -1769,34 +1766,28 @@ void ske_PreMultiplyChanells(HBITMAP hbmp,BYTE Mult)
 	return;
 }
 
-int ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsolute)
+int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder,BOOL madeAbsolute)
 {
-	char b2[MAX_PATH] = {0};
-	char *SkinPlace = db_get_sa(NULL,SKIN,"SkinFolder");
-	if ( !SkinPlace) SkinPlace = mir_strdup("\\Skin\\default");
+	TCHAR *SkinPlace = db_get_tsa(NULL,SKIN,"SkinFolder");
+	if (SkinPlace == NULL)
+		SkinPlace = mir_tstrdup( _T("\\Skin\\default"));
+
+	TCHAR b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		_snprintf(b2, MAX_PATH,"%s\\%s",(skinfolder == NULL)?SkinPlace:((INT_PTR)skinfolder != -1)?skinfolder:"",file);
+		mir_sntprintf(b2, MAX_PATH, _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
 	else
-		_snprintf(b2, MAX_PATH,"%s",file);
+		_tcsncpy(b2, file, SIZEOF(b2));
+
 	if (madeAbsolute) {
 		if (b2[0] == '\\' && b2[1] != '\\')
-			PathToAbsolute(b2+1, buf);
+			PathToAbsoluteT(b2+1, buf);
 		else
-			PathToAbsolute(b2, buf);
+			PathToAbsoluteT(b2, buf);
 	}
-	else memcpy(buf,b2,MAX_PATH);
+	else _tcsncpy(buf, b2, SIZEOF(buf));
 
 	mir_free(SkinPlace);
 	return 0;
-}
-
-
-static HBITMAP ske_skinLoadGlyphImage(char * szFileName)
-{
-	if ( !g_CluiData.fGDIPlusFail && !wildcmpi(szFileName,"*.tga"))
-		return GDIPlus_LoadGlyphImage(szFileName);
-	else
-		return ske_LoadGlyphImageByDecoders(szFileName);
 }
 
 /*
@@ -1874,29 +1865,23 @@ static BOOL ske_ReadTGAImageData(void * From, DWORD fromSize, BYTE * destBuf, DW
 	return TRUE;
 }
 
-static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
+static HBITMAP ske_LoadGlyphImage_TGA(const TCHAR *szFilename)
 {
 	BYTE *colormap = NULL;
 	int cx = 0, cy = 0;
 	BOOL err = FALSE;
 	tga_header_t header;
 	if ( !szFilename) return NULL;
-	if ( !wildcmpi(szFilename,"*\\*%.tga"))
-	{
+	if ( !wildcmpi(szFilename, _T("*\\*%.tga"))) {
 		//Loading TGA image from file
-		FILE *fp;
-		fp = fopen (szFilename, "rb");
-		if ( !fp)
-		{
+		FILE *fp = _tfopen (szFilename, _T("rb"));
+		if ( !fp) {
 			TRACEVAR("error: couldn't open \"%s\"!\n", szFilename);
 			return NULL;
 		}
 		/* read header */
 		fread (&header, sizeof (tga_header_t), 1, fp);
-		if (  (header.pixel_depth != 32)
-			 || ((header.image_type != 10) && (header.image_type != 2))
-			)
-		{
+		if ((header.pixel_depth != 32) || ((header.image_type != 10) && (header.image_type != 2))) {
 			fclose(fp);
 			return NULL;
 		}
@@ -1910,10 +1895,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
 		err = !ske_ReadTGAImageData((void*)fp, 0, colormap, header.width*header.height*4,header.image_type == 10);
 		fclose(fp);
 	}
-
-
-	else
-	{
+	else {
 		/* reading from resources IDR_TGA_DEFAULT_SKIN */
 		DWORD size = 0;
 		BYTE * mem;
@@ -1937,11 +1919,12 @@ static HBITMAP ske_LoadGlyphImage_TGA(char * szFilename)
 		}
 		FreeResource(hRes);
 	}
-	if (colormap)  //create dib section
-	{
+
+	if (colormap) { //create dib section
 		BYTE * pt;
 		HBITMAP hbmp = ske_CreateDIB32Point(cx,cy,(void**)&pt);
-		if (hbmp) memcpy(pt,colormap,cx*cy*4);
+		if (hbmp)
+			memcpy(pt,colormap,cx*cy*4);
 		free(colormap);
 		return hbmp;
 	}
@@ -2005,11 +1988,11 @@ HBITMAP ske_LoadGlyphImage_Png2Dib(char * szFilename)
 	return hBitmap;
 }
 
-static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
+static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 {
 	// Loading image from file by imgdecoder...
 	HBITMAP hBitmap = NULL;
-	char ext[5];
+	TCHAR ext[5];
 	BYTE f = 0;
 	LPBYTE pBitmapBits;
 	LPVOID pImg = NULL;
@@ -2018,17 +2001,17 @@ static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
 	BITMAP bmpInfo;
 	{
 		int l;
-		l = mir_strlen(szFileName);
+		l = lstrlen(tszFileName);
 		memmove(ext,szFileName +(l-4),5);
 	}
-	if ( !strchr(szFileName,'%') && !PathFileExistsA(szFileName)) return NULL;
-	if (mir_bool_strcmpi(ext,".tga"))
-	{
-		hBitmap = ske_LoadGlyphImage_TGA(szFileName);
+	if ( !_tcschr(tszFileName,'%') && !PathFileExists(tszFileName))
+		return NULL;
+
+	if (mir_bool_tstrcmpi(ext, _T(".tga"))) {
+		hBitmap = ske_LoadGlyphImage_TGA(tszFileName);
 		f = 1;
 	}
-	else if ( ServiceExists("Image/Png2Dib") && mir_bool_strcmpi(ext,".png"))
-	{
+	else if ( ServiceExists("Image/Png2Dib") && mir_bool_tstrcmpi(ext, _T(".png"))) {
 		hBitmap = ske_LoadGlyphImage_Png2Dib(szFileName);
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		f = (bmpInfo.bmBits != NULL);
@@ -2036,7 +2019,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
 		// f = 1;
 
 	}
-	else if (hImageDecoderModule == NULL || !mir_bool_strcmpi(ext,".png"))
+	else if (hImageDecoderModule == NULL || !mir_bool_tstrcmpi(ext, _T(".png")))
 		hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFileName);
 	else
 	{
@@ -2077,20 +2060,25 @@ static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
 	return hBitmap;
 }
 
-HBITMAP ske_LoadGlyphImage(char * szFileName)
+static HBITMAP ske_skinLoadGlyphImage(const TCHAR *tszFileName)
+{
+	if ( !g_CluiData.fGDIPlusFail && !wildcmpi(tszFileName, _T("*.tga")))
+		return GDIPlus_LoadGlyphImage(tszFileName);
+
+	return ske_LoadGlyphImageByDecoders(tszFileName);
+}
+
+HBITMAP ske_LoadGlyphImage(const TCHAR *tszFileName)
 {
 	// try to find image in loaded
 	DWORD i;
 	HBITMAP hbmp;
-	char szFile [MAX_PATH] = {0};
-	ske_GetFullFilename(szFile,szFileName,g_SkinObjectList.szSkinPlace,TRUE);
+	TCHAR szFile [MAX_PATH] = {0};
+	ske_GetFullFilename(szFile, tszFileName, g_SkinObjectList.szSkinPlace, TRUE);
 	ske_LockSkin();
-	if (pLoadedImages)
-	{
-		for (i=0; i < dwLoadedImagesCount; i++)
-		{
-			if (mir_bool_strcmpi(pLoadedImages[i].szFileName,szFile))
-			{
+	if (pLoadedImages) {
+		for (i=0; i < dwLoadedImagesCount; i++) {
+			if (mir_bool_tstrcmpi(pLoadedImages[i].szFileName, szFile)) {
 				pLoadedImages[i].dwLoadedTimes++;
 				ske_UnlockSkin();
 				return pLoadedImages[i].hGlyph;
@@ -2117,7 +2105,7 @@ HBITMAP ske_LoadGlyphImage(char * szFileName)
 	}
 	pLoadedImages[dwLoadedImagesCount].dwLoadedTimes = 1;
 	pLoadedImages[dwLoadedImagesCount].hGlyph = hbmp;
-	pLoadedImages[dwLoadedImagesCount].szFileName = mir_strdup(szFile);
+	pLoadedImages[dwLoadedImagesCount].szFileName = mir_tstrdup(szFile);
 	dwLoadedImagesCount++;
 	ske_UnlockSkin();
 	return hbmp;
@@ -2350,14 +2338,14 @@ static int ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin)
 
 	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
-	Skin->szSkinPlace = db_get_sa(NULL,SKIN,"SkinFolder");
-	if ( !Skin->szSkinPlace || (strchr(Skin->szSkinPlace, '%') && !db_get_b(NULL,SKIN,"Modified",0)))
+	Skin->szSkinPlace = db_get_tsa(NULL, SKIN, "SkinFolder");
+	if ( !Skin->szSkinPlace || (_tcschr(Skin->szSkinPlace, '%') && !db_get_b(NULL,SKIN,"Modified",0)))
 	{
 		BOOL bOnlyObjects = FALSE;
-		if (Skin->szSkinPlace && strchr(Skin->szSkinPlace, '%'))
+		if (Skin->szSkinPlace && _tcschr(Skin->szSkinPlace, '%'))
 			bOnlyObjects = TRUE;
 		mir_free(Skin->szSkinPlace);
-		Skin->szSkinPlace = mir_strdup("%Default%");
+		Skin->szSkinPlace = mir_tstrdup( _T("%Default%"));
 		ske_LoadSkinFromResource( bOnlyObjects );
 	}
 	//Load objects
@@ -2421,16 +2409,17 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 	return 0;
 }
 
-
 static int ske_enumdb_SkinSectionDeletionProc (const char *szSetting,LPARAM lParam)
 {
+	if (szSetting == NULL)
+		return 0;
 
-	if (szSetting == NULL){return 0;};
 	nArrayLen++;
 	pszSettingName = (char **)realloc(pszSettingName,nArrayLen*sizeof(char *));
 	pszSettingName[nArrayLen-1] = _strdup(szSetting);
 	return 0;
-};
+}
+
 static int ske_DeleteAllSettingInSection(char * SectionName)
 {
 	DBCONTACTENUMSETTINGS dbces;
@@ -2443,21 +2432,18 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
 	//delete all settings
-	if (nArrayLen == 0){return 0;};
-	{
-		int i;
-		for (i=0;i < nArrayLen;i++)
-		{
-			db_unset(0, SectionName,pszSettingName[i]);
-			free(pszSettingName[i]);
-		};
-		free(pszSettingName);
-		pszSettingName = NULL;
-		nArrayLen = 0;
-	};
-	return 0;
-};
+	if (nArrayLen == 0)
+		return 0;
 
+	for (int i=0; i < nArrayLen; i++) {
+		db_unset(0, SectionName,pszSettingName[i]);
+		free(pszSettingName[i]);
+	}
+	free(pszSettingName);
+	pszSettingName = NULL;
+	nArrayLen = 0;
+	return 0;
+}
 
 BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
 {
@@ -2471,23 +2457,13 @@ BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
 
 BOOL ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount)
 {
-	int ta;
 	SIZE sz;
-	RECT rc = {0};
-	if ( !g_CluiData.fGDIPlusFail  && 0) ///text via gdi+
-	{
-		TextOutWithGDIp(hdc,x,y,lpString,nCount);
-		return 0;
-	}
-	else
+	GetTextExtentPoint32(hdc,lpString,nCount,&sz);
+	int ta = GetTextAlign(hdc);
 
-	{
-		// return TextOut(hdc, x,y,lpString,nCount);
-		GetTextExtentPoint32(hdc,lpString,nCount,&sz);
-		ta = GetTextAlign(hdc);
-		SetRect(&rc,x,y,x+sz.cx,y+sz.cy);
-		ske_DrawText(hdc,lpString,nCount,&rc,DT_NOCLIP|DT_SINGLELINE|DT_LEFT);
-	}
+	RECT rc = {0};
+	SetRect(&rc,x,y,x+sz.cx,y+sz.cy);
+	ske_DrawText(hdc,lpString,nCount,&rc,DT_NOCLIP|DT_SINGLELINE|DT_LEFT);
 	return 1;
 }
 
@@ -3059,11 +3035,6 @@ BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT form
 		return DrawText(hdc,lpString,nCount,lpRect,format&~DT_FORCENATIVERENDER);
 	form = format;
 	color = GetTextColor(hdc);
-	if ( !g_CluiData.fGDIPlusFail  && 0) ///text via gdi+
-	{
-		TextOutWithGDIp(hdc,lpRect->left,lpRect->top,lpString,nCount);
-		return 0;
-	}
 	return ske_AlphaTextOut(hdc,lpString,nCount,lpRect,form,color);
 }
 

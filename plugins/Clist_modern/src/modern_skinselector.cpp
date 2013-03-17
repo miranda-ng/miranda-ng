@@ -65,9 +65,10 @@ int SkinSelector_DeleteMask(MODERNMASK *mm)
 }
 
 #define _qtoupper(_c) (((_c) >= 'a' && (_c) <= 'z')?((_c)-('a'+'A')):(_c))
-BOOL wildcmpi(TCHAR* name, TCHAR* mask)
+
+BOOL wildcmpi(const WCHAR *name, const WCHAR *mask)
 {
-	TCHAR* last = '\0';
+	const WCHAR* last = NULL;
 	for (;; mask++, name++)
 	{
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
@@ -86,9 +87,9 @@ BOOL wildcmpi(TCHAR* name, TCHAR* mask)
 	}
 }
 
-BOOL wildcmpi(char * name, char * mask)
+BOOL wildcmpi(const char *name, const char *mask)
 {
-	char * last = '\0';
+	const char *last = NULL;
 	for (;; mask++, name++)
 	{
 		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
