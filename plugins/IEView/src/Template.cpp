@@ -437,7 +437,7 @@ const char *TemplateMap::getFilename() {
 
 void TemplateMap::setFilename(const char *filename) {
 	if (this->filename != NULL) {
-		delete this->filename;
+		mir_free(this->filename);
 	}
 	this->filename = mir_strdup(filename);
 	Utils::convertPath(this->filename);
