@@ -941,7 +941,7 @@ TABSRMM: Набирает
 [&Room]
 Чат-комната
 [Save and close session]
-Сохранить набранное и закрыть окно
+Сохранить набранное и закрыть вкладку
 [Send &Default]
 Посылать обычно
 [Send to &multiple Users]
