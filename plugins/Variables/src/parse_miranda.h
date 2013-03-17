@@ -16,11 +16,12 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #define VERSIONSTRING		"mirandaversion"
 #define CODETOSTATUS		"code2status"
 #define CONTACT				"contact"
 #define CONTACTCOUNT		"ccount"
-#define CONTACTINFO			"cinfo"
+#define MIR_CONTACTINFO		"cinfo"
 #define DBPROFILENAME		"dbprofile"
 #define DBPROFILEPATH		"dbprofilepath"
 #define DBSETTING			"dbsetting"

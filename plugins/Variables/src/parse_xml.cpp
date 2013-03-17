@@ -16,21 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-#include "variables.h"
-#include "parse_xml.h"
 
-#include <string.h>
-#include "libxml/xmlmemory.h"
-#include "libxml/debugXML.h"
-#include "libxml/HTMLtree.h"
-#include "libxml/xmlIO.h"
-#include "libxml/DOCBparser.h"
-#include "libxml/xinclude.h"
-#include "libxml/catalog.h"
-#include "libxslt/xslt.h"
-#include "libxslt/xsltInternals.h"
-#include "libxslt/transform.h"
-#include "libxslt/xsltutils.h"
+#include "variables.h"
 
 xsltStylesheetPtr (*pXsltParseStylesheetDoc)(xmlDocPtr doc);
 xmlDocPtr (*pXmlParseMemory)(const char * buffer, int size);

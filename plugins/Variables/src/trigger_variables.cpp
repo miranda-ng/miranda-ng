@@ -16,12 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-#include "variables.h"
-#include "m_trigger.h"
-#include "trigger_variables.h"
-#include "resource.h"
 
-extern HINSTANCE hInst;
+#include "variables.h"
 
 static TRG_VAR_CACHE *tvc = NULL;
 static int tvcCount = 0;

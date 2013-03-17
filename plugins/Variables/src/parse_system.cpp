@@ -16,22 +16,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "variables.h"
-#include "parse_system.h"
-#include <tchar.h>
-#include <lmcons.h>
-#include <sys/stat.h>
 
-#ifdef WINE
-  #ifdef _WIN32_WINNT
-    #undef _WIN32_WINNT
-  #endif
-  #define _WIN32_WINNT 0x400
-#else
-	#include "enumprocs.h"
-#endif
-
-static TCHAR *parseComputerName(ARGUMENTSINFO *ai) {
+static TCHAR *parseComputerName(ARGUMENTSINFO *ai)
+{
 	if (ai->argc != 1)
 		return NULL;
 

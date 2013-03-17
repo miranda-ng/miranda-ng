@@ -16,9 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "variables.h"
-#include "parse_external.h"
-#include "ac/ac.h"
 
 static int (WINAPI *acEval)(const char *, char *) = NULL;
 static int (WINAPI *acFormat)(const char *, char *) = NULL;

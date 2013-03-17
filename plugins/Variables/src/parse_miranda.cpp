@@ -16,9 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "variables.h"
-#include "parse_miranda.h"
-#include "contact.h"
 
 static TCHAR *parseCodeToStatus(ARGUMENTSINFO *ai)
 {
@@ -806,7 +805,7 @@ int registerMirandaTokens() {
 	registerIntToken(_T(CODETOSTATUS), parseCodeToStatus, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x)\t"LPGEN("translates status code x into a status description"));
 	registerIntToken(_T(CONTACT), parseContact, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z)\t"LPGEN("zth contact with property y described by x, example: (unregistered,nick) (z is optional)"));
 	registerIntToken(_T(CONTACTCOUNT), parseContactCount, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("number of contacts with property y described by x, example: (unregistered,nick)"));
-	registerIntToken(_T(CONTACTINFO), parseContactInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of contact x"));
+	registerIntToken(_T(MIR_CONTACTINFO), parseContactInfo, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y)\t"LPGEN("info property y of contact x"));
 	registerIntToken(_T(DBPROFILENAME), parseDBProfileName, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("db profile name"));
 	registerIntToken(_T(DBPROFILEPATH), parseDBProfilePath, TRF_FIELD, LPGEN("Miranda Related")"\t"LPGEN("db profile path"));
 	registerIntToken(_T(DBSETTING), parseDBSetting, TRF_FUNCTION, LPGEN("Miranda Related")"\t(x,y,z,w)\t"LPGEN("db setting z of module y of contact x and return w if z isn't exist (w is optional)"));

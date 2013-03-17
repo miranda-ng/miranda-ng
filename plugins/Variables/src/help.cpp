@@ -16,13 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-#include "variables.h"
-#include "contact.h"
-#include <commctrl.h>
-#include <m_clui.h>
-#include <m_clc.h>
 
-extern BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD);
+#include "variables.h"
 
 struct HELPDLGDATA
 {
@@ -438,7 +433,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 
 					}
 				}
-				if (!_tcscmp(tr->tszTokenString, _T(EXTRATEXT))) {
+				if (!_tcscmp(tr->tszTokenString, _T(MIR_EXTRATEXT))) {
 					if (hdd->vhs->flags&VHF_HIDEEXTRATEXTTOKEN) {
 						continue;
 					}

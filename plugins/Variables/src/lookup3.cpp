@@ -25,10 +25,7 @@ a mix of things, see the comments above hashlittle().
 */
 //#define SELF_TEST 1
 
-#include <stdio.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <time.h>
+#include "variables.h"
 
 typedef  unsigned long  int  uint32;           /* unsigned 4-byte quantities */
 typedef  unsigned short int  uint16;           /* unsigned 2-byte quantities */

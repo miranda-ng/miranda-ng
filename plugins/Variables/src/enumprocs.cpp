@@ -20,11 +20,8 @@
 //
 // EnumProc.c
 //
-#include <windows.h>
-#include <stdio.h>
-#include <tlhelp32.h>
-#include <vdmdbg.h>
-#include "enumprocs.h"
+
+#include "variables.h"
 
 typedef struct {
    DWORD          dwPID;

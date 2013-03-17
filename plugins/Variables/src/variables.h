@@ -19,35 +19,67 @@
 
 #define _CRT_NON_CONFORMING_SWPRINTFS
 #define _CRT_SECURE_NO_WARNINGS
+#define PCRE_STATIC
 
-#include <tchar.h> 
 #include <malloc.h>
-
 #include <windows.h>
-#include <commctrl.h>
-#include "uxtheme.h"
-#include <stdio.h>
+#include <uxtheme.h>
 #include <time.h>
-#include "resource.h"
-#ifndef WINE
+#include <tlhelp32.h>
+#include <vdmdbg.h>
+#include <lmcons.h>
+
 #include <win2k.h>
-#endif
 #include <newpluginapi.h>
-#include <m_system_cpp.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_protosvc.h>
 #include <m_clist.h>
 #include <m_contacts.h>
-#include <m_awaymsg.h>
 #include <m_options.h>
-#include <m_utils.h>
 #include <m_icolib.h>
-#include "m_variables.h"
+#include <m_clui.h>
+#include <m_clc.h>
+
+#include <m_variables.h>
+#include <m_trigger.h>
+#include <m_metacontacts.h>
+
+#include "..\helpers\gen_helpers.h"
+
+#include "ac\ac.h"
+#include "pcre\include\pcre.h"
+#include "libxml\xmlmemory.h"
+#include "libxml\debugXML.h"
+#include "libxml\HTMLtree.h"
+#include "libxml\xmlIO.h"
+#include "libxml\DOCBparser.h"
+#include "libxml\xinclude.h"
+#include "libxml\catalog.h"
+#include "libxslt\xslt.h"
+#include "libxslt\xsltInternals.h"
+#include "libxslt\transform.h"
+#include "libxslt\xsltutils.h"
+
+#include "resource.h"
+#include "version.h"
+#include "contact.h"
+#include "trigger_variables.h"
+#include "enumprocs.h"
+#include "parse_alias.h"
+#include "parse_external.h"
+#include "parse_inet.h"
+#include "parse_logic.h"
+#include "parse_math.h"
+#include "parse_metacontacts.h"
+#include "parse_miranda.h"
+#include "parse_regexp.h"
+#include "parse_str.h"
+#include "parse_system.h"
+#include "parse_variables.h"
+#include "parse_xml.h"
 
 #define MODULENAME				"Variables"
-
-#include "../helpers/gen_helpers.h"
 
 #define SETTING_STARTUPTEXT		"StartupText"
 #define SETTING_STRIPCRLF		"StripCRLF"
@@ -67,7 +99,7 @@
 
 // special tokens
 #define SUBJECT				"subject"
-#define EXTRATEXT			"extratext"
+#define MIR_EXTRATEXT			"extratext"
 
 // options
 #define IDT_PARSE			1
@@ -103,6 +135,11 @@ struct ParseOptions {
 	BOOL bStripWS;
 	BOOL bStripAll;
 };
+
+extern BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD);
+extern HINSTANCE hInst;
+extern struct ParseOptions gParseOpts;
+extern int hLangpack;
 
 // variables.c
 //TCHAR *getArguments(char *string, char ***aargv, int *aargc);

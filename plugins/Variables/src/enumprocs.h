@@ -16,6 +16,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 /*** Process names are ANSI only ***/
 typedef BOOL (CALLBACK *PROCENUMPROC)(DWORD, WORD, char *, LPARAM);
 BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam);

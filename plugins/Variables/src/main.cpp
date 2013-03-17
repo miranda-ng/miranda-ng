@@ -17,25 +17,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 #include "variables.h"
-#include "buildnumber.h"
 
 HINSTANCE hInst;
 
 DWORD g_mirandaVersion;
 int hLangpack = 0;
 
-
-static HANDLE hExitHook, hModulesLoadedHook;
-
-static int Exit(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	UnhookEvent(hExitHook);
-	return 0;
-}
-
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
-
-	UnhookEvent(hModulesLoadedHook);
 	// trigger plugin
 #if !defined(WINE)
 	initTriggerModule();
@@ -44,9 +33,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -55,15 +44,16 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"Variables",
-	__VERSION_DWORD,
-	"Adds support for dynamic variables in strings for plugins.",
-	"P Boon",
-	"unregistered@users.sourceforge.net",
-	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x59b0036e, 0x5403, 0x422e, { 0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b } } // {59B0036E-5403-422e-883B-C9AAF425682B}
+	// {59B0036E-5403-422E-883B-C9AAF425682B}
+	{0x59b0036e, 0x5403, 0x422e, {0x88, 0x3b, 0xc9, 0xaa, 0xf4, 0x25, 0x68, 0x2b}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -79,8 +69,7 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfoEx );
 
-	hExitHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);
-	hModulesLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	LoadVarModule();
 		
 	return 0;

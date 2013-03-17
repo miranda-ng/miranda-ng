@@ -17,10 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 // This file has not been converted to unicode yet
+
 #include "variables.h"
-#include "m_trigger.h"
-#include "trigger_variables.h"
-#include "resource.h"
 
 int ParseStringCondition(DWORD conditionID, REPORTINFO *ri) {
 

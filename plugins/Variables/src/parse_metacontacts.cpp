@@ -18,10 +18,6 @@
 */
 
 #include "variables.h"
-#include "parse_metacontacts.h"
-#include "contact.h"
-
-#include "m_metacontacts.h"
 
 static TCHAR *parseGetParent(ARGUMENTSINFO *ai) 
 {

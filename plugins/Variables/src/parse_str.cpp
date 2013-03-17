@@ -16,8 +16,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 #include "variables.h"
-#include "parse_str.h"
 
 static TCHAR *parseCaps(ARGUMENTSINFO *ai)
 {
@@ -392,7 +392,8 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai)
 	return res;
 }
 
-static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
+static TCHAR *parseReplace(ARGUMENTSINFO *ai)
+{
 	if ((ai->argc < 4) || (ai->argc%2 != 0)) {
 		return NULL;
 	}
@@ -422,7 +423,8 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
 	return res;
 }
 
-static TCHAR *parseRight(ARGUMENTSINFO *ai) {
+static TCHAR *parseRight(ARGUMENTSINFO *ai)
+{
 
 	int len;
 	TCHAR *res;
@@ -842,44 +844,44 @@ static TCHAR *parseExtratext(ARGUMENTSINFO *ai)
 
 int registerStrTokens() {
 
-	registerIntToken(_T(CAPS), parseCaps, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts each first letter of a word to uppercase, all others to lowercase"));
-	registerIntToken(_T(CAPS2), parseCaps2, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts each first letter of a word to uppercase"));
-	registerIntToken(_T(CRLF), parseCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t()\t"LPGEN("inserts 'end of line' character"));
-	registerIntToken(_T(EXTRATEXT), parseExtratext, TRF_FIELD, LPGEN("String Functions")"\t"LPGEN("depends on calling plugin"));
-	registerIntToken(_T(EOL2CRLF), parseEolToCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("Replace all occurrences of \\n (Unix) by \\r\\n (Windows)"));
-	registerIntToken(_T(FIXEOL), parseFixeol, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("cuts x after the first line and appends y (y is optional)"));
-	registerIntToken(_T(FIXEOL2), parseFixeol2, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("replaces all end of line characters by y (y is optional)"));
-	registerIntToken(_T(INSERT), parseInsert, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("inserts string y at position z in string x"));
-	registerIntToken(_T(LEFT), parseLeft, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("trims x to length y, keeping first y characters"));
-	registerIntToken(_T(LEN), parseLen, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("length of x"));
-	registerIntToken(_T(LINECOUNT), parseLineCount, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("the number of lines in string x"));
-	registerIntToken(_T(LONGEST), parseLongest, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the longest string of the arguments"));
-	registerIntToken(_T(LOWER), parseLower, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts x to lowercase"));
-	registerIntToken(_T(NOOP), parseNoOp, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("no operation, x as given"));
-	registerIntToken(_T(PAD), parsePad, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z (z is optional)"));
-	registerIntToken(_T(PADRIGHT), parsePadright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z (z is optional)"));
-	registerIntToken(_T(PADCUT), parsePadcut, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z, or cut if x is longer (z is optional)"));
-	registerIntToken(_T(PADCUTRIGHT), parsePadcutright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z, or cut if x is longer (z is optional)"));
-	registerIntToken(_T(REPEAT), parseRepeat, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("repeats x y times"));
-	registerIntToken(_T(REPLACE), parseReplace, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z,...)\t"LPGEN("replace all occurrences of y in x with z, multiple y and z arguments allowed"));
-	registerIntToken(_T(RIGHT), parseRight, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("trims x to length y, keeping last y characters"));
-	registerIntToken(_T(SCROLL), parseScroll, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("moves string x, z characters to the left and trims it to y characters"));
-	registerIntToken(_T(STRCMP), parseStrcmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if x equals y"));
-	registerIntToken(_T(STRMCMP), parseStrmcmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("TRUE if x equals any of the following arguments"));
-	registerIntToken(_T(STRNCMP), parseStrncmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("TRUE if the first z characters of x equal y"));
-	registerIntToken(_T(STRICMP), parseStricmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if x equals y, ignoring case"));
-	registerIntToken(_T(STRNICMP), parseStrnicmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if the first z characters of x equal y, ignoring case"));
-	registerIntToken(_T(SHORTEST), parseShortest, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the shortest string of the arguments"));
-	registerIntToken(_T(STRCHR), parseStrchr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of first occurrence of character y in string x"));
-	registerIntToken(_T(STRRCHR), parseStrrchr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of last occurrence of character y in string x"));
-	registerIntToken(_T(STRSTR), parseStrstr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of first occurrence of string y in x"));
-	registerIntToken(_T(SUBSTR), parseSubstr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("substring of x starting from position y to z"));
-	registerIntToken(_T(SELECT), parseSelect, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the xth string of the arguments"));
-	registerIntToken(_T(SWITCH), parseSwitch, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z,...)\t"LPGEN("z if y equals x, multiple y and z arguments allowed"));
-	registerIntToken(_T(TRIM), parseTrim, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("removes white spaces in before and after x"));
-	registerIntToken(_T(TAB), parseTab, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("inserts x tab characters (x is optional)"));
-	registerIntToken(_T(UPPER), parseUpper, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts x to upper case"));
-	registerIntToken(_T(WORD), parseWord, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("words (separated by white spaces) number y to z from string x (z is optional)"));
+	registerIntToken(_T(MIR_CAPS), parseCaps, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts each first letter of a word to uppercase, all others to lowercase"));
+	registerIntToken(_T(MIR_CAPS2), parseCaps2, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts each first letter of a word to uppercase"));
+	registerIntToken(_T(MIR_CRLF), parseCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t()\t"LPGEN("inserts 'end of line' character"));
+	registerIntToken(_T(MIR_EXTRATEXT), parseExtratext, TRF_FIELD, LPGEN("String Functions")"\t"LPGEN("depends on calling plugin"));
+	registerIntToken(_T(MIR_EOL2CRLF), parseEolToCrlf, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("Replace all occurrences of \\n (Unix) by \\r\\n (Windows)"));
+	registerIntToken(_T(MIR_FIXEOL), parseFixeol, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("cuts x after the first line and appends y (y is optional)"));
+	registerIntToken(_T(MIR_FIXEOL2), parseFixeol2, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("replaces all end of line characters by y (y is optional)"));
+	registerIntToken(_T(MIR_INSERT), parseInsert, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("inserts string y at position z in string x"));
+	registerIntToken(_T(MIR_LEFT), parseLeft, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("trims x to length y, keeping first y characters"));
+	registerIntToken(_T(MIR_LEN), parseLen, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("length of x"));
+	registerIntToken(_T(MIR_LINECOUNT), parseLineCount, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("the number of lines in string x"));
+	registerIntToken(_T(MIR_LONGEST), parseLongest, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the longest string of the arguments"));
+	registerIntToken(_T(MIR_LOWER), parseLower, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts x to lowercase"));
+	registerIntToken(_T(MIR_NOOP), parseNoOp, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("no operation, x as given"));
+	registerIntToken(_T(MIR_PAD), parsePad, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z (z is optional)"));
+	registerIntToken(_T(MIR_PADRIGHT), parsePadright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z (z is optional)"));
+	registerIntToken(_T(MIR_PADCUT), parsePadcut, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y prepending character z, or cut if x is longer (z is optional)"));
+	registerIntToken(_T(MIR_PADCUTRIGHT), parsePadcutright, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("pads x to length y appending character z, or cut if x is longer (z is optional)"));
+	registerIntToken(_T(MIR_REPEAT), parseRepeat, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("repeats x y times"));
+	registerIntToken(_T(MIR_REPLACE), parseReplace, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z,...)\t"LPGEN("replace all occurrences of y in x with z, multiple y and z arguments allowed"));
+	registerIntToken(_T(MIR_RIGHT), parseRight, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("trims x to length y, keeping last y characters"));
+	registerIntToken(_T(MIR_SCROLL), parseScroll, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("moves string x, z characters to the left and trims it to y characters"));
+	registerIntToken(_T(MIR_STRCMP), parseStrcmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if x equals y"));
+	registerIntToken(_T(MIR_STRMCMP), parseStrmcmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("TRUE if x equals any of the following arguments"));
+	registerIntToken(_T(MIR_STRNCMP), parseStrncmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("TRUE if the first z characters of x equal y"));
+	registerIntToken(_T(MIR_STRICMP), parseStricmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if x equals y, ignoring case"));
+	registerIntToken(_T(MIR_STRNICMP), parseStrnicmp, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("TRUE if the first z characters of x equal y, ignoring case"));
+	registerIntToken(_T(MIR_SHORTEST), parseShortest, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the shortest string of the arguments"));
+	registerIntToken(_T(MIR_STRCHR), parseStrchr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of first occurrence of character y in string x"));
+	registerIntToken(_T(MIR_STRRCHR), parseStrrchr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of last occurrence of character y in string x"));
+	registerIntToken(_T(MIR_STRSTR), parseStrstr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y)\t"LPGEN("location of first occurrence of string y in x"));
+	registerIntToken(_T(MIR_SUBSTR), parseSubstr, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("substring of x starting from position y to z"));
+	registerIntToken(_T(MIR_SELECT), parseSelect, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,...)\t"LPGEN("the xth string of the arguments"));
+	registerIntToken(_T(MIR_SWITCH), parseSwitch, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z,...)\t"LPGEN("z if y equals x, multiple y and z arguments allowed"));
+	registerIntToken(_T(MIR_TRIM), parseTrim, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("removes white spaces in before and after x"));
+	registerIntToken(_T(MIR_TAB), parseTab, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("inserts x tab characters (x is optional)"));
+	registerIntToken(_T(MIR_UPPER), parseUpper, TRF_FUNCTION, LPGEN("String Functions")"\t(x)\t"LPGEN("converts x to upper case"));
+	registerIntToken(_T(MIR_WORD), parseWord, TRF_FUNCTION, LPGEN("String Functions")"\t(x,y,z)\t"LPGEN("words (separated by white spaces) number y to z from string x (z is optional)"));
 
 	return 0;
 }
