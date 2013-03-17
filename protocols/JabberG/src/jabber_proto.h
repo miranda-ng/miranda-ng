@@ -991,6 +991,8 @@ private:
 
 	DWORD   m_lastTicks;
 
+	HANDLE  m_hPopupClass;
+
 	HANDLE  m_hJabberAvatarsFolder;
 	BOOL    m_bFoldersInitDone;
 

@@ -332,7 +332,22 @@ typedef struct {
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
-#define MS_POPUP_REGISTERCLASS	"PopUp/RegisterClass"
+#define MS_POPUP_REGISTERCLASS   "PopUp/RegisterClass"
+
+HANDLE __forceinline Popup_RegisterClass(POPUPCLASS *pc)
+{
+	if ( !ServiceExists(MS_POPUP_REGISTERCLASS))
+		return NULL;
+	return (HANDLE)CallService(MS_POPUP_REGISTERCLASS, 0, LPARAM(pc));
+}
+
+#define MS_POPUP_UNREGISTERCLASS "PopUp/UnregisterClass"
+
+void __forceinline Popup_UnregisterClass(HANDLE ppc)
+{
+	if (ppc)
+		CallService(MS_POPUP_UNREGISTERCLASS, 0, LPARAM(ppc));
+}
 
 typedef struct {
 	int cbSize;

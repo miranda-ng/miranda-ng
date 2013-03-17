@@ -299,15 +299,12 @@ INT_PTR PopUp_ShowHistory(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int num_classes = 0;
-POPUPCLASS *classes = 0;
+LIST<POPUPCLASS> arClasses(3);
 
 static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 {
-	classes = (POPUPCLASS *)mir_realloc(classes, sizeof(POPUPCLASS) * (num_classes + 1));
-	memcpy(classes + num_classes, (PVOID)lParam, sizeof(POPUPCLASS));
-	POPUPCLASS *pc = classes + num_classes;
-	num_classes++;
+	POPUPCLASS *pc = (POPUPCLASS*)mir_alloc( sizeof(POPUPCLASS));
+	memcpy(pc, (PVOID)lParam, sizeof(POPUPCLASS));
 
 	pc->pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE)
@@ -324,7 +321,31 @@ static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(setting, 256, "%s/BgCol", pc->pszName);
 	pc->colorBack = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 
-	return 0;
+	arClasses.insert(pc);
+	return (INT_PTR)pc;
+}
+
+static void FreePopupClass(POPUPCLASS *pc)
+{
+	mir_free(pc->pszName);
+	mir_free(pc->pszDescription);
+	mir_free(pc);
+}
+
+static INT_PTR UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
+{
+	POPUPCLASS *pc = (POPUPCLASS*)lParam;
+	if (pc == NULL)
+		return 1;
+
+	for (int i=0; i < arClasses.getCount(); i++)
+		if (arClasses[i] == pc) {
+			arClasses.remove(i);
+			FreePopupClass(pc);
+			return 0;
+		}
+
+	return 1;
 }
 
 static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
@@ -336,9 +357,9 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	if (wParam) 
 		pc = (POPUPCLASS *)wParam;
 	else {
-		for (int i = 0; i < num_classes; i++) {
-			if (strcmp(classes[i].pszName, pdc->pszClassName) == 0) {
-				pc = &classes[i];
+		for (int i = 0; i < arClasses.getCount(); i++) {
+			if ( strcmp(arClasses[i]->pszName, pdc->pszClassName) == 0) {
+				pc = arClasses[i];
 				break;
 			}
 		}
@@ -367,6 +388,8 @@ static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 void InitServices() 
 {
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, UnregisterPopupClass);
+
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
@@ -382,9 +405,6 @@ void InitServices()
 
 	CreateServiceFunction(MS_POPUP_SHOWHISTORY, PopUp_ShowHistory);
 	CreateServiceFunction("PopUp/ToggleEnabled", TogglePopups);
-
-	CreateServiceFunction("YAPP/RegisterClass", RegisterPopupClass);
-	CreateServiceFunction("YAPP/ClassInstance", CreateClassPopup);
 
 	////////////////////////////////////////////////////////////////////////////
 	// Menus
@@ -408,9 +428,7 @@ void InitServices()
 
 void DeinitServices()
 {
-	for (int i = 0; i < num_classes; i++) {
-		mir_free(classes[i].pszName);
-		mir_free(classes[i].pszDescription);
-	}
-	mir_free(classes); num_classes = 0;
+	for (int i = 0; i < arClasses.getCount(); i++)
+		FreePopupClass(arClasses[i]);
+	arClasses.destroy();
 }

@@ -300,11 +300,16 @@ void import_ping_addresses()
 	LeaveCriticalSection(&list_cs);
 }
 
-HANDLE hIcoLibIconsChanged;
+HANDLE hPopupClass;
+HICON  hIconResponding, hIconNotResponding, hIconTesting, hIconDisabled;
 
-HICON hIconResponding, hIconNotResponding, hIconTesting, hIconDisabled;
+static int OnShutdown(WPARAM, LPARAM)
+{
+	Popup_UnregisterClass(hPopupClass);
+	return 0;
+}
 
-int ReloadIcons(WPARAM wParam, LPARAM lParam)
+static int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");
@@ -332,16 +337,15 @@ void InitUtils()
 	hIconTesting = Skin_GetIcon("ping_testing");
 	hIconDisabled = Skin_GetIcon("ping_disabled");
 
-	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
+	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
-	if (ServiceExists(MS_POPUP_REGISTERCLASS)) {
-		POPUPCLASS test = { sizeof(test) };
-		test.flags = PCF_TCHAR;
-		test.hIcon = hIconResponding;
-		test.iSeconds = -1;
-		test.ptszDescription = TranslateT("Ping");
-		test.pszName = "pingpopups";
-		test.PluginWindowProc = NullWindowProc;
-		CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&test);
-	}
+	POPUPCLASS test = { sizeof(test) };
+	test.flags = PCF_TCHAR;
+	test.hIcon = hIconResponding;
+	test.iSeconds = -1;
+	test.ptszDescription = TranslateT("Ping");
+	test.pszName = "pingpopups";
+	test.PluginWindowProc = NullWindowProc;
+	if (hPopupClass = Popup_RegisterClass(&test))
+		HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 }

@@ -1,7 +1,7 @@
 #include "headers.h"
 
 int nProtocol = 0;
-static HANDLE g_hEventModulesLoaded = NULL, hEventOptionsInitialize = NULL, g_hEventDbWindowEvent = NULL, g_hEventToolbarLoaded = NULL, g_hEventButtonPressed = NULL, g_hEventAccountsChanged = NULL;
+static HANDLE hPopupClass;
 HINSTANCE hInst;
 
 NudgeElementList *NudgeList = NULL;
@@ -46,47 +46,26 @@ INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 	{
 		TCHAR msg[500];
 		mir_sntprintf(msg,500, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"),GlobalNudge.sendTimeSec, 30 - diff);
-		//MessageBox(NULL,msg,NULL,0);
-		if(GlobalNudge.useByProtocol)
-		{
+		if(GlobalNudge.useByProtocol) {
 			for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
-			{
 				if (!strcmp(protoName,n->item.ProtocolName))
-				{
 					Nudge_ShowPopup(n->item, (HANDLE) wParam, msg);
-				}
-			}
 		}
-		else
-		{
-			Nudge_ShowPopup(DefaultNudge, (HANDLE) wParam, msg);
-		}
+		else Nudge_ShowPopup(DefaultNudge, (HANDLE) wParam, msg);
+
 		return 0;
 	}
 
-	DBWriteContactSettingDword((HANDLE) wParam, "Nudge", "LastSent", time(NULL));
+	db_set_dw((HANDLE) wParam, "Nudge", "LastSent", time(NULL));
 
-	if(GlobalNudge.useByProtocol)
-	{
-		NudgeElementList *n;
-		for(n = NudgeList;n != NULL; n = n->next)
-		{
+	if(GlobalNudge.useByProtocol) {
+		for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
 			if (!strcmp(protoName,n->item.ProtocolName))
-			{
-				//if(n->item.showPopup)
-				//	Nudge_ShowPopup(n->item, (HANDLE) wParam, n->item.senText);
 				if(n->item.showStatus)
 					Nudge_SentStatus(n->item, (HANDLE) wParam);
-			}
-		}
 	}
-	else
-	{
-		//if(DefaultNudge.showPopup)
-		//	Nudge_ShowPopup(DefaultNudge, (HANDLE) wParam, DefaultNudge.senText);
-		if(DefaultNudge.showStatus)
-			Nudge_SentStatus(DefaultNudge, (HANDLE) wParam);
-	}
+	else if(DefaultNudge.showStatus)
+		Nudge_SentStatus(DefaultNudge, (HANDLE) wParam);
 
 	CallProtoService(protoName,"/SendNudge",wParam,lParam);
 	return 0;
@@ -99,9 +78,8 @@ void OpenContactList()
 	ShowWindow(hWnd, SW_SHOW);
 }
 
-int NudgeRecieved(WPARAM wParam,LPARAM lParam)
+int NudgeReceived(WPARAM wParam,LPARAM lParam)
 {
-
 	char *protoName = GetContactProto((HANDLE)wParam);
 
 	DWORD currentTimestamp = time(NULL);
@@ -111,9 +89,9 @@ int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 	int diff2 = nudgeSentTimestamp - DBGetContactSettingDword((HANDLE) wParam, "Nudge", "LastReceived2", nudgeSentTimestamp-30);
 
 	if(diff >= GlobalNudge.recvTimeSec)
-		DBWriteContactSettingDword((HANDLE) wParam, "Nudge", "LastReceived", currentTimestamp);
+		db_set_dw((HANDLE) wParam, "Nudge", "LastReceived", currentTimestamp);
 	if(diff2 >= GlobalNudge.recvTimeSec)
-		DBWriteContactSettingDword((HANDLE) wParam, "Nudge", "LastReceived2", nudgeSentTimestamp);
+		db_set_dw((HANDLE) wParam, "Nudge", "LastReceived2", nudgeSentTimestamp);
 
 	if(GlobalNudge.useByProtocol)
 	{
@@ -163,7 +141,6 @@ int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 						if(n->item.showStatus)
 							Nudge_ShowStatus(n->item, (HANDLE) wParam, nudgeSentTimestamp);
 					}
-
 				}
 				break;
 			}
@@ -226,38 +203,31 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static INT_PTR CALLBACK DlgProcOptsTrigger(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK DlgProcOptsTrigger(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	BOOL bshakeClist,bshakeChat;
+	DWORD actionID = (DWORD)lParam;
 
-    switch (msg) {
-	case WM_INITDIALOG: {
+	switch (msg) {
+	case WM_INITDIALOG:
 		// lParam = (LPARAM)(DWORD)actionID or 0 if this is a new trigger entry
-		BOOL bshakeClist,bshakeChat;
-
-		DWORD actionID = (DWORD)lParam;
-        TranslateDialogDefault(hwnd);
+		TranslateDialogDefault(hwnd);
 		// Initialize the dialog according to the action ID
 		bshakeClist = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeClist",FALSE);
 		bshakeChat = DBGetActionSettingByte(actionID, NULL, "Nudge", "ShakeChat",FALSE);
 		CheckDlgButton(hwnd, IDC_TRIGGER_SHAKECLIST, bshakeClist ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_TRIGGER_SHAKECHAT, bshakeChat ? BST_CHECKED : BST_UNCHECKED);
-        break;
-						}
+		break;
 
-	case TM_ADDACTION: {
-		// save your settings
-		// wParam = (WPARAM)(DWORD)actionID
-		bool bshakeClist,bshakeChat;
-
-		DWORD actionID = (DWORD)wParam;
+	case TM_ADDACTION:
 		bshakeClist = (IsDlgButtonChecked(hwnd,IDC_TRIGGER_SHAKECLIST)==BST_CHECKED);
 		bshakeChat = (IsDlgButtonChecked(hwnd,IDC_TRIGGER_SHAKECHAT)==BST_CHECKED);
 		DBWriteActionSettingByte(actionID, NULL, "Nudge", "ShakeClist",bshakeClist);
 		DBWriteActionSettingByte(actionID, NULL, "Nudge", "ShakeChat",bshakeChat);
 		break;
-					   }
 	}
 
-    return FALSE;
+	return FALSE;
 }
 
 int TriggerActionRecv( DWORD actionID, REPORTINFO *ri)
@@ -306,27 +276,15 @@ void LoadProtocols(void)
 	PROTOACCOUNT **ppProtocolDescriptors;
 	INT_PTR ret = ProtoEnumAccounts(&numberOfProtocols,&ppProtocolDescriptors);
 	if(ret == 0)
-	{
 		for(int i = 0; i < numberOfProtocols ; i++)
-		{
 			Nudge_AddAccount(ppProtocolDescriptors[i]);
-		}
-
-	}
 
 	shake.Load();
-
-	/*CNudgeElement *n;
-	for(n = NudgeList;n != NULL; n = n->next)
-	{
-		MessageBox(NULL,n->ProtocolName,n->NudgeSoundname,0);
-	}*/
 }
 
 void RegisterToTrigger(void)
 {
-	if ( ServiceExists(MS_TRIGGER_REGISTERACTION))
-	{
+	if ( ServiceExists(MS_TRIGGER_REGISTERACTION)) {
 		ACTIONREGISTER ar;
 		ZeroMemory(&ar, sizeof(ar));
 		ar.cbSize = sizeof(ar);
@@ -381,17 +339,15 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 
 static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 {
-	BBButton bbd = {0};
-
-	bbd.cbSize = sizeof(BBButton);
+	BBButton bbd = { sizeof(bbd) };
 	bbd.pszModuleName = "Nudge";
 	bbd.ptszTooltip = LPGENT("Send Nudge");
 	bbd.dwDefPos = 300;
-	bbd.bbbFlags = BBBF_ISIMBUTTON|BBBF_ISLSIDEBUTTON|BBBF_CANBEHIDDEN;
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 6000;
 	bbd.iButtonWidth = 0;
-	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
+	CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 	return 0;
 }
@@ -402,25 +358,21 @@ void HideNudgeButton(HANDLE hContact)
 	char *szProto = GetContactProto(hContact);
 	mir_snprintf(str,MAXMODULELABELLENGTH + 12,"%s/SendNudge", szProto);
 
-	if (!ServiceExists(str))
-    {
-      BBButton bbd={0};
-      bbd.cbSize=sizeof(BBButton);
-      bbd.bbbFlags=BBSF_HIDDEN|BBSF_DISABLED;
-      bbd.pszModuleName="Nudge";
-	  bbd.dwButtonID = 6000;
-      CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd);
-    }
+	if (!ServiceExists(str)) {
+		BBButton bbd = { sizeof(bbd) };
+		bbd.bbbFlags = BBSF_HIDDEN | BBSF_DISABLED;
+		bbd.pszModuleName="Nudge";
+		bbd.dwButtonID = 6000;
+		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd);
+	}
 }
 
 static int ContactWindowOpen(WPARAM wparam,LPARAM lParam)
 {
    MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
-
    if(MWeventdata->uType == MSG_WINDOW_EVT_OPENING&&MWeventdata->hContact)
-   {
       HideNudgeButton(MWeventdata->hContact);
-   }
+
    return 0;
 }
 
@@ -432,11 +384,9 @@ int ModulesLoaded(WPARAM,LPARAM)
 	LoadIcons();
 	LoadPopupClass();
 
-	g_hEventToolbarLoaded = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit);
-	if (g_hEventToolbarLoaded)
-	{
-		g_hEventButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-		g_hEventDbWindowEvent = HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
+	if ( HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonInit)) {
+		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+		HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
 	}
 	return 0;
 }
@@ -447,47 +397,29 @@ int AccListChanged(WPARAM wParam,LPARAM lParam)
 	if (proto==NULL)
 		return 0;
 
-	switch (lParam)
-	{
-		case PRAC_ADDED:
-			Nudge_AddAccount(proto);
-			break;
-	}
+	if (lParam == PRAC_ADDED)
+		Nudge_AddAccount(proto);
 	return 0;
 }
 
-HANDLE hShakeClist=NULL,hShakeChat=NULL,hNudgeSend=NULL,hNudgeShowMenu=NULL;
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	g_hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
-	g_hEventAccountsChanged = HookEvent(ME_PROTO_ACCLISTCHANGED,AccListChanged);
-	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, NudgeOptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED,AccListChanged);
+	HookEvent(ME_OPT_INITIALISE, NudgeOptInit);
 
 	//Create function for plugins
-	hShakeClist=CreateServiceFunction(MS_SHAKE_CLIST,ShakeClist);
-	hShakeChat=CreateServiceFunction(MS_SHAKE_CHAT,ShakeChat);
-	hNudgeSend=CreateServiceFunction(MS_NUDGE_SEND,NudgeSend);
-	hNudgeShowMenu=CreateServiceFunction(MS_NUDGE_SHOWMENU,NudgeShowMenu);
+	CreateServiceFunction(MS_SHAKE_CLIST,ShakeClist);
+	CreateServiceFunction(MS_SHAKE_CHAT,ShakeChat);
+	CreateServiceFunction(MS_NUDGE_SEND,NudgeSend);
+	CreateServiceFunction(MS_NUDGE_SHOWMENU,NudgeShowMenu);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if(g_hEventToolbarLoaded) UnhookEvent(g_hEventToolbarLoaded);
-	if(g_hEventDbWindowEvent) UnhookEvent(g_hEventButtonPressed);
-	if(g_hEventDbWindowEvent) UnhookEvent(g_hEventDbWindowEvent);
-
-	UnhookEvent(g_hEventModulesLoaded);
-	UnhookEvent(g_hEventAccountsChanged);
-	UnhookEvent(hEventOptionsInitialize);
-
-	DestroyServiceFunction(hShakeClist);
-	DestroyServiceFunction(hShakeChat);
-	DestroyServiceFunction(hNudgeSend);
-	DestroyServiceFunction(hNudgeShowMenu);
-
 	NudgeElementList* p = NudgeList;
 	while ( p != NULL )
 	{
@@ -502,9 +434,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 LRESULT CALLBACK NudgePopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_COMMAND:
+	switch(msg) {
+	case WM_COMMAND:
 		{
 			HANDLE hContact = PUGetContact(hWnd);
 			CallService(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
@@ -512,39 +443,35 @@ LRESULT CALLBACK NudgePopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			break;
 		}
 
-		case WM_CONTEXTMENU:
-			PUDeletePopUp(hWnd);
-			break;
-		case UM_FREEPLUGINDATA:
-			//Here we'd free our own data, if we had it.
-			return FALSE;
-		case UM_INITPOPUP:
-			break;
-		case UM_DESTROYPOPUP:
-			break;
-		case WM_NOTIFY:
-		default:
-			break;
+	case WM_CONTEXTMENU:
+		PUDeletePopUp(hWnd);
+		break;
+	case UM_FREEPLUGINDATA:
+		//Here we'd free our own data, if we had it.
+		return FALSE;
 	}
 	return DefWindowProc(hWnd,msg,wParam,lParam);
 }
 
+static int OnShutdown(WPARAM,LPARAM)
+{
+	Popup_UnregisterClass(hPopupClass);
+	return 0;
+}
+
 void LoadPopupClass()
 {
-	if(ServiceExists(MS_POPUP_REGISTERCLASS))
-	{
-		POPUPCLASS ppc = {0};
-		ppc.cbSize = sizeof(ppc);
-		ppc.flags = PCF_TCHAR;
-		ppc.pszName = "Nudge";
-		ppc.ptszDescription = LPGENT("Show Nudge");
-		ppc.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
-		ppc.colorBack = NULL;
-		ppc.colorText = NULL;
-		ppc.iSeconds = 0;
-		ppc.PluginWindowProc = NudgePopUpProc;
-		CallService(MS_POPUP_REGISTERCLASS,0,(LPARAM)&ppc);
-	}
+	POPUPCLASS ppc = { sizeof(ppc) };
+	ppc.flags = PCF_TCHAR;
+	ppc.pszName = "Nudge";
+	ppc.ptszDescription = LPGENT("Show Nudge");
+	ppc.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
+	ppc.colorBack = NULL;
+	ppc.colorText = NULL;
+	ppc.iSeconds = 0;
+	ppc.PluginWindowProc = NudgePopUpProc;
+	if (hPopupClass = Popup_RegisterClass(&ppc))
+		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 }
 
 int Preview()
@@ -703,7 +630,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 {
 	char str[MAXMODULELABELLENGTH + 10];
 	mir_snprintf(str,sizeof(str),"%s/Nudge",proto->szModuleName);
-	HANDLE hevent = HookEvent(str, NudgeRecieved);
+	HANDLE hevent = HookEvent(str, NudgeReceived);
 	if(hevent == NULL)
 		return;
 

@@ -1357,7 +1357,7 @@ static void sttLogListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* g
 			mir_ptr<TCHAR> ptszBuf((TCHAR*)mir_alloc( sizeof(TCHAR) * cbLen));
 			if (item->itemResource.statusMessage) {
 				TCHAR *d = ptszBuf;
-				for (int i = 0; i < cbLen; i++) {
+				for (int i = 0; i < (int)cbLen; i++) {
 					if (item->itemResource.statusMessage[ i ] != _T('\n') || (i && item->itemResource.statusMessage[ i - 1 ] == _T('\r')))
 						*d++ = item->itemResource.statusMessage[ i ];
 					else {

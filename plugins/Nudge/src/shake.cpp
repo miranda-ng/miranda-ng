@@ -12,10 +12,10 @@ void CShake::Load(void)
 }
 void CShake::Save(void)
 {
-	DBWriteContactSettingDword(NULL, "Nudge", "ScaleClist", this->nScaleClist);
-	DBWriteContactSettingDword(NULL, "Nudge", "ScaleChat", this->nScaleChat);
-	DBWriteContactSettingDword(NULL, "Nudge", "MoveClist", this->nMoveClist);
-	DBWriteContactSettingDword(NULL, "Nudge", "MoveChat", this->nMoveChat);
+	db_set_dw(NULL, "Nudge", "ScaleClist", this->nScaleClist);
+	db_set_dw(NULL, "Nudge", "ScaleChat", this->nScaleChat);
+	db_set_dw(NULL, "Nudge", "MoveClist", this->nMoveClist);
+	db_set_dw(NULL, "Nudge", "MoveChat", this->nMoveChat);
 }
 
 DWORD WINAPI ShakeChatWindow(LPVOID Param)

@@ -215,6 +215,9 @@ CJabberProto::~CJabberProto()
 	ConsoleUninit();
 	GlobalMenuUninit();
 
+	if (m_hPopupClass)
+		Popup_UnregisterClass(m_hPopupClass);
+
 	delete m_pInfoFrame;
 
 	DestroyHookableEvent(m_hEventNudge);

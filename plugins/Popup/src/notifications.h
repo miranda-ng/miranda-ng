@@ -49,6 +49,7 @@ extern HANDLE g_hntfError, g_hntfWarning, g_hntfNotification;
 
 int TreeDataSortFunc(const POPUPTREEDATA *p1, const POPUPTREEDATA *p2);
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ);
+void FreePopupClass(POPUPTREEDATA *ptd);
 void UnloadTreeData();
 
 void LoadNotifications();

@@ -50,6 +50,7 @@ INT_PTR PopUp_UnhookEventAsync(WPARAM wParam, LPARAM lParam);
 INT_PTR PopUp_RegisterVfx(WPARAM wParam, LPARAM lParam);
 
 INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam);
+INT_PTR PopUp_UnregisterPopupClass(WPARAM wParam, LPARAM lParam);
 INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam);
 
 #endif // __services_h__

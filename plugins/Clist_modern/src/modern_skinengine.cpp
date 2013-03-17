@@ -466,7 +466,7 @@ HRESULT SkinEngineLoadModule()
 	CreateServiceFunction(MS_SKINENG_ALPHATEXTOUT,ske_Service_AlphaTextOut);
 	CreateServiceFunction(MS_SKINENG_DRAWICONEXFIX,ske_Service_DrawIconEx);
 
-    CreateServiceFunction(MS_DRAW_TEXT_WITH_EFFECT,ske_Service_DrawTextWithEffect);
+	CreateServiceFunction(MS_DRAW_TEXT_WITH_EFFECT,ske_Service_DrawTextWithEffect);
 
 	//create event handle
 	hSkinLoadedEvent = HookEvent(ME_SKIN_SERVICESCREATED,CLUI_OnSkinLoad);
@@ -563,7 +563,7 @@ CRITICAL_SECTION BufferListCS = {0};
 SortedList * BufferList = NULL;
 enum
 {
-	BUFFER_DRAWICON = 0, 
+	BUFFER_DRAWICON = 0,
 	BUFFER_DRAWIMAGE
 };
 
@@ -1589,7 +1589,7 @@ int ske_AddDescriptorToSkinObjectList (LPSKINOBJECTDESCRIPTOR lpDescr, SKINOBJEC
 					GLYPHOBJECT * gl = (GLYPHOBJECT*)lpDescr->Data;
 					sk->pObjects[sk->dwObjLPAlocated].Data = mir_alloc(sizeof(GLYPHOBJECT));
 					obdat = (GLYPHOBJECT*)sk->pObjects[sk->dwObjLPAlocated].Data;
-					memmove(obdat,gl,sizeof(GLYPHOBJECT));
+					memcpy(obdat,gl,sizeof(GLYPHOBJECT));
 					if (gl->szFileName != NULL)
 					{
 						obdat->szFileName = mir_strdup(gl->szFileName);
@@ -1668,7 +1668,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
 		int iStyle = gl->Style & 7;
 		if (iStyle == ST_SKIP)
 			return ST_SKIP;
-		
+
 		if (gl->hGlyph == NULL && gl->hGlyph != (HBITMAP)-1 && (iStyle == ST_IMAGE || iStyle == ST_FRAGMENT || iStyle == ST_SOLARIZE))
 			if (gl->szFileName) {
 				gl->hGlyph = ske_LoadGlyphImage( _A2T(gl->szFileName));
@@ -1998,7 +1998,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(const TCHAR *tszFileName)
 			ImgDeleteDecoder(m_pImgDecoder);
 		}
 	}
-	
+
 	if (hBitmap) {
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);
 		if (bmpInfo.bmBitsPixel == 32)

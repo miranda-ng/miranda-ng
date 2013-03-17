@@ -26,9 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_list.h"
 #include "jabber_caps.h"
 
-#include <m_popup.h>
-#include "m_folders.h"
-
 ///////////////////////////////////////////////////////////////////////////////
 // JabberAddContactToRoster() - adds a contact to the roster
 
@@ -623,22 +620,20 @@ void CJabberProto::SetContactOfflineStatus(HANDLE hContact)
 void CJabberProto::InitPopups(void)
 {
 	TCHAR desc[256];
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
+
 	char name[256];
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
 
-	POPUPCLASS ppc = {0};
-	ppc.cbSize = sizeof(ppc);
+	POPUPCLASS ppc = { sizeof(ppc) };
 	ppc.flags = PCF_TCHAR;
-
 	ppc.ptszDescription = desc;
 	ppc.pszName = name;
 	ppc.hIcon = LoadIconEx("main");
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
 	ppc.iSeconds = 60;
-	mir_sntprintf(desc, SIZEOF(desc), _T("%s %s"), m_tszUserName, TranslateT("Errors"));
-	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Error");
-
-	CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&ppc);
+	m_hPopupClass = Popup_RegisterClass(&ppc);
 }
 
 void CJabberProto::MsgPopup(HANDLE hContact, const TCHAR *szMsg, const TCHAR *szTitle)

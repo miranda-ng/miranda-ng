@@ -93,6 +93,9 @@ GGPROTO::~GGPROTO()
 	keepalive_destroy();
 	gc_destroy();
 
+	Popup_UnregisterClass(hPopupError);
+	Popup_UnregisterClass(hPopupNotify);
+
 	if (hMenuRoot)
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMenuRoot, 0);
 

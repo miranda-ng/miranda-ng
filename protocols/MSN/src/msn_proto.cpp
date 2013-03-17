@@ -227,6 +227,10 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 int CMsnProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	SetEvent(hevAvatarQueue);
+
+	Popup_UnregisterClass(hPopupError);
+	Popup_UnregisterClass(hPopupHotmail);
+	Popup_UnregisterClass(hPopupNotify);
 	return 0;
 }
 

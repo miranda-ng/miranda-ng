@@ -346,26 +346,24 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return 0;
 }
 
-POPUPCLASS *newclasses = 0;
+LIST<POPUPCLASS> arNewClasses(3);
+
 static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
-		if (num_classes) {
-			newclasses = (POPUPCLASS *)mir_alloc(num_classes * sizeof(POPUPCLASS));
-			memcpy(newclasses, classes, num_classes * sizeof(POPUPCLASS));
-
-			POPUPCLASS *pc;
+		arNewClasses = arClasses;
+		{
 			int index;
-			for (int i = 0; i < num_classes; i++) {
-				pc = &newclasses[i];
-				if (pc->flags & PCF_UNICODE) {
+			for (int i = 0; i < arNewClasses.getCount(); i++) {
+				POPUPCLASS *pc = arNewClasses[i];
+				if (pc->flags & PCF_UNICODE)
 					index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pwszDescription);
-				} else {
+				else
 					index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription);
-				}
+
 				SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_SETITEMDATA, index, i);
 			}
 		}
@@ -380,24 +378,26 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_TIMEOUT), index != -1);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
-				SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_SETCOLOUR, 0, (LPARAM)newclasses[i].colorText);
-				SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_SETCOLOUR, 0, (LPARAM)newclasses[i].colorBack);
-				CheckDlgButton(hwndDlg, IDC_CHK_TIMEOUT, newclasses[i].iSeconds != -1);
-				SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, newclasses[i].iSeconds, TRUE);
+				SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_SETCOLOUR, 0, (LPARAM)arNewClasses[i]->colorText);
+				SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_SETCOLOUR, 0, (LPARAM)arNewClasses[i]->colorBack);
+				CheckDlgButton(hwndDlg, IDC_CHK_TIMEOUT, arNewClasses[i]->iSeconds != -1);
+				SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, arNewClasses[i]->iSeconds, TRUE);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), index != -1 && IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT));
 			return TRUE;
-		} else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
+		}
+		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				BOOL tr;
 				int t = GetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, &tr, FALSE);
-				newclasses[i].iSeconds = t;
+				arNewClasses[i]->iSeconds = t;
 
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
-		} else {
+		}
+		else {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
@@ -406,33 +406,33 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 					{
 						BOOL isChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), isChecked);
-						if (isChecked) newclasses[i].iSeconds = 0;
-						else newclasses[i].iSeconds = -1;
-						SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, newclasses[i].iSeconds, TRUE);
+						if (isChecked) arNewClasses[i]->iSeconds = 0;
+						else arNewClasses[i]->iSeconds = -1;
+						SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, arNewClasses[i]->iSeconds, TRUE);
 					}
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 					break;
 
 				case IDC_COL_TEXT:
-					newclasses[i].colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
+					arNewClasses[i]->colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 					break;
 
 				case IDC_COL_BG:
-					newclasses[i].colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
+					arNewClasses[i]->colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
 					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 					break;
 
 				case IDC_BTN_PREVIEW:
-					if (newclasses[i].flags & PCF_UNICODE) {
-						POPUPCLASS pc = newclasses[i];
+					if (arNewClasses[i]->flags & PCF_UNICODE) {
+						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = 0;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
 						d.pwszTitle = L"Preview";
 						d.pwszText = L"The quick brown fox jumps over the lazy dog.";
 						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
 					} else {
-						POPUPCLASS pc = newclasses[i];
+						POPUPCLASS pc = *arNewClasses[i];
 						pc.PluginWindowProc = 0;
 						POPUPDATACLASS d = {sizeof(d), pc.pszName};
 						d.pszTitle = "Preview";
@@ -447,22 +447,23 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
-			memcpy(classes, newclasses, num_classes * sizeof(POPUPCLASS));
+			arClasses = arNewClasses;
 			char setting[256];
-			for (int i = 0; i < num_classes; i++) {
-				mir_snprintf(setting, 256, "%s/Timeout", classes[i].pszName);
-				DBWriteContactSettingWord(0, MODULE, setting, classes[i].iSeconds);
-				mir_snprintf(setting, 256, "%s/TextCol", classes[i].pszName);
-				db_set_dw(0, MODULE, setting, (DWORD)classes[i].colorText);
-				mir_snprintf(setting, 256, "%s/BgCol", classes[i].pszName);
-				db_set_dw(0, MODULE, setting, (DWORD)classes[i].colorBack);
+			for (int i = 0; i < arClasses.getCount(); i++) {
+				POPUPCLASS *pc = arClasses[i];
+				mir_snprintf(setting, 256, "%s/Timeout", pc->pszName);
+				DBWriteContactSettingWord(0, MODULE, setting, pc->iSeconds);
+				mir_snprintf(setting, 256, "%s/TextCol", pc->pszName);
+				db_set_dw(0, MODULE, setting, (DWORD)pc->colorText);
+				mir_snprintf(setting, 256, "%s/BgCol", pc->pszName);
+				db_set_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 			}
 			return TRUE;
 		}
 		break;
 
 	case WM_DESTROY:
-		mir_free(newclasses);
+		arNewClasses.destroy();
 		break;
 	}
 	return 0;

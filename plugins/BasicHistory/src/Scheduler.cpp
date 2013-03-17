@@ -56,26 +56,31 @@ bool FtpGetFiles(const std::wstring& dir, const std::list<std::wstring>& files, 
 void CreatePath(const TCHAR *szDir);
 void DoError(const TaskOptions& to, const std::wstring error);
 
+static HANDLE hPopupClass;
+
 void OptionsSchedulerChanged()
 {
 	StartThread(false);
 }
 
+static int OnShutdown(WPARAM, LPARAM)
+{
+	Popup_UnregisterClass(hPopupClass);
+	return 0;
+}
+
 void InitScheduler()
 {
 	bPopupsEnabled = ServiceExists(MS_POPUP_ADDPOPUPT) || ServiceExists(MS_POPUP_ADDPOPUPCLASS);
-	if (ServiceExists(MS_POPUP_REGISTERCLASS)) 
-	{
-		//hPopupIcon = LoadIconEx(I_CHKUPD);
-		POPUPCLASS test = {0};
-		test.cbSize = sizeof(POPUPCLASS);
-		test.flags = PCF_TCHAR;
-		test.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
-		test.iSeconds = 10;
-		test.ptszDescription = TranslateT("History task");
-		test.pszName = MODULE;
-		CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&test);
-	}
+
+	POPUPCLASS test = { sizeof(test) };
+	test.flags = PCF_TCHAR;
+	test.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HISTORY);
+	test.iSeconds = 10;
+	test.ptszDescription = TranslateT("History task");
+	test.pszName = MODULE;
+	if (hPopupClass = Popup_RegisterClass(&test))
+		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 
 	StartThread(true);
 }

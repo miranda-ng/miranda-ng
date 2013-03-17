@@ -286,6 +286,7 @@ struct GGPROTO : public PROTO_INTERFACE
 	HANDLE hAvatarsFolder;
 	HANDLE hImagesFolder;
 	HWND   hwndSessionsDlg;
+	HANDLE hPopupNotify, hPopupError;
 };
 
 typedef struct

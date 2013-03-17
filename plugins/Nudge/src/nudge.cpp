@@ -6,11 +6,11 @@ void CNudge::Save(void)
 	mir_snprintf(SectionName,512,"useByProtocol"); 
 	DBWriteContactSettingByte(NULL, "Nudge", SectionName, this->useByProtocol);
 	mir_snprintf(SectionName,512,"RecvTimeSec");
-	DBWriteContactSettingDword(NULL, "Nudge", SectionName, this->recvTimeSec);
+	db_set_dw(NULL, "Nudge", SectionName, this->recvTimeSec);
 	mir_snprintf(SectionName,512,"SendTimeSec");
-	DBWriteContactSettingDword(NULL, "Nudge", SectionName, this->sendTimeSec);
+	db_set_dw(NULL, "Nudge", SectionName, this->sendTimeSec);
 	mir_snprintf(SectionName,512,"ResendDelaySec");
-	DBWriteContactSettingDword(NULL, "Nudge", SectionName, this->resendDelaySec);
+	db_set_dw(NULL, "Nudge", SectionName, this->resendDelaySec);
 }
 
 
@@ -58,7 +58,7 @@ void CNudgeElement::Save(void)
 	mir_snprintf(SectionName,512,"%s-autoResend", ProtocolName); 
 	DBWriteContactSettingByte(NULL, "Nudge", SectionName, this->autoResend);
 	mir_snprintf(SectionName,512,"%s-statusFlags", ProtocolName);
-	DBWriteContactSettingDword(NULL, "Nudge", SectionName, this->statusFlags);
+	db_set_dw(NULL, "Nudge", SectionName, this->statusFlags);
 	mir_snprintf(SectionName,512,"%s-recText", ProtocolName);
 	DBWriteContactSettingTString(NULL, "Nudge", SectionName, this->recText);
 	mir_snprintf(SectionName,512,"%s-senText", ProtocolName);

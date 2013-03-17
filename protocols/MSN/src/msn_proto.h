@@ -187,10 +187,10 @@ struct CMsnProto : public PROTO_INTERFACE
 	clock_t		mStatusMsgTS;
 
 	HANDLE		msnSearchId;
-	HANDLE		hNetlibUser;
-	HANDLE		hNetlibUserHttps;
+	HANDLE		hNetlibUser, hNetlibUserHttps;
 	HANDLE		hHttpsConnection;
 	HANDLE		hMSNNudge;
+	HANDLE      hPopupError, hPopupHotmail, hPopupNotify;
 
 	HANDLE		hMSNAvatarsFolder;
 	HANDLE		hCustomSmileyFolder;

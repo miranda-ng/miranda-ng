@@ -4,7 +4,6 @@
 void InitServices();
 void DeinitServices();
 
-extern int num_classes;
-extern POPUPCLASS *classes;
+extern LIST<POPUPCLASS> arClasses;
 
 #endif

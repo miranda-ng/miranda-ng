@@ -71,16 +71,21 @@ void LoadNotifications()
 	g_hntfError = RegisterNotification(&notification);
 }
 
+void FreePopupClass(POPUPTREEDATA *ptd)
+{
+	if (ptd->typ == 2) {
+		mir_free(ptd->pupClass.pszName);
+		mir_free(ptd->pupClass.pszDescription);
+	}
+	mir_free(ptd->pszTreeRoot);
+	mir_free(ptd->pszDescription);
+	mir_free(ptd);
+}
+
 void UnloadTreeData()
 {
-	for (int i=0; i < gTreeData.getCount(); ++i) {
-		if (gTreeData[i]->typ == 2) {
-			mir_free(gTreeData[i]->pupClass.pszName);
-			mir_free(gTreeData[i]->pupClass.pszDescription);
-		}
-		mir_free(gTreeData[i]->pszTreeRoot);
-		mir_free(gTreeData[i]->pszDescription);
-	}
+	for (int i=0; i < gTreeData.getCount(); ++i)
+		FreePopupClass(gTreeData[i]);
 	gTreeData.destroy();
 }
 
@@ -234,11 +239,12 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
 	for(int i=0; i < gTreeData.getCount(); i++) {
-		if (	gTreeData[i]->typ == typ &&
-				(!group || (_tcscmp(gTreeData[i]->pszTreeRoot,   group) == 0)) &&
-				(!name  || (_tcscmp(gTreeData[i]->pszDescription, name) == 0)))
+		POPUPTREEDATA *p = gTreeData[i];
+		if (p->typ == typ && 
+				(!group || (_tcscmp(p->pszTreeRoot,   group) == 0)) &&
+				(!name  || (_tcscmp(p->pszDescription, name) == 0)))
 		{
-			return gTreeData[i];
+			return p;
 		}
 	}
 	return NULL;

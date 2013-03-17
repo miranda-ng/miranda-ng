@@ -413,6 +413,7 @@ MIRAPI int Load(void)
 	CreateServiceFunction(MS_POPUP_REGISTERVFX,          PopUp_RegisterVfx);
 
 	CreateServiceFunction(MS_POPUP_REGISTERCLASS,        PopUp_RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS,      PopUp_UnregisterPopupClass);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        PopUp_CreateClassPopup);
 
 	//load icons / create hook

@@ -79,9 +79,9 @@ void GGPROTO::initpopups()
 	puc.cbSize = sizeof(puc);
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_TCHAR;
-
 	puc.ptszDescription = szDescr;
 	puc.pszName = szName;
+
 	puc.colorBack = RGB(173, 206, 247);
 	puc.colorText =  GetSysColor(COLOR_WINDOWTEXT);
 	puc.hIcon = CopyIcon(LoadIconEx("main", FALSE));
@@ -89,17 +89,15 @@ void GGPROTO::initpopups()
 	puc.iSeconds = 4;
 	mir_sntprintf(szDescr, SIZEOF(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Notify"));
 	mir_snprintf(szName, SIZEOF(szName), "%s_%s", m_szModuleName, "Notify");
-	CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&puc);
+	hPopupNotify = Popup_RegisterClass(&puc);
 
-	puc.ptszDescription = szDescr;
-	puc.pszName = szName;
 	puc.colorBack = RGB(191, 0, 0); // Red
 	puc.colorText = RGB(255, 245, 225); // Yellow
 	puc.iSeconds = 60;
 	puc.hIcon = (HICON)LoadImage(NULL, IDI_WARNING, IMAGE_ICON, 0, 0, LR_SHARED);
 	mir_sntprintf(szDescr, SIZEOF(szDescr), _T("%s/%s"), m_tszUserName, TranslateT("Error"));
 	mir_snprintf(szName, SIZEOF(szName), "%s_%s", m_szModuleName, "Error");
-	CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&puc);
+	hPopupError = Popup_RegisterClass(&puc);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

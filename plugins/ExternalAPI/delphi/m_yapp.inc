@@ -66,7 +66,6 @@ const
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
-  MS_YAPP_REGISTERCLASS = 'YAPP/RegisterClass'; // old
   MS_POPUP_REGISTERCLASS = 'PopUp/RegisterClass';
 
 type
@@ -82,7 +81,6 @@ type
 const
 // wParam = 0
 // lParam = (POPUPDATACLASS *)&pdc
-  MS_YAPP_CLASSINSTANCE = 'YAPP/ClassInstance'; // old
   MS_POPUP_ADDPOPUPCLASS = 'PopUp/AddPopupClass';
 
 {$ENDIF}

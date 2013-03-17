@@ -28,28 +28,24 @@ int num_classes = 0;			//for core class api support
 // isWorkstationLocked() code from core
 bool isWorkstationLocked()
 {
-	bool rc = false;
-
 	if (OpenInputDesktop != NULL) {
 		HDESK hDesk = OpenInputDesktop(0, FALSE, DESKTOP_SWITCHDESKTOP);
 		if (hDesk == NULL)
-			rc = true;
-		else if (CloseDesktop != NULL)
+			return true;
+		if (CloseDesktop != NULL)
 			CloseDesktop(hDesk);
 	}
-	return rc;
+	return false;
 }
 
 // isFullScreen() code from core
 static bool isFullScreen()
 {
 	RECT rcScreen = {0};
-
 	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
 	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
 
-	if (MonitorFromWindow != NULL)
-	{
+	if (MonitorFromWindow != NULL) {
 		HMONITOR hMon = MonitorFromWindow(GetForegroundWindow(), MONITOR_DEFAULTTONEAREST);
 		MONITORINFO mi;
 		mi.cbSize = sizeof(mi);
@@ -461,24 +457,24 @@ INT_PTR PopUp_RegisterVfx(WPARAM wParam, LPARAM lParam)
 }
 
 //===== PopUp/RegisterClass		(for core class api support)
-INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam) {
+INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
+{
 	char setting[256];
-	POPUPCLASS    *pc	= (POPUPCLASS *)lParam;
-	POPUPTREEDATA *ptd	= (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
-	memset(ptd,0,sizeof(POPUPTREEDATA));
-	ptd->cbSize		= sizeof(POPUPTREEDATA);
+	POPUPCLASS *pc	= (POPUPCLASS *)lParam;
+	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_calloc(sizeof(POPUPTREEDATA));
+	ptd->cbSize = sizeof(POPUPTREEDATA);
 	ptd->signature	= 0/*PopupNotificationData_SIGNATURE*/;
-	ptd->typ		= 2;
+	ptd->typ	= 2;
 	memcpy(&ptd->pupClass, pc, sizeof(POPUPCLASS));
-	ptd->pszTreeRoot					= mir_a2t(pc->pszName);
-	ptd->pupClass.pszName				= mir_strdup(pc->pszName);
+	ptd->pszTreeRoot = mir_a2t(pc->pszName);
+	ptd->pupClass.pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE) {
 		ptd->pupClass.pwszDescription	= mir_wstrdup(pc->pwszDescription);
-		ptd->pszDescription				= mir_u2t(pc->pwszDescription);
+		ptd->pszDescription = mir_u2t(pc->pwszDescription);
 	}
 	else {
-		ptd->pupClass.pszDescription	= mir_strdup (pc->pszDescription);
-		ptd->pszDescription				= mir_a2t(pc->pszDescription);
+		ptd->pupClass.pszDescription = mir_strdup(pc->pszDescription);
+		ptd->pszDescription = mir_a2t(pc->pszDescription);
 	}
 	LoadClassSettings(ptd, PU_MODULCLASS);
 
@@ -514,8 +510,23 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam) {
 
 	gTreeData.insert(ptd);
 	num_classes++;
+	return (INT_PTR)ptd;
+}
 
-	return 0;
+INT_PTR PopUp_UnregisterPopupClass(WPARAM wParam, LPARAM lParam)
+{
+	POPUPTREEDATA *ptd = (POPUPTREEDATA*)lParam;
+	if (ptd == NULL)
+		return 1;
+
+	for (int i=0; i < gTreeData.getCount(); i++)
+		if (gTreeData[i] == ptd) {
+			gTreeData.remove(i);
+			FreePopupClass(ptd);
+			return 0;
+		}
+
+	return 1;
 }
 
 //===== PopUp/AddPopupClass		(for core class api support)
@@ -527,32 +538,31 @@ INT_PTR PopUp_CreateClassPopup(WPARAM wParam, LPARAM lParam) {
 	POPUPCLASS		*pc  = NULL;
 	POPUPTREEDATA	*ptd = NULL;
 
-	if (wParam) pc = (POPUPCLASS *)wParam;
+	if (wParam) pc = (POPUPCLASS*)wParam;
 	else {
 		LPTSTR group = mir_a2t(pdc->pszClassName);
 		ptd = (POPUPTREEDATA *)FindTreeData(group, NULL, 2);
 		if (ptd) pc = &ptd->pupClass;
 	}
 	if (pc) {
-		POPUPDATA2 ppd2 = {0};
-		ppd2.cbSize				= sizeof(POPUPDATA2);
-		ppd2.colorBack			= pc->colorBack;
-		ppd2.colorText			= pc->colorText;
-		ppd2.lchIcon			= pc->hIcon;
-		ppd2.iSeconds			= pc->iSeconds;
-		ppd2.PluginWindowProc	= pc->PluginWindowProc;
+		POPUPDATA2 ppd2 = { sizeof(ppd2) };
+		ppd2.colorBack = pc->colorBack;
+		ppd2.colorText = pc->colorText;
+		ppd2.lchIcon = pc->hIcon;
+		ppd2.iSeconds = pc->iSeconds;
+		ppd2.PluginWindowProc= pc->PluginWindowProc;
 		if (pc->flags & PCF_UNICODE) {
-			ppd2.flags			= PU2_UNICODE;
-			ppd2.lpwzTitle		= (WCHAR*)pdc->pwszTitle;
-			ppd2.lpwzText		= (WCHAR*)pdc->pwszText;
+			ppd2.flags = PU2_UNICODE;
+			ppd2.lpwzTitle = (WCHAR*)pdc->pwszTitle;
+			ppd2.lpwzText = (WCHAR*)pdc->pwszText;
 		}
 		else {
-			ppd2.flags			= PU2_ANSI;
-			ppd2.lpzTitle		= (char *)pdc->pszTitle;
-			ppd2.lpzText		= (char *)pdc->pszText;
+			ppd2.flags = PU2_ANSI;
+			ppd2.lpzTitle = (char *)pdc->pszTitle;
+			ppd2.lpzText = (char *)pdc->pszText;
 		}
-		ppd2.lchContact			= pdc->hContact;
-		ppd2.PluginData			= pdc->PluginData;
+		ppd2.lchContact = pdc->hContact;
+		ppd2.PluginData = pdc->PluginData;
 
 		ret = PopUp_AddPopUp2((WPARAM)&ppd2, 0);
 	}

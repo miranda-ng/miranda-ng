@@ -336,6 +336,7 @@ const
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
   MS_POPUP_REGISTERCLASS = 'PopUp/RegisterClass';
+  MS_POPUP_UNREGISTERCLASS = 'PopUp/UnregisterClass';
 
 type
   TPOPUPDATACLASS = record
