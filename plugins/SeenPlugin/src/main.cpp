@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInstance;
 HANDLE ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL;
+HANDLE g_hShutdownEvent;
 
 int hLangpack;
 
@@ -91,6 +92,23 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
+static int OnShutdown(WPARAM, LPARAM)
+{
+	SetEvent(g_hShutdownEvent);
+	return 0;
+}
+
+extern "C" __declspec(dllexport) int Load(void)
+{
+	mir_getLP(&pluginInfo);
+
+	g_hShutdownEvent = CreateEvent(0, TRUE, FALSE, 0); 
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
+	return 0;
+}
+
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
@@ -101,6 +119,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (ehmissed)
 		UnhookEvent(ehmissed);
 
+	CloseHandle(g_hShutdownEvent);
 	UninitMenuitem();
 	return 0;
 }
@@ -109,17 +128,4 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInstance=hinst;
 	return 1;
-}
-
-extern "C" __declspec(dllexport) int Load(void)
-{
-
-	mir_getLP(&pluginInfo);
-	// this isn't required for most events
-	// but the ME_USERINFO_INITIALISE
-	// I decided to hook all events after
-	// everything is loaded because it seems
-	// to be safer in my opinion
-	HookEvent(ME_SYSTEM_MODULESLOADED,MainInit);
-	return 0;
 }

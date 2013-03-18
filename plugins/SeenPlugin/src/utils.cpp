@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void FileWrite(HANDLE);
 void HistoryWrite(HANDLE hcontact);
 
+extern HANDLE g_hShutdownEvent;
 char * courProtoName = 0;
 
 /*
@@ -675,30 +676,31 @@ static void cleanThread(void *param)
 {
 	logthread_info* infoParam = (logthread_info*)param;
 
-	Sleep(10000); // I hope in 10 secons all logged-in contacts will be listed
-
-	HANDLE hcontact = db_find_first();
-	while(hcontact != NULL) {
-		char *contactProto = GetContactProto(hcontact);
-		if (contactProto) {
-			if ( !strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH)) {
-				WORD oldStatus = db_get_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
-				if (oldStatus > ID_STATUS_OFFLINE) {
-					if (db_get_w(hcontact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
-						db_set_w(hcontact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
-						if (includeIdle)db_set_b(hcontact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
-						db_set_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
+	// I hope in 10 secons all logged-in contacts will be listed
+	if ( WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
+		HANDLE hcontact = db_find_first();
+		while(hcontact != NULL) {
+			char *contactProto = GetContactProto(hcontact);
+			if (contactProto) {
+				if ( !strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH)) {
+					WORD oldStatus = db_get_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;
+					if (oldStatus > ID_STATUS_OFFLINE) {
+						if (db_get_w(hcontact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
+							db_set_w(hcontact,S_MOD,"OldStatus",(WORD)(oldStatus|0x8000));
+							if (includeIdle)db_set_b(hcontact,S_MOD,"OldIdle",(BYTE)((oldStatus&0x8000)?0:1));
+							db_set_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
+						}
 					}
 				}
 			}
+			hcontact = db_find_next(hcontact);
 		}
-		hcontact = db_find_next(hcontact);
-	}
 
-	char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
-	mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
-	db_unset(NULL,S_MOD,str);
-	free(str);
+		char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
+		mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
+		db_unset(NULL,S_MOD,str);
+		free(str);
+	}
 	free(infoParam);
 }
 
@@ -719,7 +721,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	if ((isetting>ID_STATUS_OFFLINE)&&((WORD)ack->hProcess<=ID_STATUS_OFFLINE)) {
 		//we have just loged-in
 		db_set_dw(NULL, "UserOnline", ack->szModule, GetTickCount());
-		if (IsWatchedProtocol(ack->szModule)) {
+		if (!Miranda_Terminated() && IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info = (logthread_info *)malloc(sizeof(logthread_info));
 			strncpy(info->sProtoName,courProtoName,MAXMODULELABELLENGTH);
 			info->hContact = 0;
