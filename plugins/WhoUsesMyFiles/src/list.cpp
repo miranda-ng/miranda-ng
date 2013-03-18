@@ -9,10 +9,9 @@ PWumf new_wumf( DWORD dwID,
 				DWORD dwPerm, 
 				DWORD dwAttr)
 {
-	PWumf w;
 	//TCHAR szID[10];
 
-	w = (PWumf)malloc(sizeof(Wumf));
+	PWumf w = (PWumf)malloc(sizeof(Wumf));
 	if(!w)return NULL;
 	
 	//#define SCPY(X) if(X){w->X = (LPTSTR)malloc(1+_tcslen(X));if(!w->X)return NULL;_tcscpy(w->X, X);} else { w->X = NULL;}

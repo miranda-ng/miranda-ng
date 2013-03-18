@@ -118,7 +118,7 @@ extern PWumf list;
 
 void FreeAll();
 VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
-int CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK ConnDlgProc(HWND, UINT, WPARAM, LPARAM);
 int ResizeDialog(WPARAM wParam,LPARAM lParam);
 
 void ShowThePopUp(PWumf w, LPTSTR, LPTSTR);

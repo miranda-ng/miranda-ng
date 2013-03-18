@@ -69,39 +69,39 @@ VOID OnGetDispInfo(NMLVDISPINFO *plvdi)
 } 
 
 
-int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-    UTILRESIZEDIALOG urd={0};
-    LV_COLUMN lvc = { 0 };
-	HWND hList;
     switch( Msg )
     {
         case WM_INITDIALOG:
-        	hList = GetDlgItem(hWnd, IDC_CONNLIST);
-//			ListView_DeleteAllItems(hList);
-        	ListView_SetExtendedListViewStyle(hList, LVS_EX_FULLROWSELECT);
-        	lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
-        	lvc.fmt = LVCFMT_LEFT;
-        	lvc.cx = 40;
-        	lvc.pszText = TranslateT("ID");
-        	ListView_InsertColumn(hList, 0, &lvc);
-        	lvc.cx = 50;
-        	lvc.pszText = TranslateT("User");
-        	ListView_InsertColumn(hList, 1, &lvc);
-        	lvc.cx = 250;
-        	lvc.pszText = TranslateT("File");
-        	ListView_InsertColumn(hList, 2, &lvc);
-        	lvc.cx = 50;
-        	lvc.pszText = TranslateT("Access");
-        	ListView_InsertColumn(hList, 3, &lvc);
-			KillTimer(NULL, 777);
-        	lst = cpy_list(&list);
-        	if (IsUserAnAdmin()) {
-				SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
-			} else {
-				MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
+			{
+        		HWND hList = GetDlgItem(hWnd, IDC_CONNLIST);
+//				ListView_DeleteAllItems(hList);
+        		ListView_SetExtendedListViewStyle(hList, LVS_EX_FULLROWSELECT);
+				LV_COLUMN lvc = { 0 };
+        		lvc.mask = LVCF_TEXT|LVCF_FMT|LVCF_WIDTH;
+        		lvc.fmt = LVCFMT_LEFT;
+        		lvc.cx = 40;
+        		lvc.pszText = TranslateT("ID");
+        		ListView_InsertColumn(hList, 0, &lvc);
+        		lvc.cx = 50;
+        		lvc.pszText = TranslateT("User");
+        		ListView_InsertColumn(hList, 1, &lvc);
+        		lvc.cx = 250;
+        		lvc.pszText = TranslateT("File");
+        		ListView_InsertColumn(hList, 2, &lvc);
+        		lvc.cx = 50;
+        		lvc.pszText = TranslateT("Access");
+        		ListView_InsertColumn(hList, 3, &lvc);
+				KillTimer(NULL, 777);
+        		lst = cpy_list(&list);
+        		if (IsUserAnAdmin()) {
+					SetTimer(NULL, 777, TIME, TimerProc);
+				} else {
+					MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
+				}
+        		ShowList(lst, hList);
 			}
-        	ShowList(lst, hList);
         	Utils_RestoreWindowPosition(hWnd, NULL, ModuleName,"conn");
 	        break;
         case WM_CLOSE:
@@ -117,13 +117,16 @@ int CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
             }
 	        break;
         case WM_SIZE:
-			urd.cbSize=sizeof(urd);
-			urd.hwndDlg=hWnd;
-			urd.hInstance=hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CONNLIST);
-			urd.lParam=(LPARAM)NULL;
-			urd.pfnResizer=DlgResizer;
-			ResizeDialog(0,(LPARAM)&urd);
+			{
+				UTILRESIZEDIALOG urd={0};
+				urd.cbSize=sizeof(urd);
+				urd.hwndDlg=hWnd;
+				urd.hInstance=hInst;
+				urd.lpTemplate = MAKEINTRESOURCEA(IDD_CONNLIST);
+				urd.lParam=(LPARAM)NULL;
+				urd.pfnResizer=DlgResizer;
+				ResizeDialog(0,(LPARAM)&urd);
+			}
 			Utils_SaveWindowPosition(hWnd, NULL, ModuleName,"conn");
 			return TRUE;
    		case WM_MOVE:
@@ -160,13 +163,7 @@ void LogWumf(PWumf w)
 
 	if(hLog == INVALID_HANDLE_VALUE || hLog == NULL)
 	{
-		hLog = CreateFile(WumfOptions.LogFile, 
-						GENERIC_WRITE,
-						FILE_SHARE_READ, 
-						(LPSECURITY_ATTRIBUTES) NULL,
-						OPEN_ALWAYS, 
-						FILE_ATTRIBUTE_NORMAL,
-						(HANDLE) NULL);
+		hLog = CreateFile(WumfOptions.LogFile, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		if(hLog == INVALID_HANDLE_VALUE)
 		{
 			FormatMessage(
@@ -174,9 +171,7 @@ void LogWumf(PWumf w)
 			    NULL,
 			    GetLastError(),
 			    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-			    (LPTSTR) &lpstr,
-			    0,
-			    NULL);
+			    (LPTSTR) &lpstr, 0, NULL);
 			mir_sntprintf(str, SIZEOF(str), _T("Can't open log file %s\nError:%s"), WumfOptions.LogFile, lpstr);
 			LocalFree(lpstr);		
 			MessageBox( NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);

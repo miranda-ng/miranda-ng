@@ -30,41 +30,40 @@ void LoadOptions()
 	else
 		WumfOptions.LogFile[0] = '\0';
 
-	WumfOptions.PopupsEnabled = DBGetContactSettingByte(NULL,ModuleName, POPUPS_ENABLED, TRUE);
+	WumfOptions.PopupsEnabled = db_get_b(NULL,ModuleName, POPUPS_ENABLED, TRUE);
 
-	WumfOptions.UseDefColor = DBGetContactSettingByte(NULL,ModuleName, COLOR_DEF, TRUE);
-	WumfOptions.UseWinColor = DBGetContactSettingByte(NULL,ModuleName, COLOR_WIN, FALSE);
-	WumfOptions.SelectColor = DBGetContactSettingByte(NULL,ModuleName, COLOR_SET, FALSE);
+	WumfOptions.UseDefColor = db_get_b(NULL,ModuleName, COLOR_DEF, TRUE);
+	WumfOptions.UseWinColor = db_get_b(NULL,ModuleName, COLOR_WIN, FALSE);
+	WumfOptions.SelectColor = db_get_b(NULL,ModuleName, COLOR_SET, FALSE);
 
-	WumfOptions.ColorText = DBGetContactSettingDword(NULL,ModuleName, COLOR_TEXT, RGB(0,0,0));
-	WumfOptions.ColorBack = DBGetContactSettingDword(NULL,ModuleName, COLOR_BACK, RGB(255,255,255));
+	WumfOptions.ColorText = db_get_dw(NULL,ModuleName, COLOR_TEXT, RGB(0,0,0));
+	WumfOptions.ColorBack = db_get_dw(NULL,ModuleName, COLOR_BACK, RGB(255,255,255));
 		
-	WumfOptions.DelayDef = DBGetContactSettingByte(NULL,ModuleName, DELAY_DEF, TRUE);
-	WumfOptions.DelayInf = DBGetContactSettingByte(NULL,ModuleName, DELAY_INF, FALSE);
-	WumfOptions.DelaySet = DBGetContactSettingByte(NULL,ModuleName, DELAY_SET, FALSE);
-	WumfOptions.DelaySec = DBGetContactSettingByte(NULL,ModuleName, DELAY_SEC, 0);
+	WumfOptions.DelayDef = db_get_b(NULL,ModuleName, DELAY_DEF, TRUE);
+	WumfOptions.DelayInf = db_get_b(NULL,ModuleName, DELAY_INF, FALSE);
+	WumfOptions.DelaySet = db_get_b(NULL,ModuleName, DELAY_SET, FALSE);
+	WumfOptions.DelaySec = db_get_b(NULL,ModuleName, DELAY_SEC, 0);
 	if( !ServiceExists(MS_POPUP_ADDPOPUP)) {
 		WumfOptions.DelayDef = TRUE;
 		WumfOptions.DelaySet = FALSE;
 		WumfOptions.DelayInf = FALSE;
 	}
-	WumfOptions.LogToFile = DBGetContactSettingByte(NULL,ModuleName, LOG_INTO_FILE, FALSE);
-	WumfOptions.LogFolders = DBGetContactSettingByte(NULL,ModuleName, LOG_FOLDER, TRUE);
-	WumfOptions.AlertFolders = DBGetContactSettingByte(NULL,ModuleName, ALERT_FOLDER, TRUE);
-	WumfOptions.LogUNC = DBGetContactSettingByte(NULL,ModuleName, LOG_UNC, FALSE);
-	WumfOptions.AlertUNC = DBGetContactSettingByte(NULL,ModuleName, ALERT_UNC, FALSE);
-	WumfOptions.LogComp = DBGetContactSettingByte(NULL,ModuleName, LOG_COMP, FALSE);
-	WumfOptions.AlertComp = DBGetContactSettingByte(NULL,ModuleName, ALERT_COMP, FALSE);
+	WumfOptions.LogToFile = db_get_b(NULL,ModuleName, LOG_INTO_FILE, FALSE);
+	WumfOptions.LogFolders = db_get_b(NULL,ModuleName, LOG_FOLDER, TRUE);
+	WumfOptions.AlertFolders = db_get_b(NULL,ModuleName, ALERT_FOLDER, TRUE);
+	WumfOptions.LogUNC = db_get_b(NULL,ModuleName, LOG_UNC, FALSE);
+	WumfOptions.AlertUNC = db_get_b(NULL,ModuleName, ALERT_UNC, FALSE);
+	WumfOptions.LogComp = db_get_b(NULL,ModuleName, LOG_COMP, FALSE);
+	WumfOptions.AlertComp = db_get_b(NULL,ModuleName, ALERT_COMP, FALSE);
 	return;
 }
 
 
 void ExecuteMenu(HWND hWnd)
 {
-    HMENU hMenu;
     POINT point;
 
-    hMenu=CreatePopupMenu();
+    HMENU hMenu=CreatePopupMenu();
     if(!hMenu)
     {
         msg(TranslateT("Error crerating menu"));
@@ -86,7 +85,7 @@ void ExecuteMenu(HWND hWnd)
     DestroyMenu(hMenu);
 }
 
-static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 //	PWumf w = NULL;
 	switch(message) {
@@ -152,8 +151,8 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 		ppd.iSeconds = WumfOptions.DelaySec;
 	}
 
-	lstrcpyn(ppd.lptzContactName, title, 128);
-	lstrcpyn(ppd.lptzText, text, 128);
+	lstrcpyn(ppd.lptzContactName, title, MAX_CONTACTNAME);
+	lstrcpyn(ppd.lptzText, text, MAX_SECONDLINE);
 	if(WumfOptions.UseWinColor)
 	{
 		ppd.colorBack = GetSysColor(COLOR_WINDOW);
@@ -169,14 +168,14 @@ void ShowThePopUp(PWumf w, LPTSTR title, LPTSTR text)
 		ppd.colorText = WumfOptions.ColorText;
 	}
 
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 	ppd.PluginData = w;
 	PUAddPopUpT(&ppd);
 }
 
 void ShowThePreview()
 {
-	if( !ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if( !ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		MessageBox(NULL, TranslateT("PopUp plugin not found!"), TranslateT("WUMF plugin"), MB_OK|MB_ICONSTOP);
 		return;
 	}
@@ -226,7 +225,7 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 		SetForegroundWindow(hDlg);
 		return (int)(1);
 	}
-	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), NULL, (DLGPROC)ConnDlgProc);
+	hDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONNLIST), NULL, ConnDlgProc);
 	SendMessage(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE)));
 	ShowWindow(hDlg, SW_SHOW); 
 	while(GetMessage(&msg, NULL, 0, 0) == TRUE) 
@@ -243,13 +242,13 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 static INT_PTR WumfShowConnections(WPARAM wParam,LPARAM lParam)
 {
 	DWORD threadID = 0;
-	CloseHandle(CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, (LPVOID)NULL,0,&threadID));
+	CloseHandle(CreateThread(NULL, 0, ThreadProc, NULL,0,&threadID));
 	Sleep(100);
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hWumfBut, TTBST_RELEASED);
 	return 0;
 }
 
-static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR WumfMenuCommand(WPARAM,LPARAM)
 {
 	BOOL MajorTo0121 = FALSE;
 	int iResult = 0;
@@ -265,13 +264,13 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 		mi.pszName = LPGEN("Disable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
 	}
-	DBWriteContactSettingByte(NULL, ModuleName, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
+	db_set_b(NULL, ModuleName, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
 	mi.flags = CMIM_NAME | CMIM_ICON;
     iResult = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
 	return iResult;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -292,7 +291,6 @@ void ChooseFile(HWND hDlg)
 {
 	OPENFILENAME ofn = {0};       // common dialog box structure
 	TCHAR szFile[260];       // buffer for filename
-	HANDLE hf;              // file handle
 	// Initialize OPENFILENAME
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hDlg;
@@ -308,13 +306,7 @@ void ChooseFile(HWND hDlg)
 	// Display the Open dialog box. 
 	if (GetSaveFileName(&ofn)==TRUE)
 	{
-		hf = CreateFile(ofn.lpstrFile, 
-						GENERIC_WRITE,
-						0, 
-						(LPSECURITY_ATTRIBUTES) NULL,
-						OPEN_ALWAYS, 
-						FILE_ATTRIBUTE_NORMAL,
-						(HANDLE) NULL);
+		HANDLE hf = CreateFile(ofn.lpstrFile,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL, NULL);
 		if(hf!=INVALID_HANDLE_VALUE)
 		{
 			SetDlgItemText(hDlg,IDC_FILE,ofn.lpstrFile);
@@ -497,24 +489,24 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 							LoadOptions();
 							return TRUE;
 						case PSN_APPLY:
-							DBWriteContactSettingByte(NULL,ModuleName, COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
-							DBWriteContactSettingByte(NULL,ModuleName, COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
-							DBWriteContactSettingByte(NULL,ModuleName, COLOR_SET, (BYTE)WumfOptions.SelectColor );
-							DBWriteContactSettingDword(NULL,ModuleName, COLOR_TEXT, (DWORD)WumfOptions.ColorText);
-							DBWriteContactSettingDword(NULL,ModuleName, COLOR_BACK, (DWORD)WumfOptions.ColorBack);
-							DBWriteContactSettingByte(NULL,ModuleName, DELAY_DEF, (BYTE)WumfOptions.DelayDef);
-							DBWriteContactSettingByte(NULL,ModuleName, DELAY_INF, (BYTE)WumfOptions.DelayInf);
-							DBWriteContactSettingByte(NULL,ModuleName, DELAY_SET, (BYTE)WumfOptions.DelaySet);
-							DBWriteContactSettingByte(NULL,ModuleName, DELAY_SEC, (BYTE)WumfOptions.DelaySec);
-							DBWriteContactSettingByte(NULL,ModuleName, LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
-							DBWriteContactSettingByte(NULL,ModuleName, LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
-							DBWriteContactSettingByte(NULL,ModuleName, ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
-							DBWriteContactSettingByte(NULL,ModuleName, LOG_UNC, (BYTE)WumfOptions.LogUNC);
-							DBWriteContactSettingByte(NULL,ModuleName, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
-							DBWriteContactSettingByte(NULL,ModuleName, LOG_COMP, (BYTE)WumfOptions.LogComp);
-							DBWriteContactSettingByte(NULL,ModuleName, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
+							db_set_b(NULL,ModuleName, COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
+							db_set_b(NULL,ModuleName, COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
+							db_set_b(NULL,ModuleName, COLOR_SET, (BYTE)WumfOptions.SelectColor );
+							db_set_dw(NULL,ModuleName, COLOR_TEXT, (DWORD)WumfOptions.ColorText);
+							db_set_dw(NULL,ModuleName, COLOR_BACK, (DWORD)WumfOptions.ColorBack);
+							db_set_b(NULL,ModuleName, DELAY_DEF, (BYTE)WumfOptions.DelayDef);
+							db_set_b(NULL,ModuleName, DELAY_INF, (BYTE)WumfOptions.DelayInf);
+							db_set_b(NULL,ModuleName, DELAY_SET, (BYTE)WumfOptions.DelaySet);
+							db_set_b(NULL,ModuleName, DELAY_SEC, (BYTE)WumfOptions.DelaySec);
+							db_set_b(NULL,ModuleName, LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
+							db_set_b(NULL,ModuleName, LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
+							db_set_b(NULL,ModuleName, ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
+							db_set_b(NULL,ModuleName, LOG_UNC, (BYTE)WumfOptions.LogUNC);
+							db_set_b(NULL,ModuleName, ALERT_UNC, (BYTE)WumfOptions.AlertUNC);
+							db_set_b(NULL,ModuleName, LOG_COMP, (BYTE)WumfOptions.LogComp);
+							db_set_b(NULL,ModuleName, ALERT_COMP, (BYTE)WumfOptions.AlertComp);
 							GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, 255);
-							DBWriteContactSettingTString(NULL, ModuleName, OPT_FILE, WumfOptions.LogFile);
+							db_set_ts(NULL, ModuleName, OPT_FILE, WumfOptions.LogFile);
 							break;
 					}
 					break;
@@ -524,7 +516,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 	return 0;
 }
 
-int InitTopToolbar(WPARAM wparam,LPARAM lparam)
+int InitTopToolbar(WPARAM,LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
@@ -536,10 +528,9 @@ int InitTopToolbar(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam, LPARAM lparam)
+int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 
     odp.cbSize = sizeof(odp);
     odp.position = 945000000;
@@ -590,7 +581,7 @@ extern "C" __declspec(dllexport) int Load(void)
 //   	_setmbcp(_MB_CP_ANSI);
 
 	if (IsUserAnAdmin()) {
-		SetTimer(NULL, 777, TIME,(TIMERPROC) TimerProc);
+		SetTimer(NULL, 777, TIME, TimerProc);
 	} else {
 		MessageBox(NULL, TranslateT("Plugin WhoUsesMyFiles requires admin privileges in order to work."), _T("Miranda NG"), MB_OK);
 	}
