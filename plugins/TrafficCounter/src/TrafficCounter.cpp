@@ -1206,14 +1206,14 @@ void CreateProtocolList(void)
 
 void DestroyProtocolList(void)
 {
-	for (int i = 0; i < NumberOfAccounts; i++)
-	{
+	for (int i = 0; i < NumberOfAccounts; i++) {
 		Stat_CheckStatistics(i);
 		CloseHandle(ProtoList[i].hFile);
+		mir_free(ProtoList[i].tszAccountName);
 		mir_free(ProtoList[i].name);
 		mir_free(ProtoList[i].AllStatistics);
 	}
-	//
+
 	mir_free(ProtoList);
 }
 

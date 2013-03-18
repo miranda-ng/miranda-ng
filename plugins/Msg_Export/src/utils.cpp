@@ -540,16 +540,12 @@ bool bWriteHexToFile( HANDLE hFile, void * pData, int nSize )
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-
 bool bReadMirandaDirAndPath()
 {
-	TCHAR szDBPath[MAX_PATH];
-	char tmp[MAX_PATH];
-	TCHAR *tmp2;
-	_tcscpy( szDBPath, pszDbPathError );
-	PathToAbsolute("miranda32.exe", tmp);
-	tmp2 = mir_utf8decodeT(tmp);
-	sMirandaPath = tmp2;
+	TCHAR szDBPath[MAX_PATH], tmp[MAX_PATH];
+	_tcscpy(szDBPath, pszDbPathError);
+	PathToAbsoluteT( _T("miranda32.exe"), tmp);
+	sMirandaPath = tmp;
 	sMirandaPath.erase(sMirandaPath.find_last_of(_T("\\")));
 	CallService(MS_DB_GETPROFILEPATHT, (WPARAM)MAX_PATH - 1, (LPARAM)szDBPath);
 	sDBPath = szDBPath;
@@ -577,8 +573,7 @@ void ReplaceDBPath( tstring &sRet )
 	ReplaceAll( sRet, _T("%dbpath%"), sDBPath );
 	// Try to firure out if it is a relative path ( ..\..\MsgExport\ )
 	if (sRet.size() <= 2 || ! ( sRet[1] == ':' ||
-				 ( sRet[0] == '\\' && sRet[1] == '\\'))
-		)
+				 ( sRet[0] == '\\' && sRet[1] == '\\')))
 	{
 		// Relative path
 		// we will prepend the mirande exe path to avoid problems 

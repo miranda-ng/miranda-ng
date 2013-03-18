@@ -109,19 +109,18 @@ int CheckIfOnline(void);
 void UninitMenuitem();
 void ShowHistory(HANDLE hContact, BYTE isAlert);
 
-typedef struct logthread_info {
-  char sProtoName[MAXMODULELABELLENGTH];
-  HANDLE hContact;
-  WORD courStatus;
-  int queueIndex;
-} logthread_info;
+struct logthread_info
+{
+	HANDLE hContact;
+	char   sProtoName[MAXMODULELABELLENGTH];
+	WORD   currStatus;
+};
 
 extern HINSTANCE hInstance;
-extern logthread_info **contactQueue;
-extern int contactQueueSize;
 extern DWORD StatusColors15bits[];
 extern BOOL includeIdle;
 extern HANDLE ehmissed;
 extern HANDLE ehuserinfo, hmenuitem, ehmissed_proto;
 extern DWORD dwmirver;
 
+extern LIST<logthread_info> arContacts;

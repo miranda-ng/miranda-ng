@@ -1233,10 +1233,11 @@ void CSkin::Unload()
 
 	m_closeIcon = m_maxIcon = m_minIcon = 0;
 
-	for (i=0; i < m_nrSkinIcons; i++) {
+	for (i=0; i < m_nrSkinIcons; i++)
 		if (m_skinIcons[i].phIcon )
 			::DestroyIcon(*(m_skinIcons[i].phIcon));
-	}
+	mir_free(m_skinIcons);
+
 	M->getAeroState();				// refresh after unload
 	::FreeTabConfig();
 	::ReloadTabConfig();
@@ -1587,9 +1588,8 @@ void CSkin::LoadItems()
 	CImageItem *pItem = m_ImageItems;
 
 	if (m_skinIcons == NULL)
-		m_skinIcons = (TIconDescW *)malloc(sizeof(TIconDescW) * NR_MAXSKINICONS);
+		m_skinIcons = (TIconDescW *)mir_calloc(sizeof(TIconDescW) * NR_MAXSKINICONS);
 
-	ZeroMemory(m_skinIcons, sizeof(TIconDesc) * NR_MAXSKINICONS);
 	m_nrSkinIcons = 0;
 
 	szSections = (TCHAR *)malloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));

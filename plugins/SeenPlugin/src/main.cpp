@@ -47,15 +47,10 @@ DBVTranslation idleTr[TRANSNUMBER]={
 };
 
 BOOL includeIdle;
-logthread_info **contactQueue = NULL;
-int contactQueueSize = 0;
+LIST<logthread_info> arContacts(16, LIST<logthread_info>::FTSortFunc(HandleKeySortT));
 
 int MainInit(WPARAM wparam,LPARAM lparam)
 {
-	contactQueueSize = 16*sizeof(logthread_info *);
-	contactQueue = (logthread_info **)malloc(contactQueueSize);
-	memset(&contactQueue[0], 0, contactQueueSize);
-	contactQueueSize = 16;
 	includeIdle = (BOOL )db_get_b(NULL,S_MOD,"IdleSupport",1);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	
@@ -83,7 +78,6 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)S_MOD, 0);
 	db_set_s(NULL,"Uninstall",Translate("Last seen"),S_MOD);
-
 
 	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION))
 		for (int i=0; i < TRANSNUMBER; i++)
@@ -119,6 +113,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (ehmissed)
 		UnhookEvent(ehmissed);
 
+	arContacts.destroy();
 	CloseHandle(g_hShutdownEvent);
 	UninitMenuitem();
 	return 0;

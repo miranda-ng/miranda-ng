@@ -512,7 +512,8 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 	PUAddPopUpT(&ppd);
 }
 
-void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus){
+void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus)
+{
 	if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
 	char * soundname=0;
@@ -523,45 +524,17 @@ void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus){
 	if (soundname!=0) SkinPlaySound(soundname);
 }
 
-//will give hContact position or zero
-int isContactQueueActive(HANDLE hContact){
-	int i = 0;
-	if (!hContact) {
-//		MessageBox(0,"Is myself in the queue: never","LastSeen-Mod",0);
-		return 0;
-	}
-	for (i=1;i<contactQueueSize;i++) {
-		if (contactQueue[i])
-			if (contactQueue[i]->hContact==hContact) return i;
-	}
-	return 0;
-}
-
 //will add hContact to queue and will return position;
-int addContactToQueue(HANDLE hContact){
+static logthread_info* addContactToQueue(HANDLE hContact)
+{
 	int i = 0;
-	if (!hContact) {
-//		MessageBox(0,"Adding myself to queue","LastSeen-Mod",0);
-		return 0;
-	}
-	for (i=1;i<contactQueueSize;i++) {
-		if (!contactQueue[i]) {
-			contactQueue[i] = (logthread_info *)malloc(sizeof(logthread_info));
-			contactQueue[i]->queueIndex = i;
-			contactQueue[i]->hContact = hContact;
-			return i;
-		}
-	}
-	//no free space. Create some
-	//MessageBox(0,"Creating more space","LastSeen-Mod",0);
-	contactQueue = (logthread_info **)realloc(contactQueue,(contactQueueSize+16)*sizeof(logthread_info *));
-	memset(&contactQueue[contactQueueSize],0, 16*sizeof(logthread_info *));
-	i = contactQueueSize;
-	contactQueue[i] = (logthread_info *)malloc(sizeof(logthread_info));
-	contactQueue[i]->queueIndex = i;
-	contactQueue[i]->hContact = hContact;
-	contactQueueSize += 16;
-	return i;
+	if (!hContact)
+		return NULL;
+
+	logthread_info *p = (logthread_info*)mir_calloc(sizeof(logthread_info));
+	p->hContact = hContact;
+	arContacts.insert(p);
+	return p;
 }
 
 static void waitThread(void *param)
@@ -569,36 +542,41 @@ static void waitThread(void *param)
 	logthread_info* infoParam = (logthread_info*)param;
 
 	WORD prevStatus = db_get_w(infoParam->hContact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE);
-	Sleep(1500); // I hope in 1.5 second all the needed info will be set
-	if (includeIdle)
-		if (db_get_dw(infoParam->hContact,infoParam->sProtoName,"IdleTS",0))
-			infoParam->courStatus &=0x7FFF;
-
-	if (infoParam->courStatus != prevStatus){
-		db_set_w(infoParam->hContact,S_MOD,"OldStatus",(WORD)(prevStatus|0x8000));
+	
+	// I hope in 1.5 second all the needed info will be set
+	if ( WaitForSingleObject(g_hShutdownEvent, 1500) == WAIT_TIMEOUT) {
 		if (includeIdle)
-			db_set_b(infoParam->hContact,S_MOD,"OldIdle",(BYTE)((prevStatus&0x8000)==0));
+			if (db_get_dw(infoParam->hContact,infoParam->sProtoName,"IdleTS",0))
+				infoParam->currStatus &=0x7FFF;
 
-		db_set_w(infoParam->hContact,S_MOD,"StatusTriger",infoParam->courStatus);
+		if (infoParam->currStatus != prevStatus){
+			db_set_w(infoParam->hContact,S_MOD,"OldStatus",(WORD)(prevStatus|0x8000));
+			if (includeIdle)
+				db_set_b(infoParam->hContact,S_MOD,"OldIdle",(BYTE)((prevStatus&0x8000)==0));
+
+			db_set_w(infoParam->hContact,S_MOD,"StatusTriger",infoParam->currStatus);
+		}
 	}
 
-	contactQueue[infoParam->queueIndex] = 0;
-	free(infoParam);
+	arContacts.remove(infoParam);
+	mir_free(infoParam);
 }
 
 int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
 	// to make this code faster
 	if (!wparam) return 0;
+
+	HANDLE hContact = (HANDLE)wparam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lparam;
 	//if (CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
 	BOOL isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
 	if (strcmp(cws->szSetting,"Status") && strcmp(cws->szSetting,"StatusTriger") && (isIdleEvent==0)) return 0;
 	if (!strcmp(cws->szModule,S_MOD)) {
 		//here we will come when Settings/SeenModule/StatusTriger is changed
-		WORD prevStatus=db_get_w((HANDLE)wparam, S_MOD, "OldStatus", ID_STATUS_OFFLINE);
+		WORD prevStatus=db_get_w(hContact, S_MOD, "OldStatus", ID_STATUS_OFFLINE);
 		if (includeIdle){
-			if ( db_get_b((HANDLE)wparam, S_MOD, "OldIdle", 0)) prevStatus &= 0x7FFF;
+			if ( db_get_b(hContact, S_MOD, "OldIdle", 0)) prevStatus &= 0x7FFF;
 			else prevStatus |= 0x8000;
 		}
 		if ((cws->value.wVal|0x8000)<=ID_STATUS_OFFLINE)
@@ -607,8 +585,8 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			// avoid repeating the offline status
 			if ((prevStatus|0x8000)<=ID_STATUS_OFFLINE)
 				return 0;
-			proto = GetContactProto((HANDLE)wparam);
-			db_set_b((HANDLE)wparam, S_MOD, "Offline", 1);
+			proto = GetContactProto(hContact);
+			db_set_b(hContact, S_MOD, "Offline", 1);
 			{
 				DWORD t;
 				char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
@@ -616,57 +594,57 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 				t = db_get_dw(NULL,S_MOD,str,0);
 				if (!t) t = time(NULL);
 				free(str);
-				DBWriteTimeTS(t, (HANDLE)wparam);
+				DBWriteTimeTS(t, hContact);
 			}
 
 			if (!db_get_b(NULL,S_MOD,"IgnoreOffline",1))
 			{
 				if ( db_get_b(NULL,S_MOD,"FileOutput",0))
-					FileWrite((HANDLE)wparam);
+					FileWrite(hContact);
 
-				char *sProto = GetContactProto((HANDLE)wparam);
+				char *sProto = GetContactProto(hContact);
 				if (CallProtoService(sProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE)	{
-					myPlaySound((HANDLE)wparam, ID_STATUS_OFFLINE, prevStatus);
+					myPlaySound(hContact, ID_STATUS_OFFLINE, prevStatus);
 					if ( db_get_b(NULL, S_MOD, "UsePopups", 0))
-						ShowPopup((HANDLE)wparam, sProto, ID_STATUS_OFFLINE);
+						ShowPopup(hContact, sProto, ID_STATUS_OFFLINE);
 				}
 
 				if ( db_get_b(NULL, S_MOD, "KeepHistory", 0))
-					HistoryWrite((HANDLE)wparam);
+					HistoryWrite(hContact);
 
-				if ( db_get_b((HANDLE)wparam, S_MOD, "OnlineAlert", 0)) 
-					ShowHistory((HANDLE)wparam, 1);
+				if ( db_get_b(hContact, S_MOD, "OnlineAlert", 0)) 
+					ShowHistory(hContact, 1);
 			}
 
 		} else {
 
-			if (cws->value.wVal==prevStatus && !db_get_b((HANDLE)wparam, S_MOD, "Offline", 0)) 
+			if (cws->value.wVal==prevStatus && !db_get_b(hContact, S_MOD, "Offline", 0)) 
 				return 0;
 
-			DBWriteTimeTS(time(NULL), (HANDLE)wparam);
+			DBWriteTimeTS(time(NULL), hContact);
 
 			//db_set_w(hContact,S_MOD,"StatusTriger",(WORD)cws->value.wVal);
 
-			if ( db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite((HANDLE)wparam);
-			if (prevStatus != cws->value.wVal) myPlaySound((HANDLE)wparam, cws->value.wVal, prevStatus);
+			if ( db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite(hContact);
+			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
 			if ( db_get_b(NULL, S_MOD, "UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
-					ShowPopup((HANDLE)wparam, GetContactProto((HANDLE)wparam), cws->value.wVal|0x8000);
+					ShowPopup(hContact, GetContactProto(hContact), cws->value.wVal|0x8000);
 
-			if ( db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite((HANDLE)wparam);
-			if ( db_get_b((HANDLE)wparam, S_MOD, "OnlineAlert", 0)) ShowHistory((HANDLE)wparam, 1);
-			db_set_b((HANDLE)wparam, S_MOD, "Offline", 0);
+			if ( db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite(hContact);
+			if ( db_get_b(hContact, S_MOD, "OnlineAlert", 0)) ShowHistory(hContact, 1);
+			db_set_b(hContact, S_MOD, "Offline", 0);
 		}
 	} else if (IsWatchedProtocol(cws->szModule)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
-		if (CallProtoService(cws->szModule,PS_GETSTATUS,0,0)>ID_STATUS_OFFLINE){
-			int index;
-			if (!(index = isContactQueueActive((HANDLE)wparam))) {
-				index = addContactToQueue((HANDLE)wparam);
-				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
-				mir_forkthread(waitThread, contactQueue[index]);
+		if ( CallProtoService(cws->szModule,PS_GETSTATUS,0,0) > ID_STATUS_OFFLINE){
+			logthread_info *p = arContacts.find((logthread_info*)&hContact);
+			if (p == NULL) {
+				p = addContactToQueue(hContact);
+				strncpy(p->sProtoName, cws->szModule, MAXMODULELABELLENGTH);
+				mir_forkthread(waitThread, p);
 			}
-			contactQueue[index]->courStatus = isIdleEvent ? db_get_w((HANDLE)wparam, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
+			p->currStatus = isIdleEvent ? db_get_w(hContact, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 	}	}	
 
 	return 0;
@@ -725,7 +703,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			logthread_info *info = (logthread_info *)malloc(sizeof(logthread_info));
 			strncpy(info->sProtoName,courProtoName,MAXMODULELABELLENGTH);
 			info->hContact = 0;
-			info->courStatus = 0;
+			info->currStatus = 0;
 
 			mir_forkthread(cleanThread, info);
 		}

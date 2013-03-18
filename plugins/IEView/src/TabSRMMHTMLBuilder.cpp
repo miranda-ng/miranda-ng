@@ -429,9 +429,9 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			free(output);
 		}
 	}
-	if (szRealProto!=NULL) delete szRealProto;
+	
+	mir_free(szRealProto);
 	view->documentClose();
-//	view->scrollToBottom();
 }
 
 void TabSRMMHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event) {
