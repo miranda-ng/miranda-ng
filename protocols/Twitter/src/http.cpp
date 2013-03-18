@@ -23,8 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string http::url_encode(const std::string &s)
 {
-	char *encoded = reinterpret_cast<char*>(CallService( MS_NETLIB_URLENCODE,
-		0,reinterpret_cast<LPARAM>(s.c_str())));
+	char *encoded = reinterpret_cast<char*>(CallService( MS_NETLIB_URLENCODE,0,reinterpret_cast<LPARAM>(s.c_str())));
 	std::string ret = encoded;
 	HeapFree(GetProcessHeap(),0,encoded);
 

@@ -25,8 +25,7 @@ void CALLBACK TwitterProto::APC_callback(ULONG_PTR p)
 }
 
 template<typename T>
-inline static T db_pod_get(HANDLE hContact,const char *module,const char *setting,
-	T errorValue)
+inline static T db_pod_get(HANDLE hContact,const char *module,const char *setting,T errorValue)
 {
 	DBVARIANT dbv;
 	DBCONTACTGETSETTING cgs;
@@ -47,8 +46,7 @@ inline static T db_pod_get(HANDLE hContact,const char *module,const char *settin
 }
 
 template<typename T>
-inline static INT_PTR db_pod_set(HANDLE hContact,const char *module,const char *setting,
-	T val)
+inline static INT_PTR db_pod_set(HANDLE hContact,const char *module,const char *setting,T val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -104,42 +102,42 @@ bool TwitterProto::NegotiateConnection()
 	wstring oauthAccessTokenSecret;
 	string screenName;
 
-	INT_PTR dbTOK = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,&dbv);
+	INT_PTR dbTOK = db_get_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,&dbv);
 	if (!dbTOK) {
 		oauthToken = dbv.pwszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		//WLOG("**NegotiateConnection - we have an oauthToken already in the db - %s", oauthToken);
 	}
  
-	INT_PTR dbTOKSec = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,&dbv);
+	INT_PTR dbTOKSec = db_get_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,&dbv);
 	if (!dbTOKSec) {
 		oauthTokenSecret = dbv.pwszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		//WLOG("**NegotiateConnection - we have an oauthTokenSecret already in the db - %s", oauthTokenSecret);
 	}
 
-	INT_PTR dbName = DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_NICK,&dbv);
+	INT_PTR dbName = db_get_s(0,m_szModuleName,TWITTER_KEY_NICK,&dbv);
 	if (!dbName) {
 		screenName = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		//WLOG("**NegotiateConnection - we have a username already in the db - %s", screenName);
 	}
 	else {
-		dbName = DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_UN,&dbv);
+		dbName = db_get_s(0,m_szModuleName,TWITTER_KEY_UN,&dbv);
 		if (!dbName) {
 			screenName = dbv.pszVal;
-			DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_NICK,dbv.pszVal);
+			db_set_s(0,m_szModuleName,TWITTER_KEY_NICK,dbv.pszVal);
 			//WLOG("**NegotiateConnection - we have a username already in the db - %s", screenName);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
  	// twitter changed the base URL in v1.1 of the API, I don't think users will need to modify it, so
 	// i'll be forcing it to the new API URL here. After a while I can get rid of this as users will
 	// have either had this run at least once, or have reset their miranda profile. 14/10/2012
-	if(DBGetContactSettingByte(0,m_szModuleName,"UpgradeBaseURL",1)) {
-		DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/");
-		DBWriteContactSettingByte(0,m_szModuleName,"UpgradeBaseURL",0);
+	if(db_get_b(0,m_szModuleName,"UpgradeBaseURL",1)) {
+		db_set_s(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/");
+		db_set_b(0,m_szModuleName,"UpgradeBaseURL",0);
 	}
 
 	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1)) {
@@ -178,8 +176,8 @@ bool TwitterProto::NegotiateConnection()
 		}
 
 		//write those bitches to the db foe latta
-		DBWriteContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,oauthToken.c_str());
-		DBWriteContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,oauthTokenSecret.c_str());
+		db_set_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,oauthToken.c_str());
+		db_set_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,oauthTokenSecret.c_str());
 		
 		// this looks like bad code.. can someone clean this up please?  or confirm that it's ok
 		wchar_t buf[1024] = {};
@@ -191,19 +189,19 @@ bool TwitterProto::NegotiateConnection()
 		ShowPinDialog();
 	}
 
-	if (!DBGetContactSettingTString(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv)) {
+	if (!db_get_ts(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv)) {
 		CallService( MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal );
-		DBFreeVariant(&dbv);	
+		db_free(&dbv);	
 	}
 
 	bool realAccessTok = false;
 	bool realAccessTokSecret = false;
 
 	// remember, dbTOK is 0 (false) if the db setting has returned something
-	dbTOK = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK,&dbv);
+	dbTOK = db_get_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK,&dbv);
 	if (!dbTOK) { 
 		oauthAccessToken = dbv.pwszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		// this bit is saying "if we have found the db key, but it contains no data, then set dbTOK to 1"
 		if (oauthAccessToken.size() > 1) { 
 			realAccessTok = true; 
@@ -212,10 +210,10 @@ bool TwitterProto::NegotiateConnection()
 		else { LOG( _T("**NegotiateConnection - oauthAccesToken too small? this is.. weird.")); }
 	}
 
-	dbTOKSec = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET,&dbv);
+	dbTOKSec = db_get_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET,&dbv);
 	if (!dbTOKSec) { 
 		oauthAccessTokenSecret = dbv.pwszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		if (oauthAccessTokenSecret.size() > 1) { 
 			realAccessTokSecret = true; 
 			//WLOG("**NegotiateConnection - we have an oauthAccessTokenSecret already in the db - %s", oauthAccessTokenSecret); 
@@ -226,24 +224,22 @@ bool TwitterProto::NegotiateConnection()
 	if (!realAccessTok || !realAccessTokSecret) {  // if we don't have one of these beasties then lets go get 'em!
 		wstring pin;
 		LOG( _T("**NegotiateConnection - either the accessToken or accessTokenSecret was not there.."));
-		if (!DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_PIN,&dbv)) {
+		if (!db_get_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_PIN,&dbv)) {
 			pin = dbv.pwszVal;
 			//WLOG("**NegotiateConnection - we have an pin already in the db - %s", pin);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else {
 			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)"));
 			LOG( _T("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline."));
 			resetOAuthKeys();
 
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
-			(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 			// Set to offline
 			old_status = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-				(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 			return false;
 		}
@@ -265,14 +261,12 @@ bool TwitterProto::NegotiateConnection()
 
 			resetOAuthKeys();
 
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
-			(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 			// Set to offline
 			old_status = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-				(HANDLE)old_status,m_iStatus);
+			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 			return false;
 		}
@@ -294,29 +288,29 @@ bool TwitterProto::NegotiateConnection()
 			LOG( _T("**NegotiateConnection - screen name is %s"), screenName.c_str());
 	
 			//save em
-			DBWriteContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK,oauthAccessToken.c_str());
-			DBWriteContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET,oauthAccessTokenSecret.c_str());
-			DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_NICK,screenName.c_str());
-			DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_UN,screenName.c_str());
+			db_set_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK,oauthAccessToken.c_str());
+			db_set_ws(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET,oauthAccessTokenSecret.c_str());
+			db_set_s(0,m_szModuleName,TWITTER_KEY_NICK,screenName.c_str());
+			db_set_s(0,m_szModuleName,TWITTER_KEY_UN,screenName.c_str());
 		}
 	}
 
-/*	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_PASS,&dbv)) {
+/*	if( !db_get_s(0,m_szModuleName,TWITTER_KEY_PASS,&dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
 		pass = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else {
 		ShowPopup(TranslateT("Please enter a password."));
 		return false;
 	}*/
 
-	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,&dbv))
+	if( !db_get_s(0,m_szModuleName,TWITTER_KEY_BASEURL,&dbv))
 	{
 		ScopedLock s(twitter_lock_);
 		twit_.set_base_url(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	LOG( _T("**NegotiateConnection - Setting Consumer Keys and verifying creds..."));
@@ -343,22 +337,19 @@ bool TwitterProto::NegotiateConnection()
 		LOG( _T("**NegotiateConnection - Verifying credentials failed!  No internet maybe?"));
 
 		//resetOAuthKeys();
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
-			(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,(HANDLE)old_status,m_iStatus);
 
 		// Set to offline
 		old_status = m_iStatus;
 		m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-			(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 		return false;
 	}
 	else {
 		m_iStatus = m_iDesiredStatus;
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-			(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 		return true;
 	}
 }
@@ -372,7 +363,7 @@ void TwitterProto::MessageLoop(void*)
 	dm_since_id_ = db_pod_get<twitter_id>(0,m_szModuleName,TWITTER_KEY_DMSINCEID,0);
 
 	bool new_account = db_get_b(0,m_szModuleName,TWITTER_KEY_NEW,1) != 0;
-	bool popups      = db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SIGNON,1) != 0;
+	bool popups = db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SIGNON,1) != 0;
 
 	// if this isn't set, it will automatically not turn a tweet into a msg. probably should make the default that it does turn a tweet into a message
 	bool tweetToMsg  = db_get_b(0,m_szModuleName,TWITTER_KEY_TWEET_TO_MSG,0) != 0;
@@ -400,7 +391,7 @@ void TwitterProto::MessageLoop(void*)
 		if(new_account) // Not anymore!
 		{
 			new_account = false;
-			DBWriteContactSettingByte(0,m_szModuleName,TWITTER_KEY_NEW,0);
+			db_set_b(0,m_szModuleName,TWITTER_KEY_NEW,0);
 		}
 
 		if(m_iStatus != ID_STATUS_ONLINE)
@@ -435,15 +426,15 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p));
 	DBVARIANT dbv = {0};
 
-	// DBGetContactSettingString returns 0 when it suceeds, so if this suceeds it will return 0, or false.
+	// db_get_s returns 0 when it suceeds, so if this suceeds it will return 0, or false.
 	// therefore if it returns 1, or true, we want to return as there is no such user.
 	// as a side effect, dbv now has the username in it i think
-	if(DBGetContactSettingTString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if(db_get_ts(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.')); // finds the filetype of the avatar
 	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str()); // local filename and path
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 	ai.hContact = data->hContact;
@@ -466,14 +457,11 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 
 	if(save_url(hAvatarNetlib_,data->url,filename))
 	{
-		DBWriteContactSettingString(data->hContact,m_szModuleName,TWITTER_KEY_AV_URL,
-			data->url.c_str());
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,
-			ACKRESULT_SUCCESS,&ai,0);
+		db_set_s(data->hContact,m_szModuleName,TWITTER_KEY_AV_URL,data->url.c_str());
+		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
 	}
 	else
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,
-			ACKRESULT_FAILED, &ai,0);
+		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,ACKRESULT_FAILED, &ai,0);
 	ReleaseMutex(avatar_lock_);
 	LOG( _T("***** Done avatar: %s"),data->url.c_str());
 }
@@ -482,9 +470,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 {
 	DBVARIANT dbv = {0};
 
-	if( !force &&
-	  ( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_AV_URL,&dbv) &&
-	    url == dbv.pszVal))
+	if( !force && (!db_get_s(hContact,m_szModuleName,TWITTER_KEY_AV_URL,&dbv) && url == dbv.pszVal))
 	{
 		LOG( _T("***** Avatar already up-to-date: %s"), url.c_str());
 	}
@@ -496,17 +482,15 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 			PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai),hContact};
 			
 			db_set_s(hContact,m_szModuleName,TWITTER_KEY_AV_URL,url.c_str());
-			ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AVATAR,
-				ACKRESULT_SUCCESS,&ai,0);
+			ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AVATAR,ACKRESULT_SUCCESS,&ai,0);
 		}
 		else
 		{
-			ForkThread(&TwitterProto::UpdateAvatarWorker, this,
-				new update_avatar(hContact,url));
+			ForkThread(&TwitterProto::UpdateAvatarWorker, this,new update_avatar(hContact,url));
 		}
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 }
 
 void TwitterProto::UpdateFriends()
@@ -538,8 +522,7 @@ void TwitterProto::UpdateFriends()
 	}
 	catch(const std::exception &e)
 	{
-		ShowPopup( (std::string("While updating friends list, an error occurred: ")
-			+e.what()).c_str());
+		ShowPopup( (std::string("While updating friends list, an error occurred: ")+e.what()).c_str());
 		LOG( _T("***** Error updating friends list: %s"), e.what());
 	}
 
@@ -547,8 +530,7 @@ void TwitterProto::UpdateFriends()
 
 void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 {
-	if(!ServiceExists(MS_POPUP_ADDPOPUPT) || DBGetContactSettingByte(0,
-		m_szModuleName,TWITTER_KEY_POPUP_SHOW,0) == 0)
+	if(!ServiceExists(MS_POPUP_ADDPOPUPT) || db_get_b(0,m_szModuleName,TWITTER_KEY_POPUP_SHOW,0) == 0)
 	{
 		return;
 	}
@@ -565,11 +547,10 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 		popup.colorBack = GetSysColor(COLOR_WINDOWTEXT);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,"CList","MyHandle",&dbv) ||
-		!DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if( !db_get_s(hContact,"CList","MyHandle",&dbv) || !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		mbcs_to_tcs(CP_UTF8,dbv.pszVal,popup.lptzContactName,MAX_CONTACTNAME);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	mbcs_to_tcs(CP_UTF8,text.c_str(),popup.lptzText,MAX_SECONDLINE);
@@ -613,8 +594,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 			}
 
-			DBWriteContactSettingUTF8String(hContact,"CList","StatusMsg",
-				i->status.text.c_str());
+			db_set_utf(hContact,"CList","StatusMsg",i->status.text.c_str());
 
 			if(!pre_read && popups)
 				ShowContactPopup(hContact,i->status.text);
@@ -680,16 +660,15 @@ void TwitterProto::UpdateMessages(bool pre_read)
 	}
 	catch(const std::exception &e)
 	{
-		ShowPopup( (std::string("While updating direct messages, an error occurred: ")
-			+e.what()).c_str());
+		ShowPopup( (std::string("While updating direct messages, an error occurred: ")+e.what()).c_str());
 		LOG( _T("***** Error updating direct messages: %s"), e.what());
 	}
 }
 
 void TwitterProto::resetOAuthKeys() {
-	DBDeleteContactSetting(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK);
-	DBDeleteContactSetting(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET);
-	DBDeleteContactSetting(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK);
-	DBDeleteContactSetting(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET);
-	DBDeleteContactSetting(0,m_szModuleName,TWITTER_KEY_OAUTH_PIN);
+	db_unset(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK);
+	db_unset(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET);
+	db_unset(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK);
+	db_unset(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET);
+	db_unset(0,m_szModuleName,TWITTER_KEY_OAUTH_PIN);
 }

@@ -42,39 +42,38 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 
 		DBVARIANT dbv;
 
-		if( !DBGetContactSettingTString(0,proto->ModuleName(),TWITTER_KEY_GROUP,&dbv))
+		if(!db_get_ts(0,proto->ModuleName(),TWITTER_KEY_GROUP,&dbv))
 		{
 			SetDlgItemText(hwndDlg,IDC_GROUP,dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 		{
 			SetDlgItemText(hwndDlg,IDC_GROUP,L"Twitter");
 		}
 
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
+		if(!db_get_s(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_USERNAME,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
-		/*if ( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
+		/*if ( !db_get_s(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwndDlg,IDC_PW,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}*/
 
 		for(size_t i=0; i<SIZEOF(sites); i++)
 		{
-			SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_ADDSTRING,0,
-				reinterpret_cast<LPARAM>(sites[i]));
+			SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_ADDSTRING,0,reinterpret_cast<LPARAM>(sites[i]));
 		}
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
+		if(!db_get_s(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_SERVER,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 		{
@@ -85,8 +84,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 	case WM_COMMAND:
 		if(LOWORD(wParam) == IDC_NEWACCOUNTLINK)
 		{
-			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				("http://twitter.com/signup"));
+			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>("https://twitter.com/signup"));
 			return true;
 		}
 
@@ -111,20 +109,20 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			
 			/*
 			GetDlgItemTextA(hwndDlg,IDC_UN,str,sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,str);
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_UN,str);
 
 			GetDlgItemTextA(hwndDlg,IDC_PW,str,sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,str);
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_PASS,str);
 			*/
 
 			GetDlgItemTextA(hwndDlg,IDC_SERVER,str,sizeof(str)-1);
 			if(str[strlen(str)-1] != '/')
 				strncat(str,"/",sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,str);
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_BASEURL,str);
 
 			GetDlgItemText(hwndDlg,IDC_GROUP,tstr,SIZEOF(tstr));
-			DBWriteContactSettingTString(0,proto->ModuleName(),TWITTER_KEY_GROUP,tstr);
+			db_set_ts(0,proto->ModuleName(),TWITTER_KEY_GROUP,tstr);
 
 			return true;
 		}
@@ -178,7 +176,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		{
 			size_t len = SendDlgItemMessage(hwndDlg,IDC_TWEETMSG,WM_GETTEXTLENGTH,0,0);
 			char str[4];
-			_snprintf(str,sizeof(str),"%d",140-len);
+			mir_snprintf(str,sizeof(str),"%d",140-len);
 			SetDlgItemTextA(hwndDlg,IDC_CHARACTERS,str);
 
 			return true;
@@ -188,14 +186,14 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	case WM_SETREPLY:
 		{
 			char foo[512];
-			_snprintf(foo,sizeof(foo),"@%s ",(char*)wParam);
+			mir_snprintf(foo,sizeof(foo),"@%s ",(char*)wParam);
 			size_t len = strlen(foo);
 
 			SetDlgItemTextA(hwndDlg,IDC_TWEETMSG,foo);
 			SendDlgItemMessage(hwndDlg,IDC_TWEETMSG,EM_SETSEL,len,len);
 
 			char str[4];
-			_snprintf(str,sizeof(str),"%d",140-len);
+			mir_snprintf(str,sizeof(str),"%d",140-len);
 			SetDlgItemTextA(hwndDlg,IDC_CHARACTERS,str);
 
 			return true;
@@ -218,33 +216,31 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
+		if(!db_get_s(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_UN,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
-		/*if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
+		/*if( !db_get_s(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwndDlg,IDC_PW,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}*/
 
-		CheckDlgButton(hwndDlg,IDC_CHATFEED,DBGetContactSettingByte(0,
-			proto->ModuleName(),TWITTER_KEY_CHATFEED,0));
+		CheckDlgButton(hwndDlg,IDC_CHATFEED,db_get_b(0,proto->ModuleName(),TWITTER_KEY_CHATFEED,0));
 
 		for(size_t i=0; i<SIZEOF(sites); i++)
 		{
-			SendDlgItemMessage(hwndDlg,IDC_BASEURL,CB_ADDSTRING,0,
-				reinterpret_cast<LPARAM>(sites[i]));
+			SendDlgItemMessage(hwndDlg,IDC_BASEURL,CB_ADDSTRING,0,reinterpret_cast<LPARAM>(sites[i]));
 		}
 
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
+		if(!db_get_s(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_BASEURL,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 		{
@@ -252,12 +248,10 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		}
 		
 		char pollrate_str[32];
-		mir_snprintf(pollrate_str,sizeof(pollrate_str),"%d",
-			DBGetContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,80));
+		mir_snprintf(pollrate_str,sizeof(pollrate_str),"%d",db_get_dw(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,80));
 		SetDlgItemTextA(hwndDlg,IDC_POLLRATE,pollrate_str);
 
-		CheckDlgButton(hwndDlg,IDC_TWEET_MSG,DBGetContactSettingByte(0,
-			proto->ModuleName(),TWITTER_KEY_TWEET_TO_MSG,0));
+		CheckDlgButton(hwndDlg,IDC_TWEET_MSG,db_get_b(0,proto->ModuleName(),TWITTER_KEY_TWEET_TO_MSG,0));
 
 
 		// Do this last so that any events propagated by pre-filling the form don't
@@ -293,28 +287,26 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg,IDC_UN,str,sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,str);
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_UN,str);
 
 			/*GetDlgItemTextA(hwndDlg,IDC_PW,str,sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,str);*/
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_PASS,str);*/
 
 			GetDlgItemTextA(hwndDlg,IDC_BASEURL,str,sizeof(str)-1);
 			if(str[strlen(str)-1] != '/')
 				strncat(str,"/",sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,str);
+			db_set_s(0,proto->ModuleName(),TWITTER_KEY_BASEURL,str);
 
-			DBWriteContactSettingByte(0,proto->ModuleName(),TWITTER_KEY_CHATFEED,
-				IsDlgButtonChecked(hwndDlg,IDC_CHATFEED));
+			db_set_b(0,proto->ModuleName(),TWITTER_KEY_CHATFEED,IsDlgButtonChecked(hwndDlg,IDC_CHATFEED));
 
 			GetDlgItemTextA(hwndDlg,IDC_POLLRATE,str,sizeof(str));
 			int rate = atoi(str);
 			if(rate == 0)
 				rate = 80;
-			DBWriteContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,rate);
+			db_set_dw(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,rate);
 
-			DBWriteContactSettingByte(0,proto->ModuleName(),TWITTER_KEY_TWEET_TO_MSG,
-				IsDlgButtonChecked(hwndDlg,IDC_TWEET_MSG));
+			db_set_b(0,proto->ModuleName(),TWITTER_KEY_TWEET_TO_MSG,IsDlgButtonChecked(hwndDlg,IDC_TWEET_MSG));
 
 			proto->UpdateSettings();
 			return true;
@@ -439,10 +431,8 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
-		CheckAndUpdateDlgButton(hwndDlg,IDC_SHOWPOPUPS,
-			db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0));
-		CheckDlgButton(hwndDlg,IDC_NOSIGNONPOPUPS,
-			!db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0));
+		CheckAndUpdateDlgButton(hwndDlg,IDC_SHOWPOPUPS,db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0));
+		CheckDlgButton(hwndDlg,IDC_NOSIGNONPOPUPS,!db_get_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0));
 
 
 		// ***** Get color information
@@ -474,7 +464,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		else
 		{
 			char str[32];
-			_snprintf(str,sizeof(str),"%d",timeout);
+			mir_snprintf(str,sizeof(str),"%d",timeout);
 			SetDlgItemTextA(hwndDlg,IDC_TIMEOUT,str);
 			CheckAndUpdateDlgButton(hwndDlg,IDC_TIMEOUT_CUSTOM,true);
 		}
@@ -490,8 +480,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			switch(LOWORD(wParam))
 			{
 			case IDC_SHOWPOPUPS:
-				EnableWindow(GetDlgItem(hwndDlg,IDC_NOSIGNONPOPUPS),
-					IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
+				EnableWindow(GetDlgItem(hwndDlg,IDC_NOSIGNONPOPUPS),IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
 				break;
 
 			case IDC_COL_CUSTOM:
@@ -529,20 +518,15 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		{
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg,GWLP_USERDATA));
 
-			DBWriteContactSettingByte(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,
-				IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
-			DBWriteContactSettingByte(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,
-				!IsDlgButtonChecked(hwndDlg,IDC_NOSIGNONPOPUPS));
+			db_set_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
+			db_set_b(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,!IsDlgButtonChecked(hwndDlg,IDC_NOSIGNONPOPUPS));
 
 			// ***** Write color settings
-			DBWriteContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLBACK,
-				get_back_color(hwndDlg,true));
-			DBWriteContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLTEXT,
-				get_text_color(hwndDlg,true));
+			db_set_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLBACK,get_back_color(hwndDlg,true));
+			db_set_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_COLTEXT,get_text_color(hwndDlg,true));
 
 			// ***** Write timeout setting
-			DBWriteContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POPUP_TIMEOUT,
-				get_timeout(hwndDlg));
+			db_set_dw(0,proto->ModuleName(),TWITTER_KEY_POPUP_TIMEOUT,get_timeout(hwndDlg));
 
 			return true;
 		}
@@ -573,7 +557,7 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 				GetDlgItemTextA(hwndDlg,IDC_PIN,str,sizeof(str));
 
-				DBWriteContactSettingString(0,proto->ModuleName(),TWITTER_KEY_OAUTH_PIN,str);
+				db_set_s(0,proto->ModuleName(),TWITTER_KEY_OAUTH_PIN,str);
 				EndDialog(hwndDlg, wParam); 
 				return true;
 			}

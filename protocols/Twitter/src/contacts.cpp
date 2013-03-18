@@ -37,8 +37,7 @@ void TwitterProto::AddToListWorker(void *p)
 	}
 	catch(const std::exception &e)
 	{
-		ShowPopup((std::string("While adding a friend, an error occurred: ")
-			+e.what()).c_str());
+		ShowPopup((std::string("While adding a friend, an error occurred: ") + e.what()).c_str());
 		LOG( _T("***** Error adding friend: %s"),e.what());
 	}
 	mir_free(name);
@@ -61,10 +60,10 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 	std::string username;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if(!db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		username = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		return;
@@ -112,7 +111,6 @@ void TwitterProto::DoSearch(void *p)
 	search_query *query = static_cast<search_query*>(p);
 
 	twitter_user info;
-	PROTOSEARCHRESULT psr = {sizeof(psr)};
 
 	bool found = false;
 	try
@@ -128,15 +126,15 @@ void TwitterProto::DoSearch(void *p)
 	}
 	catch(const std::exception &e)
 	{
-		ShowPopup( (std::string("While searching for contacts, an error occurred: ")
-			+e.what()).c_str());
+		ShowPopup( (std::string("While searching for contacts, an error occurred: ") +  e.what()).c_str());
 		LOG( _T("***** Error searching for contacts: %s"), e.what());
 		found = false;
 	}
 
 	if(found) {
-		psr.nick      = mir_a2t( info.username. c_str());
-		psr.firstName = mir_a2t( info.real_name.c_str());
+		PROTOSEARCHRESULT psr = {sizeof(psr)};
+		psr.nick = mir_a2t(info.username. c_str());
+		psr.firstName = mir_a2t(info.real_name.c_str());
 
 		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1, (LPARAM)&psr);
 		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
@@ -172,9 +170,9 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 		return;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingTString(hContact,"CList","StatusMsg",&dbv)) {
+	if( !db_get_ts(hContact,"CList","StatusMsg",&dbv)) {
 		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,0);
 }
@@ -196,14 +194,14 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if( !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		if(in_chat_)
 			DeleteChatContact(dbv.pszVal);
 
 		ScopedLock s(twitter_lock_);
 		twit_.remove_friend(dbv.pszVal); // Be careful about this until Miranda is fixed
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -216,30 +214,28 @@ bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 	if(proto && strcmp(m_szModuleName,proto) == 0) {
 		if(include_chat)
 			return true;
-		return DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0) == 0;
+		return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
 	}
 	else return false;
 }
 
 HANDLE TwitterProto::UsernameToHContact(const char *name)
 {
-	for(HANDLE hContact = db_find_first();
-		hContact;
-		hContact = db_find_next(hContact))
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
 		if(!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+		if( !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		{
 			if(strcmp(name,dbv.pszVal) == 0)
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return hContact;
 			}
 			else
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 		}
 	}
 
@@ -262,18 +258,18 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 	{
 		if(CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0)
 		{
-			DBWriteContactSettingString    (hContact,m_szModuleName,TWITTER_KEY_UN,name);
-			DBWriteContactSettingWord      (hContact,m_szModuleName,"Status",ID_STATUS_ONLINE);
-			DBWriteContactSettingUTF8String(hContact,"CList","StatusMsg",status);
+			db_set_s(hContact,m_szModuleName,TWITTER_KEY_UN,name);
+			db_set_w(hContact,m_szModuleName,"Status",ID_STATUS_ONLINE);
+			db_set_utf(hContact,"CList","StatusMsg",status);
 
 			std::string url = profile_base_url(twit_.get_base_url())+http::url_encode(name);
-			DBWriteContactSettingString    (hContact,m_szModuleName,"Homepage",url.c_str());
+			db_set_s(hContact,m_szModuleName,"Homepage",url.c_str());
 
 			DBVARIANT dbv;
-			if( !DBGetContactSettingTString(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv))
+			if(!db_get_ts(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv))
 			{
-				DBWriteContactSettingTString(hContact,"CList","Group",dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_set_ts(hContact,"CList","Group",dbv.ptszVal);
+				db_free(&dbv);
 			}
 
 
@@ -288,14 +284,12 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 
 void TwitterProto::SetAllContactStatuses(int status)
 {
-	for(HANDLE hContact = db_find_first();
-		hContact;
-		hContact = db_find_next(hContact))
+	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
 		if(!IsMyContact(hContact))
 			continue;
 
-		DBWriteContactSettingWord(hContact,m_szModuleName,"Status",status);
+		db_set_w(hContact,m_szModuleName,"Status",status);
 	}
 
 	SetChatStatus(status);

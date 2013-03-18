@@ -82,8 +82,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void InitContactMenus()
 {
-	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,
-		PrebuildContactMenu);
+	g_hMenuEvts[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 	mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
@@ -99,8 +98,7 @@ void InitContactMenus()
 	mi.icolibItem = GetIconHandle("homepage");
 	mi.ptszName = LPGENT("Visit Homepage");
 	mi.pszService = "Twitter/VisitHomepage";
-	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService,
-		GlobalService<&TwitterProto::VisitHomepage>);
+	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::VisitHomepage>);
 	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);
 }
 
@@ -123,7 +121,6 @@ void ShowContactMenus(bool show)
 		if(!show)
 			item.flags |= CMIF_HIDDEN;
 
-		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(g_hMenuItems[i]),
-			reinterpret_cast<LPARAM>(&item));
+		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(g_hMenuItems[i]),reinterpret_cast<LPARAM>(&item));
 	}
 }

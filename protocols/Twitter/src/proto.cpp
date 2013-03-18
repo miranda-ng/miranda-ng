@@ -95,7 +95,7 @@ TwitterProto::~TwitterProto()
 
 // *************************
 
-DWORD_PTR TwitterProto::GetCaps(int type,HANDLE hContact)
+DWORD_PTR TwitterProto::GetCaps(int type,HANDLE)
 {
 	switch(type)
 	{
@@ -142,14 +142,13 @@ void TwitterProto::SendSuccess(void *p)
 	send_direct *data = static_cast<send_direct*>(p);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if( !db_get_s(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		ScopedLock s(twitter_lock_);
 		twit_.send_direct(dbv.pszVal,data->msg);
 
-		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,
-			(HANDLE)1,0);
-		DBFreeVariant(&dbv);
+		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS,(HANDLE)1,0);
+		db_free(&dbv);
 	}
 
 	delete data;
@@ -198,8 +197,7 @@ int TwitterProto::SetStatus(int new_status)
 		// i think here we tell the proto interface struct that we're connecting, just so it knows
 		m_iStatus = ID_STATUS_CONNECTING;
 		// ok.. here i think we're telling the core that this protocol something.. but why?
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-			(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
 		ForkThread(&TwitterProto::SignOn,this);
 	}
@@ -209,8 +207,7 @@ int TwitterProto::SetStatus(int new_status)
 		m_iStatus = m_iDesiredStatus;
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,
-			(HANDLE)old_status,m_iStatus);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 	}
 
 	return 0;
@@ -232,10 +229,9 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 // *************************
 
-int TwitterProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
+int TwitterProto::SvcCreateAccMgrUI(WPARAM,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),
-		 (HWND)lParam, first_run_dialog, (LPARAM)this );
+	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),(HWND)lParam, first_run_dialog, (LPARAM)this );
 }
 
 int TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
@@ -244,24 +240,23 @@ int TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int TwitterProto::GetStatus(WPARAM wParam,LPARAM lParam)
+int TwitterProto::GetStatus(WPARAM,LPARAM)
 {
 	return m_iStatus;
 }
 
-int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM lParam)
+int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM)
 {
 	// TODO: support replying to tweets instead of just users
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),
-		 (HWND)0,tweet_proc,reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),0,tweet_proc,reinterpret_cast<LPARAM>(this));
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if(!db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		SendMessage(hDlg,WM_SETREPLY,reinterpret_cast<WPARAM>(dbv.pszVal),0);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	ShowWindow(hDlg,SW_SHOW);
@@ -269,28 +264,19 @@ int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM lParam)
+int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv))
+	// TODO: remove this
+	if( !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
-		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(dbv.pszVal));
-		DBFreeVariant(&dbv);
-	}
-	else
-	{
-		// TODO: remove this
-		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
-		{
-			std::string url = profile_base_url(twit_.get_base_url())+
-				http::url_encode(dbv.pszVal);
-			DBWriteContactSettingString(hContact,m_szModuleName,"Homepage",url.c_str());
+		std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
+		db_set_s(hContact,m_szModuleName,"Homepage",url.c_str());
 
-			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(url.c_str()));
-			DBFreeVariant(&dbv);
-		}
+		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(url.c_str()));
+		db_free(&dbv);
 	}
 
 	return 0;
@@ -298,7 +284,7 @@ int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM lParam)
 
 // *************************
 
-int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnBuildStatusMenu(WPARAM,LPARAM)
 {
 	HGENMENU hRoot = pcli->pfnGetProtocolMenu(m_szModuleName);
 	if (hRoot == NULL)
@@ -328,7 +314,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
 	odp.position    = 271828;
@@ -354,18 +340,17 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int TwitterProto::OnTweet(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnTweet(WPARAM,LPARAM)
 {
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 1;
 
-	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),
-		 0,tweet_proc,reinterpret_cast<LPARAM>(this));
+	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET), 0,tweet_proc,reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg,SW_SHOW);
 	return 0;
 }
 
-int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 {
 	TCHAR descr[512];
 	NETLIBUSER nlu = {sizeof(nlu)};
@@ -425,14 +410,14 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int TwitterProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnPreShutdown(WPARAM,LPARAM)
 {
 	Netlib_Shutdown(hNetlib_);
 	Netlib_Shutdown(hAvatarNetlib_);
 	return 0;
 }
 
-int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
+int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 	if(IsMyContact(hContact))
@@ -443,8 +428,7 @@ int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 int TwitterProto::ShowPinDialog()
 {
-	HWND hDlg = (HWND)DialogBoxParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERPIN),
-		 0,pin_proc,reinterpret_cast<LPARAM>(this));
+	HWND hDlg = (HWND)DialogBoxParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERPIN),0,pin_proc,reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg,SW_SHOW);
 	return 0;
 }
@@ -452,7 +436,7 @@ int TwitterProto::ShowPinDialog()
 void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
 	POPUPDATAT popup = {};
-	_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
+	mir_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
 	wcs_to_tcs(CP_UTF8,text,popup.lptzText,MAX_SECONDLINE);
 
 	if (Error) {
@@ -470,7 +454,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 void TwitterProto::ShowPopup(const char *text, int Error)
 {
 	POPUPDATAT popup = {};
-	_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
+	mir_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
 	mbcs_to_tcs(CP_UTF8,text,popup.lptzText,MAX_SECONDLINE);
 	if (Error) {
 		popup.iSeconds = -1;
@@ -496,7 +480,7 @@ void TwitterProto::LOG(TCHAR *fmt,...)
 	mir_vsntprintf(text,SIZEOF(text),fmt,va);
 	va_end(va);
 
-	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)( char* )_T2A(text));
+	CallService(MS_NETLIB_LOGW, (WPARAM)hNetlib_, (LPARAM)text);
 }
 
 // TODO: the more I think about it, the more I think all twit.* methods should
@@ -508,10 +492,9 @@ void TwitterProto::SendTweetWorker(void *p)
 
 	char *text = static_cast<char*>(p);
 	if (strlen(text) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
-		char * errorPopup = new char[280]; // i hate c strings ... i should use std::string here.  why did i use char* ???  need to delete[] or use std::String
-		sprintf(errorPopup, "Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?", strlen(text));
+		TCHAR errorPopup[280];
+		mir_sntprintf(errorPopup,SIZEOF(errorPopup), _T("Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?"), strlen(text));
 		ShowPopup(errorPopup, 1);
-		delete[] errorPopup;
 		return;
 	}
 
@@ -533,9 +516,7 @@ void TwitterProto::UpdateSettings()
 		if(in_chat_)
 			OnLeaveChat(0,0);
 
-		for(HANDLE hContact = db_find_first();
-			hContact;
-			hContact = db_find_next(hContact))
+		for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		{
 			if(!IsMyContact(hContact,true))
 				continue;

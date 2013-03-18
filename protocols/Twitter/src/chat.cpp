@@ -44,10 +44,10 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 
 	DBVARIANT nick;
 	HANDLE hContact = UsernameToHContact(update.username.c_str());
-	if(hContact && !DBGetContactSettingString(hContact,"CList","MyHandle",&nick))
+	if(hContact && !db_get_s(hContact,"CList","MyHandle",&nick))
 	{
 		gce.ptszNick = mir_a2t(nick.pszVal);
-		DBFreeVariant(&nick);
+		db_free(&nick);
 	}
 	else
 		gce.ptszNick = mir_a2t(update.username.c_str());
@@ -197,24 +197,24 @@ void TwitterProto::SetChatStatus(int status)
 	if(status == ID_STATUS_ONLINE)
 	{
 		// Add all friends to contact list
-		for(HANDLE hContact = db_find_first();
-			hContact;
-			hContact = db_find_next(hContact))
+		for(HANDLE hContact = db_find_first();hContact;hContact = db_find_next(hContact))
 		{
 			if(!IsMyContact(hContact))
 				continue;
 
 			DBVARIANT uid,nick;
-			if( DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&uid))
+			if(db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&uid))
 				continue;
 
-			if( !DBGetContactSettingString(hContact,"CList","MyHandle",&nick))
+			if(!db_get_s(hContact,"CList","MyHandle",&nick))
+			{
 				AddChatContact(uid.pszVal,nick.pszVal);
+				db_free(&nick);
+			}
 			else
 				AddChatContact(uid.pszVal);
 
-			DBFreeVariant(&nick);
-			DBFreeVariant(&uid);
+			db_free(&uid);
 		}
 
 		// For some reason, I have to send an INITDONE message, even if I'm not actually
