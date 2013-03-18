@@ -150,7 +150,7 @@ VOID CCombo::Release()
  **/
 BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 {
-	if (!_Flags.B.hasChanged)
+	if (!_Flags.B.hasChanged && _pList != NULL)
 	{
 		DBVARIANT dbv;
 		LPIDSTRLIST pItem = NULL;
