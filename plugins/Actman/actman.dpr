@@ -136,7 +136,7 @@ begin
 
   LoadGroups;
   RegisterIcons;
-  
+
   opthook      :=HookEvent(ME_OPT_INITIALISE ,@OnOptInitialise);
   hHookShutdown:=HookEvent(ME_SYSTEM_SHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
   NotifyEventHooks(hHookChanged,twparam(ACTM_LOADED),0);
@@ -183,7 +183,9 @@ begin
 end;
 
 exports
-  Load, Unload,
-  MirandaPluginInfoEx;
+  Load, Unload, MirandaPluginInfoEx;
+
+initialization
+  DisableThreadLibraryCalls(hInstance);
 
 end.

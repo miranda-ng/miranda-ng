@@ -151,11 +151,10 @@ begin
   Result := 0;
 end;
 
-
 exports
+  Load, Unload, MirandaPluginInfoEx;
 
-  Load, Unload,
-  MirandaPluginInfoEx;
+initialization
+  DisableThreadLibraryCalls(hInstance);
 
-begin
 end.

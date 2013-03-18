@@ -1737,7 +1737,7 @@ begin
   SetEvent(p^.hEvent);
 end;
 
-function IssueTransferThread(pipch: PHeaderIPC): Cardinal; stdcall;
+procedure IssueTransferThread(pipch: PHeaderIPC); cdecl;
 var
   szBuf: array [0 .. MAX_PATH] of Char;
   pct: PSlotIPC;
@@ -1747,8 +1747,6 @@ var
   p: Pointer;
   hMainThread: THandle;
 begin
-  result:=0;
-  Thread_Push(0,nil);
   hMainThread := THandle(pipch^.Param);
   GetCurrentDirectory(sizeof(szBuf), szBuf);
   args.count := 0;
@@ -1795,8 +1793,6 @@ begin
   SetCurrentDirectory(szBuf);
   FreeMem(pipch);
   CloseHandle(hMainThread);
-  Thread_Pop();
-  ExitThread(0);
 end;
 
 type
@@ -2071,7 +2067,7 @@ begin
 end;
 
 // worker thread to clear MRU, called by the IPC bridge
-function ClearMRUThread(notused: Pointer): Cardinal; stdcall;
+procedure ClearMRUThread(notused: Pointer); cdecl;
 {$DEFINE SHL_IDC}
 {$DEFINE SHL_KEYS}
 {$INCLUDE shlc.inc}
@@ -2080,9 +2076,6 @@ function ClearMRUThread(notused: Pointer): Cardinal; stdcall;
 var
   hContact: THandle;
 begin
-  result:=0;
-  Thread_Push(0,nil);
-
   begin
     hContact := CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
     while hContact <> 0 do
@@ -2094,8 +2087,6 @@ begin
       hContact := CallService(MS_DB_CONTACT_FINDNEXT, hContact, 0);
     end;
   end;
-  Thread_Pop();
-  ExitThread(0);
 end;
 
 // this function is called from an APC into the main thread
@@ -2141,13 +2132,13 @@ begin
         ipcFixupAddresses(True, cloned);
         DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(),
           @cloned^.Param, THREAD_SET_CONTEXT, False, 0);
-        CloseHandle(CreateThread(nil, 0, @IssueTransferThread, cloned, 0, tid));
+        mir_forkThread(@IssueTransferThread, cloned);
         goto Reply;
       end;
       // the request was to clear the MRU entries, we have no return data
       if (bits^ and REQUEST_CLEARMRU) = REQUEST_CLEARMRU then
       begin
-        CloseHandle(CreateThread(nil, 0, @ClearMRUThread, nil, 0, tid));
+        mir_forkThread(@ClearMRUThread, nil);
         goto Reply;
       end;
       // the IPC header may have pointers that need to be translated
@@ -2266,20 +2257,16 @@ begin
   //
 end;
 
-function ThreadServer(hMainThread: Pointer): Cardinal;
-{$IFDEF FPC}
-stdcall;
-{$ENDIF}
+procedure ThreadServer(hMainThread: Pointer); cdecl;
 var
   hEvent: THandle;
+  retVal: Cardinal;
 begin
-  result:=0;
-  Thread_Push(0,nil);
   hEvent := CreateEvent(nil, False, False, PChar(CreateProcessUID(GetCurrentProcessId())));
   while True do
   begin
-    Result := WaitForSingleObjectEx(hEvent, INFINITE, True);
-    if Result = WAIT_OBJECT_0 then
+    retVal := WaitForSingleObjectEx(hEvent, INFINITE, True);
+    if retVal = WAIT_OBJECT_0 then
     begin
       QueueUserAPC(@ipcService, THandle(hMainThread), 0);
     end; // if
@@ -2288,8 +2275,6 @@ begin
   end; // while
   CloseHandle(hEvent);
   CloseHandle(THandle(hMainThread));
-  Thread_Pop();
-  ExitThread(0);
 end;
 
 procedure InvokeThreadServer;
@@ -2306,13 +2291,7 @@ begin
   DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), @hMainThread,
     THREAD_SET_CONTEXT, False, 0);
   if hMainThread <> 0 then
-  begin
-{$IFDEF FPC}
-    CloseHandle(CreateThread(nil, 0, @ThreadServer, Pointer(hMainThread), 0, tid));
-{$ELSE}
-    CloseHandle(BeginThread(nil, 0, @ThreadServer, Pointer(hMainThread), 0, tid));
-{$ENDIF}
-  end; // if
+    mir_forkThread(@ThreadServer, Pointer(hMainThread));
 end;
 
 { exported functions }

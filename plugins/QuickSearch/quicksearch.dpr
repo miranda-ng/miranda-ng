@@ -240,5 +240,7 @@ exports
   Load, Unload,
   MirandaPluginInfoEx;
 
-begin
+initialization
+  DisableThreadLibraryCalls(hInstance);
+
 end.

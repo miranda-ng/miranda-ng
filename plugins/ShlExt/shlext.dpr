@@ -384,13 +384,12 @@ end;
 {$R shldlgs.res}
 
 exports
-
   MirandaPluginInfoEx, Load, Unload;
 
 exports
-
   DllGetClassObject, DllCanUnloadNow, DllRegisterServer, DllUnregisterServer;
 
-begin
+initialization
+  DisableThreadLibraryCalls(hInstance);
 
 end.

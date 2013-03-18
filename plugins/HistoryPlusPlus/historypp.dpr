@@ -573,6 +573,7 @@ exports
   Unload;
 
 begin
+  DisableThreadLibraryCalls(hInstance);
 
   // decreasing ref count to oleaut32.dll as said
   // in plugins doc
