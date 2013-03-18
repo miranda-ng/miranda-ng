@@ -209,9 +209,6 @@ static void __cdecl PopupThread(void *arg)
 		return;
 	}
 
-	// Increment Miranda thread counter
-	Thread_Push(0);
-
 	// Create manager window
 	DWORD err;
 	WNDCLASSEX wcl;
