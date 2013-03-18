@@ -3,8 +3,6 @@
 
 #include "stdafx.h"
 
-#include "lan.h"
-
 CLan::CLan()
 {
 	m_income = INVALID_SOCKET;

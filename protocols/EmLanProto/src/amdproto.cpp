@@ -2,20 +2,18 @@
 // AMD local protocol main file
 
 #include "stdafx.h"
-#include "mlan.h"
-#include "resource.h"
 
 //////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"E-mage LAN Protocol",
-	VER,
-	"E-mage LAN protocol support for Miranda NG.",
-	"kva",
-	"kva@fromru.com",
-	"Viktor Kuzmin of e-mage",
-	"",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {E08CE7C4-9EEB-4272-B544-0D32E18D90DE}
 	{0xe08ce7c4, 0x9eeb, 0x4272, {0xb5, 0x44, 0xd, 0x32, 0xe1, 0x8d, 0x90, 0xde}}
@@ -44,7 +42,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 //////////////////////////////////////////////////////////////////////////
 
-BOOL APIENTRY DllMain( HINSTANCE hInstDLL,DWORD reason,LPVOID )
+BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID)
 {
 	g_hInstance = hInstDLL;
 	if (reason == DLL_PROCESS_ATTACH) {

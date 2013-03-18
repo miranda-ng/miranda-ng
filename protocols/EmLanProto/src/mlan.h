@@ -4,8 +4,6 @@
 #ifndef __mlan_h__
 #define __mlan_h__
 
-#include "lan.h"
-
 #define MLAN_TIMEOUT 5
 #define MLAN_CHECK 50
 #define MLAN_SLEEP 400

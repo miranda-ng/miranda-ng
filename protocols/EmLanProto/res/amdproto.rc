@@ -36,30 +36,22 @@ IDI_ICON_OFFLINE        ICON                    "icon_off.ico"
 // Dialog
 //
 
-IDD_DIALOG1 DIALOGEX 0, 0, 327, 191
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION |
-    WS_SYSMENU
-CAPTION "EmLan protocol - donate author please"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+IDD_EMP_FORM_OPT DIALOGEX 0, 0, 200, 63
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,277,177,50,14
-    EDITTEXT        IDC_EDIT1,0,0,327,176,ES_MULTILINE | ES_READONLY |
-                    WS_VSCROLL
-    LTEXT           "This window is shown only once",IDC_STATIC,2,179,274,11
+    LISTBOX         IDC_LIST_IP,5,23,94,34,LBS_USETABSTOPS |
+                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CTEXT           "Select your IP address",IDC_STATIC,7,12,92,8
+    GROUPBOX        "LAN Settings",IDC_STATIC,2,2,196,58
+    CONTROL         "Use computer name",IDC_RADIO_USECOMPNAME,"Button",
+                    BS_AUTORADIOBUTTON,101,24,79,10
+    CONTROL         "Your name",IDC_RADIO_USEOWN,"Button",BS_AUTORADIOBUTTON,
+                    101,34,50,10
+    EDITTEXT        IDC_EDIT_NAME,101,44,93,12,ES_AUTOHSCROLL
+    CTEXT           "Select your name",IDC_STATIC,99,13,92,8
 END
 
-#endif    // Russian resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -89,28 +81,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog
-//
-
-IDD_EMP_FORM_OPT DIALOGEX 0, 0, 200, 63
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    LISTBOX         IDC_LIST_IP,5,23,94,34,LBS_USETABSTOPS |
-                    LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    CTEXT           "Select your IP address",IDC_STATIC,7,12,92,8
-    GROUPBOX        "LAN Settings",IDC_STATIC,2,2,196,58
-    CONTROL         "Use computer name",IDC_RADIO_USECOMPNAME,"Button",
-                    BS_AUTORADIOBUTTON,101,24,79,10
-    CONTROL         "Your name",IDC_RADIO_USEOWN,"Button",BS_AUTORADIOBUTTON,
-                    101,34,50,10
-    EDITTEXT        IDC_EDIT_NAME,101,44,93,12,ES_AUTOHSCROLL
-    CTEXT           "Select your name",IDC_STATIC,99,13,92,8
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // DESIGNINFO
 //
 
@@ -127,7 +97,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -7,25 +7,24 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
-// Windows Header Files:
+
 #include <windows.h>
 #include <winsock2.h>
-
-#include "newpluginapi.h"
-
-#include "m_options.h"
-#include "m_system.h"
-
-#include "m_database.h"
-#include "m_protomod.h"
-#include "statusmodes.h"
-#include "m_protosvc.h"
-#include "m_options.h"
-#include "m_langpack.h"
 #include <prsht.h>
 
+#include <newpluginapi.h>
+#include <m_options.h>
+#include <m_database.h>
+#include <m_protomod.h>
+#include <m_langpack.h>
+
+#include "resource.h"
+#include "Version.h"
+#include "get_time.h"
+#include "lan.h"
+#include "mlan.h"
+
 #define PROTONAME "EM_LAN_PROTO"
-#define VER PLUGIN_MAKE_VERSION(0, 0, 1, 1)
 
 //#define ME_ICQ_STATUSMSGREQ "ICQ/StatusMsgReq"
 //

@@ -9,8 +9,6 @@
 #define MAX_INTERNAL_IP 32
 #define PORT_NUMBER MAKE_PORT(34074)
 
-#include "winsock2.h"
-
 //! Class for operating with LAN
 class CLan
 {

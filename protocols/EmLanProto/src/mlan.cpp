@@ -2,8 +2,6 @@
 // Miranda lan functions
 
 #include "stdafx.h"
-#include "mlan.h"
-#include "get_time.h"
 
 #define MCODE_SND_STATUS 1
 #define MCODE_SND_NAME 2
@@ -682,7 +680,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	int len = 1;
 
 	if (pak.idVersion != -1)
-		pak.idVersion = VER;
+		pak.idVersion = __FILEVERSION_STRING;
 	else
 		pak.idVersion = 0;
 	if (pak.idStatus != -1)
