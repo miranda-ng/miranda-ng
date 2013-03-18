@@ -118,11 +118,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\icons.h" />
-    <ClInclude Include="src\icons_version.h" />
+    <ClInclude Include="src\Version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\icons_version.rc" />
     <ResourceCompile Include="res\icons_z2.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

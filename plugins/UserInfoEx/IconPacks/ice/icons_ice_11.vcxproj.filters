@@ -14,7 +14,7 @@
     <ClInclude Include="src\icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\icons_version.h">
+    <ClInclude Include="src\Version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -22,7 +22,7 @@
     <ResourceCompile Include="res\icons.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="res\icons_version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
