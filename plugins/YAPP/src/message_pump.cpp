@@ -67,7 +67,6 @@ bool is_workstation_locked()
 	return rc;
 }
 
-
 unsigned __stdcall MessagePumpThread(void* param)
 {
 	InitWindowStack();
@@ -143,13 +142,12 @@ unsigned __stdcall MessagePumpThread(void* param)
 	DeinitWindowStack();
 	num_popups = 0;
 
-	//if (param) SetEvent((HANDLE)param);
-
 	DeinitServices();
 	return 0;
 }
 
-void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam) {
+void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	PostThreadMessage(message_pump_thread_id, msg, wParam, lParam);
 }
 
@@ -159,7 +157,8 @@ void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam) {
 // when the event is signalled, the hwnd will be valid
 void FindWindow(PopupData *pd, HANDLE hEvent, HWND *hwnd);
 
-void InitMessagePump() {
+void InitMessagePump()
+{
 	WNDCLASS popup_win_class = {0};
 	popup_win_class.lpfnWndProc = PopupWindowProc;
 	popup_win_class.hInstance = hInst;

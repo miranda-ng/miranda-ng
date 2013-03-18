@@ -131,15 +131,16 @@ void AddWindowToStack(HWND hwnd) {
 	RepositionWindows();
 }
 
-void RemoveWindowFromStack(HWND hwnd) {
+void RemoveWindowFromStack(HWND hwnd)
+{
 	HWNDStackNode *current = hwnd_stack_top, *prev = 0;
 	while(current) {
 		if (current->hwnd == hwnd) {
-			if (prev) {
+			if (prev)
 				prev->next = current->next;
-			} else {
+			else
 				hwnd_stack_top = current->next;
-			}
+
 			mir_free(current);
 			stack_size--;
 			break;
@@ -149,19 +150,24 @@ void RemoveWindowFromStack(HWND hwnd) {
 		current = current->next;
 	}
 
-	if (hwnd_stack_top) RepositionWindows();
+	if (hwnd_stack_top)
+		RepositionWindows();
 }
 
-void ClearStack() {
-	while(hwnd_stack_top) {
-		DestroyWindow(hwnd_stack_top->hwnd);
-	}
-}
-
-void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam) {
+void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	HWNDStackNode *current = hwnd_stack_top;
 	while(current) {
 		SendMessage(current->hwnd, msg, wParam, lParam);
+		current = current->next;
+	}
+}
+
+void DeinitWindowStack()
+{
+	HWNDStackNode *current = hwnd_stack_top;
+	while(current) {
+		DestroyWindow(current->hwnd);
 		current = current->next;
 	}
 }
@@ -729,15 +735,8 @@ void InitWindowStack()
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
 		MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
 		MyMonitorFromRect=(HMONITOR (WINAPI*)(LPCRECT,DWORD))GetProcAddress(hUserDll, "MonitorFromRect");
-		
-			MyGetMonitorInfo=(BOOL (WINAPI*)(HMONITOR,LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-		
+		MyGetMonitorInfo=(BOOL (WINAPI*)(HMONITOR,LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
 	}
-}
-
-void DeinitWindowStack()
-{
-	ClearStack();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

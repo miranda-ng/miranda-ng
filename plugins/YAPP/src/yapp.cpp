@@ -162,8 +162,8 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Load(void) {
-
+extern "C" int __declspec(dllexport) Load(void)
+{
 	mir_getLP(&pluginInfo);
 
 	InitMessagePump();
