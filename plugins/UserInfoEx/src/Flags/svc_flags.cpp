@@ -538,7 +538,6 @@ static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 void SvcFlagsLoadModule()
 {
 	PrepareBufferedFunctions();
-	InitCountryListExt();	/* hack to replace core country list */
 	if(CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&nCountriesCount,(LPARAM)&countries))
 		nCountriesCount=0;
 	InitIcons();			/* load in iconlib */

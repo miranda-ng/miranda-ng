@@ -244,9 +244,6 @@
     <ClCompile Include="src\ex_import\tinyxmlparser.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\Flags\svc_countrylistext.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\Flags\svc_flags.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -305,7 +302,6 @@
     <ClInclude Include="src\ex_import\svc_ExImXML.h" />
     <ClInclude Include="src\ex_import\tinystr.h" />
     <ClInclude Include="src\ex_import\tinyxml.h" />
-    <ClInclude Include="src\Flags\svc_countrylistext.h" />
     <ClInclude Include="src\Flags\svc_flags.h" />
     <ClInclude Include="src\Flags\svc_flagsicons.h" />
     <ClInclude Include="src\dlg_anniversarylist.h" />

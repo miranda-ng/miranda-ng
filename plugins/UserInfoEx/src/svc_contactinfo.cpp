@@ -330,8 +330,7 @@ static FORCEINLINE INT_PTR GCICountry(CONTACTINFO *ci, LPCSTR pszSetting)
 				default:			return 1;
 			}
 
-//			LPSTR szCountry = res ? (LPSTR)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, res, 0) : NULL;
-			LPSTR szCountry = res ? (LPSTR)ServiceGetCountryByNumber(res, 0) : NULL;
+			LPSTR szCountry = res ? (LPSTR)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, res, 0) : NULL;
 			if (szCountry) {
 				ci->pszVal = (ci->dwFlag & CNF_UNICODE) 
 							 ? (LPTSTR) mir_a2u(szCountry) 

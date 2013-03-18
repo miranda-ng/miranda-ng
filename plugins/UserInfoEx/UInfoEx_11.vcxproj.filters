@@ -155,9 +155,6 @@
     <ClCompile Include="src\ex_import\tinyxmlparser.cpp">
       <Filter>Source Files\Services\Ex/Import</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flags\svc_countrylistext.cpp">
-      <Filter>Source Files\Services\flags</Filter>
-    </ClCompile>
     <ClCompile Include="src\Flags\svc_flags.cpp">
       <Filter>Source Files\Services\flags</Filter>
     </ClCompile>
@@ -351,9 +348,6 @@
     </ClInclude>
     <ClInclude Include="src\ex_import\tinyxml.h">
       <Filter>Header Files\Services\Ex/Import</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flags\svc_countrylistext.h">
-      <Filter>Header Files\Services\flags</Filter>
     </ClInclude>
     <ClInclude Include="src\Flags\svc_flags.h">
       <Filter>Header Files\Services\flags</Filter>

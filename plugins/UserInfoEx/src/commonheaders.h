@@ -163,7 +163,6 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 #include "ex_import\dlg_ExImOpenSaveFile.h"
 #include "ex_import\svc_ExImINI.h"
 #include "ex_import\svc_ExImVCF.h"
-#include "Flags\svc_countrylistext.h"
 #include "flags\svc_flags.h"
 #include "Flags\svc_flagsicons.h"
 
