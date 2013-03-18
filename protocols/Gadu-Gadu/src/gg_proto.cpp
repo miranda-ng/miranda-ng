@@ -70,7 +70,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	hAvatarsFolder = FoldersRegisterCustomPathT(LPGEN("Avatars"), m_szModuleName, szPath, m_tszUserName);
 
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), (TCHAR*)VARST( _T("%miranda_userdata%")), m_tszUserName);
-	hImagesFolder = FoldersRegisterCustomPathT("Images", m_szModuleName, szPath, m_tszUserName);
+	hImagesFolder = FoldersRegisterCustomPathT(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
 	DWORD dwVersion;
 	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
