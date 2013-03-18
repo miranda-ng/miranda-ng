@@ -578,14 +578,15 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text) {
 	return firstToken;
 }
 
-wchar_t *TextToken::htmlEncode(const wchar_t *str) {
+wchar_t *TextToken::htmlEncode(const wchar_t *str)
+{
 	wchar_t *out;
 	const wchar_t *ptr;
-	bool wasSpace;
-	int c;
-	c = 0;
-	wasSpace = false;
+	if (str == NULL)
+		return NULL;
+	int c = 0;
 	for (ptr=str; *ptr!='\0'; ptr++) {
+		bool wasSpace = false;
 		if (*ptr==' ' && wasSpace) {
 			wasSpace = true;
 			c += 6;
@@ -604,8 +605,8 @@ wchar_t *TextToken::htmlEncode(const wchar_t *str) {
 		}
 	}
 	wchar_t *output = new wchar_t[c+1];
-	wasSpace = false;
 	for (out=output, ptr=str; *ptr!='\0'; ptr++) {
+		bool wasSpace = false;
 		if (*ptr==' ' && wasSpace) {
 			wcscpy(out, L"&nbsp;");
 			out += 6;
@@ -734,16 +735,16 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced) {
 					break;
 				case BB_IMG:
 					eText = htmlEncode(wtext);
-					if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf")!=NULL)) {
+					if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != NULL && (wcsstr(eText, L".swf")!=NULL)) {
 						Utils::appendText(str, sizeAlloced,
 		L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
 		<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
 						eText);
-					} else if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && (wcsstr(eText, L".png")!=NULL)) {
+					} else if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_PNGHACK) && eText != NULL && (wcsstr(eText, L".png")!=NULL)) {
 						Utils::appendText(str, sizeAlloced, L"<img class=\"img\" style=\"height:1px;width:1px;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='%s',sizingMethod='image');\" />", eText);
 					} else {
-						if (wcsncmp(eText, L"http://", 7)) {
+						if (eText != NULL && wcsncmp(eText, L"http://", 7)) {
 							Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);
 						} else {
 							Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"%s\" /></div>", eText);
