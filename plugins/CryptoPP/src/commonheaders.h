@@ -83,7 +83,6 @@ extern HANDLE hPGPPRIV;
 extern HANDLE hRSA4096;
 
 extern CRITICAL_SECTION localQueueMutex;
-extern CRITICAL_SECTION localContextMutex;
 
 void ExtractFile(char*,int,int);
 size_t rtrim(LPCSTR);

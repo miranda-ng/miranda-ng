@@ -68,6 +68,14 @@ int __cdecl rsa_done(void) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_done");
 #endif
+	if ( hRSA4096 ) {
+		pCNTX tmp = (pCNTX) hRSA4096;
+		pRSAPRIV p = (pRSAPRIV)tmp->pdata;
+		delete p;
+		tmp->pdata = 0;
+		cpp_delete_context(hRSA4096);
+	}
+
 	return 1;
 }
 
@@ -858,7 +866,6 @@ void rsa_free( pCNTX ptr ) {
 	if ( p && p->event ) {
 		p->thread_exit = 2; // отпускаем поток в свободное плавание
 		SetEvent( p->event );
-		rsa_alloc(ptr);
 	}
 }
 
