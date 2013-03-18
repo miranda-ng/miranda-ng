@@ -18,8 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef FLAP_H
 #define FLAP_H
 
-#include "packets.h"
-
 #define FLAP_SIZE 6
 
 class FLAP

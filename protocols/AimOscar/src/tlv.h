@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef TLV_H
 #define TLV_H
 
-#include "packets.h"
-
 #define TLV_HEADER_SIZE	4
 
 class TLV

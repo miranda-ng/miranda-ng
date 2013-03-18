@@ -19,18 +19,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef AIM_H
 #define AIM_H
 
-#include <m_stdhdr.h>
-
 //System includes
 #include <windows.h>
-#include <vssym32.h>
 #include <fcntl.h>
 #include <io.h>
 #include <richedit.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <malloc.h>
 
 //Miranda NG includes
+#include <msapi\vssym32.h>
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>
@@ -47,13 +46,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protomod.h>
 #include <m_userinfo.h>
 #include <m_icolib.h>
-#include <m_system_cpp.h>
 #include <m_imgsrvc.h>
 #include <win2k.h>
 #include <m_extraicons.h>
+#include <m_protoint.h>
 
-#include "m_folders.h"
-#include "m_assocmgr.h"
+#include <m_folders.h>
+#include <m_assocmgr.h>
 
 //rest of includes
 #include "avatars.h"

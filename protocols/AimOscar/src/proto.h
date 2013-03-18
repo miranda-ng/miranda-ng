@@ -19,8 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef _AIM_PROTO_H_
 #define _AIM_PROTO_H_
 
-#include "m_protoint.h"
-
 struct CAimProto;
 typedef void    ( __cdecl CAimProto::*AimThreadFunc )( void* );
 typedef int     ( __cdecl CAimProto::*AimEventFunc )( WPARAM, LPARAM );
