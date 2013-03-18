@@ -863,9 +863,14 @@ void rsa_alloc( pCNTX ptr ) {
 
 void rsa_free( pCNTX ptr ) {
 	pRSADATA p = (pRSADATA) ptr->pdata;
-	if ( p && p->event ) {
+	if (p && p->event) {
 		p->thread_exit = 2; // отпускаем поток в свободное плавание
 		SetEvent( p->event );
+	}
+	else {
+		delete p->queue;
+		delete p;
+		ptr->pdata = NULL;
 	}
 }
 
