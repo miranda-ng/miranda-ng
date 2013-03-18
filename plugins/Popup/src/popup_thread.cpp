@@ -245,7 +245,7 @@ static void __cdecl PopupThread(void *arg)
 	}
 
 	DestroyWindow(gHwndManager); gHwndManager = NULL;
-	ReleaseMutex(hThreadMutex); hThreadMutex = NULL;
+	ReleaseMutex(hThreadMutex);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

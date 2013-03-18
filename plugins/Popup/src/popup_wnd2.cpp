@@ -186,7 +186,7 @@ PopupWnd2::~PopupWnd2()
 
 void PopupWnd2::startThread()
 {
-	_beginthread(WindowThread, 0, this);
+	mir_forkthread(WindowThread, this);
 }
 
 void PopupWnd2::create()
@@ -1513,7 +1513,6 @@ LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, L
 
 void	WindowThread(void *arg)
 {
-	Thread_Push(0);
 	OleInitialize(NULL); // we may need OLE in this thread for smiley substitution
 
 	PopupWnd2 *wnd = (PopupWnd2 *)arg;
@@ -1527,9 +1526,6 @@ void	WindowThread(void *arg)
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
-	Thread_Pop();
-	_endthread();
 }
 
 // Menu Host
