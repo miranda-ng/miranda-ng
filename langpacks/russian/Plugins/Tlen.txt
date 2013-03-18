@@ -199,3 +199,11 @@ P2P Подключения
 Тема:
 [User JID:]
 Пользователь:
+[Tlen inbox]
+Tlen входящие
+[Tlen chats]
+Tlen чаты
+[Microphone]
+Микрофон
+[Speaker]
+Динамик

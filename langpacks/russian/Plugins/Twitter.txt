@@ -47,3 +47,7 @@ URL:
 Ответ...
 [Visit Homepage]
 Сайт
+[Twitter Icon]
+Значок Twitter
+[Reply to Tweet]
+Ответить на твит

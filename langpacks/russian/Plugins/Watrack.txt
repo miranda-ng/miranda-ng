@@ -611,3 +611,9 @@ VBR или нет
  ответил
 [You Get Error]
 У Вас ошибка
+[Slider]
+Бегунок	
+[Slider Hovered]
+Бегунок под курсором
+[Slider Pushed]
+Нажатый бегунок

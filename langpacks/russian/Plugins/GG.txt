@@ -301,3 +301,7 @@ GG: PS_AWAYMSG вызван без PS_SETSTATUS для статуса %d, выб
 Информация
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 Учётная запись Gadu-Gadu\nСоздание новой учётной записи Gadu-Gadu
+[Clear ignored conferences]
+Очистить игнорируемые конференции
+[Concurrent sessions]
+Параллельные сессии

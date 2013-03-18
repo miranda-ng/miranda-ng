@@ -11,6 +11,8 @@
 Личные данные
 [Gives extended ability to edit information about your contacts locally. It does not matter what information your contact gives about himself. If you know more you can add more.]
 Расширенное отображение информации пользователя. Заменяет отображение личной информации как для вас, так и для ваших контактов.
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
+Плагин расширенной информации о пользователе. Позволяет редактировать всю информацию о контакте.
 
 ;  настройки - плагины - личные данные - общие
 [AccountMenu]
