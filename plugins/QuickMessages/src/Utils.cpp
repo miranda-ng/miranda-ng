@@ -262,8 +262,8 @@ DWORD BalanceButtons(int buttonsWas, int buttonsNow)
 		
 		while (buttonsWas < buttonsNow) {
 			if  (ServiceExists(MS_BB_ADDBUTTON)) {
-				char iconname[20];
-				mir_snprintf(iconname, SIZEOF(iconname), "QMessagesButton_%u", buttonsWas);
+				char iconname[40];
+				mir_snprintf(iconname, SIZEOF(iconname), LPGEN("Quick Messages Button %u"), buttonsWas);
 				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
 				bb.dwButtonID = buttonsWas++;
 				bb.dwDefPos = 300+buttonsWas;
@@ -381,8 +381,8 @@ int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 	for (int i=0; i < g_iButtonsCount; i++) {
 		ListData* ld = ButtonsList[i];
 
-		char iconname[20];
-		mir_snprintf(iconname, SIZEOF(iconname), "QMessagesButton_%u", i);
+		char iconname[40];
+		mir_snprintf(iconname, SIZEOF(iconname), LPGEN("Quick Messages Button %u"), i);
 
 		BBButton bbd = { sizeof(bbd) };
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
