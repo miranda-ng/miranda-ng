@@ -34,7 +34,7 @@
 									<listOptionValue builtIn="false" value="&quot;..\..\ExternalAPI&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.macros.1240665997" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="NDEBUG"/>
+									<listOptionValue builtIn="false" value="DEBUG"/>
 									<listOptionValue builtIn="false" value="UNICODE"/>
 									<listOptionValue builtIn="false" value="_UNICODE"/>
 								</option>
@@ -103,7 +103,7 @@
 									<listOptionValue builtIn="false" value="&quot;..\..\ExternalAPI&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.msvc.cl.option.macros.865983604" name="Defines (/D)" superClass="org.eclipse.cdt.msvc.cl.option.macros" valueType="definedSymbols">
-									<listOptionValue builtIn="false" value="DEBUG"/>
+									<listOptionValue builtIn="false" value="NDEBUG"/>
 									<listOptionValue builtIn="false" value="UNICODE"/>
 									<listOptionValue builtIn="false" value="_UNICODE"/>
 								</option>
