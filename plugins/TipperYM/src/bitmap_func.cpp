@@ -30,35 +30,29 @@ HBITMAP CreateBitmapPart(FIBITMAP *fibSrc, int iSrcWidth, int iSrcHeight, int iD
 	if (!fibSrc) 
 		return NULL;
 		
-	switch (transfMode)
-	{
-		case TM_NONE:
-		case TM_CENTRE:
-		case TM_TILE_ALL:
-			{
-				hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibSrc);
-				break;
-			}
-		case TM_STRECH_ALL:
-			{
-				fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iDesHeight, FILTER_BILINEAR);
-				hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
-				break;
-			}
-		case TM_STRECH_HORIZONTAL:
-		case TM_TILE_VERTICAL:
-			{
-				fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iSrcHeight, FILTER_BILINEAR);
-				hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
-				break;
-			}
-		case TM_STRECH_VERTICAL:
-		case TM_TILE_HORIZONTAL:
-			{
-				fibMem = fii->FI_Rescale(fibSrc, iSrcWidth, iSrcHeight, FILTER_BILINEAR);
-				hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
-				break;
-			}
+	switch (transfMode) {
+	case TM_NONE:
+	case TM_CENTRE:
+	case TM_TILE_ALL:
+		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibSrc);
+		break;
+
+	case TM_STRECH_ALL:
+		fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iDesHeight, FILTER_BILINEAR);
+		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		break;
+
+	case TM_STRECH_HORIZONTAL:
+	case TM_TILE_VERTICAL:
+		fibMem = fii->FI_Rescale(fibSrc, iDesWidth, iSrcHeight, FILTER_BILINEAR);
+		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		break;
+
+	case TM_STRECH_VERTICAL:
+	case TM_TILE_HORIZONTAL:
+		fibMem = fii->FI_Rescale(fibSrc, iSrcWidth, iSrcHeight, FILTER_BILINEAR);
+		hbmpDes = fii->FI_CreateHBITMAPFromDIB(fibMem);
+		break;
 	}
 
 	if (fibMem) fii->FI_Unload(fibMem);
@@ -78,85 +72,64 @@ void DrawBitmapPart(HDC hdcMem, HBITMAP hbmpPart, RECT *rcDes, TransformationMod
 
 	BITMAP bitmap;
 	GetObject(hbmpPart, sizeof(bitmap), &bitmap);
-	int iBmpWidth = bitmap.bmWidth;
-	int iBmpHeight = bitmap.bmHeight;
-
-	int iDesWidth = rcDes->right - rcDes->left;
-	int iDesHeight = rcDes->bottom - rcDes->top;
+	int iBmpWidth = bitmap.bmWidth, iBmpHeight = bitmap.bmHeight;
+	int iDesWidth = rcDes->right - rcDes->left, iDesHeight = rcDes->bottom - rcDes->top;
+	int x, y, iRepX, iRepY, iEndX, iEndY;
 
 	SelectObject(hdcMem, hbmpPart);
 
-	switch (transfMode)
-	{
-		case TM_NONE:
-		case TM_STRECH_ALL:
-		case TM_STRECH_HORIZONTAL:
-		case TM_STRECH_VERTICAL:
-			{				
-				AlphaBlend(skin.hdc, rcDes->left, rcDes->top, iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
-				break;
-			}
-		case TM_CENTRE:
-			{
-				int iPosX = rcDes->left + ((iDesWidth - iBmpWidth) / 2);
-				int iPosY = rcDes->top + ((iDesHeight - iBmpHeight) / 2);
-				AlphaBlend(skin.hdc, iPosX, iPosY, iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
-				break;
-			}
-		case TM_TILE_ALL:
-			{
-				int iRepX = iDesWidth / iBmpWidth;
-				int iRepY = iDesHeight / iBmpHeight;
-				int iEndX = iDesWidth % iBmpWidth;
-				int iEndY = iDesHeight % iBmpHeight;
-				int x,y;
+	switch (transfMode) {
+	case TM_NONE:
+	case TM_STRECH_ALL:
+	case TM_STRECH_HORIZONTAL:
+	case TM_STRECH_VERTICAL:
+		AlphaBlend(skin.hdc, rcDes->left, rcDes->top, iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
+		break;
 
-				for (y = 0; y < iRepY; y++) 
-				{
-					for (x = 0; x < iRepX; x++)
-					{
-						AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
-					}
+	case TM_CENTRE:
+		iRepX = rcDes->left + ((iDesWidth - iBmpWidth) / 2);
+		iRepY = rcDes->top + ((iDesHeight - iBmpHeight) / 2);
+		AlphaBlend(skin.hdc, iRepX, iRepY, iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
+		break;
 
-					AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iEndX, iBmpHeight, hdcMem, 0, 0, iEndX, iBmpHeight, blend);
-				}
+	case TM_TILE_ALL:
+		iRepX = iDesWidth / iBmpWidth;
+		iRepY = iDesHeight / iBmpHeight;
+		iEndX = iDesWidth % iBmpWidth;
+		iEndY = iDesHeight % iBmpHeight;
 
-				for (x = 0; x < iRepX; x++) 
-				{
-					AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iBmpWidth, iEndY, hdcMem, 0, 0, iBmpWidth, iEndY, blend);
-				}
+		for (y = 0; y < iRepY; y++) {
+			for (x = 0; x < iRepX; x++)
+				AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iBmpWidth, iBmpHeight, hdcMem, 0, 0, iBmpWidth, iBmpHeight, blend);
 
-				AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iEndX, iEndY, hdcMem, 0, 0, iEndX, iEndY, blend);
-				break;
-			}
-		case TM_TILE_HORIZONTAL:
-			{
-				int iRepX = iDesWidth / iBmpWidth;
-				int iEndX = iDesWidth % iBmpWidth;
-				int x;
+			AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iEndX, iBmpHeight, hdcMem, 0, 0, iEndX, iBmpHeight, blend);
+		}
 
-				for (x = 0; x < iRepX; x++)
-				{
-					AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top, iBmpWidth, iDesHeight, hdcMem, 0, 0, iBmpWidth, iDesHeight, blend);
-				}
+		for (x = 0; x < iRepX; x++) 
+			AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iBmpWidth, iEndY, hdcMem, 0, 0, iBmpWidth, iEndY, blend);
 
-				AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top, iEndX, iDesHeight, hdcMem, 0, 0, iEndX, iDesHeight, blend);
-				break;
-			} 
-		case TM_TILE_VERTICAL:
-			{
-				int iRepY = iDesHeight / iBmpHeight;
-				int iEndY = iDesHeight % iBmpHeight;
-				int y;
+		AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top + (y * iBmpHeight), iEndX, iEndY, hdcMem, 0, 0, iEndX, iEndY, blend);
+		break;
 
-				for(y = 0; y < iRepY; y++) 
-				{
-					AlphaBlend(skin.hdc, rcDes->left, rcDes->top + (y * iBmpHeight), iDesWidth, iBmpHeight, hdcMem, 0, 0, iDesWidth, iBmpHeight, blend);
-				}
+	case TM_TILE_HORIZONTAL:
+		iRepX = iDesWidth / iBmpWidth;
+		iEndX = iDesWidth % iBmpWidth;
 
-				AlphaBlend(skin.hdc, rcDes->left, rcDes->top + (y * iBmpHeight), iDesWidth, iEndY, hdcMem, 0, 0, iDesWidth, iEndY, blend);
-				break;
-			}
+		for (x = 0; x < iRepX; x++)
+			AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top, iBmpWidth, iDesHeight, hdcMem, 0, 0, iBmpWidth, iDesHeight, blend);
+
+		AlphaBlend(skin.hdc, rcDes->left + (x * iBmpWidth), rcDes->top, iEndX, iDesHeight, hdcMem, 0, 0, iEndX, iDesHeight, blend);
+		break;
+
+	case TM_TILE_VERTICAL:
+		iRepY = iDesHeight / iBmpHeight;
+		iEndY = iDesHeight % iBmpHeight;
+
+		for(y = 0; y < iRepY; y++) 
+			AlphaBlend(skin.hdc, rcDes->left, rcDes->top + (y * iBmpHeight), iDesWidth, iBmpHeight, hdcMem, 0, 0, iDesWidth, iBmpHeight, blend);
+
+		AlphaBlend(skin.hdc, rcDes->left, rcDes->top + (y * iBmpHeight), iDesWidth, iEndY, hdcMem, 0, 0, iDesWidth, iEndY, blend);
+		break;
 	}
 }
 
@@ -173,17 +146,14 @@ void CreateFromBitmaps(bool bServiceTip)
 	blend.SourceConstantAlpha = 255;
 	blend.AlphaFormat = AC_SRC_ALPHA;
 
-	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) 
-	{ 
+	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) { 
 		if (i == SKIN_ITEM_SIDEBAR && (!opt.iSidebarWidth || bServiceTip))
 			continue;
 
 		TCHAR* tszFileName = opt.szImgFile[i];
-		if (tszFileName && *tszFileName != 0) 
-		{
+		if (tszFileName && *tszFileName != 0) {
 			FIBITMAP *fib = NULL;
-			if (!skin.bCached) 
-			{
+			if (!skin.bCached) {
 				FIBITMAP *fibLoad = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFileName, (LPARAM)(IMGL_TCHAR | IMGL_RETURNDIB));
 				if (!fibLoad) continue;
 
@@ -197,19 +167,14 @@ void CreateFromBitmaps(bool bServiceTip)
 
 				skin.fib[i] = fib;		
 			} 
-			else
-			{
-				fib = skin.fib[i];
-			}
+			else fib = skin.fib[i];
 
 			// destination rectangle size
-			if (i == SKIN_ITEM_BG) 
-			{
+			if (i == SKIN_ITEM_BG) {
 				rcWidth = skin.iWidth;
 				rcHeight = skin.iHeight;
 			} 
-			else if (i == SKIN_ITEM_SIDEBAR) 
-			{
+			else if (i == SKIN_ITEM_SIDEBAR) {
 				rcWidth = opt.iSidebarWidth;
 				rcHeight = skin.iHeight;
 			}
@@ -229,31 +194,25 @@ void CreateFromBitmaps(bool bServiceTip)
 			iCentHeight = max(rcHeight - top - bottom, 0);
 
 			FIBITMAP *fibCentre = NULL, *fibMem = NULL;
-			if (opt.margins[i].left || opt.margins[i].top || opt.margins[i].right || opt.margins[i].bottom) 
-			{
+			if (opt.margins[i].left || opt.margins[i].top || opt.margins[i].right || opt.margins[i].bottom) {
 				// create corners bitmaps
-				if (!skin.bCached) 
-				{
-					if (top > 0 && left > 0) // TL
-					{
+				if (!skin.bCached) {
+					if (top > 0 && left > 0) { // TL
 						fibMem = fii->FI_Copy(fib, 0, 0, left, top);
 						skin.hbmpSkinParts[i][SP_CORNER_TL] = fii->FI_CreateHBITMAPFromDIB(fibMem);
 						if (fibMem) fii->FI_Unload(fibMem);
 					}
-					if (top > 0 && right > 0) // TR
-					{
+					if (top > 0 && right > 0) { // TR
 						fibMem = fii->FI_Copy(fib, iBmpWidth - right, 0, iBmpWidth, top);
 						skin.hbmpSkinParts[i][SP_CORNER_TR] = fii->FI_CreateHBITMAPFromDIB(fibMem);
 						if (fibMem) fii->FI_Unload(fibMem);
 					}
-					if (bottom > 0 && right > 0) // BR
-					{
+					if (bottom > 0 && right > 0) { // BR
 						fibMem = fii->FI_Copy(fib, iBmpWidth - right, iBmpHeight - bottom, iBmpWidth, iBmpHeight);
 						skin.hbmpSkinParts[i][SP_CORNER_BR] = fii->FI_CreateHBITMAPFromDIB(fibMem);
 						if (fibMem) fii->FI_Unload(fibMem);
 					}
-					if (bottom > 0 && left > 0) // BL
-					{
+					if (bottom > 0 && left > 0) { // BL
 						fibMem = fii->FI_Copy(fib, 0, iBmpHeight - bottom, left, iBmpHeight);
 						skin.hbmpSkinParts[i][SP_CORNER_BL] = fii->FI_CreateHBITMAPFromDIB(fibMem);
 						if (fibMem) fii->FI_Unload(fibMem);
@@ -261,34 +220,29 @@ void CreateFromBitmaps(bool bServiceTip)
 				}
 
 				// create edge parts bitmaps
-				if (top > 0 && iCentWidth > 0) // top
-				{
+				if (top > 0 && iCentWidth > 0) { // top
 					fibMem = fii->FI_Copy(fib, left, 0, iBmpWidth - right, top);
 					skin.hbmpSkinParts[i][SP_EDGE_TOP] = CreateBitmapPart(fibMem, iBmpWidth - left - right, top, iCentWidth, top, opt.transfMode[i]);
 					if (fibMem) fii->FI_Unload(fibMem);
 				}
-				if (right > 0 && iCentHeight > 0) // right
-				{
+				if (right > 0 && iCentHeight > 0) { // right
 					fibMem = fii->FI_Copy(fib, iBmpWidth - right, top, iBmpWidth, iBmpHeight - bottom);
 					skin.hbmpSkinParts[i][SP_EDGE_RIGHT] = CreateBitmapPart(fibMem, right, iBmpHeight - top - bottom, right, iCentHeight, opt.transfMode[i]);
 					if (fibMem) fii->FI_Unload(fibMem);
 				}
-				if (bottom > 0 && iCentWidth > 0) // bottom
-				{
+				if (bottom > 0 && iCentWidth > 0) { // bottom
 					fibMem = fii->FI_Copy(fib, left, iBmpHeight - bottom, iBmpWidth - right, iBmpHeight);
 					skin.hbmpSkinParts[i][SP_EDGE_BOTTOM] = CreateBitmapPart(fibMem, iBmpWidth - left - right, bottom, iCentWidth, bottom, opt.transfMode[i]);
 					if (fibMem) fii->FI_Unload(fibMem);
 				}
-				if (left > 0 && iCentHeight > 0) // left
-				{
+				if (left > 0 && iCentHeight > 0) { // left
 					fibMem = fii->FI_Copy(fib, 0, top, left, iBmpHeight - bottom);
 					skin.hbmpSkinParts[i][SP_EDGE_LEFT] = CreateBitmapPart(fibMem, left, iBmpHeight - top - bottom, left, iCentHeight, opt.transfMode[i]);
 					if (fibMem) fii->FI_Unload(fibMem);
 				}	
 		
 				fibCentre = fii->FI_Copy(fib, left, top, iBmpWidth - right, iBmpHeight - bottom);
-				if (fibCentre) 
-				{
+				if (fibCentre) {
 					fib = fibCentre;
 					iBmpWidth = fii->FI_GetWidth(fib);
 					iBmpHeight = fii->FI_GetHeight(fib);
@@ -300,11 +254,9 @@ void CreateFromBitmaps(bool bServiceTip)
 			if (fibCentre) 
 				fii->FI_Unload(fibCentre);
 
-			if (i == SKIN_ITEM_SIDEBAR) 
-			{
+			if (i == SKIN_ITEM_SIDEBAR) {
 				int limit = skin.bCached ? SP_CORNER_TL : SKIN_PARTS_COUNT; // don't premultiply corner bitmaps multiple times
-				for (int j = 0; j < limit; j++) 
-				{
+				for (int j = 0; j < limit; j++) {
 					if (skin.hbmpSkinParts[i][j]) 
 						fii->FI_Premultiply(skin.hbmpSkinParts[i][j]);
 				}
@@ -313,67 +265,54 @@ void CreateFromBitmaps(bool bServiceTip)
 			HDC hdcMem = CreateCompatibleDC(0);	
 			RECT rc = {0};
 
-			if (skin.hbmpSkinParts[i][SP_CENTRE_AREA]) 
-			{
+			if (skin.hbmpSkinParts[i][SP_CENTRE_AREA]) {
 				SetRect(&rc, left, top, rcWidth - right, rcHeight - bottom);
 				DrawBitmapPart(hdcMem, skin.hbmpSkinParts[i][SP_CENTRE_AREA], &rc, opt.transfMode[i]);
 			}
 
-			if (opt.margins[i].left || opt.margins[i].top || opt.margins[i].right || opt.margins[i].bottom) 
-			{
+			if (opt.margins[i].left || opt.margins[i].top || opt.margins[i].right || opt.margins[i].bottom) {
 				// draw edge parts
-				if (skin.hbmpSkinParts[i][SP_EDGE_TOP]) // top
-				{
+				if (skin.hbmpSkinParts[i][SP_EDGE_TOP]) { // top
 					SetRect(&rc, left, 0, rcWidth - right, top);
 					DrawBitmapPart(hdcMem, skin.hbmpSkinParts[i][SP_EDGE_TOP], &rc, opt.transfMode[i]);
 				}
-				if (skin.hbmpSkinParts[i][SP_EDGE_RIGHT]) // right
-				{
+				if (skin.hbmpSkinParts[i][SP_EDGE_RIGHT]) { // right
 					SetRect(&rc, rcWidth - right, top, rcWidth, rcHeight - bottom);
 					DrawBitmapPart(hdcMem, skin.hbmpSkinParts[i][SP_EDGE_RIGHT], &rc, opt.transfMode[i]);
 				}
-				if (skin.hbmpSkinParts[i][SP_EDGE_BOTTOM]) // bottom
-				{
+				if (skin.hbmpSkinParts[i][SP_EDGE_BOTTOM]) { // bottom
 					SetRect(&rc, left, rcHeight - bottom, rcWidth - right, rcHeight);
 					DrawBitmapPart(hdcMem, skin.hbmpSkinParts[i][SP_EDGE_BOTTOM], &rc, opt.transfMode[i]);
 				}
-				if (skin.hbmpSkinParts[i][SP_EDGE_LEFT]) // left
-				{
+				if (skin.hbmpSkinParts[i][SP_EDGE_LEFT]) { // left
 					SetRect(&rc, 0, top, left, rcHeight - bottom);
 					DrawBitmapPart(hdcMem, skin.hbmpSkinParts[i][SP_EDGE_LEFT], &rc, opt.transfMode[i]);
 				}
 
 				// draw corners
-				if (skin.hbmpSkinParts[i][SP_CORNER_TL]) // TL
-				{
+				if (skin.hbmpSkinParts[i][SP_CORNER_TL]) { // TL
 					SelectObject(hdcMem, skin.hbmpSkinParts[i][SP_CORNER_TL]);
 					AlphaBlend(skin.hdc, 0, 0, left, top, hdcMem, 0, 0, left, top, blend);
 				}
-				if (skin.hbmpSkinParts[i][SP_CORNER_TR]) // TR
-				{
+				if (skin.hbmpSkinParts[i][SP_CORNER_TR]) { // TR
 					SelectObject(hdcMem, skin.hbmpSkinParts[i][SP_CORNER_TR]);
 					AlphaBlend(skin.hdc, rcWidth - right, 0, right, top, hdcMem, 0, 0, right, top, blend);
 				}
-				if (skin.hbmpSkinParts[i][SP_CORNER_BR]) // BR
-				{
+				if (skin.hbmpSkinParts[i][SP_CORNER_BR]) { // BR
 					SelectObject(hdcMem, skin.hbmpSkinParts[i][SP_CORNER_BR]);
 					AlphaBlend(skin.hdc, rcWidth - right, rcHeight - bottom, right, bottom, hdcMem, 0, 0, right, bottom, blend);
 				}
-				if (skin.hbmpSkinParts[i][SP_CORNER_BL]) // BL
-				{
+				if (skin.hbmpSkinParts[i][SP_CORNER_BL]) { // BL
 					SelectObject(hdcMem, skin.hbmpSkinParts[i][SP_CORNER_BL]);
 					AlphaBlend(skin.hdc, 0, rcHeight - bottom, left, bottom, hdcMem, 0, 0, left, bottom, blend);
 				}
 			}
 
 			for (int j = 0; j < SP_CORNER_TL; j++) 
-			{
-				if (skin.hbmpSkinParts[i][j]) 
-				{
+				if (skin.hbmpSkinParts[i][j]) {
 					DeleteObject(skin.hbmpSkinParts[i][j]);
 					skin.hbmpSkinParts[i][j] = NULL;
 				}
-			}
 
 			if (MyUpdateLayeredWindow) 
 				skin.bNeedLayerUpdate = true;
@@ -395,8 +334,7 @@ void SolidColorFill(bool bServiceTip)
 	FillRect(skin.hdc, &rc, hBrush);
 	DeleteObject(hBrush);
 
-	if (opt.iSidebarWidth > 0 && !bServiceTip) 
-	{
+	if (opt.iSidebarWidth > 0 && !bServiceTip) {
 		rc.right = opt.iSidebarWidth;
 		hBrush = CreateSolidBrush(opt.colSidebar);
 		FillRect(skin.hdc, &rc, hBrush);
@@ -406,10 +344,15 @@ void SolidColorFill(bool bServiceTip)
 
 void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 {
-	if (skin.hBitmap) DeleteObject(skin.hBitmap);
-	if (skin.hdc) DeleteDC(skin.hdc);
-	skin.hBitmap = NULL;
-	skin.hdc = NULL;
+	if (skin.hdc) {
+		if (skin.hBitmap) {
+			SelectObject(skin.hdc, skin.hOldBitmap);
+			DeleteObject(skin.hBitmap);
+			skin.hBitmap = NULL;
+		}
+		DeleteDC(skin.hdc);
+		skin.hdc = NULL;
+	}
 
 	skin.iWidth = iWidth;
 	skin.iHeight = iHeight;
@@ -423,19 +366,15 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 	bi.bmiHeader.biBitCount = 32;
 	bi.bmiHeader.biCompression = BI_RGB;
 	skin.hBitmap = (HBITMAP)CreateDIBSection(0, &bi, DIB_RGB_COLORS, (void **)&skin.colBits, 0, 0);
-
 	if (!skin.hBitmap) 
 		return;
 
 	skin.hdc = CreateCompatibleDC(0);
-	DeleteObject(SelectObject(skin.hdc, skin.hBitmap));
+	skin.hOldBitmap = (HBITMAP)SelectObject(skin.hdc, skin.hBitmap);
 
 	if (opt.skinMode == SM_COLORFILL)
-	{
 		SolidColorFill(bServiceTip);
-	}
-	else 
-	{
+	else  {
 		CreateFromBitmaps(bServiceTip);
 		if (opt.iEnableColoring == 1)
 			ColorizeBitmap();
@@ -444,18 +383,14 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip)
 
 void DestroySkinBitmap()
 {
-	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) 
-	{ 
-		if (skin.fib[i]) 
-		{
+	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) { 
+		if (skin.fib[i]) {
 			fii->FI_Unload(skin.fib[i]);
 			skin.fib[i] = NULL;
 		}
 
-		for (int j = SP_CORNER_TL; j < SKIN_PARTS_COUNT; j++)
-		{
-			if (skin.hbmpSkinParts[i][j]) 
-			{
+		for (int j = SP_CORNER_TL; j < SKIN_PARTS_COUNT; j++) {
+			if (skin.hbmpSkinParts[i][j]) {
 				DeleteObject(skin.hbmpSkinParts[i][j]);
 				skin.hbmpSkinParts[i][j] = NULL;
 			}
@@ -467,8 +402,7 @@ void DestroySkinBitmap()
 
 void SaveAlpha(LPRECT lpRect)
 {
-	if (skin.colSavedBits) 
-	{
+	if (skin.colSavedBits) {
 		mir_free(skin.colSavedBits);
 		skin.colSavedBits = 0;
 	}
@@ -487,13 +421,11 @@ void SaveAlpha(LPRECT lpRect)
 	skin.colSavedBits = (COLOR32 *)mir_alloc(sizeof(COLOR32) * w * h);
 	COLOR32 *p1 = skin.colSavedBits;
 
-	for (int i = 0; i < h; i++)
-	{
+	for (int i = 0; i < h; i++) {
 		if (i+y < 0) continue;
 		if (i+y >= skin.iHeight) break;
 		COLOR32 *p2 = skin.colBits + (y+i)*skin.iWidth + x;
-		for (int j = 0; j < w; j++)
-		{
+		for (int j = 0; j < w; j++) {
 			if (j+x < 0) continue;
 			if (j+x >= skin.iWidth) break;
 			*p1++ = *p2++;
@@ -520,25 +452,20 @@ void RestoreAlpha(LPRECT lpRect, BYTE alpha)
 
 	COLOR32 *p1 = skin.colSavedBits;
 
-	for (int i = 0; i < h; i++)
-	{
+	for (int i = 0; i < h; i++) {
 		if (i+y < 0) continue;
 		if (i+y >= skin.iHeight) break;
 		COLOR32 *p2 = skin.colBits + (y+i)*skin.iWidth + x;
-		for (int j = 0; j < w; j++)
-		{
+		for (int j = 0; j < w; j++) {
 			if (j+x < 0) continue;
 			if (j+x >= skin.iWidth) break;
+
 			if ((*p1&0x00ffffff) != (*p2&0x00ffffff))
-			{
 				*p2 |= (alpha << 24);
-			} 
 			else
-			{
 				*p2 = (*p2&0x00ffffff) | (*p1&0xff000000);
-			}
-			++p1;
-			++p2;
+
+			++p1; ++p2;
 		}
 	}
 
@@ -549,28 +476,21 @@ void RestoreAlpha(LPRECT lpRect, BYTE alpha)
 BOOL IsAlphaTransparent(HBITMAP hBitmap)
 {
 	BITMAP bmp;
-	DWORD dwLen;
-	BYTE *p;
-
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-
 	if (bmp.bmBitsPixel != 32)
 		return FALSE;
 
-	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	p = (BYTE *)mir_alloc(dwLen);
-	if (p == NULL) return FALSE;
-	memset(p, 0, dwLen);
+	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	BYTE *p = (BYTE *)mir_calloc(dwLen);
+	if (p == NULL)
+		return FALSE;
 
 	GetBitmapBits(hBitmap, dwLen, p);
 
-	for (int y = 0; y < bmp.bmHeight; y++)
-	{
+	for (int y = 0; y < bmp.bmHeight; y++) {
 		BYTE *px = p + bmp.bmWidth * 4 * y;
-		for (int x = 0; x < bmp.bmWidth; x++)
-		{
-			if (px[3] != 0) 
-			{
+		for (int x = 0; x < bmp.bmWidth; x++) {
+			if (px[3] != 0) {
 				mir_free(p);
 				return TRUE;
 			}
@@ -587,13 +507,10 @@ void DrawIconExAlpha(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int
 {
 	bool restore = false;
 
-	if (skin.bNeedLayerUpdate && !bIsSmiley) 
-	{
+	if (skin.bNeedLayerUpdate && !bIsSmiley) {
 		ICONINFO icon;
-		if (GetIconInfo(hIcon, &icon)) 
-		{
-			if (!IsAlphaTransparent(icon.hbmColor))
-			{
+		if ( GetIconInfo(hIcon, &icon)) {
+			if ( !IsAlphaTransparent(icon.hbmColor)) {
 				RECT rc;
 				SetRect(&rc, xLeft, yTop, xLeft + cxWidth, yTop + cyWidth);
 				SaveAlpha(&rc);
@@ -607,8 +524,7 @@ void DrawIconExAlpha(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int
 
 	DrawIconEx(hdc, xLeft, yTop, hIcon, cxWidth, cyWidth, istepIfAniCur, hbrFlickerFreeDraw, diFlags); 
 
-	if (skin.bNeedLayerUpdate && restore) 
-	{
+	if (skin.bNeedLayerUpdate && restore) {
 		RECT rc;
 		SetRect(&rc, xLeft, yTop, xLeft + cxWidth, yTop + cyWidth);
 		RestoreAlpha(&rc);
@@ -686,8 +602,7 @@ void ColorizeBitmap()
 	float koef2g = (getg(opt.colBg)) / 128.0;
 	float koef2b = (getr(opt.colBg)) / 128.0;
 
-	for (int i = 0; i < w * h; i++) 
-	{
+	for (int i = 0; i < w * h; i++) {
 		long alpha = geta(skin.colBits[i]);
 		COLOR32 cl = alpha ? getr(skin.colBits[i])*255/alpha : 0;
 
@@ -722,28 +637,22 @@ HRGN CreateOpaqueRgn(BYTE level, bool bOpaque)
 	pRgnData->rdh.dwSize = sizeof(RGNDATAHEADER);
 	pRgnData->rdh.iType = RDH_RECTANGLES;
 
-	for (y = 0; y < skin.iHeight; ++y) 
-	{
+	for (y = 0; y < skin.iHeight; ++y) {
 		bool inside = false;
 		bool lastin = false;
 		unsigned int entry = 0;
 
-		for (x = 0; x < skin.iWidth; ++x) 
-		{
+		for (x = 0; x < skin.iWidth; ++x) {
 			inside = bOpaque ? (buff->rgbReserved > level) : (buff->rgbReserved < level);
 			++buff;
 
-			if (inside != lastin)
-			{
-				if (inside) 
-				{
+			if (inside != lastin) {
+				if (inside) {
 					lastin = true;
 					entry = x;
 				} 
-				else
-				{
-					if (pRgnData->rdh.nCount == cRect)
-					{
+				else {
+					if (pRgnData->rdh.nCount == cRect) {
 						cRect = cRect + 64;
 						pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 					}
@@ -755,10 +664,8 @@ HRGN CreateOpaqueRgn(BYTE level, bool bOpaque)
 			}
 		}
 
-		if (lastin) 
-		{
-			if (pRgnData->rdh.nCount == cRect) 
-			{
+		if (lastin) {
+			if (pRgnData->rdh.nCount == cRect) {
 				cRect = cRect + 64;
 				pRgnData = (PRGNDATA)realloc(pRgnData, sizeof(RGNDATAHEADER) + (cRect)*sizeof(RECT));
 			}

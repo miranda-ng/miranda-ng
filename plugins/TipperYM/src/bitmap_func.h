@@ -47,7 +47,7 @@ typedef enum {
 typedef unsigned long COLOR32;
 typedef struct {
 	HDC hdc;
-	HBITMAP hBitmap;
+	HBITMAP hBitmap, hOldBitmap;
 	HBITMAP hbmpSkinParts[SKIN_ITEMS_COUNT][SKIN_PARTS_COUNT];
 	FIBITMAP *fib[SKIN_ITEMS_COUNT];
 	COLOR32 *colBits;
