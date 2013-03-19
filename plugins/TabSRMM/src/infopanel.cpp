@@ -1090,7 +1090,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		return TRUE;
 	}
 
-	return DefWindowProc(hwnd, msg, wParam, lParam);
+	return mir_callNextSubclass(hwnd, CInfoPanel::avatarParentSubclass, msg, wParam, lParam);
 }
 
 /**
