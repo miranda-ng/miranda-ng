@@ -111,30 +111,30 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 	LOGFONT lf = {0};
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpy(fontid.group, _T("Favourite Contacts"));
+	lstrcpy(fontid.group, LPGENT("Favourite Contacts"));
 
-	lstrcpy(fontid.name, _T("Contact name"));
+	lstrcpy(fontid.name, LPGENT("Contact name"));
 	g_Options.clLine1 = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 	g_Options.hfntName = CreateFontIndirect(&lf);
 
-	lstrcpy(fontid.name, _T("Second line"));
+	lstrcpy(fontid.name, LPGENT("Second line"));
 	g_Options.clLine2 = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 	g_Options.hfntSecond = CreateFontIndirect(&lf);
 
-	lstrcpy(fontid.name, _T("Selected contact name (color)"));
+	lstrcpy(fontid.name, LPGENT("Selected contact name (color)"));
 	g_Options.clLine1Sel = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 
-	lstrcpy(fontid.name, _T("Selected second line (color)"));
+	lstrcpy(fontid.name, LPGENT("Selected second line (color)"));
 	g_Options.clLine2Sel = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)&lf);
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpy(colourid.group, _T("Favourite Contacts"));
+	lstrcpy(colourid.group, LPGENT("Favourite Contacts"));
 
-	lstrcpy(colourid.name, _T("Background"));
+	lstrcpy(colourid.name, LPGENT("Background"));
 	g_Options.clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, (LPARAM)&lf);
 
-	lstrcpy(colourid.name, _T("Selected background"));
+	lstrcpy(colourid.name, LPGENT("Selected background"));
 	g_Options.clBackSel = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, (LPARAM)&lf);
 
 	return 0;
@@ -161,38 +161,38 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(fontid);
-	lstrcpy(fontid.group, _T("Favourite Contacts"));
+	lstrcpy(fontid.group, LPGENT("Favourite Contacts"));
 	lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
-	lstrcpy(fontid.backgroundGroup, _T("Favourite Contacts"));
+	lstrcpy(fontid.backgroundGroup, LPGENT("Favourite Contacts"));
 	fontid.flags = FIDF_DEFAULTVALID;
 	fontid.deffontsettings.charset = DEFAULT_CHARSET;
 	fontid.deffontsettings.size = -11;
 	lstrcpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"));
 	fontid.deffontsettings.style = 0;
 
-	lstrcpy(fontid.backgroundName, _T("Background"));
+	lstrcpy(fontid.backgroundName, LPGENT("Background"));
 
-	lstrcpy(fontid.name, _T("Contact name"));
+	lstrcpy(fontid.name, LPGENT("Contact name"));
 	lstrcpyA(fontid.prefix, "fntName");
 	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	FontRegisterT(&fontid);
 
-	lstrcpy(fontid.name, _T("Second line"));
+	lstrcpy(fontid.name, LPGENT("Second line"));
 	lstrcpyA(fontid.prefix, "fntSecond");
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
 	fontid.deffontsettings.style = 0;
 	FontRegisterT(&fontid);
 
-	lstrcpy(fontid.backgroundName, _T("Selected background"));
+	lstrcpy(fontid.backgroundName, LPGENT("Selected background"));
 
-	lstrcpy(fontid.name, _T("Selected contact name (color)"));
+	lstrcpy(fontid.name, LPGENT("Selected contact name (color)"));
 	lstrcpyA(fontid.prefix, "fntNameSel");
 	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	FontRegisterT(&fontid);
 
-	lstrcpy(fontid.name, _T("Selected second line (color)"));
+	lstrcpy(fontid.name, LPGENT("Selected second line (color)"));
 	lstrcpyA(fontid.prefix, "fntSecondSel");
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
 	fontid.deffontsettings.style = 0;
@@ -202,15 +202,15 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	ColourIDT colourid = {0};
 	colourid.cbSize = sizeof(colourid);
-	lstrcpy(colourid.group, _T("Favourite Contacts"));
+	lstrcpy(colourid.group, LPGENT("Favourite Contacts"));
 	lstrcpyA(colourid.dbSettingsGroup, "FavContacts");
 
-	lstrcpy(colourid.name, _T("Background"));
+	lstrcpy(colourid.name, LPGENT("Background"));
 	lstrcpyA(colourid.setting, "BackColour");
 	colourid.defcolour = GetSysColor(COLOR_MENU);
 	ColourRegisterT(&colourid);
 
-	lstrcpy(colourid.name, _T("Selected background"));
+	lstrcpy(colourid.name, LPGENT("Selected background"));
 	lstrcpyA(colourid.setting, "SelectedColour");
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
 	ColourRegisterT(&colourid);

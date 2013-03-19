@@ -30,12 +30,12 @@ static const int ID_TTNTF_STATUS_TYPING = ID_STATUS_INVISIBLE+10;
 static const int ID_TTNTF_STATUS_IDLE = ID_STATUS_INVISIBLE+11;
 static const int ID_TTNTF_STATUS_NOT_IDLE = ID_STATUS_INVISIBLE+12;
 
-#define FONTSERV_GROUP         _T("Tooltip Notify")
-#define FONTSERV_ONLINE        _T("Online")
-#define FONTSERV_OFFLINE       _T("Offline")
-#define FONTSERV_OTHER         _T("Other Status")
-#define FONTSERV_TYPING        _T("Typing")
-#define FONTSERV_IDLE          _T("Idle")
+#define FONTSERV_GROUP         LPGENT("Tooltip Notify")
+#define FONTSERV_ONLINE        LPGENT("Online")
+#define FONTSERV_OFFLINE       LPGENT("Offline")
+#define FONTSERV_OTHER         LPGENT("Other Status")
+#define FONTSERV_TYPING        LPGENT("Typing")
+#define FONTSERV_IDLE          LPGENT("Idle")
 
 struct FontEntry
 {

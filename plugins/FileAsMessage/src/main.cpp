@@ -27,11 +27,11 @@ HICON hIcons[5];
 
 static IconItem iconList[] = 
 {
-	{ "Play", "FePlay", IDI_PLAY },
-	{ "Pause", "FePause", IDI_PAUSE },
-	{ "Revive", "FeRefresh", IDI_REFRESH },
-	{ "Stop", "FeStop", IDI_STOP },
-	{ "Main", "FeMain", IDI_SMALLICON },
+	{ LPGEN("Play"), "FePlay", IDI_PLAY },
+	{ LPGEN("Pause"), "FePause", IDI_PAUSE },
+	{ LPGEN("Revive"), "FeRefresh", IDI_REFRESH },
+	{ LPGEN("Stop"), "FeStop", IDI_STOP },
+	{ LPGEN("Main"), "FeMain", IDI_SMALLICON },
 };
 
 int iIconId[5] = {3,2,4,1,0};

@@ -179,12 +179,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	lstrcpyA(fontid.deffontsettings.szFace, "MS Shell Dlg");
 	fontid.deffontsettings.style = 0;
 
-	strcpy(fontid.name, "Frame title");
+	strcpy(fontid.name, LPGEN("Frame title"));
 	strcpy(fontid.prefix, "fntFrameTitle");
 	fontid.deffontsettings.style = DBFONTF_BOLD;
 	FontRegister(&fontid);
 
-	strcpy(fontid.name, "Frame text");
+	strcpy(fontid.name, LPGEN("Frame text"));
 	strcpy(fontid.prefix, "fntFrameClock");
 	fontid.deffontsettings.style = 0;
 	FontRegister(&fontid);
