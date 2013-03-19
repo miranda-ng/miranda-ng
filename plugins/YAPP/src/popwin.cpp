@@ -35,28 +35,40 @@ int stack_size = 0;
 
 void RepositionWindows() {
 	HWNDStackNode *current;	
-	int x = pop_start_x, y = pop_start_y;
+	int x = pop_start_x, y;
 	int height;
 
 	if (options.animate == ANIMATE_HORZ)
 	{
-		if (options.location == PL_BOTTOMRIGHT ||options.location == PL_TOPRIGHT)
+		if (options.location == PL_BOTTOMRIGHT || options.location == PL_TOPRIGHT)
 			x -= options.win_width + 1;
-		if (options.location == PL_BOTTOMLEFT ||options.location == PL_TOPLEFT)
+		if (options.location == PL_BOTTOMLEFT || options.location == PL_TOPLEFT)
 			x += options.win_width + 1;
 	}
 
+	// ќсобый случай: выдвижение окна из-за верхнего кра€ экрана.
+	if ((options.animate == ANIMATE_VERT) && (options.location == PL_TOPLEFT || options.location == PL_TOPRIGHT))
+		y = 0;
+	else
+		y = pop_start_y;
+
 	current = hwnd_stack_top;
-	while(current) {
+	while (current)
+	{
 		SendMessage(current->hwnd, PUM_GETHEIGHT, (WPARAM)&height, 0);
-		if (options.location == PL_BOTTOMRIGHT || options.location == PL_BOTTOMLEFT) y -= height + 1;
-		if (options.animate == ANIMATE_VERT)
-			if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
 
+		// ≈сли окна размещать у нижнего кра€, то координата текущего окна меньше на его высоту.
+		if (options.location == PL_BOTTOMLEFT || options.location == PL_BOTTOMRIGHT)
+			y -= height + 1;
+
+		// ѕеремещаем окно.
 		SendMessage(current->hwnd, PUM_MOVE, (WPARAM)x, (LPARAM)y);
-		if (options.animate != ANIMATE_VERT)
-			if (options.location == PL_TOPRIGHT || options.location == PL_TOPLEFT) y += height + 1;
+		//  оордината дл€ следующего окна.
+		// ≈сли окна размещать у верхнего кра€, то координата следующего окна больше на высоту текущего окна.
+		if (options.location == PL_TOPLEFT || options.location == PL_TOPRIGHT)
+			y += height + 1;
 
+		// ѕереходим к следующему окну.
 		current = current->next;
 	}
 }
@@ -150,8 +162,12 @@ void RemoveWindowFromStack(HWND hwnd)
 		current = current->next;
 	}
 
+	// ≈сли после удалени€ в стеке остались окна, то нужно провести сжатие:
+	// сдвинуть все окна к верхнему/нижнему краю экрана.
 	if (hwnd_stack_top)
+	{
 		RepositionWindows();
+	}
 }
 
 void BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam)
