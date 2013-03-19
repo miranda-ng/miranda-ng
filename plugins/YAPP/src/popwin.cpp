@@ -588,6 +588,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			int *pHeight = (int *)wParam;
 			HDC hdc = GetDC(hwnd);
 			SIZE size;
+			HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 
 			// time_height + width
 			if (options.time_layout != PT_NONE) {
@@ -644,6 +645,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				mir_free(text);
 			}
 
+			SelectObject(hdc, hOldFont);
 			ReleaseDC(hwnd, hdc);
 
 			if (options.time_layout == PT_WITHAV && options.av_layout != PAV_NONE) 
