@@ -1801,23 +1801,18 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDOK:
-			{
-				char*  pszRtf;
-				TCHAR* ptszText, *p1;
-				if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDOK)))
-					break;
+			if ( IsWindowEnabled( GetDlgItem(hwndDlg,IDOK))) {
+				char *pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 
-				pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-				{
-					TCmdList *cmdListNew = tcmdlist_last(si->windowData.cmdList);
-					while (cmdListNew != NULL && cmdListNew->temporary) {
-						si->windowData.cmdList = tcmdlist_remove(si->windowData.cmdList, cmdListNew);
-						cmdListNew = tcmdlist_last(si->windowData.cmdList);
-					}
+				TCmdList *cmdListNew = tcmdlist_last(si->windowData.cmdList);
+				while (cmdListNew != NULL && cmdListNew->temporary) {
+					si->windowData.cmdList = tcmdlist_remove(si->windowData.cmdList, cmdListNew);
+					cmdListNew = tcmdlist_last(si->windowData.cmdList);
 				}
+
 				si->windowData.cmdList = tcmdlist_append(si->windowData.cmdList, pszRtf, 20, FALSE);
-				ptszText = DoRtfToTags(pszRtf, si);
-				p1 = _tcschr(ptszText, '\0');
+				TCHAR *ptszText = DoRtfToTags(pszRtf, si);
+				TCHAR *p1 = _tcschr(ptszText, '\0');
 
 				//remove trailing linebreaks
 				while ( p1 > ptszText && (*p1 == '\0' || *p1 == '\r' || *p1 == '\n')) {

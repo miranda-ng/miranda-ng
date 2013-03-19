@@ -96,8 +96,37 @@ MIR_CORE_DLL(void) mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC ol
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd)
+static void removeHook(MSubclassData *p, int idx)
 {
+	WNDPROC saveProc = p->m_hooks[idx];
+
+	// untie hook from a window to prevent calling mir_callNextSubclass from saveProc
+	for (int i=idx+1; i < p->m_iHooks; i++)
+		p->m_hooks[i-1] = p->m_hooks[i];
+	p->m_iHooks--;
+
+	// emulate window destruction
+	saveProc(p->m_hWnd, WM_DESTROY, 0, 0);
+	saveProc(p->m_hWnd, WM_NCDESTROY, 0, 0);
+}
+
+MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd, WNDPROC wndProc)
+{
+	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
+	if (p == NULL)
+		return;
+
+	for (int i=0; i < p->m_iHooks; i++) {
+		if (p->m_hooks[i] == wndProc) {
+			removeHook(p, i);
+			i--;
+		}
+	}
+
+	if (p->m_iHooks == 0) {
+		arSubclass.remove(p);
+		delete p;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -105,60 +134,49 @@ MIR_CORE_DLL(void) mir_unsubclassWindow(HWND hWnd)
 MIR_CORE_DLL(LRESULT) mir_callNextSubclass(HWND hWnd, WNDPROC wndProc, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
-	if (p) {
-		for (int i=p->m_iHooks-1; i >= 0; i--) {
-			if (p->m_hooks[i] == wndProc) {
-				// next hook exitst, call it 
-				if (i != 0)
-					return p->m_hooks[i-1](hWnd, uMsg, wParam, lParam);
+	if (p == NULL)
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 
-				// last hook called, ping the default window procedure
-				if (uMsg == WM_DESTROY) {
-					WNDPROC saveProc = p->m_origWndProc;
-					arSubclass.remove(p);
-					delete p;
+	for (int i=p->m_iHooks-1; i >= 0; i--) {
+		if (p->m_hooks[i] != wndProc)
+			continue;
 
-					SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
-					LONG res = 0;
-					__try {
-						res = saveProc(hWnd, uMsg, wParam, lParam);
-					}
-					__except(EXCEPTION_EXECUTE_HANDLER)
-					{
-					}
-					return res;
-				}
+		// next hook exists, call it 
+		if (i != 0)
+			return p->m_hooks[i-1](hWnd, uMsg, wParam, lParam);
 
-				return p->m_origWndProc(hWnd, uMsg, wParam, lParam);
-			}
-		}
-		
-		// invalid / closed hook
-		return 0;
+		// last hook called, ping the default window procedure
+		if (uMsg != WM_DESTROY)
+			return p->m_origWndProc(hWnd, uMsg, wParam, lParam);
+			
+		WNDPROC saveProc = p->m_origWndProc;
+		arSubclass.remove(p);
+		delete p;
+
+		SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)saveProc);
+		return saveProc(hWnd, uMsg, wParam, lParam);
 	}
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+		
+	// invalid / closed hook
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_CORE_DLL(void) KillModuleSubclassing(HMODULE hInst)
 {
-	for (int i=0; i < arSubclass.getCount(); i++) {
+	for (int i=arSubclass.getCount()-1; i >= 0; i--) {
 		MSubclassData *p = arSubclass[i];
-		for (int j=0; j < p->m_iHooks; ) {
+		for (int j=0; j < p->m_iHooks; j++) {
 			if ( GetInstByAddress(p->m_hooks[j]) == hInst) {
-				WNDPROC saveProc = p->m_hooks[j];
-
-				// untie hook from a window to prevent calling mir_callNextSubclass from saveProc
-				for (int k=j+1; k < p->m_iHooks; k++)
-					p->m_hooks[k-1] = p->m_hooks[k];
-				p->m_iHooks--;
-
-				// emulate window destruction
-				saveProc(p->m_hWnd, WM_DESTROY, 0, 0);
-				saveProc(p->m_hWnd, WM_NCDESTROY, 0, 0);
+				removeHook(p, j);
+				j--;
 			}
-			else j++;
+		}
+
+		if (p->m_iHooks == 0) {
+			arSubclass.remove(p);
+			delete p;
 		}
 	}
 }

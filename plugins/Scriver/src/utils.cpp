@@ -220,18 +220,14 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 
 char* GetRichTextRTF(HWND hwnd)
 {
-	EDITSTREAM stream;
-	char* pszText = NULL;
-	DWORD dwFlags;
-
 	if (hwnd == 0)
 		return NULL;
 
-	ZeroMemory(&stream, sizeof(stream));
+	char* pszText = NULL;
+	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = RichTextStreamCallback;
-	stream.dwCookie = (DWORD_PTR) &pszText; // pass pointer to pointer
-	dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	SendMessage(hwnd, EM_STREAMOUT, dwFlags, (LPARAM) & stream);
+	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
+	SendMessage(hwnd, EM_STREAMOUT, SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16), (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }
 

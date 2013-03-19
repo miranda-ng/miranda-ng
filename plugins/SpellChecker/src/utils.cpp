@@ -992,6 +992,7 @@ int RemoveContactTextBox(HWND hwnd)
 
 		KillTimer(hwnd, TIMER_ID);
 
+		mir_unsubclassWindow(hwnd, EditProc);
 		dialogs.erase(hwnd);
 		if (dlg->hwnd_owner != NULL)
 			dialogs.erase(dlg->hwnd_owner);

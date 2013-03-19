@@ -118,292 +118,284 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 	//PostMessage(hwnd, WM_KEYUP, 0, 0 );
 }
 
-int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CommonWindowData *windowData) {
-
+int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, CommonWindowData *windowData)
+{
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
 	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
 	BOOL isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) && !isAlt;
 
-	int action;
 	MSG amsg;
 	amsg.hwnd = hwnd;
 	amsg.message = msg;
 	amsg.wParam = wParam;
 	amsg.lParam = lParam;
-	switch (action = CallService(MS_HOTKEY_CHECK, (WPARAM)&amsg, (LPARAM)"Messaging"))
-	{
-		case KB_PREV_TAB:
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
-			return FALSE;
-		case KB_NEXT_TAB:
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
-			return FALSE;
-		case KB_SWITCHSTATUSBAR:
-			SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHSTATUSBAR, 0, 0);
-			return FALSE;
-		case KB_SWITCHTITLEBAR:
-			SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTITLEBAR, 0, 0);
-			return FALSE;
-		case KB_SWITCHINFOBAR:
-			SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHINFOBAR, 0, 0);
-			return FALSE;
-		case KB_SWITCHTOOLBAR:
-			SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTOOLBAR, 0, 0);
-			return FALSE;
-		case KB_MINIMIZE:
-			ShowWindow(GetParent(GetParent(hwnd)), SW_MINIMIZE);
-			return FALSE;
-		case KB_CLOSE:
-			SendMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
-			return FALSE;
-		case KB_CLEAR_LOG:
-			SendMessage(GetParent(hwnd), DM_CLEARLOG, 0, 0);
-			return FALSE;
-		case KB_TAB1:
-		case KB_TAB2:
-		case KB_TAB3:
-		case KB_TAB4:
-		case KB_TAB5:
-		case KB_TAB6:
-		case KB_TAB7:
-		case KB_TAB8:
-		case KB_TAB9:
-			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
-			return FALSE;
-		case KB_SEND_ALL:
-			PostMessage(GetParent(hwnd), WM_COMMAND, IDC_SENDALL, 0);
-			return FALSE;
-		case KB_QUOTE:
-			PostMessage(GetParent(hwnd), WM_COMMAND, IDC_QUOTE, 0);
-			return FALSE;
-		case KB_PASTESEND:
-			if (SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
-				SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
-				PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
-			}
-			return FALSE;
+	int action = CallService(MS_HOTKEY_CHECK, (WPARAM)&amsg, (LPARAM)"Messaging");
+
+	switch (action) {
+	case KB_PREV_TAB:
+		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
+		return FALSE;
+	case KB_NEXT_TAB:
+		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
+		return FALSE;
+	case KB_SWITCHSTATUSBAR:
+		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHSTATUSBAR, 0, 0);
+		return FALSE;
+	case KB_SWITCHTITLEBAR:
+		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTITLEBAR, 0, 0);
+		return FALSE;
+	case KB_SWITCHINFOBAR:
+		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHINFOBAR, 0, 0);
+		return FALSE;
+	case KB_SWITCHTOOLBAR:
+		SendMessage(GetParent(GetParent(hwnd)), DM_SWITCHTOOLBAR, 0, 0);
+		return FALSE;
+	case KB_MINIMIZE:
+		ShowWindow(GetParent(GetParent(hwnd)), SW_MINIMIZE);
+		return FALSE;
+	case KB_CLOSE:
+		SendMessage(GetParent(hwnd), WM_CLOSE, 0, 0);
+		return FALSE;
+	case KB_CLEAR_LOG:
+		SendMessage(GetParent(hwnd), DM_CLEARLOG, 0, 0);
+		return FALSE;
+	case KB_TAB1:
+	case KB_TAB2:
+	case KB_TAB3:
+	case KB_TAB4:
+	case KB_TAB5:
+	case KB_TAB6:
+	case KB_TAB7:
+	case KB_TAB8:
+	case KB_TAB9:
+		SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, action - KB_TAB1);
+		return FALSE;
+	case KB_SEND_ALL:
+		PostMessage(GetParent(hwnd), WM_COMMAND, IDC_SENDALL, 0);
+		return FALSE;
+	case KB_QUOTE:
+		PostMessage(GetParent(hwnd), WM_COMMAND, IDC_QUOTE, 0);
+		return FALSE;
+	case KB_PASTESEND:
+		if (SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
+			SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
+			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
+		}
+		return FALSE;
 	}
 
 	switch (msg) {
-		case WM_KEYDOWN:
-		{
-			if (wParam >= '1' && wParam <='9' && isCtrl) {
-				SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, wParam - '1');
-				return 0;
-			}
-			/*
-			if (wParam == 'A' && isCtrl) { //ctrl-a; select all
-				SendMessage(hwnd, EM_SETSEL, 0, -1);
-				return FALSE;
-			}
-			*/
-			if (wParam == 'I' && isCtrl) { // ctrl-i (italics)
-				return FALSE;
-			}
-			if (wParam == VK_SPACE && isCtrl) // ctrl-space (paste clean text)
-				return FALSE;
-			if (wParam == 'R' && isCtrl && isShift) {     // ctrl-shift-r
-				SendMessage(GetParent(hwnd), DM_SWITCHRTL, 0, 0);
-				return FALSE;
-			}
-			if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
-				if (windowData->cmdList) {
-					TCmdList *cmdListNew = NULL;
-					if (wParam == VK_UP) {
-						if (windowData->cmdListCurrent == NULL) {
+	case WM_KEYDOWN:
+		if (wParam >= '1' && wParam <='9' && isCtrl) {
+			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEBYINDEX, 0, wParam - '1');
+			return 0;
+		}
+
+		if (wParam == 'I' && isCtrl) // ctrl-i (italics)
+			return FALSE;
+
+		if (wParam == VK_SPACE && isCtrl) // ctrl-space (paste clean text)
+			return FALSE;
+
+		if (wParam == 'R' && isCtrl && isShift) {     // ctrl-shift-r
+			SendMessage(GetParent(hwnd), DM_SWITCHRTL, 0, 0);
+			return FALSE;
+		}
+
+		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+			if (windowData->cmdList) {
+				TCmdList *cmdListNew = NULL;
+				if (wParam == VK_UP) {
+					if (windowData->cmdListCurrent == NULL) {
+						cmdListNew = tcmdlist_last(windowData->cmdList);
+						while (cmdListNew != NULL && cmdListNew->temporary) {
+							windowData->cmdList = tcmdlist_remove(windowData->cmdList, cmdListNew);
 							cmdListNew = tcmdlist_last(windowData->cmdList);
-							while (cmdListNew != NULL && cmdListNew->temporary) {
-								windowData->cmdList = tcmdlist_remove(windowData->cmdList, cmdListNew);
-								cmdListNew = tcmdlist_last(windowData->cmdList);
-							}
-							if (cmdListNew != NULL) {
-								char *textBuffer;
-								if (windowData->flags & CWDF_RTF_INPUT) {
-									 textBuffer = GetRichTextRTF(hwnd);
-								} else {
-									 textBuffer = GetRichTextEncoded(hwnd, windowData->codePage);
-								}
-								if (textBuffer != NULL) {
-									windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
-									mir_free(textBuffer);
-								}
-							}
-						} else if (windowData->cmdListCurrent->prev != NULL) {
-							cmdListNew = windowData->cmdListCurrent->prev;
 						}
-					} else {
-						if (windowData->cmdListCurrent != NULL) {
-							if (windowData->cmdListCurrent->next != NULL) {
-								cmdListNew = windowData->cmdListCurrent->next;
-							} else if (!windowData->cmdListCurrent->temporary) {
-								SetWindowText(hwnd, _T(""));
+						if (cmdListNew != NULL) {
+							char *textBuffer;
+							if (windowData->flags & CWDF_RTF_INPUT) {
+								textBuffer = GetRichTextRTF(hwnd);
+							} else {
+								textBuffer = GetRichTextEncoded(hwnd, windowData->codePage);
+							}
+							if (textBuffer != NULL) {
+								windowData->cmdList = tcmdlist_append(windowData->cmdList, textBuffer, 20, TRUE);
+								mir_free(textBuffer);
 							}
 						}
+					} else if (windowData->cmdListCurrent->prev != NULL) {
+						cmdListNew = windowData->cmdListCurrent->prev;
 					}
-					if (cmdListNew != NULL) {
-						int iLen;
-						SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-						if (windowData->flags & CWDF_RTF_INPUT) {
-							iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
-						} else {
-							iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd, windowData->codePage);
+				} else {
+					if (windowData->cmdListCurrent != NULL) {
+						if (windowData->cmdListCurrent->next != NULL) {
+							cmdListNew = windowData->cmdListCurrent->next;
+						} else if (!windowData->cmdListCurrent->temporary) {
+							SetWindowText(hwnd, _T(""));
 						}
-						SendMessage(hwnd, EM_SCROLLCARET, 0,0);
-						SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
-						RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-						SendMessage(hwnd, EM_SETSEL, iLen, iLen);
-						windowData->cmdListCurrent = cmdListNew;
 					}
 				}
-				return FALSE;
+				if (cmdListNew != NULL) {
+					int iLen;
+					SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
+					if (windowData->flags & CWDF_RTF_INPUT)
+						iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
+					else
+						iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd, windowData->codePage);
+
+					SendMessage(hwnd, EM_SCROLLCARET, 0,0);
+					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
+					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
+					SendMessage(hwnd, EM_SETSEL, iLen, iLen);
+					windowData->cmdListCurrent = cmdListNew;
+				}
 			}
-		}
-		break;
-		case WM_SYSKEYDOWN:
-		{
-			if ((wParam == VK_LEFT) && isAlt) {
-				SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
-				return 0;
-			}
-			if ((wParam == VK_RIGHT) && isAlt) {
-				SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
-				return 0;
-			}
-		}
-		break;
-		case WM_SYSKEYUP:
-		{
-			if ((wParam == VK_LEFT) && isAlt) {
-				return 0;
-			}
-			if ((wParam == VK_RIGHT) && isAlt) {
-				return 0;
-			}
+			return FALSE;
 		}
 		break;
 
+	case WM_SYSKEYDOWN:
+		if ((wParam == VK_LEFT) && isAlt) {
+			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATEPREV, 0, (LPARAM)GetParent(hwnd));
+			return 0;
+		}
+		if ((wParam == VK_RIGHT) && isAlt) {
+			SendMessage(GetParent(GetParent(hwnd)), CM_ACTIVATENEXT, 0, (LPARAM)GetParent(hwnd));
+			return 0;
+		}
+		break;
+	case WM_SYSKEYUP:
+		{
+			if ((wParam == VK_LEFT) && isAlt)
+				return 0;
+
+			if ((wParam == VK_RIGHT) && isAlt)
+				return 0;
+		}
+		break;
 	}
 
 	return -1;
-
 }
 
 void RegisterKeyBindings() {
-	int i;
+
 	char strDesc[64], strName[64];
-	HOTKEYDESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.cbSize = sizeof(desc);
+	HOTKEYDESC desc = {sizeof(desc) };
 	desc.pszSection = LPGEN("Messaging");
 	desc.pszName = "Scriver/Nav/Previous Tab";
 	desc.pszDescription = LPGEN("Navigate: Previous Tab");
 	desc.lParam = KB_PREV_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_TAB);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_PRIOR);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_LEFT);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Nav/Next Tab";
 	desc.pszDescription = LPGEN("Navigate: Next Tab");
 	desc.lParam = KB_NEXT_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_TAB);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_NEXT);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_RIGHT);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
+
 	desc.pszName = strName;
 	desc.pszDescription = strDesc;
-	for (i = 0; i < 9; i++) {
+	for (int i = 0; i < 9; i++) {
 		mir_snprintf(strName, SIZEOF(strName), "Scriver/Nav/Tab %d", i + 1);
 		mir_snprintf(strDesc, SIZEOF(strDesc), LPGEN("Navigate: Tab %d"), i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '1' + i);
-		Hotkey_Register( &desc);
+		Hotkey_Register(&desc);
 	}
 
 	desc.pszName = "Scriver/Wnd/Toggle Statusbar";
 	desc.pszDescription = LPGEN("Window: Toggle Statusbar");
 	desc.lParam = KB_SWITCHSTATUSBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Titlebar";
 	desc.pszDescription = LPGEN("Window: Toggle Titlebar");
 	desc.lParam = KB_SWITCHTITLEBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'M');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Toolbar";
 	desc.pszDescription = LPGEN("Window: Toggle Toolbar");
 	desc.lParam = KB_SWITCHTOOLBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Infobar";
 	desc.pszDescription = LPGEN("Window: Toggle Infobar");
 	desc.lParam = KB_SWITCHINFOBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'N');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Clear Log";
 	desc.pszDescription = LPGEN("Window: Clear Log");
 	desc.lParam = KB_CLEAR_LOG;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'L');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Minimize";
 	desc.pszDescription = LPGEN("Window: Minimize");
 	desc.lParam = KB_MINIMIZE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_ESCAPE);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Wnd/Close Tab";
 	desc.pszDescription = LPGEN("Window: Close Tab");
 	desc.lParam = KB_CLOSE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F4);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'W');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Action/Quote";
 	desc.pszDescription = LPGEN("Action: Quote");
 	desc.lParam = KB_QUOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'Q');
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Action/Send All";
 	desc.pszDescription = LPGEN("Action: Send to All");
 	desc.lParam = KB_SEND_ALL;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_RETURN);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 
 	desc.pszName = "Scriver/Action/PasteSend";
 	desc.pszDescription = LPGEN("Action: Paste & Send");
 	desc.lParam = KB_PASTESEND;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_INSERT);
-	Hotkey_Register( &desc);
+	Hotkey_Register(&desc);
 }
 
-BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *lParam) {
-	TEXTRANGE tr;
+BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *lParam)
+{
 	CHARRANGE sel;
-	char* pszUrl;
-	BOOL bOpenLink = TRUE;
-	SendMessage(lParam->nmhdr.hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+	SendMessage(lParam->nmhdr.hwndFrom, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin != sel.cpMax)
 		return FALSE;
+
+	TEXTRANGE tr;
 	tr.chrg = lParam->chrg;
 	tr.lpstrText = (LPWSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
-	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
+	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (_tcschr(tr.lpstrText, _T('@')) != NULL && _tcschr(tr.lpstrText, _T(':')) == NULL && _tcschr(tr.lpstrText, _T('/')) == NULL) {
 		MoveMemory(tr.lpstrText + sizeof(TCHAR) * 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
 		CopyMemory(tr.lpstrText, _T("mailto:"), sizeof(TCHAR) * 7);
 	}
-	pszUrl = t2a( (const TCHAR *)tr.lpstrText );
-	if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
+
+	BOOL bOpenLink = TRUE;
+
+	if (((ENLINK*)lParam)->msg == WM_RBUTTONDOWN) {
 		HMENU hMenu, hSubMenu;
 		POINT pt;
 		bOpenLink = FALSE;
@@ -417,27 +409,25 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 		case IDM_OPENLINK:
 			bOpenLink = TRUE;
 			break;
+
 		case IDM_COPYLINK:
-			{
-				HGLOBAL hData;
-				if (!OpenClipboard(hwndDlg))
-					break;
-				EmptyClipboard();
-				hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
-				lstrcpy((LPWSTR)GlobalLock(hData), tr.lpstrText);
-				GlobalUnlock(hData);
-				SetClipboardData(CF_UNICODETEXT, hData);
-				CloseClipboard();
+			HGLOBAL hData;
+			if (!OpenClipboard(hwndDlg))
 				break;
-			}
+			EmptyClipboard();
+			hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
+			lstrcpy((LPWSTR)GlobalLock(hData), tr.lpstrText);
+			GlobalUnlock(hData);
+			SetClipboardData(CF_UNICODETEXT, hData);
+			CloseClipboard();
+			break;
 		}
 		DestroyMenu(hMenu);
 	}
-	if (bOpenLink) {
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM) pszUrl);
-	}
+	if (bOpenLink)
+		CallService(MS_UTILS_OPENURL, OUF_TCHAR | OUF_NEWWINDOW, (LPARAM)tr.lpstrText);
+
 	SetFocus(hwndFocus);
 	mir_free(tr.lpstrText);
-	mir_free(pszUrl);
 	return TRUE;
 }

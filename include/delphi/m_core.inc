@@ -615,9 +615,8 @@ procedure mir_subclassWindowFull(Wnd:HWND; WndProc, OldWndProc:TWNDPROC); stdcal
                        external CoreDLL name 'mir_subclassWindowFull';
 function  mir_callNextSubclass(Wnd:HWND; WndProc:TWNDPROC; uMsg:uint; wParam:WPARAM; lParam:LPARAM ):LRESULT; stdcall;
                        external CoreDLL name 'mir_callNextSubclass';
-
-procedure KillModuleSubclassing(hInst: HMODULE);
-                       external CoreDLL name 'KillModuleSubclassing';
+procedure mir_unsubclassWindow(Wnd:HWND; WndProc:TWNDPROC); stdcall;
+                       external CoreDLL name 'mir_unsubclassWindow';
 
 ///////////////////////////////////////////////////////////////////////////////
 
