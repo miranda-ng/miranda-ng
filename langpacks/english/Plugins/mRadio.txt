@@ -93,3 +93,4 @@
 [Advanced]
 [Stop]
 [Play]
+[Frame background]
