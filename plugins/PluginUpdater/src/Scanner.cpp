@@ -127,8 +127,6 @@ static renameTable[] =
 	{ _T("gender.dll"),                     _T("") },
 	{ _T("srmm.dll"),                       _T("") },
 	{ _T("extraicons.dll"),                 _T("") },
-	{ _T("ru.aff"),                         _T("") },
-	{ _T("ru.dic"),                         _T("") },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
