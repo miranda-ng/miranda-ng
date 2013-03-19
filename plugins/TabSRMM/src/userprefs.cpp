@@ -490,7 +490,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS), hwndDlg, DlgProcUserPrefs, (LPARAM)hContact);
 			tci.pszText = TranslateT("General");
-			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0, &tci);
+			TabCtrl_InsertItem( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_SHOW);
 			if (CMimAPI::m_pfnEnableThemeDialogTexture)
@@ -499,12 +499,12 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_USERPREFS1), hwndDlg, DlgProcUserPrefsLogOptions, (LPARAM)hContact);
 			tci.pszText = TranslateT("Message Log");
-			TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
+			TabCtrl_InsertItem( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 1, &tci);
 			MoveWindow((HWND)tci.lParam, 6, DPISCALEY_S(32), rcClient.right - 12, rcClient.bottom - DPISCALEY_S(80), 1);
 			ShowWindow((HWND)tci.lParam, SW_HIDE);
 			if (CMimAPI::m_pfnEnableThemeDialogTexture)
 				CMimAPI::m_pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
+			TabCtrl_SetCurSel( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), 0);
 			ShowWindow(hwndDlg, SW_SHOW);
 			return TRUE;
 		}
@@ -516,7 +516,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							TCITEM tci;
 							tci.mask = TCIF_PARAM;
 
-							TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
+							TabCtrl_GetItem( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel( GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
 							ShowWindow((HWND)tci.lParam, SW_HIDE);
 						}
 						break;
@@ -524,7 +524,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							TCITEM tci;
 							tci.mask = TCIF_PARAM;
 
-							TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
+							TabCtrl_GetItem( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), TabCtrl_GetCurSel( GetDlgItem(hwndDlg, IDC_OPTIONSTAB)), &tci);
 							ShowWindow((HWND)tci.lParam, SW_SHOW);
 						}
 						break;
@@ -542,9 +542,9 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					tci.mask = TCIF_PARAM;
 
-					count = TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
+					count = TabCtrl_GetItemCount( GetDlgItem(hwndDlg, IDC_OPTIONSTAB));
 					for (i=0;i < count;i++) {
-						TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
+						TabCtrl_GetItem( GetDlgItem(hwndDlg, IDC_OPTIONSTAB), i, &tci);
 						SendMessage((HWND)tci.lParam, WM_COMMAND, WM_USER + 100, (LPARAM)&dwActionToTake);
 					}
 					if (hwnd) {

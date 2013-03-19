@@ -830,7 +830,7 @@ INT_PTR CALLBACK CGlobals::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						m_exCtx.Esi, m_exCtx.Edi, m_exCtx.Ebp, m_exCtx.Esp, m_exCtx.Eip);
 #endif
 				SetDlgItemTextA(hwndDlg, IDC_EXCEPTION_DETAILS, szBuffer);
-				SetFocus(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
+				SetFocus( GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
 				SendDlgItemMessage(hwndDlg, IDC_EXCEPTION_DETAILS, WM_SETFONT, (WPARAM)GetStockObject(OEM_FIXED_FONT), 0);
 				SetDlgItemTextW(hwndDlg, IDC_EX_REASON, m_exReason);
 				Utils::enableDlgControl(hwndDlg, IDOK, m_exAllowContinue ? TRUE : FALSE);
@@ -846,7 +846,7 @@ INT_PTR CALLBACK CGlobals::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					EndDialog(hwndDlg, wID);
 
 				if (wID == IDC_COPY_EXCEPTION)
-					Ex_CopyEditToClipboard(GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
+					Ex_CopyEditToClipboard( GetDlgItem(hwndDlg, IDC_EXCEPTION_DETAILS));
 			}
 
 			break;

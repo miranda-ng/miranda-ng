@@ -935,7 +935,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	gcmi.pszUID = pszUID;
 
 	if (iIndex == 1) {
-		int i = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG));
+		int i = GetRichTextLength( GetDlgItem(hwndDlg, IDC_CHAT_LOG));
 
 		EnableMenuItem(*hMenu, ID_CLEARLOG, MF_ENABLED);
 		EnableMenuItem(*hMenu, ID_COPYALL, MF_ENABLED);

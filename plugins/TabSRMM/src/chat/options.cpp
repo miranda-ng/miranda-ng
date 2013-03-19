@@ -501,21 +501,21 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		if (PluginConfig.m_chat_enabled) {
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+			SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
 			HIMAGELIST himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CHECKBOXES, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 			ImageList_Destroy(himlOptions);
 
-			hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance and functionality of chat room windows"), TRUE);
-			hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance of the message log"), TRUE);
+			hListHeading1 = InsertBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance and functionality of chat room windows"), TRUE);
+			hListHeading2 = InsertBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance of the message log"), TRUE);
 
-			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, SIZEOF(branch1), 0x0000);
-			FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, SIZEOF(branch2), 0x0000);
+			FillBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, SIZEOF(branch1), 0x0000);
+			FillBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, SIZEOF(branch2), 0x0000);
 
 			{
 				TCHAR* pszGroup = NULL;
 				InitSetting(&pszGroup, "AddToGroup", _T("Chat rooms"));
-				SetWindowText(GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
+				SetWindowText( GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
 				mir_free(pszGroup);
 				Utils::showDlgControl(hwndDlg, IDC_STATIC_MESSAGE, SW_HIDE);
 			}
@@ -583,7 +583,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					TCHAR *pszText = NULL;
 					BYTE b;
 
-					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
+					iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_GROUP));
 					if (iLen > 0) {
 						pszText = (TCHAR *)realloc(pszText, (iLen + 2) * sizeof(TCHAR));
 						GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen + 1);
@@ -597,8 +597,8 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						free(pszText);
 
 					b = M->GetByte("Chat", "Tabs", 1);
-					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, sizeof(branch1) / sizeof(branch1[0]));
-					SaveBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, sizeof(branch2) / sizeof(branch2[0]));
+					SaveBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch1, sizeof(branch1) / sizeof(branch1[0]));
+					SaveBranch( GetDlgItem(hwndDlg, IDC_CHECKBOXES), branch2, sizeof(branch2) / sizeof(branch2[0]));
 
 					LoadGlobalSettings();
 					MM_FontsChanged();
@@ -613,9 +613,9 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		BYTE b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
+		BYTE b = TreeView_GetItemState( GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		M->WriteByte("Chat", "Branch1Exp", b);
-		b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
+		b = TreeView_GetItemState( GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		M->WriteByte("Chat", "Branch2Exp", b);
 	}
 	return FALSE;
@@ -913,7 +913,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					_T("%yyyy%"),		TranslateT("year with century, 1901-9999"),
 					_T("%wday%"),		TranslateT("abbreviated weekday name"),
 					_T("%weekday%"),	TranslateT("full weekday name"));
-				hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
+				hPathTip = CreateToolTip( GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
 			}
 		}
 		else {
@@ -1005,7 +1005,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					SHGetPathFromIDList(idList, tszDirectory);
 					lstrcat(tszDirectory, _T("\\"));
 					M->pathToRelative(tszDirectory, tszTemp, const_cast<TCHAR *>(szUserDir));
-					SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					SetWindowText( GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), lstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);
 				psMalloc->Release();
@@ -1035,7 +1035,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			if (PluginConfig.m_chat_enabled) {
 
-				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
+				iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 				if (iLen > 0) {
 					TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR) + 2);
 					GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText1, iLen + 1);
@@ -1058,28 +1058,28 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				else
 					DBDeleteContactSetting(NULL, "Chat", "NicklistRowDist");
 
-				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
+				iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "LogTimestamp", pszText);
 				} else DBDeleteContactSetting(NULL, "Chat", "LogTimestamp");
 
-				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
+				iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
 				} else DBDeleteContactSetting(NULL, "Chat", "HeaderTime");
 
-				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
+				iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_INSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "HeaderIncoming", pszText);
 				} else DBDeleteContactSetting(NULL, "Chat", "HeaderIncoming");
 
-				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
+				iLen = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);

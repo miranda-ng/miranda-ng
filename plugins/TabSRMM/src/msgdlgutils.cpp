@@ -506,7 +506,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 
 		szIndicators[0] = 0;
 		if (dat->bType == SESSIONTYPE_CHAT)
-			len = GetWindowTextLength(GetDlgItem(dat->hwnd, IDC_CHAT_MESSAGE));
+			len = GetWindowTextLength( GetDlgItem(dat->hwnd, IDC_CHAT_MESSAGE));
 		else {
 			/*
 			 * retrieve text length in UTF8 bytes, because this is the relevant length for most protocols
@@ -588,7 +588,7 @@ void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
 	if (dat->pContainer->dwFlags & CNT_SIDEBAR)
 		dat->pContainer->SideBar->updateSession(dat);
 	else
-		TabCtrl_SetItem(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), dat->iTabID, &item);
+		TabCtrl_SetItem( GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), dat->iTabID, &item);
 }
 
 /*
@@ -867,12 +867,12 @@ void TSAPI AdjustBottomAvatarDisplay(TWindowData *dat)
 			dat->dynaSplitter = dat->splitterY - DPISCALEY_S(34);
 			DM_RecalcPictureSize(dat);
 			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
+			InvalidateRect( GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		} else {
 			dat->showPic = GetAvatarVisibility(hwndDlg, dat);
 			Utils::showDlgControl(hwndDlg, IDC_CONTACTPIC, dat->showPic ? SW_SHOW : SW_HIDE);
 			dat->pic.cy = dat->pic.cx = DPISCALEY_S(60);
-			InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
+			InvalidateRect( GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		}
 	}
 }
@@ -901,7 +901,7 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 		dat->showPic = dat->showPic ? 0 : 1;
 		DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->showPic);
 	}
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rc);
+	GetWindowRect( GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rc);
 	if (dat->minEditBoxSize.cy + DPISCALEY_S(3)> dat->splitterY)
 		SendMessage(hwndDlg, DM_SPLITTERMOVED, (WPARAM)rc.bottom - dat->minEditBoxSize.cy, (LPARAM)GetDlgItem(hwndDlg, IDC_SPLITTER));
 	if (!showNewPic)
@@ -1713,8 +1713,8 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 		return;                                     // feature disabled
 	}
 
-	SendMessage(GetDlgItem(dat->hwnd, ctrlID), EM_PASTESPECIAL, CF_TEXTT, 0);
-	if (GetWindowTextLengthA(GetDlgItem(dat->hwnd, ctrlID)) > 0)
+	SendMessage( GetDlgItem(dat->hwnd, ctrlID), EM_PASTESPECIAL, CF_TEXTT, 0);
+	if (GetWindowTextLengthA( GetDlgItem(dat->hwnd, ctrlID)) > 0)
 		SendMessage(dat->hwnd, WM_COMMAND, IDOK, 0);
 }
 
@@ -2171,7 +2171,7 @@ void TSAPI ConfigureSmileyButton(TWindowData *dat)
 {
 	HWND  hwndDlg = dat->hwnd;
 	int nrSmileys = 0;
-  	int showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+  	int bShowToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	int iItemID = IDC_SMILEYBTN;
 
 	if (PluginConfig.g_SmileyAddAvail) {
@@ -2182,7 +2182,7 @@ void TSAPI ConfigureSmileyButton(TWindowData *dat)
 	if (nrSmileys == 0 || dat->hContact == 0)
 		dat->doSmileys = 0;
 
-	Utils::showDlgControl(hwndDlg, iItemID, (dat->doSmileys && showToolbar) ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(hwndDlg, iItemID, (dat->doSmileys && bShowToolbar) ? SW_SHOW : SW_HIDE);
 	Utils::enableDlgControl(hwndDlg, iItemID, dat->doSmileys ? TRUE : FALSE);
 }
 
@@ -2211,8 +2211,8 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 {
 	HWND hwndOK;
-	SendMessage(GetDlgItem(dat->hwnd, IDOK), BUTTONSETASNORMAL, iMode, 0);
-	SendMessage(GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
+	SendMessage( GetDlgItem(dat->hwnd, IDOK), BUTTONSETASNORMAL, iMode, 0);
+	SendMessage( GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
 
 	hwndOK = GetDlgItem(GetParent(GetParent(dat->hwnd)), IDOK);
 
@@ -2392,7 +2392,7 @@ void TSAPI DetermineMinHeight(TWindowData* dat)
 		LONG height = (dat->Panel->isActive() ? dat->Panel->getHeight() + 2 : 0);
 		if (!(dat->pContainer->dwFlags & CNT_HIDETOOLBAR))
 			height += DPISCALEY_S(24);								// toolbar
-		GetClientRect(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE), &rc);
+		GetClientRect( GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE), &rc);
 		height += rc.bottom;										// input area
 		height += 40;												// min space for log area and some padding
 

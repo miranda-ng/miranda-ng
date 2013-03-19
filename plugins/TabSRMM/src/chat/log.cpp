@@ -986,7 +986,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		stream.dwCookie = (DWORD_PTR) & streamData;
 		scroll.cbSize = sizeof(SCROLLINFO);
 		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
-		GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
+		GetScrollInfo( GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
 		SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM) &point);
 
 		// do not scroll to bottom if there is a selection

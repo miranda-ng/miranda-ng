@@ -192,7 +192,7 @@ void CInfoPanel::showHide() const
 		}
 		Utils::showDlgControl(hwndDlg, IDC_PANELSPLITTER, m_active ? SW_SHOW : SW_HIDE);
 		::SendMessage(hwndDlg, WM_SIZE, 0, 0);
-		::InvalidateRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
+		::InvalidateRect( GetDlgItem(hwndDlg, IDC_CONTACTPIC), NULL, TRUE);
 		::SetAeroMargins(m_dat->pContainer);
 		if (M->isAero())
 			::InvalidateRect(GetParent(hwndDlg), NULL, FALSE);
@@ -911,7 +911,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		TCHAR 	szTitle[256];
 		HWND	hwndDlg = m_dat->hwnd;
 
-		::GetWindowRect(GetDlgItem(hwndDlg, ctrlId), &rc);
+		::GetWindowRect( GetDlgItem(hwndDlg, ctrlId), &rc);
 
 		::SendMessage(m_dat->hwndTip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELONG(rc.left, rc.bottom));
 		if (lParam)
@@ -1333,7 +1333,7 @@ int CInfoPanel::invokeConfigDialog(const POINT& pt)
 			TranslateDialogDefault(m_hwndConfig);
 
 			::GetClientRect(m_hwndConfig, &rc);
-			::GetWindowRect(GetDlgItem(m_dat->hwnd, m_isChat ? IDC_CHAT_LOG : IDC_LOG), &rcLog);
+			::GetWindowRect( GetDlgItem(m_dat->hwnd, m_isChat ? IDC_CHAT_LOG : IDC_LOG), &rcLog);
 			pt.x = rcLog.left;
 			pt.y = rcLog.top;
 			//::ScreenToClient(m_dat->pContainer->hwnd, &pt);

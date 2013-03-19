@@ -156,7 +156,7 @@ entry_found:
 
 	dat->cache->saveHistory(0, 0);
 	::SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
-	::SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+	::SetFocus( GetDlgItem(hwndDlg, IDC_MESSAGE));
 
 	UpdateSaveAndSendButton(dat);
 	sendQueued(dat, iFound);
@@ -617,7 +617,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 		dat->hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
-		TabCtrl_SetItem(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), dat->iTabID, &item);
+		TabCtrl_SetItem( GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), dat->iTabID, &item);
 		dat->dwFlags |= MWF_ERRORSTATE;
 	}
 	else {
@@ -626,7 +626,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 	}
 
 	for (i=0; i < 5; i++) {
-		if (IsWindow(GetDlgItem(hwndDlg, myerrorControls[i])))
+		if (IsWindow( GetDlgItem(hwndDlg, myerrorControls[i])))
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
 	}
 
@@ -638,7 +638,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 
 void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 {
-	int		iLen = GetWindowTextLengthA(GetDlgItem(dat->hwnd, IDC_MESSAGE));
+	int		iLen = GetWindowTextLengthA( GetDlgItem(dat->hwnd, IDC_MESSAGE));
 
 	if (dat) {
 		NotifyDeliveryFailure(dat);

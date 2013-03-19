@@ -213,7 +213,7 @@ BOOL SM_SetStatusEx(const TCHAR* pszID, const char* pszModule, const TCHAR* pszT
 		if ((!pszID || !lstrcmpi(pTemp->ptszID, pszID)) && !lstrcmpiA(pTemp->pszModule, pszModule)) {
 			UM_SetStatusEx(pTemp->pUsers, pszText, flags);
 			if (pTemp->hWnd)
-				RedrawWindow(GetDlgItem(pTemp->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+				RedrawWindow( GetDlgItem(pTemp->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 			if (pszID)
 				return TRUE;
 		}

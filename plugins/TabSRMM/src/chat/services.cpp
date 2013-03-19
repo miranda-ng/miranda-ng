@@ -267,7 +267,7 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				if (si2->hContact)
 					Chat_SetFilters(si2);
 				if (si2->hWnd)
-					RedrawWindow(GetDlgItem(si2->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
+					RedrawWindow( GetDlgItem(si2->hWnd, IDC_LIST), NULL, NULL, RDW_INVALIDATE);
 			}
 		}
 

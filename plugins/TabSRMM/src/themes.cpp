@@ -2539,10 +2539,10 @@ void CSkin::initAeroEffect()
 	TContainerData *pContainer = pFirstContainer;
 
 	while (pContainer) {
-		InvalidateRect(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, TRUE);
+		InvalidateRect( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, TRUE);
 		InvalidateRect(pContainer->hwnd, NULL, TRUE);
-		if (IsWindow(GetDlgItem(pContainer->hwnd, 5000)))
-			InvalidateRect(GetDlgItem(pContainer->hwnd, 5000), NULL, TRUE);
+		if (IsWindow( GetDlgItem(pContainer->hwnd, 5000)))
+			InvalidateRect( GetDlgItem(pContainer->hwnd, 5000), NULL, TRUE);
 		pContainer = pContainer->pNextContainer;
 	}
 }

@@ -48,7 +48,7 @@ static void FillDialog(HWND hwndDlg)
 		tvi.item.pszText = TranslateTS(lvGroups[i].szName);
 		tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 		tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-		lvGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), &tvi);
+		lvGroups[i].handle = (LRESULT)TreeView_InsertItem( GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), &tvi);
 	}
 
 	TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
@@ -61,7 +61,7 @@ static void FillDialog(HWND hwndDlg)
 		tvi.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (lvItems[i].uType == LOI_TYPE_SETTING)
 			tvi.item.state = INDEXTOSTATEIMAGEMASK(M->GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? 3 : 2);  // NOTE: was 2 : 1 without state image mask
-		lvItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), &tvi);
+		lvItems[i].handle = (LRESULT)TreeView_InsertItem( GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), &tvi);
 	}
 
 	PluginConfig.g_bClientInStatusBar = M->GetByte("adv_ClientIconInStatusBar", 0);
@@ -78,7 +78,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	switch(msg)	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
+		SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), GWL_STYLE, GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
 		g_himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_PLUS_CHECKTREE, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 		ImageList_Destroy(g_himlOptions);
@@ -165,7 +165,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				if (lvItems[i].uType == LOI_TYPE_SETTING)
 					M->WriteByte(SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
 
-			TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE));
+			TreeView_DeleteAllItems( GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE));
 			FillDialog(hwndDlg);
 			break;
 		}
