@@ -924,35 +924,15 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 	return 8;
 }
 
-static HICON CLUI_ExtractIconFromPath(const TCHAR *path)
-{
-	TCHAR file[MAX_PATH], fileFull[MAX_PATH];
-	lstrcpyn(file, path, SIZEOF(file));
-	TCHAR *comma = _tcsrchr(file, ',');
-	int n;
-	if (comma == NULL)
-		n = 0;
-	else
-		n = _ttoi(comma+1), *comma = 0;
-	PathToAbsoluteT(file, fileFull);
-	
-	HICON hIcon = NULL;
-	ExtractIconEx(fileFull, n, NULL, &hIcon, 1);
-	return hIcon;
-}
-
 static HICON CLUI_LoadIconFromExternalFile(TCHAR *filename, int i)
 {
 	TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH];
-	GetModuleFileName( GetModuleHandle(NULL), szPath, SIZEOF(szPath));
-	TCHAR *str = _tcsrchr(szPath,'\\');
-	if (str != NULL)
-		*str = 0;
-	mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Icons\\%s,%d"), szPath, filename, i);
-	if (str != NULL)
-		*str = '\\';
-
-	return CLUI_ExtractIconFromPath(szFullPath);
+	mir_sntprintf(szPath, SIZEOF(szPath), _T("Icons\\%s"), filename);
+	PathToAbsoluteT(szPath, szFullPath);
+	
+	HICON hIcon = NULL;
+	ExtractIconEx(szFullPath, i, NULL, &hIcon, 1);
+	return hIcon;
 }
 
 static HICON CLUI_GetConnectingIconForProto(char *szAccoName, int idx)
