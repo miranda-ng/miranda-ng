@@ -1356,7 +1356,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
-	streamData.isEmpty = fAppend ? GetWindowTextLength( GetDlgItem(hwndDlg, IDC_LOG)) == 0 : 1;
+	streamData.isEmpty = fAppend ? GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG)) == 0 : 1;
 	streamData.dbei = dbei_s;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR) & streamData;
@@ -1367,7 +1367,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 		fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
-		sel.cpMin = sel.cpMax = GetWindowTextLength( GetDlgItem(hwndDlg, IDC_LOG));
+		sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG));
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & sel);
 	} else {
 		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
@@ -1420,8 +1420,8 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 
 	SendMessage(hwndDlg, DM_FORCESCROLL, (WPARAM)&pt, (LPARAM)psi);
 	SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect( GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
-	EnableWindow( GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
+	InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
 	if (streamData.buffer) free(streamData.buffer);
 }
 

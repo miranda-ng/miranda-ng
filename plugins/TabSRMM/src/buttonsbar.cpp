@@ -352,7 +352,7 @@ static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam)
 
 	if (!realbutton) return 1;
 	hwndDlg = M->FindWindow((HANDLE)wParam);
-	bbdi->bbbFlags = (IsDlgButtonChecked(hwndDlg, tempCID) ? BBSF_PUSHED : BBSF_RELEASED) | (IsWindowVisible( GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_HIDDEN) | (IsWindowEnabled( GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_DISABLED);
+	bbdi->bbbFlags = (IsDlgButtonChecked(hwndDlg, tempCID) ? BBSF_PUSHED : BBSF_RELEASED) | (IsWindowVisible(GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_HIDDEN) | (IsWindowEnabled(GetDlgItem(hwndDlg, tempCID)) ? 0 : BBSF_DISABLED);
 	return 0;
 }
 
@@ -384,12 +384,12 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 
 	hwndDlg = M->FindWindow((HANDLE)wParam);
 	if (hwndDlg && realbutton && bbdi->hIcon)
-		SendMessage( GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(bbdi->hIcon));
+		SendMessage(GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(bbdi->hIcon));
 	if (hwndDlg && realbutton && bbdi->pszTooltip) {
 		if (bbdi->bbbFlags&BBBF_ANSITOOLTIP)
-			SendMessage( GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)mir_a2u(bbdi->pszTooltip), 0);
+			SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)mir_a2u(bbdi->pszTooltip), 0);
 		else
-			SendMessage( GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)bbdi->ptszTooltip, 0);
+			SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)bbdi->ptszTooltip, 0);
 	}
 	if (hwndDlg && realbutton && bbdi->bbbFlags) {
 		Utils::showDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
@@ -544,7 +544,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 		isThemed = FALSE;
 	}
 
-	GetWindowRect( GetDlgItem(hdlg, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(hdlg, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
 	ptSplitter.x = 0;
 	ptSplitter.y = rcSplitter.top;
 	ScreenToClient(hdlg, &ptSplitter);
@@ -579,8 +579,8 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				if (hwndBtn && cbd->bPushButton)
 					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
 			}
-		} else if ( GetDlgItem(hdlg, cbd->dwButtonCID))
-			DestroyWindow( GetDlgItem(hdlg, cbd->dwButtonCID));
+		} else if (GetDlgItem(hdlg, cbd->dwButtonCID))
+			DestroyWindow(GetDlgItem(hdlg, cbd->dwButtonCID));
 
 		if (cbd->bDisabled)
 			EnableWindow(hwndBtn, 0);
@@ -617,8 +617,8 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				if (hwndBtn && cbd->bPushButton)
 					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
 			}
-		} else if ( GetDlgItem(hdlg, cbd->dwButtonCID))
-			DestroyWindow( GetDlgItem(hdlg, cbd->dwButtonCID));
+		} else if (GetDlgItem(hdlg, cbd->dwButtonCID))
+			DestroyWindow(GetDlgItem(hdlg, cbd->dwButtonCID));
 
 		if (cbd->bDisabled)
 			EnableWindow(hwndBtn, 0);
@@ -668,7 +668,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	int 			splitterY, iOff;
 	BYTE 			gap = DPISCALEX_S(PluginConfig.g_iButtonsBarGap);
 	int 			foravatar = 0;
-	BOOL 			bShowToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
+	BOOL 			showToolbar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
 	BOOL 			bBottomToolbar = dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 1 : 0;
 	int 			tempL = dat->bbLSideWidth;
 	int 			tempR = dat->bbRSideWidth;
@@ -679,11 +679,11 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	if (!dat || !IsWindowVisible(hwnd))
 		return 0;
 
-	ShowWindow(hwndToggleSideBar, (bShowToolbar && dat->pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
+	ShowWindow(hwndToggleSideBar, (showToolbar && dat->pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
 
 	EnterCriticalSection(&ToolBarCS);
 
-	GetWindowRect( GetDlgItem(hwnd, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
+	GetWindowRect(GetDlgItem(hwnd, (dat->bType == SESSIONTYPE_IM) ? IDC_SPLITTER : IDC_SPLITTERY), &rcSplitter);
 	ptSplitter.x = 0;
 	ptSplitter.y = rcSplitter.top;
 	ScreenToClient(hwnd, &ptSplitter);
@@ -717,7 +717,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 
 			hwndBtn = GetDlgItem(hwnd, cbd->dwButtonCID);
 
-			if (!bShowToolbar) {
+			if (!showToolbar) {
 				ShowWindow(hwndBtn, SW_HIDE);
 				DeferWindowPos(hdwp, hwndBtn , NULL, lwidth, splitterY - iOff,
 							   0, 0, SWP_NOZORDER | SWP_NOSIZE);// | SWP_NOCOPYBITS);
@@ -770,7 +770,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 
 			hwndBtn = GetDlgItem(hwnd, cbd->dwButtonCID);
 
-			if (!bShowToolbar) {
+			if (!showToolbar) {
 				ShowWindow(hwndBtn, SW_HIDE);
 				if (IsWindowVisible(hwndBtn) || (cbd->bDummy && !(cbd->bAutoHidden || cbd->bHidden)))
 					rwidth += cbd->iButtonWidth + gap;
@@ -918,11 +918,11 @@ void BB_RefreshTheme(const TWindowData *dat)
 
 	for (i=0; i < RButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)RButtonsList->items[i];
-		SendMessage( GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
+		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
 	}
 	for (i=0; i < LButtonsList->realCount; i++) {
 		CustomButtonData* cbd = (CustomButtonData *)LButtonsList->items[i];
-		SendMessage( GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
+		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
 	}
 }
 
@@ -1604,9 +1604,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		break;
 
 		case WM_DESTROY: {
-			HIMAGELIST hIml = TreeView_GetImageList( GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_NORMAL);
+			HIMAGELIST hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_NORMAL);
 			ImageList_Destroy(hIml);
-			hIml = TreeView_GetImageList( GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_STATE);
+			hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_STATE);
 			ImageList_Destroy(hIml);
 			break;
 		}

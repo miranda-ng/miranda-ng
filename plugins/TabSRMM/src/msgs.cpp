@@ -617,8 +617,8 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 	if (dat && pContainer) {
 		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
 		nmhdr.code = TCN_SELCHANGE;
-		if (TabCtrl_GetItemCount( GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
-			TabCtrl_SetCurSel( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
+		if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
+			TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
 			SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM) &nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 		}
 		if (dat->bType == SESSIONTYPE_IM)
@@ -650,7 +650,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		else if (GetForegroundWindow() != pContainer->hwnd)
 			SetForegroundWindow(pContainer->hwnd);
 		if (dat->bType == SESSIONTYPE_IM)
-			SetFocus( GetDlgItem(hwndChild, IDC_MESSAGE));
+			SetFocus(GetDlgItem(hwndChild, IDC_MESSAGE));
 		return TRUE;
 	} else
 		return FALSE;
@@ -752,7 +752,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
-		TabCtrl_SetCurSel( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), newItem);
+		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), newItem);
 	newData.iTabID = newItem;
 	newData.iTabImage = newData.item.iImage;
 	newData.pContainer = pContainer;

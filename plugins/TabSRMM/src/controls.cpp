@@ -507,7 +507,7 @@ void CMenuBar::configureMenu() const
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
 		if (dat->bType == SESSIONTYPE_IM)
-			::EnableWindow( GetDlgItem(dat->hwnd, IDC_TIME), fDisable ? FALSE : TRUE);
+			::EnableWindow(GetDlgItem(dat->hwnd, IDC_TIME), fDisable ? FALSE : TRUE);
 	}
 }
 

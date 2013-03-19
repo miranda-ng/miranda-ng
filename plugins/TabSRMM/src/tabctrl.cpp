@@ -862,7 +862,7 @@ page_done:
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
-		GetWindowRect( GetDlgItem(tabdat->helperDat->hwnd, tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcLog);
+		GetWindowRect(GetDlgItem(tabdat->helperDat->hwnd, tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcLog);
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
 		ScreenToClient(hwnd, &pt);
@@ -1491,8 +1491,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					FreeTabConfig();
 					ReloadTabConfig();
 					while (pContainer) {
-						TabCtrl_SetPadding( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-						RedrawWindow( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
+						TabCtrl_SetPadding(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
+						RedrawWindow(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
 						pContainer = pContainer->pNextContainer;
 					}
 					return TRUE;

@@ -122,7 +122,7 @@ void TSAPI HandleMenuEntryFromhContact(int iSelection)
 				ActivateExistingTab(pContainer, si->hWnd);
 				if (GetForegroundWindow() != pContainer->hwnd)
 					SetForegroundWindow(pContainer->hwnd);
-				SetFocus( GetDlgItem(pContainer->hwndActive, IDC_CHAT_MESSAGE));
+				SetFocus(GetDlgItem(pContainer->hwndActive, IDC_CHAT_MESSAGE));
 			} else
 				goto nothing_open;
 		} else
@@ -146,7 +146,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	static POINT ptLast;
 	static int iMousedown;
-	int iSelection;
 	
 	if (msg == WM_TASKBARCREATED) {
 		CreateSystrayIcon(FALSE);
@@ -156,6 +155,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	}
 
 	TContainerData *pContainer = pFirstContainer;
+	int iSelection;
 
 	switch (msg) {
 	case WM_CREATE:
@@ -282,11 +282,11 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
 								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus( GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
 							}
 							else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
 								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus( GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
 							}
 							else {
 								if (PluginConfig.m_HideOnClose)
@@ -316,7 +316,9 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
 					iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 					if (iSelection) {
-						MENUITEMINFO mii = { sizeof(mii) };
+						MENUITEMINFO mii = {0};
+
+						mii.cbSize = sizeof(mii);
 						mii.fMask = MIIM_DATA | MIIM_ID;
 						GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
 						if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
@@ -401,7 +403,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				pContainer = 0;
 				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount( GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
 					if (iTabs == 1)
 						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
 					else
@@ -420,7 +422,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				pContainer = 0;
 				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount( GetDlgItem(pContainer->hwnd, 1159));
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
 					if (iTabs == 1)
 						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
 					else
@@ -495,7 +497,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						M->m_pfnDwmExtendFrameIntoClientArea(pContainer->hwnd, &m);
 				}
 				if (pContainer->SideBar->isActive())
-					RedrawWindow( GetDlgItem(pContainer->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
+					RedrawWindow(GetDlgItem(pContainer->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
 				RedrawWindow(pContainer->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 				pContainer = pContainer->pNextContainer;
 			}
@@ -528,7 +530,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		FreeTabConfig();
 		ReloadTabConfig();
 		while (pContainer) {
-			SendMessage( GetDlgItem(pContainer->hwnd, IDC_MSGTABS), EM_THEMECHANGED, 0, 0);
+			SendMessage(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), EM_THEMECHANGED, 0, 0);
 			BroadCastContainer(pContainer, EM_THEMECHANGED, 0, 0);
 			pContainer = pContainer->pNextContainer;
 		}
