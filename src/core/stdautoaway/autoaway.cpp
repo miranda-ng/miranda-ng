@@ -88,9 +88,6 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 			// the protocol doesnt support the given status
 			if (statusbits & Proto_Status2Flag(ID_STATUS_AWAY))
 				status = ID_STATUS_AWAY;
-			// the proto doesnt support user mode or even away, bail.
-			else
-				continue;
 		}
 		if (currentstatus >= ID_STATUS_ONLINE && currentstatus != ID_STATUS_INVISIBLE) {
 			if ((lParam & IDF_ISIDLE) && (currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT))  {
