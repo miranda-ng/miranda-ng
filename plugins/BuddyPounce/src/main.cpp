@@ -1,25 +1,30 @@
 #include "headers.h"
 
-PLUGININFO pluginInfo={
-	sizeof(PLUGININFO),
-	"Buddy Pounce",
-	PLUGIN_MAKE_VERSION(0,3,2,1),
-	"Allows you to send a message to contacts if they change status and your not there to say hi. Bassically offline messaging for protocols that dont have it.",
-	"Jonathan Gordon",
-	"ICQ 98791178, MSN jonnog@hotmail.com",
-	"© 2004 Jonathan Gordon, jdgordy@gmail.com",
-	"http://jdgordy.tk",		// www
-	0,		//not transient
-	0		//doesn't replace anything built-in
+int hLangpack;
+HINSTANCE hInst;
+HANDLE hWindowList;
+
+PLUGININFOEX pluginInfo={
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {A9E9C114-84B9-434B-A3D5-89921D39DDFF}
+	{0xa9e9c114, 0x84b9, 0x434b, {0xa3, 0xd5, 0x89, 0x92, 0x1d, 0x39, 0xdd, 0xff}}
 };
 
 //========================
 //  WINAPI DllMain
 //========================
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 //========================
@@ -27,7 +32,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 //========================
 
 
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -36,13 +41,22 @@ __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
 // MainInit
 //===================
 
-int MainInit(WPARAM wParam,LPARAM lParam)
+int MainInit(WPARAM wParam, LPARAM lParam)
 {
+	CLISTMENUITEM mi = {0};
+	mi.cbSize=sizeof(mi);
+	mi.position=10;
+	mi.flags=0;
+	mi.hIcon= LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
+	mi.pszName="&Buddy Pounce";
+	mi.pszService="BuddyPounce/MenuCommand";
+	mi.pszContactOwner=NULL;
+
+	Menu_AddContactMenuItem(&mi);
 	return 0;
 }
-HANDLE hWindowList;
 
-int MsgAck(WPARAM wParam,LPARAM lParam) 
+int MsgAck(WPARAM wParam, LPARAM lParam) 
 { 
 	ACKDATA *ack=(ACKDATA*)lParam; 
 
@@ -64,7 +78,7 @@ int MsgAck(WPARAM wParam,LPARAM lParam)
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
-				dbei.szModule = ack->szModule;
+				dbei.szModule = (char*)ack->szModule;
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = lstrlenA(dbv.pszVal) + 1;
 				dbei.pBlob = (PBYTE) dbv.pszVal;
@@ -84,20 +98,17 @@ int MsgAck(WPARAM wParam,LPARAM lParam)
    return 0; 
 } 
 
-int BuddyPounceOptInit(WPARAM wParam,LPARAM lParam)
+int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=0;
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszGroup= "Plugins";
-	odp.pszTitle="Buddy Pounce";
-	odp.pfnDlgProc=BuddyPounceOptionsDlgProc;
-	odp.expertOnlyControls=NULL;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize = sizeof(odp);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszGroup = LPGENT("Plugins");
+	odp.pszTitle = LPGENT("Buddy Pounce");
+	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
+	Options_AddPage(wParam, &odp);
 	
 	return 0;
 }
@@ -135,7 +146,7 @@ int CheckDate(HANDLE hContact)
 	time_t curtime = time (NULL);
 	if(!DBGetContactSettingByte(hContact,modname,"GiveUpDays",0))
 		return 1;
-	if(DBGetContactSettingByte(hContact,modname,"GiveUpDays",0) && ( abs(DBGetContactSettingDword(hContact,modname,"GiveUpDate",0)) > curtime))
+	if(DBGetContactSettingByte(hContact,modname,"GiveUpDays",0) && ( abs((time_t)DBGetContactSettingDword(hContact,modname,"GiveUpDate",0)) > curtime))
 		return 1;
 	return 0;
 }
@@ -178,11 +189,12 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 						if (DBGetContactSettingByte(hContact, modname, "ConfirmTimeout", 0))
 						{
 							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)malloc(sizeof(struct SendPounceDlgProcStruct));
-							message = strdup(dbv.pszVal); // will get free()ed in the send confirm window proc
+							message = mir_tstrdup(dbv.pszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
-							CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_CONFIRMSEND),0,SendPounceDlgProc, (LPARAM)spdps);
+							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
 							// set the confirmation window to send the msg when the timeout is done
+							mir_free(message);
 						}
 						else SendPounce(dbv.pszVal, hContact);
 					}
@@ -194,11 +206,8 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBFreeVariant(&dbv);
 	return 0;
 }
-HANDLE hHookSettingChanged = NULL;
-HANDLE hHookoptsinit = NULL;
-HANDLE hHookAck = NULL;
 
-int BuddyPounceMenuCommand(WPARAM wParam,LPARAM lParam)
+INT_PTR BuddyPounceMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	if (DBGetContactSettingByte(NULL, modname, "UseAdvanced", 0) || DBGetContactSettingByte((HANDLE)wParam, modname, "UseAdvanced", 0))
 		CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_POUNCE),0,BuddyPounceDlgProc, wParam);
@@ -206,7 +215,7 @@ int BuddyPounceMenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int AddSimpleMessage(WPARAM wParam,LPARAM lParam)
+INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	char* message = (char*)lParam;
@@ -220,7 +229,7 @@ int AddSimpleMessage(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int AddToPounce(WPARAM wParam,LPARAM lParam)
+INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	char* message = (char*)lParam;
@@ -242,31 +251,20 @@ int AddToPounce(WPARAM wParam,LPARAM lParam)
 //===========================
 // Load (hook ModulesLoaded)
 //===========================
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 { 	
-	CLISTMENUITEM mi;
-	pluginLink = link; 
-	hHookSettingChanged =HookEvent(ME_DB_CONTACT_SETTINGCHANGED,UserOnlineSettingChanged); 
-	hHookoptsinit = HookEvent(ME_OPT_INITIALISE,BuddyPounceOptInit);
-	hHookAck = HookEvent(ME_PROTO_ACK,MsgAck);
-	CreateServiceFunction("BuddyPounce/MenuCommand",BuddyPounceMenuCommand);
+	mir_getLP(&pluginInfo);
+	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged); 
+	HookEvent(ME_OPT_INITIALISE, BuddyPounceOptInit);
+	HookEvent(ME_PROTO_ACK, MsgAck);
+	CreateServiceFunction("BuddyPounce/MenuCommand", BuddyPounceMenuCommand);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	/*     service funcitons for other devs...					*/
-	CreateServiceFunction("BuddyPounce/AddSimplePounce",AddSimpleMessage); // add a simple pounce to a contact
-	CreateServiceFunction("BuddyPounce/AddToPounce",AddToPounce); // add to the exsisitng pounce, if there isnt 1 then add a new simple pounce.
+	CreateServiceFunction("BuddyPounce/AddSimplePounce", AddSimpleMessage); // add a simple pounce to a contact
+	CreateServiceFunction("BuddyPounce/AddToPounce", AddToPounce); // add to the exsisitng pounce, if there isnt 1 then add a new simple pounce.
 	/* ******************************************************** */
-
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.position=10;
-	mi.flags=0;
-	mi.hIcon= LoadIcon(hInst,MAKEINTRESOURCE(IDI_POUNCE));
-	mi.pszName="&Buddy Pounce";
-	mi.pszService="BuddyPounce/MenuCommand";
-	mi.pszContactOwner=NULL;
-
-	CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
 
 	{	// known modules list
 		DBVARIANT dbv;
@@ -278,23 +276,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 }
 
 
-int __declspec(dllexport) Unload(void) 
+extern "C" __declspec(dllexport) int Unload(void) 
 { 
-	if (hHookSettingChanged) 
-		UnhookEvent(hHookSettingChanged); 
 	return 0;
 } 
-
-//uninstall support
-int __declspec(dllexport) UninstallEx(PLUGINUNINSTALLPARAMS* ppup) 
-{ 
-    // Delete Files 
-    const char* apszFiles[] = {"buddypounce_readme.txt", 0}; 
-    PUIRemoveFilesInDirectory(ppup->pszPluginsPath, apszFiles); 
-	
-	  if((ppup->bDoDeleteSettings == TRUE) && (ppup->bIsMirandaRunning == TRUE)) 
-		{
-			PUICallService(MS_PLUGINUNINSTALLER_REMOVEDBMODULE, (WPARAM)modname, (LPARAM)NULL);  
-		}
-	return 0;
-}

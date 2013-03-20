@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется D:\MNG_orig\plugins\BuddyPounce\res\resource.rc
 //
 #define IDC_DELETE                      5
 #define IDC_DEFAULT                     6
