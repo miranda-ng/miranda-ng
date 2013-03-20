@@ -516,3 +516,5 @@
 Снег, 60% вероятность осадков
 [Light Low Drifting Snow]
 Слабый снег, позёмка
+[Snow 30% Chance Of Precipitation]
+Снег, 30% вероятность осадков
