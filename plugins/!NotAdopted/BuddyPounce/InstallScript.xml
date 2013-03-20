@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<installscript>
+ <info>
+  <name>Buddy Pounce</name>
+  <author>Jonathan Gordon</author>
+  <version>0.3</version>
+  <type>plugin</type>
+ </info>
+
+ <packageinfo>
+  <title>Main Files</title>
+  <file>buddypounce.dll</file>
+ </packageinfo>
+
+ <packageinfo>
+  <title>Documentation and Translation</title>
+  <file>buddypounce_readme.txt</file>
+  <optional/>
+ </packageinfo>
+
+ <autorun>
+  <file>buddypounce_readme.txt</file>
+  <document/>
+ </autorun>
+</installscript>

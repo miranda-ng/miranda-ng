@@ -1,0 +1,134 @@
+//Microsoft Developer Studio generated resource script.
+//
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "resource.h"
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 295, 181
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_ASTERISK_FG,"ColourPicker",WS_GROUP | WS_TABSTOP,
+                    56,16,39,12,WS_EX_NOPARENTNOTIFY
+    GROUPBOX        "ASTERISK style",IDC_STATIC,0,1,295,37
+    LTEXT           "Background",IDC_STATIC,113,18,40,8
+    LTEXT           "Foreground",IDC_STATIC,8,18,37,8
+    CONTROL         "",IDC_ASTERISK_BG,"ColourPicker",WS_GROUP | WS_TABSTOP,
+                    161,16,39,12,WS_EX_NOPARENTNOTIFY
+    CONTROL         "",IDC_ERROR_FG,"ColourPicker",WS_GROUP | WS_TABSTOP,56,
+                    56,39,12,WS_EX_NOPARENTNOTIFY
+    GROUPBOX        "ERROR style",IDC_STATIC,0,41,295,37
+    LTEXT           "Background",IDC_STATIC,113,58,40,8
+    LTEXT           "Foreground",IDC_STATIC,8,58,37,8
+    CONTROL         "",IDC_ERROR_BG,"ColourPicker",WS_GROUP | WS_TABSTOP,161,
+                    56,39,12,WS_EX_NOPARENTNOTIFY
+    CONTROL         "",IDC_EXCLAMATION_FG,"ColourPicker",WS_GROUP | 
+                    WS_TABSTOP,56,96,39,12,WS_EX_NOPARENTNOTIFY
+    GROUPBOX        "EXCLAMATION style",IDC_STATIC,0,81,295,37
+    LTEXT           "Background",IDC_STATIC,113,98,40,8
+    LTEXT           "Foreground",IDC_STATIC,8,98,37,8
+    CONTROL         "",IDC_EXCLAMATION_BG,"ColourPicker",WS_GROUP | 
+                    WS_TABSTOP,161,96,39,12,WS_EX_NOPARENTNOTIFY
+    CONTROL         "",IDC_QUESTION_FG,"ColourPicker",WS_GROUP | WS_TABSTOP,
+                    56,136,39,12,WS_EX_NOPARENTNOTIFY
+    GROUPBOX        "QUESTION style",IDC_STATIC,0,121,295,37
+    LTEXT           "Background",IDC_STATIC,113,138,40,8
+    LTEXT           "Foreground",IDC_STATIC,8,138,37,8
+    CONTROL         "",IDC_QUESTION_BG,"ColourPicker",WS_GROUP | WS_TABSTOP,
+                    161,136,39,12,WS_EX_NOPARENTNOTIFY
+    PUSHBUTTON      "Preview",IDC_PREVIEW,234,162,50,14
+    LTEXT           "Timeout",IDC_STATIC,213,18,26,8
+    EDITTEXT        IDC_TIMEOUT1,245,15,40,14,ES_AUTOHSCROLL
+    LTEXT           "Special values of the ""Timeout"":\n -1 - infinity, 0 - use default timeout value",
+                    IDC_STATIC,17,160,137,18
+    LTEXT           "Timeout",IDC_STATIC,213,58,26,8
+    EDITTEXT        IDC_TIMEOUT2,245,55,40,14,ES_AUTOHSCROLL
+    LTEXT           "Timeout",IDC_STATIC,213,98,26,8
+    EDITTEXT        IDC_TIMEOUT3,245,95,40,14,ES_AUTOHSCROLL
+    LTEXT           "Timeout",IDC_STATIC,213,138,26,8
+    EDITTEXT        IDC_TIMEOUT4,245,135,40,14,ES_AUTOHSCROLL
+    CONTROL         "Emit a sound",IDC_MESSAGEBEEP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,167,164,57,10
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resrc1.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""resource.h""\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 222
+        BOTTOMMARGIN, 179
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

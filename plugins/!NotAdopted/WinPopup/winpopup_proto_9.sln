@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "winpopup_proto", "winpopup_proto_9.vcproj", "{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}"
+EndProject
+Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Debug|Win32.Build.0 = Debug|Win32
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Debug|x64.ActiveCfg = Debug|x64
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Debug|x64.Build.0 = Debug|x64
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Release|Win32.ActiveCfg = Release|Win32
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Release|Win32.Build.0 = Release|Win32
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Release|x64.ActiveCfg = Release|x64
+		{56F4BA4F-5155-4D7A-99BB-F7EA0A854CCE}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
