@@ -3064,6 +3064,73 @@
 [not detected]
 [not found]
 [This contact has been absent for an extended period of time.]
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+[Send]
+[Cancel]
+[Pounce being sent to]
+[Buddy Pounce]
+[OK]
+[The Message:]
+[Delete Pounce]
+[Load default Settings]
+[Setting Value]
+[Setting text...........]
+[Settings]
+[Contact To Send Pounce To]
+[<< Simple]
+[Advanced >>]
+[The Message]
+[Dialog]
+[Static]
+[Check1]
+[Use Advanced Dialog]
+[The Message:       (Characters:  )]
+[Default Settings        These settings are also used when sending a "Simple" pounce]
+[Show Delivery Messages]
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+[Send If They Change Status to...]
+[Reuse Pounce]
+[Give Up delay]
+[Confirmation Window]
+[Send If My Status Is]
+[Any]
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free For Chat]
+[Invisible]
+[On The Phone]
+[Out To Lunch]
+[Send If Their Status changes]
+[From Offline]
+[To Online]
+[To Away]
+[To NA]
+[To Occupied]
+[To DND]
+[To Free For Chat]
+[To Invisible]
+[To On The Phone]
+[To Out To Lunch]
+[The Message    (%d Characters)]
+[Pounce being sent to %s in %d seconds]
+[Retry]
+[Message successfully sent to %s]
+[Message failed to send to %s]
+;file \plugins\BuddyPounce\src\main.cpp
+[Plugins]
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -12736,7 +12803,7 @@
 [Disable popups]
 [Enable &popup module]
 [Disable &popup module]
-[PopUps]
+[Popup Plus]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
@@ -19320,7 +19387,7 @@
 [Check &mail (This Account)]
 [Launch application]
 [YAMN]
-[Account Folder]
+[YAMN Account Folder]
 [Check mail]
 [Connect Fail]
 ;file \plugins\YAMN\src\main.h

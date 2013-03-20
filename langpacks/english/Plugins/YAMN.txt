@@ -90,7 +90,7 @@
 [Check &mail (This Account)]
 [Launch application]
 [YAMN]
-[Account Folder]
+[YAMN Account Folder]
 [Check mail]
 [Connect Fail]
 ;file \plugins\YAMN\src\main.h
