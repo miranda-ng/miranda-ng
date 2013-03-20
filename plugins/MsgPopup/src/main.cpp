@@ -20,15 +20,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 #include "common.h"
-#include <tlhelp32.h>
-#include <dbghelp.h>
-#pragma comment(lib, "dbghelp.lib")
 
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
-
-HANDLE hHookedOpt;
-HANDLE hHookedInit;
+int hLangpack;
 
 MSGBOXOPTIONS optionsDefault =
 {
@@ -39,8 +33,8 @@ MSGBOXOPTIONS optionsDefault =
 };
 MSGBOXOPTIONS options;
 
-PLUGININFO pluginInfo={
-	sizeof( PLUGININFO ),
+PLUGININFOEX pluginInfo={
+	sizeof(PLUGININFOEX),
 	SERVICENAME,
 	PLUGIN_MAKE_VERSION( 0,0,0,1 ),
 	"This stuff will replace MessageBox'es [whose have only OK button] into Popups",
@@ -62,12 +56,10 @@ MSGBOXPROC prevMessageBoxA;
 
 void popupMessage(LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 {
-	POPUPDATAEX ppd;	
+	POPUPDATAT ppd = {0};	
 	int iIcon;
 	int indx;
 
-	ZeroMemory(&ppd, sizeof(ppd));
-	
 	switch(uType & 0xF0)
 	{
 		case MB_ICONHAND:
@@ -95,7 +87,7 @@ void popupMessage(LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
 	lstrcpy(ppd.lpzContactName, lpCaption);
 	lstrcpy(ppd.lpzText, lpText);
-	CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
+	PUAddPopUpT(&ppd);
 	if(options.Sound)
 		MessageBeep(uType);
 }
@@ -112,6 +104,7 @@ int WINAPI newMessageBoxA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType
 BOOL g_HookError = FALSE;
 BOOL g_HookError2 = FALSE;
 int g_mod = 0;
+
 void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD lpNewFunc)
 {
 	ULONG ulSize;
@@ -207,18 +200,15 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-
+	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszTitle = Translate("MessagePopup");
-	odp.pszGroup = Translate("Popups");
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.ptszTitle = LPGENT("MessagePopup");
+	odp.ptszGroup = LPGENT("Popups");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = OptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -240,33 +230,29 @@ void LoadConfig()
 	options.Sound = DBGetContactSettingByte(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
 
 }
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(void)
 {
-	pluginLink=link;
-
-    hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-    hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
+	mir_getLP(&pluginInfo);
+	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
+    HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
 	LoadConfig();
 
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
-    UnhookEvent(hHookedOpt);
-    UnhookEvent(hHookedInit);
-
 	return 0;
 }
 
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }

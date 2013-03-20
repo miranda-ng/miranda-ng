@@ -36,7 +36,7 @@ static int __inline DBWriteContactSettingDwordDef(HANDLE hContact,const char *sz
 		return DBWriteContactSettingDword(hContact, szModule, szSetting, val);
 }
 
-BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{

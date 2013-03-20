@@ -5,7 +5,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 #include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -82,12 +82,11 @@ END
 
 1 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "resrc1.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""resource.h""\r\n"
     "#include ""afxres.h""\r\n"
     "\0"
 END

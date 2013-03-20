@@ -19,18 +19,19 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
-#include"AggressiveOptimize.h"
+
 #include <windows.h>
+#include <tlhelp32.h>
+#include <dbghelp.h>
 
-#include "../../SDK/headers_c/newpluginapi.h"
-
-#include "../../SDK/headers_c/m_system.h"
-#include "../../SDK/headers_c/m_database.h"
-#include "../../SDK/headers_c/m_langpack.h"
-#include "../../SDK/headers_c/m_clist.h"
-#include "../../SDK/headers_c/m_options.h"
-#include "../../SDK/headers_c/m_utils.h"
-#include "../../SDK/headers_c/m_popup.h"
+#include "newpluginapi.h"
+#include "m_system.h"
+#include "m_database.h"
+#include "m_langpack.h"
+#include "m_clist.h"
+#include "m_options.h"
+#include "m_utils.h"
+#include "m_popup.h"
 
 #include "options.h"
 #include "resource.h"
@@ -49,15 +50,3 @@ extern MSGBOXOPTIONS options;
 extern MSGBOXOPTIONS optionsDefault;
 
 void LoadConfig();
-
-#ifdef __cplusplus
-extern "C" {
-#endif 
-
-int __declspec(dllexport) Load( PLUGINLINK *link );
-int __declspec(dllexport) Unload( void );
-__declspec(dllexport) PLUGININFO *MirandaPluginInfo( DWORD dwVersion );
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
