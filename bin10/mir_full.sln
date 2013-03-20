@@ -373,6 +373,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FTPFile", "..\plugins\FTPFi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_10.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\BuddyPounce\buddypounce_10.vcxproj", "{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1661,6 +1663,14 @@ Global
 		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|Win32.Build.0 = Release|Win32
 		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|x64.ActiveCfg = Release|x64
 		{D09881C7-E189-49AD-919E-F64355F8EFD0}.Release|x64.Build.0 = Release|x64
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Debug|Win32.Build.0 = Debug|Win32
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Debug|x64.ActiveCfg = Debug|x64
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Debug|x64.Build.0 = Debug|x64
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|Win32.ActiveCfg = Release|Win32
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|Win32.Build.0 = Release|Win32
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|x64.ActiveCfg = Release|x64
+		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
