@@ -89,6 +89,8 @@
 [Check &mail (All Account)]
 [Check &mail (This Account)]
 [Launch application]
+[YAMN]
+[Account Folder]
 [Check mail]
 [Connect Fail]
 ;file \plugins\YAMN\src\main.h
@@ -169,7 +171,6 @@
 [Error %d-%d-%d-%d:]
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
-[YAMN]
 [Accounts]
 [General]
 [Plugins]

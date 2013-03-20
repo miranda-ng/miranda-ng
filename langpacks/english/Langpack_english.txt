@@ -1612,7 +1612,6 @@
 [Other Action groups]
 [Operation]
 [Last result]
-
 [Own settings]
 [Array]
 [Message title]
@@ -4826,7 +4825,7 @@
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: Crypto++
-;  Version: 1.0.4.4
+;  Version: 1.0.4.5
 ;  Authors: Baloo
 ;============================================================
 [Crypto++ library for SecureIM plugin.]
@@ -5466,11 +5465,14 @@
 [Error Creating Backup Folder]
 [Database AutoBackups]
 ﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
-;langpack template for EmLanProto
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.1
+;  Authors: kva
+;============================================================
+[E-mage LAN protocol support for Miranda NG.]
 ;file \protocols\EmLanProto\res\amdproto.rc
-[EmLan protocol - donate author please]
-[OK]
-[This window is shown only once]
 [Select your IP address]
 [LAN Settings]
 [Use computer name]
@@ -5626,6 +5628,12 @@
 ;file \plugins\FavContacts\src\main.cpp
 [Favourite Contact]
 [Regular Contact]
+[Contact name]
+[Second line]
+[Selected contact name (color)]
+[Selected second line (color)]
+[Background]
+[Selected background]
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]
@@ -5678,6 +5686,11 @@
 [Cancelled by user]
 [Transfer is in progress. Do you really want to close?]
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+[Pause]
+[Revive]
+[Stop]
+[Main]
 [Plugins]
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h
@@ -6260,6 +6273,7 @@
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 [Avatars]
+[Images]
 [Gadu-Gadu Number]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
@@ -6780,6 +6794,13 @@
 [%d min]
 [&Reset to Default]
 [Contact history]
+[Incoming nick]
+[Outgoing nick]
+[Incoming contacts]
+[Outgoing contacts]
+[System message]
+[Incoming timestamp]
+[Outgoing timestamp]
 ﻿#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
 ;============================================================
 ;  File: HistorySweeperLight.dll
@@ -7959,6 +7980,14 @@
 [(Unknown Contact)]
 [ requested authorisation]
 [ was added.]
+;file \plugins\IEView\src\IEView.cpp
+[IID_IOleObject failed.]
+[RESULT]
+[IID_IOleInPlaceObject failed.]
+[Failed to Advise]
+[C++ Event Sink]
+[OleInitialize failed.]
+[ERROR]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 [%s has left.]
@@ -8792,6 +8821,8 @@
 [Send]
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
+[Frame title]
+[Frame text]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 [/me slaps %s around a bit with a large trout]
@@ -10754,7 +10785,7 @@
 [Sleeping]
 [Cool!]
 [Peace!]
-[Cook a snook]
+[Cock a snook]
 [Get out]
 [Death]
 [Rocket]
@@ -10861,6 +10892,7 @@
 [Advanced]
 [Stop]
 [Play]
+[Frame background]
 ﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;============================================================
 ;  File: Msg_Export.dll
@@ -12548,7 +12580,7 @@
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp plus
-;  Version: 2.1.1.6
+;  Version: 2.1.1.7
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -12704,6 +12736,7 @@
 [Disable popups]
 [Enable &popup module]
 [Disable &popup module]
+[PopUps]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]
@@ -12852,6 +12885,8 @@
 [New Button]
 [New Menu Entry]
 [Message Sessions]
+;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]
 ﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: QuickReplies.dll
@@ -12990,6 +13025,7 @@
 [Previous item]
 [Next item]
 [Open main window]
+[Frame background]
 ﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;============================================================
 ;  File: Quotes.dll
@@ -13929,7 +13965,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.4.7
+;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -16901,11 +16937,12 @@
 [Contacts]
 [Idle]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+[Other Status]
 [Tooltip Notify: Online]
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]
 [Tooltip Notify: Typing]
-[Tooltip Notify]
 [PopUps]
 [** New contacts **]
 [** Unknown contacts **]
@@ -17114,11 +17151,11 @@
 ﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
-;  Plugin: UInfoEx
+;  Plugin: User info ext
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-[Gives extended ability to edit information about your contacts locally. ]
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
@@ -17760,7 +17797,13 @@
 ;file \plugins\UserGuide\src\main.cpp
 [User Guide]
 ﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
-;langpack template for Variables
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
+[Adds support for dynamic variables in strings for plugins.]
 ;file \plugins\Variables\res\Variables.rc
 [Parse options]
 [Automatically strip "end of line" characters]
@@ -19276,6 +19319,8 @@
 [Check &mail (All Account)]
 [Check &mail (This Account)]
 [Launch application]
+[YAMN]
+[Account Folder]
 [Check mail]
 [Connect Fail]
 ;file \plugins\YAMN\src\main.h
@@ -19356,7 +19401,6 @@
 [Error %d-%d-%d-%d:]
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
-[YAMN]
 [Accounts]
 [General]
 [Plugins]

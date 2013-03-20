@@ -1,11 +1,11 @@
 ﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
-;  Plugin: UInfoEx
+;  Plugin: User info ext
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-[Gives extended ability to edit information about your contacts locally. ]
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]

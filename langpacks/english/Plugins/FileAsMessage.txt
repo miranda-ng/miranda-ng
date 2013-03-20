@@ -46,6 +46,11 @@
 [Cancelled by user]
 [Transfer is in progress. Do you really want to close?]
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+[Pause]
+[Revive]
+[Stop]
+[Main]
 [Plugins]
 [File As Message...]
 ;file \plugins\FileAsMessage\src\main.h

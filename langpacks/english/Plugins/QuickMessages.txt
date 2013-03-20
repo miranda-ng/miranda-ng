@@ -44,3 +44,5 @@
 [New Button]
 [New Menu Entry]
 [Message Sessions]
+;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]

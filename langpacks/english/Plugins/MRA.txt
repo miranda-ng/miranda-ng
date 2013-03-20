@@ -231,7 +231,7 @@
 [Sleeping]
 [Cool!]
 [Peace!]
-[Cook a snook]
+[Cock a snook]
 [Get out]
 [Death]
 [Rocket]

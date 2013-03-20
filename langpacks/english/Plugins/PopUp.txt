@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp plus
-;  Version: 2.1.1.6
+;  Version: 2.1.1.7
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -158,6 +158,7 @@
 [Disable popups]
 [Enable &popup module]
 [Disable &popup module]
+[PopUps]
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
 [No effect]

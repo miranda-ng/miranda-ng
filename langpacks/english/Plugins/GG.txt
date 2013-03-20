@@ -148,6 +148,7 @@
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 [Avatars]
+[Images]
 [Gadu-Gadu Number]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
