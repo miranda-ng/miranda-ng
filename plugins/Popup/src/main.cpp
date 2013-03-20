@@ -292,7 +292,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	//Folder plugin support
 	LPTSTR pszPath = mir_a2t(MIRANDA_PATH "\\Skins\\PopUp");
-	folderId = FoldersRegisterCustomPathT(LPGEN("PopUps"), LPGEN("Skins"), pszPath);
+	folderId = FoldersRegisterCustomPathT(LPGEN("Popup Plus"), LPGEN("Skins"), pszPath);
 	mir_free(pszPath);
 	//load skin
 	skins.load(_T("dir"));
