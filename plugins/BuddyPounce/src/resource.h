@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\MNG_orig\plugins\BuddyPounce\res\resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\Temp\Myranda\plugins\BuddyPounce\res\resource.rc
 //
 #define IDC_DELETE                      5
 #define IDC_DEFAULT                     6

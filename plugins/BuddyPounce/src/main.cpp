@@ -72,25 +72,26 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = { 0 };
 			DBVARIANT dbv;
 			int reuse = DBGetContactSettingByte(ack->hContact,modname, "Reuse", 0);
-			if (!DBGetContactSetting(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.pszVal[0] != '\0'))
+			if (!DBGetContactSettingTString(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
 			{
-
+				char* pszUtf = mir_utf8encodeT(dbv.ptszVal);
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.flags = DBEF_SENT;
+				dbei.flags = DBEF_UTF | DBEF_SENT;
 				dbei.szModule = (char*)ack->szModule;
 				dbei.timestamp = time(NULL);
-				dbei.cbBlob = lstrlenA(dbv.pszVal) + 1;
-				dbei.pBlob = (PBYTE) dbv.pszVal;
-				CallService(MS_DB_EVENT_ADD, (WPARAM) ack->hContact, (LPARAM) & dbei);
+				dbei.cbBlob = lstrlenA(pszUtf) + 1;
+				dbei.pBlob = (PBYTE)pszUtf;
+				CallService(MS_DB_EVENT_ADD, (WPARAM)ack->hContact, (LPARAM)&dbei);
+				mir_free(pszUtf);
 			}
 			// check to reuse
-			if (reuse >1)
-				DBWriteContactSettingByte(ack->hContact,modname, "Reuse", (BYTE)(reuse-1));
+			if (reuse > 1)
+				DBWriteContactSettingByte(ack->hContact, modname, "Reuse", (BYTE)(reuse-1));
 			else 
 			{
 				DBWriteContactSettingByte(ack->hContact,modname, "Reuse", 0);
-				DBWriteContactSettingString(ack->hContact,modname, "PounceMsg","");
+				DBWriteContactSettingTString(ack->hContact, modname, "PounceMsg", _T(""));
 			}
 		}
 		WindowList_Remove(hWindowList,(HWND)ack->hProcess);
@@ -104,7 +105,7 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszGroup = LPGENT("Plugins");
 	odp.ptszTitle = LPGENT("Buddy Pounce");
 	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
@@ -151,11 +152,12 @@ int CheckDate(HANDLE hContact)
 	return 0;
 }
 
-void SendPounce(char* text, HANDLE hContact)
+void SendPounce(TCHAR *text, HANDLE hContact)
 {
-	HANDLE hSendId;
-	if (hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)text)) 
-		WindowList_Add(hWindowList,(HWND)hSendId,hContact);
+	char* pszUtf = mir_utf8encodeT(text);
+	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)text)) 
+		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
+
 }
 
 int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
@@ -164,18 +166,18 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 	int newStatus,oldStatus;
 	DBVARIANT dbv;
 	HANDLE hContact;
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)wParam,0);
-	char* message;
-	if((HANDLE)wParam==NULL || strcmp(cws->szSetting,"Status")) return 0;
+	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)wParam, 0);
+	TCHAR* message;
+	if((HANDLE)wParam == NULL || strcmp(cws->szSetting,"Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM))
 	{
-		newStatus=cws->value.wVal;
-		oldStatus=DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
+		newStatus = cws->value.wVal;
+		oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		
 		if ( ( newStatus != oldStatus ) && ( (HANDLE)wParam != NULL) && ( newStatus != ID_STATUS_OFFLINE)  ) 
 		{
-			hContact=(HANDLE)wParam;
-			if (!DBGetContactSetting(hContact, modname, "PounceMsg", &dbv) && (dbv.pszVal[0] != '\0'))
+			hContact = (HANDLE)wParam;
+			if (!DBGetContactSettingTString(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
 			{
 				// check my status
 				if (statusCheck(DBGetContactSettingWord(hContact, modname, "SendIfMyStatusIsFLAG", 0), CallProtoService(szProto, PS_GETSTATUS,0,0)) 
@@ -189,14 +191,15 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 						if (DBGetContactSettingByte(hContact, modname, "ConfirmTimeout", 0))
 						{
 							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)malloc(sizeof(struct SendPounceDlgProcStruct));
-							message = mir_tstrdup(dbv.pszVal); // will get free()ed in the send confirm window proc
+							message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
 							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
 							// set the confirmation window to send the msg when the timeout is done
 							mir_free(message);
 						}
-						else SendPounce(dbv.pszVal, hContact);
+						else
+							SendPounce(dbv.ptszVal, hContact);
 					}
 				}
 			}
@@ -218,9 +221,9 @@ INT_PTR BuddyPounceMenuCommand(WPARAM wParam, LPARAM lParam)
 INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	char* message = (char*)lParam;
+	TCHAR* message = (TCHAR*)lParam;
 	time_t today = time(NULL);
-	DBWriteContactSettingString(hContact, modname, "PounceMsg", message);
+	DBWriteContactSettingTString(hContact, modname, "PounceMsg", message);
 	DBWriteContactSettingWord(hContact, modname, "SendIfMyStatusIsFLAG", (WORD)DBGetContactSettingWord(NULL, modname, "SendIfMyStatusIsFLAG",1));
 	DBWriteContactSettingWord(hContact, modname, "SendIfTheirStatusIsFLAG", (WORD)DBGetContactSettingWord(NULL, modname, "SendIfTheirStatusIsFLAG",1));
 	DBWriteContactSettingByte(hContact, modname, "Reuse", (BYTE)DBGetContactSettingByte(NULL, modname, "Reuse",0));
@@ -232,15 +235,15 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	char* message = (char*)lParam;
+	TCHAR* message = (TCHAR*)lParam;
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(hContact, modname, "PounceMsg",&dbv))
+	if (!DBGetContactSettingTString(hContact, modname, "PounceMsg",&dbv))
 	{
-		char* newPounce = (char*)malloc(strlen(dbv.pszVal) + strlen(message) + 1);
+		TCHAR* newPounce = (TCHAR*)malloc(lstrlen(dbv.ptszVal) + lstrlen(message) + 1);
 		if (!newPounce) return 1;
-		strcpy(newPounce, dbv.pszVal);
-		strcat(newPounce, message);
-		DBWriteContactSettingString(hContact, modname, "PounceMsg", newPounce);
+		_tcscpy(newPounce, dbv.ptszVal);
+		_tcscat(newPounce, message);
+		DBWriteContactSettingTString(hContact, modname, "PounceMsg", newPounce);
 		free(newPounce);
 		DBFreeVariant(&dbv);
 	}
@@ -266,12 +269,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction("BuddyPounce/AddToPounce", AddToPounce); // add to the exsisitng pounce, if there isnt 1 then add a new simple pounce.
 	/* ******************************************************** */
 
-	{	// known modules list
-		DBVARIANT dbv;
-		if (DBGetContactSetting(NULL,"KnownModules","Buddy Pounce", &dbv))
-			DBWriteContactSettingString(NULL,"KnownModules","Buddy Pounce",modname);
-		DBFreeVariant(&dbv);
-	}
 	return 0; 
 }
 

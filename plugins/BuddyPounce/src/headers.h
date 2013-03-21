@@ -8,13 +8,14 @@
 #include <commctrl.h>
 #include <time.h>
 
-#include "newpluginapi.h"
-#include "m_clist.h"
-#include "m_langpack.h"
-#include "m_database.h"
-#include "m_protocols.h"
-#include "m_options.h"
-#include "m_protosvc.h"
+#include <newpluginapi.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_database.h>
+#include <m_protocols.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <win2k.h>
 
 #include "resource.h"
 #include "Version.h"
@@ -53,7 +54,7 @@ struct windowInfo {
 struct SendPounceDlgProcStruct {
 	HANDLE hContact;
 	int timer;
-	char *message;
+	TCHAR *message;
 };
 
 extern HINSTANCE hInst;
@@ -63,7 +64,7 @@ extern HINSTANCE hInst;
 //=======================================================
 
 // main.c
-void SendPounce(char* text, HANDLE hContact);
+void SendPounce(TCHAR* text, HANDLE hContact);
 
 //dialog.c 
 INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

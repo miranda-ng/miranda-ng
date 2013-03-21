@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -92,24 +92,25 @@ BEGIN
     CONTROL         "Check1",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,93,66,81,10
 END
 
-IDD_OPTIONS DIALOG 0, 0, 314, 240
+IDD_OPTIONS DIALOGEX 0, 0, 314, 240
 STYLE DS_SETFONT | WS_CHILD
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     CONTROL         "Use Advanced Dialog",IDC_USEADVANCED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,85,10
-    EDITTEXT        IDC_MESSAGE,15,73,157,60,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    GROUPBOX        "The Message:       (Characters:  )",GRP_MSG,13,63,165,76
-    GROUPBOX        "Setting Value",IDC_STATIC,13,142,165,43,WS_DISABLED
-    LTEXT           "Setting text...........",IDC_SETTINGMSG,15,151,144,8,NOT WS_VISIBLE | WS_TABSTOP
+    EDITTEXT        IDC_MESSAGE,15,81,157,60,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    GROUPBOX        "The Message:       (Characters:  )",GRP_MSG,13,71,165,76
+    GROUPBOX        "Setting Value",IDC_STATIC,13,150,165,43,WS_DISABLED
+    LTEXT           "Setting text...........",IDC_SETTINGMSG,15,159,144,8,NOT WS_VISIBLE | WS_TABSTOP
     EDITTEXT        IDC_SETTINGNUMBER,20,164,42,12,ES_NUMBER | NOT WS_VISIBLE
     CONTROL         "Spin2",IDC_SPIN,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | NOT WS_VISIBLE | WS_TABSTOP,51,164,11,12
-    EDITTEXT        IDC_SETTINGTEXT,20,164,152,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
-    PUSHBUTTON      "...",IDC_BUTTON,159,148,14,12,NOT WS_VISIBLE
-    GROUPBOX        "Settings",IDC_STATIC,183,63,118,122
-    LISTBOX         IDC_SETTINGS,187,74,109,103,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-    LTEXT           "",IDC_SETTINGMSG2,69,164,104,8,NOT WS_VISIBLE
-    GROUPBOX        "Default Settings        These settings are also used when sending a ""Simple"" pounce",IDC_STATIC,7,51,300,142
+    EDITTEXT        IDC_SETTINGTEXT,20,172,152,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    PUSHBUTTON      "...",IDC_BUTTON,159,156,14,12,NOT WS_VISIBLE
+    GROUPBOX        "Settings",IDC_STATIC,183,71,118,122
+    LISTBOX         IDC_SETTINGS,187,82,109,103,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
+    LTEXT           "",IDC_SETTINGMSG2,69,172,104,8,NOT WS_VISIBLE
+    GROUPBOX        "Default Settings",IDC_STATIC,7,45,300,155
     CONTROL         "Show Delivery Messages",IDC_SHOWDELIVERYMSGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,30,95,10
+    LTEXT           "These settings are also used when sending a ""Simple"" pounce",IDC_STATIC,13,56,198,8
 END
 
 
@@ -227,8 +228,9 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_POUNCE              ICON                    "icon1.ico"
-#endif    // Английский (США) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
+
 
 
 #ifndef APSTUDIO_INVOKED
