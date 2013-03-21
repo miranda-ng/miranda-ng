@@ -2024,86 +2024,88 @@ void OnCreateClc()
 
 static struct {
 	UINT id;
-	char *name;
+	TCHAR *name;
 } _tagFSINFO[] = {
-	FONTID_CONTACTS, LPGEN( "Standard contacts"),
-	FONTID_INVIS, LPGEN( "Online contacts to whom you have a different visibility"),
-	FONTID_OFFLINE, LPGEN( "Offline contacts"),
-	FONTID_OFFINVIS, LPGEN( "Offline contacts to whom you have a different visibility" ),
-	FONTID_NOTONLIST, LPGEN( "Contacts which are 'not on list'"),
-	FONTID_GROUPS, LPGEN( "Groups"),
-	FONTID_GROUPCOUNTS, LPGEN( "Group member counts"),
-	FONTID_DIVIDERS, LPGEN( "Dividers"),
-	FONTID_STATUS, LPGEN("Status mode"),
-	FONTID_FRAMETITLE, LPGEN("Frame titles"),
-	FONTID_EVENTAREA, LPGEN("Event area"),
-	FONTID_TIMESTAMP, LPGEN("Contact list local time"),
+	FONTID_CONTACTS, LPGENT( "Standard contacts"),
+	FONTID_INVIS, LPGENT( "Online contacts to whom you have a different visibility"),
+	FONTID_OFFLINE, LPGENT( "Offline contacts"),
+	FONTID_OFFINVIS, LPGENT( "Offline contacts to whom you have a different visibility" ),
+	FONTID_NOTONLIST, LPGENT( "Contacts which are 'not on list'"),
+	FONTID_GROUPS, LPGENT( "Groups"),
+	FONTID_GROUPCOUNTS, LPGENT( "Group member counts"),
+	FONTID_DIVIDERS, LPGENT( "Dividers"),
+	FONTID_STATUS, LPGENT("Status mode"),
+	FONTID_FRAMETITLE, LPGENT("Frame titles"),
+	FONTID_EVENTAREA, LPGENT("Event area"),
+	FONTID_TIMESTAMP, LPGENT("Contact list local time"),
 	0, NULL
 };
 
 void FS_RegisterFonts()
 {
-	ColourID colourid;
-	FontID fid = {0};
+	FontIDT fid = {0};
 	char szTemp[50];
 	DBVARIANT dbv;
 	int j = 0;
 
 	fid.cbSize = sizeof(fid);
-	strncpy(fid.group, "Contact List", sizeof(fid.group));
+	_tcsncpy(fid.group, LPGENT("Contact List"), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, "CLC", 5);
 	fid.flags = FIDF_DEFAULTVALID | FIDF_ALLOWEFFECTS | FIDF_APPENDNAME | FIDF_SAVEPOINTSIZE;
 	while (_tagFSINFO[j].name != 0) {
 		_snprintf(szTemp, sizeof(szTemp), "Font%d", _tagFSINFO[j].id);
 		strncpy(fid.prefix, szTemp, sizeof(fid.prefix));
 		fid.order = _tagFSINFO[j].id;
-		strncpy(fid.name, Translate(_tagFSINFO[j].name), 60);
-		_snprintf(szTemp, sizeof(szTemp), "Font%dCol", _tagFSINFO[j].id);
+		_tcsncpy(fid.backgroundGroup, LPGENT("Contact List"), SIZEOF(fid.backgroundGroup));
+		_tcsncpy(fid.backgroundName, LPGENT("Background"), SIZEOF(fid.backgroundName));
+		_tcsncpy(fid.name, _tagFSINFO[j].name, SIZEOF(fid.name));
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%dCol", _tagFSINFO[j].id);
 		fid.deffontsettings.colour = (COLORREF)cfg::getDword("CLC", szTemp, GetSysColor(COLOR_WINDOWTEXT));
 
-		_snprintf(szTemp, sizeof(szTemp), "Font%dSize", _tagFSINFO[j].id);
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSize", _tagFSINFO[j].id);
 		fid.deffontsettings.size = (BYTE)cfg::getByte("CLC", szTemp, 8);
 
-		_snprintf(szTemp, sizeof(szTemp), "Font%dSty", _tagFSINFO[j].id);
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSty", _tagFSINFO[j].id);
 		fid.deffontsettings.style = cfg::getByte("CLC", szTemp, 0);
-		_snprintf(szTemp, sizeof(szTemp), "Font%dSet", _tagFSINFO[j].id);
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%dSet", _tagFSINFO[j].id);
 		fid.deffontsettings.charset = cfg::getByte("CLC", szTemp, DEFAULT_CHARSET);
-		_snprintf(szTemp, sizeof(szTemp), "Font%dName", _tagFSINFO[j].id);
-		if (cfg::getString(NULL, "CLC", szTemp, &dbv))
-			lstrcpynA(fid.deffontsettings.szFace, "Arial", LF_FACESIZE);
+		mir_snprintf(szTemp, sizeof(szTemp), "Font%dName", _tagFSINFO[j].id);
+		if (cfg::getTString(NULL, "CLC", szTemp, &dbv))
+			lstrcpyn(fid.deffontsettings.szFace, _T("Arial"), LF_FACESIZE);
 		else {
-			lstrcpynA(fid.deffontsettings.szFace, dbv.pszVal, LF_FACESIZE);
-			mir_free(dbv.pszVal);
+			lstrcpyn(fid.deffontsettings.szFace, dbv.ptszVal, LF_FACESIZE);
+			db_free(&dbv);
 		}
-		FontRegister(&fid);
+		FontRegisterT(&fid);
 		j++;
 	}
 	// and colours
-	colourid.cbSize = sizeof(ColourID);
+	ColourIDT colourid = {0};
+	colourid.cbSize = sizeof(colourid);
 	colourid.order = 0;
 	strncpy(colourid.dbSettingsGroup, "CLC", sizeof(colourid.dbSettingsGroup));
 
 	strncpy(colourid.setting, "BkColour", sizeof(colourid.setting));
-	strncpy(colourid.name, LPGEN("Background"), SIZEOF(colourid.name));
-	strncpy(colourid.group, LPGEN("Contact List"), SIZEOF(colourid.group));
+	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.group, LPGENT("Contact List"), SIZEOF(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	ColourRegister(&colourid);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
-	strncpy(colourid.name, LPGEN("Selected Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Selected Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	ColourRegister(&colourid);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
-	strncpy(colourid.name, LPGEN("Hottrack Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Hottrack Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	ColourRegister(&colourid);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
-	strncpy(colourid.name, LPGEN("Quicksearch Text"), SIZEOF(colourid.name));
+	_tcsncpy(colourid.name, LPGENT("Quicksearch Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	ColourRegister(&colourid);
+	ColourRegisterT(&colourid);
 }
