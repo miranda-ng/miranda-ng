@@ -43,3 +43,5 @@
 Обычный контакт
 [Dim idle contact icons]
 Затемнить контакты в ожидании
+[Show favourite contacts]
+Показать избранные контакты

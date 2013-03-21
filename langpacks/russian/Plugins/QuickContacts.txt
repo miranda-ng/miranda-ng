@@ -42,3 +42,9 @@
 Прятать суб-контакты
 [But keep subcontacts of protocols in above list if meta is hidden]
 Но показывать, если метаконтакт спрятан
+[Make a voice call]
+Позвонить
+[Send URL]
+Послать URL
+[Open userinfo]
+Открыть информацию о пользователе
