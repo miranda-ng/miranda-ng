@@ -193,6 +193,7 @@
 [GPG mode]
 [RSA/AES mode]
 ;file \plugins\SecureIM\src\main.cpp
+[SecureIM]
 [Icons]
 [Incoming Secure Message]
 [Outgoing Secure Message]

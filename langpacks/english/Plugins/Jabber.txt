@@ -450,6 +450,7 @@
 [Resource priority [%d]]
 [Join conference]
 [Open bookmarks]
+[Privacy lists]
 [Service discovery]
 [Last active]
 [No activity yet, use server's choice]

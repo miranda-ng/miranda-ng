@@ -36,6 +36,7 @@
 [Selected second line (color)]
 [Background]
 [Selected background]
+[Show favourite contacts]
 [Contacts]
 [Favourites]
 [&Favourite Contacts...]

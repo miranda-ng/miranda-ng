@@ -250,7 +250,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		{
 			int i, item;
-			TCHAR *align[] = {_T("Left"), _T("Center"), _T("Right")};
+			TCHAR *align[] = {LPGENT("Left"), LPGENT("Center"), LPGENT("Right")};
 			for (i=0; i < SIZEOF(align); i++) {
 				item = SendDlgItemMessage(hwndDlg,IDC_SBAR_HORIZ_ALIGN,CB_ADDSTRING, 0, (LPARAM)TranslateTS(align[i]));
 			}

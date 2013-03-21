@@ -124,6 +124,9 @@
 [This is an error message]
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+[Clock]
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]

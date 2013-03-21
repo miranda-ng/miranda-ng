@@ -72,6 +72,7 @@
 [Traffic Counter]
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
+[Show/Hide frame]
 [Hide traffic window]
 [Clear the current (Now:) value]
 [Toggle traffic counter]
