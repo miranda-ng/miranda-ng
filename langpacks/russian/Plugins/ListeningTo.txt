@@ -97,3 +97,9 @@ foobar2000 (установите плагин вручную)
 <Неизвестно>
 [<Nothing is playing now>]
 <Ничего не проигрывается>
+[Listening to information]
+Информация о прослушиваемой музыке
+[Disable ListeningTo (to all protocols)]
+Выключить ListeningTo (для всех протоколов)
+[Enable ListeningTo (to all protocols)]
+Включить ListeningTo (для всех протоколов)

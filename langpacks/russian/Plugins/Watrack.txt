@@ -617,3 +617,5 @@ VBR или нет
 Бегунок под курсором
 [Slider Pushed]
 Нажатый бегунок
+[WATrack status]
+Статус WATrack
