@@ -159,9 +159,9 @@
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
 * Изменение высоты строки статуса: "Главное меню->Фреймы->Панель статуса->Плавающий режим" и растяните панель.
 [Hold [Shift] to inverse [Right Click] behaviour]
-[Shift]+[Правый клик] - Главное меню
+Shift+Правый клик - Главное меню
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
-[Ctrl]+[Левый клик] вкл. фильтр по протоколу, клик по пустому месту откл.
+Ctrl+Левый клик вкл. фильтр по протоколу, клик по пустому месту откл.
 [Set options per account]
 Поаккаунтная настройка
 [<<Global>>]
