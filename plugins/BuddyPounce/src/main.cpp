@@ -155,7 +155,7 @@ int CheckDate(HANDLE hContact)
 void SendPounce(TCHAR *text, HANDLE hContact)
 {
 	char* pszUtf = mir_utf8encodeT(text);
-	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)text)) 
+	if (HANDLE hSendId = (HANDLE)CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)pszUtf)) 
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
 
 }
@@ -163,20 +163,17 @@ void SendPounce(TCHAR *text, HANDLE hContact)
 int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	int newStatus,oldStatus;
-	DBVARIANT dbv;
-	HANDLE hContact;
 	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)wParam, 0);
-	TCHAR* message;
 	if((HANDLE)wParam == NULL || strcmp(cws->szSetting,"Status")) return 0;
 	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM))
 	{
-		newStatus = cws->value.wVal;
-		oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
+		int newStatus = cws->value.wVal;
+		int oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		
 		if ( ( newStatus != oldStatus ) && ( (HANDLE)wParam != NULL) && ( newStatus != ID_STATUS_OFFLINE)  ) 
 		{
-			hContact = (HANDLE)wParam;
+			HANDLE hContact = (HANDLE)wParam;
+			DBVARIANT dbv;
 			if (!DBGetContactSettingTString(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
 			{
 				// check my status
@@ -191,7 +188,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 						if (DBGetContactSettingByte(hContact, modname, "ConfirmTimeout", 0))
 						{
 							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)malloc(sizeof(struct SendPounceDlgProcStruct));
-							message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
+							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
 							CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMSEND), 0, SendPounceDlgProc, (LPARAM)spdps);
@@ -202,11 +199,10 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 							SendPounce(dbv.ptszVal, hContact);
 					}
 				}
+				DBFreeVariant(&dbv);
 			}
-			
 		}
 	}
-	DBFreeVariant(&dbv);
 	return 0;
 }
 

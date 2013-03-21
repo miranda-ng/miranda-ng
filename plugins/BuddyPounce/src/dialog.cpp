@@ -285,7 +285,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);	
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
-			populateContacts(wi->hContact, GetDlgItem(hwnd,IDC_CONTACTS));
+			populateContacts(wi->hContact, GetDlgItem(hwnd, IDC_CONTACTS));
 			SendMessage(GetDlgItem(hwnd,IDC_SPIN), UDM_SETRANGE, 0, (LPARAM) MAKELONG ((short) 1024, (short) 0));
 			DBWriteContactSettingByte(wi->hContact, modname, "LastSetting", 0);
 		}
@@ -585,7 +585,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				KillTimer(hwnd,1);
 				SendPounce(spdps->message, ((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
-				free((char*)((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
+				free((TCHAR*)((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
 				free((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA));
 				DestroyWindow(hwnd);
 			}
