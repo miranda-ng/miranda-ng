@@ -15,15 +15,14 @@ void populateSettingsList(HWND hwnd2List)
 void populateContacts(HANDLE BPhContact,HWND hwnd2CB)
 {
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	char name[300], *szProto;
-	int index, selectedIndex = 0;
 	while (hContact)
 	{
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM))
 		{
-			_snprintf(name, 300, "%s (%s)", (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0), szProto);
-			index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
+			TCHAR name[300];
+			mir_sntprintf(name, SIZEOF(name), _T("%s (%s)"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), _A2T(szProto));
+			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, (LPARAM)hContact);
 			if (BPhContact == hContact) SendMessage(hwnd2CB, CB_SETCURSEL, index, 0);
 		}
