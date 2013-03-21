@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_api/m_skin_eng.h"
 #include "m_api/m_skinbutton.h"
 #include "hdr/modern_commonprototypes.h"
-LISTMODERNMASK * MainModernMaskList = NULL;
-
 
 /// IMPLEMENTATIONS
 char * ModernMaskToString(MODERNMASK *mm, char * buf, UINT bufsize)
@@ -296,16 +294,16 @@ int SortMaskList(LISTMODERNMASK * mmList)
 	return 1;
 }
 
-enum 
-{ 
-	EXCEPTION_EQUAL, 
-	EXCEPTION_NOT_EQUAL = 1, 
+enum
+{
+	EXCEPTION_EQUAL,
+	EXCEPTION_NOT_EQUAL = 1,
 	EXCEPTION_WILD = 2,
 };
 static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int length, char* &param, unsigned int& paramlen, char* &value, unsigned int& valuelen, int& except )
 {
 	char * curChar = szText + start;
-	char * lastChar = szText + length;	
+	char * lastChar = szText + length;
 
 	enum { STATE_PARAM, STATE_VALUE };
 	int state = STATE_PARAM;
@@ -331,7 +329,7 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 			except |= EXCEPTION_NOT_EQUAL;
 			exitLoop = TRUE;
 			//fall trough
-		case '=': 
+		case '=':
 			if ( state == STATE_VALUE ) break;
 			//search value end
 			paramlen = curChar - param;
@@ -339,7 +337,7 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 			break;
 
 		case ',':
-		default: 
+		default:
 			if ( *curChar != ',' && curChar < lastChar ) break;
 			if ( state == STATE_PARAM )
 			{
@@ -347,7 +345,7 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 				value = param;
 				param = NULL;
 				paramlen = 0;
-				state = STATE_VALUE; 
+				state = STATE_VALUE;
 			}
 			exitLoop = TRUE;
 			break;
@@ -382,23 +380,23 @@ static BOOL _GetParamValue( char * szText, unsigned int& start, unsigned int len
 	// skip spaces
 	if ( value && valuelen )
 	{
-		while ( *value == ' ' || *value == '\t' ) 
-		{ 
-			value++; 
-			valuelen--; 
+		while ( *value == ' ' || *value == '\t' )
+		{
+			value++;
+			valuelen--;
 		}
-		while ( *( value + valuelen - 1) == ' ' || *( value + valuelen -1 ) == '\t' ) 
+		while ( *( value + valuelen - 1) == ' ' || *( value + valuelen -1 ) == '\t' )
 			valuelen--;
 	}
 
 	if ( param && paramlen )
 	{
-		while (*param == ' ' || *param == '\t' ) 
+		while (*param == ' ' || *param == '\t' )
 		{
-			param++; 
-			paramlen--; 
+			param++;
+			paramlen--;
 		}
-		while (*(param+paramlen-1) == ' ' || *(param+paramlen-1) == '\t' ) 
+		while (*(param+paramlen-1) == ' ' || *(param+paramlen-1) == '\t' )
 			paramlen--;
 	}
 
@@ -422,8 +420,8 @@ int ParseToModernMask(MODERNMASK *mm, char * szText)
 	int except;
 
 	while ( _GetParamValue( szText, startPos, textLen, pszParam, paramlen, pszValue, valuelen, except))
-	{        
-		if ( except & EXCEPTION_NOT_EQUAL ) 
+	{
+		if ( except & EXCEPTION_NOT_EQUAL )
 			param.bMaskParamFlag = MPF_NOT_EQUAL;
 		else
 			param.bMaskParamFlag = MPF_EQUAL;
@@ -437,7 +435,7 @@ int ParseToModernMask(MODERNMASK *mm, char * szText)
 		else //ParamName = 'Module'
 		{
 			param.szName = _strdup("Module");
-			param.dwId = mod_CalcHash( param.szName );                    
+			param.dwId = mod_CalcHash( param.szName );
 		}
 
 
@@ -560,9 +558,9 @@ SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue,LISTMODERNMASK *
 	if ( !mmTemplateList)
 		if (g_SkinObjectList.pMaskList)
 			mmTemplateList = g_SkinObjectList.pMaskList;
-		else 
+		else
 			return NULL;
-	
+
 	if ( !mmTemplateList) return NULL;
 	ParseToModernMask(&mm,szValue);
 	res = skin_FindObjectByMask(&mm,mmTemplateList);
@@ -764,7 +762,7 @@ int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMas
 	SKINDRAWREQUEST rq;
 	rq.hDC = hdc;
 	rq.rcDestRect = *rcSize;
-	rq.rcClipRect = *rcClip;  
+	rq.rcClipRect = *rcClip;
 	strncpy(rq.szObjectID,"Masked draw",SIZEOF("Masked draw"));
 	return ske_Service_DrawGlyph((WPARAM)&rq,(LPARAM)ModernMask);
 }

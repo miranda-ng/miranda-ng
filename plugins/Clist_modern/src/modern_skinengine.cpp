@@ -74,6 +74,7 @@ static BOOL             bGammaWeightFilled = FALSE;
 
 static CRITICAL_SECTION cs_SkinChanging = {0};
 
+static LISTMODERNMASK *MainModernMaskList = NULL;
 
 /* Private module procedures */
 static BOOL ske_GetMaskBit(BYTE *line, int x);
