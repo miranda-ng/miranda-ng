@@ -41,6 +41,8 @@ var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
 //text string for make path output into templates.
 var trunkPath=new String(trunk);
+//path to sln file
+var slnfile=trunk+"\\bin10\\mir_full.sln"
 //core path
 var core=FSO.BuildPath(trunk,"src");
 //langpack folder "\langpacks\english\" in trunk folder
@@ -96,7 +98,7 @@ GenerateCore();
 //Init array with files path
 project_files=new Array;
 //open mir_full.sln
-sln_stream=FSO.GetFile(trunk+"\\bin10\\mir_full.sln").OpenAsTextStream(ForReading, TristateUseDefault);
+sln_stream=FSO.GetFile(slnfile).OpenAsTextStream(ForReading, TristateUseDefault);
 //Reading line-by-line
  while (!sln_stream.AtEndOfStream) {
      //Init regexp array for our sln parse logic
