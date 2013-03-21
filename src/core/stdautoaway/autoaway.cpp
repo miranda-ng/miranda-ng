@@ -46,7 +46,7 @@ static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
 
 static void Proto_SetStatus(const char* szProto, unsigned status)
 {
-	if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) status, (LPARAM) szProto);
 		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
 			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) status, (LPARAM) szProto);
@@ -78,28 +78,36 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 
 	for (int i=0; i < numAccounts; i++) {
 		PROTOACCOUNT* pa = accounts[i];
+		if ( !Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa))
+			continue;
 
-		if ( !Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa)) continue;
+		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		if (currentstatus < ID_STATUS_ONLINE || currentstatus == ID_STATUS_INVISIBLE)
+			continue;
 
 		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 		int status = mii.aaStatus;
 		if ( !(statusbits & Proto_Status2Flag(status))) {
 			// the protocol doesnt support the given status
 			if (statusbits & Proto_Status2Flag(ID_STATUS_AWAY))
 				status = ID_STATUS_AWAY;
 		}
-		if (currentstatus >= ID_STATUS_ONLINE && currentstatus != ID_STATUS_INVISIBLE) {
-			if ((lParam & IDF_ISIDLE) && (currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT))  {
-				db_set_b(NULL, AA_MODULE, pa->szModuleName, 1);
-				Proto_SetStatus(pa->szModuleName, status);
-			}
-			else if ( !(lParam & IDF_ISIDLE) && db_get_b(NULL, AA_MODULE, pa->szModuleName, 0)) {
-				// returning from idle and this proto was set away, set it back
-				db_set_b(NULL, AA_MODULE, pa->szModuleName, 0);
-				if ( !mii.aaLock)
-					Proto_SetStatus(pa->szModuleName, ID_STATUS_ONLINE);
-	}	}	}
+		if (lParam & IDF_ISIDLE) {
+			// save old status of account and set to given status
+			db_set_w(NULL, AA_MODULE, pa->szModuleName, currentstatus);
+			Proto_SetStatus(pa->szModuleName, status);
+		}
+		else {
+			int oldstatus = db_get_w(NULL, AA_MODULE, pa->szModuleName, 0);
+			if (oldstatus < ID_STATUS_ONLINE)
+				continue;
+
+			// returning from idle and this accout was set away, set it back
+			db_unset(NULL, AA_MODULE, pa->szModuleName);
+			if (!mii.aaLock)
+				Proto_SetStatus(pa->szModuleName, oldstatus);
+		}
+	}
 
 	if (mii.idlesoundsoff)
 		iBreakSounds = (lParam & IDF_ISIDLE) != 0;
