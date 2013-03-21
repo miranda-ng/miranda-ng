@@ -460,7 +460,7 @@ static int IdleOptInit(WPARAM wParam, LPARAM)
 static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 {
 	MIRANDA_IDLE_INFO *mii = (MIRANDA_IDLE_INFO*)lParam;
-	if ( !mii || (mii->cbSize != sizeof(MIRANDA_IDLE_INFO) && mii->cbSize != MIRANDA_IDLE_INFO_SIZE_1))
+	if ( !mii || mii->cbSize != sizeof(MIRANDA_IDLE_INFO))
 		return 1;
 
 	mii->idleTime = gIdleObject.minutes;
@@ -468,9 +468,7 @@ static INT_PTR IdleGetInfo(WPARAM, LPARAM lParam)
 	mii->aaStatus = gIdleObject.aastatus;
 	mii->aaLock = gIdleObject.state&0x20;
 	mii->idlesoundsoff = gIdleObject.aasoundsoff;
-
-	if (mii->cbSize == sizeof(MIRANDA_IDLE_INFO))
-		mii->idleType = gIdleObject.idleType;
+	mii->idleType = gIdleObject.idleType;
 	return 0;
 }
 

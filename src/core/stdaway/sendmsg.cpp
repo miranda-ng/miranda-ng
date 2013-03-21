@@ -111,8 +111,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 
 			TCHAR substituteStr[128];
 			if ( !_tcsnicmp(dbv.ptszVal + i, _T("%time%"), 6)) {
-				MIRANDA_IDLE_INFO mii = {0};
-				mii.cbSize = sizeof(mii);
+				MIRANDA_IDLE_INFO mii = { sizeof(mii) };
 				CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
 				if (mii.idleType == 1) {

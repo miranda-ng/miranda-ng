@@ -304,8 +304,7 @@ bool SmileyPackType::LoadSmileyFile(const bkstring& filename, bool onlyInfo, boo
 {
 	Clear();
 
-	if (filename.empty())
-	{
+	if (filename.empty()) {
 		m_Name = _T("Nothing loaded");
 		return false;
 	}
@@ -315,10 +314,8 @@ bool SmileyPackType::LoadSmileyFile(const bkstring& filename, bool onlyInfo, boo
 
 	// Load xep file
 	int fh = _topen(modpath.c_str(), _O_BINARY | _O_RDONLY);
-	if (fh == -1)
-	{
-		if (!noerr)
-		{
+	if (fh == -1) {
+		if (!noerr) {
 			static const TCHAR errmsg[] = LPGENT("Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.");
 			TCHAR msgtxt[1024];
 			mir_sntprintf(msgtxt, SIZEOF(msgtxt), TranslateTS(errmsg), modpath.c_str());
@@ -347,17 +344,11 @@ bool SmileyPackType::LoadSmileyFile(const bkstring& filename, bool onlyInfo, boo
 	bkstring tbuf;
 
 	if (len>2 && *(wchar_t*)buf == 0xfeff)
-	{
 		tbuf = W2T_SM((wchar_t*)buf+1);
-	}
 	else if (len>3 && buf[0]=='\xef' && buf[1]=='\xbb' && buf[2]=='\xbf')
-	{
 		tbuf = W2T_SM(A2W_SM(buf+3, CP_UTF8));
-	}
 	else
-	{
 		tbuf = A2T_SM(buf);
-	}
 
 	delete[] buf;
 
@@ -367,7 +358,8 @@ bool SmileyPackType::LoadSmileyFile(const bkstring& filename, bool onlyInfo, boo
 	else
 		res = LoadSmileyFileXEP(tbuf, onlyInfo, modpath);
 
-	if (errorFound) ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee Network Log for details."));
+	if (errorFound)
+		ReportError(TranslateT("There were problems loading smiley pack (it should be corrected).\nSee Network Log for details."));
 
 	return res;
 }

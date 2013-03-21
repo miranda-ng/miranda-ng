@@ -991,13 +991,15 @@ void InitStatusList()
 
 VOID CALLBACK ConnectionTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
 {
-	if (uMsg == WM_TIMER)
-	{
-		char szProto[256];
-		//We've received a timer message: enable the popups for a specified protocol.
+	if (uMsg == WM_TIMER) {
 		KillTimer(hwnd, idEvent);
-		DWORD dwResult = (DWORD)GetAtomNameA((ATOM)idEvent, szProto, sizeof(szProto));
-		if (dwResult) db_set_b(0, MODULE, szProto, 1);
+
+		//We've received a timer message: enable the popups for a specified protocol.
+		char szProto[256];
+		if ( GetAtomNameA((ATOM)idEvent, szProto, sizeof(szProto)) > 0) {
+			db_set_b(0, MODULE, szProto, 1);
+			DeleteAtom((ATOM)idEvent);
+		}
 	}
 }
 

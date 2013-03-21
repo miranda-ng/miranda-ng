@@ -48,8 +48,6 @@ for short idle.*/
 */
 #define ME_IDLE_CHANGED "Miranda/Idle/Changed"
 
-#define MIRANDA_IDLE_INFO_SIZE_1 20
-
 typedef struct {
 	int cbSize;			    // sizeof()
 	int idleTime;	       // idle in mins, if zero then disabled

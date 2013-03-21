@@ -66,9 +66,13 @@ static void Proto_SetStatus(const char* szProto, unsigned status)
 
 static int AutoAwayEvent(WPARAM, LPARAM lParam)
 {
-	MIRANDA_IDLE_INFO mii;
-	mii.cbSize = sizeof(mii);
+	MIRANDA_IDLE_INFO mii = { sizeof(mii) };
 	CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+
+	if (mii.idlesoundsoff)
+		iBreakSounds = (lParam & IDF_ISIDLE) != 0;
+
+	// we don't need to switch the status
 	if (mii.aaStatus == 0)
 		return 0;
 
@@ -109,13 +113,10 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 		}
 	}
 
-	if (mii.idlesoundsoff)
-		iBreakSounds = (lParam & IDF_ISIDLE) != 0;
-
 	return 0;
 }
 
-int LoadAutoAwayModule(void)
+int LoadAutoAwayModule()
 {
 	HookEvent(ME_SKIN_PLAYINGSOUND, AutoAwaySound);
 	HookEvent(ME_IDLE_CHANGED, AutoAwayEvent);
