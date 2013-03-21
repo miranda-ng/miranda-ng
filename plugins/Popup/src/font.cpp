@@ -62,7 +62,7 @@ void InitFonts() {
 	fid.deffontsettings.colour = RGB(0,0,255);
 	FontRegisterT(&fid);
 
-	lstrcpy(fid.name, _T("Hovered Action"));
+	lstrcpy(fid.name, LPGENT("Hovered Action"));
 	mir_snprintf(fid.prefix, sizeof(fid.prefix), PU_FNT_PREFIX, "Hovered Action");
 	fid.deffontsettings.style  = DBFONTF_UNDERLINE;
 	//fid.deffontsettings.colour = RGB(0,0,255);
@@ -104,7 +104,7 @@ void ReloadFonts()
 	fonts.clTitle	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.title		= CreateFontIndirect(&lf);
 
-	lstrcpy(fid.name, _T(PU_FNT_NAME_CLOCK));
+	lstrcpy(fid.name, LPGENT("Clock"));
 	fonts.clClock	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.clock		= CreateFontIndirect(&lf);
 
@@ -116,7 +116,7 @@ void ReloadFonts()
 	fonts.clAction	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.action	= CreateFontIndirect(&lf);
 
-	lstrcpy(fid.name, _T("Hovered Action"));
+	lstrcpy(fid.name, LPGENT("Hovered Action"));
 	fonts.clActionHover	= (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.actionHover	= CreateFontIndirect(&lf);
 

@@ -282,7 +282,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam, LPARAM lParam)
 		hkd.cbSize = sizeof(hkd);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT,'T');
 		hkd.pszSection = "Traffic Counter";
-		hkd.pszDescription = "Show/Hide frame";
+		hkd.pszDescription = LPGEN("Show/Hide frame");
 		hkd.pszName = "TC_Show_Hide";
 		hkd.pszService = "TrafficCounter/ShowHide";
 		Hotkey_Register(&hkd);

@@ -224,7 +224,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HOTKEYDESC hotkey = {0};
 	hotkey.cbSize = sizeof(hotkey);
 	hotkey.pszName = "FavContacts/ShowMenu";
-	hotkey.pszDescription = "Show favourite contacts";
+	hotkey.pszDescription = LPGEN("Show favourite contacts");
 	hotkey.pszSection = "Contacts";
 	hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
 	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);

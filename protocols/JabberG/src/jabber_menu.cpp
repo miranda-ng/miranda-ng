@@ -906,19 +906,19 @@ void CJabberProto::GlobalMenuInit()
 	hkd.dwFlags = HKD_TCHAR;
 
 	strcpy(tDest, "/Groupchat");
-	hkd.ptszDescription = _T("Join conference");
+	hkd.ptszDescription = LPGENT("Join conference");
 	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/Bookmarks");
-	hkd.ptszDescription = _T("Open bookmarks");
+	hkd.ptszDescription = LPGENT("Open bookmarks");
 	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/PrivacyLists");
-	hkd.ptszDescription = _T("Privacy lists");
+	hkd.ptszDescription = LPGENT("Privacy lists");
 	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/ServiceDiscovery");
-	hkd.ptszDescription = _T("Service discovery");
+	hkd.ptszDescription = LPGENT("Service discovery");
 	Hotkey_Register(&hkd);
 }
 
