@@ -81,10 +81,15 @@ void getDefaultMessage(HWND hwnd, UINT control, HANDLE hContact)
 {
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(hContact, modname, "PounceMsg", &dbv))
+	{
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
+		DBFreeVariant(&dbv);
+	}
 	else if (!DBGetContactSettingTString(NULL, modname, "PounceMsg", &dbv))
+	{
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
-	DBFreeVariant(&dbv);
+		DBFreeVariant(&dbv);
+	}
 }
 INT_PTR CALLBACK StatusModesDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -142,11 +147,11 @@ void statusModes(struct windowInfo *wi, int myStatusMode) // myStatusMode=1 send
 {
 	int statusFlag;
 	HWND hwnd;
-	
-	if (myStatusMode) 
+
+	if (myStatusMode)
 	{
 		if (wi->SendIfMy) { SetForegroundWindow(wi->SendIfMy); return; }
-		else 
+		else
 		{
 			hwnd = wi->SendIfMy = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_STATUSMODES), 0, StatusModesDlgProc, (LPARAM)wi);
 			statusFlag = DBGetContactSettingWord(wi->hContact, modname, "SendIfMyStatusIsFLAG", 0);
@@ -163,10 +168,10 @@ void statusModes(struct windowInfo *wi, int myStatusMode) // myStatusMode=1 send
 			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("Out To Lunch"));
 		}
 	}
-	else 
+	else
 	{
 		if (wi->SendWhenThey) { SetForegroundWindow(wi->SendWhenThey); return; }
-		else 
+		else
 		{
 			hwnd = wi->SendWhenThey = CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_STATUSMODES),0,StatusModesDlgProc, (LPARAM)wi);
 			statusFlag = DBGetContactSettingWord(wi->hContact, modname, "SendIfTheirStatusIsFLAG", 0);
@@ -248,10 +253,10 @@ INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 					int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)) + 1;
 					if (length>1)
 					{
-						text = (TCHAR*)malloc(length*sizeof(TCHAR));
+						text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 						if (!text) { msg(TranslateT("Couldnt Allocate enough memory"), _T("")); break; }
 						GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
-						
+
 					}
 					else DBDeleteContactSetting(hContact, modname, "PounceMsg");
 				} // fall through
@@ -273,7 +278,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	{
 		case WM_INITDIALOG:
 		{
-			struct windowInfo *wi = (struct windowInfo *)malloc(sizeof(struct windowInfo));
+			struct windowInfo *wi = (struct windowInfo *)mir_alloc(sizeof(struct windowInfo));
 			TCHAR msg[1024];
 			if (!wi) { msg(TranslateT("error......"), TranslateT("Buddy Pounce")); DestroyWindow(hwnd); }
 			TranslateDialogDefault(hwnd);
@@ -291,7 +296,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		}
 		return FALSE;
 		case WM_COMMAND:
-			switch(LOWORD(wParam)) 
+			switch(LOWORD(wParam))
 			{
 				case IDC_MESSAGE:
 				{
@@ -313,11 +318,11 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE))+1;
 					if (length>1)
 					{
-						text = (TCHAR*)malloc(length*sizeof(TCHAR));
+						text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 						if (!text) { msg(TranslateT("Couldnt Allocate enough memory"), _T("")); break; }
 						GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
 						DBWriteContactSettingTString(hContact, modname, "PounceMsg", text);
-						free(text);
+						mir_free(text);
 					}
 					else DBDeleteContactSetting(hContact, modname, "PounceMsg");
 					saveLastSetting(hContact, hwnd);
@@ -330,7 +335,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					struct windowInfo *wi = (struct windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 					if (wi->SendIfMy) DestroyWindow(wi->SendIfMy);
 					if (wi->SendWhenThey) DestroyWindow(wi->SendWhenThey);
-					free(wi);
+					mir_free(wi);
 					DestroyWindow(hwnd);
 				}
 				break;
@@ -423,7 +428,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	{
 		case WM_INITDIALOG:
 		{
-			struct windowInfo *wi = (struct windowInfo *)malloc(sizeof(struct windowInfo));
+			struct windowInfo *wi = (struct windowInfo *)mir_alloc(sizeof(struct windowInfo));
 			TCHAR msg[1024];
 			TranslateDialogDefault(hwnd);
 			wi->hContact = 0;
@@ -454,11 +459,11 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 								int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE))+1;
 								if (length > 1)
 								{
-									text = (TCHAR*)malloc(length*sizeof(TCHAR));
+									text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
 									if (!text) { msg(TranslateT("Couldnt Allocate enough memory"), _T("")); break; }
 									GetDlgItemText(hwnd, IDC_MESSAGE, text, length);
 									DBWriteContactSettingTString(hContact, modname, "PounceMsg", text);
-									free(text);
+									mir_free(text);
 								}
 								else DBDeleteContactSetting(hContact, modname, "PounceMsg");
 								DBWriteContactSettingByte(NULL, modname, "UseAdvanced", (BYTE)IsDlgButtonChecked(hwnd, IDC_USEADVANCED));
@@ -553,8 +558,6 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
-
-
 INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
@@ -585,8 +588,8 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				KillTimer(hwnd,1);
 				SendPounce(spdps->message, ((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->hContact);
-				free((TCHAR*)((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
-				free((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA));
+				mir_free((TCHAR*)((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
+				mir_free((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA));
 				DestroyWindow(hwnd);
 			}
 			break;
@@ -599,10 +602,10 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					// fall through
 				case IDCANCEL:
 					KillTimer(hwnd,1);
-					free(((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
-					free((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA));
+					mir_free(((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA))->message);
+					mir_free((struct SendPounceDlgProcStruct *)GetWindowLongPtr(hwnd, GWLP_USERDATA));
 					DestroyWindow(hwnd);
-				break;					
+				break;
 			}
 		break;
 	}
@@ -639,7 +642,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					// fall through
 				case IDCANCEL:
 					DestroyWindow(hwnd);
-				break;					
+				break;
 			}
 		break;
 	}

@@ -143,7 +143,7 @@ int statusCheck(int statusFlag, int status)
 	return 0;
 }
 int CheckDate(HANDLE hContact)
-{	
+{
 	time_t curtime = time (NULL);
 	if(!DBGetContactSettingByte(hContact,modname,"GiveUpDays",0))
 		return 1;
@@ -182,12 +182,12 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 				&& statusCheck(DBGetContactSettingWord(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus) )
 				{
 					// check if we r giving up after x days
-					if (CheckDate(hContact)) 
+					if (CheckDate(hContact))
 					{
-						
+
 						if (DBGetContactSettingByte(hContact, modname, "ConfirmTimeout", 0))
 						{
-							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)malloc(sizeof(struct SendPounceDlgProcStruct));
+							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)mir_alloc(sizeof(struct SendPounceDlgProcStruct));
 							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
 							spdps->message = message;
@@ -235,12 +235,12 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(hContact, modname, "PounceMsg",&dbv))
 	{
-		TCHAR* newPounce = (TCHAR*)malloc(lstrlen(dbv.ptszVal) + lstrlen(message) + 1);
+		TCHAR* newPounce = (TCHAR*)mir_alloc(lstrlen(dbv.ptszVal) + lstrlen(message) + 1);
 		if (!newPounce) return 1;
 		_tcscpy(newPounce, dbv.ptszVal);
 		_tcscat(newPounce, message);
 		DBWriteContactSettingTString(hContact, modname, "PounceMsg", newPounce);
-		free(newPounce);
+		mir_free(newPounce);
 		DBFreeVariant(&dbv);
 	}
 	else AddSimpleMessage((WPARAM)hContact, (LPARAM)message);
@@ -251,7 +251,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 // Load (hook ModulesLoaded)
 //===========================
 extern "C" __declspec(dllexport) int Load(void)
-{ 	
+{
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, UserOnlineSettingChanged); 
@@ -269,7 +269,7 @@ extern "C" __declspec(dllexport) int Load(void)
 }
 
 
-extern "C" __declspec(dllexport) int Unload(void) 
-{ 
+extern "C" __declspec(dllexport) int Unload(void)
+{
 	return 0;
-} 
+}
