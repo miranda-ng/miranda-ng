@@ -87,7 +87,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, WORD wBufferLength, snac_header 
 #ifdef _DEBUG
 		NetLog_Server("Sending Rate Info Ack");
 #endif
-    m_rates->initAckPacket(&packet);
+		m_rates->initAckPacket(&packet);
 		sendServPacket(&packet);
 
 		/* CLI_REQINFO - This command requests from the server certain information about the client that is stored on the server. */

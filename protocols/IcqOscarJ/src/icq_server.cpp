@@ -221,9 +221,9 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	{
 		icq_lock l(m_ratesMutex);
 
-		SAFE_DELETE((MZeroedObject**)&m_ratesQueue_Request);
-		SAFE_DELETE((MZeroedObject**)&m_ratesQueue_Response);
-		SAFE_DELETE((MZeroedObject**)&m_rates);
+		delete m_ratesQueue_Request; m_ratesQueue_Request = NULL;
+		delete m_ratesQueue_Response;	m_ratesQueue_Response = NULL;
+		delete m_rates; m_rates = NULL;
 	}
 
 	FlushServerIDs();         // clear server IDs list
@@ -394,8 +394,7 @@ int CIcqProto::IsServerOverRate(WORD wFamily, WORD wCommand, int nLevel)
 {
 	icq_lock l(m_ratesMutex);
 
-	if (m_rates)
-	{
+	if (m_rates) {
 		WORD wGroup = m_rates->getGroupFromSNAC(wFamily, wCommand);
 
 		// check if the rate is not over specified level

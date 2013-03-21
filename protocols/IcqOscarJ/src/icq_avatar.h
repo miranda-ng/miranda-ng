@@ -67,7 +67,7 @@ protected:
 	void   handleAvatarFam(BYTE *pBuffer, WORD wBufferLength, snac_header *pSnacHeader);
 
 	rates *m_rates;
-  icq_critical_section *m_ratesMutex;
+	icq_critical_section *m_ratesMutex;
 
 	int    NetLog_Server(const char *fmt,...);
 
