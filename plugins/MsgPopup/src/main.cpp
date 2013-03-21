@@ -199,16 +199,17 @@ int HookedInit(WPARAM wParam, LPARAM lParam)
 
 int HookedOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszTitle = LPGENT("MessagePopup");
-	odp.ptszGroup = LPGENT("Popups");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
-
+	if (ServiceExists(MS_POPUP_ADDPOPUP)){
+		OPTIONSDIALOGPAGE odp = {0};
+		odp.cbSize = sizeof(odp);
+		odp.hInstance = hInst;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+		odp.ptszTitle = LPGENT("MessagePopup");
+		odp.ptszGroup = LPGENT("Popups");
+		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.pfnDlgProc = OptionsDlgProc;
+		Options_AddPage(wParam, &odp);
+	}
 	return 0;
 }
 
