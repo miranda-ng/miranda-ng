@@ -123,7 +123,10 @@ void CMraProto::MraThreadClean()
 
 	SleepEx(100, FALSE);// to prevent high CPU load by some status plugins like allwaysonline
 
-	hThreadWorker = NULL;
+	if (hThreadWorker) {
+		CloseHandle(hThreadWorker);
+		hThreadWorker = NULL;
+	}
 	InterlockedExchange((volatile LONG*)&dwThreadWorkerRunning, FALSE);
 	SetStatus(ID_STATUS_OFFLINE);
 }

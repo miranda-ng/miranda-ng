@@ -136,6 +136,7 @@ int CMraProto::OnPreShutdown(WPARAM, LPARAM)
 	if (hThreadWorker) {
 		if (IsThreadAlive(hThreadWorker))
 			WaitForSingleObjectEx(hThreadWorker, (WAIT_FOR_THREAD_TIMEOUT*1000), FALSE);
+		CloseHandle(hThreadWorker);
 		hThreadWorker = NULL;
 	}
 

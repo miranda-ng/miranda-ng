@@ -33,7 +33,7 @@ struct MRA_AVATARS_QUEUE : public FIFO_MT
 	BOOL   bIsRunning;
 	HANDLE hNetlibUser;
 	HANDLE hThreadEvent;
-	DWORD  dwThreadsCount;
+	int    iThreadsCount;
 	HANDLE hThread[MAXIMUM_WAIT_OBJECTS];
 	LONG   lThreadsRunningCount;
 	HANDLE hAvatarsPath;
@@ -94,12 +94,12 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-			pmraaqAvatarsQueue->dwThreadsCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
-			if (pmraaqAvatarsQueue->dwThreadsCount == 0)
-				pmraaqAvatarsQueue->dwThreadsCount = 1;
-			if (pmraaqAvatarsQueue->dwThreadsCount > MAXIMUM_WAIT_OBJECTS)
-				pmraaqAvatarsQueue->dwThreadsCount = MAXIMUM_WAIT_OBJECTS;
-			for (DWORD i = 0; i < pmraaqAvatarsQueue->dwThreadsCount; i++)
+			pmraaqAvatarsQueue->iThreadsCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
+			if (pmraaqAvatarsQueue->iThreadsCount == 0)
+				pmraaqAvatarsQueue->iThreadsCount = 1;
+			if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
+				pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
+			for (int i=0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
 				pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue);
 
 			*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
@@ -138,12 +138,14 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
 	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
 
-	WaitForMultipleObjects(pmraaqAvatarsQueue->dwThreadsCount, (HANDLE*)&pmraaqAvatarsQueue->hThread[0], TRUE, (WAIT_FOR_THREAD_TIMEOUT*1000));
+	WaitForMultipleObjects(pmraaqAvatarsQueue->iThreadsCount, (HANDLE*)&pmraaqAvatarsQueue->hThread[0], TRUE, (WAIT_FOR_THREAD_TIMEOUT*1000));
 
 	if (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
 		while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
 			SleepEx(100, TRUE);
 
+	for (int i=0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
+		CloseHandle(pmraaqAvatarsQueue->hThread[i]);
 	CloseHandle(pmraaqAvatarsQueue->hThreadEvent);
 
 	MraAvatarsQueueClear(hAvatarsQueueHandle);
