@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_11.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_11.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -374,6 +374,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusChange", "..\plugins\StatusChange\StatusChange_11.vcxproj", "{D09881C7-E189-49AD-919E-F64355F8EFD0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\BuddyPounce\buddypounce_11.vcxproj", "{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup_11.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1671,6 +1673,14 @@ Global
 		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|Win32.Build.0 = Release|Win32
 		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|x64.ActiveCfg = Release|x64
 		{FBC473A7-6383-4C9F-A8FD-282A3CC44FD1}.Release|x64.Build.0 = Release|x64
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Debug|Win32.Build.0 = Debug|Win32
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Debug|x64.ActiveCfg = Debug|x64
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Debug|x64.Build.0 = Debug|x64
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|Win32.ActiveCfg = Release|Win32
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|Win32.Build.0 = Release|Win32
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.ActiveCfg = Release|x64
+		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
