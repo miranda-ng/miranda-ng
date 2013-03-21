@@ -26,21 +26,21 @@
 #include "avatar.h"
 #include "inbox.h"
 
-static const LPTSTR TEMP_WINDOW_CLASS_NAME = _T("AntiShittyFullscreenDetectionWindowClass");
-static const LPTSTR _T(NUMBER_EMAILS_MESSAGE) = LPGENT("You've received an e-mail\n%s unread threads");
+const LPTSTR _T(NUMBER_EMAILS_MESSAGE) = LPGENT("You've received an e-mail\n%s unread threads");
 
-static const LPTSTR PLUGIN_DATA_PROP_NAME = _T("{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}");
-static const LPTSTR EVT_DELETED_HOOK_PROP_NAME = _T("{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}");
+const LPTSTR PLUGIN_DATA_PROP_NAME = _T("{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}");
+const LPTSTR EVT_DELETED_HOOK_PROP_NAME = _T("{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}");
 
 #define EVENT_DELETED_MSG RegisterWindowMessage(_T("{B9B00536-86A0-4BCE-B2FE-4ABD409C22AE}"))
 #define MESSAGE_CLOSEPOPUP RegisterWindowMessage(_T("{7A60EA87-3E77-41DF-8A69-59B147F0C9C6}"))
 
-static const LPSTR CLIST_MODULE_NAME = "CList";
-static const LPSTR CONTACT_DISPLAY_NAME_SETTING = "MyHandle";
-static const LPSTR STATUS_MSG_SETTING = "StatusMsg";
-static const LPSTR UNREAD_THREADS_SETTING = "UnreadThreads";
+const LPSTR CLIST_MODULE_NAME = "CList";
+const LPSTR CONTACT_DISPLAY_NAME_SETTING = "MyHandle";
+const LPSTR STATUS_MSG_SETTING = "StatusMsg";
+const LPSTR UNREAD_THREADS_SETTING = "UnreadThreads";
 
-struct POPUP_DATA_HEADER {
+struct POPUP_DATA_HEADER
+{
 	BOOL MarkRead;
 	HANDLE hDbEvent;
 	HANDLE hContact;
@@ -50,27 +50,6 @@ struct POPUP_DATA_HEADER {
 
 extern DWORD itlsSettings;
 
-LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-		case WM_NCCREATE:
-			return 1;
-
-		case WM_GETMINMAXINFO:
-			PMINMAXINFO info = (PMINMAXINFO)lParam;
-			info->ptMaxPosition.x = -100;
-			info->ptMaxPosition.y = -100;
-			info->ptMaxSize.x = 10;
-			info->ptMaxSize.y = 10;
-			info->ptMaxTrackSize.x = 10;
-			info->ptMaxTrackSize.y = 10;
-			info->ptMinTrackSize.x = 10;
-			info->ptMinTrackSize.y = 10;
-			return 0;
-	}
-	return DefWindowProc(wnd, msg, wParam, lParam);
-}
-
 LPCSTR GetJidAcc(LPCTSTR jid)
 {
 	int count = 0;
@@ -78,7 +57,7 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	ProtoEnumAccounts(&count, &protos);
 
 	DBVARIANT dbv;
-	for (int i = 0; i < count; i++)
+	for (int i=0; i < count; i++)
 		if (getJabberApi(protos[i]->szModuleName))
 			if (!DBGetContactSettingTString(0, protos[i]->szModuleName, "jid", &dbv))
 				__try {
@@ -99,7 +78,6 @@ void MarkEventRead(HANDLE hCnt, HANDLE hEvt)
 		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
 		(CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hCnt, (LPARAM)hEvt) != (INT_PTR)-1))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hCnt, (LPARAM)hEvt);
-
 }
 
 int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
@@ -114,84 +92,74 @@ int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
+	LPCSTR acc;
+
 	if (EVENT_DELETED_MSG == msg) {
-		POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
 		if ((HANDLE)lParam == ppdh->hDbEvent)
 			ppdh->hDbEvent = NULL;
 		return 0;
 	}
 
 	if (MESSAGE_CLOSEPOPUP == msg) {
-		POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
 		ppdh->MarkRead = TRUE;
 		PUDeletePopUp(wnd);
 	}
 
 	switch (msg) {
-		case UM_INITPOPUP: {
-			POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
-			SetProp(wnd, PLUGIN_DATA_PROP_NAME, (HANDLE)ppdh);
-			SetProp(wnd, EVT_DELETED_HOOK_PROP_NAME,
-				HookEventParam(ME_DB_EVENT_DELETED, OnEventDeleted, (LPARAM)wnd));
-			return 0;
-		}
+	case UM_INITPOPUP:
+		SetProp(wnd, PLUGIN_DATA_PROP_NAME, (HANDLE)ppdh);
+		SetProp(wnd, EVT_DELETED_HOOK_PROP_NAME,
+			HookEventParam(ME_DB_EVENT_DELETED, OnEventDeleted, (LPARAM)wnd));
+		return 0;
 
-		case UM_FREEPLUGINDATA: {
+	case UM_FREEPLUGINDATA:
+		{
 			HANDLE hHook = GetProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
 			RemoveProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
 			UnhookEvent(hHook);
-
-			LPCSTR acc = NULL;
-			POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
-			__try {
-				if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
-					ReadNotificationSettings(acc);
-					MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
-					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
-				}
-
-			}
-			__finally {
-				RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
-				free(ppdh);
-			}
-
-			return 0;
 		}
 
-		case WM_LBUTTONUP: {
-			LPCSTR acc = NULL;
-			POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)PUGetPluginData(wnd);
-			__try {
-				if (!(acc = GetJidAcc(ppdh->jid))) return 0;
-
+		__try {
+			if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
 				ReadNotificationSettings(acc);
-				OpenUrl(acc, ppdh->jid, ppdh->url);
+				MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
+				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
 			}
-			__finally {
-				CloseNotifications(acc, ppdh->url, ppdh->jid, TRUE);
-			}
-			return 0;
+		}
+		__finally {
+			RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
+			free(ppdh);
 		}
 
-		case WM_RBUTTONUP:
-			SendMessage(wnd, MESSAGE_CLOSEPOPUP, 0, 0);
-			return 0;
+		return 0;
+
+	case WM_LBUTTONUP:
+		acc = NULL;
+		__try {
+			if (!(acc = GetJidAcc(ppdh->jid))) return 0;
+
+			ReadNotificationSettings(acc);
+			OpenUrl(acc, ppdh->jid, ppdh->url);
+		}
+		__finally {
+			CloseNotifications(acc, ppdh->url, ppdh->jid, TRUE);
+		}
+		return 0;
+
+	case WM_RBUTTONUP:
+		SendMessage(wnd, MESSAGE_CLOSEPOPUP, 0, 0);
+		return 0;
 	}
 	return DefWindowProc(wnd, msg, wParam, lParam);
 }
 
-HWND DoAddPopup(POPUPDATAT *data)
+static bool DoAddPopup(POPUPDATAT *data)
 {
-	WNDCLASS cls = {0};
-	cls.lpfnWndProc = WndProc;
-	cls.lpszClassName = TEMP_WINDOW_CLASS_NAME;
-
-	HWND result = 0;
+	bool result = false;
 	HWND handle = 0;
 	__try {
 		if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings))) {
-			RegisterClass(&cls);
 			handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE,
 				-100, -100, 10, 10, NULL, NULL, NULL, NULL);
 			if (handle) {
@@ -199,7 +167,7 @@ HWND DoAddPopup(POPUPDATAT *data)
 				ShowWindow(handle, SW_RESTORE);
 			}
 		}
-		result = (HWND)CallService(MS_POPUP_ADDPOPUPT, (WPARAM) data, APF_RETURN_HWND);
+		result = PUAddPopUpT(data) == 0;
 	}
 	__finally {
 		if (handle) DestroyWindow(handle);
@@ -304,28 +272,21 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	data->PluginWindowProc = PopupProc;
 	int lurl = (lstrlen(url) + 1) * sizeof(TCHAR);
 	int ljid = (lstrlen(jid) + 1) * sizeof(TCHAR);
-	data->PluginData = malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
-	__try {
-		POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)data->PluginData;
+	
+	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
+	ppdh->MarkRead = FALSE;
+	ppdh->hContact = hCnt;
+	ppdh->hDbEvent = hEvt;
 
-		ppdh->MarkRead = FALSE;
-		ppdh->hContact = hCnt;
-		ppdh->hDbEvent = hEvt;
+	ppdh->jid = (LPTSTR)((PBYTE)ppdh + sizeof(*ppdh));
+	memcpy(ppdh->jid, jid, ljid);
 
-		ppdh->jid = (LPTSTR)((PBYTE)ppdh + sizeof(*ppdh));
-		memcpy(ppdh->jid, jid, ljid);
+	ppdh->url = (LPTSTR)((PBYTE)ppdh->jid + ljid);
+	memcpy(ppdh->url, url, lurl);
+	data->PluginData = ppdh;
 
-		ppdh->url = (LPTSTR)((PBYTE)ppdh->jid + ljid);
-		memcpy(ppdh->url, url, lurl);
-
-		HWND code = DoAddPopup(data);
-		if (code == (HWND)-1 || !code)
-			return;
-		data->PluginData = NULL; // freed in popup wndproc
-	}
-	__finally {
+	if ( !DoAddPopup(data))
 		free(data->PluginData);
-	}
 }
 
 void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)

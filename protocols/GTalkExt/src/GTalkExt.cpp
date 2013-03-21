@@ -23,16 +23,17 @@
 
 #include "stdafx.h"
 #include "options.h"
+#include "notifications.h"
 #include "handlers.h"
 #include "tipper_items.h"
 #include "avatar.h"
 #include "menu.h"
 
+int   hLangpack;
+HICON g_hPopupIcon = 0;
 
-int hLangpack;
-
-
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo =
+{
 	sizeof(PLUGININFOEX),
 	PLUGIN_DESCRIPTION,
 	PLUGIN_VERSION_DWORD,
@@ -50,38 +51,57 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-HANDLE hModulesLoaded = 0;
-HANDLE hAccListChanged = 0;
+/////////////////////////////////////////////////////////////////////////////////////////
+
+LRESULT CALLBACK WndProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_NCCREATE:
+		return 1;
+
+	case WM_GETMINMAXINFO:
+		PMINMAXINFO info = (PMINMAXINFO)lParam;
+		info->ptMaxPosition.x = -100;
+		info->ptMaxPosition.y = -100;
+		info->ptMaxSize.x = 10;
+		info->ptMaxSize.y = 10;
+		info->ptMaxTrackSize.x = 10;
+		info->ptMaxTrackSize.y = 10;
+		info->ptMinTrackSize.x = 10;
+		info->ptMinTrackSize.y = 10;
+		return 0;
+	}
+	return DefWindowProc(wnd, msg, wParam, lParam);
+}
+
+extern "C" int __declspec(dllexport) Load(void)
+{
+	mir_getLP(&pluginInfo);
+	mir_getXI(&xi);
+		
+	WNDCLASS cls = {0};
+	cls.lpfnWndProc = WndProc;
+	cls.lpszClassName = TEMP_WINDOW_CLASS_NAME;
+	RegisterClass(&cls);
+
+	g_hPopupIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_POPUP));
+
+	InitAvaUnit(TRUE);
+	InitMenus(TRUE);
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
+
+	AddTipperItem();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UnhookOptionsInitialization();
 	InitMenus(FALSE);
 	InitAvaUnit(FALSE);
-	if (hAccListChanged) UnhookEvent(hAccListChanged);
-	if (hModulesLoaded) UnhookEvent(hModulesLoaded);
-	return 0;
-}
-
-HICON g_hPopupIcon = 0;
-extern HINSTANCE hInst;
-
-extern "C" int __declspec(dllexport) Load(void)
-{
-	g_hPopupIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP));
-
-
-	mir_getLP(&pluginInfo);
-	if (
-		!mir_getXI(&xi) ||
-		!(hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded)) ||
-		!(hAccListChanged = HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged)) ||
-		!InitAvaUnit(TRUE) ||
-		!InitMenus(TRUE)
-		)
-		{Unload(); return 1;};
-
-	AddTipperItem();
-
 	return 0;
 }

@@ -96,20 +96,20 @@ LPSTR CreateAvaFile(HANDLE *hFile)
 	}
 }
 
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
 
 BOOL SaveAvatar(HANDLE hFile)
 {
-	HRSRC hres = FindResource(hInst, MAKEINTRESOURCE(IDI_PSEUDOAVA), AVA_RES_TYPE);
+	HRSRC hres = FindResource(g_hInst, MAKEINTRESOURCE(IDI_PSEUDOAVA), AVA_RES_TYPE);
 	if (!hres) return FALSE;
 
-	HGLOBAL hglob = LoadResource(hInst, hres);
+	HGLOBAL hglob = LoadResource(g_hInst, hres);
 	if (!hglob) return FALSE;
 
 	PVOID p = LockResource(hglob);
 	if (!p) return FALSE;
 
-	DWORD l = SizeofResource(hInst, hres);
+	DWORD l = SizeofResource(g_hInst, hres);
 	if (!l) return FALSE;
 
 	DWORD written;

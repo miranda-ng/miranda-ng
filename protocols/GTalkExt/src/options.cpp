@@ -41,7 +41,7 @@ static const LPTSTR TEST_LETTER_SNIP =
 	LPGENT("* No exceptions");
 
 HANDLE hOptionsHook = 0;
-extern HINSTANCE hInst;
+extern HINSTANCE g_hInst;
 
 void CheckControlsEnabled(HWND wnd)
 {
@@ -244,7 +244,7 @@ void AddPopupsPage(WPARAM wParam)
 	odp.ptszTitle = MAIL_NOTIFICATIONS;
 	odp.pfnDlgProc = PopupsOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInst;
 	odp.ptszGroup = POPUPS_OPTIONS_GROUP;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
 
@@ -258,7 +258,7 @@ void AddAccPage(LPTSTR acc, LPCSTR mod, WPARAM wParam)
 	odp.ptszTitle = acc;
 	odp.pfnDlgProc = AccOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInst;
 	odp.ptszGroup = NETWORK_OPTIONS_GROUP;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
 	odp.ptszTab = MAIL_NOTIFICATIONS;

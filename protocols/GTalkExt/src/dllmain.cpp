@@ -23,7 +23,7 @@
 #include "notifications.h"
 #include "options.h"
 
-HINSTANCE hInst = 0;
+HINSTANCE g_hInst = 0;
 
 DWORD itlsSettings = TLS_OUT_OF_INDEXES;
 DWORD itlsRecursion = TLS_OUT_OF_INDEXES;
@@ -32,7 +32,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
 {
 	switch (fdwReason) {
 	case DLL_PROCESS_ATTACH:
-		hInst = hinstDLL;
+		g_hInst = hinstDLL;
 		if (((itlsSettings = TlsAlloc()) == TLS_OUT_OF_INDEXES) ||
 			((itlsRecursion = TlsAlloc()) == TLS_OUT_OF_INDEXES))
 			return FALSE;
