@@ -60,10 +60,10 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 			BOOL Translated;
 			if(LOWORD(wParam) == IDC_PREVIEW)
 			{
-				MessageBoxA(0, Translate("Message with question"), Translate(SERVICENAME " - demo"), MB_ICONQUESTION);
-				MessageBoxA(0, Translate("Message with exclamation"), Translate(SERVICENAME " - demo"), MB_ICONEXCLAMATION);
-				MessageBoxA(0, Translate("Message with error"), Translate(SERVICENAME " - demo"), MB_ICONSTOP);
-				MessageBoxA(0, Translate("Message with asterisk"), Translate(SERVICENAME " - demo"), MB_ICONASTERISK);
+				MessageBox(0, TranslateT("Message with question"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONQUESTION);
+				MessageBox(0, TranslateT("Message with exclamation"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONEXCLAMATION);
+				MessageBox(0, TranslateT("Message with error"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONSTOP);
+				MessageBox(0, TranslateT("Message with asterisk"), TranslateTS(_T(SERVICENAME) _T(" - demo")), MB_ICONASTERISK);
 
 				return FALSE;
 			}
@@ -107,14 +107,16 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 					
 				case PSN_APPLY:
 				{
-					char *szNameFG = "FGx";
-					char *szNameBG = "BGx";
-					char *szNameTO = "TOx";
+					char szNameFG[4];
+					char szNameBG[4];
+					char szNameTO[4];
 					int indx;
 
 					for(indx = 0; indx < 4; indx++)
 					{
-						szNameFG[2] = szNameBG[2] = szNameTO[2] = (char)(indx + '0');
+						mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
+						mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
+						mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
 				
 						DBWriteContactSettingDwordDef(NULL, SERVICENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
 						DBWriteContactSettingDwordDef(NULL,	SERVICENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);				

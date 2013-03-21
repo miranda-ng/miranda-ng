@@ -35,26 +35,28 @@ MSGBOXOPTIONS options;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	SERVICENAME,
-	PLUGIN_MAKE_VERSION( 0,0,0,1 ),
-	"This stuff will replace MessageBox'es [whose have only OK button] into Popups",
-	"Denis Stanishevskiy // StDenis",
-	"stdenformiranda(at)fromru(dot)com",
-	"Copyright (c) 2004, Denis Stanishevskiy",
-	"",
-	0, 0
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	// {CF25D645-4DAB-4B0A-B9F1-DE1E86231F9B}
+	{0xcf25d645, 0x4dab, 0x4b0a, {0xb9, 0xf1, 0xde, 0x1e, 0x86, 0x23, 0x1f, 0x9b}}
 };
 
-typedef int (WINAPI *MSGBOXPROC)(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
+typedef int (WINAPI *MSGBOXPROC)(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType);
 
-MSGBOXPROC prevMessageBoxA;
+MSGBOXPROC prevMessageBox;
 
 #define OIC_HAND            32513
 #define OIC_QUES            32514
 #define OIC_BANG            32515
 #define OIC_NOTE            32516
 
-void popupMessage(LPCSTR lpText, LPCSTR lpCaption, UINT uType)
+void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
 	POPUPDATAT ppd = {0};	
 	int iIcon;
@@ -85,17 +87,17 @@ void popupMessage(LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 	ppd.iSeconds  = options.Timeout[indx];
 
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
-	lstrcpy(ppd.lpzContactName, lpCaption);
-	lstrcpy(ppd.lpzText, lpText);
+	lstrcpy(ppd.lptzContactName, lpCaption);
+	lstrcpy(ppd.lptzText, lpText);
 	PUAddPopUpT(&ppd);
 	if(options.Sound)
 		MessageBeep(uType);
 }
 
-int WINAPI newMessageBoxA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
+int WINAPI newMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-	if(CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == CALLSERVICE_NOTFOUND || (uType & 0x0F))
-		return prevMessageBoxA(hWnd, lpText, lpCaption, uType);
+	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == CALLSERVICE_NOTFOUND || (uType & 0x0F))
+		return prevMessageBox(hWnd, lpText, lpCaption, uType);
 
 	popupMessage(lpText, lpCaption,uType);
 	return IDOK;
@@ -137,12 +139,11 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 					{
 						if(!g_HookError)
 						{
-							char buf[200];
+							TCHAR buf[200];
 
 							g_HookError = TRUE;
-							wsprintf(buf, "VirtualProtect failed. Code %d\n"
-								"Try to call the author", GetLastError());
-							prevMessageBoxA(0, buf, "MsgBox", MB_OK);
+							mir_sntprintf(buf, SIZEOF(buf), TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
+							prevMessageBox(0, buf, TranslateT("MsgBox"), MB_OK);
 						}
 					}
 					*(DWORD*)ppfn = lpNewFunc;
@@ -151,9 +152,7 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 						if(!g_HookError2)
 						{
 							g_HookError2 = TRUE;
-							prevMessageBoxA(0, "Hmm. Something goes wrong. I can't write into the memory.\n"
-								          "And as u can c, there are no any exception raised..\n"
-										  "Try to call the author", "MsgBox", MB_OK);
+							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as u can c, there are no any exception raised..\nTry to call the author"), TranslateT("MsgBox"), MB_OK);
 						}
 					}
 				}
@@ -164,10 +163,10 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 
 void HookAPI()
 {
-	DWORD lpMessageBox = (DWORD)GetProcAddress(GetModuleHandle("USER32.DLL"), "MessageBoxA");
-	DWORD lpPopupMsgBox = (DWORD)newMessageBoxA;
+	DWORD lpMessageBox = (DWORD)GetProcAddress(GetModuleHandle(_T("USER32.DLL")), "MessageBoxW");
+	DWORD lpPopupMsgBox = (DWORD)newMessageBox;
 
-	prevMessageBoxA = (MSGBOXPROC)lpMessageBox;
+	prevMessageBox = (MSGBOXPROC)lpMessageBox;
 
 	BOOL          bFound      = FALSE; 
 	HANDLE        hModuleSnap = NULL; 
@@ -203,7 +202,7 @@ int HookedOptions(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.ptszTitle = LPGENT("MessagePopup");
 	odp.ptszGroup = LPGENT("Popups");
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
@@ -215,14 +214,16 @@ int HookedOptions(WPARAM wParam, LPARAM lParam)
 
 void LoadConfig()
 {
-	char *szNameFG = "FGx";
-	char *szNameBG = "BGx";
-	char *szNameTO = "TOx";
+	char szNameFG[4];
+	char szNameBG[4];
+	char szNameTO[4];
 	int indx;
 
 	for(indx = 0; indx < 4; indx++)
 	{
-		szNameFG[2] = szNameBG[2] = szNameTO[2] = (char)(indx + '0');
+		mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
+		mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
+		mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
 		options.FG[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameFG, optionsDefault.FG[indx]);
 		options.BG[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
 		options.Timeout[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
