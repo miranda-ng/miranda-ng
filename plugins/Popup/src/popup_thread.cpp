@@ -33,8 +33,7 @@ static HWND   gHwndManager = 0;
 static int    gLockCount = 0;
 static volatile int nPopups = 0;
 
-typedef LIST<PopupWnd2> PopupList;
-static PopupList popupList(3, PopupList::FTSortFunc(PtrKeySortT));
+static LIST<PopupWnd2> popupList(3);
 
 // forwards
 enum
@@ -180,7 +179,11 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 		break;
 
 	case UTM_REMOVE_WINDOW:
-		popupList.remove(wnd);
+		{
+			for (int i=popupList.getCount()-1; i >= 0; i--)
+				if (popupList[i] == wnd)
+					popupList.remove(i);
+		}
 		RepositionPopups();
 		--nPopups;
 		delete wnd;
