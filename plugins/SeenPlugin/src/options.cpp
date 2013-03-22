@@ -42,7 +42,6 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		if (hasPopups = (ServiceExists(MS_POPUP_QUERY)) != 0)
 			hasPopups = CallService(MS_POPUP_QUERY,PUQS_GETSTATUS,0);
 		TranslateDialogDefault(hdlg);
-		ShowWindow(GetDlgItem(hdlg, IDC_MISSPOPUP),hasPopups?SW_HIDE:SW_SHOW);
 		ShowWindow(GetDlgItem(hdlg, IDC_POPUPS),hasPopups?SW_SHOW:SW_HIDE);
 		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP),hasPopups?SW_SHOW:SW_HIDE);
 		ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT),hasPopups?SW_SHOW:SW_HIDE);

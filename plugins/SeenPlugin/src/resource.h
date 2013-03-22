@@ -55,27 +55,26 @@
 #define IDC_MENUSTATUS                  1025
 #define IDC_MENUSTAMP                   1026
 #define IDC_LABTEXT                     1027
-#define IDC_MISSPOPUP                   1028
-#define IDC_DEFAULTCOL                  1029
-#define IDC_FILENAME                    1030
-#define IDC_IGNOREOFFLINE               1031
-#define IDC_MISSEDONES                  1032
-#define IDC_SHOWICON                    1033
-#define IDC_COUNT                       1034
-#define IDC_FILENAME2                   1035
-#define IDC_HISTORYSIZE                 1036
-#define IDC_LASTSEENLIST                1037
-#define IDC_HISTORYLIST                 1038
-#define IDC_STATUSCHANGE                1039
-#define IDC_VARIABLES                   1040
-#define IDC_PROTOCOLLIST                1041
-#define IDC_USERMENU                    1042
-#define IDC_TEST                        1043
-#define IDC_DETAILS                     1044
-#define IDC_SENDMSG                     1045
-#define IDC_LABTTITLE                   1046
-#define IDC_OPTIONSTAB                  1047
-#define IDC_IDLESUPPORT			1050
+#define IDC_DEFAULTCOL                  1028
+#define IDC_FILENAME                    1029
+#define IDC_IGNOREOFFLINE               1030
+#define IDC_MISSEDONES                  1031
+#define IDC_SHOWICON                    1032
+#define IDC_COUNT                       1033
+#define IDC_FILENAME2                   1034
+#define IDC_HISTORYSIZE                 1035
+#define IDC_LASTSEENLIST                1036
+#define IDC_HISTORYLIST                 1037
+#define IDC_STATUSCHANGE                1038
+#define IDC_VARIABLES                   1039
+#define IDC_PROTOCOLLIST                1040
+#define IDC_USERMENU                    1041
+#define IDC_TEST                        1042
+#define IDC_DETAILS                     1043
+#define IDC_SENDMSG                     1044
+#define IDC_LABTTITLE                   1045
+#define IDC_OPTIONSTAB                  1046
+#define IDC_IDLESUPPORT					1047
 #define IDC_MAINGROUP                   -1
 #define IDC_INFO                        -1
 #define IDC_TEXT                        -1
@@ -86,7 +85,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1051
+#define _APS_NEXT_CONTROL_VALUE         1048
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
