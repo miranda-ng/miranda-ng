@@ -1,0 +1,356 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ADD_FILE DIALOG DISCARDABLE  0, 0, 283, 190
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "View/Edit Files"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_FILE_LIST,49,4,227,99,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_URL,26,20,250,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_WWW_TIMER,69,37,30,12,ES_NUMBER
+    PUSHBUTTON      "Add File",IDC_ADD_FILE,201,37,34,12
+    PUSHBUTTON      "Add URL",IDC_ADD_URL,237,37,39,12
+    PUSHBUTTON      "Remove Selected File",IDC_DEL_FILE,202,52,74,12
+    LISTBOX         IDC_FILE_CONTENTS,4,70,272,113,LBS_NOINTEGRALHEIGHT | 
+                    LBS_DISABLENOSCROLL | WS_VSCROLL | WS_HSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "file(#)",IDC_STATIC,4,6,18,8
+    EDITTEXT        IDC_FN,26,4,16,12,ES_READONLY | ES_NUMBER
+    LTEXT           "URL",IDC_STATIC,4,22,16,8
+    LTEXT           "Update URL every",IDC_STATIC,4,39,60,8
+    LTEXT           "Intervals",IDC_STATIC,105,39,28,8
+    LTEXT           "If the protocol timer is disabled web pages wont be updated",
+                    IDC_STATIC,4,52,188,8
+END
+
+IDD_CONTACT_INFO DIALOG DISCARDABLE  0, 0, 283, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "contact display info"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_DISPLAY_NAME,88,6,188,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TOOLTIP,7,40,269,143,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    LTEXT           "Contacts display name",IDC_STATIC,7,8,72,8
+    LTEXT           "Contacts Tooltip",IDC_STATIC,7,26,52,8
+END
+
+IDD_OTHER_STUFF DIALOG DISCARDABLE  0, 0, 283, 190
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "other settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Link",IDC_STATIC,12,18,14,8
+    EDITTEXT        IDC_LINK,39,16,233,12,ES_AUTOHSCROLL
+    LTEXT           "Program parameters:",IDC_STATIC,12,33,66,8
+    EDITTEXT        IDC_PARAMS,91,31,181,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "O&pen File",IDC_OPEN_FILE,161,47,50,14
+    PUSHBUTTON      "O&pen Folder",IDC_OPEN_FOLDER,222,47,50,14
+    GROUPBOX        "Link Settings",IDC_STATIC,7,4,269,60
+    GROUPBOX        "CList Settings",IDC_STATIC,7,68,269,64
+    COMBOBOX        IDC_GROUP,39,79,161,74,CBS_DROPDOWN | CBS_AUTOHSCROLL | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",CHK_ONLINE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | 
+                    WS_TABSTOP,58,95,16,16
+    CONTROL         "",CHK_AWAY,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,77,95,16,16
+    CONTROL         "",CHK_NA,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,96,95,16,16
+    CONTROL         "",CHK_OCC,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,115,95,16,16
+    CONTROL         "",CHK_DND,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,134,95,16,16
+    CONTROL         "",CHK_FFC,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,153,95,16,16
+    CONTROL         "",CHK_INVISIBLE,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,172,95,16,16
+    CONTROL         "",CHK_PHONE,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,191,95,16,16
+    CONTROL         "",CHK_LUNCH,"Button",BS_AUTORADIOBUTTON | BS_ICON | 
+                    BS_PUSHLIKE | WS_TABSTOP,210,95,16,16
+    LTEXT           "Group:",IDC_STATIC,12,81,22,8
+    LTEXT           "Status Icon",IDC_STATIC,12,99,37,8
+    LTEXT           "Group\\Sub-Group",IDC_STATIC,211,81,61,8
+    GROUPBOX        "Timer Settings",IDC_STATIC,7,139,269,44
+    CONTROL         "Use Timer",CHK_USE_TIMER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,148,48,10
+    EDITTEXT        IDC_TIMER,22,162,35,12,ES_NUMBER | WS_DISABLED
+    CONTROL         "Contact is always visible",IDC_ALWAYS_VISIBLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,115,92,10
+    CONTROL         "Unless Non-IM Contacts protocol is OFFLINE",
+                    IDC_VISIBLE_UNLESS_OFFLINE,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,112,115,158,10
+    LTEXT           "Timer Intervals.  ",IDC_TIMER_INTERVAL_MSG,61,166,205,8
+END
+
+IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 291, 180
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Ignore global status change",IDC_IGNORE_GLOBALSTATUS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,28,103,10
+    CONTROL         "Away as another status",IDC_AWAYISNOTONLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,42,89,10
+    CONTROL         "Disable timer",IDC_DISABLETIMER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,13,99,56,10
+    LTEXT           "Timer interval (in seconds)",IDC_TIMER_TEXT,13,111,83,8
+    EDITTEXT        IDC_TIMER_INT,102,109,20,12,ES_NUMBER
+    LTEXT           "This will take affect after Non-IM Contacts' status is changed",
+                    IDC_TIMER_MSG,13,123,192,8
+    GROUPBOX        "Timer Options",IDC_STATIC,7,87,277,49
+END
+
+IDD_TEST_LINE DIALOG DISCARDABLE  0, 0, 435, 119
+STYLE DS_MODALFRAME | DS_CENTER | DS_CENTERMOUSE | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "String Maker"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_STRING,15,17,409,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "&Test String",IDOK,385,56,43,14
+    PUSHBUTTON      "&Exit",IDCANCEL,385,92,43,14
+    GROUPBOX        "String to test",IDC_STATIC,7,7,421,41
+    GROUPBOX        "Returns....",IDC_STATIC,7,51,371,61
+    EDITTEXT        IDC_ANSWER,15,62,353,43,ES_MULTILINE | ES_AUTOHSCROLL | 
+                    ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    LTEXT           "line()",IDC_LINE,73,36,16,8,WS_DISABLED
+    LTEXT           "start()",IDC_START,32,36,18,8,WS_DISABLED
+    LTEXT           "end()",IDC_END,53,36,17,8,WS_DISABLED
+    LTEXT           "wholeline()",IDC_WHOLELINE,111,36,34,8,WS_DISABLED
+    LTEXT           "csv()",IDC_CSV,92,36,16,8,WS_DISABLED
+    LTEXT           "file()",IDC_FILE,15,36,14,8,WS_DISABLED
+    LTEXT           "filename()",IDC_FILENAME,148,36,31,8,WS_DISABLED
+    PUSHBUTTON      "Help",IDC_HELPMSG,385,73,43,14
+END
+
+IDD_HELP DIALOG DISCARDABLE  0, 0, 280, 161
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | DS_CENTERMOUSE | 
+    WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Help!!!"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,223,140,50,14
+    EDITTEXT        IDC_HELPTEXT,7,7,266,128,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL | WS_HSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ADD_FILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 276
+        VERTGUIDE, 26
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 183
+        HORZGUIDE, 4
+        HORZGUIDE, 26
+        HORZGUIDE, 37
+        HORZGUIDE, 43
+        HORZGUIDE, 52
+    END
+
+    IDD_CONTACT_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 183
+        HORZGUIDE, 12
+        HORZGUIDE, 34
+    END
+
+    IDD_OTHER_STUFF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        VERTGUIDE, 12
+        VERTGUIDE, 39
+        VERTGUIDE, 272
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 183
+        HORZGUIDE, 22
+        HORZGUIDE, 37
+        HORZGUIDE, 47
+        HORZGUIDE, 85
+        HORZGUIDE, 103
+        HORZGUIDE, 120
+        HORZGUIDE, 149
+        HORZGUIDE, 174
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 284
+        VERTGUIDE, 13
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 173
+        HORZGUIDE, 99
+        HORZGUIDE, 115
+    END
+
+    IDD_TEST_LINE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 428
+        VERTGUIDE, 15
+        VERTGUIDE, 385
+        VERTGUIDE, 424
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 112
+        HORZGUIDE, 36
+    END
+
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 154
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAIN                ICON    DISCARDABLE     "star8.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONTACT_COPYEXPORT DIALOG DISCARDABLE  0, 0, 283, 190
+STYLE DS_MODALFRAME | WS_CHILD | WS_CAPTION | WS_SYSMENU
+CAPTION "Copy / Export contact"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_STRING_REPLACE,13,43,254,108,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    PUSHBUTTON      "&Export Non-IM Contact",IDC_EXPORT,13,159,94,14
+    PUSHBUTTON      "Co&py Non-IM Contact",IDC_DOIT,173,159,94,14
+    GROUPBOX        "",IDC_STATIC,7,7,269,176
+    CONTROL         "Type one replace string per line in the format ""origional text,new text""",
+                    IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,13,18,
+                    243,10
+    LTEXT           "EXAMPLE: %fn1,%fn2",IDC_STATIC,13,31,71,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CONTACT_COPYEXPORT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 276
+        VERTGUIDE, 13
+        VERTGUIDE, 267
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 183
+        HORZGUIDE, 159
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

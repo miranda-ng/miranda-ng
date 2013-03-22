@@ -1,0 +1,29 @@
+file() vars
+  plain number
+  ??????
+
+line() vars
+  plain number
+  lastline(X)...	where X is the number of lines above the last i.e 0 is last, 1 is second last
+  "Word"...
+  random...			between 0 and LinesInFile-1 ?????
+
+print()
+  wholeline(line()).. line as above
+  start()
+    number (first char to start coping from)
+    line()
+	"" ... find the word inside
+	csv(line()seperator()) seperator is any single CHAR and "space" or "tab" without ""'s
+  end()
+    same as start
+  
+
+- ignore global status change 
+- only show contacts with protocols visibility (i.e if nimc is set to dnd then only contacts with dnd will be shown) and somehow an option to reverse this...
+- a fwe other hidden options which no1 else but me knows about... :D
+- hide the protocol status icon in the status menu.. (may as well c how hard it is to add...)
+- treat away as another status. (i.e not the same as online where the contacts r always online)
+- never allow timer
+    
+	
