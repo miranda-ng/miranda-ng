@@ -172,9 +172,11 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть аккаунт
 [Show xStatus icon]
 Значок xСтатуса
-[Show xStatus Name]
+[Show xStatus name]
 Имя xСтатуса
-[Use connecting Icon]
+[Show status name]
+Имя статуса
+[Use connecting icon]
 Значок соединения
 [Show both icons]
 Оба значка
