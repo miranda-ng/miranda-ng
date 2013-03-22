@@ -1658,114 +1658,111 @@ void CLCPaint::_DrawStatusIcon( ClcContact *Drawing, ClcData *dat, int iImage, H
 {
 	if ( Drawing->type != CLCIT_CONTACT )
 	{
-		ske_ImageList_DrawEx( g_himlCListClc, LOWORD( iImage ), hdcMem, 
+		ske_ImageList_DrawEx( g_himlCListClc, LOWORD(iImage), hdcMem, 
 			x, y, cx, cy, colorbg, colorfg, mode );
 	}
 	else if ( Drawing->image_is_special )
 	{
-		ske_ImageList_DrawEx( g_himlCListClc, LOWORD( iImage ), hdcMem, 
+		ske_ImageList_DrawEx( g_himlCListClc, LOWORD(iImage), hdcMem, 
 			x, y, cx, cy, colorbg, colorfg, mode );
 	}
-	else if ( iImage != -1 && HIWORD( iImage ) && dat->drawOverlayedStatus )
+	else if ( iImage != -1 && HIWORD(iImage) && dat->drawOverlayedStatus )
 	{
 		int status = GetContactCachedStatus( Drawing->hContact );
-		if ( status < ID_STATUS_OFFLINE ) status = ID_STATUS_OFFLINE;
-		else if ( status>ID_STATUS_OUTTOLUNCH ) status = ID_STATUS_ONLINE;
-		ske_ImageList_DrawEx(g_himlCListClc, HIWORD( iImage ), hdcMem, 
-			x, y, cx, cy, colorbg, colorfg, mode);
+		if (status < ID_STATUS_OFFLINE) status = ID_STATUS_OFFLINE;
+		else if (status > ID_STATUS_OUTTOLUNCH) status = ID_STATUS_ONLINE;
+		ske_ImageList_DrawEx(g_himlCListClc, HIWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);
 		if (dat->drawOverlayedStatus & 2) //draw overlay
 			ske_ImageList_DrawEx( hAvatarOverlays, g_pStatusOverlayIcons[status-ID_STATUS_OFFLINE].listID, hdcMem, 
 				x, y, cx, cy, colorbg, colorfg, mode );
 	}
 	else
 	{
-		ske_ImageList_DrawEx( g_himlCListClc, LOWORD( iImage ), hdcMem, 
+		ske_ImageList_DrawEx( g_himlCListClc, LOWORD(iImage), hdcMem, 
 			x, y, cx, cy, colorbg, colorfg, mode );
 	}
 }
 
 BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT *rcPaint, RECT clRect, ClcData *dat )
 {   
-	if ( dat->hBmpBackground ) 
-	{
-		BITMAP bmp;
-		HBITMAP oldbm;
-		HDC hdcBmp;
-		int x, y;
-		int maxx, maxy;
-		int destw, desth;
+	if (!dat->hBmpBackground)
+		return FALSE;
 
-		// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
-		SetStretchBltMode( hdcMem, HALFTONE );
+	// XXX: Halftone isnt supported on 9x, however the scretch problems dont happen on 98.
+	SetStretchBltMode( hdcMem, HALFTONE );
 
-
-		GetObject( dat->hBmpBackground, sizeof( bmp ), &bmp );
-		hdcBmp = CreateCompatibleDC( hdcMem );
-		oldbm = ( HBITMAP )SelectObject( hdcBmp, dat->hBmpBackground );
-		y = dat->backgroundBmpUse&CLBF_SCROLL?-dat->yScroll:0;
-		maxx = dat->backgroundBmpUse&CLBF_TILEH?clRect.right:1;
-		maxy = dat->backgroundBmpUse&CLBF_TILEV?maxy = rcPaint->bottom:y+1;
-		switch( dat->backgroundBmpUse&CLBM_TYPE ) {
-		case CLB_STRETCH:
-			if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
-				if ( clRect.right*bmp.bmHeight < clRect.bottom*bmp.bmWidth ) {
-					desth = clRect.bottom;
-					destw = desth*bmp.bmWidth/bmp.bmHeight;
-				}
-				else {
-					destw = clRect.right;
-					desth = destw*bmp.bmHeight/bmp.bmWidth;
-				}
-			}
-			else {
-				destw = clRect.right;
-				desth = clRect.bottom;
-			}
-			break;
-		case CLB_STRETCHH:
-			if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
-				destw = clRect.right;
-				desth = destw*bmp.bmHeight/bmp.bmWidth;
-			}
-			else {
-				destw = clRect.right;
-				desth = bmp.bmHeight;
-				if ( dat->backgroundBmpUse&CLBF_TILEVTOROWHEIGHT )
-				{
-					desth = dat->row_min_heigh;
-				}   
-
-			}
-			break;
-		case CLB_STRETCHV:
-			if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+	BITMAP bmp;
+	GetObject(dat->hBmpBackground, sizeof(bmp), &bmp);
+	HDC hdcBmp = CreateCompatibleDC( hdcMem );
+	HBITMAP oldbm = ( HBITMAP )SelectObject( hdcBmp, dat->hBmpBackground );
+	int x, y = dat->backgroundBmpUse&CLBF_SCROLL?-dat->yScroll:0;
+	int maxx = dat->backgroundBmpUse&CLBF_TILEH?clRect.right:1;
+	int maxy = dat->backgroundBmpUse&CLBF_TILEV?maxy = rcPaint->bottom:y+1;
+	int destw, desth;
+	
+	switch( dat->backgroundBmpUse&CLBM_TYPE ) {
+	case CLB_STRETCH:
+		if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+			if ( clRect.right*bmp.bmHeight < clRect.bottom*bmp.bmWidth ) {
 				desth = clRect.bottom;
 				destw = desth*bmp.bmWidth/bmp.bmHeight;
 			}
 			else {
-				destw = bmp.bmWidth;
-				desth = clRect.bottom;
+				destw = clRect.right;
+				desth = destw*bmp.bmHeight/bmp.bmWidth;
 			}
-			break;
-		default:    //clb_topleft
-			destw = bmp.bmWidth;
+		}
+		else {
+			destw = clRect.right;
+			desth = clRect.bottom;
+		}
+		break;
+
+	case CLB_STRETCHH:
+		if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+			destw = clRect.right;
+			desth = destw*bmp.bmHeight/bmp.bmWidth;
+		}
+		else {
+			destw = clRect.right;
 			desth = bmp.bmHeight;
 			if ( dat->backgroundBmpUse&CLBF_TILEVTOROWHEIGHT )
 			{
 				desth = dat->row_min_heigh;
-			}                           
-			break;
+			}   
+
 		}
-		for ( ;y < maxy;y += desth ) {
-			if ( y < rcPaint->top-desth ) continue;
-			for ( x = 0;x < maxx;x += destw )
-				StretchBlt( hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY );
+		break;
+
+	case CLB_STRETCHV:
+		if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+			desth = clRect.bottom;
+			destw = desth*bmp.bmWidth/bmp.bmHeight;
 		}
-		SelectObject( hdcBmp, oldbm );
-		DeleteDC( hdcBmp );
-		return TRUE;
+		else {
+			destw = bmp.bmWidth;
+			desth = clRect.bottom;
+		}
+		break;
+
+	default:    //clb_topleft
+		destw = bmp.bmWidth;
+		desth = bmp.bmHeight;
+		if ( dat->backgroundBmpUse&CLBF_TILEVTOROWHEIGHT )
+		{
+			desth = dat->row_min_heigh;
+		}                           
+		break;
 	}
-	return FALSE;
+
+	for ( ;y < maxy;y += desth ) {
+		if ( y < rcPaint->top-desth ) continue;
+		for ( x = 0;x < maxx;x += destw )
+			StretchBlt( hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY );
+	}
+	SelectObject( hdcBmp, oldbm );
+	DeleteDC( hdcBmp );
+	return TRUE;
 }
 
 int CLCPaint::_DetermineDrawMode( HWND hWnd, ClcData *dat )
@@ -1797,38 +1794,33 @@ int CLCPaint::_DetermineDrawMode( HWND hWnd, ClcData *dat )
 
 void CLCPaint::_PreparePaintContext( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT& clRect, _PaintContext& pc )
 {
-	if ( paintMode&DM_GRAY && !(paintMode&DM_LAYERED))
-	{
-		pc.hdcMem2 = CreateCompatibleDC( hdc );
-		if ( paintMode&DM_CLASSIC )
+	if ((paintMode & DM_GRAY) && !(paintMode & DM_LAYERED)) {
+		pc.hdcMem2 = CreateCompatibleDC(hdc);
+		if (paintMode & DM_CLASSIC)
 			pc.hBmpOsb2 = CreateBitmap( clRect.right, clRect.bottom, 1, GetDeviceCaps( hdc, BITSPIXEL ), NULL );
 		else
 			pc.hBmpOsb2 = ske_CreateDIB32( clRect.right, clRect.bottom );
-		pc.oldbmp2 = (HBITMAP)  SelectObject( pc.hdcMem2, pc.hBmpOsb2 );
+		pc.oldbmp2 = (HBITMAP)SelectObject( pc.hdcMem2, pc.hBmpOsb2 );
 		pc.fRelease |= _PaintContext::release_hdcmem2;
 	}
 
-	if ( paintMode&( DM_DRAW_OFFSCREEN | DM_GRAY )  )
-	{
-		pc.hdcMem = CreateCompatibleDC( hdc );
+	if (paintMode & (DM_DRAW_OFFSCREEN | DM_GRAY)) {
+		pc.hdcMem = CreateCompatibleDC(hdc);
 		pc.fRelease |= _PaintContext::release_hdcmem;
 		pc.hBmpOsb = ske_CreateDIB32( clRect.right, clRect.bottom );
-		pc.oldbmp = ( HBITMAP )  SelectObject( pc.hdcMem, pc.hBmpOsb );
+		pc.oldbmp = (HBITMAP)SelectObject( pc.hdcMem, pc.hBmpOsb );
 	}
 
-	if ( paintMode&DM_CONTROL && !dat->bkChanged ) 
-	{
+	if ((paintMode & DM_CONTROL) && !dat->bkChanged) {
 		pc.tmpbkcolour = GetSysColor( COLOR_3DFACE );
 		pc.tmpforecolour = GetSysColor( COLOR_BTNTEXT );
 	}
-	else
-	{
-		pc.tmpbkcolour = (!(paintMode&DM_CONTROL) && dat->bkChanged ) ? dat->bkColour : ( !dat->useWindowsColours ?  dat->bkColour : GetSysColor( COLOR_3DFACE ));
-		pc.tmpforecolour = /*(paintMode&DM_CONTROL) ? */dat->fontModernInfo[FONTID_CONTACTS].colour;
+	else {
+		pc.tmpbkcolour = (!(paintMode & DM_CONTROL) && dat->bkChanged ) ? dat->bkColour : ( !dat->useWindowsColours ?  dat->bkColour : GetSysColor( COLOR_3DFACE ));
+		pc.tmpforecolour = dat->fontModernInfo[FONTID_CONTACTS].colour;
 	}
 
-	if ( paintMode&DM_GREYALTERNATE )
-	{
+	if ( paintMode & DM_GREYALTERNATE ) {
 		int rDelta = ( GetRValue( pc.tmpbkcolour )  > GetRValue( pc.tmpforecolour )) ? -10 : 10;
 		int gDelta = ( GetGValue( pc.tmpbkcolour )  > GetGValue( pc.tmpforecolour )) ? -10 : 10;
 		int bDelta = ( GetBValue( pc.tmpbkcolour )  > GetBValue( pc.tmpforecolour )) ? -10 : 10;
@@ -1844,8 +1836,8 @@ void CLCPaint::_PreparePaintContext( HWND hWnd, ClcData *dat, HDC hdc, int paint
 	}
 
 	// Set some draw states
-	SetBkMode( pc.hdcMem, TRANSPARENT );
-	SetStretchBltMode( pc.hdcMem, HALFTONE );
+	SetBkMode(pc.hdcMem, TRANSPARENT);
+	SetStretchBltMode(pc.hdcMem, HALFTONE);
 
 	POINT org;
 	GetBrushOrgEx( pc.hdcMem, &org ); 

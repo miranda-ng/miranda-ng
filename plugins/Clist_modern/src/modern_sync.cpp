@@ -69,7 +69,7 @@ int SyncCallProxy(PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam, CRITI
 	if ( cs != NULL ) {
 		if ( !fnTryEnterCriticalSection ) { // for poor OSes like Win98
 			EnterCriticalSection( cs );
-			int result = pfnProc( wParam, lParam );
+			int result = pfnProc( wParam, lParam);
 			LeaveCriticalSection( cs );
 			return result;
 		}
@@ -133,15 +133,15 @@ HRESULT SyncCallAPCProxy( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lPara
 	return S_OK;
 }
 
-LRESULT SyncOnWndProcCall( WPARAM wParam )
+LRESULT SyncOnWndProcCall(WPARAM wParam )
 {
 	SYNCCALLITEM *psci = (SYNCCALLITEM *)wParam;
 	if (psci)
-		return psci->pfnProc( psci->wParam, psci->lParam );
+		return psci->pfnProc( psci->wParam, psci->lParam);
 	return 0;
 }
 
-int DoCall( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam )
+int DoCall( PSYNCCALLBACKPROC pfnProc, WPARAM wParam, LPARAM lParam)
 {
-	return SyncCallProxy( pfnProc, 0, lParam );
+	return SyncCallProxy( pfnProc, 0, lParam);
 }

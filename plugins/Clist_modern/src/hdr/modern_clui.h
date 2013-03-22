@@ -111,7 +111,7 @@ public:
 			HANDLE_MESSAGE( WM_DRAWITEM,				OnDrawItem );
 			HANDLE_MESSAGE( WM_DESTROY,					OnDestroy );
 		default:
-			return This->DefCluiWndProc( msg, wParam, lParam );
+			return This->DefCluiWndProc(msg, wParam, lParam);
 		}
 		return FALSE;
 	}
@@ -130,55 +130,55 @@ private:
 	HRESULT CreateCLCWindow(const HWND parent);
 	HRESULT CreateUIFrames();
 
-	LRESULT DefCluiWndProc( UINT msg, WPARAM wParam, LPARAM lParam )
+	LRESULT DefCluiWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		return corecli.pfnContactListWndProc( m_hWnd, msg, wParam, lParam );
+		return corecli.pfnContactListWndProc( m_hWnd, msg, wParam, lParam);
 	}
 
 	// MessageMap
-	LRESULT PreProcessWndProc( UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
-	LRESULT OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnThemeChanged( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnDwmCompositionChanged( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSyncCall( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnUpdate( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnInitMenu( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNcPaint( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnEraseBkgnd( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNcCreate( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnPaint( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnCreate( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSetAllExtraIcons( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnCreateClc( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnLButtonDown( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnParentNotify( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSetFocus( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnStatusBarUpdateTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnAutoAlphaTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSmoothAlphaTransitionTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnDelayedSizingTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnBringOutTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnBringInTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnUpdateBringTimer( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnActivate( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSetCursor( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnMouseActivate( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNcLButtonDown( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNcLButtonDblClk( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNcHitTest( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnShowWindow( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnSysCommand( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnKeyDown( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnGetMinMaxInfo( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnMoving( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNotify( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnListSizeChangeNotify( NMCLISTCONTROL * pnmc );
-	LRESULT OnClickNotify( NMCLISTCONTROL * pnmc );
-	LRESULT OnContextMenu( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnMeasureItem( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnDestroy( UINT msg, WPARAM wParam, LPARAM lParam );
+	LRESULT PreProcessWndProc(UINT msg, WPARAM wParam, LPARAM lParam, BOOL& bHandled );
+	LRESULT OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnThemeChanged(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnDwmCompositionChanged(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSyncCall(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnUpdate(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnInitMenu(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNcPaint(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnEraseBkgnd(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNcCreate(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnPaint(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnCreate(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetAllExtraIcons(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnCreateClc(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnLButtonDown(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnParentNotify(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetFocus(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSmoothAlphaTransitionTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnDelayedSizingTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnBringOutTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnBringInTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnUpdateBringTimer(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnActivate(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetCursor(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnMouseActivate(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNcLButtonDown(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNcLButtonDblClk(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNcHitTest(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnShowWindow(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnSysCommand(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnKeyDown(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnGetMinMaxInfo(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnMoving(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnNotify(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnListSizeChangeNotify(NMCLISTCONTROL *pnmc);
+	LRESULT OnClickNotify(NMCLISTCONTROL *pnmc);
+	LRESULT OnContextMenu(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT OnDestroy(UINT msg, WPARAM wParam, LPARAM lParam);
 
 protected:
 	HMODULE m_hDwmapiDll;

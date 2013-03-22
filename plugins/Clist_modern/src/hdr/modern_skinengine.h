@@ -94,12 +94,12 @@ public:
 
 	typedef HRESULT (*ParserCallback_t)( const char * szSection, const char * szKey, const char * szValue, IniParser * This );
 
-	IniParser( TCHAR * szFileName, BYTE flags = FLAG_WITH_SETTINGS );
-	IniParser(  HINSTANCE hInst, const char *  resourceName, const char * resourceType, BYTE flags = FLAG_ONLY_OBJECTS );
+	IniParser(TCHAR * szFileName, BYTE flags = FLAG_WITH_SETTINGS);
+	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, BYTE flags = FLAG_ONLY_OBJECTS);
 	~IniParser();
 
 	bool CheckOK() { return _isValid; }
-	HRESULT Parse( ParserCallback_t pLineCallBackProc, LPARAM lParam );
+	HRESULT Parse(ParserCallback_t pLineCallBackProc, LPARAM lParam);
 
 	static HRESULT WriteStrToDb( const char * szSection, const char * szKey, const char * szValue, IniParser * This);
 	static int GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolderName );

@@ -811,9 +811,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 	case WM_RBUTTONDOWN:
 		{
 			RECT rc;
-			POINT pt;
-			pt.x = (short)LOWORD(lParam);
-			pt.y = (short)HIWORD(lParam);
+			POINT pt = UNPACK_POINT(lParam);
 			KillTimer(hwnd,TM_STATUSBARHIDE);
 			KillTimer(hwnd,TM_STATUSBAR);
 
@@ -942,7 +940,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 				SetCapture( NULL );
 				return 0;
 			}
-			return SendMessage(GetParent(hwnd), msg, wParam, lParam );
+			return SendMessage(GetParent(hwnd), msg, wParam, lParam);
 		}
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);

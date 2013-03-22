@@ -51,7 +51,7 @@ enum {
 
 enum { eUnknownId = -1 };
 
-static int	_us_DoSetFrameFloat( WPARAM wParam,LPARAM lParam );
+static int	_us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam);
 static int	CLUIFrameResizeFloatingFrame( int framepos );
 static HWND CreateSubContainerWindow( HWND parent,int x,int y,int width,int height );
 static BOOL CLUIFramesFitInSize();
@@ -1099,22 +1099,17 @@ static int CLUIFramesModifyMainMenuItems(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam)
 {
-	int pos;
 	INT_PTR retval;
 	BOOL bUnicodeText = (LOWORD(wParam) & FO_UNICODETEXT) != 0;
 	wParam = MAKEWPARAM((LOWORD(wParam)) & ~FO_UNICODETEXT, HIWORD(wParam));
 
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-
-	pos = id2pos(HIWORD(wParam));
-	if (pos < 0 || pos >= g_nFramesCount) {
-
+	int pos = id2pos(HIWORD(wParam));
+	if (pos < 0 || pos >= g_nFramesCount)
 		return -1;
-	}
 
-	switch(LOWORD(wParam))
-	{
+	switch(LOWORD(wParam)) {
 	case FO_FLAGS:
 		retval = 0;
 		if (g_pfwFrames[pos].visible) retval |= F_VISIBLE;
@@ -1122,14 +1117,12 @@ static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam)
 		if (g_pfwFrames[pos].Locked) retval |= F_LOCKED;
 		if (g_pfwFrames[pos].TitleBar.ShowTitleBar) retval |= F_SHOWTB;
 		if (g_pfwFrames[pos].TitleBar.ShowTitleBarTip) retval |= F_SHOWTBTIP;
-		if ( !g_CluiData.fLayered)
-		{
-			if ( !(GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
+		if ( !g_CluiData.fLayered) {
+			if ( !(GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE)&WS_BORDER))
+				retval |= F_NOBORDER;
 		}
-		else
-			if ( !g_pfwFrames[pos].UseBorder) retval |= F_NOBORDER;
-
-
+		else if ( !g_pfwFrames[pos].UseBorder)
+			retval |= F_NOBORDER;
 		break;
 
 	case FO_NAME:
@@ -1185,20 +1178,14 @@ static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam)
 
 static int UpdateTBToolTip(int framepos)
 {
-	{
-		TOOLINFO ti;
+	TOOLINFO ti = { sizeof(ti) };
+	ti.lpszText = g_pfwFrames[framepos].TitleBar.tooltip;
+	ti.hinst = g_hInst;
+	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
+	ti.uId = (UINT_PTR)g_pfwFrames[framepos].TitleBar.hwnd;
+	return SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+}
 
-		ZeroMemory(&ti,sizeof(ti));
-		ti.cbSize = sizeof(ti);
-		ti.lpszText = g_pfwFrames[framepos].TitleBar.tooltip;
-		ti.hinst = g_hInst;
-		ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
-		ti.uId = (UINT_PTR)g_pfwFrames[framepos].TitleBar.hwnd;
-
-		return(SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip,TTM_UPDATETIPTEXT , 0, (LPARAM)&ti));
-	}
-
-};
 //hiword(wParam) = frameid,loword(wParam) = flag
 static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 {
@@ -2958,47 +2945,42 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 	Frameid = (GetWindowLongPtr(hwnd,GWLP_USERDATA));
 	memset(&rect, 0, sizeof(rect));
 
-
-	switch(msg)
-	{
+	switch(msg) {
 	case WM_CREATE:
 		if ( !_hFrameTitleTheme)
 		   _hFrameTitleTheme = xpt_AddThemeHandle(hwnd,L"WINDOW");
 		SendMessage(hwnd,WM_SETFONT,(WPARAM)_hTitleBarFont,0);
 		return FALSE;
+
 	case WM_MEASUREITEM:
 		return CallService(MS_CLIST_MENUMEASUREITEM,wParam,lParam);
+
 	case WM_DRAWITEM:
 		return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
+
 	case WM_USER+100:
 		return 1;
+
 	case WM_ENABLE:
 		if (hwnd != 0) CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 		return 0;
+
 	case WM_ERASEBKGND:
-		{
-			return 1;
-		}
+		return 1;
+
 	case WM_COMMAND:
-
-
-		if ( ServiceExists(MO_CREATENEWMENUOBJECT))
-		{
-			//if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)){break;};
-			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)) break;
-		}else
-		{
-			if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid)){break;};
-
-		};
-
+		if ( ServiceExists(MO_CREATENEWMENUOBJECT)) {
+			if ( ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0), (LPARAM)Frameid))
+				break;
+		}
+		else if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid))
+			break;
 
 		if (HIWORD(wParam) == 0) {//mouse events for self created menu
 			int framepos = id2pos(Frameid);
 			if (framepos == -1){break;};
 
-			switch(LOWORD(wParam))
-			{
+			switch(LOWORD(wParam)) {
 			case frame_menu_lock:
 				g_pfwFrames[framepos].Locked = !g_pfwFrames[framepos].Locked;
 				break;
@@ -3014,8 +2996,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 			}
 			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		}
-
 		break;
+
 	case WM_RBUTTONDOWN:
 		{
 			HMENU hmenu;
@@ -3023,11 +3005,9 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 			GetCursorPos(&pt);
 
 			if ( ServiceExists(MS_CLIST_MENUBUILDFRAMECONTEXT))
-			{
 				hmenu = (HMENU)CallService(MS_CLIST_MENUBUILDFRAMECONTEXT,Frameid,0);
-			}
-			else
-			{//legacy menu support
+			else {
+				//legacy menu support
 				int framepos = id2pos(Frameid);
 
 				if (framepos == -1){break;};
@@ -3051,22 +3031,18 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				if (g_pfwFrames[framepos].floating)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating"));}
 				else{AppendMenu(hmenu,MF_STRING,frame_menu_floating,TranslateT("Floating"));};
-
-				//err = GetMenuItemCount(hmenu)
-
-			};
+			}
 
 			TrackPopupMenu(hmenu,TPM_LEFTALIGN,pt.x,pt.y, 0, hwnd,0);
 			DestroyMenu(hmenu);
 		}
 		break;
+
 	case WM_LBUTTONDBLCLK:
-		{
-			Framemod = -1;
-			s_nLastByPos = -1;s_nOldFrameHeight = -1;ReleaseCapture();
-			CallService(MS_CLIST_FRAMES_UCOLLFRAME,Frameid,0);
-			s_nLastByPos = -1;s_nOldFrameHeight = -1;ReleaseCapture();
-		}
+		Framemod = -1;
+		s_nLastByPos = -1;s_nOldFrameHeight = -1;ReleaseCapture();
+		CallService(MS_CLIST_FRAMES_UCOLLFRAME,Frameid,0);
+		s_nLastByPos = -1;s_nOldFrameHeight = -1;ReleaseCapture();
 		break;
 
 	case WM_LBUTTONUP:

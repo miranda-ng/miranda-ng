@@ -49,7 +49,7 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg );
 
 INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int SkinOptInit( WPARAM wParam, LPARAM lParam )
+int SkinOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp;
 	if ( !g_CluiData.fDisableSkinEngine )
@@ -77,7 +77,7 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 	return 0;
 }
 
-int ModernSkinOptInit( WPARAM wParam, LPARAM lParam )
+int ModernSkinOptInit(WPARAM wParam, LPARAM lParam)
 {
 	MODERNOPTOBJECT obj = {0};
 	obj.cbSize = sizeof(obj);
@@ -114,8 +114,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_COMMAND:
 		{
 			int isLoad = 0;
-			switch ( LOWORD( wParam )) 
-			{
+			switch ( LOWORD(wParam )) {
 			case IDC_COLOUR_MENUNORMAL:
 			case IDC_COLOUR_MENUSELECTED:
 			case IDC_COLOUR_FRAMES:
@@ -138,7 +137,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						tvi.hItem = hti;
 						tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 						TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
-						sd = ( SkinListData* )( tvi.lParam );
+						sd = ( SkinListData* )( tvi.lParam);
 					}
 					if ( !sd ) return 0;
 					if ( sd->File && !_tcschr( sd->File, _T('%')))
@@ -164,7 +163,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 				break;
 			case IDC_BUTTON_APPLY_SKIN:
-				if ( HIWORD( wParam ) == BN_CLICKED )
+				if ( HIWORD(wParam ) == BN_CLICKED )
 				{ 		
 					SkinListData *sd = NULL;  
 					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
@@ -174,7 +173,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						tvi.hItem = hti;
 						tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 						TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
-						sd = ( SkinListData* )( tvi.lParam );
+						sd = ( SkinListData* )( tvi.lParam);
 					}
 					if ( !sd ) return 0;
 					if ( glSkinWasModified>0 )
@@ -210,7 +209,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			case IDC_BUTTON_LOAD:
 				isLoad = 1;
-				if ( HIWORD( wParam ) == BN_CLICKED )
+				if ( HIWORD(wParam ) == BN_CLICKED )
 				{
 					{   		
 						TCHAR str[MAX_PATH] = {0};
@@ -315,7 +314,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_NOTIFY:
-		switch (( ( LPNMHDR )lParam )->idFrom ) {
+		switch (( ( LPNMHDR )lParam)->idFrom ) {
 		case IDC_TREE1:
 			{		
 				NMTREEVIEW * nmtv = ( NMTREEVIEW * ) lParam;
@@ -363,7 +362,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 								tvi.hItem = hti;
 								tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 								TreeView_GetItem( GetDlgItem( hwndDlg, IDC_TREE1 ), &tvi );
-								sd = ( SkinListData* )( tvi.lParam );
+								sd = ( SkinListData* )( tvi.lParam);
 							}
 							if ( !sd ) return 0;
 
@@ -402,14 +401,14 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					return 0;
 				}			
 				else if (nmtv->hdr.code == TVN_DELETEITEMA || nmtv->hdr.code == TVN_DELETEITEMW) {
-					mir_free_and_nil( nmtv->itemOld.lParam );
+					mir_free_and_nil( nmtv->itemOld.lParam);
 					return 0;
 				}
 			}
 			break;
 
 		case 0:
-			switch (((LPNMHDR)lParam )->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
 				NotifyEventHooks( g_CluiData.hEventBkgrChanged, 0, 0 );
@@ -673,7 +672,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 		TCHAR prfn[MAX_PATH] = {0};
 		TCHAR imfn[MAX_PATH] = {0};
 		TCHAR skinfolder[MAX_PATH] = {0};
-		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), (LPCTSTR)lParam );
+		GetPrivateProfileString( _T("Skin_Description_Section"), _T("Preview"), _T(""), imfn, SIZEOF( imfn ), (LPCTSTR)lParam);
 		IniParser::GetSkinFolder((LPCTSTR)lParam, skinfolder );
 		_sntprintf( prfn, SIZEOF( prfn ), _T("%s\\%s"), skinfolder, imfn );
 		PathToAbsoluteT(prfn, imfn);

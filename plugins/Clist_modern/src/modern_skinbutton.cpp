@@ -361,176 +361,130 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 		bct->HandleService = NULL;
 
 	if (bct)
-		if (bct->HandleService)
-			if ( ServiceExists(bct->HandleService))
-			{
-				int t;
-				HandleServiceParams MSG = {0};
-				MSG.hwnd = hwndDlg;
-				MSG.msg = msg;
-				MSG.wParam = wParam;
-				MSG.lParam = lParam;
-				t = CallService(bct->HandleService,(WPARAM)&MSG,0);
-				if (MSG.handled) return t;
+		if (bct->HandleService && ServiceExists(bct->HandleService)) {
+			HandleServiceParams MSG = {0};
+			MSG.hwnd = hwndDlg;
+			MSG.msg = msg;
+			MSG.wParam = wParam;
+			MSG.lParam = lParam;
+			int t = CallService(bct->HandleService,(WPARAM)&MSG,0);
+			if (MSG.handled) return t;
+		}
+
+	switch(msg) {
+	case WM_NCCREATE:
+		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE)|BS_OWNERDRAW);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg, ((CREATESTRUCT *)lParam)->lpszName);  
+		return TRUE;
+
+	case WM_DESTROY:
+		if (bct) {
+			EnterCriticalSection(&csTips);
+			if (hwndToolTips) {
+				TOOLINFO ti;
+				ZeroMemory(&ti, sizeof(ti));
+				ti.cbSize = sizeof(ti);
+				ti.uFlags = TTF_IDISHWND;
+				ti.hwnd = bct->hwnd;
+				ti.uId = (UINT_PTR)bct->hwnd;
+				if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+					SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
+				}
+				if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
+					DestroyWindow(hwndToolTips);
+					hwndToolTips = NULL;
+				}
 			}
-			switch(msg) 
-			{
-			case WM_NCCREATE:
-				{
-					SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE)|BS_OWNERDRAW);
-					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-					if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg, ((CREATESTRUCT *)lParam)->lpszName);  
-					return TRUE;
-				}
-			case WM_DESTROY:
-				{
-					if (bct) {
-						EnterCriticalSection(&csTips);
-						if (hwndToolTips) {
-							TOOLINFO ti;
-							ZeroMemory(&ti, sizeof(ti));
-							ti.cbSize = sizeof(ti);
-							ti.uFlags = TTF_IDISHWND;
-							ti.hwnd = bct->hwnd;
-							ti.uId = (UINT_PTR)bct->hwnd;
-							if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
-								SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-							}
-							if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
-								DestroyWindow(hwndToolTips);
-								hwndToolTips = NULL;
-							}
-						}
-						LeaveCriticalSection(&csTips);
-						mir_free(bct->ID);
-						mir_free(bct->CommandService);
-						mir_free(bct->StateService); 
-						mir_free(bct->HandleService);               
-						mir_free(bct->Hint);  
-						mir_free(bct->ValueDBSection);
-						mir_free(bct->ValueTypeDef);
-						mir_free(bct);
-					}
-					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-					break;	// DONT! fall thru
-				}
-			case WM_SETCURSOR:
-				{
-					HCURSOR hCurs1;
-					hCurs1 = LoadCursor(NULL, IDC_ARROW);
-					if (hCurs1) SetCursor(hCurs1);
-					if (bct) SetToolTip(hwndDlg, bct->Hint);
-					return 1;			
-				}
-			case WM_PRINT:
-				{
-					if (IsWindowVisible(hwndDlg))
-						ModernSkinButtonPaintWorker(hwndDlg,(HDC)wParam);
-					break;
-				}
-			case WM_PAINT:
-				{
-					if (IsWindowVisible(hwndDlg) && !g_CluiData.fLayered)
-					{
-						PAINTSTRUCT ps = {0};
-						BeginPaint(hwndDlg,&ps);
-						ModernSkinButtonPaintWorker(hwndDlg,(HDC)ps.hdc);
-						EndPaint(hwndDlg,&ps);
-					}
-					return DefWindowProc(hwndDlg, msg, wParam, lParam); 
-				}
-			case WM_CAPTURECHANGED:
-				{                
-					bct->hover = 0;
-					bct->down = 0;
-					ModernSkinButtonPaintWorker(bct->hwnd,0);
-					//	KillTimer(bct->hwnd,1234);
-					break;
-				}
-				//case WM_TIMER:
-				//	{
-				//		    POINT t;
-				//                  GetCursorPos(&t);
-				//                  if (bct->hover && WindowFromPoint(t) != bct->hwnd)
-				//			{
-				//				KillTimer(bct->hwnd,1234);
-				//				bct->hover = 0;
-				//				ReleaseCapture();
-				//				PaintWorker(bct->hwnd,0);
-				//			}
-				//			return 0;
-				//	}
-			case WM_MOUSEMOVE:
-				{
-					if ( !bct->hover) 
-					{
-						SetCapture(bct->hwnd);
-						bct->hover = 1;
-						//KillTimer(bct->hwnd,1234);
-						//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
-						ModernSkinButtonPaintWorker(bct->hwnd,0);
-						return 0;
-					}
-					else
-					{
-						POINT t;
-						t.x = LOWORD(lParam);
-						t.y = HIWORD(lParam);
-						ClientToScreen(bct->hwnd,&t);
-						if (WindowFromPoint(t) != bct->hwnd)
-							ReleaseCapture();
-						return 0;
-					}
+			LeaveCriticalSection(&csTips);
+			mir_free(bct->ID);
+			mir_free(bct->CommandService);
+			mir_free(bct->StateService); 
+			mir_free(bct->HandleService);               
+			mir_free(bct->Hint);  
+			mir_free(bct->ValueDBSection);
+			mir_free(bct->ValueTypeDef);
+			mir_free(bct);
+		}
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		break;	// DONT! fall thru
 
+	case WM_SETCURSOR:
+		{
+			HCURSOR hCurs1 = LoadCursor(NULL, IDC_ARROW);
+			if (hCurs1) SetCursor(hCurs1);
+			if (bct) SetToolTip(hwndDlg, bct->Hint);
+		}
+		return 1;			
 
-				}
-			case WM_LBUTTONDOWN:
-				{
-					//KillTimer(bct->hwnd,1234);
-					//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
-					bct->down = 1;
-					SetForegroundWindow(GetParent(bct->hwnd));
-					ModernSkinButtonPaintWorker(bct->hwnd,0);
-					if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
-						bct->CommandService = NULL;
-					if (bct->fCallOnPress)
-					{
-						if (bct->CommandService)
-						{
+	case WM_PRINT:
+		if (IsWindowVisible(hwndDlg))
+			ModernSkinButtonPaintWorker(hwndDlg,(HDC)wParam);
+		break;
 
-							if ( !_CallServiceStrParams(bct->CommandService, NULL) &&   (bct->ValueDBSection && bct->ValueTypeDef))
-									ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef);      
-						}
-						bct->down = 0;
+	case WM_PAINT:
+		if (IsWindowVisible(hwndDlg) && !g_CluiData.fLayered) {
+			PAINTSTRUCT ps = {0};
+			BeginPaint(hwndDlg,&ps);
+			ModernSkinButtonPaintWorker(hwndDlg,(HDC)ps.hdc);
+			EndPaint(hwndDlg,&ps);
+		}
+		return DefWindowProc(hwndDlg, msg, wParam, lParam); 
 
-						ModernSkinButtonPaintWorker(bct->hwnd,0);
-					}
+	case WM_CAPTURECHANGED:
+		bct->hover = 0;
+		bct->down = 0;
+		ModernSkinButtonPaintWorker(bct->hwnd,0);
+		break;
 
-					return 0;
-				}
-			case WM_LBUTTONUP:
-				if (bct->down)
-				{
-					//KillTimer(bct->hwnd,1234);
-					//CLUI_SafeSetTimer(bct->hwnd,1234,100, NULL);
-					ReleaseCapture();
-					bct->hover = 0;
-					bct->down = 0;
-					ModernSkinButtonPaintWorker(bct->hwnd,0);
-					if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
-						bct->CommandService = NULL;
-					if (bct->CommandService)
-						if (_CallServiceStrParams(bct->CommandService, NULL))
-						{}
-						else if (bct->ValueDBSection && bct->ValueTypeDef)          
-							ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef); 
-				}
+	case WM_MOUSEMOVE:
+		if ( !bct->hover) {
+			SetCapture(bct->hwnd);
+			bct->hover = 1;
+			ModernSkinButtonPaintWorker(bct->hwnd,0);
+		}
+		else {
+			POINT t = UNPACK_POINT(lParam);
+			ClientToScreen(bct->hwnd,&t);
+			if (WindowFromPoint(t) != bct->hwnd)
+				ReleaseCapture();
+		}
+		return 0;
 
-
+	case WM_LBUTTONDOWN:
+		bct->down = 1;
+		SetForegroundWindow(GetParent(bct->hwnd));
+		ModernSkinButtonPaintWorker(bct->hwnd,0);
+		if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
+			bct->CommandService = NULL;
+		if (bct->fCallOnPress) {
+			if (bct->CommandService) {
+				if ( !_CallServiceStrParams(bct->CommandService, NULL) &&   (bct->ValueDBSection && bct->ValueTypeDef))
+						ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef);      
 			}
-			return DefWindowProc(hwndDlg, msg, wParam, lParam);
+			bct->down = 0;
+
+			ModernSkinButtonPaintWorker(bct->hwnd,0);
+		}
+		return 0;
+
+	case WM_LBUTTONUP:
+		if (bct->down) {
+			ReleaseCapture();
+			bct->hover = 0;
+			bct->down = 0;
+			ModernSkinButtonPaintWorker(bct->hwnd,0);
+			if (bct && bct->CommandService && IsBadStringPtrA(bct->CommandService,255))
+				bct->CommandService = NULL;
+			if (bct->CommandService)
+				if (_CallServiceStrParams(bct->CommandService, NULL))
+				{}
+				else if (bct->ValueDBSection && bct->ValueTypeDef)          
+					ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef); 
+		}
+	}
+	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }
-
 
 HWND SetToolTip(HWND hwnd, TCHAR * tip)
 {

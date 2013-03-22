@@ -450,8 +450,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	if (hit == -1)	return 0;
 	if ( contact->type == CLCIT_CONTACT && CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM) contact->hContact))	return 0;
 
-	switch (LOWORD(wParam))
-	{
+	switch (LOWORD(wParam)) {
 	case POPUP_NEWSUBGROUP:
 		if (contact->type != CLCIT_GROUP)
 			return 0;
@@ -483,7 +482,7 @@ static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	}
 
 	if (contact->type == CLCIT_GROUP)
-		if (CallService(MO_PROCESSCOMMANDBYMENUIDENT,LOWORD(wParam),(LPARAM)hwnd))
+		if (CallService(MO_PROCESSCOMMANDBYMENUIDENT, LOWORD(wParam), (LPARAM)hwnd))
 			return 0;
 
 	return 0;
@@ -852,6 +851,7 @@ static LRESULT clcOnActivate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, L
 	dat->dragStage |= DRAGSTAGEF_SKIPRENAME;
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
+
 static LRESULT clcOnSetCursor(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int lResult;
@@ -868,147 +868,142 @@ static LRESULT clcOnSetCursor(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	lResult = CLUI_TestCursorOnBorders();
 	return lResult ? lResult : DefWindowProc(hwnd, msg, wParam, lParam);
 }
+
 static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	{
-		POINT pt;
-		int k = 0;
-		pt.x = LOWORD(lParam);
-		pt.y = HIWORD(lParam);
-		ClientToScreen(hwnd,&pt);
-		k = CLUI_SizingOnBorder(pt,0);
-		if (k) {
-			int io = dat->iHotTrack;
-			dat->iHotTrack = 0;
-			if (dat->exStyle & CLS_EX_TRACKSELECT)
-				pcli->pfnInvalidateItem(hwnd,dat,io);
+	POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+	ClientToScreen(hwnd, &pt);
+	int k = CLUI_SizingOnBorder(pt,0);
+	if (k) {
+		int io = dat->iHotTrack;
+		dat->iHotTrack = 0;
+		if (dat->exStyle & CLS_EX_TRACKSELECT)
+			pcli->pfnInvalidateItem(hwnd,dat,io);
 
-			if (k && GetCapture() == hwnd)
-				SendMessage(GetParent(hwnd),WM_PARENTNOTIFY,WM_LBUTTONDOWN,lParam);
-			return FALSE;
+		if (k && GetCapture() == hwnd)
+			SendMessage(GetParent(hwnd),WM_PARENTNOTIFY,WM_LBUTTONDOWN,lParam);
+		return FALSE;
+	}
+
+	ClcContact *contact;
+	ClcGroup *group;
+	int hit;
+	DWORD hitFlags;
+	fMouseUpped = FALSE;
+	pcli->pfnHideInfoTip(hwnd,dat);
+	KillTimer(hwnd,TIMERID_INFOTIP);
+	KillTimer(hwnd,TIMERID_RENAME);
+	KillTimer(hwnd,TIMERID_SUBEXPAND);
+
+	pcli->pfnEndRename(hwnd,dat,1);
+	dat->ptDragStart.x = (short)LOWORD(lParam);
+	dat->ptDragStart.y = (short)HIWORD(lParam);
+	//dat->szQuickSearch[0] = 0;
+	hit = cliHitTest(hwnd,dat,(short)LOWORD(lParam),(short)HIWORD(lParam),&contact,&group,&hitFlags);
+	if (GetFocus() != hwnd) SetFocus(hwnd);
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE)) {
+		if ( hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
+			if ( !(dat->dragStage & DRAGSTAGEF_SKIPRENAME)) {
+				SetCapture(hwnd);
+				dat->iDragItem = dat->selection;
+				dat->dragStage = DRAGSTAGE_NOTMOVED|DRAGSTAGEF_MAYBERENAME;
+				dat->dragAutoScrolling = 0;
+				return TRUE;
+			}
+			else {
+				dat->dragStage &= ~DRAGSTAGEF_SKIPRENAME;
+				return TRUE;
+			}
 		}
 	}
+
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact) 
+	if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta)
 	{
-		ClcContact *contact;
-		ClcGroup *group;
-		int hit;
-		DWORD hitFlags;
+		BYTE doubleClickExpand = db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
+
+		hitcontact = contact;
+		HitPoint.x = (short)LOWORD(lParam);
+		HitPoint.y = (short)HIWORD(lParam);
 		fMouseUpped = FALSE;
-		pcli->pfnHideInfoTip(hwnd,dat);
-		KillTimer(hwnd,TIMERID_INFOTIP);
-		KillTimer(hwnd,TIMERID_RENAME);
-		KillTimer(hwnd,TIMERID_SUBEXPAND);
-
-		pcli->pfnEndRename(hwnd,dat,1);
-		dat->ptDragStart.x = (short)LOWORD(lParam);
-		dat->ptDragStart.y = (short)HIWORD(lParam);
-		//dat->szQuickSearch[0] = 0;
-		hit = cliHitTest(hwnd,dat,(short)LOWORD(lParam),(short)HIWORD(lParam),&contact,&group,&hitFlags);
-		if (GetFocus() != hwnd) SetFocus(hwnd);
-		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE)) {
-			if ( hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
-				if ( !(dat->dragStage & DRAGSTAGEF_SKIPRENAME)) {
-					SetCapture(hwnd);
-					dat->iDragItem = dat->selection;
-					dat->dragStage = DRAGSTAGE_NOTMOVED|DRAGSTAGEF_MAYBERENAME;
-					dat->dragAutoScrolling = 0;
-					return TRUE;
-				}
-				else {
-					dat->dragStage &= ~DRAGSTAGEF_SKIPRENAME;
-					return TRUE;
-				}
-			}
-		}
-
-		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact) 
-		if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta)
+		if ((GetKeyState(VK_SHIFT)&0x8000) || (GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
 		{
-			BYTE doubleClickExpand = db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
-
+			fMouseUpped = TRUE;
 			hitcontact = contact;
-			HitPoint.x = (short)LOWORD(lParam);
-			HitPoint.y = (short)HIWORD(lParam);
-			fMouseUpped = FALSE;
-			if ((GetKeyState(VK_SHIFT)&0x8000) || (GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
-			{
-				fMouseUpped = TRUE;
-				hitcontact = contact;
-				KillTimer(hwnd,TIMERID_SUBEXPAND);
-				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND, 0, NULL);
-			}
+			KillTimer(hwnd,TIMERID_SUBEXPAND);
+			CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND, 0, NULL);
 		}
-		else hitcontact = NULL;
+	}
+	else hitcontact = NULL;
 
-		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
-		if (hitFlags & CLCHT_ONITEMICON) {
-			ClcGroup *selgroup;
-			ClcContact *selcontact;
-			dat->selection = cliGetRowByIndex(dat,dat->selection,&selcontact,&selgroup);
-			pcli->pfnSetGroupExpand(hwnd,dat,contact->group,-1);
-			if (dat->selection != -1) {
-				dat->selection = cliGetRowsPriorTo(&dat->list,selgroup,GetContactIndex(selgroup,selcontact));
-				if (dat->selection == -1) dat->selection = cliGetRowsPriorTo(&dat->list,contact->group,-1);
-			}
-
-			if (dat->bCompactMode)
-				SendMessage(hwnd,WM_SIZE, 0, 0);
-			else {
-				CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-				UpdateWindow(hwnd);
-			}
-			return TRUE;
-		}
-
-		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && (hitFlags & CLCHT_ONITEMCHECK)) {
-			contact->flags ^= CONTACTF_CHECKED;
-			if (contact->type == CLCIT_GROUP) pcli->pfnSetGroupChildCheckboxes(contact->group,contact->flags&CONTACTF_CHECKED);
-			pcli->pfnRecalculateGroupCheckboxes(hwnd,dat);
-			CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-
-			NMCLISTCONTROL nm;
-			nm.hdr.code = CLN_CHECKCHANGED;
-			nm.hdr.hwndFrom = hwnd;
-			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nm.flags = 0;
-			nm.hItem = ContactToItemHandle(contact,&nm.flags);
-			SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
-		}
-
-		if ( !(hitFlags & (CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) {
-			NMCLISTCONTROL nm;
-			nm.hdr.code = NM_CLICK;
-			nm.hdr.hwndFrom = hwnd;
-			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nm.flags = 0;
-			if (hit == -1 || hitFlags&CLCHT_NOWHERE) nm.hItem = NULL;
-			else nm.hItem = ContactToItemHandle(contact,&nm.flags);
-			nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA?HIBYTE(HIWORD(hitFlags)):-1;
-			nm.pt = dat->ptDragStart;
-			SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
-		}
-
-		if (hitFlags & (CLCHT_ONITEMCHECK|CLCHT_ONITEMEXTRA))
-			return FALSE;
-
-		dat->selection = (hitFlags&CLCHT_NOWHERE)?-1:hit;
-		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-
-		UpdateWindow(hwnd);
-		if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags & (CLCHT_ONITEMEXTRA|CLCHT_ONITEMCHECK|CLCHT_NOWHERE))) {
-			SetCapture(hwnd);
-			dat->iDragItem = dat->selection;
-			dat->dragStage = DRAGSTAGE_NOTMOVED;
-			dat->dragAutoScrolling = 0;
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
+	if (hitFlags & CLCHT_ONITEMICON) {
+		ClcGroup *selgroup;
+		ClcContact *selcontact;
+		dat->selection = cliGetRowByIndex(dat,dat->selection,&selcontact,&selgroup);
+		pcli->pfnSetGroupExpand(hwnd,dat,contact->group,-1);
+		if (dat->selection != -1) {
+			dat->selection = cliGetRowsPriorTo(&dat->list,selgroup,GetContactIndex(selgroup,selcontact));
+			if (dat->selection == -1) dat->selection = cliGetRowsPriorTo(&dat->list,contact->group,-1);
 		}
 
 		if (dat->bCompactMode)
 			SendMessage(hwnd,WM_SIZE, 0, 0);
-
-		if (dat->selection != -1)
-			pcli->pfnEnsureVisible(hwnd,dat,hit,0);
+		else {
+			CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
+			UpdateWindow(hwnd);
+		}
 		return TRUE;
 	}
+
+	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && (hitFlags & CLCHT_ONITEMCHECK)) {
+		contact->flags ^= CONTACTF_CHECKED;
+		if (contact->type == CLCIT_GROUP) pcli->pfnSetGroupChildCheckboxes(contact->group,contact->flags&CONTACTF_CHECKED);
+		pcli->pfnRecalculateGroupCheckboxes(hwnd,dat);
+		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
+
+		NMCLISTCONTROL nm;
+		nm.hdr.code = CLN_CHECKCHANGED;
+		nm.hdr.hwndFrom = hwnd;
+		nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+		nm.flags = 0;
+		nm.hItem = ContactToItemHandle(contact,&nm.flags);
+		SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
+	}
+
+	if ( !(hitFlags & (CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) {
+		NMCLISTCONTROL nm;
+		nm.hdr.code = NM_CLICK;
+		nm.hdr.hwndFrom = hwnd;
+		nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+		nm.flags = 0;
+		if (hit == -1 || hitFlags&CLCHT_NOWHERE) nm.hItem = NULL;
+		else nm.hItem = ContactToItemHandle(contact,&nm.flags);
+		nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA?HIBYTE(HIWORD(hitFlags)):-1;
+		nm.pt = dat->ptDragStart;
+		SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);
+	}
+
+	if (hitFlags & (CLCHT_ONITEMCHECK|CLCHT_ONITEMEXTRA))
+		return FALSE;
+
+	dat->selection = (hitFlags&CLCHT_NOWHERE)?-1:hit;
+	CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
+
+	UpdateWindow(hwnd);
+	if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags & (CLCHT_ONITEMEXTRA|CLCHT_ONITEMCHECK|CLCHT_NOWHERE))) {
+		SetCapture(hwnd);
+		dat->iDragItem = dat->selection;
+		dat->dragStage = DRAGSTAGE_NOTMOVED;
+		dat->dragAutoScrolling = 0;
+	}
+
+	if (dat->bCompactMode)
+		SendMessage(hwnd,WM_SIZE, 0, 0);
+
+	if (dat->selection != -1)
+		pcli->pfnEnsureVisible(hwnd,dat,hit,0);
+	return TRUE;
 }
 
 static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1038,9 +1033,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		return 0;
 
 	if (dat->dragStage & DRAGSTAGEF_MAYBERENAME) {
-		POINT pt;
-		pt.x = (short)LOWORD(lParam);
-		pt.y = (short)HIWORD(lParam);
+		POINT pt = UNPACK_POINT(lParam);
 		if ( abs(pt.x-dat->ptDragStart.x) > GetSystemMetrics(SM_CXDOUBLECLK) || abs(pt.y-dat->ptDragStart.y) > GetSystemMetrics(SM_CYDOUBLECLK)) {
 			KillTimer( hwnd, TIMERID_RENAME );
 			dat->dragStage &= (~DRAGSTAGEF_MAYBERENAME);
@@ -1048,12 +1041,9 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	}
 
 	if (dat->iDragItem == -1) {
-		POINT pt;
-		HWND window;
-		pt.x = (short)LOWORD(lParam);
-		pt.y = (short)HIWORD(lParam);
+		POINT pt = UNPACK_POINT(lParam);
 		ClientToScreen(hwnd,&pt);
-		window = WindowFromPoint(pt);
+		HWND window = WindowFromPoint(pt);
 		if (window != hwnd) isOutside = TRUE;
 	}
 
@@ -1121,8 +1111,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		RECT clRect;
 		GetClientRect(hwnd,&clRect);
 
-		POINT pt;
-		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
+		POINT pt = UNPACK_POINT(lParam);
 		HCURSOR hNewCursor = LoadCursor(NULL, IDC_NO);
 		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 		if (dat->dragAutoScrolling) {
@@ -1275,12 +1264,10 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd,TIMERID_RENAME,GetDoubleClickTime(),NULL);
 	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
-		POINT pt;
-		int target;
 		TCHAR Wording[500];
 		int res = 0;
-		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
-		target = GetDropTargetInformation(hwnd,dat,pt);
+		POINT pt = UNPACK_POINT(lParam);
+		int target = GetDropTargetInformation(hwnd,dat,pt);
 		switch(target) {
 		case DROPTARGET_ONSELF:
 			break;

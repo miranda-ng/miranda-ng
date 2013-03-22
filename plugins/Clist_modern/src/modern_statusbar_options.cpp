@@ -388,8 +388,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			LOWORD(wParam) == IDC_SHOWBOTH  || 
 			LOWORD(wParam) == IDC_SHOWNORMAL  || 
 			LOWORD(wParam) == IDC_TRANSPARENTOVERLAY  || 
-			LOWORD(wParam) == IDC_SHOWXSTATUSNAME
-			)
+			LOWORD(wParam) == IDC_SHOWXSTATUSNAME)
 		{
 			UpdateXStatusIconOptions(hwndDlg, perProto, dat, curSelProto);
 		}
@@ -450,8 +449,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else
 				_GlobalOptions.PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg,IDC_OFFSETSPIN_RIGHT,UDM_GETPOS, 0, 0);
 		}
-		else if (
-			(
+		else if ((
 				LOWORD(wParam) == IDC_MULTI_COUNT  || 
 				LOWORD(wParam) == IDC_OFFSETICON  || 
 				LOWORD(wParam) == IDC_OFFSETICON2  || 

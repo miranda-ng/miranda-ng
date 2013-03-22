@@ -709,16 +709,12 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				UpdateInfo(hwndDlg);
 			}
-			//check (LOWORD(wParam))
-			//SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_OBJECT_TREE:
 			{
-				//Save existed object
-				//Change to new object
 				NMTREEVIEWA * nmtv = (NMTREEVIEWA *) lParam;
 				if ( !nmtv) return 0;
 				if (nmtv->hdr.code == TVN_SELCHANGEDA || nmtv->hdr.code == TVN_SELCHANGEDW)

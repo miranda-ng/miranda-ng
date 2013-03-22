@@ -297,13 +297,11 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case WM_LBUTTONDOWN:
 		{
-			int xPos = (( int )( short ) LOWORD( lParam ));
-			int yPos = (( int )( short ) HIWORD( lParam ));
-			POINT ptMouse = { xPos, yPos };
+			POINT ptMouse = UNPACK_POINT(lParam);
 
 			RECT rcClient;
-			GetClientRect( bct->hwnd, &rcClient );
-			if ( !PtInRect( &rcClient, ptMouse )) {
+			GetClientRect(bct->hwnd, &rcClient);
+			if ( !PtInRect(&rcClient, ptMouse)) {
 				bct->fHotMark = FALSE;
 				ReleaseCapture();
 			}
@@ -326,7 +324,7 @@ static LRESULT CALLBACK ToolbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 	case WM_LBUTTONUP:
 		if ( GetCapture() == bct->hwnd ) {
-			POINT ptMouse = { LOWORD(lParam), HIWORD(lParam) };
+			POINT ptMouse = UNPACK_POINT(lParam);
 
 			RECT rcClient;
 			GetClientRect( bct->hwnd, &rcClient );

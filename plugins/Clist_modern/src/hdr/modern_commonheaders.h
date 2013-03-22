@@ -331,6 +331,8 @@ BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &seque
 void rowSizeWithReposition(ROWCELL* &root, int width);
 #endif
 
+#define UNPACK_POINT(X) { (short)LOWORD(X), (short)HIWORD(X) }
+
 //////////////////////////////////////////////////////////////////////////
 // Specific class for quick implementation of map<string, *> list
 // with some more fast searching it is

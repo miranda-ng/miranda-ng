@@ -92,7 +92,7 @@ static void ske_PreMultiplyChanells(HBITMAP hbmp,BYTE Mult);
 static int  ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting);
 static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam);
-static INT_PTR ske_Service_DrawTextWithEffect( WPARAM wParam, LPARAM lParam );
+static INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM lParam);
 
 //Decoders
 static HMODULE hImageDecoderModule;
@@ -2971,7 +2971,7 @@ static int ske_DrawTextWithEffectWorker( HDC hdc, LPCTSTR lpString, int nCount, 
     return res;
 }
 
-INT_PTR ske_Service_DrawTextWithEffect( WPARAM wParam, LPARAM lParam )
+INT_PTR ske_Service_DrawTextWithEffect(WPARAM wParam, LPARAM lParam)
 {
     DrawTextWithEffectParam * p = ( DrawTextWithEffectParam * ) wParam;
     if ( p->cbSize != sizeof(DrawTextWithEffectParam))
