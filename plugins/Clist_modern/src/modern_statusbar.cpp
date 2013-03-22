@@ -373,8 +373,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if ((p.xStatusMode & 8) && p.ProtoStatus > ID_STATUS_OFFLINE) {
 					TCHAR str[512];
 					CUSTOM_STATUS cs = { sizeof(cs) };
-					cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
-					cs.ptszMessage = str;
+					cs.flags = CSSF_MASK_NAME | CSSF_TCHAR;
+					cs.ptszName = str;
 					if ( CallProtoService(p.AccountName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
 						p.ProtoXStatus = mir_tstrdup(str);
 				}
