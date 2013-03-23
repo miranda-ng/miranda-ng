@@ -9,6 +9,7 @@
 //* Usage:     cscript /nologo translate.js /path:"path\plugins" translated plugins folder*//
 //* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file         *//
 //* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file      *//
+//* Usage:     cscript /nologo translate.js /sourcelang:"language" instead of /path+/core *//
 //* Usage:     cscript /nologo translate.js /out:"path\plugins" output result to folder   *//
 //* Usage:     cscript /nologo translate.js /outfile:"path\file" output result to one file*//
 //* Usage:     cscript /nologo translate.js /langpack:"path\lang.txt" - Full langpack     *//
@@ -28,6 +29,9 @@
 //* will translate path\file using translation from path\lang.txt                         *//
 //* Example3:  cscript /nologo translate.js /langpack:"path\lang.txt" /outfile:"path\file"*//
 //* will translate all /english/* templates using lang.txt & output langpack in path\file *//
+//* Example4:  cscript /nologo translate.js /sourcelang="Russian" /outfile:"path\file"    *//
+//* will translate all /english/* tempaltes using files =CORE=.txt, =DUPES=.txt, lanpack_R*//
+//* ussian.txt from ./langpacks/Russian/ folder, including /langpacks/Russian/Plugins/*   *//
 //*****************************************************************************************//
 
 //Init Variables
@@ -98,6 +102,17 @@ if (WScript.Arguments.Named.Item("out")) {
 if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
    WScript.Echo("Please run from command line!");
    WScript.Quit();
+}
+
+//when /sourcelang specified, setup all source files already existed in trunk. Usefull for running translate.js from trunk. Currenly seldom languages have same files structure, thus it is much more easier to just specify a language folder name, instead of specifying /core, /path, /dupes, /langpack.
+if (WScript.Arguments.Named.Item("sourcelang")) {
+    var sourcelang=WScript.Arguments.Named.Item("sourcelang");
+    var langpack_path=FSO.BuildPath(FSO.BuildPath(trunk,"langpacks"),sourcelang);
+    var translated_plugins=FSO.BuildPath(langpack_path,"Plugins");
+    var translated_core=FSO.BuildPath(langpack_path,"=CORE=.txt");
+    var translated_dupes=FSO.BuildPath(langpack_path,"=DUPES=.txt");
+    var translated_langpack=FSO.BuildPath(langpack_path,("langpack_"+sourcelang+".txt"));
+    if (log) WScript.Echo("Translating to "+sourcelang);
 }
 
 //when /plugin: specified, parse only this path and quit
@@ -206,7 +221,7 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
             UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(out),"untranslated_"+FileName);
             }
         //if /untralsated:"path/plugins" specified, redefine to parent folder with name "=CORE=.txt"
-        if (UnTranslatedPath!="yes") UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(UnTranslatedPath),FileName);
+        if (untranslated && (UnTranslatedPath!="yes")) UnTranslatedFile=FSO.BuildPath(FSO.GetParentFolderName(UnTranslatedPath),FileName);
         }
     
     // output translated file if /out and /outfile ommited, or if /out specified
@@ -228,10 +243,10 @@ function OutputFiles(TranslatedArray,UntranslatedArray,FileName) {
      
 }
 
-//when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are uselessg
+//when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are useless
 function checkparams() { 
-if (!WScript.Arguments.Named.Item("langpack") && !WScript.Arguments.Named.Item("path"))  {
-    WScript.Echo("you didn't specify /langpack: or /path: parameter, there is no files with translated strings!");
+if (!WScript.Arguments.Named.Item("langpack") & !WScript.Arguments.Named.Item("path") & !sourcelang)  {
+    WScript.Echo("you didn't specify /langpack:\"/path/to/langpack.txt\", /path:\"/path/to/plugnis/\"  or /sourcelang:\"language\" parameter, there is no files with translated strings!");
     WScript.Quit();
     };
 }
@@ -245,7 +260,16 @@ function CheckFileExist(file) {
 
 //Generate DB with translations from Core and Dupes files
 function GenerateDictionaries () {
-//path variables
+//if /sourcelang:"language" specified, use it for generate dicitionaries
+if (sourcelang) {
+    CheckFileExist(translated_core);
+    CheckFileExist(translated_dupes);
+    CheckFileExist(translated_langpack);
+    GenerateTransalteDict(translated_core,CoreTranslateDict);
+    GenerateTransalteDict(translated_dupes,DupesTranslateDict);
+    GenerateTransalteDict(translated_langpack,LangpackTranslateDict);
+}
+//process a dictionaries creation with switch-specified pathes
 if (WScript.Arguments.Named.Item("core")) {
     //Check file /core:"path" exist or not
     CheckFileExist(WScript.Arguments.Named.Item("core"));
@@ -301,6 +325,8 @@ stream.Close();
 function TranslateTemplateFile(Template_file,translated_array,untranslated_array) {
  //Init PluginTranslate Dictionary from plugins translate file
  var PluginTranslateDict=WScript.CreateObject("Scripting.Dictionary");
+ //if /sourcelang specified, use it for search plugin translation.
+ if (sourcelang) GenerateTransalteDict(FSO.BuildPath(translated_plugins,FSO.GetFileName(Template_file)),PluginTranslateDict);
  // if /path:"" specified, this is a folder with plugin translations, use it to find out our translation.
  if (WScript.Arguments.Named.Item("path")) {
     //Generate PluginTranslate Dictionary
