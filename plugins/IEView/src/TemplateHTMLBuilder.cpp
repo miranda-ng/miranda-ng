@@ -201,13 +201,18 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameOut = mir_strdup("&nbsp;");
 		szNameIn = mir_strdup("&nbsp;");
 	}
-	sprintf(tempStr, "%snoavatar.png", tempBase);
-	szNoAvatar = mir_utf8encode(tempStr);
-	if (access(szNoAvatar, 0) == -1)
-	{
+	mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
+	TCHAR szNoAvatarPath[MAX_PATH];
+	mir_sntprintf(szNoAvatarPath, SIZEOF(szNoAvatarPath), _T("%s"), _A2T(protoSettings->getSRMMTemplateFilename()));
+	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
+	if (szNoAvatarPathTmp != NULL)
+		*szNoAvatarPathTmp = 0;
+	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
+	if (_taccess(szNoAvatarPath, 0) == -1)
 		sprintf(tempStr, "%snoavatar.jpg", tempBase);
-		szNoAvatar = mir_utf8encode(tempStr);
-	}
+	else
+		sprintf(tempStr, "%snoavatar.png", tempBase);
+	szNoAvatar = mir_utf8encode(tempStr);
 	szAvatarIn = getAvatar(event->hContact, szRealProto);
 	if (szAvatarIn == NULL) {
 		szAvatarIn = mir_strdup(szNoAvatar);
@@ -377,14 +382,17 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szNameOut = mir_strdup("&nbsp;");
 		szNameIn = mir_strdup("&nbsp;");
 	}
-	sprintf(tempStr, "%snoavatar.png", tempBase);
-	szNoAvatar = mir_utf8encode(tempStr);
-	if (access(szNoAvatar, 0) == -1)
-	{
+	TCHAR szNoAvatarPath[MAX_PATH];
+	mir_sntprintf(szNoAvatarPath, SIZEOF(szNoAvatarPath), _T("%s"), _A2T(protoSettings->getSRMMTemplateFilename()));
+	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
+	if (szNoAvatarPathTmp != NULL)
+		*szNoAvatarPathTmp = 0;
+	_tcscat(szNoAvatarPath, _T("\\noavatar.png"));
+	if (_taccess(szNoAvatarPath, 0) == -1)
 		sprintf(tempStr, "%snoavatar.jpg", tempBase);
-		szNoAvatar = mir_utf8encode(tempStr);
-	}
-
+	else
+		sprintf(tempStr, "%snoavatar.png", tempBase);
+	szNoAvatar = mir_utf8encode(tempStr);
 	if(event->hContact != NULL) {
 		szAvatarIn = getAvatar(event->hContact, szRealProto);
 	}
