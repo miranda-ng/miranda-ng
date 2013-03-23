@@ -539,25 +539,19 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MESSAGESUBDATA *dat;
-	SESSION_INFO* Parentsi;
-	struct TWindowData *mwdat;
 	HWND hwndParent = GetParent(hwnd);
+	TWindowData *mwdat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	SESSION_INFO *Parentsi = (SESSION_INFO *)mwdat->si;
 
-	mwdat = (struct TWindowData *)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-	Parentsi = (SESSION_INFO *)mwdat->si;
-
-	dat = (MESSAGESUBDATA *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	MESSAGESUBDATA *dat = (MESSAGESUBDATA *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if (mwdat->fkeyProcessed && (msg == WM_KEYUP)) {
 		GetKeyboardState(mwdat->kstate);
-		if (mwdat->kstate[VK_CONTROL] & 0x80 || mwdat->kstate[VK_SHIFT] & 0x80)
-			return 0;
-		else {
+		if ( !(mwdat->kstate[VK_CONTROL] & 0x80) && !(mwdat->kstate[VK_SHIFT] & 0x80))
 			mwdat->fkeyProcessed = false;
-			return 0;
-		}
+		return 0;
 	}
+
 	switch (msg) {
 	case WM_NCCALCSIZE:
 		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, MessageSubclassProc);
@@ -573,7 +567,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	case WM_CONTEXTMENU: 
 		{
 			MODULEINFO* mi = MM_FindModule(Parentsi->pszModule);
-			HMENU hMenu, hSubMenu;
 			CHARRANGE sel, all = { 0, -1};
 			int iSelection;
 			int iPrivateBG = M->GetByte(mwdat->hContact, "private_bg", 0);
@@ -582,8 +575,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			int idFrom = IDC_CHAT_MESSAGE;
 
 			GetCursorPos(&pt);
-			hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-			hSubMenu = GetSubMenu(hMenu, 2);
+			HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+			HMENU hSubMenu = GetSubMenu(hMenu, 2);
 			RemoveMenu(hSubMenu, 9, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 4, MF_BYPOSITION);

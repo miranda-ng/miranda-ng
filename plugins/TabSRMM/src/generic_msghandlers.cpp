@@ -161,75 +161,72 @@ LRESULT TSAPI DM_GenericHotkeysCheck(MSG *message, TWindowData *dat)
 	HWND	hwndDlg = dat->hwnd;
 
 	switch(mim_hotkey_check) {
-		case TABSRMM_HK_PASTEANDSEND:
-			HandlePasteAndSend(dat);
+	case TABSRMM_HK_PASTEANDSEND:
+		HandlePasteAndSend(dat);
+		return 1;
+	case TABSRMM_HK_HISTORY:
+		SendMessage(hwndDlg, WM_COMMAND, IDC_HISTORY, 0);
+		return 1;
+	case TABSRMM_HK_CONTAINEROPTIONS:
+		if (dat->pContainer->hWndOptions == 0)
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), dat->pContainer->hwnd,
+			DlgProcContainerOptions, (LPARAM)dat->pContainer);
+		return 1;
+	case TABSRMM_HK_SEND:
+		if (!(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWL_STYLE) & ES_READONLY)) {
+			PostMessage(hwndDlg, WM_COMMAND, IDOK, 0);
 			return 1;
-		case TABSRMM_HK_HISTORY:
-			SendMessage(hwndDlg, WM_COMMAND, IDC_HISTORY, 0);
-			return 1;
-		case TABSRMM_HK_CONTAINEROPTIONS:
-			if (dat->pContainer->hWndOptions == 0)
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), dat->pContainer->hwnd,
-								  DlgProcContainerOptions, (LPARAM)dat->pContainer);
-			return 1;
-		case TABSRMM_HK_SEND:
-			if (!(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE), GWL_STYLE) & ES_READONLY)) {
-				PostMessage(hwndDlg, WM_COMMAND, IDOK, 0);
-				return 1;
-			}
-			break;
-		case TABSRMM_HK_TOGGLEINFOPANEL:
-			dat->Panel->setActive(dat->Panel->isActive() ? FALSE : TRUE);
-			dat->Panel->showHide();
-			return 1;
-		case TABSRMM_HK_EMOTICONS:
-			SendMessage(hwndDlg, WM_COMMAND, IDC_SMILEYBTN, 0);
-			return 1;
-		case TABSRMM_HK_TOGGLETOOLBAR:
-			SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLETOOLBAR, 0);
-			return 1;
-		case TABSRMM_HK_CLEARLOG:
-			ClearLog(dat);
-			return 1;
-		case TABSRMM_HK_TOGGLESIDEBAR:
-			if (dat->pContainer->SideBar->isActive())
-				SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
-			return 1;
-    case TABSRMM_HK_CLOSE_OTHER:
-        CloseOtherTabs(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), *dat);
-      return 1;
-		default:
-			break;
+		}
+		break;
+	case TABSRMM_HK_TOGGLEINFOPANEL:
+		dat->Panel->setActive(dat->Panel->isActive() ? FALSE : TRUE);
+		dat->Panel->showHide();
+		return 1;
+	case TABSRMM_HK_EMOTICONS:
+		SendMessage(hwndDlg, WM_COMMAND, IDC_SMILEYBTN, 0);
+		return 1;
+	case TABSRMM_HK_TOGGLETOOLBAR:
+		SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLETOOLBAR, 0);
+		return 1;
+	case TABSRMM_HK_CLEARLOG:
+		ClearLog(dat);
+		return 1;
+	case TABSRMM_HK_TOGGLESIDEBAR:
+		if (dat->pContainer->SideBar->isActive())
+			SendMessage(hwndDlg, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+		return 1;
+	case TABSRMM_HK_CLOSE_OTHER:
+		CloseOtherTabs(GetDlgItem(dat->pContainer->hwnd, IDC_MSGTABS), *dat);
+		return 1;
 	}
 	return 0;
 }
 
 LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer, TWindowData *dat, UINT cmd, WPARAM wParam, LPARAM lParam)
 {
-	HWND	hwndContainer = m_pContainer->hwnd;
+	RECT  rc;
+	HWND  hwndContainer = m_pContainer->hwnd;
+	int   iSelection;
+	HMENU submenu;
 
 	switch(cmd) {
-		case IDC_FONTBOLD:
-		case IDC_FONTITALIC:
-		case IDC_FONTUNDERLINE:
-		case IDC_FONTSTRIKEOUT:	{
+	case IDC_FONTBOLD:
+	case IDC_FONTITALIC:
+	case IDC_FONTUNDERLINE:
+	case IDC_FONTSTRIKEOUT:
+		if (dat->SendFormat != 0) { // dont use formatting if disabled
 			CHARFORMAT2 cf, cfOld;
-			int cmd = LOWORD(wParam);
-			BOOL isBold, isItalic, isUnderline, isStrikeout;
-
-			if (dat->SendFormat == 0)           // dont use formatting if disabled
-				break;
-
 			ZeroMemory(&cf, sizeof(CHARFORMAT2));
 			ZeroMemory(&cfOld, sizeof(CHARFORMAT2));
 			cfOld.cbSize = cf.cbSize = sizeof(CHARFORMAT2);
 			cfOld.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
-			isBold = (cfOld.dwEffects & CFE_BOLD) && (cfOld.dwMask & CFM_BOLD);
-			isItalic = (cfOld.dwEffects & CFE_ITALIC) && (cfOld.dwMask & CFM_ITALIC);
-			isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
-			isStrikeout = (cfOld.dwEffects & CFM_STRIKEOUT) && (cfOld.dwMask & CFM_STRIKEOUT);
+			BOOL isBold = (cfOld.dwEffects & CFE_BOLD) && (cfOld.dwMask & CFM_BOLD);
+			BOOL isItalic = (cfOld.dwEffects & CFE_ITALIC) && (cfOld.dwMask & CFM_ITALIC);
+			BOOL isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
+			BOOL isStrikeout = (cfOld.dwEffects & CFM_STRIKEOUT) && (cfOld.dwMask & CFM_STRIKEOUT);
 
+			int cmd = LOWORD(wParam);
 			if (cmd == IDC_FONTBOLD && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTBOLD)))
 				break;
 			if (cmd == IDC_FONTITALIC && !IsWindowEnabled(GetDlgItem(hwndDlg, IDC_FONTITALIC)))
@@ -256,18 +253,16 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				CheckDlgButton(hwndDlg, IDC_FONTSTRIKEOUT, !isStrikeout);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
-			break;
 		}
-		case IDC_FONTFACE: {
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 7);
-			RECT rc;
-			int iSelection, i;
-			CHARFORMAT2 cf;
+		break;
 
+	case IDC_FONTFACE:
+		submenu = GetSubMenu(m_pContainer->hMenuContext, 7);
+		{
+			CHARFORMAT2 cf;
 			ZeroMemory(&cf, sizeof(CHARFORMAT2));
 			cf.cbSize = sizeof(CHARFORMAT2);
 			cf.dwMask = CFM_COLOR;
-			cf.dwEffects = 0;
 
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_FONTFACE), &rc);
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
@@ -278,374 +273,355 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				break;
 			}
 			if (iSelection == ID_FONT_DEFAULTCOLOR) {
-				int i = 0;
 				cf.crTextColor = M->GetDword(FONTMODULE, "Font16Col", 0);
-				for (i=0; i < Utils::rtf_ctable_size; i++) {
+				for (int i=0; i < Utils::rtf_ctable_size; i++)
 					if (Utils::rtf_ctable[i].clr == cf.crTextColor)
 						cf.crTextColor = RGB(GetRValue(cf.crTextColor), GetGValue(cf.crTextColor), GetBValue(cf.crTextColor) == 0 ? GetBValue(cf.crTextColor) + 1 : GetBValue(cf.crTextColor) - 1);
-				}
+
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				break;
 			}
-			for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
+			for (int i=0; i < RTF_CTABLE_DEFSIZE; i++)
 				if (Utils::rtf_ctable[i].menuid == iSelection) {
 					cf.crTextColor = Utils::rtf_ctable[i].clr;
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				}
+		}
+		break;
+
+	case IDCANCEL:
+		ShowWindow(hwndContainer, SW_MINIMIZE);
+		return FALSE;
+
+	case IDC_SAVE:
+		SendMessage(hwndDlg, WM_CLOSE, 1, 0);
+		break;
+
+	case IDC_NAME:
+		if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
+			SendMessage(hwndDlg, DM_UINTOCLIPBOARD, 0, 0);
+		else {
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) (dat->cache->getActiveContact()), 0);
+		}
+		break;
+
+	case IDC_HISTORY:
+		CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) dat->hContact, 0);
+		break;
+
+	case IDC_SMILEYBTN:
+		if (dat->doSmileys && PluginConfig.g_SmileyAddAvail) {
+			HANDLE hContact = dat->cache->getActiveContact();
+			if (CheckValidSmileyPack(dat->cache->getActiveProto(), hContact) != 0) {
+				SMADD_SHOWSEL3 smaddInfo = {0};
+
+				if (lParam == 0)
+					GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
+				else
+					GetWindowRect((HWND)lParam, &rc);
+				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
+				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
+				smaddInfo.targetMessage = EM_REPLACESEL;
+				smaddInfo.targetWParam = TRUE;
+				smaddInfo.Protocolname = const_cast<char *>(dat->cache->getActiveProto());
+				smaddInfo.Direction = 0;
+				smaddInfo.xPosition = rc.left;
+				smaddInfo.yPosition = rc.top + 24;
+				smaddInfo.hwndParent = hwndContainer;
+				smaddInfo.hContact = hContact;
+				CallService(MS_SMILEYADD_SHOWSELECTION, (WPARAM)hwndContainer, (LPARAM) &smaddInfo);
 			}
-			break;
 		}
+		break;
 
-		case IDCANCEL: {
-			ShowWindow(hwndContainer, SW_MINIMIZE);
-			return FALSE;
-		}
+	case IDC_TIME:
+		submenu = GetSubMenu(m_pContainer->hMenuContext, 2);
+		MsgWindowUpdateMenu(dat, submenu, MENU_LOGMENU);
 
-		case IDC_SAVE:
-			SendMessage(hwndDlg, WM_CLOSE, 1, 0);
-			break;
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_TIME), &rc);
 
-		case IDC_NAME: {
-			if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
-				SendMessage(hwndDlg, DM_UINTOCLIPBOARD, 0, 0);
-			else {
-				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) (dat->cache->getActiveContact()), 0);
-			}
-			break;
-		}
+		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+		return MsgWindowMenuHandler(dat, iSelection, MENU_LOGMENU);
 
-		case IDC_HISTORY:
-			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) dat->hContact, 0);
-			break;
-
-		case IDC_SMILEYBTN:
-			if (dat->doSmileys && PluginConfig.g_SmileyAddAvail) {
-				RECT rc;
-				HANDLE hContact = dat->cache->getActiveContact();
-
-				if (CheckValidSmileyPack(dat->cache->getActiveProto(), hContact) != 0) {
-					SMADD_SHOWSEL3 smaddInfo = {0};
-
-					if (lParam == 0)
-						GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
-					else
-						GetWindowRect((HWND)lParam, &rc);
-					smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
-					smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
-					smaddInfo.targetMessage = EM_REPLACESEL;
-					smaddInfo.targetWParam = TRUE;
-					smaddInfo.Protocolname = const_cast<char *>(dat->cache->getActiveProto());
-					smaddInfo.Direction = 0;
-					smaddInfo.xPosition = rc.left;
-					smaddInfo.yPosition = rc.top + 24;
-					smaddInfo.hwndParent = hwndContainer;
-					smaddInfo.hContact = hContact;
-					CallService(MS_SMILEYADD_SHOWSELECTION, (WPARAM)hwndContainer, (LPARAM) &smaddInfo);
-				}
-			}
-			break;
-		case IDC_TIME: {
-			RECT rc;
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 2);
-			int iSelection, isHandled;
-			DWORD dwOldFlags = dat->dwFlags;
-			DWORD dwOldEventIsShown = dat->dwFlagsEx;
-
-			MsgWindowUpdateMenu(dat, submenu, MENU_LOGMENU);
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_TIME), &rc);
-
-			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-			isHandled = MsgWindowMenuHandler(dat, iSelection, MENU_LOGMENU);
-			return(isHandled);
-		}
-		case IDC_PROTOMENU: {
-			RECT rc;
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 4);
-			int iSelection;
+	case IDC_PROTOMENU:
+		if (dat->hContact) {
+			submenu = GetSubMenu(m_pContainer->hMenuContext, 4);
 			int iOldGlobalSendFormat = PluginConfig.m_SendFormat;
+			int iLocalFormat = M->GetDword(dat->hContact, "sendformat", 0);
+			int iNewLocalFormat = iLocalFormat;
 
-			if (dat->hContact) {
-				int iLocalFormat = M->GetDword(dat->hContact, "sendformat", 0);
-				int iNewLocalFormat = iLocalFormat;
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
 
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
+			CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE ? MF_CHECKED : MF_UNCHECKED));
 
-				CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE ? MF_CHECKED : MF_UNCHECKED));
+			/*
+			* formatting menu..
+			*/
 
-				/*
-				 * formatting menu..
-				 */
+			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, MF_BYCOMMAND | ((PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_GLOBAL_OFF, MF_BYCOMMAND | ((PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
 
-				CheckMenuItem(submenu, ID_GLOBAL_BBCODE, MF_BYCOMMAND | ((PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_GLOBAL_OFF, MF_BYCOMMAND | ((PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
-
-				CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, MF_BYCOMMAND | ((iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, MF_BYCOMMAND | ((iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(submenu, ID_THISCONTACT_OFF, MF_BYCOMMAND | ((iLocalFormat == -1) ? MF_CHECKED : MF_UNCHECKED));
-
-				iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-				switch (iSelection) {
-					case ID_MODE_GLOBAL:
-						dat->dwFlagsEx &= ~(MWF_SHOW_SPLITTEROVERRIDE);
-						M->WriteByte(dat->hContact, SRMSGMOD_T, "splitoverride", 0);
-						LoadSplitter(dat);
-						AdjustBottomAvatarDisplay(dat);
-						DM_RecalcPictureSize(dat);
-						SendMessage(hwndDlg, WM_SIZE, 0, 0);
-						break;
-					case ID_MODE_PRIVATE:
-						dat->dwFlagsEx |= MWF_SHOW_SPLITTEROVERRIDE;
-						M->WriteByte(dat->hContact, SRMSGMOD_T, "splitoverride", 1);
-						LoadSplitter(dat);
-						AdjustBottomAvatarDisplay(dat);
-						DM_RecalcPictureSize(dat);
-						SendMessage(hwndDlg, WM_SIZE, 0, 0);
-						break;
-					case ID_GLOBAL_BBCODE:
-						PluginConfig.m_SendFormat = SENDFORMAT_BBCODE;
-						break;
-					case ID_GLOBAL_OFF:
-						PluginConfig.m_SendFormat = SENDFORMAT_NONE;
-						break;
-					case ID_THISCONTACT_GLOBALSETTING:
-						iNewLocalFormat = 0;
-						break;
-					case ID_THISCONTACT_BBCODE:
-						iNewLocalFormat = SENDFORMAT_BBCODE;
-						break;
-					case ID_THISCONTACT_OFF:
-						iNewLocalFormat = -1;
-						break;
-				}
-				if (iNewLocalFormat == 0)
-					DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "sendformat");
-				else if (iNewLocalFormat != iLocalFormat)
-					M->WriteDword(dat->hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
-
-				if (PluginConfig.m_SendFormat != iOldGlobalSendFormat)
-					M->WriteByte(SRMSGMOD_T, "sendformat", (BYTE)PluginConfig.m_SendFormat);
-				if (iNewLocalFormat != iLocalFormat || PluginConfig.m_SendFormat != iOldGlobalSendFormat) {
-					dat->SendFormat = M->GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
-					if (dat->SendFormat == -1)          // per contact override to disable it..
-						dat->SendFormat = 0;
-					M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
-				}
-			}
-			break;
-		}
-		case IDC_TOGGLETOOLBAR:
-			if (lParam == 1)
-				ApplyContainerSetting(m_pContainer, CNT_NOMENUBAR, m_pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
-			else
-				ApplyContainerSetting(m_pContainer, CNT_HIDETOOLBAR, m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, true);
-			break;
-		case IDC_INFOPANELMENU: {
-			RECT 	rc;
-			int 	iSelection;
-
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 9);
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_NAME), &rc);
-
-			EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !dat->cache->isFavorite() ? MF_ENABLED : MF_GRAYED);
-			EnableMenuItem(submenu, ID_FAVORITES_REMOVECONTACTFROMFAVORITES, !dat->cache->isFavorite() ? MF_GRAYED : MF_ENABLED);
+			CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, MF_BYCOMMAND | ((iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, MF_BYCOMMAND | ((iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_THISCONTACT_OFF, MF_BYCOMMAND | ((iLocalFormat == -1) ? MF_CHECKED : MF_UNCHECKED));
 
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-
-			switch(iSelection) {
-				case ID_FAVORITES_ADDCONTACTTOFAVORITES:
-					DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
-					AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getActiveProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuFavorites);
-					break;
-				case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
-					DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
-					DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)dat->hContact, MF_BYCOMMAND);
-					break;
-				default:
-					break;
+			switch (iSelection) {
+			case ID_MODE_GLOBAL:
+				dat->dwFlagsEx &= ~(MWF_SHOW_SPLITTEROVERRIDE);
+				M->WriteByte(dat->hContact, SRMSGMOD_T, "splitoverride", 0);
+				LoadSplitter(dat);
+				AdjustBottomAvatarDisplay(dat);
+				DM_RecalcPictureSize(dat);
+				SendMessage(hwndDlg, WM_SIZE, 0, 0);
+				break;
+			case ID_MODE_PRIVATE:
+				dat->dwFlagsEx |= MWF_SHOW_SPLITTEROVERRIDE;
+				M->WriteByte(dat->hContact, SRMSGMOD_T, "splitoverride", 1);
+				LoadSplitter(dat);
+				AdjustBottomAvatarDisplay(dat);
+				DM_RecalcPictureSize(dat);
+				SendMessage(hwndDlg, WM_SIZE, 0, 0);
+				break;
+			case ID_GLOBAL_BBCODE:
+				PluginConfig.m_SendFormat = SENDFORMAT_BBCODE;
+				break;
+			case ID_GLOBAL_OFF:
+				PluginConfig.m_SendFormat = SENDFORMAT_NONE;
+				break;
+			case ID_THISCONTACT_GLOBALSETTING:
+				iNewLocalFormat = 0;
+				break;
+			case ID_THISCONTACT_BBCODE:
+				iNewLocalFormat = SENDFORMAT_BBCODE;
+				break;
+			case ID_THISCONTACT_OFF:
+				iNewLocalFormat = -1;
+				break;
 			}
-			dat->cache->updateFavorite();
+			if (iNewLocalFormat == 0)
+				DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "sendformat");
+			else if (iNewLocalFormat != iLocalFormat)
+				M->WriteDword(dat->hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
+
+			if (PluginConfig.m_SendFormat != iOldGlobalSendFormat)
+				M->WriteByte(SRMSGMOD_T, "sendformat", (BYTE)PluginConfig.m_SendFormat);
+			if (iNewLocalFormat != iLocalFormat || PluginConfig.m_SendFormat != iOldGlobalSendFormat) {
+				dat->SendFormat = M->GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
+				if (dat->SendFormat == -1)          // per contact override to disable it..
+					dat->SendFormat = 0;
+				M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+			}
+		}
+		break;
+
+	case IDC_TOGGLETOOLBAR:
+		if (lParam == 1)
+			ApplyContainerSetting(m_pContainer, CNT_NOMENUBAR, m_pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
+		else
+			ApplyContainerSetting(m_pContainer, CNT_HIDETOOLBAR, m_pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, true);
+		break;
+
+	case IDC_INFOPANELMENU:
+		submenu = GetSubMenu(m_pContainer->hMenuContext, 9);
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_NAME), &rc);
+
+		EnableMenuItem(submenu, ID_FAVORITES_ADDCONTACTTOFAVORITES, !dat->cache->isFavorite() ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(submenu, ID_FAVORITES_REMOVECONTACTFROMFAVORITES, !dat->cache->isFavorite() ? MF_GRAYED : MF_ENABLED);
+
+		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+
+		switch(iSelection) {
+		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
+			DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
+			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getActiveProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuFavorites);
+			break;
+		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
+			DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
+			DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)dat->hContact, MF_BYCOMMAND);
 			break;
 		}
-		case IDC_SENDMENU: {
-			RECT rc;
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 3);
-			int iSelection;
+		dat->cache->updateFavorite();
+		break;
 
-			GetWindowRect(GetDlgItem(hwndDlg, IDOK), &rc);
-			CheckMenuItem(submenu, ID_SENDMENU_SENDTOMULTIPLEUSERS, MF_BYCOMMAND | (dat->sendMode & SMODE_MULTIPLE ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_SENDMENU_SENDDEFAULT, MF_BYCOMMAND | (dat->sendMode == 0 ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_SENDMENU_SENDTOCONTAINER, MF_BYCOMMAND | (dat->sendMode & SMODE_CONTAINER ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_SENDMENU_FORCEANSISEND, MF_BYCOMMAND | (dat->sendMode & SMODE_FORCEANSI ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, MF_BYCOMMAND | (dat->sendMode & SMODE_SENDLATER ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (dat->sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
-			{
-				const char *szFinalProto = dat->cache->getActiveProto();
-				char szServiceName[128];
+	case IDC_SENDMENU:
+		submenu = GetSubMenu(m_pContainer->hMenuContext, 3);
 
-				mir_snprintf(szServiceName, 128, "%s/SendNudge", szFinalProto);
-				EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ServiceExists(szServiceName) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
-			}
-			if (lParam)
-				iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-			else
-				iSelection = HIWORD(wParam);
+		GetWindowRect(GetDlgItem(hwndDlg, IDOK), &rc);
+		CheckMenuItem(submenu, ID_SENDMENU_SENDTOMULTIPLEUSERS, MF_BYCOMMAND | (dat->sendMode & SMODE_MULTIPLE ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDDEFAULT, MF_BYCOMMAND | (dat->sendMode == 0 ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDTOCONTAINER, MF_BYCOMMAND | (dat->sendMode & SMODE_CONTAINER ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_FORCEANSISEND, MF_BYCOMMAND | (dat->sendMode & SMODE_FORCEANSI ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, MF_BYCOMMAND | (dat->sendMode & SMODE_SENDLATER ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (dat->sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
+		{
+			const char *szFinalProto = dat->cache->getActiveProto();
+			char szServiceName[128];
 
-			switch (iSelection) {
-				case ID_SENDMENU_SENDTOMULTIPLEUSERS:
-					dat->sendMode ^= SMODE_MULTIPLE;
-					if (dat->sendMode & SMODE_MULTIPLE)
-						HWND hwndClist = DM_CreateClist(dat);
-					else {
-						if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
-							DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
-					}
-					break;
-				case ID_SENDMENU_SENDNUDGE:
-					SendNudge(dat);
-					break;
-				case ID_SENDMENU_SENDDEFAULT:
-					dat->sendMode = 0;
-					break;
-				case ID_SENDMENU_SENDTOCONTAINER:
-					dat->sendMode ^= SMODE_CONTAINER;
-					RedrawWindow(hwndDlg, 0, 0, RDW_ERASENOW|RDW_UPDATENOW);
-					break;
-				case ID_SENDMENU_FORCEANSISEND:
-					dat->sendMode ^= SMODE_FORCEANSI;
-					break;
-				case ID_SENDMENU_SENDLATER:
-					if (sendLater->isAvail())
-						dat->sendMode ^= SMODE_SENDLATER;
-					else
-						CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
-					break;
-				case ID_SENDMENU_SENDWITHOUTTIMEOUTS:
-					dat->sendMode ^= SMODE_NOACK;
-					if (dat->sendMode & SMODE_NOACK)
-						M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", 1);
-					else
-						DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "no_ack");
-					break;
-			}
-			M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", (BYTE)(dat->sendMode & SMODE_NOACK ? 1 : 0));
-			M->WriteByte(dat->hContact, SRMSGMOD_T, "forceansi", (BYTE)(dat->sendMode & SMODE_FORCEANSI ? 1 : 0));
-			SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
-			if (dat->sendMode & SMODE_MULTIPLE || dat->sendMode & SMODE_CONTAINER) {
-				SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
-							 SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
-				RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
-			}
+			mir_snprintf(szServiceName, 128, "%s/SendNudge", szFinalProto);
+			EnableMenuItem(submenu, ID_SENDMENU_SENDNUDGE, MF_BYCOMMAND | ((ServiceExists(szServiceName) && ServiceExists(MS_NUDGE_SEND)) ? MF_ENABLED : MF_GRAYED));
+		}
+		if (lParam)
+			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+		else
+			iSelection = HIWORD(wParam);
+
+		switch (iSelection) {
+		case ID_SENDMENU_SENDTOMULTIPLEUSERS:
+			dat->sendMode ^= SMODE_MULTIPLE;
+			if (dat->sendMode & SMODE_MULTIPLE)
+				HWND hwndClist = DM_CreateClist(dat);
 			else {
 				if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
 					DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
-				SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
-							 SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
-				RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 			}
-			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
-			SendMessage(hwndDlg, WM_SIZE, 0, 0);
-			DM_ScrollToBottom(dat, 1, 1);
-			Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_CLIST, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
 			break;
-		}
-		case IDC_TOGGLESIDEBAR: {
-			SendMessage(m_pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+		case ID_SENDMENU_SENDNUDGE:
+			SendNudge(dat);
 			break;
-		}
-		case IDC_PIC: {
-			RECT rc;
-			GetClientRect(hwndDlg, &rc);
-
-			dat->fEditNotesActive = !dat->fEditNotesActive;
-			if (dat->fEditNotesActive) {
-				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
-				if (iLen != 0) {
-					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
-					dat->fEditNotesActive = false;
-					break;
-				}
-
-				if (!dat->fIsAutosizingInput) {
-					dat->iSplitterSaved = dat->splitterY;
-					dat->splitterY = rc.bottom / 2;
-					SendMessage(hwndDlg, WM_SIZE, 1, 1);
-				}
-
-				DBVARIANT dbv = {0};
-
-				if (0 == M->GetTString(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
-					SetDlgItemText(hwndDlg, IDC_MESSAGE, dbv.ptszVal);
-					mir_free(dbv.ptszVal);
-				}
-			}
-			else {
-				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
-
-				TCHAR *buf = (TCHAR *)mir_alloc((iLen + 2) * sizeof(TCHAR));
-				GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
-				M->WriteTString(dat->hContact, "UserInfo", "MyNotes", buf);
-				SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
-
-				if (!dat->fIsAutosizingInput) {
-					dat->splitterY = dat->iSplitterSaved;
-					SendMessage(hwndDlg, WM_SIZE, 0, 0);
-					DM_ScrollToBottom(dat, 0, 1);
-				}
-			}
-			SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
-						 SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
-			RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
-
-			if (dat->fEditNotesActive)
-				CWarning::show(CWarning::WARN_EDITUSERNOTES, MB_OK|MB_ICONINFORMATION);
+		case ID_SENDMENU_SENDDEFAULT:
+			dat->sendMode = 0;
 			break;
-		}
-		case IDM_CLEAR:
-			ClearLog(dat);
+		case ID_SENDMENU_SENDTOCONTAINER:
+			dat->sendMode ^= SMODE_CONTAINER;
+			RedrawWindow(hwndDlg, 0, 0, RDW_ERASENOW|RDW_UPDATENOW);
 			break;
-		case IDC_PROTOCOL:	{
-			RECT rc;
-			int  iSel = 0;
-
-			HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->hContact, 0);
-			if (lParam == 0)
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL/*IDC_NAME*/), &rc);
+		case ID_SENDMENU_FORCEANSISEND:
+			dat->sendMode ^= SMODE_FORCEANSI;
+			break;
+		case ID_SENDMENU_SENDLATER:
+			if (sendLater->isAvail())
+				dat->sendMode ^= SMODE_SENDLATER;
 			else
-				GetWindowRect((HWND)lParam, &rc);
-			iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
-
-			if (iSel)
-				CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM) dat->hContact);
-
-			DestroyMenu(hMenu);
+				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
+			break;
+		case ID_SENDMENU_SENDWITHOUTTIMEOUTS:
+			dat->sendMode ^= SMODE_NOACK;
+			if (dat->sendMode & SMODE_NOACK)
+				M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", 1);
+			else
+				DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "no_ack");
 			break;
 		}
-		// error control
-		case IDC_CANCELSEND:
-			SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);
-			break;
-		case IDC_RETRY:
-			SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_RETRY, 0);
-			break;
-		case IDC_MSGSENDLATER:
-			SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_SENDLATER, 0);
-			break;
-		case IDC_SELFTYPING:
-			if (dat->hContact) {
-				int iCurrentTypingMode = M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+		M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", (BYTE)(dat->sendMode & SMODE_NOACK ? 1 : 0));
+		M->WriteByte(dat->hContact, SRMSGMOD_T, "forceansi", (BYTE)(dat->sendMode & SMODE_FORCEANSI ? 1 : 0));
+		SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
+		if (dat->sendMode & SMODE_MULTIPLE || dat->sendMode & SMODE_CONTAINER) {
+			SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
+				SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
+			RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
+		}
+		else {
+			if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
+				DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
+			SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
+				SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
+			RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
+		}
+		SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
+		SendMessage(hwndDlg, WM_SIZE, 0, 0);
+		DM_ScrollToBottom(dat, 1, 1);
+		Utils::showDlgControl(hwndDlg, IDC_MULTISPLITTER, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(hwndDlg, IDC_CLIST, (dat->sendMode & SMODE_MULTIPLE) ? SW_SHOW : SW_HIDE);
+		break;
 
-				if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
-					DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
-					dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
-				}
-				M->WriteByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+	case IDC_TOGGLESIDEBAR:
+		SendMessage(m_pContainer->hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
+		break;
+
+	case IDC_PIC:
+		GetClientRect(hwndDlg, &rc);
+
+		dat->fEditNotesActive = !dat->fEditNotesActive;
+		if (dat->fEditNotesActive) {
+			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
+			if (iLen != 0) {
+				SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
+				dat->fEditNotesActive = false;
+				break;
 			}
-			break;
-		default:
-			return 0;
+
+			if (!dat->fIsAutosizingInput) {
+				dat->iSplitterSaved = dat->splitterY;
+				dat->splitterY = rc.bottom / 2;
+				SendMessage(hwndDlg, WM_SIZE, 1, 1);
+			}
+
+			DBVARIANT dbv = {0};
+
+			if (0 == M->GetTString(dat->hContact, "UserInfo", "MyNotes", &dbv)) {
+				SetDlgItemText(hwndDlg, IDC_MESSAGE, dbv.ptszVal);
+				mir_free(dbv.ptszVal);
+			}
+		}
+		else {
+			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
+
+			TCHAR *buf = (TCHAR *)mir_alloc((iLen + 2) * sizeof(TCHAR));
+			GetDlgItemText(hwndDlg, IDC_MESSAGE, buf, iLen + 1);
+			M->WriteTString(dat->hContact, "UserInfo", "MyNotes", buf);
+			SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
+
+			if (!dat->fIsAutosizingInput) {
+				dat->splitterY = dat->iSplitterSaved;
+				SendMessage(hwndDlg, WM_SIZE, 0, 0);
+				DM_ScrollToBottom(dat, 0, 1);
+			}
+		}
+		SetWindowPos(GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 0, 0, 0, 0, SWP_DRAWFRAME|SWP_FRAMECHANGED|SWP_NOZORDER|
+			SWP_NOMOVE|SWP_NOSIZE|SWP_NOCOPYBITS);
+		RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
+
+		if (dat->fEditNotesActive)
+			CWarning::show(CWarning::WARN_EDITUSERNOTES, MB_OK|MB_ICONINFORMATION);
+		break;
+
+	case IDM_CLEAR:
+		ClearLog(dat);
+		break;
+
+	case IDC_PROTOCOL:
+		submenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->hContact, 0);
+		if (lParam == 0)
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
+		else
+			GetWindowRect((HWND)lParam, &rc);
+
+		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
+		if (iSelection)
+			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSelection), MPCF_CONTACTMENU), (LPARAM) dat->hContact);
+
+		DestroyMenu(submenu);
+		break;
+
+	// error control
+	case IDC_CANCELSEND:
+		SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_CANCEL, 0);
+		break;
+
+	case IDC_RETRY:
+		SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_RETRY, 0);
+		break;
+
+	case IDC_MSGSENDLATER:
+		SendMessage(hwndDlg, DM_ERRORDECIDED, MSGERROR_SENDLATER, 0);
+		break;
+
+	case IDC_SELFTYPING:
+		if (dat->hContact) {
+			int iCurrentTypingMode = M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+
+			if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
+				DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
+				dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
+			}
+			M->WriteByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+		}
+		break;
+
+	default:
+		return 0;
 	}
 	return 1;
 }
@@ -656,90 +632,91 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 		return 0;
 
 	HWND hwndDlg = pContainer->hwnd;
+	TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 
 	switch(cmd) {
-		case IDC_CLOSE:
-			SendMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
-			break;
-		case IDC_MINIMIZE:
-			PostMessage(hwndDlg, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-			break;
-		case IDC_MAXIMIZE:
-			SendMessage(hwndDlg, WM_SYSCOMMAND, IsZoomed(hwndDlg) ? SC_RESTORE : SC_MAXIMIZE, 0);
-			break;
-		case IDOK:
-			SendMessage(pContainer->hwndActive, WM_COMMAND, wParam, lParam);      // pass the IDOK command to the active child - fixes the "enter not working
-			break;
-		case ID_FILE_SAVEMESSAGELOGAS:
-			SendMessage(pContainer->hwndActive, DM_SAVEMESSAGELOG, 0, 0);
-			break;
-		case ID_FILE_CLOSEMESSAGESESSION:
-			PostMessage(pContainer->hwndActive, WM_CLOSE, 0, 1);
-			break;
-		case ID_FILE_CLOSE:
-			PostMessage(hwndDlg, WM_CLOSE, 0, 1);
-			break;
-		case ID_VIEW_SHOWSTATUSBAR:
-			ApplyContainerSetting(pContainer, CNT_NOSTATUSBAR, pContainer->dwFlags & CNT_NOSTATUSBAR ? 0 : 1, true);
-			break;
-		case ID_VIEW_VERTICALMAXIMIZE:
-			ApplyContainerSetting(pContainer, CNT_VERTICALMAX, pContainer->dwFlags & CNT_VERTICALMAX ? 0 : 1, false);
-			break;
-		case ID_VIEW_BOTTOMTOOLBAR:
-			ApplyContainerSetting(pContainer, CNT_BOTTOMTOOLBAR, pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 0 : 1, false);
-			M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
-			return 0;
-		case ID_VIEW_SHOWTOOLBAR:
-			ApplyContainerSetting(pContainer, CNT_HIDETOOLBAR, pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, false);
-			M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
-			return 0;
-		case ID_VIEW_SHOWMENUBAR:
-			ApplyContainerSetting(pContainer, CNT_NOMENUBAR, pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
-			break;
-		case ID_VIEW_SHOWTITLEBAR:
-			ApplyContainerSetting(pContainer, CNT_NOTITLE, pContainer->dwFlags & CNT_NOTITLE ? 0 : 1, true);
-			break;
-		case ID_VIEW_TABSATBOTTOM:
-			ApplyContainerSetting(pContainer, CNT_TABSBOTTOM, pContainer->dwFlags & CNT_TABSBOTTOM ? 0 : 1, false);
-			break;
-		case ID_VIEW_SHOWMULTISENDCONTACTLIST:
-			SendMessage(pContainer->hwndActive, WM_COMMAND, MAKEWPARAM(IDC_SENDMENU, ID_SENDMENU_SENDTOMULTIPLEUSERS), 0);
-			break;
-		case ID_VIEW_STAYONTOP:
-			SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_STAYONTOP, 0);
-			break;
-		case ID_CONTAINER_CONTAINEROPTIONS:
-			SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_MOREOPTIONS, 0);
-			break;
-		case ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS:
-			ApplyContainerSetting(pContainer, (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE), 0, false);
-			return 0;
-		case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED:
-			ApplyContainerSetting(pContainer, CNT_DONTREPORT, pContainer->dwFlags & CNT_DONTREPORT ? 0 : 1, false);
-			return 0;
-		case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED:
-			ApplyContainerSetting(pContainer, CNT_DONTREPORTUNFOCUSED, pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED ? 0 : 1, false);
-			return 0;
-		case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED:
-			ApplyContainerSetting(pContainer, CNT_DONTREPORTFOCUSED, pContainer->dwFlags & CNT_DONTREPORTFOCUSED ? 0 : 1, false);
-			return 0;
-		case ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS:
-			ApplyContainerSetting(pContainer, CNT_ALWAYSREPORTINACTIVE, pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE ? 0 : 1, false);
-			return 0;
-		case ID_WINDOWFLASHING_DISABLEFLASHING:
-			ApplyContainerSetting(pContainer, CNT_NOFLASH, 1, false);
-			ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 0, false);
-			return 0;
-		case ID_WINDOWFLASHING_FLASHUNTILFOCUSED:
-			ApplyContainerSetting(pContainer, CNT_NOFLASH, 0, false);
-			ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 1, false);
-			return 0;
-		case ID_WINDOWFLASHING_USEDEFAULTVALUES:
-			ApplyContainerSetting(pContainer, (CNT_NOFLASH | CNT_FLASHALWAYS), 0, false);
-			return 0;
-		case ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT: {
+	case IDC_CLOSE:
+		SendMessage(hwndDlg, WM_SYSCOMMAND, SC_CLOSE, 0);
+		break;
+	case IDC_MINIMIZE:
+		PostMessage(hwndDlg, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+		break;
+	case IDC_MAXIMIZE:
+		SendMessage(hwndDlg, WM_SYSCOMMAND, IsZoomed(hwndDlg) ? SC_RESTORE : SC_MAXIMIZE, 0);
+		break;
+	case IDOK:
+		SendMessage(pContainer->hwndActive, WM_COMMAND, wParam, lParam);      // pass the IDOK command to the active child - fixes the "enter not working
+		break;
+	case ID_FILE_SAVEMESSAGELOGAS:
+		SendMessage(pContainer->hwndActive, DM_SAVEMESSAGELOG, 0, 0);
+		break;
+	case ID_FILE_CLOSEMESSAGESESSION:
+		PostMessage(pContainer->hwndActive, WM_CLOSE, 0, 1);
+		break;
+	case ID_FILE_CLOSE:
+		PostMessage(hwndDlg, WM_CLOSE, 0, 1);
+		break;
+	case ID_VIEW_SHOWSTATUSBAR:
+		ApplyContainerSetting(pContainer, CNT_NOSTATUSBAR, pContainer->dwFlags & CNT_NOSTATUSBAR ? 0 : 1, true);
+		break;
+	case ID_VIEW_VERTICALMAXIMIZE:
+		ApplyContainerSetting(pContainer, CNT_VERTICALMAX, pContainer->dwFlags & CNT_VERTICALMAX ? 0 : 1, false);
+		break;
+	case ID_VIEW_BOTTOMTOOLBAR:
+		ApplyContainerSetting(pContainer, CNT_BOTTOMTOOLBAR, pContainer->dwFlags & CNT_BOTTOMTOOLBAR ? 0 : 1, false);
+		M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+		return 0;
+	case ID_VIEW_SHOWTOOLBAR:
+		ApplyContainerSetting(pContainer, CNT_HIDETOOLBAR, pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1, false);
+		M->BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
+		return 0;
+	case ID_VIEW_SHOWMENUBAR:
+		ApplyContainerSetting(pContainer, CNT_NOMENUBAR, pContainer->dwFlags & CNT_NOMENUBAR ? 0 : 1, true);
+		break;
+	case ID_VIEW_SHOWTITLEBAR:
+		ApplyContainerSetting(pContainer, CNT_NOTITLE, pContainer->dwFlags & CNT_NOTITLE ? 0 : 1, true);
+		break;
+	case ID_VIEW_TABSATBOTTOM:
+		ApplyContainerSetting(pContainer, CNT_TABSBOTTOM, pContainer->dwFlags & CNT_TABSBOTTOM ? 0 : 1, false);
+		break;
+	case ID_VIEW_SHOWMULTISENDCONTACTLIST:
+		SendMessage(pContainer->hwndActive, WM_COMMAND, MAKEWPARAM(IDC_SENDMENU, ID_SENDMENU_SENDTOMULTIPLEUSERS), 0);
+		break;
+	case ID_VIEW_STAYONTOP:
+		SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_STAYONTOP, 0);
+		break;
+	case ID_CONTAINER_CONTAINEROPTIONS:
+		SendMessage(hwndDlg, WM_SYSCOMMAND, IDM_MOREOPTIONS, 0);
+		break;
+	case ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS:
+		ApplyContainerSetting(pContainer, (CNT_DONTREPORT | CNT_DONTREPORTUNFOCUSED | CNT_DONTREPORTFOCUSED | CNT_ALWAYSREPORTINACTIVE), 0, false);
+		return 0;
+	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED:
+		ApplyContainerSetting(pContainer, CNT_DONTREPORT, pContainer->dwFlags & CNT_DONTREPORT ? 0 : 1, false);
+		return 0;
+	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED:
+		ApplyContainerSetting(pContainer, CNT_DONTREPORTUNFOCUSED, pContainer->dwFlags & CNT_DONTREPORTUNFOCUSED ? 0 : 1, false);
+		return 0;
+	case ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED:
+		ApplyContainerSetting(pContainer, CNT_DONTREPORTFOCUSED, pContainer->dwFlags & CNT_DONTREPORTFOCUSED ? 0 : 1, false);
+		return 0;
+	case ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS:
+		ApplyContainerSetting(pContainer, CNT_ALWAYSREPORTINACTIVE, pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE ? 0 : 1, false);
+		return 0;
+	case ID_WINDOWFLASHING_DISABLEFLASHING:
+		ApplyContainerSetting(pContainer, CNT_NOFLASH, 1, false);
+		ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 0, false);
+		return 0;
+	case ID_WINDOWFLASHING_FLASHUNTILFOCUSED:
+		ApplyContainerSetting(pContainer, CNT_NOFLASH, 0, false);
+		ApplyContainerSetting(pContainer, CNT_FLASHALWAYS, 1, false);
+		return 0;
+	case ID_WINDOWFLASHING_USEDEFAULTVALUES:
+		ApplyContainerSetting(pContainer, (CNT_NOFLASH | CNT_FLASHALWAYS), 0, false);
+		return 0;
+	case ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT:
+		{
 			WINDOWPLACEMENT wp = {0};
-
 			wp.length = sizeof(wp);
 			if (GetWindowPlacement(hwndDlg, &wp)) {
 				M->WriteDword(SRMSGMOD_T, "splitx", wp.rcNormalPosition.left);
@@ -747,39 +724,38 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
 				M->WriteDword(SRMSGMOD_T, "splitwidth", wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 				M->WriteDword(SRMSGMOD_T, "splitheight", wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 			}
-			return 0;
 		}
-		case ID_VIEW_INFOPANEL: {
-			TWindowData *dat = (TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
-			if (dat) {
-				RECT	rc;
-				POINT	pt;
-				GetWindowRect(pContainer->hwndActive, &rc);
-				pt.x = rc.left + 10;
-				pt.y = rc.top + dat->Panel->getHeight() - 10;
-				dat->Panel->invokeConfigDialog(pt);
-			}
-			return 0;
-		}
-		/*
-		 * commands from the message log popup will be routed to the
-		 * message log menu handler
-		 */
-		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
-		case ID_MESSAGELOGSETTINGS_GLOBAL: {
-			struct TWindowData *dat = (struct TWindowData *)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+		return 0;
 
-			if (dat) {
-				MsgWindowMenuHandler(dat, (int)LOWORD(wParam), MENU_LOGMENU);
-				return 1;
-			}
-			break;
+	case ID_VIEW_INFOPANEL:
+		if (dat) {
+			RECT	rc;
+			POINT	pt;
+			GetWindowRect(pContainer->hwndActive, &rc);
+			pt.x = rc.left + 10;
+			pt.y = rc.top + dat->Panel->getHeight() - 10;
+			dat->Panel->invokeConfigDialog(pt);
 		}
-		case ID_HELP_ABOUTTABSRMM:
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), 0, DlgProcAbout, 0);
-			break;
-		default:
-			return 0; 		// not handled
+		return 0;
+
+	/*
+	* commands from the message log popup will be routed to the
+	* message log menu handler
+	*/
+	case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
+	case ID_MESSAGELOGSETTINGS_GLOBAL:
+		if (dat) {
+			MsgWindowMenuHandler(dat, (int)LOWORD(wParam), MENU_LOGMENU);
+			return 1;
+		}
+		break;
+
+	case ID_HELP_ABOUTTABSRMM:
+		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_ABOUT), 0, DlgProcAbout, 0);
+		break;
+
+	default:
+		return 0; 		// not handled
 	}
 	return 1;				// handled
 }
@@ -789,49 +765,29 @@ LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARA
  * standard IM session windows.
  */
 void TSAPI DM_InitRichEdit(TWindowData *dat)
-
 {
-	char*				szStreamOut = NULL;
-	SETTEXTEX 			stx = {ST_DEFAULT, CP_UTF8};
-	COLORREF 			colour;
-	COLORREF 			inputcharcolor;
-	CHARFORMAT2A 		cf2;
-	LOGFONTA 			lf;
-	int 				i = 0;
-	bool				fIsChat = ((dat->bType == SESSIONTYPE_CHAT) ? true : false);
-	HWND				hwndLog = GetDlgItem(dat->hwnd, !fIsChat ? IDC_LOG : IDC_CHAT_LOG);
-	HWND				hwndEdit= GetDlgItem(dat->hwnd, !fIsChat ? IDC_MESSAGE : IDC_CHAT_MESSAGE);
-	HWND				hwndDlg = dat->hwnd;
-
-	ZeroMemory(&cf2, sizeof(CHARFORMAT2A));
+	char *szStreamOut = NULL;
+	bool  fIsChat = ((dat->bType == SESSIONTYPE_CHAT) ? true : false);
+	HWND  hwndLog = GetDlgItem(dat->hwnd, !fIsChat ? IDC_LOG : IDC_CHAT_LOG);
+	HWND  hwndEdit= GetDlgItem(dat->hwnd, !fIsChat ? IDC_MESSAGE : IDC_CHAT_MESSAGE);
+	HWND  hwndDlg = dat->hwnd;
 
 	dat->inputbg = fIsChat ? M->GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.inputbg;
-	colour = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.bg;
+	COLORREF colour = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.bg;
+	COLORREF inputcharcolor;
 
-	if (!fIsChat) {
-		if (GetWindowTextLengthA(hwndEdit) > 0)
-			szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
-	}
+	if (!fIsChat && GetWindowTextLengthA(hwndEdit) > 0)
+		szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
 
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);
 	SendMessage(hwndEdit, EM_SETBKGNDCOLOR, 0, dat->inputbg);
 
-	if (fIsChat)
-		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
-	else {
-		lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
-		inputcharcolor = dat->pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA];
-	}
-	/*
-	 * correct the input area text color to avoid a color from the table of usable bbcode colors
-	 */
-	if (!fIsChat) {
-		for (i=0; i < Utils::rtf_ctable_size; i++) {
-			if (Utils::rtf_ctable[i].clr == inputcharcolor)
-				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
-		}
-	}
+	CHARFORMAT2A cf2;
+	ZeroMemory(&cf2, sizeof(CHARFORMAT2A));
 	if (fIsChat) {
+		LOGFONTA lf;
+		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
+	
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
 		cf2.cbSize = sizeof(cf2);
 		cf2.crTextColor = inputcharcolor;
@@ -846,6 +802,13 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		SendMessage(hwndEdit, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 	}
 	else {
+		LOGFONTA lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
+		inputcharcolor = dat->pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA];
+
+		for (int i=0; i < Utils::rtf_ctable_size; i++)
+			if (Utils::rtf_ctable[i].clr == inputcharcolor)
+				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
+
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 		cf2.cbSize = sizeof(cf2);
 		cf2.crTextColor = inputcharcolor;
@@ -867,9 +830,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 
 	PARAFORMAT2 pf2;
 	ZeroMemory(&pf2, sizeof(PARAFORMAT2));
-
 	pf2.cbSize = sizeof(pf2);
-
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;
 	if (Utils::FindRTLLocale(dat))
@@ -908,6 +869,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		SetWindowText(hwndEdit, _T(""));
 	}
 	if (szStreamOut != NULL) {
+		SETTEXTEX stx = {ST_DEFAULT, CP_UTF8};
 		SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szStreamOut);
 		free(szStreamOut);
 	}
