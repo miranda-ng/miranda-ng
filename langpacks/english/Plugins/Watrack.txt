@@ -330,3 +330,4 @@
 [Slider]
 [Slider Hovered]
 [Slider Pushed]
+[WATrack status]
