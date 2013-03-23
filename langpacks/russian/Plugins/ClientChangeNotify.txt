@@ -49,3 +49,7 @@
 Выключить уведомления о смене клиента
 [Enable c&lient change notification]
 Включить уведомления о смене клиента
+[changed client to %s (was %s)]
+поменял(а) клиент на %s (был %s)
+[changed client to %s]
+поменял(а) клиент на %s
