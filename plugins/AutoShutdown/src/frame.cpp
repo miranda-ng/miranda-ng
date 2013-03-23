@@ -597,9 +597,9 @@ static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
 		BOOL (WINAPI *pfnIsThemeActive)(VOID);
 		/* built-in font module is not available before this hook */
 		clr=GetDefaultColor(FRAMEELEMENT_TEXT);
-		FontService_RegisterFont("AutoShutdown","CountdownFont",TranslateT("Automatic Shutdown"),TranslateT("Countdown on Frame"),0,FALSE,GetDefaultFont(&lf),clr);
+		FontService_RegisterFont("AutoShutdown","CountdownFont",LPGENT("Automatic Shutdown"),LPGENT("Countdown on Frame"),LPGENT("Automatic Shutdown"),LPGENT("Background"),0,FALSE,GetDefaultFont(&lf),clr);
 		clr=GetDefaultColor(FRAMEELEMENT_BKGRND);
-		FontService_RegisterColor("AutoShutdown","BkgColor",TranslateT("Automatic Shutdown"),TranslateT("Background"),clr);
+		FontService_RegisterColor("AutoShutdown","BkgColor",LPGENT("Automatic Shutdown"),LPGENT("Background"),clr);
 		/* progressbar color can only be changed in windows classic theme */
 		/* FIXME: should be registered/unregistered on WM_THEMECHANGED/ME_OPT_INITIALISE msg,
 		 * currently not possible as no such font service exists */

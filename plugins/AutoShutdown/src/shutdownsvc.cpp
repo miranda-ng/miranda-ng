@@ -440,15 +440,15 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			return TRUE;
 		case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
 		{	TCHAR szText[256];
-			TCHAR *desc[]={TranslateT("Miranda NG is going to be automatically closed in %u second(s)."),
-			               TranslateT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
-			               TranslateT("You will be logged off automatically in %u second(s)."),
-			               TranslateT("The computer will automatically be restarted in %u second(s)."),
-			               TranslateT("The computer will automatically be set to standby mode in %u second(s)."),
-			               TranslateT("The computer will automatically be set to hibernate mode in %u second(s)."),
-			               TranslateT("The workstation will automatically get locked in %u second(s)."),
-			               TranslateT("All dialup connections will be closed in %u second(s)."),
-			               TranslateT("The computer will automatically be shut down in %u second(s).")};
+			TCHAR *desc[]={LPGENT("Miranda NG is going to be automatically closed in %u second(s)."),
+			               LPGENT("All Miranda NG protocols are going to be set to offline in %u second(s)."),
+			               LPGENT("You will be logged off automatically in %u second(s)."),
+			               LPGENT("The computer will automatically be restarted in %u second(s)."),
+			               LPGENT("The computer will automatically be set to standby mode in %u second(s)."),
+			               LPGENT("The computer will automatically be set to hibernate mode in %u second(s)."),
+			               LPGENT("The workstation will automatically get locked in %u second(s)."),
+			               LPGENT("All dialup connections will be closed in %u second(s)."),
+			               LPGENT("The computer will automatically be shut down in %u second(s).")};
 			mir_sntprintf(szText,SIZEOF(szText),TranslateTS(desc[shutdownType-1]),lParam);
 			SetDlgItemText(hwndDlg,IDC_TEXT_HEADER,szText);
 			/* countdown finished */
@@ -517,22 +517,22 @@ INT_PTR ServiceIsTypeEnabled(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 {
 	TCHAR *pszDesc;
-	const TCHAR *apszShort[]={TranslateT("Close Miranda NG"),TranslateT("Set Miranda NG offline"),TranslateT("Log off user"),
-	                          TranslateT("Restart computer"),TranslateT("Shutdown computer"),TranslateT("Standby mode"),TranslateT("Hibernate mode"),
-	                          TranslateT("Lock workstation"),TranslateT("Hang up dialup connections"),TranslateT("Close Miranda NG"),
-	                          TranslateT("Set Miranda NG offline"),TranslateT("Log off user"),TranslateT("Restart computer"),TranslateT("Shutdown computer"),
-	                          TranslateT("Standby mode"),TranslateT("Hibernate mode"),TranslateT("Lock workstation"),TranslateT("Hang up dialup connections")};
-	const TCHAR *apszLong[]={TranslateT("Sets all Miranda NG protocols to offline and closes Miranda NG."),
-	                         TranslateT("Sets all Miranda NG protocols to offline."),
-	                         TranslateT("Logs the current Windows user off so that another user can log in."),
-	                         TranslateT("Shuts down Windows and then restarts Windows."),
-	                         TranslateT("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
-	                         TranslateT("Saves the current Windows session in memory and sets the system to suspend mode."),
-	                         TranslateT("Saves the current Windows session on harddisc, so that the power can be turned off."),
-	                         TranslateT("Locks the computer. To unlock the computer, you must log in."),
-			                 TranslateT("Sets all protocols to offline and closes all RAS connections.")};
+	const TCHAR *apszShort[]={LPGENT("Close Miranda NG"),LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),
+	                          LPGENT("Restart computer"),LPGENT("Shutdown computer"),LPGENT("Standby mode"),LPGENT("Hibernate mode"),
+	                          LPGENT("Lock workstation"),LPGENT("Hang up dialup connections"),LPGENT("Close Miranda NG"),
+	                          LPGENT("Set Miranda NG offline"),LPGENT("Log off user"),LPGENT("Restart computer"),LPGENT("Shutdown computer"),
+	                          LPGENT("Standby mode"),LPGENT("Hibernate mode"),LPGENT("Lock workstation"),LPGENT("Hang up dialup connections")};
+	const TCHAR *apszLong[]={LPGENT("Sets all Miranda NG protocols to offline and closes Miranda NG."),
+	                         LPGENT("Sets all Miranda NG protocols to offline."),
+	                         LPGENT("Logs the current Windows user off so that another user can log in."),
+	                         LPGENT("Shuts down Windows and then restarts Windows."),
+	                         LPGENT("Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power."),
+	                         LPGENT("Saves the current Windows session in memory and sets the system to suspend mode."),
+	                         LPGENT("Saves the current Windows session on harddisc, so that the power can be turned off."),
+	                         LPGENT("Locks the computer. To unlock the computer, you must log in."),
+			                 LPGENT("Sets all protocols to offline and closes all RAS connections.")};
 	/* shutdownType range check */
-	if(!wParam || (BYTE)wParam>SDSDT_MAX) return (int)NULL;
+	if(!wParam || (BYTE)wParam>SDSDT_MAX) return 0;
 	/* select description */
 	pszDesc=(TCHAR*)((lParam&GSTDF_LONGDESC)?apszLong:apszShort)[wParam-1];
 	if(!(lParam&GSTDF_UNTRANSLATED)) pszDesc=TranslateTS(pszDesc);
@@ -540,12 +540,12 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 	if(!(lParam&GSTDF_UNICODE)) {
 		static char szConvBuf[128];
 		char *buf=u2a(pszDesc);
-		if(buf==NULL) return (int)NULL;
+		if(buf==NULL) return 0;
 		lstrcpynA(szConvBuf,buf,sizeof(szConvBuf));
 		mir_free(buf);
-		return (int)szConvBuf;
+		return (INT_PTR)szConvBuf;
 	}
-	return (int)pszDesc;
+	return (INT_PTR)pszDesc;
 }
 
 /************************* Misc ***************************************/

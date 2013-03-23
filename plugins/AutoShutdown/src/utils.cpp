@@ -210,7 +210,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 
 /************************* Fonts & Colors *************************/
 
-int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDescription,int position,BOOL bAllowEffects,LOGFONT *plfDefault,COLORREF clrDefault)
+int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDescription,const TCHAR* pszBackgroundGroup,const TCHAR* pszBackgroundName,int position,BOOL bAllowEffects,LOGFONT *plfDefault,COLORREF clrDefault)
 {
 	FontIDT fid;
 	ZeroMemory(&fid,sizeof(fid));
@@ -219,6 +219,8 @@ int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const
 	lstrcpynA(fid.prefix,pszDbName,sizeof(fid.prefix)); /* buffer safe */
 	lstrcpyn(fid.group,pszSection,SIZEOF(fid.group)); /* buffer safe */
 	lstrcpyn(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
+	lstrcpyn(fid.backgroundGroup,pszBackgroundGroup,SIZEOF(fid.backgroundGroup)); /* buffer safe */
+	lstrcpyn(fid.backgroundName,pszBackgroundName,SIZEOF(fid.backgroundName)); /* buffer safe */
 	fid.flags=FIDF_ALLOWREREGISTER;
 	if(bAllowEffects) fid.flags|=FIDF_ALLOWEFFECTS;
 	fid.order=position;
