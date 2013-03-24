@@ -40,7 +40,6 @@ static const LPTSTR TEST_LETTER_SNIP =
 	LPGENT("* No metaprogramming except preprocessor macros\n")
 	LPGENT("* No exceptions");
 
-HANDLE hOptionsHook = 0;
 extern HINSTANCE g_hInst;
 
 void CheckControlsEnabled(HWND wnd)
@@ -111,41 +110,41 @@ void SaveControls(HWND wnd, LPCSTR mod)
 INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-		case WM_INITDIALOG:
-			SetProp(wnd, ACCOUNT_PROP_NAME, (HANDLE)lParam);
-			TranslateDialogDefault(wnd);
-			ReadCheckboxes(wnd, (LPCSTR)lParam);
-			CheckControlsEnabled(wnd);
-			break;
+	case WM_INITDIALOG:
+		SetProp(wnd, ACCOUNT_PROP_NAME, (HANDLE)lParam);
+		TranslateDialogDefault(wnd);
+		ReadCheckboxes(wnd, (LPCSTR)lParam);
+		CheckControlsEnabled(wnd);
+		break;
 
-		case WM_CTLCOLORSTATIC:
-			if (GetDlgItem(wnd, IDC_WARNBAR) == (HWND)lParam)
-				return (INT_PTR)CreateSolidBrush(0x55AAFF); // orange
-			break;
+	case WM_CTLCOLORSTATIC:
+		if (GetDlgItem(wnd, IDC_WARNBAR) == (HWND)lParam)
+			return (INT_PTR)CreateSolidBrush(0x55AAFF); // orange
+		break;
 
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDC_POPUPSENABLED:
-				case IDC_PSEUDOCONTACTENABLED:
-					if (HIWORD(wParam) == BN_CLICKED) CheckControlsEnabled(wnd);
-					// no break
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_POPUPSENABLED:
+		case IDC_PSEUDOCONTACTENABLED:
+			if (HIWORD(wParam) == BN_CLICKED) CheckControlsEnabled(wnd);
+			// no break
 
-				case IDC_CLEARPSEUDOCONTACTLOG:
-				case IDC_POPUPSINFULLSCREEN:
-				case IDC_MARKEVENTREAD:
-				case IDC_AUTHONMAILBOX:
-				case IDC_ADDSNIP:
-				case IDC_UNKNOWNVIEW:
-				case IDC_STANDARDVIEW:
-				case IDC_HTMLVIEW:
-					if (HIWORD(wParam) == BN_CLICKED) PropSheet_Changed(GetParent(wnd), wnd);
-			}
-			break;
+		case IDC_CLEARPSEUDOCONTACTLOG:
+		case IDC_POPUPSINFULLSCREEN:
+		case IDC_MARKEVENTREAD:
+		case IDC_AUTHONMAILBOX:
+		case IDC_ADDSNIP:
+		case IDC_UNKNOWNVIEW:
+		case IDC_STANDARDVIEW:
+		case IDC_HTMLVIEW:
+			if (HIWORD(wParam) == BN_CLICKED) PropSheet_Changed(GetParent(wnd), wnd);
+		}
+		break;
 
-		case WM_NOTIFY:
-			if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
-				SaveControls(wnd, (LPCSTR)GetProp(wnd, ACCOUNT_PROP_NAME));
-			break;
+	case WM_NOTIFY:
+		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
+			SaveControls(wnd, (LPCSTR)GetProp(wnd, ACCOUNT_PROP_NAME));
+		break;
 	}
 	return 0;
 }
@@ -181,58 +180,59 @@ void ShowTestPopup(HWND wnd)
 INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(wnd);
-			SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_SETCOLOUR, 0,
-				(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
-			SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_SETCOLOUR, 0,
-				(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
-
-			{LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
+	case WM_INITDIALOG:
+		TranslateDialogDefault(wnd);
+		SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_SETCOLOUR, 0,
+			(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
+		SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_SETCOLOUR, 0,
+			(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
+		{
+			LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
 			__try {
 				wsprintf(timeout, _T("%d"), DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
 				SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_SETTEXT, 0, (LPARAM)timeout);
 			}
 			__finally {
 				free(timeout);
-			}}
-
-			SetProp(wnd, DIALOG_INITIALIZED_PROP_NAME, (HANDLE)TRUE);
-			break;
-
-		case WM_COMMAND:
-			if (LOWORD(wParam) == IDC_TESTBUTTON && HIWORD(wParam) == BN_CLICKED)
-				ShowTestPopup(wnd);
-
-			if (GetProp(wnd, DIALOG_INITIALIZED_PROP_NAME))
-				switch (LOWORD(wParam)) {
-					case IDC_BACKCOLORPICKER:
-					case IDC_TEXTCOLORPICKER:
-						if (HIWORD(wParam) == CPN_COLOURCHANGED) PropSheet_Changed(GetParent(wnd), wnd);
-						break;
-
-					case IDC_TIMEOUTEDIT:
-						if (HIWORD(wParam) == EN_CHANGE) PropSheet_Changed(GetParent(wnd), wnd);
-				}
-			break;
-
-		case WM_NOTIFY:
-			if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
-				DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING,
-					(DWORD)SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_GETCOLOUR, 0, 0));
-				DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING,
-					(DWORD)SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_GETCOLOUR, 0, 0));
-
-			int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
-			LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
-			__try {
-				SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXT, len, (LPARAM)timeout);
-				DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
 			}
-			__finally {
-				free(timeout);
-			}
-			break;
+		}
+
+		SetProp(wnd, DIALOG_INITIALIZED_PROP_NAME, (HANDLE)TRUE);
+		break;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_TESTBUTTON && HIWORD(wParam) == BN_CLICKED)
+			ShowTestPopup(wnd);
+
+		if (GetProp(wnd, DIALOG_INITIALIZED_PROP_NAME))
+			switch (LOWORD(wParam)) {
+			case IDC_BACKCOLORPICKER:
+			case IDC_TEXTCOLORPICKER:
+				if (HIWORD(wParam) == CPN_COLOURCHANGED) PropSheet_Changed(GetParent(wnd), wnd);
+				break;
+
+			case IDC_TIMEOUTEDIT:
+				if (HIWORD(wParam) == EN_CHANGE) PropSheet_Changed(GetParent(wnd), wnd);
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
+			DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING,
+			(DWORD)SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_GETCOLOUR, 0, 0));
+		DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING,
+			(DWORD)SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_GETCOLOUR, 0, 0));
+
+		int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
+		LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
+		__try {
+			SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXT, len, (LPARAM)timeout);
+			DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
+		}
+		__finally {
+			free(timeout);
+		}
+		break;
 	}
 	return 0;
 }
@@ -253,8 +253,7 @@ void AddPopupsPage(WPARAM wParam)
 
 void AddAccPage(LPTSTR acc, LPCSTR mod, WPARAM wParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.ptszTitle = acc;
 	odp.pfnDlgProc = AccOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAILSETTINGS);
@@ -273,21 +272,14 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 	PROTOACCOUNT **accs;
 	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accs);
 	for (int i = 0; i < count; i++)
-		if (getJabberApi(accs[i]->szModuleName)) AddAccPage(accs[i]->tszAccountName, accs[i]->szModuleName, wParam);
+		if ( getJabberApi(accs[i]->szModuleName))
+			AddAccPage(accs[i]->tszAccountName, accs[i]->szModuleName, wParam);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) AddPopupsPage(wParam);
 	return FALSE;
 }
 
-BOOL HookOptionsInitialization()
+void HookOptionsInitialization()
 {
-	return (hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInitialization)) != 0;
-}
-
-void UnhookOptionsInitialization()
-{
-	if (hOptionsHook) {
-		UnhookEvent(hOptionsHook);
-		hOptionsHook = 0;
-	}
+	HookEvent(ME_OPT_INITIALISE, OptionsInitialization);
 }

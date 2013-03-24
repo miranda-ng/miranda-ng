@@ -28,6 +28,7 @@
 #include "tipper_items.h"
 #include "avatar.h"
 #include "menu.h"
+#include "Version.h"
 
 int   hLangpack;
 HICON g_hPopupIcon = 0;
@@ -35,15 +36,16 @@ HICON g_hPopupIcon = 0;
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	PLUGIN_DESCRIPTION,
-	PLUGIN_VERSION_DWORD,
-	"GTalk mail notification extensions for Jabber protocol.",
-	"bems",
-	"bems@vingrad.ru",
-	COPYRIGHT_STRING,
-	"http://miranda-ng.org/",
-	UNICODE_AWARE,		//doesn't replace anything built-in
-	{0x08B86253, 0xEC6E, 0x4d09, { 0xB7, 0xA9, 0x64, 0xAC, 0xDF, 0x06, 0x27, 0xB8 }} //{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	//{08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+	{0x08B86253, 0xEC6E, 0x4d09, { 0xB7, 0xA9, 0x64, 0xAC, 0xDF, 0x06, 0x27, 0xB8 }}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -100,7 +102,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookOptionsInitialization();
 	InitMenus(FALSE);
 	InitAvaUnit(FALSE);
 	return 0;

@@ -381,7 +381,8 @@ LBL_FatalError:
 			_tcsncpy(info->password, passw, SIZEOF(info->password));
 			info->password[SIZEOF(info->password)-1] = '\0';
 			mir_free(passw);
-	}	}
+		}
+	}
 
 	else if (info->type == JABBER_SESSION_REGISTER) {
 		// Register new user connection, all connection parameters are already filled-in.

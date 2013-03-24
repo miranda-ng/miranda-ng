@@ -87,8 +87,8 @@ void SetLabelProp(int index, LPSTR setting)
 				__try {
 					if (!lstrcmp(dbv1.ptszVal, dbv2.ptszVal)) {
 						LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
-						DBWriteContactSettingTString(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
-						DBWriteContactSettingTString(0, TIPPER_ITEMS_MOD_NAME, setting, label);
+						db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
+						db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
 					}
 				}
 				__finally {
@@ -137,7 +137,7 @@ void AddTipperItem()
 
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
 
-		DBWriteContactSettingTString(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
+		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
 
 		WRITE_TIPPER_PROP(TString,	0, label);
 		WRITE_TIPPER_PROP(Byte,		1, 0);

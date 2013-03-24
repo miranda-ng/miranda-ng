@@ -72,7 +72,7 @@ void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
 {
 	char *ansiJid = WtoA(jid);
 	__try {
-		DBWriteContactSettingTString(0, name, ansiJid, setting);
+		db_set_ts(0, name, ansiJid, setting);
 	}
 	__finally {
 		free(ansiJid);

@@ -57,10 +57,3 @@
 
 #define IDI_POPUP					3001
 #define IDI_PSEUDOAVA				3002
-
-#define PLUGIN_VERSION_STRING "0.0.0.20 BETA"
-#define PLUGIN_FILE_VERSION 0, 0, 0, 20
-#define PLUGIN_VERSION_DWORD PLUGIN_MAKE_VERSION(0, 0, 0, 20)
-
-#define PLUGIN_DESCRIPTION "GTalk extensions for Jabber protocol"
-#define COPYRIGHT_STRING "2010, 11 bems"

@@ -33,7 +33,6 @@ static const LPSTR BACK_COLOR_SETTING = "BackColor";
 static const LPSTR TEXT_COLOR_SETTING = "TextColor";
 static const LPSTR TIMEOUT_SETTING = "Timeout";
 
-BOOL HookOptionsInitialization();
-void UnhookOptionsInitialization();
+void HookOptionsInitialization();
 DWORD ReadCheckboxes(HWND wnd, LPCSTR mod);
 BOOL ReadCheckbox(HWND wnd, int id, DWORD controls);

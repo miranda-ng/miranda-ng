@@ -120,18 +120,13 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			UnhookEvent(hHook);
 		}
 
-		__try {
-			if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
-				ReadNotificationSettings(acc);
-				MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
-				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
-			}
+		if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
+			ReadNotificationSettings(acc);
+			MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
 		}
-		__finally {
-			RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
-			free(ppdh);
-		}
-
+		RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
+		free(ppdh);
 		return 0;
 
 	case WM_LBUTTONUP:
@@ -158,20 +153,18 @@ static bool DoAddPopup(POPUPDATAT *data)
 {
 	bool result = false;
 	HWND handle = 0;
-	__try {
-		if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings))) {
-			handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE,
+
+	if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings))) {
+		handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE,
 				-100, -100, 10, 10, NULL, NULL, NULL, NULL);
-			if (handle) {
-				ShowWindow(handle, SW_MINIMIZE);
-				ShowWindow(handle, SW_RESTORE);
-			}
+		if (handle) {
+			ShowWindow(handle, SW_MINIMIZE);
+			ShowWindow(handle, SW_RESTORE);
 		}
-		result = PUAddPopUpT(data) == 0;
 	}
-	__finally {
-		if (handle) DestroyWindow(handle);
-	}
+	result = PUAddPopUpT(data) == 0;
+
+	if (handle) DestroyWindow(handle);
 
 	return result;
 }
@@ -196,21 +189,15 @@ HANDLE SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR 
 
 	SetAvatar(result);
 
-	BOOL allocateName = !displayName;
-	__try {
-		if (allocateName) {
-			displayName = (LPCTSTR)malloc((lstrlen(jid) + lstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
-			FormatPseudocontactDisplayName((LPTSTR)displayName, jid, unreadCount);
-		}
-
-		DBWriteContactSettingTString(result, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
+	if (displayName == NULL) {
+		TCHAR *tszTemp = (TCHAR*)alloca((lstrlen(jid) + lstrlen(unreadCount) + 3 + 1) * sizeof(TCHAR));
+		FormatPseudocontactDisplayName(tszTemp, jid, unreadCount);
+		db_set_ts(result, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, tszTemp);
 	}
-	__finally {
-		if (allocateName) free((PVOID)displayName);
-	}
+	else db_set_ts(result, CLIST_MODULE_NAME, CONTACT_DISPLAY_NAME_SETTING, displayName);
 
-	DBWriteContactSettingTString(result, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
-	DBWriteContactSettingTString(result, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
+	db_set_ts(result, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
+	db_set_ts(result, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
 
 	return result;
 }

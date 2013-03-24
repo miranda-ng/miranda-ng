@@ -25,39 +25,39 @@
 #include "db.h"
 #include "options.h"
 
-static const LPTSTR COMMON_GMAIL_HOST1 = _T("gmail.com");
-static const LPTSTR COMMON_GMAIL_HOST2 = _T("googlemail.com");
+const LPTSTR COMMON_GMAIL_HOST1 = _T("gmail.com");
+const LPTSTR COMMON_GMAIL_HOST2 = _T("googlemail.com");
 
-static const LPSTR AUTH_REQUEST_URL = "https://www.google.com/accounts/ClientAuth";
-static const LPSTR AUTH_REQUEST_PARAMS = "Email=%s&Passwd=%s&"
+const LPSTR AUTH_REQUEST_URL = "https://www.google.com/accounts/ClientAuth";
+const LPSTR AUTH_REQUEST_PARAMS = "Email=%s&Passwd=%s&"
 	"accountType=HOSTED_OR_GOOGLE&"
 	"skipvpage=true&"
 	"PersistentCookie=false";
 
-static const LPSTR ISSUE_TOKEN_REQUEST_URL = "https://www.google.com/accounts/IssueAuthToken";
-static const LPSTR ISSUE_TOKEN_REQUEST_PARAMS = "SID=%s&LSID=%s&"
+const LPSTR ISSUE_TOKEN_REQUEST_URL = "https://www.google.com/accounts/IssueAuthToken";
+const LPSTR ISSUE_TOKEN_REQUEST_PARAMS = "SID=%s&LSID=%s&"
 	"Session=true&"
 	"skipvpage=true&"
 	"service=gaia";
 
-static const LPSTR TOKEN_AUTH_URL = "https://www.google.com/accounts/TokenAuth?"\
+const LPSTR TOKEN_AUTH_URL = "https://www.google.com/accounts/TokenAuth?"\
 	"auth=%s&"
 	"service=mail&"
 	"continue=%s&"
 	"source=googletalk";
 
 
-static const NETLIBHTTPHEADER HEADER_URL_ENCODED = {"Content-Type", "application/x-www-form-urlencoded"};
-static const int HTTP_OK = 200;
+const NETLIBHTTPHEADER HEADER_URL_ENCODED = {"Content-Type", "application/x-www-form-urlencoded"};
+const int HTTP_OK = 200;
 
-static const LPSTR SID_KEY_NAME = "SID=";
-static const LPSTR LSID_KEY_NAME = "LSID=";
+const LPSTR SID_KEY_NAME = "SID=";
+const LPSTR LSID_KEY_NAME = "LSID=";
 
-static const LPSTR LOGIN_PASS_SETTING_NAME = "LoginPassword";
+const LPSTR LOGIN_PASS_SETTING_NAME = "LoginPassword";
 
-static const LPTSTR INBOX_URL_FORMAT = _T("https://mail.google.com/%s%s/#inbox");
+const LPTSTR INBOX_URL_FORMAT = _T("https://mail.google.com/%s%s/#inbox");
 
-static const DWORD SIZE_OF_JABBER_OPTIONS = 243 * sizeof(DWORD);
+const DWORD SIZE_OF_JABBER_OPTIONS = 243 * sizeof(DWORD);
 
 // 3 lines from netlib.h
 #define GetNetlibHandleType(h)  (h?*(int*)h:NLH_INVALID)
@@ -211,47 +211,24 @@ struct OPEN_URL_HEADER {
 HANDLE FindNetUserHandle(LPCSTR acc)
 {
 	IJabberInterface *ji = getJabberApi(acc);
-	if (!ji) return NULL;
+	if (!ji)
+		return NULL;
 
-	PBYTE m_psProto = *(PBYTE*)((PBYTE)ji + sizeof(*ji));   // see CJabberInterface in jabber_proto.h
-
-	PHANDLE pResult = (PHANDLE)(m_psProto +                                 // see CJabberProto in jabber_proto.h
-		sizeof(PVOID) +                                                                         // skip vtable ptr
-		sizeof(PVOID) +                                                                         // skip m_ThreadInfo
-		SIZE_OF_JABBER_OPTIONS);                                                        // skip m_options
-
-	for (int i=0; i < 100; i++) {
-		__try {
-			if (GetNetlibHandleType(*pResult) == NLH_USER)
-				break;
-		}
-		__except (EXCEPTION_EXECUTE_HANDLER){
-		}
-		pResult++;
-	}
-
-	assert(GetNetlibHandleType(*pResult) == NLH_USER);
-	return *pResult;
+	return ji->Net()->GetHandle();
 }
 
 void OpenUrlThread(void *param)
 {
 	OPEN_URL_HEADER* data = (OPEN_URL_HEADER*)param;
 	
-	__try {
-		HANDLE hUser = FindNetUserHandle(data->acc);
-		if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
-			ShellExecuteA(0, NULL, data->url, NULL, NULL, SW_SHOW);
-	}
-	__finally {
-		free(data);
-	}
+	HANDLE hUser = FindNetUserHandle(data->acc);
+	if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
+		CallService(MS_UTILS_OPENURL, 0, (LPARAM)data->url);
 }
 
 void __forceinline DecryptString(LPSTR str, int len)
 {
-	for (--len; len >= 0; len--)
-	{
+	for (--len; len >= 0; len--) {
 		const char c = str[len] ^ 0xc3;
 		if (c) str[len] = c;
 	}
@@ -312,7 +289,8 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 		}
 
 		data->pwd = data->mailbox + mailboxLen;
-		if (!GetMailboxPwd(acc, mailbox, &data->pwd, pwdLen)) return FALSE;
+		if (!GetMailboxPwd(acc, mailbox, &data->pwd, pwdLen))
+			return FALSE;
 
 		data->acc = acc;
 
@@ -328,63 +306,38 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 static void ShellExecuteThread(PVOID param)
 {
-	__try {
-		ShellExecute(0, NULL, (LPTSTR)param, NULL, NULL, SW_SHOW);
-	}
-	__finally {
-		free(param);
-	}
-}
-
-void StartShellExecuteThread(LPCTSTR url)
-{
-	mir_forkthread(ShellExecuteThread, _tcsdup(url));
+	CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)param);
+	mir_free(param);
 }
 
 void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 {
 	extern DWORD itlsSettings;
-	if (!ReadCheckbox(0, IDC_AUTHONMAILBOX, (DWORD)TlsGetValue(itlsSettings)) ||
-		!OpenUrlWithAuth(acc, mailbox, url))
-			StartShellExecuteThread(url);
-}
-
-LPTSTR CraftInboxUrl(LPTSTR jid)
-{
-	LPTSTR host = _tcsstr(jid, _T("@")) + 1;
-
-	LPTSTR result = (LPTSTR)malloc((lstrlen(INBOX_URL_FORMAT) + 1 + lstrlen(jid)) * sizeof(TCHAR));
-	__try {
-		if (lstrcmpi(host, COMMON_GMAIL_HOST1) && lstrcmpi(host, COMMON_GMAIL_HOST2))
-			wsprintf(result, INBOX_URL_FORMAT, _T("a/"), host);   // hosted
-		else
-			wsprintf(result, INBOX_URL_FORMAT, NULL, _T("mail")); // common
-	}
-	__except (
-		free(result),
-		EXCEPTION_CONTINUE_SEARCH
-	) {}
-
-	return result;
+	if (!ReadCheckbox(0, IDC_AUTHONMAILBOX, (DWORD)TlsGetValue(itlsSettings)) || !OpenUrlWithAuth(acc, mailbox, url))
+		mir_forkthread(ShellExecuteThread, mir_tstrdup(url));
 }
 
 void OpenContactInbox(HANDLE hContact)
 {
 	LPSTR acc = GetContactProto(hContact);
-	if (!acc) return;
+	if (!acc)
+		return;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(0, acc, "jid", &dbv))
-		__try {
-			LPTSTR url = CraftInboxUrl(dbv.ptszVal);
-			__try {
-				OpenUrl(acc, dbv.ptszVal, url);
-			}
-			__finally {
-				free(url);
-			}
-	}
-	__finally {
-		DBFreeVariant(&dbv);
-	}
+	if ( DBGetContactSettingTString(0, acc, "jid", &dbv))
+		return;
+
+	LPTSTR host = _tcschr(dbv.ptszVal, '@');
+	if (!host)
+		return;
+	*host++ = 0;
+
+	TCHAR buf[1024];
+	if (lstrcmpi(host, COMMON_GMAIL_HOST1) && lstrcmpi(host, COMMON_GMAIL_HOST2))
+		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T("a/"), host);   // hosted
+	else
+		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common
+	OpenUrl(acc, dbv.ptszVal, buf);
+
+	DBFreeVariant(&dbv);
 }

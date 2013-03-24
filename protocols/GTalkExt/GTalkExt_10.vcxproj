@@ -206,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc" />
+    <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

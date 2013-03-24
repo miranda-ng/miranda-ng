@@ -61,6 +61,7 @@
 #include <m_clist.h>
 #include <m_avatars.h>
 #include <m_netlib.h>
+#include <win2k.h>
 #pragma warning(pop)
 
 #if _MSC_VER < 1400

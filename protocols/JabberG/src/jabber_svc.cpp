@@ -1131,3 +1131,8 @@ LPTSTR CJabberNetInterface::GetResourceFeatures(LPCTSTR jid)
 	}
 	return NULL;
 }
+
+HANDLE CJabberNetInterface::GetHandle()
+{
+	return m_psProto->m_hNetlibUser;
+}

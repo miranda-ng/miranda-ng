@@ -202,16 +202,10 @@ DWORD CJabberProto::JSetWord(HANDLE hContact, const char* valueName, int parValu
 	return db_set_w(hContact, m_szModuleName, valueName, parValue);
 }
 
-char* __fastcall JTranslate(const char* str)
-{
-	return Translate(str);
-}
-
 // save/load crypted strings
 void __forceinline sttCryptString(char *str)
 {
-	for (;*str; ++str)
-	{
+	for (;*str; ++str) {
 		const char c = *str ^ 0xc3;
 		if (c) *str = c;
 	}
@@ -220,14 +214,11 @@ void __forceinline sttCryptString(char *str)
 TCHAR* CJabberProto::JGetStringCrypt(HANDLE hContact, char *valueName)
 {
 	DBVARIANT dbv;
-
 	if ( DBGetContactSettingString(hContact, m_szModuleName, valueName, &dbv))
 		return NULL;
 
 	sttCryptString(dbv.pszVal);
 	WCHAR *res = mir_utf8decodeW(dbv.pszVal);
-
-
 	db_free(&dbv);
 	return res;
 }

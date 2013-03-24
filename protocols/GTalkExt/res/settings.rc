@@ -42,41 +42,5 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 
 LANGUAGE LANG_ENGLISH,SUBLANG_ENGLISH_US
 
-
-
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION PLUGIN_FILE_VERSION
- PRODUCTVERSION PLUGIN_FILE_VERSION
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-{
-    BLOCK "StringFileInfo"
-	{
-        BLOCK "040904b0"
-		{
-            VALUE "FileDescription", PLUGIN_DESCRIPTION
-            VALUE "FileVersion", PLUGIN_VERSION_STRING
-            VALUE "InternalName", SHORT_PLUGIN_NAME
-            VALUE "LegalCopyright", COPYRIGHT_STRING
-            VALUE "OriginalFilename", SHORT_PLUGIN_NAME ".dll"
-            VALUE "PrivateBuild", "Yes"
-            VALUE "ProductName", PLUGIN_DESCRIPTION
-            VALUE "ProductVersion", PLUGIN_VERSION_STRING
-		}
-	}
-    BLOCK "VarFileInfo"
-	{
-        VALUE "Translation", 0x409, 1200
-	}
-}
-
 IDI_POPUP ICON "PopupIcon.ico"
 IDI_PSEUDOAVA PNG "pseudoava.png"

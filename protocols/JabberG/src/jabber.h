@@ -702,10 +702,6 @@ struct JabberAdHocData
 	TCHAR* ResponderJID;
 };
 
-//---- jabber_std.cpp -------------------------------------------------------------------
-
-char* __fastcall JTranslate(const char* str);
-
 //---- jabber_util.cpp ------------------------------------------------------------------
 
 struct TStringPairsElem

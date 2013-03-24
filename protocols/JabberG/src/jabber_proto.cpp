@@ -682,9 +682,9 @@ DWORD_PTR __cdecl CJabberProto::GetCaps(int type, HANDLE hContact)
 	case PFLAGNUM_4:
 		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDUTF | PF4_FORCEADDED;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR) JTranslate("JID");
+		return (DWORD_PTR)Translate("JID");
 	case PFLAG_UNIQUEIDSETTING:
-		return (DWORD_PTR) "jid";
+		return (DWORD_PTR)"jid";
 	case PFLAG_MAXCONTACTSPERPACKET:
 		{
 			DBVARIANT dbv;
