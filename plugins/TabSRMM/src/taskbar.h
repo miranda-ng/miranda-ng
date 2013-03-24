@@ -43,56 +43,58 @@ class CProxyWindow;
 
 class CThumbBase {
 public:
-	CThumbBase				(const CProxyWindow* pWnd);
-	virtual ~CThumbBase		();
+	CThumbBase(const CProxyWindow* pWnd);
+	virtual ~CThumbBase();
 
-	const HBITMAP			getHBM				() const { return(m_hbmThumb); }
-	const bool				isValid				() const { return(m_isValid); }
-	virtual void			setValid			(const bool fNewValid) { m_isValid = fNewValid; }
-	virtual void			update				() = 0;
+	__inline const HBITMAP getHBM() const { return m_hbmThumb; }
+	__inline const bool    isValid() const { return m_isValid; }
+
+	virtual void  setValid(const bool fNewValid) { m_isValid = fNewValid; }
+	virtual void  update() = 0;
 
 protected:
-	HBITMAP					m_hbmThumb, m_hbmOld;
-	const TWindowData*		m_dat;
-	LONG					m_width, m_height;
-	HDC						m_hdc;
-	const CProxyWindow*		m_pWnd;
-	RECT					m_rc, m_rcTop, m_rcBottom, m_rcIcon;
-	DWORD					m_dtFlags;
-	SIZE					m_sz;
-	LONG					m_cx, m_cy;
-	HFONT					m_hOldFont;
+	const TWindowData  *m_dat;
+	const CProxyWindow *m_pWnd;
 
-	virtual void			renderBase			();
+	HBITMAP m_hbmThumb, m_hbmOld;
+	LONG    m_width, m_height;
+	HDC     m_hdc;
+	RECT    m_rc, m_rcTop, m_rcBottom, m_rcIcon;
+	DWORD   m_dtFlags;
+	SIZE    m_sz;
+	LONG    m_cx, m_cy;
+	HFONT   m_hOldFont;
 
-private:
-	virtual void			renderContent		() = 0;
-	void					setupRect			();
+	virtual void renderBase();
+	virtual void renderContent() = 0;
 
 private:
-	bool					m_isValid;
+	void setupRect();
+
+private:
+	bool m_isValid;
 };
 
-class CThumbIM : public CThumbBase {
-
+class CThumbIM : public CThumbBase
+{
 public:
-	CThumbIM				(const CProxyWindow* pWnd);
-	virtual ~CThumbIM		() {};
-	void					update				();
+	CThumbIM(const CProxyWindow* pWnd);
+	virtual ~CThumbIM() {};
+	void update();
 
 private:
-	void					renderContent		();
+	void renderContent();
 };
 
-class CThumbMUC : public CThumbBase {
-
+class CThumbMUC : public CThumbBase
+{
 public:
-	CThumbMUC				(const CProxyWindow* pWnd);
-	virtual ~CThumbMUC		() {};
-	void					update				();
+	CThumbMUC(const CProxyWindow* pWnd);
+	virtual ~CThumbMUC() {};
+	void update();
 
 private:
-	void					renderContent		();
+	void renderContent();
 };
 
 class CProxyWindow
@@ -101,34 +103,37 @@ public:
 	CProxyWindow(const TWindowData *dat);
 	~CProxyWindow();
 
-	void					updateIcon			(const HICON hIcon) const;
-	void					updateTitle			(const TCHAR *tszTitle) const;
-	void					setBigIcon			(const HICON hIcon, bool fInvalidate = true);
-	void					setOverlayIcon		(const HICON hIcon, bool fInvalidate = true);
-	void					activateTab			() const;
-	void					Invalidate			() const;
-	const TWindowData*		getDat				() const { return(m_dat); }
-	const LONG				getWidth			() const { return(m_width); }
-	const LONG				getHeight			() const { return(m_height); }
-	const HWND				getHwnd				() const { return(m_hwndProxy); }
-	const HICON				getBigIcon			() const { return(m_hBigIcon); }
-	const HICON				getOverlayIcon		() const { return(m_hOverlayIcon); }
-	void					verifyDwmState		();
+	void updateIcon(const HICON hIcon) const;
+	void updateTitle(const TCHAR *tszTitle) const;
+	void setBigIcon(const HICON hIcon, bool fInvalidate = true);
+	void setOverlayIcon(const HICON hIcon, bool fInvalidate = true);
+	void activateTab() const;
+	void Invalidate() const;
+	void verifyDwmState();
 
-	static	LRESULT CALLBACK stubWndProc		(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static	void			add					(TWindowData *dat);
-	static 	void			verify				(TWindowData *dat);
+	__inline const TWindowData* getDat() const { return m_dat; }
+	__inline const LONG getWidth() const { return m_width; }
+	__inline const LONG getHeight() const { return m_height; }
+	__inline const HWND getHwnd() const { return m_hwndProxy; }
+	__inline const HICON getBigIcon() const { return m_hBigIcon; }
+	__inline const HICON getOverlayIcon() const { return m_hOverlayIcon; }
+
+	static LRESULT CALLBACK stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static void	add(TWindowData *dat);
+	static void verify(TWindowData *dat);
 
 private:
-	const TWindowData*		m_dat;
-	HWND					m_hwndProxy;
-	LONG					m_width, m_height;
-	HICON					m_hBigIcon, m_hOverlayIcon;
+	const TWindowData *m_dat;
 
-	LRESULT CALLBACK		wndProc				(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	void 					sendThumb			(LONG width, LONG height);
-	void					sendPreview			();
-	CThumbBase*				m_thumb;
+	HWND m_hwndProxy;
+	LONG m_width, m_height;
+	HICON m_hBigIcon, m_hOverlayIcon;
+
+	LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void sendThumb(LONG width, LONG height);
+	void sendPreview();
+	CThumbBase *m_thumb;
 };
 
 class CTaskbarInteract
@@ -148,15 +153,14 @@ public:
 		}
 
 		/*
-		 * register proxy window class
-		 */
-	    WNDCLASSEX			wcex = {0};
-		wcex.cbSize         = sizeof(wcex);
-		wcex.lpfnWndProc    = CProxyWindow::stubWndProc;
-		wcex.hInstance      = g_hInst;
-		wcex.hCursor        = LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-		wcex.lpszClassName  = PROXYCLASSNAME;
+		* register proxy window class
+		*/
+		WNDCLASSEX wcex = { sizeof(wcex) };
+		wcex.lpfnWndProc = CProxyWindow::stubWndProc;
+		wcex.hInstance = g_hInst;
+		wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+		wcex.lpszClassName = PROXYCLASSNAME;
 		::RegisterClassEx(&wcex);
 	}
 
@@ -169,27 +173,28 @@ public:
 		}
 		::UnregisterClass(PROXYCLASSNAME, g_hInst);
 	}
-	const LONG		getIconSize						() const { return(m_IconSize); }
-	const bool		haveAlwaysGroupingMode			() const { return(m_fHaveAlwaysGrouping); }
+	const LONG getIconSize() const { return m_IconSize; }
+	const bool haveAlwaysGroupingMode() const { return m_fHaveAlwaysGrouping; }
 
-	bool 			setOverlayIcon					(HWND hwndDlg, LPARAM lParam) const;
-	void			clearOverlayIcon				(HWND hwndDlg) const;
-	bool			haveLargeIcons					();
-	LONG			updateMetrics					();
-	void			registerTab						(const HWND hwndTab, const HWND hwndContainer) const;
-	void			unRegisterTab					(const HWND hwndTab) const;
-	void			SetTabActive					(const HWND hwndTab, const HWND hwndGroup) const;
+	bool setOverlayIcon(HWND hwndDlg, LPARAM lParam) const;
+	void clearOverlayIcon(HWND hwndDlg) const;
+	bool haveLargeIcons();
+	LONG updateMetrics();
+	void registerTab(const HWND hwndTab, const HWND hwndContainer) const;
+	void unRegisterTab(const HWND hwndTab) const;
+	void SetTabActive(const HWND hwndTab, const HWND hwndGroup) const;
 
 	//const TCHAR*	getFileNameFromWindow			(const HWND hWnd);
 private:
-	bool 										m_isEnabled;
-	ITaskbarList3* 								m_pTaskbarInterface;
-	bool										m_fHaveLargeicons;
-	bool										m_fHaveAlwaysGrouping;
-	LONG										m_IconSize;
+	ITaskbarList3 *m_pTaskbarInterface;
+
+	bool m_isEnabled;
+	bool m_fHaveLargeicons;
+	bool m_fHaveAlwaysGrouping;
+	LONG m_IconSize;
 };
 
-extern CTaskbarInteract* Win7Taskbar;
+extern CTaskbarInteract *Win7Taskbar;
 
 #endif /* __TASKBAR_H */
 

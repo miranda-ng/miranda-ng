@@ -330,124 +330,125 @@ void CProxyWindow::sendThumb(LONG width, LONG height)
  */
 void CProxyWindow::sendPreview()
 {
-	POINT 			pt = {0};
-	RECT			rcContainer;
-	HDC				hdc, dc;
-	FORMATRANGE 	fr = {0};
-	int				twips = (int)(15.0f / PluginConfig.g_DPIscaleY);
-	RECT			rcTemp;
-	RECT			rcRich, rcLog;
-	bool			fIsChat = m_dat->bType == SESSIONTYPE_IM ? false : true;
-	TWindowData* 	dat_active = reinterpret_cast<TWindowData *>(::GetWindowLongPtr(m_dat->pContainer->hwndActive, GWLP_USERDATA));
+	if (m_dat->pContainer == NULL)
+		return;
 
-	if (m_thumb && dat_active) {
-		HWND 	hwndRich = ::GetDlgItem(m_dat->hwnd, fIsChat ? IDC_CHAT_LOG : IDC_LOG);
-		LONG 	cx, cy;
-		POINT	ptOrigin = {0}, ptBottom;
+	TWindowData *dat_active = reinterpret_cast<TWindowData *>(::GetWindowLongPtr(m_dat->pContainer->hwndActive, GWLP_USERDATA));
+	if (!m_thumb || !dat_active)
+		return;
 
-		if (m_dat->dwFlags & MWF_NEEDCHECKSIZE) {
-			RECT	rcClient;
+	FORMATRANGE fr = {0};
+	POINT pt = {0};
+	RECT rcContainer, rcTemp, rcRich, rcLog;
+	HDC hdc, dc;
+	int twips = (int)(15.0f / PluginConfig.g_DPIscaleY);
+	bool fIsChat = m_dat->bType != SESSIONTYPE_IM;
+	HWND 	hwndRich = ::GetDlgItem(m_dat->hwnd, fIsChat ? IDC_CHAT_LOG : IDC_LOG);
+	LONG 	cx, cy;
+	POINT	ptOrigin = {0}, ptBottom;
 
-			::SendMessage(m_dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
-			::MoveWindow(m_dat->hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
-			::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
-			::SendMessage(m_dat->hwnd, DM_FORCESCROLL, 0, 0);
-		}
-		/*
-		 * a minimized container has a null rect as client area, so do not use it
-		 * use the last known client area size instead.
-		 */
+	if (m_dat->dwFlags & MWF_NEEDCHECKSIZE) {
+		RECT	rcClient;
 
-		if (!::IsIconic(m_dat->pContainer->hwnd)) {
-			::GetWindowRect(m_dat->pContainer->hwndActive, &rcLog);
-			::GetClientRect(m_dat->pContainer->hwnd, &rcContainer);
-			pt.x = rcLog.left;
-			pt.y = rcLog.top;
-			::ScreenToClient(m_dat->pContainer->hwnd, &pt);
-		}
-		else {
-			rcLog = m_dat->pContainer->rcLogSaved;
-			rcContainer = m_dat->pContainer->rcSaved;
-			pt = m_dat->pContainer->ptLogSaved;
-		}
-
-		::GetWindowRect(::GetDlgItem(m_dat->pContainer->hwndActive, dat_active->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcTemp);
-		ptBottom.x = rcTemp.left;
-		ptBottom.y = rcTemp.bottom;
-		::ScreenToClient(m_dat->pContainer->hwnd, &ptBottom);
-
-		cx = rcLog.right - rcLog.left;
-		cy = rcLog.bottom - rcLog.top;
-		rcRich.left = 0;
-		rcRich.top = 0;
-		rcRich.right = cx;
-		rcRich.bottom = ptBottom.y - pt.y;
-
-		dc = ::GetDC(m_dat->hwnd);
-		hdc = ::CreateCompatibleDC(dc);
-		HBITMAP hbm = CSkin::CreateAeroCompatibleBitmap(rcContainer, hdc);
-		HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdc, hbm));
-
-		HBRUSH brb = ::CreateSolidBrush(RGB(20, 20, 20));
-		::FillRect(hdc, &rcContainer, brb);
-		::DeleteObject(brb);
-		CImageItem::SetBitmap32Alpha(hbm, 100);
-
-		LRESULT first = ::SendMessage(hwndRich, EM_CHARFROMPOS, 0, reinterpret_cast<LPARAM>(&ptOrigin));
-
-		/*
-		 * paint the content of the message log control into a separate bitmap without
-		 * transparency
-		 */
-		HDC hdcRich = ::CreateCompatibleDC(dc);
-		HBITMAP hbmRich = CSkin::CreateAeroCompatibleBitmap(rcRich, hdcRich);
-		HBITMAP hbmRichOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcRich, hbmRich));
-
-		COLORREF clr = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->pContainer->theme.inbg;
-		HBRUSH br = ::CreateSolidBrush(clr);
-		::FillRect(hdcRich, &rcRich, br);
-		::DeleteObject(br);
-
-		if (m_dat->hwndIEView)
-			::SendMessage(m_dat->hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
-		else if (m_dat->hwndHPP) {
-			CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not availble when using History++ plugin for message log display."),
-							  &rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
-		}
-		else {
-			rcRich.right *= twips;
-			rcRich.bottom *= twips;
-
-			fr.hdc = hdcRich;
-			fr.hdcTarget = hdcRich;
-			fr.rc = rcRich;
-			fr.rcPage = rcRich;
-			fr.chrg.cpMax = -1;
-			fr.chrg.cpMin = first;
-
-			::SendMessage(hwndRich, EM_FORMATRANGE, 1, reinterpret_cast<LPARAM>(&fr));
-		}
-
-		::SelectObject(hdcRich, hbmRichOld);
-		CImageItem::SetBitmap32Alpha(hbmRich, 255);
-		::SelectObject(hdcRich, hbmRich);
-		::BitBlt(hdc, pt.x, pt.y, cx, cy, hdcRich, 0, 0, SRCCOPY);
-		::SelectObject(hdcRich, hbmRichOld);
-		::DeleteObject(hbmRich);
-		::DeleteDC(hdcRich);
-
-		::SelectObject(hdc, hbmOld);
-		::DeleteDC(hdc);
-		if (CSkin::m_skinEnabled && CSkin::m_frameSkins) {
-			pt.x = CSkin::m_SkinnedFrame_left;
-			pt.y = CSkin::m_SkinnedFrame_caption + CSkin::m_SkinnedFrame_bottom;
-		}
-		else
-			pt.x = pt.y = 0;
-		CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED ? 0 : DWM_SIT_DISPLAYFRAME);
-		::ReleaseDC(m_dat->hwnd, dc);
-		::DeleteObject(hbm);
+		::SendMessage(m_dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
+		::MoveWindow(m_dat->hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
+		::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
+		::SendMessage(m_dat->hwnd, DM_FORCESCROLL, 0, 0);
 	}
+	/*
+		* a minimized container has a null rect as client area, so do not use it
+		* use the last known client area size instead.
+		*/
+
+	if (!::IsIconic(m_dat->pContainer->hwnd)) {
+		::GetWindowRect(m_dat->pContainer->hwndActive, &rcLog);
+		::GetClientRect(m_dat->pContainer->hwnd, &rcContainer);
+		pt.x = rcLog.left;
+		pt.y = rcLog.top;
+		::ScreenToClient(m_dat->pContainer->hwnd, &pt);
+	}
+	else {
+		rcLog = m_dat->pContainer->rcLogSaved;
+		rcContainer = m_dat->pContainer->rcSaved;
+		pt = m_dat->pContainer->ptLogSaved;
+	}
+
+	::GetWindowRect(::GetDlgItem(m_dat->pContainer->hwndActive, dat_active->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcTemp);
+	ptBottom.x = rcTemp.left;
+	ptBottom.y = rcTemp.bottom;
+	::ScreenToClient(m_dat->pContainer->hwnd, &ptBottom);
+
+	cx = rcLog.right - rcLog.left;
+	cy = rcLog.bottom - rcLog.top;
+	rcRich.left = 0;
+	rcRich.top = 0;
+	rcRich.right = cx;
+	rcRich.bottom = ptBottom.y - pt.y;
+
+	dc = ::GetDC(m_dat->hwnd);
+	hdc = ::CreateCompatibleDC(dc);
+	HBITMAP hbm = CSkin::CreateAeroCompatibleBitmap(rcContainer, hdc);
+	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdc, hbm));
+
+	HBRUSH brb = ::CreateSolidBrush(RGB(20, 20, 20));
+	::FillRect(hdc, &rcContainer, brb);
+	::DeleteObject(brb);
+	CImageItem::SetBitmap32Alpha(hbm, 100);
+
+	LRESULT first = ::SendMessage(hwndRich, EM_CHARFROMPOS, 0, reinterpret_cast<LPARAM>(&ptOrigin));
+
+	/*
+		* paint the content of the message log control into a separate bitmap without
+		* transparency
+		*/
+	HDC hdcRich = ::CreateCompatibleDC(dc);
+	HBITMAP hbmRich = CSkin::CreateAeroCompatibleBitmap(rcRich, hdcRich);
+	HBITMAP hbmRichOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcRich, hbmRich));
+
+	COLORREF clr = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR) : m_dat->pContainer->theme.inbg;
+	HBRUSH br = ::CreateSolidBrush(clr);
+	::FillRect(hdcRich, &rcRich, br);
+	::DeleteObject(br);
+
+	if (m_dat->hwndIEView)
+		::SendMessage(m_dat->hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
+	else if (m_dat->hwndHPP) {
+		CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not availble when using History++ plugin for message log display."),
+							&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
+	}
+	else {
+		rcRich.right *= twips;
+		rcRich.bottom *= twips;
+
+		fr.hdc = hdcRich;
+		fr.hdcTarget = hdcRich;
+		fr.rc = rcRich;
+		fr.rcPage = rcRich;
+		fr.chrg.cpMax = -1;
+		fr.chrg.cpMin = first;
+
+		::SendMessage(hwndRich, EM_FORMATRANGE, 1, reinterpret_cast<LPARAM>(&fr));
+	}
+
+	::SelectObject(hdcRich, hbmRichOld);
+	CImageItem::SetBitmap32Alpha(hbmRich, 255);
+	::SelectObject(hdcRich, hbmRich);
+	::BitBlt(hdc, pt.x, pt.y, cx, cy, hdcRich, 0, 0, SRCCOPY);
+	::SelectObject(hdcRich, hbmRichOld);
+	::DeleteObject(hbmRich);
+	::DeleteDC(hdcRich);
+
+	::SelectObject(hdc, hbmOld);
+	::DeleteDC(hdc);
+	if (CSkin::m_skinEnabled && CSkin::m_frameSkins) {
+		pt.x = CSkin::m_SkinnedFrame_left;
+		pt.y = CSkin::m_SkinnedFrame_caption + CSkin::m_SkinnedFrame_bottom;
+	}
+	else pt.x = pt.y = 0;
+
+	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->pContainer->dwFlags & CNT_CREATE_MINIMIZED ? 0 : DWM_SIT_DISPLAYFRAME);
+	::ReleaseDC(m_dat->hwnd, dc);
+	::DeleteObject(hbm);
 }
 
 /**

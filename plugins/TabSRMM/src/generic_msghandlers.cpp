@@ -784,12 +784,13 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 
 	CHARFORMAT2A cf2;
 	ZeroMemory(&cf2, sizeof(CHARFORMAT2A));
+	cf2.cbSize = sizeof(cf2);
+
 	if (fIsChat) {
 		LOGFONTA lf;
 		LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor, FONTMODULE);
 	
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
-		cf2.cbSize = sizeof(cf2);
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
 		cf2.crBackColor = dat->inputbg;
@@ -810,7 +811,6 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
 
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
-		cf2.cbSize = sizeof(cf2);
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
 		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
@@ -862,7 +862,8 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		if (dat->dwFlags & MWF_LOG_RTL) {
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 			SetWindowLongPtr(hwndLog, GWL_EXSTYLE, GetWindowLongPtr(hwndLog, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-		} else {
+		}
+		else {
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 			SetWindowLongPtr(hwndLog, GWL_EXSTYLE, GetWindowLongPtr(hwndLog, GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 		}
@@ -881,52 +882,54 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 
 static void BTN_StockAction(ButtonItem *item, HWND hwndDlg, struct TWindowData *dat, HWND hwndBtn)
 {
-	if (item->dwStockFlags & SBI_HANDLEBYCLIENT && IsWindow(hwndDlg) && dat)
+	POINT pt;
+	int iSelection;
+
+	if (item->dwStockFlags & SBI_HANDLEBYCLIENT && IsWindow(hwndDlg) && dat) {
 		SendMessage(hwndDlg, WM_COMMAND, MAKELONG(item->uId, BN_CLICKED), (LPARAM)hwndBtn);
-	else {
-		switch (item->uId) {
-			case IDC_SBAR_CANCEL:
-				PostMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_SAVE, BN_CLICKED), (LPARAM)hwndBtn);
-				break;
-			case IDC_SBAR_SLIST:
-				SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
-				break;
-			case IDC_SBAR_FAVORITES: {
-				POINT pt;
-				int iSelection;
-				GetCursorPos(&pt);
-				iSelection = TrackPopupMenu(PluginConfig.g_hMenuFavorites, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
-				HandleMenuEntryFromhContact(iSelection);
-				break;
+		return;
+	}
+
+	switch (item->uId) {
+	case IDC_SBAR_CANCEL:
+		PostMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_SAVE, BN_CLICKED), (LPARAM)hwndBtn);
+		break;
+	case IDC_SBAR_SLIST:
+		SendMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_LBUTTONUP);
+		break;
+	case IDC_SBAR_FAVORITES:
+		GetCursorPos(&pt);
+		iSelection = TrackPopupMenu(PluginConfig.g_hMenuFavorites, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
+		HandleMenuEntryFromhContact(iSelection);
+		break;
+
+	case IDC_SBAR_RECENT:
+		GetCursorPos(&pt);
+		iSelection = TrackPopupMenu(PluginConfig.g_hMenuRecent, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
+		HandleMenuEntryFromhContact(iSelection);
+		break;
+
+	case IDC_SBAR_USERPREFS:
+		{
+			HANDLE hContact = 0;
+			SendMessage(hwndDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
+			if (hContact != 0)
+				CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)hContact, 0);
+		}
+		break;
+
+	case IDC_SBAR_TOGGLEFORMAT:
+		if (dat) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_SBAR_TOGGLEFORMAT) == BST_UNCHECKED) {
+				dat->SendFormat = 0;
+				GetSendFormat(dat, 0);
 			}
-			case IDC_SBAR_RECENT: {
-				POINT pt;
-				int iSelection;
-				GetCursorPos(&pt);
-				iSelection = TrackPopupMenu(PluginConfig.g_hMenuRecent, TPM_RETURNCMD, pt.x, pt.y, 0, PluginConfig.g_hwndHotkeyHandler, NULL);
-				HandleMenuEntryFromhContact(iSelection);
-				break;
-			}
-			case IDC_SBAR_USERPREFS: {
-				HANDLE hContact = 0;
-				SendMessage(hwndDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-				if (hContact != 0)
-					CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)hContact, 0);
-				break;
-			}
-			case IDC_SBAR_TOGGLEFORMAT: {
-				if (dat) {
-					if (IsDlgButtonChecked(hwndDlg, IDC_SBAR_TOGGLEFORMAT) == BST_UNCHECKED) {
-						dat->SendFormat = 0;
-						GetSendFormat(dat, 0);
-					} else {
-						dat->SendFormat = SENDFORMAT_BBCODE;
-						GetSendFormat(dat, 0);
-					}
-				}
-				break;
+			else {
+				dat->SendFormat = SENDFORMAT_BBCODE;
+				GetSendFormat(dat, 0);
 			}
 		}
+		break;
 	}
 }
 
@@ -944,9 +947,7 @@ static struct SIDEBARITEM sbarItems[] = {
 
 int TSAPI BTN_GetStockItem(ButtonItem *item, const TCHAR *szName)
 {
-	int i = 0;
-
-	while (sbarItems[i].uId) {
+	for (int i=0; sbarItems[i].uId; i++) {
 		if (!_tcsicmp(sbarItems[i].szName, szName)) {
 			item->uId = sbarItems[i].uId;
 			//item->dwFlags |= BUTTON_ISSIDEBAR;
@@ -977,7 +978,6 @@ int TSAPI BTN_GetStockItem(ButtonItem *item, const TCHAR *szName)
 			}
 			return 1;
 		}
-		i++;
 	}
 	return 0;
 }
@@ -1132,19 +1132,15 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 
 LRESULT TSAPI DM_RecalcPictureSize(TWindowData *dat)
 {
-	BITMAP bminfo;
-	HBITMAP hbm;
-
 	if (dat) {
-		hbm = ((dat->Panel->isActive()) && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
-
-		if (hbm == 0) {
-			dat->pic.cy = dat->pic.cx = 60;
-			return 0;
+		HBITMAP hbm = ((dat->Panel->isActive()) && dat->pContainer->avatarMode != 3) ? dat->hOwnPic : (dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown);
+		if (hbm) {
+			BITMAP bminfo;
+			GetObject(hbm, sizeof(bminfo), &bminfo);
+			CalcDynamicAvatarSize(dat, &bminfo);
+			SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 		}
-		GetObject(hbm, sizeof(bminfo), &bminfo);
-		CalcDynamicAvatarSize(dat, &bminfo);
-		SendMessage(dat->hwnd, WM_SIZE, 0, 0);
+		else dat->pic.cy = dat->pic.cx = 60;
 	}
 	return 0;
 }
@@ -1247,21 +1243,18 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 		dat->sendMode &= ~SMODE_MULTIPLE;
 		return 0;
 	}
-	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
-									 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 
-	//MAD: fix for little bug, when following code didn't work (another hack :))
-	HANDLE hItem;
+	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
+								 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
-	//
-	hItem = (HANDLE) SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM) dat->hContact, 0);
+	HANDLE hItem = (HANDLE) SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM) dat->hContact, 0);
 
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
-	//MAD: show offline contacts in multi-send
+
 	if (!PluginConfig.m_AllowOfflineMultisend)
 		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_HIDEOFFLINE);
-	//
+
 	if (hItem)
 		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
 
@@ -1329,8 +1322,8 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowDat
 				SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
 			else if (wDirection > 0)
 				SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
-		} else
-			SendMessage(hwnd, WM_MOUSEWHEEL, wParam, lParam);
+		}
+		else SendMessage(hwnd, WM_MOUSEWHEEL, wParam, lParam);
 		return 0;
 	}
 	hwndTab = GetDlgItem(mwdat->pContainer->hwnd, IDC_MSGTABS);
