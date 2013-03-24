@@ -431,7 +431,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	// status
 	if (info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE )
-		appendString(bIsTipper, _T("Status:"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,info->status,GSMDF_TCHAR), outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, _T("Status:"), pcli->pfnGetStatusModeDescription(info->status, 0), outBuf, SIZEOF(outBuf));
 
 	// status text
 	if (info->statusMessage)
