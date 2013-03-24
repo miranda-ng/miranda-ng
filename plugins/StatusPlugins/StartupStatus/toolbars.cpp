@@ -56,7 +56,7 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 	for (int i=0; i < profileCount; i++) {
 		char setting[80];
 		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);
-		if (!DBGetContactSettingByte(NULL, MODULENAME, setting, FALSE))
+		if (!db_get_b(NULL, MODULENAME, setting, FALSE))
 			continue;
 		
 		DBVARIANT dbv;
@@ -71,7 +71,7 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
 		if (ttbAddResult)
 			ttbButtons.insert(ttbAddResult);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }

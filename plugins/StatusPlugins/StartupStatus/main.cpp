@@ -75,17 +75,17 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP( &pluginInfoEx );
 	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
 
-	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||
-		  DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))
-		DBWriteContactSettingWord(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+	if ( db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||
+		  db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))
+		db_set_w(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
 
 	// docking
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETDOCKED, 0)) {
-		int docked = DBGetContactSettingByte(NULL, MODULENAME, SETTING_DOCKED, DOCKED_NONE);
+	if (db_get_b(NULL, MODULENAME, SETTING_SETDOCKED, 0)) {
+		int docked = db_get_b(NULL, MODULENAME, SETTING_DOCKED, DOCKED_NONE);
 		if ( docked == DOCKED_LEFT || docked == DOCKED_RIGHT )
 			docked = -docked;
 
-		DBWriteContactSettingByte(NULL, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
+		db_set_b(NULL, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
 	}
 
 	// Create service functions; the get functions are created here; they don't rely on commonstatus

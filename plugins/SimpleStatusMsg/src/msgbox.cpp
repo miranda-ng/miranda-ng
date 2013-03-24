@@ -179,19 +179,15 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	{
 		int defaultProfile;
 		int profileCount = (int)CallService(MS_SS_GETPROFILECOUNT, (WPARAM)&defaultProfile, 0);
-		char buff1[128];
 
-		for (int i = 0; i < profileCount; ++i)
-		{
-			CallService(MS_SS_GETPROFILENAME, (WPARAM)i, (LPARAM)buff1);
-
-			status_desc = mir_a2u(buff1);
+		for (int i = 0; i < profileCount; ++i) {
+			TCHAR tszProfileName[128];
+			CallService(MS_SS_GETPROFILENAME, (WPARAM)i, (LPARAM)tszProfileName);
 
 			cbei.iItem          = j;
-			cbei.pszText        = (LPTSTR)status_desc;
-			cbei.cchTextMax     = sizeof(status_desc);
-			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS)
-			{
+			cbei.pszText        = (LPTSTR)tszProfileName;
+			cbei.cchTextMax     = SIZEOF(tszProfileName);
+			if (data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS) {
 				int k = GetCurrentStatus(NULL) - ID_STATUS_OFFLINE;
 				if (k < 0 || k > 9) k = 0; // valid status modes only
 				cbei.iImage = statusicon_nr[k];
@@ -407,7 +403,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		else
 			cbei.iIndent = 0;
 		cbei.lParam = MAKELPARAM(DEFAULT_MSG, 0);
-		
+
 		SendMessage(handle,CBEM_INSERTITEM,0,(LPARAM)&cbei);
 	}
 
@@ -437,16 +433,16 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 
 VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 {
-	HMENU hmenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_EDITMENU)); 
-	if (hmenu == NULL) 
-		return; 
- 
-	HMENU hmenuTrackPopup = GetSubMenu(hmenu, 0); 
- 
+	HMENU hmenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_EDITMENU));
+	if (hmenu == NULL)
+		return;
+
+	HMENU hmenuTrackPopup = GetSubMenu(hmenu, 0);
+
  	TranslateMenu(hmenuTrackPopup);
- 
-	ClientToScreen(hwnd, (LPPOINT) &pt);  
- 
+
+	ClientToScreen(hwnd, (LPPOINT) &pt);
+
 	LPDWORD sel_s = NULL, sel_e = NULL;
 	SendMessage(edit_control, EM_GETSEL, (WPARAM)&sel_s, (LPARAM)&sel_e);
 	if (sel_s == sel_e)
@@ -461,7 +457,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 		DeleteMenu(hmenuTrackPopup, ID__VARIABLES, MF_BYCOMMAND);
 	else
 		DeleteMenu(hmenuTrackPopup, 8, MF_BYPOSITION);
-	
+
 	if (ServiceExists(MS_FORTUNEMSG_GETSTATUSMSG))
 		DeleteMenu(hmenuTrackPopup, ID__FORTUNEAWAYMSG, MF_BYCOMMAND);
 	else
@@ -525,14 +521,14 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 				if (len)
 				{
 					LPTSTR lptstrCopy;
-					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR)); 
+					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
 					if (hglbCopy == NULL)
-					{ 
-						CloseClipboard(); 
-						break; 
+					{
+						CloseClipboard();
+						break;
 					}
-					lptstrCopy = (LPTSTR)GlobalLock(hglbCopy); 
-					memcpy(lptstrCopy, item_string, len * sizeof(TCHAR)); 
+					lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
+					memcpy(lptstrCopy, item_string, len * sizeof(TCHAR));
 					lptstrCopy[len] = (TCHAR)0;
 					GlobalUnlock(hglbCopy);
 
@@ -544,7 +540,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			SendMessage(edit_control, WM_PASTE, 0, 0);
 			break;
 	}
-	DestroyMenu(hmenu); 
+	DestroyMenu(hmenu);
 }
 
 static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -568,7 +564,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			else
 				ScreenToClient(hwndDlg, &pt);
 
-			if (PtInRect(&rc, pt)) 
+			if (PtInRect(&rc, pt))
 				HandlePopupMenu(hwndDlg, pt, GetDlgItem(GetParent(hwndDlg), IDC_EDIT1));
 
 			return 0;
@@ -1045,7 +1041,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				copy_init_data->status_icons = AddStatusIconsToImageList(init_data->m_szProto, copy_init_data->m_iStatusModes);
 			if (copy_init_data->m_iDlgFlags & DLG_SHOW_LIST_ICONS)
 				copy_init_data->other_icons = AddOtherIconsToImageList(copy_init_data);
-					
+
 			if ((copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT))
 			{
 				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONADDTOOLTIP, (WPARAM)Translate("Add to Predefined"), 0);
@@ -1204,7 +1200,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				break;
 			}
 			else
-			{	
+			{
 				TCHAR str[64];
 				mir_sntprintf(str, SIZEOF(str), TranslateT("Closing in %d"), msgbox_data->m_iCountdown);
 				SetDlgItemText(hwndDlg, IDC_OK, str);
@@ -1240,7 +1236,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					{
 						char szSetting[80];
 						if (msgbox_data->m_szProto)
-						{							
+						{
 							mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sMsg", msgbox_data->m_szProto);
 							DBWriteContactSettingString(NULL, "SimpleStatusMsg", szSetting, "");
 
@@ -1274,7 +1270,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 							DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(msgbox_data->m_iStatus, "Msg"), _T("")); // for compatibility with some plugins
 						}
-								
+
 						if (bCurrentStatus)
 							SetStatusMessage(msgbox_data->m_szProto, msgbox_data->m_iInitialStatus, ID_STATUS_CURRENT, 0, msgbox_data->m_bOnStartup);
 						else if (iProfileStatus != 0)
@@ -1773,7 +1769,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				}
 				DBWriteContactSettingWord(NULL, "SimpleStatusMsg", "DefMsgCount", (WORD)new_num_def_msgs);
 			}
-			
+
 			ImageList_Destroy(msgbox_data->status_icons);
 			ImageList_Destroy(msgbox_data->other_icons);
 			ReleaseIconEx("cross");

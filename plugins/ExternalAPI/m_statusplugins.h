@@ -68,24 +68,24 @@ typedef struct {
 #define MS_SS_GETPROFILECOUNT			"StartupStatus/GetProfileCount"
 
 // wParam = profile number
-// lParam = char* (must be allocated, size = 128)
+// lParam = TCHAR* (must be allocated, size = 128)
 // returns 0 on success
 #define MS_SS_GETPROFILENAME			"StartupStatus/GetProfileName"
 
 // -- AdvancedAutoAway --
-typedef enum { 
-			ACTIVE, // user is active
-			STATUS1_SET, // first status change happened 
-			STATUS2_SET, // second status change happened
-			SET_ORGSTATUS, // user was active again, original status will be restored
-			HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
+typedef enum {
+	ACTIVE, // user is active
+	STATUS1_SET, // first status change happened
+	STATUS2_SET, // second status change happened
+	SET_ORGSTATUS, // user was active again, original status will be restored
+	HIDDEN_ACTIVE // user is active, but this is not shown to the outside world
 } STATES;
 
 typedef struct {
 	PROTOCOLSETTINGEX* protocolSetting;
 	int originalStatusMode;	// this is set only when going from ACTIVE to STATUS1_SET (or to STATUS2_SET)
 							// (note: this is therefore not always valid)
-	STATES 
+	STATES
 		oldState,			// state before the call
 		curState;			// current state
 	BOOL bStatusChanged;		// the status of the protocol will actually be changed

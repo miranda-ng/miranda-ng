@@ -8,7 +8,7 @@
 #define __MAJOR_VERSION				0
 #define __MINOR_VERSION				8
 #define __RELEASE_NUM				0
-#define __BUILD_NUM					44
+#define __BUILD_NUM					45
 
 // minimal MirandaIM version number, with which this plugin supposed to work
 #define __PROD_MAJOR_VERSION		0

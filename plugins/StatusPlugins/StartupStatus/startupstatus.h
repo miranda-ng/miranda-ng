@@ -50,11 +50,10 @@ struct PROFILEOPTIONS : public MZeroedObject
 	__inline ~PROFILEOPTIONS()
 	{
 		delete ps;
-		if (szName != NULL)
-			mir_free(szName);
+		mir_free(tszName);
 	}
 
-	char *szName;
+	TCHAR *tszName;
 	TSettingsList* ps;
 	BOOL showDialog;
 	BOOL createTtb;

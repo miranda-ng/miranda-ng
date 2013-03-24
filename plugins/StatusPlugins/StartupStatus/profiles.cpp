@@ -89,21 +89,23 @@ static INT_PTR profileService5(WPARAM wParam, LPARAM lParam)
 
 static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 {
-	char profilename[128], servicename[128];
+	char servicename[128];
 	int i, count;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 2000100000;
+	mi.flags = CMIF_TCHAR;
 	mcount = 0;
 	count = GetProfileCount(0, 0);
 	for (i=0; i < count; i++) {
-		if ( !db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName((WPARAM)i, (LPARAM)profilename))
+		TCHAR profilename[128];
+		if ( !db_get_b(NULL, MODULENAME, OptName(i, SETTING_CREATEMMITEM), 0) || GetProfileName(i, (LPARAM)profilename))
 			continue;
 
 		if ( db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
 			mi.pszPopupName = "StatusProfiles";
 
-		mi.pszName = profilename;
+		mi.ptszName = profilename;
 		mi.position = 2000100000 + mcount;
 		mir_snprintf(servicename, sizeof(servicename), "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
 		switch(mcount) {
@@ -130,10 +132,11 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 		mi.pszService = servicename;
-		if (Menu_AddStatusMenuItem(&mi)) {
+		if ( Menu_AddStatusMenuItem(&mi)) {
 			menuprofiles[mcount] = i;
 			mcount += 1;
-	}	}
+		}
+	}
 
 	return 0;
 }
@@ -143,37 +146,36 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 {
 	int profile = (int)wParam;
-	char* buf = (char *)lParam;
+	TCHAR* buf = (TCHAR*)lParam;
 	if (wParam < 0) // get default profile
-		profile = DBGetContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
-	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
-	if ( profile >= count && count > 0 )
+	int count = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
+	if (profile >= count && count > 0)
 		return -1;
 
 	if (count == 0) {
-		strncpy(buf, Translate("default"), 128-1);
+		_tcsncpy(buf, TranslateT("default"), 128-1);
 		return 0;
 	}
 
 	DBVARIANT dbv;
 	char setting[80];
 	_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_PROFILENAME);
-	if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
+	if ( DBGetContactSettingTString(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
-	memset(buf, '\0', 128);
-	strncpy(buf, dbv.pszVal, 128-1); // assume size >= 128
-	DBFreeVariant(&dbv);
+	_tcsncpy(buf, dbv.ptszVal, 128-1); buf[127] = 0;
+	db_free(&dbv);
 	return 0;
 }
 
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam)
 {
-	int* def = (int *)wParam;
-	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 1);
-	if ( def != 0) {
-		*def = DBGetContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
+	int *def = (int*)wParam;
+	int count = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 1);
+	if (def != 0) {
+		*def = db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 		if (*def >= count)
 			*def = 0;
 	}
@@ -194,7 +196,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 				if (pce[i].msg != NULL) {
 					_tcscpy(pce[i].msg, dbv.ptszVal);
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else {
 				if (pce[i].msg != NULL) {
@@ -205,7 +207,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 			return pce[i].msg;
 		}
 	}
-	pce = ( PROFILECE* )realloc(pce, (pceCount+1)*sizeof(PROFILECE));
+	pce = (PROFILECE*)realloc(pce, (pceCount+1)*sizeof(PROFILECE));
 	if (pce == NULL)
 		return NULL;
 
@@ -215,7 +217,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 	if (!DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	pceCount += 1;
 
@@ -225,9 +227,9 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 int GetProfile( int profile, TSettingsList& arSettings )
 {
 	if ( profile < 0 ) // get default profile
-		profile = DBGetContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
-	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
+	int count = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
 	if ( profile >= count && count > 0 )
 		return -1;
 
@@ -244,14 +246,11 @@ int GetProfile( int profile, TSettingsList& arSettings )
 	return ( arSettings.getCount() == 0 ) ? -1 : 0;
 }
 
-static VOID CALLBACK releaseTtbTimerFunction(HWND hwnd,UINT message, UINT_PTR idEvent,DWORD dwTime) {
-
-	int i;
-
+static VOID CALLBACK releaseTtbTimerFunction(HWND hwnd,UINT message, UINT_PTR idEvent,DWORD dwTime)
+{
 	KillTimer(NULL, releaseTtbTimerId);
-	for(i=0;i<ttbButtonCount;i++) {
+	for(int i=0; i < ttbButtonCount; i++)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)ttbButtons[i], TTBST_RELEASED);
-	}
 }
 
 INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
@@ -262,18 +261,18 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
 
 	TSettingsList profileSettings( 10, CompareSettings );
 	if ( !GetProfile( profile, profileSettings)) {
-		profile = (profile >= 0)?profile:DBGetContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
+		profile = (profile >= 0)?profile:db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
 		_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
-		if (!DBGetContactSettingByte(NULL, MODULENAME, setting, 0))
+		if (!db_get_b(NULL, MODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX,(WPARAM)&profileSettings, 0);
 		else
-			CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&profileSettings, (LPARAM)DBGetContactSettingDword(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5));
+			CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&profileSettings, (LPARAM)db_get_dw(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5));
 	}
 
+	// add timer here
 	if (hTTBModuleLoadedHook)
-		// add timer here
 		releaseTtbTimerId = SetTimer(NULL, 0, 100, releaseTtbTimerFunction);
 
 	return 0;

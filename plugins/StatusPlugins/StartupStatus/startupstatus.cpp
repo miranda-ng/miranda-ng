@@ -48,14 +48,14 @@ TSSSetting::TSSSetting( int profile, PROTOACCOUNT* pa )
 	// load status
 	char setting[80];
 	_snprintf(setting, sizeof(setting), "%d_%s", profile, pa->szModuleName);
-	int iStatus = DBGetContactSettingWord(NULL, MODULENAME, setting, 0);
+	int iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if ( iStatus < MIN_STATUS || iStatus > MAX_STATUS )
 		iStatus = DEFAULT_STATUS;
 	status = iStatus;
 
 	// load last status
 	_snprintf(setting, sizeof(setting), "%s%s", PREFIX_LAST, szName);
-	iStatus = DBGetContactSettingWord(NULL, MODULENAME, setting, 0);
+	iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if ( iStatus < MIN_STATUS || iStatus > MAX_STATUS )
 		iStatus = DEFAULT_STATUS;
 	lastStatus = iStatus;
@@ -178,7 +178,7 @@ static void SetLastStatusMessages(TSettingsList& ps)
 		DBVARIANT dbv;
 		if ( ps[i].szMsg == NULL && !DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) {
 			ps[i].szMsg = _tcsdup(dbv.ptszVal); // remember this won't be freed
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 }	}	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -213,7 +213,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	if ( ack->type != ACKTYPE_STATUS && ack->result != ACKRESULT_FAILED )
 		return 0;
 
-	if ( !DBGetContactSettingByte(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
+	if ( !db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
 		return 0;
 
 	for (int i=0; i < startupSettings.getCount(); i++) {
@@ -228,7 +228,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 static int StatusChange(WPARAM wParam, LPARAM lParam)
 {
 	// change by menu
-	if ( !DBGetContactSettingByte(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
+	if ( !db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
 		return 0;
 
 	char* szProto = (char *)lParam;
@@ -251,7 +251,7 @@ static int StatusChange(WPARAM wParam, LPARAM lParam)
 static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam)
 {
 	// another status plugin made the change
-	if ( !DBGetContactSettingByte(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
+	if ( !db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) || startupSettings.getCount() == 0 )
 		return 0;
 
 	if (wParam != 0) {
@@ -301,7 +301,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 		char lastName[128], lastMsg[128];
 		mir_snprintf(lastName, sizeof(lastName), "%s%s", PREFIX_LAST, protos[i]->szModuleName);
 		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protos[i]->szModuleName)) {
-			DBWriteContactSettingWord(NULL, MODULENAME, lastName, (WORD)CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
+			db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
 			mir_snprintf(lastMsg, sizeof(lastMsg), "%s%s", PREFIX_LASTMSG, protos[i]->szModuleName);
 			DBDeleteContactSetting(NULL, MODULENAME, lastMsg);
 			
@@ -316,7 +316,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 				continue;
 	}	}
 
-	if ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))) {
+	if ( (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
 			CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
 		else
@@ -324,8 +324,8 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 	}
 
 	// set windowstate and docked for next startup
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINSTATE, 0)) {
-		int state = DBGetContactSettingByte(NULL, MODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	if (db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0)) {
+		int state = db_get_b(NULL, MODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 		BOOL isHidden = !IsWindowVisible(hClist);
 		switch (state) {
@@ -336,7 +336,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case SETTING_STATE_MINIMIZED:
-			if (!DBGetContactSettingByte(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
+			if (!db_get_b(NULL, MODULE_CLIST, SETTING_TOOLWINDOW, 0))
 				ShowWindow(hClist, SW_SHOWMINIMIZED);
 			break;
 			
@@ -348,13 +348,13 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 	}	}
 
 	// hangup
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_AUTOHANGUP, 0))
+	if (db_get_b(NULL, MODULENAME, SETTING_AUTOHANGUP, 0))
 		InternetAutodialHangup(0);
 	
-	int state = DBGetContactSettingByte(NULL, MODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
+	int state = db_get_b(NULL, MODULENAME, SETTING_WINSTATE, SETTING_STATE_NORMAL);
 	// set windowstate and docked for next startup
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINSTATE, 0))
-		DBWriteContactSettingByte(NULL, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
+	if (db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0))
+		db_set_b(NULL, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
 			
 	if ( hMessageWindow )
 		DestroyWindow(hMessageWindow);
@@ -403,62 +403,58 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 		return 0;// no protocols are loaded
 
 	SetLastStatusMessages(startupSettings);
-	showDialogOnStartup = (showDialogOnStartup || DBGetContactSettingByte(NULL, MODULENAME, SETTING_SHOWDIALOG, 0));
+	showDialogOnStartup = (showDialogOnStartup || db_get_b(NULL, MODULENAME, SETTING_SHOWDIALOG, 0));
 
 	// dial
-	if ( showDialogOnStartup || DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1))
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_AUTODIAL, 0))
+	if (showDialogOnStartup || db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1))
+		if (db_get_b(NULL, MODULENAME, SETTING_AUTODIAL, 0))
 			InternetAutodial(0, NULL);
 
 	// set the status!
-	if ( showDialogOnStartup || DBGetContactSettingByte(NULL, MODULENAME, SETTING_SHOWDIALOG, 0)) {
-		CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&startupSettings, DBGetContactSettingDword(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5));
-	}
-	else if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1)) {
+	if ( showDialogOnStartup || db_get_b(NULL, MODULENAME, SETTING_SHOWDIALOG, 0))
+		CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&startupSettings, db_get_dw(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5));
+	else if (db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1)) {
 		// set hooks for override
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_OVERRIDE, 1))  {
+		if (db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1))  {
 			hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
 			hStatusChangeHook = HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChange);
 		}
-		setStatusTimerId = SetTimer(NULL, 0, DBGetContactSettingDword(NULL,MODULENAME,SETTING_SETPROFILEDELAY,500), SetStatusTimed);
+		setStatusTimerId = SetTimer(NULL, 0, db_get_dw(NULL,MODULENAME,SETTING_SETPROFILEDELAY,500), SetStatusTimed);
 	}
 
 	// win size and location
-	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINLOCATION, 0) ||
-		  DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINSIZE, 0))
-	{
-		WINDOWPLACEMENT wndpl = { 0 };
-		wndpl.length = sizeof(wndpl);
-		
+	if ( db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0) || db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
 		HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
 		// store in db
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)) {
-			DBWriteContactSettingDword(NULL, MODULE_CLIST, SETTING_XPOS, DBGetContactSettingDword(NULL, MODULENAME, SETTING_XPOS, 0));
-			DBWriteContactSettingDword(NULL, MODULE_CLIST, SETTING_YPOS, DBGetContactSettingDword(NULL, MODULENAME, SETTING_YPOS, 0));
+		if (db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)) {
+			db_set_dw(NULL, MODULE_CLIST, SETTING_XPOS, db_get_dw(NULL, MODULENAME, SETTING_XPOS, 0));
+			db_set_dw(NULL, MODULE_CLIST, SETTING_YPOS, db_get_dw(NULL, MODULENAME, SETTING_YPOS, 0));
 		}
-		if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
-			DBWriteContactSettingDword(NULL, MODULE_CLIST, SETTING_WIDTH, DBGetContactSettingDword(NULL, MODULENAME, SETTING_WIDTH, 0));
-			if (!DBGetContactSettingByte(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-				DBWriteContactSettingDword(NULL, MODULE_CLIST, SETTING_HEIGHT, DBGetContactSettingDword(NULL, MODULENAME, SETTING_HEIGHT, 0));
+		if (db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
+			db_set_dw(NULL, MODULE_CLIST, SETTING_WIDTH, db_get_dw(NULL, MODULENAME, SETTING_WIDTH, 0));
+			if (!db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
+				db_set_dw(NULL, MODULE_CLIST, SETTING_HEIGHT, db_get_dw(NULL, MODULENAME, SETTING_HEIGHT, 0));
 		}
-		if ( GetWindowPlacement( hClist, &wndpl )) {
-			if ( wndpl.showCmd == SW_SHOWNORMAL && !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+
+		WINDOWPLACEMENT wndpl = { sizeof(wndpl) };
+		if ( GetWindowPlacement(hClist, &wndpl)) {
+			if (wndpl.showCmd == SW_SHOWNORMAL && !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 				RECT rc;
-				if (GetWindowRect(hClist, &rc)) {
+				if ( GetWindowRect(hClist, &rc)) {
 					int x = rc.left;
 					int y = rc.top;
 					int width = rc.right - rc.left;
 					int height = rc.bottom - rc.top;
-					if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)) {
-						x = DBGetContactSettingDword(NULL, MODULENAME, SETTING_XPOS, x);
-						y = DBGetContactSettingDword(NULL, MODULENAME, SETTING_YPOS, y);
+					if (db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)) {
+						x = db_get_dw(NULL, MODULENAME, SETTING_XPOS, x);
+						y = db_get_dw(NULL, MODULENAME, SETTING_YPOS, y);
 					}
-					if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
-						width = DBGetContactSettingDword(NULL, MODULENAME, SETTING_WIDTH, width);
-						if (!DBGetContactSettingByte(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
-							height = DBGetContactSettingDword(NULL, MODULENAME, SETTING_HEIGHT, height);
+					if (db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0)) {
+						width = db_get_dw(NULL, MODULENAME, SETTING_WIDTH, width);
+						if (!db_get_b(NULL, MODULE_CLUI, SETTING_AUTOSIZE, 0))
+							height = db_get_dw(NULL, MODULENAME, SETTING_HEIGHT, height);
 					}
 					MoveWindow(hClist, x, y, width, height, TRUE);
 	}	}	}	}
