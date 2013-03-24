@@ -306,17 +306,12 @@ int IDSearch(TCHAR *sID, const int searchId)
 // svcname = the name of the weather service that is currently searching (ie. Yahoo Weather)
 int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *svc, TCHAR *svcname)
 {
-	char loc[256];
 	TCHAR Name[MAX_DATA_LEN], str[MAX_DATA_LEN], sID[MAX_DATA_LEN], *szData = NULL, *search;
 
 	// replace spaces with %20
-	{
-		mir_ptr<char> szSearchName( mir_utf8encodeT(name));
-		char *pstr = (char*)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)(char*)szSearchName);
-		wsprintfA(loc, sData->SearchURL, pstr);
-		HeapFree(GetProcessHeap(), 0, pstr);
-	}
-
+	char loc[256];
+	mir_ptr<char> szSearchName( mir_utf8encodeT(name));
+	wsprintfA(loc, sData->SearchURL, mir_ptr<char>( mir_urlEncode(szSearchName)));
 	if (InternetDownloadFile(loc, NULL, &szData) == 0) {
 		TCHAR* szInfo = szData;
 		search = _tcsstr(szInfo, sData->NotFoundStr);	// determine if data is available

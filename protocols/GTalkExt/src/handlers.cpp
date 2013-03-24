@@ -173,11 +173,10 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 
 			if (ReadCheckbox(0, IDC_STANDARDVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_STANDARD, (LPTSTR)url, mailboxUrl, tid);
+			else if (ReadCheckbox(0, IDC_HTMLVIEW, settings))
+				FormatMessageUrl(MESSAGE_URL_FORMAT_HTML, (LPTSTR)url, mailboxUrl, tid);
 			else
-				if (ReadCheckbox(0, IDC_HTMLVIEW, settings))
-					FormatMessageUrl(MESSAGE_URL_FORMAT_HTML, (LPTSTR)url, mailboxUrl, tid);
-				else
-					MakeUrlHex((LPTSTR)url, tid);
+				MakeUrlHex((LPTSTR)url, tid);
 
 			CloseNotifications(acc, url, jid, i);
 			UnreadThreadNotification(acc, jid, url, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED), &mtn);

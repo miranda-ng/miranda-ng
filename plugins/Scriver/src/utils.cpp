@@ -431,9 +431,8 @@ void SearchWord(TCHAR * word, int engine)
 {
 	char szURL[4096];
 	if (word && word[0]) {
-		char *wordUTF = mir_utf8encodeT(word);
-		//char *wordURL = (char *)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)wordUTF);
-		char *wordURL = url_encode(wordUTF);
+		mir_ptr<char> wordUTF( mir_utf8encodeT(word));
+		mir_ptr<char> wordURL( mir_urlEncode(wordUTF));
 		switch (engine) {
 		case SEARCHENGINE_WIKIPEDIA:
 			mir_snprintf(szURL, SIZEOF(szURL), "http://en.wikipedia.org/wiki/%s", wordURL);
@@ -462,8 +461,6 @@ void SearchWord(TCHAR * word, int engine)
 			break;
 		}
 
-		mir_free(wordUTF);
-		mir_free(wordURL);
 		CallService(MS_UTILS_OPENURL, 1, (LPARAM) szURL);
 	}
 }

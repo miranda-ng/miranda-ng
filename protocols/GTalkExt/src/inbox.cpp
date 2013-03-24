@@ -64,26 +64,6 @@ const DWORD SIZE_OF_JABBER_OPTIONS = 243 * sizeof(DWORD);
 #define NLH_INVALID      0
 #define NLH_USER         'USER'
 
-char to_hex(char code) {
-  static char hex[] = "0123456789abcdef";
-  return hex[code & 15];
-}
-
-char *url_encode(char *str) {
-  char *pstr = str, *buf = (char*)malloc(strlen(str) * 3 + 1), *pbuf = buf;
-  while (*pstr) {
-    if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == ',' || *pstr == '~')
-      *pbuf++ = *pstr;
-    else if (*pstr == ' ')
-      *pbuf++ = '+';
-    else
-      *pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
-    pstr++;
-  }
-  *pbuf = '\0';
-  return buf;
-}
-
 LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 {
 	NETLIBHTTPREQUEST nlhr = {0};
@@ -100,7 +80,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 	if (!pResp) return NULL;
 	__try {
 		if (HTTP_OK == pResp->resultCode)
-			return _strdup(pResp->pData);
+			return mir_strdup(pResp->pData);
 		else
 			return NULL;
 	}
@@ -111,26 +91,10 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 
 LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
 {
-	LPSTR encodedP1 = url_encode(p1);
-	__try {
-		LPSTR encodedP2 = url_encode(p2);
-		__try {
-			LPSTR reqParams = (LPSTR)malloc(lstrlenA(reqParamsFormat) + 1 + lstrlenA(encodedP1) + lstrlenA(encodedP2));
-			__try {
-				sprintf(reqParams, reqParamsFormat, encodedP1, encodedP2);
-				return HttpPost(hUser, reqUrl, reqParams);
-			}
-			__finally {
-				free(reqParams);
-			}
-		}
-		__finally {
-			free(encodedP2);
-		}
-	}
-	__finally {
-		free(encodedP1);
-	}
+	mir_ptr<char> encodedP1( mir_urlEncode(p1)), encodedP2( mir_urlEncode(p2));
+	LPSTR reqParams = (LPSTR)alloca(lstrlenA(reqParamsFormat) + 1 + lstrlenA(encodedP1) + lstrlenA(encodedP2));
+	sprintf(reqParams, reqParamsFormat, encodedP1, encodedP2);
+	return HttpPost(hUser, reqUrl, reqParams);
 }
 
 LPSTR FindSid(LPSTR resp, LPSTR *LSID)
@@ -155,50 +119,26 @@ LPSTR FindSid(LPSTR resp, LPSTR *LSID)
 
 void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 {
-	LPSTR encodedUrl = url_encode(url);
-	__try {
-		LPSTR encodedToken = url_encode(tokenResp);
-		__try {
-			LPSTR composedUrl = (LPSTR)malloc(lstrlenA(TOKEN_AUTH_URL) + 1 + lstrlenA(encodedToken) + lstrlenA(encodedUrl));
-			__try {
-				sprintf(composedUrl, TOKEN_AUTH_URL, encodedToken, encodedUrl);
-				ShellExecuteA(0, NULL, composedUrl, NULL, NULL, SW_SHOW);
-			}
-			__finally {
-				free(composedUrl);
-			}
-		}
-		__finally {
-			free(encodedToken);
-		}
-	}
-	__finally {
-		free(encodedUrl);
-	}
+	mir_ptr<char> encodedUrl( mir_urlEncode(url)), encodedToken( mir_urlEncode(tokenResp));
+	LPSTR composedUrl = (LPSTR)alloca(lstrlenA(TOKEN_AUTH_URL) + 1 + lstrlenA(encodedToken) + lstrlenA(encodedUrl));
+	sprintf(composedUrl, TOKEN_AUTH_URL, encodedToken, encodedUrl);
+	CallService(MS_UTILS_OPENURL, 0, (LPARAM)composedUrl);
 }
 
 BOOL AuthAndOpen(HANDLE hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
 {
-	LPSTR authResp = MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd);
-	if (!authResp) return FALSE;
+	mir_ptr<char> authResp( MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
+	if (!authResp)
+		return FALSE;
 
-	__try {
-		LPSTR LSID;
-		LPSTR SID = FindSid(authResp, &LSID);
-		LPSTR tokenResp = MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID);
-		if (!tokenResp) return FALSE;
+	LPSTR LSID;
+	LPSTR SID = FindSid(authResp, &LSID);
+	mir_ptr<char> tokenResp( MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID));
+	if (!tokenResp)
+		return FALSE;
 
-		__try {
-			DoOpenUrl(tokenResp, url);
-			return TRUE;
-		}
-		__finally {
-			free(tokenResp);
-		}
-	}
-	__finally {
-		free(authResp);
-	}
+	DoOpenUrl(tokenResp, url);
+	return TRUE;
 }
 
 struct OPEN_URL_HEADER {

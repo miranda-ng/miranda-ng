@@ -72,19 +72,13 @@ void OpenAuthUrl(const char* url)
 	char user[64], pass[40];
 	GetLoginStr(user, sizeof(user), pass);
 
-	if (user[0] && pass[0])
-	{
+	if (user[0] && pass[0]) {
 		char str[256];
-
 		mir_snprintf(str, sizeof(str), url, user);
-		char* eurl = (char*)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)str);
-
-		mir_snprintf(str, sizeof(str), "http://www.miranda-vi.org/cdlogin?name=%s&pass=%s&redir=%s", user, pass, eurl);
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)str);
-		HeapFree(GetProcessHeap(), 0, eurl);
+		mir_snprintf(str, sizeof(str), "http://www.miranda-vi.org/cdlogin?name=%s&pass=%s&redir=%s", user, pass, mir_ptr<char>( mir_urlEncode(str)));
+		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)str);
 	}
-	else
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://www.miranda-vi.org/");
+	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.miranda-vi.org/");
 }
 
 void CreateAuthString(char* auth)
