@@ -371,12 +371,6 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML(WPARAM, LPARAM lParam)
 static const TCHAR * JabberEnum2AffilationStr[]={ _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
 static const TCHAR * JabberEnum2RoleStr[]={ _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
 
-//FIXME Table conversion fast but is not safe
-static const TCHAR * JabberEnum2StatusStr[]= {	_T("Offline"), _T("Online"), _T("Away"), _T("DND"),
-	_T("NA"), _T("Occupied"), _T("Free for chat"),
-	_T("Invisible"), _T("On the phone"), _T("Out to lunch"),
-	_T("Idle")  };
-
 static void appendString(bool bIsTipper, const TCHAR *tszTitle, const TCHAR *tszValue, TCHAR* buf, size_t bufSize)
 {
 	if (*buf) {
@@ -437,7 +431,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	// status
 	if (info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE )
-		appendString(bIsTipper, _T("Status:"), TranslateTS(JabberEnum2StatusStr[info->status-ID_STATUS_OFFLINE]), outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, _T("Status:"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,info->status,GSMDF_TCHAR), outBuf, SIZEOF(outBuf));
 
 	// status text
 	if (info->statusMessage)
