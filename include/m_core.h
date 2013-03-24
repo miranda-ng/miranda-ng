@@ -197,6 +197,11 @@ MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter(void);
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter);
 
 ///////////////////////////////////////////////////////////////////////////////
+// http support
+
+MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl);
+
+///////////////////////////////////////////////////////////////////////////////
 // icons support
 
 extern int hLangpack;

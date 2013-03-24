@@ -384,7 +384,7 @@ typedef struct {
 //wParam = 0
 //lParam = (LPARAM)(const char *)pszString
 //Returns a char* containing the new string. This must be freed with
-//HeapFree(GetProcessHeap(), 0, pszReturnString) when you're done with it.
+//mir_free() when you're done with it.
 //Returns NULL on error.
 //Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
 #define MS_NETLIB_URLENCODE     "Netlib/UrlEncode"

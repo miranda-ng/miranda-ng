@@ -458,9 +458,7 @@ const
         lParam : Pointer to a null terminated string
         Affects: URL-encodes a string for x-www-form-urlencoded (and other uses) -- see notes
         Returns: A pointer to a null terminated string, NULL(0) on failure
-        Notes  : The returned string must be freed after it's no longer needed,
-                 to do this Miranda's process heap must be used (under the WINAPI), e.g.
-                 HeapFree(GetProcessHeap(), 0, the_returned_string)
+        Notes  : The returned string must be freed after it's no longer needed using mir_free
         Errors : ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
     }
     MS_NETLIB_URLENCODE             = 'Netlib/UrlEncode';

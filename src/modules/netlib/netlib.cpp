@@ -409,43 +409,19 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static const char szHexDigits[] = "0123456789ABCDEF";
 INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 {
-	unsigned char *szOutput, *szInput = (unsigned char*)lParam;
-	unsigned char *pszIn, *pszOut;
-	int outputLen;
-
-	if (szInput == NULL) {
+	if (lParam == NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
-		return (INT_PTR)(char*)NULL;
+		return NULL;
 	}
-	for (outputLen = 0, pszIn = szInput;*pszIn;pszIn++) {
-		if ((48 <= *pszIn && *pszIn <= 57)  || //0-9
-			 (65 <= *pszIn && *pszIn <= 90)  || //ABC...XYZ
-			 (97 <= *pszIn && *pszIn <= 122)  || //abc...xyz
-			*pszIn == '-' || *pszIn == '_' || *pszIn == '.' || *pszIn == ' ') outputLen++;
-		else outputLen+=3;
-	}
-	szOutput = (unsigned char*)HeapAlloc(GetProcessHeap(), 0, outputLen+1);
-	if (szOutput == NULL) {
+
+	char *p = mir_urlEncode((LPCSTR)lParam);
+	if (p == NULL) {
 		SetLastError(ERROR_OUTOFMEMORY);
-		return (INT_PTR)(unsigned char*)NULL;
+		return NULL;
 	}
-	for (pszOut = szOutput, pszIn = szInput;*pszIn;pszIn++) {
-		if ((48 <= *pszIn && *pszIn <= 57)  ||
-			 (65 <= *pszIn && *pszIn <= 90)  ||
-			 (97 <= *pszIn && *pszIn <= 122)  ||
-			*pszIn == '-' || *pszIn == '_' || *pszIn == '.') *pszOut++=*pszIn;
-		else if (*pszIn == ' ') *pszOut++='+';
-		else {
-			*pszOut++='%';
-			*pszOut++=szHexDigits[*pszIn>>4];
-			*pszOut++=szHexDigits[*pszIn&0xF];
-		}
-	}
-	*pszOut = '\0';
-	return (INT_PTR)szOutput;
+	return (INT_PTR)p;
 }
 
 static const char base64chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

@@ -48,8 +48,6 @@ const
    }
   ME_IDLE_CHANGED:PAnsiChar = 'Miranda/Idle/Changed';
 
-  MIRANDA_IDLE_INFO_SIZE_1 = 20;
-
 type
   PMIRANDA_IDLE_INFO = ^TMIRANDA_IDLE_INFO;
   TMIRANDA_IDLE_INFO = record
@@ -60,7 +58,7 @@ type
     aaLock       : int;   // the status shouldn't be unset if its set
     idleType     : int;
     idlesoundsoff: int;
-	  end;
+  end;
   {
     wParam; 0
     lParam: address of MIRANDA_IDLE_INFO

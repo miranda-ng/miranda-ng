@@ -141,3 +141,4 @@ mir_callNextSubclass          @138
 KillModuleSubclassing         @139
 mir_wstrndup                  @140
 mir_unsubclassWindow          @141
+mir_urlEncode                 @142

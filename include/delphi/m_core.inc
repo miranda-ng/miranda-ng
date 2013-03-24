@@ -236,6 +236,12 @@ function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;
 function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):uint_ptr; cdecl;
                           external CoreDLL name 'CallProtoService';
 
+///////////////////////////////////////////////////////////////////////////////
+// http
+
+// returned result must be freed using mir_free()
+function mir_urlEncode(url:pAnsiChar); pAnsiChar; stdcall;
+                            external CoreDLL name 'mir_urlEncode';
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
