@@ -4,15 +4,15 @@
 
 #include "stdafx.h"
 
-#define ReadSettingByte(c, d)		DBGetContactSettingByte(NULL, s_szModuleName, c, d)
-#define ReadSettingWord(c, d)		DBGetContactSettingWord(NULL, s_szModuleName, c, d)
-#define ReadSettingDword(c, d)		DBGetContactSettingDword(NULL, s_szModuleName, c, d)
-#define ReadSettingString(c, d)		DBGetContactSettingTString(NULL, s_szModuleName, c, d)
+#define ReadSettingByte(c, d)		db_get_b(NULL, s_szModuleName, c, d)
+#define ReadSettingWord(c, d)		db_get_w(NULL, s_szModuleName, c, d)
+#define ReadSettingDword(c, d)		db_get_dw(NULL, s_szModuleName, c, d)
+#define ReadSettingString(c, d)		db_get_ts(NULL, s_szModuleName, c, d)
 
-#define WriteSettingByte(c, d)		DBWriteContactSettingByte(NULL, s_szModuleName, c, d)
-#define WriteSettingWord(c, d)		DBWriteContactSettingWord(NULL, s_szModuleName, c, d)
-#define WriteSettingDword(c, d)		DBWriteContactSettingDword(NULL, s_szModuleName, c, d)
-#define WriteSettingString(c, d)	DBWriteContactSettingTString(NULL, s_szModuleName, c, d)
+#define WriteSettingByte(c, d)		db_set_b(NULL, s_szModuleName, c, d)
+#define WriteSettingWord(c, d)		db_set_w(NULL, s_szModuleName, c, d)
+#define WriteSettingDword(c, d)		db_set_dw(NULL, s_szModuleName, c, d)
+#define WriteSettingString(c, d)	db_set_ts(NULL, s_szModuleName, c, d)
 
 enum
 {
@@ -150,10 +150,10 @@ int CTooltipNotify::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	if (m_sOptions.bFirstRun)
 	{
-		DBWriteContactSettingByte(NULL, "SkinSoundsOff", SND_ONLINE, 1);
-		DBWriteContactSettingByte(NULL, "SkinSoundsOff", SND_OFFLINE, 1);
-		DBWriteContactSettingByte(NULL, "SkinSoundsOff", SND_OTHER, 1);
-		DBWriteContactSettingByte(NULL, "SkinSoundsOff", SND_TYPING, 1);
+		db_set_b(NULL, "SkinSoundsOff", SND_ONLINE, 1);
+		db_set_b(NULL, "SkinSoundsOff", SND_OFFLINE, 1);
+		db_set_b(NULL, "SkinSoundsOff", SND_OTHER, 1);
+		db_set_b(NULL, "SkinSoundsOff", SND_TYPING, 1);
 		WriteSettingByte("firstrun", 0);
 	}
 	
@@ -236,7 +236,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		idle = true;
 	else return 0;
 	
-	if(DBGetContactSettingByte(hContact, "CList", "Hidden", 0)) return 0;
+	if(db_get_b(hContact, "CList", "Hidden", 0)) return 0;
 	
 	const char *pszProto = cws->szModule;
 	if (ReadSettingByte(pszProto, ProtoUserBit|ProtoIntBit) != (ProtoUserBit|ProtoIntBit))
@@ -244,12 +244,12 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
+	if (db_get_b(hContact, "CList", "NotOnList", 0) && m_sOptions.bIgnoreUnknown)
 	{
 		return 0;
 	}
 
-	if (DBGetContactSettingByte(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+	if (db_get_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 	{
 		return 0;
 	}
@@ -642,11 +642,11 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 
 				case IDC_SEL_PROTO:
-					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_PROTOS), hDlg, (DLGPROC)CTooltipNotify::ProtosDlgProcWrapper);
+					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_PROTOS), hDlg, CTooltipNotify::ProtosDlgProcWrapper);
 					break;
 
 				case IDC_IGNORE:
-					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_CONTACTS), hDlg, (DLGPROC)CTooltipNotify::ContactsDlgProcWrapper);
+					DialogBox(m_hDllInstance, MAKEINTRESOURCE(IDD_CONTACTS), hDlg, CTooltipNotify::ContactsDlgProcWrapper);
 					break;
 
 				default:
@@ -790,7 +790,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 void CTooltipNotify::ResetCList(HWND hwndDlg)
 {
 	BOOL b = (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && 
-			DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+			db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) b, 0);
 
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
@@ -819,7 +819,7 @@ void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 	do
 	{
 		HANDLE hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
-		if (hItem && !DBGetContactSettingByte(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
+		if (hItem && !db_get_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))
 		{
 			SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
 		}
@@ -845,7 +845,7 @@ void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 		if (hItem)
 		{
 			BYTE bChecked = (BYTE) (SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0));
-			DBWriteContactSettingByte(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
+			db_set_b(hContact, s_szModuleName, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
 		}
 	}
 	while (hContact = db_find_next(hContact));
@@ -912,60 +912,31 @@ BOOL CTooltipNotify::ContactsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 TCHAR *CTooltipNotify::StatusToString(int iStatus, TCHAR *szStatus, int iBufSize)
 {
-
-	//iBufSize--;
-
-	switch(iStatus)
+	if((iStatus>=ID_STATUS_OFFLINE) && (iStatus<=ID_STATUS_OUTTOLUNCH))
 	{
-		case ID_STATUS_OFFLINE:
-			lstrcpyn(szStatus, TranslateT("Offline"), iBufSize);
-			break;
-
-		case ID_STATUS_ONLINE: 
-			lstrcpyn(szStatus, TranslateT("Online"), iBufSize);
-			break;
-
-		case ID_STATUS_AWAY: 
-			lstrcpyn(szStatus, TranslateT("Away"), iBufSize);
-			break;
-
-		case ID_STATUS_NA : 
-			lstrcpyn(szStatus, TranslateT("N/A"), iBufSize);
-			break;
-
-		case ID_STATUS_OCCUPIED: 
-			lstrcpyn(szStatus, TranslateT("Occupied"), iBufSize);
-			break;
-
-		case ID_STATUS_DND: 
-			lstrcpyn(szStatus, TranslateT("DND"), iBufSize);
-			break;
-
-		case ID_STATUS_FREECHAT: 
-			lstrcpyn(szStatus, TranslateT("Free for chat"), iBufSize);
-			break;
-
-		case ID_STATUS_INVISIBLE: 
-			lstrcpyn(szStatus, TranslateT("Invisible"), iBufSize);
-			break;
-
-		case ID_TTNTF_STATUS_TYPING: 
-			lstrcpyn(szStatus, TranslateT("Typing"), iBufSize);
-			break;
-
-		case ID_TTNTF_STATUS_IDLE: 
-			lstrcpyn(szStatus, TranslateT("Idle"), iBufSize);
-			break;
-
-		case ID_TTNTF_STATUS_NOT_IDLE: 
-			lstrcpyn(szStatus, TranslateT("Not Idle"), iBufSize);
-			break;
-
-		default:
-			lstrcpyn(szStatus, TranslateT("Unknown"), iBufSize);
-			break;
+			lstrcpyn(szStatus, (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,iStatus,GSMDF_TCHAR), iBufSize);
 	}
+	else
+	{
+		switch(iStatus)
+		{
+			case ID_TTNTF_STATUS_TYPING: 
+				lstrcpyn(szStatus, TranslateT("Typing"), iBufSize);
+				break;
 
+			case ID_TTNTF_STATUS_IDLE: 
+				lstrcpyn(szStatus, TranslateT("Idle"), iBufSize);
+				break;
+
+			case ID_TTNTF_STATUS_NOT_IDLE: 
+				lstrcpyn(szStatus, TranslateT("Not Idle"), iBufSize);
+				break;
+
+			default:
+				lstrcpyn(szStatus, TranslateT("Unknown"), iBufSize);
+				break;
+		}
+	}
 	return szStatus;
 
 }

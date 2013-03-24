@@ -41,7 +41,7 @@ void DeleteModuleSettings(HANDLE hContact, const char* pszModuleName)
 	{
 		for(unsigned i=0; i<settingsList.size(); i++)
 		{
-			DBDeleteContactSetting(hContact, pszModuleName, settingsList[i]);
+			db_unset(hContact, pszModuleName, settingsList[i]);
 			free((char*)settingsList[i]);
 		}
 	}
@@ -87,31 +87,31 @@ void RenameModule(HANDLE hContact, const char* pszOldName, const char* pszNewNam
 				switch (dbv.type)
 				{
 					case DBVT_BYTE:
-						DBWriteContactSettingByte(hContact, pszNewName, pszSetting, dbv.bVal);
+						db_set_b(hContact, pszNewName, pszSetting, dbv.bVal);
 					break;
 
 					case DBVT_WORD:
-						DBWriteContactSettingWord(hContact, pszNewName, pszSetting, dbv.wVal);
+						db_set_w(hContact, pszNewName, pszSetting, dbv.wVal);
 					break;
 
 					case DBVT_DWORD:
-						DBWriteContactSettingDword(hContact, pszNewName, pszSetting, dbv.dVal);
+						db_set_dw(hContact, pszNewName, pszSetting, dbv.dVal);
 					break;
 
 					case DBVT_ASCIIZ:
-						DBWriteContactSettingString(hContact, pszNewName, pszSetting, dbv.pszVal);
+						db_set_s(hContact, pszNewName, pszSetting, dbv.pszVal);
 					break;
 
 					case DBVT_UTF8:
-						DBWriteContactSettingStringUtf(hContact, pszNewName, pszSetting, dbv.pszVal);
+						db_set_utf(hContact, pszNewName, pszSetting, dbv.pszVal);
 					break;
 
 					default:
 						assert(0);
 						break;
 				}
-				DBDeleteContactSetting(hContact, pszOldName, pszSetting);
-				DBFreeVariant(&dbv);
+				db_unset(hContact, pszOldName, pszSetting);
+				db_free(&dbv);
 			}
 			free((char*)settingsList[i]);
 		}

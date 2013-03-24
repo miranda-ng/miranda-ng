@@ -128,12 +128,12 @@ private:
 	{
 		return CTooltipNotify::GetObjInstance()->OptionsDlgProc(hDlg, msg, wParam, lParam);
 	}
-	static BOOL CALLBACK ProtosDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+	static INT_PTR CALLBACK ProtosDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		return CTooltipNotify::GetObjInstance()->ProtosDlgProc(hDlg, msg, wParam, lParam);
 	}
 
-	static BOOL CALLBACK ContactsDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+	static INT_PTR CALLBACK ContactsDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		return CTooltipNotify::GetObjInstance()->ContactsDlgProc(hDlg, msg, wParam, lParam);
 	}
