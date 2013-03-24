@@ -42,8 +42,6 @@ public:
 	static void convertPath(wchar_t *path);
 	static char *escapeString(const char *a);
 	static int   detectURL(const wchar_t *text);
-	static wchar_t *urlEncode(const wchar_t *a);
-	static wchar_t *urlEncode(const char *a);
 };
 
 #endif

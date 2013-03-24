@@ -183,22 +183,6 @@ char *Utils::escapeString(const char *a)
 	return out;
 }
 
-wchar_t *Utils::urlEncode(const wchar_t *text)
-{
-	char *utf8 = mir_utf8encodeT(text);
-	wchar_t *result = urlEncode(utf8);
-	mir_free(utf8);
-	return result;
-}
-
-wchar_t *Utils::urlEncode(const char *text)
-{
-	char *pszReturnString = (char *)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)text);
-	wchar_t *result = mir_a2t(pszReturnString);
-	HeapFree(GetProcessHeap(), 0, pszReturnString);
-	return result;
-}
-
 void Utils::appendIcon(char **str, int *sizeAlloced, const char *iconFile)
 {
 	Utils::appendText(str, sizeAlloced, "<img class=\"img\" src=\"file://%s/plugins/ieview/%s\"/> ", workingDirUtf8, iconFile);
