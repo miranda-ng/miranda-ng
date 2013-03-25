@@ -238,12 +238,8 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 		mir_forkthread(ShellExecuteThread, mir_tstrdup(url));
 }
 
-void OpenContactInbox(HANDLE hContact)
+void OpenContactInbox(LPCSTR acc)
 {
-	LPSTR acc = GetContactProto(hContact);
-	if (!acc)
-		return;
-
 	DBVARIANT dbv;
 	if ( DBGetContactSettingTString(0, acc, "jid", &dbv))
 		return;

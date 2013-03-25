@@ -25,26 +25,30 @@
 #include "inbox.h"
 
 static const LPSTR MS_GTALKEXT_OPENMAILBOX = SHORT_PLUGIN_NAME "/OpenMailbox";
-static const LPTSTR _T(OPEN_MAILBOX_ITEM_CAPTION) = LPGENT("Open mailbox");
 
 extern HICON g_hPopupIcon;
 
-HANDLE hOnPrebuildMenu = 0;
-
-INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam)
+INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	OpenContactInbox((HANDLE)wParam);
+	OpenContactInbox((LPCSTR)param);
 	return 0;
 }
 
-void InitMenus()
+int InitMenus(WPARAM wParam, LPARAM lParam)
 {
-	CreateServiceFunction(MS_GTALKEXT_OPENMAILBOX, OpenMailboxMenuHandler);
-/*!!!!!!!!!!!!!!!!!!!!!
-		CLISTMENUITEM cmi = { sizeof(cmi) };
-		cmi.flags = CMIF_TCHAR;
-		cmi.hIcon = g_hPopupIcon;
-		cmi.ptszName = _T(OPEN_MAILBOX_ITEM_CAPTION);
-		cmi.pszService = MS_GTALKEXT_OPENMAILBOX;
-		Menu_AddContactMenuItem(&cmi); */
+	IJabberInterface *ji = (IJabberInterface*)lParam;
+
+	char szServiceName[100];
+	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/%s", ji->Sys()->GetModuleName(), MS_GTALKEXT_OPENMAILBOX);
+	CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)ji->Sys()->GetModuleName());
+
+	CLISTMENUITEM cmi = { sizeof(cmi) };
+	cmi.flags = CMIF_CHILDPOPUP;
+	cmi.hParentMenu = HGENMENU(wParam);
+	cmi.hIcon = g_hPopupIcon;
+	cmi.position = 200101;
+	cmi.pszName = LPGEN("Open mailbox");
+	cmi.pszService = szServiceName;
+	Menu_AddProtoMenuItem(&cmi);
+	return 0;
 }

@@ -200,4 +200,15 @@ __forceinline IJabberInterface *getJabberApi(const char *szAccount)
 
 #endif // __cplusplus
 
+/*
+A menu hook to be called during Jabber protocol menu initialization.
+
+wParam = 0;
+lParam = (LPARAM)(IJabberInterface**).
+
+Returns FALSE if all is Ok, and TRUE otherwise.
+*/
+
+#define ME_JABBER_MENUINIT "Jabber/ProtoMenuInit"
+
 #endif // M_JABBER_H__

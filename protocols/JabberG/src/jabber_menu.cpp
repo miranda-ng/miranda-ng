@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MENUITEM_SERVER		2
 #define MENUITEM_RESOURCES	10
 
-static HANDLE hChooserMenu;
+static HANDLE hChooserMenu, hStatusMenuInit;
 static int iChooserMenuPos = 30000;
 
 static HGENMENU g_hMenuRequestAuth;
@@ -193,6 +193,8 @@ static int JabberPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void g_MenuInit(void)
 {
+	hStatusMenuInit = CreateHookableEvent(ME_JABBER_MENUINIT);
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, JabberPrebuildContactMenu);
 
 	CreateServiceFunction("Jabber/MenuChoose", JabberMenuChooseService);
@@ -348,6 +350,8 @@ void g_MenuInit(void)
 
 void g_MenuUninit(void)
 {
+	DestroyHookableEvent(hStatusMenuInit);
+
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRequestAuth, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuGrantAuth, 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hMenuRevokeAuth, 0);
@@ -844,6 +848,8 @@ void CJabberProto::MenuInit()
 
 	m_pepServices.RebuildMenu();
 	CheckMenuItems();
+
+	NotifyFastHook(hStatusMenuInit, (WPARAM)hJabberRoot, (LPARAM)&m_JabberApi);
 }
 
 //////////////////////////////////////////////////////////////////////////

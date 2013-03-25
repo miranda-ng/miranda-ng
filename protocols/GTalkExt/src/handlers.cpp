@@ -22,6 +22,7 @@
 #include "StdAfx.h"
 #include "handlers.h"
 #include "db.h"
+#include "inbox.h"
 #include "notifications.h"
 #include "options.h"
 
@@ -423,6 +424,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			japi->Net()->AddSendHandler(SendHandler);
 	}
 
+	HookEvent(ME_JABBER_MENUINIT, InitMenus);
 	HookOptionsInitialization();
 	return 0;
 }

@@ -264,6 +264,7 @@
     <ClCompile Include="src\ui_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\m_jabber.h" />
     <ClInclude Include="src\jabber.h" />
     <ClInclude Include="src\jabber_byte.h" />
     <ClInclude Include="src\jabber_caps.h" />

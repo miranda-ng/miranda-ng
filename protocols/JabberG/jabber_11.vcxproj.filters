@@ -260,6 +260,9 @@
     <ClInclude Include="src\jabber_xstatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\m_jabber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\jabber.rc">
