@@ -26,9 +26,9 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 	if (szUrl == NULL)
 		return NULL;
 
-	const char *s;
+	const BYTE *s;
 	int outputLen;
-	for (outputLen = 0, s = szUrl; *s; s++) {
+	for (outputLen = 0, s = (const BYTE*)szUrl; *s; s++) {
 		if (('0' <= *s && *s <= '9')  || //0-9
 			 ('A' <= *s && *s <= 'Z')  || //ABC...XYZ
 			 ('a' <= *s && *s <= 'z')  || //abc...xyz
@@ -41,7 +41,7 @@ MIR_CORE_DLL(char*) mir_urlEncode(const char *szUrl)
 		return NULL;
 
 	char *d = szOutput;
-	for (s = szUrl; *s; s++) {
+	for (s = (const BYTE*)szUrl; *s; s++) {
 		if (('0' <= *s && *s <= '9')  || //0-9
 			 ('A' <= *s && *s <= 'Z')  || //ABC...XYZ
 			 ('a' <= *s && *s <= 'z')  || //abc...xyz
