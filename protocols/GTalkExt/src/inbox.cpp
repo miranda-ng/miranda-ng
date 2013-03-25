@@ -164,6 +164,7 @@ void OpenUrlThread(void *param)
 	HANDLE hUser = FindNetUserHandle(data->acc);
 	if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
 		CallService(MS_UTILS_OPENURL, 0, (LPARAM)data->url);
+	free(data);
 }
 
 void __forceinline DecryptString(LPSTR str, int len)
@@ -209,38 +210,18 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	int mailboxLen = lstrlen(mailbox) + 1;
 
 	OPEN_URL_HEADER *data = (OPEN_URL_HEADER*)malloc(sizeof(OPEN_URL_HEADER) + urlLen + mailboxLen + pwdLen);
-	__try {
-		data->url = (LPSTR)data + sizeof(OPEN_URL_HEADER);
-		LPSTR ansi = WtoA(url);
-		__try {
-			memcpy(data->url, ansi, urlLen);
-		}
-		__finally {
-			free(ansi);
-		}
+	data->url = (LPSTR)data + sizeof(OPEN_URL_HEADER);
+	memcpy(data->url, _T2A(url), urlLen);
 
-		data->mailbox = data->url + urlLen;
-		ansi = WtoA(mailbox);
-		__try {
-			memcpy(data->mailbox, ansi, mailboxLen);
-		}
-		__finally {
-			free(ansi);
-		}
+	data->mailbox = data->url + urlLen;
+	memcpy(data->mailbox, _T2A(mailbox), mailboxLen);
 
-		data->pwd = data->mailbox + mailboxLen;
-		if (!GetMailboxPwd(acc, mailbox, &data->pwd, pwdLen))
-			return FALSE;
+	data->pwd = data->mailbox + mailboxLen;
+	if (!GetMailboxPwd(acc, mailbox, &data->pwd, pwdLen))
+		return FALSE;
 
-		data->acc = acc;
-
-		mir_forkthread(OpenUrlThread, data);
-		data = NULL;
-	}
-	__finally {
-		free(data);
-	}
-
+	data->acc = acc;
+	mir_forkthread(OpenUrlThread, data);
 	return TRUE;
 }
 

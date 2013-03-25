@@ -22,79 +22,18 @@
 #include "StdAfx.h"
 #include "options.h"
 
-char *WtoA(LPCTSTR W)
-{
-	char* result = (char*)malloc(lstrlen(W) + 1);
-	__try {
-		int i;
-		for (i = 0; W[i]; i++) {
-			result[i] = W[i];
-		}
-
-		result[i] = 0;
-	}
-	__except(
-		free(result),
-		EXCEPTION_CONTINUE_SEARCH
-	) {}
-	return result;
-}
-
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid)
 {
-	char *ansiJid = WtoA(jid);
-	__try {
-		DBVARIANT dbv = {0};
-		__try {
-			if (DBGetContactSettingTString(0, name, ansiJid, &dbv))
-			{
-				LPTSTR result = (LPTSTR)malloc(2 * sizeof(TCHAR));
-				result[0] = '0';
-				result[1] = NULL;
-				return result;
-			}
+	DBVARIANT dbv;
+	if ( DBGetContactSettingTString(0, name, _T2A(jid), &dbv))
+		return (LPTSTR)calloc(2, sizeof(TCHAR));
 
-			return _tcsdup(dbv.ptszVal);
-		}
-		__finally {
-			DBFreeVariant(&dbv);
-		}
-	}
-	__finally {
-		free(ansiJid);
-	}
-
-	assert(false);
-	return NULL; // relax compiler
+	TCHAR *result = _tcsdup(dbv.ptszVal);
+	db_free(&dbv);
+	return result;
 }
 
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
 {
-	char *ansiJid = WtoA(jid);
-	__try {
-		db_set_ts(0, name, ansiJid, setting);
-	}
-	__finally {
-		free(ansiJid);
-	}
-}
-
-void RenewPseudocontactHandles()
-{
-	int count = 0;
-	PROTOACCOUNT **protos;
-	ProtoEnumAccounts(&count, &protos);
-	for (int i = 0; i < count; i++) {
-		db_unset(0, protos[i]->szModuleName, PSEUDOCONTACT_LINK);
-		db_unset(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
-	}
-
-	HANDLE hContact = db_find_first();
-	while (hContact) {
-		if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-			LPCSTR proto = (LPCSTR)GetContactProto(hContact);
-			db_set_dw(0, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
-		}
-		hContact = db_find_next(hContact);
-	};
+	db_set_ts(0, name, _T2A(jid), setting);
 }

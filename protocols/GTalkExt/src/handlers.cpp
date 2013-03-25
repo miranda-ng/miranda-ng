@@ -136,12 +136,11 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 	}
 
 	LPCSTR acc = GetJidAcc(jid);
-	if (!acc) return FALSE;
+	if (!acc)
+		return FALSE;
 
-	if (!unreadCount) {
-		SetupPseudocontact(jid, xi.getAttrValue(node, ATTRNAME_TOTAL_MATCHED), acc);
+	if (!unreadCount)
 		return TRUE;
-	}
 
 	DWORD settings = ReadNotificationSettings(acc);
 
@@ -415,8 +414,6 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	RenewPseudocontactHandles();
-
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);

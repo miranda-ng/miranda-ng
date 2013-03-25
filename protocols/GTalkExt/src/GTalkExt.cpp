@@ -26,8 +26,6 @@
 #include "notifications.h"
 #include "handlers.h"
 #include "tipper_items.h"
-#include "avatar.h"
-#include "menu.h"
 #include "Version.h"
 
 int   hLangpack;
@@ -88,9 +86,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	g_hPopupIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_POPUP));
 
-	InitAvaUnit(TRUE);
-	InitMenus(TRUE);
-
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged);
 
@@ -102,7 +97,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	InitMenus(FALSE);
-	InitAvaUnit(FALSE);
 	return 0;
 }

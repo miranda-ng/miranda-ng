@@ -11,9 +11,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 	CONTROL "Popup notifications (needs popup plugin)", IDC_POPUPSENABLED, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 36, 271, 14
 	CONTROL "Notify in fullscreen mode too", IDC_POPUPSINFULLSCREEN, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 17, 51, 254, 15
 	CONTROL "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus", IDC_POPUPSINFULLSCREENLABEL, STATIC, SS_LEFT, 30, 65, 270, 22
-	CONTROL "Notify in contact list", IDC_PSEUDOCONTACTENABLED, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 83, 271, 14
-	CONTROL "Clear pseudocontact history before adding new events", IDC_CLEARPSEUDOCONTACTLOG, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 17, 97, 254, 15
-	CONTROL "Mark history event read when popup closed", IDC_MARKEVENTREAD, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 128, 300, 15
 	CONTROL "Add message snip to notification", IDC_ADDSNIP, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 146, 300, 15
 	CONTROL "Try to login before open mailbox", IDC_AUTHONMAILBOX, BUTTON, BS_AUTOCHECKBOX | WS_TABSTOP, 3, 164, 300, 15
 	CONTROL "This works only if password is saved in the database. Has no effect on links in pseudocontact message log", IDC_AUTHONMAILBOXLABEL, STATIC, SS_LEFT, 15, 178, 280, 26

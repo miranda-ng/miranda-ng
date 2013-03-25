@@ -20,7 +20,6 @@
 //***************************************************************************************
 
 #include "stdafx.h"
-#include "menu.h"
 #include "resources.h"
 #include "options.h"
 #include "inbox.h"
@@ -28,66 +27,24 @@
 static const LPSTR MS_GTALKEXT_OPENMAILBOX = SHORT_PLUGIN_NAME "/OpenMailbox";
 static const LPTSTR _T(OPEN_MAILBOX_ITEM_CAPTION) = LPGENT("Open mailbox");
 
-HANDLE hOpenMailboxService = 0;
-HANDLE hOpenMailboxMenuItem = 0;
+extern HICON g_hPopupIcon;
+
 HANDLE hOnPrebuildMenu = 0;
 
 INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam)
 {
-	if (db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
-		OpenContactInbox((HANDLE)wParam);
+	OpenContactInbox((HANDLE)wParam);
 	return 0;
 }
 
-int OnPrebuildMenu(WPARAM wParam, LPARAM lParam)
+void InitMenus()
 {
-	CLISTMENUITEM cmi = { sizeof(cmi) };
-	cmi.flags = CMIM_FLAGS;
-	if (!db_get_b((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
-		cmi.flags |= CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hOpenMailboxMenuItem, (LPARAM)&cmi);
-	return 0;
-}
-
-BOOL InitMenus(BOOL init)
-{
-	if (init) {
-		hOpenMailboxService = (HANDLE)CreateServiceFunction(MS_GTALKEXT_OPENMAILBOX, OpenMailboxMenuHandler);
-		if (!hOpenMailboxService) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
-
-		extern HICON g_hPopupIcon;
-
+	CreateServiceFunction(MS_GTALKEXT_OPENMAILBOX, OpenMailboxMenuHandler);
+/*!!!!!!!!!!!!!!!!!!!!!
 		CLISTMENUITEM cmi = { sizeof(cmi) };
 		cmi.flags = CMIF_TCHAR;
 		cmi.hIcon = g_hPopupIcon;
 		cmi.ptszName = _T(OPEN_MAILBOX_ITEM_CAPTION);
 		cmi.pszService = MS_GTALKEXT_OPENMAILBOX;
-		hOpenMailboxMenuItem = Menu_AddContactMenuItem(&cmi);
-
-		if (!hOpenMailboxMenuItem) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
-
-		hOnPrebuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildMenu);
-		if (!hOnPrebuildMenu) {
-			InitMenus(FALSE);
-			return FALSE;
-		}
-	}
-	else {
-		if (hOnPrebuildMenu) {
-			UnhookEvent(hOnPrebuildMenu);
-			hOnPrebuildMenu = 0;
-		}
-		if (hOpenMailboxService) {
-			DestroyServiceFunction(hOpenMailboxService);
-			hOpenMailboxService = 0;
-		}
-	}
-
-	return TRUE;
+		Menu_AddContactMenuItem(&cmi); */
 }
