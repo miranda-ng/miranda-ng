@@ -182,7 +182,7 @@ HANDLE SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR 
 	HANDLE result = (HANDLE)DBGetContactSettingDword(0, acc, PSEUDOCONTACT_LINK, 0);
 	if (!result || !db_get_b(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 		result = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-		DBWriteContactSettingDword(0, acc, PSEUDOCONTACT_LINK, (DWORD)result);
+		db_set_dw(0, acc, PSEUDOCONTACT_LINK, (DWORD)result);
 		DBWriteContactSettingByte(result, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 1);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)result, (LPARAM)acc);
 	}
@@ -204,31 +204,18 @@ HANDLE SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR 
 
 HANDLE AddCListNotification(HANDLE hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
-	int lurl = (lstrlen(url) + 1) * sizeof(WCHAR);
-	LPSTR utf8 = (LPSTR)malloc(sizeof(data->lptzText) + sizeof(WCHAR) * 2 + lurl);
-	__try {
-		DBEVENTINFO dbei = {0};
+	mir_ptr<char> szUrl( mir_utf8encodeT(url)), szText( mir_utf8encodeT(data->lptzText));
 
-		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, &data->lptzText[0], -1, utf8, sizeof(data->lptzText), NULL, NULL) - 1;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.szModule = (LPSTR)acc;
+	dbei.timestamp = time(NULL);
+	dbei.flags = DBEF_UTF;
+	dbei.eventType = EVENTTYPE_MESSAGE;
 
-		if (utf8[dbei.cbBlob - 1] != 10) {
-			utf8[dbei.cbBlob++] = 13;
-			utf8[dbei.cbBlob++] = 10;
-		}
-
-		dbei.cbBlob += WideCharToMultiByte(CP_UTF8, 0, url, -1, utf8 + dbei.cbBlob, lurl, NULL, NULL);
-
-		dbei.pBlob = (PBYTE)utf8;
-		dbei.cbSize = sizeof(dbei);
-		dbei.szModule = (LPSTR)acc;
-		dbei.timestamp = time(NULL);
-		dbei.flags = DBEF_UTF;
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		return (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
-	}
-	__finally {
-		free(utf8);
-	}
+	char szEventText[4096];
+	dbei.cbBlob = mir_snprintf(szEventText, SIZEOF(szEventText), "%s\r\n%s", szUrl, szText);
+	dbei.pBlob = (PBYTE)szEventText;
+	return (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 }
 
 BOOL UsePopups()
@@ -293,20 +280,18 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
 	LPTSTR senders = (LPTSTR)malloc(SENDER_COUNT * 100 * sizeof(TCHAR));
 	LPTSTR currSender = senders;
-	__try {
-		for (int i = 0; i < SENDER_COUNT && mtn->senders[i].addr; i++) {
-			wsprintf(currSender, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
-			currSender += lstrlen(currSender);
-		}
 
-		if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
-			wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
-		else
-			wsprintf(&data.lptzText[0], TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
+	for (int i = 0; i < SENDER_COUNT && mtn->senders[i].addr; i++) {
+		wsprintf(currSender, _T("    %s <%s>\n"), mtn->senders[i].name, mtn->senders[i].addr);
+		currSender += lstrlen(currSender);
 	}
-	__finally {
-		free(senders);
-	}
+
+	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
+		wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
+	else
+		wsprintf(&data.lptzText[0], TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
+
+	free(senders);
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }

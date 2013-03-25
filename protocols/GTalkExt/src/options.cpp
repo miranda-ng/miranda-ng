@@ -104,7 +104,7 @@ void SaveControls(HWND wnd, LPCSTR mod)
 		GetCheckboxSaveValue(wnd, IDC_STANDARDVIEW) |
 		GetCheckboxSaveValue(wnd, IDC_HTMLVIEW);
 
-	DBWriteContactSettingDword(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, controls);
+	db_set_dw(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, controls);
 }
 
 INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -218,16 +218,16 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		if (!((LPNMHDR)lParam)->idFrom  && ((LPNMHDR)lParam)->code == PSN_APPLY)
-			DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING,
+			db_set_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING,
 			(DWORD)SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_GETCOLOUR, 0, 0));
-		DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING,
+		db_set_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING,
 			(DWORD)SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_GETCOLOUR, 0, 0));
 
 		int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
 		LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));
 		__try {
 			SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXT, len, (LPARAM)timeout);
-			DBWriteContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
+			db_set_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, _ttoi(timeout));
 		}
 		__finally {
 			free(timeout);

@@ -85,15 +85,15 @@ void RenewPseudocontactHandles()
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
-		DBDeleteContactSetting(0, protos[i]->szModuleName, PSEUDOCONTACT_LINK);
-		DBDeleteContactSetting(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
+		db_unset(0, protos[i]->szModuleName, PSEUDOCONTACT_LINK);
+		db_unset(0, protos[i]->szModuleName, "GMailExtNotifyContact");	// remove this
 	}
 
 	HANDLE hContact = db_find_first();
 	while (hContact) {
 		if (db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
 			LPCSTR proto = (LPCSTR)GetContactProto(hContact);
-			DBWriteContactSettingDword(0, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
+			db_set_dw(0, proto, PSEUDOCONTACT_LINK, (DWORD)hContact);
 		}
 		hContact = db_find_next(hContact);
 	};

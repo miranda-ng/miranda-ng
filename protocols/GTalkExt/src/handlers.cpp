@@ -407,7 +407,8 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (PRAC_ADDED == wParam) {
 		IJabberInterface *japi = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
-		if (japi) japi->Net()->AddSendHandler(SendHandler);
+		if (japi)
+			japi->Net()->AddSendHandler(SendHandler);
 	}
 	return 0;
 }
@@ -421,10 +422,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ProtoEnumAccounts(&count, &protos);
 	for (int i = 0; i < count; i++) {
 		IJabberInterface *japi = getJabberApi(protos[i]->szModuleName);
-		if (japi) japi->Net()->AddSendHandler(SendHandler);
+		if (japi)
+			japi->Net()->AddSendHandler(SendHandler);
 	}
 
 	HookOptionsInitialization();
-
 	return 0;
 }
