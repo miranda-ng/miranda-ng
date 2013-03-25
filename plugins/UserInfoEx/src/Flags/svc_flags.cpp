@@ -307,7 +307,7 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 
 			char szId[20];
 			mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
-			hExtraIconSvc = ExtraIcon_Register("Flags", "Flags (uinfoex)", szId);
+			hExtraIconSvc = ExtraIcon_Register("Flags", LPGEN("Flags (uinfoex)"), szId);
 			if (hExtraIconSvc)
 				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
 		}

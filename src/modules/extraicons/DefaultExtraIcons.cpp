@@ -1,4 +1,4 @@
-/*
+J/*
 
 Copyright (C) 2009 Ricardo Pescuma Domenecci
 Copyright (C) 2012-13 Miranda NG Project
@@ -327,7 +327,7 @@ static int ProtocolOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 
 void DefaultExtraIcons_Load()
 {
-	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
+	hExtraChat = ExtraIcon_Register("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", LoadSkinnedIconName(SKINICON_OTHER_VISIBLE_ALL));
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
 	hExtraProto = ExtraIcon_Register("protocol", "Account", LoadSkinnedIconName(SKINICON_OTHER_ACCMGR),

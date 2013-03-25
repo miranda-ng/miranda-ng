@@ -147,7 +147,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	RegisterIcons();
 
-	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Miranda_Unknown",
+	hExtraIcon = ExtraIcon_Register("Client",LPGEN("Fingerprint"),"client_Miranda_Unknown",
 		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
 
 	return 0;

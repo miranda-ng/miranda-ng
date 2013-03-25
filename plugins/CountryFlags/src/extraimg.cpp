@@ -322,7 +322,7 @@ static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
 		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"Flags",0);
 
 	/* Extra Image */
-	hExtraIcon = ExtraIcon_Register("flags_extra", "Country flag");
+	hExtraIcon = ExtraIcon_Register("flags_extra", LPGEN("Country flag"));
 	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,ExtraImageApply);
 
 	/* Status Icon */

@@ -175,7 +175,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	Icon_Register(g_hInst, "Auth State", iconList, SIZEOF(iconList));
 
 	// extra icons
-	hExtraIcon = ExtraIcon_Register("authstate", "Auth State", "authgrant_icon");
+	hExtraIcon = ExtraIcon_Register("authstate", LPGEN("Auth State"), "authgrant_icon");
 
 	// Set initial value for all contacts
 	HANDLE hContact = db_find_first();

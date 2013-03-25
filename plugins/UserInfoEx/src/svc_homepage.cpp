@@ -215,7 +215,7 @@ VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("homepage", "Homepage (uinfoex)", ICO_BTN_GOTO);
+			ghExtraIconSvc = ExtraIcon_Register("homepage", LPGEN("Homepage (uinfoex)"), ICO_BTN_GOTO);
 	}
 	else {
 		if (hChangedHook) {

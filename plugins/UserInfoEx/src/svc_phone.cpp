@@ -166,7 +166,7 @@ VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("sms", "(uinfoex)", ICO_BTN_CELLULAR);
+			ghExtraIconSvc = ExtraIcon_Register("sms", LPGEN("(uinfoex)"), ICO_BTN_CELLULAR);
 	}
 	else {
 		if (hChangedHook) {

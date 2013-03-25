@@ -200,8 +200,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	ColourRegister(&colourid);
 
 	// Init extra icons
-	hExtraActivity = ExtraIcon_Register("activity", "Jabber Activity", "jabber_dancing");
-	hExtraMood = ExtraIcon_Register("mood", "Jabber Mood", "jabber_contemplative");
+	hExtraActivity = ExtraIcon_Register("activity", LPGEN("Jabber Activity"), "jabber_dancing");
+	hExtraMood = ExtraIcon_Register("mood", LPGEN("Jabber Mood"), "jabber_contemplative");
 	return 0;
 }
 

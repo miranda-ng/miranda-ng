@@ -645,7 +645,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
 	if (options.MissYouIcon)
-		hExtraIcon = ExtraIcon_Register("buddy_exp", "Buddy Expectator", "enabled_icon");
+		hExtraIcon = ExtraIcon_Register("buddy_exp", LPGEN("Buddy Expectator"), "enabled_icon");
 
 	////////////////////////////////////////////////////////////////////////////
 

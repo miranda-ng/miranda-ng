@@ -103,7 +103,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	Icon_Register(g_hInst, LPGEN("Contact Rate"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register("contact_rate", "Contact rate", "rate_high");
+	hExtraIcon = ExtraIcon_Register("contact_rate", LPGEN("Contact rate"), "rate_high");
 
 	// Set initial value for all contacts
 	HANDLE hContact = db_find_first();

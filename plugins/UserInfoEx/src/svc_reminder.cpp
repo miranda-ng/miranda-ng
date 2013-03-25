@@ -945,7 +945,7 @@ VOID SvcReminderEnable(BOOLEAN bEnable)
 	if (bEnable)	// Reminder is on
 	{
 		if (ExtraIcon == INVALID_HANDLE_VALUE)
-			ExtraIcon = ExtraIcon_Register("Reminder", "Reminder (uinfoex)", ICO_COMMON_ANNIVERSARY);
+			ExtraIcon = ExtraIcon_Register("Reminder", LPGEN("Reminder (uinfoex)"), ICO_COMMON_ANNIVERSARY);
 
 		// init hooks
 		if (!ghCListIA)

@@ -128,7 +128,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
 
-	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus", "icq_xstatus13");
+	hExtraXStatus = ExtraIcon_Register("xstatus", LPGEN("ICQ XStatus"), "icq_xstatus13");
 
 	g_MenuInit();
 	return 0;

@@ -134,7 +134,7 @@ VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 
 	if (bEnable) { // Gender checkt or dropdown select
 		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-			ghExtraIconSvc = ExtraIcon_Register("gender", "Gender (uinfoex)", ICO_COMMON_MALE);
+			ghExtraIconSvc = ExtraIcon_Register("gender", LPGEN("Gender (uinfoex)"), ICO_COMMON_MALE);
 
 		// hook events
 		if (hChangedHook == NULL) 
