@@ -27,7 +27,7 @@
 Очищать историю псевдоконтакта перед добавлением новых событий
 [Notify in fullscreen mode too]
 Также уведомлять и в полноэкранном режиме
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+[NOTE!\nThis will work only if this Jabber account is actually GTalk]
 Хозяйке на заметку\nЭто будет работать, только если этот Jabber-аккаунт это на самом деле GTalk
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Используйте это если ваш плагин всплывающих окон неверно определяет полноэкранный режим. Оно отберет у вас фокус ввода
