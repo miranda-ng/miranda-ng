@@ -38,8 +38,8 @@ UUID плагина
 Показать окно в панели задач
 [Highlight version number using]
 Выделить номер версии
-[Attempt to find unloadable plugins (doesn't work on Windows 98)]
-Найти плагины, которые не загружаются (не работает в Windows 98)
+[Attempt to find unloadable plugins]
+Найти плагины, которые не загружаются
 [Ask everytime]
 Всегда спрашивать
 [Suppress header information]

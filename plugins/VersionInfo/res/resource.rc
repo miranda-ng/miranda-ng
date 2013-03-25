@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "Highlight version number using",IDC_BOLDVERSION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,153,216,10
     COMBOBOX        IDC_BOLDCOMBOBOX,252,153,61,37,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Show disabled plugins too",IDC_DISABLEDTOO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,164,232,10
-    CONTROL         "Attempt to find unloadable plugins (doesn't work on Windows 98)",IDC_CHECKUNLOADABLE,
+    CONTROL         "Attempt to find unloadable plugins",IDC_CHECKUNLOADABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,174,272,10
     CONTROL         "Suppress header information",IDC_SUPPRESSHEADER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,184,274,10
     CONTROL         "Enable debug messages",IDC_DEBUG,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,220,207,93,10
