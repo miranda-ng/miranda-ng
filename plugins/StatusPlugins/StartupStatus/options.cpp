@@ -883,8 +883,8 @@ INT_PTR CALLBACK addProfileDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lP
 
 		case WM_COMMAND:
 			if (LOWORD(wParam) == IDC_OK) {
-				char profileName[128];
-				GetDlgItemTextA(hwndDlg, IDC_PROFILENAME, profileName, sizeof(profileName));
+				TCHAR profileName[128];
+				GetDlgItemText(hwndDlg, IDC_PROFILENAME, profileName, sizeof(profileName));
 				SendMessage(hwndParent, UM_ADDPROFILE, 0, (LPARAM)profileName);
 				// done and exit
 				DestroyWindow(hwndDlg);
