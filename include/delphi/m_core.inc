@@ -240,7 +240,7 @@ function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wPa
 // http
 
 // returned result must be freed using mir_free()
-function mir_urlEncode(url:pAnsiChar); pAnsiChar; stdcall;
+function mir_urlEncode(url:pAnsiChar):pAnsiChar; stdcall;
                             external CoreDLL name 'mir_urlEncode';
 
 ///////////////////////////////////////////////////////////////////////////////
