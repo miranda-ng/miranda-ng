@@ -2142,7 +2142,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					else if (lpnmhdr->hwndFrom == data->listening_to_tt_hwnd)
 						lpttd->lpszText = proto->listening_to;
 					else if (lpnmhdr->hwndFrom == data->next_proto_tt_hwnd)
-						lpttd->lpszText = TranslateT("Show next acccount");
+						lpttd->lpszText = TranslateT("Show next account");
 					else if (lpnmhdr->hwndFrom == data->prev_proto_tt_hwnd)
 						lpttd->lpszText = TranslateT("Show previous account");
 
