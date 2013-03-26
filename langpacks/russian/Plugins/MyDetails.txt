@@ -26,7 +26,7 @@
 [Avatar]
 Аватар
 [Frame Options]
-Опции окна
+Настройки фрейма
 [General]
 Общие
 [Protocol]
@@ -86,7 +86,7 @@
 [Use contact list smileys]
 Смайлики спиcка контактов
 [Use free space (under avatar) to other texts]
-Исп. свободное место (под аватарами) для текста
+Использовать свободное место (под аватарами) для текста
 [Set My Avatar...]
 Сменить мой аватар...
 [Set My Nickname...]
@@ -116,3 +116,15 @@
 Мои детали
 [Listening To]
 Слушаю
+[...avatar]
+...аватар
+[...nickname]
+...ник
+[...status]
+...статус
+[...status message]
+...статусное сообщение
+[Global On...]
+Глобальный...
+[pixels]
+пиксел
