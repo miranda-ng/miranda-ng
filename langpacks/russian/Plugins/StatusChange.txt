@@ -10,4 +10,8 @@
 [...change status to...]
 ...сменить статус на...
 [... if status is...]
-...если статус...
+...если статус...                                                                                          
+[Change status when you send/receive an event.]
+Изменение состояния, когда вы отправляете/получаете событие.
+[Status Change]
+Изменение статуса
