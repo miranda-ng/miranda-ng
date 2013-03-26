@@ -42,7 +42,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "General",IDC_STATIC,7,7,307,70
-    CONTROL         "Cycle through protocols every:",IDC_CYCLE_THROUGH_PROTOS,
+    CONTROL         "Cycle through accounts every:",IDC_CYCLE_THROUGH_PROTOS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,18,115,14
     EDITTEXT        IDC_CYCLE_TIME,129,18,35,12,ES_NUMBER
     CONTROL         "",IDC_CYCLE_TIME_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,156,18,11,12
@@ -85,9 +85,9 @@ BEGIN
     LTEXT           "pixels",IDC_STATIC,258,165,46,11
     CONTROL         "Use free space (under avatar) to other texts",IDC_AVATAR_USE_FREE_SPACE,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | WS_TABSTOP,12,177,288,11
-    GROUPBOX        "Protocol",IDC_STATIC,7,196,307,28
-    CONTROL         "Show protocol name",IDC_SHOW_PROTO_NAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,208,138,14
-    CONTROL         "Show protocol cycle button",IDC_SHOW_CYCLE_PROTO_BUTTON,
+    GROUPBOX        "Account",IDC_STATIC,7,196,307,28
+    CONTROL         "Show account name",IDC_SHOW_PROTO_NAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,208,138,14
+    CONTROL         "Show account cycle button",IDC_SHOW_CYCLE_PROTO_BUTTON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,163,208,138,14
     LTEXT           "Global On...",IDC_STATIC,216,19,93,8
     GROUPBOX        "Frame Options",IDC_STATIC,7,78,307,44
@@ -209,11 +209,11 @@ BEGIN
         MENUITEM "Set My Status Message...",    ID_STATUSMESSAGEPOPUP_SETMYSTATUSMESSAGE
         MENUITEM "Enable Listening To",         ID_CONTEXTPOPUP_ENABLELISTENINGTO
         MENUITEM SEPARATOR
-        MENUITEM "Show next protocol",          ID_SHOW_NEXT_PROTO
-        MENUITEM "Show previous protocol",      ID_SHOW_PREV_PROTO
+        MENUITEM "Show next account",          ID_SHOW_NEXT_PROTO
+        MENUITEM "Show previous account",      ID_SHOW_PREV_PROTO
         MENUITEM SEPARATOR
-        MENUITEM "Cycle through protocols",     ID_CYCLE_THROUGH_PROTOS
-        MENUITEM "Don't cycle through protocols", ID_DONT_CYCLE_THROUGH_PROTOS
+        MENUITEM "Cycle through accounts",     ID_CYCLE_THROUGH_PROTOS
+        MENUITEM "Don't cycle through accounts", ID_DONT_CYCLE_THROUGH_PROTOS
     END
     POPUP "Nick popup"
     BEGIN
