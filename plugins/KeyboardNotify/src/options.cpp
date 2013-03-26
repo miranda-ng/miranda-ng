@@ -1442,20 +1442,19 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (hIconAux) DestroyIcon(hIconAux);
 					hParent = TreeView_InsertItem(hwndTree, &tvis);
 					for(j = 0; j < XstatusListAux[i].count; j++) {
-						TCHAR szDefaultName[1024];
-						CUSTOM_STATUS xstatus={0};
-
 						tvis.hParent = hParent;
 						tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 						if (!j){
 							tvis.item.pszText = TranslateT("None"); }
 						else {
+							TCHAR szDefaultName[1024];
+							CUSTOM_STATUS xstatus={0};
 							xstatus.cbSize = sizeof(CUSTOM_STATUS);
-							xstatus.flags = CSSF_MASK_NAME|CSSF_DEFAULT_NAME|CSSF_UNICODE;
+							xstatus.flags = CSSF_MASK_NAME|CSSF_DEFAULT_NAME|CSSF_TCHAR;
 							xstatus.ptszName = szDefaultName;
 							xstatus.wParam = &j;
 							CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
-							tvis.item.pszText = szDefaultName;
+							tvis.item.pszText = TranslateTS(szDefaultName);
 						}
 						tvis.item.lParam = (LPARAM)j;
 						tvis.item.iImage = tvis.item.iSelectedImage = j?ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSICON, (WPARAM)j, 0)):0;
