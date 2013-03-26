@@ -67,7 +67,7 @@ HFONT hFont[NUM_FONTS];
 COLORREF font_colour[NUM_FONTS];
 
 // Defaults
-TCHAR *font_names[] = { LPGENT("Nickname"), LPGENT("Protocol"), LPGENT("Status"), LPGENT("Status Message"), LPGENT("Listening To") };
+TCHAR *font_names[] = { LPGENT("Nickname"), LPGENT("Account"), LPGENT("Status"), LPGENT("Status Message"), LPGENT("Listening To") };
 char font_sizes[] = { 13, 8, 8, 8, 8 };
 BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0,0,0), RGB(0,0,0), RGB(0,0,0), RGB(150,150,150), RGB(150,150,150) };
@@ -2142,9 +2142,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					else if (lpnmhdr->hwndFrom == data->listening_to_tt_hwnd)
 						lpttd->lpszText = proto->listening_to;
 					else if (lpnmhdr->hwndFrom == data->next_proto_tt_hwnd)
-						lpttd->lpszText = TranslateT("Show next protocol");
+						lpttd->lpszText = TranslateT("Show next acccount");
 					else if (lpnmhdr->hwndFrom == data->prev_proto_tt_hwnd)
-						lpttd->lpszText = TranslateT("Show previous protocol");
+						lpttd->lpszText = TranslateT("Show previous account");
 
 					return 0;
 				}
