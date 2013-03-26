@@ -99,3 +99,5 @@
 Адреса (URL)
 [Ignore files]
 Передачи файлов
+[Keyboard Notify Theme]
+Тема уведомления
