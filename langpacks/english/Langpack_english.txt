@@ -1140,6 +1140,8 @@
 [Select or create your Miranda NG user profile]
 [My Profiles]
 [New Profile]
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 ;file \src\modules\extraicons\options_ei.cpp
@@ -1705,7 +1707,21 @@
 [Call service]
 [Execute program]
 [Insert text]
-[Use Variables]﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+[Use Variables]
+[number value]
+[ANSI string]
+[Unicode string]
+[current contact]
+[Choose Contact]
+[Miranda service help]
+[Return]
+[Effect]
+[Start]
+[action group list was changed: some was added or deleted]
+[the context menu for a contact is about to be built]
+[double click on the CList]
+[New contact added to database]
+[Contact deleting]﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
 ;  Plugin: Add contact+
@@ -2309,9 +2325,9 @@
 [Auth]
 [Grant]
 [Auth & Grant]
+[Auth State]
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
-[Auth State]
 ﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
 ;  File: AutoRun.dll
@@ -2368,14 +2384,14 @@
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 [Time left:]
-[Progress Bar]
-[Background]
-[Countdown on Frame]
 [Paused]
 [&Unpause Countdown]
 [&Pause Countdown]
 [&Cancel Countdown]
 [AutoShutdown]
+[Countdown on Frame]
+[Background]
+[Progress Bar]
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 [Active]
@@ -3049,6 +3065,7 @@
 [Contact still absent]
 [Miss you event]
 [Hide contact event]
+[Buddy Expectator]
 [Hide contact]
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
@@ -3059,7 +3076,6 @@
 [Contact name]
 [has returned after being absent since %d days]
 [Contacts]
-[Buddy Expectator]
 [PopUps]
 [not detected]
 [not found]
@@ -3494,9 +3510,10 @@
 [Set options per account]
 [Enable custom account settings]
 [Hide account completely]
-[Show xStatus Name]
+[Show status name]
+[Show xStatus name]
 [Show protocol icon]
-[Use connecting Icon]
+[Use connecting icon]
 [Show xStatus icon]
 [Show both icons]
 [Show normal status as overlay]
@@ -5818,6 +5835,8 @@
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 [Pack overlays]
@@ -5922,7 +5941,6 @@
 [SecureIM overlay]
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
-[Fingerprint]
 ﻿#muuid {49c2cf54-7898-44de-be3a-6d2e4ef90079}
 ;============================================================
 ;  File: FirstRun.dll
@@ -5947,6 +5965,7 @@
 [Use &unknown flag if the country can not be determined]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
+[Country flag]
 ﻿#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;============================================================
 ;  File: FlashAvatars.dll
@@ -6329,11 +6348,6 @@
 [Conference]
 [Advanced]
 [<Last Status>]
-[Online]
-[Away]
-[DND]
-[Free for chat]
-[Invisible]
 [System tray icon]
 [Popup window]
 [Message with [img] BBCode]
@@ -6458,15 +6472,18 @@
 [Bad old e-mail or password]
 [Your e-mail has been changed.]
 ﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
-;langpack template for GTalkExt
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.0.1.1
+;  Authors: bems
+;============================================================
+[GTalk extensions for Jabber protocol]
 ;file \protocols\GTalkExt\res\settings.rc
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+[NOTE!\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-[Notify in contact list]
-[Clear pseudocontact history before adding new events]
-[Mark history event read when popup closed]
 [Add message snip to notification]
 [Try to login before open mailbox]
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
@@ -7852,6 +7869,7 @@
 ;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 ;file \protocols\IcqOscarJ\src\init.cpp
+[ICQ XStatus]
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 [ICQ Error]
@@ -8911,6 +8929,8 @@
 [Jabber Link Protocol]
 [Frame title]
 [Frame text]
+[Jabber Activity]
+[Jabber Mood]
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 [/me slaps %s around a bit with a large trout]
@@ -10805,6 +10825,8 @@
 [PopUps]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
+[Mail.ru Xstatus]
+[Mail.ru extra info]
 [E-mail address]
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]
@@ -11340,17 +11362,16 @@
 [General]
 [Cycle through protocols every:]
 [seconds]
-[Global on avatar]
+[...avatar]
 [RTL]
 [Align text to right]
-[Global on nickname]
+[...nickname]
 [Auto-resize frame]
 [Use contact list smileys]
-[Global on status]
+[...status]
 [Replace Smileys]
 [Resize Smileys]
-[Global on status message]
-[Frame Options]
+[...status message]
 [Top:]
 [Bottom:]
 [Left:]
@@ -11359,13 +11380,15 @@
 [Custom size:]
 [pixels]
 [Allow it to grow]
-[Draw border on avatar]
-[Round corners of avatars]
+[Draw border]
+[Round corners]
 [Custom corner size:]
 [Use free space (under avatar) to other texts]
 [Protocol]
 [Show protocol name]
 [Show protocol cycle button]
+[Global On...]
+[Frame Options]
 [Set My Status Message for All Status]
 [Status Message:]
 [Status popup]
@@ -13317,6 +13340,7 @@
 [Rate medium]
 [Rate low]
 [Contact Rate]
+[Contact rate]
 ﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;============================================================
 ;  File: RecentContacts.dll
@@ -14106,7 +14130,6 @@
 [Enable 'Missed Ones' feature]
 [Count times]
 [Protocols to watch:]
-[Popup interoperability missing or disabled. You need Popups plugin]
 [Use popups]
 [Title]
 [Text]
@@ -14949,7 +14972,7 @@
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
-;  Version: 0.8.0.44
+;  Version: 0.8.0.45
 ;  Authors: P Boon
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
@@ -16932,12 +16955,6 @@
 [Ignore images from unauthorized contacts]
 [Ignore all images]
 [<Last message>]
-[Online]
-[Away]
-[NA]
-[DND]
-[Free for chat]
-[Invisible]
 [Forwarding]
 [SOCKS4]
 [SOCKS5]
@@ -17070,12 +17087,6 @@
 [PopUps]
 [** New contacts **]
 [** Unknown contacts **]
-[Away]
-[N/A]
-[Occupied]
-[DND]
-[Free for chat]
-[Invisible]
 [Not Idle]
 [Unknown]
 [is]
@@ -17834,10 +17845,16 @@
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 [Memory allocation error!]
+[E-mail (uinfoex)]
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+[Gender (uinfoex)]
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 [View Homepage]
 [&Homepage]
+[Homepage (uinfoex)]
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+[(uinfoex)]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
@@ -17860,6 +17877,7 @@
 [\n%s becomes %d years old.]
 [No anniversaries to remind of]
 [Backing up and syncing all birthdays complete!]
+[Reminder (uinfoex)]
 [Birthday reminder]
 [Birthday reminder: it's coming]
 [Anniversary Reminder]
@@ -17910,6 +17928,8 @@
 [Import took %f msec]
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+[Flags (uinfoex)]
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 ﻿#muuid {297ec1e7-41b7-41f9-bb91-efa95028f16c}
 ;============================================================
@@ -18158,7 +18178,7 @@
 [Password]
 [Highlight version number using]
 [Show disabled plugins too]
-[Attempt to find unloadable plugins (doesn't work on Windows 98)]
+[Attempt to find unloadable plugins]
 [Suppress header information]
 [Enable debug messages]
 [Show plugin UUIDs]
@@ -18518,7 +18538,7 @@
 [Slider]
 [Slider Hovered]
 [Slider Pushed]
-﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+[WATrack status]﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
 ;============================================================
 ;  File: Watrack_MPD.dll
 ;  Plugin: Watrack MPD
@@ -19144,6 +19164,8 @@
 [&Rescan my Games ...]
 [Set &Nickname]
 [Protocols/XFire]
+[XFire game icon]
+[XFire voice icon]
 [XFire does not support offline messaging!]
 [Username]
 [Unable to connect to XFire.]

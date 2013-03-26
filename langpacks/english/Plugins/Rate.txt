@@ -11,3 +11,4 @@
 [Rate medium]
 [Rate low]
 [Contact Rate]
+[Contact rate]

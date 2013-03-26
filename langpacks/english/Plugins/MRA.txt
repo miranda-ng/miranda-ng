@@ -162,6 +162,8 @@
 [PopUps]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
+[Mail.ru Xstatus]
+[Mail.ru extra info]
 [E-mail address]
 ;file \protocols\MRA\src\Mra_functions.cpp
 [Unread mail is available: %lu/%lu messages]

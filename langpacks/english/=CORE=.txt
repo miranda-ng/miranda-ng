@@ -1140,6 +1140,8 @@
 [Select or create your Miranda NG user profile]
 [My Profiles]
 [New Profile]
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 ;file \src\modules\extraicons\options_ei.cpp

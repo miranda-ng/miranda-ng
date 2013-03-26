@@ -14,3 +14,4 @@
 [Use &unknown flag if the country can not be determined]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
+[Country flag]

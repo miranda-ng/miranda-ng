@@ -20,7 +20,6 @@
 [Enable 'Missed Ones' feature]
 [Count times]
 [Protocols to watch:]
-[Popup interoperability missing or disabled. You need Popups plugin]
 [Use popups]
 [Title]
 [Text]

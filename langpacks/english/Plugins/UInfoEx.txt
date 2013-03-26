@@ -559,10 +559,16 @@
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 [Memory allocation error!]
+[E-mail (uinfoex)]
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+[Gender (uinfoex)]
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 [View Homepage]
 [&Homepage]
+[Homepage (uinfoex)]
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+[(uinfoex)]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
@@ -585,6 +591,7 @@
 [\n%s becomes %d years old.]
 [No anniversaries to remind of]
 [Backing up and syncing all birthdays complete!]
+[Reminder (uinfoex)]
 [Birthday reminder]
 [Birthday reminder: it's coming]
 [Anniversary Reminder]
@@ -635,4 +642,6 @@
 [Import took %f msec]
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+[Flags (uinfoex)]
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

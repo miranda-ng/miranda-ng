@@ -32,6 +32,8 @@
 [Multi-protocol clients]
 [Other (rare) protocols]
 [Other icons]
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 [Pack overlays]
@@ -136,4 +138,3 @@
 [SecureIM overlay]
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
-[Fingerprint]

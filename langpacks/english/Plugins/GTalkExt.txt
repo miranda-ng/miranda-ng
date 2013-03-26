@@ -1,13 +1,16 @@
 ﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
-;langpack template for GTalkExt
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.0.1.1
+;  Authors: bems
+;============================================================
+[GTalk extensions for Jabber protocol]
 ;file \protocols\GTalkExt\res\settings.rc
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+[NOTE!\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
-[Notify in contact list]
-[Clear pseudocontact history before adding new events]
-[Mark history event read when popup closed]
 [Add message snip to notification]
 [Try to login before open mailbox]
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]

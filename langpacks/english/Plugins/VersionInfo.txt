@@ -28,7 +28,7 @@
 [Password]
 [Highlight version number using]
 [Show disabled plugins too]
-[Attempt to find unloadable plugins (doesn't work on Windows 98)]
+[Attempt to find unloadable plugins]
 [Suppress header information]
 [Enable debug messages]
 [Show plugin UUIDs]

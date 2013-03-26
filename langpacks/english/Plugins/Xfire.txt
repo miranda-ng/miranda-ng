@@ -152,6 +152,8 @@
 [&Rescan my Games ...]
 [Set &Nickname]
 [Protocols/XFire]
+[XFire game icon]
+[XFire voice icon]
 [XFire does not support offline messaging!]
 [Username]
 [Unable to connect to XFire.]

@@ -57,6 +57,7 @@
 [Contact still absent]
 [Miss you event]
 [Hide contact event]
+[Buddy Expectator]
 [Hide contact]
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
@@ -67,7 +68,6 @@
 [Contact name]
 [has returned after being absent since %d days]
 [Contacts]
-[Buddy Expectator]
 [PopUps]
 [not detected]
 [not found]

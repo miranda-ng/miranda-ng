@@ -39,14 +39,14 @@
 ;file \plugins\AutoShutdown\src\frame.cpp
 [Shutdown at:]
 [Time left:]
-[Progress Bar]
-[Background]
-[Countdown on Frame]
 [Paused]
 [&Unpause Countdown]
 [&Pause Countdown]
 [&Cancel Countdown]
 [AutoShutdown]
+[Countdown on Frame]
+[Background]
+[Progress Bar]
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 [Active]
