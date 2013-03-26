@@ -103,7 +103,7 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 			continue;
 
 		if ( db_get_b(NULL, MODULENAME, OptName(i, SETTING_INSUBMENU), 1))
-			mi.pszPopupName = "StatusProfiles";
+			mi.ptszPopupName = LPGENT("Status profiles");
 
 		mi.ptszName = profilename;
 		mi.position = 2000100000 + mcount;
