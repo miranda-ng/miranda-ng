@@ -538,7 +538,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		params->sound = "ChatHighlight";
 		if (M->GetByte(si->hContact, "CList", "Hidden", 0) != 0)
-			DBDeleteContactSetting(si->hContact, "CList", "Hidden");
+			db_unset(si->hContact, "CList", "Hidden");
 		if (params->bInactive) {
 			fFlagUnread = true;
 			DoTrayIcon(si, gce);

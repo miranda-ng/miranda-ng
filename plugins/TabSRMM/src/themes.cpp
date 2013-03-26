@@ -697,62 +697,46 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 		CMimAPI::m_MyAlphaBlend(hdc, rc->left, rc->bottom - b, l, b, hdcSrc, srcOrigX, srcOrigY + (m_height - b), l, b, m_bf);
 		CMimAPI::m_MyAlphaBlend(hdc, rc->left + l, rc->bottom - b, width - l - r, b, hdcSrc, srcOrigX + l, srcOrigY + (m_height - b), m_inner_width, b, m_bf);
 		CMimAPI::m_MyAlphaBlend(hdc, rc->right - r, rc->bottom - b, r, b, hdcSrc, srcOrigX + (m_width - r), srcOrigY + (m_height - b), r, b, m_bf);
-	} else {
-		switch (m_bStretch) {
-			case IMAGE_STRETCH_H:
-				// tile image vertically, stretch to width
-			{
-				LONG top = rc->top;
-
-				do {
-					if (top + m_height <= rc->bottom) {
-						CMimAPI::m_MyAlphaBlend(hdc, rc->left, top, width, m_height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
-						top += m_height;
-					} else {
-						CMimAPI::m_MyAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, m_width, rc->bottom - top, m_bf);
-						break;
-					}
-				} while (TRUE);
-				break;
-			}
-			case IMAGE_STRETCH_V:
-				// tile horizontally, stretch to height
-			{
-				LONG left = rc->left;
-
-				do {
-					if (left + m_width <= rc->right) {
-						CMimAPI::m_MyAlphaBlend(hdc, left, rc->top, m_width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
-						left += m_width;
-					} else {
-						CMimAPI::m_MyAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, m_height, m_bf);
-						break;
-					}
-				} while (TRUE);
-				break;
-			}
-			case IMAGE_STRETCH_B:
-				// stretch the image in both directions...
-				CMimAPI::m_MyAlphaBlend(hdc, rc->left, rc->top, width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
-				break;
-				/*
-				case IMAGE_STRETCH_V:
-				    // stretch vertically, draw 3 horizontal tiles...
-				    AlphaBlend(hdc, rc->left, rc->top, l, height, item->hdc, 0, 0, l, item->height, item->bf);
-				    AlphaBlend(hdc, rc->left + l, rc->top, width - l - r, height, item->hdc, l, 0, item->inner_width, item->height, item->bf);
-				    AlphaBlend(hdc, rc->right - r, rc->top, r, height, item->hdc, item->width - r, 0, r, item->height, item->bf);
-				    break;
-				case IMAGE_STRETCH_H:
-				    // stretch horizontally, draw 3 vertical tiles...
-				    AlphaBlend(hdc, rc->left, rc->top, width, t, item->hdc, 0, 0, item->width, t, item->bf);
-				    AlphaBlend(hdc, rc->left, rc->top + t, width, height - t - b, item->hdc, 0, t, item->width, item->inner_height, item->bf);
-				    AlphaBlend(hdc, rc->left, rc->bottom - b, width, b, item->hdc, 0, item->height - b, item->width, b, item->bf);
-				    break;
-				*/
-			default:
-				break;
-		}
 	}
+	else switch (m_bStretch) {
+	case IMAGE_STRETCH_H:
+		// tile image vertically, stretch to width
+		{
+			LONG top = rc->top;
+
+			do {
+				if (top + m_height <= rc->bottom) {
+					CMimAPI::m_MyAlphaBlend(hdc, rc->left, top, width, m_height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
+					top += m_height;
+				} else {
+					CMimAPI::m_MyAlphaBlend(hdc, rc->left, top, width, rc->bottom - top, hdcSrc, srcOrigX, srcOrigY, m_width, rc->bottom - top, m_bf);
+					break;
+				}
+			} while (TRUE);
+			break;
+		}
+	case IMAGE_STRETCH_V:
+		// tile horizontally, stretch to height
+		{
+			LONG left = rc->left;
+
+			do {
+				if (left + m_width <= rc->right) {
+					CMimAPI::m_MyAlphaBlend(hdc, left, rc->top, m_width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
+					left += m_width;
+				} else {
+					CMimAPI::m_MyAlphaBlend(hdc, left, rc->top, rc->right - left, height, hdcSrc, srcOrigX, srcOrigY, rc->right - left, m_height, m_bf);
+					break;
+				}
+			} while (TRUE);
+			break;
+		}
+	case IMAGE_STRETCH_B:
+		// stretch the image in both directions...
+		CMimAPI::m_MyAlphaBlend(hdc, rc->left, rc->top, width, height, hdcSrc, srcOrigX, srcOrigY, m_width, m_height, m_bf);
+		break;
+	}
+
 	if (fCleanUp) {
 		SelectObject(hdcSrc, hbmOld);
 		DeleteDC(hdcSrc);

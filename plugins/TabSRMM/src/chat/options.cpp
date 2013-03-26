@@ -1044,7 +1044,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					g_Settings.LoggingEnabled = IsDlgButtonChecked(hwndDlg, IDC_LOGGING) == BST_CHECKED ? TRUE : FALSE;
 					M->WriteByte("Chat", "LoggingEnabled", (BYTE)g_Settings.LoggingEnabled);
 				} else {
-					DBDeleteContactSetting(NULL, "Chat", "LogDirectory");
+					db_unset(NULL, "Chat", "LogDirectory");
 					M->WriteByte("Chat", "LoggingEnabled", 0);
 				}
 				SM_InvalidateLogDirectories();
@@ -1056,35 +1056,35 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				if (iLen > 0)
 					M->WriteByte("Chat", "NicklistRowDist", (BYTE)iLen);
 				else
-					DBDeleteContactSetting(NULL, "Chat", "NicklistRowDist");
+					db_unset(NULL, "Chat", "NicklistRowDist");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "LogTimestamp", pszText);
-				} else DBDeleteContactSetting(NULL, "Chat", "LogTimestamp");
+				} else db_unset(NULL, "Chat", "LogTimestamp");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
-				} else DBDeleteContactSetting(NULL, "Chat", "HeaderTime");
+				} else db_unset(NULL, "Chat", "HeaderTime");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "HeaderIncoming", pszText);
-				} else DBDeleteContactSetting(NULL, "Chat", "HeaderIncoming");
+				} else db_unset(NULL, "Chat", "HeaderIncoming");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
 					DBWriteContactSettingString(NULL, "Chat", "HeaderOutgoing", pszText);
-				} else DBDeleteContactSetting(NULL, "Chat", "HeaderOutgoing");
+				} else db_unset(NULL, "Chat", "HeaderOutgoing");
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
 				DBWriteContactSettingWord(NULL, "Chat", "LogLimit", (WORD)iLen);

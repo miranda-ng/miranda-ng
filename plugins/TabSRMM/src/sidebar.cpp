@@ -917,55 +917,52 @@ void CSideBar::invalidateButton(const TWindowData* dat)
 LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_SIZE:
-			return(TRUE);
-		case WM_ERASEBKGND: {
-			HDC hdc = (HDC)wParam;
-			RECT rc;
-			::GetClientRect(hwnd, &rc);
-			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = &SkinItems[ID_EXTBKSIDEBARBG];
+	case WM_SIZE:
+		return TRUE;
 
-				if (item->IGNORED)
-					CSkin::SkinDrawBG(hwnd, m_pContainer->hwnd, m_pContainer, &rc, hdc);
-				else
-					CSkin::DrawItem(hdc, &rc, item);
-			}
-			else if (M->isAero() || M->isVSThemed()) {
-				HDC		hdcMem;
-				HANDLE  hbp = 0;
-				HBITMAP hbm, hbmOld;
+	case WM_ERASEBKGND:
+		HDC hdc = (HDC)wParam;
+		RECT rc;
+		::GetClientRect(hwnd, &rc);
+		if (CSkin::m_skinEnabled) {
+			CSkinItem *item = &SkinItems[ID_EXTBKSIDEBARBG];
 
-				if (CMimAPI::m_haveBufferedPaint)
-					hbp = CSkin::InitiateBufferedPaint(hdc, rc, hdcMem);
-				else {
-					hdcMem = ::CreateCompatibleDC(hdc);
-					hbm =  CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
-					hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbm));
-				}
-
-				if (M->isAero())
-					::FillRect(hdcMem, &rc, CSkin::m_BrushBack);
-				else
-					CSkin::FillBack(hdcMem, &rc);
-
-				if (hbp)
-					CSkin::FinalizeBufferedPaint(hbp, &rc);
-				else {
-					::BitBlt(hdc, 0, 0, rc.right, rc.bottom, hdcMem, 0, 0, SRCCOPY);
-					::SelectObject(hdcMem, hbmOld);
-					::DeleteObject(hbm);
-					::DeleteDC(hdcMem);
-				}
-			}
+			if (item->IGNORED)
+				CSkin::SkinDrawBG(hwnd, m_pContainer->hwnd, m_pContainer, &rc, hdc);
 			else
-				::FillRect(hdc, &rc, ::GetSysColorBrush(COLOR_3DFACE));
-			return 1;
+				CSkin::DrawItem(hdc, &rc, item);
 		}
-		default:
-			break;
+		else if (M->isAero() || M->isVSThemed()) {
+			HDC		hdcMem;
+			HANDLE  hbp = 0;
+			HBITMAP hbm, hbmOld;
+
+			if (CMimAPI::m_haveBufferedPaint)
+				hbp = CSkin::InitiateBufferedPaint(hdc, rc, hdcMem);
+			else {
+				hdcMem = ::CreateCompatibleDC(hdc);
+				hbm =  CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
+				hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbm));
+			}
+
+			if (M->isAero())
+				::FillRect(hdcMem, &rc, CSkin::m_BrushBack);
+			else
+				CSkin::FillBack(hdcMem, &rc);
+
+			if (hbp)
+				CSkin::FinalizeBufferedPaint(hbp, &rc);
+			else {
+				::BitBlt(hdc, 0, 0, rc.right, rc.bottom, hdcMem, 0, 0, SRCCOPY);
+				::SelectObject(hdcMem, hbmOld);
+				::DeleteObject(hbm);
+				::DeleteDC(hdcMem);
+			}
+		}
+		else ::FillRect(hdc, &rc, ::GetSysColorBrush(COLOR_3DFACE));
+		return 1;
 	}
-	return(DefWindowProc(hwnd, msg, wParam, lParam));
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 LRESULT CALLBACK CSideBar::wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -976,15 +973,12 @@ LRESULT CALLBACK CSideBar::wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return(sideBar->wndProc(hwnd, msg, wParam, lParam));
 
 	switch(msg) {
-		case WM_NCCREATE: {
-			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
-			::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
-			return(TRUE);
-		}
-		default:
-			break;
+	case WM_NCCREATE:
+		CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
+		return TRUE;
 	}
-	return(::DefWindowProc(hwnd, msg, wParam, lParam));
+	return ::DefWindowProc(hwnd, msg, wParam, lParam);
 }
 /**
  * paints the background for a switchbar item. It can paint aero, visual styles, skins or

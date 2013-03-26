@@ -122,7 +122,7 @@ static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szP
 	if (rs.szSettings != NULL) {
 		for (i=0; i < rs.count; i++) {
 			if (rs.szSettings[i] != NULL) {
-				if (!DBDeleteContactSetting(hContact, szModule, rs.szSettings[i])) {
+				if (!db_unset(hContact, szModule, rs.szSettings[i])) {
 					count += 1;
 				}
 				free(rs.szSettings[i]);
@@ -895,7 +895,7 @@ void CB_WriteButtonSettings(HANDLE hContact, CustomButtonData *cbd)
 	if (!(cbd->opFlags&BBSF_NTBDESTRUCT))
 		DBWriteContactSettingString(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else
-		DBDeleteContactSetting(hContact, "TabSRMM_Toolbar", SettingName);
+		db_unset(hContact, "TabSRMM_Toolbar", SettingName);
 }
 
 void BB_RegisterSeparators()
@@ -1284,83 +1284,77 @@ BOOL drag = FALSE, bOptionsInit = TRUE;
 HANDLE 	hDragItem = NULL;
 HWND	 hToolBarTree = NULL;
 
-
 INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (uMsg) {
-		case WM_INITDIALOG: {
-			LONG_PTR style;
-			hToolBarTree = GetDlgItem(hwndDlg, IDC_TOOLBARTREE);
+	HTREEITEM hti;
 
-			style = GetWindowLongPtr(hToolBarTree, GWL_STYLE);
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		hToolBarTree = GetDlgItem(hwndDlg, IDC_TOOLBARTREE);
+		{
+			LONG_PTR style = GetWindowLongPtr(hToolBarTree, GWL_STYLE);
 			style ^= TVS_CHECKBOXES;
 			SetWindowLongPtr(hToolBarTree, GWL_STYLE, style);
 			style |= TVS_CHECKBOXES;
 			style |= TVS_NOHSCROLL;
 			SetWindowLongPtr(hToolBarTree, GWL_STYLE, style);
-
-			EnterCriticalSection(&ToolBarCS);
-
-			BuildMenuObjectsTree((HWND)hToolBarTree);
-
-			LeaveCriticalSection(&ToolBarCS);
-
-			Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
-
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(PluginConfig.g_iButtonsBarGap, 0));
-			TranslateDialogDefault(hwndDlg);
-			bOptionsInit = FALSE;
 		}
+		EnterCriticalSection(&ToolBarCS);
+
+		BuildMenuObjectsTree((HWND)hToolBarTree);
+
+		LeaveCriticalSection(&ToolBarCS);
+
+		Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(PluginConfig.g_iButtonsBarGap, 0));
+		TranslateDialogDefault(hwndDlg);
+		bOptionsInit = FALSE;
 		break;
 
-		case WM_LBUTTONUP: {
-
-			if (!drag)
-				break;
-
+	case WM_LBUTTONUP:
+		if (drag) {
 			TreeView_SetInsertMark(hToolBarTree, NULL, 0);
 			drag = 0;
 			ReleaseCapture();
-			{
-				TVHITTESTINFO hti;
-				TVITEM tvi;
-				hti.pt.x = (short)LOWORD(lParam);
-				hti.pt.y = (short)HIWORD(lParam);
-				ClientToScreen(hwndDlg, &hti.pt);
-				ScreenToClient(hToolBarTree, &hti.pt);
-				hti.pt.y -= TreeView_GetItemHeight(hToolBarTree) / 2;
-				TreeView_HitTest(hToolBarTree, &hti);
-				if (hDragItem == hti.hItem) break;
-				if (hti.flags&TVHT_ABOVE) hti.hItem = TVI_FIRST;
-				tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-				tvi.hItem = (HTREEITEM)hDragItem;
-				TreeView_GetItem(hToolBarTree, &tvi);
-				if (hti.flags&(TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
-					TVINSERTSTRUCT tvis;
-					TCHAR strbuf[128];
-					tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
-					tvis.item.stateMask = 0xFFFFFFFF;
-					tvis.item.pszText = strbuf;
-					tvis.item.cchTextMax = sizeof(strbuf);
-					tvis.item.hItem = (HTREEITEM)hDragItem;
-					TreeView_GetItem(hToolBarTree, &tvis.item);
-					TreeView_DeleteItem(hToolBarTree, hDragItem);
-					tvis.hParent = NULL;
-					tvis.hInsertAfter = hti.hItem;
-					TreeView_SelectItem(hToolBarTree, TreeView_InsertItem(hToolBarTree, &tvis));
-					SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
-				}
+
+			TVHITTESTINFO hti;
+			TVITEM tvi;
+			hti.pt.x = (short)LOWORD(lParam);
+			hti.pt.y = (short)HIWORD(lParam);
+			ClientToScreen(hwndDlg, &hti.pt);
+			ScreenToClient(hToolBarTree, &hti.pt);
+			hti.pt.y -= TreeView_GetItemHeight(hToolBarTree) / 2;
+			TreeView_HitTest(hToolBarTree, &hti);
+			if (hDragItem == hti.hItem) break;
+			if (hti.flags&TVHT_ABOVE) hti.hItem = TVI_FIRST;
+			tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+			tvi.hItem = (HTREEITEM)hDragItem;
+			TreeView_GetItem(hToolBarTree, &tvi);
+			if (hti.flags&(TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
+				TVINSERTSTRUCT tvis;
+				TCHAR strbuf[128];
+				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
+				tvis.item.stateMask = 0xFFFFFFFF;
+				tvis.item.pszText = strbuf;
+				tvis.item.cchTextMax = sizeof(strbuf);
+				tvis.item.hItem = (HTREEITEM)hDragItem;
+				TreeView_GetItem(hToolBarTree, &tvis.item);
+				TreeView_DeleteItem(hToolBarTree, hDragItem);
+				tvis.hParent = NULL;
+				tvis.hInsertAfter = hti.hItem;
+				TreeView_SelectItem(hToolBarTree, TreeView_InsertItem(hToolBarTree, &tvis));
+				SendMessage((GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
 
-		case WM_MOUSEMOVE: {
+	case WM_MOUSEMOVE:
+		if (drag) {
 			TVHITTESTINFO hti;
-			if (!drag) break;
-
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwndDlg, &hti.pt);
@@ -1382,237 +1376,200 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 		}
 		break;
 
-		case WM_COMMAND:
-			if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam && (HWND)lParam != hToolBarTree)
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam && (HWND)lParam != hToolBarTree)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		if ((HIWORD(wParam) == EN_CHANGE) && ((HWND)lParam == GetFocus()))
+			if (!bOptionsInit)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			if ((HIWORD(wParam) == EN_CHANGE) && ((HWND)lParam == GetFocus()))
-				if (!bOptionsInit)
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-			switch (LOWORD(wParam)) {
-				case IDC_BBRESET: {
-					Hlp_RemoveDatabaseSettings(NULL, "TabSRMM_Toolbar", 0);
-					CB_HardReInit();
-					BuildMenuObjectsTree(hToolBarTree);
+		switch (LOWORD(wParam)) {
+		case IDC_BBRESET:
+			Hlp_RemoveDatabaseSettings(NULL, "TabSRMM_Toolbar", 0);
+			CB_HardReInit();
+			BuildMenuObjectsTree(hToolBarTree);
+			break;
+
+		case IDC_SEPARATOR:
+			hti = TreeView_GetSelection(hToolBarTree);
+			if (!hti)
+				hti = TVI_FIRST;
+
+			CustomButtonData *cbd = (CustomButtonData *)mir_alloc(sizeof(CustomButtonData));
+			ZeroMemory(cbd, sizeof(CustomButtonData));
+
+			cbd->bDummy = 1;
+			cbd->bHidden = 1;
+			cbd->bIMButton = 1;
+			cbd->bLSided = 1;
+			cbd->dwButtonOrigID = ++dwSepCount;
+			cbd->pszModuleName = "Tabsrmm_sep";
+			cbd->iButtonWidth = 22;
+			cbd->opFlags = BBSF_NTBDESTRUCT;
+			List_InsertPtr(LButtonsList, cbd);
+
+			TVINSERTSTRUCT tvis;
+			tvis.hParent = NULL;
+			tvis.hInsertAfter = hti;
+			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
+			tvis.item.pszText = TranslateT("<Separator>");
+			tvis.item.iImage  = tvis.item.iSelectedImage = -1;
+			tvis.item.lParam  = (LPARAM)cbd;
+			hti = TreeView_InsertItem(hToolBarTree, &tvis);
+
+			TreeView_SetCheckState(hToolBarTree, hti, (cbd->bIMButton || cbd->bChatButton));
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				CB_ReInitCustomButtons();
+				dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
+				return 1;
+
+			case PSN_APPLY:
+				hti = TreeView_GetSelection(hToolBarTree);
+				if (hti) {
+					TVITEM tvi;
+					tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+					tvi.hItem = hti;
+					TreeView_GetItem(hToolBarTree, &tvi);
+
+					if (tvi.lParam) {
+						CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
+						if (cbd) {
+							cbd->bIMButton = IsDlgButtonChecked(hwndDlg, IDC_IMCHECK);
+							cbd->bChatButton = IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK);
+							cbd->bCanBeHidden = IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN);
+						}
+					}
 				}
-				break;
 
-				case IDC_SEPARATOR: {
-					int i = 0;
-					HTREEITEM hti;
-					TVINSERTSTRUCT tvis;
-					CustomButtonData* cbd;
+				SaveTree(hToolBarTree);
+				CB_ReInitCustomButtons();
+				PluginConfig.g_iButtonsBarGap = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_GETPOS, 0, 0);
 
-					hti = TreeView_GetSelection(hToolBarTree);
-					if (!hti)
-						hti = TVI_FIRST;
-					cbd = (CustomButtonData *)mir_alloc(sizeof(CustomButtonData));
-					ZeroMemory(cbd, sizeof(CustomButtonData));
+				if (PluginConfig.g_iButtonsBarGap != M->GetByte("ButtonsBarGap", 1))
+					M->BroadcastMessageAsync(WM_SIZE, 0, 0);
 
-					cbd->bDummy = 1;
-					cbd->bHidden = 1;
-					cbd->bIMButton = 1;
-					cbd->bLSided = 1;
-					cbd->dwButtonOrigID = ++dwSepCount;
-					cbd->pszModuleName = "Tabsrmm_sep";
-					cbd->iButtonWidth = 22;
-					cbd->opFlags = BBSF_NTBDESTRUCT;
-					List_InsertPtr(LButtonsList, cbd);
+				M->WriteByte(SRMSGMOD_T, "ButtonsBarGap", PluginConfig.g_iButtonsBarGap);
 
-					tvis.hParent = NULL;
-					tvis.hInsertAfter = hti;
-					tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-
-					tvis.item.pszText = TranslateT("<Separator>");
-					tvis.item.iImage  = tvis.item.iSelectedImage = -1;
-					tvis.item.lParam  = (LPARAM)cbd;
-
-					hti = TreeView_InsertItem(hToolBarTree, &tvis);
-
-					TreeView_SetCheckState(hToolBarTree, hti, (cbd->bIMButton || cbd->bChatButton));
-				}
-				break;
+				BuildMenuObjectsTree((HWND)hToolBarTree);
+				Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+				return 1;
 			}
 			break;
 
-		case WM_NOTIFY: {
-			switch (((LPNMHDR)lParam)->idFrom) {
-				case 0:
-					switch (((LPNMHDR)lParam)->code) {
-						case PSN_APPLY: {
-							TVITEM tvi;
-							HTREEITEM hti;
-							CustomButtonData* cbd;
+		case IDC_TOOLBARTREE:
+			switch (((LPNMHDR)lParam)->code) {
+			case TVN_BEGINDRAGA:
+			case TVN_BEGINDRAGW:
+				SetCapture(hwndDlg);
+				drag = 1;
+				hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
+				TreeView_SelectItem(hToolBarTree, hDragItem);
+				break;
 
-							hti = TreeView_GetSelection(hToolBarTree);
+			case TVN_SELCHANGINGA:
+			case TVN_SELCHANGINGW:
+				hti = TreeView_GetSelection(hToolBarTree);
+				if (hti != NULL) {
+					TCHAR strbuf[128];
 
-							if (hti) {
-								tvi.mask = TVIF_HANDLE | TVIF_PARAM;
-								tvi.hItem = hti;
-								TreeView_GetItem(hToolBarTree, &tvi);
+					TVITEM tvi;
+					tvi.hItem = hti;
+					tvi.pszText = strbuf;
+					tvi.cchTextMax = sizeof(strbuf);
+					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
+					TreeView_GetItem(hToolBarTree, &tvi);
 
-								if (tvi.lParam) {
-									cbd = (CustomButtonData*)tvi.lParam;
-									if (cbd) {
-										cbd->bIMButton = IsDlgButtonChecked(hwndDlg, IDC_IMCHECK);
-										cbd->bChatButton = IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK);
-										cbd->bCanBeHidden = IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN);
-									}
-								}
-							}
+					if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR))
+						break;
 
-							SaveTree(hToolBarTree);
-							CB_ReInitCustomButtons();
-							PluginConfig.g_iButtonsBarGap = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_GETPOS, 0, 0);
+					CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
+					if (cbd) {
+						cbd->opFlags = (IsDlgButtonChecked(hwndDlg, IDC_IMCHECK)) ? BBSF_IMBUTTON : 0;
+						cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK)) ? BBSF_CHATBUTTON : 0;
+						cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN)) ? BBSF_CANBEHIDDEN : 0;
 
-							if (PluginConfig.g_iButtonsBarGap != M->GetByte("ButtonsBarGap", 1))
-								M->BroadcastMessageAsync(WM_SIZE, 0, 0);
+						cbd->bIMButton = (IsDlgButtonChecked(hwndDlg, IDC_IMCHECK) ? TRUE : FALSE);
+						cbd->bChatButton = (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK) ? TRUE : FALSE);
+						cbd->bCanBeHidden = (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN) ? TRUE : FALSE);
+					}
+				}
+				break;
 
-							M->WriteByte(SRMSGMOD_T, "ButtonsBarGap", PluginConfig.g_iButtonsBarGap);
+			case TVN_SELCHANGEDW:
+			case TVN_SELCHANGEDA:
+				hti = TreeView_GetSelection(hToolBarTree);
+				if (hti != NULL) {
+					TCHAR strbuf[128];
 
-							BuildMenuObjectsTree((HWND)hToolBarTree);
+					TVITEM tvi;
+					tvi.pszText = strbuf;
+					tvi.cchTextMax = sizeof(strbuf);
+					tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
+					tvi.hItem = hti;
+					TreeView_GetItem(hToolBarTree, &tvi);
+
+					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR)) {
+						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
+						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
+						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+						break;
+					}
+
+					if (tvi.lParam == 0)
+						break;
+
+					CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
+					if (cbd) {
+						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
+						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
+						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
+						CheckDlgButton(hwndDlg, IDC_IMCHECK, (cbd->bIMButton) ? 1 : 0);
+						CheckDlgButton(hwndDlg, IDC_CHATCHECK, (cbd->bChatButton) ? 1 : 0);
+						CheckDlgButton(hwndDlg, IDC_CANBEHIDDEN, (cbd->bCanBeHidden) ? 1 : 0);
+					}
+				}
+				break;
+
+			case NM_CLICK:
+				TVHITTESTINFO hti = {0};
+				GetCursorPos(&hti.pt);
+				ScreenToClient(hToolBarTree, &hti.pt);
+				if (TreeView_HitTest(hToolBarTree, &hti)) {
+					if (hti.flags&TVHT_ONITEMSTATEICON) {
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+						if (TreeView_GetCheckState(hToolBarTree, hti.hItem)) {
 							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
 							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
 							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
-							return 1;
+							CheckDlgButton(hwndDlg, IDC_IMCHECK, 1);
+						} else {
+							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
+							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
+							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
 						}
-
-						case PSN_RESET: {
-							CB_ReInitCustomButtons();
-							dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
-							return 1;
-						}
+						TreeView_SelectItem(hToolBarTree, hti.hItem);
 					}
-					break;
-
-
-				case IDC_TOOLBARTREE:
-					switch (((LPNMHDR)lParam)->code) {
-
-						case TVN_BEGINDRAGA:
-						case TVN_BEGINDRAGW:
-							SetCapture(hwndDlg);
-							drag = 1;
-							hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
-							TreeView_SelectItem(hToolBarTree, hDragItem);
-							break;
-
-						case TVN_SELCHANGINGA:
-						case TVN_SELCHANGINGW:
-						{
-							TVITEM tvi;
-							HTREEITEM hti;
-							TCHAR strbuf[128];
-							CustomButtonData* cbd;
-
-							hti = TreeView_GetSelection(hToolBarTree);
-
-							if (hti == NULL)
-								break;
-
-							tvi.hItem = hti;
-							tvi.pszText = strbuf;
-							tvi.cchTextMax = sizeof(strbuf);
-							tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
-
-							TreeView_GetItem(hToolBarTree, &tvi);
-
-							if (tvi.lParam == 0 || !TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR))
-								break;
-
-							cbd = (CustomButtonData*)tvi.lParam;
-							if (cbd) {
-								cbd->opFlags = (IsDlgButtonChecked(hwndDlg, IDC_IMCHECK)) ? BBSF_IMBUTTON : 0;
-								cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK)) ? BBSF_CHATBUTTON : 0;
-								cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN)) ? BBSF_CANBEHIDDEN : 0;
-								
-								cbd->bIMButton = (IsDlgButtonChecked(hwndDlg, IDC_IMCHECK) ? TRUE : FALSE);
-								cbd->bChatButton = (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK) ? TRUE : FALSE);
-								cbd->bCanBeHidden = (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN) ? TRUE : FALSE);
-							}
-						}
-						break;
-
-						case TVN_SELCHANGEDW:
-						case TVN_SELCHANGEDA: {
-							TVITEM tvi;
-							HTREEITEM hti;
-							TCHAR strbuf[128];
-							CustomButtonData* cbd;
-
-							hti = TreeView_GetSelection(hToolBarTree);
-
-							if (hti == NULL)
-								break;
-
-							tvi.pszText = strbuf;
-							tvi.cchTextMax = sizeof(strbuf);
-							tvi.mask = TVIF_TEXT | TVIF_HANDLE | TVIF_PARAM;
-							tvi.hItem = hti;
-							TreeView_GetItem(hToolBarTree, &tvi);
-
-
-							if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR)) {
-								Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-								Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-								Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
-								break;
-							}
-
-							if (tvi.lParam == 0)
-								break;
-
-							cbd = (CustomButtonData*)tvi.lParam;
-							if (cbd) {
-								Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
-								Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
-								Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
-								CheckDlgButton(hwndDlg, IDC_IMCHECK, (cbd->bIMButton) ? 1 : 0);
-								CheckDlgButton(hwndDlg, IDC_CHATCHECK, (cbd->bChatButton) ? 1 : 0);
-								CheckDlgButton(hwndDlg, IDC_CANBEHIDDEN, (cbd->bCanBeHidden) ? 1 : 0);
-							}
-						}
-						break;
-
-						case NM_CLICK: {
-							TVHITTESTINFO hti = {0};
-							GetCursorPos(&hti.pt);
-							ScreenToClient(hToolBarTree, &hti.pt);
-							if (TreeView_HitTest(hToolBarTree, &hti)) {
-								if (hti.flags&TVHT_ONITEMSTATEICON) {
-									SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-									if (TreeView_GetCheckState(hToolBarTree, hti.hItem)) {
-										Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-										Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-										Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
-										CheckDlgButton(hwndDlg, IDC_IMCHECK, 1);
-									} else {
-										Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
-										Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
-										Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
-									}
-									TreeView_SelectItem(hToolBarTree, hti.hItem);
-								}
-							}
-						}
-						break;
-
-					}
-					break;
+				}
 			}
 		}
 		break;
 
-		case WM_DESTROY: {
-			HIMAGELIST hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_NORMAL);
-			ImageList_Destroy(hIml);
-			hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_STATE);
-			ImageList_Destroy(hIml);
-			break;
-		}
-
-		default:
-			break;
+	case WM_DESTROY:
+		HIMAGELIST hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_NORMAL);
+		ImageList_Destroy(hIml);
+		hIml = TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_TOOLBARTREE), TVSIL_STATE);
+		ImageList_Destroy(hIml);
+		break;
 	}
 
 	return FALSE;

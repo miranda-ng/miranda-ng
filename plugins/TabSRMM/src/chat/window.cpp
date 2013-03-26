@@ -746,8 +746,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				case 0x17:
 					PostMessage(hwndParent, WM_CLOSE, 0, 1);
 					return 0;
-				default:
-					break;
 				}
 			}
 		}
@@ -1197,8 +1195,8 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					DBDeleteContactSetting(si->hContact, "Chat", "FilterFlags");
-					DBDeleteContactSetting(si->hContact, "Chat", "FilterMask");
+					db_unset(si->hContact, "Chat", "FilterFlags");
+					db_unset(si->hContact, "Chat", "FilterMask");
 				} else {
 					M->WriteDword(si->hContact, "Chat", "FilterFlags", iFlags);
 					M->WriteDword(si->hContact, "Chat", "FilterMask", dwMask);
@@ -1218,8 +1216,8 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					DBDeleteContactSetting(si->hContact, "Chat", "PopupFlags");
-					DBDeleteContactSetting(si->hContact, "Chat", "PopupMask");
+					db_unset(si->hContact, "Chat", "PopupFlags");
+					db_unset(si->hContact, "Chat", "PopupMask");
 				} else {
 					M->WriteDword(si->hContact, "Chat", "PopupFlags", iFlags);
 					M->WriteDword(si->hContact, "Chat", "PopupMask", dwMask);
@@ -1238,8 +1236,8 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 			if (si) {
 				if (dwMask == 0) {
-					DBDeleteContactSetting(si->hContact, "Chat", "TrayIconFlags");
-					DBDeleteContactSetting(si->hContact, "Chat", "TrayIconMask");
+					db_unset(si->hContact, "Chat", "TrayIconFlags");
+					db_unset(si->hContact, "Chat", "TrayIconMask");
 				} else {
 					M->WriteDword(si->hContact, "Chat", "TrayIconFlags", iFlags);
 					M->WriteDword(si->hContact, "Chat", "TrayIconMask", dwMask);
@@ -1734,9 +1732,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
-				default: {
+				default:
 					int iCount = SendMessage(hwnd, LB_GETCOUNT, 0, 0);
-
 					if (iCount != LB_ERR) {
 						int iSelectedItems = SendMessage(hwnd, LB_GETSELCOUNT, 0, 0);
 
@@ -1758,9 +1755,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 							}
 						}
 					}
-					//DoEventHookAsync(hwndParent, parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
 					break;
-							}
 				}
 				DestroyGCMenu(&hMenu, 1);
 				return TRUE;
@@ -2714,23 +2709,21 @@ LABEL_SHOWWINDOW:
 						LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)(TABSRMM_HK_SECTION_GC));
 						if (mim_hotkey_check)
 							dat->fkeyProcessed = true;
-						switch(mim_hotkey_check) {								// nothing (yet) FIXME
-							case TABSRMM_HK_CHANNELMGR:
-								SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CHANMGR, BN_CLICKED), 0);
-								return(_dlgReturn(hwndDlg, 1));
-							case TABSRMM_HK_FILTERTOGGLE:
-								SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_FILTER, BN_CLICKED), 0);
-								InvalidateRect(GetDlgItem(hwndDlg, IDC_FILTER), NULL, TRUE);
-								return(_dlgReturn(hwndDlg, 1));
-							case TABSRMM_HK_LISTTOGGLE:
-								SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_SHOWNICKLIST, BN_CLICKED), 0);
-								return(_dlgReturn(hwndDlg, 1));
-							case TABSRMM_HK_MUC_SHOWSERVER:
-								if (si->iType != GCW_SERVER)
-									DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
-								return(_dlgReturn(hwndDlg, 1));
-							default:
-								break;
+						switch(mim_hotkey_check) { // nothing (yet) FIXME
+						case TABSRMM_HK_CHANNELMGR:
+							SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CHANMGR, BN_CLICKED), 0);
+							return(_dlgReturn(hwndDlg, 1));
+						case TABSRMM_HK_FILTERTOGGLE:
+							SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_FILTER, BN_CLICKED), 0);
+							InvalidateRect(GetDlgItem(hwndDlg, IDC_FILTER), NULL, TRUE);
+							return(_dlgReturn(hwndDlg, 1));
+						case TABSRMM_HK_LISTTOGGLE:
+							SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_SHOWNICKLIST, BN_CLICKED), 0);
+							return(_dlgReturn(hwndDlg, 1));
+						case TABSRMM_HK_MUC_SHOWSERVER:
+							if (si->iType != GCW_SERVER)
+								DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
+							return(_dlgReturn(hwndDlg, 1));
 						}
 					}
 
@@ -2796,53 +2789,52 @@ LABEL_SHOWWINDOW:
 						if ((uID > 800 && uID < 1400) || uID == CP_UTF8 || uID == 20866) {
 							dat->codePage = uID;
 							M->WriteDword(dat->hContact, SRMSGMOD_T, "ANSIcodepage", dat->codePage);
-						} else if (uID == 500) {
-							dat->codePage = CP_ACP;
-							DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "ANSIcodepage");
-						} else {
-							switch (uID) {
-								case 0:
-									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-									break;
-
-								case ID_COPYALL:
-									SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
-									SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
-									SendMessage(pNmhdr->hwndFrom, WM_COPY, 0, 0);
-									SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & sel);
-									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-									break;
-
-								case ID_CLEARLOG:
-									ClearLog(dat);
-									break;
-
-								case ID_SEARCH_GOOGLE: {
-									TCHAR szURL[4096];
-									if (pszWord[0]) {
-										mir_sntprintf(szURL, SIZEOF(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
-										CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
-									}
-									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-								}
-								break;
-
-								case ID_SEARCH_WIKIPEDIA: {
-									TCHAR szURL[4096];
-									if (pszWord[0]) {
-										mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
-										CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
-									}
-									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-								}
-								break;
-
-								default:
-									PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
-									DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
-									break;
-							}
 						}
+						else if (uID == 500) {
+							dat->codePage = CP_ACP;
+							db_unset(dat->hContact, SRMSGMOD_T, "ANSIcodepage");
+						}
+						else switch (uID) {
+						case 0:
+							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+							break;
+
+						case ID_COPYALL:
+							SendMessage(pNmhdr->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
+							SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & all);
+							SendMessage(pNmhdr->hwndFrom, WM_COPY, 0, 0);
+							SendMessage(pNmhdr->hwndFrom, EM_EXSETSEL, 0, (LPARAM) & sel);
+							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+							break;
+
+						case ID_CLEARLOG:
+							ClearLog(dat);
+							break;
+
+						case ID_SEARCH_GOOGLE:
+							if (pszWord[0]) {
+								TCHAR szURL[4096];
+								mir_sntprintf(szURL, SIZEOF(szURL), _T("http://www.google.com/search?q=%s"), pszWord);
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
+							}
+							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+							break;
+
+						case ID_SEARCH_WIKIPEDIA:
+							if (pszWord[0]) {
+								TCHAR szURL[4096];
+								mir_sntprintf(szURL, SIZEOF(szURL), _T("http://en.wikipedia.org/wiki/%s"), pszWord);
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM) szURL);
+							}
+							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+							break;
+
+						default:
+							PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
+							DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_LOGMENU, NULL, NULL, (LPARAM)uID);
+							break;
+						}
+
 						if (si->iType != GCW_SERVER && !(si->dwFlags & GC_UNICODE)) {
 							pos = GetMenuItemCount(hMenu);
 							RemoveMenu(hMenu, pos - 1, MF_BYPOSITION);
@@ -2955,16 +2947,16 @@ LABEL_SHOWWINDOW:
 												CopyMemory(&uiNew, ui, sizeof(USERINFO));
 												uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, NULL);
 												switch (uID) {
-													case 0:
-														break;
+												case 0:
+													break;
 
-													case ID_MESS:
-														DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
-														break;
+												case ID_MESS:
+													DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+													break;
 
-													default:
-														DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
-														break;
+												default:
+													DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
+													break;
 												}
 												DestroyGCMenu(&hMenu, 1);
 												return TRUE;

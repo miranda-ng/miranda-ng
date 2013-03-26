@@ -267,8 +267,6 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		SetTextColor((HDC)wParam, RGB(60, 60, 150));
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
 		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
-	default:
-		break;
 	}
 	return FALSE;
 }

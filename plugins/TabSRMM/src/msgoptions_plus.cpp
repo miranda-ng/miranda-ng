@@ -122,34 +122,28 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 		default:
 			switch (((LPNMHDR) lParam)->code) {
-				case PSN_APPLY: {
-					TVITEM	item = {0};
-					DWORD	msgTimeout;
-					/*
-					* scan the tree view and obtain the options...
-					*/
-					TOptionListItem* lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
+			case PSN_APPLY:
+				TOptionListItem* lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
 
-					for (int i=0; lvItems[i].szName != NULL; i++) {
-						item.mask = TVIF_HANDLE | TVIF_STATE;
-						item.hItem = (HTREEITEM)lvItems[i].handle;
-						item.stateMask = TVIS_STATEIMAGEMASK;
+				for (int i=0; lvItems[i].szName != NULL; i++) {
+					TVITEM item = {0};
+					item.mask = TVIF_HANDLE | TVIF_STATE;
+					item.hItem = (HTREEITEM)lvItems[i].handle;
+					item.stateMask = TVIS_STATEIMAGEMASK;
 
-						SendDlgItemMessageA(hwndDlg, IDC_PLUS_CHECKTREE, TVM_GETITEMA, 0, (LPARAM)&item);
-						if (lvItems[i].uType == LOI_TYPE_SETTING)
-							M->WriteByte(SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)((item.state >> 12) == 3/*2*/ ? 1 : 0));  // NOTE: state image masks changed
-					}
-
-					msgTimeout = 1000 * GetDlgItemInt(hwndDlg, IDC_SECONDS, NULL, FALSE);
-					PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
-					M->WriteDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
-
-					M->WriteByte(SRMSGMOD_T, "historysize", (BYTE)SendDlgItemMessage(hwndDlg, IDC_HISTORYSIZESPIN, UDM_GETPOS, 0, 0));
-					PluginConfig.reloadAdv();
-					return TRUE;
+					SendDlgItemMessageA(hwndDlg, IDC_PLUS_CHECKTREE, TVM_GETITEMA, 0, (LPARAM)&item);
+					if (lvItems[i].uType == LOI_TYPE_SETTING)
+						M->WriteByte(SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)((item.state >> 12) == 3/*2*/ ? 1 : 0));  // NOTE: state image masks changed
 				}
+
+				int msgTimeout = 1000 * GetDlgItemInt(hwndDlg, IDC_SECONDS, NULL, FALSE);
+				PluginConfig.m_MsgTimeout = msgTimeout >= SRMSGSET_MSGTIMEOUT_MIN ? msgTimeout : SRMSGSET_MSGTIMEOUT_MIN;
+				M->WriteDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, PluginConfig.m_MsgTimeout);
+
+				M->WriteByte(SRMSGMOD_T, "historysize", (BYTE)SendDlgItemMessage(hwndDlg, IDC_HISTORYSIZESPIN, UDM_GETPOS, 0, 0));
+				PluginConfig.reloadAdv();
+				return TRUE;
 			}
-			break;
 		}
 		break;
 

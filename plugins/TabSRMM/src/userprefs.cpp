@@ -193,24 +193,22 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						unsigned int iNewIEView;
 
 						switch (iMode) {
-							case 0:
-								M->WriteByte(hContact, SRMSGMOD_T, "ieview", 0);
-								M->WriteByte(hContact, SRMSGMOD_T, "hpplog", 0);
-								break;
-							case 1:
-								M->WriteByte(hContact, SRMSGMOD_T, "ieview", -1);
-								M->WriteByte(hContact, SRMSGMOD_T, "hpplog", -1);
-								break;
-							case 2:
-								M->WriteByte(hContact, SRMSGMOD_T, "ieview", -1);
-								M->WriteByte(hContact, SRMSGMOD_T, "hpplog", 1);
-								break;
-							case 3:
-								M->WriteByte(hContact, SRMSGMOD_T, "ieview", 1);
-								M->WriteByte(hContact, SRMSGMOD_T, "hpplog", -1);
-								break;
-							default:
-								break;
+						case 0:
+							M->WriteByte(hContact, SRMSGMOD_T, "ieview", 0);
+							M->WriteByte(hContact, SRMSGMOD_T, "hpplog", 0);
+							break;
+						case 1:
+							M->WriteByte(hContact, SRMSGMOD_T, "ieview", -1);
+							M->WriteByte(hContact, SRMSGMOD_T, "hpplog", -1);
+							break;
+						case 2:
+							M->WriteByte(hContact, SRMSGMOD_T, "ieview", -1);
+							M->WriteByte(hContact, SRMSGMOD_T, "hpplog", 1);
+							break;
+						case 3:
+							M->WriteByte(hContact, SRMSGMOD_T, "ieview", 1);
+							M->WriteByte(hContact, SRMSGMOD_T, "hpplog", -1);
+							break;
 						}
 						if (hWnd && dat) {
 							iNewIEView = GetIEViewMode(hWnd, dat->hContact);
@@ -222,7 +220,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					}
 					if ((iIndex = SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0)) != CB_ERR) {
 						if (iIndex == 0)
-							DBDeleteContactSetting(hContact, SRMSGMOD_T, "sendformat");
+							db_unset(hContact, SRMSGMOD_T, "sendformat");
 						else
 							M->WriteDword(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
 					}
@@ -253,7 +251,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 					bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
 					if (bAvatarVisible == 0)
-						DBDeleteContactSetting(hContact, SRMSGMOD_T, "hideavatar");
+						db_unset(hContact, SRMSGMOD_T, "hideavatar");
 					else
 						M->WriteByte(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
 
@@ -283,7 +281,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						if (hWnd && dat)
 							dat->sendMode |= SMODE_NOACK;
 					} else {
-						DBDeleteContactSetting(hContact, SRMSGMOD_T, "no_ack");
+						db_unset(hContact, SRMSGMOD_T, "no_ack");
 						if (hWnd && dat)
 							dat->sendMode &= ~SMODE_NOACK;
 					}
@@ -297,8 +295,6 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					DestroyWindow(hwndDlg);
 					break;
 				}
-				default:
-					break;
 			}
 			break;
 	}
@@ -432,8 +428,8 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 						M->WriteDword(hContact, SRMSGMOD_T, "mwflags", dwFlags);
 					}
 					else {
-						DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwmask");
-						DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwflags");
+						db_unset(hContact, SRMSGMOD_T, "mwmask");
+						db_unset(hContact, SRMSGMOD_T, "mwflags");
 					}
 					if (hwnd && dat) {
 						if (dwMask)
@@ -444,8 +440,8 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 					break;
 				}
 				case IDC_REVERTGLOBAL:
-					DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwmask");
-					DBDeleteContactSetting(hContact, SRMSGMOD_T, "mwflags");
+					db_unset(hContact, SRMSGMOD_T, "mwmask");
+					db_unset(hContact, SRMSGMOD_T, "mwflags");
 					SendMessage(hwndDlg, WM_COMMAND, WM_USER + 200, 0);
 					break;
 			}

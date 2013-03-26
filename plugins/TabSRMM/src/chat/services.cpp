@@ -246,7 +246,7 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->hContact = CList_AddRoom(gcw->pszModule, ptszID, szTemp, si->iType);
 			DBWriteContactSettingString(si->hContact, si->pszModule , "Topic", "");
-			DBDeleteContactSetting(si->hContact, "CList", "StatusMsg");
+			db_unset(si->hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
 				M->WriteTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else

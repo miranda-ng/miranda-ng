@@ -65,30 +65,25 @@ static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
 static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
-		case WM_COMMAND:
-			if (HIWORD(wParam) == STN_CLICKED) {
-				HANDLE hContact = PUGetContact(hWnd);
-				CallService(MS_MSG_SENDMESSAGE "W",(WPARAM)hContact,0);
-				PUDeletePopUp(hWnd);
-				return 1;
-			}
-			break;
-
-		case WM_CONTEXTMENU:
+	case WM_COMMAND:
+		if (HIWORD(wParam) == STN_CLICKED) {
+			CallService(MS_MSG_SENDMESSAGE "W", (WPARAM)PUGetContact(hWnd), 0);
 			PUDeletePopUp(hWnd);
 			return 1;
-
-		case UM_INITPOPUP: {
-			HANDLE hContact = PUGetContact(hWnd);
-			WindowList_Add(hPopUpsList, hWnd, hContact);
 		}
-			return 1;
+		break;
 
-		case UM_FREEPLUGINDATA:
-			WindowList_Remove(hPopUpsList, hWnd);
-			return 1;
-		default:
-			break;
+	case WM_CONTEXTMENU:
+		PUDeletePopUp(hWnd);
+		return 1;
+
+	case UM_INITPOPUP: 
+		WindowList_Add(hPopUpsList, hWnd, PUGetContact(hWnd));
+		return 1;
+
+	case UM_FREEPLUGINDATA:
+		WindowList_Remove(hPopUpsList, hWnd);
+		return 1;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }

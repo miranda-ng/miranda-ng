@@ -401,7 +401,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				break;
 			}
 			if (iNewLocalFormat == 0)
-				DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "sendformat");
+				db_unset(dat->hContact, SRMSGMOD_T, "sendformat");
 			else if (iNewLocalFormat != iLocalFormat)
 				M->WriteDword(dat->hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
 
@@ -501,7 +501,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			if (dat->sendMode & SMODE_NOACK)
 				M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", 1);
 			else
-				DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "no_ack");
+				db_unset(dat->hContact, SRMSGMOD_T, "no_ack");
 			break;
 		}
 		M->WriteByte(dat->hContact, SRMSGMOD_T, "no_ack", (BYTE)(dat->sendMode & SMODE_NOACK ? 1 : 0));
@@ -1788,15 +1788,15 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 		if ((TabCtrl_GetCurSel(hwndTab) != dat->iTabID) && !(dbei.flags & DBEF_SENT) && !fIsStatusChangeEvent) {
 			switch (dbei.eventType) {
-				case EVENTTYPE_MESSAGE:
-					dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
-					break;
-				case EVENTTYPE_FILE:
-					dat->iFlashIcon = PluginConfig.g_IconFileEvent;
-					break;
-				default:
-					dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
-					break;
+			case EVENTTYPE_MESSAGE:
+				dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
+				break;
+			case EVENTTYPE_FILE:
+				dat->iFlashIcon = PluginConfig.g_IconFileEvent;
+				break;
+			default:
+				dat->iFlashIcon = PluginConfig.g_IconMsgEvent;
+				break;
 			}
 			SetTimer(hwndDlg, TIMERID_FLASHWND, TIMEOUT_FLASHWND, NULL);
 			dat->mayFlashTab = TRUE;

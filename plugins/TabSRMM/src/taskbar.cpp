@@ -548,16 +548,13 @@ LRESULT CALLBACK CProxyWindow::stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 		return(pWnd->wndProc(hWnd, msg, wParam, lParam));
 
 	switch(msg) {
-		case WM_NCCREATE: {
-			CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
-			CProxyWindow *pWnd = reinterpret_cast<CProxyWindow *>(cs->lpCreateParams);
-			::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<UINT_PTR>(pWnd));
-			return(pWnd->wndProc(hWnd, msg, wParam, lParam));
-		}
-		default:
-			break;
+	case WM_NCCREATE:
+		CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
+		CProxyWindow *pWnd = reinterpret_cast<CProxyWindow *>(cs->lpCreateParams);
+		::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<UINT_PTR>(pWnd));
+		return pWnd->wndProc(hWnd, msg, wParam, lParam);
 	}
-	return(::DefWindowProc(hWnd, msg, wParam, lParam));
+	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 /**
@@ -568,53 +565,51 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 	switch(msg) {
 
 #if defined(__LOGDEBUG_)
-		case WM_NCCREATE:
-			_DebugTraceW(_T("create proxy WINDOW for: %s"), m_dat->cache->getNick());
-			break;
+	case WM_NCCREATE:
+		_DebugTraceW(_T("create proxy WINDOW for: %s"), m_dat->cache->getNick());
+		break;
 #endif
-        case WM_CLOSE: {
-        	TContainerData* pC = m_dat->pContainer;
+	case WM_CLOSE:
+		{
+			TContainerData* pC = m_dat->pContainer;
 
-        	if (m_dat->hwnd != pC->hwndActive)
-        		SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
-        	else
-        		SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
-        	if (!IsIconic(pC->hwnd))
-        		SetForegroundWindow(pC->hwnd);
-        	return 0;
-        }
+			if (m_dat->hwnd != pC->hwndActive)
+				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
+			else
+				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
+			if (!IsIconic(pC->hwnd))
+				SetForegroundWindow(pC->hwnd);
+		}
+		return 0;
 
-			/*
-			 * proxy window was activated by clicking on the thumbnail. Send this
-			 * to the real message window.
-			 */
-		case WM_ACTIVATE:
-			if (WA_ACTIVE == wParam) {
-				if (IsWindow(m_dat->hwnd))
-					::PostMessage(m_dat->hwnd, DM_ACTIVATEME, 0, 0);
-				return 0;			// no default processing, avoid flickering.
-			}
-			break;
+		/*
+		* proxy window was activated by clicking on the thumbnail. Send this
+		* to the real message window.
+		*/
+	case WM_ACTIVATE:
+		if (WA_ACTIVE == wParam) {
+			if (IsWindow(m_dat->hwnd))
+				::PostMessage(m_dat->hwnd, DM_ACTIVATEME, 0, 0);
+			return 0;			// no default processing, avoid flickering.
+		}
+		break;
 
-		case WM_NCDESTROY:
-			::SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
+	case WM_NCDESTROY:
+		::SetWindowLongPtr(hWnd, GWLP_USERDATA, 0);
 #if defined(__LOGDEBUG_)
-			_DebugTraceW(_T("destroy proxy WINDOW for: %s"), m_dat->cache->getNick());
+		_DebugTraceW(_T("destroy proxy WINDOW for: %s"), m_dat->cache->getNick());
 #endif
-			break;
+		break;
 
-        case WM_DWMSENDICONICTHUMBNAIL:
-        	sendThumb(HIWORD(lParam), LOWORD(lParam));
-        	return 0;
+	case WM_DWMSENDICONICTHUMBNAIL:
+		sendThumb(HIWORD(lParam), LOWORD(lParam));
+		return 0;
 
-        case WM_DWMSENDICONICLIVEPREVIEWBITMAP:
-       		sendPreview();
-            return 0;
-
-		default:
-			break;
+	case WM_DWMSENDICONICLIVEPREVIEWBITMAP:
+		sendPreview();
+		return 0;
 	}
-	return(::DefWindowProc(hWnd, msg, wParam, lParam));
+	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 /**

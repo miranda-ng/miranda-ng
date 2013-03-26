@@ -1515,10 +1515,6 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
 				return TRUE;
 			break;
-
-		default:
-			break;
-
 		}
 		if (tconfig_init)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

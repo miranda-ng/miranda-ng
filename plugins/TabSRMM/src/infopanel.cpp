@@ -1222,7 +1222,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					BYTE vNew = (iResult == 0 ? (BYTE)-1 : (iResult == 1 ? 1 : 0));
 					if (vNew != vOld) {
 						if (vNew == (BYTE)-1)
-							DBDeleteContactSetting(m_dat->hContact, SRMSGMOD_T, "hideavatar");
+							db_unset(m_dat->hContact, SRMSGMOD_T, "hideavatar");
 						else
 							M->WriteByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", vNew);
 						m_dat->panelWidth = -1;

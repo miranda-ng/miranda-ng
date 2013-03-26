@@ -803,15 +803,15 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 							icon = isSent ? LOGICON_OUT : LOGICON_IN;
 						else {
 							switch (dbei.eventType) {
-								case EVENTTYPE_FILE:
-									icon = LOGICON_FILE;
-									break;
-								case EVENTTYPE_ERRMSG:
-									icon = LOGICON_ERROR;
-									break;
-								default:
-									icon = LOGICON_MSG;
-									break;
+							case EVENTTYPE_FILE:
+								icon = LOGICON_FILE;
+								break;
+							case EVENTTYPE_ERRMSG:
+								icon = LOGICON_ERROR;
+								break;
+							default:
+								icon = LOGICON_MSG;
+								break;
 							}
 							if (fIsStatusChangeEvent)
 								icon = LOGICON_STATUS;
@@ -943,18 +943,18 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 							c = isSent ? 0x37 : 0x38;
 						else {
 							switch (dbei.eventType) {
-								case EVENTTYPE_MESSAGE:
-									c = (char)0xaa;
-									break;
-								case EVENTTYPE_FILE:
-									c = (char)0xcd;
-									break;
-								case EVENTTYPE_ERRMSG:
-									c = (char)0x72;;
-									break;
-								default:
-									c = (char)0xaa;
-									break;
+							case EVENTTYPE_MESSAGE:
+								c = (char)0xaa;
+								break;
+							case EVENTTYPE_FILE:
+								c = (char)0xcd;
+								break;
+							case EVENTTYPE_ERRMSG:
+								c = (char)0x72;;
+								break;
+							default:
+								c = (char)0xaa;
+								break;
 							}
 							if (fIsStatusChangeEvent)
 								c = 0x4e;

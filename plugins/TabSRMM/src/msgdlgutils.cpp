@@ -397,7 +397,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				M->WriteDword(dat->hContact, SRMSGMOD_T, "tabindex", dat->iTabID * 100);
 				break;
 			case ID_TABMENU_CLEARSAVEDTABPOSITION:
-				DBDeleteContactSetting(dat->hContact, SRMSGMOD_T, "tabindex");
+				db_unset(dat->hContact, SRMSGMOD_T, "tabindex");
 				break;
 			case ID_TABMENU_LEAVECHATROOM: {
 				if (dat && dat->bType == SESSIONTYPE_CHAT) {
@@ -459,7 +459,8 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			}
 			return 1;
 		}
-	} else if (menuId == MENU_LOGMENU) {
+	}
+	else if (menuId == MENU_LOGMENU) {
 		int iLocalTime = 0;
 		int iRtl = (PluginConfig.m_RTLDefault == 0 ? M->GetByte(dat->hContact, "RTL", 0) : M->GetByte(dat->hContact, "RTL", 1));
 		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && M->GetByte(dat->hContact, "logstatuschanges", 0);
@@ -467,24 +468,18 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		DWORD dwOldFlags = dat->dwFlags;
 
 		switch (selection) {
-			case ID_MESSAGELOGSETTINGS_GLOBAL: {
-				OPENOPTIONSDIALOG	ood = {0};
-
-				ood.cbSize = sizeof(OPENOPTIONSDIALOG);
-				ood.pszGroup = NULL;
+		case ID_MESSAGELOGSETTINGS_GLOBAL:
+			{
+				OPENOPTIONSDIALOG	ood = { sizeof(ood) };
 				ood.pszPage = "Message Sessions";
-				ood.pszTab = NULL;
 				M->WriteByte(SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
 				Options_Open(&ood);
-				return 1;
 			}
+			return 1;
 
-			case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
-				CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, 0);
-				return 1;
-
-			default:
-				break;
+		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
+			CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, 0);
+			return 1;
 		}
 	}
 	return 0;
@@ -1027,198 +1022,195 @@ BOOL TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat)
 	// scan the file for rtf commands and remove or parse them
 	inColor = 0;
 	p1 = _tcsstr(pszText, _T("\\pard"));
-	if (p1) {
-		size_t iRemoveChars;
-		TCHAR InsertThis[50];
-		p1 += 5;
+	if (!p1)
+		return FALSE;
 
-		MoveMemory(pszText, p1, (lstrlen(p1) + 1) * sizeof(TCHAR));
-		p1 = pszText;
-		// iterate through all characters, if rtf control character found then take action
-		while (*p1 != (TCHAR) '\0') {
-			_sntprintf(InsertThis, 50, _T(""));
-			iRemoveChars = 0;
+	size_t iRemoveChars;
+	TCHAR InsertThis[50];
+	p1 += 5;
 
-			switch (*p1) {
-				case (TCHAR) '\\':
-					if (p1 == _tcsstr(p1, _T("\\cf"))) { // foreground color
-						TCHAR szTemp[20];
-						int iCol = _ttoi(p1 + 3);
-						int iInd = Utils::RTFColorToIndex(iCol);
-						bJustRemovedRTF = TRUE;
+	MoveMemory(pszText, p1, (lstrlen(p1) + 1) * sizeof(TCHAR));
+	p1 = pszText;
+	// iterate through all characters, if rtf control character found then take action
+	while (*p1 != (TCHAR) '\0') {
+		_sntprintf(InsertThis, 50, _T(""));
+		iRemoveChars = 0;
 
-						_sntprintf(szTemp, 20, _T("%d"), iCol);
-						iRemoveChars = 3 + lstrlen(szTemp);
-						if (bTextHasStarted || iCol)
-							_sntprintf(InsertThis, sizeof(InsertThis) / sizeof(TCHAR), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
-						inColor = iInd > 0 ? 1 : 0;
-					} else if (p1 == _tcsstr(p1, _T("\\highlight"))) { //background color
-						TCHAR szTemp[20];
-						int iCol = _ttoi(p1 + 10);
-						bJustRemovedRTF = TRUE;
+		switch (*p1) {
+		case (TCHAR) '\\':
+			if (p1 == _tcsstr(p1, _T("\\cf"))) { // foreground color
+				TCHAR szTemp[20];
+				int iCol = _ttoi(p1 + 3);
+				int iInd = Utils::RTFColorToIndex(iCol);
+				bJustRemovedRTF = TRUE;
 
-						_sntprintf(szTemp, 20, _T("%d"), iCol);
-						iRemoveChars = 10 + lstrlen(szTemp);
-					} else if (p1 == _tcsstr(p1, _T("\\par"))) { // newline
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
+				_sntprintf(szTemp, 20, _T("%d"), iCol);
+				iRemoveChars = 3 + lstrlen(szTemp);
+				if (bTextHasStarted || iCol)
+					_sntprintf(InsertThis, sizeof(InsertThis) / sizeof(TCHAR), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
+				inColor = iInd > 0 ? 1 : 0;
+			} else if (p1 == _tcsstr(p1, _T("\\highlight"))) { //background color
+				TCHAR szTemp[20];
+				int iCol = _ttoi(p1 + 10);
+				bJustRemovedRTF = TRUE;
+
+				_sntprintf(szTemp, 20, _T("%d"), iCol);
+				iRemoveChars = 10 + lstrlen(szTemp);
+			} else if (p1 == _tcsstr(p1, _T("\\par"))) { // newline
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 4;
+			} else if (p1 == _tcsstr(p1, _T("\\line"))) { // soft line break;
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 5;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
+			} else if (p1 == _tcsstr(p1, _T("\\endash"))) {
+				bTextHasStarted = bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
+			} else if (p1 == _tcsstr(p1, _T("\\emdash"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
+			} else if (p1 == _tcsstr(p1, _T("\\bullet"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
+			} else if (p1 == _tcsstr(p1, _T("\\ldblquote"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 10;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
+			} else if (p1 == _tcsstr(p1, _T("\\rdblquote"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 10;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
+			} else if (p1 == _tcsstr(p1, _T("\\lquote"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
+			} else if (p1 == _tcsstr(p1, _T("\\rquote"))) {
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 7;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
+			} else if (p1 == _tcsstr(p1, _T("\\b"))) { //bold
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
+				if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
+					if (dat->SendFormat)
+						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
+				}
+
+			} else if (p1 == _tcsstr(p1, _T("\\i"))) { // italics
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
+				if (!lf.lfItalic) { // same as for bold
+					if (dat->SendFormat)
+						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
+				}
+
+			} else if (p1 == _tcsstr(p1, _T("\\strike"))) { // strike-out
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = (p1[7] != (TCHAR) '0') ? 7 : 8;
+				if (!lf.lfStrikeOut) { // same as for bold
+					if (dat->SendFormat)
+						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
+				}
+
+			} else if (p1 == _tcsstr(p1, _T("\\ul"))) { // underlined
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				if (p1[3] == (TCHAR) 'n')
+					iRemoveChars = 7;
+				else if (p1[3] == (TCHAR) '0')
+					iRemoveChars = 4;
+				else
+					iRemoveChars = 3;
+				if (!lf.lfUnderline) { // same as for bold
+					if (dat->SendFormat)
+						_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
+				}
+
+			} else if (p1 == _tcsstr(p1, _T("\\tab"))) { // tab
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = TRUE;
+				iRemoveChars = 4;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
+			} else if (p1[1] == (TCHAR) '\\' || p1[1] == (TCHAR) '{' || p1[1] == (TCHAR) '}') { // escaped characters
+				bTextHasStarted = TRUE;
+				//bJustRemovedRTF = TRUE;
+				iRemoveChars = 2;
+				_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
+			} else if (p1[1] == (TCHAR) '\'') { // special character
+				bTextHasStarted = TRUE;
+				bJustRemovedRTF = FALSE;
+				if (p1[2] != (TCHAR) ' ' && p1[2] != (TCHAR) '\\') {
+					int iLame = 0;
+					TCHAR * p3;
+					TCHAR *stoppedHere;
+
+					if (p1[3] != (TCHAR) ' ' && p1[3] != (TCHAR) '\\') {
+						_tcsncpy(InsertThis, p1 + 2, 3);
 						iRemoveChars = 4;
-					} else if (p1 == _tcsstr(p1, _T("\\line"))) { // soft line break;
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 5;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("\n"));
-					} else if (p1 == _tcsstr(p1, _T("\\endash"))) {
-						bTextHasStarted = bJustRemovedRTF = TRUE;
-						iRemoveChars = 7;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2013);
-					} else if (p1 == _tcsstr(p1, _T("\\emdash"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 7;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2014);
-					} else if (p1 == _tcsstr(p1, _T("\\bullet"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 7;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2022);
-					} else if (p1 == _tcsstr(p1, _T("\\ldblquote"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 10;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201C);
-					} else if (p1 == _tcsstr(p1, _T("\\rdblquote"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 10;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x201D);
-					} else if (p1 == _tcsstr(p1, _T("\\lquote"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 7;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2018);
-					} else if (p1 == _tcsstr(p1, _T("\\rquote"))) {
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 7;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x2019);
-					} else if (p1 == _tcsstr(p1, _T("\\b"))) { //bold
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
-						if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
-							if (dat->SendFormat)
-								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[b]") : _T("[/b]"));
-						}
-
-					} else if (p1 == _tcsstr(p1, _T("\\i"))) { // italics
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = (p1[2] != (TCHAR) '0') ? 2 : 3;
-						if (!lf.lfItalic) { // same as for bold
-							if (dat->SendFormat)
-								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != (TCHAR) '0') ? _T("[i]") : _T("[/i]"));
-						}
-
-					} else if (p1 == _tcsstr(p1, _T("\\strike"))) { // strike-out
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = (p1[7] != (TCHAR) '0') ? 7 : 8;
-						if (!lf.lfStrikeOut) { // same as for bold
-							if (dat->SendFormat)
-								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != (TCHAR) '0') ? _T("[s]") : _T("[/s]"));
-						}
-
-					} else if (p1 == _tcsstr(p1, _T("\\ul"))) { // underlined
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						if (p1[3] == (TCHAR) 'n')
-							iRemoveChars = 7;
-						else if (p1[3] == (TCHAR) '0')
-							iRemoveChars = 4;
-						else
-							iRemoveChars = 3;
-						if (!lf.lfUnderline) { // same as for bold
-							if (dat->SendFormat)
-								_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != (TCHAR) '0' && p1[3] != (TCHAR) 'n') ? _T("[u]") : _T("[/u]"));
-						}
-
-					} else if (p1 == _tcsstr(p1, _T("\\tab"))) { // tab
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = TRUE;
-						iRemoveChars = 4;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), 0x09);
-					} else if (p1[1] == (TCHAR) '\\' || p1[1] == (TCHAR) '{' || p1[1] == (TCHAR) '}') { // escaped characters
-						bTextHasStarted = TRUE;
-						//bJustRemovedRTF = TRUE;
-						iRemoveChars = 2;
-						_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), p1[1]);
-					} else if (p1[1] == (TCHAR) '\'') { // special character
-						bTextHasStarted = TRUE;
-						bJustRemovedRTF = FALSE;
-						if (p1[2] != (TCHAR) ' ' && p1[2] != (TCHAR) '\\') {
-							int iLame = 0;
-							TCHAR * p3;
-							TCHAR *stoppedHere;
-
-							if (p1[3] != (TCHAR) ' ' && p1[3] != (TCHAR) '\\') {
-								_tcsncpy(InsertThis, p1 + 2, 3);
-								iRemoveChars = 4;
-								InsertThis[2] = 0;
-							} else {
-								_tcsncpy(InsertThis, p1 + 2, 2);
-								iRemoveChars = 3;
-								InsertThis[2] = 0;
-							}
-							// convert string containing char in hex format to int.
-							p3 = InsertThis;
-							iLame = _tcstol(p3, &stoppedHere, 16);
-							_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR) iLame);
-
-						} else
-							iRemoveChars = 2;
-					} else { // remove unknown RTF command
-						int j = 1;
-						bJustRemovedRTF = TRUE;
-						while (!_tcschr(_T(" !$%()#*\"'"), p1[j]) && p1[j] != (TCHAR) '§' && p1[j] != (TCHAR) '\\' && p1[j] != (TCHAR) '\0')
-							//                    while(!_tcschr(_T(" !§$%&()#*"), p1[j]) && p1[j] != (TCHAR)'\\' && p1[j] != (TCHAR)'\0')
-							j++;
-						//					while(p1[j] != (TCHAR)' ' && p1[j] != (TCHAR)'\\' && p1[j] != (TCHAR)'\0')
-						//						j++;
-						iRemoveChars = j;
+						InsertThis[2] = 0;
+					} else {
+						_tcsncpy(InsertThis, p1 + 2, 2);
+						iRemoveChars = 3;
+						InsertThis[2] = 0;
 					}
-					break;
+					// convert string containing char in hex format to int.
+					p3 = InsertThis;
+					iLame = _tcstol(p3, &stoppedHere, 16);
+					_sntprintf(InsertThis, SIZEOF(InsertThis), _T("%c"), (TCHAR) iLame);
 
-				case (TCHAR) '{': // other RTF control characters
-				case (TCHAR) '}':
-					iRemoveChars = 1;
-					break;
-
-				case (TCHAR) ' ': // remove spaces following a RTF command
-					if (bJustRemovedRTF)
-						iRemoveChars = 1;
-					bJustRemovedRTF = FALSE;
-					bTextHasStarted = TRUE;
-					break;
-
-				default: // other text that should not be touched
-					bTextHasStarted = TRUE;
-					bJustRemovedRTF = FALSE;
-
-					break;
+				} else
+					iRemoveChars = 2;
+			} else { // remove unknown RTF command
+				int j = 1;
+				bJustRemovedRTF = TRUE;
+				while (!_tcschr(_T(" !$%()#*\"'"), p1[j]) && p1[j] != (TCHAR) '§' && p1[j] != (TCHAR) '\\' && p1[j] != (TCHAR) '\0')
+					//                    while(!_tcschr(_T(" !§$%&()#*"), p1[j]) && p1[j] != (TCHAR)'\\' && p1[j] != (TCHAR)'\0')
+						j++;
+				//					while(p1[j] != (TCHAR)' ' && p1[j] != (TCHAR)'\\' && p1[j] != (TCHAR)'\0')
+				//						j++;
+				iRemoveChars = j;
 			}
+			break;
 
-			// move the memory and paste in new commands instead of the old RTF
-			if (lstrlen(InsertThis) || iRemoveChars) {
-				MoveMemory(p1 + lstrlen(InsertThis), p1 + iRemoveChars, (lstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
-				CopyMemory(p1, InsertThis, lstrlen(InsertThis) * sizeof(TCHAR));
-				p1 += lstrlen(InsertThis);
-			} else
-				p1++;
+		case (TCHAR) '{': // other RTF control characters
+		case (TCHAR) '}':
+			iRemoveChars = 1;
+			break;
+
+		case (TCHAR) ' ': // remove spaces following a RTF command
+			if (bJustRemovedRTF)
+				iRemoveChars = 1;
+			bJustRemovedRTF = FALSE;
+			bTextHasStarted = TRUE;
+			break;
+
+		default: // other text that should not be touched
+			bTextHasStarted = TRUE;
+			bJustRemovedRTF = FALSE;
+			break;
 		}
 
-	} else {
-		return FALSE;
+		// move the memory and paste in new commands instead of the old RTF
+		if (lstrlen(InsertThis) || iRemoveChars) {
+			MoveMemory(p1 + lstrlen(InsertThis), p1 + iRemoveChars, (lstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
+			CopyMemory(p1, InsertThis, lstrlen(InsertThis) * sizeof(TCHAR));
+			p1 += lstrlen(InsertThis);
+		}
+		else p1++;
 	}
 	return TRUE;
 }
@@ -1246,33 +1238,25 @@ void TSAPI DoTrimMessage(TCHAR *msg)
 
 void TSAPI GetMYUIN(TWindowData *dat)
 {
-	CONTACTINFO ci;
-	ZeroMemory((void*)&ci, sizeof(ci));
-
-	/*
-	 * get my uin
-	 */
-
-	ci.cbSize = sizeof(ci);
-	ci.hContact = 0;
+	CONTACTINFO ci = { sizeof(ci) };
 	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());
 	ci.dwFlag = CNF_TCHAR | CNF_DISPLAYUID;
 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
-			case CNFT_ASCIIZ:
-				mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
-				mir_free((void*)ci.pszVal);
-				break;
-			case CNFT_DWORD:
-				mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%u"), ci.dVal);
-				break;
-			default:
-				dat->myUin[0] = 0;
-				break;
+		case CNFT_ASCIIZ:
+			mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
+			mir_free((void*)ci.pszVal);
+			break;
+		case CNFT_DWORD:
+			mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%u"), ci.dVal);
+			break;
+		default:
+			dat->myUin[0] = 0;
+			break;
 		}
-	} else
-		dat->myUin[0] = 0;
+	}
+	else dat->myUin[0] = 0;
 }
 
 static int g_IEViewAvail = -1;
@@ -1436,11 +1420,11 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 		historyMode = LOADHISTORY_COUNT;
 
 	switch (historyMode) {
-		case LOADHISTORY_COUNT: {
+	case LOADHISTORY_COUNT:
+		{
 			int i;
 			HANDLE hPrevEvent;
-			DBEVENTINFO dbei = { 0};
-			dbei.cbSize = sizeof(dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
 			//MAD: ability to load only current session's history
 			if (dat->bActualHistory)
 				i = dat->cache->getSessionMsgCount();
@@ -1460,37 +1444,33 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 				if (!DbEventIsShown(dat, &dbei))
 					i++;
 			}
-			break;
 		}
-		case LOADHISTORY_TIME: {
-			HANDLE hPrevEvent;
-			DBEVENTINFO dbei = { 0};
-			DWORD firstTime;
+		break;
 
-			dbei.cbSize = sizeof(dbei);
+	case LOADHISTORY_TIME:
+		HANDLE hPrevEvent;
+		DWORD firstTime;
+
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		if (dat->hDbEventFirst == NULL)
+			dbei.timestamp = time(NULL);
+		else
+			CallService(MS_DB_EVENT_GET, (WPARAM) dat->hDbEventFirst, (LPARAM) & dbei);
+		firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		for (;;) {
 			if (dat->hDbEventFirst == NULL)
-				dbei.timestamp = time(NULL);
+				hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
 			else
-				CallService(MS_DB_EVENT_GET, (WPARAM) dat->hDbEventFirst, (LPARAM) & dbei);
-			firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
-			for (;;) {
-				if (dat->hDbEventFirst == NULL)
-					hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
-				else
-					hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
-				if (hPrevEvent == NULL)
-					break;
-				dbei.cbBlob = 0;
-				CallService(MS_DB_EVENT_GET, (WPARAM) hPrevEvent, (LPARAM) & dbei);
-				if (dbei.timestamp < firstTime)
-					break;
-				dat->hDbEventFirst = hPrevEvent;
-			}
-			break;
+				hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
+			if (hPrevEvent == NULL)
+				break;
+			dbei.cbBlob = 0;
+			CallService(MS_DB_EVENT_GET, (WPARAM) hPrevEvent, (LPARAM) & dbei);
+			if (dbei.timestamp < firstTime)
+				break;
+			dat->hDbEventFirst = hPrevEvent;
 		}
-		default: {
-			break;
-		}
+		break;
 	}
 }
 

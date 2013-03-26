@@ -352,125 +352,125 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			break;
 
 		switch (title[curpos]) {
-			case 'n': {
-				const	TCHAR *tszNick = dat->cache->getNick();
-				if (tszNick[0])
-					title.insert(tempmark + 2, tszNick);
-				title.erase(tempmark, 2);
-				curpos = tempmark + lstrlen(tszNick);
-				break;
-			}
-			case 'p':
-			case 'a': {
-				const	TCHAR *szAcc = dat->cache->getRealAccount();
-				if (szAcc)
-					title.insert(tempmark + 2, szAcc);
-				title.erase(tempmark, 2);
-				curpos = tempmark + lstrlen(szAcc);
-				break;
-			}
-			case 's': {
-				if (dat->szStatus && dat->szStatus[0])
-					title.insert(tempmark + 2, dat->szStatus);
-				title.erase(tempmark, 2);
-				curpos = tempmark + lstrlen(dat->szStatus);
-				break;
-			}
-			case 'u': {
-				const TCHAR	*szUIN = dat->cache->getUIN();
-				if (szUIN[0])
-					title.insert(tempmark + 2, szUIN);
-				title.erase(tempmark, 2);
-				curpos = tempmark + lstrlen(szUIN);
-				break;
-			}
-			case 'c': {
-				TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
-				title.insert(tempmark + 2, c);
-				title.erase(tempmark, 2);
-				curpos = tempmark + lstrlen(c);
-				break;
-			}
-			case 'o': {
-				const TCHAR* szProto = dat->cache->getActiveProtoT();
-				if (szProto)
-					title.insert(tempmark + 2, szProto);
-				title.erase(tempmark, 2);
-				curpos = tempmark + (szProto ? lstrlen(szProto) : 0);
-				break;
-			}
-			case 'x': {
-				TCHAR *szFinalStatus = NULL;
-				BYTE  xStatus = dat->cache->getXStatusId();
+		case 'n': {
+			const	TCHAR *tszNick = dat->cache->getNick();
+			if (tszNick[0])
+				title.insert(tempmark + 2, tszNick);
+			title.erase(tempmark, 2);
+			curpos = tempmark + lstrlen(tszNick);
+			break;
+					 }
+		case 'p':
+		case 'a': {
+			const	TCHAR *szAcc = dat->cache->getRealAccount();
+			if (szAcc)
+				title.insert(tempmark + 2, szAcc);
+			title.erase(tempmark, 2);
+			curpos = tempmark + lstrlen(szAcc);
+			break;
+					 }
+		case 's': {
+			if (dat->szStatus && dat->szStatus[0])
+				title.insert(tempmark + 2, dat->szStatus);
+			title.erase(tempmark, 2);
+			curpos = tempmark + lstrlen(dat->szStatus);
+			break;
+					 }
+		case 'u': {
+			const TCHAR	*szUIN = dat->cache->getUIN();
+			if (szUIN[0])
+				title.insert(tempmark + 2, szUIN);
+			title.erase(tempmark, 2);
+			curpos = tempmark + lstrlen(szUIN);
+			break;
+					 }
+		case 'c': {
+			TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
+			title.insert(tempmark + 2, c);
+			title.erase(tempmark, 2);
+			curpos = tempmark + lstrlen(c);
+			break;
+					 }
+		case 'o': {
+			const TCHAR* szProto = dat->cache->getActiveProtoT();
+			if (szProto)
+				title.insert(tempmark + 2, szProto);
+			title.erase(tempmark, 2);
+			curpos = tempmark + (szProto ? lstrlen(szProto) : 0);
+			break;
+					 }
+		case 'x': {
+			TCHAR *szFinalStatus = NULL;
+			BYTE  xStatus = dat->cache->getXStatusId();
 
-				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					DBVARIANT dbv = {0};
+			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+				DBVARIANT dbv = {0};
 
-					if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-						_tcsncpy(szTemp, dbv.ptszVal, 500);
-						szTemp[500] = 0;
-						DBFreeVariant(&dbv);
-						title.insert(tempmark + 2, szTemp);
-						curpos = tempmark + lstrlen(szTemp);
-					}
-					else {
-						title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
-						curpos = tempmark + lstrlen(xStatusDescr[xStatus - 1]);
-					}
+				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+					_tcsncpy(szTemp, dbv.ptszVal, 500);
+					szTemp[500] = 0;
+					DBFreeVariant(&dbv);
+					title.insert(tempmark + 2, szTemp);
+					curpos = tempmark + lstrlen(szTemp);
 				}
-				title.erase(tempmark, 2);
-				break;
+				else {
+					title.insert(tempmark + 2, xStatusDescr[xStatus - 1]);
+					curpos = tempmark + lstrlen(xStatusDescr[xStatus - 1]);
+				}
 			}
-			case 'm': {
-				TCHAR *szFinalStatus = NULL;
-				BYTE  xStatus = dat->cache->getXStatusId();
+			title.erase(tempmark, 2);
+			break;
+					 }
+		case 'm': {
+			TCHAR *szFinalStatus = NULL;
+			BYTE  xStatus = dat->cache->getXStatusId();
 
-				if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
-					DBVARIANT dbv = {0};
+			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+				DBVARIANT dbv = {0};
 
-					if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
-						_tcsncpy(szTemp, dbv.ptszVal, 500);
-						szTemp[500] = 0;
-						DBFreeVariant(&dbv);
-						title.insert(tempmark + 2, szTemp);
-					} else
-						szFinalStatus = xStatusDescr[xStatus - 1];
+				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
+					_tcsncpy(szTemp, dbv.ptszVal, 500);
+					szTemp[500] = 0;
+					DBFreeVariant(&dbv);
+					title.insert(tempmark + 2, szTemp);
 				} else
-					szFinalStatus = (TCHAR *)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
+					szFinalStatus = xStatusDescr[xStatus - 1];
+			} else
+				szFinalStatus = (TCHAR *)(dat->szStatus && dat->szStatus[0] ? dat->szStatus : _T("(undef)"));
 
-				if (szFinalStatus) {
-					title.insert(tempmark + 2, szFinalStatus);
-					curpos = tempmark + lstrlen(szFinalStatus);
-				}
-
-				title.erase(tempmark, 2);
-				break;
+			if (szFinalStatus) {
+				title.insert(tempmark + 2, szFinalStatus);
+				curpos = tempmark + lstrlen(szFinalStatus);
 			}
-			/*
-			 * status message (%T will skip the "No status message" for empty
-			 * messages)
-			 */
-			case 't':
-			case 'T': {
-				TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
 
-				if (tszStatusMsg) {
-					title.insert(tempmark + 2, tszStatusMsg);
-					curpos = tempmark + lstrlen(tszStatusMsg);
-				}
-				else if (title[curpos] == 't') {
-					const TCHAR* tszStatusMsg = TranslateT("No status message");
-					title.insert(tempmark + 2, tszStatusMsg);
-					curpos = tempmark + lstrlen(tszStatusMsg);
-				}
-				title.erase(tempmark, 2);
-				if (tszStatusMsg)
-					mir_free(tszStatusMsg);
-				break;
+			title.erase(tempmark, 2);
+			break;
+					 }
+					 /*
+					 * status message (%T will skip the "No status message" for empty
+					 * messages)
+					 */
+		case 't':
+		case 'T': {
+			TCHAR	*tszStatusMsg = dat->cache->getNormalizedStatusMsg(dat->cache->getStatusMsg(), true);
+
+			if (tszStatusMsg) {
+				title.insert(tempmark + 2, tszStatusMsg);
+				curpos = tempmark + lstrlen(tszStatusMsg);
 			}
-			default:
-				title.erase(tempmark, 1);
-				break;
+			else if (title[curpos] == 't') {
+				const TCHAR* tszStatusMsg = TranslateT("No status message");
+				title.insert(tempmark + 2, tszStatusMsg);
+				curpos = tempmark + lstrlen(tszStatusMsg);
+			}
+			title.erase(tempmark, 2);
+			if (tszStatusMsg)
+				mir_free(tszStatusMsg);
+			break;
+					 }
+		default:
+			title.erase(tempmark, 1);
+			break;
 		}
 	}
 	length = title.length();
@@ -705,8 +705,6 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 		break;
 	case WM_SETCURSOR:
 		break;
-	default:
-		break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -804,7 +802,7 @@ void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSett
 		}
 	}
 	else {
-		::DBDeleteContactSetting(NULL, SRMSGMOD_T, szCName);
+		::db_unset(NULL, SRMSGMOD_T, szCName);
 		pContainer->fPrivateThemeChanged = FALSE;
 	}
 }
@@ -1351,23 +1349,19 @@ INT_PTR CALLBACK CWarning::stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		return(w->dlgProc(hwnd, msg, wParam, lParam));
 
 	switch(msg) {
-		case WM_INITDIALOG: {
-			w = reinterpret_cast<CWarning *>(lParam);
-			if (w) {
-				::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-				return(w->dlgProc(hwnd, msg, wParam, lParam));
-			}
-			break;
+	case WM_INITDIALOG:
+		w = reinterpret_cast<CWarning *>(lParam);
+		if (w) {
+			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+			return(w->dlgProc(hwnd, msg, wParam, lParam));
 		}
+		break;
 
 #if defined(__LOGDEBUG_)
-		case WM_NCDESTROY:
-			_DebugTraceW(L"window destroyed");
-			break;
+	case WM_NCDESTROY:
+		_DebugTraceW(L"window destroyed");
+		break;
 #endif
-
-		default:
-			break;
 	}
 	return(FALSE);
 }
@@ -1378,7 +1372,8 @@ INT_PTR CALLBACK CWarning::stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_INITDIALOG: {
+	case WM_INITDIALOG:
+		{
 			HICON		hIcon = 0;
 			UINT		uResId = 0;
 			TCHAR		temp[1024];
@@ -1402,8 +1397,8 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			TranslateDialogDefault(hwnd);
 
 			/*
-			 * convert normal line breaks to rtf
-			 */
+			* convert normal line breaks to rtf
+			*/
 			while((pos = str->find(L"\n")) != str->npos) {
 				str->erase(pos, 1);
 				str->insert(pos, L"\\line ");
@@ -1447,10 +1442,11 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				::ShowWindow(hwnd, SW_SHOWNORMAL);
 
 			WindowList_Add(hWindowList, hwnd, hwnd);
-			return(TRUE);
 		}
+		return TRUE;
 
-		case WM_CTLCOLORSTATIC: {
+	case WM_CTLCOLORSTATIC:
+		{
 			HWND hwndChild = reinterpret_cast<HWND>(lParam);
 			UINT id = ::GetDlgCtrlID(hwndChild);
 			if (0 == m_hFontCaption) {
@@ -1472,73 +1468,61 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
 				return reinterpret_cast<INT_PTR>(::GetSysColorBrush(COLOR_WINDOW));
 			}
-			break;
 		}
+		break;
 
-		case WM_COMMAND:
-			switch(LOWORD(wParam)) {
-				case IDOK:
-				case IDCANCEL:
-				case IDYES:
-				case IDNO:
-					if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) {		// modeless dialogs can receive a IDCANCEL from destroyAll()
-						::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-						delete this;
-						WindowList_Remove(hWindowList, hwnd);
-						::DestroyWindow(hwnd);
-					}
-					else {
-						::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-						delete this;
-						WindowList_Remove(hWindowList, hwnd);
-						::EndDialog(hwnd, LOWORD(wParam));
-					}
-					break;
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+		case IDYES:
+		case IDNO:
+			if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) {		// modeless dialogs can receive a IDCANCEL from destroyAll()
+				::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+				delete this;
+				WindowList_Remove(hWindowList, hwnd);
+				::DestroyWindow(hwnd);
+			}
+			else {
+				::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+				delete this;
+				WindowList_Remove(hWindowList, hwnd);
+				::EndDialog(hwnd, LOWORD(wParam));
+			}
+			break;
 
-				case IDC_DONTSHOWAGAIN: {
-					__int64 mask = getMask(), val64 = ((__int64)1L << m_uId), newVal = 0;
+		case IDC_DONTSHOWAGAIN:
+			__int64 mask = getMask(), val64 = ((__int64)1L << m_uId), newVal = 0;
+			newVal = mask | val64;
 
-					newVal = mask | val64;
+			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
+				DWORD val = (DWORD)(newVal & 0x00000000ffffffff);
+				M->WriteDword(SRMSGMOD_T, "cWarningsL", val);
+				val = (DWORD)((newVal >> 32) & 0x00000000ffffffff);
+				M->WriteDword(SRMSGMOD_T, "cWarningsH", val);
+			}
+		}
+		break;
 
-					if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
-						DWORD val = (DWORD)(newVal & 0x00000000ffffffff);
-						M->WriteDword(SRMSGMOD_T, "cWarningsL", val);
-						val = (DWORD)((newVal >> 32) & 0x00000000ffffffff);
-						M->WriteDword(SRMSGMOD_T, "cWarningsH", val);
-					}
-					break;
+	case WM_NOTIFY:
+		switch (((NMHDR *) lParam)->code) {
+		case EN_LINK:
+			switch (((ENLINK *) lParam)->msg) {
+			case WM_LBUTTONUP:
+				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
+
+				const wchar_t*	wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
+				if (wszUrl) {
+					char* szUrl = mir_t2a(wszUrl);
+
+					CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
+					mir_free(szUrl);
+					mir_free(const_cast<TCHAR *>(wszUrl));
 				}
-				default:
-					break;
 			}
-			break;
-
-		case WM_NOTIFY: {
-			switch (((NMHDR *) lParam)->code) {
-				case EN_LINK:
-					switch (((ENLINK *) lParam)->msg) {
-						case WM_LBUTTONUP: {
-							ENLINK* 		e = reinterpret_cast<ENLINK *>(lParam);
-
-							const wchar_t*	wszUrl = Utils::extractURLFromRichEdit(e, ::GetDlgItem(hwnd, IDC_WARNTEXT));
-							if (wszUrl) {
-								char* szUrl = mir_t2a(wszUrl);
-
-								CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
-								mir_free(szUrl);
-								mir_free(const_cast<TCHAR *>(wszUrl));
-							}
-							break;
-						}
-					}
-					break;
-				default:
-					break;
-			}
-			break;
 		}
-		default:
-			break;
+		break;
 	}
-	return(FALSE);
+
+	return FALSE;
 }

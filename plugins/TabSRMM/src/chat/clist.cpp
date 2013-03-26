@@ -89,7 +89,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	if (pszGroup && lstrlen(pszGroup) > 0)
 		CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)g_Settings.hGroup);
 	else
-		DBDeleteContactSetting(hContact, "CList", "Group");
+		db_unset(hContact, "CList", "Group");
 
 	M->WriteTString(hContact, pszModule, "Nick", pszDisplayName);
 	M->WriteTString(hContact, pszModule, "ChatRoomID", pszRoom);

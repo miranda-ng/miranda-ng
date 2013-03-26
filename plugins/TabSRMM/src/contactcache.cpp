@@ -192,37 +192,27 @@ void CContactCache::updateMeta(bool fForce)
  */
 bool CContactCache::updateUIN()
 {
-	bool		fChanged = false;
+	m_szUIN[0] = 0;
 
 	if (m_Valid) {
-		CONTACTINFO ci = {0};
-
+		CONTACTINFO ci = { sizeof(ci) };
 		ci.hContact = getActiveContact();
 		ci.szProto = const_cast<char *>(getActiveProto());
-		ci.cbSize = sizeof(ci);
-
 		ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
 		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 			switch (ci.type) {
-				case CNFT_ASCIIZ:
-					mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
-					mir_free((void*)ci.pszVal);
-					break;
-				case CNFT_DWORD:
-					mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%u"), ci.dVal);
-					break;
-				default:
-					m_szUIN[0] = 0;
-					break;
+			case CNFT_ASCIIZ:
+				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
+				mir_free((void*)ci.pszVal);
+				break;
+			case CNFT_DWORD:
+				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%u"), ci.dVal);
+				break;
 			}
-		} else
-			m_szUIN[0] = 0;
-
+		}
 	}
-	else
-		m_szUIN[0] = 0;
 
-	return(fChanged);
+	return false;
 }
 
 void CContactCache::updateStats(int iType, size_t value)
@@ -231,27 +221,25 @@ void CContactCache::updateStats(int iType, size_t value)
 		allocStats();
 
 	switch(iType) {
-		case TSessionStats::UPDATE_WITH_LAST_RCV:
-			if (m_stats->lastReceivedChars) {
-				m_stats->iReceived++;
-				m_stats->messageCount++;
-			}
-			else
-				return;
-			m_stats->iReceivedBytes += m_stats->lastReceivedChars;
-			m_stats->lastReceivedChars = 0;
+	case TSessionStats::UPDATE_WITH_LAST_RCV:
+		if (!m_stats->lastReceivedChars)
 			break;
-		case TSessionStats::INIT_TIMER:
-			m_stats->started = time(0);
-			return;
-		case TSessionStats::SET_LAST_RCV:
-			m_stats->lastReceivedChars = (unsigned int)value;
-			return;
-		case TSessionStats::BYTES_SENT:
-			m_stats->iSent++;
-			m_stats->messageCount++;
-			m_stats->iSentBytes += (unsigned int)value;
-			break;
+		m_stats->iReceived++;
+		m_stats->messageCount++;
+		m_stats->iReceivedBytes += m_stats->lastReceivedChars;
+		m_stats->lastReceivedChars = 0;
+		break;
+	case TSessionStats::INIT_TIMER:
+		m_stats->started = time(0);
+		break;
+	case TSessionStats::SET_LAST_RCV:
+		m_stats->lastReceivedChars = (unsigned int)value;
+		break;
+	case TSessionStats::BYTES_SENT:
+		m_stats->iSent++;
+		m_stats->messageCount++;
+		m_stats->iSentBytes += (unsigned int)value;
+		break;
 	}
 }
 
