@@ -55,7 +55,7 @@ static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 
 bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 {
-	if (i > SIZEOF(fontOptionsList))
+	if (i >= SIZEOF(fontOptionsList))
 		return false;
 
 	char str[32];
