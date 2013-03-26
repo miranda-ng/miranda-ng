@@ -874,7 +874,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						UpdateReadChars(hwndDlg, dat->hwndStatus);
 						PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, -1, -1);
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 

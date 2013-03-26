@@ -30,8 +30,6 @@ const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0
 
 HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 HANDLE hHookWinEvt, hHookWinPopup, hMsgMenuItem;
-static HANDLE hServices[7];
-static HANDLE hHooks[8];
 
 static int SRMMStatusToPf2(int status)
 {
@@ -338,19 +336,9 @@ int PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 
 int SplitmsgShutdown(void)
 {
-	int i;
-
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurHyperlinkHand);
 	DestroyCursor(hCurSplitWE);
-
-	for (i=0; i < SIZEOF(hHooks); ++i)
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-
-	for ( i=0; i < SIZEOF(hServices); ++i)
-		if (hServices[i])
-			DestroyServiceFunction(hServices[i]);
 
 	FreeMsgLogIcons();
 	FreeLibrary(GetModuleHandleA("riched20"));
@@ -440,21 +428,21 @@ int LoadSendRecvMessageModule(void)
 	InitOptions();
 	msgQueue_init();
 
-	hHooks[0] = HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
-	hHooks[1] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, MessageSettingChanged);
-	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	hHooks[3] = HookEvent(ME_SYSTEM_MODULESLOADED, SplitmsgModulesLoaded);
-	hHooks[4] = HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
-	hHooks[5] = HookEvent(ME_PROTO_CONTACTISTYPING, TypingMessage);
-	hHooks[6] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
-	hHooks[7] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, MessageSettingChanged);
+	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SplitmsgModulesLoaded);
+	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+	HookEvent(ME_PROTO_CONTACTISTYPING, TypingMessage);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownSendRecv);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
-	hServices[0] = CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
-	hServices[1] = CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-	hServices[2] = CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
-	hServices[3] = CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
-	hServices[4] = CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
-	hServices[5] = CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
+	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
+	CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
+	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
+	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
+	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
 
 	hHookWinEvt   = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookWinPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);

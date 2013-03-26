@@ -136,8 +136,7 @@ void InitOptions(void);
 #define MSGFONTID_MESSAGEAREA 8
 #define MSGFONTID_NOTICE      9
 
-void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour);
-extern const int msgDlgFontCount;
+bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour);
 
 #define LOADHISTORY_UNREAD    0
 #define LOADHISTORY_COUNT     1

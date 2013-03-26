@@ -48,31 +48,30 @@ static const fontOptionsList[] =
 	{ LPGENT("Notices"),           RGB(90, 90, 160),   _T("Arial"),    0, -12},
 };
 
-const int msgDlgFontCount = SIZEOF(fontOptionsList);
-
 static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 {
   return DEFAULT_CHARSET;
 }
 
-void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
+bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 {
-	char str[32];
-	int style;
-	DBVARIANT dbv;
+	if (i > SIZEOF(fontOptionsList))
+		return false;
 
-	if ( colour ) {
+	char str[32];
+
+	if (colour) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dCol", i);
 		*colour = DBGetContactSettingDword(NULL, SRMMMOD, str, fontOptionsList[i].defColour);
 	}
-	if ( lf ) {
+	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
 		lf->lfHeight = (char) db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSty", i);
-		style = db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defStyle);
+		int style = db_get_b(NULL, SRMMMOD, str, fontOptionsList[i].defStyle);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = 0;
@@ -82,32 +81,33 @@ void LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		mir_snprintf(str, SIZEOF(str), "SRMFont%d", i);
-		if (DBGetContactSettingTString(NULL, SRMMMOD, str, &dbv))
+
+		DBVARIANT dbv;
+		if ( DBGetContactSettingTString(NULL, SRMMMOD, str, &dbv))
 			_tcscpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
 		else {
 			lstrcpyn(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSet", i);
 		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
-}	}
+	}
+	return true;
+}
 
 void RegisterSRMMFonts( void )
 {
-	FontIDT fontid = {0};
-	ColourIDT colourid = {0};
 	char idstr[10];
-	int i, index = 0;
 
-	fontid.cbSize = sizeof(FontID);
+	FontIDT fontid = { sizeof(fontid) };
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
-	for ( i = 0; i < msgDlgFontCount; i++, index++ ) {
+	for (int i=0; i < SIZEOF(fontOptionsList); i++) {
 		strcpy(fontid.dbSettingsGroup, SRMMMOD);
 		_tcscpy(fontid.group, LPGENT("Message Log"));
 		_tcscpy(fontid.name, fontOptionsList[i].szDescr);
-		mir_snprintf(idstr, SIZEOF(idstr), "SRMFont%d", index);
+		mir_snprintf(idstr, SIZEOF(idstr), "SRMFont%d", i);
 		strcpy(fontid.prefix, idstr);
-		fontid.order = index;
+		fontid.order = i;
 
 		fontid.flags &= ~FIDF_CLASSMASK;
 		fontid.flags |= (fontOptionsList[i].defStyle == FONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
@@ -120,7 +120,7 @@ void RegisterSRMMFonts( void )
 		FontRegisterT(&fontid);
 	}
 
-	colourid.cbSize = sizeof(ColourID);
+	ColourIDT colourid = { sizeof(colourid) };
 	strcpy(colourid.dbSettingsGroup, SRMMMOD);
 	strcpy(colourid.setting, SRMSGSET_BKGCOLOUR);
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;

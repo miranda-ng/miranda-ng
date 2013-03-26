@@ -144,7 +144,6 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 							*tag = 0;
 							*tage = 0;
 							d += sprintf(d, "{\\field{\\*\\fldinst HYPERLINK \"%s\"}{\\fldrslt %s}}", mir_t2a(tagu), mir_t2a(tag + 1));
-//							d += sprintf(d, "{\\field{\\*\\fldinst HYPERLINK \"%s\"}{\\fldrslt \\ul\\cf%d %s}}", mir_t2a(tagu), msgDlgFontCount, mir_t2a(tag + 1));
 							line = tage + 5;
 							found = 1;
 						}
@@ -202,15 +201,13 @@ static char *CreateRTFHeader(struct SrmmWindowData *dat)
 	buffer[0] = '\0';
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 
-	for (i = 0; i < msgDlgFontCount; i++) {
-		LoadMsgDlgFont(i, &lf, NULL);
+	for (i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
-	}
+
 	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ");
-	for (i = 0; i < msgDlgFontCount; i++) {
-		LoadMsgDlgFont(i, NULL, &colour);
+	for (i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	}
+
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
 		colour = RGB(0, 0, 255);
 	else
