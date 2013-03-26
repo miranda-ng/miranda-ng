@@ -20,6 +20,7 @@
 //***************************************************************************************
 
 #include "stdafx.h"
+#include "db.h"
 #include "resources.h"
 #include "options.h"
 #include "inbox.h"
@@ -37,18 +38,20 @@ INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam, LPARAM param)
 int InitMenus(WPARAM wParam, LPARAM lParam)
 {
 	IJabberInterface *ji = (IJabberInterface*)lParam;
+	LPCSTR szModuleName = ji->Sys()->GetModuleName();
+	if ( IsGoogleAccount(szModuleName)) {
+		char szServiceName[100];
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/%s", szModuleName, MS_GTALKEXT_OPENMAILBOX);
+		CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)szModuleName);
 
-	char szServiceName[100];
-	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/%s", ji->Sys()->GetModuleName(), MS_GTALKEXT_OPENMAILBOX);
-	CreateServiceFunctionParam(szServiceName, OpenMailboxMenuHandler, (LPARAM)ji->Sys()->GetModuleName());
-
-	CLISTMENUITEM cmi = { sizeof(cmi) };
-	cmi.flags = CMIF_CHILDPOPUP;
-	cmi.hParentMenu = HGENMENU(wParam);
-	cmi.hIcon = g_hPopupIcon;
-	cmi.position = 200101;
-	cmi.pszName = LPGEN("Open mailbox");
-	cmi.pszService = szServiceName;
-	Menu_AddProtoMenuItem(&cmi);
+		CLISTMENUITEM cmi = { sizeof(cmi) };
+		cmi.flags = CMIF_CHILDPOPUP;
+		cmi.hParentMenu = HGENMENU(wParam);
+		cmi.hIcon = g_hPopupIcon;
+		cmi.position = 200101;
+		cmi.pszName = LPGEN("Open mailbox");
+		cmi.pszService = szServiceName;
+		Menu_AddProtoMenuItem(&cmi);
+	}
 	return 0;
 }

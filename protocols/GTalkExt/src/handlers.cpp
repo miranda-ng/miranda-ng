@@ -403,12 +403,31 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
+{
+	IJabberInterface *japi = getJabberApi(szModuleName);
+	if (!japi) return NULL;
+
+	DBVARIANT dbv;
+	if ( DBGetContactSettingString(NULL, szModuleName, "ManualHost", &dbv))
+		return NULL;
+
+	__try {
+		return (!strcmp(dbv.pszVal, "talk.google.com")) ? japi : NULL;
+	}
+	__finally {
+		db_free(&dbv);
+	}
+}
+
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (PRAC_ADDED == wParam) {
-		IJabberInterface *japi = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
-		if (japi)
-			japi->Net()->AddSendHandler(SendHandler);
+	if (wParam == PRAC_ADDED) {
+		IJabberInterface *ji = IsGoogleAccount(((PROTOACCOUNT*)lParam)->szModuleName);
+		if (ji)
+			ji->Net()->AddSendHandler(SendHandler);
 	}
 	return 0;
 }
@@ -418,10 +437,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
-	for (int i = 0; i < count; i++) {
-		IJabberInterface *japi = getJabberApi(protos[i]->szModuleName);
-		if (japi)
-			japi->Net()->AddSendHandler(SendHandler);
+	for (int i=0; i < count; i++) {
+		IJabberInterface *ji = IsGoogleAccount(protos[i]->szModuleName);
+		if (ji)
+			ji->Net()->AddSendHandler(SendHandler);
 	}
 
 	HookEvent(ME_JABBER_MENUINIT, InitMenus);

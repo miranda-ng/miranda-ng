@@ -20,6 +20,7 @@
 //***************************************************************************************
 
 #include "stdafx.h"
+#include "db.h"
 #include "options.h"
 
 static const LPTSTR ACCOUNT_PROP_NAME = _T("{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}");
@@ -258,11 +259,14 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 	int count;
 	PROTOACCOUNT **accs;
 	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accs);
-	for (int i = 0; i < count; i++)
-		if ( getJabberApi(accs[i]->szModuleName))
+	for (int i = 0; i < count; i++) {
+		IJabberInterface *ji = IsGoogleAccount(accs[i]->szModuleName);
+		if (ji)
 			AddAccPage(accs[i]->tszAccountName, accs[i]->szModuleName, wParam);
+	}
 
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) AddPopupsPage(wParam);
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
+		AddPopupsPage(wParam);
 	return FALSE;
 }
 
