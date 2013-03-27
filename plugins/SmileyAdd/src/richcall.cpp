@@ -435,8 +435,8 @@ void SetRichOwnerCallback(HWND hwnd, HWND hwndInput, HWND hwndLog)
 		rdto->hwndLog = hwndLog;
 		g_RichEditOwnerList.insert(rdto);
 
-		if (hwndInput)
-			SendMessage(hwndInput, EM_SETUNDOLIMIT, 0, 0);
+		if (hwndLog)
+			SendMessage(hwndLog, EM_SETUNDOLIMIT, 0, 0);
 
 		mir_subclassWindow(hwnd, RichEditOwnerSubclass);
 	}
