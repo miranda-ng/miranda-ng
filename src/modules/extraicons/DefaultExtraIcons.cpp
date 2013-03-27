@@ -1,4 +1,4 @@
-J/*
+/*
 
 Copyright (C) 2009 Ricardo Pescuma Domenecci
 Copyright (C) 2012-13 Miranda NG Project
