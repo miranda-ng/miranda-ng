@@ -242,7 +242,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut) {
 	mir_free(szProto);
 }
 
-wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char* szProto)
+wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char *szProto)
 {
 	CONTACTINFO ci = {0};
 	wchar_t *szName = NULL;
@@ -251,35 +251,30 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char* szProto)
 	ci.hContact = hContact;
 	ci.szProto = (char *)szProto;
 	ci.dwFlag = CNF_DISPLAY | CNF_UNICODE;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
-				if (!wcscmp((wchar_t *)ci.pszVal, TranslateW(L"'(Unknown Contact)'"))) {
-					ci.dwFlag &= ~CNF_UNICODE;
-					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
-						szName = ci.pszVal;
-					}
-				} else {
-					szName = mir_tstrdup(ci.pszVal);
-				}
+				szName = mir_tstrdup(ci.pszVal);
 				mir_free(ci.pszVal);
 			}
 		}
 	}
 	if (szName != NULL) return szName;
+
 	ci.dwFlag = CNF_UNIQUEID;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
-				szName = ci.pszVal;
+				szName = mir_tstrdup(ci.pszVal);
 				mir_free(ci.pszVal);
 			}
 		}
 	}
 	if (szName != NULL) return szName;
-	char *szNameStr = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
+
+	TCHAR *szNameStr = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 	if (szNameStr != NULL) {
-		return mir_a2t(szNameStr);
+		return szNameStr;
 	}
 	return mir_tstrdup(TranslateT("(Unknown Contact)"));
 }
