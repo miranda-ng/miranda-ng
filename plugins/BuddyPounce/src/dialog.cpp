@@ -33,7 +33,7 @@ void populateContacts(HANDLE BPhContact,HWND hwnd2CB)
 
 void saveLastSetting(HANDLE hContact, HWND hwnd)
 {
-	TCHAR number[8], string[1024];
+	TCHAR number[8];//, string[1024];//for sending file name
 	switch (DBGetContactSettingByte(hContact, modname, "LastSetting", 2)) // nothing to do
 	{
 		case 0: // Send If My Status Is...
@@ -60,10 +60,10 @@ void saveLastSetting(HANDLE hContact, HWND hwnd)
 			DBWriteContactSettingByte(hContact, modname, "ConfirmTimeout", (BYTE)_ttoi(number));
 		break;
 		
-		case 7: // send a file
-			GetDlgItemText(hwnd, IDC_SETTINGTEXT, string, 1024);
-			DBWriteContactSettingTString(hContact, modname, "FileToSend", string);
-		break;
+//		case 7: // send a file
+//			GetDlgItemText(hwnd, IDC_SETTINGTEXT, string, 1024);
+//			DBWriteContactSettingTString(hContact, modname, "FileToSend", string);
+//		break;
 	}
 }
 
@@ -71,10 +71,10 @@ void hideAll(HWND hwnd)
 {
 	ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_HIDE);
 	ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG2), SW_HIDE);
-	ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_HIDE);
+//	ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_HIDE);
 	ShowWindow(GetDlgItem(hwnd, IDC_SETTINGNUMBER), SW_HIDE);
 	ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_HIDE);
-	ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_HIDE);
+//	ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_HIDE);
 }
 
 void getDefaultMessage(HWND hwnd, UINT control, HANDLE hContact)
@@ -406,12 +406,12 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 								ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 							break;
 							
-							case 7: // send a file
-								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
-								SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Send a file"));
-								ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_SHOW);
-								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_SHOW);
-							break;
+//							case 7: // send a file
+//								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
+//								SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Send a file"));
+//								ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_SHOW);
+//								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_SHOW);
+//							break;
 						}
 						DBWriteContactSettingByte(wi->hContact, modname, "LastSetting", (BYTE)item);
 					}
@@ -542,12 +542,12 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 								ShowWindow(GetDlgItem(hwnd, IDC_SPIN), SW_SHOW);
 							break;
 							
-							case 7: // send a file
-								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
-								SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Send a file"));
-								ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_SHOW);
-								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_SHOW);
-							break;
+//							case 7: // send a file
+//								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGMSG), SW_SHOW);
+//								SetDlgItemText(hwnd, IDC_SETTINGMSG, TranslateT("Send a file"));
+//								ShowWindow(GetDlgItem(hwnd, IDC_BUTTON), SW_SHOW);
+//								ShowWindow(GetDlgItem(hwnd, IDC_SETTINGTEXT), SW_SHOW);
+//							break;
 						}
 						DBWriteContactSettingByte(wi->hContact, modname, "LastSetting", (BYTE)item);
 					}

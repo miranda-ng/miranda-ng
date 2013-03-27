@@ -49,8 +49,8 @@
 #define IDC_SETTINGMSG                  1061
 #define IDC_SETTINGNUMBER               1066
 #define IDC_SPIN                        1067
-#define IDC_SETTINGTEXT                 1068
-#define IDC_BUTTON                      1069
+//#define IDC_SETTINGTEXT                 1068
+//#define IDC_BUTTON                      1069
 #define IDC_SETTINGS                    1075
 #define IDC_CONTACTS                    1076
 #define IDC_ADVANCED                    1078
