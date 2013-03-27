@@ -464,7 +464,7 @@ int Create_MenuitemShowList(void)
 
 	mi.position = 0xFFFFF;
 	mi.icolibItem = icon.hIcolib;
-	mi.pszName = "Toggle Ignore";
+	mi.pszName = LPGEN("Toggle Ignore");
 	mi.pszService = V_RECENTCONTACTS_TOGGLE_IGNORE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 	return 0;
