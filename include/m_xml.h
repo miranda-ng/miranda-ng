@@ -39,6 +39,33 @@ typedef enum
 }
 	XML_ELEMENT_TYPE;
 
+/// Enumeration for XML parse errors.
+typedef enum XMLError
+{
+	eXMLErrorNone = 0, 
+	eXMLErrorMissingEndTag, 
+	eXMLErrorNoXMLTagFound, 
+	eXMLErrorEmpty, 
+	eXMLErrorMissingTagName, 
+	eXMLErrorMissingEndTagName, 
+	eXMLErrorUnmatchedEndTag, 
+	eXMLErrorUnmatchedEndClearTag, 
+	eXMLErrorUnexpectedToken, 
+	eXMLErrorNoElements, 
+	eXMLErrorFileNotFound, 
+	eXMLErrorFirstTagNotFound, 
+	eXMLErrorUnknownCharacterEntity, 
+	eXMLErrorCharacterCodeAbove255, 
+	eXMLErrorCharConversionError, 
+	eXMLErrorCannotOpenWriteFile, 
+	eXMLErrorCannotWriteFile, 
+
+	eXMLErrorBase64DataSizeIsNotMultipleOf4, 
+	eXMLErrorBase64DecodeIllegalCharacter, 
+	eXMLErrorBase64DecodeTruncatedData, 
+	eXMLErrorBase64DecodeBufferTooSmall
+} XMLError;
+
 typedef struct
 {
 	size_t cbSize;
@@ -110,6 +137,9 @@ typedef struct
 	XML_ELEMENT_POS (*positionOfChildByName)(HXML, LPCTSTR name, int i);
 	XML_ELEMENT_POS (*positionOfText)(HXML, int i);
 	XML_ELEMENT_POS (*positionOfClear)(HXML, int i);
+
+	HXML	(*parseFile)(LPCTSTR filename, int* datalen, LPCTSTR tag);
+	XMLError (*toFile)(HXML node, LPCTSTR filename);
 }
 	XML_API;
 

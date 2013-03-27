@@ -150,34 +150,6 @@
 	#define TRUE 1
 #endif /* TRUE */
 
-/// Enumeration for XML parse errors.
-typedef enum XMLError
-{
-	eXMLErrorNone = 0, 
-	eXMLErrorMissingEndTag, 
-	eXMLErrorNoXMLTagFound, 
-	eXMLErrorEmpty, 
-	eXMLErrorMissingTagName, 
-	eXMLErrorMissingEndTagName, 
-	eXMLErrorUnmatchedEndTag, 
-	eXMLErrorUnmatchedEndClearTag, 
-	eXMLErrorUnexpectedToken, 
-	eXMLErrorNoElements, 
-	eXMLErrorFileNotFound, 
-	eXMLErrorFirstTagNotFound, 
-	eXMLErrorUnknownCharacterEntity, 
-	eXMLErrorCharacterCodeAbove255, 
-	eXMLErrorCharConversionError, 
-	eXMLErrorCannotOpenWriteFile, 
-	eXMLErrorCannotWriteFile, 
-
-	eXMLErrorBase64DataSizeIsNotMultipleOf4, 
-	eXMLErrorBase64DecodeIllegalCharacter, 
-	eXMLErrorBase64DecodeTruncatedData, 
-	eXMLErrorBase64DecodeBufferTooSmall
-} XMLError;
-
-
 /// Enumeration used to manage type of data. Use in conjunction with structure XMLNodeContents
 typedef enum XMLElementType
 {

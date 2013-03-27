@@ -37,6 +37,19 @@ static void xmlapiDestroyNode(HXML n)
 	XMLNode tmp; tmp.attach(n);
 }
 
+static HXML xmlapiParseFile(LPCTSTR str, int* datalen, LPCTSTR tag)
+{
+	if (str == NULL) return NULL;
+
+	XMLResults res;
+	XMLNode result = XMLNode::parseFile(str, tag, &res);
+
+	if (datalen != NULL)
+		datalen[0] += res.nChars;
+
+	return (res.error == eXMLErrorNone || (tag != NULL && res.error == eXMLErrorMissingEndTag)) ? result.detach() : NULL;
+}
+
 static HXML xmlapiParseString(LPCTSTR str, int* datalen, LPCTSTR tag)
 {
 	if (str == NULL) return NULL;
@@ -153,6 +166,11 @@ static void xmlapiSetText(HXML _n, LPCTSTR _text)
 static LPTSTR xmlapiToString(HXML _n, int* datalen)
 {
 	return XMLNode(_n).createXMLString(0, datalen);
+}
+
+static XMLError xmlapiToFile(HXML _n, LPCTSTR filename)
+{
+	return XMLNode(_n).writeToFile(filename, NULL, NULL);
 }
 
 static void xmlapiAddAttr(HXML _n, LPCTSTR attrName, LPCTSTR attrValue)
@@ -382,6 +400,8 @@ static INT_PTR GetXmlApi(WPARAM, LPARAM lParam)
 	xi->parseString = xmlapiParseString;
 	xi->toString = xmlapiToString;
 	xi->freeMem = xmlapiFree;
+	xi->parseFile = xmlapiParseFile;
+	xi->toFile = xmlapiToFile;
 
 	xi->addChild = xmlapiAddChild;
 	xi->addChild2 = xmlapiAddChild2;
