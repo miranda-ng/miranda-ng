@@ -37,7 +37,7 @@ TemplateHTMLBuilder::TemplateHTMLBuilder() {
 TemplateHTMLBuilder::~TemplateHTMLBuilder() {
 	for (int i = 0; i < 2; i++) {
 		if (flashAvatars[i] != NULL) {
-				delete flashAvatars[i];
+				mir_free(flashAvatars[i]);
 		}
 	}
 }
@@ -90,7 +90,7 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 const char *TemplateHTMLBuilder::getFlashAvatar(const TCHAR *file, int index) {
 	if (time(NULL) - flashAvatarsTime[index] > 600 || flashAvatars[index] == NULL) {
 		if (flashAvatars[index] != NULL) {
-			delete flashAvatars[index];
+			mir_free(flashAvatars[index]);
 			flashAvatars[index] = NULL;
 		}
 		flashAvatarsTime[index] = time(NULL);
