@@ -195,11 +195,9 @@
     <ClCompile Include="src\tipper_items.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\avatar.h" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\handlers.h" />
     <ClInclude Include="src\inbox.h" />
-    <ClInclude Include="src\menu.h" />
     <ClInclude Include="src\notifications.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resources.h" />
