@@ -49,12 +49,12 @@
 Контекст
 [Custom size:]
 Размер аватара:
-[Cycle through protocols]
-Смена протоколов
-[Cycle through protocols every:]
-Менять протоколы каждые:
-[Don't cycle through protocols]
-Не менять протоколы
+[Cycle through accounts]
+Менять учётные записи
+[Cycle through accounts every:]
+Менять учётные записи каждые:
+[Don't cycle through accounts]
+Не менять учётные записи
 [Global on avatar]
 Глобальный аватар
 [Global on nickname]
@@ -75,8 +75,8 @@
 Мой ник
 [Set My Status Message for All Status]
 Статусное сообщение для всех статусов
-[Show previous protocol]
-Показать предыдущий протокол
+[Show previous account]
+Показать предыдущую учётную запись
 [Status message popup]
 Статусное сообщение
 [Status popup]
@@ -93,8 +93,8 @@
 Сменить мой ник...
 [Set My Status Message...]
 Изменить статусное сообщение...
-[Show next protocol]
-Показать следующий протокол
+[Show next account]
+Показать следующую учётную запись
 [Enable Listening To]
 Включить Сейчас слушаю
 [Enable Listening To for %s]
@@ -102,8 +102,8 @@
 [Shows and allows you to edit your details for all protocols.]
 Плагин позволяет показывать и редактировать ваши детали для всех протоколов.
 ;0.0.1.10
-[Show protocol cycle button]
-Кнопка переключения протокола
+[Show account cycle button]
+Кнопки переключения учётных записей
 [Previous protocol]
 Предыдущий протокол
 [Next protocol]
@@ -128,3 +128,5 @@
 Глобальный...
 [pixels]
 пиксел
+[Show account name]
+Показывать имя учётной записи
