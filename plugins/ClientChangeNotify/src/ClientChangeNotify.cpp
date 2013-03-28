@@ -23,7 +23,7 @@ HINSTANCE g_hInstance;
 HANDLE g_hMainThread;
 HANDLE g_hTogglePopupsMenuItem;
 int hLangpack;
-TMyArray<HANDLE> hHooks, hServices;
+
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
 BOOL bPopupExists = FALSE, bMetaContactsExists = FALSE, bFingerprintExists = FALSE, bVariablesExists = FALSE;
 
@@ -325,13 +325,11 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 static INT_PTR srvTogglePopups(WPARAM wParam, LPARAM lParam)
 {
 	g_PopupOptPage.SetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY, !g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY));
 	return 0;
 }
-
 
 static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 {
@@ -389,17 +387,16 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	COptPage PopupOptPage(g_PopupOptPage);
 	PopupOptPage.DBToMem();
 	RecompileRegexps(*(TCString*)PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
-	hHooks.AddElem(HookEvent(ME_OPT_INITIALISE, OptionsDlgInit));
-	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad));
-	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad));
-	hHooks.AddElem(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged));
-	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
+	HookEvent(ME_OPT_INITIALISE, OptionsDlgInit);
+	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, ModuleLoad);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
+	HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit);
 	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
 
-
 	if (bPopupExists) {
-		hServices.AddElem(CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups));
-		hHooks.AddElem(HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu));
+		CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups);
+		HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu);
 	
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
@@ -421,12 +418,11 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfo );
 
-	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));
+	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, THREAD_SET_CONTEXT, false, 0);
 	InitOptions();
 	if (DBGetContactSettingString(NULL, "KnownModules", MOD_NAME, (char*)NULL) == NULL)
@@ -446,15 +442,6 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload()
 {
 	CloseHandle(g_hMainThread);
-	int I;
-	for (I = 0; I < hHooks.GetSize(); I++)
-		if (hHooks[I])
-			UnhookEvent(hHooks[I]);
-
-	for (I = 0; I < hServices.GetSize(); I++)
-		if (hServices[I])
-			DestroyServiceFunction(hServices[I]);
-
 	UninitPcre();
 	return 0;
 }
