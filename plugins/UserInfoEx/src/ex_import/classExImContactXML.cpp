@@ -1071,7 +1071,7 @@ INT CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 	if (!xmlEvent || !pszModule || !*pszModule)
 		return ERROR_INVALID_PARAMS;
 
-	if (stricmp(xmlEvent->Value(), "evt"))
+	if (_stricmp(xmlEvent->Value(), "evt"))
 		return ERROR_NOT_ADDED;
 
 	// timestamp must be valid

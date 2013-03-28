@@ -855,21 +855,15 @@ class CAnnivList
 						numBirthContacts++;
 
 						// add birthday
-						if ((_filter.bFilterIndex != FILTER_ANNIV) && (!_filter.pszProto || !strcmpi(pszProto, _filter.pszProto))) {
+						if ((_filter.bFilterIndex != FILTER_ANNIV) && (!_filter.pszProto || !_strcmpi(pszProto, _filter.pszProto)))
 							AddRow(hContact, pszProto, ad, mtNow, wDaysBefore);
-						}
 					}
 
 					// add anniversaries
-					if (	_filter.bFilterIndex != FILTER_BIRTHDAY && 
-							(!_filter.pszProto || !strcmpi(pszProto, _filter.pszProto))) 
-					{
-						for (i = 0; !ad.DBGetAnniversaryDate(hContact, i); i++) {
-							if (!_filter.pszAnniv || !_tcsicmp(_filter.pszAnniv, ad.Description())) {
+					if (_filter.bFilterIndex != FILTER_BIRTHDAY && (!_filter.pszProto || !_strcmpi(pszProto, _filter.pszProto))) 
+						for (i = 0; !ad.DBGetAnniversaryDate(hContact, i); i++)
+							if (!_filter.pszAnniv || !_tcsicmp(_filter.pszAnniv, ad.Description()))
 								AddRow(hContact, pszProto, ad, mtNow, wDaysBefore);
-							}
-						}
-					}
 				}
 			}
 		}

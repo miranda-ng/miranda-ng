@@ -1151,7 +1151,7 @@ BOOLEAN	IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
 				(d1->timestamp == d2->timestamp) && 
 				(d1->eventType == d2->eventType) &&
 				(d1->cbBlob == d2->cbBlob) && 
-				(!d1->szModule || !d2->szModule || !stricmp(d1->szModule, d2->szModule))
+				(!d1->szModule || !d2->szModule || !_stricmp(d1->szModule, d2->szModule))
 				;
 	if(Data) {
 			return res &&

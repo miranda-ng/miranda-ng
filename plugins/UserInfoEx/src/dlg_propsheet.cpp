@@ -550,7 +550,7 @@ static INT InitDetails(WPARAM wParam, LPARAM lParam)
 			if (lParam) {
 
 				// ignore common pages for weather contacts
-				if (!pPsh->_pszProto || stricmp(pPsh->_pszProto, "weather")) 
+				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) 
 				{
 					AddProtocolPages(odp, wParam);
 					odp.ptszTitle = LPGENT("About") _T("\\") LPGENT("Notes");
