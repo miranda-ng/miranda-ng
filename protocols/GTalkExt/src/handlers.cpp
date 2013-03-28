@@ -96,20 +96,14 @@ void MakeUrlHex(LPTSTR url, LPCTSTR tid)
 
 LPTSTR ExtractJid(LPCTSTR jidWithRes)
 {
-	int l;
-	for (l = 0; jidWithRes[l] && jidWithRes[l] != '/'; l++) {};
-	assert('/' == jidWithRes[l]);
+	LPCTSTR p = _tcsrchr(jidWithRes, '/');
+	if (p == NULL)
+		return mir_tstrdup(jidWithRes);
 
-	LPTSTR result = (LPTSTR)malloc((l + 1) * sizeof(TCHAR));
-	__try {
-		memcpy(result, jidWithRes, l * sizeof(TCHAR));
-		result[l] = 0;
-	}
-	__except (
-		free(result),
-		EXCEPTION_CONTINUE_SEARCH
-	) {};
-
+	size_t l = size_t(p - jidWithRes);
+	LPTSTR result = (LPTSTR)mir_alloc((l + 1) * sizeof(TCHAR));
+	_tcsncpy(result, jidWithRes, l);
+	result[l] = 0;
 	return result;
 }
 
@@ -216,64 +210,40 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 {
 	HXML child = NULL;
 	HXML node = xi.createNode(NODENAME_IQ, NULL, FALSE);
-	__try {
-		xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_GET);
-		xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
+	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_GET);
+	xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
 
-		UINT uID;
-		LPTSTR lastMailTime = NULL;
-		LPTSTR lastThreadId = NULL;
-		__try {
-			LPTSTR jid = ExtractJid(jidWithRes);
-			__try {
-				xi.addAttr(node, ATTRNAME_TO, jid);
-				lastMailTime = ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid);
-				lastThreadId = ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid);
-			}
-			__finally {
-				free(jid);
-			}
+	UINT uID = ji->Net()->SerialNext();
+	mir_ptr<TCHAR> jid( ExtractJid(jidWithRes));
+	xi.addAttr(node, ATTRNAME_TO, jid);
 
-			LPTSTR id = (LPTSTR)malloc((_tcslen(JABBER_IQID) + 10 + 1) * sizeof(id[0])); // max int fits 10 chars
-			__try {
-				wsprintf(id, JABBER_IQID_FORMAT, uID = ji->Net()->SerialNext());
-				xi.addAttr(node, ATTRNAME_ID, id);
-			}
-			__finally {
-				free(id);
-			}
+	mir_ptr<TCHAR> 
+		lastMailTime( ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
+		lastThreadId( ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
-			child = xi.addChild(node, NODENAME_QUERY, NULL);
-			xi.addAttr(child, ATTRNAME_XMLNS, NOTIFY_FEATURE_XMLNS);
-			xi.addAttr(child, ATTRNAME_NEWER_THAN_TIME, lastMailTime);
-			xi.addAttr(child, ATTRNAME_NEWER_THAN_TID, lastThreadId);
-		}
-		__finally {
-			if (lastMailTime) free(lastMailTime);
-			if (lastThreadId) free(lastThreadId);
-		}
+	TCHAR id[30];
+	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, uID);
+	xi.addAttr(node, ATTRNAME_ID, id);
 
-		IJabberNetInterface* piNet = ji->Net();
-		if ( piNet )
-			if (piNet->SendXmlNode(node))
-				piNet->AddTemporaryIqHandler(MailListHandler, JABBER_IQ_TYPE_RESULT, (int)uID, NULL, RESPONSE_TIMEOUT);
-	}
-	__finally {
-		if (child) xi.destroyNode(child);
-		if (node) xi.destroyNode(node);
-	}
+	child = xi.addChild(node, NODENAME_QUERY, NULL);
+	xi.addAttr(child, ATTRNAME_XMLNS, NOTIFY_FEATURE_XMLNS);
+	xi.addAttr(child, ATTRNAME_NEWER_THAN_TIME, lastMailTime);
+	xi.addAttr(child, ATTRNAME_NEWER_THAN_TID, lastThreadId);
+
+	IJabberNetInterface* piNet = ji->Net();
+	if ( piNet )
+		if (piNet->SendXmlNode(node))
+			piNet->AddTemporaryIqHandler(MailListHandler, JABBER_IQ_TYPE_RESULT, (int)uID, NULL, RESPONSE_TIMEOUT);
+
+	if (child) xi.destroyNode(child);
+	if (node) xi.destroyNode(node);
 }
 
 BOOL TimerHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
-	__try {
-		assert(!node); // should not intercept real "mir_0" id
-		RequestMail((LPCTSTR)pUserData, ji);
-		return FALSE;
-	}
-	__finally {
-		free(pUserData);
-	}
+	RequestMail((LPCTSTR)pUserData, ji);
+	free(pUserData);
+	return FALSE;
 }
 
 BOOL NewMailHandler(IJabberInterface *ji, HXML node, void *pUserData)
@@ -306,39 +276,27 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 {
 	HXML child = NULL;
 	HXML node = xi.createNode(NODENAME_IQ, NULL, FALSE);
-	__try {
-		xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
-		xi.addAttr(node, ATTRNAME_FROM, jidWithResource);
 
-		LPTSTR jid = ExtractJid(jidWithResource);
-		__try {
-			xi.addAttr(node, ATTRNAME_TO, jid);
-		}
-		__finally {
-			free(jid);
-		}
+	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
+	xi.addAttr(node, ATTRNAME_FROM, jidWithResource);
 
-		LPTSTR id = (LPTSTR)malloc((_tcslen(JABBER_IQID) + 10 + 1) * sizeof(id[0])); // max int fits 10 chars
-		__try {
-			wsprintf(id, JABBER_IQID_FORMAT, ji->Net()->SerialNext());
-			xi.addAttr(node, ATTRNAME_ID, id);
-		}
-		__finally {
-			free(id);
-		}
+	mir_ptr<TCHAR> jid( ExtractJid(jidWithResource));
+	xi.addAttr(node, ATTRNAME_TO, jid);
 
-		child = xi.addChild(node, NODENAME_USERSETTING, NULL);
-		xi.addAttr(child, ATTRNAME_XMLNS, SETTING_FEATURE_XMLNS);
+	TCHAR id[30];
+	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, ji->Net()->SerialNext());
+	xi.addAttr(node, ATTRNAME_ID, id);
 
-		child = xi.addChild(child, NODENAME_MAILNOTIFICATIONS, NULL);
-		xi.addAttr(child, ATTRNAME_VALUE, SETTING_TRUE);
+	child = xi.addChild(node, NODENAME_USERSETTING, NULL);
+	xi.addAttr(child, ATTRNAME_XMLNS, SETTING_FEATURE_XMLNS);
 
-		ji->Net()->SendXmlNode(node);
-	}
-	__finally {
-		if (child) xi.destroyNode(child);
-		if (node) xi.destroyNode(node);
-	}
+	child = xi.addChild(child, NODENAME_MAILNOTIFICATIONS, NULL);
+	xi.addAttr(child, ATTRNAME_VALUE, SETTING_TRUE);
+
+	ji->Net()->SendXmlNode(node);
+
+	if (child) xi.destroyNode(child);
+	if (node) xi.destroyNode(node);
 }
 
 BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *pUserData)
@@ -365,42 +323,33 @@ extern DWORD itlsRecursion;
 
 BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
-	HXML queryNode = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
-	if (!queryNode) return FALSE;
-	if (lstrcmp(xi.getName(node), NODENAME_IQ)) return FALSE;
-	if (lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_GET)) return FALSE;
-
-	if (TlsGetValue(itlsRecursion)) return FALSE;
-	TlsSetValue(itlsRecursion, (PVOID)TRUE);
-	__try {
-		UINT id = ji->Net()->SerialNext();
-		HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
-		__try {
-			xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
-			xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
-
-			LPTSTR idAttr = (LPTSTR)malloc(((int)_tcslen(JABBER_IQID) + 10) * sizeof(TCHAR));
-			__try {
-				wsprintf(idAttr, JABBER_IQID_FORMAT, id);
-				xi.addAttr(newNode, ATTRNAME_ID, idAttr);
-			}
-			__finally {
-				free(idAttr);
-			}
-
-			xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
-			ji->Net()->SendXmlNode(newNode);
-		}
-		__finally {
-			xi.destroyNode(newNode);
-		}
-
-		ji->Net()->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
+	if (TlsGetValue(itlsRecursion))
 		return FALSE;
-	}
-	__finally {
-		TlsSetValue(itlsRecursion, (PVOID)FALSE);
-	}
+	HXML queryNode = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
+	if (!queryNode)
+		return FALSE;
+	if ( lstrcmp(xi.getName(node), NODENAME_IQ) || lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_GET))
+		return FALSE;
+
+	TlsSetValue(itlsRecursion, (PVOID)TRUE);
+
+	UINT id = ji->Net()->SerialNext();
+	HXML newNode = xi.createNode(NODENAME_IQ, NULL, FALSE);
+	xi.addAttr(newNode, ATTRNAME_TYPE, IQTYPE_GET);
+	xi.addAttr(newNode, ATTRNAME_TO, xi.getAttrValue(node, ATTRNAME_TO));
+
+	TCHAR idAttr[30];
+	mir_sntprintf(idAttr, SIZEOF(idAttr), JABBER_IQID_FORMAT, id);
+	xi.addAttr(newNode, ATTRNAME_ID, idAttr);
+
+	xi.addAttr(xi.addChild(newNode, NODENAME_QUERY, NULL), ATTRNAME_XMLNS, DISCOVERY_XMLNS);
+	ji->Net()->SendXmlNode(newNode);
+
+	xi.destroyNode(newNode);
+
+	ji->Net()->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, id, NULL, RESPONSE_TIMEOUT);
+	TlsSetValue(itlsRecursion, (PVOID)FALSE);
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -414,12 +363,9 @@ IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 	if ( DBGetContactSettingString(NULL, szModuleName, "ManualHost", &dbv))
 		return NULL;
 
-	__try {
-		return (!strcmp(dbv.pszVal, "talk.google.com")) ? japi : NULL;
-	}
-	__finally {
-		db_free(&dbv);
-	}
+	bool res = !strcmp(dbv.pszVal, "talk.google.com");
+	db_free(&dbv);
+	return (res) ? japi : NULL;
 }
 
 int AccListChanged(WPARAM wParam, LPARAM lParam)

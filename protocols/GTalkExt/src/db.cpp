@@ -24,13 +24,7 @@
 
 LPTSTR ReadJidSetting(LPCSTR name, LPCTSTR jid)
 {
-	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(0, name, _T2A(jid), &dbv))
-		return (LPTSTR)calloc(2, sizeof(TCHAR));
-
-	TCHAR *result = _tcsdup(dbv.ptszVal);
-	db_free(&dbv);
-	return result;
+	return db_get_tsa(0, name, _T2A(jid));
 }
 
 void WriteJidSetting(LPCSTR name, LPCTSTR jid, LPCTSTR setting)
