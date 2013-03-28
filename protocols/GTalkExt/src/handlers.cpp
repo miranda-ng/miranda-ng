@@ -323,12 +323,12 @@ extern DWORD itlsRecursion;
 
 BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 {
-	if (TlsGetValue(itlsRecursion))
-		return FALSE;
 	HXML queryNode = xi.getChildByAttrValue(node, NODENAME_QUERY, ATTRNAME_XMLNS, DISCOVERY_XMLNS);
 	if (!queryNode)
 		return FALSE;
 	if ( lstrcmp(xi.getName(node), NODENAME_IQ) || lstrcmp(xi.getAttrValue(node, ATTRNAME_TYPE), IQTYPE_GET))
+		return FALSE;
+	if (TlsGetValue(itlsRecursion))
 		return FALSE;
 
 	TlsSetValue(itlsRecursion, (PVOID)TRUE);
@@ -371,7 +371,7 @@ IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 int AccListChanged(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == PRAC_ADDED) {
-		IJabberInterface *ji = IsGoogleAccount(((PROTOACCOUNT*)lParam)->szModuleName);
+		IJabberInterface *ji = getJabberApi(((PROTOACCOUNT*)lParam)->szModuleName);
 		if (ji)
 			ji->Net()->AddSendHandler(SendHandler);
 	}
