@@ -642,7 +642,7 @@ INT_PTR GetContactInfo(WPARAM wParam, LPARAM lParam)
 
 		case CNF_DISPLAYNC:
 		case CNF_DISPLAY:		{
-				INT i;
+				int i;
 				for (i = 0; i < NAMEORDERCOUNT; i++) {
 					switch (gNameOrder[i]) {
 					case 0: // custom name
@@ -743,7 +743,7 @@ static INT_PTR GetContactSettingStrExService(WPARAM wParam, LPARAM lParam)
  * @param	lParam		- DBCONTACTWRITESETTING structure holding information about the written data
  * @return	0
  **/
-static INT OnSettingChanged(WPARAM wParam, LPARAM lParam)
+static int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	if ((HANDLE)wParam == NULL) {
 		DBCONTACTWRITESETTING *pdbcws = (DBCONTACTWRITESETTING*) lParam;
@@ -762,7 +762,7 @@ static INT OnSettingChanged(WPARAM wParam, LPARAM lParam)
  * @param	none
  * @return	nothing
  **/
-VOID SvcContactInfoLoadModule()
+void SvcContactInfoLoadModule()
 {
 	CreateServiceFunction(MS_DB_CONTACT_GETSETTING_STR_EX, GetContactSettingStrExService);
 	CreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo);

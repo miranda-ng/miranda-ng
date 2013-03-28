@@ -80,7 +80,7 @@ CAnnivEditCtrl::~CAnnivEditCtrl()
 	}
 }
 
-VOID CAnnivEditCtrl::Release()
+void CAnnivEditCtrl::Release()
 {
 	delete this;
 }
@@ -93,7 +93,7 @@ VOID CAnnivEditCtrl::Release()
  * param:	wIndex	- index to desired item
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-BOOLEAN CAnnivEditCtrl::ItemValid(WORD wIndex) const
+BYTE CAnnivEditCtrl::ItemValid(WORD wIndex) const
 {
 	return (_pDates != NULL && wIndex < _numDates && _pDates[wIndex] != NULL);
 }
@@ -105,7 +105,7 @@ BOOLEAN CAnnivEditCtrl::ItemValid(WORD wIndex) const
  * param:	none
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-BOOLEAN CAnnivEditCtrl::CurrentItemValid() const
+BYTE CAnnivEditCtrl::CurrentItemValid() const
 {
 	return ItemValid(_curDate);
 }
@@ -117,7 +117,7 @@ BOOLEAN CAnnivEditCtrl::CurrentItemValid() const
  * param:	none
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-VOID CAnnivEditCtrl::EnableReminderCtrl(BOOLEAN bEnabled)
+void CAnnivEditCtrl::EnableReminderCtrl(BYTE bEnabled)
 {
 	bEnabled &= _ReminderEnabled != REMIND_OFF;
 	EnableWindow(GetDlgItem(_hwndDlg, RADIO_REMIND1), bEnabled);
@@ -135,7 +135,7 @@ VOID CAnnivEditCtrl::EnableReminderCtrl(BOOLEAN bEnabled)
  * param:	none
  * return:	nothing
  **/
-VOID CAnnivEditCtrl::EnableCurrentItem()
+void CAnnivEditCtrl::EnableCurrentItem()
 {
 	MAnnivDate *pCurrent = Current();
 
@@ -144,7 +144,7 @@ VOID CAnnivEditCtrl::EnableCurrentItem()
 	
 		PSGetContact(_hwndDlg, hContact);
 
-		const BOOLEAN bEnabled
+		const BYTE bEnabled
 			= !hContact ||
 				(pCurrent->Flags() & CTRLF_HASCUSTOM) || 
 				!(pCurrent->Flags() & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
@@ -191,7 +191,7 @@ INT_PTR CAnnivEditCtrl::AddDate(MAnnivDate &mda)
 
 	// if a date with wID exists, replace it
 	if ((pmda = FindDateById(mda.Id())) != NULL) {
-		BOOLEAN bChanged = pmda->IsChanged(),
+		BYTE bChanged = pmda->IsChanged(),
 			bRemindChanged = pmda->IsReminderChanged();
 
 		if (!bChanged) {
@@ -295,7 +295,7 @@ INT_PTR CAnnivEditCtrl::DBGetAnniversaries(HANDLE hContact)
 	MAnnivDate mda;
 
 	WORD i;
-	BOOLEAN bChanged = FALSE;
+	BYTE bChanged = FALSE;
 
 	for (i = 0; i < ANID_LAST && !mda.DBGetAnniversaryDate(hContact, i); i++) {
 		mda.DBGetReminderOpts(hContact);
@@ -385,7 +385,7 @@ INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(HANDLE hContact)
  **/
 INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
 {
-	BOOLEAN bEnabled = ItemValid(wIndex);
+	BYTE bEnabled = ItemValid(wIndex);
 
 	EnableWindow(_hwndDate, bEnabled);
 	EnableWindow(_hBtnEdit, bEnabled);
@@ -428,7 +428,7 @@ INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
  * param:	none
  * return:	nothing
  **/
-VOID CAnnivEditCtrl::OnMenuPopup()
+void CAnnivEditCtrl::OnMenuPopup()
 {
 	POINT pt = { 0, 0 };
 	RECT rc;
@@ -469,7 +469,7 @@ VOID CAnnivEditCtrl::OnMenuPopup()
  * param:	none
  * return:	nothing
  **/
-VOID CAnnivEditCtrl::OnDateChanged(LPNMDATETIMECHANGE lpChange)
+void CAnnivEditCtrl::OnDateChanged(LPNMDATETIMECHANGE lpChange)
 {
 	MAnnivDate *pCurrent = Current();
 
@@ -501,7 +501,7 @@ VOID CAnnivEditCtrl::OnDateChanged(LPNMDATETIMECHANGE lpChange)
  * param:	none
  * return:	nothing
  **/
-VOID CAnnivEditCtrl::OnRemindEditChanged()
+void CAnnivEditCtrl::OnRemindEditChanged()
 {
 	MAnnivDate	*pCurrent = Current();
 
@@ -524,11 +524,11 @@ VOID CAnnivEditCtrl::OnRemindEditChanged()
  * param:	none
  * return:	nothing
  **/
-VOID CAnnivEditCtrl::OnReminderChecked()
+void CAnnivEditCtrl::OnReminderChecked()
 {
 	HANDLE hContact;
 	LPCSTR pszProto;
-	INT state;
+	int state;
 	TCHAR buf[6];
 	MAnnivDate *pCurrent = Current();
 
@@ -580,11 +580,11 @@ VOID CAnnivEditCtrl::OnReminderChecked()
 	}
 }
 
-VOID CAnnivEditCtrl::SetZodiacAndAge(MAnnivDate *mt)
+void CAnnivEditCtrl::SetZodiacAndAge(MAnnivDate *mt)
 {
 	if (PtrIsValid(mt))
 	{
-		INT age;
+		int age;
 		MZodiac zod;
 
 		zod = mt->Zodiac();
@@ -616,7 +616,7 @@ BOOL CAnnivEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 	return bChanged;
 }
 
-VOID CAnnivEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CAnnivEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
 {
 	DBWriteBirthDay(hContact);
 	DBWriteAnniversaries(hContact);

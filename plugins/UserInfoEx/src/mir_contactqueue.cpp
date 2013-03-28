@@ -29,9 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	The function returns the time slack between the two items.
  **/
-static INT QueueSortItems(const CQueueItem *i1, const CQueueItem *i2)
+static int QueueSortItems(const CQueueItem *i1, const CQueueItem *i2)
 {
-	INT rc = i1->check_time - i2->check_time;
+	int rc = i1->check_time - i2->check_time;
 	if (!rc)
 	{
 		rc = i1->hContact != i2->hContact;
@@ -43,7 +43,7 @@ static INT QueueSortItems(const CQueueItem *i1, const CQueueItem *i2)
  *
  *
  **/
-CContactQueue::CContactQueue(INT initialSize)
+CContactQueue::CContactQueue(int initialSize)
 	: _queue(initialSize, QueueSortItems)
 {
 	_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
@@ -66,12 +66,12 @@ CContactQueue::~CContactQueue()
 	}
 	SetEvent(_hEvent);
 
-	for (INT count = 0; _status != STOPPED && ++count < 50;)
+	for (int count = 0; _status != STOPPED && ++count < 50;)
 	{
 		Sleep(10);
 	}
 
-	for (INT i = 0; i < _queue.getCount(); i++)
+	for (int i = 0; i < _queue.getCount(); i++)
 	{
 		mir_free(_queue[i]);
 	}
@@ -85,7 +85,7 @@ CContactQueue::~CContactQueue()
  *
  *
  **/
-VOID CContactQueue::Lock()
+void CContactQueue::Lock()
 {
 	EnterCriticalSection(&_cs);
 }
@@ -94,7 +94,7 @@ VOID CContactQueue::Lock()
  *
  *
  **/
-VOID CContactQueue::Release()
+void CContactQueue::Release()
 {
 	LeaveCriticalSection(&_cs);
 }
@@ -106,11 +106,11 @@ VOID CContactQueue::Release()
  *
  * @return		nothing
  **/
-VOID CContactQueue::RemoveAll()
+void CContactQueue::RemoveAll()
 {
 	Lock();
 
-	for (INT i = _queue.getCount() - 1; i >= 0; --i)
+	for (int i = _queue.getCount() - 1; i >= 0; --i)
 	{
 		mir_free(_queue[i]);
 	}
@@ -126,11 +126,11 @@ VOID CContactQueue::RemoveAll()
  *
  * @return	nothing
  **/
-VOID CContactQueue::RemoveAll(HANDLE hContact)
+void CContactQueue::RemoveAll(HANDLE hContact)
 {
 	Lock();
 
-	for (INT i = _queue.getCount() - 1; i >= 0; --i)
+	for (int i = _queue.getCount() - 1; i >= 0; --i)
 	{
 		CQueueItem *qi = _queue[i];
 
@@ -152,11 +152,11 @@ VOID CContactQueue::RemoveAll(HANDLE hContact)
  *
  * @return	nothing
  **/
-VOID CContactQueue::RemoveAllConsiderParam(HANDLE hContact, PVOID param)
+void CContactQueue::RemoveAllConsiderParam(HANDLE hContact, PVOID param)
 {
 	Lock();
 
-	for (INT i = _queue.getCount() - 1; i >= 0; --i)
+	for (int i = _queue.getCount() - 1; i >= 0; --i)
 	{
 		CQueueItem *qi = _queue[i];
 
@@ -180,7 +180,7 @@ VOID CContactQueue::RemoveAllConsiderParam(HANDLE hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::Add(INT waitTime, HANDLE hContact, PVOID param)
+BOOL CContactQueue::Add(int waitTime, HANDLE hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -204,9 +204,9 @@ BOOL CContactQueue::Add(INT waitTime, HANDLE hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddIfDontHave(INT waitTime, HANDLE hContact, PVOID param)
+BOOL CContactQueue::AddIfDontHave(int waitTime, HANDLE hContact, PVOID param)
 {
-	INT i;
+	int i;
 	BOOL rc;
 
 	Lock();
@@ -238,7 +238,7 @@ BOOL CContactQueue::AddIfDontHave(INT waitTime, HANDLE hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddUnique(INT waitTime, HANDLE hContact, PVOID param)
+BOOL CContactQueue::AddUnique(int waitTime, HANDLE hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -264,7 +264,7 @@ BOOL CContactQueue::AddUnique(INT waitTime, HANDLE hContact, PVOID param)
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::AddUniqueConsiderParam(INT waitTime, HANDLE hContact, PVOID param)
+BOOL CContactQueue::AddUniqueConsiderParam(int waitTime, HANDLE hContact, PVOID param)
 {
 	BOOL rc;
 
@@ -288,7 +288,7 @@ BOOL CContactQueue::AddUniqueConsiderParam(INT waitTime, HANDLE hContact, PVOID 
  * @retval	TRUE	- The item is added to the queue successfully.
  * @retval	FALSE	- The item is not added to the queue.
  **/
-BOOL CContactQueue::InternalAdd(INT waitTime, HANDLE hContact, PVOID param)
+BOOL CContactQueue::InternalAdd(int waitTime, HANDLE hContact, PVOID param)
 {
 	BOOL rc;
 	CQueueItem *qi = (CQueueItem *) mir_alloc(sizeof(CQueueItem));
@@ -319,7 +319,7 @@ BOOL CContactQueue::InternalAdd(INT waitTime, HANDLE hContact, PVOID param)
  *
  * @return	nothing
  **/
-VOID CContactQueue::Thread()
+void CContactQueue::Thread()
 {
 	while (_status == RUNNING)
 	{
@@ -342,7 +342,7 @@ VOID CContactQueue::Thread()
 			// Take a look at first queue item
 			CQueueItem *qi = _queue[0];
 
-			INT dt = qi->check_time - GetTickCount();
+			int dt = qi->check_time - GetTickCount();
 			if (dt > 0)
 			{
 				// Not time to request yet, wait...
@@ -373,7 +373,7 @@ VOID CContactQueue::Thread()
  *
  * @return	nothing
  **/
-VOID CContactQueue::Suspend(INT time) const
+void CContactQueue::Suspend(int time) const
 {
 	if (_status == RUNNING)
 	{
@@ -388,11 +388,11 @@ VOID CContactQueue::Suspend(INT time) const
  *
  * @return		nothing
  **/
-VOID CContactQueue::ContinueWithNext()
+void CContactQueue::ContinueWithNext()
 {
 	if (_status == RUNNING)
 	{
-		INT i, c, dt;
+		int i, c, dt;
 
 		Lock();
 

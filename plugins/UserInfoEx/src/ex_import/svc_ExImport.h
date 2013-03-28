@@ -48,6 +48,6 @@ INT_PTR svcExIm_ContactImport_Service(WPARAM wParam, LPARAM lParam);
 INT_PTR svcExIm_Group_Service(WPARAM wParam,LPARAM lParam);
 INT_PTR svcExIm_Account_Service(WPARAM wParam,LPARAM lParam);
 
-VOID SvcExImport_LoadModule();
+void SvcExImport_LoadModule();
 
 #endif /* _SVC_EXIMPORT_INCLUDED_ */

@@ -82,7 +82,7 @@ CEditCtrl::CEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting
  *
  * @return	nothing
  **/
-VOID CEditCtrl::Release()
+void CEditCtrl::Release()
 {
 	delete this;
 }
@@ -91,7 +91,7 @@ VOID CEditCtrl::Release()
  * 
  *
  */
-VOID CEditCtrl::OnReset()
+void CEditCtrl::OnReset()
 {
 }
 
@@ -165,7 +165,7 @@ BOOL CEditCtrl::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{
@@ -244,7 +244,7 @@ VOID CEditCtrl::OnApply(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CEditCtrl::OnChangedByUser(WORD wChangedMsg)
+void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 {
 	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE))
 	{
@@ -254,7 +254,7 @@ VOID CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 		_Flags.B.hasCustom = (cch > 0);
 
 		if (!_Flags.B.hasChanged && _Flags.B.hasCustom) {
-			BOOLEAN		need_free = 0;
+			BYTE		need_free = 0;
 			LPTSTR		szText;
 		
 			__try 
@@ -285,11 +285,11 @@ VOID CEditCtrl::OnChangedByUser(WORD wChangedMsg)
 /**
  * Opens the url given in a editbox in the users default browser
  **/
-VOID CEditCtrl::OpenUrl()
+void CEditCtrl::OpenUrl()
 {
-	INT lenUrl = 1 + Edit_GetTextLength(_hwnd);
+	int lenUrl = 1 + Edit_GetTextLength(_hwnd);
 	LPSTR szUrl;
-	BOOLEAN need_free = 0;
+	BYTE need_free = 0;
 
 	__try 
 	{
@@ -326,7 +326,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 			if (lnk)
 			{
 				TEXTRANGE tr;
-				BOOLEAN need_free = 0;
+				BYTE need_free = 0;
 
 				// do not call function if user selected some chars of the url string
 				SendMessage(_hwnd, EM_EXGETSEL, NULL, (LPARAM) &tr.chrg);

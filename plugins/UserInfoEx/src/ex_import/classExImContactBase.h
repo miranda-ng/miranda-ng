@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 HANDLE CListFindGroup(LPCSTR pszGroup);
 
 class CExImContactBase {
-	BOOLEAN		compareUID(DBVARIANT *dbv);
+	BYTE		compareUID(DBVARIANT *dbv);
 
 protected:
 	LPSTR		_pszNick;		// utf8 encoded
@@ -37,7 +37,7 @@ protected:
 	DWORD		_dbvUIDHash;
 	DBVARIANT	_dbvUID;
 	HANDLE		_hContact;
-	BOOLEAN		_isNewContact;	// is this contact a new one?
+	BYTE		_isNewContact;	// is this contact a new one?
 
 	HANDLE		findHandle();
 
@@ -54,22 +54,22 @@ public:
 	__inline DBVARIANT& uid()		{ return _dbvUID;	}
 	__inline HANDLE handle() const	{ return _hContact;	}
 	
-	__inline VOID	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): NULL; }
-	__inline VOID	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): NULL; }
-	__inline VOID	nick(LPCSTR val)			{ _pszNick		=	val ? mir_strdup(val): NULL; }
-	__inline VOID	proto(LPCSTR val)			{ _pszProto		=	val ? mir_strdup(val): NULL; }
-	__inline VOID	ampro(LPCSTR val)			{ _pszAMPro		=	val ? mir_strdup(val): NULL; }
-	__inline VOID	uidk(LPCSTR val)			{ _pszUIDKey	=	val ? mir_strdup(val): NULL; }
-	__inline VOID	uid(BYTE val)				{ _dbvUID.type	= DBVT_BYTE;  _dbvUID.bVal = val; }
-	__inline VOID	uid(WORD val)				{ _dbvUID.type	= DBVT_WORD;  _dbvUID.wVal = val; }
-	__inline VOID	uid(DWORD val)				{ _dbvUID.type	= DBVT_DWORD; _dbvUID.dVal = val; }
-	__inline VOID	uidn(PBYTE val, DWORD len)	{ _dbvUID.type	= DBVT_BLOB;  _dbvUID.pbVal= val; _dbvUID.cpbVal = (WORD)len; }
-	__inline VOID	uida(LPCSTR val)
+	__inline void	disp(LPCSTR val)			{ _pszDisp		=	val ? mir_strdup(val): NULL; }
+	__inline void	group(LPCSTR val)			{ _pszGroup		=	val ? mir_strdup(val): NULL; }
+	__inline void	nick(LPCSTR val)			{ _pszNick		=	val ? mir_strdup(val): NULL; }
+	__inline void	proto(LPCSTR val)			{ _pszProto		=	val ? mir_strdup(val): NULL; }
+	__inline void	ampro(LPCSTR val)			{ _pszAMPro		=	val ? mir_strdup(val): NULL; }
+	__inline void	uidk(LPCSTR val)			{ _pszUIDKey	=	val ? mir_strdup(val): NULL; }
+	__inline void	uid(BYTE val)				{ _dbvUID.type	= DBVT_BYTE;  _dbvUID.bVal = val; }
+	__inline void	uid(WORD val)				{ _dbvUID.type	= DBVT_WORD;  _dbvUID.wVal = val; }
+	__inline void	uid(DWORD val)				{ _dbvUID.type	= DBVT_DWORD; _dbvUID.dVal = val; }
+	__inline void	uidn(PBYTE val, DWORD len)	{ _dbvUID.type	= DBVT_BLOB;  _dbvUID.pbVal= val; _dbvUID.cpbVal = (WORD)len; }
+	__inline void	uida(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val))? DBVT_ASCIIZ : DBVT_DELETED;
 		_dbvUIDHash  = hashSetting_M2(_dbvUID.pszVal);
 	}
-	__inline VOID	uidu(LPCSTR val)
+	__inline void	uidu(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_strdup(val))? DBVT_UTF8 : DBVT_DELETED;
 		LPWSTR temp  = mir_utf8decodeW(val);
@@ -77,16 +77,16 @@ public:
 		mir_free(temp);
 	}
 
-	BOOLEAN			isHandle(HANDLE hContact);
-	BOOLEAN			isMeta() const;
+	BYTE			isHandle(HANDLE hContact);
+	BYTE			isMeta() const;
 
-	LPSTR			uid2String(BOOLEAN bPrependType);
+	LPSTR			uid2String(BYTE bPrependType);
 
-	BOOLEAN			fromDB(HANDLE hContact);
-	BOOLEAN			fromIni(LPSTR& row);
+	BYTE			fromDB(HANDLE hContact);
+	BYTE			fromIni(LPSTR& row);
 
 	HANDLE			toDB();
-	VOID			toIni(FILE* file, int modCount);
+	void			toIni(FILE* file, int modCount);
 
-	BOOLEAN operator = (HANDLE hContact)	{ return fromDB(hContact);	}
+	BYTE operator = (HANDLE hContact)	{ return fromDB(hContact);	}
 };

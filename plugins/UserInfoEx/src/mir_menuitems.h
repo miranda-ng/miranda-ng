@@ -22,16 +22,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_MENUITEMS_H_INCLUDED_
 #define _UINFOEX_MENUITEMS_H_INCLUDED_
 
-extern INT hMenuItemRefresh;
+extern int hMenuItemRefresh;
 extern HGENMENU *hMenuItemAccount;
 
 
-VOID RebuildMenu();
+void RebuildMenu();
 
-VOID RebuildMain();
-VOID RebuildContact();
-VOID RebuildGroup();
-VOID RebuildSubGroup();
+void RebuildMain();
+void RebuildContact();
+void RebuildGroup();
+void RebuildSubGroup();
 INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam);
 
 

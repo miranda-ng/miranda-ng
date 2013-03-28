@@ -33,8 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct TCECListItem : CTRL {
 	LPIDSTRLIST	idstrList;
-	INT			idstrListCount;
-	INT			iListItem;
+	int			idstrListCount;
+	int			iListItem;
 	LPTSTR		pszText[2];
 } LCITEM, *LPLCITEM;
 
@@ -42,8 +42,8 @@ typedef struct TListCtrl : CTRL {
 	HWND		hList;
 	HWND		hTip;
 	POINT		ptTip;
-	INT			iHotItem;
-	INT			iHotSubItem;
+	int			iHotItem;
+	int			iHotSubItem;
 	HFONT		hFont;
 
 	struct {
@@ -52,16 +52,16 @@ typedef struct TListCtrl : CTRL {
 		RECT		rcCombo;
 		struct {
 			HWND	hDrop;		// dropdown list
-			INT		iItem;		// currently selected item of the dropdown
+			int		iItem;		// currently selected item of the dropdown
 		} dropDown; 
 		LPLCITEM	pItem;		// the item beiing edited
-		INT			iItem;		// zero based index to item in the listview
-		INT			iSubItem;	// zero based index to subitem
-		INT			iTopIndex;	// zero based index to first visible item on list
+		int			iItem;		// zero based index to item in the listview
+		int			iSubItem;	// zero based index to subitem
+		int			iTopIndex;	// zero based index to first visible item on list
 	} labelEdit;
 } LISTCTRL, *LPLISTCTRL;
 
-typedef INT (*MISERVICE)(WPARAM wParam, LPARAM lParam);
+typedef int (*MISERVICE)(WPARAM wParam, LPARAM lParam);
 
 typedef struct TProfileEntries {
 	LPTSTR	szGroup;
@@ -92,7 +92,7 @@ extern COLORREF clrMeta;
  *			pszText	- text of new group
  * return:	index the where group was added
  **/
-static INT ProfileList_AddGroup(HWND hList, LPTSTR pszText, INT iItem)
+static int ProfileList_AddGroup(HWND hList, LPTSTR pszText, int iItem)
 {
 	LVITEM lvi;
 	lvi.mask = LVIF_TEXT|LVIF_PARAM;
@@ -113,7 +113,7 @@ static INT ProfileList_AddGroup(HWND hList, LPTSTR pszText, INT iItem)
  *			ccText	 - number of maximal characters pszText can take
  * return:	number of read characters
  **/
-static INT ProfileList_GetItemText(HWND hList, INT iItem, INT iSubItem, LPTSTR pszText, INT ccText)
+static int ProfileList_GetItemText(HWND hList, int iItem, int iSubItem, LPTSTR pszText, int ccText)
 {
 	LVITEM lvi;
 	TCHAR szNull[2];
@@ -133,7 +133,7 @@ static INT ProfileList_GetItemText(HWND hList, INT iItem, INT iSubItem, LPTSTR p
  *			iItem	- item index
  * return:	LPLCITEM structure
  **/
-static LPLCITEM ProfileList_GetItemData(HWND hList, INT iItem)
+static LPLCITEM ProfileList_GetItemData(HWND hList, int iItem)
 {
 	LVITEM lvi;
 
@@ -152,7 +152,7 @@ static LPLCITEM ProfileList_GetItemData(HWND hList, INT iItem)
  *	
  * return:	nothing
  **/
-static VOID ProfileList_DeleteItem(HWND hList, INT iItem)
+static void ProfileList_DeleteItem(HWND hList, int iItem)
 {
 	LPLCITEM pItem = ProfileList_GetItemData(hList, iItem);
 	
@@ -171,7 +171,7 @@ static VOID ProfileList_DeleteItem(HWND hList, INT iItem)
  * desc:	delete all list items and their data
  *
  **/
-static VOID ProfileList_Clear(HWND hList)
+static void ProfileList_Clear(HWND hList)
 {
 	LVITEM lvi;
 
@@ -200,7 +200,7 @@ static VOID ProfileList_Clear(HWND hList)
  * return:	returns 0 on success or nonzero
  **/
 
-static INT ProfileList_EndLabelEdit(LPLISTCTRL pList, BOOLEAN bSave)
+static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 {
 	HWND hEdit;
 
@@ -214,7 +214,7 @@ static INT ProfileList_EndLabelEdit(LPLISTCTRL pList, BOOLEAN bSave)
 	if (bSave != FALSE && pList->labelEdit.pItem) {
 		WORD ccText;
 		LPTSTR	szEdit = NULL;
-		BOOLEAN bChanged = FALSE;
+		BYTE bChanged = FALSE;
 
 		// an list element was selected
 		if (pList->labelEdit.iSubItem && pList->labelEdit.dropDown.iItem != pList->labelEdit.pItem->iListItem && pList->labelEdit.dropDown.iItem >= 0 && pList->labelEdit.dropDown.iItem < pList->labelEdit.pItem->idstrListCount) {
@@ -260,7 +260,7 @@ static INT ProfileList_EndLabelEdit(LPLISTCTRL pList, BOOLEAN bSave)
 	return 0;
 }
 
-static INT ProfileList_EndLabelEdit(HWND hList, BOOLEAN bSave)
+static int ProfileList_EndLabelEdit(HWND hList, BYTE bSave)
 {
 	return ProfileList_EndLabelEdit((LPLISTCTRL)GetUserData(hList), bSave);
 }
@@ -274,7 +274,7 @@ static INT ProfileList_EndLabelEdit(HWND hList, BOOLEAN bSave)
  * return:	handle to the edit control
  **/
 
-static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, INT iItem, INT iSubItem)
+static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, int iItem, int iSubItem)
 {
 	LVITEM lvi;
 	LPLCITEM pItem;
@@ -371,7 +371,7 @@ static HWND ProfileList_BeginLabelEdit(LPLISTCTRL pList, INT iItem, INT iSubItem
  *			iSubItem - subitem (column) index
  * return:	handle to the edit control
  **/
-static HWND ProfileList_BeginLabelEdit(HWND hList, INT iItem, INT iSubItem)
+static HWND ProfileList_BeginLabelEdit(HWND hList, int iItem, int iSubItem)
 {
 	return ProfileList_BeginLabelEdit((LPLISTCTRL)GetUserData(hList), iItem, iSubItem);
 }
@@ -384,10 +384,10 @@ static HWND ProfileList_BeginLabelEdit(HWND hList, INT iItem, INT iSubItem)
  * 
  * return:	zero based index for the new item or -1 on failure
  **/
-static INT ProfileList_GetInsertIndex(HWND hList, LPTSTR pszGroup)
+static int ProfileList_GetInsertIndex(HWND hList, LPTSTR pszGroup)
 {
 	LVFINDINFO	lfi;
-	INT			iDevider, 
+	int			iDevider, 
 				iItem;
 	
 	// search for the devider to add the new item under
@@ -427,7 +427,7 @@ static INT ProfileList_GetInsertIndex(HWND hList, LPTSTR pszGroup)
  *
  * return:	TRUE or FALSE
  **/
-static BOOLEAN ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENTRY *pEntry)
+static BYTE ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENTRY *pEntry)
 {
 	LPLCITEM pItem;
 	LVITEM lvi;
@@ -473,9 +473,9 @@ static BOOLEAN ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILE
  *
  * return	number of added rows or -1 if listview's changed flag is set
  **/
-static INT ProfileList_AddItemlistFromDB(
+static int ProfileList_AddItemlistFromDB(
 				LPLISTCTRL pList,
-				INT &iItem,
+				int &iItem,
 				LPIDSTRLIST idList,
 				UINT nList,
 				HANDLE hContact,
@@ -660,8 +660,8 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 					return 0;
 				case VK_RETURN:
 				{
-					BOOLEAN bEditNext;
-					INT iItem;
+					BYTE bEditNext;
+					int iItem;
 		
 					if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_WANTRETURN && !(GetKeyState(VK_CONTROL) & 0x8000))
 						break;
@@ -758,7 +758,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_KEYDOWN:
 		{
-			INT nCurSel, newSel;
+			int nCurSel, newSel;
 			LVITEM lvi;
 
 			switch (wParam) {
@@ -809,7 +809,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 			SIZE textSize;
 			LVHITTESTINFO hi;
 			TOOLINFO ti;
-			BOOLEAN bReposition;
+			BYTE bReposition;
 			LPLCITEM pItem;
 
 			hi.pt.x = GET_X_LPARAM(lParam);
@@ -911,7 +911,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 			// show dropdown menu for category list
 		case BTN_EDIT:
 			{
-				INT i;
+				int i;
 				TCHAR szEdit[MAX_PATH];
 
 				if (!PtrIsValid(pList = (LPLISTCTRL)GetUserData(hwnd))) break;
@@ -919,9 +919,9 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 
 				// need to create the dropdown list?
 				if (pList->labelEdit.dropDown.hDrop == NULL) {
-					const INT listHeight = 120;
+					const int listHeight = 120;
 					RECT rc, rcList;
-					INT add;
+					int add;
 
 					// dropdown rect
 					GetClientRect(pList->hList, &rcList);
@@ -1127,7 +1127,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 						LPIDSTRLIST idList;
 						UINT nList;
 						BYTE i;
-						INT iItem = 0,
+						int iItem = 0,
 							iGrp = 0,
 							numProtoItems,
 							numUserItems;
@@ -1143,10 +1143,10 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 								// scan all basic protocols for the subcontacts
 								if (DB::Module::IsMetaAndScan(pszProto)) {
-									INT iDefault = CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)hContact, NULL);
+									int iDefault = CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)hContact, NULL);
 									HANDLE hSubContact, hDefContact;
 									LPCSTR pszSubBaseProto;
-									INT j, numSubs;
+									int j, numSubs;
 
 									if ((hDefContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, iDefault)) &&
 										(pszSubBaseProto = DB::Contact::Proto(hDefContact)))
@@ -1187,7 +1187,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				case PSN_APPLY:
 					if (pList->wFlags & CTRLF_CHANGED) {
 						BYTE iFmt = -1;
-						INT iItem;
+						int iItem;
 						LVITEM lvi;
 						TCHAR szGroup[MAX_PATH];
 						CHAR pszSetting[MAXSETTING];
@@ -1426,7 +1426,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			break;
 		case BTN_DEL:
 			if (IDYES == MsgBox(hDlg, MB_YESNO|MB_ICON_QUESTION, LPGENT("Question"), LPGENT("Delete an entry"), LPGENT("Do you really want to delete this entry?"))) {
-				INT iItem = ListView_GetSelectionMark(hList);
+				int iItem = ListView_GetSelectionMark(hList);
 				pList = (LPLISTCTRL)GetUserData(hList);
 
 				ProfileList_DeleteItem(hList, iItem);

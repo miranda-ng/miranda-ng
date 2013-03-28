@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-VOID UpDate_CountryIcon(HWND hCtrl, int countryID) {
+void UpDate_CountryIcon(HWND hCtrl, int countryID) {
 	HICON hIcon = LoadFlagIcon(countryID);
 	HICON hOld  = Static_SetIcon(hCtrl, hIcon);
 	ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);

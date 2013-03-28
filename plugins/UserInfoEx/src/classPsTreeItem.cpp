@@ -167,7 +167,7 @@ LPSTR CPsTreeItem::ParentItemName()
 		
 		if (p) 
 		{
-			INT cchGroup = p - _pszName + 1;
+			int cchGroup = p - _pszName + 1;
 			result = mir_strncpy((LPSTR)mir_alloc(cchGroup), _pszName, cchGroup);
 		}
 		else
@@ -186,7 +186,7 @@ LPSTR CPsTreeItem::ParentItemName()
  *			bIsUnicode		- if TRUE the title is unicode
  * return:	0 on success, 1 to 4 indicating the failed operation
  **/
-INT CPsTreeItem::Name(LPTSTR ptszTitle, const BOOLEAN bIsUnicode)
+int CPsTreeItem::Name(LPTSTR ptszTitle, const BYTE bIsUnicode)
 {
 	// convert title to utf8
 	_pszName = (bIsUnicode) ? mir_utf8encodeW((LPWSTR)ptszTitle) : mir_utf8encode((LPSTR)ptszTitle);
@@ -212,7 +212,7 @@ INT CPsTreeItem::Name(LPTSTR ptszTitle, const BOOLEAN bIsUnicode)
  * params:	pszName	- the name to match the item with
  * return:	nothing
  **/
-BOOLEAN	CPsTreeItem::HasName(const LPCSTR pszName) const
+BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
 { 
 	return !mir_stricmp(_pszName, pszName); 
 };
@@ -224,7 +224,7 @@ BOOLEAN	CPsTreeItem::HasName(const LPCSTR pszName) const
  * params:	pszLabel	- the desired new label
  * return:	nothing
  **/
-VOID CPsTreeItem::Rename(const LPTSTR pszLabel)
+void CPsTreeItem::Rename(const LPTSTR pszLabel)
 {
 	if(pszLabel && *pszLabel)
 	{
@@ -258,7 +258,7 @@ VOID CPsTreeItem::Rename(const LPTSTR pszLabel)
  * param:	pszName		- uniquely identifiing string for a propertypage encoded with utf8 (e.g.: {group\item})
  * return:	Label in a newly allocated piece of memory
  **/
-INT CPsTreeItem::ItemLabel(const BOOLEAN bReadDBValue)
+int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
 {
 	DBVARIANT dbv;
 
@@ -303,7 +303,7 @@ INT CPsTreeItem::ItemLabel(const BOOLEAN bReadDBValue)
 HICON CPsTreeItem::ProtoIcon()
 {
 	PROTOACCOUNT **pa;
-	INT ProtoCount, i;
+	int ProtoCount, i;
 
 	if (!CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&ProtoCount, (LPARAM)&pa))
 	{
@@ -338,7 +338,7 @@ HICON CPsTreeItem::ProtoIcon()
  *			hDefaultIcon	- default icon to use
  * return: nothing
  **/
-INT CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BOOLEAN bInitIconsOnly)
+int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOnly)
 {
 	HICON hIcon;
 
@@ -415,9 +415,9 @@ INT CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BOOLEAN bInitIcon
  *			odp		- OPTIONSDIALOGPAGE structure with the information about the page to add
  * return:	0 on success, 1 on failure
  **/
-INT CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
+int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 {
-	INT err;
+	int err;
 	TCHAR szTitle[ MAXSETTING ];
 
 	// check parameter
@@ -481,7 +481,7 @@ INT CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 			// load custom order
 			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) 
 			{
-				_iPosition = (INT)DB::Setting::GetByte(PropertyKey(SET_ITEM_POS), odp->position);
+				_iPosition = (int)DB::Setting::GetByte(PropertyKey(SET_ITEM_POS), odp->position);
 				if ((_iPosition < 0) && (_iPosition > 0x800000A))
 					_iPosition = 0;
 			}
@@ -529,7 +529,7 @@ INT CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
  *			dwFlags				- tells what to save
  * return:	handle to new (moved) treeitem if successful or NULL otherwise
  **/
-WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, INT iItemPosition, UINT iState, DWORD dwFlags)
+WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags)
 {
 	WORD numErrors = 0;
 
@@ -613,7 +613,7 @@ HWND CPsTreeItem::CreateWnd(LPPS pPs)
  * params:	none
  * return:	nothing
  **/
-VOID CPsTreeItem::OnInfoChanged()
+void CPsTreeItem::OnInfoChanged()
 {
 	if (_hWnd) {
 		PSHNOTIFY pshn;
@@ -635,7 +635,7 @@ VOID CPsTreeItem::OnInfoChanged()
  * params:	none
  * return:	nothing
  **/
-VOID CPsTreeItem::OnPageIconsChanged()
+void CPsTreeItem::OnPageIconsChanged()
 {
 	if (_hWnd) {
 		PSHNOTIFY pshn;
@@ -655,7 +655,7 @@ VOID CPsTreeItem::OnPageIconsChanged()
  * params:	none
  * return:	nothing
  **/
-VOID CPsTreeItem::OnIconsChanged(CPsTree *pTree)
+void CPsTreeItem::OnIconsChanged(CPsTree *pTree)
 {
 	HICON hIcon;
 	RECT rc;

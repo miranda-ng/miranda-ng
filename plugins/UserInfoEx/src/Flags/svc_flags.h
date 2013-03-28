@@ -79,7 +79,7 @@ typedef void (CALLBACK *BUFFEREDPROC)(LPARAM lParam);
 #endif
 
 void EnsureExtraImages();
-VOID SvcFlagsEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB);
+void SvcFlagsEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB);
 void CALLBACK UpdateStatusIcons(LPARAM lParam);
 
 void SvcFlagsLoadModule();

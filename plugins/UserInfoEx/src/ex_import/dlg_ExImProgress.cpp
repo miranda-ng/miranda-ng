@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				{ ICO_DLG_IMPORT,	STM_SETIMAGE,	ICO_DLGLOGO	},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const INT numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+			const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			TranslateDialogDefault(hDlg);
@@ -114,7 +114,7 @@ CProgress::~CProgress()
  * params:	numContacts	- the number of contacts
  * return:	nothing
  **/
-VOID CProgress::SetContactCount(DWORD numContacts)
+void CProgress::SetContactCount(DWORD numContacts)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS2);
@@ -130,7 +130,7 @@ VOID CProgress::SetContactCount(DWORD numContacts)
  * params:	numSettings	- the number of settings & events
  * return:	nothing
  **/
-VOID CProgress::SetSettingsCount(DWORD numSettings)
+void CProgress::SetSettingsCount(DWORD numSettings)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS);
@@ -146,7 +146,7 @@ VOID CProgress::SetSettingsCount(DWORD numSettings)
  * params:	none
  * return:	nothing
  **/
-VOID CProgress::Hide()
+void CProgress::Hide()
 {
 	ShowWindow(_hDlg, SW_HIDE);
 }
@@ -158,7 +158,7 @@ VOID CProgress::Hide()
  * params:	nothing
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
-BOOLEAN CProgress::Update()
+BYTE CProgress::Update()
 {
 	MSG msg;
 	
@@ -185,7 +185,7 @@ BOOLEAN CProgress::Update()
  * params:	pszFormat	- the text to display for the contact
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
-BOOLEAN CProgress::UpdateContact(LPCTSTR pszFormat, ...)
+BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != NULL) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS2);
@@ -198,7 +198,7 @@ BOOLEAN CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 			va_end(vl);
 			SetDlgItemText(_hDlg, TXT_CONTACT, buf);	 
 		}
-		SendMessage(hProg, PBM_SETPOS, (INT)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1,	0);
+		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1,	0);
 		return Update();
 	}
 	return TRUE;
@@ -211,7 +211,7 @@ BOOLEAN CProgress::UpdateContact(LPCTSTR pszFormat, ...)
  * params:	pszFormat	- the text to display for the setting
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
-BOOLEAN CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
+BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != NULL) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS);
@@ -227,7 +227,7 @@ BOOLEAN CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 			if(mir_tcsicmp(tmp,buf))
 				SetDlgItemText(_hDlg, TXT_SETTING, buf);
 		}
-		SendMessage(hProg, PBM_SETPOS, (INT)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);
+		SendMessage(hProg, PBM_SETPOS, (int)SendMessage(hProg, PBM_GETPOS, 0, 0) + 1, 0);
 		return Update();
 	}
 	return TRUE;

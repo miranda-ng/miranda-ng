@@ -38,6 +38,6 @@ typedef struct _REG_TZI_FORMAT
 INT_PTR		GetContactTimeZoneInformation(WPARAM wParam, LPARAM lParam);
 INT_PTR		GetContactLocalTime(WPARAM wParam, LPARAM lParam);
 
-VOID		SvcTimezoneLoadModule();
+void		SvcTimezoneLoadModule();
 
 #endif /* _SVC_TIMEZONE_H_ */

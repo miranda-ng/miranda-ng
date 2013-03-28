@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_SVCPHONE_H_INCLUDED_
 #define _UINFOEX_SVCPHONE_H_INCLUDED_
 
-VOID SvcPhoneApplyCListIcons();
-VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB = FALSE);
-VOID SvcPhoneLoadModule();
-VOID SvcPhoneUnloadModule();
+void SvcPhoneApplyCListIcons();
+void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB = FALSE);
+void SvcPhoneLoadModule();
+void SvcPhoneUnloadModule();
 
 #endif /* _UINFOEX_SVCPHONE_H_INCLUDED_ */

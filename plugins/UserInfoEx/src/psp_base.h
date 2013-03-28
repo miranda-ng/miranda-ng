@@ -37,6 +37,6 @@ static FORCEINLINE INT_PTR CALLBACK PSPProcMyNotes(HWND hDlg, UINT uMsg, WPARAM 
 static FORCEINLINE INT_PTR CALLBACK PSPProcAbout(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 { return PSPProcEdit(hDlg, uMsg, wParam, lParam, SET_CONTACT_ABOUT); }
 
-VOID UpDate_CountryIcon(HWND hCtrl, int countryID);
+void UpDate_CountryIcon(HWND hCtrl, int countryID);
 
 #endif /* _UI_PSP_BASE_INCLUDE_ */

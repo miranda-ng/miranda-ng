@@ -51,37 +51,37 @@ class CExImContactXML : public CExImContactBase {
 	TiXmlElement*	_xmlNode;		// xmlnode with contact information
 	HANDLE			_hEvent;
 
-	BOOLEAN IsContactInfo(LPCSTR pszKey);
+	BYTE IsContactInfo(LPCSTR pszKey);
 
 	// private importing methods
-	INT		ImportModule(TiXmlNode* xmlModule);
-	INT		ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry);
-	INT		ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent);
-	INT		ImportContact();
-	INT		ImportNormalContact();
-	INT		ImportMetaSubContact(CExImContactXML * pMetaContact);
-	VOID	CountKeys(DWORD &numSettings, DWORD &numEvents);
+	int		ImportModule(TiXmlNode* xmlModule);
+	int		ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry);
+	int		ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent);
+	int		ImportContact();
+	int		ImportNormalContact();
+	int		ImportMetaSubContact(CExImContactXML * pMetaContact);
+	void	CountKeys(DWORD &numSettings, DWORD &numEvents);
 
 	// private exporting methods
-	INT		ExportModule(LPCSTR pszModule);
-	INT		ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting);
-	BOOLEAN	ExportEvents();
+	int		ExportModule(LPCSTR pszModule);
+	int		ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting);
+	BYTE	ExportEvents();
 
-	INT		ExportContact(DB::CEnumList* pModules);
-	INT		ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules);
+	int		ExportContact(DB::CEnumList* pModules);
+	int		ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules);
 
 public:
 	CExImContactXML(CFileXml * pXmlFile);
 
 	// exporting stuff
 	TiXmlElement*	CreateXmlElement();
-	INT		Export(FILE *xmlfile, DB::CEnumList* pModules);
+	int		Export(FILE *xmlfile, DB::CEnumList* pModules);
 
 	// importing stuff
-	INT		LoadXmlElemnt(TiXmlElement *xContact);
-	INT		Import(BOOLEAN keepMetaSubContact = FALSE);
+	int		LoadXmlElemnt(TiXmlElement *xContact);
+	int		Import(BYTE keepMetaSubContact = FALSE);
 
-	BOOLEAN operator = (TiXmlElement* xmlContact)	{
+	BYTE operator = (TiXmlElement* xmlContact)	{
 		return LoadXmlElemnt(xmlContact) == ERROR_OK;	
 	}
 };

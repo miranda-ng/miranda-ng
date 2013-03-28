@@ -88,7 +88,7 @@ static INT_PTR CALLBACK DlgProc_AnniversaryEditor(HWND hDlg, UINT uMsg, WPARAM w
 					// read new description
 					{
 						HWND hEdit = GetDlgItem(hDlg, EDIT_CATEGORY);
-						INT len = Edit_GetTextLength(hEdit);
+						int len = Edit_GetTextLength(hEdit);
 						LPTSTR pszText;
 
 						if (
@@ -299,7 +299,7 @@ INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						pCurrent = pDateCtrl->Current();
 						if (pCurrent)
 						{
-							INT rc = MsgBox(hDlg, MB_YESNO|MB_ICON_QUESTION|MB_NOPOPUP, LPGENT("Delete"), NULL, 
+							int rc = MsgBox(hDlg, MB_YESNO|MB_ICON_QUESTION|MB_NOPOPUP, LPGENT("Delete"), NULL, 
 								LPGENT("Do you really want to delete the %s?"),	pCurrent->Description());
 						
 							if (rc == IDYES)

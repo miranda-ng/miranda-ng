@@ -35,7 +35,7 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 				{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 			};
-			const INT numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+			const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 			TranslateDialogDefault(hDlg);
@@ -86,7 +86,7 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
  *			pszFileName	- full qualified path to the xml file which is destination for the export process
  * return:	0 on success, 1 otherwise
  **/
-INT CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
+int CFileXml::Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
 	FILE *xmlfile;
 	DB::CEnumList Modules;
@@ -230,7 +230,7 @@ CFileXml::CFileXml()
  *			stat		- structure used to collect some statistics
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-INT CFileXml::ImportOwner(TiXmlElement* xContact)
+int CFileXml::ImportOwner(TiXmlElement* xContact)
 {
 	CExImContactXML vContact(this);
 
@@ -249,11 +249,11 @@ INT CFileXml::ImportOwner(TiXmlElement* xContact)
  *			stat		 - structure used to collect some statistics
  * return:	ERROR_OK if at least one contact was successfully imported
  **/
-INT CFileXml::ImportContacts(TiXmlElement* xmlParent)
+int CFileXml::ImportContacts(TiXmlElement* xmlParent)
 {
 	TiXmlElement *xContact;
 	CExImContactXML vContact(this);
-	INT result;
+	int result;
 	LPTSTR pszNick;
 
 	// import contacts
@@ -348,7 +348,7 @@ DWORD CFileXml::CountContacts(TiXmlElement* xmlParent)
  *			pszFileName	- full qualified path to the xml file which is to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-INT CFileXml::Import(HANDLE hContact, LPCSTR pszFileName)
+int CFileXml::Import(HANDLE hContact, LPCSTR pszFileName)
 {
 	TiXmlDocument doc;
 	TiXmlElement *xmlCard = NULL;
@@ -374,7 +374,7 @@ INT CFileXml::Import(HANDLE hContact, LPCSTR pszFileName)
 
 		// is owner contact to import ?
 		if (_hContactToWorkOn == NULL) {
-			INT ret;
+			int ret;
 			
 			// disable database safty mode to speed up the operation
 			CallService(MS_DB_SETSAFETYMODE, 0, 0);

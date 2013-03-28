@@ -32,8 +32,8 @@ typedef INT_PTR	(*PUpdCallback) (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 class CUpdProgress
 {
 protected:
-	BOOLEAN			_bBBCode;		// TRUE if text renderer can handle BBCodes
-	BOOLEAN			_bIsCanceled;	// is set to TRUE uppon click on the CANCEL button
+	BYTE			_bBBCode;		// TRUE if text renderer can handle BBCodes
+	BYTE			_bIsCanceled;	// is set to TRUE uppon click on the CANCEL button
 	PUpdCallback	_pFnCallBack;	// a pointer to a callback function, which can be used 
 									// to catch several messages by the caller.
 	PVOID			_pData;			// application defined data
@@ -90,11 +90,11 @@ protected:
 public:
 
 	virtual HWND	Create		(LPCTSTR szTitle, PUpdCallback pFnCallBack) = 0;
-	virtual VOID	Destroy		(VOID) {};
-	virtual VOID	SetTitle	(LPCTSTR szText) = 0;
-	virtual VOID	SetText		(LPCTSTR szText) = 0;
+	virtual void	Destroy		(void) {};
+	virtual void	SetTitle	(LPCTSTR szText) = 0;
+	virtual void	SetText		(LPCTSTR szText) = 0;
 
-	BOOLEAN IsVisible() const
+	BYTE IsVisible() const
 	{
 		return _hWnd != NULL;
 	}
@@ -102,7 +102,7 @@ public:
 	 *
 	 *
 	 **/
-	BOOLEAN IsCanceled() const
+	BYTE IsCanceled() const
 	{
 		return _bIsCanceled;
 	}
@@ -111,7 +111,7 @@ public:
 	 *
 	 *
 	 **/
-	VOID SetTitleParam(LPCTSTR szText, ...)
+	void SetTitleParam(LPCTSTR szText, ...)
 	{
 		if (szText)
 		{
@@ -139,7 +139,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	VOID SetTextParam(LPCTSTR szText, ...)
+	void SetTextParam(LPCTSTR szText, ...)
 	{
 		if (szText)
 		{
@@ -305,7 +305,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID Destroy()
+	virtual void Destroy()
 	{
 		if (_hWnd)
 		{
@@ -319,7 +319,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID SetTitle(LPCTSTR szText)
+	virtual void SetTitle(LPCTSTR szText)
 	{
 		SetWindowText(_hWnd, szText);
 	}
@@ -328,7 +328,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID SetText(LPCTSTR szText)
+	virtual void SetText(LPCTSTR szText)
 	{
 		SetDlgItemText(_hWnd, IDC_INFO, szText);
 	}
@@ -348,7 +348,7 @@ class CPopupUpdProgress : public CUpdProgress
 	 *
 	 *
 	 **/
-	VOID UpdateText()
+	void UpdateText()
 	{
 		if (_szText)
 		{
@@ -445,7 +445,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID Destroy()
+	virtual void Destroy()
 	{
 		if (_hWnd)
 		{
@@ -459,7 +459,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID SetTitle(LPCTSTR szText)
+	virtual void SetTitle(LPCTSTR szText)
 	{
 		MIR_FREE(_szText);
 		_szText = mir_tcsdup(szText);
@@ -470,7 +470,7 @@ public:
 	 *
 	 *
 	 **/
-	virtual VOID SetText(LPCTSTR szText)
+	virtual void SetText(LPCTSTR szText)
 	{
 		SendMessage(_hWnd, UM_CHANGEPOPUP, CPT_TEXTT, (LPARAM) mir_tcsdup(szText));
 	}
@@ -504,7 +504,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	This method returns 0.
 	 **/
-	static INT DlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, CContactUpdater* u) 
+	static int DlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, CContactUpdater* u) 
 	{
 		switch (uMsg) 
 		{
@@ -546,7 +546,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	INT __cdecl OnProtoAck(WPARAM wParam, ACKDATA *ack)
+	int __cdecl OnProtoAck(WPARAM wParam, ACKDATA *ack)
 	{
 		if (ack && ack->cbSize == sizeof(ACKDATA) && ack->hContact == _hContact && ack->type == ACKTYPE_GETINFO)
 		{
@@ -562,7 +562,7 @@ class CContactUpdater : public CContactQueue
 					_hContactAcks[ack->lParam] = 1;
 				}
 
-				for (INT i = 0; i < _nContactAcks; i++)
+				for (int i = 0; i < _nContactAcks; i++)
 				{
 					if (_hContactAcks[i] == 0)
 					{
@@ -584,7 +584,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	virtual VOID OnEmpty() 
+	virtual void OnEmpty() 
 	{
 		// This was the last contact, so destroy the progress window.
 		if (_hProtoAckEvent)
@@ -627,7 +627,7 @@ class CContactUpdater : public CContactQueue
 	 *
 	 * @return	nothing
 	 **/
-	virtual VOID Callback(HANDLE hContact, PVOID param)
+	virtual void Callback(HANDLE hContact, PVOID param)
 	{
 		LPSTR	pszProto	= DB::Contact::Proto(hContact);
 
@@ -649,7 +649,7 @@ class CContactUpdater : public CContactQueue
 			}
 			if (IsProtoOnline(pszProto))
 			{
-				INT i;
+				int i;
 				for (i = 0; i < 3 && CallContactService(hContact, PSS_GETINFO, 0, 0); i++)
 				{
 					Sleep(3000);
@@ -687,7 +687,7 @@ public:
 	 *
 	 *
 	 **/
-	BOOL QueueAddRefreshContact(HANDLE hContact, INT iWait)
+	BOOL QueueAddRefreshContact(HANDLE hContact, int iWait)
 	{
 		LPSTR pszProto = DB::Contact::Proto(hContact);
 
@@ -704,10 +704,10 @@ public:
 	 *
 	 *
 	 **/
-	VOID RefreshAll()
+	void RefreshAll()
 	{
 		HANDLE		hContact;
-		INT				iWait;
+		int				iWait;
 
 		for (hContact = DB::Contact::FindFirst(),	iWait = 100;
 				 hContact != NULL;
@@ -748,7 +748,7 @@ public:
 	 *
 	 *
 	 **/
-	VOID Cancel()
+	void Cancel()
 	{
 		RemoveAll();
 		ContinueWithNext();
@@ -773,7 +773,7 @@ static CContactUpdater	*ContactUpdater = NULL;
 static BOOL IsMirandaOnline()
 {
 	PROTOACCOUNT **pAcc;
-	INT i, nAccCount;
+	int i, nAccCount;
 	BOOL bIsOnline = FALSE;
 
 	if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
@@ -842,7 +842,7 @@ static INT_PTR RefreshService(WPARAM wParam, LPARAM lParam)
  *
  *
  **/
-static INT OnContactAdded(WPARAM wParam, LPARAM lParam)
+static int OnContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	try
 	{
@@ -886,7 +886,7 @@ static INT OnContactAdded(WPARAM wParam, LPARAM lParam)
  *
  * @return	This function always returns 0.
  **/
-static INT OnPreShutdown(WPARAM, LPARAM)
+static int OnPreShutdown(WPARAM, LPARAM)
 {
 	if(ContactUpdater) {
 		delete ContactUpdater;
@@ -903,7 +903,7 @@ static INT OnPreShutdown(WPARAM, LPARAM)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcRefreshContactInfoLoadModule(VOID)
+void SvcRefreshContactInfoLoadModule(void)
 {
 	CreateServiceFunction(MS_USERINFO_REFRESH, RefreshService);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);

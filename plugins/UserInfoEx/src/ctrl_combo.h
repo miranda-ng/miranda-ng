@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 class CCombo : public CBaseCtrl
 {
-	INT					_curSel;
+	int					_curSel;
 	LPIDSTRLIST _pList;
-	INT					_nList;
+	int					_nList;
 	BYTE				_bDataType;
 	
 	/**
@@ -40,10 +40,10 @@ class CCombo : public CBaseCtrl
 	 *
 	 * @return	nothing
 	 **/
-	CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, INT nListCount);
+	CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount);
 
-	INT Find(INT nIndex) const;
-	INT Find(LPTSTR ptszItemLabel) const;
+	int Find(int nIndex) const;
+	int Find(LPTSTR ptszItemLabel) const;
 
 	INT_PTR AddItem(LPCTSTR pszText, LPARAM lParam);
 
@@ -58,12 +58,12 @@ public:
 	static FORCEINLINE CCombo* GetObj(HWND hDlg, WORD idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, INT nListCount);
+	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount);
 
-	virtual VOID	Release();
+	virtual void	Release();
 	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnApply(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual void	OnChangedByUser(WORD wChangedMsg);
 };
 
 #endif /* _UI_CTRL_COMBO_INCLUDE_ */

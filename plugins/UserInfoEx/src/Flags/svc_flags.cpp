@@ -288,7 +288,7 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
+void SvcFlagsEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB)
 {
 	gFlagsOpts.bShowExtraImgFlag = (bColumn!=((BYTE)-1));
 	if (bUpdateDB)

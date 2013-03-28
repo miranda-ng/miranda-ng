@@ -23,6 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define _UINFOEX_SVCCONTACTS_H_INCLUDED_
 
 INT_PTR		GetContactInfo(WPARAM wParam, LPARAM lParam);
-VOID		SvcContactInfoLoadModule(VOID);
+void		SvcContactInfoLoadModule(void);
 
 #endif /* _UINFOEX_SVCCONTACTS_H_INCLUDED_ */

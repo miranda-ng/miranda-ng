@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * @param		nothing
  * @return		nothing
  **/
-static VOID InitAlteredPlacesBar()
+static void InitAlteredPlacesBar()
 {
 	// do not try it on a win9x Box
 	if (IsWinVer2000Plus())
@@ -92,7 +92,7 @@ static VOID InitAlteredPlacesBar()
  * params:		nothing
  * return:		nothing
  **/
-static VOID ResetAlteredPlaceBars()
+static void ResetAlteredPlaceBars()
 {
 	// make sure not to call the following on a Win9x Box
 	if (IsWinVer2000Plus()) 
@@ -115,7 +115,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 	if (uMsg == TB_ADDBUTTONS) {
 		TBBUTTON *tbb = (TBBUTTON *)lParam;
 		TCHAR szBtnText[MAX_PATH];
-		INT iString;
+		int iString;
 		HWND hWndToolTip;
 
 		if (tbb) {
@@ -208,7 +208,7 @@ static LRESULT CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wPar
  * pszInitialDir	- buffer to store the initial dir to (size must be MAX_PATH)
  * return:		nothing
  **/
-static VOID GetInitialDir(LPSTR pszInitialDir)
+static void GetInitialDir(LPSTR pszInitialDir)
 {
 	CHAR szRelative[MAX_PATH];
 
@@ -235,7 +235,7 @@ static VOID GetInitialDir(LPSTR pszInitialDir)
  *				pszInitialDir	- buffer to store the initial dir to (size must be MAX_PATH)
  * return:		nothing
  **/
-static VOID SaveInitialDir(LPSTR pszInitialDir)
+static void SaveInitialDir(LPSTR pszInitialDir)
 {
 	CHAR szRelative[MAX_PATH];
 	LPSTR p;
@@ -261,7 +261,7 @@ static VOID SaveInitialDir(LPSTR pszInitialDir)
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		nothing
  **/
-static VOID InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszInitialDir, LPSTR pszFile)
+static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszInitialDir, LPSTR pszFile)
 {
 	ZeroMemory(pofn, sizeof(OPENFILENAME));
 
@@ -298,7 +298,7 @@ static VOID InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		-1 on error/abort or filter index otherwise
  **/
-INT DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
+int DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
 {
 	OPENFILENAMEA ofn;
 	CHAR szInitialDir[MAX_PATH];
@@ -323,7 +323,7 @@ INT DlgExIm_OpenFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPS
  *				pszFile			- this is the buffer to store the file to (size must be MAX_PATH)
  * return:		-1 on error/abort or filter index otherwise
  **/
-INT DlgExIm_SaveFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
+int DlgExIm_SaveFileName(HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszFile)
 {
 	OPENFILENAMEA ofn;
 	CHAR szInitialDir[MAX_PATH];

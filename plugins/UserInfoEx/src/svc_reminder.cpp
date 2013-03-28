@@ -38,7 +38,7 @@ struct CEvent
 	CEvent();
 	CEvent(EType eType, WORD wDaysLeft);
 
-	BOOLEAN operator << (const CEvent& e);
+	BYTE operator << (const CEvent& e);
 };
 
 typedef struct _REMINDEROPTIONS
@@ -68,7 +68,7 @@ HANDLE ghCListBirthdayIcons[11];
 
 static REMINDEROPTIONS	gRemindOpts;
 
-static VOID UpdateTimer(BOOLEAN bStartup);
+static void UpdateTimer(BYTE bStartup);
 
 
 /***********************************************************************************************************
@@ -111,7 +111,7 @@ CEvent::CEvent(EType eType, WORD wDaysLeft)
  * @retval	TRUE			- The values of @e evt have been assigned.
  * @retval	FALSE			- The values are not assigned.
  **/
-BOOLEAN CEvent::operator << (const CEvent& evt)
+BYTE CEvent::operator << (const CEvent& evt)
 {
 	if (_wDaysLeft > evt._wDaysLeft)
 	{
@@ -170,7 +170,7 @@ static HICON GetAnnivIcon(const CEvent &evt)
  *
  * @return	nothing
  **/
-static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
+static void NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 {
 	if (gRemindOpts.bCListExtraIcon) {
 		char szIcon[MAXSETTING], *icoName;
@@ -245,13 +245,13 @@ static LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
  *
  * @return	return value of the popup service
  **/
-static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToAnniv, LPCTSTR pszDesc, LPCTSTR pszMsg)
+static int NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, int DaysToAnniv, LPCTSTR pszDesc, LPCTSTR pszMsg)
 {
 	if (gRemindOpts.bPopups)
 	{
 		POPUPDATAT ppd = { 0 };
 		ppd.PluginWindowProc = PopupWindowProc;
-		ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+		ppd.iSeconds = (int)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
 
 		if (hContact) {
 			ppd.lchContact = hContact;
@@ -305,7 +305,7 @@ static INT NotifyWithPopup(HANDLE hContact, CEvent::EType eventType, INT DaysToA
  *
  * @return	nothing
  **/
-static VOID NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
+static void NotifyFlashCListIcon(HANDLE hContact, const CEvent &evt)
 {
 	if (gRemindOpts.bFlashCList && evt._wDaysLeft == 0)
 	{
@@ -392,15 +392,15 @@ static LPCTSTR ContactGender(HANDLE hContact)
 	return TranslateT("He/She");
 }
 
-static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNotify)
+static BYTE CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BYTE bNotify)
 {
-	INT numAnniversaries = 0;
-	INT Diff;
+	int numAnniversaries = 0;
+	int Diff;
 	MAnnivDate mta;
-	INT i;
+	int i;
 	TCHAR szAnniv[MAX_PATH];
 	TCHAR strMsg[MAX_SECONDLINE];
-	BOOLEAN bOverflow = FALSE;
+	BYTE bOverflow = FALSE;
 	WORD wDaysEarlier;
 
 	if ((gRemindOpts.RemindState == REMIND_ANNIV) || (gRemindOpts.RemindState == REMIND_ALL))
@@ -504,9 +504,9 @@ static BOOLEAN CheckAnniversaries(HANDLE hContact, MTime &Now, CEvent &evt, BOOL
  * @retval	TRUE			- contact has a birthday to remind of
  * @retval	FALSE			- contact has no birthday or it is not within the desired period of time.
  **/
-static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNotify, PWORD LastAnwer)
+static BYTE CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer)
 {
-	BOOLEAN result = FALSE;
+	BYTE result = FALSE;
 
 	if (gRemindOpts.RemindState == REMIND_BIRTH || gRemindOpts.RemindState == REMIND_ALL)
 	{
@@ -514,7 +514,7 @@ static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN b
 
 		if (!mtb.DBGetBirthDate(hContact))
 		{
-			INT Diff;
+			int Diff;
 			WORD wDaysEarlier;
 
 			mtb.DBGetReminderOpts(hContact);
@@ -597,7 +597,7 @@ static BOOLEAN CheckBirthday(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN b
  *
  * @return	nothing
  **/
-static VOID CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNotify, PWORD LastAnwer = 0)
+static void CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer = 0)
 {
 	// ignore meta subcontacts here as their birthday information are collected explicitly
 	if (hContact &&
@@ -627,7 +627,7 @@ static VOID CheckContact(HANDLE hContact, MTime &Now, CEvent &evt, BOOLEAN bNoti
  *
  * @return	nothing
  **/
-VOID SvcReminderCheckAll(const ENotify notify)
+void SvcReminderCheckAll(const ENotify notify)
 {
 	if (gRemindOpts.RemindState != REMIND_OFF)
 	{
@@ -680,7 +680,7 @@ VOID SvcReminderCheckAll(const ENotify notify)
  *
  * @return	This function must return 0 in order to continue in the notification chain.
  **/
-static INT OnCListRebuildIcons(WPARAM, LPARAM)
+static int OnCListRebuildIcons(WPARAM, LPARAM)
 {
 	UINT i;
 
@@ -703,7 +703,7 @@ static INT OnCListRebuildIcons(WPARAM, LPARAM)
  *
  * @return	This function must return 0 in order to continue in the notification chain.
  **/
-INT OnCListApplyIcon(HANDLE hContact, LPARAM)
+int OnCListApplyIcon(HANDLE hContact, LPARAM)
 {
 	if (gRemindOpts.RemindState != REMIND_OFF)
 	{
@@ -726,7 +726,7 @@ INT OnCListApplyIcon(HANDLE hContact, LPARAM)
  *
  * @return	This function must return 0 in order to continue in the notification chain.
  **/
-static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact &&										// valid contact not owner!
 			ghCListIA &&								// extraicons active
@@ -767,7 +767,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  * @return	nothing
  **/
 
-VOID SvcReminderOnTopToolBarLoaded()
+void SvcReminderOnTopToolBarLoaded()
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -876,7 +876,7 @@ LPCSTR SvcReminderGetMyBirthdayModule()
  * @param	dwTime			- not used
  * @return	nothing
  **/
-static VOID CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD)
 {
 	static MTime last;
 	MTime now;
@@ -898,7 +898,7 @@ static VOID CALLBACK TimerProc_DateChanged(HWND, UINT, UINT_PTR, DWORD)
  *
  * @return	nothing
  **/
-static VOID CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD)
 {
 	SvcReminderCheckAll(NOTIFY_POPUP);
 }
@@ -910,7 +910,7 @@ static VOID CALLBACK TimerProc_Check(HWND, UINT, UINT_PTR, DWORD)
  *
  * @return	nothing
  **/
-static VOID UpdateTimer(BOOLEAN bStartup)
+static void UpdateTimer(BYTE bStartup)
 {
 	LONG	wNotifyInterval =	60 * 60 * (LONG)DB::Setting::GetWord(MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
 	MTime	now, last;
@@ -940,7 +940,7 @@ static VOID UpdateTimer(BOOLEAN bStartup)
  * module loading & unloading
  ***********************************************************************************************************/
 
-VOID SvcReminderEnable(BOOLEAN bEnable)
+void SvcReminderEnable(BYTE bEnable)
 {
 	if (bEnable)	// Reminder is on
 	{
@@ -987,7 +987,7 @@ VOID SvcReminderEnable(BOOLEAN bEnable)
  *
  * @return	nothing
  **/
-VOID SvcReminderOnModulesLoaded(VOID)
+void SvcReminderOnModulesLoaded(void)
 {
 	// init clist extra icon structure
 	OnCListRebuildIcons(0, 0);
@@ -1002,7 +1002,7 @@ VOID SvcReminderOnModulesLoaded(VOID)
  *
  * @return	nothing
  **/
-VOID SvcReminderLoadModule(VOID)
+void SvcReminderLoadModule(void)
 {
 	// init sounds
 	SKINSOUNDDESCEX ssd = { 0 };
@@ -1045,7 +1045,7 @@ VOID SvcReminderLoadModule(VOID)
  *
  * @return	nothing
  **/
-VOID SvcReminderUnloadModule(VOID)
+void SvcReminderUnloadModule(void)
 {
 	// kill timers
 	KillTimer(0, ghRemindTimer);

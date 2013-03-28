@@ -126,13 +126,13 @@ typedef struct TIconCtrl
 } ICONCTRL, *LPICONCTRL;
 
 LPTSTR	IcoLib_GetDefaultIconFileName();
-VOID	IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls);
+void	IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls);
 
-HANDLE IcoLib_RegisterIconHandle(LPSTR szName, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size);
-HICON	IcoLib_RegisterIcon(LPSTR szName, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size);
+HANDLE IcoLib_RegisterIconHandle(LPSTR szName, LPSTR szDescription, LPSTR szSection, int idIcon, int Size);
+HICON	IcoLib_RegisterIcon(LPSTR szName, LPSTR szDescription, LPSTR szSection, int idIcon, int Size);
 HICON	IcoLib_GetIcon(LPCSTR pszIcon);
 HICON	IcoLib_GetIconByHandle(HANDLE hIconItem);
 
-VOID	IcoLib_LoadModule();
+void	IcoLib_LoadModule();
 
 #endif /* _UINFOEX_ICONS_H_INCLUDED_ */

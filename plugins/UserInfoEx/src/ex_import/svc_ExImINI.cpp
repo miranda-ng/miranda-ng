@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *			file		- file to write the settings to
  * return	nothing
  **/
-static VOID ExportModule(HANDLE hContact, LPCSTR pszModule, FILE* file)
+static void ExportModule(HANDLE hContact, LPCSTR pszModule, FILE* file)
 {
 	DB::CEnumList	Settings;
 
@@ -46,7 +46,7 @@ static VOID ExportModule(HANDLE hContact, LPCSTR pszModule, FILE* file)
 		DBVARIANT dbv;
 		LPSTR here;
 		WORD j;
-		INT i;
+		int i;
 		LPSTR pszSetting;
 		//char tmp[32];
 
@@ -126,7 +126,7 @@ static VOID ExportModule(HANDLE hContact, LPCSTR pszModule, FILE* file)
  *			pModules	- module to export, NULL to export all modules of a contact
  *			file		- ini file to write the contact to
  **/
-static BOOLEAN ExportContact(HANDLE hContact, DB::CEnumList* pModules, FILE* file)
+static BYTE ExportContact(HANDLE hContact, DB::CEnumList* pModules, FILE* file)
 {
 	CExImContactBase vcc;
 
@@ -134,7 +134,7 @@ static BOOLEAN ExportContact(HANDLE hContact, DB::CEnumList* pModules, FILE* fil
 	{
 		if ((vcc = hContact) >= NULL)
 		{
-			INT i;
+			int i;
 			LPSTR p;
 
 			vcc.toIni(file, pModules->getCount()-1);
@@ -161,7 +161,7 @@ static BOOLEAN ExportContact(HANDLE hContact, DB::CEnumList* pModules, FILE* fil
  * param:	hContact	- contact to export or -1 to export all contacts
  *			pszFileName	- ini-filename to write the contact to
  **/
-INT SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
+int SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
 {
 	FILE* file;
 	errno_t err;
@@ -225,7 +225,7 @@ INT SvcExImINI_Export(lpExImParam ExImContact, LPCSTR pszFileName)
  * importing stuff
  ***********************************************************************************************************/
 
-LPSTR strnrchr(LPSTR string, INT ch, DWORD len)
+LPSTR strnrchr(LPSTR string, int ch, DWORD len)
 {
 	LPSTR start = (LPSTR)string;
 
@@ -248,7 +248,7 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
 {
 	CHAR c;
 	DWORD l = 0;
-	BOOLEAN bComment = 0;
+	BYTE bComment = 0;
 
 	str[0] = 0;
 	while (!feof(file)) {
@@ -300,7 +300,7 @@ static DWORD ImportreadLine(FILE* file, LPSTR &str)
  *			cchBuf		- character count of the buffer
  * return:	handle to the contact that matches the information or NULL if no match
  **/
-static HANDLE ImportFindContact(HANDLE hContact, LPSTR &strBuf, BOOLEAN bCanCreate)
+static HANDLE ImportFindContact(HANDLE hContact, LPSTR &strBuf, BYTE bCanCreate)
 {
 	CExImContactBase vcc;
 
@@ -324,7 +324,7 @@ static HANDLE ImportFindContact(HANDLE hContact, LPSTR &strBuf, BOOLEAN bCanCrea
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
-INT ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
+int ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
 {
 	DBCONTACTWRITESETTING cws;
 	LPSTR end, value;
@@ -437,7 +437,7 @@ INT ImportSetting(HANDLE hContact, LPCSTR pszModule, LPSTR &strLine)
  *			strLine		- string with the setting and its value to write to db
  * return:	0 if writing was ok, 1 otherwise
  **/
-INT SvcExImINI_Import(HANDLE hContact, LPCSTR pszFileName)
+int SvcExImINI_Import(HANDLE hContact, LPCSTR pszFileName)
 {
 	FILE	*file;
 	HANDLE	hNewContact				= INVALID_HANDLE_VALUE;

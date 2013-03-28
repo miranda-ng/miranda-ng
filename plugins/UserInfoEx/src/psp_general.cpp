@@ -84,7 +84,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					{
 					case PSN_INFOCHANGED:
 						{
-							BOOLEAN bEnable;
+							BYTE bEnable;
 							DBVARIANT dbv;
 							CCtrlFlags Flags;
 		

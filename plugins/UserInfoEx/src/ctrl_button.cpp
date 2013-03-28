@@ -38,11 +38,11 @@ typedef struct TMBCtrl{
 	HFONT		hFont;			// font
 
 	DWORD		dwStyle;	
-	BOOLEAN		bFocus;	
+	BYTE		bFocus;	
 	
-	INT			stateId;		// button state
-	INT			defbutton;		// default button
-	INT			pbState;
+	int			stateId;		// button state
+	int			defbutton;		// default button
+	int			pbState;
 	TCHAR		cHot;
 } BTNCTRL, *LPBTNCTRL;
 
@@ -54,11 +54,11 @@ static HMODULE	themeAPIHandle = NULL;
 // theme procedures
 static HANDLE	 (WINAPI *OpenThemeData)(HWND,LPCWSTR);
 static HRESULT	(WINAPI *CloseThemeData)(HANDLE);
-static BOOL		 (WINAPI *IsThemeBackgroundPartiallyTransparent)(HANDLE,INT,INT);
+static BOOL		 (WINAPI *IsThemeBackgroundPartiallyTransparent)(HANDLE,int,int);
 static HRESULT	(WINAPI *DrawThemeParentBackground)(HWND,HDC,RECT *);
-static HRESULT	(WINAPI *DrawThemeBackground)(HANDLE,HDC,INT,INT,const RECT *,const RECT *);
-static HRESULT	(WINAPI *DrawThemeText)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,DWORD,const RECT *);
-static HRESULT	(WINAPI *GetThemeTextExtent)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,OPTIONAL const RECT*, RECT *);
+static HRESULT	(WINAPI *DrawThemeBackground)(HANDLE,HDC,int,int,const RECT *,const RECT *);
+static HRESULT	(WINAPI *DrawThemeText)(HANDLE,HDC,int,int,LPCWSTR,int,DWORD,DWORD,const RECT *);
+static HRESULT	(WINAPI *GetThemeTextExtent)(HANDLE,HDC,int,int,LPCWSTR,int,DWORD,OPTIONAL const RECT*, RECT *);
 
 /**
  * name:	ThemeSupport
@@ -66,18 +66,18 @@ static HRESULT	(WINAPI *GetThemeTextExtent)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD
  * param:	none
  * return:	TRUE if themes are supported, FALSE if not
  **/
-static BOOLEAN __fastcall ThemeSupport() {
+static BYTE __fastcall ThemeSupport() {
 	if (IsWinVerXPPlus()) {
 		if (!themeAPIHandle) {
 			themeAPIHandle = GetModuleHandleA("uxtheme");
 			if (themeAPIHandle) {
 				OpenThemeData = (HANDLE (WINAPI *)(HWND,LPCWSTR))MGPROC("OpenThemeData");
 				CloseThemeData = (HRESULT (WINAPI *)(HANDLE))MGPROC("CloseThemeData");
-				IsThemeBackgroundPartiallyTransparent = (BOOL (WINAPI *)(HANDLE,INT,INT))MGPROC("IsThemeBackgroundPartiallyTransparent");
+				IsThemeBackgroundPartiallyTransparent = (BOOL (WINAPI *)(HANDLE,int,int))MGPROC("IsThemeBackgroundPartiallyTransparent");
 				DrawThemeParentBackground = (HRESULT (WINAPI *)(HWND,HDC,RECT *))MGPROC("DrawThemeParentBackground");
-				DrawThemeBackground = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,const RECT *,const RECT *))MGPROC("DrawThemeBackground");
-				DrawThemeText = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,DWORD,const RECT *))MGPROC("DrawThemeText");
-				GetThemeTextExtent = (HRESULT (WINAPI *)(HANDLE,HDC,INT,INT,LPCWSTR,INT,DWORD,OPTIONAL const RECT*, RECT *))MGPROC("GetThemeTextExtent");
+				DrawThemeBackground = (HRESULT (WINAPI *)(HANDLE,HDC,int,int,const RECT *,const RECT *))MGPROC("DrawThemeBackground");
+				DrawThemeText = (HRESULT (WINAPI *)(HANDLE,HDC,int,int,LPCWSTR,int,DWORD,DWORD,const RECT *))MGPROC("DrawThemeText");
+				GetThemeTextExtent = (HRESULT (WINAPI *)(HANDLE,HDC,int,int,LPCWSTR,int,DWORD,OPTIONAL const RECT*, RECT *))MGPROC("GetThemeTextExtent");
 			}
 		}
 		// Make sure all of these methods are valid (i would hope either all or none work)
@@ -101,7 +101,7 @@ static BOOLEAN __fastcall ThemeSupport() {
  * param:	ctl - BTNCTRL structure with the information about the theme to close
  * return:	nothing
  **/
-static VOID __fastcall DestroyTheme(BTNCTRL *ctl) {
+static void __fastcall DestroyTheme(BTNCTRL *ctl) {
 	if (ctl->hThemeButton) {
 		CloseThemeData(ctl->hThemeButton);
 		ctl->hThemeButton = NULL;
@@ -118,7 +118,7 @@ static VOID __fastcall DestroyTheme(BTNCTRL *ctl) {
  * param:	ctl - BTNCTRL structure with the information about the theme to load
  * return:	nothing
  **/
-static VOID __fastcall LoadTheme(BTNCTRL *ctl) {
+static void __fastcall LoadTheme(BTNCTRL *ctl) {
 	if (ThemeSupport()) {
 		DestroyTheme(ctl);
 		ctl->hThemeButton = OpenThemeData(ctl->hwnd,L"BUTTON");
@@ -132,7 +132,7 @@ static VOID __fastcall LoadTheme(BTNCTRL *ctl) {
  * param:	state - state id for the normal theme button
  * return:	stateID for the flat theme button
  **/
-static INT __fastcall TBStateConvert2Flat(INT state) {
+static int __fastcall TBStateConvert2Flat(int state) {
 	switch (state) {
 		case PBS_NORMAL:		return TS_NORMAL;
 		case PBS_HOT:			 return TS_HOT;
@@ -153,7 +153,7 @@ static INT __fastcall TBStateConvert2Flat(INT state) {
  *			rcText		- rectangle of the text to draw later on
  * return:	nothing
  **/
-static VOID __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT rcClient, LPRECT rcText)
+static void __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT rcClient, LPRECT rcText)
 {
 	RECT rcImage;
 
@@ -201,7 +201,7 @@ static VOID __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT
  *			rcClient	- rectangle of the whole button
  * return:	nothing
  **/
-static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
+static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	WCHAR wszText[MAX_PATH] = { 0 };
@@ -209,7 +209,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 
 	// Draw the flat button
 	if ((ctl->dwStyle & MBS_FLAT) && ctl->hThemeToolbar) {
-		INT state = IsWindowEnabled(ctl->hwnd)
+		int state = IsWindowEnabled(ctl->hwnd)
 				? (ctl->stateId == PBS_NORMAL && ctl->defbutton 
 					? PBS_DEFAULTED
 					: ctl->stateId)
@@ -223,7 +223,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 	else {
 		// draw themed button background
 		if (ctl->hThemeButton) {
-			INT state = IsWindowEnabled(ctl->hwnd)
+			int state = IsWindowEnabled(ctl->hwnd)
 				? (ctl->stateId == PBS_NORMAL && ctl->defbutton 
 					? PBS_DEFAULTED
 					: ctl->stateId)
@@ -300,7 +300,7 @@ static VOID __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
  *			rcClient	- rectangle of the whole button
  * return:	nothing
  **/
-static VOID __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
+static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	TCHAR szText[MAX_PATH] = { 0 };
@@ -636,7 +636,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			break;
 		case WM_LBUTTONUP:
 			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-				BOOLEAN bPressed = bct->stateId == PBS_PRESSED;
+				BYTE bPressed = bct->stateId == PBS_PRESSED;
 
 				if (bct->dwStyle & MBS_PUSHBUTTON) {
 					if (bct->pbState) bct->pbState = 0;
@@ -677,13 +677,13 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	return DefWindowProc(hwndBtn, uMsg, wParam, lParam);
 }
 
-VOID CtrlButtonUnloadModule() 
+void CtrlButtonUnloadModule() 
 {
 	DeleteCriticalSection(&csTips);
 	UnregisterClass(UINFOBUTTONCLASS, ghInst);
 }
 
-VOID CtrlButtonLoadModule()
+void CtrlButtonLoadModule()
 {
 	WNDCLASSEX wc;
 	

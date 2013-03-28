@@ -106,9 +106,9 @@ using namespace std;
 #define MIREXISTS(f)		((int)(f)!=CALLSERVICE_NOTFOUND)
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
-#define FREE(p)				{if (PtrIsValid(p)){free((VOID*)p);(p)=NULL;}}
+#define FREE(p)				{if (PtrIsValid(p)){free((void*)p);(p)=NULL;}}
 #define MIR_DELETE(p)		{LPVOID ptr = (LPVOID)(p);if (PtrIsValid(ptr)){delete(ptr);(ptr)=NULL;}}
-#define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((VOID*)p);(p)=NULL;}}
+#define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}
 
 #define GetUserData(p)		GetWindowLongPtr((p), GWLP_USERDATA)
 #define SetUserData(p, l)	SetWindowLongPtr((p), GWLP_USERDATA, (LONG_PTR) (l))
@@ -173,13 +173,13 @@ unsigned int hashSettingW_M2(const char * key);		//new Murma2 hash
 typedef struct _MGLOBAL
 {
 	DWORD		mirandaVersion;					// mirandaVersion
-	BOOLEAN		CanChangeDetails : 1;			// is service to upload own contact information for icq present?
-	BOOLEAN		MsgAddIconExist : 1;			// Messsage Window support status Icon
-	BOOLEAN		TzIndexExist : 1;				// Win Reg has Timzone Index Info
-	BOOLEAN		PopUpActionsExist : 1;			// Popup++ or MS_POPUP_REGISTERACTIONS exist
-	BOOLEAN		ShowPropsheetColours : 1;		// cached SET_PROPSHEET_SHOWCOLOURS database value
-	BOOLEAN		WantAeroAdaption : 1;			// reserved for later use
-	BOOLEAN		UseDbxTree : 1;					// use dbx_tree ?
+	BYTE		CanChangeDetails : 1;			// is service to upload own contact information for icq present?
+	BYTE		MsgAddIconExist : 1;			// Messsage Window support status Icon
+	BYTE		TzIndexExist : 1;				// Win Reg has Timzone Index Info
+	BYTE		PopUpActionsExist : 1;			// Popup++ or MS_POPUP_REGISTERACTIONS exist
+	BYTE		ShowPropsheetColours : 1;		// cached SET_PROPSHEET_SHOWCOLOURS database value
+	BYTE		WantAeroAdaption : 1;			// reserved for later use
+	BYTE		UseDbxTree : 1;					// use dbx_tree ?
 	LPCSTR		szMetaProto;
 
 } MGLOBAL, *LPMGLOBAL;
@@ -202,10 +202,10 @@ extern struct CountryListEntry *countries;
  *
  **/
 #define MIRANDA_CPP_PLUGIN_API(CCoreClass) \
-	typedef INT (__cdecl CCoreClass::*EVENTHOOK)(WPARAM, LPARAM);	\
-	typedef INT (__cdecl CCoreClass::*EVENTHOOKPARAM)(WPARAM, LPARAM, LPARAM); \
-	typedef INT (__cdecl CCoreClass::*SERVICEFUNC)(WPARAM, LPARAM); \
-	typedef INT (__cdecl CCoreClass::*SERVICEFUNCPARAM)(WPARAM, LPARAM, LPARAM); \
+	typedef int (__cdecl CCoreClass::*EVENTHOOK)(WPARAM, LPARAM);	\
+	typedef int (__cdecl CCoreClass::*EVENTHOOKPARAM)(WPARAM, LPARAM, LPARAM); \
+	typedef int (__cdecl CCoreClass::*SERVICEFUNC)(WPARAM, LPARAM); \
+	typedef int (__cdecl CCoreClass::*SERVICEFUNCPARAM)(WPARAM, LPARAM, LPARAM); \
 	\
 	HANDLE ThisHookEvent(const char* szEvent, EVENTHOOK pfnEvent) \
 	{	return (HANDLE) ::HookEventObj(szEvent, (MIRANDAHOOKOBJ) (*(PVOID*) &pfnEvent), (PVOID)this);} \
@@ -240,7 +240,7 @@ static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-static FORCEINLINE BOOLEAN IsAeroMode()
+static FORCEINLINE BYTE IsAeroMode()
 {
 	BOOL result;
 	return myGlobals.WantAeroAdaption && dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;

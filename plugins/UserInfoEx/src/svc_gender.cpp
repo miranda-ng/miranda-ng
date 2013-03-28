@@ -70,7 +70,7 @@ BYTE GenderOf(HANDLE hContact)
  * @param	lParam			- not used
  **/
 
-static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
+static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
 		char *icoName;
@@ -90,7 +90,7 @@ static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
  * @param	wParam			- (HANDLE)hContact
  * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
  **/
-static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && (pdbcws->value.type <= DBVT_BYTE) && !lstrcmpA(pdbcws->szSetting, SET_CONTACT_GENDER))
 		OnCListApplyIcons(hContact, 0);
@@ -108,7 +108,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
-VOID SvcGenderApplyCListIcons()
+void SvcGenderApplyCListIcons()
 {
 	HANDLE hContact;
 
@@ -125,7 +125,7 @@ VOID SvcGenderApplyCListIcons()
  * @param	bEnable			- determines whether icons are enabled or not
  * @param	bUpdateDB		- if true the database setting is updated, too.
  **/
-VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) 
+void SvcGenderEnableExtraIcons(BYTE bColumn, BYTE bUpdateDB) 
 {
 	bool bEnable = (bColumn!=((BYTE)-1));
 
@@ -163,7 +163,7 @@ VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcGenderLoadModule()
+void SvcGenderLoadModule()
 {
 	SvcGenderEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
 }
@@ -175,7 +175,7 @@ VOID SvcGenderLoadModule()
  *
  * @return	nothing
  **/
-VOID SvcGenderUnloadModule()
+void SvcGenderUnloadModule()
 {	
 	// unhook event handlers
 	UnhookEvent(hChangedHook);		hChangedHook		= NULL;

@@ -37,7 +37,7 @@ static MenuOptionsList ctrl_Menu[]=
  *
  *
  **/
-static FORCEINLINE VOID NotifyParentOfChange(HWND hDlg)
+static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
 {
 	SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 }
@@ -49,7 +49,7 @@ static FORCEINLINE VOID NotifyParentOfChange(HWND hDlg)
  *
  * @return	nothing
  **/
-static VOID SendNotify_InfoChanged(HWND hDlg)
+static void SendNotify_InfoChanged(HWND hDlg)
 {
 	PSHNOTIFY pshn;
 
@@ -62,9 +62,9 @@ static VOID SendNotify_InfoChanged(HWND hDlg)
  *
  *
  **/
-static INT FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
+static int FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
 {
-	INT nItemIndex;
+	int nItemIndex;
 
 	for (nItemIndex = ComboBox_GetCount(hCombo); 
 			 (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); 
@@ -76,7 +76,7 @@ static INT FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
  *
  *
  **/
-static VOID FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
+static void FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	ComboBox_SetCurSel(hCombo, ComboBox_FindByItemDataPtr(hCombo, pData)); 
 }
@@ -85,7 +85,7 @@ static VOID FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pDat
  *
  *
  **/
-static VOID FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
+static void FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
 {
 	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateTS(ptszText)), pData);  
 }
@@ -100,7 +100,7 @@ static VOID FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, L
  * @retval	TRUE on success
  * @retval	FALSE on failure
  **/
-static BOOLEAN EnableDlgItem(HWND hDlg, const INT idCtrl, BOOLEAN bEnabled)
+static BYTE EnableDlgItem(HWND hDlg, const int idCtrl, BYTE bEnabled)
 {
 	return EnableWindow(GetDlgItem(hDlg, idCtrl), bEnabled);
 }
@@ -115,7 +115,7 @@ static BOOLEAN EnableDlgItem(HWND hDlg, const INT idCtrl, BOOLEAN bEnabled)
  *
  * @return	bEnabled
  **/
-static BOOLEAN InitialEnableControls(HWND hDlg, const INT *idCtrl, int countCtrl, BOOLEAN bEnabled)
+static BYTE InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEnabled)
 {
 	HWND hCtrl;
 
@@ -137,7 +137,7 @@ static BOOLEAN InitialEnableControls(HWND hDlg, const INT *idCtrl, int countCtrl
  *
  * @return	bEnabled
  **/
-static BOOLEAN EnableControls(HWND hDlg, const INT *idCtrl, int countCtrl, BOOLEAN bEnabled)
+static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEnabled)
 {
 	while (countCtrl-- > 0) 
 	{
@@ -156,9 +156,9 @@ static BOOLEAN EnableControls(HWND hDlg, const INT *idCtrl, int countCtrl, BOOLE
  *
  * @return	This function returns the value from database or the default value.
  **/
-static BOOLEAN DBGetCheckBtn(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, BOOLEAN bDefault)
+static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE bDefault)
 {
-	BOOLEAN val = (DB::Setting::GetByte(pszSetting, bDefault) & 1) == 1;
+	BYTE val = (DB::Setting::GetByte(pszSetting, bDefault) & 1) == 1;
 	CheckDlgButton(hDlg, idCtrl, val);
 	return val;
 }
@@ -173,9 +173,9 @@ static BOOLEAN DBGetCheckBtn(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, BOO
  *
  * @return	checkstate
  **/
-static BOOLEAN DBWriteCheckBtn(HWND hDlg, const INT idCtrl, LPCSTR pszSetting)
+static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	BOOLEAN val = IsDlgButtonChecked(hDlg, idCtrl);
+	BYTE val = IsDlgButtonChecked(hDlg, idCtrl);
 	int Temp = DB::Setting::GetByte(pszSetting, 0);
 	Temp &= ~1;
 	DB::Setting::WriteByte(pszSetting, Temp |= val );
@@ -193,7 +193,7 @@ static BOOLEAN DBWriteCheckBtn(HWND hDlg, const INT idCtrl, LPCSTR pszSetting)
  *
  * @return	nothing
  **/
-static VOID DBGetColor(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, DWORD bDefault)
+static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDefault)
 {
 	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, DB::Setting::GetDWord(pszSetting, bDefault));
 }
@@ -208,7 +208,7 @@ static VOID DBGetColor(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, DWORD bDe
  *
  * @return	nothing
  **/
-static VOID DBWriteColor(HWND hDlg, const INT idCtrl, LPCSTR pszSetting)
+static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
 	DB::Setting::WriteDWord(pszSetting, SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
@@ -226,7 +226,7 @@ static VOID DBWriteColor(HWND hDlg, const INT idCtrl, LPCSTR pszSetting)
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BOOLEAN DBWriteEditByte(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, BYTE defVal)
+static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE defVal)
 {
 	BYTE v;
 	BOOL t;
@@ -252,7 +252,7 @@ static BOOLEAN DBWriteEditByte(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, B
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BOOLEAN DBWriteEditWord(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, WORD defVal)
+static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD defVal)
 {
 	WORD v;
 	BOOL t;
@@ -278,7 +278,7 @@ static BOOLEAN DBWriteEditWord(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, W
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BOOLEAN DBWriteComboByte(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, BYTE defVal)
+static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE defVal)
 {
 	BYTE v;
 
@@ -292,7 +292,7 @@ static BOOLEAN DBWriteComboByte(HWND hDlg, const INT idCtrl, LPCSTR pszSetting, 
 
 static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOLEAN	bInitialized = 0;
+	static BYTE	bInitialized = 0;
 
 	switch (uMsg) 
 	{
@@ -399,7 +399,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 					}
 
 					// misc
-					BOOLEAN bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
+					BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
 					DB::Setting::WriteByte(SET_ZODIAC_AVATARS, bEnabled);
 					NServices::NAvatar::Enable(bEnabled);
 			}
@@ -419,7 +419,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 							for (int i = 0; i < SIZEOF(ctrl_Menu); i++) {
 								if (ctrl_Menu[i].idCheckbox == LOWORD(wParam)) 
 								{
-									const INT idMenuItems[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
+									const int idMenuItems[] = { ctrl_Menu[i].idCheckbox + 1, ctrl_Menu[i].idNONE, ctrl_Menu[i].idALL, ctrl_Menu[i].idEXIMPORT };
 									EnableControls(hDlg, idMenuItems, SIZEOF(idMenuItems), 
 										Button_GetCheck((HWND)lParam) && ServiceExists(MS_CLIST_REMOVEMAINMENUITEM));
 									break;
@@ -467,7 +467,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOLEAN	bInitialized = 0;
+	static BYTE	bInitialized = 0;
 
 	switch (uMsg) {
 		case WM_INITDIALOG:
@@ -534,7 +534,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 					case BTN_OPT_RESET:
 						{
-							BOOLEAN WantReset;
+							BYTE WantReset;
 
 							WantReset = MsgBox(hDlg, 
 								MB_ICON_WARNING|MB_YESNO, 
@@ -548,7 +548,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 								// delete all skin icons
 								if (!Settings.EnumSettings(NULL, "SkinIcons")) {
-									INT i;
+									int i;
 									LPSTR s;
 
 									for (i = 0; i < Settings.getCount(); i++) {
@@ -593,7 +593,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOLEAN	bInitialized = 0;
+	static BYTE	bInitialized = 0;
 
 	switch (uMsg) 
 	{
@@ -661,7 +661,7 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 							if (HIWORD(wParam) == BN_CLICKED) 
 							{
 								BOOL bChecked = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-								const INT idCtrl[] = { CLR_NORMAL, CLR_USER, CLR_BOTH, CLR_CHANGED, CLR_META, TXT_OPT_CLR_NORMAL,
+								const int idCtrl[] = { CLR_NORMAL, CLR_USER, CLR_BOTH, CLR_CHANGED, CLR_META, TXT_OPT_CLR_NORMAL,
 												 TXT_OPT_CLR_USER, TXT_OPT_CLR_BOTH, TXT_OPT_CLR_CHANGED, TXT_OPT_CLR_META };
 								
 								EnableControls(hDlg, idCtrl, SIZEOF(idCtrl), bChecked);
@@ -697,7 +697,7 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 
 static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOLEAN	bInitialized = 0;
+	static BYTE	bInitialized = 0;
 
 	switch (uMsg) {
 		
@@ -741,7 +741,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				case PSN_INFOCHANGED:
 					{
 						bInitialized = 0;
-						BOOLEAN bEnabled;
+						BYTE bEnabled;
 
 						// set reminder options
 						bEnabled = DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
@@ -778,7 +778,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				case PSN_APPLY:
 					{
 						BYTE bNewVal;
-						BOOLEAN bReminderCheck = FALSE;
+						BYTE bReminderCheck = FALSE;
 
 						// save checkbox options
 						DBWriteCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED);
@@ -841,8 +841,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						{
 							if (HIWORD(wParam) == CBN_SELCHANGE) 
 							{
-								INT bEnabled = ComboBox_GetCurSel((HWND)lParam) > 0;
-								const INT idCtrl[] = {
+								int bEnabled = ComboBox_GetCurSel((HWND)lParam) > 0;
+								const int idCtrl[] = {
 									CHECK_REMIND_MI, EDIT_REMIND, EDIT_REMIND2, SPIN_REMIND, SPIN_REMIND2, TXT_REMIND,
 									TXT_REMIND2, TXT_REMIND3, TXT_REMIND4, TXT_REMIND6, TXT_REMIND7, TXT_REMIND8, TXT_REMIND9,
 									TXT_REMIND_LASTCHECK, CHECK_REMIND_FLASHICON, EDIT_BIRTHMODULE, CHECK_REMIND_VISIBLEONLY,
@@ -930,7 +930,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BOOLEAN	bInitialized = 0;
+	static BYTE	bInitialized = 0;
 
 	switch (uMsg) 
 	{		
@@ -1088,7 +1088,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case BTN_PREVIEW:
 			{
 				POPUPDATAT ppd = { 0 };
-				ppd.iSeconds = (INT)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
+				ppd.iSeconds = (int)DB::Setting::GetByte(SET_POPUP_DELAY, 0);
 				mir_tcsncpy(ppd.lptzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
 
 				// Birthday
@@ -1132,7 +1132,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_ENABLED:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				const BOOL bEnabled = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-				const INT idCtrl[] = { 
+				const int idCtrl[] = { 
 					CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR, 
 					CLR_BBACK, TXT_OPT_POPUP_CLR_BACK, 
 					CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
@@ -1153,8 +1153,8 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_DEFCLR:
 		case CHECK_OPT_POPUP_WINCLR:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL);
-				INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL);
+				int bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL);
+				int bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL);
 
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_DEFCLR, !bWinClr);
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_WINCLR, !bDefClr);
@@ -1170,8 +1170,8 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_ADEFCLR:
 		case CHECK_OPT_POPUP_AWINCLR:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				INT bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL);
-				INT bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL);
+				int bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL);
+				int bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL);
 
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_ADEFCLR, !bWinClr);
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_AWINCLR, !bDefClr);
@@ -1230,7 +1230,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
  *
  * @retval	MIR_OK
  **/
-static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
+static int OnInitOptions(WPARAM wParam, LPARAM lParam)
 {
 	DlgContactInfoInitTreeIcons();
 
@@ -1288,7 +1288,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
  *
  * @retval	nothing
  **/
-VOID OptionsLoadModule()
+void OptionsLoadModule()
 {
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 }

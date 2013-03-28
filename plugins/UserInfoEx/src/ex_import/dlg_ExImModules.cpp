@@ -111,7 +111,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
  *			bState		- 0-hide checkbox/1-unchecked/2-checked
  * return:	return handle to added treeitem 
  **/
-HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BOOLEAN bUseImages, BYTE bState)
+HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE bUseImages, BYTE bState)
 {
 	TVINSERTSTRUCTA	tvii;
 	HTREEITEM hItem = NULL;
@@ -147,7 +147,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 		case WM_INITDIALOG:
 		{
 			HWND hTree;
-			BOOLEAN bImagesLoaded = 0;
+			BYTE bImagesLoaded = 0;
 
 			// get tree handle and set treeview style
 			if (!(hTree = GetDlgItem(hDlg, IDC_TREE))) break;
@@ -171,7 +171,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					{ ICO_BTN_EXPORT,	BM_SETIMAGE,	IDOK		},
 					{ ICO_BTN_CANCEL,	BM_SETIMAGE,	IDCANCEL	}
 				};
-				const INT numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
+				const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 2;
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview
@@ -280,7 +280,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					if (!Modules.EnumModules())	// init Modul list
 					{
-						INT i;
+						int i;
 						LPSTR p;
 
 						for (i = 0; i < Modules.getCount(); i++)
@@ -442,7 +442,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
  *			hParent		- handle to a window which should act as the parent of the created dialog
  * return:	0 if user pressed ok, 1 on cancel
  **/
-INT DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList* pModules, HWND hParent)
+int DlgExImModules_SelectModulesToExport(lpExImParam ExImContact, DB::CEnumList* pModules, HWND hParent)
 {
 	EXPORTDATA dat;
 

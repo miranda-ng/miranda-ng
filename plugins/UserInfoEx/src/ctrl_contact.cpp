@@ -44,13 +44,13 @@ typedef struct TCbExItem
 typedef struct TComboEx 
 {
 	LPCBEXITEMINTERN	pItems;
-	INT			numItems;
-	INT			numOther;
-	INT			iSelectedItem;
+	int			numItems;
+	int			numOther;
+	int			iSelectedItem;
 
-	BOOLEAN		bIsChanged;
-	BOOLEAN		bLocked;
-	BOOLEAN		bIsEditChanged;
+	BYTE		bIsChanged;
+	BYTE		bLocked;
+	BYTE		bIsEditChanged;
 
 	HINSTANCE	hInstance;
 	HFONT		hFont;
@@ -63,15 +63,15 @@ typedef struct TComboEx
 } CBEX, *LPCBEX;
 
 
-static INT compareProc(LPCVOID cbi1, LPCVOID cbi2)
+static int compareProc(LPCVOID cbi1, LPCVOID cbi2)
 {
 	return _tcscmp(((LPCBEXITEMINTERN)cbi1)->szCat, ((LPCBEXITEMINTERN)cbi2)->szCat);
 }
 
-static INT CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, INT& errorPos)
+static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int& errorPos)
 {
-	INT lenNum = 0;
-	BOOLEAN	hasLeftBreaket = FALSE,
+	int lenNum = 0;
+	BYTE	hasLeftBreaket = FALSE,
 			hasRightBreaket = FALSE;
 
 	if (!szNumber || !pszSrc || !*pszSrc || !cchNumber) return 0;
@@ -293,7 +293,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 		case WM_COMMAND:
 		{
-			static INT noRecursion=0;
+			static int noRecursion=0;
 						
 			switch (LOWORD(wParam)) {
 				if (HIWORD(wParam) == BN_CLICKED) {
@@ -301,7 +301,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					{	 
 						LPCBEXITEM cbi = (LPCBEXITEM)GetUserData(hDlg);
 						TCHAR szText[MAXDATASIZE];
-						INT errorPos;
+						int errorPos;
 
 						if (!GetDlgItemText(hDlg, EDIT_PHONE, szText, MAXDATASIZE) || !CheckPhoneSyntax(szText, cbi->pszVal, cbi->ccVal, errorPos) || errorPos > -1) {
 							MsgErr(hDlg, TranslateT("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only."));
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
 					{	 
 						TCHAR szPhone[MAXDATASIZE], szArea[32], szData[64];
-						INT	 nCurSel = SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETCURSEL, 0, 0);	 
+						int	 nCurSel = SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETCURSEL, 0, 0);	 
 						UINT	nCountry = (nCurSel != CB_ERR) ? SendDlgItemMessage(hDlg, EDIT_COUNTRY, CB_GETITEMDATA, nCurSel, 0) : 0;
 
 						GetDlgItemText(hDlg, EDIT_AREA, szArea, SIZEOF(szArea));
@@ -361,11 +361,11 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 					noRecursion = 1;
 					{	 
 						TCHAR szText[MAXDATASIZE], *pText, *pArea, *pNumber;
-						INT isValid = 1;
+						int isValid = 1;
 						GetDlgItemText(hDlg, EDIT_PHONE, szText, SIZEOF(szText));
 						if (szText[0] != '+') isValid = 0;
 						if (isValid) {
-							INT i,country = _tcstol(szText + 1, &pText, 10);
+							int i,country = _tcstol(szText + 1, &pText, 10);
 							if (pText - szText > 4)
 								isValid = 0;
 							else {
@@ -599,7 +599,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		case WM_SETICON:
 		{
 			HICON hIcon;
-			INT i;
+			int i;
 
 			hIcon = IcoLib_GetIcon(ICO_BTN_ADD);
 			SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
@@ -630,7 +630,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						POINT pt = { 0, 0 };
 						RECT rc;
 						MENUITEMINFO mii;
-						INT i, nItems;
+						int i, nItems;
 						HMENU hMenu;
 
 						if (!(hMenu = CreatePopupMenu())) return 0;
@@ -850,7 +850,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						case EN_UPDATE:
 						{
 							TCHAR szVal[MAXDATASIZE] = { 0 };
-							INT ccVal;
+							int ccVal;
 							HANDLE hContact;
 							HWND hDlgDetails = GetParent(GetParent(hwnd));
 							
@@ -866,7 +866,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 							switch (GetWindowLongPtr(hwnd, GWLP_ID)) {
 								case EDIT_PHONE:
 								{
-									INT errorPos;
+									int errorPos;
 									TCHAR szEdit[MAXDATASIZE];
 
 									if (ccVal = GetWindowText(cbex->hEdit, szEdit, MAXDATASIZE)) {
@@ -899,7 +899,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						}
 						case EN_KILLFOCUS:
 						{
-							INT ccText;
+							int ccText;
 							
 							if (!cbex->pItems || cbex->iSelectedItem < 0 || cbex->iSelectedItem >= cbex->numItems) return 1;
 							if (!(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_CHANGED)) return 0;
@@ -943,7 +943,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			// if an item with the id of pItem exists, change it instead of adding a new one
 			// but only if it has not been changed by the user yet.
 			if ((pItem->wMask & CBEXIM_ID) && cbex->pItems && pItem->dwID != 0) {
-				INT iIndex;
+				int iIndex;
 				
 				for (iIndex = 0; iIndex < cbex->numItems; iIndex++) {
 					if (cbex->pItems[iIndex].dwID == pItem->dwID) {
@@ -1051,7 +1051,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			
 			// try to find item by id
 			if ((pItem->wMask & CBEXIM_ID) && pItem->dwID != 0) {
-				INT i;
+				int i;
 
 				for (i = 0; i < cbex->numItems; i++) {
 					if (cbex->pItems[i].dwID == pItem->dwID)
@@ -1100,12 +1100,12 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		 **/
 		case CBEXM_DELITEM:
 		{
-			if (!cbex->pItems || (INT)lParam < 0 || (INT)lParam >= cbex->numItems || (cbex->pItems[lParam].wFlags & CBEXIF_CATREADONLY))
+			if (!cbex->pItems || (int)lParam < 0 || (int)lParam >= cbex->numItems || (cbex->pItems[lParam].wFlags & CBEXIF_CATREADONLY))
 				return FALSE;	
-			MIR_FREE(cbex->pItems[(INT)lParam].pszVal);
-			memmove(cbex->pItems + (INT)lParam, 
-				cbex->pItems + (INT)lParam + 1,
-				(cbex->numItems - (INT)lParam - 1) * sizeof(CBEXITEMINTERN));
+			MIR_FREE(cbex->pItems[(int)lParam].pszVal);
+			memmove(cbex->pItems + (int)lParam, 
+				cbex->pItems + (int)lParam + 1,
+				(cbex->numItems - (int)lParam - 1) * sizeof(CBEXITEMINTERN));
 			cbex->numItems--;
 			ZeroMemory(cbex->pItems + cbex->numItems, sizeof(CBEXITEMINTERN));
 			CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, lParam - 1, FALSE);
@@ -1121,7 +1121,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		 **/
 		case CBEXM_DELALLITEMS:
 		{
-			INT i;
+			int i;
 
 			if (PtrIsValid(cbex)) {
 				if (PtrIsValid(cbex->pItems)) {
@@ -1150,7 +1150,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		case CBEXM_ENABLEITEM:
 			if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems) {
 				HANDLE hContact;
-				BOOLEAN bEnabled;
+				BYTE bEnabled;
 				
 				PSGetContact(GetParent(hwnd), hContact);
 
@@ -1190,21 +1190,21 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		 * name:	CBEXM_SETCURSEL
 		 * desc:	selects a certain item
 		 * param:	wParam - index of the item to select
-		 *			lParam - (BOOLEAN)bValid - if TRUE, the next item with a value is selected
+		 *			lParam - (BYTE)bValid - if TRUE, the next item with a value is selected
 		 * return:	always FALSE
 		 **/
 		case CBEXM_SETCURSEL:
 		{
-			INT i;
+			int i;
 
 			if (!cbex->pItems) return 1;
-			if ((INT)wParam < 0 || (INT)wParam >= cbex->numItems) wParam = max(cbex->iSelectedItem, 0);
+			if ((int)wParam < 0 || (int)wParam >= cbex->numItems) wParam = max(cbex->iSelectedItem, 0);
 			cbex->bLocked = 1;
 			
-			if ((BOOLEAN)lParam == TRUE) {
-				INT i = (INT)wParam;
+			if ((BYTE)lParam == TRUE) {
+				int i = (int)wParam;
 
-				cbex->iSelectedItem = (INT)wParam;
+				cbex->iSelectedItem = (int)wParam;
 				while (i < cbex->numItems) {
 					if (cbex->pItems[i].pszVal && *cbex->pItems[i].pszVal) {
 						cbex->iSelectedItem = i;
@@ -1215,10 +1215,10 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			}
 			else {
 				// search for the next none deleted item
-				for (i = (INT)wParam; i < cbex->numItems && *cbex->pItems[i].szCat == 0; i++);
-				if (i == cbex->numItems && (INT)wParam > 0) {
-					for (i = 0; i < (INT)wParam && *cbex->pItems[i].szCat == 0; i++);
-					cbex->iSelectedItem = i == (INT)wParam ? 0 : i;
+				for (i = (int)wParam; i < cbex->numItems && *cbex->pItems[i].szCat == 0; i++);
+				if (i == cbex->numItems && (int)wParam > 0) {
+					for (i = 0; i < (int)wParam && *cbex->pItems[i].szCat == 0; i++);
+					cbex->iSelectedItem = i == (int)wParam ? 0 : i;
 				}
 				else
 					cbex->iSelectedItem = i;
@@ -1255,7 +1255,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
  *			lParam - not used
  * return:	always 0
  **/
-INT CtrlContactUnLoadModule()
+int CtrlContactUnLoadModule()
 {
 	UnregisterClass(UINFOCOMBOEXCLASS, ghInst);
 	return 0;
@@ -1267,7 +1267,7 @@ INT CtrlContactUnLoadModule()
  * param:	none
  * return:	always 0
  **/
-INT CtrlContactLoadModule()
+int CtrlContactLoadModule()
 {
 	WNDCLASSEX wc;
 	
@@ -1298,7 +1298,7 @@ INT CtrlContactLoadModule()
  * return:	TRUE	- if the item is not updated, because its changed flag is set
  *			FALSE	- if item is added or updated successfully
  **/
-INT CtrlContactAddItemFromDB(
+int CtrlContactAddItemFromDB(
 				HWND hCtrl,
 				LPCSTR szIcon,
 				LPTSTR szItem,
@@ -1351,7 +1351,7 @@ INT CtrlContactAddItemFromDB(
  * return:	TRUE	- if one of the items was not updated, because its changed flag is set
  *			FALSE	- if all items were added or updated successfully
  **/
-INT CtrlContactAddMyItemsFromDB(
+int CtrlContactAddMyItemsFromDB(
 				HWND hCtrl,
 				LPCSTR szIcon,
 				WORD wForcedFlags,
@@ -1366,7 +1366,7 @@ INT CtrlContactAddMyItemsFromDB(
 	CHAR pszSetting[MAXSETTING];
 	WORD i;
 	LPTSTR sms;
-	INT bAnyItemIsChanged = 0;
+	int bAnyItemIsChanged = 0;
 
 	ZeroMemory(&cbi, sizeof(cbi));
 	cbi.iItem = -1;
@@ -1429,7 +1429,7 @@ INT CtrlContactAddMyItemsFromDB(
  * param:	none
  * return:	always 0
  **/
-INT CtrlContactWriteItemToDB(
+int CtrlContactWriteItemToDB(
 				HWND hCtrl,
 				HANDLE hContact,
 				LPCSTR pszModule,
@@ -1470,9 +1470,9 @@ INT CtrlContactWriteItemToDB(
  * param:	none
  * return:	always 0
  **/
-INT CtrlContactWriteMyItemsToDB(
+int CtrlContactWriteMyItemsToDB(
 				HWND hCtrl,
-				INT iFirstItem,
+				int iFirstItem,
 				HANDLE hContact,
 				LPCSTR pszModule,
 				LPCSTR pszProto,
@@ -1485,7 +1485,7 @@ INT CtrlContactWriteMyItemsToDB(
 	LPTSTR pszOther;
 	CBEXITEM cbi;
 	INT_PTR ccOther;
-	INT i = 0;
+	int i = 0;
 
 	if (!CtrlContactWndProc(hCtrl, CBEXM_ISCHANGED, NULL, NULL)) return 1;
 	if (!hContact && !(pszModule = pszProto)) return 1;

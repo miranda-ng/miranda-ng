@@ -48,7 +48,7 @@ typedef struct TCtrlInfo {
 } CTRL, *LPCTRL;
 
 // for compatibility with old styled controls
-VOID							Ctrl_InitTextColours();
+void							Ctrl_InitTextColours();
 INT_PTR CALLBACK	Ctrl_SetTextColour(HDC hdc, WORD wFlags);
 
 /***********************************************************************************************************
@@ -150,7 +150,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	virtual VOID Release() { }
+	virtual void Release() { }
 
 	/**
 	 * This is a pure virtual method, which is the common interface 
@@ -174,7 +174,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	virtual VOID OnApply(HANDLE hContact, LPCSTR pszProto) { }
+	virtual void OnApply(HANDLE hContact, LPCSTR pszProto) { }
 
 	/**
 	 * This is a pure virtual method, which is called to set the 
@@ -185,9 +185,9 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	virtual VOID OnChangedByUser(WORD wChangedMsg) { }
+	virtual void OnChangedByUser(WORD wChangedMsg) { }
 
-	virtual VOID OnReset() { }
+	virtual void OnReset() { }
 
 	INT_PTR OnSetTextColour(HDC hdc);
 };
@@ -218,11 +218,11 @@ public:
 	static FORCEINLINE CCtrlList* GetObj(HWND hDlg) 
 		{ return (CCtrlList*)GetUserData(hDlg); }
 
-	VOID		Release();
-	VOID		OnReset();
+	void		Release();
+	void		OnReset();
 	BOOL		OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	VOID		OnApply(HANDLE hContact, LPCSTR pszProto);
-	VOID		OnChangedByUser(WORD idCtrl, WORD wChangedMsg);
+	void		OnApply(HANDLE hContact, LPCSTR pszProto);
+	void		OnChangedByUser(WORD idCtrl, WORD wChangedMsg);
 	INT_PTR OnSetTextColour(HWND hCtrl, HDC hdc);
 };
 

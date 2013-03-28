@@ -38,19 +38,19 @@ MTime::MTime()
 	ZeroDate();
 }
 
-MTime::MTime(SYSTEMTIME &st, const BOOLEAN bIsLocal)
+MTime::MTime(SYSTEMTIME &st, const BYTE bIsLocal)
 {
 	_SysTime = st;
 	_isLocal = bIsLocal != FALSE;
 }
 
-MTime::MTime(FILETIME &ft, const BOOLEAN bIsLocal)
+MTime::MTime(FILETIME &ft, const BYTE bIsLocal)
 {
 	ZeroDate();
 	Set(ft, bIsLocal);
 }
 
-MTime::MTime(LARGE_INTEGER &li, const BOOLEAN bIsLocal)
+MTime::MTime(LARGE_INTEGER &li, const BYTE bIsLocal)
 {
 	ZeroDate();
 	Set(li, bIsLocal);
@@ -67,7 +67,7 @@ MTime::MTime(const MTime& mtime)
 	Set(mtime);
 }
 
-VOID	MTime::ZeroDate() 
+void	MTime::ZeroDate() 
 {
 	_isLocal = FALSE;
 	ZeroMemory(&_SysTime, sizeof(_SysTime));
@@ -77,7 +77,7 @@ VOID	MTime::ZeroDate()
  * validation / checks
  *********************************************/
 
-BOOLEAN	MTime::IsValid() const
+BYTE	MTime::IsValid() const
 {
 	return (
 		_SysTime.wYear > 1600 &&
@@ -88,7 +88,7 @@ BOOLEAN	MTime::IsValid() const
 		_SysTime.wSecond < 60 );
 }
 
-BOOLEAN	MTime::IsLeapYear() const
+BYTE	MTime::IsLeapYear() const
 {
 	return (!(((_SysTime.wYear) % 4 != 0) || (((_SysTime.wYear) % 100 == 0) && ((_SysTime.wYear) % 400 != 0))));
 }
@@ -164,7 +164,7 @@ LONG	MTime::Compare(const MTime &mt) const
  * conversions
  *********************************************/
 
-VOID	MTime::UTCToLocal()
+void	MTime::UTCToLocal()
 {
 	if (!IsLocal()) {
 		TIME_ZONE_INFORMATION tzInfo;
@@ -175,7 +175,7 @@ VOID	MTime::UTCToLocal()
 	}
 }
 
-VOID	MTime::UTCToTzSpecificLocal(INT tzh)
+void	MTime::UTCToTzSpecificLocal(int tzh)
 {
 
 	TIME_ZONE_INFORMATION tzInfo;
@@ -214,7 +214,7 @@ LONG	MTime::_Offset(TIME_ZONE_INFORMATION *tzi)
 	return offset;
 }
 
-VOID	MTime::UTCToTzSpecificLocal(TIME_ZONE_INFORMATION *tzi)
+void	MTime::UTCToTzSpecificLocal(TIME_ZONE_INFORMATION *tzi)
 {
 	LARGE_INTEGER liFiletime;
 
@@ -226,7 +226,7 @@ VOID	MTime::UTCToTzSpecificLocal(TIME_ZONE_INFORMATION *tzi)
 	}
 }
 
-VOID	MTime::TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi)
+void	MTime::TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi)
 {
 	LARGE_INTEGER liFiletime;
 
@@ -238,7 +238,7 @@ VOID	MTime::TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi)
 	}
 }
 
-VOID	MTime::LocalToUTC()
+void	MTime::LocalToUTC()
 {
 	TIME_ZONE_INFORMATION tzInfo;
 	
@@ -295,7 +295,7 @@ WORD	MTime::DaysInMonth(const WORD &wMonth)	const
 	return (IsLeapYear() && wMonth == 2) ? wDaysInMonth[wMonth] + 1 : wDaysInMonth[wMonth];
 }
 
-WORD	MTime::DaysInYear(BOOLEAN bIgnoreLeap)	const
+WORD	MTime::DaysInYear(BYTE bIgnoreLeap)	const
 {
 	return ((!bIgnoreLeap && IsLeapYear()) ? 366 : 365); 
 };
@@ -311,9 +311,9 @@ WORD	MTime::DayOfYear()	const
 	return daysResult;
 }
 
-WORD	MTime::AdjustYear(const INT nDiffDays)
+WORD	MTime::AdjustYear(const int nDiffDays)
 {
-	const INT nDay = DayOfYear() + nDiffDays;
+	const int nDay = DayOfYear() + nDiffDays;
 
 	if (nDay > DaysInYear())
 		return _SysTime.wYear + 1;
@@ -359,56 +359,56 @@ WORD	MTime::DateFormatLong(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
  * set class value
  *********************************************/
 
-VOID	MTime::FromStampAsUTC(const DWORD dwTimeStamp)
+void	MTime::FromStampAsUTC(const DWORD dwTimeStamp)
 {
 	LARGE_INTEGER li;
 	li.QuadPart = (dwTimeStamp + 11644473600i64) * 10000000i64;
 	Set(li, FALSE);
 }
 
-VOID	MTime::FromStampAsLocal(const DWORD dwTimeStamp)
+void	MTime::FromStampAsLocal(const DWORD dwTimeStamp)
 {
 	FromStampAsUTC(dwTimeStamp);
 	UTCToLocal();
 }
 
-VOID	MTime::Set(LARGE_INTEGER liFileTime, const BOOLEAN bIsLocal)
+void	MTime::Set(LARGE_INTEGER liFileTime, const BYTE bIsLocal)
 {
 	if (liFileTime.QuadPart < 0i64) liFileTime.QuadPart = 0;
 	FileTimeToSystemTime((LPFILETIME)&liFileTime, &_SysTime);
 	_isLocal = bIsLocal != FALSE;
 }
 
-VOID	MTime::Set(FILETIME &ftFileTime, const BOOLEAN bIsLocal)
+void	MTime::Set(FILETIME &ftFileTime, const BYTE bIsLocal)
 {
 	FileTimeToSystemTime(&ftFileTime, &_SysTime);
 	_isLocal = bIsLocal != FALSE;
 }
 
-VOID	MTime::Set(const MTime &mt)
+void	MTime::Set(const MTime &mt)
 {
 	Set(mt.SystemTime(), mt.IsLocal());
 }
 
-VOID	MTime::Set(SYSTEMTIME &st, const BOOLEAN bIsLocal)
+void	MTime::Set(SYSTEMTIME &st, const BYTE bIsLocal)
 {
 	memcpy(&_SysTime, &st, sizeof(SYSTEMTIME));
 	_isLocal = bIsLocal != FALSE;
 }
 
-VOID	MTime::GetTimeUTC()
+void	MTime::GetTimeUTC()
 {
 	_isLocal = FALSE;
 	::GetSystemTime(&_SysTime);
 }
 
-VOID	MTime::GetLocalTime()
+void	MTime::GetLocalTime()
 {
 	_isLocal = TRUE;
 	::GetLocalTime(&_SysTime);
 }
 
-VOID	MTime::GetLocalTime(HANDLE hContact)
+void	MTime::GetLocalTime(HANDLE hContact)
 {
 	TIME_ZONE_INFORMATION tzi;
 
@@ -423,7 +423,7 @@ VOID	MTime::GetLocalTime(HANDLE hContact)
  * read and write time to miranda's database
  *********************************************/
 
-INT		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DWORD dwTimeStamp;
 
@@ -446,7 +446,7 @@ INT		MTime::DBGetStamp  (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 	return 0;
 }
 
-INT		MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+int		MTime::DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (hContact == INVALID_HANDLE_VALUE ||
 			pszModule == NULL || pszModule[0] == 0 ||

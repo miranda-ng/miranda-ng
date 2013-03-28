@@ -49,7 +49,7 @@ INT_PTR	SubDefNum(HANDLE hMetaContact)
  *
  *
  **/
-HANDLE	Sub(HANDLE hMetaContact, INT idx)
+HANDLE	Sub(HANDLE hMetaContact, int idx)
 {
 	if (idx != -1) {
 		INT_PTR result = CallService(MS_MC_GETSUBCONTACT, (WPARAM) hMetaContact, (LPARAM) idx);
@@ -62,7 +62,7 @@ HANDLE	Sub(HANDLE hMetaContact, INT idx)
  *
  *
  **/
-BOOLEAN	IsSub(HANDLE hContact)
+BYTE	IsSub(HANDLE hContact)
 {
 	return	myGlobals.szMetaProto &&
 			DB::Setting::GetByte(myGlobals.szMetaProto, "Enabled", TRUE) &&
@@ -207,11 +207,11 @@ namespace Module {
  * @param	pszModule	- the module to delete the setting from (e.g. USERINFO)
  * return:	nothing
  **/
-VOID	Delete(HANDLE hContact, LPCSTR pszModule)
+void	Delete(HANDLE hContact, LPCSTR pszModule)
 {
 	CEnumList	Settings;
 	if (!Settings.EnumSettings(hContact, pszModule)) {
-		INT i;
+		int i;
 		for (i = 0; i < Settings.getCount(); i++) {
 			DB::Setting::Delete(hContact, pszModule, Settings[i]);
 		}
@@ -224,7 +224,7 @@ VOID	Delete(HANDLE hContact, LPCSTR pszModule)
  * @param	lParam		- DBCONTACTENUMSETTINGS - (LPARAM)&dbces
  * @retval	TRUE		- always true
  **/
-static	INT IsEmptyEnumProc(LPCSTR pszSetting, LPARAM lParam)
+static	int IsEmptyEnumProc(LPCSTR pszSetting, LPARAM lParam)
 {
 	return 1;
 }
@@ -236,7 +236,7 @@ static	INT IsEmptyEnumProc(LPCSTR pszSetting, LPARAM lParam)
  * @retval	TRUE		- the module is empty
  * @retval	FALSE		- the module contains settings
  **/
-BOOLEAN	IsEmpty(HANDLE hContact, LPCSTR pszModule)
+BYTE	IsEmpty(HANDLE hContact, LPCSTR pszModule)
 {
 	DBCONTACTENUMSETTINGS dbces;
 	dbces.pfnEnumProc	= IsEmptyEnumProc;
@@ -252,7 +252,7 @@ BOOLEAN	IsEmpty(HANDLE hContact, LPCSTR pszModule)
  * @retval	TRUE		- the module belongs to a metacontact protocol
  * @retval	FALSE		- the module belongs to a other protocol
  **/
-BOOLEAN	IsMeta(LPCSTR pszModule)
+BYTE	IsMeta(LPCSTR pszModule)
 {
 	if(myGlobals.szMetaProto)
 		return !mir_strcmp(pszModule, myGlobals.szMetaProto);
@@ -265,7 +265,7 @@ BOOLEAN	IsMeta(LPCSTR pszModule)
  * @retval	TRUE		- the module is empty
  * @retval	FALSE		- the module contains settings
  **/
-BOOLEAN	IsMetaAndScan	(LPCSTR pszModule)
+BYTE	IsMetaAndScan	(LPCSTR pszModule)
 {
 	return DB::Setting::GetByte(SET_META_SCAN, TRUE) && IsMeta(pszModule);
 }
@@ -465,7 +465,7 @@ WORD	GetCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszP
  * @retval	0 - success
  * @retval	1 - error
  **/
-BYTE	GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR pszValue, INT cchValue)
+BYTE	GetStatic(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR pszValue, int cchValue)
 {
 	DBVARIANT dbv;
 	DBCONTACTGETSETTING sVal;
@@ -754,7 +754,7 @@ BYTE	WriteUString(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR va
  * @retval	TRUE			- setting exists
  * @retval	FALSE			- setting does not exist
  **/
-BOOLEAN	Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
+BYTE	Exists(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (pszModule && pszSetting) {
 		DBCONTACTGETSETTING cgs;
@@ -800,7 +800,7 @@ BYTE	Delete(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting)
  *
  * @return	nothing
  **/
-VOID	DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, INT iStart)
+void	DeleteArray(HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart)
 {
 	CHAR pszSetting[MAXSETTING];
 	do {
@@ -1145,9 +1145,9 @@ INT_PTR	BlobSizeOf(HANDLE hEvent)
  * @retval	FALSE			- The two structure's events differ from each other.
  **/
 static	FORCEINLINE
-BOOLEAN	IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
+BYTE	IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
 {
-	BOOLEAN res = d1 && d2 && 
+	BYTE res = d1 && d2 && 
 				(d1->timestamp == d2->timestamp) && 
 				(d1->eventType == d2->eventType) &&
 				(d1->cbBlob == d2->cbBlob) && 
@@ -1174,9 +1174,9 @@ BOOLEAN	IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
  * @retval	FALSE	- no event with the information of @c dbei exists.
  *
  **/
-BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
+BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 {
-	BOOLEAN		result = FALSE;
+	BYTE		result = FALSE;
 	DBEVENTINFO	edbei;
 	HANDLE		sdbe,
 				edbe;
@@ -1246,7 +1246,7 @@ BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 
 } /* namespace Events */
 
-INT CEnumList::EnumProc(LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam)
+int CEnumList::EnumProc(LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam)
 {
 	if (pszName) {
 		((CEnumList*)lParam)->Insert(pszName);
@@ -1254,12 +1254,12 @@ INT CEnumList::EnumProc(LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam)
 	return 0;
 }
 
-INT CEnumList::EnumSettingsProc(LPCSTR pszName, LPARAM lParam)
+int CEnumList::EnumSettingsProc(LPCSTR pszName, LPARAM lParam)
 {
 	return EnumProc(pszName, 0, lParam);
 }
 
-INT CEnumList::CompareProc(LPCSTR p1, LPCSTR p2)
+int CEnumList::CompareProc(LPCSTR p1, LPCSTR p2)
 {
 	if (p1) {
 		if (p2) {
@@ -1276,7 +1276,7 @@ CEnumList::CEnumList()	: LIST<CHAR>(50, (FTSortFunc)CEnumList::CompareProc)
 
 CEnumList::~CEnumList() 
 { 
-	INT i, cnt;
+	int i, cnt;
 	LPSTR p;
 
 	for (i = 0, cnt = getCount(); i < cnt; i++) {

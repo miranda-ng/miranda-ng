@@ -66,7 +66,7 @@ INT_PTR GetContactLocalTime(WPARAM wParam, LPARAM lParam)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcTimezoneLoadModule()
+void SvcTimezoneLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);
 	CreateServiceFunction(MS_USERINFO_LOCALTIME, GetContactLocalTime);

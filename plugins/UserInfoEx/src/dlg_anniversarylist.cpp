@@ -47,14 +47,14 @@ class CAnnivList
 	SIZE		_sizeMin;
 	RECT		_rcWin;
 	SHORT		_sortOrder;
-	INT			_sortHeader;
-	INT			_curSel;
-	INT			_numRows;
+	int			_sortHeader;
+	int			_curSel;
+	int			_numRows;
 	BYTE		_bRemindEnable;
 	HANDLE		_mHookExit;
 	bool		_wmINIT;
 
-	typedef INT (CALLBACK* CMPPROC)(LPARAM, LPARAM	LPARAM);
+	typedef int (CALLBACK* CMPPROC)(LPARAM, LPARAM	LPARAM);
 
 	enum EColumn 
 	{
@@ -142,7 +142,7 @@ class CAnnivList
 		HDWP		_hdWnds;
 		RECT		_rcParent;
 
-		VOID _ScreenToClient(HWND hWnd, LPRECT rc) 
+		void _ScreenToClient(HWND hWnd, LPRECT rc) 
 		{
 			POINT pt = { rc->left, rc->top };
 			
@@ -153,7 +153,7 @@ class CAnnivList
 			rc->top		 = pt.y;
 		}
 
-		VOID _MoveWindow(HWND hWnd, INT anchors) 
+		void _MoveWindow(HWND hWnd, int anchors) 
 		{
 			if (!(_wndPos->flags & SWP_NOSIZE)) 
 			{
@@ -162,7 +162,7 @@ class CAnnivList
 			}
 		}
 
-		RECT _CalcPos(HWND hWnd, INT anchors) 
+		RECT _CalcPos(HWND hWnd, int anchors) 
 		{
 			RECT rcc;
 
@@ -171,8 +171,8 @@ class CAnnivList
 			if (!(_wndPos->flags & SWP_NOSIZE)) 
 			{
 				// calculate difference between new and old size
-				const INT cx = _wndPos->cx - _rcParent.right + _rcParent.left;
-				const INT cy = _wndPos->cy - _rcParent.bottom + _rcParent.top;
+				const int cx = _wndPos->cx - _rcParent.right + _rcParent.left;
+				const int cy = _wndPos->cy - _rcParent.bottom + _rcParent.top;
 
 				if (cx != 0 || cy != 0) 
 				{
@@ -217,7 +217,7 @@ class CAnnivList
 			EndDeferWindowPos(_hdWnds);
 		}
 
-		VOID MoveCtrl(WORD idCtrl, INT anchors) 
+		void MoveCtrl(WORD idCtrl, int anchors) 
 		{
 			if (!(_wndPos->flags & SWP_NOSIZE)) 
 			{
@@ -246,9 +246,9 @@ class CAnnivList
 	 *
 	 * @return	This function returns a number indicating comparison result.
 	 **/
-	static INT CALLBACK cmpProc(INT iItem1, INT iItem2, CAnnivList* pDlg)
+	static int CALLBACK cmpProc(int iItem1, int iItem2, CAnnivList* pDlg)
 	{
-		INT result;
+		int result;
 
 		if (pDlg) {
 			TCHAR szText1[MAX_PATH];
@@ -313,7 +313,7 @@ class CAnnivList
 		{
 		case WM_INITDIALOG:
 			{
-				INT i = 0;
+				int i = 0;
 				HWND hCtrl;
 				HICON hIcon;
 				RECT rc;
@@ -494,7 +494,7 @@ class CAnnivList
 					case CHECK_REMIND:
 						{
 							if (pDlg->_bRemindEnable && HIWORD(wParam) == BN_CLICKED) {
-								BOOLEAN checkState = Button_GetCheck((HWND)lParam);
+								BYTE checkState = Button_GetCheck((HWND)lParam);
 
 								EnableWindow(GetDlgItem(hDlg, EDIT_REMIND), checkState == BST_CHECKED);
 								EnableWindow(GetDlgItem(hDlg, SPIN_REMIND), checkState == BST_CHECKED);
@@ -524,7 +524,7 @@ class CAnnivList
 					case CHECK_DAYS:
 						{
 							if (HIWORD(wParam) == BN_CLICKED) {
-								BOOLEAN isChecked = Button_GetCheck((HWND)lParam);
+								BYTE isChecked = Button_GetCheck((HWND)lParam);
 								EnableWindow(GetDlgItem(hDlg, EDIT_DAYS), isChecked);
 								EnableWindow(GetDlgItem(hDlg, TXT_DAYS), isChecked);
 								pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, NULL, FALSE) : (WORD)-1;
@@ -607,7 +607,7 @@ class CAnnivList
 					}
 
 					CAnchor anchor(wndPos, pDlg->_sizeMin);
-					INT anchorPos = CAnchor::ANCHOR_LEFT | CAnchor::ANCHOR_RIGHT | CAnchor::ANCHOR_TOP;
+					int anchorPos = CAnchor::ANCHOR_LEFT | CAnchor::ANCHOR_RIGHT | CAnchor::ANCHOR_TOP;
 
 					anchor.MoveCtrl(IDC_HEADERBAR, anchorPos);
 					anchor.MoveCtrl(GROUP_STATS, anchorPos);
@@ -669,7 +669,7 @@ class CAnnivList
 	 * @retval	0 if successful
 	 * @retval	1 if failed
 	 **/
-	BOOLEAN AddColumn(INT iSubItem, LPCTSTR pszText, INT defaultWidth) 
+	BYTE AddColumn(int iSubItem, LPCTSTR pszText, int defaultWidth) 
 	{
 		LVCOLUMN lvc;
 		CHAR pszSetting[MAXSETTING];
@@ -692,7 +692,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BOOLEAN AddSubItem(INT iItem, INT iSubItem, LPTSTR pszText) 
+	BYTE AddSubItem(int iItem, int iSubItem, LPTSTR pszText) 
 	{
 		LVITEM lvi;
 		if (iSubItem > 0) 
@@ -715,7 +715,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/	
-	BOOLEAN AddItem(LPTSTR pszText, LPARAM lParam)
+	BYTE AddItem(LPTSTR pszText, LPARAM lParam)
 	{
 		LVITEM lvi;
 
@@ -742,10 +742,10 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BOOLEAN AddRow(HANDLE hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
+	BYTE AddRow(HANDLE hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, WORD wDaysBefore) 
 	{
 		TCHAR szText[MAX_PATH];
-		INT diff, iItem = -1;
+		int diff, iItem = -1;
 		CItemData *pdata;
 	
 		//
@@ -810,13 +810,13 @@ class CAnnivList
 	/**
 	 * This method clears the list and adds contacts again, according to the current filter settings.
 	 **/
-	VOID RebuildList() 
+	void RebuildList() 
 	{
 		HANDLE		hContact;
 		LPSTR		pszProto;
 		MTime		mtNow;
 		MAnnivDate	ad;
-		INT			i	= 0;
+		int			i	= 0;
 		DWORD		age	= 0;
 		WORD		wDaysBefore = DB::Setting::GetWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 		WORD		numMale				= 0;
@@ -881,11 +881,11 @@ class CAnnivList
 	/**
 	 * This method deletes all items from the listview
 	 **/	
-	VOID DeleteAllItems() 
+	void DeleteAllItems() 
 	{
 		CItemData *pid;
 		
-		for (INT i = 0; i < _numRows; i++) 
+		for (int i = 0; i < _numRows; i++) 
 		{
 			pid = ItemData(i);
 			if (pid) 
@@ -904,7 +904,7 @@ class CAnnivList
 	 *
 	 * @return	pointer to the data strucutre on success or NULL otherwise.
 	 **/
-	CItemData* ItemData(INT iItem) 
+	CItemData* ItemData(int iItem) 
 	{
 		if (_hList && iItem >= 0 && iItem < _numRows) 
 		{
@@ -924,7 +924,7 @@ class CAnnivList
 	/**
 	 * This method loads all filter settings from db
 	 **/	
-	VOID LoadFilter() 
+	void LoadFilter() 
 	{
 		_filter.wDaysBefore = DB::Setting::GetWord(SET_ANNIVLIST_FILTER_DAYS, 9);
 		_filter.bFilterIndex = DB::Setting::GetByte(SET_ANNIVLIST_FILTER_INDEX, 0);
@@ -933,7 +933,7 @@ class CAnnivList
 	/**
 	 * This method saves all filter settings to db
 	 **/	
-	VOID SaveFilter() 
+	void SaveFilter() 
 	{
 		if (_hDlg) {
 			DB::Setting::WriteWord(SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, NULL, FALSE));
@@ -985,7 +985,7 @@ public:
 			// save list state
 			if (_hList) {
 				CHAR pszSetting[MAXSETTING];
-				INT c, cc = Header_GetItemCount(ListView_GetHeader(_hList));
+				int c, cc = Header_GetItemCount(ListView_GetHeader(_hList));
 
 				for (c = 0; c < cc; c++) {
 					mir_snprintf(pszSetting, MAXSETTING, "AnnivDlg_Col%d", c);
@@ -1015,7 +1015,7 @@ public:
 	 * param:	none
 	 * return:	nothing
 	 **/
-	VOID BringToFront()
+	void BringToFront()
 	{
 		ShowWindow(_hDlg, SW_RESTORE);
 		SetForegroundWindow(_hDlg);
@@ -1072,7 +1072,7 @@ INT_PTR DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam)
  * @return	nothing
  **/
 
-VOID DlgAnniversaryListOnTopToolBarLoaded()
+void DlgAnniversaryListOnTopToolBarLoaded()
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -1089,7 +1089,7 @@ VOID DlgAnniversaryListOnTopToolBarLoaded()
  *
  * @return	nothing
  **/
-VOID DlgAnniversaryListLoadModule()
+void DlgAnniversaryListLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
 

@@ -27,13 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 class CTzCombo : public CBaseCtrl
 {
-	INT _curSel;											//selectet combo index
+	int _curSel;											//selectet combo index
 	
 	CTzCombo();
 	CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
-	INT Find(CTimeZone *pTimeZone) const;					//old UIEX method
-	INT Find(LPTIME_ZONE_INFORMATION pTimeZone) const;		//new core tz interface
+	int Find(CTimeZone *pTimeZone) const;					//old UIEX method
+	int Find(LPTIME_ZONE_INFORMATION pTimeZone) const;		//new core tz interface
 
 public:
 
@@ -44,13 +44,13 @@ public:
 
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
-	virtual VOID	Release();
-//	virtual VOID	OnReset() {};
+	virtual void	Release();
+//	virtual void	OnReset() {};
 	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnApply(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual void	OnChangedByUser(WORD wChangedMsg);
 
-	VOID			GetTime(LPTSTR szTime, WORD cchTime);
+	void			GetTime(LPTSTR szTime, WORD cchTime);
 };
 
 #endif /* _UI_CTRL_TZ_COMBO_INCLUDE_ */

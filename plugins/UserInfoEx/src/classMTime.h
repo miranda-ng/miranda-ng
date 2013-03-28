@@ -23,23 +23,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 class MTime {
 	SYSTEMTIME	_SysTime;
-	BOOLEAN		_isLocal;
+	BYTE		_isLocal;
 
 	LONG		_Offset(TIME_ZONE_INFORMATION *tzi);
 
 public:
 	// contruction
 	MTime();
-	MTime(SYSTEMTIME &st, const BOOLEAN bIsLocal);
-	MTime(FILETIME &ft, const BOOLEAN bIsLocal);
-	MTime(LARGE_INTEGER &li, const BOOLEAN bIsLocal);
+	MTime(SYSTEMTIME &st, const BYTE bIsLocal);
+	MTime(FILETIME &ft, const BYTE bIsLocal);
+	MTime(LARGE_INTEGER &li, const BYTE bIsLocal);
 	MTime(DWORD dwStamp);
 	MTime(const MTime& mtime);
 
 	// checks
-	__inline BOOLEAN IsLocal() const		{ return _isLocal; };
-	BOOLEAN	IsValid() const;
-	BOOLEAN	IsLeapYear() const;
+	__inline BYTE IsLocal() const		{ return _isLocal; };
+	BYTE	IsValid() const;
+	BYTE	IsLeapYear() const;
 
 	// compare by seconds
 	LONG	Compare(SYSTEMTIME st) const;
@@ -53,9 +53,9 @@ public:
 	DWORD			TimeStamp() const;
 	SYSTEMTIME		SystemTime() const	{ return _SysTime; };
 	WORD			DaysInMonth(const WORD &wMonth) const;
-	WORD			DaysInYear(BOOLEAN bIgnoreLeap = FALSE) const;
+	WORD			DaysInYear(BYTE bIgnoreLeap = FALSE) const;
 	WORD			DayOfYear() const;
-	WORD			AdjustYear(const INT nDiffDays);
+	WORD			AdjustYear(const int nDiffDays);
 
 	WORD			TimeFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat);
 	WORD			TimeFormat(tstring& str);
@@ -72,46 +72,46 @@ public:
 	__inline WORD	Second()	const			{ return _SysTime.wSecond;		};
 
 	// set single values
-	__inline VOID	Minute(const WORD wMinute)	{ if (wMinute <= 59) _SysTime.wMinute = wMinute; };
-	__inline VOID	Hour(const WORD wHour)		{ if (wHour <= 24) _SysTime.wHour = wHour; };
-	__inline VOID	Day(const WORD wDay)		{ if (wDay <= 31) _SysTime.wDay = wDay; };
-	__inline VOID	Month(const WORD wMonth)	{ if (wMonth <= 12) _SysTime.wMonth = wMonth; };
-	__inline VOID	Year(const WORD wYear)		{ _SysTime.wYear = wYear; };
+	__inline void	Minute(const WORD wMinute)	{ if (wMinute <= 59) _SysTime.wMinute = wMinute; };
+	__inline void	Hour(const WORD wHour)		{ if (wHour <= 24) _SysTime.wHour = wHour; };
+	__inline void	Day(const WORD wDay)		{ if (wDay <= 31) _SysTime.wDay = wDay; };
+	__inline void	Month(const WORD wMonth)	{ if (wMonth <= 12) _SysTime.wMonth = wMonth; };
+	__inline void	Year(const WORD wYear)		{ _SysTime.wYear = wYear; };
 
 	// set value to class
-	VOID	ZeroDate();
-	VOID	FromStampAsUTC(const DWORD dwTimeStamp);
-	VOID	FromStampAsLocal(const DWORD dwTimeStamp);
-	VOID	Set(FILETIME &ftFileTime, const BOOLEAN bIsLocal);
-	VOID	Set(LARGE_INTEGER liFileTime, const BOOLEAN bIsLocal);
-	VOID	Set(SYSTEMTIME &st, const BOOLEAN bIsLocal);
-	VOID	Set(const MTime &mt);
+	void	ZeroDate();
+	void	FromStampAsUTC(const DWORD dwTimeStamp);
+	void	FromStampAsLocal(const DWORD dwTimeStamp);
+	void	Set(FILETIME &ftFileTime, const BYTE bIsLocal);
+	void	Set(LARGE_INTEGER liFileTime, const BYTE bIsLocal);
+	void	Set(SYSTEMTIME &st, const BYTE bIsLocal);
+	void	Set(const MTime &mt);
 
 	// get current time
-	VOID	GetTimeUTC();
-	VOID	GetLocalTime();
-	VOID	GetLocalTime(HANDLE hContact);
+	void	GetTimeUTC();
+	void	GetLocalTime();
+	void	GetLocalTime(HANDLE hContact);
 
 	// conversions
-	VOID	UTCToLocal();
-	VOID	UTCToTzSpecificLocal(INT tzh);
-	VOID	UTCToTzSpecificLocal(TIME_ZONE_INFORMATION *tzi);
-	VOID	LocalToUTC();
-	VOID	TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi);
+	void	UTCToLocal();
+	void	UTCToTzSpecificLocal(int tzh);
+	void	UTCToTzSpecificLocal(TIME_ZONE_INFORMATION *tzi);
+	void	LocalToUTC();
+	void	TzSpecificLocalToUTC(TIME_ZONE_INFORMATION *tzi);
 
 	// read and write from and to db
-	INT		DBGetStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	INT		DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int		DBGetStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int		DBWriteStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
 
 	// operatoren
-	VOID operator = (DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
-	VOID operator = (FILETIME &ftFileTime)			{ Set(ftFileTime, FALSE); };
-	VOID operator = (LARGE_INTEGER &liFileTime)		{ Set(liFileTime, FALSE); };
-	VOID operator = (SYSTEMTIME &st)				{ Set(st, FALSE); };
-	VOID operator = (const MTime &mt)				{ Set(mt); };
+	void operator = (DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
+	void operator = (FILETIME &ftFileTime)			{ Set(ftFileTime, FALSE); };
+	void operator = (LARGE_INTEGER &liFileTime)		{ Set(liFileTime, FALSE); };
+	void operator = (SYSTEMTIME &st)				{ Set(st, FALSE); };
+	void operator = (const MTime &mt)				{ Set(mt); };
 };
 
 /**
  * prototypes
  **/
-VOID		UserTime_LoadModule(VOID);
+void		UserTime_LoadModule(void);

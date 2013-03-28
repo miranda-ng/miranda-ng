@@ -48,7 +48,7 @@ static LPSTR Get(HANDLE hContact)
 			LPCSTR	e[2] = { SET_CONTACT_HOMEPAGE, SET_CONTACT_COMPANY_HOMEPAGE };
 			LPSTR pszHomepage;
 
-			INT i;
+			int i;
 
 			for (i = 0; i < 2; i++)
 			{
@@ -98,7 +98,7 @@ static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
  * @param	wParam		- handle to the contact whose extra icon is to apply
  * @param	lParam		- not used
  **/
-static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
+static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE)
@@ -113,7 +113,7 @@ static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
  * @param	wParam		- (HANDLE)hContact
  * @param	lParam		- (DBCONTACTWRITESETTING*)pdbcws
  **/
-static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
@@ -132,7 +132,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  *
  * @return	always 0
  **/
-static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
+static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val;
 	
@@ -160,7 +160,7 @@ static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
  * @param	not used
  * @return	nothing
  **/
-VOID SvcHomepageRebuildMenu()
+void SvcHomepageRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
 
@@ -184,7 +184,7 @@ VOID SvcHomepageRebuildMenu()
  * @param	wParam		- handle to the contact whose extra icon is to apply
  * @param	lParam		- not used
  **/
-VOID SvcHomepageApplyCListIcons()
+void SvcHomepageApplyCListIcons()
 {
 	HANDLE hContact;
 
@@ -201,7 +201,7 @@ VOID SvcHomepageApplyCListIcons()
  * @param	bEnable		- determines whether icons are enabled or not
  * @param	bUpdateDB	- if true the database setting is updated, too.
  **/
-VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB) 
+void SvcHomepageEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
 		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
@@ -240,7 +240,7 @@ VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
  * @param	not used
  * @return	nothing
  **/
-VOID SvcHomepageLoadModule()
+void SvcHomepageLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
 	SvcHomepageEnableExtraIcons(
@@ -254,7 +254,7 @@ VOID SvcHomepageLoadModule()
  *
  * @return	nothing
  **/
-VOID SvcHomepageUnloadModule()
+void SvcHomepageUnloadModule()
 {	
 	// unhook event handlers
 	UnhookEvent(hChangedHook);		hChangedHook		= NULL;

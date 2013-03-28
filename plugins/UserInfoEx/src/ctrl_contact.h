@@ -58,7 +58,7 @@ typedef struct TComboExItem
 {
 	WORD		wMask;		// determines which element of this structure is valid
 	WORD		wFlags;	 // standard control flags
-	INT		 iItem;		// position of the item in the data array
+	int		 iItem;		// position of the item in the data array
 	DWORD	 dwID;		 // unique number for each setting read from db to identify it, new entries have dwID = 0
 	LPTSTR	pszCat;	 // pointer to a descriptive category string to set or retrieve for the data entry
 	WORD		ccCat;
@@ -67,11 +67,11 @@ typedef struct TComboExItem
 	LPCSTR	pszIcon;
 } CBEXITEM, *LPCBEXITEM;
 
-INT CtrlContactLoadModule();
-INT CtrlContactUnLoadModule();
-INT CtrlContactAddItemFromDB(HWND hCtrl, LPCSTR szIcon, LPTSTR szItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szSettingVal);
-INT CtrlContactAddMyItemsFromDB(HWND hCtrl, LPCSTR szIcon, WORD wForcedFlags, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
-INT CtrlContactWriteItemToDB(HWND hCtrl, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting);
-INT CtrlContactWriteMyItemsToDB(HWND hCtrl, INT iFirstItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
+int CtrlContactLoadModule();
+int CtrlContactUnLoadModule();
+int CtrlContactAddItemFromDB(HWND hCtrl, LPCSTR szIcon, LPTSTR szItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szSettingVal);
+int CtrlContactAddMyItemsFromDB(HWND hCtrl, LPCSTR szIcon, WORD wForcedFlags, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
+int CtrlContactWriteItemToDB(HWND hCtrl, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting);
+int CtrlContactWriteMyItemsToDB(HWND hCtrl, int iFirstItem, HANDLE hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
 
 #endif /* _UI_CTRL_INCLUDE_ */

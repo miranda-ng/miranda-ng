@@ -43,21 +43,21 @@ class CFileXml {
 
 	CProgress	_progress;
 
-	INT		ImportOwner(TiXmlElement* xmlContact);
-	INT		ImportContacts(TiXmlElement* xmlParent);
+	int		ImportOwner(TiXmlElement* xmlContact);
+	int		ImportContacts(TiXmlElement* xmlParent);
 	
 	DWORD	CountContacts(TiXmlElement* xmlParent);
 
 	/*
-	INT ExportOwner(FILE *xmlfile, BOOLEAN bExportEvents);
-	INT ExportContact(FILE *xmlfile, HANDLE hContact, BOOLEAN bExportEvents, LPENUMLIST pModules);
-	INT ExportSubContact(TiXmlElement *xContact, HANDLE hContact, BOOLEAN bExportEvents);
+	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);
+	int ExportContact(FILE *xmlfile, HANDLE hContact, BYTE bExportEvents, LPENUMLIST pModules);
+	int ExportSubContact(TiXmlElement *xContact, HANDLE hContact, BYTE bExportEvents);
 	*/
 
 public:
 	CFileXml();
-	INT		Import(HANDLE hContact, LPCSTR pszFileName);
-	INT		Export(lpExImParam ExImContact, LPCSTR pszFileName);
+	int		Import(HANDLE hContact, LPCSTR pszFileName);
+	int		Export(lpExImParam ExImContact, LPCSTR pszFileName);
 };
 
 #endif /* _SVC_FILEXML_INCLUDED_ */

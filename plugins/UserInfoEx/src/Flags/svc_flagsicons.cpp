@@ -285,7 +285,7 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 
 /************************* Misc ***********************************/
 
-VOID InitIcons()
+void InitIcons()
 {
 	HIMAGELIST			himl		= {0};
 	HBITMAP				hScrBM		= 0;
@@ -433,7 +433,7 @@ VOID InitIcons()
 	CreateServiceFunction(MS_FLAGS_CREATEMERGEDFLAGICON,ServiceCreateMergedFlagIcon);
 }
 
-VOID UninitIcons()
+void UninitIcons()
 {
 	for(int i=0;i<nCountriesCount;++i) {
 		/* create identifier */

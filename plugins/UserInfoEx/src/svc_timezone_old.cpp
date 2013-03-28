@@ -84,9 +84,9 @@ CTimeZone::operator TIME_ZONE_INFORMATION() const
 
 class CTzBias : public LIST<CTimeZone>
 {
-	static INT sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
+	static int sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
 	{
-		INT result = tz2->Bias - tz1->Bias;
+		int result = tz2->Bias - tz1->Bias;
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
 		// lstrcmpi takes care of umlauts e.g. Ä,Ö,....
 		return (result || !tz1->ptszDisplay || !tz2->ptszDisplay) ? result : lstrcmpi(tz1->ptszDisplay, tz2->ptszDisplay);
@@ -117,7 +117,7 @@ class CTzMgr : public LIST<CTimeZone>
 {
 	CTzBias _bias;
 
-	static INT sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
+	static int sortFunc(const CTimeZone *tz1, const CTimeZone *tz2)
 	{
 		// DO NOT USE mir_tcsicmp here as it does only return TRUE or FALSE!!!
 		return _tcsicmp(tz1->ptszName, tz2->ptszName);
@@ -126,9 +126,9 @@ class CTzMgr : public LIST<CTimeZone>
 	/**
 	 * This method clears the TzTzMgr's data.
 	 **/		
-	VOID destroy()
+	void destroy()
 	{
-		INT i;
+		int i;
 
 		// delete data
 		for (i = 0 ; i < count; i++)
@@ -167,9 +167,9 @@ public:
 	/**
 	 * This method loads all information about timezones from windows' registry.
 	 **/
-	INT Init()
+	int Init()
 	{
-		INT			result;
+		int			result;
 		HKEY		hKeyRoot,
 					hKeyTz;
 		DWORD		i,
@@ -242,9 +242,9 @@ public:
 	 * @retval	-1			: item not found
 	 * @retval 0...count	: index of the found item
 	 **/
-	INT find(CTimeZone** pTimezone, CTimeZone* pKey) const
+	int find(CTimeZone** pTimezone, CTimeZone* pKey) const
 	{ 
-		INT nItemIndex = -1;
+		int nItemIndex = -1;
 		
 		if (pKey && pKey->ptszName)
 		{
@@ -257,10 +257,10 @@ public:
 		return nItemIndex;
 	}
 
-	INT find(CTimeZone** pTimezone, LPTSTR ptszName) const
+	int find(CTimeZone** pTimezone, LPTSTR ptszName) const
 	{ 
 		CTimeZone key;
-		INT nItemIndex;
+		int nItemIndex;
 
 		key.ptszName = ptszName;
 		nItemIndex = find(pTimezone, &key);
@@ -278,9 +278,9 @@ public:
 	 * @retval	-1			: item not found
 	 * @retval	0...count	: index of the found item
 	 **/	 
-	INT find(CTimeZone** result, DWORD dwTzIndex) const
+	int find(CTimeZone** result, DWORD dwTzIndex) const
 	{ 
-		INT nItemIndex = -1;
+		int nItemIndex = -1;
 		CTimeZone *ptz = NULL;
 		
 		if (dwTzIndex != TZINDEX_UNSPECIFIED)
@@ -533,9 +533,9 @@ INT_PTR EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam)
  *
  *
  **/
-static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, INT bias)
+static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, int bias)
 {
-	INT tz = (INT) ((CHAR)DB::Setting::GetByte(pszProto, SET_CONTACT_TIMEZONE, (BYTE)-100));
+	int tz = (int) ((CHAR)DB::Setting::GetByte(pszProto, SET_CONTACT_TIMEZONE, (BYTE)-100));
 	if (tz * 30 != bias)
 	{
 		DB::Setting::WriteByte(pszProto, SET_CONTACT_TIMEZONE, (BYTE)(bias / 30));
@@ -548,10 +548,10 @@ static BOOL SvcTimezoneSyncWithWindowsProc(LPCSTR pszProto, INT bias)
  *
  *
  **/
-VOID SvcTimezoneSyncWithWindows()
+void SvcTimezoneSyncWithWindows()
 {
 	PROTOACCOUNT **pAcc;
-	INT i, nAccCount;
+	int i, nAccCount;
 	TIME_ZONE_INFORMATION tzi;
 
 	ZeroMemory(&tzi, sizeof(tzi));
@@ -623,7 +623,7 @@ INT_PTR GetContactLocalTime_old(WPARAM wParam, LPARAM lParam)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcTimezoneLoadModule_old()
+void SvcTimezoneLoadModule_old()
 {
 	TzMgr.Init();
 	CreateServiceFunction(MS_USERINFO_TIMEZONEINFO, GetContactTimeZoneInformation);

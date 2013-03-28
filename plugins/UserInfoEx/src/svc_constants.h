@@ -165,7 +165,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct CIDList
 {
-	INT		nID;
+	int		nID;
 	LPCSTR	pszText;
 	LPTSTR	ptszTranslated;
 
@@ -180,7 +180,7 @@ INT_PTR GetPastList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetAffiliationsList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetNamePrefixList(LPUINT pListSize, LPIDSTRLIST *pList);
 
-VOID SvcConstantsLoadModule(VOID);
-VOID SvcConstantsUnloadModule(VOID);
+void SvcConstantsLoadModule(void);
+void SvcConstantsUnloadModule(void);
 
 #endif /* _SVC_CONSTANTS_INCLUDED_ */

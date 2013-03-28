@@ -52,7 +52,7 @@ int hLangpack;
  *
  * @return	always 0
  **/
-static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
+static int OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	DlgAnniversaryListOnTopToolBarLoaded();
 	SvcReminderOnTopToolBarLoaded();
@@ -67,7 +67,7 @@ static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  *
  * @return	always 0
  **/
-static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	myGlobals.PopUpActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 	myGlobals.MsgAddIconExist = ServiceExists(MS_MSG_ADDICON);
@@ -103,7 +103,7 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	DlgContactInfoUnLoadModule();
 	SvcReminderUnloadModule();
@@ -157,7 +157,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {
  *
  * @return	0
  **/
-extern "C" INT __declspec(dllexport) Unload(VOID)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
@@ -167,7 +167,7 @@ extern "C" INT __declspec(dllexport) Unload(VOID)
  *
  * @return	0
  **/
-extern "C" INT __declspec(dllexport) Load(void)
+extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
@@ -195,8 +195,7 @@ extern "C" INT __declspec(dllexport) Load(void)
 		return 1;
 	}
 
-	if (IsWinVerVistaPlus())
-	{
+	if (IsWinVerVistaPlus()) {
 		HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi)
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");

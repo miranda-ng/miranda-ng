@@ -26,9 +26,9 @@ namespace DB {
 namespace MetaContact{
 	INT_PTR	SubCount      (HANDLE hMetaContact);
 	INT_PTR	SubDefNum     (HANDLE hMetaContact);
-	HANDLE	Sub           (HANDLE hMetaContact, INT idx);
+	HANDLE	Sub           (HANDLE hMetaContact, int idx);
 
-	BOOLEAN IsSub         (HANDLE hContact);
+	BYTE IsSub         (HANDLE hContact);
 	HANDLE	GetMeta       (HANDLE hContact);
 
 } /* namespace MetaContact */
@@ -53,10 +53,10 @@ namespace Contact {
 } /* namespace Contact */
 
 namespace Module {
-	VOID	Delete        (HANDLE hContact, LPCSTR pszModule);
-	BOOLEAN	IsEmpty       (HANDLE hContact, LPCSTR pszModule);
-	BOOLEAN	IsMeta        (LPCSTR pszModule);
-	BOOLEAN	IsMetaAndScan (LPCSTR pszModule);
+	void	Delete        (HANDLE hContact, LPCSTR pszModule);
+	BYTE	IsEmpty       (HANDLE hContact, LPCSTR pszModule);
+	BYTE	IsMeta        (LPCSTR pszModule);
+	BYTE	IsMetaAndScan (LPCSTR pszModule);
 
 } /* namespace Module */
 
@@ -97,7 +97,7 @@ namespace Setting {
 	static	FORCEINLINE
 	WORD	GetUStringCtrl(HANDLE hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv) { return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_UTF8); }
 
-	BYTE	GetStatic     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, INT cchValue);
+	BYTE	GetStatic     (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, LPSTR szValue, int cchValue);
 
 	BYTE	GetByte       (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting, BYTE errorValue);
 	static	FORCEINLINE
@@ -168,9 +168,9 @@ namespace Setting {
 	/**
 	 * misc operations
 	 **/
-	BOOLEAN	Exists        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	BYTE	Exists        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
 	BYTE	Delete        (HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	VOID	DeleteArray   (HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, INT iStart);
+	void	DeleteArray   (HANDLE hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart);
 	BYTE	Resident      (LPCSTR pszSetting, const bool enabled);
 
 } /* namespace Setting */
@@ -191,7 +191,7 @@ namespace Event   {
 	BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
 	DWORD	GetTime        (HANDLE hEvent);
 	INT_PTR	BlobSizeOf     (HANDLE hEvent);
-	BOOLEAN	Exists         (HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
+	BYTE	Exists         (HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
 } /* namespace Events */
 
 /**
@@ -199,10 +199,10 @@ namespace Event   {
  **/
 class CEnumList : public ::LIST<CHAR>
 {
-	static INT EnumProc        (LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam);
-	static INT EnumSettingsProc(LPCSTR pszName, LPARAM lParam);
+	static int EnumProc        (LPCSTR pszName, DWORD ofsModuleName, LPARAM lParam);
+	static int EnumSettingsProc(LPCSTR pszName, LPARAM lParam);
 
-	static INT CompareProc     (LPCSTR p1, LPCSTR p2);
+	static int CompareProc     (LPCSTR p1, LPCSTR p2);
 	
 public:
 	CEnumList();

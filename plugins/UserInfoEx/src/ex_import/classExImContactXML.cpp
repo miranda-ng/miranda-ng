@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *			item2	- item to compare
  * return:	the difference
  **/
-static INT SortProc(const LPDWORD item1, const LPDWORD item2)
+static int SortProc(const LPDWORD item1, const LPDWORD item2)
 {
 	return *item1 - *item2;
 }
@@ -60,7 +60,7 @@ CExImContactXML::CExImContactXML(CFileXml * pXmlFile)
  * param:	pszKey	- the settings key to check
  * return:	TRUE if pszKey is a valid contact information
  **/
-BOOLEAN CExImContactXML::IsContactInfo(LPCSTR pszKey)
+BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
 {
 	// This is a sorted list of all hashvalues of the contact information.
 	// This is the same as the szCiKey[] array below but sorted
@@ -81,7 +81,7 @@ BOOLEAN CExImContactXML::IsContactInfo(LPCSTR pszKey)
 		char buf[MAXSETTING];
 		// convert to hash and make bsearch as it is much faster then working with strings
 		const DWORD dwHash = hashSetting(_strlwr(mir_strncpy(buf, pszKey, SIZEOF(buf))));
-		return bsearch(&dwHash, dwCiHash, SIZEOF(dwCiHash), sizeof(dwCiHash[0]), (INT (*)(const VOID*, const VOID*))SortProc) != NULL;
+		return bsearch(&dwHash, dwCiHash, SIZEOF(dwCiHash), sizeof(dwCiHash[0]), (int (*)(const void*, const void*))SortProc) != NULL;
 	}
 	return FALSE;
 /*
@@ -117,7 +117,7 @@ BOOLEAN CExImContactXML::IsContactInfo(LPCSTR pszKey)
 		hash[i] = hashSetting(_strlwr((char*)buf));
 	}
 	qsort(hash, SIZEOF(szCiKey), sizeof(hash[0]), 
-	(INT (*)(const VOID*, const VOID*))SortProc);
+	(int (*)(const void*, const void*))SortProc);
 	
 	FILE* fil = fopen("D:\\temp\\id.txt", "wt");
 	for (i = 0; i < SIZEOF(szCiKey); i++) {
@@ -185,11 +185,11 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
  * param:	none
  * return:	ERROR_OK on success or any other on failure
  **/
-INT CExImContactXML::ExportContact(DB::CEnumList* pModules)
+int CExImContactXML::ExportContact(DB::CEnumList* pModules)
 {
 	if (_pXmlFile->_wExport & EXPORT_DATA) {
 		if (pModules) {
-			INT i;
+			int i;
 			LPSTR p;
 
 			for (i = 0; i < pModules->getCount(); i++) {
@@ -217,7 +217,7 @@ INT CExImContactXML::ExportContact(DB::CEnumList* pModules)
  * param:	none
  * return:	ERROR_OK on success or any other on failure
  **/
-INT CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules)
+int CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList* pModules)
 {
 	// create xmlNode
 	if (!CreateXmlElement()) 
@@ -243,7 +243,7 @@ INT CExImContactXML::ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumLi
  *			pModules	- list of modules to export for each contact
  * return:	ERROR_OK on success or any other on failure
  **/
-INT CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
+int CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 {
 	if (!xmlfile) 
 	{
@@ -265,10 +265,10 @@ INT CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
 	{
 		CExImContactXML vContact(_pXmlFile);
 
-		const INT cnt = DB::MetaContact::SubCount(_hContact);
-		const INT def = DB::MetaContact::SubDefNum(_hContact);
+		const int cnt = DB::MetaContact::SubCount(_hContact);
+		const int def = DB::MetaContact::SubDefNum(_hContact);
 		HANDLE hSubContact = DB::MetaContact::Sub(_hContact, def);
-		INT i;
+		int i;
 
 		// export default subcontact
 		if (hSubContact && vContact.fromDB(hSubContact))
@@ -313,14 +313,14 @@ INT CExImContactXML::Export(FILE *xmlfile, DB::CEnumList* pModules)
  * params:	pszModule	- the module which is to export
  * return:	ERROR_OK on success or any other on failure
  **/
-INT CExImContactXML::ExportModule(LPCSTR pszModule)
+int CExImContactXML::ExportModule(LPCSTR pszModule)
 {
 	DB::CEnumList	Settings;
 	if (!pszModule || !*pszModule) {
 		return ERROR_INVALID_PARAMS;
 	}
 	if (!Settings.EnumSettings(_hContact, pszModule)) {
-		INT i;
+		int i;
 		TiXmlElement *xmod;
 		xmod = new TiXmlElement(XKEY_MOD);
 		if (!xmod) {
@@ -348,7 +348,7 @@ INT CExImContactXML::ExportModule(LPCSTR pszModule)
  *			pszSetting	- the setting which is to export
  * return:	pointer to the added element
  **/
-INT CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting)
+int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	DBVARIANT		dbv;
 	TiXmlElement	*xmlEntry	= NULL;
@@ -458,7 +458,7 @@ INT CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
  *			hContact	- handle of the contact whose event chain is to export
  * return:	TRUE on success, FALSE otherwise
  **/
-BOOLEAN CExImContactXML::ExportEvents()
+BYTE CExImContactXML::ExportEvents()
 {
 	DBEVENTINFO	dbei; 
 	HANDLE		hDbEvent;
@@ -551,7 +551,7 @@ BOOLEAN CExImContactXML::ExportEvents()
  * params:	xmlContact	- the contact, who is the owner of the keys to count
  * return:	nothing
  **/
-VOID CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
+void CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 {
 	TiXmlNode *xmod, *xkey;
 
@@ -577,7 +577,7 @@ VOID CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
  * param:	xContact	- TiXmlElement representing a contact
  * return:	ERROR_OK if successful or any other error number otherwise
  **/
-INT CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
+int CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 {
 	if (xContact == NULL) return ERROR_INVALID_PARAMS;
 
@@ -692,7 +692,7 @@ INT CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
  * param:	none
  * return:	ERROR_OK on success or any other error number otherwise
  **/
-INT CExImContactXML::ImportContact()
+int CExImContactXML::ImportContact()
 {
 	TiXmlNode *xmod;
 
@@ -717,7 +717,7 @@ INT CExImContactXML::ImportContact()
 			if (ImportModule(xmod) == ERROR_ABORTED) {
 				// ask to delete new incomplete contact
 				if (_isNewContact && _hContact != NULL) {
-					INT result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
+					int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
 						LPGENT("Question"), 
 						LPGENT("Importing a new contact was aborted!"), 
 						LPGENT("You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?"));
@@ -743,9 +743,9 @@ INT CExImContactXML::ImportContact()
  * param:	none
  * return:	ERROR_OK on success or any other error number otherwise
  **/
-INT CExImContactXML::ImportNormalContact()
+int CExImContactXML::ImportNormalContact()
 {
-	INT err = ImportContact();
+	int err = ImportContact();
 
 	// remove contact from a metacontact
 	if (err == ERROR_OK && CallService(MS_MC_GETMETACONTACT, (WPARAM)_hContact, NULL)) {
@@ -763,9 +763,9 @@ INT CExImContactXML::ImportNormalContact()
  * param:	TRUE = keepMetaSubContact
  * return:	ERROR_OK on success or any other error number otherwise
  **/
-INT CExImContactXML::Import(BOOLEAN keepMetaSubContact)
+int CExImContactXML::Import(BYTE keepMetaSubContact)
 {
-	INT result;
+	int result;
 	TiXmlElement *xContact = _xmlNode->FirstChildElement("CONTACT");
 
 	// xml contact contains subcontacts?
@@ -842,9 +842,9 @@ INT CExImContactXML::Import(BOOLEAN keepMetaSubContact)
  * param:	pMetaContact	- the meta contact to add this one to
  * return:	
  **/
-INT CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
+int CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 {
-	INT err = ImportContact();
+	int err = ImportContact();
 
 	// abort here if contact was not imported correctly
 	if (err != ERROR_OK) return err;
@@ -858,7 +858,7 @@ INT CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
 			if (_isNewContact && _hContact != NULL) {
 				LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
 				LPTSTR ptszMetaNick = mir_utf8decodeT(pMetaContact->_pszNick);
-				INT result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
+				int result = MsgBox(NULL, MB_YESNO|MB_ICONWARNING, 
 					LPGENT("Question"), 
 					LPGENT("Importing a new meta subcontact failed!"), 
 					LPGENT("The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?"),
@@ -885,13 +885,13 @@ INT CExImContactXML::ImportMetaSubContact(CExImContactXML * pMetaContact)
  *			stat		- structure used to collect some statistics
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-INT CExImContactXML::ImportModule(TiXmlNode* xmlModule)
+int CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 {
 	TiXmlElement *xMod;
 	TiXmlElement *xKey;
 	LPCSTR pszModule;
-	BOOLEAN isProtoModule;
-	BOOLEAN isMetaModule;
+	BYTE isProtoModule;
+	BYTE isMetaModule;
 	
 	// check if parent is really a module
 	if (!xmlModule || mir_stricmp(xmlModule->Value(), XKEY_MOD))
@@ -945,7 +945,7 @@ INT CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 		}
 		// import event
 		else if (!mir_stricmp(xKey->Value(), XKEY_EVT)) {
-			INT error = ImportEvent(pszModule, xKey->ToElement());
+			int error = ImportEvent(pszModule, xKey->ToElement());
 			switch (error) {
 				case ERROR_OK:
 					_pXmlFile->_numEventsDone++;
@@ -969,7 +969,7 @@ INT CExImContactXML::ImportModule(TiXmlNode* xmlModule)
  *			xmlEntry	- xmlnode representing the setting to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-INT CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
+int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 {
 	DBCONTACTWRITESETTING cws = {0};
 	TiXmlText* xval;
@@ -1055,7 +1055,7 @@ INT CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
  *			xmlEvent	- xmlnode representing the event to import
  * return:	ERROR_OK on success or one other element of ImportError to tell the type of failure
  **/
-INT CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
+int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 {
 	DBEVENTINFO	dbei;
 	TiXmlText	*xmlValue;

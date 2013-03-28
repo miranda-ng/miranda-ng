@@ -88,10 +88,10 @@ CExImContactBase::~CExImContactBase()
  * param:	hContact	- handle to contact whose information to read
  * return:	TRUE if successful or FALSE otherwise
  **/
-BOOLEAN CExImContactBase::fromDB(HANDLE hContact)
+BYTE CExImContactBase::fromDB(HANDLE hContact)
 {
-	BOOLEAN		ret			= FALSE;
-	BOOLEAN		isChatRoom	= FALSE;
+	BYTE		ret			= FALSE;
+	BYTE		isChatRoom	= FALSE;
 	LPSTR		pszProto;
 	LPCSTR		uidSetting;
 	DBVARIANT	dbv;
@@ -174,7 +174,7 @@ BOOLEAN CExImContactBase::fromDB(HANDLE hContact)
  * param:	row	- the rows data
  * return:	TRUE if successful or FALSE otherwise
  **/
-BOOLEAN CExImContactBase::fromIni(LPSTR& row)
+BYTE CExImContactBase::fromIni(LPSTR& row)
 {
 	LPSTR p1, p2 = NULL;
 	LPSTR pszUIDValue, pszUIDSetting, pszProto = NULL;
@@ -307,7 +307,7 @@ HANDLE CExImContactBase::toDB()
  * param:	file	- pointer to the opened file
  * return:	nothing
  **/
-VOID CExImContactBase::toIni(FILE* file, int modCount)
+void CExImContactBase::toIni(FILE* file, int modCount)
 {
 	// getting dbeditor++ NickFromHContact(hContact)
 	static char name[512] = "";
@@ -362,7 +362,7 @@ VOID CExImContactBase::toIni(FILE* file, int modCount)
 	}
 }
 
-BOOLEAN CExImContactBase::compareUID(DBVARIANT *dbv)
+BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 {
 	DWORD hash = 0;
 	switch (dbv->type) {
@@ -409,7 +409,7 @@ BOOLEAN CExImContactBase::compareUID(DBVARIANT *dbv)
 	return FALSE;
 }
 
-LPSTR CExImContactBase::uid2String(BOOLEAN bPrependType)
+LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 {
 	CHAR szUID[MAX_PATH];
 	LPSTR ptr = szUID;
@@ -497,16 +497,16 @@ LPSTR CExImContactBase::uid2String(BOOLEAN bPrependType)
 	return mir_strdup(szUID);
 }
 
-BOOLEAN CExImContactBase::isMeta() const
+BYTE CExImContactBase::isMeta() const
 {
 	return DB::Module::IsMeta(_pszProto);
 }
 
-BOOLEAN CExImContactBase::isHandle(HANDLE hContact)
+BYTE CExImContactBase::isHandle(HANDLE hContact)
 {
 	LPCSTR pszProto;
 	DBVARIANT dbv;
-	BOOLEAN isEqual = FALSE;
+	BYTE isEqual = FALSE;
 
 	// owner contact ?
 	if (!_pszProto) return hContact == NULL;
@@ -530,7 +530,7 @@ BOOLEAN CExImContactBase::isHandle(HANDLE hContact)
 		if (dbv.type == DBVT_UTF8 && dbv.pszVal && !mir_stricmp(dbv.pszVal,_pszNick)) {
 			LPTSTR ptszNick = mir_utf8decodeT(_pszNick);
 			LPTSTR ptszProto = mir_a2t(_pszProto);
-			INT ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENT("Question"), LPGENT("contact identificaion"),
+			int ans = MsgBox(NULL, MB_ICONQUESTION|MB_YESNO, LPGENT("Question"), LPGENT("contact identificaion"),
 				LPGENT("The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?"),
 				ptszNick, ptszProto);
 			MIR_FREE(ptszNick);

@@ -216,9 +216,6 @@ static HRESULT SubclassClistInterface()
 
 static HRESULT CreateHookableEvents()
 {
-//	g_CluiData.hEventExtraImageListRebuilding  = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
-//	g_CluiData.hEventExtraImageApplying        = CreateHookableEvent(ME_CLIST_EXTRA_IMAGE_APPLY);
-// g_CluiData.hEventExtraClick                = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);
 	g_CluiData.hEventBkgrChanged               = CreateHookableEvent(ME_BACKGROUNDCONFIG_CHANGED);
 	g_CluiData.hEventPreBuildTrayMenu          = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
 	g_CluiData.hEventPreBuildFrameMenu         = CreateHookableEvent(ME_CLIST_PREBUILDFRAMEMENU);

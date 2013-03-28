@@ -21,11 +21,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, INT index, LPARAM lParam)
+static INT_PTR EnumNamesProc(CTimeZone *pTimeZone, int index, LPARAM lParam)
 {
 	if (pTimeZone && pTimeZone->ptszDisplay)
 	{
-		INT added = ComboBox_AddString((HWND)lParam, pTimeZone->ptszDisplay);
+		int added = ComboBox_AddString((HWND)lParam, pTimeZone->ptszDisplay);
 		if (SUCCEEDED(added)) 
 		{
 			if (FAILED(ComboBox_SetItemData((HWND)lParam, added, pTimeZone))) 
@@ -102,10 +102,10 @@ CTzCombo::CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
  * @retval	CB_ERR			- item not found
  * @retval	0...n			- index of the combobox item
  **/
-INT CTzCombo::Find(CTimeZone *pTimeZone) const
+int CTzCombo::Find(CTimeZone *pTimeZone) const
 {
-	INT nItemIndex;
-	INT nItemCount = ComboBox_GetCount(_hwnd);
+	int nItemIndex;
+	int nItemCount = ComboBox_GetCount(_hwnd);
 
 	for (nItemIndex = 0; nItemIndex < nItemCount; nItemIndex++)
 	{
@@ -124,10 +124,10 @@ INT CTzCombo::Find(CTimeZone *pTimeZone) const
  * @retval	CB_ERR			- item not found
  * @retval	0...n			- index of the combobox item
  **/
-INT CTzCombo::Find(LPTIME_ZONE_INFORMATION pTimeZone) const
+int CTzCombo::Find(LPTIME_ZONE_INFORMATION pTimeZone) const
 {
-	INT nItemIndex;
-	INT nItemCount = ComboBox_GetCount(_hwnd);
+	int nItemIndex;
+	int nItemCount = ComboBox_GetCount(_hwnd);
 
 	for (nItemIndex = 0; nItemIndex < nItemCount; nItemIndex++) {
 		if (pTimeZone == tmi.getTzi((HANDLE)ComboBox_GetItemData(_hwnd, nItemIndex)))
@@ -143,7 +143,7 @@ INT CTzCombo::Find(LPTIME_ZONE_INFORMATION pTimeZone) const
  *
  * @return	nothing
  **/
-VOID CTzCombo::Release()
+void CTzCombo::Release()
 {
 	delete this;
 }
@@ -198,7 +198,7 @@ BOOL CTzCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{
@@ -247,10 +247,10 @@ VOID CTzCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CTzCombo::OnChangedByUser(WORD wChangedMsg)
+void CTzCombo::OnChangedByUser(WORD wChangedMsg)
 {
 	if (wChangedMsg == CBN_SELCHANGE) {
-		INT c = ComboBox_GetCurSel(_hwnd);
+		int c = ComboBox_GetCurSel(_hwnd);
 
 		if (_curSel != c) {
 			if (!_Flags.B.hasChanged) {
@@ -273,7 +273,7 @@ VOID CTzCombo::OnChangedByUser(WORD wChangedMsg)
  *
  * @return	nothing
  **/
-VOID CTzCombo::GetTime(LPTSTR szTime, WORD cchTime)
+void CTzCombo::GetTime(LPTSTR szTime, WORD cchTime)
 {
 	//use new core tz interface
 	if(tmi.printDateTime) {

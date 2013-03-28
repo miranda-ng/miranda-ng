@@ -58,7 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * internal variables
  ***********************************************************************************************************/
 
-static BOOLEAN bInitIcons			= INIT_ICONS_NONE;
+static BYTE bInitIcons			= INIT_ICONS_NONE;
 static HANDLE ghWindowList			= NULL;
 static HANDLE ghDetailsInitEvent	= NULL;
 
@@ -79,7 +79,7 @@ _ignore(10, (LIST<TCHAR>::FTSortFunc)_tcscmp)
 
 CPsHdr::~CPsHdr() 
 {
-	INT i;
+	int i;
 
 	// delete data
 	for (i = 0 ; i < _ignore.getCount(); i++)
@@ -90,7 +90,7 @@ CPsHdr::~CPsHdr()
 	_ignore.destroy();
 }
 
-VOID CPsHdr::Free_pPages() 
+void CPsHdr::Free_pPages() 
 {
 	for ( int i = 0 ; i < _numPages; i++)
 		if (_pPages[i]) delete _pPages[i];
@@ -112,8 +112,8 @@ public:
 
 private:
 	PROTOACCOUNT **_pPd;
-	INT			_numProto;
-	BOOLEAN	_bExitAfterUploading;
+	int			_numProto;
+	BYTE	_bExitAfterUploading;
 	HANDLE	_hUploading;
 	LPPS		_pPs;
 	
@@ -125,7 +125,7 @@ private:
 	 * @return	0 on success
 	 * @return	1 otherwise
 	 **/
-	INT Upload()
+	int Upload()
 	{
 		CPsTreeItem *pti;
 
@@ -169,7 +169,7 @@ public:
 	 * @param	bExitAfter	- whether the dialog is to close after upload or not
 	 * @return	nothing
 	 **/
-	CPsUpload(LPPS pPs, BOOLEAN bExitAfter)
+	CPsUpload(LPPS pPs, BYTE bExitAfter)
 	{
 		_pPs = pPs;
 		_pPd = NULL;
@@ -178,7 +178,7 @@ public:
 		_bExitAfterUploading = bExitAfter;
 	}
 
-	INT UploadFirst() {
+	int UploadFirst() {
 		// create a list of all protocols which support uploading contact information
 		if ( ProtoEnumAccounts(&_numProto, &_pPd))
 			return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
@@ -214,7 +214,7 @@ public:
 	 * @param	none
 	 * @return	nothing
 	 **/
-	INT	UploadNext()
+	int	UploadNext()
 	{
 		CHAR str[MAXMODULELABELLENGTH];
 		while (_pPd && *_pPd && _numProto-- > 0) {
@@ -240,7 +240,7 @@ public:
  *
  * @return	-1 or 0 or 1
  **/
-static INT SortProc(CPsTreeItem** item1, CPsTreeItem** item2)
+static int SortProc(CPsTreeItem** item1, CPsTreeItem** item2)
 {
 	if (*item1 && *item2) {
 		if ((*item2)->Pos() > (*item1)->Pos()) return -1;
@@ -273,7 +273,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 	else {
 		CPsHdr psh;
 		POINT metrics;
-		BOOLEAN bScanMetaSubContacts = FALSE;
+		BYTE bScanMetaSubContacts = FALSE;
 		HICON hDefIcon;
 
 		// init the treeview options
@@ -325,11 +325,11 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		// metacontacts sub pages
 		if (bScanMetaSubContacts)
 		{
-			INT numSubs = DB::MetaContact::SubCount((HANDLE)wParam);
+			int numSubs = DB::MetaContact::SubCount((HANDLE)wParam);
 
 			psh._dwFlags &= ~PSF_PROTOPAGESONLY_INIT;
 			psh._dwFlags |= PSF_PROTOPAGESONLY;
-			for (INT i = 0; i < numSubs; i++) 
+			for (int i = 0; i < numSubs; i++) 
 			{
 				psh._hContact = DB::MetaContact::Sub((HANDLE)wParam, i);
 				psh._nSubContact = i;
@@ -346,7 +346,7 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 		// sort the pages by the position read from database
 		if (!(psh._dwFlags & PSTVF_SORTTREE)) {
 			 qsort(psh._pPages, psh._numPages, sizeof(CPsTreeItem*), 
-				(INT (*)(const VOID*, const VOID*))SortProc);
+				(int (*)(const void*, const void*))SortProc);
 		}
 		// create the dialog itself
 		hWnd = CreateDialogParam(ghInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProc, (LPARAM)&psh);
@@ -385,7 +385,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	odp->flags = odp->flags > (ODPF_UNICODE|ODPF_BOLDGROUPS|ODPF_ICON|PSPF_PROTOPREPENDED) ? 0 : odp->flags;
 
 	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY|PSF_PROTOPAGESONLY_INIT)) {
-		BOOLEAN bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
+		BYTE bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
 		TCHAR* ptszTitle = bIsUnicode ? mir_tstrdup(odp->ptszTitle) : mir_a2t(odp->pszTitle);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
@@ -427,7 +427,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
  *
  * @return	0
  **/
-static INT OnDeleteContact(WPARAM wParam, LPARAM lParam)
+static int OnDeleteContact(WPARAM wParam, LPARAM lParam)
 {
 	 HWND hWnd = WindowList_Find(ghWindowList, (HANDLE)wParam);
 	 if (hWnd != NULL)
@@ -441,7 +441,7 @@ static INT OnDeleteContact(WPARAM wParam, LPARAM lParam)
  *
  * @return	0
  **/
-static INT OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	 WindowList_BroadcastAsync(ghWindowList, WM_DESTROY, 0, 0);
 	 return 0;
@@ -456,7 +456,7 @@ static INT OnShutdown(WPARAM wParam, LPARAM lParam)
  *
  * @return	0
  **/
-static INT AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = NULL)
+static int AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProto = NULL)
 {
 	TCHAR szTitle[MAX_PATH];
 	const BYTE ofs = (pszProto) ? mir_sntprintf(szTitle, SIZEOF(szTitle), _T("%S\\"), pszProto) : 0;
@@ -529,14 +529,14 @@ static INT AddProtocolPages(OPTIONSDIALOGPAGE& odp, WPARAM wParam, LPSTR pszProt
  *
  * @return	0
  **/
-static INT InitDetails(WPARAM wParam, LPARAM lParam)
+static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr* pPsh = (CPsHdr*)wParam;
 
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 
 		OPTIONSDIALOGPAGE odp;
-		BOOLEAN bChangeDetailsEnabled = myGlobals.CanChangeDetails && DB::Setting::GetByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && DB::Setting::GetByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		
 		// important to avoid craches!!
 		ZeroMemory(&odp, sizeof(odp));
@@ -576,13 +576,13 @@ static INT InitDetails(WPARAM wParam, LPARAM lParam)
  *
  * @return	nothing
  **/
-VOID DlgContactInfoInitTreeIcons()
+void DlgContactInfoInitTreeIcons()
 {
 	// make sure this is run only once
 	if (!(bInitIcons & INIT_ICONS_ALL)) {
 		CPsHdr	psh;
 		POINT	metrics	= {0};
-		INT		i		= 0;
+		int		i		= 0;
 
 		psh._dwFlags = PSTVF_INITICONS;
 
@@ -602,7 +602,7 @@ VOID DlgContactInfoInitTreeIcons()
 		if (!(bInitIcons & INIT_ICONS_CONTACT)) {
 			LPCSTR pszContactProto = NULL;
 			PROTOACCOUNT **pd;
-			INT ProtoCount = 0;
+			int ProtoCount = 0;
 
 			psh._dwFlags |= PSF_PROTOPAGESONLY_INIT;
 			
@@ -650,7 +650,7 @@ VOID DlgContactInfoInitTreeIcons()
  *
  * @return	nothing
  **/
-VOID DlgContactInfoUnLoadModule()
+void DlgContactInfoUnLoadModule()
 {
 	DestroyHookableEvent(ghDetailsInitEvent);
 }
@@ -661,7 +661,7 @@ VOID DlgContactInfoUnLoadModule()
  *
  * @return	nothing
  **/
-VOID DlgContactInfoLoadModule()
+void DlgContactInfoLoadModule()
 {
 	ghDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
@@ -676,7 +676,7 @@ VOID DlgContactInfoLoadModule()
 	// check whether changing my details via UserInfoEx is basically possible
 	{
 		PROTOACCOUNT **pAcc;
-		INT i, nAccCount;
+		int i, nAccCount;
 		
 		myGlobals.CanChangeDetails = FALSE;
 		if (MIRSUCCEEDED(ProtoEnumAccounts(&nAccCount, &pAcc)))
@@ -695,10 +695,10 @@ VOID DlgContactInfoLoadModule()
 
 static void ResetUpdateInfo(LPPS pPs)
 {
-	INT i;
+	int i;
 
 	// free the array of accomblished acks
-	for (i = 0; i < (INT)pPs->nSubContacts; i++)
+	for (i = 0; i < (int)pPs->nSubContacts; i++)
 		MIR_FREE(pPs->infosUpdated[i].acks);
 	MIR_FREE(pPs->infosUpdated);
 	pPs->nSubContacts = 0;
@@ -823,7 +823,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				HWND hCtrl;
 				RECT rcTree;
 				POINT pt = { 0, 0 };
-				INT addWidth = 0;
+				int addWidth = 0;
 
 				// at least add width of scrollbar
 				needWidth += 8 + GetSystemMetrics(SM_CXVSCROLL);
@@ -912,7 +912,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 
 			{
-				INT nPage = pPs->pTree->CurrentItemIndex();
+				int nPage = pPs->pTree->CurrentItemIndex();
 				if (!pPs->pTree->IsIndexValid(nPage))
 					nPage = 0;
 				TreeView_Select(pPs->pTree->Window(), NULL, TVGN_CARET);
@@ -967,7 +967,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case TXT_UPDATING:
 			{
 				COLORREF textCol, bgCol, newCol;
-				INT ratio;
+				int ratio;
 
 				textCol = GetSysColor(COLOR_BTNTEXT);
 				bgCol = GetSysColor(COLOR_3DFACE);
@@ -1046,8 +1046,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case PSM_GETCONTACT:
 		if (lParam) 
 		{
-			CPsTreeItem *pti = ((INT)wParam != -1) 
-				? pPs->pTree->TreeItem((INT)wParam)
+			CPsTreeItem *pti = ((int)wParam != -1) 
+				? pPs->pTree->TreeItem((int)wParam)
 				: pPs->pTree->CurrentItem();
 
 			// prefer to return the contact accociated with the current page
@@ -1078,8 +1078,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	 **/
 	case PSM_GETBASEPROTO:
 		if (lParam) {
-			CPsTreeItem *pti = ((INT)wParam != -1) 
-				? pPs->pTree->TreeItem((INT)wParam)
+			CPsTreeItem *pti = ((int)wParam != -1) 
+				? pPs->pTree->TreeItem((int)wParam)
 				: pPs->pTree->CurrentItem();
 			
 			if (pti && pti->Proto()) {
@@ -1110,7 +1110,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	 **/
 	case PSM_ISLOCKED:
 	{
-		BOOLEAN bLocked = (pPs->dwFlags & PSF_LOCKED) == PSF_LOCKED;
+		BYTE bLocked = (pPs->dwFlags & PSF_LOCKED) == PSF_LOCKED;
 
 		SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bLocked);
 		return bLocked;
@@ -1126,7 +1126,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	 **/
 	case PSM_FORCECHANGED:
 		if (!(pPs->dwFlags & PSF_LOCKED)) { 
-			BOOLEAN bChanged;
+			BYTE bChanged;
 
 			pPs->dwFlags |= PSF_LOCKED;
 			if (bChanged = pPs->pTree->OnInfoChanged())
@@ -1180,10 +1180,10 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case PSM_ISAEROMODE:
 		{
-			BOOLEAN bIsAeroMode = IsAeroMode();
+			BYTE bIsAeroMode = IsAeroMode();
 			if (lParam)
 			{
-				*(BOOLEAN*)lParam = bIsAeroMode;
+				*(BYTE*)lParam = bIsAeroMode;
 			}
 			return (INT_PTR)bIsAeroMode;
 		}
@@ -1247,7 +1247,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{ ICO_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 		};
 		
-		const INT numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 1;
+		const int numIconsToSet = DB::Setting::GetByte(SET_ICONS_BUTTONS, 1) ? SIZEOF(idIcon) : 1;
 		
 		IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 		
@@ -1299,7 +1299,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case HM_PROTOACK:
 	{
 		ACKDATA *ack = (ACKDATA*)lParam;
-		INT i, iSubContact;
+		int i, iSubContact;
 		CPsTreeItem *pti;
 
 		if (!ack->hContact && ack->type == ACKTYPE_STATUS)
@@ -1403,8 +1403,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 					// init the acks structure for a sub contact
 					if (pPs->infosUpdated[iSubContact].acks == NULL) {
-						pPs->infosUpdated[iSubContact].acks	= (LPINT)mir_calloc(sizeof(INT) * (INT)(INT_PTR)ack->hProcess);
-						pPs->infosUpdated[iSubContact].count = (INT)(INT_PTR)ack->hProcess;
+						pPs->infosUpdated[iSubContact].acks	= (LPINT)mir_calloc(sizeof(int) * (int)(INT_PTR)ack->hProcess);
+						pPs->infosUpdated[iSubContact].count = (int)(INT_PTR)ack->hProcess;
 					}
 
 					if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)
@@ -1591,7 +1591,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			TVHITTESTINFO hti;
 			RECT rc;
 			BYTE height;
-			BOOLEAN bAsChild = FALSE;
+			BYTE bAsChild = FALSE;
 
 			TreeView_SetInsertMark(pPs->pTree->Window(), NULL, 0);
 			ReleaseCapture();
@@ -1701,7 +1701,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						{
 							HANDLE hSubContact;
 							CHAR szService[MAXSETTING];
-							INT	i, numSubs;
+							int	i, numSubs;
 							
 							numSubs = DB::MetaContact::SubCount(pPs->hContact);
 							
@@ -1727,7 +1727,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 							if (pPs->nSubContacts != 0)
 							{
-								BOOLEAN bDo = FALSE;
+								BYTE bDo = FALSE;
 
 								// call the services
 								for (i = 0; i < pPs->nSubContacts; i++) 
@@ -1778,7 +1778,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_DESTROY:
 		{
-			INT i = 0;
+			int i = 0;
 
 			// hide before destroy
 			ShowWindow(hDlg, SW_HIDE);

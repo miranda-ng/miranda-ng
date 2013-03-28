@@ -140,7 +140,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
 	};
 	TCHAR absolute[MAX_PATH];
 
-	for (INT i = 0; i < SIZEOF(path); i++) {
+	for (int i = 0; i < SIZEOF(path); i++) {
 		PathToAbsoluteT(path[i], absolute);
 		if ( PathFileExists(absolute))
 			return path[i];
@@ -158,7 +158,7 @@ LPTSTR IcoLib_GetDefaultIconFileName()
  *
  * @return	nothing
  **/
-static VOID IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
+static void IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
 {
 	if (DB::Setting::GetByte(SET_ICONS_CHECKFILEVERSION, TRUE))
 	{
@@ -220,7 +220,7 @@ HICON IcoLib_GetIconByHandle(HANDLE hIconItem)
  *
  * @return	nothing
  **/
-VOID IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
+void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
 {
 	HICON	hIcon;
 	BYTE	i;
@@ -270,7 +270,7 @@ VOID IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
  *
  * @return	This function returns the HANDLE of the icon item.
  **/
-static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, INT idIcon, INT Size, HICON hDefIcon)
+static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, int idIcon, int Size, HICON hDefIcon)
 {
 	HANDLE hIconHandle = NULL;
 
@@ -331,7 +331,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
  *
  * @return	This function returns the HANDLE of the icon item.
  **/
-HANDLE IcoLib_RegisterIconHandle(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size)
+HANDLE IcoLib_RegisterIconHandle(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, int idIcon, int Size)
 {
 	return IcoLib_RegisterIconHandleEx(szIconID, szDescription, szSection, IcoLib_GetDefaultIconFileName(), idIcon, Size, ghDefIcon);
 }
@@ -351,7 +351,7 @@ HANDLE IcoLib_RegisterIconHandle(LPSTR szIconID, LPSTR szDescription, LPSTR szSe
  *
  * @return	 This function returns the HICON of the icon itself.
  **/
-HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size)
+HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, int idIcon, int Size)
 {
 	return IcoLib_GetIconByHandle(IcoLib_RegisterIconHandle(szIconID, szDescription, szSection, idIcon, Size));
 }
@@ -363,7 +363,7 @@ HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, 
  *
  * @return		nothing
  **/
-VOID IcoLib_LoadModule()
+void IcoLib_LoadModule()
 {
 	LPTSTR szDefaultFile = IcoLib_GetDefaultIconFileName();
 	IcoLib_CheckIconPackVersion(szDefaultFile);

@@ -36,11 +36,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * return	TRUE or FALSE
  **/
-BOOLEAN IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer) 
+BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer) 
 {
 	 BYTE c;
 	 PBYTE s = (PBYTE)pBuffer;
-	 BOOLEAN bIsUTF = 0;
+	 BYTE bIsUTF = 0;
 
 	 if (s == NULL) return 1;
 	 while ((c = *s++) != 0) {
@@ -93,7 +93,7 @@ CLineBuffer::~CLineBuffer()
  *
  * return:	TRUE if reallocation successful or memoryblock is large enough, FALSE otherwise
  **/
-BOOLEAN CLineBuffer::_resizeBuf(const size_t cbReq)
+BYTE CLineBuffer::_resizeBuf(const size_t cbReq)
 {
 	if (cbReq > _cbVal - _cbUsed) {
 		if (!(_pVal = (PBYTE)mir_realloc(_pVal, BLOCKSIZE + _cbVal + 1))) {
@@ -318,7 +318,7 @@ LPCSTR CLineBuffer::GetBuffer()
  *
  * return:	nothing
  **/
-VOID CLineBuffer::TruncToLength(size_t cbLength)
+void CLineBuffer::TruncToLength(size_t cbLength)
 {
 	if (cbLength < _cbUsed) {
 		_cbUsed = cbLength;
@@ -333,7 +333,7 @@ VOID CLineBuffer::TruncToLength(size_t cbLength)
  *
  * return:	nothing
  **/
-VOID CLineBuffer::Truncate(size_t count)
+void CLineBuffer::Truncate(size_t count)
 {
 	if (_cbUsed <= count) {
 		_cbUsed = 0;
@@ -352,7 +352,7 @@ VOID CLineBuffer::Truncate(size_t count)
  *
  * return:	nothing
  **/
-VOID CLineBuffer::TruncateSMS()
+void CLineBuffer::TruncateSMS()
 {
 	if (!strncmp((LPSTR)(_pVal + _cbUsed - 4), " SMS", 4)) {
 		_cbUsed -= 4;
@@ -367,7 +367,7 @@ VOID CLineBuffer::TruncateSMS()
  *
  * return:	nothing
  **/
-VOID CLineBuffer::fput(FILE *outfile)
+void CLineBuffer::fput(FILE *outfile)
 {
 	if (_pVal) {
 		_pVal[_cbUsed] = 0;
@@ -384,7 +384,7 @@ VOID CLineBuffer::fput(FILE *outfile)
  *
  * return:	nothing
  **/
-VOID CLineBuffer::fputEncoded(FILE *outFile)
+void CLineBuffer::fputEncoded(FILE *outFile)
 {
 	PBYTE pVal = _pVal;
 
@@ -437,7 +437,7 @@ VOID CLineBuffer::fputEncoded(FILE *outFile)
  *
  * return:	nothing
  **/
-INT CLineBuffer::fgetEncoded(FILE *inFile)
+int CLineBuffer::fgetEncoded(FILE *inFile)
 {
 	CHAR c;
 	CHAR hex[3];
@@ -557,10 +557,10 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer * pBuf)
  *
  * return:	0 if successful, 1 otherwise
  **/
-INT CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
-	INT iRet = 1;
+	int iRet = 1;
 	_pTok = _pVal;
 
 	if (_pTok && *_pTok) {
@@ -594,10 +594,10 @@ INT CLineBuffer::DBWriteTokenFirst(HANDLE hContact, const CHAR* pszModule, const
  *
  * return:	0 if successful, 1 otherwise
  **/
-INT CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
+int CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting, const CHAR delim)
 {
 	PBYTE here;
-	INT iRet = 1;
+	int iRet = 1;
 
 	if (_pTok && *_pTok) {
 		for (here = _pTok;; here++) {
@@ -628,7 +628,7 @@ INT CLineBuffer::DBWriteTokenNext(HANDLE hContact, const CHAR* pszModule, const 
  *
  * return:	0 if successful, 1 otherwise
  **/
-INT CLineBuffer::DBWriteSettingString(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting)
+int CLineBuffer::DBWriteSettingString(HANDLE hContact, const CHAR* pszModule, const CHAR* pszSetting)
 {
 	if (_pVal && _cbUsed > 0)
 		return DB::Setting::WriteAString(hContact, pszModule, pszSetting, (LPSTR)_pVal);
@@ -667,7 +667,7 @@ CVCardFileVCF::CVCardFileVCF()
  *
  * return	number of the added bytes
  **/
-size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, INT iID, size_t *cbRew)
+size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew)
 {
 	UINT i;
 	WORD wAdd = 0;
@@ -691,7 +691,7 @@ size_t CVCardFileVCF::packList(LPIDSTRLIST pList, UINT nList, INT iID, size_t *c
  *
  * return	value type
  **/
-BOOLEAN CVCardFileVCF::GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv)
+BYTE CVCardFileVCF::GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv)
 {
 	DBCONTACTGETSETTING cgs;
 
@@ -762,7 +762,7 @@ size_t CVCardFileVCF::packDB(const CHAR *pszModule, const CHAR *pszSetting, size
  *
  * return	number of bytes, added to the linebuffer
  **/
-size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BOOLEAN bSigned, size_t *cbRew)
+size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned, size_t *cbRew)
 {
 	DBVARIANT dbv;
 	UINT nList;
@@ -772,13 +772,13 @@ size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, 
 	GetList((WPARAM)&nList, (LPARAM)&pList);
 	switch (GetSetting(pszModule, pszSetting, &dbv)) {
 		case DBVT_BYTE:
-			wAdd = packList(pList, nList, (INT)(bSigned ? dbv.cVal : dbv.bVal), cbRew);
+			wAdd = packList(pList, nList, (int)(bSigned ? dbv.cVal : dbv.bVal), cbRew);
 			break;
 		case DBVT_WORD:
-			wAdd = packList(pList, nList, (INT)(bSigned ? dbv.sVal : dbv.wVal), cbRew);
+			wAdd = packList(pList, nList, (int)(bSigned ? dbv.sVal : dbv.wVal), cbRew);
 			break;
 		case DBVT_DWORD:
-			wAdd = packList(pList, nList, (INT)(bSigned ? dbv.lVal : dbv.dVal), cbRew);
+			wAdd = packList(pList, nList, (int)(bSigned ? dbv.lVal : dbv.dVal), cbRew);
 			break;
 		case DBVT_UTF8:
 		case DBVT_ASCIIZ:
@@ -805,7 +805,7 @@ size_t CVCardFileVCF::packDBList(const CHAR *pszModule, const CHAR *pszSetting, 
  *
  * return	number of bytes, added to the linebuffer
  **/
-VOID CVCardFileVCF::writeLine(const CHAR *szSet, size_t *cbRew)
+void CVCardFileVCF::writeLine(const CHAR *szSet, size_t *cbRew)
 {
 	if (cbRew) {
 		_clVal.Truncate(*cbRew);
@@ -834,7 +834,7 @@ VOID CVCardFileVCF::writeLine(const CHAR *szSet, size_t *cbRew)
  *
  * return	number of bytes, added to the linebuffer
  **/
-VOID CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
+void CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
 {
 	if (cbRew) {
 		_clVal.Truncate(*cbRew);
@@ -860,7 +860,7 @@ VOID CVCardFileVCF::writeLineEncoded(const CHAR *szSet, size_t *cbRew)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
-BOOLEAN CVCardFileVCF::Open(HANDLE hContact,	LPCSTR pszFileName, LPCSTR pszMode)
+BYTE CVCardFileVCF::Open(HANDLE hContact,	LPCSTR pszFileName, LPCSTR pszMode)
 {
 	if (!(_pFile = fopen(pszFileName, pszMode)))
 		return FALSE;
@@ -879,7 +879,7 @@ BOOLEAN CVCardFileVCF::Open(HANDLE hContact,	LPCSTR pszFileName, LPCSTR pszMode)
  *			pszMode		- the mode the file should be opened with
  * return	TRUE or FALSE
  **/
-VOID CVCardFileVCF::Close(VOID)
+void CVCardFileVCF::Close(void)
 {
 	if (_pFile) 
 		fclose(_pFile);
@@ -894,7 +894,7 @@ VOID CVCardFileVCF::Close(VOID)
  * param:	none
  * return	TRUE or FALSE
  **/
-BOOLEAN CVCardFileVCF::Export(BOOLEAN bExportUtf)
+BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 {
 	size_t cbRew = 0;
 
@@ -1122,7 +1122,7 @@ BOOLEAN CVCardFileVCF::Export(BOOLEAN bExportUtf)
  *
  * return:	number of characters read from the file or EOF
  **/
-INT CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
+int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
 {
 	LPSTR here;
 	
@@ -1152,11 +1152,11 @@ INT CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
  *
  * return:	number of characters read from the file or EOF
  **/
-BOOLEAN CVCardFileVCF::Import()
+BYTE CVCardFileVCF::Import()
 {
 	CHAR szEnt[MAX_PATH];
 	LPSTR pszParam;
-	INT cbLine;
+	int cbLine;
 	BYTE numEmails = 0;
 
 	while (EOF != (cbLine = readLine(szEnt, MAX_PATH))) {

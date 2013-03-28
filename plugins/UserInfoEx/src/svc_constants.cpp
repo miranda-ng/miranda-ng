@@ -266,7 +266,7 @@ static int __cdecl ListSortProc(const LPIDSTRLIST p1, const LPIDSTRLIST p2)
  *
  * @return	nothing
  **/
-static VOID SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, SortedList *pSorted*/)
+static void SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, SortedList *pSorted*/)
 {
 	if (!pList[0].ptszTranslated)
 	{
@@ -279,7 +279,7 @@ static VOID SvcConstantsTranslateList(LPIDSTRLIST pList, UINT nListCount/*, Sort
 	
 		// Sort list according translated text and ignore first item.
 		qsort(pList+1, nListCount-1, sizeof(pList[0]), 
-			(INT (*)(const VOID*, const VOID*))ListSortProc);
+			(int (*)(const void*, const void*))ListSortProc);
 	}
 }
 
@@ -314,7 +314,7 @@ INT_PTR GetCountryList(LPUINT pnListSize, LPIDSTRLIST *pList)
 				}
 				// Sort list according translated text and ignore first item.
 				qsort(MyCountries+1, MyCountriesCount-1, sizeof(MyCountries[0]), 
-					(INT (*)(const VOID*, const VOID*))ListSortProc);
+					(int (*)(const void*, const void*))ListSortProc);
 			}
 			else
 			{
@@ -387,7 +387,7 @@ INT_PTR GetNamePrefixList(LPUINT pnListSize, LPIDSTRLIST *pList)
 	return MIR_OK;
 }
 
-VOID SvcConstantsLoadModule(VOID)
+void SvcConstantsLoadModule(void)
 {
 	UINT nListSize;
 	LPIDSTRLIST pList;
@@ -403,7 +403,7 @@ VOID SvcConstantsLoadModule(VOID)
 	GetNamePrefixList(&nListSize, &pList);
 }
 
-static VOID FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList)
+static void FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList)
 {
 	if (pList) 
 	{
@@ -414,7 +414,7 @@ static VOID FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList
 	}
 }
 
-VOID SvcConstantsUnloadModule(VOID)
+void SvcConstantsUnloadModule(void)
 {
 	SvcConstantsClearList(SIZEOF(TmplMarital), TmplMarital);
 	SvcConstantsClearList(SIZEOF(TmplLanguages), TmplLanguages);

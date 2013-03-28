@@ -30,5 +30,5 @@ struct MenuOptionsList {
 	const int	idEXIMPORT;
 };
 
-VOID OptionsLoadModule();
+void OptionsLoadModule();
 #endif /* _UINFOEX_OPTIONS_H_INCLUDED_ */

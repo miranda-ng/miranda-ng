@@ -22,10 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_SVCEMAIL_H_INCLUDED_
 #define _UINFOEX_SVCEMAIL_H_INCLUDED_
 
-VOID SvcEMailRebuildMenu();
-VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB = FALSE);
-VOID SvcEMailOnModulesLoaded();
-VOID SvcEMailLoadModule();
-VOID SvcEMailUnloadModule();
+void SvcEMailRebuildMenu();
+void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB = FALSE);
+void SvcEMailOnModulesLoaded();
+void SvcEMailLoadModule();
+void SvcEMailUnloadModule();
 
 #endif /* _UINFOEX_SVCEMAIL_H_INCLUDED_ */

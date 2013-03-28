@@ -50,8 +50,8 @@ private:
 	BYTE	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
 	WORD	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
 
-	INT DBWriteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
-	INT DBDeleteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
+	int DBWriteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
+	int DBDeleteDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
 
 public:
 	MAnnivDate();
@@ -59,65 +59,65 @@ public:
 
 	// basic access to attributes
 	__inline LPCTSTR	Description() const				{ return _strDesc.c_str(); };
-	__inline VOID		Description(LPCTSTR pszDesc)	{ if (pszDesc) _strDesc = pszDesc; };
+	__inline void		Description(LPCTSTR pszDesc)	{ if (pszDesc) _strDesc = pszDesc; };
 	__inline LPCSTR		Module() const					{ return _strModule.c_str(); };
-	__inline VOID		Module(LPCSTR pszModule)		{ if (pszModule) _strModule = pszModule; else _strModule.clear(); };
+	__inline void		Module(LPCSTR pszModule)		{ if (pszModule) _strModule = pszModule; else _strModule.clear(); };
 	__inline BYTE		RemindOption() const			{ return _bRemind; };
-	__inline VOID		RemindOption(BYTE bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
+	__inline void		RemindOption(BYTE bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
 	__inline WORD		RemindOffset() const			{ return _wDaysEarlier; };
-	__inline VOID		RemindOffset(WORD wOffset)		{ _wDaysEarlier = wOffset; };
+	__inline void		RemindOffset(WORD wOffset)		{ _wDaysEarlier = wOffset; };
 	__inline WORD		Id() const						{ return _wID; };
-	__inline VOID		Id(WORD wId)					{ if (_wID == ANID_NONE) _wID = wId; };
+	__inline void		Id(WORD wId)					{ if (_wID == ANID_NONE) _wID = wId; };
 	
 	DWORD				DateStamp() const;
-	VOID				DateStamp(const DWORD dwStamp);
+	void				DateStamp(const DWORD dwStamp);
 	
 	// basic checks
-	__inline BOOLEAN IsValid() const;
-	__inline BOOLEAN IsChanged() const						{ return (_wFlags & MADF_CHANGED); };
-	__inline BOOLEAN IsReminderChanged() const				{ return (_wFlags & MADF_REMINDER_CHANGED); };
-	__inline BOOLEAN IsEqual(const MAnnivDate &mda) const	{ return IsEqual(mda.SystemTime()); };
-	BOOLEAN	IsEqual(const SYSTEMTIME &st) const;
+	__inline BYTE IsValid() const;
+	__inline BYTE IsChanged() const						{ return (_wFlags & MADF_CHANGED); };
+	__inline BYTE IsReminderChanged() const				{ return (_wFlags & MADF_REMINDER_CHANGED); };
+	__inline BYTE IsEqual(const MAnnivDate &mda) const	{ return IsEqual(mda.SystemTime()); };
+	BYTE	IsEqual(const SYSTEMTIME &st) const;
 
 	// handling flags
 	__inline WORD	Flags() const			{ return _wFlags; };
-	__inline VOID	Flags(WORD wFlags)		{ _wFlags = wFlags; };
-	__inline VOID	SetFlags(WORD wFlag)	{ _wFlags |= wFlag; };
-	__inline VOID	RemoveFlags(WORD wFlag)	{ _wFlags &= ~wFlag; };
+	__inline void	Flags(WORD wFlags)		{ _wFlags = wFlags; };
+	__inline void	SetFlags(WORD wFlag)	{ _wFlags |= wFlag; };
+	__inline void	RemoveFlags(WORD wFlag)	{ _wFlags &= ~wFlag; };
 
 	// return diffence of days, ignoring the date
-	INT	CompareDays(MTime mt) const;
+	int	CompareDays(MTime mt) const;
 	
 	MZodiac	Zodiac();
-	INT		Age(MTime *pNow = NULL);
-	VOID	Clear();
+	int		Age(MTime *pNow = NULL);
+	void	Clear();
 
 	// read date from database
-	INT DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
-	INT DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	INT DBGetAnniversaryDate(HANDLE hContact, WORD iIndex);
-	INT DBGetBirthDate(HANDLE hContact, LPSTR pszProto = NULL);
-	INT DBGetReminderOpts(HANDLE hContact);
+	int DBGetDate(HANDLE hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
+	int DBGetDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int DBGetAnniversaryDate(HANDLE hContact, WORD iIndex);
+	int DBGetBirthDate(HANDLE hContact, LPSTR pszProto = NULL);
+	int DBGetReminderOpts(HANDLE hContact);
 
 	// write date to database
-	INT DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	INT DBWriteAnniversaryDate(HANDLE hContact, WORD wIndex);
-	INT DBWriteBirthDate(HANDLE hContact);
-	INT DBWriteReminderOpts(HANDLE hContact);
+	int DBWriteDateStamp(HANDLE hContact, LPCSTR pszModule, LPCSTR pszSetting);
+	int DBWriteAnniversaryDate(HANDLE hContact, WORD wIndex);
+	int DBWriteBirthDate(HANDLE hContact);
+	int DBWriteReminderOpts(HANDLE hContact);
 
 	// delete date from database
-	INT DBDeleteBirthDate(HANDLE hContact);
+	int DBDeleteBirthDate(HANDLE hContact);
 
-	INT DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew);
-	INT BackupBirthday (HANDLE hContact, LPSTR pszProto = NULL, const BOOLEAN bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
+	int DBMoveBirthDate(HANDLE hContact, BYTE bOld, BYTE bNew);
+	int BackupBirthday (HANDLE hContact, LPSTR pszProto = NULL, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = NULL);
 
 	// setting values
-	VOID	SetDate(SYSTEMTIME &st);
-	VOID	SetDate(MAnnivDate &mda);
+	void	SetDate(SYSTEMTIME &st);
+	void	SetDate(MAnnivDate &mda);
 
-	BOOLEAN operator == (const SYSTEMTIME &st) { return IsEqual(st); };
-	BOOLEAN operator == (const MAnnivDate &mda) { return IsEqual(mda); };
+	BYTE operator == (const SYSTEMTIME &st) { return IsEqual(st); };
+	BYTE operator == (const MAnnivDate &mda) { return IsEqual(mda); };
 
-	VOID operator = (SYSTEMTIME &st) { SetDate(st); };
-	VOID operator = (MAnnivDate &mda) { SetDate(mda); };
+	void operator = (SYSTEMTIME &st) { SetDate(st); };
+	void operator = (MAnnivDate &mda) { SetDate(mda); };
 };

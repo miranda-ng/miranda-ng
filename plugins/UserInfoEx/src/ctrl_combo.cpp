@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	pointer of the newly created CCombo object.
  **/
-CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, INT nListCount)
+CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount)
 {
 	return new CCombo(hDlg, idCtrl, pszSetting, bDBDataType, pList, nListCount);
 }
@@ -51,7 +51,7 @@ CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDB
  *
  * @return	nothing
  **/
-CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, INT nListCount)
+CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount)
 : CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;
@@ -62,7 +62,7 @@ CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPID
 	// fill in data
 	if (_pList && (_nList > 0))
 	{
-		for (INT i = 0; i < _nList; i++)
+		for (int i = 0; i < _nList; i++)
 		{
 			AddItem(_pList[i].ptszTranslated, (LPARAM)&_pList[i]);
 		}
@@ -77,9 +77,9 @@ CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPID
  * @retval	CB_ERR	- item not found
  * @retval	0...n		- index of the combobox item
  **/
-INT CCombo::Find(INT nID) const
+int CCombo::Find(int nID) const
 {
-	INT i;
+	int i;
 	LPIDSTRLIST pd;
 
 	for (i = ComboBox_GetCount(_hwnd) - 1; i >= 0; i--)
@@ -101,7 +101,7 @@ INT CCombo::Find(INT nID) const
  * @retval	CB_ERR	- item not found
  * @retval	0...n		- index of the combobox item
  **/
-INT CCombo::Find(LPTSTR ptszItemLabel) const
+int CCombo::Find(LPTSTR ptszItemLabel) const
 {
 	return ComboBox_FindStringExact(_hwnd, 0, ptszItemLabel);
 }
@@ -135,7 +135,7 @@ INT_PTR CCombo::AddItem(LPCTSTR pszText, LPARAM lParam)
  *
  * @return	nothing
  **/
-VOID CCombo::Release()
+void CCombo::Release()
 {
 	delete this;
 }
@@ -154,7 +154,7 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 	{
 		DBVARIANT dbv;
 		LPIDSTRLIST pItem = NULL;
-		INT iVal = CB_ERR;
+		int iVal = CB_ERR;
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = 0;
 		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
@@ -164,9 +164,9 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
 		{
 			switch (dbv.type) 
 			{
-			case DBVT_BYTE:		iVal = Find((INT)dbv.bVal);		break;
-			case DBVT_WORD:		iVal = Find((INT)dbv.wVal);		break;
-			case DBVT_DWORD:	iVal = Find((INT)dbv.dVal);		break;
+			case DBVT_BYTE:		iVal = Find((int)dbv.bVal);		break;
+			case DBVT_WORD:		iVal = Find((int)dbv.wVal);		break;
+			case DBVT_DWORD:	iVal = Find((int)dbv.dVal);		break;
 			case DBVT_TCHAR:
 				iVal = Find(TranslateTS(dbv.ptszVal));
 				if (iVal == CB_ERR) {
@@ -196,7 +196,7 @@ BOOL CCombo::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
 {
 	if (_Flags.B.hasChanged)
 	{
@@ -247,11 +247,11 @@ VOID CCombo::OnApply(HANDLE hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-VOID CCombo::OnChangedByUser(WORD wChangedMsg)
+void CCombo::OnChangedByUser(WORD wChangedMsg)
 {
 	if (wChangedMsg == CBN_SELCHANGE)
 	{
-		INT c = ComboBox_GetCurSel(_hwnd);
+		int c = ComboBox_GetCurSel(_hwnd);
 
 		if (_curSel != c)
 		{

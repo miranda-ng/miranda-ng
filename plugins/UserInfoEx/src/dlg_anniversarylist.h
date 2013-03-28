@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_ANNIVLIST_FILTER_INDEX			"AnLstFltIndex"
 
 INT_PTR		DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam);
-VOID		DlgAnniversaryListOnTopToolBarLoaded();
-VOID		DlgAnniversaryListLoadModule();
+void		DlgAnniversaryListOnTopToolBarLoaded();
+void		DlgAnniversaryListLoadModule();
 
 #endif /* _DLGANNIVERSARYLIST_H_ */

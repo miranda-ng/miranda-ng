@@ -33,14 +33,14 @@ class CAnnivEditCtrl : public CBaseCtrl
 	HWND	_hBtnAdd;	 // add anniversary button
 	HWND	_hBtnDel;	 // delete anniversary button
 
-	BOOLEAN			 _ReminderEnabled;
+	BYTE	_ReminderEnabled;
 
-	MAnnivDate**	_pDates;
-	WORD					_numDates;
-	WORD					_curDate;
+	MAnnivDate** _pDates;
+	WORD	_numDates;
+	WORD	_curDate;
 
-	BOOLEAN ItemValid(WORD wIndex) const;
-	BOOLEAN CurrentItemValid() const;
+	BYTE ItemValid(WORD wIndex) const;
+	BYTE CurrentItemValid() const;
 
 	INT_PTR DBGetBirthDay(HANDLE hContact, LPCSTR pszProto);
 	INT_PTR DBWriteBirthDay(HANDLE hContact);
@@ -56,25 +56,25 @@ public:
 	MAnnivDate* Current() { return CurrentItemValid() ? _pDates[_curDate] : NULL; };
 	WORD				CurrentIndex() const { return _curDate; };
 	WORD				NumDates() const { return _numDates; };
-	BOOLEAN		 ReminderEnabled() const { return _ReminderEnabled; };
+	BYTE		 ReminderEnabled() const { return _ReminderEnabled; };
 
 	MAnnivDate* FindDateById(const WORD wId);
 
-	VOID				EnableCurrentItem();
-	VOID				EnableReminderCtrl(BOOLEAN bEnabled);
+	void				EnableCurrentItem();
+	void				EnableReminderCtrl(BYTE bEnabled);
 
 	INT_PTR		 SetCurSel(WORD wIndex);
 
 	INT_PTR		 AddDate(MAnnivDate &mda);
 	INT_PTR		 DeleteDate(WORD wIndex);
 
-	VOID				SetZodiacAndAge(MAnnivDate *mt);
+	void				SetZodiacAndAge(MAnnivDate *mt);
 
 	// notification handlers
-	VOID OnMenuPopup();
-	VOID OnDateChanged(LPNMDATETIMECHANGE lpChange);
-	VOID OnRemindEditChanged();
-	VOID OnReminderChecked();
+	void OnMenuPopup();
+	void OnDateChanged(LPNMDATETIMECHANGE lpChange);
+	void OnRemindEditChanged();
+	void OnReminderChecked();
 
 	/**
 	 * CBaseCtrl interface:
@@ -86,9 +86,9 @@ public:
 
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
-	virtual VOID	Release();
+	virtual void	Release();
 	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
 };
 
 #endif /* _UINFOEX_CTRLANNIVEDIT_H_ */

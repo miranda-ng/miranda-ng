@@ -28,7 +28,7 @@ enum ECascadeType {
 	MCAS_NOTINITIATED = 128
 };
 
-INT hMenuItemRefresh		= NULL;
+int hMenuItemRefresh		= NULL;
 HGENMENU *hMenuItemAccount	= NULL;
 
 /**
@@ -63,7 +63,7 @@ INT_PTR RemoveMenuItems(HGENMENU * pItems, int Count)
  *
  * @return	nothing
  **/
-VOID RebuildContact()
+void RebuildContact()
 {
 	int flag = 0;
 	BYTE item = 0;
@@ -163,7 +163,7 @@ VOID RebuildContact()
  *
  * @return	nothing
  **/
-VOID RebuildMain()
+void RebuildMain()
 {
 	int flag = 0;
 	BYTE item = 0;
@@ -252,7 +252,7 @@ VOID RebuildMain()
 
 	// reminder
 	{
-		const BOOLEAN bRemindMenus =
+		const BYTE bRemindMenus =
 			DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
 			DB::Setting::GetByte(SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 		if (bRemindMenus) {
@@ -300,7 +300,7 @@ VOID RebuildMain()
  *
  * @return	nothing
  **/
-VOID RebuildGroup()
+void RebuildGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
@@ -397,7 +397,7 @@ VOID RebuildGroup()
  *
  * @return	nothing
  **/
-VOID RebuildSubGroup()
+void RebuildSubGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
@@ -619,7 +619,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 }
 
 
-VOID RebuildMenu()
+void RebuildMenu()
 {
 	RebuildMain();
 	RebuildContact();

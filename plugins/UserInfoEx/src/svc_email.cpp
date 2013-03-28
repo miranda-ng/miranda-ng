@@ -51,7 +51,7 @@ static LPSTR Get(HANDLE hContact)
 				{ SET_CONTACT_COMPANY_EMAIL,	SET_CONTACT_COMPANY_EMAIL0,	SET_CONTACT_COMPANY_EMAIL1,	"MyCompanye-mail0"}
 			};
 
-			INT i, j;
+			int i, j;
 			LPSTR pszEMail;
 
 			for (i = 0; i < 2; i++)
@@ -85,7 +85,7 @@ static LPSTR Get(HANDLE hContact)
  **/
 static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 {
-	INT result;
+	int result;
 	LPSTR val = NULL;
 
 	__try 
@@ -135,7 +135,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
-static INT OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
+static int OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
 	ExtraIcon_SetIcon(ghExtraIconSvc, (HANDLE)wParam, (val) ? ICO_BTN_EMAIL: 0);
@@ -149,7 +149,7 @@ static INT OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
  * @param	wParam			- (HANDLE)hContact
  * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
  **/
-static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
@@ -170,7 +170,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  *
  * @return	always 0
  **/
-static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
+static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
@@ -192,7 +192,7 @@ static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 /**
  * This function enables or disables menuitems.
  **/
-VOID SvcEMailRebuildMenu()
+void SvcEMailRebuildMenu()
 {
 	static HANDLE hPrebuildMenuHook = NULL;
 
@@ -235,7 +235,7 @@ VOID SvcEMailRebuildMenu()
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
-VOID SvcEMailApplyCListIcons()
+void SvcEMailApplyCListIcons()
 {
 	HANDLE hContact;
 
@@ -252,7 +252,7 @@ VOID SvcEMailApplyCListIcons()
  * @param	bEnable			- determines whether icons are enabled or not
  * @param	bUpdateDB		- if true the database setting is updated, too.
  **/
-VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB) 
+void SvcEMailEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
 		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_EMAIL, bEnable);
@@ -288,7 +288,7 @@ VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcEMailOnModulesLoaded()
+void SvcEMailOnModulesLoaded()
 {
 	SvcEMailEnableExtraIcons(
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_EMAIL, 
@@ -298,7 +298,7 @@ VOID SvcEMailOnModulesLoaded()
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcEMailLoadModule()
+void SvcEMailLoadModule()
 {
 	if (DB::Setting::GetByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {
 		// create own email send command
@@ -314,7 +314,7 @@ VOID SvcEMailLoadModule()
  *
  * @return	nothing
  **/
-VOID SvcEMailUnloadModule()
+void SvcEMailUnloadModule()
 {	
 	// unhook event handlers
 	UnhookEvent(hChangedHook);		hChangedHook		= NULL;

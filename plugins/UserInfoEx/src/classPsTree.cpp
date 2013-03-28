@@ -62,7 +62,7 @@ CPsTree::~CPsTree()
 	}
 	if (_pItems) 
 	{
-		for (INT i = 0; i < _numItems; i++) 
+		for (int i = 0; i < _numItems; i++) 
 		{
 			if (_pItems[i])
 			{
@@ -85,9 +85,9 @@ CPsTree::~CPsTree()
  * param:	none
  * return:	none
  **/
-BOOLEAN CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
+BYTE CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
 {
-	BOOLEAN rc;
+	BYTE rc;
 
 	if (hWndTree && pPsh->_hImages && pPsh->_pPages && pPsh->_numPages)
 	{
@@ -116,7 +116,7 @@ BOOLEAN CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
  * param:	pszGroup	- utf8 encoded string of the item to add
  * return:	index of the new item or -1 if failed to add
  **/
-INT CPsTree::AddDummyItem(LPCSTR pszGroup)
+int CPsTree::AddDummyItem(LPCSTR pszGroup)
 {
 	if (mir_stricmp(pszGroup, TREE_ROOTITEM)) 
 	{
@@ -150,9 +150,9 @@ INT CPsTree::AddDummyItem(LPCSTR pszGroup)
  * param:	needWidth	- width to expand the tree by
  * return:	TRUE if initialization is ok, FALSE otherwise
  **/
-BOOLEAN CPsTree::InitTreeItems(LPWORD needWidth)
+BYTE CPsTree::InitTreeItems(LPWORD needWidth)
 {
-	INT i;
+	int i;
 	DBVARIANT dbv;
 
 	if (!_hWndTree || !_pItems)
@@ -180,7 +180,7 @@ BOOLEAN CPsTree::InitTreeItems(LPWORD needWidth)
 		{
 			if (_pItems[i] && (pszGroup = _pItems[i]->ParentItemName()) != NULL) 
 			{
-				INT iParent = FindItemIndexByName(pszGroup);
+				int iParent = FindItemIndexByName(pszGroup);
 				
 				// need to add an empty parent item
 				if (iParent == -1) 
@@ -220,9 +220,9 @@ BOOLEAN CPsTree::InitTreeItems(LPWORD needWidth)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
-INT CPsTree::FindItemIndexByHandle(HTREEITEM hItem)
+int CPsTree::FindItemIndexByHandle(HTREEITEM hItem)
 {
-	INT i;
+	int i;
 	for (i = 0; i < _numItems; i++) 
 	{
 		if (_pItems[i] && hItem == _pItems[i]->Hti())
@@ -240,9 +240,9 @@ INT CPsTree::FindItemIndexByHandle(HTREEITEM hItem)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
-INT CPsTree::FindItemIndexByName(LPCSTR pszName)
+int CPsTree::FindItemIndexByName(LPCSTR pszName)
 {
-	INT i;
+	int i;
 	for (i = 0; i < _numItems; i++) 
 	{
 		if (_pItems[i] && _pItems[i]->HasName(pszName))
@@ -262,7 +262,7 @@ INT CPsTree::FindItemIndexByName(LPCSTR pszName)
  **/
 CPsTreeItem* CPsTree::FindItemByHandle(HTREEITEM hItem)
 {
-	INT i;
+	int i;
 
 	if ((i = FindItemIndexByHandle(hItem)) > -1)
 	{
@@ -280,7 +280,7 @@ CPsTreeItem* CPsTree::FindItemByHandle(HTREEITEM hItem)
  **/
 CPsTreeItem* CPsTree::FindItemByName(LPCSTR pszName)
 {
-	INT i;
+	int i;
 	
 	if ((i = FindItemIndexByName(pszName)) > -1) 
 	{
@@ -296,9 +296,9 @@ CPsTreeItem* CPsTree::FindItemByName(LPCSTR pszName)
  * param:	hItem		- handle of the treeview's treeitem
  * return:	HTREEITEM if item exists or NULL otherwise
  **/
-CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, INT idDlg)
+CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, int idDlg)
 {
-	INT i;
+	int i;
 	for (i = 0; i < _numItems; i++) 
 	{
 		if (_pItems[i] && _pItems[i]->Inst() == hInst && _pItems[i]->DlgId() == idDlg) 
@@ -319,7 +319,7 @@ CPsTreeItem* CPsTree::FindItemByResource(HINSTANCE hInst, INT idDlg)
  **/
 HTREEITEM CPsTree::FindItemHandleByName(LPCSTR pszName)
 {
-	INT i;
+	int i;
 
 	if ((i = FindItemIndexByName(pszName)) > -1)
 	{
@@ -340,7 +340,7 @@ HTREEITEM CPsTree::FindItemHandleByName(LPCSTR pszName)
  * param:	iPageIndex	- the index of the treeitem in the array.
  * return:	nothing
  **/
-VOID CPsTree::HideItem(const INT iPageIndex)
+void CPsTree::HideItem(const int iPageIndex)
 {
 	if (IsIndexValid(iPageIndex)) 
 	{
@@ -358,7 +358,7 @@ VOID CPsTree::HideItem(const INT iPageIndex)
  *			needWidth	- gives and takes the width, the treeview must have to show all items properly
  * return:	TRUE if item was added successfully, FALSE otherwise
  **/
-HTREEITEM CPsTree::ShowItem(const INT iPageIndex, LPWORD needWidth)
+HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 {
 	TVINSERTSTRUCT tvii;
 	CPsTreeItem *pti;
@@ -377,7 +377,7 @@ HTREEITEM CPsTree::ShowItem(const INT iPageIndex, LPWORD needWidth)
 	if ((tvii.itemex.hItem = pti->Hti()) == NULL)
 	{
 		RECT rc;
-		const INT iParent = pti->Parent();
+		const int iParent = pti->Parent();
 		
 		// init the rest of the treeitem
 		tvii.hParent = IsIndexValid(iParent) ? ShowItem(iParent, needWidth) : NULL;
@@ -418,11 +418,11 @@ HTREEITEM CPsTree::ShowItem(const INT iPageIndex, LPWORD needWidth)
  *			bAsChild			- tells, whether to try to add hItem as child of hInsertAfter or not
  * return:	handle to new (moved) treeitem if successful or NULL otherwise
  **/
-HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild)
+HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChild)
 {
 	TVINSERTSTRUCT tvis;
 	HTREEITEM hParent, hChild, hNewItem;
-	INT iItemIndex;
+	int iItemIndex;
 
 	if (!hItem || !hInsertAfter)
 		return NULL;
@@ -501,7 +501,7 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAs
  *			iItem			- index of the current item for position saving
  * return:	0 on success or 1 otherwise
  **/
-WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, INT& iItem)
+WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
 {
 	TVITEMEX tvi;
 	WORD numErrors = 0;
@@ -529,13 +529,13 @@ WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, INT& iItem)
  * param:	none
  * return:	nothing
  **/
-VOID CPsTree::SaveState()
+void CPsTree::SaveState()
 {
 	CPsTreeItem *pti = CurrentItem();
 
 	if (_hWndTree && (_dwFlags & (PSTVF_LABEL_CHANGED|PSTVF_POS_CHANGED|PSTVF_STATE_CHANGED))) {
 		SHORT i;
-		INT iItem = 0;
+		int iItem = 0;
 
 		// save all visible items
 		WORD numErrors = SaveItemsState(TREE_ROOTITEM, TVGN_ROOT, iItem);
@@ -568,13 +568,13 @@ VOID CPsTree::SaveState()
  *			iItem			- index of the current item for position saving
  * return: 0 on success or 1 otherwise
  **/
-VOID CPsTree::DBResetState()
+void CPsTree::DBResetState()
 {
 	DB::CEnumList	Settings;
 
 	if (!Settings.EnumSettings(NULL, MODNAME))
 	{
-		INT i;
+		int i;
 		LPSTR s;
 		LPCSTR p;
 		INT_PTR c;
@@ -635,7 +635,7 @@ static LRESULT CALLBACK TPropsheetTree_LabelEditProc(HWND hwnd, UINT uMsg, WPARA
  * param:	hItem		- handle of the treeitm whose label to edit
  * return:	0
  **/
-INT CPsTree::BeginLabelEdit(HTREEITEM hItem)
+int CPsTree::BeginLabelEdit(HTREEITEM hItem)
 {
 	CPsTreeItem* pti;
 
@@ -685,7 +685,7 @@ INT CPsTree::BeginLabelEdit(HTREEITEM hItem)
  *			bSave		- tell whether to save changes or not
  * return:	0
  **/
-INT CPsTree::EndLabelEdit(const BOOLEAN bSave)
+int CPsTree::EndLabelEdit(const BYTE bSave)
 {
 	TCHAR szEdit[MAX_TINAME];
 	TVITEM tvi;
@@ -716,14 +716,14 @@ INT CPsTree::EndLabelEdit(const BOOLEAN bSave)
  * public methods for handling other commands
  ***********************************************************************************************************/
 
-VOID CPsTree::PopupMenu()
+void CPsTree::PopupMenu()
 {
 	HMENU hPopup;
 	MENUITEMINFO mii;
 	TVHITTESTINFO hti;
 	TVITEM tvi;
 	POINT pt;
-	INT iItem, i;
+	int iItem, i;
 
 	// init popup menu
 	if (!(hPopup = CreatePopupMenu()))
@@ -822,9 +822,9 @@ VOID CPsTree::PopupMenu()
  * param:	none
  * return:	nothing
  **/
-VOID CPsTree::OnIconsChanged()
+void CPsTree::OnIconsChanged()
 {
-	for (INT i = 0; i < _numItems; i++) {
+	for (int i = 0; i < _numItems; i++) {
 		_pItems[i]->OnIconsChanged(this);
 	}
 }
@@ -836,10 +836,10 @@ VOID CPsTree::OnIconsChanged()
  * param:	none
  * return:	TRUE if any page holds changed information
  **/
-BOOLEAN CPsTree::OnInfoChanged()
+BYTE CPsTree::OnInfoChanged()
 {
 	PSHNOTIFY pshn;
-	INT i;
+	int i;
 	BYTE bChanged = 0;
 
 	pshn.hdr.idFrom = 0;
@@ -865,7 +865,7 @@ BOOLEAN CPsTree::OnInfoChanged()
  * param:	none
  * return:	nothing
  **/
-BOOLEAN CPsTree::OnSelChanging()
+BYTE CPsTree::OnSelChanging()
 {	 
 	CPsTreeItem *pti = CurrentItem();
 	
@@ -894,12 +894,12 @@ BOOLEAN CPsTree::OnSelChanging()
  * param:	lpnmtv	-	notification structure
  * return:	nothing
  **/
-VOID CPsTree::OnSelChanged(LPNMTREEVIEW lpnmtv)
+void CPsTree::OnSelChanged(LPNMTREEVIEW lpnmtv)
 {
 	CPsTreeItem *oldPage = CurrentItem();
 	CPsTreeItem *pti;
 
-	_curItem = (INT)lpnmtv->itemNew.lParam;
+	_curItem = (int)lpnmtv->itemNew.lParam;
 	if (pti = CurrentItem()) {
 		if (pti->Wnd() == NULL) {
 			pti->CreateWnd(_pPs);
@@ -921,10 +921,10 @@ VOID CPsTree::OnSelChanged(LPNMTREEVIEW lpnmtv)
  * param:	none
  * return:	nothing
  **/
-VOID CPsTree::OnCancel()
+void CPsTree::OnCancel()
 {
 	PSHNOTIFY pshn;
-	INT i;
+	int i;
 
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_RESET;
@@ -944,13 +944,13 @@ VOID CPsTree::OnCancel()
  * param:	none
  * return:	0 if ready to continue, 1 if need to abort
  **/
-INT CPsTree::OnApply()
+int CPsTree::OnApply()
 {
 	CPsTreeItem *pti = CurrentItem();
 	
 	if (pti != NULL) {
 		PSHNOTIFY pshn;
-		INT i;
+		int i;
 
 		pshn.hdr.idFrom = 0;
 		pshn.hdr.code = PSN_KILLACTIVE;

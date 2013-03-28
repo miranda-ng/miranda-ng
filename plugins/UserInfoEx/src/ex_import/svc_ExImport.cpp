@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *			cchFileName	- number of maximum characters the filename can be
  * return:	nothing
  **/
-static VOID DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WORD cchFileName)
+static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WORD cchFileName)
 {
 	LPCSTR	disp = 0;
 	LPSTR	temp = 0;
@@ -116,7 +116,7 @@ INT_PTR SvcExImport_Export(lpExImParam ExImContact, HWND hwndParent)
 	CHAR szFileName[MAX_PATH] = { 0 };
 	// create the filename to suggest the user for the to export contact
 	DisplayNameToFileName(ExImContact, szFileName, SIZEOF(szFileName));
-	INT nIndex = DlgExIm_SaveFileName(hwndParent, 
+	int nIndex = DlgExIm_SaveFileName(hwndParent, 
 		Translate("Select a destination file..."),
 		FilterString(ExImContact),
 		szFileName);
@@ -160,7 +160,7 @@ INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
 	// create the filename to suggest the user for the to export contact
 	DisplayNameToFileName(ExImContact, szFileName, SIZEOF(szFileName));
 
-	INT nIndex = DlgExIm_OpenFileName(hwndParent, 
+	int nIndex = DlgExIm_OpenFileName(hwndParent, 
 		Translate("Import User Details from VCard"),
 		FilterString(ExImContact),
 		szFileName);
@@ -353,7 +353,7 @@ INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
  *
  * return:	0 or 1
  **/
-VOID SvcExImport_LoadModule()
+void SvcExImport_LoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_VCARD_EXPORTALL,	svcExIm_MainExport_Service);
 	CreateServiceFunction(MS_USERINFO_VCARD_IMPORTALL,	svcExIm_MainImport_Service);

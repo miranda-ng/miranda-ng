@@ -60,7 +60,7 @@ static INT_PTR Get(HANDLE hContact)
 				{ SET_CONTACT_COMPANY_CELLULAR,	SET_CONTACT_COMPANY_PHONE,	"MyCompanyPhone0"	}
 			};
 
-			INT i, j;
+			int i, j;
 			LPSTR pszPhone;
 
 			for (i = 0; (i < 2) && (nType == PHONE_NONE); i++)
@@ -92,7 +92,7 @@ static INT_PTR Get(HANDLE hContact)
  * @param	lParam			- not used
  **/
 
-static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
+static int OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	char *icoName;
 	switch (Get(hContact)) {
@@ -110,7 +110,7 @@ static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
  * @param	wParam			- (HANDLE)hContact
  * @param	lParam			- (DBCONTACTWRITESETTING*)pdbcws
  **/
-static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
+static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcws)
 {
 	if (hContact && pdbcws && pdbcws->szSetting && 
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
@@ -134,7 +134,7 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
-VOID SvcPhoneApplyCListIcons()
+void SvcPhoneApplyCListIcons()
 {
 	HANDLE hContact;
 
@@ -151,7 +151,7 @@ VOID SvcPhoneApplyCListIcons()
  * @param	bEnable			- determines whether icons are enabled or not
  * @param	bUpdateDB		- if true the database setting is updated, too.
  **/
-VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB) 
+void SvcPhoneEnableExtraIcons(BYTE bEnable, BYTE bUpdateDB) 
 {
 	if (bUpdateDB)
 		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_PHONE, bEnable);
@@ -188,7 +188,7 @@ VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 /**
  * This function initially loads the module uppon startup.
  **/
-VOID SvcPhoneLoadModule()
+void SvcPhoneLoadModule()
 {
 	SvcPhoneEnableExtraIcons(
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
@@ -201,7 +201,7 @@ VOID SvcPhoneLoadModule()
  *
  * @return	nothing
  **/
-VOID SvcPhoneUnloadModule()
+void SvcPhoneUnloadModule()
 {	
 	// unhook event handlers
 	UnhookEvent(hChangedHook);		hChangedHook		= NULL;

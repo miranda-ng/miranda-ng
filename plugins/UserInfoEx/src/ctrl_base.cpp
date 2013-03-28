@@ -31,7 +31,7 @@ COLORREF clrCustom = -1;
 COLORREF clrNormal = -1;
 COLORREF clrMeta = -1;
 
-VOID Ctrl_InitTextColours()
+void Ctrl_InitTextColours()
 {
 	clrBoth = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
 	clrChanged = DB::Setting::GetDWord(NULL, MODNAME, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
@@ -193,7 +193,7 @@ CCtrlList::~CCtrlList()
  *
  *
  **/
-VOID CCtrlList::Release()
+void CCtrlList::Release()
 { 
 	delete this; 
 }
@@ -202,7 +202,7 @@ VOID CCtrlList::Release()
  *
  *
  **/
-VOID CCtrlList::OnReset()
+void CCtrlList::OnReset()
 {
 	INT_PTR i;
 
@@ -238,7 +238,7 @@ BOOL CCtrlList::OnInfoChanged(HANDLE hContact, LPCSTR pszProto)
  *
  *
  **/
-VOID CCtrlList::OnApply(HANDLE hContact, LPCSTR pszProto)
+void CCtrlList::OnApply(HANDLE hContact, LPCSTR pszProto)
 {
 	INT_PTR i;
 
@@ -255,7 +255,7 @@ VOID CCtrlList::OnApply(HANDLE hContact, LPCSTR pszProto)
  *
  *
  **/
-VOID CCtrlList::OnChangedByUser(WORD idCtrl, WORD wChangedMsg)
+void CCtrlList::OnChangedByUser(WORD idCtrl, WORD wChangedMsg)
 {
 	// prefilter messages to avoid unessesary search operations
 	switch (wChangedMsg)

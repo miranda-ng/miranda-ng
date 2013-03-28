@@ -55,13 +55,13 @@ public:
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE dbType);
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, BYTE dbType);
 
-	virtual VOID	Release();
-	virtual VOID	OnReset();
+	virtual void	Release();
+	virtual void	OnReset();
 	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnApply(HANDLE hContact, LPCSTR pszProto);
-	virtual VOID	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnApply(HANDLE hContact, LPCSTR pszProto);
+	virtual void	OnChangedByUser(WORD wChangedMsg);
 
-	VOID		OpenUrl();
+	void		OpenUrl();
 	LRESULT LinkNotificationHandler(ENLINK* lnk);
 	
 };

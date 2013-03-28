@@ -29,8 +29,8 @@ int   CountryNumberToIndex(int countryNumber);
 HICON	LoadFlag(int countryNumber);
 HANDLE LoadFlagHandle(int countryNumber);
 
-VOID InitIcons();
-//VOID SvcFlagsOnModulesLoaded();
-VOID UninitIcons();
+void InitIcons();
+//void SvcFlagsOnModulesLoaded();
+void UninitIcons();
 
 #endif /* _UINFOEX_FLAGSICONS_H_INCLUDED_ */

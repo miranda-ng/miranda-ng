@@ -76,7 +76,7 @@ struct CTimeZone : public REG_TZI_FORMAT
 	operator TIME_ZONE_INFORMATION() const;
 };
 
-typedef INT_PTR (*PEnumNamesProc)(CTimeZone* pTimeZone, INT index, LPARAM lParam);
+typedef INT_PTR (*PEnumNamesProc)(CTimeZone* pTimeZone, int index, LPARAM lParam);
 
 CTimeZone*	GetContactTimeZone(HANDLE hContact);
 CTimeZone*	GetContactTimeZone(HANDLE hContact, LPCSTR pszProto);
@@ -87,7 +87,7 @@ INT_PTR		EnumTimeZones(PEnumNamesProc enumProc, LPARAM lParam);
 INT_PTR		GetContactTimeZoneInformation_old(WPARAM wParam, LPARAM lParam);
 INT_PTR		GetContactLocalTime_old(WPARAM wParam, LPARAM lParam);
 
-VOID		SvcTimezoneSyncWithWindows();
-VOID		SvcTimezoneLoadModule_old();
+void		SvcTimezoneSyncWithWindows();
+void		SvcTimezoneLoadModule_old();
 
 #endif /* _SVC_TIMEZONE_H_OLD */

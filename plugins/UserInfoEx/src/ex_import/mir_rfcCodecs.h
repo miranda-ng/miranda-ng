@@ -239,14 +239,14 @@ inline INT_PTR QPDecodeGetRequiredLength(INT_PTR nSrcLen)
 	return nSrcLen;
 }
 
-inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pnDestLen, BOOLEAN *bEncoded, DWORD dwFlags = 0)
+inline BOOL QPEncode(BYTE* pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR* pnDestLen, BYTE *bEncoded, DWORD dwFlags = 0)
 {
 	//The hexadecimal character set
 	static const CHAR s_chHexChars[16] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
 											'A', 'B', 'C', 'D', 'E', 'F'};
 	INT_PTR nRead = 0, nWritten = 0, nLineLen = 0;
 	CHAR ch;
-	BOOLEAN bChanged = FALSE;
+	BYTE bChanged = FALSE;
 
 
 	if (!pbSrcData || !szDest || !pnDestLen) {

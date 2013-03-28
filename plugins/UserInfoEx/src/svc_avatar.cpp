@@ -28,7 +28,7 @@ namespace NServices
 
 		static HANDLE ghChangedHook = NULL;
 
-		static INT GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, INT cchFileName)
+		static int GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, int cchFileName)
 		{
 			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName))
 			{
@@ -50,7 +50,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		static VOID SetZodiacAvatar(HANDLE hContact)
+		static void SetZodiacAvatar(HANDLE hContact)
 		{
 			MAnnivDate mtb;
 
@@ -81,7 +81,7 @@ namespace NServices
 			}
 		}
 
-		VOID DeleteAvatar(HANDLE hContact)
+		void DeleteAvatar(HANDLE hContact)
 		{
 			if (hContact && DB::Setting::GetByte(hContact, "ContactPhoto", "IsZodiac", FALSE))
 			{
@@ -113,7 +113,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		static INT OnAvatarChanged(HANDLE hContact, AVATARCACHEENTRY *ace)
+		static int OnAvatarChanged(HANDLE hContact, AVATARCACHEENTRY *ace)
 		{
 			if (hContact)
 			{
@@ -149,7 +149,7 @@ namespace NServices
 		 *
 		 *
 		 **/
-		VOID Enable(BOOLEAN bEnable)
+		void Enable(BYTE bEnable)
 		{
 			HANDLE hContact;
 			DBVARIANT dbv;
@@ -165,7 +165,7 @@ namespace NServices
 					// don't set if avatar is locked!
 					if (!DB::Setting::GetByte(hContact, "ContactPhoto", "Locked", 0))
 					{
-						BOOLEAN bInvalidAvatar = TRUE;
+						BYTE bInvalidAvatar = TRUE;
 
 						// the relative file is valid
 						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv))
@@ -226,7 +226,7 @@ namespace NServices
 		 * params:	none
 		 * return:	0
 		 **/
-		VOID OnModulesLoaded()
+		void OnModulesLoaded()
 		{
 			Enable(DB::Setting::GetByte(SET_ZODIAC_AVATARS, FALSE));
 		}

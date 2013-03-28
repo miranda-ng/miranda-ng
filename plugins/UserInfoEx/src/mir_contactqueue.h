@@ -48,15 +48,15 @@ public:
 		STOPPED		= 2
 	};
 
-	CContactQueue				(INT initialSize = 10);
+	CContactQueue				(int initialSize = 10);
 	~CContactQueue				();
 
-	inline INT			Size	()			const	{ return _queue.getCount();}
-	inline INT			Remove	(INT idx)			{ mir_free(_queue[idx]); return _queue.remove(idx);}
-	inline CQueueItem*	Get		(INT idx) const		{ return _queue[idx];}
+	inline int			Size	()			const	{ return _queue.getCount();}
+	inline int			Remove	(int idx)			{ mir_free(_queue[idx]); return _queue.remove(idx);}
+	inline CQueueItem*	Get		(int idx) const		{ return _queue[idx];}
 
 
-	VOID RemoveAll();
+	void RemoveAll();
 	
 	/**
 	 * This function removes all queue items for the hContact.
@@ -65,7 +65,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	VOID RemoveAll(HANDLE hContact);
+	void RemoveAll(HANDLE hContact);
 
 	/**
 	 * This function removes all queue items for the hContact considering the correct parameter.
@@ -75,7 +75,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	VOID RemoveAllConsiderParam(HANDLE hContact, PVOID param);
+	void RemoveAllConsiderParam(HANDLE hContact, PVOID param);
 
 	/**
 	 * This method adds the desired new item.
@@ -87,7 +87,7 @@ public:
 	 * @retval		TRUE			- The item is added to the queue successfully.
 	 * @retval		FALSE			- The item is not added to the queue.
 	 **/
-	BOOL Add(INT waitTime, HANDLE hContact, PVOID param = NULL);
+	BOOL Add(int waitTime, HANDLE hContact, PVOID param = NULL);
 
 	/**
 	 * This method adds the desired new item only, if the queue does not yet contain
@@ -100,7 +100,7 @@ public:
 	 * @retval		TRUE			- The item is added to the queue successfully.
 	 * @retval		FALSE			- The item is not added to the queue.
 	 **/
-	BOOL AddIfDontHave(INT waitTime, HANDLE hContact, PVOID param = NULL);
+	BOOL AddIfDontHave(int waitTime, HANDLE hContact, PVOID param = NULL);
 
 	/**
 	 * This method removes all existing queue items for the contact and adds a new queue item
@@ -113,7 +113,7 @@ public:
 	 *
 	 * @return		nothing
 	 **/
-	BOOL AddUnique(INT waitTime, HANDLE hContact, PVOID param = NULL);
+	BOOL AddUnique(int waitTime, HANDLE hContact, PVOID param = NULL);
 
 	/**
 	 * This method removes all existing queue items for the contact with the same parameter as @e param
@@ -126,7 +126,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	BOOL AddUniqueConsiderParam	(INT waitTime, HANDLE hContact, PVOID param = NULL);
+	BOOL AddUniqueConsiderParam	(int waitTime, HANDLE hContact, PVOID param = NULL);
 
 	/**
 	 * This method resumes the worker thread and immitiatly goes on with the next entry.
@@ -135,12 +135,12 @@ public:
 	 *
 	 * @return		nothing
 	 **/
-	VOID ContinueWithNext();
+	void ContinueWithNext();
 
 protected:
 	
-	virtual VOID OnEmpty		() {};
-	virtual VOID Callback		(HANDLE hContact, PVOID param) = 0;
+	virtual void OnEmpty		() {};
+	virtual void Callback		(HANDLE hContact, PVOID param) = 0;
 
 	/**
 	 * This is the real thread callback function. As long as _status
@@ -153,7 +153,7 @@ protected:
 	 *
 	 * @return	nothing
 	 **/
-	VOID Thread();
+	void Thread();
 	
 	/**
 	 * This is a static method to redirect the thread's callback function
@@ -163,7 +163,7 @@ protected:
 	 *
 	 * @return	nothing
 	 **/
-	static VOID ThreadProc(CContactQueue* obj)
+	static void ThreadProc(CContactQueue* obj)
 	{
 		obj->Thread();
 	}
@@ -175,7 +175,7 @@ protected:
 	 *
 	 * @return	nothing
 	 **/
-	VOID Suspend(INT time) const;
+	void Suspend(int time) const;
 
 private:
 
@@ -185,8 +185,8 @@ private:
 	HANDLE				_hEvent;
 	EQueueStatus		_status;
 
-	VOID Lock();
-	VOID Release();
+	void Lock();
+	void Release();
 
 	/**
 	 * This member function really adds an item into the time sorted queue list.
@@ -198,7 +198,7 @@ private:
 	 * @retval		TRUE		- The item is added to the queue successfully.
 	 * @retval		FALSE		- The item is not added to the queue.
 	 **/
-	BOOL InternalAdd(INT waitTime, HANDLE hContact, PVOID param);
+	BOOL InternalAdd(int waitTime, HANDLE hContact, PVOID param);
 };
 
 #endif // __CONTACTASYNCQUEUE_H__

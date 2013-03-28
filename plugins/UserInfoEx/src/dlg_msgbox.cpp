@@ -43,7 +43,7 @@ MSGPOPUPDATA, *LPMSGPOPUPDATA;
  *
  * @return	nothing
  **/
-static FORCEINLINE VOID MoveCtrl(HWND hDlg, INT idCtrl, INT dx, INT dy, INT dw, INT dh)
+static FORCEINLINE void MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, int dh)
 {
 	RECT ws;
 	HWND hCtrl = GetDlgItem(hDlg, idCtrl);
@@ -106,7 +106,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
  *
  * @return	nothing
  **/
-static VOID MakePopupAction(POPUPACTION &pa, INT id)
+static void MakePopupAction(POPUPACTION &pa, int id)
 {
 	pa.cbSize = sizeof(POPUPACTION);
 	pa.flags = PAF_ENABLED;
@@ -199,10 +199,10 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
  **/
 static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static INT retOk = IDOK;
-	static INT retAll = IDALL;
-	static INT retNon = IDNONE;
-	static INT retCancel = IDCANCEL;
+	static int retOk = IDOK;
+	static int retAll = IDALL;
+	static int retNon = IDNONE;
+	static int retCancel = IDCANCEL;
 
 	switch (uMsg)
 	{
@@ -212,8 +212,8 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (PtrIsValid(pMsgBox))
 			{
-				INT icoWidth = 0;
-				INT InfoBarHeight = 0;
+				int icoWidth = 0;
+				int InfoBarHeight = 0;
 				HFONT hNormalFont;
 
 				hNormalFont = (HFONT)SendDlgItemMessage(hDlg, TXT_NAME, WM_GETFONT, 0, 0);
@@ -268,7 +268,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				{
 					POINT mpt = {0,0};
 					RECT	ws = {0,0,0,0};
-					INT	 txtWidth,
+					int	 txtWidth,
 								txtHeight,
 								needX, needY;
 					RECT	rcDlg;

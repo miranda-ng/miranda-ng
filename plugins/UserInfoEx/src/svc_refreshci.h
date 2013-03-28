@@ -22,6 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _SVC_REFRESH_USER_DETAILS_H_
 #define _SVC_REFRESH_USER_DETAILS_H_
 
-VOID SvcRefreshContactInfoLoadModule(VOID);
+void SvcRefreshContactInfoLoadModule(void);
 
 #endif /* _SVC_REFRESH_USER_DETAILS_H_ */

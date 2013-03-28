@@ -29,19 +29,19 @@ class CProgress
 	HWND	_hDlg;
 	DWORD	_dwStartTime;
 
-	BOOLEAN	Update();
+	BYTE	Update();
 
 public:
 	CProgress();
 	~CProgress();
 
-	VOID Hide();
+	void Hide();
 
-	VOID SetContactCount(DWORD numContacts);
-	VOID SetSettingsCount(DWORD numSettings);
+	void SetContactCount(DWORD numContacts);
+	void SetSettingsCount(DWORD numSettings);
 	
-	BOOLEAN UpdateContact(LPCTSTR pszFormat, ...);
-	BOOLEAN UpdateSetting(LPCTSTR pszFormat, ...);
+	BYTE UpdateContact(LPCTSTR pszFormat, ...);
+	BYTE UpdateSetting(LPCTSTR pszFormat, ...);
 };
 
 #endif /* _DLG_EXIMPROGRESS_H_ */
