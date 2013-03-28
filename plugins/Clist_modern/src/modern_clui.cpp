@@ -2120,8 +2120,7 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 		inwnd = TRUE;
 	}
 	else {
-		DWORD dwPos = GetMessagePos();
-		POINT pt = UNPACK_POINT(lParam);
+		POINT pt = UNPACK_POINT(GetMessagePos());
 		HWND hwndPt = WindowFromPoint(pt);
 
 		inwnd = FALSE;
