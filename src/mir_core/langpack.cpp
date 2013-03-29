@@ -35,15 +35,17 @@ static HANDLE hevChanged = 0;
 
 static BOOL bModuleInitialized = FALSE;
 
-struct LangPackEntry {
+struct LangPackEntry
+{
 	DWORD englishHash;
-	char *local;
-	wchar_t *wlocal;
+	char *szLocal;
+	wchar_t *wszLocal;
 	MUUID* pMuuid;
 	LangPackEntry* pNext;  // for langpack items with the same hash value
 };
 
-struct LangPackStruct {
+struct
+{
 	TCHAR filename[MAX_PATH];
 	TCHAR filePath[MAX_PATH];
 	char  language[64];
@@ -54,18 +56,15 @@ struct LangPackStruct {
 	int entryCount, entriesAlloced;
 	LCID localeID;
 	UINT defaultANSICp;
-} static langPack;
+}
+static langPack;
 
-static int IsEmpty(char *str)
+static int IsEmpty(const char *str)
 {
-	int i = 0;
-
-	while (str[i])
-	{
+	for (int i=0; str[i]; i++)
 		if (str[i] != ' ' && str[i] != '\r' && str[i] != '\n')
 			return 0;
-		i++;
-	}
+
 	return 1;
 }
 
@@ -75,10 +74,10 @@ static void ConvertBackslashes(char *str, UINT fileCp)
 	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) {
 		if (*pstr == '\\') {
 			switch(pstr[1]) {
-			case 'n': *pstr = '\n'; break;
-			case 't': *pstr = '\t'; break;
-			case 'r': *pstr = '\r'; break;
-			default:  *pstr = pstr[1]; break;
+				case 'n': *pstr = '\n'; break;
+				case 't': *pstr = '\t'; break;
+				case 'r': *pstr = '\r'; break;
+				default:  *pstr = pstr[1]; break;
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
 }	}	}
@@ -101,8 +100,7 @@ MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len)
 	// Mix 4 bytes at a time into the hash
 	const unsigned char * data = (const unsigned char *)key;
 
-	while (len >= 4)
-	{
+	while (len >= 4) {
 		unsigned int k = *(unsigned int *)data;
 
 		k *= m;
@@ -117,13 +115,12 @@ MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len)
 	}
 
 	// Handle the last few bytes of the input array
-	switch(len)
-	{
+	switch(len) {
 	case 3: h ^= data[2] << 16;
 	case 2: h ^= data[1] << 8;
 	case 1: h ^= data[0];
 			h *= m;
-	};
+	}
 
 	// Do a few final mixes of the hash to ensure the last few
 	// bytes are well-incorporated.
@@ -258,7 +255,7 @@ static void LoadLangPackFile(FILE* fp, char* line, UINT fileCp)
 		ConvertBackslashes(line, fileCp);
 
 		if (line[0] == '[' && line[ lstrlenA(line)-1 ] == ']') {
-			if (langPack.entryCount && langPack.entry[ langPack.entryCount-1].local == NULL)
+			if (langPack.entryCount && langPack.entry[ langPack.entryCount-1].wszLocal == NULL)
 				langPack.entryCount--;
 
 			char* pszLine = line+1;
@@ -270,8 +267,8 @@ static void LoadLangPackFile(FILE* fp, char* line, UINT fileCp)
 
 			LangPackEntry* E = &langPack.entry[ langPack.entryCount-1 ];
 			E->englishHash = mir_hashstr(pszLine);
-			E->local = NULL;
-			E->wlocal = NULL;
+			E->szLocal = NULL;
+			E->wszLocal = NULL;
 			E->pMuuid = pCurrentMuuid;
 			E->pNext = NULL;
 			continue;
@@ -281,30 +278,18 @@ static void LoadLangPackFile(FILE* fp, char* line, UINT fileCp)
 			continue;
 
 		LangPackEntry* E = &langPack.entry[ langPack.entryCount-1 ];
-		if (E->local == NULL) {
-			E->local = mir_strdup(line);
-			if (fileCp == CP_UTF8)
-				Utf8DecodeCP(E->local, langPack.defaultANSICp, NULL);
-
-			int iNeeded = MultiByteToWideChar(fileCp, 0, line, -1, 0, 0);
-			E->wlocal = (wchar_t *)mir_alloc((iNeeded+1) * sizeof(wchar_t));
-			MultiByteToWideChar(fileCp, 0, line, -1, E->wlocal, iNeeded);
+		int iNeeded = MultiByteToWideChar(fileCp, 0, line, -1, 0, 0), iOldLen;
+		if (E->wszLocal == NULL) {
+			iOldLen = 0;
+			E->wszLocal = (wchar_t *)mir_alloc((iNeeded+1) * sizeof(wchar_t));
+			MultiByteToWideChar(fileCp, 0, line, -1, E->wszLocal, iNeeded);
 		}
 		else {
-			size_t iOldLenA = strlen(E->local);
-			E->local = (char*)mir_realloc(E->local, iOldLenA + strlen(line) + 2);
-			strcat(E->local, "\n");
-			strcat(E->local, line);
-
-			if (fileCp == CP_UTF8)
-				Utf8DecodeCP(E->local + iOldLenA + 1, langPack.defaultANSICp, NULL);
-
-			int iNeeded = MultiByteToWideChar(fileCp, 0, line, -1, 0, 0);
-			size_t iOldLen = wcslen(E->wlocal);
-			E->wlocal = (wchar_t*)mir_realloc(E->wlocal, (sizeof(wchar_t) * (iOldLen + iNeeded + 2)));
-			wcscat(E->wlocal, L"\n");
-			MultiByteToWideChar(fileCp, 0, line, -1, E->wlocal + iOldLen + 1, iNeeded);
+			iOldLen = (int)wcslen(E->wszLocal);
+			E->wszLocal = (wchar_t*)mir_realloc(E->wszLocal, (sizeof(wchar_t) * (iOldLen + iNeeded + 2)));
+			E->wszLocal[iOldLen++] = '\n';
 		}
+		MultiByteToWideChar(fileCp, 0, line, -1, E->wszLocal + iOldLen, iNeeded);
 	}
 }
 
@@ -418,7 +403,12 @@ static char *LangPackTranslateString(MUUID* pUuid, const char *szEnglish, const 
 				break;
 	}	}	}
 
-	return W ? (char *)entry->wlocal : entry->local;
+	if (W)
+		return (char*)entry->wszLocal;
+
+	if (entry->szLocal == NULL && entry->wszLocal != NULL)
+		entry->szLocal = mir_u2a_cp(entry->wszLocal, langPack.defaultANSICp);
+	return entry->szLocal;
 }
 
 MIR_CORE_DLL(int) Langpack_GetDefaultCodePage()
@@ -606,13 +596,13 @@ void UnloadLangPackModule()
 		if (p->pNext != NULL) {
 			for (LangPackEntry* p1 = p->pNext; p1 != NULL;) {
 				LangPackEntry* p2 = p1; p1 = p1->pNext;
-				mir_free(p2->local);
-				mir_free(p2->wlocal);
+				mir_free(p2->szLocal);
+				mir_free(p2->wszLocal);
 				mir_free(p2);
 		}	}
 
-		mir_free(p->local);
-		mir_free(p->wlocal);
+		mir_free(p->szLocal);
+		mir_free(p->wszLocal);
 	}
 
 	if (langPack.entryCount) {
