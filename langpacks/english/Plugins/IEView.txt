@@ -44,7 +44,6 @@
 [URL sent]
 [URL received]
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-['(Unknown Contact)']
 [(Unknown Contact)]
 [ requested authorisation]
 [ was added.]

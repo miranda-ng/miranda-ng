@@ -160,6 +160,7 @@
 [StartupStatus]
 [Your default profile will be changed]
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[Status profiles]
 [There is a maximum of 6 menu items]
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]

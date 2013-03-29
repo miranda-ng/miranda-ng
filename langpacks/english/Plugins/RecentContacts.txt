@@ -17,6 +17,7 @@
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 [Contact]
+[Toggle Ignore]
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]

@@ -69,10 +69,9 @@
 [Days]
 [Show confirmation window? (0 to not Show)]
 [Seconds to wait before sending]
-[Send a file]
 [Pounce being sent to %s in %d seconds]
 [Retry]
 [Message successfully sent to %s]
 [Message failed to send to %s]
 ;file \plugins\BuddyPounce\src\main.cpp
-[Plugins]
+[Message Sessions]

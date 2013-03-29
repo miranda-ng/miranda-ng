@@ -3151,13 +3151,12 @@
 [Days]
 [Show confirmation window? (0 to not Show)]
 [Seconds to wait before sending]
-[Send a file]
 [Pounce being sent to %s in %d seconds]
 [Retry]
 [Message successfully sent to %s]
 [Message failed to send to %s]
 ;file \plugins\BuddyPounce\src\main.cpp
-[Plugins]
+[Message Sessions]
 ﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -5001,6 +5000,8 @@
 ;  Authors: ValeraVi, Ivan Krechetov
 ;============================================================
 [Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations.]
+;file \plugins\CyrTranslit\src\MirandaContact.cpp
+[&Transliterate (ФЫВА->FYVA)]
 ﻿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: DbChecker.dll
@@ -8082,7 +8083,6 @@
 [URL sent]
 [URL received]
 ;file \plugins\IEView\src\HTMLBuilder.cpp
-['(Unknown Contact)']
 [(Unknown Contact)]
 [ requested authorisation]
 [ was added.]
@@ -11360,8 +11360,6 @@
 [OK]
 [Cancel]
 [General]
-[Cycle through protocols every:]
-[seconds]
 [...avatar]
 [RTL]
 [Align text to right]
@@ -11384,11 +11382,13 @@
 [Round corners]
 [Custom corner size:]
 [Use free space (under avatar) to other texts]
-[Protocol]
-[Show protocol name]
-[Show protocol cycle button]
 [Global On...]
 [Frame Options]
+[Cycle through accounts every:]
+[seconds]
+[Account]
+[Show account name]
+[Show account cycle button]
 [Set My Status Message for All Status]
 [Status Message:]
 [Status popup]
@@ -11407,10 +11407,10 @@
 [Set My Nickname...]
 [Set My Status Message...]
 [Enable Listening To]
-[Show next protocol]
-[Show previous protocol]
-[Cycle through protocols]
-[Don't cycle through protocols]
+[Show next account]
+[Show previous account]
+[Cycle through accounts]
+[Don't cycle through accounts]
 [Nick popup]
 [Status message popup]
 [Avatar popup]
@@ -11437,6 +11437,7 @@
 [Next protocol]
 [Set My Nickname for %s]
 [Set My Status Message for %s]
+[Show next protocol]
 [Contact List]
 ;file \plugins\MyDetails\src\options.cpp
 ﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
@@ -13360,6 +13361,7 @@
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 [Contact]
+[Toggle Ignore]
 [Ignore Contact]
 [Show Contact]
 [Show Recent Contacts]
@@ -15130,6 +15132,7 @@
 [StartupStatus]
 [Your default profile will be changed]
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[Status profiles]
 [There is a maximum of 6 menu items]
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
