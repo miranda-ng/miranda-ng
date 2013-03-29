@@ -9,3 +9,5 @@
 ;============================================================
 [Music Player Daemon support for Watrack.]
 Поддержка Music Player Daemon для плагина Watrack.
+[Watrack MPD connection]
+Подключение Watrack MPD
