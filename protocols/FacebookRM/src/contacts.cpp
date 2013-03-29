@@ -185,13 +185,15 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	std::string id = (*(std::string*)data);
 	delete data;
 	
-	std::string query = "norefresh=false&lsd=";
+	std::string query = "norefresh=true&unref=button_dropdown&confirmed=1&phstamp=0&__a=1";
 	query += "&fb_dtsg=" + facy.dtsg_;
 	query += "&uid=" + id;
 	query += "&__user=" + facy.self_.user_id;	
 
+	std::string get_query = "norefresh=true&unref=button_dropdown&uid=" + id;
+	
 	// Get unread inbox threads
-	http::response resp = facy.flap( FACEBOOK_REQUEST_DELETE_FRIEND, &query );
+	http::response resp = facy.flap( FACEBOOK_REQUEST_DELETE_FRIEND, &query, &get_query );
 
 	// Process result data
 	facy.validate_response(&resp);

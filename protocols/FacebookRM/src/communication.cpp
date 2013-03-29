@@ -385,7 +385,11 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
 	{
-		return "/ajax/profile/removefriend.php?__a=1";
+		std::string action = "/ajax/profile/removefriendconfirm.php?__a=1";
+		if (get_data != NULL) {
+			action += *get_data;
+		}
+		return action;
 	}
 
 	case FACEBOOK_REQUEST_REQUEST_FRIEND:
