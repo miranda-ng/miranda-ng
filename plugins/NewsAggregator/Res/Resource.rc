@@ -77,7 +77,7 @@ BEGIN
     GROUPBOX        "Visualization",IDC_STATIC,6,119,238,85
     LTEXT           "Display news using the following format:",IDC_STATIC,13,132,168,8
     EDITTEXT        IDC_TAGSEDIT,13,143,224,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
-    LTEXT           "All item's tags are valid. Put them between #. Example: #<author>#",IDC_STATIC,14,182,167,16
+    LTEXT           "All item's tags are valid. Put them between #. Example: #<author>#",IDC_STATIC,14,182,160,16
     PUSHBUTTON      "Reset",IDC_RESET,192,184,45,14
     PUSHBUTTON      "?",IDC_TAGHELP,175,184,15,14
     LTEXT           "0 - check manually",IDC_STATIC,100,55,79,8

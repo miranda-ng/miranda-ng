@@ -79,7 +79,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	DWORD dwRetErrorCode = FifoMTInitialize(pmraaqAvatarsQueue, 0);
 	if (dwRetErrorCode == NO_ERROR) {
 		CHAR szBuffer[MAX_PATH];
-		mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s %s", m_szModuleName, Translate("Avatars"), Translate("plugin connections"));
+		mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s", m_szModuleName, Translate("Avatars' plugin connections"));
 
 		NETLIBUSER nlu = {0};
 		nlu.cbSize = sizeof(nlu);
