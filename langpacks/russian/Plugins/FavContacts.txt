@@ -14,11 +14,11 @@
 [Hotkey shows menu centered on screen]
 Меню по горячей кл. в центре экрана 
 [Hide for transparent avatars]
-Скрыть для прозрачных аватар
+Скрыть у прозрачных аватар
 [Favourite Contacts]
 Избранные контакты
 [Draw avatar border]
-Граница на аватарах
+Рамка на аватарах
 [Use system colors and fonts]
 Системные цвета и шрифты
 [Menu item preview:]

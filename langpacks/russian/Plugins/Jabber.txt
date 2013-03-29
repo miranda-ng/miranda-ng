@@ -1417,3 +1417,9 @@ Cлужба недоступна
 Протокол не в сети или нет JID
 [<Photo not available while offline>]
 <Фото недоступно без подключения к сети>
+[Bokmaal, Norwegian; Norwegian Bokmaal]
+Норвежский букмол
+[Occitan (post 1500); Provencal]
+Окситанский, провансальский
+[Volapuk]
+Волапюк
