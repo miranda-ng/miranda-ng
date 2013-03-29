@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.4.7
+;  Version: 5.0.4.8
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -34,8 +34,6 @@ Ignorieren, wenn Kontakt offline geht
 Mitzählen
 [Protocols to watch:]
 Zu überwachende Protokolle:
-[Popup interoperability missing or disabled. You need Popups plugin]
-Popupfunktionalität fehlt oder ist deaktiviert. Sie benötigen ein Popup-Plugin.
 [Use popups]
 Popups nutzen
 [Title]

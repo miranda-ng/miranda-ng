@@ -40,6 +40,7 @@
 [Deleting group "%s"...]
 [Basketball]
 [Sushi]
+[ICQ XStatus]
 [error]
 [The checksum of file "%s" does not match, the file is probably damaged.]
 [GMT-11:30]

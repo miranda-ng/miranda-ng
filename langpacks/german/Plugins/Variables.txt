@@ -1,5 +1,12 @@
 ﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
-;langpack template for Variables
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.9
+;  Authors: P Boon
+;============================================================
+[Adds support for dynamic variables in strings for plugins.]
+Unterstützung für dynamische Variablen in anderen Plugins
 ;file \plugins\Variables\res\Variables.rc
 [Parse options]
 Umwandlungseinstellungen

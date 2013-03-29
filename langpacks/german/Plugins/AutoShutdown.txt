@@ -71,12 +71,6 @@ Bitte auf "Abbrechen" klicken, wenn der Vorgang nicht durchgefuhrt werden soll.
 Beenden um:
 [Time left:]
 Verbleibende Zeit:
-[Progress Bar]
-Fortschrittsanzeige
-[Background]
-Hintergrund
-[Countdown on Frame]
-Anzeige in der Kontaktliste
 [Paused]
 Pause
 [&Unpause Countdown]
@@ -87,6 +81,12 @@ Countdown &pausieren
 Countdown &abbrechen
 [AutoShutdown]
 Automatisches Beenden
+[Countdown on Frame]
+Countdown in Frame
+[Background]
+Hintergrund
+[Progress Bar]
+Fortschrittsanzeige
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 

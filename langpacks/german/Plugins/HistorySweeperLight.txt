@@ -56,6 +56,10 @@ Alle Ereignisse löschen
 20 letzte Ereignisse behalten
 [Keep 50 last events]
 50 letzte Ereignisse behalten
+[Default Action]
+Standard-Aktion
+[Delete All]
+Alles löschen
 [*** Defaut Action ***]
 *** Standard-Aktion ***
 [*** System History ***]

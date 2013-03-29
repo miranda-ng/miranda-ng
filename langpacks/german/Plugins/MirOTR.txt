@@ -89,9 +89,6 @@ Sto&ppe OTR-Sitzung
 
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
 
-;file \plugins\MirOTR\MirOTR\src\icons.cpp
-[Off the Record]
-
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 OTR aktivieren

@@ -14,8 +14,6 @@
 [Authorization future request by %s (%d): %s]
 [Broadcast message from %s (%s): %s]
 [All except status]
-[Grid options]
-[Additional processing support]
 [SMTP Simple]
 [Toggle &Processing]
 [History++]
@@ -93,4 +91,3 @@
 [History++ Warning]
 [%0.1n h]
 [%d min]
-[&Reset to Default]

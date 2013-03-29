@@ -99,9 +99,11 @@ GIF-Bilder
 [XML Files]
 
 [Set My Avatar]
-Meinen Avatar einstellen
+Meinen Avatar setzen
 [Set My Avatar for %s]
-Setze Mein Avatar für %s
+Meinen Avatar für %s setzen
+[Global avatar]
+Globaler Avatar
 [Global avatar for %s accounts]
 Globaler Avatar für %s Konten
 [Avatars]
@@ -138,4 +140,4 @@ Kein Avatar
 [Are you sure you want to remove your avatar?]
 Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
 [Global Avatar]
-
+Globaler Avatar

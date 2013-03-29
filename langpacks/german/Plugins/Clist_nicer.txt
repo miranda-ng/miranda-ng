@@ -75,7 +75,7 @@ Immer Status als Tooltip anzeigen
 [Event area]
 Ereignisbereich
 [Set base visiblity on the frames menu]
-Hauptmenü => Kontaktlisten-\nElemente 'Ereignisbereich' Sichtbar
+Sichtbarkeit im Frames-Menu einstellen
 [Auto mode]
 Automatisch ausblenden
 [System tray icon when using multiple protocols]
@@ -750,7 +750,7 @@ Kontaktzähler einer Gruppe
 [Dividers]
 Trennlinien
 [Frame titles]
-Fensternamen
+Frame Titel
 [Contact list local time]
 Lokale Kontaktzeit
 [Selected Text]
@@ -856,7 +856,7 @@ Ab
 [Frames]
 Frames
 [Show All Frames]
-Alle Elemente anzeigen
+Alle Frames anzeigen
 [Show All Titlebars]
 Alle Titelleisten anzeigen
 [Hide All Titlebars]
@@ -868,7 +868,7 @@ Sichtbar
 [Show TitleBar]
 Titelzeile anzeigen
 [Skinned frame]
-
+Skinnbarer Frame
 [Floating]
 Frei bewegend
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp

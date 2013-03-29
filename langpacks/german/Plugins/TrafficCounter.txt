@@ -135,6 +135,8 @@ Konnte die Statistikdatei nicht lesen
 ;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Schriftart
+[Show/Hide frame]
+Frame anzeigen/verbergen
 [Hide traffic window]
 verstecke Trafficfenster
 [Clear the current (Now:) value]

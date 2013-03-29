@@ -29,11 +29,11 @@ Erscheinungsbild
 [Unsent]
 
 [Sent]
-
+Gesendet
 [To send]
-
+Zu Senden
 [Received]
-
+Empfangen
 [Use only alphanumeric encoding on transfer]
 
 [Extra options: Events > File Transfers, "Receiving files" group]
@@ -44,7 +44,7 @@ Erscheinungsbild
 [Couldn't open a file]
 
 [Size: %d bytes]
-
+Größe: %d Bytes
 [Request sent. Awaiting of acceptance..]
 
 [Sending...]
@@ -84,6 +84,16 @@ Empfange...
 [Transfer is in progress. Do you really want to close?]
 
 ;file \plugins\FileAsMessage\src\main.cpp
+[Play]
+Abspielen
+[Pause]
+Pause
+[Revive]
+Fortsetzen
+[Stop]
+Stopp
+[Main]
+Allgemein
 [Plugins]
 Plugins
 [File As Message...]

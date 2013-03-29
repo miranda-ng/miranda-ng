@@ -16,3 +16,5 @@ Kontaktpriorität: Mittel
 Kontaktpriorität: Gering
 [Contact Rate]
 
+[Contact rate]
+

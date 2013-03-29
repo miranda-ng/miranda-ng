@@ -2213,9 +2213,12 @@ Miranda NG Profil auswählen oder neu erstellen
 Meine Profile
 [New Profile]
 Neues Profil
+;file \src\modules\extraicons\DefaultExtraIcons.cpp
+[Chat activity]
+Chat-Aktivität
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
-Chataktivität
+Chat-Aktivität
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Extraicons

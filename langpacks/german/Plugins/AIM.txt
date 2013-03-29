@@ -61,7 +61,7 @@ Kein mehrfaches Einloggen erlauben
 [Save Profile]
 Profil speichern
 [Create a new AIM account]
-Ein neues AIM-Konto erstellen...
+Ein neues AIM-Konto erstellen
 [AIM Instant Idler]
 AIM: Untätigkeit einstellen
 [Number of Hours:]

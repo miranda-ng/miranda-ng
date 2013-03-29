@@ -9,7 +9,7 @@
 [Edit Note]
 Notiz editieren
 [Tags:]
-Schlagwörter: (mehrere Schlagwörter durch Komma trennen)
+Schlagwörter:
 [OK]
 OK
 [Cancel]
@@ -19,7 +19,7 @@ Typ:
 [User:]
 Benutzer:
 [Domain/Server:]
-
+Domain/Server:
 [Password:]
 Passwort:
 [Save password]
@@ -49,7 +49,7 @@ Importieren
 [Export to file]
 Exportieren
 [Jabber]
-
+Jabber
 [Username:]
 Benutzername:
 [Change password]
@@ -115,7 +115,7 @@ Konferenzraum suchen/betreten
 [Search...]
 Suchen...
 [Registered Jabber Transports]
-Angemeldete Jabbertransporte/Gateways
+Angemeldete Jabbertransporte
 [Log on]
 Anmelden
 [Log off]
@@ -171,7 +171,7 @@ Nachname:
 [Date of birth:]
 Geburtstag:
 [YYYY-MM-DD]
-JJJJ-MM-TT (1991-10-31)
+JJJJ-MM-TT
 [Gender:]
 Geschlecht:
 [Occupation:]
@@ -293,7 +293,7 @@ Nick:
 [Jabber Bookmarks]
 Lesezeichen-Konferenzräume
 [Server side bookmarks\nStore conference rooms and web links on server.]
-Auf Server gespeicherte Lesezeichen\nSpeicherung von Konferenzräumen, URLs und Transporten auf dem Server.
+Auf Server gespeicherte Lesezeichen\nSpeicherung von Konferenzräumen und Weblinks auf dem Server.
 [Remove]
 Entfernen
 [Edit]
@@ -305,7 +305,7 @@ Art des Lesezeichens
 [Conference]
 Konferenz
 [Transport]
-
+Transport
 [URL]
 URL
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
@@ -381,7 +381,7 @@ Aktualisieren
 [Closing in %d]
 In %d schließen
 [Account type:]
-
+Account-Typ:
 [Login server:]
 Loginserver:
 [Register account now]
@@ -395,11 +395,11 @@ Information über Mitglied:\n<user id>
 [Role:]
 Rolle:
 [Set role]
-
+Rolle setzen
 [Affiliation:]
-Mitglieds.:
+Mitgliedschaft:
 [Set affiliation]
-
+Mitgliedschaft setzen
 [Status message:]
 Statusnachricht:
 [Chat options]
@@ -447,11 +447,19 @@ Senden
 ;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Jabber-Link-Protokoll
+[Frame title]
+Frame Titel
+[Frame text]
+Frame Text
+[Jabber Activity]
+Jabber-Aktivität
+[Jabber Mood]
+Jabber-Stimmung
 ;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
-
+Ich bin ein fröhlicher Miranda NG Nutzer. Sie bekommen es unter http://miranda-ng.org.
 [/me slaps %s around a bit with a large trout]
-
+/me schlägt %s mit einem großen Hering.
 ;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 
@@ -482,11 +490,11 @@ Lesezeichennamen
 [Address (JID or URL)]
 Adresse (JID oder URL)
 [Nickname]
-Nick
+Nickname
 [Conferences]
 Konferenzen
 [Links]
-
+Links
 ;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 
@@ -507,7 +515,7 @@ Besucher
 [Participant]
 Teilnehmer
 [Moderator]
-
+Moderator
 [User %s in now banned.]
 Nutzer %s wurde verbannt.
 [User %s changed status to %s with message: %s]
@@ -529,27 +537,27 @@ Rolle von %s wurde geändert in '%s'.
 [Change &nickname]
 &Nickname ändern
 [&Invite a user]
-Benutzer in diesen MUC e&inladen
+Benutzer e&inladen
 [&Roles]
-&Rolle (Role)
+&Rollen
 [&Participant list]
-&Teilnehmerliste (Participant)
+&Teilnehmerliste
 [&Moderator list]
 &Moderatorenliste
 [&Affiliations]
-Mitgliedsch&aft (Affiliation)
+Mitgliedsch&aft
 [&Member list]
-&Mitgliederliste (Member)
+&Mitgliederliste
 [&Admin list]
 &Administratorliste
 [&Owner list]
-Besitzerliste (&Owner)
+Besitzerliste
 [Outcast list (&ban)]
-Liste verbannter &Benutzer (Outcast)
+Außenseiter-Liste (&Bann)
 [&Room options]
 &Raumeinstellungen
 [View/change &topic]
-&Thema setzen
+&Thema ansehen/ändern
 [Add to &bookmarks]
 Als Lesezeichen speichern
 [&Configure...]
@@ -557,11 +565,11 @@ Einstellungen...
 [&Destroy room]
 Raum zerstören
 [Lin&ks]
-
+Lin&ks
 [Copy room &JID]
 Raum-&JID kopieren
 [Copy room topic]
-Thema des Raums kopieren
+Raum-Thema kopieren
 [&Send presence]
 Chatstatus &setzen
 [Online]
@@ -579,19 +587,19 @@ Chat ver&lassen
 [&Slap]
 
 [&User details]
-Kontaktprofil
+Ben&utzer&etails
 [Member &info]
 Mitglieder&infos
 [User &details]
-Kontaktprofil
+Benutzer&details
 [&Add to roster]
 Zu Server-Kont&aktliste hinzufügen
 [&Copy to clipboard]
 In Zwis&chenablage kopieren
 [Invite to room]
-Benutzer in anderen MUC einladen
+In Raum einladen
 [Set &role]
-Setze &Rolle
+&Rolle setzen
 [&Visitor]
 Besucher
 [&Participant]
@@ -599,7 +607,7 @@ Teilnehmer
 [&Moderator]
 &Moderator
 [Set &affiliation]
-Setze Mitgliedsch&aft
+Mitgliedsch&aft setzen
 [&None]
 Kei&ne
 [&Member]
@@ -609,7 +617,7 @@ Kei&ne
 [&Owner]
 Besitzer
 [Outcast (&ban)]
-Ver&bannt
+Ausgestoßener (&Bann)
 [&Kick]
 &Kick
 [Copy &nickname]
@@ -625,21 +633,21 @@ Versende Gruppenchat-Einladung.
 [not on roster]
 Nicht im Roster
 [Member Info:]
-
+Mitgliederinfo:
 [from]
 von
 [Real JID not available]
 Echte JID nicht verfügbar
 [Reason to kick]
-Begründung für den Kick von:
+Begründung für Kick
 [Reason to ban]
-
+Begründung für Bann
 [Invite %s to %s]
-Lade %s in den %s Channel ein
+Lade %s in %s ein
 [Set topic for]
 Setze Thema für
 [Change nickname in]
-Nickname ändern
+Nickname ändern in
 [Reason to destroy]
 Grund der Zerstörung von:
 ;file \protocols\JabberG\src\jabber_console.cpp
@@ -873,6 +881,8 @@ Standort-Priorität [%d]
 Konferenz betreten
 [Open bookmarks]
 Lesezeichen öffnen
+[Privacy lists]
+Privatsphärelisten
 [Service discovery]
 Diensterkennung
 [Last active]

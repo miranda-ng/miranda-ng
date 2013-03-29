@@ -30,4 +30,3 @@
 [Clist docking]
 [A view mode with this name does alredy exist]
 [Duplicate name]
-[Skinned frame]

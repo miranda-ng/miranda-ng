@@ -14,8 +14,6 @@
 [In]
 [Out]
 [Tlen Voice Chat Invitation]
-[SOCKS4]
-[SOCKS5]
 [%s mail]
 [Windows Server 2003]
 [Windows XP]

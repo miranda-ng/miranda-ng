@@ -29,3 +29,5 @@
 [Play/Pause]
 [Oops! BASS error]
 [Mute with Miranda]
+[Device list]
+[Equalizer]

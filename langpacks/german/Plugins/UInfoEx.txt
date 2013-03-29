@@ -1,11 +1,11 @@
 ﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
 ;============================================================
 ;  File: UInfoEx.dll
-;  Plugin: UInfoEx
+;  Plugin: User info ext
 ;  Version: 0.8.4.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-[Gives extended ability to edit information about your contacts locally. ]
+[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information]
@@ -635,6 +635,8 @@ Alle Kontakte importieren
 Sichere Geburtstage
 [Check anniversaries]
 Suche nach Jahrestagen
+[Extended UserInfo]
+Erweiterte Benutzerinformationen
 [Ex-/Import Group]
 
 [&Export Group]
@@ -760,7 +762,7 @@ Niederländisch
 [English]
 Englisch
 [Esperanto]
-Esperanto (Plansprache)
+Esperanto
 [Estonian]
 Estnisch
 [Farsi]
@@ -1089,12 +1091,22 @@ Verwitwet
 E-Mail senden
 [Memory allocation error!]
 Speicher konnte nicht bereitgestellt werden!
+[E-mail (uinfoex)]
+
+;file \plugins\UserInfoEx\src\svc_gender.cpp
+[Gender (uinfoex)]
+
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Der Kontakt hat keine gültige Homepage
 [View Homepage]
 Homepage ansehen
 [&Homepage]
+
+[Homepage (uinfoex)]
+
+;file \plugins\UserInfoEx\src\svc_phone.cpp
+[(uinfoex)]
 
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
@@ -1138,6 +1150,8 @@ Er/Sie
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Backing up and syncing all birthdays complete!]
 Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
+[Reminder (uinfoex)]
+
 [Birthday reminder]
 Geburtstags-Erinnerung
 [Birthday reminder: it's coming]
@@ -1231,4 +1245,7 @@ Die gewählte XMLCard enthält keinen Inhaber!
 Importierte Kontakte: %u / %u\nImportierte Einstellungen: %u / %u\nImportierte Ereignisse: %u / %u\nDoppelte Ereignisse: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 Schwerwiegender Fehler: Eine Ausnahme entstand beim Importieren der xmlCard!
+;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
+[Flags (uinfoex)]
+
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

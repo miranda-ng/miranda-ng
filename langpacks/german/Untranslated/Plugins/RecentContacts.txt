@@ -1,2 +1,3 @@
 ﻿[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 [Main icon]
+[Toggle Ignore]

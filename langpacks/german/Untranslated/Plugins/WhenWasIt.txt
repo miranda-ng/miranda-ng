@@ -2,6 +2,8 @@
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 [N/A]
 [WhenWasIt]
+[%d days to birthday]
+[More than %d days to birthday]
 [%s has birthday today (Should not happen, please report).]
 [Could not create worker thread. Error#%d - threadID %d]
 [Could not open file to import birthdays]

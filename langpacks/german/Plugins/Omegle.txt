@@ -74,14 +74,14 @@ Sie und der Fremde mögen beide:
 [Error: ]
 
 [We are still waiting...]
-
+Wir warten immer noch...
 ;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
-
+Verbindung abgebrochen
 [Disconnecting...]
-
+Trennen...
 [We are already waiting for new stranger...]
-
+Wir warten schon auf einen neuen Fremden
 [Connecting...]
 Verbinden...
 [Waiting for Stranger...]
@@ -92,11 +92,11 @@ Warte auf Fremden...
 [Unable to get Netlib connection for Omegle]
 
 [Stranger typing]
-
+Fremder tippt
 [Stranger stopped typing]
-
+Fremder tippt nicht mehr
 [Changing stranger]
-
+Fremder wechselt
 [Visible name]
 Sichtbarer Name
 [Network]

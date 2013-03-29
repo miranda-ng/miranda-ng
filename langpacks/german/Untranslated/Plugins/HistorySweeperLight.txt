@@ -1,3 +1,1 @@
-﻿[History Sweeper Light]
-[*** Defaut Action ***]
-[*** System History ***]
+﻿[Default Action]

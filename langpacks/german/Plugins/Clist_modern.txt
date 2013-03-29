@@ -173,7 +173,7 @@ Statusleiste
 [Show status bar]
 Statusleiste anzeigen
 [Make sections equal width]
-Alle Protokolle gleiche Breite
+Alle Spalten gleiche Breite
 [Space between]
 Abstand
 [Vertical Align]
@@ -183,25 +183,27 @@ Horizontale Ausr.
 [Multiline status bar:]
 Mehrzeilige Statusleiste
 [Accounts per line]
-Protokolle pro Zeile
+Accounts pro Zeile
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
-* Änderung der Statusleistenhöhe:\nHauptmenü->Kontaktl. Elem.-> Statusl.->Titell. aktivieren, auf Titelleiste drücken und Höhe ändern.
+* Änderung der Statusleistenhöhe:\nHauptmenü->Frames->Statusl.->Titell. anzeigen, auf Titelleiste drücken und Höhe ändern.
 [Hold [Shift] to inverse [Right Click] behaviour]
 Shift gedrückt halten, um Rechtsklick-Verhalten umzukehren
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
 Strg+Linksklick filtert Protokolle. Auf freie Stelle klicken, um alle zu zeigen.
 [Set options per account]
-Setze Einstellungen je Protokoll
+Einstellungen je Account setzen
 [Enable custom account settings]
-Aktiviere Einstellungen je Protokoll
+Aktiviere Einstellungen je Account
 [Hide account completely]
-Protokoll nicht anzeigen
-[Show xStatus Name]
+Account nicht anzeigen
+[Show status name]
+Statusnamen anzeigen
+[Show xStatus name]
 XStatus-Namen anzeigen
 [Show protocol icon]
 Protokollicon anzeigen
-[Use connecting Icon]
-Benutze Verbindungsicon
+[Use connecting icon]
+Verbindungsicon verwenden
 [Show xStatus icon]
 XStatus-Icon anzeigen
 [Show both icons]
@@ -285,11 +287,11 @@ Einfaches Bewegen
 [x100 msec]
 x100 ms
 [show delay]
-Anzeigeverz.
+Anzeigeverzögerung
 [hide delay]
-Ausblenden verz.
+Ausblendeverzögerung
 [Hide method]
-Ausbl.-Methode:
+Ausblende-Methode:
 [pixels]
 Pixel
 [keep on screen]
@@ -431,7 +433,7 @@ Schatten aktivieren (Neustart nötig)
 [Frames]
 Frames
 [Between frames:]
-Zwischen Elementen:
+Zwischen Frames:
 [After captions:]
 Nach Titelzeilen:
 [Gaps]
@@ -751,11 +753,11 @@ Menütext
 [Selected menu text]
 Markierter Menütext
 [Frame title text]
-Titelzeilentext
+Frame-Titel-Text
 [Statusbar text]
 Statuszeilentext
 [3rd party frames transparent back colour]
-Transparente Hintergrundfarbe Kontaktl.-Elem.
+Transparente Hintergrundfarbe Frames
 [General]
 Allgemein
 [List]
@@ -908,7 +910,7 @@ A&uf
 [&Down]
 Ab
 [Show All Frames]
-Alle Elemente anzeigen
+Alle Frames anzeigen
 [Show All Titlebars]
 Alle Titelleisten anzeigen
 [Hide All Titlebars]
@@ -1002,8 +1004,46 @@ Standardskin
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
-
+<<Global>>
+[Center]
+Mitte
+[Right]
+Rechts
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
+[Main Menu]
+Hauptmenü
+[Main menu]
+Hauptmenü
+[Status Menu]
+Statusmenü
+[Status menu]
+Statusmenü
+[Accounts]
+Konten
+[Accounts...]
+Konten ...
+[Show/Hide offline contacts]
+Offline-Kontakte anzeigen/ausblenden
+[Hide offline contacts]
+Offline Kontakte ausblenden
+[Show offline contacts]
+Offline Kontakte anzeigen
+[Find User]
+Benutzer finden
+[Use/Disable groups]
+Gruppen verwenden/deaktivieren
+[Use groups]
+Gruppen verwenden
+[Disable Groups]
+Gruppen deaktivieren
+[Enable/Disable sounds]
+Klänge aktivieren/deaktivieren
+[Enable sounds]
+Klänge aktivieren
+[Disable sounds]
+Klänge deaktivieren
+[Minimize]
+Minimieren
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 Um eine Toolbar in Clist Modern zu sehen, benötigen Sie das TopToolBar Plugin. Klicken Sie Ja um es zu installieren, oder Abbrechen um fortzusetzen.
 [Toolbar upgrade]

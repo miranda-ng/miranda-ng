@@ -1,22 +1,19 @@
 ﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
-;langpack template for GTalkExt
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.0.1.1
+;  Authors: bems
+;============================================================
+[GTalk extensions for Jabber protocol]
+
 ;file \protocols\GTalkExt\res\settings.rc
-[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
-Hinweis:\n\nDieses Plugin funktioniert nur falls Ihr Jabber-Account GTalk unterstützt
 [Popup notifications (needs popup plugin)]
-Popup-Benachrichtigungen (benötigt ein Popup-Plugin)
+Popup-Benachrichtigungen (benötigt Popup-Plugin)
 [Notify in fullscreen mode too]
 Benachrichtigung im Vollbildschirm
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
 Benutzen Sie dies falls Ihr Popup-Plugin keine Vollbildanwendungen erkennt. Es wird Ihren Tastaturfokus wegnehmen
-[Notify in contact list]
-Benachrichtigung in der Kontaktliste
-[Clear pseudocontact history before adding new events]
-Lösche Pseudokontakt Verlauf bevor neue Ereignisse hinzgf. werden
-[Supress foreign popups for pseudocontact]
-Unterdrückt fremde Popups für Pseudokontakte
-[Mark history event read when popup closed]
-Markiere Verlauf als gelesen wenn Popups geschlossen sind
 [Add message snip to notification]
 Füge Nachrichtenstück zur Benachrichtigung hinzu
 [Try to login before open mailbox]
@@ -24,13 +21,13 @@ Versuche einzuloggen bevor die Mailbox geöffnet wird
 [This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
 Dies funktioniert nur falls das Passwort in der Datenbank ist und hat keinen Effekt auf Links im Nachrichtenverlauf von Pseudokontakten.
 [Choose GMail view you use in web interface]
-Wähle GMail-Ansicht über das Webinterface:
+Wähle GMail-Ansicht für das Webinterface:
 [I don't know]
-Null Ahnung
+Ich weiß nicht
 [Standard view]
-Standard
+Standardansicht
 [Basic HTML]
-HTML
+Basis-HTML
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -40,12 +37,12 @@ Timeout
 [If both colors set to the same value, default colors will be used]
 Wenn beide Farben auf den gleichen Wert sind, werden Standardfarben verwendet
 [0 means default timeout,\n-1 means no timeout]
-
+0 bedeutet keine Zeitüberschreitung\n-1 meint unendlich
 [Test]
 Testen
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
-
+Mailbox öffnen
 ;file \protocols\GTalkExt\src\notifications.cpp
 [You've received an e-mail\n%s unread threads]
 Sie haben eine E-Mail erhalten \n%s ungelesene Themen

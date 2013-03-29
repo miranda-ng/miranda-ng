@@ -181,3 +181,15 @@ Erweitert
 Stopp
 [Play]
 Abspielen
+[Frame background]
+Frame-Hintergrund
+[OFF]
+Aus
+[Volume]
+Lautstärke
+[Device list]
+
+[Equalizer]
+
+[New]
+Neu

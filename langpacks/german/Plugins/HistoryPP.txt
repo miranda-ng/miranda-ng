@@ -418,13 +418,13 @@ Webpagernachricht
 [EMail Express message]
 E-Mail-Express-Nachricht
 [Grid options]
-
+Grid-Einstellungen
 [Recent events on top]
 Neuere Ereignisse nach oben
 [Use RTL by default]
 RTL standardmäßig aktivieren
 [Additional processing support]
-
+Zusätzliche Gestaltung
 [Enable BBCodes]
 BBCodes aktivieren
 [Change Appearance]
@@ -754,4 +754,20 @@ History++ Fehler
 [%d min]
 
 [&Reset to Default]
-
+Auf Standar&d zurücksetzen
+[Contact history]
+Kontaktverlauf
+[Incoming nick]
+Eingehender Nick
+[Outgoing nick]
+Ausgehender Nick
+[Incoming contacts]
+Eingehende Kontakte
+[Outgoing contacts]
+Ausgehende Kontakte
+[System message]
+Systemnachricht
+[Incoming timestamp]
+Eingehender Zeitstempel
+[Outgoing timestamp]
+Ausgehender Zeitstempel

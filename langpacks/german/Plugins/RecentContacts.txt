@@ -26,6 +26,8 @@ Kontakte
 
 [Contact]
 Kontakt
+[Toggle Ignore]
+
 [Ignore Contact]
 Kontakt ignorieren
 [Show Contact]

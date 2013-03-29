@@ -6,5 +6,5 @@
 [Disable Miss You]
 [You awaited this contact!]
 [BuddyExpectator]
-[has returned after being absent since %d days]
 [Buddy Expectator]
+[has returned after being absent since %d days]

@@ -11,39 +11,33 @@
 [Set My Nickname]
 Mein Nicknamen setzen
 [Nickname:]
-Nick:
+Nickname:
 [OK]
 OK
 [Cancel]
 Abbrechen
 [General]
 Allgemein
-[Cycle through protocols every:]
-Wechsel des Protokolls alle
-[seconds]
-Sekunden
-[Global on avatar]
-Avatar global setzen
+[...avatar]
+...Avatar
 [RTL]
 RTL
 [Align text to right]
 Text rechtsbündig
-[Global on nickname]
-Nicknamen global setzen
+[...nickname]
+...Nickname
 [Auto-resize frame]
 Autom. Höhe anpassen
 [Use contact list smileys]
 Kontaktlistensmileys nutzen
-[Global on status]
-Status global setzen
+[...status]
+...Status
 [Replace Smileys]
 Smileys ersetzen
 [Resize Smileys]
 Smileygröße anpassen
-[Global on status message]
-Statusnachr. global setzen
-[Frame Options]
-Frame-Einstellungen
+[...status message]
+...Statusnachricht
 [Top:]
 Oben:
 [Bottom:]
@@ -60,20 +54,28 @@ Eigene Größe:
 Pixel
 [Allow it to grow]
 Bei Bedarf vergrößern
-[Draw border on avatar]
-Rand um Avatar zeichnen
-[Round corners of avatars]
-Avatarecken abrunden
+[Draw border]
+Rahmen zeichnen
+[Round corners]
+Runde Ecken
 [Custom corner size:]
-Radius:
+Eigene Eckengröße:
 [Use free space (under avatar) to other texts]
 Freien Platz (unter Avataren) für andere Texte nutzen
-[Protocol]
-Protokoll
-[Show protocol name]
-Protokollnamen anzeigen
-[Show protocol cycle button]
-Protokollwechselbuttons anzeigen
+[Global On...]
+Global bei...
+[Frame Options]
+Frame-Einstellungen
+[Cycle through accounts every:]
+Accounts wechseln alle
+[seconds]
+Sekunden
+[Account]
+Account
+[Show account name]
+Accountnamen anzeigen
+[Show account cycle button]
+Accountwechselbuttons anzeigen
 [Set My Status Message for All Status]
 Meine Statusnachricht für jeden Status setzen
 [Status Message:]
@@ -109,15 +111,15 @@ Mein Nicknamen setzen
 [Set My Status Message...]
 Meine Statusnachicht setzen
 [Enable Listening To]
-Musikinformationen senden
-[Show next protocol]
-Nächstes Protokoll anzeigen
-[Show previous protocol]
-Vorheriges Protokoll anzeigen
-[Cycle through protocols]
-Wechsel der Protokolle
-[Don't cycle through protocols]
-Kein Wechsel der Protokolle
+Listening To aktivieren
+[Show next account]
+Nächsten Account anzeigen
+[Show previous account]
+Vorherigen Account anzeigen
+[Cycle through accounts]
+Wechsel der Accounts
+[Don't cycle through accounts]
+Kein Wechsel der Accounts
 [Nick popup]
 Nickpopup
 [Status message popup]
@@ -167,6 +169,8 @@ Nächstes Protokoll
 Nickname für %s setzen
 [Set My Status Message for %s]
 Statusnachricht für %s setzen
+[Show next protocol]
+Nächstes Protokoll anzeigen
 [Contact List]
 Kontaktliste
 ;file \plugins\MyDetails\src\options.cpp

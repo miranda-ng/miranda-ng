@@ -41,7 +41,7 @@ Dauer
 [Show tooltip for]
 Tooltip zeigen
 [ms]
-
+ms
 [Duration x2 upon online event]
 Doppelte Dauer bei Onlinehinweis
 [Double click on tooltip]
@@ -71,6 +71,10 @@ Kontakte
 [Idle]
 Untätigkeit
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Tooltip-Benachrichtigung
+[Other Status]
+Andere Status
 [Tooltip Notify: Online]
 
 [Tooltip Notify: Offline]
@@ -79,26 +83,12 @@ Untätigkeit
 
 [Tooltip Notify: Typing]
 
-[Tooltip Notify]
-Tooltip-Benachrichtigung
 [PopUps]
 Popups
 [** New contacts **]
 ** Neue Kontakte **
 [** Unknown contacts **]
 ** Unbekannte Kontakte **
-[Away]
-Abwesend
-[N/A]
-
-[Occupied]
-Beschäftigt
-[DND]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
 [Not Idle]
 
 [Unknown]

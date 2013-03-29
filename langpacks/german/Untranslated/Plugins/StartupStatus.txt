@@ -19,4 +19,5 @@
 [Status: The status the account will change to\r\nAccount: The account changing state]
 [Normal]
 [StartupStatus]
+[Status profiles]
 [<n/a>]

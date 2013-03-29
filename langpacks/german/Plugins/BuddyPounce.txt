@@ -1,0 +1,144 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Allows you to send a message to contacts if they change status.]
+
+;file \plugins\BuddyPounce\res\resource.rc
+[Confirm Pounce send]
+
+[Send]
+Senden
+[Cancel]
+Abbrechen
+[Pounce being sent to]
+
+[Buddy Pounce]
+
+[OK]
+OK
+[The Message:]
+Die Nachricht:
+[Delete Pounce]
+
+[Load default Settings]
+
+[Setting Value]
+Einstell. Werte
+[Setting text...........]
+
+[Settings]
+Einstellungen
+[Contact To Send Pounce To]
+Pounce senden an Kontakt
+[<< Simple]
+<< Einfach
+[Advanced >>]
+Erweitert >>
+[The Message]
+Die Nachricht
+[Dialog]
+
+[Static]
+Statisch
+[Check1]
+
+[Use Advanced Dialog]
+Erweiterten Dialog verwenden
+[The Message:       (Characters:  )]
+
+[Default Settings]
+
+[Show Delivery Messages]
+
+[These settings are also used when sending a "Simple" pounce]
+
+;file \plugins\BuddyPounce\src\dialog.cpp
+[Send If My Status Is...]
+Senden, wenn mein Status ist...
+[Send If They Change Status to...]
+Senden, wenn sie Ihren Status ändern zu...
+[Reuse Pounce]
+
+[Give Up delay]
+
+[Confirmation Window]
+Bestätigungsfenster
+[Send If My Status Is]
+Senden wenn mein Status ist
+[Any]
+Beliebig
+[Online]
+Online
+[Away]
+Abwesend
+[NA]
+Außer Haus
+[Occupied]
+Beschäftigt
+[DND]
+Bitte nicht stören
+[Free For Chat]
+Für Chat Bereit
+[Invisible]
+Unsichtbar
+[On The Phone]
+Am Telefon
+[Out To Lunch]
+Zum Essen
+[Send If Their Status changes]
+Senden wenn ihr Status ändert
+[From Offline]
+Von Offline
+[To Online]
+Zu Online
+[To Away]
+Zu Away
+[To NA]
+Zu Außer Haus
+[To Occupied]
+Zu beschäftigt
+[To DND]
+Zu Bitte nicht Stören
+[To Free For Chat]
+Zu Zum Chat Bereit
+[To Invisible]
+Zu Unsichtbar
+[To On The Phone]
+Zu Am Telefon
+[To Out To Lunch]
+Zu Zum Essen
+[The Message    (%d Characters)]
+
+[Couldnt Allocate enough memory]
+
+[error......]
+
+[The Message    (0 Characters)]
+
+[Reuse this message? (0 to use it once)]
+
+[Times]
+Zeitzonen
+[Giveup after.. (0 to not giveup)]
+
+[Days]
+Tage
+[Show confirmation window? (0 to not Show)]
+
+[Seconds to wait before sending]
+
+[Pounce being sent to %s in %d seconds]
+
+[Retry]
+Wiederholen
+[Message successfully sent to %s]
+
+[Message failed to send to %s]
+
+;file \plugins\BuddyPounce\src\main.cpp
+[Message Sessions]
+Nachrichtensitzungen

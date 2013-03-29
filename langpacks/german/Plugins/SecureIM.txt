@@ -377,6 +377,8 @@ GPG-Modus
 [RSA/AES mode]
 RSA/AES-Modus
 ;file \plugins\SecureIM\src\main.cpp
+[SecureIM]
+SecureIM
 [Icons]
 Icons
 [Incoming Secure Message]

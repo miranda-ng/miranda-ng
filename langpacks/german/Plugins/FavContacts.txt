@@ -52,6 +52,20 @@ Zeige
 
 [Regular Contact]
 
+[Contact name]
+Kontaktname:
+[Second line]
+Zweite Zeile
+[Selected contact name (color)]
+
+[Selected second line (color)]
+
+[Background]
+Hintergrund
+[Selected background]
+Markierter Hintergrund
+[Show favourite contacts]
+
 [Contacts]
 Kontakte
 [Favourites]

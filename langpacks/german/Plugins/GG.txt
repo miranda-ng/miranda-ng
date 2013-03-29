@@ -3,7 +3,7 @@
 ;  File: GG.dll
 ;  Plugin: GG
 ;  Version: 0.11.0.2
-;  Authors: Bartosz Białek, Adam Strzelecki
+;  Authors: 
 ;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
@@ -15,7 +15,7 @@ Passwort:
 [E-mail:]
 E-Mail:
 [Create new account]
-Neues Konto erstellen...
+Neues Konto erstellen
 [Remove account]
 Konto entfernen
 [Change password]
@@ -115,7 +115,7 @@ Neue E-Mail:
 [&Create]
 Erstellen
 [Remove Gadu-Gadu account]
-Gadu-Gadu_Konto löschen
+Gadu-Gadu-Konto löschen
 [Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
 Gadu-Gadu Account entfernen\nDies wird Ihren Gadu-Gadu Account entfernen
 [Yes, I want to remove my account]
@@ -223,16 +223,6 @@ Konferenz
 Erweitert
 [<Last Status>]
 <Letzter Status>
-[Online]
-Online
-[Away]
-Abwesend
-[DND]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
 [System tray icon]
 Systemtray-Icon
 [Popup window]
@@ -284,8 +274,10 @@ Kontaktliste
 
 [Avatars]
 Avatare
+[Images]
+Bilder
 [Gadu-Gadu Number]
-
+Gadu-Gadu Nummer
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Konferenz öffnen...
@@ -300,7 +292,7 @@ Dies ist meine eigene Konferenz.
 [Participants]
 Teilnehmer
 ['Unknown']
-
+'Unbekannt'
 [You have to be connected to open new conference.]
 Sie müssen verbunden sein, bevor Sie eine neue Konferenz öffnen können.
 [All ignored conferences are now unignored and the conference policy will act again.]

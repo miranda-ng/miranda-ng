@@ -80,3 +80,6 @@ Neue Schaltfläche
 Neuer Menüeintrag
 [Message Sessions]
 Nachrichtensitzungen
+;file \plugins\QuickMessages\src\Utils.cpp
+[Quick Messages Button %u]
+Quick Messages Button %u

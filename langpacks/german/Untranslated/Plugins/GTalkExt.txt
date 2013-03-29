@@ -1,5 +1,4 @@
-﻿[0 means default timeout,\n-1 means no timeout]
-[Open mailbox]
+﻿[GTalk extensions for Jabber protocol]
 [* Primitive type system\n]
 [* No overloading\n]
 [* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]

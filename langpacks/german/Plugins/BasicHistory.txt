@@ -6,7 +6,7 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
-
+Verlaufsbetrachter für Miranda NG.
 ;file \plugins\BasicHistory\res\BasicHistory.rc
 [Message History]
 Nachrichtenverlauf
@@ -105,11 +105,11 @@ Aktiv
 [Action type]
 Aktions-Typ
 [Filter]
-
+Filter
 [Events older than*]
 Ereignisse älter als*
 [Triger type]
-
+Auslösen bei
 [Time]
 Zeit
 [Delta time]
@@ -194,7 +194,7 @@ Exportieren
 [File do not contain selected contact]
 
 [File is corrupted]
-
+Datei ist beschädigt.
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
@@ -229,15 +229,15 @@ Icons
 [Hotkeys]
 Hotkeys
 [Rich Html]
-
+Erweitertes HTML
 [Plain Html]
-
+Reines HTML
 [Txt]
-
+Text
 [Binary]
-
+Binär
 [Dat (mContacts)]
-
+Dat (mContacts)
 [Save window position as default]
 Speichere Fensterposition als Standard
 [Save window position for all contacts]
@@ -360,7 +360,7 @@ Falsche Kodierung
 [Export and Delete]
 Exportieren und Löschen
 [Import and Marge]
-
+Importieren und Zusammenführen
 [Minute]
 
 [Hour]

@@ -22,6 +22,8 @@
 [&XFire Online Profile]
 [XFire &Clan Site]
 [Protocols/XFire]
+[XFire game icon]
+[XFire voice icon]
 [XFire does not support offline messaging!]
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 [Messagebox]

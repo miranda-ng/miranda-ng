@@ -19,6 +19,5 @@
 [Temperature: %[Temperature]]
 [mb]
 [mm]
-[Frame Background]
 [Variable]
 [No information available.\r\nPlease update weather condition first.]

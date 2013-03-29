@@ -269,3 +269,42 @@ Nativ
 
 [Descr]
 
+;other strings
+[Open contact window]
+Kontaktfenster öffnen
+[Call service]
+Dienst ausführen
+[Execute program]
+Programm ausführen
+[Insert text]
+Text einfügen
+[Use Variables]
+Variablen benutzen
+[number value]
+Nummernwert
+[ANSI string]
+ANSI-String
+[Unicode string]
+Unicodestring
+[current contact]
+Aktueller Kontakt
+[Choose Contact]
+Kontakt wählen
+[Miranda service help]
+
+[Return]
+Rückgabewert
+[Effect]
+Effekt
+[Start]
+
+[action group list was changed: some was added or deleted]
+
+[the context menu for a contact is about to be built]
+
+[double click on the CList]
+
+[New contact added to database]
+
+[Contact deleting]
+

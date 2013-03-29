@@ -1,26 +1,27 @@
 ﻿#muuid {e08ce7c4-9eeb-4272-b544-0d32e18d90de}
-;langpack template for EmLanProto
+;============================================================
+;  File: EmLanProto.dll
+;  Plugin: E-mage LAN protocol
+;  Version: 0.0.1.1
+;  Authors: kva
+;============================================================
+[E-mage LAN protocol support for Miranda NG.]
+E-mage LAN Protokoll Unterstützung für Miranda NG.
 ;file \protocols\EmLanProto\res\amdproto.rc
-[EmLan protocol - donate author please]
-
-[OK]
-OK
-[This window is shown only once]
-
 [Select your IP address]
-
+Wählen Sie Ihre IP-Adresse aus
 [LAN Settings]
-
+LAN-Einstellungen
 [Use computer name]
-
+Computername verwenden
 [Your name]
-Ihr Nick
+Ihr Name
 [Select your name]
-
+Wählen Sie Ihren Namen
 ;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
-
+Benutzername oder '*'
 [E-mage LAN protocol]
-
+E-Mage LAN Protokoll
 [Network]
 Netzwerk

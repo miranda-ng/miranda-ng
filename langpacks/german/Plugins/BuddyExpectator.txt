@@ -107,6 +107,8 @@ Kontakt weiterhin vermisst
 'Vermisst'-Ereignis
 [Hide contact event]
 Ereignis eines versteckten Kontaktes
+[Buddy Expectator]
+
 [Hide contact]
 Verstecke Kontakt
 ;file \plugins\BuddyExpectator\src\options.cpp
@@ -126,8 +128,6 @@ Kontaktname:
 
 [Contacts]
 Kontakte
-[Buddy Expectator]
-
 [PopUps]
 Popups
 [not detected]

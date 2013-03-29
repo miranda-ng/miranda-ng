@@ -211,24 +211,12 @@ Ignoriere Bilder von unautorisierten Kontakten
 Alle Bilder ignorieren
 [<Last message>]
 <Letzte Nachricht>
-[Online]
-Online
-[Away]
-Abwesend
-[NA]
-Außer Haus
-[DND]
-Bitte nicht stören
-[Free for chat]
-Für Chat bereit
-[Invisible]
-Unsichtbar
 [Forwarding]
 Weiterleiten
 [SOCKS4]
-
+SOCKS4
 [SOCKS5]
-
+SOCKS5
 [%s mail]
 
 ;file \protocols\Tlen\src\jabber_svc.cpp

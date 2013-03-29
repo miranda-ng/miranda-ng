@@ -84,3 +84,6 @@
 [Client is banned]
 [Bad Auth. Check login and password]
 [Bad TimeStamp]
+[Slider]
+[Slider Hovered]
+[Slider Pushed]

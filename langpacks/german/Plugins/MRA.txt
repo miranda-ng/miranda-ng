@@ -11,7 +11,7 @@ E-Mail:
 [Password:]
 Passwort:
 [Create a new Mail.ru account]
-
+Neues Mail.ru Konto erstellen
 [Configuration]
 Konfiguration
 [Login Server:]
@@ -21,13 +21,13 @@ Port:
 [Default]
 Standard
 [Automatically request authorization on logon]
-
+Autorisierung bei Login automatisch anfragen
 [Automatically add contacts to server list on logon]
-
+Kontakte bei Login automatisch hinzufügen
 [Automatically grant authorization to users in contact list]
-
+Autorisierung für Benutzer in Kontaktliste automatisch gewähren
 [Automatically grant authorization to new users]
-
+Autorisierung automatisch neuen Nutzern gewähren
 [Disable spam check]
 Spam-Überprüfung deaktivieren
 [Notify me when a message delivery has failed]
@@ -39,9 +39,9 @@ Teile mir mit, wenn eine Nachricht nicht gesendet werden konnte
 [Click to Inbox]
 Klicke hier, um zum Posteingang zu gelangen
 [Show received formatted text (receive RTF)]
-
+Empfangenen Text formatiert anzeigen (RTF empfangen
 [Send formatted text (send RTF)]
-
+Formatierten Text senden (RTF senden)
 [Background colour]
 Hintergrundfarbe
 [Font]
@@ -309,6 +309,10 @@ Popups
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 
+[Mail.ru Xstatus]
+
+[Mail.ru extra info]
+
 [E-mail address]
 E-Mail-Adresse
 ;file \protocols\MRA\src\Mra_functions.cpp
@@ -443,8 +447,8 @@ Schlafen
 Cool!
 [Peace!]
 Friede!
-[Cook a snook]
-Einen Snook kochen
+[Cock a snook]
+Lange Nase zeigen
 [Get out]
 Rausgehen
 [Death]

@@ -1,10 +1,12 @@
 ﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;============================================================
 ;  File: YAMN.dll
-;  Plugin: YAMN
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
 ;============================================================
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
 ;file \plugins\YAMN\res\YAMN.rc
 [OK]
 OK
@@ -169,6 +171,10 @@ E-&Mails von allen Konten abrufen
 E-&Mails von diesem Konto abrufen
 [Launch application]
 Programm ausführen
+[YAMN]
+
+[YAMN Account Folder]
+Kontoordner
 [Check mail]
 E-Mails abrufen
 [Connect Fail]
@@ -245,7 +251,7 @@ Verbindung getrennt
 [POP3 protocol (internal)]
 
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-E-Mail-Benachrichtigung und -Browser für Miranda NG über das POP3-Protokoll.
+Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
 [Found new version of account book, not compatible with this version of YAMN.]
 Neuere Version einer Kontodatei gefunden, die nicht kompatibel mit dieser Version von YAMN ist.
 [YAMN (internal POP3) read error]
@@ -321,8 +327,6 @@ Fehler %d-$d-%d-%d:
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Netzwerk
-[YAMN]
-
 [Accounts]
 Konten
 [General]

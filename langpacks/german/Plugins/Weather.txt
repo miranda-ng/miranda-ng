@@ -91,7 +91,7 @@ Keine Einheiten an Werte anhängen
 [Do not display fractional values]
 Keine Nachkommastellen anzeigen
 [Frame]
-Rahmen
+Frame
 [Avatar size]
 Avatargröße
 [Edit Weather Station]
@@ -446,11 +446,11 @@ Falsches INI-Format für: %s
 Alle aktualisierten Daten wurden geladen.
 ;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
-Text des Kontaktlistenelements
+Frame-Schrift
 [Frame Title Font]
-Titel des Kontaktlistenelements
+Frame-Titel-Schrift
 [Frame Background]
-
+Frame-Hintergrund
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 Netzwerk

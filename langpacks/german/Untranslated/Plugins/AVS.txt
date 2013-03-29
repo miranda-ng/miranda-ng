@@ -6,4 +6,3 @@
 [Flash Animations]
 [XML Files]
 [Avatar Service]
-[Global Avatar]

@@ -1,4 +1,5 @@
-﻿[Token]
+﻿[Adds support for dynamic variables in strings for plugins.]
+[Token]
 [Tokens]
 [Alias]
 [user defined]

@@ -26,8 +26,6 @@
 [HTTP failed writing]
 [Unknown HTTP error]
 [%s connection]
-[Gadu-Gadu Number]
-['Unknown']
 [Can not create image cache directory. ERROR: %d: %s\n%s]
 [Cannot save received image to file. ERROR: %d: %s\n%s]
 [Can not open image file. ERROR: %d: %s\n%s]

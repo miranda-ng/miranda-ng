@@ -58,6 +58,9 @@ Multi-Protokoll Clients
 Andere (seltene) Protokolle
 [Other icons]
 Andere Icons
+;file \plugins\FingerprintNG\src\fingerprint.cpp
+[Fingerprint]
+Fingerprint
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 Client-Icons
@@ -263,5 +266,3 @@ Unerkannter Client
 ;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Icons
-[Fingerprint]
-Fingerprint

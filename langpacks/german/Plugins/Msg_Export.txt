@@ -55,7 +55,7 @@ S&chließen
 [When filename changes]
 Wenn Dateiname geändert wird
 [Prompt for action]
-Nachfrage für Ausführung
+Frage nach Aktion
 [Rename file]
 Datei umbenennen
 [Do nothing]
@@ -63,7 +63,7 @@ Nichts tun
 [When user is deleted]
 Wenn User gelöscht wird
 [Delete file]
-Lösche Datei
+Datei löschen
 [Debug]
 
 [UserList]

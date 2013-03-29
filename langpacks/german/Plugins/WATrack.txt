@@ -643,3 +643,12 @@ Schriftart wählen
 Musik Info von
 [You Get Error]
 Uuups, ein Fehler trat auf!
+;other strings
+[Slider]
+
+[Slider Hovered]
+
+[Slider Pushed]
+
+[WATrack status]
+WATrack Status

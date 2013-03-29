@@ -1632,6 +1632,8 @@ Custom Status
 [Greeting card:]
 Grußkarte:
 ;file \protocols\IcqOscarJ\src\init.cpp
+[ICQ XStatus]
+
 ;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ-Warnung

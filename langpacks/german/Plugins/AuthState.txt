@@ -29,8 +29,8 @@ Auth
 Kontakt ist nicht autorisiert
 [Auth & Grant]
 Ich und Kontakt sind nicht autorisiert
+[Auth State]
+Auth State
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
 Icons
-[Auth State]
-

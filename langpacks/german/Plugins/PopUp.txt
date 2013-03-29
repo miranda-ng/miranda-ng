@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopUp.dll
 ;  Plugin: PopUp plus
-;  Version: 2.1.1.6
+;  Version: 2.1.1.7
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -239,6 +239,11 @@ Dies ist eine Fehlermeldung
 ;file \plugins\Popup\src\effects.cpp
 [Square fading]
 Quadratisch einblenden
+;file \plugins\Popup\src\font.cpp
+[Hovered Action]
+Markierte Aktion
+[Clock]
+Uhrzeit
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 
@@ -304,6 +309,8 @@ Popups deaktivieren
 &Popup-Modul aktivieren
 [Disable &popup module]
 &Popup-Modul deaktivieren
+[Popup Plus]
+Popup Plus
 [Error: I could not register the PopUp Window class.\r\nThe plugin will not operate.]
 Fehler: Das PopUp-Fensterklassenelement konnte nicht registriert werden.\r\nDas Plugin wird nicht funktionieren.
 ;file \plugins\Popup\src\opt_adv.cpp

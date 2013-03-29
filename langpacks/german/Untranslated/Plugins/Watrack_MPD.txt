@@ -1,3 +1,4 @@
-﻿[MPD Host]
+﻿[Music Player Daemon support for Watrack.]
+[MPD Host]
 [Winamp Track]
 [Watrack MPD]

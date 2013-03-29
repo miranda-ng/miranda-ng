@@ -15,7 +15,7 @@ Passwort:
 [Nick:]
 Nick:
 [Create a new Yahoo account using the Yahoo website]
-Ein neues Yahoo-Konto über die Yahoo-Webseite erstellen ...
+Ein neues Yahoo-Konto über die Yahoo-Webseite erstellen
 [Expert]
 Experte
 [Use Yahoo Address Book (YAB)]

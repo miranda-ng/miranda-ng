@@ -30,6 +30,7 @@
 [[weather.dll] UV Index]
 [[weather.dll] Visibility]
 [[weather.dll] Wind]
+[Tipper]
 [Bhojpuri]
 [Chamorro]
 [Farsi]
