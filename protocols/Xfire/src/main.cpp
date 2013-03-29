@@ -1085,7 +1085,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		DBWriteContactSettingByte(NULL,protocolname,"xfiresitegameico",1);
 		DBWriteContactSettingByte(NULL,protocolname,"recprotoverchg",1);
 
-		if(MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if(MessageBoxA(NULL,Translate("It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer."),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			DBWriteContactSettingByte(NULL,protocolname,"autoiniupdate",1);
 			DBWriteContactSettingByte(NULL,protocolname,"autoicodllupdate",1);
