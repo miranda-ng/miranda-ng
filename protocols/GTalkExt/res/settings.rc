@@ -1,26 +1,24 @@
 #include "..\src\resources.h"
 #include "winres.h"
 
-IDD_MAILSETTINGS DIALOGEX 0, 0, 304, 206
+IDD_MAILSETTINGS DIALOGEX 0, 0, 304, 196
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "",IDC_WARNBAR,30,9,8,26,NOT WS_GROUP
-    CTEXT           "NOTE!\nThis will work only if this Jabber account is actually GTalk",IDC_NOTE,13,9,277,26,NOT WS_GROUP
     CONTROL         "Popup notifications (needs popup plugin)",IDC_POPUPSENABLED,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,36,271,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,271,14
     CONTROL         "Notify in fullscreen mode too",IDC_POPUPSINFULLSCREEN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,51,277,14
-    LTEXT           "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus",IDC_POPUPSINFULLSCREENLABEL,30,67,234,27,NOT WS_GROUP
-    CONTROL         "Add message snip to notification",IDC_ADDSNIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,98,300,15
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,22,267,14
+    LTEXT           "Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus",IDC_POPUPSINFULLSCREENLABEL,34,38,234,27,NOT WS_GROUP
+    CONTROL         "Add message snip to notification",IDC_ADDSNIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,69,282,15
     CONTROL         "Try to login before open mailbox",IDC_AUTHONMAILBOX,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,116,300,15
-    LTEXT           "This works only if password is saved in the database. Has no effect on links in pseudocontact message log",IDC_AUTHONMAILBOXLABEL,15,130,280,26,NOT WS_GROUP
-    LTEXT           "Choose GMail view you use in web interface",IDC_MAILBOXVIEWLABEL,3,157,280,9,NOT WS_GROUP
-    CONTROL         "I don't know",IDC_UNKNOWNVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,170,153,8
-    CONTROL         "Standard view",IDC_STANDARDVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,181,157,8
-    CONTROL         "Basic HTML",IDC_HTMLVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,14,192,158,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,87,279,15
+    LTEXT           "This works only if password is saved in the database. Has no effect on links in pseudocontact message log",IDC_AUTHONMAILBOXLABEL,19,101,269,26,NOT WS_GROUP
+    LTEXT           "Choose GMail view you use in web interface",IDC_MAILBOXVIEWLABEL,7,128,280,9,NOT WS_GROUP
+    CONTROL         "I don't know",IDC_UNKNOWNVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,141,153,8
+    CONTROL         "Standard view",IDC_STANDARDVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,152,157,8
+    CONTROL         "Basic HTML",IDC_HTMLVIEW,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,18,163,158,8
 END
 
 IDD_POPUPSETTINGS DIALOGEX 0, 0, 304, 65
