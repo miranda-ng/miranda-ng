@@ -86,7 +86,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	//nl_user.flags = NUF_OUTGOING | NUF_HTTPGATEWAY | NUF_NOOPTIONS;
 	//nl_user.flags = NUF_OUTGOING | NUF_NOOPTIONS;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
-	nl_user.ptszDescriptiveName = LPGENT("Ping Plugin");
+	nl_user.ptszDescriptiveName = TranslateT("Ping Plugin");
 	nl_user.szHttpGatewayHello = 0;
 	nl_user.szHttpGatewayUserAgent = 0;
 	nl_user.pfnHttpGatewayInit = 0;

@@ -61,8 +61,8 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.flags = (NUF_OUTGOING | NUF_HTTPCONNS);
-	nlu.szDescriptiveName = "Watrack MPD connection";
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
+	nlu.ptszDescriptiveName = TranslateT("Watrack MPD connection");
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	InitVars();

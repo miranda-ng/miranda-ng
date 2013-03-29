@@ -755,7 +755,7 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	nlu.szSettingsModule = MODULE;
-	nlu.ptszDescriptiveName = _T("HTTP Server");
+	nlu.ptszDescriptiveName = TranslateT("HTTP Server");
 	hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM) & nlu);
 	if (!hNetlibUser) {
 		MessageBox(NULL, _T("Failed to register NetLib user"), MSG_BOX_TITEL, MB_OK);
