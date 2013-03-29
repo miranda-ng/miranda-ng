@@ -2557,8 +2557,9 @@ LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case MENU_STATUSMENU:
 		HDC hdc = GetDC( m_hWnd );
+		TCHAR *ptszStr = TranslateT("Status");
 		SIZE textSize;
-		GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate("Status")), &textSize );
+		GetTextExtentPoint32(hdc, ptszStr, lstrlen(ptszStr), &textSize);
 		pmis->itemWidth = textSize.cx;
 		pmis->itemHeight = 0;
 		ReleaseDC( m_hWnd, hdc );

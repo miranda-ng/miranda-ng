@@ -88,9 +88,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	//Menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = mi.popupPosition = 2000089999;
-	mi.flags = 0;
 	mi.hIcon = hiVIIcon;
-	mi.pszName = Translate("Version Information");
+	mi.pszName = LPGEN("Version Information");
 	mi.pszService = MS_VERSIONINFO_MENU_COMMAND;
 	Menu_AddMainMenuItem(&mi);
 

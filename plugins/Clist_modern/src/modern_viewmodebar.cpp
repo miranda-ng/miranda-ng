@@ -1058,10 +1058,10 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_USER + 100:
 		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0, 
-			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List",Translate("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW ));
+			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List", LPGEN("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW ));
 
 		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0, 
-			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List",Translate("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));			
+			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List", LPGEN("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));			
 
 		{
 			for (int i=0; _buttons[i] != 0; i++) {

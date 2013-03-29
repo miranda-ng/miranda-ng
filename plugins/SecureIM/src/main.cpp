@@ -319,7 +319,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 #endif
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
 
-	g_hCLIcon = ExtraIcon_Register(MODULENAME, Translate("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
+	g_hCLIcon = ExtraIcon_Register(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
 
 	// hook init options
 	HookEvent(ME_OPT_INITIALISE, onRegisterOptions);
