@@ -932,7 +932,7 @@ begin
           dbei.timestamp:=GetCurrentTime;
           dbei.szModule :=p;
           dbei.flags    :=DBEF_SENT;
-          CallService(MS_DB_EVENT_ADD,hContact,tlparam(@dbei));
+          db_event_add(hContact, @dbei);
           mFreeMem(blob);
         end
         else

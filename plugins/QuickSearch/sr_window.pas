@@ -619,12 +619,12 @@ begin
       end;
 
       ST_LASTEVENT: begin
-        hDbEvent:=CallService(MS_DB_EVENT_FINDLAST,hContact,0);
+        hDbEvent := db_event_last(hContact);
         if hDbEvent<>0 then
         begin
           ZeroMemory(@dbei,sizeof(dbei));
           dbei.cbSize:=SizeOf(dbei);
-          CallService(MS_DB_EVENT_GET,hDbEvent,tlparam(@dbei));
+          db_event_get(hDbEvent, @dbei);
           res.data:=dbei.timestamp;
           res.text:=TimeToStrW(res.data);
         end

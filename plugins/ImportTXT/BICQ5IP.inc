@@ -88,7 +88,7 @@ begin
           dbei.cbBlob := lstrlena(tempstr) + 1;
           dbei.pBlob := PByte(tempstr);
           if not IsDuplicateEvent(DContact.hContact, dbei) then
-            if CallService(MS_DB_EVENT_ADD, wParam(DContact.hContact), lParam(@dbei)) <> 0 then
+            if db_event_add(wParam(DContact.hContact), @dbei) <> 0 then
               Inc(AddedMessages)
             else
             begin

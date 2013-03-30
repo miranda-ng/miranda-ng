@@ -204,7 +204,7 @@ procedure TSearchThread.BuildContactsList;
     SetLength(Contacts, Length(Contacts) + 1);
     Contacts[High(Contacts)].hContact := Cont;
     Contacts[High(Contacts)].Timestamp := 0;
-    hDB := CallService(MS_DB_EVENT_FINDLAST, Cont, 0);
+    hDB := db_event_last(Cont);
     if hDB <> 0 then
     begin
       Contacts[High(Contacts)].Timestamp := GetEventTimestamp(hDB);
@@ -415,7 +415,7 @@ end;
 
 function TSearchThread.GetItemsCount(hContact: THandle): Integer;
 begin
-  Result := CallService(MS_DB_EVENT_GETCOUNT, hContact, 0);
+  Result := db_event_count(hContact);
 end;
 
 procedure TSearchThread.IncProgress;
@@ -432,12 +432,12 @@ begin
   CurContactCP := GetContactCodePage(Contact);
   CurContact := Contact;
   DoMessage(HM_STRD_NEXTCONTACT, wParam(Contact), lParam(GetContactsCount));
-  hDBEvent := CallService(MS_DB_EVENT_FINDLAST, Contact, 0);
+  hDBEvent := db_event_last(Contact);
   while (hDBEvent <> 0) and (not Terminated) do
   begin
     if SearchEvent(hDBEvent) then
       SendItem(hDBEvent);
-    hDBEvent := CallService(MS_DB_EVENT_FINDPREV, hDBEvent, 0);
+    hDBEvent := db_event_prev(hDBEvent);
   end;
   SendBatch;
 end;

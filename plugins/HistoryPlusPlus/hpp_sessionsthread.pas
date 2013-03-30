@@ -176,13 +176,13 @@ begin
   FirstBatch := True;
   try
     DoMessage(HM_SESS_PREPARE, 0, 0);
-    hDBEvent := CallService(MS_DB_EVENT_FINDFIRST, FContact, 0);
+    hDBEvent := db_event_first(FContact);
     while (hDBEvent <> 0) and not Terminated do
     begin
       ZeroMemory(@Event, SizeOf(Event));
       Event.cbSize := SizeOf(Event);
       Event.cbBlob := 0;
-      CallService(MS_DB_EVENT_GET, hDBEvent, LPARAM(@Event));
+      db_event_get(hDBEvent, @Event);
       CurTime := Event.Timestamp;
       if PrevTime = 0 then
       begin
@@ -209,7 +209,7 @@ begin
         Inc(Count);
         PrevTime := CurTime;
       end;
-      hDBEvent := CallService(MS_DB_EVENT_FINDNEXT, hDBEvent, 0);
+      hDBEvent := db_event_next(hDBEvent);
     end;
     SendItem(FirstEvent, LastEvent, FirstTimestamp, LastTimestamp, Count);
     SendBatch;

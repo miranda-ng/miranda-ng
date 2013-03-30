@@ -290,12 +290,12 @@ var
   hDBEvent,prevhDbEvent: THandle;
 begin
   BookmarkServer.Contacts[hContact].Clear;
-  hDBEvent := CallService(MS_DB_EVENT_FINDLAST,hContact,0);
+  hDBEvent := db_event_last(hContact);
   SetSafetyMode(False);
   while hDBEvent <> 0 do
   begin
-    prevhDbEvent := CallService(MS_DB_EVENT_FINDPREV,hDBEvent,0);
-    if CallService(MS_DB_EVENT_DELETE,hContact,hDBEvent) = 0 then
+    prevhDbEvent := db_event_prev(hDBEvent);
+    if db_event_delete(hContact,hDBEvent) = 0 then
       hDBEvent := prevhDbEvent
     else
       hDBEvent := 0;

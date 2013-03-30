@@ -255,7 +255,7 @@ begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
     RecentEventInfo.cbSize := SizeOf(RecentEventInfo);
     RecentEventInfo.cbBlob := 0;
-    CallService(MS_DB_EVENT_GET, hDBEvent, LPARAM(@RecentEventInfo));
+    db_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
   end;
   Result := RecentEventInfo.timestamp;
@@ -270,7 +270,7 @@ begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
     RecentEventInfo.cbSize := SizeOf(RecentEventInfo);
     RecentEventInfo.cbBlob := 0;
-    CallService(MS_DB_EVENT_GET, hDBEvent, LPARAM(@RecentEventInfo));
+    db_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
   end;
   Result := GetMessageType(RecentEventInfo,EventIndex);
@@ -432,7 +432,7 @@ var
 begin
   ZeroMemory(@Result, SizeOf(Result));
   Result.cbSize := SizeOf(Result);
-  BlobSize := CallService(MS_DB_EVENT_GETBLOBSIZE, hDBEvent, 0);
+  BlobSize := db_event_getBlobSize(hDBEvent);
   if BlobSize > 0 then
   begin
     EventBuffer.Allocate(BlobSize);
@@ -441,7 +441,7 @@ begin
   else
     BlobSize := 0;
   Result.cbBlob := BlobSize;
-  if CallService(MS_DB_EVENT_GET, hDBEvent, LPARAM(@Result)) = 0 then
+  if db_event_get(hDBEvent, @Result) = 0 then
     Result.cbBlob := BlobSize
   else
     Result.cbBlob := 0;

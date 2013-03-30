@@ -471,7 +471,7 @@ implementation
 
 uses
   EventDetailForm, PassForm, hpp_options, hpp_services, hpp_eventfilters,
-  hpp_database, hpp_contacts, hpp_itemprocess, hpp_events, hpp_forms, hpp_richedit, 
+  hpp_database, hpp_contacts, hpp_itemprocess, hpp_events, hpp_forms, hpp_richedit,
   hpp_messages, hpp_bookmarks, Checksum, CustomizeFiltersForm, CustomizeToolbar;
 
 {$R *.DFM}
@@ -594,7 +594,7 @@ procedure THistoryFrm.LoadHistory(Sender: TObject);
     LineIdx: Integer;
     ToRead: Integer;
   begin
-    HistoryLength := CallService(MS_DB_EVENT_GETCOUNT, hContact, 0);
+    HistoryLength := db_event_count(hContact);
     if HistoryLength = -1 then
     begin
       // contact is missing
@@ -604,14 +604,14 @@ procedure THistoryFrm.LoadHistory(Sender: TObject);
     SetLength(History, HistoryLength);
     if HistoryLength = 0 then
       Exit;
-    hDBEvent := CallService(MS_DB_EVENT_FINDLAST, hContact, 0);
+    hDBEvent := db_event_last(hContact);
     History[HistoryLength - 1] := NotZero(hDBEvent);
     { if NeedhDBEvent = 0 then toRead := Max(0,HistoryLength-hppLoadBlock-1)
       else toRead := 0; }
     ToRead := Max(0, HistoryLength - hppFirstLoadBlock - 1);
     LineIdx := HistoryLength - 2;
     repeat
-      hDBEvent := CallService(MS_DB_EVENT_FINDPREV, hDBEvent, 0);
+      hDBEvent := db_event_prev(hDBEvent);
       History[LineIdx] := NotZero(hDBEvent);
       { if NeedhDBEvent = hDbEvent then begin
         Result := HistoryLength-LineIdx-1;
@@ -1513,7 +1513,7 @@ begin
       if fromRowIdx > HistoryLength - 1 then
       begin
         fromRowIdx := HistoryLength - 1;
-        hDBEvent := CallService(MS_DB_EVENT_FINDLAST, hContact, 0);
+        hDBEvent := db_event_last(hContact);
         History[fromRowIdx] := hDBEvent;
       end
       else
@@ -1522,7 +1522,7 @@ begin
       begin
         if History[ridx] <> 0 then
           break;
-        hDBEvent := CallService(MS_DB_EVENT_FINDPREV, hDBEvent, 0);
+        hDBEvent := db_event_prev(hDBEvent);
         History[ridx] := NotZero(hDBEvent);
       end;
     end
@@ -1531,7 +1531,7 @@ begin
       if tillRowIdx < 0 then
       begin
         tillRowIdx := 0;
-        hDBEvent := CallService(MS_DB_EVENT_FINDFIRST, hContact, 0);
+        hDBEvent := db_event_first(hContact);
         History[tillRowIdx] := hDBEvent;
       end
       else
@@ -1540,7 +1540,7 @@ begin
       begin
         if History[ridx] <> 0 then
           break;
-        hDBEvent := CallService(MS_DB_EVENT_FINDNEXT, hDBEvent, 0);
+        hDBEvent := db_event_next(hDBEvent);
         History[ridx] := NotZero(hDBEvent);
       end;
     end;
@@ -1860,15 +1860,15 @@ begin
   begin // routine is called from DeleteAll
     if FormState = gsDelete then
     begin // probably unnecessary considering prev check
-      hDBEvent := CallService(MS_DB_EVENT_FINDFIRST, hContact, 0);
-      CallService(MS_DB_EVENT_DELETE, hContact, hDBEvent);
+      hDBEvent := db_event_first(hContact);
+      db_event_delete(hContact, hDBEvent);
     end;
   end
   else
   begin
     idx := GridIndexToHistory(Index);
     if (FormState = gsDelete) and (History[idx] <> 0) then
-      CallService(MS_DB_EVENT_DELETE, hContact, History[idx]);
+      db_event_delete(hContact, History[idx]);
     DeleteEventFromSessions(idx);
     DeleteHistoryItem(idx);
   end;
@@ -2085,7 +2085,7 @@ begin
   begin
     if Sessions[idx].hDBEventLast = hDBEvent then
     begin
-      hDBEvent := CallService(MS_DB_EVENT_FINDPREV, hDBEvent, 0);
+      hDBEvent := db_event_prev(hDBEvent);
       if hDBEvent <> 0 then
       begin
         Sessions[idx].hDBEventLast := hDBEvent;
@@ -2144,7 +2144,7 @@ begin
     Sessions[idx].TimestampLast := 0;
     Exit;
   end;
-  hDBEvent := CallService(MS_DB_EVENT_FINDNEXT, hDBEvent, 0);
+  hDBEvent := db_event_next(hDBEvent);
   if hDBEvent <> 0 then
   begin
     Sessions[idx].hDBEventFirst := hDBEvent;

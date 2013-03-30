@@ -496,7 +496,7 @@ var
   res: Integer;
 begin
   Result := 0;
-  count := CallService(MS_DB_EVENT_GETCOUNT, awParam, 0);
+  count := db_event_count(THandle(awParam));
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
     ZeroMemory(@menuitem, SizeOf(menuItem));

@@ -52,7 +52,7 @@ begin
 
           try
             if not IsDuplicateEvent(DContact.hContact, dbei) then
-              if CallService(MS_DB_EVENT_ADD, wParam(DContact.hContact), lParam(@dbei))<>0 then
+              if db_event_add(DContact.hContact, @dbei) <> 0 then
                 inc(AddedMessages)
               else
               begin

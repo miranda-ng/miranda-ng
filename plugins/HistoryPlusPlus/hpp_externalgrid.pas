@@ -541,14 +541,13 @@ begin
     MessageTypesToDWord([mtMessage, mtUrl]) > 0) then
   begin
     if (not Item.IsRead) then
-      CallService(MS_DB_EVENT_MARKREAD, Items[Index].hContact,
-        Items[Index].hDBEvent);
+      db_event_markRead(Items[Index].hContact, Items[Index].hDBEvent);
     CallService(MS_CLIST_REMOVEEVENT, Items[Index].hContact, Items[Index].hDBEvent);
   end
   else if (not Item.IsRead) and (MessageTypesToDWord(Item.MessageType) and
     MessageTypesToDWord([mtStatus, mtNickChange, mtAvatarChange]) > 0) then
   begin
-    CallService(MS_DB_EVENT_MARKREAD, Items[Index].hContact, Items[Index].hDBEvent);
+    db_event_markRead(Items[Index].hContact, Items[Index].hDBEvent);
   end;
 end;
 
@@ -980,7 +979,7 @@ end;
 procedure TExternalGrid.GridItemDelete(Sender: TObject; Index: Integer);
 begin
   if (FGridState = gsDelete) and (Items[Index].hDBEvent <> 0) and (not Items[Index].Custom) then
-    CallService(MS_DB_EVENT_DELETE, Items[Index].hContact, Items[Index].hDBEvent);
+    db_event_delete(Items[Index].hContact, Items[Index].hDBEvent);
   if Index <> High(Items) then
   begin
     Finalize(Items[Index]);

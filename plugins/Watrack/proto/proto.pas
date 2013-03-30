@@ -80,7 +80,7 @@ begin
     else
       Timestamp:=GetCurrentTime;
   end;
-  CallService(MS_DB_EVENT_ADD,hContact,lparam(@dbeo));
+  db_event_add(hContact, @dbeo);
 end;
 
 {SEND-time text translation}

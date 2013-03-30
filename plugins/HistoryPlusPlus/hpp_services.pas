@@ -197,12 +197,12 @@ begin
   if Assigned(POpenEventParams(wParam)) then
   begin
     oep := POpenEventParams(wParam)^;
-    hDbEvent := CallService(MS_DB_EVENT_FINDLAST, oep.hContact, 0);
+    hDbEvent := db_event_last(oep.hContact);
     item := 0;
     sel := -1;
     while (hDbEvent <> oep.hDbEvent) and (hDbEvent <> 0) do
     begin
-      hDbEvent := CallService(MS_DB_EVENT_FINDPREV, hDbEvent, 0);
+      hDbEvent := db_event_prev(hDbEvent);
       Inc(item);
     end;
     if hDbEvent = oep.hDbEvent then

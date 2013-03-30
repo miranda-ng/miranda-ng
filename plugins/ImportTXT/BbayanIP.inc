@@ -50,7 +50,7 @@ begin
             dbei.pBlob := PByte(WideToUTF8(PWideChar(s), PAnsiChar(pBlob)));
           end;
           if not IsDuplicateEvent(DContact.hContact, dbei) then
-            if CallService(MS_DB_EVENT_ADD, wParam(DContact.hContact), lParam(@dbei)) <> 0 then
+            if db_event_add(wParam(DContact.hContact), @dbei) <> 0 then
               inc(AddedMessages)
             else
             begin

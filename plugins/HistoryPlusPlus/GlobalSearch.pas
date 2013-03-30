@@ -1190,7 +1190,7 @@ var
 begin
   si := GetSearchItem(Index);
   if (FormState = gsDelete) and (si.hDBEvent <> 0) then
-    CallService(MS_DB_EVENT_DELETE, si.Contact.Handle, si.hDBEvent);
+    db_event_delete(si.Contact.Handle, si.hDBEvent);
   if FFiltered then
     Index := FilterHistory[Index];
   DeleteEventFromLists(Index);

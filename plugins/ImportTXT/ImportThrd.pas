@@ -87,7 +87,7 @@ begin
   result := FALSE;
   if not CheckForDuplicates then
     exit;
-  hExistingDbEvent := CallService(MS_DB_EVENT_FINDFIRST, hContact, 0);
+  hExistingDbEvent := db_event_first(hContact);
   if hExistingDbEvent = 0 then
   begin
     result := FALSE;
@@ -97,11 +97,10 @@ begin
   FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
   dbeiExisting.cbSize := SizeOf(dbeiExisting);
   dbeiExisting.cbBlob := 0;
-  CallService(MS_DB_EVENT_GET, wParam(hExistingDbEvent), lParam(@dbeiExisting));
+  db_event_get(hExistingDbEvent, @dbeiExisting);
   dwFirstEventTimeStamp := dbeiExisting.timestamp;
 
-  hExistingDbEvent := CallService(MS_DB_EVENT_FINDLAST, wParam(hContact),
-    lParam(0));
+  hExistingDbEvent := db_event_last(hContact);
   if hExistingDbEvent = 0 then
   begin
     result := FALSE;
@@ -111,7 +110,7 @@ begin
   FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
   dbeiExisting.cbSize := SizeOf(dbeiExisting);
   dbeiExisting.cbBlob := 0;
-  CallService(MS_DB_EVENT_GET, wParam(hExistingDbEvent), lParam(@dbeiExisting));
+  db_event_get(hExistingDbEvent, @dbeiExisting);
   dwLastEventTimeStamp := dbeiExisting.timestamp;
 
   // If before the first
@@ -137,8 +136,7 @@ begin
       FillChar(dbeiExisting, SizeOf(dbeiExisting), Byte(0));
       dbeiExisting.cbSize := SizeOf(dbeiExisting);
       dbeiExisting.cbBlob := 0;
-      CallService(MS_DB_EVENT_GET, wParam(hExistingDbEvent),
-        lParam(@dbeiExisting));
+      db_event_get(hExistingDbEvent, @dbeiExisting);
       // compare event
       if (dbei.timestamp = dbeiExisting.timestamp) and
         ((dbei.flags) = (dbeiExisting.flags and not DBEF_FIRST)) and
@@ -156,8 +154,7 @@ begin
         exit;
       end;
       // get the previous
-      hExistingDbEvent := CallService(MS_DB_EVENT_FINDPREV,
-        wParam(hExistingDbEvent), 0);
+      hExistingDbEvent := db_event_prev(hExistingDbEvent);
     end;
   end;
 end;
@@ -222,7 +219,7 @@ begin
   try
     Move(Text[1], dbei.pBlob^, dbei.cbBlob);
     if not IsDuplicateEvent(hContact, dbei) then
-      if CallService(MS_DB_EVENT_ADD, wParam(hContact), lParam(@dbei)) <> 0 then
+      if db_event_add(hContact, @dbei) <> 0 then
         inc(AddMsg)
       else
       begin

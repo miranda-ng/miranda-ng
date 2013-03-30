@@ -71,7 +71,7 @@ begin
       inc(pt, $2E + UIDLen + 2 + NickLen);
       if fsz <> FileLen - ($2E + UIDLen + 2 + NickLen) then
         fsz := FileLen - ($2E + UIDLen + 2 + NickLen);
-      
+
       if (DContact.hContact = 0) or (DContact.hContact = INVALID_HANDLE_VALUE)
       then
       begin
@@ -111,7 +111,7 @@ begin
             Move(DecodeQHFMsg(qhfver, pt + i + szMsgHd, dbei.cbBlob - 1)[1],
               dbei.pBlob^, dbei.cbBlob - 1);
             if not IsDuplicateEvent(DContact.hContact, dbei) then
-              if CallService(MS_DB_EVENT_ADD, wParam(DContact.hContact), lParam(@dbei))<>0 then
+              if db_event_add(DContact.hContact, @dbei) <> 0 then
                 inc(AddedMessages)
               else
               begin

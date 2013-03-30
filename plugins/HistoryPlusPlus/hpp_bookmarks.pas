@@ -521,7 +521,7 @@ begin
   ped^.hDBEvent := EventData.hDBEvent;
   ped^.CRC32 := EventData.CRC32;
   ped^.Timestamp := EventData.Timestamp;
-  ItemExists := (CallService(MS_DB_EVENT_GETBLOBSIZE, EventData.hDBEvent, 0) >= 0);
+  ItemExists := (db_event_getBlobSize(EventData.hDBEvent) >= 0);
   ItemCorrect := false; // added by Awkward, default value
   if ItemExists then
   begin
@@ -607,11 +607,11 @@ var
 begin
   Result := false;
 
-  hDBEvent := CallService(MS_DB_EVENT_FINDFIRST, Contact.hContact, 0);
+  hDBEvent := db_event_first(Contact.hContact);
   if hDBEvent = 0 then
     exit;
   first_ts := GetEventTimestamp(hDBEvent);
-  hDBEvent := CallService(MS_DB_EVENT_FINDLAST, Contact.hContact, 0);
+  hDBEvent := db_event_last(Contact.hContact);
   if hDBEvent = 0 then
     exit;
   last_ts := GetEventTimestamp(hDBEvent);
@@ -622,7 +622,7 @@ begin
 
   if StartFromFirst then
   begin
-    hDBEvent := CallService(MS_DB_EVENT_FINDFIRST, Contact.hContact, 0);
+    hDBEvent := db_event_first(Contact.hContact);
     while hDBEvent <> 0 do
     begin
       cur_ts := GetEventTimestamp(hDBEvent);
@@ -634,12 +634,12 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := CallService(MS_DB_EVENT_FINDNEXT, hDBEvent, 0);
+      hDBEvent := db_event_next(hDBEvent);
     end;
   end
   else
   begin
-    hDBEvent := CallService(MS_DB_EVENT_FINDLAST, Contact.hContact, 0);
+    hDBEvent := db_event_last(Contact.hContact);
     while hDBEvent <> 0 do
     begin
       cur_ts := GetEventTimestamp(hDBEvent);
@@ -651,7 +651,7 @@ begin
         Result := True;
         break;
       end;
-      hDBEvent := CallService(MS_DB_EVENT_FINDPREV, hDBEvent, 0);
+      hDBEvent := db_event_prev(hDBEvent);
     end;
   end;
 end;
