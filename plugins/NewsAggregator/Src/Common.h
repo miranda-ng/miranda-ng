@@ -29,7 +29,6 @@ Boston, MA 02111-1307, USA.
 // Miranda header files
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_clistint.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_database.h>

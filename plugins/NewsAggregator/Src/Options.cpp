@@ -540,11 +540,6 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
-void CreateCListGroup(TCHAR* szGroupName)
-{
-	CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)szGroupName);
-}
- 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_FEEDLIST);
@@ -757,7 +752,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 											} while (group_name);
 
 											if(!GroupExist)
-												CreateCListGroup(utfgroup);
+												CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)utfgroup);
 										}
 										if (isUTF)
 										{
@@ -796,6 +791,31 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			case IDC_EXPORT:
 				{
+					TCHAR FileName[MAX_PATH];
+					TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+
+					OPENFILENAME ofn = {0};
+					ofn.lStructSize = sizeof(ofn);
+					TCHAR tmp[MAX_PATH];
+					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml)%c*.opml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+					ofn.lpstrFilter = tmp;
+					ofn.hwndOwner = 0;
+					ofn.lpstrFile = FileName;
+					ofn.nMaxFile = MAX_PATH;
+					ofn.nMaxFileTitle = MAX_PATH;
+					ofn.Flags = OFN_HIDEREADONLY;
+					ofn.lpstrInitialDir = tszMirDir;
+					*FileName = '\0';
+					ofn.lpstrDefExt = _T("");
+
+					if (GetSaveFileName(&ofn)) 
+					{
+						HXML hXML = xi.createNode(_T("opml"), NULL, FALSE);
+						xi.addAttr(hXML, _T("version"), _T("1.0"));
+						HXML head = xi.addChild(hXML, _T("head"), NULL);
+						HXML title = xi.addChild(head, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
+						xi.toFile(hXML, FileName, 1);
+					}
 				}
 				return FALSE;
 
