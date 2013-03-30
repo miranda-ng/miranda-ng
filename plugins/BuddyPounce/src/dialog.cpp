@@ -80,12 +80,12 @@ void hideAll(HWND hwnd)
 void getDefaultMessage(HWND hwnd, UINT control, HANDLE hContact)
 {
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, modname, "PounceMsg", &dbv))
+	if (!db_get_ts(hContact, modname, "PounceMsg", &dbv))
 	{
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	else if (!db_get_s(NULL, modname, "PounceMsg", &dbv))
+	else if (!db_get_ts(NULL, modname, "PounceMsg", &dbv))
 	{
 		SetDlgItemText(hwnd, control, dbv.ptszVal);
 		DBFreeVariant(&dbv);
@@ -569,7 +569,7 @@ INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			TranslateDialogDefault(hwnd);
 			spdps->timer = db_get_b(spdps->hContact, modname, "ConfirmTimeout", 0);
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (WPARAM)spdps);
-			if (db_get_s(spdps->hContact, modname, "PounceMsg", &dbv)) DestroyWindow(hwnd);
+			if (db_get_ts(spdps->hContact, modname, "PounceMsg", &dbv)) DestroyWindow(hwnd);
 			SetDlgItemText(hwnd,IDC_MESSAGE, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 			SetTimer(hwnd,1,1000,NULL);
@@ -622,7 +622,7 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (WPARAM)lParam);
 			TranslateDialogDefault(hwnd);
 			hContact = (HANDLE)lParam;
-			if (db_get_s(hContact, modname, "PounceMsg", &dbv)) DestroyWindow(hwnd);
+			if (db_get_ts(hContact, modname, "PounceMsg", &dbv)) DestroyWindow(hwnd);
 			SetDlgItemText(hwnd, IDC_MESSAGE, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}

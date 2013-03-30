@@ -72,7 +72,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = { 0 };
 			DBVARIANT dbv;
 			int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
-			if (!db_get_s(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
+			if (!db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
 			{
 				char* pszUtf = mir_utf8encodeT(dbv.ptszVal);
 				dbei.cbSize = sizeof(dbei);
@@ -174,7 +174,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 		{
 			HANDLE hContact = (HANDLE)wParam;
 			DBVARIANT dbv;
-			if (!db_get_s(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
+			if (!db_get_ts(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
 			{
 				// check my status
 				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), CallProtoService(szProto, PS_GETSTATUS,0,0)) 
@@ -233,7 +233,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	TCHAR* message = (TCHAR*)lParam;
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, modname, "PounceMsg",&dbv))
+	if (!db_get_ts(hContact, modname, "PounceMsg",&dbv))
 	{
 		TCHAR* newPounce = (TCHAR*)mir_alloc(lstrlen(dbv.ptszVal) + lstrlen(message) + 1);
 		if (!newPounce) return 1;
