@@ -168,9 +168,9 @@ static LPTSTR xmlapiToString(HXML _n, int* datalen)
 	return XMLNode(_n).createXMLString(0, datalen);
 }
 
-static XMLError xmlapiToFile(HXML _n, LPCTSTR filename)
+static XMLError xmlapiToFile(HXML _n, LPCTSTR filename, int withformatting)
 {
-	return XMLNode(_n).writeToFile(filename, NULL, NULL);
+	return XMLNode(_n).writeToFile(filename, NULL, withformatting);
 }
 
 static void xmlapiAddAttr(HXML _n, LPCTSTR attrName, LPCTSTR attrValue)

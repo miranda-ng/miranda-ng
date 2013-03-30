@@ -139,7 +139,7 @@ typedef struct
 	XML_ELEMENT_POS (*positionOfClear)(HXML, int i);
 
 	HXML	(*parseFile)(LPCTSTR filename, int* datalen, LPCTSTR tag);
-	XMLError (*toFile)(HXML node, LPCTSTR filename);
+	XMLError (*toFile)(HXML node, LPCTSTR filename, int withformattiing);
 }
 	XML_API;
 
