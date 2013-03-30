@@ -542,14 +542,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 void CreateCListGroup(TCHAR* szGroupName)
 {
-	int hGroup;
-	CLIST_INTERFACE *clint = NULL;
-
-	if (ServiceExists(MS_CLIST_RETRIEVE_INTERFACE))
-		clint = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
-	hGroup = CallService(MS_CLIST_GROUPCREATE, 0, 0);
-	TCHAR* usTmp = szGroupName;
-	clint->pfnRenameGroup(hGroup, usTmp);
+	CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)szGroupName);
 }
  
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -673,29 +666,37 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										node = xi.getNextNode(node);
 										if ( !node)
 										{
-											node = xi.getParent(tmpnode);
-											node = xi.getNextNode(node);
+											do {
+												node = tmpnode;
+												node = xi.getParent(node);
+												tmpnode = node;
+												node = xi.getNextNode(node);
+												LPCTSTR tmp = xi.getName(node);
+												if (node)
+													break;
+											} while (lstrcmpi(xi.getName(node), _T("body")));
 										}
 									}
 									else if (!type && outlineChildsCount)
 										node = xi.getFirstChild(node);
 									else if (type) {
-										TCHAR *title = NULL, *url = NULL, *group = NULL;
+										TCHAR *title = NULL, *url = NULL, *group = NULL, *utfgroup = NULL;
 										for (int i = 0; i < outlineAttr; i++)
 										{
 											if (!lstrcmpi(xi.getAttrName(node, i), _T("title")))
 											{
-												if (isUTF)
-													title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-												else
+												title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+												if ( !title)
+												{
+													isUTF = 1;
 													title = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												}
 												continue;
 											}
 											if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl")))
 											{
-												if (isUTF)
-													url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-												else
+												url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+												if ( !url)
 													url = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
 												continue;
 											}
@@ -724,8 +725,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 											}
 											parent = xi.getParent(parent);
 										}
-										if (isUTF)
-											group = mir_utf8decodeT(_T2A(group));
+
+										if (group)
+										{
+											utfgroup = mir_utf8decodeT(_T2A(group));
+											if ( !utfgroup)
+												utfgroup = group;
+										}
 
 										HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 										CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
@@ -735,38 +741,43 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
 										db_set_ts(hContact, MODULE, "MsgFormat", _T(TAGSDEFAULT));
 										db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
-										if (group)
+										if (utfgroup)
 										{
-											db_set_ts(hContact, "CList", "Group", group);
+											db_set_ts(hContact, "CList", "Group", utfgroup);
 											int hGroup = 1;
 											char *group_name;
 											BYTE GroupExist = 0;
 											do {
 												group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-												if (group_name != NULL && !strcmp(group_name, _T2A(group))) {
+												if (group_name != NULL && !strcmp(group_name, _T2A(utfgroup))) {
 													GroupExist = 1;
 													break;
 												}
 												hGroup++;
-											}
-											while (group_name);
+											} while (group_name);
 
 											if(!GroupExist)
-												CreateCListGroup(group);
+												CreateCListGroup(utfgroup);
 										}
 										if (isUTF)
 										{
 											mir_free(title);
 											mir_free(url);
-											mir_free(group);
+											mir_free(utfgroup);
 										}
 
 										HXML tmpnode = node;
 										node = xi.getNextNode(node);
 										if ( !node)
 										{
-											node = xi.getParent(tmpnode);
-											node = xi.getNextNode(node);
+											do {
+												node = tmpnode;
+												node = xi.getParent(node);
+												tmpnode = node;
+												node = xi.getNextNode(node);
+												if (node)
+													break;
+											} while (lstrcmpi(xi.getName(tmpnode), _T("body")));
 										}
 									}
 								}
