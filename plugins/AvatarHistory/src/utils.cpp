@@ -77,35 +77,6 @@ void ConvertToFilename(TCHAR *str, size_t size)
 	}
 }
 
-void ErrorExit(HANDLE hContact,LPTSTR lpszFunction)
-{
-    // Retrieve the system error message for the last-error code
-
-    LPVOID lpMsgBuf;
-    LPVOID lpDisplayBuf;
-    DWORD dw = GetLastError();
-
-    FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dw,
-        MAKELANGID(LANG_GERMAN, SUBLANG_GERMAN),
-        (LPTSTR) &lpMsgBuf,
-        0, NULL );
-
-    // Display the error message and exit the process
-
-    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
-        (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
-	mir_sntprintf((TCHAR*)lpDisplayBuf, lstrlen((TCHAR*)lpDisplayBuf), _T("%s failed with error %d: %s"), lpszFunction, dw, lpMsgBuf);
-    ShowDebugPopup(hContact,TEXT("Error"),  (LPCTSTR)lpDisplayBuf);
-
-    LocalFree(lpMsgBuf);
-    LocalFree(lpDisplayBuf);
-}
-
 int GetUIDFromHContact(HANDLE contact, TCHAR* uinout, int uinout_len)
 {
 	bool found = true;
@@ -135,7 +106,7 @@ int GetUIDFromHContact(HANDLE contact, TCHAR* uinout, int uinout_len)
 	return 0;
 }
 
-TCHAR * GetExtension(TCHAR *file)
+TCHAR* GetExtension(TCHAR *file)
 {
 	if (file == NULL) return _T("");
 	TCHAR *ext = _tcsrchr(file, _T('.'));
@@ -151,9 +122,7 @@ TCHAR* GetHistoryFolder(TCHAR *fn)
 {
 	if (fn == NULL) return NULL;
 	FoldersGetCustomPathT(hFolder, fn, MAX_PATH, basedir);
-	if (!CreateDirectory(fn, NULL))
-		ErrorExit(NULL,_T("GetHistoryFolder"));
-
+	CreateDirectoryTreeT(fn);
 	return fn;
 }
 
@@ -165,9 +134,7 @@ TCHAR* GetProtocolFolder(TCHAR *fn, char *proto)
 		proto = Translate("Unknown Protocol");
 
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%S"), fn, proto);
-	if (!CreateDirectory(fn, NULL))
-		ErrorExit(NULL,_T("CreateDirectory"));
-	
+	CreateDirectoryTreeT(fn);
 	return fn;
 }
 
@@ -180,8 +147,7 @@ TCHAR* GetContactFolder(TCHAR *fn, HANDLE hContact)
 	
 	GetUIDFromHContact(hContact, uin, SIZEOF(uin));
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
-	if (!CreateDirectory(fn, NULL))
-		ErrorExit(hContact,_T("CreateDirectory"));
+	CreateDirectoryTreeT(fn);
 	ConvertToFilename(uin, sizeof(uin)); //added so that weather id's like "yw/CI0000" work
 	
 #ifdef DBGPOPUPS
@@ -226,16 +192,11 @@ void CreateOldStyleShortcut(HANDLE hContact, TCHAR *history_filename)
 	}
 }
 
-
 BOOL CopyImageFile(TCHAR *old_file, TCHAR *new_file)
 {
 	TCHAR *ext = GetExtension(old_file);
 	mir_sntprintf(new_file, MAX_PATH, _T("%s.%s"), new_file, ext);
-
-	BOOL ret = CopyFile(old_file, new_file, TRUE);
-	if (!ret)
-		ErrorExit(NULL,_T("CopyImageFile"));
-	return !ret;
+	return !CopyFile(old_file, new_file, TRUE);
 }
 
 TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
@@ -292,8 +253,6 @@ BOOL CreateShortcut(TCHAR *file, TCHAR *shortcut)
 		psl->Release(); 
 	} 
 
-	if (FAILED(hr))
-		ErrorExit(NULL,_T("CreateShortcut"));
 	return SUCCEEDED(hr);
 }
 
@@ -322,7 +281,5 @@ BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file)
 		psl->Release(); 
 	}
 
-	if (FAILED(hr))
-		ErrorExit(NULL,_T("CreateShortcut"));
 	return SUCCEEDED(hr);
 }
