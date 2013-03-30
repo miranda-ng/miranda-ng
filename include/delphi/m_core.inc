@@ -53,7 +53,6 @@ const
   DBVTF_DENYUNICODE    = $10000;
 
 type
-  HDBEVENT = Integer;
   PDBVARIANT = ^TDBVARIANT;
   TDBVARIANT = record
     _type: Byte;

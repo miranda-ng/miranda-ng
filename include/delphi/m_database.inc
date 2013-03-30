@@ -303,7 +303,7 @@ const
     lParam : Pointer to TDBEVENTINFO initialised with data
     affect : Add's an event to the contact's event list, the TDBEVENTINFO
              structure should be filled with the event of message -- see notes
-    returns: a handle to a DB event (HDBEVENT), or NULL on error
+    returns: a handle to a DB event (HANDLE), or NULL on error
     notes  : Triggers DB/Event/Added event just before it returns,
              Events are sorted chronologically as they are entered,
              so you cannot guarantee that the new hEvent is the last event in the chain,
@@ -321,7 +321,7 @@ const
 
   {
     wParam : Handle to the contact
-    lParam : HDBEVENT handle to delete
+    lParam : HANDLE handle to delete
     affects: Removes a single event from the database for the given contact
     returns: 0 on success, nonzero on failure
     notes  : Triggers DB/Event/Deleted just before the event *is* deleted
@@ -331,8 +331,8 @@ const
   {
     wParam : Handle to DB event
     lParam : 0
-    returns: Returns the space in bytes requried to store the blob in HDBEVENT
-             given by HDBEVENT(wParam) -- or -1 on error
+    returns: Returns the space in bytes requried to store the blob in HANDLE
+             given by HANDLE(wParam) -- or -1 on error
   }
   MS_DB_EVENT_GETBLOBSIZE:PAnsiChar = 'DB/Event/GetBlobSize';
 
@@ -398,19 +398,19 @@ const
 
   {
     wParam : HCONTACT
-    lParam : HDBEVENT
+    lParam : HANDLE
     affect : Changes the flag for an event to mark it as read
     Returns: Returns the entire flag DWORD for the event after the change, or -1
-             if HDBEVENT is invalid, see notes
+             if HANDLE is invalid, see notes
     notes  : This iss one of the database write operations that does not trigger
              an event, modules should not save flagss states for any length of time.
   }
   MS_DB_EVENT_MARKREAD:PAnsiChar = 'DB/Event/MarkRead';
 
   {
-    wParam : HDBEVENT
+    wParam : HANDLE
     lParam : 0
-    Affect : Returns a handle to a contact that owns the HDBEVENT,
+    Affect : Returns a handle to a contact that owns the HANDLE,
              see notes
     Returns: Returns a handle if successful or HDBEEVENT(-1) on failure
     notes  : This service is very slow, only use wheen you have no other choice
@@ -433,7 +433,7 @@ const
     lParam : 0
     Affect : Retrieves a handle to the first unreead event in a chain for a HCONTACT
              see notes
-    Returns: Returns a HDBEVENT handle or NULL(0) if the HCONTACT is invalid
+    Returns: Returns a HANDLE handle or NULL(0) if the HCONTACT is invalid
              or all it's events have beeen read.
     Notes  : Events in a chain are sorted chronologically automatically,
              but this does not necessarily mean that all events after
@@ -453,19 +453,19 @@ const
   MS_DB_EVENT_FINDLAST:PAnsiChar = 'DB/Event/FindLast';
 
   {
-    wParam : HDBEVENT
+    wParam : HANDLE
     lParam : 0
-    Affects: Retrieves a handle to the next event in a chain after HDBEVENT
-    Returns: A handle to the next DB event or NULL(0) if HDBEVENT is invalid
+    Affects: Retrieves a handle to the next event in a chain after HANDLE
+    Returns: A handle to the next DB event or NULL(0) if HANDLE is invalid
              or the last event in the chain.
   }
   MS_DB_EVENT_FINDNEXT:PAnsiChar = 'DB/Event/FindNext';
 
   {
-    wParam : HDBEVENT
+    wParam : HANDLE
     lParam : 0
-    Affects: Retrieves a handle to the previous event in a chain before HDBEVENT
-    Returns: A handle to the previous HDBEVENT or NULL(0) if HDBEVENT is invalid
+    Affects: Retrieves a handle to the previous event in a chain before HANDLE
+    Returns: A handle to the previous HANDLE or NULL(0) if HANDLE is invalid
              or is the first event in the chain
   }
   MS_DB_EVENT_FINDPREV:PAnsiChar = 'DB/Event/FindPrev';
@@ -628,7 +628,7 @@ const
 
   {
     wParam : HCONTACT
-    lParam : HDBEVENT
+    lParam : HANDLE
     Affect : Called when an event is about to be deleted from the event chain
              for a contact, see notes
     notes  : Returning non zero from your hook will NOT stop the deletion,

@@ -262,7 +262,7 @@ const
 
   {
     wParam : HCONTACT
-    lParam : HDBEVENT
+    lParam : HANDLE
     Affect : Remove an event from the contact list queue
     Returns: 0 on success, [non zero] on failure
   }
