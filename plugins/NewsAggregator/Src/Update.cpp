@@ -28,19 +28,14 @@ UPDATELIST *UpdateListTail = NULL;
 VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && !Miranda_Terminated())
-	{
+	if (!ThreadRunning && !Miranda_Terminated()) {
 		BOOL HaveUpdates = FALSE;
 		HANDLE hContact = db_find_first();
-		while (hContact != NULL) 
-		{
-			if(IsMyContact(hContact))
-			{
-				if (DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
-				{
-					double diff = difftime(time(NULL), DBGetContactSettingDword(hContact, MODULE, "LastCheck", 0));
-					if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60)
-					{
+		while (hContact != NULL) {
+			if(IsMyContact(hContact)) {
+				if (db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME)) {
+					double diff = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
+					if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME) * 60) {
 						UpdateListAdd(hContact);
 						HaveUpdates = TRUE;
 					}
@@ -60,8 +55,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated())
-	{
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated()) {
 		if (db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 			CheckAllFeeds(0, 1);
 		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
@@ -70,9 +64,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 void UpdateListAdd(HANDLE hContact)
 {
-	UPDATELIST *newItem;
-
-	newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
+	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
 	newItem->next = NULL;
 
@@ -92,10 +84,8 @@ HANDLE UpdateGetFirst()
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListHead != NULL)
-	{
+	if (UpdateListHead != NULL) {
 		UPDATELIST* Item = UpdateListHead;
-
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
 		mir_free(Item);
@@ -111,15 +101,11 @@ HANDLE UpdateGetFirst()
 
 void DestroyUpdateList(void)
 {
-	UPDATELIST *temp;
-
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	temp = UpdateListHead;
-
 	// free the list one by one
-	while (temp != NULL)
-	{
+	UPDATELIST *temp = UpdateListHead;
+	while (temp != NULL) {
 		UpdateListHead = temp->next;
 		mir_free(temp);
 		temp = UpdateListHead;
@@ -133,8 +119,7 @@ void DestroyUpdateList(void)
 void UpdateThreadProc(LPVOID AvatarCheck)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
-	if (ThreadRunning)
-	{
+	if (ThreadRunning) {
 		ReleaseMutex(hUpdateMutex);
 		return;
 	}

@@ -21,14 +21,14 @@ Boston, MA 02111-1307, USA.
 
 static IconItem iconList[] =
 {
-	{LPGEN("Protocol icon"),		"main",			IDI_ICON},
-	{LPGEN("Check All Feeds"),		"checkall",		IDI_CHECKALL},
-	{LPGEN("Add Feed"),				"addfeed",		IDI_ADDFEED},
-	{LPGEN("Import Feeds"),			"importfeeds",	IDI_IMPORTFEEDS},
-	{LPGEN("Export Feeds"),			"exportfeeds",	IDI_EXPORTFEEDS},
-	{LPGEN("Check Feed"),			"checkfeed",	IDI_CHECKALL},
-	{LPGEN("Auto Update Enabled"),	"enabled",		IDI_ENABLED},
-	{LPGEN("Auto Update Disabled"),	"disabled",		IDI_DISABLED}
+	{ LPGEN("Protocol icon"),        "main",        IDI_ICON},
+	{ LPGEN("Check All Feeds"),      "checkall",    IDI_CHECKALL},
+	{ LPGEN("Add Feed"),             "addfeed",     IDI_ADDFEED},
+	{ LPGEN("Import Feeds"),         "importfeeds", IDI_IMPORTFEEDS},
+	{ LPGEN("Export Feeds"),         "exportfeeds", IDI_EXPORTFEEDS},
+	{ LPGEN("Check Feed"),           "checkfeed",   IDI_CHECKALL},
+	{ LPGEN("Auto Update Enabled"),  "enabled",     IDI_ENABLED},
+	{ LPGEN("Auto Update Disabled"), "disabled",    IDI_DISABLED}
 };
 
 VOID InitIcons()
@@ -36,17 +36,17 @@ VOID InitIcons()
 	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, SIZEOF(iconList), MODULE);
 }
 
-HICON LoadIconEx(const char* name, BOOL big)
+HICON LoadIconEx(const char *name, BOOL big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
-HANDLE GetIconHandle(const char* name)
+HANDLE GetIconHandle(const char *name)
 {
 	for (int i=0; i < SIZEOF(iconList); i++)
-		if (strcmp(iconList[i].szName, name) == 0)
+		if ( !strcmp(iconList[i].szName, name))
 			return iconList[i].hIcolib;
 
 	return NULL;

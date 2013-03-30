@@ -25,20 +25,18 @@ HANDLE hTBButton = NULL, hNewsAggregatorFolder = NULL;
 
 void SetContactStatus(HANDLE hContact, int nNewStatus)
 {
-	if(DBGetContactSettingWord(hContact, MODULE, "Status", ID_STATUS_ONLINE) != nNewStatus)
-		DBWriteContactSettingWord(hContact, MODULE, "Status", nNewStatus);
+	if(db_get_w(hContact, MODULE, "Status", ID_STATUS_ONLINE) != nNewStatus)
+		db_set_w(hContact, MODULE, "Status", nNewStatus);
 }
 
 static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
 	HANDLE hContact= db_find_first();
-	while (hContact != NULL)
-	{
+	while (hContact != NULL) {
 		if(IsMyContact(hContact))
-		{
 			SetContactStatus(hContact, nStatus);
-		}
+
 		hContact = db_find_next(hContact);
 	}
 }
@@ -58,10 +56,8 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 		lstrcpyn(tszRoot, VARST( _T("%miranda_userdata%\\Avatars\\"_T(DEFAULT_AVATARS_FOLDER))), SIZEOF(tszRoot));
 
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-	{
-		if(IsMyContact(hContact))
-		{
+	while (hContact != NULL) {
+		if(IsMyContact(hContact)) {
 			if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 				db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 			SetContactStatus(hContact, ID_STATUS_ONLINE);
@@ -84,34 +80,28 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
 {
 	if (hAddFeedDlg)
-	{
 		SendMessage(hAddFeedDlg, WM_CLOSE, 0, 0);
-	}
+
 	WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
 
 	KillTimer(NULL, timerId);
 	NetlibUnInit();
-
 	return 0;
 }
 
 INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 {
-	if(lParam)
-	{
+	if(lParam) {
 		lstrcpynA((char*)lParam, MODULE, wParam);
 		return 0;
 	}
-	else
-	{
-		return 1;
-	}
+
+	return 1;
 }
 
 INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 {
-	switch(wp)
-	{
+	switch(wp) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_PEER2PEER;
 	case PFLAGNUM_3:
@@ -131,16 +121,13 @@ INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/)
 {
 	int nStatus = wp;
-	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
-	{
+	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
 		int nOldStatus = g_nStatus;
-		if(nStatus != g_nStatus)
-		{
+		if(nStatus != g_nStatus) {
 			g_nStatus = nStatus;
 			mir_forkthread(WorkingThread, (void*)g_nStatus);
 			ProtoBroadcastAck(MODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)nOldStatus, g_nStatus);
 		}
-
 	}
 
 	return 0;
@@ -172,9 +159,8 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-	{
-		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	while (hContact != NULL) {
+		if (IsMyContact(hContact) && lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (IsMyContact(hContact) && !lParam)
 			UpdateListAdd(hContact);
@@ -197,13 +183,11 @@ INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList,hContact);
-	if (!hChangeFeedDlg)
-	{
+	if (!hChangeFeedDlg) {
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
 	}
-	else
-	{
+	else {
 		SetForegroundWindow(hChangeFeedDlg);
 		SetFocus(hChangeFeedDlg);
 	}
@@ -233,23 +217,21 @@ INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
 INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* pai = (PROTO_AVATAR_INFORMATIONT*) lParam;
-
 	if (!IsMyContact(pai->hContact))
 		return GAIR_NOAVATAR;
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
+	if (wParam & GAIF_FORCE && db_get_dw(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (LPVOID)TRUE);
 
-	DBVARIANT dbv = {0};
-	if(DBGetContactSettingTString(pai->hContact, MODULE, "ImageURL", &dbv))
-	{
+	DBVARIANT dbv;
+	if(db_get_ts(pai->hContact, MODULE, "ImageURL", &dbv))
 		return GAIR_NOAVATAR;
-	}
-	DBFreeVariant(&dbv);
+
+	db_free(&dbv);
 	return GAIR_WAITFOR;
 }
 

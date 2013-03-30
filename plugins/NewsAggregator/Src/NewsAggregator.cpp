@@ -23,14 +23,11 @@ HINSTANCE hInst = NULL;
 
 int hLangpack;
 HANDLE hPrebuildMenuHook = NULL;
-HANDLE hProtoService[8];
 HWND hAddFeedDlg;
 HANDLE hChangeFeedDlgList = NULL;
 XML_API xi = {0};
 TCHAR tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
-#define NUM_SERVICES 7
-HANDLE hService[NUM_SERVICES];
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -59,7 +56,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 	mir_getXI(&xi);
 
@@ -77,33 +73,28 @@ extern "C" __declspec(dllexport) int Load(void)
 	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 
-	hProtoService[0] = CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
-	hProtoService[1] = CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);
-	hProtoService[2] = CreateProtoServiceFunction(MODULE, PS_SETSTATUS, NewsAggrSetStatus);
-	hProtoService[3] = CreateProtoServiceFunction(MODULE, PS_GETSTATUS, NewsAggrGetStatus);
-	hProtoService[4] = CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
-	hProtoService[5] = CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
-	hProtoService[6] = CreateProtoServiceFunction(MODULE, PS_GETAVATARINFOT, NewsAggrGetAvatarInfo);
-	hProtoService[7] = CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
+	CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);
+	CreateProtoServiceFunction(MODULE, PS_GETCAPS, NewsAggrGetCaps);
+	CreateProtoServiceFunction(MODULE, PS_SETSTATUS, NewsAggrSetStatus);
+	CreateProtoServiceFunction(MODULE, PS_GETSTATUS, NewsAggrGetStatus);
+	CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
+	CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
+	CreateProtoServiceFunction(MODULE, PS_GETAVATARINFOT, NewsAggrGetAvatarInfo);
+	CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
 
-	hService[0] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKALLFEEDS, CheckAllFeeds);
-	hService[1] = CreateServiceFunction(MS_NEWSAGGREGATOR_ADDFEED, AddFeed);
-	hService[2] = CreateServiceFunction(MS_NEWSAGGREGATOR_IMPORTFEEDS, ImportFeeds);
-	hService[3] = CreateServiceFunction(MS_NEWSAGGREGATOR_EXPORTFEEDS, ExportFeeds);
-	hService[4] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKFEED, CheckFeed);
-	hService[5] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
-	hService[6] = CreateServiceFunction(MS_NEWSAGGREGATOR_ENABLED, EnableDisable);
-
+	CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKALLFEEDS, CheckAllFeeds);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_ADDFEED, AddFeed);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_IMPORTFEEDS, ImportFeeds);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_EXPORTFEEDS, ExportFeeds);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKFEED, CheckFeed);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
+	CreateServiceFunction(MS_NEWSAGGREGATOR_ENABLED, EnableDisable);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	for (int i = 0;i<NUM_SERVICES;i++)
-		DestroyServiceFunction(hService[i]);
-
 	DestroyUpdateList();
 	CloseHandle(hUpdateMutex);
-
 	return 0;
 }
