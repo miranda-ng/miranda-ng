@@ -17,10 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.
 */
 
-
 #include "AvatarHistory.h"
-
-
 
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
@@ -108,13 +105,13 @@ void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 		((PopupDataType*)ppd.PluginData)->hIcon = ppd.lchIcon;
 
 		if (title != NULL)
-			lstrcpyn(ppd.lptzContactName, title, MAX_REGS(ppd.lptzContactName));
+			lstrcpyn(ppd.lptzContactName, title, SIZEOF(ppd.lptzContactName));
 		else if (hContact != NULL)
-			lstrcpyn(ppd.lptzContactName, (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
-					MAX_REGS(ppd.lptzContactName));
+			lstrcpyn(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR),
+					SIZEOF(ppd.lptzContactName));
 
 		if (description != NULL)
-			lstrcpyn(ppd.lptzText, description, MAX_REGS(ppd.lptzText));
+			lstrcpyn(ppd.lptzText, description, SIZEOF(ppd.lptzText));
 
 		if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST)
 		{

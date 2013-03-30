@@ -21,8 +21,26 @@ Boston, MA 02111-1307, USA.
 #ifndef __POPUP_H__
 # define __POPUP_H__
 
-#include <windows.h>
+struct Options {
+	// Log
+	BOOL log_per_contact_folders;
+	BOOL log_keep_same_folder;
+	BOOL log_store_as_hash;
 
+	// Popup
+	BOOL popup_show_changed;
+	TCHAR popup_changed[1024];
+	BOOL popup_show_removed;
+	TCHAR popup_removed[1024];
+	WORD popup_delay_type;
+	WORD popup_timeout;
+	BYTE popup_use_win_colors;
+	BYTE popup_use_default_colors;
+	COLORREF popup_bkg_color;
+	COLORREF popup_text_color;
+	WORD popup_left_click_action;
+	WORD popup_right_click_action;
+};
 
 // Initializations needed by popups
 void InitPopups();

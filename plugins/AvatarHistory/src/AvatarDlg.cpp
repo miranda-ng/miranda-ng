@@ -20,7 +20,6 @@ Avatar History Plugin
 
 #include "AvatarHistory.h"
 
-extern HINSTANCE hInst;
 HANDLE hMenu = NULL; 
 DWORD WINAPI AvatarDialogThread(LPVOID param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
@@ -86,7 +85,7 @@ int OpenAvatarDialog(HANDLE hContact, char* fn)
 	}
 	else
 	{
-		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, MAX_REGS(avdlg->fn));
+		MultiByteToWideChar(CP_ACP, 0, fn, -1, avdlg->fn, SIZEOF(avdlg->fn));
 	}
 
 	CloseHandle(CreateThread(NULL, 0, AvatarDialogThread, (LPVOID)avdlg, 0, &dwId));

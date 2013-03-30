@@ -1,12 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define MIRANDA_VER 0x0A00
-#include <tchar.h>
+
 #include <windows.h>
-#include <stdio.h>
 #include <time.h>
-#include <strsafe.h>
-#include <commctrl.h> //for ImageList_*
-#include <prsht.h>
 #include <ShObjIdl.h>
 #include <ShlGuid.h>
 
@@ -15,12 +10,10 @@
 #include <m_skin.h>
 #include <m_avatars.h>
 #include <m_database.h>
-#include <m_system.h>
 #include <m_protosvc.h>
 #include <m_contacts.h>
 #include <m_popup.h>
 #include <m_options.h>
-#include <m_utils.h>
 #include <m_langpack.h>
 #include <m_history.h>
 #include <m_imgsrvc.h>
@@ -29,16 +22,22 @@
 
 #include <m_folders.h>
 #include <m_metacontacts.h>
-#include "m_avatarhist.h"
+#include <m_avatarhist.h>
+
+#include "../utils/mir_options.h"
 
 #include "resource.h"
 #include "Version.h"
+#include "popup.h"
 
 // Globals
 extern HINSTANCE hInst;
 extern HANDLE hMenu;
 extern DWORD mirVer;
 extern HANDLE hAvatarWindowsList;
+extern Options opts;
+extern HANDLE hFolder;
+extern TCHAR basedir[];
 
 #define MODULE_NAME "AvatarHistory"
 
@@ -79,8 +78,6 @@ void   ConvertToFilename(TCHAR *str, size_t size);
 void   CreateOldStyleShortcut(HANDLE hContact, TCHAR *history_filename);
 BOOL   CreateShortcut(TCHAR *file, TCHAR *shortcut);
 
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
-
 #define POPUP_ACTION_DONOTHING 0
 #define POPUP_ACTION_CLOSEPOPUP 1
 #define POPUP_ACTION_OPENAVATARHISTORY 2
@@ -89,30 +86,3 @@ BOOL   CreateShortcut(TCHAR *file, TCHAR *shortcut);
 #define POPUP_DELAY_DEFAULT 0
 #define POPUP_DELAY_CUSTOM 1
 #define POPUP_DELAY_PERMANENT 2
-
-
-struct Options {
-	// Log
-	BOOL log_per_contact_folders;
-	BOOL log_keep_same_folder;
-	BOOL log_store_as_hash;
-
-	// Popup
-	BOOL popup_show_changed;
-	TCHAR popup_changed[1024];
-	BOOL popup_show_removed;
-	TCHAR popup_removed[1024];
-	WORD popup_delay_type;
-	WORD popup_timeout;
-	BYTE popup_use_win_colors;
-	BYTE popup_use_default_colors;
-	COLORREF popup_bkg_color;
-	COLORREF popup_text_color;
-	WORD popup_left_click_action;
-	WORD popup_right_click_action;
-};
-
-extern Options opts;
-
-
-#include "popup.h"

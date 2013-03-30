@@ -24,9 +24,6 @@ Avatar History Plugin
 
 #include "AvatarHistory.h"
 
-extern HANDLE hFolder;
-extern TCHAR basedir[];
-
 BOOL ProtocolEnabled(const char *proto)
 {
 	if (proto == NULL)
@@ -102,10 +99,7 @@ void ErrorExit(HANDLE hContact,LPTSTR lpszFunction)
 
     lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT,
         (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
-    StringCchPrintf((LPTSTR)lpDisplayBuf,
-        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        TEXT("%s failed with error %d: %s"),
-        lpszFunction, dw, lpMsgBuf);
+	mir_sntprintf((TCHAR*)lpDisplayBuf, lstrlen((TCHAR*)lpDisplayBuf), _T("%s failed with error %d: %s"), lpszFunction, dw, lpMsgBuf);
     ShowDebugPopup(hContact,TEXT("Error"),  (LPCTSTR)lpDisplayBuf);
 
     LocalFree(lpMsgBuf);
@@ -184,7 +178,7 @@ TCHAR* GetContactFolder(TCHAR *fn, HANDLE hContact)
 	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
 	
-	GetUIDFromHContact(hContact, uin, MAX_REGS(uin));
+	GetUIDFromHContact(hContact, uin, SIZEOF(uin));
 	mir_sntprintf(fn, MAX_PATH, _T("%s\\%s"), fn, uin);
 	if (!CreateDirectory(fn, NULL))
 		ErrorExit(hContact,_T("CreateDirectory"));
@@ -219,7 +213,7 @@ void CreateOldStyleShortcut(HANDLE hContact, TCHAR *history_filename)
 
 	GetOldStyleAvatarName(shortcut, hContact);
 
-	mir_sntprintf(shortcut, MAX_REGS(shortcut), _T("%s.%s.lnk"), shortcut,
+	mir_sntprintf(shortcut, SIZEOF(shortcut), _T("%s.%s.lnk"), shortcut,
 		GetExtension(history_filename));
 
 	if (!CreateShortcut(history_filename, shortcut))
@@ -254,7 +248,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 	else
 		GetProtocolFolder(file, proto);
 
-	mir_sntprintf(search, MAX_REGS(search), _T("%s\\%s.*"), file, hash);
+	mir_sntprintf(search, SIZEOF(search), _T("%s\\%s.*"), file, hash);
 
 	WIN32_FIND_DATA finddata;
 	HANDLE hFind = FindFirstFile(search, &finddata);
@@ -271,7 +265,7 @@ TCHAR * GetCachedAvatar(char *proto, TCHAR *hash)
 				|| !lstrcmpi(&finddata.cFileName[len-4], _T(".jpg"))
 				|| !lstrcmpi(&finddata.cFileName[len-5], _T(".jpeg"))))
 		{
-			mir_sntprintf(file, MAX_REGS(file), _T("%s\\%s"), file, finddata.cFileName);
+			mir_sntprintf(file, SIZEOF(file), _T("%s\\%s"), file, finddata.cFileName);
 			ret = mir_tstrdup(file);
 			break;
 		}

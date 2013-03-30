@@ -19,7 +19,6 @@ Avatar History Plugin
 */
 
 #include "AvatarHistory.h"
-#include "../utils/mir_options.h"
 
 Options opts;
 
@@ -51,7 +50,7 @@ static OptPageControl popupsControls[] = {
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	return SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
 // Popup options dialog procedure /////////////////////////////////////////////////////////////////
@@ -101,7 +100,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show contact history"));
 
 		// Needs to be called here in this case
-		SaveOptsDlgProc(popupsControls, MAX_REGS(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		SaveOptsDlgProc(popupsControls, SIZEOF(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 		PopupsEnableDisableCtrls(hwndDlg);
 		return TRUE;
 
@@ -140,7 +139,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 	}
 
-	return SaveOptsDlgProc(popupsControls, MAX_REGS(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+	return SaveOptsDlgProc(popupsControls, SIZEOF(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
@@ -170,8 +169,8 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, MAX_REGS(optionsControls), MODULE_NAME);
-	LoadOpts(popupsControls, MAX_REGS(popupsControls), MODULE_NAME);
+	LoadOpts(optionsControls, SIZEOF(optionsControls), MODULE_NAME);
+	LoadOpts(popupsControls, SIZEOF(popupsControls), MODULE_NAME);
 
 	opts.log_per_contact_folders = db_get_b(NULL, MODULE_NAME, "LogPerContactFolders", 0);
 	opts.log_keep_same_folder = db_get_b(NULL, MODULE_NAME, "LogKeepSameFolder", 0);

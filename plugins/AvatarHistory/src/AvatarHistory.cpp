@@ -181,7 +181,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 				TCHAR *file = GetCachedAvatar(proto, hash);
 
 				if (file != NULL) {
-					lstrcpyn(history_filename, file, MAX_REGS(history_filename));
+					lstrcpyn(history_filename, file, SIZEOF(history_filename));
 					mir_free(file);
 				}
 				else {
@@ -190,7 +190,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 					else
 						GetProtocolFolder(history_filename, proto);
 
-					mir_sntprintf(history_filename, MAX_REGS(history_filename), 
+					mir_sntprintf(history_filename, SIZEOF(history_filename), 
 							_T("%s\\%s"), history_filename, hash);
 
 					if (CopyImageFile(avatar->filename, history_filename))
@@ -242,7 +242,7 @@ static int PreShutdown(WPARAM wParam, LPARAM lParam)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	mir_sntprintf(basedir, MAX_REGS(basedir), _T("%s\\Avatars History"), profilePath);
+	mir_sntprintf(basedir, SIZEOF(basedir), _T("%s\\Avatars History"), profilePath);
 
 	hFolder = FoldersRegisterCustomPathT( LPGEN("Avatars"), LPGEN("Avatar History"),
 		PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\Avatars History"));

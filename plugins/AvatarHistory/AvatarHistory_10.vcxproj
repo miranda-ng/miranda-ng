@@ -203,8 +203,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AvatarHistory.h" />
-    <ClInclude Include="..\utils\mir_buffer.h" />
-    <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="src\popup.h" />
     <ClInclude Include="src\resource.h" />
