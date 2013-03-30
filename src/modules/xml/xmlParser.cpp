@@ -596,7 +596,7 @@ XMLError XMLNode::writeToFile(XMLCSTR filename, const char *encoding, char nForm
 	}
 	if (( !isDeclaration())&&((d->lpszName) || ( !getChildNode().isDeclaration())))
 	{
-		if ( !fwrite(L"<?xml version = \"1.0\" encoding = \"utf-16\"?>\n", sizeof(wchar_t)*40, 1, f))
+		if ( fputws(L"<?xml version = \"1.0\" encoding = \"utf-16\"?>\n", f) == EOF)
 		{
 			fclose(f);
 			return eXMLErrorCannotWriteFile;
