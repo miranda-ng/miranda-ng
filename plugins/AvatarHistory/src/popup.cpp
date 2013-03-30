@@ -78,7 +78,7 @@ void ShowPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description)
 
 void ShowDebugPopup(HANDLE hContact, const TCHAR *title, const TCHAR *description)
 {
-	if(DBGetContactSettingByte(NULL,MODULE_NAME,"Debug",0))
+	if (db_get_b(NULL,MODULE_NAME,"Debug",0))
 	{
 		ShowPopup(hContact,title,description);
 	}
@@ -95,7 +95,7 @@ PopupDataType;
 void ShowPopupEx(HANDLE hContact, const TCHAR *title, const TCHAR *description,
 			   void *plugin_data, int type, const Options *op)
 {
-	if(ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		// Make popup
 		POPUPDATAT ppd = {0};

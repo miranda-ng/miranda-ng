@@ -25,15 +25,14 @@
 #include <m_history.h>
 #include <m_imgsrvc.h>
 #include <m_icolib.h>
+#include <win2k.h>
 
 #include <m_folders.h>
 #include <m_metacontacts.h>
 #include "m_avatarhist.h"
-#include "m_historyevents.h"
 
 #include "resource.h"
 #include "Version.h"
-#include "../utils/mir_buffer.h"
 
 // Globals
 extern HINSTANCE hInst;
@@ -68,6 +67,17 @@ int PreBuildContactMenu(WPARAM wParam,LPARAM lParam);
 int IcoLibIconsChanged(WPARAM wParam,LPARAM lParam);
 
 int OpenAvatarDialog(HANDLE hContact, char* fn);
+
+// utils
+
+TCHAR* GetCachedAvatar(char *proto, TCHAR *hash);
+BOOL   ProtocolEnabled(const char *proto);
+BOOL   ContactEnabled(HANDLE hContact, char *setting, int def);
+BOOL   CopyImageFile(TCHAR *old_file, TCHAR *new_file);
+void   ConvertToFilename(TCHAR *str, size_t size);
+
+void   CreateOldStyleShortcut(HANDLE hContact, TCHAR *history_filename);
+BOOL   CreateShortcut(TCHAR *file, TCHAR *shortcut);
 
 #define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
 

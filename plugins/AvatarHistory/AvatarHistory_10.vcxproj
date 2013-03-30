@@ -199,6 +199,7 @@
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popup.cpp" />
     <ClCompile Include="src\AvatarHistory.cpp" />
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AvatarHistory.h" />
