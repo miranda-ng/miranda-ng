@@ -295,7 +295,7 @@ HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 {
 	HANDLE hContact = db_find_first();
 	while (hContact) {
-		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0 );
+		char *szProto = GetContactProto(hContact);
 		if ( szProto && !lstrcmpiA( szProto, pszModule )) {
 			if ( DBGetContactSettingByte( hContact, szProto, "ChatRoom", 0) != 0 ) {
 				DBVARIANT dbv;

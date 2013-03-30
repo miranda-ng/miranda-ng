@@ -140,12 +140,11 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwSignature;
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = sizeof(DWORD);
 	dbei.pBlob = (PBYTE)&dwSignature;
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
-	if (dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
+	db_event_get((HANDLE)lParam, &dbei);
+	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
 
 	PushFileEvent((HANDLE)wParam, (HANDLE)lParam, 0);
@@ -288,19 +287,15 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 
 static void RemoveUnreadFileEvents(void)
 {
-	DBEVENTINFO dbei = {0};
-	HANDLE hDbEvent, hContact;
-
-	dbei.cbSize = sizeof(dbei);
-	hContact = db_find_first();
+	HANDLE hContact = db_find_first();
 	while (hContact) {
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
-			dbei.cbBlob = 0;
-			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
 			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
-				CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
-			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+				db_event_markRead(hContact, hDbEvent);
+			hDbEvent = db_event_next(hDbEvent);
 		}
 		hContact = db_find_next(hContact);
 	}
@@ -413,7 +408,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	}
 	mir_free(szDescr);
 
-	HANDLE hdbe = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)ccs->hContact, (LPARAM)&dbei);
+	HANDLE hdbe = db_event_add(ccs->hContact, &dbei);
 
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
 	mir_free(dbei.pBlob);

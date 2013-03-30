@@ -143,7 +143,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 		HANDLE hContact = db_find_first();
 		while ( hContact ) {
-		   szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		   szProto = GetContactProto(hContact);
 		   if ( szProto != NULL && !lstrcmpiA( szProto, ppro->m_szModuleName )) {
 			   BYTE bRoom = ppro->getByte(hContact, "ChatRoom", 0);
 			   if ( bRoom == 0 ) {
@@ -223,15 +223,14 @@ int CIrcProto::AddOutgoingMessageToDB(HANDLE hContact, TCHAR* msg)
 
 	CMString S = DoColorCodes( msg, TRUE, FALSE );
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_SENT + DBEF_UTF;
 	dbei.pBlob = ( PBYTE )mir_utf8encodeW( S.c_str());
 	dbei.cbBlob = (DWORD)strlen(( char* )dbei.pBlob) + 1;
-	CallService( MS_DB_EVENT_ADD, (WPARAM) hContact, (LPARAM) & dbei);
+	db_event_add(hContact, &dbei);
 	mir_free( dbei.pBlob );
 	return 1;
 }

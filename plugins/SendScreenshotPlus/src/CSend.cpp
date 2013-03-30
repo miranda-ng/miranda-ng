@@ -269,9 +269,7 @@ int __cdecl	CSend::OnSend(WPARAM wParam, LPARAM lParam){
 					DB_EventAdd((WORD)EVENTTYPE_URL);
 					break;
 				case ACKTYPE_FILE:
-					//MS_DB_EVENT_ADD need 4byte extra at the beginning of m_szEventMsg for ACKTYPE_FILE
 					m_szEventMsg = (char*) mir_realloc(m_szEventMsg, sizeof(DWORD) + m_cbEventMsg);
-					//memmove_s(m_szEventMsg+sizeof(DWORD), m_cbEventMsg, m_szEventMsg, m_cbEventMsg);
 					memmove(m_szEventMsg+sizeof(DWORD), m_szEventMsg, m_cbEventMsg);
 					m_cbEventMsg += sizeof(DWORD);
 					DB_EventAdd((WORD)EVENTTYPE_FILE);
@@ -288,18 +286,17 @@ int __cdecl	CSend::OnSend(WPARAM wParam, LPARAM lParam){
 	return 0;
 }
 
-void	CSend::DB_EventAdd(WORD EventType) {
-	DBEVENTINFO dbei={0};
-	dbei.cbSize = sizeof(dbei);
+void	CSend::DB_EventAdd(WORD EventType)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_pszProto;
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(NULL);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob= m_cbEventMsg;
-	dbei.pBlob=(PBYTE)m_szEventMsg;
-
-	CallService(MS_DB_EVENT_ADD,(WPARAM)m_hContact,(LPARAM)&dbei);
+	dbei.pBlob = (PBYTE)m_szEventMsg;
+	db_event_add(m_hContact, &dbei);
 }
 
 //---------------------------------------------------------------------------

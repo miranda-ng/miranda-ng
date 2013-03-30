@@ -72,18 +72,16 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 			DBEVENTINFO dbei = { 0 };
 			DBVARIANT dbv;
 			int reuse = db_get_b(ack->hContact,modname, "Reuse", 0);
-			if (!db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
-			{
-				char* pszUtf = mir_utf8encodeT(dbv.ptszVal);
+			if ( !db_get_ts(ack->hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
+				mir_ptr<char> pszUtf( mir_utf8encodeT(dbv.ptszVal));
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_UTF | DBEF_SENT;
 				dbei.szModule = (char*)ack->szModule;
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = lstrlenA(pszUtf) + 1;
-				dbei.pBlob = (PBYTE)pszUtf;
-				CallService(MS_DB_EVENT_ADD, (WPARAM)ack->hContact, (LPARAM)&dbei);
-				mir_free(pszUtf);
+				dbei.pBlob = (PBYTE)(char*)pszUtf;
+				db_event_add(ack->hContact, &dbei);
 			}
 			// check to reuse
 			if (reuse > 1)
@@ -162,31 +160,25 @@ void SendPounce(TCHAR *text, HANDLE hContact)
 
 int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 {
+	HANDLE hContact = (HANDLE)wParam;
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)wParam, 0);
+
+	char *szProto = GetContactProto(hContact);
 	if((HANDLE)wParam == NULL || strcmp(cws->szSetting,"Status")) return 0;
-	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM))
-	{
+	if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 		int newStatus = cws->value.wVal;
 		int oldStatus = db_get_w((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		
-		if ( ( newStatus != oldStatus ) && ( (HANDLE)wParam != NULL) && ( newStatus != ID_STATUS_OFFLINE)  ) 
-		{
-			HANDLE hContact = (HANDLE)wParam;
+		if (newStatus != oldStatus && wParam != NULL && newStatus != ID_STATUS_OFFLINE) {
 			DBVARIANT dbv;
-			if (!db_get_ts(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0'))
-			{
+			if (!db_get_ts(hContact, modname, "PounceMsg", &dbv) && (dbv.ptszVal[0] != '\0')) {
 				// check my status
 				if (statusCheck(db_get_w(hContact, modname, "SendIfMyStatusIsFLAG", 0), CallProtoService(szProto, PS_GETSTATUS,0,0)) 
 				// check the contacts status
-				&& statusCheck(db_get_w(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus) )
-				{
+				&& statusCheck(db_get_w(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days
-					if (CheckDate(hContact))
-					{
-
-						if (db_get_b(hContact, modname, "ConfirmTimeout", 0))
-						{
+					if (CheckDate(hContact)) {
+						if (db_get_b(hContact, modname, "ConfirmTimeout", 0)) {
 							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)mir_alloc(sizeof(struct SendPounceDlgProcStruct));
 							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;
@@ -195,8 +187,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 							// set the confirmation window to send the msg when the timeout is done
 							mir_free(message);
 						}
-						else
-							SendPounce(dbv.ptszVal, hContact);
+						else SendPounce(dbv.ptszVal, hContact);
 					}
 				}
 				DBFreeVariant(&dbv);

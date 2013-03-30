@@ -90,7 +90,7 @@ void UploadJob::autoSend()
 			dbei.timestamp = (DWORD)time(NULL);
 			dbei.cbBlob = (DWORD)strlen(this->szFileLink) + 1;
 			dbei.pBlob = (PBYTE)this->szFileLink;
-			CallService(MS_DB_EVENT_ADD, (WPARAM)this->hContact, (LPARAM)&dbei);
+			db_event_add(this->hContact, &dbei);
 			CallContactService(this->hContact, PSS_MESSAGE, 0, (LPARAM)this->szFileLink);
 			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)this->hContact, 0);
 		}

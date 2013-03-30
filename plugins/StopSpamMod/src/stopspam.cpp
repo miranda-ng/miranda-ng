@@ -29,34 +29,28 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	HANDLE hContact = (HANDLE)wParam;
 	HANDLE hDbEvent = (HANDLE)lParam;
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	if(-1 == dbei.cbBlob)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+	if (dbei.cbBlob == -1)
 		return 0;
 	
-	dbei.pBlob = new BYTE[dbei.cbBlob];
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
+	dbei.pBlob = (BYTE*)alloca(dbei.cbBlob);
+	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
-	if(!ProtoInList(dbei.szModule)) {
-		delete dbei.pBlob;
+	if(!ProtoInList(dbei.szModule))
 		return 0;
-	}
 
 	// event is an auth request
-	if(gbHandleAuthReq)
-	{
-		if(!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
-		{
+	if(gbHandleAuthReq) {
+		if(!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 			HANDLE hcntct = DbGetAuthEventContact(&dbei);
 
 			// if request is from unknown or not marked Answered contact
 			int a = db_get_b(hcntct, "CList", "NotOnList", 0);
 			int b = !db_get_b(hcntct, pluginName, "Answered", 0);
 			
-			if(a && b)//
-			{
+			if(a && b) {
 				// ...send message
 
 				if(gbHideContacts)
@@ -68,26 +62,22 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 					TCHAR* EventText = ReqGetText(&dbei); //else return NULL
 					msg=!IsUrlContains(EventText);
 					mir_free(EventText);
-				};
-				if(gbInvisDisable)
-				{
+				}
+				if(gbInvisDisable) {
 					if(CallProtoService(dbei.szModule, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE)
 						msg = 0;
 					else if(db_get_w(hContact,dbei.szModule,"ApparentMode",0) == ID_STATUS_OFFLINE)
 						msg = 0; //is it useful ?
 				}
-				if(msg)
-				{
+				if(msg) {
 					char * buff=mir_utf8encodeW(variables_parse(gbAuthRepl, hcntct).c_str());
 					CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM) buff);
 					mir_free(buff);
-				};
-				delete dbei.pBlob;
+				}
 				return 1;
 			}
 		}
 	}
-	delete dbei.pBlob;
 	return 0;
 }
 
@@ -346,7 +336,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	// save first message from contact
 	if (db_get_dw(hContact, pluginName, "QuestionCount", 0)<2){
 		dbei->flags |= DBEF_READ;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)dbei);
+		db_event_add(hContact, dbei);
 	};
 	// reject processing of the event
 	LogSpamToFile(hContact, message);

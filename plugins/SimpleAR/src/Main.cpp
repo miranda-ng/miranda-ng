@@ -188,7 +188,6 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	HANDLE hDBEvent = (HANDLE)lParam;
-	DBEVENTINFO dbei = {sizeof(dbei)};
 
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error
@@ -198,7 +197,8 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 	if (status == 40072 || status == 40077 || status == 40078)
 		return FALSE;
 
-	CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei); /// detect size of msg
+	DBEVENTINFO dbei = {sizeof(dbei)};
+	db_event_get(hDBEvent, &dbei); /// detect size of msg
 
 	if ((dbei.eventType != EVENTTYPE_MESSAGE) || (dbei.flags == DBEF_READ))
 		return FALSE; /// we need EVENTTYPE_MESSAGE event..
@@ -278,7 +278,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 						dbei.timestamp = time(NULL);
 						dbei.cbBlob = lstrlenA(pszUtf) + 1;
 						dbei.pBlob = (PBYTE)pszUtf;
-						CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+						db_event_add(hContact, &dbei);
 
 						mir_free(ptszTemp);
 						mir_free(ptszTemp2);

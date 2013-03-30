@@ -181,19 +181,17 @@ int UpdateWeather(HANDLE hContact)
 		}	}	}
 
 		if (db_get_b(hContact, WEATHERPROTONAME, "History", 0)) {
-			DBEVENTINFO dbei = {0};
 			// internal log using history
 			GetDisplay(&winfo, opt.hText, str2);
-			dbei.cbSize = sizeof(dbei);
+
+			DBEVENTINFO dbei = { sizeof(dbei) };
 			dbei.szModule = WEATHERPROTONAME;
 			dbei.timestamp = (DWORD)time(NULL);
 			dbei.flags = DBEF_READ|DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.pBlob = (PBYTE)mir_utf8encodeT(str2);
 			dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob)+1;
-
-			// add the history event
-			CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+			db_event_add(hContact, &dbei);
 		}
 
 		// show the popup

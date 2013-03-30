@@ -647,44 +647,34 @@ int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
 
 void CGlobals::RestoreUnreadMessageAlerts(void)
 {
-	CLISTEVENT 	cle = { 0 };
-	DBEVENTINFO dbei = { 0 };
-	TCHAR		toolTip[256];
-	int 		windowAlreadyExists;
-	int 		usingReadNext = 0;
-
-	int autoPopup = M->GetByte(SRMSGMOD, SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-	HANDLE hDbEvent, hContact;
-
-	dbei.cbSize = sizeof(dbei);
-	cle.cbSize = sizeof(cle);
+	CLISTEVENT 	cle = { sizeof(cle) };
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
-	hContact = db_find_first();
+	HANDLE hContact = db_find_first();
 	while (hContact) {
-
 		if (M->GetDword(hContact, "SendLater", "count", 0))
 		   sendLater->addContact(hContact);
 
-		hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
+		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
-			dbei.cbBlob = 0;
-			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_MESSAGE) {
-				windowAlreadyExists = M->FindWindow(hContact) != NULL;
-				if (!usingReadNext && windowAlreadyExists)
+				if (M->FindWindow(hContact) != NULL)
 					continue;
 
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
+
+				TCHAR toolTip[256];
 				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"),
 							  (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 			}
-			hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hDbEvent, 0);
+			hDbEvent = db_event_next(hDbEvent);
 		}
 		hContact = db_find_next(hContact);
 	}
@@ -718,12 +708,10 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		if (wStatus == wOldStatus)
 			return;
 
-		DBEVENTINFO 	dbei;
 		TCHAR 			buffer[450];
-		HANDLE 			hNewEvent;
 
-		TCHAR*	szOldStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
-		TCHAR*	szNewStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
+		TCHAR *szOldStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wOldStatus, GSMDF_TCHAR);
+		TCHAR *szNewStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
 
 		if (szOldStatus == 0 || szNewStatus == 0)
 			return;
@@ -737,18 +725,15 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 				mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 		}
 
-		char *szMsg = mir_utf8encodeT(buffer);
-
-		dbei.pBlob = (PBYTE)szMsg;
+		mir_ptr<char> szMsg( mir_utf8encodeT(buffer));
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		dbei.pBlob = (PBYTE)(char*)szMsg;
 		dbei.cbBlob = lstrlenA(szMsg) + 1;
 		dbei.flags = DBEF_UTF | DBEF_READ;
-		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.timestamp = time(NULL);
 		dbei.szModule = const_cast<char *>(c->getProto());
-		hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) hContact, (LPARAM) & dbei);
-
-		mir_free(szMsg);
+		db_event_add(hContact, &dbei);
 	}
 }
 

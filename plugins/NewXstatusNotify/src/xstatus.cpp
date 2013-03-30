@@ -46,7 +46,7 @@ void RemoveLoggedEvents(HANDLE hContact)
 	for (int i = eventList.getCount()-1; i >= 0; i--) {
 		DBEVENT *dbevent = eventList[i];
 		if (dbevent->hContact == hContact) {
-			CallService(MS_DB_EVENT_DELETE, (WPARAM)dbevent->hContact, (LPARAM)dbevent->hDBEvent);
+			db_event_delete(dbevent->hContact, dbevent->hDBEvent);
 			eventList.remove(i);
 			mir_free(dbevent);
 		}	
@@ -267,7 +267,7 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = xsc->szProto;
-		HANDLE hDBEvent = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)xsc->hContact, (LPARAM)&dbei);
+		HANDLE hDBEvent = db_event_add(xsc->hContact, &dbei);
 		mir_free(blob);
 
 		if (!opt.KeepInHistory) {

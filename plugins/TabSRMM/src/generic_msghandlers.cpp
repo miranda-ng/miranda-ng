@@ -1701,20 +1701,17 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *m_pContainer = dat->pContainer;
-	DBEVENTINFO 		dbei = {0};
-	DWORD 				dwTimestamp = 0;
-	BOOL  				fIsStatusChangeEvent = FALSE, fIsNotifyEvent = FALSE;
-	HWND				hwndDlg = dat->hwnd, hwndContainer = m_pContainer->hwnd, hwndTab = GetParent(dat->hwnd);
+	DWORD dwTimestamp = 0;
+	HWND hwndDlg = dat->hwnd, hwndContainer = m_pContainer->hwnd, hwndTab = GetParent(dat->hwnd);
+	HANDLE hDbEvent = (HANDLE)lParam;
 
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = 0;
-
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get(hDbEvent, &dbei);
 	if (dat->hDbEventFirst == NULL)
-		dat->hDbEventFirst = (HANDLE) lParam;
+		dat->hDbEventFirst = hDbEvent;
 
-	fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	fIsNotifyEvent = (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE);
+	BOOL fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	BOOL fIsNotifyEvent = (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE);
 
 	if (!fIsStatusChangeEvent) {
 		int heFlags = HistoryEvents_GetFlags(dbei.eventType);
@@ -1761,8 +1758,8 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		}
 		dat->cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
-		if ((HANDLE) lParam != dat->hDbEventFirst) {
-			HANDLE nextEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, lParam, 0);
+		if (hDbEvent != dat->hDbEventFirst) {
+			HANDLE nextEvent = db_event_next(hDbEvent);
 			if (1 || nextEvent == 0) {
 				if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 					SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
@@ -1773,7 +1770,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 						dat->hQueuedEvents = (HANDLE *)realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
 						dat->iEventQueueSize += 10;
 					}
-					dat->hQueuedEvents[dat->iNextQueuedEvent++] = (HANDLE)lParam;
+					dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;
 					mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
 								  dat->iNextQueuedEvent);
 					SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
@@ -1805,7 +1802,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		* try to flash the contact list...
 		*/
 
-		FlashOnClist(hwndDlg, dat, (HANDLE)lParam, &dbei);
+		FlashOnClist(hwndDlg, dat, hDbEvent, &dbei);
 		/*
 		* autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 		* never switch for status changes...

@@ -382,39 +382,25 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	HANDLE curContact = db_find_first();
 	for (; curContact != NULL; curContact = db_find_next(curContact))
 	{
-//		if (IsMessageAPI)
-		{
-			curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
-				(((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
-			//use TabSRMM last used time.  ! NOT used, because bug: TabSRMM reset last used time to time when miranda started at miranda start!
-			//t = ((DWORD)db_get_dw(curContact, "Tab_SRMsg", "isRecent", -1));
-			//if (t != -1)
-			//{
-			//	if (curTime == -1 || (__time64_t)t > curTime)
-			//		curTime = (__time64_t)t;
-			//}
-		}
-//		else
-		{
-			curEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)curContact, 0);
-			if (curEvent != NULL)
-			{
-				for ( ; curEvent != NULL; curEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)curEvent, 0))
-				{
-					dbe.cbBlob = 1;
-					if (CallService(MS_DB_EVENT_GET, (WPARAM)curEvent, (LPARAM)&dbe) != 0)
-					{
-						curEvent = NULL;
-						break;
-					}
-					if ((dbe.flags & (DBEF_READ | DBEF_SENT)) && dbe.eventType < 2000)
-						break;
+		curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |
+					(((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeHi, -1)) << 32);
+
+		curEvent = db_event_last(curContact);
+		if (curEvent != NULL) {
+			for ( ; curEvent != NULL; curEvent = db_event_prev(curEvent)) {
+				dbe.cbBlob = 1;
+				if (db_event_get(curEvent, &dbe) != 0) {
+					curEvent = NULL;
+					break;
 				}
-				if (curEvent != NULL)
-					if (curTime == -1 || (__time64_t)dbe.timestamp > curTime)
-						curTime = (__time64_t)dbe.timestamp;
+				if ((dbe.flags & (DBEF_READ | DBEF_SENT)) && dbe.eventType < 2000)
+					break;
 			}
+			if (curEvent != NULL)
+				if (curTime == -1 || (__time64_t)dbe.timestamp > curTime)
+					curTime = (__time64_t)dbe.timestamp;
 		}
+
 		if (curTime != -1)
 			contacts->insert(cpair(curTime, curContact));
 	}

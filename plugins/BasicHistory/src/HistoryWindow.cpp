@@ -476,25 +476,19 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	std::deque<HANDLE> toRemove;
-	HANDLE hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)hContact,0);
-	while ( hDbEvent != NULL ) 
-	{
+	HANDLE hDbEvent = db_event_first(hContact);
+	while ( hDbEvent != NULL ) {
 		toRemove.push_back(hDbEvent);
-		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+		hDbEvent = db_event_next(hDbEvent);
 	}
 	
 	for(std::deque<HANDLE>::iterator it = toRemove.begin(); it != toRemove.end(); ++it)
-	{
-		CallService(MS_DB_EVENT_DELETE,(WPARAM)hContact,(LPARAM)(HANDLE)*it);
-	}
+		db_event_delete(hContact, *it);
 
-	if(EventList::IsImportedHistory(hContact))
-	{
+	if(EventList::IsImportedHistory(hContact)) {
 		TCHAR *message = TranslateT("Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
 		if(MessageBox(hWnd, message, TranslateT("Are You sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
-		{
 			EventList::DeleteImporter(hContact);
-		}
 	}
 		
 	RebuildEvents(hContact);

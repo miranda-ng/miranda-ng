@@ -326,16 +326,11 @@ DBEVENTINFO createMsgEventInfo(HANDLE hContact)
 
 DBEVENTINFO readEventInfo(HANDLE hDbEvent, HANDLE hContact)
 {
-	DBEVENTINFO einfo = {0};
-
 	if (hDbEvent == NCONVERS_BLINKID) // we need to handle nconvers' blink event
 		return createMsgEventInfo(hContact);
 
-	einfo.cbSize = sizeof(einfo);
-	einfo.cbBlob = 0;
-	einfo.pBlob = NULL;
-	CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&einfo);
-
+	DBEVENTINFO einfo = { sizeof(einfo) };
+	db_event_get(hDbEvent, &einfo);
 	return einfo;
 }
 
@@ -468,18 +463,12 @@ static void FlashThreadFunction()
 
 BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 {
-	HANDLE hEvent;
-
 	if (!bFlashIfMsgOlder)
 		return TRUE;
 
-	for (hEvent=(HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEventCurrent, 0); hEvent; hEvent=(HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0)) {
-		DBEVENTINFO einfo = {0};
-
-		einfo.cbSize = sizeof(einfo);
-		einfo.cbBlob = 0;
-		einfo.pBlob = NULL;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&einfo);
+	for (HANDLE hEvent = db_event_prev(hEventCurrent); hEvent; hEvent = db_event_prev(hEvent)) {
+		DBEVENTINFO einfo = { sizeof(einfo) };
+		db_event_get(hEvent, &einfo);
 		if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
 			return TRUE;
 		if (einfo.eventType == EVENTTYPE_MESSAGE)
@@ -539,16 +528,12 @@ BOOL checkXstatus(char *szProto)
 // 'Pings' the FlashThread to keep the LEDs flashing.
 static int PluginMessageEventHook(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO einfo = {0};
 	HANDLE hContact = (HANDLE)wParam;
 	HANDLE hEvent = (HANDLE)lParam;
 
 	//get DBEVENTINFO without pBlob
-	einfo.cbSize = sizeof(einfo);
-	einfo.cbBlob = 0;
-	einfo.pBlob = NULL;
-	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&einfo);
-
+	DBEVENTINFO einfo = { sizeof(einfo) };
+	db_event_get(hEvent, &einfo);
 	if (!(einfo.flags & DBEF_SENT))
 		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hEvent, einfo.timestamp)) ||
 		    (einfo.eventType == EVENTTYPE_URL     && bFlashOnURL)  ||

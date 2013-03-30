@@ -109,7 +109,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 			pdata->iLock = 1;
 			while (eventData) {
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)pdata->hContact, (LPARAM)eventData->hEvent);
-				CallService(MS_DB_EVENT_MARKREAD, (WPARAM)pdata->hContact, (LPARAM)eventData->hEvent);			
+				db_event_markRead(pdata->hContact, eventData->hEvent);			
 				eventData = eventData->next;
 			}		
 			FreePopupEventData(pdata);
@@ -438,16 +438,14 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, HANDLE hContact, HANDLE hEvent, UIN
 	}
 
 	//get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-	DBEVENTINFO dbe = {0};
-	dbe.cbSize = sizeof(dbe);
-
-	if ((pluginOptions->bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST) && hEvent) {
-		dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
-		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	if (hEvent) {
+		if ((pluginOptions->bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST)) {
+			dbe.cbBlob = db_event_getBlobSize(hEvent);
+			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
+		}
+		db_event_get(hEvent, &dbe);
 	}
-
-	if (hEvent)
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
 
 	eventData = (EVENT_DATA_EX*)mir_alloc(sizeof(EVENT_DATA_EX));
 	eventData->hEvent = hEvent;
@@ -560,12 +558,12 @@ int PopupUpdate(HANDLE hContact, HANDLE hEvent)
 		dbe.pBlob = NULL;
 		dbe.cbBlob = 0;
 		if (pdata->pluginOptions->bPreview && eventData->hEvent) {
-			dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)eventData->hEvent, 0);
+			dbe.cbBlob = db_event_getBlobSize(eventData->hEvent);
 			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
 		}
 
 		if (eventData->hEvent)
-			CallService(MS_DB_EVENT_GET, (WPARAM)eventData->hEvent, (LPARAM)&dbe);
+			db_event_get(eventData->hEvent, &dbe);
 
 		if (pdata->pluginOptions->bShowDate || pdata->pluginOptions->bShowTime) {
 			TCHAR timestamp[MAX_DATASIZE];

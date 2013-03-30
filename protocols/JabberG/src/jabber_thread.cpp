@@ -1078,18 +1078,17 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 DWORD JabberGetLastContactMessageTime(HANDLE hContact)
 {
 	// TODO: time cache can improve performance
-	HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
+	HANDLE hDbEvent = db_event_last(hContact);
 	if ( !hDbEvent)
 		return 0;
 
 	DWORD dwTime = 0;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob != -1) {
 		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-		int nGetTextResult = CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+		int nGetTextResult = db_event_get(hDbEvent, &dbei);
 		if ( !nGetTextResult)
 			dwTime = dbei.timestamp;
 		mir_free(dbei.pBlob);
@@ -1248,16 +1247,15 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 
 	// chatstates gone event
 	if (hContact && xmlGetChildByTag(node, "gone", "xmlns", _T(JABBER_FEAT_CHATSTATES)) && m_options.LogChatstates) {
-		DBEVENTINFO dbei;
 		BYTE bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;
 		dbei.eventType = JABBER_DB_EVENT_TYPE_CHATSTATES;
 		dbei.flags = DBEF_READ;
 		dbei.timestamp = time(NULL);
 		dbei.szModule = m_szModuleName;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+		db_event_add(hContact, &dbei);
 	}
 
 	if ((n = xmlGetChildByTag(node, "confirm", "xmlns", _T(JABBER_FEAT_HTTP_AUTH))) && m_options.AcceptHttpAuth) {

@@ -49,22 +49,21 @@ struct {
 
 static int GetContactStatus(HANDLE hContact)
 {
-    char *szProto;
+	char *szProto;
 
-    szProto = GetContactProto(hContact);
-    if (szProto == NULL)
-        return ID_STATUS_OFFLINE;
-    return cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	szProto = GetContactProto(hContact);
+	if (szProto == NULL)
+		return ID_STATUS_OFFLINE;
+	return cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
 int __forceinline GetStatusModeOrdering(int statusMode)
 {
-    int i;
-    for (i = 0; i < sizeof(statusModeOrder) / sizeof(statusModeOrder[0]); i++) {
-        if (statusModeOrder[i].status == statusMode)
-            return statusModeOrder[i].order;
-    }
-    return 1000;
+	for (int i = 0; i < sizeof(statusModeOrder) / sizeof(statusModeOrder[0]); i++)
+		if (statusModeOrder[i].status == statusMode)
+			return statusModeOrder[i].order;
+
+	return 1000;
 }
 
 int mf_updatethread_running = TRUE;
@@ -72,44 +71,40 @@ HANDLE hThreadMFUpdate = 0;
 
 static void MF_CalcFrequency(HANDLE hContact, DWORD dwCutoffDays, int doSleep)
 {
-    DWORD     curTime = time(NULL);
-    DWORD     frequency, eventCount;
-    DBEVENTINFO dbei = {0};
-    HANDLE hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
-    DWORD firstEventTime = 0, lastEventTime = 0;
+    DWORD  curTime = time(NULL);
+    DWORD  frequency, eventCount;
+    HANDLE hEvent = db_event_last(hContact);
+    DWORD  firstEventTime = 0, lastEventTime = 0;
 
     eventCount = 0;
-    dbei.cbSize = sizeof(dbei);
-    dbei.timestamp = 0;
 
-    while(hEvent) {
-        dbei.cbBlob = 0;
-        dbei.pBlob = NULL;
-        CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei);
+	 DBEVENTINFO dbei = { sizeof(dbei) };
+	 while(hEvent) {
+		 db_event_get(hEvent, &dbei);
 
-        if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
-            eventCount++;
-        }
-        if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
-            break;
-        hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0);
-        if (doSleep && mf_updatethread_running == FALSE)
-            return;
-        if (doSleep)
-            Sleep(100);
-    }
+		 if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
+			 eventCount++;
+		 }
+		 if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
+			 break;
+		 hEvent = db_event_prev(hEvent);
+		 if (doSleep && mf_updatethread_running == FALSE)
+			 return;
+		 if (doSleep)
+			 Sleep(100);
+	 }
 
-    if (eventCount == 0) {
-        frequency = 0x7fffffff;
-        cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
-    }
-    else {
-        frequency = (curTime - dbei.timestamp) / eventCount;
-        cfg::writeDword(hContact, "CList", "mf_firstEvent", dbei.timestamp);
-    }
+	 if (eventCount == 0) {
+		 frequency = 0x7fffffff;
+		 cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
+	 }
+	 else {
+		 frequency = (curTime - dbei.timestamp) / eventCount;
+		 cfg::writeDword(hContact, "CList", "mf_firstEvent", dbei.timestamp);
+	 }
 
-    cfg::writeDword(hContact, "CList", "mf_freq", frequency);
-    cfg::writeDword(hContact, "CList", "mf_count", eventCount);
+	 cfg::writeDword(hContact, "CList", "mf_freq", frequency);
+	 cfg::writeDword(hContact, "CList", "mf_count", eventCount);
 }
 
 extern TCHAR g_ptszEventName[];
@@ -142,61 +137,56 @@ static BOOL mc_hgh_removed = FALSE;
 
 void LoadContactTree(void)
 {
-    HANDLE hContact;
-    int i, status, hideOffline;
-    BOOL mc_disablehgh = ServiceExists(MS_MC_DISABLEHIDDENGROUP);
-    DBVARIANT dbv = {0};
-    BYTE      bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
+	HANDLE hContact;
+	int i, status, hideOffline;
+	BOOL mc_disablehgh = ServiceExists(MS_MC_DISABLEHIDDENGROUP);
+	DBVARIANT dbv = {0};
+	BYTE      bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
 
-    CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
-    for (i = 1; ; i++) {
-        if (pcli->pfnGetGroupName(i, NULL) == NULL)
-            break;
-        CallService(MS_CLUI_GROUPADDED, i, 0);
-    }
+	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
+	for (i = 1; ; i++) {
+		if (pcli->pfnGetGroupName(i, NULL) == NULL)
+			break;
+		CallService(MS_CLUI_GROUPADDED, i, 0);
+	}
 
-    hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
-    hContact = db_find_first();
-    while (hContact != NULL) {
-        status = GetContactStatus(hContact);
-        if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
-            pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
+	hideOffline = cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT);
+	hContact = db_find_first();
+	while (hContact != NULL) {
+		status = GetContactStatus(hContact);
+		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
+			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
 
-        if (mc_disablehgh && !mc_hgh_removed) {
-            if ( !DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
-                if ( !strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
-                   DBDeleteContactSetting(hContact, "CList", "Group");
-                mir_free(dbv.pszVal);
-            }
-        }
+		if (mc_disablehgh && !mc_hgh_removed) {
+			if ( !DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+				if ( !strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
+					DBDeleteContactSetting(hContact, "CList", "Group");
+				mir_free(dbv.pszVal);
+			}
+		}
 
-        // build initial data for message frequency
-        if ( !bMsgFrequency)
-            MF_CalcFrequency(hContact, 100, 0);
+		// build initial data for message frequency
+		if ( !bMsgFrequency)
+			MF_CalcFrequency(hContact, 100, 0);
 
-        hContact = db_find_next(hContact);
-    }
-    cfg::writeByte("CList", "fhistdata", 1);
-    mc_hgh_removed = TRUE;
-    CallService(MS_CLUI_SORTLIST, 0, 0);
-    CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
+		hContact = db_find_next(hContact);
+	}
+	cfg::writeByte("CList", "fhistdata", 1);
+	mc_hgh_removed = TRUE;
+	CallService(MS_CLUI_SORTLIST, 0, 0);
+	CallService(MS_CLUI_LISTENDREBUILD, 0, 0);
 }
 
 DWORD INTSORT_GetLastMsgTime(HANDLE hContact)
 {
-	HANDLE hDbEvent;
-	DBEVENTINFO dbei = {0};
-
-	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
-    while(hDbEvent) {
-        dbei.cbSize = sizeof(dbei);
-        dbei.pBlob = 0;
-        dbei.cbBlob = 0;
-        CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-        if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-            return dbei.timestamp;
-        hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
-    }
+	HANDLE hDbEvent = db_event_last(hContact);
+	while(hDbEvent) {
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDbEvent, &dbei);
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
+			return dbei.timestamp;
+		hDbEvent = db_event_prev(hDbEvent);
+	}
 	return 0;
 }
 
@@ -204,10 +194,9 @@ int __forceinline GetProtoIndex(char * szName)
 {
 	if ( !szName )
 		return -1;
-	else {
-		PROTOACCOUNT* pa = ProtoGetAccount( szName );
-		return ( pa == NULL ) ? -1 : pa->iOrder;
-	}
+
+	PROTOACCOUNT* pa = ProtoGetAccount( szName );
+	return ( pa == NULL ) ? -1 : pa->iOrder;
 }
 
 int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact* c2, UINT bywhat)
@@ -289,13 +278,11 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 
 int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 {
-	int i, result;
-
-	result = INTSORT_CompareContacts(c1, c2, SORTBY_PRIOCONTACTS);
+	int result = INTSORT_CompareContacts(c1, c2, SORTBY_PRIOCONTACTS);
 	if (result)
 		return result;
 
-	for (i = 0; i <= 2; i++) {
+	for (int i = 0; i <= 2; i++) {
 		if (cfg::dat.sortOrder[i]) {
 			result = INTSORT_CompareContacts(c1, c2, cfg::dat.sortOrder[i]);
 			if (result != 0)
@@ -310,21 +297,21 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 static int resortTimerId = 0;
 static VOID CALLBACK SortContactsTimer(HWND hwnd, UINT message, UINT idEvent, DWORD dwTime)
 {
-    KillTimer(NULL, resortTimerId);
-    resortTimerId = 0;
-    CallService(MS_CLUI_SORTLIST, 0, 0);
+	KillTimer(NULL, resortTimerId);
+	resortTimerId = 0;
+	CallService(MS_CLUI_SORTLIST, 0, 0);
 }
 
 int SetHideOffline(WPARAM wParam, LPARAM lParam)
 {
-    switch ((int) wParam) {
-        case 0:
-        	cfg::writeByte("CList", "HideOffline", 0); break;
-        case 1:
-        	cfg::writeByte("CList", "HideOffline", 1); break;
-        case -1:
-        	cfg::writeByte("CList", "HideOffline", (BYTE) ! cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)); break;
-    }
-    LoadContactTree();
-    return 0;
+	switch ((int)wParam) {
+	case 0:
+		cfg::writeByte("CList", "HideOffline", 0); break;
+	case 1:
+		cfg::writeByte("CList", "HideOffline", 1); break;
+	case -1:
+		cfg::writeByte("CList", "HideOffline", (BYTE) ! cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT)); break;
+	}
+	LoadContactTree();
+	return 0;
 }

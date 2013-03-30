@@ -451,7 +451,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 		if ( !( item->flags & PREF_UTF ))
 			dbei.cbBlob *= sizeof(TCHAR) + 1;
 		dbei.pBlob = (PBYTE) item->sendBuffer;
-		CallService(MS_DB_EVENT_ADD, (WPARAM) item->hContact, (LPARAM) & dbei);
+		db_event_add(item->hContact, &dbei);
 
 		if (item->hwndErrorDlg != NULL)
 			DestroyWindow(item->hwndErrorDlg);

@@ -253,8 +253,7 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 		if ( ccs->wParam & PREF_UNICODE )
 			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 		dbei.pBlob = (PBYTE)ccs->lParam;
-
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hMeta, (LPARAM)&dbei);
+		db_event_add(hMeta, &dbei);
 	}
 
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -348,8 +347,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 			if ( ccs->wParam & PREF_UNICODE )
 				dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 			dbei.pBlob = (PBYTE)ccs->lParam;
-
-			CallService(MS_DB_EVENT_ADD, (WPARAM) ccs->hContact, (LPARAM)&dbei);
+			db_event_add(ccs->hContact, &dbei);
 		}
 	}
 
@@ -449,8 +447,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 					dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 				}
 				dbei.pBlob = (PBYTE) pre->szMessage;
-
-				CallService(MS_DB_EVENT_ADD, (WPARAM) hMeta, (LPARAM)&dbei);
+				db_event_add(hMeta, &dbei);
 			}
 		}
 
@@ -510,7 +507,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 	if ( pre->flags & PREF_UNICODE )
 		dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 	dbei.pBlob = (PBYTE) pre->szMessage;
-	CallService(MS_DB_EVENT_ADD, (WPARAM) ccs->hContact, (LPARAM)&dbei);
+	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
 

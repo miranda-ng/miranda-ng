@@ -1193,29 +1193,21 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							e.szModule = module;
 							e.timestamp = (DWORD) time(NULL);
 							
-							CallService(MS_DB_EVENT_ADD, (WPARAM) ack->hContact, (LPARAM) &e);
+							db_event_add(ack->hContact, &e);
 						}
-						else{
-							mir_snprintf(buffer, sizeof(buffer), Translate("Message to '%s' was marked as sent but the account seems to be offline"), contact);
-						}
+						else mir_snprintf(buffer, sizeof(buffer), Translate("Message to '%s' was marked as sent but the account seems to be offline"), contact);
 					}
-					else{
-						mir_snprintf(buffer, sizeof(buffer), Translate("Could not send message to '%s'."), contact);
-					}
+					else mir_snprintf(buffer, sizeof(buffer), Translate("Could not send message to '%s'."), contact);
 				}
-				else{
-					mir_snprintf(buffer, sizeof(buffer), Translate("Timed out while waiting for acknowledgement for contact '%s'."), contact);
-				}
+				else mir_snprintf(buffer, sizeof(buffer), Translate("Timed out while waiting for acknowledgement for contact '%s'."), contact);
 			}
-			else{
-				mir_snprintf(buffer, sizeof(buffer), Translate("Could not find contact handle for contact '%s'."), contact);
-			}
+			else mir_snprintf(buffer, sizeof(buffer), Translate("Could not find contact handle for contact '%s'."), contact);
 			
 			if (i == 3)
 			{
 				STRNCPY(reply->message, buffer, reply->cMessage);
 			}
-			else{
+			else {
 				strncat(reply->message, "\n", reply->cMessage);
 				strncat(reply->message, buffer, reply->cMessage);
 			}
@@ -1919,11 +1911,9 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 						reply->code = MIMRES_SUCCESS;
 						*reply->message = 0;
 
-						while (hContact)
-						{
-							HANDLE hUnreadEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
-							if (hUnreadEvent != NULL)
-							{
+						while (hContact) {
+							HANDLE hUnreadEvent = db_event_firstUnread(hContact);
+							if (hUnreadEvent != NULL) {
 								DWORD threadID;
 								HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, hContact, NULL, &threadID);
 							}
@@ -1994,59 +1984,47 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 		char *cmd = argv[2];
 		switch (argc)
 		{
-			case 3:
+		case 3:
 			{
 				if (_stricmp(cmd, "unread") == 0)
 				{
-					HANDLE hContact = db_find_first();
 					char buffer[4096];
 					int count;
 					int contacts = 0;
-					DBEVENTINFO dbEvent = {0};
-					dbEvent.cbSize = sizeof(DBEVENTINFO);
-					
+					DBEVENTINFO dbEvent = { sizeof(dbEvent) };
+
 					reply->code = MIMRES_SUCCESS;
 					mir_snprintf(reply->message, reply->cMessage, Translate("No unread messages found."));
-					
-					while (hContact)
-					{
-						HANDLE hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
-						if (hEvent != NULL)
-						{
-							char *contact;
-							char protocol[128];
-							
+
+					HANDLE hContact = db_find_first();
+					while (hContact) {
+						HANDLE hEvent = db_event_firstUnread(hContact);
+						if (hEvent != NULL) {
 							count = 0;
-							while (hEvent != NULL)
-							{
-								if (!CallService(MS_DB_EVENT_GET, (WPARAM) hEvent, (LPARAM) &dbEvent))
-								{
+							while (hEvent != NULL) {
+								if (!db_event_get( hEvent, &dbEvent))
 									if (!(dbEvent.flags & DBEF_READ))
-									{
 										count++;
-									}
-								}
-							
-								hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hEvent, 0);
+
+								hEvent = db_event_next(hEvent);
 							}
-							
+
+							char protocol[128];
 							GetContactProto(hContact, protocol, sizeof(protocol));
-							contact = GetContactName(hContact, protocol);
+							char *contact = GetContactName(hContact, protocol);
 							mir_snprintf(buffer, sizeof(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
-							
-							if (contacts > 0)
-							{
+
+							if (contacts > 0) {
 								strncat(reply->message, "\n", reply->cMessage);
 								strncat(reply->message, buffer, reply->cMessage);
 							}
-							else{
-								STRNCPY(reply->message, buffer, reply->cMessage);
-							}
+							else STRNCPY(reply->message, buffer, reply->cMessage);
+
 							contacts++;
-							
+
 							free(contact);
 						}
-					
+
 						hContact = db_find_next(hContact);
 					}
 				}
@@ -2059,11 +2037,11 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						HandleUnknownParameter(command, cmd, reply);
 					}
 				}
-				
+
 				break;
 			}
-	
-			case 4:
+
+		case 4:
 			{
 				char *contact = argv[3];
 				HANDLE hContact = ParseContactParam(contact);
@@ -2071,55 +2049,38 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				{
 					if (_stricmp(cmd, "unread") == 0)
 					{
-						HANDLE hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
-						DBEVENTINFO dbEvent = {0};
-						dbEvent.cbSize = sizeof(DBEVENTINFO);
-						
-						char *message[4096];
-						dbEvent.pBlob = (PBYTE) message;
-						
+						HANDLE hEvent = db_event_firstUnread(hContact);
+
 						reply->code = MIMRES_SUCCESS;
-						
-						while (hEvent)
-						{
-							dbEvent.cbBlob = sizeof(message);
-							if (!CallService(MS_DB_EVENT_GET, (WPARAM) hEvent, (LPARAM) &dbEvent)) //if successful call
-							{ 
+
+						while (hEvent) {
+							DBEVENTINFO dbEvent = { sizeof(dbEvent) };
+							if (!db_event_get(hEvent, &dbEvent)) //if successful call
 								if (!(dbEvent.flags & DBEF_READ))
-								{
 									AddHistoryEvent(&dbEvent, contact, reply);
-								}
-							}
-						
-							hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hEvent, 0);
+
+							hEvent = db_event_next(hEvent);
 						}
 					}
-					else{
-						if (_stricmp(cmd, "show") == 0)
-						{
-							int count = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM) hContact, 0);
-							
-							reply->code = MIMRES_SUCCESS;
-							mir_snprintf(reply->message, reply->cMessage, Translate("Contact '%s' has '%d' events in history."), contact, count);
-						}
-						else{
-							HandleUnknownParameter(command, cmd, reply);
-						}
+					else if (_stricmp(cmd, "show") == 0) {						
+						reply->code = MIMRES_SUCCESS;
+						mir_snprintf(reply->message, reply->cMessage, Translate("Contact '%s' has '%d' events in history."), contact, db_event_count(hContact));
 					}
+					else HandleUnknownParameter(command, cmd, reply);
 				}
-				else{
+				else {
 					reply->code = MIMRES_FAILURE;
 					mir_snprintf(reply->message, reply->cMessage, Translate("Could not find contact handle for contact '%s'."), contact);
 				}
-			
+
 				break;
 			}
-			
-			case 6:
+
+		case 6:
 			{
 				char *contact = argv[3];
 				HANDLE hContact = ParseContactParam(contact);
-				
+
 				if (hContact)
 				{
 					if (_stricmp(cmd, "show") == 0)
@@ -2130,77 +2091,62 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 						long stop = strtol(argv[5], &stop2, 10);
 						if (!(*stop1) && !(*stop2))
 						{
-							int size = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM) hContact, 0);
+							int size = db_event_count(hContact);
 							if (start < 0) { start = size + start + 1; }
 							if (stop < 0) { stop = size + stop + 1; }
-							
+
 							reply->code = MIMRES_SUCCESS;
-							
+
 							int count = stop - start + 1;
 							if (count > 0)
 							{
 								int index = 0;
-								HANDLE hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST, (WPARAM) hContact, 0);
-								DBEVENTINFO dbEvent = {0};
-								dbEvent.cbSize = sizeof(DBEVENTINFO);
+								HANDLE hEvent = db_event_first(hContact);
+								DBEVENTINFO dbEvent = { sizeof(DBEVENTINFO) };
 								char message[4096];
 								dbEvent.pBlob = (PBYTE) message;
-								
+
 								while (hEvent)
 								{
 									dbEvent.cbBlob = sizeof(message);
-									if (!CallService(MS_DB_EVENT_GET, (WPARAM) hEvent, (LPARAM) &dbEvent)) // if successful call
+									if (!db_event_get( hEvent, &dbEvent)) // if successful call
 									{
 										dbEvent.pBlob[dbEvent.cbBlob] = 0;
 										if ((index >= start) && (index <= stop))
-										{
 											AddHistoryEvent(&dbEvent, contact, reply);
-										}
 									}
-									
+
 									if (index > stop)
-									{
 										break;
-									}
-								
-									hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hEvent, 0);
+
+									hEvent = db_event_next(hEvent);
 									index++;
 								}
 							}
 						}
-						else{
-							HandleUnknownParameter(command, (*stop1) ? argv[4] : argv[5], reply);
-						}
+						else HandleUnknownParameter(command, (*stop1) ? argv[4] : argv[5], reply);
 					}
 					else{
 						if (_stricmp(cmd, "unread") == 0)
-						{
 							HandleWrongParametersCount(command, reply);
-						}
-						else{
+						else
 							HandleUnknownParameter(command, cmd, reply);
-						}
 					}
 				}
 				else{
 					reply->code = MIMRES_FAILURE;
 					mir_snprintf(reply->message, reply->cMessage, Translate("Could not find contact handle for contact '%s'."), contact);
 				}
-				
+
 				break;
 			}
-		
-			default:
-			{
-				HandleWrongParametersCount(command, reply);
-				
-				break;
-			}
+
+		default:
+			HandleWrongParametersCount(command, reply);
+			break;
 		}
 	}
-	else{
-		HandleWrongParametersCount(command, reply);
-	}
+	else HandleWrongParametersCount(command, reply);
 }
 
 void HandleVersionCommand(PCommand command, TArgument *argv, int argc, PReply reply)

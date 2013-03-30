@@ -265,59 +265,46 @@ void  CMsnProto::Lists_Populate(void)
 
 void CMsnProto::MSN_CleanupLists(void)
 {
-//	EnterCriticalSection(&csLists);
-	for (int i=contList.getCount(); i--;)
-	{
+	for (int i=contList.getCount(); i--;) {
 		MsnContact& p = contList[i];
+		if (p.list & LIST_FL)
+			MSN_SetContactDb(p.hContact, p.email);
 
-		if (p.list & LIST_FL) MSN_SetContactDb(p.hContact, p.email);
-
-		if (p.list & LIST_PL)
-		{
+		if (p.list & LIST_PL) {
 			if (p.list & (LIST_AL | LIST_BL))
 				MSN_AddUser(NULL, p.email, p.netId, LIST_PL + LIST_REMOVE);
 			else
 				MSN_AddAuthRequest(p.email, p.nick, p.invite);
 		}
 
-//		if (p.list == LIST_RL)
-//			MSN_AddAuthRequest(p.email, NULL, p.invite);
-
-		if (p.hContact && !(p.list & (LIST_LL | LIST_FL | LIST_PL)) && p.list != LIST_RL)
-		{
-			int count = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)p.hContact, 0);
-			if (count)
-			{
+		if (p.hContact && !(p.list & (LIST_LL | LIST_FL | LIST_PL)) && p.list != LIST_RL) {
+			int count = db_event_count(p.hContact);
+			if (count) {
 				TCHAR text[256];
-				TCHAR* sze = mir_a2t(p.email);
+				TCHAR *sze = mir_a2t(p.email);
 				mir_sntprintf(text, SIZEOF(text), TranslateT("Contact %s has been removed from the server.\nWould you like to keep it as \"Local Only\" contact to preserve history?"), sze);
 				mir_free(sze);
 
 				TCHAR title[128];
 				mir_sntprintf(title, SIZEOF(title), TranslateT("%s protocol"), m_tszUserName);
 
-				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES)
-				{
+				if (MessageBox(NULL, text, title, MB_YESNO | MB_ICONQUESTION | MB_SETFOREGROUND) == IDYES) {
 					MSN_AddUser(p.hContact, p.email, 0, LIST_LL);
 					setByte(p.hContact, "LocalList", 1);
 					continue;
 				}
 			}
 
-			if (!(p.list & (LIST_LL | LIST_FL)))
-			{
+			if (!(p.list & (LIST_LL | LIST_FL))) {
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)p.hContact, 0);
 				p.hContact = NULL;
 			}
-
 		}
 
-		if (p.list & (LIST_LL | LIST_FL) && p.hContact)
-		{
+		if (p.list & (LIST_LL | LIST_FL) && p.hContact) {
 			TCHAR path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(p.hContact, path, SIZEOF(path), "", 0);
-			if (path[0])
-			{
+			if (path[0]) {
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);
 				cont.hContact = p.hContact;
@@ -328,7 +315,6 @@ void CMsnProto::MSN_CleanupLists(void)
 			}
 		}
 	}
-//	LeaveCriticalSection(&csLists);
 }
 
 void CMsnProto::MSN_CreateContList(void)

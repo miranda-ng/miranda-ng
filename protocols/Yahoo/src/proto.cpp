@@ -147,28 +147,28 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
 {
 	DebugLog("[YahooAddToListByEvent]");
-	if ( !m_bLoggedIn )
+	if (!m_bLoggedIn)
 		return 0;
 
 	DBEVENTINFO dbei = { sizeof( dbei ) };
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, (LPARAM)hDbEvent, 0)) == -1 ) {
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1 ) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get blob size.");
 		return 0;
 	}
 
 	DebugLog("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, (LPARAM)&dbei )) {
+	if (db_event_get(hDbEvent, &dbei)) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get event.");
 		return 0;
 	}
 
-	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST ) {
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Not an authorization request.");
 		return 0;
 	}
 
-	if ( strcmp( dbei.szModule, m_szModuleName )) {
+	if ( strcmp(dbei.szModule, m_szModuleName)) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Not Yahoo protocol.");
 		return 0;
 	}
@@ -194,11 +194,11 @@ int CYahooProto::Authorize( HANDLE hdbe )
 	}
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0)) == -1 )
+	if (( dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1 )
 		return 1;
 
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, (LPARAM)&dbei ))
+	if (db_event_get(hdbe, &dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -235,23 +235,23 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 		return 1;
 
 	DBEVENTINFO dbei = { sizeof( dbei ) };
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0)) == -1 ) {
+	if (( dbei.cbBlob = db_event_getBlobSize(hdbe)) == -1 ) {
 		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
 	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, (LPARAM)&dbei )) {
+	if (db_event_get(hdbe, &dbei)) {
 		DebugLog("YahooAuthDeny - Can't get db event!");
 		return 1;
 	}
 
-	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST ) {
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) {
 		DebugLog("YahooAuthDeny - not Authorization event");
 		return 1;
 	}
 
-	if ( strcmp( dbei.szModule, m_szModuleName )) {
+	if (strcmp( dbei.szModule, m_szModuleName)) {
 		DebugLog("YahooAuthDeny - wrong module?");
 		return 1;
 	}

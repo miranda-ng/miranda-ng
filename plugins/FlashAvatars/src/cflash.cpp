@@ -494,14 +494,13 @@ static int statusChanged(WPARAM wParam, LPARAM lParam)
 
 static int eventAdded(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)lParam , 0);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = db_event_getBlobSize((HANDLE)lParam);
 	if (dbei.cbBlob == 0xFFFFFFFF)
 		return 0;
 
 	dbei.pBlob = new BYTE[dbei.cbBlob];
-	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM) & dbei);
+	db_event_get((HANDLE)lParam, &dbei);
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ)) {
 		Lock l(cs);

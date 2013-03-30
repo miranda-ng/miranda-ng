@@ -146,8 +146,8 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 
 	HANDLE hContact = db_find_first();
 	while ( hContact ) {
-		char* szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0 );
-		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
+		char* szProto = GetContactProto(hContact);
+		if (szProto != NULL && !lstrcmpiA( szProto, m_szModuleName)) {
 			if ( getByte( hContact, "ChatRoom", 0 ) == 0 ) {
 				if ( getByte(hContact, "DCC", 0 ) != 0 ) {
 					if ( ChatsToo )
@@ -184,7 +184,7 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 	DBVARIANT dbv5;	
 	HANDLE hContact = db_find_first();
 	while (hContact) {
-		szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, m_szModuleName )) {
 			if ( getByte( hContact, "ChatRoom", 0) == 0) {
 				HANDLE hContact_temp = NULL;

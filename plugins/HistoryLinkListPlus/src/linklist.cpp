@@ -124,29 +124,11 @@ int InitOptionsDlg(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
+static INT_PTR LinkList_Main(WPARAM wParam, LPARAM)
 {
-	HANDLE hEvent;
 	HANDLE hContact = (HANDLE)wParam;
-	DBEVENTINFO dbe;
-    HWND hWnd;
-	HWND hWndProgress;
-	HWND hWndMain;
-
-	int histCount = 0;
-	int actCount = 0;
-	
-	RECT DesktopRect;
-	LISTELEMENT *listStart;
-
-	UNREFERENCED_PARAMETER(lParam);
-
-	listStart = (LISTELEMENT*)malloc(sizeof(LISTELEMENT));
-	ZeroMemory(listStart, sizeof(LISTELEMENT));
-
-	hWnd = WindowList_Find(hWindowList,hContact);
-	if ( hWnd != NULL )
-	{
+	HWND hWnd = WindowList_Find(hWindowList, hContact);
+	if ( hWnd != NULL ) {
 		int len;
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
@@ -155,25 +137,24 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 		return 0;
 	}	
 	
-	hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
-	if ( hEvent == NULL )
-	{
+	HANDLE hEvent = db_event_first(hContact);
+	if (hEvent == NULL) {
 		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, MB_OK | MB_ICONINFORMATION );
 		return 0;
 	}
 
-	histCount = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0);
-	ZeroMemory(&dbe, sizeof(dbe));
-	dbe.cbSize = sizeof(dbe);
-	dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+	int histCount = db_event_count(hContact), actCount = 0;
+
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	dbe.cbBlob = db_event_getBlobSize(hEvent);
 	dbe.pBlob  = (PBYTE)malloc(dbe.cbBlob+1);
-	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
+	db_event_get(hEvent, &dbe);
 	dbe.pBlob[dbe.cbBlob] = 0;
 
+	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
-	hWndProgress = CreateWindow(_T("Progressbar"), TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
-	if ( hWndProgress == 0 )
-	{
+	HWND hWndProgress = CreateWindow(_T("Progressbar"), TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
+	if ( hWndProgress == 0 ) {
 		free(dbe.pBlob);
 		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
 		return -1;
@@ -182,13 +163,13 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 	ShowWindow(hWndProgress, SW_SHOW);
 	SetForegroundWindow(hWndProgress);
 
-	while( 1 )
-	{
-		if ( dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE )
-		{
+	LISTELEMENT *listStart = (LISTELEMENT*)malloc(sizeof(LISTELEMENT));
+	ZeroMemory(listStart, sizeof(LISTELEMENT));
+
+	while( 1 ) {
+		if ( dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE ) {
 			// Call function to find URIs
-			if ( ExtractURI(&dbe, hEvent, listStart) < 0 )
-			{
+			if ( ExtractURI(&dbe, hEvent, listStart) < 0 ) {
 				free(dbe.pBlob);
 				RemoveList(listStart);
 				MessageBox(NULL, TranslateT("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
@@ -199,14 +180,14 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 		if ( ((int)(((float)actCount/histCount)*100.00)) % 10 == 0 )
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount/histCount)*100.00)));
 		
-		hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hEvent, 0);
+		hEvent = db_event_next(hEvent);
 		if ( hEvent == NULL )
 			break;
 
 		free(dbe.pBlob);
-		dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
+		db_event_get(hEvent, &dbe);
 		dbe.pBlob[dbe.cbBlob] = 0;
 	}
 	free(dbe.pBlob);
@@ -224,9 +205,8 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 	DlgParam->chrg.cpMax  = -1;
 	DlgParam->chrg.cpMin  = -1;
 
-	hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), NULL, MainDlgProc, (LPARAM)DlgParam);
-	if ( hWndMain == 0 )
-	{
+	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), NULL, MainDlgProc, (LPARAM)DlgParam);
+	if (hWndMain == 0) {
 		RemoveList(listStart);
 		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
 		return -1;

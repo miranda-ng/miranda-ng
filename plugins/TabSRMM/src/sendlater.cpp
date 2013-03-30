@@ -525,10 +525,8 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 
 	while(it != m_sendLaterJobList.end()) {
 		if ((*it)->hProcess == ack->hProcess && (*it)->hTargetContact == ack->hContact && !((*it)->fSuccess || (*it)->fFailed)) {
-			DBEVENTINFO dbei = {0};
-
 			if (!(*it)->fSuccess) {
-				dbei.cbSize = sizeof(dbei);
+				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
 				dbei.szModule = GetContactProto(((*it)->hContact));
@@ -536,7 +534,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.cbBlob = lstrlenA((*it)->sendBuffer) + 1;
 				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)((*it)->sendBuffer);
-				HANDLE hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM)((*it)->hContact), (LPARAM)&dbei);
+				db_event_add((*it)->hContact, &dbei);
 				
 				(*it)->cleanDB();
 			}

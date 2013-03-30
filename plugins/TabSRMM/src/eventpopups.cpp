@@ -582,82 +582,70 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 
 static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 {
-	PLUGIN_DATAT 	*pdata = 0;
-	DBEVENTINFO 	dbe;
-	TCHAR 			lpzText[MAX_SECONDLINE] = _T("");
-	TCHAR			timestamp[MAX_DATASIZE] = _T("\0");
-	TCHAR			formatTime[MAX_DATASIZE] = _T("\0");
-	int 			iEvent = 0;
-	TCHAR			*p = lpzText;
-	int  			available = 0, i;
-	TCHAR			*szPreview = NULL;
-
-	pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
-
+	PLUGIN_DATAT *pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
 	if (!pdata)
 		return 1;
 
-	ZeroMemory((void*)&dbe, sizeof(dbe));
+	if (hEvent == NULL)
+		return 0;
 
-	if (hEvent) {
-		if (pdata->pluginOptions->bShowHeaders) {
-			mir_sntprintf(pdata->szHeader, SIZEOF(pdata->szHeader), _T("%s %d\n"),
-				TranslateT("New messages: "), pdata->nrMerged + 1);
-			pdata->szHeader[255] = 0;
-		}
-		ZeroMemory(&dbe, sizeof(dbe));
-		dbe.cbSize = sizeof(dbe);
-		if (pdata->pluginOptions->bPreview && hContact) {
-			dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
-			dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
-		}
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
-
-		formatTime[0] = 0;
-		_tcsncpy(formatTime, _T("%Y.%m.%d %H:%M"), MAX_DATASIZE);
-		_tcsftime(timestamp, MAX_DATASIZE, formatTime, _localtime32((__time32_t *)&dbe.timestamp));
-		mir_sntprintf(pdata->eventData[pdata->nrMerged].szText, MAX_SECONDLINE, _T("\n\n%s\n"), timestamp);
-
-		szPreview = GetPreviewT(dbe.eventType, &dbe);
-		if (szPreview) {
-			_tcsncat(pdata->eventData[pdata->nrMerged].szText, szPreview, MAX_SECONDLINE);
-			mir_free(szPreview);
-		} else
-			_tcsncat(pdata->eventData[pdata->nrMerged].szText, _T(" "), MAX_SECONDLINE);
-
-		pdata->eventData[pdata->nrMerged].szText[MAX_SECONDLINE - 1] = 0;
-
-		/*
-		* now, reassemble the popup text, make sure the *last* event is shown, and then show the most recent events
-		* for which there is enough space in the popup text
-		*/
-
-		available = MAX_SECONDLINE - 1;
-		if (pdata->pluginOptions->bShowHeaders) {
-			_tcsncpy(lpzText, pdata->szHeader, MAX_SECONDLINE);
-			available -= lstrlen(pdata->szHeader);
-		}
-		for (i = pdata->nrMerged; i >= 0; i--) {
-			available -= lstrlen(pdata->eventData[i].szText);
-			if (available <= 0)
-				break;
-		}
-		i = (available > 0) ? i + 1 : i + 2;
-		for (; i <= pdata->nrMerged; i++) {
-			_tcsncat(lpzText, pdata->eventData[i].szText, MAX_SECONDLINE);
-		}
-		pdata->eventData[pdata->nrMerged].hEvent = hEvent;
-		pdata->eventData[pdata->nrMerged].timestamp = dbe.timestamp;
-		pdata->nrMerged++;
-		if (pdata->nrMerged >= pdata->nrEventsAlloced) {
-			pdata->nrEventsAlloced += 5;
-			pdata->eventData = (EVENT_DATAT *)mir_realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
-		}
-		if (dbe.pBlob)
-			free(dbe.pBlob);
-
-		CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
+	if (pdata->pluginOptions->bShowHeaders) {
+		mir_sntprintf(pdata->szHeader, SIZEOF(pdata->szHeader), _T("%s %d\n"),
+			TranslateT("New messages: "), pdata->nrMerged + 1);
+		pdata->szHeader[255] = 0;
 	}
+
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	if (pdata->pluginOptions->bPreview && hContact) {
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
+		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
+	}
+	db_event_get(hEvent, &dbe);
+
+	TCHAR timestamp[MAX_DATASIZE];
+	_tcsftime(timestamp, MAX_DATASIZE, _T("%Y.%m.%d %H:%M"), _localtime32((__time32_t *)&dbe.timestamp));
+	mir_sntprintf(pdata->eventData[pdata->nrMerged].szText, MAX_SECONDLINE, _T("\n\n%s\n"), timestamp);
+
+	TCHAR *szPreview = GetPreviewT(dbe.eventType, &dbe);
+	if (szPreview) {
+		_tcsncat(pdata->eventData[pdata->nrMerged].szText, szPreview, MAX_SECONDLINE);
+		mir_free(szPreview);
+	}
+	else _tcsncat(pdata->eventData[pdata->nrMerged].szText, _T(" "), MAX_SECONDLINE);
+
+	pdata->eventData[pdata->nrMerged].szText[MAX_SECONDLINE - 1] = 0;
+
+	/*
+	* now, reassemble the popup text, make sure the *last* event is shown, and then show the most recent events
+	* for which there is enough space in the popup text
+	*/
+
+	TCHAR lpzText[MAX_SECONDLINE] = _T("");
+	int i, available = MAX_SECONDLINE - 1;
+	if (pdata->pluginOptions->bShowHeaders) {
+		_tcsncpy(lpzText, pdata->szHeader, MAX_SECONDLINE);
+		available -= lstrlen(pdata->szHeader);
+	}
+	for (i = pdata->nrMerged; i >= 0; i--) {
+		available -= lstrlen(pdata->eventData[i].szText);
+		if (available <= 0)
+			break;
+	}
+	i = (available > 0) ? i + 1 : i + 2;
+	for (; i <= pdata->nrMerged; i++)
+		_tcsncat(lpzText, pdata->eventData[i].szText, MAX_SECONDLINE);
+
+	pdata->eventData[pdata->nrMerged].hEvent = hEvent;
+	pdata->eventData[pdata->nrMerged].timestamp = dbe.timestamp;
+	pdata->nrMerged++;
+	if (pdata->nrMerged >= pdata->nrEventsAlloced) {
+		pdata->nrEventsAlloced += 5;
+		pdata->eventData = (EVENT_DATAT *)mir_realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
+	}
+	if (dbe.pBlob)
+		free(dbe.pBlob);
+
+	CallService(MS_POPUP_CHANGETEXTT, (WPARAM)pdata->hWnd, (LPARAM)lpzText);
 	return 0;
 }
 
@@ -692,10 +680,10 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	// fix for a crash
 	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
-		dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
 	}
-	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
+	db_event_get(hEvent, &dbe);
 
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");

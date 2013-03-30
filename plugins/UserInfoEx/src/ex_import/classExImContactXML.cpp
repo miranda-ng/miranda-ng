@@ -460,32 +460,25 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
  **/
 BYTE CExImContactXML::ExportEvents()
 {
-	DBEVENTINFO	dbei; 
-	HANDLE		hDbEvent;
 	PBYTE		pbEventBuf			= NULL;
 	DWORD		cbEventBuf			= 0,
-				dwNumEvents			= 0,
 				dwNumEventsAdded	= 0;
 	LPSTR		pBase64Data			= NULL;
-	INT_PTR		cbBase64Data		= 0,
-				cbNewBase64Data		= 0;
 
-	TiXmlNode	*xmlModule			= NULL;
-	TiXmlElement *xmlEvent			= NULL;
-	TiXmlText	*xmlText			= NULL;
+	int dwNumEvents = db_event_count(_hContact);
+	if (dwNumEvents == 0)
+		return FALSE;
 
-	dwNumEvents = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)_hContact, NULL);
-	if(dwNumEvents == 0) return FALSE;
+	INT_PTR cbBase64Data = 0;
+
+	DBEVENTINFO	dbei = { sizeof(DBEVENTINFO) };
 
 	try {
-		ZeroMemory(&dbei, sizeof(DBEVENTINFO));
-		dbei.cbSize = sizeof(DBEVENTINFO);
-
 		// read out all events for the current contact
-		for (hDbEvent = DB::Event::FindFirst(_hContact); hDbEvent != NULL; hDbEvent = DB::Event::FindNext(hDbEvent)) {
+		for (HANDLE hDbEvent = db_event_first(_hContact); hDbEvent != NULL; hDbEvent = db_event_next(hDbEvent)) {
 			if (!DB::Event::GetInfoWithData(hDbEvent, &dbei)) {
 				// new buffer for base64 encoded data
-				cbNewBase64Data = Base64EncodeGetRequiredLength(dbei.cbBlob, BASE64_FLAG_NOCRLF);
+				INT_PTR cbNewBase64Data = Base64EncodeGetRequiredLength(dbei.cbBlob, BASE64_FLAG_NOCRLF);
 				if (cbNewBase64Data > cbBase64Data) {
 					pBase64Data = (LPSTR)mir_realloc(pBase64Data, cbNewBase64Data + 5);
 					if (pBase64Data == NULL) {
@@ -498,16 +491,17 @@ BYTE CExImContactXML::ExportEvents()
 				// encode data
 				if (Base64Encode(dbei.pBlob, dbei.cbBlob, pBase64Data, &cbNewBase64Data, BASE64_FLAG_NOCRLF)) {
 					pBase64Data[cbNewBase64Data] = 0;
-					xmlEvent = new TiXmlElement("evt");
+					TiXmlElement *xmlEvent = new TiXmlElement("evt");
 					if (xmlEvent) {
 						xmlEvent->SetAttribute("type", dbei.eventType);
 						xmlEvent->SetAttribute("time", dbei.timestamp);
 						xmlEvent->SetAttribute("flag", dbei.flags);
 
-						xmlText = new TiXmlText(pBase64Data);
+						TiXmlText *xmlText = new TiXmlText(pBase64Data);
 						xmlEvent->LinkEndChild(xmlText);
 
 						// find module
+						TiXmlNode *xmlModule;
 						for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
 							if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
 								break;
@@ -515,13 +509,13 @@ BYTE CExImContactXML::ExportEvents()
 						// create new module
 						if (!xmlModule) {
 							xmlModule = _xmlNode->InsertEndChild(TiXmlElement(XKEY_MOD));
-							if (!xmlModule) break;
+							if (!xmlModule)
+								break;
 							((TiXmlElement*)xmlModule)->SetAttribute("key", dbei.szModule);
 						}
 
 						xmlModule->LinkEndChild(xmlEvent);
 						dwNumEventsAdded++;
-						xmlEvent = NULL; // avoid final deleting
 					}
 				}
 				MIR_FREE(dbei.pBlob);
@@ -536,7 +530,6 @@ BYTE CExImContactXML::ExportEvents()
 
 	mir_free(pbEventBuf);
 	mir_free(pBase64Data);
-	if (xmlEvent) delete xmlEvent;
 
 	return dwNumEventsAdded == dwNumEvents;
 }
@@ -1057,16 +1050,9 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
  **/
 int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 {
-	DBEVENTINFO	dbei;
-	TiXmlText	*xmlValue;
-	LPCSTR		tmp;
-	size_t		cbSrc;
-	INT_PTR		baselen;
-
 	// dont import events from metacontact
-	if (isMeta()) {
+	if (isMeta())
 		return ERROR_DUPLICATED;
-	}
 
 	if (!xmlEvent || !pszModule || !*pszModule)
 		return ERROR_INVALID_PARAMS;
@@ -1075,48 +1061,42 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, TiXmlElement *xmlEvent)
 		return ERROR_NOT_ADDED;
 
 	// timestamp must be valid
+	DBEVENTINFO	dbei = { sizeof(dbei) };
 	xmlEvent->Attribute("time", (LPINT)&dbei.timestamp);
-	if (dbei.timestamp == 0) return ERROR_INVALID_TIMESTAMP;
+	if (dbei.timestamp == 0)
+		return ERROR_INVALID_TIMESTAMP;
 
-	xmlValue = (TiXmlText*)xmlEvent->FirstChild();
+	TiXmlText *xmlValue = (TiXmlText*)xmlEvent->FirstChild();
 	if (!xmlValue || xmlValue->Type() != TiXmlText::TEXT)
 		return ERROR_INVALID_VALUE;
-	tmp = xmlValue->Value();
+
+	LPCSTR tmp = xmlValue->Value();
 	if (!tmp || tmp[0] == 0)
 		return ERROR_INVALID_VALUE;
 
-	cbSrc		= strlen(tmp);
-	baselen		= Base64DecodeGetRequiredLength(cbSrc);
-	dbei.cbBlob	= NULL;
-	dbei.pBlob	= NULL;
-	dbei.pBlob	= (PBYTE)mir_alloc(baselen + 1);
-	if (dbei.pBlob != NULL) {
-		if (Base64Decode(tmp, cbSrc, dbei.pBlob, &baselen)) {
-			INT_PTR hEvent;
+	size_t cbSrc = strlen(tmp);
+	INT_PTR baselen = Base64DecodeGetRequiredLength(cbSrc);
 
-			// event owning module
-			dbei.cbSize		= sizeof(dbei);
-			dbei.szModule	= (LPSTR)pszModule;
-			dbei.cbBlob		= baselen;
+	dbei.pBlob = (PBYTE)_alloca(baselen+1);
+	if (Base64Decode(tmp, cbSrc, dbei.pBlob, &baselen)) {
+		// event owning module
+		dbei.szModule	= (LPSTR)pszModule;
+		dbei.cbBlob		= baselen;
 
-			xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
-			xmlEvent->Attribute("flag", (LPINT)&dbei.flags);
-			if (dbei.flags == 0) dbei.flags = DBEF_READ;
+		xmlEvent->Attribute("type", (LPINT)&dbei.eventType);
+		xmlEvent->Attribute("flag", (LPINT)&dbei.flags);
+		if (dbei.flags == 0)
+			dbei.flags = DBEF_READ;
 
-			// search in new and existing contact for existing event to avoid duplicates
-			if (/*!_isNewContact && */DB::Event::Exists(_hContact, _hEvent, &dbei)) {
-				mir_free(dbei.pBlob);
-				return ERROR_DUPLICATED;
-			}
-
-			hEvent = CallService(MS_DB_EVENT_ADD, (WPARAM)_hContact, (LPARAM)&dbei);
+		// search in new and existing contact for existing event to avoid duplicates
+		if (/*!_isNewContact && */DB::Event::Exists(_hContact, _hEvent, &dbei)) {
 			mir_free(dbei.pBlob);
-			if (hEvent) {
-				_hEvent = (HANDLE)hEvent;
-				return ERROR_OK;
-			}
+			return ERROR_DUPLICATED;
 		}
-		mir_free(dbei.pBlob);
+
+		if ((_hEvent = db_event_add(_hContact, &dbei)) != 0)
+			return ERROR_OK;
 	}
+
 	return ERROR_NOT_ADDED;
 }

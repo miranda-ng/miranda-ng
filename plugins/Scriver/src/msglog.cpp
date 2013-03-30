@@ -173,10 +173,10 @@ EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hD
 	DBEVENTINFO dbei = { 0 };
 	EventData *event;
 	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) hDbEvent, 0);
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1) return NULL;
 	dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);
-	CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
+	db_event_get(hDbEvent, &dbei);
 	if (!DbEventIsShown(&dbei, dat)) {
 		mir_free(dbei.pBlob);
 		return NULL;
@@ -185,11 +185,11 @@ EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hD
 	memset(event, 0, sizeof(EventData));
         event->custom = DbEventIsCustomForMsgWindow(&dbei);
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_URL || event->custom)) {
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
+		db_event_markRead(hContact, hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM) hDbEvent);
 	} else if (dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES ||
 		dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
+		db_event_markRead(hContact, hDbEvent);
 	}
 	event->eventType = event->custom ? EVENTTYPE_MESSAGE : dbei.eventType;
 	event->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
@@ -877,7 +877,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
                         }
                         if (dat->buffer)
                             dat->hDbEventLast = dat->hDbEvent;
-                        dat->hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) dat->hDbEvent, 0);
+                        dat->hDbEvent = db_event_next(dat->hDbEvent);
                         if (--dat->eventsToInsert == 0)
                             break;
                     } while (dat->buffer == NULL && dat->hDbEvent);

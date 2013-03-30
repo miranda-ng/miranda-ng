@@ -1349,15 +1349,14 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 					mir_snprintf(buf, len, "%s %s", away, s_msg);
 					mir_free(away);
 
-					DBEVENTINFO dbei = {0};
-					dbei.cbSize = sizeof(dbei);
+					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = (DWORD)time(NULL);
 					dbei.flags = DBEF_SENT | DBEF_UTF;
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.cbBlob = (int)len;
 					dbei.pBlob = (PBYTE)buf;
-					CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+					db_event_add(hContact, &dbei);
 
 					aim_send_message(hServerConn, seqno, sn, s_msg, true, getBool(hContact, AIM_KEY_BLS, false));
 					mir_free(s_msg);

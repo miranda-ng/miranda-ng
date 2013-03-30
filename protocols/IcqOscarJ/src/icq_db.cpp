@@ -292,17 +292,14 @@ int CIcqProto::IsICQContact(HANDLE hContact)
 
 HANDLE CIcqProto::AddEvent(HANDLE hContact, WORD wType, DWORD dwTime, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
-	DBEVENTINFO dbei = {0};
-
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = dwTime;
 	dbei.flags = flags;
 	dbei.eventType = wType;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
-
-	return (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	return db_event_add(hContact, &dbei);
 }
 
 HANDLE CIcqProto::FindFirstContact()

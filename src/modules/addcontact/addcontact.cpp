@@ -38,11 +38,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_ADDCONTACT);
 			if (acs->handleType == HANDLE_EVENT) {
 				DWORD dwUin;
-				DBEVENTINFO dbei = { 0 };
-				dbei.cbSize = sizeof(dbei);
+				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.cbBlob = sizeof(DWORD);
 				dbei.pBlob = (PBYTE)&dwUin;
-				CallService(MS_DB_EVENT_GET, (WPARAM)acs->handle, (LPARAM)&dbei);
+				db_event_get(acs->handle, &dbei);
 				_ltoa(dwUin, szUin, 10);
 				acs->szProto = dbei.szModule;
 			}
@@ -54,15 +53,11 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					int isSet = 0;
 
 					if (acs->handleType == HANDLE_EVENT) {
-						DBEVENTINFO dbei;
-						HANDLE hcontact;
-
-						ZeroMemory(&dbei, sizeof(dbei));
-						dbei.cbSize = sizeof(dbei);
-						dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)acs->handle, 0);
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						dbei.cbBlob = db_event_getBlobSize(acs->handle);
 						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-						CallService(MS_DB_EVENT_GET, (WPARAM)acs->handle, (LPARAM)&dbei);
-						hcontact = *((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
+						db_event_get(acs->handle, &dbei);
+						HANDLE hcontact = *((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
 						mir_free(dbei.pBlob);
 						if (hcontact != INVALID_HANDLE_VALUE) {
 							szName = cli.pfnGetContactDisplayName(hcontact, 0);
@@ -155,9 +150,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				{
 				case HANDLE_EVENT:
 					{
-						DBEVENTINFO dbei = { 0 };
-						dbei.cbSize = sizeof(dbei);
-						CallService(MS_DB_EVENT_GET, (WPARAM)acs->handle, (LPARAM)&dbei);
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						db_event_get(acs->handle, &dbei);
 						hContact = (HANDLE)CallProtoServiceInt(NULL,dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
 					}
 					break;

@@ -66,16 +66,15 @@ LPSTR GetModuleName(HANDLE hContact)
 {
 	LPSTR lpszRet;
 
-	if (hContact)
-	{
-		lpszRet=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-		if (lpszRet==NULL) lpszRet=PROTOCOL_NAMEA;
-	}else{
-		lpszRet=PROTOCOL_NAMEA;
+	if (hContact) {
+		lpszRet = GetContactProto(hContact);
+		if (lpszRet == NULL)
+			lpszRet = PROTOCOL_NAMEA;
 	}
-return(lpszRet);
-}
+	else lpszRet = PROTOCOL_NAMEA;
 
+	return lpszRet;
+}
 
 void EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled)
 {
@@ -211,11 +210,9 @@ BOOL IsContactPhone(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
 	BOOL bRet=FALSE;
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
-	LPSTR lpszProto;
-	SIZE_T dwPhoneSizeLocal;
 
-	dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,lpwszPhone,dwPhoneSize);
-	lpszProto=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	SIZE_T dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,lpwszPhone,dwPhoneSize);
+	LPSTR lpszProto = GetContactProto(hContact);
 	if (lpszProto) {
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Phone",wszPhoneLocal,dwPhoneSizeLocal);
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Cellular",wszPhoneLocal,dwPhoneSizeLocal);

@@ -523,7 +523,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = (unsigned)strlen(msgBody) + 1;
 				dbei.pBlob = (PBYTE)msgBody;
-				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+				db_event_add(hContact, &dbei);
 			}
 		}
 	}

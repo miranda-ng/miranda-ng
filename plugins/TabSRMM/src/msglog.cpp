@@ -600,13 +600,13 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 		dbei = *(streamData->dbei);
 	else {
 		dbei.cbSize = sizeof(dbei);
-		dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) hDbEvent, 0);
+		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (dbei.cbBlob == -1) {
 			free(buffer);
 			return NULL;
 		}
 		dbei.pBlob = (PBYTE) malloc(dbei.cbBlob);
-		CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
+		db_event_get(hDbEvent, &dbei);
 		if (!DbEventIsShown(dat, &dbei)) {
 			free(dbei.pBlob);
 			free(buffer);
@@ -656,7 +656,7 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 	isSent = (dbei.flags & DBEF_SENT);
 
 	if (!isSent && (fIsStatusChangeEvent || dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
+		db_event_markRead(hContact, hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
 	}
 
@@ -1195,7 +1195,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 						dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat);
 						if (dat->buffer)
 							dat->hDbEventLast = dat->hDbEvent;
-						dat->hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) dat->hDbEvent, 0);
+						dat->hDbEvent = db_event_next(dat->hDbEvent);
 						if (--dat->eventsToInsert == 0)
 							break;
 					} while (dat->buffer == NULL && dat->hDbEvent);
@@ -1308,7 +1308,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		if (fAppend)
 			dat->hDbEventLast = hDbEventFirst;
 		else
-			dat->hDbEventLast = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)dat->hContact, 0);
+			dat->hDbEventLast = db_event_last(dat->hContact);
 		return;
 	}
 	if (dat->hwndHPP != 0) {
@@ -1336,7 +1336,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		if (fAppend)
 			dat->hDbEventLast = hDbEventFirst;
 		else
-			dat->hDbEventLast = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)dat->hContact, 0);
+			dat->hDbEventLast = db_event_last(dat->hContact);
 		return;
 	}
 
@@ -1411,7 +1411,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	else {
 		DBEVENTINFO dbei = {0};
 		dbei.cbSize = sizeof(dbei);
-		CallService(MS_DB_EVENT_GET, (WPARAM) hDbEventFirst, (LPARAM)&dbei);
+		db_event_get(hDbEventFirst, &dbei);
 		isSent = (dbei.flags & DBEF_SENT) != 0;
 	}
 

@@ -11,6 +11,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <malloc.h>
 #include <time.h>
 
 #include <newpluginapi.h>

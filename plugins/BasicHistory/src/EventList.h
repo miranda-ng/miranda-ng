@@ -96,7 +96,7 @@ protected:
 	void DeleteEvent(const EventIndex& ev)
 	{
 		if(!ev.isExternal)
-			CallService(MS_DB_EVENT_DELETE,(WPARAM)hContact,(LPARAM)(HANDLE)ev.hEvent);
+			db_event_delete(hContact, ev.hEvent);
 	}
 
 	void RebuildGroup(int selected);

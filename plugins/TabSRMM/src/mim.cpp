@@ -693,21 +693,16 @@ int CMimAPI::DispatchNewEvent(WPARAM wParam, LPARAM lParam)
 
 int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	HWND hwnd;
-	CLISTEVENT cle;
-	DBEVENTINFO dbei;
 	BYTE bAutoPopup = FALSE, bAutoCreate = FALSE, bAutoContainer = FALSE, bAllowAutoCreate = 0;
 	struct TContainerData *pContainer = 0;
 	TCHAR szName[CONTAINER_NAMELEN + 1];
 	DWORD dwStatusMask = 0;
 	struct TWindowData *mwdat=NULL;
 
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = 0;
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lParam, &dbei);
 
-	hwnd = M->FindWindow((HANDLE) wParam);
+	HWND hwnd = M->FindWindow((HANDLE)wParam);
 
 	if (dbei.flags & DBEF_SENT || !(dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) || dbei.flags & DBEF_READ)
 		return 0;
@@ -855,8 +850,8 @@ nowindowcreate:
 		UpdateTrayMenu(0, 0, dbei.szModule, NULL, (HANDLE)wParam, 1);
 		if (!nen_options.bTraySupport) {
 			TCHAR toolTip[256], *contactName;
-			ZeroMemory(&cle, sizeof(cle));
-			cle.cbSize = sizeof(cle);
+
+			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = (HANDLE) wParam;
 			cle.hDbEvent = (HANDLE) lParam;
 			cle.flags = CLEF_TCHAR;

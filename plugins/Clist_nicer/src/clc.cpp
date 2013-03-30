@@ -78,16 +78,13 @@ int __forceinline __strcmp(const char * src, const char * dst)
 
 static int ClcEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
 	DWORD new_freq = 0;
 
 	cfg::dat.t_now = time(NULL);
 
 	if (wParam && lParam) {
-		dbei.cbSize = sizeof(dbei);
-		dbei.pBlob = 0;
-		dbei.cbBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get((HANDLE)lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			DWORD firstTime = cfg::getDword((HANDLE)wParam, "CList", "mf_firstEvent", 0);
 			DWORD count = cfg::getDword((HANDLE)wParam, "CList", "mf_count", 0);

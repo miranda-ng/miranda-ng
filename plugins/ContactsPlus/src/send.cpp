@@ -476,7 +476,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
         strcpy(pBlob, maSend[i].mcaUIN);
         pBlob += strlennull(pBlob) + 1;
       }
-      CallService(MS_DB_EVENT_ADD, (WPARAM)ackData->hContact,(LPARAM)&dbei);
+      db_event_add(ackData->hContact, &dbei);
       gaAckData.Remove(ack->hProcess); // do not release here, still needed
       wndData->uacklist.Remove(ack->hProcess); // packet confirmed
       for (i=0; i<ackData->nContacts; i++) 

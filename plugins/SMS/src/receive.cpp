@@ -47,7 +47,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 				LPWSTR lpwszMessageXMLEncoded,lpwszMessageXMLDecoded;
 				SIZE_T dwBuffLen,dwMessageXMLEncodedSize,dwMessageXMLDecodedSize;
 				HANDLE hContact;
-				DBEVENTINFO dbei={0};
+				DBEVENTINFO dbei = { sizeof(dbei) };
 
 				dwBuffLen=(dwDataSize+MAX_PATH);
 				dbei.pBlob=(LPBYTE)MEMALLOC((dwBuffLen+dwPhoneSize));
@@ -64,7 +64,6 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					dwPhoneSize=MultiByteToWideChar(CP_UTF8,0,szPhone,dwPhoneSize,wszPhone,MAX_PHONE_LEN);
 					hContact=HContactFromPhone(wszPhone,dwPhoneSize);
 
-					dbei.cbSize=sizeof(dbei);
 					dbei.szModule=GetModuleName(hContact);
 					dbei.timestamp=time(NULL);
 					dbei.flags=(DBEF_UTF);
@@ -72,12 +71,10 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					dbei.cbBlob=(mir_snprintf((LPSTR)dbei.pBlob,((dwBuffLen+dwPhoneSize)),"SMS From: +%s\r\n%s",szPhone,lpszMessageUTF)+sizeof(DWORD));
 					//dbei.pBlob=(LPBYTE)lpszBuff;
 					(*((DWORD*)(dbei.pBlob+(dbei.cbBlob-sizeof(DWORD)))))=0;
-					CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&dbei);
-					if (hContact==NULL)
-					{	
-						if (RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMS,wszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob))
-						{
-							CallService(MS_DB_EVENT_MARKREAD,(WPARAM)hContact,(LPARAM)&dbei);
+					HANDLE hResult = db_event_add(hContact, &dbei);
+					if (hContact==NULL) {	
+						if ( RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMS,wszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
+							db_event_markRead(hContact, hResult);
 							SkinPlaySound("RecvSMSMsg");
 						}
 					}
@@ -124,14 +121,12 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					}
 				}
 
-				if (dbei.pBlob)
-				{
+				if (dbei.pBlob) {
 					if (hContact)
-					{
-						CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&dbei);
-					}else{
+						db_event_add(hContact, &dbei);
+					else
 						RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMSCONFIRMATION,wszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob);
-					}
+
 					MEMFREE(dbei.pBlob);
 				}
 			}
@@ -217,75 +212,62 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 }
 
 //Handles new SMS messages added to the database
-int handleNewMessage(WPARAM wParam,LPARAM lParam)
+int handleNewMessage(WPARAM wParam, LPARAM lParam)
 {
-	CHAR szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	CHAR szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 	WCHAR szToolTip[MAX_PATH];
-	HANDLE hContact=(HANDLE)wParam,hDbEvent=(HANDLE)lParam;
-	CLISTEVENT cle={0};
-	DBEVENTINFO dbei={0};
+	HANDLE hContact = (HANDLE)wParam, hDbEvent = (HANDLE)lParam;
 
-	dbei.cbSize=sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,lParam,0))!=-1)
-	{
-		dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-		if (dbei.pBlob)
-		{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) != -1) {
+		dbei.pBlob = (PBYTE)MEMALLOC(dbei.cbBlob);
+		if (dbei.pBlob) {
 			CopyMemory(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-			pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
+			pszServiceFunctionName = szServiceFunction + PROTOCOL_NAME_LEN;
 
-			if (CallService(MS_DB_EVENT_GET,lParam,(LPARAM)&dbei)==0)
-			if ((dbei.flags&DBEF_SENT)==0)
-			if (dbei.eventType==ICQEVENTTYPE_SMS)
-			{
-				if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-				{
+			if (db_event_get(hDbEvent, &dbei) == 0)
+			if ((dbei.flags & DBEF_SENT) == 0)
+			if (dbei.eventType == ICQEVENTTYPE_SMS) {
+				if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN) {
 					SkinPlaySound("RecvSMSMsg");
-					if (DB_SMS_GetByte(NULL,"AutoPopup",0))
-					{
+					if (DB_SMS_GetByte(NULL,"AutoPopup",0)) {
 						if (RecvSMSWindowAdd(hContact,ICQEVENTTYPE_SMS,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
-						{
-							CallService(MS_DB_EVENT_MARKREAD,(WPARAM)hContact,(LPARAM)&dbei);
-						}
-					}else{
+							db_event_markRead(hContact, hDbEvent);
+					}
+					else {
 						CopyMemory(pszServiceFunctionName,SMS_READ,sizeof(SMS_READ));
-
-						cle.cbSize=sizeof(cle);
-						cle.flags=CLEF_TCHAR;
-						cle.hContact=hContact;
-						cle.hDbEvent=hDbEvent;
-						cle.hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
-						cle.pszService=szServiceFunction;
 						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Message from %s"),GetContactNameW(hContact));
-						cle.ptszTooltip=szToolTip;
+
+						CLISTEVENT cle = { sizeof(cle) };
+						cle.flags = CLEF_TCHAR;
+						cle.hContact = hContact;
+						cle.hDbEvent = hDbEvent;
+						cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMS);
+						cle.pszService = szServiceFunction;
+						cle.ptszTooltip = szToolTip;
 						CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
 					}
 				}
-			}else
-			if (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)
-			{
+			}
+			else if (dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION) {
 				SkinPlaySound("RecvSMSConfirmation");
-				if (DB_SMS_GetByte(NULL,"AutoPopup",0)) 
-				{
+				if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
 					if (RecvSMSWindowAdd(hContact,ICQEVENTTYPE_SMSCONFIRMATION,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
-					{
-						CallService(MS_DB_EVENT_DELETE,(WPARAM)hContact,(LPARAM)&dbei);
-					}
-				}else{
+						db_event_delete(hContact, &dbei);
+				}
+				else {
 					UINT iIcon;
-
-					if (GetDataFromMessage((LPSTR)dbei.pBlob,dbei.cbBlob,NULL,NULL,0,NULL,&iIcon))
-					{
+					if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, NULL, NULL, 0, NULL, &iIcon)) {
 						CopyMemory(pszServiceFunctionName,SMS_READ_ACK,sizeof(SMS_READ_ACK));
-
-						cle.cbSize=sizeof(cle);
-						cle.flags=CLEF_TCHAR;
-						cle.hContact=hContact;
-						cle.hDbEvent=hDbEvent;
-						cle.hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
-						cle.pszService=szServiceFunction;
 						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Confirmation from %s"),GetContactNameW(hContact));
-						cle.ptszTooltip=szToolTip;
+
+						CLISTEVENT cle = { sizeof(cle) };
+						cle.flags = CLEF_TCHAR;
+						cle.hContact = hContact;
+						cle.hDbEvent = hDbEvent;
+						cle.hIcon = (HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
+						cle.pszService = szServiceFunction;
+						cle.ptszTooltip = szToolTip;
 						CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
 					}
 				}
@@ -295,5 +277,3 @@ int handleNewMessage(WPARAM wParam,LPARAM lParam)
 	}
 	return 0;
 }
-
-

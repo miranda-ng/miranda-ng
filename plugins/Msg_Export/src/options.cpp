@@ -64,9 +64,8 @@ class CLDBEvent
 			hUser = hU;
 			hDbEvent = hDBE;
 
-			DBEVENTINFO dbei={0}; //dbei.cbBlob=0;
-			dbei.cbSize=sizeof(dbei);
-			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
 			time = dbei.timestamp;
 		}
 		bool operator <(const CLDBEvent& rOther) const
@@ -240,13 +239,10 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 
 			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
 			
-			HANDLE hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)hContact,0);
-			while( hDbEvent) 
-			{
+			HANDLE hDbEvent = db_event_first(hContact);
+			while( hDbEvent) {
 				rclCurList.push_back( CLDBEvent( hContact, hDbEvent));
-
-				// Get next event in chain
-				hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+				hDbEvent = db_event_next(hDbEvent);
 			}
 
 			SendMessage( hProg, PBM_SETPOS, nCur, 0);

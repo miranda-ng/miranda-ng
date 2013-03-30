@@ -6,12 +6,12 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (-1 == dbei.cbBlob)
 		return 0;
 
 	dbei.pBlob = new BYTE[dbei.cbBlob];
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
+	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
 	if(plSets->ProtoDisabled(dbei.szModule)) {
@@ -53,7 +53,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 			DBWriteContactSettingByte(hcntct, "CList", "NotOnList", 1);
 			DBWriteContactSettingByte(hcntct, "CList", "Hidden", 1);
 			if (!plSets->HistLog.Get())
-				CallService(MS_DB_EVENT_DELETE, 0, (LPARAM)hDbEvent);
+				db_event_delete(0, hDbEvent);
 			delete [] dbei.pBlob;
 			return 1;
 		}
@@ -182,7 +182,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 	// save message from contact
 	dbei->flags |= DBEF_READ;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)dbei);
+	db_event_add(hContact, dbei);
 
 	// reject processing of the event
 	return 1;

@@ -980,7 +980,7 @@ void	AddMessageToDB(HANDLE hContact, char *msg, int flag/*bool utf*/)
 	else
 		dbei.cbBlob = lstrlenA(msg) + 1;
 	dbei.pBlob = (PBYTE)msg;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	db_event_add(hContact, &dbei);
 }
 
 LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

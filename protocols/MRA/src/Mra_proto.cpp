@@ -655,24 +655,21 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 		{
 			BOOL bAdded;
 			BYTE btBuff[BUFF_SIZE_BLOB];
-			DBEVENTINFO dbei = {0};
 
 			GetLPS(lpbData, dwDataSize, &lpbDataCurrent, &lpsEMail);
 			hContact = MraHContactFromEmail(lpsEMail.lpszData, lpsEMail.dwSize, TRUE, TRUE, &bAdded);
 			if (bAdded) MraUpdateContactInfo(hContact);
 
 			if (IsEMailChatAgent(lpsEMail.lpszData, lpsEMail.dwSize) == FALSE) {
-				dbei.cbSize = sizeof(dbei);
+				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = (DWORD)_time32(NULL);
 				dbei.flags = 0;
 				dbei.eventType = EVENTTYPE_ADDED;
-				//dbei.cbBlob = 0;
 				CreateBlobFromContact(hContact, NULL, 0, (LPBYTE)&btBuff, SIZEOF(btBuff), &dwStringSize);
 				dbei.cbBlob = dwStringSize;
 				dbei.pBlob = btBuff;
-
-				CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
+				db_event_add(0, &dbei);
 			}
 
 			GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
@@ -2004,17 +2001,14 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 
 					if (bAutoGrantAuth) { // auto grant auth
-						DBEVENTINFO dbei = {0};
-
-						dbei.cbSize = sizeof(dbei);
+						DBEVENTINFO dbei = { sizeof(dbei) };
 						dbei.szModule = m_szModuleName;
 						dbei.timestamp = _time32(NULL);
 						dbei.flags = DBEF_READ;
 						dbei.eventType = EVENTTYPE_AUTHREQUEST;
 						dbei.pBlob = (PBYTE)btBuff;
-
 						CreateBlobFromContact(hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&dbei.cbBlob);
-						CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
+						db_event_add(0, &dbei);
 						MraAuthorize(plpsFrom->lpszData, plpsFrom->dwSize);
 					}
 					else {

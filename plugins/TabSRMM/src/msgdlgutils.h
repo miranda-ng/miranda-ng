@@ -36,7 +36,6 @@
 
 void  	TSAPI CalcDynamicAvatarSize			(TWindowData *dat, BITMAP *bminfo);
 char* 	TSAPI GetCurrentMetaContactProto	(TWindowData *dat);
-void	TSAPI WriteStatsOnClose				(TWindowData *dat);
 int		TSAPI MsgWindowUpdateMenu			(TWindowData *dat, HMENU submenu, int menuID);
 int		TSAPI MsgWindowMenuHandler			(TWindowData *dat, int selection, int menuId);
 int  	TSAPI GetAvatarVisibility			(HWND hwndDlg, TWindowData *dat);

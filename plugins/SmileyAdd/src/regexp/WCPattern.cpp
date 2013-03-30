@@ -153,7 +153,7 @@ bool WCPattern::quantifyCurly(int & sNum, int & eNum)
 {
   bool good = 1;
   int i, ci = curInd + 1;
-  int commaInd = ci, endInd = ci, len = pattern.size();
+  int commaInd = ci, endInd = ci, len = (int)pattern.size();
   sNum = eNum = 0;
 
   while (endInd   < len     && pattern[endInd  ] != (wchar_t)'}') ++endInd;
@@ -325,7 +325,7 @@ bkstring WCPattern::parseClass()
       if (pattern[++curInd] != (wchar_t)'[')
       {
         raiseError();
-        curInd = pattern.size();
+        curInd = (int)pattern.size();
       }
       else
       {
@@ -340,7 +340,7 @@ bkstring WCPattern::parseClass()
       if (quo)
       {
         raiseError();
-        curInd = pattern.size();
+        curInd = (int)pattern.size();
       }
       else if (inv || t.size() > 1) // cant be part of a range (a-z)
       {
@@ -361,7 +361,7 @@ bkstring WCPattern::parseClass()
             if (quo)
             {
               raiseError();
-              curInd = pattern.size();
+              curInd = (int)pattern.size();
             }
             else if (inv || t.size() > 1) raiseError();
             else ret = classUnion(ret, classCreateRange(c1, c2));
@@ -369,7 +369,7 @@ bkstring WCPattern::parseClass()
           else if (c2 == (wchar_t)'[' || c2 == (wchar_t)']' || c2 == (wchar_t)'-' || c2 == (wchar_t)'&')
           {
             raiseError();
-            curInd = pattern.size();
+            curInd = (int)pattern.size();
           }
           else ret = classUnion(ret, classCreateRange(c1, c2));
         }
@@ -393,7 +393,7 @@ bkstring WCPattern::parseClass()
           if (quo)
           {
             raiseError();
-            curInd = pattern.size();
+            curInd = (int)pattern.size();
           }
           else if (inv || t.size() > 1) raiseError();
           else ret = classUnion(ret, classCreateRange(c1, c2));
@@ -401,7 +401,7 @@ bkstring WCPattern::parseClass()
         else if (c2 == (wchar_t)'[' || c2 == (wchar_t)']' || c2 == (wchar_t)'-' || c2 == (wchar_t)'&')
         {
           raiseError();
-          curInd = pattern.size();
+          curInd = (int)pattern.size();
         }
         else
         {

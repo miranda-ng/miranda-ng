@@ -710,11 +710,10 @@ static void JabberProcessMessage(XmlNode *node, ThreadData *info)
 						if (msgTime == 0) {
 							msgTime = time(NULL);
 						} else {
-							HANDLE hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) hContact, 0);
+							HANDLE hDbEvent = db_event_last(hContact);
 							if (hDbEvent != NULL) {
-								DBEVENTINFO dbei = { 0 };
-								dbei.cbSize = sizeof(dbei);
-								CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) &dbei);
+								DBEVENTINFO dbei = { sizeof(dbei) }; 
+								db_event_get( hDbEvent, &dbei);
 								if (msgTime < dbei.timestamp) {
 									msgTime = dbei.timestamp + 1;
 								}

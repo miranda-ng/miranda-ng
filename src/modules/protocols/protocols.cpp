@@ -188,7 +188,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	if (pre->flags & PREF_UTF)
 		dbei.flags |= DBEF_UTF;
 
-	return CallService(MS_DB_EVENT_ADD, (WPARAM) ccs->hContact, (LPARAM)&dbei);
+	return (INT_PTR)db_event_add(ccs->hContact, &dbei);
 }
 
 static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
@@ -204,7 +204,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;
-	return CallService(MS_DB_EVENT_ADD,0,(LPARAM)&dbei);
+	return (INT_PTR)db_event_add(NULL, &dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

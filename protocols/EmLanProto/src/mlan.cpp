@@ -127,18 +127,14 @@ void CMLan::SetMirandaStatus(u_int status)
 
 void CMLan::SetAllOffline()
 {	
-	HANDLE hContact =(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-	while(hContact!=NULL) 
-	{
-		char* svc = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-		if (svc!=NULL && lstrcmp(PROTONAME,svc)==0) 
-		{
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		char *svc = GetContactProto(hContact);
+		if (svc != NULL && lstrcmp(PROTONAME,svc) == 0) {
 			DBWriteContactSettingWord(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
-			//Delet all temp contact settings
 			DBDeleteContactSetting(hContact, PROTONAME, "IP");
-			//DBDeleteContactSetting(hContact, PROTONAME, "UID");
 		}
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact = db_find_next(hContact);
 	}
 	DeleteCache();
 }
@@ -247,15 +243,12 @@ void CMLan::SendPacketExt(TPacket& pak, u_long addr)
 
 HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, bool make_permanent, bool make_visible, u_int status)
 {
-	HANDLE res=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-	while(res!=NULL) 
-	{
-		char *szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)res,0);
-		if (szProto!=NULL && !lstrcmp(PROTONAME,szProto)) 
-		{
+	HANDLE res = db_find_first();
+	while (res != NULL) {
+		char *szProto = GetContactProto(res);
+		if (szProto!=NULL && !lstrcmp(PROTONAME, szProto)) {
 			u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
-			if (caddr==addr.S_un.S_addr) 
-			{					
+			if (caddr==addr.S_un.S_addr) {					
 				if (make_permanent)
 					DBDeleteContactSetting(res,"CList","NotOnList");
 				if (make_visible)
@@ -263,11 +256,10 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 				return res;
 			}			
 		}
-		res=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)res,0);
+		res = db_find_next(res);
 	}
 
-	if (add_to_list)
-	{
+	if (add_to_list) {
 		res=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
 		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)res,(LPARAM)PROTONAME);
 		DBWriteContactSettingDword(res,PROTONAME, "ipaddr", addr.S_un.S_addr);
@@ -467,7 +459,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 
 	DBDeleteContactSetting(ccs->hContact,"CList","Hidden");
 
-	CallService(MS_DB_EVENT_ADD,(WPARAM)ccs->hContact,(LPARAM)&dbei);
+	db_event_add(ccs->hContact, &dbei);
 }
 
 int CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
@@ -1125,7 +1117,6 @@ void CMLan::FileRemoveFromList(TFileConnection* conn)
 
 void CMLan::RecvFile(CCSDATA* ccs)
 {
-	DBEVENTINFO dbei;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 	char *szDesc, *szFile;
 
@@ -1134,15 +1125,14 @@ void CMLan::RecvFile(CCSDATA* ccs)
 	szFile = pre->szMessage + sizeof(DWORD);
 	szDesc = szFile + strlen(szFile) + 1;
 
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = PROTONAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.cbBlob = DWORD(sizeof(DWORD) + strlen(szFile) + strlen(szDesc) + 2);
 	dbei.pBlob = (PBYTE)pre->szMessage;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)ccs->hContact, (LPARAM)&dbei);
+	db_event_add(ccs->hContact, &dbei);
 }
 
 void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)

@@ -108,14 +108,14 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	pre.flags = (utf8) ? PREF_UTF : 0;
 
 	if (tm) {
-		HANDLE hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
+		HANDLE hEvent = db_event_last(hContact);
 
 		if (hEvent) { // contact has events
 			DWORD dummy;
 			DBEVENTINFO dbei = { sizeof (dbei) };
 			dbei.pBlob = (BYTE*)&dummy;
 			dbei.cbBlob = 2;
-			if (!CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei)) 
+			if (!db_event_get(hEvent, &dbei)) 
 				// got that event, if newer than ts then reset to current time
 				if ((DWORD)tm < dbei.timestamp) tm = (long)time(NULL);
 		}

@@ -288,35 +288,6 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	dat->pic.cx = (int)newWidth + 2;
 }
 
-void TSAPI WriteStatsOnClose(TWindowData *dat)
-{
-	/*
-	DBEVENTINFO dbei;
-	char buffer[450];
-	HANDLE hNewEvent;
-	time_t now = time(NULL);
-	now = now - dat->stats.started;
-
-	return;
-
-	if (dat->hContact != 0 &&(PluginConfig.m_LogStatusChanges != 0) && M->GetByte(dat->hContact, "logstatuschanges", 0)) {
-		mir_snprintf(buffer, sizeof(buffer), "Session close - active for: %d:%02d:%02d, Sent: %d (%d), Rcvd: %d (%d)", now / 3600, now / 60, now % 60, dat->stats.iSent, dat->stats.iSentBytes, dat->stats.iReceived, dat->stats.iReceivedBytes);
-		dbei.cbSize = sizeof(dbei);
-		dbei.pBlob = (PBYTE) buffer;
-		dbei.cbBlob = (int)(strlen(buffer)) + 1;
-		dbei.eventType = EVENTTYPE_STATUSCHANGE;
-		dbei.flags = DBEF_READ;
-		dbei.timestamp = time(NULL);
-		dbei.szModule = dat->szProto;
-		hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) dat->hContact, (LPARAM) & dbei);
-		if (dat->hDbEventFirst == NULL) {
-			dat->hDbEventFirst = hNewEvent;
-			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
-		}
-	}
-	*/
-}
-
 int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 {
 	HWND	hwndDlg = dat->hwnd;
@@ -1413,7 +1384,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 	if (historyMode == -1)
 		historyMode = (int)M->GetByte(SRMSGMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 
-	dat->hDbEventFirst = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) dat->hContact, 0);
+	dat->hDbEventFirst = db_event_firstUnread(dat->hContact);
 
 	if (dat->bActualHistory)
 		historyMode = LOADHISTORY_COUNT;
@@ -1432,14 +1403,14 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 			//
 			for (; i > 0; i--) {
 				if (dat->hDbEventFirst == NULL)
-					hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
+					hPrevEvent = db_event_last(dat->hContact);
 				else
-					hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
+					hPrevEvent = db_event_prev(dat->hDbEventFirst);
 				if (hPrevEvent == NULL)
 					break;
 				dbei.cbBlob = 0;
 				dat->hDbEventFirst = hPrevEvent;
-				CallService(MS_DB_EVENT_GET, (WPARAM) dat->hDbEventFirst, (LPARAM) & dbei);
+				db_event_get(dat->hDbEventFirst, &dbei);
 				if (!DbEventIsShown(dat, &dbei))
 					i++;
 			}
@@ -1454,17 +1425,17 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 		if (dat->hDbEventFirst == NULL)
 			dbei.timestamp = time(NULL);
 		else
-			CallService(MS_DB_EVENT_GET, (WPARAM) dat->hDbEventFirst, (LPARAM) & dbei);
+			db_event_get(dat->hDbEventFirst, &dbei);
 		firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
 			if (dat->hDbEventFirst == NULL)
-				hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
+				hPrevEvent = db_event_last(dat->hContact);
 			else
-				hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
+				hPrevEvent = db_event_prev(dat->hDbEventFirst);
 			if (hPrevEvent == NULL)
 				break;
 			dbei.cbBlob = 0;
-			CallService(MS_DB_EVENT_GET, (WPARAM) hPrevEvent, (LPARAM) & dbei);
+			db_event_get(hPrevEvent, &dbei);
 			if (dbei.timestamp < firstTime)
 				break;
 			dat->hDbEventFirst = hPrevEvent;

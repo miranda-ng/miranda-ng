@@ -139,8 +139,7 @@ static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
 //Sweep history from specified contact
 void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keepUnread)
 {
-	int lPolicy, eventsCnt;
-	
+	int lPolicy;	
 	if (hContact == NULL)			// for system history
 		lPolicy = DBGetContactSettingByte(NULL, ModuleName, "SweepSHistory", 0);
 	else							// for contact history (or "SweepHistory" - default action)
@@ -148,13 +147,11 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 	
 	if (lPolicy == 0) return;		// nothing to do
 	
-	eventsCnt = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0);
-	
-	if (eventsCnt != 0) 
-	{ 
+	int eventsCnt = db_event_count(hContact);
+	if (eventsCnt != 0) { 
 		BOOL doDelete, unsafe = DBGetContactSettingByte(NULL, ModuleName, "UnsafeMode", 0);
-		HANDLE hDBEvent, hDBEventNext; BEventData *books, *item, ev = { 0 };
-		DBEVENTINFO dbei; size_t bookcnt, btshift;
+		BEventData *books, *item, ev = { 0 };
+		size_t bookcnt, btshift;
 		
 		SetCursor(LoadCursor(0, IDC_WAIT));
 
@@ -164,14 +161,10 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 		GetBookmarks(hContact, &books, &bookcnt);
 
 		//Get first event
-		hDBEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
-		
-		while (hDBEvent != NULL) 
-		{
-			ZeroMemory(&dbei, sizeof(dbei));
-			dbei.cbSize = sizeof(dbei);
-
-			CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei);
+		HANDLE hDBEvent = db_event_first(hContact);
+		while (hDBEvent != NULL) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDBEvent, &dbei);
 
 			// should we stop processing?
 			// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
@@ -195,12 +188,13 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 			}
 
 			// find next event
-			hDBEventNext = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDBEvent, 0);
+			HANDLE hDBEventNext = db_event_next(hDBEvent);
 
-			if (doDelete) CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hDBEvent);
+			if (doDelete)
+				db_event_delete(hContact, hDBEvent);
 			
 			hDBEvent = hDBEventNext;
-		} // while (hDBEvent != NULL)
+		}
 
 		mir_free(books);
 

@@ -46,13 +46,11 @@ void LoadOptions()
 static int StatusChangeGetMessage(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hDbEvent = (HANDLE)lParam;
-	DBEVENTINFO dbe;
 	int status;
 	BOOL read, send, change_status;
 
-	dbe.cbSize = sizeof(dbe);
-	dbe.cbBlob = 0;
-	CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe);
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	db_event_get(hDbEvent, &dbe);
 
 	status = (int)CallProtoService(dbe.szModule, PS_GETSTATUS, 0, 0);
 	if(!status)

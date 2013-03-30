@@ -247,14 +247,13 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				DBFreeVariant(&dbv);
 			}
 
-			CallService(MS_DB_EVENT_MARKREAD, (WPARAM)dat->hContact, (LPARAM)dat->hDbEvent);
+			db_event_markRead(dat->hContact, dat->hDbEvent);
 
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)dat->hDbEvent, 0);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
 			if (dbei.cbBlob > 4 && dbei.cbBlob <= 8196) {
 				dbei.pBlob = (PBYTE)alloca(dbei.cbBlob + 1);
-				CallService(MS_DB_EVENT_GET, (WPARAM)dat->hDbEvent, (LPARAM)&dbei);
+				db_event_get(dat->hDbEvent, &dbei);
 				dbei.pBlob[dbei.cbBlob] = 0;
 				dat->fs = cle->lParam ? (HANDLE)cle->lParam : (HANDLE)*(PDWORD)dbei.pBlob;
 

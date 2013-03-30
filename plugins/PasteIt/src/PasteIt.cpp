@@ -137,7 +137,7 @@ void PasteIt(HANDLE hContact, int mode)
 					dbei.timestamp = (DWORD)time(NULL);
 					dbei.cbBlob = (DWORD)strlen(pasteToWeb->szFileLink) + 1;
 					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
-					CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+					db_event_add(hContact, &dbei);
 					CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
 				}
 				else

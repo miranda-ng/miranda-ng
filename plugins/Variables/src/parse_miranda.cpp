@@ -532,18 +532,18 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 		dbe.pBlob = NULL;
 		if (hContact != NULL) {
 			if ((flags & DBE_FIRST) && (flags & DBE_UNREAD)) {
-				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+				hDbEvent = db_event_firstUnread(hContact);
 				if (hDbEvent == NULL && (flags & DBE_READ))
-					hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+					hDbEvent = db_event_first(hContact);
 			}
 			else if (flags & DBE_FIRST)
-				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+				hDbEvent = db_event_first(hContact);
 			else if (flags & DBE_LAST)
-				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
+				hDbEvent = db_event_last(hContact);
 			else if (flags & DBE_NEXT)
-				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+				hDbEvent = db_event_next(hDbEvent);
 			else if (flags & DBE_PREV)
-				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
+				hDbEvent = db_event_prev(hDbEvent);
 		}
 		else {
 			HANDLE hMatchEvent, hSearchEvent, hSearchContact;
@@ -556,7 +556,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				do {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
-					if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
+					if (!db_event_get(hSearchEvent, &dbe)) {
 						if ((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0)) {
 							hMatchEvent = hSearchEvent;
 							matchTimestamp = dbe.timestamp;
@@ -571,7 +571,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				do {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
-					if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
+					if (!db_event_get(hSearchEvent, &dbe)) {
 						if ((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) {
 							hMatchEvent = hSearchEvent;
 							matchTimestamp = dbe.timestamp;
@@ -583,13 +583,13 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			}
 			else if (flags&DBE_NEXT) {
 				dbe.cbBlob = 0;
-				if (!CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
+				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
 					hSearchContact = db_find_first();
 					do {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
-						if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
+						if (!db_event_get(hSearchEvent, &dbe)) {
 							if (((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp > priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
 								matchTimestamp = dbe.timestamp;
@@ -601,13 +601,13 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				}
 			}
 			else if (flags&DBE_PREV) {
-				if (!CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
+				if (!db_event_get(hDbEvent, &dbe)) {
 					priorTimestamp = dbe.timestamp;
 					hSearchContact = db_find_first();
 					do {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
-						if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
+						if (!db_event_get(hSearchEvent, &dbe)) {
 							if (((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
 								matchTimestamp = dbe.timestamp;
@@ -620,7 +620,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 			}
 		}
 		dbe.cbBlob = 0;
-		if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe))
+		if (db_event_get(hDbEvent, &dbe))
 			bEventOk = FALSE;
 		else
 			bEventOk = isValidDbEvent(&dbe, flags);
@@ -698,9 +698,9 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 
 	DBEVENTINFO dbe = { 0 };
 	dbe.cbSize = sizeof(DBEVENTINFO);
-	dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
 	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob);
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe)) {
+	if (db_event_get(hDbEvent, &dbe)) {
 		mir_free(dbe.pBlob);
 		return NULL;
 	}

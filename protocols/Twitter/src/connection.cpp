@@ -583,15 +583,13 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
 			if (tweetToMsg) {
 				DBEVENTINFO dbei = {sizeof(dbei)};
-			
 				dbei.pBlob = (BYTE*)(i->status.text.c_str());
 				dbei.cbBlob = (int)i->status.text.size()+1;
 				dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 				dbei.flags = DBEF_UTF | DBEF_READ;
-				//dbei.flags = DBEF_READ; // i had commented this line out.. can't remember why :(  might need to do it again, uncommented for mrQQ for testing (added to the DBEF_UTF line)
 				dbei.timestamp = static_cast<DWORD>(i->status.time);
 				dbei.szModule = m_szModuleName;
-				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+				db_event_add(hContact, &dbei);
 			}
 
 			db_set_utf(hContact,"CList","StatusMsg",i->status.text.c_str());

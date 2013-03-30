@@ -142,32 +142,29 @@ static void FillHistoryThread(void* param)
 {
 	Thread_SetName("HistoryWindow::FillHistoryThread");
 
-	TCHAR str[200], eventText[256], strdatetime[64];
-	HANDLE hDbEvent;
-	DBEVENTINFO dbei;
-	int newBlobSize, oldBlobSize, i;
-	HWND hwndList;
 	THistoryThread *hInfo = (THistoryThread*)param;
+	HWND hwndList = GetDlgItem(hInfo->hwnd, IDC_LIST);
 
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_RESETCONTENT, 0, 0);
-	i = CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hInfo->hContact, 0);
+	int i = db_event_count(hInfo->hContact);
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_INITSTORAGE, i, i*40);
 
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	oldBlobSize = 0;
-	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hInfo->hContact, 0);
-	hwndList = GetDlgItem(hInfo->hwnd, IDC_LIST);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	int oldBlobSize = 0;
+	HANDLE hDbEvent = db_event_last(hInfo->hContact);
+	
 	while (hDbEvent != NULL) {
 		if ( !IsWindow(hInfo->hwnd))
 			break;
-		newBlobSize = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-		if (newBlobSize>oldBlobSize) {
+		int newBlobSize = db_event_getBlobSize(hDbEvent);
+		if (newBlobSize > oldBlobSize) {
 			dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
 			oldBlobSize = newBlobSize;
 		}
 		dbei.cbBlob = oldBlobSize;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+		db_event_get(hDbEvent, &dbei);
+
+		TCHAR str[200], eventText[256], strdatetime[64];
 		GetObjectSummary(&dbei, str, SIZEOF(str));
 		if (str[0]) {
 			tmi.printTimeStamp(NULL, dbei.timestamp, _T("d t"), strdatetime, SIZEOF(strdatetime), 0);
@@ -175,7 +172,7 @@ static void FillHistoryThread(void* param)
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
+		hDbEvent = db_event_prev(hDbEvent);
 	}
 	mir_free(dbei.pBlob);
 
@@ -275,30 +272,25 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete History"), MB_YESNO|MB_ICONQUESTION) == IDYES) {
 					hDbevent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
-					CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hDbevent);
+					db_event_delete(hContact, hDbevent);
 					SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
 				}
 				return TRUE;
 			}
 		case IDC_LIST:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
-				TCHAR str[8192], *contactName;
-				HANDLE hDbEvent;
-				DBEVENTINFO dbei;
-				int sel;
-				sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
+				int sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (sel == LB_ERR) { EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), FALSE); break; }
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
-				contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-				hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
-				ZeroMemory(&dbei, sizeof(dbei));
-				dbei.cbSize = sizeof(dbei);
-				dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-				if ((int)dbei.cbBlob != -1)
-				{
+				TCHAR *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
+				HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
+
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
+				if ((int)dbei.cbBlob != -1) {
 					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-					if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0)
-					{
+					if (db_event_get(hDbEvent, &dbei) == 0) {
+						TCHAR str[8192];
 						GetObjectDescription(&dbei, str, SIZEOF(str));
 						if (str[0])
 							SetDlgItemText(hwndDlg, IDC_EDIT, str);
@@ -311,34 +303,32 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 	case DM_FINDNEXT:
 		{
-			TCHAR str[1024];
-			HANDLE hDbEvent, hDbEventStart;
-			DBEVENTINFO dbei;
-			int newBlobSize, oldBlobSize;
-
 			int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 			if (index == LB_ERR)
 				break;
 
-			hDbEventStart = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
-			ZeroMemory(&dbei, sizeof(dbei));
-			dbei.cbSize = sizeof(dbei);
-			dbei.pBlob = NULL;
-			oldBlobSize = 0;
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			int oldBlobSize = 0;
+			HANDLE hDbEventStart = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+
 			for (;;) {
-				hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
+				HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
 				if (hDbEvent == (HANDLE)LB_ERR) {
 					index = -1;
 					continue;
 				}
-				if (hDbEvent == hDbEventStart) break;
-				newBlobSize = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+				if (hDbEvent == hDbEventStart)
+					break;
+
+				int newBlobSize = db_event_getBlobSize(hDbEvent);
 				if (newBlobSize>oldBlobSize) {
 					dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
 					oldBlobSize = newBlobSize;
 				}
 				dbei.cbBlob = oldBlobSize;
-				CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+				db_event_get(hDbEvent, &dbei);
+
+				TCHAR str[1024];
 				GetObjectDescription(&dbei, str, SIZEOF(str));
 				if (str[0]) {
 					CharUpperBuff(str, lstrlen(str));

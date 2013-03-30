@@ -257,14 +257,10 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 
 static int clcHookDbEventAdded(WPARAM wParam,LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
 	g_CluiData.t_now = time(NULL);
-	if (wParam && lParam)
-	{
-		dbei.cbSize = sizeof(dbei);
-		dbei.pBlob = 0;
-		dbei.cbBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbei);
+	if (wParam && lParam) {
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get((HANDLE)lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry((HANDLE)wParam);
 			db_set_dw((HANDLE)wParam, "CList", "mf_lastmsg", dbei.timestamp);

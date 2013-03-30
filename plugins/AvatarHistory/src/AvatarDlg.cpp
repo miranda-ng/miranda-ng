@@ -244,7 +244,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 						HANDLE hContact = (HANDLE) GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 						if (le->hDbEvent)
-							CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)le->hDbEvent);
+							db_event_delete(hContact, le->hDbEvent);
 						else
 							DeleteFile(le->filelink);
 
@@ -283,7 +283,7 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 					DeleteFile(le->filename);
 
 					if (le->hDbEvent)
-						CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)le->hDbEvent);
+						db_event_delete(hContact, le->hDbEvent);
 					else
 						DeleteFile(le->filelink);
 
@@ -407,13 +407,11 @@ int FillAvatarListFromDB(HWND list, HANDLE hContact)
 {
 	int max_pos = 0;
 	BYTE blob[2048];
-	for (HANDLE hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
-	     hDbEvent != NULL;
-		  hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0)) {
+	for (HANDLE hDbEvent = db_event_first(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = sizeof(blob);
 		dbei.pBlob = blob;
-		if ( CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) != 0) continue;
+		if (db_event_get(hDbEvent, &dbei) != 0) continue;
 		if (dbei.eventType != EVENTTYPE_AVATAR_CHANGE) continue;
 
 		// Get time

@@ -40,25 +40,22 @@ static INT_PTR ReadUrlCommand(WPARAM, LPARAM lParam)
 
 static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	CLISTEVENT cle;
-	DBEVENTINFO dbei;
-	TCHAR szTooltip[256];
-
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = 0;
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
-	if (dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_URL) return 0;
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lParam, &dbei);
+	if (dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_URL)
+		return 0;
 
 	SkinPlaySound("RecvUrl");
-	ZeroMemory(&cle, sizeof(cle));
-	cle.cbSize = sizeof(cle);
+
+	TCHAR szTooltip[256];
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
+
+	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
 	cle.hContact = (HANDLE)wParam;
 	cle.hDbEvent = (HANDLE)lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName((HANDLE)wParam, 0));
 	cle.ptszTooltip = szTooltip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
@@ -72,31 +69,27 @@ static INT_PTR SendUrlCommand(WPARAM wParam, LPARAM)
 
 static void RestoreUnreadUrlAlerts(void)
 {
-	CLISTEVENT cle = {0};
-	DBEVENTINFO dbei = {0};
-	TCHAR toolTip[256];
-	HANDLE hDbEvent, hContact;
-
-	dbei.cbSize = sizeof(dbei);
-	cle.cbSize = sizeof(cle);
+	CLISTEVENT cle = { sizeof(cle) };
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
+	cle.flags = CLEF_TCHAR;
 
-	hContact = db_find_first();
+	HANDLE hContact = db_find_first();
 	while (hContact) {
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
-			dbei.cbBlob = 0;
-			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
 			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_URL) {
+				TCHAR toolTip[256];
+				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
-				cle.flags = CLEF_TCHAR;
-				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
-			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+			hDbEvent = db_event_next(hDbEvent);
 		}
 		hContact = db_find_next(hContact);
 	}

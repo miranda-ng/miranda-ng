@@ -372,15 +372,14 @@ HANDLE __cdecl CIcqProto::AddToListByEvent( int flags, int iContact, HANDLE hDbE
 	DWORD uin = 0;
 	uid_str uid = {0};
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 0;
 
 	dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob + 1);
 	dbei.pBlob[dbei.cbBlob] = '\0';
 
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if ( db_event_get(hDbEvent, &dbei))
 		return 0; // failed to get event
 
 	if (strcmpnull(dbei.szModule, m_szModuleName))

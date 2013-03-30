@@ -182,11 +182,7 @@ namespace Variant {
 } /* namespace Variant */
 
 namespace Event   {
-
-	HANDLE	FindFirst      (HANDLE hContact);
 	HANDLE	FindLast       (HANDLE hContact);
-	HANDLE	FindNext       (HANDLE hEvent);
-	HANDLE	FindPrev       (HANDLE hEvent);
 	BYTE	GetInfo        (HANDLE hEvent, DBEVENTINFO *dbei);
 	BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
 	DWORD	GetTime        (HANDLE hEvent);

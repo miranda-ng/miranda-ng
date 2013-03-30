@@ -649,32 +649,23 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 {
 	DWORD dwStart = GetTickCount();
 
-	HWND hRichEdit = GetDlgItem( hwndDlg, IDC_RICHEDIT );
-	if (!hRichEdit )
-	{
+	HWND hRichEdit = GetDlgItem( hwndDlg, IDC_RICHEDIT);
+	if (!hRichEdit) {
 		MessageBox( hwndDlg, TranslateT("Failed to get handle to RichEdit!"), MSG_BOX_TITEL, MB_OK );
 		return false;
 	}
 
-
-	HANDLE hFile = CreateFile( pclDlg->sPath.c_str(), GENERIC_READ,
+	HANDLE hFile = CreateFile( pclDlg->sPath.c_str(), GENERIC_READ, 
 		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
 		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
-
-
-	if (hFile == INVALID_HANDLE_VALUE )
-	{
-		int nDBCount = (int)CallService( MS_DB_EVENT_GETCOUNT, (WPARAM)(pclDlg->hContact),0 );
+	if (hFile == INVALID_HANDLE_VALUE) {
+		int nDBCount = db_event_count(pclDlg->hContact);
 		TCHAR szTmp[1500];
 
 		if (nDBCount == -1 )
-		{
 			mir_sntprintf(szTmp, 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nContact handle is invalid"), pclDlg->sPath.c_str());
-		}
 		else
-		{
 			mir_sntprintf( szTmp, 1499, LPGENT("Failed to open file\r\n%s\r\n\r\nMiranda database contains %d events"), pclDlg->sPath.c_str(), nDBCount );
-		}
 
 		SETTEXTEX stText = {0};
 		stText.codepage =	CP_ACP;
@@ -688,15 +679,13 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 	bool bScrollToBottom = true;
 	if (pclDlg->bFirstLoad )
 		pclDlg->bFirstLoad = false;
-	else
-	{
+	else {
 		SCROLLINFO sScrollInfo = { 0 };
 		sScrollInfo.cbSize = sizeof( SCROLLINFO );
 		sScrollInfo.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;
 		if (GetScrollInfo( hRichEdit,SB_VERT,&sScrollInfo))
 			bScrollToBottom = sScrollInfo.nPos + (int)sScrollInfo.nPage + 50 > sScrollInfo.nMax;
 	}
-
 
 	HMENU hSysMenu = GetSystemMenu( hwndDlg, FALSE );
 	bool bUseSyntaxHL = (GetMenuState( hSysMenu , ID_FV_SYNTAX_HL, MF_BYCOMMAND) & MF_CHECKED)!=0;
@@ -717,8 +706,7 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 	EDITSTREAM eds;
 	eds.dwError = 0;
 
-	if (bUseSyntaxHL )
-	{
+	if (bUseSyntaxHL ) {
 		SendMessage( hRichEdit,        // handle to destination window
 					EM_EXLIMITTEXT,       // message to send
 					0,    // not used; must be zero
@@ -731,8 +719,7 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 		SendMessage(hRichEdit, EM_STREAMIN, (WPARAM)SF_RTF, (LPARAM)&eds);
 		pclDlg->bUtf8File = clInfo.bUtf8File;
 	}
-	else
-	{
+	else {
 		eds.dwCookie = (DWORD )hFile;
 		eds.pfnCallback = RichEditStreamLoadFile;
 
@@ -745,7 +732,6 @@ bool bLoadFile( HWND hwndDlg, CLHistoryDlg * pclDlg )
 	TCHAR szTmp[100];
 	mir_sntprintf( szTmp, 99, _T("File open time %d\n"), GetTickCount() - dwStart );
 	OutputDebugString( szTmp );
-
 
 	GETTEXTLENGTHEX sData = { 0 };
 	sData.flags = GTL_NUMCHARS;

@@ -227,7 +227,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
 			dbei.cbBlob = (DWORD) strlen(blob) + 1;
 			dbei.pBlob = (PBYTE)(char*)blob;
-			CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&dbei);
+			db_event_add(hContact, &dbei);
 		}
 	}
 

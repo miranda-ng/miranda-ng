@@ -572,15 +572,13 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 	NudgeEvent.pBlob = ( PBYTE ) buff;
 
 	INT_PTR res = CallService( MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
-	if(res != CALLSERVICE_NOTFOUND)
-	{
+	if(res != CALLSERVICE_NOTFOUND) {
 		HANDLE hMetaContact = (HANDLE) res;
 		if(hMetaContact != NULL) //metacontact
-			CallService(MS_DB_EVENT_ADD,(WPARAM)hMetaContact,(LPARAM)&NudgeEvent);
+			db_event_add(hMetaContact, &NudgeEvent);
 	}
 
-
-	CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&NudgeEvent);
+	db_event_add(hContact, &NudgeEvent);
 }
 
 void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
@@ -600,17 +598,15 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 
 
 	INT_PTR res = CallService( MS_MC_GETMETACONTACT, (WPARAM)hContact, 0 ); //try to retrieve the metacontact if some
-	if(res != CALLSERVICE_NOTFOUND)
-	{
+	if(res != CALLSERVICE_NOTFOUND) {
 		HANDLE hMetaContact = (HANDLE) res;
-		if(hMetaContact != NULL) //metacontact
-		{
-			CallService(MS_DB_EVENT_ADD,(WPARAM)hMetaContact,(LPARAM)&NudgeEvent);
+		if(hMetaContact != NULL) { //metacontact
+			db_event_add(hMetaContact, &NudgeEvent);
 			NudgeEvent.flags |= DBEF_READ;
 		}
 	}
 
-	CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&NudgeEvent);
+	db_event_add(hContact, &NudgeEvent);
 }
 
 HANDLE Nudge_GethContact(HANDLE hContact)

@@ -88,20 +88,17 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 void MessageFailureProcess(TMsgQueue *item, const char* err)
 {
-	HWND hwnd;
-	ErrorDlgParam param = { err, item };
+	db_event_delete(item->hContact, item->hDbEvent);
 
-	CallService(MS_DB_EVENT_DELETE, (WPARAM)item->hContact, (LPARAM)item->hDbEvent);
-
-	hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)item->hContact);
-	if (hwnd == NULL)
-	{
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)item->hContact);
+	if (hwnd == NULL) {
 		SendMessageCmd(item->hContact, NULL, 0);
 		hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE)item->hContact);
 	}
-	else
-		SendMessage(hwnd, DM_REMAKELOG, 0, 0);
+	else SendMessage(hwnd, DM_REMAKELOG, 0, 0);
 
 	SkinPlaySound("SendError");
+
+	ErrorDlgParam param = { err, item };
 	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSENDERROR), hwnd, ErrorDlgProc, (LPARAM) &param);
 }

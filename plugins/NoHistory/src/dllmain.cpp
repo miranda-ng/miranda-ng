@@ -54,8 +54,7 @@ extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirand
 
 void RemoveReadEvents(HANDLE hContact = 0)
 {
-	DBEVENTINFO info = {0};
-	info.cbSize = sizeof(info);
+	DBEVENTINFO info = { sizeof(info) };
 	bool remove;
 
 	EnterCriticalSection(&list_cs);
@@ -64,7 +63,7 @@ void RemoveReadEvents(HANDLE hContact = 0)
 		remove = false;
 		if (hContact == 0 || hContact == node->hContact) {
 			info.cbBlob = 0;
-			if (!CallService(MS_DB_EVENT_GET, (WPARAM)node->hDBEvent, (LPARAM)&info)) {
+			if (!db_event_get(node->hDBEvent, &info)) {
 				if ((info.flags & DBEF_READ) || (info.flags & DBEF_SENT)) // note: already checked event type when added to list
 					remove = true;
 			}
@@ -76,7 +75,7 @@ void RemoveReadEvents(HANDLE hContact = 0)
 		
 		if (remove) {
 			if (db_get_b(node->hContact, MODULE, DBSETTING_REMOVE, 0)) // is history disabled for this contact?
-				CallService(MS_DB_EVENT_DELETE, (WPARAM)node->hContact, (LPARAM)node->hDBEvent);
+				db_event_delete(node->hContact, node->hDBEvent);
 			
 			// remove list node anyway
 			if (event_list == node) event_list = node->next;
@@ -98,10 +97,10 @@ void RemoveReadEvents(HANDLE hContact = 0)
 
 void RemoveAllEvents(HANDLE hContact)
 {
-	HANDLE hDBEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+	HANDLE hDBEvent = db_event_first(hContact);
 	while(hDBEvent) {
-		HANDLE hDBEventNext = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDBEvent, 0);
-		CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hDBEvent);
+		HANDLE hDBEventNext = db_event_next(hDBEvent);
+		db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
 }
@@ -119,9 +118,8 @@ int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 0)
 		return 0;
 	
-	DBEVENTINFO info = {0};
-	info.cbSize = sizeof(info);
-	if ( !CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&info)) {
+	DBEVENTINFO info = { sizeof(info) };
+	if ( !db_event_get(hDBEvent, &info)) {
 		if (info.eventType == EVENTTYPE_MESSAGE) {
 			EventListNode *node = (EventListNode *)malloc(sizeof(EventListNode));
 			node->hContact = hContact;
@@ -166,13 +164,10 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggle, (LPARAM)&mi);
 
 	mi.flags = CMIM_FLAGS;
-	if (chat_room) mi.flags |= CMIF_HIDDEN;
-	else {
-		int event_count = (int)CallService(MS_DB_EVENT_GETCOUNT, (WPARAM)hContact, 0);
-		if (event_count <= 0) mi.flags |= CMIF_HIDDEN;
-	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuClear, (LPARAM)&mi);
+	if (chat_room || db_event_count(hContact) <= 0)
+		mi.flags |= CMIF_HIDDEN;
 	
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuClear, (LPARAM)&mi);
 	return 0;
 }
 

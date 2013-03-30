@@ -1013,7 +1013,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 
-	char *szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) wParam, 0);
+	char *szProto = GetContactProto(hContact);
 	if ( szProto && !lstrcmpiA(szProto, m_szModuleName)) {
 		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE)== ID_STATUS_OFFLINE ? false : true;
 		if ( getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM) {

@@ -1,20 +1,16 @@
 #include "commonheaders.h"
 
 
-void HistoryLog(HANDLE hContact, LPCSTR szText) {
-
-	DBEVENTINFO dbei;
-	memset(&dbei, 0, sizeof(dbei));
-
-	dbei.cbSize = sizeof(dbei);
+void HistoryLog(HANDLE hContact, LPCSTR szText)
+{
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(hContact);
 	dbei.flags = DBEF_SENT|DBEF_READ;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)strlen(szText) + 1;
 	dbei.pBlob = (PBYTE)szText;
-
-	CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
+	db_event_add(0, &dbei);
 }
 
 

@@ -38,11 +38,10 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+			db_event_get(hDbEvent, &dbei);
 
 			DWORD uin = *(PDWORD)dbei.pBlob;
 			HANDLE hContact = DbGetAuthEventContact(&dbei);
@@ -162,11 +161,10 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 			dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+			db_event_get(hDbEvent, &dbei);
 
 			DWORD uin = *(PDWORD)dbei.pBlob;
 			HANDLE hContact = DbGetAuthEventContact(&dbei);
@@ -245,13 +243,11 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDOK:
 			{	
-				DBEVENTINFO dbei = {0};
-				dbei.cbSize = sizeof(dbei);
-				CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				db_event_get(hDbEvent, &dbei);
 				CallProtoService(dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_ADDCHECK))
-				{
+				if (IsDlgButtonChecked(hwndDlg, IDC_ADDCHECK)) {
 					ADDCONTACTSTRUCT acs = {0};
 					acs.handle = hDbEvent;
 					acs.handleType = HANDLE_EVENT;
@@ -264,9 +260,8 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		case IDCANCEL:
 			{
-				DBEVENTINFO dbei = {0};
-				dbei.cbSize = sizeof(dbei);
-				CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				db_event_get(hDbEvent, &dbei);
 
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_DENYREASON)))
 				{

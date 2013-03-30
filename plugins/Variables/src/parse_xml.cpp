@@ -52,7 +52,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 
 
 	log_debugA("calling xsltParseMemory");
-	xmlDocPtr sdoc = pXmlParseMemory(szStyleSheet, strlen(szStyleSheet));
+	xmlDocPtr sdoc = pXmlParseMemory(szStyleSheet, (int)strlen(szStyleSheet));
 	if (sdoc == NULL) {
 		return NULL;
 	}
@@ -67,7 +67,7 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	}
 	
 	log_debugA("calling xsltParseMemory");
-	xmlDocPtr doc = pXmlParseMemory(szDoc, strlen(szDoc));
+	xmlDocPtr doc = pXmlParseMemory(szDoc, (int)strlen(szDoc));
 	if (doc == NULL) {
 		log_debugA("calling xsltFreeDoc");
 		pXmlFreeDoc(sdoc);

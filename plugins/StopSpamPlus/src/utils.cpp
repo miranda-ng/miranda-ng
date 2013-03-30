@@ -14,20 +14,19 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 
 bool IsExistMyMessage(HANDLE hContact)
 {
-	DBEVENTINFO dbei = { 0 };
-	HANDLE		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+	HANDLE hDbEvent = db_event_first(hContact);
 	while(hDbEvent){
-		ZeroMemory(&dbei, sizeof(dbei));
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		if (db_event_get(hDbEvent, &dbei))
+			break;
 
-		if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei)) break;
 		if(dbei.flags & DBEF_SENT){
 			// mark contact as Answered
 			DBWriteContactSettingByte(hContact, pluginName, answeredSetting, 1);
 			// ...let the event go its way
 			return true;
 		}
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+		hDbEvent = db_event_next(hDbEvent);
 	}
 	return false;
 }

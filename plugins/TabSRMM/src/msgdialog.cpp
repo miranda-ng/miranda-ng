@@ -1539,18 +1539,18 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			//dat->dwFlags &= ~MWF_INITMODE;
 			{
-				HANDLE hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
+				HANDLE hdbEvent = db_event_last(dat->hContact);
 				if (hdbEvent) {
 					do {
 						DBEVENTINFO dbei = { sizeof(dbei) };
-						CallService(MS_DB_EVENT_GET, (WPARAM) hdbEvent, (LPARAM) & dbei);
+						db_event_get(hdbEvent, &dbei);
 						if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 							dat->lastMessage = dbei.timestamp;
 							DM_UpdateLastMessage(dat);
 							break;
 						}
 					}
-						while (hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) hdbEvent, 0));
+						while (hdbEvent = db_event_prev(hdbEvent));
 				}
 			}
 			SendMessage(hwndContainer, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
@@ -1612,9 +1612,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			* show a popup if wanted...
 			*/
 			if (newData->bWantPopup) {
-				DBEVENTINFO dbei = {0};
+				DBEVENTINFO dbei = { sizeof(dbei) };
 				newData->bWantPopup = FALSE;
-				CallService(MS_DB_EVENT_GET, (WPARAM)newData->hdbEvent, (LPARAM)&dbei);
+				db_event_get(newData->hdbEvent, &dbei);
 				tabSRMM_ShowPopup((WPARAM)dat->hContact, (LPARAM)newData->hdbEvent, dbei.eventType, 0, 0, hwndDlg, dat->cache->getActiveProto(), dat);
 			}
 			if (m_pContainer->dwFlags & CNT_CREATE_MINIMIZED) {
@@ -3116,7 +3116,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							free(szQuoted);
 						break;
 					} else {
-						hDBEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)dat->hContact, 0);
+						hDBEvent = db_event_last(dat->hContact);
 						goto quote_from_last;
 					}
 				}
@@ -3127,14 +3127,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 quote_from_last:
 				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
 				if (sel.cpMin == sel.cpMax) {
-					DBEVENTINFO dbei = {0};
-					int iDescr;
-
-					dbei.cbSize = sizeof(dbei);
-					dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDBEvent, 0);
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.cbBlob = db_event_getBlobSize(hDBEvent);
 					szText = (TCHAR *)malloc((dbei.cbBlob + 1) * sizeof(TCHAR));   //URLs are made one char bigger for crlf
 					dbei.pBlob = (BYTE *)szText;
-					CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei);
+					db_event_get(hDBEvent, &dbei);
 					iSize = (int)(strlen((char *)dbei.pBlob)) + 1;
 					if (dbei.flags & DBEF_UTF) {
 						szConverted = mir_utf8decodeW((char*)szText);
@@ -3149,7 +3146,7 @@ quote_from_last:
 						}
 					}
 					if (dbei.eventType == EVENTTYPE_FILE) {
-						iDescr = lstrlenA((char *)(szText + sizeof(DWORD)));
+						int iDescr = lstrlenA((char *)(szText + sizeof(DWORD)));
 						MoveMemory(szText, szText + sizeof(DWORD), iDescr);
 						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD) - 1);
 						szText[iDescr] = '\r';
@@ -3731,10 +3728,9 @@ quote_from_last:
 			DeleteMenu(PluginConfig.g_hMenuTrayUnread, (UINT_PTR)dat->hContact, MF_BYCOMMAND);
 		M->RemoveWindow(hwndDlg);
 
-		if (dat->cache->isValid()) {
+		if (dat->cache->isValid())
 			M->WriteDword(SRMSGMOD, "multisplit", dat->multiSplitterX);
-			WriteStatsOnClose(dat);
-		}
+
 		{
 			HFONT hFont = (HFONT) SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_GETFONT, 0, 0);
 			if (hFont != NULL && hFont != (HFONT) SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0))

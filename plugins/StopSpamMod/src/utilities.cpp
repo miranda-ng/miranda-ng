@@ -475,15 +475,14 @@ void CleanThread()
 
 void HistoryLog(HANDLE hContact, char *data, int event_type, int flags)
 {
-	DBEVENTINFO Event = {0};
-	Event.cbSize = sizeof(Event);
+	DBEVENTINFO Event = { sizeof(Event) };
 	Event.szModule = pluginName;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
 	Event.timestamp = (DWORD)time(NULL);
 	Event.cbBlob = strlen(data)+1;
 	Event.pBlob = (PBYTE)_strdup(data);
-	CallService(MS_DB_EVENT_ADD, (WPARAM)(HANDLE)hContact,(LPARAM)&Event);
+	db_event_add(hContact, &Event);
 }
 
 void HistoryLogFunc(HANDLE hContact, std::string message)

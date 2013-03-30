@@ -414,18 +414,14 @@ HANDLE CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDLE hDbEvent)
 {
-	DBEVENTINFO dbei;
-	HANDLE hContact;
-	char* nick, *firstName, *lastName, *jid;
-
 	Log("AddToListByEvent");
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 	if ((dbei.pBlob=(PBYTE)alloca(dbei.cbBlob)) == NULL)
 		return NULL;
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
 	if (strcmp(dbei.szModule, m_szModuleName))
 		return NULL;
@@ -440,13 +436,13 @@ HANDLE __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDL
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return NULL;
 
-	nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
-	firstName = nick + strlen(nick) + 1;
-	lastName = firstName + strlen(firstName) + 1;
-	jid = lastName + strlen(lastName) + 1;
+	char *nick = (char*)(dbei.pBlob + sizeof(DWORD)*2);
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *jid = lastName + strlen(lastName) + 1;
 
 	TCHAR *newJid = (dbei.flags & DBEF_UTF) ? mir_utf8decodeT(jid) : mir_a2t(jid);
-	hContact = (HANDLE)AddToListByJID(newJid, flags);
+	HANDLE hContact = (HANDLE)AddToListByJID(newJid, flags);
 	mir_free(newJid);
 	return hContact;
 }
@@ -460,11 +456,11 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 		return 1;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == NULL)
 		return 1;
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
 		return 1;
@@ -510,11 +506,11 @@ int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 	Log("Entering AuthDeny");
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
 	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
 		return 1;
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei)) {
+	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
 		return 1;
 	}

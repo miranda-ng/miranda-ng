@@ -217,18 +217,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 // handle of contact is set as window-userdata
 int EventAdded(WPARAM wparam, LPARAM lparam)
 {
-	DBEVENTINFO dbei;
-
-    ZeroMemory(&dbei,sizeof(dbei));
-    dbei.cbSize=sizeof(dbei);
-    dbei.cbBlob=0;
-    
-    CallService(MS_DB_EVENT_GET,lparam,(LPARAM)&dbei);
-    
-	if(		!(dbei.flags & DBEF_SENT) 
-			|| dbei.flags & DBEF_READ 
-			|| !DBGetContactSettingByte(NULL, MODULE_NAME, "EnableLastSentTo", 0) 
-			|| DBGetContactSettingWord(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lparam, &dbei);
+	if ( !(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ) 
+		|| !DBGetContactSettingByte(NULL, MODULE_NAME, "EnableLastSentTo", 0) 
+		|| DBGetContactSettingWord(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 
 		return 0;
 
 	DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD)(HANDLE)wparam);

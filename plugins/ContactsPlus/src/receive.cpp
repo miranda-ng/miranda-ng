@@ -211,10 +211,10 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
         DBEVENTINFO dbe = {0};
 
         dbe.cbSize = sizeof(DBEVENTINFO);
-        dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)wndData->mhDbEvent, 0);
+        dbe.cbBlob = db_event_getBlobSize(wndData->mhDbEvent);
         if (dbe.cbBlob != -1)  // this marks an invalid hDbEvent - all smashed anyway...
           dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
-        CallService(MS_DB_EVENT_GET, (WPARAM)wndData->mhDbEvent, (LPARAM)&dbe);
+        db_event_get(wndData->mhDbEvent, &dbe);
         char* pcBlob = (char*)dbe.pBlob;
         char* pcEnd = (char*)dbe.pBlob + dbe.cbBlob;
 
@@ -471,7 +471,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
     }
     case WM_DESTROY: // last message received by this dialog, cleanup
     {
-      CallService(MS_DB_EVENT_MARKREAD, (WPARAM)wndData->mhContact, (LPARAM)wndData->mhDbEvent);
+      db_event_markRead(wndData->mhContact, wndData->mhDbEvent);
       Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "");
       ImageList_Destroy(wndData->mhListIcon);
       UnhookEvent(wndData->hHook);

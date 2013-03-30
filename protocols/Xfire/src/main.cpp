@@ -1042,8 +1042,7 @@ int ExtraImageApply(WPARAM wparam, LPARAM lparam)
 {
 	HANDLE hContact=(HANDLE)wparam;
 	// TODO: maybe need to fix extra icons
-	char *szProto;
-	szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ) && DBGetContactSettingWord(hContact, protocolname, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) {
 		int gameid=DBGetContactSettingWord(hContact, protocolname, "GameId", 0);
 		int gameid2=DBGetContactSettingWord(hContact, protocolname, "VoiceId", 0);
@@ -1384,8 +1383,7 @@ INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam)
 	CCSDATA *ccs = ( CCSDATA* )lParam;
     DBDeleteContactSetting(ccs->hContact, "CList", "Hidden");
 
-	char *szProto;
-	szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) ccs->hContact, 0);
+	char *szProto = GetContactProto(ccs->hContact);
 	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ))
 		return CallService( MS_PROTO_RECVMSG, wParam, lParam );
 
@@ -1802,29 +1800,23 @@ HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan)
 
 BOOL IsXFireContact(HANDLE hContact)
 {
-	char *szProto;
-	szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
+	char *szProto = GetContactProto(hContact);
+	if (szProto != NULL && !lstrcmpiA(szProto, protocolname))
 		return TRUE;
-	}
-	else
-		return FALSE;
+
+	return FALSE;
 }
 
 HANDLE CList_FindContact (int uid)
 {
-	char *szProto;
-
-	HANDLE hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
-		szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
-				if ( DBGetContactSettingDword(hContact, protocolname, "UserId",-1)==uid)
-				{
-					return (HANDLE)hContact;
-				}
+			if ( DBGetContactSettingDword(hContact, protocolname, "UserId",-1)==uid)
+				return hContact;
 		}
-		hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
 	return 0;
 }
@@ -1832,10 +1824,9 @@ HANDLE CList_FindContact (int uid)
 void CList_MakeAllOffline()
 {
 	vector<HANDLE> fhandles;
-	char *szProto;
-	HANDLE hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = db_find_first();
 	while (hContact) {
-		szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname )) {
 			//freunde von freunden in eine seperate liste setzen
 			//nur wenn das nicht abgestellt wurde
@@ -1845,9 +1836,6 @@ void CList_MakeAllOffline()
 				fhandles.push_back(hContact);
 			}
 
-			//DBDeleteContactSetting(hContact, protocolname, "XStatusMsg");
-			//DBDeleteContactSetting(hContact, protocolname, "XStatusId");
-			//DBDeleteContactSetting(hContact, protocolname, "XStatusName");
 			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
 			DBDeleteContactSetting(hContact, protocolname, "ServerIP");
 			DBDeleteContactSetting(hContact, protocolname, "Port");
@@ -1857,7 +1845,6 @@ void CList_MakeAllOffline()
 			DBDeleteContactSetting(hContact, protocolname, "Players");
 			DBDeleteContactSetting(hContact, protocolname, "Passworded");
 
-			//DBWriteContactSettingUTF8String(hContact, "CList", "StatusMsg", "");
 			DBDeleteContactSetting(hContact, protocolname, "XStatusMsg");
 			DBDeleteContactSetting(hContact, protocolname, "XStatusId");
 			DBDeleteContactSetting(hContact, protocolname, "XStatusName");
@@ -1898,13 +1885,12 @@ void CList_MakeAllOffline()
 			}
 			DBWriteContactSettingWord(hContact,protocolname,"Status",ID_STATUS_OFFLINE);
 		}
-		hContact = (HANDLE) CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
+		hContact = db_find_next(hContact);
 	}
+
 	//alle gefundenen handles lsöchen
 	for(uint i=0;i<fhandles.size();i++)
-	{
 		CallService( MS_DB_CONTACT_DELETE, (WPARAM) fhandles.at(i), 0);
-	}
 }
 
 void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype)

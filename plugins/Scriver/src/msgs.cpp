@@ -95,17 +95,15 @@ static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
 
 static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
-	HWND hwnd;
-
-	dbei.cbSize = sizeof(dbei);
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lParam, &dbei);
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return 0;
-	hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
-	if (hwnd) {
+
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
+	if (hwnd)
 		SendMessage(hwnd, HM_DBEVENTADDED, wParam, lParam);
-	}
+
 	if (dbei.flags & DBEF_SENT || !DbEventIsMessageOrCustom(&dbei))
 		return 0;
 
@@ -309,10 +307,10 @@ static void RestoreUnreadMessageAlerts(void)
 
    HANDLE hContact = db_find_first();
    while (hContact) {
-      HANDLE hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
+      HANDLE hDbEvent = db_event_firstUnread(hContact);
       while (hDbEvent) {
          dbei.cbBlob = 0;
-         CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) &dbei);
+         db_event_get(hDbEvent, &dbei);
          if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && DbEventIsMessageOrCustom(&dbei)) {
             int windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
             if (windowAlreadyExists)
@@ -332,7 +330,7 @@ static void RestoreUnreadMessageAlerts(void)
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 				}
 			}
-			hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hDbEvent, 0);
+			hDbEvent = db_event_next(hDbEvent);
       }
       hContact = db_find_next(hContact);
    }

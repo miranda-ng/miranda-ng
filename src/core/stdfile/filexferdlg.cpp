@@ -654,7 +654,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 							DBEVENTINFO dbei = {0};
 							FillSendData(dat, dbei);
-							CallService(MS_DB_EVENT_ADD, (WPARAM)dat->hContact, (LPARAM)&dbei);
+							db_event_add(dat->hContact, &dbei);
 							if (dbei.pBlob)
 								mir_free(dbei.pBlob);
 							dat->files = NULL;   //protocol library frees this

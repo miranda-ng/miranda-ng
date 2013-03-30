@@ -1462,21 +1462,18 @@ void copyHistory(HANDLE hContactFrom,HANDLE hContactTo)
 	prog = GetDlgItem(progress_dialog, IDC_PROG);
 
 	//CallService(MS_DB_SETSAFETYMODE, (WPARAM)FALSE, 0);
-	for (hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)hContactFrom, 0); 
-		hDbEvent; 
-		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0)) 
+	for (hDbEvent = db_event_first(hContactFrom); hDbEvent; hDbEvent = db_event_next(hDbEvent)) 
 	{ 
 		// get the event 
 		ZeroMemory(&dbei, sizeof(dbei)); 
 		dbei.cbSize = sizeof(dbei); 
 
-		if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+		if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 			break;
 
 		buffer = (BYTE *)mir_realloc(buffer, dbei.cbBlob);// + id_length);
 		dbei.pBlob = buffer; 
-
-		if (CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei)) 
+		if ( db_event_get(hDbEvent, &dbei)) 
 			break; 
 
 		// i.e. optoins.days_history == 0;
@@ -1495,7 +1492,7 @@ void copyHistory(HANDLE hContactFrom,HANDLE hContactTo)
 
 		dbei.szModule = META_PROTO;
 		dbei.flags &= ~DBEF_FIRST;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)hContactTo, (LPARAM)&dbei); 
+		db_event_add(hContactTo, &dbei); 
 	}		
 
 	DestroyWindow(progress_dialog);

@@ -234,17 +234,12 @@ HANDLE __cdecl TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 
 HANDLE __cdecl TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent )
 {
-	DBEVENTINFO dbei;
-	HANDLE hContact;
-	char *nick, *firstName, *lastName, *jid;
-
-	ZeroMemory(&dbei, sizeof(dbei));
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return (HANDLE) NULL;
 	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
 		return (HANDLE) NULL;
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM) &dbei)) {
+	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
 		return (HANDLE) NULL;
 	}
@@ -265,32 +260,27 @@ HANDLE __cdecl TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE h
 		return (HANDLE) NULL;
 	}
 
-	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	firstName = nick + strlen(nick) + 1;
-	lastName = firstName + strlen(firstName) + 1;
-	jid = lastName + strlen(lastName) + 1;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *jid = lastName + strlen(lastName) + 1;
 
-	hContact = (HANDLE) AddToListByJID(this, jid, flags);
+	HANDLE hContact = (HANDLE) AddToListByJID(this, jid, flags);
 	mir_free(dbei.pBlob);
-
 	return hContact;
 }
 
 int __cdecl TlenProtocol::Authorize(HANDLE hDbEvent)
 {
-	DBEVENTINFO dbei;
-	char *nick, *firstName, *lastName, *jid;
-
 	if (!isOnline)
 		return 1;
 
-	memset(&dbei, sizeof(dbei), 0);
-	dbei.cbSize = sizeof(dbei);
-	if (( dbei.cbBlob=CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)-1)
 		return 1;
 	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
 		return 1;
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )){
+	if (db_event_get(hDbEvent, &dbei)){
 		mir_free(dbei.pBlob);
 		return 1;
 	}
@@ -303,10 +293,10 @@ int __cdecl TlenProtocol::Authorize(HANDLE hDbEvent)
 		return 1;
 	}
 
-	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	firstName = nick + strlen(nick) + 1;
-	lastName = firstName + strlen(firstName) + 1;
-	jid = lastName + strlen(lastName) + 1;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *jid = lastName + strlen(lastName) + 1;
 
 	JabberSend(this, "<presence to='%s' type='subscribed'/>", jid);
 
@@ -331,19 +321,15 @@ int __cdecl TlenProtocol::Authorize(HANDLE hDbEvent)
 
 int __cdecl TlenProtocol::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason)
 {
-	DBEVENTINFO dbei;
-	char *nick, *firstName, *lastName, *jid;
-
 	if (!isOnline)
 		return 1;
 
-	memset(&dbei, sizeof(dbei), 0);
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent/*hContact*/, 0)) == (DWORD)(-1))
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return 1;
-	if ((dbei.pBlob=(PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
+	if ((dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob)) == NULL)
 		return 1;
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent/*hContact*/, (LPARAM) &dbei)) {
+	if (db_event_get(hDbEvent, &dbei)) {
 		mir_free(dbei.pBlob);
 		return 1;
 	}
@@ -356,10 +342,10 @@ int __cdecl TlenProtocol::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason)
 		return 1;
 	}
 
-	nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
-	firstName = nick + strlen(nick) + 1;
-	lastName = firstName + strlen(firstName) + 1;
-	jid = lastName + strlen(lastName) + 1;
+	char *nick = (char *)dbei.pBlob + sizeof(DWORD)*2;
+	char *firstName = nick + strlen(nick) + 1;
+	char *lastName = firstName + strlen(firstName) + 1;
+	char *jid = lastName + strlen(lastName) + 1;
 
 	JabberSend(this, "<presence to='%s' type='unsubscribed'/>", jid);
 	JabberSend(this, "<iq type='set'><query xmlns='jabber:iq:roster'><item jid='%s' subscription='remove'/></query></iq>", jid);

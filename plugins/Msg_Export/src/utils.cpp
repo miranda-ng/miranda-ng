@@ -1417,39 +1417,27 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 
 int nExportEvent(WPARAM wparam,LPARAM lparam)
 {
-	HANDLE hContact = (HANDLE)wparam;
-
+	HANDLE hContact = (HANDLE)wparam, hDbEvent = (HANDLE)lparam;
 	if ( !db_get_b(hContact,MODULE,"EnableLog",1))
 		return 0;
 
-	DBEVENTINFO dbei={0};
-	dbei.cbSize=sizeof(dbei);
-	char szTemp[500];
-
-	{ // Get Blob data size
-		
-		int nSize = (int)CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)lparam,0);
-		if (nSize > 0 )
-		{
-			dbei.cbBlob = nSize;
-			dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2 );
-			dbei.pBlob[dbei.cbBlob] = 0;
-			dbei.pBlob[dbei.cbBlob+1] = 0; 
-			// Double null terminate, this shut pervent most errors 
-			// where the blob received has an invalid format
-		}
-		// else dbei.cbBlob will be 0 
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	int nSize = db_event_getBlobSize(hDbEvent);
+	if (nSize > 0) {
+		dbei.cbBlob = nSize;
+		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2 );
+		dbei.pBlob[dbei.cbBlob] = 0;
+		dbei.pBlob[dbei.cbBlob+1] = 0; 
+		// Double null terminate, this shut pervent most errors 
+		// where the blob received has an invalid format
 	}
 
-	if ( !CallService(MS_DB_EVENT_GET,(WPARAM)lparam,(LPARAM)&dbei))
-	{
-		if (dbei.eventType != EVENTTYPE_STATUSCHANGE )
-		{
+	if ( !db_event_get(hDbEvent, &dbei)) {
+		if (dbei.eventType != EVENTTYPE_STATUSCHANGE) {
+			char szTemp[500];
 			_snprintf( szTemp, sizeof( szTemp ), "DisableProt_%s", dbei.szModule );
 			if (db_get_b(NULL,MODULE,szTemp,1))
-			{
 				ExportDBEventInfo( hContact, dbei );
-			}
 		}
 	}
 	if (dbei.pBlob )

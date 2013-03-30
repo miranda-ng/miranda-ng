@@ -7,7 +7,7 @@ int __cdecl CContactCache::OnDbEventAdded(WPARAM wParam, LPARAM lParam)
 
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei);
+	db_event_get(hEvent, &dbei);
 	if (dbei.eventType != EVENTTYPE_MESSAGE) return 0;
 
 	float weight = GetEventWeight(time(NULL) - dbei.timestamp);
@@ -88,23 +88,19 @@ void CContactCache::Rebuild()
 		info->hContact = hContact;
 		info->rate = 0;
 
-		HANDLE hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
+		HANDLE hEvent = db_event_last(hContact);
 		while (hEvent)
 		{
-			DBEVENTINFO dbei = {0};
-			dbei.cbSize = sizeof(dbei);
-			if (!CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei))
-			{
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp))
 				{
 					if (dbei.eventType == EVENTTYPE_MESSAGE)
 						info->rate += weight;
-				} else
-				{
-					break;
 				}
+				else break;
 			}
-			hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0);
+			hEvent = db_event_prev(hEvent);
 		}
 
 		m_cache.insert(info);

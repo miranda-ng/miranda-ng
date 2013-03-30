@@ -451,7 +451,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		*/
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
-		CallService(MS_DB_EVENT_MARKREAD, wParam, lParam);
+		db_event_markRead((HANDLE)wParam, (HANDLE)lParam);
 		return 0;
 
 	case DM_SETLOCALE:

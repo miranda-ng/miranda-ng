@@ -121,21 +121,15 @@ void StripBBCodesInPlace(TCHAR *swzText)
 
 DWORD LastMessageTimestamp(HANDLE hContact)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
-	while (hDbEvent)
-	{
-		dbei.cbBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+	HANDLE hDbEvent = db_event_last(hContact);
+	while (hDbEvent) {
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-			break;
+			return dbei.timestamp;
 
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
+		hDbEvent = db_event_prev(hDbEvent);
 	}
-
-	if (hDbEvent)
-		return dbei.timestamp;
 
 	return 0;
 }
@@ -184,34 +178,25 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 
 TCHAR *GetLastMessageText(HANDLE hContact)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
+	HANDLE hDbEvent = db_event_last(hContact);
+	while (hDbEvent) {
+		DBEVENTINFO dbei = {	sizeof(dbei) };
+		db_event_get(hDbEvent, &dbei);
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+			dbei.pBlob = (BYTE *)alloca(dbei.cbBlob);
+			db_event_get(hDbEvent, &dbei);
+			if (dbei.cbBlob == 0 || dbei.pBlob == 0)
+				return 0;
 
-	HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
-	while (hDbEvent)
-	{
-		dbei.cbBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-			break;
+			TCHAR *buff = DbGetEventTextT( &dbei, CP_ACP );
+			TCHAR *swzMsg = mir_tstrdup(buff);
+			mir_free(buff);
 
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
-	}
+			StripBBCodesInPlace(swzMsg);
+			return swzMsg;
+		}
 
-	if (hDbEvent)
-	{
-		dbei.pBlob = (BYTE *)alloca(dbei.cbBlob);
-		CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-
-		if (dbei.cbBlob == 0 || dbei.pBlob == 0)
-			return 0;
-
-		TCHAR *buff = DbGetEventTextT( &dbei, CP_ACP );
-		TCHAR *swzMsg = mir_tstrdup(buff);
-		mir_free(buff);
-
-		StripBBCodesInPlace(swzMsg);
-		return swzMsg;
+		hDbEvent = db_event_prev(hDbEvent);
 	}
 
 	return 0;
@@ -429,19 +414,17 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 			hTmpContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, 0);
 		}
 
-		for (int i = 0; i < iNumber; i++)
-		{
-			if (i > 0) hTmpContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
+		for (int i = 0; i < iNumber; i++) {
+			if (i > 0)
+				hTmpContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
 			dwRecountTs = DBGetContactSettingDword(hTmpContact, MODULE, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
-			if (dwDiff > (60 * 60 * 24 * 3))
-			{
+			if (dwDiff > (60 * 60 * 24 * 3)) {
 				DBWriteContactSettingDword(hTmpContact, MODULE, "LastCountTS", dwTime);
 				dwCountOut = dwCountIn = dwLastTs = 0;
 			}
-			else
-			{
+			else {
 				dwCountOut = DBGetContactSettingDword(hTmpContact, MODULE, "MsgCountOut", 0);
 				dwCountIn = DBGetContactSettingDword(hTmpContact, MODULE, "MsgCountIn", 0);
 				dwLastTs = DBGetContactSettingDword(hTmpContact, MODULE, "LastMsgTS", 0);
@@ -449,30 +432,23 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 
 			dwNewTs = dwLastTs;
 
-			HANDLE dbe = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hTmpContact, 0);
-			while (dbe != NULL)
-			{
-				DBEVENTINFO dbei = {0};
-				dbei.cbSize = sizeof(dbei);
-				if (!CallService(MS_DB_EVENT_GET, (WPARAM)dbe, (LPARAM)&dbei))
-				{
-					if (dbei.eventType == EVENTTYPE_MESSAGE)
-					{
+			HANDLE dbe = db_event_last(hTmpContact);
+			while (dbe != NULL) {
+				DBEVENTINFO dbei = { sizeof(dbei) };
+				if (!db_event_get(dbe, &dbei)) {
+					if (dbei.eventType == EVENTTYPE_MESSAGE) {
 						dwNewTs = max(dwNewTs, dbei.timestamp);
-						if (dbei.timestamp > dwLastTs)
-						{
+						if (dbei.timestamp > dwLastTs) {
 							if (dbei.flags & DBEF_SENT) dwCountOut++;
 							else dwCountIn++;
 						}
-						else
-							break;
+						else break;
 					}
 				}
-				dbe = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)dbe, 0);
+				dbe = db_event_prev(dbe);
 			}
 
-			if (dwNewTs > dwLastTs)
-			{
+			if (dwNewTs > dwLastTs) {
 				DBWriteContactSettingDword(hTmpContact, MODULE, "MsgCountOut", dwCountOut);
 				DBWriteContactSettingDword(hTmpContact, MODULE, "MsgCountIn", dwCountIn);
 				DBWriteContactSettingDword(hTmpContact, MODULE, "LastMsgTS", dwNewTs);

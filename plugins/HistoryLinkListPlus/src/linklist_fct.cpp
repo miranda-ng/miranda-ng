@@ -290,7 +290,6 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 	LISTOPTIONS options;
 	CHARRANGE sel; 
 	GETTEXTLENGTHEX gtl;
-	DBEVENTINFO dbe;
 
 	GetListInfo(params, listStart, searchString, &lineLen, &listCount, &realListCount);
 	GetColour(&colourSet);
@@ -412,30 +411,24 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					// Perform deep scan
 					if ( actualElement->hEvent != NULL )
 					{
-						LPCTSTR msg;
-						dbe.cbSize = sizeof(dbe);
-						dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)actualElement->hEvent, 0);
+						DBEVENTINFO dbe = { sizeof(dbe) };
+						dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
 						dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
-						CallService(MS_DB_EVENT_GET, (WPARAM)actualElement->hEvent, (LPARAM)&dbe);
+						db_event_get(actualElement->hEvent, &dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
-						msg = DbGetEventTextT(&dbe, CP_ACP);
+						LPTSTR msg = DbGetEventTextT(&dbe, CP_ACP);
 						if ( _tcsstr(msg, searchString))
 							filter3 = 1;						
 						
 						free(dbe.pBlob);
-						mir_free((void*)msg);
+						mir_free(msg);
 					}
-					else
-						filter3 = 0;
+					else filter3 = 0;
 				}
-				else
-				{
-					if ( _tcsstr(actualElement->link, searchString))
-						filter3 = 1;
-				}
+				else if ( _tcsstr(actualElement->link, searchString))
+					filter3 = 1;
 			}
-			else
-				filter3 = 1;
+			else filter3 = 1;
 
 			if ( (filter1 == 1) && (filter2 == 1) && (filter3 == 1))
 			{
@@ -647,25 +640,17 @@ Write Message to window
 */
 void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 {
-	LISTELEMENT *actualElement;
-	HANDLE hEvent;
-	DBEVENTINFO dbe;
-	
-	actualElement = listStart->nextElement;
-	while ( actualElement != NULL )
-	{
-		if ( actualElement->linePos == actLinePos )
-		{
-			hEvent = actualElement->hEvent;
-			if (hEvent != NULL )
-			{
-				LPCTSTR msg;
-				dbe.cbSize = sizeof(dbe);
-				dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+	LISTELEMENT *actualElement = listStart->nextElement;
+	while (actualElement != NULL) {
+		if (actualElement->linePos == actLinePos) {
+			HANDLE hEvent = actualElement->hEvent;
+			if (hEvent != NULL ) {
+				DBEVENTINFO dbe = { sizeof(dbe) };
+				dbe.cbBlob = db_event_getBlobSize(hEvent);
 				dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
-				CallService(MS_DB_EVENT_GET,(WPARAM)hEvent,(LPARAM)&dbe);
+				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
-				msg = DbGetEventTextT(&dbe, CP_ACP);
+				LPCTSTR msg = DbGetEventTextT(&dbe, CP_ACP);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, WM_SETTEXT , 0, 0);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 				mir_free((void*)msg);
@@ -786,7 +771,6 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 	size_t tempLen;		
 	LISTELEMENT *actualElement;
 	char filter1, filter2, filter3;
-	DBEVENTINFO dbe;
 
 	*maxLen = 0;
 	*elementCount = 0;
@@ -818,11 +802,10 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 				// Perform deep scan
 				if ( actualElement->hEvent != NULL )
 				{
-					dbe.cbSize = sizeof(dbe);
-					dbe.pBlob = NULL;
-					dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)actualElement->hEvent, 0);
+					DBEVENTINFO dbe = { sizeof(dbe) };
+					dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
 					dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
-					CallService(MS_DB_EVENT_GET, (WPARAM)actualElement->hEvent, (LPARAM)&dbe);
+					db_event_get(actualElement->hEvent, &dbe);
 					dbe.pBlob[dbe.cbBlob] = 0;
 					if ( _tcsstr((LPTSTR)dbe.pBlob, searchString))
 						filter3 = 1;						
@@ -1220,7 +1203,6 @@ int DBUpdate(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hEvent=(HANDLE)lParam;
 	HWND hDlg = WindowList_Find(hWindowList, (HANDLE)wParam);
-	DBEVENTINFO dbe;
 	DIALOGPARAM *DlgParam;
 	HMENU listMenu = GetMenu(hDlg);
 	int linkNum = 0;
@@ -1230,17 +1212,12 @@ int DBUpdate(WPARAM wParam, LPARAM lParam)
 	if(GetUpdateSetting() != 1)
 		return 0;
 
-	if(hDlg)
-	{
-		ZeroMemory(&dbe, sizeof(dbe));
-		dbe.cbSize = sizeof(dbe);
-
-		dbe.cbBlob = (int)CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+	if(hDlg) {
+		DBEVENTINFO dbe = { sizeof(dbe) };
+		dbe.cbBlob = db_event_getBlobSize(hEvent);
 		dbe.pBlob = (PBYTE)malloc((size_t)dbe.cbBlob+1);
-		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
-		
-		if ( (dbe.eventType == EVENTTYPE_URL) || (dbe.eventType == EVENTTYPE_MESSAGE))
-		{
+		db_event_get(hEvent, &dbe);
+		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
 			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
 			if ( linkNum > 0 )

@@ -8,28 +8,22 @@ void populateSettingsList(HWND hwnd2List)
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Reuse Pounce"));
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Give Up delay"));
 	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)TranslateT("Confirmation Window"));
-//	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)"----------------------------"));
-//	SendMessage(hwnd2List, LB_ADDSTRING, 0, (LPARAM)Translate("Send a File"));
 }
 
 void populateContacts(HANDLE BPhContact,HWND hwnd2CB)
 {
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact)
-	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM))
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		char *szProto = GetContactProto(hContact);
+		if (szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) {
 			TCHAR name[300];
 			mir_sntprintf(name, SIZEOF(name), _T("%s (%s)"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR), _A2T(szProto));
 			int index = SendMessage(hwnd2CB, CB_ADDSTRING, 0, (LPARAM)name);
 			SendMessage(hwnd2CB, CB_SETITEMDATA, index, (LPARAM)hContact);
-			if (BPhContact == hContact) SendMessage(hwnd2CB, CB_SETCURSEL, index, 0);
+			if (BPhContact == hContact)
+				SendMessage(hwnd2CB, CB_SETCURSEL, index, 0);
 		}
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 }
-
 
 void saveLastSetting(HANDLE hContact, HWND hwnd)
 {

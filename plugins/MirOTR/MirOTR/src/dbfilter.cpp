@@ -20,19 +20,19 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 	if (!DeleteEvents.first) return;
 	EnterCriticalSection(lpRemoveChainCS);
 	DeleteEventNode *prev =0, *current, *next;
-	DBEVENTINFO info = {0};
-	info.cbSize = sizeof(info);
+	DBEVENTINFO info = { sizeof(info) };
 	next = DeleteEvents.first;
 	while (current = next) {
 		if (difftime(time(0), current->timestamp) < 1) break;
-		if (!CallService(MS_DB_EVENT_GET, (WPARAM)current->hDbEvent, (LPARAM)&info)) // && info.flags&DBEF_READ)
+		if (!db_event_get(current->hDbEvent, &info)) // && info.flags&DBEF_READ)
 		{
-			CallService(MS_DB_EVENT_DELETE, (WPARAM)current->hContact, (LPARAM)current->hDbEvent);
+			db_event_delete(current->hContact, current->hDbEvent);
 			next = current->next;
 			if (prev) prev->next = next;
 			else if (DeleteEvents.first == current) DeleteEvents.first = next;
 			delete current;
-		} else {
+		}
+		else {
 			prev = current;
 			next = current->next;
 		}
@@ -138,8 +138,8 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 				memcpy(newmsg+alloclen, msg+len2, datalen);
 				alloclen += datalen;
 			}
-
-		} else {
+		}
+		else {
 			char *prefix = mir_utf8decodeA(options.prefix);
 			int prefixlen = strlen(prefix);
 			if (strncmp(msg, prefix, prefixlen) == 0) {
@@ -170,40 +170,37 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	my_dbei.cbBlob = alloclen;
 	my_dbei.flags |= DBEF_OTR_PREFIXED;
 
-	CallService(MS_DB_EVENT_ADD, wParam, (LPARAM)&my_dbei);
+	db_event_add(hContact, &my_dbei);
 	if (newmsg) mir_free(newmsg);
 	
 	// stop original event from being added
 	return 1;
 }
 
- int OnDatabaseEventAdded(WPARAM wParam, LPARAM lParam) {
+ int OnDatabaseEventAdded(WPARAM wParam, LPARAM lParam)
+ {
 	if (!options.delete_history) return 0;
-
-	DBEVENTINFO info = {0};
-	info.cbSize = sizeof(info);
 
 	static char* prefixutf = mir_utf8encodeT(TranslateT(LANG_INLINE_PREFIX));
 	static char* prefix = Translate(LANG_INLINE_PREFIX);
 	static DWORD lenutf = strlen(prefixutf);
 	static DWORD len = strlen(prefix);
+
+	DBEVENTINFO info = { sizeof(info) };
 	info.cbBlob = lenutf*2;
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
-	if (!CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&info)) {
+	if (!db_event_get((HANDLE)lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
 			HANDLE hContact = (HANDLE)wParam, hSub;
-			if(options.bHaveMetaContacts && (hSub = (HANDLE)CallService
-			(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0) {
-			hContact = hSub;
-			}
+			if(options.bHaveMetaContacts && (hSub = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
+				hContact = hSub;
+
 			ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
 			if (context && otr_context_get_trust(context) != TRUST_NOT_PRIVATE ) {
 				// only delete encrypted messages that are no OTR system messages
 				if ( options.delete_systeminfo || 
 					((info.flags&DBEF_UTF && !(info.cbBlob >lenutf && 0==strncmp((char*)info.pBlob, prefixutf, lenutf)))
-						|| (!(info.flags&DBEF_UTF) && !(info.cbBlob >len && 0==strncmp((char*)info.pBlob, prefix, len)))
-					)
-				)
+					|| (!(info.flags&DBEF_UTF) && !(info.cbBlob >len && 0==strncmp((char*)info.pBlob, prefix, len)))))
 				{
 					DeleteEventNode *node = new DeleteEventNode();
 					node->hContact = hContact;

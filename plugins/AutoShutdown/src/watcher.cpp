@@ -91,19 +91,20 @@ static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 
 static int MsgEventAdded(WPARAM wParam,LPARAM lParam)
 {
-	if(currentWatcherType&SDWTF_MESSAGE) {
-		DBEVENTINFO dbe;
-		dbe.cbSize=sizeof(dbe);
-		dbe.cbBlob=(DWORD)CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)lParam,0);
-		dbe.pBlob=(BYTE*)mir_alloc(dbe.cbBlob+2); /* ensure term zero */
-		if(dbe.pBlob==NULL) return 0;
-		if(!CallService(MS_DB_EVENT_GET,(WPARAM)lParam,(LPARAM)&dbe))
-			if(dbe.eventType==EVENTTYPE_MESSAGE && !(dbe.flags&DBEF_SENT)) {
+	HANDLE hDbEvent = (HANDLE)lParam;
+
+	if (currentWatcherType & SDWTF_MESSAGE) {
+		DBEVENTINFO dbe = { sizeof(dbe) };
+		dbe.cbBlob = db_event_getBlobSize(hDbEvent);
+		dbe.pBlob = (BYTE*)mir_alloc(dbe.cbBlob+2); /* ensure term zero */
+		if (dbe.pBlob == NULL)
+			return 0;
+		if (!db_event_get(hDbEvent, &dbe))
+			if(dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
 				DBVARIANT dbv;
-				TCHAR *pszMsg;
 				if(!DBGetContactSettingTString(NULL,"AutoShutdown","Message",&dbv)) {
 					TrimString(dbv.ptszVal);
-					pszMsg=GetMessageText(&dbe.pBlob,&dbe.cbBlob);
+					TCHAR *pszMsg = GetMessageText(&dbe.pBlob,&dbe.cbBlob);
 					if(pszMsg!=NULL && _tcsstr(pszMsg,dbv.ptszVal)!=NULL)
 						ShutdownAndStopWatcher(); /* msg with specified text recvd */
 					mir_free(dbv.ptszVal); /* does NULL check */

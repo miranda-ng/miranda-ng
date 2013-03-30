@@ -227,9 +227,9 @@ HANDLE CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) != -1) {
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) != -1) {
 		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-		if ( CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei) == 0 &&
+		if ( db_event_get(hDbEvent, &dbei) == 0 &&
 				!strcmp(dbei.szModule, m_szModuleName) &&
 				(dbei.eventType == EVENTTYPE_AUTHREQUEST || dbei.eventType == EVENTTYPE_CONTACTS)) {
 
@@ -259,13 +259,12 @@ int CMraProto::Authorize(HANDLE hDBEvent)
 {
 	if (!m_bLoggedIn)	return 1;
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDBEvent, 0)) == -1)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDBEvent)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if ( CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei))  return 1;
+	if ( db_event_get(hDBEvent, &dbei))  return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)                         return 1;
 	if ( strcmp(dbei.szModule, m_szModuleName))                          return 1;
 
@@ -281,13 +280,12 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 {
 	if (!m_bLoggedIn) return 1;
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDBEvent, 0)) == -1)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDBEvent)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if ( CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei))  return 1;
+	if ( db_event_get(hDBEvent, &dbei))  return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)                         return 1;
 	if ( strcmp(dbei.szModule, m_szModuleName))                          return 1;
 
@@ -413,15 +411,14 @@ HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, 
 
 int CMraProto::RecvContacts(HANDLE hContact, PROTORECVEVENT* pre)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_CONTACTS;
 	dbei.cbBlob = pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	db_event_add(hContact, &dbei);
 	return 0;
 }
 

@@ -188,15 +188,15 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 
 int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 {
-	char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, lParam, 0);
-	HANDLE hContact = (HANDLE) lParam;
+	HANDLE hContact = (HANDLE)lParam;
+	char *szProto = GetContactProto(hContact);
 	if ( !hContact || !szProto || lstrcmpiA( szProto, m_szModuleName ))
 		return 0;
 
-	if ( getByte( hContact, "ChatRoom", 0 ) != 0 )
+	if ( getByte( hContact, "ChatRoom", 0) != 0 )
 		return 0;
 
-	if ( getByte( hContact, "DCC", 0 ) != 0 )
+	if ( getByte( hContact, "DCC", 0) != 0)
 		return 0;
 
 	DBVARIANT dbv;

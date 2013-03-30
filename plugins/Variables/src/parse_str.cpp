@@ -633,15 +633,14 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	from = max(ttoi(ai->targv[2])-1, 0);
-	if (ai->argc > 3) {
-		to = min(ttoi(ai->targv[3]), (signed int)_tcslen(ai->targv[1]));
-	}
-	else {
-		to = _tcslen(ai->targv[1]);
-	}
-	if (to < from) {
+	if (ai->argc > 3)
+		to = min(ttoi(ai->targv[3]), (int)_tcslen(ai->targv[1]));
+	else
+		to = (int)_tcslen(ai->targv[1]);
+
+	if (to < from)
 		return NULL;
-	}
+
 	res = (TCHAR*)mir_alloc((to-from+1)*sizeof(TCHAR));
 	ZeroMemory(res, (to-from+1)*sizeof(TCHAR));
 	_tcsncpy(res, ai->targv[1]+from, to-from);

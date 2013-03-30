@@ -220,8 +220,7 @@ static bool BoltunAutoChat(HANDLE hContact)
 
 static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	//DBEVENTINFO ldbei;
-	HANDLE hContact = (HANDLE)wParam;
+	HANDLE hContact = (HANDLE)wParam, hDbEvent = (HANDLE)lParam;
 	if (!BoltunAutoChat(hContact))
 		return 0;
 
@@ -230,7 +229,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = 0;
 
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, lParam, 0);
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return 0;
 
@@ -238,7 +237,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dbei.pBlob == NULL)
 		return 0;
 
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
+	db_event_get(hDbEvent, &dbei);
 	if (dbei.flags & DBEF_SENT || dbei.flags & DBEF_READ || dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 	DBEVENTGETTEXT egt;
@@ -248,7 +247,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	TCHAR* s = (TCHAR*)(void*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&egt);
 	free(dbei.pBlob);
 	if (Config.MarkAsRead)
-		CallService(MS_DB_EVENT_MARKREAD, wParam, lParam);
+		db_event_markRead(hContact, hDbEvent);
 
 	AnswerToContact(hContact, s);
 	mir_free(s);

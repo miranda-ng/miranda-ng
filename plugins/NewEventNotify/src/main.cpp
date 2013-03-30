@@ -63,7 +63,6 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 //lParam: dbevent-handle
 {
 	HANDLE hContact = (HANDLE)wParam;
-	DBEVENTINFO dbe = {0};
 	PLUGIN_DATA* pdata;
 	DBEVENTTYPEDESCR* pei;
 
@@ -72,8 +71,8 @@ int HookedNewEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	//get DBEVENTINFO without pBlob
-	dbe.cbSize = sizeof(dbe);
-	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbe);
+	DBEVENTINFO dbe = { sizeof(dbe) };
+	db_event_get((HANDLE)lParam, &dbe);
 
 	//do not show popups for sub-contacts
 	if (hContact && ServiceExists(MS_MC_GETMETACONTACT) && CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0))

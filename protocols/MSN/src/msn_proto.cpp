@@ -282,13 +282,12 @@ HANDLE __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 HANDLE __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == (DWORD)(-1))
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
 		return NULL;
 
 	dbei.pBlob=(PBYTE) alloca(dbei.cbBlob);
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))	return NULL;
+	if (db_event_get(hDbEvent, &dbei)) return NULL;
 	if (strcmp(dbei.szModule, m_szModuleName)) return NULL;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST) return NULL;
 
@@ -353,14 +352,12 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 	if (!msnLoggedIn)
 		return 1;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-
-	if ((int)(dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -393,14 +390,12 @@ int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
 	if (!msnLoggedIn)
 		return 1;
 
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
-
-	if ((int)(dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
 		return 1;
 
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	if (CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei))
+	if (db_event_get(hDbEvent, &dbei))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)

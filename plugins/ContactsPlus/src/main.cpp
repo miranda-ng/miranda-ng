@@ -61,18 +61,15 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
   HANDLE hContact = (HANDLE)wParam;
   HANDLE hDbEvent = (HANDLE)lParam;
   //process the event
-  DBEVENTINFO dbe = {0};
-
-  dbe.cbSize = sizeof(DBEVENTINFO);
-  //get event details
-  CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe);
+  DBEVENTINFO dbe = { sizeof(dbe) };
+  db_event_get(hDbEvent, &dbe);
   //check if we should process the event
   if (dbe.flags & (DBEF_SENT|DBEF_READ) || dbe.eventType != EVENTTYPE_CONTACTS) return 0;
   //get event contents
-  dbe.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+  dbe.cbBlob = db_event_getBlobSize(hDbEvent);
   if (dbe.cbBlob != -1)
     dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
-  CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbe);
+  db_event_get(hDbEvent, &dbe);
   //play received sound
   SkinPlaySound("RecvContacts");
   { //add event to the contact list
@@ -97,24 +94,17 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 
 static void ProcessUnreadEvents(void)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-
 	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
-		HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);
-
-		while (hDbEvent)
-		{
-			dbei.cbBlob=0;
-			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
-			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)
-			{
+	while (hContact) {
+		HANDLE hDbEvent = db_event_firstUnread(hContact);
+		while (hDbEvent) {
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
+			if (!(dbei.flags & (DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {
 				//process the event
 				HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
 			}
-			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+			hDbEvent = db_event_next(hDbEvent);
 		}
 		hContact = db_find_next(hContact);
 	}

@@ -125,7 +125,7 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 	ldbei.szModule  = BOLTUN_NAME;
 	ldbei.timestamp = (DWORD)time(NULL);
 
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&ldbei);
+	db_event_add(hContact, &ldbei);
 	bot->AnswerGiven(hContact, *info);
 	delete info;
 

@@ -47,15 +47,14 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	TCHAR szTooltip[256];
 	const HANDLE hDbEvent = (HANDLE)lParam;
 
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;
 
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, lParam, 0);
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei);
+	db_event_get(hDbEvent, &dbei);
 
 	HANDLE hContact = DbGetAuthEventContact(&dbei);
 

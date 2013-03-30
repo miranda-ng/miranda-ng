@@ -483,14 +483,13 @@ int CJabberProto::RcGetUnreadEventsCount()
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			DBVARIANT dbv;
 			if ( !JGetStringT(hContact, "jid", &dbv)) {
-				HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+				HANDLE hDbEvent = db_event_firstUnread(hContact);
 				while (hDbEvent) {
-					DBEVENTINFO dbei = { 0 };
-					dbei.cbSize = sizeof(dbei);
-					dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 					if (dbei.cbBlob != -1) {
 						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-						int nGetTextResult = CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+						int nGetTextResult = db_event_get(hDbEvent, &dbei);
 						if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 							TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
 							if (szEventText) {
@@ -500,7 +499,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 						}
 						mir_free(dbei.pBlob);
 					}
-					hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+					hDbEvent = db_event_next(hDbEvent);
 				}
 				db_free(&dbv);
 			}
@@ -580,15 +579,14 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 			if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 				DBVARIANT dbv;
 				if ( !JGetStringT(hContact, "jid", &dbv)) {
-
-					HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
+					HANDLE hDbEvent = db_event_firstUnread(hContact);
 					while (hDbEvent) {
 						DBEVENTINFO dbei = { 0 };
 						dbei.cbSize = sizeof(dbei);
-						dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+						dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 						if (dbei.cbBlob != -1) {
 							dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-							int nGetTextResult = CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+							int nGetTextResult = db_event_get(hDbEvent, &dbei);
 							if ( !nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
 								TCHAR* szEventText = DbGetEventTextT(&dbei, CP_ACP);
 								if (szEventText) {
@@ -619,7 +617,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 
 									nEventsSent++;
 
-									CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
+									db_event_markRead(hContact, hDbEvent);
 									if (bRemoveCListEvents)
 										CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)hDbEvent);
 
@@ -628,7 +626,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 							}
 							mir_free(dbei.pBlob);
 						}
-						hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+						hDbEvent = db_event_next(hDbEvent);
 					}
 					db_free(&dbv);
 				}

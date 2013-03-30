@@ -748,13 +748,10 @@ void SendSMSWindowDbeiSet(HWND hWndDlg,DBEVENTINFO *pdbei)
 void SendSMSWindowDBAdd(HWND hWndDlg)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
-	
-	if (psswdWindowData)
-	{
-		psswdWindowData->pdbei->cbSize=sizeof(DBEVENTINFO);
-		psswdWindowData->pdbei->szModule=GetModuleName(psswdWindowData->hContact);
-
-		CallService(MS_DB_EVENT_ADD,(WPARAM)psswdWindowData->hContact,(LPARAM)psswdWindowData->pdbei);
+	if (psswdWindowData) {
+		psswdWindowData->pdbei->cbSize = sizeof(DBEVENTINFO);
+		psswdWindowData->pdbei->szModule = GetModuleName(psswdWindowData->hContact);
+		db_event_add(psswdWindowData->hContact, psswdWindowData->pdbei);
 		MEMFREE(psswdWindowData->pdbei);
 	}
 }
@@ -763,7 +760,8 @@ void SendSMSWindowDBAdd(HWND hWndDlg)
 void SendSMSWindowHItemSendSet(HWND hWndDlg,HTREEITEM hItemSend)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
-	if (psswdWindowData) psswdWindowData->hItemSend=hItemSend;
+	if (psswdWindowData)
+		psswdWindowData->hItemSend=hItemSend;
 }
 
 //
@@ -773,7 +771,7 @@ HTREEITEM SendSMSWindowHItemSendGet(HWND hWndDlg)
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData) hRet=psswdWindowData->hItemSend;
-return(hRet);
+	return hRet;
 }
 
 //
@@ -1017,15 +1015,11 @@ void AddContactPhonesToComboToListParam(HANDLE hContact,LPSTR lpszModule,LPSTR l
 
 void AddContactPhonesToCombo(HWND hWnd,HANDLE hContact)
 {
-	HWND hWndList;
-	LPSTR lpszProto;
-
-	hWndList=GetDlgItem(hWnd,IDC_ADDRESS);
+	HWND hWndList = GetDlgItem(hWnd,IDC_ADDRESS);
 	SEND_DLG_ITEM_MESSAGE(hWnd,IDC_ADDRESS,CB_RESETCONTENT,0,0);
 
-	lpszProto=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-	if (lpszProto)
-	{
+	LPSTR lpszProto = GetContactProto(hContact);
+	if (lpszProto) {
 		AddContactPhonesToComboToListParam(hContact,lpszProto,"Phone",hWndList);
 		AddContactPhonesToComboToListParam(hContact,lpszProto,"Cellular",hWndList);
 		AddContactPhonesToComboToListParam(hContact,lpszProto,"Fax",hWndList);
@@ -1095,19 +1089,13 @@ void AddContactPhonesToTreeViewParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpsz
 
 void SendSMSWindowFillTreeView(HWND hWnd)
 {
-	HWND hWndTreeView;
-	LPSTR lpszProto;
-	HTREEITEM hParent;
-
-	hWndTreeView=GetDlgItem(hWnd,IDC_NUMBERSLIST);
+	HWND hWndTreeView=GetDlgItem(hWnd,IDC_NUMBERSLIST);
 	TreeView_DeleteAllItems(hWndTreeView);
 
-	for(HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-	{
-		hParent=NULL;
-		lpszProto=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-		if (lpszProto)
-		{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
+		HTREEITEM hParent = NULL;
+		LPSTR lpszProto = GetContactProto(hContact);
+		if (lpszProto) {
 			AddContactPhonesToTreeViewParam(hContact,lpszProto,"Phone",hWndTreeView,&hParent);
 			AddContactPhonesToTreeViewParam(hContact,lpszProto,"Cellular",hWndTreeView,&hParent);
 			AddContactPhonesToTreeViewParam(hContact,lpszProto,"Fax",hWndTreeView,&hParent);

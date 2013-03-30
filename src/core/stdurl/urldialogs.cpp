@@ -97,30 +97,26 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		WindowList_Add(hUrlWindowList, hwndDlg, dat->hContact);
 		{
-			DBEVENTINFO dbei;
-			TCHAR* contactName;
-			TCHAR  msg[128];
-
-			ZeroMemory(&dbei, sizeof(dbei));
-			dbei.cbSize = sizeof(dbei);
-			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)dat->hDbEvent, 0);
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
 			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-			CallService(MS_DB_EVENT_GET, (WPARAM)dat->hDbEvent, (LPARAM)&dbei);
+			db_event_get(dat->hDbEvent, &dbei);
 			SetDlgItemTextA(hwndDlg, IDC_URL, (char*)dbei.pBlob);
 			SetDlgItemTextA(hwndDlg, IDC_MSG, (char*)dbei.pBlob+lstrlenA((char*)dbei.pBlob)+1);
 			mir_free(dbei.pBlob);
 
-			CallService(MS_DB_EVENT_MARKREAD, (WPARAM)dat->hContact, (LPARAM)dat->hDbEvent);
+			db_event_markRead(dat->hContact, dat->hDbEvent);
 
-			contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+			TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0), msg[128];
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("URL from %s"), contactName);
 			SetWindowText(hwndDlg, msg);
 			SetDlgItemText(hwndDlg, IDC_FROM, contactName);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETARROW, 1, 0);
-			{	TCHAR str[128];
-				tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), str, SIZEOF(str), 0);
-				SetDlgItemText(hwndDlg, IDC_DATE, str);
-		}	}
+			
+			TCHAR str[128];
+			tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), str, SIZEOF(str), 0);
+			SetDlgItemText(hwndDlg, IDC_DATE, str);
+		}
 
 		// From message dlg
 		if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
@@ -537,13 +533,13 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
 			break;
-		switch (LOWORD(wParam))
-		{
-			case IDOK:
+
+		switch (LOWORD(wParam)) {
+		case IDOK:
 			{
 				char *body, *url;
 				int bodySize, urlSize;
-				
+
 				urlSize = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URLS))+1;
 				url = (char*)mir_alloc(urlSize);
 				GetDlgItemTextA(hwndDlg, IDC_URLS, url, urlSize);
@@ -572,72 +568,75 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				return TRUE;
 			}
 
-			case IDCANCEL:
-				DestroyWindow(hwndDlg);
-				return TRUE;
-			case IDC_URLS:
-				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					int i, urlSize;
-					char *title;
-					i = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCURSEL, 0, 0);
-					title = (char*)SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETITEMDATA, (WPARAM)i, 0);
-					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, title);
-					urlSize = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETLBTEXTLEN, (WPARAM)i, 0);
-					EnableWindow(GetDlgItem(hwndDlg, IDOK), (urlSize>0));
-				}
-				else if (HIWORD(wParam) == CBN_EDITCHANGE) {
-					int urlSize = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URLS));
-					EnableWindow(GetDlgItem(hwndDlg, IDOK), (urlSize>0));
-				}
-				break;
-			case IDC_USERMENU:
-				{	RECT rc;
-					HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
-					GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rc);
-					TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
-					DestroyMenu(hMenu);
-				}
-				break;
-			case IDC_HISTORY:
-				CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
-				break;
-			case IDC_DETAILS:
-				CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)dat->hContact, 0);
-				break;
-			case IDC_ADD:
-				{	ADDCONTACTSTRUCT acs = {0};
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			return TRUE;
 
-					acs.handle = dat->hContact;
-					acs.handleType = HANDLE_CONTACT;
-					acs.szProto = 0;
-					CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
-				}
-				if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0)) {
-					ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
-				}
-				break;
+		case IDC_URLS:
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				int i, urlSize;
+				char *title;
+				i = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCURSEL, 0, 0);
+				title = (char*)SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETITEMDATA, (WPARAM)i, 0);
+				SetDlgItemTextA(hwndDlg, IDC_MESSAGE, title);
+				urlSize = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETLBTEXTLEN, (WPARAM)i, 0);
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), (urlSize>0));
+			}
+			else if (HIWORD(wParam) == CBN_EDITCHANGE) {
+				int urlSize = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_URLS));
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), (urlSize>0));
+			}
+			break;
+		case IDC_USERMENU:
+			{
+				RECT rc;
+				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rc);
+				TrackPopupMenu(hMenu, 0, rc.left, rc.bottom, 0, hwndDlg, NULL);
+				DestroyMenu(hMenu);
+			}
+			break;
+
+		case IDC_HISTORY:
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
+			break;
+
+		case IDC_DETAILS:
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)dat->hContact, 0);
+			break;
+
+		case IDC_ADD:
+			ADDCONTACTSTRUCT acs = {0};
+			acs.handle = dat->hContact;
+			acs.handleType = HANDLE_CONTACT;
+			acs.szProto = 0;
+			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
+
+			if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
+				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 		}
 		break;
-	case HM_EVENTSENT:
-	{	ACKDATA *ack = (ACKDATA*)lParam;
-		DBEVENTINFO dbei;
-		if (ack->hProcess != dat->hSendId) break;
-		if (ack->hContact != dat->hContact) break;
-		if (ack->type != ACKTYPE_URL || ack->result != ACKRESULT_SUCCESS) break;
 
-		ZeroMemory(&dbei, sizeof(dbei));
-		dbei.cbSize = sizeof(dbei);
-		dbei.eventType = EVENTTYPE_URL;
-		dbei.flags = DBEF_SENT;
-		dbei.szModule = GetContactProto(dat->hContact);
-		dbei.timestamp = time(NULL);
-		dbei.cbBlob = (DWORD)(strlen(dat->sendBuffer)+strlen(dat->sendBuffer+strlen(dat->sendBuffer)+1)+2);
-		dbei.pBlob = (PBYTE)dat->sendBuffer;
-		CallService(MS_DB_EVENT_ADD, (WPARAM)dat->hContact, (LPARAM)&dbei);
-		KillTimer(hwndDlg, 0);
-		DestroyWindow(hwndDlg);
+	case HM_EVENTSENT:
+		{
+			ACKDATA *ack = (ACKDATA*)lParam;
+			if (ack->hProcess != dat->hSendId) break;
+			if (ack->hContact != dat->hContact) break;
+			if (ack->type != ACKTYPE_URL || ack->result != ACKRESULT_SUCCESS) break;
+
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.eventType = EVENTTYPE_URL;
+			dbei.flags = DBEF_SENT;
+			dbei.szModule = GetContactProto(dat->hContact);
+			dbei.timestamp = time(NULL);
+			dbei.cbBlob = (DWORD)(strlen(dat->sendBuffer)+strlen(dat->sendBuffer+strlen(dat->sendBuffer)+1)+2);
+			dbei.pBlob = (PBYTE)dat->sendBuffer;
+			db_event_add(dat->hContact, &dbei);
+			KillTimer(hwndDlg, 0);
+			DestroyWindow(hwndDlg);
+		}
 		break;
-	}
+
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hwndDlg);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_ADD);
@@ -650,10 +649,9 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (dat->sendBuffer != NULL) mir_free(dat->sendBuffer);
 		mir_free(dat);
 		Utils_SaveWindowPosition(hwndDlg, NULL, "SRUrl", "send");
-		{	int i;
-			for (i = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCOUNT, 0, 0)-1;i>=0;i--)
-				mir_free((char*)SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETITEMDATA, i, 0));
-		}
+
+		for (int i = SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETCOUNT, 0, 0)-1;i>=0;i--)
+			mir_free((char*)SendDlgItemMessage(hwndDlg, IDC_URLS, CB_GETITEMDATA, i, 0));
 		break;
 	}
 

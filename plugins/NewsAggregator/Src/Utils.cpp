@@ -1059,19 +1059,18 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								else
 									stamp = DateToUnixTime(datetime, 0);
 
-								HANDLE	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+								HANDLE hDbEvent = db_event_first(hContact);
 								BOOL MesExist = FALSE;
 								while (hDbEvent)
 								{
-									DBEVENTINFO olddbei = {0};
-									olddbei.cbSize = sizeof(olddbei);
-									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+									DBEVENTINFO olddbei = { sizeof(olddbei) };
+									olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
-									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
+									db_event_get(hDbEvent, &olddbei);
 									char *pszTemp = mir_utf8encodeT(message);
 									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
-									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+									hDbEvent = db_event_next(hDbEvent);
 									mir_free(olddbei.pBlob);
 									mir_free(pszTemp);
 								}
@@ -1352,19 +1351,18 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								else
 									stamp = DateToUnixTime(datetime, 1);
 
-								HANDLE	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
+								HANDLE hDbEvent = db_event_first(hContact);
 								BOOL MesExist = FALSE;
 								while (hDbEvent)
 								{
-									DBEVENTINFO olddbei = {0};
-									olddbei.cbSize = sizeof(olddbei);
-									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
+									DBEVENTINFO olddbei = { sizeof(olddbei) };
+									olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
-									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
+									db_event_get(hDbEvent, &olddbei);
 									char *pszTemp = mir_utf8encodeT(message);
 									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
-									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
+									hDbEvent = db_event_next(hDbEvent);
 									mir_free(olddbei.pBlob);
 									mir_free(pszTemp);
 								}

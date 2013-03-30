@@ -941,15 +941,14 @@ retry:
 				else if (!e->event.multilogon_msg.recipients_count && e->event.multilogon_msg.message && *e->event.multilogon_msg.message
 					&& strcmp(e->event.multilogon_msg.message, "\xA0\0"))
 				{
-					DBEVENTINFO dbei = {0};
-					dbei.cbSize = sizeof(dbei);
+					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = (DWORD)e->event.multilogon_msg.time;
 					dbei.flags = DBEF_SENT | DBEF_UTF;
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.cbBlob = (DWORD)strlen(e->event.multilogon_msg.message) + 1;
 					dbei.pBlob = (PBYTE)e->event.multilogon_msg.message;
-					CallService(MS_DB_EVENT_ADD, (WPARAM)getcontact(e->event.multilogon_msg.sender, 1, 0, NULL), (LPARAM)&dbei);
+					db_event_add( getcontact(e->event.multilogon_msg.sender, 1, 0, NULL), &dbei);
 				}
 				break;
 

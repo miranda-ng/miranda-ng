@@ -181,7 +181,7 @@ DWORD	WhenAdded(DWORD dwUIN, LPCSTR pszProto)
 
 	ZeroMemory(&dbei, sizeof(dbei));
 	dbei.cbSize = sizeof(dbei);
-	for (edbe = DB::Event::FindFirst(NULL); edbe != NULL; edbe = DB::Event::FindNext(edbe)) {
+	for (edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(edbe)) {
 		// get eventtype and compare
 		if (!DB::Event::GetInfo(edbe, &dbei) && dbei.eventType == EVENTTYPE_ADDED) {
 			if (!DB::Event::GetInfoWithData(edbe, &dbei)) {
@@ -1010,52 +1010,8 @@ BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 namespace Event {
 
 /**
- * This function searches for the first event for the given contact.
- * @param	hContact		- the handle of the contact to search events for
- *
- * @return	This function returns the HANDLE of the first event for the given contact.
- **/
-HANDLE	FindFirst(HANDLE hContact)
-{
-	return (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
-}
-
-/**
- * This function searches for the last event for the given contact.
- * @param	hContact		- the handle of the contact to search events for
- *
- * @return	This function returns the HANDLE of the last event for the given contact.
- **/
-HANDLE	FindLast(HANDLE hContact)
-{
-	return (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
-}
-
-/**
- * This function searches for the next event in the chain, which follows the given event.
- * @param	hEvent			- the handle of the event where to continue searching
- *
- * @return	This function returns the HANDLE of the next event in the event chain.
- **/
-HANDLE	FindNext(HANDLE hEvent)
-{
-	return (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hEvent, 0);
-}
-
-/**
- * This function searches for the previous event in the chain, which follows the given event.
- * @param	hEvent			- the handle of the event where to continue searching
- *
- * @return	This function returns the HANDLE of the previous event in the event chain.
- **/
-HANDLE	FindPrev(HANDLE hEvent)
-{
-	return (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0);
-}
-
-/**
  * This function initializes the DBEVENTINFO structure and calls 
- * the MS_DB_EVENT_GET service to retrieve information about an event.
+ * db_event_get() to retrieve information about an event.
  * @param	hEvent			- the handle of the event to get information for
  * @param	dbei			- the pointer to a DBEVENTINFO structure, which retrieves all information.
  *
@@ -1067,12 +1023,12 @@ BYTE	GetInfo(HANDLE hEvent, DBEVENTINFO *dbei)
 	dbei->cbSize = sizeof(DBEVENTINFO);
 	dbei->cbBlob = 0;
 	dbei->pBlob  = NULL;
-	return CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)dbei) != 0;
+	return db_event_get(hEvent, dbei) != 0;
 }
 
 /**
  * This function initializes the DBEVENTINFO structure and calls 
- * the MS_DB_EVENT_GET service to retrieve information about an event.
+ * db_event_get() to retrieve information about an event.
  * @param	hEvent			- the handle of the event to get information for
  * @param	dbei			- the pointer to a DBEVENTINFO structure, which retrieves all information.
  *
@@ -1081,7 +1037,6 @@ BYTE	GetInfo(HANDLE hEvent, DBEVENTINFO *dbei)
  **/
 BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 {
-	BYTE result;
 	dbei->cbSize = sizeof(DBEVENTINFO);
 	if (!dbei->cbBlob) {
 		INT_PTR size = BlobSizeOf(hEvent);
@@ -1093,11 +1048,9 @@ BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 			dbei->cbBlob = 0;
 		}
 	}
-	else {
-		dbei->pBlob = NULL;
-	}
+	else dbei->pBlob = NULL;
 
-	result = CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)dbei) != 0;
+	BYTE result = db_event_get(hEvent, dbei) != 0;
 	if (result && dbei->pBlob) {
 		mir_free(dbei->pBlob);
 		dbei->pBlob = NULL;
@@ -1131,7 +1084,7 @@ DWORD	TimeOf(HANDLE hEvent)
  **/
 INT_PTR	BlobSizeOf(HANDLE hEvent)
 {
-	return CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hEvent, 0);
+	return db_event_getBlobSize(hEvent);
 }
 
 /**
@@ -1182,7 +1135,7 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 				edbe;
 
 	if (!hDbExistingEvent) {
-		hDbExistingEvent = FindFirst(hContact);
+		hDbExistingEvent = db_event_first(hContact);
 		if (hDbExistingEvent) {
 			if (!GetInfo(hDbExistingEvent, &edbei)) {
 				if ((dbei->timestamp < edbei.timestamp)) {
@@ -1198,10 +1151,10 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 					}
 				}
 			}
-			edbe = FindLast(hContact);
-			if (edbe == hDbExistingEvent) {
+			edbe = db_event_last(hContact);
+			if (edbe == hDbExistingEvent)
 				return FALSE;
-			}
+
 			hDbExistingEvent = edbe;
 		}
 	}
@@ -1209,7 +1162,7 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		sdbe = hDbExistingEvent;
 		for (	edbe = sdbe;
 				edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp <= edbei.timestamp);
-				edbe = FindPrev(edbe)) {
+				edbe = db_event_prev(edbe)) {
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
 			if ( result = IsEqual(dbei, &edbei, false)) {
@@ -1224,9 +1177,9 @@ BYTE	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		} /*end for*/
 
 		if (!result) {
-			for (	edbe = FindNext(sdbe);
+			for (	edbe = db_event_next(sdbe);
 					edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp >= edbei.timestamp);
-					edbe = FindNext(edbe)) {
+					edbe = db_event_next(edbe)) {
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
 				if ( result = IsEqual(dbei, &edbei, false)) {

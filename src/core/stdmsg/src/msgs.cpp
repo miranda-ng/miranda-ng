@@ -50,29 +50,23 @@ static int SRMMStatusToPf2(int status)
 
 static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
-	HWND hwnd;
-
-	dbei.cbSize = sizeof(dbei);
-	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	db_event_get((HANDLE)lParam, &dbei);
 
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 	/* does a window for the contact exist? */
-	hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
-	if (hwnd)
-	{
-		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS))
-		{
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, (HANDLE) wParam);
+	if (hwnd) {
+		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS)) {
 			ShowWindow(hwnd, SW_RESTORE);
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetForegroundWindow(hwnd);
 			SkinPlaySound("RecvMsgActive");
 		}
-		else
-		{
+		else {
 			if (GetForegroundWindow() == hwnd)
 				SkinPlaySound("RecvMsgActive");
 			else
@@ -244,57 +238,48 @@ static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static void RestoreUnreadMessageAlerts(void)
 {
-	CLISTEVENT cle = {0};
-	DBEVENTINFO dbei = {0};
 	TCHAR toolTip[256];
 	int windowAlreadyExists;
-	HANDLE hDbEvent, hContact;
 	int autoPopup;
 
-	dbei.cbSize = sizeof(dbei);
-	cle.cbSize = sizeof(cle);
+	CLISTEVENT cle = { sizeof(cle) };
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 	cle.ptszTooltip = toolTip;
 
-	hContact = db_find_first();
-	while (hContact)
-	{
-		hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) hContact, 0);
-		while (hDbEvent)
-		{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+
+	HANDLE hContact = db_find_first();
+	while (hContact) {
+		HANDLE hDbEvent = db_event_firstUnread(hContact);
+		while (hDbEvent) {
 			autoPopup = 0;
 			dbei.cbBlob = 0;
-			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
-			{
+			db_event_get( hDbEvent, &dbei);
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 				windowAlreadyExists = WindowList_Find(g_dat.hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
 					continue;
-				{
-					char *szProto = GetContactProto(hContact);
-					if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
-					{
-						autoPopup = 1;
-					}
-				}
-				if (autoPopup && !windowAlreadyExists)
-				{
-					struct NewMessageWindowLParam newData = {0};
+
+				char *szProto = GetContactProto(hContact);
+				if (szProto && (g_dat.openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
+					autoPopup = 1;
+
+				if (autoPopup && !windowAlreadyExists) {
+					NewMessageWindowLParam newData = {0};
 					newData.hContact = hContact;
 					newData.noActivate = db_get_b(NULL, SRMMMOD, SRMSGSET_DONOTSTEALFOCUS, SRMSGDEFSET_DONOTSTEALFOCUS);
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSG), NULL, DlgProcMessage, (LPARAM) & newData);
 				}
-				else
-				{
+				else {
 					cle.hContact = hContact;
 					cle.hDbEvent = hDbEvent;
 					mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 				}
 			}
-			hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hDbEvent, 0);
+			hDbEvent = db_event_next(hDbEvent);
 		}
 		hContact = db_find_next(hContact);
 	}

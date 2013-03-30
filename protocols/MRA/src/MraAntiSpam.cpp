@@ -398,16 +398,14 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 					CHAR szBuff[MRA_MAXLENOFMESSAGE*2];
 					WideCharToMultiByte(CP_UTF8, 0, wszBuff, DWORD(dwDBMessageSize), szBuff, SIZEOF(szBuff), NULL, NULL);
 
-					DBEVENTINFO dbei = {0};
-					dbei.cbSize = sizeof(dbei);
+					DBEVENTINFO dbei = { sizeof(dbei) };
 					dbei.szModule = m_szModuleName;
 					dbei.timestamp = _time32(NULL);
 					dbei.flags = (DBEF_READ|DBEF_UTF);
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.cbBlob = DWORD(dwDBMessageSize*sizeof(WCHAR));
 					dbei.pBlob = (PBYTE)szBuff;
-
-					CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
+					db_event_add(NULL, &dbei);
 				}
 
 				if (hContact && bAntiSpamDeteleSpamBotContacts) {
@@ -423,15 +421,14 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 						CHAR szBuff[MRA_MAXLENOFMESSAGE*2];
 						WideCharToMultiByte(CP_UTF8, 0, wszBuff, DWORD(dwDBMessageSize), szBuff, SIZEOF(szBuff), NULL, NULL);
 
-						DBEVENTINFO dbei = {0};
-						dbei.cbSize = sizeof(dbei);
+						DBEVENTINFO dbei = { sizeof(dbei) };
 						dbei.szModule = m_szModuleName;
 						dbei.timestamp = _time32(NULL);
 						dbei.flags = (DBEF_READ|DBEF_UTF);
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.cbBlob = DWORD(dwDBMessageSize*sizeof(WCHAR));
 						dbei.pBlob = (PBYTE)szBuff;
-						CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
+						db_event_add(NULL, &dbei);
 					}
 				}
 			}

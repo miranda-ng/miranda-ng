@@ -232,14 +232,13 @@ std::wstring EventList::GetFilterName()
 
 void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, bool noExt, HANDLE _hContact)
 {
-	HANDLE hDbEvent;
 	bool isWndLocal = isWnd;
 	EventTempIndex ti;
-	EventIndex ei;
 	EventData data;
+	EventIndex ei;
 	ti.isExternal = false;
 	ei.isExternal = false;
-	hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRST,(WPARAM)_hContact,0);
+	HANDLE hDbEvent = db_event_first(_hContact);
 	while ( hDbEvent != NULL )
 	{
 		if (isWndLocal && !IsWindow( hWnd ))
@@ -254,7 +253,7 @@ void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, 
 				tempList.push_back(ti);
 			}
 		}
-		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+		hDbEvent = db_event_next(hDbEvent);
 	}
 
 	if(!noExt)
@@ -721,14 +720,13 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 	ImportMessages(messages);
 	std::list<EventTempIndex> tempList;
 	GetTempList(tempList, true, false, hContact);
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(DBEVENTINFO);
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(hContact);
+
 	CallService(MS_DB_SETSAFETYMODE, (WPARAM)FALSE, 0);
-	for(std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it)
-	{
-		if(it->isExternal)
-		{
+	for(std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it) {
+		if(it->isExternal) {
 			IImport::ExternalMessage& msg = importedMessages[it->exIdx];
 			dbei.flags = msg.flags & (~(DBEF_FIRST));
 			dbei.flags |= DBEF_READ;
@@ -740,7 +738,7 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 			char* buf = new char[dbei.cbBlob];
 			dbei.cbBlob = WideCharToMultiByte(cp, 0, msg.message.c_str(), (int)msg.message.length() + 1, buf, dbei.cbBlob, NULL, NULL);
 			dbei.pBlob = (PBYTE)buf;
-			CallService(MS_DB_EVENT_ADD, (WPARAM) hContact, (LPARAM) & dbei);
+			db_event_add(hContact, &dbei);
 			delete buf;
 		}
 	}
@@ -752,34 +750,27 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 
 bool EventList::GetEventData(const EventIndex& ev, EventData& data)
 {
-	if(!ev.isExternal)
-	{
-		DWORD newBlobSize=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)ev.hEvent,0);
-		if(newBlobSize>goldBlobSize)
-		{
-			gdbei.pBlob=(PBYTE)mir_realloc(gdbei.pBlob,newBlobSize);
-			goldBlobSize=newBlobSize;
+	if(!ev.isExternal) {
+		int newBlobSize = db_event_getBlobSize(ev.hEvent);
+		if(newBlobSize > goldBlobSize) {
+			gdbei.pBlob = (PBYTE)mir_realloc(gdbei.pBlob,newBlobSize);
+			goldBlobSize = newBlobSize;
 		}
 
 		gdbei.cbBlob = goldBlobSize;
-		if (CallService(MS_DB_EVENT_GET,(WPARAM)ev.hEvent,(LPARAM)&gdbei) == 0)
-		{
+		if (db_event_get(ev.hEvent, &gdbei) == 0) {
 			data.isMe = (gdbei.flags & DBEF_SENT) != 0;
 			data.eventType = gdbei.eventType;
 			data.timestamp = gdbei.timestamp;
 			return true;
 		}
 	}
-	else
-	{
-		if(ev.exIdx >= 0 && ev.exIdx < (int)importedMessages.size())
-		{
-			IImport::ExternalMessage& em = importedMessages[ev.exIdx];
-			data.isMe = (em.flags & DBEF_SENT) != 0;
-			data.eventType = em.eventType;
-			data.timestamp = em.timestamp;
-			return true;
-		}
+	else if(ev.exIdx >= 0 && ev.exIdx < (int)importedMessages.size()) {
+		IImport::ExternalMessage& em = importedMessages[ev.exIdx];
+		data.isMe = (em.flags & DBEF_SENT) != 0;
+		data.eventType = em.eventType;
+		data.timestamp = em.timestamp;
+		return true;
 	}
 
 	return false;
@@ -814,18 +805,12 @@ void EventList::RebuildGroup(int selected)
 	for(size_t i = 0; i < eventList[selected].size(); ++i)
 	{
 		EventIndex& ev = eventList[selected][i];
-		if(!ev.isExternal)
-		{
-			if(CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)(HANDLE)ev.hEvent,0) >= 0)
-			{
-				// If event exist, we add it to new group
+		if(!ev.isExternal) {
+			// If event exist, we add it to new group
+			if (db_event_getBlobSize(ev.hEvent) >= 0)
 				newGroup.push_back(eventList[selected][i]);
-			}
 		}
-		else
-		{
-			newGroup.push_back(eventList[selected][i]);
-		}
+		else newGroup.push_back(eventList[selected][i]);
 	}
 	eventList[selected].clear();
 	eventList[selected].insert(eventList[selected].begin(), newGroup.begin(), newGroup.end());
@@ -868,13 +853,11 @@ void EventList::Deinit()
 
 int EventList::GetContactMessageNumber(HANDLE hContact)
 {
-	int count = CallService(MS_DB_EVENT_GETCOUNT,(WPARAM)hContact,0);
+	int count = db_event_count(hContact);
 	EnterCriticalSection(&criticalSection);
 	std::map<HANDLE, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if(it != contactFileMap.end())
-	{
 		++count;
-	}
 
 	LeaveCriticalSection(&criticalSection);
 	return count;

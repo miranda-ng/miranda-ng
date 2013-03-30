@@ -132,21 +132,18 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 	}
 
 	if (sendBuffer) {
-		HANDLE hNewEvent, hSendId;
-		DBEVENTINFO dbei = { 0 };
-		dbei.cbSize = sizeof(dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | (flags & PREF_UTF ? DBEF_UTF : 0) | (flags & PREF_RTL ? DBEF_RTL : 0);
 		dbei.szModule = szProto;
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.cbBlob = (DWORD)bufSize;
 		dbei.pBlob = (PBYTE)sendBuffer;
+		HANDLE hNewEvent = db_event_add(hContact, &dbei);
 
-		hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
-		hSendId = (HANDLE) CallContactService(hContact, MsgServiceName(hContact), flags, (LPARAM) sendBuffer);
+		HANDLE hSendId = (HANDLE) CallContactService(hContact, MsgServiceName(hContact), flags, (LPARAM) sendBuffer);
 		msgQueue_add(hContact, hSendId, szMsg, hNewEvent);
 		mir_free(sendBuffer);
-
 		return hNewEvent;
 	}
 	return NULL;
@@ -786,80 +783,67 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->hContact) {
 				int historyMode = db_get_b(NULL, SRMMMOD, SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
 				// This finds the first message to display, it works like shit
-				dat->hDbEventFirst = (HANDLE) CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM) dat->hContact, 0);
+				dat->hDbEventFirst = db_event_firstUnread(dat->hContact);
 				switch (historyMode) {
 				case LOADHISTORY_COUNT:
 					{
 						HANDLE hPrevEvent;
-						DBEVENTINFO dbei = { 0 };
-						dbei.cbSize = sizeof(dbei);
+						DBEVENTINFO dbei = { sizeof(dbei) };
 						for (int i = DBGetContactSettingWord(NULL, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i--; ) {
 							if (dat->hDbEventFirst == NULL)
-								hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
+								hPrevEvent = db_event_last(dat->hContact);
 							else
-								hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
+								hPrevEvent = db_event_prev(dat->hDbEventFirst);
 							if (hPrevEvent == NULL)
 								break;
 
 							dbei.cbBlob = 0;
 							dat->hDbEventFirst = hPrevEvent;
-							CallService(MS_DB_EVENT_GET, (WPARAM) hPrevEvent, (LPARAM) &dbei);
+							db_event_get(hPrevEvent, &dbei);
 							if ( !DbEventIsShown(&dbei, dat))
 								i++;
 						}
 						break;
 					}
 				case LOADHISTORY_TIME:
-					{
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					if (dat->hDbEventFirst == NULL)
+						dbei.timestamp = (DWORD)time(NULL);
+					else
+						db_event_get( dat->hDbEventFirst, &dbei);
+						
+					DWORD firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+					for (;;) {
 						HANDLE hPrevEvent;
-						DBEVENTINFO dbei = { 0 };
-						DWORD firstTime;
-
-						dbei.cbSize = sizeof(dbei);
 						if (dat->hDbEventFirst == NULL)
-							dbei.timestamp = (DWORD)time(NULL);
+							hPrevEvent = db_event_last(dat->hContact);
 						else
-							CallService(MS_DB_EVENT_GET, (WPARAM) dat->hDbEventFirst, (LPARAM) & dbei);
-						firstTime = dbei.timestamp - 60 * DBGetContactSettingWord(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
-						for (;;)
-						{
-							if (dat->hDbEventFirst == NULL)
-								hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
-							else
-								hPrevEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) dat->hDbEventFirst, 0);
-							if (hPrevEvent == NULL)
-								break;
-							dbei.cbBlob = 0;
-							CallService(MS_DB_EVENT_GET, (WPARAM) hPrevEvent, (LPARAM) & dbei);
-							if (dbei.timestamp < firstTime)
-								break;
-							dat->hDbEventFirst = hPrevEvent;
-						}
-						break;
+							hPrevEvent = db_event_prev(dat->hDbEventFirst);
+						if (hPrevEvent == NULL)
+							break;
+	
+						dbei.cbBlob = 0;
+						db_event_get(hPrevEvent, &dbei);
+						if (dbei.timestamp < firstTime)
+							break;
+						dat->hDbEventFirst = hPrevEvent;
 					}
+					break;
 				}
 			}
 
-			{
-				DBEVENTINFO dbei = { 0 };
-				HANDLE hdbEvent;
-
-				dbei.cbSize = sizeof(dbei);
-				hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDLAST, (WPARAM) dat->hContact, 0);
-				if (hdbEvent)
-				{
-					do {
-						ZeroMemory(&dbei, sizeof(dbei));
-						dbei.cbSize = sizeof(dbei);
-						CallService(MS_DB_EVENT_GET, (WPARAM) hdbEvent, (LPARAM) & dbei);
-						if (( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && !(dbei.flags & DBEF_SENT)) {
-							dat->lastMessage = dbei.timestamp;
-							PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
-							break;
-						}
+			HANDLE hdbEvent = db_event_last(dat->hContact);
+			if (hdbEvent) {
+				do {
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					db_event_get( hdbEvent, &dbei);
+					if (( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && !(dbei.flags & DBEF_SENT)) {
+						dat->lastMessage = dbei.timestamp;
+						PostMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
+						break;
 					}
-					while (hdbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDPREV, (WPARAM) hdbEvent, 0));
 				}
+					while (hdbEvent = db_event_prev(hdbEvent));
 			}
 
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 1, 0);
@@ -1193,9 +1177,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					// log
 					if ((dat->wStatus != dat->wOldStatus || lParam != 0) &&
 						db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-						DBEVENTINFO dbei;
 						TCHAR buffer[200];
-						HANDLE hNewEvent;
 						int iLen;
 
 						TCHAR *szOldStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM) dat->wOldStatus, GSMDF_TCHAR);
@@ -1210,22 +1192,20 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						else
 							iLen = mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("is now %s (was %s)"), szNewStatus, szOldStatus);
 
-						{
-							char* blob = ( char* )alloca(1000);
-							int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, 1000, 0, 0);
-							memcpy( blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
-							dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
-							dbei.cbSize = sizeof(dbei);
-							dbei.pBlob = (PBYTE) blob;
-							dbei.eventType = EVENTTYPE_STATUSCHANGE;
-							dbei.flags = 0;
-							dbei.timestamp = (DWORD)time(NULL);
-							dbei.szModule = dat->szProto;
-							hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) dat->hContact, (LPARAM) & dbei);
-							if (dat->hDbEventFirst == NULL) {
-								dat->hDbEventFirst = hNewEvent;
-								SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-							}
+						char* blob = ( char* )alloca(1000);
+						int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, 1000, 0, 0);
+						memcpy( blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
+
+						DBEVENTINFO dbei = { sizeof(dbei) };
+						dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
+						dbei.pBlob = (PBYTE) blob;
+						dbei.eventType = EVENTTYPE_STATUSCHANGE;
+						dbei.timestamp = (DWORD)time(NULL);
+						dbei.szModule = dat->szProto;
+						HANDLE hNewEvent = db_event_add(dat->hContact, &dbei);
+						if (dat->hDbEventFirst == NULL) {
+							dat->hDbEventFirst = hNewEvent;
+							SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 						}
 					}
 					dat->wOldStatus = dat->wStatus;
@@ -1396,15 +1376,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case HM_DBEVENTADDED:
-		if ((HANDLE) wParam != dat->hContact)
-			break;
-		{
-			DBEVENTINFO dbei = { 0 };
-
-			dbei.cbSize = sizeof(dbei);
-			CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
+		if ((HANDLE)wParam == dat->hContact) {
+			HANDLE hDbEvent = (HANDLE)lParam;
 			if (dat->hDbEventFirst == NULL)
-				dat->hDbEventFirst = (HANDLE) lParam;
+				dat->hDbEventFirst = hDbEvent;
+
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			db_event_get(hDbEvent, &dbei);
 			if (DbEventIsShown(&dbei, dat) && !(dbei.flags & DBEF_READ)) {
 				if ((dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)) && !(dbei.flags & DBEF_SENT)) {
 					if (GetForegroundWindow() == hwndDlg)
@@ -1416,7 +1394,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->lastMessage = dbei.timestamp;
 					SendMessage(hwndDlg, DM_UPDATELASTMESSAGE, 0, 0);
 				}
-				if ((HANDLE) lParam != dat->hDbEventFirst && (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, lParam, 0) == NULL)
+				if (hDbEvent != dat->hDbEventFirst && db_event_next(hDbEvent) == NULL)
 					SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
 				else
 					SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);

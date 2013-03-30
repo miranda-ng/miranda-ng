@@ -1102,7 +1102,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	if (oldStatus == newStatus)
 		return 0;
 
-	char *lpzProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )wParam, 0);
+	char *lpzProto = GetContactProto(hContact);
 
 	// ignore chat rooms
 	if (DBGetContactSettingByte(hContact, lpzProto, "ChatRoom", 0))

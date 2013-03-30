@@ -1541,8 +1541,8 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		std::wstring error = msg;
 		error += L"\n";
 		error += _error;
-		DBEVENTINFO dbei = {0};
-		dbei.cbSize = sizeof(DBEVENTINFO);
+
+		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 		dbei.szModule = MODULE;
 		dbei.flags = DBEF_UTF | DBEF_READ;
 		dbei.timestamp = time(NULL);
@@ -1553,7 +1553,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		char* buf = new char[dbei.cbBlob];
 		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, buf, dbei.cbBlob, NULL, NULL);
 		dbei.pBlob = (PBYTE)buf;
-		CallService(MS_DB_EVENT_ADD, NULL, (LPARAM) & dbei);
+		db_event_add(NULL, &dbei);
 	}
 
 	

@@ -640,8 +640,7 @@ int onSendFile(WPARAM w, LPARAM l)
 
 void HistoryLog(HANDLE hContact, db_event evt)
 {
-	DBEVENTINFO Event = {0};
-	Event.cbSize = sizeof(Event);
+	DBEVENTINFO Event = { sizeof(Event) };
 	Event.szModule = szGPGModuleName;
 	Event.eventType = evt.eventType;
 	Event.flags = evt.flags;
@@ -651,7 +650,7 @@ void HistoryLog(HANDLE hContact, db_event evt)
 		Event.timestamp = evt.timestamp;
 	Event.cbBlob = strlen((char*)evt.pBlob)+1;
 	Event.pBlob = (PBYTE)_strdup((char*)evt.pBlob);
-	CallService(MS_DB_EVENT_ADD, (WPARAM)(HANDLE)hContact,(LPARAM)&Event);
+	db_event_add(hContact, &Event);
 }
 
 static int ControlAddStringUtf(HWND ctrl, DWORD msg, const TCHAR *szString)

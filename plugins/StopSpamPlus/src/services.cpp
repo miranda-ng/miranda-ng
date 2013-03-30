@@ -3,18 +3,18 @@
 INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 {
 	HANDLE hContact = ( HANDLE )wParam;
-	std::string proto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0 );
+	std::string proto = GetContactProto(hContact);
 	
 	if ( !plSets->ProtoDisabled( proto.c_str()))
 		return CS_PASSED;
 
-	if ( DBGetContactSettingByte( hContact, pluginName, answeredSetting, 0 ))
+	if ( DBGetContactSettingByte(hContact, pluginName, answeredSetting, 0))
 		return CS_PASSED;
 
-	if ( !DBGetContactSettingByte( hContact, "CList", "NotOnList", 0) && DBGetContactSettingWord( hContact, proto.c_str(), "SrvGroupId", -1 ) != 1 )
+	if ( !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingWord( hContact, proto.c_str(), "SrvGroupId", -1 ) != 1)
 		return CS_PASSED;
 
-	if ( IsExistMyMessage( hContact ))
+	if ( IsExistMyMessage(hContact))
 		return CS_PASSED;
 
 	return CS_NOTPASSED;

@@ -112,24 +112,20 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 	{// user clicked on the "SMS Message" on one of the users
 		hwndSendSms=SendSMSWindowIsOtherInstanceHContact((HANDLE)wParam);
 		if (hwndSendSms)
-		{
 			SetFocus(hwndSendSms);
-		}else{
+		else
 			hwndSendSms=SendSMSWindowAdd((HANDLE)wParam);
-		}
-	}else{// user clicked on the "SMS Send" in the Main Menu
+	}
+	else{// user clicked on the "SMS Send" in the Main Menu
 		hwndSendSms=SendSMSWindowAdd(NULL);
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_NAME),TRUE);
 		EnableWindow(GetDlgItem(hwndSendSms,IDC_SAVENUMBER),FALSE);
 
-		for(HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-		{
-			if (GetContactPhonesCount(hContact))
-			{
+		for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+			if (GetContactPhonesCount(hContact)) {
 				SEND_DLG_ITEM_MESSAGEW(hwndSendSms,IDC_NAME,CB_ADDSTRING,0,(LPARAM)GetContactNameW(hContact));
 				SendSMSWindowSMSContactAdd(hwndSendSms,hContact);
 			}
-		}
 	}
 	return 0;
 }
@@ -138,88 +134,64 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 //This function used to popup a read SMS window after the user clicked on the received SMS message.
 int ReadMsgSMS(WPARAM wParam,LPARAM lParam)
 {
-	int iRet=1;
-	DBEVENTINFO dbei={0};
+	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
-	dbei.cbSize=sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)((CLISTEVENT*)lParam)->hDbEvent,0))!=-1)
-	{
-		dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-		if (dbei.pBlob)
-		{
-			if (CallService(MS_DB_EVENT_GET,(WPARAM)((CLISTEVENT*)lParam)->hDbEvent,(LPARAM)&dbei)==0)
-			if (dbei.eventType==ICQEVENTTYPE_SMS || dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)
-			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-			{
-				if (RecvSMSWindowAdd(((CLISTEVENT*)lParam)->hContact,ICQEVENTTYPE_SMS,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
-				{
-					CallService(MS_DB_EVENT_MARKREAD,(WPARAM)((CLISTEVENT*)lParam)->hContact,(LPARAM)((CLISTEVENT*)lParam)->hDbEvent);
-					iRet=0;
-				}
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(((CLISTEVENT*)lParam)->hDbEvent)) != -1) {
+		dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
+
+		if (db_event_get(cle->hDbEvent, &dbei) == 0)
+		if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
+		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
+			if (RecvSMSWindowAdd(cle->hContact,ICQEVENTTYPE_SMS,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
+				db_event_markRead(cle->hContact, cle->hDbEvent);
+				return 0;
 			}
-			MEMFREE(dbei.pBlob);
 		}
 	}
-return(iRet);
+	return 1;
 }
 
 //This function used to popup a read SMS window after the user clicked on the received SMS confirmation.
 int ReadAckSMS(WPARAM wParam,LPARAM lParam)
 {
-	int iRet=1;
-	DBEVENTINFO dbei={0};
+	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 
-	dbei.cbSize=sizeof(dbei);
-	CLISTEVENT *cle = ((CLISTEVENT*)lParam);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)cle->hDbEvent,0))!=-1)
-	{
-		dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
-		if (dbei.pBlob)
-		{
-			if (CallService(MS_DB_EVENT_GET,(WPARAM)cle->hDbEvent,(LPARAM)&dbei)==0)
-			if (dbei.eventType==ICQEVENTTYPE_SMS || dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)
-			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-			{
-				if (RecvSMSWindowAdd(cle->hContact,ICQEVENTTYPE_SMSCONFIRMATION,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
-				{
-					CallService(MS_DB_EVENT_DELETE,(WPARAM)cle->hContact,(LPARAM)cle->hDbEvent);
-					iRet=0;
-				}
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ((dbei.cbBlob = db_event_getBlobSize(cle->hDbEvent)) != -1) {
+		dbei.pBlob = (PBYTE)_alloca(dbei.cbBlob);
+
+		if (db_event_get(cle->hDbEvent, &dbei) == 0)
+		if (dbei.eventType == ICQEVENTTYPE_SMS || dbei.eventType == ICQEVENTTYPE_SMSCONFIRMATION)
+		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN) {
+			if (RecvSMSWindowAdd(cle->hContact, ICQEVENTTYPE_SMSCONFIRMATION, NULL, 0, (LPSTR)dbei.pBlob, dbei.cbBlob)) {
+				db_event_delete(cle->hContact, cle->hDbEvent);
+				return 0;
 			}
-			MEMFREE(dbei.pBlob);
 		}
 	}
-return(iRet);
+	return 1;
 }
 
 void RestoreUnreadMessageAlerts(void)
 {
-	DBEVENTINFO dbei={0};
-	HANDLE hDbEvent,hContact;
+	DBEVENTINFO dbei = { sizeof(dbei) };
 
-	dbei.cbSize=sizeof(dbei);
-	for(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-	for(hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);hDbEvent!=NULL;hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0))
-	{
-		dbei.cbBlob=0;
-		if (CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei)==0)
-		if ((dbei.flags&(DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
-		if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-		{
-			handleNewMessage((WPARAM)hContact,(LPARAM)hDbEvent);
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
+			dbei.cbBlob=0;
+			if (db_event_get(hDbEvent, &dbei) == 0)
+			if ((dbei.flags & (DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
+			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
+				handleNewMessage((WPARAM)hContact,(LPARAM)hDbEvent);
 		}
-	}
 
-	hContact=NULL;
-	for(hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);hDbEvent!=NULL;hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0))
-	{
+	for (HANDLE hDbEvent = db_event_firstUnread(NULL); hDbEvent; hDbEvent = db_event_next(hDbEvent)) {
 		dbei.cbBlob=0;
-		if (CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei)==0)
-		if ((dbei.flags&(DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
-		if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
-		{
-			handleNewMessage((WPARAM)hContact,(LPARAM)hDbEvent);
-		}
+		if (db_event_get(hDbEvent, &dbei) == 0)
+		if ((dbei.flags & (DBEF_SENT|DBEF_READ))==0 && ((dbei.eventType==ICQEVENTTYPE_SMS) || (dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)))
+		if (dbei.cbBlob > MIN_SMS_DBEVENT_LEN)
+			handleNewMessage(NULL, (LPARAM)hDbEvent);
 	}
 }
 

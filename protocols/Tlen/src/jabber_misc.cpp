@@ -26,16 +26,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void JabberDBAddEvent(TlenProtocol *proto, HANDLE hContact, int eventType, DWORD flags, PBYTE pBlob, DWORD cbBlob)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(DBEVENTINFO);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = proto->m_szModuleName;
 	dbei.timestamp = (DWORD) time(NULL);
 	dbei.flags = flags;
 	dbei.eventType = eventType;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;
-	CallService(MS_DB_EVENT_ADD, (WPARAM) hContact, (LPARAM) &dbei);
+	db_event_add(hContact, &dbei);
 }
+
 void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 {
 	char *s;

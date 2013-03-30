@@ -820,7 +820,7 @@ inform_and_discard:
 	if (m_jobs[iFound].dwFlags & PREF_UTF)
 		dbei.flags |= DBEF_UTF;
 	dbei.pBlob = (PBYTE) m_jobs[iFound].sendBuffer;
-	hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) m_jobs[iFound].hOwner, (LPARAM) & dbei);
+	hNewEvent = db_event_add(m_jobs[iFound].hOwner, &dbei);
 
 	if (m_pContainer) {
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))

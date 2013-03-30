@@ -268,26 +268,25 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
-	DBEVENTINFO dbei = { 0 };
 	int showColon = 0;
 
-	dbei.cbSize = sizeof(dbei);
-	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) hDbEvent, 0);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return NULL;
+
 	dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);
-	CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
+	db_event_get(hDbEvent, &dbei);
 	if (!DbEventIsShown(&dbei, dat)) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
-	{
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
+	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
+		db_event_markRead(hContact, hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM) hDbEvent);
 	}
 	else if (dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
-		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
+		db_event_markRead(hContact, hDbEvent);
 	}
 	bufferEnd = 0;
 	bufferAlloced = 1024;
@@ -298,41 +297,38 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
 
 	if (dbei.flags & DBEF_RTL) {
-        AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlpar");
+		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlpar");
 		dat->bIsAutoRTL = TRUE;
 	}
-    else
-        AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrpar");
+	else AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrpar");
 
 	streamData->isEmpty = 0;
 
 	if (dat->bIsAutoRTL) {
-		if(dbei.flags & DBEF_RTL) {
+		if(dbei.flags & DBEF_RTL)
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrch\\rtlch");
-		}else{
+		else
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlch\\ltrch");
-		}
 	}
 
 	if (g_dat.flags & SMF_SHOWICONS) {
 		int i;
 
 		switch (dbei.eventType) {
-			case EVENTTYPE_MESSAGE:
-				if (dbei.flags & DBEF_SENT) {
-					i = LOGICON_MSG_OUT;
-				}
-				else {
-					i = LOGICON_MSG_IN;
-				}
-				break;
-			case EVENTTYPE_JABBER_CHATSTATES:
-			case EVENTTYPE_JABBER_PRESENCE:
-			case EVENTTYPE_STATUSCHANGE:
-			case EVENTTYPE_FILE:
-			default:
-				i = LOGICON_MSG_NOTICE;
-				break;
+		case EVENTTYPE_MESSAGE:
+			if (dbei.flags & DBEF_SENT)
+				i = LOGICON_MSG_OUT;
+			else
+				i = LOGICON_MSG_IN;
+			break;
+
+		case EVENTTYPE_JABBER_CHATSTATES:
+		case EVENTTYPE_JABBER_PRESENCE:
+		case EVENTTYPE_STATUSCHANGE:
+		case EVENTTYPE_FILE:
+		default:
+			i = LOGICON_MSG_NOTICE;
+			break;
 		}
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
@@ -341,8 +337,8 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		CopyMemory(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
 		bufferEnd += logIconBmpSize[i];
 	}
-	if (g_dat.flags & SMF_SHOWTIME)
-	{
+
+	if (g_dat.flags & SMF_SHOWTIME) {
 		const TCHAR* szFormat;
 		TCHAR str[64];
 
@@ -357,6 +353,7 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, str);
 		showColon = 1;
 	}
+
 	if (!(g_dat.flags&SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_STATUSCHANGE && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		TCHAR* szName;
 		CONTACTINFO ci = {0};
@@ -477,7 +474,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 						dat->buffer = CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
 						if (dat->buffer)
 							dat->hDbEventLast = dat->hDbEvent;
-						dat->hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) dat->hDbEvent, 0);
+						dat->hDbEvent = db_event_next(dat->hDbEvent);
 						if (--dat->eventsToInsert == 0)
 							break;
 					} while (dat->buffer == NULL && dat->hDbEvent);

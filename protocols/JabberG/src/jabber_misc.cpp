@@ -142,7 +142,7 @@ void CJabberProto::DBAddAuthRequest(const TCHAR *jid, const TCHAR *nick)
 	strcpy((char*)pCurBlob, szJid); pCurBlob += strlen(szJid)+1;
 	*pCurBlob = '\0';					//reason
 
-	CallService(MS_DB_EVENT_ADD, (WPARAM)(HANDLE)NULL, (LPARAM)&dbei);
+	db_event_add(NULL, &dbei);
 	Log("Setup DBAUTHREQUEST with nick='%s' jid='%s'", szNick, szJid);
 
 	mir_free(szJid);
@@ -227,15 +227,14 @@ BOOL CJabberProto::AddDbPresenceEvent(HANDLE hContact, BYTE btEventType)
 		break;
 	}
 
-	DBEVENTINFO dbei;
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.pBlob = &btEventType;
 	dbei.cbBlob = sizeof(btEventType);
 	dbei.eventType = JABBER_DB_EVENT_TYPE_PRESENCE;
 	dbei.flags = DBEF_READ;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = m_szModuleName;
-	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
+	db_event_add(hContact, &dbei);
 
 	return TRUE;
 }

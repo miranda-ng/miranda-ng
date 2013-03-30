@@ -110,13 +110,10 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 // needed for msg_count_xxx substitutions
 int EventDeleted(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei = {0};
-	dbei.cbSize = sizeof(dbei);
-	if (!CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei))
-	{
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	if ( !db_event_get((HANDLE)lParam, &dbei))
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
 			DBDeleteContactSetting((HANDLE)wParam, MODULE, "LastCountTS");
-	}
 
 	return 0;
 }

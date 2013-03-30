@@ -62,18 +62,13 @@ static int GetStatusModeOrdering(int statusMode)
 
 DWORD CompareContacts2_getLMTime(HANDLE hContact)
 {
-	HANDLE hDbEvent;
-	DBEVENTINFO dbei = {0};
-
-	hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
+	HANDLE hDbEvent = db_event_last(hContact);
 	while(hDbEvent) {
-		dbei.cbSize = sizeof(dbei);
-		dbei.pBlob = 0;
-		dbei.cbBlob = 0;
-		CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
 			return dbei.timestamp;
-		hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hDbEvent, 0);
+		hDbEvent = db_event_prev(hDbEvent);
 	}
 	return 0;
 }
