@@ -31,7 +31,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SetDlgItemText(hwndDlg, IDC_FEEDURL, _T("http://"));
 			SetDlgItemText(hwndDlg, IDC_TAGSEDIT, _T(TAGSDEFAULT));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
-			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, 60, TRUE);
+			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DEFAULT_UPDATE_TIME, TRUE);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
 			Utils_RestoreWindowPositionNoSize(hwndDlg,NULL,MODULE,"AddDlg");
 			return TRUE;
@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)nSelItem);
 							SetDlgItemText(hwndDlg, IDC_FEEDURL, SelItem.url);
 							SetDlgItemText(hwndDlg, IDC_FEEDTITLE, SelItem.nick);
-							SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60), TRUE);
+							SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 							DBVARIANT dbMsg = {0};
 							if (!DBGetContactSettingTString(hContact, MODULE, "MsgFormat", &dbMsg))
 							{
@@ -228,8 +228,8 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				hContact = db_find_next(hContact);
 			}
-			WindowList_Add(hChangeFeedDlgList,hwndDlg,hContact);
-			Utils_RestoreWindowPositionNoSize(hwndDlg,hContact,MODULE,"ChangeDlg");
+			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
+			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 			return TRUE;
 		}
 		case WM_COMMAND:
@@ -305,13 +305,13 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					{
 						TCHAR tszTagHelp[1024];
 						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-							_T("#<title>#"),			TranslateT("The title of the item."),
-							_T("#<description>#"),		TranslateT("The item synopsis."),
-							_T("#<link>#"),	TranslateT("The URL of the item."),
+							_T("#<title>#"),		TranslateT("The title of the item."),
+							_T("#<description>#"),	TranslateT("The item synopsis."),
+							_T("#<link>#"),			TranslateT("The URL of the item."),
 							_T("#<author>#"),		TranslateT("Email address of the author of the item."),
-							_T("#<comments>#"),				TranslateT("URL of a page for comments relating to the item."),
-							_T("#<guid>#"),				TranslateT("A string that uniquely identifies the item."),
-							_T("#<category>#"),				TranslateT("Specify one or more categories that the item belongs to.")
+							_T("#<comments>#"),		TranslateT("URL of a page for comments relating to the item."),
+							_T("#<guid>#"),			TranslateT("A string that uniquely identifies the item."),
+							_T("#<category>#"),		TranslateT("Specify one or more categories that the item belongs to.")
 						);
 						MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 					}
@@ -351,8 +351,8 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_DESTROY:
 		{
 			HANDLE hContact = (HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			Utils_SaveWindowPosition(hwndDlg,hContact,MODULE,"ChangeDlg");
-			WindowList_Remove(hChangeFeedDlgList,hwndDlg);
+			Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
+			WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 			ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			delete SelItem;
 			break;
@@ -373,8 +373,8 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
 
 			HANDLE hContact = (HANDLE)lParam;
-			WindowList_Add(hChangeFeedDlgList,hwndDlg,hContact);
-			Utils_RestoreWindowPositionNoSize(hwndDlg,hContact,MODULE,"ChangeDlg");
+			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
+			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 			DBVARIANT dbNick = {0};
 			if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbNick))
 			{
@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)lParam);
 					SetDlgItemText(hwndDlg, IDC_FEEDURL, dbURL.ptszVal);
 					DBFreeVariant(&dbURL);
-					SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60), TRUE);
+					SetDlgItemInt(hwndDlg, IDC_CHECKTIME, DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME), TRUE);
 					DBVARIANT dbMsg = {0};
 					if (!DBGetContactSettingTString(hContact, MODULE, "MsgFormat", &dbMsg))
 					{
@@ -486,14 +486,14 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case IDC_TAGHELP:
 					{
 						TCHAR tszTagHelp[1024];
-						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-							_T("#<title>#"),			TranslateT("The title of the item."),
-							_T("#<description>#"),		TranslateT("The item synopsis."),
-							_T("#<link>#"),	TranslateT("The URL of the item."),
+						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+							_T("#<title>#"),		TranslateT("The title of the item."),
+							_T("#<description>#"),	TranslateT("The item synopsis."),
+							_T("#<link>#"),			TranslateT("The URL of the item."),
 							_T("#<author>#"),		TranslateT("Email address of the author of the item."),
-							_T("#<comments>#"),				TranslateT("URL of a page for comments relating to the item."),
-							_T("#<guid>#"),				TranslateT("A string that uniquely identifies the item."),
-							_T("#<category>#"),				TranslateT("Specify one or more categories that the item belongs to.")
+							_T("#<comments>#"),		TranslateT("URL of a page for comments relating to the item."),
+							_T("#<guid>#"),			TranslateT("A string that uniquely identifies the item."),
+							_T("#<category>#"),		TranslateT("Specify one or more categories that the item belongs to.")
 						);
 						MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
 					}
@@ -564,6 +564,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcAddFeedOpts, (LPARAM)hwndList);
 				}
 				return FALSE;
+
 			case IDC_CHANGE:
 				{
 					ItemInfo SelItem = {0};
@@ -575,6 +576,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
 				}
 				return FALSE;
+
 			case IDC_REMOVE:
 				{
 					if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
@@ -612,8 +614,110 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							hContact = db_find_next(hContact);
 						}
 					}
-					return FALSE;
 				}
+				return FALSE;
+
+			case IDC_IMPORT:
+				{
+					TCHAR FileName[MAX_PATH];
+					TCHAR *tszMirDir = Utils_ReplaceVarsT(_T("%miranda_path%"));
+
+					OPENFILENAME ofn = {0};
+					ofn.lStructSize = sizeof(ofn);
+					TCHAR tmp[MAX_PATH];
+					mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (*.opml, *.xml)%c*.opml;*.xml%c%c"), TranslateT("OPML files"), 0, 0, 0);
+					ofn.lpstrFilter = tmp;
+					ofn.hwndOwner = 0;
+					ofn.lpstrFile = FileName;
+					ofn.nMaxFile = MAX_PATH;
+					ofn.nMaxFileTitle = MAX_PATH;
+					ofn.Flags = OFN_HIDEREADONLY;
+					ofn.lpstrInitialDir = tszMirDir;
+					*FileName = '\0';
+					ofn.lpstrDefExt = _T("");
+
+					if (GetOpenFileName(&ofn)) 
+					{
+						int bytesParsed = 0;
+						HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
+						if(hXml != NULL)
+						{
+							HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
+							if ( !node)
+								node = xi.getChildByPath(hXml, _T("body/outline"), 0);
+							if (node)
+							{
+								while (node)
+								{
+									int outlineAttr = xi.getAttrCount(node);
+									int outlineChildsCount = xi.getChildCount(node);
+									TCHAR *type = (TCHAR*)xi.getAttrValue(node, _T("type"));
+									if ( !type && !outlineChildsCount)
+										//следующий тег
+										node = xi.getNextNode(node);
+									else if (!type && outlineChildsCount)
+									{
+										//получаем чайлд
+										node = xi.getFirstChild(node);
+										//if ( !node)
+
+										/*TCHAR *group = NULL;
+										for (int i = 0; i < outlineAttr; i++)
+										{
+											if (!lstrcmpi(xi.getAttrName(node, i), _T("title")))
+											{
+												group = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												break;
+											}
+										}
+												
+										for (int i = 0; i < outlineChildsCount; i++)
+										{
+											HXML elem = xi.getChild(node, i);
+										}*/
+									} else if (type) {
+										TCHAR *title = NULL, *url = NULL;
+										for (int i = 0; i < outlineAttr; i++)
+										{
+											if (!lstrcmpi(xi.getAttrName(node, i), _T("title")))
+											{
+												title = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												continue;
+											}
+											if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl")))
+											{
+												url = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												continue;
+											}
+										}
+										HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+										CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
+										db_set_ts(hContact, MODULE, "Nick", title);
+										db_set_ts(hContact, MODULE, "URL", url);
+										db_set_b(hContact, MODULE, "CheckState", 1);
+										db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
+										db_set_ts(hContact, MODULE, "MsgFormat", _T(TAGSDEFAULT));
+										db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+										node = xi.getNextNode(node);
+									}
+								}
+							} else
+								MessageBox(NULL, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+							xi.destroyNode(hXml);
+						} else
+							MessageBox(NULL, TranslateT("Not valid import file."), TranslateT("Error"), MB_OK | MB_ICONERROR);
+	
+						DeleteAllItems(hwndList);
+						UpdateList(hwndList);
+					}
+					mir_free(tszMirDir);
+				}
+				return FALSE;
+
+			case IDC_EXPORT:
+				{
+				}
+				return FALSE;
 
 			case IDC_STARTUPRETRIEVE:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

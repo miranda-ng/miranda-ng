@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Включаемый файл, созданный в Microsoft Visual C++.
-// Используется D:\Miranda NG\plugins\NewsAggregator\res\Resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by C:\Temp\Myranda\plugins\NewsAggregator\res\Resource.rc
 //
 #define IDD_OPTIONS                     101
 #define IDI_ICON                        109
@@ -16,8 +16,8 @@
 #define IDC_ADD                         1037
 #define IDC_CHANGE                      1038
 #define IDC_REMOVE                      1039
-#define IDC_IMORT                       1040
-#define IDC_EXORT                       1041
+#define IDC_IMPORT                      1040
+#define IDC_EXPORT                      1041
 #define IDC_FEEDTITLE                   1042
 #define IDC_FEEDURL                     1043
 #define IDC_CHECKTIME                   1044

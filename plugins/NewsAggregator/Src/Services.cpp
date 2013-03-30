@@ -174,7 +174,7 @@ INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL)
 	{
-		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60))
+		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 			UpdateListAdd(hContact);
 		else if (IsMyContact(hContact) && !lParam)
 			UpdateListAdd(hContact);
@@ -239,7 +239,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	// if GAIF_FORCE is set, we are updating the feed
 	// otherwise, cached avatar is used
-	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", 60))
+	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
 		UpdateListAdd(pai->hContact);
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, (LPVOID)TRUE);

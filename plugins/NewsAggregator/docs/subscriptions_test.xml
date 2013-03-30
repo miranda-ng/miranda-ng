@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>BasiL: подписки в Google Reader</title>
+    </head>
+    <body>
+        <outline text="ithappens" title="ithappens" type="rss"
+            xmlUrl="http://ithappens.ru/rss" htmlUrl="http://ithappens.ru/"/>
+        <outline title="Computerra" text="Computerra">
+            <outline title="My_Test" text="My_Test">
+                <outline text="bash" title="bash" type="rss"
+                    xmlUrl="http://bash.im/rss" htmlUrl="http://bash.im/"/>
+            </outline>
+            <outline text="inside" title="inside" type="rss"
+                xmlUrl="http://www.ctinside.com/feeds/posts/default" htmlUrl="http://www.ctinside.com/"/>
+            <outline text="Компьюлента" title="Компьюлента" type="rss"
+                xmlUrl="http://www.compulenta.ru/rss.xml" htmlUrl="http://www.compulenta.ru"/>
+            <outline text="Статьи Компьютерры"
+                title="Статьи Компьютерры" type="rss"
+                xmlUrl="http://www.computerra.ru/rss.xml" htmlUrl="http://www.computerra.ru"/>
+        </outline>
+        <outline title="Soft" text="Soft">
+            <outline
+                text="Downloads for project cm9-wildfire-s on Google Code"
+                title="Downloads for project cm9-wildfire-s on Google Code"
+                type="rss"
+                xmlUrl="https://code.google.com/feeds/p/cm9-wildfire-s/downloads/basic" htmlUrl="http://code.google.com/p/cm9-wildfire-s/downloads/list"/>
+            <outline text="Downloads for project uawks on Google Code"
+                title="Downloads for project uawks on Google Code"
+                type="rss"
+                xmlUrl="http://code.google.com/feeds/p/uawks/downloads/basic" htmlUrl="http://code.google.com/p/uawks/downloads/list"/>
+            <outline
+                text="Issue updates for project uawks on Google Code"
+                title="Issue updates for project uawks on Google Code"
+                type="rss"
+                xmlUrl="http://code.google.com/feeds/p/uawks/issueupdates/basic" htmlUrl="http://code.google.com/p/uawks/issues/list"/>
+            <outline
+                text="Mercurial commits to project uawks on Google Code"
+                title="Mercurial commits to project uawks on Google Code"
+                type="rss"
+                xmlUrl="http://code.google.com/feeds/p/uawks/hgchanges/basic" htmlUrl="http://code.google.com/p/uawks/source/list"/>
+            <outline text="Punk" title="Punk" type="rss"
+                xmlUrl="http://www.punksoftware.com/rss" htmlUrl="http://punklabs.com/rss"/>
+            <outline text="Tomato by Shibby" title="Tomato by Shibby"
+                type="rss" xmlUrl="http://tomato.groov.pl/?feed=rss2" htmlUrl="http://tomato.groov.pl"/>
+            <outline text="TOR" title="TOR" type="rss"
+                xmlUrl="http://rss.gmane.org/gmane.network.onion-routing.announce" htmlUrl="http://permalink.gmane.org/gmane.network.onion-routing.announce"/>
+            <outline text="VideoLAN" title="VideoLAN" type="rss"
+                xmlUrl="http://www.videolan.org/videolan-news.rss" htmlUrl="http://www.videolan.org/"/>
+        </outline>
+        <outline title="Miranda" text="Miranda">
+            <outline text="Dev Blog" title="Dev Blog" type="rss"
+                xmlUrl="http://feeds.miranda-im.org/mirandadevjournal" htmlUrl="http://www.miranda-im.org"/>
+            <outline text="FLNew" title="FLNew" type="rss"
+                xmlUrl="http://feeds.miranda-im.org/mirandalast10add" htmlUrl="http://addons.miranda-im.org"/>
+            <outline text="FLupd" title="FLupd" type="rss"
+                xmlUrl="http://feeds.miranda-im.org/mirandalast10upd" htmlUrl="http://addons.miranda-im.org"/>
+            <outline text="mir-rl project updates - Google Code"
+                title="mir-rl project updates - Google Code" type="rss"
+                xmlUrl="http://code.google.com/feeds/p/mir-rl/updates/basic" htmlUrl="http://code.google.com/p/mir-rl/updates/list"/>
+            <outline text="Miranda IM" title="Miranda IM" type="rss"
+                xmlUrl="http://feeds.feedburner.com/mirandaannouncements" htmlUrl="http://www.miranda-im.org"/>
+            <outline text="Miranda IM Community"
+                title="Miranda IM Community" type="rss"
+                xmlUrl="http://community.livejournal.com/ru_mirandaim/data/rss" htmlUrl="http://ru-mirandaim.livejournal.com/"/>
+            <outline text="Miranda NG Tickets"
+                title="Miranda NG Tickets" type="rss"
+                xmlUrl="http://trac.miranda-ng.org/report/1?asc=1&amp;format=rss" htmlUrl="http://trac.miranda-ng.org/report/1"/>
+            <outline
+                text="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
+                title="Miranda-Planet - ваша планета Miranda IM ( билды, сборки, скины, плагины, русификация, WiKi, Форум )"
+                type="rss" xmlUrl="http://miranda-planet.com/rss.xml" htmlUrl="http://miranda-planet.com/"/>
+            <outline text="MirandaNG SVN" title="MirandaNG SVN"
+                type="rss"
+                xmlUrl="http://bugs.miranda-ng.org/log/?format=rss&amp;limit=100&amp;mode=stop_on_copy" htmlUrl="http://bugs.miranda-ng.org/log/?rev=4037"/>
+            <outline text="ruCommunity" title="ruCommunity" type="rss"
+                xmlUrl="http://forum.miranda.im/external.php?type=RSS2" htmlUrl="http://forum.miranda.im"/>
+        </outline>
+        <outline title="Habr" text="Habr">
+            <outline text="Android" title="Android" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/android/" htmlUrl="http://habrahabr.ru/rss/hub/android/"/>
+            <outline text="Design" title="Design" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/design/" htmlUrl="http://habrahabr.ru/rss/hub/design/"/>
+            <outline text="DSLR" title="DSLR" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/dslr/" htmlUrl="http://habrahabr.ru/rss/blog/dslr/"/>
+            <outline text="Future" title="Future" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/the_future_is_here/" htmlUrl="http://habrahabr.ru/rss/hub/the_future_is_here/"/>
+            <outline text="Google" title="Google" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/google/" htmlUrl="http://habrahabr.ru/rss/hub/google/"/>
+            <outline text="Hardware" title="Hardware" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/hardware/" htmlUrl="http://habrahabr.ru/rss/hub/hardware/"/>
+            <outline text="IM" title="IM" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/im/" htmlUrl="http://habrahabr.ru/rss/hub/im/"/>
+            <outline text="Jabber" title="Jabber" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/jabber/" htmlUrl="http://habrahabr.ru/rss/blogs/jabber/"/>
+            <outline text="Miranda" title="Miranda" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/miranda/" htmlUrl="http://habrahabr.ru/rss/blogs/miranda/"/>
+            <outline text="Netbook" title="Netbook" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/netbook/" htmlUrl="http://habrahabr.ru/rss/hub/netbook/"/>
+            <outline text="OldThings" title="OldThings" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/retro/" htmlUrl="http://habrahabr.ru/rss/blogs/retro/"/>
+            <outline text="Robots" title="Robots" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/robot/" htmlUrl="http://habrahabr.ru/rss/hub/robot/"/>
+            <outline text="sciense" title="sciense" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/popular_science/" htmlUrl="http://habrahabr.ru/rss/hub/popular_science/"/>
+            <outline text="TC" title="TC" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/totalcmd/" htmlUrl="http://habrahabr.ru/rss/blogs/totalcmd/"/>
+            <outline text="Telecom" title="Telecom" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/telecom/" htmlUrl="http://habrahabr.ru/rss/hub/telecom/"/>
+            <outline text="Win7" title="Win7" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/windows7/" htmlUrl="http://habrahabr.ru/rss/blogs/windows7/"/>
+            <outline text="Хабрахабр / Биотехнологии / Захабренные"
+                title="Хабрахабр / Биотехнологии / Захабренные"
+                type="rss"
+                xmlUrl="http://habrahabr.ru/rss/blogs/biotech/" htmlUrl="http://habrahabr.ru/rss/hub/biotech/"/>
+            <outline text="Хабрахабр:  Метки / wzor.net"
+                title="Хабрахабр:  Метки / wzor.net" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/tag/wzor.net/" htmlUrl="http://habrahabr.ru/rss/tag/wzor.net/"/>
+        </outline>
+        <outline title="News" text="News">
+            <outline text="2КОМ (новости)" title="2КОМ (новости)"
+                type="rss"
+                xmlUrl="http://www.2kom.ru/home/news/-rss.xml" htmlUrl="http://www.2kom.ru/home/news.html"/>
+            <outline text="4PDA" title="4PDA" type="rss"
+                xmlUrl="http://4pda.ru/feed/" htmlUrl="http://4pda.ru/"/>
+            <outline text="FotoTips.ru" title="FotoTips.ru" type="rss"
+                xmlUrl="http://feeds.feedburner.com/fototipsru" htmlUrl="http://fototips.ru"/>
+            <outline text="LifeHack.ru" title="LifeHack.ru" type="rss"
+                xmlUrl="http://www.lifehack.ru/rss/" htmlUrl="http://lifehack.ru"/>
+            <outline text="MForum.ru" title="MForum.ru" type="rss"
+                xmlUrl="http://www.mforum.ru/rss/news.xml" htmlUrl="http://www.mforum.ru/"/>
+            <outline text="Overclockers.ru" title="Overclockers.ru"
+                type="rss"
+                xmlUrl="http://www.overclockers.ru/rss/all.rss" htmlUrl="http://www.overclockers.ru"/>
+            <outline text="revolver.ru" title="revolver.ru" type="rss"
+                xmlUrl="http://revolver.ru/rss" htmlUrl="http://revolver.ru/"/>
+            <outline text="Самый сок!" title="Самый сок!" type="rss"
+                xmlUrl="http://ibigdan.livejournal.com/data/rss" htmlUrl="http://ibigdan.livejournal.com/"/>
+            <outline text="Танки Онлайн" title="Танки Онлайн" type="rss"
+                xmlUrl="http://blog.tankionline.com/feed/" htmlUrl="http://news.tankionline.com"/>
+            <outline text="Фергана.Ру" title="Фергана.Ру" type="rss"
+                xmlUrl="http://news.ferghana.ru/news.xml" htmlUrl="http://www.fergananews.com"/>
+        </outline>
+        <outline title="TC" text="TC">
+            <outline text="en.totalcmd.pl" title="en.totalcmd.pl"
+                type="rss" xmlUrl="http://en.totalcmd.pl/rss" htmlUrl="http://en.totalcmd.pl"/>
+            <outline text="tc" title="tc" type="rss"
+                xmlUrl="http://wincmd.ru/rss.xml" htmlUrl="http://wincmd.ru"/>
+        </outline>
+        <outline title="Science" text="Science">
+            <outline text="Astronet" title="Astronet" type="rss"
+                xmlUrl="http://www.astronet.ru/db/rss.xml" htmlUrl="http://www.astronet.ru/"/>
+            <outline text="COPAH.info - Наука. Сибирь. Общество"
+                title="COPAH.info - Наука. Сибирь. Общество" type="rss"
+                xmlUrl="http://www.copah.info/rss" htmlUrl="http://www.copah.info/rss"/>
+            <outline text="LHC" title="LHC" type="rss"
+                xmlUrl="http://fulltextrssfeed.com/elementy.ru/rss/news/LHC" htmlUrl="http://elementy.ru/LHC/news"/>
+            <outline text="Membrana.ru" title="Membrana.ru" type="rss"
+                xmlUrl="http://ftr.fivefilters.org/makefulltextfeed.php?url=http%3A%2F%2Fwww.membrana.ru%2Fexport%2Frss.xml&amp;max=1" htmlUrl="http://www.membrana.ru"/>
+            <outline text="Иванов" title="Иванов" type="rss"
+                xmlUrl="http://igorivanov.blogspot.com/feeds/posts/default" htmlUrl="http://igorivanov.blogspot.com/"/>
+            <outline text="НаукаИжизнь" title="НаукаИжизнь" type="rss"
+                xmlUrl="http://fulltextrssfeed.com/www.nkj.ru/rss/iblock_rss_31.xml" htmlUrl="http://www.nkj.ru"/>
+            <outline text="Элементы" title="Элементы" type="rss"
+                xmlUrl="http://fulltextrssfeed.com/elementy.ru/rss/news" htmlUrl="http://elementy.ru/"/>
+        </outline>
+        <outline title="Moviez" text="Moviez">
+            <outline text="Twitter / kuraj_bambey"
+                title="Twitter / kuraj_bambey" type="rss"
+                xmlUrl="http://twitter.com/statuses/user_timeline/44353505.rss" htmlUrl="http://twitter.com/kuraj_bambey"/>
+            <outline text="Мосенька" title="Мосенька" type="rss"
+                xmlUrl="http://feed.rutracker.org/atom/u/0/26/3796626.atom" htmlUrl="http://rutracker.org/forum/profile.php?mode=viewprofile&amp;u=3796626"/>
+        </outline>
+    </body>
+</opml>

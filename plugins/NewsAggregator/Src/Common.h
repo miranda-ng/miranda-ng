@@ -49,6 +49,8 @@ Boston, MA 02111-1307, USA.
 #define MODULE	"NewsAggregator"
 #define TAGSDEFAULT "#<title>#\r\n#<link>#\r\n#<description>#"
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
+#define DEFAULT_UPDATE_TIME 60
+
 extern HINSTANCE hInst;
 extern HWND hAddFeedDlg;
 extern HANDLE hChangeFeedDlgList;

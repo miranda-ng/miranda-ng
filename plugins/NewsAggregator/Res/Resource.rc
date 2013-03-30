@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -48,8 +48,8 @@ BEGIN
     PUSHBUTTON      "Add",IDC_ADD,79,187,50,14
     PUSHBUTTON      "Change",IDC_CHANGE,133,187,50,14
     PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
-    PUSHBUTTON      "Import",IDC_IMORT,252,204,50,14
-    PUSHBUTTON      "Export",IDC_EXORT,252,219,50,14
+    PUSHBUTTON      "Import",IDC_IMPORT,252,204,50,14
+    PUSHBUTTON      "Export",IDC_EXPORT,252,219,50,14
     CONTROL         "Retrieve news at startup",IDC_STARTUPRETRIEVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,205,203,10
 END
 
@@ -80,7 +80,7 @@ BEGIN
     LTEXT           "All item's tags are valid. Put them between #. Example: #<author>#",IDC_STATIC,14,182,160,16
     PUSHBUTTON      "Reset",IDC_RESET,192,184,45,14
     PUSHBUTTON      "?",IDC_TAGHELP,175,184,15,14
-    LTEXT           "0 - check manually",IDC_STATIC,100,55,79,8
+    LTEXT           "0 - check manually",IDC_STATIC,100,55,78,8
     EDITTEXT        IDC_CHECKTIME,64,45,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,85,45,11,12
 END
@@ -134,7 +134,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
