@@ -173,6 +173,7 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories>$(ProfileDir)..\bin11\lib</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>miranda32.def</ModuleDefinitionFile>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

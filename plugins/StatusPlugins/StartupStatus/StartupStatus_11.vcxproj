@@ -100,6 +100,7 @@
       <AdditionalDependencies>wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin11\lib</AdditionalLibraryDirectories>
       <DelayLoadDLLs>wininet.dll</DelayLoadDLLs>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
