@@ -540,6 +540,18 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	return FALSE;
 }
 
+void CreateCListGroup(TCHAR* szGroupName)
+{
+	int hGroup;
+	CLIST_INTERFACE *clint = NULL;
+
+	if (ServiceExists(MS_CLIST_RETRIEVE_INTERFACE))
+		clint = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
+	hGroup = CallService(MS_CLIST_GROUPCREATE, 0, 0);
+	TCHAR* usTmp = szGroupName;
+	clint->pfnRenameGroup(hGroup, usTmp);
+}
+ 
 INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_FEEDLIST);
@@ -642,6 +654,9 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 						if(hXml != NULL)
 						{
+							BYTE isUTF = 0;
+							if ( !lstrcmpi(xi.getAttrValue(hXml, _T("encoding")), _T("UTF-8")))
+								isUTF = 1;
 							HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 							if ( !node)
 								node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -653,43 +668,65 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 									int outlineChildsCount = xi.getChildCount(node);
 									TCHAR *type = (TCHAR*)xi.getAttrValue(node, _T("type"));
 									if ( !type && !outlineChildsCount)
-										//следующий тег
-										node = xi.getNextNode(node);
-									else if (!type && outlineChildsCount)
 									{
-										//получаем чайлд
-										node = xi.getFirstChild(node);
-										//if ( !node)
-
-										/*TCHAR *group = NULL;
-										for (int i = 0; i < outlineAttr; i++)
+										HXML tmpnode = node;
+										node = xi.getNextNode(node);
+										if ( !node)
 										{
-											if (!lstrcmpi(xi.getAttrName(node, i), _T("title")))
-											{
-												group = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
-												break;
-											}
+											node = xi.getParent(tmpnode);
+											node = xi.getNextNode(node);
 										}
-												
-										for (int i = 0; i < outlineChildsCount; i++)
-										{
-											HXML elem = xi.getChild(node, i);
-										}*/
-									} else if (type) {
-										TCHAR *title = NULL, *url = NULL;
+									}
+									else if (!type && outlineChildsCount)
+										node = xi.getFirstChild(node);
+									else if (type) {
+										TCHAR *title = NULL, *url = NULL, *group = NULL;
 										for (int i = 0; i < outlineAttr; i++)
 										{
 											if (!lstrcmpi(xi.getAttrName(node, i), _T("title")))
 											{
-												title = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												if (isUTF)
+													title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+												else
+													title = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
 												continue;
 											}
 											if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl")))
 											{
-												url = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												if (isUTF)
+													url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+												else
+													url = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
 												continue;
 											}
+											if (title && url)
+												break;
 										}
+
+										HXML parent = xi.getParent(node);
+										LPCTSTR tmp = xi.getName(parent);
+										while (lstrcmpi(xi.getName(parent), _T("body")))
+										{
+											for (int i = 0; i < xi.getAttrCount(parent); i++)
+											{
+												if (!lstrcmpi(xi.getAttrName(parent, i), _T("title")))
+												{
+													if ( !group)
+														group = (TCHAR*)xi.getAttrValue(parent, xi.getAttrName(parent, i));
+													else
+													{
+														TCHAR tmpgroup[1024];
+														mir_sntprintf(tmpgroup, SIZEOF(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
+														group = tmpgroup;
+													}
+													break;
+												}
+											}
+											parent = xi.getParent(parent);
+										}
+										if (isUTF)
+											group = mir_utf8decodeT(_T2A(group));
+
 										HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 										CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 										db_set_ts(hContact, MODULE, "Nick", title);
@@ -698,7 +735,39 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
 										db_set_ts(hContact, MODULE, "MsgFormat", _T(TAGSDEFAULT));
 										db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
+										if (group)
+										{
+											db_set_ts(hContact, "CList", "Group", group);
+											int hGroup = 1;
+											char *group_name;
+											BYTE GroupExist = 0;
+											do {
+												group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
+												if (group_name != NULL && !strcmp(group_name, _T2A(group))) {
+													GroupExist = 1;
+													break;
+												}
+												hGroup++;
+											}
+											while (group_name);
+
+											if(!GroupExist)
+												CreateCListGroup(group);
+										}
+										if (isUTF)
+										{
+											mir_free(title);
+											mir_free(url);
+											mir_free(group);
+										}
+
+										HXML tmpnode = node;
 										node = xi.getNextNode(node);
+										if ( !node)
+										{
+											node = xi.getParent(tmpnode);
+											node = xi.getNextNode(node);
+										}
 									}
 								}
 							} else
