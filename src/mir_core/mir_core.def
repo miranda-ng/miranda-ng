@@ -142,3 +142,15 @@ KillModuleSubclassing         @139
 mir_wstrndup                  @140
 mir_unsubclassWindow          @141
 mir_urlEncode                 @142
+db_event_add                  @143
+db_event_count                @144
+db_event_delete               @145
+db_event_first                @146
+db_event_firstUnread          @147
+db_event_get                  @148
+db_event_getBlobSize          @149
+db_event_getContact           @150
+db_event_last                 @151
+db_event_markRead             @152
+db_event_next                 @153
+db_event_prev                 @154

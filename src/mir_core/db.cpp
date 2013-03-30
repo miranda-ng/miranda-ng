@@ -217,6 +217,69 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const c
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// events
+
+MIR_CORE_DLL(HANDLE) db_event_add(HANDLE hContact, DBEVENTINFO *dbei)
+{
+	return (currDb == NULL) ? 0 : currDb->AddEvent(hContact, dbei);
+}
+
+MIR_CORE_DLL(int) db_event_count(HANDLE hContact)
+{
+	return (currDb == NULL) ? 0 : currDb->GetEventCount(hContact);
+}
+
+MIR_CORE_DLL(int) db_event_delete(HANDLE hContact, HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->DeleteEvent(hContact, hDbEvent);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_first(HANDLE hContact)
+{
+	return (currDb == NULL) ? 0 : currDb->FindFirstEvent(hContact);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_firstUnread(HANDLE hContact)
+{
+	return (currDb == NULL) ? 0 : currDb->FindFirstUnreadEvent(hContact);
+}
+
+MIR_CORE_DLL(int) db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei)
+{
+	return (currDb == NULL) ? 1 : currDb->GetEvent(hDbEvent, dbei);
+}
+
+MIR_CORE_DLL(int) db_event_getBlobSize(HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->GetBlobSize(hDbEvent);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_getContact(HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->GetEventContact(hDbEvent);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_last(HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->FindLastEvent(hDbEvent);
+}
+
+MIR_CORE_DLL(int) db_event_markRead(HANDLE hContact, HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->MarkEventRead(hContact, hDbEvent);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_next(HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->FindNextEvent(hDbEvent);
+}
+
+MIR_CORE_DLL(HANDLE) db_event_prev(HANDLE hDbEvent)
+{
+	return (currDb == NULL) ? 0 : currDb->FindPrevEvent(hDbEvent);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // misc functions
 
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)

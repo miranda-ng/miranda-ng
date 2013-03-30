@@ -736,7 +736,7 @@ typedef struct {
 Copies a message from a PROTORECVEVENT event into the database
   wParam = 0 (unused)
   lParam = CCSDATA*
-Returns the result of MS_DB_EVENT_ADD
+Returns the result of db_event_add()
 */
 #define PSR_MESSAGE   "/RecvMessage"
 
@@ -752,7 +752,7 @@ __forceinline INT_PTR Proto_RecvMessage(HANDLE hContact, PROTORECVEVENT *pcre)
 Copies the EVENTTYPE_AUTHREQUEST event from PROTORECVEVENT into DBEVENTINFO and adds it
   wParam = char* : protocol name
   lParam = PROTORECVEVENT*
-Returns the result of MS_DB_EVENT_ADD
+Returns the result of db_event_add()
 */
 #define PSR_AUTH		"/RecvAuth"
 

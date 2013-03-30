@@ -413,27 +413,6 @@ modules are free to define their own, beginning at 2000
 DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
 db/time/x below with useful stuff for dealing with it.
 */
-#define DBEF_FIRST    1    //this is the first event in the chain;
-                           //internal only: *do not* use this flag
-#define DBEF_SENT     2    //this event was sent by the user. If not set this
-                           //event was received.
-#define DBEF_READ     4    //event has been read by the user. It does not need
-                           //to be processed any more except for history.
-#define DBEF_RTL      8    //event contains the right-to-left aligned text
-#define DBEF_UTF     16    //event contains a text in utf-8
-
-typedef struct {
-	int cbSize;       //size of the structure in bytes
-	char *szModule;	  //pointer to name of the module that 'owns' this
-                      //event, ie the one that is in control of the data format
-	DWORD timestamp;  //seconds since 00:00, 01/01/1970. Gives us times until
-	                  //2106 unless you use the standard C library which is
-					  //signed and can only do until 2038. In GMT.
-	DWORD flags;	  //the omnipresent flags
-	WORD eventType;	  //module-defined event type field
-	DWORD cbBlob;	  //size of pBlob in bytes
-	PBYTE pBlob;	  //pointer to buffer containing module-defined event data
-} DBEVENTINFO;
 
 #define EVENTTYPE_MESSAGE   0
 #define EVENTTYPE_URL       1
@@ -488,7 +467,7 @@ of modules. Look but don't touch.
 Retrieves the event's text
   wParam = (WPARAM)0 (unused)
   lParam = (LPARAM)(DBEVENTGETTEXT*)egt - pointer to structure with parameters
-  egt->dbei should be the valid database event read via MS_DB_EVENT_GET
+  egt->dbei should be the valid database event read via db_event_get()
   egt->datatype = DBVT_WCHAR or DBVT_ASCIIZ or DBVT_TCHAR. If a caller wants to
 suppress Unicode part of event in answer, add DBVTF_DENYUNICODE to this field.
   egt->codepage is any valid codepage, CP_ACP by default.
@@ -526,7 +505,7 @@ __forceinline TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
 Retrieves the event's icon
   wParam = (WPARAM)(int)flags - use LR_SHARED for shared HICON
   lParam = (LPARAM)(DBEVENTINFO*)dbei
-dbei should be a valid database event read via MS_DB_EVENT_GET
+dbei should be a valid database event read via db_event_get()
 
 Function returns HICON (use DestroyIcon to release resources if not LR_SHARED)
 
@@ -777,7 +756,7 @@ at any particular position in the chain.
 Called **before** a new event is made of a DBEVENTINFO structure, this
 hook is not SAFE unless you know what you're doing with it, the arguments
 are passed as-is (with errors, pointer problems, if any) from any arguments
-passed to MS_DB_EVENT_ADD.
+passed to db_event_add.
 
 The point of this hook is to stop any unwanted database events, to stop
 an event being added, return 1, to allow the event to pass through return

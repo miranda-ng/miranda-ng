@@ -84,6 +84,28 @@ typedef struct {
 	};
 } DBVARIANT;
 
+#define DBEF_FIRST    1    //this is the first event in the chain;
+                           //internal only: *do not* use this flag
+#define DBEF_SENT     2    //this event was sent by the user. If not set this
+                           //event was received.
+#define DBEF_READ     4    //event has been read by the user. It does not need
+                           //to be processed any more except for history.
+#define DBEF_RTL      8    //event contains the right-to-left aligned text
+#define DBEF_UTF     16    //event contains a text in utf-8
+
+typedef struct {
+	int cbSize;       //size of the structure in bytes
+	char *szModule;	  //pointer to name of the module that 'owns' this
+                      //event, ie the one that is in control of the data format
+	DWORD timestamp;  //seconds since 00:00, 01/01/1970. Gives us times until
+	                  //2106 unless you use the standard C library which is
+					  //signed and can only do until 2038. In GMT.
+	DWORD flags;	  //the omnipresent flags
+	WORD eventType;	  //module-defined event type field
+	DWORD cbBlob;	  //size of pBlob in bytes
+	PBYTE pBlob;	  //pointer to buffer containing module-defined event data
+} DBEVENTINFO;
+
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv);
 MIR_CORE_DLL(INT_PTR) db_unset(HANDLE hContact, const char *szModule, const char *szSetting);
 
@@ -94,6 +116,19 @@ MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto = NULL);
 MIR_CORE_DLL(HANDLE)  db_find_first(const char *szProto);
 MIR_CORE_DLL(HANDLE)  db_find_next(HANDLE hContact, const char *szProto);
 #endif
+
+MIR_CORE_DLL(HANDLE)  db_event_add(HANDLE hContact, DBEVENTINFO *dbei);
+MIR_CORE_DLL(int)     db_event_count(HANDLE hContact);
+MIR_CORE_DLL(int)     db_event_delete(HANDLE hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE)  db_event_first(HANDLE hContact);
+MIR_CORE_DLL(HANDLE)  db_event_firstUnread(HANDLE hContact);
+MIR_CORE_DLL(int)     db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei);
+MIR_CORE_DLL(int)     db_event_getBlobSize(HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE)  db_event_getContact(HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE)  db_event_last(HANDLE hDbEvent);
+MIR_CORE_DLL(int)     db_event_markRead(HANDLE hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE)  db_event_next(HANDLE hDbEvent);
+MIR_CORE_DLL(HANDLE)  db_event_prev(HANDLE hDbEvent);
 
 MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
 MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);

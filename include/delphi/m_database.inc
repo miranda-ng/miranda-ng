@@ -242,7 +242,7 @@ const
 Registers the specified database event type, with module, id & description.
 When someone needs to retrieve an event's text, a service named Module/GetEventText<id>
 will be called. For example, for module named 'foo' and event id 2000 a service
-foo/GetEventText2000 should be defined to process this request. That handler should 
+foo/GetEventText2000 should be defined to process this request. That handler should
 decode a blob and return the event text in the required format, its prototype is identical
 to a call of MS_DB_EVENT_GETTEXT (see below)
   wParam=0
@@ -316,31 +316,6 @@ const
              DBEVENTINFO.timestamp is in GMT, as returned by time()
   }
 
-  DBEF_FIRST =  1; // internally only, do not use
-  DBEF_SENT  =  2; // if set, the event was sent by the user, otherwise it was received
-  DBEF_READ  =  4; // event has been read by the user -- only needed for history
-  DBEF_RTL   =  8; // event contains the right-to-left aligned text
-  DBEF_UTF   = 16; // event contains a text in utf-8
-
-  EVENTTYPE_MESSAGE     = 0;
-  EVENTTYPE_URL         = 1;
-  EVENTTYPE_CONTACTS    = 2;     // v0.1.2.2+
-  EVENTTYPE_ADDED       = 1000;  // v0.1.1.0+: these used to be module-
-  EVENTTYPE_AUTHREQUEST = 1001;  // specific codes, hence the module-
-  EVENTTYPE_FILE        = 1002;  // specific limit has been raised to 2000
-
-type
-  PDBEVENTINFO = ^TDBEVENTINFO;
-  TDBEVENTINFO = record
-    cbSize   : int;  // size of the structure
-    szModule : PAnsiChar; // module that 'owns' this event and controls the data format
-    timestamp: DWORD; // timestamp in UNIX time
-    flags    : DWORD; // the DBEF_* flags above
-    eventType: WORD;  // event type, such as message, can be module defined
-    cbBlob   : DWORD; // size in bytes of pBlob^
-    pBlob    : PByte; // pointer to buffer containing the module defined event data
-  end;
-
 const
   MS_DB_EVENT_ADD:PAnsiChar = 'DB/Event/Add';
 
@@ -394,7 +369,7 @@ type
     datatype:int; // DBVT_ASCIIZ, DBVT_WCHAR (DBVT_TCHAR)
     codepage:int;
   end;
-const  
+const
   MS_DB_EVENT_GETTEXT:PAnsiChar = 'DB/Event/GetText';
 
   { DB/Event/GetIcon (0.7.0.1+)
@@ -585,7 +560,7 @@ const
   MS_DB_SETSAFETYMODE:PAnsiChar = 'DB/SetSafetyMode';
 
 //*************************** Modules ******************************
-  
+
   {
     wParam : (caller defined data) will be passed to lParam of the call back
     lParam : function pointer to TDBMODULEENUMPROC
