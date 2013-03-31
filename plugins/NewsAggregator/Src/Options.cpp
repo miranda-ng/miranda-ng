@@ -56,7 +56,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 				}
 				
-				HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+				HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
@@ -134,7 +134,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg,NULL,MODULE,"AddDlg");
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "AddDlg");
 		break;
 	}
 
@@ -300,7 +300,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		HANDLE hContact = (HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
 		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 		ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -448,9 +448,9 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		HANDLE hContact = (HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		Utils_SaveWindowPosition(hwndDlg,hContact,MODULE,"ChangeDlg");
-		WindowList_Remove(hChangeFeedDlgList,hwndDlg);
+		HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		Utils_SaveWindowPosition(hwndDlg, hContact, MODULE, "ChangeDlg");
+		WindowList_Remove(hChangeFeedDlgList, hwndDlg);
 	}
 
 	return FALSE;
@@ -552,7 +552,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							while (node) {
 								int outlineAttr = xi.getAttrCount(node);
 								int outlineChildsCount = xi.getChildCount(node);
-								TCHAR *type = (TCHAR*)xi.getAttrValue(node, _T("type"));
+								TCHAR *type = (TCHAR *)xi.getAttrValue(node, _T("type"));
 								if ( !type && !outlineChildsCount) {
 									HXML tmpnode = node;
 									node = xi.getNextNode(node);
@@ -565,40 +565,44 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 											LPCTSTR tmp = xi.getName(node);
 											if (node)
 												break;
-										}
-											while (lstrcmpi(xi.getName(node), _T("body")));
+										} while (lstrcmpi(xi.getName(node), _T("body")));
 									}
 								}
 								else if (!type && outlineChildsCount)
 									node = xi.getFirstChild(node);
 								else if (type) {
-									TCHAR *title = NULL, *url = NULL, *group = NULL, *utfgroup = NULL;
+									TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL, *utfgroup = NULL;
 									for (int i = 0; i < outlineAttr; i++) {
 										if (!lstrcmpi(xi.getAttrName(node, i), _T("title"))) {
 											title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 											if ( !title) {
 												isUTF = 1;
-												title = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												title = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 											}
 											continue;
 										}
 										if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
 											url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 											if ( !url)
-												url = (TCHAR*)xi.getAttrValue(node, xi.getAttrName(node, i));
+												url = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 											continue;
 										}
-										if (title && url)
+										if (!lstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
+											siteurl = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+											if ( !siteurl)
+												siteurl = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											continue;
+										}
+										if (title && url && siteurl)
 											break;
 									}
 
 									HXML parent = xi.getParent(node);
-									LPCTSTR tmp = xi.getName(parent);
 									while (lstrcmpi(xi.getName(parent), _T("body"))) {
 										for (int i = 0; i < xi.getAttrCount(parent); i++) {
 											if (!lstrcmpi(xi.getAttrName(parent, i), _T("title"))) {
 												if ( !group)
-													group = (TCHAR*)xi.getAttrValue(parent, xi.getAttrName(parent, i));
+													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
 												else {
 													TCHAR tmpgroup[1024];
 													mir_sntprintf(tmpgroup, SIZEOF(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
@@ -620,6 +624,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 									CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 									db_set_ts(hContact, MODULE, "Nick", title);
 									db_set_ts(hContact, MODULE, "URL", url);
+									db_set_ts(hContact, MODULE, "Homepage", siteurl);
 									db_set_b(hContact, MODULE, "CheckState", 1);
 									db_set_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME);
 									db_set_ts(hContact, MODULE, "MsgFormat", _T(TAGSDEFAULT));
@@ -646,6 +651,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										mir_free(title);
 										mir_free(url);
 										mir_free(utfgroup);
+										mir_free(siteurl);
 									}
 
 									HXML tmpnode = node;
@@ -690,17 +696,73 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				ofn.lpstrFile = FileName;
 				ofn.nMaxFile = MAX_PATH;
 				ofn.nMaxFileTitle = MAX_PATH;
-				ofn.Flags = OFN_HIDEREADONLY;
+				ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 				ofn.lpstrInitialDir = tszMirDir;
 				*FileName = '\0';
 				ofn.lpstrDefExt = _T("");
 
 				if (GetSaveFileName(&ofn)) {
-					HXML hXML = xi.createNode(_T("opml"), NULL, FALSE);
-					xi.addAttr(hXML, _T("version"), _T("1.0"));
-					HXML head = xi.addChild(hXML, _T("head"), NULL);
-					HXML title = xi.addChild(head, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
-					xi.toFile(hXML, FileName, 1);
+					HXML hXml = xi.createNode(_T("opml"), NULL, FALSE);
+					xi.addAttr(hXml, _T("version"), _T("1.0"));
+					HXML header = xi.addChild(hXml, _T("head"), NULL);
+					HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
+					header = xi.addChild(hXml, _T("body"), NULL);
+					HANDLE hContact = db_find_first();
+					while (hContact != NULL) {
+						if (IsMyContact(hContact)) {
+							char *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
+							DBVARIANT dbv = {0};
+							if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
+								title = mir_utf8encodeT(dbv.ptszVal);
+								db_free(&dbv);
+							}
+							if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
+								url = mir_utf8encodeT(dbv.ptszVal);
+								db_free(&dbv);
+							}
+							if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
+								siteurl = mir_utf8encodeT(dbv.ptszVal);
+								db_free(&dbv);
+							}
+							if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
+								group = mir_utf8encodeT(dbv.ptszVal);
+								db_free(&dbv);
+							}
+							HXML elem = header;
+							if (group)
+							{
+								char *section = strtok(group, "\\");
+								while (section != NULL)
+								{
+									HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), _A2T(section));
+									if ( !existgroup)
+									{
+										elem = xi.addChild(elem, _T("outline"), NULL);
+										xi.addAttr(elem, _T("title"), _A2T(section));
+										xi.addAttr(elem, _T("text"), _A2T(section));
+										section = strtok(NULL, "\\");
+									} else {
+										elem = existgroup;
+										section = strtok(NULL, "\\");
+									}
+								}
+								elem = xi.addChild(elem, _T("outline"), NULL);
+							}
+							xi.addAttr(elem, _T("text"), _A2T(title));
+							xi.addAttr(elem, _T("title"), _A2T(title));
+							xi.addAttr(elem, _T("type"), _T("rss"));
+							xi.addAttr(elem, _T("xmlUrl"), _A2T(url));
+							xi.addAttr(elem, _T("htmlUrl"), _A2T(siteurl));
+
+							mir_free(title);
+							mir_free(url);
+							mir_free(siteurl);
+							mir_free(group);
+						}
+						hContact = db_find_next(hContact);
+					}
+					xi.toFile(hXml, FileName, 1);
+					xi.destroyNode(hXml);
 				}
 			}
 			return FALSE;

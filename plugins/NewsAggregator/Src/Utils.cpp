@@ -43,10 +43,10 @@ VOID NetlibUnInit()
 	hNetlibUser = NULL;
 }
 
-static void arrayToHex(BYTE* data, size_t datasz, char* res)
+static void arrayToHex(BYTE *data, size_t datasz, char *res)
 {
-	char* resptr = res;
-	for (unsigned i=0; i < datasz ; i++) {
+	char *resptr = res;
+	for (unsigned i = 0; i < datasz ; i++) {
 		const BYTE ch = data[i];
 
 		const char ch0 = (char)(ch >> 4);
@@ -58,33 +58,33 @@ static void arrayToHex(BYTE* data, size_t datasz, char* res)
 	*resptr = '\0';
 } 
 
-int GetImageFormat(const TCHAR* ext)
+int GetImageFormat(const TCHAR *ext)
 {
-	if (!lstrcmp(ext,_T(".jpg")) || !lstrcmp(ext,_T(".jpeg")))
+	if (!lstrcmp(ext, _T(".jpg")) || !lstrcmp(ext, _T(".jpeg")))
 		return PA_FORMAT_JPEG;
 
-	if (!lstrcmp(ext,_T(".png")))
+	if (!lstrcmp(ext, _T(".png")))
 		return PA_FORMAT_PNG;
 
-	if (!lstrcmp(ext,_T(".gif")))
+	if (!lstrcmp(ext, _T(".gif")))
 		return PA_FORMAT_GIF;
 
-	if (!lstrcmp(ext,_T(".ico")))
+	if (!lstrcmp(ext, _T(".ico")))
 		return PA_FORMAT_ICON;
 
-	if (!lstrcmp(ext,_T(".bmp")))
+	if (!lstrcmp(ext, _T(".bmp")))
 		return PA_FORMAT_BMP;
 
-	if (!lstrcmp(ext,_T(".swf")))
+	if (!lstrcmp(ext, _T(".swf")))
 		return PA_FORMAT_SWF;
 
-	if (!lstrcmp(ext,_T(".xml")))
+	if (!lstrcmp(ext, _T(".xml")))
 		return PA_FORMAT_XML;
 
 	return PA_FORMAT_UNKNOWN;
 }
 
-void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
+void CreateAuthString(char *auth, HANDLE hContact, HWND hwndDlg)
 {
 	DBVARIANT dbv;
 	char *user = NULL, *pass = NULL;
@@ -120,9 +120,9 @@ void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
 	CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
 }
 
-VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
+VOID GetNewsData(TCHAR *tszUrl, char **szData, HANDLE hContact, HWND hwndDlg)
 {
-	char* szRedirUrl  = NULL;
+	char *szRedirUrl  = NULL;
 	NETLIBHTTPREQUEST nlhr = {0};
 	NETLIBHTTPHEADER headers[5];
 
@@ -157,7 +157,7 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	else nlhr.headersCount = 5;
 
 	// download the page
-	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		switch (nlhrReply->resultCode) {
@@ -179,21 +179,21 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 		case 307:
 			// get the url for the new location and save it to szInfo
 			// look for the reply header "Location"
-			for (int i=0; i<nlhrReply->headersCount; i++) {
+			for (int i = 0; i < nlhrReply->headersCount; i++) {
 				if (!strcmp(nlhrReply->headers[i].szName, "Location")) {
 					size_t rlen = 0;
 					if (nlhrReply->headers[i].szValue[0] == '/') {
-						const char* szPath;
-						const char* szPref = strstr(szUrl, "://");
+						const char *szPath;
+						const char *szPref = strstr(szUrl, "://");
 						szPref = szPref ? szPref + 3 : szUrl;
 						szPath = strchr(szPref, '/');
 						rlen = szPath != NULL ? szPath - szUrl : strlen(szUrl); 
 					}
 
-					szRedirUrl = (char*)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue)*3 + 1);
+					szRedirUrl = (char *)mir_realloc(szRedirUrl, rlen + strlen(nlhrReply->headers[i].szValue) * 3 + 1);
 
 					strncpy(szRedirUrl, szUrl, rlen);
-					strcpy(szRedirUrl+rlen, nlhrReply->headers[i].szValue); 
+					strcpy(szRedirUrl + rlen, nlhrReply->headers[i].szValue); 
 
 					nlhr.szUrl = szRedirUrl;
 					break;
@@ -273,14 +273,14 @@ VOID DeleteAllItems(HWND hwndList)
 	ListView_DeleteAllItems(hwndList);
 }
 
-time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
+time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType)
 {
 	struct tm timestamp;
 	TCHAR date[9];
 	int i, y;
 	time_t t;
 
-	if ( stamp == NULL )
+	if (stamp == NULL)
 		return 0;
 
 	TCHAR *p = stamp;
@@ -289,9 +289,9 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		// skip '-' chars
 		int si = 0, sj = 0;
 		while (true) {
-			if ( p[si] == _T('-'))
+			if (p[si] == _T('-'))
 				si++;
-			else if ( !( p[sj++] = p[si++] ))
+			else if ( !(p[sj++] = p[si++]))
 				break;
 		}
 	}
@@ -325,65 +325,66 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 			if (!lstrcmpi(monthstr, _T("Dec")))
 				month = 12;
 			if (!lstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
 			else if (!lstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
 		}
 		else
 		{
 			_stscanf( p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!lstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
 			else if (!lstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
-				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
 		}
 	}
 	// Get the date part
-	for ( i=0; *p!='\0' && i<8 && isdigit( *p ); p++,i++ )
+	for (i = 0; *p != '\0' && i < 8 && isdigit(*p); p++, i++)
 		date[i] = *p;
 
 	// Parse year
-	if ( i == 6 ) {
+	if (i == 6) {
 		// 2-digit year ( 1970-2069 )
-		y = ( date[0]-'0' )*10 + ( date[1]-'0' );
-		if ( y < 70 ) y += 100;
+		y = (date[0] - '0' ) * 10 + (date[1] - '0');
+		if (y < 70)
+			y += 100;
 	}
-	else if ( i == 8 ) {
+	else if (i == 8) {
 		// 4-digit year
-		y = ( date[0]-'0' )*1000 + ( date[1]-'0' )*100 + ( date[2]-'0' )*10 + date[3]-'0';
+		y = (date[0] - '0') * 1000 + (date[1] - '0') * 100 + (date[2] - '0') * 10 + date[3] - '0';
 		y -= 1900;
 	}
 	else return 0;
 
 	timestamp.tm_year = y;
 	// Parse month
-	timestamp.tm_mon = ( date[i-4]-'0' )*10 + date[i-3]-'0' - 1;
+	timestamp.tm_mon = (date[i - 4] - '0') * 10 + date[i - 3] - '0' - 1;
 	// Parse date
-	timestamp.tm_mday = ( date[i-2]-'0' )*10 + date[i-1]-'0';
+	timestamp.tm_mday = (date[i - 2] - '0') * 10 + date[i - 1] - '0';
 
 	// Skip any date/time delimiter
-	for ( ; *p!='\0' && !isdigit( *p ); p++ );
+	for (; *p != '\0' && !isdigit(*p); p++);
 
 	// Parse time
-	if ( _stscanf( p, _T("%d:%d:%d"), &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec ) != 3 )
+	if (_stscanf(p, _T("%d:%d:%d"), &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
 		return 0;
 
 	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
-	t = mktime( &timestamp );
+	t = mktime(&timestamp);
 
 	_tzset();
 	t -= _timezone;
 	return (t >= 0) ? t : 0;
 }
 
-TCHAR * _tcsistr(const TCHAR * str, const TCHAR * substr)
+TCHAR * _tcsistr(const TCHAR *str, const TCHAR *substr)
 {
 	if (!str || !substr || (substr[0] == _T('\0')))
-		return (TCHAR *) str;
+		return (TCHAR *)str;
 
 	size_t nLen = _tcslen(substr);
 	while (*str)
@@ -396,10 +397,10 @@ TCHAR * _tcsistr(const TCHAR * str, const TCHAR * substr)
 	if (*str == _T('\0'))
 		str = NULL;
 
-	return (TCHAR *) str;
+	return (TCHAR *)str;
 }
 
-int StrReplace(TCHAR* lpszOld, TCHAR* lpszNew, TCHAR*& lpszStr)
+int StrReplace(TCHAR *lpszOld, TCHAR *lpszNew, TCHAR *&lpszStr)
 {
 	if (!lpszStr || !lpszOld || !lpszNew)
 		return 0;
@@ -416,10 +417,10 @@ int StrReplace(TCHAR* lpszOld, TCHAR* lpszNew, TCHAR*& lpszStr)
 
 	// loop once to figure out the size of the result string
 	int nCount = 0;
-	TCHAR *pszStart = (TCHAR *) lpszStr;
-	TCHAR *pszEnd = (TCHAR *) lpszStr + nStrLen;
+	TCHAR *pszStart = (TCHAR *)lpszStr;
+	TCHAR *pszEnd = (TCHAR *)lpszStr + nStrLen;
 	TCHAR *pszTarget = NULL;
-	TCHAR * pszResultStr = NULL;
+	TCHAR *pszResultStr = NULL;
 
 	while (pszStart < pszEnd) {
 		while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL) {
@@ -434,17 +435,17 @@ int StrReplace(TCHAR* lpszOld, TCHAR* lpszNew, TCHAR*& lpszStr)
 		// allocate buffer for result string
 		size_t nResultStrSize = nStrLen + (nNewLen - nOldLen) * nCount + 2;
 		pszResultStr = new TCHAR [nResultStrSize];
-		ZeroMemory(pszResultStr, nResultStrSize*sizeof(TCHAR));
+		ZeroMemory(pszResultStr, nResultStrSize * sizeof(TCHAR));
 
-		pszStart = (TCHAR *) lpszStr;
-		pszEnd = (TCHAR *) lpszStr + nStrLen;
+		pszStart = (TCHAR *)lpszStr;
+		pszEnd = (TCHAR *)lpszStr + nStrLen;
 		TCHAR *cp = pszResultStr;
 
 		// loop again to actually do the work
 		while (pszStart < pszEnd) {
 			while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL) {
 				int nCopyLen = (int)(pszTarget - pszStart);
-				_tcsncpy(cp, &lpszStr[pszStart-lpszStr], nCopyLen);
+				_tcsncpy(cp, &lpszStr[pszStart - lpszStr], nCopyLen);
 
 				cp += nCopyLen;
 
@@ -480,21 +481,21 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	char* szUrl = mir_t2a(tszURL);
+	char *szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
-	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers=(NETLIBHTTPHEADER *)mir_alloc(sizeof(NETLIBHTTPHEADER) * nlhr.headersCount);
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
-	nlhr.headers[1].szName  = "Connection";
+	nlhr.headers[1].szName = "Connection";
 	nlhr.headers[1].szValue = "close";
-	nlhr.headers[2].szName  = "Cache-Control";
+	nlhr.headers[2].szName = "Cache-Control";
 	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Pragma";
+	nlhr.headers[3].szName = "Pragma";
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
-	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+	NETLIBHTTPREQUEST *pReply = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 	if (pReply) {
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
 			char *date = NULL, *size = NULL;
@@ -539,7 +540,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				ret = true;
 			}
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)pReply);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 	}
 
 	mir_free(szUrl);
@@ -551,11 +552,11 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-typedef HRESULT (MarkupCallback)(IHTMLDocument3*, BSTR& message);
+typedef HRESULT (MarkupCallback)(IHTMLDocument3 *, BSTR &message);
 
-HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback* pCallback, BSTR& message)
+HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
 {
-	IHTMLDocument3* pHtmlDocRoot = NULL;
+	IHTMLDocument3 *pHtmlDocRoot = NULL;
 
 	// Create the root document -- a "workspace" for parsing.
 	HRESULT hr = CoCreateInstance(CLSID_HTMLDocument, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pHtmlDocRoot));
@@ -570,8 +571,8 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback* pCallback, BSTR& messa
 			IMarkupServices *pMarkupServices = NULL;
 			hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pMarkupServices));
 			if (SUCCEEDED(hr)) {
-				IMarkupPointer *pMarkupBegin       = NULL;
-				IMarkupPointer *pMarkupEnd         = NULL;
+				IMarkupPointer *pMarkupBegin = NULL;
+				IMarkupPointer *pMarkupEnd = NULL;
 
 				// These markup pointers indicate the insertion point.
 				hr = pMarkupServices->CreateMarkupPointer(&pMarkupBegin);
@@ -611,7 +612,7 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback* pCallback, BSTR& messa
 	return hr;
 }
 
-HRESULT TestDocumentText(IHTMLDocument3* pHtmlDoc, BSTR& message)
+HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 {
 	IHTMLDocument2 *pDoc = NULL;
 	IHTMLElement *pElem = NULL;
@@ -635,7 +636,7 @@ HRESULT TestDocumentText(IHTMLDocument3* pHtmlDoc, BSTR& message)
 	return hr;
 }
 
-VOID ClearText(TCHAR*& message)
+VOID ClearText(TCHAR *&message)
 {
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
@@ -648,7 +649,7 @@ VOID ClearText(TCHAR*& message)
 	CoUninitialize();
 }
 
-TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
+TCHAR * CheckFeed(TCHAR *tszURL, HWND hwndDlg)
 {
 	char *szData = NULL;
 	DBVARIANT dbVar = {0};
@@ -673,7 +674,7 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
-							TCHAR *tszTitle = (TCHAR*)xi.getText(child);
+							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
 						}
 					}
@@ -685,7 +686,7 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 							TCHAR mes[MAX_PATH];
 							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
 							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
-							TCHAR *tszTitle = (TCHAR*)xi.getText(child);
+							TCHAR *tszTitle = (TCHAR *)xi.getText(child);
 							return tszTitle;
 						}
 					}
@@ -710,7 +711,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 	DBVARIANT dbURL = {0};
 	if (db_get_ts(hContact, MODULE, "URL", &dbURL))
 		return;
-	
+
 	if (db_get_b(hContact, MODULE, "CheckState", 1) != 0) {
 		GetNewsData(dbURL.ptszVal, &szData, hContact, NULL);
 		db_free(&dbURL);
@@ -796,7 +797,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										DBVARIANT dbVar = {0};
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
-											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
@@ -813,7 +814,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 							}
 							if (!lstrcmpi(xi.getName(child), _T("lastBuildDate")) && xi.getText(child)) {
-								TCHAR *lastupdtime = (TCHAR*)xi.getText(child);
+								TCHAR *lastupdtime = (TCHAR *)xi.getText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 0);
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
@@ -843,11 +844,11 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("pubDate"))) {
-										datetime = (TCHAR*)xi.getText(itemval);
+										datetime = (TCHAR *)xi.getText(itemval);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("dc:date"))) {
-										datetime = (TCHAR*)xi.getText(itemval);
+										datetime = (TCHAR *)xi.getText(itemval);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("description"))) {
@@ -886,7 +887,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										continue;
 									}
 								}
-								TCHAR* message;
+								TCHAR *message;
 								DBVARIANT dbMsg = {0};
 								if (db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg))
 									message = _T(TAGSDEFAULT);
@@ -950,7 +951,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									db_event_get(hDbEvent, &olddbei);
 									char *pszTemp = mir_utf8encodeT(message);
-									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
+									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char *)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
 									hDbEvent = db_event_next(hDbEvent);
 									mir_free(olddbei.pBlob);
@@ -1035,7 +1036,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										DBVARIANT dbVar = {0};
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
-											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
@@ -1052,7 +1053,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 							}
 							if (!lstrcmpi(xi.getName(child), _T("updated")) && xi.getText(child)) {
-								TCHAR *lastupdtime = (TCHAR*)xi.getText(child);
+								TCHAR *lastupdtime = (TCHAR *)xi.getText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
@@ -1085,7 +1086,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("updated"))) {
-										datetime = (TCHAR*)xi.getText(itemval);
+										datetime = (TCHAR *)xi.getText(itemval);
 										continue;
 									}
 									if ((!lstrcmpi(xi.getName(itemval), _T("summary")) || !lstrcmpi(xi.getName(itemval), _T("content"))) && xi.getText(itemval)) {
@@ -1130,7 +1131,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										continue;
 									}
 								}
-								TCHAR* message;
+								TCHAR *message;
 								DBVARIANT dbMsg = {0};
 								if (db_get_ts(hContact, MODULE, "MsgFormat", &dbMsg))
 									message = _T(TAGSDEFAULT);
@@ -1195,7 +1196,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									db_event_get(hDbEvent, &olddbei);
 									char *pszTemp = mir_utf8encodeT(message);
-									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszTemp))
+									if (olddbei.cbBlob == lstrlenA(pszTemp) + 1 && !lstrcmpA((char *)olddbei.pBlob, pszTemp))
 										MesExist = TRUE;
 									hDbEvent = db_event_next(hDbEvent);
 									mir_free(olddbei.pBlob);
@@ -1262,7 +1263,7 @@ VOID CheckCurrentFeedAvatar(HANDLE hContact)
 										DBVARIANT dbVar = {0};
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
-											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
@@ -1296,7 +1297,7 @@ VOID CheckCurrentFeedAvatar(HANDLE hContact)
 										DBVARIANT dbVar = {0};
 
 										if (!db_get_ts(hContact, MODULE, "Nick", &dbVar)) {
-											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											TCHAR *ext = _tcsrchr((TCHAR *)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);
 
 											TCHAR *filename = dbVar.ptszVal;
