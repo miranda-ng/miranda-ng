@@ -144,29 +144,23 @@ int DbEventIsMessageOrCustom(DBEVENTINFO* dbei)
 
 int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 {
-	int heFlags;
-
 	switch (dbei->eventType) {
-		case EVENTTYPE_MESSAGE:
-			return 1;
-		case EVENTTYPE_STATUSCHANGE:
-		case EVENTTYPE_JABBER_CHATSTATES:
-		case EVENTTYPE_JABBER_PRESENCE:
-			if (!DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH)) {
-//			if (dbei->flags & DBEF_READ)
-				return 0;
-			}
-			return 1;
-		case EVENTTYPE_FILE:
-		case EVENTTYPE_URL:
-//			if (dat->hwndLog != NULL)
-				return 1;
+	case EVENTTYPE_MESSAGE:
+		return 1;
+
+	case EVENTTYPE_STATUSCHANGE:
+	case EVENTTYPE_JABBER_CHATSTATES:
+	case EVENTTYPE_JABBER_PRESENCE:
+		if (!db_get_b(NULL, SRMMMOD, SRMSGSET_SHOWSTATUSCH, SRMSGDEFSET_SHOWSTATUSCH))
+			return 0;
+		return 1;
+
+	case EVENTTYPE_FILE:
+	case EVENTTYPE_URL:
+		return 1;
 	}
 
-	heFlags = HistoryEvents_GetFlags(dbei->eventType);
-	if (heFlags != -1)
-		return (heFlags & HISTORYEVENTS_FLAG_SHOW_IM_SRMM) == HISTORYEVENTS_FLAG_SHOW_IM_SRMM;
-    return DbEventIsCustomForMsgWindow(dbei);
+	return DbEventIsCustomForMsgWindow(dbei);
 }
 
 EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hDbEvent) {
@@ -601,15 +595,10 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *event, st
 	int style, showColon = 0;
 	int isGroupBreak = TRUE;
 	int highlight = 0;
-	int heFlags = -1;
 	bufferEnd = 0;
 	bufferAlloced = 1024;
 	buffer = (char *) mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
-
-	heFlags = HistoryEvents_GetFlags((WORD) event->eventType);
-	if (heFlags != -1 && (heFlags & HISTORYEVENTS_FLAG_DEFAULT))
-		heFlags = -1;
 
  	if ((gdat->flags & SMF_GROUPMESSAGES) && event->dwFlags == LOWORD(dat->lastEventType)
 	  && event->eventType == EVENTTYPE_MESSAGE && HIWORD(dat->lastEventType) == EVENTTYPE_MESSAGE
@@ -717,30 +706,26 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *event, st
 		}
 		showColon = 1;
 	}
-	if ((!(gdat->flags&SMF_HIDENAMES) && event->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || event->eventType == EVENTTYPE_STATUSCHANGE || event->eventType == EVENTTYPE_JABBER_CHATSTATES || event->eventType == EVENTTYPE_JABBER_PRESENCE || (heFlags != -1 && (heFlags & HISTORYEVENTS_FLAG_EXPECT_CONTACT_NAME_BEFORE))) {
+	if ((!(gdat->flags&SMF_HIDENAMES) && event->eventType == EVENTTYPE_MESSAGE && isGroupBreak) || event->eventType == EVENTTYPE_STATUSCHANGE || event->eventType == EVENTTYPE_JABBER_CHATSTATES || event->eventType == EVENTTYPE_JABBER_PRESENCE) {
 		if (event->eventType == EVENTTYPE_MESSAGE) {
-			if (showColon) {
+			if (showColon)
 				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(event->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-			} else {
+			else
 				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(event->dwFlags & IEEDF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-			}
-		} else {
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(MSGFONTID_NOTICE));
 		}
+		else AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(MSGFONTID_NOTICE));
 
-		if (event->dwFlags & IEEDF_UNICODE_NICK) {
+		if (event->dwFlags & IEEDF_UNICODE_NICK)
 			AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszNickW);
-		} else {
+		else
 			AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszNick);
-		}
 
 		showColon = 1;
 		if (event->eventType == EVENTTYPE_MESSAGE && gdat->flags & SMF_GROUPMESSAGES) {
-			if (gdat->flags & SMF_MARKFOLLOWUPS) {
+			if (gdat->flags & SMF_MARKFOLLOWUPS)
 				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
-			} else {
+			else
 				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line");
-			}
 			showColon = 0;
 		}
 	}
@@ -752,98 +737,61 @@ static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *event, st
 		showColon = 1;
 	}
 	if (showColon && event->eventType == EVENTTYPE_MESSAGE) {
-		if (event->dwFlags & IEEDF_RTL) {
+		if (event->dwFlags & IEEDF_RTL)
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\~%s: ", SetToStyle(event->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
-		} else {
+		else
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s: ", SetToStyle(event->dwFlags & IEEDF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
-		}
 	}
 	switch (event->eventType) {
-		case EVENTTYPE_MESSAGE:
-		if (gdat->flags & SMF_MSGONNEWLINE && showColon) {
+	case EVENTTYPE_MESSAGE:
+		if (gdat->flags & SMF_MSGONNEWLINE && showColon)
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line");
-		}
+
 		style = event->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
 		AppendWithCustomLinks(event, style, &buffer, &bufferEnd, &bufferAlloced);
-		/*
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(event->dwFlags & IEEDF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG));
-		if (event->dwFlags & IEEDF_UNICODE_TEXT) {
-			AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszTextW);
-		} else {
-			AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText);
-		}
-		*/
 		break;
-		case EVENTTYPE_JABBER_CHATSTATES:
-		case EVENTTYPE_JABBER_PRESENCE:
-		case EVENTTYPE_STATUSCHANGE:
-		case EVENTTYPE_URL:
-		case EVENTTYPE_FILE:
-		{
-			style = MSGFONTID_NOTICE;
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(style));
-			if (event->eventType == EVENTTYPE_FILE) {
-				if (event->dwFlags & IEEDF_SENT) {
-					AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("File sent"));
-				} else {
-					AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("File received"));
-				}
-				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(":"));
-			} else if (event->eventType == EVENTTYPE_URL) {
-				if (event->dwFlags & IEEDF_SENT) {
-					AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("URL sent"));
-				} else {
-					AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("URL received"));
-				}
-				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(":"));
-			}
-			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" "));
 
-			if (event->dwFlags & IEEDF_UNICODE_TEXT) {
-				AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszTextW);
-			} else {
-				AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText);
-			}
-			if (event->pszText2W != NULL) {
-				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" ("));
-				if (event->dwFlags & IEEDF_UNICODE_TEXT2) {
-					AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText2W);
-				} else {
-					AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText2);
-				}
-				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(")"));
-			}
-			break;
+	case EVENTTYPE_JABBER_CHATSTATES:
+	case EVENTTYPE_JABBER_PRESENCE:
+	case EVENTTYPE_STATUSCHANGE:
+	case EVENTTYPE_URL:
+	case EVENTTYPE_FILE:
+		style = MSGFONTID_NOTICE;
+		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(style));
+		if (event->eventType == EVENTTYPE_FILE) {
+			if (event->dwFlags & IEEDF_SENT)
+				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("File sent"));
+			else
+				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("File received"));
+			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(":"));
 		}
-		default:
-		{
-			char *rtfMessage;
-
-			if (heFlags == -1)
-				break;
-
-			if (heFlags & HISTORYEVENTS_FLAG_EXPECT_CONTACT_NAME_BEFORE)
-				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" "));
-
-			style = MSGFONTID_NOTICE;
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(style));
-
-			rtfMessage = HistoryEvents_GetRichText(streamData->hDbEvent, NULL);
-			if (rtfMessage != NULL) {
-				AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, rtfMessage);
-			} else if (event->dwFlags & IEEDF_UNICODE_TEXT) {
-				AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszTextW);
-			} else {
-				AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText);
-			}
-			HistoryEvents_ReleaseText(rtfMessage);
-
-			break;
+		else if (event->eventType == EVENTTYPE_URL) {
+			if (event->dwFlags & IEEDF_SENT)
+				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("URL sent"));
+			else
+				AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateT("URL received"));
+			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(":"));
 		}
+		AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" "));
+
+		if (event->dwFlags & IEEDF_UNICODE_TEXT)
+			AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszTextW);
+		else
+			AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText);
+
+		if (event->pszText2W != NULL) {
+			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(" ("));
+			if (event->dwFlags & IEEDF_UNICODE_TEXT2)
+				AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText2W);
+			else
+				AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszText2);
+			AppendTToBuffer(&buffer, &bufferEnd, &bufferAlloced, _T(")"));
+		}
+		break;
 	}
-	if (dat->isMixed) {
+	if (dat->isMixed)
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
-	}
+
 	dat->lastEventTime = event->time;
 	dat->lastEventType = MAKELONG(event->dwFlags, event->eventType);
 	return buffer;

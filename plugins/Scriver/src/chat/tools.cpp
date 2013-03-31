@@ -280,9 +280,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !g_Settings.SoundsFocus)
 			SkinPlaySound("ChatHighlight");
-		if (bInactive && si->hWnd && DBGetContactSettingByte(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
+		if (bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
 			SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
-		if (DBGetContactSettingByte(si->windowData.hContact, "CList", "Hidden", 0) != 0)
+		if (db_get_b(si->windowData.hContact, "CList", "Hidden", 0) != 0)
 			DBDeleteContactSetting(si->windowData.hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
@@ -334,7 +334,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 
 			if (bInactive && !( si->wState & STATE_TALK )) {
 				si->wState |= STATE_TALK;
-				DBWriteContactSettingWord(si->windowData.hContact, si->pszModule,"ApparentMode",(LPARAM)(WORD) 40071);
+				db_set_w(si->windowData.hContact, si->pszModule,"ApparentMode",(LPARAM)(WORD) 40071);
 			}
 			if (bInactive && si->hWnd)
 				SendMessage(si->hWnd, GC_SETTABHIGHLIGHT, 0, 0);

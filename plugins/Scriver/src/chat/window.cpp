@@ -265,11 +265,11 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
             dat->szSearchQuery = NULL;
         	mir_free(dat->szSearchResult);
             dat->szSearchResult = NULL;
-			if (( isCtrl != 0 ) ^ (0 != DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
+			if (( isCtrl != 0 ) ^ (0 != db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER))) {
 			   PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 			   return 0;
 			}
-			if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
+			if (db_get_b(NULL, SRMMMOD, SRMSGSET_SENDONDBLENTER, SRMSGDEFSET_SENDONDBLENTER)) {
 			   if (dat->lastEnterTime + 2 < time(NULL))
 				  dat->lastEnterTime = time(NULL);
 			   else {
@@ -627,7 +627,7 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
          HWND hColor = GetDlgItem(GetParent(hwnd), IDC_CHAT_COLOR);
          HWND hBGColor = GetDlgItem(GetParent(hwnd), IDC_CHAT_BKGCOLOR);
 
-         if (DBGetContactSettingByte(NULL, "Chat", "RightClickFilter", 0) != 0) {
+         if (db_get_b(NULL, "Chat", "RightClickFilter", 0) != 0) {
             if (hFilter == hwnd)
                SendMessage(GetParent(hwnd), GC_SHOWFILTERMENU, 0, 0);
             if (hColor == hwnd)
@@ -1118,7 +1118,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR)*0x7FFFFFFF, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM) & reOleCallback);
 
-			if (DBGetContactSettingByte(NULL, "Chat", "UseIEView", 0)) {
+			if (db_get_b(NULL, "Chat", "UseIEView", 0)) {
 				IEVIEWWINDOW ieWindow;
 				IEVIEWEVENT iee;
 
@@ -1191,10 +1191,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 				ih = GetTextPixelSize( _T("AQG_glo'"), g_Settings.UserListFont,FALSE);
 				ih2 = GetTextPixelSize( _T("AQG_glo'"), g_Settings.UserListHeadingsFont,FALSE);
-				height = DBGetContactSettingByte(NULL, "Chat", "NicklistRowDist", 12);
+				height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
 				font = ih > ih2?ih:ih2;
 				// make sure we have space for icon!
-				if (DBGetContactSettingByte(NULL, "Chat", "ShowContactStatus", 0))
+				if (db_get_b(NULL, "Chat", "ShowContactStatus", 0))
 					font = font > 16 ? font : 16;
 
 				SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
@@ -1384,7 +1384,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			si->wState |= GC_EVENT_HIGHLIGHT;
 			SendMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 			SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
-			if (DBGetContactSettingByte(NULL, "Chat", "FlashWindowHighlight", 0) != 0 && GetActiveWindow() != hwndDlg && GetForegroundWindow() != GetParent(hwndDlg))
+			if (db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0 && GetActiveWindow() != hwndDlg && GetForegroundWindow() != GetParent(hwndDlg))
 				SendMessage(GetParent(si->hWnd), CM_STARTFLASHING, 0, 0);
 		}
 		break;
@@ -1403,7 +1403,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (si->wState & STATE_TALK) {
 				si->wState &= ~STATE_TALK;
 
-				DBWriteContactSettingWord(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
+				db_set_w(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 			}
 
 			if (si->wState & GC_EVENT_HIGHLIGHT) {
@@ -1440,9 +1440,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			int ih = GetTextPixelSize( _T("AQGgl'"), g_Settings.UserListFont,FALSE);
 			int ih2 = GetTextPixelSize( _T("AQGg'"), g_Settings.UserListHeadingsFont,FALSE);
 			int font = ih > ih2?ih:ih2;
-			int height = DBGetContactSettingByte(NULL, "Chat", "NicklistRowDist", 12);
+			int height = db_get_b(NULL, "Chat", "NicklistRowDist", 12);
 			// make sure we have space for icon!
-			if (DBGetContactSettingByte(NULL, "Chat", "ShowContactStatus", 0))
+			if (db_get_b(NULL, "Chat", "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 			mis->itemHeight = height > font?height:font;
 			return TRUE;
@@ -1553,7 +1553,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->windowData.hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->windowData.hContact, (LPARAM)"chaticon");
 				si->wState &= ~STATE_TALK;
-				DBWriteContactSettingWord(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
+				db_set_w(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 				SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, 0);
 				return TRUE;
 
@@ -1566,7 +1566,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				goto LABEL_SHOWWINDOW;
 
 			case SESSION_INITDONE:
-				if (DBGetContactSettingByte(NULL, "Chat", "PopupOnJoin", 0)!=0)
+				if (db_get_b(NULL, "Chat", "PopupOnJoin", 0)!=0)
 					return TRUE;
 				// fall through
 			case WINDOW_VISIBLE:
@@ -1693,7 +1693,7 @@ LABEL_SHOWWINDOW:
 			SetActiveSession(si->ptszID, si->pszModule);
 
 			if (DBGetContactSettingWord(si->windowData.hContact, si->pszModule ,"ApparentMode", 0) != 0)
-				DBWriteContactSettingWord(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
+				db_set_w(si->windowData.hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
 			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->windowData.hContact, 0))
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->windowData.hContact, (LPARAM)"chaticon");
 		}
@@ -1901,7 +1901,7 @@ LABEL_SHOWWINDOW:
 
 			si->bFilterEnabled = !si->bFilterEnabled;
 			SendDlgItemMessage(hwndDlg,IDC_CHAT_FILTER,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetCachedIcon(si->bFilterEnabled?"chat_filter":"chat_filter2"));
-			if (si->bFilterEnabled && DBGetContactSettingByte(NULL, "Chat", "RightClickFilter", 0) == 0) {
+			if (si->bFilterEnabled && db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0) {
 				SendMessage(hwndDlg, GC_SHOWFILTERMENU, 0, 0);
 				break;
 			}
@@ -1920,7 +1920,7 @@ LABEL_SHOWWINDOW:
 					break;
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_BKGCOLOR)) {
-					if (DBGetContactSettingByte(NULL, "Chat", "RightClickFilter", 0) == 0)
+					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_BKGCOLOR);
 					else if (si->bBGSet){
 						cf.dwMask = CFM_BACKCOLOR;
@@ -1953,7 +1953,7 @@ LABEL_SHOWWINDOW:
 					break;
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_COLOR)) {
-					if (DBGetContactSettingByte(NULL, "Chat", "RightClickFilter", 0) == 0)
+					if (db_get_b(NULL, "Chat", "RightClickFilter", 0) == 0)
 						SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_COLOR);
 					else if (si->bFGSet) {
 						cf.dwMask = CFM_COLOR;

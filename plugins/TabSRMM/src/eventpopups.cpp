@@ -856,16 +856,10 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 
 int tabSRMM_ShowPopup(WPARAM wParam, LPARAM lParam, WORD eventType, int windowOpen, struct TContainerData *pContainer, HWND hwndChild, const char *szProto, struct TWindowData *dat)
 {
-	int heFlags;
-
-	if (nen_options.iDisable)                         // no popups at all. Period
+	if (nen_options.iDisable) // no popups at all. Period
 		return 0;
 
 	PU_CleanUp();
-
-	heFlags = HistoryEvents_GetFlags(eventType);
-	if (heFlags != -1 && !(heFlags & HISTORYEVENTS_FLAG_DEFAULT)) // Filter history events popups
-		return 0;
 
 	if (nen_options.bDisableNonMessage && eventType != EVENTTYPE_MESSAGE)
 		return 0;

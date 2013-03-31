@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "oauth.dev.h"
 
 #include "m_folders.h"
-#include "m_historyevents.h"
 
 #include <algorithm>
 #include <cstdio>
@@ -382,31 +381,12 @@ int TwitterProto::OnModulesLoaded(WPARAM,LPARAM)
 	gcr.iMaxText = 159;
 	CallService(MS_GC_REGISTER,0,reinterpret_cast<LPARAM>(&gcr));
 
-	if (ServiceExists(MS_HISTORYEVENTS_REGISTER))
-	{
-		HISTORY_EVENT_HANDLER heh = {0};
-		heh.cbSize = sizeof(heh);
-		heh.module = m_szModuleName;
-		heh.name = "tweet";
-		heh.description = "Tweet";
-		heh.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
-		heh.defaultIconName = "Twitter_tweet";
-		heh.flags = HISTORYEVENTS_FLAG_SHOW_IM_SRMM
-					| HISTORYEVENTS_FLAG_EXPECT_CONTACT_NAME_BEFORE
-// Not sure:		| HISTORYEVENTS_FLAG_FLASH_MSG_WINDOW
-					| HISTORYEVENTS_REGISTERED_IN_ICOLIB;
-		CallService(MS_HISTORYEVENTS_REGISTER, (WPARAM) &heh, 0);
-	}
-	else
-	{
-		DBEVENTTYPEDESCR evt = {sizeof(evt)};
-		evt.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
-		evt.module = m_szModuleName;
-		evt.descr = "Tweet";
-		evt.flags = DETF_HISTORY | DETF_MSGWINDOW;
-		CallService(MS_DB_EVENT_REGISTERTYPE,0,reinterpret_cast<LPARAM>(&evt));
-	}
-
+	DBEVENTTYPEDESCR evt = {sizeof(evt)};
+	evt.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
+	evt.module = m_szModuleName;
+	evt.descr = "Tweet";
+	evt.flags = DETF_HISTORY | DETF_MSGWINDOW;
+	CallService(MS_DB_EVENT_REGISTERTYPE,0,reinterpret_cast<LPARAM>(&evt));
 	return 0;
 }
 

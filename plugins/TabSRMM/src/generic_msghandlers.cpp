@@ -1713,12 +1713,6 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	BOOL fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	BOOL fIsNotifyEvent = (dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE);
 
-	if (!fIsStatusChangeEvent) {
-		int heFlags = HistoryEvents_GetFlags(dbei.eventType);
-		if (heFlags != -1 && !(heFlags & HISTORYEVENTS_FLAG_DEFAULT) && !(heFlags & HISTORYEVENTS_FLAG_FLASH_MSG_WINDOW))
-			fIsStatusChangeEvent = TRUE;
-	}
-
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
 		return;
 

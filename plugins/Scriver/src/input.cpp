@@ -202,7 +202,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 			return FALSE;
 		}
 
-		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
+		if ((wParam == VK_UP || wParam == VK_DOWN) && isCtrl && !db_get_b(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
 			if (windowData->cmdList) {
 				TCmdList *cmdListNew = NULL;
 				if (wParam == VK_UP) {

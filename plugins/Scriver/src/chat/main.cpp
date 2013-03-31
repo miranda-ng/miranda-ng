@@ -49,7 +49,7 @@ int Chat_Load()
 
 int Chat_Unload(void)
 {
-	DBWriteContactSettingWord(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
+	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 	CList_SetAllOffline(TRUE, NULL);
 

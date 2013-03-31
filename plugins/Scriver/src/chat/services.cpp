@@ -222,8 +222,8 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->iSplitterX = g_Settings.iSplitterX;
 			si->iSplitterY = g_Settings.iSplitterY;
 			si->iLogFilterFlags = (int)DBGetContactSettingDword(NULL, "Chat", "FilterFlags", 0x03E0);
-			si->bFilterEnabled = DBGetContactSettingByte(NULL, "Chat", "FilterEnabled", 0);
-			si->bNicklistEnabled = DBGetContactSettingByte(NULL, "Chat", "ShowNicklist", 1);
+			si->bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
+			si->bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
 			
 			if ( !( gcw->dwFlags & GC_UNICODE )) {
 				si->pszID = mir_strdup( gcw->pszID );
@@ -302,7 +302,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
-					if (wp != SESSION_INITDONE || DBGetContactSettingByte(NULL, "Chat", "PopupOnJoin", 0) == 0)
+					if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
 						ShowRoom(si, wp, TRUE);
 					return 0;
 			}	}
@@ -506,7 +506,7 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 			if ( gce->pszText ) {
 				replaceStr( &si->ptszTopic, gce->ptszText);
 				DBWriteContactSettingTString( si->windowData.hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
-				if ( DBGetContactSettingByte( NULL, "Chat", "TopicOnClist", 0 ))
+				if ( db_get_b( NULL, "Chat", "TopicOnClist", 0 ))
 					DBWriteContactSettingTString( si->windowData.hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
 		}	}
 		break;

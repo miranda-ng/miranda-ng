@@ -96,7 +96,6 @@
 #include <m_msg_buttonsbar.h>
 #include <m_flash.h>
 #include <m_mathmodule.h>
-#include <m_historyevents.h>
 #include <m_smileyadd.h>
 
 #define TSAPI __stdcall

@@ -379,7 +379,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 
 		if ( szProto ) {
 			// leave this menu item hidden for chats
-			if ( !DBGetContactSettingByte( hContact, szProto, "ChatRoom", 0 ))
+			if ( !db_get_b( hContact, szProto, "ChatRoom", 0 ))
 				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
 					clmi.flags &= ~CMIF_HIDDEN;
 		}

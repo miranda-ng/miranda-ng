@@ -548,18 +548,12 @@ int TSAPI DbEventIsShown(struct TWindowData *dat, DBEVENTINFO * dbei)
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
+
 	case EVENTTYPE_FILE:
 		return(dat->dwFlagsEx & MWF_SHOW_FILEEVENTS);
 	}
 
-	if (IsStatusEvent(dbei->eventType))
-		return 1;
-
-	int heFlags = HistoryEvents_GetFlags(dbei->eventType);
-	if (heFlags != -1)
-		return (heFlags & HISTORYEVENTS_FLAG_SHOW_IM_SRMM) == HISTORYEVENTS_FLAG_SHOW_IM_SRMM;
-
-	return 0;
+	return IsStatusEvent(dbei->eventType);
 }
 
 static int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
@@ -572,9 +566,9 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 {
 	char *buffer, c;
 	TCHAR ci, cc;
-	TCHAR 	*szFinalTimestamp;
-	int 	bufferAlloced, bufferEnd;
-	size_t 	iTemplateLen, i = 0;
+	TCHAR	*szFinalTimestamp;
+	int   bufferAlloced, bufferEnd;
+	size_t iTemplateLen, i = 0;
 	DBEVENTINFO dbei = { 0 };
 	int isSent = 0;
 	int iFontIDOffset = 0;
@@ -588,7 +582,6 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 	DWORD dwFormattingParams = MAKELONG(PluginConfig.m_FormatWholeWordsOnly, 0);
 	BOOL  fIsStatusChangeEvent = FALSE;
 	TCHAR *msg, *formatted = NULL;
-	int heFlags = -1;
 	char *rtfMessage = NULL;
 
 	bufferEnd = 0;
@@ -617,13 +610,6 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT | DBEF_READ)))
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, lstrlenA((char *) dbei.pBlob));
 
-	if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE	&& !IsStatusEvent(dbei.eventType))
-		heFlags = HistoryEvents_GetFlags(dbei.eventType);
-	if (heFlags & HISTORYEVENTS_FLAG_DEFAULT)
-		heFlags = -1;
-
-	if (heFlags != -1)
-		rtfMessage = HistoryEvents_GetRichText(hDbEvent, &dbei);
 	if (rtfMessage == NULL) {
 		msg = DbGetEventTextT(&dbei, dat->codePage);
 		if (!msg) {
@@ -636,7 +622,7 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 		mir_free(msg);
 	}
 
-	fIsStatusChangeEvent = (heFlags != -1 || IsStatusEvent(dbei.eventType));
+	fIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
@@ -973,10 +959,7 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 				case 'l':           // soft line break
 					AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\line");
 					break;
-				case 'N': {         // nickname
-					if (heFlags != -1 && !(heFlags & HISTORYEVENTS_FLAG_EXPECT_CONTACT_NAME_BEFORE))
-						break;
-
+				case 'N':           // nickname
 					if (!skipFont)
 						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset));
 					if (isSent)
@@ -984,7 +967,6 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 					else
 						AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, szYourName, MAKELONG(isSent, dat->isHistory));
 					break;
-				}
 				case 'U':            // UIN
 					if (!skipFont)
 						AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYNAME + iFontIDOffset : MSGFONTID_YOURNAME + iFontIDOffset));
@@ -997,7 +979,7 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 					AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(MSGFONTID_ERROR));
 					AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, (wchar_t *)dbei.szModule, MAKELONG(isSent, dat->isHistory));
 					break;
-				case 'M': {         // message
+				case 'M':           // message
 					if (fIsStatusChangeEvent)
 						dbei.eventType = EVENTTYPE_STATUSCHANGE;
 					switch (dbei.eventType) {
@@ -1051,7 +1033,6 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 							break;
 					}
 					break;
-				}
 				case '*':       // bold
 					AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, isBold ? "\\b0 " : "\\b ");
 					isBold = !isBold;
@@ -1169,7 +1150,6 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 
 	if (streamData->dbei == 0)
 		free(dbei.pBlob);
-	HistoryEvents_ReleaseText(rtfMessage);
 
 	dat->iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
 	dat->lastEventTime = dbei.timestamp;

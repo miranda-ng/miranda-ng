@@ -117,7 +117,7 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 			{
 				CList_SetOffline(pTemp->windowData.hContact, pTemp->iType == GCW_CHATROOM?TRUE:FALSE);
 /*				if (pTemp->iType != GCW_SERVER)
-					DBWriteContactSettingByte(pTemp->windowData.hContact, "CList", "Hidden", 1);*/
+					db_set_b(pTemp->windowData.hContact, "CList", "Hidden", 1);*/
 			}
 			DBWriteContactSettingString(pTemp->windowData.hContact, pTemp->pszModule , "Topic", "");
 			DBWriteContactSettingString(pTemp->windowData.hContact, pTemp->pszModule, "StatusBar", "");
@@ -587,7 +587,7 @@ BOOL SM_SetStatus(const TCHAR* pszID, const char* pszModule, int wStatus)
 				if ( pTemp->iType != GCW_SERVER && wStatus != ID_STATUS_OFFLINE )
 						DBDeleteContactSetting(pTemp->windowData.hContact, "CList", "Hidden");
 
-				DBWriteContactSettingWord(pTemp->windowData.hContact, pTemp->pszModule, "Status", (WORD)wStatus);
+				db_set_w(pTemp->windowData.hContact, pTemp->pszModule, "Status", (WORD)wStatus);
 			}
 
 			PostMessage(pTemp->hWnd, GC_FIXTABICONS, 0, 0);

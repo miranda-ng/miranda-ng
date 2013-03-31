@@ -59,7 +59,7 @@ void SetupInfobar(InfobarWindowData* idat) {
 }
 
 static HICON GetExtraStatusIcon(InfobarWindowData* idat) {
-    BYTE bXStatus = DBGetContactSettingByte(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusId", 0);
+    BYTE bXStatus = db_get_b(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusId", 0);
     if (bXStatus > 0) {
         return (HICON) CallProtoService(idat->mwd->szProto, "/GetXStatusIcon", bXStatus, 0);
     }
