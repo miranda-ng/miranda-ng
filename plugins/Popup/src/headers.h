@@ -58,6 +58,8 @@ http://miranda-ng.org/distr/
 #include <time.h>
 #include <process.h>
 #include <commctrl.h>
+#include <shellapi.h>
+#include <malloc.h>
 
 #include <newpluginapi.h>
 #include <win2k.h>

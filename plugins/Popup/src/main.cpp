@@ -1,9 +1,9 @@
 /*
 Popup Plus plugin for Miranda IM
 
-Copyright	� 2002 Luca Santarelli,
-			� 2004-2007 Victor Pavlychko
-			� 2010 MPK
+Copyright	© 2002 Luca Santarelli,
+			© 2004-2007 Victor Pavlychko
+			© 2010 MPK
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "headers.h"
-#include <shellapi.h>
-#include <malloc.h>
 
 WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 
@@ -68,7 +66,7 @@ HANDLE hMenuItemHistory		= NULL;
 HANDLE hTTButton = NULL;
 
 //===== Options pages =====
-static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
+static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize      = sizeof(odp);
@@ -111,36 +109,36 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int FontsChanged(WPARAM wParam,LPARAM lParam)
+static int FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	ReloadFonts();
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam,LPARAM lParam)
+static int IconsChanged(WPARAM wParam, LPARAM lParam)
 {
 	LoadActions();
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (PopUpOptions.ModuleIsEnabled == TRUE) { //The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
 	else { //The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
 	mi.flags = CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuRoot,(LPARAM)&mi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&mi);
 
-	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY,0);
+	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.flags = CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItemHistory,(LPARAM)&mi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemHistory, (LPARAM)&mi);
 	return 0;
 }
 
-static int TTBLoaded(WPARAM wParam,LPARAM lParam)
+static int TTBLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.pszService = MENUCOMMAND_SVC;
@@ -181,9 +179,9 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
 	}
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	iResult = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
+	iResult = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
 	mi.flags = CMIM_ICON;
-	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuRoot,(LPARAM)&mi);
+	iResultRoot = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&mi);
 
 	if (hTTButton)
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, (PopUpOptions.ModuleIsEnabled) ? TTBST_PUSHED : TTBST_RELEASED);
@@ -279,11 +277,11 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	//Uninstalling purposes
 	if (ServiceExists("PluginSweeper/Add"))
-		CallService("PluginSweeper/Add",(WPARAM)Translate(MODULNAME),(LPARAM)MODULNAME);
+		CallService("PluginSweeper/Add", (WPARAM)Translate(MODULNAME), (LPARAM)MODULNAME);
 
 	//load fonts / create hook
 	InitFonts();
-	HookEvent(ME_FONT_RELOAD,FontsChanged);
+	HookEvent(ME_FONT_RELOAD, FontsChanged);
 
 	//load actions and notifications
 	LoadActions();
@@ -291,9 +289,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	//hook TopToolBar
 	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
 	//Folder plugin support
-	LPTSTR pszPath = mir_a2t(MIRANDA_PATH "\\Skins\\PopUp");
-	folderId = FoldersRegisterCustomPathT(LPGEN("Popup Plus"), LPGEN("Skins"), pszPath);
-	mir_free(pszPath);
+	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT _T("\\Skins\\PopUp"));
 	//load skin
 	skins.load(_T("dir"));
 	const PopupSkin *skin;

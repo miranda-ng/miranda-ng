@@ -315,7 +315,7 @@ int CMimAPI::FoldersPathChanged(WPARAM wParam, LPARAM lParam)
 void CMimAPI::configureCustomFolders()
 {
 	m_hDataPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Data path"), const_cast<TCHAR *>(getDataPath()));
-	m_hSkinsPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Skins root"), const_cast<TCHAR *>(getSkinPath()));
+	m_hSkinsPath = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("TabSRMM"), const_cast<TCHAR *>(getSkinPath()));
 	m_hAvatarsPath = FoldersRegisterCustomPathT(LPGEN("Avatars"), LPGEN("Saved TabSRMM avatars"), const_cast<TCHAR *>(getSavedAvatarPath()));
 	m_hChatLogsPath = FoldersRegisterCustomPathT(LPGEN("TabSRMM"), LPGEN("Group chat logs root"), const_cast<TCHAR *>(getChatLogPath()));
 
