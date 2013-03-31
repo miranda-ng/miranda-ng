@@ -46,7 +46,7 @@ HINSTANCE LoadIconsPack(const char* szIconsPack)
 {
 	HINSTANCE hNewIconInst = LoadLibrary(szIconsPack);
 	if (hNewIconInst != NULL) {
-		for(int i = ID_FIRSTICON; i <= ID_LASTICON; i++)
+		for (int i = ID_FIRSTICON; i <= ID_LASTICON; i++)
 			if (LoadIcon(hNewIconInst, MAKEINTRESOURCE(i)) == NULL) {
 				FreeLibrary(hNewIconInst);
 				hNewIconInst = NULL;

@@ -156,12 +156,12 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	if ( DBGetContactSetting(0,MODULENAME,"rsa_priv",&dbv) == 0 ) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096,dbv.pbVal,dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		rsa_4096=1;
 	}
 	else if ( DBGetContactSetting(0,MODULENAME,"rsa_priv_4096",&dbv) == 0 ) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096|CPP_MODE_RSA_BER,dbv.pbVal,dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		char priv_key[4096]; int priv_len;
 		char pub_key[4096]; int pub_len;
@@ -192,7 +192,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttGenerateRSA, NULL, 0, &tID));
 	}
 
-	exp->rsa_set_timeout( DBGetContactSettingWord(0,MODULENAME,"ket",10));
+	exp->rsa_set_timeout( db_get_w(0,MODULENAME,"ket",10));
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("pgp_init");
@@ -216,12 +216,12 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
         	else {
         		LPSTR tmp;
-        		tmp = myDBGetString(0,MODULENAME,"pgpPubRing");
+        		tmp = db_get_sa(0,MODULENAME,"pgpPubRing");
         		if (tmp) {
         			strncpy(PubRingPath,tmp,sizeof(PubRingPath));
         			mir_free(tmp);
         		}
-        		tmp = myDBGetString(0,MODULENAME,"pgpSecRing");
+        		tmp = db_get_sa(0,MODULENAME,"pgpSecRing");
         		if (tmp) {
         			strncpy(SecRingPath,tmp,sizeof(SecRingPath));
         			mir_free(tmp);
@@ -229,8 +229,8 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
         	   	if (PubRingPath[0] && SecRingPath[0]) {
         			bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
         			if (bPGPkeyrings) {
-        				DBWriteContactSettingString(0,MODULENAME,"pgpPubRing",PubRingPath);
-        				DBWriteContactSettingString(0,MODULENAME,"pgpSecRing",SecRingPath);
+        				db_set_s(0,MODULENAME,"pgpPubRing",PubRingPath);
+        				db_set_s(0,MODULENAME,"pgpSecRing",SecRingPath);
         			}
         			else {
         				db_unset(0, MODULENAME, "pgpPubRing");
@@ -251,19 +251,19 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		char gpgexec[MAX_PATH], gpghome[MAX_PATH];
 		gpgexec[0]='\0'; gpghome[0]='\0';
 
-		LPSTR tmp = myDBGetString(0,MODULENAME,"gpgExec");
+		LPSTR tmp = db_get_sa(0,MODULENAME,"gpgExec");
 		if (tmp) {
 			strncpy(gpgexec,tmp,sizeof(gpgexec));
 			mir_free(tmp);
 		}
-		tmp = myDBGetString(0,MODULENAME,"gpgHome");
+		tmp = db_get_sa(0,MODULENAME,"gpgHome");
 		if (tmp) {
 			strncpy(gpghome,tmp,sizeof(gpghome));
 			mir_free(tmp);
 		}
 
 		if (db_get_b(0, MODULENAME, "gpgLogFlag",0)) {
-			tmp = myDBGetString(0,MODULENAME,"gpgLog");
+			tmp = db_get_sa(0,MODULENAME,"gpgLog");
 			if (tmp) {
 				gpg_set_log(tmp);
 				mir_free(tmp);
@@ -271,7 +271,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (db_get_b(0, MODULENAME, "gpgTmpFlag",0)) {
-			tmp = myDBGetString(0,MODULENAME,"gpgTmp");
+			tmp = db_get_sa(0,MODULENAME,"gpgTmp");
 			if (tmp) {
 				gpg_set_tmp(tmp);
 				mir_free(tmp);
@@ -280,8 +280,8 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		bGPGkeyrings = gpg_open_keyrings(gpgexec,gpghome);
 		if (bGPGkeyrings) {
-			DBWriteContactSettingString(0,MODULENAME,"gpgExec",gpgexec);
-			DBWriteContactSettingString(0,MODULENAME,"gpgHome",gpghome);
+			db_set_s(0,MODULENAME,"gpgExec",gpgexec);
+			db_set_s(0,MODULENAME,"gpgHome",gpghome);
 		}
 		else {
 			db_unset(0, MODULENAME, "gpgExec");
@@ -290,7 +290,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		bSavePass = db_get_b(0,MODULENAME,"gpgSaveFlag",0);
 		if (bSavePass) {
-			tmp = myDBGetString(0,MODULENAME,"gpgSave");
+			tmp = db_get_sa(0,MODULENAME,"gpgSave");
 			if (tmp) {
 				gpg_set_passphrases(tmp);
 				mir_free(tmp);
@@ -311,7 +311,7 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Sent_NetLog("init extra icons");
 #endif
 	// init extra icons
-	for(int i=0;i<1+MODE_CNT*IEC_CNT;i++)
+	for (int i=0;i<1+MODE_CNT*IEC_CNT;i++)
 		g_IEC[i] = (HANDLE)-1;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -440,7 +440,7 @@ int onSystemOKToExit(WPARAM wParam, LPARAM lParam)
 {
 	if (bSavePass) {
 		LPSTR tmp = gpg_get_passphrases();
-		DBWriteContactSettingString(0,MODULENAME,"gpgSave",tmp);
+		db_set_s(0,MODULENAME,"gpgSave",tmp);
 		LocalFree(tmp);
 	}
 	else db_unset(0,MODULENAME,"gpgSave");

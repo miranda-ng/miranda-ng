@@ -1,135 +1,120 @@
 #include "commonheaders.h"
 
-pSupPro proto=NULL;
-pUinKey clist=NULL;
-int proto_cnt = 0;
-int clist_cnt = 0;
-int clist_inc = 100;
+LIST<SupPro> arProto(10, LIST<SupPro>::FTSortFunc(HandleKeySortT));
+LIST<UinKey> arClist(100, LIST<UinKey>::FTSortFunc(HandleKeySortT));
 
-void loadSupportedProtocols() {
-	int numberOfProtocols;
-	PROTOACCOUNT **protos;
-	LPSTR szNames = myDBGetString(0,MODULENAME,"protos");
-	if ( szNames && strchr(szNames,':') == NULL ) {
+void loadSupportedProtocols()
+{
+	LPSTR szNames = db_get_sa(0,MODULENAME,"protos");
+	if (szNames && strchr(szNames,':') == NULL) {
 		LPSTR tmp = (LPSTR) mir_alloc(2048); int j=0;
-		for(int i=0; szNames[i]; i++) {
-			if ( szNames[i] == ';' ) {
+		for (int i=0; szNames[i]; i++) {
+			if (szNames[i] == ';')
 				memcpy((PVOID)(tmp+j),(PVOID)":1:0:0",6); j+=6;
-			}
+
 			tmp[j++] = szNames[i];
 		}
 		tmp[j] = '\0';
 		SAFE_FREE(szNames); szNames = tmp;
-		DBWriteContactSettingString(0,MODULENAME,"protos",szNames);
+		db_set_s(0,MODULENAME,"protos",szNames);
 	}
 
+	int numberOfProtocols;
+	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&numberOfProtocols, &protos);
 
 	for (int i=0; i < numberOfProtocols; i++) {
-		if (protos[i]->szModuleName && CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0)) {
-			int j = proto_cnt; proto_cnt++;
-			proto = (pSupPro) mir_realloc(proto,sizeof(SupPro)*proto_cnt);
-			memset(&proto[j],0,sizeof(SupPro));
-			proto[j].name = mir_strdup(protos[i]->szModuleName);
-			if ( szNames ) {
-				if ( proto[j].name ) {
-					char tmp[128]; strcpy(tmp,proto[j].name); strcat(tmp,":");
-					LPSTR szName = strstr(szNames,tmp);
-					if ( szName ) {
+		if (!protos[i]->szModuleName || !CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0))
+			continue;
+
+		SupPro *p = (SupPro*)mir_calloc(sizeof(SupPro));
+		p->name = mir_strdup(protos[i]->szModuleName);
+		if (szNames && p->name) {
+			char tmp[128]; strcpy(tmp, p->name); strcat(tmp,":");
+			LPSTR szName = strstr(szNames, tmp);
+			if (szName) {
+				szName = strchr(szName,':');
+				if (szName) {
+					p->inspecting = (*++szName == '1');
+					szName = strchr(szName,':');
+					if (szName) {
+						p->split_on = atoi(++szName); p->tsplit_on = p->split_on;
 						szName = strchr(szName,':');
-						if ( szName ) {
-							proto[j].inspecting = (*++szName == '1');
-							szName = strchr(szName,':');
-							if ( szName ) {
-								proto[j].split_on = atoi(++szName); proto[j].tsplit_on = proto[j].split_on;
-								szName = strchr(szName,':');
-								if ( szName ) {
-									proto[j].split_off = atoi(++szName); proto[j].tsplit_off = proto[j].split_off;
-								}
-							}
-						}
+						if (szName)
+							p->split_off = atoi(++szName); p->tsplit_off = p->split_off;
 					}
 				}
 			}
-			else proto[j].inspecting = true;
 		}
+		else p->inspecting = true;
+		arProto.insert(p);
 	}
 	SAFE_FREE(szNames);
 }
 
-
-void freeSupportedProtocols() {
-	for (int j=0;j<proto_cnt;j++)
-		mir_free(proto[j].name);
-
-	SAFE_FREE(proto);
-	proto_cnt = 0;
-}
-
-pSupPro getSupPro(HANDLE hContact) {
-	int j;
-	for(j=0;j<proto_cnt && !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)proto[j].name);j++);
-	if (j==proto_cnt) return NULL;
-	return &proto[j];
-}
-
-// add contact in the list of secureIM users
-pUinKey addContact(HANDLE hContact) {
-	int j;
-	if (hContact) {
-		pSupPro proto = getSupPro(hContact);
-		if ( proto ) {
-			for(j=0;j<clist_cnt;j++) {
-				if ( !clist[j].hContact ) break;
-			}
-			if (j==clist_cnt) {
-				clist_cnt+=clist_inc;
-				clist = (pUinKey) mir_realloc(clist,sizeof(UinKey)*clist_cnt);
-				memset(&clist[j],0,sizeof(UinKey)*clist_inc);
-			}
-			else
-				memset(&clist[j],0,sizeof(UinKey));
-			clist[j].header = HEADER;
-			clist[j].footer = FOOTER;
-			clist[j].hContact = hContact;
-			clist[j].proto = proto;
-			clist[j].mode = db_get_b(hContact, MODULENAME, "mode", 99);
-			if ( clist[j].mode == 99 ) {
-				if ( isContactPGP(hContact)) clist[j].mode = MODE_PGP;
-				else
-					if ( isContactGPG(hContact)) clist[j].mode = MODE_GPG;
-					else
-						clist[j].mode = MODE_RSAAES;
-				db_set_b(hContact, MODULENAME, "mode", clist[j].mode);
-			}
-			clist[j].status = db_get_b(hContact, MODULENAME, "StatusID", STATUS_ENABLED);
-			clist[j].gpgMode = db_get_b(hContact, MODULENAME, "gpgANSI", 0);
-			return &clist[j];
-		}
+void freeSupportedProtocols()
+{
+	for (int j=0; j < arProto.getCount(); j++) {
+		mir_free(arProto[j]->name);
+		mir_free(arProto[j]);
 	}
+
+	arProto.destroy();
+}
+
+pSupPro getSupPro(HANDLE hContact)
+{
+	for (int j=0; j < arProto.getCount(); j++)
+		if ( CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)arProto[j]->name))
+			return arProto[j];
+	
 	return NULL;
 }
 
+// add contact in the list of secureIM users
+pUinKey addContact(HANDLE hContact)
+{
+	if (hContact == NULL) return NULL;
+		
+	pSupPro proto = getSupPro(hContact);
+	if (proto == NULL) return NULL;
+
+	pUinKey p = (pUinKey)mir_calloc(sizeof(UinKey));
+	p->header = HEADER;
+	p->footer = FOOTER;
+	p->hContact = hContact;
+	p->proto = proto;
+	p->mode = db_get_b(hContact, MODULENAME, "mode", 99);
+	if (p->mode == 99) {
+		if ( isContactPGP(hContact))
+			p->mode = MODE_PGP;
+		else
+			p->mode = isContactGPG(hContact) ? MODE_GPG : MODE_RSAAES;
+		db_set_b(hContact, MODULENAME, "mode", p->mode);
+	}
+	p->status = db_get_b(hContact, MODULENAME, "StatusID", STATUS_ENABLED);
+	p->gpgMode = db_get_b(hContact, MODULENAME, "gpgANSI", 0);
+	arClist.insert(p);
+	return p;
+}
+
 // delete contact from the list of secureIM users
-void delContact(HANDLE hContact) {
-	if (hContact) {
-		int j;
-		for(j=0;j<clist_cnt;j++) {
-			if (clist[j].hContact == hContact) {
-				cpp_delete_context(clist[j].cntx); clist[j].cntx = 0;
-				clist[j].hContact = 0;
-				SAFE_FREE(clist[j].tmp);
-				SAFE_FREE(clist[j].msgSplitted);
-				clist[j].header = clist[j].footer = EMPTYH;
-				return;
-			}
-		}
+void delContact(HANDLE hContact)
+{
+	pUinKey p = arClist.find((pUinKey)&hContact);
+	if (p) {
+		arClist.remove(p);
+
+		cpp_delete_context(p->cntx); p->cntx = 0;
+		mir_free(p->tmp);
+		mir_free(p->msgSplitted);
+		mir_free(p);
 	}
 }
 
 // load contactlist in the list of secureIM users
-void loadContactList() {
-
+void loadContactList()
+{
 	freeContactList();
 	loadSupportedProtocols();
 
@@ -141,35 +126,40 @@ void loadContactList() {
 }
 
 // free list of secureIM users
-void freeContactList() {
-
-	for(int j=0;j<clist_cnt;j++) {
-		cpp_delete_context(clist[j].cntx);
-		SAFE_FREE(clist[j].tmp);
-		SAFE_FREE(clist[j].msgSplitted);
+void freeContactList()
+{
+	for (int j=0; j < arClist.getCount(); j++) {
+		pUinKey p = arClist[j];
+		cpp_delete_context(p->cntx); p->cntx = 0;
+		mir_free(p->tmp);
+		mir_free(p->msgSplitted);
+		mir_free(p);
 	}
-	SAFE_FREE(clist);
-	clist_cnt = 0;
+	arClist.destroy();
 
 	freeSupportedProtocols();
 }
 
-
 // find user in the list of secureIM users and add him, if unknow
-pUinKey getUinKey(HANDLE hContact) {
-	int j;
-	for(j=0;j<clist_cnt && clist[j].hContact!=hContact;j++);
-	if (j==clist_cnt) return addContact(hContact);
-	return &clist[j];
+pUinKey findUinKey(HANDLE hContact)
+{
+	return arClist.find((pUinKey)&hContact);
 }
 
-pUinKey getUinCtx(HANDLE cntx) {
-	int j;
-	for(j=0;j<clist_cnt && clist[j].cntx!=cntx;j++);
-	if (j==clist_cnt) return NULL;
-	return &clist[j];
+pUinKey getUinKey(HANDLE hContact)
+{
+	pUinKey p = arClist.find((pUinKey)&hContact);
+	return (p) ? p : addContact(hContact);
 }
 
+pUinKey getUinCtx(HANDLE cntx)
+{
+	for (int j=0; j < arClist.getCount(); j++)
+		if (arClist[j]->cntx == cntx)
+			return arClist[j];
+	
+	return NULL;
+}
 
 // add message to user queue for send later
 void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg) {
@@ -221,12 +211,13 @@ void getContactName(HANDLE hContact, LPSTR szName)
 	wcscpy((LPWSTR)szName, (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_UNICODE));
 }
 
-void getContactUinA(HANDLE hContact, LPSTR szUIN) {
-
+void getContactUinA(HANDLE hContact, LPSTR szUIN)
+{
 	*szUIN = 0;
 
 	pSupPro ptr = getSupPro(hContact);
-	if (!ptr) return;
+	if (!ptr)
+		return;
 
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR) CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
@@ -243,7 +234,7 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN) {
 	}
 	else strcpy(szUIN, "===  unknown  ===");
 
-	DBFreeVariant(&dbv_uniqueid);
+	db_free(&dbv_uniqueid);
 }
 
 void getContactUin(HANDLE hContact, LPSTR szUIN)
@@ -255,6 +246,5 @@ void getContactUin(HANDLE hContact, LPSTR szUIN)
 		mir_free(tmp);
 	}
 }
-
 
 // EOF

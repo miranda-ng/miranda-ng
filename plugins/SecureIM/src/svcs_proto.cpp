@@ -4,9 +4,9 @@
 // return SignID
 int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg=NULL) {
 	if (szPlainMsg) *szPlainMsg=(LPSTR)szMsg;
-	for(int i=0;signs[i].len;i++) {
+	for (int i=0;signs[i].len;i++) {
 		if (memcmp(szMsg,signs[i].sig,signs[i].len)==0) {
-/*			for(int i=strlen(szMsg)-1;i;i--) {
+/*			for (int i=strlen(szMsg)-1;i;i--) {
 				if ( szMsg[i] == '\x0D' || szMsg[i] == '\x0A' )
 					((LPSTR)szMsg)[i] = '\0';
 				else
@@ -326,7 +326,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			// if valid key is succefully retrieved
 			ptr->offlineKey = true;
 			InitKeyX(ptr,dbv.pbVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			// decrypting message
 			szPlainMsg = decodeMsg(ptr,lParam,szEncMsg);
@@ -776,7 +776,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	}
 
 	// contact is offline
-	if ( stat==ID_STATUS_OFFLINE ) {
+	if (stat == ID_STATUS_OFFLINE) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onSendMsg: message for offline");
 #endif
@@ -786,24 +786,24 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 		}
 
 		if ( !bSOM ) {
-			if ( ssig!=SiG_NONE ) {
+			if ( ssig!=SiG_NONE )
 				return returnNoError(pccsd->hContact);
-			}
+
 			// exit and send unencrypted message
 			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 		}
 		BOOL isMiranda = isClientMiranda(ptr->hContact);
 
-		if ( stid==STATUS_ALWAYSTRY && isMiranda ) {  // always try && Miranda
+		if (stid == STATUS_ALWAYSTRY && isMiranda) {  // always try && Miranda
 			// set key for offline user
 			DBVARIANT dbv; dbv.type = DBVT_BLOB;
-			if ( DBGetContactSettingDword(ptr->hContact, MODULENAME, "offlineKeyTimeout", 0) > gettime() &&
+			if ( db_get_dw(ptr->hContact, MODULENAME, "offlineKeyTimeout", 0) > gettime() &&
 				DBGetContactSetting(ptr->hContact, MODULENAME, "offlineKey", &dbv) == 0
 				) {
 					// if valid key is succefully retrieved
 					ptr->offlineKey = true;
 					InitKeyX(ptr,dbv.pbVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 			}
 			else {
 				db_unset(ptr->hContact,MODULENAME,"offlineKey");
@@ -899,9 +899,9 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 #endif
 	// send KeyA if init || always_try || waitkey || always_if_possible
 	if ( ssig==SiG_INIT || (stid==STATUS_ALWAYSTRY && isClientMiranda(ptr->hContact)) || isSecureIM(ptr->hContact) || ptr->waitForExchange ) {
-		if (ssig==SiG_NONE) {
+		if (ssig==SiG_NONE)
 			addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
-		}
+
 		if ( !ptr->waitForExchange ) {
 			// init || always_try || always_if_possible
 			LPSTR keyToSend = InitKeyA(ptr,0);	// calculate public and private key & fill KeyA
@@ -937,12 +937,11 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 	pUinKey ptr = getUinKey(pccsd->hContact);
 	if (!ptr || !bSFT) return CallService(PSS_FILE, wParam, lParam);
 
-	if ( isContactSecured(pccsd->hContact)&SECURED ) {
-
+	if (isContactSecured(pccsd->hContact)&SECURED) {
 		char **file=(char **)pccsd->lParam;
 		if (file_idx==100) file_idx=0;
 		int i;
-		for(i=0;file[i];i++) {
+		for (i=0;file[i];i++) {
 
 			if (strstr(file[i],".AESHELL")) continue;
 
@@ -966,16 +965,16 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam)
 			file[i]=file_out;
 		}
 		if ( ptr->fileSend ) { // очистим сохраненный список
-			for(int j=0;ptr->fileSend[j];j++) {
+			for (int j=0; ptr->fileSend[j]; j++)
 				mir_free(ptr->fileSend[j]);
-			}
+
 			SAFE_FREE(ptr->fileSend);
 		}
-		if ( i ) { // скопируем новый список
+		if (i) { // скопируем новый список
 			ptr->fileSend = (char **) mir_alloc(sizeof(char*)*(i+1));
-			for(i=0;file[i];i++) {
+			for (i=0;file[i];i++)
 				ptr->fileSend[i] = mir_strdup(file[i]);
-			}
+
 			ptr->fileSend[i] = NULL;
 		}
 	}
@@ -991,18 +990,19 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 	pUinKey ptr = getUinKey(ack->hContact);
 	if (!ptr || (f && (f->flags & PFTS_SENDING) && !bSFT)) return 0;
 
-	if ( isContactSecured(ack->hContact)&SECURED ) {
+	if (isContactSecured(ack->hContact)&SECURED) {
 		switch(ack->result) {
 		case ACKRESULT_DATA:
-			if ( !( f->flags & PFTS_SENDING )) {
-				ptr->finFileRecv = (f->currentFileSize == f->currentFileProgress);
-				if ( !ptr->lastFileRecv ) ptr->lastFileRecv = mir_strdup(f->szCurrentFile);
+			if (f->flags & PFTS_SENDING) {
+				ptr->finFileSend = (f->currentFileSize == f->currentFileProgress);
+				if (!ptr->lastFileSend)
+					ptr->lastFileSend = mir_strdup(f->szCurrentFile);
 			}
-			else
-				if ( f->flags & PFTS_SENDING ) {
-					ptr->finFileSend = (f->currentFileSize == f->currentFileProgress);
-					if ( !ptr->lastFileSend ) ptr->lastFileSend = mir_strdup(f->szCurrentFile);
-				}
+			else {
+				ptr->finFileRecv = (f->currentFileSize == f->currentFileProgress);
+				if (!ptr->lastFileRecv)
+					ptr->lastFileRecv = mir_strdup(f->szCurrentFile);
+			}
 			break;
 
 		case ACKRESULT_DENIED:
@@ -1017,7 +1017,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 			}
 			if ( ptr->fileSend ) {
 				char **file=ptr->fileSend;
-				for(int j=0;file[j];j++) {
+				for (int j=0;file[j];j++) {
 					if ( strstr(file[j],".AESHELL")) mir_unlink(file[j]);
 					mir_free(file[j]);
 				}
@@ -1042,7 +1042,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 							strcpy(buf,p);
 							pos=p;
 						}
-						for(int i=1;i<10000;i++) {
+						for (int i=1;i<10000;i++) {
 							sprintf(pos," (%d)%s",i,buf);
 							if ( !isFileExist(file_out)) break;
 						}
@@ -1051,12 +1051,11 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 					sprintf(buf,"%s\n%s",Translate(sim012),file_out);
 					showPopUp(buf,NULL,g_hPOP[POP_PU_MSR],2);
 
-					if ( ptr->mode==MODE_RSAAES ) {
+					if ( ptr->mode == MODE_RSAAES )
 						exp->rsa_decrypt_file(ptr->cntx,ptr->lastFileRecv,file_out);
-					}
-					else {
+					else
 						cpp_decrypt_file(ptr->cntx,ptr->lastFileRecv,file_out);
-					}
+
 					mir_free(file_out);
 					mir_unlink(ptr->lastFileRecv);
 				}
@@ -1069,7 +1068,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam)
 				ptr->finFileSend = false;
 			}
 			break;
-		} // switch
+		}
 	}
 	return 0;
 }

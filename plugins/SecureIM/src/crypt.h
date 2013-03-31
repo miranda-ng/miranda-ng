@@ -12,8 +12,8 @@
 struct SupPro {
 	LPSTR name;
 	BOOL inspecting;
-	int split_on,tsplit_on;
-	int split_off,tsplit_off;
+	int split_on, tsplit_on;
+	int split_off, tsplit_off;
 };
 typedef SupPro *pSupPro;
 
@@ -37,9 +37,10 @@ typedef partitionMessage* pPM;
 #define EMPTYH 0xF1E2D3C4
 
 // memory struct for keys
-struct UinKey {
-	u_int header;		// HEADER
+struct UinKey
+{
 	HANDLE hContact;	// handle of contact
+	u_int header;		// HEADER
 	pSupPro proto;		// proto struct
 	BYTE mode,tmode;	// mode: Native,PGP,GPG,RSA/AES,RSA [0..4]
 	BYTE status,tstatus;	// status: Disabled,Enabled,AlwaysTry [0..2] for Native mode
@@ -93,18 +94,18 @@ struct TWaitForExchange {
 
 extern char szUIN[NAMSIZE];
 extern char szName[NAMSIZE];
-extern pSupPro proto;
-extern pUinKey clist;
-extern int proto_cnt;
-extern int clist_cnt;
+
+extern LIST<SupPro> arProto;
+extern LIST<UinKey> arClist;
 
 // crypt_lists.cpp
 void loadContactList();
 void freeContactList();
-pUinKey addContact(HANDLE);
-void delContact(HANDLE);
+pUinKey addContact(HANDLE hContact);
+void    delContact(HANDLE hContact);
 pSupPro getSupPro(HANDLE);
-pUinKey getUinKey(HANDLE);
+pUinKey findUinKey(HANDLE hContact);
+pUinKey getUinKey(HANDLE hContact);
 pUinKey getUinCtx(HANDLE);
 void addMsg2Queue(pUinKey,WPARAM,LPSTR);
 
@@ -116,22 +117,22 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN);
 // crypt_check.cpp
 int getContactStatus(HANDLE);
 
-BOOL isSecureProtocol(HANDLE);
-BYTE isContactSecured(HANDLE);
-BOOL isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda=FALSE);
-BOOL isClientMiranda(HANDLE hContact, BOOL emptyMirverAsMiranda=FALSE);
-BOOL isProtoSmallPackets(HANDLE);
-BOOL isContactInvisible(HANDLE);
-BOOL isNotOnList(HANDLE);
-BOOL isContactNewPG(HANDLE);
-BOOL isContactPGP(HANDLE);
-BOOL isContactGPG(HANDLE);
-BOOL isContactRSAAES(HANDLE);
-BOOL isContactRSA(HANDLE);
-BOOL isChatRoom(HANDLE);
-BOOL isFileExist(LPCSTR);
-BOOL isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM=FALSE);
-BOOL isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM=FALSE);
+bool isSecureProtocol(HANDLE hContact);
+BYTE isContactSecured(HANDLE hContact);
+bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda=FALSE);
+bool isClientMiranda(HANDLE hContact, BOOL emptyMirverAsMiranda=FALSE);
+bool isProtoSmallPackets(HANDLE);
+bool isContactInvisible(HANDLE);
+bool isNotOnList(HANDLE);
+bool isContactNewPG(HANDLE);
+bool isContactPGP(HANDLE);
+bool isContactGPG(HANDLE);
+bool isContactRSAAES(HANDLE);
+bool isContactRSA(HANDLE);
+bool isChatRoom(HANDLE);
+bool isFileExist(LPCSTR);
+bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM=FALSE);
+bool isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM=FALSE);
 
 // crypt_icons.cpp
 HICON mode2icon(int,int);

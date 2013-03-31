@@ -82,7 +82,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 	if (!ptr) {
 		// hide menu bars
 		mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-		for(i=0;i<SIZEOF(g_hMenu);i++) {
+		for (i=0;i<SIZEOF(g_hMenu);i++) {
 			if ( g_hMenu[i] )
 				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[i],(LPARAM)&mi);
 		}
@@ -90,20 +90,19 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 	}
 
 //	char *szProto = GetContactProto(hContact,0);
-//	if (szProto==NULL) // || DBGetContactSettingDword(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+//	if (szProto==NULL) // || db_get_dw(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 //		return 0;
 
-	BOOL isSecureProto = isSecureProtocol(hContact);
-	BOOL isPGP = isContactPGP(hContact);
-	BOOL isGPG = isContactGPG(hContact);
-//	BOOL isRSAAES = isContactRSAAES(hContact);
-	BOOL isSecured = isContactSecured(hContact)&SECURED;
-	BOOL isChat = isChatRoom(hContact);
-	BOOL isMiranda = isClientMiranda(hContact);
+	bool isSecureProto = isSecureProtocol(hContact);
+	bool isPGP = isContactPGP(hContact);
+	bool isGPG = isContactGPG(hContact);
+	bool isSecured = (isContactSecured(hContact)&SECURED) != 0;
+	bool isChat = isChatRoom(hContact);
+	bool isMiranda = isClientMiranda(hContact);
 
 	// hide all menu bars
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-	for(i=0;i<SIZEOF(g_hMenu);i++) {
+	for (i=0;i<SIZEOF(g_hMenu);i++) {
 		if ( g_hMenu[i] )
 			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[i],(LPARAM)&mi);
 	}
@@ -132,7 +131,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[2],(LPARAM)&mi);
 
 			mi.flags = CMIM_FLAGS | CMIM_ICON;
-			for(i=0;i<=(ptr->mode==MODE_RSAAES?1:2);i++) {
+			for (i=0;i<=(ptr->mode==MODE_RSAAES?1:2);i++) {
 				mi.hIcon = (i == ptr->status) ? g_hICO[ICO_ST_DIS+ptr->status] : NULL;
 				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[3+i],(LPARAM)&mi);
 			}
@@ -165,7 +164,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[10],(LPARAM)&mi);
 
 			mi.flags = CMIM_FLAGS | CMIM_ICON;
-			for(i=0;i<MODE_CNT;i++) {
+			for (i=0;i<MODE_CNT;i++) {
 				if ( i==MODE_PGP && ptr->mode!=MODE_PGP && !bPGP ) continue;
 				if ( i==MODE_GPG && ptr->mode!=MODE_GPG && !bGPG ) continue;
 				mi.hIcon = (i == ptr->mode) ? g_hICO[ICO_ST_ENA] : NULL;

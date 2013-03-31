@@ -47,7 +47,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 		PBYTE buf = (PBYTE) alloca(sigLen); int len;
 		exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)buf,&len);
 		sha_old = mir_strdup(to_hex(buf,len));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if ( bAAK ) {
 		if ( k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
@@ -190,7 +190,7 @@ BYTE loadRSAkey(pUinKey ptr) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
 #endif
-       		DBFreeVariant(&dbv);
+       		db_free(&dbv);
        	    }
        	}
        	return ptr->keyLoaded;

@@ -100,7 +100,6 @@ int onModulesLoaded(WPARAM, LPARAM);
 int onSystemOKToExit(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
-LPSTR myDBGetString(HANDLE,const char *,const char *);
 LPSTR myDBGetStringDecode(HANDLE,const char *,const char *);
 int myDBWriteStringEncode(HANDLE,const char *,const char *,const char *);
 

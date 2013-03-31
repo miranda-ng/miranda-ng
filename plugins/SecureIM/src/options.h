@@ -17,7 +17,6 @@ void RefreshProtoDlg(HWND);
 void RefreshPGPDlg(HWND,BOOL);
 void RefreshGPGDlg(HWND,BOOL);
 void ResetGeneralDlg(HWND);
-void ResetProtoDlg(HWND);
 LPARAM getListViewParam(HWND,UINT);
 void setListViewIcon(HWND,UINT,pUinKey);
 void setListViewMode(HWND,UINT,UINT);

@@ -43,7 +43,7 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 
 	if ( !ptr ) return 0;
 
-	for(int i=0;i<DBGetContactSettingWord(0,MODULENAME,"ket",10)*10; i++) {
+	for (int i=0;i<db_get_w(0,MODULENAME,"ket",10)*10; i++) {
 		Sleep( 100 );
 		if ( ptr->waitForExchange != 1 ) break;
 	} // for

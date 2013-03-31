@@ -11,11 +11,11 @@ LPSTR splitMsg(LPSTR szMsg, int iLen) {
 	LPSTR out = (LPSTR) mir_alloc(len*2);
 	LPSTR buf = out;
 
-	WORD msg_id = DBGetContactSettingWord(0, MODULENAME, "msgid", 0) + 1;
+	WORD msg_id = db_get_w(0, MODULENAME, "msgid", 0) + 1;
 	DBWriteContactSettingWord(0, MODULENAME, "msgid", msg_id);
 
 	int part_all = (len+iLen-1)/iLen;
-	for(int part_num=0; part_num<part_all; part_num++) {
+	for (int part_num=0; part_num<part_all; part_num++) {
 		int sz = (len>iLen)?iLen:len;
 		mir_snprintf(buf,32,"%s%04X%02X%02X",SIG_SECP,msg_id,part_num,part_all);
 		memcpy(buf+LEN_SECP+8,szMsg,sz);

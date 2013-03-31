@@ -1,267 +1,216 @@
 #include "commonheaders.h"
 
-
-int getContactStatus(HANDLE hContact) {
-
+int getContactStatus(HANDLE hContact)
+{
 	pSupPro ptr = getSupPro(hContact);
 	if (ptr)
-		return DBGetContactSettingWord(hContact, ptr->name, "Status", ID_STATUS_OFFLINE);
+		return db_get_w(hContact, ptr->name, "Status", ID_STATUS_OFFLINE);
 
 	return -1;
 }
 
-
-BOOL isSecureProtocol(HANDLE hContact) {
-
+bool isSecureProtocol(HANDLE hContact)
+{
 	pSupPro ptr = getSupPro(hContact);
-	if (!ptr) return false;
+	if (!ptr)
+		return false;
 
-	return ptr->inspecting;
+	return ptr->inspecting != 0;
 }
 
-
-BYTE isContactSecured(HANDLE hContact) {
+BYTE isContactSecured(HANDLE hContact)
+{
 	// нужна проверка на Offline и в этом случае другие статусы
-	if (!clist_cnt) return 0;
+	if (!arClist.getCount()) return 0;
 
-	BYTE r=0;
 	if ( isProtoMetaContacts(hContact))
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
-	for(int j=0;j<clist_cnt;j++) {
-		if ( clist[j].hContact == hContact ) {
-			if ( !clist[j].proto->inspecting ) break;
-       			DBVARIANT dbv;
-			r=clist[j].mode;
-			switch(r) {
-			case MODE_NATIVE:
-				if (cpp_keyx(clist[j].cntx)!=0) r|=SECURED;
-				break;
-			case MODE_PGP:
-				DBGetContactSetting(hContact,MODULENAME,"pgp",&dbv);
-				if ( dbv.type!=0 ) r|=SECURED;
-				DBFreeVariant(&dbv);
-				break;
-			case MODE_GPG:
-				DBGetContactSetting(hContact,MODULENAME,"gpg",&dbv);
-				if ( dbv.type!=0 ) r|=SECURED;
-				DBFreeVariant(&dbv);
-				break;
-			case MODE_RSAAES:
-				if (exp->rsa_get_state(clist[j].cntx)==7) r|=SECURED;
-				break;
-			case MODE_RSA:
-				if (clist[j].cntx) r|=SECURED;
-				break;
-			}
-			break;
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting)
+		return false;
+
+	BYTE res = p->mode;
+	DBVARIANT dbv;
+	switch(p->mode) {
+	case MODE_NATIVE:
+		if (cpp_keyx(p->cntx) != 0) res |= SECURED;
+		break;
+
+	case MODE_PGP:
+		if (!db_get_s(hContact, MODULENAME, "pgp", &dbv)) {
+			res |= SECURED;
+			db_free(&dbv);
 		}
+		break;
+
+	case MODE_GPG:
+		if (!db_get_s(hContact, MODULENAME, "gpg", &dbv)) {
+			res |= SECURED;
+			db_free(&dbv);
+		}
+		break;
+
+	case MODE_RSAAES:
+		if (exp->rsa_get_state(p->cntx) == 7) res |= SECURED;
+		break;
+
+	case MODE_RSA:
+		if (p->cntx != 0) res |= SECURED;
+		break;
 	}
-	return r; // (mode&SECURED) - проверка на EST/DIS
+	return res;
 }
 
+bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda)
+{
+	if (!bMCD) return true;
+	if (!ptr->proto->inspecting) return false;
 
-BOOL isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda) {
-
-	if ( !bMCD ) return true;
-	if ( !ptr->proto->inspecting ) return false;
-
-	BOOL isMiranda = true;
-	LPSTR mirver = myDBGetString(ptr->hContact,ptr->proto->name,"MirVer");
-	if ( mirver ) {
+	bool isMiranda = true;
+	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
+	if (mirver) {
 		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver,"Miranda")!=NULL);
 		mir_free(mirver);
 	}
 	return isMiranda;
 }
 
+bool isClientMiranda(HANDLE hContact, BOOL emptyMirverAsMiranda)
+{
+	if (!bMCD) return true;
+	if (!arClist.getCount()) return false;
 
-BOOL isClientMiranda(HANDLE hContact, BOOL emptyMirverAsMiranda) {
+	pUinKey p = findUinKey(hContact);
+	return (p) ? isClientMiranda(p, emptyMirverAsMiranda) : false;
+}
 
-	if ( !bMCD ) return true;
-	if ( !clist_cnt ) return false;
+bool isProtoSmallPackets(HANDLE hContact)
+{
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting)
+		return false;
 
-	for(int j=0;j<clist_cnt;j++) {
-		if ( clist[j].hContact == hContact ) {
-			return isClientMiranda(&clist[j],emptyMirverAsMiranda);
-		}
+	return strstr(p->proto->name,"IRC") != NULL || strstr(p->proto->name,"WinPopup") != NULL || strstr(p->proto->name,"VyChat") != NULL;
+}
+
+bool isContactInvisible(HANDLE hContact)
+{
+	if (db_get_b(hContact, "CList", "Hidden", 0))
+		return true;
+	
+	pUinKey p = findUinKey(hContact);
+	if (!p || p->waitForExchange || !p->proto || !p->proto->inspecting)
+		return false;
+
+	switch(db_get_w(hContact, p->proto->name, "ApparentMode", 0)) {
+	case 0:
+		return CallProtoService(p->proto->name, PS_GETSTATUS, 0, 0) == ID_STATUS_INVISIBLE;
+	case ID_STATUS_ONLINE:
+		return false;
+	case ID_STATUS_OFFLINE:
+		return true;
 	}
 	return false;
 }
 
-
-BOOL isProtoSmallPackets(HANDLE hContact) {
-
-	if (!clist_cnt) return false;
-	for(int j=0;j<clist_cnt;j++) {
-		if ( clist[j].hContact == hContact ) {
-			if ( !clist[j].proto->inspecting ) break;
-				return  strstr(clist[j].proto->name,"IRC")!=NULL ||
-					strstr(clist[j].proto->name,"WinPopup")!=NULL ||
-					strstr(clist[j].proto->name,"VyChat")!=NULL;
-		}
-	}
-	return false;
+bool isNotOnList(HANDLE hContact)
+{
+	return db_get_b(hContact, "CList", "NotOnList", 0) != 0;
 }
 
+bool isContactNewPG(HANDLE hContact)
+{
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting || !p->cntx)
+		return false;
 
-BOOL isContactInvisible(HANDLE hContact) {
+	return (p->features & CPP_FEATURES_NEWPG) != 0;
+}
 
-	if ( !db_get_b(hContact,"CList","Hidden",0)) {
-		if ( !clist_cnt ) return false;
-		for(int j=0;j<clist_cnt;j++) {
-			if ( clist[j].hContact == hContact ) {
-				if ( !clist[j].proto->inspecting ) return false;
-				if ( clist[j].waitForExchange ) return false;
-				switch( (int)DBGetContactSettingWord(hContact,clist[j].proto->name,"ApparentMode",0)) {
-				case 0:
-					return (CallProtoService(clist[j].proto->name,PS_GETSTATUS,0,0)==ID_STATUS_INVISIBLE);
-				case ID_STATUS_ONLINE:
-					return false;
-				case ID_STATUS_OFFLINE:
-					return true;
-				} //switch
-				break;
-			}
-		}// for
-	}
+bool isContactPGP(HANDLE hContact)
+{
+	if (!bPGPloaded || (!bPGPkeyrings && !bPGPprivkey)) return false;
+
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting || p->mode != MODE_PGP)
+		return false;
+
+	DBVARIANT dbv;
+	if (db_get_s(hContact, MODULENAME, "pgp", &dbv)) return false;
+	db_free(&dbv);
 	return true;
 }
 
-
-BOOL isNotOnList(HANDLE hContact) {
-	return db_get_b(hContact, "CList", "NotOnList", 0);
-}
-
-
-BOOL isContactNewPG(HANDLE hContact) {
-
-	if (!clist_cnt) return false;
-	for(int j=0;j<clist_cnt;j++) {
-		if (clist[j].hContact == hContact) {
-			if ( !clist[j].proto->inspecting ) break;
-			if ( !clist[j].cntx ) break;
-			return (clist[j].features & CPP_FEATURES_NEWPG) != 0;
-		}
-	}
-	return false;
-}
-
-
-BOOL isContactPGP(HANDLE hContact) {
-
-	if (!bPGPloaded || (!bPGPkeyrings && !bPGPprivkey)) return false;
-	if (!clist_cnt) return false;
-	for(int j=0;j<clist_cnt;j++) {
-	    if (clist[j].hContact == hContact) {
-		if ( !clist[j].proto->inspecting ) break;
-	    	if ( clist[j].mode!=MODE_PGP ) break;
-        	DBVARIANT dbv;
-        	DBGetContactSetting(hContact,MODULENAME,"pgp",&dbv);
-        	BOOL r=(dbv.type!=0);
-        	DBFreeVariant(&dbv);
-        	return r;
-	    }
-	}
-	return false;
-}
-
-
-BOOL isContactGPG(HANDLE hContact) {
-
+bool isContactGPG(HANDLE hContact)
+{
 	if (!bGPGloaded || !bGPGkeyrings) return false;
-	if (!clist_cnt) return false;
-	for(int j=0;j<clist_cnt;j++) {
-	    if (clist[j].hContact == hContact) {
-		if ( !clist[j].proto->inspecting ) break;
-	    	if ( clist[j].mode!=MODE_GPG ) break;
-        	DBVARIANT dbv;
-        	DBGetContactSetting(hContact,MODULENAME,"gpg",&dbv);
-        	BOOL r=(dbv.type!=0);
-        	DBFreeVariant(&dbv);
-        	return r;
-	    }
-	}
-	return false;
+
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting || p->mode != MODE_GPG)
+		return false;
+
+	DBVARIANT dbv;
+	if (db_get_s(hContact, MODULENAME, "gpg", &dbv)) return false;
+	db_free(&dbv);
+	return true;
 }
 
+bool isContactRSAAES(HANDLE hContact)
+{
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting)
+		return false;
 
-BOOL isContactRSAAES(HANDLE hContact) {
-
-	if (!clist_cnt) return false;
-        for(int j=0;j<clist_cnt;j++) {
-		if (clist[j].hContact == hContact) {
-			if ( !clist[j].proto->inspecting ) break;
-			if ( clist[j].mode!=MODE_RSAAES ) break;
-        		return true;
-		}
-	}
-	return false;
+	return p->mode == MODE_RSAAES;
 }
 
+bool isContactRSA(HANDLE hContact)
+{
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting)
+		return false;
 
-BOOL isContactRSA(HANDLE hContact) {
-
-	if (!clist_cnt) return false;
-        for(int j=0;j<clist_cnt;j++) {
-		if (clist[j].hContact == hContact) {
-			if ( !clist[j].proto->inspecting ) break;
-			if ( clist[j].mode!=MODE_RSA ) break;
-        	return true;
-		}
-	}
-	return false;
+	return p->mode == MODE_RSA;
 }
 
+bool isChatRoom(HANDLE hContact)
+{
+	pUinKey p = findUinKey(hContact);
+	if (!p || !p->proto || !p->proto->inspecting)
+		return false;
 
-BOOL isChatRoom(HANDLE hContact) {
-
-	if (!clist_cnt) return false;
-	for(int j=0;j<clist_cnt;j++) {
-		if ( clist[j].hContact == hContact ) {
-			if ( !clist[j].proto->inspecting ) break;
-			return (db_get_b(hContact,clist[j].proto->name,"ChatRoom",0)!=0);
-		}
-	}
-	return false;
+	return db_get_b(hContact, p->proto->name, "ChatRoom", 0) != 0;
 }
 
-
-BOOL isFileExist(LPCSTR filename) {
+bool isFileExist(LPCSTR filename)
+{
 	return (GetFileAttributes(filename)!=(UINT)-1);
 }
 
+bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
+{
+	if (!bAIP) return false;
+	if (!ptr->proto->inspecting) return false;
 
-BOOL isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM) {
-
-	if ( !bAIP ) return false;
-	if ( !ptr->proto->inspecting ) return false;
-
-	BOOL isSecureIM = false;
-	if ( bNOL && db_get_b(ptr->hContact,"CList","NotOnList",0)) {
+	if (bNOL && db_get_b(ptr->hContact, "CList", "NotOnList", 0))
 		return false;
-	}
-	LPSTR mirver = myDBGetString(ptr->hContact,ptr->proto->name,"MirVer");
-	if ( mirver ) {
+
+	bool isSecureIM = false;
+	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
+	if (mirver) {
 		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver,"SecureIM")!=NULL) || (strstr(mirver,"secureim")!=NULL);
 		mir_free(mirver);
 	}
 	return isSecureIM;
 }
 
+bool isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM)
+{
+	if (!bAIP) return false;
 
-BOOL isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM) {
-
-	if ( !bAIP ) return false;
-	if ( !clist_cnt ) return false;
-
-	for(int j=0;j<clist_cnt;j++) {
-		if (clist[j].hContact == hContact) {
-			return isSecureIM(&clist[j],emptyMirverAsSecureIM);
-		}
-	}
-	return false;
+	pUinKey p = findUinKey(hContact);
+	return (p) ? isSecureIM(p, emptyMirverAsSecureIM) : false;
 }
-
 
 // EOF

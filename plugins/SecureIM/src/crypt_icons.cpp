@@ -15,7 +15,7 @@ static ICON_CACHE& getCacheItem(int mode, int type)
 	int m = mode & 0x0f, s = (mode & SECURED)>>4, i; // разобрали на части - режим и состояние
 	HICON icon;
 
-	for(i=0; i < arIcoList.getCount(); i++)
+	for (i=0; i < arIcoList.getCount(); i++)
 		if (arIcoList[i].mode == ((type<<8) | mode))
 			return arIcoList[i];
 
@@ -78,7 +78,7 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 	if ( ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
 		StatusIconData sid = {sizeof(sid) };
 		sid.szModule = (char*)MODULENAME;
-		for(int i = MODE_NATIVE; i < MODE_CNT; i++) {
+		for (int i = MODE_NATIVE; i < MODE_CNT; i++) {
 			sid.dwId = i;
 			sid.flags = (mode & SECURED) ? 0 : MBF_DISABLED;
 			if (mode == -1 || (mode & 0x0f) != i || isChatRoom(hContact))
@@ -97,7 +97,7 @@ void ShowStatusIcon(HANDLE hContact)
 
 void ShowStatusIconNotify(HANDLE hContact)
 {
-	int mode = isContactSecured(hContact);
+	BYTE mode = isContactSecured(hContact);
 	NotifyEventHooks(g_hEvent[(mode&SECURED)!=0], (WPARAM)hContact, 0);
 	ShowStatusIcon(hContact,mode);
 }

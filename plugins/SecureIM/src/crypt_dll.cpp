@@ -9,7 +9,7 @@ LPSTR InitKeyA(pUinKey ptr,int features) {
 	if ( !ptr->cntx )
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
-	char *tmp = myDBGetString(ptr->hContact,MODULENAME,"PSK");
+	char *tmp = db_get_sa(ptr->hContact,MODULENAME,"PSK");
 	if (tmp) {
 	    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
 	    mir_free(tmp);
@@ -50,7 +50,7 @@ int InitKeyB(pUinKey ptr,LPCSTR key) {
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
 	if (!cpp_keyp(ptr->cntx)) {
-		char *tmp = myDBGetString(ptr->hContact,MODULENAME,"PSK");
+		char *tmp = db_get_sa(ptr->hContact,MODULENAME,"PSK");
 		if (tmp) {
 		    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
 		    mir_free(tmp);
@@ -100,7 +100,7 @@ BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 		// store timeout of key in database (2 days)
 		cws.szSetting = "offlineKeyTimeout";
 		cws.value.type = DBVT_DWORD;
-		cws.value.dVal = gettime()+(60*60*24*DBGetContactSettingWord(0,MODULENAME,"okt",2));
+		cws.value.dVal = gettime()+(60*60*24*db_get_w(0,MODULENAME,"okt",2));
 		CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 
 		// key exchange is finished
@@ -199,32 +199,31 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 }
 
 
-BOOL LoadKeyPGP(pUinKey ptr) {
-   	int mode = db_get_b(ptr->hContact,MODULENAME,"pgp_mode",255);
-   	if (mode==0) {
-   		DBVARIANT dbv;
-   		DBGetContactSetting(ptr->hContact,MODULENAME,"pgp",&dbv);
+BOOL LoadKeyPGP(pUinKey ptr)
+{
+	int mode = db_get_b(ptr->hContact,MODULENAME,"pgp_mode",255);
+	if (mode == 0) {
+		DBVARIANT dbv;
+		DBGetContactSetting(ptr->hContact,MODULENAME,"pgp",&dbv);
 		BOOL r=(dbv.type==DBVT_BLOB);
 		if (r) pgp_set_keyid(ptr->cntx,(PVOID)dbv.pbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return r;
-   	}
-   	else
-   	if (mode==1) {
-   		LPSTR key = myDBGetStringDecode(ptr->hContact,MODULENAME,"pgp");
-		if ( key ) {
-   			pgp_set_key(ptr->cntx,key);
-   			mir_free(key);
-	   		return 1;
-   		}
-   	}
+	}
+	else if (mode == 1) {
+		LPSTR key = myDBGetStringDecode(ptr->hContact,MODULENAME,"pgp");
+		if (key) {
+			pgp_set_key(ptr->cntx,key);
+			mir_free(key);
+			return 1;
+		}
+	}
 	return 0;
 }
 
-
 BOOL LoadKeyGPG(pUinKey ptr) {
 
-	LPSTR key = myDBGetString(ptr->hContact,MODULENAME,"gpg");
+	LPSTR key = db_get_sa(ptr->hContact,MODULENAME,"gpg");
 	if ( key ) {
 		gpg_set_keyid(ptr->cntx,key);
 		mir_free(key);
