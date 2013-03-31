@@ -542,9 +542,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					int bytesParsed = 0;
 					HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 					if(hXml != NULL) {
-						BYTE isUTF = 0;
-						if ( !lstrcmpi(xi.getAttrValue(hXml, _T("encoding")), _T("UTF-8")))
-							isUTF = 1;
+						BYTE isTitleUTF = 0, isURLUTF = 0, isSiteURLUTF = 0, isGroupUTF = 0;
 						HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 						if ( !node)
 							node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -562,7 +560,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 											node = xi.getParent(node);
 											tmpnode = node;
 											node = xi.getNextNode(node);
-											LPCTSTR tmp = xi.getName(node);
 											if (node)
 												break;
 										} while (lstrcmpi(xi.getName(node), _T("body")));
@@ -576,21 +573,28 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										if (!lstrcmpi(xi.getAttrName(node, i), _T("title"))) {
 											title = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 											if ( !title) {
-												isUTF = 1;
+												isTitleUTF = 0;
 												title = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
-											}
+											} else
+												isTitleUTF = 1;
 											continue;
 										}
 										if (!lstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
 											url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-											if ( !url)
+											if ( !url) {
+												isURLUTF = 0;
 												url = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											} else
+												isURLUTF = 1;
 											continue;
 										}
 										if (!lstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
 											siteurl = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
-											if ( !siteurl)
+											if ( !siteurl) {
+												isSiteURLUTF = 0;
 												siteurl = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
+											} else
+												isSiteURLUTF = 1;
 											continue;
 										}
 										if (title && url && siteurl)
@@ -616,8 +620,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 									if (group) {
 										utfgroup = mir_utf8decodeT(_T2A(group));
-										if ( !utfgroup)
+										if ( !utfgroup) {
+											isGroupUTF = 0;
 											utfgroup = group;
+										} else
+											isGroupUTF = 1;
 									}
 
 									HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
@@ -647,12 +654,14 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 										if(!GroupExist)
 											CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)utfgroup);
 									}
-									if (isUTF) {
+									if (isTitleUTF)
 										mir_free(title);
+									if (isURLUTF)
 										mir_free(url);
+									if (isGroupUTF)
 										mir_free(utfgroup);
+									if (isSiteURLUTF)
 										mir_free(siteurl);
-									}
 
 									HXML tmpnode = node;
 									node = xi.getNextNode(node);
@@ -710,49 +719,49 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					HANDLE hContact = db_find_first();
 					while (hContact != NULL) {
 						if (IsMyContact(hContact)) {
-							char *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
+							TCHAR *title = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 							DBVARIANT dbv = {0};
 							if (!db_get_ts(hContact, MODULE, "Nick", &dbv)) {
-								title = mir_utf8encodeT(dbv.ptszVal);
+								title = mir_tstrdup(dbv.ptszVal);
 								db_free(&dbv);
 							}
 							if (!db_get_ts(hContact, MODULE, "URL", &dbv)) {
-								url = mir_utf8encodeT(dbv.ptszVal);
+								url = mir_tstrdup(dbv.ptszVal);
 								db_free(&dbv);
 							}
 							if (!db_get_ts(hContact, MODULE, "Homepage", &dbv)) {
-								siteurl = mir_utf8encodeT(dbv.ptszVal);
+								siteurl = mir_tstrdup(dbv.ptszVal);
 								db_free(&dbv);
 							}
 							if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-								group = mir_utf8encodeT(dbv.ptszVal);
+								group = mir_tstrdup(dbv.ptszVal);
 								db_free(&dbv);
 							}
 							HXML elem = header;
 							if (group)
 							{
-								char *section = strtok(group, "\\");
+								TCHAR *section = _tcstok(group, _T("\\"));
 								while (section != NULL)
 								{
-									HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), _A2T(section));
+									HXML existgroup = xi.getChildByAttrValue(header, _T("outline"), _T("title"), section);
 									if ( !existgroup)
 									{
 										elem = xi.addChild(elem, _T("outline"), NULL);
-										xi.addAttr(elem, _T("title"), _A2T(section));
-										xi.addAttr(elem, _T("text"), _A2T(section));
-										section = strtok(NULL, "\\");
+										xi.addAttr(elem, _T("title"), section);
+										xi.addAttr(elem, _T("text"), section);
 									} else {
 										elem = existgroup;
-										section = strtok(NULL, "\\");
 									}
+									section = _tcstok(NULL, _T("\\"));
 								}
 								elem = xi.addChild(elem, _T("outline"), NULL);
-							}
-							xi.addAttr(elem, _T("text"), _A2T(title));
-							xi.addAttr(elem, _T("title"), _A2T(title));
+							} else
+								elem = xi.addChild(elem, _T("outline"), NULL);
+							xi.addAttr(elem, _T("text"), title);
+							xi.addAttr(elem, _T("title"), title);
 							xi.addAttr(elem, _T("type"), _T("rss"));
-							xi.addAttr(elem, _T("xmlUrl"), _A2T(url));
-							xi.addAttr(elem, _T("htmlUrl"), _A2T(siteurl));
+							xi.addAttr(elem, _T("xmlUrl"), url);
+							xi.addAttr(elem, _T("htmlUrl"), siteurl);
 
 							mir_free(title);
 							mir_free(url);
