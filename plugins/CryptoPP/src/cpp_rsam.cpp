@@ -90,7 +90,7 @@ pRSAPRIV rsa_gen_keys(HANDLE context) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_gen_keys: %d", context);
 #endif
-	pCNTX ptr = get_context_on_id(context);
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	string priv, pub;
@@ -115,7 +115,7 @@ pRSAPRIV rsa_gen_keys(HANDLE context) {
 
 
 pRSAPRIV rsa_get_priv(pCNTX ptr) {
-	pCNTX p = get_context_on_id(hRSA4096);
+	pCNTX p = get_context_on_id(hRSA4096); if (!p) return 0;
 	pRSAPRIV r = (pRSAPRIV) p->pdata;
 	return r;
 }
@@ -135,7 +135,7 @@ int __cdecl rsa_get_keypair(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_keypair: %d", mode);
 #endif
-	pCNTX ptr = get_context_on_id(hRSA4096);
+	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	*privKeyLen = r->priv_k.length(); if ( privKey ) r->priv_k.copy((char*)privKey, *privKeyLen);
@@ -149,7 +149,7 @@ int __cdecl rsa_get_keyhash(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_keyhash: %d", mode);
 #endif
-	pCNTX ptr = get_context_on_id(hRSA4096);
+	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	if ( privKey ) { *privKeyLen = r->priv_s.length(); r->priv_s.copy((char*)privKey, *privKeyLen); }
@@ -163,7 +163,7 @@ int __cdecl rsa_set_keypair(short mode, PBYTE privKey, int privKeyLen) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_set_keypair: %s", privKey);
 #endif
-	pCNTX ptr = get_context_on_id(hRSA4096);
+	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	if ( privKey && privKeyLen ) {
@@ -943,7 +943,7 @@ int __cdecl rsa_export_keypair(short mode, LPSTR privKey, LPSTR pubKey, LPSTR pa
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_export_keypair: %d", mode);
 #endif
-	pCNTX ptr = get_context_on_id(hRSA4096);
+	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	if ( pubKey ) {
@@ -986,7 +986,7 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_import_keypair: %d", mode);
 #endif
-	pCNTX ptr = get_context_on_id(hRSA4096);
+	pCNTX ptr = get_context_on_id(hRSA4096); if (!ptr) return 0;
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
 	if ( !passPhrase ) return 0;

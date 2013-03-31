@@ -19,7 +19,7 @@ int __cdecl cpp_get_version(void) {
 
 
 BOOL cpp_get_simdata(HANDLE context, pCNTX *ptr, pSIMDATA *p) {
-    *ptr = get_context_on_id(context);
+    *ptr = get_context_on_id(context); if (!ptr) return 0;
 //    if (!*ptr || !(*ptr)->pdata || (*ptr)->mode&(MODE_PGP|MODE_GPG|MODE_RSA)) return FALSE;
     if (!*ptr || (*ptr)->mode&(MODE_PGP|MODE_GPG|MODE_RSA)) return FALSE;
     *p = (pSIMDATA) cpp_alloc_pdata(*ptr);
