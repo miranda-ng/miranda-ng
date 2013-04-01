@@ -1844,10 +1844,10 @@ protected:
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel()))
 		{
 		case ACC_FBOOK:
+		case ACC_OK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 
 		case ACC_VK:
-		case ACC_OK:
 		case ACC_PUBLIC:
 			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
 			break;
