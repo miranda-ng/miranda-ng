@@ -2198,7 +2198,7 @@ void CJabberDlgAccMgrUI::setupOK()
 	m_cbServer.ResetContent();
 	m_cbServer.SetTextA("odnoklassniki.ru");
 	m_cbServer.AddStringA("odnoklassniki.ru");
-	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_chkManualHost.SetState(BST_CHECKED);
 	m_txtManualHost.SetTextA("xmpp.odnoklassniki.ru");
 	m_txtPort.SetInt(5222);
 
