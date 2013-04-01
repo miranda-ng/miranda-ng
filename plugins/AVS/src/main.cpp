@@ -1962,8 +1962,6 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	TCHAR szEventName[100];
 	int   result = 0;
 
-	InitPolls();
-
 	mir_sntprintf(szEventName, 100, _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 	SetThreadPriority( mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
@@ -1985,7 +1983,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	int accCount;
 	ProtoEnumAccounts(&accCount, &accs);
 
-	if ( fei != NULL ) {
+	if (fei != NULL) {
 		LoadDefaultInfo();
 		PROTOCOLDESCRIPTOR** proto;
 		int protoCount;
@@ -2361,6 +2359,7 @@ static int LoadAvatarModule()
 	hMyAvatarChanged = CreateHookableEvent(ME_AV_MYAVATARCHANGED);
 
 	AllocCacheBlock();
+	InitPolls();
 
 	HMODULE hDll;
 	if (hDll = GetModuleHandle(_T("gdi32")))
@@ -2368,12 +2367,9 @@ static int LoadAvatarModule()
 	if (AvsAlphaBlend == NULL && (hDll = LoadLibrary(_T("msimg32.dll"))))
 		AvsAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "AlphaBlend");
 
-	TCHAR* tmpPath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-	lstrcpyn(g_szDataPath, tmpPath, SIZEOF(g_szDataPath)-1);
-	mir_free(tmpPath);
+	lstrcpyn(g_szDataPath, VARST(_T("%miranda_userdata%")), SIZEOF(g_szDataPath)-1);
 	g_szDataPath[MAX_PATH - 1] = 0;
 	_tcslwr(g_szDataPath);
-
 	return 0;
 }
 
@@ -2407,10 +2403,10 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	struct CacheNode *pNode = g_Cache;
+	UninitPolls();
 
+	struct CacheNode *pNode = g_Cache;
 	while(pNode) {
-		//DeleteCriticalSection(&pNode->cs);
 		if (pNode->ace.hbmPic != 0)
 			DeleteObject(pNode->ace.hbmPic);
 		pNode = pNode->pNextNode;

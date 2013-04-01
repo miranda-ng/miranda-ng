@@ -64,12 +64,12 @@ int _DebugTrace(HANDLE hContact, const char *fmt, ...);
 // Functions ////////////////////////////////////////////////////////////////////////////
 
 // Items with higher priority at end
-static int QueueSortItems( const QueueItem* i1, const QueueItem* i2)
+static int QueueSortItems(const QueueItem *p1, const QueueItem *p2)
 {
-	return i2->check_time - i1->check_time;
+	return p2->check_time - p1->check_time; // sort backwards
 }
 
-static OBJLIST<QueueItem> queue( 20, QueueSortItems );
+static OBJLIST<QueueItem> queue(20, QueueSortItems);
 static CRITICAL_SECTION cs;
 static int waitTime;
 
@@ -80,6 +80,12 @@ void InitPolls()
 
 	// Init request queue
 	mir_forkthread(RequestThread, NULL);
+}
+
+void UninitPolls() 
+{
+	DeleteCriticalSection(&cs);
+	queue.destroy();
 }
 
 // Return true if this protocol can have avatar requested
@@ -167,24 +173,20 @@ void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai
 
 		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG 
 			|| pai->format == PA_FORMAT_ICON  || pai->format == PA_FORMAT_BMP
-			|| pai->format == PA_FORMAT_GIF)
-		{
+			|| pai->format == PA_FORMAT_GIF) {
 			// We can load it!
 			MakePathRelative(hContact, pai->filename);
 			ChangeAvatar(hContact, TRUE, TRUE, pai->format);
 		}
-		else
-		{
+		else {
 			// As we can't load it, notify but don't load
 			ChangeAvatar(hContact, FALSE, TRUE, pai->format);
 		}
 	}
-	else if (type == GAIR_NOAVATAR) 
-	{
+	else if (type == GAIR_NOAVATAR) {
 		db_unset(hContact, "ContactPhoto", "NeedUpdate");
 
-		if (db_get_b(NULL, AVS_MODULE, "RemoveAvatarWhenContactRemoves", 1)) 
-		{
+		if (db_get_b(NULL, AVS_MODULE, "RemoveAvatarWhenContactRemoves", 1)) {
 			// Delete settings
 			db_unset(hContact, "ContactPhoto", "RFile");
 			if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
@@ -196,15 +198,13 @@ void ProcessAvatarInfo(HANDLE hContact, int type, PROTO_AVATAR_INFORMATIONT *pai
 			ChangeAvatar(hContact, FALSE, TRUE, 0);
 		}
 	}
-	else if (type == GAIR_FAILED) 
-	{
+	else if (type == GAIR_FAILED) {
 		int wait = Proto_GetDelayAfterFail(szProto);
 		if (wait > 0) {
 			// Reschedule to request after needed time (and avoid requests before that)
-			EnterCriticalSection(&cs);
+			mir_cslock lock(cs);
 			QueueRemove(hContact);
 			QueueAdd(hContact, wait);
-			LeaveCriticalSection(&cs);
 		}
 	}
 }
@@ -219,7 +219,7 @@ int FetchAvatarFor(HANDLE hContact, char *szProto = NULL)
 	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
 		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, (WPARAM) hContact, 0))
-			 || (PollCheckProtocol(szProto) && PollCheckContact(hContact, szProto)))
+			 || (PollCheckProtocol(szProto) && PollCheckContact(hContact, szProto))) 
 		{
 			// Request it
 			PROTO_AVATAR_INFORMATIONT pai_s = {0};
@@ -272,16 +272,14 @@ static void RequestThread(void *vParam)
 
 		if (FetchAvatarFor(hContact) == GAIR_WAITFOR) {
 			// Mark to not request this contact avatar for more 30 min
-			EnterCriticalSection(&cs);
-			QueueRemove(hContact);
-			QueueAdd(hContact, REQUEST_WAITFOR_WAIT_TIME);
-			LeaveCriticalSection(&cs);
+			{
+				mir_cslock lock(cs);
+				QueueRemove(hContact);
+				QueueAdd(hContact, REQUEST_WAITFOR_WAIT_TIME);
+			}
 
 			// Wait a little until requesting again
 			mir_sleep(REQUEST_DELAY);
 		}
 	}
-
-	DeleteCriticalSection(&cs);
-	queue.destroy();
 }
