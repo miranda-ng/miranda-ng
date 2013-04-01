@@ -419,13 +419,11 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 				// use the subcontact's protocol 'recv' service to add the meta's history (AIMOSCAR removes HTML here!) if possible
 				char *proto = GetContactProto(ccs->hContact);
 				if (proto) {
-					char service[256];
 					HANDLE hSub = ccs->hContact;
 					DWORD flags = pre->flags;
-					mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
 					ccs->hContact = hMeta;
 					pre->flags |= (db_get_b(hMeta, META_PROTO, "WindowOpen", 0) ? 0 : PREF_CREATEREAD);
-					if (ServiceExists(service) && !CallService(service, 0, (LPARAM)ccs))
+					if (!CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)ccs))
 						added = TRUE;
 					ccs->hContact = hSub;
 					pre->flags = flags;
