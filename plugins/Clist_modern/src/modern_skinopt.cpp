@@ -96,14 +96,14 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 {
 	switch ( msg )
 	{
-	case WM_DESTROY: 
+	case WM_DESTROY:
 		{
 			if ( hPreviewBitmap ) ske_UnloadGlyphImage( hPreviewBitmap );
 			break;
 		}
 
 	case WM_INITDIALOG:
-		{ 
+		{
 			HTREEITEM it;
 			TranslateDialogDefault( hwndDlg );
 			it = FillAvailableSkinList( hwndDlg );
@@ -186,11 +186,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						if ( res != IDOK ) return 0;
 					}
 					ske_LoadSkinFromIniFile( sd->File, FALSE );
-					ske_LoadSkinFromDB( );	
+					ske_LoadSkinFromDB();
 					glOtherSkinWasLoaded = TRUE;
 					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
 					Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
-					ske_RedrawCompleteWindow( );        
+					ske_RedrawCompleteWindow( );
 					Sync( CLUIFrames_OnClistResize_mod, 0, 0 );
 					{
 						HWND hwnd = pcli->hwndContactList;
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			holdbmp = ( HBITMAP )SelectObject( memDC, hbmp );
 			workRect = dis->rcItem;
 			OffsetRect( &workRect, -workRect.left, -workRect.top );
-			FillRect( memDC, &workRect, hbr );     
+			FillRect( memDC, &workRect, hbr );
 			DeleteObject( hbr );
 			if ( hPreviewBitmap )
 			{
@@ -251,17 +251,17 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if ( wWidth < bmp.bmWidth ) xScale = ( float )wWidth/bmp.bmWidth;
 				if ( wHeight < bmp.bmHeight ) yScale = ( float )wHeight/bmp.bmHeight;
 				xScale = min( xScale, yScale );
-				yScale = xScale;                    
+				yScale = xScale;
 				dWidth = ( int )( xScale*bmp.bmWidth );
 				dHeight = ( int )( yScale*bmp.bmHeight );
 				//CalcPosition
 				imgPos.x = workRect.left+(( wWidth-dWidth )>>1 );
-				imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );     
+				imgPos.y = workRect.top+(( wHeight-dHeight )>>1 );
 				//DrawImage
 				if ( !g_CluiData.fGDIPlusFail ) //Use gdi+ engine
 				{
 					DrawAvatarImageWithGDIp( memDC, imgPos.x, imgPos.y, dWidth, dHeight, hPreviewBitmap, 0, 0, bmp.bmWidth, bmp.bmHeight, 8, 255 );
-				}   
+				}
 				else
 				{
 					BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
