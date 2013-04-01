@@ -9,7 +9,7 @@ int __cdecl rsa_inject(HANDLE,LPCSTR);
 int __cdecl rsa_check_pub(HANDLE,PBYTE,int,PBYTE,int);
 void __cdecl rsa_notify(HANDLE,int);
 
-unsigned __stdcall sttGenerateRSA(LPVOID);
+void sttGenerateRSA(LPVOID);
 BYTE loadRSAkey(pUinKey);
 void createRSAcntx(pUinKey);
 void resetRSAcntx(pUinKey);

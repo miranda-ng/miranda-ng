@@ -2,7 +2,8 @@
 
 int hLangpack = 0;
 
-BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
+BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID)
+{
 	g_hInst = hInst;
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
@@ -52,7 +53,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	GetTempPath(sizeof(temp),temp);
 	GetLongPathName(temp,TEMP,sizeof(TEMP));
 	TEMP_SIZE = (int)strlen(TEMP);
-	if (TEMP[TEMP_SIZE-1]=='\\') {
+	if (TEMP[TEMP_SIZE-1] == '\\') {
 		TEMP_SIZE--;
 		TEMP[TEMP_SIZE]='\0';
 	}
@@ -60,15 +61,15 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	// check for support TrueColor Icons
 	BOOL bIsComCtl6 = FALSE;
 	HMODULE hComCtlDll = LoadLibrary(_T("comctl32.dll"));
-	if ( hComCtlDll ) {
+	if (hComCtlDll) {
 		typedef HRESULT (CALLBACK *PFNDLLGETVERSION)(DLLVERSIONINFO*);
 		PFNDLLGETVERSION pfnDllGetVersion = (PFNDLLGETVERSION) GetProcAddress(hComCtlDll,"DllGetVersion");
-		if ( pfnDllGetVersion ) {
+		if (pfnDllGetVersion) {
 			DLLVERSIONINFO dvi;
 			memset(&dvi,0,sizeof(dvi));
 			dvi.cbSize = sizeof(dvi);
-			HRESULT hRes = (*pfnDllGetVersion)( &dvi );
-			if ( SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6 ) {
+			HRESULT hRes = (*pfnDllGetVersion)(&dvi);
+			if (SUCCEEDED(hRes) && dvi.dwMajorVersion >= 6) {
 				bIsComCtl6 = TRUE;
 			}
 		}
@@ -80,7 +81,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	iCoreVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 
 	// load crypo++ dll
-	if ( !loadlib()) {
+	if (!loadlib()) {
 		msgbox1(0,sim107,MODULENAME,MB_OK|MB_ICONSTOP);
 		return 1;
 	}
@@ -134,10 +135,7 @@ int ModuleLoad(WPARAM wParam, LPARAM lParam)
 
 int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 	InitNetlib();
-	Sent_NetLog("onModuleLoaded begin");
-#endif
 
 	g_hFolders = FoldersRegisterCustomPathT(LPGEN("SecureIM"), LPGEN("Icons"), _T(MIRANDA_PATH"\\icons"));
 
@@ -145,21 +143,19 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GetFlags();
 	ModuleLoad(0, 0);
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("rsa_init");
-#endif
 	// RSA/AES
+	Sent_NetLog("rsa_init");
 	rsa_init(&exp, &imp);
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
 
-	if ( DBGetContactSetting(0,MODULENAME,"rsa_priv",&dbv) == 0 ) {
+	if (DBGetContactSetting(0,MODULENAME,"rsa_priv",&dbv) == 0) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 		rsa_4096=1;
 	}
-	else if ( DBGetContactSetting(0,MODULENAME,"rsa_priv_4096",&dbv) == 0 ) {
+	else if (DBGetContactSetting(0,MODULENAME,"rsa_priv_4096",&dbv) == 0) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096|CPP_MODE_RSA_BER,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 
@@ -187,63 +183,57 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		rsa_4096 = 1;
 	}
 
-	if ( !rsa_4096 ) {
-		unsigned int tID;
-		CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttGenerateRSA, NULL, 0, &tID));
-	}
+	if (!rsa_4096)
+		mir_forkthread(sttGenerateRSA, NULL);
 
 	exp->rsa_set_timeout( db_get_w(0,MODULENAME,"ket",10));
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("pgp_init");
-#endif
+
 	bPGP = db_get_b(0, MODULENAME, "pgp", 0);
 	if (bPGP) { //PGP
-	    bPGPloaded = pgp_init();
-   	    bUseKeyrings = db_get_b(0,MODULENAME,"ukr",1);
-   	    LPSTR priv = myDBGetStringDecode(0,MODULENAME,"pgpPrivKey");
-   	    if (priv) {
-	   	    bPGPprivkey = true;
-		    if (bPGPloaded)
-			pgp_set_priv_key(priv);
-	   	    mir_free(priv);
-	    }// if (priv)
-            if (bPGPloaded && bUseKeyrings) {
-    		char PubRingPath[MAX_PATH], SecRingPath[MAX_PATH];
-    		PubRingPath[0]='\0'; SecRingPath[0]='\0';
-    		if (pgp_get_version()<0x02000000) { // 6xx
-    		    bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
-		}
-        	else {
-        		LPSTR tmp;
-        		tmp = db_get_sa(0,MODULENAME,"pgpPubRing");
-        		if (tmp) {
-        			strncpy(PubRingPath,tmp,sizeof(PubRingPath));
-        			mir_free(tmp);
-        		}
-        		tmp = db_get_sa(0,MODULENAME,"pgpSecRing");
-        		if (tmp) {
-        			strncpy(SecRingPath,tmp,sizeof(SecRingPath));
-        			mir_free(tmp);
-        		}
-        	   	if (PubRingPath[0] && SecRingPath[0]) {
-        			bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
-        			if (bPGPkeyrings) {
-        				db_set_s(0,MODULENAME,"pgpPubRing",PubRingPath);
-        				db_set_s(0,MODULENAME,"pgpSecRing",SecRingPath);
-        			}
-        			else {
-        				db_unset(0, MODULENAME, "pgpPubRing");
-        				db_unset(0, MODULENAME, "pgpSecRing");
-        			}
-        		}
-    		}
-    	    }// if (bPGPloaded && bUseKeyrings)
-   	}// if (bPGP)
+		bPGPloaded = pgp_init();
+		bUseKeyrings = db_get_b(0,MODULENAME,"ukr",1);
+		LPSTR priv = myDBGetStringDecode(0,MODULENAME,"pgpPrivKey");
+		if (priv) {
+			bPGPprivkey = true;
+			if (bPGPloaded)
+				pgp_set_priv_key(priv);
+			mir_free(priv);
+		}// if (priv)
+		if (bPGPloaded && bUseKeyrings) {
+			char PubRingPath[MAX_PATH], SecRingPath[MAX_PATH];
+			PubRingPath[0]='\0'; SecRingPath[0]='\0';
+			if (pgp_get_version()<0x02000000) { // 6xx
+				bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
+			}
+			else {
+				LPSTR tmp = db_get_sa(0,MODULENAME,"pgpPubRing");
+				if (tmp) {
+					strncpy(PubRingPath,tmp,sizeof(PubRingPath));
+					mir_free(tmp);
+				}
+				if (tmp = db_get_sa(0,MODULENAME,"pgpSecRing")) {
+					strncpy(SecRingPath,tmp,sizeof(SecRingPath));
+					mir_free(tmp);
+				}
+				if (PubRingPath[0] && SecRingPath[0]) {
+					bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
+					if (bPGPkeyrings) {
+						db_set_s(0,MODULENAME,"pgpPubRing",PubRingPath);
+						db_set_s(0,MODULENAME,"pgpSecRing",SecRingPath);
+					}
+					else {
+						db_unset(0, MODULENAME, "pgpPubRing");
+						db_unset(0, MODULENAME, "pgpSecRing");
+					}
+				}
+			}
+		}// if (bPGPloaded && bUseKeyrings)
+	}// if (bPGP)
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("gpg_init");
-#endif
+
 	bGPG = db_get_b(0, MODULENAME, "gpg", 0);
 	if (bGPG) { //GPG
 		bGPGloaded = gpg_init();
@@ -256,23 +246,20 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 			strncpy(gpgexec,tmp,sizeof(gpgexec));
 			mir_free(tmp);
 		}
-		tmp = db_get_sa(0,MODULENAME,"gpgHome");
-		if (tmp) {
+		if (tmp = db_get_sa(0,MODULENAME,"gpgHome")) {
 			strncpy(gpghome,tmp,sizeof(gpghome));
 			mir_free(tmp);
 		}
 
 		if (db_get_b(0, MODULENAME, "gpgLogFlag",0)) {
-			tmp = db_get_sa(0,MODULENAME,"gpgLog");
-			if (tmp) {
+			if (tmp = db_get_sa(0,MODULENAME,"gpgLog")) {
 				gpg_set_log(tmp);
 				mir_free(tmp);
 			}
 		}
 
 		if (db_get_b(0, MODULENAME, "gpgTmpFlag",0)) {
-			tmp = db_get_sa(0,MODULENAME,"gpgTmp");
-			if (tmp) {
+			if (tmp = db_get_sa(0,MODULENAME,"gpgTmp")) {
 				gpg_set_tmp(tmp);
 				mir_free(tmp);
 			}
@@ -290,33 +277,24 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		bSavePass = db_get_b(0,MODULENAME,"gpgSaveFlag",0);
 		if (bSavePass) {
-			tmp = db_get_sa(0,MODULENAME,"gpgSave");
-			if (tmp) {
+			if (tmp = db_get_sa(0,MODULENAME,"gpgSave")) {
 				gpg_set_passphrases(tmp);
 				mir_free(tmp);
 			}
 		}
 	}
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("loadContactList");
-#endif
 	loadContactList();
 
 	// add new skin sound
 	SkinAddNewSound("IncomingSecureMessage",LPGEN("Incoming Secure Message"),"Sounds\\iSecureMessage.wav");
 	SkinAddNewSound("OutgoingSecureMessage",LPGEN("Outgoing Secure Message"),"Sounds\\oSecureMessage.wav");
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("init extra icons");
-#endif
 	// init extra icons
-	for (int i=0;i<1+MODE_CNT*IEC_CNT;i++)
+	for (int i=0; i < SIZEOF(g_IEC); i++)
 		g_IEC[i] = (HANDLE)-1;
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("hook events");
-#endif
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
 
 	g_hCLIcon = ExtraIcon_Register(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
@@ -336,47 +314,33 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE"W", onSendMsgW);
 	CreateProtoServiceFunction(MODULENAME, PSS_FILE, onSendFile);
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("create Native/RSA menu");
-#endif
 	// create a menu item for creating a secure im connection to the user.
-	g_hMenu[0] = AddMenuItem(sim301,110000,g_hICO[ICO_CM_EST],MODULENAME"/SIM_EST",CMIF_NOTOFFLINE);
-	g_hMenu[1] = AddMenuItem(sim302,110001,g_hICO[ICO_CM_DIS],MODULENAME"/SIM_DIS",CMIF_NOTOFFLINE);
+	g_hMenu[0] = AddMenuItem(sim301, 110000, g_hICO[ICO_CM_EST], MODULENAME"/SIM_EST", CMIF_NOTOFFLINE);
+	g_hMenu[1] = AddMenuItem(sim302, 110001, g_hICO[ICO_CM_DIS], MODULENAME"/SIM_DIS", CMIF_NOTOFFLINE);
 
 	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
-		g_hMenu[2] = AddMenuItem(sim312[0],110002,NULL,NULL,CMIF_ROOTPOPUP);
-		g_hMenu[3] = AddSubItem(g_hMenu[2],sim232[0],110003,110002,MODULENAME"/SIM_ST_DIS");
-		g_hMenu[4] = AddSubItem(g_hMenu[2],sim232[1],110004,110002,MODULENAME"/SIM_ST_ENA");
-		g_hMenu[5] = AddSubItem(g_hMenu[2],sim232[2],110005,110002,MODULENAME"/SIM_ST_TRY");
+		g_hMenu[2] = AddMenuItem(sim312[0], 110002, NULL, NULL, CMIF_ROOTPOPUP);
+		g_hMenu[3] = AddSubItem(g_hMenu[2], sim232[0], 110003, 110002, MODULENAME"/SIM_ST_DIS");
+		g_hMenu[4] = AddSubItem(g_hMenu[2], sim232[1], 110004, 110002, MODULENAME"/SIM_ST_ENA");
+		g_hMenu[5] = AddSubItem(g_hMenu[2], sim232[2], 110005, 110002, MODULENAME"/SIM_ST_TRY");
 	}
 	else {
 		g_hMenu[2] = 0;
-		g_hMenu[3] = AddMenuItem(sim232[0],110003,NULL,MODULENAME"/SIM_ST_DIS");
-		g_hMenu[4] = AddMenuItem(sim232[1],110004,NULL,MODULENAME"/SIM_ST_ENA");
-		g_hMenu[5] = AddMenuItem(sim232[2],110005,NULL,MODULENAME"/SIM_ST_TRY");
+		g_hMenu[3] = AddMenuItem(sim232[0], 110003, NULL, MODULENAME"/SIM_ST_DIS");
+		g_hMenu[4] = AddMenuItem(sim232[1], 110004, NULL, MODULENAME"/SIM_ST_ENA");
+		g_hMenu[5] = AddMenuItem(sim232[2], 110005, NULL, MODULENAME"/SIM_ST_TRY");
 	}
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("create PGP/GPG menu");
-#endif
-	HICON icon;
-	if ( bPGPloaded ) {
-		icon=mode2icon(MODE_PGP|SECURED,2);
-		g_hMenu[6] = AddMenuItem(sim306,110006,icon,MODULENAME"/PGP_SET",0);
-		icon=mode2icon(MODE_PGP,2);
-		g_hMenu[7] = AddMenuItem(sim307,110007,icon,MODULENAME"/PGP_DEL",0);
+	if (bPGPloaded) {
+		g_hMenu[6] = AddMenuItem(sim306, 110006, mode2icon(MODE_PGP|SECURED,2), MODULENAME"/PGP_SET", 0);
+		g_hMenu[7] = AddMenuItem(sim307, 110007, mode2icon(MODE_PGP,2), MODULENAME"/PGP_DEL", 0);
 	}
 
 	if (bGPGloaded) {
-		icon=mode2icon(MODE_GPG|SECURED,2);
-		g_hMenu[8] = AddMenuItem(sim308,110008,icon,MODULENAME"/GPG_SET",0);
-		icon=mode2icon(MODE_GPG,2);
-		g_hMenu[9] = AddMenuItem(sim309,110009,icon,MODULENAME"/GPG_DEL",0);
+		g_hMenu[8] = AddMenuItem(sim308, 110008, mode2icon(MODE_GPG|SECURED,2), MODULENAME"/GPG_SET", 0);
+		g_hMenu[9] = AddMenuItem(sim309, 110009, mode2icon(MODE_GPG,2), MODULENAME"/GPG_DEL", 0);
 	}
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("create Mode menu");
-#endif
 	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
 		g_hMenu[10] = AddMenuItem(sim311[0],110010,NULL,NULL,CMIF_ROOTPOPUP);
 		g_hMenu[11] = AddSubItem(g_hMenu[10],sim231[0],110011,110010,MODULENAME"/MODE_NAT");
@@ -392,9 +356,6 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		g_hMenu[14] = AddMenuItem(sim231[3],110014,NULL,MODULENAME"/MODE_RSA");
 	}
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("create srmm icons");
-#endif
 	// add icon to srmm status icons
 	if (ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = { sizeof(sid) };
@@ -430,9 +391,6 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 		HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 	}
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("onModuleLoaded end");
-#endif
 	return 0;
 }
 
@@ -454,9 +412,8 @@ int onSystemOKToExit(WPARAM wParam, LPARAM lParam)
 
 	freeContactList();
 	free_rtfconv();
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	DeinitNetlib();
-#endif
 	return 0;
 }
 

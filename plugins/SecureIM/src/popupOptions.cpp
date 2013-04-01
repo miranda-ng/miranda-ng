@@ -87,27 +87,27 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			break;
 		case IDC_EC:
 			//set ec checkbox value
-			db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "ec", (BYTE)(SendMessage(hec,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_DC:
 			//set dc checkbox value
-			db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "dc", (BYTE)(SendMessage(hdc,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_SS:
 			//set ss checkbox value
-			db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "ss", (BYTE)(SendMessage(hss,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_SR:
 			//set sr checkbox value
-			db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "sr", (BYTE)(SendMessage(hsr,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_KS:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "ks", (BYTE)(SendMessage(hks,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_KR:
 			//set indicator checkbox value
-			db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr,BM_GETCHECK,0L,0L)==BST_CHECKED));
+			db_set_b(0, MODULENAME, "kr", (BYTE)(SendMessage(hkr,BM_GETCHECK,0L,0L) == BST_CHECKED));
 			break;
 		case IDC_TIMEKEY:
 			//set timeout value

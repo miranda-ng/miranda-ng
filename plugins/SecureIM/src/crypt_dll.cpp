@@ -2,11 +2,11 @@
 
 
 // generate KeyA pair and return public key
-LPSTR InitKeyA(pUinKey ptr,int features) {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+LPSTR InitKeyA(pUinKey ptr,int features)
+{
 	Sent_NetLog("InitKeyA: %04x", features);
-#endif
-	if ( !ptr->cntx )
+
+	if (!ptr->cntx )
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
 	char *tmp = db_get_sa(ptr->hContact,MODULENAME,"PSK");
@@ -42,10 +42,10 @@ LPSTR InitKeyA(pUinKey ptr,int features) {
 }
 
 // store KeyB into context
-int InitKeyB(pUinKey ptr,LPCSTR key) {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+int InitKeyB(pUinKey ptr,LPCSTR key)
+{
 	Sent_NetLog("InitKeyB: %s", key);
-#endif
+
 	if (!ptr->cntx)
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
@@ -78,7 +78,7 @@ void InitKeyX(pUinKey ptr,BYTE *key) {
 BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 
 	int agr = cpp_calc_keyx(ptr->cntx);
-	if ( agr ) {
+	if (agr) {
 		// do this only if key exchanged is ok
 		// we use a 192bit key
 		int keysize = cpp_size_keyx();
@@ -110,7 +110,7 @@ BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 		// agree value problem
 		showPopUp(sim002,hContact,g_hPOP[POP_PU_DIS],0);
 	}
-	return agr!=0;
+	return agr != 0;
 }
 
 
@@ -137,10 +137,10 @@ LPSTR encodeMsg(pUinKey ptr, LPARAM lParam) {
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) pccsd->lParam;
 
-	if ( pccsd->wParam & PREF_UTF )
+	if (pccsd->wParam & PREF_UTF )
 		szNewMsg = encrypt(ptr,cpp_encodeU(ptr->cntx,szOldMsg));
 	else
-	if ( pccsd->wParam & PREF_UNICODE )
+	if (pccsd->wParam & PREF_UNICODE )
 		szNewMsg = encrypt(ptr,cpp_encodeW(ptr->cntx,(LPWSTR)(szOldMsg+strlen(szOldMsg)+1)));
 	else
 		szNewMsg = encrypt(ptr,cpp_encodeA(ptr->cntx,szOldMsg));
@@ -181,7 +181,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 	}
 	else {
 		ptr->decoded=true;
-		if ( ppre->flags & PREF_UTF ) { // если протокол поддерживает utf8 - тогда отправляем в utf8
+		if (ppre->flags & PREF_UTF) { // если протокол поддерживает utf8 - тогда отправляем в utf8
 			int olen = (int)strlen(szOldMsg)+1;
 			szNewMsg = (LPSTR) mir_alloc(olen);
 			memcpy(szNewMsg,szOldMsg,olen);
@@ -205,7 +205,7 @@ BOOL LoadKeyPGP(pUinKey ptr)
 	if (mode == 0) {
 		DBVARIANT dbv;
 		DBGetContactSetting(ptr->hContact,MODULENAME,"pgp",&dbv);
-		BOOL r=(dbv.type==DBVT_BLOB);
+		BOOL r=(dbv.type == DBVT_BLOB);
 		if (r) pgp_set_keyid(ptr->cntx,(PVOID)dbv.pbVal);
 		db_free(&dbv);
 		return r;
@@ -224,7 +224,7 @@ BOOL LoadKeyPGP(pUinKey ptr)
 BOOL LoadKeyGPG(pUinKey ptr) {
 
 	LPSTR key = db_get_sa(ptr->hContact,MODULENAME,"gpg");
-	if ( key ) {
+	if (key) {
 		gpg_set_keyid(ptr->cntx,key);
 		mir_free(key);
 	   	return 2;

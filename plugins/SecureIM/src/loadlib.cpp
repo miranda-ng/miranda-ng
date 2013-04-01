@@ -5,9 +5,9 @@ CRYPTOPP_INFO cpp;
 BOOL loadlib(void) {
 
 	HMODULE h = LoadLibraryA("plugins/cryptopp.dll");
-	if ( h == NULL ) {
+	if (h == NULL) {
 		h = LoadLibraryA("cryptopp.dll");
-		if ( h == NULL ) return 0;
+		if (h == NULL ) return 0;
 	}
  
 	cpp.cc = (_cpp_create_context) GetProcAddress(h, "cpp_create_context");

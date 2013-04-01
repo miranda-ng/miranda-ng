@@ -86,34 +86,7 @@ void SetFlags()
 	db_set_b(0, MODULENAME, "mcm", bMCM);
 }
 
-struct A2U {
-	LPSTR a;
-	LPSTR u;
-};
-typedef A2U* pA2U;
-
-pA2U pa2u;
-int ca2u=0;
-
-LPSTR TranslateU( LPCSTR lpText )
-{
-	int i;
-	for (i=0;i<ca2u;i++) {
-		if ( pa2u[i].a == lpText ) {
-			return pa2u[i].u;
-		}
-	}
-	ca2u++;
-	pa2u = (pA2U) mir_realloc(pa2u,sizeof(A2U)*ca2u);
-	pa2u[i].a = (LPSTR) lpText;
-	LPWSTR lpwText = mir_a2u(lpText);
-	LPWSTR lpwTran = TranslateW(lpwText);
-	mir_free(lpwText);
-	pa2u[i].u = mir_strdup(exp->utf8encode(lpwTran));
-	return pa2u[i].u;
-}
-
-int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
+int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 {
 	LPWSTR lpwText = mir_a2u(lpText);
 	LPWSTR lpwCaption = mir_a2u(lpCaption);
@@ -139,7 +112,6 @@ void CopyToClipboard(HWND hwnd,LPSTR msg)
 	CloseClipboard(); 
 }
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 HANDLE hNetlibUser;
 
 void InitNetlib()
@@ -168,7 +140,5 @@ int Sent_NetLog(const char *fmt,...)
 	va_end(va);
 	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
 }
-#endif
-
 
 // EOF

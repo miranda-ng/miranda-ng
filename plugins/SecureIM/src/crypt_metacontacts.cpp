@@ -4,7 +4,7 @@ BOOL isProtoMetaContacts(HANDLE hContact)
 {
 	if (bMetaContacts) {
 		LPSTR proto = GetContactProto(hContact);
-		if ( proto && !strcmp(proto,"MetaContacts"))
+		if (proto && !strcmp(proto,"MetaContacts"))
 			return true;
 	}
 	return false;

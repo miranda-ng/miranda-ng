@@ -1,21 +1,21 @@
 #include "commonheaders.h"
 
-
 pRSA_EXPORT exp = NULL;
-RSA_IMPORT imp = {
-    rsa_inject,
-    rsa_check_pub,
-    rsa_notify
+RSA_IMPORT imp =
+{
+	rsa_inject,
+	rsa_check_pub,
+	rsa_notify
 };
 
 BOOL rsa_4096=0;
 
-
-int __cdecl rsa_inject(HANDLE context, LPCSTR msg) {
+int __cdecl rsa_inject(HANDLE context, LPCSTR msg)
+{
 	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	Sent_NetLog("rsa_inject: '%s'", msg);
-#endif
+
 	int len = (int)strlen(msg)+1;
 	LPSTR buf = (LPSTR) mir_alloc(LEN_SECU+len);
 	memcpy(buf,SIG_SECU,LEN_SECU);
@@ -26,10 +26,10 @@ int __cdecl rsa_inject(HANDLE context, LPCSTR msg) {
 	return 1;
 }
 
-
 #define MSGSIZE 1024
 
-int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int sigLen) {
+int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int sigLen)
+{
 	int v=0, k=0;
 	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
 	LPSTR cnm = (LPSTR) mir_alloc(NAMSIZE); getContactNameA(ptr->hContact,cnm);
@@ -37,20 +37,20 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	LPSTR msg = (LPSTR) mir_alloc(MSGSIZE);
 	LPSTR sha = mir_strdup(to_hex(sig,sigLen));
 	LPSTR sha_old = NULL;
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	Sent_NetLog("rsa_check_pub: %s %s %s", cnm, uin, sha);
-#endif
+
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
+	if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 		k = 1;
 		PBYTE buf = (PBYTE) alloca(sigLen); int len;
 		exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)buf,&len);
 		sha_old = mir_strdup(to_hex(buf,len));
 		db_free(&dbv);
 	}
-	if ( bAAK ) {
-		if ( k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
+	if (bAAK) {
+		if (k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim521),cnm,uin,sha);
 		showPopUpKRmsg(ptr->hContact,msg);
 		HistoryLog(ptr->hContact,msg);
@@ -60,9 +60,9 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	}
 	else {
-		if ( k ) mir_snprintf(msg,MSGSIZE,Translate(sim522),cnm,sha,sha_old);
+		if (k ) mir_snprintf(msg,MSGSIZE,Translate(sim522),cnm,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim520),cnm,sha);
-		v = (msgbox(0,msg,MODULENAME,MB_YESNO|MB_ICONQUESTION)==IDYES);
+		v = (msgbox(0,msg,MODULENAME,MB_YESNO|MB_ICONQUESTION) == IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("rsa_check_pub: manual accepted %d",v);
 #endif
@@ -85,20 +85,20 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	return v;
 }
 
-
-void __cdecl rsa_notify(HANDLE context, int state) {
+void __cdecl rsa_notify(HANDLE context, int state)
+{
 	pUinKey ptr = getUinCtx(context); if (!ptr) return;
 	LPCSTR msg=NULL;
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	Sent_NetLog("rsa_notify: 0x%x", state);
-#endif
-	switch( state ) {
-	case 1: {
+
+	switch( state) {
+	case 1:
 		showPopUpEC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
 		waitForExchange(ptr,2); // досылаем сообщения из очереди
 		return;
-	}
+
 	case -1: // сессия разорвана по ошибке, неверный тип сообщения
 		msg=sim501; break;
 	case -2: // сессия разорвана по ошибке другой стороной
@@ -109,11 +109,8 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 		msg=sim506; break;
 	case -7: // таймаут установки соединения (10 секунд)
 		msg=sim507; break;
-	case -8: { // сессия разорвана по причине "disabled"
-		msg=sim508; 
-//		ptr->status=ptr->tstatus=STATUS_DISABLED;
-//		db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
-	} break;
+	case -8: // сессия разорвана по причине "disabled"
+		msg=sim508; break;
 	case -0x10: // сессия разорвана по ошибке
 	case -0x21:
 	case -0x22:
@@ -124,23 +121,25 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	case -0x34:
 	case -0x40:
 	case -0x50:
-	case -0x60: {
-		char buf[1024];
-		sprintf(buf,sim510,-state);
-		showPopUpDCmsg(ptr->hContact,buf);
-		ShowStatusIconNotify(ptr->hContact);
-       		if (ptr->cntx) deleteRSAcntx(ptr);
-		waitForExchange(ptr,3); // досылаем нешифровано
-        	return;
-        }
+	case -0x60:
+		{
+			char buf[1024];
+			sprintf(buf,sim510,-state);
+			showPopUpDCmsg(ptr->hContact,buf);
+			ShowStatusIconNotify(ptr->hContact);
+			if (ptr->cntx) deleteRSAcntx(ptr);
+			waitForExchange(ptr,3); // досылаем нешифровано
+		}
+		return;
+
 	case -3: // соединение разорвано вручную
-	case -4: { // соединение разорвано вручную другой стороной
+	case -4: // соединение разорвано вручную другой стороной
 		showPopUpDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
-       		if (ptr->cntx) deleteRSAcntx(ptr);
+		if (ptr->cntx) deleteRSAcntx(ptr);
 		waitForExchange(ptr,3); // досылаем нешифровано
 		return;
-	}
+
 	default:
 		return;
 	}
@@ -150,9 +149,8 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	waitForExchange(ptr,3); // досылаем нешифровано
 }
 
-
-unsigned __stdcall sttGenerateRSA( LPVOID param ) {
-
+void sttGenerateRSA(LPVOID)
+{
 	char priv_key[4096]; int priv_len;
 	char pub_key[4096]; int pub_len;
 
@@ -174,49 +172,46 @@ unsigned __stdcall sttGenerateRSA( LPVOID param ) {
 	cws.value.cpbVal = pub_len;
 	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 
-	rsa_4096=1;
-
-	return 0;
+	rsa_4096 = 1;
 }
 
-
 // загружает паблик-ключ в RSA контекст
-BYTE loadRSAkey(pUinKey ptr) {
-       	if ( !ptr->keyLoaded ) {
-       	    DBVARIANT dbv;
-       	    dbv.type = DBVT_BLOB;
-       	    if (	DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
-       		ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx,dbv.pbVal,dbv.cpbVal);
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-		Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
-#endif
-       		db_free(&dbv);
-       	    }
-       	}
-       	return ptr->keyLoaded;
+BYTE loadRSAkey(pUinKey ptr)
+{
+	if (!ptr->keyLoaded) {
+		DBVARIANT dbv;
+		dbv.type = DBVT_BLOB;
+		if (	DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
+			ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx,dbv.pbVal,dbv.cpbVal);
+			Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
+			db_free(&dbv);
+		}
+	}
+	return ptr->keyLoaded;
 }
 
 // создает RSA контекст
-void createRSAcntx(pUinKey ptr) {
-	if ( !ptr->cntx ) {
+void createRSAcntx(pUinKey ptr)
+{
+	if (!ptr->cntx) {
 		ptr->cntx = cpp_create_context(CPP_MODE_RSA);
 		ptr->keyLoaded = 0;
 	}
 }
 
-
 // пересоздает RSA контекст
-void resetRSAcntx(pUinKey ptr) {
-	if ( ptr->cntx ) {
+void resetRSAcntx(pUinKey ptr)
+{
+	if (ptr->cntx) {
 		cpp_delete_context(ptr->cntx);
 		ptr->cntx = cpp_create_context(CPP_MODE_RSA);
 		ptr->keyLoaded = 0;
 	}			
 }
 
-
 // удаляет RSA контекст
-void deleteRSAcntx(pUinKey ptr) {
+void deleteRSAcntx(pUinKey ptr)
+{
 	cpp_delete_context(ptr->cntx);
 	ptr->cntx = 0;
 	ptr->keyLoaded = 0;

@@ -75,7 +75,7 @@ void InitIcons(void)
 {
 	HINSTANCE hNewIconInst = NULL;
 
-	if ( g_hFolders ) {
+	if (g_hFolders) {
 		TCHAR pathname[MAX_PATH];
 		FoldersGetCustomPathExT(g_hFolders, pathname, MAX_PATH, "icons\\");
 		if (hNewIconInst == NULL)

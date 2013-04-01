@@ -11,19 +11,20 @@ const static ULONGLONG ix_epoch = 116444736000000000;
 const static ULONGLONG ix_epoch = 116444736000000000LL;
 #endif
 
-DWORD gettime(void) {
+DWORD gettime(void)
+{
 
-		ULONGLONG diff_100_nsec;
-		union {
-			FILETIME	f;
-			ULARGE_INTEGER	u;
-		} now;
+	ULONGLONG diff_100_nsec;
+	union {
+		FILETIME	f;
+		ULARGE_INTEGER	u;
+	} now;
 
-		GetSystemTimeAsFileTime( &now.f );
+	GetSystemTimeAsFileTime(&now.f);
 
-		diff_100_nsec = now.u.QuadPart - ix_epoch;
+	diff_100_nsec = now.u.QuadPart - ix_epoch;
 
-		return (DWORD)( diff_100_nsec / div_100_nsec );
+	return (DWORD)(diff_100_nsec / div_100_nsec);
 }
 
 // EOF

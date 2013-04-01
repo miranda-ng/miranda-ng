@@ -214,7 +214,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 }
 
 
-#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
+#define GET_PIXEL(__P__, __X__, __Y__)(__P__ + width * 4 * (__Y__) + 4 * (__X__))
 
 BOOL MakeGrayscale(HBITMAP *hBitmap)
 {
@@ -250,7 +250,7 @@ BOOL MakeGrayscale(HBITMAP *hBitmap)
 		for (x = 0 ; x < width ; x++)
 		{
 			p1 = GET_PIXEL(p, x, y);
-			p1[0] = p1[1] = p1[2] = ( p1[0] + p1[1] + p1[2] ) / 3;
+			p1[0] = p1[1] = p1[2] = (p1[0] + p1[1] + p1[2]) / 3;
 		}
 	}
 
@@ -268,10 +268,10 @@ HICON MakeHalfAlphaIcon(HICON SourceIcon)
 	HICON TargetIcon, TempIcon;
 
 	TempIcon = CopyIcon(SourceIcon);
-	if ( !GetIconInfo(TempIcon, &TargetIconInfo))
+	if (!GetIconInfo(TempIcon, &TargetIconInfo))
 		return NULL;
 
-	if ( !GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo))
+	if (!GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo))
 		return NULL;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
@@ -292,7 +292,7 @@ HICON MakeGrayscaleIcon(HICON SourceIcon)
 	HICON TargetIcon, TempIcon;
 
 	TempIcon = CopyIcon(SourceIcon);
-	if (! GetIconInfo(TempIcon, &TargetIconInfo) || GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo)==0) return NULL;
+	if (! GetIconInfo(TempIcon, &TargetIconInfo) || GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo) == 0) return NULL;
 
 	MakeGrayscale(&TargetIconInfo.hbmColor);
 
@@ -313,14 +313,14 @@ HICON BindOverlayIcon(HICON SourceIcon,HICON OverlayIcon)
 	BLENDFUNCTION bf = {0,0,255,1};
 
 	TempIcon = CopyIcon(SourceIcon);
-	if ( !GetIconInfo( TempIcon, &TargetIconInfo ))
+	if (!GetIconInfo(TempIcon, &TargetIconInfo))
 		return NULL;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
 	CorrectBitmap32Alpha(TargetIconInfo.hbmColor, FALSE);
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
-	if ( !GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
+	if (!GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
 		return NULL;
 
 	TargetDC = CreateCompatibleDC(NULL);

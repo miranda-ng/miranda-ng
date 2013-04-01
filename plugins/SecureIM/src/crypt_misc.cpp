@@ -1,89 +1,62 @@
 #include "commonheaders.h"
 
-
-int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam ) {
-	ACKDATA ack;
-	memset(&ack,0,sizeof(ack));
-	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = 	GetContactProto(hContact);
+int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
+{
+	ACKDATA ack = { sizeof(ack) };
+	ack.szModule = GetContactProto(hContact);
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;
 	ack.hProcess = hProcess;
 	ack.lParam = lParam;
-	return CallService( MS_PROTO_BROADCASTACK, 0, ( LPARAM )&ack );
+	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
+static void sttWaitForExchange(LPVOID param)
+{
+	HANDLE hContact = (HANDLE)param;
+	pUinKey ptr = getUinKey(hContact);
+	if (!ptr)
+		return;
 
-unsigned __stdcall sttFakeAck( LPVOID param ) {
+	for (int i=0; i < db_get_w(0, MODULENAME, "ket", 10)*10; i++) {
+		Sleep(100);
+		if (ptr->waitForExchange != 1)
+			break;
+	}
 
-	TFakeAckParams* tParam = ( TFakeAckParams* )param;
-	WaitForSingleObject( tParam->hEvent, INFINITE );
-
-	Sleep( 100 );
-	if ( tParam->msg == NULL )
-		SendBroadcast( tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, ( HANDLE )tParam->id, 0 );
-	else
-		SendBroadcast( tParam->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, ( HANDLE )tParam->id, LPARAM( tParam->msg ));
-
-	CloseHandle( tParam->hEvent );
-	delete tParam;
-
-	return 0;
-}
-
-
-unsigned __stdcall sttWaitForExchange( LPVOID param ) {
-
-	TWaitForExchange* tParam = ( TWaitForExchange* )param;
-	WaitForSingleObject( tParam->hEvent, INFINITE );
-
-	pUinKey ptr = getUinKey(tParam->hContact);
-	delete tParam;
-
-	if ( !ptr ) return 0;
-
-	for (int i=0;i<db_get_w(0,MODULENAME,"ket",10)*10; i++) {
-		Sleep( 100 );
-		if ( ptr->waitForExchange != 1 ) break;
-	} // for
-
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("sttWaitForExchange: %d",ptr->waitForExchange);
-#endif
-   	// if keyexchange failed or timeout
-   	if ( ptr->waitForExchange==1 || ptr->waitForExchange==3 ) { // ¯à®âãå«® - ®â¯à ¢«ï¥¬ ­¥§ è¨äà®¢ ­­®, ¥á«¨ ­ ¤®
-   		if ( ptr->msgQueue && msgbox1(0,sim104,MODULENAME,MB_YESNO|MB_ICONQUESTION)==IDYES ) {
-	   		EnterCriticalSection(&localQueueMutex);
-	   		ptr->sendQueue = true;
-	   		pWM ptrMessage = ptr->msgQueue;
-   			while( ptrMessage ) {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
+	// if keyexchange failed or timeout
+	if (ptr->waitForExchange == 1 || ptr->waitForExchange == 3) { // ïðîòóõëî - îòïðàâëÿåì íåçàøèôðîâàííî, åñëè íàäî
+		if (ptr->msgQueue && msgbox1(0,sim104,MODULENAME,MB_YESNO|MB_ICONQUESTION) == IDYES) {
+			EnterCriticalSection(&localQueueMutex);
+			ptr->sendQueue = true;
+			pWM ptrMessage = ptr->msgQueue;
+			while(ptrMessage) {
 				Sent_NetLog("Sent (unencrypted) message from queue: %s",ptrMessage->Message);
-#endif
-   				// send unencrypted messages
-   				CallContactService(ptr->hContact,PSS_MESSAGE,(WPARAM)ptrMessage->wParam|PREF_METANODB,(LPARAM)ptrMessage->Message);
-   				mir_free(ptrMessage->Message);
-   				pWM tmp = ptrMessage;
-   				ptrMessage = ptrMessage->nextMessage;
-   				mir_free(tmp);
-   			}
-   			ptr->msgQueue = NULL;
-	   		ptr->sendQueue = false;
-	   		LeaveCriticalSection(&localQueueMutex);
-   		}
+
+				// send unencrypted messages
+				CallContactService(ptr->hContact,PSS_MESSAGE,(WPARAM)ptrMessage->wParam|PREF_METANODB,(LPARAM)ptrMessage->Message);
+				mir_free(ptrMessage->Message);
+				pWM tmp = ptrMessage;
+				ptrMessage = ptrMessage->nextMessage;
+				mir_free(tmp);
+			}
+			ptr->msgQueue = NULL;
+			ptr->sendQueue = false;
+			LeaveCriticalSection(&localQueueMutex);
+		}
 		ptr->waitForExchange = 0;
-   		ShowStatusIconNotify(ptr->hContact);
-   	}
-   	else
-   	if ( ptr->waitForExchange==2 ) { // ¤®á« âì ®ç¥à¥¤ì ç¥à¥§ ãáâ ­®¢«¥­­®¥ á®¥¤¨­¥­¨¥
+		ShowStatusIconNotify(ptr->hContact);
+	}
+	else if (ptr->waitForExchange == 2) { // äîñëàòü î÷åðåäü ÷åðåç óñòàíîâëåííîå ñîåäèíåíèå
 		EnterCriticalSection(&localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
 		while (ptrMessage) {
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 			Sent_NetLog("Sent (encrypted) message from queue: %s",ptrMessage->Message);
-#endif
+
 			// send unencrypted messages
 			CallContactService(ptr->hContact,PSS_MESSAGE,(WPARAM)ptrMessage->wParam|PREF_METANODB,(LPARAM)ptrMessage->Message);
 			mir_free(ptrMessage->Message);
@@ -94,9 +67,8 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 		ptr->msgQueue = NULL;
 		ptr->waitForExchange = 0;
 		LeaveCriticalSection(&localQueueMutex);
-   	}
-   	else
-   	if ( ptr->waitForExchange==0 ) { // ®ç¨áâ¨âì ®ç¥à¥¤ì
+	}
+	else if (ptr->waitForExchange == 0) { // î÷èñòèòü î÷åðåäü
 		EnterCriticalSection(&localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
@@ -108,29 +80,25 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 		}
 		ptr->msgQueue = NULL;
 		LeaveCriticalSection(&localQueueMutex);
-   	}
-   	return 0;
+	}
 }
 
-
 // set wait flag and run thread
-void waitForExchange(pUinKey ptr, int flag) {
-	switch( flag ) {
-	case 0: // á¡à®á¨âì
-	case 2: // ¤®á« âì è¨äà®¢ ­®
-	case 3: // ¤®á« âì ­¥è¨äà®¢ ­®
-		if ( ptr->waitForExchange ) 
+void waitForExchange(pUinKey ptr, int flag)
+{
+	switch(flag) {
+	case 0: // reset
+	case 2: // send secure
+	case 3: // send unsecure
+		if (ptr->waitForExchange)
 			ptr->waitForExchange = flag;
 		break;
-	case 1: // § ¯ãáâ¨âì
-		if ( ptr->waitForExchange ) 
+	case 1: // launch
+		if (ptr->waitForExchange)
 			break;
+
 		ptr->waitForExchange = 1;
-		// § ¯ãáª ¥¬ âàí¤
-		HANDLE hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
-		unsigned int tID;
-		CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttWaitForExchange, new TWaitForExchange(hEvent,ptr->hContact), 0, &tID));
-		SetEvent( hEvent );
+		mir_forkthread(sttWaitForExchange, ptr->hContact);
 		break;
 	}
 }

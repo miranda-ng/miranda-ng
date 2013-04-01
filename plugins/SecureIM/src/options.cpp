@@ -8,14 +8,14 @@ BOOL bChangeSortOrder = false;
 BOOL hasKey(pUinKey ptr)
 {
 	BOOL ret = 0;
-	if ( ptr->mode==MODE_NATIVE ) {
+	if (ptr->mode == MODE_NATIVE) {
 		LPSTR str = db_get_sa(ptr->hContact,MODULENAME,"PSK");
-		ret = (str!=NULL); SAFE_FREE(str);
+		ret = (str != NULL); SAFE_FREE(str);
 	}
-	else if ( ptr->mode==MODE_RSAAES ) {
+	else if (ptr->mode == MODE_RSAAES) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
-		if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
+		if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 			ret = 1;
 			db_free(&dbv);
 		}
@@ -144,14 +144,14 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case ID_UPDATE_PLIST:
-			if ( !bPGP ) break;
+			if (!bPGP ) break;
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),2,&tci);
 			SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_CLIST,0);
 			break;
 
 		case ID_UPDATE_GLIST:
-			if ( !bGPG ) break;
+			if (!bGPG ) break;
 			tci.mask = TCIF_PARAM;
 			TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),3,&tci);
 			SendMessage((HWND)tci.lParam,WM_COMMAND,ID_UPDATE_GLIST,0);
@@ -314,14 +314,14 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			idx = ListView_GetSelectionMark(hLV);
 			ptr = (pUinKey) getListViewParam(hLV,idx);
 			if (ptr) {
-				if ( !ptr->keyLoaded ) {
+				if (!ptr->keyLoaded) {
 					createRSAcntx(ptr);
 					loadRSAkey(ptr);
 				}
-				if ( ptr->keyLoaded ) {
+				if (ptr->keyLoaded) {
 					LPSTR buffer = (LPSTR) alloca(RSASIZE);
 					exp->rsa_export_pubkey(ptr->cntx,buffer);
-					if ( !SaveExportRSAKeyDlg(hDlg,buffer,0))
+					if (!SaveExportRSAKeyDlg(hDlg,buffer,0))
 						msgbox(hDlg,sim114,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 				}
 			}
@@ -333,8 +333,8 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			if (ptr) {
 				createRSAcntx(ptr);
 				LPSTR pub = (LPSTR) alloca(RSASIZE);
-				if ( !LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
-				if ( exp->rsa_import_pubkey(ptr->cntx,pub)) {
+				if (!LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
+				if (exp->rsa_import_pubkey(ptr->cntx,pub)) {
 					int len;
 					exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
 
@@ -415,9 +415,9 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					ptr = (pUinKey) getListViewParam(hLV,idx);
 					if (ptr) {
 						ptr->tmode++;
-						if ( !bPGP && ptr->tmode==MODE_PGP ) ptr->tmode++;
-						if ( !bGPG && ptr->tmode==MODE_GPG ) ptr->tmode++;
-						if ( ptr->tmode>=MODE_CNT ) ptr->tmode=MODE_NATIVE;
+						if (!bPGP && ptr->tmode == MODE_PGP ) ptr->tmode++;
+						if (!bGPG && ptr->tmode == MODE_GPG ) ptr->tmode++;
+						if (ptr->tmode>=MODE_CNT ) ptr->tmode=MODE_NATIVE;
 						setListViewMode(hLV,idx,ptr->tmode);
 						setListViewIcon(hLV,idx,ptr);
 						SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -427,7 +427,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					idx = LPNMLISTVIEW(lParam)->iItem;
 					ptr = (pUinKey) getListViewParam(hLV,idx);
 					if (ptr) {
-						ptr->tstatus++; if (ptr->tstatus>(ptr->tmode==MODE_RSAAES?1:2)) ptr->tstatus=0;
+						ptr->tstatus++; if (ptr->tstatus>(ptr->tmode == MODE_RSAAES?1:2)) ptr->tstatus=0;
 						setListViewStatus(hLV,idx,ptr->tstatus);
 						setListViewIcon(hLV,idx,ptr);
 						SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -442,39 +442,39 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					if (ptr) {
 						POINT p; GetCursorPos(&p);
 						HMENU hMenu = NULL;
-						if ( ptr->tmode==MODE_NATIVE || ptr->tmode==MODE_RSAAES ) {
-							switch( lpLV->iSubItem ) {
+						if (ptr->tmode == MODE_NATIVE || ptr->tmode == MODE_RSAAES) {
+							switch( lpLV->iSubItem) {
 							case 2: // mode
 								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST2));
 								break;
 							case 3: // status
-								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode==MODE_NATIVE)?IDM_CLIST01:IDM_CLIST11));
+								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE)?IDM_CLIST01:IDM_CLIST11));
 								break;
 							case 4: // PSK/PUB
 							case 5: // SHA1
-								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode==MODE_NATIVE)?IDM_CLIST02:IDM_CLIST12));
+								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE)?IDM_CLIST02:IDM_CLIST12));
 								break;
 							default: // full menu
-								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode==MODE_NATIVE)?IDM_CLIST0:IDM_CLIST1));
+								hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE((ptr->tmode == MODE_NATIVE)?IDM_CLIST0:IDM_CLIST1));
 								break;
 							}
 							CheckMenuItem(hMenu, ID_DISABLED+ptr->tstatus, MF_CHECKED );
-							if ( ptr->tmode==MODE_NATIVE ) {
-								if ( !hasKey(ptr)) EnableMenuItem(hMenu, ID_DELPSK, MF_GRAYED );
+							if (ptr->tmode == MODE_NATIVE) {
+								if (!hasKey(ptr)) EnableMenuItem(hMenu, ID_DELPSK, MF_GRAYED );
 							}
-							else if ( ptr->tmode==MODE_RSAAES ) {
-								if ( !hasKey(ptr)) {
+							else if (ptr->tmode == MODE_RSAAES) {
+								if (!hasKey(ptr)) {
 									EnableMenuItem(hMenu, ID_EXPPUBL, MF_GRAYED );
 									EnableMenuItem(hMenu, ID_DELPUBL, MF_GRAYED );
 								}
 							}
 						}
-						if ( !hMenu )
+						if (!hMenu )
 							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST2));
 						TranslateMenu(hMenu);
 						CheckMenuItem(hMenu, ID_SIM_NATIVE+ptr->tmode, MF_CHECKED );
-						if ( !bPGP ) EnableMenuItem(hMenu, ID_SIM_PGP, MF_GRAYED );
-						if ( !bGPG ) EnableMenuItem(hMenu, ID_SIM_GPG, MF_GRAYED );
+						if (!bPGP ) EnableMenuItem(hMenu, ID_SIM_PGP, MF_GRAYED );
+						if (!bGPG ) EnableMenuItem(hMenu, ID_SIM_GPG, MF_GRAYED );
 						TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, hDlg, 0);
 						DestroyMenu(hMenu);
 					}
@@ -538,7 +538,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			{
 				LPSTR pub = (LPSTR) alloca(RSASIZE);
 				exp->rsa_export_keypair(CPP_MODE_RSA,NULL,pub,NULL);
-				if ( !SaveExportRSAKeyDlg(hDlg,pub,0))
+				if (!SaveExportRSAKeyDlg(hDlg,pub,0))
 					msgbox(hDlg,sim114,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 			}
 			return TRUE;
@@ -547,10 +547,10 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			{
 				LPSTR passphrase = (LPSTR) alloca(RSASIZE);
 				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,DlgProcSetPassphrase,(LPARAM)passphrase);
-				if ( res==IDOK ) {
+				if (res == IDOK) {
 					LPSTR priv = (LPSTR) alloca(RSASIZE);
 					exp->rsa_export_keypair(CPP_MODE_RSA,priv,NULL,passphrase);
-					if ( !SaveExportRSAKeyDlg(hDlg,priv,1))
+					if (!SaveExportRSAKeyDlg(hDlg,priv,1))
 						msgbox(hDlg,sim112,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 				}
 			}
@@ -559,13 +559,13 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 		case IDC_RSA_IMPPRIV:
 			{
 				LPSTR priv = (LPSTR) alloca(RSASIZE);
-				if ( !LoadImportRSAKeyDlg(hDlg,priv,1))
+				if (!LoadImportRSAKeyDlg(hDlg,priv,1))
 					return TRUE;
 
 				LPSTR passphrase = (LPSTR) alloca(RSASIZE);
 				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,DlgProcSetPassphrase,(LPARAM)passphrase);
-				if ( res==IDOK ) {
-					if ( !exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase))
+				if (res == IDOK) {
+					if (!exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase))
 						msgbox(hDlg,sim113,MODULENAME,MB_OK|MB_ICONEXCLAMATION);
 					else // обновить SHA1 значение
 						RefreshProtoDlg(hDlg);
@@ -575,7 +575,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 
 		case IDC_SPLITON:
 		case IDC_SPLITOFF:
-			if ( HIWORD(wParam) == EN_CHANGE ) {
+			if (HIWORD(wParam) == EN_CHANGE) {
 				idx = ListView_GetSelectionMark(hLV);
 				if (idx == -1)
 					break;
@@ -699,7 +699,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 		case IDC_NO_KEYRINGS:
 			{
-				BOOL bNoKR = (SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L)==BST_CHECKED);
+				BOOL bNoKR = (SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L) == BST_CHECKED);
 				EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), !bNoKR);
 				EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), bNoKR);
 				SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bNoKR?Translate(sim225):((bPGP9)?Translate(sim220):(bPGPkeyrings?Translate(sim216):Translate(sim217))));
@@ -861,7 +861,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 				if (LPNMLISTVIEW(lParam)->iSubItem == 3) {
 					idx = LPNMLISTVIEW(lParam)->iItem;
 					ptr = (pUinKey) getListViewParam(hLV,idx);
-					if ( !ptr ) break;
+					if (!ptr ) break;
 					ptr->tgpgMode++; ptr->tgpgMode&=1;
 					LV_SetItemTextA(hLV, LPNMLISTVIEW(lParam)->iItem, LPNMLISTVIEW(lParam)->iSubItem, (ptr->tgpgMode)?Translate(sim228):Translate(sim229));
 					SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -893,7 +893,7 @@ INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDOK:
-			if ( GetDlgItemTextA(hDlg, IDC_EDIT1, buffer, PSKSIZE) < 8) {
+			if (GetDlgItemTextA(hDlg, IDC_EDIT1, buffer, PSKSIZE) < 8) {
 				msgbox1(hDlg, sim211, MODULENAME, MB_OK | MB_ICONEXCLAMATION);
 				return TRUE;
 			}
@@ -990,8 +990,8 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 	while (hContact) {
 		pUinKey ptr = getUinKey(hContact);
-		if ( ptr && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
-			if ( iInit ) {
+		if (ptr && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
+			if (iInit) {
 				ptr->tmode = ptr->mode;
 				ptr->tstatus = ptr->status;
 			}
@@ -1009,7 +1009,7 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 			setListViewMode(hLV, itemNum, ptr->tmode);
 			setListViewStatus(hLV, itemNum, ptr->tstatus);
-			if ( ptr->mode==MODE_NATIVE )	setListViewPSK(hLV, itemNum, hasKey(ptr));
+			if (ptr->mode == MODE_NATIVE )	setListViewPSK(hLV, itemNum, hasKey(ptr));
 			else				setListViewPUB(hLV, itemNum, hasKey(ptr));
 			setListViewIcon(hLV, itemNum, ptr);
 		}
@@ -1078,11 +1078,11 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 
 	while (hContact) {
 		pUinKey ptr = getUinKey(hContact);
-		if (ptr && ptr->mode==MODE_PGP && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
+		if (ptr && ptr->mode == MODE_PGP && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
 			LPSTR szKeyID = db_get_sa(hContact,MODULENAME,"pgp_abbr");
 
 			lvi.iItem++;
-			lvi.iImage = (szKeyID!=0);
+			lvi.iImage = (szKeyID != 0);
 			lvi.lParam = (LPARAM)ptr;
 
 			getContactName(hContact, tmp);
@@ -1140,14 +1140,14 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 
 	while (hContact) {
 		pUinKey ptr = getUinKey(hContact);
-		if (ptr && ptr->mode==MODE_GPG && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
-			if ( iInit )
+		if (ptr && ptr->mode == MODE_GPG && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
+			if (iInit )
 				ptr->tgpgMode = ptr->gpgMode;
 
 			LPSTR szKeyID = db_get_sa(hContact,MODULENAME,"gpg");
 
 			lvi.iItem++;
-			lvi.iImage = (szKeyID!=0);
+			lvi.iImage = (szKeyID != 0);
 			lvi.lParam = (LPARAM)ptr;
 
 			getContactName(hContact, tmp);
@@ -1215,7 +1215,7 @@ void ResetGeneralDlg(HWND hDlg)
 
 		setListViewMode(hLV, itemNum, ptr->tmode);
 		setListViewStatus(hLV, itemNum, ptr->tstatus);
-		if ( ptr->mode==MODE_NATIVE )	setListViewPSK(hLV, itemNum, 0);
+		if (ptr->mode == MODE_NATIVE )	setListViewPSK(hLV, itemNum, 0);
 		else				setListViewPUB(hLV, itemNum, 0);
 		setListViewIcon(hLV, itemNum, ptr);
 	}
@@ -1245,29 +1245,29 @@ void ApplyGeneralSettings(HWND hDlg)
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_OKT,timeout);
 
-	bSFT = (SendMessage(GetDlgItem(hDlg, IDC_SFT),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bSOM = (SendMessage(GetDlgItem(hDlg, IDC_SOM),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bASI = (SendMessage(GetDlgItem(hDlg, IDC_ASI),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bMCD = (SendMessage(GetDlgItem(hDlg, IDC_MCD),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bSCM = (SendMessage(GetDlgItem(hDlg, IDC_SCM),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bDGP = (SendMessage(GetDlgItem(hDlg, IDC_DGP),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bAIP = (SendMessage(GetDlgItem(hDlg, IDC_AIP),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bNOL = (SendMessage(GetDlgItem(hDlg, IDC_NOL),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bAAK = (SendMessage(GetDlgItem(hDlg, IDC_AAK),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bMCM = (SendMessage(GetDlgItem(hDlg, IDC_MCM),BM_GETCHECK,0L,0L)==BST_CHECKED);
+	bSFT = (SendMessage(GetDlgItem(hDlg, IDC_SFT),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bSOM = (SendMessage(GetDlgItem(hDlg, IDC_SOM),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bASI = (SendMessage(GetDlgItem(hDlg, IDC_ASI),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bMCD = (SendMessage(GetDlgItem(hDlg, IDC_MCD),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bSCM = (SendMessage(GetDlgItem(hDlg, IDC_SCM),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bDGP = (SendMessage(GetDlgItem(hDlg, IDC_DGP),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bAIP = (SendMessage(GetDlgItem(hDlg, IDC_AIP),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bNOL = (SendMessage(GetDlgItem(hDlg, IDC_NOL),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bAAK = (SendMessage(GetDlgItem(hDlg, IDC_AAK),BM_GETCHECK,0L,0L) == BST_CHECKED);
+	bMCM = (SendMessage(GetDlgItem(hDlg, IDC_MCM),BM_GETCHECK,0L,0L) == BST_CHECKED);
 
 	SetFlags();
 
 	// PGP &| GPG flags
 	{
 		tmp = 0;
-		i = SendMessage(GetDlgItem(hDlg, IDC_PGP),BM_GETCHECK,0L,0L)==BST_CHECKED;
-		if (i!=bPGP) {
+		i = SendMessage(GetDlgItem(hDlg, IDC_PGP),BM_GETCHECK,0L,0L) == BST_CHECKED;
+		if (i != bPGP) {
 			bPGP = i; tmp++;
 			db_set_b(0, MODULENAME, "pgp", bPGP);
 		}
-		i = SendMessage(GetDlgItem(hDlg, IDC_GPG),BM_GETCHECK,0L,0L)==BST_CHECKED;
-		if (i!=bGPG) {
+		i = SendMessage(GetDlgItem(hDlg, IDC_GPG),BM_GETCHECK,0L,0L) == BST_CHECKED;
+		if (i != bGPG) {
 			bGPG = i; tmp++;
 			db_set_b(0, MODULENAME, "gpg", bGPG);
 		}
@@ -1276,20 +1276,20 @@ void ApplyGeneralSettings(HWND hDlg)
 
 	HWND hLV = GetDlgItem(hDlg,IDC_STD_USERLIST);
 	i = ListView_GetNextItem(hLV,(UINT)-1,LVNI_ALL);
-	while(i!=-1) {
+	while(i != -1) {
 		pUinKey ptr = (pUinKey)getListViewParam(hLV,i);
-		if ( !ptr ) continue;
-		if ( ptr->mode!=ptr->tmode ) {
+		if (!ptr ) continue;
+		if (ptr->mode != ptr->tmode) {
 			ptr->mode = ptr->tmode;
 			db_set_b(ptr->hContact, MODULENAME, "mode", ptr->mode);
 		}
-		if ( ptr->status!=ptr->tstatus ) {
+		if (ptr->status != ptr->tstatus) {
 			ptr->status = ptr->tstatus;
-			if (ptr->status==STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
+			if (ptr->status == STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
 			else 				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 		}
-		if ( ptr->mode==MODE_NATIVE ) {
-			if ( getListViewPSK(hLV,i)) {
+		if (ptr->mode == MODE_NATIVE) {
+			if (getListViewPSK(hLV,i)) {
 				LPSTR tmp = db_get_sa(ptr->hContact,MODULENAME,"tPSK");
 				db_set_s(ptr->hContact, MODULENAME, "PSK", tmp);
 				mir_free(tmp);
@@ -1298,8 +1298,8 @@ void ApplyGeneralSettings(HWND hDlg)
 
 			db_unset(ptr->hContact, MODULENAME, "tPSK");
 		}
-		else if ( ptr->mode==MODE_RSAAES ) {
-			if ( !getListViewPUB(hLV,i))
+		else if (ptr->mode == MODE_RSAAES) {
+			if (!getListViewPUB(hLV,i))
 				db_unset(ptr->hContact, MODULENAME, "rsa_pub");
 		}
 		i = ListView_GetNextItem(hLV,i,LVNI_ALL);
@@ -1328,7 +1328,7 @@ void ApplyProtoSettings(HWND hDlg)
 
 void ApplyPGPSettings(HWND hDlg)
 {
-	bUseKeyrings = !(SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L)==BST_CHECKED);
+	bUseKeyrings = !(SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L) == BST_CHECKED);
 	db_set_b(0,MODULENAME,"ukr",bUseKeyrings);
 
 	char *priv = db_get_sa(0,MODULENAME,"tpgpPrivKey");
@@ -1350,17 +1350,17 @@ void ApplyGPGSettings(HWND hDlg)
 	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, sizeof(tmp));
 	db_set_s(0,MODULENAME,"gpgHome",tmp);
 
-	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
+	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX),BM_GETCHECK,0L,0L) == BST_CHECKED);
 	db_set_b(0,MODULENAME,"gpgSaveFlag",bSavePass);
 
-	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
+	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX),BM_GETCHECK,0L,0L) == BST_CHECKED);
 	db_set_b(0,MODULENAME,"gpgLogFlag",bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, sizeof(tmp));
 	db_set_s(0,MODULENAME,"gpgLog",tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
-	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
+	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX),BM_GETCHECK,0L,0L) == BST_CHECKED);
 	db_set_b(0,MODULENAME,"gpgTmpFlag",bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, sizeof(tmp));
 	db_set_s(0,MODULENAME,"gpgTmp",tmp);
@@ -1369,12 +1369,12 @@ void ApplyGPGSettings(HWND hDlg)
 
 	HWND hLV = GetDlgItem(hDlg,IDC_GPG_USERLIST);
 	int i = ListView_GetNextItem(hLV,(UINT)-1,LVNI_ALL);
-	while(i!=-1) {
+	while(i != -1) {
 		pUinKey ptr = (pUinKey)getListViewParam(hLV,i);
-		if ( !ptr ) continue;
-		if ( ptr->gpgMode != ptr->tgpgMode ) {
+		if (!ptr ) continue;
+		if (ptr->gpgMode != ptr->tgpgMode) {
 			ptr->gpgMode = ptr->tgpgMode;
-			if ( ptr->gpgMode )	db_set_b(ptr->hContact,MODULENAME,"gpgANSI",1);
+			if (ptr->gpgMode )	db_set_b(ptr->hContact,MODULENAME,"gpgANSI",1);
 			else              	db_unset(ptr->hContact,MODULENAME,"gpgANSI");
 		}			
 
@@ -1433,7 +1433,7 @@ UINT getListViewPSK(HWND hLV, UINT iItem)
 {
 	char str[128];
 	LV_GetItemTextA(hLV, iItem, 4, str, sizeof(str));
-	return strncmp(str, Translate(sim206), sizeof(str))==0;
+	return strncmp(str, Translate(sim206), sizeof(str)) == 0;
 }
 
 void setListViewPSK(HWND hLV, UINT iItem, UINT iStatus)
@@ -1447,7 +1447,7 @@ UINT getListViewPUB(HWND hLV, UINT iItem)
 {
 	char str[128];
 	LV_GetItemTextA(hLV, iItem, 4, str, sizeof(str));
-	return strncmp(str, Translate(sim233), sizeof(str))==0;
+	return strncmp(str, Translate(sim233), sizeof(str)) == 0;
 }
 
 void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
@@ -1457,18 +1457,18 @@ void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 	LV_SetItemTextA(hLV, iItem, 4, str);
 
 	LPSTR sha = NULL;
-	if ( iStatus ) {
+	if (iStatus) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 		pUinKey ptr = (pUinKey) getListViewParam(hLV, iItem);
-		if ( DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0 ) {
+		if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 			int len;
 			exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)str,&len);
 			sha = mir_strdup(to_hex((PBYTE)str,len));
 			db_free(&dbv);
 		}
 	}
-	if ( sha ) {
+	if (sha) {
 		LV_SetItemTextA(hLV, iItem, 5, sha);
 		mir_free(sha);
 	}
@@ -1510,8 +1510,8 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	case 0x13:
 		db_get_s(p1->hContact,MODULENAME,"pgp_abbr",&dbv1);
 		db_get_s(p2->hContact,MODULENAME,"pgp_abbr",&dbv2);
-		s=(dbv1.type==DBVT_ASCIIZ);
-		d=(dbv2.type==DBVT_ASCIIZ);
+		s=(dbv1.type == DBVT_ASCIIZ);
+		d=(dbv2.type == DBVT_ASCIIZ);
 		if (s && d) {
 			s=strcmp(dbv1.pszVal,dbv2.pszVal);
 			d=0;
@@ -1540,10 +1540,10 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 
 	case 0x05:
 		db_get_s(p1->hContact,MODULENAME,"PSK",&dbv1);
-		s=(dbv1.type==DBVT_ASCIIZ);
+		s=(dbv1.type == DBVT_ASCIIZ);
 		db_free(&dbv1);
 		db_get_s(p2->hContact,MODULENAME,"PSK",&dbv2);
-		d=(dbv2.type==DBVT_ASCIIZ);
+		d=(dbv2.type == DBVT_ASCIIZ);
 		db_free(&dbv2);
 		return (s-d)*m;
 	}
@@ -1556,7 +1556,7 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 
 	// restore sort column
 	sprintf(t,"os%02x",(UINT)lParamSort&0xF0);
-	if ((lParamSort&0x0F)==0)
+	if ((lParamSort&0x0F) == 0)
 		lParamSort=(int)db_get_b(0, MODULENAME, t, lParamSort+1);
 
 	db_set_b(0, MODULENAME, t, (BYTE)lParamSort);
@@ -1614,9 +1614,9 @@ LPSTR LoadKeys(LPCSTR file,BOOL priv)
 	LPSTR keys = (LPSTR)mir_alloc(flen+1);
 	int i=0; BOOL b=false;
 	while(fgets(keys+i,128,f)) {
-		if (!b && strncmp(keys+i,beg,strlen(beg))==0)
+		if (!b && strncmp(keys+i,beg,strlen(beg)) == 0)
 			b=true;
-		else if (b && strncmp(keys+i,end,strlen(end))==0) {
+		else if (b && strncmp(keys+i,end,strlen(end)) == 0) {
 			i+=(int)strlen(keys+i);
 			b=false;
 		}
@@ -1644,11 +1644,11 @@ BOOL SaveExportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	ofn.lpstrFile = szFile;
 
 	ofn.lpstrTitle = (priv) ? TranslateT("Save Private Key File") : TranslateT("Save Public Key File");
-	if ( !GetSaveFileName(&ofn))
+	if (!GetSaveFileName(&ofn))
 		return FALSE;
 
 	FILE *f = _tfopen(szFile, _T("wb"));
-	if ( !f)
+	if (!f)
 		return FALSE;
 	fwrite(key, strlen(key), 1, f);
 	fclose(f);
@@ -1672,11 +1672,11 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 	mir_snprintf(temp, SIZEOF(temp), _T("%s (*.asc)%c*.asc%c%s (*.*)%c*.*%c%c"), Translate("ASC files"), 0, 0, Translate("All files"), 0, 0, 0);
 	ofn.lpstrFilter = temp;
 	ofn.lpstrTitle = (priv) ? TranslateT("Load Private Key File") : TranslateT("Load Public Key File");
-	if ( !GetOpenFileName(&ofn))
+	if (!GetOpenFileName(&ofn))
 		return FALSE;
 
 	FILE *f = _tfopen(szFile, _T("rb"));
-	if ( !f)
+	if (!f)
 		return FALSE;
 
 	fseek(f, 0, SEEK_END);

@@ -68,28 +68,17 @@ struct UinKey
 };
 typedef UinKey* pUinKey;
 
-struct TFakeAckParams {
-	inline TFakeAckParams( HANDLE p1, HANDLE p2, LONG p3, LPCSTR p4 ) :
-		hEvent( p1 ),
-		hContact( p2 ),
-		id( p3 ),
-		msg( p4 )
+struct TFakeAckParams
+{
+	__forceinline TFakeAckParams(HANDLE p1, LONG p2, LPCSTR p3) :
+		hContact(p1),
+		id(p2),
+		msg(p3)
 		{}
 
-	HANDLE	hEvent;
-	HANDLE	hContact;
-	LONG	id;
-	LPCSTR	msg;
-};
-
-struct TWaitForExchange {
-	inline TWaitForExchange( HANDLE p1, HANDLE p2 ) :
-		hEvent( p1 ),
-		hContact( p2 )
-		{}
-
-	HANDLE	hEvent;
-	HANDLE	hContact;
+	HANDLE hContact;
+	LONG   id;
+	LPCSTR msg;
 };
 
 extern char szUIN[NAMSIZE];
@@ -172,8 +161,6 @@ BOOL LoadKeyPGP(pUinKey);
 BOOL LoadKeyGPG(pUinKey);
 
 // crypt_misc.cpp
-unsigned __stdcall sttFakeAck(LPVOID);
-unsigned __stdcall sttWaitForExchange(LPVOID);
 void waitForExchange(pUinKey ptr, int flag = 1);
 
 #endif

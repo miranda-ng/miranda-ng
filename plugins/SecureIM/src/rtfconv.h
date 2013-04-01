@@ -7,9 +7,8 @@
 
 #define CONVMODE_USE_SYSTEM_TABLE         0x800000    /* Use OS's table only */
 
-typedef intptr_t (WINAPI *RTFCONVSTRING) ( const void *pSrcBuffer, void *pDstBuffer,
-    int nSrcCodePage, int nDstCodePage, unsigned long dwFlags,
-    size_t nMaxLen );
+typedef intptr_t (WINAPI *RTFCONVSTRING)(const void *pSrcBuffer, void *pDstBuffer,
+    int nSrcCodePage, int nDstCodePage, unsigned long dwFlags, size_t nMaxLen);
 
 extern RTFCONVSTRING pRtfconvString;
 

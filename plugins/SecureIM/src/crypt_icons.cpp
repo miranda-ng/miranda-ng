@@ -75,7 +75,7 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 			ExtraIcon_Clear(g_hCLIcon, hMC);
 	}
 
-	if ( ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
+	if (ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
 		StatusIconData sid = {sizeof(sid) };
 		sid.szModule = (char*)MODULENAME;
 		for (int i = MODE_NATIVE; i < MODE_CNT; i++) {
@@ -84,7 +84,7 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 			if (mode == -1 || (mode & 0x0f) != i || isChatRoom(hContact))
 				sid.flags |= MBF_HIDDEN;  // отключаем все ненужные иконки
 			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
-			if ( hMC )
+			if (hMC )
 				CallService(MS_MSG_MODIFYICON, (WPARAM)hMC, (LPARAM)&sid);
 		}
 	}
@@ -98,7 +98,7 @@ void ShowStatusIcon(HANDLE hContact)
 void ShowStatusIconNotify(HANDLE hContact)
 {
 	BYTE mode = isContactSecured(hContact);
-	NotifyEventHooks(g_hEvent[(mode&SECURED)!=0], (WPARAM)hContact, 0);
+	NotifyEventHooks(g_hEvent[(mode&SECURED) != 0], (WPARAM)hContact, 0);
 	ShowStatusIcon(hContact,mode);
 }
 
@@ -109,7 +109,7 @@ void RefreshContactListIcons(void)
 
 	HANDLE hContact = db_find_first();
 	while (hContact) { // и снова зажигаем иконку
-		if ( isSecureProtocol(hContact))
+		if (isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
 		hContact = db_find_next(hContact);
 	}

@@ -2,11 +2,10 @@
 
 
 // разбивает сообщение szMsg на части длиной iLen, возвращает строку вида PARTzPARTzz
-LPSTR splitMsg(LPSTR szMsg, int iLen) {
-
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+LPSTR splitMsg(LPSTR szMsg, int iLen)
+{
 	Sent_NetLog("split: msg: -----\n%s\n-----\n",szMsg);
-#endif
+
 	int len = (int)strlen(szMsg);
 	LPSTR out = (LPSTR) mir_alloc(len*2);
 	LPSTR buf = out;
@@ -20,9 +19,9 @@ LPSTR splitMsg(LPSTR szMsg, int iLen) {
 		mir_snprintf(buf,32,"%s%04X%02X%02X",SIG_SECP,msg_id,part_num,part_all);
 		memcpy(buf+LEN_SECP+8,szMsg,sz);
 		*(buf+LEN_SECP+8+sz) = '\0';
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 		Sent_NetLog("split: part: %s",buf);
-#endif
+
 		buf += LEN_SECP+8+sz+1;
 		szMsg += sz;
 		len -= sz;
@@ -33,16 +32,15 @@ LPSTR splitMsg(LPSTR szMsg, int iLen) {
 
 
 // собираем сообщение из частей, части храним в структуре у контакта
-LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
-
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+LPSTR combineMessage(pUinKey ptr, LPSTR szMsg)
+{
 	Sent_NetLog("combine: part: %s",szMsg);
-#endif
+
 	int msg_id,part_num,part_all;
 	sscanf(szMsg,"%4X%2X%2X",&msg_id,&part_num,&part_all);
 	//
 	pPM ppm = NULL, pm = ptr->msgPart;
-	if ( !ptr->msgPart ) {
+	if (!ptr->msgPart) {
 		pm = ptr->msgPart = new partitionMessage;
 		memset(pm,0,sizeof(partitionMessage));
 		pm->id = msg_id;
@@ -51,7 +49,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
 	}
 	else
 	while(pm) {
-		if ( pm->id == msg_id ) break;
+		if (pm->id == msg_id ) break;
 		ppm = pm; pm = pm->nextMessage;
 	}
 	if (!pm) { // nothing to found
@@ -63,18 +61,18 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
 	}
 	pm->message[part_num] = new char[strlen(szMsg)];
 	strcpy(pm->message[part_num],szMsg+8);
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	Sent_NetLog("combine: save part: %s",pm->message[part_num]);
-#endif
+
 	int len=0,i;
-	for ( i=0; i<part_all; i++ ) {
-		if (pm->message[i]==NULL) break;
+	for ( i=0; i<part_all; i++) {
+		if (pm->message[i] == NULL) break;
 		len+=(int)strlen(pm->message[i]);
 	}
-	if ( i==part_all ) { // combine message
+	if (i == part_all) { // combine message
        		SAFE_FREE(ptr->tmp);
 		ptr->tmp = (LPSTR) mir_alloc(len+1); *(ptr->tmp)='\0';
-		for ( i=0; i<part_all; i++ ) {
+		for ( i=0; i<part_all; i++) {
 			strcat(ptr->tmp,pm->message[i]);
 			delete pm->message[i];
 		}
@@ -82,16 +80,14 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
 		if (ppm) ppm->nextMessage = pm->nextMessage;
 		else 	ptr->msgPart = pm->nextMessage;
 		delete pm;
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 		Sent_NetLog("combine: all parts: -----\n%s\n-----\n", ptr->tmp);
-#endif
-		// собрали одно сообщение
+		// combined one message
 		return ptr->tmp;
 	}
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+
 	Sent_NetLog("combine: not all parts");
-#endif
-	// еще не собрали
+	// not combined yet
 	return NULL;
 }
 
@@ -101,11 +97,11 @@ int splitMessageSend(pUinKey ptr, LPSTR szMsg) {
 
 	int ret;
 	int len = (int)strlen(szMsg);
-	int par = (getContactStatus(ptr->hContact)==ID_STATUS_OFFLINE)?ptr->proto->split_off:ptr->proto->split_on;
-	if ( par && len>par ) {
+	int par = (getContactStatus(ptr->hContact) == ID_STATUS_OFFLINE)?ptr->proto->split_off:ptr->proto->split_on;
+	if (par && len>par) {
 		LPSTR msg = splitMsg(szMsg,par);
 		LPSTR buf = msg;
-		while( *buf ) {
+		while( *buf) {
 			len = (int)strlen(buf);
 			LPSTR tmp = mir_strdup(buf);
 			ret = CallContactService(ptr->hContact,PSS_MESSAGE,(WPARAM)PREF_METANODB,(LPARAM)tmp);

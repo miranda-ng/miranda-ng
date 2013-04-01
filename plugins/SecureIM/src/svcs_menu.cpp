@@ -28,7 +28,7 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam)
 		pUinKey ptr = getUinKey((HANDLE)wParam);
 		if (ptr) {
 			ptr->status=ptr->tstatus=(BYTE)lParam;
-			if (ptr->status==STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
+			if (ptr->status == STATUS_ENABLED)	db_unset(ptr->hContact, MODULENAME, "StatusID");
 			else 				db_set_b(ptr->hContact, MODULENAME, "StatusID", ptr->status);
 		}
 		break;
@@ -159,14 +159,14 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 			msgbox(NULL, sim111, MODULENAME, MB_OK);
 			return 0;
 		}
-		if ( lParam!=MODE_NATIVE && ptr->status>STATUS_ENABLED )
+		if (lParam != MODE_NATIVE && ptr->status>STATUS_ENABLED )
 			Service_Status(wParam,STATUS_ENABLED+1);
 
 	case MODE_PGP:
 	case MODE_GPG:
 		// нужно много проверок и отключение активного контекста если необходимо
 		if (ptr) {
-			if ( ptr->cntx ) {
+			if (ptr->cntx) {
 				cpp_delete_context(ptr->cntx);
 				ptr->cntx = 0;
 				ptr->keyLoaded = 0;

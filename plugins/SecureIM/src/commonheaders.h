@@ -100,30 +100,20 @@ int onModulesLoaded(WPARAM, LPARAM);
 int onSystemOKToExit(WPARAM, LPARAM);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
 
+int SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
+
 LPSTR myDBGetStringDecode(HANDLE,const char *,const char *);
 int myDBWriteStringEncode(HANDLE,const char *,const char *,const char *);
 
-#if defined(_DEBUG) || defined(NETLIB_LOG)
 extern HANDLE hNetlibUser;
 void InitNetlib();
 void DeinitNetlib();
 int Sent_NetLog(const char *,...);
-#endif
-/*
-int DBWriteString(HANDLE,const char *,const char *,const char *);
-int DBGetByte(HANDLE,const char *,const char *,int);
-int DBWriteByte(HANDLE,const char *,const char *,BYTE);
-int DBGetWord(HANDLE,const char *,const char *,int);
-int DBWriteWord(HANDLE,const char *,const char *,WORD);
-*/
+
 void GetFlags();
 void SetFlags();
-/*
-LPSTR u2a( LPCWSTR src );
-LPWSTR a2u( LPCSTR src );
-*/
-LPSTR TranslateU( LPCSTR lpText );
-int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType );
+
+int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
 void CopyToClipboard(HWND hwnd,LPSTR msg);
 #define msgbox0(a,b,c,d) msgbox(a,b,c,d)
 #define msgbox1(a,b,c,d) msgbox(a,b,c,d)

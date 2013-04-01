@@ -23,7 +23,7 @@ BYTE isContactSecured(HANDLE hContact)
 	// нужна проверка на Offline и в этом случае другие статусы
 	if (!arClist.getCount()) return 0;
 
-	if ( isProtoMetaContacts(hContact))
+	if (isProtoMetaContacts(hContact))
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	pUinKey p = findUinKey(hContact);
@@ -70,7 +70,7 @@ bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda)
 	bool isMiranda = true;
 	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
 	if (mirver) {
-		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver,"Miranda")!=NULL);
+		isMiranda = (emptyMirverAsMiranda && !*mirver) || (strstr(mirver,"Miranda") != NULL);
 		mir_free(mirver);
 	}
 	return isMiranda;
@@ -185,7 +185,7 @@ bool isChatRoom(HANDLE hContact)
 
 bool isFileExist(LPCSTR filename)
 {
-	return (GetFileAttributes(filename)!=(UINT)-1);
+	return (GetFileAttributes(filename) != (UINT)-1);
 }
 
 bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
@@ -199,7 +199,7 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 	bool isSecureIM = false;
 	LPSTR mirver = db_get_sa(ptr->hContact,ptr->proto->name,"MirVer");
 	if (mirver) {
-		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver,"SecureIM")!=NULL) || (strstr(mirver,"secureim")!=NULL);
+		isSecureIM = (emptyMirverAsSecureIM && !*mirver) || (strstr(mirver,"SecureIM") != NULL) || (strstr(mirver,"secureim") != NULL);
 		mir_free(mirver);
 	}
 	return isSecureIM;

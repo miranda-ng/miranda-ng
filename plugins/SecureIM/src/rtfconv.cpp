@@ -8,14 +8,14 @@ RTFCONVSTRING pRtfconvString = NULL;
 BOOL load_rtfconv () {
 
     hRtfconv = LoadLibrary(_T("rtfconv.dll")) ;
-    if ( hRtfconv == NULL ) {
+    if (hRtfconv == NULL) {
    	    hRtfconv = LoadLibrary(_T("plugins\\rtfconv.dll")) ;
-	    if ( hRtfconv == NULL )
+	    if (hRtfconv == NULL )
     		return FALSE;
     }
 
     pRtfconvString = (RTFCONVSTRING) GetProcAddress( hRtfconv, "RtfconvString" ) ;
-    if ( pRtfconvString == NULL ) {
+    if (pRtfconvString == NULL) {
         FreeLibrary( hRtfconv ) ;
         return FALSE;
     }
@@ -25,7 +25,7 @@ BOOL load_rtfconv () {
 
 void free_rtfconv () {
 
-	if ( hRtfconv )
+	if (hRtfconv )
 	    FreeLibrary( hRtfconv ) ;
 	pRtfconvString = NULL;
 	hRtfconv = NULL;

@@ -65,7 +65,7 @@ void freeSupportedProtocols()
 pSupPro getSupPro(HANDLE hContact)
 {
 	for (int j=0; j < arProto.getCount(); j++)
-		if ( CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)arProto[j]->name))
+		if (CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)arProto[j]->name))
 			return arProto[j];
 	
 	return NULL;
@@ -86,7 +86,7 @@ pUinKey addContact(HANDLE hContact)
 	p->proto = proto;
 	p->mode = db_get_b(hContact, MODULENAME, "mode", 99);
 	if (p->mode == 99) {
-		if ( isContactPGP(hContact))
+		if (isContactPGP(hContact))
 			p->mode = MODE_PGP;
 		else
 			p->mode = isContactGPG(hContact) ? MODE_GPG : MODE_RSAAES;
@@ -162,16 +162,15 @@ pUinKey getUinCtx(HANDLE cntx)
 }
 
 // add message to user queue for send later
-void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg) {
-
-#if defined(_DEBUG) || defined(NETLIB_LOG)
+void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg)
+{
 	Sent_NetLog("addMsg2Queue: msg: -----\n%s\n-----\n",szMsg);
-#endif
+
 	pWM ptrMessage;
 
 	EnterCriticalSection(&localQueueMutex);
 
-	if (ptr->msgQueue==NULL){
+	if (ptr->msgQueue == NULL){
 		// create new
 		ptr->msgQueue = (pWM) mir_alloc(sizeof(struct waitingMessage));
 		ptrMessage = ptr->msgQueue;
@@ -221,8 +220,8 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN)
 
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR) CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if ( uID==(LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
-	if ( uID && DBGetContactSetting(hContact, ptr->name, uID, &dbv_uniqueid)==0 ) {
+	if (uID == (LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
+	if (uID && DBGetContactSetting(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_WORD)
 			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name);
 		else if (dbv_uniqueid.type == DBVT_DWORD)
@@ -232,7 +231,7 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN)
 		else
 			sprintf(szUIN, "%s [%s]", dbv_uniqueid.pszVal, ptr->name);
 	}
-	else strcpy(szUIN, "===  unknown  ===");
+	else strcpy(szUIN, " == =  unknown   == =");
 
 	db_free(&dbv_uniqueid);
 }
