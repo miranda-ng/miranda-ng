@@ -191,7 +191,7 @@ MSN Чат
 [Offline messaging is not allowed for LCS contacts]
 Сообщения отключённым LCS контактам невозможны
 [%s plugin HTTPS connections]
-Подключение по HTTPS %s
+%s подключение по HTTPS
 [Create a new Windows Live account]
 Создать новую учётную запись Windows Live
 [Middle Name]

@@ -30,7 +30,7 @@ URL:
 [Please cycle your connection for these changes to take effect]
 Пожалуйста, переподключитесь что бы изменения вступили с силу
 [%s avatar connection]
-Подключение аватаров %s
+%s подключение аватаров
 [Send Tweet]
 Послать Tweet
 [Send Tweet...]
@@ -51,3 +51,5 @@ URL:
 Значок Twitter
 [Reply to Tweet]
 Ответить на твит
+[[Sign in to link your twitter account]]
+Войдите, чтобы подключить учётную запись twitter

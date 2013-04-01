@@ -361,3 +361,5 @@ MRA подключение
 Сообщение статуса в блоге
 [Reply Blog Status]
 Ответ на статус в блоге
+[Avatars' plugin connections]
+Подключение аватаров

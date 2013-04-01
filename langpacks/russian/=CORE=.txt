@@ -2103,7 +2103,7 @@ Miranda пытается обновить вашу структуру хране
 <не указано>
 [Add to contact list if authorized]
 Добавлять в список контактов после авторизации
-[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\n\Are you absolutely sure?]
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"

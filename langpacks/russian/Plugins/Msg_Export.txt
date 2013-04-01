@@ -155,6 +155,9 @@ UTF8 в новых файлах
 Экспорт сообщений (мод от ring0)
 [History file for %s (%s format %s)]
 Файл истории для %s (%s формат %s)
-
 [Additional]
 Дополнительно
+[File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
+Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
+[User has been deleted do you want to delete the file?]
+Контакт удалён. Хотите удалить файл?

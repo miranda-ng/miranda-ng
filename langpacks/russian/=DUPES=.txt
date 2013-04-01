@@ -16,9 +16,9 @@
 [%s Custom Status]
 xСтатус %s
 [%s connection]
-Подключение %s
+%s подключение 
 [%s plugin connections]
-Подключение к серверу %s
+%s подключение к серверу
 [&Accept]
 Принять
 [&Default]
@@ -1362,9 +1362,9 @@ Web страница
 [&About]
 О программе
 [%s server connection]
-Подключение к серверу %s
+%s подключение к серверу 
 [%s client-to-client connections]
-Подключения между клиентами %s
+%s подключения между клиентами
 [Use default colours]
 Цвета по умолчанию
 [Do nothing]

@@ -398,7 +398,7 @@ AIM Журналы
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
 [%s Client-to-client connection]
-Подключения между клиентами %s
+%s подключения между клиентами 
 [Join Chat Room]
 Зайти в чат
 [AOL Mail]
