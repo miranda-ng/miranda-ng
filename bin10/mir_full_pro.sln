@@ -1,5 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_10.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_10.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_10.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -32,11 +37,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\IcqOsca
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jabber", "..\protocols\JabberG\jabber_10.vcxproj", "{33276462-8313-4192-8306-13717ECCA60A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_10.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn_10.vcxproj", "{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}"
 EndProject
