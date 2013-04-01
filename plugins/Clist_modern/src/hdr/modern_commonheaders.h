@@ -96,6 +96,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_metacontacts.h>
 #include <m_variables.h>
 #include <m_smileyadd.h>
+#include <m_folders.h>
 
 #include "modern_global_structure.h"
 #include "modern_clc.h"
@@ -106,6 +107,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_log.h"
 #include "../resource.h"
 #include "modern_layered_window_engine.h"
+
+#define DEFAULT_SKIN_FOLDER		"Skins\\Modern contact list"
+extern TCHAR SkinsFolder[MAX_PATH];
 
 // module name of MetaContacts plugin
 extern char *g_szMetaModuleName;

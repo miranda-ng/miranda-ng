@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			TranslateDialogDefault( hwndDlg );
 			it = FillAvailableSkinList( hwndDlg );
 			HWND wnd = GetDlgItem( hwndDlg, IDC_TREE1 );
-			TreeView_SelectItem( wnd, it );						
+			TreeView_SelectItem( wnd, it );
 		}
 		return 0;
 	case WM_COMMAND:
@@ -207,46 +207,12 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 				}
 				break;
-			case IDC_BUTTON_LOAD:
-				isLoad = 1;
-				if ( HIWORD(wParam ) == BN_CLICKED )
+			case IDC_BUTTON_RESCAN:
+				if (HIWORD(wParam ) == BN_CLICKED)
 				{
-					{   		
-						TCHAR str[MAX_PATH] = {0};
-						OPENFILENAME ofn = {0};
-						TCHAR filter[512] = {0};
-						int res = 0;
-						ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-						ofn.hwndOwner = hwndDlg;
-						ofn.hInstance = NULL;
-
-						mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.msf)%c*.MSF%c%c"), TranslateT("Miranda skin file"), 0, 0, 0);
-						ofn.lpstrFilter = filter;
-						ofn.lpstrFile = str;
-						ofn.Flags = isLoad?( OFN_FILEMUSTEXIST | OFN_HIDEREADONLY ) : ( OFN_OVERWRITEPROMPT|OFN_HIDEREADONLY ) | OFN_DONTADDTORECENT;
-						ofn.nMaxFile = sizeof( str );
-						ofn.nMaxFileTitle = MAX_PATH;
-						ofn.lpstrDefExt = _T("msf");
-
-						{
-							DWORD tick = GetTickCount( );
-							res = GetOpenFileName( &ofn );
-							if ( !res ) 
-								if ( GetTickCount( )-tick < 100 )
-								{
-									res = GetOpenFileName( &ofn );
-									if ( !res ) break;
-								}
-								else break;
-						}
-						if ( res )
-						{
-							HTREEITEM it = AddSkinToListFullName( hwndDlg, ofn.lpstrFile );
-							TreeView_SelectItem( GetDlgItem( hwndDlg, IDC_TREE1 ), it );
-							//SendDlgItemMessage( hwndDlg, IDC_SKINS_LIST, LB_SETCURSEL, it, 0 ); 
-							//SendMessage( hwndDlg, WM_COMMAND, MAKEWPARAM( IDC_SKINS_LIST, LBN_SELCHANGE ), 0 );
-						}
-					}
+					HTREEITEM it = FillAvailableSkinList(hwndDlg);
+					HWND wnd = GetDlgItem(hwndDlg, IDC_TREE1);
+					TreeView_SelectItem(wnd, it);
 				}
 			}
 			break;
@@ -453,23 +419,18 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	return 0;
 }
 
-HTREEITEM FillAvailableSkinList( HWND hwndDlg )
+HTREEITEM FillAvailableSkinList(HWND hwndDlg)
 {
 	struct _finddata_t fd = {0};
 	//long hFile; 
 	HTREEITEM res = (HTREEITEM)-1;
-	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
 	int attrib;
-	TCHAR *SkinsFolder = DBGetStringT( NULL, "ModernData", "SkinsFolder");
-	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
-	PathToAbsoluteT(SkinsFolder, path);
-	mir_free_and_nil(SkinsFolder);
-
-	AddSkinToList( hwndDlg, TranslateT("Default Skin"), _T("%Default Skin%"));
-	attrib = GetFileAttributes( path );
-	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
-		SearchSkinFiles( hwndDlg, path );
+	TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_TREE1));
+	AddSkinToList(hwndDlg, TranslateT("Default Skin"), _T("%Default Skin%"));
+	attrib = GetFileAttributes(SkinsFolder);
+	if (attrib != INVALID_FILE_ATTRIBUTES && (attrib & FILE_ATTRIBUTE_DIRECTORY))
+		SearchSkinFiles(hwndDlg, SkinsFolder);
 	{
 		TCHAR * skinfile;
 		TCHAR skinfull[MAX_PATH];
@@ -561,57 +522,18 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 	return tmp;
 }
 
-HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * data )
+HTREEITEM AddItemToTree(HWND hTree, TCHAR *folder, TCHAR *itemName, void *data)
 {
-	HTREEITEM rootItem = NULL;
 	HTREEITEM cItem = NULL;
-	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
-	BOOL ext = FALSE;
-	PathToRelativeT(folder, path);
-	TCHAR *ptrE = path;
-	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
-	if (*ptrE == _T('\\')) {
-		*ptrE = _T('\0');
-		ptrE++;
-	}
-	else ptrE = path;
-
-	TCHAR *ptr = ptrE;
-	do {
-		while ( *ptrE != _T('\\') && *ptrE != _T('\0')) ptrE++;
-		if ( *ptrE == _T('\\')) {
-			*ptrE = _T('\0');
-			ptrE++;
-			// find item if not - create;
-
-			cItem = FindChild( hTree, rootItem, ptr, NULL );
-			if (!cItem) { // not found - create node
-				TVINSERTSTRUCT tvis;
-				tvis.hParent = rootItem;
-				tvis.hInsertAfter = TVI_ROOT;
-				tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
-				tvis.item.pszText = ptr;
-				tvis.item.lParam = (LPARAM)NULL;
-				cItem = TreeView_InsertItem( hTree, &tvis );
-			}	
-			rootItem = cItem;
-
-			ptr = ptrE;
-		}
-		else ext = TRUE;
-	}
-		while ( !ext );
-
 	//Insert item node
-	cItem = FindChild( hTree, rootItem, itemName, data );
-	if ( !cItem ) {
-		TVINSERTSTRUCT tvis;
-		tvis.hParent = rootItem;
+	cItem = FindChild( hTree, 0, itemName, data );
+	if (!cItem) {
+		TVINSERTSTRUCT tvis = {0};
 		tvis.hInsertAfter = TVI_SORT;
-		tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_PARAM;
 		tvis.item.pszText = itemName;
 		tvis.item.lParam = (LPARAM)data;
-		return TreeView_InsertItem( hTree, &tvis );
+		return TreeView_InsertItem(hTree, &tvis);
 	}
 
 	mir_free(data); //need to free otherwise memory leak

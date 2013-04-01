@@ -14,7 +14,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -150,8 +150,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Available skins",IDC_STATIC,0,5,173,182,WS_DISABLED
-    EDITTEXT        IDC_EDIT_SKIN_FILENAME,4,15,162,12,ES_AUTOHSCROLL | ES_READONLY | WS_GROUP,WS_EX_ACCEPTFILES
-    PUSHBUTTON      "Browse",IDC_BUTTON_LOAD,5,170,48,12
+    PUSHBUTTON      "Rescan",IDC_BUTTON_RESCAN,5,170,48,12
     PUSHBUTTON      "Apply",IDC_BUTTON_APPLY_SKIN,61,170,48,12,WS_DISABLED
     PUSHBUTTON      "Info",IDC_BUTTON_INFO,118,170,48,12,WS_DISABLED
     CTEXT           "\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.",IDC_STATIC_INFO,180,30,108,150
@@ -160,7 +159,7 @@ BEGIN
     LTEXT           "WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.",IDC_STATIC,3,188,294,17
     LTEXT           "* Restart may be required for all changes to take effect",IDC_STATIC,3,210,200,8
     COMBOBOX        IDC_COMBO1,177,189,123,76,CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_TABSTOP,5,30,161,133
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND | WS_BORDER | WS_HSCROLL | WS_TABSTOP,5,15,161,148
 END
 
 IDD_OPT_SKINEDITOR DIALOGEX 0, 0, 305, 222
@@ -836,6 +835,14 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_MODERNOPTS, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_SKIN, DIALOG
+    BEGIN
+    END
+
     IDD_OPT_SKINEDITOR, DIALOG
     BEGIN
         TOPMARGIN, 1
@@ -1169,7 +1176,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

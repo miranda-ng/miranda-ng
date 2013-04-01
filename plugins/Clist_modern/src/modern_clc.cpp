@@ -55,7 +55,8 @@ HANDLE			hAckHook = NULL;
 HANDLE			hAvatarChanged = NULL;
 static BOOL		g_bSortTimerIsSet = FALSE;
 static ClcContact *hitcontact = NULL;
-
+HANDLE hSkinFolder;
+TCHAR SkinsFolder[MAX_PATH];
 
 static int clcHookSmileyAddOptionsChanged(WPARAM wParam,LPARAM lParam);
 static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam);
@@ -64,13 +65,24 @@ static int clcProceedDragToScroll(HWND hwnd, int Y);
 static int clcExitDragToScroll();
 
 
-static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
+int ReloadSkinFolder(WPARAM wParam, LPARAM lParam)
+{
+	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
+	return 0;
+}
+
+static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	if (MirandaExiting())
 		return 0;
 
-	HookEvent(ME_MODERNOPT_INITIALIZE,ModernOptInit);
-	HookEvent(ME_MODERNOPT_INITIALIZE,ModernSkinOptInit);
+	HookEvent(ME_MODERNOPT_INITIALIZE, ModernOptInit);
+	HookEvent(ME_MODERNOPT_INITIALIZE, ModernSkinOptInit);
+
+
+	HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
+	hSkinFolder = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Modern contact list"), MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 
 	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);

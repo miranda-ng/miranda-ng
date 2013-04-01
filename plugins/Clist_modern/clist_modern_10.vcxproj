@@ -286,10 +286,6 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="res\Back.tga" />
-    <None Include="res\skin.msf" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

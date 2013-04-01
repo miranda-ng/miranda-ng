@@ -263,8 +263,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="res\Back.tga" />
-    <None Include="res\skin.msf" />
-  </ItemGroup>
 </Project>
