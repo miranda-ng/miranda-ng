@@ -20,9 +20,9 @@ private:
 	ProtocolTable		_protocolTable;
 	ModuleConvertTable	_moduleTable;
 
-	typedef boost::function<std::tstring (HANDLE contact, const ModuleString &module)> getContactIdFunc;
+	typedef std::tstring (*getContactIdFunc)(HANDLE contact, const ModuleString &module);
 	typedef std::unordered_map<ProtocolString, getContactIdFunc> RegisteredProtocols;
-	RegisteredProtocols	_registeredProtocols;
+	RegisteredProtocols _registeredProtocols;
 };
 
 #endif

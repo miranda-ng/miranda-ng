@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include <atlbase.h>
 #include <atlapp.h>
@@ -15,8 +16,6 @@
 #include <m_langpack.h>
 #include <m_clist.h>
 #include <m_skin.h>
-
-#include <boost/function.hpp>
 
 #include "resource.h"
 #include "Version.h"
