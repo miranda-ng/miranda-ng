@@ -22,8 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-/* thanks to noname for the following code :) */
-//============  DOWNLOAD NEW WEATHER  ============
+
+char *szInfo;
+char *szData;
+HANDLE hNetlibUser;
 
 // function to download webpage from the internet
 // szUrl = URL of the webpage to be retrieved
@@ -47,28 +49,28 @@ int InternetDownloadFile (CHAR *szUrl)
 
 	// download the page
 	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&nlhr);
-	if(nlhrReply) {
+	if (nlhrReply) {
 		// return error code if the recieved code is neither 200 OK or 302 Moved
-		if(nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
+		if (nlhrReply->resultCode != 200 && nlhrReply->resultCode != 302)
 			return (int)nlhrReply->resultCode;
 		// if the recieved code is 200 OK
-		else if(nlhrReply->resultCode == 200) 
+		else if (nlhrReply->resultCode == 200) 
 		{
 			// allocate memory and save the retrieved data
-			szData = (char *)malloc(lstrlen(nlhrReply->pData)+2);
-			lstrcpyn(szData, nlhrReply->pData, lstrlen(nlhrReply->pData));
+			szData = (char *)malloc(lstrlenA(nlhrReply->pData)+2);
+			lstrcpynA(szData, nlhrReply->pData, lstrlenA(nlhrReply->pData));
 		}
 		// if the recieved code is 302 Moved, Found, etc
-		else if(nlhrReply->resultCode == 302) 
+		else if (nlhrReply->resultCode == 302) 
 		{	// page moved
 			int i;
 			// get the url for the new location and save it to szInfo
 			// look for the reply header "Location"
 			for (i=0; i<nlhrReply->headersCount; i++) {
-				if (!lstrcmp(nlhrReply->headers[i].szName, "Location")) {
+				if (!lstrcmpA(nlhrReply->headers[i].szName, "Location")) {
 					szData = (char *)malloc(512);
 					// add "Moved/Location:" in front of the new URL for identification
-					wsprintf(szData, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
+					wsprintfA(szData, "Moved/Location: %s\n", nlhrReply->headers[i].szValue);
 					break;
 				}
 			}
@@ -84,7 +86,7 @@ int InternetDownloadFile (CHAR *szUrl)
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
 
 	// the recieved data is empty, data was not recieved, so return an error code of 1
-	if (!lstrcmp(szInfo, ""))  return 1;
+	if (!lstrcmpA(szInfo, ""))  return 1;
 	return 0;
 }
 
@@ -95,7 +97,7 @@ void NetlibInit() {
 	NETLIBUSER nlu={0};
 	nlu.cbSize=sizeof(nlu);
 	nlu.flags=NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION;
-	nlu.szSettingsModule= modname;
+	nlu.szSettingsModule= MODNAME;
 	nlu.szDescriptiveName= Translate("Non-IM Contacts");
 	hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 }

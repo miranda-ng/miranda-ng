@@ -2,29 +2,32 @@
 
 int readFileIntoArray(int fileNumber, char *FileContents[])
 {
-	int i =0;
-	FILE* file;
-	char FileName[MAX_PATH], temp[MAX_STRING_LENGTH];
-	wsprintf(FileName,"fn%d",fileNumber);
-	DBGetContactSettingString(NULL,modname, FileName, FileName);
+	char dbSetting[20], temp[MAX_STRING_LENGTH];
+	wsprintfA(dbSetting, "fn%d", fileNumber);
 
-	if (!strncmp("http://", FileName, strlen("http://")))
-		wsprintf(FileName, "%s\\plugins\\fn%d.html",getMimDir(temp),fileNumber);
+	DBVARIANT dbv;
+	char tszFileName[MAX_PATH];
+	if (db_get_ts(NULL,MODNAME, dbSetting, &dbv))
+		return 0;
 
-	file = fopen(FileName, "r");
-	if (file == NULL) return 0;
+	if (!strncmp("http://", tszFileName, 7))
+		mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
+
+	FILE* file = fopen(tszFileName, "r");
+	if (file == NULL)
+		return 0;
+
 	// read the file into the FileContents array
 	// free this array before stringReplacer() returns
-	while (fgets(temp, MAX_STRING_LENGTH-1,file))
-	{
-		if(temp[strlen(temp)-1]=='\n') 
+	int i;
+	for (i=0; fgets(temp, MAX_STRING_LENGTH-1, file); i++) {
+		if (temp[strlen(temp)-1]=='\n') 
 			temp[strlen(temp)-1]='\0';
 		else temp[strlen(temp)]='\0';
 
 		FileContents[i] = (char*)malloc(strlen(temp)+1);
 		if (FileContents[i] == NULL) return i;
 		strcpy(FileContents[i], temp);
-		i++;
 	}
 	fclose(file);
 	return i;
@@ -33,7 +36,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 int getNumber(const char* line)
 {
 	int i;
-	if (sscanf(line, "%d", &i) == 1) return i; else return -1;
+	return sscanf(line, "%d", &i) == 1 ? i : -1;
 }
 	
 int findWordInString(const char* line, const char* string, int* lengthOfWord, int flag) /* flag = 0 %from, flag = 1 %until */
@@ -43,10 +46,8 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 	strcpy(OpenDivider, Translate("(\""));
 	strcpy(CloseDivider, Translate("\")"));
 	/* get the word we r looking for */
-	if (!strncmp(string, OpenDivider, strlen(OpenDivider)))
-	{
-		for (i=2; strncmp(&string[i], CloseDivider, strlen(CloseDivider)); i++)
-		{
+	if (!strncmp(string, OpenDivider, strlen(OpenDivider))) {
+		for (i=2; strncmp(&string[i], CloseDivider, strlen(CloseDivider)); i++) {
 			word[j] = string[i];
 			word[++j] = '\0';
 		}
@@ -54,10 +55,8 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 	i=0;
 	*lengthOfWord = strlen(word)+strlen(CloseDivider)+strlen(OpenDivider);
 	/* find the word in the line */
-	while (i < (strlen(line) - strlen(word) ) )
-	{
-		if (!strncmp(&line[i], word, strlen(word)))
-		{
+	while (i < (strlen(line) - strlen(word))) {
+		if (!strncmp(&line[i], word, strlen(word))) {
 			if (!flag) return i + strlen(word); /* the next char after the word */
 			else return i; /* the char before the word */
 		}
@@ -68,161 +67,129 @@ int findWordInString(const char* line, const char* string, int* lengthOfWord, in
 
 int findLine(char* FileContents[], const char* string, int linesInFile,int startLine, int *positionInOldString)
 {
-	int i;
 	char tmp[5];
-	i = getNumber(&string[*positionInOldString]);
+	int i = getNumber(&string[*positionInOldString]);
+
 	// check if blank
 	if (string[*positionInOldString] == ')')
 		return startLine;
+
 	// check if its a number
-	if ( i != -1)
-	{
-		*positionInOldString += strlen(itoa(i,tmp,10)) - 1; 
+	if (i != -1) {
+		*positionInOldString += strlen(_itoa(i,tmp,10)) - 1; 
 		return i;
 	}
+
 	// lastline
-	else if (!strncmp(&string[*positionInOldString], Translate("lastline("), strlen(Translate("lastline("))))
-	{
+	if (!strncmp(&string[*positionInOldString], Translate("lastline("), strlen(Translate("lastline(")))) {
 		*positionInOldString += strlen(Translate("lastline("));
 		i = getNumber(&string[*positionInOldString]);
-		if ( i != -1)
-		{
-			*positionInOldString += strlen(itoa(i,tmp,10)); 
+		if ( i != -1) {
+			*positionInOldString += strlen(_itoa(i,tmp,10)); 
 			return linesInFile - (i+1);
 		}
-		else 
-		{
-			*positionInOldString ++; 
-			return (linesInFile - 1);
-		}
+
+		*positionInOldString ++; 
+		return (linesInFile - 1);
 	}
+
 	// string
-	else if (string[*positionInOldString] == '\"')
-	{
+	if (string[*positionInOldString] == '\"') {
 		char string2Find[256];
 		int j=0;
 		// get the word to find
-		for (i=(*positionInOldString+1); strncmp(&string[i], "\")", 2); i++)
-		{
+		for (i=(*positionInOldString+1); strncmp(&string[i], "\")", 2); i++) {
 			string2Find[j] = string[i];
 			string2Find[++j] = '\0';
 		}
+
 		// find the word
-		for (j=startLine; j<linesInFile;j++)
-		{
-			if (strstr(FileContents[j], string2Find))
-			{
+		for (j=startLine; j<linesInFile;j++) {
+			if (strstr(FileContents[j], string2Find)) {
 				i = j;
 				break;
 			}
-			i=-1;
+			i = -1;
 		}
 		*positionInOldString += strlen(string2Find) + strlen(Translate("\"\")"));
 		if (i==-1) return i;
 		// allow for a +- after the word to go up or down lines
-		if (string[*positionInOldString] == '+')
-		{
+		if (string[*positionInOldString] == '+') {
 			*positionInOldString += 1;
 			j = getNumber(&string[*positionInOldString]);
-			if (j != -1)
-			{
-				*positionInOldString += strlen(itoa(j,tmp,10))-2;
+			if (j != -1) {
+				*positionInOldString += strlen(_itoa(j,tmp,10))-2;
 				return i+j;
 			}
 		}
-		else if (string[*positionInOldString] == '-')
-		{
+		else if (string[*positionInOldString] == '-') {
 			*positionInOldString+=1;
 			j = getNumber(&string[*positionInOldString]);
-			if (j != -1)
-			{
-				*positionInOldString += strlen(itoa(j,tmp,10))-2;
+			if (j != -1) {
+				*positionInOldString += strlen(_itoa(j,tmp,10))-2;
 				return i-j;
 			}
 		}
-		else 
-		{
+		else {
 			*positionInOldString -= 2;
 			return i;
 		}
 	}
-/*	else if (!strncmp(&string[*positionInOldString] , Translate("regexp(\""), strlen(Translate("regexp(\""))))
-	{
-		char string2Find[256];
-		int j=0;
-		// get the word to find
-		for (i=(*positionInOldString+1); strncmp(&string[i], "\")", 2); i++)
-		{
-			string2Find[j] = string[i];
-			string2Find[++j] = '\0';
-		}
-		*positionInOldString += strlen(Translate("regexp(\"")) + strlen(string2Find) +2;
-	}
-*/	return -1;
+	return -1;
 }
 
 int findChar(char* FileContents[], const char* string, int linesInFile,int startLine, int *positionInOldString, int startChar, int startEnd) // 0=start, 1=end for startEnd
 {
-	int i;
 	char tmp[5];
-	i = getNumber(&string[*positionInOldString]);
+	int i = getNumber(&string[*positionInOldString]);
 	// check if its a number
-	if ( i != -1)
-	{
-		*positionInOldString += strlen(itoa(i,tmp,10)) - 1; 
+	if (i != -1) {
+		*positionInOldString += strlen(_itoa(i,tmp,10)) - 1; 
 		return i;
 	}
+
 	// string
-	else if (string[*positionInOldString] == '\"')
-	{
+	if (string[*positionInOldString] == '\"') {
 		char string2Find[256];
 		unsigned int j=0;
 		// get the word to find
-		for (i=(*positionInOldString+1); strncmp(&string[i], "\")", 2); i++)
-		{
+		for (i=(*positionInOldString+1); strncmp(&string[i], "\")", 2); i++) {
 			string2Find[j] = string[i];
 			string2Find[++j] = '\0';
 		}
 		// find the word
 		for (j=0;j<strlen(FileContents[startLine]);j++)
-		{
 			if (!strncmp(&FileContents[startLine][j], string2Find, strlen(string2Find)))
 				break;
-		}
-		if (j==strlen(FileContents[startLine])) return -1;
-		else 
-		{
-			*positionInOldString += strlen(string2Find)+1;
-			if (startEnd) return j;
-			else return j+strlen(string2Find);
-		}
+
+		if (j==strlen(FileContents[startLine]))
+			return -1;
+
+		*positionInOldString += strlen(string2Find)+1;
+		return (startEnd) ? j : j+strlen(string2Find);
 	}
+	
 	// csv(
-	else if (!strncmp(&string[*positionInOldString], Translate("csv("), strlen(Translate("csv("))))
-	{
+	if (!strncmp(&string[*positionInOldString], Translate("csv("), strlen(Translate("csv(")))) {
 		char seperator;
 		int j=0, k=startChar;
 		*positionInOldString += strlen(Translate("csv("));
-		if (!strncmp(&string[*positionInOldString], "tab",3))
-		{
+		if (!strncmp(&string[*positionInOldString], "tab", 3)) {
 			*positionInOldString += 3;
 			seperator = '\t';
 		}
-		else if (!strncmp(&string[*positionInOldString], "space",5))
-		{
+		else if (!strncmp(&string[*positionInOldString], "space",5)) {
 			*positionInOldString += 5;
 			seperator = ' ';
 		}
-		else
-		{
+		else {
 			seperator =string[*positionInOldString];
 			*positionInOldString += 1;
 		}
 		i = getNumber(&string[*positionInOldString]);
 		if ( i == -1) return -1;
-		*positionInOldString += strlen(itoa(i,tmp,10));
-		while (j<i)
-		{
+		*positionInOldString += strlen(_itoa(i,tmp,10));
+		while (j<i) {
 			if (FileContents[startLine][k] == '\0') break;
 			if (FileContents[startLine][k] == seperator)
 				j++;
@@ -232,17 +199,16 @@ int findChar(char* FileContents[], const char* string, int linesInFile,int start
 	}
 	return -1;
 }
+
 // do the compare("A","B","X","Y")
 void checkStringForcompare(char *str)
 {
-	char *A,*B, *X, *Y , *newStr = (char*)malloc(strlen(str)), *copyOfStr = strdup(str);
+	char *A,*B, *X, *Y , *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
 	unsigned int i, j=0, s=strlen(str);
 	newStr[0] = '\0';
 	if (!strstr(str,Translate("compare(\""))) return;
-	for (i=0; i<s; i++)
-	{
-		if (!strncmp(&str[i], Translate("compare(\""), strlen(Translate("compare(\""))))
-		{
+	for (i=0; i<s; i++) {
+		if (!strncmp(&str[i], Translate("compare(\""), strlen(Translate("compare(\"")))) {
 			i += strlen(Translate("compare(\""));
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, "\",\"");
@@ -258,10 +224,7 @@ void checkStringForcompare(char *str)
 			else strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else 
-		{
-			strncat(newStr, &str[i], 1);
-		}
+		else strncat(newStr, &str[i], 1);
 	}
 	strcpy(str, newStr);
 	free(newStr);
@@ -271,29 +234,23 @@ void checkStringForcompare(char *str)
 // do save("A","B") A is DBVar name, B is value
 void checkStringForSave(HANDLE hContact, char* str)
 {
-	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = strdup(str);
+	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s=strlen(str);
 	newStr[0] = '\0';
 	if (!strstr(str,Translate("save(\""))) return;
-	for (i=0; i<s; i++)
-	{
-		if (!strncmp(&str[i], Translate("save(\""), strlen(Translate("save(\""))))
-		{
+	for (i=0; i<s; i++) {
+		if (!strncmp(&str[i], Translate("save(\""), strlen(Translate("save(\"")))) {
 			i += strlen(Translate("save(\""));
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
 			j = B - &copyOfStr[i] + strlen(B)+1;
 			if (A && B)
-			{
-				DBWriteContactSettingString(hContact,modname, A, B);
-			}
+				db_set_s(hContact,MODNAME, A, B);
+
 			else strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else 
-		{
-			strncat(newStr, &str[i], 1);
-		}
+		else strncat(newStr, &str[i], 1);
 	}
 	strcpy(str, newStr);
 	free(newStr);
@@ -303,34 +260,26 @@ void checkStringForSave(HANDLE hContact, char* str)
 // do load("A") A is DBVar name
 void checkStringForLoad(HANDLE hContact, char* str)
 {
-	char *A,*newStr = (char*)malloc(strlen(str)),*copyOfStr = strdup(str);
+	char *A,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s=strlen(str);
 	newStr[0] = '\0';
 	if (!strstr(str,Translate("load(\""))) return;
-	for (i=0; i<s; i++)
-	{
-		if (!strncmp(&str[i], Translate("load(\""), strlen(Translate("load(\""))))
-		{
+	for (i=0; i<s; i++) {
+		if (!strncmp(&str[i], Translate("load(\""), strlen(Translate("load(\"")))) {
 			i += strlen(Translate("load(\""));
 			A = strtok(&copyOfStr[i], "\")");
 			j = A - &copyOfStr[i] + strlen(A)+1;
-			if (A)
-			{
+			if (A) {
 				DBVARIANT dbv;
-				if (!DBGetContactSetting(hContact,modname, A, &dbv))
-				{
-					if (dbv.type == DBVT_ASCIIZ)
-						strcat(newStr, dbv.pszVal);
-					DBFreeVariant(&dbv);
+				if ( !db_get_s(hContact, MODNAME, A, &dbv)) {
+					strcat(newStr, dbv.pszVal);
+					db_free(&dbv);
 				}
 			}
 			else strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else 
-		{
-			strncat(newStr, &str[i], 1);
-		}
+		else strncat(newStr, &str[i], 1);
 	}
 	strcpy(str, newStr);
 	free(newStr);
@@ -340,49 +289,42 @@ void checkStringForLoad(HANDLE hContact, char* str)
 // do saveN("A","B","C","D") A is module, B is setting, c is value, D is type 0/b 1/w 2/d 3/s
 void checkStringForSaveN(char* str)
 {
-	char *A,*B,*C,*D,*newStr = (char*)malloc(strlen(str)),*copyOfStr = strdup(str);
+	char *A,*B,*C,*D,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s=strlen(str);
 	newStr[0] = '\0';
 	if (!strstr(str,Translate("saveN(\""))) return;
-	for (i=0; i<s; i++)
-	{
-		if (!strncmp(&str[i], Translate("saveN(\""), strlen(Translate("saveN(\""))))
-		{
+	for (i=0; i<s; i++) {
+		if (!strncmp(&str[i], Translate("saveN(\""), strlen(Translate("saveN(\"")))) {
 			i += strlen(Translate("saveN(\""));
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\"");
 			C = strtok(NULL, ",\"");
 			D = strtok(NULL, ",\")");
 			j = D - &copyOfStr[i] + strlen(D)+1;
-			if (A && B && C && D)
-			{
-				switch (D[0])
-				{
-					case '0':
-					case 'b':
-						DBWriteContactSettingByte(NULL, A, B, (BYTE)atoi(C));
+			if (A && B && C && D) {
+				switch (D[0]) {
+				case '0':
+				case 'b':
+					db_set_b(NULL, A, B, (BYTE)atoi(C));
 					break;
-					case '1':
-					case 'w':
-						DBWriteContactSettingWord(NULL, A, B, (WORD)atoi(C));
+				case '1':
+				case 'w':
+					db_set_w(NULL, A, B, (WORD)atoi(C));
 					break;
-					case '2':
-					case 'd':
-						DBWriteContactSettingDword(NULL, A, B, (DWORD)atoi(C));
+				case '2':
+				case 'd':
+					db_set_dw(NULL, A, B, (DWORD)atoi(C));
 					break;
-					case '3':
-					case 's':
-						DBWriteContactSettingString(NULL, A, B, C);
+				case '3':
+				case 's':
+					db_set_s(NULL, A, B, C);
 					break;
 				}
 			}
 			else strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else 
-		{
-			strncat(newStr, &str[i], 1);
-		}
+		else strncat(newStr, &str[i], 1);
 	}
 	strcpy(str, newStr);
 	free(newStr);
@@ -392,98 +334,98 @@ void checkStringForSaveN(char* str)
 // do loadN("A","B") A is module, B is setting
 void checkStringForLoadN(char* str)
 {
-	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = strdup(str), temp[32];
+	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str), temp[32];
 	unsigned int i, j=0, s=strlen(str);
 	newStr[0] = '\0';
 	if (!strstr(str,Translate("loadN(\""))) return;
-	for (i=0; i<s; i++)
-	{
-		if (!strncmp(&str[i], Translate("loadN(\""), strlen(Translate("loadN(\""))))
-		{
+	for (i=0; i<s; i++) {
+		if (!strncmp(&str[i], Translate("loadN(\""), strlen(Translate("loadN(\"")))) {
 			i += strlen(Translate("loadN(\""));
 			A = strtok(&copyOfStr[i], "\",\"");
 			B = strtok(NULL, ",\")");
 			j = B - &copyOfStr[i] + strlen(B)+1;
-			if (A && B)
-			{
+			if (A && B) {
 				DBVARIANT dbv;
-				if (!DBGetContactSetting(NULL,A, B, &dbv))
-				{	
-					switch (dbv.type)
-					{
-						case DBVT_BYTE:
-							strcat(newStr,itoa(dbv.bVal,temp,10));
+				if ( !db_get(NULL, A, B, &dbv)) {	
+					switch (dbv.type) {
+					case DBVT_BYTE:
+						strcat(newStr,_itoa(dbv.bVal,temp,10));
 						break;
-						case DBVT_WORD:
-							strcat(newStr,itoa(dbv.wVal,temp,10));
+					case DBVT_WORD:
+						strcat(newStr,_itoa(dbv.wVal,temp,10));
 						break;
-						case DBVT_DWORD:
-							strcat(newStr,itoa(dbv.dVal,temp,10));
+					case DBVT_DWORD:
+						strcat(newStr,_itoa(dbv.dVal,temp,10));
 						break;
-						case DBVT_ASCIIZ:
-							strcat(newStr, dbv.pszVal);
+					case DBVT_ASCIIZ:
+						strcat(newStr, dbv.pszVal);
 						break;
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			else strncat(newStr, &str[i], j);
 			i += j;
 		}
-		else 
-		{
-			strncat(newStr, &str[i], 1);
-		}
+		else strncat(newStr, &str[i], 1);
 	}
 	strcpy(str, newStr);
 	free(newStr);
 	free(copyOfStr);
 }
 
-BOOL GetLastWriteTime(HANDLE hFile, LPTSTR lpszString)
+BOOL GetLastWriteTime(HANDLE hFile, LPSTR lpszString)
 {
-    FILETIME ftCreate, ftAccess, ftWrite;
-    SYSTEMTIME stUTC, stLocal;
+	FILETIME ftCreate, ftAccess, ftWrite;
+	SYSTEMTIME stUTC, stLocal;
 
-    // Retrieve the file times for the file.
-    if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
-        return FALSE;
+	// Retrieve the file times for the file.
+	if (!GetFileTime(hFile, &ftCreate, &ftAccess, &ftWrite))
+		return FALSE;
 
-    // Convert the last-write time to local time.
-    FileTimeToSystemTime(&ftWrite, &stUTC);
-    SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
+	// Convert the last-write time to local time.
+	FileTimeToSystemTime(&ftWrite, &stUTC);
+	SystemTimeToTzSpecificLocalTime(NULL, &stUTC, &stLocal);
 
-    // Build a string showing the date and time.
-    wsprintf(lpszString, TEXT("%02d/%02d/%d  %02d:%02d"),
-        stLocal.wDay, stLocal.wMonth, stLocal.wYear,
-        stLocal.wHour, stLocal.wMinute);
+	// Build a string showing the date and time.
+	wsprintfA(lpszString, "%02d/%02d/%d  %02d:%02d",
+		stLocal.wDay, stLocal.wMonth, stLocal.wYear,
+		stLocal.wHour, stLocal.wMinute);
 
-    return TRUE;
+	return TRUE;
 }
 
 // do lastchecked(file(X)) returns amount of chars to add to str pointer
-int lastChecked(char* newStr, const char* str)
+int lastChecked(char *newStr, const char *str)
 {
-	if (!strncmp(str, Translate("lastchecked(file("), strlen(Translate("lastchecked(file("))))
-	{
-		int file;
-		HANDLE hFile;
-		char FileName[MAX_PATH], temp[MAX_PATH];
-		sscanf(&str[strlen(Translate("lastchecked(file("))], "%d", &file);
-		_snprintf(FileName, MAX_PATH, "fn%d", file);
-		DBGetContactSettingString(NULL,modname, FileName, FileName);
+	char *szPattern = Translate("lastchecked(file(");
+	size_t cbPattern = strlen(szPattern);
 
-		if (!strncmp("http://", FileName, strlen("http://")) || !strncmp("https://", FileName, strlen("https://")))
-			wsprintf(FileName, "%s\\plugins\\fn%d.html",getMimDir(temp),file);
-		hFile= CreateFile(FileName, 0 , FILE_SHARE_READ , 0 ,OPEN_ALWAYS , FILE_ATTRIBUTE_NORMAL , NULL );
-		if (hFile == INVALID_HANDLE_VALUE) return 0;
-		if (GetLastWriteTime(hFile, FileName))
-		{
-			strcat(newStr, FileName);
-			_snprintf(FileName, MAX_PATH, "%s%d))",Translate("lastchecked(file("), file);
-			return strlen(FileName);
+	if (!strncmp(str, szPattern, cbPattern)) {
+		int file;
+		char tszFileName[MAX_PATH], temp[MAX_PATH], szSetting[20];
+		sscanf(&str[cbPattern], "%d", &file);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "fn%d", file);
+
+		DBVARIANT dbv;
+		if (db_get_s(NULL, MODNAME, szSetting, &dbv))
+			return 0;
+
+		if (!strncmp("http://", dbv.pszVal, 7) || !strncmp("https://", dbv.pszVal, 8))
+			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), file);
+		else
+			strncpy(tszFileName, dbv.pszVal, SIZEOF(tszFileName));
+		HANDLE hFile = CreateFileA(tszFileName, 0, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		if (hFile == INVALID_HANDLE_VALUE)
+			return 0;
+
+		if (GetLastWriteTime(hFile, tszFileName)) {
+			CloseHandle(hFile);
+			strcat(newStr, tszFileName);
+			_snprintf(tszFileName, MAX_PATH, "%s%d))", szPattern, file);
+			return strlen(tszFileName);
 		}
-		return 0;
+		CloseHandle(hFile);
 	}
 	return 0;
 }
@@ -493,13 +435,10 @@ int lastChecked(char* newStr, const char* str)
 void checkIcon(HANDLE hContact, char* string)
 {
 	char* str = strstr(string,"icon(");
-	if (str)
-	{
+	if (str) {
 		int icon = getNumber(str+5);
 		if (icon >=0)
-		{
-			DBWriteContactSettingWord(hContact, modname, "Status", (WORD)(ID_STATUS_OFFLINE+icon));
-		}
+			db_set_w(hContact, MODNAME, "Status", (WORD)(ID_STATUS_OFFLINE+icon));
 	}
 }
 
@@ -508,15 +447,14 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 	char var_file[8];
 	int tempInt;
 	int startLine = 0, endLine = 0, startChar=0, endChar = 0, wholeLine=-1, linesInFile;
-	unsigned int positionInOldString = 0;
+	int positionInOldString = 0;
 	char *fileContents[MAXLINES] = {NULL}, tempString[MAX_STRING_LENGTH];
-	
-//	setup the variable names
+
+	//	setup the variable names
 	strcpy(newString, "");
 	strcpy(var_file, Translate("file("));
 
-
-	while ((positionInOldString < strlen(oldString)) && (oldString[positionInOldString] != '\0'))
+	while ((positionInOldString < (int)strlen(oldString)) && (oldString[positionInOldString] != '\0'))
 	{
 		// load the file... must be first
 		if (!strncmp(&oldString[positionInOldString], var_file, strlen(var_file)))
@@ -533,8 +471,8 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			// read the file
 			linesInFile = readFileIntoArray(tempInt, fileContents);
 			if (linesInFile == 0) return ERROR_NO_FILE;
-			positionInOldString += strlen(itoa(tempInt, tempString,10)) + 1; // +1 for the closing )
-		
+			positionInOldString += strlen(_itoa(tempInt, tempString,10)) + 1; // +1 for the closing )
+
 			// wholeline()
 			if (!strncmp(&oldString[positionInOldString], Translate("wholeline(line("), strlen(Translate("wholeline(line("))))
 			{
@@ -545,7 +483,7 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 				else wholeLine =tempInt;
 				positionInOldString += 3; // add 2 for the )) for wholeline(line())
 			}
-			
+
 			if (!strncmp(&oldString[positionInOldString], Translate("start("), strlen(Translate("start("))))
 			{
 				positionInOldString += strlen(Translate("start(line("));
@@ -617,11 +555,11 @@ int stringReplacer(const char* oldString, char* newString, HANDLE hContact)
 			}
 			else 
 			{
-				wsprintf(tempString, "fn%d", tempInt);
-				if (DBGetContactSettingString(NULL, modname,tempString, tempString))
+				wsprintfA(tempString, "fn%d", tempInt);
+				if (db_get_static(NULL, MODNAME,tempString, tempString))
 					strcat(newString, tempString);
 				else return ERROR_NO_FILE;
-				positionInOldString += strlen(itoa(tempInt, tempString, 10))+1;
+				positionInOldString += strlen(_itoa(tempInt, tempString, 10))+1;
 			}
 		}
 		// lastchecked(file(X))
@@ -668,60 +606,57 @@ void WriteSetting(HANDLE hContact, char* module1, char* setting1 , char* module2
 {
 	char text[MAX_STRING_LENGTH], newString[MAX_STRING_LENGTH];
 	int error = 0, status = GetLCStatus(0,0);
-	if (DBGetContactSettingString(hContact, module1, setting1, text))
-	{
-		switch (stringReplacer(text, newString, hContact))
-		{
-			case ERROR_NO_LINE_AFTER_VAR_F:
-				wsprintf(newString, Translate("%s - ERROR: no line specified or line not found (in %s)"),text, setting1);
-				error = 1;
+	if (db_get_static(hContact, module1, setting1, text)) {
+		switch (stringReplacer(text, newString, hContact)) {
+		case ERROR_NO_LINE_AFTER_VAR_F:
+			wsprintfA(newString, Translate("%s - ERROR: no line specified or line not found (in %s)"),text, setting1);
+			error = 1;
 			break;
-			case ERROR_LINE_NOT_READ:
-				wsprintf(newString, Translate("%s - ERROR: file couldnt be opened (in %s)"), text, setting1);
-				error = 1;
+		case ERROR_LINE_NOT_READ:
+			wsprintfA(newString, Translate("%s - ERROR: file couldnt be opened (in %s)"), text, setting1);
+			error = 1;
 			break;
-			case ERROR_NO_FILE:
-				wsprintf(newString, Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
-				error = 1;
+		case ERROR_NO_FILE:
+			wsprintfA(newString, Translate("%s - ERROR: no file specified in settings (in %s)"), text, setting1);
+			error = 1;
 			break;
-			default:
-				error = 0;
+		default:
+			error = 0;
 			break;
 		}
 		// strip the tab and new lines from all except the tooltip
 		if (!error && strcmp(setting1, "ToolTip")) stripWhiteSpace(newString);
-		DBWriteContactSettingString(hContact, module2, setting2, newString);
+		db_set_s(hContact, module2, setting2, newString);
 	}
-	else DBWriteContactSettingString(hContact, module2, setting2, "");
+	else db_set_s(hContact, module2, setting2, "");
 	if (!error)
 	{
 		if ( (status == ID_STATUS_ONLINE) || (status == ID_STATUS_AWAY) || 
-			 (status == DBGetContactSettingWord(hContact, modname, "Icon", ID_STATUS_ONLINE) ) ||
-			 DBGetContactSettingByte(hContact, modname ,"AlwaysVisible", 0)
-		   )
-			DBWriteContactSettingWord(hContact, modname, "Status", (WORD)DBGetContactSettingWord(hContact, modname, "Icon", ID_STATUS_ONLINE));
-		else DBWriteContactSettingWord(hContact, modname, "Status", ID_STATUS_OFFLINE);
+			(status == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE) ) ||
+			db_get_b(hContact, MODNAME ,"AlwaysVisible", 0)
+			)
+			db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
+		else db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
 	}
-	else DBWriteContactSettingWord(hContact, modname, "Status", ID_STATUS_OFFLINE);
+	else db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
 }
-                      
+
 void replaceAllStrings(HANDLE hContact)
 {
 	char tmp1[256], tmp2[256], tmp3[256];
-	WriteSetting(hContact, modname, "Name", modname, "Nick");
-	WriteSetting(hContact, modname, "ProgramString", modname, "Program");
-	WriteSetting(hContact, modname, "ProgramParamsString", modname, "ProgramParams");
+	WriteSetting(hContact, MODNAME, "Name", MODNAME, "Nick");
+	WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
+	WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 	/* tooltips*/
-	WriteSetting(hContact, modname, "ToolTip", "UserInfo", "MyNotes");
-	if (DBGetContactSettingString(hContact, modname, "Program", tmp1) && DBGetContactSettingString(hContact, modname, "ProgramParams", tmp2))
-	{
-		wsprintf(tmp3, "%s %s", tmp1, tmp2);
-		DBWriteContactSettingString(hContact, "UserInfo", "FirstName", tmp3);
+	WriteSetting(hContact, MODNAME, "ToolTip", "UserInfo", "MyNotes");
+	if (db_get_static(hContact, MODNAME, "Program", tmp1) && db_get_static(hContact, MODNAME, "ProgramParams", tmp2)) {
+		wsprintfA(tmp3, "%s %s", tmp1, tmp2);
+		db_set_s(hContact, "UserInfo", "FirstName", tmp3);
 	}
-	else if (DBGetContactSettingString(hContact, modname, "Program", tmp1))
+	else if (db_get_static(hContact, MODNAME, "Program", tmp1))
 	{
-		DBWriteContactSettingString(hContact, "UserInfo", "FirstName", tmp1);
+		db_set_s(hContact, "UserInfo", "FirstName", tmp1);
 	}
-	else DBWriteContactSettingString(hContact, "UserInfo", "FirstName", "");
+	else db_set_s(hContact, "UserInfo", "FirstName", "");
 }
 

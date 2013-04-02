@@ -377,6 +377,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\B
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup_11.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NimContact", "..\plugins\Non-IM Contact\nimcontact_11.vcxproj", "{A556E0B5-73A1-4676-BA1F-133820DE7D5A}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify_11.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
 EndProject
 Global
@@ -1683,6 +1685,14 @@ Global
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|Win32.Build.0 = Release|Win32
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.ActiveCfg = Release|x64
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.Build.0 = Release|x64
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Debug|Win32.Build.0 = Debug|Win32
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Debug|x64.ActiveCfg = Debug|x64
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Debug|x64.Build.0 = Debug|x64
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Release|Win32.ActiveCfg = Release|Win32
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Release|Win32.Build.0 = Release|Win32
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Release|x64.ActiveCfg = Release|x64
+		{A556E0B5-73A1-4676-BA1F-133820DE7D5A}.Release|x64.Build.0 = Release|x64
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|Win32.Build.0 = Debug|Win32
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|x64.ActiveCfg = Debug|x64
