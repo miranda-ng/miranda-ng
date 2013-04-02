@@ -454,7 +454,6 @@ int EventArea_UnloadModule()
 	return 0;
 }
 
-#define IDC_NOTIFYBUTTON 1900
 static LRESULT CALLBACK EventArea_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {

@@ -696,7 +696,6 @@ void DeleteViewMode( char * szName )
 	}
 }
 
-#define IDI_SMALLDOT  211  //from miranda.exe
 INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	clvmHwnd = hwndDlg;
