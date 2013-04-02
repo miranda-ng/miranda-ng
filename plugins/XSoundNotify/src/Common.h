@@ -1,5 +1,6 @@
 #include <windows.h>
 
+#include <string>
 #include <unordered_map>
 
 #include <atlbase.h>
@@ -8,6 +9,7 @@
 #include <atldlgs.h>
 
 #include <newpluginapi.h>
+#include <m_system_cpp.h>
 #include <m_database.h>
 #include <m_protocols.h>
 #include <m_langpack.h>
@@ -15,7 +17,6 @@
 #include <m_skin.h>
 
 #include <boost/function.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "resource.h"
 #include "Version.h"

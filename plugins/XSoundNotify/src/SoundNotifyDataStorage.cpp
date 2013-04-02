@@ -41,7 +41,7 @@ void SoundNotifyDataStorage::addContact(HANDLE contact)
 {			
 	ModuleString module = getContactModule(contact);
 	ProtocolString proto = _moduleTable[module];
-	xsn_string user = getContactId(contact, module, proto);
+	std::tstring user = getContactId(contact, module, proto);
 	if (user.empty())
 		return ;
 	
@@ -50,11 +50,11 @@ void SoundNotifyDataStorage::addContact(HANDLE contact)
 	_protocolTable[proto][user] = SoundNotifyDataPtr(new SoundNotifyData(contact, module, sound.toString()));		
 }
 
-xsn_string SoundNotifyDataStorage::getContactId(HANDLE contact, const ModuleString & module, const ProtocolString & proto)
+std::tstring SoundNotifyDataStorage::getContactId(HANDLE contact, const ModuleString &module, const ProtocolString &proto)
 {
 	auto it = _registeredProtocols.find(proto);
 	if (it == _registeredProtocols.end())
-		return xsn_string();
+		return std::tstring();
 	return it->second(contact, module);
 }
 

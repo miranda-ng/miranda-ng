@@ -1,12 +1,6 @@
 #ifndef __XSN_TYPES
 #define __XSN_TYPES
 
-#ifndef UNICODE  
-	typedef std::string xsn_string;
-#else
-	typedef std::wstring xsn_string;
-#endif
-
 typedef std::string ModuleString;
 typedef std::string ProtocolString;
 
@@ -15,14 +9,14 @@ struct XSN_Variant : DBVARIANT
 	XSN_Variant();
 	~XSN_Variant();
 
-	xsn_string toString() const;
+	std::tstring toString() const;
 	bool empty() const;
 };
 
 struct XSN_ModuleInfo
 {
-	static const char * name();
-	static const char * soundSetting();
+	static const char *name();
+	static const char *soundSetting();
 };
 
 #endif

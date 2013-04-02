@@ -5,24 +5,24 @@ class SoundNotifyData
 {
 public:
 	SoundNotifyData();
-	SoundNotifyData(HANDLE contact, const ModuleString & module, const xsn_string & sound);
+	SoundNotifyData(HANDLE contact, const ModuleString &module, const std::tstring &sound);
 
-	void setSound(const xsn_string & sound);
+	void setSound(const std::tstring &sound);
 
 	HANDLE contact() const;	
-	const xsn_string & soundPath() const;
-	const ModuleString & module() const;	
+	const std::tstring &soundPath() const;
+	const ModuleString &module() const;	
 	bool isSoundChanged() const;
 
 private:
 	HANDLE			_contact;	
 	ModuleString	_module;
-	xsn_string		_soundPath;	
+	std::tstring	_soundPath;	
 	bool			_soundChanged;
 };
 typedef std::shared_ptr<SoundNotifyData> SoundNotifyDataPtr;
 
-typedef std::unordered_map<xsn_string, SoundNotifyDataPtr> UserDataTable;
+typedef std::unordered_map<std::tstring, SoundNotifyDataPtr> UserDataTable;
 typedef std::unordered_map<ProtocolString, UserDataTable> ProtocolTable;
 typedef std::unordered_map<ModuleString, ProtocolString> ModuleConvertTable;
 

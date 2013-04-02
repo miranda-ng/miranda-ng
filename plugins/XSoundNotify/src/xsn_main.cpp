@@ -62,7 +62,7 @@ INT processEvent(WPARAM wParam, LPARAM lParam)
 		if (!isReceiveMessage(lParam))
 			return 0;
 						
-		xsn_string sound = getContactSound((HANDLE)wParam);
+		std::tstring sound = getContactSound((HANDLE)wParam);
 		if (!sound.empty())		
 			PlaySound(sound.c_str(), nullptr, SND_ASYNC | SND_FILENAME);		
 	}

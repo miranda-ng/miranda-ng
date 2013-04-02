@@ -11,9 +11,9 @@ XSN_Variant::~XSN_Variant()
 		DBFreeVariant(this);
 }
 
-xsn_string XSN_Variant::toString() const
+std::tstring XSN_Variant::toString() const
 {	
-	return ptszVal == nullptr ? xsn_string() : xsn_string(ptszVal);
+	return ptszVal == nullptr ? std::tstring() : std::tstring(ptszVal);
 }
 
 bool XSN_Variant::empty() const

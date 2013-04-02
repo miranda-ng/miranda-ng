@@ -86,7 +86,7 @@ LRESULT SettingsDialog::onChooseSound(WORD, WORD, HWND , BOOL&)
 			
 	setSoundLabelText(fileDlg.m_szFileName);
 	auto user = GetComboBoxData<UserDataTable::value_type>(_userCombo);
-	user->second->setSound(xsn_string(fileDlg.m_szFileName));
+	user->second->setSound(std::tstring(fileDlg.m_szFileName));
 	_resetButton.EnableWindow(TRUE);
 	_playButton.EnableWindow(TRUE);
 	return 0;
@@ -95,7 +95,7 @@ LRESULT SettingsDialog::onChooseSound(WORD, WORD, HWND , BOOL&)
 LRESULT SettingsDialog::onResetSound(WORD, WORD wID, HWND , BOOL&)
 {
 	auto user = GetComboBoxData<UserDataTable::value_type>(_userCombo);
-	user->second->setSound(xsn_string());
+	user->second->setSound(std::tstring());
 	_resetButton.EnableWindow(FALSE);
 	_playButton.EnableWindow(FALSE);
 	_soundLabel.SetWindowText(TEXT(""));
