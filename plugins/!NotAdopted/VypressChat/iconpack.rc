@@ -1,0 +1,40 @@
+/*
+ * Miranda-IM Vypress Chat/quickChat plugins
+ * Copyright (C) Saulius Menkevicius
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * $Id: iconpack.rc,v 1.2 2005/02/24 20:06:39 bobas Exp $
+ */
+
+#include "miranda.h"
+
+#ifdef VYPRESSCHAT
+102  ICON FIXED IMPURE "icons/vypresschat.ico"
+104  ICON FIXED IMPURE "icons/vypresschat_online.ico"
+105  ICON FIXED IMPURE "icons/vypresschat_offline.ico"
+128  ICON FIXED IMPURE "icons/vypresschat_away.ico"
+131  ICON FIXED IMPURE "icons/vypresschat_na.ico"
+158  ICON FIXED IMPURE "icons/vypresschat_dnd.ico"
+#endif
+
+#ifdef QUICKCHAT
+102  ICON FIXED IMPURE "icons/quickchat.ico"
+104  ICON FIXED IMPURE "icons/quickchat_online.ico"
+105  ICON FIXED IMPURE "icons/quickchat_offline.ico"
+128  ICON FIXED IMPURE "icons/quickchat_away.ico"
+131  ICON FIXED IMPURE "icons/quickchat_na.ico"
+158  ICON FIXED IMPURE "icons/quickchat_dnd.ico"
+#endif

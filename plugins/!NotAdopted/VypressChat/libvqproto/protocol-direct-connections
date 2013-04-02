@@ -1,0 +1,97 @@
+$Id: protocol-direct-connections,v 1.1 2005/03/17 11:02:44 bobas Exp $
+
+Vypress Chat 1.9x+ direct connection descriptions
+(used for file transfer and private messages)
+2005-03-14
+---------------------------------
+
+You should have TCP listening socket at the same port as you have
+UDP message socket. After accepting and getting the socket you
+should recv an packet header, with 2 newlines at the end. newlines
+are (char)0x0a.
+
+[File transfer request]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: file-transfer<0x0a>
+	content-type: binary<0x0a>
+	content-length: 213<0x0a>
+	file-name: abc.txt<0x0a>
+	file-desc: my text file description<0x0a>
+	files-left: 0<0x0a>
+	desc-files-name:<0x20>
+	desc-files-size: 0<0x0a>
+	user-uuid: my-uuid(MS UUID string representation)<0x0a>
+	<0x0a>
+	<0x0a>
+	<0x00>
+	
+	[<file-content> if we get <file-transfer-ack>]
+
+[File transfer ack]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: file-transfer-ready<0x0a>
+	<0x0a>
+
+[File transfer deny]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: file-transfer-deny<0x0a>
+	start-from: 0<0x0a>
+	<0x0a>
+
+[File transfer done]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: file-transfer-done<0x0a>
+	?????????????????????????????????
+
+[Chat request]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: chat-request<0x0a>
+	user-uuid: <my-uuid(MS UUID string representation)><0x0a>
+	user-name: <my-nickname><0x0a>
+	ckey: <public key for this communication><0x0a>
+	content-length: 0<0x0a>
+	<0x0a>
+
+[Chat request OK]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: chat-request-ok<0x0a>
+	user-uuid: <my-uuid(MS UUID string representation)><0x0a>
+	user-name: HIGHLAND<0x0a>
+	ckey: <0x0a>
+	content-length: 0<0x0a>
+	<0x0a>
+
+[Chat msg: typing]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: chat-msg-typing<0x0a>
+	user-uuid: <my-uuid(MS UUID string representation)><0x0a>
+	user-name: HIGHLAND<0x0a>
+	typing-mode: <'0' or '1'><0x0a>
+	content-length: 0<0x0a>
+	<0x0a>
+
+[Chat msg]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: chat-msg<0x0a>
+	user-uuid: <my-uuid(MS UUID string representation)><0x0a>
+	user-name: HIGHLAND<0x0a>
+	content-length: <content-length><0x0a>
+	<0x0a>
+	<content>
+
+[Chat request FIN]
+	protocol: vychat<0x0a>
+	version: 1<0x0a>
+	message-type: chat-request-fin
+	user-uuid: <my-uuid><0x0a>
+	user-name: <my-nickname><0x0a>
+	content-length: 0<0x0a>
+	<0x0a>
