@@ -1,4 +1,4 @@
-#include "SoundNotifyData.h"
+#include "Common.h"
 
 SoundNotifyData::SoundNotifyData() : _contact(0), _soundChanged(false)
 {

@@ -1,14 +1,6 @@
 #ifndef __XSN_SETTINGS_DIALOG_H
 #define __XSN_SETTINGS_DIALOG_H
 
-#include <atlbase.h>
-#include <atlwin.h>
-#include <atlapp.h>
-#include <atlctrls.h>
-#include <atldlgs.h>
-#include "resource.h"
-#include "SoundNotifyDataStorage.h"
-
 class SettingsDialog : public CDialogImpl<SettingsDialog>
 {
 private:

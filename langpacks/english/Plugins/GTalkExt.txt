@@ -7,7 +7,6 @@
 ;============================================================
 [GTalk extensions for Jabber protocol]
 ;file \protocols\GTalkExt\res\settings.rc
-[NOTE!\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]

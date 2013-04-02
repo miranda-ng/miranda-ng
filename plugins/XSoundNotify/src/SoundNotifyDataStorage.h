@@ -1,14 +1,10 @@
 #ifndef _XSN_DATA_STORAGE
 #define _XSN_DATA_STORAGE
 
-#include "SoundNotifyData.h"
-#include <newpluginapi.h>
-#include <boost/function.hpp>
-
 class SoundNotifyDataStorage
 {
 public:
-	SoundNotifyDataStorage(PLUGINLINK * pl);
+	SoundNotifyDataStorage();
 
 	void init();
 	void commit();
@@ -21,8 +17,6 @@ protected:
 	void registerProtocols();
 
 private:
-	PLUGINLINK * pluginLink;
-
 	ProtocolTable		_protocolTable;
 	ModuleConvertTable	_moduleTable;
 

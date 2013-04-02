@@ -138,7 +138,7 @@
 [My Voice ServerIP]
 [Xfire Link Protocol]
 [Buddy start a game]
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
 [&XFire Online Profile]
 [XFire &Clan Site]
 [C&opy Server Address and Port]

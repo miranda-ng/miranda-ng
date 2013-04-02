@@ -1,10 +1,6 @@
 #ifndef __XSN_DATA_H
 #define __XSN_DATA_H
 
-#include <unordered_map>
-#include "xsn_types.h"
-#include <windows.h>
-
 class SoundNotifyData
 {
 public:

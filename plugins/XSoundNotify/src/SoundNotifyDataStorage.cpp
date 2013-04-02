@@ -1,10 +1,6 @@
-#include "SoundNotifyDataStorage.h"
-#include <m_database.h>
-#include <m_protocols.h>
-#include "xsn_utils.h"
-//#include "DebugLogger.hpp"
+#include "Common.h"
 
-SoundNotifyDataStorage::SoundNotifyDataStorage(PLUGINLINK * pl) : pluginLink(pl)
+SoundNotifyDataStorage::SoundNotifyDataStorage()
 {
 
 }

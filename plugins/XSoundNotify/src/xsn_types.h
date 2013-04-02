@@ -1,11 +1,6 @@
 #ifndef __XSN_TYPES
 #define __XSN_TYPES
 
-#include <string>
-#include <windows.h>
-#include <newpluginapi.h>
-#include <m_database.h>
-
 #ifndef UNICODE  
 	typedef std::string xsn_string;
 #else

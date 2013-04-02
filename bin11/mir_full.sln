@@ -377,6 +377,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BuddyPounce", "..\plugins\B
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MsgPopup", "..\plugins\MsgPopup\MsgPopup_11.vcxproj", "{1E702CF1-E52F-49F8-915A-FCBBCE554774}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XSoundNotify", "..\plugins\XSoundNotify\XSoundNotify_11.vcxproj", "{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -385,6 +387,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|Win32.Build.0 = Debug|Win32
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|x64.ActiveCfg = Debug|x64
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|x64.Build.0 = Debug|x64
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|Win32.ActiveCfg = Release|Win32
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|Win32.Build.0 = Release|Win32
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|x64.ActiveCfg = Release|x64
+		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|x64.Build.0 = Release|x64
 		{7711F563-6473-4ABD-B5E3-477CE8384AD6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7711F563-6473-4ABD-B5E3-477CE8384AD6}.Debug|Win32.Build.0 = Debug|Win32
 		{7711F563-6473-4ABD-B5E3-477CE8384AD6}.Debug|x64.ActiveCfg = Debug|x64
@@ -505,14 +515,6 @@ Global
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|Win32.Build.0 = Release|Win32
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|x64.ActiveCfg = Release|x64
 		{33276462-8313-4192-8306-13717ECCA60A}.Release|x64.Build.0 = Release|x64
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|Win32.Build.0 = Debug|Win32
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|x64.ActiveCfg = Debug|x64
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Debug|x64.Build.0 = Debug|x64
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|Win32.ActiveCfg = Release|Win32
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|Win32.Build.0 = Release|Win32
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|x64.ActiveCfg = Release|x64
-		{F9916510-9055-4C9F-997A-3755DEC1511B}.Release|x64.Build.0 = Release|x64
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|Win32.Build.0 = Debug|Win32
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Debug|x64.ActiveCfg = Debug|x64
@@ -1681,6 +1683,12 @@ Global
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|Win32.Build.0 = Release|Win32
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.ActiveCfg = Release|x64
 		{1E702CF1-E52F-49F8-915A-FCBBCE554774}.Release|x64.Build.0 = Release|x64
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|Win32.Build.0 = Debug|Win32
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|x64.ActiveCfg = Debug|x64
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|x64.Build.0 = Debug|x64
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|Win32.ActiveCfg = Release|Win32
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

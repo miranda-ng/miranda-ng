@@ -1,6 +1,4 @@
-#include "xsn_utils.h"
-#include <m_protocols.h>
-#include <boost/lexical_cast.hpp>
+#include "Common.h"
 
 void initModuleConvertTable(ModuleConvertTable & table)
 {

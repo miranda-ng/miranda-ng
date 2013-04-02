@@ -97,8 +97,8 @@
 [Spam bot blocked]
 [Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
 [Avatars]
-[plugin connections]
 [Avatars: server return HTTP code: %lu]
 [Avatars: cant open file %s, error]
 ;file \protocols\MRA\src\MraChat.cpp

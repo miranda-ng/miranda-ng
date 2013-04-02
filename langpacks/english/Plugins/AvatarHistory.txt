@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.0.3.3
+;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
@@ -64,22 +64,14 @@
 [Save Avatar for %s]
 [Save Avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Contact changed avatar]
-[Contact removed avatar]
-[Avatars]
-[Avatar History: Unable to create shortcut]
-[AVH Debug: Shortcut created successfully]
 [AVH Debug]
-[Invalid contact/avatar... skipping]
-[Invalid protocol... skipping]
-[Ignoring metacontacts notification]
 [Removed avatar, no avatar before...skipping]
 [Hashes are the same... skipping]
 [Avatar History: Unable to save avatar]
 [AVH Debug: File copied successfully]
-[Unknown UIN]
-[Unknown Protocol]
-[AVH Debug: GetOldStyleAvatarName]
+[Avatars]
+[Contact changed avatar]
+[Contact removed avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 [changed his/her avatar]
@@ -87,12 +79,18 @@
 [History]
 [Avatar Overlay]
 ;file \plugins\AvatarHistory\src\options.cpp
-[Avatar]
-[PopUps]
-[Avatar Change]
 [Do nothing]
 [Close popup]
 [Show avatar history]
 [Show contact history]
 [Test Contact]
 [Test description]
+[Avatar]
+[PopUps]
+[Avatar Change]
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+[Unknown Protocol]
+[AVH Debug: GetOldStyleAvatarName]
+[Avatar History: Unable to create shortcut]
+[AVH Debug: Shortcut created successfully]

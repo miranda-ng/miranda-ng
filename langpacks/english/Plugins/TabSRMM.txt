@@ -631,7 +631,7 @@
 ;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 [Data path]
-[Skins root]
+[Skins]
 [Avatars]
 [Saved TabSRMM avatars]
 [Group chat logs root]
@@ -735,7 +735,6 @@
 [Event notifications]
 [Message window]
 [Load and apply]
-[Skins]
 [Window layout tweaks]
 [Group Chats]
 [Settings]

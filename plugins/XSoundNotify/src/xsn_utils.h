@@ -1,9 +1,6 @@
 #ifndef _XSN_UTILS_H
 #define _XSN_UTILS_H
 
-#include "xsn_types.h"
-#include "SoundNotifyData.h"
-
 void initModuleConvertTable(ModuleConvertTable & table);
 
 bool isReceiveMessage(LPARAM event);

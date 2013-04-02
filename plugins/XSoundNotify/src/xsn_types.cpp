@@ -1,4 +1,4 @@
-#include "xsn_types.h"
+#include "Common.h"
 
 XSN_Variant::XSN_Variant()
 {

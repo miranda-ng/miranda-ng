@@ -2452,7 +2452,7 @@
 ;============================================================
 ;  File: AvatarHistory.dll
 ;  Plugin: Avatar history
-;  Version: 0.0.3.3
+;  Version: 0.1.0.1
 ;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
 ;============================================================
 [This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
@@ -2514,22 +2514,14 @@
 [Save Avatar for %s]
 [Save Avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.cpp
-[Contact changed avatar]
-[Contact removed avatar]
-[Avatars]
-[Avatar History: Unable to create shortcut]
-[AVH Debug: Shortcut created successfully]
 [AVH Debug]
-[Invalid contact/avatar... skipping]
-[Invalid protocol... skipping]
-[Ignoring metacontacts notification]
 [Removed avatar, no avatar before...skipping]
 [Hashes are the same... skipping]
 [Avatar History: Unable to save avatar]
 [AVH Debug: File copied successfully]
-[Unknown UIN]
-[Unknown Protocol]
-[AVH Debug: GetOldStyleAvatarName]
+[Avatars]
+[Contact changed avatar]
+[Contact removed avatar]
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 [changed his/her avatar]
@@ -2537,15 +2529,21 @@
 [History]
 [Avatar Overlay]
 ;file \plugins\AvatarHistory\src\options.cpp
-[Avatar]
-[PopUps]
-[Avatar Change]
 [Do nothing]
 [Close popup]
 [Show avatar history]
 [Show contact history]
 [Test Contact]
 [Test description]
+[Avatar]
+[PopUps]
+[Avatar Change]
+;file \plugins\AvatarHistory\src\utils.cpp
+[Unknown UIN]
+[Unknown Protocol]
+[AVH Debug: GetOldStyleAvatarName]
+[Avatar History: Unable to create shortcut]
+[AVH Debug: Shortcut created successfully]
 ﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;============================================================
 ;  File: AVS.dll
@@ -3451,7 +3449,7 @@
 [Tile vertically according to Row Height]
 [Use Windows Colors]
 [Available skins]
-[Browse]
+[Rescan]
 [Apply]
 [Info]
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
@@ -3740,6 +3738,8 @@
 [&Rename Group]
 [&Delete Group]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
+[Skins]
+[Modern contact list]
 [Avatar Overlay]
 [Status Overlay]
 [Contact List smileys]
@@ -3794,7 +3794,6 @@
 [General]
 [List]
 [Window]
-[Skins]
 [List Background]
 [Not focused]
 [Offline]
@@ -3911,7 +3910,6 @@
 [Skin editor contains not stored changes.\n\nAll changes will be lost.\n\n Continue to load new skin?]
 [Warning!]
 [Current skin was not saved to file.\n\nAll changes will be lost.\n\n Continue to load new skin?]
-[Miranda skin file]
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 [%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
 [graphics by Angeli-Ka\ntemplate by FYR]
@@ -6481,7 +6479,6 @@
 ;============================================================
 [GTalk extensions for Jabber protocol]
 ;file \protocols\GTalkExt\res\settings.rc
-[NOTE!\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
 [Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
@@ -9428,6 +9425,7 @@
 [LiveJournal Talk]
 [Facebook Chat]
 [Vkontakte]
+[Odnoklassniki]
 [Some changes will take effect the next time you connect to the Jabber network.]
 ;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for]
@@ -10760,8 +10758,8 @@
 [Spam bot blocked]
 [Spam bot contact deleted]
 ;file \protocols\MRA\src\MraAvatars.cpp
+[Avatars' plugin connections]
 [Avatars]
-[plugin connections]
 [Avatars: server return HTTP code: %lu]
 [Avatars: cant open file %s, error]
 ;file \protocols\MRA\src\MraChat.cpp
@@ -11004,7 +11002,11 @@
 [Stop]
 [Play]
 [Frame background]
-﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+[OFF]
+[Volume]
+[Device list]
+[Equalizer]
+[New]﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
 ;  Plugin: Message popup
@@ -11573,6 +11575,8 @@
 [Wait...]
 [Change Feed]
 [Contact deleting]
+[OPML files]
+[Not valid import file.]
 [Network]
 ;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
@@ -15917,7 +15921,7 @@
 ;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 [Data path]
-[Skins root]
+[Skins]
 [Avatars]
 [Saved TabSRMM avatars]
 [Group chat logs root]
@@ -16021,7 +16025,6 @@
 [Event notifications]
 [Message window]
 [Load and apply]
-[Skins]
 [Window layout tweaks]
 [Group Chats]
 [Settings]
@@ -16730,7 +16733,6 @@
 [Values]
 [Tray title]
 [Tipper]
-[Tipper skins]
 ;file \plugins\TipperYM\src\translations.cpp
 [Female]
 [Male]
@@ -18553,6 +18555,8 @@
 [MPD Host]
 [Port]
 [Password]
+;file \plugins\Watrack_MPD\src\init.cpp
+[Watrack MPD connection]
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 [Plugins]
@@ -19153,7 +19157,7 @@
 [My Voice ServerIP]
 [Xfire Link Protocol]
 [Buddy start a game]
-[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
+[It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the ini xfire can't detect any games on your computer.]
 [&XFire Online Profile]
 [XFire &Clan Site]
 [C&opy Server Address and Port]
@@ -19241,6 +19245,27 @@
 [Start game]
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait ...]
+﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;============================================================
+;  File: XSoundNotify.dll
+;  Plugin: XSoundNotify
+;  Version: 1.0.0.0
+;  Authors: Roman Torsten
+;============================================================
+[Provides extended options for sound notifications.]
+;file \plugins\XSoundNotify\res\XSoundNotify.rc
+[XSoundNotify settings]
+[OK]
+[Cancel]
+[Protocol :]
+[Nick :]
+[Sound :]
+[Not set]
+[Choose]
+[Test play]
+[Reset]
+;file \plugins\XSoundNotify\src\xsn_main.cpp
+[&XSoundNotify Plugin]
 ﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll

@@ -1,5 +1,4 @@
-#include "SettingsDialog.h"
-//#include "DebugLogger.hpp"
+#include "Common.h"
 
 template <typename T>
 T * GetComboBoxData(CComboBox & ctrl)
@@ -115,10 +114,11 @@ void SettingsDialog::setSoundLabelText(LPCTSTR text)
 	_soundLabel.SetWindowText(PathFindFileName(text));
 }
 
-void SettingsDialog::addProtocolItem(ProtocolTable::value_type & value)
+void SettingsDialog::addProtocolItem(ProtocolTable::value_type &value)
 {
 	wchar_t protocol[30];
-	mbstowcs(protocol, value.first.c_str(), 30);
+	size_t convertedChars = 0;
+	mbstowcs_s(&convertedChars, protocol, value.first.c_str(), 30);
 	int idx = _protoCombo.AddString(protocol);
 	_protoCombo.SetItemData(idx, (DWORD_PTR)(&value));
 }
