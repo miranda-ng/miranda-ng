@@ -116,6 +116,8 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load()
 {
+	mir_getLP(&pluginInfoEx);
+
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE,NimcOptInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, SetLCStatus);
