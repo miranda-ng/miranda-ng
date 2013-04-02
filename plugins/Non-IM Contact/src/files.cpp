@@ -136,7 +136,7 @@ void readFile(HWND hwnd)
 			temp[strlen(temp)-1]='\0';
         else temp[strlen(temp)]='\0';
 		wsprintfA( temp1, Translate("line(%-3d) = | %s"), lineNumber, temp);
-		SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_ADDSTRING,0,(LPARAM)(char*)temp1);
+		SendMessageA(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_ADDSTRING,0,(LPARAM)(char*)temp1);
 		lineNumber++;
 		fileLength++;
 		if ((unsigned int)SendMessage(GetDlgItem(hwnd, IDC_FILE_CONTENTS),LB_GETHORIZONTALEXTENT,0,0) <= (strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)))
@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (Openfile(file,1))
 				{
 					db_set_s(NULL, MODNAME, fn, file);
-					index = SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_ADDSTRING,0,(LPARAM)(char*)file);
+					index = SendMessageA(GetDlgItem(hwnd, IDC_FILE_LIST),CB_ADDSTRING,0,(LPARAM)(char*)file);
 					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_SETITEMDATA,index,(LPARAM)(int)i);
 					SendMessage(GetDlgItem(hwnd, IDC_FILE_LIST),CB_SETCURSEL, index ,0);
 					SetDlgItemTextA(hwnd, IDC_FN, _itoa(i, fn, 10));
