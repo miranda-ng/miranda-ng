@@ -1698,7 +1698,9 @@ Global
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|x64.ActiveCfg = Debug|x64
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Debug|x64.Build.0 = Debug|x64
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|Win32.ActiveCfg = Release|Win32
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|Win32.Build.0 = Release|Win32
 		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.ActiveCfg = Release|x64
+		{5935CC24-A1C9-4CF9-8B1C-1AA2321627DE}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
