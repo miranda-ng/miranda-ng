@@ -43,9 +43,8 @@ bool SmileyPackCListType::AddSmileyPack(HANDLE hContact, TCHAR* dir)
 
 bool SmileyPackCListType::AddSmiley(HANDLE hContact, TCHAR* path)
 {
-	SmileyPackCType* smpack = GetSmileyPack(hContact);
-	if (smpack == NULL)
-	{  
+	SmileyPackCType *smpack = GetSmileyPack(hContact);
+	if (smpack == NULL) {  
 		smpack = new SmileyPackCType;
 
 		smpack->SetId(hContact);
@@ -58,9 +57,9 @@ bool SmileyPackCListType::AddSmiley(HANDLE hContact, TCHAR* path)
 SmileyPackCType* SmileyPackCListType::GetSmileyPack(HANDLE id)
 {
 	for (int i = 0; i < m_SmileyPacks.getCount(); i++)
-	{
-		if (m_SmileyPacks[i].GetId() == id) return &m_SmileyPacks[i];
-	}
+		if (m_SmileyPacks[i].GetId() == id)
+			return &m_SmileyPacks[i];
+
 	return NULL;
 }
 
@@ -142,10 +141,8 @@ bool SmileyPackCType::LoadSmiley(TCHAR* path)
 
 	bkstring name = dirs.substr(slash+1, dot - slash - 1); 
 
-	for (int i=0; i < m_SmileyList.getCount(); i++)
-	{
-		if (m_SmileyList[i].GetTriggerText() == name)
-		{
+	for (int i=0; i < m_SmileyList.getCount(); i++) {
+		if (m_SmileyList[i].GetTriggerText() == name) {
 			m_SmileyList[i].LoadFromResource(dirs, 0);
 			return true; 
 		}
@@ -164,8 +161,7 @@ bool SmileyPackCType::LoadSmiley(TCHAR* path)
 void SmileyPackCType::AddTriggersToSmileyLookup(void)
 {
 	bkstring empty;
-	for (int dist=0; dist<m_SmileyList.getCount(); dist++)
-	{
+	for (int dist=0; dist<m_SmileyList.getCount(); dist++) {
 		SmileyLookup *dats = new SmileyLookup(m_SmileyList[dist].GetTriggerText(), false, dist, empty); 
 		m_SmileyLookup.insert(dats);
 	}

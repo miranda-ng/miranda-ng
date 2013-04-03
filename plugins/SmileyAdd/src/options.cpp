@@ -363,25 +363,19 @@ void OptionsDialogType::PopulateSmPackList(void)
 	tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_SELECTED;
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *tmpsmcat.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++)
-	{
-		if (!useOne || !smc[i].IsProto())
-		{
+	for (int i=0; i < smc.getCount(); i++) {
+		if (!useOne || !smc[i].IsProto()) {
 			tvi.item.pszText = (TCHAR*)smc[i].GetDisplayName().c_str();
-			if (!smc[i].IsProto())
-			{
+			if (!smc[i].IsProto()) {
 				tvi.item.iImage = 0;
 				tvi.item.iSelectedImage = 0;
 			}
-			else
-			{
+			else {
 				tvi.item.iImage = i;
 				tvi.item.iSelectedImage = i;
 			}
 			tvi.item.lParam = i;
-			tvi.item.state = 
-				INDEXTOSTATEIMAGEMASK(smPack.LoadSmileyFile(smc[i].GetFilename(), true, true) ? 2 : 1);
-
+			tvi.item.state = INDEXTOSTATEIMAGEMASK(smPack.LoadSmileyFile(smc[i].GetFilename(), true, true) ? 2 : 1);
 			TreeView_InsertItem(hLstView, &tvi);
 
 			smPack.Clear();
@@ -435,17 +429,12 @@ void OptionsDialogType::InitDialog(void)
 	tmpsmcat = g_SmileyCategories;
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++)
-	{
+	for (int i=0; i < smc.getCount(); i++) {
 		HICON hIcon = NULL;
-		if (smc[i].IsProto())
-		{
-			hIcon=(HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, 
-				PLI_PROTOCOL | PLIF_SMALL, 0);
+		if (smc[i].IsProto()) {
+			hIcon = (HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 			if (hIcon == NULL || (INT_PTR)hIcon == CALLSERVICE_NOTFOUND) 
-			{
-				hIcon=(HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
-			}
+				hIcon = (HICON)CallProtoService(T2A_SM(smc[i].GetName().c_str()), PS_LOADICON, PLI_PROTOCOL, 0);
 		} 
 		if (hIcon == NULL || hIcon == (HICON)CALLSERVICE_NOTFOUND) 
 			hIcon = GetDefaultIcon();
@@ -496,10 +485,8 @@ void OptionsDialogType::ApplyChanges(void)
 
 	// Cleanup database
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
-	for (int i = 0; i < smc.getCount(); i++)
-	{
-		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL)
-		{
+	for (int i=0; i < smc.getCount(); i++) {
+		if (tmpsmcat.GetSmileyCategory(smc[i].GetName()) == NULL) {
 			bkstring empty;
 			opt.WritePackFileName(empty, smc[i].GetName());
 		}
@@ -526,11 +513,8 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 	bkstring inidir;
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(item); 
 	if (smc->GetFilename().empty())
-	{
 		pathToAbsolute(_T("Smileys"), inidir);
-	}
-	else
-	{
+	else {
 		pathToAbsolute(smc->GetFilename(), inidir);
 		inidir.erase(inidir.find_last_of('\\'));
 	}
@@ -557,8 +541,7 @@ bool OptionsDialogType::BrowseForSmileyPacks(int item)
 		OFN_EXPLORER | OFN_LONGNAMES | OFN_NOCHANGEDIR;
 	ofn.lpstrDefExt = _T("msl");
 
-	if (GetOpenFileName(&ofn)) 
-	{
+	if (GetOpenFileName(&ofn)) {
 		bkstring relpath;
 		pathToRelative(filename, relpath);
 		smc->SetFilename(relpath);
@@ -575,8 +558,7 @@ void OptionsDialogType::FilenameChanged(void)
 	GetDlgItemText(m_hwndDialog, IDC_FILENAME, str, SIZEOF(str));
 
 	SmileyCategoryType* smc = tmpsmcat.GetSmileyCategory(GetSelProto()); 
-	if (smc->GetFilename() != str)
-	{
+	if (smc->GetFilename() != str) {
 		bkstring temp(str);
 		smc->SetFilename(temp);
 		UpdateControls();
@@ -602,69 +584,62 @@ void OptionsDialogType::ShowSmileyPreview(void)
 	mir_forkthread(SmileyToolThread, stwp);
 }
 
-
 void OptionsType::Save(void)
 {
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "PluginSupportEnabled", PluginSupportEnabled);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "EnforceSpaces", EnforceSpaces);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "ScaleToTextheight", ScaleToTextheight);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "UseOneForAll", UseOneForAll);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "ScaleAllSmileys", ScaleAllSmileys);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "IEViewStyle", IEViewStyle);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "AnimateSel", AnimateSel);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "AnimateDlg", AnimateDlg);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "InputSmileys", InputSmileys);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "DCursorSmiley", DCursorSmiley);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "DisableCustom", DisableCustom);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "HQScaling", HQScaling);
-	DBWriteContactSettingByte(NULL, "SmileyAdd", "ButtonStatus", (BYTE)ButtonStatus);
-	DBWriteContactSettingDword(NULL, "SmileyAdd", "SelWndBkgClr", SelWndBkgClr);
-	DBWriteContactSettingDword(NULL, "SmileyAdd", "MaxCustomSmileySize", MaxCustomSmileySize);
-	DBWriteContactSettingDword(NULL, "SmileyAdd", "MinSmileySize", MinSmileySize);
+	db_set_b(NULL, "SmileyAdd", "PluginSupportEnabled", PluginSupportEnabled);
+	db_set_b(NULL, "SmileyAdd", "EnforceSpaces", EnforceSpaces);
+	db_set_b(NULL, "SmileyAdd", "ScaleToTextheight", ScaleToTextheight);
+	db_set_b(NULL, "SmileyAdd", "UseOneForAll", UseOneForAll);
+	db_set_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", SurroundSmileyWithSpaces);
+	db_set_b(NULL, "SmileyAdd", "ScaleAllSmileys", ScaleAllSmileys);
+	db_set_b(NULL, "SmileyAdd", "IEViewStyle", IEViewStyle);
+	db_set_b(NULL, "SmileyAdd", "AnimateSel", AnimateSel);
+	db_set_b(NULL, "SmileyAdd", "AnimateDlg", AnimateDlg);
+	db_set_b(NULL, "SmileyAdd", "InputSmileys", InputSmileys);
+	db_set_b(NULL, "SmileyAdd", "DCursorSmiley", DCursorSmiley);
+	db_set_b(NULL, "SmileyAdd", "DisableCustom", DisableCustom);
+	db_set_b(NULL, "SmileyAdd", "HQScaling", HQScaling);
+	db_set_b(NULL, "SmileyAdd", "ButtonStatus", (BYTE)ButtonStatus);
+	db_set_dw(NULL, "SmileyAdd", "SelWndBkgClr", SelWndBkgClr);
+	db_set_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", MaxCustomSmileySize);
+	db_set_dw(NULL, "SmileyAdd", "MinSmileySize", MinSmileySize);
 }
-
 
 void OptionsType::Load(void)
 {
-	PluginSupportEnabled = DBGetContactSettingByte(NULL, "SmileyAdd", "PluginSupportEnabled", TRUE) != 0;
-	EnforceSpaces = DBGetContactSettingByte(NULL, "SmileyAdd", "EnforceSpaces", FALSE) != 0;
-	ScaleToTextheight = DBGetContactSettingByte(NULL, "SmileyAdd", "ScaleToTextheight", FALSE) != 0;
-	UseOneForAll = DBGetContactSettingByte(NULL, "SmileyAdd", "UseOneForAll", TRUE) != 0;
+	PluginSupportEnabled = db_get_b(NULL, "SmileyAdd", "PluginSupportEnabled", TRUE) != 0;
+	EnforceSpaces = db_get_b(NULL, "SmileyAdd", "EnforceSpaces", FALSE) != 0;
+	ScaleToTextheight = db_get_b(NULL, "SmileyAdd", "ScaleToTextheight", FALSE) != 0;
+	UseOneForAll = db_get_b(NULL, "SmileyAdd", "UseOneForAll", TRUE) != 0;
 	SurroundSmileyWithSpaces = 
-		DBGetContactSettingByte(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", FALSE) != 0;
-	ScaleAllSmileys = DBGetContactSettingByte(NULL, "SmileyAdd", "ScaleAllSmileys", FALSE) != 0;
-	IEViewStyle = DBGetContactSettingByte(NULL, "SmileyAdd", "IEViewStyle", FALSE) != 0;
-	AnimateSel = DBGetContactSettingByte(NULL, "SmileyAdd", "AnimateSel", TRUE) != 0;
-	AnimateDlg = DBGetContactSettingByte(NULL, "SmileyAdd", "AnimateDlg", TRUE) != 0;
-	InputSmileys = DBGetContactSettingByte(NULL, "SmileyAdd", "InputSmileys", TRUE) != 0;
-	DCursorSmiley = DBGetContactSettingByte(NULL, "SmileyAdd", "DCursorSmiley", FALSE) != 0;
-	DisableCustom = DBGetContactSettingByte(NULL, "SmileyAdd", "DisableCustom", FALSE) != 0;
-	HQScaling = DBGetContactSettingByte(NULL, "SmileyAdd", "HQScaling", FALSE) != 0;
+		db_get_b(NULL, "SmileyAdd", "SurroundSmileyWithSpaces", FALSE) != 0;
+	ScaleAllSmileys = db_get_b(NULL, "SmileyAdd", "ScaleAllSmileys", FALSE) != 0;
+	IEViewStyle = db_get_b(NULL, "SmileyAdd", "IEViewStyle", FALSE) != 0;
+	AnimateSel = db_get_b(NULL, "SmileyAdd", "AnimateSel", TRUE) != 0;
+	AnimateDlg = db_get_b(NULL, "SmileyAdd", "AnimateDlg", TRUE) != 0;
+	InputSmileys = db_get_b(NULL, "SmileyAdd", "InputSmileys", TRUE) != 0;
+	DCursorSmiley = db_get_b(NULL, "SmileyAdd", "DCursorSmiley", FALSE) != 0;
+	DisableCustom = db_get_b(NULL, "SmileyAdd", "DisableCustom", FALSE) != 0;
+	HQScaling = db_get_b(NULL, "SmileyAdd", "HQScaling", FALSE) != 0;
 
-	ButtonStatus = DBGetContactSettingByte(NULL, "SmileyAdd", "ButtonStatus", 1);
-	SelWndBkgClr = DBGetContactSettingDword(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
-	MaxCustomSmileySize = DBGetContactSettingDword(NULL, "SmileyAdd", "MaxCustomSmileySize", 0);
-	MinSmileySize = DBGetContactSettingDword(NULL, "SmileyAdd", "MinSmileySize", 0);
+	ButtonStatus = db_get_b(NULL, "SmileyAdd", "ButtonStatus", 1);
+	SelWndBkgClr = db_get_dw(NULL, "SmileyAdd", "SelWndBkgClr", GetSysColor(COLOR_WINDOW));
+	MaxCustomSmileySize = db_get_dw(NULL, "SmileyAdd", "MaxCustomSmileySize", 0);
+	MinSmileySize = db_get_dw(NULL, "SmileyAdd", "MinSmileySize", 0);
 }
 
 
-void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name, 
-	const bkstring& defaultFilename)
+void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name, const bkstring& defaultFilename)
 {
-	DBVARIANT dbv;
 	bkstring settingKey = name + _T("-filename");
 
-	INT_PTR res = DBGetContactSettingTString(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), &dbv);
-	if (res == 0)
-	{
+	DBVARIANT dbv;
+	if (!db_get_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), &dbv)) {
 		filename = dbv.ptszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
-	else 
-		filename = defaultFilename;
+	else filename = defaultFilename;
 }
-
 
 void OptionsType::WritePackFileName(const bkstring& filename, const bkstring& name)
 {
@@ -678,11 +653,11 @@ void OptionsType::ReadCustomCategories(bkstring& cats)
 {
 	DBVARIANT dbv;
 
-	INT_PTR res = DBGetContactSettingTString(NULL, "SmileyAdd", "CustomCategories", &dbv);
+	INT_PTR res = db_get_ts(NULL, "SmileyAdd", "CustomCategories", &dbv);
 	if (res == 0)
 	{
 		cats = dbv.ptszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -700,11 +675,11 @@ void OptionsType::ReadContactCategory(HANDLE hContact, bkstring& cats)
 {
 	DBVARIANT dbv;
 
-	INT_PTR res = DBGetContactSettingTString(hContact, "SmileyAdd", "CustomCategory", &dbv);
+	INT_PTR res = db_get_ts(hContact, "SmileyAdd", "CustomCategory", &dbv);
 	if (res == 0)
 	{
 		cats = dbv.ptszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 

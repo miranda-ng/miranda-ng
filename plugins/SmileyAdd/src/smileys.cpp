@@ -210,7 +210,6 @@ static const TCHAR timeRegEx[] = _T("\\d{1,2}:\\d{2}:\\d{2}|\\d{1,2}:\\d{2}");
 void SmileyPackType::AddTriggersToSmileyLookup(void)
 {
 	_TPattern * p = _TPattern::compile(_T("\\s+"));
-
 	{
 		bkstring emptystr;
 		m_SmileyLookup.insert(new SmileyLookup(urlRegEx, true, -1, emptystr));
@@ -218,10 +217,8 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 		m_SmileyLookup.insert(new SmileyLookup(timeRegEx, true, -1, emptystr));
 	}
 
-	for (int dist = 0; dist < m_SmileyList.getCount(); dist++)
-	{
-		if (m_SmileyList[dist].IsRegEx())
-		{
+	for (int dist = 0; dist < m_SmileyList.getCount(); dist++) {
+		if (m_SmileyList[dist].IsRegEx()) {
 			SmileyLookup* dats = new SmileyLookup(m_SmileyList[dist].GetTriggerText(), true, dist, GetFilename());
 			if (dats->IsValid())
 				m_SmileyLookup.insert(dats);
@@ -229,24 +226,20 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 				errorFound = true;
 			if (m_SmileyList[dist].m_InsertText.empty()) m_SmileyList[dist].m_InsertText = m_SmileyList[dist].m_ToolText;
 		}
-		else if (!m_SmileyList[dist].IsService())
-		{
+		else if (!m_SmileyList[dist].IsService()) {
 			bool first = true;
 			int li = 0;
 			_TMatcher * m0 = p->createTMatcher(m_SmileyList[dist].GetTriggerText());
 			while (m0->findNextMatch())
 			{	
 				int stind = m0->getStartingIndex();
-				if (li != stind)
-				{
+				if (li != stind) {
 					bkstring out;
 					ReplaceAllSpecials(m0->getString().substr(li, stind - li), out);
 					SmileyLookup *dats = new SmileyLookup(out, false, dist, GetFilename()); 
-					if (dats->IsValid())
-					{
+					if (dats->IsValid()) {
 						m_SmileyLookup.insert(dats);
-						if (first)
-						{
+						if (first) {
 							m_SmileyList[dist].m_InsertText = out;
 							first = false;
 						}
@@ -256,16 +249,13 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 			}
 
 			int stind = (int)m0->getString().size();
-			if (li < stind)
-			{
+			if (li < stind) {
 				bkstring out;
 				ReplaceAllSpecials(m0->getString().substr(li, stind - li), out);
 				SmileyLookup *dats = new SmileyLookup(out, false, dist, GetFilename()); 
-				if (dats->IsValid())
-				{
+				if (dats->IsValid()) {
 					m_SmileyLookup.insert(dats);
-					if (first)
-					{
+					if (first) {
 						m_SmileyList[dist].m_InsertText = out;
 						first = false;
 					}
@@ -277,13 +267,11 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 	delete p;
 }
 
-
 void SmileyPackType::ReplaceAllSpecials(const bkstring& Input, bkstring& Output)
 {
 	Output = _TPattern::replace(_T("%%_{1,2}%%"), Input, _T(" "));
 	Output = _TPattern::replace(_T("%%''%%"), Output, _T("\""));
 }
-
 
 void SmileyPackType::Clear(void)
 {
@@ -720,8 +708,7 @@ SmileyPackType* SmileyPackListType::GetSmileyPack(bkstring& filename)
 	bkstring modpath;
 	pathToAbsolute(filename, modpath);
 
-	for (int i = 0; i < m_SmileyPacks.getCount(); i++)
-	{
+	for (int i=0; i < m_SmileyPacks.getCount(); i++) {
 		bkstring modpath1;
 		pathToAbsolute(m_SmileyPacks[i].GetFilename(), modpath1);
 		if (lstrcmpi(modpath.c_str(), modpath1.c_str()) == 0) return &m_SmileyPacks[i];
@@ -779,17 +766,17 @@ void SmileyCategoryListType::ClearAndLoadAll(void)
 {
 	m_pSmileyPackStore->ClearAndFreeAll();
 
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
+	for (int i=0; i < m_SmileyCategories.getCount(); i++)
 		m_SmileyCategories[i].Load();
 }
 
 
 SmileyCategoryType* SmileyCategoryListType::GetSmileyCategory(const bkstring& name)
 {
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-	{
-		if (name.comparei(m_SmileyCategories[i].GetName()) == 0) return &m_SmileyCategories[i];
-	}
+	for (int i=0; i < m_SmileyCategories.getCount(); i++)
+		if (name.comparei(m_SmileyCategories[i].GetName()) == 0)
+			return &m_SmileyCategories[i];
+
 	return NULL;
 }
 
@@ -810,11 +797,9 @@ SmileyPackType* SmileyCategoryListType::GetSmileyPack(bkstring& categoryname)
 void SmileyCategoryListType::SaveSettings(void)
 {
 	bkstring catstr;
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-	{
+	for (int i=0; i < m_SmileyCategories.getCount(); i++) {
 		m_SmileyCategories[i].SaveSettings();
-		if (m_SmileyCategories[i].IsCustom())
-		{
+		if (m_SmileyCategories[i].IsCustom()) {
 			if (!catstr.empty()) catstr += '#';
 			catstr += m_SmileyCategories[i].GetName();
 		}
@@ -825,7 +810,8 @@ void SmileyCategoryListType::SaveSettings(void)
 
 void SmileyCategoryListType::AddAndLoad(const bkstring& name, const bkstring& displayName)
 {
-	if (GetSmileyCategory(name) != NULL) return;
+	if (GetSmileyCategory(name) != NULL)
+		return;
 
 	AddCategory(name, displayName, smcExt);
 	// Load only if other smileys have been loaded already
@@ -845,14 +831,11 @@ void SmileyCategoryListType::AddCategory(const bkstring& name, const bkstring& d
 
 bool SmileyCategoryListType::DeleteCustomCategory(int index)
 {
-	if (index < m_SmileyCategories.getCount())
-	{
-		if (m_SmileyCategories[index].IsCustom())
-		{
+	if (index < m_SmileyCategories.getCount()) {
+		if (m_SmileyCategories[index].IsCustom()) {
 			m_SmileyCategories.remove(index);
 			return true;
 		}
-
 	}
 	return false;
 }
@@ -887,27 +870,22 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 {
 	bkstring tname(A2T_SM(acc->szModuleName));
 
-	HANDLE hContact = db_find_first();
-	while (hContact != NULL) 
-	{
+	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		char* proto = GetContactProto(hContact);
-		if (proto)
-		{
-			DBVARIANT dbv;
-			if (DBGetContactSettingTString(hContact, proto, "Transport", &dbv) == 0)
-			{
-				bool found = (tname.comparei(dbv.ptszVal) == 0);
-				DBFreeVariant(&dbv);
-				if (found) return;
-			}
+		if (proto == NULL)
+			continue;
+
+		DBVARIANT dbv;
+		if (!db_get_ts(hContact, proto, "Transport", &dbv)) {
+			bool found = (tname.comparei(dbv.ptszVal) == 0);
+			db_free(&dbv);
+			if (found)
+				return;
 		}
-		hContact = db_find_next(hContact);
 	}
 
-	for (int i = 0; i < m_SmileyCategories.getCount(); i++)
-	{
-		if (tname.comparei(m_SmileyCategories[i].GetName()) == 0)
-		{
+	for (int i=0; i < m_SmileyCategories.getCount(); i++) {
+		if (tname.comparei(m_SmileyCategories[i].GetName()) == 0) {
 			m_SmileyCategories.remove(i);
 			break;
 		}
@@ -920,11 +898,9 @@ void SmileyCategoryListType::AddContactTransportAsCategory(HANDLE hContact, cons
 	if (proto == NULL) return;
 
 	DBVARIANT dbv;
-	if (DBGetContactSettingTString(hContact, proto, "Transport", &dbv) == 0)
-	{
-		if (dbv.ptszVal[0] == '\0') 
-		{
-			DBFreeVariant(&dbv);
+	if (!db_get_ts(hContact, proto, "Transport", &dbv)) {
+		if (dbv.ptszVal[0] == '\0') {
+			db_free(&dbv);
 			return;
 		}
 		char* trsp = mir_strdup(T2A_SM(dbv.ptszVal));
@@ -945,8 +921,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(HANDLE hContact, cons
 		mir_free(trsp);
 
 		bkstring displayName = dbv.ptszVal;
-		if (packname != NULL)
-		{
+		if (packname != NULL) {
 			char path[MAX_PATH];
 			mir_snprintf(path, sizeof(path), "Smileys\\nova\\%s.msl", packname);
 
@@ -958,13 +933,11 @@ void SmileyCategoryListType::AddContactTransportAsCategory(HANDLE hContact, cons
 
 			AddCategory(displayName, displayName, smcProto, paths); 
 		}
-		else
-			AddCategory(displayName, displayName, smcProto, defaultFile); 
+		else AddCategory(displayName, displayName, smcProto, defaultFile); 
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
-
 
 void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 {

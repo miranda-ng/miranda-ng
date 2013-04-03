@@ -114,7 +114,7 @@ public:
 
 		if (OldButtonPlace)
 		{
-			if (isSplit && DBGetContactSettingByte(NULL, "SRMsg", "ShowQuote", FALSE))
+			if (isSplit && db_get_b(NULL, "SRMsg", "ShowQuote", FALSE))
 			{
 				GetWindowRect(QuoteB, &rect);
 				pt.x = rect.right + 12;
@@ -199,17 +199,17 @@ public:
 		bool showButtonLine;
 		if (IsOldSrmm())
 		{
-			isSplit = DBGetContactSettingByte(NULL,"SRMsg","Split", TRUE) != 0;
+			isSplit = db_get_b(NULL,"SRMsg","Split", TRUE) != 0;
 
 			doSmileyReplace = (isSplit || !isSend);
 			doSmileyButton &= isSplit ||  isSend;
-			showButtonLine = DBGetContactSettingByte(NULL, "SRMsg", "ShowButtonLine", TRUE) != 0;
+			showButtonLine = db_get_b(NULL, "SRMsg", "ShowButtonLine", TRUE) != 0;
 		}
 		else
 		{
 			doSmileyReplace = true;
 			OldButtonPlace = false;
-			showButtonLine = DBGetContactSettingByte(NULL, "SRMM", "ShowButtonLine", TRUE) != 0;
+			showButtonLine = db_get_b(NULL, "SRMM", "ShowButtonLine", TRUE) != 0;
 		}
 
 		doSmileyButton &= OldButtonPlace || showButtonLine;
@@ -275,10 +275,8 @@ bool IsOldSrmm(void)
 int UpdateSrmmDlg(WPARAM wParam, LPARAM /* lParam */)
 {
 	WaitForSingleObject(g_hMutex, 2000);
-	for (int i=0; i<g_MsgWndList.getCount(); ++i)
-	{
-		if (wParam == 0 || g_MsgWndList[i]->hContact == (HANDLE)wParam)
-		{
+	for (int i=0; i < g_MsgWndList.getCount(); ++i) {
+		if (wParam == 0 || g_MsgWndList[i]->hContact == (HANDLE)wParam) {
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, FALSE, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, DM_OPTIONSAPPLIED, 0, 0);
 			SendMessage(g_MsgWndList[i]->hwnd, WM_SETREDRAW, TRUE, 0);
@@ -541,7 +539,7 @@ void RemoveDialogBoxHook(void)
 	if (g_hMessageHookPre) UnhookWindowsHookEx(g_hMessageHookPre);
 
 	WaitForSingleObject(g_hMutex, 2000);
-	for (int i=0; i<g_MsgWndList.getCount(); ++i) 
+	for (int i=0; i<g_MsgWndList.getCount(); i++) 
 		delete g_MsgWndList[i];
 	g_MsgWndList.destroy();
 	ReleaseMutex(g_hMutex);

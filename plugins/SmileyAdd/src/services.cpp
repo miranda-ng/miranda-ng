@@ -49,10 +49,10 @@ SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCTyp
 			if (protonam != NULL)
 			{
 				DBVARIANT dbv;
-				if (DBGetContactSettingTString(hContact, protonam, "Transport", &dbv) == 0)
+				if (db_get_ts(hContact, protonam, "Transport", &dbv) == 0)
 				{
 					categoryName = dbv.ptszVal;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else
 					categoryName = A2T_SM(protonam);
@@ -306,23 +306,21 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 	else
 		LookupAllSmileys(SmileyPack, smcp, A2T_SM(smre->astr), smllist, false);
 
-	if (smllist.getCount() == 0) return 0;
+	if (smllist.getCount() == 0)
+		return 0;
 
 	SMADD_BATCHPARSERES *res = new SMADD_BATCHPARSERES[smllist.getCount()]; 
 	SMADD_BATCHPARSERES* cres = res;
-	for (int j = 0; j < smllist.getCount(); j++)
-	{
+	for (int j=0; j < smllist.getCount(); j++) {
 		cres->startChar = smllist[j].loc.cpMin;
 		cres->size = smllist[j].loc.cpMax - smllist[j].loc.cpMin;
-		if (smllist[j].sml)
-		{
+		if (smllist[j].sml) {
 			if (smre->flag & SAFL_PATH)
 				cres->filepath = smllist[j].sml->GetFilePath().c_str();
 			else
 				cres->hIcon = smllist[j].sml->GetIconDup();
 		}
-		else
-		{
+		else {
 			if (smre->flag & SAFL_PATH)
 				cres->filepath = smllist[j].smlc->GetFilePath().c_str();
 			else
@@ -384,7 +382,7 @@ INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 		NotifyEventHooks(hEvent1, (WPARAM)hContact, 0);
 	}
 
-	for (int i = 0; i < menuHandleArray.getCount(); i++)
+	for (int i=0; i < menuHandleArray.getCount(); i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
 	menuHandleArray.destroy();
 
@@ -403,7 +401,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 	bool haveMenu = IsSmileyProto(protnam);
 	if (haveMenu && opt.UseOneForAll) {
 		unsigned cnt = 0;
-		for (int i=0; i < smc.getCount(); ++i)
+		for (int i=0; i < smc.getCount(); i++)
 			cnt += smc[i].IsCustom();
 		haveMenu = cnt != 0;
 	}
@@ -412,7 +410,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
 
-	for (int i = 0; i < menuHandleArray.getCount(); ++i)
+	for (int i=0; i < menuHandleArray.getCount(); i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
 	menuHandleArray.destroy();
 

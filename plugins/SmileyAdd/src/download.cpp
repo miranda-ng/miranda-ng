@@ -140,11 +140,9 @@ void __cdecl SmileyDownloadThread(void*)
 	bool needext = false;
 	HANDLE hHttpDwnl = NULL;
 	WaitForSingleObject(g_hDlMutex, 3000);
-	while (!Miranda_Terminated() && dlQueue.getCount())
-	{
+	while (!Miranda_Terminated() && dlQueue.getCount()) {
 		ReleaseMutex(g_hDlMutex);
-		if (_taccess(dlQueue[0].fname.c_str(), 0) != 0)
-		{
+		if (_taccess(dlQueue[0].fname.c_str(), 0) != 0) {
 			InternetDownloadFile(T2A_SM(dlQueue[0].url.c_str()), T2A_SM(dlQueue[0].fname.c_str()), hHttpDwnl);
 			WaitForSingleObject(g_hDlMutex, 3000);
 
@@ -152,8 +150,7 @@ void __cdecl SmileyDownloadThread(void*)
 			if (dlQueue[0].needext) { fname += GetImageExt(fname); needext = true; }
 			_trename(dlQueue[0].fname.c_str(), fname.c_str());
 		}
-		else
-			WaitForSingleObject(g_hDlMutex, 3000);
+		else WaitForSingleObject(g_hDlMutex, 3000);
 
 		dlQueue.remove(0);
 	}

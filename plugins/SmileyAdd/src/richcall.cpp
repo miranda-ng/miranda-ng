@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "general.h"
 
-typedef struct   
+struct RichEditData
 {
 	HWND hwnd;
 	HANDLE hContact;
@@ -26,28 +26,28 @@ typedef struct
 	int tipActive;
 	bool inputarea;
 	bool dontReplace;
-} RichEditData;
+};
 
-typedef struct   
+struct RichEditOwnerData
 {
 	HWND hwnd;
 	HWND hwndInput;
 	HWND hwndLog;
-} RichEditOwnerData;
+};
 
 static int CompareRichEditData(const RichEditData* p1, const RichEditData* p2)
 {
 	return (int)((INT_PTR)p1->hwnd - (INT_PTR)p2->hwnd);
 }
-static LIST<RichEditData> g_RichEditList(10, CompareRichEditData);
 
+static LIST<RichEditData> g_RichEditList(10, CompareRichEditData);
 
 static int CompareRichEditData(const RichEditOwnerData* p1, const RichEditOwnerData* p2)
 {
 	return (int)((INT_PTR)p1->hwnd - (INT_PTR)p2->hwnd);
 }
-static LIST<RichEditOwnerData> g_RichEditOwnerList(5, CompareRichEditData);
 
+static LIST<RichEditOwnerData> g_RichEditOwnerList(5, CompareRichEditData);
 
 static void SetPosition(HWND hwnd)
 {
@@ -56,16 +56,14 @@ static void SetPosition(HWND hwnd)
 		return;
 
 	ITextDocument* TextDocument;
-	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK)
-	{
+	if (RichEditOle->QueryInterface(IID_ITextDocument, (void**)&TextDocument) != S_OK) {
 		RichEditOle->Release();
 		return;
 	}
 
 	// retrieve text range
 	ITextRange* TextRange;
-	if (TextDocument->Range(0, 0, &TextRange) != S_OK) 
-	{
+	if (TextDocument->Range(0, 0, &TextRange) != S_OK) {
 		TextDocument->Release();
 		RichEditOle->Release();
 		return;
@@ -73,8 +71,7 @@ static void SetPosition(HWND hwnd)
 	TextDocument->Release();
 
 	int objectCount = RichEditOle->GetObjectCount();
-	for (int i = objectCount - 1; i >= 0; i--)
-	{
+	for (int i = objectCount - 1; i >= 0; i--) {
 		REOBJECT reObj = {0};
 		reObj.cbStruct  = sizeof(REOBJECT);
 
@@ -94,24 +91,20 @@ static void SetPosition(HWND hwnd)
 		POINT pt;
 		RECT rect;
 		hr = TextRange->GetPoint(tomStart | TA_BOTTOM | TA_LEFT, &pt.x, &pt.y);
-		if (hr == S_OK) 
-		{
+		if (hr == S_OK) {
 			res = ScreenToClient(hwnd, &pt);
 			rect.bottom = pt.y;
 			rect.left = pt.x;
 		}
-		else
-			rect.bottom = -1;
+		else rect.bottom = -1;
 
 		hr = TextRange->GetPoint(tomStart | TA_TOP | TA_LEFT, &pt.x, &pt.y);
-		if (hr == S_OK) 
-		{
+		if (hr == S_OK) {
 			res = ScreenToClient(hwnd, &pt);
 			rect.top = pt.y;
 			rect.left = pt.x;
 		}
-		else
-			rect.top = -1;
+		else rect.top = -1;
 
 		igsc->SetPosition(hwnd, &rect);
 		igsc->Release();
@@ -124,45 +117,36 @@ static void SetTooltip(long x, long y, HWND hwnd, RichEditData* rdt)
 {
 	TCHAR* smltxt;
 	int needtip = CheckForTip(x, y, hwnd, &smltxt);
-	if (needtip != rdt->tipActive)
-	{
-		TOOLINFO ti = {0};
-		ti.cbSize = sizeof(ti);
-		ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
-		ti.hwnd = hwnd;
-		ti.uId = (UINT_PTR)ti.hwnd;
+	if (needtip == rdt->tipActive)
+		return;
 
-		if (needtip != -1)
-		{
-			if (rdt->tipActive == -1)
-			{
-				rdt->hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), 
-					TTS_NOPREFIX | WS_POPUP, 
-					CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 
-					hwnd, NULL, g_hInst, NULL);
+	TOOLINFO ti = { sizeof(ti) };
+	ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
+	ti.hwnd = hwnd;
+	ti.uId = (UINT_PTR)ti.hwnd;
 
-				SendMessage(rdt->hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
-			}
+	if (needtip != -1) {
+		if (rdt->tipActive == -1) {
+			rdt->hToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), TTS_NOPREFIX | WS_POPUP, 
+				CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hwnd, NULL, g_hInst, NULL);
 
-			ti.lpszText = smltxt; 
-			SendMessage(rdt->hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
-			SendMessage(rdt->hToolTip, TTM_ACTIVATE, TRUE, 0);
+			SendMessage(rdt->hToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 		}
-		else
-		{
-			if (rdt->tipActive != -1)
-			{
-				SendMessage(rdt->hToolTip, TTM_ACTIVATE, FALSE, 0);
-				DestroyWindow(rdt->hToolTip);
-				rdt->hToolTip = NULL;
-			}
-		}
-		rdt->tipActive = needtip;
+
+		ti.lpszText = smltxt; 
+		SendMessage(rdt->hToolTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+		SendMessage(rdt->hToolTip, TTM_ACTIVATE, TRUE, 0);
 	}
+	else if (rdt->tipActive != -1) {
+		SendMessage(rdt->hToolTip, TTM_ACTIVATE, FALSE, 0);
+		DestroyWindow(rdt->hToolTip);
+		rdt->hToolTip = NULL;
+	}
+
+	rdt->tipActive = needtip;
 }
 
 static const CHARRANGE allsel = { 0, LONG_MAX };
-
 
 static void ReplaceContactSmileys(RichEditData *rdt, const CHARRANGE &sel, bool ignoreLast, bool unFreeze)
 {
@@ -180,7 +164,8 @@ static void ReplaceContactSmileysWithText(RichEditData *rdt, CHARRANGE &sel, boo
 
 static void SmileyToTextCutPrep(RichEditData* rdt)
 {
-	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
+	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace)
+		return;
 
 	SendMessage(rdt->hwnd, WM_SETREDRAW, FALSE, 0);
 	CHARRANGE sel;
@@ -190,7 +175,8 @@ static void SmileyToTextCutPrep(RichEditData* rdt)
 
 static void SmileyToTextCutRest(RichEditData* rdt)
 {
-	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace) return;
+	if ((rdt->inputarea && !opt.InputSmileys) || rdt->dontReplace)
+		return;
 
 	CHARRANGE sel;
 	SendMessage(rdt->hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
@@ -228,16 +214,10 @@ static LRESULT CALLBACK RichEditSubclass(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 	case WM_KEYDOWN:
 		if ((wParam == 'C' || wParam == VK_INSERT) && (GetKeyState(VK_CONTROL) & 0x8000))
-		{
 			SmileyToTextCutPrep(rdt);
-		}
-		else if ((wParam == 'X' && (GetKeyState(VK_CONTROL) & 0x8000)) ||
-			(wParam == VK_DELETE && (GetKeyState(VK_SHIFT) & 0x8000)))
-		{
+		else if ((wParam == 'X' && (GetKeyState(VK_CONTROL) & 0x8000)) || (wParam == VK_DELETE && (GetKeyState(VK_SHIFT) & 0x8000)))
 			SmileyToTextCutPrep(rdt);
-		}
-		else if (wParam == VK_TAB && ((GetKeyState(VK_CONTROL) | GetKeyState(VK_SHIFT)) & 0x8000) == 0)
-		{
+		else if (wParam == VK_TAB && ((GetKeyState(VK_CONTROL) | GetKeyState(VK_SHIFT)) & 0x8000) == 0) {
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			sel.cpMin = max(sel.cpMin - 20, 0);
 
@@ -455,8 +435,8 @@ void CloseRichOwnerCallback(HWND hwnd)
 	RichEditOwnerData* rdto = g_RichEditOwnerList[ind];
 	CloseRichCallback(rdto->hwndInput);
 	CloseRichCallback(rdto->hwndLog);
-
 	delete rdto;
+
 	g_RichEditOwnerList.remove(ind);
 
 	mir_unsubclassWindow(hwnd, RichEditOwnerSubclass);
@@ -464,7 +444,7 @@ void CloseRichOwnerCallback(HWND hwnd)
 
 void ProcessAllInputAreas(bool restoreText)
 {
-	for (int i=g_RichEditList.getCount(); i--; ) {
+	for (int i=g_RichEditList.getCount()-1; i >= 0; i--) {
 		RichEditData* rdt = g_RichEditList[i];
 		if (rdt->inputarea) {
 			if (restoreText) {
@@ -479,11 +459,11 @@ void ProcessAllInputAreas(bool restoreText)
 void  RichEditData_Destroy(void)
 {
 	int i;
-	for (i=g_RichEditList.getCount(); i--; ) 
+	for (i=g_RichEditList.getCount()-1; i >= 0; i--) 
 		CloseRichCallback(g_RichEditList[i]->hwnd);
 	g_RichEditList.destroy();
 
-	for (i=g_RichEditOwnerList.getCount(); i--; ) 
+	for (i=g_RichEditOwnerList.getCount()-1; i >= 0; i--) 
 		CloseRichOwnerCallback(g_RichEditOwnerList[i]->hwnd);
 	g_RichEditOwnerList.destroy();
 }

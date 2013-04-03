@@ -102,8 +102,7 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 
 	SMOBJLIST<T>& operator += (const SMOBJLIST<T>& lst)
 	{ 		
-		for (int i=0; i<lst.getCount(); ++i)
-		{
+		for (int i=0; i < lst.getCount(); i++) {
 			T *p = new T(lst[i]); 
 			insert(p);
 		}
@@ -112,7 +111,7 @@ template<class T> struct SMOBJLIST : public OBJLIST<T>
 
 	void splice(SMOBJLIST<T>& lst)
 	{
-		for (int i=0; i<lst.getCount(); ++i)
+		for (int i=0; i < lst.getCount(); i++)
 			insert(&lst[i]);
 		lst.LIST<T>::destroy();
 	}

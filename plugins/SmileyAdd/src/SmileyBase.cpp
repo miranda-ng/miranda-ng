@@ -374,7 +374,7 @@ void CloseSmileys(void)
 
 int CheckForTip(int x, int y, HWND hwnd, TCHAR** smltxt)
 {
-	for (int i=0; i < regSmileys.getCount(); ++i)
+	for (int i=0; i < regSmileys.getCount(); i++)
 		if (regSmileys[i]->QueryHitPointSpecial(x, y, hwnd, smltxt))
 			return i;
 

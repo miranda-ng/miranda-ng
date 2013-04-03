@@ -111,8 +111,7 @@ public:
 	{
 		regAniSmileys.remove(this);
 
-		if (timerId && (timerId+1) && regAniSmileys.getCount() == 0) 
-		{
+		if (timerId && (timerId+1) && regAniSmileys.getCount() == 0) {
 			KillTimer(NULL, timerId);
 			timerId = 0;
 		}
@@ -427,7 +426,7 @@ ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp)
 
 static void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD) 
 {
-	for (int i=0; i<regAniSmileys.getCount(); ++i)
+	for (int i=0; i < regAniSmileys.getCount(); i++)
 		regAniSmileys[i]->ProcessTimerTick();
 }
 

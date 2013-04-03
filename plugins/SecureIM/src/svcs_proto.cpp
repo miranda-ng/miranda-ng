@@ -60,25 +60,25 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		SAFE_FREE(szUnrtfMsg);
 		int len = (int)strlen(szEncMsg)+1;
 		LPWSTR szTemp = (LPWSTR)mir_alloc(len*sizeof(WCHAR));
-	   	if (ppre->flags & PREF_UNICODE)
-	   		rtfconvW((LPWSTR)(szEncMsg+len),szTemp);
-	   	else
-	   		rtfconvA(szEncMsg,szTemp);
-	   	len = (int)wcslen(szTemp)-1;
-	   	while(len) {
-	   		if (szTemp[len] == 0x0D || szTemp[len] == 0x0A )
-	   			szTemp[len] = 0;
-	   		else
-	   			break;
+		if (ppre->flags & PREF_UNICODE)
+			rtfconvW((LPWSTR)(szEncMsg+len),szTemp);
+		else
+			rtfconvA(szEncMsg,szTemp);
+		len = (int)wcslen(szTemp)-1;
+		while(len) {
+			if (szTemp[len] == 0x0D || szTemp[len] == 0x0A )
+				szTemp[len] = 0;
+			else
+				break;
 			len--;
-	   	}
-	   	len = (int)wcslen(&szTemp[1])+1;
-	   	szUnrtfMsg = (LPSTR)mir_alloc(len*(sizeof(WCHAR)+1));
+		}
+		len = (int)wcslen(&szTemp[1])+1;
+		szUnrtfMsg = (LPSTR)mir_alloc(len*(sizeof(WCHAR)+1));
 		WideCharToMultiByte(CP_ACP, 0, &szTemp[1], -1, szUnrtfMsg, len*(sizeof(WCHAR)+1), NULL, NULL);
 		memcpy(szUnrtfMsg+len,&szTemp[1],len*sizeof(WCHAR));
-	   	ppre->szMessage = szEncMsg = szUnrtfMsg;
-	   	ppre->flags |= PREF_UNICODE;
-	   	mir_free(szTemp);
+		ppre->szMessage = szEncMsg = szUnrtfMsg;
+		ppre->flags |= PREF_UNICODE;
+		mir_free(szTemp);
 	}
 
 	int ssig = getSecureSig(ppre->szMessage,&szEncMsg);
@@ -104,16 +104,10 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	if (ssig == SiG_NONE && !ptr->msgSplitted) {
 		Sent_NetLog("onRecvMsg: non-secure message");
 
-		if (ppre->flags & PREF_UNICODE)
-			szPlainMsg = m_awstrcat(Translate(sim402),szEncMsg);
-		else
-			szPlainMsg = m_aastrcat(Translate(sim402),szEncMsg);
-
+		mir_ptr<char> szPlainMsg((ppre->flags & PREF_UNICODE) ? m_awstrcat(Translate(sim402),szEncMsg) : m_aastrcat(Translate(sim402),szEncMsg));
 		ppre->szMessage = szPlainMsg;
 		pccsd->wParam |= PREF_SIMNOMETA;
-		int ret = CallService(MS_PROTO_CHAINRECV, wParam, lParam);
-		mir_free(szPlainMsg);
-		return ret;
+		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 	}
 
 	// received non-pgp secure message from disabled contact
@@ -195,16 +189,15 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			szNewMsg = m_ustrcat(Translate(sim403), szOldMsg);
 			szOldMsg = szNewMsg;
 		}
-		szNewMsg = utf8_to_miranda(szOldMsg,ppre->flags); pccsd->wParam = ppre->flags;
-		ppre->szMessage = szNewMsg;
+		mir_ptr<char> szMsgUtf( utf8_to_miranda(szOldMsg, ppre->flags));
+		pccsd->wParam = ppre->flags;
+		ppre->szMessage = szMsgUtf;
 
 		// show decoded message
 		showPopUpRM(ptr->hContact);
 		SAFE_FREE(ptr->msgSplitted);
 		pccsd->wParam |= PREF_SIMNOMETA;
-		int ret = CallService(MS_PROTO_CHAINRECV, wParam, lParam);
-		mir_free(szNewMsg);
-		return ret;
+		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 	}
 
 	Sent_NetLog("onRecvMsg: switch(ssig)=%d",ssig);
@@ -213,7 +206,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 	case SiG_PGPM:
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 
-	case SiG_SECU: { // new secured msg, pass to rsa_recv
+	case SiG_SECU: // new secured msg, pass to rsa_recv
 		Sent_NetLog("onRecvMsg: RSA/AES message");
 
 		if (ptr->mode == MODE_NATIVE) {
@@ -226,20 +219,21 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		if (exp->rsa_get_state(ptr->cntx) == 0 )
 		    showPopUpKR(ptr->hContact);
 
-		LPSTR szOldMsg = exp->rsa_recv(ptr->cntx,szEncMsg);
-		if (!szOldMsg )	return 1; // don't display it ...
+		{
+			LPSTR szOldMsg = exp->rsa_recv(ptr->cntx,szEncMsg);
+			if (!szOldMsg)
+				return 1; // don't display it ...
 
-		LPSTR szNewMsg = utf8_to_miranda(szOldMsg,ppre->flags); pccsd->wParam = ppre->flags;
-		ppre->szMessage = szNewMsg;
+			mir_ptr<char> szNewMsg( utf8_to_miranda(szOldMsg, ppre->flags));
+			pccsd->wParam = ppre->flags;
+			ppre->szMessage = szNewMsg;
 
-		// show decoded message
-		showPopUpRM(ptr->hContact);
-		SAFE_FREE(ptr->msgSplitted);
-		pccsd->wParam |= PREF_SIMNOMETA;
-		int ret = CallService(MS_PROTO_CHAINRECV, wParam, lParam);
-		mir_free(szNewMsg);
-		return ret;
-	} break;
+			// show decoded message
+			showPopUpRM(ptr->hContact);
+			SAFE_FREE(ptr->msgSplitted);
+			pccsd->wParam |= PREF_SIMNOMETA;
+			return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
+		}
 
 	case SiG_ENON: // online message
 		Sent_NetLog("onRecvMsg: Native SiG_ENON message");
@@ -250,7 +244,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			if (!ptr->decoded) {
 				mir_free(szPlainMsg);
 				SAFE_FREE(ptr->msgSplitted);
-				ptr->msgSplitted=mir_strdup(szEncMsg);
+				ptr->msgSplitted = mir_strdup(szEncMsg);
 				return 1; // don't display it ...
 			}
 		}
@@ -267,11 +261,9 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send back cipher message
 
-			LPSTR keyToSend = InitKeyA(ptr,0); // calculate public and private key
-
-			pccsd->lParam = (LPARAM) keyToSend;
+			mir_ptr<char> keyToSend( InitKeyA(ptr, 0)); // calculate public and private key
+			pccsd->lParam = (LPARAM)(char*)keyToSend;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam); // send new key
-			mir_free(keyToSend);
 
 			showPopUp(sim005,NULL,g_hPOP[POP_PU_DIS],0);
 			showPopUpKS(ptr->hContact);
@@ -309,10 +301,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 		if (cpp_keyx(ptr->cntx)) {
 			// decrypt sended back message and save message for future sending with a new secret key
-			szPlainMsg = decodeMsg(ptr,(LPARAM)pccsd,szEncMsg);
-			addMsg2Queue(ptr,pccsd->wParam,szPlainMsg);
-			mir_free(szPlainMsg);
-
+			addMsg2Queue(ptr, pccsd->wParam, mir_ptr<char>(decodeMsg(ptr,(LPARAM)pccsd,szEncMsg)));
 			showPopUpRM(ptr->hContact);
 			showPopUp(sim004,NULL,g_hPOP[POP_PU_DIS],0);
 		}
@@ -384,14 +373,13 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 			if (ptr->features & CPP_FEATURES_NEWPG) {
 				cpp_reset_context(ptr->cntx);
 
-				LPSTR keyToSend = InitKeyA(ptr,CPP_FEATURES_NEWPG|KEY_A_SIG); // calculate NEW public and private key
+				mir_ptr<char> keyToSend( InitKeyA(ptr,CPP_FEATURES_NEWPG|KEY_A_SIG)); // calculate NEW public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
 				pccsd->lParam = (LPARAM)keyToSend;
 				pccsd->szProtoService = PSS_MESSAGE;
 				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-				mir_free(keyToSend);
 
 				showPopUpKS(ptr->hContact);
 				waitForExchange(ptr); // запустим ожидание
@@ -400,14 +388,13 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 
 			// auto send my public key to keyB user if not done before
 			if (!cpp_keya(ptr->cntx)) {
-				LPSTR keyToSend = InitKeyA(ptr,0); // calculate public and private key
+				mir_ptr<char> keyToSend( InitKeyA(ptr,0)); // calculate public and private key
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
 
 				pccsd->wParam |= PREF_METANODB;
 				pccsd->lParam = (LPARAM)keyToSend;
 				pccsd->szProtoService = PSS_MESSAGE;
 				CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-				mir_free(keyToSend);
 
 				showPopUpKS(ptr->hContact);
 			}
@@ -536,13 +523,12 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			if (!ptr->keyLoaded ) return returnError(pccsd->hContact,Translate(sim108));
 
 			LPSTR szNewMsg = NULL;
-			LPSTR szUtfMsg = miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam);
+			mir_ptr<char> szUtfMsg( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam));
 			if (ptr->keyLoaded == 1) // PGP
 				szNewMsg = pgp_encode(ptr->cntx,szUtfMsg);
 			else if (ptr->keyLoaded == 2) // GPG
 				szNewMsg = gpg_encode(ptr->cntx,szUtfMsg);
 
-			mir_free(szUtfMsg);
 			if (!szNewMsg)
 				return returnError(pccsd->hContact,Translate(sim109));
 
@@ -585,9 +571,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			}
 
 			// шлем шифрованное в оффлайн
-			LPSTR szUtfMsg = miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam);
-			exp->rsa_send(ptr->cntx,szUtfMsg);
-			mir_free(szUtfMsg);
+			exp->rsa_send(ptr->cntx, mir_ptr<char>( miranda_to_utf8((LPCSTR)pccsd->lParam,pccsd->wParam)));
 			showPopUpSM(ptr->hContact);
 			return returnNoError(pccsd->hContact);
 		}
@@ -766,15 +750,14 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 	if (cpp_keyx(ptr->cntx)) {
 		Sent_NetLog("onSendMsg: cryptokey exist");
 
-		LPSTR szNewMsg = encodeMsg(ptr,(LPARAM)pccsd);
+		mir_ptr<char> szNewMsg( encodeMsg(ptr,(LPARAM)pccsd));
 		Sent_NetLog("onSend: encrypted msg '%s'",szNewMsg);
 
 		pccsd->wParam |= PREF_METANODB;
-		pccsd->lParam = (LPARAM) szNewMsg;
+		pccsd->lParam = (LPARAM)(char*)szNewMsg;
 		pccsd->szProtoService = PSS_MESSAGE;
 		int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-		mir_free(szNewMsg);
 		showPopUpSM(ptr->hContact);
 		return ret;
 	}
@@ -788,7 +771,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 
 		if (!ptr->waitForExchange) {
 			// init || always_try || always_if_possible
-			LPSTR keyToSend = InitKeyA(ptr,0);	// calculate public and private key & fill KeyA
+			mir_ptr<char> keyToSend( InitKeyA(ptr,0));	// calculate public and private key & fill KeyA
 			Sent_NetLog("Sending KEY3: %s", keyToSend);
 
 			pccsd->wParam &= ~PREF_UNICODE;
@@ -796,7 +779,6 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			pccsd->lParam = (LPARAM) keyToSend;
 			pccsd->szProtoService = PSS_MESSAGE;
 			CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-			mir_free(keyToSend);
 
 			showPopUpKS(pccsd->hContact);
 			ShowStatusIconNotify(pccsd->hContact);
