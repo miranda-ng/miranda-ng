@@ -28,6 +28,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn,HANDLE hContact = NULL);
 BOOL ProtocolEnabled(const char *proto);
 int FillAvatarListFromDB(HWND list, HANDLE hContact);
 int FillAvatarListFromFolder(HWND list, HANDLE hContact);
+int FillAvatarListFromFiles(HWND list, HANDLE hContact);
 int CleanupAvatarPic(HWND hwnd);
 BOOL UpdateAvatarPic(HWND hwnd);
 TCHAR* GetCurrentSelFile(HWND list);
@@ -130,8 +131,11 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)createDefaultOverlayedIcon(FALSE));
 			if (db_get_b(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
 				FillAvatarListFromDB(hwndList, data->hContact);
-			else if (opts.log_per_contact_folders)
+			else if (opts.log_store_as_hash)
 				FillAvatarListFromFolder(hwndList, data->hContact);
+			else
+				FillAvatarListFromFiles(hwndList, data->hContact);
+
 			TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)data->hContact,GCDNF_TCHAR);
 			if (displayName)
 			{
@@ -364,10 +368,54 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 	return FALSE;
 }
 
+
+int AddFileToList(TCHAR *path,TCHAR *lnk,TCHAR *filename, HWND list)
+{
+	// Add to list
+	ListEntry *le = new ListEntry();
+	le->filename = mir_tstrdup(path);
+	le->filelink = mir_tstrdup(lnk);
+
+	TCHAR *p = _tcschr(filename, _T('.'));
+	if (p != NULL)
+		p[0] = _T('\0');
+	int max_pos = SendMessage(list, LB_ADDSTRING, 0, (LPARAM)filename);
+	SendMessage(list, LB_SETITEMDATA, max_pos, (LPARAM)le);
+	return max_pos;
+}
+
+int FillAvatarListFromFiles(HWND list, HANDLE hContact)
+{
+	int max_pos = 0;
+	TCHAR dir[MAX_PATH], path[MAX_PATH];
+	WIN32_FIND_DATA finddata;
+
+	GetContactFolder(dir, hContact);
+	mir_sntprintf(path, MAX_PATH, _T("%s\\*.*"), dir);
+	ShowPopup(hContact,_T("look sc"),path);
+
+	HANDLE hFind = FindFirstFile(path, &finddata);
+	if (hFind == INVALID_HANDLE_VALUE)
+		return 0;
+
+	do
+	{
+		if (finddata.cFileName[0] != '.')
+		{
+			mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), dir, finddata.cFileName);
+			max_pos = AddFileToList(path,finddata.cFileName,finddata.cFileName,list);
+		}
+	}
+		while(FindNextFile(hFind, &finddata));
+	FindClose(hFind);
+	SendMessage(list, LB_SETCURSEL, max_pos, 0); // Set to first item
+	return 0;
+}
+
 int FillAvatarListFromFolder(HWND list, HANDLE hContact)
 {
 	int max_pos = 0;
-	TCHAR dir[MAX_PATH], path[MAX_PATH], lnk[MAX_PATH];
+	TCHAR dir[MAX_PATH], path[MAX_PATH];
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
@@ -381,20 +429,10 @@ int FillAvatarListFromFolder(HWND list, HANDLE hContact)
 	{
 		if (finddata.cFileName[0] != '.')
 		{
+			TCHAR lnk[MAX_PATH];
 			mir_sntprintf(lnk, MAX_PATH, _T("%s\\%s"), dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
-			{
-				// Add to list
-				ListEntry *le = new ListEntry();
-				le->filename = mir_tstrdup(path);
-				le->filelink = mir_tstrdup(lnk);
-
-				TCHAR *p = _tcschr(finddata.cFileName, _T('.'));
-				if (p != NULL)
-					p[0] = _T('\0');
-				max_pos = SendMessage(list, LB_ADDSTRING, 0, (LPARAM)finddata.cFileName);
-				SendMessage(list, LB_SETITEMDATA, max_pos, (LPARAM)le);
-			}
+				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
 		}
 	}
 		while(FindNextFile(hFind, &finddata));
