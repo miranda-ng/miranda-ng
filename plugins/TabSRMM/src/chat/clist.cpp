@@ -85,7 +85,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	if ((hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0)) == NULL)
 		return NULL;
 
-	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) pszModule);
+	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)pszModule);
 	if (pszGroup && lstrlen(pszGroup) > 0)
 		CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, (LPARAM)g_Settings.hGroup);
 	else
@@ -106,7 +106,7 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 			return FALSE;
 
 		int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
-		DBWriteContactSettingWord(hContact, szProto, "ApparentMode", (LPARAM) 0);
+		DBWriteContactSettingWord(hContact, szProto, "ApparentMode", (LPARAM)0);
 		DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}
@@ -185,7 +185,7 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CList_EventDoubleclicked(WPARAM wParam, LPARAM lParam)
 {
-	return CList_RoomDoubleclicked((WPARAM)((CLISTEVENT*)lParam)->hContact, (LPARAM) 0);
+	return CList_RoomDoubleclicked((WPARAM)((CLISTEVENT*)lParam)->hContact, (LPARAM)0);
 }
 
 INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
@@ -290,11 +290,11 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, const T
 	cle.ptszTooltip = TranslateTS(szBuf);
 	if (type) {
 		if (!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
-			CallService(MS_CLIST_ADDEVENT, (WPARAM) hContact, (LPARAM) &cle);
+			CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
 	} else {
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)"chaticon");
-		CallService(MS_CLIST_ADDEVENT, (WPARAM) hContact, (LPARAM) &cle);
+		CallService(MS_CLIST_ADDEVENT, (WPARAM)hContact, (LPARAM)&cle);
 	}
 	return TRUE;
 }

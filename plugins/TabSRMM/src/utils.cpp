@@ -309,7 +309,7 @@ ok:
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
 			smbp.str = (TCHAR *)smcode.c_str();
 			smbp.hContact = dat->hContact;
-			smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM) & smbp);
+			smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)& smbp);
 			if (smbpr) {
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
 				beginmark = endmark + 1;
@@ -1063,13 +1063,13 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
 	TEXTRANGEW 	tr = {0};
 	CHARRANGE 	sel = {0};
 
-	::SendMessageW(hwndRich, EM_EXGETSEL, 0, (LPARAM) & sel);
+	::SendMessageW(hwndRich, EM_EXGETSEL, 0, (LPARAM)& sel);
 	if (sel.cpMin != sel.cpMax)
 		return 0;
 
 	tr.chrg = _e->chrg;
 	tr.lpstrText = (wchar_t *)mir_alloc(2 * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
-	::SendMessageW(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
+	::SendMessageW(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
 	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
 		::MoveMemory(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 1));
 		::CopyMemory(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
@@ -1385,7 +1385,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
 			::SendMessage(hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(::LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA)));
 			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(::LoadSkinnedIcon(SKINICON_OTHER_MIRANDA)));
-			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, (WPARAM) TRUE, 0);
+			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, (WPARAM)TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
 			mir_sntprintf(temp, 1024, RTF_DEFAULT_HEADER, 0, 0, 0, 30*15);

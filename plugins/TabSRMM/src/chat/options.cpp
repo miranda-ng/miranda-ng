@@ -487,7 +487,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	GetClientRect (hwndParent, &ti.rect);
 	ti.rect.left =- 85;
 
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO) &ti);
 	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
 	return hwndTT;
 }

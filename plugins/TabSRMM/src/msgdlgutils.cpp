@@ -187,7 +187,7 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	ofn.lpstrInitialDir = szFinalPath;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lCustData = (LPARAM) & setView;
+	ofn.lCustData = (LPARAM)& setView;
 	if (GetSaveFileName(&ofn)) {
 		if (PathFileExists(szFinalFilename)) {
 			if (MessageBox(0, TranslateT("The file exists. Do you want to overwrite it?"),
@@ -351,11 +351,11 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	if (menuId == MENU_PICMENU || menuId == MENU_PANELPICMENU || menuId == MENU_TABCONTEXT) {
 		switch (selection) {
 			case ID_TABMENU_ATTACHTOCONTAINER:
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM) hwndDlg);
+				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)hwndDlg);
 				return 1;
 			case ID_TABMENU_CONTAINEROPTIONS:
 				if (dat->pContainer->hWndOptions == 0)
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM) dat->pContainer);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)dat->pContainer);
 				return 1;
 			case ID_TABMENU_CLOSECONTAINER:
 				SendMessage(dat->pContainer->hwnd, WM_CLOSE, 0, 0);
@@ -480,7 +480,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 			gtxl.codepage = CP_UTF8;
 			gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
-			len = SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
+			len = SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
 		}
 
 		fCaps = (GetKeyState(VK_CAPITAL) & 1);
@@ -496,7 +496,7 @@ void TSAPI UpdateReadChars(const TWindowData *dat)
 			lstrcat(szIndicators, _T(" | "));
 
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s%s %d/%d"), szIndicators, dat->lcID, dat->iOpenJobs, len);
-		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM) buf);
+		SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 1, (LPARAM)buf);
 		if (PluginConfig.m_visualMessageSizeIndicator)
 			InvalidateRect(dat->pContainer->hwndStatus, NULL, FALSE);
 	}
@@ -900,7 +900,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, struct TWindowData *dat, HANDLE hEvent, DB
 		cle.hDbEvent = hEvent;
 		cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		cle.pszService = "SRMsg/ReadMessage";
-		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 		dat->dwFlagsEx |= MWF_SHOW_FLASHCLIST;
 		dat->hFlashingEvent = hEvent;
 	}
@@ -955,7 +955,7 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData* dat, DWORD dw
 		dwFlags = (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE);
 	else
 		dwFlags = (CP_UTF8 << 16) | dwPassedFlags;
-	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM) & stream);
+	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)& stream);
 
 	return pszText; // pszText contains the text
 }
@@ -1212,7 +1212,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());
 	ci.dwFlag = CNF_TCHAR | CNF_DISPLAYUID;
 
-	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_sntprintf(dat->myUin, SIZEOF(dat->myUin), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
@@ -1592,7 +1592,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 			pf2.wEffects = 0;
 			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		}
-		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETLANGOPTIONS, 0, (LPARAM) SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	}
 }
 
@@ -2256,8 +2256,8 @@ static void TSAPI MTH_updatePreview(const TWindowData *dat)
 	mathWndInfo.right = windRect.right;
 	mathWndInfo.bottom = windRect.bottom;
 
-	CallService(MTH_SETFORMULA, 0, (LPARAM) thestr);
-	CallService(MTH_RESIZE, 0, (LPARAM) &mathWndInfo);
+	CallService(MTH_SETFORMULA, 0, (LPARAM)thestr);
+	CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
 	free(thestr);
 }
 

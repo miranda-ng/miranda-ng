@@ -40,7 +40,7 @@ void    TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam);
 void    TSAPI DM_LoadLocale(TWindowData *dat);
 void    TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam);
 void    TSAPI DM_UpdateLastMessage(const TWindowData *dat);
-LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam);
+LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, struct TWindowData *mwdat, WPARAM wParam, LPARAM lParam);
 LRESULT TSAPI DM_ThemeChanged(TWindowData *dat);
 void    TSAPI DM_Typing(TWindowData *dat, bool fForceOff = false);

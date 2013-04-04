@@ -74,9 +74,9 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					LRESULT iItem;
 
 					if ((iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETCURSEL, 0, 0)) != LB_ERR) {
-						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM) iItem, (LPARAM) szName);
+						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 						if (IsWindow(hwndMsgDlg))
-							SendMessage(hwndMsgDlg, DM_CONTAINERSELECTED, 0, (LPARAM) szName);
+							SendMessage(hwndMsgDlg, DM_CONTAINERSELECTED, 0, (LPARAM)szName);
 					}
 					if (IsWindow(hwndDlg))
 						DestroyWindow(hwndDlg);
@@ -90,7 +90,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					LRESULT iItem;
 
 					if ((iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETCURSEL, 0, 0)) != LB_ERR) {
-						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM) iItem, (LPARAM) szName);
+						SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 						if (!_tcsncmp(szName, _T("default"), CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
 							MessageBox(hwndDlg, TranslateT("You cannot delete the default container"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						else {
@@ -116,10 +116,10 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							break;
 						}
 
-						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM) - 1, (LPARAM) szNewName);
+						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
 						if (iItem != LB_ERR) {
 							TCHAR szOldName[CONTAINER_NAMELEN + 1];
-							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM) iItem, (LPARAM) szOldName);
+							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szOldName);
 							if (lstrlen(szOldName) == lstrlen(szNewName)) {
 								MessageBox(0, TranslateT("This name is already in use"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 								SetFocus(GetDlgItem(hwndDlg, IDC_NEWCONTAINERNAME));
@@ -127,7 +127,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							}
 						}
 						if ((iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETCURSEL, 0, 0)) != LB_ERR) {
-							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM) iItem, (LPARAM) szName);
+							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 							if (!_tcsncmp(szName, _T("default"), CONTAINER_NAMELEN) || !_tcsncmp(szName, TranslateT("Default container"), CONTAINER_NAMELEN))
 								MessageBox(hwndDlg, TranslateT("You cannot rename the default container"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 							else {
@@ -155,7 +155,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_NEWCONTAINER));
 					if (iLen) {
 						GetWindowText(GetDlgItem(hwndDlg, IDC_NEWCONTAINER), szNewName, CONTAINER_NAMELEN);
-						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM) - 1, (LPARAM) szNewName);
+						iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)szNewName);
 						if (iItem != LB_ERR || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_GETTEXT, (WPARAM)iItem, (LPARAM)szName);
 							if (lstrlen(szName) == lstrlen(szNewName) || !_tcsncmp(szNewName, CGlobals::m_default_container_name, CONTAINER_NAMELEN)) {
@@ -165,7 +165,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							}
 						}
 						if (IsWindow(hwndMsgDlg)) {
-							SendMessage(hwndMsgDlg, DM_CONTAINERSELECTED, 0, (LPARAM) szNewName);
+							SendMessage(hwndMsgDlg, DM_CONTAINERSELECTED, 0, (LPARAM)szNewName);
 							if (IsWindow(hwndDlg))
 								DestroyWindow(hwndDlg);
 						}
@@ -210,10 +210,10 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (pContainer) {
 				LRESULT iItem;
 
-				iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM) - 1, (LPARAM)(!_tcscmp(pContainer->szName, _T("default")) ?
+				iItem = SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_FINDSTRING, (WPARAM)- 1, (LPARAM)(!_tcscmp(pContainer->szName, _T("default")) ?
 										   TranslateT("Default container") : pContainer->szName));
 				if (iItem != LB_ERR)
-					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETCURSEL, (WPARAM) iItem, 0);
+					SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETCURSEL, (WPARAM)iItem, 0);
 			}
 		}
 		break;

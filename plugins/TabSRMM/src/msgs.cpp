@@ -307,7 +307,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
 			SendMessage(hEdit, EM_REPLACESEL, FALSE, (LPARAM)(TCHAR *) lParam);
 		}
-		SendMessage(hwnd, DM_ACTIVATEME, 0, (LPARAM) 0);
+		SendMessage(hwnd, DM_ACTIVATEME, 0, (LPARAM)0);
 	} else {
 		TCHAR szName[CONTAINER_NAMELEN + 1];
 
@@ -386,7 +386,7 @@ static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
 
 	if (!cle)
 		return 0;
-	SendMessageCommand((WPARAM) cle->hContact, 0);
+	SendMessageCommand((WPARAM)cle->hContact, 0);
 	return 0;
 }
 
@@ -619,7 +619,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		nmhdr.code = TCN_SELCHANGE;
 		if (TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS)) > 1 && !(pContainer->dwFlags & CNT_DEFERREDTABSELECT)) {
 			TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), GetTabIndexFromHWND(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), hwndChild));
-			SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM) &nmhdr);	// just select the tab and let WM_NOTIFY do the rest
+			SendMessage(pContainer->hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
 		}
 		if (dat->bType == SESSIONTYPE_IM)
 			SendMessage(pContainer->hwnd, DM_UPDATETITLE, (WPARAM)dat->hContact, 0);
@@ -691,7 +691,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	ZeroMemory((void*)&newData.item, sizeof(newData.item));
 
 	// obtain various status information about the contact
-	TCHAR *contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) newData.hContact, GCDNF_TCHAR);
+	TCHAR *contactName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)newData.hContact, GCDNF_TCHAR);
 
 	/*
 	 * cut nickname if larger than x chars...
@@ -760,7 +760,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM) & newData);
+	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)& newData);
 	/*
 	 * switchbar support
 	 */

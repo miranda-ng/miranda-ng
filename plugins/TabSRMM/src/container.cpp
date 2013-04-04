@@ -194,7 +194,7 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 		pContainer->dwFlags |= CNT_CREATE_CLONED;
 		pContainer->hContactFrom = hContactFrom;
 	}
-	pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM) pContainer);
+	pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM)pContainer);
 	return pContainer;
 }
 
@@ -851,7 +851,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				mathWndInfo.left = windRect.left;
 				mathWndInfo.right = windRect.right;
 				mathWndInfo.bottom = windRect.bottom;
-				CallService(MTH_RESIZE, 0, (LPARAM) &mathWndInfo);
+				CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
 			}
 			if ((CSkin::m_bClipBorder != 0 || CSkin::m_bRoundedCorner) && CSkin::m_frameSkins) {
 				HRGN rgn;
@@ -917,10 +917,10 @@ panel_found:
 					SendMessage(pContainer->hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 					if (hContact) {
 						int iSel = 0;
-						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) hContact, 0);
+						hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 						iSel = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 						if (iSel)
-							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM) hContact);
+							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSel), MPCF_CONTACTMENU), (LPARAM)hContact);
 						DestroyMenu(hMenu);
 					}
 				}
@@ -994,7 +994,7 @@ panel_found:
 					mir_snprintf(szIndex, 8, "%d", iSelection - IDM_CONTAINERMENU);
 					if (iSelection - IDM_CONTAINERMENU >= 0) {
 						if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
-							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, (LPARAM) dbv.ptszVal);
+							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
 							DBFreeVariant(&dbv);
 						}
 					}
@@ -1032,11 +1032,11 @@ panel_found:
 					ZeroMemory((void*)&item, sizeof(item));
 					item.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwndTab, iItem, &item);
-					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM) item.lParam);
+					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)item.lParam);
 					break;
 				case ID_TABMENU_CONTAINEROPTIONS:
 					if (pContainer->hWndOptions == 0)
-						CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM) pContainer);
+						CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CONTAINEROPTIONS), hwndDlg, DlgProcContainerOptions, (LPARAM)pContainer);
 					break;
 				case ID_TABMENU_CLOSECONTAINER:
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -1235,7 +1235,7 @@ panel_found:
 			mathWndInfo.left = windRect.left;
 			mathWndInfo.right = windRect.right;
 			mathWndInfo.bottom = windRect.bottom;
-			CallService(MTH_RESIZE, 0, (LPARAM) &mathWndInfo);
+			CallService(MTH_RESIZE, 0, (LPARAM)&mathWndInfo);
 		}
 		break;
 
@@ -1355,8 +1355,9 @@ panel_found:
 			TCITEM item;
 
 		case DM_SELECT_BY_HWND:
-			ActivateTabFromHWND(hwndTab, (HWND) lParam);
+			ActivateTabFromHWND(hwndTab, (HWND)lParam);
 			break;
+
 		case DM_SELECT_NEXT:
 		case DM_SELECT_PREV:
 		case DM_SELECT_BY_INDEX:
@@ -1453,7 +1454,7 @@ panel_found:
 				nmhdr.code = TCN_SELCHANGE;
 				nmhdr.hwndFrom = hwndTab;
 				nmhdr.idFrom = IDC_MSGTABS;
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM) &nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
+				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 			}
 			if (pContainer->dwFlags & CNT_DEFERREDSIZEREQUEST) {
 				pContainer->dwFlags &= ~CNT_DEFERREDSIZEREQUEST;
@@ -1769,11 +1770,11 @@ panel_found:
 
 			if (wParam == DM_QUERY_NEXT && ri.iFirstIndex != -1) {
 				TabCtrl_SetCurSel(hwndTab,  ri.iFirstIndex);
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM) &nmhdr);
+				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);
 			}
 			if (wParam == DM_QUERY_MOSTRECENT && ri.iMostRecent != -1) {
 				TabCtrl_SetCurSel(hwndTab, ri.iMostRecent);
-				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM) &nmhdr);
+				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);
 			}
 		}
 		return 0;
@@ -2137,14 +2138,13 @@ HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
 
 int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 {
-	NMHDR nmhdr;
-
 	int iItem = GetTabIndexFromHWND(hwndTab, hwnd);
 	if (iItem >= 0) {
 		TabCtrl_SetCurSel(hwndTab, iItem);
-		ZeroMemory((void*)&nmhdr, sizeof(nmhdr));
+
+		NMHDR nmhdr = { 0 };
 		nmhdr.code = TCN_SELCHANGE;
-		SendMessage(GetParent(hwndTab), WM_NOTIFY, 0, (LPARAM) &nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
+		SendMessage(GetParent(hwndTab), WM_NOTIFY, 0, (LPARAM)&nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 		return iItem;
 	}
 	return -1;

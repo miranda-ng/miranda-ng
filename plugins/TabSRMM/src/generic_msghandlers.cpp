@@ -77,7 +77,7 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData* dat)
 			stream.dwCookie = (DWORD_PTR)szFilename;
 			stream.dwError = 0;
 			stream.pfnCallback = Utils::StreamOut;
-			SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG, EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM) & stream);
+			SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG, EM_STREAMOUT, SF_RTF | SF_USECODEPAGE, (LPARAM)& stream);
 		}
 	}
 }
@@ -301,12 +301,12 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		if (GetKeyState(VK_SHIFT) & 0x8000)   // copy UIN
 			SendMessage(hwndDlg, DM_UINTOCLIPBOARD, 0, 0);
 		else {
-			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) (dat->cache->getActiveContact()), 0);
+			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)(dat->cache->getActiveContact()), 0);
 		}
 		break;
 
 	case IDC_HISTORY:
-		CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) dat->hContact, 0);
+		CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
 		break;
 
 	case IDC_SMILEYBTN:
@@ -329,7 +329,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				smaddInfo.yPosition = rc.top + 24;
 				smaddInfo.hwndParent = hwndContainer;
 				smaddInfo.hContact = hContact;
-				CallService(MS_SMILEYADD_SHOWSELECTION, (WPARAM)hwndContainer, (LPARAM) &smaddInfo);
+				CallService(MS_SMILEYADD_SHOWSELECTION, (WPARAM)hwndContainer, (LPARAM)&smaddInfo);
 			}
 		}
 		break;
@@ -582,7 +582,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		break;
 
 	case IDC_PROTOCOL:
-		submenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) dat->hContact, 0);
+		submenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)dat->hContact, 0);
 		if (lParam == 0)
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), &rc);
 		else
@@ -590,7 +590,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL);
 		if (iSelection)
-			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSelection), MPCF_CONTACTMENU), (LPARAM) dat->hContact);
+			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(iSelection), MPCF_CONTACTMENU), (LPARAM)dat->hContact);
 
 		DestroyMenu(submenu);
 		break;
@@ -839,7 +839,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		pf2.wEffects = 0;
 		SendMessage(hwndEdit, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 	}
-	SendMessage(hwndEdit, EM_SETLANGOPTIONS, 0, (LPARAM) SendMessage(hwndEdit, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+	SendMessage(hwndEdit, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwndEdit, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask |= PFM_OFFSET;
 	if (dat->dwFlags & MWF_INITMODE) {
@@ -851,7 +851,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	if (!fIsChat) {
 		SetWindowText(hwndLog, _T(""));
 		SendMessage(hwndLog, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
-		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM) SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
+		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 	}
 
 	/*
@@ -1155,7 +1155,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 
 	TCHAR szBuf[100];
 	if (dat->showTyping) {
-		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+		SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 		mir_sntprintf(szBuf, SIZEOF(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
 	}
 	else {
@@ -1204,9 +1204,9 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 * it filters out the invisible event boundary markers from the text copied to the clipboard.
 */
 
-LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam)
+LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, WM_COPY, wParam, lParam);
+	LRESULT result = mir_callNextSubclass(hwnd, oldWndProc, msg, wParam, lParam);
 
 	if (OpenClipboard(hwnd)) {
 		HANDLE hClip = GetClipboardData(CF_UNICODETEXT);
@@ -1247,7 +1247,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
 								 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
-	HANDLE hItem = (HANDLE) SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM) dat->hContact, 0);
+	HANDLE hItem = (HANDLE) SendMessage(hwndClist, CLM_FINDCONTACT, (WPARAM)dat->hContact, 0);
 
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
@@ -1256,16 +1256,16 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_HIDEOFFLINE);
 
 	if (hItem)
-		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM) hItem, 1);
+		SendMessage(hwndClist, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !M->GetByte("CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM)FALSE, 0);
 	else
-		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
+		SendMessage(hwndClist, CLM_SETUSEGROUPS, (WPARAM)TRUE, 0);
 	if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && M->GetByte("CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM) TRUE, 0);
+		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM)TRUE, 0);
 	else
-		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM) FALSE, 0);
+		SendMessage(hwndClist, CLM_SETHIDEEMPTYGROUPS, (WPARAM)FALSE, 0);
 	SendMessage(hwndClist, CLM_FIRST + 106, 0, 1);
 	SendMessage(hwndClist, CLM_AUTOREBUILD, 0, 0);
 	if (hwndClist)
@@ -1455,7 +1455,7 @@ void TSAPI DM_NotifyTyping(struct TWindowData *dat, int mode)
 			return;
 		// End user check
 		dat->nTypeMode = mode;
-		CallService(MS_PROTO_SELFISTYPING, (WPARAM) hContact, dat->nTypeMode);
+		CallService(MS_PROTO_SELFISTYPING, (WPARAM)hContact, dat->nTypeMode);
 	}
 }
 
@@ -1540,7 +1540,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				mir_sntprintf(dat->szStatusBar, SIZEOF(dat->szStatusBar),
 						  TranslateT("%s has entered text."), dat->cache->getNick());
 				if (hwndStatus && dat->pContainer->hwndActive == hwndDlg)
-					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM) dat->szStatusBar);
+					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
 			}
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 			HandleIconFeedback(dat, (HICON) - 1);
@@ -1567,8 +1567,8 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 
 			dat->nTypeSecs--;
 			if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
-				SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM) dat->szStatusBar);
-				SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+				SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)dat->szStatusBar);
+				SendMessage(hwndStatus, SB_SETICON, 0, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 			}
 			if (IsIconic(hwndContainer) || GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer) {
 				SetWindowText(hwndContainer, dat->szStatusBar);

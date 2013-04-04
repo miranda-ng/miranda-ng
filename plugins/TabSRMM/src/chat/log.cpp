@@ -987,16 +987,16 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		scroll.cbSize = sizeof(SCROLLINFO);
 		scroll.fMask = SIF_RANGE | SIF_POS | SIF_PAGE;
 		GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &scroll);
-		SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM) &point);
+		SendMessage(hwndRich, EM_GETSCROLLPOS, 0, (LPARAM)&point);
 
 		// do not scroll to bottom if there is a selection
-		SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM) &oldsel);
+		SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&oldsel);
 		if (oldsel.cpMax != oldsel.cpMin)
 			SendMessage(hwndRich, WM_SETREDRAW, FALSE, 0);
 
 		//set the insertion point at the bottom
 		sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & sel);
+		SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& sel);
 
 		// fix for the indent... must be a M$ bug
 		if (sel.cpMax == 0)
@@ -1020,7 +1020,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		// stream in the event(s)
 		streamData.lin = lin;
 		streamData.bRedraw = bRedraw;
-		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM) & stream);
+		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)& stream);
 
 
 		//SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&newsel);
@@ -1104,21 +1104,19 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		* run smileyadd
 		*/
 		if (PluginConfig.g_SmileyAddAvail && fDoReplace) {
-			SMADD_RICHEDIT3 sm = {0};
-
 			newsel.cpMax = -1;
 			newsel.cpMin = sel.cpMin;
 			if (newsel.cpMin < 0)
 				newsel.cpMin = 0;
-			ZeroMemory(&sm, sizeof(sm));
-			sm.cbSize = sizeof(sm);
+
+			SMADD_RICHEDIT3 sm = { sizeof(sm) };
 			sm.hwndRichEditControl = hwndRich;
 			sm.Protocolname = si->pszModule;
 			sm.rangeToReplace = bRedraw ? NULL : &newsel;
 			sm.disableRedraw = TRUE;
 			sm.hContact = si->hContact;
 			CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
-			}
+		}
 
 		/*
 		* trim the message log to the number of most recent events
@@ -1148,11 +1146,11 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		if ((bRedraw || (UINT)scroll.nPos >= (UINT)scroll.nMax - scroll.nPage - 5 || scroll.nMax - scroll.nMin - scroll.nPage < 50))
 			SendMessage(GetParent(hwndRich), GC_SCROLLTOBOTTOM, 0, 0);
 		else
-			SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM) &point);
+			SendMessage(hwndRich, EM_SETSCROLLPOS, 0, (LPARAM)&point);
 
 		// do we need to restore the selection
 		if (oldsel.cpMax != oldsel.cpMin) {
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & oldsel);
+			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& oldsel);
 			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 			InvalidateRect(hwndRich, NULL, TRUE);
 		}
@@ -1160,7 +1158,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		// need to invalidate the window
 		if (bFlag) {
 			sel.cpMin = sel.cpMax = GetRichTextLength(hwndRich);
-			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM) & sel);
+			SendMessage(hwndRich, EM_EXSETSEL, 0, (LPARAM)& sel);
 			SendMessage(hwndRich, WM_SETREDRAW, TRUE, 0);
 			InvalidateRect(hwndRich, NULL, TRUE);
 		}

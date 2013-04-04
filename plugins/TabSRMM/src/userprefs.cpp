@@ -50,7 +50,7 @@ static BOOL CALLBACK FillCpCombo(LPCTSTR str)
 	cp = _ttoi(str);
 	for (i=0; cpTable[i].cpName != NULL && cpTable[i].cpId != cp; i++);
 	if (cpTable[i].cpName != NULL) {
-		LRESULT iIndex = SendMessage(hCpCombo, CB_ADDSTRING, -1, (LPARAM) TranslateTS(cpTable[i].cpName));
+		LRESULT iIndex = SendMessage(hCpCombo, CB_ADDSTRING, -1, (LPARAM)TranslateTS(cpTable[i].cpName));
 		SendMessage(hCpCombo, CB_SETITEMDATA, (WPARAM)iIndex, cpTable[i].cpId);
 	}
 	return TRUE;

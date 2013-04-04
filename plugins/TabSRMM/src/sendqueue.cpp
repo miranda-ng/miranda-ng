@@ -389,8 +389,8 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		int	iSendLength = getSendLength(iEntry, dat->sendMode);
 
 		do {
-			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
-			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0)) {
+			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				c = CContactCache::getContactCache(hContact);
 				if (c)
 					iMinLength = (iMinLength == 0 ? c->getMaxMessageLength() : min(c->getMaxMessageLength(), iMinLength));
@@ -408,8 +408,8 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 		hContact = db_find_first();
 		do {
-			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM) hContact, 0);
-			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM) hItem, 0)) {
+			hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+			if (hItem && SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0)) {
 				doSendLater(iEntry, 0, hContact, false);
 				iJobs++;
 			}
@@ -482,7 +482,7 @@ send_unsplitted:
 				clearJob(iEntry);
 				return 0;
 			}
-			m_jobs[iEntry].hSendId = (HANDLE) CallContactService(dat->hContact, MsgServiceName(dat->hContact, dat, m_jobs[iEntry].dwFlags), (dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM) m_jobs[iEntry].sendBuffer);
+			m_jobs[iEntry].hSendId = (HANDLE) CallContactService(dat->hContact, MsgServiceName(dat->hContact, dat, m_jobs[iEntry].dwFlags), (dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].sendBuffer);
 
 			if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
 				ACKDATA ack = {0};
@@ -596,7 +596,7 @@ void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 {
 	if (dat) {
 		HWND hwndDlg = dat->hwnd;
-		::SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, (WPARAM) iMode ? FALSE : TRUE, 0);
+		::SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, (WPARAM)iMode ? FALSE : TRUE, 0);
 		Utils::enableDlgControl(hwndDlg, IDC_CLIST, iMode ? TRUE : FALSE);
 		::EnableSendButton(dat, iMode);
 	}
@@ -651,7 +651,7 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 				SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].sendBuffer);
 			}
 			UpdateSaveAndSendButton(const_cast<TWindowData *>(dat));
-			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM) - 1, (LPARAM) - 1);
+			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
 		}
 	}
 }
@@ -666,7 +666,7 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 		gtxl.codepage = CP_UTF8;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
-		len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
+		len = SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
 		if (len && GetSendButtonState(hwndDlg) == PBS_DISABLED)
 			EnableSendButton(dat, TRUE);
 		else if (len == 0 && GetSendButtonState(hwndDlg) != PBS_DISABLED)
@@ -674,14 +674,14 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 
 		if (len) {          // looks complex but avoids flickering on the button while typing.
 			if (!(dat->dwFlags & MWF_SAVEBTN_SAV)) {
-				SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
-				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM) pszIDCSAVE_save, 0);
+				SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE]);
+				SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_save, 0);
 				dat->dwFlags |= MWF_SAVEBTN_SAV;
 			}
 		}
 		else {
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
-			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM) pszIDCSAVE_close, 0);
+			SendDlgItemMessage(hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
+			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, 0);
 			dat->dwFlags &= ~MWF_SAVEBTN_SAV;
 		}
 		dat->textLen = len;
@@ -910,7 +910,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 		EnableSendButton(dat, FALSE);
 		if (dat->pContainer->hwndActive == dat->hwnd)
 			UpdateReadChars(dat);
-		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
+		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL]);
 		SendDlgItemMessage(dat->hwnd, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, 0);
 		dat->dwFlags &= ~MWF_SAVEBTN_SAV;
 		mir_free(utfText);

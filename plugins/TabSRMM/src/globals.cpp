@@ -670,9 +670,9 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 				TCHAR toolTip[256];
 				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"),
-							  (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
+							  (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 				cle.ptszTooltip = toolTip;
-				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 			}
 			hDbEvent = db_event_next(hDbEvent);
 		}

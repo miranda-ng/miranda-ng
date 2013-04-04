@@ -557,7 +557,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		if (dat || !nen_options.iMUCDisable)
 			DoPopup(si, gce, dat);
 		if (params->bInactive && si && si->hWnd)
-			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM) si);
+			SendMessage(si->hWnd, GC_SETMESSAGEHIGHLIGHT, 0, (LPARAM)si);
 		if (g_Settings.FlashWindowHightlight && params->bInactive)
 			params->bMustFlash = TRUE;
 		params->bMustAutoswitch = TRUE;
@@ -1064,7 +1064,7 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 	gcd->iType = iType;
 	gch->dwData = dwItem;
 	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM) gch);
+	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
 	return TRUE;
 }
 

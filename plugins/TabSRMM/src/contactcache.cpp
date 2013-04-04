@@ -199,7 +199,7 @@ bool CContactCache::updateUIN()
 		ci.hContact = getActiveContact();
 		ci.szProto = const_cast<char *>(getActiveProto());
 		ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
@@ -374,13 +374,13 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 			if (m_history[m_iHistorySize].szText != NULL) {           // replace the temp buffer
 				::SetWindowText(hwndEdit, _T(""));
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistorySize].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM) - 1, (LPARAM) - 1);
+				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
 			}
 		} else {
 			if (m_history[m_iHistoryCurrent].szText != NULL) {
 				::SetWindowText(hwndEdit, _T(""));
 				::SendMessage(hwndEdit, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_history[m_iHistoryCurrent].szText);
-				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM) - 1, (LPARAM) - 1);
+				::SendMessage(hwndEdit, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
 			} else
 				::SetWindowText(hwndEdit, _T(""));
 		}

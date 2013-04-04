@@ -574,7 +574,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				tn.tszInfo = szTip;
 				tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 				tn.uTimeout = 1000 * 4;
-				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
+				CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& tn);
 			}
 			if (fShowOnClist) {
 				CLISTEVENT cle;
@@ -587,8 +587,8 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 				cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 				cle.pszService = "SRMsg/TypingMessage";
 				cle.ptszTooltip = szTip;
-				CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
-				CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM) & cle);
+				CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
+				CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM)& cle);
 			}
 		}
 	}
@@ -707,7 +707,7 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dbei.flags & DBEF_SENT || !(dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) || dbei.flags & DBEF_READ)
 		return 0;
 
-	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
+	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)1);
 		//MaD: hide on close mod, simulating standard behavior for hidden container
 	if (hwnd) {
 		struct TContainerData *pTargetContainer = 0;
@@ -860,7 +860,7 @@ nowindowcreate:
 			contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
 			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)& cle);
 		}
 		tabSRMM_ShowPopup(wParam, lParam, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
 	}

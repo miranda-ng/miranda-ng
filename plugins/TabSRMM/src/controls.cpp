@@ -959,7 +959,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (52 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
 			statwidths[1] = (rcs.right - rcs.left) - (62 + ((list_icons) * (PluginConfig.m_smcxicon + 2)));
 			statwidths[2] = -1;
-			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM) statwidths);
+			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
 		}
 		return 0;
 
@@ -1112,7 +1112,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					int iQueued = M->GetDword(dat->hContact, "SendLater", "count", 0);
 					gtxl.codepage = CP_UTF8;
 					gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
-					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM) & gtxl, 0);
+					iLength = SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE, EM_GETTEXTLENGTHEX, (WPARAM)& gtxl, 0);
 					tooltip_active = TRUE;
 
 					TCHAR wBuf[512];
