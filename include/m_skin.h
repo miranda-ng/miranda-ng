@@ -188,7 +188,7 @@ __forceinline INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)ssd);
 }
 
-//play a named sound event
+//plays a named sound event
 //wParam = 0
 //lParam = (LPARAM)(const char*)pszName
 //pszName should have been added with Skin/Sounds/AddNew, but if not the
@@ -198,6 +198,16 @@ __forceinline INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 __forceinline INT_PTR SkinPlaySound(const char *name)
 {
 	return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);
+}
+
+//plays any sound file
+//wParam = 0
+//lParam = (LPARAM)(const TCHAR*)ptszFileName
+#define MS_SKIN_PLAYSOUNDFILE        "Skin/Sounds/PlayFile"
+
+__forceinline INT_PTR SkinPlaySoundFile(const TCHAR *ptszFileName)
+{
+	return CallService(MS_SKIN_PLAYSOUNDFILE, 0, (LPARAM)ptszFileName);
 }
 
 //sent when the icons DLL has been changed in the options dialog, and everyone

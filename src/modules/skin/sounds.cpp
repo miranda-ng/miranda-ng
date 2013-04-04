@@ -112,6 +112,18 @@ static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR ServiceSkinPlaySoundFile(WPARAM, LPARAM lParam)
+{
+	TCHAR *ptszFileName = (TCHAR*)lParam;
+	if (ptszFileName == NULL)
+		return 1;
+
+	TCHAR tszFull[MAX_PATH];
+	PathToAbsoluteT(ptszFileName, tszFull);
+	NotifyEventHooks(hPlayEvent, 0, (LPARAM)tszFull);
+	return 0;
+}
+
 static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 {
 	char* pszSoundName = (char*)lParam;
@@ -123,14 +135,14 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 	if (idx == -1)
 		return 1;
 
-	if ( db_get_b(NULL, "SkinSoundsOff", pszSoundName, 0) == 0) {
-		DBVARIANT dbv;
-		if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
-			TCHAR szFull[MAX_PATH];
-			PathToAbsoluteT(dbv.ptszVal, szFull);
-			NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
-			db_free(&dbv);
-		}
+	if ( db_get_b(NULL, "SkinSoundsOff", pszSoundName, 0))
+		return 1;
+
+	DBVARIANT dbv;
+	if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
+		ServiceSkinPlaySoundFile(0, (LPARAM)dbv.ptszVal);
+		db_free(&dbv);
+		return 0;
 	}
 	return 1;
 }
@@ -446,6 +458,7 @@ int LoadSkinSounds(void)
 
 	CreateServiceFunction("Skin/Sounds/AddNew", ServiceSkinAddNewSound);
 	CreateServiceFunction(MS_SKIN_PLAYSOUND, ServiceSkinPlaySound);
+	CreateServiceFunction(MS_SKIN_PLAYSOUNDFILE, ServiceSkinPlaySoundFile);
 	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
 	hPlayEvent = CreateHookableEvent(ME_SKIN_PLAYINGSOUND);
 	SetHookDefaultForHookableEvent(hPlayEvent, SkinPlaySoundDefault);
