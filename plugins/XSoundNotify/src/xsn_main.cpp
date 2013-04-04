@@ -47,7 +47,7 @@ bool isReceiveMessage(LPARAM event)
 	return !(((info.eventType != EVENTTYPE_MESSAGE) && !(info.flags & DBEF_READ)) || (info.flags & DBEF_SENT));
 }
 
-INT processEvent(WPARAM wParam, LPARAM lParam)
+INT ProcessEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (!isReceiveMessage(lParam))
 		return 0;
@@ -281,12 +281,34 @@ INT OptInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
+{
+	return 0;
+}
+
+int OnLoadInit(WPARAM wParam, LPARAM lParam)
+{
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi); 
+	mi.position = -0x7FFFFFFF; 
+	mi.flags = CMIF_TCHAR; 
+	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA); 
+	mi.ptszName = LPGENT("Custom contact sound"); 
+	mi.pszService = "XSoundNotify/ContactMenuCommand"; 
+	Menu_AddContactMenuItem(&mi); 
+
+	return 0;
+}
+
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfo);
 
+	CreateServiceFunction("XSoundNotify/ContactMenuCommand", ShowDialog); 
+
 	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_DB_EVENT_ADDED, processEvent);
+	HookEvent(ME_DB_EVENT_ADDED, ProcessEvent);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnLoadInit);
 
 	return 0;
 }
