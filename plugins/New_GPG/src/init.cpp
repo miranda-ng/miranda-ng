@@ -212,7 +212,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
-	mi.position=-0x7FFFFFFe;
+	mi.position=-0x7FFFFFFd;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Send public key");
@@ -221,7 +221,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize=sizeof(mi);
-	mi.position=-0x7FFFFFFF;
+	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName=LPGENT("Export GPG Public keys");

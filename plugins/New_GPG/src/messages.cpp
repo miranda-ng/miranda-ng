@@ -268,7 +268,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 						str.insert(0, "Received unencrypted message:\n");
 						if(bDebugLog)
 							debuglog<<std::string(time_str()+": info: Failed to decrypt GPG encrypted message.");
-						char *tmp = new char [str.length()+1];
+						char *tmp = (char*)mir_alloc(sizeof(char)*(str.length()+1));
 						strcpy(tmp, str.c_str());
 						HistoryLog(hContact, db_event(msg, timestamp, 0, dbflags));
 						BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
@@ -1144,8 +1144,8 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 						DBWriteContactSettingTString(NULL, szGPGModuleName, "szKeyPassword", tmp);
 				}
 				if(password)
-					delete [] password;
-				password = new TCHAR [_tcslen(tmp)+1];
+					mir_free(password);
+				password = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
 				_tcscpy(password, tmp);
 			}
 			mir_free(tmp);
