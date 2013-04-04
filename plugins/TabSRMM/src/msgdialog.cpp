@@ -564,20 +564,10 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_KEYDOWN:
-		if (!isCtrl && !isAlt&&!isShift) {
-			if (wParam != VK_PRIOR && wParam != VK_NEXT && wParam != VK_DELETE && wParam != VK_MENU && 
-				 wParam != VK_END && wParam != VK_HOME && wParam != VK_UP && wParam != VK_DOWN &&
-				wParam != VK_LEFT&&wParam != VK_RIGHT && wParam != VK_SPACE)
-			{
-					// TODO causes issues when pressing keys in the log
-					//SetFocus(GetDlgItem(mwdat->hwnd,IDC_MESSAGE));
-					//keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam,0), KEYEVENTF_EXTENDEDKEY | 0, 0);
-
-					//return 0;
-			}
-		}
+		if (wParam == VK_INSERT && isCtrl)
+			return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 		break;
-		//MAD_
+
 	case WM_COPY:
 		return DM_WMCopyHandler(hwnd, MessageLogSubclassProc, msg, wParam, lParam);
 

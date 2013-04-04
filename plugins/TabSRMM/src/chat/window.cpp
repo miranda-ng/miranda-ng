@@ -1346,6 +1346,8 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			PostMessage(hwndParent, WM_CLOSE, 0, 1);
 			return TRUE;
 		}
+		if (wParam == VK_INSERT && GetKeyState(VK_CONTROL) & 0x8000)
+			return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 		break;
 
 	case WM_SYSKEYUP:
