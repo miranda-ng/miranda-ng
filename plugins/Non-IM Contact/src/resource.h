@@ -38,7 +38,6 @@
 #define IDC_EXPORT                      1027
 #define IDC_ALWAYS_VISIBLE              1028
 #define IDC_VISIBLE_UNLESS_OFFLINE      1029
-#define IDC_IGNORE_GLOBALSTATUS         1030
 #define IDC_DISABLETIMER                1031
 #define IDC_TIMER_INT                   1036
 #define IDC_AWAYISNOTONLINE             1037

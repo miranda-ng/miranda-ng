@@ -7,7 +7,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 
 	DBVARIANT dbv;
 	char tszFileName[MAX_PATH];
-	if (db_get_ts(NULL,MODNAME, dbSetting, &dbv))
+	if (db_get_ts(NULL, MODNAME, dbSetting, &dbv))
 		return 0;
 
 	if (!strncmp("http://", tszFileName, 7))
@@ -245,7 +245,7 @@ void checkStringForSave(HANDLE hContact, char* str)
 			B = strtok(NULL, ",\")");
 			j = B - &copyOfStr[i] + strlen(B)+1;
 			if (A && B)
-				db_set_s(hContact,MODNAME, A, B);
+				db_set_s(hContact, MODNAME, A, B);
 
 			else strncat(newStr, &str[i], j);
 			i += j;

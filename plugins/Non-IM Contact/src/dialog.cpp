@@ -1,145 +1,5 @@
 #include "commonheaders.h"
 
-int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam);
-
-void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
-{
-	char title[256], nick[256];
-	PROPSHEETPAGEA psp[4];
-	PROPSHEETHEADERA psh;
-
-	/* contact info */
-	ZeroMemory(&psp[0], sizeof(PROPSHEETPAGE));
-	psp[0].dwSize = sizeof(PROPSHEETPAGE);
-	psp[0].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[0].hInstance = hInst;
-	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
-	psp[0].pszIcon = NULL; 
-	psp[0].pfnDlgProc = DlgProcContactInfo;
-	psp[0].pszTitle = "Contacts Display Info";
-	psp[0].lParam = (LPARAM)(HANDLE)hContact;
-	psp[0].pfnCallback = NULL;
-
-	/* other settings */
-	ZeroMemory(&psp[1], sizeof(PROPSHEETPAGE));
-	psp[1].dwSize = sizeof(PROPSHEETPAGE);
-	psp[1].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[1].hInstance = hInst;
-	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
-	psp[1].pszIcon = NULL; 
-	psp[1].pfnDlgProc = DlgProcOtherStuff;
-	psp[1].pszTitle = "Link and CList Settings";
-	psp[1].lParam = (LPARAM)(HANDLE)hContact;
-	psp[1].pfnCallback = NULL;
-
-	/* files */
-	ZeroMemory(&psp[3], sizeof(PROPSHEETPAGE));
-	psp[3].dwSize = sizeof(PROPSHEETPAGE);
-	psp[3].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[3].hInstance = hInst;
-	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
-	psp[3].pszIcon = NULL; 
-	psp[3].pfnDlgProc = DlgProcFiles;
-	psp[3].pszTitle = "Files";
-	psp[3].lParam = 0;
-	psp[3].pfnCallback = NULL;
-
-	/* copy contact */
-	ZeroMemory(&psp[2], sizeof(PROPSHEETPAGE));
-	psp[2].dwSize = sizeof(PROPSHEETPAGE);
-	psp[2].dwFlags = PSP_USEICONID | PSP_USETITLE;
-	psp[2].hInstance = hInst;
-	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
-	psp[2].pszIcon = NULL; 
-	psp[2].pfnDlgProc = DlgProcCopy;
-	psp[2].pszTitle = "Copy Contact";
-	psp[2].lParam = (LPARAM)(HANDLE)hContact;
-	psp[2].pfnCallback = NULL;
-
-
-	/* propery sheet header.. dont touch !!!! */
-	ZeroMemory(&psh, sizeof(PROPSHEETHEADER));
-	psh.dwSize = sizeof(PROPSHEETHEADER);
-	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
-	psh.hwndParent = NULL;
-	psh.hInstance = hInst;
-	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
-	db_get_static(hContact, MODNAME, "Nick", nick);
-	wsprintfA(title, "Edit Non-IM Contact \"%s\"", nick);
-	psh.pszCaption = title;
-	psh.nPages = sizeof(psp) / sizeof(PROPSHEETPAGE);
-	psh.nStartPage = 0;
-	psh.ppsp = (LPCPROPSHEETPAGEA) &psp;
-	psh.pfnCallback = PropSheetProc;
-
-	// Now do it and return
-	PropertySheetA(&psh);
-}
-
-INT_PTR addContact(WPARAM wParam,LPARAM lParam) 
-{
-	char tmp[256];
-	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
-	CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
-	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
-	db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
-	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp))
-		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
-	replaceAllStrings(hContact);
-	return 0;
-}
-
-INT_PTR editContact(WPARAM wParam,LPARAM lParam) 
-{
-	HANDLE hContact = (HANDLE)wParam;
-	char tmp[256];
-	if (!hContact)
-	{
-		hContact =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
-		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
-		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
-		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
-	}
-	DoPropertySheet(hContact, hInst);
-	if (!db_get_static(hContact, MODNAME, "Name", tmp))
-		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
-	replaceAllStrings(hContact);
-	return 0;
-}
-
-int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam)
-{
-	if (uMsg ==  PSCB_PRECREATE)
-	{
-		// Remove the DS_CONTEXTHELP style from the
-		// dialog box template
-		if (((DLGTEMPLATEEX*)lParam)->signature == 0xFFFF)
-		{
-			((DLGTEMPLATEEX*)lParam)->style 
-				&= ~DS_CONTEXTHELP;
-		}
-		else {
-			((LPDLGTEMPLATE)lParam)->style 
-				&= ~DS_CONTEXTHELP;
-		}
-		return TRUE;
-	}
-
-	/* prob not the best way but it works... i hope */
-	switch (lParam) {
-	case PSBTN_OK:
-		break;
-	case PSBTN_CANCEL:
-		break;
-	case PSBTN_FINISH:
-		break;
-	case PSBTN_APPLYNOW:
-		break;
-	}
-	return 0;
-}
-
 INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
@@ -147,7 +7,6 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			char tmp[5];
 			TranslateDialogDefault(hwnd);
-			CheckDlgButton(hwnd, IDC_IGNORE_GLOBALSTATUS, db_get_b(NULL, MODNAME, "IgnoreGlobalStatusChange", 0));
 			CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0));
 			if (db_get_w(NULL, MODNAME, "Timer", 1))
 			{
@@ -192,7 +51,6 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				char tmp[5];
-				db_set_b(NULL, MODNAME, "IgnoreGlobalStatusChange", (BYTE)IsDlgButtonChecked(hwnd, IDC_IGNORE_GLOBALSTATUS));
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (!IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemTextA(hwnd, IDC_TIMER_INT, tmp, 4);
@@ -364,5 +222,119 @@ INT_PTR testStringReplacer(WPARAM wParam, LPARAM lParam)
 INT_PTR LoadFilesDlg(WPARAM wParam, LPARAM lParam)
 {
 	CreateDialog(hInst,MAKEINTRESOURCE(IDD_ADD_FILE),0,DlgProcFiles);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int CALLBACK PropSheetProc(HWND hwnd, UINT uMsg, LPARAM lParam)
+{
+	if (uMsg == PSCB_PRECREATE) {
+		// Remove the DS_CONTEXTHELP style from the
+		// dialog box template
+		if (((DLGTEMPLATEEX*)lParam)->signature == 0xFFFF)
+			((DLGTEMPLATEEX*)lParam)->style &= ~DS_CONTEXTHELP;
+		else 
+			((LPDLGTEMPLATE)lParam)->style &= ~DS_CONTEXTHELP;
+
+		return TRUE;
+	}
+
+	return 0;
+}
+
+void DoPropertySheet(HANDLE hContact, HINSTANCE hInst)
+{
+	char title[256], nick[256];
+	PROPSHEETPAGEA psp[4] = { 0 };
+
+	/* contact info */
+	psp[0].dwSize = sizeof(PROPSHEETPAGE);
+	psp[0].dwFlags = PSP_USEICONID | PSP_USETITLE;
+	psp[0].hInstance = hInst;
+	psp[0].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_INFO);
+	psp[0].pszIcon = NULL; 
+	psp[0].pfnDlgProc = DlgProcContactInfo;
+	psp[0].pszTitle = "Contacts Display Info";
+	psp[0].lParam = (LPARAM)hContact;
+	psp[0].pfnCallback = NULL;
+
+	/* other settings */
+	psp[1].dwSize = sizeof(PROPSHEETPAGE);
+	psp[1].dwFlags = PSP_USEICONID | PSP_USETITLE;
+	psp[1].hInstance = hInst;
+	psp[1].pszTemplate = MAKEINTRESOURCEA(IDD_OTHER_STUFF);
+	psp[1].pszIcon = NULL; 
+	psp[1].pfnDlgProc = DlgProcOtherStuff;
+	psp[1].pszTitle = "Link and CList Settings";
+	psp[1].lParam = (LPARAM)hContact;
+	psp[1].pfnCallback = NULL;
+
+	/* copy contact */
+	psp[2].dwSize = sizeof(PROPSHEETPAGE);
+	psp[2].dwFlags = PSP_USEICONID | PSP_USETITLE;
+	psp[2].hInstance = hInst;
+	psp[2].pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COPYEXPORT);
+	psp[2].pszIcon = NULL; 
+	psp[2].pfnDlgProc = DlgProcCopy;
+	psp[2].pszTitle = "Copy Contact";
+	psp[2].lParam = (LPARAM)hContact;
+	psp[2].pfnCallback = NULL;
+
+	/* files */
+	psp[3].dwSize = sizeof(PROPSHEETPAGE);
+	psp[3].dwFlags = PSP_USEICONID | PSP_USETITLE;
+	psp[3].hInstance = hInst;
+	psp[3].pszTemplate = MAKEINTRESOURCEA(IDD_ADD_FILE);
+	psp[3].pszIcon = NULL; 
+	psp[3].pfnDlgProc = DlgProcFiles;
+	psp[3].pszTitle = "Files";
+	psp[3].lParam = 0;
+	psp[3].pfnCallback = NULL;
+
+	/* propery sheet header.. dont touch !!!! */
+	PROPSHEETHEADERA psh = { sizeof(psh) };
+	psh.dwFlags = PSH_USEICONID | PSH_PROPSHEETPAGE | PSH_USECALLBACK;
+	psh.hInstance = hInst;
+	psh.pszIcon = MAKEINTRESOURCEA(IDI_MAIN);
+	db_get_static(hContact, MODNAME, "Nick", nick);
+	wsprintfA(title, "Edit Non-IM Contact \"%s\"", nick);
+	psh.pszCaption = title;
+	psh.nPages = SIZEOF(psp);
+	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;
+	psh.pfnCallback = PropSheetProc;
+
+	// Now do it and return
+	PropertySheetA(&psh);
+}
+
+INT_PTR addContact(WPARAM wParam,LPARAM lParam) 
+{
+	char tmp[256];
+	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
+	CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
+	CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
+	db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
+	DoPropertySheet(hContact, hInst);
+	if (!db_get_static(hContact, MODNAME, "Name", tmp))
+		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
+	replaceAllStrings(hContact);
+	return 0;
+}
+
+INT_PTR editContact(WPARAM wParam,LPARAM lParam) 
+{
+	HANDLE hContact = (HANDLE)wParam;
+	char tmp[256];
+	if (!hContact) {
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
+		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)MODNAME);
+		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_USERONLINE);
+		db_set_s(hContact, MODNAME, "Nick", Translate("New Non-IM Contact"));
+	}
+	DoPropertySheet(hContact, hInst);
+	if (!db_get_static(hContact, MODNAME, "Name", tmp))
+		CallService(MS_DB_CONTACT_DELETE,(WPARAM)hContact,0);
+	replaceAllStrings(hContact);
 	return 0;
 }

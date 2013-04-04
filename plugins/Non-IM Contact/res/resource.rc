@@ -116,8 +116,6 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Dialog"
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         "Ignore global status change",IDC_IGNORE_GLOBALSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,28,103,10
     CONTROL         "Away as another status",IDC_AWAYISNOTONLINE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,42,89,10
     CONTROL         "Disable timer",IDC_DISABLETIMER,"Button",

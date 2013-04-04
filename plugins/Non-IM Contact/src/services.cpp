@@ -50,13 +50,20 @@ INT_PTR GetLCName(WPARAM wParam,LPARAM lParam)
 //=======================================================
 INT_PTR LoadLCIcon(WPARAM wParam,LPARAM lParam)
 {
-	UINT id;
+	if (LOWORD(wParam) == PLI_PROTOCOL) {
+		if (wParam & PLIF_ICOLIBHANDLE)
+			return (INT_PTR)icoList[0].hIcolib;
 
-	switch(wParam & 0xFFFF) {
-		case PLI_PROTOCOL: id=IDI_MAIN; break; // IDI_MAIN is the main icon for the protocol
-		default: return (int)(HICON)NULL;	
+		HICON hIcon = Skin_GetIconByHandle(icoList[0].hIcolib, (wParam & PLIF_SMALL) == 0);
+		if (wParam & PLIF_ICOLIB)
+			return (INT_PTR)hIcon;
+
+		HICON hIcon2 = CopyIcon(hIcon);
+		Skin_ReleaseIcon(hIcon);
+		return (INT_PTR)hIcon2;
 	}
-	return (int)LoadImage(hInst,MAKEINTRESOURCE(id),IMAGE_ICON,GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON),GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON),0);
+
+	return NULL;	
 }
 
 //=======================================================
@@ -64,55 +71,53 @@ INT_PTR LoadLCIcon(WPARAM wParam,LPARAM lParam)
 //=======================================================
 int SetLCStatus(WPARAM wParam,LPARAM lParam) 
 { 
-	int oldStatus;
-	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	const char* szProto = (const char*)lParam;
-	if (szProto && strcmp(szProto, MODNAME)) return 0; // not nimc so ignore anyway...
-	else if (!szProto && db_get_b(NULL, MODNAME, "IgnoreGlobalStatusChange",0)) return 0; // global change and being ignored
-	else {
-		oldStatus = LCStatus;
-		LCStatus = wParam;
-		db_set_w(NULL, MODNAME, "Status", (WORD)wParam);
-		db_set_w(NULL, MODNAME, "timerCount",0);
-		if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !db_get_b(NULL, MODNAME, "AwayAsStatus", 0)) || !db_get_w(NULL, MODNAME, "Timer",1)) killTimer();
-		else if (db_get_w(NULL, MODNAME, "Timer",1))
-			startTimer(TIMER); 
-		while (hContact) {
-			char* proto = GetContactProto(hContact); 
-			if (proto && !strcmp(proto, MODNAME)) {
-				if (LCStatus != ID_STATUS_OFFLINE) replaceAllStrings(hContact);
-				switch (LCStatus) {
-				case ID_STATUS_OFFLINE:
-					if (db_get_b(hContact, MODNAME, "AlwaysVisible",0) && !db_get_b(hContact, MODNAME, "VisibleUnlessOffline",1))
-						db_set_w(hContact,MODNAME, "Status",(WORD)db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE));	
-					else
-						db_set_w(hContact,MODNAME, "Status", ID_STATUS_OFFLINE);
-					break;
-				case ID_STATUS_ONLINE:
-					db_set_w(hContact,MODNAME, "Status",(WORD)db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE));
-					break;
-				case ID_STATUS_AWAY:
-					if (db_get_b(NULL, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible",0) || (db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE)==ID_STATUS_AWAY)) )
-						db_set_w(hContact,MODNAME, "Status",(WORD)(WORD)db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE));	
-					else if (!db_get_b(NULL, MODNAME, "AwayAsStatus", 0))
-						db_set_w(hContact,MODNAME, "Status",(WORD)db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE));
-					else
-						db_set_w(hContact,MODNAME, "Status", ID_STATUS_OFFLINE);
-					break;
-				default:
-					if (db_get_b(hContact, MODNAME, "AlwaysVisible",0) || LCStatus == db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE))
-						db_set_w(hContact,MODNAME, "Status",(WORD)db_get_w(hContact,MODNAME, "Icon",ID_STATUS_ONLINE));
-					break;
-				}
-			}
-			hContact = db_find_next(hContact);
+	int oldStatus = LCStatus;
+	LCStatus = wParam;
+	db_set_w(NULL, MODNAME, "Status", (WORD)wParam);
+	db_set_w(NULL, MODNAME, "timerCount",0);
+	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !db_get_b(NULL, MODNAME, "AwayAsStatus", 0)) || !db_get_w(NULL, MODNAME, "Timer",1)) killTimer();
+	else if (db_get_w(NULL, MODNAME, "Timer",1))
+		startTimer(TIMER); 
+	
+	for (HANDLE hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact)) {
+		char *proto = GetContactProto(hContact); 
+		if (proto == NULL || strcmp(proto, MODNAME))
+			continue;
+
+		if (LCStatus != ID_STATUS_OFFLINE)
+			replaceAllStrings(hContact);
+
+		switch (LCStatus) {
+		case ID_STATUS_OFFLINE:
+			if (db_get_b(hContact, MODNAME, "AlwaysVisible",0) && !db_get_b(hContact, MODNAME, "VisibleUnlessOffline",1))
+				db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));	
+			else
+				db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+			break;
+
+		case ID_STATUS_ONLINE:
+			db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));
+			break;
+
+		case ID_STATUS_AWAY:
+			if (db_get_b(NULL, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible",0) || (db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE)==ID_STATUS_AWAY)) )
+				db_set_w(hContact, MODNAME, "Status",(WORD)(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));	
+			else if (!db_get_b(NULL, MODNAME, "AwayAsStatus", 0))
+				db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));
+			else
+				db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
+			break;
+
+		default:
+			if (db_get_b(hContact, MODNAME, "AlwaysVisible",0) || LCStatus == db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE))
+				db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));
+			break;
 		}
-		ProtoBroadcastAck(MODNAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)oldStatus,wParam);
 	}
+
+	ProtoBroadcastAck(MODNAME,NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)oldStatus,wParam);
 	return 0; 
 } 
-
-
 
 //=======================================================
 //GetStatus

@@ -8,7 +8,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
 			char name[2048];
 			TranslateDialogDefault(hwnd);
-			SetWindowLong(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
 
 			if (!db_get_static(hContact, MODNAME, "Name", name)) break;
 			SetDlgItemTextA(hwnd, IDC_DISPLAY_NAME, name);
@@ -26,7 +26,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				HANDLE hContact = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA);
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_DISPLAY_NAME))) {
 					char text[512];
 					GetDlgItemTextA(hwnd,IDC_DISPLAY_NAME,text,sizeof(text));
@@ -37,7 +37,7 @@ INT_PTR CALLBACK DlgProcContactInfo(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					db_unset(hContact, MODNAME, "Name");
 					db_unset(hContact, MODNAME, "Nick");
 				}
-					
+
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_TOOLTIP))) {
 					char text[2048];
 					GetDlgItemTextA(hwnd,IDC_TOOLTIP,text,sizeof(text));
@@ -71,8 +71,7 @@ LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 		rc.top += (rc.bottom - rc.top - 16) / 2;
 		if (isPressed)
 			OffsetRect(&rc, 1, 1);
-		DrawIconEx(dc, rc.left, rc.top, (HICON)GetWindowLong(hWnd, GWLP_USERDATA),
-			16, 16, 0, 0, DI_NORMAL);
+		DrawIconEx(dc, rc.left, rc.top, (HICON)GetWindowLongPtr(hWnd, GWLP_USERDATA), 16, 16, 0, 0, DI_NORMAL);
 		ReleaseDC(hWnd, dc);
 	}
 
@@ -148,24 +147,24 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			char string[512];
 			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLong(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
 			if (!hContact)
 				break;
 
 			/* link*/
 			if (db_get_static(hContact, MODNAME, "ProgramString", string))
 				SetDlgItemTextA(hwnd, IDC_LINK, string);
+
 			if (db_get_static(hContact, MODNAME, "ProgramParamsString", string))
 				SetDlgItemTextA(hwnd, IDC_PARAMS, string);
+
 			/* group*/
-			while (i != -1)
-			{
-				char str[3], name[256];
+			while (i != -1) {
+				char str[3];
 				wsprintfA(str, "%d", i);
-				if (!DBGetContactSetting(NULL, "CListGroups", str, &dbv))
-				{
-					lstrcpynA(name,dbv.pszVal+1,sizeof(name));
-					SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, (LPARAM)name);
+				if (!db_get_ts(NULL, "CListGroups", str, &dbv)) {
+					SendMessage(GetDlgItem(hwnd, IDC_GROUP), CB_INSERTSTRING,0, LPARAM(dbv.ptszVal+1));
+					db_free(&dbv);
 					i++;
 				}
 				else i = -1;
@@ -175,11 +174,11 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			/* icons */
 			CheckRadioButton(hwnd, 40072, 40080, db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
-			SetWindowLong(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
-			g_PrevBtnWndProc = (WNDPROC)SetWindowLong(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LONG)ButtWndProc);
-			for (i = ID_STATUS_ONLINE; i<=ID_STATUS_OUTTOLUNCH; i++) {
-				SetWindowLong(GetDlgItem(hwnd, i), GWLP_USERDATA, (LONG)LoadSkinnedProtoIcon(MODNAME, i));
-				SetWindowLong(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LONG)ButtWndProc);
+			SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_USERDATA, (LONG)LoadSkinnedProtoIcon(MODNAME, ID_STATUS_ONLINE));
+			g_PrevBtnWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd, CHK_ONLINE), GWLP_WNDPROC, (LPARAM)ButtWndProc);
+			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_USERDATA, (LPARAM)LoadSkinnedProtoIcon(MODNAME, i));
+				SetWindowLongPtr(GetDlgItem(hwnd, i), GWLP_WNDPROC, (LPARAM)ButtWndProc);
 			}
 			db_free(&dbv);
 			/* timer */
@@ -209,7 +208,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		switch(LOWORD(wParam)) {
 		case IDC_ALWAYS_VISIBLE:
 			if (IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE)) {
-				HANDLE hContact = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA);
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE),1);
 				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1));
 			}
@@ -218,7 +217,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 		case CHK_USE_TIMER:
 			if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
-				HANDLE hContact = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA);
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				char string[4];
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
 				SetDlgItemTextA(hwnd, IDC_TIMER, _itoa(db_get_w(hContact, MODNAME ,"Timer", 15), string, 10));
@@ -252,7 +251,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				int status = GetLCStatus(0,0);
-				HANDLE hContact = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA);
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				int i;
 				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_LINK))) 
 				{
@@ -339,7 +338,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			HANDLE hContact = (HANDLE)((PROPSHEETPAGE*)lParam)->lParam;
 			TranslateDialogDefault(hwnd);
-			SetWindowLong(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LPARAM)(HANDLE)hContact);
 		}
 		return TRUE;
 
@@ -347,7 +346,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		switch(LOWORD(wParam)) {
 		case IDC_EXPORT:
-			ExportContact((HANDLE)GetWindowLong(hwnd, GWLP_USERDATA));
+			ExportContact((HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			break;
 
 		case IDC_DOIT:
@@ -357,7 +356,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char dbVar1[2000], dbVar2[2000];
 				int i=0,j=0, k=0;
 				char *string = oldString[k];
-				HANDLE hContact1 = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA), hContact2;
+				HANDLE hContact1 = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
 				GetDlgItemTextA(hwnd, IDC_STRING_REPLACE, replace, GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
 					// get the list of replace strings
@@ -434,7 +433,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				char dbVar1[2000];
-				HANDLE hContact1 = (HANDLE)GetWindowLong(hwnd, GWLP_USERDATA), hContact2;
+				HANDLE hContact1 = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
 					if (!(hContact2 =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0))) {
 						msg("contact did not get created","");

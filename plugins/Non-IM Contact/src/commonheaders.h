@@ -39,6 +39,7 @@ struct DLGTEMPLATEEX
 #include <m_protomod.h>
 #include <m_database.h>
 #include <m_system.h>
+#include <m_icolib.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
 #include <m_options.h>
@@ -72,7 +73,7 @@ struct DLGTEMPLATEEX
 //General
 extern HINSTANCE hInst;
 extern int LCStatus;
-static HANDLE hWindowList=NULL;
+extern IconItem icoList[];
 
 //Services.c
 INT_PTR GetLCCaps(WPARAM wParam,LPARAM lParam);

@@ -114,9 +114,16 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 // Description : Called when plugin is loaded into Miranda
 //=====================================================
 
+IconItem icoList[] =
+{
+	{ LPGEN("Main Icon"), MODNAME, IDI_MAIN },
+};
+
 extern "C" __declspec(dllexport) int Load()
 {
 	mir_getLP(&pluginInfoEx);
+
+	Icon_Register(hInst, LPGEN("Non-IM Contact"), icoList, SIZEOF(icoList));
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, (MIRANDAHOOK)doubleClick);
 	HookEvent(ME_OPT_INITIALISE,NimcOptInit);
@@ -140,18 +147,18 @@ extern "C" __declspec(dllexport) int Load()
 	CreateServiceFunction("NIM_Contact/DoubleClick", doubleClick);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = 600090000;
 	mi.pszPopupName = LPGEN("&Non-IM Contact");
 	mi.popupPosition = 600090000;
 	mi.pszName = LPGEN("&Add Non-IM Contact");
 	mi.pszService = "AddLCcontact";
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIN));
+	mi.icolibItem = icoList[0].hIcolib;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 600090001;
 	mi.pszName = LPGEN("&View/Edit Files");
 	mi.pszService = "LoadFilesDlg";
-	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIN));
 	Menu_AddMainMenuItem(&mi);
 
 	if (db_get_b(NULL, MODNAME, "Beta",0)) {
@@ -176,11 +183,9 @@ extern "C" __declspec(dllexport) int Load()
 	mi.pszContactOwner = MODNAME;
 	mi.pszName = LPGEN("E&dit Contact Settings");
 	mi.pszService = "EditLCcontact";
-	mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_MAIN));
 	Menu_AddMainMenuItem(&mi);
 
-	hWindowList = (HWND)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
-	HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 
 	// known modules list
 	db_set_s(NULL, "KnownModules","Non-IM Contact", MODNAME);
