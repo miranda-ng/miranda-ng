@@ -122,9 +122,7 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_OPT_INITIALISE,NimcOptInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, SetLCStatus);
 
-	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
-	pd.szName = MODNAME;
-	pd.type = PROTOTYPE_PROTOCOL;
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE, MODNAME, PROTOTYPE_VIRTUAL };
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	//load services (the first 5 are the basic ones needed to make a new protocol)
@@ -157,11 +155,12 @@ extern "C" __declspec(dllexport) int Load()
 	Menu_AddMainMenuItem(&mi);
 
 	if (db_get_b(NULL, MODNAME, "Beta",0)) {
-		mi.position = 600090000;
+		mi.position = 600090002;
 		mi.pszName = LPGEN("&Export all Non-IM Contacts");
 		mi.pszService = "ExportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
 
+		mi.position = 600090003;
 		mi.pszName = LPGEN("&Import Non-IM Contacts");
 		mi.pszService = "ImportLCcontacts";
 		Menu_AddMainMenuItem(&mi);
