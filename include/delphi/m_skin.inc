@@ -163,6 +163,12 @@ const
 
   {
     wParam : 0
+    lParam : PWideChar containing the name of the file to play
+  }
+  MS_SKIN_PLAYSOUNDFILE:PAnsiChar = 'Skin/Sounds/PlayFile';
+
+  {
+    wParam : 0
     lParam : 0
     Affect : Sent when the icons DLL has been changed in the options dialog
              and everyone should remake their image lists.
