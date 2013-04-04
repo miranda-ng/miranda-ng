@@ -183,7 +183,7 @@ extern "C" __declspec(dllexport) int Load()
 	mi.pszContactOwner = MODNAME;
 	mi.pszName = LPGEN("E&dit Contact Settings");
 	mi.pszService = "EditLCcontact";
-	Menu_AddMainMenuItem(&mi);
+	Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 

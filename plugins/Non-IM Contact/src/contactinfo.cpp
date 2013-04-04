@@ -78,34 +78,30 @@ LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 	return res;
 }
 
-void checkGroups(char* group)
+void checkGroups(TCHAR* group)
 {
-	int i;
-	char str[50], name[256];
-	DBVARIANT dbv;
-
-	if (lstrlenA(group) < 1)
+	if (lstrlen(group) < 1)
 		return;
 
-	for (i = 0;; i++) {
+	char str[50];
+	int i;
+	for (i=0;; i++) {
 		_itoa(i, str, 10);
-		if (DBGetContactSetting(NULL, "CListGroups", str, &dbv))
+		DBVARIANT dbv;
+		if (db_get_ts(NULL, "CListGroups", str, &dbv))
 			break;
 
-		if (dbv.type == DBVT_ASCIIZ) {
-			if (dbv.pszVal[0] != '\0' && !lstrcmpiA(dbv.pszVal + 1, group)) {
-				db_free(&dbv);
-				return;
-			}
-
-			db_free(&dbv);
-		}
+		bool bFound = lstrcmpi(dbv.ptszVal+1, group) == 0;
+		db_free(&dbv);
+		if (bFound)
+			return;
 	}
+
+	TCHAR name[256];
 	name[0] = 1 | GROUPF_EXPANDED;
-	strncpy(name + 1, group, sizeof(name) - 1);
-	name[strlen(group) + 1] = '\0';
-	db_set_s(NULL, "CListGroups", str, name);
-	CallService(MS_CLUI_GROUPADDED, i + 1, 0);
+	_tcsncpy(name+1, group, SIZEOF(name)-1);
+	db_set_ts(NULL, "CListGroups", str, name);
+	CallService(MS_CLUI_GROUPADDED, i+1, 0);
 }
 
 int BrowseForFolder(HWND hwnd,char *szPath)
@@ -252,48 +248,43 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			case PSN_APPLY:
 				int status = GetLCStatus(0,0);
 				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				int i;
-				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_LINK))) 
-				{
+
+				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_LINK))) {
 					char text[512];
 					GetDlgItemTextA(hwnd,IDC_LINK,text,sizeof(text));
 					db_set_s(hContact, MODNAME, "ProgramString", text);
 					WriteSetting(hContact, MODNAME, "ProgramString", MODNAME, "Program");
 				}
 				else db_unset(hContact, MODNAME, "ProgramString");
-				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_PARAMS))) 
-				{
+
+				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_PARAMS))) {
 					char text[512];
 					GetDlgItemTextA(hwnd,IDC_PARAMS,text,sizeof(text));
 					db_set_s(hContact, MODNAME, "ProgramParamsString", text);
 					WriteSetting(hContact, MODNAME, "ProgramParamsString", MODNAME, "ProgramParams");
 				}
 				else db_unset(hContact, MODNAME, "ProgramParamsString");
-				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_GROUP))) 
-				{
-					char text[512];
-					GetDlgItemTextA(hwnd,IDC_GROUP,text,sizeof(text));
+
+				if (GetWindowTextLength(GetDlgItem(hwnd,IDC_GROUP))) {
+					TCHAR text[512];
+					GetDlgItemText(hwnd, IDC_GROUP, text, SIZEOF(text));
 					checkGroups(text);
-					db_set_s(hContact, "CList", "Group", text);
+					db_set_ts(hContact, "CList", "Group", text);
 				}
 				else db_unset(hContact, "CList", "Group");
-				for (i = ID_STATUS_ONLINE; i<=ID_STATUS_OUTTOLUNCH; i++)
-				{
+
+				for (int i = ID_STATUS_ONLINE; i<=ID_STATUS_OUTTOLUNCH; i++)
 					if (IsDlgButtonChecked(hwnd, i))
 						db_set_w(hContact, MODNAME, "Icon", (WORD)i);
-				}
+
 				/* set correct status */
-				if ( (status == ID_STATUS_ONLINE) || (status == ID_STATUS_AWAY) || 
-					(status == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE) )
-					)
+				if (status == ID_STATUS_ONLINE || status == ID_STATUS_AWAY || (status == db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE)))
 					db_set_w(hContact, MODNAME, "Status", (WORD)db_get_w(hContact, MODNAME, "Icon", ID_STATUS_ONLINE));
 				else
 					db_set_w(hContact, MODNAME, "Status", ID_STATUS_OFFLINE);
 
-				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER))
-				{
-					if (GetWindowTextLength(GetDlgItem(hwnd,IDC_TIMER))) 
-					{
+				if (IsDlgButtonChecked(hwnd, CHK_USE_TIMER)) {
+					if (GetWindowTextLength(GetDlgItem(hwnd,IDC_TIMER))) {
 						char text[512];
 						GetDlgItemTextA(hwnd,IDC_TIMER,text,sizeof(text));
 						db_set_w(hContact, MODNAME, "Timer", (WORD)atoi(text));
@@ -301,6 +292,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					else db_set_w(hContact, MODNAME, "Timer", 15);
 				}
 				else db_set_w(hContact, MODNAME, "Timer", 0);
+
 				// always visible
 				db_set_b(hContact, MODNAME, "AlwaysVisible", (BYTE)IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE));
 				db_set_b(hContact, MODNAME, "VisibleUnlessOffline", (BYTE)IsDlgButtonChecked(hwnd, IDC_VISIBLE_UNLESS_OFFLINE));
