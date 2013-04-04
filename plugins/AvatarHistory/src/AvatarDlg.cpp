@@ -30,8 +30,7 @@ int FillAvatarListFromDB(HWND list, HANDLE hContact);
 int FillAvatarListFromFolder(HWND list, HANDLE hContact);
 int FillAvatarListFromFiles(HWND list, HANDLE hContact);
 int CleanupAvatarPic(HWND hwnd);
-BOOL UpdateAvatarPic(HWND hwnd);
-TCHAR* GetCurrentSelFile(HWND list);
+bool UpdateAvatarPic(HWND hwnd);
 TCHAR * GetContactFolder(TCHAR *fn, HANDLE hContact);
 BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file);
 
@@ -477,24 +476,32 @@ int FillAvatarListFromDB(HWND list, HANDLE hContact)
 	return 0;
 }
 
-BOOL UpdateAvatarPic(HWND hwnd)
+bool UpdateAvatarPic(HWND hwnd)
 {
 	HWND hwndpic = GetDlgItem(hwnd, IDC_AVATAR);
 	if (!hwnd || !hwndpic)
-		return -1;
+		return false;
 
 	HWND list = GetDlgItem(hwnd, IDC_AVATARLIST);
-	TCHAR *filename = GetCurrentSelFile(list);
-	if (!filename)
+	int cursel = SendMessage(list, LB_GETCURSEL, 0, 0);
+	if (cursel < 0)
+	{
+		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("Avatar History is empty!"));
+		return false;
+	}
+	
+	ListEntry *le = (ListEntry*) SendMessage(list, LB_GETITEMDATA, cursel, 0);
+
+	if (!le || !le->filename)
 	{
 		SetDlgItemText(hwnd,IDC_AVATARPATH,TranslateT("avatar path is null."));
 		return 0;
 	}
-	SetDlgItemText(hwnd,IDC_AVATARPATH,filename);
+	SetDlgItemText(hwnd,IDC_AVATARPATH,le->filename);
 
-	HBITMAP avpic = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM)filename, IMGL_TCHAR);
+	HBITMAP avpic = (HBITMAP) CallService(MS_IMG_LOAD, (WPARAM)le->filename, IMGL_TCHAR);
 
-	BOOL found_image = (avpic != NULL);
+	bool found_image = (avpic != NULL);
 
 	avpic = (HBITMAP)SendMessage(hwndpic, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)avpic);
 	if (avpic)
@@ -549,14 +556,6 @@ static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-TCHAR* GetCurrentSelFile(HWND list)
-{
-	int cursel = SendMessage(list, LB_GETCURSEL, 0, 0);
-	if (cursel > -1)
-		return ((ListEntry*) SendMessage(list, LB_GETITEMDATA, cursel, 0))->filename;
-	else
-		return NULL;
-}
 
 int ShowSaveDialog(HWND hwnd, TCHAR* fn, HANDLE hContact)
 {
@@ -564,8 +563,6 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, HANDLE hContact)
 	TCHAR file[MAX_PATH];
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(OPENFILENAME));
-	DBVARIANT dbvInitDir = {0};
-	bool ret = (DBGetContactSettingTString(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir)== 0);
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hwnd;
 	ofn.hInstance = hInst;
@@ -591,10 +588,12 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, HANDLE hContact)
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_PATHMUSTEXIST | OFN_DONTADDTORECENT;
 	ofn.lpstrDefExt = _tcsrchr(fn, '.')+1;
-	if (ret)
+
+	DBVARIANT dbvInitDir = {0};
+	if (!db_get_ts(hContact,MODULE_NAME,"SavedAvatarFolder",&dbvInitDir))
 	{
 		ofn.lpstrInitialDir = dbvInitDir.ptszVal;
-		DBFreeVariant(&dbvInitDir);
+		db_free(&dbvInitDir);
 	}
 	else
 	{
@@ -603,7 +602,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, HANDLE hContact)
 	if (GetSaveFileName(&ofn))
 	{
 		CopyFile(fn, file, FALSE);
-		DBWriteContactSettingTString(hContact,MODULE_NAME,"SavedAvatarFolder",file);
+		db_set_ts(hContact,MODULE_NAME,"SavedAvatarFolder",file);
 	}
 	return 0;
 }
