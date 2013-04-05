@@ -12,7 +12,8 @@ There is no warranty.
 HINSTANCE hInst;
 int hLangpack;
 LIST<XSN_Data> XSN_Users(10, LIST<XSN_Data>::FTSortFunc(HandleKeySort));
-HANDLE hChangeSound = NULL, hChangeSoundDlgList = NULL;
+HGENMENU hChangeSound = NULL;
+HANDLE hChangeSoundDlgList = NULL;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -25,7 +26,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {08B86253-EC6E-4D09-B7A9-64ACDF0627B8}
-    {0x8b86253, 0xec6e, 0x4d09, {0xb7, 0xa9, 0x64, 0xac, 0xdf, 0x6, 0x27, 0xb8}}
+	{0x8b86253, 0xec6e, 0x4d09, {0xb7, 0xa9, 0x64, 0xac, 0xdf, 0x6, 0x27, 0xb8}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -41,7 +42,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 bool isReceiveMessage(LPARAM event)
 {
-	DBEVENTINFO info = { sizeof(info) };	
+	DBEVENTINFO info = { sizeof(info) };
 	CallService(MS_DB_EVENT_GET, event, (LPARAM)&info);
 	// i don't understand why it works and how it works, but it works correctly - practice way (методом тыка)
 	// so, i think correct condition would be : eventType == EVENTTYPE_MESSAGE && info.flags & DBEF_READ, but it really isn't
@@ -52,10 +53,9 @@ INT ProcessEvent(WPARAM wParam, LPARAM lParam)
 {
 	if (!isReceiveMessage(lParam))
 		return 0;
-						
+
 	DBVARIANT dbv;
-	if ( !db_get_ts((HANDLE)wParam, SETTINGSNAME, SETTINGSKEY, &dbv))
-	{
+	if ( !db_get_ts((HANDLE)wParam, SETTINGSNAME, SETTINGSKEY, &dbv)) {
 		TCHAR longpath[MAX_PATH] = {0};
 		PathToAbsoluteT(dbv.ptszVal, longpath);
 		SkinPlaySoundFile(longpath);
@@ -87,10 +87,9 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		int count;
 		PROTOACCOUNT **protos;
 		ProtoEnumAccounts(&count, &protos);
-		for(int i = 0; i < count; i++) {
+		for(int i = 0; i < count; i++)
 			if (IsSuitableProto(protos[i]))
 				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PROTO), CB_SETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PROTO), CB_ADDSTRING, 0, (LPARAM)protos[i]->tszAccountName), (LPARAM)protos[i]);
-		}
 		return TRUE;
 
 	case WM_COMMAND:
@@ -109,8 +108,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					char* szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 					if ((INT_PTR) szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
 						DBVARIANT dbvuid = {0};
-						if ( !db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid))
-						{
+						if ( !db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 							TCHAR uid[MAX_PATH];
 							switch(dbvuid.type) {
 							case DBVT_DWORD:
@@ -122,11 +120,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 								break;
 
 							case DBVT_UTF8:
-								{
-									TCHAR *tmpuid = mir_utf8decodeT(dbvuid.pszVal);
-									_tcscpy(uid, tmpuid);
-									mir_free(tmpuid);
-								}
+								_tcscpy(uid, mir_ptr<TCHAR>(mir_utf8decodeT(dbvuid.pszVal)));
 								break;
 							}
 
@@ -208,19 +202,16 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				int cursel = SendDlgItemMessage(hwndDlg, IDC_COMBO_USERS, CB_GETCURSEL, 0, 0);
 				HANDLE hContact = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-				if (p == NULL)
-				{
+				if (p == NULL) {
 					DBVARIANT dbv;
-					if ( !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv))
-					{
-						TCHAR longpath[MAX_PATH] = {0};
+					if ( !db_get_ts(hContact, SETTINGSNAME, SETTINGSKEY, &dbv)) {
+						TCHAR longpath[MAX_PATH];
 						PathToAbsoluteT(dbv.ptszVal, longpath);
 						SkinPlaySoundFile(longpath);
 						db_free(&dbv);
 					}
 				}
-				else
-				{
+				else {
 					TCHAR longpath[MAX_PATH] = {0};
 					PathToAbsoluteT(p->path, longpath);
 					SkinPlaySoundFile(longpath);
@@ -236,8 +227,7 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				int cursel = SendDlgItemMessage(hwndDlg, IDC_COMBO_USERS, CB_GETCURSEL, 0, 0);
 				HANDLE hContact = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_COMBO_USERS, CB_GETITEMDATA, cursel, 0);
 				XSN_Data *p = XSN_Users.find((XSN_Data *)&hContact);
-				if (p != NULL)
-				{
+				if (p != NULL) {
 					XSN_Users.remove(p);
 					delete p;
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -253,18 +243,15 @@ INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			NMHDR *hdr = (NMHDR *)lParam;
 			switch (hdr->code) {
 			case PSN_APPLY:
-				{
-					for (int i = 0; i < XSN_Users.getCount(); i++)
-					{
-						TCHAR shortpath[MAX_PATH];
-						PathToRelativeT(XSN_Users[i]->path, shortpath);
-						db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
-					}
-					break;
+				for (int i = 0; i < XSN_Users.getCount(); i++) {
+					TCHAR shortpath[MAX_PATH];
+					PathToRelativeT(XSN_Users[i]->path, shortpath);
+					db_set_ts(XSN_Users[i]->hContact, SETTINGSNAME, SETTINGSKEY, shortpath);
 				}
+				break;
 			}
 		}
-	}//end* switch (msg)
+	}
 	return FALSE;
 }
 
@@ -297,8 +284,7 @@ INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			char* szUniqueId = (char*)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR) szUniqueId != CALLSERVICE_NOTFOUND && szUniqueId != NULL) {
 				DBVARIANT dbvuid = {0};
-				if ( !db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid))
-				{
+				if ( !db_get(hContact, pa->szModuleName, szUniqueId, &dbvuid)) {
 					TCHAR uid[MAX_PATH];
 					switch(dbvuid.type) {
 					case DBVT_DWORD:
@@ -310,19 +296,14 @@ INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						break;
 
 					case DBVT_UTF8:
-						{
-							TCHAR *tmpuid = mir_utf8decodeT(dbvuid.pszVal);
-							_tcscpy(uid, tmpuid);
-							mir_free(tmpuid);
-						}
+						_tcscpy(uid, mir_ptr<TCHAR>( mir_utf8decodeT(dbvuid.pszVal)));
 						break;
 					}
 
 					TCHAR *nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-					TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * (_tcslen(uid) + _tcslen(nick) + 21));
-					mir_sntprintf(value, _tcslen(uid) + _tcslen(nick) + 21, TranslateT("Custom sound for %s (%s)"), nick, uid);
+					TCHAR value[100];
+					mir_sntprintf(value, SIZEOF(value), TranslateT("Custom sound for %s (%s)"), nick, uid);
 					SetWindowText(hwndDlg, value);
-					mir_free(value);
 					db_free(&dbvuid);
 				}
 			}
@@ -454,11 +435,9 @@ INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 
 	case WM_DESTROY:
-		{
-			HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 		Utils_SaveWindowPosition(hwndDlg, hContact, SETTINGSNAME, "ChangeSoundDlg");
 		WindowList_Remove(hChangeSoundDlgList, hwndDlg);
-		}
 	}
 	return FALSE;
 }
@@ -479,15 +458,13 @@ INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
 
 int OnLoadInit(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi); 
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF; 
 	mi.flags = CMIF_TCHAR; 
 	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA); 
 	mi.ptszName = LPGENT("Custom contact sound"); 
 	mi.pszService = "XSoundNotify/ContactMenuCommand"; 
 	hChangeSound = Menu_AddContactMenuItem(&mi); 
-
 	return 0;
 }
 
@@ -533,4 +510,3 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	return 0;
 }
-
