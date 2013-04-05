@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Temp\Myranda\plugins\BuddyPounce\res\resource.rc
+// Used by ..\res\resource.rc
 //
 #define IDC_DELETE                      5
 #define IDC_DEFAULT                     6

@@ -62,12 +62,10 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 
     if (ack && ack->cbSize==sizeof(ACKDATA) 
         && ack->type==ACKTYPE_MESSAGE 
-        && ack->hProcess==(HANDLE)WindowList_Find(hWindowList,ack->hContact)) 
-	{ 
+        && ack->hProcess==(HANDLE)WindowList_Find(hWindowList,ack->hContact)) { 
 		if (db_get_b(NULL, modname, "ShowDeliveryMessages", 1))
 			CreateMessageAcknowlegedWindow(ack->hContact,ack->result == ACKRESULT_SUCCESS);
-		if (ack->result == ACKRESULT_SUCCESS)
-		{
+		if (ack->result == ACKRESULT_SUCCESS) {
 			// wrtie it to the DB
 			DBEVENTINFO dbei = { 0 };
 			DBVARIANT dbv;
@@ -86,8 +84,7 @@ int MsgAck(WPARAM wParam, LPARAM lParam)
 			// check to reuse
 			if (reuse > 1)
 				db_set_b(ack->hContact, modname, "Reuse", (BYTE)(reuse-1));
-			else 
-			{
+			else {
 				db_set_b(ack->hContact,modname, "Reuse", 0);
 				db_set_ws(ack->hContact, modname, "PounceMsg", _T(""));
 			}
@@ -115,8 +112,7 @@ int BuddyPounceOptInit(WPARAM wParam, LPARAM lParam)
 int statusCheck(int statusFlag, int status)
 {
 	if (statusFlag == ANY || !statusFlag) return 1;
-	switch(status)
-	{
+	switch(status) {
 		case ID_STATUS_OFFLINE:
 			return 0;
 		case ID_STATUS_ONLINE:
@@ -178,7 +174,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 				&& statusCheck(db_get_w(hContact, modname, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days
 					if (CheckDate(hContact)) {
-						if (db_get_b(hContact, modname, "ConfirmTimeout", 0)) {
+						if (db_get_w(hContact, modname, "ConfirmTimeout", 0)) {
 							struct SendPounceDlgProcStruct *spdps = (struct SendPounceDlgProcStruct *)mir_alloc(sizeof(struct SendPounceDlgProcStruct));
 							TCHAR *message = mir_tstrdup(dbv.ptszVal); // will get free()ed in the send confirm window proc
 							spdps->hContact = hContact;

@@ -66,7 +66,7 @@ extern HINSTANCE hInst;
 // main.c
 void SendPounce(TCHAR* text, HANDLE hContact);
 
-//dialog.c 
+//dialog.c
 INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
