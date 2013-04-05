@@ -350,7 +350,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			MButtonCustomize tmp = { sizeof(MButtonCtrl), 0, &fnPainter };
 			SendMessage(hwndMute, BUTTONSETCUSTOM, 0, (LPARAM)&tmp);
 		}
-		EnableFrameIcon( db_get_b(NULL, "Skin", "UseSound", 1) != 0);
+		EnableFrameIcon( db_get_b(NULL, "Skin", "UseSound", 0) != 0);
 
 		hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
 			hwnd, (HMENU)0, (HINSTANCE)GetWindowLongPtr(hwnd, GWLP_HINSTANCE), NULL);
@@ -361,7 +361,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if ((HWND)lParam == hwndMute) {
-			bool useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
+			bool useSound = !db_get_b(NULL, "Skin", "UseSound", 0);
 			db_set_b(NULL, "Skin", "UseSound", useSound);
 			EnableFrameIcon(useSound);
 		}
