@@ -683,7 +683,7 @@ void CMsnProto::sttProcessYFind(char* buf, size_t len)
 				MSN_AddUser(hContact, szEmail, netId, LIST_PL + LIST_REMOVE);
 				MSN_AddUser(hContact, szEmail, netId, LIST_BL + LIST_REMOVE);
 				MSN_AddUser(hContact, szEmail, netId, LIST_AL);
-				DBDeleteContactSetting(hContact, "CList", "Hidden");
+				db_unset(hContact, "CList", "Hidden");
 			}
 			MSN_SetContactDb(hContact, szEmail);
 		}
@@ -822,9 +822,9 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 	{
 		stripBBCode((char*)szStatMsg);
 		stripColorCode((char*)szStatMsg);
-		DBWriteContactSettingStringUtf(hContact, "CList", "StatusMsg", szStatMsg);
+		db_set_utf(hContact, "CList", "StatusMsg", szStatMsg);
 	}
-	else DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+	else db_unset(hContact, "CList", "StatusMsg");
 
 	{
 		mir_ptr<TCHAR> tszStatus( mir_utf8decodeT(szStatMsg));
@@ -1365,7 +1365,7 @@ LBL_InvalidCommand:
 				setStringUtf(hContact, "Nick", data.userNick);
 				lastStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 				if (lastStatus == ID_STATUS_OFFLINE || lastStatus == ID_STATUS_INVISIBLE)
-					DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+					db_unset(hContact, "CList", "StatusMsg");
 
 				int newStatus = MSNStatusToMiranda(params);
 				setWord(hContact, "Status",  newStatus != ID_STATUS_IDLE ? newStatus : ID_STATUS_AWAY);

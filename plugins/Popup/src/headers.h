@@ -69,7 +69,7 @@ http://miranda-ng.org/distr/
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_database.h>
-#undef DBGetContactSettingString
+#undef db_get_s
 #include <m_protosvc.h>
 #include <m_button.h>
 #include <m_message.h>

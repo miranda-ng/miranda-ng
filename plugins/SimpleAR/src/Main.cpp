@@ -79,8 +79,8 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 {
 	HANDLE hContact = (HANDLE)w;
 	BOOL on = 0;
-	on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
-	DBWriteContactSettingByte(hContact, protocolname, "TurnedOn", on ? 1 : 0);
+	on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
+	db_set_b(hContact, protocolname, "TurnedOn", on ? 1 : 0);
 	on = on?0:1;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -97,7 +97,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
-	BOOL  on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
+	BOOL  on = !db_get_b(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggle, (LPARAM)&mi);
@@ -112,14 +112,14 @@ INT CheckDefaults(WPARAM, LPARAM)
 
 	UnhookEvent(hCheckDefHook);
 
-	fEnabled=!DBGetContactSettingByte(NULL,protocolname,KEY_ENABLED,1)==1;
-	interval=DBGetContactSettingWord(NULL,protocolname,KEY_REPEATINTERVAL,300);
+	fEnabled=!db_get_b(NULL,protocolname,KEY_ENABLED,1)==1;
+	interval=db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300);
 
-	if (DBGetContactSettingTString(NULL,protocolname,KEY_HEADING,&dbv))
+	if (db_get_ts(NULL,protocolname,KEY_HEADING,&dbv))
 		// Heading not set
-		DBWriteContactSettingTString(NULL,protocolname,KEY_HEADING,TranslateT("Dear %user%, the owner left the following message:"));
+		db_set_ts(NULL,protocolname,KEY_HEADING,TranslateT("Dear %user%, the owner left the following message:"));
 	else
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 	for (int c=ID_STATUS_ONLINE; c<ID_STATUS_IDLE; c++)
 	{
@@ -128,7 +128,7 @@ INT CheckDefaults(WPARAM, LPARAM)
 			continue;
 		else
 		{
-			if (DBGetContactSettingTString(NULL,protocolname,szStatus,&dbv))
+			if (db_get_ts(NULL,protocolname,szStatus,&dbv))
 			{
 				if (c < 40077)
 					// This mode does not have a preset message
@@ -136,10 +136,10 @@ INT CheckDefaults(WPARAM, LPARAM)
 				else if(c > 40078)
 					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-3];
 				if (ptszDefault)
-					DBWriteContactSettingTString(NULL,protocolname,szStatus,ptszDefault);
+					db_set_ts(NULL,protocolname,szStatus,ptszDefault);
 			}
 			else
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 		}
 	}
 	hPreBuildHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildContactMenu);
@@ -209,46 +209,46 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 		if (!dbei.cbBlob)	/// invalid size
 			return FALSE;
 
-		if (DBGetContactSettingTString(hContact,"Protocol","p",&dbv))
+		if (db_get_ts(hContact,"Protocol","p",&dbv))
 			// Contact with no protocol ?!!
 			return FALSE;
 		else
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
-		if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if(db_get_b(hContact, "CList", "NotOnList", 0))
 			return FALSE;
 
-		if(DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0))
+		if(db_get_b(hContact, protocolname, "TurnedOn", 0))
 			return FALSE;
 
 		if (!( dbei.flags & DBEF_SENT))
 		{
-			int timeBetween=time(NULL)-DBGetContactSettingDword(hContact,protocolname,"LastReplyTS",0);
-			if (timeBetween>interval || DBGetContactSettingWord(hContact,protocolname,"LastStatus",0)!=status)
+			int timeBetween=time(NULL)-db_get_dw(hContact,protocolname,"LastReplyTS",0);
+			if (timeBetween>interval || db_get_w(hContact,protocolname,"LastStatus",0)!=status)
 			{
 				char szStatus[6]={0};
 				int msgLen=1;
-				int isQun=DBGetContactSettingByte(hContact,pszProto,"IsQun",0);
+				int isQun=db_get_b(hContact,pszProto,"IsQun",0);
 				if (isQun)
 					return FALSE;
 
 				mir_snprintf(szStatus,SIZEOF(szStatus),"%d",status);
-				if (!DBGetContactSettingTString(NULL,protocolname,szStatus,&dbv))
+				if (!db_get_ts(NULL,protocolname,szStatus,&dbv))
 				{
 					if (*dbv.ptszVal)
 					{
 						DBVARIANT dbvHead={0}, dbvNick={0};
 						TCHAR *ptszTemp, *ptszTemp2;
 
-						DBGetContactSettingTString(hContact,pszProto,"Nick",&dbvNick);
+						db_get_ts(hContact,pszProto,"Nick",&dbvNick);
 						if (lstrcmp(dbvNick.ptszVal, NULL) == 0)
 						{
-							DBFreeVariant(&dbvNick);
+							db_free(&dbvNick);
 							return FALSE;
 						}
 
 						msgLen += (int)_tcslen(dbv.ptszVal);
-						if (!DBGetContactSettingTString(NULL,protocolname,KEY_HEADING,&dbvHead))
+						if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbvHead))
 						{
 							ptszTemp = (TCHAR*)mir_alloc(sizeof(TCHAR) * (_tcslen(dbvHead.ptszVal)+1));
 							_tcscpy(ptszTemp, dbvHead.ptszVal);
@@ -284,17 +284,17 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 						mir_free(ptszTemp2);
 						mir_free(pszUtf);
 						if (dbvNick.ptszVal)
-							DBFreeVariant(&dbvNick);
+							db_free(&dbvNick);
 						if (dbvHead.ptszVal)
-							DBFreeVariant(&dbvHead);
+							db_free(&dbvHead);
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
 
-		DBWriteContactSettingDword(hContact,protocolname,"LastReplyTS",time(NULL));
-		DBWriteContactSettingWord(hContact,protocolname,"LastStatus",status);
+		db_set_dw(hContact,protocolname,"LastReplyTS",time(NULL));
+		db_set_w(hContact,protocolname,"LastStatus",status);
 	}
 	return 0;
 }

@@ -261,7 +261,7 @@ static int FillDialog(HWND hwnd)
 		for (i=0;;i++)
 		{
 			mir_snprintf(buf, 20, "%d", i);
-			if (DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
+			if (db_get_ts(NULL, "CListGroups", buf, &dbv))
 				break;
 
 			item.pszText = &dbv.ptszVal[1];
@@ -557,10 +557,10 @@ static void UpdateFilters()
 	mir_sntprintf(szTemp, 100, TranslateT("Configuring view mode: %s"), szTempBuf);
 	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	mir_snprintf(szSetting, 128, "%c%s_PF", 246, szBuf);
-	if (DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv_pf))
+	if (db_get_s(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
 	mir_snprintf(szSetting, 128, "%c%s_GF", 246, szBuf);
-	if (DBGetContactSettingTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
+	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
 	mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
 	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1) 
@@ -1275,7 +1275,7 @@ static int  ehhViewModeBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		view_mode.bkColour = sttGetColor("ViewMode","BkColour",CLCDEFAULT_BKCOLOUR);
 		if ( db_get_b(NULL,"ViewMode","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !DBGetContactSettingString(NULL,"ViewMode","BkBitmap",&dbv)) {
+			if ( !db_get_s(NULL,"ViewMode","BkBitmap",&dbv)) {
 				view_mode.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -1341,7 +1341,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 	if ( !name)  // Name is null - apply last stored view mode
 	{
-		if ( !DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv))
+		if ( !db_get_s(NULL, CLVM_MODULE, szSetting, &dbv))
 		{
 			name = (char*)_alloca(strlen(dbv.pszVal)+1);
 			strcpy(name,dbv.pszVal);
@@ -1378,7 +1378,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 	if ( !onlySelector )
 	{
 		mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
-		if ( !DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+		if ( !db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (lstrlenA(dbv.pszVal) >= 2)
 			{
 				strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
@@ -1388,7 +1388,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			mir_free(dbv.pszVal);
 		}
 		mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
-		if ( !DBGetContactSettingTString(NULL, CLVM_MODULE, szSetting, &dbv))
+		if ( !db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv))
 		{
 			if (lstrlen(dbv.ptszVal) >= 2)
 			{

@@ -40,7 +40,7 @@ HANDLE  CMsnProto::MSN_HContactFromEmail(const char* wlid, const char* msnNick, 
 		setString(hContact, "e-mail", szEmail);
 		setStringUtf(hContact, "Nick", msnNick ? msnNick : wlid);
 		if (temporary)
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
 
 		Lists_Add(0, NETID_MSN, wlid, hContact);
 	}
@@ -56,10 +56,10 @@ void CMsnProto::MSN_SetContactDb(HANDLE hContact, const char *szEmail)
 
 	if (listId & LIST_FL)
 	{
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1)
+		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
 		{
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
-			DBDeleteContactSetting(hContact, "CList", "Hidden");
+			db_unset(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "Hidden");
 		}
 
 		if (listId & (LIST_BL | LIST_AL))
@@ -185,7 +185,7 @@ bool CMsnProto::MSN_AddUser(HANDLE hContact, const char* email, int netId, int f
 			if (res)
 			{
 				DBVARIANT dbv;
-				if (!DBGetContactSettingStringUtf(hContact, "CList", "Group", &dbv))
+				if (!db_get_utf(hContact, "CList", "Group", &dbv))
 				{
 					MSN_MoveContactToGroup(hContact, dbv.pszVal);
 					MSN_FreeVariant(&dbv);

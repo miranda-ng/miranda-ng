@@ -42,8 +42,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		iNumber = 0;
 		hQuickRepliesService = CreateServiceFunction(MS_QUICKREPLIES_SERVICE, QuickRepliesService);
 	}
-	else iNumber = DBGetContactSettingByte(NULL, MODULE_NAME, "InstancesCount", 0);
-	DBWriteContactSettingByte(NULL, MODULE_NAME, "InstancesCount", iNumber + 1);
+	else iNumber = db_get_b(NULL, MODULE_NAME, "InstancesCount", 0);
+	db_set_b(NULL, MODULE_NAME, "InstancesCount", iNumber + 1);
 
 	hOnOptInitialized = HookEvent(ME_OPT_INITIALISE, OnOptInitialized); 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
@@ -89,7 +89,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-	count = DBGetContactSettingWord(NULL, MODULE_NAME, key, 0);
+	count = db_get_w(NULL, MODULE_NAME, key, 0);
 			
 	{		
 		if (count == 0 || cbcd->flags & BBCF_RIGHTBUTTON)
@@ -112,7 +112,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		for (int i = 0; i < count; i++)
 		{
 			mir_snprintf(key, 64, "Reply_%x_%x", iNumber, i);
-			DBGetContactSettingTString(NULL, MODULE_NAME, key, &dbv);
+			db_get_ts(NULL, MODULE_NAME, key, &dbv);
 
 			if (dbv.ptszVal == NULL)
 				replyList.push_back(_T(""));
@@ -125,7 +125,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 				AppendMenu((HMENU)hMenu, MF_SEPARATOR,	i + 1, NULL);
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	{
@@ -140,7 +140,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 				SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)replyList.at(index - 1).c_str());
 
 				mir_snprintf(key, 64, "ImmediatelySend_%x", iNumber);
-				if ((BYTE)DBGetContactSettingByte(NULL, MODULE_NAME, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
+				if ((BYTE)db_get_b(NULL, MODULE_NAME, key, 1) || cbcd->flags & BBCF_CONTROLPRESSED)
 					SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 			}
 		}

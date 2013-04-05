@@ -105,7 +105,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			hFont=CreateFontIndirect(&lf);
 			SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_MESSAGE,WM_SETFONT,(WPARAM)hFont,MAKELPARAM(TRUE,0));
 
-			COLORREF colour=DBGetContactSettingDword(NULL,SRMMMOD,SRMSGSET_INPBKGCOLOUR,SRMSGDEFSET_BKGCOLOUR);
+			COLORREF colour=db_get_dw(NULL,SRMMMOD,SRMSGSET_INPBKGCOLOUR,SRMSGDEFSET_BKGCOLOUR);
 			psswdWindowData->hBkgBrush=CreateSolidBrush(colour);
 		}
 		{
@@ -235,7 +235,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA,NULL,&colour);
 			SetTextColor((HDC)wParam,colour);
-			SetBkColor((HDC)wParam,DBGetContactSettingDword(NULL,SRMMMOD,SRMSGSET_INPBKGCOLOUR,SRMSGDEFSET_BKGCOLOUR));
+			SetBkColor((HDC)wParam,db_get_dw(NULL,SRMMMOD,SRMSGSET_INPBKGCOLOUR,SRMSGDEFSET_BKGCOLOUR));
 			return((BOOL)psswdWindowData->hBkgBrush);
 		}
 		break;
@@ -410,8 +410,8 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 						for(DWORD i=0;bCont;i++)
 						{
 							mir_snprintf(szBuff,SIZEOF(szBuff),"MyPhone%d",i);
-							if (DBGetContactSetting(psswdWindowData->hMyContact,"UserInfo",szBuff,&dbv)) bCont=FALSE;
-							DBFreeVariant(&dbv);
+							if (db_get(psswdWindowData->hMyContact,"UserInfo",szBuff,&dbv)) bCont=FALSE;
+							db_free(&dbv);
 						}
 						DB_SetStringW(psswdWindowData->hMyContact,"UserInfo",szBuff,wszPhone);
 					}

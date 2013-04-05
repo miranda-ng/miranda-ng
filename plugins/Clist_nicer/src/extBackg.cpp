@@ -522,7 +522,7 @@ void extbk_export(char *file)
 
 	if ( !cfg::getString(NULL, "CLC", "BkBitmap", &dbv)) {
 		WritePrivateProfileStringA("Global", "BkBitmap", dbv.pszVal, file);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -1177,7 +1177,7 @@ void IMG_LoadItems()
 
 	WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	if ( !PathFileExists(tszFileName))
 		return;
@@ -1273,14 +1273,14 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 				if ((INT_PTR) uid != CALLSERVICE_NOTFOUND && uid != NULL) {
 					DBVARIANT dbv = {0};
 
-					DBGetContactSetting(hContact, szProto, uid, &dbv);
+					db_get(hContact, szProto, uid, &dbv);
 					switch(dbv.type) {
 					case DBVT_DWORD:
 						mir_snprintf(UIN, 40, "%d", dbv.dVal);
 						break;
 					case DBVT_ASCIIZ:
 						mir_snprintf(UIN, 40, "%s", dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						break;
 					default:
 						UIN[0] = 0;
@@ -1451,7 +1451,7 @@ static void ApplyCLUISkin()
 		SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 		RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN | RDW_ERASE);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -1484,7 +1484,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			if ( !cfg::getString(NULL, "CLC", "ContactSkins", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_SKINFILE, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				Utils::enableDlgControl(hwndDlg, IDC_RELOAD, TRUE);
 			}
 			else
@@ -1492,7 +1492,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_USESKIN, cfg::getByte("CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if ( !cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				SetDlgItemText(hwndDlg, IDC_SKINFILENAME, _T(""));
@@ -1537,7 +1537,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					if ( !cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
 						if (_tcscmp(dbv.ptszVal, final_path))
 							skinChanged = TRUE;
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else
 						skinChanged = TRUE;

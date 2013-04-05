@@ -21,24 +21,24 @@
 tstring DBGetContactSettingStringPAN(HANDLE hContact, char const * szModule, char const * szSetting, tstring errorValue)
 {
 	DBVARIANT dbv;
-	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
+	//if(db_get(hContact, szModule, szSetting, &dbv))
 	if(db_get_ts(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_TCHAR == dbv.type )
 		errorValue = dbv.ptszVal;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return errorValue;
 }
 
 std::string DBGetContactSettingStringPAN_A(HANDLE hContact, char const * szModule, char const * szSetting, std::string errorValue)
 {
 	DBVARIANT dbv;
-	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
+	//if(db_get(hContact, szModule, szSetting, &dbv))
 	if(db_get_s(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_ASCIIZ == dbv.type )
 		errorValue = dbv.pszVal;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return errorValue;
 }
 
@@ -119,7 +119,7 @@ void RemoveExcludedUsers()
 	if(hContact)
 	{
 		do{
-			if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingByte(hContact, pluginName, "Excluded", 0))
+			if(db_get_b(hContact, "CList", "NotOnList", 0) && db_get_b(hContact, pluginName, "Excluded", 0))
 			{
 				plist->hContact = hContact;
 				plist->next = new hContact_entry;
@@ -136,7 +136,7 @@ void RemoveExcludedUsers()
 
 			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
 				LogSpamToFile(plist->hContact, _T("Mark for delete"));
-				DBWriteContactSettingByte(plist->hContact,"CList","Delete", 1);
+				db_set_b(plist->hContact,"CList","Delete", 1);
 			}else{
 				LogSpamToFile(plist->hContact, _T("Deleted"));
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)plist->hContact, 0);
@@ -160,7 +160,7 @@ void RemoveTemporaryUsers()
 	if(hContact)
 	{
 		do{
-			if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)||
+			if(db_get_b(hContact, "CList", "NotOnList", 0)||
 				(_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T("")))
 			)
 			{
@@ -179,7 +179,7 @@ void RemoveTemporaryUsers()
 
 			if(status>= ID_STATUS_CONNECTING && status <= ID_STATUS_OFFLINE){
 				LogSpamToFile(plist->hContact, _T("Mark for delete"));
-				DBWriteContactSettingByte(plist->hContact,"CList","Delete", 1);
+				db_set_b(plist->hContact,"CList","Delete", 1);
 			}else{
 				LogSpamToFile(plist->hContact, _T("Deleted"));
 				CallService(MS_DB_CONTACT_DELETE, (WPARAM)plist->hContact, 0);

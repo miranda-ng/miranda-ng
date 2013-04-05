@@ -2477,7 +2477,7 @@ int OnFrameTitleBarBackgroundChange()
 		hBmpBackground = NULL;
 	}
 	if (cfg::getByte("FrameTitleBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-		if ( !DBGetContactSetting(NULL, "FrameTitleBar", "BkBitmap", &dbv)) {
+		if ( !db_get(NULL, "FrameTitleBar", "BkBitmap", &dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 		}

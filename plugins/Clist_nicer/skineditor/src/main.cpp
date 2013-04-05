@@ -688,8 +688,8 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Bumped"));
 		SendDlgItemMessage(hwndDlg, IDC_BORDERTYPE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Etched"));
 
-		SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, "CLCExt", "3ddark", RGB(224,224,224)));
-		SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, "CLCExt", "3dbright", RGB(224,224,224)));
+		SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3ddark", RGB(224,224,224)));
+		SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, "CLCExt", "3dbright", RGB(224,224,224)));
 		return 0;
 
 	case WM_DRAWITEM:

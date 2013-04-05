@@ -199,7 +199,7 @@ int CAimProto::get_avatar_filename(HANDLE hContact, TCHAR* pszDest, size_t cbLen
 	DBVARIANT dbv;
 	if (getTString(hContact, AIM_KEY_AH, &dbv)) return GAIR_NOAVATAR;
 	tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	if (ext == NULL)
 	{

@@ -215,18 +215,18 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TranslateDialogDefault(hwndDlg);
 
 			DBVARIANT dbv;
-			if (DBGetContactSettingString(NULL, PluginName, "Username", &dbv) == 0)
+			if (db_get_s(NULL, PluginName, "Username", &dbv) == 0)
 			{
 				SetDlgItemTextA(hwndDlg, IDC_USERNAME, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if (DBGetContactSettingString(NULL, PluginName, "Password", &dbv) == 0)
+			if (db_get_s(NULL, PluginName, "Password", &dbv) == 0)
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0));
+			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, PluginName, "UploadChanged", 0));
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates);
 			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr);
 		}
@@ -242,25 +242,25 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			char szSetting[100];
 			GetDlgItemTextA(hwndDlg, IDC_USERNAME, szSetting, SIZEOF(szSetting));
-			DBWriteContactSettingString(NULL, PluginName, "Username", szSetting);
+			db_set_s(NULL, PluginName, "Username", szSetting);
 
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, szSetting, SIZEOF(szSetting));
 			CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(szSetting), (LPARAM)szSetting);
-			DBWriteContactSettingString(NULL, PluginName, "Password", szSetting);
+			db_set_s(NULL, PluginName, "Password", szSetting);
 
-			DBWriteContactSettingByte(NULL, PluginName, "UploadChanged", 
+			db_set_b(NULL, PluginName, "UploadChanged", 
 				(BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPLOADCHN));
 
 			clsdates = IsDlgButtonChecked(hwndDlg, IDC_CLASSICDATES) == BST_CHECKED;
 			if (clsdates)
-				DBWriteContactSettingByte(NULL, PluginName, "ClassicDates", 1);
+				db_set_b(NULL, PluginName, "ClassicDates", 1);
 			else
-				DBDeleteContactSetting(NULL, PluginName, "ClassicDates");
+				db_unset(NULL, PluginName, "ClassicDates");
 			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
 			if (dtsubfldr)
-				DBWriteContactSettingByte(NULL, PluginName, "SubFolders", 1);
+				db_set_b(NULL, PluginName, "SubFolders", 1);
 			else
-				DBDeleteContactSetting(NULL, PluginName, "SubFolders");
+				db_unset(NULL, PluginName, "SubFolders");
 		}
 		break;
 	}

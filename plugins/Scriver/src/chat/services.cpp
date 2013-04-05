@@ -221,7 +221,7 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->ptszStatusbarText = a2tf( gcw->ptszStatusbarText, gcw->dwFlags );
 			si->iSplitterX = g_Settings.iSplitterX;
 			si->iSplitterY = g_Settings.iSplitterY;
-			si->iLogFilterFlags = (int)DBGetContactSettingDword(NULL, "Chat", "FilterFlags", 0x03E0);
+			si->iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
 			si->bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
 			si->bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
 			
@@ -246,12 +246,12 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->windowData.hContact = CList_AddRoom( gcw->pszModule, ptszID, szTemp, si->iType);
 			si->windowData.codePage = db_get_w(si->windowData.hContact, si->pszModule, "CodePage", (WORD) CP_ACP);
 			si->pszHeader = Log_CreateRtfHeader(mi, si);
-			DBWriteContactSettingString(si->windowData.hContact, si->pszModule , "Topic", "");
+			db_set_s(si->windowData.hContact, si->pszModule , "Topic", "");
 			db_unset(si->windowData.hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
 				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->windowData.hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->windowData.hContact, si->pszModule, "StatusBar", "");
 		}
 		else {
 			SESSION_INFO* si2 = SM_FindSession( ptszID, gcw->pszModule );
@@ -370,7 +370,7 @@ static INT_PTR DoControl(GCEVENT * gce, WPARAM wp)
 			if ( si->ptszStatusbarText )
 				db_set_ts(si->windowData.hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->windowData.hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->windowData.hContact, si->pszModule, "StatusBar", "");
 			if (si->hWnd)
 			{
 				SendMessage(si->hWnd, DM_UPDATESTATUSBAR, 0, 0);

@@ -180,7 +180,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, MODULE, "BkBitmap", &dbv)) {
+			if ( !db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -196,7 +196,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				fnSHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 
 			// Windows 2K/XP
-			BYTE btOpacity = (BYTE)DBGetContactSettingByte(NULL, MODULE, "Opacity", 100);
+			BYTE btOpacity = (BYTE)db_get_b(NULL, MODULE, "Opacity", 100);
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
 				
@@ -306,7 +306,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 				TCHAR str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
-				DBWriteContactSettingTString(NULL, MODULE, "BkBitmap", str);
+				db_set_ts(NULL, MODULE, "BkBitmap", str);
 
 				WORD flags = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))

@@ -26,9 +26,9 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		TranslateDialogDefault(hwndDlg);
 		{
 			DBVARIANT dbv;
-			if (!DBGetContactSettingTString( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
+			if (!db_get_ts( NULL, MODULENAME, SETTING_STARTUPTEXT, &dbv )) {
 				SetDlgItemText(hwndDlg, IDC_FORMATTEXT, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		CheckDlgButton(hwndDlg, IDC_PARSEATSTARTUP, db_get_b(NULL, MODULENAME, SETTING_PARSEATSTARTUP, 0));

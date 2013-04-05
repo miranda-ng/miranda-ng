@@ -72,9 +72,9 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	char jid[256];
 	HANDLE hContact;
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		if (((hContact=JabberHContactFromJID(proto, jid)) != NULL) || !strcmp(id, proto->threadData->username)) {
 			ZeroMemory(&ci, sizeof(ci));
 			ci.cbSize = sizeof(ci);
@@ -250,14 +250,14 @@ static int TlenMUCHandleEvent(void *ptr, WPARAM wParam, LPARAM lParam)
 								char str[256];
 								sprintf(str, "%s/%s", mucce->pszID, nick);
 								hContact = JabberDBCreateContact(proto, str, nick, TRUE); //(char *)mucce->pszUID
-								DBWriteContactSettingByte(hContact, proto->m_szModuleName, "bChat", TRUE);
+								db_set_b(hContact, proto->m_szModuleName, "bChat", TRUE);
 								CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
 							} else {
 								DBVARIANT dbv;
-								if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+								if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 									char str[512];
 									_snprintf(str, sizeof(str), "%s@%s", nick, dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 									hContact = JabberDBCreateContact(proto, str, nick, TRUE);
 									CallService(MS_MSG_SENDMESSAGE, (WPARAM) hContact, (LPARAM) NULL);
 								}
@@ -277,7 +277,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 	char *nick;
 	int	 ignore, ask, groupChatPolicy;
 	if (roomId == NULL) return 1;
-	groupChatPolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "GroupChatPolicy", 0);
+	groupChatPolicy = db_get_w(NULL, proto->m_szModuleName, "GroupChatPolicy", 0);
 	ask = TRUE;
 	ignore = FALSE;
 	if (groupChatPolicy == TLEN_MUC_ASK) {
@@ -288,9 +288,9 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 	} else if (groupChatPolicy == TLEN_MUC_IGNORE_NIR) {
 		char jid[256];
 		DBVARIANT dbv;
-		if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 			_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			strcpy(jid, from);
 		}
@@ -300,9 +300,9 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 		char jid[256];
 		JABBER_LIST_ITEM *item;
 		DBVARIANT dbv;
-		if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 			_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			strcpy(jid, from);
 		}
@@ -961,12 +961,12 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	while (hContact != NULL) {
 		char *str = GetContactProto(hContact);
 		if (str != NULL && !strcmp(str, threadData->proto->m_szModuleName)) {
-			if (!DBGetContactSettingByte(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
-				if (!DBGetContactSetting(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
+				if (!db_get(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
 					if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
 						queryResult.iItemsNum++;
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
@@ -979,14 +979,14 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	while (hContact != NULL) {
 		char *baseProto = GetContactProto(hContact);
 		if (baseProto != NULL && !strcmp(baseProto, threadData->proto->m_szModuleName)) {
-			if (!DBGetContactSettingByte(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
-				if (!DBGetContactSetting(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get_b(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
+				if (!db_get(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
 					if (strcmp(dbv.pszVal, "b73@tlen.pl")) {
 						queryResult.pItems[queryResult.iItemsNum].pszID = mir_strdup(dbv.pszVal);
 						queryResult.pItems[queryResult.iItemsNum].pszName = mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
 						queryResult.iItemsNum++;
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
@@ -1056,13 +1056,13 @@ INT_PTR TlenMUCContactMenuHandleMUC(void *ptr, LPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
 			sprintf(serialId, JABBER_IQID"%d", JabberSerialNext(proto));
 			item = JabberListAdd(proto, LIST_INVITATIONS, serialId);
 			item->nick = mir_strdup(dbv.pszVal);
 			JabberSend(proto, "<p to='c' tp='c' id='%s'/>", serialId);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;

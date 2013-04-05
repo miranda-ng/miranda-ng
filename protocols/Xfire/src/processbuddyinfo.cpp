@@ -5,10 +5,10 @@
 
 
 /*
-DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "Backup", av.backup);
-DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "File", av.file);
-DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "RFile", av.rfile);
-DBWriteContactSettingWord(xsa->hContact, "ContactPhoto", "Format", av.type);
+db_set_s(xsa->hContact, "ContactPhoto", "Backup", av.backup);
+db_set_s(xsa->hContact, "ContactPhoto", "File", av.file);
+db_set_s(xsa->hContact, "ContactPhoto", "RFile", av.rfile);
+db_set_w(xsa->hContact, "ContactPhoto", "Format", av.type);
 */
 
 extern HANDLE	 XFireAvatarFolder;
@@ -36,18 +36,18 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 	//versuche doppeltes laden zuvermeiden
 	if(hcontact) //avatar von freunden
 	{
-		if(DBGetContactSettingDword(hcontact, "ContactPhoto", "XFireAvatarId", 0)==buddyinfo->avatarid &&
-			DBGetContactSettingByte(hcontact, "ContactPhoto", "XFireAvatarMode", 0)==buddyinfo->avatarmode)
+		if(db_get_dw(hcontact, "ContactPhoto", "XFireAvatarId", 0)==buddyinfo->avatarid &&
+			db_get_b(hcontact, "ContactPhoto", "XFireAvatarMode", 0)==buddyinfo->avatarmode)
 			return;
 	}
 	else //eigeneder avatar
 	{
-		if(DBGetContactSettingDword(hcontact, protocolname, "XFireAvatarId", 0)==buddyinfo->avatarid &&
-			DBGetContactSettingByte(hcontact, protocolname, "XFireAvatarMode", 0)==buddyinfo->avatarmode)
+		if(db_get_dw(hcontact, protocolname, "XFireAvatarId", 0)==buddyinfo->avatarid &&
+			db_get_b(hcontact, protocolname, "XFireAvatarMode", 0)==buddyinfo->avatarmode)
 			return;
 
 		//alten dateipfad des avatars löschen, wenn sichw as geändert hat
-		DBDeleteContactSetting(NULL,protocolname, "MyAvatarFile");
+		db_unset(NULL,protocolname, "MyAvatarFile");
 	}
 
 	strcpy(filename, XFireGetFoldersPath ("Avatar"));
@@ -88,8 +88,8 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 	{
 		if(hcontact) //buddyavatar setzen
 		{
-			DBWriteContactSettingDword(hcontact, "ContactPhoto", "XFireAvatarId", buddyinfo->avatarid);
-			DBWriteContactSettingByte(hcontact, "ContactPhoto", "XFireAvatarMode", buddyinfo->avatarmode);
+			db_set_dw(hcontact, "ContactPhoto", "XFireAvatarId", buddyinfo->avatarid);
+			db_set_b(hcontact, "ContactPhoto", "XFireAvatarMode", buddyinfo->avatarmode);
 			PROTO_AVATAR_INFORMATION AI;
 			AI.cbSize = sizeof(AI);
 			AI.format = type;
@@ -99,10 +99,10 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 		}
 		else //eigenen avatar setzen
 		{
-			DBWriteContactSettingDword(NULL, protocolname, "XFireAvatarId", buddyinfo->avatarid);
-			DBWriteContactSettingByte(NULL, protocolname, "XFireAvatarMode", buddyinfo->avatarmode);
+			db_set_dw(NULL, protocolname, "XFireAvatarId", buddyinfo->avatarid);
+			db_set_b(NULL, protocolname, "XFireAvatarMode", buddyinfo->avatarmode);
 			//neuen avatarfilepath eintragen
-			DBWriteContactSettingString(NULL,protocolname, "MyAvatarFile",filename);
+			db_set_s(NULL,protocolname, "MyAvatarFile",filename);
 			//beshceid geben, avatar hat sich geändert
 			CallService(MS_AV_REPORTMYAVATARCHANGED,(WPARAM)protocolname,0);
 		}

@@ -834,7 +834,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 						if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.NickName") == 0)
 						{
 							szNick = ezxml_txt(ezxml_child(anot, "Value"));
-							DBWriteContactSettingStringUtf(hContact, "CList", "MyHandle", szNick);
+							db_set_utf(hContact, "CList", "MyHandle", szNick);
 						}
 						if (strcmp(ezxml_txt(ezxml_child(anot, "Name")), "AB.JobTitle") == 0)
 						{
@@ -844,7 +844,7 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 						anot = ezxml_next(anot);
 					}
 					if (szNick == NULL)
-						DBDeleteContactSetting(hContact, "CList", "MyHandle");
+						db_unset(hContact, "CList", "MyHandle");
 
 					setString(hContact, "ID", szContId);
 
@@ -893,8 +893,8 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 					}
 
 					szTmp = ezxml_txt(ezxml_child(contInf, "comment"));
-					if (*szTmp) DBWriteContactSettingString(hContact, "UserInfo", "MyNotes", szTmp);
-	//				else DBDeleteContactSetting(hContact, "UserInfo", "MyNotes");
+					if (*szTmp) db_set_s(hContact, "UserInfo", "MyNotes", szTmp);
+	//				else db_unset(hContact, "UserInfo", "MyNotes");
 
 					ezxml_t loc = ezxml_get(contInf, "locations", 0, "ContactLocation", -1);
 					while (loc != NULL)

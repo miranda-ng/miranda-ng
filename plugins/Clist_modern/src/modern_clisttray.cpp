@@ -196,7 +196,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 				if ( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE &&
 					  db_get_b(NULL,"CList","AlwaysPrimary",SETTING_ALWAYSPRIMARY_DEFAULT))
 				{
-					if ( !DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) {
+					if ( !db_get_s(NULL,"CList","PrimaryStatus",&dbv)) {
 						szProto = NEWSTR_ALLOCA(dbv.pszVal);
 						db_free(&dbv);
 					}
@@ -209,7 +209,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 			switch( db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)) {
 			case SETTING_TRAYICON_SINGLE:
 				{
-					if ( !DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv)) {
+					if ( !db_get_s(NULL,"CList","PrimaryStatus",&dbv)) {
 						szProto = NEWSTR_ALLOCA(dbv.pszVal);
 						db_free(&dbv);
 					}
@@ -330,7 +330,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 		}
 		else if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_IDLE)
 		{
-			if (DBGetContactSettingString(NULL,"CList","PrimaryStatus",&dbv))
+			if (db_get_s(NULL,"CList","PrimaryStatus",&dbv))
 				szProto = NULL;
 			else
 				szProto = dbv.pszVal;

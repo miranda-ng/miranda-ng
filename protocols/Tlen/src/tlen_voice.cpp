@@ -131,7 +131,7 @@ static int TlenVoicePlaybackStart(TLEN_VOICE_CONTROL *control)
 	control->waveHeadersPos = 0;
 	control->waveHeadersNum = FRAMES_AVAILABLE_MAX_LIMIT + 2;
 
-	j = DBGetContactSettingWord(NULL, control->proto->m_szModuleName, "VoiceDeviceOut", 0);
+	j = db_get_w(NULL, control->proto->m_szModuleName, "VoiceDeviceOut", 0);
 	iSelDev = WAVE_MAPPER;
 	if (j != 0) {
 		iNumDevs = waveOutGetNumDevs();
@@ -198,7 +198,7 @@ static int TlenVoiceRecordingStart(TLEN_VOICE_CONTROL *control)
 
 	SetThreadPriority(control->hThread, THREAD_PRIORITY_ABOVE_NORMAL);
 
-	j = DBGetContactSettingWord(NULL, control->proto->m_szModuleName, "VoiceDeviceIn", 0);
+	j = db_get_w(NULL, control->proto->m_szModuleName, "VoiceDeviceIn", 0);
 	iSelDev = WAVE_MAPPER;
 	if (j != 0) {
 		iNumDevs = waveInGetNumDevs();
@@ -708,7 +708,7 @@ INT_PTR TlenVoiceContactMenuHandleVoice(void *ptr, LPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 	if ((hContact=(HANDLE) wParam) != NULL) {
-		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			char serialId[32];
 			sprintf(serialId, "%d", JabberSerialNext(proto));
 			if ((item = JabberListAdd(proto, LIST_VOICE, serialId)) != NULL) {
@@ -720,7 +720,7 @@ INT_PTR TlenVoiceContactMenuHandleVoice(void *ptr, LPARAM wParam, LPARAM lParam)
 				TlenVoiceStart(ft, 2);
 				JabberSend(ft->proto, "<v t='%s' e='1' i='%s' v='1'/>", ft->jid, serialId);
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;
@@ -953,9 +953,9 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	char jid[256];
 	HANDLE hContact;
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 		_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		if ((hContact=JabberHContactFromJID(proto, jid)) != NULL) {
 			return mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0));
 		}
@@ -1025,7 +1025,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 			int ask, ignore, voiceChatPolicy;
 			ask = TRUE;
 			ignore = FALSE;
-			voiceChatPolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "VoiceChatPolicy", 0);
+			voiceChatPolicy = db_get_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", 0);
 			if (voiceChatPolicy == TLEN_MUC_ASK) {
 				ignore = FALSE;
 				ask = TRUE;
@@ -1034,9 +1034,9 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 			} else if (voiceChatPolicy == TLEN_MUC_IGNORE_NIR) {
 				char jid[256];
 				DBVARIANT dbv;
-				if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 					_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				} else {
 					strcpy(jid, from);
 				}
@@ -1045,9 +1045,9 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 			} else if (voiceChatPolicy == TLEN_MUC_ACCEPT_IR) {
 				char jid[256];
 				DBVARIANT dbv;
-				if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 					_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				} else {
 					strcpy(jid, from);
 				}
@@ -1095,7 +1095,7 @@ int TlenVoiceBuildInDeviceList(TlenProtocol *proto, HWND hWnd)
 			}
 		}
 	}
-	i = DBGetContactSettingWord(NULL, proto->m_szModuleName, "VoiceDeviceIn", 0);
+	i = db_get_w(NULL, proto->m_szModuleName, "VoiceDeviceIn", 0);
 	if (i>j) i = 0;
 	SendMessage(hWnd, CB_SETCURSEL, i, 0);
 	return 0;
@@ -1114,7 +1114,7 @@ int TlenVoiceBuildOutDeviceList(TlenProtocol *proto, HWND hWnd)
 			}
 		}
 	}
-	i = DBGetContactSettingWord(NULL, proto->m_szModuleName, "VoiceDeviceOut", 0);
+	i = db_get_w(NULL, proto->m_szModuleName, "VoiceDeviceOut", 0);
 	if (i>j) i = 0;
 	SendMessage(hWnd, CB_SETCURSEL, i, 0);
 	return 0;

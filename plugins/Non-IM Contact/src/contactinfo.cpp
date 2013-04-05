@@ -165,7 +165,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				else i = -1;
 			}
-			if (!DBGetContactSetting(hContact, "CList", "Group", &dbv))
+			if (!db_get(hContact, "CList", "Group", &dbv))
 				SetDlgItemTextA(hwnd, IDC_GROUP, dbv.pszVal);
 
 			/* icons */

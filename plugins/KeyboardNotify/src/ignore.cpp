@@ -31,15 +31,15 @@ extern BOOL bWindowsNT;
 
 static DWORD GetMask(HANDLE hContact)
 {
-	DWORD mask = DBGetContactSettingDword(hContact, KEYBDMODULE, "Mask1", (DWORD)(-1));
+	DWORD mask = db_get_dw(hContact, KEYBDMODULE, "Mask1", (DWORD)(-1));
 	if(mask == (DWORD)(-1)) {
 		if(hContact == NULL)
 			mask=0;
 		else {
-			if(DBGetContactSettingByte(hContact, "CList", "Hidden", 0) || DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
-				mask = DBGetContactSettingDword(NULL, KEYBDMODULE, "Mask1", 0);
+			if(db_get_b(hContact, "CList", "Hidden", 0) || db_get_b(hContact, "CList", "NotOnList", 0))
+				mask = db_get_dw(NULL, KEYBDMODULE, "Mask1", 0);
 			else
-				mask = DBGetContactSettingDword(NULL, KEYBDMODULE, "Default1", 0);
+				mask = db_get_dw(NULL, KEYBDMODULE, "Default1", 0);
 		}
 	}
 	return mask;
@@ -183,7 +183,7 @@ static void SaveItemMask(HWND hwndList, HANDLE hContact, HANDLE hItem, const cha
 		if(iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1<<i;
 	}
-	DBWriteContactSettingDword(hContact, KEYBDMODULE, pszSetting, mask);
+	db_set_dw(hContact, KEYBDMODULE, pszSetting, mask);
 }
 
 static void SetAllContactIcons(HWND hwndList)

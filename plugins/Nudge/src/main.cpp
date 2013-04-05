@@ -31,8 +31,10 @@ PLUGININFOEX pluginInfo={
 INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 {
 	for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
-		if (!strcmp((char *) wParam,n->item.ProtocolName))
-			return n->item.ShowContactMenu(lParam != 0);
+		if (!strcmp((char *) wParam,n->item.ProtocolName)) {
+			Menu_ShowItem(n->item.hContactMenu, lParam != 0);
+			break;
+		}
 
 	return 0;
 }
@@ -40,7 +42,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 {
 	char *protoName = GetContactProto((HANDLE)wParam);
-	int diff = time(NULL) - DBGetContactSettingDword((HANDLE) wParam, "Nudge", "LastSent", time(NULL)-30);
+	int diff = time(NULL) - db_get_dw((HANDLE) wParam, "Nudge", "LastSent", time(NULL)-30);
 
 	if(diff < GlobalNudge.sendTimeSec)
 	{
@@ -85,8 +87,8 @@ int NudgeReceived(WPARAM wParam,LPARAM lParam)
 	DWORD currentTimestamp = time(NULL);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
 
-	int diff = currentTimestamp - DBGetContactSettingDword((HANDLE) wParam, "Nudge", "LastReceived", currentTimestamp-30);
-	int diff2 = nudgeSentTimestamp - DBGetContactSettingDword((HANDLE) wParam, "Nudge", "LastReceived2", nudgeSentTimestamp-30);
+	int diff = currentTimestamp - db_get_dw((HANDLE) wParam, "Nudge", "LastReceived", currentTimestamp-30);
+	int diff2 = nudgeSentTimestamp - db_get_dw((HANDLE) wParam, "Nudge", "LastReceived2", nudgeSentTimestamp-30);
 
 	if(diff >= GlobalNudge.recvTimeSec)
 		db_set_dw((HANDLE) wParam, "Nudge", "LastReceived", currentTimestamp);

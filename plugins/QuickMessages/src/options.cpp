@@ -261,7 +261,7 @@ void SaveMenuTree(HWND hdlg)
 			if(ld->ptszQValue)
 			{
 				mir_snprintf(szMEntry,255,"ButtonValue_%u",iBl);
-				DBWriteContactSettingTString(NULL, PLGNAME,szMEntry,ld->ptszQValue);
+				db_set_ts(NULL, PLGNAME,szMEntry,ld->ptszQValue);
 			}
 
 
@@ -277,13 +277,13 @@ void SaveMenuTree(HWND hdlg)
 
 
 			mir_snprintf(szMEntry,255,"ButtonName_%u",iBl);
-			DBWriteContactSettingTString(NULL, PLGNAME,szMEntry,ld->ptszButtonName);
+			db_set_ts(NULL, PLGNAME,szMEntry,ld->ptszButtonName);
 
 			ld->dwOPFlags=0;
 			ld->dwPos=iBl;
 			ld->bIsServName=ld->bIsOpServName;
 			mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",iBl);
-			DBWriteContactSettingByte(NULL, PLGNAME,szMEntry,ld->bIsServName);
+			db_set_b(NULL, PLGNAME,szMEntry,ld->bIsServName);
 
 			bDeleted=FALSE;
 
@@ -333,7 +333,7 @@ void SaveMenuTree(HWND hdlg)
 			iBl++;
 	}
 
-	DBWriteContactSettingByte(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
+	db_set_b(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
 }
 
 void RestoreModuleData(HWND hdlg)
@@ -533,7 +533,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		g_opHdlg=hdlg;
 		bOptionsInit=TRUE;
 		TranslateDialogDefault(hdlg); 
-		if(g_iButtonsCount!=DBGetContactSettingByte(NULL, PLGNAME,"ButtonsCount", 0))
+		if(g_iButtonsCount!=db_get_b(NULL, PLGNAME,"ButtonsCount", 0))
 		{
 			LOGFONT logFont;
 			HFONT hFont;
@@ -583,9 +583,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 		EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);
 		EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
-		CheckDlgButton(hdlg,IDC_RAUTOSEND,(g_bRClickAuto=DBGetContactSettingByte(NULL,PLGNAME,"RClickAuto",0)));
-		CheckDlgButton(hdlg,IDC_LAUTOSEND,(g_bLClickAuto=DBGetContactSettingByte(NULL,PLGNAME,"LClickAuto",0)));
-		CheckDlgButton(hdlg,IDC_ENABLEQUICKMENU,(g_bQuickMenu=DBGetContactSettingByte(NULL, PLGNAME,"QuickMenu", 1)));
+		CheckDlgButton(hdlg,IDC_RAUTOSEND,(g_bRClickAuto=db_get_b(NULL,PLGNAME,"RClickAuto",0)));
+		CheckDlgButton(hdlg,IDC_LAUTOSEND,(g_bLClickAuto=db_get_b(NULL,PLGNAME,"LClickAuto",0)));
+		CheckDlgButton(hdlg,IDC_ENABLEQUICKMENU,(g_bQuickMenu=db_get_b(NULL, PLGNAME,"QuickMenu", 1)));
 
 		bOptionsInit=FALSE;
 							 }break;
@@ -731,9 +731,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					SetMenuEntryProperties(hdlg);
 					SaveMenuTree(hdlg); 
 				}
-				DBWriteContactSettingByte(NULL,PLGNAME,"RClickAuto",(BYTE)(g_bRClickAuto=IsDlgButtonChecked(hdlg,IDC_RAUTOSEND)));
-				DBWriteContactSettingByte(NULL,PLGNAME,"LClickAuto",(BYTE)(g_bLClickAuto=IsDlgButtonChecked(hdlg,IDC_LAUTOSEND)));
-				DBWriteContactSettingByte(NULL,PLGNAME,"QuickMenu",(BYTE)(g_bQuickMenu=IsDlgButtonChecked(hdlg,IDC_ENABLEQUICKMENU)));
+				db_set_b(NULL,PLGNAME,"RClickAuto",(BYTE)(g_bRClickAuto=IsDlgButtonChecked(hdlg,IDC_RAUTOSEND)));
+				db_set_b(NULL,PLGNAME,"LClickAuto",(BYTE)(g_bLClickAuto=IsDlgButtonChecked(hdlg,IDC_LAUTOSEND)));
+				db_set_b(NULL,PLGNAME,"QuickMenu",(BYTE)(g_bQuickMenu=IsDlgButtonChecked(hdlg,IDC_ENABLEQUICKMENU)));
 				return 1;
 			}
 			else if (((LPNMHDR)lparam)->code == PSN_RESET ) {

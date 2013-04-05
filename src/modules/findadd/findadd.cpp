@@ -343,7 +343,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			TCHAR *szProto = NULL;
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, "FindAdd", "LastSearched", &dbv)){
+			if ( !db_get_ts(NULL, "FindAdd", "LastSearched", &dbv)){
 				szProto = NEWTSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv); /* free string szProto was fetched with */
 			}

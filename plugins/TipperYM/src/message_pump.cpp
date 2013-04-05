@@ -58,7 +58,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
-			DBDeleteContactSetting(clcitex->hItem, MODULE, "TempStatusMsg");
+			db_unset(clcitex->hItem, MODULE, "TempStatusMsg");
 			if (CanRetrieveStatusMsg(clcitex->hItem, szProto) &&
 				CallContactService(clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
 			{
@@ -74,7 +74,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
 		{
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(clcitex->hItem, "ContactPhoto", "File", &dbv))
+			if (!db_get_s(clcitex->hItem, "ContactPhoto", "File", &dbv))
 			{
 				if (!strstr(dbv.pszVal, ".xml"))
 				{
@@ -93,7 +93,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 				else
 					bAvatarReady = true;
 
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				bAvatarReady = true;
@@ -176,7 +176,7 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 
 						if (swzMsg)
 						{
-							DBWriteContactSettingTString(clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+							db_set_ts(clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
 							mir_free(swzMsg);
 						}
 

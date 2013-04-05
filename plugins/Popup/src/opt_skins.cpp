@@ -286,7 +286,7 @@ bool SkinOptionList_Update (OPTTREE_OPTION* &options, int *OptionsCount, HWND hw
 	char prefix[128];
 	mir_snprintf(prefix, sizeof(prefix),"skin.%S", PopUpOptions.SkinPack);
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
-		DBGetContactSettingDword(NULL, MODULNAME, prefix, dwSkinOptions), _T("Skin options"));
+		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), _T("Skin options"));
 
 	//check "Global Settings"
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
@@ -492,7 +492,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY: 
 				{
 					//skin pack
-					DBWriteContactSettingTString(NULL, MODULNAME, "SkinPack", PopUpOptions.SkinPack);
+					db_set_ts(NULL, MODULNAME, "SkinPack", PopUpOptions.SkinPack);
 					//skin options
 					const PopupSkin *skin = 0;
 					if (skin = skins.getSkin(PopUpOptions.SkinPack))

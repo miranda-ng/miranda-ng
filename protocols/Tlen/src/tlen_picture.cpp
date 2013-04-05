@@ -256,7 +256,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 
 BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		char *jid = dbv.pszVal;
 		char szFilter[512];
 		char *szFileName = (char*) mir_alloc(_MAX_PATH);
@@ -314,7 +314,7 @@ BOOL SendPicture(TlenProtocol *proto, HANDLE hContact) {
 				fclose(fp);
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return FALSE;
 }

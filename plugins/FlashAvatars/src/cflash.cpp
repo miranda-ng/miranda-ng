@@ -199,7 +199,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 	// change flash frame according user's status
 	int status;
 	if (fai->hFA.hContact)
-		status = DBGetContactSettingWord(fai->hFA.hContact, fai->getProto(), "Status", ID_STATUS_OFFLINE);
+		status = db_get_w(fai->hFA.hContact, fai->getProto(), "Status", ID_STATUS_OFFLINE);
 	else
 		status = CallProtoService(fai->getProto(), PS_GETSTATUS, 0, 0);
 

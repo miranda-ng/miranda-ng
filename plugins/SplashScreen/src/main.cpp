@@ -94,8 +94,8 @@ void SplashMain()
 	{
 		if (options.runonce)
 		{
-			DBWriteContactSettingByte(NULL, MODNAME, "Active", 0);
-			DBWriteContactSettingByte(NULL, MODNAME, "DisableAfterStartup", 0);
+			db_set_b(NULL, MODNAME, "Active", 0);
+			db_set_b(NULL, MODNAME, "DisableAfterStartup", 0);
 		}
 
 		if (hUserDll == NULL)
@@ -133,21 +133,21 @@ void SplashMain()
 
 		//for 9x "alfa" testing
 		DBVARIANT dbv = {0};
-		DBGetContactSettingTString(NULL, MODNAME, "VersionPrefix", &dbv);
+		db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
 		{
 			_tcscpy_s(szPrefix, _T(""));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 			_tcscpy_s(szPrefix, dbv.ptszVal);
 		dbv.ptszVal = NULL;
 
-		DBGetContactSettingTString(NULL, MODNAME, "Path", &dbv);
+		db_get_ts(NULL, MODNAME, "Path", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
 		{
 			_tcscpy_s(inBuf, _T("splash\\splash.png"));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 			_tcscpy_s(inBuf, dbv.ptszVal);
@@ -164,11 +164,11 @@ void SplashMain()
 		else
 			_tcscpy_s(szSplashFile, inBuf);
 
-		DBGetContactSettingTString(NULL, MODNAME, "Sound", &dbv);
+		db_get_ts(NULL, MODNAME, "Sound", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
 		{
 			_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 			_tcscpy_s(inBuf, dbv.ptszVal);
@@ -282,7 +282,7 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 	{
 		if (!lstrcmp(tszModule, _T("Skin")) & !lstrcmp(tszSetting, _T("UseSound")))
 		{
-			DBWriteContactSettingByte(NULL, MODNAME, "PlaySound", cws->value.bVal);
+			db_set_b(NULL, MODNAME, "PlaySound", cws->value.bVal);
 			#ifdef _DEBUG
 				cws->value.bVal ? _DebugPopup(NULL, _T("Sounds enabled."), _T("")) : _DebugPopup(NULL, _T("Sounds disabled."), _T(""));
 				logMessage(_T("Module"), tszModule);
@@ -292,7 +292,7 @@ int PlugDisableHook(WPARAM wParam, LPARAM lParam)
 		}
 		if (!lstrcmp(tszModule, _T("PluginDisable")) & (!lstrcmp(tszSetting, szDllName)))
 		{
-			DBWriteContactSettingByte(NULL, MODNAME, "Active", cws->value.bVal);
+			db_set_b(NULL, MODNAME, "Active", cws->value.bVal);
 			#ifdef _DEBUG
 				cws->value.bVal ? _DebugPopup(NULL, _T("Disabled."), "") : _DebugPopup(NULL, _T("Enabled."), _T(""));
 				logMessage(_T("PlugDisableHook"), _T("Triggered"));

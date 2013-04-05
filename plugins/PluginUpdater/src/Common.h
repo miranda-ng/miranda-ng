@@ -163,9 +163,9 @@ int SafeCreateFilePath(TCHAR *pFolder);
 
 #if MIRANDA_VER < 0x0A00
 
-#define db_free(A) DBFreeVariant(A)
-#define db_get_b(A,B,C,D) DBGetContactSettingByte(A,B,C,D)
-#define db_set_s(A,B,C,D) DBWriteContactSettingString(A,B,C,D)
+#define db_free(A) db_free(A)
+#define db_get_b(A,B,C,D) db_get_b(A,B,C,D)
+#define db_set_s(A,B,C,D) db_set_s(A,B,C,D)
 
 template<class T> class mir_ptr
 {

@@ -85,10 +85,10 @@ int DB::getDwordF(HANDLE hContact, char *szModule, char *szSetting, int id, int 
 int DB::getAString(HANDLE hContact, char *szModule, char *szSetting, char *buff)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(hContact, szModule, szSetting, &dbv))
+	if (!db_get_s(hContact, szModule, szSetting, &dbv))
 	{
 		strcpy(buff, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	}
 
@@ -106,10 +106,10 @@ int DB::getAStringF(HANDLE hContact, char *szModule, char *szSetting, int id, ch
 int DB::getString(HANDLE hContact, char *szModule, char *szSetting, TCHAR *buff)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
+	if (!db_get_ts(hContact, szModule, szSetting, &dbv))
 	{
 		_tcscpy(buff, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	}
 

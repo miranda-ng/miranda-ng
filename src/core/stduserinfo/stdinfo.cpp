@@ -114,7 +114,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 				if (wSave == (WORD)-1) {
 					char szSettingName[100];
 					mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sName", szSetting);
-					if ( !DBGetContactSettingTString(hContact, szModule, szSettingName, &dbv)) {
+					if ( !db_get_ts(hContact, szModule, szSettingName, &dbv)) {
 						ptstr = dbv.ptszVal;
 						unspecified = false;
 						break;
@@ -179,7 +179,7 @@ LBL_Exit:
 	if (proto_service)
 		Proto_FreeInfoVariant(&dbv);
 	else
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }
 
 static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -410,38 +410,38 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Past%d", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
-							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
+							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Past%dText", i);
-						if (DBGetContactSettingTString(hContact, szProto, idstr, &dbvText))
-						{if (proto_service) Proto_FreeInfoVariant(&dbv); else DBFreeVariant(&dbv); break;}
+						if (db_get_ts(hContact, szProto, idstr, &dbvText))
+						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;
 						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PAST), &lvi);
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PAST), lvi.iItem, 1, dbvText.ptszVal);
-						DBFreeVariant(&dbvText);
+						db_free(&dbvText);
 						if (proto_service)
 							Proto_FreeInfoVariant(&dbv);
 						else
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						lvi.iItem++;
 					}
 
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%d", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
-							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
+							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%dText", i);
-						if (DBGetContactSettingTString(hContact, szProto, idstr, &dbvText))
-						{if (proto_service) Proto_FreeInfoVariant(&dbv); else DBFreeVariant(&dbv); break;}
+						if (db_get_ts(hContact, szProto, idstr, &dbvText))
+						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;
 						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PAST), &lvi);
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PAST), lvi.iItem, 1, dbvText.ptszVal);
-						DBFreeVariant(&dbvText);
+						db_free(&dbvText);
 						if (proto_service)
 							Proto_FreeInfoVariant(&dbv);
 						else
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						lvi.iItem++;
 					}
 
@@ -455,19 +455,19 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dCat", i);
 						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
-							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
+							( !proto_service && db_get_ts(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dText", i);
-						if (DBGetContactSettingTString(hContact, szProto, idstr, &dbvText))
-						{if (proto_service) Proto_FreeInfoVariant(&dbv); else DBFreeVariant(&dbv); break;}
+						if (db_get_ts(hContact, szProto, idstr, &dbvText))
+						{if (proto_service) Proto_FreeInfoVariant(&dbv); else db_free(&dbv); break;}
 						lvi.pszText = dbv.ptszVal;
 						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_INTERESTS), &lvi);
 						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_INTERESTS), lvi.iItem, 1, dbvText.ptszVal);
-						DBFreeVariant(&dbvText);
+						db_free(&dbvText);
 						if (proto_service)
 							Proto_FreeInfoVariant(&dbv);
 						else
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						lvi.iItem++;
 					}
 					ResizeColumns(GetDlgItem(hwndDlg, IDC_INTERESTS));
@@ -521,9 +521,9 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM) hFont, MAKELPARAM(TRUE, 0));
 
-			if ( !DBGetContactSettingString((HANDLE)lParam, "UserInfo", "MyNotes", &dbv)) {
+			if ( !db_get_s((HANDLE)lParam, "UserInfo", "MyNotes", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_MYNOTES, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		SendDlgItemMessage(hwndDlg, IDC_MYNOTES, EM_LIMITTEXT, 2048, 0);
@@ -547,9 +547,9 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MYNOTES))) {
 							char text[2048];
 							GetDlgItemTextA(hwndDlg, IDC_MYNOTES, text, SIZEOF(text));
-							DBWriteContactSettingString(hContact, "UserInfo", "MyNotes", text);
+							db_set_s(hContact, "UserInfo", "MyNotes", text);
 						}
-						else DBDeleteContactSetting(hContact, "UserInfo", "MyNotes");
+						else db_unset(hContact, "UserInfo", "MyNotes");
 						break;
 					}
 				}

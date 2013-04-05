@@ -131,7 +131,7 @@ BOOL RemoveSendQueueItem(MessageSendQueueItem* item) {
 
 void ReportSendQueueTimeouts(HWND hwndSender) {
 	MessageSendQueueItem *item, *item2;
-	int timeout = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
+	int timeout = db_get_dw(NULL, SRMMMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 	EnterCriticalSection(&queueMutex);
 	for (item = global_sendQueue; item != NULL; item = item2) {
 		item2 = item->next;

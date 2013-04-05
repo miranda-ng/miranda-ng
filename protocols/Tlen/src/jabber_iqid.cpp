@@ -38,10 +38,10 @@ void JabberIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 	if (!strcmp(type, "result")) {
 		DBVARIANT dbv;
 
-		if (DBGetContactSetting(NULL, proto->m_szModuleName, "Nick", &dbv))
-			DBWriteContactSettingString(NULL, proto->m_szModuleName, "Nick", proto->threadData->username);
+		if (db_get(NULL, proto->m_szModuleName, "Nick", &dbv))
+			db_set_s(NULL, proto->m_szModuleName, "Nick", proto->threadData->username);
 		else
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 //		iqId = JabberSerialNext();
 //		JabberIqAdd(iqId, IQ_PROC_NONE, JabberIqResultGetRoster);
 //		JabberSend(info, "<iq type='get' id='"JABBER_IQID"%d'><query xmlns='jabber:iq:roster'/></iq>", iqId);
@@ -77,8 +77,8 @@ void JabberResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 				str = JabberXmlGetAttrValue(itemNode, "subscription");
 				if (!strcmp(str, "remove")) {
 					if ((hContact=JabberHContactFromJID(proto, jid)) != NULL) {
-						if (DBGetContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-							DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+							db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 					}
 					JabberListRemove(proto, LIST_ROSTER, jid);
 				} else {
@@ -103,21 +103,21 @@ void JabberResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 								// Add the jid (with empty resource) to Miranda contact list.
 								hContact = JabberDBCreateContact(proto, jid, nick, FALSE);
 							}
-							DBWriteContactSettingString(hContact, "CList", "MyHandle", nick);
+							db_set_s(hContact, "CList", "MyHandle", nick);
 							if (item->group) mir_free(item->group);
 							if ((groupNode=JabberXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 								item->group = TlenGroupDecode(groupNode->text);
 								JabberContactListCreateGroup(item->group);
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
-								if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+								if (!db_get(hContact, "CList", "Group", &dbv)) {
 									if (strcmp(dbv.pszVal, item->group))
-										DBWriteContactSettingString(hContact, "CList", "Group", item->group);
-									DBFreeVariant(&dbv);
+										db_set_s(hContact, "CList", "Group", item->group);
+									db_free(&dbv);
 								} else
-									DBWriteContactSettingString(hContact, "CList", "Group", item->group);
+									db_set_s(hContact, "CList", "Group", item->group);
 							} else {
 								item->group = NULL;
-								DBDeleteContactSetting(hContact, "CList", "Group");
+								db_unset(hContact, "CList", "Group");
 							}
 						}
 					}
@@ -175,37 +175,37 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 								// Add the jid (with empty resource) to Miranda contact list.
 								hContact = JabberDBCreateContact(proto, jid, nick, FALSE);
 							}
-							DBWriteContactSettingString(hContact, "CList", "MyHandle", nick);
+							db_set_s(hContact, "CList", "MyHandle", nick);
 							if (item->group) mir_free(item->group);
 							if ((groupNode=JabberXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 								item->group = TlenGroupDecode(groupNode->text);
 								JabberContactListCreateGroup(item->group);
 								// Don't set group again if already correct, or Miranda may show wrong group count in some case
-								if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+								if (!db_get(hContact, "CList", "Group", &dbv)) {
 									if (strcmp(dbv.pszVal, item->group))
-										DBWriteContactSettingString(hContact, "CList", "Group", item->group);
-									DBFreeVariant(&dbv);
+										db_set_s(hContact, "CList", "Group", item->group);
+									db_free(&dbv);
 								}
 								else
-									DBWriteContactSettingString(hContact, "CList", "Group", item->group);
+									db_set_s(hContact, "CList", "Group", item->group);
 							}
 							else {
 								item->group = NULL;
-								DBDeleteContactSetting(hContact, "CList", "Group");
+								db_unset(hContact, "CList", "Group");
 							}
-							if (!DBGetContactSetting(hContact, proto->m_szModuleName, "AvatarHash", &dbv)) {
+							if (!db_get(hContact, proto->m_szModuleName, "AvatarHash", &dbv)) {
 								if (item->avatarHash) mir_free(item->avatarHash);
 								item->avatarHash = mir_strdup(dbv.pszVal);
 								JabberLog(proto, "Setting hash [%s] = %s", nick, item->avatarHash);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
-							item->avatarFormat = DBGetContactSettingDword(hContact, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
+							item->avatarFormat = db_get_dw(hContact, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
 						}
 					}
 				}
 			}
 			// Delete orphaned contacts (if roster sync is enabled)
-			if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "RosterSync", FALSE) == TRUE) {
+			if (db_get_b(NULL, proto->m_szModuleName, "RosterSync", FALSE) == TRUE) {
 				HANDLE *list;
 				int listSize, listAllocSize;
 
@@ -215,7 +215,7 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				while (hContact != NULL) {
 					str = GetContactProto(hContact);
 					if (str != NULL && !strcmp(str, proto->m_szModuleName)) {
-						if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+						if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 							if (!JabberListExist(proto, LIST_ROSTER, dbv.pszVal)) {
 								JabberLog(proto, "Syncing roster: preparing to delete %s (hContact=0x%x)", dbv.pszVal, hContact);
 								if (listSize >= listAllocSize) {
@@ -227,7 +227,7 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 								}
 								list[listSize++] = hContact;
 							}
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 					}
 					hContact = db_find_next(hContact);
@@ -279,20 +279,20 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 		if ((queryNode=JabberXmlGetChild(iqNode, "query")) == NULL) return;
 		if ((itemNode=JabberXmlGetChild(queryNode, "item")) == NULL) return;
 		if ((jid=JabberXmlGetAttrValue(itemNode, "jid")) != NULL) {
-			if (DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) return;
+			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) return;
 			if (strchr(jid, '@') != NULL) {
 				sprintf(text, "%s", jid);
 			} else {
 				sprintf(text, "%s@%s", jid, dbv.pszVal);	// Add @tlen.pl
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if ((hContact=JabberHContactFromJID(proto, text)) == NULL) {
-				if (DBGetContactSetting(NULL, proto->m_szModuleName, "LoginName", &dbv)) return;
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) return;
 				if (strcmp(dbv.pszVal, jid)) {
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					return;
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		} else {
 			hContact = NULL;
@@ -305,7 +305,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 				if (n->text != NULL) {
 					hasFirst = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "FirstName", nText);
+					db_set_s(hContact, proto->m_szModuleName, "FirstName", nText);
 					mir_free(nText);
 				}
 			}
@@ -313,7 +313,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 				if (n->text != NULL) {
 					hasLast = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "LastName", nText);
+					db_set_s(hContact, proto->m_szModuleName, "LastName", nText);
 					mir_free(nText);
 				}
 			}
@@ -321,7 +321,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 				if (n->text != NULL) {
 					hasNick = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "Nick", nText);
+					db_set_s(hContact, proto->m_szModuleName, "Nick", nText);
 					mir_free(nText);
 				}
 			}
@@ -329,7 +329,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 				if (n->text != NULL) {
 					hasEmail = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "e-mail", nText);
+					db_set_s(hContact, proto->m_szModuleName, "e-mail", nText);
 					mir_free(nText);
 				}
 			}
@@ -337,7 +337,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 				if (n->text != NULL) {
 					hasCity = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "City", nText);
+					db_set_s(hContact, proto->m_szModuleName, "City", nText);
 					mir_free(nText);
 				}
 			}
@@ -346,20 +346,20 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					WORD nAge;
 					hasAge = TRUE;
 					nAge = atoi(n->text);
-					DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Age", nAge);
+					db_set_w(hContact, proto->m_szModuleName, "Age", nAge);
 				}
 			}
 			else if (!strcmp(n->name, "s")) {
 				if (n->text != NULL && n->text[1] == '\0' && (n->text[0] == '1' || n->text[0] == '2')) {
 					hasGender = TRUE;
-					DBWriteContactSettingByte(hContact, proto->m_szModuleName, "Gender", (BYTE) (n->text[0] == '1'?'M':'F'));
+					db_set_b(hContact, proto->m_szModuleName, "Gender", (BYTE) (n->text[0] == '1'?'M':'F'));
 				}
 			}
 			else if (!strcmp(n->name, "e")) {
 				if (n->text != NULL) {
 					hasSchool = TRUE;
 					nText = JabberTextDecode(n->text);
-					DBWriteContactSettingString(hContact, proto->m_szModuleName, "School", nText);
+					db_set_s(hContact, proto->m_szModuleName, "School", nText);
 					mir_free(nText);
 				}
 			}
@@ -368,7 +368,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					WORD nOccupation;
 					hasOccupation = TRUE;
 					nOccupation = atoi(n->text);
-					DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Occupation", nOccupation);
+					db_set_w(hContact, proto->m_szModuleName, "Occupation", nOccupation);
 				}
 			}
 			else if (!strcmp(n->name, "r")) {
@@ -376,45 +376,45 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 					WORD nLookFor;
 					hasLookFor = TRUE;
 					nLookFor = atoi(n->text);
-					DBWriteContactSettingWord(hContact, proto->m_szModuleName, "LookingFor", nLookFor);
+					db_set_w(hContact, proto->m_szModuleName, "LookingFor", nLookFor);
 				}
 			}
 			else if (!strcmp(n->name, "g")) { // voice chat enabled
 				if (n->text != NULL) {
 					BYTE bVoice;
 					bVoice = atoi(n->text);
-					DBWriteContactSettingWord(hContact, proto->m_szModuleName, "VoiceChat", bVoice);
+					db_set_w(hContact, proto->m_szModuleName, "VoiceChat", bVoice);
 				}
 			}
 			else if (!strcmp(n->name, "v")) { // status visibility
 				if (n->text != NULL) {
 					BYTE bPublic;
 					bPublic = atoi(n->text);
-					DBWriteContactSettingWord(hContact, proto->m_szModuleName, "PublicStatus", bPublic);
+					db_set_w(hContact, proto->m_szModuleName, "PublicStatus", bPublic);
 				}
 			}
 		}
 		if (!hasFirst)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "FirstName");
+			db_unset(hContact, proto->m_szModuleName, "FirstName");
 		if (!hasLast)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "LastName");
+			db_unset(hContact, proto->m_szModuleName, "LastName");
 		// We are not removing "Nick"
 //		if (!hasNick)
-//			DBDeleteContactSetting(hContact, m_szModuleName, "Nick");
+//			db_unset(hContact, m_szModuleName, "Nick");
 		if (!hasEmail)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "e-mail");
+			db_unset(hContact, proto->m_szModuleName, "e-mail");
 		if (!hasCity)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "City");
+			db_unset(hContact, proto->m_szModuleName, "City");
 		if (!hasAge)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "Age");
+			db_unset(hContact, proto->m_szModuleName, "Age");
 		if (!hasGender)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "Gender");
+			db_unset(hContact, proto->m_szModuleName, "Gender");
 		if (!hasSchool)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "School");
+			db_unset(hContact, proto->m_szModuleName, "School");
 		if (!hasOccupation)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "Occupation");
+			db_unset(hContact, proto->m_szModuleName, "Occupation");
 		if (!hasLookFor)
-			DBDeleteContactSetting(hContact, proto->m_szModuleName, "LookingFor");
+			db_unset(hContact, proto->m_szModuleName, "LookingFor");
 		ProtoBroadcastAck(proto->m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 	}
 }
@@ -435,7 +435,7 @@ void JabberIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 
 	if (!strcmp(type, "result")) {
 		if ((queryNode=JabberXmlGetChild(iqNode, "query")) == NULL) return;
-		if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 			jsr.hdr.flags = PSR_TCHAR;
 			for (i=0; i<queryNode->numChild; i++) {
@@ -510,7 +510,7 @@ void JabberIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 				mir_free(proto->searchJID);
 				proto->searchJID = NULL;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		found = 0;
 		if (queryNode->numChild == TLEN_MAX_SEARCH_RESULTS_PER_PAGE) {
@@ -604,9 +604,9 @@ void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode)
 					item->system = NULL;
 				if (( hContact=JabberHContactFromJID(proto, item->jid )) != NULL ) {
 					if (item->software != NULL) {
-						DBWriteContactSettingString(hContact, proto->m_szModuleName, "MirVer", item->software);
+						db_set_s(hContact, proto->m_szModuleName, "MirVer", item->software);
 					} else {
-						DBDeleteContactSetting(hContact, proto->m_szModuleName, "MirVer");
+						db_unset(hContact, proto->m_szModuleName, "MirVer");
 					}
 				}
 			}
@@ -629,7 +629,7 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 					if (item->software == NULL) {
 						char str[128];
 						mir_snprintf(str, sizeof(str), "Tlen Protocol %s", item->protocolVersion);
-						DBWriteContactSettingString(hContact, proto->m_szModuleName, "MirVer", str);
+						db_set_s(hContact, proto->m_szModuleName, "MirVer", str);
 					}
 				}
 			}

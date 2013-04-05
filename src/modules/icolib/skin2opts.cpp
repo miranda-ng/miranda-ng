@@ -940,7 +940,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					for (int indx = 0; indx < iconList.getCount(); indx++) {
 						IcolibItem *item = iconList[indx];
 						if (item->temp_reset) {
-							DBDeleteContactSetting(NULL, "SkinIcons", item->name);
+							db_unset(NULL, "SkinIcons", item->name);
 							if (item->source_small != item->default_icon) {
 								IconSourceItem_Release(&item->source_small);
 							}

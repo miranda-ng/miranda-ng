@@ -285,18 +285,18 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 			szProto = GetContactProto(hContact);
 			if (szProto != NULL && strcmp(szProto, YAMN_DBMODULE)==0)
 			{
-				if (!DBGetContactSettingString(hContact,YAMN_DBMODULE,"Id",&dbv)) {
+				if (!db_get_s(hContact,YAMN_DBMODULE,"Id",&dbv)) {
 					if ( strcmp( dbv.pszVal, Finder->Name) == 0) {
 						Finder->hContact = hContact;
-						DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
-						DBWriteContactSettingString(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
+						db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+						db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 						if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-							DBDeleteContactSetting(Finder->hContact, "CList", "Hidden");
+							db_unset(Finder->hContact, "CList", "Hidden");
 
 						if (!(Finder->Flags & YAMN_ACC_ENA) || !(Finder->NewMailN.Flags & YAMN_ACC_CONT))
-							DBWriteContactSettingByte(Finder->hContact, "CList", "Hidden", 1);
+							db_set_b(Finder->hContact, "CList", "Hidden", 1);
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			hContact = db_find_next(hContact);
@@ -306,10 +306,10 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 			//No account contact found, have to create one
 			Finder->hContact =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)Finder->hContact,(LPARAM)YAMN_DBMODULE);
-			DBWriteContactSettingString(Finder->hContact,YAMN_DBMODULE,"Id",Finder->Name);
-			DBWriteContactSettingString(Finder->hContact,YAMN_DBMODULE,"Nick",Finder->Name);
-			DBWriteContactSettingString(Finder->hContact,"Protocol","p",YAMN_DBMODULE);
-			DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", YAMN_STATUS);
+			db_set_s(Finder->hContact,YAMN_DBMODULE,"Id",Finder->Name);
+			db_set_s(Finder->hContact,YAMN_DBMODULE,"Nick",Finder->Name);
+			db_set_s(Finder->hContact,"Protocol","p",YAMN_DBMODULE);
+			db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", YAMN_STATUS);
 		}
 	}
 
@@ -407,7 +407,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account,DWORD MailDataVersion)
 
 static void SetContactStatus(HACCOUNT account, int status) {
 	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT)) {
-		DBWriteContactSettingWord(account->hContact, YAMN_DBMODULE, "Status", status);
+		db_set_w(account->hContact, YAMN_DBMODULE, "Status", status);
 	}
 }
 

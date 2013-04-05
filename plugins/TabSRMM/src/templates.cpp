@@ -91,7 +91,7 @@ static void LoadTemplatesFrom(TTemplateSet *tSet, HANDLE hContact, int rtl)
 			continue;
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR)
 			mir_sntprintf(tSet->szTemplates[i], TEMPLATE_LENGTH, _T("%s"), dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 

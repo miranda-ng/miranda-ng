@@ -38,19 +38,19 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		if ( !ppro->GetString( YAHOO_LOGINID, &dbv )) {
 			SetDlgItemTextA(hwndDlg,IDC_HANDLE,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if ( !ppro->GetString("Nick", &dbv )) {
 			SetDlgItemTextA(hwndDlg,IDC_NICK,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if ( !ppro->GetString( YAHOO_PASSWORD, &dbv )) {
 			//bit of a security hole here, since it's easy to extract a password from an edit box
 			CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbv.pszVal )+1, (LPARAM)dbv.pszVal );
 			SetDlgItemTextA( hwndDlg, IDC_PASSWORD, dbv.pszVal );
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}
 
 		//SetButtonCheck( hwndDlg, IDC_DISABLE_UTF8, ppro->GetByte("DisableUTF8", 0)); 
@@ -105,7 +105,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				reconnectRequired = TRUE;
 				
 			if ( dbv.pszVal != NULL)
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 			
 			ppro->SetString( YAHOO_LOGINID, str );
 
@@ -115,7 +115,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 			if ( dbv.pszVal != NULL)
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 			
 			ppro->SetString( YAHOO_PASSWORD, str );
 			GetDlgItemTextA( hwndDlg, IDC_NICK, str, sizeof( str ));
@@ -171,7 +171,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		if ( !ppro->GetString( YAHOO_LOGINSERVER, &dbv )) {
 			SetDlgItemTextA( hwndDlg, IDC_LOGINSERVER, dbv.pszVal );
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}
 		else SetDlgItemTextA( hwndDlg, IDC_LOGINSERVER, 
 						ppro->GetByte("YahooJapan", 0) 
@@ -225,7 +225,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 				reconnectRequired = TRUE;
 				
 			if ( dbv.pszVal != NULL)
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 
 			ppro->SetString( YAHOO_LOGINSERVER, str );
 

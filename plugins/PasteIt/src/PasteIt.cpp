@@ -124,7 +124,7 @@ void PasteIt(HANDLE hContact, int mode)
 		char *szProto = GetContactProto(hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
-			BOOL isChat = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0); 
+			BOOL isChat = db_get_b(hContact, szProto, "ChatRoom", 0); 
 			if(Options::instance->autoSend)
 			{
 				if(!isChat)
@@ -328,26 +328,17 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	
 	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
-		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
-	
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
+		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) != 0;
 
-	if (!bIsContact) mi.flags |= CMIF_HIDDEN;
-	else mi.flags &= ~CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
-
+	Menu_ShowItem(hContactMenu, bIsContact);
 	return 0;
 }
 
 INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam) 
 {
 	if(lParam >= DEF_PAGES_START)
-	{
 		Options::instance->SetDefWeb(lParam - DEF_PAGES_START);
-	}
-	else
-	{
+	else {
 		HANDLE hContact = (HANDLE)wParam;
 		PasteIt(hContact, lParam);
 	}
@@ -437,7 +428,7 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 		char *szProto = GetContactProto(lParam->hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
-			if(DBGetContactSettingByte(lParam->hContact, szProto, "ChatRoom", 0))
+			if(db_get_b(lParam->hContact, szProto, "ChatRoom", 0))
 			{
 				(*contactWindows)[lParam->hContact] = lParam->hwndInput;
 			}

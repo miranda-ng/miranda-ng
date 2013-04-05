@@ -148,13 +148,13 @@ DWORD MouseOverride(HWND hCombo, int number)
 
 
 void LoadOption_Actions() {
-	PopUpOptions.actions			= DBGetContactSettingDword(NULL, MODULNAME, "Actions",
+	PopUpOptions.actions			= db_get_dw(NULL, MODULNAME, "Actions",
 									  ACT_ENABLE|ACT_RIGHTICONS|ACT_DEF_KEEPWND|ACT_DEF_IMONLY|
 									  ACT_DEF_NOGLOBAL|ACT_DEF_MESSAGE|ACT_DEF_DETAILS|ACT_DEF_MENU|
 									  ACT_DEF_ADD|ACT_DEF_DISMISS|ACT_DEF_PIN);
-	PopUpOptions.overrideLeft		= DBGetContactSettingDword(NULL,MODULNAME, "OverrideLeft", 0);
-	PopUpOptions.overrideMiddle		= DBGetContactSettingDword(NULL,MODULNAME, "OverrideMiddle", 0);
-	PopUpOptions.overrideRight		= DBGetContactSettingDword(NULL,MODULNAME, "OverrideRight", 0);
+	PopUpOptions.overrideLeft		= db_get_dw(NULL,MODULNAME, "OverrideLeft", 0);
+	PopUpOptions.overrideMiddle		= db_get_dw(NULL,MODULNAME, "OverrideMiddle", 0);
+	PopUpOptions.overrideRight		= db_get_dw(NULL,MODULNAME, "OverrideRight", 0);
 }
 
 static UINT controls[] =

@@ -50,26 +50,26 @@ int CreateGroup(const TCHAR* group, HANDLE hContact)
 	for (int groupId = 0; ; groupId++) {
 		DBVARIANT dbv;
 		itoa(groupId, groupIdStr,10);
-		if (DBGetContactSettingTString(NULL, "CListGroups", groupIdStr, &dbv))
+		if (db_get_ts(NULL, "CListGroups", groupIdStr, &dbv))
 			break;
 
 		if ( !lstrcmp(dbv.ptszVal + 1, tszGrpName + 1 )) {
 			if (hContact)
-				DBWriteContactSettingTString( hContact, "CList", "Group", tszGrpName+1 );
+				db_set_ts( hContact, "CList", "Group", tszGrpName+1 );
 			else
 				AddMessage( LPGENT("Skipping duplicate group %s."), tszGrpName + 1);
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return 0;
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
-	DBWriteContactSettingTString( NULL, "CListGroups", groupIdStr, tszGrpName );
+	db_set_ts( NULL, "CListGroups", groupIdStr, tszGrpName );
 
 	if (hContact)
-		DBWriteContactSettingTString( hContact, "CList", "Group", tszGrpName+1 );
+		db_set_ts( hContact, "CList", "Group", tszGrpName+1 );
 
 	return 1;
 }

@@ -868,14 +868,14 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			char *szNamePrefix = (!savePerContact && dat->isChat) ? "chat" : "";
 			if (!dat->windowWasCascaded) {
 				wsprintfA(szSettingName,"%sx",szNamePrefix);
-				DBWriteContactSettingDword(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.left);
+				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.left);
 				wsprintfA(szSettingName,"%sy",szNamePrefix);
-				DBWriteContactSettingDword(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.top);
+				db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.top);
 			}
 			wsprintfA(szSettingName,"%swidth",szNamePrefix);
-			DBWriteContactSettingDword(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
+			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
 			wsprintfA(szSettingName,"%sheight",szNamePrefix);
-			DBWriteContactSettingDword(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
+			db_set_dw(hContact, SRMMMOD, szSettingName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 			db_set_b(hContact, SRMMMOD, SRMSGSET_TOPMOST, (BYTE)dat->bTopmost);
 			if (g_dat.lastParent == dat)
 				g_dat.lastParent = dat->prev;
@@ -1550,9 +1550,9 @@ int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,
 	wp.length=sizeof(wp);
 	GetWindowPlacement(hwnd,&wp);
 	wsprintfA(szSettingName,"%sx",szNamePrefix);
-	x=DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
+	x=db_get_dw(hContact,szModule,szSettingName,-1);
 	wsprintfA(szSettingName,"%sy",szNamePrefix);
-	y=(int)DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
+	y=(int)db_get_dw(hContact,szModule,szSettingName,-1);
 	if (x==-1) return 1;
 	if (flags&RWPF_NOSIZE) {
 		OffsetRect(&wp.rcNormalPosition,x-wp.rcNormalPosition.left,y-wp.rcNormalPosition.top);
@@ -1560,9 +1560,9 @@ int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,
 		wp.rcNormalPosition.left=x;
 		wp.rcNormalPosition.top=y;
 		wsprintfA(szSettingName,"%swidth",szNamePrefix);
-		wp.rcNormalPosition.right=wp.rcNormalPosition.left+DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
+		wp.rcNormalPosition.right=wp.rcNormalPosition.left+db_get_dw(hContact,szModule,szSettingName,-1);
 		wsprintfA(szSettingName,"%sheight",szNamePrefix);
-		wp.rcNormalPosition.bottom=wp.rcNormalPosition.top+DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
+		wp.rcNormalPosition.bottom=wp.rcNormalPosition.top+db_get_dw(hContact,szModule,szSettingName,-1);
 	}
 	wp.flags=0;
 	wp.showCmd = showCmd;

@@ -104,7 +104,7 @@ string DBGetString(HANDLE hContact, const char *szModule, const char *szSetting,
 		}
 	} else
 		ret = pszError;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return ret;
 }
 
@@ -955,16 +955,16 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 			HWND hShareList = GetDlgItem(hwndDlg, IDC_CURRENT_SHARES);
 			HWND hUserList = GetDlgItem(hwndDlg, IDC_CURRENT_USERS);
 
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx1", (WORD)ListView_GetColumnWidth(hShareList, 0));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx2", (WORD)ListView_GetColumnWidth(hShareList, 1));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx3", (WORD)ListView_GetColumnWidth(hShareList, 2));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx4", (WORD)ListView_GetColumnWidth(hShareList, 3));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx5", (WORD)ListView_GetColumnWidth(hShareList, 4));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx6", (WORD)ListView_GetColumnWidth(hUserList, 0));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx7", (WORD)ListView_GetColumnWidth(hUserList, 1));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx8", (WORD)ListView_GetColumnWidth(hUserList, 2));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx9", (WORD)ListView_GetColumnWidth(hUserList, 3));
-			DBWriteContactSettingWord(NULL, MODULE, "StatWnd_cx10", (WORD)ListView_GetColumnWidth(hUserList, 4));
+			db_set_w(NULL, MODULE, "StatWnd_cx1", (WORD)ListView_GetColumnWidth(hShareList, 0));
+			db_set_w(NULL, MODULE, "StatWnd_cx2", (WORD)ListView_GetColumnWidth(hShareList, 1));
+			db_set_w(NULL, MODULE, "StatWnd_cx3", (WORD)ListView_GetColumnWidth(hShareList, 2));
+			db_set_w(NULL, MODULE, "StatWnd_cx4", (WORD)ListView_GetColumnWidth(hShareList, 3));
+			db_set_w(NULL, MODULE, "StatWnd_cx5", (WORD)ListView_GetColumnWidth(hShareList, 4));
+			db_set_w(NULL, MODULE, "StatWnd_cx6", (WORD)ListView_GetColumnWidth(hUserList, 0));
+			db_set_w(NULL, MODULE, "StatWnd_cx7", (WORD)ListView_GetColumnWidth(hUserList, 1));
+			db_set_w(NULL, MODULE, "StatWnd_cx8", (WORD)ListView_GetColumnWidth(hUserList, 2));
+			db_set_w(NULL, MODULE, "StatWnd_cx9", (WORD)ListView_GetColumnWidth(hUserList, 3));
+			db_set_w(NULL, MODULE, "StatWnd_cx10", (WORD)ListView_GetColumnWidth(hUserList, 4));
 
 			bool b = IsDlgButtonChecked(hwndDlg, IDC_SHOWHIDDENSHARES) == BST_CHECKED;
 			db_set_b(NULL, MODULE, "StatWnd_ShowHidden", b);
@@ -1032,7 +1032,7 @@ static INT_PTR nShareNewFile(WPARAM wParam, LPARAM lParam) {
 	if (hContact) {
 		// Try to locate an IP address.
 		DBVARIANT dbv = {0};
-		if (! DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
+		if (! db_get(hContact, "Protocol", "p", &dbv)) {
 			if (dbv.type == DBVT_ASCIIZ) {
 				stNewShare.dwAllowedIP = db_get_dw(hContact, dbv.pszVal, "IP", 0);
 				if (! stNewShare.dwAllowedIP)
@@ -1041,7 +1041,7 @@ static INT_PTR nShareNewFile(WPARAM wParam, LPARAM lParam) {
 					stNewShare.dwAllowedIP = db_get_dw(hContact, MODULE, "LastUsedIP", 0);
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		stNewShare.dwAllowedMask = db_get_dw(hContact, MODULE, "LastUsedMask", 0);
 	}

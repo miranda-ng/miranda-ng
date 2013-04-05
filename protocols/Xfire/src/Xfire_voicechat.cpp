@@ -159,27 +159,27 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 
 	if(packet==NULL || packet->gameid==XFIREVOICECHAT_NOVOICE) {
 		//einträge aus der db entfernen
-		DBDeleteContactSetting(NULL,protocolname, "VServerIP");
-		DBDeleteContactSetting(NULL,protocolname, "currentvoicename");
+		db_unset(NULL,protocolname, "VServerIP");
+		db_unset(NULL,protocolname, "currentvoicename");
 		//zurück
 		return;
 	}
 	//ip speichern
 	sprintf_s(temp,32,"%d.%d.%d.%d:%d",(unsigned char)packet->ip[3],(unsigned char)packet->ip[2],(unsigned char)packet->ip[1],(unsigned char)packet->ip[0],packet->port);
-	DBWriteContactSettingString(NULL, protocolname, "VServerIP", temp);
+	db_set_s(NULL, protocolname, "VServerIP", temp);
 	//namen jeh nach id schreiben
 	switch(packet->gameid) {
 		case XFIREVOICECHAT_TS3:
-			DBWriteContactSettingString(NULL, protocolname, "currentvoicename", "Teamspeak 3");
+			db_set_s(NULL, protocolname, "currentvoicename", "Teamspeak 3");
 			break;
 		case XFIREVOICECHAT_TS2:
-			DBWriteContactSettingString(NULL, protocolname, "currentvoicename", "Teamspeak 2");
+			db_set_s(NULL, protocolname, "currentvoicename", "Teamspeak 2");
 			break;
 		case XFIREVOICECHAT_MUMBLE:
-			DBWriteContactSettingString(NULL, protocolname, "currentvoicename", "Mumble");
+			db_set_s(NULL, protocolname, "currentvoicename", "Mumble");
 			break;
 		case XFIREVOICECHAT_VENTRILO:
-			DBWriteContactSettingString(NULL, protocolname, "currentvoicename", "Ventrilo");
+			db_set_s(NULL, protocolname, "currentvoicename", "Ventrilo");
 			break;
 	};
 }

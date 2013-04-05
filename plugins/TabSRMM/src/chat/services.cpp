@@ -246,12 +246,12 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			else
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->hContact = CList_AddRoom(gcw->pszModule, ptszID, szTemp, si->iType);
-			DBWriteContactSettingString(si->hContact, si->pszModule , "Topic", "");
+			db_set_s(si->hContact, si->pszModule , "Topic", "");
 			db_unset(si->hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
 				M->WriteTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 			if (si->hContact)
 				Chat_SetFilters(si);
 		}
@@ -371,7 +371,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 			if (si->ptszStatusbarText)
 				M->WriteTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 			if (si->hWnd)
 				SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
 		}

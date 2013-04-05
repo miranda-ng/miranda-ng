@@ -148,7 +148,7 @@ BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
 {
 	char *szProto = GetContactProto(hMetaContact);
 	if (szProto && !strcmp(szMetaProto, szProto)) { // Safety check
-		int i = DBGetContactSettingDword(hContact, szMetaProto, "ContactNumber", -1);
+		int i = db_get_dw(hContact, szMetaProto, "ContactNumber", -1);
 		if (i >= 0 && hContact == (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
 			return TRUE;
 	}
@@ -165,7 +165,7 @@ BOOL checkOpenWindow(HANDLE hContact)
 
 	found = CheckMsgWnd(hContact, &focus);
 	if (!found && szMetaProto && bMetaProtoEnabled) {
-		HANDLE hMetaContact = (HANDLE)DBGetContactSettingDword(hContact, szMetaProto, "Handle", 0);
+		HANDLE hMetaContact = (HANDLE)db_get_dw(hContact, szMetaProto, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			found = CheckMsgWnd(hMetaContact, &focus);
 	}
@@ -482,7 +482,7 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 BOOL contactCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
 {
 	if (szMetaProto && bMetaProtoEnabled && hContact) {
-		HANDLE hMetaContact = (HANDLE)DBGetContactSettingDword(hContact, szMetaProto, "Handle", 0);
+		HANDLE hMetaContact = (HANDLE)db_get_dw(hContact, szMetaProto, "Handle", 0);
 		if (hMetaContact && isMetaContactsSubContact(hMetaContact, hContact))
 			return FALSE;
 	}
@@ -661,19 +661,19 @@ void createProcessList(void)
 	DBVARIANT dbv;
 	unsigned int i, count;
 
-	count = (unsigned int)DBGetContactSettingWord(NULL, KEYBDMODULE, "processcount", 0);
+	count = (unsigned int)db_get_w(NULL, KEYBDMODULE, "processcount", 0);
 
 	ProcessList.count = 0;
 	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
 		for(i=0; i < count; i++)
-			if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
+			if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
 				ProcessList.szFileName[i] = NULL;
 			else {
 				ProcessList.szFileName[i] = (TCHAR *)malloc(wcslen(dbv.ptszVal) + 1);
 				if (ProcessList.szFileName[i])
 					wcscpy(ProcessList.szFileName[i], dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		ProcessList.count = count;
 	}
@@ -700,36 +700,36 @@ void destroyProcessList(void)
 
 void LoadSettings(void)
 {
-	bFlashOnMsg = DBGetContactSettingByte(NULL, KEYBDMODULE, "onmsg", DEF_SETTING_ONMSG);
-	bFlashOnURL = DBGetContactSettingByte(NULL, KEYBDMODULE, "onurl", DEF_SETTING_ONURL);
-	bFlashOnFile = DBGetContactSettingByte(NULL, KEYBDMODULE, "onfile", DEF_SETTING_ONFILE);
-	bFlashOnOther = DBGetContactSettingByte(NULL, KEYBDMODULE, "onother", DEF_SETTING_OTHER);
-	bFullScreenMode = DBGetContactSettingByte(NULL, KEYBDMODULE, "fscreenmode", DEF_SETTING_FSCREEN);
-	bScreenSaverRunning = DBGetContactSettingByte(NULL, KEYBDMODULE, "ssaverrunning", DEF_SETTING_SSAVER);
-	bWorkstationLocked = (bWindowsNT ? DBGetContactSettingByte(NULL, KEYBDMODULE, "wstationlocked", DEF_SETTING_LOCKED):0);
-	bProcessesAreRunning = DBGetContactSettingByte(NULL, KEYBDMODULE, "procsrunning", DEF_SETTING_PROCS);
-	bWorkstationActive = DBGetContactSettingByte(NULL, KEYBDMODULE, "wstationactive", DEF_SETTING_ACTIVE);
-	bFlashIfMsgOpen = DBGetContactSettingByte(NULL, KEYBDMODULE, "ifmsgopen", DEF_SETTING_IFMSGOPEN);
-	bFlashIfMsgWinNotTop = DBGetContactSettingByte(NULL, KEYBDMODULE, "ifmsgnottop", DEF_SETTING_IFMSGNOTTOP);
-	bFlashIfMsgOlder = DBGetContactSettingByte(NULL, KEYBDMODULE, "ifmsgolder", DEF_SETTING_IFMSGOLDER);
-	wSecondsOlder = DBGetContactSettingWord(NULL, KEYBDMODULE, "secsolder", DEF_SETTING_SECSOLDER);
-	bFlashUntil = DBGetContactSettingByte(NULL, KEYBDMODULE, "funtil", DEF_SETTING_FLASHUNTIL);
-	wBlinksNumber = DBGetContactSettingWord(NULL, KEYBDMODULE, "nblinks", DEF_SETTING_NBLINKS);
-	bMirandaOrWindows = DBGetContactSettingByte(NULL, KEYBDMODULE, "mirorwin", DEF_SETTING_MIRORWIN);
-	wStatusMap = DBGetContactSettingWord(NULL, KEYBDMODULE, "status", DEF_SETTING_STATUS);
-	wReminderCheck = DBGetContactSettingWord(NULL, KEYBDMODULE, "remcheck", DEF_SETTING_CHECKTIME);
-	bFlashLed[0] = !!DBGetContactSettingByte(NULL, KEYBDMODULE, "fnum", DEF_SETTING_FLASHNUM);
-	bFlashLed[1] = !!DBGetContactSettingByte(NULL, KEYBDMODULE, "fcaps", DEF_SETTING_FLASHCAPS);
-	bFlashLed[2] = !!DBGetContactSettingByte(NULL, KEYBDMODULE, "fscroll", DEF_SETTING_FLASHSCROLL);
-	bFlashEffect = DBGetContactSettingByte(NULL, KEYBDMODULE, "feffect", DEF_SETTING_FLASHEFFECT);
-	bSequenceOrder = DBGetContactSettingByte(NULL, KEYBDMODULE, "order", DEF_SETTING_SEQORDER);
-	wCustomTheme = DBGetContactSettingWord(NULL, KEYBDMODULE, "custom", DEF_SETTING_CUSTOMTHEME);
-	bTrillianLedsMsg = DBGetContactSettingByte(NULL, KEYBDMODULE, "ledsmsg", DEF_SETTING_LEDSMSG);
-	bTrillianLedsURL = DBGetContactSettingByte(NULL, KEYBDMODULE, "ledsurl", DEF_SETTING_LEDSURL);
-	bTrillianLedsFile = DBGetContactSettingByte(NULL, KEYBDMODULE, "ledsfile", DEF_SETTING_LEDSFILE);
-	bTrillianLedsOther = DBGetContactSettingByte(NULL, KEYBDMODULE, "ledsother", DEF_SETTING_LEDSOTHER);
-	wStartDelay = DBGetContactSettingWord(NULL, KEYBDMODULE, "sdelay", DEF_SETTING_STARTDELAY);
-	bFlashSpeed = DBGetContactSettingByte(NULL, KEYBDMODULE, "speed", DEF_SETTING_FLASHSPEED);
+	bFlashOnMsg = db_get_b(NULL, KEYBDMODULE, "onmsg", DEF_SETTING_ONMSG);
+	bFlashOnURL = db_get_b(NULL, KEYBDMODULE, "onurl", DEF_SETTING_ONURL);
+	bFlashOnFile = db_get_b(NULL, KEYBDMODULE, "onfile", DEF_SETTING_ONFILE);
+	bFlashOnOther = db_get_b(NULL, KEYBDMODULE, "onother", DEF_SETTING_OTHER);
+	bFullScreenMode = db_get_b(NULL, KEYBDMODULE, "fscreenmode", DEF_SETTING_FSCREEN);
+	bScreenSaverRunning = db_get_b(NULL, KEYBDMODULE, "ssaverrunning", DEF_SETTING_SSAVER);
+	bWorkstationLocked = (bWindowsNT ? db_get_b(NULL, KEYBDMODULE, "wstationlocked", DEF_SETTING_LOCKED):0);
+	bProcessesAreRunning = db_get_b(NULL, KEYBDMODULE, "procsrunning", DEF_SETTING_PROCS);
+	bWorkstationActive = db_get_b(NULL, KEYBDMODULE, "wstationactive", DEF_SETTING_ACTIVE);
+	bFlashIfMsgOpen = db_get_b(NULL, KEYBDMODULE, "ifmsgopen", DEF_SETTING_IFMSGOPEN);
+	bFlashIfMsgWinNotTop = db_get_b(NULL, KEYBDMODULE, "ifmsgnottop", DEF_SETTING_IFMSGNOTTOP);
+	bFlashIfMsgOlder = db_get_b(NULL, KEYBDMODULE, "ifmsgolder", DEF_SETTING_IFMSGOLDER);
+	wSecondsOlder = db_get_w(NULL, KEYBDMODULE, "secsolder", DEF_SETTING_SECSOLDER);
+	bFlashUntil = db_get_b(NULL, KEYBDMODULE, "funtil", DEF_SETTING_FLASHUNTIL);
+	wBlinksNumber = db_get_w(NULL, KEYBDMODULE, "nblinks", DEF_SETTING_NBLINKS);
+	bMirandaOrWindows = db_get_b(NULL, KEYBDMODULE, "mirorwin", DEF_SETTING_MIRORWIN);
+	wStatusMap = db_get_w(NULL, KEYBDMODULE, "status", DEF_SETTING_STATUS);
+	wReminderCheck = db_get_w(NULL, KEYBDMODULE, "remcheck", DEF_SETTING_CHECKTIME);
+	bFlashLed[0] = !!db_get_b(NULL, KEYBDMODULE, "fnum", DEF_SETTING_FLASHNUM);
+	bFlashLed[1] = !!db_get_b(NULL, KEYBDMODULE, "fcaps", DEF_SETTING_FLASHCAPS);
+	bFlashLed[2] = !!db_get_b(NULL, KEYBDMODULE, "fscroll", DEF_SETTING_FLASHSCROLL);
+	bFlashEffect = db_get_b(NULL, KEYBDMODULE, "feffect", DEF_SETTING_FLASHEFFECT);
+	bSequenceOrder = db_get_b(NULL, KEYBDMODULE, "order", DEF_SETTING_SEQORDER);
+	wCustomTheme = db_get_w(NULL, KEYBDMODULE, "custom", DEF_SETTING_CUSTOMTHEME);
+	bTrillianLedsMsg = db_get_b(NULL, KEYBDMODULE, "ledsmsg", DEF_SETTING_LEDSMSG);
+	bTrillianLedsURL = db_get_b(NULL, KEYBDMODULE, "ledsurl", DEF_SETTING_LEDSURL);
+	bTrillianLedsFile = db_get_b(NULL, KEYBDMODULE, "ledsfile", DEF_SETTING_LEDSFILE);
+	bTrillianLedsOther = db_get_b(NULL, KEYBDMODULE, "ledsother", DEF_SETTING_LEDSOTHER);
+	wStartDelay = db_get_w(NULL, KEYBDMODULE, "sdelay", DEF_SETTING_STARTDELAY);
+	bFlashSpeed = db_get_b(NULL, KEYBDMODULE, "speed", DEF_SETTING_FLASHSPEED);
 	switch (bFlashSpeed) {
 		case 0:	 nWaitDelay = 1500; break;
 		case 1:  nWaitDelay = 0750; break;
@@ -739,23 +739,23 @@ void LoadSettings(void)
 		default: nWaitDelay = 0050; break;
 	}
 	setFlashingSequence();
-	bEmulateKeypresses = DBGetContactSettingByte(NULL, KEYBDMODULE, "keypresses", DEF_SETTING_KEYPRESSES);
-	bOverride = DBGetContactSettingByte(NULL, KEYBDMODULE, "override", DEF_SETTING_OVERRIDE);
+	bEmulateKeypresses = db_get_b(NULL, KEYBDMODULE, "keypresses", DEF_SETTING_KEYPRESSES);
+	bOverride = db_get_b(NULL, KEYBDMODULE, "override", DEF_SETTING_OVERRIDE);
 	// Create hidden settings (for test button) if needed
-	if (DBGetContactSettingByte(NULL, KEYBDMODULE, "testnum", -1) == -1)
-		DBWriteContactSettingByte(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
-	if (DBGetContactSettingByte(NULL, KEYBDMODULE, "testsecs", -1) == -1)
-		DBWriteContactSettingByte(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
+	if (db_get_b(NULL, KEYBDMODULE, "testnum", -1) == -1)
+		db_set_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
+	if (db_get_b(NULL, KEYBDMODULE, "testsecs", -1) == -1)
+		db_set_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
 	for(int i=0; i < ProtoList.protoCount; i++)
 		if (ProtoList.protoInfo[i].visible) {
 			unsigned int j;
-			ProtoList.protoInfo[i].enabled = DBGetContactSettingByte(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
+			ProtoList.protoInfo[i].enabled = db_get_b(NULL, KEYBDMODULE, ProtoList.protoInfo[i].szProto, DEF_SETTING_PROTOCOL);
 			for(j=0; j < ProtoList.protoInfo[i].xstatus.count; j++)
-				ProtoList.protoInfo[i].xstatus.enabled[j] = DBGetContactSettingByte(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
+				ProtoList.protoInfo[i].xstatus.enabled[j] = db_get_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
 
 	if (szMetaProto)
-		bMetaProtoEnabled = DBGetContactSettingByte(NULL, szMetaProto, "Enabled", 1);
+		bMetaProtoEnabled = db_get_b(NULL, szMetaProto, "Enabled", 1);
 
 	destroyProcessList();
 	createProcessList();

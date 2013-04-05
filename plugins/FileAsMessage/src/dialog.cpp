@@ -264,18 +264,18 @@ int RetrieveFileSize(char *filename)
 FILEECHO::FILEECHO(HANDLE Contact)
 {
 	hContact = Contact;
-	dwSendInterval = DBGetContactSettingDword(NULL, SERVICE_NAME, "SendDelay", 6000);
-	//dwChunkSize = DBGetContactSettingDword(NULL, SERVICE_NAME, "ChunkSize", 5000);
+	dwSendInterval = db_get_dw(NULL, SERVICE_NAME, "SendDelay", 6000);
+	//dwChunkSize = db_get_dw(NULL, SERVICE_NAME, "ChunkSize", 5000);
 
-	chunkMaxLen = DBGetContactSettingDword(NULL, SERVICE_NAME, "ChunkSize", 5000);
+	chunkMaxLen = db_get_dw(NULL, SERVICE_NAME, "ChunkSize", 5000);
 	chunkCount = 0;
 	filename = NULL;
 
-	rgbRecv = DBGetContactSettingDword(NULL, SERVICE_NAME, "colorRecv", RGB(64,255,64));
-	rgbSent = DBGetContactSettingDword(NULL, SERVICE_NAME, "colorSent", RGB(255,255,64));
-	rgbUnSent = DBGetContactSettingDword(NULL, SERVICE_NAME, "colorUnsent", RGB(128,128,128));
-	rgbToSend = DBGetContactSettingDword(NULL, SERVICE_NAME, "colorTosend", RGB(192,192,192));
-	asBinary = DBGetContactSettingDword(NULL, SERVICE_NAME, "base64", 1) == 0;
+	rgbRecv = db_get_dw(NULL, SERVICE_NAME, "colorRecv", RGB(64,255,64));
+	rgbSent = db_get_dw(NULL, SERVICE_NAME, "colorSent", RGB(255,255,64));
+	rgbUnSent = db_get_dw(NULL, SERVICE_NAME, "colorUnsent", RGB(128,128,128));
+	rgbToSend = db_get_dw(NULL, SERVICE_NAME, "colorTosend", RGB(192,192,192));
+	asBinary = db_get_dw(NULL, SERVICE_NAME, "base64", 1) == 0;
 }
 
 uint controlEnabled[][2] =
@@ -573,8 +573,8 @@ void FILEECHO::incomeRequest(char *param)
 	inSend = FALSE;
 
 	SkinPlaySound("RecvFile");
-	int AutoMin = DBGetContactSettingByte(NULL,"SRFile","AutoMin",0);
-	if(DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0) && !DBGetContactSettingByte((HANDLE)hContact,"CList","NotOnList",0))
+	int AutoMin = db_get_b(NULL,"SRFile","AutoMin",0);
+	if(db_get_b(NULL,"SRFile","AutoAccept",0) && !db_get_b((HANDLE)hContact,"CList","NotOnList",0))
 	{
 		PostMessage(hDlg, WM_COMMAND, IDC_PLAY, 0);
 		if(AutoMin)
@@ -667,7 +667,7 @@ void FILEECHO::onRecvTimer()
 		SetDlgItemText(hDlg, IDC_STATUS, msg);
 		MakePopupMsg(hDlg, hContact, msg);
 		setState(STATE_FINISHED);
-		if(DBGetContactSettingByte(NULL,"SRFile","AutoClose",0))
+		if(db_get_b(NULL,"SRFile","AutoClose",0))
 		{
 			PostMessage(hDlg, WM_CLOSE, 0,0);
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
@@ -1184,7 +1184,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			if (szProto)
 			{
 				int dwStatus;
-				dwStatus = DBGetContactSettingWord(dat->hContact,szProto,"Status",ID_STATUS_OFFLINE);
+				dwStatus = db_get_w(dat->hContact,szProto,"Status",ID_STATUS_OFFLINE);
 				if(dat->inSend && dwStatus != dat->contactStatus)
 				{
 					if(dat->contactStatus == ID_STATUS_OFFLINE)

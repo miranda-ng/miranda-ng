@@ -51,7 +51,7 @@ static void SetDialogField(CJabberProto* ppro, HWND hwndDlg, int nDlgItem, char*
 {
 	DBVARIANT dbv;
 
-	if ( !DBGetContactSettingTString(NULL, ppro->m_szModuleName, key, &dbv)) {
+	if ( !db_get_ts(NULL, ppro->m_szModuleName, key, &dbv)) {
 		SetDlgItemText(hwndDlg, nDlgItem, (bTranslate) ? TranslateTS(dbv.ptszVal) : dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -566,7 +566,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				SetWindowText(hwndDlg, TranslateT("Jabber vCard: Edit Email Address"));
 				wsprintfA(idstr, "e-mail%d", dat->id);
-				if ( !DBGetContactSettingString(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) {
+				if ( !db_get_s(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) {
 					SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
 					db_free(&dbv);
 					wsprintfA(idstr, "e-mailFlag%d", lParam);
@@ -590,7 +590,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (dat->id < 0) {
 					for (dat->id=0;;dat->id++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "e-mail%d", dat->id);
-						if ( DBGetContactSettingString(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) break;
+						if ( db_get_s(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) break;
 						db_free(&dbv);
 				}	}
 				GetDlgItemText(hwndDlg, IDC_EMAIL, text, SIZEOF(text));
@@ -632,7 +632,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				SetWindowText(hwndDlg, TranslateT("Jabber vCard: Edit Phone Number"));
 				wsprintfA(idstr, "Phone%d", dat->id);
-				if ( !DBGetContactSettingString(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) {
+				if ( !db_get_s(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) {
 					SetDlgItemTextA(hwndDlg, IDC_PHONE, dbv.pszVal);
 					db_free(&dbv);
 					wsprintfA(idstr, "PhoneFlag%d", dat->id);
@@ -664,7 +664,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (dat->id < 0) {
 					for (dat->id=0;;dat->id++) {
 						wsprintfA(idstr, "Phone%d", dat->id);
-						if ( DBGetContactSettingString(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) break;
+						if ( db_get_s(NULL, dat->ppro->m_szModuleName, idstr, &dbv)) break;
 						db_free(&dbv);
 					}
 				}
@@ -747,7 +747,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				wsprintfA(idstr, "e-mail%d", i);
-				if ( DBGetContactSettingTString(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
+				if ( db_get_ts(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
 				wsprintf(number, _T("%d"), i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
@@ -766,7 +766,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 			lvi.iItem = 0;
 			for (i=0;;i++) {
 				wsprintfA(idstr, "Phone%d", i);
-				if ( DBGetContactSettingTString(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
+				if ( db_get_ts(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
 				wsprintf(number, _T("%d"), i+1);
 				lvi.pszText = number;
 				lvi.lParam = (LPARAM)i;
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 								WORD nFlag;
 
 								wsprintfA(idstr, szIdTemplate, i+1);
-								if ( DBGetContactSettingString(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
+								if ( db_get_s(NULL, ppro->m_szModuleName, idstr, &dbv)) break;
 								wsprintfA(idstr,szIdTemplate,i);
 								ppro->JSetString(NULL, idstr, dbv.pszVal);
 								wsprintfA(idstr, szFlagTemplate, i+1);
@@ -1021,7 +1021,7 @@ void CJabberProto::AppendVcardFromDB(HXML n, char* tag, char* key)
 		return;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(NULL, m_szModuleName, key, &dbv))
+	if ( db_get_ts(NULL, m_szModuleName, key, &dbv))
 		n << XCHILD(_A2T(tag));
 	else {
 		n << XCHILD(_A2T(tag), dbv.ptszVal);
@@ -1058,7 +1058,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 
 	for (i=0;;i++) {
 		wsprintfA(idstr, "e-mail%d", i);
-		if ( DBGetContactSettingTString(NULL, m_szModuleName, idstr, &dbv))
+		if ( db_get_ts(NULL, m_szModuleName, idstr, &dbv))
 			break;
 
 		HXML e = v << XCHILD(_T("EMAIL"), dbv.ptszVal);
@@ -1106,7 +1106,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, TCHAR* szPhotoFileName)
 
 	for (i=0;;i++) {
 		wsprintfA(idstr, "Phone%d", i);
-		if ( DBGetContactSettingTString(NULL, m_szModuleName, idstr, &dbv)) break;
+		if ( db_get_ts(NULL, m_szModuleName, idstr, &dbv)) break;
 		db_free(&dbv);
 
 		n = v << XCHILD(_T("TEL"));

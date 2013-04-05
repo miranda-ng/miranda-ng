@@ -25,7 +25,7 @@ static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 BOOL CheckStateLoadDB(HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
 {
-	BOOL state = DBGetContactSettingByte(NULL, szGPGModuleName, szSetting, bDef);
+	BOOL state = db_get_b(NULL, szGPGModuleName, szSetting, bDef);
 	CheckDlgButton(hwndDlg, idCtrl, state);
 	return state;
 }
@@ -33,7 +33,7 @@ BOOL CheckStateLoadDB(HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef
 BOOL CheckStateStoreDB(HWND hwndDlg, int idCtrl, const char* szSetting)
 {
 	BOOL state = IsDlgButtonChecked(hwndDlg, idCtrl);
-	DBWriteContactSettingByte(NULL, szGPGModuleName, szSetting, (BYTE)state);
+	db_set_b(NULL, szGPGModuleName, szSetting, (BYTE)state);
 	return state;
 }
 
@@ -180,7 +180,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				mir_free(tmp2);
 				ListView_SetItemText(hwndList, iRow, 3, (_tcslen(tmp) > 1)?tmp:_T("not set"));
 				mir_free(tmp);
-				if(DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0))
+				if(db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0))
 					ListView_SetCheckState(hwndList, iRow, 1);
 				user_data[i] = hContact;
 				ZeroMemory(&item,sizeof(item));
@@ -299,12 +299,12 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							  hcnt = metaGetSubcontact(meta, i);
 							  if(hcnt)
 							  {
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "KeyID");
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "GPGPubKey");
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "KeyMainName");
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "KeyType");
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "KeyMainEmail");
-								  DBDeleteContactSetting(hcnt, szGPGModuleName, "KeyComment");
+								  db_unset(hcnt, szGPGModuleName, "KeyID");
+								  db_unset(hcnt, szGPGModuleName, "GPGPubKey");
+								  db_unset(hcnt, szGPGModuleName, "KeyMainName");
+								  db_unset(hcnt, szGPGModuleName, "KeyType");
+								  db_unset(hcnt, szGPGModuleName, "KeyMainEmail");
+								  db_unset(hcnt, szGPGModuleName, "KeyComment");
 								  setClistIcon(hcnt);
 								  setSrmmIcon(hcnt);
 							  }
@@ -312,24 +312,24 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					  }
 					  else
 					  {
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "KeyID");
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "GPGPubKey");
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "KeyMainName");
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "KeyType");
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "KeyMainEmail");
-						  DBDeleteContactSetting(hContact, szGPGModuleName, "KeyComment");
+						  db_unset(hContact, szGPGModuleName, "KeyID");
+						  db_unset(hContact, szGPGModuleName, "GPGPubKey");
+						  db_unset(hContact, szGPGModuleName, "KeyMainName");
+						  db_unset(hContact, szGPGModuleName, "KeyType");
+						  db_unset(hContact, szGPGModuleName, "KeyMainEmail");
+						  db_unset(hContact, szGPGModuleName, "KeyComment");
 						  setClistIcon(hContact);
 						  setSrmmIcon(hContact);
 					  }
 				  }
 				  else
 				  {
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "KeyID");
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "GPGPubKey");
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "KeyMainName");
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "KeyType");
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "KeyMainEmail");
-					  DBDeleteContactSetting(user_data[item_num+1], szGPGModuleName, "KeyComment");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "KeyID");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "GPGPubKey");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "KeyMainName");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "KeyType");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "KeyMainEmail");
+					  db_unset(user_data[item_num+1], szGPGModuleName, "KeyComment");
 					  setClistIcon(user_data[item_num+1]);
 					  setSrmmIcon(user_data[item_num+1]);
 				  }
@@ -440,9 +440,9 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				void setClistIcon(HANDLE hContact);
 				void setSrmmIcon(HANDLE hContact);
 				if(ListView_GetCheckState(hwndList, item_num))
-					DBWriteContactSettingByte(user_data[item_num+1], szGPGModuleName, "GPGEncryption", 1);
+					db_set_b(user_data[item_num+1], szGPGModuleName, "GPGEncryption", 1);
 				else
-					DBWriteContactSettingByte(user_data[item_num+1], szGPGModuleName, "GPGEncryption", 0);
+					db_set_b(user_data[item_num+1], szGPGModuleName, "GPGEncryption", 0);
 				setClistIcon(user_data[item_num+1]);
 				setSrmmIcon(user_data[item_num+1]);
 			}
@@ -457,18 +457,18 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if(bDebugLog)
 				debuglog.init();
 			bJabberAPI = CheckStateStoreDB(hwndDlg, IDC_JABBER_API, "bJabberAPI");
-			bool old_bFileTransfers = DBGetContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 0);
+			bool old_bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0);
 			bFileTransfers = CheckStateStoreDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers");
 			if(bFileTransfers != old_bFileTransfers)
 			{
-				DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
+				db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
 				bSameAction = false;
 			}
 			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
 			{
 				TCHAR tmp[512];
 				GetDlgItemText(hwndDlg, IDC_LOG_FILE_EDIT, tmp, 512);
-				DBWriteContactSettingTString(NULL, szGPGModuleName, "szLogFilePath", tmp);
+				db_set_ts(NULL, szGPGModuleName, "szLogFilePath", tmp);
 			}
           return TRUE;
         }
@@ -516,7 +516,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  {
 					  bool bad_version = false;
 					  TCHAR *tmp_path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", _T(""));
-					  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+					  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 					  string out;
 					  DWORD code;
 					  std::vector<wstring> cmd;
@@ -527,7 +527,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  params.code = &code;
 					  params.result = &result;
 					  gpg_launcher(params);
-					  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
+					  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp_path);
 					  mir_free(tmp_path);
 					  string::size_type p1 = out.find("(GnuPG) ");
 					  if(p1 != string::npos)
@@ -593,11 +593,11 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
         {
 		  TCHAR tmp[512];
 		  GetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp, 512);
-		  DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+		  db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		  GetDlgItemText(hwndDlg, IDC_HOME_DIR, tmp, 512);
 		  while(tmp[_tcslen(tmp)-1] == '\\')
 			  tmp[_tcslen(tmp)-1] = '\0';
-		  DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", tmp);
+		  db_set_ts(NULL, szGPGModuleName, "szHomePath", tmp);
           return TRUE;
         }
       }
@@ -660,22 +660,22 @@ static INT_PTR CALLBACK DlgProcGpgMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				TCHAR tmp[128];
 				GetDlgItemText(hwndDlg, IDC_IN_OPEN_TAG, tmp, 128);
-				DBWriteContactSettingTString(NULL, szGPGModuleName, "szInOpenTag", tmp);
+				db_set_ts(NULL, szGPGModuleName, "szInOpenTag", tmp);
 				mir_free(inopentag);
 				inopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_IN_CLOSE_TAG, tmp, 128);
-				DBWriteContactSettingTString(NULL, szGPGModuleName, "szInCloseTag", tmp);
+				db_set_ts(NULL, szGPGModuleName, "szInCloseTag", tmp);
 				mir_free(inclosetag);
 				inclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(inclosetag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_OPEN_TAG, tmp, 128);
-				DBWriteContactSettingTString(NULL, szGPGModuleName, "szOutOpenTag", tmp);
+				db_set_ts(NULL, szGPGModuleName, "szOutOpenTag", tmp);
 				mir_free(outopentag);
 				outopentag = (TCHAR*)mir_alloc(sizeof(TCHAR)* (_tcslen(tmp)+1));
 				_tcscpy(outopentag, tmp);
 				GetDlgItemText(hwndDlg, IDC_OUT_CLOSE_TAG, tmp, 128);
-				DBWriteContactSettingTString(NULL, szGPGModuleName, "szOutCloseTag", tmp);
+				db_set_ts(NULL, szGPGModuleName, "szOutCloseTag", tmp);
 				mir_free(outclosetag);
 				outclosetag = (TCHAR*)mir_alloc(sizeof(TCHAR)*(_tcslen(tmp)+1));
 				_tcscpy(outclosetag, tmp);
@@ -927,14 +927,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 								{
 									hcnt = metaGetSubcontact(hContact, i);
 									if(hcnt)
-										DBWriteContactSettingTString(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
+										db_set_ts(hcnt, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 								}
 							}
 							else
-								DBWriteContactSettingTString(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
+								db_set_ts(metaGetMostOnline(hContact), szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 						}
 						else
-							DBWriteContactSettingTString(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
+							db_set_ts(hContact, szGPGModuleName, "GPGPubKey", key_buf.substr(ws1,ws2-ws1).c_str());
 					}
 					tmp = (TCHAR*)mir_alloc(sizeof( TCHAR) * (key_buf.length()+1));
 					_tcscpy(tmp, key_buf.substr(ws1,ws2-ws1).c_str());
@@ -992,14 +992,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 									{
 										hcnt = metaGetSubcontact(hContact, i);
 										if(hcnt)
-											DBDeleteContactSetting(hcnt, szGPGModuleName, "bAlwatsTrust");
+											db_unset(hcnt, szGPGModuleName, "bAlwatsTrust");
 									}
 								}
 								else
-									DBDeleteContactSetting(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
+									db_unset(metaGetMostOnline(hContact), szGPGModuleName, "bAlwatsTrust");
 							}
 							else
-								DBDeleteContactSetting(hContact, szGPGModuleName, "bAlwatsTrust");
+								db_unset(hContact, szGPGModuleName, "bAlwatsTrust");
 						}
 						{
 							TCHAR *tmp;
@@ -1026,14 +1026,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										{
 											hcnt = metaGetSubcontact(hContact, i);
 											if(hcnt)
-												DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyID", tmp2);
+												db_set_s(hcnt, szGPGModuleName, "KeyID", tmp2);
 										}
 									}
 									else
-										DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", tmp2);
+										db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyID", tmp2);
 								}
 								else
-									DBWriteContactSettingString(hContact, szGPGModuleName, "KeyID", tmp2);
+									db_set_s(hContact, szGPGModuleName, "KeyID", tmp2);
 							}
 							mir_free(tmp2);
 							tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s)).c_str());
@@ -1076,14 +1076,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 											{
 												hcnt = metaGetSubcontact(hContact, i);
 												if(hcnt)
-													DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+													db_set_s(hcnt, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 											}
 										}
 										else
-											DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+											db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 									}
 									else
-										DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+										db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 								}
 								mir_free(tmp2);
 								tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s-1)).c_str());
@@ -1114,14 +1114,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 													{
 														hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
-															DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+															db_set_s(hcnt, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 													}
 												}
 												else
-													DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 											}
 											else
-												DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+												db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 										}
 										mir_free(tmp2);
 										s+=3;
@@ -1141,14 +1141,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 													{
 														hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
-															DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 													}
 												}
 												else
-													DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 											}
 											else
-												DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+												db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 										}
 										mir_free(tmp2);
 										tmp = mir_wstrdup(toUTF16(output.substr(s,s2-s)).c_str());
@@ -1173,14 +1173,14 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 													{
 														hcnt = metaGetSubcontact(hContact, i);
 														if(hcnt)
-															DBWriteContactSettingString(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+															db_set_s(hcnt, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 													}
 												}
 												else
-													DBWriteContactSettingString(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+													db_set_s(metaGetMostOnline(hContact), szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 											}
 											else
-												DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+												db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 										}
 										mir_free(tmp2);
 										tmp = mir_wstrdup(toUTF16(output.substr(s2,s-s2)).c_str());
@@ -1224,7 +1224,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 								{
 									out.erase(s, 1);
 								}
-								DBWriteContactSettingString(hContact, szGPGModuleName, "GPGPubKey", out.c_str());
+								db_set_s(hContact, szGPGModuleName, "GPGPubKey", out.c_str());
 							}
 						}
 						tmp = mir_wstrdup(toUTF16(output).c_str());
@@ -1251,23 +1251,23 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 										if(hcnt)
 										{
 											if(!isContactSecured(hcnt))
-												DBWriteContactSettingByte(hcnt, szGPGModuleName, "GPGEncryption", 1);
+												db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 1);
 											else
-												DBWriteContactSettingByte(hcnt, szGPGModuleName, "GPGEncryption", 0);
+												db_set_b(hcnt, szGPGModuleName, "GPGEncryption", 0);
 											setSrmmIcon(hContact);
 											setClistIcon(hContact);
 										}
 									}
 								}
 								else if(!isContactSecured(hContact))
-									DBWriteContactSettingByte(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 1);
+									db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 1);
 								else
-									DBWriteContactSettingByte(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
+									db_set_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
 							}
 							else if(!isContactSecured(hContact))
-								DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
+								db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
 							else
-								DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+								db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 						}
 					}
 					DestroyWindow(hwndDlg);
@@ -1351,8 +1351,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 
 	case WM_DESTROY:
 		GetWindowRect(hwndDlg, &load_key_rect);
-		DBWriteContactSettingDword(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
-		DBWriteContactSettingDword(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowX", load_key_rect.left);
+		db_set_dw(NULL, szGPGModuleName, "LoadKeyWindowY", load_key_rect.top);
 		break;
 	}
 

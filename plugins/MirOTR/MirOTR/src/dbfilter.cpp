@@ -54,7 +54,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 
 	const char *proto = contact_get_proto(hContact);
 	if (!proto )	return 0;
-	if (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) == 1)
+	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 	
 	if(g_metaproto && strcmp(proto, g_metaproto) == 0) {

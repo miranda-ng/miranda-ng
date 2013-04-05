@@ -529,7 +529,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_RTL, db_get_b(NULL,"CList","TextRTL",SETTING_TEXT_RTL_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
-		//TODO: init IDC_ALIGNGROUPCOMBO from DBGetContactSettingByte(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
+		//TODO: init IDC_ALIGNGROUPCOMBO from db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
 		{
 			int item;
 			TCHAR *align[] = {LPGENT("Left align group names"), LPGENT("Center group names"), LPGENT("Right align group names")};
@@ -575,7 +575,7 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				db_set_b(NULL,"CList","TextRTL", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_RTL));
-				//TODO: Store IDC_ALIGNGROUPCOMBO at DBGetContactSettingByte(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
+				//TODO: Store IDC_ALIGNGROUPCOMBO at db_get_b(NULL,"CList","AlignGroupCaptions",SETTING_ALIGNGROPCAPTION_DEFAULT);
 				db_set_b(NULL,"CList","AlignGroupCaptions",(BYTE)SendDlgItemMessage(hwndDlg,IDC_ALIGNGROUPCOMBO,CB_GETCURSEL, 0, 0));
 				db_set_b(NULL,"CList","TextAlignToRight", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_ALIGN_RIGHT));
 				db_set_b(NULL,"CList","TextReplaceSmileys", (BYTE)IsDlgButtonChecked(hwndDlg,IDC_REPLACE_SMILEYS));
@@ -610,7 +610,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL,"CList","SecondLineDrawSmileys",SETTING_SECONDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, "CList","SecondLineText", &dbv)) {
+			if ( !db_get_ts(NULL, "CList","SecondLineText", &dbv)) {
 				SetWindowText(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -786,7 +786,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS, db_get_b(NULL,"CList","ThirdLineDrawSmileys",SETTING_THIRDLINE_SMILEYS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, "CList","ThirdLineText", &dbv)) {
+			if ( !db_get_ts(NULL, "CList","ThirdLineText", &dbv)) {
 				SetWindowText(GetDlgItem(hwndDlg,IDC_VARIABLE_TEXT), dbv.ptszVal);
 				db_free(&dbv);
 			}

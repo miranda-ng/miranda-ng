@@ -516,25 +516,25 @@ int DBStoreFrameSettingsAtPos(int pos,int Frameid)
 
 	_itoa(pos,sadd,10);
 
-	DBWriteContactSettingTString(0,CLUIFrameModule,AS(buf,"Name",sadd),Frames[Frameid].name);
+	db_set_ts(0,CLUIFrameModule,AS(buf,"Name",sadd),Frames[Frameid].name);
 	//boolean
 	db_set_b(0,CLUIFrameModule,AS(buf,"Collapse",sadd),(BYTE)btoint(Frames[Frameid].collapsed));
 	db_set_b(0,CLUIFrameModule,AS(buf,"Locked",sadd),(BYTE)btoint(Frames[Frameid].Locked));
 	db_set_b(0,CLUIFrameModule,AS(buf,"Visible",sadd),(BYTE)btoint(Frames[Frameid].visible));
 	db_set_b(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),(BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"Height",sadd),(WORD)Frames[Frameid].height);
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),(WORD)Frames[Frameid].HeightWhenCollapsed);
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"Align",sadd),(WORD)Frames[Frameid].align);
+	db_set_w(0,CLUIFrameModule,AS(buf,"Height",sadd),(WORD)Frames[Frameid].height);
+	db_set_w(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),(WORD)Frames[Frameid].HeightWhenCollapsed);
+	db_set_w(0,CLUIFrameModule,AS(buf,"Align",sadd),(WORD)Frames[Frameid].align);
 	//FloatingPos
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatX",sadd),(WORD)Frames[Frameid].FloatingPos.x);
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatY",sadd),(WORD)Frames[Frameid].FloatingPos.y);
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatW",sadd),(WORD)Frames[Frameid].FloatingSize.x);
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatH",sadd),(WORD)Frames[Frameid].FloatingSize.y);
+	db_set_w(0,CLUIFrameModule,AS(buf,"FloatX",sadd),(WORD)Frames[Frameid].FloatingPos.x);
+	db_set_w(0,CLUIFrameModule,AS(buf,"FloatY",sadd),(WORD)Frames[Frameid].FloatingPos.y);
+	db_set_w(0,CLUIFrameModule,AS(buf,"FloatW",sadd),(WORD)Frames[Frameid].FloatingSize.x);
+	db_set_w(0,CLUIFrameModule,AS(buf,"FloatH",sadd),(WORD)Frames[Frameid].FloatingSize.y);
 
 	db_set_b(0,CLUIFrameModule,AS(buf,"Floating",sadd),(BYTE)btoint(Frames[Frameid].floating));
 	db_set_b(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),(BYTE)btoint(Frames[Frameid].UseBorder));
-	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"Order",sadd),(WORD)Frames[Frameid].order);
+	db_set_w(0,CLUIFrameModule,AS(buf,"Order",sadd),(WORD)Frames[Frameid].order);
 	//db_set_s(0,CLUIFrameModule,AS(buf,"TBName",sadd),Frames[Frameid].TitleBar.tbname);
 	return 0;
 }
@@ -593,7 +593,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	}
 
 	DBStoreFrameSettingsAtPos(storpos,Frameid);
-	DBWriteContactSettingWord(0,CLUIFrameModule,"StoredFrames",(WORD)maxstored);
+	db_set_w(0,CLUIFrameModule,"StoredFrames",(WORD)maxstored);
 	//ulockfrm();
 	return 0;
 }
@@ -1739,9 +1739,9 @@ int CLUIFramesResize(const RECT newsize)
 	int sepw = GapBetweenFrames;
 	SortData *sdarray;
 
-	GapBetweenTitlebar = (int)DBGetContactSettingDword(NULL,"CLUIFrames","GapBetweenTitleBar",1);
-	GapBetweenFrames = DBGetContactSettingDword(NULL,"CLUIFrames","GapBetweenFrames",1);
-	TitleBarH = DBGetContactSettingDword(NULL,"CLUIFrames","TitleBarH",DEFAULT_TITLEBAR_HEIGHT);
+	GapBetweenTitlebar = (int)db_get_dw(NULL,"CLUIFrames","GapBetweenTitleBar",1);
+	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",1);
+	TitleBarH = db_get_dw(NULL,"CLUIFrames","TitleBarH",DEFAULT_TITLEBAR_HEIGHT);
 
 	sepw = GapBetweenFrames;
 	if (nFramescount < 1)
@@ -1941,12 +1941,12 @@ int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam)
 
 	AlignCOLLIconToLeft = db_get_b(NULL,"FrameTitleBar","AlignCOLLIconToLeft",0);
 
-	bkColour = DBGetContactSettingDword(NULL,"FrameTitleBar","BkColour",CLCDEFAULT_BKCOLOUR);
-	//SelBkColour = DBGetContactSettingDword(NULL,"FrameTitleBar","SelBkColour",0);
+	bkColour = db_get_dw(NULL,"FrameTitleBar","BkColour",CLCDEFAULT_BKCOLOUR);
+	//SelBkColour = db_get_dw(NULL,"FrameTitleBar","SelBkColour",0);
 
 	if (hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground = NULL;}
 	if ( db_get_b(NULL,"FrameTitleBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-		if ( !DBGetContactSetting(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
+		if ( !db_get(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 		}
@@ -2108,7 +2108,7 @@ static int DrawTitleBar(HDC dc,RECT rect,int Frameid)
 		DrawBackGroundTTB(Frames[pos].TitleBar.hwnd,hdcMem);
 		//hFront = CreateSolidPe (SelBkColour);
 		//SelectObject(hdcMem,hFront);
-		SelBkColour = DBGetContactSettingDword(NULL,"CLUIFrames","FramesTitleBarFontCol",0);
+		SelBkColour = db_get_dw(NULL,"CLUIFrames","FramesTitleBarFontCol",0);
 		if (SelBkColour) SetTextColor(hdcMem,SelBkColour);
 
 		if ( !AlignCOLLIconToLeft) {
@@ -2871,7 +2871,7 @@ int LoadCLUIFramesModule(void)
 	RegisterClass(&cntclass);
 	//end container helper
 
-	GapBetweenFrames = DBGetContactSettingDword(NULL,"CLUIFrames","GapBetweenFrames",1);
+	GapBetweenFrames = db_get_dw(NULL,"CLUIFrames","GapBetweenFrames",1);
 
 	nFramescount = 0;
 	InitializeCriticalSection(&csFrameHook);

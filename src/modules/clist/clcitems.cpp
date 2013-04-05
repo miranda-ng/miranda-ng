@@ -228,7 +228,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 		if (szProto != NULL)
 			status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-	if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+	if (db_get_ts(hContact, "CList", "Group", &dbv))
 		group = &dat->list;
 	else {
 		group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
@@ -322,7 +322,7 @@ void fnDeleteItemFromTree(HWND hwnd, HANDLE hItem)
 		int i, nameOffset;
 		if ( !IsHContactContact(hItem))
 			return;
-		if (DBGetContactSettingTString(hItem, "CList", "Group", &dbv))
+		if (db_get_ts(hItem, "CList", "Group", &dbv))
 			return;
 
 		//decrease member counts of all parent groups too
@@ -374,7 +374,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	hContact = db_find_first();
 	while (hContact) {
 		if (style & CLS_SHOWHIDDEN || !db_get_b(hContact, "CList", "Hidden", 0)) {
-			if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+			if (db_get_ts(hContact, "CList", "Group", &dbv))
 				group = &dat->list;
 			else {
 				group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);

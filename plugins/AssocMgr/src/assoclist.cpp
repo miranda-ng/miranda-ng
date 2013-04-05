@@ -51,7 +51,7 @@ static BOOL IsAssocEnabled(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
-	return DBGetContactSettingByte(NULL, "AssocMgr", szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED))!= 0;
+	return db_get_b(NULL, "AssocMgr", szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED))!= 0;
 }
 
 static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
@@ -59,13 +59,13 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	char szSetting[MAXMODULELABELLENGTH];
 	TCHAR szDLL[MAX_PATH], szBuf[MAX_PATH];
 	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
-	DBWriteContactSettingByte(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
+	db_set_b(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	/* dll name for uninstall */
 	if(assoc->hInstance!= NULL && assoc->hInstance!= hInst && assoc->hInstance!= GetModuleHandle(NULL))
 		if( GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
 			if( PathToRelativeT(szBuf, szDLL)) {
 				mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
-				DBWriteContactSettingTString(NULL, "AssocMgr", szSetting, szDLL);
+				db_set_ts(NULL, "AssocMgr", szSetting, szDLL);
 			}
 }
 
@@ -73,10 +73,10 @@ static void DeleteAssocEnabledSetting(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
-	DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
+	db_unset(NULL, "AssocMgr", szSetting);
 	/* dll name for uninstall */
 	mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
-	DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
+	db_unset(NULL, "AssocMgr", szSetting);
 }
 
 void CleanupAssocEnabledSettings(void)
@@ -95,13 +95,13 @@ void CleanupAssocEnabledSettings(void)
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, sizeof(szSetting), "module_%s", pszSuffix);
-			if (!DBGetContactSettingTString(NULL, "AssocMgr", szSetting, &dbv)) {
+			if (!db_get_ts(NULL, "AssocMgr", szSetting, &dbv)) {
 				if( PathToAbsoluteT(dbv.ptszVal, szDLL)) {
 					/* file still exists? */
 					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
 					if(hFile == INVALID_HANDLE_VALUE) {
-						DBDeleteContactSetting(NULL, "AssocMgr", ppszSettings[i]);
-						DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
+						db_unset(NULL, "AssocMgr", ppszSettings[i]);
+						db_unset(NULL, "AssocMgr", szSetting);
 					} else CloseHandle(hFile);
 				}
 				mir_free(dbv.ptszVal);
@@ -119,8 +119,8 @@ static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
-	if(fAdded) DBWriteContactSettingString(NULL, "AssocMgr", szSetting, pszFileExt);
-	else DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
+	if(fAdded) db_set_s(NULL, "AssocMgr", szSetting, pszFileExt);
+	else db_unset(NULL, "AssocMgr", szSetting);
 }
 
 static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
@@ -129,8 +129,8 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 	DBVARIANT dbv;
 	BOOL fAdded = FALSE;
 	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
-	if (!DBGetContactSetting(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
-	else DBFreeVariant(&dbv);
+	if (!db_get(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
+	else db_free(&dbv);
 	return fAdded;
 }
 
@@ -150,12 +150,12 @@ void CleanupMimeTypeAddedSettings(void)
 				if (!lstrcmpA(pszSuffix, pAssocList[j].pszMimeType))
 					break; /* mime type in current list */
 			if(j == nAssocListCount) { /* mime type not in current list */
-				if (!DBGetContactSetting(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
+				if (!db_get(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
 					if(dbv.type == DBVT_ASCIIZ)
 						RemoveRegMimeType(pszSuffix, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
-				DBDeleteContactSetting(NULL, "AssocMgr", ppszSettings[i]);
+				db_unset(NULL, "AssocMgr", ppszSettings[i]);
 			}
 			mir_free(ppszSettings[i]);
 		}
@@ -769,7 +769,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); /* size to fit window */
 			/* only while running */
-			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)DBGetContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT));
 			/* autostart */
 			{	TCHAR *pszRunCmd;
 				pszRunCmd = MakeRunCommand(TRUE, TRUE);
@@ -915,7 +915,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 							ASSOCDATA *assoc;
 
 							/* only while running */
-							DBWriteContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING)!= 0));
+							db_set_b(NULL, "AssocMgr", "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING)!= 0));
 
 							/* save enabled assoc items */
 							hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
@@ -1063,7 +1063,7 @@ void UninitAssocList(void)
 	DestroyServiceFunction(hServiceRemoveUrl);
 
 	/* Assoc List */
-	fOnlyWhileRunning = DBGetContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
+	fOnlyWhileRunning = db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
 	for(i = 0;i<nAssocListCount;++i) {
 		assoc = &pAssocList[i];
 

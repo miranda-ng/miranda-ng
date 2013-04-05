@@ -66,7 +66,7 @@ BOOL ReadCheckbox(HWND wnd, int id, DWORD controls)
 
 DWORD ReadCheckboxes(HWND wnd, LPCSTR mod)
 {
-	DWORD controls = DBGetContactSettingDword(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, 0);
+	DWORD controls = db_get_dw(0, NOTIFY_SETTINGS_FROM_MOD_NAME, mod, 0);
 	ReadCheckbox(wnd, IDC_POPUPSENABLED, controls);
 	ReadCheckbox(wnd, IDC_POPUPSINFULLSCREEN, controls);
 	ReadCheckbox(wnd, IDC_AUTHONMAILBOX, controls);
@@ -171,13 +171,13 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(wnd);
 		SendMessage(GetDlgItem(wnd, IDC_BACKCOLORPICKER), CPM_SETCOLOUR, 0,
-			(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
+			(LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0));
 		SendMessage(GetDlgItem(wnd, IDC_TEXTCOLORPICKER), CPM_SETCOLOUR, 0,
-			(LPARAM)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
+			(LPARAM)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0));
 		{
 			LPTSTR timeout = (LPTSTR)malloc(11 * sizeof(TCHAR));
 			__try {
-				wsprintf(timeout, _T("%d"), DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
+				wsprintf(timeout, _T("%d"), db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0));
 				SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_SETTEXT, 0, (LPARAM)timeout);
 			}
 			__finally {

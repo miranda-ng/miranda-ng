@@ -108,7 +108,7 @@ http::response facebook_client::flap( const int request_type, std::string* reque
 	    // is compaired in all communication requests
 	}
 
-	if (DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0 ) == 1)
+	if (db_get_b( NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0 ) == 1)
 		validate_response(&resp);
 
 	return resp;
@@ -122,7 +122,7 @@ bool facebook_client::validate_response( http::response* resp )
 		return false;
 	}
 
-	if (DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0 ) == 2) {
+	if (db_get_b( NULL, parent->m_szModuleName, FACEBOOK_KEY_VALIDATE_RESPONSE, 0 ) == 2) {
 		return true;
 	}
 
@@ -192,7 +192,7 @@ bool facebook_client::handle_error( std::string method, bool force_disconnect )
 
 	if ( force_disconnect )
 		result = false;
-	else if ( error_count_ <= (UINT)DBGetContactSettingByte(NULL,parent->m_szModuleName,FACEBOOK_KEY_TIMEOUTS_LIMIT,FACEBOOK_TIMEOUTS_LIMIT))
+	else if ( error_count_ <= (UINT)db_get_b(NULL,parent->m_szModuleName,FACEBOOK_KEY_TIMEOUTS_LIMIT,FACEBOOK_TIMEOUTS_LIMIT))
 		result = true;
 	else
 		result = false;
@@ -213,7 +213,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 	if (this->https_)
 	{
 		if ( request_type != FACEBOOK_REQUEST_MESSAGES_RECEIVE
-			|| DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL ))
+			|| db_get_b( NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL ))
 			return NLHRF_SSL;
 	}
 
@@ -523,7 +523,7 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 
 std::string facebook_client::get_newsfeed_type( )
 {
-	BYTE feed_type = DBGetContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, 0);
+	BYTE feed_type = db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, 0);
 	if (feed_type < 0 || feed_type >= SIZEOF(feed_types))
 		feed_type = 0;	
 	return feed_types[feed_type].id;
@@ -658,7 +658,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			if ( resp.headers["Location"].find("https://") != std::string::npos )
 			{
 				client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
-				DBWriteContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1);
+				db_set_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, 1);
 				this->https_ = true;
 			}
 		}
@@ -667,7 +667,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 	// Check for Device ID
 	if ( cookies["datr"].length())
-		DBWriteContactSettingString( NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
+		db_set_s( NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
 	switch ( resp.code )
 	{
@@ -715,7 +715,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		if ( cookies.find("c_user") != cookies.end())
 		{
 			this->self_.user_id = cookies.find("c_user")->second;
-			DBWriteContactSettingString(NULL,parent->m_szModuleName,FACEBOOK_KEY_ID,this->self_.user_id.c_str());
+			db_set_s(NULL,parent->m_szModuleName,FACEBOOK_KEY_ID,this->self_.user_id.c_str());
 			parent->Log("      Got self user id: %s", this->self_.user_id.c_str());
 			return handle_success( "login" );
 		} else {
@@ -728,7 +728,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 bool facebook_client::logout( )
 {
-	if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_DISABLE_LOGOUT, 0))
+	if ( db_get_b(NULL, parent->m_szModuleName, FACEBOOK_KEY_DISABLE_LOGOUT, 0))
 		return true;
 
 	handle_entry( "logout" );
@@ -1125,7 +1125,7 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 	{
 		HANDLE hContact = parent->ContactIDToHContact( message_recipient );
 		if (hContact != NULL)
-  			DBWriteContactSettingWord(hContact,parent->m_szModuleName,"Status",ID_STATUS_OFFLINE);
+  			db_set_w(hContact,parent->m_szModuleName,"Status",ID_STATUS_OFFLINE);
 		return false;
 	} break;
 

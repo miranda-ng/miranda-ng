@@ -319,7 +319,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	item->type = item->OptType;
 	item->Enabled = item->OptEnabled;
 
-	DBWriteContactSettingWord(NULL, DBMODULENAME, item->pszName, item->Hotkey);
+	db_set_w(NULL, DBMODULENAME, item->pszName, item->Hotkey);
 	db_set_b(NULL, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
 	if (item->type != HKT_MANUAL)
 		db_set_b(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
@@ -332,7 +332,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			subItem->type = subItem->OptType;
 
 			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, item->nSubHotkeys);
-			DBWriteContactSettingWord(NULL, DBMODULENAME, buf, subItem->Hotkey);
+			db_set_w(NULL, DBMODULENAME, buf, subItem->Hotkey);
 			if (subItem->type != HKT_MANUAL)
 				db_set_b(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
 

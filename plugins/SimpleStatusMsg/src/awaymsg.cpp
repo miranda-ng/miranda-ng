@@ -26,9 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "commonheaders.h"
 
-static HANDLE hAwayMsgMenuItem;
-static HANDLE hCopyMsgMenuItem;
-static HANDLE hGoToURLMenuItem;
+static HGENMENU hAwayMsgMenuItem, hCopyMsgMenuItem, hGoToURLMenuItem;
 static HANDLE hWindowList;
 static HANDLE hWindowList2;
 
@@ -106,7 +104,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				TCHAR str[256], format[128];
 				TCHAR *contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
 				char *szProto = GetContactProto(dat->hContact);
-				WORD dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dwStatus, GSMDF_TCHAR);
 
 				GetWindowText(hwndDlg, format, SIZEOF(format));
@@ -335,20 +333,20 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 	char *szMsg;
 
 
-	int unicode = !DBGetContactSetting((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-	DBFreeVariant(&dbv);
+	int unicode = !db_get((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
+	db_free(&dbv);
 	if (unicode)
 	{
-		DBGetContactSettingWString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
+		db_get_ws((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 		szMsg = mir_u2a(dbv.pwszVal);
 	}
 	else
 
 	{
-		DBGetContactSettingString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
+		db_get_s((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 		szMsg = mir_strdup(dbv.pszVal);
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	char *szURL = StrFindURL(szMsg);
 	if (szURL != NULL)
@@ -374,7 +372,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR str[128];
 	char *szProto = GetContactProto((HANDLE)wParam);
-	int iHidden = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
+	int iHidden = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 	char *szMsg;
 	int iStatus;
 
@@ -382,14 +380,11 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 
-	if (!iHidden)
-	{
+	if (!iHidden) {
 		iHidden = 1;
-		iStatus = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1,0) & PF1_MODEMSGRECV)
-		{
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3,0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus))
-			{
+		iStatus = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1,0) & PF1_MODEMSGRECV) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3,0) & Proto_Status2Flag(iStatus == ID_STATUS_OFFLINE ? ID_STATUS_INVISIBLE : iStatus)) {
 				iHidden = 0;
 				clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 				clmi.hIcon = LoadSkinnedProtoIcon(szProto, iStatus);
@@ -398,51 +393,43 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&clmi);
+	Menu_ModifyItem(hAwayMsgMenuItem, &clmi);
 	Skin_ReleaseIcon(clmi.hIcon);
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 
-	if (!iHidden)
-	{
+	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
+	if (!iHidden) {
 		DBVARIANT dbv;
 
-		int unicode = !DBGetContactSetting((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-		DBFreeVariant(&dbv);
-		if (unicode)
-		{
-			DBGetContactSettingWString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
+		int unicode = !db_get((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
+		db_free(&dbv);
+		if (unicode) {
+			db_get_ws((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 			szMsg = mir_u2a(dbv.pwszVal);
 		}
-		else
-
-		{
-			DBGetContactSettingString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
+		else {
+			db_get_s((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 			szMsg = mir_strdup(dbv.pszVal);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
-		if (DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowCopy", 1) && szMsg && *szMsg != '\0')
-		{
+		if (db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1) && szMsg && *szMsg != '\0') {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Copy %s Message"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
 			clmi.ptszName = str;
 		}
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hCopyMsgMenuItem, (LPARAM)&clmi);
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
+	Menu_ModifyItem(hCopyMsgMenuItem, &clmi);
 
-	if (!iHidden)
-	{
-		if (DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL)
-		{
+	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
+	if (!iHidden) {
+		if (db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) && StrFindURL(szMsg) != NULL) {
 			clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_TCHAR;
 			mir_sntprintf(str, SIZEOF(str), TranslateT("&Go to URL in %s Message"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatus, GSMDF_TCHAR));
 			clmi.ptszName = str;
 		}
 		mir_free(szMsg);
 	}
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hGoToURLMenuItem, (LPARAM)&clmi);
-
+	Menu_ModifyItem(hGoToURLMenuItem, &clmi);
 	return 0;
 }
 

@@ -504,20 +504,20 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 
 	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
 	ptd->pupClass.iSeconds = 
-		(signed char)DBGetContactSettingWord(NULL, szModul, setting, 0);
+		(signed char)db_get_w(NULL, szModul, setting, 0);
 
 	mir_snprintf(setting, sizeof(setting), "%s/TimeoutVal", ptd->pupClass.pszName);
 	ptd->timeoutValue =
-		(signed char)DBGetContactSettingWord(NULL, szModul, setting,
+		(signed char)db_get_w(NULL, szModul, setting,
 			ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopUpOptions.Seconds);
 
 	mir_snprintf(setting, sizeof(setting), "%s/leftAction", ptd->pupClass.pszName);
-	szTmp = DBGetContactSettingString(NULL, szModul, setting, POPUP_ACTION_NOTHING);	//standart ??
+	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	//standart ??
 	lstrcpynA(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 	mir_free(szTmp); szTmp = NULL;
 
 	mir_snprintf(setting, sizeof(setting), "%s/rightAction", ptd->pupClass.pszName);
-	szTmp = DBGetContactSettingString(NULL, szModul, setting, POPUP_ACTION_DISMISS);	//standart ??
+	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_DISMISS);	//standart ??
 	lstrcpynA(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 	mir_free(szTmp); szTmp = NULL;
 
@@ -530,14 +530,14 @@ void SaveClassSettings(POPUPTREEDATA *ptd, char* szModul)
 	db_set_b(NULL, szModul, setting, ptd->enabled);
 
 	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
-	DBWriteContactSettingWord(NULL, szModul, setting, ptd->pupClass.iSeconds);
+	db_set_w(NULL, szModul, setting, ptd->pupClass.iSeconds);
 
 	mir_snprintf(setting, sizeof(setting), "%s/TimeoutVal",ptd->pupClass.pszName);
-	DBWriteContactSettingWord(NULL, szModul, setting, ptd->timeoutValue);
+	db_set_w(NULL, szModul, setting, ptd->timeoutValue);
 
 	mir_snprintf(setting, sizeof(setting), "%s/leftAction",ptd->pupClass.pszName);
-	DBWriteContactSettingString(NULL, szModul, setting, ptd->leftAction);
+	db_set_s(NULL, szModul, setting, ptd->leftAction);
 
 	mir_snprintf(setting, sizeof(setting), "%s/rightAction",ptd->pupClass.pszName);
-	DBWriteContactSettingString(NULL, szModul, setting, ptd->rightAction);
+	db_set_s(NULL, szModul, setting, ptd->rightAction);
 }

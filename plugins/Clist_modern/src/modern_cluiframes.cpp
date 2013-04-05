@@ -672,7 +672,7 @@ static int DBLoadFrameSettingsAtPos(int pos,int Frameid)
 
 	_itoa(pos,sadd,10);
 
-	//DBWriteContactSettingString(0, CLUIFrameModule,strcat("Name",sadd),Frames[Frameid].name);
+	//db_set_s(0, CLUIFrameModule,strcat("Name",sadd),Frames[Frameid].name);
 	//bool
 	g_pfwFrames[Frameid].collapsed = db_get_b(0, CLUIFrameModule,AS(buf,"Collapse",sadd),g_pfwFrames[Frameid].collapsed);
 
@@ -735,7 +735,7 @@ static int LocateStorePosition(int Frameid,int maxstored)
 	for (int i=0; i < maxstored; i++) {
 		mir_snprintf(settingname,SIZEOF(settingname),"Name%d",i);
 		DBVARIANT dbv = {0};
-		if ( DBGetContactSettingTString( NULL, CLUIFrameModule, settingname, &dbv ))
+		if ( db_get_ts( NULL, CLUIFrameModule, settingname, &dbv ))
 			continue;
 
 		if ( lstrcmpi(dbv.ptszVal, g_pfwFrames[Frameid].Name) == 0) {
@@ -2600,7 +2600,7 @@ int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam)
 	}
 
 
-	//if (DBGetContactSettingByte(NULL,"CLUI","ShowSBar",SETTING_SHOWSBAR_DEFAULT))GetWindowRect(pcli->hwndStatus,&rcStatus);
+	//if (db_get_b(NULL,"CLUI","ShowSBar",SETTING_SHOWSBAR_DEFAULT))GetWindowRect(pcli->hwndStatus,&rcStatus);
 	//else rcStatus.top = rcStatus.bottom = 0;
 	// nRect.top--;
 	/* $$$	rcStatus.top = rcStatus.bottom = 0;
@@ -2663,7 +2663,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam)
 		if (g_CluiData.fDisableSkinEngine)
 		{
 			if ( db_get_b(NULL,"FrameTitleBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-				if ( !DBGetContactSettingString(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
+				if ( !db_get_s(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
 					hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 					db_free(&dbv);
 				}

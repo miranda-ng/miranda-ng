@@ -219,7 +219,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		ClcGroup *group;
 		if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
-			if ( !DBGetContactSettingTString((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
+			if ( !db_get_ts((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
 				if (dbv.ptszVal == NULL||_tcslen(dbv.ptszVal) == 0) break;
 				lstrcpyn(contact->szStatusMsg, dbv.ptszVal, SIZEOF(contact->szStatusMsg));
@@ -228,7 +228,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 						contact->szStatusMsg[j] = ' ';
 					}
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				if (_tcslen(contact->szStatusMsg)>0) {
 					contact->flags |= CONTACTF_STATUSMSG;
 					dat->needsResort = TRUE;

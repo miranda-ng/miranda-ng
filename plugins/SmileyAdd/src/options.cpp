@@ -644,7 +644,7 @@ void OptionsType::ReadPackFileName(bkstring& filename, const bkstring& name, con
 void OptionsType::WritePackFileName(const bkstring& filename, const bkstring& name)
 {
 	bkstring settingKey = name + _T("-filename");
-	DBWriteContactSettingTString(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), 
+	db_set_ts(NULL, "SmileyAdd", T2A_SM(settingKey.c_str()), 
 		filename.c_str());
 }
 
@@ -665,9 +665,9 @@ void OptionsType::ReadCustomCategories(bkstring& cats)
 void OptionsType::WriteCustomCategories(const bkstring& cats)
 {
 	if (cats.empty())
-		DBDeleteContactSetting(NULL, "SmileyAdd", "CustomCategories");
+		db_unset(NULL, "SmileyAdd", "CustomCategories");
 	else
-		DBWriteContactSettingTString(NULL, "SmileyAdd", "CustomCategories",	cats.c_str());
+		db_set_ts(NULL, "SmileyAdd", "CustomCategories",	cats.c_str());
 }
 
 
@@ -687,7 +687,7 @@ void OptionsType::ReadContactCategory(HANDLE hContact, bkstring& cats)
 void OptionsType::WriteContactCategory(HANDLE hContact, const bkstring& cats)
 {
 	if (cats.empty())
-		DBDeleteContactSetting(hContact, "SmileyAdd", "CustomCategory");
+		db_unset(hContact, "SmileyAdd", "CustomCategory");
 	else
-		DBWriteContactSettingTString(hContact, "SmileyAdd", "CustomCategory",	cats.c_str());
+		db_set_ts(hContact, "SmileyAdd", "CustomCategory",	cats.c_str());
 }

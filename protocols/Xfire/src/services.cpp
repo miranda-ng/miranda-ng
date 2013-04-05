@@ -34,17 +34,17 @@ BOOL IsContactMySelf(std::string buddyusername) {
 	DBVARIANT dbv;
 
 	//nur wenn option aktiv, sonst immer FALSE
-	if(!DBGetContactSettingByte(NULL,protocolname,"skipmyself",0))
+	if(!db_get_b(NULL,protocolname,"skipmyself",0))
 		return FALSE;
 
-	if(!DBGetContactSetting(NULL,protocolname,"login",&dbv))
+	if(!db_get(NULL,protocolname,"login",&dbv))
 	{
 		if(!lstrcmpiA( dbv.pszVal, buddyusername.c_str() ))
 		{
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return TRUE;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		return FALSE;
@@ -56,10 +56,10 @@ BOOL IsContactMySelf(std::string buddyusername) {
 INT_PTR GetMyAvatar(WPARAM wparam,LPARAM lparam) {
 	DBVARIANT dbv;
 
-	if(!DBGetContactSetting(NULL,protocolname,"MyAvatarFile",&dbv))
+	if(!db_get(NULL,protocolname,"MyAvatarFile",&dbv))
 	{
 		strncpy((char*)wparam, dbv.pszVal, (int)lparam);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	}
 

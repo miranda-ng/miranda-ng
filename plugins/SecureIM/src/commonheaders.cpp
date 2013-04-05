@@ -6,7 +6,8 @@ LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING")";
 char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 
-HANDLE g_hEvent[2], g_hMenu[15], g_hCLIcon=0, g_hFolders=0;
+HANDLE   g_hEvent[2], g_hCLIcon=0, g_hFolders=0;
+HGENMENU g_hMenu[15];
 
 int iService=0;
 int iHook=0;

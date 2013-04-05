@@ -1559,7 +1559,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			data->get_status_messages = false;
 			data->showing_menu = false;
 
-			data->protocol_number = DBGetContactSettingWord(NULL,"MyDetails","ProtocolNumber",0);
+			data->protocol_number = db_get_w(NULL,"MyDetails","ProtocolNumber",0);
 			if (data->protocol_number >= protocols->GetSize())
 				data->protocol_number = 0;
 
@@ -2341,7 +2341,7 @@ void SetStatusMessageRefreshTime(HWND hwnd)
 {
 	KillTimer(hwnd, ID_STATUSMESSAGE_TIMER);
 
-	opts.refresh_status_message_timer = DBGetContactSettingWord(NULL,"MyDetails","RefreshStatusMessageTimer",12);
+	opts.refresh_status_message_timer = db_get_w(NULL,"MyDetails","RefreshStatusMessageTimer",12);
 	if (opts.refresh_status_message_timer > 0)
 		SetTimer(hwnd, ID_STATUSMESSAGE_TIMER, opts.refresh_status_message_timer * 1000, NULL);
 }
@@ -2357,7 +2357,7 @@ INT_PTR PluginCommand_ShowNextProtocol(WPARAM wParam,LPARAM lParam)
 	if (data->protocol_number >= protocols->GetSize())
 		data->protocol_number = 0;
 
-	DBWriteContactSettingWord(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
+	db_set_w(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
 
 	data->recalc_rectangles = true;
 
@@ -2379,7 +2379,7 @@ INT_PTR PluginCommand_ShowPreviousProtocol(WPARAM wParam,LPARAM lParam)
 	if (data->protocol_number < 0)
 		data->protocol_number = protocols->GetSize() - 1;
 
-	DBWriteContactSettingWord(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
+	db_set_w(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
 
 	data->recalc_rectangles = true;
 
@@ -2413,7 +2413,7 @@ INT_PTR PluginCommand_ShowProtocol(WPARAM wParam,LPARAM lParam)
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLong(hwnd_frame, GWLP_USERDATA);
 
 	data->protocol_number = proto_num;
-	DBWriteContactSettingWord(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
+	db_set_w(NULL,"MyDetails","ProtocolNumber",data->protocol_number);
 
 	data->recalc_rectangles = true;
 

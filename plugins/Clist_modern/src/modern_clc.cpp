@@ -1842,7 +1842,7 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 		}
 		else
 		{
-			//DBDeleteContactSetting(ack->hContact,"CList","StatusMsg");
+			//db_unset(ack->hContact,"CList","StatusMsg");
 			//char a = '\0';
 			{//Do not change DB if it is IRC protocol
 				if (ack->szModule != NULL)

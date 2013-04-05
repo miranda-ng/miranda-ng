@@ -21,10 +21,10 @@ char* Varxfiregame(ARGUMENTSINFO *ai)
 	{
 		char temp[256];
 		DBVARIANT dbv3;
-		if(!DBGetContactSetting(ai->fi->hContact,protocolname, "RGame",&dbv3))
+		if(!db_get(ai->fi->hContact,protocolname, "RGame",&dbv3))
 		{
 			strncpy(temp,dbv3.pszVal,255);
-			DBFreeVariant(&dbv3);
+			db_free(&dbv3);
 			return mir_strdup(temp);
 		}
 	}
@@ -39,10 +39,10 @@ char* Varmyxfiregame(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!DBGetContactSetting(NULL,protocolname, "currentgamename",&dbv3))
+	if(!db_get(NULL,protocolname, "currentgamename",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
-		DBFreeVariant(&dbv3);
+		db_free(&dbv3);
 		return ret;
 	}
 	ai->flags = AIF_FALSE;
@@ -55,10 +55,10 @@ char* Varxfirevoice(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!DBGetContactSetting(ai->fi->hContact,protocolname, "RVoice",&dbv3))
+	if(!db_get(ai->fi->hContact,protocolname, "RVoice",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
-		DBFreeVariant(&dbv3);
+		db_free(&dbv3);
 		return ret;
 	}
 
@@ -72,10 +72,10 @@ char* Varmyxfirevoiceip(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!DBGetContactSetting(NULL,protocolname, "VServerIP",&dbv3))
+	if(!db_get(NULL,protocolname, "VServerIP",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
-		DBFreeVariant(&dbv3);
+		db_free(&dbv3);
 		return ret;
 	}
 	
@@ -88,10 +88,10 @@ char* Varmyxfireserverip(ARGUMENTSINFO *ai) {
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!DBGetContactSetting(NULL,protocolname, "ServerIP",&dbv3))
+	if(!db_get(NULL,protocolname, "ServerIP",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
-		DBFreeVariant(&dbv3);
+		db_free(&dbv3);
 		return ret;
 	}
 	
@@ -112,10 +112,10 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 	{
 		char temp[24];
 		DBVARIANT dbv3;
-		if(!DBGetContactSetting(ai->fi->hContact,protocolname, "ServerIP",&dbv3))
+		if(!db_get(ai->fi->hContact,protocolname, "ServerIP",&dbv3))
 		{
-			sprintf(temp,"%s:%d",dbv3.pszVal,DBGetContactSettingWord(ai->fi->hContact,protocolname, "Port",0));
-			DBFreeVariant(&dbv3);
+			sprintf(temp,"%s:%d",dbv3.pszVal,db_get_w(ai->fi->hContact,protocolname, "Port",0));
+			db_free(&dbv3);
 			return mir_strdup(temp);
 		}
 		ai->flags = AIF_FALSE;
@@ -139,10 +139,10 @@ char* Varxfirevoiceip(ARGUMENTSINFO *ai) {
 	{
 		char temp[24];
 		DBVARIANT dbv3;
-		if(!DBGetContactSetting(ai->fi->hContact,protocolname, "VServerIP",&dbv3))
+		if(!db_get(ai->fi->hContact,protocolname, "VServerIP",&dbv3))
 		{
-			sprintf(temp,"%s:%d",dbv3.pszVal,DBGetContactSettingWord(ai->fi->hContact,protocolname, "VPort",0));
-			DBFreeVariant(&dbv3);
+			sprintf(temp,"%s:%d",dbv3.pszVal,db_get_w(ai->fi->hContact,protocolname, "VPort",0));
+			db_free(&dbv3);
 			return mir_strdup(temp);
 		}
 		ai->flags = AIF_FALSE;
@@ -159,10 +159,10 @@ char* Varmyxfirevoice(ARGUMENTSINFO *ai)
 		return NULL;
 
 	DBVARIANT dbv3;
-	if(!DBGetContactSetting(NULL,protocolname, "currentvoicename",&dbv3))
+	if(!db_get(NULL,protocolname, "currentvoicename",&dbv3))
 	{
 		char* ret=mir_strdup(dbv3.pszVal);
-		DBFreeVariant(&dbv3);
+		db_free(&dbv3);
 		return ret;
 	}
 

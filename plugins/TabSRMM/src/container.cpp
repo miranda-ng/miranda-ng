@@ -178,7 +178,7 @@ struct TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, HANDL
 					else if (!_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
 						iFirstFree =  i;
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 			while (++i && iFound == FALSE);
@@ -995,7 +995,7 @@ panel_found:
 					if (iSelection - IDM_CONTAINERMENU >= 0) {
 						if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
 							SendMessage((HWND)item.lParam, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 					}
 					return 1;
@@ -1602,7 +1602,7 @@ panel_found:
 			if (szThemeName != NULL) {
 				M->pathToAbsolute(szThemeName, pContainer->szAbsThemeFile);
 				mir_sntprintf(pContainer->szRelThemeFile, MAX_PATH, _T("%s"), szThemeName);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				pContainer->szAbsThemeFile[0] = pContainer->szRelThemeFile[0] = 0;
@@ -2364,7 +2364,7 @@ int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLe
 				dbv.ptszVal[CONTAINER_NAMELEN] = '\0';
 			_tcsncpy(szName, dbv.ptszVal, iNameLen);
 			szName[iNameLen] = '\0';
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return dbv.cchVal;
 		}
 	}
@@ -2375,10 +2375,10 @@ int TSAPI GetContainerNameForContact(HANDLE hContact, TCHAR *szName, int iNameLe
 	if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 		_tcsncpy(szName, dbv.ptszVal, iNameLen);
 		szName[iNameLen] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return dbv.cpbVal;
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 0;
 }
 
@@ -2405,7 +2405,7 @@ void TSAPI DeleteContainer(int iIndex)
 					TCHAR *wszString = dbv_c.ptszVal;
 					if (_tcscmp(wszString, wszContainerName) && lstrlen(wszString) == lstrlen(wszContainerName))
 						db_unset(hhContact, SRMSGMOD_T, "containerW");
-					DBFreeVariant(&dbv_c);
+					db_free(&dbv_c);
 				}
 				hhContact = db_find_next(hhContact);
 			}
@@ -2422,7 +2422,7 @@ void TSAPI DeleteContainer(int iIndex)
 			_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", szSettingP, iIndex);
 			db_unset(NULL, SRMSGMOD_T, szSetting);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -2451,11 +2451,11 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 							M->WriteTString(hhContact, SRMSGMOD_T, szSubKey, szNew);
 					}
 				}
-				DBFreeVariant(&dbv_c);
+				db_free(&dbv_c);
 			}
 			hhContact = db_find_next(hhContact);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -2490,7 +2490,7 @@ HMENU TSAPI BuildContainerMenu()
 				AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(dbv.ptszVal, _T("default")) ?
 				TranslateT("Default container") : dbv.ptszVal);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		i++;
 	}
 	while (TRUE);
@@ -2535,7 +2535,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 
 	for (i=0; i < iNumProtos; i++) {
 		mir_snprintf(szTemp, sizeof(szTemp), "Protocol%d", i);
-		if (DBGetContactSettingString(dat->hContact, PluginConfig.szMetaName, szTemp, &dbv))
+		if (db_get_s(dat->hContact, PluginConfig.szMetaName, szTemp, &dbv))
 			continue;
 
 		tzProtoName = dbv.pszVal;
@@ -2557,7 +2557,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg)
 			AppendMenu(hMCSubForce, MF_STRING | iChecked, 100 + i, szMenuLine);
 			AppendMenu(hMCSubDefault, MF_STRING | (i == iDefaultProtoByNum ? MF_CHECKED : MF_UNCHECKED), 1000 + i, szMenuLine);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	AppendMenu(hMCSubForce, MF_SEPARATOR, 900, _T(""));
 	AppendMenu(hMCSubForce, MF_STRING | ((isForced == -1) ? MF_CHECKED : MF_UNCHECKED), 999, TranslateT("Autoselect"));

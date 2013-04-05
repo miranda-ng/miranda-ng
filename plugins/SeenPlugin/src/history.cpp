@@ -51,7 +51,7 @@ void HistoryWrite(HANDLE hContact)
 
 	TCHAR *ptszString;
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(NULL, S_MOD, "HistoryStamp", &dbv)) {
+	if ( !db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
 		ptszString = ParseString(dbv.ptszVal, hContact, 0);
 		db_free(&dbv);
 	}
@@ -87,7 +87,7 @@ void LoadHistoryList(HANDLE hContact, HWND hwnd, int nList)
 		i = (i-1+historyMax) % historyMax;
 		
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(hContact, S_MOD, BuildSetting(i), &dbv)) {
+		if ( !db_get_ts(hContact, S_MOD, BuildSetting(i), &dbv)) {
 			SendDlgItemMessage(hwnd, nList, LB_ADDSTRING, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 		}

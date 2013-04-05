@@ -176,7 +176,7 @@ static void SetLastStatusMessages(TSettingsList& ps)
 		_snprintf(dbSetting, sizeof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
-		if ( ps[i].szMsg == NULL && !DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) {
+		if ( ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
 			ps[i].szMsg = _tcsdup(dbv.ptszVal); // remember this won't be freed
 			db_free(&dbv);
 }	}	}
@@ -303,7 +303,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protos[i]->szModuleName)) {
 			db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0));
 			mir_snprintf(lastMsg, sizeof(lastMsg), "%s%s", PREFIX_LASTMSG, protos[i]->szModuleName);
-			DBDeleteContactSetting(NULL, MODULENAME, lastMsg);
+			db_unset(NULL, MODULENAME, lastMsg);
 			
 			int status = CallProtoService(protos[i]->szModuleName, PS_GETSTATUS, 0, 0);
 			if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protos[i]->szModuleName))

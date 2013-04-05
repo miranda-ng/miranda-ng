@@ -21,11 +21,11 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
 {
   DBVARIANT dbv = {DBVT_DELETED};
   TCHAR* szRes;
-  if (DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
+  if (db_get_ts(hContact, szModule, szSetting, &dbv))
 	 return _tcsdup(szDef);
   if(dbv.pszVal)
 	  szRes = _tcsdup(dbv.ptszVal);
-  DBFreeVariant(&dbv);
+  db_free(&dbv);
   return szRes;
 }
 

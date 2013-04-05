@@ -127,7 +127,7 @@ struct CMraProto : public PROTO_INTERFACE
 	__forceinline BOOL mraSetStringA(HANDLE Contact, const char *valueName, const char *parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue, lstrlenA(parValue)); }
 	__forceinline BOOL mraSetStringW(HANDLE Contact, const char *valueName, const WCHAR *parValue) {
-		return DBWriteContactSettingWString(Contact, m_szModuleName, valueName, parValue); }
+		return db_set_ws(Contact, m_szModuleName, valueName, parValue); }
 
 	__forceinline BOOL mraSetLPSStringA(HANDLE Contact, const char *valueName, MRA_LPS *parValue) {
 		return DB_SetStringExA(Contact, m_szModuleName, valueName, parValue->lpszData, parValue->dwSize); }
@@ -210,16 +210,16 @@ struct CMraProto : public PROTO_INTERFACE
 
 	HANDLE  hAvatarsQueueHandle;
 
-	HANDLE  hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
-	HANDLE  hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+4];
+	HGENMENU hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
+	HGENMENU hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+4];
 
-	HWND    hWndEMailPopupStatus;
-	DWORD   dwEmailMessagesTotal, dwEmailMessagesUnread;
+	HWND     hWndEMailPopupStatus;
+	DWORD    dwEmailMessagesTotal, dwEmailMessagesUnread;
 
-	BOOL    bHideXStatusUI;
-	HANDLE  hXStatusMenuItems[MRA_XSTATUS_COUNT+4];
-	HANDLE  hExtraXstatusIcon;
-	HANDLE  hExtraInfo;
+	BOOL     bHideXStatusUI;
+	HGENMENU hXStatusMenuItems[MRA_XSTATUS_COUNT+4];
+	HANDLE   hExtraXstatusIcon;
+	HANDLE   hExtraInfo;
 
 	char    szNewMailSound[MAX_PATH];
 
@@ -299,8 +299,7 @@ struct CMraProto : public PROTO_INTERFACE
 
 	void   InitMainMenu();
 	void   InitContactMenu();
-	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult);
-	void   CListShowMenuItem(HANDLE hMenuItem, BOOL bShow);
+	void   CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsStatus, const struct GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HGENMENU *hResult);
 
 	DWORD  ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam, size_t paramSize = 0);
 	DWORD  CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);

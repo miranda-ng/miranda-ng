@@ -49,33 +49,33 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour) {
 	DBVARIANT dbv;
 	if (colour) {
 		wsprintfA(str, "Font%dCol", i);
-		*colour = DBGetContactSettingDword(NULL, CHATFONTMOD, str, 0x000000);
+		*colour = db_get_dw(NULL, CHATFONTMOD, str, 0x000000);
 	}
 	if (lf) {
 		wsprintfA(str, "Font%dSize", i);
-		lf->lfHeight = (char) DBGetContactSettingByte(NULL, CHATFONTMOD, str, 10);
+		lf->lfHeight = (char) db_get_b(NULL, CHATFONTMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		wsprintfA(str, "Font%dSty", i);
-		style = DBGetContactSettingByte(NULL, CHATFONTMOD, str, 0);
+		style = db_get_b(NULL, CHATFONTMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		wsprintfA(str, "Font%dSet", i);
-		lf->lfCharSet = DBGetContactSettingByte(NULL, CHATFONTMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(NULL, CHATFONTMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		wsprintfA(str, "Font%d", i);
-		if (DBGetContactSetting(NULL, CHATFONTMOD, str, &dbv))
+		if (db_get(NULL, CHATFONTMOD, str, &dbv))
 			lstrcpyA(lf->lfFaceName, "Verdana");
 		else {
 			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 }
@@ -115,7 +115,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 		ReleaseDC(NULL, hdc);
 		Utils::appendText(&output, &outputSize, "<html><head>");
 		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
-		COLORREF bkgColor = DBGetContactSettingDword(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
+		COLORREF bkgColor = db_get_dw(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
 		COLORREF inColor, outColor;
 		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;
@@ -159,7 +159,7 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
  */
 
 void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
-	DWORD iconFlags = DBGetContactSettingDword(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
+	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
 		//DWORD dwFlags = eventData->dwFlags;

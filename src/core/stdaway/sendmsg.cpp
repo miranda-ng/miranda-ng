@@ -33,7 +33,7 @@ static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
 
 static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
 {
-	return pa && DBGetContactSettingByte(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
+	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
 static const TCHAR *GetDefaultMessage(int status)
@@ -98,11 +98,11 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 
 	DBVARIANT dbv;
 	if ( GetStatusModeByte(statusMode, "UsePrev")) {
-		if ( DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
+		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
 	}
 	else {
-		if ( DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
+		if ( db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
 
 		for (int i=0; dbv.ptszVal[i]; i++) {
@@ -281,7 +281,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				TCHAR str[1024];
 				GetDlgItemText(hwndDlg, IDC_MSG, str, SIZEOF(str));
 				ChangeAllProtoMessages(dat->szProto, dat->statusMode, str);
-				DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
+				db_set_ts(NULL, "SRAway", StatusModeToDbSetting(dat->statusMode, "Msg"), str);
 				DestroyWindow(hwndDlg);
 			}
 			else PostMessage(hwndDlg, WM_CLOSE, 0, 0);
@@ -408,8 +408,8 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				dat->info[j].usePrevious = GetStatusModeByte(statusModes[i], "UsePrev");
 
 				DBVARIANT dbv;
-				if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
-					if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
+				if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Default"), &dbv))
+					if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(statusModes[i], "Msg"), &dbv))
 						dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusModes[i]));
 				lstrcpy(dat->info[j].msg, dbv.ptszVal);
 				mir_free(dbv.ptszVal);

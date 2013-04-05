@@ -50,7 +50,7 @@ void TlenGetAvatarFileName(TlenProtocol *proto, JABBER_LIST_ITEM *item, TCHAR* p
 	} else if (proto->threadData != NULL) {
 		format = proto->threadData->avatarFormat;
 	} else {
-		format = DBGetContactSettingDword(NULL, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
+		format = db_get_dw(NULL, proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
 	}
 	tszFileType = TEXT("png");
 	switch(format) {
@@ -81,9 +81,9 @@ static void RemoveAvatar(TlenProtocol *proto, HANDLE hContact) {
 	}
 	TlenGetAvatarFileName( proto, NULL, tFileName, sizeof tFileName );
 	DeleteFile(tFileName);
-	DBDeleteContactSetting(hContact, "ContactPhoto", "File");
-	DBDeleteContactSetting(hContact, proto->m_szModuleName, "AvatarHash");
-	DBDeleteContactSetting(hContact, proto->m_szModuleName, "AvatarFormat");
+	db_unset(hContact, "ContactPhoto", "File");
+	db_unset(hContact, proto->m_szModuleName, "AvatarHash");
+	db_unset(hContact, proto->m_szModuleName, "AvatarFormat");
 	ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 }
 
@@ -118,9 +118,9 @@ static void SetAvatar(TlenProtocol *proto, HANDLE hContact, JABBER_LIST_ITEM *it
 	if ( out != NULL ) {
 		fwrite( data, len, 1, out );
 		fclose( out );
-		DBWriteContactSettingTString(hContact, "ContactPhoto", "File", filename );
-		DBWriteContactSettingString(hContact, proto->m_szModuleName, "AvatarHash",  md5);
-		DBWriteContactSettingDword(hContact, proto->m_szModuleName, "AvatarFormat",  format);
+		db_set_ts(hContact, "ContactPhoto", "File", filename );
+		db_set_s(hContact, proto->m_szModuleName, "AvatarHash",  md5);
+		db_set_dw(hContact, proto->m_szModuleName, "AvatarFormat",  format);
 	}
 	ProtoBroadcastAck( proto->m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL , 0);
 }

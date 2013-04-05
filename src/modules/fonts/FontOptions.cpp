@@ -567,10 +567,10 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	db_set_dw(NULL, F.dbSettingsGroup, str, F.value.colour);
 	if (F.flags & FIDF_NOAS) {
 		mir_snprintf(str, SIZEOF(str), "%sAs", F.prefix);
-		DBWriteContactSettingWord(NULL, F.dbSettingsGroup, str, (WORD)0x00FF);
+		db_set_w(NULL, F.dbSettingsGroup, str, (WORD)0x00FF);
 	}
 	mir_snprintf(str, SIZEOF(str), "%sFlags", F.prefix);
-	DBWriteContactSettingWord(NULL, F.dbSettingsGroup, str, (WORD)F.flags);
+	db_set_w(NULL, F.dbSettingsGroup, str, (WORD)F.flags);
 }
 
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

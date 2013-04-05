@@ -50,7 +50,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 void InitVars()
 {
-	gbPort = DBGetContactSettingWord(NULL, szModuleName, "Port", 6600);
+	gbPort = db_get_w(NULL, szModuleName, "Port", 6600);
 	gbPassword = (TCHAR*)malloc(64*sizeof(TCHAR));
 	gbHost = (TCHAR*)malloc(128*sizeof(TCHAR));
 	gbHost = UniGetContactSettingUtf(NULL, szModuleName, "Server", _T("127.0.0.1"));

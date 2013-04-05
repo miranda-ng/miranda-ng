@@ -155,8 +155,8 @@ int LoadMainOptions()
 			StartTimer(IDT_CHECKCONTIN, 0, FALSE);
 		}
 		increaseExponential = db_get_b(NULL, MODULENAME, SETTING_INCREASEEXPONENTIAL, FALSE);
-		currentDelay = initDelay = 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY);
-		maxDelay = 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY);
+		currentDelay = initDelay = 1000*db_get_dw(NULL, MODULENAME, SETTING_INITDELAY, DEFAULT_INITDELAY);
+		maxDelay = 1000*db_get_dw(NULL, MODULENAME, SETTING_MAXDELAY, DEFAULT_MAXDELAY);
 		maxRetries = db_get_b(NULL, MODULENAME, SETTING_MAXRETRIES,0);
 		if (maxRetries == 0) 
 			maxRetries = -1;
@@ -416,7 +416,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 				if (restart)
 					KillTimer(NULL, checkContinTimerId);
 				if (timeout == 0) {
-					checkContinTimerId = SetTimer(NULL, 0, 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY), CheckContinueslyTimer);
+					checkContinTimerId = SetTimer(NULL, 0, 1000*db_get_dw(NULL, MODULENAME, SETTING_CNTDELAY, CHECKCONTIN_DELAY), CheckContinueslyTimer);
 				}
 				else
 					checkContinTimerId = SetTimer(NULL, 0, timeout, CheckContinueslyTimer);
@@ -592,7 +592,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 
 			case LOGINERR_SETDELAY:
 				{
-					int newDelay = newDelay = 1000*DBGetContactSettingDword(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
+					int newDelay = newDelay = 1000*db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY);
 					log_infoA("KeepStatus: set delay to %d on login error (%s)", newDelay/1000, ack->szModule);
 					StartTimer(IDT_CHECKCONN, newDelay, TRUE);
 				}
@@ -620,7 +620,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		int curStatus = GetStatus(cs);
 		int newStatus = CallProtoService(cs.szName,PS_GETSTATUS, 0, 0);
 		if (curStatus < MAX_CONNECT_RETRIES) { // connecting
-			maxConnectingTime = DBGetContactSettingDword(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
+			maxConnectingTime = db_get_dw(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0) {
 				if ( (unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime)/1000)) {
 					// set offline
@@ -645,7 +645,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND hwnd,UINT message,UINT_PTR idEvent
 			continue;
 
 		if (newStatus < MAX_CONNECT_RETRIES) { // connecting
-			maxConnectingTime = DBGetContactSettingDword(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
+			maxConnectingTime = db_get_dw(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0)
 				StartTimer(IDT_CHECKCONNECTING, (maxConnectingTime*1000 - (GetTickCount() - cs.lastStatusAckTime)), FALSE);
 		}
@@ -799,7 +799,7 @@ static void CheckContinueslyFunction(void *arg)
 	BOOL ping = db_get_b(NULL, MODULENAME, SETTING_BYPING, FALSE);
 	if (ping) {
 		DBVARIANT dbv;
-		if (DBGetContactSetting(NULL, MODULENAME, SETTING_PINGHOST, &dbv))
+		if (db_get(NULL, MODULENAME, SETTING_PINGHOST, &dbv))
 			ping = FALSE;
 		else {
 			char *start, *end;
@@ -854,7 +854,7 @@ static void CheckContinueslyFunction(void *arg)
 			}
 			lpfnIcmpCloseHandle(hICMPFile);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (StartTimer(IDT_CHECKCONN, -1, FALSE)) {
@@ -862,7 +862,7 @@ static void CheckContinueslyFunction(void *arg)
 		return; // already connecting, leave
 	}
 
-	if ( ((!ping) && (!InternetGetConnectedState(NULL, 0))) || ( (ping) && (!bLastPingResult) && (pingFailures >= DBGetContactSettingWord(NULL, MODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT)))) {
+	if ( ((!ping) && (!InternetGetConnectedState(NULL, 0))) || ( (ping) && (!bLastPingResult) && (pingFailures >= db_get_w(NULL, MODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT)))) {
 		pingFailures = 0;
 
 		int count;
@@ -945,7 +945,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 			_snprintf(text, sizeof(text), Translate("%s Login error, cancel reconnecting"), protoName);
 
 		else if ( db_get_b(NULL, MODULENAME, SETTING_LOGINERR, LOGINERR_NOTHING) == LOGINERR_SETDELAY)
-			_snprintf(text, sizeof(text), Translate("%s Login error (next retry (%d) in %ds)"), protoName, retryCount+1, DBGetContactSettingDword(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
+			_snprintf(text, sizeof(text), Translate("%s Login error (next retry (%d) in %ds)"), protoName, retryCount+1, db_get_dw(NULL, MODULENAME, SETTING_LOGINERR_DELAY, DEFAULT_MAXDELAY));
 
 		else
 			return -1;
@@ -1056,14 +1056,14 @@ static INT_PTR ShowPopup(char* msg, HICON hIcon)
 	}
 	else if ( !db_get_b(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0))
 	{
-		ppd.colorBack = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
-		ppd.colorText = DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
+		ppd.colorBack = db_get_dw(NULL, MODULENAME, SETTING_POPUP_BACKCOLOR, 0xAAAAAA);
+		ppd.colorText = db_get_dw(NULL, MODULENAME, SETTING_POPUP_TEXTCOLOR, 0x0000CC);
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
 
 	switch ( db_get_b(NULL, MODULENAME, SETTING_POPUP_DELAYTYPE, POPUP_DELAYFROMPU)) {
 	case POPUP_DELAYCUSTOM:
-		ppd.iSeconds = (int)DBGetContactSettingDword(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
+		ppd.iSeconds = (int)db_get_dw(NULL, MODULENAME, SETTING_POPUP_TIMEOUT, 0);
 		if (ppd.iSeconds == 0) {
 			ppd.iSeconds = currentDelay/1000-1;
 		}

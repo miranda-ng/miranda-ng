@@ -435,8 +435,8 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			proto->setByte("SlowSend",   (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SLOWSEND ));
 			if (proto->getByte("SlowSend", FALSE))
 			{
-				if (DBGetContactSettingDword(NULL, "SRMsg", "MessageTimeout", 60000) < 60000 ||
-					DBGetContactSettingDword(NULL, "SRMM",  "MessageTimeout", 60000) < 60000)
+				if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 60000) < 60000 ||
+					db_get_dw(NULL, "SRMM",  "MessageTimeout", 60000) < 60000)
 				{
 					MessageBox(NULL, TranslateT("MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value."),
 						TranslateT("MSN Protocol"), MB_OK|MB_ICONINFORMATION);

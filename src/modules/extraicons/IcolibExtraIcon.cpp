@@ -56,7 +56,7 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
+	if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 		if (!IsEmpty(dbv.pszVal))
 			hImage = GetIcon(dbv.pszVal);
 
@@ -76,7 +76,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 
 	if ( isEnabled()) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
+		if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
 				RemoveIcon(dbv.pszVal);
 
@@ -104,7 +104,7 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 
 	if ( isEnabled()) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
+		if ( !db_get_s(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
 				RemoveIcon(dbv.pszVal);
 

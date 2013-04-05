@@ -24,17 +24,17 @@ TCHAR szPath2Spash [MAX_PATH], szSoundFilePath[MAX_PATH];
 // Reads values from db
 void ReadIniConfig()
 {
-	options.active = DBGetContactSettingByte(NULL, MODNAME, "Active", 1);
-	options.playsnd = DBGetContactSettingByte(NULL, MODNAME, "PlaySound", 0);
-	options.fadein = DBGetContactSettingByte(NULL, MODNAME, "FadeIn", 1);
-	options.fadeout = DBGetContactSettingByte(NULL, MODNAME, "FadeOut", 1);
-	options.showtime = DBGetContactSettingDword(NULL, MODNAME, "TimeToShow", 2000);
-	options.fisteps = DBGetContactSettingDword(NULL, MODNAME, "FadeinSpeed", 5);
-	options.fosteps = DBGetContactSettingDword(NULL, MODNAME, "FadeoutSpeed", 5);
-	options.inheritGS = DBGetContactSettingByte(NULL, MODNAME, "InheritGlobalSound", 1);
-	options.showversion = DBGetContactSettingByte(NULL, MODNAME, "ShowVersion", 0);
-	options.random = DBGetContactSettingByte(NULL, MODNAME, "Random", 0);
-	options.runonce = DBGetContactSettingByte(NULL, MODNAME, "DisableAfterStartup", 0);
+	options.active = db_get_b(NULL, MODNAME, "Active", 1);
+	options.playsnd = db_get_b(NULL, MODNAME, "PlaySound", 0);
+	options.fadein = db_get_b(NULL, MODNAME, "FadeIn", 1);
+	options.fadeout = db_get_b(NULL, MODNAME, "FadeOut", 1);
+	options.showtime = db_get_dw(NULL, MODNAME, "TimeToShow", 2000);
+	options.fisteps = db_get_dw(NULL, MODNAME, "FadeinSpeed", 5);
+	options.fosteps = db_get_dw(NULL, MODNAME, "FadeoutSpeed", 5);
+	options.inheritGS = db_get_b(NULL, MODNAME, "InheritGlobalSound", 1);
+	options.showversion = db_get_b(NULL, MODNAME, "ShowVersion", 0);
+	options.random = db_get_b(NULL, MODNAME, "Random", 0);
+	options.runonce = db_get_b(NULL, MODNAME, "DisableAfterStartup", 0);
 }
 
 BOOL Exists(LPCTSTR strName)
@@ -60,31 +60,31 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ReadIniConfig();
 			TCHAR inBuf[80];
 			DBVARIANT dbv = {0};
-			DBGetContactSettingTString(NULL, MODNAME, "Path", &dbv);
+			db_get_ts(NULL, MODNAME, "Path", &dbv);
 			if (lstrcmp(dbv.ptszVal, NULL) == 0)
 			{
 				_tcscpy_s(inBuf, _T("splash\\splash.png"));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				_tcscpy_s(inBuf, dbv.ptszVal);
 			dbv.ptszVal = NULL;
 			SetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH),inBuf);
-			DBGetContactSettingTString(NULL, MODNAME, "Sound", &dbv);
+			db_get_ts(NULL, MODNAME, "Sound", &dbv);
 			if (lstrcmp(dbv.ptszVal, NULL) == 0)
 			{
 				_tcscpy_s(inBuf, _T("sounds\\startup.wav"));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				_tcscpy_s(inBuf, dbv.ptszVal);
 			dbv.ptszVal = NULL;
 			SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),inBuf);
-			DBGetContactSettingTString(NULL, MODNAME, "VersionPrefix", &dbv);
+			db_get_ts(NULL, MODNAME, "VersionPrefix", &dbv);
 			if (lstrcmp(dbv.ptszVal, NULL) == 0)
 			{
 				_tcscpy_s(inBuf, _T(""));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				_tcscpy_s(inBuf, dbv.ptszVal);
@@ -301,58 +301,58 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						TCHAR tmp[MAX_PATH];
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH), tmp, MAX_PATH);
-						DBWriteContactSettingTString(NULL, MODNAME, "Path", tmp);
+						db_set_ts(NULL, MODNAME, "Path", tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH), tmp, MAX_PATH);
-						DBWriteContactSettingTString(NULL, MODNAME, "Sound", tmp);
+						db_set_ts(NULL, MODNAME, "Sound", tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), tmp, MAX_PATH);
-						DBWriteContactSettingTString(NULL, MODNAME, "VersionPrefix", tmp);
+						db_set_ts(NULL, MODNAME, "VersionPrefix", tmp);
 						_tcscpy_s(szPrefix, tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), tmp, MAX_PATH);
-						DBWriteContactSettingDword(NULL, MODNAME, "TimeToShow", _ttoi(tmp));
+						db_set_dw(NULL, MODNAME, "TimeToShow", _ttoi(tmp));
 						options.showtime = _ttoi(tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_FISTEP), tmp, MAX_PATH);
-						DBWriteContactSettingDword(NULL, MODNAME, "FadeinSpeed", _ttoi(tmp));
+						db_set_dw(NULL, MODNAME, "FadeinSpeed", _ttoi(tmp));
 						options.fisteps = _ttoi(tmp);
 
 						GetWindowText(GetDlgItem(hwndDlg, IDC_FOSTEP), tmp, MAX_PATH);
-						DBWriteContactSettingDword(NULL, MODNAME, "FadeoutSpeed", _ttoi(tmp));
+						db_set_dw(NULL, MODNAME, "FadeoutSpeed", _ttoi(tmp));
 						options.fosteps = _ttoi(tmp);
 
 						if (IsDlgButtonChecked(hwndDlg, IDC_ACTIVE))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "Active", 1);
+							db_set_b(NULL, MODNAME, "Active", 1);
 							options.active = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "Active", 0);
+							db_set_b(NULL, MODNAME, "Active", 0);
 							options.active = 0;
 						}
 
 						if (IsDlgButtonChecked(hwndDlg, IDC_PLAYSND))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "PlaySound", 1);
+							db_set_b(NULL, MODNAME, "PlaySound", 1);
 							options.playsnd = 1;
-							DBWriteContactSettingByte(NULL, MODNAME, "InheritGlobalSound", 1);
+							db_set_b(NULL, MODNAME, "InheritGlobalSound", 1);
 							options.inheritGS = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "PlaySound", 0);
+							db_set_b(NULL, MODNAME, "PlaySound", 0);
 							options.playsnd = 0;
-							DBWriteContactSettingByte(NULL, MODNAME, "InheritGlobalSound", 0);
+							db_set_b(NULL, MODNAME, "InheritGlobalSound", 0);
 							options.inheritGS = 0;
 						}
 
 						if (IsDlgButtonChecked(hwndDlg, IDC_PLAYSND) == BST_INDETERMINATE)
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "PlaySound", 1);
+							db_set_b(NULL, MODNAME, "PlaySound", 1);
 							options.playsnd = 1;
-							DBWriteContactSettingByte(NULL, MODNAME, "InheritGlobalSound", 0);
+							db_set_b(NULL, MODNAME, "InheritGlobalSound", 0);
 							options.inheritGS = 0;
 						}
 						
@@ -371,42 +371,42 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						if (IsDlgButtonChecked(hwndDlg, IDC_FADEIN))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "FadeIn", 1);
+							db_set_b(NULL, MODNAME, "FadeIn", 1);
 							options.fadein = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "FadeIn", 0);
+							db_set_b(NULL, MODNAME, "FadeIn", 0);
 							options.fadein = 0;
 						}
 						if (IsDlgButtonChecked(hwndDlg, IDC_FADEOUT))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "FadeOut", 1);
+							db_set_b(NULL, MODNAME, "FadeOut", 1);
 							options.fadeout = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "FadeOut", 0);
+							db_set_b(NULL, MODNAME, "FadeOut", 0);
 							options.fadeout = 0;
 						}
 						if (IsDlgButtonChecked(hwndDlg, IDC_RANDOM))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "Random", 1);
+							db_set_b(NULL, MODNAME, "Random", 1);
 							options.random = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "Random", 0);
+							db_set_b(NULL, MODNAME, "Random", 0);
 							options.random = 0;
 						}
 						if (IsDlgButtonChecked(hwndDlg, IDC_SHOWVERSION))
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "ShowVersion", 1);
+							db_set_b(NULL, MODNAME, "ShowVersion", 1);
 							options.showversion = 1;
 						}
 						else
 						{
-							DBWriteContactSettingByte(NULL, MODNAME, "ShowVersion", 0);
+							db_set_b(NULL, MODNAME, "ShowVersion", 0);
 							options.showversion = 0;
 						}
 						return TRUE;

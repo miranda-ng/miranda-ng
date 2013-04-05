@@ -265,7 +265,7 @@ extern DWORD WINAPI BadConnection(LPVOID Param);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;
 
-extern HANDLE hMenuItemMain, hMenuItemCont, hMenuItemContApp;
+extern HGENMENU hMenuItemMain, hMenuItemCont, hMenuItemContApp;
 extern PYAMN_VARIABLES pYAMNVar;
 
 #endif

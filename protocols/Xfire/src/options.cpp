@@ -169,30 +169,30 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			else
 				dllfound = FALSE;
 
-			if(!DBGetContactSetting(NULL,protocolname,"login",&dbv)) {
+			if(!db_get(NULL,protocolname,"login",&dbv)) {
 				SetDlgItemText(hwndDlg,IDC_LOGIN,dbv.pszVal);
 
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if(!DBGetContactSetting(NULL,protocolname,"Nick",&dbv)) {
+			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
 				SetDlgItemText(hwndDlg,IDC_NICK,dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if(!DBGetContactSetting(NULL,protocolname,"password",&dbv)) {
+			if(!db_get(NULL,protocolname,"password",&dbv)) {
 				//bit of a security hole here, since it's easy to extract a password from an edit box
 				CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,(LPARAM)dbv.pszVal);
 				SetDlgItemText(hwndDlg,IDC_PASSWORD,dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			char temp[255]="";
-			sprintf(temp,"%d",DBGetContactSettingByte(NULL,protocolname,"protover",0x5b));
+			sprintf(temp,"%d",db_get_b(NULL,protocolname,"protover",0x5b));
 			SetDlgItemText(hwndDlg,IDC_PVER,temp);
 
 			EnableWindow(GetDlgItem(hwndDlg,IDC_LASTGAME),FALSE);
-			if(!DBGetContactSetting(NULL,protocolname,"LastGame",&dbv)) {
+			if(!db_get(NULL,protocolname,"LastGame",&dbv)) {
 				SetDlgItemText(hwndDlg,IDC_LASTGAME,dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if(bpStatus==ID_STATUS_OFFLINE&&bpStatus!=ID_STATUS_CONNECTING) {
@@ -267,9 +267,9 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					GetDlgItemText(hwndDlg,IDC_LOGIN,login,sizeof(login));
 					dbv.pszVal=NULL;
-					if(DBGetContactSetting(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
+					if(db_get(NULL,protocolname,"login",&dbv) || strcmp(login,dbv.pszVal))
 						reconnectRequired=1;
-					if(dbv.pszVal!=NULL) DBFreeVariant(&dbv);
+					if(dbv.pszVal!=NULL) db_free(&dbv);
 					
 					//den login lowercasen
 					int size=strlen(login);
@@ -285,26 +285,26 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						SetDlgItemText(hwndDlg,IDC_LOGIN,login);
 					}
 
-					DBWriteContactSettingString(NULL,protocolname,"login",login);
-					DBWriteContactSettingString(NULL,protocolname,"Username",login);
+					db_set_s(NULL,protocolname,"login",login);
+					db_set_s(NULL,protocolname,"Username",login);
 
 					//nur wenn der nick erfolgreich übertragen wurde
 					GetDlgItemText(hwndDlg,IDC_NICK,login,sizeof(login));
 					dbv.pszVal=NULL;
-					if(DBGetContactSetting(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
+					if(db_get(NULL,protocolname,"Nick",&dbv) || strcmp(login,dbv.pszVal))
 					{
 						if(CallService(XFIRE_SET_NICK,0,(WPARAM)login))
-							DBWriteContactSettingString(NULL,protocolname,"Nick",login);
+							db_set_s(NULL,protocolname,"Nick",login);
 					}
-					if(dbv.pszVal!=NULL) DBFreeVariant(&dbv);
+					if(dbv.pszVal!=NULL) db_free(&dbv);
 
 					GetDlgItemText(hwndDlg,IDC_PASSWORD,str,sizeof(str));
 					CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),(LPARAM)str);
 					dbv.pszVal=NULL;
-					if(DBGetContactSetting(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
+					if(db_get(NULL,protocolname,"password",&dbv) || strcmp(str,dbv.pszVal))
 						reconnectRequired=1;
-					if(dbv.pszVal!=NULL) DBFreeVariant(&dbv);
-					DBWriteContactSettingString(NULL,protocolname,"password",str);
+					if(dbv.pszVal!=NULL) db_free(&dbv);
+					db_set_s(NULL,protocolname,"password",str);
 					GetDlgItemText(hwndDlg,IDC_SERVER,str,sizeof(str));
 
 					//neue preferencen sichern
@@ -315,7 +315,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						{
 							if(!(BYTE)IsDlgButtonChecked(hwndDlg, xfireconfigitems[i].id))
 							{
-								DBWriteContactSettingByte(NULL,protocolname,xfireconfigitems[i].dbentry,0);
+								db_set_b(NULL,protocolname,xfireconfigitems[i].dbentry,0);
 								xfireconfig[xfireconfigitems[i].xfireconfigid].wasset=1;
 								xfireconfig[xfireconfigitems[i].xfireconfigid].data[0]=1;
 								xfireconfig[xfireconfigitems[i].xfireconfigid].data[1]=1;
@@ -325,7 +325,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							else
 							{
 								xfireconfig[xfireconfigitems[i].xfireconfigid].wasset=0;
-								DBWriteContactSettingByte(NULL,protocolname,xfireconfigitems[i].dbentry,1);
+								db_set_b(NULL,protocolname,xfireconfigitems[i].dbentry,1);
 							}
 						}
 						CallService(XFIRE_SEND_PREFS,0,0);
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					//protocolversion wird autoamtisch vergeben
 					//GetDlgItemText(hwndDlg,IDC_PVER,str,sizeof(str));
-					//DBWriteContactSettingByte(NULL,protocolname,"protover",(char)atoi(str));
+					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
 					if(reconnectRequired) MessageBox(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
@@ -375,9 +375,9 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_ADDSTRING, 0, (LPARAM)TranslateT("On every start" ));
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_ADDSTRING, 0, (LPARAM)TranslateT("Daily" ));
 
-			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"scanalways",0), 0);
+			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_SETCURSEL, db_get_b(NULL,protocolname,"scanalways",0), 0);
 			
-			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_SETCURSEL, nomsgboxsel[DBGetContactSettingByte(NULL,protocolname,"nomsgbox",0)], 0);
+			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_SETCURSEL, nomsgboxsel[db_get_b(NULL,protocolname,"nomsgbox",0)], 0);
 
 			/* Gruppen raussuchen */
 			{
@@ -389,7 +389,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendDlgItemMessage( hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)TranslateT("<Root Group>" ));
 
 				sprintf_s(temp,8,"%d",gruppen_id);
-				while(!DBGetContactSettingString(NULL,"CListGroups",temp,&dbv))
+				while(!db_get_s(NULL,"CListGroups",temp,&dbv))
 				{
 					gruppen_id++;
 					sprintf_s(temp,8,"%d",gruppen_id);
@@ -397,11 +397,11 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if(dbv.pszVal!=NULL) {
 						SendDlgItemMessage( hwndDlg, IDC_CLANGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
 						SendDlgItemMessage( hwndDlg, IDC_FOFGROUP, CB_ADDSTRING, 0, (LPARAM)&dbv.pszVal[1]);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
-				SendDlgItemMessage( hwndDlg, IDC_CLANGROUP, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"mainclangroup",0), 0);
-				SendDlgItemMessage( hwndDlg, IDC_FOFGROUP, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"fofgroup",0), 0);
+				SendDlgItemMessage( hwndDlg, IDC_CLANGROUP, CB_SETCURSEL, db_get_b(NULL,protocolname,"mainclangroup",0), 0);
+				SendDlgItemMessage( hwndDlg, IDC_FOFGROUP, CB_SETCURSEL, db_get_b(NULL,protocolname,"fofgroup",0), 0);
 			}
 
 
@@ -445,7 +445,7 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				else
 				{
 					tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-					tvis.item.state = INDEXTOSTATEIMAGEMASK(DBGetContactSettingByte(NULL,protocolname,mytree[i].dbentry,0)==1?2:1);
+					tvis.item.state = INDEXTOSTATEIMAGEMASK(db_get_b(NULL,protocolname,mytree[i].dbentry,0)==1?2:1);
 					tvis.item.lParam = 0;
 					tvis.item.pszText = Translate(mytree[i].name);
 					mytree[i].hitem=TreeView_InsertItem( hwndTree, &tvis );
@@ -542,24 +542,24 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 							TreeView_GetItem(hwndTree, &tvic);
 							if ((( tvic.state & TVIS_STATEIMAGEMASK ) >> 12 == 2 )) 
-								DBWriteContactSettingByte(NULL,protocolname,mytree[i].dbentry,1);
+								db_set_b(NULL,protocolname,mytree[i].dbentry,1);
 							else 
-								DBWriteContactSettingByte(NULL,protocolname,mytree[i].dbentry,0);
+								db_set_b(NULL,protocolname,mytree[i].dbentry,0);
 						}
 					}
 
-					DBWriteContactSettingByte(NULL,protocolname,"nomsgbox",(BYTE)nomsgboxsel[SendDlgItemMessage(hwndDlg, IDC_NOMSG, CB_GETCURSEL, 0, 0)]);
+					db_set_b(NULL,protocolname,"nomsgbox",(BYTE)nomsgboxsel[SendDlgItemMessage(hwndDlg, IDC_NOMSG, CB_GETCURSEL, 0, 0)]);
 
 					ccc=SendDlgItemMessage(hwndDlg, IDC_CLANGROUP, CB_GETCURSEL, 0, 0);
-					DBWriteContactSettingByte(NULL,protocolname,"mainclangroup",(BYTE)ccc);
+					db_set_b(NULL,protocolname,"mainclangroup",(BYTE)ccc);
 					ccc=SendDlgItemMessage(hwndDlg, IDC_FOFGROUP, CB_GETCURSEL, 0, 0);
-					DBWriteContactSettingByte(NULL,protocolname,"fofgroup",(BYTE)ccc);
+					db_set_b(NULL,protocolname,"fofgroup",(BYTE)ccc);
 					ccc=SendDlgItemMessage(hwndDlg, IDC_SCANUPDATECB, CB_GETCURSEL, 0, 0);
-					DBWriteContactSettingByte(NULL,protocolname,"scanalways",(BYTE)ccc);
+					db_set_b(NULL,protocolname,"scanalways",(BYTE)ccc);
 
 					//protocolversion wird autoamtisch vergeben
 					//GetDlgItemText(hwndDlg,IDC_PVER,str,sizeof(str));
-					//DBWriteContactSettingByte(NULL,protocolname,"protover",(char)atoi(str));
+					//db_set_b(NULL,protocolname,"protover",(char)atoi(str));
 
 					if(reconnectRequired) MessageBox(hwndDlg,Translate("The changes you have made require you to reconnect to the XFire network before they take effect"),Translate("XFire Options"),MB_OK|MB_ICONINFORMATION);
 					return TRUE;
@@ -651,7 +651,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				{
 					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETTEXT, sel, (LPARAM)temp); 
 					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_DELETESTRING, sel, 0);
-					DBDeleteContactSetting(NULL,"XFireBlock",temp);
+					db_unset(NULL,"XFireBlock",temp);
 					if(SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, 0, 0)==0)
 						EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);
 				}
@@ -689,12 +689,12 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 			TranslateDialogDefault(hwndDlg);
 			
-			CheckDlgButton(hwndDlg,IDC_ENABLESTSMSG,DBGetContactSettingByte(NULL,protocolname,"autosetstatusmsg",0));
-			CheckDlgButton(hwndDlg,IDC_CHGSTATUS,DBGetContactSettingByte(NULL,protocolname,"statuschgtype",0));
-			CheckDlgButton(hwndDlg,IDC_DNDFIRST,DBGetContactSettingByte(NULL,protocolname,"dndfirst",0));
-			if(!DBGetContactSetting(NULL,protocolname,"setstatusmsg",&dbv)) {
+			CheckDlgButton(hwndDlg,IDC_ENABLESTSMSG,db_get_b(NULL,protocolname,"autosetstatusmsg",0));
+			CheckDlgButton(hwndDlg,IDC_CHGSTATUS,db_get_b(NULL,protocolname,"statuschgtype",0));
+			CheckDlgButton(hwndDlg,IDC_DNDFIRST,db_get_b(NULL,protocolname,"dndfirst",0));
+			if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
 				SetDlgItemText(hwndDlg,IDC_STATUSMSG,dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if(!IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
 			{
@@ -740,11 +740,11 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					char str[512];
 
 					GetDlgItemText(hwndDlg,IDC_STATUSMSG,str,sizeof(str));
-					DBWriteContactSettingString(NULL,protocolname,"setstatusmsg",str);
+					db_set_s(NULL,protocolname,"setstatusmsg",str);
 
-					DBWriteContactSettingByte(NULL,protocolname, "autosetstatusmsg", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG));
-					DBWriteContactSettingByte(NULL,protocolname, "statuschgtype", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHGSTATUS));
-					DBWriteContactSettingByte(NULL,protocolname, "dndfirst", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DNDFIRST));
+					db_set_b(NULL,protocolname, "autosetstatusmsg", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG));
+					db_set_b(NULL,protocolname, "statuschgtype", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHGSTATUS));
+					db_set_b(NULL,protocolname, "dndfirst", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DNDFIRST));
 
 					return TRUE;
 				}
@@ -786,13 +786,13 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//spielliste leeren
 			SendDlgItemMessage( (HWND)hwndDlg, IDC_LGAMELIST, LB_RESETCONTENT, 0, 0);
 			//spiele auslesen und in die liste einfügen
-			int found=DBGetContactSettingWord(NULL,protocolname,"foundgames",0);
+			int found=db_get_w(NULL,protocolname,"foundgames",0);
 			char temp[XFIRE_MAXSIZEOFGAMENAME];
 			for(int i=0;i<found;i++)
 			{
 				//id auslesen
 				sprintf_s(temp,XFIRE_MAXSIZEOFGAMENAME,"gameid_%d",i);
-				int gameid=DBGetContactSettingWord(NULL,protocolname,temp,0);
+				int gameid=db_get_w(NULL,protocolname,temp,0);
 				//spielnamen auslesen
 				xgamelist.getGamename(gameid,temp,XFIRE_MAXSIZEOFGAMENAME);
 				//eintrag einfügen
@@ -1001,11 +1001,11 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//gameskip wert setzen
 					char temp[64]="";
 					sprintf_s(temp,64,"gameskip_%d",gameid);
-					CheckDlgButton(hwndDlg,IDC_DONTDETECT,DBGetContactSettingByte(NULL,protocolname,temp,0));
+					CheckDlgButton(hwndDlg,IDC_DONTDETECT,db_get_b(NULL,protocolname,temp,0));
 					sprintf_s(temp,64,"gamenostatus_%d",gameid);
-					CheckDlgButton(hwndDlg,IDC_NOSTATUSMSG,DBGetContactSettingByte(NULL,protocolname,temp,0));
+					CheckDlgButton(hwndDlg,IDC_NOSTATUSMSG,db_get_b(NULL,protocolname,temp,0));
 					sprintf_s(temp,64,"notinstartmenu_%d",gameid);
-					CheckDlgButton(hwndDlg,IDC_NOTINSTARTMENU,DBGetContactSettingByte(NULL,protocolname,temp,0));
+					CheckDlgButton(hwndDlg,IDC_NOTINSTARTMENU,db_get_b(NULL,protocolname,temp,0));
 					
 					//extra parameter auslesen, aber nur, wenn das spiel auch sowas unterstützt
 					if(xgtemp && xgtemp->haveExtraGameArgs())
@@ -1013,10 +1013,10 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						EnableDlgItem(hwndDlg, IDC_EXTRAPARAMS, TRUE);
 						sprintf_s(temp,64,"gameextraparams_%d",gameid);
 						DBVARIANT dbv;
-						if(!DBGetContactSetting(NULL,protocolname,temp,&dbv))
+						if(!db_get(NULL,protocolname,temp,&dbv))
 						{
 							SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,dbv.pszVal);	
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else
 							SetDlgItemText(hwndDlg,IDC_EXTRAPARAMS,"");	

@@ -155,7 +155,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		if(boost::algorithm::all(message, boost::is_digit()))
 		{
 			int msg = _ttoi(message.c_str());
-			int math_answer = DBGetContactSettingDword(hContact, pluginName, "MathAnswer", 0);
+			int math_answer = db_get_dw(hContact, pluginName, "MathAnswer", 0);
 			if(msg && math_answer)
 				answered = (msg == math_answer);
 		}

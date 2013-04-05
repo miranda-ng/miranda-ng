@@ -23,7 +23,7 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
   case WM_INITDIALOG:
     {
 		TranslateDialogDefault(hwndDlg);
-		SetDlgItemInt(hwndDlg, IDC_PORT, DBGetContactSettingWord(NULL, szModuleName, "Port", 6600), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_PORT, db_get_w(NULL, szModuleName, "Port", 6600), FALSE);
 		SetDlgItemText(hwndDlg, IDC_SERVER, UniGetContactSettingUtf(NULL, szModuleName, "Server", _T("127.0.0.1")));
 		SetDlgItemText(hwndDlg, IDC_PASSWORD, UniGetContactSettingUtf(NULL, szModuleName, "Password", _T("")));
       return TRUE;
@@ -44,13 +44,13 @@ static INT_PTR CALLBACK DlgProcWaMpdOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
       case PSN_APPLY:
         {
 			TCHAR szText[128];
-			DBWriteContactSettingWord(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
+			db_set_w(NULL, szModuleName, "Port", (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 			gbPort = (WORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE);
 			GetDlgItemText(hwndDlg, IDC_SERVER, szText, sizeof(szText));
-			DBWriteContactSettingTString(NULL, szModuleName, "Server", szText);
+			db_set_ts(NULL, szModuleName, "Server", szText);
 			_tcscpy(gbHost, szText);
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, szText, sizeof(szText));
-			DBWriteContactSettingTString(NULL, szModuleName, "Password", szText);
+			db_set_ts(NULL, szModuleName, "Password", szText);
 			_tcscpy(gbPassword, szText);
           return TRUE;
         }

@@ -114,7 +114,7 @@ static int SaveTree(HWND hwndDlg)
 			if (lstrcmp(iod->name, iod->defname) != 0)
 				db_set_ts(NULL, MenuNameItems, DBString, iod->name);
 			else
-				DBDeleteContactSetting(NULL, MenuNameItems, DBString);
+				db_unset(NULL, MenuNameItems, DBString);
 
 			runtimepos += 100;
 		}
@@ -264,7 +264,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 				DBVARIANT dbv;
 				mir_snprintf(buf, SIZEOF(buf), "%s_name", menuItemName);
 
-				if ( !DBGetContactSettingTString(NULL, MenuNameItems, buf, &dbv)) {
+				if ( !db_get_ts(NULL, MenuNameItems, buf, &dbv)) {
 					PD->name = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 				}

@@ -71,16 +71,16 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOMIN, DBGetContactSettingByte(NULL, "SRFile", "AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, DBGetContactSettingByte(NULL, "SRFile", "AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, DBGetContactSettingByte(NULL, "SRFile", "AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
-			switch(DBGetContactSettingByte(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE)) {
+			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, db_get_b(NULL, "SRFile", "AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOMIN, db_get_b(NULL, "SRFile", "AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, db_get_b(NULL, "SRFile", "AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, db_get_b(NULL, "SRFile", "AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
+			switch(db_get_b(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE)) {
 				case VIRUSSCAN_AFTERDL: CheckDlgButton(hwndDlg, IDC_SCANAFTERDL, BST_CHECKED); break;
 				case VIRUSSCAN_DURINGDL: CheckDlgButton(hwndDlg, IDC_SCANDURINGDL, BST_CHECKED); break;
 				default: CheckDlgButton(hwndDlg, IDC_NOSCANNER, BST_CHECKED); break;
 			}
-			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, DBGetContactSettingByte(NULL, "SRFile", "WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_WARNBEFOREOPENING, db_get_b(NULL, "SRFile", "WarnBeforeOpening", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			{	TCHAR szScanExe[MAX_PATH];
 				int i, iItem;
@@ -98,9 +98,9 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv;
-			if (DBGetContactSettingTString(NULL, "SRFile", "ScanCmdLine", &dbv) == 0) {
+			if (db_get_ts(NULL, "SRFile", "ScanCmdLine", &dbv) == 0) {
 				SetDlgItemText(hwndDlg, IDC_SCANCMDLINE, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else {
 				if (SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0)) {
@@ -108,7 +108,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					PostMessage(hwndDlg, M_SCANCMDLINESELCHANGE, 0, 0);
 				}
 			}
-			switch(DBGetContactSettingByte(NULL, "SRFile", "IfExists", FILERESUME_ASK)) {
+			switch(db_get_b(NULL, "SRFile", "IfExists", FILERESUME_ASK)) {
 				case FILERESUME_RESUMEALL: CheckDlgButton(hwndDlg, IDC_RESUME, BST_CHECKED); break;
 				case FILERESUME_OVERWRITEALL: CheckDlgButton(hwndDlg, IDC_OVERWRITE, BST_CHECKED); break;
 				case FILERESUME_RENAMEALL: CheckDlgButton(hwndDlg, IDC_RENAME, BST_CHECKED); break;
@@ -211,16 +211,16 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				{	TCHAR str[512];
 					GetDlgItemText(hwndDlg, IDC_FILEDIR, str, SIZEOF(str));
 					RemoveInvalidPathChars(str);
-					DBWriteContactSettingTString(NULL, "SRFile", "RecvFilesDirAdv", str);
-					DBWriteContactSettingByte(NULL, "SRFile", "AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
-					DBWriteContactSettingByte(NULL, "SRFile", "AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
-					DBWriteContactSettingByte(NULL, "SRFile", "AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
-					DBWriteContactSettingByte(NULL, "SRFile", "AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
-					DBWriteContactSettingByte(NULL, "SRFile", "UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL)?VIRUSSCAN_AFTERDL:(IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL)?VIRUSSCAN_DURINGDL:VIRUSSCAN_DISABLE)));
+					db_set_ts(NULL, "SRFile", "RecvFilesDirAdv", str);
+					db_set_b(NULL, "SRFile", "AutoAccept", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOACCEPT));
+					db_set_b(NULL, "SRFile", "AutoMin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOMIN));
+					db_set_b(NULL, "SRFile", "AutoClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLOSE));
+					db_set_b(NULL, "SRFile", "AutoClear", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTOCLEAR));
+					db_set_b(NULL, "SRFile", "UseScanner", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCANAFTERDL)?VIRUSSCAN_AFTERDL:(IsDlgButtonChecked(hwndDlg, IDC_SCANDURINGDL)?VIRUSSCAN_DURINGDL:VIRUSSCAN_DISABLE)));
 					GetDlgItemText(hwndDlg, IDC_SCANCMDLINE, str, SIZEOF(str));
-					DBWriteContactSettingTString(NULL, "SRFile", "ScanCmdLine", str);
-					DBWriteContactSettingByte(NULL, "SRFile", "WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
-					DBWriteContactSettingByte(NULL, "SRFile", "IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK)?FILERESUME_ASK:(IsDlgButtonChecked(hwndDlg, IDC_RESUME)?FILERESUME_RESUMEALL:(IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE)?FILERESUME_OVERWRITEALL:FILERESUME_RENAMEALL))));
+					db_set_ts(NULL, "SRFile", "ScanCmdLine", str);
+					db_set_b(NULL, "SRFile", "WarnBeforeOpening", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WARNBEFOREOPENING));
+					db_set_b(NULL, "SRFile", "IfExists", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ASK)?FILERESUME_ASK:(IsDlgButtonChecked(hwndDlg, IDC_RESUME)?FILERESUME_RESUMEALL:(IsDlgButtonChecked(hwndDlg, IDC_OVERWRITE)?FILERESUME_OVERWRITEALL:FILERESUME_RENAMEALL))));
 					return TRUE;
 				}
 			}

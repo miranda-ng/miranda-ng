@@ -60,14 +60,14 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				settings[count]->status = statusModeList[i];
 
 				DBVARIANT dbv;
-				if ( !DBGetContactSetting(NULL, MODULENAME, StatusModeToDbSetting(statusModeList[i],SETTING_STATUSMSG), &dbv)) {
+				if ( !db_get(NULL, MODULENAME, StatusModeToDbSetting(statusModeList[i],SETTING_STATUSMSG), &dbv)) {
 					settings[count]->msg = ( char* )malloc(strlen(dbv.pszVal) + 1);
 					strcpy(settings[count]->msg, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else settings[count]->msg = NULL;
 
-				settings[count]->useCustom = DBGetContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_MSGCUSTOM), FALSE);
+				settings[count]->useCustom = db_get_b(NULL, MODULENAME, StatusModeToDbSetting(statusModeList[i], SETTING_MSGCUSTOM), FALSE);
 				count += 1;
 			}
 			SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETCURSEL,0,0);
@@ -142,9 +142,9 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case PSN_APPLY:
 			SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE),0);
 			for ( i=0; i < count; i++ ) {
-				DBWriteContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
+				db_set_b(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
 				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (strlen(settings[i]->msg) > 0))
-					DBWriteContactSettingString(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_STATUSMSG), settings[i]->msg);
+					db_set_s(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_STATUSMSG), settings[i]->msg);
 			}
 			break;
 		}

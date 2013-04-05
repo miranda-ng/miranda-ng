@@ -40,15 +40,15 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 {
 	DBVARIANT dbv;
 
-	if (DBGetContactSettingString(NULL, PluginName, "Username", &dbv) == 0)
+	if (db_get_s(NULL, PluginName, "Username", &dbv) == 0)
 	{
 		mir_snprintf(user, szuser, "%s", dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		user[0] = 0;
 
-	if (DBGetContactSettingString(NULL, PluginName, "Password", &dbv) == 0)
+	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM)dbv.pszVal);
 
@@ -61,7 +61,7 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 
 		arrayToHex(hash, sizeof(hash), pass);
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		pass[0] = 0;
@@ -142,7 +142,7 @@ bool InternetDownloadFile(const char *szUrl, VerTrnsfr* szReq)
 			switch(nlhrReply->resultCode)
 			{
 			case 200: 
-				if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0))
+				if (db_get_b(NULL, PluginName, "UploadChanged", 0))
 					ProcessVIHash(true);
 
 				for (i=nlhrReply->headersCount; i--; )
@@ -267,16 +267,16 @@ bool ProcessVIHash(bool store)
 	bool result;
 	if (store)
 	{
-		DBWriteContactSettingString(NULL, PluginName, "VIHash", hashstr);
+		db_set_s(NULL, PluginName, "VIHash", hashstr);
 		result = true;
 	}
 	else
 	{
 		DBVARIANT dbv;
-		if (DBGetContactSettingString(NULL, PluginName, "VIHash", &dbv) == 0)
+		if (db_get_s(NULL, PluginName, "VIHash", &dbv) == 0)
 		{
 			result = strcmp(hashstr, dbv.pszVal) == 0;
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 			result = false;

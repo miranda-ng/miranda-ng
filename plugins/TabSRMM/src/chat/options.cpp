@@ -1050,7 +1050,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				SM_InvalidateLogDirectories();
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN4, UDM_GETPOS, 0, 0);
-				DBWriteContactSettingWord(NULL, "Chat", "LoggingLimit", (WORD)iLen);
+				db_set_w(NULL, "Chat", "LoggingLimit", (WORD)iLen);
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
 				if (iLen > 0)
@@ -1062,32 +1062,32 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen + 1);
-					DBWriteContactSettingString(NULL, "Chat", "LogTimestamp", pszText);
+					db_set_s(NULL, "Chat", "LogTimestamp", pszText);
 				} else db_unset(NULL, "Chat", "LogTimestamp");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_TIMESTAMP, pszText, iLen + 1);
-					DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
+					db_set_s(NULL, "Chat", "HeaderTime", pszText);
 				} else db_unset(NULL, "Chat", "HeaderTime");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_INSTAMP, pszText, iLen + 1);
-					DBWriteContactSettingString(NULL, "Chat", "HeaderIncoming", pszText);
+					db_set_s(NULL, "Chat", "HeaderIncoming", pszText);
 				} else db_unset(NULL, "Chat", "HeaderIncoming");
 
 				iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 				if (iLen > 0) {
 					pszText = (char *)realloc(pszText, iLen + 1);
 					GetDlgItemTextA(hwndDlg, IDC_OUTSTAMP, pszText, iLen + 1);
-					DBWriteContactSettingString(NULL, "Chat", "HeaderOutgoing", pszText);
+					db_set_s(NULL, "Chat", "HeaderOutgoing", pszText);
 				} else db_unset(NULL, "Chat", "HeaderOutgoing");
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
-				DBWriteContactSettingWord(NULL, "Chat", "LogLimit", (WORD)iLen);
+				db_set_w(NULL, "Chat", "LogLimit", (WORD)iLen);
 			}
 
 			if (pszText != NULL)

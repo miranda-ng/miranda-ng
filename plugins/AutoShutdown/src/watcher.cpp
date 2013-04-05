@@ -102,7 +102,7 @@ static int MsgEventAdded(WPARAM wParam,LPARAM lParam)
 		if (!db_event_get(hDbEvent, &dbe))
 			if(dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
 				DBVARIANT dbv;
-				if(!DBGetContactSettingTString(NULL,"AutoShutdown","Message",&dbv)) {
+				if(!db_get_ts(NULL,"AutoShutdown","Message",&dbv)) {
 					TrimString(dbv.ptszVal);
 					TCHAR *pszMsg = GetMessageText(&dbe.pBlob,&dbe.cbBlob);
 					if(pszMsg!=NULL && _tcsstr(pszMsg,dbv.ptszVal)!=NULL)
@@ -178,16 +178,16 @@ static int IdleChanged(WPARAM wParam,LPARAM lParam)
 static BOOL CheckAllContactsOffline(void)
 {
 	BOOL fSmartCheck,fAllOffline=TRUE; /* tentatively */
-	fSmartCheck=DBGetContactSettingByte(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT);
+	fSmartCheck=db_get_b(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT);
 	HANDLE hContact = db_find_first();
 	while(hContact != NULL) {
 		char *pszProto = GetContactProto(hContact);
 		if(pszProto != NULL && CallProtoService(pszProto,PS_GETSTATUS,0,0)!=ID_STATUS_OFFLINE)
-			if(DBGetContactSettingByte(hContact,pszProto,"ChatRoom",0)) continue;
-			if(DBGetContactSettingWord(hContact,pszProto,"Status",0)!=ID_STATUS_OFFLINE) {
+			if(db_get_b(hContact,pszProto,"ChatRoom",0)) continue;
+			if(db_get_w(hContact,pszProto,"Status",0)!=ID_STATUS_OFFLINE) {
 				if(fSmartCheck) {
-					if(DBGetContactSettingByte(hContact,"CList","Hidden",0)) continue;
-					if(DBGetContactSettingByte(hContact,"CList","NotOnList",0)) continue;
+					if(db_get_b(hContact,"CList","Hidden",0)) continue;
+					if(db_get_b(hContact,"CList","NotOnList",0)) continue;
 				}
 				fAllOffline=FALSE;
 				break;
@@ -240,7 +240,7 @@ static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 {
 	char *pszProto = GetContactProto((HANDLE)wParam);
 	if((BOOL)lParam && pszProto!=NULL && CallProtoService(pszProto,PS_GETSTATUS,0,0)==THUNDER)
-		if(DBGetContactSettingByte(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT))
+		if(db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT))
 			ServiceShutdown(SDSDT_SHUTDOWN,TRUE);
 	return 0;
 }
@@ -249,7 +249,7 @@ static int WeatherUpdated(WPARAM wParam,LPARAM lParam)
 
 static int HddOverheat(WPARAM wParam,LPARAM lParam)
 {
-	if(DBGetContactSettingByte(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT))
+	if(db_get_b(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT))
 		ServiceShutdown(SDSDT_SHUTDOWN,TRUE);
 	return 0;
 }
@@ -259,7 +259,7 @@ static int HddOverheat(WPARAM wParam,LPARAM lParam)
 INT_PTR ServiceStartWatcher(WPARAM wParam,LPARAM lParam)
 {
 	/* passing watcherType as lParam is only to be used internally, undocumented */
-	if(lParam==0) lParam=(LPARAM)DBGetContactSettingWord(NULL,"AutoShutdown","WatcherFlags",0);
+	if(lParam==0) lParam=(LPARAM)db_get_w(NULL,"AutoShutdown","WatcherFlags",0);
 
 	if(!(lParam&SDWTF_MASK)) return 1; /* invalid flags or empty? */
 	if(lParam&SDWTF_SPECIFICTIME && !(lParam&SDWTF_ST_MASK)) return 2; /* no specific time choice? */
@@ -325,8 +325,8 @@ static int WatcherModulesLoaded(WPARAM wParam,LPARAM lParam)
 		hHookHddOverheat=HookEvent(ME_SYSINFO_HDDOVERHEAT,HddOverheat);
 
 	/* restore watcher if it was running on last exit */
-	if(DBGetContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",0)==SDROR_RUNNING) {
-		DBWriteContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",1);
+	if(db_get_b(NULL,"AutoShutdown","RememberOnRestart",0)==SDROR_RUNNING) {
+		db_set_b(NULL,"AutoShutdown","RememberOnRestart",1);
 		ServiceStartWatcher(0,0); /* after modules loaded */
 	}
 	return 0;
@@ -363,8 +363,8 @@ void UninitWatcher(void)
 {
 	/* remember watcher if running */
 	if(!ServiceStopWatcher(0,0))
-		if(DBGetContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT))
-			DBWriteContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",SDROR_RUNNING);
+		if(db_get_b(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT))
+			db_set_b(NULL,"AutoShutdown","RememberOnRestart",SDROR_RUNNING);
 
 	/* Message Shutdown */
 	UnhookEvent(hHookEventAdded);

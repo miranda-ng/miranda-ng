@@ -101,15 +101,15 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 			{
 				case DBVT_BYTE:
 					fprintf(file, "\n%s=b%s", setting->name, itoa(dbv.bVal,tmp,10));
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					break;
 				case DBVT_WORD:
 					fprintf(file, "\n%s=w%s", setting->name, itoa(dbv.wVal,tmp,10));
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					break;
 				case DBVT_DWORD:
 					fprintf(file, "\n%s=d%s", setting->name, itoa(dbv.dVal,tmp,10));
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					break;
 				case DBVT_ASCIIZ:
 				case DBVT_UTF8:
@@ -125,7 +125,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 							fprintf(file, "\n%s=u%s", setting->name, dbv.pszVal);
 						else
 							fprintf(file, "\n%s=s%s", setting->name, dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						break;
 				case DBVT_BLOB:
 				{
@@ -143,7 +143,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 					fprintf(file,"\n%s=n%s",setting->name , data);
 					mir_free(data);
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				break;
 			}
 		}
@@ -372,10 +372,10 @@ HANDLE Clist_GroupExists(WCHAR *tszGroup)
 
 	do {
 		_itoa(i, str, 10);
-		result = DBGetContactSettingTString(0, "CListGroups", str, &dbv);
+		result = db_get_ts(0, "CListGroups", str, &dbv);
 		if (!result) {
 			match = (!lstrcmpW(tszGroup, (LPCWSTR)&dbv.ptszVal[1]) && (lstrlenW(tszGroup) == lstrlenW((LPCWSTR)&dbv.ptszVal[1])));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if(match)
 				return((HANDLE)(i + 1));
 		}
@@ -501,21 +501,21 @@ void importSettings(HANDLE hContact, char *importstring )
 					case 'b':
 					case 'B':
 						if (sscanf((end+2), "%d", &value) == 1)
-							DBWriteContactSettingByte(hContact, module, setting, (BYTE)value);
+							db_set_b(hContact, module, setting, (BYTE)value);
 						break;
 					case 'w':
 					case 'W':
 						if (sscanf((end+2), "%d", &value) == 1)
-							DBWriteContactSettingWord(hContact, module, setting, (WORD)value);
+							db_set_w(hContact, module, setting, (WORD)value);
 						break;
 					case 'd':
 					case 'D':
 						if (sscanf((end+2), "%d", &value) == 1)
-							DBWriteContactSettingDword(hContact, module, setting, (DWORD)value);
+							db_set_dw(hContact, module, setting, (DWORD)value);
 						break;
 					case 's':
 					case 'S':
-						DBWriteContactSettingString(hContact,module, setting, (end+2));
+						db_set_s(hContact,module, setting, (end+2));
 						break;
 					case 'g':
 					case 'G':
@@ -532,11 +532,11 @@ void importSettings(HANDLE hContact, char *importstring )
 						}	}	}
 					case 'u':
 					case 'U':
-						DBWriteContactSettingStringUtf(hContact,module, setting, (end+2));
+						db_set_utf(hContact,module, setting, (end+2));
 						break;
 					case 'l':
 					case 'L':
-						DBDeleteContactSetting(hContact, module, setting);
+						db_unset(hContact, module, setting);
 						break;
 					case 'n':
 					case 'N':

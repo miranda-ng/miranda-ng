@@ -193,10 +193,10 @@ static HANDLE AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD flag
 		jid = mir_strdup(newJid); _strlwr(jid);
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
-		DBWriteContactSettingString(hContact, proto->m_szModuleName, "jid", jid);
+		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if ((nick=JabberNickFromJID(newJid)) == NULL)
 			nick = mir_strdup(newJid);
-		DBWriteContactSettingString(hContact, "CList", "MyHandle", nick);
+		db_set_s(hContact, "CList", "MyHandle", nick);
 		mir_free(nick);
 		mir_free(jid);
 
@@ -208,15 +208,15 @@ static HANDLE AddToListByJID(TlenProtocol *proto, const char *newJid, DWORD flag
 		// PS_ADDTOLIST is called but before the add dialog issue deletion of
 		// "NotOnList".
 		// If temporary add, "NotOnList" won't be deleted, and that's expected.
-		DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+		db_set_b(hContact, "CList", "NotOnList", 1);
 		if (flags & PALF_TEMPORARY)
-			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+			db_set_b(hContact, "CList", "Hidden", 1);
 	}
 	else {
 		// already exist
 		// Set up a dummy "NotOnList" when adding permanently only
 		if (!(flags&PALF_TEMPORARY))
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
 	}
 
 	return hContact;
@@ -301,7 +301,7 @@ int __cdecl TlenProtocol::Authorize(HANDLE hDbEvent)
 	JabberSend(this, "<presence to='%s' type='subscribed'/>", jid);
 
 	// Automatically add this user to my roster if option is enabled
-	if (DBGetContactSettingByte(NULL, m_szModuleName, "AutoAdd", TRUE) == TRUE) {
+	if (db_get_b(NULL, m_szModuleName, "AutoAdd", TRUE) == TRUE) {
 		HANDLE hContact;
 		JABBER_LIST_ITEM *item;
 
@@ -310,7 +310,7 @@ int __cdecl TlenProtocol::Authorize(HANDLE hDbEvent)
 			if ((hContact=AddToListByJID(this, jid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
-				DBDeleteContactSetting(hContact, "CList", "NotOnList");
+				db_unset(hContact, "CList", "NotOnList");
 			}
 		}
 	}
@@ -495,7 +495,7 @@ int __cdecl TlenProtocol::GetInfo(HANDLE hContact, int infoType)
 		JabberIqAdd(this, iqId, IQ_PROC_NONE, TlenIqResultVcard);
 		JabberSend(this, "<iq type='get' id='"JABBER_IQID"%d' to='tuba'><query xmlns='jabber:iq:register'></query></iq>", iqId);
 	} else {
-		if (DBGetContactSetting(hContact, m_szModuleName, "jid", &dbv)) return 1;
+		if (db_get(hContact, m_szModuleName, "jid", &dbv)) return 1;
 		if ((nick=JabberNickFromJID(dbv.pszVal)) != NULL) {
 			if ((pNick=JabberTextEncode(nick)) != NULL) {
 				iqId = JabberSerialNext(this);
@@ -505,7 +505,7 @@ int __cdecl TlenProtocol::GetInfo(HANDLE hContact, int infoType)
 			}
 			mir_free(nick);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -517,12 +517,12 @@ int __cdecl TlenProtocol::SetApparentMode(HANDLE hContact, int mode)
 	char *jid;
 
 	if (!isOnline) return 0;
-	if (!DBGetContactSettingByte(NULL, m_szModuleName, "VisibilitySupport", FALSE)) return 0;
+	if (!db_get_b(NULL, m_szModuleName, "VisibilitySupport", FALSE)) return 0;
 	if (mode != 0 && mode != ID_STATUS_ONLINE && mode != ID_STATUS_OFFLINE) return 1;
-	oldMode = DBGetContactSettingWord(hContact, m_szModuleName, "ApparentMode", 0);
+	oldMode = db_get_w(hContact, m_szModuleName, "ApparentMode", 0);
 	if ((int) mode == oldMode) return 1;
-	DBWriteContactSettingWord(hContact, m_szModuleName, "ApparentMode", (WORD) mode);
-	if (!DBGetContactSetting(hContact, m_szModuleName, "jid", &dbv)) {
+	db_set_w(hContact, m_szModuleName, "ApparentMode", (WORD) mode);
+	if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		jid = dbv.pszVal;
 		switch (mode) {
 		case ID_STATUS_ONLINE:
@@ -540,7 +540,7 @@ int __cdecl TlenProtocol::SetApparentMode(HANDLE hContact, int mode)
 				JabberSend(this, "<presence to='%s'><show>available</show></presence>", jid);
 			break;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -571,16 +571,16 @@ static void __cdecl TlenGetAwayMsgThread(void *ptr)
 	DBVARIANT dbv;
 	JABBER_LIST_ITEM *item;
 	SENDACKTHREADDATA *data = (SENDACKTHREADDATA *)ptr;
-	if (!DBGetContactSetting(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
+	if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 		if ((item=JabberListGetItemPtr(data->proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if (item->statusMessage != NULL) {
 				ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) item->statusMessage);
 				return;
 			}
 		}
 		else {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	ProtoBroadcastAck(data->proto->m_szModuleName, data->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) "");
@@ -592,10 +592,10 @@ INT_PTR TlenSendAlert(void *ptr, LPARAM wParam, LPARAM lParam)
 	HANDLE hContact = ( HANDLE )wParam;
 	DBVARIANT dbv;
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (proto->isOnline && !DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+	if (proto->isOnline && !db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		JabberSend(proto, "<m tp='a' to='%s'/>", dbv.pszVal);
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -608,7 +608,7 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 	int id;
 	char msgType[16];
 
-	if (!isOnline || DBGetContactSetting(hContact, m_szModuleName, "jid", &dbv)) {
+	if (!isOnline || db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
 		tdata->proto = this;
 		tdata->hContact = hContact;
@@ -632,12 +632,12 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 		if ((msgEnc=JabberTextEncode(msg)) != NULL) {
 			if (JabberListExist(this, LIST_CHATROOM, dbv.pszVal) && strchr(dbv.pszVal, '/') == NULL) {
 				strcpy(msgType, "groupchat");
-			} else if (DBGetContactSettingByte(hContact, m_szModuleName, "bChat", FALSE)) {
+			} else if (db_get_b(hContact, m_szModuleName, "bChat", FALSE)) {
 				strcpy(msgType, "privchat");
 			} else {
 				strcpy(msgType, "chat");
 			}
-			if (!strcmp(msgType, "groupchat") || DBGetContactSettingByte(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
+			if (!strcmp(msgType, "groupchat") || db_get_b(NULL, m_szModuleName, "MsgAck", FALSE) == FALSE) {
 				SENDACKTHREADDATA *tdata = (SENDACKTHREADDATA*) mir_alloc(sizeof(SENDACKTHREADDATA));
 				tdata->proto = this;
 				tdata->hContact = hContact;
@@ -660,7 +660,7 @@ int __cdecl TlenProtocol::SendMsg(HANDLE hContact, int flags, const char* msg)
 		}
 		mir_free(msgEnc);
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 1;
 }
 
@@ -678,9 +678,9 @@ static INT_PTR TlenGetAvatarInfo(void *ptr, LPARAM wParam, LPARAM lParam)
 	if (!proto->tlenOptions.enableAvatars) return GAIR_NOAVATAR;
 
 	if (AI->hContact != NULL) {
-		if (!DBGetContactSetting(AI->hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(AI->hContact, proto->m_szModuleName, "jid", &dbv)) {
 			item = JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if (item != NULL) {
 				downloadingAvatar = item->newAvatarDownloading;
 				avatarHash = item->avatarHash;
@@ -801,8 +801,8 @@ HANDLE __cdecl TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescri
 	int id;
 
 	if (!isOnline) return 0;
-//	if (DBGetContactSettingWord(ccs->hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) return 0;
-	if (DBGetContactSetting(hContact, m_szModuleName, "jid", &dbv)) return 0;
+//	if (db_get_w(ccs->hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) return 0;
+	if (db_get(hContact, m_szModuleName, "jid", &dbv)) return 0;
 	ft = TlenFileCreateFT(this, dbv.pszVal);
 	for (ft->fileCount=0; ppszFiles[ft->fileCount]; ft->fileCount++);
 	ft->files = (char **) mir_alloc(sizeof(char *) * ft->fileCount);
@@ -823,7 +823,7 @@ HANDLE __cdecl TlenProtocol::SendFile(HANDLE hContact, const PROTOCHAR* szDescri
 	ft->szDescription = mir_t2a(szDescription);
 	ft->hContact = hContact;
 	ft->currentFile = 0;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	id = JabberSerialNext(this);
 	_snprintf(idStr, sizeof(idStr), "%d", id);
@@ -908,18 +908,18 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 		hContact = (HANDLE) wParam;
 		szProto = GetContactProto(hContact);
 		if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
-//		if (DBGetContactSettingByte(hContact, proto->m_szModuleName, "ChatRoom", 0) != 0) return 0;
+//		if (db_get_b(hContact, proto->m_szModuleName, "ChatRoom", 0) != 0) return 0;
 		// A contact's group is changed
 		if (!strcmp(cws->szSetting, "Group")) {
-			if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 				if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
-					DBFreeVariant(&dbv);
-					if (!DBGetContactSetting(hContact, "CList", "MyHandle", &dbv)) {
+					db_free(&dbv);
+					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
 						nick = JabberTextEncode(dbv.pszVal);
-						DBFreeVariant(&dbv);
-					} else if (!DBGetContactSetting(hContact, proto->m_szModuleName, "Nick", &dbv)) {
+						db_free(&dbv);
+					} else if (!db_get(hContact, proto->m_szModuleName, "Nick", &dbv)) {
 						nick = JabberTextEncode(dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					} else {
 						nick = JabberNickFromJID(item->jid);
 					}
@@ -943,7 +943,7 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 					}
 				}
 				else {
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
@@ -955,7 +955,7 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 //			szProto = GetContactProto(hContact);
 //			if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
 
-			if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 				jid = dbv.pszVal;
 				if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
 					if (cws->value.type == DBVT_DELETED) {
@@ -980,7 +980,7 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 					}
 					if (newNick != NULL) mir_free(newNick);
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		// A temporary contact has been added permanently
@@ -988,33 +988,33 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 			char *jid, *nick, *pGroup;
 
 			if (cws->value.type==DBVT_DELETED || (cws->value.type==DBVT_BYTE && cws->value.bVal==0)) {
-				if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+				if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 					jid = mir_strdup(dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					JabberLog(proto, "Add %s permanently to list", jid);
-					if (!DBGetContactSetting(hContact, "CList", "MyHandle", &dbv)) {
+					if (!db_get(hContact, "CList", "MyHandle", &dbv)) {
 						nick = JabberTextEncode(dbv.pszVal); //Utf8Encode
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else {
 						nick = JabberNickFromJID(jid);
 					}
 					if (nick != NULL) {
 						JabberLog(proto, "jid=%s nick=%s", jid, nick);
-						if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+						if (!db_get(hContact, "CList", "Group", &dbv)) {
 							if ((pGroup=TlenGroupEncode(dbv.pszVal)) != NULL) {
 								JabberSend(proto, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'><group>%s</group></item></query></iq>", nick, jid, pGroup);
 								JabberSend(proto, "<presence to='%s' type='subscribe'/>", jid);
 								mir_free(pGroup);
 							}
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else {
 							JabberSend(proto, "<iq type='set'><query xmlns='jabber:iq:roster'><item name='%s' jid='%s'/></query></iq>", nick, jid);
 							JabberSend(proto, "<presence to='%s' type='subscribe'/>", jid);
 						}
 						mir_free(nick);
-						DBDeleteContactSetting(hContact, "CList", "Hidden");
+						db_unset(hContact, "CList", "Hidden");
 					}
 					mir_free(jid);
 				}
@@ -1036,7 +1036,7 @@ int JabberContactDeleted(void *ptr, WPARAM wParam, LPARAM lParam)
 	szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL || strcmp(szProto, proto->m_szModuleName))
 		return 0;
-	if (!DBGetContactSetting((HANDLE) wParam, proto->m_szModuleName, "jid", &dbv)) {
+	if (!db_get((HANDLE) wParam, proto->m_szModuleName, "jid", &dbv)) {
 		char *jid, *p, *q;
 
 		jid = dbv.pszVal;
@@ -1049,7 +1049,7 @@ int JabberContactDeleted(void *ptr, WPARAM wParam, LPARAM lParam)
 			JabberSend(proto, "<iq type='set'><query xmlns='jabber:iq:roster'><item jid='%s' subscription='remove'/></query></iq>", jid);
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -1060,7 +1060,7 @@ int __cdecl TlenProtocol::UserIsTyping(HANDLE hContact, int type)
 	JABBER_LIST_ITEM *item;
 
 	if (!isOnline) return 0;
-	if (!DBGetContactSetting(hContact, m_szModuleName, "jid", &dbv)) {
+	if (!db_get(hContact, m_szModuleName, "jid", &dbv)) {
 		if ((item=JabberListGetItemPtr(this, LIST_ROSTER, dbv.pszVal)) != NULL /*&& item->wantComposingEvent == TRUE*/) {
 			switch (type) {
 			case PROTOTYPE_SELFTYPING_OFF:
@@ -1071,7 +1071,7 @@ int __cdecl TlenProtocol::UserIsTyping(HANDLE hContact, int type)
 				break;
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -1282,15 +1282,15 @@ TlenProtocol::TlenProtocol( const char* aProtoName, const TCHAR* aUserName )
 
 
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(NULL, m_szModuleName, "LoginServer", &dbv)) {
-		DBFreeVariant(&dbv);
+	if (!db_get(NULL, m_szModuleName, "LoginServer", &dbv)) {
+		db_free(&dbv);
 	} else {
-		DBWriteContactSettingString(NULL, m_szModuleName, "LoginServer", "tlen.pl");
+		db_set_s(NULL, m_szModuleName, "LoginServer", "tlen.pl");
 	}
-	if (!DBGetContactSetting(NULL, m_szModuleName, "ManualHost", &dbv)) {
-		DBFreeVariant(&dbv);
+	if (!db_get(NULL, m_szModuleName, "ManualHost", &dbv)) {
+		db_free(&dbv);
 	} else {
-		DBWriteContactSettingString(NULL, m_szModuleName, "ManualHost", "s1.tlen.pl");
+		db_set_s(NULL, m_szModuleName, "ManualHost", "s1.tlen.pl");
 	}
 
 	TlenLoadOptions(this);

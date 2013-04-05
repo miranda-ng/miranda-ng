@@ -151,7 +151,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 			{
 				if (dbv.ptszVal && !_tcscmp(gch->pDest->ptszID, dbv.ptszVal))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			hContact = db_find_next(hContact);
 		}
@@ -177,7 +177,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		TCHAR* nickT;
 		if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)){
 			nickT = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			nickT = mir_tstrdup(TranslateT("Me"));
 		}

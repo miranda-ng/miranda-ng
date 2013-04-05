@@ -1176,9 +1176,9 @@ void LoadOptions()
 void SaveOptions()
 {
 	db_set_b(0, MODULE, "UsePopupModule", options.use_popup_module ? 1 : 0);
-	DBWriteContactSettingDword(0, MODULE, "SnoozeMinutes", options.snooze_minutes);
-	DBWriteContactSettingDword(0, MODULE, "RowHeight", options.row_height);
-	DBWriteContactSettingDword(0, MODULE, "Indent", options.indent);
+	db_set_dw(0, MODULE, "SnoozeMinutes", options.snooze_minutes);
+	db_set_dw(0, MODULE, "RowHeight", options.row_height);
+	db_set_dw(0, MODULE, "Indent", options.indent);
 	db_set_b(0, MODULE, "Transparency", options.aw_trans);
 	db_set_b(0, MODULE, "RoundCorners", options.aw_roundcorners ? 1 : 0);
 	db_set_b(0, MODULE, "DontStealFocus", options.aw_dontstealfocus ? 1 : 0);
@@ -1186,7 +1186,7 @@ void SaveOptions()
 	db_set_b(0, MODULE, "HideWithClist", options.hide_with_clist ? 1 : 0);
 	db_set_b(0, MODULE, "LoopSound", options.loop_sound ? 1 : 0);
 	db_set_b(0, MODULE, "AutoSize", options.auto_size_vert ? 1 : 0);
-	DBWriteContactSettingDword(0, MODULE, "ReminderPeriod", options.reminder_period);
+	db_set_dw(0, MODULE, "ReminderPeriod", options.reminder_period);
 }
 
 INT_PTR NewAlarmMenuFunc(WPARAM wParam, LPARAM lParam)

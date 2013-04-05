@@ -236,7 +236,7 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 		if ( include_chat )
 			return true;
 		else
-			return DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0) == 0;
+			return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
 	} else {
 		return false;
 	}

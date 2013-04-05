@@ -54,7 +54,7 @@ extern HINSTANCE g_hInst;
  all the bad free()'s to good ones, however it's still incorrect code. The reasons for not
  changing them include:
 
-  * DBFreeVariant has a CallService() lookup
+  * db_free has a CallService() lookup
   * free() is executed in some large loops to do with clist creation of group data
   * easy search and replace
 

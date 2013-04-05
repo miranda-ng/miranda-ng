@@ -191,35 +191,35 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, _T(""));
 			SetFocus(GetDlgItem(hwndDlg, IDC_STATIC));
 
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "FirstName", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "FirstName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FIRSTNAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_FIRSTNAME, _T(""));
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "LastName", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "LastName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_LASTNAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_LASTNAME, _T(""));
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "Nick", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "Nick", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_NICKNAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_NICKNAME, _T(""));
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "e-mail", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "e-mail", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EMAIL, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_EMAIL, _T(""));
-			if (!DBGetContactSetting(data->hContact, data->proto->m_szModuleName, "Age", &dbv)) {
+			if (!db_get(data->hContact, data->proto->m_szModuleName, "Age", &dbv)) {
 				SetDlgItemInt(hwndDlg, IDC_AGE, dbv.wVal, FALSE);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_AGE, _T(""));
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "City", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "City", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_CITY, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_CITY, _T(""));
-			if (!DBGetContactSettingTString(data->hContact, data->proto->m_szModuleName, "School", &dbv)) {
+			if (!db_get_ts(data->hContact, data->proto->m_szModuleName, "School", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_SCHOOL, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else SetDlgItemText(hwndDlg, IDC_SCHOOL, _T(""));
-			switch (DBGetContactSettingByte(data->hContact, data->proto->m_szModuleName, "Gender", '?')) {
+			switch (db_get_b(data->hContact, data->proto->m_szModuleName, "Gender", '?')) {
 				case 'M':
 					SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 1, 0);
 					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, TranslateTS(tlenFieldGender[0].name));
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 					SetDlgItemText(hwndDlg, IDC_GENDER_TEXT, _T(""));
 					break;
 			}
-			i = DBGetContactSettingWord(data->hContact, data->proto->m_szModuleName, "Occupation", 0);
+			i = db_get_w(data->hContact, data->proto->m_szModuleName, "Occupation", 0);
 			if (i>0 && i<13) {
 				SetDlgItemText(hwndDlg, IDC_OCCUPATION_TEXT, TranslateTS(tlenFieldOccupation[i-1].name));
 				SendDlgItemMessage(hwndDlg, IDC_OCCUPATION, CB_SETCURSEL, i, 0);
@@ -241,7 +241,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SetDlgItemText(hwndDlg, IDC_OCCUPATION_TEXT, _T(""));
 				SendDlgItemMessage(hwndDlg, IDC_OCCUPATION, CB_SETCURSEL, 0, 0);
 			}
-			i = DBGetContactSettingWord(data->hContact, data->proto->m_szModuleName, "LookingFor", 0);
+			i = db_get_w(data->hContact, data->proto->m_szModuleName, "LookingFor", 0);
 			if (i>0 && i<6) {
 				SetDlgItemText(hwndDlg, IDC_LOOKFOR_TEXT, TranslateTS(tlenFieldLookfor[i-1].name));
 				SendDlgItemMessage(hwndDlg, IDC_LOOKFOR, CB_SETCURSEL, i, 0);
@@ -249,11 +249,11 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SetDlgItemText(hwndDlg, IDC_LOOKFOR_TEXT, _T(""));
 				SendDlgItemMessage(hwndDlg, IDC_LOOKFOR, CB_SETCURSEL, 0, 0);
 			}
-			i = DBGetContactSettingWord(data->hContact, data->proto->m_szModuleName, "VoiceChat", 0);
+			i = db_get_w(data->hContact, data->proto->m_szModuleName, "VoiceChat", 0);
 			CheckDlgButton(hwndDlg, IDC_VOICECONVERSATIONS, i);
-			i = DBGetContactSettingWord(data->hContact, data->proto->m_szModuleName, "PublicStatus", 0);
+			i = db_get_w(data->hContact, data->proto->m_szModuleName, "PublicStatus", 0);
 			CheckDlgButton(hwndDlg, IDC_PUBLICSTATUS, i);
-			if (!DBGetContactSetting(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 				jid = JabberTextDecode(dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_INFO_JID, jid);
 				mir_free(jid);
@@ -281,7 +281,7 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 						SetDlgItemText(hwndDlg, IDC_SUBSCRIPTION, TranslateT("not on roster"));
 					}
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		break;

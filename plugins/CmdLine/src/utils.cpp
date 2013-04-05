@@ -138,7 +138,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_ASCIIZ;
-	if (DBGetContactSetting(hContact, szModule, szSettingName, &dbv) == 0)
+	if (db_get(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
 			size_t tmp = strlen(dbv.pszVal);
@@ -169,7 +169,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_WCHAR;
-	if (DBGetContactSettingWString(hContact, szModule, szSettingName, &dbv) == 0)
+	if (db_get_ws(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
 			if (dbv.type != DBVT_WCHAR)

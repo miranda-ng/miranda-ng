@@ -52,7 +52,7 @@ void CIrcProto::FormatMsg(CMString& text)
 				DBVARIANT dbv;
 				if ( !getTString( "PNick", &dbv )) {
 					sNick4Perform = dbv.ptszVal;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 			}	}
 
 			ReplaceString( sNewNick, NICKSUBSTITUTE, sNick4Perform.c_str());
@@ -579,7 +579,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 					CMString S = _T("S");
 					S += dbv1.ptszVal;
 					DoUserhostWithReason(2, S.c_str(), true, dbv1.ptszVal);
-					DBFreeVariant(&dbv1);
+					db_free(&dbv1);
 				}
 				else {
 					CMString S = _T("S");
@@ -653,7 +653,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 						if ( !getTString( hContact, "UWildcard", &dbv1 )) {
 							S += dbv1.ptszVal;
 							DoUserhostWithReason(2, S.c_str(), true, dbv1.ptszVal );
-							DBFreeVariant( &dbv1 );
+							db_free( &dbv1 );
 						}
 						else {
 							S += two;
@@ -825,7 +825,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 
 	if ( hContact && !getTString( hContact, "Nick", &dbv )) {
 		lstrcpyn( windowname, dbv.ptszVal, 255);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else if ( window )
 		lstrcpyn( windowname, window, 255 );

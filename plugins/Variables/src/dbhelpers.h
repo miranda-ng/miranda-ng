@@ -27,7 +27,7 @@ static int __inline DBWriteIthSettingByte(DWORD i, HANDLE hContact,const char *s
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBWriteContactSettingByte(hContact, szModule, dbSetting, val);
+	return db_set_b(hContact, szModule, dbSetting, val);
 }
 
 static int __inline DBWriteIthSettingWord(DWORD i, HANDLE hContact,const char *szModule,const char *szSetting,WORD val) {
@@ -35,7 +35,7 @@ static int __inline DBWriteIthSettingWord(DWORD i, HANDLE hContact,const char *s
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBWriteContactSettingWord(hContact, szModule, dbSetting, val);
+	return db_set_w(hContact, szModule, dbSetting, val);
 }
 
 static int __inline DBWriteIthSettingDword(DWORD i, HANDLE hContact,const char *szModule,const char *szSetting,DWORD val) {
@@ -43,7 +43,7 @@ static int __inline DBWriteIthSettingDword(DWORD i, HANDLE hContact,const char *
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBWriteContactSettingDword(hContact, szModule, dbSetting, val);
+	return db_set_dw(hContact, szModule, dbSetting, val);
 }
 
 static int __inline DBWriteIthSettingString(DWORD i, HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
@@ -51,7 +51,7 @@ static int __inline DBWriteIthSettingString(DWORD i, HANDLE hContact,const char 
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBWriteContactSettingString(hContact, szModule, dbSetting, val);
+	return db_set_s(hContact, szModule, dbSetting, val);
 }
 
 static int __inline DBGetIthSettingByte(DWORD i, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
@@ -60,7 +60,7 @@ static int __inline DBGetIthSettingByte(DWORD i, HANDLE hContact, const char *sz
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBGetContactSettingByte(hContact, szModule, dbSetting, errorValue);
+	return db_get_b(hContact, szModule, dbSetting, errorValue);
 }
 
 static WORD __inline DBGetIthSettingWord(DWORD i, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
@@ -69,7 +69,7 @@ static WORD __inline DBGetIthSettingWord(DWORD i, HANDLE hContact, const char *s
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBGetContactSettingWord(hContact, szModule, dbSetting, errorValue);
+	return db_get_w(hContact, szModule, dbSetting, errorValue);
 }
 
 static DWORD __inline DBGetIthSettingDword(DWORD i, HANDLE hContact, const char *szModule, const char *szSetting, int errorValue) {
@@ -78,7 +78,7 @@ static DWORD __inline DBGetIthSettingDword(DWORD i, HANDLE hContact, const char 
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBGetContactSettingDword(hContact, szModule, dbSetting, errorValue);
+	return db_get_dw(hContact, szModule, dbSetting, errorValue);
 }
 
 static int __inline DBGetIthSetting(DWORD i, HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) {
@@ -87,7 +87,7 @@ static int __inline DBGetIthSetting(DWORD i, HANDLE hContact, const char *szModu
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBGetContactSetting(hContact, szModule, dbSetting, dbv);
+	return db_get(hContact, szModule, dbSetting, dbv);
 }
 
 static int __inline DBDeleteIthSetting(DWORD i, HANDLE hContact,const char *szModule,const char *szSetting) {
@@ -95,19 +95,19 @@ static int __inline DBDeleteIthSetting(DWORD i, HANDLE hContact,const char *szMo
 	char dbSetting[128];
 
 	_snprintf(dbSetting, sizeof(dbSetting), "%s%u_%s", PREFIX_ITH, i, szSetting);
-	return DBDeleteContactSetting(hContact, szModule, dbSetting);
+	return db_unset(hContact, szModule, dbSetting);
 }
 
-#define db_getb(a,b)		DBGetContactSettingByte(NULL, MODULENAME, a, b)
-#define db_getw(a,b)		DBGetContactSettingWord(NULL, MODULENAME, a, b)
-#define db_getd(a,b)		DBGetContactSettingDword(NULL, MODULENAME, a, b)
-#define db_gets(a,b)		DBGetContactSetting(NULL, MODULENAME, a, b)
-#define db_setb(a,b)		DBWriteContactSettingByte(NULL, MODULENAME, a, (BYTE)(b))
-#define db_sets(a,b)		DBWriteContactSettingString(NULL, MODULENAME, a, b)
-#define db_setts(a,b)		DBWriteContactSettingTString(NULL, MODULENAME, a, b)
-#define db_setw(a,b)		DBWriteContactSettingWord(NULL, MODULENAME, a, (WORD)(b))
-#define db_setd(a,b)		DBWriteContactSettingDword(NULL, MODULENAME, a, (DWORD)(b))
-#define db_del(a)			DBDeleteContactSetting(NULL, MODULENAME, a);
+#define db_getb(a,b)		db_get_b(NULL, MODULENAME, a, b)
+#define db_getw(a,b)		db_get_w(NULL, MODULENAME, a, b)
+#define db_getd(a,b)		db_get_dw(NULL, MODULENAME, a, b)
+#define db_gets(a,b)		db_get(NULL, MODULENAME, a, b)
+#define db_setb(a,b)		db_set_b(NULL, MODULENAME, a, (BYTE)(b))
+#define db_sets(a,b)		db_set_s(NULL, MODULENAME, a, b)
+#define db_setts(a,b)		db_set_ts(NULL, MODULENAME, a, b)
+#define db_setw(a,b)		db_set_w(NULL, MODULENAME, a, (WORD)(b))
+#define db_setd(a,b)		db_set_dw(NULL, MODULENAME, a, (DWORD)(b))
+#define db_del(a)			db_unset(NULL, MODULENAME, a);
 
 #define dbi_getb(a,b,c)		DBGetIthSettingByte(a, NULL, MODULENAME, b, c)
 #define dbi_getw(a,b,c)		DBGetIthSettingWord(a, NULL, MODULENAME, b, c)

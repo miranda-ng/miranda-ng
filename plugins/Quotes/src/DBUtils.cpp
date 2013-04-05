@@ -63,7 +63,7 @@ bool Quotes_DBReadDouble(HANDLE hContact,const char* szModule,const char* szSett
 		rdValue = *reinterpret_cast<double*>(dbv.pbVal);
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return bResult;
 }
 

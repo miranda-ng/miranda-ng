@@ -22,11 +22,11 @@ TCHAR* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,c
 {
   DBVARIANT dbv = {DBVT_DELETED};
   TCHAR* szRes;
-  if (DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
+  if (db_get_ts(hContact, szModule, szSetting, &dbv))
 	  return mir_tstrdup(szDef);
   if(dbv.pszVal)
 	  szRes = mir_tstrdup(dbv.ptszVal);
-  DBFreeVariant(&dbv);
+  db_free(&dbv);
   return szRes;
 }
 
@@ -34,11 +34,11 @@ char* __stdcall UniGetContactSettingUtf(HANDLE hContact, const char *szModule,co
 {
   DBVARIANT dbv = {DBVT_DELETED};
   char* szRes;
-  if (DBGetContactSettingString(hContact, szModule, szSetting, &dbv))
+  if (db_get_s(hContact, szModule, szSetting, &dbv))
 	  return mir_strdup(szDef);
   if(dbv.pszVal)
 	  szRes = mir_strdup(dbv.pszVal);
-  DBFreeVariant(&dbv);
+  db_free(&dbv);
   return szRes;
 }
 
@@ -66,7 +66,7 @@ void GetFilePath(TCHAR *WindowTittle, char *szSetting, TCHAR *szExt, TCHAR *szEx
 	ofn.nMaxFileTitle=MAX_PATH;
 	if(!GetOpenFileName(&ofn)) 
 		return;
-	DBWriteContactSettingTString(0, szGPGModuleName, szSetting, str);
+	db_set_ts(0, szGPGModuleName, szSetting, str);
 }
 
 TCHAR *GetFilePath(TCHAR *WindowTittle, TCHAR *szExt, TCHAR *szExtDesc, bool save_file)
@@ -119,7 +119,7 @@ void GetFolderPath(TCHAR *WindowTittle, char *szSetting)
 		TCHAR path[MAX_PATH];
 		if (SHGetPathFromIDList(pidl, path))
 		{
-			DBWriteContactSettingTString(NULL, szGPGModuleName, "szHomePath", path);
+			db_set_ts(NULL, szGPGModuleName, "szHomePath", path);
 		}
 		IMalloc * imalloc = 0;
 		if (SUCCEEDED(SHGetMalloc(&imalloc)))
@@ -169,8 +169,8 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	}
 	if(szMessage[0])
 	{
-		BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
-		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+		BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+		db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)szMessage);
 		std::string msg = "Public key ";
 		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, key_id_str.c_str(), "");
@@ -185,7 +185,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 		mir_free(szMessage);
 		szMessage = mir_strdup(msg.c_str());
 		HistoryLog(hContact, db_event(szMessage, 0, 0, DBEF_SENT));
-		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
+		db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc);
 	}
 	else
 		mir_free(szMessage);
@@ -199,9 +199,9 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	HANDLE hContact = (HANDLE)w;
 	BYTE enc = 0;
 	if(metaIsProtoMetaContacts(hContact))
-		enc = DBGetContactSettingByte(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
+		enc = db_get_b(metaGetMostOnline(hContact), szGPGModuleName, "GPGEncryption", 0);
 	else
-		enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+		enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(metaIsProtoMetaContacts(hContact))
 	{
 		HANDLE hcnt = NULL;
@@ -212,13 +212,13 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 			{
 				hcnt = metaGetSubcontact(hContact, i);
 				if(hcnt)
-					DBWriteContactSettingByte(hcnt, szGPGModuleName, "GPGEncryption", enc?0:1);
+					db_set_b(hcnt, szGPGModuleName, "GPGEncryption", enc?0:1);
 			}
-			DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
+			db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
 		}
 	}
 	else
-		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
+		db_set_b(hContact, szGPGModuleName, "GPGEncryption", enc?0:1);
 	void setSrmmIcon(HANDLE hContact);
 	void setClistIcon(HANDLE hContact);
 	setSrmmIcon(hContact);
@@ -267,12 +267,12 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 	if(_tcslen(tmp) < 1)
 	{
-		DBDeleteContactSetting(hContact, szGPGModuleName, "GPGEncryption");
+		db_unset(hContact, szGPGModuleName, "GPGEncryption");
 		mi.flags += CMIM_FLAGS | CMIF_GRAYED;
 	}
 	else
 		mi.flags = CMIM_NAME | CMIM_FLAGS;
-	mi.pszName = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0)?"Turn off GPG encryption":"Turn on GPG encryption";
+	mi.pszName = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0)?"Turn off GPG encryption":"Turn on GPG encryption";
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggleEncryption, (LPARAM)&mi);
 	return 0;
 }
@@ -401,9 +401,9 @@ int onProtoAck(WPARAM w, LPARAM l)
 								s += strlen(" ID ");
 								string::size_type s2 = out.find(",",s);
 								if(metaIsProtoMetaContacts(ack->hContact))
-									DBWriteContactSettingString(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
+									db_set_s(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
 								else
-									DBWriteContactSettingString(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
+									db_set_s(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
 							}
 							void ShowLoadKeyPasswordWindow();
 							new_key_hcnt_mutex.lock();
@@ -490,7 +490,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	TCHAR *file_out =  new TCHAR [_tcslen(filename)+4];
 	mir_sntprintf(file_out, _tcslen(name)+7, _T("%s.gpg"), name);
 	cmd.push_back(szKeyid);
-	if(DBGetContactSettingByte(hcnt, szGPGModuleName, "bAlwaysTrust", 0))
+	if(db_get_b(hcnt, szGPGModuleName, "bAlwaysTrust", 0))
 	{
 		cmd.push_back(L"--trust-model");
 		cmd.push_back(L"always");
@@ -518,7 +518,7 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 		out.clear();
 		if(MessageBox(0, TranslateT("We trying to encrypt with untrusted key, do you want to trust this key permanently ?"), TranslateT("Warning"), MB_YESNO) == IDYES)
 		{
-			DBWriteContactSettingByte(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
+			db_set_b(hcnt, szGPGModuleName, "bAlwaysTrust", 1);
 			std::vector<std::wstring> tmp;
 			tmp.push_back(L"--trust-model");
 			tmp.push_back(L"always");
@@ -541,7 +541,7 @@ int onSendFile(WPARAM w, LPARAM l)
 	if(isContactSecured(ccs->hContact))
 	{
 		char *proto = GetContactProto(ccs->hContact);
-		DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
+		DWORD uin = db_get_dw(ccs->hContact, proto, "UIN", 0);
 		bool cap_found = false, supported_proto = false;
 		if(uin)
 		{
@@ -1072,7 +1072,7 @@ void AddHandlers()
 
 bool isContactSecured(HANDLE hContact)
 {
-	BYTE gpg_enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+	BYTE gpg_enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(!gpg_enc)
 	{
 		if(bDebugLog)
@@ -1155,7 +1155,7 @@ bool isGPGValid()
 	DWORD len = MAX_PATH;
 	if(gpg_exists)
 	{
-		DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
+		db_set_ts(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 		string out;
 		DWORD code;
 		std::vector<wstring> cmd;
@@ -1206,7 +1206,7 @@ const bool StriStr(const char *str, const char *substr)
 
 bool IsOnline(HANDLE hContact)
 {
-	if(DBGetContactSettingByte(hContact, szGPGModuleName, "Status", 0) == ID_STATUS_OFFLINE)
+	if(db_get_b(hContact, szGPGModuleName, "Status", 0) == ID_STATUS_OFFLINE)
 		return false;
 	return true;
 }
@@ -1354,7 +1354,7 @@ int handleEnum(const char *szSetting, LPARAM lParam)
 	if(!*(bool*)lParam && szSetting[0] && StriStr(szSetting, "tabsrmm"))
 	{
 		bool f = false, *found = (bool*)lParam;
-		f = !DBGetContactSettingByte(NULL, "PluginDisable", szSetting, 0); 
+		f = !db_get_b(NULL, "PluginDisable", szSetting, 0); 
 		if(f)
 			*found = f;
 	}
@@ -1810,7 +1810,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							tmp2 = (char*)mir_alloc((output.substr(s,s2-s).length()+1) * sizeof(char));
 							strcpy(tmp2, output.substr(s,s2-s).c_str());
 							mir_utf8decode(tmp2, 0);
-							DBWriteContactSettingString(hContact, szGPGModuleName, "KeyID", tmp2);
+							db_set_s(hContact, szGPGModuleName, "KeyID", tmp2);
 							mir_free(tmp2);
 							s = output.find("“", s2);
 							if(s == string::npos)
@@ -1831,7 +1831,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 								mir_utf8decode(tmp2, 0);
 								if(hContact)
 								{
-									DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
+									db_set_s(hContact, szGPGModuleName, "KeyMainName", output.substr(s,s2-s-1).c_str());
 								}
 								mir_free(tmp2);
 								if((s = output.find(")", s2)) == string::npos)
@@ -1845,7 +1845,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 									strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
-										DBWriteContactSettingString(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
+										db_set_s(hContact, szGPGModuleName, "KeyComment", output.substr(s2,s-s2).c_str());
 									mir_free(tmp2);
 									s+=3;
 									s2 = output.find(">", s);
@@ -1853,7 +1853,7 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 									strcpy(tmp2, output.substr(s,s2-s).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
-										DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
+										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s,s2-s).c_str());
 									mir_free(tmp2);
 								}
 								else
@@ -1862,12 +1862,12 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 									strcpy(tmp2, output.substr(s2,s-s2).c_str());
 									mir_utf8decode(tmp2, 0);
 									if(hContact)
-										DBWriteContactSettingString(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
+										db_set_s(hContact, szGPGModuleName, "KeyMainEmail", output.substr(s2,s-s2).c_str());
 									mir_free(tmp2);
 								}
 							}
-							DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
-							DBWriteContactSettingTString(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
+							db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
+							db_set_ts(hContact, szGPGModuleName, "GPGPubKey", toUTF16(key).c_str());
 						}
 						boost::filesystem::remove(path);
 						break;
@@ -1983,7 +1983,7 @@ static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARA
       case IDC_IGNORE:
 		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
 		  {
-			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 1);
+			  db_set_b(NULL, szGPGModuleName, "bSameAction", 1);
 			  bSameAction = true;
 		  }
 		  DestroyWindow(hwndDlg);
@@ -1993,9 +1993,9 @@ static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARA
 		  file_msg_state = 1;
 		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
 		  {
-			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 1);
+			  db_set_b(NULL, szGPGModuleName, "bFileTransfers", 1);
 			  bFileTransfers = true;
-			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
+			  db_set_b(NULL, szGPGModuleName, "bSameAction", 0);
 			  bSameAction = false;
 		  }
 			  

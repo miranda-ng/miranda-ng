@@ -119,7 +119,7 @@ int LoadStatusBarData()
 		DBVARIANT dbv;
 		g_StatusBarData.bkColour = sttGetColor("StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if ( db_get_b(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+			if ( !db_get_s(NULL,"StatusBar","BkBitmap",&dbv)) {
 				g_StatusBarData.hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}

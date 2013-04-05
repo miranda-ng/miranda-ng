@@ -108,7 +108,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 						changed = pcli->pfnTrayIconSetBaseInfo(CopyIcon(hIcon), NULL);
 					else
 						changed = pcli->pfnTrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, iIcon, ILD_NORMAL), NULL);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					break;
 				}
 			case SETTING_TRAYICON_CYCLE:

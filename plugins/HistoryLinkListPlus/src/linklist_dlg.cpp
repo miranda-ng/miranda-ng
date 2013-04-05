@@ -49,23 +49,23 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			TranslateDialogDefault(hDlg);
 			TranslateMenu(listMenu);
 
-			if ( DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
+			if ( db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
 				hContact = NULL;
 			else 
 				hContact = DlgParam->hContact;
 			
-			if ( DBGetContactSettingByte(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 0) == 0 )
+			if ( db_get_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 0) == 0 )
 			{
 				// First use of this plugin! Set default size!
-				DBWriteContactSettingDword(hContact, LINKLIST_MODULE, "LinklistWidth", 400);
-				DBWriteContactSettingDword(hContact, LINKLIST_MODULE, "LinklistHeight", 450);
-				DBWriteContactSettingDword(hContact, LINKLIST_MODULE, "LinklistX", 0);
-				DBWriteContactSettingDword(hContact, LINKLIST_MODULE, "LinklistY", 0);
+				db_set_dw(hContact, LINKLIST_MODULE, "LinklistWidth", 400);
+				db_set_dw(hContact, LINKLIST_MODULE, "LinklistHeight", 450);
+				db_set_dw(hContact, LINKLIST_MODULE, "LinklistX", 0);
+				db_set_dw(hContact, LINKLIST_MODULE, "LinklistY", 0);
 				
-				DBWriteContactSettingByte(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 1);
+				db_set_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 1);
 			}
 
-			DlgParam->splitterPosNew = (int)DBGetContactSettingDword(hContact, LINKLIST_MODULE, LINKLIST_SPLITPOS, -1);
+			DlgParam->splitterPosNew = (int)db_get_dw(hContact, LINKLIST_MODULE, LINKLIST_SPLITPOS, -1);
 
 			GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
 			DlgParam->minSize.cx = rc.right - rc.left;
@@ -122,7 +122,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 
 				pENLink = (ENLINK*)lpNmhdr;
 
-				mouseEvent = DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+				mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
 
 				if ( pENLink->msg == WM_MOUSEMOVE && mouseEvent == 0x01 )
 				{
@@ -140,7 +140,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 						ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
 					else
 					{
-						openNewWindow = DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
+						openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
 						if ( openNewWindow == 0xFF )
 							openNewWindow = 0;
 	
@@ -156,7 +156,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 					hSubMenu = GetSubMenu(hPopup, 0);
 
 					// Disable Menuoption if "mouse over" events are active
-					mouseEvent = DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+					mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
 					if (mouseEvent == 0x01 )
 						EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 					
@@ -442,12 +442,12 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 		case WM_DESTROY:
 		{
 			HANDLE hContact;
-			if ( DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
+			if ( db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
 				hContact = NULL;
 			else
 				hContact = DlgParam->hContact;
 			Utils_SaveWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
-			DBWriteContactSettingDword(NULL, LINKLIST_MODULE, LINKLIST_SPLITPOS, DlgParam->splitterPosNew);
+			db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_SPLITPOS, DlgParam->splitterPosNew);
 			RemoveList(DlgParam->listStart);
 			free(DlgParam);
 			// Remove entry from Window list
@@ -548,7 +548,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 		case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hDlg);
-			useDefault = DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
+			useDefault = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0xFF);
 			if ( useDefault == 0x01 )
 			{
 				mCol = GetMirandaColour(&colourSet);
@@ -838,7 +838,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 					options.showTime = 1;	
 				
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
-				//DBWriteContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0x01);
+				//db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TIME, 0x01);
 
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
 				break;		
@@ -853,7 +853,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 					options.showDirection = 1;	
 				
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
-				//DBWriteContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0x01);
+				//db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_DIRECTION, 0x01);
 
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
 				break;		
@@ -868,7 +868,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 					options.showType = 1;
 
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
-				//DBWriteContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0x01);
+				//db_set_b(NULL, LINKLIST_MODULE, LINKLIST_SHOW_TYPE, 0x01);
 				
 				WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
 				break;		
@@ -882,10 +882,10 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			{
 				// Write Settings to Database
 				if ( SendDlgItemMessage(hDlg, IDC_CHECK1, BM_GETCHECK, 0, 0) == BST_CHECKED )
-					DBWriteContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
+					db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
 				else
 				{
-					DBWriteContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
+					db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
 					colourSet.incoming = SendDlgItemMessage(hDlg, IDC_INCOMING, CPM_GETCOLOUR, 0, 0);
 					colourSet.outgoing = SendDlgItemMessage(hDlg, IDC_OUTGOING, CPM_GETCOLOUR, 0, 0);
 					colourSet.background = SendDlgItemMessage(hDlg, IDC_BACKGROUND, CPM_GETCOLOUR, 0, 0);

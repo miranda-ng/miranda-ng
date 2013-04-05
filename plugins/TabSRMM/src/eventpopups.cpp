@@ -393,7 +393,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 
 			M->WriteByte("Chat", "PopupStyle", (BYTE)g_Settings.iPopupStyle);
-			DBWriteContactSettingWord(NULL, "Chat", "PopupTimeout", g_Settings.iPopupTimeout);
+			db_set_w(NULL, "Chat", "PopupTimeout", g_Settings.iPopupTimeout);
 
 			g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
 			M->WriteDword("Chat", "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);

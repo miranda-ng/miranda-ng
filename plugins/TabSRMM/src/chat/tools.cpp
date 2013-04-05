@@ -607,7 +607,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 				params->sound = "ChatMessage";
 				if (params->bInactive && !(si->wState&STATE_TALK)) {
 					si->wState |= STATE_TALK;
-					DBWriteContactSettingWord(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD) 40071);
+					db_set_w(si->hContact, si->pszModule, "ApparentMode", (LPARAM)(WORD) 40071);
 				}
 				break;
 			case GC_EVENT_ACTION:

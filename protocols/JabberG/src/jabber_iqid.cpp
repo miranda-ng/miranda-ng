@@ -503,7 +503,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 				// Don't set group again if already correct, or Miranda may show wrong group count in some case
 				DBVARIANT dbv;
-				if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
+				if ( !db_get_ts(hContact, "CList", "Group", &dbv)) {
 					if (lstrcmp(dbv.ptszVal, item->group))
 						db_set_ts(hContact, "CList", "Group", item->group);
 					db_free(&dbv);
@@ -1116,7 +1116,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				else {
 					char text[ 100 ];
 					sprintf(text, "e-mail%d", nEmail-1);
-					if ( DBGetContactSettingString(hContact, m_szModuleName, text, &dbv)) break;
+					if ( db_get_s(hContact, m_szModuleName, text, &dbv)) break;
 					db_free(&dbv);
 					JDeleteSetting(hContact, text);
 				}
@@ -1127,7 +1127,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "e-mail%d", nEmail);
-				if ( DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
+				if ( db_get_s(NULL, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				JDeleteSetting(NULL, text);
 				sprintf(text, "e-mailFlag%d", nEmail);
@@ -1160,7 +1160,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "Phone%d", nPhone);
-				if ( DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
+				if ( db_get_s(NULL, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				JDeleteSetting(NULL, text);
 				sprintf(text, "PhoneFlag%d", nPhone);

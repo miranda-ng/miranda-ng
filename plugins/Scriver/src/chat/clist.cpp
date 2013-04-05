@@ -30,7 +30,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	TCHAR pszGroup[50];
 
 	*pszGroup = '\0';
-	if ( !DBGetContactSettingTString(NULL, "Chat", "AddToGroup", &dbv)) {
+	if ( !db_get_ts(NULL, "Chat", "AddToGroup", &dbv)) {
 		if ( lstrlen(dbv.ptszVal) > 0 )
 			lstrcpyn( pszGroup, dbv.ptszVal, 50);
 		db_free(&dbv);
@@ -47,12 +47,12 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 				_itoa(i, str, 10);
 
 				DBVARIANT dbv, dbv2;
-				if (DBGetContactSettingTString( NULL, "CListGroups", str, &dbv)) {
+				if (db_get_ts( NULL, "CListGroups", str, &dbv)) {
 					db_set_ts(hContact, "CList", "Group", pszGroup);
 					goto END_GROUPLOOP;
 				}
 
-				if ( !DBGetContactSettingTString( hContact, "CList", "Group", &dbv2 )) {
+				if ( !db_get_ts( hContact, "CList", "Group", &dbv2 )) {
 					if ( dbv.ptszVal[0] != '\0' && dbv2.ptszVal[0] != '\0' && !lstrcmpi( dbv.ptszVal + 1, dbv2.ptszVal )) {
 						db_free(&dbv);
 						db_free(&dbv2);
@@ -129,7 +129,7 @@ int CList_RoomDoubleclicked(WPARAM wParam,LPARAM lParam)
 		if (db_get_b(hContact, szProto, "ChatRoom", 0) == 0)
 			return 0;
 
-		if ( !DBGetContactSettingTString( hContact, szProto, "ChatRoomID", &dbv )) {
+		if ( !db_get_ts( hContact, szProto, "ChatRoomID", &dbv )) {
 			SESSION_INFO* si = SM_FindSession( dbv.ptszVal, szProto );
 			if ( si ) {
 				// is the "toggle visibility option set, so we need to close the window?
@@ -233,7 +233,7 @@ void CList_CreateGroup(TCHAR* group)
 
 	for (i = 0;; i++) {
 		_itoa(i, str, 10);
-		if ( DBGetContactSettingTString( NULL, "CListGroups", str, &dbv ))
+		if ( db_get_ts( NULL, "CListGroups", str, &dbv ))
 			break;
 
 		if ( dbv.pszVal[0] != '\0' && !lstrcmpi(dbv.ptszVal + 1, group)) {
@@ -289,7 +289,7 @@ HANDLE CList_FindRoom ( const char* pszModule, const TCHAR* pszRoom)
 		if (szProto && !lstrcmpiA(szProto, pszModule)) {
 			if ( db_get_b( hContact, szProto, "ChatRoom", 0) != 0) {
 				DBVARIANT dbv;
-				if ( !DBGetContactSettingTString( hContact, szProto, "ChatRoomID", &dbv)) {
+				if ( !db_get_ts( hContact, szProto, "ChatRoomID", &dbv)) {
 					if ( !lstrcmpi(dbv.ptszVal, pszRoom)) {
 						db_free(&dbv);
 						return hContact;

@@ -447,24 +447,17 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-
-   if (db_get_b((HANDLE)wParam, proto, "ChatRoom", 0) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-   else
-	   mi.flags = CMIM_FLAGS;
-
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
    if (db_get_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0)) {
-		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Disable Miss You");
 		mi.icolibItem = iconList[1].hIcolib;
    }
    else {
-		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Enable Miss You");
 		mi.icolibItem = iconList[2].hIcolib;
    }
 	Menu_ModifyItem(hContactMenu, &mi);
-
+	Menu_ShowItem(hContactMenu, !db_get_b((HANDLE)wParam, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
    return 0;
 }
 
@@ -496,7 +489,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	int currentStatus = inf->value.wVal;
-	int prevStatus = DBGetContactSettingWord(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	int prevStatus = db_get_w(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 
 	if (currentStatus == prevStatus)
 		return 0;
@@ -722,8 +715,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	HANDLE hContact = db_find_first();
 	DWORD current_time = (DWORD)time(0);
 	while (hContact != 0) {
-		if ( !DBGetContactSetting(hContact, MODULE_NAME, "CreationTime", &dbv))
-			DBFreeVariant(&dbv);
+		if ( !db_get(hContact, MODULE_NAME, "CreationTime", &dbv))
+			db_free(&dbv);
 		else
 			db_set_dw(hContact, MODULE_NAME, "CreationTime", current_time);
 

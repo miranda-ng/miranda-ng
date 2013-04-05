@@ -114,7 +114,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 		_itoa(i, intname, 10);
 
 		DBVARIANT dbv;
-		if (DBGetContactSettingTString(NULL, "CListGroups", intname, &dbv))
+		if (db_get_ts(NULL, "CListGroups", intname, &dbv))
 			break;
 
 		if (dbv.ptszVal[0])

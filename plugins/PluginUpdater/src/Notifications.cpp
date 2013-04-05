@@ -116,10 +116,10 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 void ShowPopup(HWND hDlg, LPCTSTR ptszTitle, LPCTSTR ptszText, int Number, int ActType)
 {	
-	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) ) {
+	if ( !ServiceExists(MS_POPUP_ADDPOPUP) || !db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) ) {
 		char setting[100];
 		mir_snprintf(setting, SIZEOF(setting), "Popups%dM", Number);
-		if (DBGetContactSettingByte(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
+		if (db_get_b(NULL, MODNAME, setting, DEFAULT_MESSAGE_ENABLED)) {
 			int iMsgType;
 			switch( Number ) {
 				case 1: iMsgType = MB_ICONSTOP; break;
@@ -372,7 +372,7 @@ LBL_Exit:
 			SafeDeleteFile(p.File.tszDiskPath);  // remove .zip after successful update
 	}
 
-	DBWriteContactSettingByte(NULL, MODNAME, "RestartCount", 2);
+	db_set_b(NULL, MODNAME, "RestartCount", 2);
 	CallFunctionAsync(RestartMe, 0);
 	goto LBL_Exit;
 }

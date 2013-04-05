@@ -143,7 +143,7 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
             if(hContact==NULL) {
                 hContact=add_contact(sn); /* does not yet check if sn is current user */
 				if(hContact!=NULL)
-	                DBWriteContactSettingByte(hContact,MOD_KEY_CL,AIM_KEY_NL,1);
+	                db_set_b(hContact,MOD_KEY_CL,AIM_KEY_NL,1);
             }
             if(hContact!=NULL)
                 CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)msg);

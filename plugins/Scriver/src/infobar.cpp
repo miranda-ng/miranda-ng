@@ -28,7 +28,7 @@ void SetupInfobar(InfobarWindowData* idat) {
     CHARFORMAT2 cf2;
 	memset(&cf2, 0, sizeof(cf2));
     LOGFONT lf;
-    DWORD colour = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
+    DWORD colour = db_get_dw(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETBKGNDCOLOR, 0, colour);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETBKGNDCOLOR, 0, colour);
     LoadMsgDlgFont(MSGFONTID_INFOBAR_NAME, &lf, &colour, FALSE);

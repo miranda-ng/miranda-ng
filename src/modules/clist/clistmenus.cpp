@@ -633,7 +633,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 					Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
 				}
 				NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
-				DBWriteContactSettingWord(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
+				db_set_w(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
 				return 1;
 			}
 		}
@@ -830,7 +830,7 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 	_itoa(Pos, buf, 10);
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(NULL, "Protocols", buf, &dbv)) {
+	if ( !db_get_s(NULL, "Protocols", buf, &dbv)) {
 		for (int p=0; p < protoCnt; p++) {
 			if (lstrcmpA(proto[p]->szName, dbv.pszVal) == 0) {
 				db_free(&dbv);

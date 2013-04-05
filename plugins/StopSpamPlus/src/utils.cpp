@@ -22,7 +22,7 @@ bool IsExistMyMessage(HANDLE hContact)
 
 		if(dbei.flags & DBEF_SENT){
 			// mark contact as Answered
-			DBWriteContactSettingByte(hContact, pluginName, answeredSetting, 1);
+			db_set_b(hContact, pluginName, answeredSetting, 1);
 			// ...let the event go its way
 			return true;
 		}

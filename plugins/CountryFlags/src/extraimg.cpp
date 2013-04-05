@@ -35,12 +35,12 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* ip detect */
 	if ( db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT))
-		countryNumber=ServiceIpToCountry(DBGetContactSettingDword((HANDLE)wParam,pszProto,"RealIP",0),0);
+		countryNumber=ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
 	/* fallback */
 	if (countryNumber == 0xFFFF)
-		countryNumber=DBGetContactSettingWord((HANDLE)wParam,pszProto,"Country",0);
+		countryNumber=db_get_w((HANDLE)wParam,pszProto,"Country",0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
-		countryNumber=DBGetContactSettingWord((HANDLE)wParam,pszProto,"CompanyCountry",0);
+		countryNumber=db_get_w((HANDLE)wParam,pszProto,"CompanyCountry",0);
 	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 
@@ -250,14 +250,14 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	case WM_NOTIFY:
 		switch(((NMHDR*)lParam)->code) {
 		case PSN_APPLY: /* setting change hook will pick these up  */
-			DBWriteContactSettingByte(NULL,"Flags","UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
-			DBWriteContactSettingByte(NULL,"Flags","UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
+			db_set_b(NULL,"Flags","UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
+			db_set_b(NULL,"Flags","UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
 			/* Status Icon */
 			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG)))
-				DBWriteContactSettingByte(NULL,"Flags","ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
+				db_set_b(NULL,"Flags","ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
 			/* Extra Image */
 			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG)))
-				DBWriteContactSettingByte(NULL,"Flags","ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
+				db_set_b(NULL,"Flags","ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
 			return TRUE;
 		}
 		break;

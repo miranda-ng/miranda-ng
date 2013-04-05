@@ -174,7 +174,7 @@ static int SendChunkW(WCHAR *chunk, HANDLE hContact, char *szSvc, DWORD dwFlags)
 	BYTE	*pBuf = NULL;
 	int		wLen = lstrlenW(chunk), id;
 	DWORD	memRequired = (wLen + 1) * sizeof(WCHAR);
-	DWORD	codePage = DBGetContactSettingDword(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
+	DWORD	codePage = db_get_dw(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
 	int		mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, (char *)pBuf, 0, 0, 0);
 
 	memRequired += mbcsSize;
@@ -942,7 +942,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 
 			if (fIsSendLater) {
 				mir_snprintf(tszMsg, required, "%s%s", job->sendBuffer, utf_header);
-				DBWriteContactSettingString(hContact ? hContact : job->hOwner, "SendLater", szKeyName, tszMsg);
+				db_set_s(hContact ? hContact : job->hOwner, "SendLater", szKeyName, tszMsg);
 			}
 			else {
 				mir_snprintf(tszMsg, required, "%s%s", utf_header, job->sendBuffer);
@@ -964,7 +964,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 				mir_sntprintf(tszMsg, required, _T("%s%s"), tszHeader, wszMsg);
 			char *utf = mir_utf8encodeT(tszMsg);
 			if (fIsSendLater)
-				DBWriteContactSettingString(hContact ? hContact : job->hOwner, "SendLater", szKeyName, utf);
+				db_set_s(hContact ? hContact : job->hOwner, "SendLater", szKeyName, utf);
 			else
 				sendLater->addJob(utf, (LPARAM)hContact);
 			mir_free(utf);

@@ -68,7 +68,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 {
 	DBVARIANT dbv;
 	if (p->tszGroup == NULL) {
-		if ( !DBGetContactSettingTString(p->hContact, "CList", "Group", &dbv)) {
+		if ( !db_get_ts(p->hContact, "CList", "Group", &dbv)) {
 			p->tszGroup = mir_tstrdup(dbv.ptszVal);
 			mir_free(dbv.ptszVal);
 		}
@@ -237,7 +237,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	dbv.pszVal = NULL;
-	if ( !DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
+	if ( !db_get(hContact, "Protocol", "p", &dbv)) {
 		if ( !strcmp(cws->szModule, dbv.pszVal)) {
 			cli.pfnInvalidateDisplayNameCacheEntry(hContact);
 			if ( !strcmp(cws->szSetting, "UIN") || !strcmp(cws->szSetting, "Nick") || !strcmp(cws->szSetting, "FirstName")

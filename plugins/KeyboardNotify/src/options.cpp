@@ -316,7 +316,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							for (i=0; i < ListView_GetItemCount(hList); i++) {
 								lvItem.iItem = i;
 								ListView_GetItem(hList, &lvItem);
-								DBWriteContactSettingByte(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)!!ListView_GetCheckState(hList, lvItem.iItem));
+								db_set_b(NULL, KEYBDMODULE, (char *)lvItem.lParam, (BYTE)!!ListView_GetCheckState(hList, lvItem.iItem));
 							}
 						}			
 
@@ -517,21 +517,21 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case 0:
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "onurl", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONURL) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1:0));
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1:0));
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
+						db_set_b(NULL, KEYBDMODULE, "ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1:0));
+						db_set_w(NULL, KEYBDMODULE, "secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
 						if(IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
 							untilMap |= UNTIL_NBLINKS;
@@ -541,9 +541,9 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							untilMap |= UNTIL_EVENTSOPEN;
 						if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
 							untilMap |= UNTIL_CONDITIONS;
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "funtil", untilMap);
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
+						db_set_b(NULL, KEYBDMODULE, "funtil", untilMap);
+						db_set_w(NULL, KEYBDMODULE, "nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+						db_set_b(NULL, KEYBDMODULE, "mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
 						if(IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
 							statusMap |= MAP_ONLINE;
@@ -565,21 +565,21 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							statusMap |= MAP_OUTTOLUNCH;
 						if(IsDlgButtonChecked(hwndDlg, IDC_OFFLINE) == BST_CHECKED)
 							statusMap |= MAP_OFFLINE;
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "status", statusMap);
+						db_set_w(NULL, KEYBDMODULE, "status", statusMap);
 
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
+						db_set_w(NULL, KEYBDMODULE, "remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
 						int i = 0;
 						for (int j = 0; j < ProcessListAux.count; j++)
 							if (ProcessListAux.szFileName[j])
-								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "processcount", (WORD)i);
-						while (!DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
+								db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+						db_set_w(NULL, KEYBDMODULE, "processcount", (WORD)i);
+						while (!db_unset(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
 						if (XstatusListAux)
 							for (int i = 0; i < ProtoList.protoCount; i++)
 								for(int j = 0; j < (int)XstatusListAux[i].count; j++)
-									DBWriteContactSettingByte(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
+									db_set_b(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
 
 						LoadSettings();
 
@@ -630,9 +630,9 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			if (bFlashEffect != FLASH_INSEQUENCE)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), FALSE);
 			CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED:BST_UNCHECKED);
-			for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+			for (i=0; !db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}
@@ -707,36 +707,36 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				case 0:
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1:0));
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1:0));
 		
 						if(IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
-							DBWriteContactSettingByte(NULL, KEYBDMODULE, "feffect", FLASH_INTURN);
+							db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INTURN);
 						else
 							if (IsDlgButtonChecked(hwndDlg, IDC_INSEQUENCE) == BST_CHECKED)
-								DBWriteContactSettingByte(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
+								db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_INSEQUENCE);
 							else
 								if (IsDlgButtonChecked(hwndDlg, IDC_CUSTOM) == BST_CHECKED)
-									DBWriteContactSettingByte(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
+									db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_CUSTOM);
 								else
 									if (IsDlgButtonChecked(hwndDlg, IDC_TRILLIAN) == BST_CHECKED)
-										DBWriteContactSettingByte(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
+										db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_TRILLIAN);
 									else
-										DBWriteContactSettingByte(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
+										db_set_b(NULL, KEYBDMODULE, "feffect", FLASH_SAMETIME);
+						db_set_b(NULL, KEYBDMODULE, "order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
+						db_set_w(NULL, KEYBDMODULE, "custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ledsmsg", trillianLedsMsg);
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ledsfile", trillianLedsFile);
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ledsurl", trillianLedsURL);
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "ledsother", trillianLedsOther);
+						db_set_b(NULL, KEYBDMODULE, "ledsmsg", trillianLedsMsg);
+						db_set_b(NULL, KEYBDMODULE, "ledsfile", trillianLedsFile);
+						db_set_b(NULL, KEYBDMODULE, "ledsurl", trillianLedsURL);
+						db_set_b(NULL, KEYBDMODULE, "ledsother", trillianLedsOther);
 
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
+						db_set_w(NULL, KEYBDMODULE, "sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
+						db_set_b(NULL, KEYBDMODULE, "speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1:0));
 
 						LoadSettings();
 
@@ -770,17 +770,17 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_THEME, EM_LIMITTEXT, MAX_PATH, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CUSTOMSTRING, EM_LIMITTEXT, MAX_PATH, 0);
 
-			for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+			for (i=0; !db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE) {
 					str = (TCHAR *)malloc(MAX_PATH+1);
 					if (str)
-						if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
+						if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
 							str[0] = _T('\0');
 						else {
 							_tcscpy(str, dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
 				}
@@ -1001,7 +1001,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case 0:
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
-						if (!DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
+						if (!db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
 							_tcscpy(theme, dbv.ptszVal);
 						else
 							theme[0] = _T('\0');
@@ -1012,12 +1012,12 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 						for (i=0, wCustomTheme=0; i < count; i++) {
 							SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-							DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
+							db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
 							str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
 							if (str)
-								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
+								db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 							else
-								DBWriteContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
+								db_set_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
 
 							if (!wcscmp(theme, themeAux))
 								wCustomTheme = i;
@@ -1026,14 +1026,14 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)i, (LPARAM)themeAux);
 							SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)i, (LPARAM)i);
 						}
-						for (i=count; !DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++)
-							DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
+						for (i=count; !db_unset(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i)); i++)
+							db_unset(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i));
 
-						DBWriteContactSettingWord(NULL, KEYBDMODULE, "custom", wCustomTheme);
+						db_set_w(NULL, KEYBDMODULE, "custom", wCustomTheme);
 						// Still updating here the the Flashing tab's controls
 						SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
 
-						DBWriteContactSettingByte(NULL, KEYBDMODULE, "override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1:0));
+						db_set_b(NULL, KEYBDMODULE, "override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1:0));
 
 						return TRUE;
 					} // switch code
@@ -1073,14 +1073,14 @@ void exportThemes(const TCHAR *filename)
 
 	fwprintf(fExport, TranslateT("\n; Automatically generated Keyboard Notify Theme file\n\n\n"));
 
-	for (i=0; !DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+	for (i=0; !db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 		_ftprintf(fExport, _T("[%s]\n"), dbv.ptszVal);
-		DBFreeVariant(&dbv);
-		if (DBGetContactSettingTString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
+		db_free(&dbv);
+		if (db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
 			_ftprintf(fExport, _T("0\n\n"));
 		else {
 			_ftprintf(fExport, _T("%s\n\n"), dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 

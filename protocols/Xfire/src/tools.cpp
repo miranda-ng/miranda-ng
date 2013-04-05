@@ -157,7 +157,7 @@ char*menuitemtext(char*mtext)
 
 void Message(LPVOID msg)
 {
-	switch(DBGetContactSettingByte(NULL,protocolname,"nomsgbox",0))
+	switch(db_get_b(NULL,protocolname,"nomsgbox",0))
 	{
 	case 1:
 		return;
@@ -184,7 +184,7 @@ void Message(LPVOID msg)
 void MessageE(LPVOID msg)
 {
 	static BOOL already=FALSE;
-	switch(DBGetContactSettingByte(NULL,protocolname,"nomsgbox",0))
+	switch(db_get_b(NULL,protocolname,"nomsgbox",0))
 	{
 	case 0:
 		if(!already)

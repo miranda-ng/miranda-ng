@@ -110,12 +110,12 @@ int CJabberProto::JGetStaticString(const char* valueName, HANDLE hContact, char*
 
 int CJabberProto::JGetStringUtf(HANDLE hContact, char* valueName, DBVARIANT* dbv)
 {
-	return DBGetContactSettingStringUtf(hContact, m_szModuleName, valueName, dbv);
+	return db_get_utf(hContact, m_szModuleName, valueName, dbv);
 }
 
 int CJabberProto::JGetStringT(HANDLE hContact, char* valueName, DBVARIANT* dbv)
 {
-	return DBGetContactSettingTString(hContact, m_szModuleName, valueName, dbv);
+	return db_get_ts(hContact, m_szModuleName, valueName, dbv);
 }
 
 TCHAR *CJabberProto::JGetStringT(HANDLE hContact, char* valueName)
@@ -214,7 +214,7 @@ void __forceinline sttCryptString(char *str)
 TCHAR* CJabberProto::JGetStringCrypt(HANDLE hContact, char *valueName)
 {
 	DBVARIANT dbv;
-	if ( DBGetContactSettingString(hContact, m_szModuleName, valueName, &dbv))
+	if ( db_get_s(hContact, m_szModuleName, valueName, &dbv))
 		return NULL;
 
 	sttCryptString(dbv.pszVal);

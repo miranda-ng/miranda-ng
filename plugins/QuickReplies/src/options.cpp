@@ -74,15 +74,15 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_REPLIES), MessageEditSubclassProc);
 
 			mir_snprintf(key, 64, "ImmediatelySend_%x", iNumber);
-			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, (BYTE)DBGetContactSettingWord(NULL, MODULE_NAME, key, 1));
+			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, (BYTE)db_get_w(NULL, MODULE_NAME, key, 1));
 
 			mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-			count = DBGetContactSettingWord(NULL, MODULE_NAME, key, 0);
+			count = db_get_w(NULL, MODULE_NAME, key, 0);
 
 			for (int i = 0; i < count; i++)
 			{
 				mir_snprintf(key, 64, "Reply_%x_%x", iNumber, i);
-				if (!DBGetContactSettingTString(NULL, MODULE_NAME, key, &dbv))
+				if (!db_get_ts(NULL, MODULE_NAME, key, &dbv))
 					if(dbv.ptszVal != NULL)
 						replies.append(dbv.ptszVal);
 				if (i < count - 1)
@@ -90,7 +90,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			}
 			SetDlgItemText(hwndDlg, IDC_REPLIES, replies.c_str());
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		return TRUE;
 
@@ -120,12 +120,12 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					TCHAR tszReplies[TEXT_LIMIT];
 
 					mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-					count = DBGetContactSettingByte(NULL, MODULE_NAME, key, 0);
+					count = db_get_b(NULL, MODULE_NAME, key, 0);
 
 					for (int i = 0; i < count; i++)
 					{
 						mir_snprintf(key, 64, "Reply_%x_%x", iNumber, i);
-						DBDeleteContactSetting(NULL, MODULE_NAME, key);
+						db_unset(NULL, MODULE_NAME, key);
 					}
 
 					GetDlgItemText(hwndDlg, IDC_REPLIES, tszReplies, TEXT_LIMIT);
@@ -140,16 +140,16 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						while ((pos = replies.find(_T("\r\n"))) != tString::npos)
 						{
 							mir_snprintf(key, 64, "Reply_%x_%x", iNumber, count++);
-							DBWriteContactSettingTString(NULL, MODULE_NAME, key, replies.substr(0, pos).c_str());
+							db_set_ts(NULL, MODULE_NAME, key, replies.substr(0, pos).c_str());
 							replies = replies.substr(pos + 2);
 						}
 					}
 
 					mir_snprintf(key, 64, "RepliesCount_%x", iNumber);
-					DBWriteContactSettingWord(NULL, MODULE_NAME, key, count);
+					db_set_w(NULL, MODULE_NAME, key, count);
 
 					mir_snprintf(key, 64, "ImmediatelySend_%x", iNumber);
-					DBWriteContactSettingByte(NULL, MODULE_NAME, key, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
+					db_set_b(NULL, MODULE_NAME, key, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMMEDIATELY));
 
 					mir_free(key);
 

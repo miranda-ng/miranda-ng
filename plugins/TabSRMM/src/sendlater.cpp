@@ -328,7 +328,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	}
 
 	if (szSetting[0] == 'S') {
-		if (0 == DBGetContactSettingString(hContact, "SendLater", szSetting, &dbv))
+		if (0 == db_get_s(hContact, "SendLater", szSetting, &dbv))
 			szOrig_Utf = dbv.pszVal;
 		else
 			return 0;
@@ -378,7 +378,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 		wcsncpy((wchar_t *)&job->pBuf[iLen + 1], szWchar, lstrlenW(szWchar));
 
 	if (szSetting[0] == 'S')
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 	mir_free(szWchar);
 	job->readFlags();
@@ -711,7 +711,7 @@ void CSendLater::qMgrSetupColumns()
 
 	if (0 == M->GetString(0, SRMSGMOD_T, "qmgrListColumns", &dbv)) {
 		sscanf(dbv.pszVal, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		sscanf(szColDefault, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
@@ -755,7 +755,7 @@ void CSendLater::qMgrSaveColumns()
 		nWidths[i] = max(col.cx, 10);
 	}
 	mir_snprintf(szColFormatNew, 100, "%d;%d;%d;%d;%d", nWidths[0], nWidths[1], nWidths[2], nWidths[3], nWidths[4]);
-	::DBWriteContactSettingString(0, SRMSGMOD_T, "qmgrListColumns", szColFormatNew);
+	::db_set_s(0, SRMSGMOD_T, "qmgrListColumns", szColFormatNew);
 }
 
 INT_PTR CALLBACK CSendLater::DlgProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

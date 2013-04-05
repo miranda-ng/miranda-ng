@@ -188,7 +188,7 @@ static int ClcIconsChanged(WPARAM, LPARAM)
 
 static INT_PTR SetInfoTipHoverTime(WPARAM wParam, LPARAM)
 {
-	DBWriteContactSettingWord(NULL, "CLC", "InfoTipHoverTime", (WORD) wParam);
+	db_set_w(NULL, "CLC", "InfoTipHoverTime", (WORD) wParam);
 	cli.pfnClcBroadcast(INTM_SETINFOTIPHOVERTIME, wParam, 0);
 	return 0;
 }

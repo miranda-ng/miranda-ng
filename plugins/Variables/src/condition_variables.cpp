@@ -40,7 +40,7 @@ int ParseStringCondition(DWORD conditionID, REPORTINFO *ri) {
 			mir_free((TCHAR*)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0));
 			log_debugA("err: %d", fi.eCount);
 			res = fi.eCount==0?CRV_TRUE:CRV_FALSE;
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	if (ri->flags&CND_CLEANUP) {
@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcOptsCondition(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		conditionID = (DWORD)lParam;
 		if (!DBGetConditionSettingTString(conditionID, NULL, MODULENAME, SETTING_PARSESTRING, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_PARSESTRING, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
         break;
 						}

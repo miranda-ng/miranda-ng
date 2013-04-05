@@ -806,10 +806,10 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
 
 			DBVARIANT dbv = {0};
-			DBGetContactSettingTString(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
+			db_get_ts(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
 			if (lstrcmp(dbv.ptszVal, NULL) == 0)
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
 				SendMessage(hEdit, EM_SETSEL, 0, slen);
 				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
@@ -855,10 +855,10 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (slen != 0)
 			Transliterate(sel);
 		DBVARIANT dbv = {0};
-		DBGetContactSettingTString(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
+		db_get_ts(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
 		{
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
 			SendMessage(hEdit, EM_SETSEL, 0, slen);
 			SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
@@ -903,10 +903,10 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		if (slen != 0)
 			Invert(sel);
 		DBVARIANT dbv = {0};
-		DBGetContactSettingTString(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
+		db_get_ts(NULL, "TranslitSwitcher", "ResendSymbol", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
 		{
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
 			SendMessage(hEdit, EM_SETSEL, 0, slen);
 			SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);

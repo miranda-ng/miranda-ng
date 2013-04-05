@@ -216,7 +216,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		{
-			DWORD exStyle = DBGetContactSettingDword(NULL,"CLC","ExStyle",pcli->pfnGetDefaultExStyle());
+			DWORD exStyle = db_get_dw(NULL,"CLC","ExStyle",pcli->pfnGetDefaultExStyle());
 			for (int i = 0;i < SIZEOF(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg,checkBoxToStyleEx[i].id,(exStyle&checkBoxToStyleEx[i].flag)^(checkBoxToStyleEx[i].flag*checkBoxToStyleEx[i].not)?BST_CHECKED:BST_UNCHECKED);
 
@@ -231,13 +231,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendDlgItemMessage(hwndDlg,IDC_LEFTMARGINSPIN,UDM_SETPOS,0,MAKELONG( db_get_b(NULL,"CLC","LeftMargin",CLCDEFAULT_LEFTMARGIN),0));
 		SendDlgItemMessage(hwndDlg,IDC_GROUPINDENTSPIN,UDM_SETRANGE,0,MAKELONG(50,0));
 		SendDlgItemMessage(hwndDlg,IDC_GROUPINDENTSPIN,UDM_SETPOS,0,MAKELONG( db_get_b(NULL,"CLC","GroupIndent",CLCDEFAULT_GROUPINDENT),0));
-		CheckDlgButton(hwndDlg,IDC_GREYOUT,DBGetContactSettingDword(NULL,"CLC","GreyoutFlags",CLCDEFAULT_GREYOUTFLAGS)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_GREYOUT,db_get_dw(NULL,"CLC","GreyoutFlags",CLCDEFAULT_GREYOUTFLAGS)?BST_CHECKED:BST_UNCHECKED);
 
 
 		EnableWindow(GetDlgItem(hwndDlg,IDC_SMOOTHTIME),IsDlgButtonChecked(hwndDlg,IDC_NOTNOSMOOTHSCROLLING));
 		EnableWindow(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),IsDlgButtonChecked(hwndDlg,IDC_GREYOUT));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),greyoutValues,SIZEOF(greyoutValues),DBGetContactSettingDword(NULL,"CLC","FullGreyoutFlags",CLCDEFAULT_FULLGREYOUTFLAGS));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS),offlineValues,SIZEOF(offlineValues),DBGetContactSettingDword(NULL,"CLC","OfflineModes",CLCDEFAULT_OFFLINEMODES));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),greyoutValues,SIZEOF(greyoutValues),db_get_dw(NULL,"CLC","FullGreyoutFlags",CLCDEFAULT_FULLGREYOUTFLAGS));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS),offlineValues,SIZEOF(offlineValues),db_get_dw(NULL,"CLC","OfflineModes",CLCDEFAULT_OFFLINEMODES));
 		CheckDlgButton(hwndDlg,IDC_NOSCROLLBAR,db_get_b(NULL,"CLC","NoVScrollBar",0)?BST_CHECKED:BST_UNCHECKED);
 		return TRUE;
 
@@ -283,19 +283,19 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				for (i = 0;i < SIZEOF(checkBoxToStyleEx);i++)
 					if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not)
 						exStyle |= checkBoxToStyleEx[i].flag;
-				DBWriteContactSettingDword(NULL,"CLC","ExStyle",exStyle);
+				db_set_dw(NULL,"CLC","ExStyle",exStyle);
 
 				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS));
-				DBWriteContactSettingDword(NULL,"CLC","FullGreyoutFlags",fullGreyoutFlags);
+				db_set_dw(NULL,"CLC","FullGreyoutFlags",fullGreyoutFlags);
 				if (IsDlgButtonChecked(hwndDlg,IDC_GREYOUT))
-					DBWriteContactSettingDword(NULL,"CLC","GreyoutFlags",fullGreyoutFlags);
+					db_set_dw(NULL,"CLC","GreyoutFlags",fullGreyoutFlags);
 				else
-					DBWriteContactSettingDword(NULL,"CLC","GreyoutFlags",0);
+					db_set_dw(NULL,"CLC","GreyoutFlags",0);
 
 				db_set_b(NULL,"CLC","ShowIdle",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_IDLE)?1:0));
-				DBWriteContactSettingDword(NULL,"CLC","OfflineModes",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS)));
+				db_set_dw(NULL,"CLC","OfflineModes",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_HIDEOFFLINEOPTS)));
 				db_set_b(NULL,"CLC","LeftMargin",(BYTE)SendDlgItemMessage(hwndDlg,IDC_LEFTMARGINSPIN,UDM_GETPOS,0,0));
-				DBWriteContactSettingWord(NULL,"CLC","ScrollTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_SMOOTHTIMESPIN,UDM_GETPOS,0,0));
+				db_set_w(NULL,"CLC","ScrollTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_SMOOTHTIMESPIN,UDM_GETPOS,0,0));
 				db_set_b(NULL,"CLC","GroupIndent",(BYTE)SendDlgItemMessage(hwndDlg,IDC_GROUPINDENTSPIN,UDM_GETPOS,0,0));
 				db_set_b(NULL,"CLC","NoVScrollBar",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_NOSCROLLBAR)?1:0));
 
@@ -320,12 +320,12 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 		CheckDlgButton(hwndDlg,IDC_BITMAP,db_get_b(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)?BST_CHECKED:BST_UNCHECKED);
 		SendMessage(hwndDlg,WM_USER+10,0,0);
 		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_BKCOLOUR);
-		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR));
+		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR));
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
-		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
+		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{	
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+			if ( !db_get_s(NULL,"StatusBar","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
 
 				char szPath[MAX_PATH];
@@ -398,11 +398,11 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 				{	
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_GETCOLOUR,0,0);
-					if (col == CLCDEFAULT_BKCOLOUR) DBDeleteContactSetting(NULL,"StatusBar","BkColour");
-					else DBWriteContactSettingDword(NULL,"StatusBar","BkColour",col);
+					if (col == CLCDEFAULT_BKCOLOUR) db_unset(NULL,"StatusBar","BkColour");
+					else db_set_dw(NULL,"StatusBar","BkColour",col);
 					col = SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_GETCOLOUR,0,0);
-					if (col == CLCDEFAULT_SELBKCOLOUR) DBDeleteContactSetting(NULL,"StatusBar","SelBkColour");
-					else DBWriteContactSettingDword(NULL,"StatusBar","SelBkColour",col);
+					if (col == CLCDEFAULT_SELBKCOLOUR) db_unset(NULL,"StatusBar","SelBkColour");
+					else db_set_dw(NULL,"StatusBar","SelBkColour",col);
 
 					char str[MAX_PATH],strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg,IDC_FILENAME,str,SIZEOF(str));
@@ -420,7 +420,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 					if (IsDlgButtonChecked(hwndDlg,IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
 					if (IsDlgButtonChecked(hwndDlg,IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
 
-					DBWriteContactSettingWord(NULL,"StatusBar","BkBmpUse",flags);
+					db_set_w(NULL,"StatusBar","BkBmpUse",flags);
 				}
 
 				pcli->pfnClcOptionsChanged();
@@ -442,12 +442,12 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg,IDC_BITMAP,db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)?BST_CHECKED:BST_UNCHECKED);
 		SendMessage(hwndDlg,WM_USER+10,0,0);
 		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_BKCOLOUR);
-		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"CLC","BkColour",CLCDEFAULT_BKCOLOUR));
+		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"CLC","BkColour",CLCDEFAULT_BKCOLOUR));
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
-		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"CLC","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
+		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"CLC","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingString(NULL,"CLC","BkBitmap",&dbv)) {
+			if ( !db_get_s(NULL,"CLC","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
 
 				char szPath[MAX_PATH];
@@ -517,11 +517,11 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				db_set_b(NULL,"CLC","UseBitmap",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_BITMAP));
 				{	COLORREF col;
 					col = SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_GETCOLOUR,0,0);
-					if (col == CLCDEFAULT_BKCOLOUR) DBDeleteContactSetting(NULL,"CLC","BkColour");
-					else DBWriteContactSettingDword(NULL,"CLC","BkColour",col);
+					if (col == CLCDEFAULT_BKCOLOUR) db_unset(NULL,"CLC","BkColour");
+					else db_set_dw(NULL,"CLC","BkColour",col);
 					col = SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_GETCOLOUR,0,0);
-					if (col == CLCDEFAULT_SELBKCOLOUR) DBDeleteContactSetting(NULL,"CLC","SelBkColour");
-					else DBWriteContactSettingDword(NULL,"CLC","SelBkColour",col);
+					if (col == CLCDEFAULT_SELBKCOLOUR) db_unset(NULL,"CLC","SelBkColour");
+					else db_set_dw(NULL,"CLC","SelBkColour",col);
 				}
 				{
 					char str[MAX_PATH],strrel[MAX_PATH];
@@ -540,7 +540,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (IsDlgButtonChecked(hwndDlg,IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
 					if (IsDlgButtonChecked(hwndDlg,IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
 
-					DBWriteContactSettingWord(NULL,"CLC","BkBmpUse",flags);
+					db_set_w(NULL,"CLC","BkBmpUse",flags);
 				}
 
 				pcli->pfnClcOptionsChanged();

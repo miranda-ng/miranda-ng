@@ -51,7 +51,7 @@ void SaveColumnSizes(HWND hwndResults)
 		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
 		if (i>=columnCount) continue;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
-		DBWriteContactSettingWord(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
+		db_set_w(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}
 	db_set_b(NULL, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
 	db_set_b(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);

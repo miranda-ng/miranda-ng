@@ -80,7 +80,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			/* read-in watcher flags */
 			{	WORD watcherType;
-				watcherType=DBGetContactSettingWord(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
+				watcherType=db_get_w(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
 				CheckRadioButton(hwndDlg,IDC_RADIO_STTIME,IDC_RADIO_STCOUNTDOWN,(watcherType&SDWTF_ST_TIME)?IDC_RADIO_STTIME:IDC_RADIO_STCOUNTDOWN);
 				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME)!=0);
 				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE)!=0);
@@ -91,14 +91,14 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			/* read-in countdown val */
 			{	SYSTEMTIME st;
-				if(!TimeStampToSystemTime((time_t)DBGetContactSettingDword(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT),&st))
+				if(!TimeStampToSystemTime((time_t)db_get_dw(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT),&st))
 					GetLocalTime(&st);
 				DateTime_SetSystemtime(GetDlgItem(hwndDlg,IDC_TIME_TIMESTAMP),GDT_VALID,&st);
 				DateTime_SetSystemtime(GetDlgItem(hwndDlg,IDC_DATE_TIMESTAMP),GDT_VALID,&st);
 				SendMessage(hwndDlg,M_CHECK_DATETIME,0,0);
 			}
 			{	DWORD setting;
-				setting=DBGetContactSettingDword(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
+				setting=db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
 				if(setting<1) setting=SETTING_COUNTDOWN_DEFAULT;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_COUNTDOWN,UDM_SETRANGE,0,MAKELPARAM(UD_MAXVAL,1));
 				SendDlgItemMessage(hwndDlg,IDC_EDIT_COUNTDOWN,EM_SETLIMITTEXT,(WPARAM)10,0);
@@ -112,7 +112,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				const TCHAR *unitNames[]={TranslateT("Second(s)"), TranslateT("Minute(s)"), TranslateT("Hour(s)"),
 											TranslateT("Day(s)"), TranslateT("Week(s)"), TranslateT("Month(s)")};
 				hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_COUNTDOWNUNIT);
-				lastUnit=DBGetContactSettingDword(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
+				lastUnit=db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 				SendMessage(hwndCombo,CB_SETLOCALE,(WPARAM)locale,0); /* sort order */
 				SendMessage(hwndCombo,CB_INITSTORAGE,SIZEOF(unitNames),SIZEOF(unitNames)*16); /* approx. */
 				for(i=0;i<SIZEOF(unitNames);++i) {
@@ -124,7 +124,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				}
 			}
 			{	DBVARIANT dbv;
-				if(!DBGetContactSettingTString(NULL,"AutoShutdown","Message",&dbv)) {
+				if(!db_get_ts(NULL,"AutoShutdown","Message",&dbv)) {
 					SetDlgItemText(hwndDlg,IDC_EDIT_MESSAGE,dbv.ptszVal);
 					mir_free(dbv.ptszVal);
 				}
@@ -146,7 +146,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				int index;
 				TCHAR *pszText;
 				hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_SHUTDOWNTYPE);
-				lastShutdownType=DBGetContactSettingByte(NULL,"AutoShutdown","ShutdownType",SETTING_SHUTDOWNTYPE_DEFAULT);
+				lastShutdownType=db_get_b(NULL,"AutoShutdown","ShutdownType",SETTING_SHUTDOWNTYPE_DEFAULT);
 				SendMessage(hwndCombo,CB_SETLOCALE,(WPARAM)locale,0); /* sort order */
 				SendMessage(hwndCombo,CB_SETEXTENDEDUI,TRUE,0);
 				SendMessage(hwndCombo,CB_INITSTORAGE,SDSDT_MAX,SDSDT_MAX*32);
@@ -344,7 +344,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						TCHAR *pszText=(TCHAR*)mir_alloc(len*sizeof(TCHAR));
 						if(pszText!=NULL && GetWindowText(hwndEdit,pszText,len+1)) {
 							TrimString(pszText);
-							DBWriteContactSettingTString(NULL,"AutoShutdown","Message",pszText);
+							db_set_ts(NULL,"AutoShutdown","Message",pszText);
 						}
 						mir_free(pszText); /* does NULL check */
 					}
@@ -354,16 +354,16 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						DateTime_GetSystemtime(GetDlgItem(hwndDlg,IDC_TIME_TIMESTAMP),&st); /* time gets synchronized */
 						if(!SystemTimeToTimeStamp(&st,&timestamp))
 							timestamp=time(NULL);
-						DBWriteContactSettingDword(NULL,"AutoShutdown","TimeStamp",(DWORD)timestamp);
+						db_set_dw(NULL,"AutoShutdown","TimeStamp",(DWORD)timestamp);
 					}
 					/* shutdown type */
 					{	int index;
 						index=SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETCURSEL,0,0);
-						if(index!=LB_ERR) DBWriteContactSettingByte(NULL,"AutoShutdown","ShutdownType",(BYTE)SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETITEMDATA,(WPARAM)index,0));
+						if(index!=LB_ERR) db_set_b(NULL,"AutoShutdown","ShutdownType",(BYTE)SendDlgItemMessage(hwndDlg,IDC_COMBO_SHUTDOWNTYPE,CB_GETITEMDATA,(WPARAM)index,0));
 						index=SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETCURSEL,0,0);
-						if(index!=LB_ERR) DBWriteContactSettingDword(NULL,"AutoShutdown","CountdownUnit",(DWORD)SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETITEMDATA,(WPARAM)index,0));
-						DBWriteContactSettingDword(NULL,"AutoShutdown","Countdown",(DWORD)GetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,NULL,FALSE));
-						DBWriteContactSettingByte(NULL,"AutoShutdown","CpuUsageThreshold",(BYTE)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE));
+						if(index!=LB_ERR) db_set_dw(NULL,"AutoShutdown","CountdownUnit",(DWORD)SendDlgItemMessage(hwndDlg,IDC_COMBO_COUNTDOWNUNIT,CB_GETITEMDATA,(WPARAM)index,0));
+						db_set_dw(NULL,"AutoShutdown","Countdown",(DWORD)GetDlgItemInt(hwndDlg,IDC_EDIT_COUNTDOWN,NULL,FALSE));
+						db_set_b(NULL,"AutoShutdown","CpuUsageThreshold",(BYTE)GetDlgItemInt(hwndDlg,IDC_EDIT_CPUUSAGE,NULL,FALSE));
 					}
 					/* watcher type */
 					{	WORD watcherType;
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_IDLE)) watcherType|=SDWTF_IDLE;
 						if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_STATUS)) watcherType|=SDWTF_STATUS;
 						if(IsDlgButtonChecked(hwndDlg,IDC_CHECK_CPUUSAGE)) watcherType|=SDWTF_CPUUSAGE;
-						DBWriteContactSettingWord(NULL,"AutoShutdown","WatcherFlags",watcherType);
+						db_set_w(NULL,"AutoShutdown","WatcherFlags",watcherType);
 						ServiceStartWatcher(0,watcherType);
 					}
 					/* fall through */

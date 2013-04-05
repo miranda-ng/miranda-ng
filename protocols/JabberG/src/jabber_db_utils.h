@@ -143,7 +143,7 @@ public:
 	{
 		CMString result;
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, m_szSetting, &dbv))
+		if ( !db_get_ts(NULL, m_proto->m_szModuleName, m_szSetting, &dbv))
 		{
 			result = dbv.ptszVal;
 			db_free(&dbv);

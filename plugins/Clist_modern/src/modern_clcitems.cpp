@@ -735,7 +735,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, ClcDa
 			filterResult = strstr(g_CluiData.protoFilter, szTemp) ? 1 : 0;
 		}
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_GROUPS) {
-			if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
+			if ( !db_get_ts(hContact, "CList", "Group", &dbv)) {
 				mir_sntprintf(szGroupMask, SIZEOF(szGroupMask), _T("%s|"), &dbv.ptszVal[0]);
 				filterResult = (g_CluiData.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(g_CluiData.groupFilter, szGroupMask) ? 1 : 0));
 				mir_free(dbv.ptszVal);

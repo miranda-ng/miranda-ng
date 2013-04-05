@@ -375,13 +375,13 @@ int LoadSkinHotkeys(void)
 
 		WORD key;
 		if ((key = db_get_w(NULL, "Clist", szSetting, 0))) {
-			DBDeleteContactSetting(NULL, "Clist", szSetting);
-			DBWriteContactSettingWord(NULL, DBMODULENAME, newSettings[i], key);
+			db_unset(NULL, "Clist", szSetting);
+			db_set_w(NULL, DBMODULENAME, newSettings[i], key);
 		}
 
 		mir_snprintf(szSetting, SIZEOF(szSetting), "HKEn%s", oldSettings[i]);
 		if ((key = db_get_b(NULL, "Clist", szSetting, 0))) {
-			DBDeleteContactSetting(NULL, "Clist", szSetting);
+			db_unset(NULL, "Clist", szSetting);
 			db_set_b(NULL, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));
 		}
 	}

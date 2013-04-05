@@ -53,7 +53,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	if ( pcli->hwndStatus == 0 )
 		return;
 
-	FirstIconOffset = DBGetContactSettingDword(NULL,"CLUI","FirstIconOffset",0);
+	FirstIconOffset = db_get_dw(NULL,"CLUI","FirstIconOffset",0);
 
 	ProtoEnumAccounts( &protoCount, &accs );
 	if ( protoCount == 0 )
@@ -65,7 +65,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 
 	SendMessage(pcli->hwndStatus,SB_GETBORDERS,0,(LPARAM)&borders);
 
-	SendMessage(pcli->hwndStatus,SB_SETBKCOLOR,0,DBGetContactSettingDword(0,"CLUI","SBarBKColor",CLR_DEFAULT));
+	SendMessage(pcli->hwndStatus,SB_SETBKCOLOR,0,db_get_dw(0,"CLUI","SBarBKColor",CLR_DEFAULT));
 	partWidths = (int*)alloca((protoCount+1)*sizeof(int));
 	//partWidths[0] = FirstIconOffset;
 	if ( db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0)||db_get_b(NULL,"CLUI","EqualSections",1)) 
@@ -105,8 +105,8 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 		HDC hdc;
 		SIZE textSize;
 		BYTE showOpts = db_get_b(NULL,"CLUI","SBarShow",5);
-		DWORD extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
-		DWORD startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
+		DWORD extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
+		DWORD startoffset = db_get_dw(NULL,"StatusBar","FirstIconOffset",0);
 		int x;
 
 		hdc = GetDC(pcli->hwndStatus);

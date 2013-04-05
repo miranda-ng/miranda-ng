@@ -259,7 +259,7 @@ void CJabberProto::ServerThread(ThreadData* info)
 	info->auth = NULL;
 
 	if (m_options.ManualConnect == TRUE) {
-		if ( !DBGetContactSettingString(NULL, m_szModuleName, "ManualHost", &dbv)) {
+		if ( !db_get_s(NULL, m_szModuleName, "ManualHost", &dbv)) {
 			strncpy(info->manualHost, dbv.pszVal, SIZEOF(info->manualHost));
 			info->manualHost[SIZEOF(info->manualHost)-1] = '\0';
 			db_free(&dbv);
@@ -315,7 +315,7 @@ LBL_FatalError:
 			goto LBL_Exit;
 		}
 
-		if ( !DBGetContactSettingString(NULL, m_szModuleName, "LoginServer", &dbv)) {
+		if ( !db_get_s(NULL, m_szModuleName, "LoginServer", &dbv)) {
 			strncpy(info->server, dbv.pszVal, SIZEOF(info->server)-1);
 			db_free(&dbv);
 		}
@@ -923,7 +923,7 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 		}
 
 		Log("Success: Logged-in.");
-		if ( DBGetContactSettingString(NULL, m_szModuleName, "Nick", &dbv))
+		if ( db_get_s(NULL, m_szModuleName, "Nick", &dbv))
 			JSetStringT(NULL, "Nick", info->username);
 		else
 			db_free(&dbv);

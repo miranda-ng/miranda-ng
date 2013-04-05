@@ -34,7 +34,7 @@ static INT_PTR ShowGuideFile(WPARAM wParam, LPARAM lParam)
 	pszDirName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
 	pszFileName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
 
-	iRes = DBGetContactSettingTString(NULL, "UserGuide", "PathToHelpFile", &dbv);
+	iRes = db_get_ts(NULL, "UserGuide", "PathToHelpFile", &dbv);
 	
 	if (iRes!=0)
 	{
@@ -64,7 +64,7 @@ static INT_PTR ShowGuideFile(WPARAM wParam, LPARAM lParam)
 				pszDirName[pszDivider - dbv.ptszVal] = 0;
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (ServiceExists(MS_UTILS_REPLACEVARS))
 		pszDirNameEx = (TCHAR *) CallService(MS_UTILS_REPLACEVARS, (WPARAM)pszDirName, (LPARAM)&dat);

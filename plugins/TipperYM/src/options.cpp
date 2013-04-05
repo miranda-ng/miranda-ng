@@ -36,10 +36,10 @@ extern int IsTrayProto(const TCHAR *swzProto, BOOL bExtendedTip)
 
 	DBVARIANT dbv;
 	int result = 1;
-	if (!DBGetContactSettingTString(NULL, MODULE, szSetting, &dbv)) 
+	if (!db_get_ts(NULL, MODULE, szSetting, &dbv)) 
 	{
 		result = _tcsstr(dbv.ptszVal, swzProto) ? 1 : 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return result;
@@ -106,43 +106,43 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 
 	mir_snprintf(setting, SIZEOF(setting), "Name%d", index);
 	ds->swzName[0] = 0;
-	if (!DBGetContactSettingTString(0, MODULE_ITEMS, setting, &dbv)) 
+	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) 
 	{
 		_tcsncpy(ds->swzName, dbv.ptszVal, SIZEOF(ds->swzName));
 		ds->swzName[SIZEOF(ds->swzName) - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		return false;
 
 	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
-	ds->type = (DisplaySubstType)DBGetContactSettingByte(0, MODULE_ITEMS, setting, DVT_PROTODB);
+	ds->type = (DisplaySubstType)db_get_b(0, MODULE_ITEMS, setting, DVT_PROTODB);
 	
 	mir_snprintf(setting, SIZEOF(setting), "Module%d", index);
 	ds->szModuleName[0] = 0;
-	if (!DBGetContactSetting(0, MODULE_ITEMS, setting, &dbv)) 
+	if (!db_get(0, MODULE_ITEMS, setting, &dbv)) 
 	{
 		strncpy(ds->szModuleName, dbv.pszVal, MODULE_NAME_LEN);
 		ds->szModuleName[MODULE_NAME_LEN - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	mir_snprintf(setting, SIZEOF(setting), "Setting%d", index);
 	ds->szSettingName[0] = 0;
-	if (!DBGetContactSetting(0, MODULE_ITEMS, setting, &dbv))
+	if (!db_get(0, MODULE_ITEMS, setting, &dbv))
 	{
 		strncpy(ds->szSettingName, dbv.pszVal, SETTING_NAME_LEN);
 		ds->szSettingName[SETTING_NAME_LEN - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	mir_snprintf(setting, SIZEOF(setting), "TransFuncId%d", index);
-	ds->iTranslateFuncId = DBGetContactSettingDword(0, MODULE_ITEMS, setting, (DWORD)-1);
+	ds->iTranslateFuncId = db_get_dw(0, MODULE_ITEMS, setting, (DWORD)-1);
 
 	// a little backward compatibility
 	if ((DWORD)ds->iTranslateFuncId == (DWORD)-1) 
 	{
 		mir_snprintf(setting, SIZEOF(setting), "TransFunc%d", index);
-		ds->iTranslateFuncId = (DWORD)DBGetContactSettingWord(0, MODULE_ITEMS, setting, 0);
+		ds->iTranslateFuncId = (DWORD)db_get_w(0, MODULE_ITEMS, setting, 0);
 	}
 
 	return true;
@@ -154,15 +154,15 @@ void SaveDS(DISPLAYSUBST *ds, int index)
 	char setting[512];
 
 	mir_snprintf(setting, SIZEOF(setting), "Name%d", index);
-	DBWriteContactSettingTString(0, MODULE_ITEMS, setting, ds->swzName);
+	db_set_ts(0, MODULE_ITEMS, setting, ds->swzName);
 	mir_snprintf(setting, SIZEOF(setting), "Type%d", index);
-	DBWriteContactSettingByte(0, MODULE_ITEMS, setting, (BYTE)ds->type);
+	db_set_b(0, MODULE_ITEMS, setting, (BYTE)ds->type);
 	mir_snprintf(setting, SIZEOF(setting), "Module%d", index);
-	DBWriteContactSettingString(0, MODULE_ITEMS, setting, ds->szModuleName);
+	db_set_s(0, MODULE_ITEMS, setting, ds->szModuleName);
 	mir_snprintf(setting, SIZEOF(setting), "Setting%d", index);
-	DBWriteContactSettingString(0, MODULE_ITEMS, setting, ds->szSettingName);
+	db_set_s(0, MODULE_ITEMS, setting, ds->szSettingName);
 	mir_snprintf(setting, SIZEOF(setting), "TransFuncId%d", index);
-	DBWriteContactSettingDword(0, MODULE_ITEMS, setting, (WORD)ds->iTranslateFuncId);
+	db_set_dw(0, MODULE_ITEMS, setting, (WORD)ds->iTranslateFuncId);
 }
 
 
@@ -173,31 +173,31 @@ bool LoadDI(DISPLAYITEM *di, int index)
 
 	mir_snprintf(setting, SIZEOF(setting), "DILabel%d", index);
 	di->swzLabel[0] = 0;
-	if (!DBGetContactSettingTString(0, MODULE_ITEMS, setting, &dbv)) 
+	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) 
 	{
 		_tcsncpy( di->swzLabel, dbv.ptszVal, SIZEOF(di->swzLabel));
 		di->swzLabel[SIZEOF(di->swzLabel) - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else 
 		return false;
 
 	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
 	di->swzValue[0] = 0;
-	if (!DBGetContactSettingTString(0, MODULE_ITEMS, setting, &dbv)) 
+	if (!db_get_ts(0, MODULE_ITEMS, setting, &dbv)) 
 	{
 		_tcsncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
 		di->swzValue[SIZEOF(di->swzValue) - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
-	di->bLineAbove = (DBGetContactSettingByte(0, MODULE_ITEMS, setting, 0) == 1);
+	di->bLineAbove = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
 	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
-	di->bValueNewline = (DBGetContactSettingByte(0, MODULE_ITEMS, setting, 0) == 1);
+	di->bValueNewline = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
 	mir_snprintf(setting, SIZEOF(setting), "DIVisible%d", index);
-	di->bIsVisible = (DBGetContactSettingByte(0, MODULE_ITEMS, setting, 1) == 1);
+	di->bIsVisible = (db_get_b(0, MODULE_ITEMS, setting, 1) == 1);
 	mir_snprintf(setting, SIZEOF(setting), "DITipperVarsFirst%d", index);
-	di->bParseTipperVarsFirst = (DBGetContactSettingByte(0, MODULE_ITEMS, setting, 0) == 1);
+	di->bParseTipperVarsFirst = (db_get_b(0, MODULE_ITEMS, setting, 0) == 1);
 
 	return true;
 }
@@ -208,70 +208,70 @@ void SaveDI(DISPLAYITEM *di, int index)
 	char setting[512];
 
 	mir_snprintf(setting, SIZEOF(setting), "DILabel%d", index);
-	if (DBWriteContactSettingTString(0, MODULE_ITEMS, setting, di->swzLabel)) 
+	if (db_set_ts(0, MODULE_ITEMS, setting, di->swzLabel)) 
 	{
 		char buff[LABEL_LEN];
 		t2a(di->swzLabel, buff, LABEL_LEN);
-		DBWriteContactSettingString(0, MODULE_ITEMS, setting, buff);
+		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
 	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
-	if (DBWriteContactSettingTString(0, MODULE_ITEMS, setting, di->swzValue))
+	if (db_set_ts(0, MODULE_ITEMS, setting, di->swzValue))
 	{
 		char buff[VALUE_LEN];
 		t2a(di->swzValue, buff, VALUE_LEN);
-		DBWriteContactSettingString(0, MODULE_ITEMS, setting, buff);
+		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
 	mir_snprintf(setting, SIZEOF(setting), "DILineAbove%d", index);
-	DBWriteContactSettingByte(0, MODULE_ITEMS, setting, di->bLineAbove ? 1 : 0);
+	db_set_b(0, MODULE_ITEMS, setting, di->bLineAbove ? 1 : 0);
 	mir_snprintf(setting, SIZEOF(setting), "DIValNewline%d", index);
-	DBWriteContactSettingByte(0, MODULE_ITEMS, setting, di->bValueNewline ? 1 : 0);
+	db_set_b(0, MODULE_ITEMS, setting, di->bValueNewline ? 1 : 0);
 	mir_snprintf(setting, SIZEOF(setting), "DIVisible%d", index);
-	DBWriteContactSettingByte(0, MODULE_ITEMS, setting, di->bIsVisible ? 1 : 0);
+	db_set_b(0, MODULE_ITEMS, setting, di->bIsVisible ? 1 : 0);
 	mir_snprintf(setting, SIZEOF(setting), "DITipperVarsFirst%d", index);
-	DBWriteContactSettingByte(0, MODULE_ITEMS, setting, di->bParseTipperVarsFirst ? 1 : 0);
+	db_set_b(0, MODULE_ITEMS, setting, di->bParseTipperVarsFirst ? 1 : 0);
 }
 
 
 void SaveOptions() 
 {
-	DBWriteContactSettingDword(0, MODULE, "MaxWidth", opt.iWinWidth);
-	DBWriteContactSettingDword(0, MODULE, "MaxHeight", opt.iWinMaxHeight);
-	DBWriteContactSettingByte(0, MODULE, "AvatarOpacity", (BYTE)opt.iAvatarOpacity);
-	DBWriteContactSettingByte(0, MODULE, "AvatarRoundCorners", (opt.bAvatarRound ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "TitleLayout", (BYTE)opt.titleLayout);
+	db_set_dw(0, MODULE, "MaxWidth", opt.iWinWidth);
+	db_set_dw(0, MODULE, "MaxHeight", opt.iWinMaxHeight);
+	db_set_b(0, MODULE, "AvatarOpacity", (BYTE)opt.iAvatarOpacity);
+	db_set_b(0, MODULE, "AvatarRoundCorners", (opt.bAvatarRound ? 1 : 0));
+	db_set_b(0, MODULE, "TitleLayout", (BYTE)opt.titleLayout);
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		DBWriteContactSettingByte(0, MODULE, "AVLayout", (BYTE)opt.avatarLayout);
+		db_set_b(0, MODULE, "AVLayout", (BYTE)opt.avatarLayout);
 	opt.bWaitForAvatar = (opt.avatarLayout == PAV_NONE) ? false : true;
 
-	DBWriteContactSettingDword(0, MODULE, "AVSize", opt.iAvatarSize);
-	DBWriteContactSettingDword(0, MODULE, "TextIndent", opt.iTextIndent);
-	DBWriteContactSettingDword(0, MODULE, "TitleIndent", opt.iTitleIndent);
-	DBWriteContactSettingDword(0, MODULE, "ValueIndent", opt.iValueIndent);
-	DBWriteContactSettingByte(0, MODULE, "ShowNoFocus", (opt.bShowNoFocus ? 1 : 0));
+	db_set_dw(0, MODULE, "AVSize", opt.iAvatarSize);
+	db_set_dw(0, MODULE, "TextIndent", opt.iTextIndent);
+	db_set_dw(0, MODULE, "TitleIndent", opt.iTitleIndent);
+	db_set_dw(0, MODULE, "ValueIndent", opt.iValueIndent);
+	db_set_b(0, MODULE, "ShowNoFocus", (opt.bShowNoFocus ? 1 : 0));
 	
-	DBWriteContactSettingWord(0, MODULE, "TimeIn", opt.iTimeIn);
+	db_set_w(0, MODULE, "TimeIn", opt.iTimeIn);
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
-	DBWriteContactSettingWord(0, MODULE, "Padding", opt.iPadding);
-	DBWriteContactSettingWord(0, MODULE, "OuterAvatarPadding", opt.iOuterAvatarPadding);
-	DBWriteContactSettingWord(0, MODULE, "InnerAvatarPadding", opt.iInnerAvatarPadding);
-	DBWriteContactSettingWord(0, MODULE, "TextPadding", opt.iTextPadding);
-	DBWriteContactSettingByte(0, MODULE, "Position", (BYTE)opt.pos);
-	DBWriteContactSettingDword(0, MODULE, "MinWidth", (DWORD)opt.iMinWidth);
-	DBWriteContactSettingDword(0, MODULE, "MinHeight", (DWORD)opt.iMinHeight);
-	DBWriteContactSettingDword(0, MODULE, "SidebarWidth", (DWORD)opt.iSidebarWidth);
-	DBWriteContactSettingByte(0, MODULE, "MouseTollerance", (BYTE)opt.iMouseTollerance);
-	DBWriteContactSettingByte(0, MODULE, "SBarTips", (opt.bStatusBarTips ? 1 : 0));
+	db_set_w(0, MODULE, "Padding", opt.iPadding);
+	db_set_w(0, MODULE, "OuterAvatarPadding", opt.iOuterAvatarPadding);
+	db_set_w(0, MODULE, "InnerAvatarPadding", opt.iInnerAvatarPadding);
+	db_set_w(0, MODULE, "TextPadding", opt.iTextPadding);
+	db_set_b(0, MODULE, "Position", (BYTE)opt.pos);
+	db_set_dw(0, MODULE, "MinWidth", (DWORD)opt.iMinWidth);
+	db_set_dw(0, MODULE, "MinHeight", (DWORD)opt.iMinHeight);
+	db_set_dw(0, MODULE, "SidebarWidth", (DWORD)opt.iSidebarWidth);
+	db_set_b(0, MODULE, "MouseTollerance", (BYTE)opt.iMouseTollerance);
+	db_set_b(0, MODULE, "SBarTips", (opt.bStatusBarTips ? 1 : 0));
 
-	DBWriteContactSettingWord(0, MODULE, "LabelVAlign", opt.iLabelValign);
-	DBWriteContactSettingWord(0, MODULE, "LabelHAlign", opt.iLabelHalign);
-	DBWriteContactSettingWord(0, MODULE, "ValueVAlign", opt.iValueValign);
-	DBWriteContactSettingWord(0, MODULE, "ValueHAlign", opt.iValueHalign);
+	db_set_w(0, MODULE, "LabelVAlign", opt.iLabelValign);
+	db_set_w(0, MODULE, "LabelHAlign", opt.iLabelHalign);
+	db_set_w(0, MODULE, "ValueVAlign", opt.iValueValign);
+	db_set_w(0, MODULE, "ValueHAlign", opt.iValueHalign);
 
-	DBWriteContactSettingByte(0, MODULE, "OriginalAvSize", (opt.bOriginalAvatarSize ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "AvatarBorder", (opt.bAvatarBorder ? 1 : 0));
+	db_set_b(0, MODULE, "OriginalAvSize", (opt.bOriginalAvatarSize ? 1 : 0));
+	db_set_b(0, MODULE, "AvatarBorder", (opt.bAvatarBorder ? 1 : 0));
 }
 
 void SaveItems()
@@ -285,7 +285,7 @@ void SaveItems()
 		index++;
 	}
 
-	DBWriteContactSettingWord(0, MODULE_ITEMS, "DSNumValues", index);
+	db_set_w(0, MODULE_ITEMS, "DSNumValues", index);
 
 	index = 0;
 	DIListNode *di_node = opt.diList;
@@ -299,21 +299,21 @@ void SaveItems()
 		index++;
 	}
 
-	DBWriteContactSettingWord(0, MODULE_ITEMS, "DINumValues", index);
+	db_set_w(0, MODULE_ITEMS, "DINumValues", index);
 }
 
 void SaveSkinOptions()
 {
-	DBWriteContactSettingByte(0, MODULE, "Border", (opt.bBorder ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "DropShadow", (opt.bDropShadow ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "RoundCorners", (opt.bRound ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "AeroGlass", (opt.bAeroGlass ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "Opacity", (BYTE)opt.iOpacity);
-	DBWriteContactSettingByte(0, MODULE, "ShowEffect", (BYTE)opt.showEffect);
-	DBWriteContactSettingByte(0, MODULE, "ShowEffectSpeed", (BYTE)opt.iAnimateSpeed);
-	DBWriteContactSettingByte(0, MODULE, "LoadFonts", (opt.bLoadFonts ? 1 : 0));
-	DBWriteContactSettingByte(0, MODULE, "LoadProportions", (opt.bLoadProportions ? 1 : 0));
-	DBWriteContactSettingDword(0, MODULE, "EnableColoring", opt.iEnableColoring);
+	db_set_b(0, MODULE, "Border", (opt.bBorder ? 1 : 0));
+	db_set_b(0, MODULE, "DropShadow", (opt.bDropShadow ? 1 : 0));
+	db_set_b(0, MODULE, "RoundCorners", (opt.bRound ? 1 : 0));
+	db_set_b(0, MODULE, "AeroGlass", (opt.bAeroGlass ? 1 : 0));
+	db_set_b(0, MODULE, "Opacity", (BYTE)opt.iOpacity);
+	db_set_b(0, MODULE, "ShowEffect", (BYTE)opt.showEffect);
+	db_set_b(0, MODULE, "ShowEffectSpeed", (BYTE)opt.iAnimateSpeed);
+	db_set_b(0, MODULE, "LoadFonts", (opt.bLoadFonts ? 1 : 0));
+	db_set_b(0, MODULE, "LoadProportions", (opt.bLoadProportions ? 1 : 0));
+	db_set_dw(0, MODULE, "EnableColoring", opt.iEnableColoring);
 }
 
 void LoadObsoleteSkinSetting()
@@ -324,16 +324,16 @@ void LoadObsoleteSkinSetting()
 	for (int i = 0; i < SKIN_ITEMS_COUNT; i++) 
 	{
 		mir_snprintf(setting, 128, "SPaintMode%d", i);
-		opt.transfMode[i] = (TransformationMode)DBGetContactSettingByte(0, MODULE, setting, 0);
+		opt.transfMode[i] = (TransformationMode)db_get_b(0, MODULE, setting, 0);
 		mir_snprintf(setting, 128, "SImgFile%d", i);
-		if (!DBGetContactSettingTString(NULL, MODULE, setting, &dbv))
+		if (!db_get_ts(NULL, MODULE, setting, &dbv))
 		{
 			opt.szImgFile[i] = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		mir_snprintf(setting, 128, "SGlyphMargins%d", i);
-		DWORD margins = DBGetContactSettingDword(NULL, MODULE, setting, 0);
+		DWORD margins = db_get_dw(NULL, MODULE, setting, 0);
 		opt.margins[i].top = LOBYTE(LOWORD(margins));
 		opt.margins[i].right = HIBYTE(LOWORD(margins));
 		opt.margins[i].bottom = LOBYTE(HIWORD(margins));
@@ -343,30 +343,30 @@ void LoadObsoleteSkinSetting()
 
 void LoadOptions() 
 {
-	opt.iWinWidth = DBGetContactSettingDword(0, MODULE, "MaxWidth", 420);
-	opt.iWinMaxHeight = DBGetContactSettingDword(0, MODULE, "MaxHeight", 400);
-	opt.iAvatarOpacity = DBGetContactSettingByte(0, MODULE, "AvatarOpacity", 100);
+	opt.iWinWidth = db_get_dw(0, MODULE, "MaxWidth", 420);
+	opt.iWinMaxHeight = db_get_dw(0, MODULE, "MaxHeight", 400);
+	opt.iAvatarOpacity = db_get_b(0, MODULE, "AvatarOpacity", 100);
 	if (opt.iAvatarOpacity > 100) opt.iAvatarOpacity = 100;
-	opt.bAvatarRound = (DBGetContactSettingByte(0, MODULE, "AvatarRoundCorners", opt.bRound ? 1 : 0) == 1);
-	opt.titleLayout = (PopupTitleLayout)DBGetContactSettingByte(0, MODULE, "TitleLayout", (BYTE)PTL_LEFTICON);
+	opt.bAvatarRound = (db_get_b(0, MODULE, "AvatarRoundCorners", opt.bRound ? 1 : 0) == 1);
+	opt.titleLayout = (PopupTitleLayout)db_get_b(0, MODULE, "TitleLayout", (BYTE)PTL_LEFTICON);
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		opt.avatarLayout = (PopupAvLayout)DBGetContactSettingByte(0, MODULE, "AVLayout", PAV_RIGHT);
+		opt.avatarLayout = (PopupAvLayout)db_get_b(0, MODULE, "AVLayout", PAV_RIGHT);
 	else
 		opt.avatarLayout = PAV_NONE;
 
 	opt.bWaitForAvatar = (opt.avatarLayout == PAV_NONE) ? false : true;
-	opt.iAvatarSize = DBGetContactSettingDword(0, MODULE, "AVSize", 60); //tweety
-	opt.iTextIndent = DBGetContactSettingDword(0, MODULE, "TextIndent", 22); 
-	opt.iTitleIndent = DBGetContactSettingDword(0, MODULE, "TitleIndent", 22); 
-	opt.iValueIndent = DBGetContactSettingDword(0, MODULE, "ValueIndent", 10); 
-	opt.iSidebarWidth = DBGetContactSettingDword(0, MODULE, "SidebarWidth", 22);
-	opt.bShowNoFocus = (DBGetContactSettingByte(0, MODULE, "ShowNoFocus", 1) == 1);
+	opt.iAvatarSize = db_get_dw(0, MODULE, "AVSize", 60); //tweety
+	opt.iTextIndent = db_get_dw(0, MODULE, "TextIndent", 22); 
+	opt.iTitleIndent = db_get_dw(0, MODULE, "TitleIndent", 22); 
+	opt.iValueIndent = db_get_dw(0, MODULE, "ValueIndent", 10); 
+	opt.iSidebarWidth = db_get_dw(0, MODULE, "SidebarWidth", 22);
+	opt.bShowNoFocus = (db_get_b(0, MODULE, "ShowNoFocus", 1) == 1);
 
 	int i, real_count = 0;
 	opt.dsList = 0;
 	DSListNode *ds_node;
 
-	opt.iDsCount = DBGetContactSettingWord(0, MODULE_ITEMS, "DSNumValues", 0);
+	opt.iDsCount = db_get_w(0, MODULE_ITEMS, "DSNumValues", 0);
 	for (i = opt.iDsCount - 1; i >= 0; i--) 
 	{
 		ds_node = (DSListNode *)mir_alloc(sizeof(DSListNode));
@@ -388,7 +388,7 @@ void LoadOptions()
 	DIListNode *di_node;
 
 	opt.bWaitForStatusMsg = false;
-	opt.iDiCount = DBGetContactSettingWord(0, MODULE_ITEMS, "DINumValues", 0);
+	opt.iDiCount = db_get_w(0, MODULE_ITEMS, "DINumValues", 0);
 	for (i = opt.iDiCount - 1; i >= 0; i--)
 	{
 		di_node = (DIListNode *)mir_alloc(sizeof(DIListNode));
@@ -407,22 +407,22 @@ void LoadOptions()
 	}
 	opt.iDiCount = real_count;
 
-	opt.iTimeIn = DBGetContactSettingWord(0, MODULE, "TimeIn", 750);
-	opt.iPadding = DBGetContactSettingWord(0, MODULE, "Padding", 4);
-	opt.iOuterAvatarPadding = DBGetContactSettingWord(0, MODULE, "OuterAvatarPadding", 6);
-	opt.iInnerAvatarPadding = DBGetContactSettingWord(0, MODULE, "InnerAvatarPadding", 10);
-	opt.iTextPadding = DBGetContactSettingWord(0, MODULE, "TextPadding", 4);
-	opt.pos = (PopupPosition)DBGetContactSettingByte(0, MODULE, "Position", (BYTE)PP_BOTTOMRIGHT);
-	opt.iMinWidth = DBGetContactSettingDword(0, MODULE, "MinWidth", 0);
-	opt.iMinHeight = DBGetContactSettingDword(0, MODULE, "MinHeight", 0);
+	opt.iTimeIn = db_get_w(0, MODULE, "TimeIn", 750);
+	opt.iPadding = db_get_w(0, MODULE, "Padding", 4);
+	opt.iOuterAvatarPadding = db_get_w(0, MODULE, "OuterAvatarPadding", 6);
+	opt.iInnerAvatarPadding = db_get_w(0, MODULE, "InnerAvatarPadding", 10);
+	opt.iTextPadding = db_get_w(0, MODULE, "TextPadding", 4);
+	opt.pos = (PopupPosition)db_get_b(0, MODULE, "Position", (BYTE)PP_BOTTOMRIGHT);
+	opt.iMinWidth = db_get_dw(0, MODULE, "MinWidth", 0);
+	opt.iMinHeight = db_get_dw(0, MODULE, "MinHeight", 0);
 
-	opt.iMouseTollerance = DBGetContactSettingByte(0, MODULE, "MouseTollerance", (BYTE)GetSystemMetrics(SM_CXSMICON));
-	opt.bStatusBarTips = (DBGetContactSettingByte(0, MODULE, "SBarTips", 1) == 1);
+	opt.iMouseTollerance = db_get_b(0, MODULE, "MouseTollerance", (BYTE)GetSystemMetrics(SM_CXSMICON));
+	opt.bStatusBarTips = (db_get_b(0, MODULE, "SBarTips", 1) == 1);
 
 	// convert defunct last message and status message options to new 'sys' items, and remove the old settings
-	if (DBGetContactSettingByte(0, MODULE, "ShowLastMessage", 0))
+	if (db_get_b(0, MODULE, "ShowLastMessage", 0))
 	{
-		DBDeleteContactSetting(0, MODULE, "ShowLastMessage");
+		db_unset(0, MODULE, "ShowLastMessage");
 
 		// find end of list
 		di_node = opt.diList;
@@ -448,9 +448,9 @@ void LoadOptions()
 		opt.iDiCount++;
 	}
 
-	if (DBGetContactSettingByte(0, MODULE, "ShowStatusMessage", 0)) 
+	if (db_get_b(0, MODULE, "ShowStatusMessage", 0)) 
 	{
-		DBDeleteContactSetting(0, MODULE, "ShowStatusMessage");
+		db_unset(0, MODULE, "ShowStatusMessage");
 
 		// find end of list
 		di_node = opt.diList;
@@ -476,31 +476,31 @@ void LoadOptions()
 		opt.iDiCount++;
 	}
 
-	opt.iLabelValign = DBGetContactSettingWord(0, MODULE, "LabelVAlign", DT_TOP /*DT_VCENTER*/);
-	opt.iLabelHalign = DBGetContactSettingWord(0, MODULE, "LabelHAlign", DT_LEFT);
-	opt.iValueValign = DBGetContactSettingWord(0, MODULE, "ValueVAlign", DT_TOP /*DT_VCENTER*/);
-	opt.iValueHalign = DBGetContactSettingWord(0, MODULE, "ValueHAlign", DT_LEFT);
+	opt.iLabelValign = db_get_w(0, MODULE, "LabelVAlign", DT_TOP /*DT_VCENTER*/);
+	opt.iLabelHalign = db_get_w(0, MODULE, "LabelHAlign", DT_LEFT);
+	opt.iValueValign = db_get_w(0, MODULE, "ValueVAlign", DT_TOP /*DT_VCENTER*/);
+	opt.iValueHalign = db_get_w(0, MODULE, "ValueHAlign", DT_LEFT);
 
 	// tray tooltip
-	opt.bTraytip = DBGetContactSettingByte(0, MODULE, "TrayTip", 1) ? true : false;
-	opt.bHandleByTipper = DBGetContactSettingByte(0, MODULE, "ExtendedTrayTip", 1) ? true : false;
-	opt.bExpandTraytip = DBGetContactSettingByte(0, MODULE, "ExpandTrayTip", 1) ? true : false;
-	opt.bHideOffline = DBGetContactSettingByte(0, MODULE, "HideOffline", 0) ? true : false;
-	opt.iExpandTime = DBGetContactSettingDword(0, MODULE, "ExpandTime", 1000);
-	opt.iFirstItems = DBGetContactSettingDword(0, MODULE, "TrayTipItems", TRAYTIP_NUMCONTACTS | TRAYTIP_LOGON | TRAYTIP_STATUS | TRAYTIP_CLIST_EVENT);
-	opt.iSecondItems = DBGetContactSettingDword(0, MODULE, "TrayTipItemsEx", TRAYTIP_NUMCONTACTS | TRAYTIP_LOGON | TRAYTIP_STATUS | TRAYTIP_STATUS_MSG | TRAYTIP_EXTRA_STATUS | TRAYTIP_MIRANDA_UPTIME | TRAYTIP_CLIST_EVENT);
-	opt.iFavoriteContFlags = DBGetContactSettingDword(0, MODULE, "FavContFlags", FAVCONT_APPEND_PROTO);
+	opt.bTraytip = db_get_b(0, MODULE, "TrayTip", 1) ? true : false;
+	opt.bHandleByTipper = db_get_b(0, MODULE, "ExtendedTrayTip", 1) ? true : false;
+	opt.bExpandTraytip = db_get_b(0, MODULE, "ExpandTrayTip", 1) ? true : false;
+	opt.bHideOffline = db_get_b(0, MODULE, "HideOffline", 0) ? true : false;
+	opt.iExpandTime = db_get_dw(0, MODULE, "ExpandTime", 1000);
+	opt.iFirstItems = db_get_dw(0, MODULE, "TrayTipItems", TRAYTIP_NUMCONTACTS | TRAYTIP_LOGON | TRAYTIP_STATUS | TRAYTIP_CLIST_EVENT);
+	opt.iSecondItems = db_get_dw(0, MODULE, "TrayTipItemsEx", TRAYTIP_NUMCONTACTS | TRAYTIP_LOGON | TRAYTIP_STATUS | TRAYTIP_STATUS_MSG | TRAYTIP_EXTRA_STATUS | TRAYTIP_MIRANDA_UPTIME | TRAYTIP_CLIST_EVENT);
+	opt.iFavoriteContFlags = db_get_dw(0, MODULE, "FavContFlags", FAVCONT_APPEND_PROTO);
 
 	// extra setting
-	opt.bWaitForContent= DBGetContactSettingByte(0, MODULE, "WaitForContent", 0) ? true : false;
-	opt.bGetNewStatusMsg = DBGetContactSettingByte(0, MODULE, "GetNewStatusMsg", 0) ? true : false;
-	opt.bDisableIfInvisible = DBGetContactSettingByte(0, MODULE, "DisableInvisible", 1) ? true : false;
-	opt.bRetrieveXstatus = DBGetContactSettingByte(0, MODULE, "RetrieveXStatus", 0) ? true : false;
-	opt.bOriginalAvatarSize = DBGetContactSettingByte(0, MODULE, "OriginalAvSize", 0) ? true : false;
-	opt.bAvatarBorder = DBGetContactSettingByte(0, MODULE, "AvatarBorder", 0) ? true : false;
-	opt.bLimitMsg = DBGetContactSettingByte(0, MODULE, "LimitMsg", 0) ? true : false;
-	opt.iLimitCharCount = DBGetContactSettingByte(0, MODULE, "LimitCharCount", 64);
-	opt.iSmileyAddFlags = DBGetContactSettingDword(0, MODULE, "SmileyAddFlags", SMILEYADD_ENABLE);
+	opt.bWaitForContent= db_get_b(0, MODULE, "WaitForContent", 0) ? true : false;
+	opt.bGetNewStatusMsg = db_get_b(0, MODULE, "GetNewStatusMsg", 0) ? true : false;
+	opt.bDisableIfInvisible = db_get_b(0, MODULE, "DisableInvisible", 1) ? true : false;
+	opt.bRetrieveXstatus = db_get_b(0, MODULE, "RetrieveXStatus", 0) ? true : false;
+	opt.bOriginalAvatarSize = db_get_b(0, MODULE, "OriginalAvSize", 0) ? true : false;
+	opt.bAvatarBorder = db_get_b(0, MODULE, "AvatarBorder", 0) ? true : false;
+	opt.bLimitMsg = db_get_b(0, MODULE, "LimitMsg", 0) ? true : false;
+	opt.iLimitCharCount = db_get_b(0, MODULE, "LimitCharCount", 64);
+	opt.iSmileyAddFlags = db_get_dw(0, MODULE, "SmileyAddFlags", SMILEYADD_ENABLE);
 
 	DBVARIANT dbv;
 	// Load the icons order
@@ -510,16 +510,16 @@ void LoadOptions()
 		opt.exIconsVis[i]=1;
 	}
 
-	if (!DBGetContactSetting(NULL, MODULE, "IconOrder", &dbv))
+	if (!db_get(NULL, MODULE, "IconOrder", &dbv))
 	{
 		CopyMemory(opt.exIconsOrder,dbv.pbVal,dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
-	if (!DBGetContactSetting(NULL, MODULE, "icons_vis", &dbv))
+	if (!db_get(NULL, MODULE, "icons_vis", &dbv))
 	{
 		CopyMemory(opt.exIconsVis,dbv.pbVal,dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	for(i = 0; i < EXICONS_COUNT; i++)
@@ -528,24 +528,24 @@ void LoadOptions()
 		exIcons[i].vis = opt.exIconsVis[i];
 	}
 
-	opt.iOpacity = DBGetContactSettingByte(0, MODULE, "Opacity", 75);
-	opt.bBorder = DBGetContactSettingByte(0, MODULE, "Border", 1) ? true : false;
-	opt.bDropShadow = DBGetContactSettingByte(0, MODULE, "DropShadow", 1) ? true : false;
-	opt.bRound = DBGetContactSettingByte(0, MODULE, "RoundCorners", 1) ? true : false;
-	opt.bAeroGlass = DBGetContactSettingByte(0, MODULE, "AeroGlass", 0) ? true : false;
-	opt.showEffect = (PopupShowEffect)DBGetContactSettingByte(0, MODULE, "ShowEffect", (BYTE)PSE_FADE);
-	opt.iAnimateSpeed = DBGetContactSettingByte(0, MODULE, "ShowEffectSpeed", 12);
+	opt.iOpacity = db_get_b(0, MODULE, "Opacity", 75);
+	opt.bBorder = db_get_b(0, MODULE, "Border", 1) ? true : false;
+	opt.bDropShadow = db_get_b(0, MODULE, "DropShadow", 1) ? true : false;
+	opt.bRound = db_get_b(0, MODULE, "RoundCorners", 1) ? true : false;
+	opt.bAeroGlass = db_get_b(0, MODULE, "AeroGlass", 0) ? true : false;
+	opt.showEffect = (PopupShowEffect)db_get_b(0, MODULE, "ShowEffect", (BYTE)PSE_FADE);
+	opt.iAnimateSpeed = db_get_b(0, MODULE, "ShowEffectSpeed", 12);
 
 	if (opt.iAnimateSpeed < 1)
 		opt.iAnimateSpeed = 1;
 	else if (opt.iAnimateSpeed > 20)
 		opt.iAnimateSpeed = 20;
 
-	int iBgImg = DBGetContactSettingByte(0, MODULE, "SBgImage", 0);
-	opt.skinMode = (SkinMode)DBGetContactSettingByte(0, MODULE, "SkinEngine", iBgImg ? SM_OBSOLOTE : SM_COLORFILL);
-	opt.bLoadFonts = DBGetContactSettingByte(0, MODULE, "LoadFonts", 1) ? true : false;
-	opt.bLoadProportions= DBGetContactSettingByte(0, MODULE, "LoadProportions", 1) ? true : false;
-	opt.iEnableColoring = DBGetContactSettingDword(0, MODULE, "EnableColoring", 0);
+	int iBgImg = db_get_b(0, MODULE, "SBgImage", 0);
+	opt.skinMode = (SkinMode)db_get_b(0, MODULE, "SkinEngine", iBgImg ? SM_OBSOLOTE : SM_COLORFILL);
+	opt.bLoadFonts = db_get_b(0, MODULE, "LoadFonts", 1) ? true : false;
+	opt.bLoadProportions= db_get_b(0, MODULE, "LoadProportions", 1) ? true : false;
+	opt.iEnableColoring = db_get_dw(0, MODULE, "EnableColoring", 0);
 	opt.szSkinName[0] = 0;
 
 	if (opt.skinMode == SM_OBSOLOTE) 
@@ -554,10 +554,10 @@ void LoadOptions()
 	} 
 	else if (opt.skinMode == SM_IMAGE)
 	{
-		if (!DBGetContactSettingTString(NULL, MODULE, "SkinName", &dbv))
+		if (!db_get_ts(NULL, MODULE, "SkinName", &dbv))
 		{
 			_tcscpy(opt.szSkinName, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -1710,13 +1710,13 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						opt.bLimitMsg = IsDlgButtonChecked(hwndDlg, IDC_CHK_LIMITMSG) ? true : false;
 						opt.iLimitCharCount = GetDlgItemInt(hwndDlg, IDC_ED_CHARCOUNT, 0, FALSE);
 
-						DBWriteContactSettingDword(0, MODULE, "SmileyAddFlags", opt.iSmileyAddFlags);
-						DBWriteContactSettingByte(0, MODULE, "WaitForContent", opt.bWaitForContent ? 1 : 0);
-						DBWriteContactSettingByte(0, MODULE, "GetNewStatusMsg", opt.bGetNewStatusMsg ? 1 : 0);
-						DBWriteContactSettingByte(0, MODULE, "DisableInvisible", opt.bDisableIfInvisible ? 1 : 0);
-						DBWriteContactSettingByte(0, MODULE, "RetrieveXStatus", opt.bRetrieveXstatus ? 1 : 0);
-						DBWriteContactSettingByte(0, MODULE, "LimitMsg", opt.bLimitMsg ? 1 : 0);
-						DBWriteContactSettingByte(0, MODULE, "LimitCharCount", opt.iLimitCharCount);
+						db_set_dw(0, MODULE, "SmileyAddFlags", opt.iSmileyAddFlags);
+						db_set_b(0, MODULE, "WaitForContent", opt.bWaitForContent ? 1 : 0);
+						db_set_b(0, MODULE, "GetNewStatusMsg", opt.bGetNewStatusMsg ? 1 : 0);
+						db_set_b(0, MODULE, "DisableInvisible", opt.bDisableIfInvisible ? 1 : 0);
+						db_set_b(0, MODULE, "RetrieveXStatus", opt.bRetrieveXstatus ? 1 : 0);
+						db_set_b(0, MODULE, "LimitMsg", opt.bLimitMsg ? 1 : 0);
+						db_set_b(0, MODULE, "LimitCharCount", opt.iLimitCharCount);
 
 						return TRUE;
 					}
@@ -2026,8 +2026,8 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							}
 						}
 
-						DBWriteContactSettingByte(0, MODULE, "SkinEngine", opt.skinMode);
-						DBWriteContactSettingTString(0, MODULE, "SkinName", opt.szSkinName);
+						db_set_b(0, MODULE, "SkinEngine", opt.skinMode);
+						db_set_ts(0, MODULE, "SkinName", opt.szSkinName);
 						
 						DestroySkinBitmap();
 						SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
@@ -2084,7 +2084,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
+			if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
 			else
 				SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
@@ -2098,7 +2098,7 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			while (hContact) 
 			{
 				hItem = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-				if (hItem && DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0))
+				if (hItem && db_get_b(hContact, MODULE, "FavouriteContact", 0))
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 
 				hContact = db_find_next(hContact);
@@ -2126,19 +2126,19 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (hItem)
 						{
 							isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
-							DBWriteContactSettingByte(hContact, MODULE, "FavouriteContact", isChecked);
+							db_set_b(hContact, MODULE, "FavouriteContact", isChecked);
 							if (isChecked) count++;
 						}
 
 						hContact = db_find_next(hContact);
 					}
-					DBWriteContactSettingDword(0, MODULE, "FavouriteContactsCount", count);
+					db_set_dw(0, MODULE, "FavouriteContactsCount", count);
 
 					opt.iFavoriteContFlags = 0;
 					opt.iFavoriteContFlags |= IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? FAVCONT_HIDE_OFFLINE : 0 | 
 											  IsDlgButtonChecked(hwndDlg, IDC_CHK_APPENDPROTO) ? FAVCONT_APPEND_PROTO : 0;
 
-					DBWriteContactSettingDword(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
+					db_set_dw(0, MODULE, "FavContFlags", opt.iFavoriteContFlags);
 				} // fall through
 				case IDC_BTN_CANCEL:
 				{
@@ -2295,7 +2295,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_FIRST_PROTOS), item.hItem);
 						}
 
-						DBWriteContactSettingTString(0, MODULE, "TrayProtocols", swzProtos);
+						db_set_ts(0, MODULE, "TrayProtocols", swzProtos);
 
 						swzProtos[0] = 0;
 						item.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_TREE_SECOND_PROTOS));
@@ -2312,7 +2312,7 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							item.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_TREE_SECOND_PROTOS), item.hItem);
 						}
 
-						DBWriteContactSettingTString(0, MODULE, "TrayProtocolsEx", swzProtos);
+						db_set_ts(0, MODULE, "TrayProtocolsEx", swzProtos);
 
 						int count = 0;
 						opt.iFirstItems = 0;
@@ -2348,13 +2348,13 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						opt.bHideOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDEOFFLINE) ? true : false;
 						opt.iExpandTime = max(min(GetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, 0, FALSE), 5000), 10);
 
-						DBWriteContactSettingByte(0, MODULE, "TrayTip", (opt.bTraytip ? 1 : 0));
-						DBWriteContactSettingByte(0, MODULE, "ExtendedTrayTip", (opt.bHandleByTipper ? 1 : 0));
-						DBWriteContactSettingByte(0, MODULE, "ExpandTrayTip", (opt.bExpandTraytip ? 1 : 0));
-						DBWriteContactSettingByte(0, MODULE, "HideOffline", (opt.bHideOffline ? 1 : 0));
-						DBWriteContactSettingDword(0, MODULE, "ExpandTime", opt.iExpandTime);
-						DBWriteContactSettingDword(0, MODULE, "TrayTipItems", opt.iFirstItems);
-						DBWriteContactSettingDword(0, MODULE, "TrayTipItemsEx", opt.iSecondItems);
+						db_set_b(0, MODULE, "TrayTip", (opt.bTraytip ? 1 : 0));
+						db_set_b(0, MODULE, "ExtendedTrayTip", (opt.bHandleByTipper ? 1 : 0));
+						db_set_b(0, MODULE, "ExpandTrayTip", (opt.bExpandTraytip ? 1 : 0));
+						db_set_b(0, MODULE, "HideOffline", (opt.bHideOffline ? 1 : 0));
+						db_set_dw(0, MODULE, "ExpandTime", opt.iExpandTime);
+						db_set_dw(0, MODULE, "TrayTipItems", opt.iFirstItems);
+						db_set_dw(0, MODULE, "TrayTipItemsEx", opt.iSecondItems);
 						return TRUE;
 					}
 					break;

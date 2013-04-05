@@ -119,7 +119,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 {
 	// A new contact added, mark it as recent
-	DBWriteContactSettingByte((HANDLE)wParam, MODULENAME, "ShowIcons", 1);
+	db_set_b((HANDLE)wParam, MODULENAME, "ShowIcons", 1);
 	onExtraImageApplying(wParam, 0);
 
 	return 0;
@@ -128,7 +128,7 @@ int onDBContactAdded(WPARAM wParam, LPARAM lParam)
 INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 {
 	byte enabled = db_get_b((HANDLE)wParam,"AuthState","ShowIcons",1);
-	DBWriteContactSettingByte((HANDLE)wParam, MODULENAME, "ShowIcons", !enabled);
+	db_set_b((HANDLE)wParam, MODULENAME, "ShowIcons", !enabled);
 
 	onExtraImageApplying(wParam, 0);
 	return 0;

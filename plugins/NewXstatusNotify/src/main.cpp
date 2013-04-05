@@ -741,7 +741,7 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 		db_free(&dbv);
 	}
 	else if (!db_get_b(0, "SkinSoundsOff", StatusList[Index(newStatus)].lpzSkinSoundName, 0) &&
-		!DBGetContactSetting(0, "SkinSounds", StatusList[Index(newStatus)].lpzSkinSoundName, &dbv))
+		!db_get(0, "SkinSounds", StatusList[Index(newStatus)].lpzSkinSoundName, &dbv))
 	{
 		strcpy(szSoundFile, StatusList[Index(newStatus)].lpzSkinSoundName);
 		db_free(&dbv);

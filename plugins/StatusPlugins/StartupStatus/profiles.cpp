@@ -162,7 +162,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char setting[80];
 	_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_PROFILENAME);
-	if ( DBGetContactSettingTString(NULL, MODULENAME, setting, &dbv))
+	if ( db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
 	_tcsncpy(buf, dbv.ptszVal, 128-1); buf[127] = 0;
@@ -191,7 +191,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	for ( int i=0; i < pceCount; i++ ) {
 		if ( (pce[i].profile == profile) && (!strcmp(pce[i].szProto, szProto))) {
 			_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-			if (!DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
+			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = ( TCHAR* )realloc(pce[i].msg, sizeof(TCHAR)*(_tcslen(dbv.ptszVal)+1));
 				if (pce[i].msg != NULL) {
 					_tcscpy(pce[i].msg, dbv.ptszVal);
@@ -215,7 +215,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	pce[pceCount].szProto = _strdup(szProto);
 	pce[pceCount].msg = NULL;
 	_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
-	if (!DBGetContactSettingTString(NULL, MODULENAME, dbSetting, &dbv)) {
+	if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
 		db_free(&dbv);
 	}

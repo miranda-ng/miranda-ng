@@ -309,10 +309,10 @@ static void CreateTrayIcon(bool create)
 {
     NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
-	if (!DBGetContactSettingTString(NULL,MOD_NAME,"ToolTipText",&dbVar))
+	if (!db_get_ts(NULL,MOD_NAME,"ToolTipText",&dbVar))
 	{
 		mir_sntprintf(nim.szTip, 64, _T("%s"), dbVar.ptszVal);
-		DBFreeVariant(&dbVar);
+		db_free(&dbVar);
 	}
 	else
 		lstrcpy(nim.szTip, _T("Miranda NG"));
@@ -333,14 +333,14 @@ static void RestoreOldSettings(void)
 		CallService(MS_POPUP_QUERY, PUQS_ENABLEPOPUPS, 0);
 
 	if (g_bOldSetting & OLD_SOUND)
-		DBWriteContactSettingByte(NULL,"Skin","UseSound", 1);
+		db_set_b(NULL,"Skin","UseSound", 1);
 
     if (g_bOldSetting & OLD_FLTCONT) // show Floating contacts if needed
 	{
 		if(ServiceExists("FloatingContacts/MainHideAllThumbs"))
 			CallService("FloatingContacts/MainHideAllThumbs",0,0);
 		else
-			DBWriteContactSettingByte(NULL,"FloatingContacts","HideAll", 0);
+			db_set_b(NULL,"FloatingContacts","HideAll", 0);
 	}
 	g_bOldSetting = 0;
 }
@@ -381,10 +381,10 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				BYTE bReqMode = DBGetContactSettingByte(NULL, MOD_NAME, "stattype", 2);
+				BYTE bReqMode = db_get_b(NULL, MOD_NAME, "stattype", 2);
 				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 				DBVARIANT dbVar;
-				if (g_wMask & OPT_USEDEFMSG || DBGetContactSettingTString(NULL,MOD_NAME,"statmsg",&dbVar))
+				if (g_wMask & OPT_USEDEFMSG || db_get_ts(NULL,MOD_NAME,"statmsg",&dbVar))
 				{
 					TCHAR *ptszDefMsg = GetDefStatusMsg(uMode, 0);
 					ChangeAllProtoStatuses(uMode, ptszDefMsg);
@@ -408,7 +408,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 							mir_free(ptszParsed);
 					}else
 						ChangeAllProtoStatuses(uMode, dbVar.ptszVal);
-				DBFreeVariant(&dbVar);
+				db_free(&dbVar);
 				}
 			}
 
@@ -427,17 +427,17 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			}
 
 			// disable sounds
-			if ((g_wMask & OPT_DISABLESNDS) && DBGetContactSettingByte(NULL,"Skin","UseSound",1))
+			if ((g_wMask & OPT_DISABLESNDS) && db_get_b(NULL,"Skin","UseSound",1))
 			{
 				// save current
 				g_bOldSetting |= OLD_SOUND;
-				DBWriteContactSettingByte(NULL,"Skin","UseSound",0);
+				db_set_b(NULL,"Skin","UseSound",0);
 			}
 
 			g_bWindowHidden = true;
 
 			g_bOldSetting |= OLD_WASHIDDEN;
-			DBWriteContactSettingByte(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
+			db_set_b(NULL, MOD_NAME, "OldSetting", g_bOldSetting);
 			return(0);
 		} break;
 		case WM_USER+52: // back
@@ -447,12 +447,12 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			if (g_wMask & OPT_REQPASS){  //password request
 				DBVARIANT dbVar = {0};
-				if (!DBGetContactSettingString(NULL,MOD_NAME,"password",&dbVar))
+				if (!db_get_s(NULL,MOD_NAME,"password",&dbVar))
 				{
 					g_fPassRequested = true;
 
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
-					DBFreeVariant(&dbVar);
+					db_free(&dbVar);
 					CallService( MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
 
 					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(),(DLGPROC)DlgStdInProc);
@@ -508,7 +508,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			PostMessage(hWnd, WM_MOUSEMOVE, 0, (LPARAM)MAKELONG(2, 2)); // reset core's IDLE
 			g_bWindowHidden = false;
 
-			DBWriteContactSettingByte(NULL, MOD_NAME, "OldSetting", 0);
+			db_set_b(NULL, MOD_NAME, "OldSetting", 0);
 			return(0);
 		} break;
 		default:break;
@@ -579,7 +579,7 @@ static TCHAR *HokeyVkToName(WORD vkKey)
 
 static TCHAR *GetBossKeyText(void)
 {
-	WORD wHotKey = DBGetContactSettingWord(NULL,"SkinHotKeys","Hide/Show Miranda",HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
+	WORD wHotKey = db_get_w(NULL,"SkinHotKeys","Hide/Show Miranda",HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	BYTE key = LOBYTE(wHotKey);
 	BYTE shift = HIBYTE(wHotKey);
@@ -715,7 +715,7 @@ static int EnumProtos(WPARAM wParam, LPARAM lParam)
 
 int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 {
-	g_wMask = DBGetContactSettingWord(NULL,MOD_NAME,"optsmask",DEFAULTSETTING);
+	g_wMask = db_get_w(NULL,MOD_NAME,"optsmask",DEFAULTSETTING);
 
 	RegisterCoreHotKeys();
 
@@ -809,20 +809,20 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	g_wMaskAdv = DBGetContactSettingWord(NULL,MOD_NAME,"optsmaskadv",0);
-	g_bOldSetting = DBGetContactSettingByte(NULL, MOD_NAME, "OldSetting", 0);
+	g_wMaskAdv = db_get_w(NULL,MOD_NAME,"optsmaskadv",0);
+	g_bOldSetting = db_get_b(NULL, MOD_NAME, "OldSetting", 0);
 
 	if ((g_bOldSetting & OLD_POPUP) && !(g_wMaskAdv & OPT_RESTORE)) // Restore popup settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 	{
-		if (DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) == 0)
-			DBWriteContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1);
-		if (DBGetContactSettingByte(NULL, "YAPP", "Enabled", 1) == 0)
-			DBWriteContactSettingByte(NULL, "YAPP", "Enabled", 1);
+		if (db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) == 0)
+			db_set_b(NULL, "PopUp", "ModuleIsEnabled", 1);
+		if (db_get_b(NULL, "YAPP", "Enabled", 1) == 0)
+			db_set_b(NULL, "YAPP", "Enabled", 1);
 	}
-	if (g_wMaskAdv & OPT_HIDEONSTART && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
+	if (g_wMaskAdv & OPT_HIDEONSTART && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 0)) // hack for disabling popup on startup if "Hide Miranda on startup" is enabled
 	{
 		g_bOldSetting |= OLD_POPUP;
-		DBWriteContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 0);
+		db_set_b(NULL, "PopUp", "ModuleIsEnabled", 0);
 	}
 
 	Icon_Register(g_hInstance, "BossKey", iconList, SIZEOF(iconList));

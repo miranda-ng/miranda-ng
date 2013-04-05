@@ -117,7 +117,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 void UpgradeCheck(void)
 {
-	DWORD dwVersion = DBGetContactSettingDword(NULL, "Chat", "OldVersion", PLUGIN_MAKE_VERSION(0,2,9,9));
+	DWORD dwVersion = db_get_dw(NULL, "Chat", "OldVersion", PLUGIN_MAKE_VERSION(0,2,9,9));
 	if (pluginInfo.version > dwVersion && dwVersion < PLUGIN_MAKE_VERSION(0,3,0,0)) {
 		db_unset(NULL, "ChatFonts",	"Font18");
 		db_unset(NULL, "ChatFonts",	"Font18Col");

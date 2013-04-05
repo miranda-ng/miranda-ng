@@ -141,7 +141,7 @@ void CB_InitCustomButtons()
 	InitializeCriticalSection(&ToolBarCS);
 	dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
 
-	//dwSepCount = DBGetContactSettingDword(NULL, "TabSRMM_Toolbar", "SeparatorsCount", 0);
+	//dwSepCount = db_get_dw(NULL, "TabSRMM_Toolbar", "SeparatorsCount", 0);
 
 	hButtonsBarAddButton = CreateServiceFunction(MS_BB_ADDBUTTON, CB_AddButton);
 	hButtonsBarRemoveButton = CreateServiceFunction(MS_BB_REMOVEBUTTON, CB_RemoveButton);
@@ -865,7 +865,7 @@ void CB_GetButtonSettings(HANDLE hContact, CustomButtonData *cbd)
 
 	mir_snprintf(SettingName, sizeof(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
 
-	if (!DBGetContactSettingString(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
+	if (!db_get_s(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
 		cbd->dwPosition = (DWORD)atoi(token);
 		token = strtok(NULL, "_");
@@ -879,7 +879,7 @@ void CB_GetButtonSettings(HANDLE hContact, CustomButtonData *cbd)
 		token = strtok(NULL, "_");
 		cbd->bCanBeHidden = (BOOL)atoi(token);
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -893,7 +893,7 @@ void CB_WriteButtonSettings(HANDLE hContact, CustomButtonData *cbd)
 	mir_snprintf(SettingName, sizeof(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
 	mir_snprintf(SettingParameter, sizeof(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->dwPosition, cbd->bIMButton, cbd->bChatButton, cbd->bLSided, cbd->bRSided, cbd->bCanBeHidden);
 	if (!(cbd->opFlags&BBSF_NTBDESTRUCT))
-		DBWriteContactSettingString(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
+		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else
 		db_unset(hContact, "TabSRMM_Toolbar", SettingName);
 }

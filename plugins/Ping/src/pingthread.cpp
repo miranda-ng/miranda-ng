@@ -399,18 +399,18 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS) 
 					|| (context_point_valid && (x >= dis->rcItem.left && x <= dis->rcItem.right) && (y >= dis->rcItem.top && y <= dis->rcItem.bottom)))
 				{
-					tcol = DBGetContactSettingDword(NULL,"CLC","SelBkColour", GetSysColor(COLOR_HIGHLIGHT));
+					tcol = db_get_dw(NULL,"CLC","SelBkColour", GetSysColor(COLOR_HIGHLIGHT));
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
 
-					tcol = DBGetContactSettingDword(NULL,"CLC","SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT));
+					tcol = db_get_dw(NULL,"CLC","SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT));
 					SetTextColor(dis->hDC, tcol);
 				} else {
 					tcol = bk_col;
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
 
-					tcol = DBGetContactSettingDword(NULL, PLUG, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
+					tcol = db_get_dw(NULL, PLUG, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
 					SetTextColor(dis->hDC, tcol);
 				}
 
@@ -527,7 +527,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY) 
 			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);
 
-		if (DBGetContactSettingByte(NULL,"CList","Transparent",0))
+		if (db_get_b(NULL,"CList","Transparent",0))
 		{
 			if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 
@@ -536,7 +536,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
-				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 			}
 		}
@@ -551,15 +551,15 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_ACTIVATE:
 		if(wParam==WA_INACTIVE) {
 			if((HWND)wParam!=hwnd)
-				if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT))
+				if(db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT))
 					if(transparentFocus)
 						SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
 		}
 		else {
-			if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
+			if(db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
 				KillTimer(hwnd,TM_AUTOALPHA);
 #ifdef LWA_ALPHA
-				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 				transparentFocus=1;
 			}
@@ -567,10 +567,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return DefWindowProc(hwnd,msg,wParam,lParam);
 
 	case WM_SETCURSOR:
-		if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
+		if(db_get_b(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
 			if (!transparentFocus && GetForegroundWindow()!=hwnd && MySetLayeredWindowAttributes) {
 #ifdef LWA_ALPHA
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 #endif
 				transparentFocus=1;
 				SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
@@ -598,8 +598,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{ //change
 				transparentFocus=inwnd;
 #ifdef LWA_ALPHA
-				if(transparentFocus) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				else MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+				if(transparentFocus) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				else MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 #endif
 			}
 			if(!transparentFocus) KillTimer(hwnd,TM_AUTOALPHA);
@@ -612,14 +612,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		static int noRecurse=0;
 		if(lParam) break;
 		if(noRecurse) break;
-		if(!DBGetContactSettingByte(NULL,"CLUI","FadeInOut",0) || !IsWinVer2000Plus()) break;
+		if(!db_get_b(NULL,"CLUI","FadeInOut",0) || !IsWinVer2000Plus()) break;
 #ifdef WS_EX_LAYERED
 		if(GetWindowLong(hwnd,GWL_EXSTYLE)&WS_EX_LAYERED) {
 			DWORD thisTick,startTick;
 			int sourceAlpha,destAlpha;
 			if(wParam) {
 				sourceAlpha=0;
-				destAlpha=(BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
+				destAlpha=(BYTE)db_get_b(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
 #ifdef LWA_ALPHA
 				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
 #endif
@@ -628,7 +628,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				noRecurse=0;
 			}
 			else {
-				sourceAlpha=(BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
+				sourceAlpha=(BYTE)db_get_b(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
 				destAlpha=0;
 			}
 			for(startTick=GetTickCount();;) {

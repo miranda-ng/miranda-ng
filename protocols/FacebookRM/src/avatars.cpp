@@ -25,9 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv)) {
+	if (!db_get_s(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv)) {
 		std::string new_url = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		if (new_url.empty())
 			return false;
@@ -35,10 +35,10 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *
 		if (url)
 			*url = new_url;
 
-		if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv)) {
+		if (!db_get_ts(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv)) {
 			std::string ext = new_url.substr(new_url.rfind('.'));
 			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());			
-			DBFreeVariant(&dbv);			
+			db_free(&dbv);			
 
 			ai.hContact = ai.hContact;
 			ai.format = ext_to_format(ext);
@@ -57,7 +57,7 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	if (image_url.empty())
 		return;
 	
-	bool big_avatars = (bool)DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
+	bool big_avatars = (bool)db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
 	
 	// We've got url to avatar of default size 32x32px, let's change it to slightly bigger (50x50px) - looks like maximum size for square format
 	std::tstring::size_type pos = image_url.rfind( "/s32x32/" );
@@ -73,17 +73,17 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	
 	DBVARIANT dbv;
 	bool update_required = true;
-	if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
+	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
 	{
 		update_required = image_url != dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (update_required || !hContact)
 	{
-		DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
+		db_set_s(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
 		if (hContact)
 		{
-			DBWriteContactSettingByte(hContact, "ContactPhoto", "NeedUpdate", 1);
+			db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
 			ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		}
 		else
@@ -189,7 +189,7 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		
 		bool needLoad;
 		if (AI->hContact)
-			needLoad = (wParam & GAIF_FORCE) && (!fileExist || DBGetContactSettingByte(AI->hContact, "ContactPhoto", "NeedUpdate", 0));
+			needLoad = (wParam & GAIF_FORCE) && (!fileExist || db_get_b(AI->hContact, "ContactPhoto", "NeedUpdate", 0));
 		else
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 

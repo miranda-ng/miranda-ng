@@ -435,7 +435,7 @@ void  CMsnProto::MSN_GetCustomSmileyFileName(HANDLE hContact, TCHAR* pszDest, si
 		}
 
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s"), dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else {
 		TCHAR *tszModuleName = mir_a2t(m_szModuleName);
@@ -520,7 +520,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 			char* p;
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(NULL, "SRMsg", "Font0", &dbv)) {
+			if (!db_get_s(NULL, "SRMsg", "Font0", &dbv)) {
 				for (p = dbv.pszVal; *p; p++)
 					if (BYTE(*p) >= 128 || *p < 32)
 						break;
@@ -531,13 +531,13 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 				}
 			}
 
-			int  tStyle = DBGetContactSettingByte(NULL, "SRMsg", "Font0Sty", 0);
+			int  tStyle = db_get_b(NULL, "SRMsg", "Font0Sty", 0);
 			p = tFontStyle;
 			if (tStyle & 1) *p++ = 'B';
 			if (tStyle & 2) *p++ = 'I';
 			*p = 0;
 
-			tFontColor = DBGetContactSettingDword(NULL, "SRMsg", "Font0Col", 0);
+			tFontColor = db_get_dw(NULL, "SRMsg", "Font0Col", 0);
 		}
 		else {
 			tFontColor = 0;
@@ -849,7 +849,7 @@ void  CMsnProto::MSN_SetServerStatus(int newStatus)
 		}
 
 		msnNsThread->sendPacket("CHG", "%s %u:%u %s", szStatusName, myFlags, myFlagsEx, msnObject.pszVal ? msnObject.pszVal : "0");
-		DBFreeVariant(&msnObject);
+		db_free(&msnObject);
 	}
 	else msnNsThread->sendPacket("CHG", szStatusName);
 }

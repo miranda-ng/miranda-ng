@@ -99,9 +99,9 @@ FLASHING_SEQUENCE *getCustomSeq(void)
 
 
 	customStr[0] = _T('\0');
-	if (!DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme), &dbv)) {
+	if (!db_get(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme), &dbv)) {
 		wcscpy(customStr, dbv.pwszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	Custom = str2FS(customStr);
@@ -345,8 +345,8 @@ static void TestThread(FLASHING_SEQUENCE *pTest)
 	unsigned int i;
 	DWORD dwEndTest;
 
-	unsigned int testNum = (unsigned int)DBGetContactSettingByte(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
-	unsigned int testSecs = (unsigned int)DBGetContactSettingByte(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
+	unsigned int testNum = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testnum", DEF_SETTING_TESTNUM);
+	unsigned int testSecs = (unsigned int)db_get_b(NULL, KEYBDMODULE, "testsecs", DEF_SETTING_TESTSECS);
 
 	for (i=0, dwEndTest=GetTickCount()+testSecs*1000; i < testNum || GetTickCount() < dwEndTest; i++)
 		for (pTest->index=0; pTest->index < pTest->size; pTest->index++) {

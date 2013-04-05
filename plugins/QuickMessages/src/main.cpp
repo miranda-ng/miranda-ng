@@ -294,10 +294,10 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);
 	HookEvent(ME_MSG_WINDOWPOPUP, InputMenuPopup);
 
-	g_bRClickAuto = DBGetContactSettingByte(NULL,PLGNAME,"RClickAuto",0);
-	g_bLClickAuto = DBGetContactSettingByte(NULL,PLGNAME,"LClickAuto",0);
-	g_iButtonsCount = DBGetContactSettingByte(NULL, PLGNAME,"ButtonsCount", 0);
-	g_bQuickMenu = DBGetContactSettingByte(NULL, PLGNAME,"QuickMenu", 1);
+	g_bRClickAuto = db_get_b(NULL,PLGNAME,"RClickAuto",0);
+	g_bLClickAuto = db_get_b(NULL,PLGNAME,"LClickAuto",0);
+	g_iButtonsCount = db_get_b(NULL, PLGNAME,"ButtonsCount", 0);
+	g_bQuickMenu = db_get_b(NULL, PLGNAME,"QuickMenu", 1);
 
 	InitButtonsList();
 

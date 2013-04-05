@@ -11,20 +11,20 @@ static BOOL Convert(HANDLE hContact, char* module, char* setting, int value, int
 		if (value > 0xFF)
 			Result = 0;
 		else
-			DBWriteContactSettingByte(hContact, module, setting, (BYTE)value);
+			db_set_b(hContact, module, setting, (BYTE)value);
 		break;
 	case 1:
 		if (value > 0xFFFF)
 			Result = 0;
 		else
-			DBWriteContactSettingWord(hContact, module, setting, (WORD)value);
+			db_set_w(hContact, module, setting, (WORD)value);
 		break;
 	case 2:
-		DBWriteContactSettingDword(hContact, module, setting, (DWORD)value);
+		db_set_dw(hContact, module, setting, (DWORD)value);
 		break;
 	case 3:
-		DBDeleteContactSetting(hContact, module, setting);
-		DBWriteContactSettingString(hContact, module, setting, itoa(value,temp,10));
+		db_unset(hContact, module, setting);
+		db_set_s(hContact, module, setting, itoa(value,temp,10));
 		break;
 	}
 	return Result;
@@ -56,7 +56,7 @@ BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType) //
 				int len = (int)strlen(dbv.pszVal) + 1;
 				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
 				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
-				Result = !DBWriteContactSettingWString(hContact, module, setting, wc);
+				Result = !db_set_ws(hContact, module, setting, wc);
 			}
 			else if (strlen(dbv.pszVal) < 11 && toType != 3) {
 				int val = atoi(dbv.pszVal);
@@ -74,7 +74,7 @@ BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType) //
 				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
 				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
 				WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
-				Result = !DBWriteContactSettingString(hContact, module, setting, sz);
+				Result = !db_set_s(hContact, module, setting, sz);
 			}
 			break;
 		}
@@ -82,7 +82,7 @@ BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType) //
 		if (!Result)
 			msg(Translate("Cannot Convert!"), modFullname);
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return Result;
@@ -357,22 +357,22 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 						// delete the old setting
 						if (mir_strcmp(setting, dbsetting->setting) && dbsetting->setting && (dbsetting->setting)[0] != 0)
-							DBDeleteContactSetting(dbsetting->hContact, dbsetting->module, dbsetting->setting);
+							db_unset(dbsetting->hContact, dbsetting->module, dbsetting->setting);
 
 						// delete the setting if we are saving as a different type
 						switch (dbsetting->dbv.type)
 						{
 							case DBVT_BYTE:
-								if (saveAsType(hwnd) != 0) DBDeleteContactSetting(dbsetting->hContact, dbsetting->module, setting);
+								if (saveAsType(hwnd) != 0) db_unset(dbsetting->hContact, dbsetting->module, setting);
 							break;
 							case DBVT_WORD:
-								if (saveAsType(hwnd) != 1) DBDeleteContactSetting(dbsetting->hContact, dbsetting->module, setting);
+								if (saveAsType(hwnd) != 1) db_unset(dbsetting->hContact, dbsetting->module, setting);
 							break;
 							case DBVT_DWORD:
-								if (saveAsType(hwnd) != 2) DBDeleteContactSetting(dbsetting->hContact, dbsetting->module, setting);
+								if (saveAsType(hwnd) != 2) db_unset(dbsetting->hContact, dbsetting->module, setting);
 							break;
 							//case DBVT_ASCIIZ:
-								//DBWriteContactSettingString(dbsetting->hContact, dbsetting->module, setting, value);
+								//db_set_s(dbsetting->hContact, dbsetting->module, setting, value);
 							//break;
 						}
 						// write the setting
@@ -381,25 +381,25 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							case 0:
 								if (IsDlgButtonChecked(hwnd, CHK_HEX)) sscanf(value, "%x", &settingValue);
 								else sscanf(value, "%d", &settingValue);
-								DBWriteContactSettingByte(dbsetting->hContact, dbsetting->module, setting, (BYTE)settingValue);
+								db_set_b(dbsetting->hContact, dbsetting->module, setting, (BYTE)settingValue);
 							break;
 							case 1:
 								if (IsDlgButtonChecked(hwnd, CHK_HEX)) sscanf(value, "%x", &settingValue);
 								else sscanf(value, "%d", &settingValue);
-								DBWriteContactSettingWord(dbsetting->hContact, dbsetting->module, setting, (WORD)settingValue);
+								db_set_w(dbsetting->hContact, dbsetting->module, setting, (WORD)settingValue);
 							break;
 							case 2:
 								if (IsDlgButtonChecked(hwnd, CHK_HEX)) sscanf(value, "%x", &settingValue);
 								else sscanf(value, "%d", &settingValue);
-								DBWriteContactSettingDword(dbsetting->hContact, dbsetting->module, setting, (DWORD)settingValue);
+								db_set_dw(dbsetting->hContact, dbsetting->module, setting, (DWORD)settingValue);
 							break;
 							case 3:
 								if (dbsetting->dbv.type == DBVT_UTF8)
-									DBWriteContactSettingWString(dbsetting->hContact, dbsetting->module, setting, (WCHAR*)value);
+									db_set_ws(dbsetting->hContact, dbsetting->module, setting, (WCHAR*)value);
 								else if (dbsetting->dbv.type == DBVT_BLOB)
 									WriteBlobFromString(dbsetting->hContact,dbsetting->module,setting,value,valueLength);
 								else if (dbsetting->dbv.type == DBVT_ASCIIZ)
-									DBWriteContactSettingString(dbsetting->hContact, dbsetting->module, setting, value);
+									db_set_s(dbsetting->hContact, dbsetting->module, setting, value);
 							break;
 						}
 

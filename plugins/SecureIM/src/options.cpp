@@ -15,7 +15,7 @@ BOOL hasKey(pUinKey ptr)
 	else if (ptr->mode == MODE_RSAAES) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
-		if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
+		if (db_get(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 			ret = 1;
 			db_free(&dbv);
 		}
@@ -1233,7 +1233,7 @@ void ApplyGeneralSettings(HWND hDlg)
 	// Key Exchange Timeout
 	GetDlgItemText(hDlg,IDC_KET,timeout,5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	DBWriteContactSettingWord(0,MODULENAME,"ket",tmp);
+	db_set_w(0,MODULENAME,"ket",tmp);
 	exp->rsa_set_timeout( db_get_w(0,MODULENAME,"ket",10));
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_KET,timeout);
@@ -1241,7 +1241,7 @@ void ApplyGeneralSettings(HWND hDlg)
 	// Offline Key Timeout
 	GetDlgItemText(hDlg,IDC_OKT,timeout,5);
 	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
-	DBWriteContactSettingWord(0,MODULENAME,"okt",tmp);
+	db_set_w(0,MODULENAME,"okt",tmp);
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_OKT,timeout);
 
@@ -1461,7 +1461,7 @@ void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 		pUinKey ptr = (pUinKey) getListViewParam(hLV, iItem);
-		if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
+		if (db_get(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 			int len;
 			exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)str,&len);
 			sha = mir_strdup(to_hex((PBYTE)str,len));

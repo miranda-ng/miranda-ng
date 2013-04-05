@@ -28,8 +28,9 @@ const CLSID IID_IRichEditOle = { 0x00020D00, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x0
 const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 #endif
 
-HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
-HANDLE hHookWinEvt, hHookWinPopup, hMsgMenuItem;
+HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
+HANDLE   hHookWinEvt, hHookWinPopup;
+HGENMENU hMsgMenuItem;
 
 static int SRMMStatusToPf2(int status)
 {
@@ -347,19 +348,16 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
+		bool bEnabled = false;
 		char* szProto = GetContactProto(hContact);
-
-		CLISTMENUITEM clmi = { sizeof(clmi) };
-		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
-
 		if ( szProto ) {
 			// leave this menu item hidden for chats
 			if ( !db_get_b( hContact, szProto, "ChatRoom", 0 ))
 				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND )
-					clmi.flags &= ~CMIF_HIDDEN;
+					bEnabled = true;
 		}
 
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMsgMenuItem, ( LPARAM )&clmi );
+		Menu_ShowItem(hMsgMenuItem, bEnabled);
 	}
 	return 0;
 }

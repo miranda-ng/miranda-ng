@@ -186,7 +186,7 @@ namespace NServices
 						}
 
 						// the absolute file is valid
-						if (bInvalidAvatar && !DBGetContactSetting(hContact, "ContactPhoto", "File", &dbv))
+						if (bInvalidAvatar && !db_get(hContact, "ContactPhoto", "File", &dbv))
 						{
 							FILE *f = fopen(dbv.pszVal, "rb");
 							if (f) {

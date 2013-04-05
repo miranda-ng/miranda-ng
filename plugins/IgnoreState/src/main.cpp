@@ -117,9 +117,9 @@ static IconItem iconList[] =
 
 VOID fill_filter(void)
 {
-	bUseMirandaSettings = DBGetContactSettingByte(NULL, MODULENAME, "UseMirandaSettings", 0);
+	bUseMirandaSettings = db_get_b(NULL, MODULENAME, "UseMirandaSettings", 0);
 
-	currentFilter = bUseMirandaSettings ? DBGetContactSettingDword(NULL, "Ignore", "Default1", 0) : DBGetContactSettingDword(NULL, MODULENAME, "Filter", 0x8);
+	currentFilter = bUseMirandaSettings ? db_get_dw(NULL, "Ignore", "Default1", 0) : db_get_dw(NULL, MODULENAME, "Filter", 0x8);
 
 	for (int i=0; i < SIZEOF(ii); i++) {
 		if (checkState((ii[i].type)))

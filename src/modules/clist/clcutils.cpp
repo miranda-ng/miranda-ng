@@ -428,7 +428,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 					cli.pfnInvalidateDisplayNameCacheEntry(contact->hContact);
 					TCHAR* otherName = cli.pfnGetContactDisplayName(contact->hContact, GCDNF_NOMYHANDLE);
 					if ( !text[0] || !lstrcmp(otherName, text))
-						DBDeleteContactSetting(contact->hContact, "CList", "MyHandle");
+						db_unset(contact->hContact, "CList", "MyHandle");
 					else
 						db_set_ts(contact->hContact, "CList", "MyHandle", text);
 					mir_free(otherName);
@@ -697,7 +697,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 
 	cli.pfnGetDefaultFontSetting(i, lf, colour);
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dName", i);
-	if ( !DBGetContactSettingTString(NULL, "CLC", idstr, &dbv)) {
+	if ( !db_get_ts(NULL, "CLC", idstr, &dbv)) {
 		lstrcpy(lf->lfFaceName, dbv.ptszVal);
 		mir_free(dbv.pszVal);
 	}
@@ -763,7 +763,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 			dat->hBmpBackground = NULL;
 		}
 		if (db_get_b(NULL, "CLC", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			if ( !DBGetContactSettingString(NULL, "CLC", "BkBitmap", &dbv)) {
+			if ( !db_get_s(NULL, "CLC", "BkBitmap", &dbv)) {
 				dat->hBmpBackground = (HBITMAP) CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM) dbv.pszVal);
 				mir_free(dbv.pszVal);
 			}

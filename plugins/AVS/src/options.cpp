@@ -400,7 +400,7 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					g_selectedProto = GetProtoFromList(hwndDlg, iItem);
 					if ( g_selectedProto ) {
 						DBVARIANT dbv;
-						if ( !DBGetContactSettingTString(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
+						if ( !db_get_ts(NULL, PPICT_MODULE, g_selectedProto, &dbv)) {
 							if ( !AVS_pathIsAbsolute(dbv.ptszVal)) {
 								TCHAR szFinalPath[MAX_PATH];
 								mir_sntprintf(szFinalPath, SIZEOF(szFinalPath), _T("%%miranda_path%%\\%s"), dbv.ptszVal);
@@ -616,7 +616,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -641,7 +641,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				DBVARIANT dbv = {0};
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -708,15 +708,15 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			szFinalName[0] = 0;
 
-			if (is_locked && !DBGetContactSettingTString(hContact, "ContactPhoto", "Backup", &dbv)) {
+			if (is_locked && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
-			else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "RFile", &dbv)) {
+			else if ( !db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
-			else if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+			else if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, szFinalName);
 				db_free(&dbv);
 			}
@@ -847,7 +847,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -870,7 +870,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				ProtectAvatar((WPARAM)hContact, 0);
 				if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-					if ( !DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+					if ( !db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 						DeleteFile(dbv.ptszVal);
 						db_free(&dbv);
 					}

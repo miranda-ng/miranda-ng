@@ -63,13 +63,13 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "URL", str);
-				DBWriteContactSettingByte(hContact, MODULE, "CheckState", 1);
-				DBWriteContactSettingDword(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_b(hContact, MODULE, "CheckState", 1);
+				db_set_dw(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					DBWriteContactSettingByte(hContact, MODULE, "UseAuth", 1);
+					db_set_b(hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
 					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
@@ -231,11 +231,11 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(SelItem->hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(SelItem->hContact, MODULE, "Nick", str);
-				DBWriteContactSettingDword(SelItem->hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_dw(SelItem->hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(SelItem->hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					DBWriteContactSettingByte(SelItem->hContact, MODULE, "UseAuth", 1);
+					db_set_b(SelItem->hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(SelItem->hContact, MODULE, "Login", str);
 					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
@@ -381,11 +381,11 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				db_set_ts(hContact, MODULE, "URL", str);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
-				DBWriteContactSettingDword(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
+				db_set_dw(hContact, MODULE, "UpdateTime", GetDlgItemInt(hwndDlg, IDC_CHECKTIME, false, false));
 				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "MsgFormat", str);
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					DBWriteContactSettingByte(hContact, MODULE, "UseAuth", 1);
+					db_set_b(hContact, MODULE, "UseAuth", 1);
 					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
 					db_set_ts(hContact, MODULE, "Login", str);
 					GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
@@ -795,11 +795,11 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					{
 						if(IsMyContact(hContact))
 						{
-							DBWriteContactSettingByte(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
+							db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
 							if (!ListView_GetCheckState(hwndList, i))
-								DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+								db_set_b(hContact, "CList", "Hidden", 1);
 							else
-								DBDeleteContactSetting(hContact,"CList","Hidden");
+								db_unset(hContact,"CList","Hidden");
 							i += 1;
 						}
 						hContact = db_find_next(hContact);

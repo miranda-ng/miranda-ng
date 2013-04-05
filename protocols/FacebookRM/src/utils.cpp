@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::string utils::url::encode(const std::string &s)
 {
-	return mir_ptr<char>( mir_urlEncode( s.c_str()));
+	return (char*)mir_ptr<char>( mir_urlEncode( s.c_str()));
 }
 
 std::string utils::url::decode(std::string data)

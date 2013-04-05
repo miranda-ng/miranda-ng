@@ -174,7 +174,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 						for (;;) {
 							DBVARIANT dbv;
 							mir_snprintf(buf, SIZEOF(buf), "%s_%d", pa->szProtoName, count++);
-							if (DBGetContactSettingString(NULL, buf, "AM_BaseProto", &dbv))
+							if (db_get_s(NULL, buf, "AM_BaseProto", &dbv))
 								break;
 							db_free(&dbv);
 						}

@@ -4,14 +4,14 @@ Options options;
 
 int LoadOptions(void)
 {
-	options.backup_types = (BackupType)DBGetContactSettingByte(0, "AutoBackups", "BackupType", (BYTE)(BT_PERIODIC));
-	options.period = (unsigned int)DBGetContactSettingWord(0, "AutoBackups", "Period", 1);
-	options.period_type = (PeriodType)DBGetContactSettingByte(0, "AutoBackups", "PeriodType", (BYTE)PT_DAYS);
+	options.backup_types = (BackupType)db_get_b(0, "AutoBackups", "BackupType", (BYTE)(BT_PERIODIC));
+	options.period = (unsigned int)db_get_w(0, "AutoBackups", "Period", 1);
+	options.period_type = (PeriodType)db_get_b(0, "AutoBackups", "PeriodType", (BYTE)PT_DAYS);
 
 	if (!ServiceExists(MS_FOLDERS_GET_PATH)) {
 		DBVARIANT dbv;
 
-		if (!DBGetContactSettingTString(0, "AutoBackups", "Folder", &dbv)) {
+		if (!db_get_ts(0, "AutoBackups", "Folder", &dbv)) {
 			TCHAR *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
 			if(_tcslen(tmp) >= 2 && tmp[1] == ':')
@@ -19,15 +19,15 @@ int LoadOptions(void)
 			else
 				mir_sntprintf(options.folder, MAX_PATH, _T("%s\\%s"), profilePath, dbv.ptszVal);
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			mir_free(tmp);
 		} else
 			mir_sntprintf(options.folder, MAX_PATH, _T("%s%s"), DIR, SUB_DIR);
 	}
-	options.num_backups = (unsigned int)DBGetContactSettingWord(0, "AutoBackups", "NumBackups", 3);
+	options.num_backups = (unsigned int)db_get_w(0, "AutoBackups", "NumBackups", 3);
 
-	options.disable_progress = (BOOL)DBGetContactSettingByte(0, "AutoBackups", "NoProgress", 0);
-	options.disable_popups = (BOOL)DBGetContactSettingByte(0, "AutoBackups", "NoPopups", 0);
+	options.disable_progress = (BOOL)db_get_b(0, "AutoBackups", "NoProgress", 0);
+	options.disable_popups = (BOOL)db_get_b(0, "AutoBackups", "NoPopups", 0);
 
 	SetBackupTimer();
 	return 0;
@@ -37,19 +37,19 @@ int SaveOptions(void)
 {
 	TCHAR prof_dir[MAX_PATH];
 
-	DBWriteContactSettingByte(0, "AutoBackups", "BackupType", (BYTE)options.backup_types);
+	db_set_b(0, "AutoBackups", "BackupType", (BYTE)options.backup_types);
 	if (options.period < 1) options.period = 1;
-	DBWriteContactSettingWord(0, "AutoBackups", "Period", (WORD)options.period);
-	DBWriteContactSettingByte(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
+	db_set_w(0, "AutoBackups", "Period", (WORD)options.period);
+	db_set_b(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
 
 	mir_sntprintf(prof_dir, MAX_PATH, _T("%s\\"), profilePath);
 	size_t prof_len = _tcslen(prof_dir);
 	size_t opt_len = _tcslen(options.folder);
 
 	if(opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
-		DBWriteContactSettingTString(0, "AutoBackups", "Folder", (options.folder + prof_len));
+		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
 	} else
-		DBWriteContactSettingTString(0, "AutoBackups", "Folder", options.folder);
+		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
 	if(_tcslen(tmp) < 2 || tmp[1] != ':')
@@ -59,9 +59,9 @@ int SaveOptions(void)
 		mir_free(buf);
 	}
 	mir_free(tmp);
-	DBWriteContactSettingWord(0, "AutoBackups", "NumBackups", (WORD)options.num_backups);
-	DBWriteContactSettingByte(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
-	DBWriteContactSettingByte(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
+	db_set_w(0, "AutoBackups", "NumBackups", (WORD)options.num_backups);
+	db_set_b(0, "AutoBackups", "NoProgress", (BYTE)options.disable_progress);
+	db_set_b(0, "AutoBackups", "NoPopups", (BYTE)options.disable_popups);
 
 	SetBackupTimer();
 	return 0;

@@ -398,6 +398,8 @@ typedef struct{
 	COLORCHOOSER;
 
 //main.c
+extern HGENMENU hJoinMenuItem, hLeaveMenuItem;
+
 void LoadIcons(void);
 void LoadLogIcons(void);
 void FreeIcons(void);

@@ -47,7 +47,7 @@ DWORD CDb3x::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,
 	DWORD ofsThis;
 
 	for ( int i=0; i < SETTINGSGROUPOFSCOUNT; i++)
-		if(settingsGroupOfsCache[i].ofsContact == ofsContact && settingsGroupOfsCache[i].ofsModuleName == ofsModuleName)
+		if (settingsGroupOfsCache[i].ofsContact == ofsContact && settingsGroupOfsCache[i].ofsModuleName == ofsModuleName)
 			return settingsGroupOfsCache[i].ofsSettingsGroup;
 
 	ofsThis = dbc->ofsFirstSettings;
@@ -58,7 +58,7 @@ DWORD CDb3x::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc,DWORD ofsContact,
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsContact = ofsContact;
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsModuleName = ofsModuleName;
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsSettingsGroup = ofsThis;
-			if(++nextSGOCacheEntry==SETTINGSGROUPOFSCOUNT) nextSGOCacheEntry = 0;
+			if (++nextSGOCacheEntry==SETTINGSGROUPOFSCOUNT) nextSGOCacheEntry = 0;
 			return ofsThis;
 		}
 		ofsThis = dbcs->ofsNext;

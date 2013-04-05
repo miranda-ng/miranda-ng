@@ -101,12 +101,12 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,char**to)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	if(!DBGetContactSettingString(NULL, protocolname, temp,&dbv))
+	if(!db_get_s(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);
 		//dbval wieder freigeben
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -119,12 +119,12 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,int id,char**to)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	if(!DBGetContactSettingString(NULL, protocolname, temp,&dbv))
+	if(!db_get_s(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);
 		//dbval wieder freigeben
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -142,7 +142,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,char**to)
 		//string setzen
 		setString(dbv.pszVal,to);
 		//dbval wieder freigeben
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -160,7 +160,7 @@ void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,int id,char**t
 		//string setzen
 		setString(dbv.pszVal,to);
 		//dbval wieder freigeben
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -174,7 +174,7 @@ void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,int id,char*val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	DBWriteContactSettingString(NULL, protocolname, temp,val);
+	db_set_s(NULL, protocolname, temp,val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -186,7 +186,7 @@ void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,char*val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	DBWriteContactSettingString(NULL, protocolname, temp,val);
+	db_set_s(NULL, protocolname, temp,val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -223,7 +223,7 @@ void Xfire_base::writeBytetoDB(char*name,unsigned int dbid,int val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	DBWriteContactSettingByte(NULL, protocolname, temp, val);
+	db_set_b(NULL, protocolname, temp, val);
 }
 
 //schreibt einen wordwert in die db
@@ -235,7 +235,7 @@ void Xfire_base::writeWordtoDB(char*name,unsigned int dbid,int val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	DBWriteContactSettingWord(NULL, protocolname, temp, val);
+	db_set_w(NULL, protocolname, temp, val);
 }
 
 
@@ -248,7 +248,7 @@ unsigned char Xfire_base::readBytefromDB(char*name,unsigned int dbid,int default
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	return DBGetContactSettingByte(NULL, protocolname, temp, defaultval);
+	return db_get_b(NULL, protocolname, temp, defaultval);
 }
 
 //liest einen wordval aus der db und gibt es zurück
@@ -260,7 +260,7 @@ unsigned int Xfire_base::readWordfromDB(char*name,unsigned int dbid,int defaultv
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	return DBGetContactSettingWord(NULL, protocolname, temp, defaultval);
+	return db_get_w(NULL, protocolname, temp, defaultval);
 }
 
 //entfernt einen dbeintrag
@@ -274,10 +274,10 @@ BOOL Xfire_base::removeDBEntry(char*name,unsigned int dbid)
 	sprintf_s(temp,128,"%s_%i",name,dbid);
 	
 	//eintrag entfernen
-	if(!DBGetContactSetting(NULL, protocolname, temp,&dbv))
+	if(!db_get(NULL, protocolname, temp,&dbv))
 	{
-		DBFreeVariant(&dbv);
-		DBDeleteContactSetting(NULL, protocolname, temp);
+		db_free(&dbv);
+		db_unset(NULL, protocolname, temp);
 
 		return TRUE;
 	}
@@ -295,10 +295,10 @@ BOOL Xfire_base::removeDBEntry(char*name,unsigned int dbid,int id)
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
 	
 	//eintrag entfernen
-	if(!DBGetContactSetting(NULL, protocolname, temp,&dbv))
+	if(!db_get(NULL, protocolname, temp,&dbv))
 	{
-		DBFreeVariant(&dbv);
-		DBDeleteContactSetting(NULL, protocolname, temp);
+		db_free(&dbv);
+		db_unset(NULL, protocolname, temp);
 
 		return TRUE;
 	}
@@ -507,9 +507,9 @@ BOOL Xfire_base::getGamename(unsigned int gameid,char* out,int outsize){
 		DBVARIANT dbv;
 		char dbstr[80]="";
 		sprintf_s(dbstr,XFIRE_MAXSIZEOFGAMENAME,"customgamename_%d",gameid);
-		if(!DBGetContactSetting(NULL,protocolname,dbstr,&dbv)) {
+		if(!db_get(NULL,protocolname,dbstr,&dbv)) {
 			sprintf_s(out,outsize,"%s",dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return TRUE;
 		}
 		else

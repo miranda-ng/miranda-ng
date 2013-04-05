@@ -78,7 +78,7 @@ INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM
 				// prevent the plugin from disabling/enabling correctly (this fix relies
 				// on the plugin loader to ignore case)
 				CharLowerA(pszFileName);
-				DBWriteContactSettingByte(NULL, "PluginDisable", pszFileName, 1);
+				db_set_b(NULL, "PluginDisable", pszFileName, 1);
 			}
 			PostMessage(GetParent(hdlg), WM_CLOSE, 0, 0);
 			break;

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HANDLE ghMenuItem			= NULL;
+static HGENMENU ghMenuItem			= NULL;
 static HANDLE ghExtraIconDef		= INVALID_HANDLE_VALUE;
 static HANDLE ghExtraIconSvc		= INVALID_HANDLE_VALUE;
 
@@ -172,16 +172,9 @@ static int OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  **/
 static int OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
-
 	LPSTR val = Get((HANDLE)wParam);
-	if (val) 
-		mir_free(val);
-	else 
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)ghMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(ghMenuItem, val != NULL);
+	mir_free(val);
 	return 0;
 }
 

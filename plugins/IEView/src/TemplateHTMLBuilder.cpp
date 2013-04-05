@@ -64,7 +64,7 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 			}
 		}
 	}
-	if (!DBGetContactSettingTString(hContact, "ContactPhoto", "File", &dbv)) {
+	if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
 		if (_tcslen(dbv.ptszVal) > 0) {
 			TCHAR* ext = _tcsrchr(dbv.ptszVal, '.');
 			if (ext && lstrcmpi(ext, _T(".xml")) == 0) {
@@ -80,7 +80,7 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 				}
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	char* res = mir_utf8encodeT(result);
 	Utils::convertPath(res);
@@ -221,11 +221,11 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	if (szAvatarOut == NULL) {
 		szAvatarOut = mir_strdup(szNoAvatar);
 	}
-	if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
+	if (!db_get(event->hContact, "CList", "StatusMsg",&dbv)) {
 		if (strlen(dbv.pszVal) > 0) {
 			szStatusMsg = mir_utf8encode(dbv.pszVal);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
@@ -404,11 +404,11 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		szAvatarOut = mir_strdup(szNoAvatar);
 	}
 	if(event->hContact != NULL) {
-		if (!DBGetContactSetting(event->hContact, "CList", "StatusMsg",&dbv)) {
+		if (!db_get(event->hContact, "CList", "StatusMsg",&dbv)) {
 			if (strlen(dbv.pszVal) > 0) {
 				szStatusMsg = mir_utf8encode(dbv.pszVal);
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	ZeroMemory(&ci, sizeof(ci));

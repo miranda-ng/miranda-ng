@@ -28,7 +28,7 @@ namespace
 	struct mir_safety_dbvar
 	{
 		mir_safety_dbvar(DBVARIANT* p) : m_p(p){}
-		~mir_safety_dbvar(){DBFreeVariant(m_p);}
+		~mir_safety_dbvar(){db_free(m_p);}
 		DBVARIANT* m_p;
 	};
 

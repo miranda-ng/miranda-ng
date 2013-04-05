@@ -274,7 +274,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			LPTSTR ptszLastTab;
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingTString(NULL, "UserInfo", "LastTab", &dbv)) {
+			if ( !db_get_ts(NULL, "UserInfo", "LastTab", &dbv)) {
 				ptszLastTab = NEWTSTR_ALLOCA(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -594,7 +594,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		tvi.pszText = name;
 		tvi.cchTextMax = SIZEOF(name);
 		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_PAGETREE), &tvi);
-		DBWriteContactSettingTString(NULL, "UserInfo", "LastTab", name);
+		db_set_ts(NULL, "UserInfo", "LastTab", name);
 
 		Window_FreeIcon_IcoLib(hwndDlg);
 		SendDlgItemMessage(hwndDlg, IDC_NAME, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDC_WHITERECT, WM_GETFONT, 0, 0), 0);

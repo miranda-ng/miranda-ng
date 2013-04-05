@@ -411,7 +411,7 @@ TCHAR * Protocol::GetListeningTo()
 	}
 
 	DBVARIANT dbv = {0};
-	if ( DBGetContactSettingTString(NULL, name, "ListeningTo", &dbv))
+	if ( db_get_ts(NULL, name, "ListeningTo", &dbv))
 	{
 		lcopystr(listening_to, _T(""), SIZEOF(listening_to));
 		return listening_to;
@@ -536,7 +536,7 @@ void ProtocolArray::SetNicks(const TCHAR *nick)
 
 	lstrcpyn(default_nick, nick, SIZEOF(default_nick));
 
-	DBWriteContactSettingTString(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
+	db_set_ts(0, MODULE_NAME, SETTING_DEFAULT_NICK, nick);
 
 	for ( int i = 0 ; i < buffer_len ; i++ )
 		buffer[i]->SetNick(default_nick);
@@ -556,11 +556,11 @@ void ProtocolArray::SetStatusMsgs(const TCHAR *message)
 
 void ProtocolArray::SetStatusMsgs(int status, const TCHAR *message)
 {
-	DBWriteContactSettingTString(NULL,"SRAway",StatusModeToDbSetting(status,"Msg"),message);
+	db_set_ts(NULL,"SRAway",StatusModeToDbSetting(status,"Msg"),message);
 
 	// Save default also
 	if ( !db_get_b(NULL,"SRAway",StatusModeToDbSetting(status,"UsePrev"),0))
-		DBWriteContactSettingTString(NULL,"SRAway",StatusModeToDbSetting(status,"Default"),message);
+		db_set_ts(NULL,"SRAway",StatusModeToDbSetting(status,"Default"),message);
 
 	for ( int i = 0 ; i < buffer_len ; i++ )
 		if (buffer[i]->status == status)
@@ -570,7 +570,7 @@ void ProtocolArray::SetStatusMsgs(int status, const TCHAR *message)
 void ProtocolArray::GetDefaultNick()
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(0, MODULE_NAME, SETTING_DEFAULT_NICK, &dbv)) {
+	if ( !db_get_ts(0, MODULE_NAME, SETTING_DEFAULT_NICK, &dbv)) {
 		lstrcpyn(default_nick, dbv.ptszVal, SIZEOF(default_nick));
 		db_free(&dbv);
 	}
@@ -580,7 +580,7 @@ void ProtocolArray::GetDefaultNick()
 void ProtocolArray::GetDefaultAvatar()
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(0, "ContactPhoto", "File", &dbv)) {
+	if ( !db_get_ts(0, "ContactPhoto", "File", &dbv)) {
 		lstrcpyn(default_avatar_file, dbv.ptszVal, SIZEOF(default_avatar_file));
 		db_free(&dbv);
 	}

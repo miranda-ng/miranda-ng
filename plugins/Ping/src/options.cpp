@@ -580,50 +580,50 @@ int PingOptInit(WPARAM wParam,LPARAM lParam)
 }
 
 void LoadOptions() {
-	options.ping_period = DBGetContactSettingDword(NULL, PLUG, "PingPeriod", DEFAULT_PING_PERIOD);
+	options.ping_period = db_get_dw(NULL, PLUG, "PingPeriod", DEFAULT_PING_PERIOD);
 
-	options.ping_timeout = DBGetContactSettingDword(NULL, PLUG, "PingTimeout", DEFAULT_PING_TIMEOUT);
+	options.ping_timeout = db_get_dw(NULL, PLUG, "PingTimeout", DEFAULT_PING_TIMEOUT);
 	CallService(PLUG "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
-	options.show_popup = (DBGetContactSettingByte(NULL, PLUG, "ShowPopup", DEFAULT_SHOW_POPUP ? 1 : 0) == 1);
-	options.show_popup2 = (DBGetContactSettingByte(NULL, PLUG, "ShowPopup2", DEFAULT_SHOW_POPUP2 ? 1 : 0) == 1);
-	options.block_reps = (DBGetContactSettingByte(NULL, PLUG, "BlockReps", DEFAULT_BLOCK_REPS ? 1 : 0) == 1);
-	options.logging = (DBGetContactSettingByte(NULL, PLUG, "LoggingEnabled", DEFAULT_LOGGING_ENABLED ? 1 : 0) == 1);
+	options.show_popup = (db_get_b(NULL, PLUG, "ShowPopup", DEFAULT_SHOW_POPUP ? 1 : 0) == 1);
+	options.show_popup2 = (db_get_b(NULL, PLUG, "ShowPopup2", DEFAULT_SHOW_POPUP2 ? 1 : 0) == 1);
+	options.block_reps = (db_get_b(NULL, PLUG, "BlockReps", DEFAULT_BLOCK_REPS ? 1 : 0) == 1);
+	options.logging = (db_get_b(NULL, PLUG, "LoggingEnabled", DEFAULT_LOGGING_ENABLED ? 1 : 0) == 1);
 
-	options.no_test_icon = (DBGetContactSettingByte(NULL, PLUG, "NoTestStatus", DEFAULT_NO_TEST_ICON ? 1 : 0) == 1);
+	options.no_test_icon = (db_get_b(NULL, PLUG, "NoTestStatus", DEFAULT_NO_TEST_ICON ? 1 : 0) == 1);
 
-	options.indent = DBGetContactSettingWord(NULL, PLUG, "Indent", 0);
-	options.row_height = DBGetContactSettingWord(NULL, PLUG, "RowHeight", GetSystemMetrics(SM_CYSMICON));
+	options.indent = db_get_w(NULL, PLUG, "Indent", 0);
+	options.row_height = db_get_w(NULL, PLUG, "RowHeight", GetSystemMetrics(SM_CYSMICON));
 
-	options.retries = DBGetContactSettingDword(NULL, PLUG, "Retries", 0);
+	options.retries = db_get_dw(NULL, PLUG, "Retries", 0);
 
 	CallService(PLUG "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 
-	options.attach_to_clist = (DBGetContactSettingByte(NULL, PLUG, "AttachToClist", DEFAULT_ATTACH_TO_CLIST ? 1 : 0) == 1);
-	options.log_csv = (DBGetContactSettingByte(NULL, PLUG, "LogCSV", 0) == 1);
+	options.attach_to_clist = (db_get_b(NULL, PLUG, "AttachToClist", DEFAULT_ATTACH_TO_CLIST ? 1 : 0) == 1);
+	options.log_csv = (db_get_b(NULL, PLUG, "LogCSV", 0) == 1);
 }
 
 void SaveOptions() {
-	DBWriteContactSettingDword(NULL, PLUG, "PingPeriod", options.ping_period);
-	DBWriteContactSettingDword(NULL, PLUG, "PingTimeout", options.ping_timeout);
+	db_set_dw(NULL, PLUG, "PingPeriod", options.ping_period);
+	db_set_dw(NULL, PLUG, "PingTimeout", options.ping_timeout);
 	CallService(PLUG "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
-	DBWriteContactSettingByte(NULL, PLUG, "ShowPopup", options.show_popup ? 1 : 0);
-	DBWriteContactSettingByte(NULL, PLUG, "ShowPopup2", options.show_popup2 ? 1 : 0);
-	DBWriteContactSettingByte(NULL, PLUG, "BlockReps", options.block_reps ? 1 : 0);
-	DBWriteContactSettingByte(NULL, PLUG, "LoggingEnabled", options.logging ? 1 : 0);
+	db_set_b(NULL, PLUG, "ShowPopup", options.show_popup ? 1 : 0);
+	db_set_b(NULL, PLUG, "ShowPopup2", options.show_popup2 ? 1 : 0);
+	db_set_b(NULL, PLUG, "BlockReps", options.block_reps ? 1 : 0);
+	db_set_b(NULL, PLUG, "LoggingEnabled", options.logging ? 1 : 0);
 
-	DBWriteContactSettingByte(NULL, PLUG, "NoTestStatus", options.no_test_icon ? 1 : 0);
+	db_set_b(NULL, PLUG, "NoTestStatus", options.no_test_icon ? 1 : 0);
 
-	DBWriteContactSettingWord(NULL, PLUG, "Indent", options.indent);
-	DBWriteContactSettingWord(NULL, PLUG, "RowHeight", options.row_height);
+	db_set_w(NULL, PLUG, "Indent", options.indent);
+	db_set_w(NULL, PLUG, "RowHeight", options.row_height);
 
-	DBWriteContactSettingDword(NULL, PLUG, "Retries", (DWORD)options.retries);
+	db_set_dw(NULL, PLUG, "Retries", (DWORD)options.retries);
 
 	CallService(PLUG "/SetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 
-	DBWriteContactSettingByte(NULL, PLUG, "AttachToClist", options.attach_to_clist ? 1 : 0);
-	DBWriteContactSettingByte(NULL, PLUG, "LogCSV", options.log_csv ? 1 : 0);
+	db_set_b(NULL, PLUG, "AttachToClist", options.attach_to_clist ? 1 : 0);
+	db_set_b(NULL, PLUG, "LogCSV", options.log_csv ? 1 : 0);
 }

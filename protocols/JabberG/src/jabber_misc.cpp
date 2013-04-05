@@ -75,7 +75,7 @@ static void JabberContactListCreateClistGroup(TCHAR* groupName)
 
 	for (i=0;;i++) {
 		_itoa(i, str, 10);
-		if ( DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
+		if ( db_get_ts(NULL, "CListGroups", str, &dbv))
 			break;
 		TCHAR* name = dbv.ptszVal;
 		if (name[0]!='\0' && !_tcscmp(name+1, groupName)) {
@@ -299,8 +299,8 @@ void CJabberProto::GetAvatarFileName(HANDLE hContact, TCHAR* pszDest, size_t cbL
 	}
 	else {
 		DBVARIANT dbv1, dbv2;
-		BOOL res1 = DBGetContactSettingString(NULL, m_szModuleName, "LoginName", &dbv1);
-		BOOL res2 = DBGetContactSettingString(NULL, m_szModuleName, "LoginServer", &dbv2);
+		BOOL res1 = db_get_s(NULL, m_szModuleName, "LoginName", &dbv1);
+		BOOL res2 = db_get_s(NULL, m_szModuleName, "LoginServer", &dbv2);
 		mir_sntprintf(pszDest + tPathLen, MAX_PATH - tPathLen, _T("%S@%S avatar.%S"),
 			res1 ? "noname" : dbv1.pszVal,
 			res2 ? m_szModuleName : dbv2.pszVal,

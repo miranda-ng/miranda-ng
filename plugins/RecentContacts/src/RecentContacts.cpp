@@ -59,15 +59,15 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 void LoadDBSettings()
 {
 	ZeroMemory(&LastUCOpt, sizeof(LastUCOpt));
-	LastUCOpt.MaxShownContacts = (INT)DBGetContactSettingByte( NULL, dbLastUC_ModuleName, dbLastUC_MaxShownContacts, 0 );
-	LastUCOpt.HideOffline = DBGetContactSettingByte( NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, 0 );
+	LastUCOpt.MaxShownContacts = (INT)db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_MaxShownContacts, 0 );
+	LastUCOpt.HideOffline = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, 0 );
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
 	dbv.pszVal = NULL;
 	if ( db_get(NULL, dbLastUC_ModuleName, dbLastUC_DateTimeFormat, &dbv) == 0 && dbv.pszVal[0]!=0 ) {
 		LastUCOpt.DateTimeFormat = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else LastUCOpt.DateTimeFormat = "(%Y-%m-%d %H:%M)  ";
 }
@@ -230,7 +230,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			dbv.pszVal = NULL;
 			if (db_get(NULL, dbLastUC_ModuleName, dbLastUC_DateTimeFormat, &dbv) == 0) {
 				strtimformat = dbv.pszVal;
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else strtimformat = dbLastUC_DateTimeFormatDefault;
 
@@ -242,7 +242,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					if (LastUCOpt.HideOffline == 1) {
 						szProto = GetContactProto(curContact->second);
-						if (szProto != NULL && DBGetContactSettingWord((HANDLE)curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+						if (szProto != NULL && db_get_w((HANDLE)curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 							continue;
 					}
 
@@ -486,7 +486,7 @@ static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIF_TCHAR;
 
-	if ( DBGetContactSettingByte((HANDLE)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
+	if ( db_get_b((HANDLE)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)
 		clmi.ptszName = TranslateT("Ignore Contact");
 	else
 		clmi.ptszName = TranslateT("Show Contact");
@@ -518,8 +518,8 @@ INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != NULL) {
 		HANDLE hContact = ( HANDLE )wParam;
-		int state = DBGetContactSettingByte(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
-		DBWriteContactSettingByte(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
+		int state = db_get_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0 ? 1 : 0 ;
+		db_set_b(hContact, dbLastUC_ModuleName, dbLastUC_IgnoreContact, state);
 		return state;
 	}
 

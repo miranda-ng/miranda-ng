@@ -229,7 +229,7 @@ int CheckMsgWnd(HANDLE hContact)
 
 		szProto = GetContactProto(hContact);
 		contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
-		szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE, GSMDF_TCHAR);
+		szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE, GSMDF_TCHAR);
 
 		// vj: This code was added by preeze and it does not work:
 		// vlko: it maybe work with other plugins 

@@ -666,11 +666,11 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 			cEvent.flags = 0;
 			CallServiceSync(MS_CLIST_ADDEVENT, 0,(LPARAM)&cEvent);
 		}
-		DBWriteContactSettingString(ActualAccount->hContact, "CList", "StatusMsg", sMsg);
+		db_set_s(ActualAccount->hContact, "CList", "StatusMsg", sMsg);
 		
 		if (nflags & YAMN_ACC_CONTNICK)
 		{
-			DBWriteContactSettingString(ActualAccount->hContact, YAMN_DBMODULE, "Nick",sMsg);
+			db_set_s(ActualAccount->hContact, YAMN_DBMODULE, "Nick",sMsg);
 		}
 	}
 
@@ -808,12 +808,12 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 			{
 				char tmp[255];
 				sprintf(tmp,Translate("%d new mail message(s), %d total"),MN->Real.PopUpNC+MN->Virtual.PopUpNC,MN->Real.PopUpTC+MN->Virtual.PopUpTC);
-				DBWriteContactSettingString(ActualAccount->hContact, "CList", "StatusMsg", tmp);
+				db_set_s(ActualAccount->hContact, "CList", "StatusMsg", tmp);
 			}
-			else DBWriteContactSettingString(ActualAccount->hContact, "CList", "StatusMsg", Translate("No new mail message"));
+			else db_set_s(ActualAccount->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 
 			if (nflags & YAMN_ACC_CONTNICK)
-				DBWriteContactSettingString(ActualAccount->hContact, YAMN_DBMODULE, "Nick", ActualAccount->Name);
+				db_set_s(ActualAccount->hContact, YAMN_DBMODULE, "Nick", ActualAccount->Name);
 		}
 	}
 	return;
@@ -850,10 +850,10 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 
 					hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-					if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+					if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 					{
 						Account=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else
 						Account = (HACCOUNT) hContact; //????
@@ -918,10 +918,10 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 
 			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-			if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+			if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
 				ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				ActualAccount = (HACCOUNT) hContact;
@@ -951,10 +951,10 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 
 				hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-				if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+				if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 				{
 					ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else
 					ActualAccount = (HACCOUNT) hContact;
@@ -1018,10 +1018,10 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 
 			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
-			if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
+			if (!db_get((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
 				ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				ActualAccount = (HACCOUNT) hContact;
@@ -1778,10 +1778,10 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				SizeX=coord.right-coord.left;
 				PosY=coord.top;
 				SizeY=coord.bottom-coord.top;
-				DBWriteContactSettingDword(NULL,YAMN_DBMODULE,YAMN_DBPOSX,PosX);
-				DBWriteContactSettingDword(NULL,YAMN_DBMODULE,YAMN_DBPOSY,PosY);
-				DBWriteContactSettingDword(NULL,YAMN_DBMODULE,YAMN_DBSIZEX,SizeX);
-				DBWriteContactSettingDword(NULL,YAMN_DBMODULE,YAMN_DBSIZEY,SizeY);
+				db_set_dw(NULL,YAMN_DBMODULE,YAMN_DBPOSX,PosX);
+				db_set_dw(NULL,YAMN_DBMODULE,YAMN_DBPOSY,PosY);
+				db_set_dw(NULL,YAMN_DBMODULE,YAMN_DBSIZEX,SizeX);
+				db_set_dw(NULL,YAMN_DBMODULE,YAMN_DBSIZEY,SizeY);
 			}
 			KillTimer(hDlg,TIMER_FLASHING);
 
@@ -2188,7 +2188,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 						}
 					}
 					CloseHandle(ThreadRunningEV);
-					if (DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0))
+					if (db_get_b(NULL, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0))
 						DestroyWindow(hDlg);
 
 				}

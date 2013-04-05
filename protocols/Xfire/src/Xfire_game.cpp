@@ -471,14 +471,6 @@ void Xfire_game::remoteMenuitem()
 //aktualisiert menüpunkt ob hidden
 void Xfire_game::refreshMenuitem()
 {
-	if(menuhandle!=NULL)
-	{
-		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIM_FLAGS;
-		
-		if(this->notinstartmenu)
-			mi.flags|= CMIF_HIDDEN;
-
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )menuhandle, ( LPARAM )&mi );
-	}
+	if(menuhandle != NULL)
+		Menu_ShowItem(menuhandle, !this->notinstartmenu);
 }

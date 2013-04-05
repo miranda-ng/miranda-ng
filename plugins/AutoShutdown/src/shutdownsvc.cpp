@@ -379,7 +379,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,(WPARAM)hBoldFont,FALSE);
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, (LONG)hBoldFont);
 			}
-			{	WORD countdown=DBGetContactSettingWord(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
+			{	WORD countdown=db_get_w(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
 				if(countdown<3) countdown=SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA, countdown);
 				SendMessage(hwndDlg,M_UPDATE_COUNTDOWN,0,countdown);
@@ -480,7 +480,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam)
 {
 	/* passing 0 as wParam is only to be used internally, undocumented */
-	if(!wParam) wParam=DBGetContactSettingByte(NULL,"AutoShutdown","ShutdownType",SETTING_SHUTDOWNTYPE_DEFAULT);
+	if(!wParam) wParam=db_get_b(NULL,"AutoShutdown","ShutdownType",SETTING_SHUTDOWNTYPE_DEFAULT);
 	if(!IsShutdownTypeEnabled((BYTE)wParam)) return 1; /* does shutdownType range check */
 	if((BOOL)lParam && hwndShutdownDlg!=NULL) return 2;
 
@@ -492,7 +492,7 @@ INT_PTR ServiceShutdown(WPARAM wParam,LPARAM lParam)
 	/* tell others */
 	NotifyEventHooks(hEventShutdown,wParam,lParam);
 	/* show dialog */
-	if(lParam && DBGetContactSettingByte(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT))
+	if(lParam && db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT))
 		if(CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SHUTDOWNNOW), NULL, ShutdownDlgProc, (LPARAM)(BYTE)wParam) != NULL)
 			return 0;
 	/* show error */

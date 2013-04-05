@@ -75,7 +75,7 @@ static void setExtraIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
 		return;
 
 	if (bRate < 0)
-		bRate = DBGetContactSettingByte(hContact, "CList", "Rate", 0);
+		bRate = db_get_b(hContact, "CList", "Rate", 0);
 
 	const char *icon = NULL;
 	switch(bRate) {

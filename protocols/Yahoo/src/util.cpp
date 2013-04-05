@@ -166,15 +166,15 @@ int CYahooProto::SendBroadcast( HANDLE hContact, int type, int result, HANDLE hP
 }
 
 int CYahooProto::GetString(const char* name, DBVARIANT* result)
-{	return DBGetContactSettingString(NULL, m_szModuleName, name, result);
+{	return db_get_s(NULL, m_szModuleName, name, result);
 }
 
 int CYahooProto::GetString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return DBGetContactSettingString(hContact, m_szModuleName, name, result);
+{	return db_get_s(hContact, m_szModuleName, name, result);
 }
 
 int CYahooProto::GetStringUtf(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return DBGetContactSettingStringUtf(hContact, m_szModuleName, name, result);
+{	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
 void CYahooProto::SetString(const char* name, const char* value)
@@ -291,7 +291,7 @@ int __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!GetString((HANDLE)wParam, YAHOO_LOGINID, &dbv)) {
 			int iAdd = (ID_STATUS_OFFLINE == GetWord((HANDLE) wParam, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;

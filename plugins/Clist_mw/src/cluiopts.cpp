@@ -95,7 +95,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		char *s;
 		char szUin[20];
 
-		if (DBGetContactSettingString(NULL,"CList","TitleText",&dbv) == 0&&(dbv.pszVal))
+		if (db_get_s(NULL,"CList","TitleText",&dbv) == 0&&(dbv.pszVal))
 		{
 			s = mir_strdup(dbv.pszVal);
 			mir_free(dbv.pszVal);
@@ -112,20 +112,20 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)MIRANDANAME);
-		wsprintfA(szUin,"%u",DBGetContactSettingDword(NULL,"ICQ","UIN",0));
+		wsprintfA(szUin,"%u",db_get_dw(NULL,"ICQ","UIN",0));
 		SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)szUin);
 
-		if ( !DBGetContactSettingString(NULL,"ICQ","Nick",&dbv)) {
+		if ( !db_get_s(NULL,"ICQ","Nick",&dbv)) {
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 			dbv.pszVal = NULL;
 		}
-		if ( !DBGetContactSettingString(NULL,"ICQ","FirstName",&dbv)) {
+		if ( !db_get_s(NULL,"ICQ","FirstName",&dbv)) {
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 			dbv.pszVal = NULL;
 		}
-		if ( !DBGetContactSettingString(NULL,"ICQ","e-mail",&dbv)) {
+		if ( !db_get_s(NULL,"ICQ","e-mail",&dbv)) {
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 			dbv.pszVal = NULL;
@@ -249,7 +249,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			{	TCHAR title[256];
 			GetDlgItemText(hwndDlg,IDC_TITLETEXT,title,SIZEOF(title));
-			DBWriteContactSettingTString(NULL,"CList","TitleText",title);
+			db_set_ts(NULL,"CList","TitleText",title);
 			SetWindowText(pcli->hwndContactList,title);
 			}
 			db_set_b(NULL,"CLUI","FadeInOut",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_FADEINOUT));
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			db_set_b(NULL,"CLUI","MaxSizeHeight",(BYTE)GetDlgItemInt(hwndDlg,IDC_MAXSIZEHEIGHT,NULL,FALSE));
 			db_set_b(NULL,"CLUI","AutoSizeUpward",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_AUTOSIZEUPWARD));
 			db_set_b(NULL,"CList","AutoHide",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
-			DBWriteContactSettingWord(NULL,"CList","HideTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_GETPOS,0,0));
+			db_set_w(NULL,"CList","HideTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_GETPOS,0,0));
 
 			db_set_b(NULL,"CList","Transparent",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT));
 			db_set_b(NULL,"CList","Alpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0));
@@ -298,7 +298,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",1) ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"CLUI","SBarBKColor",CLR_DEFAULT));
+		SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,db_get_dw(NULL,"CLUI","SBarBKColor",CLR_DEFAULT));
 
 		if ( !IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWICON),FALSE);
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case PSN_APPLY:
 			{
 				COLORREF col = SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_GETCOLOUR,0,0);
-				DBWriteContactSettingDword(NULL,"CLUI","SBarBKColor",col);
+				db_set_dw(NULL,"CLUI","SBarBKColor",col);
 
 				db_set_b(NULL,"CLUI","ShowSBar",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR));
 				db_set_b(NULL,"CLUI","SBarShow",(BYTE)((IsDlgButtonChecked(hwndDlg,IDC_SHOWICON)?1:0)|(IsDlgButtonChecked(hwndDlg,IDC_SHOWPROTO)?2:0)|(IsDlgButtonChecked(hwndDlg,IDC_SHOWSTATUS)?4:0)));

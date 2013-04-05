@@ -251,7 +251,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 
 	if (pdnce->tszGroup == NULL) {
 		DBVARIANT dbv = {0};
-		if ( !DBGetContactSettingTString(pdnce->hContact,"CList","Group",&dbv)) {
+		if ( !db_get_ts(pdnce->hContact,"CList","Group",&dbv)) {
 			pdnce->tszGroup = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}

@@ -11,7 +11,7 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 	LPSTR buf = out;
 
 	WORD msg_id = db_get_w(0, MODULENAME, "msgid", 0) + 1;
-	DBWriteContactSettingWord(0, MODULENAME, "msgid", msg_id);
+	db_set_w(0, MODULENAME, "msgid", msg_id);
 
 	int part_all = (len+iLen-1)/iLen;
 	for (int part_num=0; part_num<part_all; part_num++) {

@@ -90,7 +90,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0)?BST_CHECKED:BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
-			if ( !DBGetContactSettingString(NULL, "Netlib", "RunAtStart", &dbv)) {
+			if ( !db_get_s(NULL, "Netlib", "RunAtStart", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -563,7 +563,7 @@ void NetlibLogInit(void)
 	logOptions.toFile = db_get_b(NULL, "Netlib", "ToFile", 0);
 	logOptions.toLog = db_get_dw(NULL, "Netlib", "NLlog", 1);
 
-	if ( !DBGetContactSettingTString(NULL, "Netlib", "File", &dbv)) {
+	if ( !db_get_ts(NULL, "Netlib", "File", &dbv)) {
 		logOptions.szUserFile = mir_tstrdup(dbv.ptszVal);
 
 		TCHAR path[MAX_PATH];
@@ -587,7 +587,7 @@ void NetlibLogInit(void)
 	if (db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0))
 		NetlibLogShowOptions();
 
-	if ( !DBGetContactSettingTString(NULL, "Netlib", "RunAtStart", &dbv)) {
+	if ( !db_get_ts(NULL, "Netlib", "RunAtStart", &dbv)) {
 		STARTUPINFO si = { 0 };
 		PROCESS_INFORMATION pi;
 		si.cb = sizeof(si);

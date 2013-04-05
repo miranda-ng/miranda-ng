@@ -434,11 +434,11 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 		switch(iSelection) {
 		case ID_FAVORITES_ADDCONTACTTOFAVORITES:
-			DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
+			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 1);
 			AddContactToFavorites(dat->hContact, dat->cache->getNick(), dat->cache->getActiveProto(), dat->szStatus, dat->wStatus, LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuFavorites);
 			break;
 		case ID_FAVORITES_REMOVECONTACTFROMFAVORITES:
-			DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
+			db_set_b(dat->hContact, SRMSGMOD_T, "isFavorite", 0);
 			DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)dat->hContact, MF_BYCOMMAND);
 			break;
 		}
@@ -1021,9 +1021,9 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat)
 		if (buttonItem->type == DBVT_ASCIIZ) {
 			DBVARIANT dbv = {0};
 
-			if (!DBGetContactSettingString(hFinalContact, szModule, szSetting, &dbv)) {
+			if (!db_get_s(hFinalContact, szModule, szSetting, &dbv)) {
 				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		} else {
 			switch (buttonItem->type) {
@@ -1098,7 +1098,7 @@ static void LoadKLThread(LPVOID vParam)
 	if (res == 0) {
 		HKL hkl = LoadKeyboardLayout(dbv.ptszVal, 0);
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SETLOCALE, (WPARAM)hContact, (LPARAM)hkl);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -1111,8 +1111,8 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		return;
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(dat->hContact, SRMSGMOD_T, "locale", &dbv))
-		DBFreeVariant(&dbv);
+	if ( !db_get_ts(dat->hContact, SRMSGMOD_T, "locale", &dbv))
+		db_free(&dbv);
 	else {
 		TCHAR szKLName[KL_NAMELENGTH+1];
 		if (!PluginConfig.m_dontUseDefaultKbd) {

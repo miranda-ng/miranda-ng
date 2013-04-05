@@ -288,60 +288,60 @@ void Options::Load(void)
 		Hotkey_Register(&hid);
 	}
 	
-	showContacts = DBGetContactSettingByte(0, MODULE, "showContacts", 0) ? true : false;
-	showContactGroups = DBGetContactSettingByte(0, MODULE, "showContactGroups", 1) ? true : false;
-	noFindBorder = DBGetContactSettingByte(0, MODULE, "noFindBorder", 0) ? true : false;
-	groupNewOnTop = DBGetContactSettingByte(0, MODULE, "groupNewOnTop", 1) ? true : false;
-	groupShowEvents = DBGetContactSettingByte(0, MODULE, "groupShowEvents", 1) ? true : false;
-	groupShowTime = DBGetContactSettingByte(0, MODULE, "groupShowTime", 1) ? true : false;
-	groupShowName = DBGetContactSettingByte(0, MODULE, "groupShowName", 0) ? true : false;
-	groupShowMessage = DBGetContactSettingByte(0, MODULE, "groupShowMessage", 1) ? true : false;
-	groupMessageLen = DBGetContactSettingDword(0, MODULE, "groupMessageLen", 43);
+	showContacts = db_get_b(0, MODULE, "showContacts", 0) ? true : false;
+	showContactGroups = db_get_b(0, MODULE, "showContactGroups", 1) ? true : false;
+	noFindBorder = db_get_b(0, MODULE, "noFindBorder", 0) ? true : false;
+	groupNewOnTop = db_get_b(0, MODULE, "groupNewOnTop", 1) ? true : false;
+	groupShowEvents = db_get_b(0, MODULE, "groupShowEvents", 1) ? true : false;
+	groupShowTime = db_get_b(0, MODULE, "groupShowTime", 1) ? true : false;
+	groupShowName = db_get_b(0, MODULE, "groupShowName", 0) ? true : false;
+	groupShowMessage = db_get_b(0, MODULE, "groupShowMessage", 1) ? true : false;
+	groupMessageLen = db_get_dw(0, MODULE, "groupMessageLen", 43);
 	if(groupMessageLen < 5) groupMessageLen = 5;
-	groupTime = DBGetContactSettingDword(0, MODULE, "groupTime", 5);
+	groupTime = db_get_dw(0, MODULE, "groupTime", 5);
 	if(groupTime < 1) groupTime = 1;
-	groupMessagesNumber = DBGetContactSettingDword(0, MODULE, "groupMessagesNumber", 100);
+	groupMessagesNumber = db_get_dw(0, MODULE, "groupMessagesNumber", 100);
 	if(groupMessagesNumber < 1) groupMessagesNumber = 1;
-	messagesNewOnTop = DBGetContactSettingByte(0, MODULE, "messagesNewOnTop", 0) ? true : false;
-	messagesShowDate = DBGetContactSettingByte(0, MODULE, "messagesShowDate", 0) ? true : false;
-	messagesShowSec = DBGetContactSettingByte(0, MODULE, "messagesShowSec", 0) ? true : false;
-	messagesShowName = DBGetContactSettingByte(0, MODULE, "messagesShowName", 1) ? true : false;
-	messagesShowEvents = DBGetContactSettingByte(0, MODULE, "messagesShowEvents", 0) ? true : false;
-	messagesUseSmileys = DBGetContactSettingByte(0, MODULE, "messagesUseSmileys", 1) ? true : false;
-	searchForInList = DBGetContactSettingByte(0, MODULE, "searchForInList", 1) ? true : false;
-	searchForInMess = DBGetContactSettingByte(0, MODULE, "searchForInMess", 1) ? true : false;
-	searchMatchCase = DBGetContactSettingByte(0, MODULE, "searchMatchCase", 0) ? true : false;
-	searchMatchWhole = DBGetContactSettingByte(0, MODULE, "searchMatchWhole", 0) ? true : false;
-	searchOnlyIn = DBGetContactSettingByte(0, MODULE, "searchOnlyIn", 0) ? true : false;
-	searchOnlyOut = DBGetContactSettingByte(0, MODULE, "searchOnlyOut", 0) ? true : false;
-	searchOnlyGroup = DBGetContactSettingByte(0, MODULE, "searchOnlyGroup", 0) ? true : false;
-	searchAllContacts = DBGetContactSettingByte(0, MODULE, "searchAllContacts", 0) ? true : false;
-	schedulerAlerts = DBGetContactSettingByte(0, MODULE, "schedulerAlerts", 1) ? true : false;
-	schedulerHistoryAlerts = DBGetContactSettingByte(0, MODULE, "schedulerHistoryAlerts", 1) ? true : false;
+	messagesNewOnTop = db_get_b(0, MODULE, "messagesNewOnTop", 0) ? true : false;
+	messagesShowDate = db_get_b(0, MODULE, "messagesShowDate", 0) ? true : false;
+	messagesShowSec = db_get_b(0, MODULE, "messagesShowSec", 0) ? true : false;
+	messagesShowName = db_get_b(0, MODULE, "messagesShowName", 1) ? true : false;
+	messagesShowEvents = db_get_b(0, MODULE, "messagesShowEvents", 0) ? true : false;
+	messagesUseSmileys = db_get_b(0, MODULE, "messagesUseSmileys", 1) ? true : false;
+	searchForInList = db_get_b(0, MODULE, "searchForInList", 1) ? true : false;
+	searchForInMess = db_get_b(0, MODULE, "searchForInMess", 1) ? true : false;
+	searchMatchCase = db_get_b(0, MODULE, "searchMatchCase", 0) ? true : false;
+	searchMatchWhole = db_get_b(0, MODULE, "searchMatchWhole", 0) ? true : false;
+	searchOnlyIn = db_get_b(0, MODULE, "searchOnlyIn", 0) ? true : false;
+	searchOnlyOut = db_get_b(0, MODULE, "searchOnlyOut", 0) ? true : false;
+	searchOnlyGroup = db_get_b(0, MODULE, "searchOnlyGroup", 0) ? true : false;
+	searchAllContacts = db_get_b(0, MODULE, "searchAllContacts", 0) ? true : false;
+	schedulerAlerts = db_get_b(0, MODULE, "schedulerAlerts", 1) ? true : false;
+	schedulerHistoryAlerts = db_get_b(0, MODULE, "schedulerHistoryAlerts", 1) ? true : false;
 
-	defFilter = DBGetContactSettingByte(0, MODULE, "defFilter", defFilter);
-	int filtersCount = DBGetContactSettingDword(0, MODULE, "customFiltersCount", 0);
+	defFilter = db_get_b(0, MODULE, "defFilter", defFilter);
+	int filtersCount = db_get_dw(0, MODULE, "customFiltersCount", 0);
 	for(int i = 0; i < filtersCount; ++i)
 	{
 		char buf[256];
 		FilterOptions fo;
 		sprintf_s(buf, "filterName_%d", i);
 		DBVARIANT nameV;
-		if(!DBGetContactSettingWString(0, MODULE, buf, &nameV))
+		if(!db_get_ws(0, MODULE, buf, &nameV))
 		{
 			fo.name = nameV.pwszVal;
-			DBFreeVariant(&nameV);
+			db_free(&nameV);
 		}
 		else break;
 		sprintf_s(buf, "filterInOut_%d", i);
-		int inOut = DBGetContactSettingByte(0, MODULE, buf, 0);
+		int inOut = db_get_b(0, MODULE, buf, 0);
 		if(inOut == 1)
 			fo.onlyIncomming = true;
 		else if(inOut == 2)
 			fo.onlyOutgoing = true;
 		sprintf_s(buf, "filterEvents_%d", i);
 		DBVARIANT eventsV;
-		if(!DBGetContactSettingString(0, MODULE, buf, &eventsV))
+		if(!db_get_s(0, MODULE, buf, &eventsV))
 		{
 			int k = 0;
 			char* id = eventsV.pszVal;
@@ -356,7 +356,7 @@ void Options::Load(void)
 
 				++k;
 			}
-			DBFreeVariant(&eventsV);
+			db_free(&eventsV);
 		}
 		else break;
 		
@@ -368,7 +368,7 @@ void Options::Load(void)
 		defFilter = 0;
 		
 		DBVARIANT defFilterStrV;
-		if(!DBGetContactSettingWString(0, MODULE, "defFilterStr", &defFilterStrV))
+		if(!db_get_ws(0, MODULE, "defFilterStr", &defFilterStrV))
 		{
 			std::wstring filterName = defFilterStrV.pwszVal;
 			for(int i = 0; i < (int)customFilters.size(); ++i)
@@ -379,65 +379,65 @@ void Options::Load(void)
 					break;
 				}
 			}
-			DBFreeVariant(&defFilterStrV);
+			db_free(&defFilterStrV);
 		}
 	}
 	
-	codepageTxt = DBGetContactSettingDword(0, MODULE, "codepageTxt", CP_UTF8);
-	codepageHtml1 = DBGetContactSettingDword(0, MODULE, "codepageHtml1", CP_UTF8);
-	codepageHtml2 = DBGetContactSettingDword(0, MODULE, "codepageHtml2", CP_UTF8);
+	codepageTxt = db_get_dw(0, MODULE, "codepageTxt", CP_UTF8);
+	codepageHtml1 = db_get_dw(0, MODULE, "codepageHtml1", CP_UTF8);
+	codepageHtml2 = db_get_dw(0, MODULE, "codepageHtml2", CP_UTF8);
 	DBVARIANT encodingV;
-	if(!DBGetContactSettingWString(0, MODULE, "encodingTxt", &encodingV))
+	if(!db_get_ws(0, MODULE, "encodingTxt", &encodingV))
 	{
 		encodingTxt = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 	else
 	{
 		encodingTxt = _T("UTF-8");
 	}
-	if(!DBGetContactSettingWString(0, MODULE, "encodingHtml1", &encodingV))
+	if(!db_get_ws(0, MODULE, "encodingHtml1", &encodingV))
 	{
 		encodingHtml1 = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 	else
 	{
 		encodingHtml1 = _T("UTF-8");
 	}
-	if(!DBGetContactSettingWString(0, MODULE, "encodingHtml2", &encodingV))
+	if(!db_get_ws(0, MODULE, "encodingHtml2", &encodingV))
 	{
 		encodingHtml2 = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 	else
 	{
 		encodingHtml2 = _T("UTF-8");
 	}
 
-	exportHtml1ShowDate = DBGetContactSettingByte(0, MODULE, "exportHtml1ShowDate", 1) ? true : false;
-	exportHtml2ShowDate = DBGetContactSettingByte(0, MODULE, "exportHtml2ShowDate", 0) ? true : false;
-	exportHtml2UseSmileys = DBGetContactSettingByte(0, MODULE, "exportHtml2UseSmileys", 1) ? true : false;
-	if(!DBGetContactSettingWString(0, MODULE, "extCssHtml2", &encodingV))
+	exportHtml1ShowDate = db_get_b(0, MODULE, "exportHtml1ShowDate", 1) ? true : false;
+	exportHtml2ShowDate = db_get_b(0, MODULE, "exportHtml2ShowDate", 0) ? true : false;
+	exportHtml2UseSmileys = db_get_b(0, MODULE, "exportHtml2UseSmileys", 1) ? true : false;
+	if(!db_get_ws(0, MODULE, "extCssHtml2", &encodingV))
 	{
 		extCssHtml2 = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 	else
 	{
 		extCssHtml2 = _T("");
 	}
 
-	if(!DBGetContactSettingWString(0, MODULE, "ftpLogPath", &encodingV))
+	if(!db_get_ws(0, MODULE, "ftpLogPath", &encodingV))
 	{
 		ftpLogPath = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 
-	if(!DBGetContactSettingWString(0, MODULE, "ftpExePath", &encodingV))
+	if(!db_get_ws(0, MODULE, "ftpExePath", &encodingV))
 	{
 		ftpExePath = encodingV.pwszVal;
-		DBFreeVariant(&encodingV);
+		db_free(&encodingV);
 	}
 	else
 	{
@@ -467,48 +467,48 @@ COLORREF Options::GetColor(Colors colorId)
 
 void Options::Save()
 {
-	DBWriteContactSettingByte(0, MODULE, "showContacts", showContacts ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "showContactGroups", showContactGroups ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "noFindBorder", noFindBorder ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "groupNewOnTop", groupNewOnTop ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "groupShowEvents", groupShowEvents ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "groupShowTime", groupShowTime ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "groupShowName", groupShowName ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "groupShowMessage", groupShowMessage ? 1 : 0);
+	db_set_b(0, MODULE, "showContacts", showContacts ? 1 : 0);
+	db_set_b(0, MODULE, "showContactGroups", showContactGroups ? 1 : 0);
+	db_set_b(0, MODULE, "noFindBorder", noFindBorder ? 1 : 0);
+	db_set_b(0, MODULE, "groupNewOnTop", groupNewOnTop ? 1 : 0);
+	db_set_b(0, MODULE, "groupShowEvents", groupShowEvents ? 1 : 0);
+	db_set_b(0, MODULE, "groupShowTime", groupShowTime ? 1 : 0);
+	db_set_b(0, MODULE, "groupShowName", groupShowName ? 1 : 0);
+	db_set_b(0, MODULE, "groupShowMessage", groupShowMessage ? 1 : 0);
 	if(groupMessageLen < 5) groupMessageLen = 5;
-	DBWriteContactSettingDword(0, MODULE, "groupMessageLen", groupMessageLen);
+	db_set_dw(0, MODULE, "groupMessageLen", groupMessageLen);
 	if(groupTime < 1) groupTime = 1;
-	DBWriteContactSettingDword(0, MODULE, "groupTime", groupTime);
+	db_set_dw(0, MODULE, "groupTime", groupTime);
 	if(groupMessagesNumber < 1) groupMessagesNumber = 1;
-	DBWriteContactSettingDword(0, MODULE, "groupMessagesNumber", groupMessagesNumber);
-	DBWriteContactSettingByte(0, MODULE, "messagesNewOnTop", messagesNewOnTop ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "messagesShowDate", messagesShowDate ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "messagesShowSec", messagesShowSec ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "messagesShowName", messagesShowName ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "messagesShowEvents", messagesShowEvents ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "messagesUseSmileys", messagesUseSmileys ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchForInList", searchForInList ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchForInMess", searchForInMess ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchMatchCase", searchMatchCase ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchMatchWhole", searchMatchWhole ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchOnlyIn", searchOnlyIn ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchOnlyOut", searchOnlyOut ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchOnlyGroup", searchOnlyGroup ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "searchAllContacts", searchAllContacts ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "schedulerAlerts", schedulerAlerts ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "schedulerHistoryAlerts", schedulerHistoryAlerts ? 1 : 0);
+	db_set_dw(0, MODULE, "groupMessagesNumber", groupMessagesNumber);
+	db_set_b(0, MODULE, "messagesNewOnTop", messagesNewOnTop ? 1 : 0);
+	db_set_b(0, MODULE, "messagesShowDate", messagesShowDate ? 1 : 0);
+	db_set_b(0, MODULE, "messagesShowSec", messagesShowSec ? 1 : 0);
+	db_set_b(0, MODULE, "messagesShowName", messagesShowName ? 1 : 0);
+	db_set_b(0, MODULE, "messagesShowEvents", messagesShowEvents ? 1 : 0);
+	db_set_b(0, MODULE, "messagesUseSmileys", messagesUseSmileys ? 1 : 0);
+	db_set_b(0, MODULE, "searchForInList", searchForInList ? 1 : 0);
+	db_set_b(0, MODULE, "searchForInMess", searchForInMess ? 1 : 0);
+	db_set_b(0, MODULE, "searchMatchCase", searchMatchCase ? 1 : 0);
+	db_set_b(0, MODULE, "searchMatchWhole", searchMatchWhole ? 1 : 0);
+	db_set_b(0, MODULE, "searchOnlyIn", searchOnlyIn ? 1 : 0);
+	db_set_b(0, MODULE, "searchOnlyOut", searchOnlyOut ? 1 : 0);
+	db_set_b(0, MODULE, "searchOnlyGroup", searchOnlyGroup ? 1 : 0);
+	db_set_b(0, MODULE, "searchAllContacts", searchAllContacts ? 1 : 0);
+	db_set_b(0, MODULE, "schedulerAlerts", schedulerAlerts ? 1 : 0);
+	db_set_b(0, MODULE, "schedulerHistoryAlerts", schedulerHistoryAlerts ? 1 : 0);
 	if(defFilter < 0 || defFilter - 2 >= (int)customFilters.size()) defFilter = 0;
-	DBWriteContactSettingByte(0, MODULE, "defFilter", defFilter < 2 ? defFilter : 2);
+	db_set_b(0, MODULE, "defFilter", defFilter < 2 ? defFilter : 2);
 	if(defFilter >= 2)
-		DBWriteContactSettingWString(0, MODULE, "defFilterStr", customFilters[defFilter - 2].name.c_str());
-	DBWriteContactSettingDword(0, MODULE, "customFiltersCount", (DWORD)customFilters.size());
+		db_set_ws(0, MODULE, "defFilterStr", customFilters[defFilter - 2].name.c_str());
+	db_set_dw(0, MODULE, "customFiltersCount", (DWORD)customFilters.size());
 	for(int i = 0 ; i < (int)customFilters.size(); ++i)
 	{
 		char buf[256];
 		sprintf_s(buf, "filterName_%d", i);
-		DBWriteContactSettingWString(0, MODULE, buf, customFilters[i].name.c_str());
+		db_set_ws(0, MODULE, buf, customFilters[i].name.c_str());
 		sprintf_s(buf, "filterInOut_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
+		db_set_b(0, MODULE, buf, customFilters[i].onlyIncomming ? 1 : (customFilters[i].onlyOutgoing ? 2 : 0));
 		std::string events;
 		for(std::vector<int>::iterator it = customFilters[i].events.begin(); it != customFilters[i].events.end(); ++it)
 		{
@@ -518,27 +518,27 @@ void Options::Save()
 		}
 
 		sprintf_s(buf, "filterEvents_%d", i);
-		DBWriteContactSettingString(0, MODULE, buf, events.c_str());
+		db_set_s(0, MODULE, buf, events.c_str());
 	}
 
-	DBWriteContactSettingDword(0, MODULE, "codepageTxt", codepageTxt);
-	DBWriteContactSettingDword(0, MODULE, "codepageHtml1", codepageHtml1);
-	DBWriteContactSettingDword(0, MODULE, "codepageHtml2", codepageHtml2);
-	DBWriteContactSettingWString(0, MODULE, "encodingTxt", encodingTxt.c_str());
-	DBWriteContactSettingWString(0, MODULE, "encodingHtml1", encodingHtml1.c_str());
-	DBWriteContactSettingWString(0, MODULE, "encodingHtml2", encodingHtml2.c_str());
-	DBWriteContactSettingByte(0, MODULE, "exportHtml1ShowDate", exportHtml1ShowDate ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "exportHtml2ShowDate", exportHtml2ShowDate ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "exportHtml2UseSmileys", exportHtml2UseSmileys ? 1 : 0);
-	DBWriteContactSettingWString(0, MODULE, "extCssHtml2", extCssHtml2.c_str());
-	DBWriteContactSettingWString(0, MODULE, "ftpLogPath", ftpLogPath.c_str());
+	db_set_dw(0, MODULE, "codepageTxt", codepageTxt);
+	db_set_dw(0, MODULE, "codepageHtml1", codepageHtml1);
+	db_set_dw(0, MODULE, "codepageHtml2", codepageHtml2);
+	db_set_ws(0, MODULE, "encodingTxt", encodingTxt.c_str());
+	db_set_ws(0, MODULE, "encodingHtml1", encodingHtml1.c_str());
+	db_set_ws(0, MODULE, "encodingHtml2", encodingHtml2.c_str());
+	db_set_b(0, MODULE, "exportHtml1ShowDate", exportHtml1ShowDate ? 1 : 0);
+	db_set_b(0, MODULE, "exportHtml2ShowDate", exportHtml2ShowDate ? 1 : 0);
+	db_set_b(0, MODULE, "exportHtml2UseSmileys", exportHtml2UseSmileys ? 1 : 0);
+	db_set_ws(0, MODULE, "extCssHtml2", extCssHtml2.c_str());
+	db_set_ws(0, MODULE, "ftpLogPath", ftpLogPath.c_str());
 	if(ftpExePath != ftpExePathDef)
 	{
-		DBWriteContactSettingWString(0, MODULE, "ftpExePath", ftpExePath.c_str());
+		db_set_ws(0, MODULE, "ftpExePath", ftpExePath.c_str());
 	}
 	else
 	{
-		DBDeleteContactSetting(0, MODULE, "ftpExePath");
+		db_unset(0, MODULE, "ftpExePath");
 	}
 }
 
@@ -552,119 +552,119 @@ void Options::SaveTasks(std::list<TaskOptions>* tasks)
 	for(std::list<TaskOptions>::iterator it = tasks->begin(); it != tasks->end(); ++it)
 	{
 		sprintf_s(buf, "Task_compress_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->compress);
+		db_set_b(0, MODULE, buf, it->compress);
 		sprintf_s(buf, "Task_useFtp_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->useFtp);
+		db_set_b(0, MODULE, buf, it->useFtp);
 		sprintf_s(buf, "Task_isSystem_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->isSystem);
+		db_set_b(0, MODULE, buf, it->isSystem);
 		sprintf_s(buf, "Task_active_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->active);
+		db_set_b(0, MODULE, buf, it->active);
 		sprintf_s(buf, "Task_exportImported_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->exportImported);
+		db_set_b(0, MODULE, buf, it->exportImported);
 		sprintf_s(buf, "Task_type_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->type);
+		db_set_b(0, MODULE, buf, it->type);
 		sprintf_s(buf, "Task_eventUnit_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->eventUnit);
+		db_set_b(0, MODULE, buf, it->eventUnit);
 		sprintf_s(buf, "Task_trigerType_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->trigerType);
+		db_set_b(0, MODULE, buf, it->trigerType);
 		sprintf_s(buf, "Task_exportType_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->exportType);
+		db_set_b(0, MODULE, buf, it->exportType);
 		sprintf_s(buf, "Task_importType_%d", i);
-		DBWriteContactSettingByte(0, MODULE, buf, it->importType);
+		db_set_b(0, MODULE, buf, it->importType);
 		sprintf_s(buf, "Task_eventDeltaTime_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->eventDeltaTime);
+		db_set_dw(0, MODULE, buf, it->eventDeltaTime);
 		sprintf_s(buf, "Task_filterId_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->filterId);
+		db_set_dw(0, MODULE, buf, it->filterId);
 		sprintf_s(buf, "Task_dayTime_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->dayTime);
+		db_set_dw(0, MODULE, buf, it->dayTime);
 		sprintf_s(buf, "Task_dayOfWeek_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->dayOfWeek);
+		db_set_dw(0, MODULE, buf, it->dayOfWeek);
 		sprintf_s(buf, "Task_dayOfMonth_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->dayOfMonth);
+		db_set_dw(0, MODULE, buf, it->dayOfMonth);
 		sprintf_s(buf, "Task_deltaTime_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, it->deltaTime);
+		db_set_dw(0, MODULE, buf, it->deltaTime);
 		sprintf_s(buf, "Task_lastExport_low_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, (int)it->lastExport);
+		db_set_dw(0, MODULE, buf, (int)it->lastExport);
 		sprintf_s(buf, "Task_lastExport_hi_%d", i);
-		DBWriteContactSettingDword(0, MODULE, buf, ((unsigned long long int)it->lastExport) >> 32);
+		db_set_dw(0, MODULE, buf, ((unsigned long long int)it->lastExport) >> 32);
 		sprintf_s(buf, "Task_ftpName_%d", i);
-		DBWriteContactSettingWString(0, MODULE, buf, it->ftpName.c_str());
+		db_set_ws(0, MODULE, buf, it->ftpName.c_str());
 		sprintf_s(buf, "Task_filterName_%d", i);
-		DBWriteContactSettingWString(0, MODULE, buf, it->filterName.c_str());
+		db_set_ws(0, MODULE, buf, it->filterName.c_str());
 		sprintf_s(buf, "Task_filePath_%d", i);
-		DBWriteContactSettingWString(0, MODULE, buf, it->filePath.c_str());
+		db_set_ws(0, MODULE, buf, it->filePath.c_str());
 		sprintf_s(buf, "Task_taskName_%d", i);
-		DBWriteContactSettingWString(0, MODULE, buf, it->taskName.c_str());
+		db_set_ws(0, MODULE, buf, it->taskName.c_str());
 		sprintf_s(buf, "Task_zipPassword_%d", i);
-		DBWriteContactSettingString(0, MODULE, buf, it->zipPassword.c_str());
+		db_set_s(0, MODULE, buf, it->zipPassword.c_str());
 
 		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
-			DBDeleteContactSetting(_hContact, MODULE, buf);
+			db_unset(_hContact, MODULE, buf);
 			_hContact = db_find_next(_hContact);
 		}
 
 		for(size_t j = 0; j < it->contacts.size(); ++j)
 		{
-			DBWriteContactSettingByte(it->contacts[j], MODULE, buf, 1);
+			db_set_b(it->contacts[j], MODULE, buf, 1);
 		}
 
 		it->orderNr = i++;
 		taskOptions.push_back(*it);
 	}
 
-	DBWriteContactSettingDword(0, MODULE, "Task_count", i);
+	db_set_dw(0, MODULE, "Task_count", i);
 	
 	for(i = (int)tasks->size(); i < oldTaskNr; ++i)
 	{
 		sprintf_s(buf, "Task_compress_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_useFtp_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_isSystem_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_active_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_type_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_eventUnit_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_trigerType_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_exportType_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_eventDeltaTime_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_filterId_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_dayTime_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_dayOfWeek_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_dayOfMonth_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_deltaTime_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_lastExport_low_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_lastExport_hi_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_ftpName_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_filterName_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_filePath_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 		sprintf_s(buf, "Task_taskName_%d", i);
-		DBDeleteContactSetting(NULL, MODULE, buf);
+		db_unset(NULL, MODULE, buf);
 
 		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
-			DBDeleteContactSetting(_hContact, MODULE, buf);
+			db_unset(_hContact, MODULE, buf);
 			_hContact = db_find_next(_hContact);
 		}
 	}
@@ -677,92 +677,92 @@ void Options::SaveTaskTime(TaskOptions& to)
 	int i = to.orderNr;
 	char buf[256];
 	sprintf_s(buf, "Task_lastExport_low_%d", i);
-	DBWriteContactSettingDword(0, MODULE, buf, (int)to.lastExport);
+	db_set_dw(0, MODULE, buf, (int)to.lastExport);
 	sprintf_s(buf, "Task_lastExport_hi_%d", i);
-	DBWriteContactSettingDword(0, MODULE, buf, ((unsigned long long int)to.lastExport) >> 32);
+	db_set_dw(0, MODULE, buf, ((unsigned long long int)to.lastExport) >> 32);
 }
 
 void Options::LoadTasks()
 {
-	int taskCount = DBGetContactSettingDword(0, MODULE, "Task_count", 0);
+	int taskCount = db_get_dw(0, MODULE, "Task_count", 0);
 	char buf[256];
 	for(int i = 0; i < taskCount; ++i)
 	{
 		TaskOptions to;
 		sprintf_s(buf, "Task_compress_%d", i);
-		to.compress = DBGetContactSettingByte(0, MODULE, buf, to.compress) != 0;
+		to.compress = db_get_b(0, MODULE, buf, to.compress) != 0;
 		sprintf_s(buf, "Task_useFtp_%d", i);
-		to.useFtp = DBGetContactSettingByte(0, MODULE, buf, to.useFtp) != 0;
+		to.useFtp = db_get_b(0, MODULE, buf, to.useFtp) != 0;
 		sprintf_s(buf, "Task_isSystem_%d", i);
-		to.isSystem = DBGetContactSettingByte(0, MODULE, buf, to.isSystem) != 0;
+		to.isSystem = db_get_b(0, MODULE, buf, to.isSystem) != 0;
 		sprintf_s(buf, "Task_active_%d", i);
-		to.active = DBGetContactSettingByte(0, MODULE, buf, to.active) != 0;
+		to.active = db_get_b(0, MODULE, buf, to.active) != 0;
 		sprintf_s(buf, "Task_exportImported_%d", i);
-		to.exportImported = DBGetContactSettingByte(0, MODULE, buf, to.exportImported) != 0;
+		to.exportImported = db_get_b(0, MODULE, buf, to.exportImported) != 0;
 		sprintf_s(buf, "Task_type_%d", i);
-		to.type = (TaskOptions::TaskType)DBGetContactSettingByte(0, MODULE, buf, to.type);
+		to.type = (TaskOptions::TaskType)db_get_b(0, MODULE, buf, to.type);
 		sprintf_s(buf, "Task_eventUnit_%d", i);
-		to.eventUnit = (TaskOptions::EventUnit)DBGetContactSettingByte(0, MODULE, buf, to.eventUnit);
+		to.eventUnit = (TaskOptions::EventUnit)db_get_b(0, MODULE, buf, to.eventUnit);
 		sprintf_s(buf, "Task_trigerType_%d", i);
-		to.trigerType = (TaskOptions::TrigerType)DBGetContactSettingByte(0, MODULE, buf, to.trigerType);
+		to.trigerType = (TaskOptions::TrigerType)db_get_b(0, MODULE, buf, to.trigerType);
 		sprintf_s(buf, "Task_exportType_%d", i);
-		to.exportType = (IExport::ExportType)DBGetContactSettingByte(0, MODULE, buf, to.exportType);
+		to.exportType = (IExport::ExportType)db_get_b(0, MODULE, buf, to.exportType);
 		sprintf_s(buf, "Task_importType_%d", i);
-		to.importType = (IImport::ImportType)DBGetContactSettingByte(0, MODULE, buf, to.importType);
+		to.importType = (IImport::ImportType)db_get_b(0, MODULE, buf, to.importType);
 		sprintf_s(buf, "Task_eventDeltaTime_%d", i);
-		to.eventDeltaTime = DBGetContactSettingDword(0, MODULE, buf, to.eventDeltaTime);
+		to.eventDeltaTime = db_get_dw(0, MODULE, buf, to.eventDeltaTime);
 		sprintf_s(buf, "Task_filterId_%d", i);
-		to.filterId = DBGetContactSettingDword(0, MODULE, buf, to.filterId);
+		to.filterId = db_get_dw(0, MODULE, buf, to.filterId);
 		sprintf_s(buf, "Task_dayTime_%d", i);
-		to.dayTime = DBGetContactSettingDword(0, MODULE, buf, to.dayTime);
+		to.dayTime = db_get_dw(0, MODULE, buf, to.dayTime);
 		sprintf_s(buf, "Task_dayOfWeek_%d", i);
-		to.dayOfWeek = DBGetContactSettingDword(0, MODULE, buf, to.dayOfWeek);
+		to.dayOfWeek = db_get_dw(0, MODULE, buf, to.dayOfWeek);
 		sprintf_s(buf, "Task_dayOfMonth_%d", i);
-		to.dayOfMonth = DBGetContactSettingDword(0, MODULE, buf, to.dayOfMonth);
+		to.dayOfMonth = db_get_dw(0, MODULE, buf, to.dayOfMonth);
 		sprintf_s(buf, "Task_deltaTime_%d", i);
-		to.deltaTime = DBGetContactSettingDword(0, MODULE, buf, to.deltaTime);
+		to.deltaTime = db_get_dw(0, MODULE, buf, to.deltaTime);
 		unsigned long long int le = to.lastExport;
 		sprintf_s(buf, "Task_lastExport_low_%d", i);
-		to.lastExport = DBGetContactSettingDword(0, MODULE, buf, (int)le) & 0xffffffff;
+		to.lastExport = db_get_dw(0, MODULE, buf, (int)le) & 0xffffffff;
 		sprintf_s(buf, "Task_lastExport_hi_%d", i);
-		to.lastExport |= ((unsigned long long int)DBGetContactSettingDword(0, MODULE, buf, le >> 32)) << 32;
+		to.lastExport |= ((unsigned long long int)db_get_dw(0, MODULE, buf, le >> 32)) << 32;
 		sprintf_s(buf, "Task_ftpName_%d", i);
 		DBVARIANT var;
-		if(!DBGetContactSettingWString(0, MODULE, buf, &var))
+		if(!db_get_ws(0, MODULE, buf, &var))
 		{
 			to.ftpName = var.ptszVal;
-			DBFreeVariant(&var);
+			db_free(&var);
 		}
 		sprintf_s(buf, "Task_filterName_%d", i);
-		if(!DBGetContactSettingWString(0, MODULE, buf, &var))
+		if(!db_get_ws(0, MODULE, buf, &var))
 		{
 			to.filterName = var.ptszVal;
-			DBFreeVariant(&var);
+			db_free(&var);
 		}
 		sprintf_s(buf, "Task_filePath_%d", i);
-		if(!DBGetContactSettingWString(0, MODULE, buf, &var))
+		if(!db_get_ws(0, MODULE, buf, &var))
 		{
 			to.filePath = var.ptszVal;
-			DBFreeVariant(&var);
+			db_free(&var);
 		}
 		sprintf_s(buf, "Task_taskName_%d", i);
-		if(!DBGetContactSettingWString(0, MODULE, buf, &var))
+		if(!db_get_ws(0, MODULE, buf, &var))
 		{
 			to.taskName = var.ptszVal;
-			DBFreeVariant(&var);
+			db_free(&var);
 		}
 		sprintf_s(buf, "Task_zipPassword_%d", i);
-		if(!DBGetContactSettingString(0, MODULE, buf, &var))
+		if(!db_get_s(0, MODULE, buf, &var))
 		{
 			to.zipPassword = var.pszVal;
-			DBFreeVariant(&var);
+			db_free(&var);
 		}
 
 		HANDLE _hContact = db_find_first();
 		sprintf_s(buf, "IsInTask_%d", i);
 		while(_hContact)
 		{
-			if(DBGetContactSettingByte(_hContact, MODULE, buf, 0) == 1)
+			if(db_get_b(_hContact, MODULE, buf, 0) == 1)
 			{
 				to.contacts.push_back(_hContact);
 			}

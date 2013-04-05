@@ -101,10 +101,10 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 	hFillListEvent = HookEvent(PLUG "/ListReload", FillList);
 
-	if(!DBGetContactSettingByte(0, PLUG, "PingPlugImport", 0)) {
-		if(DBGetContactSettingDword(0, "PingPlug", "NumEntries", 0)) {
+	if(!db_get_b(0, PLUG, "PingPlugImport", 0)) {
+		if(db_get_dw(0, "PingPlug", "NumEntries", 0)) {
 			import_ping_addresses();
-			DBWriteContactSettingByte(0, PLUG, "PingPlugImport", 1);
+			db_set_b(0, PLUG, "PingPlugImport", 1);
 		}
 	}
 
@@ -126,7 +126,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		//return 1;
 		use_raw_ping = false;
 	//}
-	DBWriteContactSettingByte(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
+	db_set_b(0, PLUG, "UsingRawSockets", (BYTE)use_raw_ping);
 
 	DuplicateHandle( GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &mainThread, THREAD_SET_CONTEXT, FALSE, 0 );
 	hWakeEvent = CreateEvent(NULL, FALSE, FALSE, _T("Local\\ThreadWaitEvent"));

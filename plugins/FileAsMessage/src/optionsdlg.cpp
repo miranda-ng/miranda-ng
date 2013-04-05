@@ -45,11 +45,11 @@ INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			
 			for(int indx = 0; indx < SIZEOF(settingId); indx++)
 				if(settingId[indx] > 0)
-					SendDlgItemMessage(hwndDlg, settingId[indx], CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]));
+					SendDlgItemMessage(hwndDlg, settingId[indx], CPM_SETCOLOUR, 0, db_get_dw(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]));
 				else
-					SetDlgItemInt(hwndDlg, -settingId[indx], DBGetContactSettingDword(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]), FALSE);
+					SetDlgItemInt(hwndDlg, -settingId[indx], db_get_dw(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_ALPHANUM, DBGetContactSettingDword(NULL, SERVICE_NAME, "base64", 1)?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ALPHANUM, db_get_dw(NULL, SERVICE_NAME, "base64", 1)?BST_CHECKED:BST_UNCHECKED);
 
 			return TRUE;
 
@@ -97,9 +97,9 @@ INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						value = GetDlgItemInt(hwndDlg, -settingId[indx], &succ, FALSE);
 						if(!succ) value = settingDefault[indx];
 					}
-					DBWriteContactSettingDword(NULL,SERVICE_NAME,settingName[indx], value);
+					db_set_dw(NULL,SERVICE_NAME,settingName[indx], value);
 				}
-				DBWriteContactSettingDword(NULL,SERVICE_NAME, "base64", (IsDlgButtonChecked(hwndDlg, IDC_ALPHANUM) == BST_CHECKED)?1:0);
+				db_set_dw(NULL,SERVICE_NAME, "base64", (IsDlgButtonChecked(hwndDlg, IDC_ALPHANUM) == BST_CHECKED)?1:0);
 
 				return TRUE;
 			}

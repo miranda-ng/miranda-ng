@@ -196,7 +196,7 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 	NETLIBUSER nlu = {0};
 	TCHAR name[128];
 
-	DBDeleteContactSetting( NULL, m_szModuleName, "JTemp" );
+	db_unset( NULL, m_szModuleName, "JTemp" );
 
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING|NUF_INCOMING|NUF_HTTPCONNS|NUF_TCHAR;
@@ -305,10 +305,10 @@ int CIrcProto::OnModulesLoaded( WPARAM, LPARAM )
 			String s = performToConvert[i];
 			DBVARIANT dbv;
 			if ( !getTString( s, &dbv )) {
-				DBDeleteContactSetting( NULL, m_szModuleName, s );
+				db_unset( NULL, m_szModuleName, s );
 				s.MakeUpper();
 				setTString( s, dbv.ptszVal );
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 		}	}
 
 		setByte( "PerformConversionDone", 1 );
@@ -362,7 +362,7 @@ HANDLE __cdecl CIrcProto::AddToList( int, PROTOSEARCHRESULT* psr )
 			if ( !getTString(hContact, "UWildcard", &dbv1 )) {
 				S += dbv1.ptszVal;
 				DoUserhostWithReason(2, S, true, dbv1.ptszVal);
-				DBFreeVariant( &dbv1 );
+				db_free( &dbv1 );
 			}
 			else {
 				S += user.name;
@@ -787,7 +787,7 @@ HANDLE __cdecl CIrcProto::SendFile( HANDLE hContact, const TCHAR*, TCHAR** ppszF
 				index++;
 			}
 
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 	}	}
 
 	if (dci)
@@ -953,14 +953,14 @@ HANDLE __cdecl CIrcProto::GetAwayMsg( HANDLE hContact )
 		if ( hContact && !getTString( hContact, "Nick", &dbv)) {
 			int i = getWord( hContact, "Status", ID_STATUS_OFFLINE );
 			if ( i != ID_STATUS_AWAY) {
-				DBFreeVariant( &dbv);
+				db_free( &dbv);
 				return 0;
 			}
 			CMString S = _T("WHOIS ");
 			S += dbv.ptszVal;
 			if (IsConnected())
 				SendIrcMessage( S.c_str(), false);
-			DBFreeVariant( &dbv);
+			db_free( &dbv);
 	}	}
 
 	return (HANDLE)1;

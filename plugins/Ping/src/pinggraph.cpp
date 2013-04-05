@@ -243,7 +243,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				char buff[30];
 				sprintf(buff, "WindowHandle%d", wd->item_id);
-				DBWriteContactSettingDword(0, PLUG, buff, 0);
+				db_set_dw(0, PLUG, buff, 0);
 			}
 			delete wd;
 		}
@@ -256,7 +256,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
 	sprintf(buff, "WindowHandle%d", (DWORD)wParam);
-	HWND hGraphWnd = (HWND)DBGetContactSettingDword(0, PLUG, buff, 0);
+	HWND hGraphWnd = (HWND)db_get_dw(0, PLUG, buff, 0);
 	if(hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
 		SetWindowPos(hGraphWnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -292,10 +292,10 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	wd->item_id = (DWORD)wParam; // wParam is destination id
 	wd->hwnd_chk_grid = 0;
 	wd->hwnd_chk_stat = 0;
-	wd->show_grid = DBGetContactSettingByte(0, PLUG, "ShowGridLines", 0) ? true : false;
-	wd->show_stat = DBGetContactSettingByte(0, PLUG, "ShowStats", 1) ? true : false;
+	wd->show_grid = db_get_b(0, PLUG, "ShowGridLines", 0) ? true : false;
+	wd->show_stat = db_get_b(0, PLUG, "ShowStats", 1) ? true : false;
 
-	DBWriteContactSettingDword(0, PLUG, buff, (DWORD)hGraphWnd);
+	db_set_dw(0, PLUG, buff, (DWORD)hGraphWnd);
 
 	SetWindowLongPtr(hGraphWnd, GWLP_USERDATA, (LONG_PTR)wd); 
 
@@ -316,11 +316,11 @@ void graphs_cleanup() {
 
 	for(int i = 0; i < list_size; i++) {
 		sprintf(buff, "WindowHandle%d", i);
-		if(hwnd = (HWND)DBGetContactSettingDword(0, PLUG, buff, 0)) {
+		if(hwnd = (HWND)db_get_dw(0, PLUG, buff, 0)) {
 			DestroyWindow(hwnd);
-			DBWriteContactSettingDword(0, PLUG, buff, 0);
+			db_set_dw(0, PLUG, buff, 0);
 			sprintf(buff, "WindowWasOpen%d", i);
-			DBWriteContactSettingByte(0, PLUG, buff, 1);
+			db_set_b(0, PLUG, buff, 1);
 		}	
 	}
 }
@@ -332,10 +332,10 @@ void graphs_init() {
 	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
 	for(pinglist_it i = pl.begin(); i != pl.end(); ++i) {
 		sprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
-		DBWriteContactSettingDword(0, PLUG, buff, 0);
+		db_set_dw(0, PLUG, buff, 0);
 		sprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
-		if(DBGetContactSettingByte(0, PLUG, buff, 0)) {
-			DBWriteContactSettingByte(0, PLUG, buff, 0);
+		if(db_get_b(0, PLUG, buff, 0)) {
+			db_set_b(0, PLUG, buff, 0);
 			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);
 		}
 	}

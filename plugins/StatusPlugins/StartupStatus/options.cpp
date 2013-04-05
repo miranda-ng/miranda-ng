@@ -966,12 +966,12 @@ static int ClearDatabase(char* filter)
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 	for (i=0; i < settingCount; i++) {
 		if ((filter == NULL) || (!strncmp(filter, settings[i], strlen(filter))))
-			DBDeleteContactSetting(NULL, MODULENAME, settings[i]);
+			db_unset(NULL, MODULENAME, settings[i]);
 		free(settings[i]);
 	}
 	free(settings);
 	// < v0.0.0.9
-	if (filter == NULL)	DBDeleteContactSetting(NULL, "AutoAway", "Confirm");
+	if (filter == NULL)	db_unset(NULL, "AutoAway", "Confirm");
 
 	return 0;
 }

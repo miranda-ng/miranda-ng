@@ -271,7 +271,7 @@ int fnTrayIconInit(HWND hwnd)
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
 			DBVARIANT dbv = { DBVT_DELETED };
 			char *szProto;
-			if ( !DBGetContactSettingString(NULL, "CList", "PrimaryStatus", &dbv)
+			if ( !db_get_s(NULL, "CList", "PrimaryStatus", &dbv)
 				&& (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysPrimary", 0)))
 				szProto = dbv.pszVal;
 			else
@@ -535,7 +535,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 				{
 					DBVARIANT dbv = { DBVT_DELETED };
 					char *szProto;
-					if (DBGetContactSettingString(NULL, "CList", "PrimaryStatus", &dbv))
+					if (db_get_s(NULL, "CList", "PrimaryStatus", &dbv))
 						szProto = NULL;
 					else
 						szProto = dbv.pszVal;

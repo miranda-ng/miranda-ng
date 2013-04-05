@@ -136,10 +136,10 @@ void ReloadFonts()
 		if (gTreeData[i]->typ == 2) {
 			mir_snprintf(setting, 256, "%s/TextCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText = 
-				(COLORREF)DBGetContactSettingDword(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
+				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
 			mir_snprintf(setting, 256, "%s/BgCol",   gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack = 
-				(COLORREF)DBGetContactSettingDword(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 		}
 	}
 }

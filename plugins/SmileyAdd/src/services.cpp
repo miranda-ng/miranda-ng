@@ -392,9 +392,6 @@ INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 
 int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
-
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 
 	char* protnam = GetContactProto((HANDLE)wParam);
@@ -406,9 +403,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		haveMenu = cnt != 0;
 	}
 
-	if (!haveMenu) mi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hContactMenuItem, haveMenu);
 
 	for (int i=0; i < menuHandleArray.getCount(); i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
@@ -418,9 +413,10 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		bkstring cat;
 		opt.ReadContactCategory((HANDLE)wParam, cat);
 
-		mi.pszPopupName  = (char*)hContactMenuItem;
-		mi.flags         = CMIF_CHILDPOPUP | CMIM_FLAGS | CMIF_TCHAR;
-		mi.pszService    = MS_SMILEYADD_CUSTOMCATMENU;
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.hParentMenu = hContactMenuItem;
+		mi.flags       = CMIF_CHILDPOPUP | CMIM_FLAGS | CMIF_TCHAR;
+		mi.pszService  = MS_SMILEYADD_CUSTOMCATMENU;
 
 		bool nonecheck = true;
 		HGENMENU hMenu;

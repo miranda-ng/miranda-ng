@@ -83,7 +83,8 @@ extern PLUGININFOEX pluginInfoEx;
 #define PREF_METANODB	0x2000	//!< Flag to indicate message should not be added to db by filter when sending
 #define PREF_SIMNOMETA	0x4000	//!< Flag to indicate message should not be inspected by filter on metacontact
 
-extern HANDLE g_hEvent[2], g_hMenu[15], g_hCLIcon, g_hFolders;
+extern HANDLE g_hEvent[2], g_hCLIcon, g_hFolders;
+extern HGENMENU g_hMenu[15];
 extern int iService, iHook;
 extern HICON g_hICO[ICO_CNT], g_hIEC[1+IEC_CNT*MODE_CNT], g_hPOP[POP_CNT];
 extern HANDLE g_IEC[1+IEC_CNT*MODE_CNT];

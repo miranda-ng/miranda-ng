@@ -53,7 +53,7 @@ void LoadFilenames()
 }
 
 void LoadOptions() {
-	options.default_policy = DBGetContactSettingWord(0, MODULENAME, "DefaultPolicy", OTRL_POLICY_OPPORTUNISTIC);
+	options.default_policy = db_get_w(0, MODULENAME, "DefaultPolicy", OTRL_POLICY_OPPORTUNISTIC);
 	// deal with changed flags in proto.h and new interpretation of 'manual' mode (see common.h)
 	switch(options.default_policy) {
 	case OTRL_POLICY_MANUAL:
@@ -68,26 +68,26 @@ void LoadOptions() {
 		options.default_policy = OTRL_POLICY_OPPORTUNISTIC;
 		break;
 	}
-	options.err_method = (ErrorDisplay)DBGetContactSettingWord(0, MODULENAME, "ErrorDisplay", ED_POP);
-	options.prefix_messages = (DBGetContactSettingByte(0, MODULENAME, "PrefixMessages", 0) == 1);
-	options.msg_inline = (DBGetContactSettingByte(0, MODULENAME, "MsgInline", 0) == 1);
-	options.msg_popup = (DBGetContactSettingByte(0, MODULENAME, "MsgPopup", 1) == 1);
-	options.delete_history = (DBGetContactSettingByte(0, MODULENAME, "NoHistory", 0) == 1);
-	options.delete_systeminfo = (DBGetContactSettingByte(0, MODULENAME, "NoSystemHistory", 0) == 1);
-	options.autoshow_verify = (DBGetContactSettingByte(0, MODULENAME, "AutoShowVerify", 1) == 1);
+	options.err_method = (ErrorDisplay)db_get_w(0, MODULENAME, "ErrorDisplay", ED_POP);
+	options.prefix_messages = (db_get_b(0, MODULENAME, "PrefixMessages", 0) == 1);
+	options.msg_inline = (db_get_b(0, MODULENAME, "MsgInline", 0) == 1);
+	options.msg_popup = (db_get_b(0, MODULENAME, "MsgPopup", 1) == 1);
+	options.delete_history = (db_get_b(0, MODULENAME, "NoHistory", 0) == 1);
+	options.delete_systeminfo = (db_get_b(0, MODULENAME, "NoSystemHistory", 0) == 1);
+	options.autoshow_verify = (db_get_b(0, MODULENAME, "AutoShowVerify", 1) == 1);
 
 	DBVARIANT dbv;
 	if (!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
 		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		strcpy(options.prefix, ("OTR: "));
 
-	options.timeout_finished = (DBGetContactSettingByte(0, MODULENAME, "TimeoutFinished", 0) == 1);
+	options.timeout_finished = (db_get_b(0, MODULENAME, "TimeoutFinished", 0) == 1);
 
-	options.end_offline = (DBGetContactSettingByte(0, MODULENAME, "EndOffline", 1) == 1);
-	options.end_window_close = (DBGetContactSettingByte(0, MODULENAME, "EndWindowClose", 0) == 1);
+	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
+	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
 
 	options.bHaveMetaContacts = 0!=ServiceExists(MS_MC_GETMETACONTACT);
 	options.bHavePopups = 0!=ServiceExists(MS_POPUP_ADDPOPUPT) && ServiceExists(MS_POPUP_SHOWMESSAGE);
@@ -142,30 +142,22 @@ void DeinitOptions() {
 }
 
 void SaveOptions() {
-	DBWriteContactSettingWord(0, MODULENAME, "DefaultPolicy", options.default_policy);
-	DBWriteContactSettingWord(0, MODULENAME, "ErrorDisplay", (int)options.err_method);
-	DBWriteContactSettingByte(0, MODULENAME, "PrefixMessages", options.prefix_messages ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULENAME, "MsgInline", options.msg_inline ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULENAME, "MsgPopup", options.msg_popup ? 1 : 0);
+	db_set_w(0, MODULENAME, "DefaultPolicy", options.default_policy);
+	db_set_w(0, MODULENAME, "ErrorDisplay", (int)options.err_method);
+	db_set_b(0, MODULENAME, "PrefixMessages", options.prefix_messages ? 1 : 0);
+	db_set_b(0, MODULENAME, "MsgInline", options.msg_inline ? 1 : 0);
+	db_set_b(0, MODULENAME, "MsgPopup", options.msg_popup ? 1 : 0);
 
-	DBWriteContactSettingByte(0, MODULENAME, "NoHistory", options.delete_history ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULENAME, "NoSystemHistory", options.delete_systeminfo ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULENAME, "AutoShowVerify", options.autoshow_verify ? 1 : 0);
+	db_set_b(0, MODULENAME, "NoHistory", options.delete_history ? 1 : 0);
+	db_set_b(0, MODULENAME, "NoSystemHistory", options.delete_systeminfo ? 1 : 0);
+	db_set_b(0, MODULENAME, "AutoShowVerify", options.autoshow_verify ? 1 : 0);
 
-	/*
-	if (contact_policies) {
-		for(ContactPolicyMap::iterator i = contact_policies->begin(); i != contact_policies->end(); i++) {
-			DBWriteContactSettingWord(i->first, MODULENAME, "Policy", i->second);
-		}
-	}
-	*/
+	db_set_utf(0, MODULENAME, "Prefix", options.prefix);
 
-	DBWriteContactSettingStringUtf(0, MODULENAME, "Prefix", options.prefix);
+	db_set_b(0, MODULENAME, "TimeoutFinished", options.timeout_finished ? 1 : 0);
 
-	DBWriteContactSettingByte(0, MODULENAME, "TimeoutFinished", options.timeout_finished ? 1 : 0);
-
-	DBWriteContactSettingByte(0, MODULENAME, "EndOffline", options.end_offline ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULENAME, "EndWindowClose", options.end_window_close ? 1 : 0);
+	db_set_b(0, MODULENAME, "EndOffline", options.end_offline ? 1 : 0);
+	db_set_b(0, MODULENAME, "EndWindowClose", options.end_window_close ? 1 : 0);
 }
 
 extern "C" void set_context_contact(void *data, ConnContext *context) {
@@ -640,7 +632,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			for(ContactPolicyMap::const_iterator it = cpm->begin(); it != cpm->end(); ++it)
 			{
 				if (!it->first) continue;
-				if (it->second.policy) DBWriteContactSettingDword(it->first, MODULENAME, "Policy", (DWORD)it->second.policy);
+				if (it->second.policy) db_set_dw(it->first, MODULENAME, "Policy", (DWORD)it->second.policy);
 				if (it->second.htmlconv) db_set_b(it->first, MODULENAME, "HTMLConv", it->second.htmlconv-1);
 			}
 			return TRUE;

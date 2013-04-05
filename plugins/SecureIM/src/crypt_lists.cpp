@@ -221,7 +221,7 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN)
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR) CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (uID == (LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
-	if (uID && DBGetContactSetting(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
+	if (uID && db_get(hContact, ptr->name, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_WORD)
 			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name);
 		else if (dbv_uniqueid.type == DBVT_DWORD)

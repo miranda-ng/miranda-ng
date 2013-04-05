@@ -48,7 +48,7 @@ HANDLE GetIconHandle(const char* name)
 }
 
 // Contact List menu stuff
-static HANDLE g_hMenuItems[2];
+static HGENMENU g_hMenuItems[2];
 static HANDLE g_hMenuEvts[3];
 
 // Helper functions
@@ -115,12 +115,5 @@ void UninitContactMenus()
 void ShowContactMenus(bool show)
 {
 	for(size_t i=0; i<SIZEOF(g_hMenuItems); i++)
-	{
-		CLISTMENUITEM item = { sizeof(item) };
-		item.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-		if(!show)
-			item.flags |= CMIF_HIDDEN;
-
-		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(g_hMenuItems[i]),reinterpret_cast<LPARAM>(&item));
-	}
+		Menu_ShowItem(g_hMenuItems[i], show);
 }

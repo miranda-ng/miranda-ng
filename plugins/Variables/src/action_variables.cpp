@@ -66,7 +66,7 @@ int ParseStringAction(DWORD actionID, REPORTINFO *ri) {
 			else {
 				mir_free(variables_parsedup(dbv.ptszVal, ((ri->td!=NULL)&&(ri->td->dFlags&DF_TEXT))?ri->td->tszText:NULL, ((ri->td!=NULL)&&(ri->td->dFlags&DF_CONTACT))?ri->td->hContact:NULL));
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	if (ri->flags&ACT_CLEANUP) {
@@ -94,7 +94,7 @@ INT_PTR CALLBACK DlgProcOptsParseString(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		actionID = (DWORD)lParam;
 		if (!DBGetActionSettingTString(actionID, NULL, MODULENAME, SETTING_PARSESTRING, &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_PARSESTRING, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		CheckDlgButton(hwndDlg, IDC_PARSEASYNC, DBGetActionSettingByte(actionID, NULL, MODULENAME, SETTING_PARSEASYNC, 0)?BST_CHECKED:BST_UNCHECKED);
 		variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);

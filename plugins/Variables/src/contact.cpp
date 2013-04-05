@@ -143,7 +143,7 @@ TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
 		case CCNF_STATUS:
 			szStatus = (TCHAR*)CallService(
 					MS_CLIST_GETSTATUSMODEDESCRIPTION,
-					(WPARAM)DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE),
+					(WPARAM)db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE),
 					(LPARAM)GSMDF_UNICODE);
 			if (szStatus == NULL)
 				return NULL;
@@ -152,7 +152,7 @@ TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
 		case CCNF_INTERNALIP:
 		case CCNF_EXTERNALIP:
 			{
-				DWORD ip = DBGetContactSettingDword(hContact, szProto, (type == CCNF_INTERNALIP) ? "RealIP" : "IP", 0);
+				DWORD ip = db_get_dw(hContact, szProto, (type == CCNF_INTERNALIP) ? "RealIP" : "IP", 0);
 				if (ip == 0)
 					return NULL;
 
@@ -165,23 +165,23 @@ TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
 			}
 
 		case CCNF_GROUP:
-			if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+			if (!db_get_ts(hContact, "CList", "Group", &dbv))
 			{
 				res = (TCHAR*)mir_wstrdup(dbv.pwszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return res;
 			}
 			break;
 
 		case CNF_UNIQUEID:
 			//UID for ChatRoom
-			if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1)
+			if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
 			{
 				DBVARIANT dbv;
-				if (!DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv ))
+				if (!db_get_ts(hContact, szProto, "ChatRoomID", &dbv ))
 				{
 					res = mir_tstrdup( dbv.ptszVal );
-					DBFreeVariant( &dbv );
+					db_free( &dbv );
 					return res;
 
 				}

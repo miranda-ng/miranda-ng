@@ -227,7 +227,7 @@ static void SetAllContactChecks(HWND hwndList, HANDLE hReceiver) // doubtful nam
   char* szProto =GetContactProto(hReceiver); 
   if (szProto == NULL) return;
 
-  if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && DBGetContactSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
+  if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
     SendMessageT(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM) TRUE, 0);
   else
     SendMessageT(hwndList, CLM_SETHIDEEMPTYGROUPS, (WPARAM) FALSE, 0);
@@ -385,7 +385,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
           if (!wndData->SendContacts(hwndDlg))
             break;
 
-          SetTimer(hwndDlg,TIMERID_MSGSEND,DBGetContactSettingDword(NULL,"SRMsg","MessageTimeout",TIMEOUT_MSGSEND),NULL);
+          SetTimer(hwndDlg,TIMERID_MSGSEND,db_get_dw(NULL,"SRMsg","MessageTimeout",TIMEOUT_MSGSEND),NULL);
 
           break;
         }

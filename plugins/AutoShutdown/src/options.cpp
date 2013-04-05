@@ -36,25 +36,25 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	switch(msg) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
-			{	WORD setting=DBGetContactSettingWord(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
+			{	WORD setting=db_get_w(NULL,"AutoShutdown","ConfirmDlgCountdown",SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT);
 				if(setting<3) setting=SETTING_CONFIRMDLGCOUNTDOWN_DEFAULT;
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETRANGE,0,MAKELPARAM(999,3));
 				SendDlgItemMessage(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,EM_SETLIMITTEXT,3,0);
 				SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETPOS,0,MAKELPARAM(setting,0));
 				SetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,setting,FALSE);
 			}
-			CheckDlgButton(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK,DBGetContactSettingByte(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT)!=0);
-			CheckDlgButton(hwndDlg,IDC_CHECK_REMEMBERONRESTART,DBGetContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT)!=0);
-			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG,DBGetContactSettingByte(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT)!=0);
+			CheckDlgButton(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK,db_get_b(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT)!=0);
+			CheckDlgButton(hwndDlg,IDC_CHECK_REMEMBERONRESTART,db_get_b(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT)!=0);
+			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG,db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT)!=0);
 			{	BOOL enabled=ServiceIsTypeEnabled(SDSDT_SHUTDOWN,0);
 				if(enabled) {
 					if(ServiceExists(MS_SYSINFO_HDDTEMP)) {
 						EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_HDDOVERHEAT),TRUE);
-						CheckDlgButton(hwndDlg,IDC_CHECK_HDDOVERHEAT,DBGetContactSettingByte(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT)!=0);
+						CheckDlgButton(hwndDlg,IDC_CHECK_HDDOVERHEAT,db_get_b(NULL,"AutoShutdown","HddOverheatShutdown",SETTING_HDDOVERHEATSHUTDOWN_DEFAULT)!=0);
 					}
 					if(ServiceExists(MS_WEATHER_UPDATE)) {
 						EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER),TRUE);
-						CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,DBGetContactSettingByte(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT)!=0);
+						CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT)!=0);
 					}
 				}
 			}
@@ -88,14 +88,14 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		case WM_NOTIFY:
 			switch(((NMHDR*)lParam)->code) {
 				case PSN_APPLY:
-					DBWriteContactSettingByte(NULL,"AutoShutdown","ShowConfirmDlg",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG)!=0));
-					DBWriteContactSettingWord(NULL,"AutoShutdown","ConfirmDlgCountdown",(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,NULL,FALSE));
-					DBWriteContactSettingByte(NULL,"AutoShutdown","RememberOnRestart",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_REMEMBERONRESTART)!=0));
-					DBWriteContactSettingByte(NULL,"AutoShutdown","SmartOfflineCheck",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK)!=0));
+					db_set_b(NULL,"AutoShutdown","ShowConfirmDlg",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG)!=0));
+					db_set_w(NULL,"AutoShutdown","ConfirmDlgCountdown",(WORD)GetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,NULL,FALSE));
+					db_set_b(NULL,"AutoShutdown","RememberOnRestart",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_REMEMBERONRESTART)!=0));
+					db_set_b(NULL,"AutoShutdown","SmartOfflineCheck",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK)!=0));
 					if(IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER)))
-						DBWriteContactSettingByte(NULL,"AutoShutdown","WeatherShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_WEATHER)!=0));
+						db_set_b(NULL,"AutoShutdown","WeatherShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_WEATHER)!=0));
 					if(IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_HDDOVERHEAT)))
-						DBWriteContactSettingByte(NULL,"AutoShutdown","HddOverheatShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_HDDOVERHEAT)!=0));
+						db_set_b(NULL,"AutoShutdown","HddOverheatShutdown",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_HDDOVERHEAT)!=0));
 					return TRUE;
 			}
 			break;

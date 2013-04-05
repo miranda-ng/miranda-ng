@@ -138,13 +138,13 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETITEMDATA, (WPARAM)index, (LPARAM)i - ID_STATUS_ONLINE);
 
-						val = DBGetContactSettingByte(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
+						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
-						if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), &dbv))
+						if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), &dbv))
 							dbv.ptszVal = mir_tstrdup(GetDefaultMessage(i));
 						lstrcpy(data->status_msg[0].msg[i - ID_STATUS_ONLINE], dbv.ptszVal);
 						mir_free(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 
 						for (j = 0; j < accounts->count; j++)
 						{
@@ -152,14 +152,14 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 								continue;
 
 							mir_snprintf(setting, SIZEOF(setting), "%sFlags", accounts->pa[j]->szModuleName);
-							val = DBGetContactSettingByte(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
+							val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, setting), STATUS_DEFAULT);
 							data->status_msg[j+1].flags[i-ID_STATUS_ONLINE] = val;
 							mir_snprintf(setting, SIZEOF(setting), "%sDefault", accounts->pa[j]->szModuleName);
-							if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i, setting), &dbv))
+							if (db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i, setting), &dbv))
 								dbv.ptszVal = mir_tstrdup(GetDefaultMessage(i));
 							lstrcpy(data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE], dbv.ptszVal);
 							mir_free(dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 					}
 				}
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					data->proto_msg[0].msg = NULL;
 
-					val = DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
+					val = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
 					data->proto_msg[0].flags = val;
 					data->proto_msg[0].max_length = 0;
 					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, (WPARAM)index, 0);
@@ -211,19 +211,19 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sDefault", accounts->pa[i]->szModuleName);
-						if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", setting, &dbv))
+						if (!db_get_ts(NULL, "SimpleStatusMsg", setting, &dbv))
 						{
 							data->proto_msg[i+1].msg = mir_tstrdup(dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else
 							data->proto_msg[i+1].msg = NULL;
 
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sFlags", accounts->pa[i]->szModuleName);
-						val = DBGetContactSettingByte(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
+						val = db_get_b(NULL, "SimpleStatusMsg", setting, PROTO_DEFAULT);
 						data->proto_msg[i+1].flags = val;
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sMaxLen", accounts->pa[i]->szModuleName);
-						val = DBGetContactSettingWord(NULL, "SimpleStatusMsg", setting, 1024);
+						val = db_get_w(NULL, "SimpleStatusMsg", setting, 1024);
 						data->proto_msg[i+1].max_length = val;
 						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
 					}
@@ -242,7 +242,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CBOPTPROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_CBOPTPROTO));
 			}
 
-			if (DBGetContactSettingByte(NULL, "SimpleStatusMsg", "PutDefInList", 0))
+			if (db_get_b(NULL, "SimpleStatusMsg", "PutDefInList", 0))
 				CheckDlgButton(hwndDlg, IDC_COPTMSG2, BST_CHECKED);
 
 			if (ServiceExists(MS_VARS_FORMATSTRING))
@@ -464,19 +464,19 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 								mir_snprintf(setting, SIZEOF(setting), "LastMsg");
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
-							if (!DBGetContactSetting(NULL, "SimpleStatusMsg", setting, &dbv))
+							if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv))
 							{
 								if (dbv.pszVal)
 								{
-									if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
 									{
 										if ((dbv2.ptszVal) && (lstrlen(dbv2.ptszVal)))
 											SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
 
-										DBFreeVariant(&dbv2);
+										db_free(&dbv2);
 									}
 								}
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -507,10 +507,10 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							else
 								mir_snprintf(setting, SIZEOF(setting), "Msg");
 
-							if (!DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting), &dbv))
+							if (!db_get_ts(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting), &dbv))
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv.ptszVal);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							else
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
@@ -619,18 +619,18 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 								mir_snprintf(setting, SIZEOF(setting), "LastMsg");
 
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
-							if (!DBGetContactSetting(NULL, "SimpleStatusMsg", setting, &dbv))
+							if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv))
 							{
 								if (dbv.pszVal)
 								{
-									if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+									if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
 									{
 										if (dbv2.ptszVal && lstrlen(dbv2.ptszVal))
 											SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
-										DBFreeVariant(&dbv2);
+										db_free(&dbv2);
 									}
 								}
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -661,10 +661,10 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							else
 								mir_snprintf(setting, SIZEOF(setting), "Msg");
 
-							if (!DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting), &dbv))
+							if (!db_get_ts(NULL, "SRAway", StatusModeToDbSetting(j + ID_STATUS_ONLINE, setting), &dbv))
 							{
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv.ptszVal);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							else
 								SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
@@ -719,18 +719,18 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							mir_snprintf(setting, SIZEOF(setting), "LastMsg");
 
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
-						if (!DBGetContactSetting(NULL, "SimpleStatusMsg", setting, &dbv))
+						if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv))
 						{
 							if (dbv.pszVal)
 							{
-								if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
 								{
 									if (dbv2.ptszVal && lstrlen(dbv2.ptszVal))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
-									DBFreeVariant(&dbv2);
+									db_free(&dbv2);
 								}
 							}
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -753,10 +753,10 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						else
 							mir_snprintf(setting, SIZEOF(setting), "Msg");
 
-						if (!DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting), &dbv))
+						if (!db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i + ID_STATUS_ONLINE, setting), &dbv))
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
@@ -833,18 +833,18 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 							mir_snprintf(setting, SIZEOF(setting), "LastMsg");
 
 						SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
-						if (!DBGetContactSetting(NULL, "SimpleStatusMsg", setting, &dbv))
+						if (!db_get(NULL, "SimpleStatusMsg", setting, &dbv))
 						{
 							if (dbv.pszVal)
 							{
-								if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
+								if (!db_get_ts(NULL, "SimpleStatusMsg", dbv.pszVal, &dbv2) && strlen(dbv.pszVal))
 								{
 									if (dbv2.ptszVal && lstrlen(dbv2.ptszVal))
 										SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv2.ptszVal);
-									DBFreeVariant(&dbv2);
+									db_free(&dbv2);
 								}
 							}
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						EnableWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), FALSE);
@@ -867,10 +867,10 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						else
 							mir_snprintf(setting, SIZEOF(setting), "Msg");
 
-						if (!DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i+ID_STATUS_ONLINE, setting), &dbv))
+						if (!db_get_ts(NULL, "SRAway", StatusModeToDbSetting(i+ID_STATUS_ONLINE, setting), &dbv))
 						{
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else
 							SetDlgItemText(hwndDlg, IDC_OPTEDIT1, _T(""));
@@ -1032,8 +1032,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			{
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
 				{
-					DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
-					DBWriteContactSettingByte(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
+					db_set_ts(NULL, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
+					db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
 
 					for (int j = 0; j < accounts->count; j++)
 					{
@@ -1046,20 +1046,20 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						if (CallProtoService(accounts->pa[j]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(i))
 						{
 							mir_snprintf(szSetting, SIZEOF(szSetting), "%sDefault", accounts->pa[j]->szModuleName);
-							DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
+							db_set_ts(NULL, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
 							mir_snprintf(szSetting, SIZEOF(szSetting), "%sFlags", accounts->pa[j]->szModuleName);
-							DBWriteContactSettingByte(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
+							db_set_b(NULL, "SimpleStatusMsg", StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
 						}
 					}
 				}
 			}
 
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
 
 			if (data->proto_ok)
 			{
-				DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "ProtoFlags", (BYTE)data->proto_msg[0].flags);
+				db_set_b(NULL, "SimpleStatusMsg", "ProtoFlags", (BYTE)data->proto_msg[0].flags);
 
 				for (i = 0; i < accounts->count; i++)
 				{
@@ -1074,15 +1074,15 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Proto%sDefault", accounts->pa[i]->szModuleName);
 					if (data->proto_msg[i+1].msg && (data->proto_msg[i+1].flags & PROTO_THIS_MSG))
-						DBWriteContactSettingTString(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
+						db_set_ts(NULL, "SimpleStatusMsg", szSetting, data->proto_msg[i+1].msg);
 					//						else
-					//							DBDeleteContactSetting(NULL, "SimpleStatusMsg", szSetting);
+					//							db_unset(NULL, "SimpleStatusMsg", szSetting);
 
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Proto%sMaxLen", accounts->pa[i]->szModuleName);
-					DBWriteContactSettingWord(NULL, "SimpleStatusMsg", szSetting, (WORD)data->proto_msg[i+1].max_length);
+					db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->proto_msg[i+1].max_length);
 
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Proto%sFlags", accounts->pa[i]->szModuleName);
-					DBWriteContactSettingByte(NULL, "SimpleStatusMsg", szSetting, (BYTE)data->proto_msg[i+1].flags);
+					db_set_b(NULL, "SimpleStatusMsg", szSetting, (BYTE)data->proto_msg[i+1].flags);
 				}
 			}
 			RebuildStatusMenu();
@@ -1116,17 +1116,17 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 
 			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESECUPDTMSG), 0);
 			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETRANGE32, 1, 999);
-			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETPOS, 0, MAKELONG((short)DBGetContactSettingWord(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10), 0));
+			SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_SETPOS, 0, MAKELONG((short)db_get_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10), 0));
 			SendDlgItemMessage(hwndDlg, IDC_ESECUPDTMSG, EM_LIMITTEXT, 3, 0);
 
-			CheckDlgButton(hwndDlg, IDC_CUPDATEMSG, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "UpdateMsgOn", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CNOIDLE, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CUPDATEMSG, db_get_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CNOIDLE, db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, db_get_b(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, db_get_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
 			if (ServiceExists(MS_VARS_FORMATSTRING))
 			{
-				CheckDlgButton(hwndDlg, IDC_CVARIABLES, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_CDATEPARSING, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ExclDateToken", 0) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CVARIABLES, db_get_b(NULL, "SimpleStatusMsg", "EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CDATEPARSING, db_get_b(NULL, "SimpleStatusMsg", "ExclDateToken", 0) ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else
 			{
@@ -1179,25 +1179,25 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 				KillTimer(NULL, g_uUpdateMsgTimer);
 
 			int val = SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_GETPOS, 0, 0);
-			DBWriteContactSettingWord(NULL, "SimpleStatusMsg", "UpdateMsgInt", (WORD)val);
+			db_set_w(NULL, "SimpleStatusMsg", "UpdateMsgInt", (WORD)val);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val)
 			{
-				DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)1);
+				db_set_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)1);
 				g_uUpdateMsgTimer = SetTimer(NULL, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
 			}
 			else
 			{
-				DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)0);
+				db_set_b(NULL, "SimpleStatusMsg", "UpdateMsgOn", (BYTE)0);
 			}
 
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
 			if (ServiceExists(MS_VARS_FORMATSTRING))
 			{
-				DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
-				DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
+				db_set_b(NULL, "SimpleStatusMsg", "EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
+				db_set_b(NULL, "SimpleStatusMsg", "ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
 			}
 			return TRUE;
 		}
@@ -1210,19 +1210,19 @@ static BOOL IsHistoryMsgsFound(HWND hwndDlg, int histMax)
 {
 	char szSetting[16];
 	DBVARIANT dbv;
-	int j = DBGetContactSettingWord(NULL, "SimpleStatusMsg", "LMMsg", 1);
+	int j = db_get_w(NULL, "SimpleStatusMsg", "LMMsg", 1);
 	for (int i = 1; i <= histMax; ++i, --j)
 	{
 		if (j < 1) j = histMax;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "SMsg%d", j);
-		if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", szSetting, &dbv))
+		if (!db_get_ts(NULL, "SimpleStatusMsg", szSetting, &dbv))
 		{
 			if (dbv.ptszVal != NULL && *dbv.ptszVal != '\0')
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return TRUE;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return FALSE;
@@ -1248,7 +1248,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btndownflat, DLG_SHOW_BUTTONS_FLAT);
 			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btnlist, DLG_SHOW_BUTTONS_INLIST);
 
-			settingValue = DBGetContactSettingByte(NULL, "SimpleStatusMsg", "DlgFlags", DLG_SHOW_DEFAULT);
+			settingValue = db_get_b(NULL, "SimpleStatusMsg", "DlgFlags", DLG_SHOW_DEFAULT);
 			CheckDlgButton(hwndDlg, IDC_CSTATUSLIST, settingValue & DLG_SHOW_STATUS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CPROFILES, settingValue & DLG_SHOW_STATUS_PROFILES ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CICONS1, settingValue & DLG_SHOW_STATUS_ICONS ? BST_CHECKED : BST_UNCHECKED);
@@ -1279,7 +1279,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 			// Misc.
-			settingValue = DBGetContactSettingByte(NULL, "SimpleStatusMsg", "MaxHist", 10);
+			settingValue = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 
 			SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_EMAXHIST), 0);
 			SendDlgItemMessage(hwndDlg, IDC_SMAXHIST, UDM_SETRANGE32, 0, 25);
@@ -1290,19 +1290,19 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CICONS2), FALSE);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTHIST), IsHistoryMsgsFound(hwndDlg, settingValue));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), DBGetContactSettingWord(NULL, "SimpleStatusMsg", "DefMsgCount", 0) != 0);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), db_get_w(NULL, "SimpleStatusMsg", "DefMsgCount", 0) != 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ETIMEOUT), 0);
 			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETRANGE32, 1, 60);
-			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)DBGetContactSettingByte(NULL, "SimpleStatusMsg", "DlgTime", 5), 0));
+			SendDlgItemMessage(hwndDlg, IDC_STIMEOUT, UDM_SETPOS, 0, MAKELONG((short)db_get_b(NULL, "SimpleStatusMsg", "DlgTime", 5), 0));
 			SendDlgItemMessage(hwndDlg, IDC_ETIMEOUT, EM_LIMITTEXT, 2, 0);
 
-			CheckDlgButton(hwndDlg, IDC_CCLOSEWND, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "AutoClose", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CRPOSWND, !DBGetContactSettingByte(NULL, "SimpleStatusMsg", "WinCentered", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CREMOVECR, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "RemoveCR", 0) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWCOPY, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowCopy", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWGURL, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CSHOWSMSG, DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CCLOSEWND, db_get_b(NULL, "SimpleStatusMsg", "AutoClose", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CRPOSWND, !db_get_b(NULL, "SimpleStatusMsg", "WinCentered", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREMOVECR, db_get_b(NULL, "SimpleStatusMsg", "RemoveCR", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CSHOWCOPY, db_get_b(NULL, "SimpleStatusMsg", "ShowCopy", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CSHOWGURL, db_get_b(NULL, "SimpleStatusMsg", "ShowGoToURL", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CSHOWSMSG, db_get_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendMessage(hwndDlg, WM_USER + 2, 0, 0);
 			return TRUE;
@@ -1364,13 +1364,13 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 				if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
 
-				max_hist_msgs = DBGetContactSettingByte(NULL, "SimpleStatusMsg", "MaxHist", 10);
+				max_hist_msgs = db_get_b(NULL, "SimpleStatusMsg", "MaxHist", 10);
 				for (i = 1; i <= max_hist_msgs; i++)
 				{
 					mir_snprintf(text, SIZEOF(text), "SMsg%d", i);
-					DBWriteContactSettingTString(NULL, "SimpleStatusMsg", text, _T(""));
+					db_set_ts(NULL, "SimpleStatusMsg", text, _T(""));
 				}
-				DBWriteContactSettingString(NULL, "SimpleStatusMsg", "LastMsg", "");
+				db_set_s(NULL, "SimpleStatusMsg", "LastMsg", "");
 				for (i = 0; i < accounts->count; i++)
 				{
 					if (!IsAccountEnabled(accounts->pa[i]))
@@ -1383,9 +1383,9 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 						continue;
 
 					mir_snprintf(setting, SIZEOF(setting), "Last%sMsg", accounts->pa[i]->szModuleName);
-					DBWriteContactSettingString(NULL, "SimpleStatusMsg", setting, "");
+					db_set_s(NULL, "SimpleStatusMsg", setting, "");
 				}
-				DBWriteContactSettingWord(NULL, "SimpleStatusMsg", "LMMsg", (WORD)max_hist_msgs);
+				db_set_w(NULL, "SimpleStatusMsg", "LMMsg", (WORD)max_hist_msgs);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTHIST), FALSE);
 			}
 			return 0;
@@ -1398,13 +1398,13 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 
 				if (hwndSAMsgDialog) DestroyWindow(hwndSAMsgDialog);
 
-				nDefMSgCount = DBGetContactSettingWord(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
+				nDefMSgCount = db_get_w(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
 				for (int i = 1; i <= nDefMSgCount; i++)
 				{
 					mir_snprintf(szSetting, SIZEOF(szSetting), "DefMsg%d", i);
-					DBDeleteContactSetting(NULL, "SimpleStatusMsg", szSetting);
+					db_unset(NULL, "SimpleStatusMsg", szSetting);
 				}
-				DBWriteContactSettingWord(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
+				db_set_w(NULL, "SimpleStatusMsg", "DefMsgCount", 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTDEF), FALSE);
 			}
 			return 0;
@@ -1427,17 +1427,17 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			if (curSel != CB_ERR)
 				flags |= SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_GETITEMDATA, (WPARAM)curSel, 0);
 
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "DlgFlags", (BYTE)flags);
+			db_set_b(NULL, "SimpleStatusMsg", "DlgFlags", (BYTE)flags);
 
 			// Misc.
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, NULL, FALSE));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "ShowCopy", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWCOPY) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "ShowGoToURL", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWGURL) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, NULL, FALSE));
+			db_set_b(NULL, "SimpleStatusMsg", "AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, NULL, FALSE));
+			db_set_b(NULL, "SimpleStatusMsg", "WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "ShowCopy", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWCOPY) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "ShowGoToURL", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWGURL) == BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CSHOWSMSG) == BST_CHECKED));
 			RebuildStatusMenu();
 
 			return TRUE;
@@ -1480,22 +1480,22 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				{
 					char setting[80];
 					mir_snprintf(setting, SIZEOF(setting), "Startup%sStatus", accounts->pa[i]->szModuleName);
-					data->status[i] = DBGetContactSettingWord(NULL, "SimpleStatusMsg", setting, ID_STATUS_OFFLINE);
+					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_OFFLINE);
 					mir_snprintf(setting, SIZEOF(setting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
-					data->setdelay[i] = DBGetContactSettingWord(NULL, "SimpleStatusMsg", setting, 300);
+					data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
 					SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 				}
 			}
 			SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_SETCURSEL, 0, 0);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LISTPROTO, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_LISTPROTO));
 
-			data->setglobaldelay = DBGetContactSettingWord(NULL, "SimpleStatusMsg", "SetStatusDelay", 300);
+			data->setglobaldelay = db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300);
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_SSETSTATUS), UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
 			SendMessage(GetDlgItem(hwndDlg, IDC_SSETSTATUS), UDM_SETRANGE32, 0, 9000);
 			SendMessage(GetDlgItem(hwndDlg, IDC_ESETSTATUS), EM_LIMITTEXT, 4, 0);
 
-			if (!DBGetContactSettingByte(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
+			if (!db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
 			{
 				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_CHECKED);
 				i = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
@@ -1507,7 +1507,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setglobaldelay, FALSE);
 			}
 
-			if (DBGetContactSettingByte(NULL, "SimpleStatusMsg", "StartupPopupDlg", 1))
+			if (db_get_b(NULL, "SimpleStatusMsg", "StartupPopupDlg", 1))
 			{
 				CheckDlgButton(hwndDlg, IDC_POPUPDLG, BST_CHECKED);
 				if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED)
@@ -1662,14 +1662,14 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					continue;
 
 				mir_snprintf(szSetting, SIZEOF(szSetting), "Startup%sStatus", accounts->pa[i]->szModuleName);
-				DBWriteContactSettingWord(NULL, "SimpleStatusMsg", szSetting, (WORD)data->status[i]);
+				db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->status[i]);
 
 				mir_snprintf(szSetting, SIZEOF(szSetting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
-				DBWriteContactSettingWord(NULL, "SimpleStatusMsg", szSetting, (WORD)data->setdelay[i]);
+				db_set_w(NULL, "SimpleStatusMsg", szSetting, (WORD)data->setdelay[i]);
 			}
-			DBWriteContactSettingWord(NULL, "SimpleStatusMsg", "SetStatusDelay", (WORD)data->setglobaldelay);
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "GlobalStatusDelay", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
-			DBWriteContactSettingByte(NULL, "SimpleStatusMsg", "StartupPopupDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
+			db_set_w(NULL, "SimpleStatusMsg", "SetStatusDelay", (WORD)data->setglobaldelay);
+			db_set_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
+			db_set_b(NULL, "SimpleStatusMsg", "StartupPopupDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
 			return TRUE;
 		}
 		break;

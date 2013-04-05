@@ -105,16 +105,16 @@ static void ShowAllContactIcons(HWND hwndList)
 	HANDLE hContact, hItem;
 
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts,
-											MAKELPARAM(0, DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0)));
+											MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepHistory", 0)));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory,
-											MAKELPARAM(0, DBGetContactSettingByte(NULL, ModuleName, "SweepSHistory", 0)));
+											MAKELPARAM(0, db_get_b(NULL, ModuleName, "SweepSHistory", 0)));
 
 	for (hContact=db_find_first(); hContact;
 											hContact=db_find_next(hContact))
 	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem,
-											MAKELPARAM(0, DBGetContactSettingByte(hContact, ModuleName, "SweepHistory", 0)));
+											MAKELPARAM(0, db_get_b(hContact, ModuleName, "SweepHistory", 0)));
 	}
 }//ShowAllContactIcons
 
@@ -150,12 +150,12 @@ void LoadSettings(HWND hwndDlg)
 		mir_free(ptszTimeStr);
 	}
 
-	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0), 0);
-	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0), 0);
 
-	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, DBGetContactSettingByte(NULL, ModuleName, "UnsafeMode", 0));
-	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, DBGetContactSettingByte(NULL, ModuleName, "SweepOnClose", 0));
-	CheckDlgButton(hwndDlg, IDC_HISTMW, DBGetContactSettingByte(NULL, ModuleName, "ChangeInMW", 0));
+	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, db_get_b(NULL, ModuleName, "UnsafeMode", 0));
+	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, db_get_b(NULL, ModuleName, "SweepOnClose", 0));
+	CheckDlgButton(hwndDlg, IDC_HISTMW, db_get_b(NULL, ModuleName, "ChangeInMW", 0));
 }//LoadSettings
 
 
@@ -163,18 +163,18 @@ void SaveSettings(HWND hwndDlg)
 {
 	int st, i; StatusIconData sid = {0}; HANDLE hContact, hItem; HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
-	DBWriteContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
-	DBWriteContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
-	DBWriteContactSettingByte(NULL, ModuleName, "UnsafeMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
-	DBWriteContactSettingByte(NULL, ModuleName, "SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
-	DBWriteContactSettingByte(NULL, ModuleName, "ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
+	db_set_b(NULL, ModuleName, "StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
+	db_set_b(NULL, ModuleName, "StartupShutdownKeep", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
+	db_set_b(NULL, ModuleName, "UnsafeMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
+	db_set_b(NULL, ModuleName, "SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
+	db_set_b(NULL, ModuleName, "ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
 
 	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
 
-	DBWriteContactSettingByte(NULL, ModuleName, "SweepHistory",
+	db_set_b(NULL, ModuleName, "SweepHistory",
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
-	DBWriteContactSettingByte(NULL, ModuleName, "SweepSHistory",
+	db_set_b(NULL, ModuleName, "SweepSHistory",
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 
 	for (hContact=db_find_first(); hContact;
@@ -183,8 +183,8 @@ void SaveSettings(HWND hwndDlg)
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 
 		st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
-		if ( st != 0 )	DBWriteContactSettingByte(hContact, ModuleName, "SweepHistory", (BYTE)st);
-		else			DBDeleteContactSetting(hContact, ModuleName, "SweepHistory");
+		if ( st != 0 )	db_set_b(hContact, ModuleName, "SweepHistory", (BYTE)st);
+		else			db_unset(hContact, ModuleName, "SweepHistory");
 
 		// set per-contact icons in status bar
 		for(i = 0; i < 4; i++)
@@ -196,21 +196,21 @@ void SaveSettings(HWND hwndDlg)
 	}
 
 	// set tooltips
-	st = DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0);
+	st = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 
 	sid.dwId = 0;
 	if		(st == 0)	sid.szTooltip = Translate("Keep all events");
-	else if (st == 1)	sid.szTooltip = Translate(time_stamp_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0)]);
-	else if (st == 2)	sid.szTooltip = Translate(keep_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+	else if (st == 1)	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+	else if (st == 2)	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	else if (st == 3)	sid.szTooltip = Translate("Delete all events");
 	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
 
 	sid.dwId = 1;
-	sid.szTooltip = Translate(time_stamp_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
 	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
 
 	sid.dwId = 2;
-	sid.szTooltip = Translate(keep_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	CallService(MS_MSG_MODIFYICON, 0, (LPARAM)&sid);
 }//SaveSettings
 

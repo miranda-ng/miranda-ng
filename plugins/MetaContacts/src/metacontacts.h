@@ -63,7 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // I can't think of a way around this - mental block
 
 INT_PTR TranslateMenuFunc(HANDLE hContact, int i);
-extern HANDLE hMenuContact[MAX_CONTACTS];
+extern HGENMENU hMenuContact[MAX_CONTACTS];
 
 extern HINSTANCE hInstance;
 extern PLUGININFOEX pluginInfo;

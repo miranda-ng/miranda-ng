@@ -106,7 +106,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			DBVARIANT dbv = {
 				DBVT_DELETED
 			};
-			DBGetContactSetting(NULL, "CList", "PrimaryStatus", &dbv);
+			db_get(NULL, "CList", "PrimaryStatus", &dbv);
 			ProtoEnumAccounts( &count, &accs );
 			item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Global"));
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETITEMDATA, item, (LPARAM) 0);
@@ -191,7 +191,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					int cursel = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
 					PROTOACCOUNT* pa = (PROTOACCOUNT*)SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cursel, 0);
 					if ( !pa )
-						DBDeleteContactSetting(NULL, "CList", "PrimaryStatus");
+						db_unset(NULL, "CList", "PrimaryStatus");
 					else
 						cfg::writeString(NULL, "CList", "PrimaryStatus", pa->szModuleName );
 				}

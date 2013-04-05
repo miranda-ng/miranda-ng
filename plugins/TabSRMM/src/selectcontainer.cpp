@@ -198,7 +198,7 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						if (iItemNew != LB_ERR)
 							SendDlgItemMessage(hwndDlg, IDC_CNTLIST, LB_SETITEMDATA, (WPARAM)iItemNew, (LPARAM)iCounter);
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			} while (++iCounter);
 

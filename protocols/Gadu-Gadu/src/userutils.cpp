@@ -135,7 +135,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 	if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv_email, DBVT_ASCIIZ)) 
 	{
 		strncpy(email, dbv_email.pszVal, sizeof(email));
-		DBFreeVariant(&dbv_email);
+		db_free(&dbv_email);
 	}
 
 	// Load token

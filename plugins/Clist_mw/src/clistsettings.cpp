@@ -120,7 +120,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 	{
 		DBVARIANT dbv;
 
-		if ( !DBGetContactSettingTString(pdnce->hContact,"CList","Group",&dbv))
+		if ( !db_get_ts(pdnce->hContact,"CList","Group",&dbv))
 		{
 			pdnce->tszGroup = mir_tstrdup(dbv.ptszVal);
 			mir_free(dbv.pszVal);
@@ -135,7 +135,7 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 		pdnce->noHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
 
 	if ( pdnce->IdleTS == -1 )
-		pdnce->IdleTS = DBGetContactSettingDword(pdnce->hContact,pdnce->szProto,"IdleTS",0);
+		pdnce->IdleTS = db_get_dw(pdnce->hContact,pdnce->szProto,"IdleTS",0);
 
 	if (pdnce->ApparentMode == -1)
 		pdnce->ApparentMode = db_get_w(pdnce->hContact,pdnce->szProto,"ApparentMode",0);

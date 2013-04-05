@@ -64,7 +64,7 @@ void LoadProfilStatus(LPVOID lparam) {
 void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HANDLE hcontact,int type)
 {
 	DBVARIANT dbv;
-	if(!DBGetContactSetting(hcontact,protocolname,feld,&dbv)) {
+	if(!db_get(hcontact,protocolname,feld,&dbv)) {
 		if(type==1)
 		{
 			char temp[255];
@@ -75,7 +75,7 @@ void SetItemTxt(HWND hwndDlg,int feldid,char*feld,HANDLE hcontact,int type)
 		{
 			SetDlgItemText(hwndDlg,feldid,dbv.pszVal);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		EnableDlgItem(hwndDlg,feldid,TRUE);
 	}
 	else
@@ -91,16 +91,16 @@ static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
     HGLOBAL clipbuffer;
 	char* buffer;
 
-	if(DBGetContactSettingWord((HANDLE)wParam, protocolname, feld2, -1)==0)
+	if(db_get_w((HANDLE)wParam, protocolname, feld2, -1)==0)
 		return 0;
 
 	DBVARIANT dbv;
-	if(DBGetContactSettingString((HANDLE)wParam, protocolname, feld1,&dbv))
+	if(db_get_s((HANDLE)wParam, protocolname, feld1,&dbv))
 		return 0;
 
-	sprintf(temp,"%s:%d",dbv.pszVal,DBGetContactSettingWord((HANDLE)wParam, protocolname, feld2, -1));
+	sprintf(temp,"%s:%d",dbv.pszVal,db_get_w((HANDLE)wParam, protocolname, feld2, -1));
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	if(OpenClipboard(NULL))
 	{
@@ -121,7 +121,7 @@ static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
 void addToList(HWND listbox,HANDLE hContact,char*key,char*val)
 {
 	DBVARIANT dbv;
-	if(!DBGetContactSetting(hContact,protocolname,val,&dbv))
+	if(!db_get(hContact,protocolname,val,&dbv))
 	{
 		LVITEM lvitem;
 		memset(&lvitem,0,sizeof(lvitem));
@@ -134,7 +134,7 @@ void addToList(HWND listbox,HANDLE hContact,char*key,char*val)
 		lvitem.iSubItem++;
 		lvitem.pszText=dbv.pszVal;
 		SendMessageA(listbox,LVM_SETITEM,0,(LPARAM)&lvitem);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -262,7 +262,7 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 					  if (hContact)
 					  {
 							DBVARIANT dbv;
-							if(!DBGetContactSetting(hContact,protocolname,"Username",&dbv))
+							if(!db_get(hContact,protocolname,"Username",&dbv))
 							{
 								int usernamesize=strlen(dbv.pszVal)+1;
 								char* username=new char[usernamesize];
@@ -272,13 +272,13 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 									mir_forkthread(LoadProfilStatus,(LPVOID)username);
 								}
 								//LoadProfilStatus
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 
-							if(!DBGetContactSetting(hContact,protocolname,"GameInfo",&dbv))
+							if(!db_get(hContact,protocolname,"GameInfo",&dbv))
 							{
 								setGameInfo(listbox,dbv.pszVal);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 
 							addToList(listbox,hContact,"Servername","ServerName");
@@ -301,26 +301,26 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 							{
 								DBVARIANT dbv;
 
-								if(!DBGetContactSetting(hContact,protocolname,"GameId",&dbv))
+								if(!db_get(hContact,protocolname,"GameId",&dbv))
 								{
 									SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,(WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal),0);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}							
-								if(!DBGetContactSetting(hContact,protocolname,"VoiceId",&dbv))
+								if(!db_get(hContact,protocolname,"VoiceId",&dbv))
 								{
 									SendMessage(GetDlgItem(hwndDlg,IDC_VOICEICO),STM_SETICON,(WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal),0);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 								
-								if(DBGetContactSetting(hContact,protocolname,"ServerIP",&dbv))
+								if(db_get(hContact,protocolname,"ServerIP",&dbv))
 								{
 									EnableWindow(GetDlgItem(hwndDlg,IDC_COPYGAME),FALSE);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
-								if(DBGetContactSetting(hContact,protocolname,"VServerIP",&dbv))
+								if(db_get(hContact,protocolname,"VServerIP",&dbv))
 								{
 									EnableWindow(GetDlgItem(hwndDlg,IDC_COPYVOICE),FALSE);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 								
 								//ShowWindow(GetDlgItem(hwndDlg,IDC_VOICEICO),FALSE)
@@ -388,30 +388,30 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 								char nick[256]="";
 								char status[256]="";
 								char game[512]="";
-								if(!DBGetContactSetting(hContact,"ContactPhoto","File",&dbv))
+								if(!db_get(hContact,"ContactPhoto","File",&dbv))
 								{
 									snprintf(img,256,"<img src=\"%s\">",dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
-								if(!DBGetContactSetting(hContact,protocolname,"Username",&dbv))
+								if(!db_get(hContact,protocolname,"Username",&dbv))
 								{
 									snprintf(username,256,"<b>Username:</b> %s<br>",dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
-								if(!DBGetContactSetting(hContact,protocolname,"Nick",&dbv))
+								if(!db_get(hContact,protocolname,"Nick",&dbv))
 								{
 									snprintf(nick,256,"<b>Nick:</b> %s<br>",dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
-								if(!DBGetContactSetting(hContact,protocolname,"XStatusMsg",&dbv))
+								if(!db_get(hContact,protocolname,"XStatusMsg",&dbv))
 								{
 									snprintf(status,256,"<b>Status:</b> %s<br>",dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
-								if(!DBGetContactSetting(hContact,protocolname,"RGame",&dbv))
+								if(!db_get(hContact,protocolname,"RGame",&dbv))
 								{
 									snprintf(game,512,"<fieldset style='border:1px solid #0091d5;background-color:#0d2c3e;margin-bottom:8px;'><legend>Spiel</legend><table><tr><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'><b><u>%s</u></b></td></tr></table></fieldset>",dbv.pszVal);
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 								snprintf(profil,2056,"mshtml:<div style='position:absolute;top:0;left:0;border:1px solid #0091d5;background-color:#000;padding:6px;width:334px;height:249px'><table><tr><td valign=top>%s</td><td valign=top style='font-family:Arial;font-size:11px;color:#fff;'>%s%s%s</td></tr><tr><td valign=top colspan=\"2\" style='font-family:Arial;font-size:11px;color:#fff;'>%s%s</td></tr></table></div>",img,username,nick,status,game);
 								HWND hWnd = ::CreateWindow("AtlAxWin", profil,

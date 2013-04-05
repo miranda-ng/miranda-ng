@@ -70,7 +70,7 @@ TCHAR *GetContactID(HANDLE hContact)
 	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
+		if ( !db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 			return theValue;

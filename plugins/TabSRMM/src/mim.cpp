@@ -82,7 +82,7 @@ void CMimAPI::timerMsg(const char *szMsg)
 
 DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0) const
 {
-	return((DWORD)DBGetContactSettingDword(hContact, szModule, szSetting, uDefault));
+	return((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
 }
 
 /*
@@ -91,7 +91,7 @@ DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szModule = 0, con
 
 DWORD CMimAPI::GetDword(const char *szSetting = 0, DWORD uDefault = 0) const
 {
-	return((DWORD)DBGetContactSettingDword(0, SRMSGMOD_T, szSetting, uDefault));
+	return((DWORD)db_get_dw(0, SRMSGMOD_T, szSetting, uDefault));
 }
 
 /*
@@ -100,7 +100,7 @@ DWORD CMimAPI::GetDword(const char *szSetting = 0, DWORD uDefault = 0) const
 
 DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szSetting = 0, DWORD uDefault = 0) const
 {
-	return((DWORD)DBGetContactSettingDword(hContact, SRMSGMOD_T, szSetting, uDefault));
+	return((DWORD)db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault));
 }
 
 /*
@@ -109,7 +109,7 @@ DWORD CMimAPI::GetDword(const HANDLE hContact = 0, const char *szSetting = 0, DW
 
 DWORD CMimAPI::GetDword(const char *szModule, const char *szSetting, DWORD uDefault) const
 {
-	return((DWORD)DBGetContactSettingDword(0, szModule, szSetting, uDefault));
+	return((DWORD)db_get_dw(0, szModule, szSetting, uDefault));
 }
 
 /*
@@ -117,32 +117,32 @@ DWORD CMimAPI::GetDword(const char *szModule, const char *szSetting, DWORD uDefa
  */
 int CMimAPI::GetByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0) const
 {
-	return(DBGetContactSettingByte(hContact, szModule, szSetting, uDefault));
+	return(db_get_b(hContact, szModule, szSetting, uDefault));
 }
 
 int CMimAPI::GetByte(const char *szSetting = 0, int uDefault = 0) const
 {
-	return(DBGetContactSettingByte(0, SRMSGMOD_T, szSetting, uDefault));
+	return(db_get_b(0, SRMSGMOD_T, szSetting, uDefault));
 }
 
 int CMimAPI::GetByte(const HANDLE hContact = 0, const char *szSetting = 0, int uDefault = 0) const
 {
-	return(DBGetContactSettingByte(hContact, SRMSGMOD_T, szSetting, uDefault));
+	return(db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault));
 }
 
 int CMimAPI::GetByte(const char *szModule, const char *szSetting, int uDefault) const
 {
-	return(DBGetContactSettingByte(0, szModule, szSetting, uDefault));
+	return(db_get_b(0, szModule, szSetting, uDefault));
 }
 
 INT_PTR CMimAPI::GetTString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const
 {
-	return(DBGetContactSettingTString(hContact, szModule, szSetting, dbv));
+	return(db_get_ts(hContact, szModule, szSetting, dbv));
 }
 
 INT_PTR CMimAPI::GetString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv) const
 {
-	return(DBGetContactSettingString(hContact, szModule, szSetting, dbv));
+	return(db_get_s(hContact, szModule, szSetting, dbv));
 }
 
 /*
@@ -151,7 +151,7 @@ INT_PTR CMimAPI::GetString(const HANDLE hContact, const char *szModule, const ch
 
 INT_PTR CMimAPI::WriteDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0) const
 {
-	return(DBWriteContactSettingDword(hContact, szModule, szSetting, value));
+	return(db_set_dw(hContact, szModule, szSetting, value));
 }
 
 /*
@@ -160,22 +160,22 @@ INT_PTR CMimAPI::WriteDword(const HANDLE hContact = 0, const char *szModule = 0,
 
 INT_PTR CMimAPI::WriteDword(const char *szModule = 0, const char *szSetting = 0, DWORD value = 0) const
 {
-	return(DBWriteContactSettingDword(0, szModule, szSetting, value));
+	return(db_set_dw(0, szModule, szSetting, value));
 }
 
 INT_PTR CMimAPI::WriteByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0) const
 {
-	return(DBWriteContactSettingByte(hContact, szModule, szSetting, value));
+	return(db_set_b(hContact, szModule, szSetting, value));
 }
 
 INT_PTR CMimAPI::WriteByte(const char *szModule = 0, const char *szSetting = 0, BYTE value = 0) const
 {
-	return(DBWriteContactSettingByte(0, szModule, szSetting, value));
+	return(db_set_b(0, szModule, szSetting, value));
 }
 
 INT_PTR CMimAPI::WriteTString(const HANDLE hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0) const
 {
-	return(DBWriteContactSettingTString(hContact, szModule, szSetting, str));
+	return(db_set_ts(hContact, szModule, szSetting, str));
 }
 
 /**

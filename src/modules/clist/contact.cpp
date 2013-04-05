@@ -163,7 +163,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 	if ((HANDLE) lParam == NULL)
-		DBDeleteContactSetting((HANDLE)wParam, "CList", "Group");
+		db_unset((HANDLE)wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
 		db_set_ts((HANDLE)wParam, "CList", "Group", grpChg.pszNewName);

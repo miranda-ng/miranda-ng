@@ -480,7 +480,7 @@ public:
 				for (int i = 0; ; i++)
 				{
 					mir_snprintf(buf, 20, "%d", i);
-					if ( DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
+					if ( db_get_ts(NULL, "CListGroups", buf, &dbv))
 						break;
 
 					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)&dbv.ptszVal[1]);
@@ -1382,7 +1382,7 @@ bool CJabberDlgPrivacyLists::CListIsGroup(HANDLE hGroup)
 	_i64toa((INT_PTR)hGroup-1, idstr, 10);
 
 	DBVARIANT dbv;
-	bool result = DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv) == 0;
+	bool result = db_get_ts(NULL, "CListGroups", idstr, &dbv) == 0;
 	if (result)
 		db_free(&dbv);
 
@@ -1400,7 +1400,7 @@ HANDLE CJabberDlgPrivacyLists::CListFindGroupByName(TCHAR *name)
 	{
 		_itoa(i, idstr, 10);
 
-		if ( DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
+		if ( db_get_ts(NULL, "CListGroups", idstr, &dbv))
 			break;
 
 		if ( !_tcscmp(dbv.ptszVal + 1, name))
@@ -1607,7 +1607,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 		char idstr[33];
 		_itoa(iGroup-1, idstr, 10);
 		DBVARIANT dbv = {0};
-		if ( DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
+		if ( db_get_ts(NULL, "CListGroups", idstr, &dbv))
 			break;
 
 		hItem = m_clcClist.FindGroup((HANDLE)iGroup);

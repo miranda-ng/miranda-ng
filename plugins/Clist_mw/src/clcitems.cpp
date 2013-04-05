@@ -166,7 +166,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	group->cl.items[i]->proto = szProto;
 
 	if (dat->style & CLS_SHOWSTATUSMESSAGES) {
-		if ( !DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv)) {
+		if ( !db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
 			int j;
 			lstrcpyn(group->cl.items[i]->szStatusMsg, dbv.ptszVal, SIZEOF(group->cl.items[i]->szStatusMsg));
 			for (j = (int)_tcslen(group->cl.items[i]->szStatusMsg)-1;j>=0;j--) {
@@ -174,7 +174,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 					group->cl.items[i]->szStatusMsg[j] = ' ';
 				}
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if (_tcslen(group->cl.items[i]->szStatusMsg)>0) {
 				group->cl.items[i]->flags |= CONTACTF_STATUSMSG;
 			}
@@ -292,7 +292,7 @@ void DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 		if ( !IsHContactContact(hItem)) return;
 		ClearClcContactCache(dat,hItem);
 
-		if (DBGetContactSettingTString(hItem,"CList","Group",&dbv)) return;
+		if (db_get_ts(hItem,"CList","Group",&dbv)) return;
 
 		//decrease member counts of all parent groups too
 		group = &dat->list;
@@ -423,7 +423,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	sprintf(buf,"RebuildEntireList %d \r\n",tick);
 
 	OutputDebugStringA(buf);
-	DBWriteContactSettingDword((HANDLE)0,"CLUI","PF:Last RebuildEntireList Time:",tick);
+	db_set_dw((HANDLE)0,"CLUI","PF:Last RebuildEntireList Time:",tick);
 	}	
 }
 
@@ -512,7 +512,7 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort)
 		if (tick > 5) {
 			sprintf(buf,"SortCLC %d \r\n",tick);
 			OutputDebugStringA(buf);
-			DBWriteContactSettingDword((HANDLE)0,"CLUI","PF:Last SortCLC Time:",tick);
+			db_set_dw((HANDLE)0,"CLUI","PF:Last SortCLC Time:",tick);
 		}
 	}
 #endif	

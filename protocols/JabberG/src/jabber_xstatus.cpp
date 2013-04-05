@@ -1513,7 +1513,7 @@ char *CJabberProto::ReadAdvStatusA(HANDLE hContact, const char *pszSlot, const c
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 
 	DBVARIANT dbv;
-	if ( DBGetContactSettingString(hContact, "AdvStatus", szSetting, &dbv))
+	if ( db_get_s(hContact, "AdvStatus", szSetting, &dbv))
 		return NULL;
 
 	char *res = mir_strdup(dbv.pszVal);
@@ -1527,7 +1527,7 @@ TCHAR *CJabberProto::ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(hContact, "AdvStatus", szSetting, &dbv))
+	if ( db_get_ts(hContact, "AdvStatus", szSetting, &dbv))
 		return NULL;
 
 	TCHAR *res = mir_tstrdup(dbv.ptszVal);

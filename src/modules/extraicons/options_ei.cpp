@@ -541,20 +541,20 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 						char setting[512];
 						mir_snprintf(setting, SIZEOF(setting), "Position_%s", extra->getName());
-						DBWriteContactSettingWord(NULL, MODULE_NAME, setting, extra->getPosition());
+						db_set_w(NULL, MODULE_NAME, setting, extra->getPosition());
 
 						mir_snprintf(setting, SIZEOF(setting), "Slot_%s", extra->getName());
-						DBWriteContactSettingWord(NULL, MODULE_NAME, setting, extra->getSlot());
+						db_set_w(NULL, MODULE_NAME, setting, extra->getSlot());
 					}
 
 					CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
-					DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
+					db_set_w(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
 					for (i = 0; i < groups.size(); i++) {
 						ExtraIconGroup *group = groups[i];
 
 						char setting[512];
 						mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
-						DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
+						db_set_w(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
 						for (unsigned int j = 0; j < group->items.size(); j++) {
 							BaseExtraIcon *extra = group->items[j];

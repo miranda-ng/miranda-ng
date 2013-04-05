@@ -466,27 +466,27 @@ JABBER_SOCKET TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 	if (ft->localName != NULL) mir_free(ft->localName);
 	ft->localName = NULL;
 	ft->wPort = 0;
-	if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseFileProxy", FALSE)) {
-		if (!DBGetContactSetting(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
+	if (db_get_b(NULL, proto->m_szModuleName, "UseFileProxy", FALSE)) {
+		if (!db_get(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
 			strcpy(sb.szHost, dbv.pszVal);
-			DBFreeVariant(&dbv);
-			sb.wPort = DBGetContactSettingWord(NULL, proto->m_szModuleName, "FileProxyPort", 0);
+			db_free(&dbv);
+			sb.wPort = db_get_w(NULL, proto->m_szModuleName, "FileProxyPort", 0);
 			sb.useAuth = FALSE;
 			strcpy(sb.szUser, "");
 			strcpy(sb.szPassword, "");
-			if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE)) {
+			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE)) {
 				sb.useAuth = TRUE;
-				if (!DBGetContactSetting(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
+				if (!db_get(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
 					strcpy(sb.szUser, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
-				if (!DBGetContactSetting(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
+				if (!db_get(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
 					CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 					strcpy(sb.szPassword, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
-			switch (DBGetContactSettingWord(NULL, proto->m_szModuleName, "FileProxyType", 0)) {
+			switch (db_get_w(NULL, proto->m_szModuleName, "FileProxyType", 0)) {
 				case 0: // forwarding
 					useProxy = 1;
 					break;

@@ -94,18 +94,18 @@ void LoadOption_General() {
 	//Dynamic Resize
 	PopUpOptions.DynamicResize		= db_get_b(NULL, MODULNAME, "DynamicResize", FALSE);
 	PopUpOptions.UseMinimumWidth	= db_get_b(NULL, MODULNAME, "UseMinimumWidth", TRUE);
-	PopUpOptions.MinimumWidth		= DBGetContactSettingWord(NULL, MODULNAME, "MinimumWidth", 160);
+	PopUpOptions.MinimumWidth		= db_get_w(NULL, MODULNAME, "MinimumWidth", 160);
 	PopUpOptions.UseMaximumWidth	= db_get_b(NULL, MODULNAME, "UseMaximumWidth", TRUE);
-	PopUpOptions.MaximumWidth		= DBGetContactSettingWord(NULL, MODULNAME, "MaximumWidth", 300);
+	PopUpOptions.MaximumWidth		= db_get_w(NULL, MODULNAME, "MaximumWidth", 300);
 	//Position
 	PopUpOptions.Position			= DBGetContactSettingRangedByte(NULL, MODULNAME, "Position",
 									  POS_LOWERRIGHT, POS_MINVALUE, POS_MAXVALUE);
 	//Configure popup area
-	PopUpOptions.gapTop				= DBGetContactSettingWord(NULL, MODULNAME, "gapTop", 5);
-	PopUpOptions.gapBottom			= DBGetContactSettingWord(NULL, MODULNAME, "gapBottom", 5);
-	PopUpOptions.gapLeft			= DBGetContactSettingWord(NULL, MODULNAME, "gapLeft", 5);
-	PopUpOptions.gapRight			= DBGetContactSettingWord(NULL, MODULNAME, "gapRight", 5);
-	PopUpOptions.spacing			= DBGetContactSettingWord(NULL, MODULNAME, "spacing", 5);
+	PopUpOptions.gapTop				= db_get_w(NULL, MODULNAME, "gapTop", 5);
+	PopUpOptions.gapBottom			= db_get_w(NULL, MODULNAME, "gapBottom", 5);
+	PopUpOptions.gapLeft			= db_get_w(NULL, MODULNAME, "gapLeft", 5);
+	PopUpOptions.gapRight			= db_get_w(NULL, MODULNAME, "gapRight", 5);
+	PopUpOptions.spacing			= db_get_w(NULL, MODULNAME, "spacing", 5);
 	//Spreading
 	PopUpOptions.Spreading			= DBGetContactSettingRangedByte(NULL, MODULNAME, "Spreading",
 									  SPREADING_VERTICAL, SPREADING_MINVALUE, SPREADING_MAXVALUE);
@@ -514,22 +514,22 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						case PSN_APPLY: {
 							//Seconds
 							db_set_b(NULL, MODULNAME, "InfiniteDelay", PopUpOptions.InfiniteDelay);
-							DBWriteContactSettingWord(NULL, MODULNAME, "Seconds", (WORD)PopUpOptions.Seconds);
+							db_set_w(NULL, MODULNAME, "Seconds", (WORD)PopUpOptions.Seconds);
 							db_set_b(NULL, MODULNAME, "LeaveHovered", PopUpOptions.LeaveHovered);
 							//Dynamic Resize
 							db_set_b(NULL, MODULNAME, "DynamicResize", PopUpOptions.DynamicResize);
 							db_set_b(NULL, MODULNAME, "UseMinimumWidth", PopUpOptions.UseMinimumWidth);
-							DBWriteContactSettingWord(NULL, MODULNAME, "MinimumWidth", PopUpOptions.MinimumWidth);
+							db_set_w(NULL, MODULNAME, "MinimumWidth", PopUpOptions.MinimumWidth);
 							db_set_b(NULL, MODULNAME, "UseMaximumWidth", PopUpOptions.UseMaximumWidth);
-							DBWriteContactSettingWord(NULL, MODULNAME, "MaximumWidth", PopUpOptions.MaximumWidth);
+							db_set_w(NULL, MODULNAME, "MaximumWidth", PopUpOptions.MaximumWidth);
 							//Position
 							db_set_b(NULL, MODULNAME, "Position", (BYTE)PopUpOptions.Position);
 							//Configure popup area
-							DBWriteContactSettingWord(NULL, MODULNAME, "gapTop",	(WORD)PopUpOptions.gapTop);
-							DBWriteContactSettingWord(NULL, MODULNAME, "gapBottom",	(WORD)PopUpOptions.gapBottom);
-							DBWriteContactSettingWord(NULL, MODULNAME, "gapLeft",	(WORD)PopUpOptions.gapLeft);
-							DBWriteContactSettingWord(NULL, MODULNAME, "gapRight",	(WORD)PopUpOptions.gapRight);
-							DBWriteContactSettingWord(NULL, MODULNAME, "spacing",	(WORD)PopUpOptions.spacing);
+							db_set_w(NULL, MODULNAME, "gapTop",	(WORD)PopUpOptions.gapTop);
+							db_set_w(NULL, MODULNAME, "gapBottom",	(WORD)PopUpOptions.gapBottom);
+							db_set_w(NULL, MODULNAME, "gapLeft",	(WORD)PopUpOptions.gapLeft);
+							db_set_w(NULL, MODULNAME, "gapRight",	(WORD)PopUpOptions.gapRight);
+							db_set_w(NULL, MODULNAME, "spacing",	(WORD)PopUpOptions.spacing);
 							//Spreading
 							db_set_b(NULL, MODULNAME, "Spreading", (BYTE)PopUpOptions.Spreading);
 							//miscellaneous

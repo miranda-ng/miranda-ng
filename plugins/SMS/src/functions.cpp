@@ -24,7 +24,7 @@ BOOL DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LP
 		}
 		if (pdwRetBuffSize) (*pdwRetBuffSize)=dwReadedStringLen;
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}else{
 		if (lpwszRetBuff && dwRetBuffSize>=sizeof(WCHAR)) (*((WCHAR*)lpwszRetBuff))=0;
 		if (pdwRetBuffSize)	(*pdwRetBuffSize)=0;
@@ -56,7 +56,7 @@ BOOL DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR
 		}
 	}else{
 		bRet=TRUE;
-		DBDeleteContactSetting(hContact,lpszModule,lpszValueName);
+		db_unset(hContact,lpszModule,lpszValueName);
 	}
 return(bRet);
 }
@@ -80,19 +80,6 @@ void EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsList
 {
 	for(SIZE_T i=0;i<dwControlsListCount;i++) EnableWindow(GetDlgItem(hWndDlg,pwControlsList[i]),bEnabled);
 }
-
-
-void CListShowMenuItem(HANDLE hMenuItem,BOOL bShow)
-{
-	CLISTMENUITEM mi={0};
-
-	mi.cbSize=sizeof(mi);
-	mi.flags=CMIM_FLAGS;
-	if (bShow==FALSE) mi.flags|=CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItem,(LPARAM)&mi);
-}
-
 
 //This function gets a Cellular string szPhone and clean it from symbools.
 SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen)
@@ -570,32 +557,32 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 	if (colour)
 	{
 		mir_snprintf(str,sizeof(str),"Font%dCol",i);
-		(*colour)=DBGetContactSettingDword(NULL,SRMMMOD,str,fontOptionsList[0].defColour);
+		(*colour)=db_get_dw(NULL,SRMMMOD,str,fontOptionsList[0].defColour);
 	}
 
 	if (lf)
 	{
-		if (DBGetContactSetting(NULL,SRMMMOD,str,&dbv))
+		if (db_get(NULL,SRMMMOD,str,&dbv))
 		{
 			lstrcpyn(lf->lfFaceName,fontOptionsList[0].szDefFace,SIZEOF(lf->lfFaceName));
 		}else{
 			lstrcpyn(lf->lfFaceName,dbv.ptszVal,SIZEOF(lf->lfFaceName));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		mir_snprintf(str,sizeof(str),"Font%dSize",i);
-		lf->lfHeight=(char)DBGetContactSettingByte(NULL,SRMMMOD,str,fontOptionsList[0].defSize);
+		lf->lfHeight=(char)db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defSize);
 		lf->lfWidth=0;
 		lf->lfEscapement=0;
 		lf->lfOrientation=0;
 		mir_snprintf(str,sizeof(str),"Font%dSty",i);
-		style=DBGetContactSettingByte(NULL,SRMMMOD,str,fontOptionsList[0].defStyle);
+		style=db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defStyle);
 		lf->lfWeight=style&FONTF_BOLD?FW_BOLD:FW_NORMAL;
 		lf->lfItalic=style&FONTF_ITALIC?1:0;
 		lf->lfUnderline=0;
 		lf->lfStrikeOut=0;
 		mir_snprintf(str,sizeof(str),"Font%dSet",i);
-		lf->lfCharSet=DBGetContactSettingByte(NULL,SRMMMOD,str,MsgDlgGetFontDefaultCharset(lf->lfFaceName));
+		lf->lfCharSet=db_get_b(NULL,SRMMMOD,str,MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 		lf->lfOutPrecision=OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision=CLIP_DEFAULT_PRECIS;
 		lf->lfQuality=DEFAULT_QUALITY;

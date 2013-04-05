@@ -130,14 +130,14 @@ int SM_RemoveSession(const TCHAR* pszID, const char* pszModule, BOOL removeConta
 			pTemp->nUsersInNicklist = 0;
 
 			// contact may have been deleted here already, since function may be called after deleting
-			// contact so the handle may be invalid, therefore DBGetContactSettingByte shall return 0
-			if (pTemp->hContact && DBGetContactSettingByte( pTemp->hContact, pTemp->pszModule, "ChatRoom", 0 ) != 0)
+			// contact so the handle may be invalid, therefore db_get_b shall return 0
+			if (pTemp->hContact && db_get_b( pTemp->hContact, pTemp->pszModule, "ChatRoom", 0 ) != 0)
 			{
 				CList_SetOffline(pTemp->hContact, pTemp->iType == GCW_CHATROOM?TRUE:FALSE);
 /*				if (pTemp->iType != GCW_SERVER)
-					DBWriteContactSettingByte(pTemp->hContact, "CList", "Hidden", 1);*/
-				DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule, "Topic", "");
-				DBWriteContactSettingString(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
+					db_set_b(pTemp->hContact, "CList", "Hidden", 1);*/
+				db_set_s(pTemp->hContact, pTemp->pszModule, "Topic", "");
+				db_set_s(pTemp->hContact, pTemp->pszModule, "StatusBar", "");
 				db_unset(pTemp->hContact, "CList", "StatusMsg");
 
 				if (removeContact)
@@ -774,9 +774,9 @@ BOOL SM_RemoveAll (void)
 		DoEventHook(m_WndList->ptszID, m_WndList->pszModule, GC_SESSION_TERMINATE, NULL, NULL, (DWORD)m_WndList->dwItemData);
 		if (m_WndList->hContact)
 			CList_SetOffline(m_WndList->hContact, m_WndList->iType == GCW_CHATROOM?TRUE:FALSE);
-		DBWriteContactSettingString(m_WndList->hContact, m_WndList->pszModule , "Topic", "");
+		db_set_s(m_WndList->hContact, m_WndList->pszModule , "Topic", "");
 		db_unset(m_WndList->hContact, "CList", "StatusMsg");
-		DBWriteContactSettingString(m_WndList->hContact, m_WndList->pszModule, "StatusBar", "");
+		db_set_s(m_WndList->hContact, m_WndList->pszModule, "StatusBar", "");
 
 		UM_RemoveAll(&m_WndList->pUsers);
 		TM_RemoveAll(&m_WndList->pStatuses);

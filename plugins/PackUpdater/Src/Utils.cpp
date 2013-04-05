@@ -69,41 +69,41 @@ VOID InitPopupList()
 	int index = 0;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = DBGetContactSettingDword(NULL, MODNAME, "Popups0Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = DBGetContactSettingDword(NULL, MODNAME, "Popups0Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups0Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups0Tx", COLOR_TX_DEFAULT);
 
 	index = 1;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = DBGetContactSettingDword(NULL, MODNAME, "Popups1Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = DBGetContactSettingDword(NULL, MODNAME, "Popups1Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups1Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups1Tx", COLOR_TX_DEFAULT);
 
 	index = 2;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = DBGetContactSettingDword(NULL, MODNAME, "Popups2Bg", COLOR_BG_FIRSTDEFAULT);
-	PopupsList[index].colorText = DBGetContactSettingDword(NULL, MODNAME, "Popups2Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups2Bg", COLOR_BG_FIRSTDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups2Tx", COLOR_TX_DEFAULT);
 
 	index = 3;
 	PopupsList[index].ID = index;
 	PopupsList[index].Icon = SKINICON_OTHER_MIRANDA;
-	PopupsList[index].colorBack = DBGetContactSettingDword(NULL, MODNAME, "Popups3Bg", COLOR_BG_SECONDDEFAULT);
-	PopupsList[index].colorText = DBGetContactSettingDword(NULL, MODNAME, "Popups3Tx", COLOR_TX_DEFAULT);
+	PopupsList[index].colorBack = db_get_dw(NULL, MODNAME, "Popups3Bg", COLOR_BG_SECONDDEFAULT);
+	PopupsList[index].colorText = db_get_dw(NULL, MODNAME, "Popups3Tx", COLOR_TX_DEFAULT);
 }
 
 VOID LoadOptions()
 {
-	MyOptions.DefColors = DBGetContactSettingByte(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
-	MyOptions.LeftClickAction= DBGetContactSettingByte(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
-	MyOptions.RightClickAction = DBGetContactSettingByte(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
-	MyOptions.Timeout = DBGetContactSettingDword(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-	UpdateOnStartup = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
-	OnlyOnceADay = DBGetContactSettingByte(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
-	UpdateOnPeriod = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
-	Period = DBGetContactSettingDword(NULL, MODNAME, "Period", DEFAULT_PERIOD);
-	PeriodMeasure = DBGetContactSettingByte(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
-	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
-	FileCount = DBGetContactSettingDword(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
+	MyOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
+	MyOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	MyOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
+	MyOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
+	UpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	OnlyOnceADay = db_get_b(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	UpdateOnPeriod = db_get_b(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	Period = db_get_dw(NULL, MODNAME, "Period", DEFAULT_PERIOD);
+	PeriodMeasure = db_get_b(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
+	Reminder = db_get_b(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
+	FileCount = db_get_dw(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
 }
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
@@ -170,7 +170,7 @@ BOOL Exists(LPCTSTR strName)
 BOOL IsPluginDisabled(TCHAR* filename)
 {
 	char* fname = mir_t2a(filename);
-	int res = DBGetContactSettingByte(NULL, "PluginDisable", fname, 0);
+	int res = db_get_b(NULL, "PluginDisable", fname, 0);
 	mir_free(fname);
 	return res;
 }
@@ -193,23 +193,23 @@ static void CheckUpdates(void *)
 	if (!Exists(tszRoot))
 		CreateDirectory(tszRoot, NULL);
 	Files.clear();
-	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
-	FileCount = DBGetContactSettingDword(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
+	Reminder = db_get_b(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
+	FileCount = db_get_dw(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
 
 	// Load files info
-	DBGetContactSettingTString(NULL, MODNAME, "File_VersionURL", &dbVar);
+	db_get_ts(NULL, MODNAME, "File_VersionURL", &dbVar);
 	if (lstrcmp(dbVar.ptszVal, NULL) == 0)// URL is not set
 	{
 		Title=TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
 		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
+		else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONSTOP);
-		DBFreeVariant(&dbVar);
+		db_free(&dbVar);
 		hCheckThread = NULL;
 		return;
 	}
@@ -235,20 +235,20 @@ static void CheckUpdates(void *)
 
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", CurrentFile + 1);
-		DBGetContactSettingTString(NULL, MODNAME, szKey, &dbVar);
+		db_get_ts(NULL, MODNAME, szKey, &dbVar);
 		if (lstrcmp(dbVar.ptszVal, NULL) == 0)
 		{
-			DBFreeVariant(&dbVar);
+			db_free(&dbVar);
 			lstrcpyn(FileInfo.tszCurVer, _T(""), SIZEOF(FileInfo.tszCurVer));
 		}
 		else
 			lstrcpyn(FileInfo.tszCurVer, dbVar.ptszVal, SIZEOF(FileInfo.tszCurVer));
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
-		DBGetContactSettingTString(NULL, MODNAME, szKey, &dbVar);
+		db_get_ts(NULL, MODNAME, szKey, &dbVar);
 		if (lstrcmp(dbVar.ptszVal, NULL) == 0)
 		{
-			DBFreeVariant(&dbVar);
+			db_free(&dbVar);
 			lstrcpyn(FileInfo.tszLastVer, _T(""), SIZEOF(FileInfo.tszLastVer));
 		}
 		else
@@ -268,12 +268,12 @@ static void CheckUpdates(void *)
 		{
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
+			if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
 			{
 				Number = 1;
 				show_popup(0, Title, Text, Number, 0);
 			}
-			else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
+			else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
 				MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 			continue;
 		} // end check update name
@@ -352,7 +352,7 @@ static void CheckUpdates(void *)
 				// Save last version
 				lstrcpyn(Files[CurrentFile].tszLastVer, Files[CurrentFile].tszNewVer, SIZEOF(Files[CurrentFile].tszLastVer));
 				mir_snprintf(szKey, SIZEOF(szKey), "File_%d_LastVersion", CurrentFile + 1);
-				DBWriteContactSettingTString(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
+				db_set_ts(NULL, MODNAME, szKey, Files[CurrentFile].tszLastVer);
 			} // user have admin's rights
 			mir_free(tszSysRoot);
 			mir_free(tszProgFiles);
@@ -372,24 +372,24 @@ static void CheckUpdates(void *)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
 	if (!FileCount)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
 	hCheckThread = NULL;
@@ -401,18 +401,18 @@ void DoCheck(int iFlag)
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+		else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 	}
 	else if (iFlag)
 	{
 		hCheckThread = mir_forkthread(CheckUpdates, 0);
-		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
+		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
 }
 
@@ -421,7 +421,7 @@ BOOL AllowUpdateOnStartup()
 	if(OnlyOnceADay)
 	{
 		time_t now = time(NULL);
-		time_t was = DBGetContactSettingDword(NULL, MODNAME, "LastUpdate", 0);
+		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
 		if((now - was) < 86400)
 			return FALSE;

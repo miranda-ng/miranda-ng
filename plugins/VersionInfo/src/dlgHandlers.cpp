@@ -65,7 +65,7 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		TranslateDialogDefault(hWnd);
 
-		oldFSFValue = DBGetContactSettingByte(NULL, ModuleName, "ForumStyle", 1);
+		oldFSFValue = db_get_b(NULL, ModuleName, "ForumStyle", 1);
 
 		AddInfoToComboboxes(hWnd, IDC_ASK_QUOTECOMBOBOX, IDC_ASK_SIZECOMBOBOX, IDC_ASK_BOLDCOMBOBOX);
 
@@ -122,17 +122,17 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			int newFSFValue = IsDlgButtonChecked(hWnd, IDC_ASK_FORUMSTYLE);
 			if (newFSFValue != oldFSFValue)
-				DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", newFSFValue); //temporary store the new value
+				db_set_b(NULL, ModuleName, "ForumStyle", newFSFValue); //temporary store the new value
 
 			if (newFSFValue) {
-				DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", quoteBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", quoteEnd);
+				db_set_ts(NULL, ModuleName, "QuoteBegin", quoteBegin);
+				db_set_ts(NULL, ModuleName, "QuoteEnd", quoteEnd);
 
-				DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", sizeBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", sizeEnd);
+				db_set_ts(NULL, ModuleName, "SizeBegin", sizeBegin);
+				db_set_ts(NULL, ModuleName, "SizeEnd", sizeEnd);
 
-				DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", boldBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", boldEnd);
+				db_set_ts(NULL, ModuleName, "BoldBegin", boldBegin);
+				db_set_ts(NULL, ModuleName, "BoldEnd", boldEnd);
 			}
 
 			int debugTo = TO_DIALOGBOX; //just to be safe
@@ -152,17 +152,17 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			DoDebugTo(debugTo);
 
 			if (newFSFValue != oldFSFValue)
-				DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", oldFSFValue);
+				db_set_b(NULL, ModuleName, "ForumStyle", oldFSFValue);
 
 			if (newFSFValue) {
-				DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", oldQuoteBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", oldQuoteEnd);
+				db_set_ts(NULL, ModuleName, "QuoteBegin", oldQuoteBegin);
+				db_set_ts(NULL, ModuleName, "QuoteEnd", oldQuoteEnd);
 
-				DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", oldSizeBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", oldSizeEnd);
+				db_set_ts(NULL, ModuleName, "SizeBegin", oldSizeBegin);
+				db_set_ts(NULL, ModuleName, "SizeEnd", oldSizeEnd);
 
-				DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", oldBoldBegin);
-				DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", oldBoldEnd);
+				db_set_ts(NULL, ModuleName, "BoldBegin", oldBoldBegin);
+				db_set_ts(NULL, ModuleName, "BoldEnd", oldBoldEnd);
 			}
 
 			DestroyWindow(hWnd);
@@ -215,7 +215,7 @@ int DoDebugTo(int debugTo)
 		break;
 	}
 
-	if ((debugTo != TO_CLIPBOARD) && (DBGetContactSettingByte(NULL, ModuleName, "ClipboardAlways", FALSE)))
+	if ((debugTo != TO_CLIPBOARD) && (db_get_b(NULL, ModuleName, "ClipboardAlways", FALSE)))
 		myInfo.PrintInformationsToClipboard(false);
 	
 	if ((bServiceMode) && (debugTo != TO_DIALOGBOX) && (debugTo != TO_ASK)) //close miranda if in service mode and no dialog was shown	
@@ -241,16 +241,16 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		TranslateDialogDefault(hWnd);
 		AddInfoToComboboxes(hWnd, IDC_QUOTECOMBOBOX, IDC_SIZECOMBOBOX, IDC_BOLDCOMBOBOX);
 
-		CheckDlgButton(hWnd, IDC_FORUMSTYLE, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ForumStyle", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_DISABLEDTOO, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ShowInactive", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_SHOWUUIDS, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ShowUUIDs", FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_SHOWINSTALLEDLANGUAGES, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_SUPPRESSHEADER, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "SuppressHeader", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_FORUMSTYLE, (BOOL) db_get_b(NULL, ModuleName, "ForumStyle", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_DISABLEDTOO, (BOOL) db_get_b(NULL, ModuleName, "ShowInactive", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_SHOWUUIDS, (BOOL) db_get_b(NULL, ModuleName, "ShowUUIDs", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_SHOWINSTALLEDLANGUAGES, (BOOL) db_get_b(NULL, ModuleName, "ShowInstalledLanguages", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_SUPPRESSHEADER, (BOOL) db_get_b(NULL, ModuleName, "SuppressHeader", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hWnd, IDC_SHOWINTASKBAR, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ShowInTaskbar", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CLIPBOARDALSO, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "ClipboardAlways", FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_BOLDVERSION, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "BoldVersionNumber", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hWnd, IDC_CHECKUNLOADABLE, (BOOL) DBGetContactSettingByte(NULL, ModuleName, "CheckForDependencies", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_SHOWINTASKBAR, (BOOL) db_get_b(NULL, ModuleName, "ShowInTaskbar", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CLIPBOARDALSO, (BOOL) db_get_b(NULL, ModuleName, "ClipboardAlways", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_BOLDVERSION, (BOOL) db_get_b(NULL, ModuleName, "BoldVersionNumber", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_CHECKUNLOADABLE, (BOOL) db_get_b(NULL, ModuleName, "CheckForDependencies", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 		SetFocus(GetDlgItem(hWnd, IDC_FORUMSTYLE));
 		{
 			DBVARIANT dbv = { 0 };
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			TCHAR buffer[1024];
 			TCHAR notFound[1024];
 
-			if (DBGetContactSettingTString(NULL, ModuleName, "OutputFile", &dbv) == 0)
+			if (db_get_ts(NULL, ModuleName, "OutputFile", &dbv) == 0)
 				RelativePathToAbsolute(dbv.ptszVal, notFound, SIZEOF(notFound));
 			else
 				RelativePathToAbsolute( _T("VersionInfo.txt"), notFound, SIZEOF(notFound));
@@ -291,7 +291,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetStringFromDatabase("UploadServer", _T("vi.cass.cz"), buffer, SIZEOF(buffer));
 			SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_SERVER), buffer);
 
-			int port = DBGetContactSettingWord(NULL, ModuleName, "UploadPort", DEFAULT_UPLOAD_PORT);
+			int port = db_get_w(NULL, ModuleName, "UploadPort", DEFAULT_UPLOAD_PORT);
 			_itot(port, buffer, 10);
 			SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_PORT), buffer);
 
@@ -303,7 +303,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_PASSWORD), buffer);
 		}
 
-		switch(DBGetContactSettingByte(NULL, ModuleName, "DebugTo", TO_DIALOGBOX)) {
+		switch(db_get_b(NULL, ModuleName, "DebugTo", TO_DIALOGBOX)) {
 		case TO_FILE:
 			CheckDlgButton(hWnd, IDC_TOFILE, BST_CHECKED);
 			break;
@@ -440,53 +440,53 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					TCHAR start[256], end[256];
 					SendDlgItemMessage(hWnd, IDC_QUOTECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 					SplitStringInfo(buffer, start, end);
-					DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", start);
-					DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", end);
+					db_set_ts(NULL, ModuleName, "QuoteBegin", start);
+					db_set_ts(NULL, ModuleName, "QuoteEnd", end);
 					SendDlgItemMessage(hWnd, IDC_SIZECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 					SplitStringInfo(buffer, start, end);
-					DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", start);
-					DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", end);
+					db_set_ts(NULL, ModuleName, "SizeBegin", start);
+					db_set_ts(NULL, ModuleName, "SizeEnd", end);
 					SendDlgItemMessage(hWnd, IDC_BOLDCOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 					SplitStringInfo(buffer, start, end);
-					DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", start);
-					DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", end);
+					db_set_ts(NULL, ModuleName, "BoldBegin", start);
+					db_set_ts(NULL, ModuleName, "BoldEnd", end);
 				}
 
-				DBWriteContactSettingByte(NULL, ModuleName, "CheckForDependencies", IsDlgButtonChecked(hWnd, IDC_CHECKUNLOADABLE) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "BoldVersionNumber", IsDlgButtonChecked(hWnd, IDC_BOLDVERSION) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "ClipboardAlways", IsDlgButtonChecked(hWnd, IDC_CLIPBOARDALSO) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "SuppressHeader", IsDlgButtonChecked(hWnd, IDC_SUPPRESSHEADER) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "ShowUUIDs", IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) ? TRUE : FALSE);
-				DBWriteContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", IsDlgButtonChecked(hWnd, IDC_SHOWINSTALLEDLANGUAGES) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "CheckForDependencies", IsDlgButtonChecked(hWnd, IDC_CHECKUNLOADABLE) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "BoldVersionNumber", IsDlgButtonChecked(hWnd, IDC_BOLDVERSION) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "ForumStyle", IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "ClipboardAlways", IsDlgButtonChecked(hWnd, IDC_CLIPBOARDALSO) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "SuppressHeader", IsDlgButtonChecked(hWnd, IDC_SUPPRESSHEADER) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "ShowUUIDs", IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "ShowInstalledLanguages", IsDlgButtonChecked(hWnd, IDC_SHOWINSTALLEDLANGUAGES) ? TRUE : FALSE);
 
 				if (!hOutputLocation) {
 					TCHAR filePath[MAX_PATH], fileName[MAX_PATH];
 					GetDlgItemText(hWnd, IDC_FILENAME, fileName, MAX_PATH);
 					AbsolutePathToRelative(fileName, filePath, SIZEOF(filePath));
 
-					DBWriteContactSettingTString(NULL, ModuleName, "OutputFile", filePath); //store relative path
+					db_set_ts(NULL, ModuleName, "OutputFile", filePath); //store relative path
 				}
-				DBWriteContactSettingByte(NULL, ModuleName, "ShowInTaskbar", IsDlgButtonChecked(hWnd, IDC_SHOWINTASKBAR) ? TRUE : FALSE);
+				db_set_b(NULL, ModuleName, "ShowInTaskbar", IsDlgButtonChecked(hWnd, IDC_SHOWINTASKBAR) ? TRUE : FALSE);
 				//Debug to:
 				if (IsDlgButtonChecked(hWnd, IDC_TOFILE))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_FILE);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_FILE);
 				else if (IsDlgButtonChecked(hWnd, IDC_TOMESSAGEBOX))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_MESSAGEBOX);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_MESSAGEBOX);
 				else if (IsDlgButtonChecked(hWnd, IDC_TODIALOGBOX))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_DIALOGBOX);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_DIALOGBOX);
 				else if (IsDlgButtonChecked(hWnd, IDC_TODEBUGSTRING))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_DEBUGSTRING);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_DEBUGSTRING);
 				else if (IsDlgButtonChecked(hWnd, IDC_TOCLIPBOARD))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_CLIPBOARD);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_CLIPBOARD);
 				else if (IsDlgButtonChecked(hWnd, IDC_TOUPLOAD))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_UPLOAD);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_UPLOAD);
 				else if (IsDlgButtonChecked(hWnd, IDC_ASKEVERYTIME))
-					DBWriteContactSettingByte(NULL, ModuleName, "DebugTo", TO_ASK);
+					db_set_b(NULL, ModuleName, "DebugTo", TO_ASK);
 
 				EnableWindow(GetDlgItem(hWnd, IDC_GETINFONOW), TRUE);
 				//Disabled plugins too?
-				DBWriteContactSettingByte(NULL, ModuleName, "ShowInactive", IsDlgButtonChecked(hWnd, IDC_DISABLEDTOO)?TRUE:FALSE);
+				db_set_b(NULL, ModuleName, "ShowInactive", IsDlgButtonChecked(hWnd, IDC_DISABLEDTOO)?TRUE:FALSE);
 
 				GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
 		}	}
@@ -504,7 +504,7 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiVIIcon);
 
 		myInfo = (CVersionInfo *) lParam;
-		if (DBGetContactSettingByte(NULL, ModuleName, "ShowInTaskbar", TRUE)) {
+		if (db_get_b(NULL, ModuleName, "ShowInTaskbar", TRUE)) {
 			DWORD ws;
 			ws = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 			SetWindowLongPtr(hWnd, GWL_EXSTYLE, ws | WS_EX_APPWINDOW);
@@ -517,7 +517,7 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			LOGFONT lf = { 0 };
 
 			dbv.type = DBVT_BLOB;
-			if (DBGetContactSetting(NULL, "OptionFont", "Font", &dbv) == 0)
+			if (db_get(NULL, "OptionFont", "Font", &dbv) == 0)
 				lf=*(LOGFONT*)dbv.pbVal;
 			else {
 				HFONT hFont = (HFONT)SendDlgItemMessage(hWnd,IDC_CLOSE,WM_GETFONT,0,0);

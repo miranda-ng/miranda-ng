@@ -184,7 +184,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	_ASSERT(ppd.lchIcon);
 	if (!ppd.lchIcon || (DWORD)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
 		// if we didn't succeed retrieving client icon, show the usual status icon instead
-		ppd.lchIcon = LoadSkinnedProtoIcon(szProto, DBGetContactSettingWord(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
+		ppd.lchIcon = LoadSkinnedProtoIcon(szProto, db_get_w(sd->hContact, szProto, "Status", ID_STATUS_OFFLINE));
 		pdata->hIcon = NULL;
 	}
 	_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)sd->hContact, GCDNF_TCHAR), lengthof(ppd.lptzContactName) - 1);
@@ -216,12 +216,12 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			if (bMetaContactsExists && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 				return 0;
 
-			sd.MirVer = DBGetContactSettingString(hContact, szProto, DB_MIRVER, _T(""));
+			sd.MirVer = db_get_s(hContact, szProto, DB_MIRVER, _T(""));
 			if (sd.MirVer.IsEmpty())
 				return 0;
 		}
-		sd.OldMirVer = DBGetContactSettingString(hContact, MOD_NAME, DB_OLDMIRVER, _T(""));
-		DBWriteContactSettingTString(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
+		sd.OldMirVer = db_get_s(hContact, MOD_NAME, DB_OLDMIRVER, _T(""));
+		db_set_ts(hContact, MOD_NAME, DB_OLDMIRVER, sd.MirVer); // we have to write it here, because we modify sd.OldMirVer and sd.MirVer to conform our settings later
 		if (sd.OldMirVer.IsEmpty())  // looks like it's the right way to do
 			return 0;
 
@@ -237,14 +237,14 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (!hContactOrMeta)
 			hContactOrMeta = hContact;
 
-		if (hContact && DBGetContactSettingByte(hContactOrMeta, "CList", "Hidden", 0))
+		if (hContact && db_get_b(hContactOrMeta, "CList", "Hidden", 0))
 			return 0;
 
-		int PerContactSetting = hContact ? DBGetContactSettingByte(hContact, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
+		int PerContactSetting = hContact ? db_get_b(hContact, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview
 		if (PerContactSetting == NOTIFY_USEGLOBAL && hContactOrMeta != hContact) // subcontact setting has a priority over a metacontact setting
-			PerContactSetting = DBGetContactSettingByte(hContactOrMeta, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
+			PerContactSetting = db_get_b(hContactOrMeta, MOD_NAME, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL);
 
-		if (PerContactSetting && (PerContactSetting == NOTIFY_ALMOST_ALWAYS || PerContactSetting == NOTIFY_ALWAYS || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG) || !(DBGetContactSettingDword(hContactOrMeta, "Ignore", "Mask1", 0) & 0x8))) { // check if we need to notify at all
+		if (PerContactSetting && (PerContactSetting == NOTIFY_ALMOST_ALWAYS || PerContactSetting == NOTIFY_ALWAYS || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG) || !(db_get_dw(hContactOrMeta, "Ignore", "Mask1", 0) & 0x8))) { // check if we need to notify at all
 			sd.hContact = hContact;
 			sd.PopupOptPage = &PopupOptPage;
 			if (!PopupOptPage.GetValue(IDC_POPUPOPTDLG_VERCHGNOTIFY) || !PopupOptPage.GetValue(IDC_POPUPOPTDLG_SHOWVER)) {
@@ -365,7 +365,7 @@ INT_PTR CALLBACK CCNErrorDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_DESTROY:
 		if (IsDlgButtonChecked(hwndDlg, IDC_DONTREMIND))
-			DBWriteContactSettingByte(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 1);
+			db_set_b(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 1);
 		break;
 	}
 	return 0;
@@ -411,7 +411,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// seems that Fingerprint is not installed
-	if (!bFingerprintExists && !DBGetContactSettingByte(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
+	if (!bFingerprintExists && !db_get_b(NULL, MOD_NAME, DB_NO_FINGERPRINT_ERROR, 0))
 		CreateDialog(g_hInstance, MAKEINTRESOURCE(IDD_CCN_ERROR), NULL, CCNErrorDlgProc);
 
 	logservice_register(LOG_ID, LPGENT("ClientChangeNotify"), _T("ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log"), TranslateT("`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%"));
@@ -425,16 +425,16 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded);
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &g_hMainThread, THREAD_SET_CONTEXT, false, 0);
 	InitOptions();
-	if (DBGetContactSettingString(NULL, "KnownModules", MOD_NAME, (char*)NULL) == NULL)
-		DBWriteContactSettingString(NULL, "KnownModules", MOD_NAME, MOD_NAME);
+	if (db_get_s(NULL, "KnownModules", MOD_NAME, (char*)NULL) == NULL)
+		db_set_s(NULL, "KnownModules", MOD_NAME, MOD_NAME);
 
-	if (DBGetContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) {
+	if (db_get_b(NULL, MOD_NAME, DB_SETTINGSVER, 0) < 1) {
 		TCString Str;
-		Str = DBGetContactSettingString(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, _T(""));
+		Str = db_get_s(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, _T(""));
 		if (Str.GetLen()) // fix incorrect regexp from v0.1.1.0
-			DBWriteContactSettingTString(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(_T("/Miranda[0-9A-F]{8}/"), _T("/[0-9A-F]{8}(\\W|$)/")));
+			db_set_ts(NULL, MOD_NAME, DB_IGNORESUBSTRINGS, Str.Replace(_T("/Miranda[0-9A-F]{8}/"), _T("/[0-9A-F]{8}(\\W|$)/")));
 
-		DBWriteContactSettingByte(NULL, MOD_NAME, DB_SETTINGSVER, 1);
+		db_set_b(NULL, MOD_NAME, DB_SETTINGSVER, 1);
 	}
 	return 0;
 }

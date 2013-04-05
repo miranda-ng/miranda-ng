@@ -59,9 +59,9 @@ static char* getMirVer(HANDLE hContact)
 	if ( !szProto )
 		return (NULL);
 
-	if ( !DBGetContactSettingString(hContact, szProto, "MirVer", &dbv)) {
+	if ( !db_get_s(hContact, szProto, "MirVer", &dbv)) {
 		msg=mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return (msg);
 }
@@ -74,7 +74,7 @@ static TCHAR* getMenuEntry(int i)  {
 	mir_snprintf(MEntry, 255, "MenuEntry_%u", i);
 	if ( !M->GetTString(NULL, "tabmodplus",MEntry, &dbv)) {
 		msg = mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return (msg);
 }

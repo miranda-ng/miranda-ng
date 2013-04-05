@@ -109,7 +109,7 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, GetWord(hContact, "yprotoid", 0));
 		
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	} else {
 		DebugLog("[YahooContactDeleted] Can't retrieve contact Yahoo ID");
 	}
@@ -133,11 +133,11 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx("yahoo", true ));
 			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx("yahoo"));
 
-			if ( !DBGetContactSettingString( NULL, ppro->m_szModuleName, YAHOO_CUSTSTATDB, &dbv )) {
+			if ( !db_get_s( NULL, ppro->m_szModuleName, YAHOO_CUSTSTATDB, &dbv )) {
 				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, dbv. pszVal );
 
 				EnableWindow( GetDlgItem( hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0);
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 			}
 			else {
 				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, "");
@@ -269,7 +269,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand( WPARAM wParam, LPARAM lParam 
 		return 0;
 		
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );
-	DBFreeVariant( &dbv );
+	db_free( &dbv );
 	
 	OpenURL(tUrl, 0);
 	return 0;
@@ -295,7 +295,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 
 	char tUrl[ 4096 ];
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );
-	DBFreeVariant( &dbv );
+	db_free( &dbv );
 
 	OpenURL(tUrl, 0);
 	return 0;

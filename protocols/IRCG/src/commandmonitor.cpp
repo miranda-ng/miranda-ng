@@ -148,19 +148,19 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 			   BYTE bRoom = ppro->getByte(hContact, "ChatRoom", 0);
 			   if ( bRoom == 0 ) {
 				   BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
-				   BYTE bHidden = DBGetContactSettingByte(hContact,"CList", "Hidden", 0);
+				   BYTE bHidden = db_get_b(hContact,"CList", "Hidden", 0);
 					if ( bDCC == 0 && bHidden == 0 ) {
 						if ( !ppro->getTString( hContact, "Default", &dbv )) {
 							BYTE bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0) ;
 							if ( !bAdvanced ) {
-								DBFreeVariant( &dbv );
+								db_free( &dbv );
 								if ( !ppro->getTString( hContact, "Nick", &dbv )) {	
 									ppro->m_namesToUserhost += CMString(dbv.ptszVal) + _T(" ");
-									DBFreeVariant( &dbv );
+									db_free( &dbv );
 								}
 							}
 							else {
-								DBFreeVariant( &dbv );
+								db_free( &dbv );
 								DBVARIANT dbv2;
 								
 								TCHAR* DBNick = NULL;
@@ -175,8 +175,8 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 								else if ( DBWildcard )
 									ppro->m_namesToWho += CMString(DBWildcard) + _T(" ");
 
-								if ( DBNick )     DBFreeVariant(&dbv);
-                        if ( DBWildcard ) DBFreeVariant(&dbv2);
+								if ( DBNick )     db_free(&dbv);
+                        if ( DBWildcard ) db_free(&dbv2);
 			}	}	}	}	}
 
 			hContact = db_find_next(hContact);
@@ -714,7 +714,7 @@ bool CIrcProto::OnIrc_PRIVMSG( const CIrcMessage* pmsg )
 
 			if (( m_ignore && IsIgnored( pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, 'q' ))) {
 				HANDLE hContact = CList_FindContact( &user );
-				if ( !hContact || ( hContact && DBGetContactSettingByte( hContact,"CList", "Hidden", 0) == 1 ))
+				if ( !hContact || ( hContact && db_get_b( hContact,"CList", "Hidden", 0) == 1 ))
 					return true;
 			}
 
@@ -1082,8 +1082,8 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 				// check if it should be ignored
 				if ( m_DCCChatIgnore == 1 || 
 					m_DCCChatIgnore == 2 && hContact && 
-					DBGetContactSettingByte(hContact,"CList", "NotOnList", 0) == 0 && 
-					DBGetContactSettingByte(hContact,"CList", "Hidden", 0) == 0)
+					db_get_b(hContact,"CList", "NotOnList", 0) == 0 && 
+					db_get_b(hContact,"CList", "Hidden", 0) == 0)
 				{
 					CMString host = pmsg->prefix.sUser + _T("@") + pmsg->prefix.sHost;
 					CList_AddDCCChat(pmsg->prefix.sNick, host, dwAdr, iPort); // add a CHAT event to the clist
@@ -1431,10 +1431,10 @@ bool CIrcProto::OnIrc_ENDNAMES( const CIrcMessage* pmsg )
 					else CallChatEvent( SESSION_INITDONE, (LPARAM)&gce);
 
 					if ( save.IsEmpty())
-						DBDeleteContactSetting(NULL, m_szModuleName, "JTemp");
+						db_unset(NULL, m_szModuleName, "JTemp");
 					else
 						setTString("JTemp", save.c_str());
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else CallChatEvent( SESSION_INITDONE, (LPARAM)&gce);
 
@@ -1791,13 +1791,13 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER( const CIrcMessage* pmsg )
 				else {
 					if ( !getTString( hContact, "UWildcard", &dbv2 )) {
 						DoUserhostWithReason(2, ((CMString)_T("S") + dbv2.ptszVal).c_str(), true, dbv2.ptszVal );
-						DBFreeVariant(&dbv2);
+						db_free(&dbv2);
 					}
 					else DoUserhostWithReason(2, ((CMString)_T("S") + dbv.ptszVal).c_str(), true, dbv.ptszVal );
 				}
 				setString(hContact, "User", "");
 				setString(hContact, "Host", "");
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 	}	}	}
 
 	ShowMessage( pmsg );
@@ -1855,10 +1855,10 @@ bool CIrcProto::OnIrc_JOINERROR( const CIrcMessage* pmsg )
 					save += command + _T(" ");
 			}
 			
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			if ( save.IsEmpty())
-				DBDeleteContactSetting( NULL, m_szModuleName, "JTemp" );
+				db_unset( NULL, m_szModuleName, "JTemp" );
 			else
 				setTString( "JTemp", save.c_str());
 	}	}
@@ -2018,13 +2018,13 @@ bool CIrcProto::OnIrc_WHO_END( const CIrcMessage* pmsg )
 					setString(hContact, "Host", "");
 				}
 LBL_Exit:
-				if ( DBDefault )  DBFreeVariant(&dbv1);
-				if ( DBNick )     DBFreeVariant(&dbv2);
-				if ( DBWildcard ) DBFreeVariant(&dbv3);
-				if ( DBUser )     DBFreeVariant(&dbv4);
-				if ( DBHost )     DBFreeVariant(&dbv5);
-				if ( DBManUser )  DBFreeVariant(&dbv6);
-				if ( DBManHost )  DBFreeVariant(&dbv7);
+				if ( DBDefault )  db_free(&dbv1);
+				if ( DBNick )     db_free(&dbv2);
+				if ( DBWildcard ) db_free(&dbv3);
+				if ( DBUser )     db_free(&dbv4);
+				if ( DBHost )     db_free(&dbv5);
+				if ( DBManUser )  db_free(&dbv6);
+				if ( DBManHost )  db_free(&dbv7);
 			}
 			mir_free( UserList );
 		}
@@ -2291,7 +2291,7 @@ void CIrcProto::OnIrcDefault( const CIrcMessage* pmsg )
 void CIrcProto::OnIrcDisconnected()
 {
 	m_statusMessage = _T("");
-	DBDeleteContactSetting(NULL, m_szModuleName, "JTemp");
+	db_unset(NULL, m_szModuleName, "JTemp");
 	bTempDisableCheck = false;
 	bTempForceCheck = false;
 	m_iTempCheckTime = 0;
@@ -2432,7 +2432,7 @@ int CIrcProto::DoPerform( const char* event )
 			PostIrcMessageWnd( NULL, NULL, dbv.ptszVal );
 		else
 			mir_forkthread( AwayWarningThread, NULL  );
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 		return 1;
 	}
 	return 0;

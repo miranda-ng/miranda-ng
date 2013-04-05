@@ -67,35 +67,35 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l);
 
 void init_vars()
 {
-	bAppendTags = DBGetContactSettingByte(NULL, szGPGModuleName, "bAppendTags", 0);
-	bStripTags = DBGetContactSettingByte(NULL, szGPGModuleName, "bStripTags", 0);
+	bAppendTags = db_get_b(NULL, szGPGModuleName, "bAppendTags", 0);
+	bStripTags = db_get_b(NULL, szGPGModuleName, "bStripTags", 0);
 	inopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInOpenTag", _T("<GPGdec>"));
 	inclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szInCloseTag", _T("</GPGdec>"));
 	outopentag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutOpenTag", _T("<GPGenc>"));
 	outclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", _T("</GPGenc>"));
-	bDebugLog = DBGetContactSettingByte(NULL, szGPGModuleName, "bDebugLog", 0);
-	bAutoExchange = DBGetContactSettingByte(NULL, szGPGModuleName, "bAutoExchange", 0);
-	bSameAction = DBGetContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
+	bDebugLog = db_get_b(NULL, szGPGModuleName, "bDebugLog", 0);
+	bAutoExchange = db_get_b(NULL, szGPGModuleName, "bAutoExchange", 0);
+	bSameAction = db_get_b(NULL, szGPGModuleName, "bSameAction", 0);
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 	debuglog.init();
 	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001?true:false;
-	bJabberAPI = DBGetContactSettingByte(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09?1:0);
-	bPresenceSigning = DBGetContactSettingByte(NULL, szGPGModuleName, "bPresenceSigning", 0);
-	bFileTransfers = DBGetContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 0);
-	firstrun_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "FirstrunWindowX", 0);
-	firstrun_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "FirstrunWindowY", 0);
-	key_password_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "PasswordWindowX", 0);
-	key_password_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "PasswordWindowY", 0);
-	key_gen_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowX", 0);
-	key_gen_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "KeyGenWindowY", 0);
-	load_key_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadKeyWindowX", 0);
-	load_key_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadKeyWindowY", 0);
-	import_key_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowX", 0);
-	import_key_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "ImportKeyWindowY", 0);
-	new_key_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowX", 0);
-	new_key_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "NewKeyWindowY", 0);
-	load_existing_key_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadExistingKeyWindowX", 0);
-	load_existing_key_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadExistingKeyWindowY", 0);
+	bJabberAPI = db_get_b(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09?1:0);
+	bPresenceSigning = db_get_b(NULL, szGPGModuleName, "bPresenceSigning", 0);
+	bFileTransfers = db_get_b(NULL, szGPGModuleName, "bFileTransfers", 0);
+	firstrun_rect.left = db_get_dw(NULL, szGPGModuleName, "FirstrunWindowX", 0);
+	firstrun_rect.top = db_get_dw(NULL, szGPGModuleName, "FirstrunWindowY", 0);
+	key_password_rect.left = db_get_dw(NULL, szGPGModuleName, "PasswordWindowX", 0);
+	key_password_rect.top = db_get_dw(NULL, szGPGModuleName, "PasswordWindowY", 0);
+	key_gen_rect.left = db_get_dw(NULL, szGPGModuleName, "KeyGenWindowX", 0);
+	key_gen_rect.top = db_get_dw(NULL, szGPGModuleName, "KeyGenWindowY", 0);
+	load_key_rect.left = db_get_dw(NULL, szGPGModuleName, "LoadKeyWindowX", 0);
+	load_key_rect.top = db_get_dw(NULL, szGPGModuleName, "LoadKeyWindowY", 0);
+	import_key_rect.left = db_get_dw(NULL, szGPGModuleName, "ImportKeyWindowX", 0);
+	import_key_rect.top = db_get_dw(NULL, szGPGModuleName, "ImportKeyWindowY", 0);
+	new_key_rect.left = db_get_dw(NULL, szGPGModuleName, "NewKeyWindowX", 0);
+	new_key_rect.top = db_get_dw(NULL, szGPGModuleName, "NewKeyWindowY", 0);
+	load_existing_key_rect.left = db_get_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowX", 0);
+	load_existing_key_rect.top = db_get_dw(NULL, szGPGModuleName, "LoadExistingKeyWindowY", 0);
 	tabsrmm_used = isTabsrmmUsed();
 	bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, _T("Arial"));
 }
@@ -120,7 +120,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	void InitCheck();
 	void FirstRun();
 	FirstRun();
-	if(!DBGetContactSettingByte(NULL, szGPGModuleName, "FirstRun", 1))
+	if(!db_get_b(NULL, szGPGModuleName, "FirstRun", 1))
 		InitCheck();
 	InitIconLib();
 	if(ServiceExists(MS_MSG_ADDICON)) 
@@ -244,7 +244,7 @@ extern list<wstring> transfers;
 extern "C" int __declspec(dllexport) Unload(void)
 {
 //	for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-//		DBDeleteContactSetting(hContact, szGPGModuleName, "KeyID_Prescense");
+//		db_unset(hContact, szGPGModuleName, "KeyID_Prescense");
 	if(!transfers.empty())
 	{
 		for(list<wstring>::iterator p = transfers.begin(); p != transfers.end(); p++)

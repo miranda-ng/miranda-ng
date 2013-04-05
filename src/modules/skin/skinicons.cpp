@@ -380,13 +380,13 @@ static void convertOneProtocol(char *moduleName, char *iconName)
 		_itoa(statusIcons[i].id, pm, 10);
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv)) {
+		if ( !db_get_ts(NULL, "Icons", moduleName, &dbv)) {
 			_itoa(i, pi, 10);
 
 			db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
 			db_free(&dbv);
 
-			DBDeleteContactSetting(NULL, "Icons", moduleName);
+			db_unset(NULL, "Icons", moduleName);
 }	}	}
 
 static INT_PTR sttLoadSkinIcon(WPARAM wParam, LPARAM lParam)
@@ -422,7 +422,7 @@ int LoadSkinIcons(void)
 
 	for (i=0; i < SIZEOF(mainIcons); i++) {
 		_itoa(mainIcons[i].id, moduleName, 10);
-		if (DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv))
+		if (db_get_ts(NULL, "Icons", moduleName, &dbv))
 			break;
 
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
@@ -430,7 +430,7 @@ int LoadSkinIcons(void)
 		db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
 		db_free(&dbv);
 
-		DBDeleteContactSetting(NULL, "Icons", moduleName);
+		db_unset(NULL, "Icons", moduleName);
 	}
 
 	for (;;) {
@@ -438,10 +438,10 @@ int LoadSkinIcons(void)
 		moduleName[0] = 'p';
 		moduleName[1] = 0;
 		_itoa(j++, moduleName+1, 100);
-		if (DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv))
+		if (db_get_ts(NULL, "Icons", moduleName, &dbv))
 			break;
 
-		DBDeleteContactSetting(NULL, "Icons", moduleName);
+		db_unset(NULL, "Icons", moduleName);
 
 		// make old skinicons' prefix
 		mir_snprintf(moduleName, SIZEOF(moduleName), "%S", dbv.ptszVal);

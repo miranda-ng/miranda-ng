@@ -20,7 +20,7 @@ Avatar History Plugin
 
 #include "AvatarHistory.h"
 
-HANDLE hMenu = NULL; 
+HGENMENU hMenu = NULL; 
 DWORD WINAPI AvatarDialogThread(LPVOID param);
 static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM lParam);
 int ShowSaveDialog(HWND hwnd, TCHAR* fn,HANDLE hContact = NULL);
@@ -524,15 +524,8 @@ int CleanupAvatarPic(HWND hwnd)
 
 int PreBuildContactMenu(WPARAM wParam,LPARAM lParam) 
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-
 	char *proto = GetContactProto((HANDLE)wParam);
-	if (!ProtocolEnabled(proto))
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&clmi);
-
+	Menu_ShowItem(hMenu, ProtocolEnabled(proto));
 	return 0;
 }
 

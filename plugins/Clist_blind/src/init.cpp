@@ -194,7 +194,7 @@ TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting
 
 	out[0] = _T('\0');
 
-	if (!DBGetContactSettingTString(hContact, module, setting, &dbv)) {
+	if (!db_get_ts(hContact, module, setting, &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ)
 			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, out, (int)len);
 		else if (dbv.type == DBVT_UTF8)
@@ -204,7 +204,7 @@ TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting
 		else if (def != NULL)
 			lstrcpyn(out, def, (int)len);
 		
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else {
 		if (def != NULL)
@@ -462,7 +462,7 @@ TCHAR *GetStatusName(struct ClcContact *item)
 		return status_name;
 
 	// Get status name
-	status = DBGetContactSettingWord(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
+	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
 	lstrcpyn(status_name, pcli->pfnGetStatusModeDescription(status, GSMDF_TCHAR), MAX_REGS(status_name));
 
 	return status_name;

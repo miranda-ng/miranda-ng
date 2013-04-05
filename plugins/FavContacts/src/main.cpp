@@ -233,7 +233,7 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_AV_GETAVATARBITMAP)) {
 		HANDLE hContact = db_find_first();
 		for ( ; hContact; hContact = db_find_next(hContact))
-			if (DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
+			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 				CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 	}
 
@@ -322,36 +322,36 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 static void sttLoadOptions()
 {
-	g_Options.bSecondLine			= DBGetContactSettingByte(NULL, "FavContacts", "SecondLine", 1);
-	g_Options.bAvatars				= DBGetContactSettingByte(NULL, "FavContacts", "Avatars", 1);
-	g_Options.bAvatarBorder			= DBGetContactSettingByte(NULL, "FavContacts", "AvatarBorder", 0);
-	g_Options.wAvatarRadius			= DBGetContactSettingWord(NULL, "FavContacts", "AvatarRadius", 3);
-	g_Options.bNoTransparentBorder	= DBGetContactSettingByte(NULL, "FavContacts", "NoTransparentBorder",
-										!DBGetContactSettingByte(NULL, "FavContacts", "AvatarBorderTransparent", 1));
-	g_Options.bSysColors			= DBGetContactSettingByte(NULL, "FavContacts", "SysColors", 0);
-	g_Options.bCenterHotkey			= DBGetContactSettingByte(NULL, "FavContacts", "CenterHotkey", 1);
-	g_Options.bUseGroups			= DBGetContactSettingByte(NULL, "FavContacts", "UseGroups", 0);
-	g_Options.bUseColumns			= DBGetContactSettingByte(NULL, "FavContacts", "UseColumns", 1);
-	g_Options.bRightAvatars			= DBGetContactSettingByte(NULL, "FavContacts", "RightAvatars", 0);
-	g_Options.bDimIdle				= DBGetContactSettingByte(NULL, "FavContacts", "DimIdle", 1);
+	g_Options.bSecondLine			= db_get_b(NULL, "FavContacts", "SecondLine", 1);
+	g_Options.bAvatars				= db_get_b(NULL, "FavContacts", "Avatars", 1);
+	g_Options.bAvatarBorder			= db_get_b(NULL, "FavContacts", "AvatarBorder", 0);
+	g_Options.wAvatarRadius			= db_get_w(NULL, "FavContacts", "AvatarRadius", 3);
+	g_Options.bNoTransparentBorder	= db_get_b(NULL, "FavContacts", "NoTransparentBorder",
+										!db_get_b(NULL, "FavContacts", "AvatarBorderTransparent", 1));
+	g_Options.bSysColors			= db_get_b(NULL, "FavContacts", "SysColors", 0);
+	g_Options.bCenterHotkey			= db_get_b(NULL, "FavContacts", "CenterHotkey", 1);
+	g_Options.bUseGroups			= db_get_b(NULL, "FavContacts", "UseGroups", 0);
+	g_Options.bUseColumns			= db_get_b(NULL, "FavContacts", "UseColumns", 1);
+	g_Options.bRightAvatars			= db_get_b(NULL, "FavContacts", "RightAvatars", 0);
+	g_Options.bDimIdle				= db_get_b(NULL, "FavContacts", "DimIdle", 1);
 
-	g_Options.wMaxRecent			= DBGetContactSettingByte(NULL, "FavContacts", "MaxRecent", 10);
+	g_Options.wMaxRecent			= db_get_b(NULL, "FavContacts", "MaxRecent", 10);
 }
 
 static void sttSaveOptions()
 {
-	DBWriteContactSettingByte(NULL, "FavContacts", "SecondLine",			g_Options.bSecondLine);
-	DBWriteContactSettingByte(NULL, "FavContacts", "Avatars",				g_Options.bAvatars);
-	DBWriteContactSettingByte(NULL, "FavContacts", "AvatarBorder",			g_Options.bAvatarBorder);
-	DBWriteContactSettingWord(NULL, "FavContacts", "AvatarRadius",			g_Options.wAvatarRadius);
-	DBWriteContactSettingByte(NULL, "FavContacts", "NoTransparentBorder",	g_Options.bNoTransparentBorder);
-	DBWriteContactSettingByte(NULL, "FavContacts", "SysColors",				g_Options.bSysColors);
-	DBWriteContactSettingByte(NULL, "FavContacts", "CenterHotkey",			g_Options.bCenterHotkey);
-	DBWriteContactSettingByte(NULL, "FavContacts", "UseGroups",				g_Options.bUseGroups);
-	DBWriteContactSettingByte(NULL, "FavContacts", "UseColumns",			g_Options.bUseColumns);
-	DBWriteContactSettingByte(NULL, "FavContacts", "RightAvatars",			g_Options.bRightAvatars);
-	DBWriteContactSettingByte(NULL, "FavContacts", "DimIdle",				g_Options.bDimIdle);
-	DBWriteContactSettingWord(NULL, "FavContacts", "MaxRecent",				g_Options.wMaxRecent);
+	db_set_b(NULL, "FavContacts", "SecondLine",			g_Options.bSecondLine);
+	db_set_b(NULL, "FavContacts", "Avatars",				g_Options.bAvatars);
+	db_set_b(NULL, "FavContacts", "AvatarBorder",			g_Options.bAvatarBorder);
+	db_set_w(NULL, "FavContacts", "AvatarRadius",			g_Options.wAvatarRadius);
+	db_set_b(NULL, "FavContacts", "NoTransparentBorder",	g_Options.bNoTransparentBorder);
+	db_set_b(NULL, "FavContacts", "SysColors",				g_Options.bSysColors);
+	db_set_b(NULL, "FavContacts", "CenterHotkey",			g_Options.bCenterHotkey);
+	db_set_b(NULL, "FavContacts", "UseGroups",				g_Options.bUseGroups);
+	db_set_b(NULL, "FavContacts", "UseColumns",			g_Options.bUseColumns);
+	db_set_b(NULL, "FavContacts", "RightAvatars",			g_Options.bRightAvatars);
+	db_set_b(NULL, "FavContacts", "DimIdle",				g_Options.bDimIdle);
+	db_set_w(NULL, "FavContacts", "MaxRecent",				g_Options.wMaxRecent);
 }
 
 static bool sttIsGroup(int id)
@@ -361,9 +361,9 @@ static bool sttIsGroup(int id)
 	DBVARIANT dbv = {0};
 	char buf[32];
 	wsprintfA(buf, "%d", (int)(id-2));
-	if (!DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
+	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 	{
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return true;
 	}
 	return false;
@@ -381,10 +381,10 @@ static TCHAR *sttGetGroupName(int id)
 	DBVARIANT dbv = {0};
 	char buf[32];
 	wsprintfA(buf, "%d", (int)(id-2));
-	if (!DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
+	if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 	{
 		TCHAR *res = mir_tstrdup(dbv.ptszVal+1);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return res;
 	}
 	return NULL;
@@ -397,15 +397,15 @@ static int sttGetGroupId(TCHAR *name)
 		DBVARIANT dbv = {0};
 		char buf[32];
 		wsprintfA(buf, "%d", (int)i);
-		if (!DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
+		if (!db_get_ts(NULL, "CListGroups", buf, &dbv))
 		{
 			if (!lstrcmp(dbv.ptszVal+1, name))
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return i+2;
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else
 		{
 			// default is root
@@ -459,10 +459,10 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 			DBVARIANT dbv;
 			TCHAR *title;
 			bool bFree = false;
-			if (DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
+			if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
 			{
 				char *proto = GetContactProto(hContact);
-				int status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
+				int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 				title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 			} else
 			{
@@ -472,7 +472,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 
 			if (!options->bSysColors) SelectObject(hdc, g_Options.hfntSecond);
 			GetTextExtentPoint32(hdc, title, lstrlen(title), &sz);
-			if (bFree) DBFreeVariant(&dbv);
+			if (bFree) db_free(&dbv);
 			textWidth = sz.cx;
 			lpmis->itemHeight += sz.cy + 3;
 		}
@@ -667,7 +667,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		HIMAGELIST hIml = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 		int iIcon = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
 
-		if (DBGetContactSettingDword(hContact, proto, "IdleTS", 0))
+		if (db_get_dw(hContact, proto, "IdleTS", 0))
 		{
 			ImageList_DrawDimmed(hIml, iIcon, hdcTemp,
 				lpdis->rcItem.left, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
@@ -682,7 +682,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		lpdis->rcItem.left += 20;
 	}
 
-	if (options->wMaxRecent && DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
+	if (options->wMaxRecent && db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 	{
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
 			Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
@@ -747,9 +747,9 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		DBVARIANT dbv;
 		TCHAR *title;
 		bool bFree = false;
-		if (DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
+		if (db_get_ts(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
 		{
-			int status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
+			int status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 			title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 		} else
 		{
@@ -761,7 +761,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		SetTextColor(hdcTemp, clLine2);
 		DrawText(hdcTemp, title, lstrlen(title), &lpdis->rcItem, DT_NOPREFIX|DT_SINGLELINE|DT_TOP|DT_LEFT);
 
-		if (bFree) DBFreeVariant(&dbv);
+		if (bFree) db_free(&dbv);
 	}
 
 	SelectObject(hdcTemp, hfntSave);
@@ -946,7 +946,7 @@ int sttShowMenu(bool centered)
 	szMenu.cy = max(szMenu.cy, szColumn.cy);
 	szColumn.cx = szColumn.cy = 0;
 
-	unsigned maxWidth = GetSystemMetrics(SM_CXSCREEN) * DBGetContactSettingByte(NULL, "FavContacts", "MenuWidth", 66) / 100;
+	unsigned maxWidth = GetSystemMetrics(SM_CXSCREEN) * db_get_b(NULL, "FavContacts", "MenuWidth", 66) / 100;
 	if (szMenu.cx > maxWidth) {
 		g_widthMultiplier = (float)maxWidth / szMenu.cx;
 		szMenu.cx *= g_widthMultiplier;
@@ -1019,7 +1019,7 @@ int ProcessSrmmEvent( WPARAM wParam, LPARAM lParam )
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		BYTE fav = DBGetContactSettingByte(event->hContact, "FavContacts", "IsFavourite", 0);
+		BYTE fav = db_get_b(event->hContact, "FavContacts", "IsFavourite", 0);
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
@@ -1060,8 +1060,8 @@ int ProcessSrmmIconClick( WPARAM wParam, LPARAM lParam )
 
 	if (sicd->flags & MBCF_RIGHTBUTTON)
 	{
-		BYTE fav = !DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0);
-		DBWriteContactSettingByte(hContact, "FavContacts", "IsFavourite", fav);
+		BYTE fav = !db_get_b(hContact, "FavContacts", "IsFavourite", 0);
+		db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 		if (fav) CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 
 		StatusIconData sid = {0};
@@ -1131,7 +1131,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			{
 				SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0),
-					DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0));
+					db_get_b(hContact, "FavContacts", "IsFavourite", 0));
 			}
 
 			bInitialized = true;
@@ -1268,8 +1268,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				{
 					BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 						SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0), 0);
-					if (fav != DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
-						DBWriteContactSettingByte(hContact, "FavContacts", "IsFavourite", fav);
+					if (fav != db_get_b(hContact, "FavContacts", "IsFavourite", 0))
+						db_set_b(hContact, "FavContacts", "IsFavourite", fav);
 					if (fav) CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 				}
 			} else
@@ -1291,7 +1291,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							if (SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0) == iSelection)
 							{
 								SendDlgItemMessage(hwnd, IDC_CLIST, CLM_SETCHECKMARK, iSelection,
-									DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0));
+									db_get_b(hContact, "FavContacts", "IsFavourite", 0));
 								break;
 							}
 						break;

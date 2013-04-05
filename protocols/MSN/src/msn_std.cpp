@@ -27,47 +27,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Standard functions
 
 void  CMsnProto::deleteSetting(HANDLE hContact, const char* valueName)
-{   DBDeleteContactSetting(hContact, m_szModuleName, valueName);
+{   db_unset(hContact, m_szModuleName, valueName);
 }
 
 int CMsnProto::getByte(const char* name, BYTE defaultValue)
-{	return DBGetContactSettingByte(NULL, m_szModuleName, name, defaultValue);
+{	return db_get_b(NULL, m_szModuleName, name, defaultValue);
 }
 
 int CMsnProto::getByte(HANDLE hContact, const char* name, BYTE defaultValue)
-{	return DBGetContactSettingByte(hContact, m_szModuleName, name, defaultValue);
+{	return db_get_b(hContact, m_szModuleName, name, defaultValue);
 }
 
 int CMsnProto::getDword(const char* name, DWORD defaultValue)
-{	return DBGetContactSettingDword(NULL, m_szModuleName, name, defaultValue);
+{	return db_get_dw(NULL, m_szModuleName, name, defaultValue);
 }
 
 int CMsnProto::getDword(HANDLE hContact, const char* name, DWORD defaultValue)
-{	return DBGetContactSettingDword(hContact, m_szModuleName, name, defaultValue);
+{	return db_get_dw(hContact, m_szModuleName, name, defaultValue);
 }
 
 int CMsnProto::getString(const char* name, DBVARIANT* result)
-{	return DBGetContactSettingString(NULL, m_szModuleName, name, result);
+{	return db_get_s(NULL, m_szModuleName, name, result);
 }
 
 int CMsnProto::getString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return DBGetContactSettingString(hContact, m_szModuleName, name, result);
+{	return db_get_s(hContact, m_szModuleName, name, result);
 }
 
 int CMsnProto::getTString(const char* name, DBVARIANT* result)
-{	return DBGetContactSettingTString(NULL, m_szModuleName, name, result);
+{	return db_get_ts(NULL, m_szModuleName, name, result);
 }
 
 int CMsnProto::getTString(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return DBGetContactSettingTString(hContact, m_szModuleName, name, result);
+{	return db_get_ts(hContact, m_szModuleName, name, result);
 }
 
 int CMsnProto::getStringUtf(HANDLE hContact, const char* name, DBVARIANT* result)
-{	return DBGetContactSettingStringUtf(hContact, m_szModuleName, name, result);
+{	return db_get_utf(hContact, m_szModuleName, name, result);
 }
 
 int CMsnProto::getStringUtf(const char* name, DBVARIANT* result)
-{	return DBGetContactSettingStringUtf(NULL, m_szModuleName, name, result);
+{	return db_get_utf(NULL, m_szModuleName, name, result);
 }
 
 int  CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* dest, unsigned dest_len)
@@ -88,55 +88,55 @@ int  CMsnProto::getStaticString(HANDLE hContact, const char* valueName, char* de
 }
 
 WORD CMsnProto::getWord(const char* name, WORD defaultValue)
-{	return DBGetContactSettingWord(NULL, m_szModuleName, name, defaultValue);
+{	return db_get_w(NULL, m_szModuleName, name, defaultValue);
 }
 
 WORD CMsnProto::getWord(HANDLE hContact, const char* name, WORD defaultValue)
-{	return DBGetContactSettingWord(hContact, m_szModuleName, name, defaultValue);
+{	return db_get_w(hContact, m_szModuleName, name, defaultValue);
 }
 
 void CMsnProto::setByte(const char* name, BYTE value)
-{	DBWriteContactSettingByte(NULL, m_szModuleName, name, value);
+{	db_set_b(NULL, m_szModuleName, name, value);
 }
 
 void CMsnProto::setByte(HANDLE hContact, const char* name, BYTE value)
-{	DBWriteContactSettingByte(hContact, m_szModuleName, name, value);
+{	db_set_b(hContact, m_szModuleName, name, value);
 }
 
 void CMsnProto::setDword(const char* name, DWORD value)
-{	DBWriteContactSettingDword(NULL, m_szModuleName, name, value);
+{	db_set_dw(NULL, m_szModuleName, name, value);
 }
 
 void CMsnProto::setDword(HANDLE hContact, const char* name, DWORD value)
-{	DBWriteContactSettingDword(hContact, m_szModuleName, name, value);
+{	db_set_dw(hContact, m_szModuleName, name, value);
 }
 
 void CMsnProto::setString(const char* name, const char* value)
-{	DBWriteContactSettingString(NULL, m_szModuleName, name, value);
+{	db_set_s(NULL, m_szModuleName, name, value);
 }
 
 void CMsnProto::setString(HANDLE hContact, const char* name, const char* value)
-{	DBWriteContactSettingString(hContact, m_szModuleName, name, value);
+{	db_set_s(hContact, m_szModuleName, name, value);
 }
 
 void CMsnProto::setStringUtf(HANDLE hContact, const char* name, const char* value)
-{	DBWriteContactSettingStringUtf(hContact, m_szModuleName, name, value);
+{	db_set_utf(hContact, m_szModuleName, name, value);
 }
 
 void CMsnProto::setTString(const char* name, const TCHAR* value)
-{	DBWriteContactSettingTString(NULL, m_szModuleName, name, value);
+{	db_set_ts(NULL, m_szModuleName, name, value);
 }
 
 void CMsnProto::setTString(HANDLE hContact, const char* name, const TCHAR* value)
-{	DBWriteContactSettingTString(hContact, m_szModuleName, name, value);
+{	db_set_ts(hContact, m_szModuleName, name, value);
 }
 
 void CMsnProto::setWord(const char* name, WORD value)
-{	DBWriteContactSettingWord(NULL, m_szModuleName, name, value);
+{	db_set_w(NULL, m_szModuleName, name, value);
 }
 
 void CMsnProto::setWord(HANDLE hContact, const char* name, WORD value)
-{	DBWriteContactSettingWord(hContact, m_szModuleName, name, value);
+{	db_set_w(hContact, m_szModuleName, name, value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +206,7 @@ TCHAR* CMsnProto::GetContactNameT(HANDLE hContact)
 
 void MSN_FreeVariant(DBVARIANT* dbv)
 {
-	DBFreeVariant(dbv);
+	db_free(dbv);
 }
 
 char* MSN_Translate(const char* str)

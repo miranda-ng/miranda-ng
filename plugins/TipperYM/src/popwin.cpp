@@ -153,7 +153,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 					} 
 					else {
-						if (DBGetContactSettingByte(0, pwd->clcit.szProto, "XStatusId", 0)) {
+						if (db_get_b(0, pwd->clcit.szProto, "XStatusId", 0)) {
 							// xstatus title
 							swzAdvTitle = GetProtoExtraStatusTitle(pwd->clcit.szProto);
 							if (swzAdvTitle) {		
@@ -316,7 +316,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// don't use stored status message
 				if (!opt.bWaitForContent)
-					DBDeleteContactSetting(pwd->hContact, MODULE, "TempStatusMsg");
+					db_unset(pwd->hContact, MODULE, "TempStatusMsg");
 
 				TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pwd->hContact, GCDNF_TCHAR);
 				_tcsncpy(pwd->swzTitle, swzNick, TITLE_TEXT_LEN);
@@ -339,14 +339,14 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// xstatus icon
 					if (pwd->bIsIconVisible[1]) {
 						for (i = 0; opt.exIconsOrder[i] != 1; i++);
-						int iXstatus = DBGetContactSettingByte(pwd->hContact, szProto, "XStatusId", 0);
+						int iXstatus = db_get_b(pwd->hContact, szProto, "XStatusId", 0);
 						if (iXstatus) {
 							char szIconProto[64];
 							if (strcmp(szProto, szMetaModuleName) != 0)
 								strcpy(szIconProto, szProto);
-							else if (!DBGetContactSettingString(pwd->hContact, szProto, "XStatusProto", &dbv)) {
+							else if (!db_get_s(pwd->hContact, szProto, "XStatusProto", &dbv)) {
 								strcpy(szIconProto, dbv.pszVal);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 
 							pwd->extraIcons[i].hIcon = (HICON)CallProtoService(szIconProto, PS_GETCUSTOMSTATUSICON, (WPARAM)iXstatus, LR_SHARED);
@@ -367,9 +367,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (ServiceExists(MS_GENDER_GETICON))
 							pwd->extraIcons[i].hIcon = (HICON)CallService(MS_GENDER_GETICON, (WPARAM)pwd->hContact, 0);
 						else {
-							int iGender = DBGetContactSettingByte(pwd->hContact, "UserInfo", "Gender", 0);
+							int iGender = db_get_b(pwd->hContact, "UserInfo", "Gender", 0);
 							if (iGender == 0) 
-								iGender = DBGetContactSettingByte(pwd->hContact, szProto, "Gender", 0);
+								iGender = db_get_b(pwd->hContact, szProto, "Gender", 0);
 
 							if (iGender == GEN_FEMALE)
 								pwd->extraIcons[i].hIcon = Skin_GetIcon("UserInfoEx_common_female");
@@ -399,24 +399,24 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->bIsIconVisible[5]) {
 						for (i = 0; opt.exIconsOrder[i] != 5; i++);
 						if ( ServiceExists(MS_FP_GETCLIENTICONT)) {
-							if (!DBGetContactSettingTString(pwd->hContact, szProto, "MirVer", &dbv)) {
+							if (!db_get_ts(pwd->hContact, szProto, "MirVer", &dbv)) {
 								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)dbv.ptszVal, 0);
 								pwd->extraIcons[i].bDestroy = true;
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 						}
 						else if (ServiceExists(MS_FP_GETCLIENTICON)) {
-							if (!DBGetContactSettingString(pwd->hContact, szProto, "MirVer", &dbv)) {
+							if (!db_get_s(pwd->hContact, szProto, "MirVer", &dbv)) {
 								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)dbv.pszVal, 0);
 								pwd->extraIcons[i].bDestroy = true;
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}	
 						}
 					}
 
 					//request xstatus details
 					if (opt.bRetrieveXstatus)
-						if (!DBGetContactSettingByte(0, szProto, "XStatusAuto", 1) && ProtoServiceExists(szProto, PS_ICQ_REQUESTCUSTOMSTATUS))
+						if (!db_get_b(0, szProto, "XStatusAuto", 1) && ProtoServiceExists(szProto, PS_ICQ_REQUESTCUSTOMSTATUS))
 							CallProtoService(szProto, PS_ICQ_REQUESTCUSTOMSTATUS, (WPARAM)pwd->hContact, 0);
 				}
 
@@ -996,7 +996,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 	case PUM_SETSTATUSTEXT:
 		if (pwd && (HANDLE)wParam == pwd->hContact) {
-			DBWriteContactSettingTString(pwd->hContact, MODULE, "TempStatusMsg", (TCHAR *)lParam);
+			db_set_ts(pwd->hContact, MODULE, "TempStatusMsg", (TCHAR *)lParam);
 			pwd->bIsPainted = false;
 			pwd->bNeedRefresh = true;
 			SendMessage(hwnd, PUM_REFRESH_VALUES, TRUE, 0);
@@ -1555,7 +1555,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					while (hContact) {
 						char *proto = GetContactProto(hContact);
 						if (proto && !strcmp(proto, pa->szModuleName)) {
-							if (DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+							if (db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 								iCountOnline++;
 							iCount++;
 						}
@@ -1626,7 +1626,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 						} 
 						else {
-							if (DBGetContactSettingByte(0, pa->szModuleName, "XStatusId", 0)) {
+							if (db_get_b(0, pa->szModuleName, "XStatusId", 0)) {
 								// xstatus title
 								swzAdvTitle = GetProtoExtraStatusTitle(pa->szModuleName);
 								if (swzAdvTitle) {		
@@ -1672,7 +1672,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			if (dwItems & TRAYTIP_FAVCONTACTS) {
-				if (DBGetContactSettingDword(0, MODULE, "FavouriteContactsCount", 0)) {
+				if (db_get_dw(0, MODULE, "FavouriteContactsCount", 0)) {
 					TCHAR swzName[256];
 					TCHAR swzStatus[256];
 					bool bTitlePainted = false;
@@ -1680,10 +1680,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 					HANDLE hContact = db_find_first();
 					while (hContact) {
-						if (DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0)) {
+						if (db_get_b(hContact, MODULE, "FavouriteContact", 0)) {
 							char *proto = GetContactProto(hContact);
 							if (proto) {
-								WORD wStatus = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
+								WORD wStatus = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 								WordToStatusDesc(hContact, proto, "Status", swzStatus, 256);
 
 								if (wStatus != ID_STATUS_OFFLINE) 

@@ -57,7 +57,7 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 		if (CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&cgs)) break;
 		__try {
 			if (DBVT_ASCIIZ == cws.value.type) {
-				DBFreeVariant(&cws.value);
+				db_free(&cws.value);
 				cws.value.type = DBVT_WCHAR;
 				if (CallService(MS_DB_CONTACT_GETSETTING_STR, 0, (LPARAM)&cgs)) break;
 			}
@@ -70,7 +70,7 @@ void ShiftTipperSettings(LPSTR buff, int count, LPSTR format)
 			CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 		}
 		__finally {
-			DBFreeVariant(&cws.value);
+			db_free(&cws.value);
 		}
 	}
 }
@@ -80,10 +80,10 @@ void SetLabelProp(int index, LPSTR setting)
 	sprintf(setting, LABEL_SETTING_PROP, index);
 
 	DBVARIANT dbv1 = {0};
-	if (!DBGetContactSettingTString(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv1))
+	if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv1))
 		__try {
 			DBVARIANT dbv2 = {0};
-			if (!DBGetContactSettingTString(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, &dbv2))
+			if (!db_get_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, &dbv2))
 				__try {
 					if (!lstrcmp(dbv1.ptszVal, dbv2.ptszVal)) {
 						LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
@@ -92,17 +92,17 @@ void SetLabelProp(int index, LPSTR setting)
 					}
 				}
 				__finally {
-					DBFreeVariant(&dbv2);
+					db_free(&dbv2);
 				}
 		}
 		__finally {
-			DBFreeVariant(&dbv1);
+			db_free(&dbv1);
 		}
 }
 
 void AddTipperItem()
 {
-	unsigned short itemCount = DBGetContactSettingWord(0, TIPPER_ITEMS_MOD_NAME,
+	unsigned short itemCount = db_get_w(0, TIPPER_ITEMS_MOD_NAME,
 		TIPPER_ITEM_COUNT_SETTING , unsigned short(-1));
 	if (unsigned short(-1) == itemCount) return;
 
@@ -116,7 +116,7 @@ void AddTipperItem()
 			sprintf(setting, VALUE_SETTING_PROP, i);
 
 			DBVARIANT dbv = {0};
-			if (!DBGetContactSettingTString(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv))
+			if (!db_get_ts(0, TIPPER_ITEMS_MOD_NAME, setting, &dbv))
 				__try {
 					if (!lstrcmp(UNREAD_THREADS_RAW, dbv.ptszVal)) {
 						SetLabelProp(i, setting);
@@ -124,7 +124,7 @@ void AddTipperItem()
 					}
 				}
 				__finally {
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 		}
 
@@ -152,6 +152,6 @@ void AddTipperItem()
 		free(setting);
 	}
 
-	DBWriteContactSettingWord(0, TIPPER_ITEMS_MOD_NAME,
+	db_set_w(0, TIPPER_ITEMS_MOD_NAME,
 		TIPPER_ITEM_COUNT_SETTING, itemCount + 1);
 }

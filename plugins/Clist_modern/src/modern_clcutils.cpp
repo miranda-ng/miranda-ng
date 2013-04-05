@@ -629,7 +629,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		{
 			DBVARIANT dbv = {0};
 
-			if ( !DBGetContactSettingTString(NULL, "CList","SecondLineText", &dbv))
+			if ( !db_get_ts(NULL, "CList","SecondLineText", &dbv))
 			{
 				lstrcpyn(dat->second_line_text, dbv.ptszVal, SIZEOF(dat->second_line_text)-1);
 				dat->second_line_text[SIZEOF(dat->second_line_text)-1] = _T('\0');
@@ -667,7 +667,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		{
 			DBVARIANT dbv = {0};
 
-			if ( !DBGetContactSettingTString(NULL, "CList","ThirdLineText", &dbv))
+			if ( !db_get_ts(NULL, "CList","ThirdLineText", &dbv))
 			{
 				lstrcpyn(dat->third_line_text, dbv.ptszVal, SIZEOF(dat->third_line_text)-1);
 				dat->third_line_text[SIZEOF(dat->third_line_text)-1] = _T('\0');
@@ -721,7 +721,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 			{	
 				if ( db_get_b(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)) 
 				{
-					if ( !DBGetContactSettingString(NULL,"CLC","BkBitmap",&dbv)) 
+					if ( !db_get_s(NULL,"CLC","BkBitmap",&dbv)) 
 					{
 						dat->hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);				
 						db_free(&dbv);						
@@ -737,7 +737,7 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat )
 		dat->MenuTextHiColor = sttGetColor("Menu","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 		
 		if ( db_get_b(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if ( !DBGetContactSettingString(NULL,"Menu","BkBitmap",&dbv)) {
+			if ( !db_get_s(NULL,"Menu","BkBitmap",&dbv)) {
 				dat->hMenuBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
 				db_free(&dbv);
 			}

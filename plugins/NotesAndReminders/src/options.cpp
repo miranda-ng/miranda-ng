@@ -216,7 +216,7 @@ static int FS_ColorChanged(WPARAM wParam, LPARAM lParam)
 	LoadNRFont(NR_FONTID_CAPTION, &lfCaption, (COLORREF*)&CaptionFontColor);
 	LoadNRFont(NR_FONTID_BODY, &lfBody, (COLORREF*)&BodyFontColor);
 
-	BodyColor = DBGetContactSettingDword(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
+	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	SaveNotes();
 	LoadNotes(FALSE);
@@ -440,9 +440,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			}
 			SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,g_lpszAltBrowser ? g_lpszAltBrowser : _T(""));
 			if (g_lpszAltBrowser)
-				DBWriteContactSettingString(0,MODULENAME,"AltBrowser",g_lpszAltBrowser);
+				db_set_s(0,MODULENAME,"AltBrowser",g_lpszAltBrowser);
 			else
-				DBDeleteContactSetting(0,MODULENAME,"AltBrowser");
+				db_unset(0,MODULENAME,"AltBrowser");
 
 			WriteSettingInt(0,MODULENAME,"ShowNotesAtStart",g_ShowNotesAtStart);
 			WriteSettingInt(0,MODULENAME,"ShowNoteButtons",g_ShowNoteButtons);
@@ -593,7 +593,7 @@ void InitSettings(void)
 	ReadSettingIntArray(0,MODULENAME,"NotesListGeom",g_notesListGeom,SIZEOF(g_notesListGeom));
 	ReadSettingIntArray(0,MODULENAME,"NotesListColGeom",g_notesListColGeom,SIZEOF(g_notesListColGeom));
 
-	BodyColor = DBGetContactSettingDword(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
+	BodyColor = db_get_dw(NULL, MODULENAME, colourOptionsList[0].szSettingName, colourOptionsList[0].defColour);
 
 	InitFonts();
 

@@ -13,9 +13,9 @@ INT_PTR CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessage(hwndDlg,WM_SETICON, (WPARAM)false, (LPARAM)LoadIcon(hinstance, MAKEINTRESOURCE(IDI_TM)));
 
 			DBVARIANT dbv;
-			if(!DBGetContactSetting(NULL,protocolname,"Nick",&dbv)) {
+			if(!db_get(NULL,protocolname,"Nick",&dbv)) {
 				SetDlgItemText(hwndDlg,IDC_NICKNAME,dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			return TRUE;
 		}

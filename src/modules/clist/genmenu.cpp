@@ -930,7 +930,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 
 			// mi.pszName
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_name", menuItemName);
-			if ( !DBGetContactSettingTString(NULL, MenuNameItems, DBString, &dbv)) {
+			if ( !db_get_ts(NULL, MenuNameItems, DBString, &dbv)) {
 				if (_tcslen(dbv.ptszVal) > 0)
 					replaceStrT(pmi->CustomName, dbv.ptszVal);
 				db_free(&dbv);

@@ -52,7 +52,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
 	if ( !(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) 
-		&& DBGetContactSettingByte(NULL, ModuleName, "ChangeInMW", 0))
+		&& db_get_b(NULL, ModuleName, "ChangeInMW", 0))
 	{
 		int nh = sicd->dwId; HANDLE hContact = (HANDLE)wParam; StatusIconData sid = {0};
 
@@ -63,7 +63,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 		CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);	
 		
 		nh = (nh + 1) % 4;
-		DBWriteContactSettingByte((HANDLE)wParam, ModuleName, "SweepHistory", (BYTE)nh);
+		db_set_b((HANDLE)wParam, ModuleName, "SweepHistory", (BYTE)nh);
 
 		sid.dwId = nh;
 		sid.flags = 0;
@@ -76,7 +76,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
 {
 	StatusIconData sid = {0};
-	int i, sweep = DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0);
+	int i, sweep = db_get_b(NULL, ModuleName, "SweepHistory", 0);
 	HANDLE hContact = db_find_first();
 
 	sid.cbSize = sizeof(sid);
@@ -87,11 +87,11 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.szTooltip = Translate("Keep all events");
 	else if (sweep == 1)
 	{
-		sid.szTooltip = Translate(time_stamp_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+		sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
 	}
 	else if (sweep == 2)
 	{
-		sid.szTooltip = Translate(keep_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+		sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	}
 	else if (sweep == 3)
 	{
@@ -102,13 +102,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	sid.dwId = 1;
 	sid.hIcon = LoadIconEx("act1");
-	sid.szTooltip = Translate(time_stamp_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0)]);
+	sid.szTooltip = Translate(time_stamp_strings[db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0)]);
 	sid.flags = MBF_HIDDEN;
 	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 
 	sid.dwId = 2;
 	sid.hIcon = LoadIconEx("act2");
-	sid.szTooltip = Translate(keep_strings[DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0)]);
+	sid.szTooltip = Translate(keep_strings[db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0)]);
 	sid.flags = MBF_HIDDEN;
 	CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 
@@ -123,7 +123,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		ZeroMemory(&sid,sizeof(sid));
 
-		sweep = DBGetContactSettingByte(hContact, ModuleName, "SweepHistory", 0);
+		sweep = db_get_b(hContact, ModuleName, "SweepHistory", 0);
 
 		sid.cbSize = sizeof(sid);
 		sid.szModule = ModuleName;

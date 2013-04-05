@@ -233,10 +233,10 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			netlog("getavatarinfo(): Incoming request for avatar information. Contact has assigned Locked ContactPhoto. return GAIR_SUCCESS");
 			_tcscpy_s(pai->filename, SIZEOF(pai->filename) ,dbv.ptszVal);
 			pai->format = GetImageFormat(pai->filename);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return GAIR_SUCCESS;
 		} else {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	
@@ -257,11 +257,11 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 
 	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARURL, &dbv, DBVT_ASCIIZ)) {
 		AvatarURL = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARTS, &dbv, DBVT_ASCIIZ)) {
 		AvatarTs = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0) {
 		char *AvatarName = strrchr(AvatarURL, '/');
@@ -273,7 +273,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 
 	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
 		AvatarSavedHash = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (AvatarHash != NULL && AvatarSavedHash != NULL) {

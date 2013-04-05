@@ -226,7 +226,7 @@ namespace
 					::SendDlgItemMessage(hDlg,IDC_COMBO_DATA_SOURCE,CB_INSERTSTRING,-1,reinterpret_cast<LPARAM>(p));
 				}
 
-				int nSel = DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,"Chart_Source",srcLogFile);
+				int nSel = db_get_b(hContact,QUOTES_PROTOCOL_NAME,"Chart_Source",srcLogFile);
 				::SendDlgItemMessage(hDlg,IDC_COMBO_DATA_SOURCE,CB_SETCURSEL,nSel,0);
 
 				for(int i = 0;i < sizeof(szFilters)/sizeof(szFilters[0]);++i)
@@ -235,7 +235,7 @@ namespace
 					::SendDlgItemMessage(hDlg,IDC_COMBO_FILTER,CB_INSERTSTRING,-1,reinterpret_cast<LPARAM>(szFilters[i]));
 				}
 
-				nSel = DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,"Chart_Filter",filterAll);
+				nSel = db_get_b(hContact,QUOTES_PROTOCOL_NAME,"Chart_Filter",filterAll);
 				::SendDlgItemMessage(hDlg,IDC_COMBO_FILTER,CB_SETCURSEL,nSel,0);
 
 				update_filter_controls(hDlg);

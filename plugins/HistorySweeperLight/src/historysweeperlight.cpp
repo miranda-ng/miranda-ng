@@ -132,7 +132,7 @@ static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
 				mir_free(tbooks);
 		}
 	
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -141,15 +141,15 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 {
 	int lPolicy;	
 	if (hContact == NULL)			// for system history
-		lPolicy = DBGetContactSettingByte(NULL, ModuleName, "SweepSHistory", 0);
+		lPolicy = db_get_b(NULL, ModuleName, "SweepSHistory", 0);
 	else							// for contact history (or "SweepHistory" - default action)
-		lPolicy = DBGetContactSettingByte(hContact, ModuleName, "SweepHistory", DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0));
+		lPolicy = db_get_b(hContact, ModuleName, "SweepHistory", db_get_b(NULL, ModuleName, "SweepHistory", 0));
 	
 	if (lPolicy == 0) return;		// nothing to do
 	
 	int eventsCnt = db_event_count(hContact);
 	if (eventsCnt != 0) { 
-		BOOL doDelete, unsafe = DBGetContactSettingByte(NULL, ModuleName, "UnsafeMode", 0);
+		BOOL doDelete, unsafe = db_get_b(NULL, ModuleName, "UnsafeMode", 0);
 		BEventData *books, *item, ev = { 0 };
 		size_t bookcnt, btshift;
 		
@@ -211,8 +211,8 @@ void ShutdownAction(void)
 	CriteriaStruct Criteria;
 	HANDLE hContact = db_find_first();
 
-	Criteria.keep = KeepCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0));
-	Criteria.time = BuildCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0));
+	Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
+	Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
 
 	SweepHistoryFromContact(NULL, Criteria, FALSE);				// sweep system history, keepunread==0
 	
@@ -228,12 +228,12 @@ int OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowEventData* msgEvData  = (MessageWindowEventData*)lParam;
 
-	if (msgEvData->uType == MSG_WINDOW_EVT_CLOSE && DBGetContactSettingByte(NULL, ModuleName, "SweepOnClose", 0))
+	if (msgEvData->uType == MSG_WINDOW_EVT_CLOSE && db_get_b(NULL, ModuleName, "SweepOnClose", 0))
 	{
 		CriteriaStruct Criteria;
 
-		Criteria.keep = KeepCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0));
-		Criteria.time = BuildCriteria(DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0));
+		Criteria.keep = KeepCriteria(db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0));
+		Criteria.time = BuildCriteria(db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0));
 
 		SweepHistoryFromContact(msgEvData->hContact, Criteria, TRUE);
 	}

@@ -283,7 +283,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam)
 		// decrypting message with last offline key
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
-		if (DBGetContactSetting(ptr->hContact, MODULENAME, "offlineKey", &dbv))
+		if (db_get(ptr->hContact, MODULENAME, "offlineKey", &dbv))
 			return CallService(MS_PROTO_CHAINRECV, wParam, lParam); // exit and show messsage
 
 		// if valid key is succefully retrieved
@@ -683,7 +683,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam)
 			// set key for offline user
 			DBVARIANT dbv; dbv.type = DBVT_BLOB;
 			if (db_get_dw(ptr->hContact, MODULENAME, "offlineKeyTimeout", 0) > gettime() &&
-					DBGetContactSetting(ptr->hContact, MODULENAME, "offlineKey", &dbv) == 0) {
+					db_get(ptr->hContact, MODULENAME, "offlineKey", &dbv) == 0) {
 				// if valid key is succefully retrieved
 				ptr->offlineKey = true;
 				InitKeyX(ptr,dbv.pbVal);

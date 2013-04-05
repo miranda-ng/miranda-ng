@@ -210,7 +210,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 
 		YForkThread( &CYahooProto::im_sendacksuccess, hContact );
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 1;
 	}
 
@@ -252,7 +252,7 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
 		send_msg(dbv.pszVal, GetWord(hContact, "yprotoid", 0), "<ding>", 0);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		YForkThread( &CYahooProto::im_sendacksuccess, hContact );
 		return 1;

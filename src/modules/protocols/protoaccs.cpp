@@ -44,7 +44,7 @@ LIST<PROTOACCOUNT> accounts(10, CompareAccounts);
 static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(NULL, szModuleName, "AM_BaseProto", &dbv)) {
+	if ( !db_get_s(NULL, szModuleName, "AM_BaseProto", &dbv)) {
 		if ( !Proto_GetAccount(szModuleName)) {
 			PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 			pa->cbSize = sizeof(*pa);
@@ -70,7 +70,7 @@ void LoadDbAccounts(void)
 	for (i=0; i < count; i++) {
 		char buf[10];
 		_itoa(i, buf, 10);
-		if (DBGetContactSettingString(NULL, "Protocols", buf, &dbv))
+		if (db_get_s(NULL, "Protocols", buf, &dbv))
 			continue;
 
 		PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
@@ -91,7 +91,7 @@ void LoadDbAccounts(void)
 		if (ver >= 4) {
 			db_free(&dbv);
 			_itoa(OFFSET_NAME+i, buf, 10);
-			if ( !DBGetContactSettingTString(NULL, "Protocols", buf, &dbv)) {
+			if ( !db_get_ts(NULL, "Protocols", buf, &dbv)) {
 				pa->tszAccountName = mir_tstrdup(dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -99,7 +99,7 @@ void LoadDbAccounts(void)
 			_itoa(OFFSET_ENABLED+i, buf, 10);
 			pa->bIsEnabled = db_get_dw(NULL, "Protocols", buf, 1);
 
-			if ( !DBGetContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
+			if ( !db_get_s(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
 				pa->szProtoName = mir_strdup(dbv.pszVal);
 				db_free(&dbv);
 			}
@@ -163,7 +163,7 @@ void WriteDbAccounts()
 	if (param.arrlen) {
 		int i;
 		for (i=0; i < param.arrlen; i++) {
-			DBDeleteContactSetting(0, "Protocols", param.pszSettingName[i]);
+			db_unset(0, "Protocols", param.pszSettingName[i]);
 			mir_free(param.pszSettingName[i]);
 		}
 		mir_free(param.pszSettingName);
@@ -190,7 +190,7 @@ void WriteDbAccounts()
 		db_set_ts(NULL, "Protocols", buf, pa->tszAccountName);
 	}
 
-	DBDeleteContactSetting(0, "Protocols", "ProtoCount");
+	db_unset(0, "Protocols", "ProtoCount");
 	db_set_dw(0, "Protocols", "ProtoCount", accounts.getCount());
 	db_set_dw(0, "Protocols", "PrVer", 4);
 }

@@ -117,7 +117,7 @@ bool Omegle_client::handle_error( std::string method, bool force_disconnect )
 
 	if ( force_disconnect )
 		result = false;
-	else if ( error_count_ <= (UINT)DBGetContactSettingByte(NULL,parent->m_szModuleName,OMEGLE_KEY_TIMEOUTS_LIMIT,OMEGLE_TIMEOUTS_LIMIT))
+	else if ( error_count_ <= (UINT)db_get_b(NULL,parent->m_szModuleName,OMEGLE_KEY_TIMEOUTS_LIMIT,OMEGLE_TIMEOUTS_LIMIT))
 		result = true;
 	else
 		result = false;
@@ -138,7 +138,7 @@ std::string Omegle_client::get_server( bool not_last )
 {
 	BYTE q = not_last ? 1 : 0;	
 
-	BYTE server = DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
+	BYTE server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
 	if (server < 0 || server >= (SIZEOF(servers)-q))
 		server = 0;
 
@@ -327,10 +327,10 @@ bool Omegle_client::start()
 		} else {
 			data = "&ask=" + utils::url::encode(this->question_);
 			data += "&cansavequestion=";
-			data += DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_REUSE_QUESTION, 0) ? "1" : "0";
+			data += db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_REUSE_QUESTION, 0) ? "1" : "0";
 		}
 	}
-	else if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
+	else if ( db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
 	{
 		DBVARIANT dbv;
 		if (!DBGetContactSettingUTF8String(NULL, parent->m_szModuleName, OMEGLE_KEY_INTERESTS, &dbv))
@@ -338,7 +338,7 @@ bool Omegle_client::start()
 			std::string topics = dbv.pszVal;
 			std::string topic;
 		
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			std::string::size_type pos = 0;
 			std::string::size_type pos2 = 0;
@@ -376,7 +376,7 @@ bool Omegle_client::start()
 		}
 	}
 
-	if (DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER_INFO, 0))
+	if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER_INFO, 0))
 	{
 		std::string count = get_page( OMEGLE_REQUEST_COUNT );
 		if (!count.empty()) {
@@ -608,7 +608,7 @@ bool Omegle_client::events( )
 
 		if ( resp.data.find( "[\"strangerDisconnected\"]" ) != std::string::npos ) {
 			// Stranger disconnected
-			if (DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 			{
 				SkinPlaySound( "StrangerChange" );
 				parent->NewChat();
@@ -633,7 +633,7 @@ bool Omegle_client::events( )
 			mir_free(msg);
 
 			// Stranger disconnected
-			if (DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
+			if (db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_DONT_STOP, 0))
 			{
 				SkinPlaySound( "StrangerChange" );
 				parent->NewChat();
@@ -670,11 +670,11 @@ bool Omegle_client::events( )
 				
 		if (newStranger && state_ != STATE_SPY) {
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
-			if ( DBGetContactSettingByte( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 )) {
+			if ( db_get_b( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 )) {
 				DBVARIANT dbv;
 				if ( !DBGetContactSettingUTF8String( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv )) {
 					std::string *message = new std::string(dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 	
 					parent->Log("**Chat - saying Hi! message");
 					ForkThread(&OmegleProto::SendMsgWorker, parent, (void*)message);

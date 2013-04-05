@@ -191,7 +191,7 @@ void Xfire_gamelist::writeDatabase()
 	}
 
 	//anzahl aktualisieren
-	DBWriteContactSettingWord(NULL, protocolname, "foundgames", gamelist.size());
+	db_set_w(NULL, protocolname, "foundgames", gamelist.size());
 }
 
 //prüft ob ein game schon in der liste is

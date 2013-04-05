@@ -270,14 +270,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 		si->m_iIcon = i-1;
 
 		mir_snprintf(bufTitle, 32, "XStatus%dName", i);
-		if ( !DBGetContactSettingTString( NULL, protoName, bufTitle, &dbv )) {
+		if ( !db_get_ts( NULL, protoName, bufTitle, &dbv )) {
 			lstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
 		mir_snprintf(bufMessage, 32, "XStatus%dMsg", i);
-		if ( !DBGetContactSettingTString( NULL, protoName, bufMessage, &dbv )) {
+		if ( !db_get_ts( NULL, protoName, bufMessage, &dbv )) {
 			lstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);
 		}

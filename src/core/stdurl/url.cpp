@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HANDLE hUrlWindowList = NULL;
 static HANDLE hEventContactSettingChange = NULL;
 static HANDLE hContactDeleted = NULL;
-static HANDLE hSRUrlMenuItem = NULL;
+static HGENMENU hSRUrlMenuItem = NULL;
 
 INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -108,15 +108,13 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
+	bool bEnabled = false;
 	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL)
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
-			mi.flags = CMIM_FLAGS;
+			bEnabled = true;
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRUrlMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hSRUrlMenuItem, bEnabled);
 	return 0;
 }
 

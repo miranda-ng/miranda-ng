@@ -32,7 +32,7 @@
 
 // Globals
 extern HINSTANCE hInst;
-extern HANDLE hMenu;
+extern HGENMENU hMenu;
 extern DWORD mirVer;
 extern HANDLE hAvatarWindowsList;
 extern Options opts;

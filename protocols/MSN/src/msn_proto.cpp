@@ -114,10 +114,10 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	if (MyOptions.SlowSend)
 	{
-		if (DBGetContactSettingDword(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)
-			DBWriteContactSettingDword(NULL, "SRMsg", "MessageTimeout", 60000);
-		if (DBGetContactSettingDword(NULL, "SRMM", "MessageTimeout", 10000) < 60000)
-			DBWriteContactSettingDword(NULL, "SRMM", "MessageTimeout", 60000);
+		if (db_get_dw(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)
+			db_set_dw(NULL, "SRMsg", "MessageTimeout", 60000);
+		if (db_get_dw(NULL, "SRMM", "MessageTimeout", 10000) < 60000)
+			db_set_dw(NULL, "SRMM", "MessageTimeout", 60000);
 	}
 
 	mailsoundname = (char*)mir_alloc(64);
@@ -244,12 +244,12 @@ HANDLE CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD fl
 
 	if (flags & PALF_TEMPORARY)
 	{
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1)
-			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+		if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
+			db_set_b(hContact, "CList", "Hidden", 1);
 	}
 	else
 	{
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "Hidden");
 		if (msnLoggedIn)
 		{
 //			int netId = Lists_GetNetId(email);
@@ -260,7 +260,7 @@ HANDLE CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD fl
 				MSN_AddUser(hContact, email, netId, LIST_PL + LIST_REMOVE);
 				MSN_AddUser(hContact, email, netId, LIST_BL + LIST_REMOVE);
 				MSN_AddUser(hContact, email, netId, LIST_AL);
-				DBDeleteContactSetting(hContact, "CList", "Hidden");
+				db_unset(hContact, "CList", "Hidden");
 			}
 			MSN_SetContactDb(hContact, email);
 
@@ -681,7 +681,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(inf->hContact, "CList", "StatusMsg", &dbv)) {
+	if (!db_get_ts(inf->hContact, "CList", "StatusMsg", &dbv)) {
 		SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
 		MSN_FreeVariant(&dbv);
 	}
@@ -771,7 +771,7 @@ int __cdecl CMsnProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 	getStaticString(hContact, "e-mail", tEmail, sizeof(tEmail));
 
 	if (Lists_IsInList(LIST_FL, tEmail))
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "Hidden");
 
 	return Proto_RecvMessage(hContact, pre);
 }

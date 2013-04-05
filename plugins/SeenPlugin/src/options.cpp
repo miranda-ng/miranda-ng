@@ -65,13 +65,13 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 			EnableWindow( GetDlgItem(hdlg, i+20), hasPopups);
 		}
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "PopupStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_POPUPSTAMP, DEFAULT_POPUPSTAMP);
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "PopupStampText", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -199,31 +199,31 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP),IsDlgButtonChecked(hdlg, IDC_HISTORY));
 		EnableWindow(GetDlgItem(hdlg, IDC_COUNT),IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "MenuStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_MENUSTAMP, _T(DEFAULT_MENUSTAMP));
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "UserStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_USERSTAMP, DEFAULT_USERSTAMP);
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "FileStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "FileStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILESTAMP, _T(DEFAULT_FILESTAMP));
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "FileName", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "FileName", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILENAME, _T(DEFAULT_FILENAME));
 
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "HistoryStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}

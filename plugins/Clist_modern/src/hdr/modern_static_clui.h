@@ -165,9 +165,7 @@ static BOOL bTransparentFocus=TRUE,
             bNeedFixSizingRect=FALSE,
             bShowEventStarted=FALSE;
 
-static HANDLE hRenameMenuItem,
-              hShowAvatarMenuItem,
-              hHideAvatarMenuItem;
+static HGENMENU hRenameMenuItem, hShowAvatarMenuItem, hHideAvatarMenuItem;
 
 static UINT uMsgGetProfile=0;
 

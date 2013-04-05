@@ -63,7 +63,7 @@ int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, 
 	DBVARIANT dbv = {0};
 	int res = 1;
 	size_t len;
-	if ( DBGetContactSettingTString(NULL, ModuleName, szSettingName, &dbv) == 0) {
+	if ( db_get_ts(NULL, ModuleName, szSettingName, &dbv) == 0) {
 		res = 0;
 		size_t tmp = _tcslen(dbv.ptszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;

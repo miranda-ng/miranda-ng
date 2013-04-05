@@ -56,7 +56,7 @@ static void OpenURLThread(void *arg)
 
 	// check user defined browser for opening urls
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
+	if (!db_get_ts(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
 		ShellExecute(NULL, _T("open"), dbv.ptszVal, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 		db_free(&dbv);
 	}

@@ -433,7 +433,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 			}
 			else if ( type.Value() == "notification_json" ) // event notification
 			{
-				if (!DBGetContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
+				if (!db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE))
 					continue;
 
 				const Array& notificationsArray = objMember["nodes"];
@@ -470,8 +470,8 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 
 				HANDLE hContact = proto->AddToContactList(&fbu, FACEBOOK_CONTACT_FRIEND);
 				
-				if ( DBGetContactSettingWord(hContact,proto->m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE )
-					DBWriteContactSettingWord(hContact,proto->m_szModuleName,"Status",ID_STATUS_ONLINE);
+				if ( db_get_w(hContact,proto->m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE )
+					db_set_w(hContact,proto->m_szModuleName,"Status",ID_STATUS_ONLINE);
 
 				const Number& state = objMember["st"];
 				if (state.Value() == 1)

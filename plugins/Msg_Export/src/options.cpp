@@ -418,10 +418,10 @@ BOOL bApplyChanges( HWND hwndDlg )
 			if (_tcslen( szTemp) > 0 )
 				db_set_ts( hUser, MODULE, "FileName", szTemp );
 			else
-				DBDeleteContactSetting( hUser, MODULE, "FileName" );
+				db_unset( hUser, MODULE, "FileName" );
 
 			if (sItem.iImage )
-				DBDeleteContactSetting( hUser, MODULE, "EnableLog" ); // default is Enabled !!
+				db_unset( hUser, MODULE, "EnableLog" ); // default is Enabled !!
 			else
 				db_set_b( hUser, MODULE, "EnableLog",0);
 		}

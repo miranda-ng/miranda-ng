@@ -36,7 +36,7 @@ bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, cons
 	if (!szModuleName || !szSettingName)
 		return false;
 
-	if (!DBGetContactSetting(hContact, szModuleName, szSettingName, &dbv))
+	if (!db_get(hContact, szModuleName, szSettingName, &dbv))
 	{
 		switch(dbv.type)
 		{
@@ -65,7 +65,7 @@ bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, cons
 
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return buff[0] ? true : false;
@@ -73,7 +73,7 @@ bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, cons
 
 void StripBBCodesInPlace(TCHAR *swzText)
 {
-	if (!DBGetContactSettingByte(0, MODULE, "StripBBCodes", 1))
+	if (!db_get_b(0, MODULE, "StripBBCodes", 1))
 		return;
 
 	if (swzText == 0)
@@ -207,13 +207,13 @@ bool CanRetrieveStatusMsg(HANDLE hContact, char *szProto)
 	if (opt.bGetNewStatusMsg)
 	{
 		int iFlags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0);
-		WORD wStatus = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		if ((CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && (iFlags & Proto_Status2Flag(wStatus)))
 		{
 			iFlags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_VISLIST | PF1_INVISLIST);
 			if (opt.bDisableIfInvisible && iFlags)
 			{
-				int iVisMode = DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+				int iVisMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 				int wProtoStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 				if ((iVisMode == ID_STATUS_OFFLINE) || (wProtoStatus == ID_STATUS_INVISIBLE && iVisMode != ID_STATUS_ONLINE))
 					return false;
@@ -252,11 +252,11 @@ TCHAR *GetStatusMessageText(HANDLE hContact)
 			if (wStatus == ID_STATUS_OFFLINE)
 				return NULL;
 
-			if (!DBGetContactSettingTString(hContact, MODULE, "TempStatusMsg", &dbv))
+			if (!db_get_ts(hContact, MODULE, "TempStatusMsg", &dbv))
 			{
 				if (_tcslen(dbv.ptszVal) != 0)
 					swzMsg = mir_tstrdup(dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 
@@ -268,11 +268,11 @@ TCHAR *GetStatusMessageText(HANDLE hContact)
 					return NULL;
 			}
 
-			if (!DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv))
+			if (!db_get_ts(hContact, "CList", "StatusMsg", &dbv))
 			{
 				if (dbv.ptszVal && _tcslen(dbv.ptszVal) != 0)
 					swzMsg = mir_tstrdup(dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -417,17 +417,17 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 		for (int i = 0; i < iNumber; i++) {
 			if (i > 0)
 				hTmpContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
-			dwRecountTs = DBGetContactSettingDword(hTmpContact, MODULE, "LastCountTS", 0);
+			dwRecountTs = db_get_dw(hTmpContact, MODULE, "LastCountTS", 0);
 			dwTime = (DWORD)time(0);
 			dwDiff = (dwTime - dwRecountTs);
 			if (dwDiff > (60 * 60 * 24 * 3)) {
-				DBWriteContactSettingDword(hTmpContact, MODULE, "LastCountTS", dwTime);
+				db_set_dw(hTmpContact, MODULE, "LastCountTS", dwTime);
 				dwCountOut = dwCountIn = dwLastTs = 0;
 			}
 			else {
-				dwCountOut = DBGetContactSettingDword(hTmpContact, MODULE, "MsgCountOut", 0);
-				dwCountIn = DBGetContactSettingDword(hTmpContact, MODULE, "MsgCountIn", 0);
-				dwLastTs = DBGetContactSettingDword(hTmpContact, MODULE, "LastMsgTS", 0);
+				dwCountOut = db_get_dw(hTmpContact, MODULE, "MsgCountOut", 0);
+				dwCountIn = db_get_dw(hTmpContact, MODULE, "MsgCountIn", 0);
+				dwLastTs = db_get_dw(hTmpContact, MODULE, "LastMsgTS", 0);
 			}
 
 			dwNewTs = dwLastTs;
@@ -449,9 +449,9 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 			}
 
 			if (dwNewTs > dwLastTs) {
-				DBWriteContactSettingDword(hTmpContact, MODULE, "MsgCountOut", dwCountOut);
-				DBWriteContactSettingDword(hTmpContact, MODULE, "MsgCountIn", dwCountIn);
-				DBWriteContactSettingDword(hTmpContact, MODULE, "LastMsgTS", dwNewTs);
+				db_set_dw(hTmpContact, MODULE, "MsgCountOut", dwCountOut);
+				db_set_dw(hTmpContact, MODULE, "MsgCountIn", dwCountIn);
+				db_set_dw(hTmpContact, MODULE, "LastMsgTS", dwNewTs);
 			}
 
 			dwMetaCountOut += dwCountOut;
@@ -851,11 +851,11 @@ TCHAR *GetProtoExtraStatusTitle(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	if (!DBGetContactSettingTString(0, szProto, "XStatusName", &dbv))
+	if (!db_get_ts(0, szProto, "XStatusName", &dbv))
 	{
 		if (_tcslen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (!swzText)
@@ -879,11 +879,11 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	if (!DBGetContactSettingTString(0, szProto, "XStatusMsg", &dbv))
+	if (!db_get_ts(0, szProto, "XStatusMsg", &dbv))
 	{
 		if (_tcslen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		if (ServiceExists(MS_VARS_FORMATSTRING))
 		{
@@ -923,11 +923,11 @@ TCHAR *GetListeningTo(char *szProto)
 	if (!szProto)
 		return NULL;
 
-	if (!DBGetContactSettingTString(0, szProto, "ListeningTo", &dbv))
+	if (!db_get_ts(0, szProto, "ListeningTo", &dbv))
 	{
 		if (_tcslen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (opt.bLimitMsg)
@@ -946,11 +946,11 @@ TCHAR *GetJabberAdvStatusText(char *szProto, const char *szSlot, const char *szV
 		return NULL;
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
-	if (!DBGetContactSettingTString(0, "AdvStatus", szSetting, &dbv))
+	if (!db_get_ts(0, "AdvStatus", szSetting, &dbv))
 	{
 		if (_tcslen(dbv.ptszVal) != 0)
 			swzText = mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (opt.bLimitMsg)
@@ -969,10 +969,10 @@ HICON GetJabberActivityIcon(HANDLE hContact, char *szProto)
 		return NULL;
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, "activity", "icon");
-	if (!DBGetContactSettingString(hContact, "AdvStatus", szSetting, &dbv))
+	if (!db_get_s(hContact, "AdvStatus", szSetting, &dbv))
 	{
 		hIcon = Skin_GetIcon(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return hIcon;

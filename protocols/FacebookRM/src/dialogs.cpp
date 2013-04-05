@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static BOOL LoadDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef)
 {
-	BOOL state = DBGetContactSettingByte(NULL, ppro->m_szModuleName, szSetting, bDef);
+	BOOL state = db_get_b(NULL, ppro->m_szModuleName, szSetting, bDef);
 	CheckDlgButton(hwnd, idCtrl, state);
 	return state;
 }
@@ -32,7 +32,7 @@ static BOOL LoadDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const c
 static BOOL StoreDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	BOOL state = IsDlgButtonChecked(hwnd, idCtrl);
-	DBWriteContactSettingByte(NULL, ppro->m_szModuleName, szSetting, (BYTE)state);
+	db_set_b(NULL, ppro->m_szModuleName, szSetting, (BYTE)state);
 	return state;
 }
 
@@ -50,18 +50,18 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
+		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
-		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
+		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (!proto->isOffline()) {
@@ -96,11 +96,11 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 			char str[128];
 
 			GetDlgItemTextA(hwnd,IDC_UN,str,sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
+			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
 
 			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_PASS,str);
+			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,str);
 
 			return TRUE;
 		}
@@ -128,10 +128,10 @@ INT_PTR CALLBACK FBMindProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lpar
 
 		DBVARIANT dbv = { DBVT_TCHAR };
 
-		if (!DBGetContactSettingTString(NULL,proto->m_szModuleName,FACEBOOK_KEY_NAME,&dbv))
+		if (!db_get_ts(NULL,proto->m_szModuleName,FACEBOOK_KEY_NAME,&dbv))
 		{
 			SetWindowText( hwnd, dbv.ptszVal );
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}
 	}
 
@@ -196,17 +196,17 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
+		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv))
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
-		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
+		if ( !db_get_s(0,proto->ModuleName(),FACEBOOK_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,reinterpret_cast<LPARAM>(dbv.pszVal));
 			SetDlgItemTextA(hwnd,IDC_PW,dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (!proto->isOffline())
@@ -217,10 +217,10 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-		if ( !DBGetContactSettingTString(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv))
+		if ( !db_get_ts(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv))
 		{
 			SetDlgItemText(hwnd,IDC_GROUP,dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
@@ -255,20 +255,20 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 			char str[128]; TCHAR tstr[128];
 
 			GetDlgItemTextA(hwnd,IDC_UN,str,sizeof(str));
-			DBWriteContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
+			db_set_s(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,str);
 
 			GetDlgItemTextA(hwnd,IDC_PW,str,sizeof(str));
 			CallService(MS_DB_CRYPT_ENCODESTRING,sizeof(str),reinterpret_cast<LPARAM>(str));
-			DBWriteContactSettingString(NULL,proto->m_szModuleName,FACEBOOK_KEY_PASS,str);
+			db_set_s(NULL,proto->m_szModuleName,FACEBOOK_KEY_PASS,str);
 
 			GetDlgItemText(hwnd,IDC_GROUP,tstr,sizeof(tstr));
 			if ( lstrlen( tstr ) > 0 )
 			{
-				DBWriteContactSettingTString(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP,tstr);
+				db_set_ts(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP,tstr);
 				CallService( MS_CLIST_GROUPCREATE, 0, (LPARAM)tstr );
 			}
 			else
-				DBDeleteContactSetting(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP);
+				db_unset(NULL,proto->m_szModuleName,FACEBOOK_KEY_DEF_GROUP);
 
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS);
@@ -334,10 +334,10 @@ INT_PTR CALLBACK FBOptionsAdvancedProc( HWND hwnd, UINT message, WPARAM wparam, 
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
 			
 			BOOL setStatus = IsDlgButtonChecked(hwnd, IDC_SET_STATUS);
-			BOOL setStatusOld = DBGetContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);
+			BOOL setStatusOld = db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);
 			if (setStatus != setStatusOld)
 			{
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
+				db_set_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_SET_MIRANDA_STATUS, setStatus);
 				if (setStatus && proto->isOnline())
 				{
 					ForkThread(&FacebookProto::SetAwayMsgWorker, proto, NULL);
@@ -373,7 +373,7 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			SendDlgItemMessageA(hwnd,IDC_FEED_TYPE,CB_INSERTSTRING,i,
 				reinterpret_cast<LPARAM>(Translate(feed_types[i].name)));
 		}
-		SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_SETCURSEL, DBGetContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, 0), 0);
 		LoadDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY);
 
 		LoadDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_ENABLE, FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE);
@@ -381,18 +381,18 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		LoadDBCheckState(proto, hwnd, IDC_CLIENT_ENABLE, FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE);
 		LoadDBCheckState(proto, hwnd, IDC_OTHER_ENABLE, FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE);
 
-		SendDlgItemMessage(hwnd, IDC_COLBACK, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK,DEFAULT_EVENT_COLBACK));
-		SendDlgItemMessage(hwnd, IDC_COLTEXT, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT,DEFAULT_EVENT_COLTEXT));
-		SetDlgItemInt(hwnd, IDC_TIMEOUT,DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, 0),TRUE);
-		SendDlgItemMessage(hwnd, IDC_COLBACK2, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLBACK,DEFAULT_EVENT_COLBACK));
-		SendDlgItemMessage(hwnd, IDC_COLTEXT2, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLTEXT,DEFAULT_EVENT_COLTEXT));
-		SetDlgItemInt(hwnd, IDC_TIMEOUT2,DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, 0),TRUE);
-		SendDlgItemMessage(hwnd, IDC_COLBACK3, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLBACK,DEFAULT_EVENT_COLBACK));
-		SendDlgItemMessage(hwnd, IDC_COLTEXT3, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLTEXT,DEFAULT_EVENT_COLTEXT));
-		SetDlgItemInt(hwnd, IDC_TIMEOUT3,DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, 0),TRUE);
-		SendDlgItemMessage(hwnd, IDC_COLBACK4, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLBACK,DEFAULT_EVENT_COLBACK));
-		SendDlgItemMessage(hwnd, IDC_COLTEXT4, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLTEXT,DEFAULT_EVENT_COLTEXT));
-		SetDlgItemInt(hwnd, IDC_TIMEOUT4,DBGetContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, 0),TRUE);
+		SendDlgItemMessage(hwnd, IDC_COLBACK, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK,DEFAULT_EVENT_COLBACK));
+		SendDlgItemMessage(hwnd, IDC_COLTEXT, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT,DEFAULT_EVENT_COLTEXT));
+		SetDlgItemInt(hwnd, IDC_TIMEOUT,db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, 0),TRUE);
+		SendDlgItemMessage(hwnd, IDC_COLBACK2, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLBACK,DEFAULT_EVENT_COLBACK));
+		SendDlgItemMessage(hwnd, IDC_COLTEXT2, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLTEXT,DEFAULT_EVENT_COLTEXT));
+		SetDlgItemInt(hwnd, IDC_TIMEOUT2,db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, 0),TRUE);
+		SendDlgItemMessage(hwnd, IDC_COLBACK3, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLBACK,DEFAULT_EVENT_COLBACK));
+		SendDlgItemMessage(hwnd, IDC_COLTEXT3, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLTEXT,DEFAULT_EVENT_COLTEXT));
+		SetDlgItemInt(hwnd, IDC_TIMEOUT3,db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, 0),TRUE);
+		SendDlgItemMessage(hwnd, IDC_COLBACK4, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLBACK,DEFAULT_EVENT_COLBACK));
+		SendDlgItemMessage(hwnd, IDC_COLTEXT4, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLTEXT,DEFAULT_EVENT_COLTEXT));
+		SetDlgItemInt(hwnd, IDC_TIMEOUT4,db_get_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, 0),TRUE);
 
 		LoadDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_DEFAULT, FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0);
 		LoadDBCheckState(proto, hwnd, IDC_FEEDS_DEFAULT, FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0);
@@ -446,7 +446,7 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	{
 		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
 		{			
-			DBWriteContactSettingByte(NULL, proto->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
+			db_set_b(NULL, proto->m_szModuleName, FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
 
 			StoreDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY);
 
@@ -460,21 +460,21 @@ INT_PTR CALLBACK FBEventsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			StoreDBCheckState(proto, hwnd, IDC_OTHER_DEFAULT, FACEBOOK_KEY_EVENT_OTHER_DEFAULT);
 			StoreDBCheckState(proto, hwnd, IDC_CLIENT_DEFAULT, FACEBOOK_KEY_EVENT_CLIENT_DEFAULT);
 
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT,NULL,TRUE));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_NOTIFICATIONS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT,NULL,TRUE));
 			
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK2,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT2,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT2,NULL,TRUE));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK2,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT2,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_FEEDS_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT2,NULL,TRUE));
 
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK3,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT3,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT3,NULL,TRUE));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK3,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT3,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_OTHER_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT3,NULL,TRUE));
 
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK4,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT4,CPM_GETCOLOUR,0,0));
-			DBWriteContactSettingDword(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT4,NULL,TRUE));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLBACK, SendDlgItemMessage(hwnd,IDC_COLBACK4,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_COLTEXT, SendDlgItemMessage(hwnd,IDC_COLTEXT4,CPM_GETCOLOUR,0,0));
+			db_set_dw(NULL, proto->m_szModuleName, FACEBOOK_KEY_EVENT_CLIENT_TIMEOUT, GetDlgItemInt(hwnd,IDC_TIMEOUT4,NULL,TRUE));
 		}
 	}
 	return TRUE;

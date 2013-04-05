@@ -49,9 +49,9 @@ static int GetDatabaseString(CONTACTINFO *ci, const char* setting, DBVARIANT* db
 	}
 
 	if (ci->dwFlag & CNF_UNICODE)
-		return DBGetContactSettingWString(ci->hContact, ci->szProto, setting, dbv);
+		return db_get_ws(ci->hContact, ci->szProto, setting, dbv);
 
-	return DBGetContactSettingString(ci->hContact, ci->szProto, setting, dbv);
+	return db_get_s(ci->hContact, ci->szProto, setting, dbv);
 }
 
 static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
@@ -70,7 +70,7 @@ static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
 		db_free(&dbv);
 	}
 
-	if (DBGetContactSetting(ci->hContact, ci->szProto, setting, &dbv))
+	if (db_get(ci->hContact, ci->szProto, setting, &dbv))
 		return 1;
 
 	switch (dbv.type) {
@@ -146,7 +146,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			if ( !GetDatabaseString(ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv))
 				return 0;
 
-			if ( !DBGetContactSetting(ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
+			if ( !db_get(ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv)) {
 				if (dbv.type == DBVT_WORD) {
 					int i, countryCount;
 					struct CountryListEntry *countries;
@@ -513,7 +513,7 @@ int LoadContactsModule(void)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv)) {
+	if ( !db_get(NULL, "Contact", "NameOrder", &dbv)) {
 		CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}

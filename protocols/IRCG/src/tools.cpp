@@ -25,83 +25,83 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Standard functions
 
 int CIrcProto::getByte( const char* name, BYTE defaultValue )
-{	return DBGetContactSettingByte( NULL, m_szModuleName, name, defaultValue );
+{	return db_get_b( NULL, m_szModuleName, name, defaultValue );
 }
 
 int CIrcProto::getByte( HANDLE hContact, const char* name, BYTE defaultValue )
-{	return DBGetContactSettingByte(hContact, m_szModuleName, name, defaultValue );
+{	return db_get_b(hContact, m_szModuleName, name, defaultValue );
 }
 
 int CIrcProto::getDword( const char* name, DWORD defaultValue )
-{	return DBGetContactSettingDword( NULL, m_szModuleName, name, defaultValue );
+{	return db_get_dw( NULL, m_szModuleName, name, defaultValue );
 }
 
 int CIrcProto::getDword( HANDLE hContact, const char* name, DWORD defaultValue )
-{	return DBGetContactSettingDword(hContact, m_szModuleName, name, defaultValue );
+{	return db_get_dw(hContact, m_szModuleName, name, defaultValue );
 }
 
 int CIrcProto::getString( const char* name, DBVARIANT* result )
-{	return DBGetContactSettingString( NULL, m_szModuleName, name, result );
+{	return db_get_s( NULL, m_szModuleName, name, result );
 }
 
 int CIrcProto::getString( HANDLE hContact, const char* name, DBVARIANT* result )
-{	return DBGetContactSettingString( hContact, m_szModuleName, name, result );
+{	return db_get_s( hContact, m_szModuleName, name, result );
 }
 
 int CIrcProto::getTString( const char* name, DBVARIANT* result )
-{	return DBGetContactSettingTString( NULL, m_szModuleName, name, result );
+{	return db_get_ts( NULL, m_szModuleName, name, result );
 }
 
 int CIrcProto::getTString( HANDLE hContact, const char* name, DBVARIANT* result )
-{	return DBGetContactSettingTString( hContact, m_szModuleName, name, result );
+{	return db_get_ts( hContact, m_szModuleName, name, result );
 }
 
 int CIrcProto::getWord( const char* name, WORD defaultValue )
-{	return DBGetContactSettingWord( NULL, m_szModuleName, name, defaultValue );
+{	return db_get_w( NULL, m_szModuleName, name, defaultValue );
 }
 
 int CIrcProto::getWord( HANDLE hContact, const char* name, WORD defaultValue )
-{	return DBGetContactSettingWord(hContact, m_szModuleName, name, defaultValue );
+{	return db_get_w(hContact, m_szModuleName, name, defaultValue );
 }
 
 void CIrcProto::setByte( const char* name, BYTE value )
-{	DBWriteContactSettingByte(NULL, m_szModuleName, name, value );
+{	db_set_b(NULL, m_szModuleName, name, value );
 }
 
 void CIrcProto::setByte( HANDLE hContact, const char* name, BYTE value )
-{	DBWriteContactSettingByte(hContact, m_szModuleName, name, value );
+{	db_set_b(hContact, m_szModuleName, name, value );
 }
 
 void CIrcProto::setDword( const char* name, DWORD value )
-{	DBWriteContactSettingDword(NULL, m_szModuleName, name, value );
+{	db_set_dw(NULL, m_szModuleName, name, value );
 }
 
 void CIrcProto::setDword( HANDLE hContact, const char* name, DWORD value )
-{	DBWriteContactSettingDword(hContact, m_szModuleName, name, value );
+{	db_set_dw(hContact, m_szModuleName, name, value );
 }
 
 void CIrcProto::setString( const char* name, const char* value )
-{	DBWriteContactSettingString(NULL, m_szModuleName, name, value );
+{	db_set_s(NULL, m_szModuleName, name, value );
 }
 
 void CIrcProto::setString( HANDLE hContact, const char* name, const char* value )
-{	DBWriteContactSettingString(hContact, m_szModuleName, name, value );
+{	db_set_s(hContact, m_szModuleName, name, value );
 }
 
 void CIrcProto::setTString( const char* name, const TCHAR* value )
-{	DBWriteContactSettingTString(NULL, m_szModuleName, name, value );
+{	db_set_ts(NULL, m_szModuleName, name, value );
 }
 
 void CIrcProto::setTString( HANDLE hContact, const char* name, const TCHAR* value )
-{	DBWriteContactSettingTString(hContact, m_szModuleName, name, value );
+{	db_set_ts(hContact, m_szModuleName, name, value );
 }
 
 void CIrcProto::setWord( const char* name, int value )
-{	DBWriteContactSettingWord(NULL, m_szModuleName, name, value );
+{	db_set_w(NULL, m_szModuleName, name, value );
 }
 
 void CIrcProto::setWord( HANDLE hContact, const char* name, int value )
-{	DBWriteContactSettingWord(hContact, m_szModuleName, name, value );
+{	db_set_w(hContact, m_szModuleName, name, value );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ void CIrcProto::AddToJTemp(TCHAR op, CMString& sCommand)
 	DBVARIANT dbv;
 	if ( !getTString( "JTemp", &dbv )) {
 		res = CMString(dbv.ptszVal) + _T(" ") + res;
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 
 	setTString("JTemp", res.c_str());

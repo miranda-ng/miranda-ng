@@ -50,7 +50,7 @@ static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 		result = M->GetTString(0, "CListGroups", str, &dbv);
 		if (!result) {
 			match = (!_tcscmp(tszGroup, &dbv.ptszVal[1]) && (lstrlen(tszGroup) == lstrlen(&dbv.ptszVal[1])));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if (match)
 				return((HANDLE)(i + 1));
 		}
@@ -70,7 +70,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	if (!M->GetTString(NULL, "Chat", "AddToGroup", &dbv)) {
 		if (lstrlen(dbv.ptszVal) > 0)
 			lstrcpyn(pszGroup, dbv.ptszVal, 50);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		lstrcpyn(pszGroup, _T("Chat rooms"), 50);
 
@@ -94,7 +94,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 	M->WriteTString(hContact, pszModule, "Nick", pszDisplayName);
 	M->WriteTString(hContact, pszModule, "ChatRoomID", pszRoom);
 	M->WriteByte(hContact, pszModule, "ChatRoom", (BYTE)iType);
-	DBWriteContactSettingWord(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
+	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
 }
 
@@ -106,8 +106,8 @@ BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 			return FALSE;
 
 		int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
-		DBWriteContactSettingWord(hContact, szProto, "ApparentMode", (LPARAM)0);
-		DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		db_set_w(hContact, szProto, "ApparentMode", (LPARAM)0);
+		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}
 	return FALSE;
@@ -125,8 +125,8 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 			if (!pszModule || (pszModule && !strcmp(pszModule, szProto))) {
 				int i = M->GetByte(hContact, szProto, "ChatRoom", 0);
 				if (i != 0) {
-					DBWriteContactSettingWord(hContact, szProto, "ApparentMode", (LPARAM)(WORD) 0);
-					DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+					db_set_w(hContact, szProto, "ApparentMode", (LPARAM)(WORD) 0);
+					db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				}
 			}
 		}
@@ -162,7 +162,7 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 						&& IsWindowVisible(si->hWnd)
 						&& !IsIconic(si->pContainer->hwnd)) {
 					PostMessage(si->hWnd, GC_CLOSEWINDOW, 0, 0);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					return 1;
 				}
 				else
@@ -175,7 +175,7 @@ int CList_RoomDoubleclicked(WPARAM wParam, LPARAM lParam)
 						SetForegroundWindow(si->dat->pContainer->hwnd);
 				}
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return 1;
 		}
 	}
@@ -305,10 +305,10 @@ HANDLE CList_FindRoom(const char* pszModule, const TCHAR* pszRoom)
 				DBVARIANT dbv;
 				if (!M->GetTString(hContact, szProto, "ChatRoomID", &dbv)) {
 					if (!lstrcmpi(dbv.ptszVal, pszRoom)) {
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						return hContact;
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}

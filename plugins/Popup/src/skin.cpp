@@ -1278,7 +1278,7 @@ void PopupSkin::loadOpts() const
 
 	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
 
-	m_flags = DBGetContactSettingDword(NULL, MODULNAME, buf, m_flags);
+	m_flags = db_get_dw(NULL, MODULNAME, buf, m_flags);
 }
 
 // Skins

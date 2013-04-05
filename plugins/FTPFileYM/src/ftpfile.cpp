@@ -216,49 +216,21 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 	bool bHideRoot = opt.bHideInactive;
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
-	{
 		if (ftpList[i]->bEnabled)
 			bHideRoot = false;
-	}
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
 
 	if (opt.bUseSubmenu)
-	{
-		if (!bIsContact || bHideRoot) mi.flags |= CMIF_HIDDEN;
-		else mi.flags &= ~CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
-	}
+		Menu_ShowItem(hMenu, bIsContact && !bHideRoot);
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
-	{
-		mi.flags = CMIM_FLAGS;
-		if (!bIsContact) 
-		{
-			mi.flags |= CMIF_HIDDEN;
-		} 
-		else if (!ftpList[i]->bEnabled)
-		{
-			mi.flags |= opt.bHideInactive ? CMIF_HIDDEN : CMIF_GRAYED;
-		}
-
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSubMenu[i], (LPARAM)&mi);
-	}
-
+		Menu_ShowItem(hSubMenu[i], bIsContact && ftpList[i]->bEnabled);
 	return 0;
 }
 
 void PrebuildMainMenu()
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	for (int i=0; i < ServerList::FTP_COUNT; i++) {
-		mi.flags = CMIM_FLAGS;
-		if (!ftpList[i]->bEnabled)
-			mi.flags |= opt.bHideInactive ? CMIF_HIDDEN : CMIF_GRAYED;
-
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainSubMenu[i], (LPARAM)&mi);
-	}
+	for (int i=0; i < ServerList::FTP_COUNT; i++)
+		Menu_ShowItem(hMainSubMenu[i], ftpList[i]->bEnabled);
 }
 
 int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam) 

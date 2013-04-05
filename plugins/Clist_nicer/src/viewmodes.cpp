@@ -223,7 +223,7 @@ static int FillDialog(HWND hwnd)
 
 			item.pszText = &dbv.ptszVal[1];
 			newItem = SendMessage(hwndList, LVM_INSERTITEM, 0, (LPARAM)&item);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
 		ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
@@ -484,7 +484,7 @@ void UpdateFilters()
 	mir_snprintf(szTemp, 100, Translate("Current view mode: %s"), g_szModename);
 	SetDlgItemTextA(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
 	mir_snprintf(szSetting, 128, "%c%s_PF", 246, szBuf);
-	if (DBGetContactSetting(NULL, CLVM_MODULE, szSetting, &dbv_pf))
+	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
 	mir_snprintf(szSetting, 128, "%c%s_GF", 246, szBuf);
 	if (cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
@@ -580,8 +580,8 @@ void UpdateFilters()
 
 	ShowPage(clvmHwnd, 0);
 cleanup:
-	DBFreeVariant(&dbv_pf);
-	DBFreeVariant(&dbv_gf);
+	db_free(&dbv_pf);
+	db_free(&dbv_gf);
 	free(szBuf);
 }
 
@@ -685,16 +685,16 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 							SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szBuf);
 							mir_snprintf(szSetting, 256, "%c%s_PF", 246, szBuf);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
+							db_unset(NULL, CLVM_MODULE, szSetting);
 							mir_snprintf(szSetting, 256, "%c%s_GF", 246, szBuf);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
+							db_unset(NULL, CLVM_MODULE, szSetting);
 							mir_snprintf(szSetting, 256, "%c%s_SM", 246, szBuf);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
+							db_unset(NULL, CLVM_MODULE, szSetting);
 							mir_snprintf(szSetting, 256, "%c%s_VA", 246, szBuf);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
+							db_unset(NULL, CLVM_MODULE, szSetting);
 							mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szBuf);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
-							DBDeleteContactSetting(NULL, CLVM_MODULE, szBuf);
+							db_unset(NULL, CLVM_MODULE, szSetting);
+							db_unset(NULL, CLVM_MODULE, szBuf);
 							if ( !strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
 								cfg::dat.bFilterEffective = 0;
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);

@@ -716,51 +716,51 @@ TfrmMain::~TfrmMain() {
 //---------------------------------------------------------------------------
 // Load / Saving options from miranda's database
 void TfrmMain::LoadOptions(void) {
-	DWORD rgb					= DBGetContactSettingDword(NULL, SZ_SENDSS, "AlphaColor", 16777215);
+	DWORD rgb					= db_get_dw(NULL, SZ_SENDSS, "AlphaColor", 16777215);
 	m_AlphaColor.rgbRed			= GetRValue(rgb);
 	m_AlphaColor.rgbGreen		= GetGValue(rgb);
 	m_AlphaColor.rgbBlue		= GetBValue(rgb);
 	m_AlphaColor.rgbReserved	= 0;
 
-//	m_opt_chkEmulateClick		= DBGetContactSettingByte(NULL, SZ_SENDSS, "AutoSend", 1);
-	m_opt_edtQuality			= DBGetContactSettingByte(NULL, SZ_SENDSS, "JpegQuality", 75);
+//	m_opt_chkEmulateClick		= db_get_b(NULL, SZ_SENDSS, "AutoSend", 1);
+	m_opt_edtQuality			= db_get_b(NULL, SZ_SENDSS, "JpegQuality", 75);
 
-	m_opt_tabCapture			= DBGetContactSettingByte(NULL, SZ_SENDSS, "Capture", 0);
-	m_opt_chkClientArea			= DBGetContactSettingByte(NULL, SZ_SENDSS, "ClientArea", 0);
-	m_opt_cboxDesktop			= DBGetContactSettingByte(NULL, SZ_SENDSS, "Desktop", 0);
+	m_opt_tabCapture			= db_get_b(NULL, SZ_SENDSS, "Capture", 0);
+	m_opt_chkClientArea			= db_get_b(NULL, SZ_SENDSS, "ClientArea", 0);
+	m_opt_cboxDesktop			= db_get_b(NULL, SZ_SENDSS, "Desktop", 0);
 
-	m_opt_chkTimed				= DBGetContactSettingByte(NULL, SZ_SENDSS, "TimedCap", 0);
-	m_opt_edtTimed				= DBGetContactSettingByte(NULL, SZ_SENDSS, "CapTime", 3);
-	m_opt_cboxFormat			= DBGetContactSettingByte(NULL, SZ_SENDSS, "OutputFormat", 3);
-	m_opt_cboxSendBy			= DBGetContactSettingByte(NULL, SZ_SENDSS, "SendBy", 0);
+	m_opt_chkTimed				= db_get_b(NULL, SZ_SENDSS, "TimedCap", 0);
+	m_opt_edtTimed				= db_get_b(NULL, SZ_SENDSS, "CapTime", 3);
+	m_opt_cboxFormat			= db_get_b(NULL, SZ_SENDSS, "OutputFormat", 3);
+	m_opt_cboxSendBy			= db_get_b(NULL, SZ_SENDSS, "SendBy", 0);
 
-	m_opt_chkEditor				= DBGetContactSettingByte(NULL, SZ_SENDSS, "Preview", 0);
-	m_opt_btnDesc				= DBGetContactSettingByte(NULL, SZ_SENDSS, "AutoDescription", 1);
-	m_opt_btnDeleteAfterSend	= DBGetContactSettingByte(NULL, SZ_SENDSS, "DelAfterSend", 1);
-	m_opt_chkOpenAgain			= DBGetContactSettingByte(NULL, SZ_SENDSS, "OpenAgain", 0);
+	m_opt_chkEditor				= db_get_b(NULL, SZ_SENDSS, "Preview", 0);
+	m_opt_btnDesc				= db_get_b(NULL, SZ_SENDSS, "AutoDescription", 1);
+	m_opt_btnDeleteAfterSend	= db_get_b(NULL, SZ_SENDSS, "DelAfterSend", 1);
+	m_opt_chkOpenAgain			= db_get_b(NULL, SZ_SENDSS, "OpenAgain", 0);
 }
 
 void TfrmMain::SaveOptions(void) {
 	if(m_bOnExitSave) {
-		DBWriteContactSettingDword(NULL, SZ_SENDSS, "AlphaColor",
+		db_set_dw(NULL, SZ_SENDSS, "AlphaColor",
 			(DWORD)RGB(m_AlphaColor.rgbRed, m_AlphaColor.rgbGreen, m_AlphaColor.rgbBlue));
 
-//		DBWriteContactSettingByte(NULL, SZ_SENDSS, "AutoSend", m_opt_chkEmulateClick);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "JpegQuality", m_opt_edtQuality);
+//		db_set_b(NULL, SZ_SENDSS, "AutoSend", m_opt_chkEmulateClick);
+		db_set_b(NULL, SZ_SENDSS, "JpegQuality", m_opt_edtQuality);
 
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "Capture", m_opt_tabCapture);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "ClientArea", m_opt_chkClientArea);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "Desktop", m_opt_cboxDesktop);
+		db_set_b(NULL, SZ_SENDSS, "Capture", m_opt_tabCapture);
+		db_set_b(NULL, SZ_SENDSS, "ClientArea", m_opt_chkClientArea);
+		db_set_b(NULL, SZ_SENDSS, "Desktop", m_opt_cboxDesktop);
 
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "TimedCap", m_opt_chkTimed);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "CapTime", m_opt_edtTimed);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "OutputFormat", m_opt_cboxFormat);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "SendBy", m_opt_cboxSendBy);
+		db_set_b(NULL, SZ_SENDSS, "TimedCap", m_opt_chkTimed);
+		db_set_b(NULL, SZ_SENDSS, "CapTime", m_opt_edtTimed);
+		db_set_b(NULL, SZ_SENDSS, "OutputFormat", m_opt_cboxFormat);
+		db_set_b(NULL, SZ_SENDSS, "SendBy", m_opt_cboxSendBy);
 
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "AutoDescription", m_opt_btnDesc);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "DelAfterSend", m_opt_btnDeleteAfterSend);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "OpenAgain", m_opt_chkOpenAgain);
-		DBWriteContactSettingByte(NULL, SZ_SENDSS, "Preview", m_opt_chkEditor);
+		db_set_b(NULL, SZ_SENDSS, "AutoDescription", m_opt_btnDesc);
+		db_set_b(NULL, SZ_SENDSS, "DelAfterSend", m_opt_btnDeleteAfterSend);
+		db_set_b(NULL, SZ_SENDSS, "OpenAgain", m_opt_chkOpenAgain);
+		db_set_b(NULL, SZ_SENDSS, "Preview", m_opt_chkEditor);
 	}
 }
 
@@ -957,7 +957,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	mir_tcsadd(path, m_FDestFolder);
 	if (path[_tcslen(path)-1] != _T('\\')) mir_tcsadd(path, _T("\\"));
 	mir_tcsadd(path, _T("shot%.5ld"));
-	int FileNumber=DBGetContactSettingDword(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
+	int FileNumber=db_get_dw(NULL, SZ_SENDSS, "FileNumber", 0) + 1;
 	// '00000'-'%.5ld'=0 (add more or less len if differ from 5
 	size_t len = (_tcslen(path)+0+1);
 	pszFilename = (LPTSTR)mir_alloc(sizeof(TCHAR)*(len));
@@ -1103,7 +1103,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	mir_freeAndNil(pszFilename);
 
 	if (ret) {
-		DBWriteContactSettingDword(NULL, SZ_SENDSS, "FileNumber", (DWORD)FileNumber);
+		db_set_dw(NULL, SZ_SENDSS, "FileNumber", (DWORD)FileNumber);
 		mir_freeAndNil(m_pszFile);
 		mir_freeAndNil(m_pszFileDesc);
 		m_pszFile = ret;

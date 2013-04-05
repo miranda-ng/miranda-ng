@@ -42,7 +42,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	if (DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
+	if (db_get(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 		k = 1;
 		PBYTE buf = (PBYTE) alloca(sigLen); int len;
 		exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)buf,&len);
@@ -181,7 +181,7 @@ BYTE loadRSAkey(pUinKey ptr)
 	if (!ptr->keyLoaded) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
-		if (	DBGetContactSetting(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
+		if (	db_get(ptr->hContact,MODULENAME,"rsa_pub",&dbv) == 0) {
 			ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx,dbv.pbVal,dbv.cpbVal);
 			Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
 			db_free(&dbv);

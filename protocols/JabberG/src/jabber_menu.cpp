@@ -518,7 +518,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd(WPARAM wParam, LPARAM)
 	if (ListGetItemPtr(LIST_ROSTER, roomID) == NULL) {
 		TCHAR *nick = 0;
 		TCHAR *group = 0;
-		if ( !DBGetContactSettingTString((HANDLE)wParam, "CList", "Group", &dbv)) {
+		if ( !db_get_ts((HANDLE)wParam, "CList", "Group", &dbv)) {
 			group = NEWTSTR_ALLOCA(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -1065,10 +1065,10 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 
 		DBVARIANT dbv;
 		BOOL bSupportTyping = FALSE;
-		if ( !DBGetContactSetting(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
+		if ( !db_get(event->hContact, "SRMsg", "SupportTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
-		} else if ( !DBGetContactSetting(NULL, "SRMsg", "DefaultTyping", &dbv)) {
+		} else if ( !db_get(NULL, "SRMsg", "DefaultTyping", &dbv)) {
 			bSupportTyping = dbv.bVal == 1;
 			db_free(&dbv);
 		}

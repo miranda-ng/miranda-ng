@@ -61,26 +61,26 @@ void write_ping_address(PINGADDRESS &i)
 
 	if(i.item_id == 0) {
 		i.item_id = NextID++;
-		DBWriteContactSettingDword(0, PLUG, "NextID", NextID);
+		db_set_dw(0, PLUG, "NextID", NextID);
 	}
 
-	DBWriteContactSettingDword(0, buff, "Id", i.item_id);
-	DBWriteContactSettingString(0, buff, "Address", i.pszName);
-	DBWriteContactSettingString(0, buff, "Label", i.pszLabel);
-	DBWriteContactSettingWord(0, buff, "Status", i.status);
-	DBWriteContactSettingDword(0, buff, "Port", i.port);
-	DBWriteContactSettingString(0, buff, "Proto", i.pszProto);
+	db_set_dw(0, buff, "Id", i.item_id);
+	db_set_s(0, buff, "Address", i.pszName);
+	db_set_s(0, buff, "Label", i.pszLabel);
+	db_set_w(0, buff, "Status", i.status);
+	db_set_dw(0, buff, "Port", i.port);
+	db_set_s(0, buff, "Proto", i.pszProto);
 	if(strlen(i.pszCommand))
-		DBWriteContactSettingString(0, buff, "Command", i.pszCommand);
+		db_set_s(0, buff, "Command", i.pszCommand);
 	else
-		DBDeleteContactSetting(0, buff, "Command");
+		db_unset(0, buff, "Command");
 	if(strlen(i.pszParams))
-		DBWriteContactSettingString(0, buff, "CommandParams", i.pszParams);
+		db_set_s(0, buff, "CommandParams", i.pszParams);
 	else
-		DBDeleteContactSetting(0, buff, "CommandParams");
-	DBWriteContactSettingWord(0, buff, "SetStatus", i.set_status);
-	DBWriteContactSettingWord(0, buff, "GetStatus", i.get_status);
-	DBWriteContactSettingWord(0, buff, "Index", i.index);
+		db_unset(0, buff, "CommandParams");
+	db_set_w(0, buff, "SetStatus", i.set_status);
+	db_set_w(0, buff, "GetStatus", i.get_status);
+	db_set_w(0, buff, "Index", i.index);
 }
 
 // call with list_cs locked
@@ -100,9 +100,9 @@ void write_ping_addresses()
 	do {
 		found = false;
 		sprintf(buff, "PING_DEST_%d", index++);
-		if(DBGetContactSettingDword(0, buff, "Id", 0) != 0) {
+		if(db_get_dw(0, buff, "Id", 0) != 0) {
 			found = true;
-			DBWriteContactSettingDword(0, buff, "Id", 0);
+			db_set_dw(0, buff, "Id", 0);
 		}
 	} while(found);
 }
@@ -114,52 +114,52 @@ bool read_ping_address(PINGADDRESS &pa) {
 	sprintf(buff, "PING_DEST_%d", index);
 
 	// return if not more contacts, or only deleted contacts remaining
-	if((pa.item_id = DBGetContactSettingDword(0, buff, "Id", 0)) == 0)	return false;
+	if((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;
 
 	DBVARIANT dbv;
-	if(!DBGetContactSetting(0, buff, "Address", &dbv)) {
+	if(!db_get(0, buff, "Address", &dbv)) {
 		strncpy(pa.pszName, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else return false;
 
-	if(!DBGetContactSetting(0, buff, "Label", &dbv)) {
+	if(!db_get(0, buff, "Label", &dbv)) {
 		strncpy(pa.pszLabel, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else return false;
 
-	pa.status = DBGetContactSettingWord(0, buff, "Status", PS_NOTRESPONDING);
+	pa.status = db_get_w(0, buff, "Status", PS_NOTRESPONDING);
 	if(pa.status != PS_DISABLED) pa.status = PS_NOTRESPONDING;
 
-	pa.port = (int)DBGetContactSettingDword(0, buff, "Port", -1);
+	pa.port = (int)db_get_dw(0, buff, "Port", -1);
 
-	if(!DBGetContactSetting(0, buff, "Proto", &dbv)) {
+	if(!db_get(0, buff, "Proto", &dbv)) {
 		strncpy(pa.pszProto, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else pa.pszProto[0] = '\0';
 
-	if(!DBGetContactSetting(0, buff, "Command", &dbv)) {
+	if(!db_get(0, buff, "Command", &dbv)) {
 		strncpy(pa.pszCommand, dbv.pszVal, MAX_PATH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		pa.pszCommand[0] = '\0';
-	if(!DBGetContactSetting(0, buff, "CommandParams", &dbv)) {
+	if(!db_get(0, buff, "CommandParams", &dbv)) {
 		strncpy(pa.pszParams, dbv.pszVal, MAX_PATH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		pa.pszParams[0] = '\0';
 
-	pa.set_status = DBGetContactSettingWord(0, buff, "SetStatus", ID_STATUS_ONLINE);
-	pa.get_status = DBGetContactSettingWord(0, buff, "GetStatus", ID_STATUS_OFFLINE);
+	pa.set_status = db_get_w(0, buff, "SetStatus", ID_STATUS_ONLINE);
+	pa.get_status = db_get_w(0, buff, "GetStatus", ID_STATUS_OFFLINE);
 
 	pa.responding = false;
 	pa.round_trip_time = 0;
 	pa.miss_count = 0;
-	pa.index = DBGetContactSettingWord(0, buff, "Index", 0);
+	pa.index = db_get_w(0, buff, "Index", 0);
 
 	pa.index = index;
 	if(pa.item_id >= NextID) {
 		NextID = pa.item_id + 1;
-		DBWriteContactSettingDword(0, PLUG, "NextID", NextID);
+		db_set_dw(0, PLUG, "NextID", NextID);
 	}
 
 	return true;

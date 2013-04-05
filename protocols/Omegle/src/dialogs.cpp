@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef = 0)
 {
-	BOOL state = DBGetContactSettingByte(NULL, ppro->m_szModuleName, szSetting, bDef);
+	BOOL state = db_get_b(NULL, ppro->m_szModuleName, szSetting, bDef);
 	CheckDlgButton(hwnd, idCtrl, state);
 	return state;
 }
@@ -32,17 +32,17 @@ static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const cha
 static BOOL StoreDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	BOOL state = IsDlgButtonChecked(hwnd, idCtrl);
-	DBWriteContactSettingByte(NULL, ppro->m_szModuleName, szSetting, (BYTE)state);
+	db_set_b(NULL, ppro->m_szModuleName, szSetting, (BYTE)state);
 	return state;
 }
 
 static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(NULL, ppro->m_szModuleName, szSetting, &dbv))
+	if ( !db_get_ts(NULL, ppro->m_szModuleName, szSetting, &dbv))
 	{
 		SetDlgItemText(hwnd, idCtrl, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -52,9 +52,9 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 
 	GetDlgItemText(hwnd, idCtrl, tstr, sizeof(tstr));
 	if ( _tcsclen( tstr ) > 0 ) {
-		DBWriteContactSettingTString(NULL, ppro->m_szModuleName, szSetting, tstr);
+		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {
-		DBDeleteContactSetting(NULL, ppro->m_szModuleName, szSetting);
+		db_unset(NULL, ppro->m_szModuleName, szSetting);
 	}
 }
 
@@ -80,7 +80,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		{
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
 		}
-		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, DBGetContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 		LoadDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -114,7 +114,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		{
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-			DBWriteContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
+			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
 
 			StoreDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 			StoreDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -152,7 +152,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		{
 			SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(servers[i]));
 		}
-		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, DBGetContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_SERVER, CB_SETCURSEL, db_get_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, 0), 0);
 
 		LoadDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 		LoadDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);
@@ -208,7 +208,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		{
 			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
-			DBWriteContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
+			db_set_b(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
 
 			StoreDBText(proto, hwnd, IDC_NAME, OMEGLE_KEY_NAME);
 			StoreDBText(proto, hwnd, IDC_INTERESTS, OMEGLE_KEY_INTERESTS);

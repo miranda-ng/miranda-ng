@@ -220,11 +220,11 @@ int EventAdded(WPARAM wparam, LPARAM lparam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get((HANDLE)lparam, &dbei);
 	if ( !(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ) 
-		|| !DBGetContactSettingByte(NULL, MODULE_NAME, "EnableLastSentTo", 0) 
-		|| DBGetContactSettingWord(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 
+		|| !db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0) 
+		|| db_get_w(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 
 		return 0;
 
-	DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD)(HANDLE)wparam);
+	db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD)(HANDLE)wparam);
 	return 0;
 }
 
@@ -332,7 +332,7 @@ int GetStatus(HANDLE hContact, char *proto = NULL)
 	if (proto == NULL)
 		return ID_STATUS_OFFLINE;
 
-	return DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
+	return db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 }
 
 
@@ -349,10 +349,10 @@ void FreeContacts()
 void LoadContacts(HWND hwndDlg, BOOL show_all)
 {
 	BOOL metacontactsEnabled = (metacontacts_proto != NULL
-				 && DBGetContactSettingByte(0, metacontacts_proto, "Enabled", 1));
+				 && db_get_b(0, metacontacts_proto, "Enabled", 1));
 
 	// Read last-sent-to contact from db and set handle as window-userdata
-	HANDLE hlastsent = (HANDLE)DBGetContactSettingDword(NULL, MODULE_NAME, "LastSentTo", -1);
+	HANDLE hlastsent = (HANDLE)db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1);
 	SetWindowLongPtr(hwndMain, GWLP_USERDATA, (LONG)hlastsent);
 
 	// enumerate all contacts and write them to the array
@@ -388,7 +388,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 					char setting[128];
 					mir_snprintf(setting, sizeof(setting), "ShowOffline%s", pszProto);
 
-					if (!DBGetContactSettingByte(NULL, MODULE_NAME, setting, FALSE))
+					if (!db_get_b(NULL, MODULE_NAME, setting, FALSE))
 						continue;
 
 					// Check if proto offline
@@ -412,7 +412,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 					{
 						char setting[128];
 						mir_snprintf(setting, sizeof(setting), "ShowOffline%s", metacontacts_proto);
-						if (DBGetContactSettingByte(NULL, MODULE_NAME, setting, FALSE))
+						if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
 							continue;
 					}
 				}
@@ -426,12 +426,12 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			if (opts.group_append)
 			{
 				DBVARIANT dbv;
-				if (DBGetContactSettingTString(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
+				if (db_get_ts(hMeta == NULL ? hContact : hMeta, "CList", "Group", &dbv) == 0)
 				{
 					if (dbv.ptszVal != NULL)
 						lstrcpyn(contact->szgroup, dbv.ptszVal, SIZEOF(contact->szgroup));
 
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 
@@ -831,9 +831,9 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			LoadContacts(hwndDlg, FALSE);
 
 			EnableButtons(hwndDlg, NULL);
-			if (DBGetContactSettingByte(NULL, MODULE_NAME, "EnableLastSentTo", 0))
+			if (db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0))
 			{
-				int pos = GetItemPos((HANDLE) DBGetContactSettingDword(NULL, MODULE_NAME, "LastSentTo", -1));
+				int pos = GetItemPos((HANDLE) db_get_dw(NULL, MODULE_NAME, "LastSentTo", -1));
 
 				if (pos != -1)
 				{
@@ -868,7 +868,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -888,7 +888,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_MSG_SENDMESSAGET, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -912,7 +912,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_VOICESERVICE_CALL, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -933,7 +933,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_FILE_SENDFILE, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -954,7 +954,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_URL_SENDURL, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -975,7 +975,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_USERINFO_SHOWDIALOG, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -996,7 +996,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 					CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM) hContact, 0);
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 					break;
 				}
@@ -1027,7 +1027,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(ret),MPCF_CONTACTMENU),(LPARAM) hContact);
 					}
 
-					DBWriteContactSettingDword(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
+					db_set_dw(NULL, MODULE_NAME, "LastSentTo", (DWORD) hContact);
 					break;
 				}
 				case HOTKEY_ALL_CONTACTS:

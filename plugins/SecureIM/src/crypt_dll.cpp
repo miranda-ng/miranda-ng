@@ -204,7 +204,7 @@ BOOL LoadKeyPGP(pUinKey ptr)
 	int mode = db_get_b(ptr->hContact,MODULENAME,"pgp_mode",255);
 	if (mode == 0) {
 		DBVARIANT dbv;
-		DBGetContactSetting(ptr->hContact,MODULENAME,"pgp",&dbv);
+		db_get(ptr->hContact,MODULENAME,"pgp",&dbv);
 		BOOL r=(dbv.type == DBVT_BLOB);
 		if (r) pgp_set_keyid(ptr->cntx,(PVOID)dbv.pbVal);
 		db_free(&dbv);

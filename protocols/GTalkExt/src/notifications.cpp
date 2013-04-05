@@ -53,12 +53,12 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	DBVARIANT dbv;
 	for (int i=0; i < count; i++)
 		if (getJabberApi(protos[i]->szModuleName))
-			if (!DBGetContactSettingTString(0, protos[i]->szModuleName, "jid", &dbv))
+			if (!db_get_ts(0, protos[i]->szModuleName, "jid", &dbv))
 				__try {
 					if (!lstrcmpi(jid, dbv.ptszVal)) return protos[i]->szModuleName;
 				}
 				__finally {
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 
 	return NULL;
@@ -144,9 +144,9 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 
 	extern HICON g_hPopupIcon;
 	data->lchIcon = g_hPopupIcon;
-	data->iSeconds = (int)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0);
-	data->colorBack = (COLORREF)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0);
-	data->colorText = (COLORREF)DBGetContactSettingDword(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0);
+	data->iSeconds = (int)db_get_dw(0, SHORT_PLUGIN_NAME, TIMEOUT_SETTING, 0);
+	data->colorBack = (COLORREF)db_get_dw(0, SHORT_PLUGIN_NAME, BACK_COLOR_SETTING, 0);
+	data->colorText = (COLORREF)db_get_dw(0, SHORT_PLUGIN_NAME, TEXT_COLOR_SETTING, 0);
 	if (data->colorBack == data->colorText) {
 		data->colorBack = 0;
 		data->colorText = 0;

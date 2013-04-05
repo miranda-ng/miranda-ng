@@ -101,38 +101,38 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	DBVARIANT dbv;
 	if (bkgColour) {
 		wsprintfA(str, "Back.%s", dbSetting);
-		*bkgColour = DBGetContactSettingDword(NULL, HPPMOD, str, 0xFFFFFF);
+		*bkgColour = db_get_dw(NULL, HPPMOD, str, 0xFFFFFF);
 	}
 	if (colour) {
 		wsprintfA(str, "Font.%s.Color", dbSetting);
-		*colour = DBGetContactSettingDword(NULL, HPPMOD, str, 0x000000);
+		*colour = db_get_dw(NULL, HPPMOD, str, 0x000000);
 	}
 	if (lf) {
 		wsprintfA(str, "Font.%s.Size", dbSetting);
-		lf->lfHeight = (char) DBGetContactSettingByte(NULL, HPPMOD, str, 10);
+		lf->lfHeight = (char) db_get_b(NULL, HPPMOD, str, 10);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
 		wsprintfA(str, "Font.%s.Style.Bold", dbSetting);
-		style = DBGetContactSettingByte(NULL, HPPMOD, str, 0);
+		style = db_get_b(NULL, HPPMOD, str, 0);
 		lf->lfWeight = style & FONTF_BOLD ? FW_BOLD : FW_NORMAL;
 		wsprintfA(str, "Font.%s.Style.Italic", dbSetting);
-		style = DBGetContactSettingByte(NULL, HPPMOD, str, 0) << 1;
+		style = db_get_b(NULL, HPPMOD, str, 0) << 1;
 		lf->lfItalic = style & FONTF_ITALIC ? 1 : 0;
 		lf->lfUnderline = style & FONTF_UNDERLINE ? 1 : 0;
 		lf->lfStrikeOut = 0;
 		wsprintfA(str, "Font.%s.Charset", dbSetting);
-		lf->lfCharSet = DBGetContactSettingByte(NULL, HPPMOD, str, DEFAULT_CHARSET);
+		lf->lfCharSet = db_get_b(NULL, HPPMOD, str, DEFAULT_CHARSET);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		wsprintfA(str, "Font.%s.Name", dbSetting);
-		if (DBGetContactSetting(NULL, HPPMOD, str, &dbv))
+		if (db_get(NULL, HPPMOD, str, &dbv))
 			lstrcpyA(lf->lfFaceName, "Verdana");
 		else {
 			lstrcpynA(lf->lfFaceName, dbv.pszVal, sizeof(lf->lfFaceName));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 }
@@ -165,7 +165,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 	} else {
 		Utils::appendText(&output, &outputSize, "<html><head>");
 		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
-		COLORREF lineColor = DBGetContactSettingDword(NULL, HPPMOD, "LineColour", 0xFFFFFF);
+		COLORREF lineColor = db_get_dw(NULL, HPPMOD, "LineColour", 0xFFFFFF);
 		lineColor= 0;//(((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
 		bkgColor = 0xFFFFFF;
 		if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED) {
@@ -222,7 +222,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event) {
 
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event) {
 
-	DWORD dwFlags = DBGetContactSettingByte(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
+	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
 	char *szRealProto = getRealProto(event->hContact);
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {

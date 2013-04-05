@@ -474,12 +474,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if (hContact) {
 		char* szProto = GetContactProto(hContact);
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
-		CLISTMENUITEM mi = { sizeof(mi) };
-		if (IsSuitableProto(pa))
-			mi.flags = CMIF_TCHAR | CMIM_FLAGS;
-		else
-			mi.flags = CMIF_TCHAR | CMIM_FLAGS | CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hChangeSound, (LPARAM)&mi);
+		Menu_ShowItem(hChangeSound, IsSuitableProto(pa));
 	}
 	return 0;
 }

@@ -238,7 +238,7 @@ void  CMsnProto::MSN_UploadServerGroups(char* group)
 		if (msc == NULL) break;
 
 		DBVARIANT dbv;
-		if (!DBGetContactSettingStringUtf(msc->hContact, "CList", "Group", &dbv))
+		if (!db_get_utf(msc->hContact, "CList", "Group", &dbv))
 		{
 			char szGroupID[100];
 			if (group == NULL || (strcmp(group, dbv.pszVal) == 0 &&
@@ -263,12 +263,12 @@ void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szCont
 	const char* szGrpName = "";
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingStringUtf(hContact, "CList", "Group", &dbv))
+	if (!db_get_utf(hContact, "CList", "Group", &dbv))
 	{
 		if (strcmp(dbv.pszVal, "MetaContacts Hidden Group") == 0)
 		{
 			MSN_FreeVariant(&dbv);
-			if (!DBGetContactSettingStringUtf(hContact, "MetaContacts", "OldCListGroup", &dbv))
+			if (!db_get_utf(hContact, "MetaContacts", "OldCListGroup", &dbv))
 			{
 				szGrpName = NEWSTR_ALLOCA(dbv.pszVal);
 				MSN_FreeVariant(&dbv);
@@ -301,12 +301,12 @@ void CMsnProto::MSN_SyncContactToServerGroup(HANDLE hContact, const char* szCont
 		setString(hContact, "GroupID", szGrpIdF);
 		const char* szGrpNameById = MSN_GetGroupById(szGrpIdF);
 		if (strcmp(szGrpNameById, szGrpName))
-			DBWriteContactSettingStringUtf(hContact, "CList", "Group", szGrpNameById);
+			db_set_utf(hContact, "CList", "Group", szGrpNameById);
 	}
 	else
 	{
 		if (szGrpName[0])
-			DBDeleteContactSetting(hContact, "CList", "Group");
+			db_unset(hContact, "CList", "Group");
 		deleteSetting(hContact, "GroupID");
 	}
 }

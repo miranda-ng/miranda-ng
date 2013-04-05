@@ -225,11 +225,11 @@ void LoadConfig()
 		mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
 		mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
 		mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
-		options.FG[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameFG, optionsDefault.FG[indx]);
-		options.BG[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
-		options.Timeout[indx] = DBGetContactSettingDword(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
+		options.FG[indx] = db_get_dw(NULL, SERVICENAME, szNameFG, optionsDefault.FG[indx]);
+		options.BG[indx] = db_get_dw(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
+		options.Timeout[indx] = db_get_dw(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
 	}
-	options.Sound = DBGetContactSettingByte(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
+	options.Sound = db_get_b(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
 
 }
 extern "C" __declspec(dllexport) int Load(void)

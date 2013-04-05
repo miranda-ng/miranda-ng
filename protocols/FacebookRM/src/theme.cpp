@@ -63,9 +63,7 @@ char *GetIconDescription(const char* name)
 }
 
 // Contact List menu stuff
-HANDLE hHookPreBuildMenu;
-HANDLE g_hContactMenuItems[CMITEMS_COUNT];
-HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
+HGENMENU g_hContactMenuItems[CMITEMS_COUNT];
 
 // Helper functions
 static FacebookProto * GetInstanceByHContact(HANDLE hContact)
@@ -91,9 +89,7 @@ INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
-	{
-		EnableMenuItem(g_hContactMenuItems[i], false);
-	}
+		Menu_ShowItem(g_hContactMenuItems[i], false);
 
 	FacebookProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
@@ -101,7 +97,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void InitContactMenus()
 {
-	hHookPreBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
 
 	CLISTMENUITEM mi = {sizeof(mi)};
 	mi.flags = CMIF_ICONFROMICOLIB;
@@ -110,35 +106,35 @@ void InitContactMenus()
 	mi.icolibItem = GetIconHandle("homepage");
 	mi.pszName = GetIconDescription("homepage");
 	mi.pszService = "FacebookProto/VisitProfile";
-	g_hContactMenuSvc[CMI_VISIT_PROFILE] = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitProfile>);
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::VisitProfile>);
 	g_hContactMenuItems[CMI_VISIT_PROFILE] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006001;
 	mi.icolibItem = GetIconHandle("authRevoke");
 	mi.pszName = GetIconDescription("authRevoke");
 	mi.pszService = "FacebookProto/CancelFriendship";
-	g_hContactMenuSvc[CMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::CancelFriendship>);
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::CancelFriendship>);
 	g_hContactMenuItems[CMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006001;
 	mi.icolibItem = GetIconHandle("authRevokeReq");
 	mi.pszName = GetIconDescription("authRevokeReq");
 	mi.pszService = "FacebookProto/CancelFriendshipRequest";
-	g_hContactMenuSvc[CMI_AUTH_CANCEL] = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::OnCancelFriendshipRequest>);
 	g_hContactMenuItems[CMI_AUTH_CANCEL] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006002;
 	mi.icolibItem = GetIconHandle("authAsk");
 	mi.pszName = GetIconDescription("authAsk");
 	mi.pszService = "FacebookProto/RequestFriendship";
-	g_hContactMenuSvc[CMI_AUTH_ASK] = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::RequestFriendship>);
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::RequestFriendship>);
 	g_hContactMenuItems[CMI_AUTH_ASK] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006003;
 	mi.icolibItem = GetIconHandle("authGrant");
 	mi.pszName = GetIconDescription("authGrant");
 	mi.pszService = "FacebookProto/ApproveFriendship";
-	g_hContactMenuSvc[CMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::ApproveFriendship>);
+	CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::ApproveFriendship>);
 	g_hContactMenuItems[CMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 }
 
@@ -146,39 +142,24 @@ void UninitContactMenus()
 {
 	for(size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM,(WPARAM)g_hContactMenuItems[i],0);
-
-	for(size_t i=0; i<SIZEOF(g_hContactMenuSvc); i++)
-		DestroyServiceFunction(g_hContactMenuSvc[i]);
-	
-	UnhookEvent(hHookPreBuildMenu);
-}
-
-void EnableMenuItem(HANDLE hMenuItem, bool enable)
-{
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-	if (!enable)
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&clmi);
 }
 
 int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {	
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	EnableMenuItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
+	Menu_ShowItem(g_hContactMenuItems[CMI_VISIT_PROFILE], true);
 
-	if (!isOffline() && !DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0))
+	if (!isOffline() && !db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
 	{
 		bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-		BYTE type = DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
+		BYTE type = db_get_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0);
 
-		EnableMenuItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == FACEBOOK_CONTACT_NONE || !type);
-		EnableMenuItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == FACEBOOK_CONTACT_APPROVE);
-		EnableMenuItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == FACEBOOK_CONTACT_FRIEND);
-		EnableMenuItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == FACEBOOK_CONTACT_REQUEST);		
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_ASK], ctrlPressed || type == FACEBOOK_CONTACT_NONE || !type);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_GRANT], ctrlPressed || type == FACEBOOK_CONTACT_APPROVE);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_REVOKE], ctrlPressed || type == FACEBOOK_CONTACT_FRIEND);
+		Menu_ShowItem(g_hContactMenuItems[CMI_AUTH_CANCEL], ctrlPressed || type == FACEBOOK_CONTACT_REQUEST);		
 	}
 
 	return 0;

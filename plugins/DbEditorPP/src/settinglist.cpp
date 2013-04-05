@@ -11,16 +11,16 @@ void setupSettingsList(HWND hwnd2List)
 	sLC.mask = LVCF_FMT | LVCF_TEXT | LVCF_SUBITEM | LVCF_WIDTH;
 
 	sLC.pszText = Translate("Name");
-	sLC.cx = DBGetContactSettingWord(NULL, modname, "Column0width", 145);
+	sLC.cx = db_get_w(NULL, modname, "Column0width", 145);
 	ListView_InsertColumn(hwnd2List,0,&sLC);
 	sLC.pszText = Translate("Data");
-	sLC.cx = DBGetContactSettingWord(NULL, modname, "Column1width", 145);
+	sLC.cx = db_get_w(NULL, modname, "Column1width", 145);
 	ListView_InsertColumn(hwnd2List,1,&sLC);
 	sLC.pszText = Translate("Type");
-	sLC.cx = DBGetContactSettingWord(NULL, modname, "Column2width", 60);
+	sLC.cx = db_get_w(NULL, modname, "Column2width", 60);
 	ListView_InsertColumn(hwnd2List,2,&sLC);
 	sLC.pszText = Translate("Size");
-	sLC.cx = DBGetContactSettingWord(NULL, modname, "Column3width", 80);
+	sLC.cx = db_get_w(NULL, modname, "Column3width", 80);
 	ListView_InsertColumn(hwnd2List,3,&sLC);
 }
 
@@ -37,7 +37,7 @@ void saveListSettings(HWND hwnd2List)
 		if (ListView_GetColumn(hwnd2List,i,&sLC))
 		{
 			mir_snprintf(tmp, SIZEOF(tmp), "Column%dwidth", i);
-			DBWriteContactSettingWord(NULL, modname, tmp, (WORD)sLC.cx);
+			db_set_w(NULL, modname, tmp, (WORD)sLC.cx);
 		}
 
 }
@@ -68,7 +68,7 @@ void DeleteSettingsFromList(HWND hSettings, HANDLE hContact, char *module, char 
 	else
 	if (count == 1)
 	{
-		DBDeleteContactSetting(hContact,module,setting);
+		db_unset(hContact,module,setting);
 	}
 	else
 	{
@@ -81,7 +81,7 @@ void DeleteSettingsFromList(HWND hSettings, HANDLE hContact, char *module, char 
 			if (ListView_GetItemState(hSettings,i,LVIS_SELECTED))
 			{
 				ListView_GetItemText(hSettings, i, 0, text, SIZEOF(text));
-				DBDeleteContactSetting(hContact,module,text);
+				db_unset(hContact,module,text);
 				items--;
 			}
 			else
@@ -224,7 +224,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 	else
 		ListView_DeleteItem(hwnd2Settings,index);
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	mir_free(data);
 }
 
@@ -322,14 +322,14 @@ typedef struct {
 void writeStandardTextfromLabel(EditLabelInfoStruct* info, char* value, WCHAR *wc, int type)
 {
 	if (type != DBVT_ASCIIZ && type != DBVT_UTF8)
-		DBDeleteContactSetting(info->hContact,info->module,info->setting);
+		db_unset(info->hContact,info->module,info->setting);
 	if (type == DBVT_UTF8 && wc)
 	{
-		DBWriteContactSettingWString(info->hContact,info->module,info->setting,wc);
+		db_set_ws(info->hContact,info->module,info->setting,wc);
 		mir_free(wc);
 	}
 	else
-		DBWriteContactSettingString(info->hContact,info->module,info->setting,value);
+		db_set_s(info->hContact,info->module,info->setting,value);
 
 }
 
@@ -389,32 +389,32 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 						case 0:// setting name
 							if (!mir_strcmp(info->setting,value) || mir_strlen(value)>255)
 							{
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 								SendMessage(hwnd,WM_COMMAND,MAKEWPARAM(IDCANCEL,0),0);
 								return 0;
 							}
 							switch (dbv.type)
 							{
 								case DBVT_UTF8:
-									DBWriteContactSettingStringUtf(info->hContact,info->module,value,dbv.pszVal);
+									db_set_utf(info->hContact,info->module,value,dbv.pszVal);
 								break;
 								case DBVT_ASCIIZ:
-									DBWriteContactSettingString(info->hContact,info->module,value,dbv.pszVal);
+									db_set_s(info->hContact,info->module,value,dbv.pszVal);
 								break;
 								case DBVT_BYTE:
-									DBWriteContactSettingByte(info->hContact,info->module,value,dbv.bVal);
+									db_set_b(info->hContact,info->module,value,dbv.bVal);
 								break;
 								case DBVT_WORD:
-									DBWriteContactSettingWord(info->hContact,info->module,value,dbv.wVal);
+									db_set_w(info->hContact,info->module,value,dbv.wVal);
 								break;
 								case DBVT_DWORD:
-									DBWriteContactSettingDword(info->hContact,info->module,value,dbv.dVal);
+									db_set_dw(info->hContact,info->module,value,dbv.dVal);
 								break;
 								case DBVT_BLOB:
 									DBWriteContactSettingBlob(info->hContact,info->module,value,dbv.pbVal,dbv.cpbVal);
 								break;
 							}
-							DBDeleteContactSetting(info->hContact,info->module,info->setting);
+							db_unset(info->hContact,info->module,info->setting);
 							{
 								LVFINDINFO lvfi;
 								int item;
@@ -448,9 +448,9 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 									{
 										val = atoi(&value[1]);
 										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											DBDeleteContactSetting(info->hContact,info->module,info->setting);
+											db_unset(info->hContact,info->module,info->setting);
 
-										DBWriteContactSettingByte(info->hContact,info->module,info->setting,(BYTE)val);
+										db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
 									}
 									else
 										writeStandardTextfromLabel(info, value, wc, dbv.type);
@@ -463,8 +463,8 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 									{
 										val = atoi(&value[1]);
 										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											DBDeleteContactSetting(info->hContact,info->module,info->setting);
-										DBWriteContactSettingWord(info->hContact,info->module,info->setting,(WORD)val);
+											db_unset(info->hContact,info->module,info->setting);
+										db_set_w(info->hContact,info->module,info->setting,(WORD)val);
 									}
 									else
 										writeStandardTextfromLabel(info, value, wc, dbv.type);
@@ -477,8 +477,8 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 									{
 										val = atoi(&value[1]);
 										if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)
-											DBDeleteContactSetting(info->hContact,info->module,info->setting);
-										DBWriteContactSettingDword(info->hContact,info->module,info->setting,val);
+											db_unset(info->hContact,info->module,info->setting);
+										db_set_dw(info->hContact,info->module,info->setting,val);
 									}
 									else
 										writeStandardTextfromLabel(info, value, wc, dbv.type);
@@ -498,13 +498,13 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 												writeStandardTextfromLabel(info, value, wc, dbv.type);
 											break;
 											case DBVT_BYTE:
-												DBWriteContactSettingByte(info->hContact,info->module,info->setting,(BYTE)val);
+												db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
 											break;
 											case DBVT_WORD:
-												DBWriteContactSettingWord(info->hContact,info->module,info->setting,(WORD)val);
+												db_set_w(info->hContact,info->module,info->setting,(WORD)val);
 											break;
 											case DBVT_DWORD:
-												DBWriteContactSettingDword(info->hContact,info->module,info->setting,(DWORD)val);
+												db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
 											break;
 										}
 									}
@@ -518,13 +518,13 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 												writeStandardTextfromLabel(info, value, wc, dbv.type);
 											break;
 											case DBVT_BYTE:
-												DBWriteContactSettingByte(info->hContact,info->module,info->setting,(BYTE)val);
+												db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
 											break;
 											case DBVT_WORD:
-												DBWriteContactSettingWord(info->hContact,info->module,info->setting,(WORD)val);
+												db_set_w(info->hContact,info->module,info->setting,(WORD)val);
 											break;
 											case DBVT_DWORD:
-												DBWriteContactSettingDword(info->hContact,info->module,info->setting,(DWORD)val);
+												db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
 											break;
 										}
 									}
@@ -563,13 +563,13 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 											writeStandardTextfromLabel(info, value, wc, dbv.type);
 										break;
 										case DBVT_BYTE:
-											DBWriteContactSettingByte(info->hContact,info->module,info->setting,(BYTE)val);
+											db_set_b(info->hContact,info->module,info->setting,(BYTE)val);
 										break;
 										case DBVT_WORD:
-											DBWriteContactSettingWord(info->hContact,info->module,info->setting,(WORD)val);
+											db_set_w(info->hContact,info->module,info->setting,(WORD)val);
 										break;
 										case DBVT_DWORD:
-											DBWriteContactSettingDword(info->hContact,info->module,info->setting,(DWORD)val);
+											db_set_dw(info->hContact,info->module,info->setting,(DWORD)val);
 										break;
 									}
 								break;
@@ -580,7 +580,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 						}
 						break; // case 1:
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				} // fall through
 				case IDCANCEL:
 					{
@@ -706,7 +706,7 @@ void EditLabel(HWND hwnd2List, int item, int subitem)
 		default: return;
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	SettingLabelEditSubClass=(WNDPROC)SetWindowLongPtrW(info->hwnd2Edit,GWLP_WNDPROC,(LONG)SettingLabelEditSubClassProc);
 
@@ -746,7 +746,7 @@ void SettingsListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			LVHITTESTINFO hti;
 			hti.pt=((NMLISTVIEW*)lParam)->ptAction;
-			if (DBGetContactSettingByte(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()) /* fix for TioDuke and win98 */
+			if (db_get_b(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()) /* fix for TioDuke and win98 */
 				break;
 			if (info && ListView_SubItemHitTest(GetDlgItem(hwnd,IDC_SETTINGS),&hti) >-1)
 			{
@@ -790,7 +790,7 @@ void SettingsListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
 			hti.pt=((NMLISTVIEW*)lParam)->ptAction;
 			if (info && ListView_SubItemHitTest(GetDlgItem(hwnd,IDC_SETTINGS),&hti) >-1)
 			{
-				if ((hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) || (DBGetContactSettingByte(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()/* fix for TioDuke and win98 */ ))
+				if ((hti.iSubItem > 1 || hti.flags == LVHT_ONITEMICON) || (db_get_b(NULL,modname,"DontAllowInLineEdit",0) || !IsWinVer2000Plus()/* fix for TioDuke and win98 */ ))
 				{
 					char setting[256];
 					SendMessage(info->hwnd2Edit,WM_COMMAND,MAKEWPARAM(IDOK,0),0);
@@ -1093,7 +1093,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 
 	///////////////////////// convert to submenu
 	case MENU_VIEWDECRYPT:
-		if (!DBGetContactSetting(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
+		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
 			if (lstrcmpA(setting, "LoginPassword")) {
 				char *text = mir_strdup(dbv.pszVal);
 				CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)lstrlenA(dbv.pszVal)+1, (LPARAM)text);
@@ -1113,38 +1113,38 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 				mir_free(res);
 				mir_free(str);
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		break;
 
 	case MENU_VIEWENCRYPT:
-		if (!DBGetContactSetting(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
+		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
 			char *text = mir_tstrdup(dbv.pszVal);
 			CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
 			msg(text, Translate("Encoded string.."));
 			mir_free(text);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		break;
 
 	case MENU_DECRYPT:
-		if (!DBGetContactSetting(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
+		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
 			char *text = mir_tstrdup(dbv.pszVal);
 			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
-			DBWriteContactSettingString(hContact,module,setting,text);
+			db_set_s(hContact,module,setting,text);
 			mir_free(text);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		break;
 
 	case MENU_ENCRYPT:
-		if (!DBGetContactSetting(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
+		if (!db_get(hContact,module,setting,&dbv) && dbv.type == DBVT_ASCIIZ) {
 			char *text = mir_tstrdup(dbv.pszVal);
 			CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)strlen(dbv.pszVal)+1, (LPARAM)text);
-			DBWriteContactSettingString(hContact,module,setting,text);
+			db_set_s(hContact,module,setting,text);
 			mir_free(text);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		break;
 
 	///////////////////////// divider

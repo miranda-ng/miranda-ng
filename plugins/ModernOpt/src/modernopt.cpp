@@ -687,7 +687,7 @@ void LoadModernOptsModule()
 // Unload module
 void UnloadModernOptsModule()
 {
-	if(hwndModernOpt)
+	if (hwndModernOpt)
 	{
 		DestroyWindow(hwndModernOpt);
 		hwndModernOpt = 0;

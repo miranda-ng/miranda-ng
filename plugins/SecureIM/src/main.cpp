@@ -17,7 +17,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0)
+HGENMENU AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = flags | CMIF_HIDDEN;
@@ -29,13 +29,12 @@ HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WP
 	return Menu_AddContactMenuItem(&mi);
 }
 
-HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0)
+HGENMENU AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_CHILDPOPUP | CMIF_HIDDEN;
 	mi.position = pos;
 	mi.popupPosition = poppos;
-	mi.hIcon = NULL;
 	mi.pszName = (char*)name;
 	mi.pszPopupName = (char*)rootid;
 	mi.pszService = (char*)service;
@@ -150,12 +149,12 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
 
-	if (DBGetContactSetting(0,MODULENAME,"rsa_priv",&dbv) == 0) {
+	if (db_get(0,MODULENAME,"rsa_priv",&dbv) == 0) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 		rsa_4096=1;
 	}
-	else if (DBGetContactSetting(0,MODULENAME,"rsa_priv_4096",&dbv) == 0) {
+	else if (db_get(0,MODULENAME,"rsa_priv_4096",&dbv) == 0) {
 		exp->rsa_set_keypair(CPP_MODE_RSA_4096|CPP_MODE_RSA_BER,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 

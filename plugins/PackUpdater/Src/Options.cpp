@@ -65,7 +65,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		else {
 			for (int i = 1; i < POPUPS; i++) {
 				mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
-				CheckDlgButton(hwndDlg, (i+1029), (DBGetContactSettingByte(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, (i+1029), (db_get_b(NULL, MODNAME, str, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
 			}
 		}
 		return TRUE;
@@ -139,17 +139,17 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				InitTimer();
 
-				DBWriteContactSettingByte(NULL, MODNAME, "UpdateOnStartup", UpdateOnStartup);
-				DBWriteContactSettingByte(NULL, MODNAME, "OnlyOnceADay", OnlyOnceADay);
-				DBWriteContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", UpdateOnPeriod);
-				DBWriteContactSettingDword(NULL, MODNAME, "Period", Period);
-				DBWriteContactSettingByte(NULL, MODNAME, "PeriodMeasure", PeriodMeasure);
+				db_set_b(NULL, MODNAME, "UpdateOnStartup", UpdateOnStartup);
+				db_set_b(NULL, MODNAME, "OnlyOnceADay", OnlyOnceADay);
+				db_set_b(NULL, MODNAME, "UpdateOnPeriod", UpdateOnPeriod);
+				db_set_dw(NULL, MODNAME, "Period", Period);
+				db_set_b(NULL, MODNAME, "PeriodMeasure", PeriodMeasure);
 				Reminder = IsDlgButtonChecked(hwndDlg, IDC_REMINDER);
-				DBWriteContactSettingByte(NULL, MODNAME, "Reminder", Reminder);
+				db_set_b(NULL, MODNAME, "Reminder", Reminder);
 				if ( !ServiceExists(MS_POPUP_ADDPOPUP)) {
 					for (int i = 1; i < POPUPS; i++) {
 						mir_snprintf(str, SIZEOF(str), "Popups%dM", i);
-						DBWriteContactSettingByte(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i+1029))));
+						db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hwndDlg, (i+1029))));
 					}
 				}
 			}
@@ -212,14 +212,14 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			mir_snprintf(str, SIZEOF(str), "Popups%d", i);
 			mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
-			CheckDlgButton(hdlg, (i+40071), (DBGetContactSettingByte(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
-			CheckDlgButton(hdlg, (i+1024), (DBGetContactSettingByte(NULL, MODNAME, str2, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
+			CheckDlgButton(hdlg, (i+40071), (db_get_b(NULL, MODNAME, str, DEFAULT_POPUP_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
+			CheckDlgButton(hdlg, (i+1024), (db_get_b(NULL, MODNAME, str2, DEFAULT_MESSAGE_ENABLED)) ? BST_CHECKED: BST_UNCHECKED);
 			if (IsDlgButtonChecked(hdlg, (i+40071)))
 				EnableWindow(GetDlgItem(hdlg, (i+1024)), FALSE);
 			else if (i > 0)
 				EnableWindow(GetDlgItem(hdlg, (i+1024)), TRUE);
 		}
-		if (!(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 	case WM_SHOWWINDOW:
-		if (!(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
+		if (!(db_get_dw(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
 		else
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
@@ -387,28 +387,28 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					ctlColor = SendDlgItemMessage(hdlg, (i+42071), CPM_GETCOLOUR, 0, 0);
 					PopupsList[i].colorBack = ctlColor;
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iBg", i);
-					DBWriteContactSettingDword(NULL, MODNAME, szSetting, ctlColor);
+					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 					ctlColor = SendDlgItemMessage(hdlg, (i+41071), CPM_GETCOLOUR, 0, 0);
 					PopupsList[i].colorText = ctlColor;
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Popups%iTx", i);
-					DBWriteContactSettingDword(NULL, MODNAME, szSetting, ctlColor);
+					db_set_dw(NULL, MODNAME, szSetting, ctlColor);
 				}
 				//Colors
-				DBWriteContactSettingByte(NULL, MODNAME, "DefColors", MyOptions.DefColors);
+				db_set_b(NULL, MODNAME, "DefColors", MyOptions.DefColors);
 				//Timeout
 				MyOptions.Timeout = GetDlgItemInt(hdlg, IDC_TIMEOUT_VALUE, 0, TRUE);
-				DBWriteContactSettingDword(NULL, MODNAME, "Timeout", MyOptions.Timeout);
+				db_set_dw(NULL, MODNAME, "Timeout", MyOptions.Timeout);
 				//Left mouse click
-				DBWriteContactSettingByte(NULL, MODNAME, "LeftClickAction", MyOptions.LeftClickAction);
+				db_set_b(NULL, MODNAME, "LeftClickAction", MyOptions.LeftClickAction);
 				//Right mouse click
-				DBWriteContactSettingByte(NULL, MODNAME, "RightClickAction", MyOptions.RightClickAction);
+				db_set_b(NULL, MODNAME, "RightClickAction", MyOptions.RightClickAction);
 				//Notified popups
 				for (i = 0; i < POPUPS; i++) 
 				{
 					mir_snprintf(str, SIZEOF(str), "Popups%d", i);
-					DBWriteContactSettingByte(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i+40071))));
+					db_set_b(NULL, MODNAME, str, (BYTE)(IsDlgButtonChecked(hdlg, (i+40071))));
 					mir_snprintf(str2, SIZEOF(str2), "Popups%dM", i);
-					DBWriteContactSettingByte(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i+1024))));
+					db_set_b(NULL, MODNAME, str2, (BYTE)(IsDlgButtonChecked(hdlg, (i+1024))));
 				}
 				return TRUE;
 			} //case PSN_APPLY

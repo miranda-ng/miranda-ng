@@ -49,11 +49,11 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 	void setSrmmIcon(HANDLE);
 	void setClistIcon(HANDLE);
 	bool isContactHaveKey(HANDLE hContact);
-	BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
+	BYTE enc = db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(enc)
 	{
-		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
-		hMeta?DBWriteContactSettingByte(hMeta, szGPGModuleName, "GPGEncryption", 0):0;
+		db_set_b(hContact, szGPGModuleName, "GPGEncryption", 0);
+		hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 0):0;
 		setSrmmIcon(hContact);
 		setClistIcon(hContact);
 	}
@@ -70,16 +70,16 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 		}
 		else
 		{
-			DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
-			hMeta?DBWriteContactSettingByte(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
+			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
+			hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 			return 0;
 		}
 		if(isContactHaveKey(hContact))
 		{
-			DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 1);
-			hMeta?DBWriteContactSettingByte(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
+			db_set_b(hContact, szGPGModuleName, "GPGEncryption", 1);
+			hMeta?db_set_b(hMeta, szGPGModuleName, "GPGEncryption", 1):0;
 			setSrmmIcon(hContact);
 			setClistIcon(hContact);
 		}

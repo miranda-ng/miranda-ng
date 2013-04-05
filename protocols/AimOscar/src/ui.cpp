@@ -205,13 +205,13 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, LPARAM(ppro));
 
 				DBVARIANT dbv;
-				if (!DBGetContactSettingStringUtf(NULL, ppro->m_szModuleName, AIM_KEY_PR, &dbv))
+				if (!db_get_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, &dbv))
 				{
 					html_decode(dbv.pszVal);
 					TCHAR *txt = mir_utf8decodeT(dbv.pszVal);
 					SetDlgItemText(hwndDlg, IDC_PROFILE, txt);
 					mir_free(txt);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
@@ -432,7 +432,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_SETPROFILE:
 			{
 				char* buf = rtf_to_html(hwndDlg, IDC_PROFILE);
-				DBWriteContactSettingStringUtf(NULL, ppro->m_szModuleName, AIM_KEY_PR, buf);
+				db_set_utf(NULL, ppro->m_szModuleName, AIM_KEY_PR, buf);
 				if (ppro->state==1)
 					ppro->aim_set_profile(ppro->hServerConn, ppro->seqno, buf);//also see set caps for profile setting
 
@@ -676,12 +676,12 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			if (!ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_FNAME, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!ppro->getString(AIM_KEY_EM, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_CEMAIL, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			break;
 		}
@@ -699,7 +699,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				if (strcmp(name, dbv.pszVal))
 					ppro->aim_admin_format_name(ppro->hAdminConn,ppro->admin_seqno,name);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			char email[254];
@@ -708,7 +708,7 @@ INT_PTR CALLBACK admin_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				if (strcmp(email, dbv.pszVal))
 					ppro->aim_admin_change_email(ppro->hAdminConn,ppro->admin_seqno,email);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_PINFO), SW_HIDE);
@@ -795,28 +795,28 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (!ppro->getString(AIM_KEY_SN, &dbv)) 
 			{
 				SetDlgItemTextA(hwndDlg, IDC_SN, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!ppro->getString(AIM_KEY_NK, &dbv)) 
 			{
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else if (!ppro->getString(AIM_KEY_SN, &dbv)) 
 			{
 				SetDlgItemTextA(hwndDlg, IDC_NK, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!ppro->getString(AIM_KEY_PW, &dbv)) 
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!ppro->getString(AIM_KEY_HN, &dbv)) 
 			{
 				SetDlgItemTextA(hwndDlg, IDC_HN, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				SetDlgItemTextA(hwndDlg, IDC_HN, ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_SERVER_NS : AIM_DEFAULT_SERVER);
@@ -1186,14 +1186,14 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if (!ppro->getString(AIM_KEY_SN, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_SN, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if (!ppro->getString(AIM_KEY_PW, &dbv))
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			return TRUE;
 		}
@@ -1391,7 +1391,7 @@ static void clist_chat_invite_send(HANDLE hItem, HWND hwndList, chat_list_item* 
 					{
 						ppro->aim_chat_invite(ppro->hServerConn, ppro->seqno, 
 							item->cookie, item->exchange, item->instance, dbv.pszVal, msg);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 			}

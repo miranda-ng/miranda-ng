@@ -483,7 +483,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		res = M->GetTString(m_hContact, "CList", "StatusMsg", &dbv);
 		if (res == 0) {
 			m_szStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? getNormalizedStatusMsg(dbv.ptszVal) : 0);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	if (szKey == 0 || (szKey && !strcmp("ListeningTo", szKey))) {
@@ -493,7 +493,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		res = M->GetTString(m_hContact, m_szProto, "ListeningTo", &dbv);
 		if (res == 0) {
 			m_ListeningInfo = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	if (szKey == 0 || (szKey && !strcmp("XStatusMsg", szKey))) {
@@ -503,7 +503,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 		res = M->GetTString(m_hContact, m_szProto, "XStatusMsg", &dbv);
 		if (res == 0) {
 			m_xStatusMsg = (lstrlen(dbv.ptszVal) > 0 ? mir_tstrdup(dbv.ptszVal) : 0);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	m_xStatus = M->GetByte(m_hContact, m_szProto, "XStatusId", 0);

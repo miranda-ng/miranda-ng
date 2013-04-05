@@ -288,7 +288,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 
 	if (dat->iTabID >= 0) {
 		if (db_get_w(si->hContact, si->pszModule , "ApparentMode", 0) != 0)
-			DBWriteContactSettingWord(si->hContact, si->pszModule , "ApparentMode", (LPARAM)0);
+			db_set_w(si->hContact, si->pszModule , "ApparentMode", (LPARAM)0);
 		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
 
@@ -2484,7 +2484,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 					si->wState &= ~STATE_TALK;
 					dat->bWasDeleted = 1;
-					DBWriteContactSettingWord(si->hContact, si->pszModule , "ApparentMode", (LPARAM)0);
+					db_set_w(si->hContact, si->pszModule , "ApparentMode", (LPARAM)0);
 					SendMessage(hwndDlg, GC_CLOSEWINDOW, 0, lParam == 2 ? lParam : 1);
 					return TRUE;
 
@@ -3453,7 +3453,7 @@ LABEL_SHOWWINDOW:
 				if (iSelection - IDM_CONTAINERMENU >= 0) {
 					if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
 						SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 
@@ -3735,10 +3735,10 @@ LABEL_SHOWWINDOW:
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING, 0);
 
 			if (!dat->fIsAutosizingInput)
-				DBWriteContactSettingWord(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
+				db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 			if (dat->pContainer->settings->fPrivate && !IsAutoSplitEnabled(dat))
-				DBWriteContactSettingWord(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
+				db_set_w(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
 
 			DM_FreeTheme(dat);
 

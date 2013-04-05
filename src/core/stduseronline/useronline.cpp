@@ -37,17 +37,17 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	int newStatus = cws->value.wVal;
-	int oldStatus = DBGetContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
-	DBWriteContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
+	int oldStatus = db_get_w((HANDLE)wParam, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
+	db_set_w((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
-	if (DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
+	if (db_get_b((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
     if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline
-       int lastEvent = (int)DBGetContactSettingDword((HANDLE)wParam, "UserOnline", "LastEvent", 0);
+       int lastEvent = (int)db_get_dw((HANDLE)wParam, "UserOnline", "LastEvent", 0);
 
        if (lastEvent) {
            CallService(MS_CLIST_REMOVEEVENT, wParam, (LPARAM)lastEvent);
-           DBWriteContactSettingDword((HANDLE)wParam, "UserOnline", "LastEvent", 0);
+           db_set_dw((HANDLE)wParam, "UserOnline", "LastEvent", 0);
        }
     }
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) &&
@@ -70,7 +70,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				cle.ptszTooltip = tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				IcoLib_ReleaseIcon(cle.hIcon, 0);
-                DBWriteContactSettingDword(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
+                db_set_dw(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
 				SkinPlaySound("UserOnline");
 			}
 		}

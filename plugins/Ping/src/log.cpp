@@ -31,13 +31,13 @@ INT_PTR Log(WPARAM wParam, LPARAM lParam) {
 INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	char *filename = (char *)lParam;
-	if(DBGetContactSetting(0, PLUG, "LogFilename", &dbv)) {
+	if(db_get(0, PLUG, "LogFilename", &dbv)) {
 		CallService(MS_DB_GETPROFILEPATH, (WPARAM)wParam, (LPARAM)filename);
 		strcat(filename, "\\");
 		strcat(filename, "ping_log.txt");
 	} else {
 		strncpy(filename, dbv.pszVal, wParam);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	((char *)lParam)[wParam - 1] = 0;
@@ -46,7 +46,7 @@ INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR SetLogFilename(WPARAM wParam, LPARAM lParam) {
-	DBWriteContactSettingString(0, PLUG, "LogFilename", (char *)lParam);
+	db_set_s(0, PLUG, "LogFilename", (char *)lParam);
 	return 0;
 }
 

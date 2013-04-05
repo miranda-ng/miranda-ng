@@ -278,7 +278,7 @@ void CMraProto::MraChatSendPrivateMessage(LPWSTR lpwszEMail)
 	BOOL bAdded;
 	HANDLE hContact = MraHContactFromEmail(szEMail, dwEMailSize, TRUE, TRUE, &bAdded);
 	if (bAdded)
-		DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+		db_set_b(hContact, "CList", "Hidden", 1);
 
 	CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_ALL);
 	CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);

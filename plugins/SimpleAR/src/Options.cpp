@@ -14,13 +14,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			TCHAR* pszStatus;
 			char tszStatus[6]={0};
 
-			CheckDlgButton(hwndDlg,IDC_ENABLEREPLIER,DBGetContactSettingByte(NULL,protocolname,KEY_ENABLED,1)==1);
-			SetDlgItemInt(hwndDlg,IDC_INTERVAL,DBGetContactSettingWord(NULL,protocolname,KEY_REPEATINTERVAL,300)/60,FALSE);
+			CheckDlgButton(hwndDlg,IDC_ENABLEREPLIER,db_get_b(NULL,protocolname,KEY_ENABLED,1)==1);
+			SetDlgItemInt(hwndDlg,IDC_INTERVAL,db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300)/60,FALSE);
 
-			if (!DBGetContactSettingTString(NULL,protocolname,KEY_HEADING,&dbv))
+			if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbv))
 			{
 				SetDlgItemText(hwndDlg,IDC_HEADING,dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			for (INT c = ID_STATUS_ONLINE; c < ID_STATUS_IDLE; c++)
@@ -33,13 +33,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				{
 					SendDlgItemMessage(hwndDlg,IDC_STATUSMODE,CB_ADDSTRING,0,(LPARAM)pszStatus);
 
-					if (!DBGetContactSettingTString(NULL, protocolname, tszStatus, &dbv))
+					if (!db_get_ts(NULL, protocolname, tszStatus, &dbv))
 					{
 						if (c < 40077)
 							ptszMessage[c-ID_STATUS_ONLINE-1] = _tcsdup(dbv.ptszVal);
 						else if (c > 40078)
 							ptszMessage[c-ID_STATUS_ONLINE-3] = _tcsdup(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 			}
@@ -93,15 +93,15 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					BOOL translated;
 
 					fEnabled=IsDlgButtonChecked(hwndDlg,IDC_ENABLEREPLIER)==1;
-					DBWriteContactSettingByte(NULL,protocolname,KEY_ENABLED,(BYTE)fEnabled);
+					db_set_b(NULL,protocolname,KEY_ENABLED,(BYTE)fEnabled);
 
 					GetDlgItemText(hwndDlg,IDC_HEADING,ptszText,SIZEOF(ptszText));
-					DBWriteContactSettingTString(NULL,protocolname,KEY_HEADING,ptszText);
+					db_set_ts(NULL,protocolname,KEY_HEADING,ptszText);
 
 					size=GetDlgItemInt(hwndDlg,IDC_INTERVAL,&translated,FALSE);
 					if (translated)
 						interval=size*60;
-					DBWriteContactSettingWord(NULL,protocolname,KEY_REPEATINTERVAL,interval);
+					db_set_w(NULL,protocolname,KEY_REPEATINTERVAL,interval);
 
 					size=SendDlgItemMessage(hwndDlg,IDC_MESSAGE,WM_GETTEXTLENGTH,0,0)+1;
 					GetDlgItemText(hwndDlg,IDC_MESSAGE,ptszMessage[lastIndex],size);
@@ -115,11 +115,11 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						mir_snprintf(szStatus,SIZEOF(szStatus),"%d",c);
 
 						if (c<40077 && ptszMessage[c-ID_STATUS_ONLINE-1])
-							DBWriteContactSettingTString(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);
+							db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-1]);
 						else if (c>40078 && ptszMessage[c-ID_STATUS_ONLINE-3])
-							DBWriteContactSettingTString(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-3]);
+							db_set_ts(NULL,protocolname,szStatus,ptszMessage[c-ID_STATUS_ONLINE-3]);
 						else
-							DBDeleteContactSetting(NULL,protocolname,szStatus);
+							db_unset(NULL,protocolname,szStatus);
 						}
 					}
 					return TRUE;

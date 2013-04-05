@@ -199,7 +199,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
+	if ( !db_get_ts(hContact, "UserInfo", "TzName", &dbv))
 	{
 		HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 		db_free(&dbv);
@@ -210,7 +210,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	if (timezone == -1)
 	{
 		char* szProto = GetContactProto(hContact);
-		if ( !DBGetContactSettingTString(hContact, szProto, "TzName", &dbv))
+		if ( !db_get_ts(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 			db_free(&dbv);
@@ -265,8 +265,8 @@ static void timeapiSetInfoByContact(HANDLE hContact, HANDLE hTZ)
 	}
 	else
 	{
-		DBDeleteContactSetting(hContact, "UserInfo", "TzName");
-		DBDeleteContactSetting(hContact, "UserInfo", "Timezone");
+		db_unset(hContact, "UserInfo", "TzName");
+		db_unset(hContact, "UserInfo", "Timezone");
 	}
 }
 
@@ -391,7 +391,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 	if (hContact)
 	{
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
+		if ( !db_get_ts(hContact, "UserInfo", "TzName", &dbv))
 		{
 			unsigned hash = mir_hashstrT(dbv.ptszVal);
 			for (int i=0; i < g_timezonesBias.getCount(); i++)

@@ -511,12 +511,12 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		}
 		else _tcscpy_s (szBuf, 256, tszUin);
 
-		if(M->GetByte("ShowClientDescription",1)) {
+		if (M->GetByte("ShowClientDescription",1)) {
 			TCHAR	temp[256];
 			DBVARIANT dbv = {0};
 			if ( !M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
 				mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), dbv.ptszVal);
-				::DBFreeVariant(&dbv);
+				::db_free(&dbv);
 			}
 			else mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client not cached yet"));
 			_tcscat_s(szBuf, 256, temp);
@@ -957,7 +957,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 			if (0 == M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
 				mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
-				::DBFreeVariant(&dbv);
+				::db_free(&dbv);
 				str->append(temp);
 			}
 			str->append(_T("}"));

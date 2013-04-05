@@ -50,13 +50,13 @@ void JabberDBAddAuthRequest(TlenProtocol *proto, char *jid, char *nick)
 		// strip resource if present
 		s = JabberLoginFromJID(jid);
 		_strlwr(s);
-		DBWriteContactSettingString(hContact, proto->m_szModuleName, "jid", s);
+		db_set_s(hContact, proto->m_szModuleName, "jid", s);
 		mir_free(s);
 	}
 	else {
-		DBDeleteContactSetting(hContact, proto->m_szModuleName, "Hidden");
+		db_unset(hContact, proto->m_szModuleName, "Hidden");
 	}
-	DBWriteContactSettingString(hContact, proto->m_szModuleName, "Nick", nick);
+	db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
 	JabberLog(proto, "auth request: %s, %s", jid, nick);
 	//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), email(ASCIIZ), ""(ASCIIZ)
@@ -76,9 +76,9 @@ char *JabberJIDFromHContact(TlenProtocol *proto, HANDLE hContact)
 {
 	char *p = NULL;
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+	if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 		p = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return p;
 }
@@ -95,15 +95,15 @@ HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 	while (hContact != NULL) {
 		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(proto->m_szModuleName, szProto)) {
-			if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+			if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 				if ((p=dbv.pszVal) != NULL) {
 					if (!stricmp(p, jid)) {	// exact match (node@domain/resource)
 						hContactMatched = hContact;
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						break;
 					}
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		hContact = db_find_next(hContact);
@@ -123,11 +123,11 @@ HANDLE JabberDBCreateContact(TlenProtocol *proto, char *jid, char *nick, BOOL te
 	if ((hContact=JabberHContactFromJID(proto, jid)) == NULL) {
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM) proto->m_szModuleName);
-		DBWriteContactSettingString(hContact, proto->m_szModuleName, "jid", jid);
+		db_set_s(hContact, proto->m_szModuleName, "jid", jid);
 		if (nick != NULL && nick[0] != '\0')
-			DBWriteContactSettingString(hContact, proto->m_szModuleName, "Nick", nick);
+			db_set_s(hContact, proto->m_szModuleName, "Nick", nick);
 		if (temporary)
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
 	}
 	return hContact;
 }
@@ -141,22 +141,22 @@ static void JabberContactListCreateClistGroup(char *groupName)
 
 	for (i=0;;i++) {
 		itoa(i, str, 10);
-		if (DBGetContactSetting(NULL, "CListGroups", str, &dbv))
+		if (db_get(NULL, "CListGroups", str, &dbv))
 			break;
 		name = dbv.pszVal;
 		if (name[0] != '\0' && !strcmp(name+1, groupName)) {
 			// Already exist, no need to create
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	// Create new group with id = i (str is the text representation of i)
 	newName[0] = 1 | GROUPF_EXPANDED;
 	strncpy(newName+1, groupName, sizeof(newName)-1);
 	newName[sizeof(newName)-1] = '\0';
-	DBWriteContactSettingString(NULL, "CListGroups", str, newName);
+	db_set_s(NULL, "CListGroups", str, newName);
 	CallService(MS_CLUI_GROUPADDED, i+1, 0);
 }
 

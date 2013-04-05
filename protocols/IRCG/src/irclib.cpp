@@ -552,11 +552,11 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const TCHAR* szName)
 		DBVARIANT dbv;
 		if ( !getTString(p->di->hContact, "Nick", &dbv)) {
 			if ( p->di->iType == DCC_SEND && !p->di->bSender && !lstrcmpi( szName, dbv.ptszVal) && iPort == p->di->iPort ) {
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				LeaveCriticalSection(&m_dcc);
 				return p;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 

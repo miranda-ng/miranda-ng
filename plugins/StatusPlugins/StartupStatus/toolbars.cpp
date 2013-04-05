@@ -61,7 +61,7 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		
 		DBVARIANT dbv;
 		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_PROFILENAME);
-		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
+		if (db_get(NULL, MODULENAME, setting, &dbv))
 			continue;
 
 		ttb.hIconHandleDn = iconList[0].hIcolib;

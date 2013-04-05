@@ -94,7 +94,7 @@ void ExtraIconGroup::setSlot(int slot)
 
 ExtraIcon * ExtraIconGroup::getCurrentItem(HANDLE hContact) const
 {
-	int id = (int)DBGetContactSettingDword(hContact, MODULE_NAME, name.c_str(), 0);
+	int id = (int)db_get_dw(hContact, MODULE_NAME, name.c_str(), 0);
 	if (id < 1)
 		return NULL;
 

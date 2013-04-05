@@ -688,7 +688,7 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 	{
 		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
 		netlog("getawaymsgthread(): Reading away msg <%S>.", dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else {
 		ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
 	}

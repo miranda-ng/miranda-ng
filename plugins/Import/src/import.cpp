@@ -110,7 +110,7 @@ static HANDLE HistoryImportFindContact(HWND hdlgProgress, char* szModuleName, DW
 
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
 	CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
-	DBWriteContactSettingDword(hContact, szModuleName, "UIN", uin);
+	db_set_dw(hContact, szModuleName, "UIN", uin);
 	AddMessage( LPGENT("Added contact %u (found in history)"), uin );
 	return hContact;
 }

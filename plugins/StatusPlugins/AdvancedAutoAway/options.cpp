@@ -44,17 +44,17 @@ static int WriteAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoNa
 {
 	char setting[128];
 	mir_snprintf(setting, sizeof(setting), "%s_OptionFlags", protoName);
-	DBWriteContactSettingByte(NULL,MODULENAME,setting,(BYTE)autoAwaySetting.optionFlags);
+	db_set_b(NULL,MODULENAME,setting,(BYTE)autoAwaySetting.optionFlags);
 	mir_snprintf(setting, sizeof(setting), "%s_AwayTime", protoName);
-	DBWriteContactSettingWord(NULL,MODULENAME,setting,(WORD)autoAwaySetting.awayTime);
+	db_set_w(NULL,MODULENAME,setting,(WORD)autoAwaySetting.awayTime);
 	mir_snprintf(setting, sizeof(setting), "%s_NATime", protoName);
-	DBWriteContactSettingWord(NULL,MODULENAME,setting,(WORD)autoAwaySetting.naTime);
+	db_set_w(NULL,MODULENAME,setting,(WORD)autoAwaySetting.naTime);
 	mir_snprintf(setting, sizeof(setting), "%s_StatusFlags", protoName);
-	DBWriteContactSettingWord(NULL,MODULENAME,setting,(WORD)autoAwaySetting.statusFlags);
+	db_set_w(NULL,MODULENAME,setting,(WORD)autoAwaySetting.statusFlags);
 	mir_snprintf(setting, sizeof(setting), "%s_Lv1Status", protoName);
-	DBWriteContactSettingWord(NULL,MODULENAME,setting,(WORD)autoAwaySetting.lv1Status);
+	db_set_w(NULL,MODULENAME,setting,(WORD)autoAwaySetting.lv1Status);
 	mir_snprintf(setting, sizeof(setting), "%s_Lv2Status", protoName);
-	DBWriteContactSettingWord(NULL,MODULENAME,setting,(WORD)autoAwaySetting.lv2Status);
+	db_set_w(NULL,MODULENAME,setting,(WORD)autoAwaySetting.lv2Status);
 
 	return 0;
 }
@@ -84,7 +84,7 @@ static void SetDialogItems(HWND hwndDlg, TAAAProtoSetting* setting)
 	EnableWindow(GetDlgItem(hwndDlg,IDC_SETNASTR),IsDlgButtonChecked(hwndDlg,IDC_SETNA)&&IsDlgButtonChecked(hwndDlg,IDC_TIMED));
 	EnableWindow(GetDlgItem(hwndDlg,IDC_SETNASTR),IsDlgButtonChecked(hwndDlg,IDC_SETNA)&&IsDlgButtonChecked(hwndDlg,IDC_TIMED));
 	EnableWindow(GetDlgItem(hwndDlg,IDC_LV2STATUS),IsDlgButtonChecked(hwndDlg,IDC_SETNA)&&IsDlgButtonChecked(hwndDlg,IDC_TIMED));
-	EnableWindow(GetDlgItem(hwndDlg,IDC_PROTOCOL), !bSettingSame);//DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, FALSE));
+	EnableWindow(GetDlgItem(hwndDlg,IDC_PROTOCOL), !bSettingSame);//db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, FALSE));
 }
 
 static TAAAProtoSetting* GetSetting(HWND hwndDlg, TAAAProtoSetting* sameSetting)
@@ -375,19 +375,19 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_IGNLOCK, DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNLOCK, FALSE)?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE)?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE)?BST_CHECKED:BST_UNCHECKED);
-		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, DBGetContactSettingWord(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, DBGetContactSettingWord(NULL, MODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
+		CheckDlgButton(hwndDlg, IDC_IGNLOCK, db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, db_get_b(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, db_get_b(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE)?BST_CHECKED:BST_UNCHECKED);
+		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, db_get_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, db_get_w(NULL, MODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
 		CheckDlgButton(hwndDlg, bSettingSame?IDC_SAMESETTINGS:IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
-		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, DBGetContactSettingByte(NULL, MODULENAME, SETTING_MONITORMOUSE, TRUE)?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, DBGetContactSettingByte(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE)?BST_CHECKED:BST_UNCHECKED);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (DBGetContactSettingByte(NULL, "Idle", "AAEnable", 0)));
+		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, db_get_b(NULL, MODULENAME, SETTING_MONITORMOUSE, TRUE)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, db_get_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE)?BST_CHECKED:BST_UNCHECKED);
+		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (db_get_b(NULL, "Idle", "AAEnable", 0)));
 		break;
 
 	case WM_SHOWWINDOW:
-		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (DBGetContactSettingByte(NULL, "Idle", "AAEnable", 0)));
+		ShowWindow(GetDlgItem(hwndDlg, IDC_IDLEWARNING), (db_get_b(NULL, "Idle", "AAEnable", 0)));
 		break;
 	
 	case WM_COMMAND:
@@ -412,14 +412,14 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, (BYTE)bSettingSame);
-			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, NULL, FALSE));
-			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, NULL, FALSE));
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
-			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
+			db_set_b(NULL, MODULENAME, SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
+			db_set_b(NULL, MODULENAME, SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
+			db_set_b(NULL, MODULENAME, SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
+			db_set_b(NULL, MODULENAME, SETTING_SAMESETTINGS, (BYTE)bSettingSame);
+			db_set_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, NULL, FALSE));
+			db_set_w(NULL, MODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, NULL, FALSE));
+			db_set_b(NULL, MODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
+			db_set_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
 			LoadOptions(*autoAwaySettings, FALSE);
 		}
 		break;
@@ -441,7 +441,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 			RECT rcTabs, rcOptions, rcPage;
 
 			TranslateDialogDefault(hwndDlg);
-			bSettingSame = DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, FALSE);
+			bSettingSame = db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, FALSE);
 			// set tabs
 			tabCount = 0;
 			hTab = GetDlgItem(hwndDlg, IDC_TABS);

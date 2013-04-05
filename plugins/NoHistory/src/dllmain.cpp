@@ -8,7 +8,8 @@ static void SrmmMenu_UpdateIcon(HANDLE hContact);
 static int SrmmMenu_ProcessEvent(WPARAM wParam, LPARAM lParam);
 static int SrmmMenu_ProcessIconClick(WPARAM wParam, LPARAM lParam);
 
-HANDLE hMenuToggle, hMenuClear, hServiceToggle, hServiceClear;
+HGENMENU hMenuToggle, hMenuClear;
+HANDLE   hServiceToggle, hServiceClear;
 
 CRITICAL_SECTION list_cs;
 
@@ -154,7 +155,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0) != 0);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS|CMIF_TCHAR;
+	mi.flags = CMIM_FLAGS | CMIF_TCHAR;
 	if (chat_room) mi.flags |= CMIF_HIDDEN;
 	else {
 		mi.flags |= (CMIM_NAME | CMIM_ICON);
@@ -163,11 +164,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggle, (LPARAM)&mi);
 
-	mi.flags = CMIM_FLAGS;
-	if (chat_room || db_event_count(hContact) <= 0)
-		mi.flags |= CMIF_HIDDEN;
-	
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuClear, (LPARAM)&mi);
+	Menu_ShowItem(hMenuClear, !chat_room && db_event_count(hContact) > 0);
 	return 0;
 }
 
@@ -282,9 +279,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszService = MS_NOHISTORY_CLEAR;
 	mi.hIcon = hIconClear;
 	hMenuClear = Menu_AddMainMenuItem(&mi);
-
-	// kill read events once in a minute
-	// SetTimer(NULL, 0, 60000, TimerProc);
 
 	// add icon to srmm status icons
 	SrmmMenu_Load();

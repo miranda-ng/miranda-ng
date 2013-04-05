@@ -34,10 +34,10 @@ int GroupNameExists(const char *name)
 		_itoa(i, idstr, 10);
 		if (db_get_s(NULL, "CListGroups", idstr, &dbv, DBVT_ASCIIZ)) break;
 		if (!strcmp(dbv.pszVal + 1, name)) {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return 1;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -86,7 +86,7 @@ char *CreateGroup(char *groupName)
 				_itoa(groupId, groupIdStr,10);
 				if (db_get_s(NULL, "CListGroups", groupIdStr, &dbv, DBVT_ASCIIZ))
 						break;
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 		}
 
 		groupName2[0] = 1|GROUPF_EXPANDED;	// 1 is required so we never get '\0'
@@ -115,7 +115,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 				char* pszValA = mir_t2a(dbv.ptszVal);
 				string_append(s, dbv.pszVal);
 				mir_free(pszValA);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			string_append_c(s, ';');
 			// Readup LastName
@@ -124,7 +124,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 				char* pszValA = mir_t2a(dbv.ptszVal);
 				string_append(s, dbv.pszVal);
 				mir_free(pszValA);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			string_append_c(s, ';');
 
@@ -138,14 +138,14 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 					char* pszValA = mir_t2a(dbv2.ptszVal);
 					string_append(s, pszValA);
 					mir_free(pszValA);
-					DBFreeVariant(&dbv2);
+					db_free(&dbv2);
 				} else {
 					string_append(s, dbvA);
 				}
 				string_append_c(s, ';');
 				string_append(s, dbvA);
 				mir_free(dbvA);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 				string_append_c(s, ';');
@@ -159,14 +159,14 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 				if (sms) *sms = 0;
 
 				string_append(s, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			string_append_c(s, ';');
 			// Readup Group
 			if (!db_get_s(hContact, "CList", "Group", &dbv, DBVT_ASCIIZ))
 			{
 				string_append(s, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			string_append_c(s, ';');
 			// Readup Uin
@@ -176,7 +176,7 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
 			{
 				string_append(s, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (cr)
 				string_append(s, ";0;;0;\r\n");
@@ -349,7 +349,7 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else return 0;
 
@@ -396,7 +396,7 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else return 0;
 
@@ -577,7 +577,7 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		password = _strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else return 0;
 

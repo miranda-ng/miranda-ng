@@ -220,7 +220,7 @@ void CNickDlg::OnInitDialog()
 			if ( !GetWord( dbv.ptszVal, i).IsEmpty())
 				SendDlgItemMessage( m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)GetWord(dbv.ptszVal, i).c_str());
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }	}
 
 void CNickDlg::OnDestroy()
@@ -243,7 +243,7 @@ void CNickDlg::OnOk( CCtrlButton* )
 			if ( !s.IsEmpty() && s != szTemp)
 				S += _T(" ") + s;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	m_proto->setTString( "RecentNicks", S.c_str());
 }
@@ -517,7 +517,7 @@ void CJoinDlg::OnInitDialog()
 				ReplaceString( S, _T("%newl"), _T(" "));
 				SendDlgItemMessage( m_hwnd, IDC_ENICK, CB_ADDSTRING, 0, (LPARAM)S.c_str());
 		}	}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }	}
 
 void CJoinDlg::OnDestroy()
@@ -546,7 +546,7 @@ void CJoinDlg::OnOk( CCtrlButton* )
 			if ( !W.IsEmpty() && W != SL)
 				S += _T(" ") + W;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	m_proto->setTString("RecentChannels", S.c_str());
 }
@@ -582,19 +582,19 @@ void CQuickDlg::OnInitDialog()
 	DBVARIANT dbv;
 	if ( !m_proto->getString( "ServerName", &dbv )) {
 		m_si->m_address = mir_strdup( dbv.pszVal );
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else m_si->m_address = mir_strdup( Translate("Type new server address here"));
 
 	if ( !m_proto->getString( "PortStart", &dbv )) {
 		m_si->m_portStart = atoi( dbv.pszVal );
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else m_si->m_portStart = 6667;
 
 	if ( !m_proto->getString( "PortEnd", &dbv )) {
 		m_si->m_portEnd = atoi( dbv.pszVal );
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else m_si->m_portEnd = 6667;
 
@@ -1287,7 +1287,7 @@ void CManagerDlg::InitManager( int mode, const TCHAR* window )
 #endif
 						m_topic.SendMsg( CB_ADDSTRING, 0, (LPARAM)S.c_str());
 				}	}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			mir_free(p);
 		}

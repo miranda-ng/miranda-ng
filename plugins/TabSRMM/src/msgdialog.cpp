@@ -1504,12 +1504,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			*/
 			if (dat->hContact) {
 				DBVARIANT dbv;
-				if (!DBGetContactSettingString(dat->hContact, SRMSGMOD, "SavedMsg", &dbv)) {
+				if (!db_get_s(dat->hContact, SRMSGMOD, "SavedMsg", &dbv)) {
 					SETTEXTEX stx = {ST_DEFAULT, CP_UTF8};
 
 					if (dbv.type == DBVT_ASCIIZ && lstrlenA(dbv.pszVal) > 0)
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					SendQueue::UpdateSaveAndSendButton(dat);
 					if (m_pContainer->hwndActive == hwndDlg)
 						UpdateReadChars(dat);
@@ -2891,7 +2891,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (iSelection - IDM_CONTAINERMENU >= 0) {
 				if (!M->GetTString(NULL, szKey, szIndex, &dbv)) {
 					SendMessage(hwndDlg, DM_CONTAINERSELECTED, 0, (LPARAM)dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 
@@ -3655,10 +3655,10 @@ quote_from_last:
 				if (!dat->fEditNotesActive) {
 					char *msg = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
 					if (msg) {
-						DBWriteContactSettingString(dat->hContact, SRMSGMOD, "SavedMsg", msg);
+						db_set_s(dat->hContact, SRMSGMOD, "SavedMsg", msg);
 						free(msg);
 					} else
-						DBWriteContactSettingString(dat->hContact, SRMSGMOD, "SavedMsg", "");
+						db_set_s(dat->hContact, SRMSGMOD, "SavedMsg", "");
 				}
 				else
 					SendMessage(hwndDlg, WM_COMMAND, IDC_PIC, 0);

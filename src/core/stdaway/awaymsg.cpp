@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int LoadAwayMessageSending(void);
 
-static HANDLE hAwayMsgMenuItem;
+static HGENMENU hAwayMsgMenuItem;
 static HANDLE hWindowList;
 
 struct AwayMsgDlgData {
@@ -54,7 +54,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				TCHAR str[256], format[128];
 				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 				char *szProto = GetContactProto(dat->hContact);
-				WORD dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				WORD dwStatus = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
 				GetWindowText(hwndDlg, format, SIZEOF(format));
@@ -139,9 +139,9 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
-		int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
+		int chatRoom = szProto ? db_get_b((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 		if ( !chatRoom) {
-			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+			int status = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(status, 0));
 			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
@@ -150,7 +150,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 					mi.hIcon = LoadSkinProtoIcon(szProto, status);
 	}	}	}	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&mi);
+	Menu_ModifyItem(hAwayMsgMenuItem, &mi);
 	IcoLib_ReleaseIcon(mi.hIcon, 0);
 	return 0;
 }

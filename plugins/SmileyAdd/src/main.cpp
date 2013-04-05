@@ -21,7 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //globals
 HINSTANCE g_hInst;
-HANDLE hEvent1, hContactMenuItem;
+HANDLE    hEvent1;
+HGENMENU  hContactMenuItem;
 
 char* metaProtoName;
 

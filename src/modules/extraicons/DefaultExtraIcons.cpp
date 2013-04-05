@@ -164,7 +164,7 @@ static void SetExtraIcons(HANDLE hContact)
 				break;
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(hContact, p.db[j] == NULL ? proto : p.db[j], p.db[j+1], &dbv)) {
+			if (!db_get_s(hContact, p.db[j] == NULL ? proto : p.db[j], p.db[j+1], &dbv)) {
 				if (!IsEmpty(dbv.pszVal)) {
 					p.SetIcon(hContact, &p, dbv.pszVal);
 					show = true;
@@ -241,7 +241,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 			break;
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, p->db[j] == NULL ? proto : p->db[j], p->db[j+1], &dbv)) {
+		if ( !db_get_s(hContact, p->db[j] == NULL ? proto : p->db[j], p->db[j+1], &dbv)) {
 			if (!IsEmpty(dbv.pszVal)) {
 				p->OnClick(p, dbv.pszVal);
 				found = true;

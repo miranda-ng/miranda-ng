@@ -113,7 +113,7 @@ int EventDeleted(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ( !db_event_get((HANDLE)lParam, &dbei))
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
-			DBDeleteContactSetting((HANDLE)wParam, MODULE, "LastCountTS");
+			db_unset((HANDLE)wParam, MODULE, "LastCountTS");
 
 	return 0;
 }
@@ -269,7 +269,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
 	// set Miranda start timestamp
-	DBWriteContactSettingDword(0, MODULE, "MirandaStartTS", (DWORD)time(0));
+	db_set_dw(0, MODULE, "MirandaStartTS", (DWORD)time(0));
 
 	// get MetaContacts module name
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))

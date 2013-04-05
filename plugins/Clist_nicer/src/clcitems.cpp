@@ -248,7 +248,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			szProto = GetContactProto(hContact);
 		if (szProto) {
 			if ( !result )
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 			if ( !( result = cfg::getTString(hContact, szProto, "YMsg", &dbv)) && lstrlen(dbv.ptszVal) > 1)
 				p->bStatusMsgValid = STATUSMSG_YIM;
 			else if ( !(result = cfg::getTString(hContact, szProto, "StatusDescr", &dbv)) && lstrlen(dbv.ptszVal) > 1)
@@ -260,7 +260,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->bStatusMsgValid == STATUSMSG_NOTFOUND) { // no status msg, consider xstatus name (if available)
 		if ( !result )
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		result = cfg::getTString(hContact, szProto, "XStatusName", &dbv);
 		if ( !result && lstrlen(dbv.ptszVal) > 1) {
 			int iLen = lstrlen(dbv.ptszVal);
@@ -306,7 +306,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		p->statusMsg[j] = (TCHAR)0;
 	}
 	if ( !result )
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 
 	if (p->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];

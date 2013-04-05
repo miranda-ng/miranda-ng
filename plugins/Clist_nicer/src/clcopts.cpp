@@ -736,7 +736,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if ( PathToAbsoluteT(dbv.ptszVal, szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
 
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			WORD bmpUse = cfg::getWord("CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
@@ -817,7 +817,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 					if (col == CLCDEFAULT_BKCOLOUR)
-						DBDeleteContactSetting(NULL, "CLC", "BkColour");
+						db_unset(NULL, "CLC", "BkColour");
 					else
 						cfg::writeDword("CLC", "BkColour", col);
 					cfg::writeByte("CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR));

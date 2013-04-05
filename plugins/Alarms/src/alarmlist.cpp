@@ -192,12 +192,12 @@ void LoadAlarms() {
 		memset(&alarm, 0, sizeof(ALARM));
 
 		sprintf(buff, "Title%d", i);
-		if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+		if (!db_get_ts(0, MODULE, buff, &dbv)) {
 			alarm.szTitle = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 		sprintf(buff, "Desc%d", i);
-		if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+		if (!db_get_ts(0, MODULE, buff, &dbv)) {
 			alarm.szDesc = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -249,11 +249,11 @@ void LoadAlarms() {
 			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
 				sprintf(buff, "ActionCommand%d", i);
-				if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+				if (!db_get_ts(0, MODULE, buff, &dbv)) {
 					alarm.szCommand = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 					sprintf(buff, "ActionParams%d", i);
-					if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+					if (!db_get_ts(0, MODULE, buff, &dbv)) {
 						alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -308,14 +308,14 @@ void SaveAlarms() {
 		sprintf(buff, "Desc%d", index);
 		db_set_ts(0, MODULE, buff, i->szDesc);
 		sprintf(buff, "Occ%d", index);
-		DBWriteContactSettingWord(0, MODULE, buff, i->occurrence);
+		db_set_w(0, MODULE, buff, i->occurrence);
 
 		sprintf(buff, "STHour%d", index);
-		DBWriteContactSettingWord(0, MODULE, buff, i->time.wHour);
+		db_set_w(0, MODULE, buff, i->time.wHour);
 		sprintf(buff, "STMinute%d", index);
-		DBWriteContactSettingWord(0, MODULE, buff, i->time.wMinute);
+		db_set_w(0, MODULE, buff, i->time.wMinute);
 		sprintf(buff, "STSecond%d", index);
-		DBWriteContactSettingWord(0, MODULE, buff, i->time.wSecond);
+		db_set_w(0, MODULE, buff, i->time.wSecond);
 
 		switch(i->occurrence) {
 		case OC_DAILY:
@@ -324,22 +324,22 @@ void SaveAlarms() {
 			break;
 		case OC_WEEKLY:
 			sprintf(buff, "STDayOfWeek%d", index);
-			DBWriteContactSettingWord(0, MODULE, buff, i->time.wDayOfWeek);
+			db_set_w(0, MODULE, buff, i->time.wDayOfWeek);
 			break;
 
 		case OC_ONCE:
 			sprintf(buff, "STYear%d", index);
-			DBWriteContactSettingWord(0, MODULE, buff, i->time.wYear);
+			db_set_w(0, MODULE, buff, i->time.wYear);
 		case OC_YEARLY:
 			sprintf(buff, "STMonth%d", index);
-			DBWriteContactSettingWord(0, MODULE, buff, i->time.wMonth);
+			db_set_w(0, MODULE, buff, i->time.wMonth);
 		case OC_MONTHLY:
 			sprintf(buff, "STDay%d", index);
-			DBWriteContactSettingWord(0, MODULE, buff, i->time.wDay);
+			db_set_w(0, MODULE, buff, i->time.wDay);
 			break;
 		}
 		sprintf(buff, "ActionFlags%d", index);
-		DBWriteContactSettingDword(0, MODULE, buff, i->action);
+		db_set_dw(0, MODULE, buff, i->action);
 		if (i->action & AAF_COMMAND) {
 			if (_tcslen(i->szCommand)) {
 				sprintf(buff, "ActionCommand%d", index);
@@ -358,12 +358,12 @@ void SaveAlarms() {
 		db_set_b(0, MODULE, buff, i->snoozer ? 1 : 0);
 
 		sprintf(buff, "Flags%d", index);
-		DBWriteContactSettingDword(0, MODULE, buff, i->flags);
+		db_set_dw(0, MODULE, buff, i->flags);
 
 		sprintf(buff, "TriggerID%d", index);
-		DBWriteContactSettingDword(0, MODULE, buff, i->trigger_id);
+		db_set_dw(0, MODULE, buff, i->trigger_id);
 	}
-	DBWriteContactSettingWord(0, MODULE, "Count", index);
+	db_set_w(0, MODULE, "Count", index);
 
 	LeaveCriticalSection(&alarm_cs);
 }

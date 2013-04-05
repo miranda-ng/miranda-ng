@@ -470,7 +470,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, "Resource", &dbv))
+		if ( !db_get_ts(NULL, m_proto->m_szModuleName, "Resource", &dbv))
 		{
 			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
 				m_cbResource.AddString(dbv.ptszVal);
@@ -1079,11 +1079,11 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 							TCHAR *name = NULL;
 							TCHAR *group = NULL;
 							DBVARIANT dbvtemp;
-							if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbvtemp)) {
+							if ( !db_get_ts(hContact, "CList", "MyHandle", &dbvtemp)) {
 								name = mir_tstrdup(dbvtemp.ptszVal);
 								db_free(&dbvtemp);
 							}
-							if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbvtemp)) {
+							if ( !db_get_ts(hContact, "CList", "Group", &dbvtemp)) {
 								group = mir_tstrdup(dbvtemp.ptszVal);
 								db_free(&dbvtemp);
 							}
@@ -1702,7 +1702,7 @@ protected:
 		if (GetComputerName(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
-		if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, "Resource", &dbv))
+		if ( !db_get_ts(NULL, m_proto->m_szModuleName, "Resource", &dbv))
 		{
 			if (CB_ERR == m_cbResource.FindString(dbv.ptszVal, -1, true))
 				m_cbResource.AddString(dbv.ptszVal);
@@ -1725,7 +1725,7 @@ protected:
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		m_cbServer.GetTextA(server, SIZEOF(server));
-		if ( !DBGetContactSettingString(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
+		if ( !db_get_s(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
 		{
 			lstrcpynA(manualServer, dbv.pszVal, SIZEOF(manualServer));
 			db_free(&dbv);
@@ -1780,7 +1780,7 @@ protected:
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
-				if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
+				if ( !db_get_ts(NULL, m_proto->m_szModuleName, "ManualHost", &dbv))
 				{
 					m_txtManualHost.SetText(dbv.ptszVal);
 					db_free(&dbv);

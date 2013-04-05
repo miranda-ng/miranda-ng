@@ -251,12 +251,12 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 					if ((iSel = SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_GETCURSEL, 0, 0)) != CB_ERR) {
 						if (iSel == 0) {
-							DBDeleteContactSetting(hContact, "CList", "CLN_2ndline");
+							db_unset(hContact, "CList", "CLN_2ndline");
 							if (contact)
 								contact->bSecondLine = cfg::dat.dualRowMode;
 						}
 						else {
-							DBWriteContactSettingByte(hContact, "CList", "CLN_2ndline", (BYTE)(iSel - 1));
+							db_set_b(hContact, "CList", "CLN_2ndline", (BYTE)(iSel - 1));
 							if (contact)
 								contact->bSecondLine = (BYTE)(iSel - 1);
 						}
@@ -332,7 +332,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					else if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
 						wApparentMode = ID_STATUS_OFFLINE;
 
-					//DBWriteContactSettingWord(hContact, contact->proto, "ApparentMode", wApparentMode);
+					//db_set_w(hContact, contact->proto, "ApparentMode", wApparentMode);
 					//if (oldApparentMode != wApparentMode)
 					CallContactService(hContact, PSS_SETAPPARENTMODE, (WPARAM)wApparentMode, 0);
 					SendMessage(hWnd, WM_USER + 120, 0, 0);

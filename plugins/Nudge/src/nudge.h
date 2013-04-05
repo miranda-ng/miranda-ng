@@ -51,11 +51,10 @@ public:
 	int iProtoNumber;
 	HANDLE hIcoLibItem;
 	HANDLE hEvent;
-	HANDLE hContactMenu;
+	HGENMENU hContactMenu;
 
 	void Load(void);
 	void Save(void);
-	int ShowContactMenu(bool show);
 };
 
 typedef struct NudgeElementList

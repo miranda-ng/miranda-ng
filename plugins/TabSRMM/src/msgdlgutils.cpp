@@ -864,7 +864,7 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 		AdjustBottomAvatarDisplay(dat);
 	} else {
 		dat->showPic = dat->showPic ? 0 : 1;
-		DBWriteContactSettingByte(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->showPic);
+		db_set_b(dat->hContact, SRMSGMOD_T, "MOD_ShowPic", (BYTE)dat->showPic);
 	}
 	GetWindowRect(GetDlgItem(hwndDlg, IDC_CONTACTPIC), &rc);
 	if (dat->minEditBoxSize.cy + DPISCALEY_S(3)> dat->splitterY)
@@ -2191,9 +2191,9 @@ void TSAPI GetClientIcon(TWindowData *dat)
 
 	dat->hClientIcon = 0;
 	if (ServiceExists(MS_FP_GETCLIENTICON)) {
-		if (!DBGetContactSettingString(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer", &dbv)) {
+		if (!db_get_s(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "MirVer", &dbv)) {
 			dat->hClientIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)dbv.pszVal, 1);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 }

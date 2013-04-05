@@ -241,7 +241,7 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 void OpenContactInbox(LPCSTR acc)
 {
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(0, acc, "jid", &dbv))
+	if ( db_get_ts(0, acc, "jid", &dbv))
 		return;
 
 	LPTSTR host = _tcschr(dbv.ptszVal, '@');
@@ -256,5 +256,5 @@ void OpenContactInbox(LPCSTR acc)
 		mir_sntprintf(buf, SIZEOF(buf), INBOX_URL_FORMAT, _T(""), _T("mail")); // common
 	OpenUrl(acc, dbv.ptszVal, buf);
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 }

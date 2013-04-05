@@ -140,10 +140,10 @@ bool FacebookProto::NegotiateConnection( )
 	DBVARIANT dbv = {0};
 
 	error = true;
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_LOGIN,&dbv))
+	if ( !db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_LOGIN,&dbv))
 	{
 		user = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		error = user.empty();
 	}
 	if (error)
@@ -153,12 +153,12 @@ bool FacebookProto::NegotiateConnection( )
 	}
 
 	error = true;
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_PASS,&dbv))
+	if ( !db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_PASS,&dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
 		pass = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		error = pass.empty();
 	}
 	if (error)
@@ -168,20 +168,20 @@ bool FacebookProto::NegotiateConnection( )
 	}
 
 	// Load machine name
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_DEVICE_ID,&dbv))
+	if ( !db_get_s(NULL,m_szModuleName,FACEBOOK_KEY_DEVICE_ID,&dbv))
 	{
 		facy.cookies["datr"] = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	// Refresh last time of feeds update
 	facy.last_feeds_update_ = ::time(NULL);
 
 	// Get info about secured connection
-	facy.https_ = DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS ) != 0;
+	facy.https_ = db_get_b(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS ) != 0;
 
 	// Create default group for new contacts
-	if (!DBGetContactSettingTString(NULL, m_szModuleName, FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
+	if (!db_get_ts(NULL, m_szModuleName, FACEBOOK_KEY_DEF_GROUP, &dbv) && lstrlen(dbv.ptszVal) > 0)
 	{
 		CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)dbv.ptszVal);
 	}

@@ -291,7 +291,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 					LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", dbv.pszVal, cksum, who));
 					//void yahoo_send_picture_info(int id, const char *me, const char *who, const char *pic_url, int cksum)
 					yahoo_send_picture_info(m_id, who, 2, dbv.pszVal, cksum);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					break;
 				} else
 					LOG(("No AvatarURL???"));
@@ -301,7 +301,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 				 */
 				if (GetByte("AvatarUL", 0) != 1) {
 					// NO avatar URL??
-					if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv)) {
+					if (!db_get_ts(NULL, m_szModuleName, "AvatarFile", &dbv)) {
 						struct _stat statbuf;
 
 						if (_tstat( dbv.ptszVal, &statbuf ) != 0) {
@@ -311,7 +311,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 							SendAvatar(dbv.ptszVal);
 						}
 
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					} else {
 						LOG(("[ext_yahoo_got_picture] No Local Avatar File??? "));
 					}
@@ -415,7 +415,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 							LOG(("[ext_yahoo_got_picture] We just reuploaded! Stop screwing with Yahoo FT. "));
 
 							// don't leak stuff
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 
 							break;
 						}*/
@@ -423,10 +423,10 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 						LOG(("[ext_yahoo_got_picture] Buddy: %s told us this is bad??Expired??. Re-uploading", who));
 						db_unset(NULL, m_szModuleName, "AvatarURL");
 
-						if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv2)) {
+						if (!db_get_ts(NULL, m_szModuleName, "AvatarFile", &dbv2)) {
 							db_set_s(NULL, m_szModuleName, "AvatarInv", who);
 							SendAvatar(dbv2.ptszVal);
-							DBFreeVariant(&dbv2);
+							db_free(&dbv2);
 						} else {
 							LOG(("[ext_yahoo_got_picture] No Local Avatar File??? "));
 						}
@@ -435,7 +435,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 						yahoo_send_picture_info(m_id, who, 2, dbv.pszVal, mcksum);
 					}
 					// don't leak stuff
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 			} else {
 				LOG(("[ext_yahoo_got_picture] no AvatarURL?"));
 			}
@@ -562,7 +562,7 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 		yahoo_send_picture_info(m_id, dbv.pszVal, 2, url, cksum);
 
 		db_unset(NULL, m_szModuleName, "AvatarInv");
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 
@@ -667,7 +667,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 
 	if (!GetString(AI->hContact, YAHOO_LOGINID, &dbv)) {
 		DebugLog("[YAHOO_GETAVATARINFO] For: %s", dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}else {
 		DebugLog("[YAHOO_GETAVATARINFO]");
 	}
@@ -711,7 +711,7 @@ INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)
 				DebugLog("[YAHOO_GETAVATARINFO] Requesting avatar!");
 
 				request_avatar(dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 
 				return GAIR_WAITFOR;
 			} else {
@@ -799,14 +799,14 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	int ret = -3;
 
 	if (GetDword("AvatarHash", 0)) {
-		if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv)) {
+		if (!db_get_ts(NULL, m_szModuleName, "AvatarFile", &dbv)) {
 			if (_taccess(dbv.ptszVal, 0) == 0) {
 				lstrcpyn(buffer, dbv.ptszVal, size-1);
 				buffer[size-1] = '\0';
 
 				ret = 0;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 

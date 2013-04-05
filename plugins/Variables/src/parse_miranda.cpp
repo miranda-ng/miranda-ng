@@ -201,7 +201,7 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 		break;
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return var;
 }
 
@@ -272,21 +272,21 @@ static TCHAR *parseLastSeenDate(ARGUMENTSINFO *ai)
 
 	SYSTEMTIME lsTime = { 0 };
 	char *szModule = CEX_MODULE;
-	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
+	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		szModule = SEEN_MODULE;
 
-	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
+	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		return NULL;
 
 	lsTime.wMilliseconds = 0;
-	lsTime.wSecond = DBGetContactSettingWord(hContact, szModule, "Seconds", 0);
-	lsTime.wMinute = DBGetContactSettingWord(hContact, szModule, "Minutes", 0);
-	lsTime.wHour = DBGetContactSettingWord(hContact, szModule, "Hours", 0);
-	lsTime.wDay = DBGetContactSettingWord(hContact, szModule, "Day", 0);
-	lsTime.wDayOfWeek = DBGetContactSettingWord(hContact, szModule, "WeekDay", 0);
-	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
+	lsTime.wSecond = db_get_w(hContact, szModule, "Seconds", 0);
+	lsTime.wMinute = db_get_w(hContact, szModule, "Minutes", 0);
+	lsTime.wHour = db_get_w(hContact, szModule, "Hours", 0);
+	lsTime.wDay = db_get_w(hContact, szModule, "Day", 0);
+	lsTime.wDayOfWeek = db_get_w(hContact, szModule, "WeekDay", 0);
+	lsTime.wMonth = db_get_w(hContact, szModule, "Month", 0);
 
 	int len = GetDateFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
 	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
@@ -330,22 +330,22 @@ static TCHAR *parseLastSeenTime(ARGUMENTSINFO *ai)
 
 	SYSTEMTIME lsTime = { 0 };
 	char *szModule = CEX_MODULE;
-	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
+	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		szModule = SEEN_MODULE;
 
-	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
+	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 	if (lsTime.wYear == 0)
 		return NULL;
 
 	lsTime.wMilliseconds = 0;
-	lsTime.wSecond = DBGetContactSettingWord(hContact, szModule, "Seconds", 0);
-	lsTime.wMinute = DBGetContactSettingWord(hContact, szModule, "Minutes", 0);
-	lsTime.wHour = DBGetContactSettingWord(hContact, szModule, "Hours", 0);
-	lsTime.wDay = DBGetContactSettingWord(hContact, szModule, "Day", 0);
-	lsTime.wDayOfWeek = DBGetContactSettingWord(hContact, szModule, "WeekDay", 0);
-	lsTime.wMonth = DBGetContactSettingWord(hContact, szModule, "Month", 0);
-	lsTime.wYear = DBGetContactSettingWord(hContact, szModule, "Year", 0);
+	lsTime.wSecond = db_get_w(hContact, szModule, "Seconds", 0);
+	lsTime.wMinute = db_get_w(hContact, szModule, "Minutes", 0);
+	lsTime.wHour = db_get_w(hContact, szModule, "Hours", 0);
+	lsTime.wDay = db_get_w(hContact, szModule, "Day", 0);
+	lsTime.wDayOfWeek = db_get_w(hContact, szModule, "WeekDay", 0);
+	lsTime.wMonth = db_get_w(hContact, szModule, "Month", 0);
+	lsTime.wYear = db_get_w(hContact, szModule, "Year", 0);
 
 	int len = GetTimeFormat(LOCALE_USER_DEFAULT, 0, &lsTime, szFormat, NULL, 0);
 	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
@@ -380,11 +380,11 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 	char *szModule = CEX_MODULE;
-	int status = DBGetContactSettingWord(hContact, szModule, "Status", 0);
+	int status = db_get_w(hContact, szModule, "Status", 0);
 	if (status == 0)
 		szModule = SEEN_MODULE;
 
-	status = DBGetContactSettingWord(hContact, szModule, "Status", 0);
+	status = db_get_w(hContact, szModule, "Status", 0);
 	if (status == 0)
 		return NULL;
 

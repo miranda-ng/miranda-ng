@@ -204,7 +204,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	}
 	// update the clui button
 
-	if ( !DBGetContactSetting(NULL, "CList", "PrimaryStatus", &dbv)) {
+	if ( !db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ && lstrlenA(dbv.pszVal) > 1) {
 			wStatus = (WORD) CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
 			iIcon = IconFromStatusMode(dbv.pszVal, (int) wStatus, 0, &hIcon);

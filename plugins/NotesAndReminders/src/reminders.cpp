@@ -459,7 +459,7 @@ void JustSaveReminders(void)
 	for(; I < OldReminderCount; I++)
 	{
 		sprintf(ValueName, "RemindersData%d", I);
-		DBDeleteContactSetting(0,MODULENAME,ValueName);
+		db_unset(0,MODULENAME,ValueName);
 	}
 }
 
@@ -852,10 +852,10 @@ static void SkinPlaySoundPoly(LPCSTR pszSoundName)
 		return;
 	}
 
-	if (DBGetContactSettingByte(NULL, "SkinSoundsOff", pszSoundName, 0)==0) {
+	if (db_get_b(NULL, "SkinSoundsOff", pszSoundName, 0)==0) {
 		DBVARIANT dbv;
 
-		if (DBGetContactSettingString(NULL, "SkinSounds", pszSoundName, &dbv)==0) {
+		if (db_get_s(NULL, "SkinSounds", pszSoundName, &dbv)==0) {
 			char szFull[MAX_PATH];
 
 			PathToAbsolute(dbv.pszVal, szFull);
@@ -871,7 +871,7 @@ static void SkinPlaySoundPoly(LPCSTR pszSoundName)
 				mciSendStringA(s, NULL, 0, NULL);
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 }

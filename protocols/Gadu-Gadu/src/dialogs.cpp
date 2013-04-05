@@ -145,7 +145,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 		if (!unspecified)
 			SetDlgItemText(hwndDlg, idCtrl, ptstr);
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@ void GGPROTO::checknewuser(uin_t uin, const char* passwd)
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ))
 	{
 		if (dbv.pszVal) strcpy(oldpasswd, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (uin > 0 && strlen(passwd) > 0 && (uin != olduin || strcmp(oldpasswd, passwd)))
@@ -256,11 +256,11 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else
 			{
@@ -419,14 +419,14 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 							CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 							SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else SetDlgItemTextA(hwndDlg, IDC_PASSWORD, "");
 
 						// Update e-mail
 						if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
 							SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
 
@@ -618,7 +618,7 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			TranslateDialogDefault(hwndDlg);
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_SERVERHOSTS, &dbv, DBVT_ASCIIZ)) {
 				SetDlgItemTextA(hwndDlg, IDC_HOST, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			else SetDlgItemTextA(hwndDlg, IDC_HOST, GG_KEYDEF_SERVERHOSTS);
 
@@ -638,7 +638,7 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			CheckDlgButton(hwndDlg, IDC_FORWARDING, db_get_b(NULL, gg->m_szModuleName, GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING));
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_FORWARDHOST, &dbv, DBVT_ASCIIZ)) {
 				SetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (num = db_get_w(NULL, gg->m_szModuleName, GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT))
 				SetDlgItemTextA(hwndDlg, IDC_FORWARDPORT, ditoa(num));
@@ -983,11 +983,11 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			break;
 		}
@@ -1026,14 +1026,14 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 						CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 						SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else SetDlgItemTextA(hwndDlg, IDC_PASSWORD, "");
 
 					// Update e-mail
 					if (!db_get_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, &dbv, DBVT_ASCIIZ)) {
 						SetDlgItemTextA(hwndDlg, IDC_EMAIL, dbv.pszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
 				}

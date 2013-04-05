@@ -65,7 +65,7 @@ void UpdateMyXFireIni(LPVOID dummy) {
 
 	if(CheckWWWContent(request))
 	{
-		if(DBGetContactSettingByte(NULL,protocolname,"dontaskforupdate",0)==1||DialogBox(hinstance,MAKEINTRESOURCE(IDD_UPDATE),NULL,DlgUpdateDialogProc)==IDOK)
+		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||DialogBox(hinstance,MAKEINTRESOURCE(IDD_UPDATE),NULL,DlgUpdateDialogProc)==IDOK)
 		{
 			if(GetWWWContent2(request,file,FALSE))
 			{
@@ -74,12 +74,12 @@ void UpdateMyXFireIni(LPVOID dummy) {
 				//derzeitige ini und sichern
 				rename(file2,file3);
 				//lösche .old, wenn aktiv
-				if(DBGetContactSettingByte(NULL,protocolname,"nobackupini",0))
+				if(db_get_b(NULL,protocolname,"nobackupini",0))
 					remove(file3);
 				//neue aktiv schalten
 				rename(file,file2);
 				
-				if(DBGetContactSettingByte(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The xfire_games.ini was updated."));
+				if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The xfire_games.ini was updated."));
 			}
 			else
 				MSGBOX(Translate("Error during xfire_games Update."));
@@ -105,7 +105,7 @@ void UpdateMyIcons(LPVOID dummy) {
 
 	if(CheckWWWContent(request))
 	{
-		if(DBGetContactSettingByte(NULL,protocolname,"dontaskforupdate",0)==1||MessageBox(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
+		if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==1||MessageBox(NULL,Translate("There is a new Icons.dll online, do you want to update now?"),"Miranda XFire Protocol Plugin",MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
 			if(GetWWWContent2(request,file,FALSE)) {
 				//altes backup löschen
@@ -113,12 +113,12 @@ void UpdateMyIcons(LPVOID dummy) {
 				//derzeitige ini und sichern
 				rename(file2,file3);
 				//lösche .old, wenn aktiv
-				if(DBGetContactSettingByte(NULL,protocolname,"nobackupini",0))
+				if(db_get_b(NULL,protocolname,"nobackupini",0))
 					remove(file3);
 				//neue aktiv schalten
 				rename(file,file2);
 				
-				if(DBGetContactSettingByte(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The Icons.dll was updated."));
+				if(db_get_b(NULL,protocolname,"dontaskforupdate",0)==0) MSGBOX(Translate("The Icons.dll was updated."));
 			}
 			else
 				MSGBOX(Translate("Error during Icons.dll Update."));

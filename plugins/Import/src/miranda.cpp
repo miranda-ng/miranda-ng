@@ -243,7 +243,7 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,
 			struct tm *TM = NULL;
 			struct _SYSTEMTIME ST = {0};
 
-			dwSinceDate = DBGetContactSettingDword(NULL,IMPORT_MODULE,"ImportSinceTS",time(NULL));
+			dwSinceDate = db_get_dw(NULL,IMPORT_MODULE,"ImportSinceTS",time(NULL));
 
 			TM = localtime(&dwSinceDate);
 
@@ -306,7 +306,7 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg,UINT message,WPARAM wParam,
 
 					dwSinceDate = mktime(&TM);
 
-					DBWriteContactSettingDword(NULL,IMPORT_MODULE,"ImportSinceTS",dwSinceDate);
+					db_set_dw(NULL,IMPORT_MODULE,"ImportSinceTS",dwSinceDate);
   			}	}
 
 			if (nCustomOptions)

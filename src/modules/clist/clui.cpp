@@ -301,7 +301,7 @@ int LoadCLUIModule(void)
 	wndclass.hIconSm = LoadSkinIcon(SKINICON_OTHER_MIRANDA);
 	RegisterClassEx(&wndclass);
 
-	if (DBGetContactSettingTString(NULL, "CList", "TitleText", &dbv))
+	if (db_get_ts(NULL, "CList", "TitleText", &dbv))
 		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF(titleText));
 	else {
 		lstrcpyn(titleText, dbv.ptszVal, SIZEOF(titleText));

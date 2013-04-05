@@ -471,7 +471,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					DBVARIANT  dbv;
 					if (0 == M->GetTString(hContact, SRMSGMOD_T, "locale", &dbv)) {
 						GetLocaleID(dat, dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						UpdateReadChars(dat);
 					}
 				}

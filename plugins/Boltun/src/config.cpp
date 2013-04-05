@@ -40,12 +40,12 @@ inline TCHAR* GetString(char* key, const TCHAR* def)
 {
 	DBVARIANT dbv;
 	TCHAR* val;
-	if (!DBGetContactSettingTString(NULL, BOLTUN_KEY, key, &dbv))
+	if (!db_get_ts(NULL, BOLTUN_KEY, key, &dbv))
 	{
 		size_t len = wcslen(dbv.ptszVal) + 1;
 		val = new TCHAR[len];
 		_tcscpy_s(val, len, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 	{
@@ -61,22 +61,22 @@ inline const TCHAR* SetString(char* key, const TCHAR* value)
 	size_t len = _tcslen(value) + 1;
 	TCHAR* val = new TCHAR[len];
 	_tcscpy_s(val, len, value);
-	DBWriteContactSettingTString(NULL, BOLTUN_KEY, key, val);
+	db_set_ts(NULL, BOLTUN_KEY, key, val);
 	return val;
 }
 
 #define BUILDETTERS(x, str, def) \
 	const bool BoltunConfig::Get##x() { \
-	return DBGetContactSettingDword(NULL, BOLTUN_KEY, str, def) != 0; } \
+	return db_get_dw(NULL, BOLTUN_KEY, str, def) != 0; } \
 	const bool BoltunConfig::Set##x(const bool value) { \
-	DBWriteContactSettingDword(NULL, BOLTUN_KEY, str, value); \
+	db_set_dw(NULL, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDINTETTERS(x, str, def) \
 	const int BoltunConfig::Get##x() { \
-	return DBGetContactSettingDword(NULL, BOLTUN_KEY, str, def); } \
+	return db_get_dw(NULL, BOLTUN_KEY, str, def); } \
 	const int BoltunConfig::Set##x(const int value) { \
-	DBWriteContactSettingDword(NULL, BOLTUN_KEY, str, value); \
+	db_set_dw(NULL, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDSTRETTERS(x, str, def) \

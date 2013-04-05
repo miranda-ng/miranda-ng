@@ -469,7 +469,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			else
 			{
 				/*
-				int status = DBGetContactSettingWord((HANDLE)lparam, MODULE_NAME, "LastStatus", ID_STATUS_OFFLINE);
+				int status = db_get_w((HANDLE)lparam, MODULE_NAME, "LastStatus", ID_STATUS_OFFLINE);
 				char *strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, 0);
 				*/
 				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));

@@ -30,10 +30,10 @@ int idOptionControls[4][3] = {
 
 static int __inline DBWriteContactSettingDwordDef(HANDLE hContact,const char *szModule,const char *szSetting,DWORD val, DWORD defValue)
 {
-	if(val == DBGetContactSettingDword(hContact, szModule, szSetting, defValue))
+	if(val == db_get_dw(hContact, szModule, szSetting, defValue))
 		return 0;
 	else
-		return DBWriteContactSettingDword(hContact, szModule, szSetting, val);
+		return db_set_dw(hContact, szModule, szSetting, val);
 }
 
 INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

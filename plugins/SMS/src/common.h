@@ -40,10 +40,10 @@ extern HINSTANCE hInst;
 // структура содержащая информацию по построению меню или расширеных иконок
 struct GUI_DISPLAY_ITEM
 {
-	LPSTR	lpszName;		// имя сервиса, оно же имя в иколибе
-	LPWSTR	lpwszDescr;		// текстовое описание отображаемое юзеру
-	LONG	defIcon;		// иконка из ресурсов
-	LPVOID	lpFunc;			// функция вызываемая меню
+	LPSTR  lpszName;    // имя сервиса, оно же имя в иколибе
+	LPWSTR lpwszDescr;  // текстовое описание отображаемое юзеру
+	LONG   defIcon;     // иконка из ресурсов
+	LPVOID lpFunc;      // функция вызываемая меню
 };
 
 
@@ -53,28 +53,25 @@ struct GUI_DISPLAY_ITEM
 
 typedef struct
 {
-	HANDLE				hHeap;
-	HINSTANCE			hInstance;
+	HANDLE         hHeap;
+   HINSTANCE      hInstance;
 
-	//HANDLE			hMainMenuIcons[MAIN_MENU_ITEMS_COUNT+1];
-	HANDLE				hMainMenuItems[MAIN_MENU_ITEMS_COUNT+1];
+   HGENMENU       hMainMenuItems[MAIN_MENU_ITEMS_COUNT+1];
+   HGENMENU       hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+1];
 
-	//HANDLE			hContactMenuIcons[CONTACT_MENU_ITEMS_COUNT+1];
-	HANDLE				hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+1];
+   HANDLE         hHookModulesLoaded;
+   HANDLE         hHookPreShutdown;
+   HANDLE         hHookOptInitialize;
+   HANDLE         hHookRebuildCMenu;
+   HANDLE         hHookDbAdd;
+   HANDLE         hHookProtoAck;
+   HANDLE         hHookAccListChanged;
 
-	HANDLE				hHookModulesLoaded;
-	HANDLE				hHookPreShutdown;
-	HANDLE				hHookOptInitialize;
-	HANDLE				hHookRebuildCMenu;
-	HANDLE				hHookDbAdd;
-	HANDLE				hHookProtoAck;
-	HANDLE				hHookAccListChanged;
+   LIST_MT        lmtSendSMSWindowsListMT;
+   LIST_MT        lmtRecvSMSWindowsListMT;
 
-	LIST_MT				lmtSendSMSWindowsListMT;
-	LIST_MT				lmtRecvSMSWindowsListMT;
-
-	PROTOACCOUNT		**ppaSMSAccounts;
-	SIZE_T				dwSMSAccountsCount;
+   PROTOACCOUNT **ppaSMSAccounts;
+   SIZE_T         dwSMSAccountsCount;
 
 } SMS_SETTINGS;
 
@@ -115,25 +112,24 @@ extern SMS_SETTINGS ssSMSSettings;
 #define GetContactNameA(Contact) (LPSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)Contact,0)
 #define GetContactNameW(Contact) (LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)Contact,GCDNF_UNICODE)
 
-#define DB_SMS_DeleteValue(Contact,valueName) DBDeleteContactSetting(Contact,PROTOCOL_NAMEA,valueName)
-#define DB_SMS_GetDword(Contact,valueName,parDefltValue) DBGetContactSettingDword(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetDword(Contact,valueName,parValue) DBWriteContactSettingDword(Contact,PROTOCOL_NAMEA,valueName,parValue)
-#define DB_SMS_GetWord(Contact,valueName,parDefltValue) DBGetContactSettingWord(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetWord(Contact,valueName,parValue) DBWriteContactSettingWord(Contact,PROTOCOL_NAMEA,valueName,parValue)
-#define DB_SMS_GetByte(Contact,valueName,parDefltValue) DBGetContactSettingByte(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
-#define DB_SMS_SetByte(Contact,valueName,parValue) DBWriteContactSettingByte(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SMS_DeleteValue(Contact,valueName) db_unset(Contact,PROTOCOL_NAMEA,valueName)
+#define DB_SMS_GetDword(Contact,valueName,parDefltValue) db_get_dw(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
+#define DB_SMS_SetDword(Contact,valueName,parValue) db_set_dw(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SMS_GetWord(Contact,valueName,parDefltValue) db_get_w(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
+#define DB_SMS_SetWord(Contact,valueName,parValue) db_set_w(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SMS_GetByte(Contact,valueName,parDefltValue) db_get_b(Contact,PROTOCOL_NAMEA,valueName,parDefltValue)
+#define DB_SMS_SetByte(Contact,valueName,parValue) db_set_b(Contact,PROTOCOL_NAMEA,valueName,parValue)
 BOOL	DB_GetStaticStringW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize);
 #define DB_SMS_GetStaticStringW(Contact,ValueName,Ret,RetBuffSize,pRetBuffSize) DB_GetStaticStringW(Contact,PROTOCOL_NAMEA,ValueName,Ret,RetBuffSize,pRetBuffSize)
 BOOL	DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszValue,SIZE_T dwValueSize);
-#define DB_SetStringW(Contact,Module,valueName,parValue) DBWriteContactSettingWString(Contact,Module,valueName,parValue)
-#define DB_SMS_SetStringW(Contact,valueName,parValue) DBWriteContactSettingWString(Contact,PROTOCOL_NAMEA,valueName,parValue)
+#define DB_SetStringW(Contact,Module,valueName,parValue) db_set_ws(Contact,Module,valueName,parValue)
+#define DB_SMS_SetStringW(Contact,valueName,parValue) db_set_ws(Contact,PROTOCOL_NAMEA,valueName,parValue)
 #define DB_SMS_SetStringExW(Contact,valueName,parValue,parValueSize) DB_SetStringExW(Contact,PROTOCOL_NAMEA,valueName,parValue,parValueSize)
 
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
 
 LPSTR  GetModuleName(HANDLE hContact);
 void   EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
-void   CListShowMenuItem(HANDLE hMenuItem,BOOL bShow);
 
 // Declaration of function that returns received string with only numbers
 SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen);

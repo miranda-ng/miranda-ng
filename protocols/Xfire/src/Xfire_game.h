@@ -44,7 +44,7 @@ public:
 		//id des spiels
 		unsigned int id;
 		//handle des menuitems
-		HANDLE menuhandle;
+		HGENMENU menuhandle;
 		//spiel soll bei der detection übersprungen werden
 		BOOL skip;
 		//voicehat?

@@ -804,7 +804,7 @@ void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				case STATE_ON:
 				{
 					failure = 0;
-					DBWriteContactSettingByte(NULL, "Skin", "UseSound", 1);
+					db_set_b(NULL, "Skin", "UseSound", 1);
 					state = TRUE;
 				
 					break;
@@ -813,7 +813,7 @@ void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				case STATE_OFF:
 				{
 					failure = 0;
-					DBWriteContactSettingByte(NULL, "Skin", "UseSound", 0);
+					db_set_b(NULL, "Skin", "UseSound", 0);
 					state = FALSE;
 				
 					break;
@@ -821,11 +821,11 @@ void HandleSoundsCommand(PCommand command, TArgument *argv, int argc, PReply rep
 				
 				case STATE_TOGGLE:
 				{
-					state = DBGetContactSettingByte(NULL, "Skin", "UseSound", 1);
+					state = db_get_b(NULL, "Skin", "UseSound", 1);
 					
 					failure = 0;
 					state = 1 - state;
-					DBWriteContactSettingByte(NULL, "Skin", "UseSound", state);
+					db_set_b(NULL, "Skin", "UseSound", state);
 				
 					break;
 				}
@@ -1302,7 +1302,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 				char *module = argv[3];
 				char *key = argv[4];
 				
-				DBDeleteContactSetting(NULL, module, key);
+				db_unset(NULL, module, key);
 				
 				reply->code = MIMRES_SUCCESS;
 				mir_snprintf(reply->message, reply->cMessage, Translate("Setting '%s/%s' deleted."), module, key);
@@ -1330,7 +1330,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 					{
 						case VALUE_STRING:
 						{
-							DBWriteContactSettingString(NULL, module, key, (char *) value);
+							db_set_s(NULL, module, key, (char *) value);
 							wrote = "string";
 							
 							break;
@@ -1338,7 +1338,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						case VALUE_BYTE:
 						{
-							DBWriteContactSettingByte(NULL, module, key, (* (char *) value));
+							db_set_b(NULL, module, key, (* (char *) value));
 							wrote = "byte";
 							
 							break;
@@ -1346,7 +1346,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						case VALUE_WORD:
 						{
-							DBWriteContactSettingWord(NULL, module, key, (* (WORD *) value));
+							db_set_w(NULL, module, key, (* (WORD *) value));
 							wrote = "word";
 							
 							break;
@@ -1354,7 +1354,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						case VALUE_DWORD:
 						{
-							DBWriteContactSettingDword(NULL, module, key, (* (DWORD *) value));
+							db_set_dw(NULL, module, key, (* (DWORD *) value));
 							wrote = "dword";
 							
 							break;
@@ -1362,7 +1362,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						case VALUE_WIDE:
 						{
-							DBWriteContactSettingWString(NULL, module, key, (WCHAR *) value);
+							db_set_ws(NULL, module, key, (WCHAR *) value);
 							wrote = "wide string";
 							
 							break;
@@ -1402,7 +1402,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 						
 						DBVARIANT var = {0};
 						
-						int res = DBGetContactSetting(NULL, module, key, &var);
+						int res = db_get(NULL, module, key, &var);
 						if (!res)
 						{
 							char buffer[1024];
@@ -1537,7 +1537,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 		{
 			case 4:
 			{
-				int value = DBGetContactSettingByte(NULL, module, "NLUseProxy", 0);
+				int value = db_get_b(NULL, module, "NLUseProxy", 0);
 				
 				reply->code = MIMRES_SUCCESS;
 				mir_snprintf(buffer, sizeof(buffer), "%s proxy status is %s", protocol, (value) ? "enabled" : "disabled");
@@ -1552,7 +1552,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				{
 					case STATE_OFF:
 					{
-						DBWriteContactSettingByte(NULL, module, "NLUseProxy", 0);
+						db_set_b(NULL, module, "NLUseProxy", 0);
 						
 						reply->code = MIMRES_SUCCESS;
 						mir_snprintf(buffer, sizeof(buffer), Translate("'%s' proxy was disabled."), protocol);
@@ -1562,7 +1562,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					
 					case STATE_ON:
 					{
-						DBWriteContactSettingByte(NULL, module, "NLUseProxy", 1);
+						db_set_b(NULL, module, "NLUseProxy", 1);
 						
 						reply->code = MIMRES_SUCCESS;
 						mir_snprintf(buffer, sizeof(buffer), Translate("'%s' proxy was enabled."), protocol);
@@ -1572,9 +1572,9 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					
 					case STATE_TOGGLE:
 					{
-						int value = DBGetContactSettingByte(NULL, module, "NLUseProxy", 0);
+						int value = db_get_b(NULL, module, "NLUseProxy", 0);
 						value = 1 - value;
-						DBWriteContactSettingByte(NULL, module, "NLUseProxy", value);
+						db_set_b(NULL, module, "NLUseProxy", value);
 						
 						reply->code = MIMRES_SUCCESS;
 						mir_snprintf(buffer, sizeof(buffer), (value) ? Translate("'%s' proxy was enabled.") : Translate("'%s' proxy was disabled."));
@@ -1613,8 +1613,8 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					int port;
 					char type[256];
 					GetStringFromDatabase(NULL, module, "NLProxyServer", "<unknown>", host, sizeof(host));
-					port = DBGetContactSettingWord(NULL, module, "NLProxyPort", 0);
-					PrettyProxyType(DBGetContactSettingByte(NULL, module, "NLProxyType", 0), type, sizeof(type));
+					port = db_get_w(NULL, module, "NLProxyPort", 0);
+					PrettyProxyType(db_get_b(NULL, module, "NLProxyType", 0), type, sizeof(type));
 					
 					reply->code = MIMRES_SUCCESS;
 					mir_snprintf(buffer, sizeof(buffer), Translate("%s proxy server: %s %s:%d."), protocol, type, host, port);
@@ -1632,9 +1632,9 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					
 					if ((*stop == 0) && (type > 0))
 					{
-						DBWriteContactSettingString(NULL, module, "NLProxyServer", host);
-						DBWriteContactSettingWord(NULL, module, "NLProxyPort", port);
-						DBWriteContactSettingByte(NULL, module, "NLProxyType", type);
+						db_set_s(NULL, module, "NLProxyServer", host);
+						db_set_w(NULL, module, "NLProxyPort", port);
+						db_set_b(NULL, module, "NLProxyType", type);
 						
 						reply->code = MIMRES_SUCCESS;
 						mir_snprintf(buffer, sizeof(buffer), Translate("%s proxy set to %s %s:%d."), protocol, argv[4], host, port);
@@ -1774,7 +1774,7 @@ int ContactMatchSearch(HANDLE hContact, char *contact, char *id, char *account, 
 				char protocol[128];
 
 				AccountName2Protocol(account, protocol, sizeof(protocol));
-				WORD contactStatus = DBGetContactSettingWord(hContact, protocol, "Status", ID_STATUS_ONLINE);
+				WORD contactStatus = db_get_w(hContact, protocol, "Status", ID_STATUS_ONLINE);
 				
 				if (searchStatus != contactStatus)
 				{

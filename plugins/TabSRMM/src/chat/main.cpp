@@ -76,8 +76,8 @@ int Chat_Unload(void)
 	if (!PluginConfig.m_chat_enabled)
 		return 0;
 
-	DBWriteContactSettingWord(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
-	DBWriteContactSettingWord(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
+	db_set_w(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
+	db_set_w(NULL, "Chat", "splitY", (WORD)g_Settings.iSplitterY);
 
 	CList_SetAllOffline(TRUE, NULL);
 

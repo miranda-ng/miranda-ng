@@ -20,10 +20,10 @@ public:
 		this->bManual = bManual;
 		this->fRate = fRate;
 		name = mir_tstrdup((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
-		if (g_Options.bUseGroups && !DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+		if (g_Options.bUseGroups && !db_get_ts(hContact, "CList", "Group", &dbv))
 		{
 			group = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else
 		if (g_Options.bUseGroups)
 		{
@@ -32,7 +32,7 @@ public:
 		{
 			group = mir_tstrdup(TranslateT("Favourite Contacts"));
 		}
-		status = DBGetContactSettingWord(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
+		status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 	}
 
 	~TContactInfo()
@@ -105,7 +105,7 @@ public:
 
 		HANDLE hContact = db_find_first();
 		for ( ; hContact; hContact = db_find_next(hContact))
-			if (DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
+			if (db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{
 				TCHAR *group = addContact(hContact, true)->getGroup();
 				if (prevGroup && lstrcmp(prevGroup, group))
@@ -118,7 +118,7 @@ public:
 		{
 			hContact = g_contactCache->get(i);
 			if (!hContact) break;
-			if (!DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
+			if (!db_get_b(hContact, "FavContacts", "IsFavourite", 0))
 			{
 				TCHAR *group = addContact(hContact, false)->getGroup();
 				if (prevGroup && lstrcmp(prevGroup, group))

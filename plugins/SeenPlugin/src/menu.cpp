@@ -20,7 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "seen.h"
 
-HANDLE hmenuitem=NULL, hLSUserDet = NULL, hBuildMenu = NULL;
+HANDLE   hLSUserDet = NULL;
+HGENMENU hmenuitem = NULL;
 
 void InitHistoryDialog(void);
 
@@ -47,7 +48,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 		cmi.hIcon = NULL;
 
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, S_MOD, "MenuStamp", &dbv)) {
+		if ( !db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
 			cmi.ptszName = ParseString(dbv.ptszVal, (HANDLE)wparam, 0);
 			db_free(&dbv);
 		}
@@ -65,13 +66,13 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 		}
 	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmenuitem, (LPARAM)&cmi);
+	Menu_ModifyItem(hmenuitem, &cmi);
 	return 0;
 }
 
 void InitMenuitem()
 {
-	hLSUserDet = CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
+	CreateServiceFunction("LastSeenUserDetails", MenuitemClicked);
 
 	CLISTMENUITEM cmi = { sizeof(cmi) };
 	cmi.position = -0x7FFFFFFF;
@@ -80,13 +81,7 @@ void InitMenuitem()
 	cmi.pszService = "LastSeenUserDetails";
 	hmenuitem = Menu_AddContactMenuItem(&cmi);
 	
-	hBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildContactMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildContactMenu);
 
 	InitHistoryDialog();
-}
-
-void UninitMenuitem()
-{
-	DestroyServiceFunction(hLSUserDet);
-	UnhookEvent(hBuildMenu);
 }

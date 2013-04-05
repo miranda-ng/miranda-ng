@@ -83,7 +83,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			hFont=CreateFontIndirect(&lf);
 			SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_MESSAGE,WM_SETFONT,(WPARAM)hFont,MAKELPARAM(TRUE,0));
 
-			COLORREF colour=DBGetContactSettingDword(NULL,SRMMMOD,SRMSGSET_BKGCOLOUR,SRMSGDEFSET_BKGCOLOUR);
+			COLORREF colour=db_get_dw(NULL,SRMMMOD,SRMSGSET_BKGCOLOUR,SRMSGDEFSET_BKGCOLOUR);
 			prswdWindowData->hBkgBrush=CreateSolidBrush(colour);
 		}
 
@@ -100,7 +100,7 @@ INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 
 			LoadMsgDlgFont(MSGFONTID_YOURMSG,NULL,&colour);
 			SetTextColor((HDC)wParam,colour);
-			SetBkColor((HDC)wParam,DBGetContactSettingDword(NULL,SRMMMOD,SRMSGSET_BKGCOLOUR,SRMSGDEFSET_BKGCOLOUR));
+			SetBkColor((HDC)wParam,db_get_dw(NULL,SRMMMOD,SRMSGSET_BKGCOLOUR,SRMSGDEFSET_BKGCOLOUR));
 			return((BOOL)prswdWindowData->hBkgBrush);
 		}
 		break;

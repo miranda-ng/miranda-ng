@@ -325,7 +325,7 @@ INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-HANDLE hMenuContact[MAX_CONTACTS];
+HGENMENU hMenuContact[MAX_CONTACTS];
 
 /** Called when the context-menu of a contact is about to be displayed
 *
@@ -341,79 +341,75 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char buf[512], idStr[512];
 	WORD status;
-
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
 
 	if (db_get_dw((HANDLE)wParam, META_PROTO, META_ID,-1) != (DWORD)-1) {
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
 		
 		// This is a MetaContact, show the edit, force default, and the delete menu, and hide the others
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
+		Menu_ShowItem(hMenuEdit, true);
+		Menu_ShowItem(hMenuAdd, false);
+		Menu_ShowItem(hMenuConvert, false);
+		Menu_ShowItem(hMenuDefault, false);
+		Menu_ShowItem(hMenuDelete, false);
 
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_HIDDEN;	// we don't need delete - already in contact menu
-		mi.pszName = Translate("Delete MetaContact");
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
+		mi.flags = CMIM_NAME | CMIF_TCHAR;
+		mi.ptszName = (TCHAR*)TranslateT("Remove from MetaContact");
+		Menu_ModifyItem(hMenuDelete, &mi);
 
 		//show subcontact menu items
 		int num_contacts = db_get_dw((HANDLE)wParam, META_PROTO, "NumContacts", 0);
 		for (int i = 0; i < MAX_CONTACTS; i++) {
-			if (i < num_contacts) {
-				HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, i);
-				char *szProto = GetContactProto(hContact);
-				if ( !szProto)
-					status = ID_STATUS_OFFLINE;
-				else
-					status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			if (i >= num_contacts) {
+				Menu_ShowItem(hMenuContact[i], false);
+				continue;
+			}
+			
+			HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, i);
+			char *szProto = GetContactProto(hContact);
+			if ( !szProto)
+				status = ID_STATUS_OFFLINE;
+			else
+				status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-				if (options.menu_contact_label == DNT_UID) {
-					strcpy(buf, "Login");
-					strcat(buf, _itoa(i, idStr, 10));
+			if (options.menu_contact_label == DNT_UID) {
+				strcpy(buf, "Login");
+				strcat(buf, _itoa(i, idStr, 10));
 
-					db_get((HANDLE)wParam, META_PROTO, buf, &dbv);
-					switch(dbv.type) {
-					case DBVT_ASCIIZ:
-						mir_snprintf(buf,512,"%s",dbv.pszVal);
-						break;
-					case DBVT_BYTE:
-						mir_snprintf(buf,512,"%d",dbv.bVal);
-						break;
-					case DBVT_WORD:
-						mir_snprintf(buf,512,"%d",dbv.wVal);
-						break;
-					case DBVT_DWORD:
-						mir_snprintf(buf,512,"%d",dbv.dVal);
-						break;
-					default:
-						buf[0] = 0;
-					}
-					db_free(&dbv);
-					mi.pszName = buf;
-					mi.flags = 0;
+				db_get((HANDLE)wParam, META_PROTO, buf, &dbv);
+				switch(dbv.type) {
+				case DBVT_ASCIIZ:
+					mir_snprintf(buf,512,"%s",dbv.pszVal);
+					break;
+				case DBVT_BYTE:
+					mir_snprintf(buf,512,"%d",dbv.bVal);
+					break;
+				case DBVT_WORD:
+					mir_snprintf(buf,512,"%d",dbv.wVal);
+					break;
+				case DBVT_DWORD:
+					mir_snprintf(buf,512,"%d",dbv.dVal);
+					break;
+				default:
+					buf[0] = 0;
 				}
-				else {
-					mi.ptszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
-					mi.flags = CMIF_TCHAR;
-				}
-
-				mi.flags |= CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
-
-				int iconIndex = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
-				mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
-
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
-				DestroyIcon(mi.hIcon);
+				db_free(&dbv);
+				mi.pszName = buf;
+				mi.flags = 0;
 			}
 			else {
-				mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
+				mi.ptszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
+				mi.flags = CMIF_TCHAR;
 			}
+
+			mi.flags |= CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
+
+			int iconIndex = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
+			mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
+
+			Menu_ModifyItem(hMenuContact[i], &mi);
+			DestroyIcon(mi.hIcon);
 		}
 
 		// show hide nudge menu item
@@ -427,37 +423,36 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	else { // This is a simple contact
 		if ( !Meta_IsEnabled()) {
 			// groups disabled - all meta menu options hidden
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
+			Menu_ShowItem(hMenuDefault, false);
+			Menu_ShowItem(hMenuDelete, false);
+			Menu_ShowItem(hMenuAdd, false);
+			Menu_ShowItem(hMenuConvert, false);
+			Menu_ShowItem(hMenuEdit, false);
 		}
 		else if (db_get_dw((HANDLE)wParam, META_PROTO, META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// The contact is affected to a metacontact.
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
-			mi.flags |= CMIM_NAME | CMIF_TCHAR;
+			Menu_ShowItem(hMenuDefault, true);
+
+			mi.flags = CMIM_NAME | CMIF_TCHAR;
 			mi.ptszName = (TCHAR*)TranslateT("Remove from MetaContact");
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
+			Menu_ModifyItem(hMenuDelete, &mi);
+
+			Menu_ShowItem(hMenuAdd, false);
+			Menu_ShowItem(hMenuConvert, false);
+			Menu_ShowItem(hMenuEdit, false);
 		}
 		else {
 			// The contact is neutral
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&mi);
-			mi.flags |= CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
+			Menu_ShowItem(hMenuAdd, true);
+			Menu_ShowItem(hMenuConvert, true);
+			Menu_ShowItem(hMenuEdit, false);
+			Menu_ShowItem(hMenuDelete, false);
+			Menu_ShowItem(hMenuDefault, false);
 		}
 
 		for (int i = 0; i < MAX_CONTACTS; i++) {
 			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
+			Menu_ShowItem(hMenuContact[i], (LPARAM)&mi);
 		}
 	}
 	return 0;

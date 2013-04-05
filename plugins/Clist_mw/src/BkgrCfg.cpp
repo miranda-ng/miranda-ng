@@ -65,11 +65,11 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				dat->item[indx].changed = FALSE;
 				dat->item[indx].useBitmap = db_get_b(NULL,module, "UseBitmap", DEFAULT_USEBITMAP);
-				dat->item[indx].bkColor = DBGetContactSettingDword(NULL,module, "BkColour", DEFAULT_BKCOLOUR);
-				dat->item[indx].selColor = DBGetContactSettingDword(NULL,module, "SelBkColour", DEFAULT_SELBKCOLOUR);
+				dat->item[indx].bkColor = db_get_dw(NULL,module, "BkColour", DEFAULT_BKCOLOUR);
+				dat->item[indx].selColor = db_get_dw(NULL,module, "SelBkColour", DEFAULT_SELBKCOLOUR);
 				{	
 					DBVARIANT dbv;
-					if ( !DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
+					if ( !db_get_s(NULL,module,"BkBitmap",&dbv))
 					{
 						int retval = PathToAbsolute(dbv.pszVal, dat->item[indx].filename);
 						if ( !retval || retval == CALLSERVICE_NOTFOUND)
@@ -221,14 +221,14 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 									COLORREF col;
 
 									if ((col = dat->item[indx].bkColor) == DEFAULT_BKCOLOUR)
-										DBDeleteContactSetting(NULL, module, "BkColour");
+										db_unset(NULL, module, "BkColour");
 									else
-										DBWriteContactSettingDword(NULL, module, "BkColour", col);
+										db_set_dw(NULL, module, "BkColour", col);
 
 									if ((col = dat->item[indx].selColor) == DEFAULT_SELBKCOLOUR)
-										DBDeleteContactSetting(NULL, module, "SelBkColour");
+										db_unset(NULL, module, "SelBkColour");
 									else
-										DBWriteContactSettingDword(NULL, module, "SelBkColour", col);
+										db_set_dw(NULL, module, "SelBkColour", col);
 								}
 								{
 									char str[MAX_PATH];
@@ -238,7 +238,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 									else
 										db_set_s(NULL, module, "BkBitmap", str);
 								}
-								DBWriteContactSettingWord(NULL, module, "BkBmpUse", dat->item[indx].flags);
+								db_set_w(NULL, module, "BkBmpUse", dat->item[indx].flags);
 								dat->item[indx].changed = FALSE;
 								NotifyEventHooks(hEventBkgrChanged, (WPARAM)module, 0);
 							}

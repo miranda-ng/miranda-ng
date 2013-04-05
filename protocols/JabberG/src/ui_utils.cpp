@@ -2431,7 +2431,7 @@ void CDbLink::SaveInt(DWORD value)
 TCHAR* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) db_free(&dbv);
-	if ( !DBGetContactSettingTString(NULL, m_szModule, m_szSetting, &dbv))
+	if ( !db_get_ts(NULL, m_szModule, m_szSetting, &dbv))
 	{
 		if (dbv.type == DBVT_TCHAR)
 			return dbv.ptszVal;

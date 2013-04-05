@@ -207,8 +207,8 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,pszProto,"CompanyCountry",0))
 		return (INT_PTR)countryNumber;
 	/* fallback ip detect
-	else if(countryNumber==0xFFFF && DBGetContactSettingByte(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)) {
-		countryNumber=ServiceIpToCountry(DBGetContactSettingDword((HANDLE)wParam,pszProto,"RealIP",0),0);
+	else if(countryNumber==0xFFFF && db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)) {
+		countryNumber=ServiceIpToCountry(db_get_dw((HANDLE)wParam,pszProto,"RealIP",0),0);
 	}*/
 
 	return (INT_PTR)0xFFFF;

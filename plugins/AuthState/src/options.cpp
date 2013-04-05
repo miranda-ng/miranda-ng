@@ -63,10 +63,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 
 				//Store options values to DB
-				DBWriteContactSettingByte(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
-				DBWriteContactSettingByte(NULL, MODULENAME, "EnableGrantIcon", bUseGrantIcon);
-				DBWriteContactSettingByte(NULL, MODULENAME, "MenuItem", bContactMenuItem);
-				DBWriteContactSettingByte(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
+				db_set_b(NULL, MODULENAME, "EnableAuthIcon", bUseAuthIcon);
+				db_set_b(NULL, MODULENAME, "EnableGrantIcon", bUseGrantIcon);
+				db_set_b(NULL, MODULENAME, "MenuItem", bContactMenuItem);
+				db_set_b(NULL, MODULENAME, "EnableOnlyForRecent", bIconsForRecentContacts);
 				return TRUE;
 			}
 	}

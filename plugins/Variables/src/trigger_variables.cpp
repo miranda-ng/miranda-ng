@@ -49,7 +49,7 @@ static int addToCache(DWORD triggerID)
 		return -1;
 
 	tvcCount += 1;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 0;
 }
 
@@ -106,7 +106,7 @@ static VOID CALLBACK checkStringsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,D
 				CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
 				mir_free(tvc[i].parsedText);
 				tvc[i].parsedText = parsedText;
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgProcOptsStringChange(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			triggerID = (DWORD)lParam;
 			if (!DBGetTriggerSetting(triggerID, NULL, MODULENAME, SETTING_TRIGGERTEXT, &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_FORMATTEXT, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			variables_skin_helpbutton(hwndDlg, IDC_SHOWHELP);
 		}

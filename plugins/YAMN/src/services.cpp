@@ -13,7 +13,7 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
 	if (wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	if (wParam == PFLAGNUM_5) {
-		if (DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
+		if (db_get_b(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
 			return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	}
@@ -70,7 +70,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSetting((HANDLE) wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get((HANDLE) wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -115,7 +115,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 			DebugLog(SynchroFile, "ContactApplication:ActualAccountSO-read enter failed\n");
 		#endif
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 0;
 }
 
@@ -173,7 +173,7 @@ static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSetting((HANDLE) wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get((HANDLE) wParam, YAMN_DBMODULE, "Id", &dbv))
 		return 0;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -217,7 +217,7 @@ static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 		LeaveCriticalSection(&PluginRegCS);
 		CloseHandle(ThreadRunningEV);
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 0;
 }
 
@@ -232,7 +232,7 @@ void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam)
 		return;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSetting(( HANDLE )wParam, YAMN_DBMODULE, "Id", &dbv))
+	if ( db_get(( HANDLE )wParam, YAMN_DBMODULE, "Id", &dbv))
 		return;
 
 	HACCOUNT ActualAccount = (HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)dbv.pszVal);
@@ -265,7 +265,7 @@ void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam)
 		#endif
 				
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -304,7 +304,7 @@ HBITMAP LoadBmpFromIcon(HICON hIcon)
 
 int AddTopToolbarIcon(WPARAM,LPARAM)
 {
-	if ( DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
+	if ( db_get_b(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK, 1)) {
 		if ( ServiceExists(MS_TTB_REMOVEBUTTON) && hTTButton == NULL) {
 			TTBButton btn = {0};
 			btn.cbSize = sizeof(btn);
@@ -331,11 +331,11 @@ int Shutdown(WPARAM, LPARAM)
 {
 	CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hTTButton, 0);
 
-	DBWriteContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSX, HeadPosX);
-	DBWriteContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSY, HeadPosY);
-	DBWriteContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEX, HeadSizeX);
-	DBWriteContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
-	DBWriteContactSettingWord(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
+	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSX, HeadPosX);
+	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSY, HeadPosY);
+	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEX, HeadSizeX);
+	db_set_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, HeadSizeY);
+	db_set_w(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, HeadSplitPos);
 	YAMNVar.Shutdown = TRUE;
 	KillTimer(NULL, SecTimer);
 
@@ -478,16 +478,16 @@ void RefreshContact(void)
 	for (Finder = POP3Plugin->FirstAccount;Finder != NULL;Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
 			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-				DBDeleteContactSetting(Finder->hContact, "CList", "Hidden");
+				db_unset(Finder->hContact, "CList", "Hidden");
 			else
-				DBWriteContactSettingByte(Finder->hContact, "CList", "Hidden", 1);
+				db_set_b(Finder->hContact, "CList", "Hidden", 1);
 		}
 		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			Finder->hContact  = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)Finder->hContact, (LPARAM)YAMN_DBMODULE);
-			DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
-			DBWriteContactSettingString(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
-			DBWriteContactSettingString(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
-			DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
-			DBWriteContactSettingString(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
+			db_set_s(Finder->hContact, YAMN_DBMODULE, "Id", Finder->Name);
+			db_set_s(Finder->hContact, YAMN_DBMODULE, "Nick", Finder->Name);
+			db_set_s(Finder->hContact, "Protocol", "p", YAMN_DBMODULE);
+			db_set_w(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
+			db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 }	}	}

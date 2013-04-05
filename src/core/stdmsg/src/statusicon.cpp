@@ -125,7 +125,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
 				char buff[256];
 				HWND hwnd;
 				sprintf(buff, "SRMMStatusIconFlags%d", sid->dwId);
-				DBWriteContactSettingByte(hContact, sid->szModule, buff, (BYTE)sid->flags);
+				db_set_b(hContact, sid->szModule, buff, (BYTE)sid->flags);
 				if (hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact)) {
 					PostMessage(hwnd, DM_STATUSICONCHANGE, 0, 0);
 				}

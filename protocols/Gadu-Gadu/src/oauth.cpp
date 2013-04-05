@@ -365,16 +365,16 @@ char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
 		token = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		token_secret = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	res = oauth_auth_header(httpmethod, url, HMACSHA1, uin, password, token, token_secret);
@@ -399,7 +399,7 @@ int GGPROTO::oauth_receivetoken()
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	// 1. Obtaining an Unauthorized Request Token
@@ -562,12 +562,12 @@ int GGPROTO::oauth_checktoken(int force)
 
 		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKEN, &dbv, DBVT_ASCIIZ)) {
 			token = mir_strdup(dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		if (!db_get_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, &dbv, DBVT_ASCIIZ)) {
 			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 			token_secret = mir_strdup(dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (token == NULL || token_secret == NULL) {

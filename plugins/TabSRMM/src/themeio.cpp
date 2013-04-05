@@ -194,9 +194,9 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, struct TWindowData *dat)
 		for (i=0; i < fontBlocks[n].iCount; i++) {
 			sprintf(szTemp, "Font%d", firstIndex + i);
 			sprintf(szAppname, fontBlocks[n].szIniTemp, firstIndex + i);
-			if (!DBGetContactSettingString(NULL, szModule, szTemp, &dbv)) {
+			if (!db_get_s(NULL, szModule, szTemp, &dbv)) {
 				WritePrivateProfileStringA(szAppname, "Face", dbv.pszVal, szIniFilename);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			sprintf(szTemp, "Font%dCol", firstIndex + i);
 			WritePrivateProfileStringA(szAppname, "Color", _itoa(M->GetDword(szModule, szTemp, 0), szBuf, 10), szIniFilename);
@@ -288,7 +288,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 						lstrcpynA(szBuf, "Arial", sizeof(szBuf));
-					DBWriteContactSettingString(NULL, szModule, szTemp, szBuf);
+					db_set_s(NULL, szModule, szTemp, szBuf);
 				}
 
 				sprintf(szTemp, "Font%dCol", firstIndex + i);
@@ -398,7 +398,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 
 				if (strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
-						DBWriteContactSettingStringUtf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
+						db_set_utf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
 						mir_sntprintf(LTR_Active.szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);
@@ -411,7 +411,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 
 				if (strcmp(szTemplateBuffer, "[undef]")) {
 					if (dat == 0)
-						DBWriteContactSettingStringUtf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
+						db_set_utf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
 						mir_sntprintf(RTL_Active.szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);

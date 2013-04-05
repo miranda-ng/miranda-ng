@@ -174,18 +174,18 @@ void Scan4Games( LPVOID lparam  )
 	xgamelist.clearGamelist();
 
 	//prüfe ob schon gescannt wurde, dann das aus der db nehmen, beschleunigt den start
-	foundgames=DBGetContactSettingWord(NULL, protocolname, "foundgames",-1);
+	foundgames=db_get_w(NULL, protocolname, "foundgames",-1);
 
 	//um bei einer neuen version einen rescan zuforcen, bei bestimmten wert found auf 0 resetten
-	if(DBGetContactSettingWord(NULL, protocolname, "scanver",0)!=XFIRE_SCAN_VAL)
+	if(db_get_w(NULL, protocolname, "scanver",0)!=XFIRE_SCAN_VAL)
 		foundgames=-1;
 
 	BOOL loadgamesfromdb=FALSE;
-	if(DBGetContactSettingByte(NULL,protocolname,"scanalways",0)==0)
+	if(db_get_b(NULL,protocolname,"scanalways",0)==0)
 		loadgamesfromdb=TRUE;
 	else
 	{
-		if(DBGetContactSettingByte(NULL,protocolname,"scanalways",0)==2)
+		if(db_get_b(NULL,protocolname,"scanalways",0)==2)
 		{
 			time_t zeit;
 			struct tm *t;
@@ -194,9 +194,9 @@ void Scan4Games( LPVOID lparam  )
 
 			if(t!=NULL)
 			{
-				if(t->tm_yday!=DBGetContactSettingWord(NULL,protocolname,"scanalways_t",0))
+				if(t->tm_yday!=db_get_w(NULL,protocolname,"scanalways_t",0))
 				{
-					DBWriteContactSettingWord(NULL,protocolname,"scanalways_t",t->tm_yday);
+					db_set_w(NULL,protocolname,"scanalways_t",t->tm_yday);
 				}
 				else
 					loadgamesfromdb=TRUE;
@@ -238,7 +238,7 @@ void Scan4Games( LPVOID lparam  )
 	HWND hwnd=NULL;
 
 	//suche dialog anzeigen
-	if(!DBGetContactSettingByte(NULL,protocolname,"dontdissstatus",0))
+	if(!db_get_b(NULL,protocolname,"dontdissstatus",0))
 	{
 		mir_forkthread(ShowSearchDialog,&hwnd);
 	}
@@ -717,11 +717,11 @@ void Scan4Games( LPVOID lparam  )
 	xgamelist.writeDatabase();
 
 	//scanversion setzen, um ungewollten rescan zu vermeiden
-	DBWriteContactSettingWord(NULL, protocolname, "scanver", XFIRE_SCAN_VAL);
+	db_set_w(NULL, protocolname, "scanver", XFIRE_SCAN_VAL);
 
 	EndDialog(hwnd,0);
 
-	if(!DBGetContactSettingByte(NULL,protocolname,"dontdisresults",0))
+	if(!db_get_b(NULL,protocolname,"dontdisresults",0))
 	{
 		int p=strlen(gamelist)-2;
 		if(p>-1)

@@ -171,7 +171,7 @@ int Backup(TCHAR* backup_filename)
 	{
 		SendMessage(progress_dialog, PBM_SETPOS, (WPARAM)(int)(100), 0);
 		UpdateWindow(progress_dialog);
-		DBWriteContactSettingDword(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
+		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
 		if (!options.disable_popups)
 		{
 			size_t dest_file_len = lstrlen(dest_file);
@@ -204,7 +204,7 @@ int Backup(TCHAR* backup_filename)
 VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	time_t t = time(NULL);
-	time_t diff = t - (time_t)DBGetContactSettingDword(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
+	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
 	if(diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
 		mir_forkthread(BackupThread, NULL);
 }

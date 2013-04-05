@@ -41,7 +41,7 @@ int IsWatchedProtocol(const char* szProto)
 	int iProtoLen = (int)strlen(szProto);
 	char *szWatched;
 	DBVARIANT dbv;
-	if ( DBGetContactSettingString(NULL, S_MOD, "WatchedProtocols", &dbv))
+	if ( db_get_s(NULL, S_MOD, "WatchedProtocols", &dbv))
 		szWatched = DEFAULT_WATCHEDPROTOCOLS;
 	else {
 		szWatched = NEWSTR_ALLOCA(dbv.pszVal);
@@ -261,7 +261,7 @@ LBL_charPtr:
 			goto LBL_noData;
 
 		case 'G':
-			if ( !DBGetContactSettingTString(hcontact, "CList", "Group", &dbv)) {
+			if ( !db_get_ts(hcontact, "CList", "Group", &dbv)) {
 				_tcscpy(szdbsetting, dbv.ptszVal);
 				db_free(&dbv);
 				charPtr = szdbsetting;
@@ -289,18 +289,18 @@ LBL_charPtr:
 			}
 			else if (ci.szProto != NULL) {
 				if ( isYahoo(ci.szProto)) { // YAHOO support
-					DBGetContactSettingTString(hcontact, ci.szProto, "id", &dbv);
+					db_get_ts(hcontact, ci.szProto, "id", &dbv);
 					_tcscpy(szdbsetting, dbv.ptszVal);
 					db_free(&dbv);
 				}
 				else if ( isJabber(ci.szProto)) { // JABBER support
-					if ( DBGetContactSettingTString(hcontact, ci.szProto, "LoginName", &dbv))
+					if ( db_get_ts(hcontact, ci.szProto, "LoginName", &dbv))
 						goto LBL_noData;
 
 					_tcscpy(szdbsetting, dbv.ptszVal);
 					db_free(&dbv);
 					
-					DBGetContactSettingTString(hcontact, ci.szProto, "LoginServer", &dbv);
+					db_get_ts(hcontact, ci.szProto, "LoginServer", &dbv);
 					_tcscat(szdbsetting, _T("@"));
 					_tcscat(szdbsetting, dbv.ptszVal);
 					db_free(&dbv);
@@ -324,7 +324,7 @@ LBL_charPtr:
 			goto LBL_noData;
 
 		case 'T':
-			if ( DBGetContactSettingTString(hcontact, "CList", "StatusMsg", &dbv))
+			if ( db_get_ts(hcontact, "CList", "StatusMsg", &dbv))
 				goto LBL_noData;
 
 			d += mir_sntprintf(d, MAXSIZE-(d-sztemp), _T("%s"), dbv.ptszVal);
@@ -346,7 +346,7 @@ LBL_charPtr:
 		case 'i':
 		case 'r':
 			if ( isJabber(ci.szProto)) {
-				if ( DBGetContactSettingTString(hcontact, ci.szProto, *p == 'i' ? "Resource" : "System", &dbv))
+				if ( db_get_ts(hcontact, ci.szProto, *p == 'i' ? "Resource" : "System", &dbv))
 					goto LBL_noData;
 
 				_tcscpy(szdbsetting, dbv.ptszVal);
@@ -374,7 +374,7 @@ LBL_charPtr:
 			goto LBL_charPtr;
 
 		case 'C': // Get Client Info
-			if ( !DBGetContactSettingTString(hcontact, ci.szProto, "MirVer", &dbv)) {
+			if ( !db_get_ts(hcontact, ci.szProto, "MirVer", &dbv)) {
 				_tcscpy(szdbsetting, dbv.ptszVal);
 				db_free(&dbv);
 			}
@@ -497,13 +497,13 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus)
 	ppd.lchContact = hcontact;
 	ppd.lchIcon = LoadSkinnedProtoIcon(lpzProto, newStatus);
 
-	if ( !DBGetContactSettingTString(NULL, S_MOD, "PopupStamp", &dbv)) {
+	if ( !db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
 		_tcsncpy(ppd.lptzContactName, ParseString(dbv.ptszVal, hcontact, 0), MAX_CONTACTNAME);
 		db_free(&dbv);
 	}
 	else _tcsncpy(ppd.lptzContactName, ParseString(DEFAULT_POPUPSTAMP, hcontact, 0), MAX_CONTACTNAME);
 
-	if ( !DBGetContactSettingTString(NULL, S_MOD, "PopupStampText", &dbv)) { 
+	if ( !db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) { 
 		_tcsncpy(ppd.lptzText, ParseString(dbv.ptszVal, hcontact, 0), MAX_SECONDLINE);
 		db_free(&dbv);
 	}
@@ -735,7 +735,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 short int isDbZero(HANDLE hContact, const char *module_name, const char *setting_name)
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSetting(hContact, module_name, setting_name, &dbv)) {
+	if ( !db_get(hContact, module_name, setting_name, &dbv)) {
 		short int res = 0;
 		switch (dbv.type) {
 			case DBVT_BYTE: res=dbv.bVal==0; break;

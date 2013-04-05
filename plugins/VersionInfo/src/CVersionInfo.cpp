@@ -532,7 +532,7 @@ bool CVersionInfo::GetOSLanguages()
 	lpzOSLanguages += _T("/");
 	lpzOSLanguages += GetLanguageName(LOCALE_SYSTEM_DEFAULT);
 
-	if (DBGetContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", 0)) {
+	if (db_get_b(NULL, ModuleName, "ShowInstalledLanguages", 0)) {
 		szSystemLocales[0] = '\0';
 		lpzOSLanguages += _T(" [");
 		EnumSystemLocales(EnumSystemLocalesProc, LCID_INSTALLED);
@@ -701,7 +701,7 @@ bool CVersionInfo::GetPluginLists()
 				int bUnknownError = 1; //assume plugin didn't load because of unknown error
 				//Some error messages.
 				//get the dlls the plugin statically links to
-				if (DBGetContactSettingByte(NULL, ModuleName, "CheckForDependencies", TRUE))
+				if (db_get_b(NULL, ModuleName, "CheckForDependencies", TRUE))
 				{
 					std::tstring linkedModules;
 
@@ -890,7 +890,7 @@ std::tstring CVersionInfo::GetListAsString(std::list<CPlugin> &aList, DWORD flag
 
 	TCHAR szHeader[32] = {0};
 	TCHAR szFooter[32] = {0};
-	if ((((flags & VISF_FORUMSTYLE) == VISF_FORUMSTYLE) || beautify) && (DBGetContactSettingByte(NULL, ModuleName, "BoldVersionNumber", TRUE))) {
+	if ((((flags & VISF_FORUMSTYLE) == VISF_FORUMSTYLE) || beautify) && (db_get_b(NULL, ModuleName, "BoldVersionNumber", TRUE))) {
 		GetStringFromDatabase("BoldBegin", _T("[b]"), szHeader, SIZEOF(szHeader));
 		GetStringFromDatabase("BoldEnd", _T("[/b]"), szFooter, SIZEOF(szFooter));
 	}
@@ -1034,10 +1034,10 @@ static void AddSectionAndCount(std::list<CPlugin> list, LPCTSTR listText, std::t
 std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 	//Begin of report
 	std::tstring out;
-	int forumStyle = (bDisableForumStyle) ? 0 : DBGetContactSettingByte(NULL, ModuleName, "ForumStyle", TRUE);
-	int showUUID = DBGetContactSettingByte(NULL, ModuleName, "ShowUUIDs", FALSE);
-	int beautify = DBGetContactSettingByte(NULL, ModuleName, "Beautify", 0) & (!forumStyle);
-	int suppressHeader = DBGetContactSettingByte(NULL, ModuleName, "SuppressHeader", TRUE);
+	int forumStyle = (bDisableForumStyle) ? 0 : db_get_b(NULL, ModuleName, "ForumStyle", TRUE);
+	int showUUID = db_get_b(NULL, ModuleName, "ShowUUIDs", FALSE);
+	int beautify = db_get_b(NULL, ModuleName, "Beautify", 0) & (!forumStyle);
+	int suppressHeader = db_get_b(NULL, ModuleName, "SuppressHeader", TRUE);
 
 	DWORD flags = (forumStyle) | (showUUID << 1);
 
@@ -1073,7 +1073,7 @@ std::tstring CVersionInfo::GetInformationsAsString(int bDisableForumStyle) {
 	GetStringFromDatabase("BeautifyPluginsEnd", _T("</font>"), normalPluginsEnd, SIZEOF(normalPluginsEnd));
 	BeautifyReport(beautify, normalPluginsEnd, _T(""), out);
 	//Plugins: list of inactive (disabled) plugins.
-	if ((!forumStyle) && ((DBGetContactSettingByte(NULL, ModuleName, "ShowInactive", TRUE)) || (bServiceMode))) {
+	if ((!forumStyle) && ((db_get_b(NULL, ModuleName, "ShowInactive", TRUE)) || (bServiceMode))) {
 		BeautifyReport(beautify, horizLine, _T("\r\n"), out);
 		GetStringFromDatabase("BeautifyInactiveHeaderBegin", _T("<b><font size=\"-1\" color=\"DarkRed\">"), buffer, SIZEOF(buffer));
 		BeautifyReport(beautify, buffer, headerHighlightStart, out);

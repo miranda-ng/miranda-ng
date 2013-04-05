@@ -60,7 +60,7 @@ CSend::~CSend(){
 void CSend::SetContact(HANDLE hContact) {
 	m_hContact		= hContact;
 	m_pszProto		= GetContactProto(hContact);
-	m_ChatRoom		= DBGetContactSettingByte(hContact, m_pszProto, "ChatRoom", 0);
+	m_ChatRoom		= db_get_b(hContact, m_pszProto, "ChatRoom", 0);
 	m_PFflag		= hasCap(PF1_URLSEND);
 	m_PFflag		= hasCap(PF1_CHAT);
 	m_PFflag		= hasCap(PF1_IMSEND);

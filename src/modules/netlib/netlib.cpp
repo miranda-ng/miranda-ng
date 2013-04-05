@@ -103,8 +103,8 @@ void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs)
 static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szSetting, int defValue)
 {
 	DBVARIANT dbv;
-	if (DBGetContactSetting(NULL, szUserModule, szSetting, &dbv)
-	   && DBGetContactSetting(NULL, "Netlib", szSetting, &dbv))
+	if (db_get(NULL, szUserModule, szSetting, &dbv)
+	   && db_get(NULL, "Netlib", szSetting, &dbv))
 		return defValue;
 	if (dbv.type == DBVT_BYTE) return dbv.bVal;
 	if (dbv.type == DBVT_WORD) return dbv.wVal;
@@ -114,8 +114,8 @@ static INT_PTR GetNetlibUserSettingInt(const char *szUserModule, const char *szS
 static char *GetNetlibUserSettingString(const char *szUserModule, const char *szSetting, int decode)
 {
 	DBVARIANT dbv;
-	if (DBGetContactSettingString(NULL, szUserModule, szSetting, &dbv)
-	   && DBGetContactSettingString(NULL, "Netlib", szSetting, &dbv)) {
+	if (db_get_s(NULL, szUserModule, szSetting, &dbv)
+	   && db_get_s(NULL, "Netlib", szSetting, &dbv)) {
 		return NULL;
 	}
 	else {

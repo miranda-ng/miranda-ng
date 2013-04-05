@@ -269,12 +269,12 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			DBVARIANT dbv = {0};
 			if ( !M->GetTString(0, "Chat", "HighlightWords", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, dbv.ptszVal);
-				::DBFreeVariant(&dbv);
+				::db_free(&dbv);
 			}
 
 			if ( !M->GetTString(0, "Chat", "HighlightNames", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, dbv.ptszVal);
-				::DBFreeVariant(&dbv);
+				::db_free(&dbv);
 			}
 
 			DWORD dwFlags = M->GetByte("Chat", "HighlightEnabled", MATCH_TEXT);

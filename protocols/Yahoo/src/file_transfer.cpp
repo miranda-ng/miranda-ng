@@ -753,7 +753,7 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 		sf = new_ft(this, m_id, hContact, dbv.pszVal, ( char* )szDescription,
 					NULL, NULL, 0, fs, 1 /* sending */);
 					
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		
 		if (sf == NULL) {
 			DebugLog("SF IS NULL!!!");

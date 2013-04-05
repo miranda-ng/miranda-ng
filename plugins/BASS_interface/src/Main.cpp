@@ -185,7 +185,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
 						SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_SETCURSEL, i, 0);
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		return TRUE;
@@ -503,7 +503,7 @@ void LoadBassLibrary(TCHAR CurrBassPath[MAX_PATH])
 					if ( !lstrcmp(dbv.ptszVal, _A2T(info.name)))
 						device = i;
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			sndLimSnd = db_get_b(NULL, ModuleName, OPT_MAXCHAN, MAXCHAN);
 			if (sndLimSnd > MAXCHAN)
@@ -560,7 +560,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 		else {
 			lstrcpy(CurrBassPath, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 

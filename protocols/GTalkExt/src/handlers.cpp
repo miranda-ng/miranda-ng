@@ -360,7 +360,7 @@ IJabberInterface* IsGoogleAccount(LPCSTR szModuleName)
 	if (!japi) return NULL;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSettingString(NULL, szModuleName, "ManualHost", &dbv))
+	if ( db_get_s(NULL, szModuleName, "ManualHost", &dbv))
 		return NULL;
 
 	bool res = !strcmp(dbv.pszVal, "talk.google.com");

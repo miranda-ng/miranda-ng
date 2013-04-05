@@ -203,10 +203,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					DBVARIANT dbv;
 					char idstr[4];
 					_itoa(groupId, idstr, 10);
-					if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv)) break;
+					if (db_get_ts(NULL, "CListGroups", idstr, &dbv)) break;
 					int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal + 1));
 					SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, (WPARAM)id, (LPARAM)groupId + 1);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
@@ -214,10 +214,10 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 			{
 				DBVARIANT dbv = {0};
-				if(!DBGetContactSettingString(NULL,"AddContact","LastProto",&dbv))
+				if(!db_get_s(NULL,"AddContact","LastProto",&dbv))
 				{
 					acs->szProto = dbv.pszVal;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			if(AddContactDlgAccounts(hdlg, acs))
@@ -348,7 +348,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 					TCHAR szHandle[256];
 					if (GetDlgItemText(hdlg, IDC_MYHANDLE, szHandle, SIZEOF(szHandle)))
-						DBWriteContactSettingTString(hContact, "CList", "MyHandle", szHandle);
+						db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 					int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
 					if (item > 0)
@@ -359,7 +359,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 					if (!IsDlgButtonChecked(hdlg, IDC_ADDTEMP))
 					{
-						DBDeleteContactSetting(hContact, "CList", "NotOnList");
+						db_unset(hContact, "CList", "NotOnList");
 
 						if (IsDlgButtonChecked(hdlg, IDC_ADDED))
 							CallContactService(hContact, PSS_ADDED, 0, 0);
@@ -420,7 +420,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			if (acs)
 			{
 				if(acs->szProto)
-					DBWriteContactSettingString(NULL,"AddContact","LastProto",acs->szProto);
+					db_set_s(NULL,"AddContact","LastProto",acs->szProto);
 				if (acs->psr)
 				{
 					mir_free(acs->psr->nick);

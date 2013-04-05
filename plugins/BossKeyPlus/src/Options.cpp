@@ -69,12 +69,12 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			DBVARIANT dbVar;
 
-			if (!DBGetContactSettingString(NULL,MOD_NAME,"password",&dbVar))
+			if (!db_get_s(NULL,MOD_NAME,"password",&dbVar))
 			{
 				CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbVar.pszVal )+1, ( LPARAM )dbVar.pszVal );
 
 				SetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,dbVar.pszVal);
-				DBFreeVariant(&dbVar);
+				db_free(&dbVar);
 			}
 
 			CheckDlgButton(hwndDlg,IDC_MAINOPT_SETONLINEBACK,(g_wMask & OPT_SETONLINEBACK) ? (BST_CHECKED) : (BST_UNCHECKED));
@@ -90,7 +90,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			for (BYTE i = 0;i < 8; i++)
 				SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_INSERTSTRING,-1,(LPARAM)TranslateTS(STATUS_ARR_TO_NAME[i]));
 
-			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, DBGetContactSettingByte(NULL, MOD_NAME, "stattype", 2), 0);
+			SendDlgItemMessage(hwndDlg, IDC_MAINOPT_CHGSTS, CB_SETCURSEL, db_get_b(NULL, MOD_NAME, "stattype", 2), 0);
 
 			SendMessage(hwndDlg,WM_USER + 60,0,0);
 			SendMessage(hwndDlg,WM_USER + 50,0,0);
@@ -112,7 +112,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					// write down status type
 					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED)
 					{
-						DBWriteContactSettingByte(NULL,MOD_NAME,"stattype",(BYTE)SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_GETCURSEL,0,0));
+						db_set_b(NULL,MOD_NAME,"stattype",(BYTE)SendDlgItemMessage(hwndDlg,IDC_MAINOPT_CHGSTS,CB_GETCURSEL,0,0));
 
 						// status msg, if needed
 						if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG))) // meaning we should save it
@@ -120,9 +120,9 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 							TCHAR tszMsg[1025];
 							GetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,tszMsg,1024);
 							if (lstrlen(tszMsg) != 0)
-								DBWriteContactSettingTString(NULL,MOD_NAME,"statmsg",tszMsg);
+								db_set_ts(NULL,MOD_NAME,"statmsg",tszMsg);
 							else // delete current setting
-								DBDeleteContactSetting(NULL,MOD_NAME,"statmsg");
+								db_unset(NULL,MOD_NAME,"statmsg");
 						}
 						wMask |= OPT_CHANGESTATUS;
 					}
@@ -134,7 +134,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 						GetDlgItemTextA(hwndDlg,IDC_MAINOPT_PASS,szPass,MAXPASSLEN+1);
 						if (strlen(szPass) != 0){
 							CallService( MS_DB_CRYPT_ENCODESTRING, MAXPASSLEN+1, ( LPARAM )szPass );
-							DBWriteContactSettingString(NULL,MOD_NAME,"password",szPass);
+							db_set_s(NULL,MOD_NAME,"password",szPass);
 							wMask |= OPT_REQPASS;
 						}
 					}
@@ -144,7 +144,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) == BST_CHECKED)  wMask |= OPT_USEDEFMSG;
 					if (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_TRAYICON) == BST_CHECKED)  wMask |= OPT_TRAYICON;
 
-					DBWriteContactSettingWord(NULL,MOD_NAME,"optsmask",wMask);
+					db_set_w(NULL,MOD_NAME,"optsmask",wMask);
 					g_wMask = wMask;
 
 					return(true);
@@ -166,10 +166,10 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 			{
 				DBVARIANT dbVar;
 				SendDlgItemMessage(hwndDlg,IDC_MAINOPT_STATMSG,EM_LIMITTEXT,1024,0);
-				if (!DBGetContactSettingTString(NULL,MOD_NAME,"statmsg",&dbVar))
+				if (!db_get_ts(NULL,MOD_NAME,"statmsg",&dbVar))
 				{
 					SetDlgItemText(hwndDlg,IDC_MAINOPT_STATMSG,dbVar.ptszVal);
-					DBFreeVariant(&dbVar);
+					db_free(&dbVar);
 				}
 			}
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAINOPT_STATMSG),(IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_CHANGESTATUSBOX) == BST_CHECKED) && (IsDlgButtonChecked(hwndDlg,IDC_MAINOPT_USEDEFMSG) != BST_CHECKED));
@@ -283,7 +283,7 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 			g_fOptionsOpen = true;
 
-			minutes = DBGetContactSettingByte(NULL,MOD_NAME,"time",10);
+			minutes = db_get_b(NULL,MOD_NAME,"time",10);
 			char szMinutes[4] = {0};
 			_itoa(minutes, szMinutes, 10);
 			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_TIME,EM_LIMITTEXT,2,0);
@@ -324,8 +324,8 @@ INT_PTR CALLBACK AdvOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 					char szMinutes[4] = {0};
 					GetDlgItemTextA(hwndDlg,IDC_MAINOPT_TIME,szMinutes,3);
 					(atoi(szMinutes) > 0) ? minutes = atoi(szMinutes) : minutes = 1;
-					DBWriteContactSettingByte(NULL,MOD_NAME,"time",minutes);
-					DBWriteContactSettingWord(NULL,MOD_NAME,"optsmaskadv",wMaskAdv);
+					db_set_b(NULL,MOD_NAME,"time",minutes);
+					db_set_w(NULL,MOD_NAME,"optsmaskadv",wMaskAdv);
 					g_wMaskAdv = wMaskAdv;
 
 					return(true);

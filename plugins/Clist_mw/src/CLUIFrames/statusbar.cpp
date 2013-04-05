@@ -30,20 +30,20 @@ int extraspace;
 int OnStatusBarBackgroundChange()
 {
 	showOpts = db_get_b(NULL,"CLUI","SBarShow",1);		
-	bkColour = DBGetContactSettingDword(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
+	bkColour = db_get_dw(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
 	if (hBmpBackground)
 		DeleteObject(hBmpBackground), hBmpBackground = NULL;
 
 	if ( db_get_b(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, "StatusBar", "BkBitmap", &dbv)) {
+		if ( !db_get_ts(NULL, "StatusBar", "BkBitmap", &dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 		}
 	}
 
 	backgroundBmpUse = db_get_w(NULL,"StatusBar","BkBmpUse",CLCDEFAULT_BKBMPUSE);
-	extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
+	extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
 
 	RecreateStatusBar(pcli->hwndContactList);
 	if (pcli->hwndStatus) InvalidateRect(pcli->hwndStatus,NULL,TRUE);
@@ -228,8 +228,8 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 		ds.hwndItem = hwnd;
 		ds.hDC = hdcMem;
 
-		int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
-		int extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
+		int startoffset = db_get_dw(NULL,"StatusBar","FirstIconOffset",0);
+		int extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
 		int nParts = SendMessage(hwnd,SB_GETPARTS,0,0);
 
 		RECT rc = { 0 }, clrc;

@@ -96,7 +96,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 static void UpdateMenuItem()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
-	if (DBGetContactSettingByte(NULL, "Skin", "UseSound", 1))
+	if (db_get_b(NULL, "Skin", "UseSound", 1))
 		mi.ptszName = DISABLE_SOUND;
 	else
 		mi.ptszName = ENABLE_SOUND;
@@ -116,9 +116,9 @@ static int SoundSettingChanged(WPARAM wParam,LPARAM lParam)
 
 static int SetNotify(const long status)
 {
-	DBWriteContactSettingByte(NULL,"Skin","UseSound", (BYTE) !(DBGetContactSettingDword(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND) & status));
-	DBWriteContactSettingByte(NULL,"CList","DisableTrayFlash", (BYTE) (DBGetContactSettingDword(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK) & status));
-	DBWriteContactSettingByte(NULL,"CList","NoIconBlink", (BYTE) (DBGetContactSettingDword(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK) & status));
+	db_set_b(NULL,"Skin","UseSound", (BYTE) !(db_get_dw(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND) & status));
+	db_set_b(NULL,"CList","DisableTrayFlash", (BYTE) (db_get_dw(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK) & status));
+	db_set_b(NULL,"CList","NoIconBlink", (BYTE) (db_get_dw(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
 	return 0;
@@ -155,11 +155,11 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
-		CheckDlgButton(hwndDlg, IDC_HIDEMENU, DBGetContactSettingByte(NULL, MODNAME, "HideMenu",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEMENU, db_get_b(NULL, MODNAME, "HideMenu",1) ? BST_CHECKED : BST_UNCHECKED);
 
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOSOUND),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK));
-		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOSOUND),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),db_get_dw(NULL, MODNAME, "NoSound",DEFAULT_NOSOUND));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),db_get_dw(NULL, MODNAME, "NoBlink",DEFAULT_NOBLINK));
+		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),db_get_dw(NULL, MODNAME, "NoCLCBlink",DEFAULT_NOCLCBLINK));
 		return TRUE;
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -190,14 +190,14 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				DBWriteContactSettingByte(NULL, MODNAME, "HideMenu",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEMENU));
+				db_set_b(NULL, MODNAME, "HideMenu",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_HIDEMENU));
 
-				DBWriteContactSettingDword(NULL, MODNAME, "NoSound",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOSOUND)));
-				DBWriteContactSettingDword(NULL, MODNAME, "NoBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOBLINK)));
-				DBWriteContactSettingDword(NULL, MODNAME, "NoCLCBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOCLCBLINK)));
+				db_set_dw(NULL, MODNAME, "NoSound",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOSOUND)));
+				db_set_dw(NULL, MODNAME, "NoBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOBLINK)));
+				db_set_dw(NULL, MODNAME, "NoCLCBlink",MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg,IDC_NOCLCBLINK)));
 
-				test = DBGetContactSettingWord(NULL,"CList","Status",0);
-				SetNotify(Proto_Status2Flag(DBGetContactSettingWord(NULL,"CList","Status",0)));
+				test = db_get_w(NULL,"CList","Status",0);
+				SetNotify(Proto_Status2Flag(db_get_w(NULL,"CList","Status",0)));
 				return TRUE;
 			}
 			break;
@@ -225,10 +225,10 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR NoSoundMenuCommand(WPARAM wParam,LPARAM lParam)
 {
-	if (DBGetContactSettingByte(NULL,"Skin","UseSound",1))
-		DBWriteContactSettingByte(NULL,"Skin","UseSound",0);
+	if (db_get_b(NULL,"Skin","UseSound",1))
+		db_set_b(NULL,"Skin","UseSound",0);
 //	else
-//		DBWriteContactSettingByte(NULL,"Skin","UseSound",1);
+//		db_set_b(NULL,"Skin","UseSound",1);
 
 	return 0;
 }
@@ -238,7 +238,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mir_getLP(&pluginInfoEx);
 
 	//The menu item - begin
-	if (!DBGetContactSettingByte(NULL, MODNAME, "HideMenu", 1)) {
+	if (!db_get_b(NULL, MODNAME, "HideMenu", 1)) {
 		hSoundMenu = CreateServiceFunction(MODNAME "/MenuCommand", NoSoundMenuCommand);
 	
 		CLISTMENUITEM mi = { sizeof(mi) };
@@ -257,7 +257,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	//Uninstall info
-	DBWriteContactSettingString(NULL, "Uninstall", MODNAME, MODNAME);
+	db_set_s(NULL, "Uninstall", MODNAME, MODNAME);
 
 	return 0;
 }

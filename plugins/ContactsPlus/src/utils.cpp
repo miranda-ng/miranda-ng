@@ -100,7 +100,7 @@ char *GetContactUID(HANDLE hContact, int bTchar)
           SAFE_FREE((void**)&szAnsi);
         }
       }
-      DBFreeVariant(&vrUid);
+      db_free(&vrUid);
     }
   }
   if (bTchar)
@@ -120,7 +120,7 @@ int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSe
   if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR))
     return DBGetContactSettingW(hContact, szModule, szSetting, dbv);
   else
-    return DBGetContactSetting(hContact, szModule, szSetting, dbv);
+    return db_get(hContact, szModule, szSetting, dbv);
 }
 
 
@@ -129,18 +129,18 @@ TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule, const c
 	DBVARIANT dbv = {DBVT_DELETED};
 	TCHAR* szRes;
 
-	if (DBGetContactSettingWString(hContact, szModule, szSetting, &dbv))
+	if (db_get_ws(hContact, szModule, szSetting, &dbv))
 		return strdupT(szDef);
 
 	szRes = strdupT(dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	return szRes;
 }
 
 int DBWriteContactSettingStringT(HANDLE hContact, const char *szModule, const char* szSetting, TCHAR* szValue)
 {
-	return DBWriteContactSettingWString(hContact, szModule, szSetting, (WCHAR*)szValue);
+	return db_set_ws(hContact, szModule, szSetting, (WCHAR*)szValue);
 }
 
 
@@ -193,7 +193,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
       if (strcmpT(uid?uid:contactName, oldTitle))
         SetDlgItemTextT(hwndDlg, IDC_NAME, uid?uid:contactName);
 
-      szStatus = MirandaStatusToStringT(szProto==NULL ? ID_STATUS_OFFLINE:DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE));
+      szStatus = MirandaStatusToStringT(szProto==NULL ? ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE));
       _snprintfT(newtitle, 256, "%s %s (%s)", SRCTranslateT(pszTitleStart, str), contactName, szStatus);
 
       SAFE_FREE((void**)&uid);
@@ -216,7 +216,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
 
 void UpdateDialogAddButton(HWND hwndDlg, HANDLE hContact)
 {
-  int bVisible = DBGetContactSettingByte(hContact,"CList","NotOnList",0);
+  int bVisible = db_get_b(hContact,"CList","NotOnList",0);
 
   ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), bVisible?SW_SHOW:SW_HIDE);
 }

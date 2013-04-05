@@ -687,13 +687,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			dat->currentPage = -1;
 			if (ood->pszPage == NULL) {
-				if ( !DBGetContactSettingTString(NULL, "Options", "LastPage", &dbv)) {
+				if ( !db_get_ts(NULL, "Options", "LastPage", &dbv)) {
 					lastPage = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 				}
 
 				if (ood->pszGroup == NULL) {
-					if ( !DBGetContactSettingTString(NULL, "Options", "LastGroup", &dbv)) {
+					if ( !db_get_ts(NULL, "Options", "LastGroup", &dbv)) {
 						lastGroup = mir_tstrdup(dbv.ptszVal);
 						db_free(&dbv);
 					}
@@ -706,7 +706,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			}
 
 			if (ood->pszTab == NULL) {
-				if ( !DBGetContactSettingTString(NULL, "Options", "LastTab", &dbv)) {
+				if ( !db_get_ts(NULL, "Options", "LastTab", &dbv)) {
 					lastTab = mir_tstrdup(dbv.ptszVal);
 					db_free(&dbv);
 				}
@@ -1192,17 +1192,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if (opd->ptszTab)
 				db_set_ts(NULL, "Options", "LastTab", opd->ptszTab);
 			else
-				DBDeleteContactSetting(NULL, "Options", "LastTab");
+				db_unset(NULL, "Options", "LastTab");
 			if (opd->ptszGroup)
 				db_set_ts(NULL, "Options", "LastGroup", opd->ptszGroup);
 			else
-				DBDeleteContactSetting(NULL, "Options", "LastGroup");
+				db_unset(NULL, "Options", "LastGroup");
 			db_set_ts(NULL, "Options", "LastPage", opd->ptszTitle);
 		}
 		else {
-			DBDeleteContactSetting(NULL, "Options", "LastTab");
-			DBDeleteContactSetting(NULL, "Options", "LastGroup");
-			DBDeleteContactSetting(NULL, "Options", "LastPage");
+			db_unset(NULL, "Options", "LastTab");
+			db_unset(NULL, "Options", "LastGroup");
+			db_unset(NULL, "Options", "LastPage");
 		}
 
 		Utils_SaveWindowPosition(hdlg, NULL, "Options", "");

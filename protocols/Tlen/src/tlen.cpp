@@ -119,55 +119,28 @@ static void TlenRegisterIcons()
 
 int TlenPrebuildContactMenu(void *ptr, WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact;
-	DBVARIANT dbv;
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	JABBER_LIST_ITEM *item;
+	HANDLE hContact = (HANDLE)wParam;
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
-			if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
-				if (item->subscription == SUB_NONE || item->subscription == SUB_FROM)
-					clmi.flags = CMIM_FLAGS;
-				else
-					clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactRequestAuth, (LPARAM) &clmi);
-
-				if (item->subscription == SUB_NONE || item->subscription == SUB_TO)
-					clmi.flags = CMIM_FLAGS;
-				else
-					clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactGrantAuth, (LPARAM) &clmi);
-
-				if (item->status != ID_STATUS_OFFLINE)
-					clmi.flags = CMIM_FLAGS;
-				else
-					clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactMUC, (LPARAM) &clmi);
-
-				if (item->status != ID_STATUS_OFFLINE && !TlenVoiceIsInUse(proto))
-					clmi.flags = CMIM_FLAGS;
-				else
-					clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactVoice, (LPARAM) &clmi);
-
-				if (item->status != ID_STATUS_OFFLINE)
-					clmi.flags = CMIM_FLAGS;
-				else
-					clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuPicture, (LPARAM) &clmi);
-
-				DBFreeVariant(&dbv);
+	if (hContact != NULL && proto->isOnline) {
+		DBVARIANT dbv;
+		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
+			JABBER_LIST_ITEM *item = JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal);
+			db_free(&dbv);
+			if (item != NULL) {
+				Menu_ShowItem(proto->hMenuContactRequestAuth, item->subscription == SUB_NONE || item->subscription == SUB_FROM);
+				Menu_ShowItem(proto->hMenuContactGrantAuth, item->subscription == SUB_NONE || item->subscription == SUB_TO);
+				Menu_ShowItem(proto->hMenuContactMUC, item->status != ID_STATUS_OFFLINE);
+				Menu_ShowItem(proto->hMenuContactVoice, item->status != ID_STATUS_OFFLINE && !TlenVoiceIsInUse(proto));
+				Menu_ShowItem(proto->hMenuPicture, item->status != ID_STATUS_OFFLINE);
 				return 0;
 			}
-			DBFreeVariant(&dbv);
 		}
 	}
-	clmi.flags = CMIM_FLAGS|CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactMUC, (LPARAM) &clmi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactVoice, (LPARAM) &clmi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactRequestAuth, (LPARAM) &clmi);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) proto->hMenuContactGrantAuth, (LPARAM) &clmi);
+
+	Menu_ShowItem(proto->hMenuContactMUC, false);
+	Menu_ShowItem(proto->hMenuContactVoice, false);
+	Menu_ShowItem(proto->hMenuContactRequestAuth, false);
+	Menu_ShowItem(proto->hMenuContactGrantAuth, false);
 	return 0;
 }
 
@@ -177,9 +150,9 @@ INT_PTR TlenContactMenuHandleRequestAuth(void *ptr, LPARAM wParam, LPARAM lParam
 	DBVARIANT dbv;
 	TlenProtocol *proto = (TlenProtocol *)ptr;
 	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			JabberSend(proto, "<presence to='%s' type='subscribe'/>", dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;
@@ -191,9 +164,9 @@ INT_PTR TlenContactMenuHandleGrantAuth(void *ptr, LPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	TlenProtocol *proto = (TlenProtocol *)ptr;
 	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
-		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
+		if (!db_get(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			JabberSend(proto, "<presence to='%s' type='subscribed'/>", dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;
@@ -220,15 +193,15 @@ INT_PTR TlenMenuHandleInbox(void *ptr, LPARAM wParam, LPARAM lParam)
 	char form[1024];
 	char cookie[1024];
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	if (!DBGetContactSetting(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+	if (!db_get(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 		login = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
-	if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", TRUE) == TRUE) {
-		if (!DBGetContactSetting(NULL, proto->m_szModuleName, "Password", &dbv)) {
+	if (db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE) == TRUE) {
+		if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
 			CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 			password = mir_strdup(dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	} else if (proto->threadData != NULL && strlen(proto->threadData->password) > 0) {
 		password = mir_strdup(proto->threadData->password);
@@ -287,8 +260,8 @@ int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
 	while (hContact != NULL) {
 		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) {
-			if (DBGetContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-				DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+			if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+				db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 			}
 		}
 		hContact = db_find_next(hContact);

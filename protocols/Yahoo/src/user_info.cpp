@@ -64,7 +64,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						
 						if (ppro->GetString( hContact,  YAHOO_LOGINID, &dbv ) == 0) {
 							strcpy(z, dbv.pszVal);
-							DBFreeVariant( &dbv );
+							db_free( &dbv );
 						} else {
 							strcpy(z, "???");
 						}
@@ -73,7 +73,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						
 						if (ppro->GetString( hContact,  "Transport", &dbv ) == 0) {
 							strcpy(z, dbv.pszVal);
-							DBFreeVariant( &dbv );
+							db_free( &dbv );
 						} else {
 							strcpy(z, "Yahoo");
 						}
@@ -82,7 +82,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 						
 						if (ppro->GetString( hContact,  "MirVer", &dbv ) == 0) {
 							strcpy(z, dbv.pszVal);
-							DBFreeVariant( &dbv );
+							db_free( &dbv );
 						} else {
 							strcpy(z, "???");
 						}

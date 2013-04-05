@@ -186,7 +186,7 @@ int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 						else SendPounce(dbv.ptszVal, hContact);
 					}
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -228,7 +228,7 @@ INT_PTR AddToPounce(WPARAM wParam, LPARAM lParam)
 		_tcscat(newPounce, message);
 		db_set_ws(hContact, modname, "PounceMsg", newPounce);
 		mir_free(newPounce);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else AddSimpleMessage((WPARAM)hContact, (LPARAM)message);
 	return 0;

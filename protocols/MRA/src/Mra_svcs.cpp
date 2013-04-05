@@ -529,7 +529,7 @@ int CMraProto::MraDbSettingChanged(WPARAM wParam, LPARAM lParam)
 							dwAuthMessageSize = lstrlenW(wszAuthMessage);
 						}
 
-						DBDeleteContactSetting(hContact, "CList", "Hidden");
+						db_unset(hContact, "CList", "Hidden");
 						GetContactBasicInfoW(hContact, NULL, &dwGroupID, &dwContactFlag, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, wszNick, SIZEOF(wszNick), &dwNickSize, szPhones, SIZEOF(szPhones), &dwPhonesSize);
 						MraAddContactW(hContact, dwContactFlag, dwGroupID, szEMail, dwEMailSize, wszNick, dwNickSize, szPhones, dwPhonesSize, wszAuthMessage, dwAuthMessageSize, 0);
 					}
@@ -604,34 +604,34 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	else bHasEMail = bHasEMailMR = bChatAgent = FALSE;
 
 	//"Request authorization"
-	CListShowMenuItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
+	Menu_ShowItem(hContactMenuItems[0], (m_bLoggedIn && bIsContactMRA));// && (dwContactSeverFlags&CONTACT_INTFLAG_NOT_AUTHORIZED)
 
 	//"Grant authorization"
-	CListShowMenuItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[1], (m_bLoggedIn && bIsContactMRA && bChatAgent == FALSE));
 
 	//"&Send postcard"
-	CListShowMenuItem(hContactMenuItems[2], (m_bLoggedIn && bHasEMail && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[2], (m_bLoggedIn && bHasEMail && bChatAgent == FALSE));
 
 	//"&View Album"
-	CListShowMenuItem(hContactMenuItems[3], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[3], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"&Read Blog"
-	CListShowMenuItem(hContactMenuItems[4], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[4], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Reply Blog Status"
-	CListShowMenuItem(hContactMenuItems[5], (m_bLoggedIn && dwBlogStatusMsgSize && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[5], (m_bLoggedIn && dwBlogStatusMsgSize && bChatAgent == FALSE));
 
 	//"View Video"
-	CListShowMenuItem(hContactMenuItems[6], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[6], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Answers"
-	CListShowMenuItem(hContactMenuItems[7], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[7], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"World"
-	CListShowMenuItem(hContactMenuItems[8], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
+	Menu_ShowItem(hContactMenuItems[8], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
 	//"Send &Nudge"
-	CListShowMenuItem(hContactMenuItems[9], (!heNudgeReceived) ? (m_bLoggedIn && bIsContactMRA) : 0);
+	Menu_ShowItem(hContactMenuItems[9], (!heNudgeReceived) ? (m_bLoggedIn && bIsContactMRA) : 0);
 	return 0;
 }
 
@@ -860,7 +860,7 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 		if (pData->flags & CSSF_DISABLE_UI) {
 			bHideXStatusUI = (*pData->wParam)? FALSE:TRUE;
 			for (DWORD i = 0; i < MRA_XSTATUS_COUNT; i++)
-				CListShowMenuItem(hXStatusMenuItems[i], !bHideXStatusUI);
+				Menu_ShowItem(hXStatusMenuItems[i], !bHideXStatusUI);
 		}
 	}
 	return iRet;

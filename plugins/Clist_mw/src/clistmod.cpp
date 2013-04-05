@@ -101,15 +101,15 @@ static int ProtocolAck(WPARAM wParam,LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_AWAYMSG && ack->lParam) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv)) {
+		if ( !db_get_ts(ack->hContact, "CList", "StatusMsg", &dbv)) {
 			if ( !_tcscmp(dbv.ptszVal, (TCHAR *)ack->lParam)) {
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return 0;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		if ( db_get_b(NULL,"CList","ShowStatusMsg",0) || db_get_b(ack->hContact,"CList","StatusMsgAuto",0))
-         DBWriteContactSettingTString(ack->hContact, "CList", "StatusMsg", (TCHAR *)ack->lParam);
+         db_set_ts(ack->hContact, "CList", "StatusMsg", (TCHAR *)ack->lParam);
 	}
 
 	return 0;
@@ -136,7 +136,7 @@ int LoadContactListModule(void)
 	}
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
-	DefaultImageListColorDepth = DBGetContactSettingDword(NULL,"CList","DefaultImageListColorDepth",ILC_COLOR32);
+	DefaultImageListColorDepth = db_get_dw(NULL,"CList","DefaultImageListColorDepth",ILC_COLOR32);
 
 	hProtoAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ProtocolAck);
 	HookEvent(ME_OPT_INITIALISE,CListOptInit);

@@ -8,10 +8,10 @@ INT_PTR IsContactPassed(WPARAM wParam, LPARAM /*lParam*/)
 	if ( !plSets->ProtoDisabled( proto.c_str()))
 		return CS_PASSED;
 
-	if ( DBGetContactSettingByte(hContact, pluginName, answeredSetting, 0))
+	if ( db_get_b(hContact, pluginName, answeredSetting, 0))
 		return CS_PASSED;
 
-	if ( !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingWord( hContact, proto.c_str(), "SrvGroupId", -1 ) != 1)
+	if ( !db_get_b(hContact, "CList", "NotOnList", 0) && db_get_w( hContact, proto.c_str(), "SrvGroupId", -1 ) != 1)
 		return CS_PASSED;
 
 	if ( IsExistMyMessage(hContact))
@@ -27,10 +27,10 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 		HANDLE hNext = db_find_next(hContact);
 
 		DBVARIANT dbv = { 0 };
-		if ( DBGetContactSettingTString( hContact, "CList", "Group", &dbv ))
+		if ( db_get_ts( hContact, "CList", "Group", &dbv ))
 			dbv.ptszVal = NULL;
 
-		if ( DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) || DBGetContactSettingByte(hContact, "CList", "Hidden", 0 ) || (dbv.ptszVal != NULL && (_tcsstr(dbv.ptszVal, _T("Not In List")) || _tcsstr(dbv.ptszVal, TranslateT("Not In List"))))) {
+		if ( db_get_b(hContact, "CList", "NotOnList", 0) || db_get_b(hContact, "CList", "Hidden", 0 ) || (dbv.ptszVal != NULL && (_tcsstr(dbv.ptszVal, _T("Not In List")) || _tcsstr(dbv.ptszVal, TranslateT("Not In List"))))) {
 			char *szProto = GetContactProto(hContact);
 			if ( szProto != NULL ) {
 				// Check if protocol uses server side lists
@@ -40,14 +40,14 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 					status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
-						DBWriteContactSettingByte( hContact, "CList", "Delete", 1 );
+						db_set_b( hContact, "CList", "Delete", 1 );
 					else
 						CallService( MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0 );
 				}
 			}
 		}
 
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 		hContact = hNext;
 	}
 		
@@ -56,13 +56,13 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 	do {
 		group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
 		if (group_name != NULL && strstr(group_name, "Not In List")) {
-			BYTE ConfirmDelete = DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
+			BYTE ConfirmDelete = db_get_b(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT);
 			if ( ConfirmDelete )
-				DBWriteContactSettingByte( NULL, "CList", "ConfirmDelete", 0 );
+				db_set_b( NULL, "CList", "ConfirmDelete", 0 );
 
 			CallService( MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0 );
 			if ( ConfirmDelete ) 
-				DBWriteContactSettingByte( NULL, "CList", "ConfirmDelete", ConfirmDelete );
+				db_set_b( NULL, "CList", "ConfirmDelete", ConfirmDelete );
 			break;
 		}
 		hGroup++;

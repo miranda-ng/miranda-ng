@@ -32,8 +32,8 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 
 	CONTACT usertemp = { (TCHAR*)name.c_str(), NULL, NULL, false, false, true};
 	hc = CList_FindContact( &usertemp );
-	if ( hc && DBGetContactSettingByte( hc, "CList", "NotOnList", 0) == 0
-		&& DBGetContactSettingByte(hc,"CList", "Hidden", 0) == 0)
+	if ( hc && db_get_b( hc, "CList", "NotOnList", 0) == 0
+		&& db_get_b(hc,"CList", "Hidden", 0) == 0)
 	{
 		bFlag = true;
 	}
@@ -93,9 +93,9 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 	HANDLE hContact = CList_FindContact(user);
 	if ( hContact ) {
 		if ( InList )
-			DBDeleteContactSetting( hContact, "CList", "NotOnList" );
+			db_unset( hContact, "CList", "NotOnList" );
 		setTString(hContact, "Nick", user->name);
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "Hidden");
 		if (SetOnline && getWord(hContact, "Status", ID_STATUS_OFFLINE)== ID_STATUS_OFFLINE)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 		return hContact;
@@ -107,10 +107,10 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 		CallService( MS_PROTO_ADDTOCONTACT, (WPARAM) hContact, (LPARAM)m_szModuleName );
 
 		if ( InList )
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 		else
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+			db_set_b(hContact, "CList", "NotOnList", 1);
+		db_unset(hContact, "CList", "Hidden");
 		setTString(hContact, "Nick", user->name);
 		setTString(hContact, "Default", user->name);
 		setWord(hContact, "Status", SetOnline ? ID_STATUS_ONLINE:ID_STATUS_OFFLINE);
@@ -131,7 +131,7 @@ HANDLE CIrcProto::CList_SetOffline(struct CONTACT * user)
 			setString(hContact, "Host", "");
 			setTString(hContact, "Nick", dbv.ptszVal);
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return hContact;
 	}	}
 
@@ -156,9 +156,9 @@ bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
 				else if ( !getTString( hContact, "Default", &dbv )) {
 					setTString( hContact, "Nick", dbv.ptszVal);
 					setWord( hContact, "Status", ID_STATUS_OFFLINE );
-					DBFreeVariant( &dbv );
+					db_free( &dbv );
 				}
-				DBDeleteContactSetting( hContact, m_szModuleName, "IP" );
+				db_unset( hContact, m_szModuleName, "IP" );
 				setString( hContact, "User", "" );
 				setString( hContact, "Host", "" );
 		}	}
@@ -227,11 +227,11 @@ HANDLE CIrcProto::CList_FindContact (CONTACT* user)
 						hContact_temp = hContact;
 				}	}
 
-				if ( DBDefault )   DBFreeVariant(&dbv1);
-				if ( DBNick )      DBFreeVariant(&dbv2);
-				if ( DBWildcard )  DBFreeVariant(&dbv3);
-				if ( DBUser )      DBFreeVariant(&dbv4);
-				if ( DBHost )      DBFreeVariant(&dbv5);
+				if ( DBDefault )   db_free(&dbv1);
+				if ( DBNick )      db_free(&dbv2);
+				if ( DBWildcard )  db_free(&dbv3);
+				if ( DBUser )      db_free(&dbv4);
+				if ( DBHost )      db_free(&dbv5);
 
 				if ( hContact_temp != NULL ) {
 					mir_free(lowercasename);

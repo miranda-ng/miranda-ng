@@ -156,9 +156,9 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			DBDeleteContactSetting(NULL, "CList", "Docked");
-			DBDeleteContactSetting(NULL, "CList", "DockX");
-			DBDeleteContactSetting(NULL, "CList", "DockY");
+			db_unset(NULL, "CList", "Docked");
+			db_unset(NULL, "CList", "DockX");
+			db_unset(NULL, "CList", "DockY");
 		}
 	}
 

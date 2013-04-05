@@ -6,7 +6,7 @@
 int db_get_static(HANDLE hContact, const char *szModule, const char *szSetting, char *value)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(hContact, szModule, szSetting, &dbv))
+	if (!db_get(hContact, szModule, szSetting, &dbv))
 	{
 		strcpy(value, dbv.pszVal);
 		db_free(&dbv);

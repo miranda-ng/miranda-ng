@@ -98,7 +98,7 @@ void UnloadServices()
 
 int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
-	CListShowMenuItem(ssSMSSettings.hContactMenuItems[0],(BOOL)GetContactPhonesCount((HANDLE)wParam));
+	Menu_ShowItem(ssSMSSettings.hContactMenuItems[0], GetContactPhonesCount((HANDLE)wParam));
 	return 0;
 }
 

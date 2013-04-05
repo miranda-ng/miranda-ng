@@ -94,7 +94,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 
 			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
 			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-			pmraaqAvatarsQueue->iThreadsCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
+			pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
 			if (pmraaqAvatarsQueue->iThreadsCount == 0)
 				pmraaqAvatarsQueue->iThreadsCount = 1;
 			if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
@@ -207,7 +207,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 			bDefaultAvt = FALSE;
 
 			if (DB_GetStaticStringA(NULL, MRA_AVT_SECT_NAME, "Server", szServer, SIZEOF(szServer), NULL) == FALSE) memmove(szServer, MRA_AVT_DEFAULT_SERVER, sizeof(MRA_AVT_DEFAULT_SERVER));
-			dwServerPort = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT);
+			dwServerPort = db_get_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT);
 			bUseKeepAliveConn = db_get_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN);
 
 			if ( mraGetStaticStringA(pmraaqiAvatarsQueueItem->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize)) {
@@ -288,7 +288,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 									if (hFile != INVALID_HANDLE_VALUE) {
 										DWORD dwWritten = 0;
 										bContinue = TRUE;
-										nls.dwTimeout = (1000*DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "TimeOutReceive", MRA_AVT_DEFAULT_TIMEOUT_RECV));
+										nls.dwTimeout = (1000*db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutReceive", MRA_AVT_DEFAULT_TIMEOUT_RECV));
 										nls.hReadConns[0] = hConnection;
 
 										while ( bContinue ) {
@@ -381,11 +381,11 @@ HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPSTR lpszHost, DWORD dwPort)
 	nloc.flags = (NLOCF_HTTP|NLOCF_V2);
 	nloc.szHost = lpszHost;
 	nloc.wPort = ( IsHTTPSProxyUsed(hNetlibUser)) ? MRA_SERVER_PORT_HTTPS : dwPort;
-	nloc.timeout = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
+	nloc.timeout = db_get_dw(NULL, MRA_AVT_SECT_NAME, "TimeOutConnect", MRA_AVT_DEFAULT_TIMEOUT_CONN);
 	if (nloc.timeout<MRA_TIMEOUT_CONN_MIN) nloc.timeout = MRA_TIMEOUT_CONN_MIN;
 	if (nloc.timeout>MRA_TIMEOUT_CONN_ÌÀÕ) nloc.timeout = MRA_TIMEOUT_CONN_ÌÀÕ;
 
-	DWORD dwConnectReTryCount = DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
+	DWORD dwConnectReTryCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "ConnectReTryCount", MRA_AVT_DEFAULT_CONN_RETRY_COUNT);
 	DWORD dwCurConnectReTryCount = dwConnectReTryCount;
 	HANDLE hConnection;
 	do {
@@ -602,7 +602,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 
 			GetSystemTimeAsFileTime(&ftCurrentTime);
 			SystemTimeToFileTime(&stAvatarLastCheckTime, &ftExpireTime);
-			(*((DWORDLONG*)&ftExpireTime)) += (FILETIME_MINUTE*(DWORDLONG)DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL));
+			(*((DWORDLONG*)&ftExpireTime)) += (FILETIME_MINUTE*(DWORDLONG)db_get_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL));
 
 			if ((*((DWORDLONG*)&ftExpireTime))>(*((DWORDLONG*)&ftCurrentTime)))
 			if ( MraAvatarsGetFileName(hAvatarsQueueHandle, hContact, GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT), wszFileName, SIZEOF(wszFileName), &dwPathSize) == NO_ERROR)
@@ -679,9 +679,9 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			else
 				SET_DLG_ITEM_TEXTA(hWndDlg, IDC_SERVER, MRA_AVT_DEFAULT_SERVER);
 
-			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT), FALSE);
+			SetDlgItemInt(hWndDlg, IDC_SERVERPORT, db_get_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", MRA_AVT_DEFAULT_SERVER_PORT), FALSE);
 			CHECK_DLG_BUTTON(hWndDlg, IDC_USE_KEEPALIVE_CONN, db_get_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", MRA_AVT_DEFAULT_USE_KEEPALIVE_CONN));
-			SetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL), FALSE);
+			SetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, db_get_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL), FALSE);
 			CHECK_DLG_BUTTON(hWndDlg, IDC_RETURN_ABC_PATH, db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH));
 			CHECK_DLG_BUTTON(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE, db_get_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", MRA_DELETE_AVT_ON_CONTACT_DELETE));
 
@@ -708,12 +708,12 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			{
 				WCHAR szServer[MAX_PATH];
 
-				DBWriteContactSettingByte(NULL, MRA_AVT_SECT_NAME, "Enable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
-				DBWriteContactSettingByte(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE));
-				DBWriteContactSettingByte(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RETURN_ABC_PATH));
-				DBWriteContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, NULL, FALSE));
-				DBWriteContactSettingByte(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_USE_KEEPALIVE_CONN));
-				DBWriteContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "Enable", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_RETURN_ABC_PATH));
+				db_set_dw(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, NULL, FALSE));
+				db_set_b(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_USE_KEEPALIVE_CONN));
+				db_set_dw(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
 
 				GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer));
 				db_set_ws(NULL, MRA_AVT_SECT_NAME, "Server", szServer);

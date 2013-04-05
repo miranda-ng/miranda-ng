@@ -152,7 +152,7 @@ void CMraProto::InitContactMenu()
 	CListCreateMenu(2000060000, -500050000, NULL, NULL, FALSE, gdiContactMenuItems, SIZEOF(gdiContactMenuItems), hContactMenuItems);
 }
 
-void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsMain, const GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HANDLE *hResult)
+void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMainIcon, LPSTR pszContactOwner, BOOL bIsMain, const GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount, HGENMENU *hResult)
 {
 	if (!pgdiItems || !dwCount || !hResult)
 		return;

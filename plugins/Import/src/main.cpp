@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IMPORT,
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	if (DBGetContactSettingByte(NULL, IMPORT_MODULE, IMP_KEY_FR, 0))
+	if (db_get_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 0))
 		return 0;
 
 	// Only autorun import wizard if at least one protocol is installed
@@ -93,7 +93,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ProtoEnumAccounts(&nProtocols, &ppProtos);
 	if (nProtocols > 0) {
 		CallService(IMPORT_SERVICE, 0, 0);
-		DBWriteContactSettingByte(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
+		db_set_b(NULL, IMPORT_MODULE, IMP_KEY_FR, 1);
 	}
 	return 0;
 }

@@ -117,7 +117,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbvOldHash = {0};
-	bool ret = (DBGetContactSettingTString(hContact,MODULE_NAME,"AvatarHash",&dbvOldHash) == 0);
+	bool ret = (db_get_ts(hContact,MODULE_NAME,"AvatarHash",&dbvOldHash) == 0);
 
 	CONTACTAVATARCHANGEDNOTIFICATION* avatar = (CONTACTAVATARCHANGEDNOTIFICATION*)lParam;
 	if (avatar == NULL) {
@@ -125,13 +125,13 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 			//avoid duplicate "removed avatar" notifications
 			//do not notify on an empty profile
 			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Removed avatar, no avatar before...skipping"));
-			DBFreeVariant(&dbvOldHash);
+			db_free(&dbvOldHash);
 			return 0;
 		}
 		SkinPlaySound("avatar_removed");
 
 		// Is a flash avatar or avs could not load it
-		DBWriteContactSettingTString(hContact, MODULE_NAME, "AvatarHash", _T("-"));
+		db_set_ts(hContact, MODULE_NAME, "AvatarHash", _T("-"));
 
 		if (ContactEnabled(hContact, "AvatarPopups", AVH_DEF_AVPOPUPS) && opts.popup_show_removed)
 			ShowPopup(hContact, NULL, opts.popup_removed);
@@ -140,11 +140,11 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		if (ret && !_tcscmp(dbvOldHash.ptszVal, avatar->hash)) {
 			// same avatar hash, skipping
 			ShowDebugPopup(hContact, TranslateT("AVH Debug"), TranslateT("Hashes are the same... skipping"));
-			DBFreeVariant(&dbvOldHash);
+			db_free(&dbvOldHash);
 			return 0;
 		}
 		SkinPlaySound("avatar_changed");
-		DBWriteContactSettingTString(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
+		db_set_ts(hContact, "AvatarHistory", "AvatarHash", avatar->hash);
 
 		TCHAR history_filename[MAX_PATH] = _T("");
 

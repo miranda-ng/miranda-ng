@@ -407,7 +407,7 @@ void ThumbInfo::RefreshContactStatus(int idStatus)
 
 void ThumbInfo::DeleteContactPos()
 {
-	DBDeleteContactSetting( hContact, MODULE, "ThumbsPos" );
+	db_unset( hContact, MODULE, "ThumbsPos" );
 }
 
 void ThumbInfo::OnLButtonDown(int nX, int nY)

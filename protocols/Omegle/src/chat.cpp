@@ -108,7 +108,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 					DBVARIANT dbv;
 					if ( !getU8String( OMEGLE_KEY_LAST_QUESTION,&dbv )) {
 						params = dbv.pszVal;
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					
 					if (params.empty()) {
@@ -139,7 +139,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				DBVARIANT dbv;
 				if ( !getU8String( OMEGLE_KEY_ASL,&dbv )) {
 					text = dbv.pszVal;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				} else {
 					UpdateChat(NULL, TranslateT("Your '/asl' setting is empty."), false);
 					break;
@@ -367,13 +367,13 @@ void OmegleProto::SetChatStatus(int status)
 		
 		// Load actual name from database
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, m_szModuleName, OMEGLE_KEY_NAME, &dbv))
+		if ( !db_get_ts(NULL, m_szModuleName, OMEGLE_KEY_NAME, &dbv))
 		{
 			facy.nick_ = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			facy.nick_ = mir_tstrdup(TranslateT("You"));
-			DBWriteContactSettingTString(NULL, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
+			db_set_ts(NULL, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
 		}
 		
 		// Add self contact

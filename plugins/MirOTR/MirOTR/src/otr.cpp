@@ -79,7 +79,7 @@ extern "C" {
 		HANDLE hContact = (HANDLE)opdata;
 		DWORD pol;
 		if(hContact) {
-			pol = DBGetContactSettingDword(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY); 
+			pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY); 
 			if (options.bHaveSecureIM && pol != OTRL_POLICY_MANUAL_MOD && pol != OTRL_POLICY_NEVER && db_get_b(hContact, "SecureIM" , "StatusID", 0)) {
 				// if SecureIM is not disabled for this contact, MirOTR will be set to manual
 				db_set_dw(hContact, MODULENAME, "Policy", OTRL_POLICY_MANUAL_MOD);
@@ -126,7 +126,7 @@ extern "C" {
 		DEBUGOUT_T("OTR_GUI_IS_LOGGED_IN")
 		HANDLE hContact = (HANDLE)opdata;
 		if(hContact) {
-			WORD status = DBGetContactSettingWord(hContact, contact_get_proto(hContact), "Status", ID_STATUS_OFFLINE);
+			WORD status = db_get_w(hContact, contact_get_proto(hContact), "Status", ID_STATUS_OFFLINE);
 			if(status == ID_STATUS_OFFLINE) return 0;
 			else return 1;
 		}
@@ -141,7 +141,7 @@ extern "C" {
 		//MessageBox(0, message, "OTR Inject", MB_OK);
 		HANDLE hContact = (HANDLE)opdata;
 
-		if(protocol && DBGetContactSettingWord(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+		if(protocol && db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 			/* this would be with translation
 			TCHAR *decode = mir_utf8decodeT(message);
 			TCHAR *encode = mir_utf8encodeT(TranslateT(decide));

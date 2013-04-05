@@ -234,7 +234,7 @@ BOOL DB_GetStaticStringA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 		}
 		if (pdwRetBuffSize) (*pdwRetBuffSize) = dwRetBuffSizeLocal;
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}else {
 		if (lpszRetBuff && dwRetBuffSize >= sizeof(WORD)) (*((WORD*)lpszRetBuff)) = 0;
 		if (pdwRetBuffSize)	(*pdwRetBuffSize) = 0;
@@ -267,7 +267,7 @@ BOOL DB_GetStaticStringW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueNam
 		}
 		if (pdwRetBuffSize) (*pdwRetBuffSize) = dwReadedStringLen;
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}else {
 		if (lpwszRetBuff && dwRetBuffSize >= sizeof(WCHAR)) (*((WCHAR*)lpwszRetBuff)) = 0;
 		if (pdwRetBuffSize)	(*pdwRetBuffSize) = 0;
@@ -303,7 +303,7 @@ BOOL DB_SetStringExA(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 	}
 	else {
 		bRet = TRUE;
-		DBDeleteContactSetting(hContact, lpszModule, lpszValueName);
+		db_unset(hContact, lpszModule, lpszValueName);
 	}
 	return bRet;
 }
@@ -330,7 +330,7 @@ BOOL DB_SetStringExW(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszValueName, L
 	}
 	else {
 		bRet = TRUE;
-		DBDeleteContactSetting(hContact, lpszModule, lpszValueName);
+		db_unset(hContact, lpszModule, lpszValueName);
 	}
 	return bRet;
 }
@@ -367,7 +367,7 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact, LPCSTR lpszModule, LPCSTR lpszVal
 			}
 			if (pdwRetBuffSize) (*pdwRetBuffSize) = dbv.cpbVal;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else {
 		if (pdwRetBuffSize)	(*pdwRetBuffSize) = 0;
@@ -421,9 +421,9 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 	mraSetDword(hContact, "ContactFlags", dwContactFlag);
 
 	if (dwContactFlag&CONTACT_FLAG_SHADOW)
-		DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+		db_set_b(hContact, "CList", "Hidden", 1);
 	else
-		DBDeleteContactSetting(hContact, "CList", "Hidden");
+		db_unset(hContact, "CList", "Hidden");
 
 	switch (dwContactFlag&(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)) {
 	case CONTACT_FLAG_INVISIBLE:
@@ -577,7 +577,7 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 			if (mraGetStaticStringA(hContact, "e-mail", szEMailLocal, SIZEOF(szEMailLocal), &dwEMailLocalSize))
 			if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, szEMailLocal, dwEMailLocalSize, lpszEMail, dwEMailSize) == CSTR_EQUAL)
 			{
-				if (bTemporary == FALSE) DBDeleteContactSetting(hContact, "CList", "NotOnList");
+				if (bTemporary == FALSE) db_unset(hContact, "CList", "NotOnList");
 				bFound = TRUE;
 				break;
 			}
@@ -623,7 +623,7 @@ HANDLE CMraProto::MraHContactFromEmail(LPSTR lpszEMail, size_t dwEMailSize, BOOL
 					SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_ONLINE, lpszEMail, dwEMailSize, NULL, 0, NULL, 0);
 				else {
 					if (bTemporary)
-						DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+						db_set_b(hContact, "CList", "NotOnList", 1);
 					mraSetStringExA(hContact, "MirVer", MIRVER_UNKNOWN, (sizeof(MIRVER_UNKNOWN)-1));
 					SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, (SCBIF_ID|SCBIF_GROUP_ID|SCBIF_SERVER_FLAG|SCBIF_STATUS|SCBIF_EMAIL), -1, -1, 0, CONTACT_INTFLAG_NOT_AUTHORIZED, ID_STATUS_OFFLINE, lpszEMail, dwEMailSize, NULL, 0, NULL, 0);
 				}
@@ -1142,16 +1142,6 @@ DWORD CMraProto::CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReaso
 	if (pdwBuffSizeRet)
 		*pdwBuffSizeRet = dwBuffSizeRet;
 	return dwRetErrorCode;
-}
-
-void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
-{
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
-	if (bShow == FALSE)
-		mi.flags |= CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
 }
 
 size_t CopyNumber(LPCVOID lpcOutBuff, LPCVOID lpcBuff, size_t dwLen)

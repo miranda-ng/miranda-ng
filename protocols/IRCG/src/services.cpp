@@ -248,7 +248,7 @@ int __cdecl CIrcProto::OnContactDeleted(WPARAM wp, LPARAM)
 					dcc->Disconnect();
 		}	}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -262,7 +262,7 @@ INT_PTR __cdecl CIrcProto::OnJoinChat(WPARAM wp, LPARAM)
 	if ( !getTString(( HANDLE )wp, "Nick", &dbv)) {
 		if ( getByte(( HANDLE )wp, "ChatRoom", 0) == GCW_CHATROOM)
 			PostIrcMessage( _T("/JOIN %s"), dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -288,7 +288,7 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 			gcd.ptszID = ( TCHAR* )S.c_str();
 			CallChatEvent( SESSION_TERMINATE, (LPARAM)&gce);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -302,7 +302,7 @@ INT_PTR __cdecl CIrcProto::OnMenuChanSettings(WPARAM wp, LPARAM)
 	DBVARIANT dbv;
 	if ( !getTString( hContact, "Nick", &dbv )) {
 		PostIrcMessageWnd(dbv.ptszVal, NULL, _T("/CHANNELMANAGER"));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -316,7 +316,7 @@ INT_PTR __cdecl CIrcProto::OnMenuWhois(WPARAM wp, LPARAM)
 
 	if ( !getTString(( HANDLE )wp, "Nick", &dbv)) {
 		PostIrcMessage( _T("/WHOIS %s %s"), dbv.ptszVal, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -352,10 +352,10 @@ INT_PTR __cdecl CIrcProto::OnMenuIgnore(WPARAM wp, LPARAM)
 				PostIrcMessage( _T("/IGNORE %%question=\"%s\",\"%s\",\"*!*@%S\" %s"),
 					TranslateT("Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored"),
 					TranslateT("Ignore"), host, S.c_str());
-				DBFreeVariant(&dbv1);
+				db_free(&dbv1);
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -649,7 +649,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							DBVARIANT dbv;
 							if ( !getTString( "Nick", &dbv )) {
 								PostIrcMessage( _T("/nickserv SENDPASS %s"), dbv.ptszVal);
-								DBFreeVariant( &dbv );
+								db_free( &dbv );
 						}	}
 						break;
 					case 10:		// nickserv set new password
@@ -940,7 +940,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 
 				gcmi->nItems = SIZEOF(nickItems);
 				gcmi->Item = nickItems;
-				BOOL bIsInList = (hContact && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 0);
+				BOOL bIsInList = (hContact && db_get_b(hContact, "CList", "NotOnList", 0) == 0);
 				gcmi->Item[gcmi->nItems-1].bDisabled = bIsInList;
 
 				unsigned long ulAdr = 0;
@@ -1033,12 +1033,12 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 					if ( !getString( hContact, "Host", &dbv3)) {
 						if (dbv3.pszVal[0] == 0)
 							bEnabled = false;
-						DBFreeVariant(&dbv3);
+						db_free(&dbv3);
 					}
 				}
 				Menu_ShowItem(hUMenuIgnore, bEnabled);
 			}
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}
 	}
 
@@ -1063,7 +1063,7 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 		if ( !getTString( hContact, "Nick", &dbv )) {
 			if ( getByte( "MirVerAutoRequest", 1))
 				PostIrcMessage( _T("/PRIVMSG %s \001VERSION\001"), dbv.ptszVal );
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 	}	}
 	return 0;
 }

@@ -213,7 +213,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbvMirVer;
 		if ( !db_get_ts(hContact, szProto, "MirVer", &dbvMirVer)) {
 			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
-			DBFreeVariant(&dbvMirVer);
+			db_free(&dbvMirVer);
 		}
 		else ApplyFingerprintImage(hContact, NULL);
 	}

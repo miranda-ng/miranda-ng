@@ -26,7 +26,7 @@ int statustype;
 BOOL BackupStatusMsg() {
 	DBVARIANT dbv;
 
-	statustype=DBGetContactSettingByte(NULL,protocolname,"statuschgtype",0);
+	statustype=db_get_b(NULL,protocolname,"statuschgtype",0);
 
 	XFireLog("Backup Status Message ...");
 
@@ -67,7 +67,7 @@ BOOL BackupStatusMsg() {
 		sprintf_s(ttemp,128,"%s%s",temp[i]->szModuleName,PS_SETAWAYMSG);
 
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if(!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||DBGetContactSettingByte(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
+		if(!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||db_get_b(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
 		{
 			XFireLog("-> Skip %s.",temp[i]->szModuleName);
 
@@ -87,7 +87,7 @@ BOOL BackupStatusMsg() {
 				int caps=CallProtoService(temp[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0);
 
 				//normale statusreihenfolge
-				if(DBGetContactSettingByte(NULL,protocolname,"dndfirst",0)==0)
+				if(db_get_b(NULL,protocolname,"dndfirst",0)==0)
 				{
 					if(caps&PF2_LIGHTDND)
 					{
@@ -149,35 +149,35 @@ BOOL BackupStatusMsg() {
 		switch(statusid)
 		{
 		case ID_STATUS_ONLINE:
-			if(DBGetContactSetting(NULL,"SRAway","OnMsg",&dbv))
+			if(db_get(NULL,"SRAway","OnMsg",&dbv))
 				olstatusmsg->push_back(Translate("Yep, I'm here."));
 			break;
 		case ID_STATUS_AWAY:
-			if(DBGetContactSetting(NULL,"SRAway","AwayMsg",&dbv))
+			if(db_get(NULL,"SRAway","AwayMsg",&dbv))
 				olstatusmsg->push_back(Translate("I've been away since %time%."));
 			break;
 		case ID_STATUS_NA:
-			if(DBGetContactSetting(NULL,"SRAway","NaMsg",&dbv))
+			if(db_get(NULL,"SRAway","NaMsg",&dbv))
 				olstatusmsg->push_back(Translate("Give it up, I'm not in!"));
 			break;
 		case ID_STATUS_OCCUPIED:
-			if(DBGetContactSetting(NULL,"SRAway","OccupiedMsg",&dbv))
+			if(db_get(NULL,"SRAway","OccupiedMsg",&dbv))
 				olstatusmsg->push_back(Translate("Not right now."));
 			break;
 		case ID_STATUS_DND:
-			if(DBGetContactSetting(NULL,"SRAway","DndMsg",&dbv))
+			if(db_get(NULL,"SRAway","DndMsg",&dbv))
 				olstatusmsg->push_back(Translate("Give a guy some peace, would ya?"));
 			break;
 		case ID_STATUS_FREECHAT:
-			if(DBGetContactSetting(NULL,"SRAway","FreeChatMsg",&dbv))
+			if(db_get(NULL,"SRAway","FreeChatMsg",&dbv))
 				olstatusmsg->push_back(Translate("Well, I would talk to you if Miranda ICQ supported chat"));
 			break;
 		case ID_STATUS_ONTHEPHONE:
-			if(DBGetContactSetting(NULL,"SRAway","OtpMsg",&dbv))
+			if(db_get(NULL,"SRAway","OtpMsg",&dbv))
 				olstatusmsg->push_back(Translate("That'll be the phone."));
 			break;
 		case ID_STATUS_OUTTOLUNCH:
-			if(DBGetContactSetting(NULL,"SRAway","OtlMsg",&dbv))
+			if(db_get(NULL,"SRAway","OtlMsg",&dbv))
 				olstatusmsg->push_back(Translate("Mmm...food."));
 			break;
 		default:
@@ -195,7 +195,7 @@ BOOL BackupStatusMsg() {
 			olstatusmsg->push_back(string(dbv.pszVal));
 			protoname->push_back(temp[i]->szModuleName);
 			//freigeben
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else
 			protoname->push_back(temp[i]->szModuleName);
@@ -216,23 +216,23 @@ BOOL SetGameStatusMsg()
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSetting(NULL,protocolname,"setstatusmsg",&dbv)) {
+		if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
 			//direkte funktionen verwenden
 			statusmsg = variables_parse(dbv.pszVal,NULL,0);
 			if (statusmsg == NULL)
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return FALSE;
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else
 	{
 		//alternativ zweig ohne variables
 		DBVARIANT dbv;
-		if(!DBGetContactSetting(NULL,protocolname,"setstatusmsg",&dbv)) {
+		if(!db_get(NULL,protocolname,"setstatusmsg",&dbv)) {
 
 			DBVARIANT dbv3;
 
@@ -242,37 +242,37 @@ BOOL SetGameStatusMsg()
 			//mit den vars ersetzen beginnen
 
 			//derzeitiges spiel
-			if(!DBGetContactSetting(NULL,protocolname, "currentgamename",&dbv3))
+			if(!db_get(NULL,protocolname, "currentgamename",&dbv3))
 			{
 				xgamelist.strreplace("%myxfiregame%",dbv3.pszVal,&statusmsg);
-				DBFreeVariant(&dbv3);
+				db_free(&dbv3);
 			}
 			else
 				xgamelist.strreplace("%myxfiregame%","",&statusmsg);
 
 			//derzeitiges voiceprogram
-			if(!DBGetContactSetting(NULL,protocolname, "currentvoicename",&dbv3))
+			if(!db_get(NULL,protocolname, "currentvoicename",&dbv3))
 			{
 				xgamelist.strreplace("%myxfirevoice%",dbv3.pszVal,&statusmsg);
-				DBFreeVariant(&dbv3);
+				db_free(&dbv3);
 			}
 			else
 				xgamelist.strreplace("%myxfirevoice%","",&statusmsg);
 
 			//derzeitige voiceip
-			if(!DBGetContactSetting(NULL,protocolname, "VServerIP",&dbv3))
+			if(!db_get(NULL,protocolname, "VServerIP",&dbv3))
 			{
 				xgamelist.strreplace("%myxfirevoiceip%",dbv3.pszVal,&statusmsg);
-				DBFreeVariant(&dbv3);
+				db_free(&dbv3);
 			}
 			else
 				xgamelist.strreplace("%myxfirevoiceip%","",&statusmsg);
 
 			//derzeitige gameip
-			if(!DBGetContactSetting(NULL,protocolname, "ServerIP",&dbv3))
+			if(!db_get(NULL,protocolname, "ServerIP",&dbv3))
 			{
 				xgamelist.strreplace("%myxfireserverip%",dbv3.pszVal,&statusmsg);
-				DBFreeVariant(&dbv3);
+				db_free(&dbv3);
 			}
 			else
 				xgamelist.strreplace("%myxfireserverip%","",&statusmsg);

@@ -11,14 +11,11 @@ int deleteModule(char* module, HANDLE hContact, int fromMenu)
 
 	if (!module) return 0;
 
-	if (!fromMenu)
-	{
+	if (!fromMenu) {
 		mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete module \"%s\"?"), module);
-		if (DBGetContactSettingByte(NULL,modname, "WarnOnDelete",1))
-		{
+		if (db_get_b(NULL,modname, "WarnOnDelete",1))
 			if (MessageBox(0,msg, Translate("Confirm Module Deletion"), MB_YESNO|MB_ICONEXCLAMATION) == IDNO)
 				return 0;
-		}
 	}
 
 	if (!EnumSettings(hContact,module,&settinglist)) return 0;
@@ -26,7 +23,7 @@ int deleteModule(char* module, HANDLE hContact, int fromMenu)
 	setting = settinglist.first;
 	while (setting)
 	{
-		DBDeleteContactSetting(hContact, module, setting->name);
+		db_unset(hContact, module, setting->name);
 		setting = (struct ModSetLinkLinkItem *)setting->next;
 	}
 	FreeModuleSettingLL(&settinglist);

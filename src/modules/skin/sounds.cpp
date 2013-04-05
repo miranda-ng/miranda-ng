@@ -93,7 +93,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 
 	if (ptszDefaultFile) {
 		DBVARIANT dbv;
-		if (DBGetContactSettingString(NULL, "SkinSounds", item->name, &dbv))
+		if (db_get_s(NULL, "SkinSounds", item->name, &dbv))
 			db_set_ts(NULL, "SkinSounds", item->name, ptszDefaultFile);
 		else
 			db_free(&dbv);
@@ -139,7 +139,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 		return 1;
 
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
+	if ( db_get_ts(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 		ServiceSkinPlaySoundFile(0, (LPARAM)dbv.ptszVal);
 		db_free(&dbv);
 		return 0;
@@ -261,7 +261,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				NotifyEventHooks(hPlayEvent, 1, (LPARAM)arSounds[tvi.lParam].ptszTempFile);
 			else {
 				DBVARIANT dbv;
-				if ( !DBGetContactSettingTString(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+				if ( !db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 					TCHAR szPathFull[MAX_PATH];
 					PathToAbsoluteT(dbv.ptszVal, szPathFull);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
@@ -292,7 +292,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			else {
 				if (db_get_b(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
-					if (DBGetContactSettingTString(NULL, "SkinSounds", snd.name, &dbv) == 0) {
+					if (db_get_ts(NULL, "SkinSounds", snd.name, &dbv) == 0) {
 						PathToAbsoluteT(dbv.ptszVal, strdir);
 						db_free(&dbv);
 			}	}	}
@@ -394,7 +394,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);
 						else {
 							DBVARIANT dbv;
-							if ( !DBGetContactSettingTString(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
+							if ( !db_get_ts(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
 								db_free(&dbv);
 							}

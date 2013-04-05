@@ -804,7 +804,7 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 
 			{
 				lstrcpyn(dict->localized_name, dbv.ptszVal, SIZEOF(dict->localized_name));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if (dict->localized_name[0] == _T('\0'))

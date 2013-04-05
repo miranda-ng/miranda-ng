@@ -286,7 +286,7 @@ template class TString<char>;
 template class TString<WCHAR>;
 
 
-CString DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
+CString db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {
 	DBVARIANT dbv = {0};
 	DBCONTACTGETSETTING dbcgs;
@@ -311,7 +311,7 @@ CString DBGetContactSettingString(HANDLE hContact, const char *szModule, const c
 
 
 
-TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
+TCString db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 {
 	DBVARIANT dbv = {0};
 	DBCONTACTGETSETTING dbcgs;
@@ -337,7 +337,7 @@ TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const 
 
 
 
-int DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
+int db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	return db_get_s(hContact, szModule, szSetting, dbv, DBVT_ASCIIZ);
 }

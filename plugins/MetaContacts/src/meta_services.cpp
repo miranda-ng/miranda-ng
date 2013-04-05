@@ -229,31 +229,9 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 
 	// if subcontact sending, add db event to keep metacontact history correct
 	if (options.metahistory && !(ccs->wParam & PREF_METANODB)) {
-
-		// reject "file As Message" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%fAM", 5) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		// reject "data As Message" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "<%dAM", 5) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		// reject "OTR" messages
-		if (strlen((char *)ccs->lParam) > 5 && strncmp((char *)ccs->lParam, "?OTR", 4) == 0)
-			return CallService(MS_PROTO_CHAINSEND, wParam, lParam);	// continue processing
-
-		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.szModule = META_PROTO;
-		dbei.flags = DBEF_SENT;
-		dbei.timestamp = time(NULL);
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		if (ccs->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
-		if (ccs->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
-		dbei.cbBlob = (DWORD)strlen((char *)ccs->lParam) + 1;
-		if ( ccs->wParam & PREF_UNICODE )
-			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
-		dbei.pBlob = (PBYTE)ccs->lParam;
-		db_event_add(hMeta, &dbei);
+		HANDLE hContact = ccs->hContact; ccs->hContact = hMeta;
+		CallService(MS_PROTO_CHAINSEND, 0, lParam);
+		ccs->hContact = hContact;
 	}
 
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -672,7 +650,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 				db_set_utf(hMeta, META_PROTO, "ListeningTo", dcws->value.pszVal);
 				break;
 			case DBVT_WCHAR:
-				DBWriteContactSettingWString(hMeta, META_PROTO, "ListeningTo", dcws->value.pwszVal);
+				db_set_ws(hMeta, META_PROTO, "ListeningTo", dcws->value.pwszVal);
 				break;
 			case DBVT_DELETED:
 				db_unset(hMeta, META_PROTO, "ListeningTo");

@@ -84,7 +84,7 @@ void cfg::init()
 
 DWORD cfg::getDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD uDefault = 0)
 {
-	return((DWORD)DBGetContactSettingDword(hContact, szModule, szSetting, uDefault));
+	return((DWORD)db_get_dw(hContact, szModule, szSetting, uDefault));
 }
 
 /*
@@ -93,7 +93,7 @@ DWORD cfg::getDword(const HANDLE hContact = 0, const char *szModule = 0, const c
 
 DWORD cfg::getDword(const char *szSetting = 0, DWORD uDefault = 0)
 {
-	return((DWORD)DBGetContactSettingDword(0, DEFAULT_MODULE, szSetting, uDefault));
+	return((DWORD)db_get_dw(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
 /*
@@ -102,13 +102,13 @@ DWORD cfg::getDword(const char *szSetting = 0, DWORD uDefault = 0)
 
 DWORD cfg::getDword(const char *szModule, const char *szSetting, DWORD uDefault)
 {
-	return((DWORD)DBGetContactSettingDword(0, szModule, szSetting, uDefault));
+	return((DWORD)db_get_dw(0, szModule, szSetting, uDefault));
 }
 
 
 WORD cfg::getWord(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD uDefault = 0)
 {
-	return((WORD)DBGetContactSettingWord(hContact, szModule, szSetting, uDefault));
+	return((WORD)db_get_w(hContact, szModule, szSetting, uDefault));
 }
 
 /*
@@ -117,7 +117,7 @@ WORD cfg::getWord(const HANDLE hContact = 0, const char *szModule = 0, const cha
 
 WORD cfg::getWord(const char *szSetting = 0, WORD uDefault = 0)
 {
-	return((WORD)DBGetContactSettingWord(0, DEFAULT_MODULE, szSetting, uDefault));
+	return((WORD)db_get_w(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
 /*
@@ -126,7 +126,7 @@ WORD cfg::getWord(const char *szSetting = 0, WORD uDefault = 0)
 
 WORD cfg::getWord(const char *szModule, const char *szSetting, WORD uDefault)
 {
-	return((WORD)DBGetContactSettingWord(0, szModule, szSetting, uDefault));
+	return((WORD)db_get_w(0, szModule, szSetting, uDefault));
 }
 
 /*
@@ -134,27 +134,27 @@ WORD cfg::getWord(const char *szModule, const char *szSetting, WORD uDefault)
  */
 int cfg::getByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, int uDefault = 0)
 {
-	return(DBGetContactSettingByte(hContact, szModule, szSetting, uDefault));
+	return(db_get_b(hContact, szModule, szSetting, uDefault));
 }
 
 int cfg::getByte(const char *szSetting = 0, int uDefault = 0)
 {
-	return(DBGetContactSettingByte(0, DEFAULT_MODULE, szSetting, uDefault));
+	return(db_get_b(0, DEFAULT_MODULE, szSetting, uDefault));
 }
 
 int cfg::getByte(const char *szModule, const char *szSetting, int uDefault)
 {
-	return(DBGetContactSettingByte(0, szModule, szSetting, uDefault));
+	return(db_get_b(0, szModule, szSetting, uDefault));
 }
 
 INT_PTR cfg::getTString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	return(DBGetContactSettingTString(hContact, szModule, szSetting, dbv));
+	return(db_get_ts(hContact, szModule, szSetting, dbv));
 }
 
 INT_PTR cfg::getString(const HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	return(DBGetContactSettingString(hContact, szModule, szSetting, dbv));
+	return(db_get_s(hContact, szModule, szSetting, dbv));
 }
 
 /*
@@ -163,42 +163,42 @@ INT_PTR cfg::getString(const HANDLE hContact, const char *szModule, const char *
 
 INT_PTR cfg::writeDword(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
 {
-	return(DBWriteContactSettingDword(hContact, szModule, szSetting, value));
+	return(db_set_dw(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeDword(const char *szModule = 0, const char *szSetting = 0, DWORD value = 0)
 {
-	return(DBWriteContactSettingDword(0, szModule, szSetting, value));
+	return(db_set_dw(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeWord(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
 {
-	return(DBWriteContactSettingWord(hContact, szModule, szSetting, value));
+	return(db_set_w(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeWord(const char *szModule = 0, const char *szSetting = 0, WORD value = 0)
 {
-	return(DBWriteContactSettingWord(0, szModule, szSetting, value));
+	return(db_set_w(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeByte(const HANDLE hContact = 0, const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
 {
-	return(DBWriteContactSettingByte(hContact, szModule, szSetting, value));
+	return(db_set_b(hContact, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeByte(const char *szModule = 0, const char *szSetting = 0, BYTE value = 0)
 {
-	return(DBWriteContactSettingByte(0, szModule, szSetting, value));
+	return(db_set_b(0, szModule, szSetting, value));
 }
 
 INT_PTR cfg::writeTString(const HANDLE hContact, const char *szModule = 0, const char *szSetting = 0, const TCHAR *str = 0)
 {
-	return(DBWriteContactSettingTString(hContact, szModule, szSetting, str));
+	return(db_set_ts(hContact, szModule, szSetting, str));
 }
 
 INT_PTR cfg::writeString(const HANDLE hContact, const char *szModule = 0, const char *szSetting = 0, const char *str = 0)
 {
-	return(DBWriteContactSettingString(hContact, szModule, szSetting, str));
+	return(db_set_s(hContact, szModule, szSetting, str));
 }
 
 TExtraCache* cfg::getCache(const HANDLE hContact, const char *szProto)
@@ -211,7 +211,7 @@ TExtraCache* cfg::getCache(const HANDLE hContact, const char *szProto)
 	TExtraCache *p = (TExtraCache*)calloc(sizeof(TExtraCache), 1);
 	p->hContact = hContact;
 	LoadSkinItemToCache(p, szProto);
-	p->dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
+	p->dwDFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0);
 	GetCachedStatusMsg(p, const_cast<char *>(szProto));
 	p->dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
 	cfg::arCache.insert(p);

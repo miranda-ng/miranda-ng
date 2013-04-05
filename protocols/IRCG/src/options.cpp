@@ -52,7 +52,7 @@ void CIrcProto::ReadSettings( TDbSetting* sets, int count )
 					ptr[len] = 0;
 				}
 				else *( char** )ptr = mir_strdup( dbv.pszVal );
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 			}
 			else {
 				if ( p->size != -1 )
@@ -69,7 +69,7 @@ void CIrcProto::ReadSettings( TDbSetting* sets, int count )
 						*( TCHAR* )&ptr[len*sizeof(TCHAR)] = 0;
 					}
 					else *( TCHAR** )ptr = mir_tstrdup( dbv.ptszVal );
-					DBFreeVariant( &dbv );
+					db_free( &dbv );
 				}
 				else {
 					if ( p->size != -1 ) {
@@ -115,7 +115,7 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 static int sttServerEnum( const char* szSetting, LPARAM )
 {
 	DBVARIANT dbv;
-	if ( DBGetContactSettingString( NULL, SERVERSMODULE, szSetting, &dbv ))
+	if ( db_get_s( NULL, SERVERSMODULE, szSetting, &dbv ))
 		return 0;
 
 	SERVER_INFO* pData = new SERVER_INFO;
@@ -159,7 +159,7 @@ static int sttServerEnum( const char* szSetting, LPARAM )
 	lstrcpynA( pData->m_group, p1, p2-p1+1 );
 
 	g_servers.insert( pData );
-	DBFreeVariant( &dbv );
+	db_free( &dbv );
 	return 0;
 }
 
@@ -814,7 +814,7 @@ void CConnectPrefsDlg::OnApply()
 					mir_snprintf(TextLine, sizeof(TextLine), "SERVER:SSL%u%s:%d-%dGROUP:%s", pData->m_iSSL, pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
 				else
 					mir_snprintf(TextLine, sizeof(TextLine), "SERVER:%s:%d-%dGROUP:%s", pData->m_address, pData->m_portStart, pData->m_portEnd, pData->m_group);
-				DBWriteContactSettingString( NULL, SERVERSMODULE, pData->m_name, TextLine );
+				db_set_s( NULL, SERVERSMODULE, pData->m_name, TextLine );
 
 				// combobox might contain new items
 				if ( g_servers.find( pData ) == NULL )
@@ -1211,7 +1211,7 @@ void COtherPrefsDlg::OnApply()
 			if ( !pPerf->mText.IsEmpty())
 				m_proto->setTString( pPerf->mSetting.c_str(), pPerf->mText.c_str());
 			else
-				DBDeleteContactSetting( NULL, m_proto->m_szModuleName, pPerf->mSetting.c_str());
+				db_unset( NULL, m_proto->m_szModuleName, pPerf->mSetting.c_str());
 	}	}
 	m_proto->WriteSettings( OtherSettings, SIZEOF( OtherSettings ));
 }
@@ -1225,7 +1225,7 @@ void COtherPrefsDlg::addPerformComboValue( int idx, const char* szValueName )
 	DBVARIANT dbv;
 	if ( !m_proto->getTString( sSetting.c_str(), &dbv )) {
 		pPref = new PERFORM_INFO( sSetting.c_str(), dbv.ptszVal );
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 	else pPref = new PERFORM_INFO( sSetting.c_str(), _T(""));
 	m_performCombo.SetItemData( idx, ( LPARAM )pPref );
@@ -1407,7 +1407,7 @@ void CIrcProto::InitIgnore( void )
 		CMString flags = GetWord( dbv.ptszVal, 1 );
 		CMString network = GetWord( dbv.ptszVal, 2 );
 		m_ignoreItems.insert( new CIrcIgnoreItem( mask.c_str(), flags.c_str(), network.c_str()));
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 }	}
 
 void CIrcProto::RewriteIgnoreSettings( void )
@@ -1417,7 +1417,7 @@ void CIrcProto::RewriteIgnoreSettings( void )
 	int i=0;
 	for ( ;; ) {
 		mir_snprintf( settingName, sizeof(settingName), "IGNORE:%d", i++ );
-		if ( DBDeleteContactSetting( NULL, m_szModuleName, settingName ))
+		if ( db_unset( NULL, m_szModuleName, settingName ))
 			break;
 	}
 
@@ -1733,11 +1733,11 @@ void CIrcProto::InitPrefs(void)
 
 	int x = getDword( "SizeOfListBottom", -1 );
 	if ( x != -1 ) {
-		DBDeleteContactSetting( NULL, m_szModuleName, "SizeOfListBottom" );
+		db_unset( NULL, m_szModuleName, "SizeOfListBottom" );
 		setDword( "channelList_height", x );
 	}
 	if (( x = getDword( "SizeOfListWidth", -1 )) != -1 ) {
-		DBDeleteContactSetting( NULL, m_szModuleName, "SizeOfListWidth" );
+		db_unset( NULL, m_szModuleName, "SizeOfListWidth" );
 		setDword( "channelList_width", x );
 	}
 
@@ -1892,7 +1892,7 @@ static void sttImportIni( const TCHAR* szIniFile )
 
 		memcpy( buf2, p, int(p1-p));
 		buf2[ int(p1-p) ] = 0;
-		DBWriteContactSettingString( NULL, SERVERSMODULE, buf2, p1 );
+		db_set_s( NULL, SERVERSMODULE, buf2, p1 );
 	}
 	fclose( serverFile );
 	::_tremove( szIniFile );

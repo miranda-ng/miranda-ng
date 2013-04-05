@@ -57,7 +57,7 @@ void PopupHistoryResize()
 void PopupHistoryLoad()
 {
 	InitializeCriticalSection(&csPopupHistory);
-	popupHistoryBuffer = DBGetContactSettingWord(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
+	popupHistoryBuffer = db_get_w(NULL, MODULNAME, "HistorySize", SETTING_HISTORYSIZE_DEFAULT);
 }
 
 void PopupHistoryUnload()

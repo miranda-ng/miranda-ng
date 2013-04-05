@@ -73,19 +73,19 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 						p = NULL;
 					JabberListAddResource(proto, LIST_ROSTER, from, status, statusNode?p:NULL);
 					if (p) {
-						DBWriteContactSettingString(hContact, "CList", "StatusMsg", p);
+						db_set_s(hContact, "CList", "StatusMsg", p);
 						mir_free(p);
 					} else {
-						DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+						db_unset(hContact, "CList", "StatusMsg");
 					}
 					// Determine status to show for the contact and request version information
 					if (item != NULL) {
 						laststatus = item->status;
 						item->status = status;
 					}
-					if (strchr(from, '@') != NULL || DBGetContactSettingByte(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
-						if (DBGetContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
-							DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Status", (WORD) status);
+					if (strchr(from, '@') != NULL || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
+						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
+							db_set_w(hContact, proto->m_szModuleName, "Status", (WORD) status);
 					}
 					if (item != NULL) {
 						if (!item->infoRequested) {
@@ -122,9 +122,9 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					JabberListAddResource(proto, LIST_ROSTER, from, status, p);
 					if ((hContact=JabberHContactFromJID(proto, from)) != NULL) {
 						if (p) {
-							DBWriteContactSettingString(hContact, "CList", "StatusMsg", p);
+							db_set_s(hContact, "CList", "StatusMsg", p);
 						} else {
-							DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+							db_unset(hContact, "CList", "StatusMsg");
 						}
 					}
 					if (p) mir_free(p);
@@ -136,9 +136,9 @@ void TlenProcessPresence(XmlNode *node, TlenProtocol *proto)
 					item->infoRequested = FALSE;
 				}
 				if ((hContact=JabberHContactFromJID(proto, from)) != NULL) {
-					if (strchr(from, '@') != NULL || DBGetContactSettingByte(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
-						if (DBGetContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
-							DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Status", (WORD) status);
+					if (strchr(from, '@') != NULL || db_get_b(NULL, proto->m_szModuleName, "ShowTransport", TRUE) == TRUE) {
+						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != status)
+							db_set_w(hContact, proto->m_szModuleName, "Status", (WORD) status);
 					}
 					if (item != NULL && item->isTyping) {
 						item->isTyping = FALSE;
@@ -214,8 +214,8 @@ static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
 		break;
 	case ID_STATUS_OFFLINE:
 		presenceType = "unavailable";
-		if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "LeaveOfflineMessage", FALSE)) {
-			int offlineMessageOption = DBGetContactSettingWord(NULL, proto->m_szModuleName, "OfflineMessageOption", 0);
+		if (db_get_b(NULL, proto->m_szModuleName, "LeaveOfflineMessage", FALSE)) {
+			int offlineMessageOption = db_get_w(NULL, proto->m_szModuleName, "OfflineMessageOption", 0);
 			if (offlineMessageOption == 0) {
 				switch (proto->m_iStatus) {
 					case ID_STATUS_ONLINE:
@@ -245,11 +245,11 @@ static void JabberSendPresenceTo(TlenProtocol *proto, int status, char *to)
 			} else if (offlineMessageOption < 7) {
 				DBVARIANT dbv;
 				const char *statusNames[] = {"OnDefault", "AwayDefault", "NaDefault", "DndDefault", "FreeChatDefault", "InvDefault"};
-				if (!DBGetContactSetting(NULL, "SRAway", statusNames[offlineMessageOption-1], &dbv)) {
+				if (!db_get(NULL, "SRAway", statusNames[offlineMessageOption-1], &dbv)) {
 					int i;
 					char substituteStr[128];
 					ptr = mir_strdup(dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					for (i=0;ptr[i];i++) {
 						if (ptr[i] != '%') continue;
 						if (!_strnicmp(ptr+i,"%time%",6))

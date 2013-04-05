@@ -107,18 +107,12 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	if ( lstrcmp( _T(CLISTCONTROL_CLASS), cls))
 		hwndClist = pcli->hwndContactList;
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
 	HANDLE hItem = (HANDLE)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	if ( !hItem)
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hRenameMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hRenameMenuItem, hItem != 0);
 
 	if ( !hItem || !IsHContactContact(hItem) || !db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) {
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowAvatarMenuItem, (LPARAM)&mi);
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideAvatarMenuItem, (LPARAM)&mi);
+		Menu_ShowItem(hShowAvatarMenuItem, false);
+		Menu_ShowItem(hHideAvatarMenuItem, false);
 	}
 	else {
 		int has_avatar;
@@ -126,8 +120,8 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 		if ( ServiceExists(MS_AV_GETAVATARBITMAP))
 			has_avatar = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hItem, 0);
 		else {
-			DBVARIANT dbv = {0};
-			if ( DBGetContactSettingTString(hItem, "ContactPhoto", "File", &dbv))
+			DBVARIANT dbv;
+			if ( db_get_ts(hItem, "ContactPhoto", "File", &dbv))
 				has_avatar = 0;
 			else {
 				has_avatar = 1;
@@ -135,18 +129,9 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 			}
 		}
 
-		if ( db_get_b(hItem, "CList", "HideContactAvatar", 0)) {
-			mi.flags = CMIM_FLAGS | (has_avatar ? 0 : CMIF_GRAYED);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowAvatarMenuItem, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideAvatarMenuItem, (LPARAM)&mi);
-		}
-		else {
-			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowAvatarMenuItem, (LPARAM)&mi);
-			mi.flags = CMIM_FLAGS | (has_avatar ? 0 : CMIF_GRAYED);
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideAvatarMenuItem, (LPARAM)&mi);
-		}
+		bool bHideAvatar = db_get_b(hItem, "CList", "HideContactAvatar", 0) != 0;
+		Menu_ShowItem(hShowAvatarMenuItem, bHideAvatar);
+		Menu_ShowItem(hHideAvatarMenuItem, !bHideAvatar);
 	}
 
 	return 0;
@@ -641,7 +626,7 @@ void CLUI_ChangeWindowMode()
 	//4- Set Title
 	TCHAR titleText[255] = {0};
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString(NULL, "CList", "TitleText", &dbv))
+	if ( db_get_ts(NULL, "CList", "TitleText", &dbv))
 		lstrcpyn(titleText,_T(MIRANDANAME),SIZEOF(titleText));
 	else {
 		lstrcpyn(titleText,dbv.ptszVal,SIZEOF(titleText));
@@ -1003,7 +988,7 @@ static int CLUI_CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 				KillTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->nIndex);
 				int cnt = CLUI_GetConnectingIconForProtoCount(szProto);
 				if (cnt != 0) {
-					nAnimatedIconStep = 100;/*DBGetContactSettingWord(NULL,"CLUI","DefaultStepConnectingIcon",100);*/
+					nAnimatedIconStep = 100;/*db_get_w(NULL,"CLUI","DefaultStepConnectingIcon",100);*/
 					pt->nIconsCount = cnt;
 					if (pt->himlIconList)
 						ImageList_Destroy(pt->himlIconList);
@@ -1296,7 +1281,7 @@ int CLUI_TestCursorOnBorders()
 		if (g_bTransparentFlag) {
 			if ( !bTransparentFocus && gf != hwnd) {
 				CLUI_SmoothAlphaTransition(hwnd, db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), 1);
-				//g_proc_SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				//g_proc_SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 				bTransparentFocus = 1;
 				CLUI_SafeSetTimer(hwnd, TM_AUTOALPHA,250, NULL);
 			}

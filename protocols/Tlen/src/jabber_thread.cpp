@@ -133,12 +133,12 @@ void __cdecl JabberServerThread(ThreadData *info)
 
 	info->proto->threadData = info;
 
-	if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
+	if (!db_get(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
 		strncpy(info->username, dbv.pszVal, sizeof(info->username));
 		info->username[sizeof(info->username)-1] = '\0';
 		_strlwr(info->username);
-		DBWriteContactSettingString(NULL, info->proto->m_szModuleName, "LoginName", info->username);
-		DBFreeVariant(&dbv);
+		db_set_s(NULL, info->proto->m_szModuleName, "LoginName", info->username);
+		db_free(&dbv);
 
 	} else {
 		JabberLog(info->proto, "Thread ended, login name is not configured");
@@ -146,12 +146,12 @@ void __cdecl JabberServerThread(ThreadData *info)
 	}
 
 	if (loginErr == 0) {
-		if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "LoginServer", &dbv)) {
+		if (!db_get(NULL, info->proto->m_szModuleName, "LoginServer", &dbv)) {
 			strncpy(info->server, dbv.pszVal, sizeof(info->server));
 			info->server[sizeof(info->server)-1] = '\0';
 			_strlwr(info->server);
-			DBWriteContactSettingString(NULL, info->proto->m_szModuleName, "LoginServer", info->server);
-			DBFreeVariant(&dbv);
+			db_set_s(NULL, info->proto->m_szModuleName, "LoginServer", info->server);
+			db_free(&dbv);
 		} else {
 			JabberLog(info->proto, "Thread ended, login server is not configured");
 			loginErr = LOGINERR_NONETWORK;
@@ -178,11 +178,11 @@ void __cdecl JabberServerThread(ThreadData *info)
 				loginErr = LOGINERR_BADUSERID;
 			}
 		} else {
-			if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "Password", &dbv)) {
+			if (!db_get(NULL, info->proto->m_szModuleName, "Password", &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				strncpy(info->password, dbv.pszVal, sizeof(info->password));
 				info->password[sizeof(info->password)-1] = '\0';
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else {
 				JabberLog(info->proto, "Thread ended, password is not configured");
 				loginErr = LOGINERR_BADUSERID;
@@ -207,14 +207,14 @@ void __cdecl JabberServerThread(ThreadData *info)
 	}
 
 	_snprintf(jidStr, sizeof(jidStr), "%s@%s", info->username, info->server);
-	DBWriteContactSettingString(NULL, info->proto->m_szModuleName, "jid", jidStr);
+	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
-	if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
+	if (!db_get(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
 		strncpy(info->manualHost, dbv.pszVal, sizeof(info->manualHost));
 		info->manualHost[sizeof(info->manualHost)-1] = '\0';
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
-	info->port = DBGetContactSettingWord(NULL, info->proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT);
+	info->port = db_get_w(NULL, info->proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT);
 	info->useEncryption = info->proto->tlenOptions.useEncryption;
 
 	if (info->manualHost[0])
@@ -225,11 +225,11 @@ void __cdecl JabberServerThread(ThreadData *info)
 	JabberLog(info->proto, "Thread server='%s' port='%d'", connectHost, info->port);
 
 
-	if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "AvatarHash", &dbv)) {
+	if (!db_get(NULL, info->proto->m_szModuleName, "AvatarHash", &dbv)) {
 		strcpy(info->proto->threadData->avatarHash, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
-	info->avatarFormat = DBGetContactSettingDword(NULL, info->proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
+	info->avatarFormat = db_get_dw(NULL, info->proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
 
 
 	reconnectMaxTime = 10;
@@ -367,8 +367,8 @@ void __cdecl JabberServerThread(ThreadData *info)
 			while (hContact != NULL) {
 				str = GetContactProto(hContact);
 				if (str != NULL && !strcmp(str, info->proto->m_szModuleName)) {
-					if (DBGetContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
-						DBWriteContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+					if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+						db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 					}
 				}
 				hContact = db_find_next(hContact);
@@ -810,20 +810,20 @@ static void JabberProcessIq(XmlNode *node, ThreadData *info)
 											// Add the jid (with empty resource) to Miranda contact list.
 											hContact = JabberDBCreateContact(info->proto, jid, nick, FALSE);
 										}
-										DBWriteContactSettingString(hContact, "CList", "MyHandle", nick);
+										db_set_s(hContact, "CList", "MyHandle", nick);
 										if (item->group) mir_free(item->group);
 										if ((groupNode=JabberXmlGetChild(itemNode, "group")) != NULL && groupNode->text != NULL) {
 											item->group = TlenGroupDecode(groupNode->text);
 											JabberContactListCreateGroup(item->group);
-											DBWriteContactSettingString(hContact, "CList", "Group", item->group);
+											db_set_s(hContact, "CList", "Group", item->group);
 										}
 										else {
 											item->group = NULL;
-											DBDeleteContactSetting(hContact, "CList", "Group");
+											db_unset(hContact, "CList", "Group");
 										}
 										if (!strcmp(str, "none") || (!strcmp(str, "from") && strchr(jid, '@') != NULL)) {
-											if (DBGetContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-												DBWriteContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+											if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+												db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 										}
 									}
 									else {
@@ -842,8 +842,8 @@ static void JabberProcessIq(XmlNode *node, ThreadData *info)
 								// remove, so that history will be retained.
 								if (!strcmp(str, "remove")) {
 									if ((hContact=JabberHContactFromJID(info->proto, jid)) != NULL) {
-										if (DBGetContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-											DBWriteContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
+										if (db_get_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+											db_set_w(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 										JabberListRemove(info->proto, LIST_ROSTER, jid);
 									}
 								}
@@ -1087,7 +1087,7 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						/* MUC private message */
 						str = JabberResourceFromJID(f);
 						hContact = JabberDBCreateContact(info->proto, f, str, TRUE);
-						DBWriteContactSettingByte(hContact, info->proto->m_szModuleName, "bChat", TRUE);
+						db_set_b(hContact, info->proto->m_szModuleName, "bChat", TRUE);
 						mir_free(str);
 						localMessage = JabberTextDecode(bNode->text);
 						recv.flags = 0;
@@ -1146,18 +1146,18 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 {
 	if ( !ServiceExists(MS_POPUP_ADDPOPUP))
 		return;
-	if (!DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE))
+	if (!db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE))
 		return;
 
 	POPUPDATA ppd = { 0 };
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIL));
 	strcpy(ppd.lpzContactName, title);
 	strcpy(ppd.lpzText, emailInfo);
-	ppd.colorBack = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupBack", 0);
-	ppd.colorText = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupText", 0);
-	BYTE delayMode = DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
+	ppd.colorBack = db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", 0);
+	ppd.colorText = db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", 0);
+	BYTE delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
 	if (delayMode == 1)
-		ppd.iSeconds = DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
+		ppd.iSeconds = db_get_dw(NULL, proto->m_szModuleName, "MailPopupDelay", 4);
 	else if (delayMode == 2)
 		ppd.iSeconds = -1;
 	PUAddPopUp(&ppd);
@@ -1281,12 +1281,12 @@ static void TlenProcessP(XmlNode *node, ThreadData *info)
 				n = mir_strdup(Translate("Private conference"));// JabberNickFromJID(f);
 			}
 			sprintf(jid, "%s/%s", f, info->username);
-//			if (!DBGetContactSetting(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
+//			if (!db_get(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
 				// always real username
 //				sprintf(jid, "%s/%s", f, dbv.pszVal);
 			TlenMUCCreateWindow(info->proto, f, n, 0, NULL, id);
 			TlenMUCRecvPresence(info->proto, jid, ID_STATUS_ONLINE, flags, k);
-//				DBFreeVariant(&dbv);
+//				db_free(&dbv);
 //			}
 			mir_free(n);
 		}

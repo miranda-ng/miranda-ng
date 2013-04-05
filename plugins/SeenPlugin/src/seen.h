@@ -106,7 +106,6 @@ int ModeChange(WPARAM,LPARAM);
 void SetOffline(void);
 int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
-void UninitMenuitem();
 void ShowHistory(HANDLE hContact, BYTE isAlert);
 
 struct logthread_info
@@ -120,7 +119,8 @@ extern HINSTANCE hInstance;
 extern DWORD StatusColors15bits[];
 extern BOOL includeIdle;
 extern HANDLE ehmissed;
-extern HANDLE ehuserinfo, hmenuitem, ehmissed_proto;
+extern HANDLE ehuserinfo, ehmissed_proto;
+extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 
 extern LIST<logthread_info> arContacts;

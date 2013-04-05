@@ -328,7 +328,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	if (servicemode)
 		ViewVersionInfo(0, 0);
-	else if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
+	else if (db_get_b(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
 		UploadVersionInfo(0, 0xa1);
 
 	CheckForOtherCrashReportingPlugins();
@@ -344,9 +344,9 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 1) != 0;
+	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
 
-	dtsubfldr = DBGetContactSettingByte(NULL, PluginName, "SubFolders", 1) != 0;
+	dtsubfldr = db_get_b(NULL, PluginName, "SubFolders", 1) != 0;
 	mir_getLP(&pluginInfoEx);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

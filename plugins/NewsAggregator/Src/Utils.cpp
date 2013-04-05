@@ -819,7 +819,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									DBWriteContactSettingDword(hContact, MODULE, "LastCheck", time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 									xi.destroyNode(hXml);
 									return;
 								}
@@ -1058,7 +1058,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), db_get_dw(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0) {
-									DBWriteContactSettingDword(hContact, MODULE, "LastCheck", time(NULL));
+									db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 									xi.destroyNode(hXml);
 									return;
 								}
@@ -1220,7 +1220,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 				xi.destroyNode(hXml);
 			}
 		}
-		DBWriteContactSettingDword(hContact, MODULE, "LastCheck", time(NULL));
+		db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 	}
 }
 

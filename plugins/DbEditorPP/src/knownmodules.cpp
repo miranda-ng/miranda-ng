@@ -60,7 +60,7 @@ void doOldKnownModulesList()
 	setting = msll.first;
 	while(setting)
 	{
-		if (!DBGetContactSetting(NULL,"KnownModules",setting->name,&dbv) && dbv.type == DBVT_ASCIIZ)
+		if (!db_get(NULL,"KnownModules",setting->name,&dbv) && dbv.type == DBVT_ASCIIZ)
 		{
 			temp = (char*)mir_alloc((strlen(dbv.pszVal)+5)*sizeof(char));
 			if (!temp) break;
@@ -75,10 +75,10 @@ void doOldKnownModulesList()
 			}
 			mir_free(temp);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		setting = (struct ModSetLinkLinkItem *)setting->next;
 	}
 	FreeModuleSettingLL(&msll);
 
-	UseKnownModList = DBGetContactSettingByte(NULL,modname,"UseKnownModList",0);
+	UseKnownModList = db_get_b(NULL,modname,"UseKnownModList",0);
 }

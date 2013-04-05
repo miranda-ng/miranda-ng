@@ -87,7 +87,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
 					}
 
-					//DBDeleteContactSetting(NULL,VISPLG,"flags");
+					//db_unset(NULL,VISPLG,"flags");
 					db_set_dw(NULL, MODULENAME, "flags", mod_flags);
 					
 					return 1;
@@ -96,7 +96,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			break;
 
 		case WM_COMMAND:
-			if(HIWORD(wparam)==BN_CLICKED && GetFocus()==(HWND)lparam) {
+			if (HIWORD(wparam)==BN_CLICKED && GetFocus()==(HWND)lparam) {
 				SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 				if (LOWORD(wparam) == IDC_VIS ||
 					LOWORD(wparam) == IDC_IGNORE ||

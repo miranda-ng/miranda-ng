@@ -35,12 +35,12 @@ int getCustomNro(DWORD actionID, HWND hwndDlg, int nItems)
 	for (i=0; i < nItems; i++) {
 		SendDlgItemMessage(hwndDlg, IDC_CUSTOMTHEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)theme);
 		if (!strcmp(dbv.pszVal, theme)) {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return i;
 		}
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return DEF_SETTING_CUSTOMTHEME;
 }
 
@@ -56,9 +56,9 @@ static INT_PTR CALLBACK DlgProcOptsActionKbdNotify(HWND hwndDlg, UINT msg, WPARA
 			actionID = (DWORD)lParam;
 			TranslateDialogDefault(hwndDlg);
 
-			for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
+			for (i=0; !db_get(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_CUSTOMTHEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_CUSTOMTHEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}
@@ -106,20 +106,20 @@ char *getCustomString(DWORD actionID)
 	if (DBGetTriggerSetting(actionID, NULL, KEYBDMODULE, "custom", &dbv))
 		return NULL;
 
-	for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv2); i++) {
+	for (i=0; !db_get(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv2); i++) {
 		if (!strcmp(dbv.pszVal, dbv2.pszVal)) {
-			DBFreeVariant(&dbv);
-			DBFreeVariant(&dbv2);
-			if(DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv2))
+			db_free(&dbv);
+			db_free(&dbv2);
+			if(db_get(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv2))
 				return NULL;
 			strcpy(customString, dbv2.pszVal);
-			DBFreeVariant(&dbv2);
+			db_free(&dbv2);
 			return customString;
 		}
-		DBFreeVariant(&dbv2);
+		db_free(&dbv2);
 	}
 	
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return NULL;
 }
 

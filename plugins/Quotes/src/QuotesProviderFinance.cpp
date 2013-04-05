@@ -49,10 +49,10 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 		HANDLE hContact = CreateNewContact(rQuote.GetSymbol());
 		if(hContact)
 		{
-			DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_ID,sQuoteID.c_str());
+			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_ID,sQuoteID.c_str());
 			if(false == rQuote.GetName().empty())
 			{
-				DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_DESCRIPTION,rQuote.GetName().c_str());
+				db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_DESCRIPTION,rQuote.GetName().c_str());
 			}
 
 			return true;

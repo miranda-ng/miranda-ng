@@ -188,7 +188,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 
 static bool BoltunAutoChat(HANDLE hContact)
 {
-	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
+	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
 		, FALSE) == TRUE)
 		return false;
 
@@ -207,11 +207,11 @@ static bool BoltunAutoChat(HANDLE hContact)
 			return true;
 	}
 
-	if ((DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1) &&
+	if ((db_get_b(hContact,"CList","NotOnList",0) == 1) &&
 		Config.TalkWithNotInList)
 		return true;
 
-	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
+	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
 		FALSE) == TRUE)
 		return true;
 
@@ -512,8 +512,8 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 {
 	HANDLE hContact = (HANDLE)wParam;
 
-	BOOL boltunautochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-	BOOL boltunnottochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
+	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
 	if (clickNotToChat)
 	{
@@ -532,12 +532,12 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 		}
 		else
 		{
-			DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE);
+			db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE);
 		}
 	}
 
-	DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
-	DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
+	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
+	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
 
 	return 0;
 }
@@ -564,7 +564,7 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
 	HANDLE hContact = (HANDLE)wParam;
-	if (!blInit || (DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1))
+	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1))
 	{
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
@@ -573,8 +573,8 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		BOOL boltunautochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-		BOOL boltunnottochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+		BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
+		BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
 		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
@@ -649,7 +649,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 	}
 	/*record for Uninstall plugin*/
-	DBWriteContactSettingString(NULL, "Uninstall", BOLTUN_NAME, BOLTUN_KEY);
+	db_set_s(NULL, "Uninstall", BOLTUN_NAME, BOLTUN_KEY);
 	return 0;
 }
 

@@ -79,7 +79,7 @@ int CAimProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 		{
 			if (_stricmp(dbv.pszVal, SYSTEM_BUDDY))
 				aim_typing_notification(hServerConn, seqno, dbv.pszVal, 0x000f);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 0;
@@ -95,7 +95,7 @@ INT_PTR CAimProto::GetProfile(WPARAM wParam, LPARAM lParam)
 	{
 		request_HTML_profile = 1;
 		aim_query_profile(hServerConn, seqno, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -126,10 +126,10 @@ int CAimProto::OnDbSettingChanged(WPARAM wParam,LPARAM lParam)
 			if (cws->value.type == DBVT_DELETED)
 			{
 				DBVARIANT dbv;
-				if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
+				if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
 				{
 					add_contact_to_group(hContact, dbv.pszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else
 					add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
@@ -172,7 +172,7 @@ int CAimProto::OnContactDeleted(WPARAM wParam,LPARAM /*lParam*/)
 
 	const HANDLE hContact = (HANDLE)wParam;
 
-	if (DBGetContactSettingByte(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
+	if (db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
 		return 0;
 
 	DBVARIANT dbv;
@@ -194,7 +194,7 @@ int CAimProto::OnContactDeleted(WPARAM wParam,LPARAM /*lParam*/)
 				aim_ssi_update(hServerConn, seqno, false);
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -237,7 +237,7 @@ int CAimProto::OnGroupChange(WPARAM wParam,LPARAM lParam)
 	else
 	{
 		if (is_my_contact(hContact) && getBuddyId(hContact, 1) && 
-			!DBGetContactSettingByte(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
+			!db_get_b(hContact, MOD_KEY_CL, AIM_KEY_NL, 0))
 		{
 			if (grpchg->pszNewName)
 			{
@@ -258,10 +258,10 @@ INT_PTR CAimProto::AddToServerList(WPARAM wParam, LPARAM /*lParam*/)
 
 	HANDLE hContact = (HANDLE)wParam;
 	DBVARIANT dbv;
-	if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
+	if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
 	{
 		add_contact_to_group(hContact, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else 
 		add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
@@ -315,7 +315,7 @@ INT_PTR CAimProto::BlockBuddy(WPARAM wParam, LPARAM /*lParam*/)
 		}
 		break;
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	return 0;
 }
@@ -337,7 +337,7 @@ INT_PTR CAimProto::OnJoinChat(WPARAM wParam, LPARAM /*lParam*/)
 	{
 		chatnav_param* par = new chatnav_param(dbv.pszVal, getWord(hContact, "Exchange", 4));
 		ForkThread(&CAimProto::chatnav_request_thread, par);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -352,7 +352,7 @@ INT_PTR CAimProto::OnLeaveChat(WPARAM wParam, LPARAM /*lParam*/)
 	if (!getString(hContact, "ChatRoomID", &dbv))
 	{
 		chat_leave(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }

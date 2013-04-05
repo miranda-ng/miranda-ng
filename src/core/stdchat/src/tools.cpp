@@ -299,9 +299,9 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 		gce->pDest->iType |= GC_EVENT_HIGHLIGHT;
 		if (bInactive || !g_Settings.SoundsFocus)
 			SkinPlaySound("ChatHighlight");
-		if (!g_Settings.TabsEnable && bInactive && si->hWnd && DBGetContactSettingByte(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
+		if (!g_Settings.TabsEnable && bInactive && si->hWnd && db_get_b(NULL, "Chat", "FlashWindowHighlight", 0) != 0)
 			SetTimer(si->hWnd, TIMERID_FLASHWND, 900, NULL);
-		if (DBGetContactSettingByte(si->hContact, "CList", "Hidden", 0) != 0)
+		if (db_get_b(si->hContact, "CList", "Hidden", 0) != 0)
 			db_unset(si->hContact, "CList", "Hidden");
 		if (bInactive)
 			DoTrayIcon(si, gce);
@@ -404,7 +404,7 @@ void CheckColorsInModule(const char* pszModule)
 	MODULEINFO * pMod = MM_FindModule( pszModule );
 	int i = 0;
 	COLORREF crFG;
-	COLORREF crBG = (COLORREF)DBGetContactSettingDword(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
+	COLORREF crBG = (COLORREF)db_get_dw(NULL, "Chat", "ColorMessageBG", GetSysColor(COLOR_WINDOW));
 
 	LoadMsgDlgFont(17, NULL, &crFG);
 

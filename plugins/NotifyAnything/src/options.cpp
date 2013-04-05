@@ -176,14 +176,14 @@ void load_settings()
 	g_settings.port = db_get_dw(NULL, PlugName, "port", 12001);
 
 	DBVARIANT dbv;
-	if(!DBGetContactSetting(NULL, PlugName, "password", &dbv)) {
+	if(!db_get(NULL, PlugName, "password", &dbv)) {
 		g_settings.password = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
-	if(!DBGetContactSetting(NULL, PlugName, "log_filename", &dbv)) {
+	if(!db_get(NULL, PlugName, "log_filename", &dbv)) {
 		g_settings.log_filename = dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
         g_settings.log_filename = g_mirandaDir + "\\"+LOG_ID+".log";

@@ -8,7 +8,7 @@ int addSettingToWatchList(HANDLE hContact, char* module, char* setting)
 		WatchListArray.item = (struct DBsetting*)mir_realloc(WatchListArray.item, sizeof(struct DBsetting)*WatchListArray.size);
 	}
 	if (!WatchListArray.item) return 0;
-	if (setting && DBGetContactSetting(hContact,module, setting, &(WatchListArray.item[WatchListArray.count].dbv))) return 0;
+	if (setting && db_get(hContact,module, setting, &(WatchListArray.item[WatchListArray.count].dbv))) return 0;
 	WatchListArray.item[WatchListArray.count].hContact = hContact;
 	WatchListArray.item[WatchListArray.count].module = mir_tstrdup(module);
 	if (setting) WatchListArray.item[WatchListArray.count].setting = mir_tstrdup(setting);
@@ -25,7 +25,7 @@ void freeWatchListItem(int item)
 	WatchListArray.item[item].module = 0;
 	if (WatchListArray.item[item].setting) mir_free(WatchListArray.item[item].setting);
 	WatchListArray.item[item].setting = 0;
-	DBFreeVariant(&(WatchListArray.item[item].dbv));
+	db_free(&(WatchListArray.item[item].dbv));
 	WatchListArray.item[item].hContact = 0;
 }
 
@@ -64,7 +64,7 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 		FreeModuleSettingLL(&settinglist);
 		return;
 	}
-	DBFreeVariant(&(lParam->dbv));
+	db_free(&(lParam->dbv));
 	if (GetSetting(hContact, module, setting, &(lParam->dbv))) return;
 
 	if (!hContact)
@@ -287,9 +287,9 @@ void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 	HICON hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
 	char lpzContactName[MAX_CONTACTNAME];
 	char lpzText[MAX_SECONDLINE];
-	COLORREF colorBack = DBGetContactSettingDword(NULL,modname,"PopupColour",RGB(255,0,0));
+	COLORREF colorBack = db_get_dw(NULL,modname,"PopupColour",RGB(255,0,0));
 	COLORREF colorText = RGB(0,0,0);
-	int timeout = DBGetContactSettingByte(NULL,modname,"PopupDelay",3);
+	int timeout = db_get_b(NULL,modname,"PopupDelay",3);
 
 	if (hContact) {
 		// contacts nick
@@ -326,7 +326,7 @@ void popupWatchedVar(HANDLE hContact,const char* module,const char* setting)
 		return;
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = (HANDLE)hContact;

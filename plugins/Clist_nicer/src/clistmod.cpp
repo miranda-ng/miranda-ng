@@ -183,7 +183,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
             clip = 5;
         else
             clip = 0;
-        //clip = max(clip, DBGetContactSettingByte(NULL, "CLUI", "ignoreframepixels", 2));
+        //clip = max(clip, db_get_b(NULL, "CLUI", "ignoreframepixels", 2));
 		//rgn = CreateRoundRectRgn(rc.left + clip, rc.top + clip, rc.right - clip, rc.bottom - clip, 10 + clip, 10 + clip);
         //rgn = CreateRectRgn(rc.left, rc.top, rc.right, rc.bottom);
 		//for (i = rc.top + 3 + clip; i < rc.bottom - 3 - clip; i += (height / iStepY)) {

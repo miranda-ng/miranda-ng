@@ -47,23 +47,23 @@ static TabDef tabPages[] = {
 
 void TlenLoadOptions(TlenProtocol *proto)
 {
-	proto->tlenOptions.savePassword = DBGetContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", TRUE);
-	proto->tlenOptions.useEncryption = DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseEncryption", TRUE);
-	proto->tlenOptions.reconnect = DBGetContactSettingByte(NULL, proto->m_szModuleName, "Reconnect", TRUE);
-	proto->tlenOptions.alertPolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "AlertPolicy", TLEN_ALERTS_IGNORE_NIR);
-	proto->tlenOptions.rosterSync = DBGetContactSettingByte(NULL, proto->m_szModuleName, "RosterSync", FALSE);
-	proto->tlenOptions.offlineAsInvisible = DBGetContactSettingByte(NULL, proto->m_szModuleName, "OfflineAsInvisible", FALSE);
-	proto->tlenOptions.leaveOfflineMessage = DBGetContactSettingByte(NULL, proto->m_szModuleName, "LeaveOfflineMessage", TRUE);
-	proto->tlenOptions.offlineMessageOption = DBGetContactSettingWord(NULL, proto->m_szModuleName, "OfflineMessageOption", 0);
-	proto->tlenOptions.ignoreAdvertisements = DBGetContactSettingByte(NULL, proto->m_szModuleName, "IgnoreAdvertisements", TRUE);
-	proto->tlenOptions.groupChatPolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "GroupChatPolicy", TLEN_MUC_ASK);
-	proto->tlenOptions.voiceChatPolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "VoiceChatPolicy", TLEN_MUC_ASK);
-	proto->tlenOptions.imagePolicy = DBGetContactSettingWord(NULL, proto->m_szModuleName, "ImagePolicy",TLEN_IMAGES_IGNORE_NIR);
-	proto->tlenOptions.enableAvatars = DBGetContactSettingByte(NULL, proto->m_szModuleName, "EnableAvatars", TRUE);
-	proto->tlenOptions.enableVersion = DBGetContactSettingByte(NULL, proto->m_szModuleName, "EnableVersion", TRUE);
-	proto->tlenOptions.useNudge = DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseNudge", FALSE);
-	proto->tlenOptions.logAlerts = DBGetContactSettingByte(NULL, proto->m_szModuleName, "LogAlerts", TRUE);
-	proto->tlenOptions.sendKeepAlive = DBGetContactSettingByte(NULL, proto->m_szModuleName, "KeepAlive", TRUE);
+	proto->tlenOptions.savePassword = db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE);
+	proto->tlenOptions.useEncryption = db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE);
+	proto->tlenOptions.reconnect = db_get_b(NULL, proto->m_szModuleName, "Reconnect", TRUE);
+	proto->tlenOptions.alertPolicy = db_get_w(NULL, proto->m_szModuleName, "AlertPolicy", TLEN_ALERTS_IGNORE_NIR);
+	proto->tlenOptions.rosterSync = db_get_b(NULL, proto->m_szModuleName, "RosterSync", FALSE);
+	proto->tlenOptions.offlineAsInvisible = db_get_b(NULL, proto->m_szModuleName, "OfflineAsInvisible", FALSE);
+	proto->tlenOptions.leaveOfflineMessage = db_get_b(NULL, proto->m_szModuleName, "LeaveOfflineMessage", TRUE);
+	proto->tlenOptions.offlineMessageOption = db_get_w(NULL, proto->m_szModuleName, "OfflineMessageOption", 0);
+	proto->tlenOptions.ignoreAdvertisements = db_get_b(NULL, proto->m_szModuleName, "IgnoreAdvertisements", TRUE);
+	proto->tlenOptions.groupChatPolicy = db_get_w(NULL, proto->m_szModuleName, "GroupChatPolicy", TLEN_MUC_ASK);
+	proto->tlenOptions.voiceChatPolicy = db_get_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", TLEN_MUC_ASK);
+	proto->tlenOptions.imagePolicy = db_get_w(NULL, proto->m_szModuleName, "ImagePolicy",TLEN_IMAGES_IGNORE_NIR);
+	proto->tlenOptions.enableAvatars = db_get_b(NULL, proto->m_szModuleName, "EnableAvatars", TRUE);
+	proto->tlenOptions.enableVersion = db_get_b(NULL, proto->m_szModuleName, "EnableVersion", TRUE);
+	proto->tlenOptions.useNudge = db_get_b(NULL, proto->m_szModuleName, "UseNudge", FALSE);
+	proto->tlenOptions.logAlerts = db_get_b(NULL, proto->m_szModuleName, "LogAlerts", TRUE);
+	proto->tlenOptions.sendKeepAlive = db_get_b(NULL, proto->m_szModuleName, "KeepAlive", TRUE);
 	proto->tlenOptions.useNewP2P = TRUE;
 }
 
@@ -126,16 +126,16 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_USERNAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if (!DBGetContactSetting(NULL, proto->m_szModuleName, "Password", &dbv)) {
+			if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, DBGetContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", TRUE));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE));
 
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), JabberValidateUsernameWndProc);
 		}
@@ -164,23 +164,23 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				if (DBGetContactSetting(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
 					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-				DBWriteContactSettingString(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
+				if (dbv.pszVal != NULL)	db_free(&dbv);
+				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
-					if (DBGetContactSetting(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "Password", text);
+					if (dbv.pszVal != NULL)	db_free(&dbv);
+					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
-					DBDeleteContactSetting(NULL, proto->m_szModuleName, "Password");
+					db_unset(NULL, proto->m_szModuleName, "Password");
 
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD));
+				db_set_b(NULL, proto->m_szModuleName, "SavePassword", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD));
 				if (reconnectRequired && proto->isConnected)
 					MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Tlen network."), TranslateT("Tlen Protocol Option"), MB_OK|MB_SETFOREGROUND);
 				TlenLoadOptions(proto);
@@ -205,16 +205,16 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
+			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginName", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_USERNAME, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if (!DBGetContactSetting(NULL, proto->m_szModuleName, "Password", &dbv)) {
+			if (!db_get(NULL, proto->m_szModuleName, "Password", &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, DBGetContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", TRUE));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE));
 
 			CheckDlgButton(hwndDlg, IDC_RECONNECT, proto->tlenOptions.reconnect);
 			CheckDlgButton(hwndDlg, IDC_ROSTER_SYNC, proto->tlenOptions.rosterSync);
@@ -304,36 +304,36 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				DBVARIANT dbv;
 
 				GetDlgItemTextA(hwndDlg, IDC_EDIT_USERNAME, text, sizeof(text));
-				if (DBGetContactSetting(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
+				if (db_get(NULL, proto->m_szModuleName, "LoginName", &dbv) || strcmp(text, dbv.pszVal))
 					reconnectRequired = TRUE;
-				if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-				DBWriteContactSettingString(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
+				if (dbv.pszVal != NULL)	db_free(&dbv);
+				db_set_s(NULL, proto->m_szModuleName, "LoginName", strlwr(text));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD)) {
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, text, sizeof(text));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
-					if (DBGetContactSetting(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
+					if (db_get(NULL, proto->m_szModuleName, "Password", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "Password", text);
+					if (dbv.pszVal != NULL)	db_free(&dbv);
+					db_set_s(NULL, proto->m_szModuleName, "Password", text);
 				}
 				else
-					DBDeleteContactSetting(NULL, proto->m_szModuleName, "Password");
+					db_unset(NULL, proto->m_szModuleName, "Password");
 
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "SavePassword", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "Reconnect", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_RECONNECT));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "RosterSync", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ROSTER_SYNC));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "OfflineAsInvisible", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOW_OFFLINE));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "IgnoreAdvertisements", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IGNORE_ADVERTISEMENTS));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "LeaveOfflineMessage", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_OFFLINE_MESSAGE));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "OfflineMessageOption", (WORD) SendDlgItemMessage(hwndDlg, IDC_OFFLINE_MESSAGE_OPTION, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "AlertPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_ALERT_POLICY, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "GroupChatPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_MUC_POLICY, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "ImagePolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_IMAGE_POLICY, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "EnableAvatars", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_AVATARS));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "EnableVersion", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VERSIONINFO));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "UseNudge", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_NUDGE_SUPPORT));
-				DBWriteContactSettingByte(NULL, proto->m_szModuleName, "LogAlerts", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_LOG_ALERTS));
+				db_set_b(NULL, proto->m_szModuleName, "SavePassword", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD));
+				db_set_b(NULL, proto->m_szModuleName, "Reconnect", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_RECONNECT));
+				db_set_b(NULL, proto->m_szModuleName, "RosterSync", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ROSTER_SYNC));
+				db_set_b(NULL, proto->m_szModuleName, "OfflineAsInvisible", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOW_OFFLINE));
+				db_set_b(NULL, proto->m_szModuleName, "IgnoreAdvertisements", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_IGNORE_ADVERTISEMENTS));
+				db_set_b(NULL, proto->m_szModuleName, "LeaveOfflineMessage", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_OFFLINE_MESSAGE));
+				db_set_w(NULL, proto->m_szModuleName, "OfflineMessageOption", (WORD) SendDlgItemMessage(hwndDlg, IDC_OFFLINE_MESSAGE_OPTION, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "AlertPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_ALERT_POLICY, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "GroupChatPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_MUC_POLICY, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "ImagePolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_IMAGE_POLICY, CB_GETCURSEL, 0, 0));
+				db_set_b(NULL, proto->m_szModuleName, "EnableAvatars", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_AVATARS));
+				db_set_b(NULL, proto->m_szModuleName, "EnableVersion", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VERSIONINFO));
+				db_set_b(NULL, proto->m_szModuleName, "UseNudge", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_NUDGE_SUPPORT));
+				db_set_b(NULL, proto->m_szModuleName, "LogAlerts", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_LOG_ALERTS));
 				if (reconnectRequired && proto->isConnected)
 					MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Tlen network."), TranslateT("Tlen Protocol Option"), MB_OK|MB_SETFOREGROUND);
 				ApplyChanges(proto, 1);
@@ -377,9 +377,9 @@ static INT_PTR CALLBACK TlenVoiceOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
 			{
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "VoiceChatPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_POLICY, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "VoiceDeviceIn", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_DEVICE_IN, CB_GETCURSEL, 0, 0));
-				DBWriteContactSettingWord(NULL, proto->m_szModuleName, "VoiceDeviceOut", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_DEVICE_OUT, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_POLICY, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "VoiceDeviceIn", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_DEVICE_IN, CB_GETCURSEL, 0, 0));
+				db_set_w(NULL, proto->m_szModuleName, "VoiceDeviceOut", (WORD) SendDlgItemMessage(hwndDlg, IDC_VOICE_DEVICE_OUT, CB_GETCURSEL, 0, 0));
 				ApplyChanges(proto, 2);
 				return TRUE;
 			}
@@ -403,9 +403,9 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			proto = (TlenProtocol *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 			TranslateDialogDefault(hwndDlg);
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
+			if (!db_get_ts(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else {
 				SetDlgItemText(hwndDlg, IDC_EDIT_LOGIN_SERVER, _T("tlen.pl"));
 			}
@@ -413,21 +413,21 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), TRUE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOSTPORT), TRUE);
 
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
+			if (!db_get_ts(NULL, proto->m_szModuleName, "ManualHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_HOST, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			} else
 				SetDlgItemText(hwndDlg, IDC_HOST, _T("s1.tlen.pl"));
-			SetDlgItemInt(hwndDlg, IDC_HOSTPORT, DBGetContactSettingWord(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT), FALSE);
+			SetDlgItemInt(hwndDlg, IDC_HOSTPORT, db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, DBGetContactSettingByte(NULL, proto->m_szModuleName, "KeepAlive", TRUE));
+			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, db_get_b(NULL, proto->m_szModuleName, "KeepAlive", TRUE));
 
-			CheckDlgButton(hwndDlg, IDC_USE_SSL, DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseEncryption", TRUE));
+			CheckDlgButton(hwndDlg, IDC_USE_SSL, db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE));
 
-			CheckDlgButton(hwndDlg, IDC_VISIBILITY_SUPPORT, DBGetContactSettingByte(NULL, proto->m_szModuleName, "VisibilitySupport", FALSE));
+			CheckDlgButton(hwndDlg, IDC_VISIBILITY_SUPPORT, db_get_b(NULL, proto->m_szModuleName, "VisibilitySupport", FALSE));
 			// File transfer options
 			bChecked = FALSE;
-			if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseFileProxy", FALSE) == TRUE) {
+			if (db_get_b(NULL, proto->m_szModuleName, "UseFileProxy", FALSE) == TRUE) {
 				bChecked = TRUE;
 				CheckDlgButton(hwndDlg, IDC_FILE_USE_PROXY, TRUE);
 			}
@@ -438,7 +438,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PORT_LABEL), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PORT), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_USE_AUTH), bChecked);
-			if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE) == TRUE) {
+			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE) == TRUE) {
 				CheckDlgButton(hwndDlg, IDC_FILE_PROXY_USE_AUTH, TRUE);
 			} else {
 				bChecked = FALSE;
@@ -451,20 +451,20 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Forwarding"));
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("SOCKS4"));
 			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("SOCKS5"));
-			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_SETCURSEL, DBGetContactSettingWord(NULL, proto->m_szModuleName, "FileProxyType", 0), 0);
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
+			SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_SETCURSEL, db_get_w(NULL, proto->m_szModuleName, "FileProxyType", 0), 0);
+			if (!db_get_ts(NULL, proto->m_szModuleName, "FileProxyHost", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_HOST, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			SetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, DBGetContactSettingWord(NULL, proto->m_szModuleName, "FileProxyPort", 0), FALSE);
-			if (!DBGetContactSettingTString(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
+			SetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, db_get_w(NULL, proto->m_szModuleName, "FileProxyPort", 0), FALSE);
+			if (!db_get_ts(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_FILE_PROXY_USER, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
-			if (!DBGetContactSetting(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
+			if (!db_get(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			return TRUE;
 		}
@@ -520,43 +520,43 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					BOOL reconnectRequired = FALSE;
 					DBVARIANT dbv;
 					GetDlgItemTextA(hwndDlg, IDC_EDIT_LOGIN_SERVER, text, sizeof(text));
-					if (DBGetContactSetting(NULL, proto->m_szModuleName, "LoginServer", &dbv) || strcmp(text, dbv.pszVal))
+					if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
+					if (dbv.pszVal != NULL)	db_free(&dbv);
+					db_set_s(NULL, proto->m_szModuleName, "LoginServer", strlwr(text));
 
 					GetDlgItemTextA(hwndDlg, IDC_HOST, text, sizeof(text));
-					if (DBGetContactSetting(NULL, proto->m_szModuleName, "ManualHost", &dbv) || strcmp(text, dbv.pszVal))
+					if (db_get(NULL, proto->m_szModuleName, "ManualHost", &dbv) || strcmp(text, dbv.pszVal))
 						reconnectRequired = TRUE;
-					if (dbv.pszVal != NULL)	DBFreeVariant(&dbv);
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "ManualHost", text);
+					if (dbv.pszVal != NULL)	db_free(&dbv);
+					db_set_s(NULL, proto->m_szModuleName, "ManualHost", text);
 
 					port = (WORD) GetDlgItemInt(hwndDlg, IDC_HOSTPORT, NULL, FALSE);
-					if (DBGetContactSettingWord(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
+					if (db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT) != port)
 						reconnectRequired = TRUE;
-					DBWriteContactSettingWord(NULL, proto->m_szModuleName, "ManualPort", port);
+					db_set_w(NULL, proto->m_szModuleName, "ManualPort", port);
 
 					proto->tlenOptions.sendKeepAlive = IsDlgButtonChecked(hwndDlg, IDC_KEEPALIVE);
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "KeepAlive", (BYTE) proto->tlenOptions.sendKeepAlive);
+					db_set_b(NULL, proto->m_szModuleName, "KeepAlive", (BYTE) proto->tlenOptions.sendKeepAlive);
 
 					useEncryption = IsDlgButtonChecked(hwndDlg, IDC_USE_SSL);
-					if (DBGetContactSettingByte(NULL, proto->m_szModuleName, "UseEncryption", TRUE) != useEncryption)
+					if (db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE) != useEncryption)
 						reconnectRequired = TRUE;
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "UseEncryption", (BYTE) useEncryption);
+					db_set_b(NULL, proto->m_szModuleName, "UseEncryption", (BYTE) useEncryption);
 
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "VisibilitySupport", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VISIBILITY_SUPPORT));
+					db_set_b(NULL, proto->m_szModuleName, "VisibilitySupport", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_VISIBILITY_SUPPORT));
 					// File transfer options
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "UseFileProxy", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_USE_PROXY));
-					DBWriteContactSettingWord(NULL, proto->m_szModuleName, "FileProxyType", (WORD) SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_GETCURSEL, 0, 0));
+					db_set_b(NULL, proto->m_szModuleName, "UseFileProxy", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_USE_PROXY));
+					db_set_w(NULL, proto->m_szModuleName, "FileProxyType", (WORD) SendDlgItemMessage(hwndDlg, IDC_FILE_PROXY_TYPE, CB_GETCURSEL, 0, 0));
 					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_HOST, text, sizeof(text));
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "FileProxyHost", text);
-					DBWriteContactSettingWord(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
+					db_set_s(NULL, proto->m_szModuleName, "FileProxyHost", text);
+					db_set_w(NULL, proto->m_szModuleName, "FileProxyPort", (WORD) GetDlgItemInt(hwndDlg, IDC_FILE_PROXY_PORT, NULL, FALSE));
+					db_set_b(NULL, proto->m_szModuleName, "FileProxyAuth", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FILE_PROXY_USE_AUTH));
 					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_USER, text, sizeof(text));
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "FileProxyUsername", text);
+					db_set_s(NULL, proto->m_szModuleName, "FileProxyUsername", text);
 					GetDlgItemTextA(hwndDlg, IDC_FILE_PROXY_PASSWORD, text, sizeof(text));
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(text), (LPARAM) text);
-					DBWriteContactSettingString(NULL, proto->m_szModuleName, "FileProxyPassword", text);
+					db_set_s(NULL, proto->m_szModuleName, "FileProxyPassword", text);
 					if (reconnectRequired && proto->isConnected)
 						MessageBox(hwndDlg, TranslateT("These changes will take effect the next time you connect to the Tlen network."), TranslateT("Tlen Protocol Option"), MB_OK|MB_SETFOREGROUND);
 					ApplyChanges(proto, 4);
@@ -600,11 +600,11 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				proto = (TlenProtocol *)lParam;
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 				TranslateDialogDefault(hwndDlg);
-				CheckDlgButton(hwndDlg, IDC_ENABLEPOPUP, DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE));
-				SendDlgItemMessage(hwndDlg, IDC_COLORBKG, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupBack", POPUP_DEFAULT_COLORBKG));
-				SendDlgItemMessage(hwndDlg, IDC_COLORTXT, CPM_SETCOLOUR, 0, DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupText", POPUP_DEFAULT_COLORTXT));
-				SetDlgItemInt(hwndDlg, IDC_DELAY, DBGetContactSettingDword(NULL, proto->m_szModuleName, "MailPopupDelay", 4), FALSE);
-				delayMode = DBGetContactSettingByte(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
+				CheckDlgButton(hwndDlg, IDC_ENABLEPOPUP, db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE));
+				SendDlgItemMessage(hwndDlg, IDC_COLORBKG, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", POPUP_DEFAULT_COLORBKG));
+				SendDlgItemMessage(hwndDlg, IDC_COLORTXT, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", POPUP_DEFAULT_COLORTXT));
+				SetDlgItemInt(hwndDlg, IDC_DELAY, db_get_dw(NULL, proto->m_szModuleName, "MailPopupDelay", 4), FALSE);
+				delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
 				if (delayMode == 1) {
 					CheckDlgButton(hwndDlg, IDC_DELAY_CUSTOM, TRUE);
 				} else if (delayMode == 2) {
@@ -653,10 +653,10 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				case PSN_APPLY:
 				{
 					BYTE delayMode;
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "MailPopupEnabled", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEPOPUP));
-					DBWriteContactSettingDword(NULL, proto->m_szModuleName, "MailPopupBack", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORBKG,CPM_GETCOLOUR,0,0));
-					DBWriteContactSettingDword(NULL, proto->m_szModuleName, "MailPopupText", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORTXT,CPM_GETCOLOUR,0,0));
-					DBWriteContactSettingDword(NULL, proto->m_szModuleName, "MailPopupDelay", (DWORD) GetDlgItemInt(hwndDlg,IDC_DELAY, NULL, FALSE));
+					db_set_b(NULL, proto->m_szModuleName, "MailPopupEnabled", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEPOPUP));
+					db_set_dw(NULL, proto->m_szModuleName, "MailPopupBack", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORBKG,CPM_GETCOLOUR,0,0));
+					db_set_dw(NULL, proto->m_szModuleName, "MailPopupText", (DWORD) SendDlgItemMessage(hwndDlg,IDC_COLORTXT,CPM_GETCOLOUR,0,0));
+					db_set_dw(NULL, proto->m_szModuleName, "MailPopupDelay", (DWORD) GetDlgItemInt(hwndDlg,IDC_DELAY, NULL, FALSE));
 					delayMode=0;
 					if (IsDlgButtonChecked(hwndDlg, IDC_DELAY_CUSTOM)) {
 						delayMode=1;
@@ -664,7 +664,7 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						delayMode=2;
 
 					}
-					DBWriteContactSettingByte(NULL, proto->m_szModuleName, "MailPopupDelayMode", delayMode);
+					db_set_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", delayMode);
 					ApplyChanges(proto, 8);
 					return TRUE;
 				}

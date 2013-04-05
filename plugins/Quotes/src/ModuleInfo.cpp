@@ -8,7 +8,7 @@ namespace
 }
 
 CModuleInfo::CModuleInfo() 
-			: m_bExtendedStatusInfo(1 == DBGetContactSettingByte(NULL,QUOTES_MODULE_NAME,"ExtendedStatus",false))
+			: m_bExtendedStatusInfo(1 == db_get_b(NULL,QUOTES_MODULE_NAME,"ExtendedStatus",false))
 {
 }
 

@@ -459,7 +459,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 				lstrcpynA(m_yahoo_id, dbv.pszVal, 255);
 			} else
 				err++;
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			err++;
@@ -475,7 +475,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 				} else
 					err++;
 
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}  else  {
 				ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 				err++;
@@ -502,7 +502,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 				m_pw_token = strdup(dbv.pszVal);
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		//db_get_w(NULL, m_szModuleName, "StartupStatus", status);
@@ -546,14 +546,14 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 	if (!GetString(hContact, "YGMsg", &dbv)) {
 		gm = strdup(dbv.pszVal);
 
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	}
 
-	if (! DBGetContactSettingString(hContact, "CList", "StatusMsg", &dbv )) {
+	if (! db_get_s(hContact, "CList", "StatusMsg", &dbv )) {
 		if (lstrlenA(dbv.pszVal) >= 1)
 			sm = strdup(dbv.pszVal);
 
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 	} else {
 		WORD status = GetWord(hContact, "YStatus", YAHOO_STATUS_OFFLINE);
 		sm = yahoo_status_code( yahoo_status( status ));
@@ -704,7 +704,7 @@ int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
 		if (type == PROTOTYPE_SELFTYPING_OFF || type == PROTOTYPE_SELFTYPING_ON) {
 			sendtyping(dbv.pszVal, GetWord(hContact, "yprotoid", 0), type == PROTOTYPE_SELFTYPING_ON?1:0);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -756,14 +756,14 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if ( !ppro->GetString(YAHOO_LOGINID, &dbv))
 			{
 				SetDlgItemTextA(hwndDlg, IDC_HANDLE, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if ( !ppro->GetString(YAHOO_PASSWORD, &dbv))
 			{
 				CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte("YahooJapan", 0));
@@ -808,7 +808,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				reconnectRequired = TRUE;
 
 			if ( dbv.pszVal != NULL)
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 
 			ppro->SetString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
@@ -817,7 +817,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 			if ( dbv.pszVal != NULL)
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 
 			if (reconnectRequired ) {
 				db_unset(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);

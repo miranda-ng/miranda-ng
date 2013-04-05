@@ -37,14 +37,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 // Initializations needed by options
 void LoadOptions()
 {
-	opts.last_sent_enable = DBGetContactSettingByte(NULL, MODULE_NAME, "EnableLastSentTo", TRUE);
-	opts.last_sent_msg_type = DBGetContactSettingWord(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL);
-	opts.hide_from_offline_proto = DBGetContactSettingByte(NULL, MODULE_NAME, "HideOfflineFromOfflineProto", TRUE);
-	opts.group_append = DBGetContactSettingByte(NULL, MODULE_NAME, "AppendGroupName", FALSE);
-	opts.group_column = DBGetContactSettingByte(NULL, MODULE_NAME, "GroupColumn", FALSE);
-	opts.group_column_left = DBGetContactSettingByte(NULL, MODULE_NAME, "GroupColumnLeft", FALSE);
-	opts.hide_subcontacts = DBGetContactSettingByte(NULL, MODULE_NAME, "HideSubcontacts", TRUE);
-	opts.keep_subcontacts_from_offline = DBGetContactSettingByte(NULL, MODULE_NAME, "KeepSubcontactsFromOffline", TRUE);
+	opts.last_sent_enable = db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", TRUE);
+	opts.last_sent_msg_type = db_get_w(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL);
+	opts.hide_from_offline_proto = db_get_b(NULL, MODULE_NAME, "HideOfflineFromOfflineProto", TRUE);
+	opts.group_append = db_get_b(NULL, MODULE_NAME, "AppendGroupName", FALSE);
+	opts.group_column = db_get_b(NULL, MODULE_NAME, "GroupColumn", FALSE);
+	opts.group_column_left = db_get_b(NULL, MODULE_NAME, "GroupColumnLeft", FALSE);
+	opts.hide_subcontacts = db_get_b(NULL, MODULE_NAME, "HideSubcontacts", TRUE);
+	opts.keep_subcontacts_from_offline = db_get_b(NULL, MODULE_NAME, "KeepSubcontactsFromOffline", TRUE);
 }
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)

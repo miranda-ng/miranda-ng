@@ -180,10 +180,10 @@ int __cdecl CAimProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 		return 1;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
+	if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
 	{
 		add_contact_to_group(hContact, dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else add_contact_to_group(hContact, AIM_DEFAULT_GROUP);
 
@@ -537,7 +537,7 @@ HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 				aim_send_file(hServerConn, seqno, detected_ip, ft->local_port, false, ft);
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			return ft;
 		}
@@ -722,9 +722,9 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 
 	const HANDLE hContact = arg;
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
+	if (!db_get_ts(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
 		sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
@@ -827,7 +827,7 @@ int __cdecl CAimProto::UserIsTyping(HANDLE hContact, int type)
 			aim_typing_notification(hServerConn, seqno, dbv.pszVal, 0x0002);
 		else if (type == PROTOTYPE_SELFTYPING_OFF)
 			aim_typing_notification(hServerConn, seqno, dbv.pszVal, 0x0000);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }

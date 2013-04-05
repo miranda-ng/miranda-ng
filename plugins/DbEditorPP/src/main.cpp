@@ -8,9 +8,9 @@ BOOL usePopUps;
 HWND hwnd2watchedVarsWindow;
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
-HANDLE hUserMenu;
-HANDLE hRestore;
+HGENMENU hUserMenu;
 WatchListArrayStruct WatchListArray;
+HANDLE hRestore;
 HANDLE sMenuCommand, sRegisterModule, sRegisterSingleModule, sImport, sServicemodeLaunch;
 HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL;
 
@@ -166,7 +166,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
-	mi.flags = DBGetContactSettingByte(NULL,modname,"UserMenuItem",0)?0:CMIF_HIDDEN;
+	mi.flags = db_get_b(NULL,modname,"UserMenuItem",0) ? 0 : CMIF_HIDDEN;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGUSER));
 	mi.pszName = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
@@ -187,10 +187,10 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	char mod[64] = "";
 	TCHAR szModuleFileName[MAX_PATH];
 	int i=0, len;
-	if (!DBGetContactSetting(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
+	if (!db_get(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
 		mods = dbv.pszVal;
 	else {
-		DBWriteContactSettingString(NULL,modname,"CoreModules",coreMods);
+		db_set_s(NULL,modname,"CoreModules",coreMods);
 		mods = coreMods;
 	}
 
@@ -218,18 +218,18 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if (GetModuleFileName(hInst, szModuleFileName, MAX_PATH))
 		addIcons(szModuleFileName);
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	UnhookEvent(hModulesLoadedHook);
 
-	usePopUps = DBGetContactSettingByte(NULL,modname,"UsePopUps",0);
+	usePopUps = db_get_b(NULL,modname,"UsePopUps",0);
 
 	// Load the name order
 	for(i=0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
-	if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv)) {
+	if (!db_get(NULL,"Contact","NameOrder",&dbv)) {
 		CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
@@ -311,21 +311,21 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 
 //=======================================================
-//DBGetContactSettingString (prob shouldnt use this unless u know how big the string is gonna be..)
+//db_get_s (prob shouldnt use this unless u know how big the string is gonna be..)
 //=======================================================
 
 int DBGetContactSettingStringStatic(HANDLE hContact, char* szModule, char* szSetting, char* value, int maxLength)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSetting(hContact, szModule, szSetting, &dbv))
+	if (!db_get(hContact, szModule, szSetting, &dbv))
 	{
 		strncpy(value, dbv.pszVal, maxLength);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 1;
 	}
 	else
 	{
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	}
 
@@ -407,7 +407,7 @@ int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char*
 			break;
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
         Value[length-1] = 0;
 		return 1;
@@ -457,7 +457,7 @@ int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHA
 			break;
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		Value[length-1] = 0;
 		return 1;

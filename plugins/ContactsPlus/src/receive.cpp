@@ -95,7 +95,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
   int bHasGroups = !DBGetContactSettingT(NULL, "CListGroups", "0", &dbv);
   HWND hGroupsCombo = GetDlgItem(hwndDlg, IDC_GROUPS);
 
-  DBFreeVariant(&dbv);
+  db_free(&dbv);
   if (bHasGroups) 
   {
     int curs = SendMessageT(hGroupsCombo, CB_GETCURSEL, 0, 0);

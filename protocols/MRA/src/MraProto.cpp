@@ -204,9 +204,9 @@ HANDLE CMraProto::AddToListByEmail(LPCTSTR plpsEMail, LPCTSTR plpsNick, LPCTSTR 
 			mraSetStringW(hContact, "LastName", plpsLastName);
 
 		if (dwFlags & PALF_TEMPORARY)
-			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+			db_set_b(hContact, "CList", "Hidden", 1);
 		else
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 
 		if (bAdded)
 			MraUpdateContactInfo(hContact);

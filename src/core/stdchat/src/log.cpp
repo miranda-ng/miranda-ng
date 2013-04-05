@@ -664,7 +664,7 @@ void LoadMsgLogBitmaps(void)
 	int rtfHeaderSize;
 	PBYTE pBmpBits;
 
-	hBkgBrush = CreateSolidBrush(DBGetContactSettingDword(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
+	hBkgBrush = CreateSolidBrush(db_get_dw(NULL, "Chat", "ColorLogBG", GetSysColor(COLOR_WINDOW)));
 	bih.biSize = sizeof(bih);
 	bih.biBitCount = 24;
 	bih.biCompression = BI_RGB;

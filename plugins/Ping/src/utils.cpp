@@ -240,30 +240,30 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 	DBVARIANT dbv;
 	char buf[256];
 	mir_snprintf(buf, 256, "Address%d", index);
-	if(!DBGetContactSetting(0, "PingPlug", buf, &dbv)) {
+	if(!db_get(0, "PingPlug", buf, &dbv)) {
 		strncpy(pa.pszName, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		strcpy(pa.pszName, Translate("Unknown Address"));
 
 	mir_snprintf(buf, 256, "Label%d", index);
-	if(!DBGetContactSetting(0, "PingPlug", buf, &dbv)) {
+	if(!db_get(0, "PingPlug", buf, &dbv)) {
 		strncpy(pa.pszLabel, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else
 		strcpy(pa.pszLabel, Translate("Unknown"));
 
 	mir_snprintf(buf, 256, "Port%d", index);
-	pa.port = (int)DBGetContactSettingDword(0, "PingPlug", buf, -1);
+	pa.port = (int)db_get_dw(0, "PingPlug", buf, -1);
 
 	mir_snprintf(buf, 256, "Proto%d", index);
-	if(!DBGetContactSetting(0, "PingPlug", buf, &dbv)) {
+	if(!db_get(0, "PingPlug", buf, &dbv)) {
 		strncpy(pa.pszProto, dbv.pszVal, MAX_PINGADDRESS_STRING_LENGTH);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		mir_snprintf(buf, 256, "Status%d", index);
-		pa.set_status = DBGetContactSettingWord(0, "PingPlug", buf, ID_STATUS_ONLINE);
+		pa.set_status = db_get_w(0, "PingPlug", buf, ID_STATUS_ONLINE);
 		mir_snprintf(buf, 256, "Status2%d", index);
-		pa.get_status = DBGetContactSettingWord(0, "PingPlug", buf, ID_STATUS_OFFLINE);
+		pa.get_status = db_get_w(0, "PingPlug", buf, ID_STATUS_OFFLINE);
 	} else
 		pa.pszProto[0] = '\0';
 
@@ -277,7 +277,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 
 	pa.item_id = 0;
 	mir_snprintf(buf, 256, "Enabled%d", index);
-	if(DBGetContactSettingByte(0, "PingPlug", buf, 1) == 1)
+	if(db_get_b(0, "PingPlug", buf, 1) == 1)
 		pa.status = PS_NOTRESPONDING;
 	else
 		pa.status = PS_DISABLED;
@@ -286,7 +286,7 @@ void import_ping_address(int index, PINGADDRESS &pa) {
 // read in addresses from old pingplug
 void import_ping_addresses()
 {
-	int count = DBGetContactSettingDword(0, "PingPlug", "NumEntries", 0);
+	int count = db_get_dw(0, "PingPlug", "NumEntries", 0);
 	PINGADDRESS pa;
 
 	EnterCriticalSection(&list_cs);

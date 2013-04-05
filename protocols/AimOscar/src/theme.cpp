@@ -255,7 +255,7 @@ int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 		}
 
 		Menu_ModifyItem(hBlockContextMenuItem, &mi);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
    
 	return 0;

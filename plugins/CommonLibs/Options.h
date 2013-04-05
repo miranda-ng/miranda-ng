@@ -43,7 +43,7 @@ public:
 	virtual void MemToWnd(HWND hWnd) {EnableWindow(GetDlgItem(hWnd, DlgItemID), Enabled);}
 	void DBToMemToWnd(CString &sModule, HWND hWnd, CString *sDBSettingPrefix = NULL) {DBToMem(sModule, sDBSettingPrefix); MemToWnd(hWnd);}
 	void WndToMemToDB(HWND hWnd, CString &sModule, CString *sDBSettingPrefix = NULL) {WndToMem(hWnd); MemToDB(sModule, sDBSettingPrefix);}
-	virtual void CleanDBSettings(CString &sModule, CString *sDBSettingPrefix = NULL) {DBDeleteContactSetting(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting);}; // TODO: also set Value to DefValue?
+	virtual void CleanDBSettings(CString &sModule, CString *sDBSettingPrefix = NULL) {db_unset(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting);}; // TODO: also set Value to DefValue?
 
 	virtual void SetValue(int Value) {Modified = true;}
 	virtual void SetDefValue(int DefValue) {}

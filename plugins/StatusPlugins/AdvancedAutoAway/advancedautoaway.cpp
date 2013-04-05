@@ -129,16 +129,16 @@ void LoadOptions( OBJLIST<TAAAProtoSetting>& loadSettings, BOOL override)
 	if (hAutoAwayTimer != 0)
 		KillTimer(NULL, hAutoAwayTimer);
 
-	ignoreLockKeys = DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNLOCK, FALSE);
-	ignoreSysKeys = DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE);
-	ignoreAltCombo = DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE);
-	monitorMouse = DBGetContactSettingByte(NULL, MODULENAME, SETTING_MONITORMOUSE, TRUE);
-	monitorKeyboard = DBGetContactSettingByte(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE);
+	ignoreLockKeys = db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE);
+	ignoreSysKeys = db_get_b(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE);
+	ignoreAltCombo = db_get_b(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE);
+	monitorMouse = db_get_b(NULL, MODULENAME, SETTING_MONITORMOUSE, TRUE);
+	monitorKeyboard = db_get_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE);
 	lastInput = lastMirandaInput = GetTickCount();
 
 	for ( int i=0; i < loadSettings.getCount(); i++ ) {
 		char* protoName;
-		if ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
+		if ((db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)) && !override)
 			protoName = SETTING_ALL;
 		else
 			protoName = loadSettings[i].szName;
@@ -150,34 +150,34 @@ void LoadOptions( OBJLIST<TAAAProtoSetting>& loadSettings, BOOL override)
 				monitorAll = TRUE;
 	}	}
 
-	if (DBGetContactSettingByte(NULL, "Idle", "AAEnable", 0))
+	if (db_get_b(NULL, "Idle", "AAEnable", 0))
 		return;
 
 	HookWindowsHooks(monitorMiranda, monitorAll);
-	hAutoAwayTimer = SetTimer(NULL,0, DBGetContactSettingWord(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5)*1000,AutoAwayTimer);
+	hAutoAwayTimer = SetTimer(NULL,0, db_get_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5)*1000,AutoAwayTimer);
 }
 
 int LoadAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoName)
 {
 	char setting[128];
 	_snprintf(setting, sizeof(setting), "%s_OptionFlags", protoName);
-	autoAwaySetting.optionFlags = DBGetContactSettingByte(NULL,MODULENAME,setting,FLAG_LV2ONINACTIVE|FLAG_RESET);
+	autoAwaySetting.optionFlags = db_get_b(NULL,MODULENAME,setting,FLAG_LV2ONINACTIVE|FLAG_RESET);
 	_snprintf(setting, sizeof(setting), "%s_AwayTime", protoName);
-	autoAwaySetting.awayTime = DBGetContactSettingWord(NULL,MODULENAME,setting,SETTING_AWAYTIME_DEFAULT);
+	autoAwaySetting.awayTime = db_get_w(NULL,MODULENAME,setting,SETTING_AWAYTIME_DEFAULT);
 	_snprintf(setting, sizeof(setting), "%s_NATime", protoName);
-	autoAwaySetting.naTime = DBGetContactSettingWord(NULL,MODULENAME,setting,SETTING_NATIME_DEFAULT);
+	autoAwaySetting.naTime = db_get_w(NULL,MODULENAME,setting,SETTING_NATIME_DEFAULT);
 	_snprintf(setting, sizeof(setting), "%s_StatusFlags", protoName);
-	autoAwaySetting.statusFlags = DBGetContactSettingWord(NULL,MODULENAME,setting, StatusModeToProtoFlag(ID_STATUS_ONLINE)|StatusModeToProtoFlag(ID_STATUS_FREECHAT));
+	autoAwaySetting.statusFlags = db_get_w(NULL,MODULENAME,setting, StatusModeToProtoFlag(ID_STATUS_ONLINE)|StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
-	if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, 0))
+	if (db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, 0))
 		flags = 0xFFFFFF;
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS,PFLAGNUM_2,0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 	_snprintf(setting, sizeof(setting), "%s_Lv1Status", protoName);
-	autoAwaySetting.lv1Status = DBGetContactSettingWord(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY))?ID_STATUS_AWAY:ID_STATUS_OFFLINE);
+	autoAwaySetting.lv1Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY))?ID_STATUS_AWAY:ID_STATUS_OFFLINE);
 	_snprintf(setting, sizeof(setting), "%s_Lv2Status", protoName);
-	autoAwaySetting.lv2Status = DBGetContactSettingWord(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA))?ID_STATUS_NA:ID_STATUS_OFFLINE);
+	autoAwaySetting.lv2Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA))?ID_STATUS_NA:ID_STATUS_OFFLINE);
 
 	return 0;
 }
@@ -273,11 +273,11 @@ static int changeState(TAAAProtoSetting& setting, STATES newState)
 			setting.szMsg = NULL;
 		}
 
-		if (DBGetContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
+		if (db_get_b(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if (!DBGetContactSettingTString(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
+			if (!db_get_ts(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
 				setting.szMsg = _tcsdup(dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 		}	}
 	}
 	else if (setting.szMsg != NULL) {
@@ -416,7 +416,7 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 		}
 		
 		if (confirm)
-			confirmDialog = (HWND)CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&ps, DBGetContactSettingWord(NULL, MODULENAME, SETTING_CONFIRMDELAY, 5));
+			confirmDialog = (HWND)CallService(MS_CS_SHOWCONFIRMDLGEX, (WPARAM)&ps, db_get_w(NULL, MODULENAME, SETTING_CONFIRMDELAY, 5));
 		else if (statusChanged)
 			CallService(MS_CS_SETSTATUSEX, (WPARAM)&ps, 0);
 }	}
@@ -602,7 +602,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	openInputDesktop = ( pfnOpenInputDesktop )GetProcAddress (hUser32, "OpenInputDesktop");
 	closeDesktop = ( pfnCloseDesktop )GetProcAddress (hUser32, "CloseDesktop");
 
-	if ( IsWinVer2000Plus() && !DBGetContactSettingByte(NULL, MODULENAME, SETTING_IGNLOCK, FALSE))
+	if ( IsWinVer2000Plus() && !db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE))
 		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO))GetProcAddress(GetModuleHandleA("user32"),"GetLastInputInfo");
 	else
 		MyGetLastInputInfo = NULL;

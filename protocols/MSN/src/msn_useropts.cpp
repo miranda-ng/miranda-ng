@@ -36,8 +36,8 @@ INT_PTR CALLBACK MsnDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				const HANDLE hContact = (HANDLE)lParam;
 
-				SetDlgItemInt(hwndDlg, IDC_MOBILE, DBGetContactSettingByte(hContact, m_szModuleName, "MobileAllowed", 0), 0);
-				SetDlgItemInt(hwndDlg, IDC_MSN_MOBILE, DBGetContactSettingByte(hContact, m_szModuleName, "MobileEnabled", 0), 0);
+				SetDlgItemInt(hwndDlg, IDC_MOBILE, db_get_b(hContact, m_szModuleName, "MobileAllowed", 0), 0);
+				SetDlgItemInt(hwndDlg, IDC_MSN_MOBILE, db_get_b(hContact, m_szModuleName, "MobileEnabled", 0), 0);
 
 				DWORD dwFlagBits = setDword(hContact, "FlagBits", 0);
 				SetDlgItemTextA(hwndDlg, IDC_WEBMESSENGER, (dwFlagBits & 0x200) ? "Y" : "N");

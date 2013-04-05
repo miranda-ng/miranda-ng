@@ -39,7 +39,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		mir_subclassWindow( GetDlgItem(hdlg, IDC_INFOTEXT), EditProc);
 		{
 			TCHAR *szout;
-			if ( !DBGetContactSettingTString(NULL, S_MOD, "UserStamp", &dbv)) {
+			if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
 				szout = ParseString(dbv.ptszVal, (HANDLE)lparam, 0);
 				db_free(&dbv);
 			}

@@ -169,7 +169,7 @@ static void IdleObject_ReadSettings(IdleObject * obj)
 {
 	obj->useridlecheck = db_get_b(NULL, IDLEMOD, IDL_USERIDLECHECK, 0);
 	obj->minutes = db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10);
-	obj->aastatus = !db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0);
+	obj->aastatus = !db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : db_get_w(NULL, IDLEMOD, IDL_AASTATUS, 0);
 	if ( db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1))
 		obj->aasoundsoff = 1;
 	else
@@ -372,7 +372,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		for (j = 0; j < SIZEOF(aa_Status); j++)
 			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
 
-		j = IdleGetStatusIndex((WORD)(DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0)));
+		j = IdleGetStatusIndex((WORD)(db_get_w(NULL, IDLEMOD, IDL_AASTATUS, 0)));
 		SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_SETCURSEL, j, 0);
 		SendMessage(hwndDlg, WM_USER+2, 0, 0);
 		return TRUE;
@@ -393,23 +393,23 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (hdr && hdr->code == PSN_APPLY) {
 			int method = IsDlgButtonChecked(hwndDlg, IDC_IDLEONWINDOWS) == BST_CHECKED;
 			int mins = SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_GETPOS, 0, 0);
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, (BYTE)(HIWORD(mins) == 0 ? LOWORD(mins) : 10));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_USERIDLECHECK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESHORT) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEMETHOD, (BYTE)(method ? 0 : 1));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONSAVER, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCREENSAVER) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONFULLSCR, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FULLSCREEN) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLETERMINAL) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEPRIVATE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLEPRIVATE) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED?1:0));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESTATUSLOCK) == BST_CHECKED?1:0));
+			db_set_b(NULL, IDLEMOD, IDL_IDLETIME1ST, (BYTE)(HIWORD(mins) == 0 ? LOWORD(mins) : 10));
+			db_set_b(NULL, IDLEMOD, IDL_USERIDLECHECK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESHORT) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEMETHOD, (BYTE)(method ? 0 : 1));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEONSAVER, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCREENSAVER) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FULLSCREEN) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEONLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEONTSDC, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLETERMINAL) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLEPRIVATE) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_AAENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED?1:0));
+			db_set_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESTATUSLOCK) == BST_CHECKED?1:0));
 			{
 				int curSel = SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_GETCURSEL, 0, 0);
 				if (curSel != CB_ERR) {
-					DBWriteContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, (WORD)(aa_Status[curSel]));
+					db_set_w(NULL, IDLEMOD, IDL_AASTATUS, (WORD)(aa_Status[curSel]));
 				}
 			}
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESOUNDSOFF) == BST_CHECKED));
+			db_set_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESOUNDSOFF) == BST_CHECKED));
 			// destroy any current idle and reset settings.
 			IdleObject_Destroy(&gIdleObject);
 			IdleObject_Create(&gIdleObject);

@@ -161,7 +161,7 @@ static void ShowConsole(int show)
 			ScrollDown( pActive );
 	}
 	ShowWindow(hwndConsole, (show)?SW_SHOW:SW_HIDE);
-	DBWriteContactSettingByte(NULL,"Console","Show",(BYTE)((show)?1:0));
+	db_set_b(NULL,"Console","Show",(BYTE)((show)?1:0));
 
 	if (hwnd)
 		SetForegroundWindow(hwnd);
@@ -1005,14 +1005,14 @@ static int OnFastDump(WPARAM wParam,LPARAM lParam)
 
 static void LoadSettings()
 {
-	gIcons = DBGetContactSettingByte(NULL, "Console", "ShowIcons", 1);
-	gSeparator = DBGetContactSettingByte(NULL, "Console", "Separator", 1);
-	gSingleMode = DBGetContactSettingByte(NULL, "Console", "SingleMode", 0);
+	gIcons = db_get_b(NULL, "Console", "ShowIcons", 1);
+	gSeparator = db_get_b(NULL, "Console", "Separator", 1);
+	gSingleMode = db_get_b(NULL, "Console", "SingleMode", 0);
 
-	gWrapLen = DBGetContactSettingByte(NULL, "Console", "Wrap", DEFAULT_WRAPLEN);
+	gWrapLen = db_get_b(NULL, "Console", "Wrap", DEFAULT_WRAPLEN);
 	if ( gWrapLen < MIN_WRAPLEN ) gWrapLen = DEFAULT_WRAPLEN;
 
-	gLimit = DBGetContactSettingDword(NULL, "Console", "Limit", MAX_LIMIT);
+	gLimit = db_get_dw(NULL, "Console", "Limit", MAX_LIMIT);
 	if (gLimit > MAX_LIMIT) gLimit = MAX_LIMIT;
 	if (gLimit < MIN_LIMIT) gLimit = MIN_LIMIT;
 }
@@ -1029,7 +1029,7 @@ static void SaveSettings(HWND hwndDlg)
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
-	DBWriteContactSettingByte(NULL, "Console", "Wrap", (BYTE)len);
+	db_set_b(NULL, "Console", "Wrap", (BYTE)len);
 
 	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, NULL, FALSE);
 	if (len < MIN_LIMIT )
@@ -1040,13 +1040,13 @@ static void SaveSettings(HWND hwndDlg)
 
 	gLimit = len;
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
-	DBWriteContactSettingDword(NULL, "Console", "Limit", len);
+	db_set_dw(NULL, "Console", "Limit", len);
 
-	DBWriteContactSettingByte(NULL, "Console", "SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
-	DBWriteContactSettingByte(NULL, "Console", "Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
-	DBWriteContactSettingByte(NULL, "Console", "ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
+	db_set_b(NULL, "Console", "SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
+	db_set_b(NULL, "Console", "Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
+	db_set_b(NULL, "Console", "ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
 
-	DBWriteContactSettingByte(NULL, "Console", "ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
+	db_set_b(NULL, "Console", "ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
 }
 
 
@@ -1055,7 +1055,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	switch(msg) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_START, DBGetContactSettingByte(NULL, "Console", "ShowAtStart", 0));
+			CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0));
 			CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode);
 			CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons);
 			CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator);
@@ -1230,7 +1230,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		OnFontChange(0,0);
 		OnColourChange(0,0);
 
-		if (DBGetContactSettingByte(NULL,"Console","ShowAtStart",0) || DBGetContactSettingByte(NULL,"Console","Show",1))
+		if (db_get_b(NULL,"Console","ShowAtStart",0) || db_get_b(NULL,"Console","Show",1))
 			ShowConsole(1);
 		else
 			ShowConsole(0);

@@ -115,7 +115,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	arContacts.destroy();
 	CloseHandle(g_hShutdownEvent);
-	UninitMenuitem();
 	return 0;
 }
 

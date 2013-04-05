@@ -158,9 +158,9 @@ void LoadContactTree(void)
 			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
 
 		if (mc_disablehgh && !mc_hgh_removed) {
-			if ( !DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+			if ( !db_get(hContact, "CList", "Group", &dbv)) {
 				if ( !strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
-					DBDeleteContactSetting(hContact, "CList", "Group");
+					db_unset(hContact, "CList", "Group");
 				mir_free(dbv.pszVal);
 			}
 		}

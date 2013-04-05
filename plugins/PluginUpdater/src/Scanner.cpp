@@ -23,7 +23,7 @@ int CalculateModuleHash(const TCHAR *tszFileName, char *dest);
 
 static BYTE IsPluginDisabled(const char *filename)
 {
-	return DBGetContactSettingByte(NULL, "PluginDisable", filename, 0);
+	return db_get_b(NULL, "PluginDisable", filename, 0);
 }
 
 static bool Exists(LPCTSTR strName)
@@ -269,9 +269,9 @@ static void CheckUpdates(void *)
 		tszTempPath[dwLen-1] = 0;
 
 	// Load files info
-	if (DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
-		DBWriteContactSettingTString(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
-		DBGetContactSettingTString(NULL, MODNAME, "UpdateURL", &dbVar);
+	if (db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar)) { // URL is not set
+		db_set_ts(NULL, MODNAME, "UpdateURL", _T(DEFAULT_UPDATE_URL));
+		db_get_ts(NULL, MODNAME, "UpdateURL", &dbVar);
 	}
 
 	REPLACEVARSARRAY vars[2];
@@ -287,7 +287,7 @@ static void CheckUpdates(void *)
 	dat.dwFlags = RVF_TCHAR;
 	dat.variables = vars;
 	mir_ptr<TCHAR> tszBaseUrl((TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)dbVar.ptszVal, (LPARAM)&dat));
-	DBFreeVariant(&dbVar);
+	db_free(&dbVar);
 
 	// Download version info
 	ShowPopup(NULL, TranslateT("Plugin Updater"), TranslateT("Downloading version info..."), 4, 0);
@@ -365,6 +365,6 @@ void DoCheck(int iFlag)
 	}
 	else if (iFlag) {
 		hCheckThread = mir_forkthread(CheckUpdates, 0);
-		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
+		db_set_dw(NULL, MODNAME, "LastUpdate", time(NULL));
 	}
 }

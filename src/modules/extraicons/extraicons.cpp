@@ -157,7 +157,7 @@ static void LoadGroups(vector<ExtraIconGroup *> &groups)
 			mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(NULL, MODULE_NAME "Groups", setting, &dbv)) {
+			if (!db_get_s(NULL, MODULE_NAME "Groups", setting, &dbv)) {
 				if (!IsEmpty(dbv.pszVal)) {
 					BaseExtraIcon *extra = GetExtraIconByName(dbv.pszVal);
 					if (extra != NULL) {

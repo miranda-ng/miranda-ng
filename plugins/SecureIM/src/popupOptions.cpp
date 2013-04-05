@@ -20,19 +20,19 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		char *timeout;
 
 		//set timeout value for Key
-		if (DBGetContactSetting(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout=dbv.pszVal;
+		if (db_get(0, MODULENAME, "timeoutKey", &dbv) == 0) timeout=dbv.pszVal;
 		else timeout="0";
 		SetDlgItemText(hDlg, IDC_TIMEKEY, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SEC
-		if (DBGetContactSetting(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout=dbv.pszVal;
+		if (db_get(0, MODULENAME, "timeoutSec", &dbv) == 0) timeout=dbv.pszVal;
 		else timeout="0";
 		SetDlgItemText(hDlg, IDC_TIMESEC, timeout);
 		db_free(&dbv);
 
 		//set timeout value for SR
-		if (DBGetContactSetting(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout=dbv.pszVal;
+		if (db_get(0, MODULENAME, "timeoutSR", &dbv) == 0) timeout=dbv.pszVal;
 		else timeout="0";
 		SetDlgItemText(hDlg, IDC_TIMESR, timeout);
 		db_free(&dbv);
@@ -57,22 +57,22 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 			switch(LOWORD(wParam)) {
 			case IDC_BACKKEY:
-				DBWriteContactSettingDword(0, MODULENAME, "colorKeyb", color);
+				db_set_dw(0, MODULENAME, "colorKeyb", color);
 				break;
 			case IDC_TEXTKEY:
-				DBWriteContactSettingDword(0, MODULENAME, "colorKeyt", color);
+				db_set_dw(0, MODULENAME, "colorKeyt", color);
 				break;
 			case IDC_BACKSEC:
-				DBWriteContactSettingDword(0, MODULENAME, "colorSecb", color);
+				db_set_dw(0, MODULENAME, "colorSecb", color);
 				break;
 			case IDC_TEXTSEC:
-				DBWriteContactSettingDword(0, MODULENAME, "colorSect", color);
+				db_set_dw(0, MODULENAME, "colorSect", color);
 				break;
 			case IDC_BACKSR:
-				DBWriteContactSettingDword(0, MODULENAME, "colorSRb", color);
+				db_set_dw(0, MODULENAME, "colorSRb", color);
 				break;
 			case IDC_TEXTSR:
-				DBWriteContactSettingDword(0, MODULENAME, "colorSRt", color);
+				db_set_dw(0, MODULENAME, "colorSRt", color);
 				break;
 			}
 			return TRUE;

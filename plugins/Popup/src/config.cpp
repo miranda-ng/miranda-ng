@@ -108,7 +108,7 @@ void PopUpPreview()
 	for (HANDLE hContact = db_find_first(); hContact;
 			hContact = db_find_next(hContact))
 	{
-		if (DBGetContactSettingDword(hContact, "ICQ", "UIN", 0) == 256771455)
+		if (db_get_dw(hContact, "ICQ", "UIN", 0) == 256771455)
 		{
 			ppd.lchContact = hContact;
 			break;

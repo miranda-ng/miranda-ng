@@ -52,7 +52,7 @@ size_t MraAntiSpamLoadBadWordsW()
 			CharLowerBuffW(pmabwBadWords[i].lpwszBadWord, DWORD(dwValueSize));
 			pmabwBadWords[i].dwBadWordLen = DWORD(dwValueSize);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		if (pmabwBadWords[i].lpwszBadWord == NULL)
 			break;

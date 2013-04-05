@@ -183,7 +183,7 @@ int GetStringFromDatabase(char *szSettingName, const wchar_t *szError, TCHAR *sz
 {
 	size_t len;
 	DBVARIANT dbv;
-	if ( DBGetContactSettingWString(NULL, ModuleName, szSettingName, &dbv) == 0) {
+	if ( db_get_ws(NULL, ModuleName, szSettingName, &dbv) == 0) {
 		size_t tmp = _tcslen(dbv.ptszVal);
 		len = (tmp < size - 1) ? tmp : size - 1;
 		_tcsncpy(szResult, dbv.ptszVal, len);

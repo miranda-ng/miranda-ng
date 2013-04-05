@@ -1757,15 +1757,15 @@ CDbLink::~CDbLink()
 	mir_free(m_szSetting);
 	mir_free(m_szDefault);
 	if (dbv.type != DBVT_DELETED)
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }
 
 DWORD CDbLink::LoadInt()
 {
 	switch (m_type) {
-		case DBVT_BYTE:  return DBGetContactSettingByte(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_WORD:  return DBGetContactSettingWord(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_DWORD: return DBGetContactSettingDword(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_BYTE:  return db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_WORD:  return db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_DWORD: return db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
 		default:			  return m_iDefault;
 	}
 }
@@ -1773,16 +1773,16 @@ DWORD CDbLink::LoadInt()
 void CDbLink::SaveInt(DWORD value)
 {
 	switch (m_type) {
-		case DBVT_BYTE:  DBWriteContactSettingByte(NULL, m_szModule, m_szSetting, (BYTE)value); break;
-		case DBVT_WORD:  DBWriteContactSettingWord(NULL, m_szModule, m_szSetting, (WORD)value); break;
-		case DBVT_DWORD: DBWriteContactSettingDword(NULL, m_szModule, m_szSetting, value); break;
+		case DBVT_BYTE:  db_set_b(NULL, m_szModule, m_szSetting, (BYTE)value); break;
+		case DBVT_WORD:  db_set_w(NULL, m_szModule, m_szSetting, (WORD)value); break;
+		case DBVT_DWORD: db_set_dw(NULL, m_szModule, m_szSetting, value); break;
 	}
 }
 
 TCHAR* CDbLink::LoadText()
 {
-	if (dbv.type != DBVT_DELETED) DBFreeVariant(&dbv);
-	if (!DBGetContactSettingTString(NULL, m_szModule, m_szSetting, &dbv))
+	if (dbv.type != DBVT_DELETED) db_free(&dbv);
+	if (!db_get_ts(NULL, m_szModule, m_szSetting, &dbv))
 	{
 		if (dbv.type == DBVT_TCHAR)
 			return dbv.ptszVal;
@@ -1795,7 +1795,7 @@ TCHAR* CDbLink::LoadText()
 
 void CDbLink::SaveText(TCHAR *value)
 {
-	DBWriteContactSettingTString(NULL, m_szModule, m_szSetting, value);
+	db_set_ts(NULL, m_szModule, m_szSetting, value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

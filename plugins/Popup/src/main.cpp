@@ -370,9 +370,9 @@ MIRAPI int Load(void)
 
 	// Register in DBEditor++
 	DBVARIANT dbv;
-	if (DBGetContactSetting(NULL, "KnownModules", MODULNAME, &dbv))
-		DBWriteContactSettingString(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
-	DBFreeVariant(&dbv);
+	if (db_get(NULL, "KnownModules", MODULNAME, &dbv))
+		db_set_s(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
+	db_free(&dbv);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);

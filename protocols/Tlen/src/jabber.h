@@ -283,14 +283,14 @@ struct TlenProtocol : public PROTO_INTERFACE
 
 	struct ThreadDataStruct *threadData;
 	HANDLE hTlenNudge;
-	HANDLE hMenuMUC;
-	HANDLE hMenuChats;
-	HANDLE hMenuInbox;
-	HANDLE hMenuContactMUC;
-	HANDLE hMenuContactVoice;
-	HANDLE hMenuContactGrantAuth;
-	HANDLE hMenuContactRequestAuth;
-	HANDLE hMenuPicture;
+	HGENMENU hMenuMUC;
+	HGENMENU hMenuChats;
+	HGENMENU hMenuInbox;
+	HGENMENU hMenuContactMUC;
+	HGENMENU hMenuContactVoice;
+	HGENMENU hMenuContactGrantAuth;
+	HGENMENU hMenuContactRequestAuth;
+	HGENMENU hMenuPicture;
 
 	HANDLE* hServices;
 	unsigned serviceNum;

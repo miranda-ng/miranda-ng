@@ -39,14 +39,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				BOOL bSuccess = FALSE;
 
 				LastUCOpt.HideOffline = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE);
-				DBWriteContactSettingByte(NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, (BYTE)LastUCOpt.HideOffline);
+				db_set_b(NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, (BYTE)LastUCOpt.HideOffline);
 
 				GetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str, SIZEOF(str));
 				LastUCOpt.MaxShownContacts= atoi(str);
-				DBWriteContactSettingByte(0,dbLastUC_ModuleName, dbLastUC_MaxShownContacts, LastUCOpt.MaxShownContacts);
+				db_set_b(0,dbLastUC_ModuleName, dbLastUC_MaxShownContacts, LastUCOpt.MaxShownContacts);
 
 				GetDlgItemTextA(hwndDlg, IDC_DATETIME, str, SIZEOF(str));
-				DBWriteContactSettingString(0,dbLastUC_ModuleName, dbLastUC_DateTimeFormat, str );
+				db_set_s(0,dbLastUC_ModuleName, dbLastUC_DateTimeFormat, str );
 
 				LoadDBSettings();
 				return TRUE;

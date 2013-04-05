@@ -349,7 +349,7 @@ void ShowMessage(const HANDLE hContact, const TCHAR *msg) {
 /*
 bool GetEncryptionStatus(HANDLE hContact) {
 	char *proto = GetContactProto(hContact);
-	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0));
+	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
 
 	if (!chat_room) {
 		if (options.bHaveMetaContacts) {
@@ -358,7 +358,7 @@ bool GetEncryptionStatus(HANDLE hContact) {
 				//strcat(dbg_msg, "\nrecursing for meta");
 				return GetEncryptionStatus(hMeta);
 			}
-			return 0!=DBGetContactSettingByte(hContact, MODULENAME, "Encrypted", 0 );
+			return 0!=db_get_b(hContact, MODULENAME, "Encrypted", 0 );
 		}
 	}
 	return 0;

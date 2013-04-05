@@ -52,9 +52,9 @@ HANDLE hTTButton;
 
 UINT SecTimer;
 
-HANDLE hMenuItemMain = 0;
-HANDLE hMenuItemCont = 0;
-HANDLE hMenuItemContApp = 0;
+HGENMENU hMenuItemMain = 0;
+HGENMENU hMenuItemCont = 0;
+HGENMENU hMenuItemContApp = 0;
 
 HMODULE hUxTheme = 0;
 BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
@@ -188,12 +188,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 
 void CheckMenuItems()
 {
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = CMIM_FLAGS;
-	if ( !DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1))
-		clmi.flags |= CMIF_HIDDEN;
-
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuItemMain, ( LPARAM )&clmi );
+	Menu_ShowItem(hMenuItemMain, db_get_b(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1) != 0);
 }
 
 int SystemModulesLoaded(WPARAM, LPARAM)
@@ -363,18 +358,18 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (NULL == (ExitEV = CreateEvent(NULL, TRUE, FALSE, NULL)))
 		return 1;
 
-	PosX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBPOSX, 0);
-	PosY = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBPOSY, 0);
-	SizeX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBSIZEX, 800);
-	SizeY = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBSIZEY, 200);
+	PosX = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBPOSX, 0);
+	PosY = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBPOSY, 0);
+	SizeX = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBSIZEX, 800);
+	SizeY = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBSIZEY, 200);
 
-	HeadPosX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSX, 0);
-	HeadPosY = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSY, 0);
-	HeadSizeX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEX, 690);
-	HeadSizeY = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, 300);
-	HeadSplitPos = DBGetContactSettingWord(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, 250);
+	HeadPosX = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSX, 0);
+	HeadPosY = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSY, 0);
+	HeadSizeX = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEX, 690);
+	HeadSizeY = db_get_dw(NULL, YAMN_DBMODULE, YAMN_DBMSGSIZEY, 300);
+	HeadSplitPos = db_get_w(NULL, YAMN_DBMODULE, YAMN_DBMSGPOSSPLIT, 250);
 
-	optDateTime = DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_DBTIMEOPTIONS, optDateTime);
+	optDateTime = db_get_b(NULL, YAMN_DBMODULE, YAMN_DBTIMEOPTIONS, optDateTime);
 
 	// Create new window queues for broadcast messages
 	YAMNVar.MessageWnds = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);

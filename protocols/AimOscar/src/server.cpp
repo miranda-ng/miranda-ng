@@ -545,7 +545,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									msg_exist = true;
 									char* msg = tlv.part(i + 6, len);
 									char* msg_s = process_status_msg(msg, sn);
-									DBWriteContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
+									db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
 
 									TCHAR* tszMsg = mir_utf8decodeT(msg_s);
 									sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
@@ -560,7 +560,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 					}
 
 					if (!msg_exist)
-						DBDeleteContactSetting(hContact, MOD_KEY_CL, OTH_KEY_SM);
+						db_unset(hContact, MOD_KEY_CL, OTH_KEY_SM);
 				}
 			}
 			else if (tlv.cmp(0x0004))//idle tlv
@@ -676,20 +676,20 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 					{
 						bool ok = false;
 						DBVARIANT dbv;
-						if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) 
+						if (!db_get_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) 
 						{
 							ok = strcmp(group, dbv.pszVal) == 0;
 							if (strcmp(dbv.pszVal, "MetaContacts Hidden Group") == 0)
 							{
-								DBFreeVariant(&dbv);
-								if (!DBGetContactSettingStringUtf(hContact, "MetaContacts", "OldCListGroup", &dbv))
+								db_free(&dbv);
+								if (!db_get_utf(hContact, "MetaContacts", "OldCListGroup", &dbv))
 								{
 									ok = strcmp(group, dbv.pszVal) == 0;
-									DBFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 							}
 							else
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 						}
 						else
 						{
@@ -698,9 +698,9 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 						if (!ok)
 						{
 							if (strcmp(group, AIM_DEFAULT_GROUP))
-								DBWriteContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, group);
+								db_set_utf(hContact, MOD_KEY_CL, OTH_KEY_GP, group);
 							else
-								DBDeleteContactSetting(hContact, MOD_KEY_CL, OTH_KEY_GP);
+								db_unset(hContact, MOD_KEY_CL, OTH_KEY_GP);
 						}
 					}
 				}
@@ -714,7 +714,7 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 					if (tlv.cmp(0x0131) && tlv.len())
 					{
 						char* nick = tlv.dup();
-						DBWriteContactSettingStringUtf(hContact, MOD_KEY_CL, "MyHandle", nick);
+						db_set_utf(hContact, MOD_KEY_CL, "MyHandle", nick);
 						mir_free(nick);
 						nickfound = true;
 					}
@@ -726,7 +726,7 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 					tlv_offset += TLV_HEADER_SIZE + tlv.len();
 				}
 				if (!nickfound && getDword(AIM_KEY_LV, 0) >= 0x80500) 
-					DBDeleteContactSetting(hContact, MOD_KEY_CL, "MyHandle");
+					db_unset(hContact, MOD_KEY_CL, "MyHandle");
 			}
 			break;
 		}
@@ -884,9 +884,9 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 					{
 						char* nick = tlv.dup();
 						if (nick)
-							DBWriteContactSettingStringUtf(hContact, MOD_KEY_CL, "MyHandle", nick);
+							db_set_utf(hContact, MOD_KEY_CL, "MyHandle", nick);
 						else
-							DBDeleteContactSetting(hContact, MOD_KEY_CL, "MyHandle");
+							db_unset(hContact, MOD_KEY_CL, "MyHandle");
 						mir_free(nick);
 					}
 
@@ -1058,10 +1058,10 @@ void CAimProto::snac_contact_list(SNAC &snac,HANDLE hServerConn,unsigned short &
 			aim_request_offline_msgs(hServerConn,seqno);
 
 			DBVARIANT dbv;
-			if (!DBGetContactSettingStringUtf(NULL, m_szModuleName, AIM_KEY_PR, &dbv))
+			if (!db_get_utf(NULL, m_szModuleName, AIM_KEY_PR, &dbv))
 			{
 				aim_set_profile(hServerConn, seqno, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if (getDword(AIM_KEY_LV, 0) < 0x80500)

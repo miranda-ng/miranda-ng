@@ -30,7 +30,7 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 		if( include_chat )
 			return true;
 		else
-			return DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0) == 0;
+			return db_get_b(hContact,m_szModuleName,"ChatRoom",0) == 0;
 	} else {
 		return false;
 	}
@@ -46,14 +46,14 @@ HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,"ChatRoomID",&dbv))
+		if( !db_get_s(hContact,m_szModuleName,"ChatRoomID",&dbv))
 		{
 			if( strcmp(chat_id.c_str(),dbv.pszVal) == 0 )
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return hContact;
 			} else {
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -71,14 +71,14 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
+		if( !db_get_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 		{
 			if( strcmp(user_id.c_str(),dbv.pszVal) == 0 )
 			{
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return hContact;
 			} else {
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -103,19 +103,19 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 	{
 		if( CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0 )
 		{
-			DBWriteContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,fbu->user_id.c_str());
+			db_set_s(hContact,m_szModuleName,FACEBOOK_KEY_ID,fbu->user_id.c_str());
       
 			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
-			DBWriteContactSettingString(hContact, m_szModuleName,"Homepage", homepage.c_str());			
-			DBWriteContactSettingString(hContact, m_szModuleName, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
+			db_set_s(hContact, m_szModuleName,"Homepage", homepage.c_str());			
+			db_set_s(hContact, m_szModuleName, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
 
-			DBDeleteContactSetting(hContact, "CList", "MyHandle");
+			db_unset(hContact, "CList", "MyHandle");
 
 			DBVARIANT dbv;
-			if( !DBGetContactSettingTString(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv))
+			if( !db_get_ts(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv))
 			{
-				DBWriteContactSettingTString(hContact,"CList","Group",dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_set_ts(hContact,"CList","Group",dbv.ptszVal);
+				db_free(&dbv);
 			}
 
 			if (strlen(new_name) > 0)
@@ -124,7 +124,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 				DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, new_name);
 			}
 			
-			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);
 
 			if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (LPARAM)IGNOREEVENT_USERONLINE);
@@ -149,17 +149,17 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 		
 		if (reset_client) {
 			DBVARIANT dbv;
-			if (!DBGetContactSettingTString(hContact,m_szModuleName,"MirVer",&dbv)) {
+			if (!db_get_ts(hContact,m_szModuleName,"MirVer",&dbv)) {
 				if (_tcscmp(dbv.ptszVal, _T(FACEBOOK_NAME)))
-					DBWriteContactSettingTString(hContact,m_szModuleName,"MirVer", _T(FACEBOOK_NAME));
-				DBFreeVariant(&dbv);
+					db_set_ts(hContact,m_szModuleName,"MirVer", _T(FACEBOOK_NAME));
+				db_free(&dbv);
 			}
 
 
 			/*std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
 			TCHAR *path = _tcsdup(foldername.c_str());
 	
-			if (DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+			if (db_get_b(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
 				SMADD_CONT cont;
 				cont.cbSize = sizeof(SMADD_CONT);
 				cont.hContact = hContact;
@@ -170,8 +170,8 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			}*/
 		}
 
-		if (DBGetContactSettingWord(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)
-			DBWriteContactSettingWord(hContact,m_szModuleName,"Status",status);
+		if (db_get_w(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)
+			db_set_w(hContact,m_szModuleName,"Status",status);
 	}
 }
 
@@ -209,9 +209,9 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
 		{
-			DBWriteContactSettingWord(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
-			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
-			DBWriteContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
+			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+			db_set_dw(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 		
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
@@ -251,7 +251,7 @@ void FacebookProto::AddContactToServer(void *data)
 		// If contact wasn't deleted from database
 		if (hContact != NULL)
 		{
-			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
+			db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
 		}
 				
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER, NULL);
@@ -280,10 +280,10 @@ void FacebookProto::ApproveContactToServer(void *data)
 	std::string get_data = "id=";
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
+	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
 	{
 		get_data += dbv.pszVal;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	http::response resp = facy.flap( FACEBOOK_REQUEST_APPROVE_FRIEND, &post_data, &get_data );
@@ -291,7 +291,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	// Process result data
 	facy.validate_response(&resp);
 
-	DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+	db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
 }
 
 void FacebookProto::CancelFriendsRequest(void *data)
@@ -309,10 +309,10 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	query += "&__user=" + facy.self_.user_id;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
+	if (!db_get_s(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
 	{
 		query += "&friend=" + std::string(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	// Get unread inbox threads
@@ -323,7 +323,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{		
-		DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+		db_set_b(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
 		facy.client_notify( TranslateT("Error occured when canceling friendship request."));

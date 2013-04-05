@@ -31,8 +31,8 @@ extern BOOL       PopUpInstalled;
 extern BOOL       IEviewInstalled;
 
 HANDLE            hSendEvent;
-HANDLE            hBuildMenuEvent ;
-HANDLE            hJoinMenuItem, hLeaveMenuItem;
+HANDLE            hBuildMenuEvent;
+HGENMENU          hJoinMenuItem, hLeaveMenuItem;
 SESSION_INFO		g_TabSession;
 CRITICAL_SECTION	cs;
 
@@ -169,7 +169,7 @@ static int FontsChanged(WPARAM wParam,LPARAM lParam)
 		DeleteObject(hFont);
 		g_Settings.LogTextIndent = iText;
 		g_Settings.LogTextIndent = g_Settings.LogTextIndent*12/10;
-		g_Settings.LogIndentEnabled = (DBGetContactSettingByte(NULL, "Chat", "LogIndentEnabled", 1) != 0)?TRUE:FALSE;
+		g_Settings.LogIndentEnabled = (db_get_b(NULL, "Chat", "LogIndentEnabled", 1) != 0)?TRUE:FALSE;
 	}
 	MM_FontsChanged();
 	MM_FixColors();
@@ -342,9 +342,9 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->ptszStatusbarText = a2tf( gcw->ptszStatusbarText, gcw->dwFlags );
 			si->iSplitterX = g_Settings.iSplitterX;
 			si->iSplitterY = g_Settings.iSplitterY;
-			si->iLogFilterFlags = (int)DBGetContactSettingDword(NULL, "Chat", "FilterFlags", 0x03E0);
-			si->bFilterEnabled = DBGetContactSettingByte(NULL, "Chat", "FilterEnabled", 0);
-			si->bNicklistEnabled = DBGetContactSettingByte(NULL, "Chat", "ShowNicklist", 1);
+			si->iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
+			si->bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
+			si->bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
 			if ( !( gcw->dwFlags & GC_UNICODE )) {
 				si->pszID = mir_strdup( gcw->pszID );
 				si->pszName = mir_strdup( gcw->pszName );
@@ -363,12 +363,12 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			else
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), si->ptszName);
 			si->hContact = CList_AddRoom( gcw->pszModule, ptszID, szTemp, si->iType);
-			DBWriteContactSettingString(si->hContact, si->pszModule , "Topic", "");
+			db_set_s(si->hContact, si->pszModule , "Topic", "");
 			db_unset(si->hContact, "CList", "StatusMsg");
 			if (si->ptszStatusbarText)
-				DBWriteContactSettingTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 		}
 		else {
 			SESSION_INFO* si2 = SM_FindSession( ptszID, gcw->pszModule );
@@ -423,7 +423,7 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 				SESSION_INFO* si = SM_FindSession(gce->pDest->ptszID, gce->pDest->pszModule);
 				if (si) {
 					si->bInitDone = TRUE;
-					if (wp != SESSION_INITDONE || DBGetContactSettingByte(NULL, "Chat", "PopupOnJoin", 0) == 0)
+					if (wp != SESSION_INITDONE || db_get_b(NULL, "Chat", "PopupOnJoin", 0) == 0)
 						ShowRoom(si, wp, TRUE);
 					return 0;
 			}	}
@@ -495,9 +495,9 @@ static int DoControl(GCEVENT * gce, WPARAM wp)
 		if (si) {
 			replaceStr( &si->ptszStatusbarText, gce->ptszText );
 			if ( si->ptszStatusbarText )
-				DBWriteContactSettingTString(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
+				db_set_ts(si->hContact, si->pszModule, "StatusBar", si->ptszStatusbarText);
 			else
-				DBWriteContactSettingString(si->hContact, si->pszModule, "StatusBar", "");
+				db_set_s(si->hContact, si->pszModule, "StatusBar", "");
 			if ( si->hWnd ) {
 				g_TabSession.ptszStatusbarText = si->ptszStatusbarText;
 				SendMessage(si->hWnd, GC_UPDATESTATUSBAR, 0, 0);
@@ -611,9 +611,9 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 				replaceStr( &si->ptszTopic, gce->ptszText);
 				if ( si->hWnd )
 					g_TabSession.ptszTopic = si->ptszTopic;
-				DBWriteContactSettingTString( si->hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
-				if ( DBGetContactSettingByte( NULL, "Chat", "TopicOnClist", 0 ))
-					DBWriteContactSettingTString( si->hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
+				db_set_ts( si->hContact, si->pszModule , "Topic", RemoveFormatting( si->ptszTopic ));
+				if ( db_get_b( NULL, "Chat", "TopicOnClist", 0 ))
+					db_set_ts( si->hContact, "CList" , "StatusMsg", RemoveFormatting( si->ptszTopic ));
 		}	}
 		break;
 	}
@@ -843,9 +843,9 @@ void TabsInit(void)
 	g_TabSession.iType = GCW_TABROOM;
 	g_TabSession.iSplitterX = g_Settings.iSplitterX;
 	g_TabSession.iSplitterY = g_Settings.iSplitterY;
-	g_TabSession.iLogFilterFlags = (int)DBGetContactSettingDword(NULL, "Chat", "FilterFlags", 0x03E0);
-	g_TabSession.bFilterEnabled = DBGetContactSettingByte(NULL, "Chat", "FilterEnabled", 0);
-	g_TabSession.bNicklistEnabled = DBGetContactSettingByte(NULL, "Chat", "ShowNicklist", 1);
+	g_TabSession.iLogFilterFlags = (int)db_get_dw(NULL, "Chat", "FilterFlags", 0x03E0);
+	g_TabSession.bFilterEnabled = db_get_b(NULL, "Chat", "FilterEnabled", 0);
+	g_TabSession.bNicklistEnabled = db_get_b(NULL, "Chat", "ShowNicklist", 1);
 	g_TabSession.iFG = 4;
 	g_TabSession.bFGSet = TRUE;
 	g_TabSession.iBG = 2;

@@ -529,7 +529,7 @@ LRESULT CALLBACK OwnerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void ToggleEnabled(Dialog *dlg)
 {
 	dlg->enabled = !dlg->enabled;
-	DBWriteContactSettingByte(dlg->hContact, MODULE_NAME, dlg->name, dlg->enabled);
+	db_set_b(dlg->hContact, MODULE_NAME, dlg->name, dlg->enabled);
 
 	if (!dlg->enabled)
 		SetNoUnderline(dlg);
@@ -750,7 +750,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, HANDLE hContact, char *group, char
 	}
 
 	if (!rc)
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }
 
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
@@ -796,18 +796,18 @@ void GetContactLanguage(Dialog *dlg)
 	if (dlg->hContact == NULL) {
 		if ( !db_get_ts(NULL, MODULE_NAME, dlg->name, &dbv)) {
 			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else {
 		if (!db_get_ts(dlg->hContact, MODULE_NAME, "TalkLanguage", &dbv)) {
 			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (dlg->lang_name[0] == _T('\0') && !db_get_ts(dlg->hContact, "eSpeak", "TalkLanguage", &dbv)) {
 			lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		// Try from metacontact
@@ -818,12 +818,12 @@ void GetContactLanguage(Dialog *dlg)
 				if (hMetaContact != NULL) {
 					if (!db_get_ts(hMetaContact, MODULE_NAME, "TalkLanguage", &dbv)) {
 						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 
 					if (dlg->lang_name[0] == _T('\0') && !db_get_ts(hMetaContact, "eSpeak", "TalkLanguage", &dbv)) {
 						lstrcpyn(dlg->lang_name, dbv.ptszVal, SIZEOF(dlg->lang_name));
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 			}
@@ -924,7 +924,7 @@ int AddContactTextBox(HANDLE hContact, HWND hwnd, char *name, BOOL srmm, HWND hw
 		dlg->hContact = hContact;
 		dlg->hwnd = hwnd;
 		strncpy(dlg->name, name, sizeof(dlg->name));
-		dlg->enabled = DBGetContactSettingByte(dlg->hContact, MODULE_NAME, dlg->name, 1);
+		dlg->enabled = db_get_b(dlg->hContact, MODULE_NAME, dlg->name, 1);
 		dlg->srmm = srmm;
 
 		GetContactLanguage(dlg);
@@ -1250,10 +1250,10 @@ BOOL HandleMenuSelection(Dialog *dlg, POINT pt, unsigned selection)
 		SetNoUnderline(dlg);
 
 		if (dlg->hContact == NULL)
-			DBWriteContactSettingTString(NULL, MODULE_NAME, dlg->name,
+			db_set_ts(NULL, MODULE_NAME, dlg->name,
 					languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 		else
-			DBWriteContactSettingTString(dlg->hContact, MODULE_NAME, "TalkLanguage",
+			db_set_ts(dlg->hContact, MODULE_NAME, "TalkLanguage",
 					languages[selection - LANGUAGE_MENU_ID_BASE]->language);
 
 		GetContactLanguage(dlg);

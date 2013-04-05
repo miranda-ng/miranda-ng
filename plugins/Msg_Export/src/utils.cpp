@@ -283,7 +283,7 @@ tstring _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting
 {
 	tstring ret;
 	DBVARIANT dbv = {0};
-	//DBGetContactSetting
+	//db_get
 	if ( !db_get_ws( hContact, szModule, szSetting, &dbv))
 	{
 		if (dbv.type != DBVT_WCHAR)

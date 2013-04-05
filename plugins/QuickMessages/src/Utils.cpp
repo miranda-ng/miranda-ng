@@ -171,22 +171,22 @@ void SaveModuleSettings(int buttonnum,ButtonData* bd)
 	char szMEntry[256]={'\0'};
 
 	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,bd->dwPos);
-	DBWriteContactSettingTString(NULL, PLGNAME,szMEntry,bd->pszName );
+	db_set_ts(NULL, PLGNAME,szMEntry,bd->pszName );
 
 	mir_snprintf(szMEntry,255,"EntryValue_%u_%u",buttonnum,bd->dwPos);
 	if(bd->pszValue)
-		DBWriteContactSettingTString(NULL, PLGNAME,szMEntry,bd->pszValue );
+		db_set_ts(NULL, PLGNAME,szMEntry,bd->pszValue );
 	else
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 
 	mir_snprintf(szMEntry,255,"EntryRel_%u_%u",buttonnum,bd->dwPos);
-	DBWriteContactSettingByte(NULL, PLGNAME,szMEntry,bd->fEntryType );
+	db_set_b(NULL, PLGNAME,szMEntry,bd->fEntryType );
 
 	mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
-	DBWriteContactSettingByte(NULL, PLGNAME,szMEntry,bd->bInQMenu);
+	db_set_b(NULL, PLGNAME,szMEntry,bd->bInQMenu);
 
 	mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
-	DBWriteContactSettingByte(NULL, PLGNAME,szMEntry,bd->bIsServName);
+	db_set_b(NULL, PLGNAME,szMEntry,bd->bIsServName);
 }
 
 void CleanSettings(int buttonnum,int from)
@@ -195,28 +195,28 @@ void CleanSettings(int buttonnum,int from)
 	DBVARIANT dbv = {0};
 	if(from==-1){
 		mir_snprintf(szMEntry,255,"ButtonName_%u",buttonnum);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"ButtonValue_%u",buttonnum);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 	}
 
 	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,from);
-	while(!DBGetContactSettingTString(NULL, PLGNAME,szMEntry,&dbv)) {
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+	while(!db_get_ts(NULL, PLGNAME,szMEntry,&dbv)) {
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"EntryValue_%u_%u",buttonnum,from);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"EntryRel_%u_%u",buttonnum,from);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,from);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,from);
-		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
+		db_unset(NULL, PLGNAME,szMEntry);
 
 		mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,++from);
 	}
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 }
 
 BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode) 
@@ -230,7 +230,7 @@ BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode)
 		mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,entrynum);
 	else if (mode==3)
 		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
-	return DBGetContactSettingByte(NULL, PLGNAME,szMEntry, 0); 
+	return db_get_b(NULL, PLGNAME,szMEntry, 0); 
 }
 
 static HANDLE AddIcon(char* szIcoName)
@@ -286,7 +286,7 @@ void InitButtonsList()
 		ListData* ld=NULL;
 		if (!(pszBName=getMenuEntry(i,0,3))) { 
 			g_iButtonsCount=i;
-			DBWriteContactSettingByte(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
+			db_set_b(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
 			break;}
 
 		ld = (ListData *)mir_alloc(sizeof(ListData));
@@ -362,12 +362,12 @@ TCHAR* getMenuEntry(int buttonnum,int entrynum,BYTE mode)
 		mir_snprintf(szMEntry,255,"ButtonName_%u",buttonnum);
 
 
-	DBGetContactSettingTString(NULL, PLGNAME,szMEntry, &dbv);
+	db_get_ts(NULL, PLGNAME,szMEntry, &dbv);
 
 	if(dbv.ptszVal&&_tcslen(dbv.ptszVal))
 	{
 		buffer=mir_tstrdup(dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return buffer; 

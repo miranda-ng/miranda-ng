@@ -63,7 +63,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 			TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
 			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), avatarHashT, avatartype);
 			mir_free(avatarHashT);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	} else {
 		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_tszUserName, avatartype);

@@ -419,7 +419,7 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 {
 	int nParts,nPanel;
 	ProtocolData *PD;
-	int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
+	int startoffset = db_get_dw(NULL,"StatusBar","FirstIconOffset",0);
 
 	if ( !UseOwnerDrawStatusBar) startoffset = 0;
 
@@ -514,11 +514,11 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			GetWindowRect(hwnd, &rc);
 			if ( !CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
 				//if docked, dont remember pos (except for width)
-				DBWriteContactSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
-				DBWriteContactSettingDword(NULL,"CList","x",(DWORD)rc.left);
-				DBWriteContactSettingDword(NULL,"CList","y",(DWORD)rc.top);
+				db_set_dw(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
+				db_set_dw(NULL,"CList","x",(DWORD)rc.left);
+				db_set_dw(NULL,"CList","y",(DWORD)rc.top);
 			}
-			DBWriteContactSettingDword(NULL,"CList","Width",(DWORD)(rc.right - rc.left));
+			db_set_dw(NULL,"CList","Width",(DWORD)(rc.right - rc.left));
 		}
 		if ( wParam == SIZE_MINIMIZED ) {
 			if ( db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT )) {
@@ -648,8 +648,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				int totcount;
 				ProtocolData *PD;
 				int menuid;
-				int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
-				int extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
+				int startoffset = db_get_dw(NULL,"StatusBar","FirstIconOffset",0);
+				int extraspace = db_get_dw(NULL,"StatusBar","BkExtraSpace",0);
 				boolean UseOwnerDrawStatusBar = db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0);
 
 				hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
@@ -686,7 +686,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 								break;
 				}	}	}
 
-				totcount = DBGetContactSettingDword(0,"Protocols","ProtoCount",0);
+				totcount = db_get_dw(0,"Protocols","ProtoCount",0);
 				PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 				if (PD == NULL){return 0;}
 				menuid = nPanel;
@@ -756,11 +756,11 @@ int LoadCLUIModule(void)
 
 	CreateServiceFunction("CLUI/GetConnectingIconForProtocol",GetConnectingIconService);
 
-	if (DBGetContactSettingTString(NULL,"CList","TitleText",&dbv))
+	if (db_get_ts(NULL,"CList","TitleText",&dbv))
 		lstrcpyn(titleText,_T(MIRANDANAME),SIZEOF(titleText));
 	else {
 		lstrcpyn(titleText,dbv.ptszVal,SIZEOF(titleText));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	oldhideoffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);

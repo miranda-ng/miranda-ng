@@ -177,7 +177,7 @@ Xfire_icon_cache Xfire_icon_mng::LoadGameIcon(unsigned int gameid) {
 //icon vom xfire server laden
 HICON Xfire_icon_mng::downloadIcon(char* shortname) {
 	//nur vom internetladen, wenn die option aktiv ist
-	if(!DBGetContactSettingByte(NULL,protocolname,"xfiresitegameico",0))
+	if(!db_get_b(NULL,protocolname,"xfiresitegameico",0))
 		return NULL;
 	
 		//keinen namen angegeben?

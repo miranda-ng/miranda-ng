@@ -322,7 +322,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 		case 'w':
 		case 'W':
-			DBWriteContactSettingWord(NULL, szSection, szName, (WORD)strtol(szValue+1, NULL, 0));
+			db_set_w(NULL, szSection, szName, (WORD)strtol(szValue+1, NULL, 0));
 			break;
 		case 'd':
 		case 'D':
@@ -330,7 +330,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 		case 'l':
 		case 'L':
-			DBDeleteContactSetting(NULL, szSection, szName);
+			db_unset(NULL, szSection, szName);
 			break;
 		case 'e':
 		case 'E':
@@ -357,7 +357,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			}
 		case 'u':
 		case 'U':
-			DBWriteContactSettingStringUtf(NULL, szSection, szName, szValue+1);
+			db_set_utf(NULL, szSection, szName, szValue+1);
 			break;
 		case 'n':
 		case 'h':

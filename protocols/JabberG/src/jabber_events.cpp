@@ -96,7 +96,7 @@ void __cdecl CJabberProto::OnRenameGroup(DBCONTACTWRITESETTING* cws, HANDLE hCon
 		return;
 
 	TCHAR* nick;
-	if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbv)) {
+	if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -164,7 +164,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 
 	TCHAR *nick;
 	Log("Add %S permanently to list", jid.pszVal);
-	if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbv)) {
+	if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv)) {
 		nick = mir_tstrdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -178,7 +178,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 		return;
 	}
 
-	if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
+	if ( !db_get_ts(hContact, "CList", "Group", &dbv)) {
 		AddContactToRoster(jid.ptszVal, nick, dbv.ptszVal);
 		db_free(&dbv);
 	}

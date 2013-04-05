@@ -39,7 +39,7 @@ static COLORREF GetDefaultColor(BYTE id)
 		case FRAMEELEMENT_BAR:
 			return RGB(250,0,0); /* same color as used on header icon */
 		case FRAMEELEMENT_BKGRND:
-			return (COLORREF)DBGetContactSettingDword(NULL,"CLC","BkColour",CLCDEFAULT_BKCOLOUR);
+			return (COLORREF)db_get_dw(NULL,"CLC","BkColour",CLCDEFAULT_BKCOLOUR);
 		case FRAMEELEMENT_TEXT:
 			return GetSysColor(COLOR_WINDOWTEXT);
 	}
@@ -332,14 +332,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		}
 		case M_SET_COUNTDOWN:
 			if(dat->fTimeFlags&SDWTF_ST_TIME) {
-				dat->settingLastTime=(time_t)DBGetContactSettingDword(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT);
+				dat->settingLastTime=(time_t)db_get_dw(NULL,"AutoShutdown","TimeStamp",SETTING_TIMESTAMP_DEFAULT);
 				dat->countdown=time(NULL);
 				if(dat->settingLastTime>dat->countdown) dat->countdown=dat->settingLastTime-dat->countdown;
 				else dat->countdown=0;
 			}
 			else if(dat->flags&FWPDF_COUNTDOWNINVALID) {
-				dat->countdown=(time_t)DBGetContactSettingDword(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
-				dat->countdown*=(time_t)DBGetContactSettingDword(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
+				dat->countdown=(time_t)db_get_dw(NULL,"AutoShutdown","Countdown",SETTING_COUNTDOWN_DEFAULT);
+				dat->countdown*=(time_t)db_get_dw(NULL,"AutoShutdown","CountdownUnit",SETTING_COUNTDOWNUNIT_DEFAULT);
 			}
 			dat->flags&=~FWPDF_COUNTDOWNINVALID;
 			/* commctl 4.70+, Win95: 1-100 will work fine (wrap around) */

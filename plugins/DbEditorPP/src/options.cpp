@@ -9,17 +9,17 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			bInitDone = false;
 			DBVARIANT dbv;
-			CheckDlgButton(hwnd,IDC_EXPANDSETTINGS,DBGetContactSettingByte(NULL,modname,"ExpandSettingsOnOpen",0));
-			CheckDlgButton(hwnd,IDC_RESTORESETTINGS,DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1));
-			CheckDlgButton(hwnd,IDC_USEKNOWNMODS,DBGetContactSettingByte(NULL,modname,"UseKnownModList",0));
-			CheckDlgButton(hwnd,IDC_WARNONDEL,DBGetContactSettingByte(NULL,modname,"WarnOnDelete",1));
-			CheckDlgButton(hwnd,IDC_MENU,DBGetContactSettingByte(NULL,modname,"UserMenuItem",0));
+			CheckDlgButton(hwnd,IDC_EXPANDSETTINGS,db_get_b(NULL,modname,"ExpandSettingsOnOpen",0));
+			CheckDlgButton(hwnd,IDC_RESTORESETTINGS,db_get_b(NULL,modname,"RestoreOnOpen",1));
+			CheckDlgButton(hwnd,IDC_USEKNOWNMODS,db_get_b(NULL,modname,"UseKnownModList",0));
+			CheckDlgButton(hwnd,IDC_WARNONDEL,db_get_b(NULL,modname,"WarnOnDelete",1));
+			CheckDlgButton(hwnd,IDC_MENU,db_get_b(NULL,modname,"UserMenuItem",0));
 			CheckDlgButton(hwnd,IDC_POPUPS,usePopUps);
-			if (!DBGetContactSetting(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
+			if (!db_get(NULL,modname,"CoreModules",&dbv) && dbv.type == DBVT_ASCIIZ)
 				SetDlgItemText(hwnd,IDC_MODULES,dbv.pszVal);
-			DBFreeVariant(&dbv);
-			SetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,DBGetContactSettingWord(NULL,modname,"PopupDelay",4),0);
-			SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)DBGetContactSettingDword(NULL,modname,"PopupColour",RGB(255,0,0)));
+			db_free(&dbv);
+			SetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,db_get_w(NULL,modname,"PopupDelay",4),0);
+			SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(NULL,modname,"PopupColour",RGB(255,0,0)));
 			TranslateDialogDefault(hwnd);
 			bInitDone = true;
 		}
@@ -52,25 +52,19 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						case PSN_APPLY:
 							{
 								char mods[4096];
-								DBWriteContactSettingByte(NULL,modname,"ExpandSettingsOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_EXPANDSETTINGS));
-								DBWriteContactSettingByte(NULL,modname,"RestoreOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_RESTORESETTINGS));
-								DBWriteContactSettingByte(NULL,modname,"WarnOnDelete",(BYTE)IsDlgButtonChecked(hwnd,IDC_WARNONDEL));
-								DBWriteContactSettingByte(NULL,modname,"UserMenuItem",(BYTE)IsDlgButtonChecked(hwnd,IDC_MENU));
-								DBWriteContactSettingByte(NULL,modname,"UseKnownModList",(BYTE)IsDlgButtonChecked(hwnd,IDC_USEKNOWNMODS));
+								db_set_b(NULL,modname,"ExpandSettingsOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_EXPANDSETTINGS));
+								db_set_b(NULL,modname,"RestoreOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_RESTORESETTINGS));
+								db_set_b(NULL,modname,"WarnOnDelete",(BYTE)IsDlgButtonChecked(hwnd,IDC_WARNONDEL));
+								db_set_b(NULL,modname,"UserMenuItem",(BYTE)IsDlgButtonChecked(hwnd,IDC_MENU));
+								db_set_b(NULL,modname,"UseKnownModList",(BYTE)IsDlgButtonChecked(hwnd,IDC_USEKNOWNMODS));
 								usePopUps = IsDlgButtonChecked(hwnd,IDC_POPUPS);
-								DBWriteContactSettingByte(NULL,modname,"UsePopUps",(BYTE)usePopUps);
+								db_set_b(NULL,modname,"UsePopUps",(BYTE)usePopUps);
 								if (GetDlgItemText(hwnd,IDC_MODULES,mods,4096))
-									DBWriteContactSettingString(NULL,modname,"CoreModules",mods);
-								DBWriteContactSettingWord(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));
-								DBWriteContactSettingDword(NULL,modname,"PopupColour",(DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
+									db_set_s(NULL,modname,"CoreModules",mods);
+								db_set_w(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));
+								db_set_dw(NULL,modname,"PopupColour",(DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
 
-								CLISTMENUITEM mi = { sizeof(mi) };
-								if (!IsDlgButtonChecked(hwnd,IDC_MENU))
-									mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-								else
-									mi.flags = CMIM_FLAGS;
-
-								CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hUserMenu, (LPARAM) & mi);
+								Menu_ShowItem(hUserMenu, IsDlgButtonChecked(hwnd,IDC_MENU));
 							}
 							return TRUE;
 					}

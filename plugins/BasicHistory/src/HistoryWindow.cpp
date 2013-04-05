@@ -1776,7 +1776,7 @@ void HistoryWindow::ReloadContacts()
 	HANDLE _hContact = db_find_first();
 	while(_hContact)
 	{
-		if(EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || DBGetContactSettingByte(_hContact, metaContactProto, "IsSubcontact", 0) == 0))
+		if(EventList::GetContactMessageNumber(_hContact) && (metaContactProto == NULL || db_get_b(_hContact, metaContactProto, "IsSubcontact", 0) == 0))
 		{
 			HANDLE hItem = (HANDLE)SendMessage(contactList, CLM_FINDCONTACT, (WPARAM)_hContact, 0);
 			if(hItem == NULL)
@@ -1921,18 +1921,18 @@ void HistoryWindow::RestorePos()
 		Utils_RestoreWindowPosition(hWnd,NULL,MODULE,"history_");
 		contactToLoad = NULL;
 	}
-	if(DBGetContactSettingByte(contactToLoad, MODULE, "history_ismax", 0))
+	if(db_get_b(contactToLoad, MODULE, "history_ismax", 0))
 	{
 		ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 	}
 
-	LONG pos = DBGetContactSettingDword(contactToLoad, MODULE, "history_splitterv", 0);
+	LONG pos = db_get_dw(contactToLoad, MODULE, "history_splitterv", 0);
 	if(pos > 0)
 	{
 		SplitterMoved(splitterYhWnd, pos, false);
 	}
 
-	pos = DBGetContactSettingDword(contactToLoad, MODULE, "history_splitter", 0);
+	pos = db_get_dw(contactToLoad, MODULE, "history_splitter", 0);
 	if(pos > 0)
 	{
 		SplitterMoved(splitterXhWnd, pos, false);
@@ -1947,13 +1947,13 @@ void HistoryWindow::SavePos(bool all)
 		HANDLE _hContact = db_find_first();
 		while(_hContact)
 		{
-			DBDeleteContactSetting(_hContact, MODULE, "history_x");
-			DBDeleteContactSetting(_hContact, MODULE, "history_y");
-			DBDeleteContactSetting(_hContact, MODULE, "history_width");
-			DBDeleteContactSetting(_hContact, MODULE, "history_height");
-			DBDeleteContactSetting(_hContact, MODULE, "history_ismax");
-			DBDeleteContactSetting(_hContact, MODULE, "history_splitterv");
-			DBDeleteContactSetting(_hContact, MODULE, "history_splitter");
+			db_unset(_hContact, MODULE, "history_x");
+			db_unset(_hContact, MODULE, "history_y");
+			db_unset(_hContact, MODULE, "history_width");
+			db_unset(_hContact, MODULE, "history_height");
+			db_unset(_hContact, MODULE, "history_ismax");
+			db_unset(_hContact, MODULE, "history_splitterv");
+			db_unset(_hContact, MODULE, "history_splitter");
 			_hContact = db_find_next(_hContact);
 		}
 
@@ -1964,9 +1964,9 @@ void HistoryWindow::SavePos(bool all)
 	WINDOWPLACEMENT wp;
 	wp.length=sizeof(wp);
 	GetWindowPlacement(hWnd,&wp);
-	DBWriteContactSettingByte(contactToSave, MODULE, "history_ismax", wp.showCmd == SW_MAXIMIZE ? 1 : 0);
-	DBWriteContactSettingDword(contactToSave, MODULE, "history_splitterv", splitterX);
-	DBWriteContactSettingDword(contactToSave, MODULE, "history_splitter", splitterY);
+	db_set_b(contactToSave, MODULE, "history_ismax", wp.showCmd == SW_MAXIMIZE ? 1 : 0);
+	db_set_dw(contactToSave, MODULE, "history_splitterv", splitterX);
+	db_set_dw(contactToSave, MODULE, "history_splitter", splitterY);
 }
 
 #define DEF_FILTERS_START 50000

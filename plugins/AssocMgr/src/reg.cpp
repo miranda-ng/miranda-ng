@@ -509,7 +509,7 @@ static LONG RestoreRegTree(HKEY hKey,const char *pszSubKey,const char *pszDbPref
 						mir_free(pData);
 					} else res=ERROR_INVALID_DATA;
 					if (res) break;
-					DBDeleteContactSetting(NULL,"AssocMgr",ppszSettings[i]);
+					db_unset(NULL,"AssocMgr",ppszSettings[i]);
 					if (hSubKey!=hKey) RegCloseKey(hSubKey);
 				}
 				mir_free(ppszSettings[i]);
@@ -532,7 +532,7 @@ static void DeleteRegTreeBackup(const char *pszSubKey,const char *pszDbPrefix)
 	if (pszPrefixWithSubKey!=NULL) {
 		if (EnumDbPrefixSettings("AssocMgr",pszPrefixWithSubKey,&ppszSettings,&nSettingsCount)) {
 			for(i=0;i<nSettingsCount;++i) {
-				DBDeleteContactSetting(NULL,"AssocMgr",ppszSettings[i]);
+				db_unset(NULL,"AssocMgr",ppszSettings[i]);
 				mir_free(ppszSettings[i]);
 			}
 			mir_free(ppszSettings);

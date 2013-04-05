@@ -409,7 +409,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
 					_tcsncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);
 					curpos = tempmark + lstrlen(szTemp);
 				}
@@ -431,7 +431,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 				if (!M->GetTString(dat->hContact, (char *)dat->szProto, "XStatusName", &dbv)) {
 					_tcsncpy(szTemp, dbv.ptszVal, 500);
 					szTemp[500] = 0;
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					title.insert(tempmark + 2, szTemp);
 				} else
 					szFinalStatus = xStatusDescr[xStatus - 1];
@@ -721,16 +721,16 @@ int Utils::ReadContainerSettingsFromDB(const HANDLE hContact, TContainerSettings
 
 	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
-	if (0 == DBGetContactSetting(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
+	if (0 == db_get(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
 			::CopyMemory((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
-			::DBFreeVariant(&dbv);
+			::db_free(&dbv);
 			if (hContact == 0 && szKey == 0)
 				cs->fPrivate = false;
 			return 0;
 		}
 		cs->fPrivate = false;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 1;
 	}
 	else {

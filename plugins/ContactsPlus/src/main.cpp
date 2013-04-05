@@ -34,7 +34,7 @@ HANDLE ghSendWindowList;
 HANDLE ghRecvWindowList;
 gAckList gaAckData;
 
-HANDLE hContactMenuItem = NULL;
+HGENMENU hContactMenuItem;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -122,7 +122,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
-	char* szProto =GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	int bVisible = FALSE;
 
 	if (szProto && CheckContactsServiceSupport(szProto)) {
@@ -133,13 +133,7 @@ static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 	}
 
 	// update contact menu item's visibility
-	CLISTMENUITEM mi = { sizeof(mi) };
-	if (bVisible)
-		mi.flags = CMIM_FLAGS;
-	else
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hContactMenuItem, bVisible);
 	return 0;
 }
 

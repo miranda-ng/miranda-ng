@@ -176,9 +176,9 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 static void __stdcall CreateDownloadDialog(void*)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
+	if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) && db_get_b(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgDownloadPop);
-	else if (DBGetContactSettingByte(NULL,MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
+	else if (db_get_b(NULL,MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED)) {
 		lstrcpyn(tszDialogMsg, Text, SIZEOF(tszDialogMsg));
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DOWNLOAD), NULL, DlgDownload);
 	}
@@ -195,11 +195,11 @@ void DlgDownloadProc()
 	if (!DownloadFile(pFileUrl->tszDownloadURL, pFileUrl->tszDiskPath)) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("An error occured while downloading the update.");
-		if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+		if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
 		}
-		else if (DBGetContactSettingByte(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
+		else if (db_get_b(NULL, MODNAME, "Popups1M", DEFAULT_MESSAGE_ENABLED))
 			MessageBox(NULL, Text, Title, MB_ICONSTOP);
 	}
 	CallFunctionAsync(DestroyDownloadDialog, 0);
@@ -402,7 +402,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 							}
 							lstrcpyn(todo[i].tszCurVer, todo[i].tszNewVer, SIZEOF(todo[i].tszCurVer));
 							mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", todo[i].FileNum);
-							DBWriteContactSettingTString(NULL, MODNAME, szKey, todo[i].tszCurVer);
+							db_set_ts(NULL, MODNAME, szKey, todo[i].tszCurVer);
 							arFileType.push_back(todo[i].FileType);
 							arFilePath.push_back(todo[i].File.tszDiskPath);
 							arFileName.push_back(tszFileName);
@@ -421,7 +421,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						INT rc = -1;
 						Title = TranslateT("Pack Updater");
 						Text = tszBuff;
-						if ( ServiceExists(MS_POPUP_ADDPOPUP) && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
+						if ( ServiceExists(MS_POPUP_ADDPOPUP) && ServiceExists(MS_POPUP_REGISTERACTIONS) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) && db_get_b(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (db_get_dw(NULL, "PopUp", "Actions", 0) & 1))
 							rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop);
 						else
 							rc = MessageBox(NULL, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
@@ -436,7 +436,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									break;
 								case 1:
 									if (Reminder == 2)
-										DBWriteContactSettingByte(NULL, MODNAME, "Reminder", 1);
+										db_set_b(NULL, MODNAME, "Reminder", 1);
 									memset(&si, 0, sizeof(STARTUPINFO));
 									memset(&pi, 0, sizeof(PROCESS_INFORMATION));
 									si.cb = sizeof(STARTUPINFO);
@@ -499,16 +499,16 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 						}
 						else { //reminder for not installed pack update
 							if (Reminder && (UpdatesCount == 1) && (arFileType[0] == 1))
-								DBWriteContactSettingByte(NULL, MODNAME, "Reminder", 2);
+								db_set_b(NULL, MODNAME, "Reminder", 2);
 							mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s"), arFilePath[0].c_str());
 							Title = TranslateT("Pack Updater");
 							Text = tszBuff;
-							if ( ServiceExists(MS_POPUP_ADDPOPUP) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+							if ( ServiceExists(MS_POPUP_ADDPOPUP) && db_get_b(NULL, "PopUp", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 							{
 								Number = 2;
 								show_popup(0, Title, Text, Number, 0);
 							}
-							else if (DBGetContactSettingByte(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
+							else if (db_get_b(NULL, MODNAME, "Popups2M", DEFAULT_MESSAGE_ENABLED))
 								MessageBox(NULL, Text, Title, MB_ICONINFORMATION);
 						}
 					}

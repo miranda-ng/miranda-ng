@@ -71,24 +71,17 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	if (bMC ) hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 	pUinKey ptr = getUinKey(hContact);
 	int i;
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	ShowStatusIconNotify(hContact);
 
 	// check offline/online
-	CLISTMENUITEM mi = { sizeof(mi) };
 	if (!ptr) {
 		// hide menu bars
-		mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-		for (i=0;i<SIZEOF(g_hMenu);i++) {
-			if (g_hMenu[i] )
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[i],(LPARAM)&mi);
-		}
+		for (i=0; i < SIZEOF(g_hMenu); i++)
+			Menu_ShowItem(g_hMenu[i], false);
 		return 0;
 	}
-
-//	char *szProto = GetContactProto(hContact,0);
-//	if (szProto == NULL) // || db_get_dw(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-//		return 0;
 
 	bool isSecureProto = isSecureProtocol(hContact);
 	bool isPGP = isContactPGP(hContact);
@@ -98,11 +91,8 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	bool isMiranda = isClientMiranda(hContact);
 
 	// hide all menu bars
-	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-	for (i=0;i<SIZEOF(g_hMenu);i++) {
-		if (g_hMenu[i] )
-			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[i],(LPARAM)&mi);
-	}
+	for (i=0; i < SIZEOF(g_hMenu); i++)
+		Menu_ShowItem(g_hMenu[i], false);
 
 	if (isSecureProto && !isChat && isMiranda && 
 	    (ptr->mode == MODE_NATIVE || ptr->mode == MODE_RSAAES)) {
@@ -111,61 +101,52 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 		if (!isSecured) {
 			// create secureim connection
 			mi.hIcon = mode2icon(ptr->mode|SECURED,2);
-			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[0],(LPARAM)&mi);
+			Menu_ModifyItem(g_hMenu[0], &mi);
 		}
 		else {
 			// disable secureim connection
 			mi.hIcon = mode2icon(ptr->mode,2);
-			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[1],(LPARAM)&mi);
+			Menu_ModifyItem(g_hMenu[1], &mi);
 		}
 		// set status menu
-		if (bSCM && !bMC &&
-		    ( !isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG )) {
+		if (bSCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
 
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 			mi.hIcon = g_hICO[ICO_ST_DIS+ptr->status];
 			mi.pszName = (LPSTR)sim312[ptr->status];
-			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[2],(LPARAM)&mi);
+			Menu_ModifyItem(g_hMenu[2], &mi);
 
 			mi.flags = CMIM_FLAGS | CMIM_ICON;
 			for (i=0;i<=(ptr->mode == MODE_RSAAES?1:2);i++) {
 				mi.hIcon = (i == ptr->status) ? g_hICO[ICO_ST_DIS+ptr->status] : NULL;
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[3+i],(LPARAM)&mi);
+				Menu_ModifyItem(g_hMenu[3+i], &mi);
 			}
 		}
 	}
-	else
-	if (isSecureProto && !isChat && (ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
+	else if (isSecureProto && !isChat && (ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
 		// PGP, GPG
-		if (ptr->mode == MODE_PGP && bPGPloaded) {
-			if ((bPGPkeyrings || bPGPprivkey) && !isGPG) {
-				mi.flags = CMIM_FLAGS;
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[isPGP+6],(LPARAM)&mi);
-			}
-		}
-		if (ptr->mode == MODE_GPG && bGPGloaded) {
-			if (bGPGkeyrings && !isPGP) {
-				mi.flags = CMIM_FLAGS;
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[isGPG+8],(LPARAM)&mi);
-			}
-		}
+		if (ptr->mode == MODE_PGP && bPGPloaded)
+			if ((bPGPkeyrings || bPGPprivkey) && !isGPG)
+				Menu_ShowItem(g_hMenu[isPGP+6], true);
+
+		if (ptr->mode == MODE_GPG && bGPGloaded)
+			if (bGPGkeyrings && !isPGP)
+				Menu_ShowItem(g_hMenu[isGPG+8], true);
 	}
 	if (isSecureProto && !isChat && isMiranda) {
 		// set mode menu
-		if (bMCM && !bMC &&
-	            ( !isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG )) {
-
+		if (bMCM && !bMC && (!isSecured || ptr->mode == MODE_PGP || ptr->mode == MODE_GPG)) {
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 			mi.hIcon = g_hICO[ICO_OV_NAT+ptr->mode];
 			mi.pszName = (LPSTR)sim311[ptr->mode];
-			CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[10],(LPARAM)&mi);
+			Menu_ModifyItem(g_hMenu[10], &mi);
 
 			mi.flags = CMIM_FLAGS | CMIM_ICON;
 			for (i=0;i<MODE_CNT;i++) {
 				if (i == MODE_PGP && ptr->mode != MODE_PGP && !bPGP ) continue;
 				if (i == MODE_GPG && ptr->mode != MODE_GPG && !bGPG ) continue;
 				mi.hIcon = (i == ptr->mode) ? g_hICO[ICO_ST_ENA] : NULL;
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[11+i],(LPARAM)&mi);
+				Menu_ModifyItem(g_hMenu[11+i], &mi);
 			}
 		}
 	}

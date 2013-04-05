@@ -122,7 +122,7 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 						}
 					}
 					else if ((mtis->type == CONTACT) && hContact) {
-						if (DBGetContactSettingByte(NULL,"CList", "ConfirmDelete",1)) {
+						if (db_get_b(NULL,"CList", "ConfirmDelete",1)) {
 							char msg[1024];
 							mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
 							if (MessageBox(0,msg, Translate("Confirm Contact Delete"), MB_YESNO|MB_ICONEXCLAMATION) == IDNO)
@@ -199,7 +199,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowText(hwnd, TranslateT("Database Editor++"));
 
 			// setup the splitter
-			SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_USERDATA,(LPARAM)DBGetContactSettingWord(NULL, modname, "Splitter", 300));
+			SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_USERDATA,(LPARAM)db_get_w(NULL, modname, "Splitter", 300));
 			SendMessage(hwnd, GC_SPLITTERMOVED, 0,0);
 			mir_subclassWindow(GetDlgItem(hwnd,IDC_SPLITTER), SplitterSubclassProc);
 			// module tree
@@ -215,8 +215,8 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				TranslateMenu(GetSubMenu(hMenu,i));
 
 			// move the dialog to the users position
-			MoveWindow(hwnd,DBGetContactSettingDword(NULL,modname,"x",0),DBGetContactSettingDword(NULL,modname,"y",0),DBGetContactSettingDword(NULL,modname,"width",500),DBGetContactSettingDword(NULL,modname,"height",250),0);
-			if (DBGetContactSettingByte(NULL,modname,"Maximised",0)) {
+			MoveWindow(hwnd,db_get_dw(NULL,modname,"x",0),db_get_dw(NULL,modname,"y",0),db_get_dw(NULL,modname,"width",500),db_get_dw(NULL,modname,"height",250),0);
+			if (db_get_b(NULL,modname,"Maximised",0)) {
 				WINDOWPLACEMENT wp;
 				wp.length = sizeof(WINDOWPLACEMENT);
 				wp.flags = WPF_RESTORETOMAXIMIZED;
@@ -229,14 +229,14 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			Mode = MODE_ALL;
 			CheckMenuItem(GetSubMenu(hMenu,5),MENU_FILTER_ALL,MF_BYCOMMAND|MF_CHECKED);
 
-			Hex = DBGetContactSettingByte(NULL,modname,"HexMode",0);
+			Hex = db_get_b(NULL,modname,"HexMode",0);
 			CheckMenuItem(GetSubMenu(hMenu,5),MENU_BYTE_HEX,MF_BYCOMMAND|((Hex & HEX_BYTE)?MF_CHECKED:MF_UNCHECKED));
 			CheckMenuItem(GetSubMenu(hMenu,5),MENU_WORD_HEX,MF_BYCOMMAND|((Hex & HEX_WORD)?MF_CHECKED:MF_UNCHECKED));
 			CheckMenuItem(GetSubMenu(hMenu,5),MENU_DWORD_HEX,MF_BYCOMMAND|((Hex & HEX_DWORD)?MF_CHECKED:MF_UNCHECKED));
 
-			CheckMenuItem(GetSubMenu(GetMenu(hwnd),5),MENU_SAVE_POSITION,MF_BYCOMMAND|(DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1)?MF_CHECKED:MF_UNCHECKED));
+			CheckMenuItem(GetSubMenu(GetMenu(hwnd),5),MENU_SAVE_POSITION,MF_BYCOMMAND|(db_get_b(NULL,modname,"RestoreOnOpen",1)?MF_CHECKED:MF_UNCHECKED));
 
-			Order = DBGetContactSettingByte(NULL,modname,"SortMode",1);
+			Order = db_get_b(NULL,modname,"SortMode",1);
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd),5),MENU_SORT_ORDER,MF_BYCOMMAND|(Order?MF_CHECKED:MF_UNCHECKED));
 
 			// image list
@@ -298,7 +298,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			int restore;
 			if (hRestore)
 				restore = 3;
-			else if (DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1))
+			else if (db_get_b(NULL,modname,"RestoreOnOpen",1))
 				restore = 2;
 			else
 				restore = 0;
@@ -327,7 +327,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (splitterPos<65) splitterPos=65;
 				if (splitterPos > rc2.right-rc2.left-65) splitterPos=rc2.right-rc2.left-65;
 				SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_USERDATA, splitterPos);
-				DBWriteContactSettingWord(NULL, modname, "Splitter",(WORD)splitterPos);
+				db_set_w(NULL, modname, "Splitter",(WORD)splitterPos);
 			}
 			PostMessage(hwnd,WM_SIZE,0,0);
 		}
@@ -359,14 +359,14 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd);
 
 			if (msg == WM_SIZE && wParam == SIZE_MAXIMIZED || wParam == SIZE_MINIMIZED)
-				DBWriteContactSettingByte(NULL,modname,"Maximised",1);
+				db_set_b(NULL,modname,"Maximised",1);
 			else if (msg == WM_SIZE && wParam == SIZE_RESTORED)
-				DBWriteContactSettingByte(NULL,modname,"Maximised",0);
+				db_set_b(NULL,modname,"Maximised",0);
 		}
 		break;
 
 	case WM_DESTROY: // free our shit!
-		if (DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1)) {
+		if (db_get_b(NULL,modname,"RestoreOnOpen",1)) {
 			HTREEITEM item;
 			HWND hwnd2Tree = GetDlgItem(hwnd,IDC_MODULES);
 			char module[256] = {0};
@@ -385,16 +385,16 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						type = mtis->type;
 					}
 
-					DBWriteContactSettingDword(NULL,modname,"LastContact",(DWORD)hContact);
+					db_set_dw(NULL,modname,"LastContact",(DWORD)hContact);
 
 					if (type == CONTACT)
-						DBWriteContactSettingString(NULL,modname,"LastModule","");
+						db_set_s(NULL,modname,"LastModule","");
 					else
-						DBWriteContactSettingString(NULL,modname,"LastModule",module);
+						db_set_s(NULL,modname,"LastModule",module);
 				}
 				else {
-					DBDeleteContactSetting(NULL,modname,"LastContact");
-					DBDeleteContactSetting(NULL,modname,"LastModule");
+					db_unset(NULL,modname,"LastContact");
+					db_unset(NULL,modname,"LastModule");
 				}
 
 				HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
@@ -403,13 +403,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (pos != -1) {
 					char text[256];
 					ListView_GetItemText(hwnd2Settings, pos, 0, text, SIZEOF(text));
-					DBWriteContactSettingString(NULL,modname,"LastSetting",text);
+					db_set_s(NULL,modname,"LastSetting",text);
 				}
-				else DBDeleteContactSetting(NULL,modname,"LastSetting");
+				else db_unset(NULL,modname,"LastSetting");
 			}
 		}
-		DBWriteContactSettingByte(NULL,modname,"HexMode",(byte)Hex);
-		DBWriteContactSettingByte(NULL,modname,"SortMode",(byte)Order);
+		db_set_b(NULL,modname,"HexMode",(byte)Hex);
+		db_set_b(NULL,modname,"SortMode",(byte)Order);
 		saveListSettings(GetDlgItem(hwnd,IDC_SETTINGS));
 		hwnd2mainWindow = 0;
 		ClearListview(GetDlgItem(hwnd,IDC_SETTINGS));
@@ -419,13 +419,13 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (himl2)
 			ImageList_Destroy(himl2);
 
-		if (!DBGetContactSettingByte(NULL,modname,"Maximised",0)) {
+		if (!db_get_b(NULL,modname,"Maximised",0)) {
 			RECT rc;
 			GetWindowRect(hwnd,&rc);
-			DBWriteContactSettingDword(NULL,modname,"x",rc.left);
-			DBWriteContactSettingDword(NULL,modname,"y",rc.top);
-			DBWriteContactSettingDword(NULL,modname,"width",rc.right-rc.left);
-			DBWriteContactSettingDword(NULL,modname,"height",rc.bottom-rc.top);
+			db_set_dw(NULL,modname,"x",rc.left);
+			db_set_dw(NULL,modname,"y",rc.top);
+			db_set_dw(NULL,modname,"width",rc.right-rc.left);
+			db_set_dw(NULL,modname,"height",rc.bottom-rc.top);
 		}
 
 		if (hwnd2importWindow) {
@@ -543,9 +543,9 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		case MENU_SAVE_POSITION:
 			{
-				BOOL save = !DBGetContactSettingByte(NULL,modname,"RestoreOnOpen",1);
+				BOOL save = !db_get_b(NULL,modname,"RestoreOnOpen",1);
 				CheckMenuItem(GetSubMenu(GetMenu(hwnd),5),MENU_SAVE_POSITION,MF_BYCOMMAND|(save?MF_CHECKED:MF_UNCHECKED));
-				DBWriteContactSettingByte(NULL,modname,"RestoreOnOpen", (byte)save);
+				db_set_b(NULL,modname,"RestoreOnOpen", (byte)save);
 			}
 			break;
 		case MENU_SORT_ORDER:

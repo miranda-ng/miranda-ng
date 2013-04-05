@@ -294,19 +294,19 @@ namespace
 
 				CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
 
-				BYTE bUseContactSpecific = DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0);
+				BYTE bUseContactSpecific = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0);
 				::CheckDlgButton(hWnd,IDC_CHECK_CONTACT_SPECIFIC,bUseContactSpecific);
 				
 				CAdvProviderSettings setGlobal(pProvider.get());
 				// log to history
-				WORD dwLogMode = DBGetContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,setGlobal.GetLogMode());
+				WORD dwLogMode = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,setGlobal.GetLogMode());
 				UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
 				::CheckDlgButton(hWnd,IDC_CHECK_INTERNAL_HISTORY,nCheck);
 
 				tstring sHistoryFrmt = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_HISTORY,setGlobal.GetHistoryFormat().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_HISTORY_FORMAT,sHistoryFrmt.c_str());
 
-				WORD wOnlyIfChanged = DBGetContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,setGlobal.GetHistoryOnlyChangedFlag());
+				WORD wOnlyIfChanged = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,setGlobal.GetHistoryOnlyChangedFlag());
 				::CheckDlgButton(hWnd,IDC_CHECK_HISTORY_CONDITION,(1 == wOnlyIfChanged) ? 1 : 0);
 
 				// log to file
@@ -323,7 +323,7 @@ namespace
 				tstring sLogFileFrmt = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_LOG_FILE,setGlobal.GetLogFormat().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_LOG_FILE_FORMAT,sLogFileFrmt.c_str());
 
-				wOnlyIfChanged = DBGetContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,setGlobal.GetLogOnlyChangedFlag());
+				wOnlyIfChanged = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,setGlobal.GetLogOnlyChangedFlag());
 				::CheckDlgButton(hWnd,IDC_CHECK_LOG_FILE_CONDITION,(1 == wOnlyIfChanged) ? 1 : 0);
 
 				// popup
@@ -331,7 +331,7 @@ namespace
 				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP,nCheck);
 				tstring sPopupFrmt = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_POPUP,setGlobal.GetPopupFormat().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_POPUP_FORMAT,sPopupFrmt.c_str());
-				bool bOnlyIfChanged = 1 == DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,setGlobal.GetShowPopupIfValueChangedFlag());
+				bool bOnlyIfChanged = 1 == db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,setGlobal.GetShowPopupIfValueChangedFlag());
 				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED,(true == bOnlyIfChanged) ? 1 : 0);
 
 				update_all_controls(hWnd);
@@ -475,15 +475,15 @@ namespace
 						UINT nIfChangedFile = IsDlgButtonChecked(hWnd,IDC_CHECK_LOG_FILE_CONDITION);
 						bool bIfChangedPopup = (1 == IsDlgButtonChecked(hWnd,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED));
 
-						DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,bUseContactSpec);
-						DBWriteContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,nLogMode);
-						DBWriteContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,nIfChangedFile);
-						DBWriteContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,nIfChangedHistory);
-						DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,bIfChangedPopup);
-						DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE,sLogFile.c_str());
-						DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_LOG_FILE,sLogFileFormat.c_str());
-						DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_HISTORY,sHistoryFormat.c_str());
-						DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_POPUP,sPopupFormat.c_str());
+						db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,bUseContactSpec);
+						db_set_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,nLogMode);
+						db_set_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,nIfChangedFile);
+						db_set_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,nIfChangedHistory);
+						db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,bIfChangedPopup);
+						db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE,sLogFile.c_str());
+						db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_LOG_FILE,sLogFileFormat.c_str());
+						db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_HISTORY,sHistoryFormat.c_str());
+						db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_POPUP,sPopupFormat.c_str());
 
 						if(pParam->m_pPopupSettings)
 						{
@@ -740,9 +740,9 @@ CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvide
 	assert(visitor.m_pszDbLogFormat);
 	assert(visitor.m_pszDbLogCondition);
 
-	m_wLogMode = DBGetContactSettingWord(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogMode,static_cast<WORD>(lmDisabled));
+	m_wLogMode = db_get_w(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogMode,static_cast<WORD>(lmDisabled));
 	m_sFormatHistory = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryFormat,visitor.m_pszDefHistoryFormat);
-	m_bIsOnlyChangedHistory = 1 == DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryCondition,0);
+	m_bIsOnlyChangedHistory = 1 == db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryCondition,0);
 
 	m_sLogFileName = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFile);
 	if(true == m_sLogFileName.empty())
@@ -754,10 +754,10 @@ CAdvProviderSettings::CAdvProviderSettings(const IQuotesProvider* pQuotesProvide
 	}
 
 	m_sFormatLogFile = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFormat,visitor.m_pszDefLogFileFormat);
-	m_bIsOnlyChangedLogFile = (1 == DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogCondition,0));
+	m_bIsOnlyChangedLogFile = (1 == db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogCondition,0));
 
 	m_sPopupFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupFormat,visitor.m_pszDefPopupFormat);
-	m_bShowPopupIfValueChanged = (1 == DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupCondition,0));
+	m_bShowPopupIfValueChanged = (1 == db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupCondition,0));
 }
 
 CAdvProviderSettings::~CAdvProviderSettings()
@@ -788,23 +788,23 @@ void CAdvProviderSettings::SaveToDb()const
 	assert(visitor.m_pszDbPopupDelayTimeout);
 	assert(visitor.m_pszDbPopupHistoryFlag);
 
-	DBWriteContactSettingWord(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogMode,m_wLogMode);
-	DBWriteContactSettingTString(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryFormat,m_sFormatHistory.c_str());
-	DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryCondition,m_bIsOnlyChangedHistory);
-	DBWriteContactSettingTString(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFile,m_sLogFileName.c_str());
-	DBWriteContactSettingTString(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFormat,m_sFormatLogFile.c_str());
-	DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogCondition,m_bIsOnlyChangedLogFile);
-	DBWriteContactSettingTString(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupFormat,m_sPopupFormat.c_str());
-	DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupCondition,m_bShowPopupIfValueChanged);
+	db_set_w(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogMode,m_wLogMode);
+	db_set_ts(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryFormat,m_sFormatHistory.c_str());
+	db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbHistoryCondition,m_bIsOnlyChangedHistory);
+	db_set_ts(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFile,m_sLogFileName.c_str());
+	db_set_ts(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogFormat,m_sFormatLogFile.c_str());
+	db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbLogCondition,m_bIsOnlyChangedLogFile);
+	db_set_ts(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupFormat,m_sPopupFormat.c_str());
+	db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupCondition,m_bShowPopupIfValueChanged);
 
 	if(nullptr != m_pPopupSettings)
 	{
-		DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupColourMode,static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
-		DBWriteContactSettingDword(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupBkColour,m_pPopupSettings->GetColourBk());
-		DBWriteContactSettingDword(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupTextColour,m_pPopupSettings->GetColourText());
-		DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayMode,static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
-		DBWriteContactSettingWord(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayTimeout,m_pPopupSettings->GetDelayTimeout());
-		DBWriteContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupHistoryFlag,m_pPopupSettings->GetHistoryFlag());
+		db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupColourMode,static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
+		db_set_dw(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupBkColour,m_pPopupSettings->GetColourBk());
+		db_set_dw(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupTextColour,m_pPopupSettings->GetColourText());
+		db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayMode,static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
+		db_set_w(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayTimeout,m_pPopupSettings->GetDelayTimeout());
+		db_set_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupHistoryFlag,m_pPopupSettings->GetHistoryFlag());
 	}
 }
 
@@ -917,22 +917,22 @@ CPopupSettings::CPopupSettings(const IQuotesProvider* pQuotesProvider)
 	assert(visitor.m_pszDbPopupDelayTimeout);
 	assert(visitor.m_pszDbPopupHistoryFlag);
 
-	BYTE m = DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupColourMode,static_cast<BYTE>(m_modeColour));
+	BYTE m = db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupColourMode,static_cast<BYTE>(m_modeColour));
 	if(m >= colourDefault && m <= colourUserDefined)
 	{
 		m_modeColour = static_cast<EColourMode>(m);
 	}
 
-	m_rgbBkg = DBGetContactSettingDword(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupBkColour,m_rgbBkg);
-	m_rgbText = DBGetContactSettingDword(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupTextColour,m_rgbText);
+	m_rgbBkg = db_get_dw(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupBkColour,m_rgbBkg);
+	m_rgbText = db_get_dw(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupTextColour,m_rgbText);
 
-	m = DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayMode,static_cast<BYTE>(m_modeDelay));
+	m = db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayMode,static_cast<BYTE>(m_modeDelay));
 	if(m >= delayFromPopup && m <= delayPermanent)
 	{
 		m_modeDelay = static_cast<EDelayMode>(m);
 	}
-	m_wDelay = DBGetContactSettingWord(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayTimeout,m_wDelay);
-	m_bUseHistory = (1 == DBGetContactSettingByte(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupHistoryFlag,m_bUseHistory));
+	m_wDelay = db_get_w(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupDelayTimeout,m_wDelay);
+	m_bUseHistory = (1 == db_get_b(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbPopupHistoryFlag,m_bUseHistory));
 }
 
 /*static */
@@ -949,32 +949,32 @@ COLORREF CPopupSettings::GetDefColourText()
 
 void CPopupSettings::InitForContact(HANDLE hContact)
 {
-	BYTE m = DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
+	BYTE m = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
 	if(m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined)
 	{
 		m_modeColour = static_cast<CPopupSettings::EColourMode>(m);
 	}
 
-	m_rgbBkg = DBGetContactSettingDword(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_BK,m_rgbBkg);
-	m_rgbText = DBGetContactSettingDword(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_TEXT,m_rgbText);
+	m_rgbBkg = db_get_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_BK,m_rgbBkg);
+	m_rgbText = db_get_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_TEXT,m_rgbText);
 
-	m = DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_MODE,static_cast<BYTE>(m_modeDelay));
+	m = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_MODE,static_cast<BYTE>(m_modeDelay));
 	if(m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent)
 	{
 		m_modeDelay = static_cast<CPopupSettings::EDelayMode>(m);
 	}
-	m_wDelay = DBGetContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_TIMEOUT,m_wDelay);
-	m_bUseHistory = 1 == DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_HISTORY_FLAG,m_bUseHistory);
+	m_wDelay = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_TIMEOUT,m_wDelay);
+	m_bUseHistory = 1 == db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_HISTORY_FLAG,m_bUseHistory);
 }
 
 void CPopupSettings::SaveForContact(HANDLE hContact)const
 {
-	DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
-	DBWriteContactSettingDword(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_BK,m_rgbBkg);
-	DBWriteContactSettingDword(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_TEXT,m_rgbText);
-	DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_MODE,static_cast<BYTE>(m_modeDelay));
-	DBWriteContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_TIMEOUT,m_wDelay);
-	DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_HISTORY_FLAG,m_bUseHistory);
+	db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_MODE,static_cast<BYTE>(m_modeColour));
+	db_set_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_BK,m_rgbBkg);
+	db_set_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_COLOUR_TEXT,m_rgbText);
+	db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_MODE,static_cast<BYTE>(m_modeDelay));
+	db_set_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_DELAY_TIMEOUT,m_wDelay);
+	db_set_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_HISTORY_FLAG,m_bUseHistory);
 }
 
 CPopupSettings::EColourMode CPopupSettings::GetColourMode()const
@@ -1110,7 +1110,7 @@ tstring GetContactLogFileName(HANDLE hContact)
 	if(pProvider)
 	{
 		tstring sPattern;
-		bool bUseContactSpecific = (DBGetContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0) > 0);
+		bool bUseContactSpecific = (db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0) > 0);
 		if(bUseContactSpecific)
 		{
 			sPattern = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE);

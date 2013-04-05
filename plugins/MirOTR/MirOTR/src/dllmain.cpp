@@ -101,13 +101,13 @@ extern "C" __declspec(dllexport) int Load(void)
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 
 	// remove us as a filter to all contacts - fix filter type problem
-	if(DBGetContactSettingByte(0, MODULENAME, "FilterOrderFix", 0) != 2) {
+	if(db_get_b(0, MODULENAME, "FilterOrderFix", 0) != 2) {
 		HANDLE hContact = db_find_first();
 		while ( hContact != NULL ) {
 			CallService(MS_PROTO_REMOVEFROMCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME);
 			hContact = db_find_next(hContact);
 		}
-		DBWriteContactSettingByte(0, MODULENAME, "FilterOrderFix", 2);
+		db_set_b(0, MODULENAME, "FilterOrderFix", 2);
 	}
 
 	// create our services
@@ -131,7 +131,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	DEBUGOUT_T("UNLOAD MIROTR")
 	DeinitSRMM();
 	DeinitOptions();
-	DeinitMenu();
 	DeinitDBFilter();
 
 	lib_cs_lock();

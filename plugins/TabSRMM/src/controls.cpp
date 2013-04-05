@@ -1138,7 +1138,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						tooltip_active = TRUE;
 						CallService(szTTService, (WPARAM)dbv.ptszVal, (LPARAM)&ti);
 						if (dbv.pszVal)
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 					}
 				}
 			}

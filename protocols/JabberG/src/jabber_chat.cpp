@@ -145,7 +145,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 		DBVARIANT dbv;
 		if (JABBER_LIST_ITEM* bookmark = ListGetItemPtr(LIST_BOOKMARK, item->jid))
 			if (bookmark->name) {
-				if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbv))
+				if ( !db_get_ts(hContact, "CList", "MyHandle", &dbv))
 					db_free(&dbv);
 				else
 					db_set_ts(hContact, "CList", "MyHandle", bookmark->name);
@@ -380,7 +380,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 		CallServiceSync(MS_GC_EVENT, WINDOW_CLEARLOG, (LPARAM)&gce);
 
 		DBVARIANT dbvMessage;
-		if ( !DBGetContactSettingTString(NULL, m_szModuleName, "GcMsgQuit", &dbvMessage)) {
+		if ( !db_get_ts(NULL, m_szModuleName, "GcMsgQuit", &dbvMessage)) {
 			szMessage = NEWTSTR_ALLOCA(dbvMessage.ptszVal);
 			db_free(&dbvMessage);
 		}
@@ -1079,7 +1079,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 	{
 		if (ppro->m_bJabberOnline) {
 			DBVARIANT dbv = {0};
-			TCHAR *szMessage = DBGetContactSettingTString(NULL, ppro->m_szModuleName, "GcMsgSlap", &dbv) ?
+			TCHAR *szMessage = db_get_ts(NULL, ppro->m_szModuleName, "GcMsgSlap", &dbv) ?
 				NEWTSTR_ALLOCA(TranslateTS(JABBER_GC_MSG_SLAP)) : dbv.ptszVal;
 
 			TCHAR buf[256];

@@ -830,6 +830,6 @@ bool IsPluginEnabled(TCHAR* filename)
 	char* fname;
 	crsi_t2a(fname, filename);
 	char* ext = strstr(_strlwr(fname), ".dll");
-	bool res = ext && ext[4] == '\0' && DBGetContactSettingByte(NULL, "PluginDisable", fname, 0) == 0;
+	bool res = ext && ext[4] == '\0' && db_get_b(NULL, "PluginDisable", fname, 0) == 0;
 	return res;
 }

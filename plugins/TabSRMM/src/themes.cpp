@@ -1050,7 +1050,7 @@ void CSkin::setFileName()
 	if (0 == M->GetTString(0, SRMSGMOD_T, "ContainerSkin", &dbv)) {
 		M->pathToAbsolute(dbv.ptszVal, m_tszFileName, M->getSkinPath());
 		m_tszFileName[MAX_PATH - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		m_tszFileName[0] = 0;
@@ -1430,7 +1430,7 @@ void CSkin::Load(void)
 			M->WriteDword(SRMSGMOD_T, _tagSettings[i].szSetting, data);
 			break;
 		case 2:
-			DBWriteContactSettingWord(NULL, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
+			db_set_w(NULL, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
 			break;
 		case 5:
 			GetPrivateProfileString(_tagSettings[i].szIniKey, _tagSettings[i].szIniName, _T("000000"),

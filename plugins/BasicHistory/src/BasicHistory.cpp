@@ -79,18 +79,8 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	int count = EventList::GetContactMessageNumber((HANDLE)wParam);
 	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS;
-
-	if (!count) mi.flags |= CMIF_HIDDEN;
-	else mi.flags &= ~CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
-
-	mi.flags = CMIM_FLAGS;
-	if (!count || !isInList) mi.flags |= CMIF_HIDDEN;
-	else mi.flags &= ~CMIF_HIDDEN;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hDeleteContactMenu, (LPARAM)&mi);
-
+	Menu_ShowItem(hContactMenu, count != 0);
+	Menu_ShowItem(hDeleteContactMenu, count != 0 && isInList);
 	return 0;
 }
 

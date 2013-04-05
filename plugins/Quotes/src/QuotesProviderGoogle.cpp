@@ -39,15 +39,15 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 		HANDLE hContact = CreateNewContact(sName);
 		if(hContact)
 		{
-			DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID,ri.m_from.GetID().c_str());
-			DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_ID,ri.m_to.GetID().c_str());
+			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_ID,ri.m_from.GetID().c_str());
+			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_ID,ri.m_to.GetID().c_str());
 			if(false == ri.m_from.GetName().empty())
 			{
-				DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_DESCRIPTION,ri.m_from.GetName().c_str());
+				db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_FROM_DESCRIPTION,ri.m_from.GetName().c_str());
 			}
 			if(false == ri.m_to.GetName().empty())
 			{
-				DBWriteContactSettingTString(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_DESCRIPTION,ri.m_to.GetName().c_str());
+				db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_TO_DESCRIPTION,ri.m_to.GetName().c_str());
 			}
 
 			return true;

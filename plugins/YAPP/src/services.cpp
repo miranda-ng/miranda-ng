@@ -314,7 +314,7 @@ static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 	
 	char setting[256];
 	mir_snprintf(setting, 256, "%s/Timeout", pc->pszName);
-	pc->iSeconds = DBGetContactSettingWord(0, MODULE, setting, pc->iSeconds);
+	pc->iSeconds = db_get_w(0, MODULE, setting, pc->iSeconds);
 	if (pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
 	mir_snprintf(setting, 256, "%s/TextCol", pc->pszName);
 	pc->colorText = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorText);

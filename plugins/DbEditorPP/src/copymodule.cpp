@@ -16,26 +16,26 @@ void copyModule(char* module, HANDLE hContactFrom, HANDLE hContactTo)
 			switch (dbv.type)
 			{
 				case DBVT_BYTE:
-					DBWriteContactSettingByte(hContactTo, module, setting->name, dbv.bVal);
+					db_set_b(hContactTo, module, setting->name, dbv.bVal);
 				break;
 				case DBVT_WORD:
-					DBWriteContactSettingWord(hContactTo, module, setting->name, dbv.wVal);
+					db_set_w(hContactTo, module, setting->name, dbv.wVal);
 				break;
 				case DBVT_DWORD:
-					DBWriteContactSettingDword(hContactTo, module, setting->name, dbv.dVal);
+					db_set_dw(hContactTo, module, setting->name, dbv.dVal);
 				break;
 				case DBVT_ASCIIZ:
-					DBWriteContactSettingString(hContactTo, module, setting->name, dbv.pszVal);
+					db_set_s(hContactTo, module, setting->name, dbv.pszVal);
 				break;
 				case DBVT_UTF8:
-					DBWriteContactSettingStringUtf(hContactTo, module, setting->name, dbv.pszVal);
+					db_set_utf(hContactTo, module, setting->name, dbv.pszVal);
 				break;
 				case DBVT_BLOB:
 					DBWriteContactSettingBlob(hContactTo, module, setting->name, dbv.pbVal, dbv.cpbVal);
 				break;
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		setting = (struct ModSetLinkLinkItem *)setting->next;
 	}
 	FreeModuleSettingLL(&msll);

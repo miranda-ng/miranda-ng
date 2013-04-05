@@ -80,7 +80,7 @@ VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime)
 
 void InitIdleTimer()
 {
-	minutes = DBGetContactSettingByte(NULL,MOD_NAME,"time",10);
+	minutes = db_get_b(NULL,MOD_NAME,"time",10);
 	MyGetLastInputInfo=(BOOL (WINAPI *)(LASTINPUTINFO*))GetProcAddress(GetModuleHandleA("user32"), "GetLastInputInfo");
 	hTimer=SetTimer(NULL, 0, 2000, IdleTimer);
 }

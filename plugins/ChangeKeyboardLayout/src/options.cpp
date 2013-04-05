@@ -211,9 +211,9 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 					pszNameLay = GetNameOfLayout(hklLayouts[i]);
 
 					if(_tcscmp(ptszMemLay, ptszGenLay) != 0)
-						DBWriteContactSettingTString(NULL, ModuleName, pszNameLay, ptszMemLay);
+						db_set_ts(NULL, ModuleName, pszNameLay, ptszMemLay);
 					else
-						DBDeleteContactSetting(NULL, ModuleName, pszNameLay);
+						db_unset(NULL, ModuleName, pszNameLay);
 
 					mir_free(pszNameLay);
 					mir_free(ptszGenLay);

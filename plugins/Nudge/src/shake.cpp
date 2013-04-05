@@ -5,10 +5,10 @@ void CShake::Load(void)
 
 	Shaking = false;
 	ShakingChat = false;
-	nScaleClist = DBGetContactSettingDword(NULL, "Nudge", "ScaleClist", 5);
-	nScaleChat = DBGetContactSettingDword(NULL, "Nudge", "ScaleChat", 2);
-	nMoveClist = DBGetContactSettingDword(NULL, "Nudge", "MoveClist", 15);
-	nMoveChat = DBGetContactSettingDword(NULL, "Nudge", "MoveChat", 15);
+	nScaleClist = db_get_dw(NULL, "Nudge", "ScaleClist", 5);
+	nScaleChat = db_get_dw(NULL, "Nudge", "ScaleChat", 2);
+	nMoveClist = db_get_dw(NULL, "Nudge", "MoveClist", 15);
+	nMoveChat = db_get_dw(NULL, "Nudge", "MoveChat", 15);
 }
 void CShake::Save(void)
 {

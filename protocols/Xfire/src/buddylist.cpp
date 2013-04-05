@@ -149,7 +149,7 @@ namespace xfirelib {
 	  sprintf_s(temp,255,"Clan_%d",entry->clanid);
 
 	  DBVARIANT dbv;
-	  if(!DBGetContactSetting(NULL,protocolname,temp,&dbv))
+	  if(!db_get(NULL,protocolname,temp,&dbv))
 	  {
 	  	dummy=dbv.pszVal;
 	  }

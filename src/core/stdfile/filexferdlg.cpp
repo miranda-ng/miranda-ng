@@ -32,7 +32,7 @@ static int CheckVirusScanned(HWND hwnd, struct FileDlgData *dat, int i)
 	if (dat->send) return 1;
 	if (dat->fileVirusScanned == NULL) return 0;
 	if (dat->fileVirusScanned[i]) return 1;
-	if (DBGetContactSettingByte(NULL, "SRFile", "WarnBeforeOpening", 1) == 0) return 1;
+	if (db_get_b(NULL, "SRFile", "WarnBeforeOpening", 1) == 0) return 1;
 	return IDYES == MessageBox(hwnd, TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"), TranslateT("File Received"), MB_YESNO|MB_DEFBUTTON2);
 }
 
@@ -103,7 +103,7 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 	DBVARIANT dbv;
 	TCHAR szCmdLine[768];
 
-	if ( !DBGetContactSettingTString(NULL, "SRFile", "ScanCmdLine", &dbv))
+	if ( !db_get_ts(NULL, "SRFile", "ScanCmdLine", &dbv))
 	{
 		if (dbv.ptszVal[0])
 		{
@@ -125,7 +125,7 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 				CloseHandle(pi.hThread);
 			}
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	mir_free(info->szFile);
 	mir_free(info);
@@ -255,8 +255,8 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				CreateDirectoryTreeT(dat->szSavePath);
 				dat->fs = (HANDLE)CallContactService(dat->hContact, PSS_FILEALLOWT, (WPARAM)dat->fs, (LPARAM)dat->szSavePath);
 				dat->transferStatus.tszWorkingDir = mir_tstrdup(dat->szSavePath);
-				if (DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
-				else dat->resumeBehaviour = DBGetContactSettingByte(NULL, "SRFile", "IfExists", FILERESUME_ASK);
+				if (db_get_b(dat->hContact, "CList", "NotOnList", 0)) dat->resumeBehaviour = FILERESUME_ASK;
+				else dat->resumeBehaviour = db_get_b(NULL, "SRFile", "IfExists", FILERESUME_ASK);
 				SetFtStatus(hwndDlg, LPGENT("Waiting for connection..."), FTS_TEXT);
 			}
 			{
@@ -530,7 +530,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SetDlgItemTextA(hwndDlg, IDC_FILENAME, "");
 					if (dat->transferStatus.currentFileNumber == 1 && dat->transferStatus.totalFiles>1 && !dat->send)
 						SetOpenFileButtonStyle(GetDlgItem(hwndDlg, IDC_OPENFILE), 1);
-					if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && DBGetContactSettingByte(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
+					if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && db_get_b(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
 						if (GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber])&FILE_ATTRIBUTE_DIRECTORY)
 							PostMessage(hwndDlg, M_VIRUSSCANDONE, dat->transferStatus.currentFileNumber, 0);
 						else {
@@ -666,7 +666,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								LPGENT("Transfer completed, open folder."),
 								FTS_OPEN);
 
-							int useScanner = DBGetContactSettingByte(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE);
+							int useScanner = db_get_b(NULL, "SRFile", "UseScanner", VIRUSSCAN_DISABLE);
 							if (useScanner != VIRUSSCAN_DISABLE) {
 								struct virusscanthreadstartinfo *vstsi;
 								vstsi = (struct virusscanthreadstartinfo*)mir_alloc(sizeof(struct virusscanthreadstartinfo));

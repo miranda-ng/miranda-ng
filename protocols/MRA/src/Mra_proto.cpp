@@ -676,7 +676,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 			dwTemp &= ~CONTACT_INTFLAG_NOT_AUTHORIZED;
 			SetContactBasicInfoW(hContact, SCBIFSI_LOCK_CHANGES_EVENTS, SCBIF_SERVER_FLAG, 0, 0, 0, dwTemp, 0, NULL, 0, NULL, 0, NULL, 0);
 			mraSetDword(hContact, "HooksLocked", TRUE);
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 			mraSetDword(hContact, "HooksLocked", FALSE);
 		}
 		break;
@@ -1520,8 +1520,8 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 					if (GetContactBasicInfoW(hContact, &dwID, NULL, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
 					if (dwID == -1) {
 						if (IsEMailChatAgent(szEMail, dwEMailSize)) {// чат: ещё раз запросим авторизацию, пометим как видимый в списке, постоянный
-							DBDeleteContactSetting(hContact, "CList", "Hidden");
-							DBDeleteContactSetting(hContact, "CList", "NotOnList");
+							db_unset(hContact, "CList", "Hidden");
+							db_unset(hContact, "CList", "NotOnList");
 							SetExtraIcons(hContact);
 							MraSetContactStatus(hContact, ID_STATUS_ONLINE);
 
@@ -1998,7 +1998,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 					}
 
 					if (bAdded)
-						DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+						db_set_b(hContact, "CList", "Hidden", 1);
 
 					if (bAutoGrantAuth) { // auto grant auth
 						DBEVENTINFO dbei = { sizeof(dbei) };
@@ -2018,7 +2018,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 					}
 				}
 				else {
-					DBDeleteContactSetting(hContact, "CList", "Hidden");
+					db_unset(hContact, "CList", "Hidden");
 
 					if (dwFlags & MESSAGE_FLAG_CONTACT) { // contacts received
 						LPBYTE lpbBuffer, lpbBufferCurPos;

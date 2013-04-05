@@ -420,6 +420,6 @@ void CMsnProto::displayEmailCount(HANDLE hContact)
 		getByte("DisableHotmailJunk", 0) ? _T("%s [%d]") : _T("%s [%d][%d]"), name, mUnreadMessages, mUnreadJunkEmails);
 
 	nickChg = true;
-	DBWriteContactSettingTString(hContact, "CList", "MyHandle", szNick);
+	db_set_ts(hContact, "CList", "MyHandle", szNick);
 	nickChg = false;
 }

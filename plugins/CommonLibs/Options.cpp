@@ -182,7 +182,7 @@ void COptItem::SetIntDBVal(CString &sModule, int Value, CString *sDBSettingPrefi
 		cws.value.type = nValueSize;
 		cws.value.dVal = Value;
 		
-//	DBWriteContactSettingByte(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[I].Flags);
+//	db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[I].Flags);
 			
 			//itoa(Value[I].ID, StrID.GetBuffer(64), 10);
 			//StrID.ReleaseBuffer();
@@ -197,7 +197,7 @@ TCString COptItem::GetStrDBVal(CString &sModule, CString *sDBSettingPrefix)
 	if (sDBSetting != NULL)
 	{
 		_ASSERT(GetDefValue());
-		return DBGetContactSettingString(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, *(TCString*)GetDefValue());
+		return db_get_s(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, *(TCString*)GetDefValue());
 	}
 	return *(TCString*)GetDefValue();
 }
@@ -206,7 +206,7 @@ void COptItem::SetStrDBVal(CString &sModule, TCString &Str, CString *sDBSettingP
 {
 	if (sDBSetting != NULL && !ReadOnly)
 	{
-		DBWriteContactSettingTString(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
+		db_set_ts(NULL, sModule, sDBSettingPrefix ? (*sDBSettingPrefix + sDBSetting) : sDBSetting, Str);
 	}
 }
 
@@ -355,11 +355,11 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 	if (!strncmp(szSetting, TreeReadEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_TITLE, Len) && isdigit(szSetting[Len]))
 	{
 		int ID = atol(szSetting + Len);
-		short ParentID = (TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) ? 0 : DBGetContactSettingWord(NULL, *TreeReadEnumData->sModule,
+		short ParentID = (TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) ? 0 : db_get_w(NULL, *TreeReadEnumData->sModule,
 			*TreeReadEnumData->sDBSettingPrefix + TreeReadEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_PARENT + (szSetting + Len), -1);
-		short Order = DBGetContactSettingWord(NULL, *TreeReadEnumData->sModule,
+		short Order = db_get_w(NULL, *TreeReadEnumData->sModule,
 			*TreeReadEnumData->sDBSettingPrefix + TreeReadEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_ORDER + (szSetting + Len), -1);
-		char Flags = (TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL && !(TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)) ? 0 : DBGetContactSettingByte(NULL, *TreeReadEnumData->sModule,
+		char Flags = (TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL && !(TreeReadEnumData->TreeCtrl->TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)) ? 0 : db_get_b(NULL, *TreeReadEnumData->sModule,
 			*TreeReadEnumData->sDBSettingPrefix + TreeReadEnumData->TreeCtrl->sDBSetting + TREEITEM_DBSTR_FLAGS + (szSetting + Len), 0);
 		if (ParentID >= 0 && Order >= 0)
 		{
@@ -367,9 +367,9 @@ int TreeReadEnum(const char *szSetting, LPARAM lParam)
 			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).ParentID = ParentID;
 			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).Flags = Flags;
 			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).hItem = NULL;
-			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).Title = DBGetContactSettingString(NULL, *TreeReadEnumData->sModule, *TreeReadEnumData->sDBSettingPrefix + szSetting, _T(""));
+			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).Title = db_get_s(NULL, *TreeReadEnumData->sModule, *TreeReadEnumData->sDBSettingPrefix + szSetting, _T(""));
 			TreeReadEnumData->TreeCtrl->Value.SetAtGrow(Order).User_Str1 = (TreeReadEnumData->TreeCtrl->User_Str1_DBName == NULL) ? NULL :
-				DBGetContactSettingString(NULL, *TreeReadEnumData->sModule,
+				db_get_s(NULL, *TreeReadEnumData->sModule,
 					*TreeReadEnumData->sDBSettingPrefix + TreeReadEnumData->TreeCtrl->sDBSetting + TreeReadEnumData->TreeCtrl->User_Str1_DBName + (szSetting + Len), (TCHAR*)NULL);
 		}
 	}
@@ -426,20 +426,16 @@ void COptItem_TreeCtrl::MemToDB(CString &sModule, CString *sDBSettingPrefix)
 			CString StrID;
 			_itoa(Value[I].ID, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			DBWriteContactSettingTString(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, Value[I].Title);
+			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, Value[I].Title);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL))
-			{
-				DBWriteContactSettingWord(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_PARENT + StrID, Value[I].ParentID);
-			}
-			DBWriteContactSettingWord(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_ORDER + StrID, I);
+				db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_PARENT + StrID, Value[I].ParentID);
+
+			db_set_w(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_ORDER + StrID, I);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL) || TreeFlags & TREECTRL_FLAG_HAS_CHECKBOXES)
-			{
-				DBWriteContactSettingByte(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[I].Flags);
-			}
+				db_set_b(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_FLAGS + StrID, Value[I].Flags);
+
 			if (User_Str1_DBName != NULL && Value[I].User_Str1 != NULL)
-			{
-				DBWriteContactSettingTString(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, Value[I].User_Str1);
-			}
+				db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + User_Str1_DBName + StrID, Value[I].User_Str1);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}
@@ -614,7 +610,7 @@ void COptItem_TreeCtrl::CleanDBSettings(CString &sModule, CString *sDBSettingPre
 	int I;
 	for (I = 0; I < TreeDeleteEnumData.TreeSettings.GetSize(); I++)
 	{
-		DBDeleteContactSetting(NULL, sModule, TreeDeleteEnumData.TreeSettings[I]);
+		db_unset(NULL, sModule, TreeDeleteEnumData.TreeSettings[I]);
 	}
 }
 
@@ -809,7 +805,7 @@ int ListReadEnum(const char *szSetting, LPARAM lParam)
 	if (!strncmp(szSetting, *ListReadEnumData->sDBSettingPrefix + ListReadEnumData->ListCtrl->sDBSetting + LISTITEM_DBSTR_TEXT, Len) && isdigit(szSetting[Len]))
 	{
 		int ID = atol(szSetting + Len);
-		ListReadEnumData->ListCtrl->Value.SetAtGrow(ID).Text = DBGetContactSettingString(NULL, *ListReadEnumData->sModule, *ListReadEnumData->sDBSettingPrefix + szSetting, _T(""));
+		ListReadEnumData->ListCtrl->Value.SetAtGrow(ID).Text = db_get_s(NULL, *ListReadEnumData->sModule, *ListReadEnumData->sDBSettingPrefix + szSetting, _T(""));
 	}
 	return 0;
 }
@@ -864,7 +860,7 @@ void COptItem_ListCtrl::MemToDB(CString &sModule, CString *sDBSettingPrefix)
 			CString StrID;
 			_itoa(I, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
-			DBWriteContactSettingTString(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, Value[I].Text);
+			db_set_ts(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, Value[I].Text);
 		}
 		COptItem::MemToDB(sModule, sDBSettingPrefix);
 	}
@@ -927,7 +923,7 @@ void COptItem_ListCtrl::CleanDBSettings(CString &sModule, CString *sDBSettingPre
 	int I;
 	for (I = 0; I < ListDeleteEnumData.ListSettings.GetSize(); I++)
 	{
-		DBDeleteContactSetting(NULL, sModule, ListDeleteEnumData.ListSettings[I]);
+		db_unset(NULL, sModule, ListDeleteEnumData.ListSettings[I]);
 	}
 }
 

@@ -679,7 +679,7 @@ HICON IconItem_GetIcon(IcolibItem* item, bool big)
 	big = big && !item->cx;
 	IconSourceItem* &source = big ? item->source_big : item->source_small;
 
-	if ( !source && !DBGetContactSettingTString(NULL, "SkinIcons", item->name, &dbv)) {
+	if ( !source && !db_get_ts(NULL, "SkinIcons", item->name, &dbv)) {
 		TCHAR tszFullPath[MAX_PATH];
 		PathToAbsoluteT(dbv.ptszVal, tszFullPath);
 		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);

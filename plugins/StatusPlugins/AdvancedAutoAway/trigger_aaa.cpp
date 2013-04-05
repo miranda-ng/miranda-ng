@@ -52,14 +52,14 @@ static int AAAStateChanged(WPARAM wParam, LPARAM lParam) {
 				char setting[128];
 				char *szProto;
 
-				szProto = DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)?SETTING_ALL:aas->protocolSetting->szName;
+				szProto = db_get_b(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)?SETTING_ALL:aas->protocolSetting->szName;
 				_snprintf(setting, sizeof(setting), "%s_Lv1Status", szProto);
-				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_AWAY)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0)) {
+				if ( (aas->protocolSetting->lastStatus == db_get_w(NULL, MODULENAME, setting, ID_STATUS_AWAY)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0)) {
 					bReport = TRUE;
 				}
 				
 				_snprintf(setting, sizeof(setting), "%s_Lv2Status", szProto);
-				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_NA)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0)) {
+				if ( (aas->protocolSetting->lastStatus == db_get_w(NULL, MODULENAME, setting, ID_STATUS_NA)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0)) {
 					bReport = TRUE;
 				}
 			}

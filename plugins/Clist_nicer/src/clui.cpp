@@ -177,7 +177,7 @@ static HWND PreCreateCLC(HWND parent)
 										 WS_CHILD | CLS_CONTACTLIST
 										 | (cfg::getByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
 										 | CLS_HIDEOFFLINE
-										 //|(DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
+										 //|(db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
 										 | (cfg::getByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ? CLS_HIDEEMPTYGROUPS : 0)
 										 | CLS_MULTICOLUMN
 										 , 0, 0, 0, 0, parent, NULL, g_hInst, (LPVOID)0xff00ff00);
@@ -451,7 +451,7 @@ void SetDBButtonStates(HANDLE hPassedContact)
 
 			if ( !cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
 				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		} else {
 			switch (buttonItem->type) {
@@ -884,12 +884,12 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
 			DBVARIANT dbv = {0};
-			if ( !DBGetContactSetting(NULL, "CList", "LastViewMode", &dbv)) {
+			if ( !db_get(NULL, "CList", "LastViewMode", &dbv)) {
 				if (lstrlenA(dbv.pszVal) > 2) {
 					if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 						ApplyViewMode((char *)dbv.pszVal);
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		if ( !cfg::dat.autosize)
@@ -1427,7 +1427,7 @@ skipbg:
 
 									if (fDelete) {
 										//_DebugTraceA("delete value: %s, %s ON %d", szModule, szSetting, finalhContact);
-										DBDeleteContactSetting(finalhContact, szModule, szSetting);
+										db_unset(finalhContact, szModule, szSetting);
 									} else {
 										switch (item->type) {
 										case DBVT_BYTE:

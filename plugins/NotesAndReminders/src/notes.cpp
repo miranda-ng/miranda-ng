@@ -695,7 +695,7 @@ void PurgeNotes(void)
 	for(I = 0; I < NotesCount; I++)
 	{
 		sprintf(ValueName, "NotesData%d", I);
-		DBDeleteContactSetting(0,MODULENAME,ValueName);
+		db_unset(0,MODULENAME,ValueName);
 	}
 }
 
@@ -957,7 +957,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 	for(; I < OldNotesCount; I++)
 	{
 		sprintf(ValueName, "NotesData%d", I);
-		DBDeleteContactSetting(0,MODULENAME,ValueName);
+		db_unset(0,MODULENAME,ValueName);
 	}
 
 	NOTIFY_LIST();

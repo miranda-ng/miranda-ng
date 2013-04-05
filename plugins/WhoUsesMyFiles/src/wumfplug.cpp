@@ -25,7 +25,7 @@ void LoadOptions()
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_TCHAR;
 	ZeroMemory(&WumfOptions, sizeof(WumfOptions));
-	if (DBGetContactSetting(NULL, ModuleName, OPT_FILE, &dbv) == 0)
+	if (db_get(NULL, ModuleName, OPT_FILE, &dbv) == 0)
 		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);
 	else
 		WumfOptions.LogFile[0] = '\0';

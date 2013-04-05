@@ -94,7 +94,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				DBVARIANT dbv;
 				if ( !cfg::getTString(NULL, "CList", "TitleText", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				} else
 					SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
 			}

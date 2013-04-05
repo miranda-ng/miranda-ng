@@ -72,7 +72,7 @@ void GGPROTO::disconnect()
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_ONLINE, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeT(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_AWAY:
@@ -82,7 +82,7 @@ void GGPROTO::disconnect()
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_AWAY, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeT(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_DND:
@@ -92,7 +92,7 @@ void GGPROTO::disconnect()
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_DND, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeT(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_FREECHAT:
@@ -102,7 +102,7 @@ void GGPROTO::disconnect()
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_FREECHAT, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeT(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			case ID_STATUS_INVISIBLE:
@@ -112,7 +112,7 @@ void GGPROTO::disconnect()
 				if (!szMsg && !db_get_s(NULL, "SRAway", gg_status2db(ID_STATUS_INVISIBLE, "Default"), &dbv, DBVT_TCHAR)) {
 					if (dbv.ptszVal && *(dbv.ptszVal))
 						szMsg = mir_utf8encodeT(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			default:
@@ -311,7 +311,7 @@ void __cdecl GGPROTO::mainthread(void *)
 		if (!db_get_s(NULL, m_szModuleName, GG_KEY_SERVERHOSTS, &dbv, DBVT_ASCIIZ))
 		{
 			hostcount = gg_decodehosts(dbv.pszVal, hosts, 64);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -320,7 +320,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		p.password = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 	{
@@ -381,7 +381,7 @@ void __cdecl GGPROTO::mainthread(void *)
 			else
 				netlog("mainthread() (%x): Loading forwarding host %s and port %d.", dbv.pszVal, p.external_port, this);
 			if (p.external_addr)	p.external_port = db_get_w(NULL, m_szModuleName, GG_KEY_FORWARDPORT, GG_KEYDEF_FORWARDPORT);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	// Setup client port
@@ -924,7 +924,7 @@ retry:
 						TCHAR* nickT;
 						if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)){
 							nickT = mir_tstrdup(dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						} else {
 							nickT = mir_tstrdup(TranslateT("Me"));
 						}
@@ -1325,7 +1325,7 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 			CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, (LPARAM)&gcevent);
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	}
 
@@ -1402,7 +1402,7 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 				/* FIXME */ cascade = 0;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		} else {
 			// Change contact name on all chats
 			gc_changenick(hContact, ptszVal);

@@ -5,7 +5,6 @@ INT_PTR SVC_StopOTR(WPARAM wParam, LPARAM lParam);
 INT_PTR SVC_VerifyOTR(WPARAM wParam, LPARAM lParam);
 int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 void InitMenu();
-void DeinitMenu();
 
 #define MS_OTR_MENUSTART		MODULENAME"/Start"
 #define MS_OTR_MENUSTOP			MODULENAME"/Stop"

@@ -64,7 +64,7 @@ static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
 			else 
 				SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
-			szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+			szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s %s (%s)"), pszNewTitleStart, contactName, szStatus);
 		}
 	}
@@ -119,7 +119,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 
 		// From message dlg
-		if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
+		if ( !db_get_b(dat->hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 
 		SendMessage(hwndDlg, DM_UPDATETITLE, 0, 0);
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				acs.szProto = 0;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 			}
-			if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0)) {
+			if ( !db_get_b(dat->hContact, "CList", "NotOnList", 0)) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 			}
 			break;
@@ -488,7 +488,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		mir_subclassWindow( GetWindow(GetDlgItem(hwndDlg, IDC_URLS), GW_CHILD), SendEditSubclassProc);
 
 		// From message dlg
-		if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
+		if ( !db_get_b(dat->hContact, "CList", "NotOnList", 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 
 		SendMessage(hwndDlg, DM_UPDATETITLE, 0, 0);
@@ -612,7 +612,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			acs.szProto = 0;
 			CallService(MS_ADDCONTACT_SHOW, (WPARAM)hwndDlg, (LPARAM)&acs);
 
-			if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
+			if ( !db_get_b(dat->hContact, "CList", "NotOnList", 0))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 		}
 		break;

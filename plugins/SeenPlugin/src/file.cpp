@@ -31,7 +31,7 @@ int InitFileOutput(void)
 	GetModuleFileName(NULL, szmpath, MAX_PATH);
 
 	DBVARIANT dbv;
-	_tcscpy(szfpath, !DBGetContactSettingTString(NULL, S_MOD, "FileName", &dbv) ? dbv.ptszVal : _T(DEFAULT_FILENAME));
+	_tcscpy(szfpath, !db_get_ts(NULL, S_MOD, "FileName", &dbv) ? dbv.ptszVal : _T(DEFAULT_FILENAME));
 	db_free(&dbv);
 
 	if (szfpath[0] == '\\')
@@ -60,7 +60,7 @@ void FileWrite(HANDLE hcontact)
 	TCHAR szout[1024];
 
 	DBVARIANT dbv;
-	DBGetContactSettingTString(NULL, S_MOD, "PathToFile", &dbv);
+	db_get_ts(NULL, S_MOD, "PathToFile", &dbv);
 	_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
 
 	HANDLE fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
@@ -78,7 +78,7 @@ void FileWrite(HANDLE hcontact)
 	db_free(&dbv);
 	SetFilePointer(fhout,0,0,FILE_END);
 
-	if ( !DBGetContactSettingTString(NULL, S_MOD,"FileStamp", &dbv)) {
+	if ( !db_get_ts(NULL, S_MOD,"FileStamp", &dbv)) {
 		_tcscpy(szout, ParseString(dbv.ptszVal, hcontact, 1));
 		db_free(&dbv);
 	}

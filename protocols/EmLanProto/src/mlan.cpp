@@ -131,8 +131,8 @@ void CMLan::SetAllOffline()
 	while (hContact != NULL) {
 		char *svc = GetContactProto(hContact);
 		if (svc != NULL && lstrcmp(PROTONAME,svc) == 0) {
-			DBWriteContactSettingWord(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
-			DBDeleteContactSetting(hContact, PROTONAME, "IP");
+			db_set_w(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
+			db_unset(hContact, PROTONAME, "IP");
 		}
 		hContact = db_find_next(hContact);
 	}
@@ -212,7 +212,7 @@ void CMLan::Check()
 					HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 					if (hContact)
 					{
-						DBWriteContactSettingWord(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
+						db_set_w(hContact,PROTONAME,"Status",ID_STATUS_OFFLINE);
 					}
 				}
 			}
@@ -250,9 +250,9 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 			u_long caddr = db_get_dw(res, PROTONAME, "ipaddr", -1);
 			if (caddr==addr.S_un.S_addr) {					
 				if (make_permanent)
-					DBDeleteContactSetting(res,"CList","NotOnList");
+					db_unset(res,"CList","NotOnList");
 				if (make_visible)
-					DBDeleteContactSetting(res,"CList","Hidden");
+					db_unset(res,"CList","Hidden");
 				return res;
 			}			
 		}
@@ -262,15 +262,15 @@ HANDLE CMLan::FindContact(in_addr addr, const char* nick,  bool add_to_list, boo
 	if (add_to_list) {
 		res=(HANDLE)CallService(MS_DB_CONTACT_ADD,0,0);
 		CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)res,(LPARAM)PROTONAME);
-		DBWriteContactSettingDword(res,PROTONAME, "ipaddr", addr.S_un.S_addr);
-		DBWriteContactSettingString(res,PROTONAME, "Nick", nick);
+		db_set_dw(res,PROTONAME, "ipaddr", addr.S_un.S_addr);
+		db_set_s(res,PROTONAME, "Nick", nick);
 
 		if (!make_permanent)
-			DBWriteContactSettingByte(res,"CList","NotOnList",1);
+			db_set_b(res,"CList","NotOnList",1);
 		if (!make_visible)
-			DBWriteContactSettingByte(res,"CList","Hidden",1);
+			db_set_b(res,"CList","Hidden",1);
 
-		DBWriteContactSettingWord(res,PROTONAME, "Status", status);
+		db_set_w(res,PROTONAME, "Status", status);
 	}
 	else res = NULL;
 
@@ -328,17 +328,17 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				HANDLE hContact = FindContact(cont->m_addr, cont->m_nick, false, false, false);
 				if (hContact)
 				{
-					DBWriteContactSettingWord(hContact,PROTONAME, "Status", cont->m_status);
+					db_set_w(hContact,PROTONAME, "Status", cont->m_status);
 					if (db_get_dw(hContact,PROTONAME, "RemoteVersion", 0)!=cont->m_ver)
-								DBWriteContactSettingDword(hContact,PROTONAME, "RemoteVersion", cont->m_ver);
+								db_set_dw(hContact,PROTONAME, "RemoteVersion", cont->m_ver);
 					if (old_status = ID_STATUS_OFFLINE)
 					{
 						u_int rip = cont->m_addr.S_un.S_addr;
 						int tip = (rip<<24)|((rip&0xff00)<<8)|((rip&0xff0000)>>8)|(rip>>24);
-						DBWriteContactSettingDword(hContact, PROTONAME, "IP", tip);
+						db_set_dw(hContact, PROTONAME, "IP", tip);
 //						HOSTENT* host = gethostbyaddr((const char*)&rip, sizeof(rip), AF_INET);
 //						if (host)
-//							DBWriteContactSettingString(hContact, PROTONAME, "UID", host->h_name);
+//							db_set_s(hContact, PROTONAME, "UID", host->h_name);
 					}
 				}
 				LeaveCriticalSection(&m_csAccessClass);
@@ -401,9 +401,9 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 //					case ID_STATUS_FREECHAT: IcqStatus = ICQ_MSGTYPE_GETFFCMSG; break;
 //					}
 //					// HACK: this is a real hack
-//					DBWriteContactSettingDword(hContact, "ICQ", "UIN", 1/*0xffffffff*/);
+//					db_set_dw(hContact, "ICQ", "UIN", 1/*0xffffffff*/);
 //					NotifyEventHooks(m_hookIcqMsgReq, IcqStatus, 1/*0xffffffff*/);
-//					DBDeleteContactSetting(hContact, "ICQ", "UIN");
+//					db_unset(hContact, "ICQ", "UIN");
 //				}
 
 				EnterCriticalSection(&m_csAccessAwayMes);
@@ -457,7 +457,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	}
 	dbei.pBlob = (PBYTE)pre->szMessage;
 
-	DBDeleteContactSetting(ccs->hContact,"CList","Hidden");
+	db_unset(ccs->hContact,"CList","Hidden");
 
 	db_event_add(ccs->hContact, &dbei);
 }
@@ -475,8 +475,8 @@ int CMLan::AddToContactList(u_int flags, EMPSEARCHRESULT* psr)
 	HANDLE contact = FindContact(addr, psr->hdr.nick, true, !TempAdd, !TempAdd, psr->stat);
 	if (contact!=NULL)
 	{
-		DBWriteContactSettingWord(contact,PROTONAME,"Status", psr->stat );
-		DBWriteContactSettingWord(contact,PROTONAME,"RemoteVersion", psr->ver );
+		db_set_w(contact,PROTONAME,"Status", psr->stat );
+		db_set_w(contact,PROTONAME,"RemoteVersion", psr->ver );
 	}
 
 	return (int)contact;
@@ -597,7 +597,7 @@ void CMLan::SearchExt(TDataHolder* hold)
 void CMLan::SendMessageExt(TDataHolder* hold)
 {
 	Sleep(0);
-	if (DBGetContactSettingWord((HANDLE)hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE)
+	if (db_get_w((HANDLE)hold->hContact, PROTONAME, "Status", ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE)
 	{
 		Sleep(20);
 		ProtoBroadcastAck(PROTONAME, hold->hContact, (hold->op==LEXT_SENDURL)?ACKTYPE_URL:ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hold->id, 0);
@@ -884,11 +884,11 @@ void CMLan::LoadSettings()
 	else {
 		DBVARIANT dbv;
 		// Deleting old 'Name' value - using 'Nick' instead of it now
-		if ( DBGetContactSettingString(NULL, PROTONAME, "Nick", &dbv)) {
-			if (DBGetContactSettingString(NULL, PROTONAME, "Name", &dbv))
+		if ( db_get_s(NULL, PROTONAME, "Nick", &dbv)) {
+			if (db_get_s(NULL, PROTONAME, "Name", &dbv))
 				dbv.pszVal = "EmLan_User";
 			else
-				DBDeleteContactSetting(NULL, PROTONAME, "Name");
+				db_unset(NULL, PROTONAME, "Name");
 		}
 		if (!dbv.pszVal[0])
 			dbv.pszVal = "EmLan_User";
@@ -913,9 +913,9 @@ void CMLan::LoadSettings()
 
 void CMLan::SaveSettings()
 {
-	DBWriteContactSettingDword(NULL, PROTONAME, "ipaddr", m_RequiredIp);
-	DBWriteContactSettingByte(NULL, PROTONAME, "UseHostName", m_UseHostName);
-	DBWriteContactSettingString(NULL, PROTONAME, "Nick", m_name);
+	db_set_dw(NULL, PROTONAME, "ipaddr", m_RequiredIp);
+	db_set_b(NULL, PROTONAME, "UseHostName", m_UseHostName);
+	db_set_s(NULL, PROTONAME, "Nick", m_name);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -1120,7 +1120,7 @@ void CMLan::RecvFile(CCSDATA* ccs)
 	PROTORECVEVENT *pre = (PROTORECVEVENT *)ccs->lParam;
 	char *szDesc, *szFile;
 
-	DBDeleteContactSetting(ccs->hContact, "CList", "Hidden");
+	db_unset(ccs->hContact, "CList", "Hidden");
 
 	szFile = pre->szMessage + sizeof(DWORD);
 	szDesc = szFile + strlen(szFile) + 1;

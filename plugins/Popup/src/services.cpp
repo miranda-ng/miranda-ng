@@ -203,7 +203,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		if (PopUpOptions.DisableWhenFullscreen && (bShowMode != PU_SHOWMODE_FULLSCREEN) && isFullScreen())
 			return -1;
 
-		if (DBGetContactSettingDword(NULL, MODULNAME, LPGEN("Global Status"), 0) &
+		if (db_get_dw(NULL, MODULNAME, LPGEN("Global Status"), 0) &
 				Proto_Status2Flag_My(CallService(MS_CLIST_GETSTATUSMODE, 0, 0)))
 			return -1;
 
@@ -214,7 +214,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		{
 			char prefix[128];
 			mir_snprintf(prefix, sizeof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
-			if (DBGetContactSettingDword(NULL, MODULNAME, prefix, 0) &
+			if (db_get_dw(NULL, MODULNAME, prefix, 0) &
 					Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
@@ -480,7 +480,7 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 
 	//we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/TextCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorText = (COLORREF)DBGetContactSettingDword(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
+	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	FontID fid = {0};
 	fid.cbSize = sizeof(FontID);
 	mir_snprintf(fid.group, sizeof(fid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->pupClass.pszName);
@@ -498,7 +498,7 @@ INT_PTR PopUp_RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 
 	//we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, 256, "%s/BgCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorBack				= (COLORREF)DBGetContactSettingDword(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	ptd->pupClass.colorBack				= (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	ColourID cid = {0};
 	cid.cbSize = sizeof(ColourID);
 	mir_snprintf(cid.group, sizeof(cid.group), "%s/%s", PU_FNT_AND_COLOR, ptd->pupClass.pszName);

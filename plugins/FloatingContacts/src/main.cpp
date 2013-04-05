@@ -66,14 +66,13 @@ BOOL		bVersionOK			 =  FALSE;
 BOOL		bDockHorz			 =  TRUE;
 //UINT		nStatus				 =  0;
 HMENU		hContactMenu		 =  NULL;
-HANDLE		hMenuItemRemove		 =  NULL;
-HANDLE		hMenuItemHideAll	 =  NULL;
-HANDLE		hMainMenuItemHideAll	 =  NULL;
 RECT		rcScreen;
 DWORD		dwOfflineModes		 =  0;
 BOOL		bEnableTip			 =  FALSE;
 UINT_PTR	ToTopTimerID		 =  0;
 BOOL		bIsCListShow		 =  TRUE;
+
+HGENMENU	hMenuItemRemove, hMenuItemHideAll, hMainMenuItemHideAll;
 
 int hLangpack;
 
@@ -226,16 +225,15 @@ static int OnContactDrop( WPARAM wParam, LPARAM lParam )
 
 static int OnContactDragStop( WPARAM wParam, LPARAM lParam )
 {
-	HANDLE	hContact = ( HANDLE )wParam;
+	HANDLE hContact = ( HANDLE )wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
 
-	if ( ( pThumb != NULL ) && ( hNewContact == hContact ))
-	{
+	if (pThumb != NULL && hNewContact == hContact ) {
 		thumbList.RemoveThumb( pThumb );
 		hNewContact = NULL;
 	}
 
-	return( 0 );
+	return 0;
 }
 
 
@@ -248,7 +246,7 @@ static int OnSkinIconsChanged( WPARAM wParam, LPARAM lParam )
 	for (int i = 0; i < thumbList.getCount(); ++i)
 		thumbList[i]->UpdateContent();
 
-	return( 0 );
+	return 0;
 }
 
 
@@ -269,10 +267,10 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 			ApplyOptionsChanges();
 		}
 
-		return( 0 );
+		return 0;
 	}
 
-	if ( pThumb == NULL ) return( 0 );
+	if ( pThumb == NULL ) return 0;
 
 	// Only on these 2 events we need to refresh
 	if ( 0 == _stricmp( pdbcws->szSetting, "Status" ))
@@ -302,7 +300,7 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 		PostMessage( pThumb->hwnd, WM_REFRESH_CONTACT, 0, idStatus );
 	}
 
-	return( 0 );
+	return 0;
 }
 
 
@@ -322,7 +320,7 @@ static int OnStatusModeChange( WPARAM wParam, LPARAM lParam )
 		// Floating status window will use this
 	}
 
-	return( 0 );
+	return 0;
 }
 
 
@@ -331,14 +329,9 @@ static int OnPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact( (HANDLE) wParam );
 
-	CLISTMENUITEM clmi = { sizeof(clmi) };
-	clmi.flags = ( pThumb == NULL ) ? CMIM_FLAGS | CMIF_HIDDEN : CMIM_FLAGS &~CMIF_HIDDEN;
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemRemove, (LPARAM)&clmi );
-
-	clmi.flags = fcOpt.bHideAll ? CMIM_FLAGS | CMIF_HIDDEN : CMIM_FLAGS &~CMIF_HIDDEN;
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemHideAll, (LPARAM)&clmi );
-
-	return( 0 );
+	Menu_ShowItem(hMenuItemRemove, pThumb != NULL);
+	Menu_ShowItem(hMenuItemHideAll, !fcOpt.bHideAll);
+	return 0;
 }
 
 
@@ -680,7 +673,7 @@ static void CreateBackgroundBrush()
 	
 	if (db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP)) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, MODULE, "BkBitmap", &dbv)) {
+		if ( !db_get_ts(NULL, MODULE, "BkBitmap", &dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAPT, 0, (LPARAM)dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -736,7 +729,7 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 	char szBuf[ MAX_PATH ] =  {0};
 
 	DBVARIANT dbv;
-	if (DBGetContactSettingString(hContact, MODULE, "Hotkey", &dbv)) return;
+	if (db_get_s(hContact, MODULE, "Hotkey", &dbv)) return;
 	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
 	db_free( &dbv );
 
@@ -1021,7 +1014,7 @@ static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 		fcOpt.ToTopTime = (fcOpt.ToTopTime>TOTOPTIME_MAX)?TOTOPTIME_MAX:fcOpt.ToTopTime;
 		ToTopTimerID = SetTimer(NULL, 0, fcOpt.ToTopTime*TOTOPTIME_P, ToTopTimerProc);
 	}
-	return( 0 );
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load()

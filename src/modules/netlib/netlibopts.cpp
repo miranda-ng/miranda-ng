@@ -201,7 +201,7 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 		db_set_b(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
 		db_set_b(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
 		db_set_s(NULL, szSettingsModule, "NLProxyServer", settings->szProxyServer?settings->szProxyServer:"");
-		DBWriteContactSettingWord(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
+		db_set_w(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
 		db_set_b(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
 		db_set_s(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser?settings->szProxyAuthUser:"");
 		lstrcpynA(szEncodedPassword, settings->szProxyAuthPassword?settings->szProxyAuthPassword:"", SIZEOF(szEncodedPassword));

@@ -196,7 +196,7 @@ void CYahooProto::remove_buddy(const char *who, int protocol)
 	}
 
 	yahoo_remove_buddy(m_id, who, protocol, dbv.pszVal);
-	DBFreeVariant( &dbv );
+	db_free( &dbv );
 }
 
 void CYahooProto::sendtyping(const char *who, int protocol, int stat)
@@ -244,7 +244,7 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 	if (!GetString(hContact, YAHOO_LOGINID, &dbv))
 	{
 		who = strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 		return;
@@ -255,19 +255,19 @@ void CYahooProto::AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg)
 	if (!GetString(hContact, "MyIdentity", &dbv))
 	{
 		ident = strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (!GetStringUtf(NULL, "FirstName", &dbv))
 	{
 		fname = strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (!GetStringUtf(NULL, "LastName", &dbv))
 	{
 		lname = strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	SetStringUtf(hContact, "YGroup", group);
@@ -298,7 +298,7 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 
 			{	
 				int tCompareResult = lstrcmpiA( dbv.pszVal, yahoo_id );
-				DBFreeVariant( &dbv );
+				db_free( &dbv );
 				if ( tCompareResult )
 					continue;
 			}
@@ -359,7 +359,7 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 			return NULL;
 
 		strncpy(nick, dbv.pszVal, 128);
-		DBFreeVariant( &dbv );
+		db_free( &dbv );
 		return nick;
 	}
 
@@ -647,7 +647,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 					db_unset(hContact, m_szModuleName, "ApparentMode");
 			}
 
-			DBFreeVariant( &dbv );
+			db_free( &dbv );
 		}		
 	}
 }
@@ -1563,7 +1563,7 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	if 	(host[0] == '\0') {
 		if (!GetString(YAHOO_LOGINSERVER, &dbv)) {
 			mir_snprintf(host, sizeof(host), "%s", dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else {
 			snprintf(host, sizeof(host), "%s", 

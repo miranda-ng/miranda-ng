@@ -47,8 +47,8 @@ MTI_TextUserAdd(const char *userTitle, DWORD options)
 	textUserNew->name = new char [lstrlenA(userTitle)+1];
 	lstrcpyA(textUserNew->name, userTitle);
 	textUserNew->options =
-		(DBGetContactSettingDword(0, MODULNAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
-	DBWriteContactSettingDword(0, MODULNAME, userTitle, textUserNew->options);
+		(db_get_dw(0, MODULNAME, userTitle, options)&MTEXT_FANCY_MASK) | (textUserNew->options&MTEXT_SYSTEM_MASK);
+	db_set_dw(0, MODULNAME, userTitle, textUserNew->options);
 	textUserNew->prev = textUserLast;
 	textUserNew->next = 0;
 	if (textUserLast)
@@ -77,12 +77,12 @@ void TextUserSetOptions(HANDLE userHandle, DWORD options)
 void TextUsersSave()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
-		DBWriteContactSettingDword(0, MODULNAME, textUser->name, textUser->options);
+		db_set_dw(0, MODULNAME, textUser->name, textUser->options);
 }
 
 void TextUsersReset()
 {
 	for (TextUser *textUser = textUserFirst; textUser; textUser = textUser->next)
 		textUser->options =
-			(DBGetContactSettingDword(0, MODULNAME, textUser->name, 0)&MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
+			(db_get_dw(0, MODULNAME, textUser->name, 0)&MTEXT_FANCY_MASK) | (textUser->options&MTEXT_SYSTEM_MASK);
 }

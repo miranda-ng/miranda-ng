@@ -25,9 +25,9 @@ ICMP::ICMP():
 		if (hDLL == 0 || pIcmpCreateFile == 0 || pIcmpCloseHandle == 0 || pIcmpSendEcho2 == 0)
 			return;
 		else
-			DBWriteContactSettingString(0, PLUG, "PingLib", "ICMP.DLL"); // for debugging
+			db_set_s(0, PLUG, "PingLib", "ICMP.DLL"); // for debugging
 	} else
-		DBWriteContactSettingString(0, PLUG, "PingLib", "IPHLPAPI.DLL"); // for debugging
+		db_set_s(0, PLUG, "PingLib", "IPHLPAPI.DLL"); // for debugging
 
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {

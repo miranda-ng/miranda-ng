@@ -353,7 +353,7 @@ int replaceValue(HWND hwnd, HANDLE hContact, const char *module, const char *set
 	if ((!cws.value.pszVal && !replace[0]) || (cws.value.pszVal && !cws.value.pszVal[0]))
 	{
 		ItemFound(hwnd,hContact,module,setting,NULL,FW_SETTINGNAME|FW_DELETED);
-		DBDeleteContactSetting(hContact,module,setting);
+		db_unset(hContact,module,setting);
 		mir_free(myreplace);
 		return 1;
 	}
@@ -390,7 +390,7 @@ int replaceSetting(HWND hwnd, HANDLE hContact, const char *module, const char *s
 	if (cws.szSetting[0]==0)
 	{
 		ItemFound(hwnd,hContact,module,setting,NULL,FW_SETTINGNAME|FW_DELETED);
-		DBDeleteContactSetting(hContact,module,setting);
+		db_unset(hContact,module,setting);
 		mir_free(myreplace);
 		return 1;
 	}
@@ -410,12 +410,12 @@ int replaceSetting(HWND hwnd, HANDLE hContact, const char *module, const char *s
 		if (!CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws))
 		{
 			count++;
-			DBDeleteContactSetting(hContact,module,setting);
+			db_unset(hContact,module,setting);
 			ItemFound(hwnd,hContact,module,cws.szSetting,NULL,FW_SETTINGNAME|FW_REPLACED);
 		}
 	}
 	else
-		DBFreeVariant(&dbv2);
+		db_free(&dbv2);
 
 	mir_free(myreplace);
 
@@ -465,27 +465,27 @@ int replaceModule(HWND hwnd, HANDLE hContact, const char *module, const char *fi
 				switch (dbv.type)
 				{
 					case DBVT_BYTE:
-						DBWriteContactSettingByte(hContact, newModule, setting->name, dbv.bVal);
+						db_set_b(hContact, newModule, setting->name, dbv.bVal);
 					break;
 					case DBVT_WORD:
-						DBWriteContactSettingWord(hContact, newModule, setting->name, dbv.wVal);
+						db_set_w(hContact, newModule, setting->name, dbv.wVal);
 					break;
 					case DBVT_DWORD:
-						DBWriteContactSettingDword(hContact, newModule, setting->name, dbv.dVal);
+						db_set_dw(hContact, newModule, setting->name, dbv.dVal);
 					break;
 					case DBVT_ASCIIZ:
-						DBWriteContactSettingString(hContact, newModule, setting->name, dbv.pszVal);
+						db_set_s(hContact, newModule, setting->name, dbv.pszVal);
 					break;
 					case DBVT_UTF8:
-						DBWriteContactSettingStringUtf(hContact, newModule, setting->name, dbv.pszVal);
+						db_set_utf(hContact, newModule, setting->name, dbv.pszVal);
 					break;
 					case DBVT_BLOB:
 						DBWriteContactSettingBlob(hContact, newModule, setting->name, dbv.pbVal, dbv.cpbVal);
 					break;
 				}
 
-				DBFreeVariant(&dbv);
-				DBDeleteContactSetting(hContact, module, setting->name);
+				db_free(&dbv);
+				db_unset(hContact, module, setting->name);
 			}
 
 			setting = (struct ModSetLinkLinkItem *)setting->next;
@@ -645,7 +645,7 @@ void __cdecl FindSettings(LPVOID di)
 							break;
 
 						}
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 
@@ -659,7 +659,7 @@ void __cdecl FindSettings(LPVOID di)
 							if (!GetSetting(hContact,module->name,setting->name,&dbv))
 							{
 								replaceCount += replaceSetting(hwnd, hContact, module->name, setting->name, &dbv, text, replace, mode);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 						}
 						else

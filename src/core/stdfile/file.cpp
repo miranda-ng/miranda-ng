@@ -27,22 +27,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s);
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR *r);
 
-static HANDLE hSRFileMenuItem;
+static HGENMENU hSRFileMenuItem;
 
 TCHAR *GetContactID(HANDLE hContact)
 {
 	TCHAR *theValue = {0};
 	char *szProto = GetContactProto(hContact);
-	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
+	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
+		if ( !db_get_ts(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return theValue;
-	}	}
+		}
+	}
 	else {
-		CONTACTINFO ci = {0};
-		ci.cbSize = sizeof(ci);
+		CONTACTINFO ci = { sizeof(ci) };
 		ci.hContact = hContact;
 		ci.szProto = szProto;
 		ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
@@ -50,11 +50,11 @@ TCHAR *GetContactID(HANDLE hContact)
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				return (TCHAR *)ci.pszVal;
-				break;
 			case CNFT_DWORD:
 				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
-				break;
-	}	}	}
+			}
+		}
+	}
 	return NULL;
 }
 
@@ -71,20 +71,20 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
 	fsd.hContact = (HANDLE)wParam;
-	
-		char** ppFiles = (char**)lParam;
-		int count = 0;
-		while (ppFiles[count] != NULL)
-			count++;
 
-		fsd.ppFiles = (const TCHAR**)alloca((count+1) * sizeof(void*));
-		for (int i=0; i < count; i++)
-			fsd.ppFiles[i] = (const TCHAR*)mir_a2t(ppFiles[i]);
-		fsd.ppFiles[ count ] = NULL;
-	
+	char** ppFiles = (char**)lParam;
+	int count = 0;
+	while (ppFiles[count] != NULL)
+		count++;
+
+	fsd.ppFiles = (const TCHAR**)alloca((count+1) * sizeof(void*));
+	for (int i=0; i < count; i++)
+		fsd.ppFiles[i] = (const TCHAR*)mir_a2t(ppFiles[i]);
+	fsd.ppFiles[ count ] = NULL;
+
 	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	for (int j = 0; j < count; j++)
-			mir_free((void*)fsd.ppFiles[j]);
+		mir_free((void*)fsd.ppFiles[j]);
 	return 0;
 }
 
@@ -99,11 +99,11 @@ static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
-  TCHAR buf[MAX_PATH];
+	TCHAR buf[MAX_PATH];
 	GetContactReceivedFilesDir((HANDLE)wParam, buf, MAX_PATH, TRUE);
-  char* dir = mir_t2a(buf);
-  lstrcpynA((char*)lParam, dir, MAX_PATH);
-  mir_free(dir);
+	char* dir = mir_t2a(buf);
+	lstrcpynA((char*)lParam, dir, MAX_PATH);
+	mir_free(dir);
 	return 0;
 }
 
@@ -120,7 +120,7 @@ void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
-	if (DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) && !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)) {
+	if (db_get_b(NULL, "SRFile", "AutoAccept", 0) && !db_get_b(hContact, "CList", "NotOnList", 0)) {
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
@@ -134,7 +134,7 @@ void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam)
 		cle.hIcon = LoadSkinIcon(SKINICON_EVENT_FILE);
 		cle.pszService = "SRFile/RecvFile";
 		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-}	}
+	}	}
 
 static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
@@ -158,7 +158,7 @@ int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValu
 
 	if (RegOpenKeyEx(hKeyBase, szSubKey, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
 		return 0;
-	
+
 	if (RegQueryValueEx(hKey, szValue, NULL, NULL, (PBYTE)szOutput, &cbOut) != ERROR_SUCCESS) {
 		RegCloseKey(hKey);
 		return 0;
@@ -175,15 +175,15 @@ void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsO
 		else if (size<100*1024) unitsOverride = UNITS_KBPOINT1;
 		else if (size<1024*1024) unitsOverride = UNITS_KBPOINT0;
 		else if (size<1024*1024*1024) unitsOverride = UNITS_MBPOINT2;
-    else unitsOverride = UNITS_GBPOINT3;
+		else unitsOverride = UNITS_GBPOINT3;
 	}
 	if (unitsUsed) *unitsUsed = unitsOverride;
 	switch(unitsOverride) {
-		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits?_T(" "):_T(""), appendUnits?TranslateT("bytes"):_T("")); break;
-		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size/1024.0, appendUnits?_T(" KB"):_T("")); break;
-		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size/1024), appendUnits?_T(" KB"):_T("")); break;
-		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20)/1024.0, appendUnits?_T(" GB"):_T("")); break;
-		default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size/1048576.0, appendUnits?_T(" MB"):_T("")); break;
+	case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits?_T(" "):_T(""), appendUnits?TranslateT("bytes"):_T("")); break;
+	case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size/1024.0, appendUnits?_T(" KB"):_T("")); break;
+	case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size/1024), appendUnits?_T(" KB"):_T("")); break;
+	case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20)/1024.0, appendUnits?_T(" GB"):_T("")); break;
+	default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size/1048576.0, appendUnits?_T(" MB"):_T("")); break;
 	}
 }
 
@@ -281,8 +281,8 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->currentFileSize = src->currentFileSize;
 	dest->currentFileProgress = src->currentFileProgress;
 	dest->currentFileTime = src->currentFileTime;
-  dest->flags &= ~PFTS_UTF;
-  dest->flags |= PFTS_TCHAR;
+	dest->flags &= ~PFTS_UTF;
+	dest->flags |= PFTS_TCHAR;
 }
 
 static void RemoveUnreadFileEvents(void)
@@ -303,19 +303,18 @@ static void RemoveUnreadFileEvents(void)
 
 static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
+	bool bEnabled = false;
 	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL) {
 		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
 			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
-				mi.flags = CMIM_FLAGS;
-			else if (DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-				mi.flags = CMIM_FLAGS;
-	}	}
+				bEnabled = true;
+			else if (db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				bEnabled = true;
+		}
+	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRFileMenuItem, (LPARAM)&mi);
+	Menu_ShowItem(hSRFileMenuItem, bEnabled);
 	return 0;
 }
 
@@ -365,7 +364,7 @@ static void sttRecvCreateBlob(DBEVENTINFO& dbei, int fileCount, char** pszFiles,
 		for (int i=0; i < fileCount; i++)
 			dbei.cbBlob += lstrlenA(pszFiles[i]) + 1;
 	}
-	
+
 	dbei.cbBlob += lstrlenA(szDescr) + 1;
 
 	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == 0)

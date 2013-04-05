@@ -178,7 +178,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
 	if ((HANDLE)lParam == NULL)
-		DBDeleteContactSetting((HANDLE)wParam,"CList","Group");
+		db_unset((HANDLE)wParam,"CList","Group");
 	else
 		db_set_s((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));
 

@@ -27,55 +27,55 @@ INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 
 void ReadMainOptions()
 {
-	moOptions.dwHotkey_Layout = DBGetContactSettingDword(NULL, ModuleName, "HotkeyLayout", 119);
-	moOptions.dwHotkey_Layout2 = DBGetContactSettingDword(NULL, ModuleName, "HotkeyLayout2", 120);
-	moOptions.dwHotkey_Case = DBGetContactSettingDword(NULL, ModuleName, "HotkeyCase", 121);
-	moOptions.CurrentWordLayout = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordLayout", 0);
-	moOptions.CurrentWordLayout2 = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordLayout2", 1);
-	moOptions.CurrentWordCase = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordCase", 0);
-	moOptions.TwoWay = DBGetContactSettingByte(NULL, ModuleName, "TwoWay", 1);
-	moOptions.ChangeSystemLayout = DBGetContactSettingByte(NULL, ModuleName, "ChangeSystemLayout", 1);
-	moOptions.CopyToClipboard = DBGetContactSettingByte(NULL, ModuleName, "CopyToClipboard", 0);
-	moOptions.ShowPopup = DBGetContactSettingByte(NULL, ModuleName, "ShowPopup", 1);
-	moOptions.bCaseOperations = DBGetContactSettingByte(NULL, ModuleName, "CaseOperations", 0);
+	moOptions.dwHotkey_Layout = db_get_dw(NULL, ModuleName, "HotkeyLayout", 119);
+	moOptions.dwHotkey_Layout2 = db_get_dw(NULL, ModuleName, "HotkeyLayout2", 120);
+	moOptions.dwHotkey_Case = db_get_dw(NULL, ModuleName, "HotkeyCase", 121);
+	moOptions.CurrentWordLayout = db_get_b(NULL, ModuleName, "CurrentWordLayout", 0);
+	moOptions.CurrentWordLayout2 = db_get_b(NULL, ModuleName, "CurrentWordLayout2", 1);
+	moOptions.CurrentWordCase = db_get_b(NULL, ModuleName, "CurrentWordCase", 0);
+	moOptions.TwoWay = db_get_b(NULL, ModuleName, "TwoWay", 1);
+	moOptions.ChangeSystemLayout = db_get_b(NULL, ModuleName, "ChangeSystemLayout", 1);
+	moOptions.CopyToClipboard = db_get_b(NULL, ModuleName, "CopyToClipboard", 0);
+	moOptions.ShowPopup = db_get_b(NULL, ModuleName, "ShowPopup", 1);
+	moOptions.bCaseOperations = db_get_b(NULL, ModuleName, "CaseOperations", 0);
 }
 
 void WriteMainOptions()
 {
-	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyLayout", moOptions.dwHotkey_Layout);
-	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyLayout2", moOptions.dwHotkey_Layout2);
-	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyCase", moOptions.dwHotkey_Case);
-	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordLayout", moOptions.CurrentWordLayout);
-	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordLayout2", moOptions.CurrentWordLayout2);
-	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordCase", moOptions.CurrentWordCase);
-	DBWriteContactSettingByte(NULL, ModuleName, "TwoWay", moOptions.TwoWay);
-	DBWriteContactSettingByte(NULL, ModuleName, "ChangeSystemLayout", moOptions.ChangeSystemLayout);
-	DBWriteContactSettingByte(NULL, ModuleName, "CopyToClipboard", moOptions.CopyToClipboard);
-	DBWriteContactSettingByte(NULL, ModuleName, "ShowPopup", moOptions.ShowPopup);
-	DBWriteContactSettingByte(NULL, ModuleName, "CaseOperations", moOptions.bCaseOperations);
+	db_set_dw(NULL, ModuleName, "HotkeyLayout", moOptions.dwHotkey_Layout);
+	db_set_dw(NULL, ModuleName, "HotkeyLayout2", moOptions.dwHotkey_Layout2);
+	db_set_dw(NULL, ModuleName, "HotkeyCase", moOptions.dwHotkey_Case);
+	db_set_b(NULL, ModuleName, "CurrentWordLayout", moOptions.CurrentWordLayout);
+	db_set_b(NULL, ModuleName, "CurrentWordLayout2", moOptions.CurrentWordLayout2);
+	db_set_b(NULL, ModuleName, "CurrentWordCase", moOptions.CurrentWordCase);
+	db_set_b(NULL, ModuleName, "TwoWay", moOptions.TwoWay);
+	db_set_b(NULL, ModuleName, "ChangeSystemLayout", moOptions.ChangeSystemLayout);
+	db_set_b(NULL, ModuleName, "CopyToClipboard", moOptions.CopyToClipboard);
+	db_set_b(NULL, ModuleName, "ShowPopup", moOptions.ShowPopup);
+	db_set_b(NULL, ModuleName, "CaseOperations", moOptions.bCaseOperations);
 }
 
 
 void ReadPopupOptions()
 {
-	poOptions.bColourType = DBGetContactSettingByte(NULL, ModuleName, "ColourType", 0);
-	poOptions.crBackColour = (COLORREF)DBGetContactSettingDword(NULL, ModuleName, "BackColor", 0xD2CABF);
-	poOptions.crTextColour = (COLORREF)DBGetContactSettingDword(NULL, ModuleName, "TextColor", 0x000000);
-	poOptions.bTimeoutType = DBGetContactSettingByte(NULL, ModuleName, "TimeoutType", 0);
-	poOptions.bTimeout = DBGetContactSettingByte(NULL, ModuleName, "Timeout", 10);
-	poOptions.bLeftClick = DBGetContactSettingByte(NULL, ModuleName, "LeftClick", 0);
-	poOptions.bRightClick = DBGetContactSettingByte(NULL, ModuleName, "RightClick", 1);
+	poOptions.bColourType = db_get_b(NULL, ModuleName, "ColourType", 0);
+	poOptions.crBackColour = (COLORREF)db_get_dw(NULL, ModuleName, "BackColor", 0xD2CABF);
+	poOptions.crTextColour = (COLORREF)db_get_dw(NULL, ModuleName, "TextColor", 0x000000);
+	poOptions.bTimeoutType = db_get_b(NULL, ModuleName, "TimeoutType", 0);
+	poOptions.bTimeout = db_get_b(NULL, ModuleName, "Timeout", 10);
+	poOptions.bLeftClick = db_get_b(NULL, ModuleName, "LeftClick", 0);
+	poOptions.bRightClick = db_get_b(NULL, ModuleName, "RightClick", 1);
 }
 
 void WritePopupOptions()
 {
-	DBWriteContactSettingByte(NULL, ModuleName, "ColourType", poOptions.bColourType);
-	DBWriteContactSettingDword(NULL, ModuleName, "BackColor", poOptions.crBackColour);
-	DBWriteContactSettingDword(NULL, ModuleName, "TextColor", poOptions.crTextColour);
-	DBWriteContactSettingByte(NULL, ModuleName, "TimeoutType", poOptions.bTimeoutType);
-	DBWriteContactSettingByte(NULL, ModuleName, "Timeout", poOptions.bTimeout);
-	DBWriteContactSettingByte(NULL, ModuleName, "LeftClick", poOptions.bLeftClick);
-	DBWriteContactSettingByte(NULL, ModuleName, "RightClick", poOptions.bRightClick);
+	db_set_b(NULL, ModuleName, "ColourType", poOptions.bColourType);
+	db_set_dw(NULL, ModuleName, "BackColor", poOptions.crBackColour);
+	db_set_dw(NULL, ModuleName, "TextColor", poOptions.crTextColour);
+	db_set_b(NULL, ModuleName, "TimeoutType", poOptions.bTimeoutType);
+	db_set_b(NULL, ModuleName, "Timeout", poOptions.bTimeout);
+	db_set_b(NULL, ModuleName, "LeftClick", poOptions.bLeftClick);
+	db_set_b(NULL, ModuleName, "RightClick", poOptions.bRightClick);
 }
 
 void RegPopupActions()
@@ -117,7 +117,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	for (i = 0; i < bLayNum; i++) {
 		ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		ptszTemp = GetNameOfLayout(hklLayouts[i]);
-		iRes = DBGetContactSettingTString(NULL, ModuleName, ptszTemp, &dbv);
+		iRes = db_get_ts(NULL, ModuleName, ptszTemp, &dbv);
 		if (iRes != 0)
 			ptszLayStrings[i] = ptszCurrLayout;
 		else
@@ -129,7 +129,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			{
 				ptszLayStrings[i] = dbv.ptszVal;
 				if(_tcscmp(ptszCurrLayout, ptszLayStrings[i]) == 0)
-					DBDeleteContactSetting(NULL, ModuleName, ptszTemp);
+					db_unset(NULL, ModuleName, ptszTemp);
 				mir_free(ptszCurrLayout);
 			}
 			mir_free(ptszTemp);
@@ -161,7 +161,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	OnIconsChanged(0, 0);
 	RegPopupActions();
 
-	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
+	db_set_dw(NULL, ModuleName, "CurrentVer", PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 	return 0;
 }
 
