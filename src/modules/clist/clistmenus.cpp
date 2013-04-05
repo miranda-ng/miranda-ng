@@ -657,6 +657,22 @@ INT_PTR FreeOwnerDataStatusMenu(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Other menu functions
 
+static INT_PTR ShowHideMenuItem(WPARAM wParam, LPARAM lParam)
+{
+	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)wParam);
+	if (pimi == NULL)
+		return 1;
+
+	TMO_MenuItem tmi = { sizeof(tmi) };
+	tmi.flags = CMIM_FLAGS + pimi->mi.flags;
+	if (lParam)
+		tmi.flags &= ~CMIF_HIDDEN;
+	else
+		tmi.flags |= CMIF_HIDDEN;
+
+	return MO_ModifyMenuItem((PMO_IntMenuItem)wParam, &tmi);
+}
+
 //wparam MenuItemHandle
 static INT_PTR ModifyCustomMenuItem(WPARAM wParam, LPARAM lParam)
 {
@@ -694,17 +710,15 @@ INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 
 BOOL FindMenuHanleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itdat)
 {
-	int i;
-	PMO_IntMenuItem pimi;
-	MENUITEMINFO mii = {0};
-	BOOL inSub = FALSE;
-
 	if ( !itdat)
 		return FALSE;
 
+	BOOL inSub = FALSE;
+
+	MENUITEMINFO mii = {0};
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
-	for (i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
+	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 		if (mii.fType == MFT_SEPARATOR)
 			continue;
@@ -714,7 +728,7 @@ BOOL FindMenuHanleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itda
 		if (inSub)
 			return inSub;
 
-		pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
+		PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mii.dwItemData);
 		if (pimi != NULL) {
 			if (pimi == id) {
 				itdat->OwnerMenu = hMenu;
@@ -1302,6 +1316,7 @@ void InitCustomMenus(void)
 	CreateServiceFunction(MS_CLIST_MENUBUILDCONTACT, BuildContactMenu);
 	CreateServiceFunction(MS_CLIST_REMOVECONTACTMENUITEM, RemoveContactMenuItem);
 
+	CreateServiceFunction(MS_CLIST_SHOWHIDEMENUITEM, ShowHideMenuItem);
 	CreateServiceFunction(MS_CLIST_MODIFYMENUITEM, ModifyCustomMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUMEASUREITEM, MeasureMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUDRAWITEM, DrawMenuItem);

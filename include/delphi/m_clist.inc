@@ -148,6 +148,14 @@ const
   MS_CLIST_MODIFYMENUITEM:PAnsiChar = 'CList/ModifyMenuItem';
 
   {
+    wParam : (HGENMENU)hMenuItem
+    lParam : (BOOL) enable = TRUE, disable = FALSE
+    Notes  : changes menu item's visibility
+    Version: v0.94.2+
+  }
+  MS_CLIST_SHOWHIDEMENUITEM:PAnsiChar = 'CList/ShowHideMenuItem';
+
+  {
     wParam : HCONTACT
     lParam : 0
     Affect : the context menu for a contact is about to be built, see notes
@@ -374,11 +382,11 @@ const
     to ensure that WM_COMMAND was realy from clist menu not from other menu
     it is reserved range of menu ids from CLISTMENUIDMIN to CLISTMENUIDMAX
     the menu items with ids outside from such range will not be processed by service.
-    Moreover if you process WM_COMMAND youself and your window contains self menu 
+    Moreover if you process WM_COMMAND youself and your window contains self menu
     please be sure that you will not call service for non-clist menu items.
     The simplest way is to ensure that your menus are not use item ids from such range.
     Otherwise, you HAVE TO distinguish WM_COMMAND from clist menus and from your
-    internal menu and  DO NOT call MS_CLIST_MENUPROCESSCOMMAND for non clist menus. 
+    internal menu and  DO NOT call MS_CLIST_MENUPROCESSCOMMAND for non clist menus.
   }
   MPCF_CONTACTMENU = 1; // test commands from a contact menu
   MPCF_MAINMENU    = 2; // test commands from the main menu
@@ -467,8 +475,8 @@ const
 
 {
   sent when the group get modified (created, renamed or deleted)
-  or contact is moving from group to group 
-  wParam=hContact - NULL if operation on group 
+  or contact is moving from group to group
+  wParam=hContact - NULL if operation on group
   lParam=pointer to CLISTGROUPCHANGE
 }
 type

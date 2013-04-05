@@ -175,7 +175,7 @@ __forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 }
 
 //modify an existing menu item     v0.1.0.1+
-//wParam = (WPARAM)(HANDLE)hMenuItem
+//wParam = (WPARAM)(HGENMENU)hMenuItem
 //lParam = (LPARAM)(CLISTMENUITEM*)&clmi
 //returns 0 on success, nonzero on failure
 //hMenuItem will have been returned by clist/add*menuItem
@@ -187,6 +187,19 @@ __forceinline HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
 #define CMIM_HOTKEY  0x10000000
 #define CMIM_ALL     0xF0000000
 #define MS_CLIST_MODIFYMENUITEM         "CList/ModifyMenuItem"
+
+__forceinline void Menu_ModifyItem(HGENMENU hMenuItem, CLISTMENUITEM *clmi)
+{	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)clmi);
+}
+
+//changes menu item's visibility     v0.94.2+
+//wParam = (WPARAM)(HGENMENU)hMenuItem
+//lParam = (BOOL) enable = TRUE, disable = FALSE
+#define MS_CLIST_SHOWHIDEMENUITEM       "CList/ShowHideMenuItem"
+
+__forceinline void Menu_ShowItem(HGENMENU hMenuItem, BOOL bShow)
+{	CallService(MS_CLIST_SHOWHIDEMENUITEM, (WPARAM)hMenuItem, bShow);
+}
 
 //the context menu for a contact is about to be built     v0.1.0.1+
 //wParam = (WPARAM)(HANDLE)hContact
